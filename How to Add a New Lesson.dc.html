@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<style>doc-page:not(:defined){visibility:hidden}</style>
+<template id="__bundler_thumbnail" data-bg-color="#f4f1ec">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#f4f1ec"></rect>
+    <rect x="30" y="24" width="40" height="5" fill="#1f2937"></rect>
+    <rect x="30" y="38" width="40" height="3" fill="#9ca3af"></rect>
+    <rect x="30" y="46" width="30" height="3" fill="#9ca3af"></rect>
+    <rect x="30" y="54" width="34" height="3" fill="#9ca3af"></rect>
+    <rect x="30" y="68" width="18" height="6" fill="#0e7490"></rect>
+  </svg>
+</template>
+<x-import component-from-global-scope="doc-page" from="./doc-page.js" size="letter" margin="0.85in" hint-size="100%,100%">
+
+<h1 style="font-family: Georgia, serif; font-size: 30px; margin: 0 0 6px;">Adding a New Lesson to UpSkill Sprint</h1>
+<p style="font-size: 14px; color: #666; margin: 0 0 32px;">A simple guide for future you.</p>
+
+<p style="font-size: 15.5px; line-height: 1.65;">You don't need to know how to code to add a lesson. Every lesson follows the same simple format, and there are two ways to write one. Once it's written, just tell your design assistant (Claude) the details below and it will build the page and add it to the site for you.</p>
+
+<h2 style="font-size: 21px; margin: 36px 0 12px;">Step 1 — Write the lesson</h2>
+<p style="font-size: 15.5px; line-height: 1.65;">Use this format every time, so lessons stay consistent:</p>
+<ul style="font-size: 15.5px; line-height: 1.8;">
+  <li><strong>Title</strong> — short and clear, e.g. "How to Use the 5 Whys"</li>
+  <li><strong>What you will learn</strong> — one sentence</li>
+  <li><strong>Why this matters at work</strong> — 2–3 sentences on the real value</li>
+  <li><strong>Simple explanation</strong> — teach the idea in plain language</li>
+  <li><strong>Real workplace example</strong> — how it shows up on the job</li>
+  <li><strong>Try it yourself</strong> — a small practice activity</li>
+  <li><strong>Download</strong> (optional) — a template, checklist, or dataset</li>
+</ul>
+<p style="font-size: 15.5px; line-height: 1.65;">You can write this in <strong>any format that's easiest for you</strong>:</p>
+<ul style="font-size: 15.5px; line-height: 1.8;">
+  <li>A Word document or Google Doc, following the sections above</li>
+  <li>Plain notes or bullet points — Claude can turn these into a finished lesson page</li>
+  <li>A ready-made HTML file, if you start from the <strong>Lesson Template</strong> file already in the project</li>
+</ul>
+
+<h2 style="font-size: 21px; margin: 36px 0 12px;">Step 2 — Tag it</h2>
+<p style="font-size: 15.5px; line-height: 1.65;">Every lesson gets three tags. These decide where it shows up on the site and let visitors filter later.</p>
+
+<table style="width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 16px 0;">
+  <thead>
+    <tr>
+      <th style="text-align: left; border-bottom: 1px solid #ccc; padding: 8px 12px 8px 0;">Tag</th>
+      <th style="text-align: left; border-bottom: 1px solid #ccc; padding: 8px 0;">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 8px 12px 8px 0; border-bottom: 1px solid #eee; vertical-align: top;">Skill Track</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #eee; vertical-align: top;">Lean Six Sigma, Data Analysis, Machine Learning, Quality Engineering, Project Management</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 12px 8px 0; border-bottom: 1px solid #eee; vertical-align: top;">Level</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #eee; vertical-align: top;">Beginner, Intermediate, Advanced</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 12px 8px 0; vertical-align: top;">Estimated Time</td>
+      <td style="padding: 8px 0; vertical-align: top;">e.g. 12 min, 15 min, 25 min</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 style="font-size: 21px; margin: 36px 0 12px;">Step 3 — Ask Claude to add it</h2>
+<p style="font-size: 15.5px; line-height: 1.65;">Send your lesson content (doc, notes, or file) and say something like:</p>
+<blockquote style="margin: 16px 0; padding: 14px 20px; background: #f6f5f2; border-left: 3px solid #999; font-size: 15px; line-height: 1.6;">
+  "Here's a new lesson called '[Title]'. It's [Beginner/Intermediate/Advanced], about [X] minutes, and belongs in the [Skill Track] track. Please create the lesson page from the Lesson Template and add a card for it to the Lessons section on the homepage."
+</blockquote>
+<p style="font-size: 15.5px; line-height: 1.65;">Claude will duplicate the Lesson Template, fill it in with your content, save it as its own file, and add a matching card to the Lessons section so visitors can find it.</p>
+
+<h2 style="font-size: 21px; margin: 36px 0 12px;">Adding a tool, dataset, or case study instead</h2>
+<p style="font-size: 15.5px; line-height: 1.65;">Same idea — send the file or description and ask Claude to add it to the Tools &amp; Templates or Case Studies section, with a short title and description. No special format required for these.</p>
+
+<h2 style="font-size: 21px; margin: 36px 0 12px;">The short version</h2>
+<p style="font-size: 15.5px; line-height: 1.65;"><strong>Write once, tag once, send it over.</strong> You handle the content — Claude handles the page and the placement.</p>
+
+</x-import>
+
+</x-dc>
+</body>
+</html>
