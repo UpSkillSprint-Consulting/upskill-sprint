@@ -99,6 +99,7 @@ label.field { display: flex; flex-direction: column; gap: 8px; font-size: 14px; 
   font-size: 15px; font-family: inherit; font-weight: 400; color: var(--ink);
 }
 .field textarea { resize: vertical; }
+@media (max-width: 640px) { section svg[viewBox="0 0 1400 380"] { display: none; } }
 .honeypot { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
 
 /* faq */
