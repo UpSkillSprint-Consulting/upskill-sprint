@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy Policy | UpSkill Sprint Consulting</title>
-<meta name="description" content="How UpSkill Sprint Consulting collects and uses your information.">
-<link rel="canonical" href="https://upskillsprint.com/privacy.html">
+<title>Request a Lesson Topic | UpSkill Sprint Consulting</title>
+<meta name="description" content="Tell us what you want to learn — submit a topic request and it may become a future lesson, template, or guide.">
+<link rel="canonical" href="https://upskillsprint.com/request-topic.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Privacy Policy | UpSkill Sprint Consulting">
-<meta property="og:description" content="How UpSkill Sprint Consulting collects and uses your information.">
+<meta property="og:title" content="Request a Lesson Topic | UpSkill Sprint Consulting">
+<meta property="og:description" content="Tell us what you want to learn — submit a topic request and it may become a future lesson, template, or guide.">
 <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
-<meta property="og:url" content="https://upskillsprint.com/privacy.html">
+<meta property="og:url" content="https://upskillsprint.com/request-topic.html">
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
       <a href="start-here.html">Start Here</a>
       <a href="lessons.html">Lessons</a>
       <a href="services.html">Services</a>
-      <a href="request-topic.html">Request a Topic</a>
+      <a href="request-topic.html" aria-current="page">Request a Topic</a>
       <a href="about.html">About</a>
       <a href="faq.html">FAQ</a>
       <a href="contact.html">Contact</a>
@@ -46,17 +46,44 @@
     <a href="faq.html">FAQ</a>
     <a href="contact.html">Contact</a>
   </nav>
-  <section class="section" style="max-width:760px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad);">
-    <p class="eyebrow">Legal</p>
-    <h1 style="font-size:30px;margin:0 0 24px;">Privacy Policy</h1>
-    <p style="font-size:15px;color:var(--muted);">Last updated: July 2026</p>
-    <p style="font-size:15px;line-height:1.75;color:var(--ink-soft);">UpSkill Sprint Consulting ("we", "us") respects your privacy. This policy explains what information we collect and how we use it.</p>
-    <h2 style="font-size:19px;margin:32px 0 10px;">Information we collect</h2>
-    <p style="font-size:15px;line-height:1.75;color:var(--ink-soft);">When you submit a form (topic request, contact form, or newsletter signup), we collect the information you provide directly: name, email address, and the content of your message or request.</p>
-    <h2 style="font-size:19px;margin:32px 0 10px;">How we use it</h2>
-    <p style="font-size:15px;line-height:1.75;color:var(--ink-soft);">We use this information only to respond to your request, develop future lessons based on submitted topics, and, if you opt in, to send occasional updates. We do not sell or share your information with third parties.</p>
-    <h2 style="font-size:19px;margin:32px 0 10px;">Contact</h2>
-    <p style="font-size:15px;line-height:1.75;color:var(--ink-soft);">Questions about this policy can be sent to <a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a>.</p>
+  <section class="section" style="max-width:720px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad);">
+    <p class="eyebrow">Request a topic</p>
+    <h1 style="font-size:30px;margin:0 0 12px;">Don't see what you need? Tell us what to build next.</h1>
+    <p style="font-size:15.5px;line-height:1.6;color:var(--muted);margin:0 0 36px;">Every request goes straight to our team and may be turned into a future lesson, guide, template, or training session.</p>
+    <form name="lesson-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="thank-you.html">
+      <input type="hidden" name="form-name" value="lesson-request">
+      <div class="honeypot" aria-hidden="true"><label>Don't fill this out<input tabindex="-1" autocomplete="off" name="bot-field"></label></div>
+      <label class="field">Name<input type="text" name="name" required></label>
+      <label class="field">Email<input type="email" name="email" required></label>
+      <label class="field">Topic requested<input type="text" name="topic" placeholder="e.g. How to build a control chart in Excel" required></label>
+      <label class="field">Why do you want this topic?<textarea name="problem" rows="3" placeholder="Tell us the real situation at work you're dealing with" required></textarea></label>
+      <label class="field">What level do you prefer?
+        <select name="skill_level" required>
+          <option value="">Choose one</option>
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+        </select>
+      </label>
+      <label class="field">Preferred format
+        <select name="format" required>
+          <option value="">Choose one</option>
+          <option value="Lesson">Lesson</option>
+          <option value="Template">Template</option>
+          <option value="Video idea">Video idea</option>
+          <option value="Example">Example</option>
+          <option value="Case study">Case study</option>
+        </select>
+      </label>
+      <label class="field">Industry or use case (optional)<input type="text" name="industry" placeholder="e.g. manufacturing, healthcare, logistics"></label>
+      <label class="field">Permission to contact you about this request
+        <select name="contact_permission">
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </label>
+      <button type="submit" class="btn btn-teal">Submit request</button>
+    </form>
   </section>
   <footer class="site">
     <div class="wrap">

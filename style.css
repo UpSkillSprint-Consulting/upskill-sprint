@@ -76,7 +76,7 @@ label.mobile-menu-btn {
 }
 nav.mobile-nav { display: none; flex-direction: column; border-bottom: 1px solid var(--line); background: #fff; }
 nav.mobile-nav a { padding: 14px 20px; font-size: 14.5px; font-weight: 600; border-bottom: 1px solid var(--line); color: var(--ink); }
-@media (max-width: 780px) {
+@media (max-width: 1080px) {
   nav.desktop-nav { display: none; }
   label.mobile-menu-btn { display: flex; }
   .mnav-check:checked ~ nav.mobile-nav { display: flex; }
@@ -99,6 +99,7 @@ label.field { display: flex; flex-direction: column; gap: 8px; font-size: 14px; 
   font-size: 15px; font-family: inherit; font-weight: 400; color: var(--ink);
 }
 .field textarea { resize: vertical; }
+.honeypot { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
 
 /* faq */
 details.faq { border: 1px solid var(--line); border-radius: var(--radius); background: #fff; margin-bottom: 12px; overflow: hidden; }
