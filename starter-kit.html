@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quality Improvement Starter Kit | UpSkill Sprint Consulting</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>doc-page:not(:defined){visibility:hidden}</style>
+<style>
+  body { margin: 0; background: #f1ede3; font-family: 'Work Sans', Arial, sans-serif; color: #1c1f26; }
+  h1, h2 { font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; }
+  .toolbar { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; background: #fff; border-bottom: 1px solid #e3ded4; }
+  .toolbar a { color: #0e7490; font-weight: 600; font-size: 14px; text-decoration: none; }
+  .toolbar button { background: #0e7490; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 24px; font-size: 13.5px; }
+  th, td { text-align: left; padding: 8px 10px; border: 1px solid #d8d2c2; vertical-align: top; }
+  th { background: #f1ede3; }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 6px; font-size: 14px; line-height: 1.55; }
+  @media print { .toolbar { display: none; } }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <a href="index.html">&larr; Back to UpSkill Sprint Consulting</a>
+    <button onclick="window.print()">Print / Save as PDF</button>
+  </div>
+
+  <doc-page size="letter" margin="0.75in">
+    <p style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#0e7490;font-weight:700;margin:0 0 6px;">UpSkill Sprint Consulting</p>
+    <h1 style="font-size:26px;margin:0 0 6px;">Quality Improvement Starter Kit</h1>
+    <p style="font-size:13.5px;color:#5b6472;margin:0 0 28px;">A Lean Six Sigma tool-selection guide, root cause analysis checklist, and quality tools cheat sheet.</p>
+
+    <h2 style="font-size:18px;margin:24px 0 8px;">1. Lean Six Sigma Tool-Selection Guide</h2>
+    <p style="font-size:14px;line-height:1.6;">Use this table to pick the right tool for the problem you're facing.</p>
+    <table>
+      <tr><th>Situation</th><th>Use this tool</th></tr>
+      <tr><td>You don't know why a problem keeps happening</td><td>5 Whys or Fishbone Diagram</td></tr>
+      <tr><td>You have many problems and need to prioritize</td><td>Pareto Chart (80/20 rule)</td></tr>
+      <tr><td>A process seems inconsistent day to day</td><td>Control Chart</td></tr>
+      <tr><td>You need to map every step of a process</td><td>Process Map / Value Stream Map</td></tr>
+      <tr><td>You want to prevent failures before they happen</td><td>FMEA (Failure Mode and Effects Analysis)</td></tr>
+      <tr><td>You need to compare two or more groups statistically</td><td>Hypothesis Test or ANOVA</td></tr>
+      <tr><td>You're running a full improvement project</td><td>DMAIC (Define, Measure, Analyze, Improve, Control)</td></tr>
+    </table>
+
+    <h2 style="font-size:18px;margin:24px 0 8px;">2. Root Cause Analysis Checklist</h2>
+    <ul>
+      <li>Define the problem in one clear sentence &mdash; avoid vague statements.</li>
+      <li>Gather data before assuming a cause. Don't guess.</li>
+      <li>Ask "why" at least five times, following each answer to the next question.</li>
+      <li>Consider multiple categories: people, process, equipment, materials, environment.</li>
+      <li>Confirm the root cause with data, not just a hunch.</li>
+      <li>Assign clear ownership for the fix &mdash; a root cause without an owner recurs.</li>
+      <li>Follow up after the fix to confirm the problem doesn't come back.</li>
+    </ul>
+
+    <h2 style="font-size:18px;margin:24px 0 8px;">3. Quality Tools Cheat Sheet</h2>
+    <table>
+      <tr><th>Tool</th><th>What it does</th></tr>
+      <tr><td>5 Whys</td><td>Traces a symptom back to its root cause by repeatedly asking "why."</td></tr>
+      <tr><td>Fishbone Diagram</td><td>Organizes potential causes into categories to spot patterns.</td></tr>
+      <tr><td>Pareto Chart</td><td>Ranks problems by frequency or impact so you fix the biggest ones first.</td></tr>
+      <tr><td>Control Chart</td><td>Distinguishes normal process variation from a real, actionable shift.</td></tr>
+      <tr><td>FMEA</td><td>Scores potential failure modes by severity, likelihood, and detectability.</td></tr>
+      <tr><td>DMAIC</td><td>A five-phase structure for running a complete improvement project.</td></tr>
+    </table>
+
+    <p style="font-size:13px;color:#5b6472;margin-top:32px;border-top:1px solid #e3ded4;padding-top:16px;">&copy; 2026 UpSkill Sprint Consulting &mdash; skillsprintconsulting@gmail.com</p>
+  </doc-page>
+
+  <script src="doc-page.js"></script>
+</body>
+</html>
