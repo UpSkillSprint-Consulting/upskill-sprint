@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>What Is Lean Six Sigma? | UpSkill Sprint Consulting</title>
-<meta name="description" content="A plain-language introduction to reducing waste, variation, and recurring workplace problems.">
-<link rel="canonical" href="https://upskillsprint.com/lessons/what-is-lean-six-sigma.html">
+<title>Control Charts, Explained | UpSkill Sprint Consulting</title>
+<meta name="description" content="Spot real process shifts versus normal variation before they become defects.">
+<link rel="canonical" href="https://upskillsprint.com/lessons/control-charts-explained.html">
 <meta property="og:type" content="article">
-<meta property="og:title" content="What Is Lean Six Sigma? | UpSkill Sprint Consulting">
-<meta property="og:description" content="A plain-language introduction to reducing waste, variation, and recurring workplace problems.">
+<meta property="og:title" content="Control Charts, Explained | UpSkill Sprint Consulting">
+<meta property="og:description" content="Spot real process shifts versus normal variation before they become defects.">
 <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
-<meta property="og:url" content="https://upskillsprint.com/lessons/what-is-lean-six-sigma.html">
+<meta property="og:url" content="https://upskillsprint.com/lessons/control-charts-explained.html">
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -50,9 +50,9 @@
 
   <section class="section" style="padding-bottom:8px;">
     <div class="wrap" style="max-width:760px;">
-      <p class="eyebrow">Beginner &middot; 10 min read</p>
-      <h1 style="font-size:32px;margin:0 0 16px;">What Is Lean Six Sigma?</h1>
-      <p style="font-size:16px;line-height:1.65;color:var(--ink-soft);margin:0;"><strong>What you will learn:</strong> the core idea behind Lean Six Sigma and why it matters at work.</p>
+      <p class="eyebrow">Intermediate &middot; 12 min read &middot; Minitab</p>
+      <h1 style="font-size:32px;margin:0 0 16px;">Control Charts, Explained</h1>
+      <p style="font-size:16px;line-height:1.65;color:var(--ink-soft);margin:0;"><strong>What you will learn:</strong> how to tell the difference between normal process variation and a real problem.</p>
       <div class="badge-row">
         <span class="badge badge-lss">Lean Six Sigma</span>
       </div>
@@ -64,9 +64,9 @@
       <h2 style="font-size:20px;margin:0 0 14px;">By the end, you should be able to</h2>
       <div class="card">
         <ul class="lesson-objectives">
-          <li>Explain what Lean Six Sigma is in plain language.</li>
-          <li>Tell the difference between "waste" and "variation."</li>
-          <li>Spot a real workplace situation where it applies.</li>
+          <li>Read a basic control chart.</li>
+          <li>Explain the difference between normal variation and a real shift.</li>
+          <li>Decide when a data point deserves investigation.</li>
         </ul>
       </div>
     </div>
@@ -75,34 +75,35 @@
   <section class="section" style="padding:32px 0 0;">
     <div class="wrap" style="max-width:760px;">
       <h2 style="font-size:20px;margin:0 0 12px;">Why this matters at work</h2>
-      <p style="font-size:15.5px;line-height:1.7;color:var(--ink-soft);">Lean Six Sigma combines two ideas: removing waste (Lean) and reducing variation (Six Sigma). Together, they give you a structured way to make a process more reliable and less wasteful &mdash; whether that process is a factory line, a claims queue, or a monthly report.</p>
+      <p style="font-size:15.5px;line-height:1.7;color:var(--ink-soft);">Every process has some natural up-and-down. Reacting to every wiggle wastes time; ignoring a real shift lets defects slip through. Control charts give you a clear line between "normal" and "something changed."</p>
 
       <h2 style="font-size:20px;margin:32px 0 12px;">Simple explanation</h2>
-      <p style="font-size:15.5px;line-height:1.7;color:var(--ink-soft);">Lean asks a simple question, and Six Sigma asks a different one. Most real improvement projects use a bit of both.</p>
+      <p style="font-size:15.5px;line-height:1.7;color:var(--ink-soft);">Plot your data over time against a center line and control limits.</p>
       <div class="callout callout-formula">
-        <strong>Lean:</strong> "Is this step adding value, or is it waste?"<br>
-        <strong>Six Sigma:</strong> "How much does this process vary, and can we make it more consistent?"
+        <strong>Center line:</strong> the process average.<br>
+        <strong>Control limits:</strong> roughly &plusmn;3 standard deviations from the average.<br>
+        Points inside the limits, moving randomly, are normal variation. A point outside the limits &mdash; or a clear trend &mdash; signals a real change worth investigating.
       </div>
 
       <h2 style="font-size:20px;margin:32px 0 12px;">Real workplace example</h2>
       <div class="example-box">
-        <h3 style="font-size:17px;margin:0 0 10px;">Order processing time swings from 2 to 9 days</h3>
-        <p style="font-size:15px;line-height:1.65;color:var(--ink-soft);margin:0 0 16px;">A team notices order processing time ranges from 2 to 9 days with no clear reason.</p>
+        <h3 style="font-size:17px;margin:0 0 10px;">A call center's handle time jumps</h3>
+        <p style="font-size:15px;line-height:1.65;color:var(--ink-soft);margin:0 0 16px;">Average handle time normally bounces between 4 and 6 minutes every day.</p>
         <ol class="step-list">
-          <li><div><strong>Step 1:</strong> Map every step in the order process, start to finish.</div></li>
-          <li><div><strong>Step 2:</strong> Measure how long each step actually takes, across several orders.</div></li>
-          <li><div><strong>Step 3:</strong> Target the single biggest source of delay first, instead of guessing.</div></li>
+          <li><div><strong>Normal day:</strong> handle time sits between 4&ndash;6 minutes &mdash; inside the control limits, no action needed.</div></li>
+          <li><div><strong>Signal:</strong> handle time jumps to 9 minutes for three days straight, above the upper control limit.</div></li>
+          <li><div><strong>Investigate:</strong> something changed &mdash; new system, new staff, new process &mdash; and it deserves a look.</div></li>
         </ol>
       </div>
 
       <h2 style="font-size:20px;margin:32px 0 12px;">Common mistake</h2>
       <div class="callout callout-warning">
-        <strong>Watch out for:</strong> jumping straight to a fix before mapping the process. Without data on where time is actually lost, teams often "fix" a step that wasn't the real problem.
+        <strong>Watch out for:</strong> reacting to every single up-and-down point as if it were a real problem. That's normal variation &mdash; chasing it wastes time and can make the process worse.
       </div>
 
       <h2 style="font-size:20px;margin:32px 0 12px;">Try it yourself</h2>
       <div class="callout callout-practice">
-        Pick one recurring task you do. List every step. Mark each step as "value-adding" or "waste." You'll likely find at least one step you can cut.
+        Take 15&ndash;20 recent data points for something you track (handle time, defect count, response time). Plot them on a simple line chart with the average marked. Do any points look like outliers, or is it all normal noise?
       </div>
     </div>
   </section>
@@ -111,10 +112,10 @@
     <div class="wrap" style="max-width:760px;">
       <h2 style="font-size:20px;margin:0 0 14px;">Check your understanding</h2>
       <div class="quiz">
-        <h3>Six Sigma is primarily focused on reducing what?</h3>
-        <button class="quiz-option" onclick="checkQuiz(this, false)">Employee headcount</button>
-        <button class="quiz-option" onclick="checkQuiz(this, true)">Variation in a process</button>
-        <button class="quiz-option" onclick="checkQuiz(this, false)">Marketing spend</button>
+        <h3>A single data point falls just slightly below yesterday's value, still well within the control limits. What should you do?</h3>
+        <button class="quiz-option" onclick="checkQuiz(this, false)">Launch an investigation immediately</button>
+        <button class="quiz-option" onclick="checkQuiz(this, true)">Nothing — that's normal variation</button>
+        <button class="quiz-option" onclick="checkQuiz(this, false)">Recalculate the control limits</button>
         <div class="quiz-feedback"></div>
       </div>
     </div>
@@ -123,7 +124,7 @@
   <section class="section tint" style="margin-top:48px;">
     <div class="wrap" style="max-width:760px;">
       <h2 style="font-size:20px;margin:0 0 12px;">Next lesson</h2>
-      <a href="control-charts-explained.html" style="font-family:'Source Serif 4',serif;font-size:19px;font-weight:600;">Control Charts, Explained &rarr;</a>
+      <a href="../lessons.html#lean-six-sigma" style="font-family:'Source Serif 4',serif;font-size:19px;font-weight:600;">Back to the Lean Six Sigma lessons &rarr;</a>
     </div>
   </section>
 
@@ -159,7 +160,7 @@
         </div>
         <div>
           <h4>Contact</h4>
-          <a href="/cdn-cgi/l/email-protection#67140c0e0b0b1417150e091304080914120b130e090027000a060e0b4904080a"><span class="__cf_email__" data-cfemail="77041c1e1b1b0407051e190314181904021b031e191037101a161e1b5914181a">[email&#160;protected]</span></a>
+          <a href="/cdn-cgi/l/email-protection#5a2931333636292a2833342e393534292f362e33343d1a3d373b333674393537"><span class="__cf_email__" data-cfemail="d6a5bdbfbabaa5a6a4bfb8a2b5b9b8a5a3baa2bfb8b196b1bbb7bfbaf8b5b9bb">[email&#160;protected]</span></a>
           <p style="font-size:13.5px;color:var(--muted);margin:0;">Saskatchewan, Canada</p>
         </div>
       </div>

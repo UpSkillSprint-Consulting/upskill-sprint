@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>What Is Lean Six Sigma? | UpSkill Sprint Consulting</title>
-<meta name="description" content="A plain-language introduction to reducing waste, variation, and recurring workplace problems.">
-<link rel="canonical" href="https://upskillsprint.com/lessons/what-is-lean-six-sigma.html">
+<title>Root Cause Analysis: 5 Whys vs Fishbone Diagram | UpSkill Sprint Consulting</title>
+<meta name="description" content="Two ways to move from symptoms to causes, and when to use each one.">
+<link rel="canonical" href="https://upskillsprint.com/lessons/root-cause-analysis-5-whys-fishbone.html">
 <meta property="og:type" content="article">
-<meta property="og:title" content="What Is Lean Six Sigma? | UpSkill Sprint Consulting">
-<meta property="og:description" content="A plain-language introduction to reducing waste, variation, and recurring workplace problems.">
+<meta property="og:title" content="Root Cause Analysis: 5 Whys vs Fishbone Diagram | UpSkill Sprint Consulting">
+<meta property="og:description" content="Two ways to move from symptoms to causes, and when to use each one.">
 <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
-<meta property="og:url" content="https://upskillsprint.com/lessons/what-is-lean-six-sigma.html">
+<meta property="og:url" content="https://upskillsprint.com/lessons/root-cause-analysis-5-whys-fishbone.html">
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -50,11 +50,11 @@
 
   <section class="section" style="padding-bottom:8px;">
     <div class="wrap" style="max-width:760px;">
-      <p class="eyebrow">Beginner &middot; 10 min read</p>
-      <h1 style="font-size:32px;margin:0 0 16px;">What Is Lean Six Sigma?</h1>
-      <p style="font-size:16px;line-height:1.65;color:var(--ink-soft);margin:0;"><strong>What you will learn:</strong> the core idea behind Lean Six Sigma and why it matters at work.</p>
+      <p class="eyebrow">Beginner &middot; 6 min read</p>
+      <h1 style="font-size:32px;margin:0 0 16px;">Root Cause Analysis: 5 Whys vs Fishbone Diagram</h1>
+      <p style="font-size:16px;line-height:1.65;color:var(--ink-soft);margin:0;"><strong>What you will learn:</strong> two simple ways to trace a problem back to its real cause, and when to use each.</p>
       <div class="badge-row">
-        <span class="badge badge-lss">Lean Six Sigma</span>
+        <span class="badge badge-quality">Quality Engineering</span>
       </div>
     </div>
   </section>
@@ -64,9 +64,9 @@
       <h2 style="font-size:20px;margin:0 0 14px;">By the end, you should be able to</h2>
       <div class="card">
         <ul class="lesson-objectives">
-          <li>Explain what Lean Six Sigma is in plain language.</li>
-          <li>Tell the difference between "waste" and "variation."</li>
-          <li>Spot a real workplace situation where it applies.</li>
+          <li>Run a 5 Whys on a recurring problem.</li>
+          <li>Know when a Fishbone diagram fits better than 5 Whys.</li>
+          <li>Avoid stopping at the first easy answer.</li>
         </ul>
       </div>
     </div>
@@ -75,34 +75,35 @@
   <section class="section" style="padding:32px 0 0;">
     <div class="wrap" style="max-width:760px;">
       <h2 style="font-size:20px;margin:0 0 12px;">Why this matters at work</h2>
-      <p style="font-size:15.5px;line-height:1.7;color:var(--ink-soft);">Lean Six Sigma combines two ideas: removing waste (Lean) and reducing variation (Six Sigma). Together, they give you a structured way to make a process more reliable and less wasteful &mdash; whether that process is a factory line, a claims queue, or a monthly report.</p>
+      <p style="font-size:15.5px;line-height:1.7;color:var(--ink-soft);">Fixing symptoms instead of causes means the same problem keeps coming back. Root cause analysis stops the cycle by forcing you to ask "why" until you hit something you can actually act on.</p>
 
       <h2 style="font-size:20px;margin:32px 0 12px;">Simple explanation</h2>
-      <p style="font-size:15.5px;line-height:1.7;color:var(--ink-soft);">Lean asks a simple question, and Six Sigma asks a different one. Most real improvement projects use a bit of both.</p>
+      <p style="font-size:15.5px;line-height:1.7;color:var(--ink-soft);">Both tools get you from symptom to cause &mdash; they just work differently.</p>
       <div class="callout callout-formula">
-        <strong>Lean:</strong> "Is this step adding value, or is it waste?"<br>
-        <strong>Six Sigma:</strong> "How much does this process vary, and can we make it more consistent?"
+        <strong>5 Whys:</strong> ask "why did that happen?" five times in a row, each answer feeding the next question.<br>
+        <strong>Fishbone (Ishikawa):</strong> branches the same question into categories &mdash; people, process, equipment, materials &mdash; so you can spot causes across multiple angles at once.
       </div>
 
       <h2 style="font-size:20px;margin:32px 0 12px;">Real workplace example</h2>
       <div class="example-box">
-        <h3 style="font-size:17px;margin:0 0 10px;">Order processing time swings from 2 to 9 days</h3>
-        <p style="font-size:15px;line-height:1.65;color:var(--ink-soft);margin:0 0 16px;">A team notices order processing time ranges from 2 to 9 days with no clear reason.</p>
+        <h3 style="font-size:17px;margin:0 0 10px;">A machine keeps jamming</h3>
+        <p style="font-size:15px;line-height:1.65;color:var(--ink-soft);margin:0 0 16px;">Tracing the real cause with 5 Whys:</p>
         <ol class="step-list">
-          <li><div><strong>Step 1:</strong> Map every step in the order process, start to finish.</div></li>
-          <li><div><strong>Step 2:</strong> Measure how long each step actually takes, across several orders.</div></li>
-          <li><div><strong>Step 3:</strong> Target the single biggest source of delay first, instead of guessing.</div></li>
+          <li><div><strong>Why does it jam?</strong> Debris builds up inside.</div></li>
+          <li><div><strong>Why does debris build up?</strong> The filter isn't cleaned.</div></li>
+          <li><div><strong>Why isn't it cleaned?</strong> No one owns that task &mdash; it was never assigned after a staffing change.</div></li>
         </ol>
+        <p style="font-size:15px;line-height:1.65;color:var(--ink-soft);margin:16px 0 0;">The real fix is assigning ownership, not just cleaning the machine once.</p>
       </div>
 
       <h2 style="font-size:20px;margin:32px 0 12px;">Common mistake</h2>
       <div class="callout callout-warning">
-        <strong>Watch out for:</strong> jumping straight to a fix before mapping the process. Without data on where time is actually lost, teams often "fix" a step that wasn't the real problem.
+        <strong>Watch out for:</strong> stopping at the first "why" that sounds reasonable. The first answer is usually a symptom, not the root cause &mdash; keep going until the answer points to something you can actually change.
       </div>
 
       <h2 style="font-size:20px;margin:32px 0 12px;">Try it yourself</h2>
       <div class="callout callout-practice">
-        Pick one recurring task you do. List every step. Mark each step as "value-adding" or "waste." You'll likely find at least one step you can cut.
+        Pick a recurring annoyance at work. Ask "why" five times, writing down each answer. See how far the real cause is from your first guess.
       </div>
     </div>
   </section>
@@ -111,10 +112,10 @@
     <div class="wrap" style="max-width:760px;">
       <h2 style="font-size:20px;margin:0 0 14px;">Check your understanding</h2>
       <div class="quiz">
-        <h3>Six Sigma is primarily focused on reducing what?</h3>
-        <button class="quiz-option" onclick="checkQuiz(this, false)">Employee headcount</button>
-        <button class="quiz-option" onclick="checkQuiz(this, true)">Variation in a process</button>
-        <button class="quiz-option" onclick="checkQuiz(this, false)">Marketing spend</button>
+        <h3>You need to compare causes across people, process, equipment, and materials at once. Which tool fits best?</h3>
+        <button class="quiz-option" onclick="checkQuiz(this, false)">5 Whys</button>
+        <button class="quiz-option" onclick="checkQuiz(this, true)">Fishbone diagram</button>
+        <button class="quiz-option" onclick="checkQuiz(this, false)">Neither</button>
         <div class="quiz-feedback"></div>
       </div>
     </div>
@@ -123,7 +124,7 @@
   <section class="section tint" style="margin-top:48px;">
     <div class="wrap" style="max-width:760px;">
       <h2 style="font-size:20px;margin:0 0 12px;">Next lesson</h2>
-      <a href="control-charts-explained.html" style="font-family:'Source Serif 4',serif;font-size:19px;font-weight:600;">Control Charts, Explained &rarr;</a>
+      <a href="../lessons.html#quality-engineering" style="font-family:'Source Serif 4',serif;font-size:19px;font-weight:600;">Back to the Quality Engineering lessons &rarr;</a>
     </div>
   </section>
 
@@ -159,7 +160,7 @@
         </div>
         <div>
           <h4>Contact</h4>
-          <a href="/cdn-cgi/l/email-protection#67140c0e0b0b1417150e091304080914120b130e090027000a060e0b4904080a"><span class="__cf_email__" data-cfemail="77041c1e1b1b0407051e190314181904021b031e191037101a161e1b5914181a">[email&#160;protected]</span></a>
+          <a href="/cdn-cgi/l/email-protection#9ceff7f5f0f0efeceef5f2e8fff3f2efe9f0e8f5f2fbdcfbf1fdf5f0b2fff3f1"><span class="__cf_email__" data-cfemail="b8cbd3d1d4d4cbc8cad1d6ccdbd7d6cbcdd4ccd1d6dff8dfd5d9d1d496dbd7d5">[email&#160;protected]</span></a>
           <p style="font-size:13.5px;color:var(--muted);margin:0;">Saskatchewan, Canada</p>
         </div>
       </div>
