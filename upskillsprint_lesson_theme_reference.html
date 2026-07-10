@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UpSkillSprint Lesson Theme Reference</title>
+
+  <style>
+    /* =========================================================
+       UPSKILLSPRINT LESSON THEME REFERENCE
+       Use this file as your master design reference when creating lessons.
+
+       Best use:
+       1. Keep this file saved as your style guide.
+       2. Copy the CSS variables and components into new lessons.
+       3. Keep the same structure across all topics.
+       4. Change only the topic accent color when needed.
+
+       Recommended theme:
+       Professional Industrial Learning Theme
+       Deep navy + teal + white + soft gray
+       ========================================================= */
+
+    :root {
+      /* Core brand colors */
+      --primary-navy: #0B1F33;
+      --primary-teal: #0F766E;
+      --primary-teal-dark: #115E59;
+      --steel-blue: #2563EB;
+
+      /* Neutral colors */
+      --background: #F8FAFC;
+      --surface: #FFFFFF;
+      --surface-soft: #F1F5F9;
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      --border: #E2E8F0;
+
+      /* Feedback colors */
+      --success: #16A34A;
+      --warning: #F59E0B;
+      --danger: #DC2626;
+      --info: #0284C7;
+
+      /* Soft background colors */
+      --formula-bg: #ECFEFF;
+      --practice-bg: #ECFDF5;
+      --warning-bg: #FFFBEB;
+      --danger-bg: #FEF2F2;
+      --info-bg: #EFF6FF;
+
+      /* Topic accent colors */
+      --accent-data: #2563EB;
+      --accent-quality: #0F766E;
+      --accent-lss: #16A34A;
+      --accent-stats: #7C3AED;
+      --accent-tools: #0284C7;
+      --accent-pm: #D97706;
+      --accent-business: #4F46E5;
+      --accent-ai: #0891B2;
+
+      /* Layout */
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.10);
+      --max-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text-main);
+      line-height: 1.65;
+    }
+
+    a {
+      color: var(--primary-teal);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .site-header {
+      background: var(--primary-navy);
+      color: white;
+      padding: 22px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .site-header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .brand span {
+      color: #5EEAD4;
+    }
+
+    .nav {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 0.92rem;
+    }
+
+    .nav a {
+      color: #E0F2FE;
+      font-weight: 700;
+    }
+
+    .hero {
+      background:
+        linear-gradient(135deg, rgba(11, 31, 51, 0.96), rgba(15, 118, 110, 0.90)),
+        radial-gradient(circle at top right, rgba(94, 234, 212, 0.25), transparent 32%);
+      color: white;
+      padding: 76px 24px 68px;
+    }
+
+    .hero-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4.4rem);
+      line-height: 1.05;
+      margin: 0 0 18px;
+      max-width: 920px;
+    }
+
+    .hero p {
+      font-size: 1.18rem;
+      max-width: 760px;
+      margin: 0 0 28px;
+      color: #E0F2FE;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      text-decoration: none;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    .button-primary {
+      background: var(--primary-teal);
+      color: white;
+      box-shadow: 0 8px 20px rgba(15, 118, 110, 0.28);
+    }
+
+    .button-primary:hover {
+      background: var(--primary-teal-dark);
+    }
+
+    .button-secondary {
+      background: white;
+      color: var(--primary-navy);
+    }
+
+    .page {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 42px 24px 80px;
+    }
+
+    .section {
+      margin: 52px 0;
+    }
+
+    .section-header {
+      margin-bottom: 22px;
+    }
+
+    .section-kicker {
+      color: var(--primary-teal);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      color: var(--primary-navy);
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      line-height: 1.15;
+      margin: 0 0 10px;
+    }
+
+    h3 {
+      color: var(--primary-navy);
+      font-size: 1.28rem;
+      line-height: 1.25;
+      margin: 0 0 8px;
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    .lead {
+      font-size: 1.07rem;
+      color: var(--text-muted);
+      max-width: 820px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-highlight {
+      border-top: 5px solid var(--primary-teal);
+    }
+
+    .callout {
+      padding: 18px 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      margin: 18px 0;
+      background: var(--surface);
+    }
+
+    .callout strong {
+      color: var(--primary-navy);
+    }
+
+    .callout-info {
+      background: var(--info-bg);
+      border-left: 6px solid var(--info);
+    }
+
+    .callout-formula {
+      background: var(--formula-bg);
+      border-left: 6px solid var(--primary-teal);
+      font-family: "Courier New", Courier, monospace;
+    }
+
+    .callout-practice {
+      background: var(--practice-bg);
+      border-left: 6px solid var(--success);
+    }
+
+    .callout-warning {
+      background: var(--warning-bg);
+      border-left: 6px solid var(--warning);
+    }
+
+    .callout-danger {
+      background: var(--danger-bg);
+      border-left: 6px solid var(--danger);
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-data { background: var(--accent-data); }
+    .badge-quality { background: var(--accent-quality); }
+    .badge-lss { background: var(--accent-lss); }
+    .badge-stats { background: var(--accent-stats); }
+    .badge-tools { background: var(--accent-tools); }
+    .badge-pm { background: var(--accent-pm); }
+    .badge-business { background: var(--accent-business); }
+    .badge-ai { background: var(--accent-ai); }
+
+    .lesson-objectives {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .lesson-objectives li {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 12px;
+    }
+
+    .lesson-objectives li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: var(--primary-teal);
+      color: white;
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      margin: 18px 0;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background: var(--primary-navy);
+      color: white;
+      text-align: left;
+      padding: 13px 14px;
+      font-weight: 900;
+    }
+
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .example-box {
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid var(--border);
+      padding: 26px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .step-list {
+      counter-reset: step-counter;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .step-list li {
+      counter-increment: step-counter;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+      align-items: start;
+    }
+
+    .step-list li::before {
+      content: counter(step-counter);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--primary-navy);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+
+    .quiz {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin: 10px 0;
+      cursor: pointer;
+      font-size: 1rem;
+      color: var(--text-main);
+    }
+
+    .quiz-option:hover {
+      border-color: var(--primary-teal);
+      background: var(--formula-bg);
+    }
+
+    .quiz-feedback {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+    }
+
+    .quiz-feedback.correct {
+      display: block;
+      background: var(--practice-bg);
+      color: #065F46;
+      border: 1px solid #BBF7D0;
+    }
+
+    .quiz-feedback.incorrect {
+      display: block;
+      background: var(--danger-bg);
+      color: #991B1B;
+      border: 1px solid #FECACA;
+    }
+
+    .code-block {
+      background: #0F172A;
+      color: #E2E8F0;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      border: 1px solid #1E293B;
+    }
+
+    .copy-note {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-top: 8px;
+    }
+
+    .footer {
+      background: var(--primary-navy);
+      color: #CBD5E1;
+      padding: 34px 24px;
+      text-align: center;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 820px) {
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .site-header-inner {
+        align-items: flex-start;
+      }
+
+      .nav {
+        gap: 10px;
+      }
+
+      .hero {
+        padding-top: 52px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <div class="brand">UpSkill<span>Sprint</span></div>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#theme">Theme</a>
+        <a href="#colors">Colors</a>
+        <a href="#components">Components</a>
+        <a href="#template">Lesson Template</a>
+        <a href="#checklist">Checklist</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Master Lesson Reference</div>
+      <h1>Professional Lesson Theme for Data, Quality & Improvement</h1>
+      <p>
+        Use this file as the design reference for every UpSkillSprint lesson.
+        It gives you a consistent color system, reusable components, and a
+        copy-ready structure for practical workplace learning.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#template">Copy Lesson Structure</a>
+        <a class="button button-secondary" href="#colors">View Color System</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="page">
+    <section id="theme" class="section">
+      <div class="section-header">
+        <div class="section-kicker">Recommended Theme</div>
+        <h2>Modern Engineering + Business Learning Hub</h2>
+        <p class="lead">
+          Your lessons should feel like a clean engineering training manual combined
+          with a modern business dashboard. The style should be practical, trustworthy,
+          readable, and professional.
+        </p>
+      </div>
+
+      <div class="grid grid-3">
+        <article class="card card-highlight">
+          <h3>Professional</h3>
+          <p>Use navy headings, white cards, clean spacing, and simple explanations.</p>
+        </article>
+
+        <article class="card card-highlight">
+          <h3>Practical</h3>
+          <p>Every lesson should include examples, formulas, practice, and workplace application.</p>
+        </article>
+
+        <article class="card card-highlight">
+          <h3>Consistent</h3>
+          <p>Keep the same layout across topics. Change only the small topic accent color.</p>
+        </article>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>Best positioning:</strong>
+        Practical skills for data, quality, Lean Six Sigma, statistics, project management,
+        business decision-making, and AI for work.
+      </div>
+    </section>
+
+    <section id="colors" class="section">
+      <div class="section-header">
+        <div class="section-kicker">Color System</div>
+        <h2>Main Theme Colors</h2>
+        <p class="lead">
+          Use these colors as the default for all lesson pages. They work well for
+          technical, business, and continuous improvement content.
+        </p>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Use</th>
+            <th>Color Name</th>
+            <th>Hex Code</th>
+            <th>Recommended Application</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Main brand color</td>
+            <td>Deep Navy</td>
+            <td><code>#0B1F33</code></td>
+            <td>Header, hero section, main headings, table headers</td>
+          </tr>
+          <tr>
+            <td>Primary accent</td>
+            <td>Teal</td>
+            <td><code>#0F766E</code></td>
+            <td>Buttons, links, highlights, formula callouts</td>
+          </tr>
+          <tr>
+            <td>Secondary accent</td>
+            <td>Steel Blue</td>
+            <td><code>#2563EB</code></td>
+            <td>Data analytics badges, charts, supporting accents</td>
+          </tr>
+          <tr>
+            <td>Page background</td>
+            <td>Soft Gray</td>
+            <td><code>#F8FAFC</code></td>
+            <td>Overall page background</td>
+          </tr>
+          <tr>
+            <td>Card background</td>
+            <td>White</td>
+            <td><code>#FFFFFF</code></td>
+            <td>Lesson cards, examples, quizzes, tables</td>
+          </tr>
+          <tr>
+            <td>Main text</td>
+            <td>Charcoal</td>
+            <td><code>#1E293B</code></td>
+            <td>Paragraphs and body text</td>
+          </tr>
+          <tr>
+            <td>Muted text</td>
+            <td>Slate Gray</td>
+            <td><code>#64748B</code></td>
+            <td>Subtitles, notes, helper text</td>
+          </tr>
+          <tr>
+            <td>Border</td>
+            <td>Light Gray</td>
+            <td><code>#E2E8F0</code></td>
+            <td>Card borders, table lines, dividers</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-header" style="margin-top: 34px;">
+        <h2>Topic Accent Colors</h2>
+        <p class="lead">
+          Use these only for badges, small labels, icons, or section highlights.
+          Do not change the entire page theme for every topic.
+        </p>
+      </div>
+
+      <div class="badge-row">
+        <span class="badge badge-data">Data Analytics</span>
+        <span class="badge badge-quality">Quality Engineering</span>
+        <span class="badge badge-lss">Lean Six Sigma</span>
+        <span class="badge badge-stats">Statistics</span>
+        <span class="badge badge-tools">Excel / Power BI / SQL</span>
+        <span class="badge badge-pm">Project Management</span>
+        <span class="badge badge-business">Business Decisions</span>
+        <span class="badge badge-ai">AI for Work</span>
+      </div>
+    </section>
+
+    <section id="components" class="section">
+      <div class="section-header">
+        <div class="section-kicker">Reusable Components</div>
+        <h2>Lesson Building Blocks</h2>
+        <p class="lead">
+          These components should appear repeatedly across your lessons. This makes
+          the site feel organized and easy to follow.
+        </p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Lesson Objectives</h3>
+          <ul class="lesson-objectives">
+            <li>Explain the concept in simple workplace language.</li>
+            <li>Show the key formula or decision rule.</li>
+            <li>Apply the concept to a realistic example.</li>
+            <li>Check understanding with practice questions.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Recommended Lesson Flow</h3>
+          <ol class="step-list">
+            <li><div><strong>Start with the problem.</strong><br />Explain why the lesson matters at work.</div></li>
+            <li><div><strong>Teach the concept.</strong><br />Use simple terms before formulas.</div></li>
+            <li><div><strong>Show the method.</strong><br />Use steps, visuals, and examples.</div></li>
+            <li><div><strong>Practice.</strong><br />Add quiz questions, calculators, or mini cases.</div></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="callout callout-formula">
+        <strong>Formula / Key Rule Box:</strong><br />
+        Use this style for formulas, DAX measures, SQL logic, hypothesis test rules,
+        capability formulas, or decision rules.
+      </div>
+
+      <div class="callout callout-practice">
+        <strong>Practice Box:</strong>
+        Use this for learner exercises, short quizzes, or “try it yourself” sections.
+      </div>
+
+      <div class="callout callout-warning">
+        <strong>Common Mistake Box:</strong>
+        Use this to explain what learners often misunderstand.
+      </div>
+
+      <div class="callout callout-danger">
+        <strong>Avoid This:</strong>
+        Use this for wrong interpretations, bad data habits, or risky assumptions.
+      </div>
+
+      <div class="example-box">
+        <h3>Example Lesson Card</h3>
+        <p>
+          In a real workplace, do not only calculate a metric. Explain what the metric
+          means, what action it supports, and what risk exists if the data is wrong.
+        </p>
+        <div class="callout callout-info">
+          <strong>Workplace translation:</strong>
+          The best lessons should help learners move from calculation to decision-making.
+        </div>
+      </div>
+    </section>
+
+    <section id="template" class="section">
+      <div class="section-header">
+        <div class="section-kicker">Copy-Ready Starter</div>
+        <h2>Standard Lesson Page Structure</h2>
+        <p class="lead">
+          Use this structure when creating a new lesson. Keep the layout consistent,
+          then replace the content.
+        </p>
+      </div>
+
+      <pre class="code-block"><code>&lt;!-- ======================================================
+     UPSKILLSPRINT STANDARD LESSON STRUCTURE
+     Copy this structure into each new lesson.
+     ====================================================== --&gt;
+
+&lt;section class="hero"&gt;
+  &lt;div class="hero-inner"&gt;
+    &lt;div class="eyebrow"&gt;Lesson Category&lt;/div&gt;
+    &lt;h1&gt;Lesson Title Goes Here&lt;/h1&gt;
+    &lt;p&gt;
+      Write one clear sentence explaining what the learner will be able to do
+      after completing this lesson.
+    &lt;/p&gt;
+    &lt;div class="badge-row"&gt;
+      &lt;span class="badge badge-stats"&gt;Statistics&lt;/span&gt;
+      &lt;span class="badge badge-quality"&gt;Quality Engineering&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;main class="page"&gt;
+
+  &lt;section class="section"&gt;
+    &lt;div class="section-header"&gt;
+      &lt;div class="section-kicker"&gt;Why It Matters&lt;/div&gt;
+      &lt;h2&gt;Start With the Workplace Problem&lt;/h2&gt;
+      &lt;p class="lead"&gt;
+        Explain the real-world situation where this concept is useful.
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class="section"&gt;
+    &lt;div class="section-header"&gt;
+      &lt;div class="section-kicker"&gt;Learning Goals&lt;/div&gt;
+      &lt;h2&gt;By the End, You Should Be Able To&lt;/h2&gt;
+    &lt;/div&gt;
+
+    &lt;div class="card"&gt;
+      &lt;ul class="lesson-objectives"&gt;
+        &lt;li&gt;Goal 1 goes here.&lt;/li&gt;
+        &lt;li&gt;Goal 2 goes here.&lt;/li&gt;
+        &lt;li&gt;Goal 3 goes here.&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class="section"&gt;
+    &lt;div class="section-header"&gt;
+      &lt;div class="section-kicker"&gt;Concept&lt;/div&gt;
+      &lt;h2&gt;Explain the Main Idea&lt;/h2&gt;
+      &lt;p class="lead"&gt;
+        Explain the concept in plain language first.
+      &lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;div class="callout callout-formula"&gt;
+      &lt;strong&gt;Key Formula / Rule:&lt;/strong&gt;&lt;br /&gt;
+      Put formula, DAX measure, SQL rule, or decision rule here.
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class="section"&gt;
+    &lt;div class="section-header"&gt;
+      &lt;div class="section-kicker"&gt;Worked Example&lt;/div&gt;
+      &lt;h2&gt;Apply It to a Real Example&lt;/h2&gt;
+    &lt;/div&gt;
+
+    &lt;div class="example-box"&gt;
+      &lt;h3&gt;Example Title&lt;/h3&gt;
+      &lt;p&gt;Set up the situation, data, and decision question.&lt;/p&gt;
+
+      &lt;ol class="step-list"&gt;
+        &lt;li&gt;&lt;div&gt;&lt;strong&gt;Step 1:&lt;/strong&gt; Explain the first action.&lt;/div&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;div&gt;&lt;strong&gt;Step 2:&lt;/strong&gt; Explain the calculation or logic.&lt;/div&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;div&gt;&lt;strong&gt;Step 3:&lt;/strong&gt; Interpret the result.&lt;/div&gt;&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class="section"&gt;
+    &lt;div class="section-header"&gt;
+      &lt;div class="section-kicker"&gt;Common Mistakes&lt;/div&gt;
+      &lt;h2&gt;What Learners Often Get Wrong&lt;/h2&gt;
+    &lt;/div&gt;
+
+    &lt;div class="callout callout-warning"&gt;
+      &lt;strong&gt;Common mistake:&lt;/strong&gt;
+      Explain the mistake and how to avoid it.
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class="section"&gt;
+    &lt;div class="section-header"&gt;
+      &lt;div class="section-kicker"&gt;Practice&lt;/div&gt;
+      &lt;h2&gt;Check Your Understanding&lt;/h2&gt;
+    &lt;/div&gt;
+
+    &lt;div class="quiz"&gt;
+      &lt;h3&gt;Question goes here&lt;/h3&gt;
+      &lt;button class="quiz-option" onclick="checkQuiz(this, true)"&gt;Correct option&lt;/button&gt;
+      &lt;button class="quiz-option" onclick="checkQuiz(this, false)"&gt;Incorrect option&lt;/button&gt;
+      &lt;div class="quiz-feedback"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+&lt;/main&gt;</code></pre>
+
+      <p class="copy-note">
+        Tip: Save a blank version of this structure as <strong>lesson-template.html</strong>.
+      </p>
+    </section>
+
+    <section id="checklist" class="section">
+      <div class="section-header">
+        <div class="section-kicker">Quality Control</div>
+        <h2>Before Publishing Any Lesson</h2>
+        <p class="lead">
+          Use this checklist to keep every lesson useful, clear, and professional.
+        </p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Content Checklist</h3>
+          <ul class="lesson-objectives">
+            <li>The lesson starts with a real workplace problem.</li>
+            <li>The learner knows what they will gain.</li>
+            <li>Definitions are simple and practical.</li>
+            <li>Formulas or rules are clearly explained.</li>
+            <li>There is at least one worked example.</li>
+            <li>There is at least one practice activity.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Design Checklist</h3>
+          <ul class="lesson-objectives">
+            <li>Navy is used for headings and major sections.</li>
+            <li>Teal is used for buttons and key highlights.</li>
+            <li>Cards have enough spacing and clean borders.</li>
+            <li>Topic colors are used only as small accents.</li>
+            <li>The page works on mobile and desktop.</li>
+            <li>The lesson does not look overcrowded.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>Best rule:</strong>
+        If a learner cannot explain what to do with the lesson at work, the lesson is not finished yet.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <strong>UpSkillSprint</strong><br />
+    Practical skills for data, quality, and continuous improvement.
+  </footer>
+
+  <script>
+    function checkQuiz(button, isCorrect) {
+      const quiz = button.closest(".quiz");
+      const feedback = quiz.querySelector(".quiz-feedback");
+
+      feedback.className = "quiz-feedback " + (isCorrect ? "correct" : "incorrect");
+
+      if (isCorrect) {
+        feedback.textContent = "Correct. This is the best answer based on the lesson logic.";
+      } else {
+        feedback.textContent = "Not quite. Review the concept and try again.";
+      }
+    }
+  </script>
+</body>
+</html>
