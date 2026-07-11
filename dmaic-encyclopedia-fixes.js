@@ -8,6 +8,7 @@
     'print-ready'
   ]);
   let searchTimer = null;
+  let searchFrame = null;
   let searchInstalled = false;
 
   function normalize(value) {
@@ -20,7 +21,10 @@
     const style = document.createElement('style');
     style.id = 'upskill-dmaic-fixes';
     style.textContent = `
-      [data-upskill-hidden="true"] { display: none !important; }
+      [data-upskill-hidden="true"],
+      .formula-card[hidden],
+      .phase-section[hidden],
+      .phase-link[hidden] { display: none !important; }
 
       #searchInput {
         transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
@@ -29,9 +33,7 @@
         border-color: var(--primary) !important;
         box-shadow: 0 0 0 3px rgba(14, 165, 233, .12) !important;
       }
-      #searchInput.upskill-search-running {
-        cursor: progress !important;
-      }
+      #searchInput.upskill-search-running { cursor: progress !important; }
 
       .upskill-format-request {
         display: inline-flex !important;
@@ -243,11 +245,15 @@
     if (searchInstalled) return;
 
     const input = document.getElementById('searchInput');
-    if (!input) return;
+    const root = document.getElementById('formulaRoot');
+    const count = document.getElementById('resultCount');
+    const phaseNav = document.getElementById('phaseNav');
+    if (!input || !root || !count || !phaseNav) return;
 
+    const searchIndex = new Map();
     try {
       formulas.forEach(function (formula) {
-        formula.__upskillSearchText = [
+        const text = [
           formula.id,
           formula.phase,
           formula.family,
@@ -258,6 +264,8 @@
           formula.trap,
           formula.source
         ].join(' ').toLowerCase();
+        formula.__upskillSearchText = text;
+        searchIndex.set(formula.id, text);
       });
 
       filteredFormulas = function fastFilteredFormulas() {
@@ -280,7 +288,55 @@
       console.warn('Search index optimization was not applied.', error);
     }
 
-    function runSearchNow() {
+    let lastQuery = input.value.trim().toLowerCase();
+
+    function finishSearch() {
+      input.classList.remove('upskill-search-pending', 'upskill-search-running');
+      input.removeAttribute('aria-busy');
+    }
+
+    function updatePhaseNavigation() {
+      phaseNav.querySelectorAll('.phase-link').forEach(function (link) {
+        const selector = link.getAttribute('href');
+        const section = selector && selector.startsWith('#') ? document.querySelector(selector) : null;
+        link.hidden = !section || section.hidden;
+      });
+    }
+
+    function fastFilterExistingCards(query) {
+      const cards = Array.from(root.querySelectorAll('.formula-card'));
+      if (!cards.length) return false;
+
+      let visibleCount = 0;
+      cards.forEach(function (card) {
+        const id = card.querySelector('.formula-id')?.textContent.trim();
+        const text = searchIndex.get(id) || normalize(card.textContent);
+        const matches = !query || text.includes(query);
+        card.hidden = !matches;
+        if (matches) visibleCount += 1;
+      });
+
+      root.querySelectorAll('.phase-section').forEach(function (section) {
+        const visibleCards = Array.from(section.querySelectorAll('.formula-card')).filter(function (card) {
+          return !card.hidden;
+        });
+        section.hidden = visibleCards.length === 0;
+      });
+
+      root.querySelector('.upskill-fast-search-empty')?.remove();
+      if (!visibleCount) {
+        const empty = document.createElement('div');
+        empty.className = 'empty upskill-fast-search-empty';
+        empty.textContent = 'No formulas match the selected filters.';
+        root.prepend(empty);
+      }
+
+      count.textContent = `${visibleCount} formula families shown of ${formulas.length}`;
+      updatePhaseNavigation();
+      return true;
+    }
+
+    function fullRender() {
       window.clearTimeout(searchTimer);
       input.classList.remove('upskill-search-pending');
       input.classList.add('upskill-search-running');
@@ -289,38 +345,56 @@
       window.requestAnimationFrame(function () {
         try {
           render();
+          lastQuery = input.value.trim().toLowerCase();
         } finally {
           window.setTimeout(function () {
-            input.classList.remove('upskill-search-running');
-            input.removeAttribute('aria-busy');
             replaceFinanceFormulas();
+            finishSearch();
           }, 0);
         }
       });
     }
 
-    function scheduleSearch(event) {
+    function handleSearch(event) {
       event.stopImmediatePropagation();
       window.clearTimeout(searchTimer);
+      if (searchFrame) window.cancelAnimationFrame(searchFrame);
+
+      const query = input.value.trim().toLowerCase();
+      const canNarrowExistingResults = query.startsWith(lastQuery) && query.length >= lastQuery.length;
+
       input.classList.add('upskill-search-pending');
       input.setAttribute('aria-busy', 'true');
 
-      searchTimer = window.setTimeout(runSearchNow, input.value ? 140 : 0);
+      if (canNarrowExistingResults) {
+        searchFrame = window.requestAnimationFrame(function () {
+          searchFrame = null;
+          if (!fastFilterExistingCards(query)) {
+            fullRender();
+            return;
+          }
+          lastQuery = query;
+          finishSearch();
+        });
+        return;
+      }
+
+      searchTimer = window.setTimeout(fullRender, query ? 90 : 0);
     }
 
-    input.addEventListener('input', scheduleSearch, true);
-    input.addEventListener('search', scheduleSearch, true);
+    input.addEventListener('input', handleSearch, true);
+    input.addEventListener('search', handleSearch, true);
     input.addEventListener('keydown', function (event) {
       if (event.key === 'Enter') {
         event.preventDefault();
         event.stopImmediatePropagation();
-        runSearchNow();
+        fullRender();
       }
       if (event.key === 'Escape' && input.value) {
         event.preventDefault();
         event.stopImmediatePropagation();
         input.value = '';
-        runSearchNow();
+        fullRender();
       }
     }, true);
 
