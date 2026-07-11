@@ -18,31 +18,96 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-  .tools-hero { padding-bottom: 44px; }
-  .tools-lead { max-width: 720px; font-size: 16px; line-height: 1.7; color: var(--ink-soft); margin: 0; }
-  .tool-card { position: relative; display: flex; flex-direction: column; min-height: 260px; color: var(--ink); }
-  .tool-card:hover { color: var(--ink); }
-  .tool-icon { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 10px; margin-bottom: 20px; background: rgba(14,116,144,.12); color: var(--teal); }
+  .tools-hero { padding-bottom: 42px; }
+  .tools-lead { max-width: 760px; font-size: 16px; line-height: 1.7; color: var(--ink-soft); margin: 0; }
+  .tool-directory { display: flex; flex-direction: column; gap: 14px; }
+  .tool-row {
+    display: grid;
+    grid-template-columns: 58px minmax(0,1fr) 130px 150px;
+    align-items: center;
+    gap: 22px;
+    padding: 22px 24px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--card);
+    color: var(--ink);
+    transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+  }
+  .tool-row:hover { color: var(--ink); transform: translateY(-2px); border-color: rgba(14,116,144,.45); box-shadow: 0 10px 26px rgba(15,23,42,.08); }
+  .tool-row.is-planned:hover { transform: none; border-color: var(--line); box-shadow: none; }
+  .tool-icon {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: rgba(14,116,144,.12);
+    color: var(--teal);
+  }
   .tool-icon svg { width: 24px; height: 24px; }
-  .tool-status { display: inline-flex; align-items: center; width: fit-content; padding: 6px 10px; border-radius: 999px; margin-bottom: 14px; background: var(--tint); border: 1px solid var(--line); color: var(--muted); font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
-  .tool-card h3 { font-size: 19px; margin: 0 0 10px; }
-  .tool-card p { font-size: 14.5px; line-height: 1.65; color: var(--muted); margin: 0 0 20px; }
-  .tool-link { margin-top: auto; font-size: 14px; font-weight: 700; color: var(--teal); }
-  .category-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+  .tool-content h2 { font-size: 20px; margin: 0 0 6px; }
+  .tool-content p { font-size: 14.5px; line-height: 1.6; color: var(--muted); margin: 0; max-width: 680px; }
+  .tool-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+  .tool-tags span { padding: 5px 8px; border-radius: 999px; background: var(--tint); border: 1px solid var(--line); color: var(--ink-soft); font-size: 11.5px; font-weight: 600; }
+  .tool-status {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 94px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--tint);
+    color: var(--muted);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .tool-status.available { background: rgba(14,116,144,.12); border-color: rgba(14,116,144,.3); color: var(--teal); }
+  .tool-action {
+    justify-self: end;
+    min-width: 132px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    text-align: center;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink);
+    background: transparent;
+  }
+  .tool-action.primary { border-color: var(--teal); background: var(--teal); color: #fff; }
+  .tool-action.primary:hover { color: #fff; background: var(--teal-dark); }
+  .tool-action.secondary:hover { border-color: var(--teal); color: var(--teal); }
+  .directory-note { margin: 18px 0 0; color: var(--muted); font-size: 13px; }
+  .category-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
   .category-card { border: 1px solid var(--line); border-radius: 10px; background: var(--card); overflow: hidden; }
-  .category-card summary { list-style: none; cursor: pointer; padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; color: var(--ink); font-family: 'Source Serif 4', Georgia, serif; font-size: 18px; font-weight: 600; }
+  .category-card summary { list-style: none; cursor: pointer; padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; color: var(--ink); font-family: 'Source Serif 4',Georgia,serif; font-size: 18px; font-weight: 600; }
   .category-card summary::-webkit-details-marker { display: none; }
-  .category-card summary::after { content: '+'; color: var(--teal); font-family: 'Work Sans', Arial, sans-serif; font-size: 24px; font-weight: 500; }
+  .category-card summary::after { content: '+'; color: var(--teal); font-family: 'Work Sans',Arial,sans-serif; font-size: 24px; font-weight: 500; }
   .category-card[open] summary::after { content: '\2212'; }
   .category-body { padding: 0 24px 22px; }
   .category-body p { color: var(--muted); font-size: 14.5px; line-height: 1.65; margin: 0 0 12px; }
   .category-body ul { margin: 0; padding-left: 20px; color: var(--ink-soft); font-size: 14px; line-height: 1.7; }
   .tools-note { margin-top: 28px; padding: 22px 24px; border-left: 5px solid var(--teal); border-radius: 8px; background: var(--tint); }
   .tools-note p { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.65; }
-  @media (max-width: 760px) { .category-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) {
+    .tool-row { grid-template-columns: 52px minmax(0,1fr) auto; }
+    .tool-status { grid-column: 2; grid-row: 2; margin-top: 4px; }
+    .tool-action { grid-column: 3; grid-row: 1 / span 2; }
+  }
+  @media (max-width: 680px) {
+    .tool-row { grid-template-columns: 48px 1fr; gap: 16px; padding: 20px; }
+    .tool-content { grid-column: 2; }
+    .tool-status { grid-column: 2; grid-row: auto; }
+    .tool-action { grid-column: 2; grid-row: auto; justify-self: stretch; width: 100%; }
+    .category-grid { grid-template-columns: 1fr; }
+  }
 </style>
 <script src="/theme.js"></script>
-  <script src="/site-sections.js"></script>
+<script src="/site-sections.js"></script>
 </head>
 <body>
   <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
@@ -86,39 +151,49 @@
       </div>
     </section>
 
-    <section class="section" style="padding-top:24px;">
+    <section class="section" style="padding-top:22px;">
       <div class="wrap">
-        <div class="grid-3">
-          <a id="materials-quality" href="request-topic.html" class="card tool-card">
+        <div class="tool-directory" aria-label="Engineering tool directory">
+          <a id="materials-quality" href="tools/material-specification-compliance-checker.html" class="tool-row">
             <div class="tool-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM8 9h8M8 13h5M8 17h3"/></svg>
             </div>
-            <span class="tool-status">In development</span>
-            <h3>Material Specification Compliance Checker</h3>
-            <p>Compare chemistry, tensile, Charpy, and other test results against selected CSA or ASTM material requirements.</p>
-            <span class="tool-link">Request early access &rarr;</span>
+            <div class="tool-content">
+              <h2>Material Specification Compliance Checker</h2>
+              <p>Compare chemistry, tensile, Charpy, dimensional, and certification results against selected CSA, ASTM, customer, or internal requirements.</p>
+              <div class="tool-tags" aria-label="Checker capabilities">
+                <span>Chemistry</span><span>Mechanical</span><span>Charpy</span><span>Dimensions</span><span>Certification</span>
+              </div>
+            </div>
+            <span class="tool-status available">Available</span>
+            <span class="tool-action primary tool-link">Open checker &rarr;</span>
           </a>
 
-          <a id="engineering-calculators" href="request-topic.html" class="card tool-card">
+          <a id="engineering-calculators" href="request-topic.html" class="tool-row is-planned">
             <div class="tool-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/></svg>
             </div>
+            <div class="tool-content">
+              <h2>Engineering Calculator</h2>
+              <p>Quick calculations for common engineering quantities, including geometry, mass, pressure, flow, force, velocity, and process work.</p>
+            </div>
             <span class="tool-status">Planned</span>
-            <h3>Engineering Calculator</h3>
-            <p>Quick calculations for common engineering quantities, geometry, mass, pressure, flow, and process work.</p>
-            <span class="tool-link">Suggest a calculation &rarr;</span>
+            <span class="tool-action secondary tool-link">Suggest features &rarr;</span>
           </a>
 
-          <a id="converters" href="request-topic.html" class="card tool-card">
+          <a id="converters" href="request-topic.html" class="tool-row is-planned">
             <div class="tool-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h11l-3-3M17 17H6l3 3M18 7l-3 3M6 17l3-3"/></svg>
             </div>
+            <div class="tool-content">
+              <h2>Unit Converter</h2>
+              <p>Convert SI, Imperial, and common industry units for length, mass, pressure, temperature, energy, flow, density, speed, and force.</p>
+            </div>
             <span class="tool-status">Planned</span>
-            <h3>Unit Converter</h3>
-            <p>Convert engineering units for length, mass, pressure, temperature, energy, flow, and other technical quantities.</p>
-            <span class="tool-link">Suggest a conversion &rarr;</span>
+            <span class="tool-action secondary tool-link">Suggest units &rarr;</span>
           </a>
         </div>
+        <p class="directory-note">Available tools open directly. Planned tools link to the request form so you can help define the most useful features.</p>
       </div>
     </section>
 
