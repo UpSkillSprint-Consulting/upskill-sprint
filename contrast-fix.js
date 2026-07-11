@@ -12,6 +12,7 @@
   const REPAIR_SELECTOR = '.' + LIGHT_CLASS + ', .' + DARK_CLASS;
   const SKIP_SELECTOR = 'script,style,noscript,template,svg,canvas,[data-contrast-ignore]';
   const DMAIC_LESSON_PATH = '/lessons/lean-six-sigma/dmaic-formula-encyclopedia';
+  const HYPOTHESIS_LESSON_PATH = '/lessons/hypothesis-testing-for-beginners';
   const THEME_TRANSITION_MS = 240;
 
   let scanQueued = false;
@@ -24,6 +25,36 @@
   function isLessonsPage() {
     const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
     return pathname === '/lessons' || pathname.endsWith('/lessons.html');
+  }
+
+  function correctHypothesisLessonLevel() {
+    const pathname = window.location.pathname.replace(/\.html$/i, '').replace(/\/+$/, '') || '/';
+
+    if (pathname.endsWith(HYPOTHESIS_LESSON_PATH)) {
+      const heading = Array.from(document.querySelectorAll('h1')).find(function (element) {
+        return element.textContent.trim() === 'Hypothesis Testing for Beginners';
+      });
+      const hero = heading && heading.closest('section');
+      const eyebrow = hero && hero.querySelector('.eyebrow');
+      if (eyebrow && /^Intermediate\b/i.test(eyebrow.textContent.trim())) {
+        eyebrow.innerHTML = eyebrow.innerHTML.replace(/^Intermediate/i, 'Beginner');
+      }
+    }
+
+    if (isLessonsPage()) {
+      const row = Array.from(document.querySelectorAll('[data-lesson-item]')).find(function (lesson) {
+        const href = lesson.getAttribute('href') || '';
+        return href.includes('hypothesis-testing-for-beginners');
+      });
+
+      if (row) {
+        row.dataset.level = 'beginner';
+        const level = row.querySelector('.lesson-meta span');
+        if (level && level.textContent.trim().toLowerCase() === 'intermediate') {
+          level.textContent = 'Beginner';
+        }
+      }
+    }
   }
 
   function ensureDmaicFormulaLesson() {
@@ -361,6 +392,7 @@
   }
 
   function initialize() {
+    correctHypothesisLessonLevel();
     ensureDmaicFormulaLesson();
     scan(document);
 
@@ -383,7 +415,10 @@
           mutation.type === 'attributes' ||
           mutation.addedNodes.length > 0;
       });
-      if (changed) queueScan(document);
+      if (changed) {
+        correctHypothesisLessonLevel();
+        queueScan(document);
+      }
     });
 
     observer.observe(document.documentElement, {
@@ -401,7 +436,10 @@
 
     window.addEventListener('upskill:themechange', refreshForTheme);
     window.addEventListener('resize', function () { queueScan(document); }, { passive: true });
-    window.addEventListener('load', function () { refreshForTheme(); }, { once: true });
+    window.addEventListener('load', function () {
+      correctHypothesisLessonLevel();
+      refreshForTheme();
+    }, { once: true });
   }
 
   if (document.readyState === 'loading') {
