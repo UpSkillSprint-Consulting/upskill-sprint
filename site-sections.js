@@ -3,6 +3,7 @@
 
   const TOOLS_PATH = '/engineering-tools.html';
   const MATERIAL_CHECKER_PATH = '/tools/material-specification-compliance-checker.html';
+  const UNIT_CONVERTER_PATH = '/tools/unit-converter.html';
 
   function isEngineeringToolsPage() {
     return window.location.pathname.endsWith('/engineering-tools.html');
@@ -31,12 +32,12 @@
   }
 
   function addToolsLinkToFooter() {
-    const quickLinksHeading = Array.from(document.querySelectorAll('footer h4')).find(function (heading) {
-      return heading.textContent.trim().toLowerCase() === 'quick links';
+    const heading = Array.from(document.querySelectorAll('footer h4')).find(function (item) {
+      return item.textContent.trim().toLowerCase() === 'quick links';
     });
-    if (!quickLinksHeading) return;
+    if (!heading) return;
 
-    const column = quickLinksHeading.parentElement;
+    const column = heading.parentElement;
     if (!column || column.querySelector('a[href*="engineering-tools.html"]')) return;
     const lessonLink = Array.from(column.querySelectorAll('a')).find(function (link) {
       return link.textContent.trim() === 'Lessons';
@@ -75,16 +76,16 @@
             <p style="font-size:14px;color:var(--muted);margin:0 0 16px;">Quick calculations for geometry, mass, pressure, flow, and process work.</p>
             <span style="font-size:13.5px;font-weight:600;">Explore calculators &rarr;</span>
           </a>
-          <a href="/engineering-tools.html#converters" class="card" style="color:var(--ink);">
+          <a href="${UNIT_CONVERTER_PATH}" class="card" style="color:var(--ink);">
             <div style="width:36px;height:36px;border-radius:8px;background:var(--teal);margin-bottom:18px;"></div>
-            <p style="font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;">Planned</p>
+            <p style="font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;">Available</p>
             <h3 style="font-size:17px;margin:0 0 10px;">Unit Converter</h3>
             <p style="font-size:14px;color:var(--muted);margin:0 0 16px;">Convert SI, Imperial, and common industry units used in technical work.</p>
-            <span style="font-size:13.5px;font-weight:600;">Explore converters &rarr;</span>
+            <span style="font-size:13.5px;font-weight:600;">Open converter &rarr;</span>
           </a>
         </div>
         <div style="margin-top:26px;">
-          <a href="/engineering-tools.html" class="btn btn-outline">Browse all Engineering Tools</a>
+          <a href="${TOOLS_PATH}" class="btn btn-outline">Browse all Engineering Tools</a>
         </div>
       </div>`;
     return section;
@@ -108,8 +109,8 @@
       return heading.textContent.trim() === 'Browse by category.';
     });
     if (popularHeading) {
-      const popularSection = popularHeading.closest('section');
-      const chipHolder = popularSection && popularSection.querySelector('div[style*="flex-wrap"]');
+      const section = popularHeading.closest('section');
+      const chipHolder = section && section.querySelector('div[style*="flex-wrap"]');
       if (chipHolder && !chipHolder.querySelector('a[href*="engineering-tools.html"]')) {
         const chip = document.createElement('a');
         chip.href = TOOLS_PATH;
@@ -141,24 +142,49 @@
     jumpArea.appendChild(link);
   }
 
-  function activateMaterialComplianceChecker() {
+  function activateToolCard(cardId, path, statusText, actionText, ariaLabel) {
     if (!isEngineeringToolsPage()) return;
-    const card = document.getElementById('materials-quality');
+    const card = document.getElementById(cardId);
     if (!card) return;
 
-    card.href = MATERIAL_CHECKER_PATH;
+    card.href = path;
+    card.classList.remove('is-planned');
     const status = card.querySelector('.tool-status');
     const action = card.querySelector('.tool-link');
-    if (status) status.textContent = 'Available';
-    if (action) action.innerHTML = 'Open checker &rarr;';
-    card.setAttribute('aria-label', 'Open Material Specification Compliance Checker');
+    if (status) {
+      status.textContent = statusText;
+      status.classList.add('available');
+    }
+    if (action) {
+      action.innerHTML = actionText;
+      action.classList.remove('secondary');
+      action.classList.add('primary');
+    }
+    card.setAttribute('aria-label', ariaLabel);
+  }
+
+  function activateAvailableTools() {
+    activateToolCard(
+      'materials-quality',
+      MATERIAL_CHECKER_PATH,
+      'Available',
+      'Open checker &rarr;',
+      'Open Material Specification Compliance Checker'
+    );
+    activateToolCard(
+      'converters',
+      UNIT_CONVERTER_PATH,
+      'Available',
+      'Open converter &rarr;',
+      'Open Engineering Unit Converter'
+    );
   }
 
   function initializeSiteSections() {
     ensureNavigation();
     ensureHomeContent();
     ensureLessonsLibraryLink();
-    activateMaterialComplianceChecker();
+    activateAvailableTools();
   }
 
   if (document.readyState === 'loading') {
