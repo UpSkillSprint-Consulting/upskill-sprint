@@ -312,6 +312,8 @@ html[data-theme="light"] .theme-toggle::after{ background:#132238; }
 }
 
 </style>
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
 </head>
 <body>
 
@@ -392,37 +394,6 @@ html[data-theme="light"] .theme-toggle::after{ background:#132238; }
   <p><strong>Accuracy:</strong> conversion factors are exact values as defined by NIST SP&nbsp;811 / the International System of Units (e.g. 1&nbsp;in = 25.4&nbsp;mm exactly, 1&nbsp;lbf = 4.448&nbsp;221&nbsp;615&nbsp;260&nbsp;5&nbsp;N exactly). Displayed values are rounded to the selected precision; hover any field or use Copy to get the full-precision value. Hardness conversion is an empirical correlation (ASTM&nbsp;E140, non-austenitic steel) and is approximate by nature.</p>
   <p style="margin-top:6px">UpSkill Sprint Consulting &mdash; practical tools for quality &amp; continuous-improvement professionals.</p>
 </footer>
-
-<script>
-(function(){
-  "use strict";
-  const key="upskill-theme";
-  const root=document.documentElement;
-  const media=window.matchMedia("(prefers-color-scheme: dark)");
-  function saved(){ try{ const v=localStorage.getItem(key); return v==="dark"||v==="light"?v:null; }catch(e){ return null; } }
-  function apply(theme,save){
-    const dark=theme==="dark";
-    root.dataset.theme=dark?"dark":"light";
-    const toggle=document.getElementById("theme-toggle");
-    if(toggle){
-      toggle.setAttribute("aria-checked",String(dark));
-      toggle.setAttribute("aria-label",dark?"Switch to light mode":"Switch to dark mode");
-      toggle.title=dark?"Switch to light mode":"Switch to dark mode";
-    }
-    const meta=document.querySelector('meta[name="theme-color"]');
-    if(meta) meta.content=dark?"#0A1118":"#F5F7FA";
-    if(save){ try{ localStorage.setItem(key,dark?"dark":"light"); }catch(e){} }
-  }
-  apply(saved()||(media.matches?"dark":"light"),false);
-  document.addEventListener("DOMContentLoaded",function(){
-    const toggle=document.getElementById("theme-toggle");
-    if(toggle) toggle.addEventListener("click",function(){
-      apply(root.dataset.theme==="dark"?"light":"dark",true);
-    });
-  },{once:true});
-  media.addEventListener("change",function(e){ if(!saved()) apply(e.matches?"dark":"light",false); });
-}());
-</script>
 
 <script>
 "use strict";
