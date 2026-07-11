@@ -6,6 +6,7 @@ on:
     branches:
       - main
     paths:
+      - '**/*.html'
       - theme.js
       - .github/workflows/apply-global-theme.yml
 
