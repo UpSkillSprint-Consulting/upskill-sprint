@@ -2,6 +2,7 @@
   'use strict';
 
   const TOOLS_PATH = '/engineering-tools.html';
+  const MATERIAL_CHECKER_PATH = '/tools/material-specification-compliance-checker.html';
 
   function isEngineeringToolsPage() {
     return window.location.pathname.endsWith('/engineering-tools.html');
@@ -60,12 +61,12 @@
         <h2 style="font-size:28px;margin:0 0 12px;max-width:700px;">Calculators, converters, and technical checkers.</h2>
         <p style="font-size:15.5px;line-height:1.7;color:var(--muted);margin:0 0 32px;max-width:760px;">A growing tools area for materials, quality, engineering calculations, statistics, and unit conversion.</p>
         <div class="grid-3">
-          <a href="/engineering-tools.html#materials-quality" class="card" style="color:var(--ink);">
+          <a href="${MATERIAL_CHECKER_PATH}" class="card" style="color:var(--ink);">
             <div style="width:36px;height:36px;border-radius:8px;background:var(--teal);margin-bottom:18px;"></div>
-            <p style="font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;">In development</p>
+            <p style="font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;">Available</p>
             <h3 style="font-size:17px;margin:0 0 10px;">Material Specification Compliance Checker</h3>
             <p style="font-size:14px;color:var(--muted);margin:0 0 16px;">Compare chemistry and mechanical test results against selected CSA or ASTM requirements.</p>
-            <span style="font-size:13.5px;font-weight:600;">View tool roadmap &rarr;</span>
+            <span style="font-size:13.5px;font-weight:600;">Open checker &rarr;</span>
           </a>
           <a href="/engineering-tools.html#engineering-calculators" class="card" style="color:var(--ink);">
             <div style="width:36px;height:36px;border-radius:8px;background:var(--navy);margin-bottom:18px;"></div>
@@ -140,10 +141,24 @@
     jumpArea.appendChild(link);
   }
 
+  function activateMaterialComplianceChecker() {
+    if (!isEngineeringToolsPage()) return;
+    const card = document.getElementById('materials-quality');
+    if (!card) return;
+
+    card.href = MATERIAL_CHECKER_PATH;
+    const status = card.querySelector('.tool-status');
+    const action = card.querySelector('.tool-link');
+    if (status) status.textContent = 'Available';
+    if (action) action.innerHTML = 'Open checker &rarr;';
+    card.setAttribute('aria-label', 'Open Material Specification Compliance Checker');
+  }
+
   function initializeSiteSections() {
     ensureNavigation();
     ensureHomeContent();
     ensureLessonsLibraryLink();
+    activateMaterialComplianceChecker();
   }
 
   if (document.readyState === 'loading') {
