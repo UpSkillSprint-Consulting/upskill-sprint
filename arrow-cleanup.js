@@ -7,6 +7,7 @@
   const ARROW_ONLY = /^(?:[\s\u00a0]*(?:←|⟵|↩|↶|⬅|⇐|⟸|→|⟶|➜|➝|➞|➡|⟹|<-+|-+>)[\s\u00a0]*)+$/u;
   const AFTER_CLASS = 'upskill-remove-after-arrow';
   const BEFORE_CLASS = 'upskill-remove-before-arrow';
+  const HTML_EXTENSION = /\.html$/i;
   let scanScheduled = false;
 
   function ensureStyles() {
@@ -81,7 +82,65 @@
       element.classList.toggle(AFTER_CLASS, ARROW_ONLY.test(afterContent));
       element.classList.toggle(BEFORE_CLASS, ARROW_ONLY.test(beforeContent));
     } catch (error) {
-      // The visible text cleanup still works when pseudo-element styles are unavailable.
+      // Visible text and URL cleanup still work when pseudo-element styles are unavailable.
+    }
+  }
+
+  function cleanPathname(pathname) {
+    if (/\/index\.html$/i.test(pathname)) {
+      return pathname.replace(/index\.html$/i, '');
+    }
+    return pathname.replace(HTML_EXTENSION, '');
+  }
+
+  function cleanInternalLink(anchor) {
+    if (!(anchor instanceof HTMLAnchorElement) || anchor.hasAttribute('download')) return;
+
+    const rawHref = anchor.getAttribute('href');
+    if (!rawHref || rawHref.startsWith('#') || /^(?:mailto:|tel:|javascript:|data:)/i.test(rawHref)) return;
+
+    try {
+      const url = new URL(rawHref, window.location.href);
+      if (url.origin !== window.location.origin || !HTML_EXTENSION.test(url.pathname)) return;
+
+      url.pathname = cleanPathname(url.pathname);
+      anchor.setAttribute('href', url.pathname + url.search + url.hash);
+    } catch (error) {
+      // Leave invalid or intentionally non-standard links unchanged.
+    }
+  }
+
+  function cleanCanonicalAndSocialUrls() {
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical && canonical.href) {
+      try {
+        const url = new URL(canonical.href, window.location.href);
+        if (url.origin === window.location.origin && HTML_EXTENSION.test(url.pathname)) {
+          url.pathname = cleanPathname(url.pathname);
+          canonical.href = url.href;
+        }
+      } catch (error) {}
+    }
+
+    document.querySelectorAll('meta[property="og:url"]').forEach(function (meta) {
+      try {
+        const url = new URL(meta.content, window.location.href);
+        if (url.origin === window.location.origin && HTML_EXTENSION.test(url.pathname)) {
+          url.pathname = cleanPathname(url.pathname);
+          meta.content = url.href;
+        }
+      } catch (error) {}
+    });
+  }
+
+  function cleanBrowserAddress() {
+    if (!HTML_EXTENSION.test(window.location.pathname)) return;
+
+    const cleanUrl = cleanPathname(window.location.pathname) + window.location.search + window.location.hash;
+    try {
+      window.history.replaceState(window.history.state, document.title, cleanUrl);
+    } catch (error) {
+      // Netlify Pretty URLs still handle clean paths even if History API access is restricted.
     }
   }
 
@@ -89,6 +148,7 @@
     if (!(element instanceof Element)) return;
     removeTextArrows(element);
     removePseudoElementArrow(element);
+    if (element instanceof HTMLAnchorElement) cleanInternalLink(element);
   }
 
   function scan(rootNode) {
@@ -103,25 +163,91 @@
     }
   }
 
-  function scheduleScan(rootNode) {
+  function repairEngineeringToolsCleanRoute() {
+    const pathname = cleanPathname(window.location.pathname);
+    if (pathname !== '/engineering-tools') return;
+
+    const tools = [
+      {
+        id: 'materials-quality',
+        path: '/tools/material-specification-compliance-checker',
+        action: 'Open checker',
+        label: 'Open Material Specification Compliance Checker'
+      },
+      {
+        id: 'engineering-calculators',
+        path: '/tools/engineering-statistics-calculator',
+        action: 'Open calculator',
+        label: 'Open Engineering and Statistics Calculator',
+        title: 'Engineering &amp; Statistics Calculator',
+        description: 'Scientific calculations, descriptive statistics and regression, 16 probability distributions, reliability metrics, and nine hypothesis-test workflows.'
+      },
+      {
+        id: 'converters',
+        path: '/tools/unit-converter',
+        action: 'Open converter',
+        label: 'Open Engineering Unit Converter'
+      }
+    ];
+
+    tools.forEach(function (tool) {
+      const card = document.getElementById(tool.id);
+      if (!card) return;
+
+      card.setAttribute('href', tool.path);
+      card.classList.remove('is-planned');
+      card.setAttribute('aria-label', tool.label);
+
+      const status = card.querySelector('.tool-status');
+      if (status) {
+        status.textContent = 'Available';
+        status.classList.add('available');
+      }
+
+      const action = card.querySelector('.tool-link');
+      if (action) {
+        action.textContent = tool.action;
+        action.classList.remove('secondary');
+        action.classList.add('primary');
+      }
+
+      const heading = card.querySelector('.tool-content h2');
+      if (heading && tool.title) heading.innerHTML = tool.title;
+
+      const description = card.querySelector('.tool-content p');
+      if (description && tool.description) description.textContent = tool.description;
+    });
+
+    document.querySelectorAll('a[href$="engineering-tools.html"], a[href="/engineering-tools"]').forEach(function (link) {
+      link.setAttribute('href', '/engineering-tools');
+      if (link.textContent.trim() === 'Engineering Tools') link.setAttribute('aria-current', 'page');
+    });
+  }
+
+  function scheduleScan() {
     if (scanScheduled) return;
     scanScheduled = true;
 
     requestAnimationFrame(function () {
       scanScheduled = false;
-      scan(rootNode || document);
+      scan(document);
+      cleanCanonicalAndSocialUrls();
+      repairEngineeringToolsCleanRoute();
     });
   }
 
   function initialize() {
     ensureStyles();
+    cleanBrowserAddress();
+    cleanCanonicalAndSocialUrls();
     scan(document);
+    repairEngineeringToolsCleanRoute();
 
     const observer = new MutationObserver(function (mutations) {
       const relevantMutation = mutations.find(function (mutation) {
         return mutation.type === 'characterData' || mutation.addedNodes.length > 0;
       });
-      if (relevantMutation) scheduleScan(document);
+      if (relevantMutation) scheduleScan();
     });
 
     observer.observe(document.documentElement, {
