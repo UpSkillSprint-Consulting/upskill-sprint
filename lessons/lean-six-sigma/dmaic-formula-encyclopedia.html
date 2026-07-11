@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DMAIC Formula Encyclopedia | UpSkill Sprint Consulting</title>
   <meta name="description" content="An interactive ASQ DMAIC formula encyclopedia covering CSSBB, CQE and Certified Master Black Belt formula families across Pre-DMAIC, Define, Measure, Analyze, Improve and Control.">
-  <link rel="canonical" href="https://upskillsprint.com/lessons/lean-six-sigma/dmaic-formula-encyclopedia.html">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/lean-six-sigma/dmaic-formula-encyclopedia">
   <meta property="og:type" content="article">
   <meta property="og:title" content="DMAIC Formula Encyclopedia | UpSkill Sprint Consulting">
   <meta property="og:description" content="Search and study validated Lean Six Sigma, quality engineering and Master Black Belt formula families organized by DMAIC phase.">
   <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
-  <meta property="og:url" content="https://upskillsprint.com/lessons/lean-six-sigma/dmaic-formula-encyclopedia.html">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/lean-six-sigma/dmaic-formula-encyclopedia">
   <meta name="twitter:card" content="summary">
   <style>
     :root { color-scheme: light dark; }
@@ -86,6 +86,142 @@
       return fflate.strFromU8(fflate.gunzipSync(bytes));
     }
 
+    function siteHeaderMarkup() {
+      return `
+        <header class="site upskill-lesson-sitebar">
+          <div class="upskill-sitebar-inner">
+            <a class="upskill-sitebar-brand" href="/" aria-label="UpSkill Sprint Consulting home">
+              <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo" width="36" height="36">
+              <span>UpSkill Sprint Consulting</span>
+            </a>
+            <div class="header-actions upskill-sitebar-actions">
+              <a class="upskill-sitebar-link" href="/">Back to Home</a>
+              <a class="upskill-sitebar-link" href="/lessons#lean-six-sigma">Back to Lean Six Sigma</a>
+            </div>
+          </div>
+        </header>`;
+    }
+
+    function siteHeaderStyles() {
+      return `
+        <style id="upskill-lesson-site-header">
+          .upskill-lesson-sitebar {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 5000 !important;
+            display: flex !important;
+            align-items: center !important;
+            width: 100% !important;
+            min-height: 72px !important;
+            margin: 0 !important;
+            padding: 0 clamp(18px, 4vw, 40px) !important;
+            border: 0 !important;
+            border-bottom: 1px solid rgba(148, 163, 184, .24) !important;
+            background: rgba(7, 17, 31, .97) !important;
+            box-shadow: 0 8px 24px rgba(2, 8, 23, .14) !important;
+            backdrop-filter: blur(14px);
+          }
+          .upskill-sitebar-inner {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 24px !important;
+            width: min(100%, 1320px) !important;
+            min-height: 72px !important;
+            margin: 0 auto !important;
+          }
+          .upskill-sitebar-brand {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 11px !important;
+            flex: 0 1 auto !important;
+            color: #f8fafc !important;
+            font: 700 15px/1.2 "Work Sans", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+            text-decoration: none !important;
+            white-space: nowrap !important;
+          }
+          .upskill-sitebar-brand:hover,
+          .upskill-sitebar-brand:focus,
+          .upskill-sitebar-brand:visited {
+            color: #f8fafc !important;
+            text-decoration: none !important;
+          }
+          .upskill-sitebar-brand img {
+            display: block !important;
+            width: 36px !important;
+            height: 36px !important;
+            flex: 0 0 36px !important;
+            object-fit: contain !important;
+          }
+          .upskill-sitebar-actions {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 9px !important;
+            margin: 0 !important;
+          }
+          .upskill-sitebar-link {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            min-height: 40px !important;
+            padding: 9px 13px !important;
+            border: 1px solid rgba(148, 163, 184, .34) !important;
+            border-radius: 8px !important;
+            background: rgba(255, 255, 255, .04) !important;
+            color: #e8eef6 !important;
+            font: 650 13px/1.2 "Work Sans", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+            text-decoration: none !important;
+            white-space: nowrap !important;
+            transition: background-color .18s ease, border-color .18s ease, color .18s ease !important;
+          }
+          .upskill-sitebar-link:hover,
+          .upskill-sitebar-link:focus {
+            border-color: rgba(45, 212, 191, .72) !important;
+            background: rgba(45, 212, 191, .12) !important;
+            color: #ffffff !important;
+            text-decoration: none !important;
+            outline: none !important;
+          }
+          .upskill-lesson-sitebar .theme-control {
+            margin-right: 3px !important;
+          }
+          @media (max-width: 760px) {
+            .upskill-lesson-sitebar {
+              min-height: 64px !important;
+              padding: 0 14px !important;
+            }
+            .upskill-sitebar-inner {
+              min-height: 64px !important;
+              gap: 12px !important;
+            }
+            .upskill-sitebar-brand span {
+              display: none !important;
+            }
+            .upskill-sitebar-actions {
+              gap: 6px !important;
+            }
+            .upskill-sitebar-link {
+              min-height: 38px !important;
+              padding: 8px 10px !important;
+              font-size: 12px !important;
+            }
+          }
+          @media (max-width: 480px) {
+            .upskill-sitebar-link:first-of-type {
+              display: none !important;
+            }
+            .upskill-sitebar-link {
+              white-space: normal !important;
+              text-align: center !important;
+            }
+          }
+          @media print {
+            .upskill-lesson-sitebar { display: none !important; }
+          }
+        </style>`;
+    }
+
     try {
       const responses = await Promise.all(partNames.map(async function (partName) {
         const response = await fetch(assetRoot + partName, { cache: 'force-cache' });
@@ -104,11 +240,15 @@
         )
         .replace(
           '</head>',
-          '<style id="upskill-lesson-navigation">.upskill-back-link{position:fixed;z-index:1000;left:16px;bottom:16px;display:inline-flex;align-items:center;min-height:42px;padding:9px 14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:#082f49;color:#fff!important;text-decoration:none;font:750 13px/1.2 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;box-shadow:0 8px 24px rgba(15,23,42,.22)}.upskill-back-link:hover,.upskill-back-link:focus{background:#075985;outline:3px solid rgba(14,165,233,.22);outline-offset:2px}@media print{.upskill-back-link{display:none!important}}</style></head>'
+          siteHeaderStyles() +
+          '<script src="/theme.js"><\\/script>' +
+          '<script src="/arrow-cleanup.js"><\\/script>' +
+          '<script src="/contrast-fix.js"><\\/script>' +
+          '</head>'
         )
         .replace(
           '<body>',
-          '<body><a class="upskill-back-link" href="/lessons#lean-six-sigma" aria-label="Return to Lean Six Sigma lessons">Back to Lean Six Sigma lessons</a>'
+          '<body>' + siteHeaderMarkup()
         );
 
       document.open();
