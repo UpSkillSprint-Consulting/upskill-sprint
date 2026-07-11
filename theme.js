@@ -3,78 +3,11 @@
 
   const STORAGE_KEY = 'upskill-theme';
   const root = document.documentElement;
-  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+  const TOGGLE_SELECTOR = '[data-theme-toggle], #theme-toggle, .theme-toggle';
   const MATERIAL_CHECKER_PATH = '/tools/material-specification-compliance-checker.html';
-
-  function installMaterialCheckerBrandFix() {
-    if (!window.location.pathname.endsWith(MATERIAL_CHECKER_PATH)) return;
-    if (Document.prototype.__upskillBrandFixInstalled) return;
-
-    const nativeWrite = Document.prototype.write;
-
-    function brandFixScript() {
-      return `<script>
-        (function () {
-          function replaceInitialsWithLogo() {
-            var scopes = Array.prototype.slice.call(document.querySelectorAll('header, nav, [class*="header"], [class*="brand"]'));
-            var candidates = [];
-
-            scopes.forEach(function (scope) {
-              candidates.push(scope);
-              candidates = candidates.concat(Array.prototype.slice.call(scope.querySelectorAll('span, div, a, strong')));
-            });
-
-            var badge = candidates.find(function (element) {
-              if (!element || element.children.length || element.textContent.trim().toUpperCase() !== 'US') return false;
-              var rect = element.getBoundingClientRect();
-              return rect.top < 180 && rect.width <= 90 && rect.height <= 90;
-            });
-
-            if (!badge) return false;
-
-            var logo = document.createElement('img');
-            logo.src = '/assets/logo-icon.png';
-            logo.alt = 'UpSkill Sprint Consulting logo';
-            logo.width = 38;
-            logo.height = 38;
-            logo.style.cssText = 'display:block;width:38px;height:38px;object-fit:contain;';
-
-            badge.replaceChildren(logo);
-            badge.setAttribute('aria-label', 'UpSkill Sprint Consulting');
-            badge.style.cssText += ';display:flex;align-items:center;justify-content:center;width:40px;height:40px;min-width:40px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible;';
-            return true;
-          }
-
-          function startBrandFix() {
-            if (replaceInitialsWithLogo()) return;
-            var attempts = 0;
-            var timer = window.setInterval(function () {
-              attempts += 1;
-              if (replaceInitialsWithLogo() || attempts >= 100) window.clearInterval(timer);
-            }, 100);
-          }
-
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', startBrandFix, { once: true });
-          } else {
-            startBrandFix();
-          }
-        }());
-      <\/script>`;
-    }
-
-    Document.prototype.write = function () {
-      const chunks = Array.prototype.slice.call(arguments);
-      if (chunks.length === 1 && typeof chunks[0] === 'string' && chunks[0].includes('</body>')) {
-        chunks[0] = chunks[0].replace('</body>', brandFixScript() + '</body>');
-      }
-      return nativeWrite.apply(this, chunks);
-    };
-
-    Document.prototype.__upskillBrandFixInstalled = true;
-  }
-
-  installMaterialCheckerBrandFix();
+  const systemTheme = typeof window.matchMedia === 'function'
+    ? window.matchMedia('(prefers-color-scheme: dark)')
+    : { matches: false };
 
   function readSavedTheme() {
     try {
@@ -87,6 +20,55 @@
 
   function preferredTheme() {
     return readSavedTheme() || (systemTheme.matches ? 'dark' : 'light');
+  }
+
+  function updateMetaTheme(isDark) {
+    let meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = 'theme-color';
+      document.head.appendChild(meta);
+    }
+    meta.content = isDark ? '#0b1220' : '#ffffff';
+  }
+
+  function getThemeToggles() {
+    return Array.from(document.querySelectorAll(TOGGLE_SELECTOR));
+  }
+
+  function syncThemeToggles(isDark) {
+    getThemeToggles().forEach(function (toggle) {
+      toggle.setAttribute('aria-checked', String(isDark));
+      toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      toggle.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+      toggle.dataset.themeToggle = 'true';
+    });
+  }
+
+  function applyTheme(theme, savePreference) {
+    const resolvedTheme = theme === 'dark' ? 'dark' : 'light';
+    const isDark = resolvedTheme === 'dark';
+
+    root.dataset.theme = resolvedTheme;
+    root.style.colorScheme = resolvedTheme;
+    updateMetaTheme(isDark);
+    syncThemeToggles(isDark);
+
+    if (savePreference) {
+      try {
+        localStorage.setItem(STORAGE_KEY, resolvedTheme);
+      } catch (error) {
+        // The selected theme still applies for the current visit.
+      }
+    }
+
+    try {
+      window.dispatchEvent(new CustomEvent('upskill:themechange', {
+        detail: { theme: resolvedTheme }
+      }));
+    } catch (error) {
+      // Older browsers can still use the theme without the custom event.
+    }
   }
 
   function ensureThemeStyles() {
@@ -213,7 +195,7 @@
         border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(15,23,42,.28);
         transition: transform .2s ease;
       }
-      html[data-theme="dark"] .theme-toggle { background: var(--teal); border-color: var(--teal); }
+      html[data-theme="dark"] .theme-toggle { background: var(--teal, #2bb7c9); border-color: var(--teal, #2bb7c9); }
       html[data-theme="dark"] .theme-toggle::after { transform: translateX(22px); background: #f8fafc; }
       .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
@@ -224,39 +206,6 @@
     document.head.appendChild(style);
   }
 
-  function updateMetaTheme(isDark) {
-    let meta = document.querySelector('meta[name="theme-color"]');
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.name = 'theme-color';
-      document.head.appendChild(meta);
-    }
-    meta.content = isDark ? '#0b1220' : '#ffffff';
-  }
-
-  function syncToggle(isDark) {
-    const toggle = document.getElementById('theme-toggle');
-    if (!toggle) return;
-    toggle.setAttribute('aria-checked', String(isDark));
-    toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-    toggle.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
-  }
-
-  function applyTheme(theme, savePreference) {
-    const isDark = theme === 'dark';
-    root.dataset.theme = isDark ? 'dark' : 'light';
-    updateMetaTheme(isDark);
-    syncToggle(isDark);
-
-    if (savePreference) {
-      try {
-        localStorage.setItem(STORAGE_KEY, isDark ? 'dark' : 'light');
-      } catch (error) {
-        // The switch still works for the current visit.
-      }
-    }
-  }
-
   function themeControlMarkup() {
     return `
       <div class="theme-control" aria-label="Colour theme">
@@ -264,7 +213,7 @@
           <circle cx="12" cy="12" r="4"></circle>
           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
         </svg>
-        <button type="button" id="theme-toggle" class="theme-toggle" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode">
+        <button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode">
           <span class="sr-only">Toggle dark and light mode</span>
         </button>
         <svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -273,50 +222,198 @@
       </div>`;
   }
 
-  function ensureToggle() {
-    const header = document.querySelector('header.site');
-    if (!header) return;
+  function ensureThemeControl() {
+    if (getThemeToggles().length) {
+      syncThemeToggles(root.dataset.theme === 'dark');
+      return;
+    }
 
-    let toggle = document.getElementById('theme-toggle');
-    if (!toggle) {
-      let actions = header.querySelector('.header-actions');
+    const siteHeader = document.querySelector('header.site');
+    const toolActions = document.querySelector('.tool-top-actions');
+    if (!siteHeader && !toolActions) return;
+
+    const holder = document.createElement('div');
+    holder.innerHTML = themeControlMarkup().trim();
+    const control = holder.firstElementChild;
+
+    if (siteHeader) {
+      let actions = siteHeader.querySelector('.header-actions');
       if (!actions) {
         actions = document.createElement('div');
         actions.className = 'header-actions';
-        const mobileButton = header.querySelector('label.mobile-menu-btn');
-        const cta = header.querySelector('.header-cta');
+
+        const mobileButton = siteHeader.querySelector('label.mobile-menu-btn');
+        const cta = siteHeader.querySelector('.header-cta');
         if (mobileButton) actions.appendChild(mobileButton);
         if (cta) actions.appendChild(cta);
-        header.appendChild(actions);
+        siteHeader.appendChild(actions);
       }
-
-      const holder = document.createElement('div');
-      holder.innerHTML = themeControlMarkup().trim();
-      actions.insertBefore(holder.firstElementChild, actions.firstChild);
-      toggle = document.getElementById('theme-toggle');
+      actions.insertBefore(control, actions.firstChild);
+    } else {
+      toolActions.insertBefore(control, toolActions.firstChild);
     }
 
-    if (toggle && !toggle.dataset.themeBound) {
-      toggle.dataset.themeBound = 'true';
-      toggle.addEventListener('click', function () {
-        applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true);
-      });
+    syncThemeToggles(root.dataset.theme === 'dark');
+  }
+
+  function handleThemeToggleClick(event) {
+    const target = event.target instanceof Element
+      ? event.target.closest(TOGGLE_SELECTOR)
+      : null;
+
+    if (!target) return;
+
+    event.preventDefault();
+    applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true);
+  }
+
+  function initializeThemeControls() {
+    ensureThemeControl();
+    syncThemeToggles(root.dataset.theme === 'dark');
+  }
+
+  function installMaterialCheckerBrandFix() {
+    if (!window.location.pathname.endsWith(MATERIAL_CHECKER_PATH)) return;
+    if (Document.prototype.__upskillBrandFixInstalled) return;
+
+    const nativeWrite = Document.prototype.write;
+
+    function injectedToolScript() {
+      return `<script>
+        (function () {
+          var storageKey = 'upskill-theme';
+          var selector = '[data-theme-toggle], #theme-toggle, .theme-toggle';
+
+          function readTheme() {
+            try {
+              var saved = localStorage.getItem(storageKey);
+              if (saved === 'dark' || saved === 'light') return saved;
+            } catch (error) {}
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+
+          function syncToggles(isDark) {
+            Array.prototype.forEach.call(document.querySelectorAll(selector), function (toggle) {
+              toggle.setAttribute('aria-checked', String(isDark));
+              toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+              toggle.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+              toggle.setAttribute('data-theme-toggle', 'true');
+            });
+          }
+
+          function applyToolTheme(theme, save) {
+            var resolved = theme === 'dark' ? 'dark' : 'light';
+            var isDark = resolved === 'dark';
+            document.documentElement.setAttribute('data-theme', resolved);
+            document.documentElement.style.colorScheme = resolved;
+            syncToggles(isDark);
+
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (!meta) {
+              meta = document.createElement('meta');
+              meta.name = 'theme-color';
+              document.head.appendChild(meta);
+            }
+            meta.content = isDark ? '#0b1220' : '#ffffff';
+
+            if (save) {
+              try { localStorage.setItem(storageKey, resolved); } catch (error) {}
+            }
+          }
+
+          function replaceInitialsWithLogo() {
+            var scopes = Array.prototype.slice.call(document.querySelectorAll('header, nav, [class*="header"], [class*="brand"]'));
+            var candidates = [];
+
+            scopes.forEach(function (scope) {
+              candidates.push(scope);
+              candidates = candidates.concat(Array.prototype.slice.call(scope.querySelectorAll('span, div, a, strong')));
+            });
+
+            var badge = candidates.find(function (element) {
+              if (!element || element.children.length || element.textContent.trim().toUpperCase() !== 'US') return false;
+              var rect = element.getBoundingClientRect();
+              return rect.top < 180 && rect.width <= 90 && rect.height <= 90;
+            });
+
+            if (!badge) return false;
+
+            var logo = document.createElement('img');
+            logo.src = '/assets/logo-icon.png';
+            logo.alt = 'UpSkill Sprint Consulting logo';
+            logo.width = 38;
+            logo.height = 38;
+            logo.style.cssText = 'display:block;width:38px;height:38px;object-fit:contain;';
+
+            badge.replaceChildren(logo);
+            badge.setAttribute('aria-label', 'UpSkill Sprint Consulting');
+            badge.style.cssText += ';display:flex;align-items:center;justify-content:center;width:40px;height:40px;min-width:40px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible;';
+            return true;
+          }
+
+          document.addEventListener('click', function (event) {
+            var toggle = event.target && event.target.closest ? event.target.closest(selector) : null;
+            if (!toggle) return;
+            event.preventDefault();
+            applyToolTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true);
+          }, true);
+
+          function startEnhancements() {
+            applyToolTheme(readTheme(), false);
+            if (replaceInitialsWithLogo()) return;
+            var attempts = 0;
+            var timer = window.setInterval(function () {
+              attempts += 1;
+              if (replaceInitialsWithLogo() || attempts >= 100) window.clearInterval(timer);
+            }, 100);
+          }
+
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startEnhancements, { once: true });
+          } else {
+            startEnhancements();
+          }
+        }());
+      <\/script>`;
     }
 
-    syncToggle(root.dataset.theme === 'dark');
+    Document.prototype.write = function () {
+      const chunks = Array.prototype.slice.call(arguments);
+      if (chunks.length === 1 && typeof chunks[0] === 'string' && chunks[0].includes('</body>')) {
+        chunks[0] = chunks[0].replace('</body>', injectedToolScript() + '</body>');
+      }
+      return nativeWrite.apply(this, chunks);
+    };
+
+    Document.prototype.__upskillBrandFixInstalled = true;
   }
 
   ensureThemeStyles();
+  installMaterialCheckerBrandFix();
   applyTheme(preferredTheme(), false);
 
+  document.addEventListener('click', handleThemeToggleClick, true);
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', ensureToggle, { once: true });
+    document.addEventListener('DOMContentLoaded', initializeThemeControls, { once: true });
   } else {
-    ensureToggle();
+    initializeThemeControls();
   }
 
-  systemTheme.addEventListener('change', function (event) {
-    if (readSavedTheme()) return;
-    applyTheme(event.matches ? 'dark' : 'light', false);
+  if (typeof systemTheme.addEventListener === 'function') {
+    systemTheme.addEventListener('change', function (event) {
+      if (readSavedTheme()) return;
+      applyTheme(event.matches ? 'dark' : 'light', false);
+    });
+  } else if (typeof systemTheme.addListener === 'function') {
+    systemTheme.addListener(function (event) {
+      if (readSavedTheme()) return;
+      applyTheme(event.matches ? 'dark' : 'light', false);
+    });
+  }
+
+  window.addEventListener('storage', function (event) {
+    if (event.key !== STORAGE_KEY) return;
+    applyTheme(event.newValue === 'dark' ? 'dark' : 'light', false);
   });
 }());
