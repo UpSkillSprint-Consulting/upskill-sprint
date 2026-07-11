@@ -94,10 +94,10 @@
               <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo" width="36" height="36">
               <span>UpSkill Sprint Consulting</span>
             </a>
-            <div class="header-actions upskill-sitebar-actions">
+            <nav class="upskill-sitebar-actions" aria-label="Lesson navigation">
               <a class="upskill-sitebar-link" href="/">Back to Home</a>
               <a class="upskill-sitebar-link" href="/lessons#lean-six-sigma">Back to Lean Six Sigma</a>
-            </div>
+            </nav>
           </div>
         </header>`;
     }
@@ -183,9 +183,6 @@
             text-decoration: none !important;
             outline: none !important;
           }
-          .upskill-lesson-sitebar .theme-control {
-            margin-right: 3px !important;
-          }
           @media (max-width: 760px) {
             .upskill-lesson-sitebar {
               min-height: 64px !important;
@@ -208,7 +205,7 @@
             }
           }
           @media (max-width: 480px) {
-            .upskill-sitebar-link:first-of-type {
+            .upskill-sitebar-link:first-child {
               display: none !important;
             }
             .upskill-sitebar-link {
@@ -240,11 +237,7 @@
         )
         .replace(
           '</head>',
-          siteHeaderStyles() +
-          '<script src="/theme.js"><\\/script>' +
-          '<script src="/arrow-cleanup.js"><\\/script>' +
-          '<script src="/contrast-fix.js"><\\/script>' +
-          '</head>'
+          siteHeaderStyles() + '</head>'
         )
         .replace(
           '<body>',
