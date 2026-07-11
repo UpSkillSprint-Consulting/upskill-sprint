@@ -12,9 +12,13 @@
   const REPAIR_SELECTOR = '.' + LIGHT_CLASS + ', .' + DARK_CLASS;
   const SKIP_SELECTOR = 'script,style,noscript,template,svg,canvas,[data-contrast-ignore]';
   const DMAIC_LESSON_PATH = '/lessons/lean-six-sigma/dmaic-formula-encyclopedia';
+  const THEME_TRANSITION_MS = 240;
 
   let scanQueued = false;
   let themeRefreshFrame = 0;
+  let themeSettleTimer = 0;
+  let themeFinalTimer = 0;
+  let themeSettlingUntil = 0;
   let suppressObserver = false;
 
   function isLessonsPage() {
@@ -246,14 +250,14 @@
   }
 
   function removeRepairClasses(rootNode) {
-    const root = rootNode || document;
+    const targetRoot = rootNode || document;
 
-    if (root instanceof Element && root.matches(REPAIR_SELECTOR)) {
-      root.classList.remove(LIGHT_CLASS, DARK_CLASS);
+    if (targetRoot instanceof Element && targetRoot.matches(REPAIR_SELECTOR)) {
+      targetRoot.classList.remove(LIGHT_CLASS, DARK_CLASS);
     }
 
-    if (root.querySelectorAll) {
-      root.querySelectorAll(REPAIR_SELECTOR).forEach(function (element) {
+    if (targetRoot.querySelectorAll) {
+      targetRoot.querySelectorAll(REPAIR_SELECTOR).forEach(function (element) {
         element.classList.remove(LIGHT_CLASS, DARK_CLASS);
       });
     }
@@ -266,8 +270,9 @@
     const rect = element.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) return;
 
-    const hadRepairClass = element.classList.contains(LIGHT_CLASS) || element.classList.contains(DARK_CLASS);
-    if (hadRepairClass) element.classList.remove(LIGHT_CLASS, DARK_CLASS);
+    if (element.classList.contains(LIGHT_CLASS) || element.classList.contains(DARK_CLASS)) {
+      element.classList.remove(LIGHT_CLASS, DARK_CLASS);
+    }
 
     const styles = getComputedStyle(element);
     if (styles.visibility === 'hidden' || styles.display === 'none' || Number(styles.opacity) === 0) return;
@@ -285,21 +290,21 @@
 
   function scan(rootNode) {
     ensureStyles();
-    const root = rootNode || document;
+    const targetRoot = rootNode || document;
 
     suppressObserver = true;
     try {
-      if (root instanceof Element && root.matches(TEXT_SELECTOR)) repairElement(root);
-      if (root.querySelectorAll) root.querySelectorAll(TEXT_SELECTOR).forEach(repairElement);
+      if (targetRoot instanceof Element && targetRoot.matches(TEXT_SELECTOR)) repairElement(targetRoot);
+      if (targetRoot.querySelectorAll) targetRoot.querySelectorAll(TEXT_SELECTOR).forEach(repairElement);
     } finally {
       window.setTimeout(function () {
-        suppressObserver = false;
+        if (performance.now() >= themeSettlingUntil) suppressObserver = false;
       }, 0);
     }
   }
 
   function queueScan(rootNode) {
-    if (scanQueued) return;
+    if (performance.now() < themeSettlingUntil || scanQueued) return;
     scanQueued = true;
 
     requestAnimationFrame(function () {
@@ -308,21 +313,51 @@
     });
   }
 
-  function refreshForTheme() {
+  function clearThemeRefreshJobs() {
     if (themeRefreshFrame) cancelAnimationFrame(themeRefreshFrame);
+    if (themeSettleTimer) clearTimeout(themeSettleTimer);
+    if (themeFinalTimer) clearTimeout(themeFinalTimer);
+    themeRefreshFrame = 0;
+    themeSettleTimer = 0;
+    themeFinalTimer = 0;
+  }
 
+  function refreshForTheme() {
+    clearThemeRefreshJobs();
+
+    const settleDelay = THEME_TRANSITION_MS + 70;
+    const finalDelay = THEME_TRANSITION_MS + 260;
+    themeSettlingUntil = performance.now() + finalDelay;
     suppressObserver = true;
+
+    // Remove every previously forced text colour immediately. Native theme
+    // variables can then animate from the old palette to the new palette.
     removeRepairClasses(document);
-
-    // Force the browser to resolve the new CSS variables and theme selectors now.
     void document.documentElement.offsetWidth;
-    scan(document);
 
-    // Recheck once more after layout and dynamically styled components settle.
+    // A second removal catches classes added by scripts in the same frame.
     themeRefreshFrame = requestAnimationFrame(function () {
       themeRefreshFrame = 0;
-      scan(document);
+      removeRepairClasses(document);
     });
+
+    // Do not measure contrast while the page background is still transitioning.
+    // Measuring during that interval was what reapplied white text to light mode.
+    themeSettleTimer = window.setTimeout(function () {
+      themeSettleTimer = 0;
+      removeRepairClasses(document);
+      void document.documentElement.offsetWidth;
+      scan(document);
+    }, settleDelay);
+
+    // Run one final pass after all component transitions and dynamic styles settle.
+    themeFinalTimer = window.setTimeout(function () {
+      themeFinalTimer = 0;
+      themeSettlingUntil = 0;
+      suppressObserver = false;
+      removeRepairClasses(document);
+      scan(document);
+    }, finalDelay);
   }
 
   function initialize() {
@@ -330,7 +365,7 @@
     scan(document);
 
     const observer = new MutationObserver(function (mutations) {
-      if (suppressObserver) return;
+      if (suppressObserver || performance.now() < themeSettlingUntil) return;
 
       const themeChanged = mutations.some(function (mutation) {
         return mutation.type === 'attributes' &&
