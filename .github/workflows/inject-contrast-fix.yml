@@ -22,8 +22,10 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import re
 
           script_tag = '<script src="/contrast-fix.js"></script>'
+          injected_expression = "'<script src=\"/contrast-fix.js\"><\\/script></body>'"
           changed = []
 
           for path in Path('.').rglob('*.html'):
@@ -33,19 +35,37 @@ jobs:
               text = path.read_text(encoding='utf-8')
               original = text
 
+              # Repair the malformed first-pass injection, if present.
+              broken = re.compile(
+                  r"document\.write\((finalHtml|html)\.replace\(" 
+                  r"'<script src=\"/contrast-fix\.js\"></script>\s*</body>',\s*"
+                  r"'<script src=\"/contrast-fix\.js\"><\\/script></body>'\)\);",
+                  re.S,
+              )
+              text = broken.sub(
+                  lambda match: "document.write(" + match.group(1) + ".replace('</body>', " + injected_expression + "));",
+                  text,
+              )
+
               # Dynamic tools replace the wrapper document after decompressing their payload.
               # Inject the contrast script into that generated document as well.
-              replacements = {
-                  'document.write(finalHtml);': "document.write(finalHtml.replace('</body>', '<script src=\"/contrast-fix.js\"><\\/script></body>'));",
-                  'document.write(html);': "document.write(html.replace('</body>', '<script src=\"/contrast-fix.js\"><\\/script></body>'));",
-              }
-              for old, new in replacements.items():
-                  if old in text and '/contrast-fix.js' not in text[text.find(old)-180:text.find(old)+250]:
-                      text = text.replace(old, new)
+              for variable in ('finalHtml', 'html'):
+                  plain = f'document.write({variable});'
+                  replacement = f"document.write({variable}.replace('</body>', {injected_expression}));"
+                  if plain in text:
+                      text = text.replace(plain, replacement)
 
-              # Standard HTML pages load the shared repair directly.
-              if script_tag not in text and '</body>' in text:
-                  text = text.replace('</body>', script_tag + '\n</body>', 1)
+              # Standard pages load the repair directly. Use the final closing body tag so
+              # JavaScript string literals containing </body> are never modified.
+              direct_script_at_end = re.search(
+                  r'<script src="/contrast-fix\.js"></script>\s*</body>\s*</html>\s*$',
+                  text,
+                  re.S,
+              )
+              if not direct_script_at_end:
+                  closing_body = text.lower().rfind('</body>')
+                  if closing_body >= 0:
+                      text = text[:closing_body] + script_tag + '\n' + text[closing_body:]
 
               if text != original:
                   path.write_text(text, encoding='utf-8')
@@ -65,5 +85,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add '*.html' '**/*.html'
-          git commit -m "Load contrast repair across all site pages [skip ci]"
+          git commit -m "Repair and load contrast fix across site [skip ci]"
           git push
