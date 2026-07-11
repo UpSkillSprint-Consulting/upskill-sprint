@@ -1,0 +1,53 @@
+name: Fix hypothesis testing lesson level
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-hypothesis-lesson-level.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Change lesson level to Beginner
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          lesson = Path('lessons/hypothesis-testing-for-beginners.html')
+          text = lesson.read_text(encoding='utf-8')
+          old = 'Intermediate &middot; 15 min read &middot; Minitab'
+          new = 'Beginner &middot; 15 min read &middot; Minitab'
+          if old not in text:
+              raise SystemExit('Lesson-level label was not found.')
+          lesson.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          library = Path('lessons.html')
+          text = library.read_text(encoding='utf-8')
+          old_row = '''<a class="lesson-row" href="lessons/hypothesis-testing-for-beginners.html" data-lesson-item data-topic="statistics" data-level="intermediate" data-interactive="false" data-search="hypothesis testing beginners minitab difference real noise p value statistics">
+              <div>
+                <div class="lesson-meta"><span>Intermediate</span><span>15 min read</span><span>Minitab</span></div>'''
+          new_row = '''<a class="lesson-row" href="lessons/hypothesis-testing-for-beginners.html" data-lesson-item data-topic="statistics" data-level="beginner" data-interactive="false" data-search="hypothesis testing beginners minitab difference real noise p value statistics">
+              <div>
+                <div class="lesson-meta"><span>Beginner</span><span>15 min read</span><span>Minitab</span></div>'''
+          if old_row not in text:
+              raise SystemExit('Lesson-library entry was not found.')
+          library.write_text(text.replace(old_row, new_row, 1), encoding='utf-8')
+          PY
+
+      - name: Remove one-time workflow and commit
+        run: |
+          rm .github/workflows/fix-hypothesis-lesson-level.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lessons/hypothesis-testing-for-beginners.html lessons.html .github/workflows/fix-hypothesis-lesson-level.yml
+          git commit -m "Set hypothesis testing lesson to Beginner [skip ci]"
+          git push
