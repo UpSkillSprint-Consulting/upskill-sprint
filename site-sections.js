@@ -9,6 +9,11 @@
     return window.location.pathname.endsWith('/engineering-tools.html');
   }
 
+  function isHomePage() {
+    const path = window.location.pathname;
+    return path === '/' || path.endsWith('/index.html');
+  }
+
   function createToolsLink(currentPage) {
     const link = document.createElement('a');
     link.href = TOOLS_PATH;
@@ -92,8 +97,7 @@
   }
 
   function ensureHomeContent() {
-    const path = window.location.pathname;
-    if (!(path === '/' || path.endsWith('/index.html'))) return;
+    if (!isHomePage()) return;
 
     const chooseGrid = document.querySelector('.section.tint .grid-2');
     if (chooseGrid && !chooseGrid.querySelector('a[href*="engineering-tools.html"]')) {
@@ -180,11 +184,143 @@
     );
   }
 
+  function enhanceLeadMagnetCapture() {
+    if (!isHomePage()) return;
+
+    const form = document.querySelector('form[name="lead-magnet"]');
+    const input = form && form.querySelector('.lead-email');
+    const button = form && form.querySelector('button[type="submit"]');
+    if (!form || !input || !button || form.dataset.enhanced === 'true') return;
+
+    form.dataset.enhanced = 'true';
+    form.className = 'lead-capture';
+    form.removeAttribute('style');
+
+    input.removeAttribute('style');
+    input.type = 'text';
+    input.inputMode = 'email';
+    input.id = 'starter-kit-email';
+    input.autocomplete = 'off';
+    input.autocapitalize = 'none';
+    input.spellcheck = false;
+    input.placeholder = 'you@example.com';
+    input.setAttribute('pattern', '^[^ @]+@[^ @]+[.][^ @]+$');
+    input.setAttribute('title', 'Enter a valid email address, such as name@example.com');
+    input.setAttribute('data-1p-ignore', 'true');
+    input.setAttribute('data-bwignore', 'true');
+    input.setAttribute('data-lpignore', 'true');
+    input.setAttribute('data-form-type', 'other');
+
+    button.classList.add('lead-capture-submit');
+
+    const row = document.createElement('div');
+    row.className = 'lead-capture-row';
+
+    const field = document.createElement('label');
+    field.className = 'lead-capture-field';
+    field.htmlFor = input.id;
+
+    const labelText = document.createElement('span');
+    labelText.textContent = 'Email address';
+
+    input.parentNode.insertBefore(row, input);
+    field.appendChild(labelText);
+    field.appendChild(input);
+    row.appendChild(field);
+    row.appendChild(button);
+
+    const note = document.createElement('p');
+    note.className = 'lead-capture-note';
+    note.textContent = 'Free download. No spam. Unsubscribe at any time.';
+    form.appendChild(note);
+
+    if (!document.getElementById('lead-capture-styles')) {
+      const style = document.createElement('style');
+      style.id = 'lead-capture-styles';
+      style.textContent = `
+        .lead-capture {
+          width: min(100%, 680px);
+          margin: 0 auto;
+          padding: 18px;
+          border: 1px solid var(--line);
+          border-radius: 10px;
+          background: var(--card);
+          box-shadow: 0 10px 28px rgba(15,42,67,.08);
+          text-align: left;
+        }
+        .lead-capture-row {
+          display: grid;
+          grid-template-columns: minmax(0,1fr) auto;
+          gap: 12px;
+          align-items: end;
+        }
+        .lead-capture-field {
+          display: flex;
+          min-width: 0;
+          flex-direction: column;
+          gap: 7px;
+          color: var(--ink);
+          font-size: 13px;
+          font-weight: 600;
+        }
+        .lead-capture .lead-email {
+          display: block;
+          width: 100%;
+          min-width: 0;
+          height: 50px;
+          margin: 0;
+          padding: 0 15px;
+          appearance: none;
+          border: 1px solid #cfd4dc;
+          border-radius: var(--radius);
+          background: var(--paper) !important;
+          color: var(--ink);
+          font: 400 15px/1 'Work Sans',Arial,sans-serif;
+          box-shadow: inset 0 1px 2px rgba(16,24,40,.04);
+        }
+        .lead-capture .lead-email::placeholder { color: #8792a2; }
+        .lead-capture .lead-email:focus {
+          border-color: var(--teal);
+          box-shadow: 0 0 0 3px rgba(14,116,144,.14);
+          outline: none;
+        }
+        .lead-capture-submit {
+          min-width: 168px;
+          height: 50px;
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+        .lead-capture-note {
+          margin: 10px 0 0;
+          color: var(--muted);
+          font-size: 12px;
+          line-height: 1.45;
+          text-align: center;
+        }
+        .lead-capture-row > *:not(.lead-capture-field):not(.lead-capture-submit),
+        .lead-capture-field > *:not(span):not(input) { display: none !important; }
+        html[data-theme="dark"] .lead-capture {
+          box-shadow: 0 12px 30px rgba(0,0,0,.24);
+        }
+        html[data-theme="dark"] .lead-capture .lead-email {
+          border-color: var(--line) !important;
+        }
+        @media (max-width:600px) {
+          .lead-capture { padding: 16px; }
+          .lead-capture-row { grid-template-columns: 1fr; }
+          .lead-capture-submit { width: 100%; min-width: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+
   function initializeSiteSections() {
     ensureNavigation();
     ensureHomeContent();
     ensureLessonsLibraryLink();
     activateAvailableTools();
+    enhanceLeadMagnetCapture();
   }
 
   if (document.readyState === 'loading') {
