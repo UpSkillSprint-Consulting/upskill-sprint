@@ -1,0 +1,78 @@
+name: Apply global colour theme
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - theme.js
+      - .github/workflows/apply-global-theme.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update-html-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Add the shared theme controller to every HTML page
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          repo = Path('.')
+          script_tag = '<script src="/theme.js"></script>'
+          changed = []
+
+          inline_theme_pattern = re.compile(
+              r'\s*<script>\s*\(function\s*\(\)\s*\{.*?upskill-theme.*?</script>',
+              flags=re.DOTALL,
+          )
+
+          for path in sorted(repo.rglob('*.html')):
+              if '.git' in path.parts:
+                  continue
+
+              text = path.read_text(encoding='utf-8')
+              original = text
+
+              # Remove the older homepage-only inline theme scripts so the
+              # shared controller is the single source of truth.
+              text = inline_theme_pattern.sub('', text)
+
+              if script_tag not in text:
+                  if '</head>' not in text:
+                      print(f'Skipping {path}: no closing head tag')
+                      continue
+                  text = text.replace('</head>', f'  {script_tag}\n</head>', 1)
+
+              if text != original:
+                  path.write_text(text, encoding='utf-8')
+                  changed.append(str(path))
+
+          print(f'Updated {len(changed)} HTML files')
+          for item in changed:
+              print(f'  - {item}')
+          PY
+
+      - name: Commit generated HTML updates
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "All HTML pages already use the shared theme controller."
+            exit 0
+          fi
+
+          git config user.name "UpSkill Sprint Theme Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -- '*.html'
+          git commit -m "Enable dark and light mode across all site pages"
+          git push
