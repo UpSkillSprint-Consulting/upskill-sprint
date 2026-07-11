@@ -7,7 +7,8 @@
     'searchable',
     'print-ready'
   ]);
-  let scheduled = false;
+  let searchTimer = null;
+  let searchInstalled = false;
 
   function normalize(value) {
     return String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
@@ -19,9 +20,19 @@
     const style = document.createElement('style');
     style.id = 'upskill-dmaic-fixes';
     style.textContent = `
-      [data-upskill-hidden="true"] {
-        display: none !important;
+      [data-upskill-hidden="true"] { display: none !important; }
+
+      #searchInput {
+        transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
       }
+      #searchInput.upskill-search-pending {
+        border-color: var(--primary) !important;
+        box-shadow: 0 0 0 3px rgba(14, 165, 233, .12) !important;
+      }
+      #searchInput.upskill-search-running {
+        cursor: progress !important;
+      }
+
       .upskill-format-request {
         display: inline-flex !important;
         align-items: center !important;
@@ -44,17 +55,15 @@
         outline: 3px solid rgba(245, 158, 11, .18) !important;
         outline-offset: 2px !important;
       }
-      .upskill-scope-summary {
-        padding: 22px 24px !important;
-      }
+
+      .upskill-scope-summary { padding: 22px 24px !important; }
       .upskill-scope-summary h2,
-      .upskill-scope-summary h3 {
-        margin: 0 0 9px !important;
-      }
+      .upskill-scope-summary h3 { margin: 0 0 9px !important; }
       .upskill-scope-summary p {
         margin: 0 !important;
         max-width: 1120px !important;
       }
+
       .upskill-finance-formulas {
         display: grid !important;
         gap: 16px !important;
@@ -73,9 +82,7 @@
         gap: 8px !important;
         text-align: center !important;
       }
-      .upskill-formula-label {
-        white-space: nowrap !important;
-      }
+      .upskill-formula-label { white-space: nowrap !important; }
       .upskill-fraction {
         display: inline-grid !important;
         grid-template-rows: auto auto !important;
@@ -88,20 +95,15 @@
         padding: 0 7px 3px !important;
         border-bottom: 1.5px solid currentColor !important;
       }
-      .upskill-fraction > span:last-child {
-        padding: 3px 7px 0 !important;
-      }
-      html[data-theme="dark"] .upskill-finance-formulas {
-        color: #f4f7fb !important;
-      }
+      .upskill-fraction > span:last-child { padding: 3px 7px 0 !important; }
+      html[data-theme="dark"] .upskill-finance-formulas { color: #f4f7fb !important; }
+
       @media (max-width: 620px) {
         .upskill-formula-row {
           flex-direction: column !important;
           gap: 5px !important;
         }
-        .upskill-fraction {
-          min-width: min(100%, 250px) !important;
-        }
+        .upskill-fraction { min-width: min(100%, 250px) !important; }
       }
       @media print {
         .upskill-format-request { display: none !important; }
@@ -111,27 +113,15 @@
   }
 
   function removeUnwantedNavigationAndBadges() {
-    let changed = false;
-
     document.querySelectorAll('.upskill-lesson-sitebar a, .upskill-lesson-sitebar button').forEach(function (element) {
-      if (normalize(element.textContent) === 'back to home') {
-        element.dataset.upskillHidden = 'true';
-        element.remove();
-        changed = true;
-      }
+      if (normalize(element.textContent) === 'back to home') element.remove();
     });
 
-    document.querySelectorAll('a, button, [role="button"], .chip, .badge, .pill, li, span, div').forEach(function (element) {
-      const text = normalize(element.textContent);
-      if (!REMOVED_HERO_BADGES.has(text)) return;
-
-      const removable = element.closest('a, button, [role="button"], li') || element;
-      removable.dataset.upskillHidden = 'true';
+    document.querySelectorAll('.header-badge, .chip, .badge, .pill, a, button, [role="button"], li, span').forEach(function (element) {
+      if (!REMOVED_HERO_BADGES.has(normalize(element.textContent))) return;
+      const removable = element.closest('.header-badge, a, button, [role="button"], li') || element;
       removable.remove();
-      changed = true;
     });
-
-    return changed;
   }
 
   function replaceDownloadControls() {
@@ -142,7 +132,7 @@
         text === 'download this html' || text === 'download html';
     });
 
-    if (!targets.length) return false;
+    if (!targets.length) return;
 
     const first = targets[0];
     const request = document.createElement('a');
@@ -153,14 +143,13 @@
 
     first.replaceWith(request);
     targets.slice(1).forEach(function (element) { element.remove(); });
-    return true;
   }
 
   function replaceScopeSection() {
     const heading = Array.from(document.querySelectorAll('h1, h2, h3, h4')).find(function (element) {
       return normalize(element.textContent) === 'validation statement and scope';
     });
-    if (!heading) return false;
+    if (!heading) return;
 
     let panel = heading.parentElement;
     while (panel && panel !== document.body) {
@@ -169,14 +158,13 @@
       panel = panel.parentElement;
     }
     if (!panel || panel === document.body) panel = heading.parentElement;
-    if (!panel || panel.dataset.upskillScopeFixed === 'true') return true;
+    if (!panel || panel.dataset.upskillScopeFixed === 'true') return;
 
     panel.dataset.upskillScopeFixed = 'true';
     panel.classList.add('upskill-scope-summary');
     panel.innerHTML = `
       <h2>Scope summary</h2>
       <p>This encyclopedia summarizes formula families used for CSSBB, CQE, and CMBB study across Pre-DMAIC and the Define, Measure, Analyze, Improve, and Control phases. Coverage includes business measures, statistics, measurement systems, capability, hypothesis testing, regression, design of experiments, reliability, optimization, and process control.</p>`;
-    return true;
   }
 
   function financeFormulaMarkup() {
@@ -214,7 +202,7 @@
     const title = Array.from(document.querySelectorAll('h1, h2, h3, h4, strong')).find(function (element) {
       return normalize(element.textContent) === 'revenue growth, market share and profit margins';
     });
-    if (!title) return false;
+    if (!title) return;
 
     let card = title.parentElement;
     while (card && card !== document.body) {
@@ -222,8 +210,7 @@
       if (text.includes('gross margin') && text.includes('operating margin') && text.includes('exam trap')) break;
       card = card.parentElement;
     }
-    if (!card || card === document.body) return false;
-    if (card.dataset.upskillFinanceFixed === 'true') return true;
+    if (!card || card === document.body || card.dataset.upskillFinanceFixed === 'true') return;
 
     const mathNodes = Array.from(card.querySelectorAll('mjx-container'));
     let host = null;
@@ -247,11 +234,109 @@
       host = candidates[0] || null;
     }
 
-    if (!host || host === card) return false;
-
+    if (!host || host === card) return;
     host.outerHTML = financeFormulaMarkup();
     card.dataset.upskillFinanceFixed = 'true';
-    return true;
+  }
+
+  function installFastSearch() {
+    if (searchInstalled) return;
+
+    const input = document.getElementById('searchInput');
+    if (!input) return;
+
+    try {
+      formulas.forEach(function (formula) {
+        formula.__upskillSearchText = [
+          formula.id,
+          formula.phase,
+          formula.family,
+          formula.title,
+          formula.exams.join(' '),
+          formula.eq,
+          formula.use,
+          formula.trap,
+          formula.source
+        ].join(' ').toLowerCase();
+      });
+
+      filteredFormulas = function fastFilteredFormulas() {
+        const query = input.value.trim().toLowerCase();
+        const phase = document.getElementById('phaseFilter').value;
+        const exam = document.getElementById('examFilter').value;
+        const family = document.getElementById('familyFilter').value;
+
+        return formulas.filter(function (formula) {
+          return (
+            (!query || formula.__upskillSearchText.includes(query)) &&
+            (!phase || formula.phase === phase) &&
+            (!exam || formula.exams.includes(exam)) &&
+            (!family || formula.family === family) &&
+            (!highYieldOnly || formula.high)
+          );
+        });
+      };
+    } catch (error) {
+      console.warn('Search index optimization was not applied.', error);
+    }
+
+    function runSearchNow() {
+      window.clearTimeout(searchTimer);
+      input.classList.remove('upskill-search-pending');
+      input.classList.add('upskill-search-running');
+      input.setAttribute('aria-busy', 'true');
+
+      window.requestAnimationFrame(function () {
+        try {
+          render();
+        } finally {
+          window.setTimeout(function () {
+            input.classList.remove('upskill-search-running');
+            input.removeAttribute('aria-busy');
+            replaceFinanceFormulas();
+          }, 0);
+        }
+      });
+    }
+
+    function scheduleSearch(event) {
+      event.stopImmediatePropagation();
+      window.clearTimeout(searchTimer);
+      input.classList.add('upskill-search-pending');
+      input.setAttribute('aria-busy', 'true');
+
+      searchTimer = window.setTimeout(runSearchNow, input.value ? 140 : 0);
+    }
+
+    input.addEventListener('input', scheduleSearch, true);
+    input.addEventListener('search', scheduleSearch, true);
+    input.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        runSearchNow();
+      }
+      if (event.key === 'Escape' && input.value) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        input.value = '';
+        runSearchNow();
+      }
+    }, true);
+
+    searchInstalled = true;
+  }
+
+  function observeFormulaRoot() {
+    const root = document.getElementById('formulaRoot');
+    if (!root || root.dataset.upskillObserved === 'true') return;
+
+    root.dataset.upskillObserved = 'true';
+    const observer = new MutationObserver(function (mutations) {
+      if (!mutations.some(function (mutation) { return mutation.addedNodes.length || mutation.removedNodes.length; })) return;
+      window.requestAnimationFrame(replaceFinanceFormulas);
+    });
+    observer.observe(root, { childList: true, subtree: false });
   }
 
   function blockLegacyDownloads(event) {
@@ -268,35 +353,23 @@
     }
   }
 
-  function applyFixes() {
-    scheduled = false;
+  function applyStaticFixes() {
     addStyles();
     removeUnwantedNavigationAndBadges();
-    const controlsDone = replaceDownloadControls();
-    const scopeDone = replaceScopeSection();
-    const formulasDone = replaceFinanceFormulas();
-    return controlsDone && scopeDone && formulasDone;
-  }
-
-  function scheduleFixes() {
-    if (scheduled) return;
-    scheduled = true;
-    requestAnimationFrame(applyFixes);
+    replaceDownloadControls();
+    replaceScopeSection();
+    replaceFinanceFormulas();
+    installFastSearch();
+    observeFormulaRoot();
   }
 
   function initialize() {
     document.addEventListener('click', blockLegacyDownloads, true);
-    applyFixes();
+    applyStaticFixes();
 
-    const observer = new MutationObserver(function () {
-      scheduleFixes();
+    [200, 600, 1200, 2500].forEach(function (delay) {
+      window.setTimeout(applyStaticFixes, delay);
     });
-    observer.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
-
-    window.setTimeout(function () {
-      applyFixes();
-      observer.disconnect();
-    }, 6000);
   }
 
   if (document.readyState === 'loading') {
