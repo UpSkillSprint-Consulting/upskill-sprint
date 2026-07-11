@@ -5,6 +5,15 @@
   const MATERIAL_CHECKER_PATH = '/tools/material-specification-compliance-checker.html';
   const CALCULATOR_PATH = '/tools/engineering-statistics-calculator.html';
   const UNIT_CONVERTER_PATH = '/tools/unit-converter.html';
+  const ARROW_CLEANUP_PATH = '/arrow-cleanup.js';
+
+  function loadArrowCleanup() {
+    if (document.querySelector('script[src="' + ARROW_CLEANUP_PATH + '"]')) return;
+    const script = document.createElement('script');
+    script.src = ARROW_CLEANUP_PATH;
+    script.defer = true;
+    document.head.appendChild(script);
+  }
 
   function pathEndsWith(path) {
     return window.location.pathname === path || window.location.pathname.endsWith(path);
@@ -273,6 +282,7 @@
   }
 
   function initializeSiteSections() {
+    loadArrowCleanup();
     ensureNavigation();
     ensureHomeContent();
     ensureLessonsLibraryLink();
