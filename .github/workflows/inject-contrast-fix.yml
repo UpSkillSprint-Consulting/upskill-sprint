@@ -1,0 +1,69 @@
+name: Inject site contrast fix
+
+on:
+  push:
+    paths:
+      - '.github/workflows/inject-contrast-fix.yml'
+      - 'contrast-fix.js'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inject:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Inject contrast script into site pages
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          script_tag = '<script src="/contrast-fix.js"></script>'
+          changed = []
+
+          for path in Path('.').rglob('*.html'):
+              if any(part.startswith('.') for part in path.parts):
+                  continue
+
+              text = path.read_text(encoding='utf-8')
+              original = text
+
+              # Dynamic tools replace the wrapper document after decompressing their payload.
+              # Inject the contrast script into that generated document as well.
+              replacements = {
+                  'document.write(finalHtml);': "document.write(finalHtml.replace('</body>', '<script src=\"/contrast-fix.js\"><\\/script></body>'));",
+                  'document.write(html);': "document.write(html.replace('</body>', '<script src=\"/contrast-fix.js\"><\\/script></body>'));",
+              }
+              for old, new in replacements.items():
+                  if old in text and '/contrast-fix.js' not in text[text.find(old)-180:text.find(old)+250]:
+                      text = text.replace(old, new)
+
+              # Standard HTML pages load the shared repair directly.
+              if script_tag not in text and '</body>' in text:
+                  text = text.replace('</body>', script_tag + '\n</body>', 1)
+
+              if text != original:
+                  path.write_text(text, encoding='utf-8')
+                  changed.append(str(path))
+
+          print('Updated pages:')
+          for item in changed:
+              print(' -', item)
+          PY
+
+      - name: Commit injected site fix
+        run: |
+          if git diff --quiet; then
+            echo "No HTML changes required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add '*.html' '**/*.html'
+          git commit -m "Load contrast repair across all site pages [skip ci]"
+          git push
