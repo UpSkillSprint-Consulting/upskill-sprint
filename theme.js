@@ -4,6 +4,77 @@
   const STORAGE_KEY = 'upskill-theme';
   const root = document.documentElement;
   const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+  const MATERIAL_CHECKER_PATH = '/tools/material-specification-compliance-checker.html';
+
+  function installMaterialCheckerBrandFix() {
+    if (!window.location.pathname.endsWith(MATERIAL_CHECKER_PATH)) return;
+    if (Document.prototype.__upskillBrandFixInstalled) return;
+
+    const nativeWrite = Document.prototype.write;
+
+    function brandFixScript() {
+      return `<script>
+        (function () {
+          function replaceInitialsWithLogo() {
+            var scopes = Array.prototype.slice.call(document.querySelectorAll('header, nav, [class*="header"], [class*="brand"]'));
+            var candidates = [];
+
+            scopes.forEach(function (scope) {
+              candidates.push(scope);
+              candidates = candidates.concat(Array.prototype.slice.call(scope.querySelectorAll('span, div, a, strong')));
+            });
+
+            var badge = candidates.find(function (element) {
+              if (!element || element.children.length || element.textContent.trim().toUpperCase() !== 'US') return false;
+              var rect = element.getBoundingClientRect();
+              return rect.top < 180 && rect.width <= 90 && rect.height <= 90;
+            });
+
+            if (!badge) return false;
+
+            var logo = document.createElement('img');
+            logo.src = '/assets/logo-icon.png';
+            logo.alt = 'UpSkill Sprint Consulting logo';
+            logo.width = 38;
+            logo.height = 38;
+            logo.style.cssText = 'display:block;width:38px;height:38px;object-fit:contain;';
+
+            badge.replaceChildren(logo);
+            badge.setAttribute('aria-label', 'UpSkill Sprint Consulting');
+            badge.style.cssText += ';display:flex;align-items:center;justify-content:center;width:40px;height:40px;min-width:40px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible;';
+            return true;
+          }
+
+          function startBrandFix() {
+            if (replaceInitialsWithLogo()) return;
+            var attempts = 0;
+            var timer = window.setInterval(function () {
+              attempts += 1;
+              if (replaceInitialsWithLogo() || attempts >= 100) window.clearInterval(timer);
+            }, 100);
+          }
+
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startBrandFix, { once: true });
+          } else {
+            startBrandFix();
+          }
+        }());
+      <\/script>`;
+    }
+
+    Document.prototype.write = function () {
+      const chunks = Array.prototype.slice.call(arguments);
+      if (chunks.length === 1 && typeof chunks[0] === 'string' && chunks[0].includes('</body>')) {
+        chunks[0] = chunks[0].replace('</body>', brandFixScript() + '</body>');
+      }
+      return nativeWrite.apply(this, chunks);
+    };
+
+    Document.prototype.__upskillBrandFixInstalled = true;
+  }
+
+  installMaterialCheckerBrandFix();
 
   function readSavedTheme() {
     try {
