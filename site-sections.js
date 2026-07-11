@@ -45,7 +45,11 @@
   }
 
   function isEngineeringToolsPage() {
-    return pathEndsWith(TOOLS_PATH);
+    return pathEndsWith(TOOLS_PATH) || pathEndsWith('/engineering-tools');
+  }
+
+  function isLessonsPage() {
+    return pathEndsWith('/lessons.html') || pathEndsWith('/lessons');
   }
 
   function isHomePage() {
@@ -68,7 +72,7 @@
   }
 
   function addToolsLinkToNav(nav) {
-    if (!nav || nav.querySelector('a[href*="engineering-tools.html"]')) return;
+    if (!nav || nav.querySelector('a[href*="engineering-tools.html"], a[href="/engineering-tools"]')) return;
     const lessonLink = Array.from(nav.querySelectorAll('a')).find(function (link) {
       return link.textContent.trim() === 'Lessons';
     });
@@ -84,7 +88,7 @@
     if (!heading) return;
 
     const column = heading.parentElement;
-    if (!column || column.querySelector('a[href*="engineering-tools.html"]')) return;
+    if (!column || column.querySelector('a[href*="engineering-tools.html"], a[href="/engineering-tools"]')) return;
     const lessonLink = Array.from(column.querySelectorAll('a')).find(function (link) {
       return link.textContent.trim() === 'Lessons';
     });
@@ -141,7 +145,7 @@
     if (!isHomePage()) return;
 
     const chooseGrid = document.querySelector('.section.tint .grid-2');
-    if (chooseGrid && !chooseGrid.querySelector('a[href*="engineering-tools.html"]')) {
+    if (chooseGrid && !chooseGrid.querySelector('a[href*="engineering-tools.html"], a[href="/engineering-tools"]')) {
       const card = document.createElement('a');
       card.href = TOOLS_PATH;
       card.className = 'card';
@@ -156,7 +160,7 @@
     if (popularHeading) {
       const section = popularHeading.closest('section');
       const chipHolder = section && section.querySelector('div[style*="flex-wrap"]');
-      if (chipHolder && !chipHolder.querySelector('a[href*="engineering-tools.html"]')) {
+      if (chipHolder && !chipHolder.querySelector('a[href*="engineering-tools.html"], a[href="/engineering-tools"]')) {
         const chip = document.createElement('a');
         chip.href = TOOLS_PATH;
         chip.className = 'chip';
@@ -177,14 +181,166 @@
   }
 
   function ensureLessonsLibraryLink() {
-    if (!pathEndsWith('/lessons.html')) return;
+    if (!isLessonsPage()) return;
     const jumpArea = document.querySelector('section .wrap div[style*="flex-wrap"]');
-    if (!jumpArea || jumpArea.querySelector('a[href*="engineering-tools.html"]')) return;
+    if (!jumpArea || jumpArea.querySelector('a[href*="engineering-tools.html"], a[href="/engineering-tools"]')) return;
     const link = document.createElement('a');
     link.href = TOOLS_PATH;
     link.className = 'chip';
     link.textContent = 'Engineering Tools';
     jumpArea.appendChild(link);
+  }
+
+  function enhanceLessonsHierarchy() {
+    if (!isLessonsPage() || document.getElementById('upskill-lessons-hierarchy')) return;
+
+    const style = document.createElement('style');
+    style.id = 'upskill-lessons-hierarchy';
+    style.textContent = `
+      .lesson-category {
+        padding-top: 58px;
+      }
+      .lesson-category + .lesson-category {
+        margin-top: 8px;
+      }
+      .category-header {
+        position: relative;
+        align-items: center;
+        margin-bottom: 0;
+        padding: 0 0 15px;
+        border-bottom: 2px solid var(--line);
+      }
+      .category-header::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 64px;
+        height: 2px;
+        background: var(--teal);
+      }
+      .category-header h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(25px, 3vw, 30px);
+        line-height: 1.2;
+      }
+      .category-count {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        padding: 5px 10px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--tint);
+        color: var(--ink-soft);
+        font-size: 11.5px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .lesson-list {
+        position: relative;
+        margin: 15px 0 0 30px;
+        padding-left: 22px;
+        border-left: 3px solid var(--teal);
+        border-bottom: 0;
+      }
+      .lesson-row {
+        position: relative;
+        min-height: 108px;
+        padding: 23px 18px;
+        border-top: 1px solid var(--line);
+        border-radius: 8px;
+      }
+      .lesson-row:first-child {
+        border-top-color: transparent;
+      }
+      .lesson-row::before {
+        content: '';
+        position: absolute;
+        top: 31px;
+        left: -30px;
+        width: 11px;
+        height: 11px;
+        border: 3px solid var(--paper);
+        border-radius: 50%;
+        background: var(--teal);
+        box-shadow: 0 0 0 1px var(--teal);
+      }
+      .lesson-row:hover,
+      .lesson-row:focus-visible {
+        padding-right: 22px;
+        padding-left: 22px;
+        background: var(--tint);
+        color: var(--ink);
+        outline: none;
+      }
+      .lesson-row h3 {
+        font-size: 18.5px;
+      }
+      .lesson-meta {
+        margin-bottom: 9px;
+      }
+      .lesson-action {
+        align-self: center;
+        padding-left: 18px;
+      }
+      .lesson-category .empty-topic {
+        margin: 15px 0 0 30px;
+        padding: 22px 18px 22px 25px;
+        border-top: 0;
+        border-bottom: 1px solid var(--line);
+        border-left: 3px solid var(--teal);
+        background: var(--tint);
+      }
+      html[data-theme="dark"] .lesson-row::before {
+        border-color: var(--paper);
+      }
+      @media (max-width: 700px) {
+        .lesson-category {
+          padding-top: 46px;
+        }
+        .category-header {
+          align-items: flex-end;
+          gap: 12px;
+          padding-bottom: 13px;
+        }
+        .category-header h2 {
+          font-size: 25px;
+        }
+        .lesson-list {
+          margin-left: 12px;
+          padding-left: 15px;
+          border-left-width: 2px;
+        }
+        .lesson-row {
+          min-height: 0;
+          padding: 20px 10px 20px 13px;
+          border-radius: 6px;
+        }
+        .lesson-row::before {
+          top: 27px;
+          left: -21px;
+          width: 9px;
+          height: 9px;
+          border-width: 2px;
+        }
+        .lesson-row:hover,
+        .lesson-row:focus-visible {
+          padding-right: 12px;
+          padding-left: 15px;
+        }
+        .lesson-action {
+          padding-left: 0;
+        }
+        .lesson-category .empty-topic {
+          margin-left: 12px;
+          padding: 19px 14px 19px 18px;
+          border-left-width: 2px;
+        }
+      }
+    `;
+    document.head.appendChild(style);
   }
 
   function activateToolCard(options) {
@@ -311,6 +467,7 @@
     ensureNavigation();
     ensureHomeContent();
     ensureLessonsLibraryLink();
+    enhanceLessonsHierarchy();
     activateAvailableTools();
     enhanceLeadMagnetCapture();
   }
