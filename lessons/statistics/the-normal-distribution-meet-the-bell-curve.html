@@ -105,7 +105,7 @@ body {
 }
 h1, h2, h3, h4 { color: var(--ink); line-height: 1.25; font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; }
 h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); margin: 0.4em 0; }
-h2 { font-size: clamp(1.45rem, 3vw, 1.9rem); margin-top: 0; border-bottom: 3px solid var(--amber); display: inline-block; padding-bottom: 0.22em; }
+h2 { font-size: clamp(1.45rem, 3vw, 1.85rem); margin-top: 0; border-bottom: 2px solid var(--amber); display: inline-block; padding-bottom: 0.15em; }
 h3 { font-size: 1.15rem; }
 p { margin: 0.7em 0; }
 a { color: var(--teal-dark); }
@@ -143,59 +143,63 @@ select:focus-visible, [role="switch"]:focus-visible {
 
 /* ============ SITE INTEGRATION: Header ============ */
 header.site.lesson-sitebar {
-  z-index: 50;
-}
-.lesson-sitebar .header-actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1.1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
-.lesson-sitebar .theme-control {
-  flex-shrink: 0;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 700;
 }
+.brand img { width: 30px; height: 30px; }
+.sitebar-right { display: flex; align-items: center; gap: 0.75rem; }
+.header-note { color: var(--muted); font-size: 0.88rem; font-weight: 600; white-space: nowrap; }
 
 /* ============ Layout ============ */
-main#lesson-content { max-width: 1120px; margin: 0 auto; padding: 2.25rem clamp(1rem, 4vw, 3.5rem) 4.5rem; }
+main#lesson-content { max-width: 980px; margin: 0 auto; padding: 1rem 1rem 4rem; }
 article.lesson-wrapper { display: block; }
-section { margin: 3rem 0; scroll-margin-top: 92px; }
+section { margin: 2.8rem 0; scroll-margin-top: 92px; }
 
 /* Lesson hero */
 .lesson-hero {
-  margin-top: 0;
-  padding: clamp(2rem, 5vw, 3.25rem);
+  padding: 2.2rem clamp(1.15rem, 4vw, 2.7rem);
+  margin-top: 1.2rem;
   border-radius: 14px;
-  background: linear-gradient(135deg, #0f2a43, #0e7490);
-  box-shadow: 0 10px 30px rgba(15, 42, 67, 0.16);
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--navy), var(--teal));
+  color: #fff;
 }
-.lesson-hero h1 { color: #ffffff; }
-.lesson-hero .lesson-lede { color: #e0f2fe; }
-.lesson-hero .why-it-matters {
-  background: rgba(255, 255, 255, 0.12);
-  border-left-color: #f0c36a;
-  color: #f8fafc;
-}
-.lesson-hero .why-it-matters strong { color: #ffffff; }
-.lesson-meta-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.6rem 0; }
+.lesson-hero h1,
+.lesson-hero strong { color: #fff; }
+.lesson-meta-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.7rem 0; }
 .pill {
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.28);
-  color: #f8fafc;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.24);
+  color: #fff;
   border-radius: 999px;
-  padding: 0.25rem 0.8rem;
-  font-size: 0.82rem;
-  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
-.pill.accent { background: #ffffff; color: #0f2a43; border-color: rgba(255,255,255,.7); }
-html[data-theme="dark"] .pill.accent { color: #0f2a43; }
-.lesson-lede { font-size: 1.12rem; color: var(--ink-soft); max-width: 62ch; }
+.pill.accent { background: #fff; color: var(--navy); border-color: #fff; }
+.lesson-lede { font-size: 1.12rem; color: #e0f2fe; max-width: 68ch; }
 .why-it-matters {
   border-left: 4px solid var(--amber);
-  background: var(--surface);
+  background: rgba(255,255,255,0.1);
   padding: 0.8rem 1rem;
   border-radius: 0 8px 8px 0;
   margin-top: 1rem;
+  color: #fff;
 }
 
 /* Table of contents */
@@ -203,8 +207,9 @@ nav.lesson-toc {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 0.9rem 1.1rem;
-  margin: 1.5rem 0;
+  padding: 1rem 1.2rem;
+  margin: 1.7rem 0;
+  box-shadow: 0 4px 14px rgba(15,42,67,0.05);
 }
 nav.lesson-toc h2 { border: none; font-size: 1rem; margin: 0 0 0.4rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
 nav.lesson-toc ol { margin: 0; padding-left: 1.2rem; columns: 2; column-gap: 2rem; }
@@ -234,14 +239,14 @@ nav.lesson-toc a:hover { text-decoration: underline; }
 table { border-collapse: collapse; width: 100%; min-width: 540px; background: var(--surface); }
 caption { text-align: left; color: var(--muted); font-size: 0.88rem; padding: 0.3rem 0; }
 th, td { border: 1px solid var(--line); padding: 0.55rem 0.7rem; text-align: left; vertical-align: top; }
-th { background: var(--surface-soft); color: var(--ink); }
+th { background: var(--navy); color: #fff; }
 tbody tr:nth-child(even) { background: var(--surface-soft); }
-html[data-theme="dark"] tbody tr:nth-child(even) { background: var(--surface-soft); }
 
 /* ============ Formula display (CSS stacked fractions) ============ */
 .formula-box {
   background: var(--surface);
   border: 1px solid var(--line);
+  border-left: 5px solid var(--teal);
   border-radius: 12px;
   padding: 1rem 1.1rem;
   overflow-x: auto;
@@ -274,10 +279,10 @@ figcaption { color: var(--muted); font-size: 0.9rem; margin-top: 0.4rem; }
 .tool {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 1.35rem 1.45rem;
+  border-top: 4px solid var(--teal);
+  border-radius: 12px;
+  padding: 1.1rem 1.2rem;
 }
-.tool-title { display: flex; align-items: center; gap: 0.5rem; margin-top: 0; }
 .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.9rem 1.4rem; margin: 0.8rem 0; }
 .control label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; }
 .control input[type="range"] { width: 100%; accent-color: var(--teal); min-height: 32px; }
@@ -303,7 +308,7 @@ figcaption { color: var(--muted); font-size: 0.9rem; margin-top: 0.4rem; }
   cursor: pointer;
   min-height: 44px;
 }
-html[data-theme="dark"] .btn { color: #0d1722; }
+html[data-theme="dark"] .btn { color: #07111e; }
 .btn.secondary { background: var(--surface-soft); color: var(--ink); border-color: var(--line); }
 html[data-theme="dark"] .btn.secondary { color: var(--ink); }
 .btn:hover { filter: brightness(1.05); }
@@ -403,10 +408,11 @@ footer.lesson-footer {
   border-top: 1px solid var(--line);
   background: var(--surface);
   color: var(--muted);
-  text-align: center;
-  padding: 1.2rem 1rem 2rem;
+  padding: 1.2rem max(1rem, calc((100vw - 980px) / 2));
   font-size: 0.9rem;
 }
+.footer-inner { display: flex; justify-content: space-between; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.footer-back { font-weight: 700; text-decoration: none; }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
@@ -417,56 +423,41 @@ footer.lesson-footer {
 /* Small screens */
 @media (max-width: 520px) {
   .brand span { font-size: 0.9rem; }
-  .back-link { font-size: 0.85rem; }
+  .header-note { display: none; }
   body { font-size: 0.98rem; }
 }
 
 /* ============ Responsive and print refinements ============ */
 .table-scroll { max-width: 100%; }
-.lesson-bottom-nav {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 clamp(1rem, 4vw, 3.5rem) 1.5rem;
-}
-.back-to-category {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  padding: 0.6rem 0.9rem;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--teal-dark);
-  font-weight: 700;
-  text-decoration: none;
-}
-.back-to-category:hover { background: var(--surface-soft); text-decoration: none; }
-footer.lesson-footer { text-align: left; }
-.lesson-footer-inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 clamp(1rem, 4vw, 3.5rem);
-}
 @media (max-width: 700px) {
-  main#lesson-content { padding-top: 1.25rem; }
-  .lesson-hero { padding: 1.6rem 1.2rem; }
-  .panel, .tool, .formula-box, nav.lesson-toc { padding-left: 1rem; padding-right: 1rem; }
-  .math { font-size: 1.1rem; }
+  main#lesson-content { padding-inline: 0.8rem; }
+  .lesson-hero { border-radius: 10px; padding: 1.55rem 1rem; }
+  .lesson-meta-row { gap: 0.38rem; }
+  .pill { font-size: 0.77rem; }
+  .panel, .tool, .quiz-q { padding: 0.95rem; }
+  .formula-box { padding: 0.85rem; }
+  .math { font-size: 1.08rem; }
+  .btn-row { flex-direction: column; }
+  .btn-row .btn { width: 100%; }
+}
+@media (max-width: 480px) {
+  .table-scroll { margin-inline: -0.35rem; padding-inline: 0.35rem; }
+  table { min-width: 500px; }
 }
 @media print {
-  html, body { background: #ffffff !important; color: #000000 !important; }
-  header.site, nav.mobile-nav, .skip-link, .theme-control, .btn-row, .reveal-panel > button, .lesson-bottom-nav { display: none !important; }
+  header.site.lesson-sitebar,
+  .skip-link,
+  .theme-control,
+  .btn-row,
+  #quiz-submit,
+  #quiz-reset,
+  footer.lesson-footer { display: none !important; }
+  body { background: #fff !important; color: #000 !important; font-size: 10.5pt; }
   main#lesson-content { max-width: none; padding: 0; }
-  .lesson-hero, .panel, .tool, .formula-box, nav.lesson-toc, .fig-panel, .quiz-q, .mistake {
-    box-shadow: none !important;
-    background: #ffffff !important;
-    color: #000000 !important;
-    border-color: #777777 !important;
-    break-inside: avoid;
-  }
-  .lesson-hero h1, .lesson-hero .lesson-lede, .lesson-hero .why-it-matters, .lesson-hero strong, h1, h2, h3, h4, p, li, td, th { color: #000000 !important; }
-  a { color: #000000 !important; text-decoration: underline; }
-  footer.lesson-footer { background: #ffffff !important; color: #000000 !important; border-top: 1px solid #777777; }
+  .lesson-hero { background: none !important; color: #000 !important; border: 1px solid #999; }
+  .lesson-hero h1, .lesson-hero strong, .lesson-hero .lesson-lede, .lesson-hero .why-it-matters { color: #000 !important; }
+  .panel, .tool, .formula-box, .quiz-q, .fig-panel, nav.lesson-toc { box-shadow: none !important; break-inside: avoid; }
+  a { color: #000 !important; text-decoration: none; }
 }
 </style>
 <script src="/theme.js"></script>
@@ -481,41 +472,15 @@ footer.lesson-footer { text-align: left; }
 <a class="skip-link" href="#lesson-content">Skip to lesson content</a>
 
 <!-- SITE INTEGRATION: Header -->
-<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
 <header class="site lesson-sitebar">
   <a class="brand" href="/">
     <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
     <span>UpSkill Sprint Consulting</span>
   </a>
-  <nav class="desktop-nav" aria-label="Primary navigation">
-    <a href="/start-here">Start Here</a>
-    <a href="/lessons" aria-current="page">Lessons</a>
-    <a href="/services">Services</a>
-    <a href="/request-topic">Request a Topic</a>
-    <a href="/about">About</a>
-    <a href="/faq">FAQ</a>
-    <a href="/contact">Contact</a>
-  </nav>
-  <div class="header-actions">
-    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-    </label>
-    <div class="theme-control" aria-label="Colour theme">
-      <svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
-      <button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button>
-      <svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    </div>
+  <div class="sitebar-right">
+    <span class="header-note">Statistics lesson</span>
   </div>
 </header>
-<nav class="mobile-nav" aria-label="Mobile navigation">
-  <a href="/start-here">Start Here</a>
-  <a href="/lessons" aria-current="page">Lessons</a>
-  <a href="/services">Services</a>
-  <a href="/request-topic">Request a Topic</a>
-  <a href="/about">About</a>
-  <a href="/faq">FAQ</a>
-  <a href="/contact">Contact</a>
-</nav>
 
 <main id="lesson-content">
 <article class="lesson-wrapper">
@@ -747,7 +712,7 @@ footer.lesson-footer { text-align: left; }
   <ul>
     <li>About <strong>68%</strong> of values fall within <strong>1 standard deviation</strong> of the mean (34.1% on each side).</li>
     <li>About <strong>95%</strong> fall within <strong>2 standard deviations</strong> (adding 13.6% on each side).</li>
-    <li>About <strong>99.7%</strong> fall within <strong>3 standard deviations</strong> (adding 2.1% on each side, leaving roughly 0.15% in each extreme tail).</li>
+    <li>About <strong>99.7%</strong> fall within <strong>3 standard deviations</strong> (adding 2.1% on each side, leaving roughly 0.1% in each extreme tail).</li>
   </ul>
   <figure class="fig-panel">
     <svg viewBox="0 0 740 395" role="img" aria-labelledby="emp-title emp-desc" xmlns="http://www.w3.org/2000/svg">
@@ -778,8 +743,8 @@ footer.lesson-footer { text-align: left; }
       <text x="505" y="266" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">13.6%</text>
       <text x="145" y="270" text-anchor="middle" font-size="12" fill="var(--ink-soft)">2.1%</text>
       <text x="595" y="270" text-anchor="middle" font-size="12" fill="var(--ink-soft)">2.1%</text>
-      <text x="72" y="270" text-anchor="middle" font-size="11" fill="var(--muted)">0.15%</text>
-      <text x="668" y="270" text-anchor="middle" font-size="11" fill="var(--muted)">0.15%</text>
+      <text x="72" y="270" text-anchor="middle" font-size="11" fill="var(--muted)">0.1%</text>
+      <text x="668" y="270" text-anchor="middle" font-size="11" fill="var(--muted)">0.1%</text>
       <!-- axis labels -->
       <text x="370" y="302" text-anchor="middle" font-size="15" fill="var(--ink)">&#956;</text>
       <text x="280" y="302" text-anchor="middle" font-size="14" fill="var(--ink-soft)">&#8722;1&#963;</text>
@@ -1205,7 +1170,7 @@ footer.lesson-footer { text-align: left; }
   <h3>Decision rule</h3>
   <div class="panel callout">
     <p>If the histogram shows <strong>one peak and rough symmetry</strong>, use the normal model:
-    boundaries at whole multiples of &sigma;  empirical rule; anything else  z-score plus a table or
+    boundaries at whole multiples of &sigma; &rarr; empirical rule; anything else &rarr; z-score plus a table or
     software. If the histogram is <strong>skewed, bounded, or two-peaked</strong>, do not use the normal model.</p>
   </div>
   <div class="remember">Remember this: subtract the mean, divide by &sigma; &mdash; then let 68&ndash;95&ndash;99.7 do the talking.</div>
@@ -1229,12 +1194,10 @@ footer.lesson-footer { text-align: left; }
 </article>
 </main>
 
-<div class="lesson-bottom-nav">
-  <a class="back-to-category" href="/lessons#statistics">Back to Statistics</a>
-</div>
 <footer class="lesson-footer">
-  <div class="lesson-footer-inner">
-    <p>&copy; 2026 UpSkill Sprint Consulting &middot; Statistics lesson library</p>
+  <div class="footer-inner">
+    <a class="footer-back" href="/lessons#statistics">Back to Statistics</a>
+    <span>&copy; UpSkill Sprint Consulting &middot; Statistics lesson library</span>
   </div>
 </footer>
 
