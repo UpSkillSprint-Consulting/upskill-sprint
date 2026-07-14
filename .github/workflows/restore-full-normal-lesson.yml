@@ -1,0 +1,38 @@
+name: Restore full normal distribution lesson
+
+on:
+  push:
+    branches:
+      - agent/add-normal-distribution-lesson
+    paths:
+      - .github/workflows/restore-full-normal-lesson.yml
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/add-normal-distribution-lesson
+          fetch-depth: 0
+
+      - name: Restore verified full lesson
+        shell: bash
+        run: |
+          set -euo pipefail
+          git checkout 1141dcf714eb5c198cbfbe22003387f6bb0af1eb -- lessons/statistics/the-normal-distribution-meet-the-bell-curve.html
+          rm -f .github/workflows/restore-full-normal-lesson.yml
+
+      - name: Commit restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Restore full lesson with dark mode quiz fix"
+          git push origin HEAD:agent/add-normal-distribution-lesson
