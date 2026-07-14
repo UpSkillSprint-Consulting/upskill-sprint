@@ -1,0 +1,143 @@
+<section id="foundations">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Part 1 · Foundations</div>
+          <h2>What DOE is designed to reveal</h2>
+          <p class="lead">
+            Design of Experiments changes several controllable inputs in a planned pattern so that their
+            individual and combined effects on a response can be estimated efficiently.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <article class="card concept-card" data-number="1">
+          <h3>Factor</h3>
+          <p>A controllable input such as time, force, current, temperature, speed, or chemistry.</p>
+          <div class="pill-row">
+            <span class="pill">A: Time</span>
+            <span class="pill">B: Force</span>
+            <span class="pill">C: Current</span>
+          </div>
+        </article>
+
+        <article class="card concept-card" data-number="2">
+          <h3>Level</h3>
+          <p>A setting of a factor. In a two-level design, each factor has a low and high setting.</p>
+          <div class="equation">Low = −1 &nbsp;&nbsp;&nbsp; High = +1</div>
+        </article>
+
+        <article class="card concept-card" data-number="3">
+          <h3>Response</h3>
+          <p>The measured outcome, such as strength, yield, deviation, cycle time, or defect rate.</p>
+          <div class="pill-row">
+            <span class="pill">Y: Strength</span>
+            <span class="pill">Goal: maximize</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="grid-2 mt-20">
+        <div class="card card-pad">
+          <h3>Why factorial experimentation?</h3>
+          <p>
+            A factorial design tests every combination of the selected factor levels. This makes it possible
+            to estimate interactions—the cases where the effect of one factor changes depending on another factor.
+          </p>
+          <div class="equation">
+            Number of treatment combinations = 2<sup>k</sup>
+          </div>
+          <p class="small muted mb-0">For two factors: 2² = 4 combinations. For three factors: 2³ = 8 combinations.</p>
+        </div>
+
+        <div class="card card-pad">
+          <h3>Interaction: the central idea</h3>
+          <p>
+            An interaction exists when the effect of factor A is not constant across the levels of factor B.
+            On an interaction plot, nonparallel lines indicate interaction.
+          </p>
+          <div class="equation">
+            AB effect = average response when AB = +1 − average response when AB = −1
+          </div>
+        </div>
+      </div>
+
+      <div class="notice mt-20">
+        <strong>Terminology caution:</strong> a treatment combination is a unique factor-level combination.
+        A run is the physical execution of that combination. Replicating a combination creates additional runs,
+        but not additional treatment combinations.
+      </div>
+    </section>
+
+    <section id="two-factor">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Part 2 · Two factors, two levels</div>
+          <h2>Build and analyze a 2² full factorial design</h2>
+          <p class="lead">
+            The starter dataset uses height and angle as the factors and deviation from target as the response.
+            Every value can be edited, and a new dataset can be pasted into the lesson.
+          </p>
+        </div>
+      </div>
+
+      <div class="card workspace">
+        <div class="workspace-toolbar">
+          <div class="toolbar-group">
+            <button class="btn btn-dark" id="load2Sample">Load starter data</button>
+            <button class="btn btn-outline" id="open2Import">Paste dataset</button>
+            <button class="btn btn-outline" id="export2Csv">Export CSV</button>
+          </div>
+          <div class="toolbar-group">
+            <span class="pill">4 treatment combinations</span>
+            <span class="pill">A, B, AB estimable</span>
+          </div>
+        </div>
+
+        <div class="workspace-body">
+          <div class="setup-grid">
+            <div class="field">
+              <label for="f2aName">Factor A</label>
+              <input id="f2aName" value="Height" />
+            </div>
+            <div class="field">
+              <label for="f2aLow">A low</label>
+              <input id="f2aLow" value="4" />
+            </div>
+            <div class="field">
+              <label for="f2aHigh">A high</label>
+              <input id="f2aHigh" value="6" />
+            </div>
+            <div class="field">
+              <label for="f2aUnit">A unit</label>
+              <input id="f2aUnit" value="feet" />
+            </div>
+            <div class="field">
+              <label for="f2Response">Response</label>
+              <input id="f2Response" value="Deviation" />
+            </div>
+
+            <div class="field">
+              <label for="f2bName">Factor B</label>
+              <input id="f2bName" value="Angle" />
+            </div>
+            <div class="field">
+              <label for="f2bLow">B low</label>
+              <input id="f2bLow" value="0" />
+            </div>
+            <div class="field">
+              <label for="f2bHigh">B high</label>
+              <input id="f2bHigh" value="90" />
+            </div>
+            <div class="field">
+              <label for="f2bUnit">B unit</label>
+              <input id="f2bUnit" value="degrees" />
+            </div>
+            <div class="field">
+              <label for="f2Goal">Response goal</label>
+              <select id="f2Goal">
+                <option value="min">Minimize</option>
+                <option value="max">Maximize</option>
+                <option value="target">Hit a target</option>
+              </select>
+            </div>
