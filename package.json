@@ -1,0 +1,12 @@
+{
+  "name": "upskill-sprint",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static UpSkill Sprint site and Netlify functions",
+  "scripts": {
+    "test": "node --test tests/material-checker-engine.test.js"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}
