@@ -2,6 +2,7 @@
   'use strict';
 
   const ROOT = '#mcPlatform';
+  const PRODUCT_FORMS = ['Coil', 'Plate', 'Line pipe', 'Tube', 'Casing', 'Tubing', 'Structural shape', 'Bar', 'Forging', 'Other'];
   const EXTRA = {
     charpy_test_temperature: {units: ['°C', '°F'], defaultUnit: '°C'},
     charpy_average_energy: {units: ['J', 'ft-lb'], defaultUnit: 'J'},
@@ -26,14 +27,26 @@
     return null;
   }
 
+  function ensureOptions(select, values) {
+    if (!select) return;
+    const current = select.value;
+    const existing = new Set(Array.from(select.options).map(option => option.value));
+    values.forEach(value => {
+      if (!existing.has(value)) select.add(new Option(value, value));
+    });
+    if (current && Array.from(select.options).some(option => option.value === current)) select.value = current;
+  }
+
+  function ensureProductForms(root) {
+    ensureOptions(document.querySelector('[data-scope="productForm"]'), PRODUCT_FORMS);
+    ensureOptions(root.querySelector('[data-app="productForm"]'), PRODUCT_FORMS);
+  }
+
   function fixDuplicateIds(root) {
     const overview = root.querySelector('[data-platform-panel="overview"] #mcApplicabilitySummary');
     const detail = root.querySelector('[data-platform-panel="applicability"] #mcApplicabilitySummary');
     if (overview) overview.id = 'mcOverviewApplicabilitySummary';
-    if (detail) {
-      detail.id = 'mcApplicabilitySummaryDetail';
-      if (!detail.textContent.trim()) detail.textContent = overview && overview.textContent.trim() || 'Complete the wizard to generate an evidence recommendation.';
-    }
+    if (detail) detail.id = 'mcApplicabilitySummaryDetail';
   }
 
   function labelTableControls(root) {
@@ -117,16 +130,32 @@
     });
   }
 
+  function applicabilityText(root) {
+    const form = root.querySelector('[data-app="productForm"]')?.value || document.querySelector('[data-scope="productForm"]')?.value || '';
+    const psl = root.querySelector('[data-app="psl"]')?.value || '';
+    const sour = root.querySelector('[data-app="sourService"]')?.value || 'No';
+    const temperature = Number(root.querySelector('[data-app="serviceTemperature"]')?.value);
+    const temperatureUnit = root.querySelector('[data-app="temperatureUnit"]')?.value || '°C';
+    const temperatureC = Number.isFinite(temperature) ? (temperatureUnit === '°F' ? (temperature - 32) * 5 / 9 : temperature) : null;
+    const charpy = Boolean(root.querySelector('[data-app="supplementaryCharpy"]')?.checked) || form === 'Line pipe' || psl === 'PSL 2' || (temperatureC != null && temperatureC < 0);
+    const count = charpy ? 5 : 4;
+    const conditions = [form, psl, sour === 'Yes' ? 'sour service' : '', temperatureC != null && temperatureC < 0 ? 'sub-zero service' : ''].filter(Boolean);
+    return count + ' evidence sections are recommended' + (conditions.length ? ' for ' + conditions.join(', ') : '') + '.';
+  }
+
   function syncApplicabilitySummary(root) {
+    const text = applicabilityText(root);
     const overview = root.querySelector('#mcOverviewApplicabilitySummary');
     const detail = root.querySelector('#mcApplicabilitySummaryDetail');
-    if (detail && overview && overview.textContent.trim()) detail.textContent = overview.textContent;
+    if (overview) overview.textContent = text;
+    if (detail) detail.textContent = text;
   }
 
   function scan() {
     queued = false;
     const root = document.querySelector(ROOT);
     if (!root) return;
+    ensureProductForms(root);
     fixDuplicateIds(root);
     labelTableControls(root);
     hardenRuleEditor(root);
