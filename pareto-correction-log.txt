@@ -1,0 +1,6 @@
+Loaded lesson
+Updated navigation
+Traceback (most recent call last):
+  File "<stdin>", line 57, in <module>
+RuntimeError: Footer CSS replacements: 0
+
