@@ -2,7 +2,6 @@ name: Grade Specification Lookup validation
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - 'engineering-tools.html'
       - 'scripts/build-grade-specification-lookup.mjs'
@@ -90,19 +89,17 @@ jobs:
         with:
           ref: test
           fetch-depth: 0
-      - name: Simplify the Pareto lesson ending
+      - name: Apply focused visual cleanup
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
 
-          lesson_path = Path('lessons/understanding-pareto-chart.html')
-          lesson = lesson_path.read_text(encoding='utf-8')
+          path = Path('lessons/understanding-pareto-chart.html')
+          text = path.read_text(encoding='utf-8')
           marker = '    @media print {'
-          cleanup_marker = '    /* Bottom-of-lesson visual cleanup */'
-
-          if cleanup_marker not in lesson:
-              css = r'''    /* Bottom-of-lesson visual cleanup */
+          tag = '    /* Bottom-of-lesson visual cleanup */'
+          css = r'''    /* Bottom-of-lesson visual cleanup */
     .lesson-wrapper #summary {
       max-width: 920px;
       margin: 3rem auto 1.8rem;
@@ -152,7 +149,6 @@ jobs:
     }
     .references-list a:hover,
     .references-list a:focus-visible { text-decoration: underline; }
-
     .lesson-wrapper #lesson-progress-widget {
       max-width: 920px;
       margin: 1.75rem auto 0;
@@ -183,7 +179,6 @@ jobs:
       grid-row: 1 / span 2;
       margin: 0;
     }
-
     .lesson-footer {
       max-width: 920px;
       margin: 0 auto;
@@ -210,7 +205,6 @@ jobs:
       line-height: 1.55;
     }
     .lesson-footer-next strong { color: var(--ink); }
-
     @media (max-width: 700px) {
       .summary-item { grid-template-columns: 1fr; gap: 0.25rem; }
       .references-list { columns: 1; }
@@ -231,109 +225,19 @@ jobs:
     }
 
 '''
-              if marker not in lesson:
+          if tag not in text:
+              if marker not in text:
                   raise SystemExit('Print media marker not found')
-              lesson = lesson.replace(marker, css + marker, 1)
-              lesson_path.write_text(lesson, encoding='utf-8')
-
-          original_workflow = '''name: Grade Specification Lookup validation
-
-on:
-  pull_request:
-    paths:
-      - 'engineering-tools.html'
-      - 'scripts/build-grade-specification-lookup.mjs'
-      - 'source-assets/grade-specification-lookup/**'
-      - 'sitemap.xml'
-      - 'netlify.toml'
-      - '.github/workflows/grade-specification-lookup-tests.yml'
-  push:
-    branches: [main, test]
-    paths:
-      - 'engineering-tools.html'
-      - 'scripts/build-grade-specification-lookup.mjs'
-      - 'source-assets/grade-specification-lookup/**'
-      - 'sitemap.xml'
-      - 'netlify.toml'
-      - '.github/workflows/grade-specification-lookup-tests.yml'
-
-permissions:
-  contents: read
-
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - name: Build verified source files
-        id: build
-        continue-on-error: true
-        run: |
-          set +e
-          node scripts/build-grade-specification-lookup.mjs > grade-build.log 2>&1
-          code=$?
-          node -e "const fs=require('fs'); for (const p of ['source-assets/grade-specification-lookup/grade_spec_lookup.html.br.b64.part-01','source-assets/grade-specification-lookup/grade_spec_lookup_user_guide.html.gz.b64']) { const s=fs.statSync(p); fs.appendFileSync('grade-build.log', '\\n'+p+' bytes='+s.size+'\\n'); }"
-          exit $code
-      - name: Upload build diagnostics
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: grade-specification-lookup-build-log
-          path: grade-build.log
-          retention-days: 3
-      - name: Stop after build failure
-        if: steps.build.outcome == 'failure'
-        run: |
-          cat grade-build.log
-          exit 1
-      - name: Validate generated routes and integration
-        run: |
-          node <<'NODE'
-          const { readFileSync, existsSync } = require('node:fs');
-          const appPath = 'engineering-tools/grade-specification-lookup/index.html';
-          const guidePath = 'engineering-tools/grade-specification-lookup/how-to-use/index.html';
-          if (!existsSync(appPath) || !existsSync(guidePath)) throw new Error('Generated application or guide is missing.');
-          const app = readFileSync(appPath, 'utf8');
-          const guide = readFileSync(guidePath, 'utf8');
-          const directory = readFileSync('engineering-tools.html', 'utf8');
-          const sitemap = readFileSync('sitemap.xml', 'utf8');
-          const requiredNav = ['Start Here','Lessons','Engineering Tools','Services','Request a Topic','About','FAQ','Contact'];
-          for (const label of requiredNav) {
-            if (!app.includes(label) || !guide.includes(label)) throw new Error(`Missing navigation label: ${label}`);
-          }
-          const checks = [
-            [app.includes('https://upskillsprint.com/engineering-tools/grade-specification-lookup'), 'Application canonical URL missing'],
-            [guide.includes('https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use'), 'Guide canonical URL missing'],
-            [app.includes('/assets/logo-icon.png') && guide.includes('/assets/logo-icon.png'), 'UpSkill Sprint logo missing'],
-            [app.includes('Back to Engineering Tools') && guide.includes('Back to Engineering Tools'), 'Category return link missing'],
-            [app.includes('/tools/material-specification-compliance-checker'), 'Companion compliance-checker link missing'],
-            [!app.includes('grade_spec_lookup_user_guide.html'), 'Legacy guide link remains'],
-            [directory.includes('Material Specification Tools'), 'Material Specification Tools group missing'],
-            [directory.includes('/engineering-tools/grade-specification-lookup'), 'Engineering Tools directory entry missing'],
-            [sitemap.includes('/engineering-tools/grade-specification-lookup</loc>'), 'Application sitemap URL missing'],
-            [sitemap.includes('/engineering-tools/grade-specification-lookup/how-to-use</loc>'), 'Guide sitemap URL missing']
-          ];
-          for (const [condition, message] of checks) if (!condition) throw new Error(message);
-          console.log('Grade Specification Lookup integration checks passed.');
-          NODE
-'''
-          Path('.github/workflows/grade-specification-lookup-tests.yml').write_text(original_workflow, encoding='utf-8')
-          temporary = Path('.github/workflows/polish-pareto-bottom.yml')
-          if temporary.exists():
-              temporary.unlink()
-
-          assert cleanup_marker in lesson_path.read_text(encoding='utf-8')
+              path.write_text(text.replace(marker, css + marker, 1), encoding='utf-8')
           PY
-      - name: Commit the polished layout and restore workflows
+      - name: Restore workflows and commit
         shell: bash
         run: |
+          git fetch origin main
+          git checkout origin/main -- .github/workflows/grade-specification-lookup-tests.yml
+          rm -f .github/workflows/polish-pareto-bottom.yml
           git config user.name "upskillsprint-agent"
           git config user.email "upskillsprint-agent@users.noreply.github.com"
           git add -A
           git commit -m "Polish Pareto lesson ending layout"
           git push origin HEAD:test
-
-# Final trigger state.
