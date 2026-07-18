@@ -105,6 +105,57 @@
     document.head.appendChild(style);
   }
 
+  function injectParetoEndingStyles() {
+    if (PAGE_SLUG !== '/lessons/understanding-pareto-chart') return;
+    if (document.getElementById('pareto-ending-layout-styles')) return;
+
+    var style = document.createElement('style');
+    style.id = 'pareto-ending-layout-styles';
+    style.textContent = [
+      '.lesson-wrapper #summary { max-width: 920px; margin: 3rem auto 1.8rem; }',
+      '.lesson-wrapper #references { max-width: 920px; margin: 1.8rem auto 0; }',
+      '.lesson-wrapper .summary-grid { display: block; border-top: 1px solid var(--line);',
+      '  border-bottom: 1px solid var(--line); }',
+      '.lesson-wrapper .summary-item { display: grid; grid-template-columns: minmax(9.5rem,.42fr) minmax(0,1fr);',
+      '  gap: 1rem; align-items: start; padding: .9rem 0; border: 0; border-bottom: 1px solid var(--line);',
+      '  border-radius: 0; background: transparent; }',
+      '.lesson-wrapper .summary-item:last-child { border-bottom: 0; }',
+      '.lesson-wrapper .summary-item strong { margin: 0; color: var(--teal-dark);',
+      '  font-family: "Work Sans", Arial, sans-serif; font-size: .88rem; letter-spacing: .01em; }',
+      '.lesson-wrapper .references-list { columns: 2; column-gap: 2.5rem; margin: 0; padding-left: 1.35rem; }',
+      '.lesson-wrapper .references-list li { break-inside: avoid; margin: 0 0 .65rem; padding-left: .15rem; }',
+      '.lesson-wrapper .references-list a { text-decoration: none; text-underline-offset: .18em; }',
+      '.lesson-wrapper .references-list a:hover, .lesson-wrapper .references-list a:focus-visible { text-decoration: underline; }',
+      '.lesson-wrapper #lesson-progress-widget { max-width: 920px; margin: 1.75rem auto 0; padding: 0; }',
+      '.lesson-wrapper #lesson-progress-widget .lp-card { display: grid; grid-template-columns: minmax(9.5rem,.42fr) minmax(0,1fr) auto;',
+      '  gap: .35rem 1rem; align-items: center; padding: 1.15rem 0; border: 0; border-top: 1px solid var(--line);',
+      '  border-radius: 0; background: transparent; }',
+      '.lesson-wrapper #lesson-progress-widget .lp-label { grid-column: 1; grid-row: 1 / span 2; margin: 0; }',
+      '.lesson-wrapper #lesson-progress-widget .lp-card > p:not(.lp-label) { grid-column: 2; margin: 0; }',
+      '.lesson-wrapper #lesson-progress-widget .lp-actions { grid-column: 3; grid-row: 1 / span 2; margin: 0; }',
+      '.lesson-wrapper .lesson-footer { max-width: 920px; margin: 0 auto; padding: 1.25rem 0 0;',
+      '  border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; }',
+      '.lesson-wrapper .lesson-footer-nav { grid-template-columns: minmax(0,.75fr) minmax(18rem,1.25fr);',
+      '  gap: 2rem; align-items: center; }',
+      '.lesson-wrapper .back-category-link { display: inline-flex; align-items: center; min-height: 44px; }',
+      '.lesson-wrapper .lesson-footer-next { max-width: 36rem; justify-self: end; color: var(--muted); line-height: 1.55; }',
+      '.lesson-wrapper .lesson-footer-next strong { color: var(--ink); }',
+      '@media (max-width: 700px) {',
+      '  .lesson-wrapper .summary-item { grid-template-columns: 1fr; gap: .25rem; }',
+      '  .lesson-wrapper .references-list { columns: 1; }',
+      '  .lesson-wrapper #lesson-progress-widget .lp-card { grid-template-columns: 1fr; gap: .45rem; align-items: start; }',
+      '  .lesson-wrapper #lesson-progress-widget .lp-label,',
+      '  .lesson-wrapper #lesson-progress-widget .lp-card > p:not(.lp-label),',
+      '  .lesson-wrapper #lesson-progress-widget .lp-actions { grid-column: 1; grid-row: auto; }',
+      '  .lesson-wrapper #lesson-progress-widget .lp-actions { margin-top: .35rem; }',
+      '  .lesson-wrapper .lesson-footer-nav { grid-template-columns: 1fr; gap: .75rem; }',
+      '  .lesson-wrapper .lesson-footer-next { justify-self: start; text-align: left; }',
+      '}',
+      '@media print { .lesson-wrapper #lesson-progress-widget { display: none !important; } }'
+    ].join('\n');
+    document.head.appendChild(style);
+  }
+
   function ensureWidgetContainer() {
     var existing = document.getElementById('lesson-progress-widget');
     if (existing) return existing;
@@ -140,6 +191,7 @@
         '<a href="/sign-in.html">Sign in</a> or <a href="/signup.html">create a free account</a>.';
       card.appendChild(invite);
       container.appendChild(card);
+      injectParetoEndingStyles();
       return;
     }
 
@@ -189,6 +241,7 @@
     card.appendChild(actions);
 
     container.appendChild(card);
+    injectParetoEndingStyles();
   }
 
   function startLessonTracking(user) {
