@@ -105,6 +105,39 @@
     document.head.appendChild(style);
   }
 
+  function injectParetoEndingStyles() {
+    if (PAGE_SLUG !== '/lessons/understanding-pareto-chart') return;
+    if (document.getElementById('pareto-ending-layout-styles')) return;
+
+    var style = document.createElement('style');
+    style.id = 'pareto-ending-layout-styles';
+    style.textContent = [
+      '.lesson-wrapper #summary { max-width: 920px; margin: 3rem auto 1.8rem; }',
+      '.lesson-wrapper .summary-list { max-width: 76ch; margin: 0; padding-left: 1.35rem; }',
+      '.lesson-wrapper .summary-list li { margin: .72rem 0; padding-left: .3rem; color: var(--ink); }',
+      '.lesson-wrapper .summary-list li::marker { color: var(--teal); font-size: 1.05em; }',
+      '.lesson-wrapper .summary-list strong { color: var(--teal-dark); }',
+      '.lesson-wrapper #references { max-width: 920px; margin: 1.8rem auto 0; }',
+      '.lesson-wrapper .references-list { columns: 2; column-gap: 2.5rem; margin: 0; padding-left: 1.35rem; }',
+      '.lesson-wrapper .references-list li { break-inside: avoid; margin: 0 0 .65rem; padding-left: .15rem; }',
+      '.lesson-wrapper .references-list a { text-decoration: none; text-underline-offset: .18em; }',
+      '.lesson-wrapper .references-list a:hover, .lesson-wrapper .references-list a:focus-visible { text-decoration: underline; }',
+      '.lesson-wrapper #lesson-progress-widget { display: none !important; }',
+      '.lesson-wrapper .lesson-footer { max-width: 920px; margin: 1.75rem auto 0; padding: 1.25rem 0 0;',
+      '  border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; }',
+      '.lesson-wrapper .lesson-footer-nav { display: block; }',
+      '.lesson-wrapper .back-category-link { display: inline-flex; align-items: center; min-height: 44px; }',
+      '.lesson-wrapper .lesson-footer-next { display: none !important; }',
+      '@media (max-width: 700px) {',
+      '  .lesson-wrapper .references-list { columns: 1; }',
+      '}',
+      '@media print {',
+      '  .lesson-wrapper #lesson-progress-widget, .lesson-wrapper .lesson-footer-next { display: none !important; }',
+      '}'
+    ].join('\n');
+    document.head.appendChild(style);
+  }
+
   function ensureWidgetContainer() {
     var existing = document.getElementById('lesson-progress-widget');
     if (existing) return existing;
@@ -119,6 +152,9 @@
 
   function renderWidget() {
     if (!isLessonPage()) return;
+    injectParetoEndingStyles();
+    if (PAGE_SLUG === '/lessons/understanding-pareto-chart') return;
+
     var auth = getAuth();
     if (!auth || !auth.isConfigured()) return;
 
@@ -140,6 +176,7 @@
         '<a href="/sign-in.html">Sign in</a> or <a href="/signup.html">create a free account</a>.';
       card.appendChild(invite);
       container.appendChild(card);
+      injectParetoEndingStyles();
       return;
     }
 
@@ -189,6 +226,7 @@
     card.appendChild(actions);
 
     container.appendChild(card);
+    injectParetoEndingStyles();
   }
 
   function startLessonTracking(user) {

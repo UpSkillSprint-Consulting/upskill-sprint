@@ -1,164 +1,1392 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Root Cause Analysis: 5 Whys vs Fishbone Diagram",
+  "slug": "root-cause-analysis-5-whys-fishbone",
+  "category": "Quality Engineering",
+  "category_slug": "quality-engineering",
+  "level": "Beginner",
+  "estimated_minutes": 22,
+  "interactive": true,
+  "card_title": "Root Cause Analysis: 5 Whys vs Fishbone Diagram",
+  "card_description": "Build a 5 Whys chain, populate a live fishbone diagram, and decide which tool fits the problem.",
+  "search_keywords": [
+    "root cause analysis",
+    "5 whys",
+    "five whys",
+    "fishbone diagram",
+    "ishikawa diagram",
+    "cause and effect diagram",
+    "6M",
+    "quality engineering",
+    "problem solving",
+    "cause validation",
+    "corrective action",
+    "ASQ CSSBB",
+    "ASQ CQE",
+    "interactive"
+  ],
+  "suggested_github_path": "lessons/root-cause-analysis-5-whys-fishbone.html"
+}
+-->
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Root Cause Analysis: 5 Whys vs Fishbone Diagram | UpSkill Sprint Consulting</title>
-<meta name="description" content="Two ways to move from symptoms to causes, and when to use each one.">
-<link rel="canonical" href="https://upskillsprint.com/lessons/root-cause-analysis-5-whys-fishbone.html">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Root Cause Analysis: 5 Whys vs Fishbone Diagram | UpSkill Sprint Consulting">
-<meta property="og:description" content="Two ways to move from symptoms to causes, and when to use each one.">
-<meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
-<meta property="og:url" content="https://upskillsprint.com/lessons/root-cause-analysis-5-whys-fishbone.html">
-<meta name="twitter:card" content="summary">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css">
-<link rel="stylesheet" href="../lessons-theme.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Root Cause Analysis: 5 Whys vs Fishbone Diagram | UpSkill Sprint Consulting</title>
+  <meta name="description" content="An interactive visual lesson for choosing, building, and validating 5 Whys and fishbone root cause analyses.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/root-cause-analysis-5-whys-fishbone">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Root Cause Analysis: 5 Whys vs Fishbone Diagram | UpSkill Sprint Consulting">
+  <meta property="og:description" content="Build a 5 Whys chain, populate a live fishbone diagram, and decide which tool fits the problem.">
+  <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/root-cause-analysis-5-whys-fishbone">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <style>
+    :root {
+      --paper: #ffffff;
+      --surface: #ffffff;
+      --surface-soft: #f5f7fa;
+      --card: #ffffff;
+      --tint: #f5f7fa;
+      --ink: #101828;
+      --ink-soft: #344054;
+      --muted: #667085;
+      --line: #e3e7ee;
+      --navy: #0f2a43;
+      --teal: #0e7490;
+      --teal-dark: #0a5a70;
+      --amber: #c46f00;
+      --success: #237a4b;
+      --warning: #a96300;
+      --danger: #b42318;
+      --info: #2f6fb0;
+      --shade-1: #ccebf0;
+      --shade-2: #e4f4f6;
+      --shade-3: #f1f9fa;
+      --on-dark: #ffffff;
+      --on-dark-soft: #e8f3f6;
+      --glass: rgba(255, 255, 255, 0.12);
+      --glass-line: rgba(255, 255, 255, 0.28);
+      --shadow: rgba(15, 42, 67, 0.09);
+      --diagram-line: #567086;
+      --diagram-fill: #e4f4f6;
+      --diagram-accent: #0e7490;
+      --diagram-warn: #c46f00;
+      --focus-ring: #c46f00;
+    }
+
+    html[data-theme="dark"] {
+      --paper: #0b1220;
+      --surface: #111c2d;
+      --surface-soft: #0f1a2b;
+      --card: #111c2d;
+      --tint: #0f1a2b;
+      --ink: #f4f7fb;
+      --ink-soft: #d2dbea;
+      --muted: #a9b6c8;
+      --line: #2b3b50;
+      --navy: #102a43;
+      --teal: #2bb7c9;
+      --teal-dark: #67d4df;
+      --amber: #f0b95a;
+      --success: #58c48a;
+      --warning: #e9a94a;
+      --danger: #e57368;
+      --info: #6ea3d8;
+      --shade-1: #173946;
+      --shade-2: #142f3a;
+      --shade-3: #102731;
+      --on-dark: #ffffff;
+      --on-dark-soft: #e8f3f6;
+      --glass: rgba(255, 255, 255, 0.11);
+      --glass-line: rgba(255, 255, 255, 0.24);
+      --shadow: rgba(0, 0, 0, 0.24);
+      --diagram-line: #8ea4ba;
+      --diagram-fill: #173946;
+      --diagram-accent: #2bb7c9;
+      --diagram-warn: #f0b95a;
+      --focus-ring: #f0b95a;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Work Sans", Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.68;
+    }
+    h1, h2, h3, h4 {
+      color: var(--ink);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-weight: 600;
+      line-height: 1.22;
+    }
+    h1 { margin: 0.35rem 0 0.7rem; font-size: clamp(2rem, 5vw, 3.2rem); }
+    h2 { margin: 0 0 1rem; font-size: clamp(1.55rem, 3vw, 2rem); }
+    h3 { margin: 0 0 0.65rem; font-size: 1.2rem; }
+    p { margin: 0.72rem 0; }
+    a { color: var(--teal-dark); }
+    strong { color: var(--ink); }
+    button, input, select, textarea { font: inherit; }
+    button, select, input[type="checkbox"], input[type="radio"] { cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible {
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 3px;
+    }
+    code {
+      padding: 0.08rem 0.34rem;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: var(--surface-soft);
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      z-index: 100;
+      padding: 0.7rem 1rem;
+      border-radius: 0 0 8px 0;
+      background: var(--navy);
+      color: var(--on-dark);
+    }
+    .skip-link:focus { left: 0; }
+
+    .lesson-sitebar .header-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+    .lesson-sitebar .header-cta { padding: 0.6rem 0.9rem; font-size: 0.78rem; }
+    .lesson-sitebar .mobile-menu-btn { color: var(--ink); }
+    .lesson-sitebar .mobile-menu-btn svg { stroke: currentColor; }
+
+    main#lesson-content {
+      width: min(1080px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1rem 0 4rem;
+    }
+    article.lesson-wrapper { display: block; }
+    .lesson-wrapper > section { margin: 3.2rem 0; scroll-margin-top: 92px; }
+
+    .lesson-hero {
+      position: relative;
+      overflow: hidden;
+      margin-top: 1rem;
+      padding: clamp(1.6rem, 4vw, 3.3rem);
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--navy), var(--teal));
+      color: var(--on-dark);
+      box-shadow: 0 18px 44px var(--shadow);
+    }
+    .lesson-hero::after {
+      content: "";
+      position: absolute;
+      right: -5rem;
+      bottom: -7rem;
+      width: 19rem;
+      height: 19rem;
+      border: 2rem solid var(--glass);
+      border-radius: 50%;
+    }
+    .lesson-hero > * { position: relative; z-index: 1; }
+    .lesson-hero h1, .lesson-hero strong { color: var(--on-dark); }
+    .lesson-eyebrow {
+      margin: 0;
+      color: var(--on-dark-soft);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .lesson-meta-row { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 0.8rem 0 1rem; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.28rem 0.75rem;
+      border: 1px solid var(--glass-line);
+      border-radius: 999px;
+      background: var(--glass);
+      color: var(--on-dark);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .pill.accent { background: var(--on-dark); color: var(--navy); }
+    .lesson-lede { max-width: 69ch; margin: 0; color: var(--on-dark-soft); font-size: clamp(1.04rem, 2vw, 1.2rem); }
+    .why-it-matters {
+      max-width: 80ch;
+      margin-top: 1.2rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--glass-line);
+      border-left: 4px solid var(--amber);
+      border-radius: 0 10px 10px 0;
+      background: var(--glass);
+      color: var(--on-dark);
+    }
+
+    nav.lesson-toc {
+      margin: 1.6rem 0;
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+    nav.lesson-toc h2 {
+      margin: 0 0 0.55rem;
+      color: var(--muted);
+      font-family: "Work Sans", Arial, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    nav.lesson-toc ol {
+      margin: 0;
+      padding-left: 1.25rem;
+      columns: 2;
+      column-gap: 2rem;
+    }
+    nav.lesson-toc li { break-inside: avoid; margin: 0.28rem 0; }
+    nav.lesson-toc a { text-decoration: none; }
+    nav.lesson-toc a:hover { text-decoration: underline; }
+
+    .section-intro { max-width: 78ch; color: var(--muted); }
+    .panel {
+      padding: 1.2rem 1.3rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+    .grid-2, .grid-3, .comparison-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    }
+    .concept-card {
+      min-height: 100%;
+      padding: 1.1rem 1.15rem;
+      border-top: 3px solid var(--teal);
+      background: var(--surface-soft);
+    }
+    .concept-card p { margin-bottom: 0; color: var(--muted); }
+    .concept-kicker {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--teal-dark);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .lesson-wrapper .callout {
+      background: var(--surface);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--info);
+      border-radius: 12px;
+      padding: 1.1rem 1.25rem;
+    }
+    .lesson-wrapper .callout.tip { border-left-color: var(--success); }
+    .lesson-wrapper .callout.warn { border-left-color: var(--warning); }
+    .lesson-wrapper .callout.danger { border-left-color: var(--danger); }
+
+    .objectives-list { margin: 0; padding-left: 1.25rem; }
+    .objectives-list li { margin: 0.45rem 0; }
+    .objectives-list li::marker { color: var(--teal); font-weight: 800; }
+
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      background: var(--surface);
+    }
+    caption { padding: 0 0 0.55rem; color: var(--muted); text-align: left; font-size: 0.88rem; }
+    th, td {
+      padding: 0.7rem 0.75rem;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--navy); color: var(--on-dark); }
+    tbody tr:nth-child(even) { background: var(--surface-soft); }
+
+    .decision-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(250px, 0.72fr);
+      gap: 1rem;
+      align-items: start;
+    }
+    .decision-options {
+      display: grid;
+      gap: 0.7rem;
+    }
+    .decision-option {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.75rem;
+      align-items: start;
+      padding: 0.85rem 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--ink);
+    }
+    .decision-option input { margin-top: 0.3rem; accent-color: var(--teal); }
+    .decision-option span { display: block; color: var(--muted); font-size: 0.9rem; }
+    .recommendation {
+      position: sticky;
+      top: 90px;
+      padding: 1.15rem;
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--teal);
+      border-radius: 12px;
+      background: var(--surface-soft);
+    }
+    .recommendation-label {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+    .recommendation h3 { margin-top: 0.3rem; color: var(--teal-dark); }
+    .recommendation-meter {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .meter-item {
+      padding: 0.65rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+    .meter-track {
+      height: 7px;
+      margin-top: 0.35rem;
+      overflow: hidden;
+      border-radius: 999px;
+      background: var(--line);
+    }
+    .meter-fill { height: 100%; width: 0; background: var(--teal); transition: width 0.25s ease; }
+    .meter-item:last-child .meter-fill { background: var(--amber); }
+
+    .builder-shell {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.92fr) minmax(0, 1.08fr);
+      gap: 1rem;
+      align-items: start;
+    }
+    .field-group { margin-bottom: 0.9rem; }
+    .field-group label, .why-row label {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--ink);
+      font-size: 0.84rem;
+      font-weight: 750;
+    }
+    .field-group input, .field-group textarea, .why-row input, .why-row select,
+    .cause-entry input, .matrix-select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--ink);
+    }
+    .field-group input, .why-row input, .cause-entry input, .matrix-select {
+      min-height: 44px;
+      padding: 0.65rem 0.75rem;
+    }
+    .field-group textarea {
+      min-height: 88px;
+      resize: vertical;
+      padding: 0.7rem 0.75rem;
+    }
+    .why-list { display: grid; gap: 0.7rem; }
+    .why-row {
+      display: grid;
+      grid-template-columns: 2.2rem minmax(0, 1fr) minmax(110px, 0.36fr);
+      gap: 0.55rem;
+      align-items: end;
+    }
+    .why-index {
+      display: grid;
+      width: 2.2rem;
+      height: 2.2rem;
+      place-items: center;
+      align-self: center;
+      border-radius: 50%;
+      background: var(--shade-1);
+      color: var(--teal-dark);
+      font-weight: 800;
+    }
+    .builder-actions, .cause-entry, .category-tabs, .reveal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      align-items: center;
+    }
+    .button {
+      min-height: 44px;
+      padding: 0.65rem 0.95rem;
+      border: 1px solid var(--teal);
+      border-radius: 8px;
+      background: var(--teal);
+      color: var(--on-dark);
+      font-weight: 750;
+    }
+    .button:hover { background: var(--teal-dark); }
+    .button.secondary {
+      border-color: var(--line);
+      background: var(--surface);
+      color: var(--ink);
+    }
+    .button.secondary:hover { border-color: var(--teal); color: var(--teal-dark); }
+    .button.danger {
+      border-color: var(--danger);
+      background: transparent;
+      color: var(--danger);
+    }
+    .button.small { min-height: 38px; padding: 0.45rem 0.7rem; font-size: 0.86rem; }
+
+    .visual-panel {
+      min-width: 0;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface-soft);
+    }
+    .visual-panel h3 { margin-bottom: 0.2rem; }
+    .visual-panel > p { margin-top: 0; color: var(--muted); font-size: 0.9rem; }
+    .diagram-frame {
+      width: 100%;
+      overflow-x: auto;
+      padding: 0.5rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+    .diagram-line { stroke: var(--diagram-line); stroke-width: 3; fill: none; }
+    .diagram-line.thin { stroke-width: 1.6; }
+    .diagram-accent { stroke: var(--diagram-accent); fill: var(--diagram-fill); }
+    .diagram-warn { stroke: var(--diagram-warn); fill: var(--surface); }
+    .diagram-text {
+      fill: var(--ink);
+      font-family: "Work Sans", Arial, sans-serif;
+      font-size: 13px;
+    }
+    .diagram-text.small { font-size: 11px; fill: var(--muted); }
+    .diagram-text.bold { font-weight: 800; }
+
+    .fishbone-builder {
+      grid-template-columns: 1fr;
+    }
+    .fishbone-controls-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 0.42fr);
+      gap: 1rem 1.25rem;
+      align-items: start;
+    }
+    .fishbone-controls-panel .field-group,
+    .fishbone-controls-panel .category-tabs,
+    .fishbone-controls-panel .cause-entry,
+    .fishbone-controls-panel .cause-count,
+    .fishbone-controls-panel .cause-list,
+    .fishbone-controls-panel .builder-actions {
+      grid-column: 1;
+    }
+    .fishbone-guidance {
+      grid-column: 2;
+      grid-row: 1 / span 6;
+      padding: 0.9rem 1rem;
+      border-left: 4px solid var(--teal);
+      background: var(--surface-soft);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .fishbone-guidance strong { display: block; margin-bottom: 0.35rem; color: var(--ink); }
+    .fishbone-visual-panel { padding: clamp(0.9rem, 2vw, 1.25rem); }
+    .fishbone-visual-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.55rem;
+    }
+    .fishbone-visual-header > div:first-child { min-width: 0; }
+    .fishbone-visual-header p { margin: 0.18rem 0 0; color: var(--muted); font-size: 0.9rem; }
+    .fishbone-toolbar {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      padding: 0.25rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+    .fishbone-mode-button {
+      min-height: 38px;
+      padding: 0.45rem 0.72rem;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 750;
+    }
+    .fishbone-mode-button[aria-pressed="true"] {
+      border-color: var(--teal);
+      background: var(--shade-2);
+      color: var(--teal-dark);
+    }
+    .fishbone-view-status {
+      margin: 0 0 0.7rem;
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 650;
+    }
+    .fishbone-diagram-frame { overscroll-behavior-inline: contain; }
+    .fishbone-svg {
+      display: block;
+      width: 100%;
+      min-width: 850px;
+      height: auto;
+    }
+    .fishbone-branch { cursor: pointer; }
+    .fishbone-branch-hit { fill: transparent; stroke: transparent; }
+    .fishbone-branch-line { stroke: var(--diagram-line); stroke-width: 3.2; fill: none; }
+    .fishbone-branch:hover .fishbone-branch-line,
+    .fishbone-branch:focus .fishbone-branch-line,
+    .fishbone-branch.is-selected .fishbone-branch-line {
+      stroke: var(--diagram-accent);
+      stroke-width: 5;
+    }
+    .fishbone-category-box {
+      fill: var(--surface);
+      stroke: var(--line);
+      stroke-width: 1.6;
+    }
+    .fishbone-branch:hover .fishbone-category-box,
+    .fishbone-branch:focus .fishbone-category-box,
+    .fishbone-branch.is-selected .fishbone-category-box {
+      fill: var(--shade-2);
+      stroke: var(--diagram-accent);
+      stroke-width: 2.2;
+    }
+    .fishbone-count-badge { fill: var(--shade-1); stroke: var(--diagram-accent); stroke-width: 1.3; }
+    .fishbone-cause-connector { stroke: var(--diagram-line); stroke-width: 1.5; fill: none; }
+    .fishbone-cause-box { fill: var(--surface); stroke: var(--line); stroke-width: 1.4; }
+    .fishbone-cause-box.is-active { fill: var(--shade-3); stroke: var(--diagram-accent); stroke-width: 1.8; }
+    .fishbone-cause-dot { fill: var(--diagram-accent); }
+    .fishbone-overflow-box { fill: var(--surface-soft); stroke: var(--line); stroke-width: 1.2; stroke-dasharray: 5 4; }
+    .fishbone-branch:focus { outline: none; }
+    .fishbone-branch:focus .fishbone-category-box { filter: drop-shadow(0 0 3px var(--focus-ring)); }
+    .chain-status {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 0.8rem;
+    }
+    .status-pill {
+      padding: 0.32rem 0.65rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .status-pill.good { border-color: var(--success); color: var(--success); }
+    .status-pill.warn { border-color: var(--warning); color: var(--warning); }
+
+    .category-tabs { margin: 0.9rem 0; }
+    .category-tab {
+      min-height: 40px;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .category-tab[aria-pressed="true"] {
+      border-color: var(--teal);
+      background: var(--shade-2);
+      color: var(--teal-dark);
+    }
+    .cause-entry { margin-bottom: 0.75rem; }
+    .cause-entry input { flex: 1 1 240px; }
+    .cause-list {
+      display: grid;
+      gap: 0.45rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .cause-list li {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.6rem;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .cause-list button {
+      border: 0;
+      background: transparent;
+      color: var(--danger);
+      font-weight: 700;
+    }
+    .cause-count { color: var(--muted); font-size: 0.85rem; }
+
+    .validation-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    .validation-stat {
+      padding: 0.85rem;
+      border-left: 4px solid var(--teal);
+      background: var(--surface-soft);
+    }
+    .validation-stat span { display: block; color: var(--muted); font-size: 0.78rem; }
+    .validation-stat strong { display: block; font-size: 1.35rem; }
+    .score-badge {
+      display: inline-block;
+      min-width: 2.7rem;
+      padding: 0.25rem 0.45rem;
+      border-radius: 999px;
+      background: var(--shade-1);
+      color: var(--teal-dark);
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .numbered-process {
+      counter-reset: process;
+      display: grid;
+      gap: 0.8rem;
+      margin: 1rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .numbered-process li {
+      counter-increment: process;
+      position: relative;
+      min-height: 3rem;
+      padding: 0.85rem 1rem 0.85rem 3.8rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .numbered-process li::before {
+      content: counter(process);
+      position: absolute;
+      left: 0.4rem;
+      top: 0.72rem;
+      display: grid;
+      width: 2.15rem;
+      height: 2.15rem;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--teal);
+      color: var(--on-dark);
+      font-weight: 800;
+    }
+
+    .worked-flow {
+      display: grid;
+      gap: 0.65rem;
+      margin-top: 1rem;
+    }
+    .worked-step {
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .worked-step[hidden] { display: none; }
+    .worked-step strong { color: var(--teal-dark); }
+
+    .practice-prompt {
+      padding: 1.1rem 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .quiz-shell {
+      padding: clamp(1rem, 3vw, 1.5rem);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface-soft);
+    }
+    .quiz-q {
+      margin: 0 0 1rem;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+    }
+    .quiz-q legend { padding: 0 0.25rem; color: var(--ink); font-weight: 800; }
+    .quiz-options { display: grid; gap: 0.55rem; margin-top: 0.8rem; }
+    .lesson-wrapper .quiz-option {
+      display: flex;
+      min-height: 44px;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.72rem 0.8rem;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--surface);
+      color: var(--ink);
+    }
+    .lesson-wrapper .quiz-option:hover { border-color: var(--teal); }
+    .lesson-wrapper .quiz-option input { margin-top: 0.27rem; accent-color: var(--teal); }
+    .lesson-wrapper .quiz-feedback {
+      display: block;
+      margin-top: 0.7rem;
+      padding: 0.7rem 0.8rem;
+      border-radius: 8px;
+      background: var(--surface-soft);
+      color: var(--ink);
+    }
+    .lesson-wrapper .quiz-feedback[hidden] { display: none; }
+    .quiz-feedback.correct { border-left: 4px solid var(--success); }
+    .quiz-feedback.incorrect { border-left: 4px solid var(--danger); }
+    .quiz-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+    #quiz-score { margin: 0; color: var(--ink); font-weight: 800; }
+
+    .summary-list {
+      max-width: 78ch;
+      margin: 0;
+      padding-left: 1.35rem;
+    }
+    .summary-list li { margin: 0.72rem 0; padding-left: 0.3rem; }
+    .summary-list li::marker { color: var(--teal); font-size: 1.05em; }
+    .summary-list strong { color: var(--teal-dark); }
+
+    .references-list { max-width: 82ch; padding-left: 1.2rem; }
+    .references-list li { margin: 0.6rem 0; }
+
+    .lesson-footer {
+      margin-top: 3.2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--line);
+    }
+    .back-category-link {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .back-category-link:hover { text-decoration: underline; }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 900px) {
+      .decision-shell, .builder-shell { grid-template-columns: 1fr; }
+      .fishbone-controls-panel { grid-template-columns: 1fr; }
+      .fishbone-controls-panel .field-group,
+      .fishbone-controls-panel .category-tabs,
+      .fishbone-controls-panel .cause-entry,
+      .fishbone-controls-panel .cause-count,
+      .fishbone-controls-panel .cause-list,
+      .fishbone-controls-panel .builder-actions,
+      .fishbone-guidance { grid-column: 1; grid-row: auto; }
+      .fishbone-visual-header { flex-direction: column; }
+      .fishbone-toolbar { width: 100%; }
+      .fishbone-mode-button { flex: 1 1 180px; }
+      .recommendation { position: static; }
+    }
+    @media (max-width: 700px) {
+      main#lesson-content { width: min(100% - 1rem, 1080px); }
+      .lesson-wrapper > section { margin: 2.5rem 0; }
+      .lesson-hero { border-radius: 14px; }
+      nav.lesson-toc ol { columns: 1; }
+      .panel, .visual-panel, .quiz-shell { padding: 1rem; }
+      .why-row { grid-template-columns: 2.2rem minmax(0, 1fr); }
+      .why-row select { grid-column: 2; }
+      .builder-actions .button, .cause-entry .button, .quiz-actions .button { width: 100%; }
+      .diagram-frame svg { min-width: 780px; }
+      .decision-option { min-height: 56px; }
+    }
+    @media (max-width: 430px) {
+      .lesson-sitebar .brand span { max-width: 10rem; font-size: 0.84rem; }
+      .lesson-sitebar .header-cta { display: none; }
+      h1 { font-size: 2rem; }
+      .why-row { grid-template-columns: 1fr; }
+      .why-index { margin-bottom: 0.2rem; }
+      .why-row select { grid-column: 1; }
+      .recommendation-meter { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      :root, html[data-theme="dark"] {
+        --paper: #ffffff;
+        --surface: #ffffff;
+        --surface-soft: #ffffff;
+        --ink: #000000;
+        --ink-soft: #222222;
+        --muted: #333333;
+        --line: #999999;
+        --diagram-line: #333333;
+        --diagram-fill: #ffffff;
+        --diagram-accent: #000000;
+      }
+      body { background: #ffffff; color: #000000; font-size: 10.5pt; }
+      .site, .mobile-nav, .lesson-toc, .builder-actions, .cause-entry, .category-tabs,
+      .recommendation-meter, .quiz-actions, .lesson-footer { display: none !important; }
+      main#lesson-content { width: 100%; padding: 0; }
+      .lesson-hero { box-shadow: none; border: 1px solid #777777; background: #ffffff; color: #000000; }
+      .lesson-hero h1, .lesson-hero strong, .lesson-hero .lesson-eyebrow,
+      .lesson-hero .lesson-lede, .lesson-hero .why-it-matters { color: #000000; }
+      .lesson-hero::after { display: none; }
+      .panel, .visual-panel, .quiz-shell { box-shadow: none; break-inside: avoid; }
+      .diagram-frame { overflow: visible; }
+      .diagram-frame svg { min-width: 0; }
+      section { break-inside: auto; }
+      table { min-width: 0; font-size: 9pt; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
   <script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
 </head>
-<body>
+<body data-lesson-page="true" data-category="quality-engineering" data-level="beginner" data-interactive="true">
+  <a class="skip-link" href="#lesson-content">Skip to lesson content</a>
   <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
-  <header class="site">
-    <a href="../index.html" class="brand">
-      <img src="../assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
+
+  <header class="site lesson-sitebar">
+    <a href="/" class="brand">
+      <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
       <span>UpSkill Sprint Consulting</span>
     </a>
-    <nav class="desktop-nav">
-      <a href="../start-here.html">Start Here</a>
-      <a href="../lessons.html" aria-current="page">Lessons</a>
-      <a href="../services.html">Services</a>
-      <a href="../request-topic.html">Request a Topic</a>
-      <a href="../about.html">About</a>
-      <a href="../faq.html">FAQ</a>
-      <a href="../contact.html">Contact</a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="/start-here">Start Here</a>
+      <a href="/lessons" aria-current="page">Lessons</a>
+      <a href="/engineering-tools">Engineering Tools</a>
+      <a href="/services">Services</a>
+      <a href="/request-topic">Request a Topic</a>
+      <a href="/about">About</a>
+      <a href="/faq">FAQ</a>
+      <a href="/contact">Contact</a>
     </nav>
-    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1c1f26" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-    </label>
-    <a href="../lessons.html" class="btn btn-teal header-cta" style="padding:9px 15px;font-size:12.5px;">Start a 15-min lesson</a>
+    <div class="header-actions">
+      <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" style="width:18px;height:auto;"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </label>
+      <a href="/lessons" class="btn btn-teal header-cta">Browse lessons</a>
+    </div>
   </header>
-  <nav class="mobile-nav">
-    <a href="../start-here.html">Start Here</a>
-    <a href="../lessons.html">Lessons</a>
-    <a href="../services.html">Services</a>
-    <a href="../request-topic.html">Request a Topic</a>
-    <a href="../about.html">About</a>
-    <a href="../faq.html">FAQ</a>
-    <a href="../contact.html">Contact</a>
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="/start-here">Start Here</a>
+    <a href="/lessons">Lessons</a>
+    <a href="/engineering-tools">Engineering Tools</a>
+    <a href="/services">Services</a>
+    <a href="/request-topic">Request a Topic</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+    <a href="/contact">Contact</a>
   </nav>
 
-  <section class="section" style="padding-bottom:8px;">
-    <div class="wrap" style="max-width:760px;">
-      <p class="eyebrow">Beginner &middot; 6 min read</p>
-      <h1 style="font-size:32px;margin:0 0 16px;">Root Cause Analysis: 5 Whys vs Fishbone Diagram</h1>
-      <p style="font-size:16px;line-height:1.65;color:var(--ink-soft);margin:0;"><strong>What you will learn:</strong> two simple ways to trace a problem back to its real cause, and when to use each.</p>
-      <div class="badge-row">
-        <span class="badge badge-quality">Quality Engineering</span>
-      </div>
-    </div>
-  </section>
+  <main id="lesson-content">
+    <article class="lesson-wrapper">
+      <header class="lesson-hero">
+        <p class="lesson-eyebrow">Quality Engineering · Beginner · 22 min read</p>
+        <h1>Root Cause Analysis: 5 Whys vs Fishbone Diagram</h1>
+        <div class="lesson-meta-row">
+          <span class="pill accent">Interactive</span>
+          <span class="pill">5 Whys builder</span>
+          <span class="pill">Live fishbone</span>
+          <span class="pill">Cause validation</span>
+        </div>
+        <p class="lesson-lede">Move beyond symptoms. Learn when to follow one causal chain, when to explore many branches, and how to test a suspected cause before calling it the root cause.</p>
+        <p class="why-it-matters"><strong>Why this matters at work:</strong> weak root cause analysis creates weak corrective actions. A good analysis links the observed effect to a controllable system condition and then verifies that link with evidence.</p>
+      </header>
 
-  <section class="section" style="padding:24px 0 0;">
-    <div class="wrap" style="max-width:760px;">
-      <h2 style="font-size:20px;margin:0 0 14px;">By the end, you should be able to</h2>
-      <div class="card">
-        <ul class="lesson-objectives">
-          <li>Run a 5 Whys on a recurring problem.</li>
-          <li>Know when a Fishbone diagram fits better than 5 Whys.</li>
-          <li>Avoid stopping at the first easy answer.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="padding:32px 0 0;">
-    <div class="wrap" style="max-width:760px;">
-      <h2 style="font-size:20px;margin:0 0 12px;">Why this matters at work</h2>
-      <p style="font-size:15.5px;line-height:1.7;color:var(--ink-soft);">Fixing symptoms instead of causes means the same problem keeps coming back. Root cause analysis stops the cycle by forcing you to ask "why" until you hit something you can actually act on.</p>
-
-      <h2 style="font-size:20px;margin:32px 0 12px;">Simple explanation</h2>
-      <p style="font-size:15.5px;line-height:1.7;color:var(--ink-soft);">Both tools get you from symptom to cause &mdash; they just work differently.</p>
-      <div class="callout callout-formula">
-        <strong>5 Whys:</strong> ask "why did that happen?" five times in a row, each answer feeding the next question.<br>
-        <strong>Fishbone (Ishikawa):</strong> branches the same question into categories &mdash; people, process, equipment, materials &mdash; so you can spot causes across multiple angles at once.
-      </div>
-
-      <h2 style="font-size:20px;margin:32px 0 12px;">Real workplace example</h2>
-      <div class="example-box">
-        <h3 style="font-size:17px;margin:0 0 10px;">A machine keeps jamming</h3>
-        <p style="font-size:15px;line-height:1.65;color:var(--ink-soft);margin:0 0 16px;">Tracing the real cause with 5 Whys:</p>
-        <ol class="step-list">
-          <li><div><strong>Why does it jam?</strong> Debris builds up inside.</div></li>
-          <li><div><strong>Why does debris build up?</strong> The filter isn't cleaned.</div></li>
-          <li><div><strong>Why isn't it cleaned?</strong> No one owns that task &mdash; it was never assigned after a staffing change.</div></li>
+      <nav class="lesson-toc" aria-label="Lesson contents">
+        <h2>Lesson map</h2>
+        <ol>
+          <li><a href="#learning-objectives">Learning objectives</a></li>
+          <li><a href="#key-concepts">Key concepts</a></li>
+          <li><a href="#terminology">Terminology</a></li>
+          <li><a href="#interactives">Interactive tool selector</a></li>
+          <li><a href="#procedure">How to run the analysis</a></li>
+          <li><a href="#worked-example">Worked example</a></li>
+          <li><a href="#mistakes">Common mistakes</a></li>
+          <li><a href="#software">Documentation tools</a></li>
+          <li><a href="#practice">Practice challenge</a></li>
+          <li><a href="#quiz">Knowledge check</a></li>
+          <li><a href="#summary">Summary</a></li>
+          <li><a href="#references">References</a></li>
         </ol>
-        <p style="font-size:15px;line-height:1.65;color:var(--ink-soft);margin:16px 0 0;">The real fix is assigning ownership, not just cleaning the machine once.</p>
-      </div>
+      </nav>
 
-      <h2 style="font-size:20px;margin:32px 0 12px;">Common mistake</h2>
-      <div class="callout callout-warning">
-        <strong>Watch out for:</strong> stopping at the first "why" that sounds reasonable. The first answer is usually a symptom, not the root cause &mdash; keep going until the answer points to something you can actually change.
-      </div>
+      <section id="learning-objectives">
+        <h2>Learning objectives</h2>
+        <div class="panel">
+          <ul class="objectives-list">
+            <li>Distinguish a symptom, direct cause, contributing cause, and root cause.</li>
+            <li>Select 5 Whys, a fishbone diagram, or a combined approach based on problem structure.</li>
+            <li>Build a defensible 5 Whys chain without forcing exactly five levels.</li>
+            <li>Organize possible causes with the 6M fishbone categories.</li>
+            <li>Prioritize and validate candidate causes before assigning corrective action.</li>
+          </ul>
+        </div>
+      </section>
 
-      <h2 style="font-size:20px;margin:32px 0 12px;">Try it yourself</h2>
-      <div class="callout callout-practice">
-        Pick a recurring annoyance at work. Ask "why" five times, writing down each answer. See how far the real cause is from your first guess.
-      </div>
-    </div>
-  </section>
+      <section id="key-concepts">
+        <h2>Key concepts</h2>
+        <p class="section-intro">The two tools solve different parts of the same problem. The 5 Whys develops depth along a causal path. The fishbone diagram develops breadth across multiple causal families.</p>
+        <div class="comparison-grid">
+          <article class="concept-card">
+            <span class="concept-kicker">5 Whys</span>
+            <h3>Follow the chain</h3>
+            <p>Best when the event sequence is reasonably clear and one answer can logically feed the next question.</p>
+          </article>
+          <article class="concept-card">
+            <span class="concept-kicker">Fishbone</span>
+            <h3>Explore the system</h3>
+            <p>Best when several functions, conditions, or mechanisms may contribute and the team needs structured brainstorming.</p>
+          </article>
+          <article class="concept-card">
+            <span class="concept-kicker">Combined method</span>
+            <h3>Go broad, then deep</h3>
+            <p>Use the fishbone to generate candidate branches, then apply 5 Whys to the strongest branches.</p>
+          </article>
+        </div>
+        <div class="callout warn" style="margin-top:1rem;">
+          <strong>Critical distinction:</strong> a diagram generates hypotheses. It does not prove causation. Evidence, testing, and recurrence prevention are still required.
+        </div>
+      </section>
 
-  <section class="section" style="padding:32px 0 0;">
-    <div class="wrap" style="max-width:760px;">
-      <h2 style="font-size:20px;margin:0 0 14px;">Check your understanding</h2>
-      <div class="quiz">
-        <h3>You need to compare causes across people, process, equipment, and materials at once. Which tool fits best?</h3>
-        <button class="quiz-option" onclick="checkQuiz(this, false)">5 Whys</button>
-        <button class="quiz-option" onclick="checkQuiz(this, true)">Fishbone diagram</button>
-        <button class="quiz-option" onclick="checkQuiz(this, false)">Neither</button>
-        <div class="quiz-feedback"></div>
-      </div>
-    </div>
-  </section>
+      <section id="terminology">
+        <h2>Terminology</h2>
+        <div class="table-scroll">
+          <table>
+            <caption>Terms used throughout this lesson</caption>
+            <thead><tr><th>Term</th><th>Meaning</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td>Symptom</td><td>The visible or measured effect.</td><td>Surface scratches increased after changeover.</td></tr>
+              <tr><td>Direct cause</td><td>The condition immediately producing the effect.</td><td>The side guide contacted the strip.</td></tr>
+              <tr><td>Contributing cause</td><td>A condition that increases probability or severity but may not be sufficient alone.</td><td>Poor lighting delayed detection.</td></tr>
+              <tr><td>Root cause</td><td>An underlying, controllable system condition whose removal prevents recurrence.</td><td>The product setup standard omitted the required guide clearance.</td></tr>
+              <tr><td>Candidate cause</td><td>A plausible explanation that still requires evidence.</td><td>Guide position drift.</td></tr>
+              <tr><td>6M categories</td><td>Common fishbone families: Manpower/People, Method, Machine, Material, Measurement, and Mother Nature/Environment.</td><td>Measurement includes gauges, sampling, and inspection methods.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
-  <section class="section tint" style="margin-top:48px;">
-    <div class="wrap" style="max-width:760px;">
-      <h2 style="font-size:20px;margin:0 0 12px;">Next lesson</h2>
-      <a href="../lessons.html#quality-engineering" style="font-family:'Source Serif 4',serif;font-size:19px;font-weight:600;">Back to the Quality Engineering lessons &rarr;</a>
-    </div>
-  </section>
+      <section id="interactives">
+        <h2>Interactive tool selector</h2>
+        <p class="section-intro">Select the characteristics that describe your problem. The recommendation updates as the problem structure changes.</p>
+        <div class="decision-shell panel">
+          <div class="decision-options" id="decision-options">
+            <label class="decision-option">
+              <input type="checkbox" data-five="3" data-fish="0" checked>
+              <span><strong>The event sequence is mostly known.</strong><span>One step appears to lead directly to the next.</span></span>
+            </label>
+            <label class="decision-option">
+              <input type="checkbox" data-five="0" data-fish="3">
+              <span><strong>Several functions or mechanisms may contribute.</strong><span>People, methods, equipment, material, measurement, or environment may all matter.</span></span>
+            </label>
+            <label class="decision-option">
+              <input type="checkbox" data-five="2" data-fish="0" checked>
+              <span><strong>The problem is narrow and specific.</strong><span>The location, timing, and failure mode are clearly defined.</span></span>
+            </label>
+            <label class="decision-option">
+              <input type="checkbox" data-five="0" data-fish="2">
+              <span><strong>The problem statement is broad.</strong><span>The team needs to map the system before choosing a path.</span></span>
+            </label>
+            <label class="decision-option">
+              <input type="checkbox" data-five="0" data-fish="2">
+              <span><strong>A cross-functional team is brainstorming.</strong><span>Different roles hold different pieces of the process knowledge.</span></span>
+            </label>
+            <label class="decision-option">
+              <input type="checkbox" data-five="2" data-fish="2">
+              <span><strong>Multiple causes are plausible, but some branches are already stronger.</strong><span>A combined approach may be most efficient.</span></span>
+            </label>
+          </div>
+          <aside class="recommendation" aria-live="polite">
+            <p class="recommendation-label">Recommended starting point</p>
+            <h3 id="recommendation-title">5 Whys</h3>
+            <p id="recommendation-text">Start with a focused causal chain, then branch only if the evidence reveals multiple paths.</p>
+            <div class="recommendation-meter">
+              <div class="meter-item">
+                <strong>5 Whys fit</strong>
+                <div class="meter-track"><div class="meter-fill" id="five-meter"></div></div>
+              </div>
+              <div class="meter-item">
+                <strong>Fishbone fit</strong>
+                <div class="meter-track"><div class="meter-fill" id="fish-meter"></div></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <h2 style="margin-top:2.7rem;">Build a 5 Whys chain</h2>
+        <p class="section-intro">Edit the problem and each answer. The chain visual updates immediately. Mark how strong the evidence is at every step.</p>
+        <div class="builder-shell">
+          <div class="panel">
+            <div class="field-group">
+              <label for="problem-input">Problem statement</label>
+              <textarea id="problem-input">Surface scratches increased after the line changeover.</textarea>
+            </div>
+            <div class="why-list" id="why-list">
+              <div class="why-row">
+                <span class="why-index">1</span>
+                <div><label for="why-1">Why did the problem occur?</label><input id="why-1" value="A side guide contacted the strip."></div>
+                <div><label for="evidence-1">Evidence</label><select id="evidence-1"><option value="2" selected>Strong</option><option value="1">Partial</option><option value="0">None</option></select></div>
+              </div>
+              <div class="why-row">
+                <span class="why-index">2</span>
+                <div><label for="why-2">Why did that happen?</label><input id="why-2" value="The guide clearance was set too tight."></div>
+                <div><label for="evidence-2">Evidence</label><select id="evidence-2"><option value="2" selected>Strong</option><option value="1">Partial</option><option value="0">None</option></select></div>
+              </div>
+              <div class="why-row">
+                <span class="why-index">3</span>
+                <div><label for="why-3">Why was the clearance too tight?</label><input id="why-3" value="The setup used a previous product setting."></div>
+                <div><label for="evidence-3">Evidence</label><select id="evidence-3"><option value="2">Strong</option><option value="1" selected>Partial</option><option value="0">None</option></select></div>
+              </div>
+              <div class="why-row">
+                <span class="why-index">4</span>
+                <div><label for="why-4">Why was the previous setting used?</label><input id="why-4" value="The setup sheet did not list the required clearance."></div>
+                <div><label for="evidence-4">Evidence</label><select id="evidence-4"><option value="2" selected>Strong</option><option value="1">Partial</option><option value="0">None</option></select></div>
+              </div>
+              <div class="why-row">
+                <span class="why-index">5</span>
+                <div><label for="why-5">Why was it missing?</label><input id="why-5" value="The standard was never updated after the product change."></div>
+                <div><label for="evidence-5">Evidence</label><select id="evidence-5"><option value="2">Strong</option><option value="1" selected>Partial</option><option value="0">None</option></select></div>
+              </div>
+            </div>
+            <div class="builder-actions" style="margin-top:1rem;">
+              <button class="button secondary" type="button" id="reset-whys">Reset example</button>
+              <button class="button" type="button" id="copy-whys">Copy analysis</button>
+            </div>
+          </div>
+          <div class="visual-panel">
+            <h3>Live causal chain</h3>
+            <p>A strong chain requires a logical link and evidence at every transition.</p>
+            <div class="diagram-frame">
+              <svg id="whys-svg" viewBox="0 0 920 500" role="img" aria-labelledby="whys-svg-title whys-svg-desc" style="width:100%;height:auto;">
+                <title id="whys-svg-title">Interactive 5 Whys causal chain</title>
+                <desc id="whys-svg-desc">A problem statement followed by up to five connected why answers, with evidence strength indicated by node styling.</desc>
+                <g id="whys-layer"></g>
+              </svg>
+            </div>
+            <div class="chain-status">
+              <span class="status-pill" id="answered-status">5 of 5 answers completed</span>
+              <span class="status-pill" id="evidence-status">4 evidence-supported links</span>
+              <span class="status-pill warn" id="root-status">Candidate cause, not yet verified</span>
+            </div>
+          </div>
+        </div>
+
+        <h2 style="margin-top:2.7rem;">Build a live fishbone diagram</h2>
+        <p class="section-intro">Choose a 6M category, add or remove candidate causes, and watch the diagram rebuild itself without crowding the labels.</p>
+        <div class="builder-shell fishbone-builder">
+          <div class="panel fishbone-controls-panel">
+            <div class="field-group">
+              <label for="effect-input">Effect at the head of the fishbone</label>
+              <input id="effect-input" value="Surface scratches after changeover">
+            </div>
+            <div class="category-tabs" id="category-tabs" aria-label="Fishbone categories"></div>
+            <div class="cause-entry">
+              <label class="visually-hidden" for="cause-input">New candidate cause</label>
+              <input id="cause-input" placeholder="Add a candidate cause">
+              <button class="button" type="button" id="add-cause">Add cause</button>
+            </div>
+            <p class="cause-count" id="cause-count"></p>
+            <ul class="cause-list" id="cause-list"></ul>
+            <div class="builder-actions" style="margin-top:1rem;">
+              <button class="button secondary" type="button" id="reset-fishbone">Reset fishbone</button>
+            </div>
+            <aside class="fishbone-guidance">
+              <strong>How to explore the diagram</strong>
+              Select a category tab or click a branch on the fishbone. Focused mode shows one category in detail, while Overview shows one representative cause per category. This keeps long labels readable and prevents overlapping text.
+            </aside>
+          </div>
+          <div class="visual-panel fishbone-visual-panel">
+            <div class="fishbone-visual-header">
+              <div>
+                <h3>Live 6M fishbone</h3>
+                <p>Click any branch to inspect its causes. The diagram organizes possibilities; it does not rank or validate them.</p>
+              </div>
+              <div class="fishbone-toolbar" role="group" aria-label="Fishbone display mode">
+                <button class="fishbone-mode-button" type="button" id="fishbone-focus-mode" aria-pressed="true">Focused category</button>
+                <button class="fishbone-mode-button" type="button" id="fishbone-overview-mode" aria-pressed="false">Overview</button>
+              </div>
+            </div>
+            <p class="fishbone-view-status" id="fishbone-view-status" role="status" aria-live="polite">Focused on People.</p>
+            <div class="diagram-frame fishbone-diagram-frame">
+              <svg id="fishbone-svg" class="fishbone-svg" viewBox="0 0 1200 760" role="img" aria-labelledby="fishbone-svg-title fishbone-svg-desc" style="width:100%;height:auto;" preserveAspectRatio="xMidYMid meet">
+                <title id="fishbone-svg-title">Interactive fishbone diagram</title>
+                <desc id="fishbone-svg-desc">A selectable cause-and-effect diagram with six branches for People, Method, Machine, Material, Measurement, and Environment.</desc>
+                <g id="fishbone-layer"></g>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <h2 style="margin-top:2.7rem;">Validate the candidate causes</h2>
+        <p class="section-intro">Score the leading candidates using evidence strength, recurrence match, and controllability. The highest score identifies where to investigate first—not a proven root cause.</p>
+        <div class="panel">
+          <div class="validation-summary">
+            <div class="validation-stat"><span>Candidate causes</span><strong id="candidate-total">0</strong></div>
+            <div class="validation-stat"><span>Highest score</span><strong id="highest-score">0</strong></div>
+            <div class="validation-stat"><span>Investigate first</span><strong id="investigate-first">—</strong></div>
+          </div>
+          <div class="table-scroll">
+            <table id="validation-table">
+              <caption>Interactive cause validation matrix</caption>
+              <thead>
+                <tr><th>Candidate cause</th><th>Category</th><th>Evidence</th><th>Recurrence match</th><th>Controllability</th><th>Score</th></tr>
+              </thead>
+              <tbody id="validation-body"></tbody>
+            </table>
+          </div>
+          <div class="callout tip" style="margin-top:1rem;">
+            <strong>Next move:</strong> design a check, test, measurement, or trial that could disprove the leading cause. A cause becomes credible when the evidence survives an attempt to reject it.
+          </div>
+        </div>
+      </section>
+
+      <section id="procedure">
+        <h2>How to run a defensible root cause analysis</h2>
+        <ol class="numbered-process">
+          <li><strong>Define the effect precisely.</strong> State what happened, where, when, how often, and how large the impact was.</li>
+          <li><strong>Contain before analyzing.</strong> Protect the customer and stabilize the process without confusing containment with corrective action.</li>
+          <li><strong>Select the tool.</strong> Use 5 Whys for a narrow chain, fishbone for broad exploration, or combine them.</li>
+          <li><strong>Separate facts from assumptions.</strong> Label each causal link as observed, partially supported, or unverified.</li>
+          <li><strong>Test candidate causes.</strong> Compare occurrence versus non-occurrence, reproduce the effect, review records, or run a controlled trial.</li>
+          <li><strong>Choose corrective action at the system level.</strong> Prefer standardization, mistake-proofing, design changes, alarms, and control-plan changes over reminders alone.</li>
+          <li><strong>Verify recurrence prevention.</strong> Monitor the outcome after implementation and confirm the effect does not return.</li>
+        </ol>
+      </section>
+
+      <section id="worked-example">
+        <h2>Worked example: recurring scratches after changeover</h2>
+        <p class="section-intro">This example shows why the combined method is often stronger than using either tool alone.</p>
+        <div class="panel">
+          <p><strong>Problem statement:</strong> During the first 30 minutes after product changeover, surface scratches increased from 0.4% to 3.1%, concentrated near the operator-side edge.</p>
+          <div class="worked-flow">
+            <div class="worked-step" data-worked-step="1">
+              <strong>Step 1 — Start broad:</strong> The team uses a fishbone and identifies guide setup, debris, material edge condition, lighting, inspection timing, and operator training as plausible causes.
+            </div>
+            <div class="worked-step" data-worked-step="2" hidden>
+              <strong>Step 2 — Prioritize:</strong> Scratch position aligns with the side guide, and the defect disappears after the guide is reset. The guide branch receives the strongest evidence score.
+            </div>
+            <div class="worked-step" data-worked-step="3" hidden>
+              <strong>Step 3 — Go deep:</strong> A 5 Whys chain traces the tight guide setting to a setup sheet that omitted the product-specific clearance.
+            </div>
+            <div class="worked-step" data-worked-step="4" hidden>
+              <strong>Step 4 — Validate:</strong> Recreating the previous setting reproduces the scratch location; applying the corrected clearance prevents it across three changeovers.
+            </div>
+            <div class="worked-step" data-worked-step="5" hidden>
+              <strong>Step 5 — Correct the system:</strong> The team updates the standard, adds a go/no-go clearance check, and audits the first five changeovers.
+            </div>
+          </div>
+          <div class="reveal-actions" style="margin-top:1rem;">
+            <button class="button" type="button" id="reveal-worked">Reveal next step</button>
+            <button class="button secondary" type="button" id="reset-worked">Reset example</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="mistakes">
+        <h2>Common mistakes and analytical cautions</h2>
+        <div class="grid-2">
+          <div class="callout warn"><strong>Forcing exactly five whys.</strong> Five is a prompt to dig deeper, not a required stopping rule. Stop when the causal chain is evidence-based and actionable.</div>
+          <div class="callout warn"><strong>Blaming people.</strong> “Operator error” is rarely a sufficient root cause. Ask what in the design, standard, training, interface, workload, or control allowed the error.</div>
+          <div class="callout warn"><strong>Mixing causes and solutions.</strong> “Add training” is an action, not a cause. First establish what condition produced the effect.</div>
+          <div class="callout warn"><strong>Voting instead of validating.</strong> Team consensus can prioritize hypotheses, but it cannot establish causation.</div>
+          <div class="callout warn"><strong>Using vague problem statements.</strong> “Quality is poor” produces a vague fishbone. Define the measurable effect first.</div>
+          <div class="callout warn"><strong>Ignoring non-occurrence data.</strong> Compare when the problem happens with when it does not. Contrasts often expose the causal variable.</div>
+        </div>
+      </section>
+
+      <section id="software">
+        <h2>Documentation tools</h2>
+        <p class="section-intro">These methods do not require specialized software. The priority is traceability: every cause, evidence source, owner, and decision should be visible.</p>
+        <div class="table-scroll">
+          <table>
+            <caption>Practical ways to document the analysis</caption>
+            <thead><tr><th>Tool</th><th>Best use</th><th>Minimum fields</th><th>Caution</th></tr></thead>
+            <tbody>
+              <tr><td>Whiteboard or sticky notes</td><td>Facilitated fishbone brainstorming</td><td>Effect, categories, candidate causes, owner</td><td>Photograph and transcribe the final version.</td></tr>
+              <tr><td>Excel</td><td>5 Whys log and validation matrix</td><td>Why level, answer, evidence, source, action, status</td><td>Do not convert scores into false precision.</td></tr>
+              <tr><td>PowerPoint / Visio</td><td>Clean fishbone communication</td><td>Effect, branch labels, prioritized causes</td><td>Keep evidence separate from brainstorming graphics.</td></tr>
+              <tr><td>Minitab Workspace</td><td>Structured quality projects and cause mapping</td><td>Problem statement, causes, tasks, evidence</td><td>Software structure does not replace process knowledge.</td></tr>
+              <tr><td>A3 / 8D report</td><td>Linking RCA to containment, action, and verification</td><td>Problem, analysis, root cause, corrective action, verification</td><td>Do not close the report before recurrence checks are complete.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout tip" style="margin-top:1rem;">
+          <strong>ASQ exam perspective:</strong> know the purpose and selection logic. Fishbone diagrams organize potential causes; 5 Whys drills into causal depth; neither tool alone verifies the root cause.
+        </div>
+      </section>
+
+      <section id="practice">
+        <h2>Practice challenge</h2>
+        <div class="practice-prompt">
+          <p><strong>Scenario:</strong> A laboratory turnaround time target is missed twice per week. Delays occur in sample receiving, preparation, testing, review, and result release.</p>
+          <p><strong>Your task:</strong> use the selector above. Decide whether to start with 5 Whys, a fishbone, or both. Then add at least one cause under People, Method, Machine, Measurement, and Environment. Finally, identify one cause that could be tested using timestamp data.</p>
+        </div>
+      </section>
+
+      <section id="quiz">
+        <h2>Knowledge check</h2>
+        <div class="quiz-shell">
+          <fieldset class="quiz-q" data-q="1" data-answer="b">
+            <legend>1. Which situation most strongly favors starting with a fishbone diagram?</legend>
+            <div class="quiz-options">
+              <label class="quiz-option"><input type="radio" name="q1" value="a">A single, well-observed sequence with one obvious transition</label>
+              <label class="quiz-option"><input type="radio" name="q1" value="b">A broad problem with several functions and mechanisms that may contribute</label>
+              <label class="quiz-option"><input type="radio" name="q1" value="c">A verified cause that already has a corrective action</label>
+            </div>
+            <p class="quiz-feedback" hidden></p>
+          </fieldset>
+
+          <fieldset class="quiz-q" data-q="2" data-answer="c">
+            <legend>2. What is the strongest reason not to stop at “operator error”?</legend>
+            <div class="quiz-options">
+              <label class="quiz-option"><input type="radio" name="q2" value="a">People can never cause defects</label>
+              <label class="quiz-option"><input type="radio" name="q2" value="b">Operator error always requires more training</label>
+              <label class="quiz-option"><input type="radio" name="q2" value="c">It does not explain the system condition that allowed the error to produce the effect</label>
+            </div>
+            <p class="quiz-feedback" hidden></p>
+          </fieldset>
+
+          <fieldset class="quiz-q" data-q="3" data-answer="a">
+            <legend>3. What does a fishbone diagram establish?</legend>
+            <div class="quiz-options">
+              <label class="quiz-option"><input type="radio" name="q3" value="a">A structured set of possible causes</label>
+              <label class="quiz-option"><input type="radio" name="q3" value="b">Statistical proof of the root cause</label>
+              <label class="quiz-option"><input type="radio" name="q3" value="c">The financial value of each corrective action</label>
+            </div>
+            <p class="quiz-feedback" hidden></p>
+          </fieldset>
+
+          <fieldset class="quiz-q" data-q="4" data-answer="b">
+            <legend>4. When should a 5 Whys chain stop?</legend>
+            <div class="quiz-options">
+              <label class="quiz-option"><input type="radio" name="q4" value="a">Always after the fifth answer</label>
+              <label class="quiz-option"><input type="radio" name="q4" value="b">When the chain reaches an evidence-based, controllable condition that explains recurrence</label>
+              <label class="quiz-option"><input type="radio" name="q4" value="c">As soon as the team agrees</label>
+            </div>
+            <p class="quiz-feedback" hidden></p>
+          </fieldset>
+
+          <fieldset class="quiz-q" data-q="5" data-answer="c">
+            <legend>5. Which action best validates a suspected cause?</legend>
+            <div class="quiz-options">
+              <label class="quiz-option"><input type="radio" name="q5" value="a">Ask the most experienced person whether it sounds right</label>
+              <label class="quiz-option"><input type="radio" name="q5" value="b">Select the cause with the most votes</label>
+              <label class="quiz-option"><input type="radio" name="q5" value="c">Use records, comparison, or a controlled test that could reject the causal link</label>
+            </div>
+            <p class="quiz-feedback" hidden></p>
+          </fieldset>
+
+          <div class="quiz-actions">
+            <button class="button" type="button" id="check-quiz-button">Check answers</button>
+            <button class="button secondary" type="button" id="retry-quiz-button">Try again</button>
+            <p id="quiz-score" role="status">Your score: 0 out of 5.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2>Summary</h2>
+        <ul class="summary-list">
+          <li><strong>Define the effect first:</strong> precise problem statements produce stronger cause analysis.</li>
+          <li><strong>Use 5 Whys for depth:</strong> follow a logical causal chain and do not force exactly five levels.</li>
+          <li><strong>Use fishbone for breadth:</strong> organize many possible causes across the system.</li>
+          <li><strong>Combine the tools when useful:</strong> generate branches with the fishbone, then deepen the strongest branches with 5 Whys.</li>
+          <li><strong>Validate before acting:</strong> evidence and testing separate a plausible cause from a verified root cause.</li>
+        </ul>
+      </section>
+
+      <section id="references">
+        <h2>References</h2>
+        <ol class="references-list">
+          <li><a href="https://asq.org/quality-resources/five-whys">ASQ: Five Whys and Five Hows</a>.</li>
+          <li><a href="https://asq.org/quality-resources/fishbone">ASQ: Fishbone Diagram</a>.</li>
+          <li><a href="https://asq.org/quality-resources/root-cause-analysis">ASQ: Root Cause Analysis</a>.</li>
+          <li><a href="https://asq.org/quality-resources/root-cause-analysis/tools">ASQ: Root Cause Analysis Tools</a>.</li>
+          <li><a href="https://www.lean.org/lexicon-terms/5-whys/">Lean Enterprise Institute: 5 Whys</a>.</li>
+          <li><a href="https://www.lean.org/lexicon-terms/fishbone-diagram/">Lean Enterprise Institute: Fishbone Diagram</a>.</li>
+        </ol>
+      </section>
+
+      <footer class="lesson-footer">
+        <a class="back-category-link" href="/lessons#quality-engineering">Back to Quality Engineering</a>
+      </footer>
+    </article>
+  </main>
 
   <footer class="site">
     <div class="wrap">
       <div class="footer-grid">
         <div>
           <div class="brand" style="margin-bottom:14px;">
-            <img src="../assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
+            <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
             <span>UpSkill Sprint Consulting</span>
           </div>
           <p style="font-size:13.5px;line-height:1.6;color:var(--muted);max-width:260px;margin:0;">Practical learning for quality, data, process improvement, and business problem-solving.</p>
         </div>
         <div>
           <h4>Quick Links</h4>
-          <a href="../index.html">Home</a>
-          <a href="../start-here.html">Start Here</a>
-          <a href="../lessons.html">Lessons</a>
-          <a href="../services.html">Services</a>
-          <a href="../request-topic.html">Request a Topic</a>
-          <a href="../about.html">About</a>
-          <a href="../faq.html">FAQ</a>
-          <a href="../contact.html">Contact</a>
+          <a href="/">Home</a>
+          <a href="/start-here">Start Here</a>
+          <a href="/lessons">Lessons</a>
+          <a href="/engineering-tools">Engineering Tools</a>
+          <a href="/services">Services</a>
+          <a href="/request-topic">Request a Topic</a>
+          <a href="/about">About</a>
+          <a href="/faq">FAQ</a>
+          <a href="/contact">Contact</a>
         </div>
         <div>
           <h4>Topics</h4>
-          <a href="../lessons.html#data-analytics">Data Analytics</a>
-          <a href="../lessons.html#quality-engineering">Quality Engineering</a>
-          <a href="../lessons.html#lean-six-sigma">Lean Six Sigma</a>
-          <a href="../lessons.html#power-bi-excel-sql">Power BI, Excel &amp; SQL</a>
-          <a href="../lessons.html#business-decision-making">Business Decision-Making</a>
-          <a href="../lessons.html#ai-for-work">AI for Work</a>
+          <a href="/lessons#data-analytics">Data Analytics</a>
+          <a href="/lessons#quality-engineering">Quality Engineering</a>
+          <a href="/lessons#lean-six-sigma">Lean Six Sigma</a>
+          <a href="/lessons#statistics">Statistics</a>
+          <a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a>
+          <a href="/lessons#business-decision-making">Business Decision-Making</a>
         </div>
         <div>
           <h4>Contact</h4>
@@ -169,19 +1397,709 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 UpSkill Sprint Consulting</span>
-      <div><a href="../privacy.html">Privacy Policy</a><a href="../terms.html">Terms of Use</a></div>
+      <div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div>
     </div>
   </footer>
+
   <script>
-    function checkQuiz(button, isCorrect) {
-      const quiz = button.closest('.quiz');
-      const feedback = quiz.querySelector('.quiz-feedback');
-      feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'incorrect');
-      feedback.textContent = isCorrect
-        ? 'Correct. That matches the logic from the lesson.'
-        : 'Not quite — review the section above and try again.';
-    }
+    (function () {
+      "use strict";
+
+      var SVG_NS = "http://www.w3.org/2000/svg";
+      var decisionInputs = Array.prototype.slice.call(document.querySelectorAll("#decision-options input"));
+      var recommendationTitle = document.getElementById("recommendation-title");
+      var recommendationText = document.getElementById("recommendation-text");
+      var fiveMeter = document.getElementById("five-meter");
+      var fishMeter = document.getElementById("fish-meter");
+
+      var problemInput = document.getElementById("problem-input");
+      var whyInputs = [1, 2, 3, 4, 5].map(function (index) { return document.getElementById("why-" + index); });
+      var evidenceInputs = [1, 2, 3, 4, 5].map(function (index) { return document.getElementById("evidence-" + index); });
+      var whysLayer = document.getElementById("whys-layer");
+      var answeredStatus = document.getElementById("answered-status");
+      var evidenceStatus = document.getElementById("evidence-status");
+      var rootStatus = document.getElementById("root-status");
+      var resetWhysButton = document.getElementById("reset-whys");
+      var copyWhysButton = document.getElementById("copy-whys");
+
+      var effectInput = document.getElementById("effect-input");
+      var categoryTabs = document.getElementById("category-tabs");
+      var causeInput = document.getElementById("cause-input");
+      var addCauseButton = document.getElementById("add-cause");
+      var causeList = document.getElementById("cause-list");
+      var causeCount = document.getElementById("cause-count");
+      var fishboneLayer = document.getElementById("fishbone-layer");
+      var resetFishboneButton = document.getElementById("reset-fishbone");
+      var fishboneFocusModeButton = document.getElementById("fishbone-focus-mode");
+      var fishboneOverviewModeButton = document.getElementById("fishbone-overview-mode");
+      var fishboneViewStatus = document.getElementById("fishbone-view-status");
+
+      var validationBody = document.getElementById("validation-body");
+      var candidateTotal = document.getElementById("candidate-total");
+      var highestScore = document.getElementById("highest-score");
+      var investigateFirst = document.getElementById("investigate-first");
+
+      var revealWorkedButton = document.getElementById("reveal-worked");
+      var resetWorkedButton = document.getElementById("reset-worked");
+      var workedSteps = Array.prototype.slice.call(document.querySelectorAll("[data-worked-step]"));
+
+      var checkQuizButton = document.getElementById("check-quiz-button");
+      var retryQuizButton = document.getElementById("retry-quiz-button");
+      var quizScore = document.getElementById("quiz-score");
+
+      var whyDefaults = {
+        problem: "Surface scratches increased after the line changeover.",
+        answers: [
+          "A side guide contacted the strip.",
+          "The guide clearance was set too tight.",
+          "The setup used a previous product setting.",
+          "The setup sheet did not list the required clearance.",
+          "The standard was never updated after the product change."
+        ],
+        evidence: ["2", "2", "1", "2", "1"]
+      };
+
+      var fishboneDefaults = {
+        People: ["New operator unfamiliar with product", "Setup ownership unclear"],
+        Method: ["Clearance absent from setup standard", "Changeover verification skipped"],
+        Machine: ["Side guide position drifts", "Guide scale difficult to read"],
+        Material: ["Edge camber varies by coil", "Protective film damaged"],
+        Measurement: ["No go/no-go clearance check", "Scratch location not recorded"],
+        Environment: ["Lighting hides fine scratches", "Debris accumulates near guide"]
+      };
+
+      var categoryOrder = ["People", "Method", "Machine", "Material", "Measurement", "Environment"];
+      var fishboneState = {};
+      var validationState = {};
+      var selectedCategory = "People";
+      var fishboneViewMode = "focused";
+      var workedVisible = 1;
+
+      function cloneDefaults() {
+        fishboneState = {};
+        categoryOrder.forEach(function (category) {
+          fishboneState[category] = fishboneDefaults[category].slice();
+        });
+      }
+
+      function createSvgElement(name, attributes, text) {
+        var element = document.createElementNS(SVG_NS, name);
+        Object.keys(attributes || {}).forEach(function (key) {
+          element.setAttribute(key, String(attributes[key]));
+        });
+        if (text != null) element.textContent = text;
+        return element;
+      }
+
+      function clearNode(node) {
+        while (node.firstChild) node.removeChild(node.firstChild);
+      }
+
+      function truncate(text, maxLength) {
+        var value = String(text || "").trim();
+        return value.length > maxLength ? value.slice(0, maxLength - 1) + "…" : value;
+      }
+
+      function wrapText(text, maxChars) {
+        var words = String(text || "").trim().split(/\s+/);
+        var lines = [];
+        var current = "";
+        words.forEach(function (word) {
+          var candidate = current ? current + " " + word : word;
+          if (candidate.length > maxChars && current) {
+            lines.push(current);
+            current = word;
+          } else {
+            current = candidate;
+          }
+        });
+        if (current) lines.push(current);
+        return lines.slice(0, 3);
+      }
+
+      function appendMultilineText(parent, x, y, text, className, anchor, maxChars) {
+        var node = createSvgElement("text", {
+          x: x,
+          y: y,
+          "class": className || "diagram-text",
+          "text-anchor": anchor || "start"
+        });
+        wrapText(text, maxChars || 22).forEach(function (line, index) {
+          node.appendChild(createSvgElement("tspan", {
+            x: x,
+            dy: index === 0 ? 0 : 15
+          }, line));
+        });
+        parent.appendChild(node);
+        return node;
+      }
+
+      function renderDecision() {
+        var fiveScore = 0;
+        var fishScore = 0;
+        decisionInputs.forEach(function (input) {
+          if (!input.checked) return;
+          fiveScore += Number(input.getAttribute("data-five")) || 0;
+          fishScore += Number(input.getAttribute("data-fish")) || 0;
+        });
+        var maxScore = Math.max(1, fiveScore, fishScore);
+        fiveMeter.style.width = Math.round(fiveScore / maxScore * 100) + "%";
+        fishMeter.style.width = Math.round(fishScore / maxScore * 100) + "%";
+
+        if (fiveScore === 0 && fishScore === 0) {
+          recommendationTitle.textContent = "Define the problem first";
+          recommendationText.textContent = "Select the characteristics that describe the problem before choosing a tool.";
+        } else if (Math.abs(fiveScore - fishScore) <= 2 && fiveScore > 0 && fishScore > 0) {
+          recommendationTitle.textContent = "Combined approach";
+          recommendationText.textContent = "Use the fishbone to generate branches, then apply 5 Whys to the strongest evidence-backed branches.";
+        } else if (fiveScore > fishScore) {
+          recommendationTitle.textContent = "5 Whys";
+          recommendationText.textContent = "Start with a focused causal chain, then branch only if the evidence reveals multiple paths.";
+        } else {
+          recommendationTitle.textContent = "Fishbone diagram";
+          recommendationText.textContent = "Map the system broadly, organize candidate causes, and then prioritize which branches deserve deeper analysis.";
+        }
+      }
+
+      function renderWhys() {
+        clearNode(whysLayer);
+        var values = [problemInput.value].concat(whyInputs.map(function (input) { return input.value; }));
+        var evidence = ["2"].concat(evidenceInputs.map(function (input) { return input.value; }));
+        var positions = [
+          { x: 35, y: 38, w: 240, h: 92 },
+          { x: 340, y: 25, w: 235, h: 78 },
+          { x: 650, y: 25, w: 235, h: 78 },
+          { x: 650, y: 205, w: 235, h: 78 },
+          { x: 340, y: 205, w: 235, h: 78 },
+          { x: 35, y: 205, w: 240, h: 92 }
+        ];
+        var connectors = [
+          [275, 84, 340, 64],
+          [575, 64, 650, 64],
+          [767, 103, 767, 205],
+          [650, 244, 575, 244],
+          [340, 244, 275, 250]
+        ];
+
+        connectors.forEach(function (line) {
+          whysLayer.appendChild(createSvgElement("line", {
+            x1: line[0], y1: line[1], x2: line[2], y2: line[3], "class": "diagram-line"
+          }));
+          var midX = (line[0] + line[2]) / 2;
+          var midY = (line[1] + line[3]) / 2;
+          whysLayer.appendChild(createSvgElement("circle", {
+            cx: midX, cy: midY, r: 10, "class": "diagram-accent", "stroke-width": 2
+          }));
+          whysLayer.appendChild(createSvgElement("text", {
+            x: midX, y: midY + 4, "class": "diagram-text small bold", "text-anchor": "middle"
+          }, "WHY"));
+        });
+
+        positions.forEach(function (position, index) {
+          var strength = Number(evidence[index]) || 0;
+          var className = strength === 2 ? "diagram-accent" : "diagram-warn";
+          whysLayer.appendChild(createSvgElement("rect", {
+            x: position.x, y: position.y, width: position.w, height: position.h,
+            rx: 12, "class": className, "stroke-width": 2
+          }));
+          whysLayer.appendChild(createSvgElement("text", {
+            x: position.x + 14, y: position.y + 20,
+            "class": "diagram-text small bold"
+          }, index === 0 ? "PROBLEM" : "WHY " + index));
+          appendMultilineText(
+            whysLayer,
+            position.x + 14,
+            position.y + 42,
+            values[index] || "Add an answer",
+            "diagram-text",
+            "start",
+            index === 0 || index === 5 ? 28 : 25
+          );
+          if (index > 0) {
+            var evidenceLabel = strength === 2 ? "Strong evidence" : strength === 1 ? "Partial evidence" : "No evidence";
+            whysLayer.appendChild(createSvgElement("text", {
+              x: position.x + position.w - 12,
+              y: position.y + position.h - 10,
+              "class": "diagram-text small",
+              "text-anchor": "end"
+            }, evidenceLabel));
+          }
+        });
+
+        whysLayer.appendChild(createSvgElement("line", {
+          x1: 155, y1: 297, x2: 155, y2: 360, "class": "diagram-line"
+        }));
+        whysLayer.appendChild(createSvgElement("polygon", {
+          points: "145,350 155,370 165,350",
+          fill: "var(--diagram-accent)"
+        }));
+        whysLayer.appendChild(createSvgElement("rect", {
+          x: 35, y: 370, width: 850, height: 90, rx: 12,
+          "class": "diagram-warn", "stroke-width": 2
+        }));
+        whysLayer.appendChild(createSvgElement("text", {
+          x: 55, y: 397, "class": "diagram-text bold"
+        }, "Candidate root cause"));
+        appendMultilineText(
+          whysLayer, 55, 422,
+          whyInputs[4].value || "Complete the causal chain before proposing a root cause.",
+          "diagram-text", "start", 85
+        );
+        whysLayer.appendChild(createSvgElement("text", {
+          x: 865, y: 446, "class": "diagram-text small", "text-anchor": "end"
+        }, "Validate before corrective action"));
+
+        var answered = whyInputs.filter(function (input) { return input.value.trim().length > 0; }).length;
+        var supported = evidenceInputs.filter(function (input) { return Number(input.value) > 0; }).length;
+        answeredStatus.textContent = answered + " of 5 answers completed";
+        evidenceStatus.textContent = supported + " evidence-supported links";
+        answeredStatus.className = "status-pill" + (answered === 5 ? " good" : " warn");
+        evidenceStatus.className = "status-pill" + (supported === 5 ? " good" : " warn");
+        rootStatus.textContent = supported === 5 && answered === 5 ? "Ready for validation testing" : "Candidate cause, not yet verified";
+        rootStatus.className = "status-pill " + (supported === 5 && answered === 5 ? "good" : "warn");
+      }
+
+      function resetWhys() {
+        problemInput.value = whyDefaults.problem;
+        whyInputs.forEach(function (input, index) { input.value = whyDefaults.answers[index]; });
+        evidenceInputs.forEach(function (input, index) { input.value = whyDefaults.evidence[index]; });
+        renderWhys();
+      }
+
+      function copyWhys() {
+        var lines = ["Problem: " + problemInput.value];
+        whyInputs.forEach(function (input, index) {
+          var label = evidenceInputs[index].options[evidenceInputs[index].selectedIndex].text;
+          lines.push("Why " + (index + 1) + ": " + input.value + " [" + label + "]");
+        });
+        var text = lines.join("\n");
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            copyWhysButton.textContent = "Copied";
+            window.setTimeout(function () { copyWhysButton.textContent = "Copy analysis"; }, 1400);
+          }).catch(function () {
+            copyWhysButton.textContent = "Copy unavailable";
+          });
+        } else {
+          copyWhysButton.textContent = "Copy unavailable";
+        }
+      }
+
+      function renderCategoryTabs() {
+        clearNode(categoryTabs);
+        categoryOrder.forEach(function (category) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "category-tab";
+          button.textContent = category + " (" + fishboneState[category].length + ")";
+          button.setAttribute("aria-pressed", category === selectedCategory ? "true" : "false");
+          button.setAttribute("data-category", category);
+          categoryTabs.appendChild(button);
+        });
+      }
+
+      function renderCauseList() {
+        clearNode(causeList);
+        var causes = fishboneState[selectedCategory];
+        causes.forEach(function (cause, index) {
+          var item = document.createElement("li");
+          var text = document.createElement("span");
+          text.textContent = cause;
+          var remove = document.createElement("button");
+          remove.type = "button";
+          remove.textContent = "Remove";
+          remove.setAttribute("data-remove-index", String(index));
+          item.appendChild(text);
+          item.appendChild(remove);
+          causeList.appendChild(item);
+        });
+        causeCount.textContent = selectedCategory + ": " + causes.length + " candidate cause" + (causes.length === 1 ? "" : "s");
+      }
+
+      function allCauses() {
+        var rows = [];
+        categoryOrder.forEach(function (category) {
+          fishboneState[category].forEach(function (cause) {
+            rows.push({ category: category, cause: cause, key: category + "::" + cause });
+          });
+        });
+        return rows;
+      }
+
+      function setFishboneViewMode(mode) {
+        fishboneViewMode = mode === "overview" ? "overview" : "focused";
+        fishboneFocusModeButton.setAttribute("aria-pressed", fishboneViewMode === "focused" ? "true" : "false");
+        fishboneOverviewModeButton.setAttribute("aria-pressed", fishboneViewMode === "overview" ? "true" : "false");
+        renderFishbone();
+      }
+
+      function branchLayout() {
+        return [
+          { category: "People", spineX: 300, endX: 155, endY: 105, upper: true, zoneX: 35 },
+          { category: "Method", spineX: 585, endX: 440, endY: 105, upper: true, zoneX: 320 },
+          { category: "Machine", spineX: 870, endX: 725, endY: 105, upper: true, zoneX: 605 },
+          { category: "Material", spineX: 300, endX: 155, endY: 655, upper: false, zoneX: 35 },
+          { category: "Measurement", spineX: 585, endX: 440, endY: 655, upper: false, zoneX: 320 },
+          { category: "Environment", spineX: 870, endX: 725, endY: 655, upper: false, zoneX: 605 }
+        ];
+      }
+
+      function appendCauseCard(parent, layout, cause, causeIndex, totalShown, isFocused) {
+        var cardWidth = 238;
+        var cardHeight = 48;
+        var cardGap = 9;
+        var cardX = layout.zoneX;
+        var cardY = layout.upper
+          ? 145 + causeIndex * (cardHeight + cardGap)
+          : 567 - (totalShown - 1 - causeIndex) * (cardHeight + cardGap);
+        var branchFraction = (causeIndex + 1) / (totalShown + 1);
+        var branchX = layout.spineX + (layout.endX - layout.spineX) * branchFraction;
+        var branchY = 380 + (layout.endY - 380) * branchFraction;
+        var targetX = cardX + cardWidth;
+        var targetY = cardY + cardHeight / 2;
+
+        parent.appendChild(createSvgElement("path", {
+          d: "M " + branchX + " " + branchY + " L " + targetX + " " + targetY,
+          "class": "fishbone-cause-connector"
+        }));
+        parent.appendChild(createSvgElement("circle", {
+          cx: branchX, cy: branchY, r: 4.5, "class": "fishbone-cause-dot"
+        }));
+        var box = createSvgElement("rect", {
+          x: cardX, y: cardY, width: cardWidth, height: cardHeight, rx: 9,
+          "class": "fishbone-cause-box" + (isFocused ? " is-active" : "")
+        });
+        box.appendChild(createSvgElement("title", {}, cause));
+        parent.appendChild(box);
+        appendMultilineText(
+          parent,
+          cardX + 12,
+          cardY + 19,
+          cause,
+          "diagram-text small",
+          "start",
+          30
+        );
+      }
+
+      function renderFishbone() {
+        clearNode(fishboneLayer);
+        var spineY = 380;
+        var effect = effectInput.value.trim() || "Define the effect";
+
+        fishboneLayer.appendChild(createSvgElement("line", {
+          x1: 82, y1: spineY, x2: 1035, y2: spineY, "class": "diagram-line"
+        }));
+        fishboneLayer.appendChild(createSvgElement("polygon", {
+          points: "1035,305 1180,380 1035,455",
+          "class": "diagram-accent", "stroke-width": 3
+        }));
+        appendMultilineText(fishboneLayer, 1102, 365, effect, "diagram-text bold", "middle", 20);
+
+        branchLayout().forEach(function (layout) {
+          var category = layout.category;
+          var causes = fishboneState[category];
+          var selected = category === selectedCategory;
+          var group = createSvgElement("g", {
+            "class": "fishbone-branch" + (selected ? " is-selected" : ""),
+            "data-fish-category": category,
+            role: "button",
+            tabindex: "0",
+            "aria-label": "Select " + category + ", " + causes.length + " candidate causes"
+          });
+          group.appendChild(createSvgElement("title", {}, "Select " + category + " to inspect " + causes.length + " candidate causes"));
+          group.appendChild(createSvgElement("line", {
+            x1: layout.spineX, y1: spineY, x2: layout.endX, y2: layout.endY,
+            "class": "fishbone-branch-line"
+          }));
+          group.appendChild(createSvgElement("line", {
+            x1: layout.spineX + 18, y1: spineY, x2: layout.endX - 18, y2: layout.endY,
+            "class": "fishbone-branch-hit", "stroke-width": 34
+          }));
+
+          var labelY = layout.upper ? layout.endY - 62 : layout.endY + 18;
+          group.appendChild(createSvgElement("rect", {
+            x: layout.endX - 77, y: labelY, width: 154, height: 44, rx: 10,
+            "class": "fishbone-category-box"
+          }));
+          group.appendChild(createSvgElement("text", {
+            x: layout.endX - 8, y: labelY + 27,
+            "class": "diagram-text bold", "text-anchor": "middle"
+          }, category));
+          group.appendChild(createSvgElement("circle", {
+            cx: layout.endX + 56, cy: labelY + 22, r: 14,
+            "class": "fishbone-count-badge"
+          }));
+          group.appendChild(createSvgElement("text", {
+            x: layout.endX + 56, y: labelY + 27,
+            "class": "diagram-text small bold", "text-anchor": "middle"
+          }, String(causes.length)));
+          fishboneLayer.appendChild(group);
+
+          var shouldShow = fishboneViewMode === "overview" || selected;
+          if (!shouldShow || causes.length === 0) return;
+          var visibleLimit = fishboneViewMode === "overview" ? 1 : 4;
+          var visibleCauses = causes.slice(0, visibleLimit);
+          visibleCauses.forEach(function (cause, causeIndex) {
+            appendCauseCard(fishboneLayer, layout, cause, causeIndex, visibleCauses.length, selected);
+          });
+
+          if (causes.length > visibleLimit && selected && fishboneViewMode === "focused") {
+            var overflowY = layout.upper ? 145 + visibleLimit * 57 : 567 + 57;
+            fishboneLayer.appendChild(createSvgElement("rect", {
+              x: layout.zoneX, y: overflowY, width: 238, height: 34, rx: 9,
+              "class": "fishbone-overflow-box"
+            }));
+            fishboneLayer.appendChild(createSvgElement("text", {
+              x: layout.zoneX + 119, y: overflowY + 22,
+              "class": "diagram-text small bold", "text-anchor": "middle"
+            }, "+" + (causes.length - visibleLimit) + " more in the editable list"));
+          }
+        });
+
+        fishboneLayer.appendChild(createSvgElement("text", {
+          x: 92, y: 415, "class": "diagram-text small"
+        }, fishboneViewMode === "focused" ? "Select a branch to inspect causes" : "Overview of all six cause families"));
+        fishboneLayer.appendChild(createSvgElement("text", {
+          x: 1010, y: 415, "class": "diagram-text small", "text-anchor": "end"
+        }, "Effect"));
+
+        if (fishboneViewMode === "focused") {
+          fishboneViewStatus.textContent = "Focused on " + selectedCategory + " · " + fishboneState[selectedCategory].length + " candidate cause" + (fishboneState[selectedCategory].length === 1 ? "" : "s") + ". Click another branch to inspect it.";
+        } else {
+          fishboneViewStatus.textContent = "Overview mode · one representative cause is shown for each category. Select a branch for the full focused view.";
+        }
+
+        renderValidation();
+      }
+
+      function addCause() {
+        var value = causeInput.value.trim();
+        if (!value) return;
+        fishboneState[selectedCategory].push(value);
+        causeInput.value = "";
+        renderCauseList();
+        renderFishbone();
+      }
+
+      function scoreFor(key) {
+        var state = validationState[key] || { evidence: 0, recurrence: 0, control: 0 };
+        return Number(state.evidence) * 3 + Number(state.recurrence) * 2 + Number(state.control);
+      }
+
+      function makeSelect(key, field, value) {
+        var select = document.createElement("select");
+        select.className = "matrix-select";
+        select.setAttribute("data-key", key);
+        select.setAttribute("data-field", field);
+        [
+          { value: "0", label: "Low / none" },
+          { value: "1", label: "Medium" },
+          { value: "2", label: "High / strong" }
+        ].forEach(function (optionData) {
+          var option = document.createElement("option");
+          option.value = optionData.value;
+          option.textContent = optionData.label;
+          if (String(value) === optionData.value) option.selected = true;
+          select.appendChild(option);
+        });
+        return select;
+      }
+
+      function renderValidation() {
+        var rows = allCauses().slice(0, 10);
+        clearNode(validationBody);
+        rows.forEach(function (row) {
+          if (!validationState[row.key]) {
+            validationState[row.key] = {
+              evidence: row.category === "Method" ? 1 : 0,
+              recurrence: row.category === "Machine" || row.category === "Method" ? 1 : 0,
+              control: row.category === "Method" || row.category === "Measurement" ? 2 : 1
+            };
+          }
+          var state = validationState[row.key];
+          var tr = document.createElement("tr");
+          var causeTd = document.createElement("td");
+          var categoryTd = document.createElement("td");
+          var evidenceTd = document.createElement("td");
+          var recurrenceTd = document.createElement("td");
+          var controlTd = document.createElement("td");
+          var scoreTd = document.createElement("td");
+          causeTd.textContent = row.cause;
+          categoryTd.textContent = row.category;
+          evidenceTd.appendChild(makeSelect(row.key, "evidence", state.evidence));
+          recurrenceTd.appendChild(makeSelect(row.key, "recurrence", state.recurrence));
+          controlTd.appendChild(makeSelect(row.key, "control", state.control));
+          var badge = document.createElement("span");
+          badge.className = "score-badge";
+          badge.textContent = String(scoreFor(row.key));
+          scoreTd.appendChild(badge);
+          tr.appendChild(causeTd);
+          tr.appendChild(categoryTd);
+          tr.appendChild(evidenceTd);
+          tr.appendChild(recurrenceTd);
+          tr.appendChild(controlTd);
+          tr.appendChild(scoreTd);
+          validationBody.appendChild(tr);
+        });
+        updateValidationSummary(rows);
+      }
+
+      function updateValidationSummary(rows) {
+        var ranked = rows.map(function (row) {
+          return { cause: row.cause, score: scoreFor(row.key) };
+        }).sort(function (a, b) { return b.score - a.score; });
+        candidateTotal.textContent = String(allCauses().length);
+        highestScore.textContent = ranked.length ? String(ranked[0].score) : "0";
+        investigateFirst.textContent = ranked.length ? truncate(ranked[0].cause, 34) : "—";
+      }
+
+      function renderWorked() {
+        workedSteps.forEach(function (step, index) {
+          step.hidden = index >= workedVisible;
+        });
+        revealWorkedButton.disabled = workedVisible >= workedSteps.length;
+        revealWorkedButton.textContent = workedVisible >= workedSteps.length ? "All steps revealed" : "Reveal next step";
+      }
+
+      function checkQuiz() {
+        var questions = Array.prototype.slice.call(document.querySelectorAll(".quiz-q"));
+        var score = 0;
+        var answered = 0;
+        questions.forEach(function (question) {
+          var selected = question.querySelector("input:checked");
+          var feedback = question.querySelector(".quiz-feedback");
+          if (!selected) {
+            feedback.hidden = false;
+            feedback.className = "quiz-feedback incorrect";
+            feedback.textContent = "Select an answer before checking.";
+            return;
+          }
+          answered += 1;
+          var correct = selected.value === question.getAttribute("data-answer");
+          if (correct) score += 1;
+          feedback.hidden = false;
+          feedback.className = "quiz-feedback " + (correct ? "correct" : "incorrect");
+          var q = question.getAttribute("data-q");
+          var explanations = {
+            "1": correct ? "Correct. Broad, multi-factor problems benefit from structured cause categories." : "A fishbone is designed for broad exploration across several causal families.",
+            "2": correct ? "Correct. The analysis should identify the system condition that made the human error possible or likely." : "Keep asking what in the system allowed the error to produce the outcome.",
+            "3": correct ? "Correct. The fishbone organizes hypotheses; it does not prove them." : "A fishbone generates and organizes possible causes only.",
+            "4": correct ? "Correct. The stopping point is evidence and actionability, not the number five." : "Five is a prompt for depth, not a mandatory count.",
+            "5": correct ? "Correct. A useful validation can potentially disprove the suspected causal link." : "Consensus and voting prioritize ideas but do not establish causation."
+          };
+          feedback.textContent = explanations[q];
+        });
+        quizScore.textContent = "Your score: " + score + " out of " + questions.length + ".";
+        if (answered === questions.length) {
+          document.dispatchEvent(new CustomEvent("upskill-quiz-result", {
+            detail: { score: score, total: questions.length }
+          }));
+        }
+      }
+
+      function resetQuiz() {
+        Array.prototype.slice.call(document.querySelectorAll(".quiz-q input")).forEach(function (input) {
+          input.checked = false;
+        });
+        Array.prototype.slice.call(document.querySelectorAll(".quiz-feedback")).forEach(function (feedback) {
+          feedback.hidden = true;
+          feedback.textContent = "";
+          feedback.className = "quiz-feedback";
+        });
+        quizScore.textContent = "Your score: 0 out of 5.";
+      }
+
+      decisionInputs.forEach(function (input) { input.addEventListener("change", renderDecision); });
+      [problemInput].concat(whyInputs).forEach(function (input) { input.addEventListener("input", renderWhys); });
+      evidenceInputs.forEach(function (input) { input.addEventListener("change", renderWhys); });
+      resetWhysButton.addEventListener("click", resetWhys);
+      copyWhysButton.addEventListener("click", copyWhys);
+
+      categoryTabs.addEventListener("click", function (event) {
+        var button = event.target.closest("[data-category]");
+        if (!button) return;
+        selectedCategory = button.getAttribute("data-category");
+        renderCategoryTabs();
+        renderCauseList();
+        renderFishbone();
+      });
+      fishboneLayer.addEventListener("click", function (event) {
+        var branch = event.target.closest("[data-fish-category]");
+        if (!branch) return;
+        selectedCategory = branch.getAttribute("data-fish-category");
+        setFishboneViewMode("focused");
+        renderCategoryTabs();
+        renderCauseList();
+      });
+      fishboneLayer.addEventListener("keydown", function (event) {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        var branch = event.target.closest("[data-fish-category]");
+        if (!branch) return;
+        event.preventDefault();
+        selectedCategory = branch.getAttribute("data-fish-category");
+        setFishboneViewMode("focused");
+        renderCategoryTabs();
+        renderCauseList();
+      });
+      fishboneFocusModeButton.addEventListener("click", function () { setFishboneViewMode("focused"); });
+      fishboneOverviewModeButton.addEventListener("click", function () { setFishboneViewMode("overview"); });
+      addCauseButton.addEventListener("click", addCause);
+      causeInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          addCause();
+        }
+      });
+      causeList.addEventListener("click", function (event) {
+        var button = event.target.closest("[data-remove-index]");
+        if (!button) return;
+        fishboneState[selectedCategory].splice(Number(button.getAttribute("data-remove-index")), 1);
+        renderCauseList();
+        renderFishbone();
+      });
+      effectInput.addEventListener("input", renderFishbone);
+      resetFishboneButton.addEventListener("click", function () {
+        cloneDefaults();
+        selectedCategory = "People";
+        fishboneViewMode = "focused";
+        effectInput.value = "Surface scratches after changeover";
+        validationState = {};
+        renderCategoryTabs();
+        renderCauseList();
+        setFishboneViewMode("focused");
+      });
+
+      validationBody.addEventListener("change", function (event) {
+        var select = event.target.closest(".matrix-select");
+        if (!select) return;
+        var key = select.getAttribute("data-key");
+        var field = select.getAttribute("data-field");
+        if (!validationState[key]) validationState[key] = { evidence: 0, recurrence: 0, control: 0 };
+        validationState[key][field] = Number(select.value);
+        renderValidation();
+      });
+
+      revealWorkedButton.addEventListener("click", function () {
+        workedVisible = Math.min(workedSteps.length, workedVisible + 1);
+        renderWorked();
+      });
+      resetWorkedButton.addEventListener("click", function () {
+        workedVisible = 1;
+        renderWorked();
+      });
+
+      checkQuizButton.addEventListener("click", checkQuiz);
+      retryQuizButton.addEventListener("click", resetQuiz);
+
+      cloneDefaults();
+      renderDecision();
+      renderWhys();
+      renderCategoryTabs();
+      renderCauseList();
+      setFishboneViewMode("focused");
+      renderWorked();
+    }());
   </script>
-<script src="/contrast-fix.js"></script>
 </body>
 </html>
