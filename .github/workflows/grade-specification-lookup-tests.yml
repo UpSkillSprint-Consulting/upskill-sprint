@@ -2,6 +2,7 @@ name: Grade Specification Lookup validation
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - 'engineering-tools.html'
       - 'scripts/build-grade-specification-lookup.mjs'
