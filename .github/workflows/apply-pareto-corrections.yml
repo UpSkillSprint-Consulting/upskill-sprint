@@ -1,0 +1,173 @@
+name: Apply Pareto lesson corrections
+
+on:
+  push:
+    branches:
+      - lesson/pareto-fix
+
+permissions:
+  contents: write
+
+jobs:
+  apply-corrections:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: lesson/pareto-fix
+          fetch-depth: 0
+
+      - name: Apply targeted lesson corrections
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          lesson_path = Path('lessons/understanding-pareto-chart.html')
+          library_path = Path('lessons.html')
+          workflow_path = Path('.github/workflows/apply-pareto-corrections.yml')
+
+          lesson = lesson_path.read_text(encoding='utf-8')
+
+          def replace_once(text, old, new, label):
+              if old in text:
+                  return text.replace(old, new, 1)
+              if new in text:
+                  return text
+              raise SystemExit(f'Could not locate {label}')
+
+          lesson = replace_once(
+              lesson,
+              '      <a href="/lessons.html" aria-current="page">Lessons</a>\n      <a href="/services.html">Services</a>',
+              '      <a href="/lessons.html" aria-current="page">Lessons</a>\n      <a href="/engineering-tools.html">Engineering Tools</a>\n      <a href="/services.html">Services</a>',
+              'desktop Engineering Tools insertion'
+          )
+          lesson = replace_once(
+              lesson,
+              '    <a href="/lessons.html">Lessons</a>\n    <a href="/services.html">Services</a>',
+              '    <a href="/lessons.html">Lessons</a>\n    <a href="/engineering-tools.html">Engineering Tools</a>\n    <a href="/services.html">Services</a>',
+              'mobile Engineering Tools insertion'
+          )
+
+          old_footer_css = '''    .lesson-footer {
+              margin-top: 3.5rem;
+              padding: 1.3rem;
+              border: 1px solid var(--line);
+              border-radius: 14px;
+              background: var(--surface-soft);
+              text-align: center;
+            }'''
+          new_footer_css = '''    .lesson-footer {
+              margin-top: 3.5rem;
+              padding: 1.3rem;
+              border: 1px solid var(--line);
+              border-radius: 14px;
+              background: var(--surface-soft);
+            }
+            .lesson-footer-nav {
+              display: grid;
+              grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr);
+              gap: 1.25rem;
+              align-items: end;
+            }
+            .back-category-link {
+              justify-self: start;
+              font-weight: 800;
+              text-decoration: none;
+            }
+            .back-category-link:hover { text-decoration: underline; }
+            .lesson-footer-next { text-align: right; }
+            .lesson-footer-next p { margin: 0.4rem 0 0; }'''
+          lesson = replace_once(lesson, old_footer_css, new_footer_css, 'lesson footer CSS')
+
+          lesson = replace_once(
+              lesson,
+              '''      .editor-actions, .quiz-actions { display: grid; grid-template-columns: 1fr; }
+              .editor-actions .button, .quiz-actions .button { width: 100%; }
+              .stat-grid { grid-template-columns: 1fr 1fr; }''',
+              '''      .editor-actions, .quiz-actions { display: grid; grid-template-columns: 1fr; }
+              .editor-actions .button, .quiz-actions .button { width: 100%; }
+              .stat-grid { grid-template-columns: 1fr 1fr; }
+              .lesson-footer-nav { grid-template-columns: 1fr; align-items: start; }
+              .lesson-footer-next { text-align: left; }''',
+              'mobile footer rules'
+          )
+
+          reduced_motion = '''    @media (prefers-reduced-motion: reduce) {
+              html { scroll-behavior: auto; }'''
+          print_rules = '''    @media print {
+              :root {
+                --paper: #ffffff;
+                --surface: #ffffff;
+                --surface-soft: #f5f7fa;
+                --ink: #101828;
+                --ink-soft: #344054;
+                --muted: #667085;
+                --line: #cfd6df;
+                --shadow: transparent;
+              }
+              html, body { background: var(--paper) !important; color: var(--ink) !important; }
+              body { font-size: 10.5pt; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+              .site, .mobile-nav, .skip-link, nav.lesson-toc, .interactive-controls,
+              .editor-panel, .quiz-actions, .lesson-footer { display: none !important; }
+              main#lesson-content { width: 100%; margin: 0; padding: 0; }
+              .lesson-hero { margin: 0 0 1.2rem; box-shadow: none; break-after: avoid-page; }
+              .lesson-wrapper > section { margin: 1.5rem 0; }
+              .panel, .concept-card, .concept-figure, .interactive-shell, .chart-card,
+              .insight-card, .quiz-shell, .quiz-q, .summary-item, .practice-step {
+                box-shadow: none !important;
+                break-inside: avoid-page;
+              }
+              .table-scroll { overflow: visible; }
+              table { min-width: 0; font-size: 9pt; }
+              a { color: var(--ink); text-decoration: underline; }
+              #pareto-chart { max-height: 6.8in; }
+            }
+
+          ''' + reduced_motion
+          if '@media print {' not in lesson:
+              lesson = replace_once(lesson, reduced_motion, print_rules, 'print stylesheet insertion')
+
+          old_footer_html = '''      <footer class="lesson-footer">
+                <strong>Next step:</strong> Use the largest validated category as the problem statement for a focused root-cause analysis.
+                <p><a href="/lessons/root-cause-analysis-5-whys-fishbone.html">Continue to Root Cause Analysis: 5 Whys vs Fishbone Diagram →</a></p>
+              </footer>'''
+          new_footer_html = '''      <footer class="lesson-footer">
+                <div class="lesson-footer-nav">
+                  <a class="back-category-link" href="/lessons#quality-engineering">Back to Quality Engineering</a>
+                  <div class="lesson-footer-next">
+                    <strong>Next step:</strong> Use the largest validated category as the problem statement for a focused root-cause analysis.
+                    <p><a href="/lessons/root-cause-analysis-5-whys-fishbone">Continue to Root Cause Analysis: 5 Whys vs Fishbone Diagram</a></p>
+                  </div>
+                </div>
+              </footer>'''
+          lesson = replace_once(lesson, old_footer_html, new_footer_html, 'lesson footer HTML')
+          lesson_path.write_text(lesson, encoding='utf-8')
+
+          library = library_path.read_text(encoding='utf-8')
+          row_start = library.index('<a class="lesson-row" href="lessons/understanding-pareto-chart.html"')
+          row_end = library.index('</a>', row_start) + len('</a>')
+          row = library[row_start:row_end]
+          row = row.replace('href="lessons/understanding-pareto-chart.html"', 'href="/lessons/understanding-pareto-chart"')
+          row = row.replace('<span class="lesson-action">Start lesson <span class="lesson-arrow" aria-hidden="true">&rarr;</span></span>', '<span class="lesson-action">Start lesson</span>')
+          library = library[:row_start] + row + library[row_end:]
+          library_path.write_text(library, encoding='utf-8')
+
+          assert 'Back to Quality Engineering' in lesson
+          assert '@media print {' in lesson
+          assert 'Engineering Tools' in lesson
+          assert 'Understanding Pareto Chart →' not in lesson
+          assert 'Fishbone Diagram →' not in lesson
+          assert 'href="/lessons/understanding-pareto-chart"' in library
+
+          workflow_path.unlink()
+          PY
+
+      - name: Commit corrected lesson to branch
+        shell: bash
+        run: |
+          git config user.name "upskillsprint-agent"
+          git config user.email "upskillsprint-agent@users.noreply.github.com"
+          git add lessons/understanding-pareto-chart.html lessons.html .github/workflows/apply-pareto-corrections.yml
+          git commit -m "Correct Pareto lesson integration and print layout"
+          git push origin HEAD:lesson/pareto-fix
