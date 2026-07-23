@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Writing Your First SQL Query: Interactive SQL Lab",
+  "slug": "writing-your-first-sql-query",
+  "category": "Power BI, Excel & SQL",
+  "category_slug": "power-bi-excel-sql",
+  "level": "Beginner",
+  "estimated_minutes": 35,
+  "interactive": true,
+  "card_title": "Writing Your First SQL Query",
+  "card_description": "Write and run SQL in a live browser lab while learning SELECT, FROM, WHERE, ORDER BY, GROUP BY, HAVING, JOIN, and LIMIT.",
+  "search_keywords": [
+    "SQL", "first SQL query", "SELECT", "FROM", "WHERE", "ORDER BY",
+    "GROUP BY", "HAVING", "JOIN", "LIMIT", "SQLite", "SQL Server TOP",
+    "interactive SQL editor", "database", "query practice", "beginner"
+  ],
+  "suggested_github_path": "lessons/writing-your-first-sql-query.html"
+}
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing Your First SQL Query: Interactive SQL Lab | UpSkill Sprint Consulting</title>
+  <meta name="description" content="Learn SQL clauses by writing and running live queries against a manufacturing database. Includes guided challenges, friendly error coaching, and a practice quiz.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/writing-your-first-sql-query">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Writing Your First SQL Query: Interactive SQL Lab | UpSkill Sprint Consulting">
+  <meta property="og:description" content="Write real SQL, see results immediately, and learn how to correct common query mistakes.">
+  <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/writing-your-first-sql-query">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <link rel="stylesheet" href="/lessons/writing-your-first-sql-query.css">
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">Skip to lesson</a>
+  <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+
+  <header class="site lesson-sitebar">
+    <a href="/" class="brand">
+      <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
+      <span>UpSkill Sprint Consulting</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/start-here">Start Here</a>
+      <a href="/lessons" aria-current="page">Lessons</a>
+      <a href="/engineering-tools">Engineering Tools</a>
+      <a href="/services">Services</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </label>
+      <a href="#sql-lab" class="btn btn-teal header-cta">Open SQL lab</a>
+    </div>
+  </header>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="/start-here">Start Here</a>
+    <a href="/lessons" aria-current="page">Lessons</a>
+    <a href="/engineering-tools">Engineering Tools</a>
+    <a href="/services">Services</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+  </nav>
+
+  <main id="lesson-content">
+    <article class="lesson-wrapper">
+      <section class="lesson-hero" aria-labelledby="lesson-title">
+        <p class="lesson-eyebrow">Power BI, Excel &amp; SQL</p>
+        <h1 id="lesson-title">Writing Your First SQL Query</h1>
+        <div class="lesson-meta-row">
+          <span class="pill accent">Beginner</span>
+          <span class="pill">Interactive</span>
+          <span class="pill">35 min</span>
+          <span class="pill">SQL lab included</span>
+        </div>
+        <p class="lesson-lede">Learn the eight clauses that form most everyday SQL queries. Write real code against a manufacturing database, see the result immediately, and receive a plain-language explanation when something goes wrong.</p>
+        <p class="why-it-matters"><strong>Why this matters:</strong> SQL lets you answer business and engineering questions directly from stored data instead of waiting for someone else to build every report.</p>
+      </section>
+
+      <nav class="lesson-toc" aria-label="Lesson contents">
+        <h2>In this lesson</h2>
+        <ol>
+          <li><a href="#objectives">Learning objectives</a></li>
+          <li><a href="#clause-map">The eight SQL clauses</a></li>
+          <li><a href="#scenario">Practice database</a></li>
+          <li><a href="#clause-order">Written and logical order</a></li>
+          <li><a href="#clause-lessons">Clause-by-clause examples</a></li>
+          <li><a href="#sql-lab">Live SQL laboratory</a></li>
+          <li><a href="#guided-practice">Guided practice</a></li>
+          <li><a href="#mistakes">Common mistakes</a></li>
+          <li><a href="#dialects">SQL dialect note</a></li>
+          <li><a href="#quiz">Practice quiz</a></li>
+        </ol>
+      </nav>
+
+      <section id="objectives">
+        <h2>Learning objectives</h2>
+        <ul class="objectives">
+          <li>Explain what <code>SELECT</code>, <code>FROM</code>, <code>WHERE</code>, <code>ORDER BY</code>, <code>GROUP BY</code>, <code>HAVING</code>, <code>JOIN</code>, and <code>LIMIT</code> do.</li>
