@@ -1,0 +1,50 @@
+(c<.77)return t>=a3Full(c)?'austenite':'ferriteAustenite';if(c<=2.14)return t>=acmFull(c)?'austeniteCementite':'austenite';return'austeniteCementite'}if(c<=.022)return'ferrite';return'ferriteCementite'}
+function key(c,t){return state.r5.map==='rapid'?rapidKey(c,t):fullKey(c,t)}
+var rapidDataPromise=null,rapidDataUrl=null;
+function loadRapidData(){
+  if(rapidDataUrl)return Promise.resolve(rapidDataUrl);
+  if(rapidDataPromise)return rapidDataPromise;
+  rapidDataPromise=Promise.all(RAPID_PARTS.map(function(url){return fetch(url,{cache:'force-cache'}).then(function(r){if(!r.ok)throw new Error('Reference asset '+r.status);return r.text()})})).then(function(parts){rapidDataUrl='data:image/webp;base64,'+parts.join('').replace(/\s+/g,'');return rapidDataUrl});
+  return rapidDataPromise;
+}
+function drawRapid(){
+  var ref=$5('spx-r5-reference'),hot=$5('spx-r5-hotspots');clear(ref);clear(hot);
+  add(ref,'rect',{x:0,y:0,width:850,height:890,fill:'#f1eeea'});
+  add(ref,'text',{x:425,y:445,'text-anchor':'middle',class:'spx-r5-loading'},'Loading exact supplied reference…');
+  loadRapidData().then(function(src){if(state.r5.map!=='rapid')return;clear(ref);add(ref,'image',{href:src,x:0,y:0,width:850,height:890,preserveAspectRatio:'none',class:'spx-r5-reference-photo'});drawEmphasis();drawOverlay();$5('spx-r5-status').textContent='Exact supplied rapid-quench reference loaded. Move inside the graph to inspect it.'}).catch(function(err){$5('spx-r5-status').textContent='The rapid-quench source image could not be assembled: '+err.message});
+  [['ferritePearlite',183,264,290,110],['pearlite',390,264,230,115],['cementitePearlite',600,264,101,105],['upperBainite',183,375,518,185],['lowerBainite',183,435,518,190],['lowerBainiteRA',183,485,518,185],['martensiteRA',183,560,518,232],['martensite',183,590,210,202],['austRange',183,112,518,92]].forEach(function(h){add(hot,'rect',{x:h[1],y:h[2],width:h[3],height:h[4],fill:'transparent',class:'spx-r5-hotspot','data-r5-region':h[0],tabindex:'0','aria-label':LABELS[h[0]]})});
+}
+function drawFull(){
+  var ref=$5('spx-r5-reference'),hot=$5('spx-r5-hotspots');clear(ref);clear(hot);
+  add(ref,'rect',{x:0,y:0,width:1000,height:1515,fill:'#eceae4'});
+  var image=add(ref,'image',{href:BUEHLER_IMAGE,x:0,y:0,width:1000,height:1515,preserveAspectRatio:'xMidYMid meet',class:'spx-r5-reference-photo',crossorigin:'anonymous'});
+  image.addEventListener('error',function(){clear(ref);add(ref,'text',{x:500,y:700,'text-anchor':'middle',class:'spx-r5-loading'},'Official poster image was blocked');add(ref,'text',{x:500,y:745,'text-anchor':'middle',class:'spx-r5-loading small'},'Use the official PDF link below.');$5('spx-r5-status').innerHTML='The official poster image was blocked. <a href="'+BUEHLER_PDF+'" target="_blank" rel="noopener">Open the official PDF</a>.'});
+  [['posterAustenite',130,292,245,210],['posterFerrite',126,630,310,475],['posterCementite',666,688,218,326],['posterEquilibrium',126,675,314,170],['posterCastIron',460,830,230,278],['posterHeatColor',455,215,215,610]].forEach(function(h){add(hot,'rect',{x:h[1],y:h[2],width:h[3],height:h[4],rx:8,class:'spx-r5-hotspot','data-r5-hotspot':h[0],tabindex:'0','aria-label':LABELS[h[0]]})});
+}
+function drawEmphasis(){
+  var g=$5('spx-r5-emphasis');clear(g);var p=M().plot;
+  if(state.r5.showCritical){
+    if(state.r5.map==='rapid'){
+      var lines=[
+        ['A₁','M80 264 L701 264',105,252],
+        ['A₃','M80 153 C150 178 245 209 335 231 C392 244 438 258 478 264',99,145],
+        ['Acm','M478 264 C526 247 574 219 620 185 C655 159 683 137 701 122',645,152],
+        ['Mₛ','M183 437 C270 478 380 539 500 578 C585 606 645 616 701 620',190,425],
+        ['Mᶠ','M183 590 C205 660 250 740 325 792',190,580]
+      ];
+      lines.forEach(function(v){add(g,'path',{d:v[1],class:'spx-r5-emphasis-line'});if(state.r5.showLabels)add(g,'text',{x:v[2],y:v[3],class:'spx-r5-emphasis-label'},v[0])});
+      add(g,'path',{d:'M183 169 C270 196 360 201 445 200 C535 199 625 169 701 124',class:'spx-r5-emphasis-line band'});
+      if(state.r5.showLabels)add(g,'text',{x:420,y:150,class:'spx-r5-emphasis-label'},'Austenitizing range');
+    }else{
+      [['A₁ / eutectoid',740],['Eutectic',1148],['Peritectic',1493]].forEach(function(v,i){add(g,'line',{x1:p.x0,x2:p.x1,y1:Y(v[1]),y2:Y(v[1]),class:'spx-r5-emphasis-line'+(i===2?' dashed':'')});if(state.r5.showLabels)add(g,'text',{x:p.x0+18,y:Y(v[1])-10,class:'spx-r5-emphasis-label'},v[0])});
+      add(g,'line',{x1:X(6.68),x2:X(6.68),y1:p.y1,y2:p.y0,class:'spx-r5-emphasis-line'});
+    }
+  }
+  if(state.r5.map==='full'&&state.r5.showGraphite){add(g,'path',{d:'M'+X(3.2)+' '+Y(1160)+' C'+X(4.3)+' '+Y(1153)+' '+X(5.4)+' '+Y(1200)+' '+X(6.68)+' '+Y(1252),class:'spx-r5-emphasis-line dashed'});if(state.r5.showLabels)add(g,'text',{x:X(5.1),y:Y(1230),class:'spx-r5-emphasis-label'},'Stable graphite reference')}
+}
+var hover=null,dragId=null,lastKey=null,lastHotspot=null,pan=null,pointers=new Map(),pinchStart=null;
+function drawOverlay(){
+  var o=$5('spx-r5-overlay'),g=$5('spx-r5-point-layer');clear(o);clear(g);var p=M().plot;
+  if(state.r5.showCrosshair&&hover){var x=X(hover.c),y=Y(hover.t),w=state.r5.map==='rapid'?220:270,tx=Math.min(M().w-w-8,x+10),ty=Math.max(8,y-34);add(o,'line',{class:'spx-r5-crosshair',x1:x,x2:x,y1:p.y1,y2:p.y0});add(o,'line',{class:'spx-r5-crosshair',x1:p.x0,x2:p.x1,y1:y,y2:y});add(o,'rect',{class:'spx-r5-coordinate-bg',x:tx,y:ty,width:w,height:26,rx:5});add(o,'text',{class:'spx-r5-coordinate',x:tx+8,y:ty+18},hover.c.toFixed(state.r5.map==='full'?3:2)+' wt% C · '+fmtT(hover.t))}
+  var pal=['#00a7c7','#e44825','#7c3aed','#15803d','#be123c','#0369a1','#b45309','#4f46e5'];
+  state.r5.points.forEach(function(pt,i){if(!inRange(pt))return;var x=X(pt.c),y=Y(pt.t),on=pt.id===state.r5.activeId;add(g,'circle',{cx:x,cy:y,r:on?(state.r5.map==='rapid'?8:11):(state.r5.map==='rapid'?6:8),fill:pal[i%pal.length],class:'spx-r5-marker'+(on?' active':''),'data-r5-point':pt.id});add(g,'text',{class:'spx-r5-point-label',x:x+(state.r5.m
