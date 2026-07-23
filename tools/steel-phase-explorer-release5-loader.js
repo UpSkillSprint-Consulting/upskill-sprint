@@ -11,16 +11,16 @@ function start(){
   var before=tabs.querySelector('[data-tab="learn"]'),button=document.createElement('button');
   button.type='button';button.setAttribute('role','tab');button.setAttribute('aria-selected','false');button.setAttribute('aria-controls','spx-tab-reference-diagrams');button.dataset.tab='reference-diagrams';button.textContent='Interactive diagrams';tabs.insertBefore(button,before||null);
   var q=document.getElementById('spx-question-grid');
-  if(q)q.insertAdjacentHTML('beforeend','<button type="button" class="spx-question-card" data-release5-route="rapid"><strong>What microconstituent region does rapid quenching enter?</strong><span>Use a source-faithful interactive replica of the supplied rapid-quench diagram.</span></button><button type="button" class="spx-question-card" data-release5-route="full"><strong>Where is this composition on the full iron-carbon poster?</strong><span>Explore the complete Buehler iron-carbon/cementite poster with interactive coordinates and hotspots.</span></button>');
+  if(q)q.insertAdjacentHTML('beforeend','<button type="button" class="spx-question-card" data-release5-route="rapid"><strong>What microconstituent region does rapid quenching enter?</strong><span>Use a source-faithful interactive reconstruction of the supplied rapid-quench diagram.</span></button><button type="button" class="spx-question-card" data-release5-route="full"><strong>Where is this composition on the full iron-carbon poster?</strong><span>Explore the complete Buehler iron-carbon/cementite poster with interactive coordinates and hotspots.</span></button>');
   var eyebrow=nav.querySelector('.spx-eyebrow');if(eyebrow)eyebrow.textContent='Releases 1–5 · Complete guided steel-metallurgy platform';
   var shell=document.createElement('div');shell.innerHTML=`
 <section id="spx-tab-reference-diagrams" class="spx-panel" role="tabpanel" data-panel="reference-diagrams" hidden>
   <div class="spx-r5-hero spx-card spx-card-pad">
     <p class="spx-eyebrow">Release 5 · Source-faithful interactive references</p>
-    <div class="spx-card-title"><div><h2>Original proportions and visual language with a modern interactive layer</h2><p>The rapid-quench map has been reconstructed to match the supplied figure's portrait proportions, grid, curves, labels, colors, and region geometry. The complete iron-carbon poster is displayed from Buehler's official source and enhanced with interactive coordinates and hotspots.</p></div><span class="spx-r3-badge">Replica + interaction</span></div>
+    <div class="spx-card-title"><div><h2>Original proportions and visual language with a modern interactive layer</h2><p>The rapid-quench map has been reconstructed to match the supplied figure's portrait proportions, grid, curves, labels, colors, and region geometry. The complete iron-carbon poster is displayed from Buehler's official source and enhanced with interactive coordinates and hotspots.</p></div><span class="spx-r3-badge">Reconstruction + interaction</span></div>
     <div class="spx-note"><strong>Publication and engineering caution:</strong> the reference artwork remains the property of its respective owner. Confirm publication rights before public redistribution. Interactive boundaries and classifications are educational aids and do not replace grade-specific TTT/CCT, thermodynamic data, or laboratory validation.</div>
   </div>
-  <nav class="spx-r5-subnav" id="spx-r5-subnav" aria-label="Interactive reference diagrams"><button type="button" data-r5-map="rapid" aria-pressed="true">Rapid-quench replica</button><button type="button" data-r5-map="full" aria-pressed="false">Buehler iron-carbon poster</button></nav>
+  <nav class="spx-r5-subnav" id="spx-r5-subnav" aria-label="Interactive reference diagrams"><button type="button" data-r5-map="rapid" aria-pressed="true">Rapid-quench reconstruction</button><button type="button" data-r5-map="full" aria-pressed="false">Buehler iron-carbon poster</button></nav>
   <div class="spx-r5-layout">
     <section class="spx-card spx-r5-main-card">
       <div class="spx-card-pad">
@@ -46,7 +46,7 @@ function start(){
       <section class="spx-card spx-card-pad" id="spx-r5-legend-card"><div class="spx-card-title"><div><h2>Legend</h2><p>Region colors and interactive reference boundaries.</p></div></div><div id="spx-r5-legend" class="spx-r5-legend"></div></section>
       <section class="spx-card spx-card-pad"><div class="spx-card-title"><div><h2>Selected point analysis</h2><p id="spx-r5-active-summary">—</p></div></div><div id="spx-r5-analysis"></div></section>
       <section class="spx-card spx-card-pad"><div class="spx-card-title"><div><h2>What does this region mean?</h2><p>Select a point, region, legend item, or poster hotspot.</p></div></div><div id="spx-r5-help"></div></section>
-      <section class="spx-card spx-card-pad spx-advanced-only"><h2>Replica construction</h2><div id="spx-r5-model-note" class="spx-formula"></div></section>
+      <section class="spx-card spx-card-pad spx-advanced-only"><h2>Reconstruction method</h2><div id="spx-r5-model-note" class="spx-formula"></div></section>
     </aside>
   </div>
 </section>`;
