@@ -85,6 +85,42 @@
       meta: '<span>Beginner</span><span>General</span><span>10 min</span>',
       title: 'Understanding Dot Notation',
       description: 'Dot notation'
+    },
+    {
+      marker: 'data-essential-quality-tools',
+      sectionId: 'quality-engineering',
+      path: '/lessons/7-essential-quality-tools',
+      topic: 'quality-engineering',
+      level: 'beginner',
+      interactive: 'true',
+      search: '7 essential quality tools seven basic qc tools flowchart process map check sheet stratification pareto fishbone histogram scatter plot control chart quality engineering ASQ CSSBB CQE interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>30 min</span>',
+      title: 'The 7 Essential Quality Tools',
+      description: 'Learn when and why to use each QC tool through live simulators, a tool-selection wizard, and a steel tensile-failure investigation.'
+    },
+    {
+      marker: 'data-management-planning-tools',
+      sectionId: 'quality-engineering',
+      path: '/lessons/7-management-planning-tools',
+      topic: 'quality-engineering',
+      level: 'intermediate',
+      interactive: 'true',
+      search: '7 management planning tools affinity diagram interrelationship digraph tree diagram prioritization matrix matrix diagram PDPC activity network quality engineering ASQ CQE CSSBB interactive',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>35 min</span>',
+      title: 'The 7 Management &amp; Planning Tools',
+      description: 'Turn a confirmed cause into an executable plan with affinity grouping, weighted prioritization, RACI ownership, PDPC, and critical-path logic.'
+    },
+    {
+      marker: 'data-complete-quality-toolbox',
+      sectionId: 'quality-engineering',
+      path: '/lessons/complete-14-quality-tools-project',
+      topic: 'quality-engineering',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'complete 14 quality tools project integrated quality engineering root cause corrective action capstone QC tools management planning tools ASQ CSSBB CQE interactive',
+      meta: '<span>Advanced</span><span>Interactive</span><span>45 min</span>',
+      title: 'The Complete Quality Toolbox: All 14 Tools',
+      description: 'Run an end-to-end quality investigation from process mapping and root-cause evidence through corrective-action planning and sustainment.'
     }
   ];
 
