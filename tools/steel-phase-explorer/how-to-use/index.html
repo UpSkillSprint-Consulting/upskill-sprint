@@ -6,11 +6,11 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#ffffff">
 <title>How to Use the Steel Phase &amp; Transformation Explorer | UpSkill Sprint Consulting</title>
-<meta name="description" content="Complete user guide for the Steel Phase and Transformation Explorer, including guided metallurgy, equilibrium phases, heat-treatment paths, TTT/CCT, hardenability, austenitization, quenching, process-data analysis, measurement, diffusion, tempering, mechanical properties, metallography, solidification, and alloy-family modes.">
+<meta name="description" content="Complete user guide for the Steel Phase and Transformation Explorer, including equilibrium phases, heat-treatment paths, TTT/CCT, hardenability, quenching, process-data analysis, metallurgy laboratories, and interactive reference diagrams.">
 <link rel="canonical" href="https://upskillsprint.com/tools/steel-phase-explorer/how-to-use">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How to Use the Steel Phase &amp; Transformation Explorer | UpSkill Sprint Consulting">
-<meta property="og:description" content="A practical guide to all Steel Phase Explorer modules from equilibrium analysis through process-data interpretation and advanced metallurgy laboratories.">
+<meta property="og:description" content="A practical guide to every Steel Phase Explorer module, including the rapid-quench and full iron-carbon interactive diagrams.">
 <meta property="og:url" content="https://upskillsprint.com/tools/steel-phase-explorer/how-to-use">
 <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,9 +33,9 @@
 
 <section class="guide-hero">
   <div class="guide-wrap">
-    <p class="guide-eyebrow">Engineering Tools · Complete User Guide · Releases 1–4</p>
+    <p class="guide-eyebrow">Engineering Tools · Complete User Guide · Releases 1–5</p>
     <h1>How to Use the Steel Phase &amp; Transformation Explorer</h1>
-    <p class="guide-lead">Use the explorer to move from chemistry and processing conditions to predicted microstructure, properties, and performance. The tool now combines guided learning, equilibrium and kinetic transformation analysis, applied heat-treatment models, actual thermal-data analysis, measurement guidance, surface engineering, tempering, mechanical-property learning, metallography, solidification, and alloy-family modes.</p>
+    <p class="guide-lead">Move from chemistry and processing conditions to predicted microstructure, properties, and performance. The explorer combines equilibrium and kinetic transformation analysis, applied heat-treatment models, thermal-data analysis, measurement guidance, metallurgy laboratories, and two high-resolution interactive reference diagrams.</p>
     <div class="guide-actions"><a class="guide-btn primary" href="/tools/steel-phase-explorer">Open the Explorer</a><a class="guide-btn" href="/engineering-tools">Browse Engineering Tools</a></div>
   </div>
 </section>
@@ -45,275 +45,167 @@
     <strong>On this page</strong>
     <a href="#purpose">1. Purpose and limits</a>
     <a href="#start">2. Guided start and display modes</a>
-    <a href="#equilibrium">3. Equilibrium diagram</a>
-    <a href="#paths">4. Heat-treatment paths</a>
-    <a href="#kinetics">5. TTT and CCT</a>
-    <a href="#chemistry">6. Chemistry and causal chain</a>
-    <a href="#hardenability">7. Hardenability</a>
-    <a href="#austenitization">8. Austenitization</a>
-    <a href="#quenching">9. Quenching</a>
-    <a href="#process-data">10. Process-data analysis</a>
-    <a href="#measurement">11. Temperature measurement</a>
-    <a href="#surface">12. Surface treatment and diffusion</a>
-    <a href="#tempering">13. Tempering</a>
-    <a href="#mechanical">14. Mechanical-property lab</a>
-    <a href="#metallography">15. Virtual metallography</a>
-    <a href="#solidification">16. Solidification and rolling</a>
-    <a href="#families">17. Alloy-family modes</a>
-    <a href="#learn-export">18. Learn, save, and export</a>
-    <a href="#workflows">19. Recommended workflows</a>
-    <a href="#cautions">20. Engineering cautions</a>
-    <a href="#troubleshooting">21. Troubleshooting</a>
-    <a href="#checklist">22. Final checklist</a>
+    <a href="#core">3. Core diagrams and thermal paths</a>
+    <a href="#applied">4. Applied heat-treatment modules</a>
+    <a href="#process">5. Process data and measurement</a>
+    <a href="#laboratories">6. Metallurgy laboratories</a>
+    <a href="#interactive-diagrams">7. Interactive reference diagrams</a>
+    <a href="#records">8. Learn, save, share, and export</a>
+    <a href="#workflows">9. Recommended workflows</a>
+    <a href="#cautions">10. Engineering cautions</a>
+    <a href="#troubleshooting">11. Troubleshooting</a>
+    <a href="#checklist">12. Final checklist</a>
   </aside>
 
   <main class="guide-main">
     <section class="guide-card" id="purpose">
       <p class="guide-kicker">Before you begin</p>
       <h2>Purpose and limits</h2>
-      <p>The explorer is a teaching and preliminary engineering-screening environment. It is organized around the causal sequence:</p>
+      <p>The explorer is a teaching and preliminary engineering-screening environment organized around:</p>
       <span class="guide-code">Chemistry → Processing → Microstructure → Properties → Performance</span>
       <div class="guide-grid">
-        <div class="guide-mini"><h3>Best uses</h3><p>Learning metallurgy, comparing scenarios, phase-field identification, lever-rule practice, heat-treatment visualization, process-data screening, measurement troubleshooting, and early-stage hypothesis development.</p></div>
+        <div class="guide-mini"><h3>Best uses</h3><p>Learning metallurgy, comparing scenarios, phase-field identification, heat-treatment visualization, process-data screening, measurement troubleshooting, and early-stage hypothesis development.</p></div>
         <div class="guide-mini"><h3>Not a replacement for</h3><p>Controlled standards, certified grade data, validated thermodynamic or kinetic software, calibrated measurements, laboratory testing, procedure qualification, material disposition, or responsible engineering approval.</p></div>
       </div>
-      <div class="guide-callout danger"><p><strong>Engineering caution:</strong> many calculations are deliberately simplified educational estimates. Never use the tool alone to release material, qualify a heat-treatment procedure, establish hazardous operating conditions, or approve a product.</p></div>
+      <div class="guide-callout danger"><p><strong>Engineering caution:</strong> calculations and vector maps are simplified educational models. Never use the tool alone to release material, qualify a process, set hazardous operating conditions, or approve a product.</p></div>
     </section>
 
     <section class="guide-card" id="start">
       <p class="guide-kicker">Release 1</p>
       <h2>Guided start and display modes</h2>
-      <h3>Choose the question first</h3>
-      <p>The <strong>Guided Start</strong> page routes you to the correct module. Select the question closest to your problem, such as:</p>
-      <ul>
-        <li>What phases are present?</li><li>What happens during heating or cooling?</li><li>Will the centre of the section harden?</li><li>Is the austenitizing cycle adequate?</li><li>Which quench medium should be compared?</li><li>What does the uploaded thermal record show?</li><li>How should a thermocouple or pyrometer result be interpreted?</li><li>What case depth, tempering response, microstructure, or alloy-family behaviour should be expected?</li>
-      </ul>
-      <h3>Experience level</h3>
-      <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Mode</th><th>What it emphasizes</th><th>Use when</th></tr></thead><tbody>
-        <tr><td>Beginner</td><td>Plain-language conclusions, key cautions, and fewer equations.</td><td>You are learning the concept or need a quick interpretation.</td></tr>
-        <tr><td>Engineer</td><td>Fractions, assumptions, estimates, risk indicators, and verification needs.</td><td>You are screening a process or preparing an analysis.</td></tr>
-        <tr><td>Advanced</td><td>Model details, equations, limitations, and complete comparison controls.</td><td>You need to inspect the calculation logic and validity boundaries.</td></tr>
+      <p>Begin with <strong>Guided Start</strong> and select the practical question closest to your task. The explorer opens the relevant module and provides a recommended workflow.</p>
+      <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Mode</th><th>What it emphasizes</th><th>Best use</th></tr></thead><tbody>
+        <tr><td>Beginner</td><td>Plain-language conclusions, key cautions, and fewer equations.</td><td>Learning a concept or obtaining a quick interpretation.</td></tr>
+        <tr><td>Engineer</td><td>Fractions, assumptions, estimates, risks, and verification needs.</td><td>Screening a process or preparing an analysis.</td></tr>
+        <tr><td>Advanced</td><td>Model details, equations, limitations, and complete controls.</td><td>Inspecting calculation logic and validity boundaries.</td></tr>
       </tbody></table></div>
       <h3>Interpretation basis</h3>
-      <p>Use <strong>Equilibrium</strong> for Fe–Fe<sub>3</sub>C phase fields and lever-rule fractions. Use <strong>Rapid cooling</strong> for generalized ferrite, pearlite, bainite, and martensite trends. The rapid-cooling selection does not convert the equilibrium diagram into a CCT diagram; it changes how the scenario is interpreted.</p>
-      <h3>Critical-temperature coach</h3>
-      <ul><li><strong>Ae</strong> is the equilibrium critical temperature.</li><li><strong>Ac</strong> is the observed transformation temperature during heating.</li><li><strong>Ar</strong> is the observed transformation temperature during cooling.</li><li><strong>Ms</strong> and <strong>Mf</strong> refer to martensite start and finish.</li></ul>
-      <p>The heating- and cooling-rate shifts in the coach are teaching approximations, not process setpoints.</p>
+      <p>Use <strong>Equilibrium</strong> for Fe–Fe<sub>3</sub>C phase fields and lever-rule fractions. Use <strong>Rapid cooling</strong> for generalized ferrite, pearlite, bainite, martensite, and retained-austenite tendencies.</p>
+      <h3>Critical-temperature terminology</h3>
+      <ul><li><strong>Ae</strong>: equilibrium critical temperature.</li><li><strong>Ac</strong>: observed transformation during heating.</li><li><strong>Ar</strong>: observed transformation during cooling.</li><li><strong>Ms/Mf</strong>: martensite start and finish concepts.</li></ul>
     </section>
 
-    <section class="guide-card" id="equilibrium">
-      <p class="guide-kicker">Core module</p>
-      <h2>Equilibrium diagram</h2>
-      <h3>Plot and manage points</h3>
-      <ol><li>Select metric or imperial temperature display.</li><li>Enter carbon and temperature for P1.</li><li>Use <strong>+ Add point</strong> to create P2, P3, and additional comparisons.</li><li>Select a row, marker, or result card to make that point active.</li><li>Click or drag on the diagram to move only the active point.</li></ol>
-      <h3>Display controls</h3>
-      <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Control</th><th>Function</th></tr></thead><tbody>
-        <tr><td>Show tie line</td><td>Displays two-phase boundary compositions used by the lever rule.</td></tr>
-        <tr><td>Spotlight active region</td><td>Fades unrelated fields so the selected region is easier to interpret.</td></tr>
-        <tr><td>Snap to critical boundaries</td><td>Snaps nearby points to A<sub>1</sub>, A<sub>3</sub>, A<sub>cm</sub>, or the eutectoid composition.</td></tr>
-        <tr><td>Connect points as path</td><td>Links the listed points to illustrate a conceptual thermal path.</td></tr>
-      </tbody></table></div>
-      <h3>Lever rule</h3>
-      <p>Inside a two-phase field, the tool estimates equilibrium mass fractions from the tie-line endpoints. For ferrite plus austenite:</p>
-      <span class="guide-code">fα = (Cγ − C₀) / (Cγ − Cα) &nbsp;&nbsp; and &nbsp;&nbsp; fγ = (C₀ − Cα) / (Cγ − Cα)</span>
-      <p>The schematic microstructure is educational. It does not reproduce actual grain morphology, inclusions, banding, or transformation kinetics.</p>
+    <section class="guide-card" id="core">
+      <p class="guide-kicker">Core modules</p>
+      <h2>Equilibrium, heat-treatment paths, TTT/CCT, and chemistry</h2>
+      <h3>Equilibrium diagram</h3>
+      <ol><li>Select metric or imperial display.</li><li>Enter carbon and temperature.</li><li>Use <strong>+ Add point</strong> for comparisons.</li><li>Select a row or marker to make a point active.</li><li>Click or drag the diagram to reposition it.</li></ol>
+      <p>Use tie lines, spotlighting, critical-boundary snapping, connected paths, lever-rule fractions, and the schematic microstructure viewer.</p>
+      <span class="guide-code">fα = (Cγ − C₀)/(Cγ − Cα) &nbsp;&nbsp; and &nbsp;&nbsp; fγ = (C₀ − Cα)/(Cγ − Cα)</span>
+      <h3>Heating and cooling paths</h3>
+      <p>Select a preset or build a custom sequence of heating, holding, cooling, quenching, and tempering steps. Use Play, Pause, or the time slider, then review boundary crossings and the live schematic.</p>
+      <h3>TTT and CCT</h3>
+      <div class="guide-grid"><div class="guide-mini"><h3>TTT</h3><p>Use isothermal temperature and hold time to examine idealized transformation start and finish behaviour.</p></div><div class="guide-mini"><h3>CCT</h3><p>Use cooling rate and final temperature to compare ferrite, pearlite, bainite, martensite, and retained-austenite tendencies.</p></div></div>
+      <h3>Chemistry and causal chain</h3>
+      <p>Enter verified chemistry to screen CE IIW, Pcm, Ac1, Ac3, Ms, hardenability, weldability, and directional properties. The causal dashboard links chemistry, processing, microstructure, properties, and performance.</p>
     </section>
 
-    <section class="guide-card" id="paths">
-      <p class="guide-kicker">Thermal-cycle builder</p>
-      <h2>Heating and cooling paths</h2>
-      <p>Select a preset—normalizing, annealing, spheroidizing, quench and temper, intercritical annealing, austempering, martempering—or build a custom cycle.</p>
-      <ol><li>Enter carbon.</li><li>Add or remove cycle steps.</li><li>Set target temperature, duration, and step type.</li><li>Use Play, Pause, or the time slider.</li><li>Review boundary crossings, the event timeline, and the live phase-state panel.</li></ol>
-      <div class="guide-callout"><p>Crossing an equilibrium boundary does not prove instantaneous transformation. Time, chemistry, grain size, prior condition, section thickness, and cooling rate determine what actually forms.</p></div>
-    </section>
-
-    <section class="guide-card" id="kinetics">
-      <p class="guide-kicker">Transformation kinetics</p>
-      <h2>TTT and CCT</h2>
-      <div class="guide-grid"><div class="guide-mini"><h3>TTT</h3><p>Use isothermal temperature and hold time to see how a constant-temperature path intersects idealized transformation start and finish curves.</p></div><div class="guide-mini"><h3>CCT</h3><p>Use continuous cooling rate and final temperature to compare ferrite, pearlite, bainite, martensite, and retained-austenite tendencies.</p></div></div>
-      <p>Chemistry from the Chemistry module shifts the generalized curves and critical temperatures. These are not certified, grade-specific diagrams.</p>
-    </section>
-
-    <section class="guide-card" id="chemistry">
-      <p class="guide-kicker">Chemistry and causality</p>
-      <h2>Chemistry, properties, and causal chain</h2>
-      <p>Select an illustrative preset or enter verified heat chemistry. The module estimates CE IIW, Pcm, A<sub>c1</sub>, A<sub>c3</sub>, M<sub>s</sub>, hardenability, weldability, and directional property trends.</p>
-      <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Output</th><th>Interpretation</th><th>Primary caution</th></tr></thead><tbody>
-        <tr><td>CE IIW / Pcm</td><td>Weldability and hydrogen-cracking screening.</td><td>Applicability depends on product, thickness, procedure, heat input, and hydrogen control.</td></tr>
-        <tr><td>Ac1 / Ac3 / Ms</td><td>Empirical critical-temperature estimates.</td><td>Exact chemistry range and heating history matter.</td></tr>
-        <tr><td>Hardenability index</td><td>Directional chemistry tendency.</td><td>Do not replace measured Jominy data.</td></tr>
-        <tr><td>Property ranges</td><td>Directional hardness, strength, and elongation trends.</td><td>Grain size, morphology, inclusions, precipitation, section size, tempering, and testing remain decisive.</td></tr>
-      </tbody></table></div>
-      <p>The Guided Start causal dashboard updates the five-stage chain and warns when the active phase-diagram carbon differs from the chemistry-model carbon.</p>
-    </section>
-
-    <section class="guide-card" id="hardenability">
+    <section class="guide-card" id="applied">
       <p class="guide-kicker">Release 2</p>
-      <h2>Jominy and section-size hardenability</h2>
-      <p>This module separates <strong>maximum hardness</strong> from <strong>depth of hardening</strong>.</p>
-      <ol><li>Confirm chemistry.</li><li>Select round or plate geometry.</li><li>Enter diameter or thickness.</li><li>Select quench medium and agitation.</li><li>Enter prior-austenite ASTM grain number and target hardness.</li><li>Read the estimated Jominy curve and through-section result.</li></ol>
-      <p>Outputs include equivalent Jominy distance, surface/quarter-depth/centre martensite, hardness, and effective target-hardness depth.</p>
-      <div class="guide-callout danger"><p>The result is a chemistry-calibrated teaching model, not an ASTM A255 calculation. Validate with measured Jominy curves and hardness traverses.</p></div>
+      <h2>Applied heat-treatment modules</h2>
+      <h3>Jominy and section-size hardenability</h3>
+      <p>Select geometry, section size, quench medium, agitation, prior-austenite grain number, and target hardness. Read the estimated Jominy curve, equivalent Jominy distance, martensite fraction, and surface-to-centre hardness profile.</p>
+      <h3>Austenitization and grain-growth window</h3>
+      <p>Set temperature, hold time, section size, heating rate, starting microstructure, carbide burden, pinning, and initial grain size. Balance heat-through, dissolution, homogenization, and grain growth.</p>
+      <h3>Quench-medium comparison</h3>
+      <p>Compare air/gas, oils, polymer, water, brine, and the salt-bath analogue under common assumptions. Review surface, quarter-depth, and centre cooling, martensite, hardness, thermal gradients, cracking risk, and distortion risk.</p>
+      <div class="guide-callout danger"><p><strong>Safety:</strong> the tool does not provide hazardous quench, hot-oil, brine, polymer, molten-salt, or high-temperature operating instructions.</p></div>
     </section>
 
-    <section class="guide-card" id="austenitization">
-      <p class="guide-kicker">Release 2</p>
-      <h2>Austenitization and grain-growth window</h2>
-      <p>The module balances four competing needs: heat the core, form austenite, dissolve and homogenize carbides, and avoid excessive prior-austenite grain growth.</p>
-      <ul><li>Set temperature, hold time, section size, heating rate, and initial grain size.</li><li>Select starting microstructure, carbide burden, and grain-boundary pinning.</li><li>Review core heat-through time, effective soak, dissolution, homogenization, final ASTM grain number, and grain-growth risk.</li><li>Use the heatmap to identify incomplete, balanced, and grain-growth-dominated regions.</li></ul>
-      <div class="guide-callout"><p>A higher temperature can improve dissolution while accelerating grain growth. The preferred condition is a validated operating window, not the highest temperature or longest hold.</p></div>
-    </section>
-
-    <section class="guide-card" id="quenching">
-      <p class="guide-kicker">Release 2</p>
-      <h2>Quench-medium and cracking-risk comparison</h2>
-      <p>Compare still air, forced air/gas, conventional oil, accelerated oil, polymer solution, water, brine, and a molten-salt-bath analogue under common assumptions.</p>
-      <ul><li>Set bath temperature, agitation, geometry, size, transfer delay, corner severity, and final temperature.</li><li>Review surface, quarter-depth, and centre cooling curves.</li><li>Compare 800→500 °C cooling rate, martensite, hardness, maximum thermal gradient, martensite mismatch, cracking risk, and distortion risk.</li><li>Use <strong>Apply to hardenability</strong> to transfer the selected setup.</li></ul>
-      <div class="guide-callout danger"><p><strong>Safety:</strong> this module does not provide operating instructions for hot oils, polymers, brines, molten salts, or high-temperature handling. Follow approved industrial procedures, SDS requirements, and engineered safeguards.</p></div>
-    </section>
-
-    <section class="guide-card" id="process-data">
+    <section class="guide-card" id="process">
       <p class="guide-kicker">Release 3</p>
-      <h2>Process-data analysis</h2>
-      <h3>Upload a thermal record</h3>
-      <ol><li>Open <strong>Process Data</strong>.</li><li>Drop or select a CSV, TSV, TXT, or semicolon-delimited file.</li><li>Map the time and temperature columns.</li><li>Select source time and temperature units.</li><li>Adjust smoothing and arrest sensitivity.</li></ol>
-      <p>The tool calculates the smoothed temperature history and:</p>
+      <h2>Process-data analysis and temperature measurement</h2>
+      <h3>Thermal-data upload</h3>
+      <ol><li>Open <strong>Process Data</strong>.</li><li>Drop or select a CSV, TSV, TXT, or semicolon-delimited file.</li><li>Map time and temperature columns.</li><li>Select source units.</li><li>Adjust smoothing and arrest sensitivity.</li></ol>
       <span class="guide-code">Cooling rate = −dT/dt</span>
-      <h3>Read the results</h3>
-      <ul><li>Average cooling rates for 800–500 °C and 500–300 °C.</li><li>Candidate thermal or transformation arrests.</li><li>Candidate proximity to Ac1, Ac3, A1, and Ms.</li><li>Measured-versus-simulated cycle overlay.</li><li>Root-mean-square error between normalized measured and simulated paths.</li></ul>
-      <div class="guide-callout danger"><p>Candidate arrests are screening signals. Sensor lag, furnace control, section heat transfer, smoothing, recalescence, and process disturbances can produce similar signatures. Confirm transformations with metallography, dilatometry, hardness, or other validated evidence.</p></div>
+      <p>Review cooling-rate windows, candidate arrests, proximity to critical temperatures, measured-versus-simulated paths, and RMSE. Candidate arrests are screening signals—not confirmed transformations.</p>
+      <h3>Measurement assistant</h3>
+      <p>Use thermocouple mode for type, diameter, attachment, shielding, thermal mass, and response-time risks. Use pyrometer mode for emissivity, reflected temperature, target-to-spot ratio, and surface-condition errors.</p>
     </section>
 
-    <section class="guide-card" id="measurement">
-      <p class="guide-kicker">Release 3</p>
-      <h2>Temperature-measurement assistant</h2>
-      <h3>Thermocouple mode</h3>
-      <p>Select thermocouple type, wire/sheath diameter, attachment method, shielding, and thermal mass. Review estimated response time, stabilization time, and attachment-bias risk.</p>
-      <h3>Infrared-pyrometer mode</h3>
-      <p>Enter indicated temperature, instrument emissivity, estimated actual emissivity, reflected temperature, target width, spot diameter, and surface condition. Review the radiation-balance correction, target-to-spot ratio, and background contamination risk.</p>
-      <div class="guide-callout"><p>A precise display is not proof of an accurate workpiece temperature. Calibration, emissivity, scale, reflected radiation, sensor location, response lag, and furnace-to-workpiece differences must be controlled.</p></div>
-    </section>
-
-    <section class="guide-card" id="surface">
+    <section class="guide-card" id="laboratories">
       <p class="guide-kicker">Release 4</p>
-      <h2>Surface treatment and diffusion</h2>
-      <p>Select carburizing, carbonitriding, nitriding, ferritic nitrocarburizing, induction hardening, flame hardening, or laser hardening.</p>
-      <p>Diffusion-controlled treatments use an Arrhenius diffusivity and complementary-error-function profile:</p>
-      <span class="guide-code">C(x,t) = C₀ + (Cs − C₀) erfc[x / (2√Dt)]</span>
-      <p>Review solute concentration, hardness versus depth, effective case depth, total affected depth, surface hardness, core hardness, and process-specific risks. Transformation-hardening modes estimate heat-penetration depth rather than solute diffusion.</p>
-    </section>
-
-    <section class="guide-card" id="tempering">
-      <p class="guide-kicker">Release 4</p>
-      <h2>Tempering simulator</h2>
-      <p>Enter steel response family, as-quenched hardness, tempering temperature, time, number of cycles, retained austenite, and post-temper cooling mode.</p>
-      <span class="guide-code">Hollomon–Jaffe parameter: P = TK [C + log10(t)]</span>
-      <p>Review tempered hardness, toughness recovery, residual-stress relief, retained-austenite reduction, secondary-hardening tendency, and embrittlement risk together. Do not assume hardness changes monotonically for every alloy family.</p>
-    </section>
-
-    <section class="guide-card" id="mechanical">
-      <p class="guide-kicker">Release 4</p>
-      <h2>Mechanical-property laboratory</h2>
-      <p>Select microstructure, carbon, ASTM grain number, test temperature, notch severity, and residual stress. Switch among:</p>
-      <ul><li>Engineering stress–strain curve</li><li>Charpy transition and DBTT curve</li><li>Fatigue S–N curve</li></ul>
-      <p>The module provides directional yield strength, tensile strength, elongation, hardness, Charpy energy, fatigue strength, and elastic modulus, plus approximate HV/HBW/HRC learning conversions.</p>
-      <div class="guide-callout danger"><p>These values are not acceptance predictions. Test method, specimen geometry, orientation, strain rate, temperature, notch preparation, microstructure, and sampling location must be controlled.</p></div>
-    </section>
-
-    <section class="guide-card" id="metallography">
-      <p class="guide-kicker">Release 4</p>
-      <h2>Virtual metallography laboratory</h2>
-      <p>Generate schematic ferrite, ferrite–pearlite, bainite, martensite, spheroidite, and decarburization fields. Adjust grain size, magnification, etchant, banding, inclusion population, and section orientation.</p>
-      <p>Use the mystery-field exercise to practise phase and microconstituent identification. The displayed fields are original teaching schematics—not reference photomicrographs.</p>
-      <div class="guide-callout"><p>Real identification requires correct section location and orientation, specimen preparation, etchant, calibrated microscopy, reference images, and often hardness or compositional confirmation.</p></div>
-    </section>
-
-    <section class="guide-card" id="solidification">
-      <p class="guide-kicker">Release 4</p>
-      <h2>Solidification and rolling inheritance</h2>
-      <p>Use carbon, segregation tendency, thermal gradient, equiaxed nucleation, reduction ratio, soft reduction, cleanliness, and process-stage controls to animate:</p>
-      <span class="guide-code">Dendrites → segregation and porosity → rolling elongation → banding and anisotropy</span>
-      <p>Review segregation, porosity, closure, columnar-grain tendency, banding, and anisotropy indicators. Rolling can close voids and change morphology without eliminating inherited chemical segregation.</p>
-    </section>
-
-    <section class="guide-card" id="families">
-      <p class="guide-kicker">Release 4</p>
-      <h2>Alloy-family modes</h2>
+      <h2>Metallurgy laboratories</h2>
       <div class="guide-grid">
-        <div class="guide-mini"><h3>Plain and low-alloy steel</h3><p>CE, Pcm, Ms, hardenability, weldability, and hydrogen-cracking trends.</p></div>
-        <div class="guide-mini"><h3>Stainless steel</h3><p>PREN, chromium and nickel equivalents, phase tendency, pitting trend, and sensitization screening.</p></div>
-        <div class="guide-mini"><h3>Tool steel</h3><p>Carbide, secondary-hardening, hot-hardness, wear, toughness, and cracking trends.</p></div>
-        <div class="guide-mini"><h3>Cast iron / Fe–graphite</h3><p>Carbon equivalent, graphitization, chill/carbide risk, matrix tendency, and graphite morphology.</p></div>
+        <div class="guide-mini"><h3>Surface and diffusion</h3><p>Model carburizing, carbonitriding, nitriding, ferritic nitrocarburizing, induction, flame, and laser hardening trends.</p></div>
+        <div class="guide-mini"><h3>Tempering</h3><p>Explore hardness loss, toughness recovery, stress relief, retained austenite, secondary hardening, and embrittlement.</p></div>
+        <div class="guide-mini"><h3>Mechanical tests</h3><p>Use stress–strain, Charpy/DBTT, fatigue S–N, and hardness-conversion learning views.</p></div>
+        <div class="guide-mini"><h3>Virtual metallography</h3><p>Generate schematic ferrite, pearlite, bainite, martensite, spheroidite, decarburization, banding, and inclusions.</p></div>
+        <div class="guide-mini"><h3>Solidification</h3><p>Animate dendrites, segregation, porosity, rolling elongation, banding, and anisotropy.</p></div>
+        <div class="guide-mini"><h3>Alloy families</h3><p>Use family-specific indicators for plain/low-alloy, stainless, tool steel, and cast iron.</p></div>
       </div>
-      <div class="guide-callout danger"><p>Do not apply plain-carbon Fe–Fe<sub>3</sub>C logic uncritically to stainless steels, highly alloyed tool steels, or cast irons. Their phase stability and transformations require family-specific data and models.</p></div>
+      <span class="guide-code">Diffusion model: C(x,t) = C₀ + (Cs − C₀) erfc[x/(2√Dt)]</span>
+      <span class="guide-code">Tempering model: P = T(K)[C + log₁₀(t)]</span>
     </section>
 
-    <section class="guide-card" id="learn-export">
+    <section class="guide-card" id="interactive-diagrams">
+      <p class="guide-kicker">Release 5</p>
+      <h2>Interactive reference diagrams</h2>
+      <p>The <strong>Interactive Diagrams</strong> tab contains two original, high-resolution vector redraws.</p>
+      <div class="guide-grid">
+        <div class="guide-mini"><h3>Rapid-quench microconstituent map</h3><p>Covers 0–1.2 wt% C and approximately −100 to 1000 °C, with ferrite/pearlite, pearlite, upper and lower bainite, martensite, retained austenite, Ms, Mf, A1, A3, Acm, and an austenitizing band.</p></div>
+        <div class="guide-mini"><h3>Full Fe–Fe₃C diagram</h3><p>Covers 0–6.67 wt% C and the principal liquid, δ-ferrite, austenite, ferrite, cementite, and two-phase fields, plus an optional qualitative stable graphite overlay.</p></div>
+      </div>
+      <h3>Controls</h3>
+      <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Control</th><th>How to use it</th></tr></thead><tbody>
+        <tr><td>Crosshair and tooltip</td><td>Move the pointer or drag on touch devices to display carbon, temperature, and the region beneath the cursor.</td></tr>
+        <tr><td>Multiple points</td><td>Add comparison points, select an active point, edit carbon and temperature, and drag markers directly on the diagram.</td></tr>
+        <tr><td>Critical lines</td><td>Show or hide A1, A3, Acm, Ms, Mf, liquidus, eutectic, peritectic, and related boundaries.</td></tr>
+        <tr><td>Labels and legend</td><td>Toggle labels and the color-coded legend. Select a legend item to open its explanation.</td></tr>
+        <tr><td>Stable graphite overlay</td><td>On the full diagram, show or hide a qualitative stable Fe–graphite reference over the metastable Fe–Fe₃C map.</td></tr>
+        <tr><td>Experience level</td><td>Beginner shows plain-language meaning; Engineer adds formation and property trends; Advanced adds assumptions and limitations.</td></tr>
+        <tr><td>Region help</td><td>Select, hover, or tap a region to read what forms, why it matters, property tendencies, and cautions.</td></tr>
+        <tr><td>Export PNG</td><td>Export a 2760 × 1950 pixel PNG containing the active diagram, visible overlays, labels, and plotted points.</td></tr>
+      </tbody></table></div>
+      <p>The two new maps share their own point set. Points above 1.2 wt% C remain stored but are hidden on the rapid-quench map; switch to the full diagram to view them.</p>
+      <div class="guide-callout"><p><strong>Reference note:</strong> these are original vector redraws informed by the supplied rapid-quench figure and iron–carbon/cementite poster. The original poster artwork, logos, micrographs, and page design are not reproduced.</p></div>
+      <div class="guide-callout danger"><p>The rapid-quench map is a carbon–temperature teaching map, not a time-resolved TTT or CCT diagram. The full Fe–Fe₃C map is a simplified equilibrium redraw.</p></div>
+    </section>
+
+    <section class="guide-card" id="records">
       <p class="guide-kicker">Learning and records</p>
       <h2>Learn, save, share, and export</h2>
-      <h3>Learning mode</h3>
-      <p>Generate phase-field challenges, use hints, inspect boundary explanations, and practise microstructure identification.</p>
-      <h3>Save and share</h3>
-      <ul><li><strong>Save scenario</strong> stores settings in the current browser.</li><li><strong>Load saved</strong> restores the local scenario.</li><li><strong>Copy share link</strong> embeds supported configuration data in the URL.</li></ul>
-      <p>Uploaded raw process data remains local to the current browser session and is not embedded in the share link.</p>
-      <h3>Export</h3>
-      <ul><li>Point and phase-analysis CSV</li><li>Equilibrium-diagram PNG</li><li>Derived process-data CSV</li><li>Downloadable process-analysis HTML report</li><li>Browser print/PDF output</li></ul>
+      <p>Generate challenges, use hints, inspect boundary explanations, and practise microstructure identification. Save supported settings in the browser, restore them, or create a share link. Raw uploaded thermal data remains local to the current browser session.</p>
+      <ul><li>Point and phase-analysis CSV</li><li>Equilibrium-diagram PNG</li><li>Rapid-quench or full Fe–Fe₃C PNG</li><li>Derived process-data CSV</li><li>Process-analysis HTML report</li><li>Browser print/PDF output</li></ul>
     </section>
 
     <section class="guide-card" id="workflows">
       <p class="guide-kicker">Practical applications</p>
       <h2>Recommended workflows</h2>
       <div class="guide-grid">
-        <div class="guide-mini"><h3>Learn a phase transformation</h3><p>Use Guided Start → Equilibrium → Path → TTT/CCT. Compare equilibrium phases with kinetic products.</p></div>
-        <div class="guide-mini"><h3>Assess through-hardening</h3><p>Enter chemistry → Austenitization → Quenching → Hardenability. Validate with hardness traverses.</p></div>
-        <div class="guide-mini"><h3>Review a thermal record</h3><p>Upload Process Data → map columns → calculate cooling rate → screen arrests → compare with the simulated path.</p></div>
-        <div class="guide-mini"><h3>Investigate temperature discrepancy</h3><p>Use Process Data → Measurement Assistant. Check lag, attachment, emissivity, field of view, and reflected radiation.</p></div>
-        <div class="guide-mini"><h3>Evaluate surface treatment</h3><p>Use Metallurgy Lab → Surface Treatment → set chemistry/time/temperature → inspect case and hardness depth → plan verification.</p></div>
-        <div class="guide-mini"><h3>Explain property variation</h3><p>Use Solidification → Metallography → Mechanical Lab to connect segregation, morphology, orientation, and test response.</p></div>
+        <div class="guide-mini"><h3>Learn a transformation</h3><p>Guided Start → Equilibrium → Path → TTT/CCT → Interactive Diagrams.</p></div>
+        <div class="guide-mini"><h3>Assess through-hardening</h3><p>Chemistry → Austenitization → Quenching → Hardenability → hardness-traverse validation.</p></div>
+        <div class="guide-mini"><h3>Review a thermal record</h3><p>Process Data → map columns → cooling rate → arrest screening → simulated-path comparison.</p></div>
+        <div class="guide-mini"><h3>Compare reference regions</h3><p>Interactive Diagrams → load examples → drag points through pearlite, bainite, and martensite regions → export PNG.</p></div>
+        <div class="guide-mini"><h3>Investigate a soft surface</h3><p>Measurement → Surface Treatment → Metallography → hardness and chemistry-depth verification.</p></div>
+        <div class="guide-mini"><h3>Explain banding</h3><p>Solidification → Metallography → Mechanical Properties → compare orientation and toughness implications.</p></div>
       </div>
     </section>
 
     <section class="guide-card" id="cautions">
       <p class="guide-kicker">Accuracy controls</p>
       <h2>Engineering cautions</h2>
-      <ul>
-        <li><strong>Equilibrium versus kinetics:</strong> equilibrium phase fields do not predict transformation time or cooling-rate response.</li>
-        <li><strong>Phase versus microconstituent:</strong> ferrite and cementite are phases; pearlite and bainite are microconstituents.</li>
-        <li><strong>Model validity:</strong> empirical equations have chemistry and process ranges.</li>
-        <li><strong>Section effects:</strong> centre and surface experience different thermal histories.</li>
-        <li><strong>Measurement:</strong> sensor lag, attachment, emissivity, reflected radiation, and calibration can dominate the result.</li>
-        <li><strong>Morphology:</strong> identical phase fractions can produce different properties when grain size, shape, distribution, and banding differ.</li>
-        <li><strong>Alloy families:</strong> plain-carbon models are incomplete for stainless, tool steel, and cast iron.</li>
-        <li><strong>Safety:</strong> the tool does not provide safe operating instructions for hazardous heat-treatment, atmosphere, quench, flame, induction, laser, or molten-salt processes.</li>
-      </ul>
+      <ul><li>Separate equilibrium phases from kinetic transformation products.</li><li>Bainite and martensite are not equilibrium fields on the Fe–Fe₃C diagram.</li><li>Pearlite and bainite are microconstituents, not single phases.</li><li>Alloying, grain size, prior condition, section size, and cooling history shift real behaviour.</li><li>Mechanical properties depend on morphology, texture, inclusions, precipitation, sampling, and test method.</li><li>CE and Pcm are screening indicators, not complete welding procedures.</li><li>Candidate thermal arrests and measurement corrections require independent verification.</li><li>Do not derive hazardous process settings from this educational tool.</li></ul>
     </section>
 
     <section class="guide-card" id="troubleshooting">
       <p class="guide-kicker">Common issues</p>
       <h2>Troubleshooting</h2>
       <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Issue</th><th>Likely cause</th><th>Action</th></tr></thead><tbody>
-        <tr><td>Point will not move freely</td><td>Boundary snapping is enabled.</td><td>Turn off Snap to critical boundaries.</td></tr>
-        <tr><td>Temperature appears to change after unit switching</td><td>The displayed value was converted.</td><td>The internal Celsius state is preserved.</td></tr>
-        <tr><td>Release 2–4 tab is missing</td><td>Cached JavaScript or incomplete load.</td><td>Hard refresh the page and confirm all scripts are allowed.</td></tr>
-        <tr><td>Uploaded file has no chart</td><td>Wrong delimiter, column mapping, or nonnumeric fields.</td><td>Check delimiter, headers, time column, temperature column, and units.</td></tr>
-        <tr><td>Too many candidate arrests</td><td>Noise, low sensitivity threshold, or insufficient smoothing.</td><td>Increase smoothing or reduce arrest sensitivity, then confirm against raw data.</td></tr>
-        <tr><td>Thermal record differs from simulated path</td><td>Sensor location, lag, section heat transfer, transfer delay, or simplified path.</td><td>Review measurement setup and update the cycle assumptions.</td></tr>
-        <tr><td>Microstructure does not resemble a real micrograph</td><td>The field is schematic.</td><td>Use qualified reference images and actual metallography.</td></tr>
-        <tr><td>Saved work is missing</td><td>Browser storage was cleared or another device was used.</td><td>Use exports and share links for portable records.</td></tr>
+        <tr><td>A point is missing on the rapid-quench map</td><td>Carbon exceeds 1.2 wt% or temperature is outside the displayed range.</td><td>Switch to the full diagram or edit the point.</td></tr>
+        <tr><td>The crosshair is not visible</td><td>Crosshair display is turned off.</td><td>Enable <strong>Crosshair</strong>.</td></tr>
+        <tr><td>Labels make the diagram crowded</td><td>All region labels are enabled on a small screen.</td><td>Turn off labels and use tooltips or the legend.</td></tr>
+        <tr><td>Temperature changed after a unit switch</td><td>The displayed value was converted.</td><td>The internal Celsius value is preserved.</td></tr>
+        <tr><td>TTT/CCT differs from published data</td><td>The tool uses generalized curves.</td><td>Use grade-specific validated diagrams.</td></tr>
+        <tr><td>A PNG export is blocked</td><td>Browser download permissions.</td><td>Allow downloads or use Print/PDF.</td></tr>
+        <tr><td>Saved work is missing</td><td>Browser storage was cleared or another device was used.</td><td>Use share links and exports for portable records.</td></tr>
       </tbody></table></div>
     </section>
 
     <section class="guide-card" id="checklist">
       <p class="guide-kicker">Before relying on an output</p>
       <h2>Final checklist</h2>
-      <ul class="guide-checklist">
-        <li>Confirm chemistry and material family.</li><li>Confirm units and sensor calibration.</li>
-        <li>Separate equilibrium phases from kinetic products.</li><li>Document prior microstructure and grain condition.</li>
-        <li>Record section size, geometry, and sampling location.</li><li>Document heating, holding, transfer, cooling, and tempering history.</li>
-        <li>Check model and equation applicability.</li><li>Preserve raw process data and analysis settings.</li>
-        <li>Verify predictions using appropriate testing.</li><li>Include uncertainty and cautions in reports.</li>
-        <li>Use approved safety procedures.</li><li>Obtain technical approval where required.</li>
-      </ul>
+      <ul class="guide-checklist"><li>Confirm carbon and alloy chemistry.</li><li>Confirm temperature units.</li><li>Select the correct diagram and basis.</li><li>Separate equilibrium phases from kinetic products.</li><li>Document the thermal path and section size.</li><li>Verify grade-specific TTT/CCT or thermodynamic data.</li><li>Treat property values and color regions as educational estimates.</li><li>Record model limitations in reports.</li><li>Verify with metallography, hardness, chemistry, or mechanical testing.</li><li>Obtain technical approval where required.</li></ul>
       <div class="guide-bottom"><a class="guide-back" href="/engineering-tools">&larr; Back to Engineering Tools</a><a class="guide-btn primary" href="/tools/steel-phase-explorer">Open the Steel Phase Explorer</a></div>
     </section>
   </main>
