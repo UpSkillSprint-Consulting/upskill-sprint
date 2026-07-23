@@ -92,3 +92,60 @@ test('the table of contents is sequentially numbered', () => {
   assert.ok(nums.length >= 20, `expected a full contents list, got ${nums.length}`);
   nums.forEach((n, i) => assert.equal(n, i + 1, `contents entry ${i + 1} out of order`));
 });
+
+/* ---------- hidden-attribute cascade guard ----------
+ * This site has no global [hidden]{display:none} rule. An author-level
+ * display declaration therefore beats the UA stylesheet and the element
+ * stays on screen even with the hidden attribute set. Every release ships
+ * its own guard. Omitting it left the Release 5 loading overlay covering
+ * the diagram permanently, which read as a poster that never loaded.
+ */
+
+const TOOLS = path.join(ROOT, 'tools');
+const r5css = fs.readFileSync(path.join(TOOLS, 'steel-phase-explorer-release5.css'), 'utf8');
+const r5js = fs.readFileSync(path.join(TOOLS, 'steel-phase-explorer-release5.js'), 'utf8');
+const r5loader = fs.readFileSync(path.join(TOOLS, 'steel-phase-explorer-release5-loader.js'), 'utf8');
+
+test('the site really has no global hidden rule, so per-release guards are required', () => {
+  const globals = fs.readFileSync(path.join(TOOLS, 'steel-phase-explorer.css'), 'utf8');
+  assert.ok(!/(^|[^-\w])\[hidden\]\s*\{/.test(globals),
+    'if a global rule is ever added, this guard requirement can be relaxed');
+});
+
+test('the loading overlay is guarded against the hidden cascade', () => {
+  assert.match(r5css, /\.spx-r5-loading\[hidden\]\s*\{[^}]*display\s*:\s*none/,
+    'without this the overlay never disappears');
+});
+
+test('every Release 5 element toggled via hidden has a display guard', () => {
+  const displayed = new Set();
+  for (const m of r5css.matchAll(/([.#][A-Za-z0-9_-]+)(?:\[[^\]]*\])?\s*\{([^}]*)\}/g)) {
+    if (/(^|;)\s*display\s*:/.test(m[2]) && !m[0].includes('[hidden]')) displayed.add(m[1]);
+  }
+  const guarded = new Set([...r5css.matchAll(/([.#][A-Za-z0-9_-]+)\[hidden\]/g)].map(m => m[1]));
+
+  const toggled = new Set([
+    ...[...r5js.matchAll(/\$\('([a-z0-9-]+)'\)\.hidden/g)].map(m => m[1]),
+    ...[...r5loader.matchAll(/id="([a-z0-9-]+)"[^>]*hidden/g)].map(m => m[1])
+  ]);
+
+  /* An element may be styled by id or by a class of the same name, so both
+     forms have to be considered before declaring it safe. */
+  const offenders = [...toggled].filter(id => {
+    const forms = ['#' + id, '.' + id];
+    const styled = forms.some(f => displayed.has(f));
+    const isGuarded = forms.some(f => guarded.has(f));
+    return styled && !isGuarded;
+  });
+  assert.deepEqual(offenders, [], 'these elements would stay visible when hidden is set');
+});
+
+test('the release 5 stylesheet follows the guard convention of its siblings', () => {
+  for (const sibling of ['release2', 'release3', 'release4']) {
+    const file = path.join(TOOLS, `steel-phase-explorer-${sibling}.css`);
+    if (!fs.existsSync(file)) continue;
+    assert.match(fs.readFileSync(file, 'utf8'), /\[hidden\]\s*\{[^}]*display\s*:\s*none/,
+      `${sibling} sets the precedent`);
+  }
+  assert.match(r5css, /\[hidden\]\s*\{[^}]*display\s*:\s*none/, 'release5 follows it');
+});

@@ -11,6 +11,11 @@
 .spx-r5-wrap svg{display:block;min-width:100%;height:auto}
 .spx-r5-wrap:fullscreen{max-height:none;height:100vh;background:var(--spx-bg)}
 .spx-r5-loading{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;color:var(--spx-muted);background:var(--spx-bg)}
+/* This site has no global [hidden] rule, so an author-level display
+   declaration defeats the UA stylesheet and the element stays visible.
+   Every release guards its own hidden elements; this is release 5's. */
+.spx-r5-loading[hidden]{display:none!important}
+.spx-r5-legend[hidden],#spx-r5-legend-card[hidden],#spx-r5-retry[hidden]{display:none!important}
 
 .spx-r5-heading{font-size:26px;font-weight:800;fill:#1d1b18}
 .spx-r5-subheading{font-size:19px;font-weight:600;fill:#3a3733}
