@@ -28,7 +28,11 @@ function ensure(){
   state.r5.points=Array.isArray(state.r5.points)&&state.r5.points.length?state.r5.points:[{id:1,c:.2,t:900},{id:2,c:.76,t:727},{id:3,c:1,t:300}];
   state.r5.activeId=Number(state.r5.activeId)||state.r5.points[0].id;
   state.r5.nextId=Number(state.r5.nextId)||Math.max.apply(null,state.r5.points.map(function(p){return Number(p.id)||0}))+1;
-  ['showCritical','showLabels','showCrosshair','showLegend','showGraphite'].forEach(function(k){if(state.r5[k]===undefined)state.r5[k]=true});
+  if(state.r5.showCritical===undefined)state.r5.showCritical=false;
+  if(state.r5.showLabels===undefined)state.r5.showLabels=false;
+  if(state.r5.showCrosshair===undefined)state.r5.showCrosshair=true;
+  if(state.r5.showLegend===undefined)state.r5.showLegend=true;
+  if(state.r5.showGraphite===undefined)state.r5.showGraphite=false;
   state.r5.zoom=clamp(Number(state.r5.zoom)||1,1,4);
 }
 function active(){var p=state.r5.points.find(function(x){return x.id===state.r5.activeId});if(!p){p=state.r5.points[0];state.r5.activeId=p.id}return p}
