@@ -330,3 +330,119 @@ test('no duplicate element ids in the injected panel', () => {
     .map(n => n.id);
   assert.equal(new Set(ids).size, ids.length, 'ids unique');
 });
+
+/* ---------- reference-layer rebuild guard ----------
+ * The poster layer costs a 2.2 MB parse and ~15k node imports. Rebuilding it
+ * on every render blocks the main thread and presents as a stuck loading
+ * indicator, which is exactly what shipped before this guard existed.
+ */
+
+test('the reference layer is not rebuilt on an ordinary re-render', () => {
+  const win = boot();
+  const first = win.document.querySelector('#spx-r5-reference').firstChild;
+  win.__SPX.release5.render();
+  win.__SPX.release5.render();
+  const after = win.document.querySelector('#spx-r5-reference').firstChild;
+  assert.equal(after, first, 'same node instance, so no rebuild happened');
+});
+
+test('moving a point does not rebuild the reference layer', () => {
+  const win = boot();
+  const first = win.document.querySelector('#spx-r5-reference').firstChild;
+  win.__SPX.release5.addPoint(0.5, 400);
+  assert.equal(win.document.querySelector('#spx-r5-reference').firstChild, first);
+});
+
+test('toggling the crosshair does not rebuild the reference layer', () => {
+  const win = boot();
+  const first = win.document.querySelector('#spx-r5-reference').firstChild;
+  const box = win.document.getElementById('spx-r5-crosshair-toggle');
+  box.checked = false;
+  box.dispatchEvent(new win.Event('change'));
+  assert.equal(win.document.querySelector('#spx-r5-reference').firstChild, first);
+});
+
+test('toggling labels does rebuild the reference layer', () => {
+  const win = boot();
+  const first = win.document.querySelector('#spx-r5-reference').firstChild;
+  const box = win.document.getElementById('spx-r5-labels');
+  box.checked = false;
+  box.dispatchEvent(new win.Event('change'));
+  assert.notEqual(win.document.querySelector('#spx-r5-reference').firstChild, first);
+});
+
+test('switching diagrams rebuilds the reference layer', () => {
+  const win = boot();
+  const first = win.document.querySelector('#spx-r5-reference').firstChild;
+  win.__SPX.release5.setMap('poster');
+  assert.notEqual(win.document.querySelector('#spx-r5-reference').firstChild, first);
+});
+
+test('a failed poster load reports an error state rather than spinning', async () => {
+  const win = boot();
+  win.__SPX.release5.setMap('poster');
+  await new Promise(r => setTimeout(r, 20));
+  assert.equal(win.__SPX.release5.posterState(), 'error');
+  assert.equal(win.document.getElementById('spx-r5-loading').hidden, true,
+    'loading indicator is cleared on failure');
+});
+
+test('a failed poster load surfaces a reason and a retry control', async () => {
+  const win = boot();
+  win.__SPX.release5.setMap('poster');
+  await new Promise(r => setTimeout(r, 20));
+  assert.match(win.document.getElementById('spx-r5-status').textContent, /could not be loaded/i);
+  assert.ok(win.document.getElementById('spx-r5-retry'), 'retry button offered');
+});
+
+test('a failed poster load is not retried on every render', async () => {
+  const win = boot();
+  let calls = 0;
+  win.fetch = () => { calls++; return Promise.reject(new Error('offline')); };
+  win.__SPX.release5.setMap('poster');
+  await new Promise(r => setTimeout(r, 20));
+  const afterFirst = calls;
+  win.__SPX.release5.render();
+  win.__SPX.release5.render();
+  assert.equal(calls, afterFirst, 'error state suppresses repeat fetches');
+});
+
+test('concurrent poster requests share one in-flight fetch', async () => {
+  const win = boot();
+  let calls = 0;
+  win.fetch = () => { calls++; return new Promise(() => {}); };
+  win.__SPX.release5.setMap('poster');
+  win.__SPX.release5.render();
+  win.__SPX.release5.render();
+  assert.equal(calls, 1, 'one request, not one per render');
+});
+
+test('a non-SVG response is rejected rather than injected', async () => {
+  const win = boot();
+  win.fetch = () => Promise.resolve({ ok: true, status: 200, text: () => Promise.resolve('<html>404</html>') });
+  win.__SPX.release5.setMap('poster');
+  await new Promise(r => setTimeout(r, 20));
+  assert.equal(win.__SPX.release5.posterState(), 'error');
+  assert.match(win.document.getElementById('spx-r5-status').textContent, /not SVG/i);
+});
+
+test('an HTTP error is reported with its status code', async () => {
+  const win = boot();
+  win.fetch = () => Promise.resolve({ ok: false, status: 404, statusText: 'Not Found' });
+  win.__SPX.release5.setMap('poster');
+  await new Promise(r => setTimeout(r, 20));
+  assert.match(win.document.getElementById('spx-r5-status').textContent, /404/);
+});
+
+test('a successful poster load injects the artwork once', async () => {
+  const win = boot();
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 2736"><rect width="10" height="10"/></svg>';
+  win.fetch = () => Promise.resolve({ ok: true, status: 200, text: () => Promise.resolve(svg) });
+  win.__SPX.release5.setMap('poster');
+  await new Promise(r => setTimeout(r, 30));
+  assert.equal(win.__SPX.release5.posterState(), 'ready');
+  assert.equal(win.document.querySelectorAll('#spx-r5-reference .spx-r5-poster').length, 1);
+  win.__SPX.release5.render();
+  assert.equal(win.document.querySelectorAll('#spx-r5-reference .spx-r5-poster').length, 1,
+    'still one after a re-render');
+});

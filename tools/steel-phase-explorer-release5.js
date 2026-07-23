@@ -119,7 +119,10 @@
     highlight: null
   };
 
-  var posterMarkup = null, posterLoading = false;
+  var posterMarkup = null;
+  var posterState = 'idle';        /* idle | loading | ready | error */
+  var posterPromise = null;
+  var builtMap = null;             /* which diagram the reference layer holds */
   var hover = null, dragId = null;
 
   /* ---------- helpers ---------- */
@@ -294,41 +297,113 @@
 
   /* ---------- poster diagram ---------- */
 
+  function setLoading(message) {
+    var node = $('spx-r5-loading');
+    if (!node) return;
+    if (message == null) { node.hidden = true; return; }
+    node.textContent = message;
+    node.hidden = false;
+  }
+
+  function posterFailed(reason) {
+    setLoading(null);
+    var status = $('spx-r5-status');
+    if (status) {
+      status.textContent = 'The poster artwork could not be loaded: ' + reason +
+        '. It is served from this site, so this is usually a transient problem.';
+    }
+    var wrap = $('spx-r5-svg-wrap');
+    if (wrap && !$('spx-r5-retry')) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'spx-r5-retry';
+      btn.className = 'spx-btn';
+      btn.textContent = 'Retry loading the poster';
+      btn.addEventListener('click', function () {
+        btn.remove();
+        posterState = 'idle';
+        render();
+      });
+      wrap.parentNode.insertBefore(btn, wrap.nextSibling);
+    }
+    if (window.console && window.console.error) {
+      window.console.error('[SPX r5] poster load failed:', reason);
+    }
+  }
+
+  /*
+   * One in-flight request, shared by every caller. A timeout is essential:
+   * without it a stalled response leaves the indicator up with nothing to
+   * diagnose from.
+   */
   function loadPoster() {
-    if (posterMarkup || posterLoading) return Promise.resolve(posterMarkup);
-    posterLoading = true;
-    $('spx-r5-loading').hidden = false;
-    return fetch(POSTER_SVG)
+    if (posterState === 'ready') return Promise.resolve(posterMarkup);
+    if (posterPromise) return posterPromise;
+
+    posterState = 'loading';
+    setLoading('Loading poster artwork\u2026');
+
+    var controller = (typeof AbortController === 'function') ? new AbortController() : null;
+    var timer = setTimeout(function () { if (controller) controller.abort(); }, 30000);
+
+    posterPromise = fetch(POSTER_SVG, controller ? { signal: controller.signal } : undefined)
       .then(function (r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
+        if (!r.ok) throw new Error('HTTP ' + r.status + ' ' + (r.statusText || ''));
         return r.text();
       })
       .then(function (text) {
+        if (text.indexOf('<svg') === -1) throw new Error('the response was not SVG');
         posterMarkup = text;
-        posterLoading = false;
-        $('spx-r5-loading').hidden = true;
+        posterState = 'ready';
+        setLoading(null);
         return text;
       })
       .catch(function (err) {
-        posterLoading = false;
-        $('spx-r5-loading').hidden = true;
-        $('spx-r5-status').textContent =
-          'The poster artwork could not be loaded (' + err.message + '). It is served from this site, so this is usually a temporary network problem.';
+        posterState = 'error';
+        posterMarkup = null;
+        posterFailed(err && err.name === 'AbortError'
+          ? 'timed out after 30 seconds'
+          : ((err && err.message) || String(err)));
         return null;
+      })
+      .then(function (value) {
+        clearTimeout(timer);
+        posterPromise = null;
+        return value;
       });
+
+    return posterPromise;
   }
 
+  /*
+   * Builds the poster layer. Only ever called when the reference layer is
+   * being rebuilt, never on an overlay refresh -- parsing 2.2 MB of SVG on
+   * every pointer event would block the main thread indefinitely.
+   */
   function drawPoster(root) {
-    if (!posterMarkup) {
-      loadPoster().then(function (ok) { if (ok) render(); });
+    if (posterState !== 'ready') {
+      if (posterState !== 'error') {
+        loadPoster().then(function (ok) { if (ok) render(); })
+          .catch(function (err) { posterFailed((err && err.message) || String(err)); });
+      }
       return;
     }
-    var doc = new DOMParser().parseFromString(posterMarkup, 'image/svg+xml');
-    var src = doc.documentElement;
-    var host = el(root, 'g', { class: 'spx-r5-poster' });
-    Array.prototype.slice.call(src.childNodes).forEach(function (node) {
-      host.appendChild(document.importNode(node, true));
-    });
+    try {
+      var doc = new DOMParser().parseFromString(posterMarkup, 'image/svg+xml');
+      var src = doc.documentElement;
+      if (!src || src.nodeName === 'parsererror' || src.querySelector('parsererror')) {
+        throw new Error('the artwork could not be parsed');
+      }
+      var host = el(root, 'g', { class: 'spx-r5-poster' });
+      /* adoptNode moves rather than deep-clones; the parsed document is
+         discarded immediately afterwards. */
+      var frag = document.createDocumentFragment();
+      while (src.firstChild) frag.appendChild(document.adoptNode(src.firstChild));
+      host.appendChild(frag);
+    } catch (err) {
+      posterState = 'error';
+      posterFailed((err && err.message) || String(err));
+    }
   }
 
   function drawPosterCritical(g) {
@@ -497,6 +572,13 @@
     $('spx-r5-zoom-label').textContent = Math.round(s5.zoom * 100) + '%';
   }
 
+  /* Anything that changes the reference layer's content belongs in this key. */
+  function referenceKey() {
+    return [s5.map, s5.showLabels, posterState].join('|');
+  }
+
+  function invalidateReference() { builtMap = null; }
+
   function render() {
     if (!s5.points.length) resetPoints();
     applyCanvas();
@@ -519,8 +601,15 @@
       : 'Equilibrium Fe-Fe3C diagram, reproduced from the Buehler poster with a calibrated interaction layer.';
 
     var ref = $('spx-r5-reference'), emph = $('spx-r5-emphasis');
-    clear(ref); clear(emph);
-    if (s5.map === 'rapid') drawRapid(ref); else drawPoster(ref);
+    /* The reference layer is expensive to build and never depends on point
+       or hover state, so it is rebuilt only when the diagram itself changes. */
+    var needsReference = builtMap !== referenceKey() || !ref.firstChild;
+    if (needsReference) {
+      clear(ref);
+      if (s5.map === 'rapid') drawRapid(ref); else drawPoster(ref);
+      builtMap = referenceKey();
+    }
+    clear(emph);
     if (s5.showCritical) {
       if (s5.map === 'rapid') drawRapidCritical(emph); else drawPosterCritical(emph);
     }
@@ -563,6 +652,7 @@
       if (!b) return;
       s5.map = b.dataset.r5Map;
       s5.zoom = 1; hover = null; s5.highlight = null;
+      invalidateReference();
       resetPoints();
       render();
     });
@@ -587,6 +677,7 @@
       .forEach(function (pair) {
         $(pair[0]).addEventListener('change', function () {
           s5[pair[1]] = this.checked;
+          if (pair[1] === 'showLabels') invalidateReference();
           render();
         });
       });
@@ -802,6 +893,7 @@
         var ok = baseRestore(obj);
         if (ok && obj && obj.release5) {
           s5 = JSON.parse(JSON.stringify(obj.release5));
+          invalidateReference();
           render();
         }
         return ok;
@@ -844,7 +936,7 @@
     window.__SPX.release5 = {
       render: render,
       state: function () { return JSON.parse(JSON.stringify(s5)); },
-      setMap: function (m) { s5.map = m; resetPoints(); render(); },
+      setMap: function (m) { s5.map = m; invalidateReference(); resetPoints(); render(); },
       setLevel: function (l) { s5.level = l; render(); },
       regionAt: function (c, t) { return geo().regionAt(c, t); },
       addPoint: function (c, t) {
@@ -861,7 +953,8 @@
         render();
         return true;
       },
-      posterLoaded: function () { return !!posterMarkup; }
+      posterLoaded: function () { return posterState === 'ready'; },
+      posterState: function () { return posterState; }
     };
   }
 
