@@ -1,0 +1,60 @@
+ner, stronger structure; exact response remains alloy- and morphology-dependent.',
+  lowerBainiteRA:'Retained-austenite stability depends on carbon enrichment, size, morphology, stress state, and subsequent cooling.',
+  martensiteRA:'Higher carbon depresses Ms/Mf and increases retained-austenite and dimensional-stability risk.',
+  martensite:'As-quenched hardness rises with carbon; residual stress, cracking risk, and tempering response must be assessed.',
+  liquid:'Freezing range, heat extraction, fluidity, feeding, and segregation control casting behavior.',delta:'Delta ferrite participates in the peritectic reaction and affects shell growth.',
+  deltaLiquid:'Solute rejection during dendritic growth produces microsegregation.',deltaGamma:'Peritectic conversion can be incomplete because austenite may isolate liquid from delta ferrite.',
+  gammaLiquid:'A wider freezing range increases segregation and feeding challenges.',ferrite:'Ferrite has very low carbon solubility and is generally soft and ductile.',
+  ferriteCementite:'Properties depend on phase fractions, pearlite spacing, carbide morphology, grain size, texture, and prior processing.',
+  liquidCementite:'This field is associated with high carbide fraction and white-iron or ledeburitic tendencies.',
+  posterAustenite:'Use the crystal illustration to explain carbon solubility and why austenite is the parent phase for many heat treatments.',
+  posterFerrite:'Compare BCC ferrite with the shown microstructures, but do not infer quantitative properties from the photographs alone.',
+  posterCementite:'Cementite is hard and brittle; fraction, continuity, size, and distribution strongly influence performance.',
+  posterEquilibrium:'These micrographs are representative; composition, cooling rate, magnification, etchant, and section orientation affect appearance.',
+  posterCastIron:'Graphite versus carbide formation depends on chemistry, cooling rate, inoculation, section size, and melt practice.',
+  posterHeatColor:'Visible furnace color is strongly affected by emissivity, scale, lighting, viewing conditions, and human perception.'
+};
+function advanced(k){return 'The displayed '+(LABELS[k]||'region')+' interpretation is an educational overlay. Exact boundaries and products depend on chemistry, time, heating/cooling rate, prior microstructure, grain size, section size, segregation, and validated grade-specific data.'}
+function info(k){return{label:LABELS[k]||k,beginner:BEGIN[k]||'',engineer:ENGINEER[k]||'',advanced:advanced(k)}}
+function deep(v){return JSON.parse(JSON.stringify(v))}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function add(g,n,a,t){var e=document.createElementNS(NS,n);Object.keys(a||{}).forEach(function(k){if(k==='href'){e.setAttributeNS('http://www.w3.org/1999/xlink','href',a[k]);e.setAttribute('href',a[k])}else e.setAttribute(k,a[k])});if(t!=null)e.textContent=t;g.appendChild(e);return e}
+function clear(g){while(g&&g.firstChild)g.removeChild(g.firstChild)}
+function cToF(c){return typeof CtoF==='function'?CtoF(c):c*9/5+32}
+function fToC(f){return typeof FtoC==='function'?FtoC(f):(f-32)*5/9}
+function ensure(){
+  state.r5=state.r5||{};
+  state.r5.map=state.r5.map==='full'?'full':'rapid';
+  state.r5.points=Array.isArray(state.r5.points)&&state.r5.points.length?state.r5.points:[{id:1,c:.2,t:900},{id:2,c:.76,t:727},{id:3,c:1,t:300}];
+  state.r5.activeId=Number(state.r5.activeId)||state.r5.points[0].id;
+  state.r5.nextId=Number(state.r5.nextId)||Math.max.apply(null,state.r5.points.map(function(p){return Number(p.id)||0}))+1;
+  ['showCritical','showLabels','showCrosshair','showLegend','showGraphite'].forEach(function(k){if(state.r5[k]===undefined)state.r5[k]=true});
+  state.r5.zoom=clamp(Number(state.r5.zoom)||1,1,4);
+}
+function active(){var p=state.r5.points.find(function(x){return x.id===state.r5.activeId});if(!p){p=state.r5.points[0];state.r5.activeId=p.id}return p}
+function M(){return MAPS[state.r5.map]}
+function X(c){var p=M().plot;return p.x0+(c-p.xmin)/(p.xmax-p.xmin)*(p.x1-p.x0)}
+function Y(t){var p=M().plot;return p.y0-(t-p.ymin)/(p.ymax-p.ymin)*(p.y0-p.y1)}
+function C(x){var p=M().plot;return p.xmin+(x-p.x0)/(p.x1-p.x0)*(p.xmax-p.xmin)}
+function T(y){var p=M().plot;return p.ymin+(p.y0-y)/(p.y0-p.y1)*(p.ymax-p.ymin)}
+function withinPlot(x,y){var p=M().plot;return x>=p.x0&&x<=p.x1&&y>=p.y1&&y<=p.y0}
+function inRange(pt){var p=M().plot;return pt.c>=p.xmin&&pt.c<=p.xmax&&pt.t>=p.ymin&&pt.t<=p.ymax}
+function fmtT(t){return Math.round(t)+' °C / '+Math.round(cToF(t))+' °F'}
+function A3(c){return 910-203*Math.sqrt(Math.max(0,c))}
+function Acm(c){return 727+175*Math.pow(clamp((c-.76)/.44,0,1),.78)}
+function austLow(c){return c<=.76?A3(c):Acm(c)}
+function austHigh(c){return austLow(c)+35+22*Math.abs(c-.65)}
+function pBot(c){return 570-210*Math.exp(-Math.pow((c-.74)/.26,2))}
+function ubBot(c){return 350+105*Math.exp(-Math.pow((c-.36)/.18,2))}
+function Ms(c){return 480-290*Math.pow(clamp(c/1.2,0,1),.75)}
+function Mf(c){return 170-320*Math.pow(clamp(c/1.2,0,1),.8)}
+function rapidKey(c,t){
+  if(t>=austHigh(c))return'austenite';if(t>=austLow(c))return'austRange';
+  if(t>=727){if(c<.76)return'ferriteAustenite';if(c>.8)return'austeniteCementite';return'austenite'}
+  var p=pBot(c),u=ubBot(c),m=Ms(c);if(t>=p){if(Math.abs(c-.76)<.08)return'pearlite';return c<.76?'ferritePearlite':'cementitePearlite'}
+  if(t>=u)return'upperBainite';if(t>=m+35)return'lowerBainite';if(t>=m)return'lowerBainiteRA';if(t>=Mf(c))return'martensiteRA';return'martensite';
+}
+function liquidus(c){if(c<=.17)return 1538-45*c/.17;if(c<=4.3)return 1493-346*(c-.17)/4.13;return 1147+105*(c-4.3)/2.38}
+function a3Full(c){return 912-185*Math.pow(clamp(c/.77,0,1),.62)}
+function acmFull(c){return 727+420*Math.pow(clamp((c-.77)/1.37,0,1),.72)}
+function fullKey(c,t){if(t>=liquidus(c))return'liquid';if(c<.17&&t>=1493)return'deltaLiquid';if(c<.08&&t>=1394)return'delta';if(c<.17&&t>=1394)return'deltaGamma';if(t>=1147)return c<=4.3?'gammaLiquid':'liquidCementite';if(t>=727){if
