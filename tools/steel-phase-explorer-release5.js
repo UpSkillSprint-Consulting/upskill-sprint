@@ -158,11 +158,13 @@ function drawFull(){
 }
 function A3(c){return 910-203*Math.sqrt(Math.max(0,c))}
 function Acm(c){return 727+175*Math.pow(clamp2((c-.76)/.44,0,1),.78)}
+function austLow(c){return c<=.76?A3(c):Acm(c)}
+function austHigh(c){return austLow(c)+35+22*Math.abs(c-.65)}
 function pBot(c){return 570-210*Math.exp(-Math.pow((c-.74)/.26,2))}
 function ubBot(c){return 350+105*Math.exp(-Math.pow((c-.36)/.18,2))}
 function Ms(c){return 480-290*Math.pow(clamp2(c/1.2,0,1),.75)}
 function Mf(c){return 170-320*Math.pow(clamp2(c/1.2,0,1),.8)}
-function rapidKey(c,t){if(t>=A3(Math.min(c,.76))+45&&c<.76)return'austenite';if(c>=.76&&t>=Acm(c)+40)return'austenite';if(t>=727){if(c<.76)return'ferriteAustenite';if(c>.8)return'austeniteCementite';return'austenite'}var p=pBot(c),u=ubBot(c),m=Ms(c);if(t>=p){if(Math.abs(c-.76)<.08)return'pearlite';return c<.76?'ferritePearlite':'cementitePearlite'}if(t>=u)return'upperBainite';if(t>=m+35)return'lowerBainite';if(t>=m)return'lowerBainiteRA';if(t>=Mf(c))return'martensiteRA';return'martensite'}
+function rapidKey(c,t){var low=austLow(c),high=austHigh(c);if(t>=high)return'austenite';if(t>=low)return'austRange';if(t>=727){if(c<.76)return'ferriteAustenite';if(c>.8)return'austeniteCementite';return'austenite'}var p=pBot(c),u=ubBot(c),m=Ms(c);if(t>=p){if(Math.abs(c-.76)<.08)return'pearlite';return c<.76?'ferritePearlite':'cementitePearlite'}if(t>=u)return'upperBainite';if(t>=m+35)return'lowerBainite';if(t>=m)return'lowerBainiteRA';if(t>=Mf(c))return'martensiteRA';return'martensite'}
 function liquidus(c){if(c<=.17)return 1538-45*c/.17;if(c<=4.3)return 1493-346*(c-.17)/4.13;return 1147+105*(c-4.3)/2.38}
 function a3Full(c){return 912-185*Math.pow(clamp2(c/.77,0,1),.62)}
 function acmFull(c){return 727+420*Math.pow(clamp2((c-.77)/1.37,0,1),.72)}
