@@ -993,6 +993,63 @@
 
   /* ---------- persistence + init ---------- */
 
+  /*
+   * Restored state arrives from a saved file or a share link, so it is
+   * untrusted input. Assigning it wholesale let a stale or hand-edited
+   * payload drop the points array entirely, which throws on the next render.
+   */
+  function sanitise(raw) {
+    var safe = {
+      map: raw && raw.map === 'poster' ? 'poster' : 'rapid',
+      level: ['beginner', 'engineer', 'advanced'].indexOf(raw && raw.level) >= 0
+        ? raw.level : 'engineer',
+      zoom: Math.min(6, Math.max(1, Number(raw && raw.zoom) || 1)),
+      showCritical: raw ? raw.showCritical !== false : true,
+      showLabels: raw ? raw.showLabels !== false : true,
+      showCrosshair: raw ? raw.showCrosshair !== false : true,
+      showLegend: raw ? raw.showLegend !== false : true,
+      highlight: null,
+      points: [],
+      activeId: 1,
+      nextId: 1
+    };
+
+    var prev = s5.map;
+    s5.map = safe.map;
+    var b = bounds();
+    s5.map = prev;
+
+    var seen = {};
+    if (raw && Object.prototype.toString.call(raw.points) === '[object Array]') {
+      raw.points.forEach(function (p) {
+        if (!p) return;
+        var c = Number(p.c), t = Number(p.t), id = Math.floor(Number(p.id));
+        if (!isFinite(c) || !isFinite(t)) return;
+        if (!isFinite(id) || id < 1 || seen[id]) id = safe.points.length + 1;
+        seen[id] = true;
+        safe.points.push({ id: id, c: clamp(c, b.cMin, b.cMax), t: clamp(t, b.tMin, b.tMax) });
+      });
+    }
+    if (!safe.points.length) {
+      var prevMap = s5.map;
+      s5.map = safe.map;
+      safe.points = defaults();
+      s5.map = prevMap;
+    }
+
+    safe.nextId = safe.points.reduce(function (m, p) { return Math.max(m, p.id); }, 0);
+    var wanted = Math.floor(Number(raw && raw.activeId));
+    safe.activeId = safe.points.some(function (p) { return p.id === wanted; })
+      ? wanted : safe.points[0].id;
+
+    if (raw && raw.highlight && LABELS_FOR(safe.map)[raw.highlight]) {
+      safe.highlight = raw.highlight;
+    }
+    return safe;
+  }
+
+  function LABELS_FOR(map) { return map === 'rapid' ? RG.LABELS : PG.LABELS; }
+
   function persist() {
     if (typeof window.serializable === 'function' && !window.serializable.__r5) {
       var base = window.serializable;
@@ -1008,8 +1065,9 @@
       window.restore = function (obj) {
         var ok = baseRestore(obj);
         if (ok && obj && obj.release5) {
-          s5 = JSON.parse(JSON.stringify(obj.release5));
+          s5 = sanitise(obj.release5);
           invalidateReference();
+          invalidateHighlight();
           render();
         }
         return ok;
@@ -1056,8 +1114,9 @@
       setLevel: function (l) { s5.level = l; render(); },
       regionAt: function (c, t) { return geo().regionAt(c, t); },
       addPoint: function (c, t) {
-        var id = ++s5.nextId;
-        s5.points.push({ id: id, c: c, t: t });
+        var b = bounds(), id = ++s5.nextId;
+        s5.points.push({ id: id, c: clamp(Number(c) || 0, b.cMin, b.cMax),
+                         t: clamp(Number(t) || 0, b.tMin, b.tMax) });
         s5.activeId = id;
         render();
         return id;
