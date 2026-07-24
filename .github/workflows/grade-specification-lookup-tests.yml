@@ -1,4 +1,4 @@
-name: Grade Specification Lookup validation
+name: Material Specification Lookup validation
 
 on:
   pull_request:
@@ -73,11 +73,16 @@ jobs:
             [app.includes('Back to Engineering Tools') && guide.includes('Back to Engineering Tools'), 'Category return link missing'],
             [app.includes('/tools/material-specification-compliance-checker'), 'Companion compliance-checker link missing'],
             [!app.includes('grade_spec_lookup_user_guide.html'), 'Legacy guide link remains'],
+            [app.includes('Material Specification Lookup'), 'Application name was not updated'],
+            [guide.includes('Material Specification Lookup'), 'Guide name was not updated'],
+            [!app.includes('Steel Grade Specification Lookup') && !app.includes('>Grade Specification Lookup<'), 'Old application name remains'],
+            [!guide.includes('Steel Grade Specification Lookup') && !guide.includes('>Grade Specification Lookup<'), 'Old guide name remains'],
             [directory.includes('Material Specification Tools'), 'Material Specification Tools group missing'],
+            [directory.includes('Material Specification Lookup'), 'Engineering Tools directory name was not updated'],
             [directory.includes('/engineering-tools/grade-specification-lookup'), 'Engineering Tools directory entry missing'],
             [sitemap.includes('/engineering-tools/grade-specification-lookup</loc>'), 'Application sitemap URL missing'],
             [sitemap.includes('/engineering-tools/grade-specification-lookup/how-to-use</loc>'), 'Guide sitemap URL missing']
           ];
           for (const [condition, message] of checks) if (!condition) throw new Error(message);
-          console.log('Grade Specification Lookup integration checks passed.');
+          console.log('Material Specification Lookup integration checks passed.');
           NODE
