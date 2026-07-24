@@ -6,7 +6,7 @@
 
   const profiles = {
     '/lessons/7-essential-quality-tools': {
-      level: 'beginner',
+      title: 'The 7 Essential Quality Tools', level: 'Beginner', minutes: 30,
       objectives: [
         'Select the quality tool that matches the question being investigated.',
         'Explain the input, output, limitation, and usual successor of each tool.',
@@ -21,10 +21,10 @@
         'Fishbone branches are hypotheses until they are tested.',
         'Control charts distinguish common-cause and special-cause variation.'
       ],
-      next: '/lessons/7-management-planning-tools'
+      next: '/lessons/7-management-planning-tools', nextLabel: 'Next lesson: Management & Planning Tools'
     },
     '/lessons/7-management-planning-tools': {
-      level: 'intermediate',
+      title: 'The 7 Management & Planning Tools', level: 'Intermediate', minutes: 35,
       objectives: [
         'Choose the planning tool that matches the team’s immediate implementation need.',
         'Organize ideas, expose drivers, decompose goals, and prioritize alternatives.',
@@ -39,10 +39,10 @@
         'Agree on criteria and weights before scoring alternatives.',
         'PDPC stress-tests the plan; activity networks expose schedule risk.'
       ],
-      next: '/lessons/complete-14-quality-tools-project'
+      next: '/lessons/complete-14-quality-tools-project', nextLabel: 'Next lesson: Complete Quality Toolbox'
     },
     '/lessons/complete-14-quality-tools-project': {
-      level: 'advanced',
+      title: 'The Complete Quality Toolbox', level: 'Advanced', minutes: 45,
       objectives: [
         'Diagnose the earliest unresolved question in an investigation.',
         'Sequence basic, planning, statistical, and control tools using dependency logic.',
@@ -57,12 +57,13 @@
         'Use DOE only when deliberate factor changes are safe and feasible.',
         'Close only after ownership, reaction plans, and time-ordered stability are established.'
       ],
-      next: '/lessons.html#quality-engineering'
+      next: '/lessons.html#quality-engineering', nextLabel: 'Return to Quality Engineering', final: true
     }
   };
 
   function pathKey() { return location.pathname.replace(/\.html$/, '').replace(/\/$/, ''); }
   function profile() { return profiles[pathKey()] || null; }
+  function progressKey() { return 'qt-progress-' + location.pathname; }
 
   function ensureSharedStyles() {
     if (q('link[href="/lessons/quality-tools-course.css"]')) return;
@@ -72,7 +73,15 @@
     document.head.appendChild(link);
   }
 
-  function installChrome() {
+  function themeControlMarkup() {
+    return '<div class="theme-control" aria-label="Colour theme">' +
+      '<svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>' +
+      '<button type="button" id="theme-toggle" class="theme-toggle" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button>' +
+      '<svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>' +
+      '</div>';
+  }
+
+  function installProductionChrome() {
     if (!q('.skip-link')) {
       const skip = document.createElement('a');
       skip.className = 'skip-link';
@@ -90,37 +99,58 @@
       checkbox.setAttribute('aria-hidden', 'true');
 
       const header = document.createElement('header');
-      header.className = 'site lesson-sitebar';
-      header.innerHTML = `
-        <a href="/" class="brand"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
-        <nav class="desktop-nav" aria-label="Primary navigation">
-          <a href="/start-here.html">Start Here</a><a href="/lessons.html" aria-current="page">Lessons</a><a href="/services.html">Services</a><a href="/request-topic.html">Request a Topic</a><a href="/about.html">About</a><a href="/faq.html">FAQ</a><a href="/contact.html">Contact</a>
-        </nav>
-        <a class="lesson-back-link" href="/lessons.html#quality-engineering">Back to Quality Engineering</a>
-        <button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false"><span class="sr-only">Toggle dark and light mode</span></button>
-        <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>`;
+      header.className = 'site';
+      header.innerHTML =
+        '<a href="/" class="brand"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>' +
+        '<nav class="desktop-nav" aria-label="Primary navigation">' +
+          '<a href="/start-here.html">Start Here</a>' +
+          '<a href="/lessons.html" aria-current="page">Lessons</a>' +
+          '<a href="/engineering-tools.html">Engineering Tools</a>' +
+          '<a href="/services.html">Services</a>' +
+          '<a href="/about.html">About</a>' +
+          '<a href="/contact.html">Contact</a>' +
+        '</nav>' +
+        '<div class="header-actions">' + themeControlMarkup() +
+          '<label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></label>' +
+        '</div>';
 
       const mobile = document.createElement('nav');
       mobile.className = 'mobile-nav';
       mobile.setAttribute('aria-label', 'Mobile navigation');
-      mobile.innerHTML = '<a href="/start-here.html">Start Here</a><a href="/lessons.html">Lessons</a><a href="/services.html">Services</a><a href="/request-topic.html">Request a Topic</a><a href="/about.html">About</a><a href="/faq.html">FAQ</a><a href="/contact.html">Contact</a>';
+      mobile.innerHTML =
+        '<a href="/start-here.html">Start Here</a><a href="/lessons.html">Lessons</a><a href="/engineering-tools.html">Engineering Tools</a><a href="/services.html">Services</a><a href="/about.html">About</a><a href="/contact.html">Contact</a>';
 
       fragment.appendChild(checkbox);
       fragment.appendChild(header);
       fragment.appendChild(mobile);
       document.body.insertBefore(fragment, q('main') || document.body.firstChild);
-    } else {
-      q('header.site').classList.add('lesson-sitebar');
     }
 
     if (!q('footer.site')) {
       const footer = document.createElement('footer');
-      footer.className = 'site lesson-footer';
-      footer.innerHTML = '<div class="wrap"><div class="footer-grid"><div><div class="brand"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p>Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here.html">Start Here</a><a href="/lessons.html">Lessons</a><a href="/request-topic.html">Request a Topic</a></div><div><h4>Topics</h4><a href="/lessons.html#quality-engineering">Quality Engineering</a><a href="/lessons.html#lean-six-sigma">Lean Six Sigma</a><a href="/lessons.html#statistics">Statistics</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p>Saskatchewan, Canada</p></div></div></div>';
+      footer.className = 'site';
+      footer.innerHTML =
+        '<div class="wrap"><div class="footer-grid">' +
+          '<div><div class="brand" style="margin-bottom:14px;"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:var(--muted);max-width:260px;margin:0;">Practical learning for quality, data, process improvement, and business problem-solving.</p></div>' +
+          '<div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here.html">Start Here</a><a href="/lessons.html">Lessons</a><a href="/engineering-tools.html">Engineering Tools</a><a href="/services.html">Services</a><a href="/request-topic.html">Request a Topic</a><a href="/about.html">About</a><a href="/faq.html">FAQ</a><a href="/contact.html">Contact</a></div>' +
+          '<div><h4>Topics</h4><a href="/lessons.html#data-analytics">Data Analytics</a><a href="/lessons.html#quality-engineering">Quality Engineering</a><a href="/lessons.html#lean-six-sigma">Lean Six Sigma</a><a href="/lessons.html#power-bi-excel-sql">Power BI, Excel & SQL</a><a href="/lessons.html#business-decision-making">Business Decision-Making</a><a href="/lessons.html#ai-for-work">AI for Work</a></div>' +
+          '<div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:var(--muted);margin:0;">Saskatchewan, Canada</p></div>' +
+        '</div></div>' +
+        '<div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Use</a></div></div>';
       document.body.appendChild(footer);
-    } else {
-      q('footer.site').classList.add('lesson-footer');
     }
+  }
+
+  function installLessonHeroControls(p) {
+    const main = q('main');
+    const hero = main && q('section', main);
+    if (!hero || q('.lesson-hero-controls', hero)) return;
+    const controls = document.createElement('div');
+    controls.className = 'lesson-hero-controls';
+    controls.innerHTML =
+      '<a class="lesson-section-back" href="/lessons.html#quality-engineering"><span aria-hidden="true">←</span> Back to Quality Engineering</a>' +
+      '<div class="lesson-meta-line"><span>Interactive lesson</span><span>' + p.minutes + ' minutes</span><span>' + p.level + '</span></div>';
+    hero.appendChild(controls);
   }
 
   function sectionByHeading(pattern) {
@@ -147,8 +177,8 @@
   }
 
   function practiceContent(level) {
-    if (level === 'intermediate') return ['A team has 18 corrective-action ideas, no agreed categories, and no evidence that one idea is more important than another. What should the team do first?', '<strong>Use an Affinity Diagram first.</strong> Organize the raw ideas into natural themes before applying influence, decomposition, or prioritization logic.'];
-    if (level === 'advanced') return ['A regression links finish temperature to yield strength, but original/retest linkage and extensometer agreement remain uncertain. Should the team proceed directly to DOE?', '<strong>No.</strong> Resolve linkage and measurement-system uncertainty first. DOE should not optimize a response that is not yet trustworthy.'];
+    if (level === 'Intermediate') return ['A team has 18 corrective-action ideas, no agreed categories, and no evidence that one idea is more important than another. What should the team do first?', '<strong>Use an Affinity Diagram first.</strong> Organize the raw ideas into natural themes before applying influence, decomposition, or prioritization logic.'];
+    if (level === 'Advanced') return ['A regression links finish temperature to yield strength, but original/retest linkage and extensometer agreement remain uncertain. Should the team proceed directly to DOE?', '<strong>No.</strong> Resolve linkage and measurement-system uncertainty first. DOE should not optimize a response that is not yet trustworthy.'];
     return ['A pooled tensile-failure rate looks moderate, but operators suspect one shift is carrying most failures. Which tool should be used before building the Pareto chart?', '<strong>Use stratification first.</strong> Split the data by shift and other plausible subgroups, then build the Pareto inside the subgroup carrying the signal.'];
   }
 
@@ -162,14 +192,14 @@
   }
 
   function questionBank(level) {
-    if (level === 'beginner') return [
+    if (level === 'Beginner') return [
       ['Which tool exposes mixed populations?', ['Pareto chart', 'Stratification', 'Fishbone diagram'], 1, 'Stratification separates data by meaningful subgroups.'],
       ['What does a Pareto chart establish?', ['Root cause', 'Highest-priority categories', 'Process stability'], 1, 'Pareto ranks categories; it does not establish cause.'],
       ['A fishbone branch is:', ['A confirmed cause', 'A testable hypothesis', 'A control limit'], 1, 'Fishbone branches require validation.'],
       ['Which chart preserves time order?', ['Histogram', 'Control chart', 'Pareto chart'], 1, 'Control charts display results over time.'],
       ['What should normally follow a process map?', ['A traceable data plan', 'Immediate DOE', 'Project closure'], 0, 'The map identifies where evidence should be collected.']
     ];
-    if (level === 'intermediate') return [
+    if (level === 'Intermediate') return [
       ['Which tool organizes raw ideas into themes?', ['Affinity diagram', 'Activity network', 'PDPC'], 0, 'Affinity grouping creates structure.'],
       ['What is the main output of a Tree Diagram?', ['Significance', 'Assignable tasks', 'Control limits'], 1, 'A tree decomposes a goal into actions.'],
       ['When should weights be agreed?', ['Before scoring', 'After seeing the ranking', 'Only for ties'], 0, 'Pre-agreed weights reduce bias.'],
@@ -200,8 +230,25 @@
     const section = document.createElement('section');
     section.id = 'summary';
     section.className = 'lesson-requirement-section';
-    section.innerHTML = '<h2>Summary</h2><ul>' + p.summary.map(function (item) { return '<li>' + item + '</li>'; }).join('') + '</ul><div class="remember-box"><strong>Decision rule:</strong> use the least-complex tool that answers the current unresolved question with defensible evidence.<br><strong>Remember this:</strong> sequence follows evidence, not habit.</div><p><strong>Suggested next lesson:</strong> <a href="' + p.next + '">Continue the quality-tools learning path</a>.</p>';
+    section.innerHTML = '<h2>Summary</h2><ul>' + p.summary.map(function (item) { return '<li>' + item + '</li>'; }).join('') + '</ul><div class="remember-box"><strong>Decision rule:</strong> use the least-complex tool that answers the current unresolved question with defensible evidence.<br><strong>Remember this:</strong> sequence follows evidence, not habit.</div>';
     return section;
+  }
+
+  function installCompletionPanel(p) {
+    if (q('.lesson-completion-panel')) return;
+    const footer = q('footer.site');
+    if (!footer) return;
+    const panel = document.createElement('section');
+    panel.className = 'lesson-completion-panel';
+    panel.setAttribute('aria-labelledby', 'lesson-completion-title');
+    const completed = Number(localStorage.getItem(progressKey()) || 0) >= 100;
+    panel.innerHTML =
+      '<div class="lesson-completion-inner">' +
+        '<div class="lesson-completion-icon" aria-hidden="true">✓</div>' +
+        '<div><p class="lesson-completion-kicker">' + (p.final ? 'Course completion' : 'Lesson completion') + '</p><h2 id="lesson-completion-title">' + (p.final ? 'Complete the Quality Tools pathway' : 'Complete this lesson') + '</h2><p class="lesson-completion-copy">' + (p.final ? 'Mark the capstone complete, then return to Quality Engineering or browse more lessons.' : 'Mark this lesson complete, review any section, or continue to the next lesson.') + '</p></div>' +
+        '<div class="lesson-completion-actions"><button type="button" class="btn btn-primary" data-finish-lesson>' + (completed ? 'Completed ✓' : 'Mark lesson complete') + '</button><a class="btn btn-outline" href="#lesson-content">Review lesson</a><a class="btn btn-teal" href="' + p.next + '">' + p.nextLabel + ' →</a></div>' +
+      '</div>';
+    footer.parentNode.insertBefore(panel, footer);
   }
 
   function installContract() {
@@ -210,7 +257,7 @@
     if (!p || !main) return;
     document.body.dataset.lessonPage = 'true';
     document.body.dataset.category = 'quality-engineering';
-    document.body.dataset.level = p.level;
+    document.body.dataset.level = p.level.toLowerCase();
     document.body.dataset.interactive = 'true';
     main.id = 'lesson-content';
     main.tabIndex = -1;
@@ -236,6 +283,9 @@
     if (!q('#practice', wrapper)) wrapper.appendChild(makePractice(p));
     if (!q('#quiz', wrapper)) wrapper.appendChild(makeQuiz(p));
     if (!q('#summary', wrapper)) wrapper.appendChild(makeSummary(p));
+
+    installLessonHeroControls(p);
+    installCompletionPanel(p);
   }
 
   function installInteractions() {
@@ -248,12 +298,12 @@
         reveal.setAttribute('aria-expanded', String(show));
         reveal.textContent = show ? 'Hide answer' : 'Reveal answer';
       }
-      const complete = event.target.closest('[data-complete]');
+      const complete = event.target.closest('[data-complete], [data-finish-lesson]');
       if (complete) {
+        localStorage.setItem(progressKey(), '100');
         const progress = q('[data-progress]');
-        localStorage.setItem('qt-progress-' + location.pathname, '100');
         if (progress) progress.style.width = '100%';
-        complete.textContent = 'Completed ✓';
+        qa('[data-finish-lesson], [data-complete]').forEach(function (button) { button.textContent = 'Completed ✓'; });
       }
     });
 
@@ -292,7 +342,7 @@
     }
 
     const progress = q('[data-progress]');
-    if (progress) progress.style.width = Number(localStorage.getItem('qt-progress-' + location.pathname) || 0) + '%';
+    if (progress) progress.style.width = Number(localStorage.getItem(progressKey()) || 0) + '%';
   }
 
   function installAdvancedStatSelector() {
@@ -351,7 +401,7 @@
   }
 
   ensureSharedStyles();
-  installChrome();
+  installProductionChrome();
   installContract();
   installInteractions();
   installAdvancedStatSelector();
