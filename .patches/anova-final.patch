@@ -1,0 +1,53 @@
+--- a/lessons/statistics/anova-analysis-one-stop-shop.html
++++ b/lessons/statistics/anova-analysis-one-stop-shop.html
+@@ -904,7 +904,7 @@
+           <div class="panel"><h3>Eight takeaways</h3><ol><li>Start with the design, not the software menu.</li><li>ANOVA compares explained variation with residual variation.</li><li>A significant omnibus result means at least one effect exists—not that every group differs.</li><li>Independence is designed into the study; it cannot be repaired by a normality test.</li><li>Use Welch/Games–Howell when unequal variances and imbalance threaten classical ANOVA.</li><li>Interpret interactions before main effects.</li><li>Use effect size, intervals and operational criteria alongside p-values.</li><li>Excel covers three layouts; advanced designs require GLM, mixed or multivariate software.</li></ol></div>
+           <div class="panel"><h3>Concise decision rule</h3><p><strong>One DV + independent groups:</strong> one-way or factorial ANOVA.</p><p><strong>Unequal variances:</strong> Welch.</p><p><strong>Repeated observations:</strong> repeated-measures or mixed model.</p><p><strong>Covariate:</strong> ANCOVA/GLM.</p><p><strong>Multiple correlated DVs:</strong> MANOVA.</p><p><strong>Multiple DVs + covariates:</strong> MANCOVA.</p><div class="callout tip"><strong>Remember this:</strong> Design → model → diagnostics → omnibus test → focused comparisons → practical decision.</div></div>
+         </div>
+-        <p><strong>Suggested next lesson:</strong> <a href="/lessons/statistics/regression-model-selection">Regression Model Selection: Interactions, Curvature and Validation</a>.</p>
++        <p><strong>Suggested next lesson:</strong> <a href="/lessons/minitab-best-predictive-regression-model">Finding the Best Predictive Regression Model in Minitab</a>.</p>
+       </section>
+ 
+       <section id="references" aria-labelledby="refs-h">
+@@ -1181,6 +1181,18 @@
+       return p.toFixed(4);
+     }
+ 
++    function clearAnovaOutputs() {
++      ['#out-f', '#out-p', '#out-eta', '#out-omega'].forEach(selector => { $(selector).textContent = '—'; });
++      const conclusion = $('#anova-conclusion');
++      conclusion.className = 'result-banner warn';
++      conclusion.innerHTML = '<strong>Analysis not run.</strong><p>Correct the input error and run the analysis again.</p>';
++      ['#group-stats-wrap', '#anova-table-wrap', '#pairwise-wrap'].forEach(selector => { $(selector).innerHTML = ''; });
++      const diagnostic = $('#anova-diagnostic');
++      diagnostic.className = 'callout warn';
++      diagnostic.innerHTML = '<strong>Diagnostic snapshot unavailable.</strong> Enter valid grouped data to calculate diagnostics.';
++      $('#anova-plot').innerHTML = '<title id="anova-plot-title">No valid ANOVA result</title><desc id="anova-plot-desc">No valid analysis is currently displayed.</desc>';
++    }
++
+     function runAnova() {
+       const status = $('#anova-status');
+       try {
+@@ -1209,8 +1221,12 @@
+           $('#anova-table-wrap').innerHTML = `<table><caption>Welch one-way ANOVA</caption><thead><tr><th>Test</th><th class="num">F</th><th class="num">df1</th><th class="num">df2</th><th class="num">p</th></tr></thead><tbody><tr><td>Welch</td><td class="num">${fmt(result.F,3)}</td><td class="num">${fmt(result.df1,2)}</td><td class="num">${fmt(result.df2,2)}</td><td class="num">${pText(result.p)}</td></tr></tbody></table>`;
+         }
+ 
+-        const pairs = bonferroniPairs(groups, classical, alpha);
+-        $('#pairwise-wrap').innerHTML = `<table><caption>Exploratory Bonferroni-adjusted pairwise t comparisons using pooled MSE (appropriate only under equal variances)</caption><thead><tr><th>Comparison</th><th class="num">Mean difference</th><th class="num">t</th><th class="num">Raw p</th><th class="num">Adjusted p</th><th>Decision</th></tr></thead><tbody>${pairs.map(r => `<tr><td>${r.comparison.replace(/[<>&]/g,'')}</td><td class="num">${fmt(r.diff,3)}</td><td class="num">${fmt(r.t,3)}</td><td class="num">${pText(r.rawP)}</td><td class="num">${pText(r.adjP)}</td><td>${r.significant ? 'Significant' : 'Not significant'}</td></tr>`).join('')}</tbody></table>`;
++        if (method === 'classic') {
++          const pairs = bonferroniPairs(groups, classical, alpha);
++          $('#pairwise-wrap').innerHTML = `<table><caption>Exploratory Bonferroni-adjusted pairwise t comparisons using pooled MSE (appropriate only under equal variances)</caption><thead><tr><th>Comparison</th><th class="num">Mean difference</th><th class="num">t</th><th class="num">Raw p</th><th class="num">Adjusted p</th><th>Decision</th></tr></thead><tbody>${pairs.map(r => `<tr><td>${r.comparison.replace(/[<>&]/g,'')}</td><td class="num">${fmt(r.diff,3)}</td><td class="num">${fmt(r.t,3)}</td><td class="num">${pText(r.rawP)}</td><td class="num">${pText(r.adjP)}</td><td>${r.significant ? 'Significant' : 'Not significant'}</td></tr>`).join('')}</tbody></table>`;
++        } else {
++          $('#pairwise-wrap').innerHTML = '<div class="callout warn"><strong>Welch follow-up:</strong> use Games–Howell pairwise comparisons because they do not assume equal variances or equal sample sizes. Pooled-MSE Bonferroni comparisons are intentionally not calculated in Welch mode.</div>';
++        }
+ 
+         const sds = groups.map(g => Math.sqrt(variance(g.values)));
+         const varianceRatio = Math.max(...sds) / Math.min(...sds);
+@@ -1226,6 +1242,7 @@
+         status.textContent = 'Analysis updated.';
+         status.className = 'status success';
+       } catch (err) {
++        clearAnovaOutputs();
+         status.textContent = err.message || 'Unable to calculate. Check your entries.';
+         status.className = 'status error';
+       }
