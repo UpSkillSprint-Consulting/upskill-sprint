@@ -19,6 +19,77 @@
 .mp-detail{min-width:0}.mp-detail-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.mp-detail-head h2{font-size:clamp(28px,4vw,42px);margin:0}.mp-questionline{font-weight:700;color:var(--teal);margin-top:8px}.mp-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}.mp-mini{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:18px}.mp-mini h3{font-size:17px;margin:0 0 10px}.mp-mini p,.mp-mini li{font-size:14.5px;line-height:1.65}.mp-mini ul{margin:0;padding-left:20px}.mp-full{grid-column:1/-1}.mp-case{border-left:5px solid var(--amber)}.mp-lab{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:20px;margin-top:18px}.mp-controls{display:flex;flex-wrap:wrap;gap:14px;margin:14px 0}.mp-controls label{font-size:13px;font-weight:700;display:flex;flex-direction:column;gap:6px;min-width:160px}.mp-controls input,.mp-controls select{width:100%}.mp-viz{min-height:300px;border:1px dashed var(--line);border-radius:12px;padding:14px;background:var(--paper);overflow:auto}.mp-chip{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:7px 10px;margin:5px;background:var(--card);font-size:13px}.mp-table{width:100%;border-collapse:collapse;font-size:13.5px}.mp-table th,.mp-table td{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}.mp-table th{background:var(--navy);color:#fff}.mp-readout{margin-top:12px;padding:12px 14px;border-radius:8px;background:var(--tint);line-height:1.6}.mp-quiz button{display:block;width:100%;text-align:left;padding:11px 12px;margin:8px 0;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);cursor:pointer}.mp-feedback{font-weight:700;margin-top:10px}.mp-footer-nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}.mp-network{display:grid;gap:10px}.mp-node{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px}.mp-critical{border-color:var(--red,#a43d3d);box-shadow:0 0 0 2px color-mix(in srgb,var(--red,#a43d3d) 15%,transparent)}
 @media(max-width:960px){.mp-sequence{grid-template-columns:repeat(2,1fr)}.mp-workspace{grid-template-columns:1fr}.mp-tool-nav{position:static;display:grid;grid-template-columns:repeat(2,1fr)}.mp-tool-nav h2{grid-column:1/-1}.mp-card,.mp-card.wide,.mp-card.narrow{grid-column:1/-1}}
 @media(max-width:620px){.mp-shell{padding-left:14px;padding-right:14px}.mp-options,.mp-detail-grid,.mp-tool-nav{grid-template-columns:1fr}.mp-detail-head{display:block}.mp-controls{display:block}.mp-controls label{margin-bottom:12px}}
+/* ---- pictorial diagram widgets (additive) ---- */
+.mp-visual{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:20px;margin-top:18px}
+.mp-visual h3{margin:0 0 6px;font-size:17px}
+.mp-visual-hint{margin:0 0 14px;color:var(--muted);font-size:14px;line-height:1.55}
+.mp-visual-read{margin:12px 0 0;line-height:1.6;font-size:14.5px}
+.mp-chart{overflow-x:auto}
+.mp-svg{width:100%;height:auto;max-width:520px;display:block;margin:0 auto;font-family:inherit}
+.mp-axlbl{font-size:9px;fill:var(--muted)}
+.mp-slider{display:flex;align-items:center;gap:10px;margin:2px 0 14px;font-size:13px;font-weight:700;flex-wrap:wrap}
+.mp-slider input[type=range]{flex:1;min-width:130px;max-width:280px;accent-color:var(--mp-teal)}
+.mp-slnum{min-width:44px;font-variant-numeric:tabular-nums}
+.mp-segbtn{min-height:38px;padding:7px 11px;margin:3px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);font-weight:600;font-size:12.5px;cursor:pointer}
+.mp-segbtn:hover{border-color:var(--mp-teal)}
+.mp-segbtn.active{background:var(--tint);border-color:var(--mp-teal);color:var(--mp-teal)}
+.mp-edgetoggles{display:flex;flex-wrap:wrap;gap:2px;margin:12px 0 4px}
+/* affinity wall */
+.mp-affboard{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.mp-affcol{border:1px solid var(--line);border-radius:10px;background:var(--paper);padding:8px;min-height:120px}
+.mp-affhead{font-size:12px;font-weight:700;text-align:center;margin-bottom:8px;color:var(--muted)}
+.mp-affnotes{display:flex;flex-direction:column;gap:6px}
+.mp-affnote{border:1px solid var(--line);border-radius:6px;padding:8px;font-size:12px;font-weight:600;cursor:pointer;color:var(--ink);text-align:left;min-height:40px}
+.mp-affnote:hover{border-color:var(--mp-teal)}
+/* digraph */
+.mp-gnode{fill:var(--card);stroke:var(--line);stroke-width:1.5}
+.mp-gnode.driver{fill:var(--mp-teal);stroke:var(--mp-teal)}
+.mp-gnode.outcome{fill:var(--mp-amber);stroke:var(--mp-amber)}
+.mp-glbl{font-size:9px;font-weight:700;fill:var(--ink);text-anchor:middle}
+.mp-gdeg{font-size:8px;fill:var(--muted);text-anchor:middle}
+.mp-gnode.driver+.mp-glbl,.mp-edge{stroke:var(--muted)}
+.mp-edge{stroke:var(--muted);stroke-width:1.5;opacity:.7}
+.mp-arrowhead{fill:var(--muted)}
+/* tree */
+.mp-tnode{fill:var(--card);stroke:var(--line)}
+.mp-tnode.goal{fill:var(--mp-blue);stroke:var(--mp-blue)}
+.mp-tnode.strat{fill:var(--tint);stroke:var(--mp-teal)}
+.mp-tnode.task{fill:var(--paper);stroke:var(--line)}
+.mp-tlbl{font-size:10px;font-weight:700;fill:var(--ink);text-anchor:middle}
+.mp-tnode.goal+.mp-tlbl,.mp-treesvg text[data-si]{fill:var(--ink)}
+.mp-tlbl.small{font-size:9px;font-weight:600}
+.mp-tedge{fill:none;stroke:var(--line);stroke-width:1.5}
+/* priority quadrant */
+.mp-quadline{stroke:var(--line);stroke-dasharray:4 4}
+.mp-bubble{fill:var(--mp-teal);opacity:.4}
+.mp-bubble.top{fill:var(--mp-teal);opacity:.85}
+.mp-bubblbl{font-size:11px;font-weight:700;fill:#fff;text-anchor:middle}
+/* matrix grid */
+.mp-mxgrid{border-collapse:collapse;font-size:13px;margin:0 auto}
+.mp-mxgrid th,.mp-mxgrid td{border:1px solid var(--line);padding:4px;text-align:center}
+.mp-mxgrid th[scope=row]{text-align:left;font-weight:600;max-width:140px}
+.mp-mxcell{width:40px;height:40px;border:0;background:transparent;font-size:16px;cursor:pointer;color:var(--mp-teal)}
+.mp-mxcell:hover{background:var(--tint)}
+.mp-mxcell.s3{font-weight:800}
+.mp-mxtot,.mp-mxfoot td{font-weight:700;background:var(--tint)}
+/* pdpc */
+.mp-pnode{fill:var(--card);stroke:var(--line)}
+.mp-pnode.plan{fill:var(--mp-blue);stroke:var(--mp-blue)}
+.mp-pnode.risk.ok{stroke:var(--mp-teal)}
+.mp-pnode.risk.open{stroke:var(--mp-red)}
+.mp-pnode.cm{fill:var(--tint);stroke:var(--mp-teal)}
+.mp-plbl{font-size:10px;font-weight:700;fill:var(--ink);text-anchor:middle}
+.mp-pnode.plan+.mp-plbl{fill:var(--ink)}
+.mp-plbl.small{font-size:9px}
+.mp-pedge{fill:none;stroke:var(--line);stroke-width:1.5}
+/* network */
+.mp-nnode{fill:var(--card);stroke:var(--line);stroke-width:1.5}
+.mp-nnode.crit{fill:var(--tint);stroke:var(--mp-red);stroke-width:2}
+.mp-nid{font-size:11px;font-weight:800;fill:var(--ink);text-anchor:middle}
+.mp-ndur{font-size:8px;fill:var(--muted);text-anchor:middle}
+.mp-nedge{stroke:var(--line);stroke-width:1.5}
+.mp-nedge.crit{stroke:var(--mp-red);stroke-width:2.5}
+@media(max-width:620px){.mp-affboard{grid-template-columns:repeat(2,1fr)}.mp-mxgrid{font-size:11px}.mp-mxcell{width:32px;height:32px}}
 </style>
 </head>
 <body>
@@ -93,6 +164,474 @@
 <p style="margin:32px 0"><a class="btn btn-teal" href="/lessons/complete-14-quality-tools-project.html">Next: Complete 14-Tool Project →</a></p>
 </main>
 <script>
+/* ============================================================================
+   The 7 Management & Planning Tools — pictorial diagram widgets (ADDITIVE).
+
+   The lesson already carries per-tool detail grids and text/readout labs. This
+   module adds a genuine VISUAL, interactive diagram for each of the seven
+   tools, mounted into #mp-visual below the existing lab — nothing is removed.
+
+   Each tool gets the recognizable picture of that tool:
+     Affinity        a sticky-note wall; tap notes to cluster them into themes
+     Interrelationship  a node-and-arrow digraph; toggle arrows, driver/outcome
+                        light up from in/out degree
+     Tree            an expandable goal -> strategy -> task SVG tree
+     Prioritization  an Impact vs Effort quadrant bubble chart
+     Matrix          an L-matrix grid; cycle cell relationship symbols, totals
+     PDPC            a plan -> risks -> countermeasures tree with O/X feasibility
+     Network         an activity-on-node diagram with the critical path in red
+
+   Vanilla JS, inline SVG, theme-aware via CSS custom properties, mobile
+   responsive. Pure helpers exposed on window.__MP7 for unit testing.
+   ============================================================================ */
+(function () {
+  'use strict';
+
+  function el(html) {
+    const t = document.createElement('template');
+    t.innerHTML = html.trim();
+    return t.content.firstElementChild;
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  }
+
+  /* ---------------- pure helpers (unit-tested) ---------------------------- */
+
+  // Interrelationship digraph: given directed edges, in/out degree per node,
+  // and identify the primary driver (max out) and outcome (max in).
+  function digraphDegrees(nodes, edges) {
+    const deg = {};
+    nodes.forEach(n => (deg[n] = { in: 0, out: 0 }));
+    edges.forEach(e => {
+      if (deg[e.from]) deg[e.from].out++;
+      if (deg[e.to]) deg[e.to].in++;
+    });
+    let driver = null, outcome = null;
+    nodes.forEach(n => {
+      if (!driver || deg[n].out > deg[driver].out) driver = n;
+      if (!outcome || deg[n].in > deg[outcome].in) outcome = n;
+    });
+    return { deg, driver, outcome };
+  }
+
+  // Weighted prioritization: normalize weights, score each action, rank desc.
+  function prioritize(actions, weights) {
+    const total = weights.reduce((a, b) => a + b, 0) || 1;
+    const norm = weights.map(w => w / total);
+    const scored = actions.map(a => ({
+      label: a.label,
+      impact: a.scores[0],
+      effort: a.effort,
+      score: a.scores.reduce((s, v, i) => s + v * norm[i], 0)
+    })).sort((a, b) => b.score - a.score);
+    return scored;
+  }
+
+  // Matrix diagram: relationship strength weights and row/column totals.
+  const REL = { 0: { sym: '', w: 0 }, 1: { sym: '△', w: 1 }, 2: { sym: '○', w: 3 }, 3: { sym: '◎', w: 9 } };
+  function matrixTotals(cells, rows, cols) {
+    const rowT = rows.map(() => 0), colT = cols.map(() => 0);
+    cells.forEach((r, ri) => r.forEach((v, ci) => {
+      const w = REL[v].w;
+      rowT[ri] += w; colT[ci] += w;
+    }));
+    return { rowT, colT };
+  }
+
+  // Activity network: forward pass -> earliest finish, project duration, and the
+  // critical path (nodes with zero slack along the longest dependent route).
+  function criticalPath(tasks) {
+    const map = {};
+    tasks.forEach(t => (map[t.id] = Object.assign({ ef: 0, es: 0 }, t)));
+    // earliest start/finish (assumes tasks listed in dependency order or resolves iteratively)
+    let changed = true, guard = 0;
+    while (changed && guard++ < 50) {
+      changed = false;
+      tasks.forEach(t => {
+        const n = map[t.id];
+        const es = t.pred.length ? Math.max.apply(null, t.pred.map(p => map[p].ef)) : 0;
+        const ef = es + t.dur;
+        if (es !== n.es || ef !== n.ef) { n.es = es; n.ef = ef; changed = true; }
+      });
+    }
+    const duration = Math.max.apply(null, tasks.map(t => map[t.id].ef));
+    // backward pass for slack
+    tasks.forEach(t => (map[t.id].lf = duration));
+    for (let i = 0; i < tasks.length; i++) {
+      tasks.forEach(t => {
+        const succ = tasks.filter(x => x.pred.includes(t.id));
+        if (succ.length) map[t.id].lf = Math.min.apply(null, succ.map(s => map[s.id].lf - s.dur));
+      });
+    }
+    tasks.forEach(t => { map[t.id].ls = map[t.id].lf - t.dur; map[t.id].slack = map[t.id].ls - map[t.id].es; });
+    const critical = tasks.filter(t => map[t.id].slack === 0).map(t => t.id);
+    return { map, duration, critical };
+  }
+
+  /* ---------------- visual builders -------------------------------------- */
+
+  function frame(title, hint) {
+    const root = el('<section class="mp-visual"><h3>' + esc(title) + '</h3><p class="mp-visual-hint">' + esc(hint) + '</p></section>');
+    return root;
+  }
+  function svg(vb) {
+    return el('<svg viewBox="' + vb + '" class="mp-svg" xmlns="http://www.w3.org/2000/svg" role="img"></svg>');
+  }
+
+  // 1. Affinity — sticky-note wall, tap notes to cycle them through themes.
+  function visualAffinity() {
+    const themes = ['Unsorted', 'People', 'Equipment', 'Procedure', 'Control System'];
+    const colors = ['var(--tint)', '#e8f0fb', '#e9f6f2', '#fbf1e2', '#f3ecfb'];
+    const ideas = ['Retrain Shift C', 'Update onboarding', 'Improve handover', 'Calibrate pyrometer',
+      'Add temperature alarm', 'Test interlock', 'Define soak minimum', 'Add checkpoints', 'Revise SOP'];
+    const state = ideas.map(() => 0);
+    const root = frame('Affinity wall', 'Tap a note to move it to the next theme. Watch clusters form the way they do on a real affinity wall.');
+    const board = el('<div class="mp-affboard"></div>');
+    root.appendChild(board);
+    const readout = el('<p class="mp-visual-read" aria-live="polite"></p>');
+    root.appendChild(readout);
+    function draw() {
+      board.innerHTML = themes.map((th, ti) =>
+        '<div class="mp-affcol"><div class="mp-affhead">' + esc(th) + '</div><div class="mp-affnotes">' +
+        ideas.map((idea, i) => state[i] === ti
+          ? '<button type="button" class="mp-affnote" style="background:' + colors[ti] + '" data-i="' + i + '">' + esc(idea) + '</button>'
+          : '').join('') +
+        '</div></div>').join('');
+      const grouped = state.filter(s => s > 0).length;
+      readout.innerHTML = '<strong>' + grouped + ' of ' + ideas.length + '</strong> ideas clustered. Silent generation first, then themes — never the other way around.';
+    }
+    board.addEventListener('click', e => {
+      const b = e.target.closest('.mp-affnote'); if (!b) return;
+      const i = +b.dataset.i;
+      state[i] = (state[i] + 1) % themes.length;
+      draw();
+    });
+    draw();
+    return root;
+  }
+
+  // 2. Interrelationship — node/arrow digraph on a circle.
+  function visualDigraph() {
+    const nodes = ['Procedure', 'Training', 'Equipment', 'Measurement', 'Low YS'];
+    // toggleable directed edges (from -> to)
+    const edges = [
+      { from: 'Procedure', to: 'Training', on: true },
+      { from: 'Procedure', to: 'Equipment', on: true },
+      { from: 'Procedure', to: 'Low YS', on: true },
+      { from: 'Training', to: 'Low YS', on: true },
+      { from: 'Equipment', to: 'Measurement', on: false },
+      { from: 'Equipment', to: 'Low YS', on: true },
+      { from: 'Measurement', to: 'Low YS', on: false }
+    ];
+    const root = frame('Interrelationship digraph', 'Toggle the influence arrows. The node with the most outgoing arrows is the driver (leverage point); the most incoming is the key outcome.');
+    const s = svg('0 0 320 260');
+    root.appendChild(el('<div class="mp-chart"></div>')).appendChild(s);
+    const controls = el('<div class="mp-edgetoggles"></div>');
+    root.appendChild(controls);
+    const readout = el('<p class="mp-visual-read" aria-live="polite"></p>');
+    root.appendChild(readout);
+    const cx = 160, cy = 120, r = 92;
+    const pos = {};
+    nodes.forEach((n, i) => {
+      const ang = -Math.PI / 2 + i * (2 * Math.PI / nodes.length);
+      pos[n] = { x: cx + r * Math.cos(ang), y: cy + r * Math.sin(ang) };
+    });
+    edges.forEach((e, i) => {
+      controls.appendChild(el('<button type="button" class="mp-segbtn' + (e.on ? ' active' : '') + '" data-i="' + i + '">' + esc(e.from) + '→' + esc(e.to.replace('Low YS', 'YS')) + '</button>'));
+    });
+    function draw() {
+      const active = edges.filter(e => e.on);
+      const { deg, driver, outcome } = digraphDegrees(nodes, active);
+      let arrows = '<defs><marker id="mp-ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="mp-arrowhead"/></marker></defs>';
+      active.forEach(e => {
+        const a = pos[e.from], b = pos[e.to];
+        const dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy);
+        const ux = dx / len, uy = dy / len;
+        const x1 = a.x + ux * 20, y1 = a.y + uy * 20, x2 = b.x - ux * 22, y2 = b.y - uy * 22;
+        arrows += '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" class="mp-edge" marker-end="url(#mp-ah)"/>';
+      });
+      let circles = '';
+      nodes.forEach(n => {
+        const p = pos[n];
+        const role = n === driver ? 'driver' : (n === outcome ? 'outcome' : '');
+        circles += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="20" class="mp-gnode ' + role + '"/>' +
+          '<text x="' + p.x.toFixed(1) + '" y="' + (p.y + 34).toFixed(1) + '" class="mp-glbl">' + esc(n) + '</text>' +
+          '<text x="' + p.x.toFixed(1) + '" y="' + (p.y + 4).toFixed(1) + '" class="mp-gdeg">' + deg[n].out + '↑' + deg[n].in + '↓</text>';
+      });
+      s.innerHTML = arrows + circles;
+      readout.innerHTML = 'Driver: <strong>' + esc(driver) + '</strong> (most outgoing) — the leverage point. Key outcome: <strong>' + esc(outcome) + '</strong> (most incoming). Arrow counts aid discussion; they are not statistical proof.';
+    }
+    controls.addEventListener('click', e => {
+      const b = e.target.closest('.mp-segbtn'); if (!b) return;
+      const i = +b.dataset.i; edges[i].on = !edges[i].on;
+      b.classList.toggle('active', edges[i].on);
+      draw();
+    });
+    draw();
+    return root;
+  }
+
+  // 3. Tree — expandable goal/strategy/task SVG tree.
+  function visualTree() {
+    const data = {
+      label: 'Eliminate low-YS failures', children: [
+        { label: 'Fix changeover', children: [{ label: 'Set soak minimums' }, { label: 'Metallurgy signoff' }, { label: 'Revise & release SOP' }] },
+        { label: 'Stabilize instrumentation', children: [{ label: 'Calibrate pyrometer' }, { label: 'Add alarm logic' }] },
+        { label: 'Close training gaps', children: [{ label: 'Retrain Shift C' }, { label: 'Update onboarding' }] }
+      ]
+    };
+    const expanded = { 0: true, 1: false, 2: false };
+    const root = frame('Tree diagram', 'Tap a strategy to expand it into tasks. Keep asking “how?” until every leaf is a specific, assignable action.');
+    const holder = el('<div class="mp-chart"></div>');
+    root.appendChild(holder);
+    const readout = el('<p class="mp-visual-read" aria-live="polite"></p>');
+    root.appendChild(readout);
+    function draw() {
+      const W = 320, rowH = 30;
+      let y = 24, lines = '', nodesSvg = '';
+      const gx = 16, sx = 118, tx = 210;
+      const gy = y;
+      nodesSvg += '<rect x="' + gx + '" y="' + (gy - 14) + '" width="96" height="26" rx="6" class="mp-tnode goal"/>' +
+        '<text x="' + (gx + 48) + '" y="' + (gy + 3) + '" class="mp-tlbl">Goal</text>';
+      data.children.forEach((strat, si) => {
+        const syTop = y;
+        nodesSvg += '<rect x="' + sx + '" y="' + (y - 14) + '" width="86" height="26" rx="6" class="mp-tnode strat" data-si="' + si + '" style="cursor:pointer"/>' +
+          '<text x="' + (sx + 43) + '" y="' + (y + 3) + '" class="mp-tlbl" data-si="' + si + '">' + esc(shorten(strat.label)) + (expanded[si] ? ' −' : ' +') + '</text>';
+        lines += '<path d="M' + (gx + 96) + ' ' + gy + ' C ' + (sx - 10) + ' ' + gy + ', ' + (sx - 10) + ' ' + y + ', ' + sx + ' ' + y + '" class="mp-tedge"/>';
+        if (expanded[si]) {
+          strat.children.forEach(task => {
+            y += rowH;
+            nodesSvg += '<rect x="' + tx + '" y="' + (y - 13) + '" width="100" height="24" rx="6" class="mp-tnode task"/>' +
+              '<text x="' + (tx + 50) + '" y="' + (y + 3) + '" class="mp-tlbl small">' + esc(shorten(task.label, 16)) + '</text>';
+            lines += '<path d="M' + (sx + 86) + ' ' + syTop + ' C ' + (tx - 10) + ' ' + syTop + ', ' + (tx - 10) + ' ' + y + ', ' + tx + ' ' + y + '" class="mp-tedge"/>';
+          });
+        }
+        y += rowH;
+      });
+      const H = y + 10;
+      const s = '<svg viewBox="0 0 ' + (W + 100) + ' ' + H + '" class="mp-svg mp-treesvg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tree diagram">' + lines + nodesSvg + '</svg>';
+      holder.innerHTML = s;
+      holder.querySelectorAll('[data-si]').forEach(n => n.addEventListener('click', () => { const i = +n.dataset.si; expanded[i] = !expanded[i]; draw(); }));
+      const leaves = data.children.reduce((a, s2, i) => a + (expanded[i] ? s2.children.length : 0), 0);
+      readout.innerHTML = leaves ? '<strong>' + leaves + '</strong> assignable tasks visible. A leaf is done when it is specific, owned, and verifiable.' : 'Expand a strategy to reveal its tasks.';
+    }
+    function shorten(s2, n) { n = n || 14; return s2.length > n ? s2.slice(0, n - 1) + '…' : s2; }
+    draw();
+    return root;
+  }
+
+  // 4. Prioritization — Impact vs Effort quadrant bubble chart, weight-driven.
+  function visualPriority() {
+    const actions = [
+      { label: 'Calibrate pyrometer', scores: [5, 5, 4, 5], effort: 2 },
+      { label: 'Revise SOP', scores: [5, 4, 3, 5], effort: 3 },
+      { label: 'Install interlock', scores: [5, 2, 2, 4], effort: 5 },
+      { label: 'Retrain Shift C', scores: [4, 4, 4, 3], effort: 2 },
+      { label: 'Add alarm logic', scores: [4, 3, 3, 4], effort: 4 }
+    ];
+    const weights = [40, 25, 15, 20];
+    const root = frame('Impact vs Effort quadrant', 'Drag the weight to change what “impact” means. Bubbles reposition; the top-left quadrant (high impact, low effort) is the do-first zone.');
+    const slider = el('<label class="mp-slider">Impact weight <input type="range" min="10" max="70" value="40" aria-label="Impact weight"><span class="mp-slnum">40%</span></label>');
+    root.appendChild(slider);
+    const holder = el('<div class="mp-chart"></div>');
+    root.appendChild(holder);
+    const readout = el('<p class="mp-visual-read" aria-live="polite"></p>');
+    root.appendChild(readout);
+    const input = slider.querySelector('input');
+    function draw() {
+      const iw = +input.value;
+      const rest = (100 - iw);
+      const w = [iw, rest * 0.42, rest * 0.25, rest * 0.33];
+      slider.querySelector('.mp-slnum').textContent = iw + '%';
+      const ranked = prioritize(actions, w);
+      const W = 320, H = 240, pad = 34;
+      const sx = eff => pad + (eff - 0.5) / 5 * (W - 2 * pad);
+      const sy = imp => H - pad - (imp - 0.5) / 5 * (H - 2 * pad);
+      const midX = pad + (W - 2 * pad) / 2, midY = pad + (H - 2 * pad) / 2;
+      let bubbles = '';
+      ranked.forEach((a, i) => {
+        const cxp = sx(a.effort), cyp = sy(a.score);
+        const first = i === 0;
+        bubbles += '<circle cx="' + cxp.toFixed(1) + '" cy="' + cyp.toFixed(1) + '" r="' + (10 + a.score * 1.4).toFixed(1) + '" class="mp-bubble' + (first ? ' top' : '') + '"/>' +
+          '<text x="' + cxp.toFixed(1) + '" y="' + (cyp + 3).toFixed(1) + '" class="mp-bubblbl">' + (i + 1) + '</text>';
+      });
+      holder.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="mp-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Impact vs effort chart">' +
+        '<line x1="' + midX + '" y1="' + pad + '" x2="' + midX + '" y2="' + (H - pad) + '" class="mp-quadline"/>' +
+        '<line x1="' + pad + '" y1="' + midY + '" x2="' + (W - pad) + '" y2="' + midY + '" class="mp-quadline"/>' +
+        '<text x="' + pad + '" y="' + (pad - 8) + '" class="mp-axlbl" text-anchor="start">High impact</text>' +
+        '<text x="' + pad + '" y="' + (H - 8) + '" class="mp-axlbl" text-anchor="start">Low impact</text>' +
+        '<text x="' + (W - pad) + '" y="' + (H - 8) + '" class="mp-axlbl" text-anchor="end">High effort →</text>' +
+        bubbles + '</svg>';
+      readout.innerHTML = 'Do first (rank 1): <strong>' + esc(ranked[0].label) + '</strong>. Governance rule: agree criteria and weights <em>before</em> scoring — never re-weight after seeing results.';
+    }
+    input.addEventListener('input', draw);
+    draw();
+    return root;
+  }
+
+  // 5. Matrix — L-matrix grid; cycle cell relationship symbols; totals update.
+  function visualMatrix() {
+    const rows = ['Set soak minimums', 'Update SOP', 'Calibrate pyrometer', 'Review weekly chart'];
+    const cols = ['Quality', 'Metallurgy', 'Operations', 'Maintenance'];
+    // seed with a plausible relationship pattern (0 none,1 weak,2 moderate,3 strong)
+    const cells = [
+      [2, 3, 2, 1], [3, 2, 3, 1], [1, 2, 2, 3], [3, 2, 3, 1]
+    ];
+    const root = frame('Relationship matrix', 'Tap a cell to cycle its relationship strength (blank → △ weak → ○ moderate → ◎ strong). Row and column totals reveal where responsibility concentrates.');
+    const holder = el('<div class="mp-chart mp-matrixwrap"></div>');
+    root.appendChild(holder);
+    const readout = el('<p class="mp-visual-read" aria-live="polite"></p>');
+    root.appendChild(readout);
+    function draw() {
+      const { rowT, colT } = matrixTotals(cells, rows, cols);
+      let html = '<table class="mp-mxgrid"><thead><tr><th></th>' + cols.map(c => '<th>' + esc(c) + '</th>').join('') + '<th>Σ</th></tr></thead><tbody>';
+      rows.forEach((r, ri) => {
+        html += '<tr><th scope="row">' + esc(r) + '</th>' +
+          cols.map((c, ci) => '<td><button type="button" class="mp-mxcell s' + cells[ri][ci] + '" data-r="' + ri + '" data-c="' + ci + '" aria-label="' + esc(r + ' vs ' + c) + '">' + REL[cells[ri][ci]].sym + '</button></td>').join('') +
+          '<td class="mp-mxtot">' + rowT[ri] + '</td></tr>';
+      });
+      html += '<tr class="mp-mxfoot"><th scope="row">Σ</th>' + colT.map(t => '<td>' + t + '</td>').join('') + '<td></td></tr></tbody></table>';
+      holder.innerHTML = html;
+      const maxCol = colT.indexOf(Math.max.apply(null, colT));
+      readout.innerHTML = 'Weights: △=1, ○=3, ◎=9. Heaviest column: <strong>' + esc(cols[maxCol]) + '</strong> — the function most engaged. Blank cells are gaps to question: is nothing really needed there?';
+    }
+    holder.addEventListener('click', e => {
+      const b = e.target.closest('.mp-mxcell'); if (!b) return;
+      const ri = +b.dataset.r, ci = +b.dataset.c;
+      cells[ri][ci] = (cells[ri][ci] + 1) % 4;
+      draw();
+    });
+    draw();
+    return root;
+  }
+
+  // 6. PDPC — plan -> risks -> countermeasures tree with feasibility marks.
+  function visualPDPC() {
+    const plan = 'Add temperature alarm';
+    const branches = [
+      { risk: 'Nuisance alarms', cm: 'Validated limits + escalation logic', ok: true },
+      { risk: 'Sensor drift', cm: 'Scheduled calibration + drift checks', ok: true },
+      { risk: 'Operators bypass', cm: 'Interlock + supervised override log', ok: true },
+      { risk: 'Training not done', cm: 'Gate go-live on sign-off', ok: false }
+    ];
+    const root = frame('PDPC tree', 'Tap a risk to expand its countermeasure. ○ = feasible countermeasure in place; ✗ = still open. PDPC is plan-risk analysis, not a substitute for a formal FMEA.');
+    const holder = el('<div class="mp-chart"></div>');
+    root.appendChild(holder);
+    const readout = el('<p class="mp-visual-read" aria-live="polite"></p>');
+    root.appendChild(readout);
+    const open = branches.map(() => false);
+    function draw() {
+      const W = 420, rowH = 46, top = 30;
+      let lines = '', nodes = '', y = top;
+      const px = 14, rx = 150, cx = 300;
+      const planY = top + (branches.length - 1) * rowH / 2;
+      nodes += '<rect x="' + px + '" y="' + (planY - 16) + '" width="118" height="32" rx="7" class="mp-pnode plan"/>' +
+        '<text x="' + (px + 59) + '" y="' + (planY + 4) + '" class="mp-plbl">Plan</text>';
+      branches.forEach((b, i) => {
+        const ry = top + i * rowH;
+        lines += '<path d="M' + (px + 118) + ' ' + planY + ' C ' + (rx - 12) + ' ' + planY + ', ' + (rx - 12) + ' ' + ry + ', ' + rx + ' ' + ry + '" class="mp-pedge"/>';
+        nodes += '<rect x="' + rx + '" y="' + (ry - 14) + '" width="128" height="28" rx="7" class="mp-pnode risk ' + (b.ok ? 'ok' : 'open') + '" data-i="' + i + '" style="cursor:pointer"/>' +
+          '<text x="' + (rx + 64) + '" y="' + (ry + 4) + '" class="mp-plbl small" data-i="' + i + '">' + esc(short(b.risk)) + ' ' + (b.ok ? '○' : '✗') + '</text>';
+        if (open[i]) {
+          lines += '<path d="M' + (rx + 128) + ' ' + ry + ' L ' + cx + ' ' + ry + '" class="mp-pedge"/>';
+          nodes += '<rect x="' + cx + '" y="' + (ry - 14) + '" width="112" height="28" rx="7" class="mp-pnode cm"/>' +
+            '<text x="' + (cx + 56) + '" y="' + (ry + 4) + '" class="mp-plbl small">' + esc(short(b.cm, 18)) + '</text>';
+        }
+      });
+      const H = top + branches.length * rowH;
+      holder.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="mp-svg mp-pdpcsvg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PDPC tree">' + lines + nodes + '</svg>';
+      holder.querySelectorAll('[data-i]').forEach(n => n.addEventListener('click', () => { const i = +n.dataset.i; open[i] = !open[i]; draw(); }));
+      const openRisks = branches.filter(b => !b.ok).length;
+      readout.innerHTML = openRisks ? '<strong>' + openRisks + '</strong> risk still lacks a feasible countermeasure (✗). Do not go live until every branch closes.' : 'Every risk has a feasible countermeasure. The plan is defensible.';
+    }
+    function short(s2, n) { n = n || 15; return s2.length > n ? s2.slice(0, n - 1) + '…' : s2; }
+    draw();
+    return root;
+  }
+
+  // 7. Network — activity-on-node with the critical path highlighted red.
+  function visualNetwork() {
+    const base = [
+      { id: 'A', name: 'Confirm limits', dur: 3, pred: [] },
+      { id: 'B', name: 'Calibrate', dur: 2, pred: [] },
+      { id: 'C', name: 'Draft SOP', dur: 4, pred: ['A'] },
+      { id: 'D', name: 'Configure alarm', dur: 3, pred: ['A', 'B'] },
+      { id: 'E', name: 'Train shifts', dur: 2, pred: ['C', 'D'] },
+      { id: 'F', name: 'Verify chart', dur: 10, pred: ['E'] }
+    ];
+    const root = frame('Activity network & critical path', 'Change the alarm-configuration duration. The critical path (red) is the longest dependent route — it sets the finish date.');
+    const slider = el('<label class="mp-slider">Configure alarm (D) duration <input type="range" min="1" max="9" value="3" aria-label="Task D duration"><span class="mp-slnum">3 d</span></label>');
+    root.appendChild(slider);
+    const holder = el('<div class="mp-chart"></div>');
+    root.appendChild(holder);
+    const readout = el('<p class="mp-visual-read" aria-live="polite"></p>');
+    root.appendChild(readout);
+    const input = slider.querySelector('input');
+    // fixed layout columns for AON
+    const layout = { A: [1, 1], B: [1, 2.4], C: [2, 0.6], D: [2, 2], E: [3, 1.4], F: [4, 1.4] };
+    function draw() {
+      const d = +input.value;
+      slider.querySelector('.mp-slnum').textContent = d + ' d';
+      const tasks = base.map(t => t.id === 'D' ? Object.assign({}, t, { dur: d }) : t);
+      const cp = criticalPath(tasks);
+      const W = 360, H = 200, colW = 78, rowY = 46, ox = 20, oy = 18;
+      const px = c => ox + (c - 1) * colW;
+      const py = r => oy + (r - 0.6) * rowY;
+      let edges = '<defs><marker id="mp-nah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="mp-arrowhead"/></marker></defs>';
+      tasks.forEach(t => t.pred.forEach(p => {
+        const a = layout[p], b = layout[t.id];
+        const crit = cp.critical.includes(p) && cp.critical.includes(t.id);
+        edges += '<line x1="' + (px(a[0]) + 32) + '" y1="' + py(a[1]) + '" x2="' + (px(b[0]) - 4) + '" y2="' + py(b[1]) + '" class="mp-nedge' + (crit ? ' crit' : '') + '" marker-end="url(#mp-nah)"/>';
+      }));
+      let nodes = '';
+      tasks.forEach(t => {
+        const l = layout[t.id], crit = cp.critical.includes(t.id);
+        nodes += '<rect x="' + px(l[0]) + '" y="' + (py(l[1]) - 15) + '" width="34" height="30" rx="6" class="mp-nnode' + (crit ? ' crit' : '') + '"/>' +
+          '<text x="' + (px(l[0]) + 17) + '" y="' + (py(l[1]) - 2) + '" class="mp-nid">' + t.id + '</text>' +
+          '<text x="' + (px(l[0]) + 17) + '" y="' + (py(l[1]) + 10) + '" class="mp-ndur">' + cp.map[t.id].dur + 'd</text>';
+      });
+      holder.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="mp-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Activity network diagram">' + edges + nodes + '</svg>';
+      readout.innerHTML = 'Project duration: <strong>' + cp.duration + ' days</strong>. Critical path: <strong>' + cp.critical.join(' → ') + '</strong>. Only tasks on this path change the finish date — the rest have float.';
+    }
+    input.addEventListener('input', draw);
+    draw();
+    return root;
+  }
+
+  const VISUAL = {
+    affinity: visualAffinity,
+    interrelationship: visualDigraph,
+    tree: visualTree,
+    prioritization: visualPriority,
+    matrix: visualMatrix,
+    pdpc: visualPDPC,
+    network: visualNetwork
+  };
+
+  function mount(key) {
+    const host = document.getElementById('mp-visual');
+    if (!host) return;
+    host.innerHTML = '';
+    const build = VISUAL[key];
+    if (!build) return;
+    try { host.appendChild(build()); }
+    catch (err) { host.innerHTML = '<p class="mp-visual-read">Visual unavailable.</p>'; }
+  }
+
+  window.__MP7 = {
+    mount: mount,
+    VISUAL: VISUAL,
+    digraphDegrees: digraphDegrees,
+    prioritize: prioritize,
+    matrixTotals: matrixTotals,
+    criticalPath: criticalPath,
+    REL: REL
+  };
+})();
+
+</script>
+<script>
 (function(){
 'use strict';
 const tools={
@@ -108,8 +647,8 @@ const order=['affinity','interrelationship','tree','prioritization','matrix','pd
 const detail=document.getElementById('tool-detail');
 const buttons=[...document.querySelectorAll('.mp-tool-btn')];
 function list(items){return '<ul>'+items.map(x=>'<li>'+x+'</li>').join('')+'</ul>'}
-function render(key){const t=tools[key];const idx=order.indexOf(key);buttons.forEach(b=>b.classList.toggle('active',b.dataset.tool===key));detail.innerHTML=`<div class="mp-detail-head"><div><h2>${t.title}</h2><div class="mp-questionline">${t.question}</div></div></div><div class="mp-detail-grid"><article class="mp-mini mp-full"><h3>What it is</h3><p>${t.summary}</p></article><article class="mp-mini"><h3>When to use</h3>${list(t.when)}</article><article class="mp-mini"><h3>When not to use</h3>${list(t.not)}</article><article class="mp-mini"><h3>Required inputs</h3>${list(t.inputs)}</article><article class="mp-mini"><h3>Expected outputs</h3>${list(t.outputs)}</article><article class="mp-mini mp-full mp-case"><h3>Engineering use case: ${t.caseTitle}</h3><p>${t.case}</p><h3>Worked application</h3><ol>${t.steps.map(x=>'<li>'+x+'</li>').join('')}</ol></article><article class="mp-mini mp-full"><h3>Common mistakes</h3>${list(t.mistakes)}</article></div>${lab(key)}<div class="mp-mini mp-full" style="margin-top:18px"><h3>Knowledge check</h3><div class="mp-quiz"><p><strong>Which statement best describes ${t.title}?</strong></p><button data-local-quiz data-correct="false">It proves root cause statistically.</button><button data-local-quiz data-correct="true">It answers the planning question shown at the top of this section.</button><button data-local-quiz data-correct="false">It should replace all other planning tools.</button><div class="mp-feedback"></div></div></div><div class="mp-footer-nav"><button class="mp-btn" data-prev ${idx===0?'disabled':''}>← Previous tool</button><button class="mp-btn primary" data-next ${idx===order.length-1?'disabled':''}>Next tool →</button></div>`;
-wireLab(key);detail.querySelectorAll('[data-local-quiz]').forEach(btn=>btn.onclick=()=>{const f=btn.parentElement.querySelector('.mp-feedback');f.textContent=btn.dataset.correct==='true'?'Correct. The tool must be selected from the planning question it is designed to answer.':'Not quite. This tool supports structured planning; it does not independently prove causality or replace every other method.';});const p=detail.querySelector('[data-prev]'),n=detail.querySelector('[data-next]');if(p)p.onclick=()=>render(order[idx-1]);if(n)n.onclick=()=>render(order[idx+1]);}
+function render(key){const t=tools[key];const idx=order.indexOf(key);buttons.forEach(b=>b.classList.toggle('active',b.dataset.tool===key));detail.innerHTML=`<div class="mp-detail-head"><div><h2>${t.title}</h2><div class="mp-questionline">${t.question}</div></div></div><div class="mp-detail-grid"><article class="mp-mini mp-full"><h3>What it is</h3><p>${t.summary}</p></article><article class="mp-mini"><h3>When to use</h3>${list(t.when)}</article><article class="mp-mini"><h3>When not to use</h3>${list(t.not)}</article><article class="mp-mini"><h3>Required inputs</h3>${list(t.inputs)}</article><article class="mp-mini"><h3>Expected outputs</h3>${list(t.outputs)}</article><article class="mp-mini mp-full mp-case"><h3>Engineering use case: ${t.caseTitle}</h3><p>${t.case}</p><h3>Worked application</h3><ol>${t.steps.map(x=>'<li>'+x+'</li>').join('')}</ol></article><article class="mp-mini mp-full"><h3>Common mistakes</h3>${list(t.mistakes)}</article></div>${lab(key)}<div id="mp-visual" class="mp-visual-mount"></div><div class="mp-mini mp-full" style="margin-top:18px"><h3>Knowledge check</h3><div class="mp-quiz"><p><strong>Which statement best describes ${t.title}?</strong></p><button data-local-quiz data-correct="false">It proves root cause statistically.</button><button data-local-quiz data-correct="true">It answers the planning question shown at the top of this section.</button><button data-local-quiz data-correct="false">It should replace all other planning tools.</button><div class="mp-feedback"></div></div></div><div class="mp-footer-nav"><button class="mp-btn" data-prev ${idx===0?'disabled':''}>← Previous tool</button><button class="mp-btn primary" data-next ${idx===order.length-1?'disabled':''}>Next tool →</button></div>`;
+wireLab(key);if(window.__MP7)window.__MP7.mount(key);detail.querySelectorAll('[data-local-quiz]').forEach(btn=>btn.onclick=()=>{const f=btn.parentElement.querySelector('.mp-feedback');f.textContent=btn.dataset.correct==='true'?'Correct. The tool must be selected from the planning question it is designed to answer.':'Not quite. This tool supports structured planning; it does not independently prove causality or replace every other method.';});const p=detail.querySelector('[data-prev]'),n=detail.querySelector('[data-next]');if(p)p.onclick=()=>render(order[idx-1]);if(n)n.onclick=()=>render(order[idx+1]);}
 function lab(key){if(key==='affinity')return `<section class="mp-lab"><h3>Interactive Affinity Lab</h3><p>Choose a proposed action and assign it to the most natural theme.</p><div class="mp-controls"><label>Idea<select id="aff-idea"><option>Retrain Shift C</option><option>Calibrate pyrometer</option><option>Revise soak SOP</option><option>Add alarm logic</option></select></label><label>Theme<select id="aff-theme"><option>People</option><option>Equipment</option><option>Procedure</option><option>Control System</option></select></label></div><button class="mp-btn primary" id="aff-add">Add to group</button><div class="mp-viz" id="aff-viz"></div><div class="mp-readout" id="aff-readout">Start grouping ideas.</div></section>`;
 if(key==='interrelationship')return `<section class="mp-lab"><h3>Driver Lab</h3><p>Adjust outgoing-arrow counts to see which issue becomes the strongest candidate driver.</p><div class="mp-controls"><label>Procedure arrows<input id="d1" type="range" min="0" max="6" value="5"></label><label>Training arrows<input id="d2" type="range" min="0" max="6" value="2"></label><label>Equipment arrows<input id="d3" type="range" min="0" max="6" value="3"></label></div><div class="mp-viz" id="driver-viz"></div></section>`;
 if(key==='tree')return `<section class="mp-lab"><h3>Tree Completeness Lab</h3><p>Add a task to the selected branch. The task should be specific, assignable, and verifiable.</p><div class="mp-controls"><label>Branch<select id="tree-branch"><option>Technical limits</option><option>Instrumentation</option><option>Procedure</option><option>Training</option></select></label><label>Task<input id="tree-task" value="Obtain metallurgy signoff"></label></div><button class="mp-btn primary" id="tree-add">Add task</button><div class="mp-viz" id="tree-viz"></div></section>`;
