@@ -1,0 +1,85 @@
+name: Finalize ANOVA lesson validation fixes v3
+
+on:
+  push:
+    branches: [test]
+    paths:
+      - .validation-trigger/anova-final-v3.txt
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: test
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Apply reviewed patch
+        run: git apply --check .patches/anova-final.patch && git apply .patches/anova-final.patch
+
+      - name: Validate HTML and JavaScript
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          import json
+          import re
+
+          text = Path('lessons/statistics/anova-analysis-one-stop-shop.html').read_text(encoding='utf-8')
+          assert '/lessons/minitab-best-predictive-regression-model' in text
+          assert '/lessons/statistics/regression-model-selection' not in text
+          assert 'function clearAnovaOutputs()' in text
+          assert 'Welch follow-up:' in text
+          assert 'clearAnovaOutputs();' in text
+          assert not re.search(r'\bonclick\s*=', text, flags=re.I)
+
+          meta = re.search(r'<!--\s*UPSKILLSPRINT_LESSON_META\s*\n([\s\S]*?)\n-->', text)
+          assert meta
+          json.loads(meta.group(1))
+
+          class Audit(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.ids = []
+                  self.fragments = []
+              def handle_starttag(self, tag, attrs):
+                  values = dict(attrs)
+                  if 'id' in values:
+                      self.ids.append(values['id'])
+                  href = values.get('href', '')
+                  if href.startswith('#') and len(href) > 1:
+                      self.fragments.append(href[1:])
+
+          audit = Audit()
+          audit.feed(text)
+          assert len(audit.ids) == len(set(audit.ids))
+          assert not (set(audit.fragments) - set(audit.ids))
+
+          scripts = re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', text, flags=re.I | re.S)
+          assert scripts
+          for i, script in enumerate(scripts, 1):
+              Path(f'/tmp/anova-v3-{i}.js').write_text(script, encoding='utf-8')
+          PY
+          for script in /tmp/anova-v3-*.js; do node --check "$script"; done
+          node --check chi-square-lesson-library.js
+
+      - name: Commit final fixes
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .validation-trigger .patches
+          rm -f .github/workflows/finalize-anova-validation.yml
+          rm -f .github/workflows/finalize-anova-validation-v2.yml
+          rm -f .github/workflows/finalize-anova-validation-v3.yml
+          git config user.name "upskillsprint-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Finalize ANOVA lesson validation fixes"
+          git push origin HEAD:test
