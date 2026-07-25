@@ -1,0 +1,162 @@
+name: Finalize ANOVA lesson validation fixes
+
+on:
+  push:
+    branches:
+      - test
+    paths:
+      - .github/workflows/finalize-anova-validation.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out test branch
+        uses: actions/checkout@v4
+        with:
+          ref: test
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Apply final validation fixes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('lessons/statistics/anova-analysis-one-stop-shop.html')
+          text = path.read_text(encoding='utf-8')
+
+          insertion_point = '''    function pText(p) {
+            if (!Number.isFinite(p)) return '—';
+            if (p < .0001) return '<0.0001';
+            return p.toFixed(4);
+          }
+
+          function runAnova() {'''
+          insertion = '''    function pText(p) {
+            if (!Number.isFinite(p)) return '—';
+            if (p < .0001) return '<0.0001';
+            return p.toFixed(4);
+          }
+
+          function clearAnovaOutputs() {
+            ['#out-f', '#out-p', '#out-eta', '#out-omega'].forEach(selector => { $(selector).textContent = '—'; });
+            const conclusion = $('#anova-conclusion');
+            conclusion.className = 'result-banner warn';
+            conclusion.innerHTML = '<strong>Analysis not run.</strong><p>Correct the input error and run the analysis again.</p>';
+            ['#group-stats-wrap', '#anova-table-wrap', '#pairwise-wrap'].forEach(selector => { $(selector).innerHTML = ''; });
+            const diagnostic = $('#anova-diagnostic');
+            diagnostic.className = 'callout warn';
+            diagnostic.innerHTML = '<strong>Diagnostic snapshot unavailable.</strong> Enter valid grouped data to calculate diagnostics.';
+            $('#anova-plot').innerHTML = '<title id="anova-plot-title">No valid ANOVA result</title><desc id="anova-plot-desc">No valid analysis is currently displayed.</desc>';
+          }
+
+          function runAnova() {'''
+          if insertion_point not in text:
+              raise SystemExit('Could not find pText/runAnova insertion point')
+          text = text.replace(insertion_point, insertion, 1)
+
+          pairwise_old = '''        const pairs = bonferroniPairs(groups, classical, alpha);
+                  $('#pairwise-wrap').innerHTML = `<table><caption>Exploratory Bonferroni-adjusted pairwise t comparisons using pooled MSE (appropriate only under equal variances)</caption><thead><tr><th>Comparison</th><th class="num">Mean difference</th><th class="num">t</th><th class="num">Raw p</th><th class="num">Adjusted p</th><th>Decision</th></tr></thead><tbody>${pairs.map(r => `<tr><td>${r.comparison.replace(/[<>&]/g,'')}</td><td class="num">${fmt(r.diff,3)}</td><td class="num">${fmt(r.t,3)}</td><td class="num">${pText(r.rawP)}</td><td class="num">${pText(r.adjP)}</td><td>${r.significant ? 'Significant' : 'Not significant'}</td></tr>`).join('')}</tbody></table>`;
+          '''
+          pairwise_new = '''        if (method === 'classic') {
+                    const pairs = bonferroniPairs(groups, classical, alpha);
+                    $('#pairwise-wrap').innerHTML = `<table><caption>Exploratory Bonferroni-adjusted pairwise t comparisons using pooled MSE (appropriate only under equal variances)</caption><thead><tr><th>Comparison</th><th class="num">Mean difference</th><th class="num">t</th><th class="num">Raw p</th><th class="num">Adjusted p</th><th>Decision</th></tr></thead><tbody>${pairs.map(r => `<tr><td>${r.comparison.replace(/[<>&]/g,'')}</td><td class="num">${fmt(r.diff,3)}</td><td class="num">${fmt(r.t,3)}</td><td class="num">${pText(r.rawP)}</td><td class="num">${pText(r.adjP)}</td><td>${r.significant ? 'Significant' : 'Not significant'}</td></tr>`).join('')}</tbody></table>`;
+                  } else {
+                    $('#pairwise-wrap').innerHTML = '<div class="callout warn"><strong>Welch follow-up:</strong> use Games–Howell pairwise comparisons because they do not assume equal variances or equal sample sizes. Pooled-MSE Bonferroni comparisons are intentionally not calculated in Welch mode.</div>';
+                  }
+          '''
+          if pairwise_old not in text:
+              raise SystemExit('Could not find pairwise output block')
+          text = text.replace(pairwise_old, pairwise_new, 1)
+
+          catch_old = '''      } catch (err) {
+                  status.textContent = err.message || 'Unable to calculate. Check your entries.';
+                  status.className = 'status error';
+                }
+          '''
+          catch_new = '''      } catch (err) {
+                  clearAnovaOutputs();
+                  status.textContent = err.message || 'Unable to calculate. Check your entries.';
+                  status.className = 'status error';
+                }
+          '''
+          if catch_old not in text:
+              raise SystemExit('Could not find calculator catch block')
+          text = text.replace(catch_old, catch_new, 1)
+
+          next_old = '<p><strong>Suggested next lesson:</strong> <a href="/lessons/statistics/regression-model-selection">Regression Model Selection: Interactions, Curvature and Validation</a>.</p>'
+          next_new = '<p><strong>Suggested next lesson:</strong> <a href="/lessons/minitab-best-predictive-regression-model">Finding the Best Predictive Regression Model in Minitab</a>.</p>'
+          if next_old not in text:
+              raise SystemExit('Could not find suggested next lesson link')
+          text = text.replace(next_old, next_new, 1)
+
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Validate final lesson
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          import json
+          import re
+
+          path = Path('lessons/statistics/anova-analysis-one-stop-shop.html')
+          text = path.read_text(encoding='utf-8')
+          assert '/lessons/minitab-best-predictive-regression-model' in text
+          assert '/lessons/statistics/regression-model-selection' not in text
+          assert 'function clearAnovaOutputs()' in text
+          assert 'Welch follow-up:' in text
+          assert 'Pooled-MSE Bonferroni comparisons are intentionally not calculated in Welch mode.' in text
+          assert 'clearAnovaOutputs();' in text
+          assert not re.search(r'\bonclick\s*=', text, flags=re.I)
+
+          meta_match = re.search(r'<!--\s*UPSKILLSPRINT_LESSON_META\s*\n([\s\S]*?)\n-->', text)
+          assert meta_match
+          json.loads(meta_match.group(1))
+
+          class AuditParser(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.ids = []
+                  self.fragments = []
+              def handle_starttag(self, tag, attrs):
+                  values = dict(attrs)
+                  if 'id' in values:
+                      self.ids.append(values['id'])
+                  href = values.get('href', '')
+                  if href.startswith('#') and len(href) > 1:
+                      self.fragments.append(href[1:])
+
+          parser = AuditParser()
+          parser.feed(text)
+          assert len(parser.ids) == len(set(parser.ids)), 'Duplicate HTML IDs found'
+          missing = sorted(set(parser.fragments) - set(parser.ids))
+          assert not missing, f'Broken internal fragments: {missing}'
+
+          scripts = re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', text, flags=re.I | re.S)
+          assert scripts
+          for index, script in enumerate(scripts, 1):
+              Path(f'/tmp/anova-final-{index}.js').write_text(script, encoding='utf-8')
+          PY
+          for script in /tmp/anova-final-*.js; do node --check "$script"; done
+          node --check chi-square-lesson-library.js
+
+      - name: Commit validation fixes
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/finalize-anova-validation.yml
+          git config user.name "upskillsprint-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Finalize ANOVA lesson validation fixes"
+          git push origin HEAD:test
