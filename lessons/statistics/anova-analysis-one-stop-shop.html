@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "ANOVA Analysis: The Complete One-Stop Masterclass",
+  "slug": "anova-analysis-one-stop-shop",
+  "category": "Statistics",
+  "category_slug": "statistics",
+  "level": "Intermediate",
+  "estimated_minutes": 100,
+  "interactive": true,
+  "card_title": "ANOVA Analysis: One-Stop Masterclass",
+  "card_description": "Select, calculate, diagnose and interpret one-way, factorial, repeated-measures, ANCOVA, MANOVA and MANCOVA—with Excel and Minitab guidance.",
+  "search_keywords": [
+    "anova", "analysis of variance", "one-way anova", "two-way anova", "factorial anova",
+    "welch anova", "repeated measures anova", "ancova", "manova", "mancova",
+    "interaction", "f statistic", "p value", "effect size", "eta squared", "omega squared",
+    "tukey", "post hoc", "excel analysis toolpak", "minitab anova", "statistics"
+  ],
+  "suggested_github_path": "lessons/statistics/anova-analysis-one-stop-shop.html"
+}
+-->
+<head>
+  <!-- EDIT: Lesson metadata -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANOVA Analysis: The Complete One-Stop Masterclass | UpSkill Sprint Consulting</title>
+  <meta name="description" content="A complete interactive guide to selecting, calculating, diagnosing and interpreting ANOVA, ANCOVA, MANOVA and MANCOVA, including all Excel Analysis ToolPak ANOVA tools and Minitab workflows.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/statistics/anova-analysis-one-stop-shop">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="ANOVA Analysis: The Complete One-Stop Masterclass">
+  <meta property="og:description" content="Learn the complete ANOVA family with interactive calculators, method selection, assumptions, post-hoc testing, Excel ToolPak and Minitab.">
+  <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/statistics/anova-analysis-one-stop-shop">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+
+  <!-- EDIT: Lesson styles -->
+  <style>
+    :root {
+      --paper: #ffffff;
+      --surface: #ffffff;
+      --surface-soft: #f4f7fa;
+      --ink: #101828;
+      --ink-soft: #344054;
+      --muted: #667085;
+      --line: #d9e1ea;
+      --navy: #0f2a43;
+      --teal: #0e7490;
+      --teal-dark: #075b70;
+      --amber: #d97706;
+      --success: #257a50;
+      --warning: #a86408;
+      --danger: #b42318;
+      --info: #285f9e;
+      --lavender: #7257b5;
+      --rose: #b64d64;
+      --focus-ring: 3px solid var(--amber);
+      --shadow: 0 10px 28px rgba(15, 42, 67, 0.08);
+    }
+
+    html[data-theme="dark"] {
+      --paper: #0b1220;
+      --surface: #111c2d;
+      --surface-soft: #0f1a2b;
+      --ink: #f4f7fb;
+      --ink-soft: #d4dce8;
+      --muted: #aab6c7;
+      --line: #2c3b50;
+      --navy: #183754;
+      --teal: #36bfd0;
+      --teal-dark: #76dbe5;
+      --amber: #f2bd55;
+      --success: #60cc8f;
+      --warning: #efb254;
+      --danger: #f08379;
+      --info: #7eb0e2;
+      --lavender: #b9a1f5;
+      --rose: #f08ca2;
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 1rem;
+      line-height: 1.68;
+    }
+    h1, h2, h3, h4 { color: var(--ink); line-height: 1.22; margin-top: 0; }
+    h1 { font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 5vw, 3.45rem); }
+    h2 { font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.55rem, 3.5vw, 2.25rem); margin-bottom: 1rem; }
+    h3 { font-size: clamp(1.1rem, 2vw, 1.35rem); }
+    h4 { font-size: 1.05rem; }
+    p { margin: 0.7rem 0; }
+    a { color: var(--teal-dark); }
+    strong { color: var(--ink); }
+    code, kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    code { padding: 0.08rem 0.35rem; border: 1px solid var(--line); background: var(--surface-soft); border-radius: 4px; color: var(--ink); }
+    button, input, select, textarea { font: inherit; }
+    button { touch-action: manipulation; }
+    :focus-visible { outline: var(--focus-ring); outline-offset: 3px; }
+    .sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .skip-link { position: fixed; left: -9999px; top: 0; z-index: 9999; background: var(--navy); color: #fff; padding: 0.75rem 1rem; border-radius: 0 0 8px 0; }
+    .skip-link:focus { left: 0; }
+
+    /* SITE INTEGRATION: Header */
+    header.site.lesson-sitebar { z-index: 60; }
+    .lesson-sitebar .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+    .back-link { white-space: nowrap; text-decoration: none; font-weight: 650; }
+    .theme-control { display: flex; align-items: center; gap: 0.35rem; }
+
+    main#lesson-content { max-width: 1120px; margin: 0 auto; padding: 1rem clamp(1rem, 3vw, 2rem) 4rem; }
+    article.lesson-wrapper { display: block; }
+    section { margin: clamp(3.2rem, 7vw, 5.5rem) 0; scroll-margin-top: 90px; }
+
+    .lesson-hero {
+      position: relative;
+      overflow: hidden;
+      margin-top: 1.25rem;
+      padding: clamp(1.5rem, 5vw, 3.5rem);
+      border-radius: 18px;
+      color: #fff;
+      background: linear-gradient(135deg, #0f2a43 0%, #0e7490 72%, #14899d 100%);
+      box-shadow: var(--shadow);
+    }
+    .lesson-hero::after { content: "F"; position: absolute; right: -0.06em; bottom: -0.35em; font: 700 clamp(11rem, 28vw, 22rem)/1 Georgia, serif; opacity: 0.055; pointer-events: none; }
+    .lesson-hero h1, .lesson-hero strong { color: #fff; }
+    .eyebrow { margin: 0; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.8rem; font-weight: 750; color: #d9f4f7; }
+    .lesson-lede { max-width: 75ch; font-size: clamp(1.05rem, 2vw, 1.22rem); color: #e9f8fa; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 1rem 0 1.25rem; }
+    .pill { display: inline-flex; align-items: center; min-height: 32px; padding: 0.25rem 0.75rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.1); color: #fff; font-size: 0.86rem; font-weight: 700; }
+    .pill.accent { background: #fff; color: #0f2a43; }
+    .why { max-width: 78ch; padding: 0.9rem 1rem; border-left: 4px solid #f6b73c; border-radius: 0 10px 10px 0; background: rgba(255,255,255,.1); color: #fff; }
+
+    .lesson-toc { margin: 1.6rem 0; padding: 1.1rem 1.25rem; border: 1px solid var(--line); background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); }
+    .lesson-toc h2 { font-family: inherit; font-size: 0.9rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+    .lesson-toc ol { columns: 3; column-gap: 2rem; margin: 0; padding-left: 1.35rem; }
+    .lesson-toc li { margin: .3rem 0; break-inside: avoid; }
+    .lesson-toc a { text-decoration: none; }
+    .lesson-toc a:hover { text-decoration: underline; }
+
+    .section-kicker { color: var(--teal-dark); font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; margin-bottom: .35rem; }
+    .section-intro { max-width: 78ch; color: var(--ink-soft); font-size: 1.05rem; }
+    .panel, .tool, .formula-box, .callout { border: 1px solid var(--line); background: var(--surface); border-radius: 14px; padding: clamp(1rem, 2.5vw, 1.4rem); }
+    .tool { box-shadow: var(--shadow); }
+    .callout { border-left: 5px solid var(--info); }
+    .callout.tip { border-left-color: var(--success); }
+    .callout.warn { border-left-color: var(--warning); }
+    .callout.danger { border-left-color: var(--danger); }
+    .callout.exam { border-left-color: var(--amber); }
+    .muted { color: var(--muted); }
+    .small { font-size: .9rem; }
+    .grid-2, .grid-3, .grid-4 { display: grid; gap: 1rem; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .stat-card { padding: 1rem; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-soft); }
+    .stat-card .label { display: block; color: var(--muted); font-size: .77rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .stat-card .value { display: block; font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .chip { display: inline-flex; align-items: center; padding: .15rem .55rem; border-radius: 999px; font-size: .78rem; font-weight: 750; background: var(--surface-soft); border: 1px solid var(--line); color: var(--ink-soft); }
+    .chip.one { color: var(--teal-dark); }
+    .chip.two { color: var(--lavender); }
+    .chip.multi { color: var(--success); }
+    .chip.cov { color: var(--warning); }
+
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 10px; }
+    table { border-collapse: collapse; width: 100%; min-width: 680px; background: var(--surface); }
+    caption { padding: 0 0 .45rem; text-align: left; font-size: .88rem; color: var(--muted); }
+    th, td { padding: .65rem .75rem; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: var(--navy); color: #fff; font-size: .88rem; }
+    tbody tr:nth-child(even) { background: var(--surface-soft); }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .formula-box { overflow-x: auto; text-align: center; background: var(--surface-soft); }
+    .equation { display: inline-flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .35rem; font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.05rem, 2.5vw, 1.4rem); color: var(--ink); }
+    .frac { display: inline-flex; flex-direction: column; align-items: stretch; vertical-align: middle; text-align: center; min-width: 4rem; }
+    .frac > span:first-child { border-bottom: 1.5px solid currentColor; padding: 0 .3rem .12rem; }
+    .frac > span:last-child { padding: .12rem .3rem 0; }
+    .symbol-grid { display: grid; grid-template-columns: minmax(80px, .35fr) 1.65fr; gap: .35rem 1rem; margin: 1rem 0 0; text-align: left; }
+    .symbol-grid dt { font-weight: 800; color: var(--teal-dark); }
+    .symbol-grid dd { margin: 0; color: var(--ink-soft); }
+
+    .hierarchy { display: grid; grid-template-columns: repeat(5, 1fr); gap: .65rem; align-items: stretch; }
+    .hierarchy-card { position: relative; padding: 1rem; border: 1px solid var(--line); border-top: 4px solid var(--teal); border-radius: 12px; background: var(--surface); }
+    .hierarchy-card:nth-child(2) { border-top-color: var(--lavender); }
+    .hierarchy-card:nth-child(3) { border-top-color: var(--amber); }
+    .hierarchy-card:nth-child(4) { border-top-color: var(--success); }
+    .hierarchy-card:nth-child(5) { border-top-color: var(--rose); }
+    .hierarchy-card small { color: var(--muted); }
+
+    .control-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .field { display: grid; gap: .35rem; }
+    .field label, fieldset legend { font-weight: 750; color: var(--ink); }
+    select, input[type="number"], input[type="range"], textarea {
+      width: 100%; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--ink); padding: .72rem .78rem;
+    }
+    textarea { min-height: 170px; resize: vertical; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; line-height: 1.55; }
+    input[type="range"] { padding: .4rem 0; accent-color: var(--teal); }
+    fieldset { border: 1px solid var(--line); border-radius: 10px; padding: .8rem 1rem; }
+    .radio-row, .button-row { display: flex; flex-wrap: wrap; gap: .65rem; align-items: center; }
+    .button { min-height: 44px; padding: .65rem 1rem; border-radius: 9px; border: 1px solid var(--teal); background: var(--teal); color: #fff; font-weight: 750; cursor: pointer; }
+    .button:hover { filter: brightness(.95); }
+    .button.secondary { background: var(--surface); color: var(--teal-dark); }
+    .button.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+    .button.danger { background: var(--danger); border-color: var(--danger); }
+    .status { min-height: 1.5rem; margin-top: .6rem; font-weight: 700; }
+    .status.error { color: var(--danger); }
+    .status.success { color: var(--success); }
+    .status.warning { color: var(--warning); }
+    .result-banner { padding: 1rem 1.1rem; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-soft); }
+    .result-banner.pass { border-left: 5px solid var(--success); }
+    .result-banner.warn { border-left: 5px solid var(--warning); }
+    .result-banner.fail { border-left: 5px solid var(--danger); }
+
+    .decision-path { display: grid; grid-template-columns: repeat(4, 1fr); gap: .55rem; margin: 1rem 0; }
+    .decision-path span { padding: .65rem; border-radius: 8px; text-align: center; border: 1px solid var(--line); background: var(--surface-soft); font-size: .85rem; }
+
+    .plot-shell { padding: .75rem; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-soft); }
+    svg.plot { display: block; width: 100%; height: auto; min-height: 280px; }
+    .axis { stroke: var(--muted); stroke-width: 1; }
+    .gridline { stroke: var(--line); stroke-width: 1; }
+    .plot-label { fill: var(--ink-soft); font-size: 12px; font-family: system-ui, sans-serif; }
+    .line-a { stroke: var(--teal); fill: none; stroke-width: 4; }
+    .line-b { stroke: var(--amber); fill: none; stroke-width: 4; }
+    .point-a { fill: var(--teal); }
+    .point-b { fill: var(--amber); }
+
+    .tabs { display: flex; flex-wrap: wrap; gap: .4rem; border-bottom: 1px solid var(--line); margin-bottom: 1rem; }
+    .tab-button { border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--muted); padding: .7rem .85rem; cursor: pointer; font-weight: 750; }
+    .tab-button[aria-selected="true"] { color: var(--teal-dark); border-bottom-color: var(--teal); }
+    .tab-panel[hidden] { display: none; }
+    .excel-grid { display: grid; grid-template-columns: repeat(4, minmax(78px, 1fr)); gap: 2px; max-width: 650px; padding: 3px; background: #9aa7b5; border-radius: 5px; overflow: hidden; font-size: .82rem; }
+    .excel-cell { min-height: 34px; padding: .4rem; background: var(--surface); color: var(--ink); }
+    .excel-cell.head { background: #dcefe8; color: #163629; font-weight: 800; }
+    html[data-theme="dark"] .excel-cell.head { background: #21443b; color: #e8fff6; }
+    .steps { counter-reset: procedure; list-style: none; padding: 0; }
+    .steps li { counter-increment: procedure; position: relative; padding: .2rem 0 1rem 3rem; }
+    .steps li::before { content: counter(procedure); position: absolute; left: 0; top: .05rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 800; }
+
+    details { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); margin: .65rem 0; }
+    details > summary { cursor: pointer; padding: .85rem 1rem; font-weight: 800; color: var(--ink); }
+    details > .details-body { padding: 0 1rem 1rem; }
+    details[open] > summary { color: var(--teal-dark); }
+
+    .quiz-question { margin: 1rem 0; padding: 1rem; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+    .quiz-question.correct { border-left: 5px solid var(--success); }
+    .quiz-question.incorrect { border-left: 5px solid var(--danger); }
+    .option { display: flex; align-items: flex-start; gap: .55rem; padding: .45rem .3rem; }
+    .option input { margin-top: .35rem; }
+    .feedback { margin-top: .65rem; padding: .7rem .8rem; border-radius: 8px; background: var(--surface-soft); }
+    .mastery-question { border-left: 4px solid var(--teal); }
+    .answer-key { border-top: 1px dashed var(--line); margin-top: 1rem; padding-top: 1rem; }
+    .marking { background: var(--surface-soft); padding: .8rem 1rem; border-radius: 9px; }
+
+    .mistake-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; }
+    .mistake { padding: 1rem; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); }
+    .mistake .type { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 800; color: var(--danger); }
+
+    .lesson-footer { margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--line); color: var(--muted); }
+    .references li { margin: .45rem 0; }
+
+    @media (max-width: 940px) {
+      .lesson-toc ol { columns: 2; }
+      .hierarchy { grid-template-columns: repeat(2, 1fr); }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 720px) {
+      .grid-2, .grid-3, .control-grid, .mistake-grid { grid-template-columns: 1fr; }
+      .lesson-toc ol { columns: 1; }
+      .decision-path { grid-template-columns: 1fr 1fr; }
+      .hierarchy { grid-template-columns: 1fr; }
+      .header-actions .back-link { display: none; }
+      main#lesson-content { padding-inline: .85rem; }
+    }
+    @media (max-width: 460px) {
+      .grid-4 { grid-template-columns: 1fr; }
+      .button-row .button { width: 100%; }
+      .decision-path { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+    @media print {
+      header.site, .mobile-nav, .theme-control, .button-row, .tabs { display: none !important; }
+      body { background: #fff; color: #000; }
+      .panel, .tool, .formula-box, .callout, details { box-shadow: none; break-inside: avoid; }
+      details > .details-body { display: block !important; }
+    }
+  </style>
+
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+</head>
+<body data-lesson-page="true" data-category="statistics" data-level="intermediate" data-interactive="true">
+  <a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+
+  <!-- SITE INTEGRATION: Header -->
+  <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+  <header class="site lesson-sitebar">
+    <a class="brand" href="/">
+      <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
+      <span>UpSkill Sprint Consulting</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/start-here">Start Here</a>
+      <a href="/lessons" aria-current="page">Lessons</a>
+      <a href="/engineering-tools">Engineering Tools</a>
+      <a href="/services">Services</a>
+      <a href="/request-topic">Request a Topic</a>
+      <a href="/about">About</a>
+      <a href="/faq">FAQ</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a class="back-link" href="/lessons#statistics">Back to Statistics</a>
+      <div class="theme-control" aria-label="Colour theme">
+        <svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        <button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button>
+        <svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </div>
+    </div>
+  </header>
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="/start-here">Start Here</a>
+    <a href="/lessons" aria-current="page">Lessons</a>
+    <a href="/engineering-tools">Engineering Tools</a>
+    <a href="/services">Services</a>
+    <a href="/request-topic">Request a Topic</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+    <a href="/contact">Contact</a>
+    <a href="/lessons#statistics">Back to Statistics</a>
+  </nav>
+
+  <main id="lesson-content">
+    <article class="lesson-wrapper">
+      <!-- EDIT: Hero -->
+      <div class="lesson-hero">
+        <p class="eyebrow">Statistics · Intermediate · 90–110 minutes · Interactive</p>
+        <h1>ANOVA Analysis: The Complete One-Stop Masterclass</h1>
+        <div class="meta-row">
+          <span class="pill accent">Statistics</span>
+          <span class="pill">One-way to MANCOVA</span>
+          <span class="pill">Excel + Minitab</span>
+          <span class="pill">Calculators + practice</span>
+        </div>
+        <p class="lesson-lede">Learn how to choose the correct ANOVA-family method, calculate and interpret the F-test, verify assumptions, investigate interactions, perform post-hoc comparisons, report effect size, and avoid the mistakes that make otherwise polished analyses invalid.</p>
+        <p class="why"><strong>Why this matters:</strong> ANOVA is not just one test. It is a family of general linear models used across engineering, quality, operations, healthcare and business to separate real factor effects from ordinary process noise.</p>
+      </div>
+
+      <nav class="lesson-toc" aria-label="Lesson contents">
+        <h2>In this one-stop lesson</h2>
+        <ol>
+          <li><a href="#learning-objectives">Learning objectives</a></li>
+          <li><a href="#key-concepts">ANOVA in plain English</a></li>
+          <li><a href="#method-selector">Interactive method selector</a></li>
+          <li><a href="#anova-family">The ANOVA family</a></li>
+          <li><a href="#core-math">Core mathematics</a></li>
+          <li><a href="#assumptions">Assumptions and diagnostics</a></li>
+          <li><a href="#worked-example">Worked one-way example</a></li>
+          <li><a href="#calculator">Interactive ANOVA calculator</a></li>
+          <li><a href="#posthoc">Post-hoc tests and effect size</a></li>
+          <li><a href="#interaction">Interactive two-way ANOVA</a></li>
+          <li><a href="#advanced-family">ANCOVA, MANOVA and MANCOVA</a></li>
+          <li><a href="#excel">Excel Analysis ToolPak</a></li>
+          <li><a href="#minitab">Minitab workflow</a></li>
+          <li><a href="#interpretation">Interpretation guide</a></li>
+          <li><a href="#mistakes">Common mistakes and exam traps</a></li>
+          <li><a href="#practice">Practice activity</a></li>
+          <li><a href="#mastery-bank">15-question study guide</a></li>
+          <li><a href="#quiz">Five-question quiz</a></li>
+          <li><a href="#summary">Final summary</a></li>
+        </ol>
+      </nav>
+
+      <section id="learning-objectives" aria-labelledby="objectives-h">
+        <p class="section-kicker">Learning objectives</p>
+        <h2 id="objectives-h">By the end, you should be able to</h2>
+        <ul>
+          <li><strong>Select</strong> the correct ANOVA-family procedure from the number and type of factors, outcomes, covariates and repeated observations.</li>
+          <li><strong>Calculate</strong> a one-way ANOVA table from raw data and explain every sum of squares, degree of freedom, mean square and F-ratio.</li>
+          <li><strong>Diagnose</strong> independence, normality, equal-variance, outlier, sphericity and covariance assumptions.</li>
+          <li><strong>Interpret</strong> p-values, confidence intervals, main effects, interactions, post-hoc comparisons and practical effect sizes.</li>
+          <li><strong>Use</strong> all three ANOVA tools in Excel's Analysis ToolPak and understand where Excel stops.</li>
+          <li><strong>Apply</strong> Minitab workflows for one-way, factorial, repeated-measures, mixed-effects, MANOVA and covariate-adjusted models.</li>
+          <li><strong>Report</strong> a defensible conclusion that separates statistical significance from practical importance.</li>
+        </ul>
+        <div class="callout tip"><strong>Prerequisites:</strong> averages, variance, standard deviation, basic hypothesis testing and the meaning of a p-value. The lesson reviews the required concepts before using them.</div>
+      </section>
+
+      <section id="key-concepts" aria-labelledby="concepts-h">
+        <p class="section-kicker">Concept in plain English</p>
+        <h2 id="concepts-h">ANOVA asks whether signal is large relative to noise</h2>
+        <p class="section-intro">Suppose three rolling practices produce different average yield strengths. Some difference is expected just from ordinary measurement and process variation. ANOVA decides whether the separation among the group means is too large to explain as ordinary within-group noise.</p>
+        <div class="grid-3">
+          <div class="panel"><h3>What it is</h3><p>A hypothesis-testing framework that partitions observed variation into interpretable sources and compares their mean squares.</p></div>
+          <div class="panel"><h3>What it answers</h3><p>“Is there evidence that at least one population mean differs?” In factorial models, it also asks which factors and interactions contribute.</p></div>
+          <div class="panel"><h3>What it does not answer alone</h3><p>It does not automatically identify the differing groups, prove causation, establish practical importance or rescue a weak sampling design.</p></div>
+        </div>
+
+        <div class="formula-box" style="margin-top:1rem">
+          <div class="equation" aria-label="F equals between-group variation divided by within-group variation">
+            <span>F</span><span>=</span><span class="frac"><span>between-group variation</span><span>within-group variation</span></span>
+          </div>
+          <p><strong>Interpretation:</strong> if the groups are truly alike, both parts estimate the same error variance and F tends to be near 1. A large F means the group separation is large relative to noise.</p>
+        </div>
+
+        <h3 style="margin-top:1.8rem">Key terminology</h3>
+        <div class="table-scroll">
+          <table>
+            <caption>The vocabulary behind every ANOVA output</caption>
+            <thead><tr><th>Term</th><th>Plain meaning</th><th>Technical meaning</th><th>Practical interpretation</th></tr></thead>
+            <tbody>
+              <tr><td>Factor</td><td>A grouping or explanatory variable</td><td>A categorical predictor with two or more levels</td><td>Furnace, supplier, shift, treatment or teaching method</td></tr>
+              <tr><td>Level</td><td>A category within a factor</td><td>A distinct setting or group represented by the factor</td><td>Supplier A, B and C are three levels</td></tr>
+              <tr><td>Response / DV</td><td>The measured result</td><td>A continuous dependent variable in standard ANOVA</td><td>Strength, cycle time, yield or exam score</td></tr>
+              <tr><td>Treatment</td><td>A specific experimental condition</td><td>A factor level or combination of factor levels</td><td>High temperature + slow cooling</td></tr>
+              <tr><td>Main effect</td><td>The average effect of one factor</td><td>Change in marginal means across factor levels</td><td>Temperature matters after averaging over line speed</td></tr>
+              <tr><td>Interaction</td><td>One factor changes how another factor works</td><td>The joint A×B effect is not additive</td><td>A cooling practice works on Grade X but not Grade Y</td></tr>
+              <tr><td>Residual</td><td>The part the model did not explain</td><td>Observed value minus fitted value</td><td>Residuals should look random, stable and approximately normal</td></tr>
+              <tr><td>Omnibus test</td><td>One overall test across groups</td><td>Tests the global null that all relevant means/effects are zero</td><td>A significant result triggers targeted follow-up analysis</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="method-selector" aria-labelledby="selector-h">
+        <p class="section-kicker">Interactive decision support</p>
+        <h2 id="selector-h">Choose the right ANOVA-family method</h2>
+        <p class="section-intro">Method selection starts with the design—not with the software menu. Describe your study below.</p>
+        <div class="tool">
+          <div class="control-grid">
+            <div class="field"><label for="sel-dv">How many continuous outcomes?</label><select id="sel-dv"><option value="1">One outcome</option><option value="2">Two or more correlated outcomes</option></select></div>
+            <div class="field"><label for="sel-factors">How many categorical factors?</label><select id="sel-factors"><option value="1">One factor</option><option value="2">Two factors</option><option value="3">Three or more factors</option></select></div>
+            <div class="field"><label for="sel-repeated">Are the same subjects/units measured repeatedly?</label><select id="sel-repeated"><option value="no">No—independent groups</option><option value="yes">Yes—repeated or matched observations</option></select></div>
+            <div class="field"><label for="sel-cov">Do you need to control continuous covariates?</label><select id="sel-cov"><option value="no">No</option><option value="yes">Yes</option></select></div>
+            <div class="field"><label for="sel-var">For a one-factor independent design, are variances approximately equal?</label><select id="sel-var"><option value="yes">Yes / not seriously unequal</option><option value="no">No / clearly unequal</option></select></div>
+            <div class="field"><label for="sel-random">Are any factors random samples from a wider population?</label><select id="sel-random"><option value="no">No—fixed factors</option><option value="yes">Yes—random or mixed factors</option></select></div>
+          </div>
+          <div class="decision-path" aria-hidden="true"><span>Design</span><span>Outcome structure</span><span>Error structure</span><span>Recommended model</span></div>
+          <div id="selector-result" class="result-banner pass" role="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="anova-family" aria-labelledby="family-h">
+        <p class="section-kicker">The complete family</p>
+        <h2 id="family-h">The five-method hierarchy—and the wider ANOVA atlas</h2>
+        <p>Each method adds one capability to the one before it.</p>
+        <div class="hierarchy">
+          <div class="hierarchy-card"><span class="chip one">Baseline</span><h3>One-way ANOVA</h3><p>1 categorical IV · 1 continuous DV.</p><small>Tests whether any group means differ.</small></div>
+          <div class="hierarchy-card"><span class="chip two">Adds a factor</span><h3>Two-way ANOVA</h3><p>2 categorical IVs · 1 DV.</p><small>Tests main effects A and B plus A×B interaction.</small></div>
+          <div class="hierarchy-card"><span class="chip cov">Adds covariate(s)</span><h3>ANCOVA</h3><p>1+ categorical IVs · 1 DV · 1+ continuous covariates.</p><small>Adjusts group means and may reduce error variance.</small></div>
+          <div class="hierarchy-card"><span class="chip multi">Adds outcomes</span><h3>MANOVA</h3><p>1+ categorical IVs · 2+ correlated DVs.</p><small>Tests the multivariate outcome pattern jointly.</small></div>
+          <div class="hierarchy-card"><span class="chip cov">Full model</span><h3>MANCOVA</h3><p>1+ IVs · 2+ DVs · 1+ covariates.</p><small>Combines multivariate testing with covariate control.</small></div>
+        </div>
+
+        <div class="table-scroll" style="margin-top:1.2rem">
+          <table>
+            <caption>ANOVA variants: design, question and best use</caption>
+            <thead><tr><th>Variant</th><th>Design</th><th>Use it when</th><th>Special issue</th><th>Typical alternative</th></tr></thead>
+            <tbody>
+              <tr><td>One-way between-subjects</td><td>1 factor, independent groups</td><td>Comparing 2+ group means</td><td>Equal variances for classical F</td><td>Welch or Kruskal–Wallis</td></tr>
+              <tr><td>Welch one-way ANOVA</td><td>1 factor, independent groups</td><td>Variances and/or sample sizes are unequal</td><td>Uses adjusted degrees of freedom</td><td>Games–Howell follow-up</td></tr>
+              <tr><td>Two-way factorial</td><td>2 crossed factors, replication</td><td>Testing two main effects and interaction</td><td>Interpret interaction first</td><td>General linear model</td></tr>
+              <tr><td>N-way factorial</td><td>3+ crossed factors</td><td>Studying several factors efficiently</td><td>Higher-order interactions become difficult</td><td>GLM / designed experiment</td></tr>
+              <tr><td>Randomized block ANOVA</td><td>Treatment + nuisance block</td><td>Removing known block-to-block variation</td><td>Often one observation per treatment-block cell</td><td>Mixed model when blocks are random</td></tr>
+              <tr><td>Repeated-measures ANOVA</td><td>Same units at multiple conditions/times</td><td>Within-subject comparisons</td><td>Sphericity for 3+ levels</td><td>Linear mixed-effects model</td></tr>
+              <tr><td>Mixed ANOVA</td><td>Between- and within-subject factors</td><td>Groups tracked through time or condition</td><td>Correlated residual structure</td><td>Mixed-effects model</td></tr>
+              <tr><td>Nested ANOVA</td><td>Levels of B occur within A, not across A</td><td>Machines within plants, operators within shifts</td><td>Nested terms are not interactions</td><td>Variance-components model</td></tr>
+              <tr><td>Mixed-effects ANOVA</td><td>Fixed + random effects</td><td>Generalizing beyond sampled batches, machines or subjects</td><td>Correct random-effect structure</td><td>REML mixed model</td></tr>
+              <tr><td>ANCOVA</td><td>Factors + continuous covariates</td><td>Comparing adjusted means</td><td>Homogeneous regression slopes</td><td>Regression with interactions</td></tr>
+              <tr><td>MANOVA</td><td>Factors + 2+ correlated DVs</td><td>Testing a joint outcome profile</td><td>Covariance matrices and multivariate outliers</td><td>Separate ANOVAs with multiplicity control</td></tr>
+              <tr><td>MANCOVA</td><td>MANOVA + covariates</td><td>Joint outcomes after controlling confounds</td><td>Combines ANCOVA and MANOVA assumptions</td><td>Multivariate regression / SEM</td></tr>
+              <tr><td>Permutation ANOVA</td><td>Design-preserving randomization</td><td>Distributional assumptions are doubtful</td><td>Permutation scheme must match design</td><td>Robust ANOVA</td></tr>
+              <tr><td>Rank-based alternatives</td><td>Ordinal or strongly non-normal data</td><td>Means are not an appropriate target</td><td>Tests distributions/ranks, not necessarily means</td><td>Kruskal–Wallis / Friedman</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="core-math" aria-labelledby="math-h">
+        <p class="section-kicker">Core model and formula</p>
+        <h2 id="math-h">How one-way ANOVA partitions variation</h2>
+        <div class="formula-box">
+          <div class="equation"><span>Y<sub>ij</sub></span><span>=</span><span>μ</span><span>+</span><span>τ<sub>i</sub></span><span>+</span><span>ε<sub>ij</sub></span></div>
+          <dl class="symbol-grid">
+            <dt>Y<sub>ij</sub></dt><dd>Observation j in group i; measured in the response unit.</dd>
+            <dt>μ</dt><dd>Grand population mean.</dd>
+            <dt>τ<sub>i</sub></dt><dd>Effect of group i: how its mean differs from the grand mean.</dd>
+            <dt>ε<sub>ij</sub></dt><dd>Random residual error, assumed independent with mean 0 and common variance σ².</dd>
+          </dl>
+        </div>
+
+        <div class="grid-3" style="margin-top:1rem">
+          <div class="formula-box"><h3>Total variation</h3><div class="equation"><span>SS<sub>T</sub></span><span>=</span><span>ΣΣ(Y<sub>ij</sub> − Ȳ)<sup>2</sup></span></div><p>Every observation's squared distance from the grand mean.</p></div>
+          <div class="formula-box"><h3>Between groups</h3><div class="equation"><span>SS<sub>B</sub></span><span>=</span><span>Σ n<sub>i</sub>(Ȳ<sub>i</sub> − Ȳ)<sup>2</sup></span></div><p>Variation explained by group mean separation.</p></div>
+          <div class="formula-box"><h3>Within groups</h3><div class="equation"><span>SS<sub>W</sub></span><span>=</span><span>ΣΣ(Y<sub>ij</sub> − Ȳ<sub>i</sub>)<sup>2</sup></span></div><p>Unexplained variation around each group mean.</p></div>
+        </div>
+        <div class="formula-box" style="margin-top:1rem"><div class="equation"><span>SS<sub>T</sub></span><span>=</span><span>SS<sub>B</sub></span><span>+</span><span>SS<sub>W</sub></span></div></div>
+
+        <div class="table-scroll" style="margin-top:1rem">
+          <table>
+            <caption>Construction of a classical one-way ANOVA table</caption>
+            <thead><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>F</th></tr></thead>
+            <tbody>
+              <tr><td>Between groups</td><td>SS<sub>B</sub></td><td>k − 1</td><td>MS<sub>B</sub> = SS<sub>B</sub>/(k−1)</td><td rowspan="2">F = MS<sub>B</sub>/MS<sub>W</sub></td></tr>
+              <tr><td>Within groups / error</td><td>SS<sub>W</sub></td><td>N − k</td><td>MS<sub>W</sub> = SS<sub>W</sub>/(N−k)</td></tr>
+              <tr><td>Total</td><td>SS<sub>T</sub></td><td>N − 1</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout exam"><strong>Null hypothesis:</strong> H₀: μ₁ = μ₂ = … = μ<sub>k</sub>. <strong>Alternative:</strong> not all means are equal. Rejecting H₀ means at least one mean differs; it does not identify which one.</div>
+
+        <h3 style="margin-top:1.8rem">Type I, Type II and Type III sums of squares</h3>
+        <p>Balanced orthogonal designs give the same result under all three types. Differences appear mainly in unbalanced designs and models containing interactions.</p>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>SS type</th><th>What it tests</th><th>Order-dependent?</th><th>Use and caution</th></tr></thead>
+            <tbody>
+              <tr><td>Type I (sequential)</td><td>Each term after the terms entered before it</td><td>Yes</td><td>Useful for hierarchical or deliberately ordered models; dangerous when order is arbitrary.</td></tr>
+              <tr><td>Type II</td><td>Each main effect adjusted for other main effects, generally not for interactions containing it</td><td>No</td><td>Useful for additive models without meaningful interactions.</td></tr>
+              <tr><td>Type III</td><td>Each term adjusted for every other term in the model</td><td>No</td><td>Common in unbalanced factorial models; interpretation depends on coding and model hierarchy.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout warn"><strong>Never choose an SS type only because it produces a smaller p-value.</strong> State the model, coding, balance and scientific estimand. Excel's ToolPak does not offer a Type I/II/III choice; use GLM software for unbalanced complex designs.</div>
+
+        <h3 style="margin-top:1.8rem">Power and sample size</h3>
+        <p>ANOVA power increases with larger true mean separation, lower within-group standard deviation, more observations, balanced allocation and a larger α. Plan sample size using the smallest practically important mean pattern—not an optimistic pilot effect. For one-way ANOVA, Cohen's <em>f</em> is related to eta-squared by <span class="equation"><span>f</span><span>=</span><span class="frac"><span>η²</span><span>1−η²</span></span><sup>1/2</sup></span>.</p>
+      </section>
+
+      <section id="assumptions" aria-labelledby="assumptions-h">
+        <p class="section-kicker">Before trusting the p-value</p>
+        <h2 id="assumptions-h">Assumptions, diagnostics and remedies</h2>
+        <div class="table-scroll">
+          <table>
+            <caption>What to check, why it matters and what to do when it fails</caption>
+            <thead><tr><th>Assumption</th><th>How to assess it</th><th>Why it matters</th><th>Remedy</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Independence</strong></td><td>Study design, randomization, sampling sequence, subject IDs</td><td>Correlation among observations invalidates the standard error and F-test</td><td>Use repeated-measures, blocking, mixed models or time-series methods</td></tr>
+              <tr><td><strong>Residual normality</strong></td><td>Residual Q–Q plot; histogram; Shapiro–Wilk as supporting evidence</td><td>Especially important with small or highly unbalanced groups</td><td>Investigate data errors/outliers; transform; robust or permutation method</td></tr>
+              <tr><td><strong>Equal variances</strong></td><td>Residuals versus fits; group SDs; Levene or Brown–Forsythe test</td><td>Classical pooled MSE can be misleading when imbalance and heteroscedasticity combine</td><td>Welch ANOVA; Games–Howell; transformation; robust model</td></tr>
+              <tr><td><strong>No influential outliers</strong></td><td>Boxplots, standardized residuals, leverage and influence</td><td>Squared deviations make ANOVA sensitive to extreme points</td><td>Correct errors; investigate special causes; justify robust sensitivity analysis</td></tr>
+              <tr><td><strong>Sphericity</strong> (repeated measures)</td><td>Mauchly's test plus covariance inspection</td><td>Standard univariate repeated-measures F-tests assume equal variances of pairwise differences</td><td>Greenhouse–Geisser/Huynh–Feldt correction or mixed model</td></tr>
+              <tr><td><strong>Homogeneous regression slopes</strong> (ANCOVA)</td><td>Preliminary Factor×Covariate interaction</td><td>A single adjusted group difference is misleading when slopes differ</td><td>Model the interaction or report group-specific slopes</td></tr>
+              <tr><td><strong>Equal covariance matrices</strong> (MANOVA/MANCOVA)</td><td>Box's M with graphical/robust judgment</td><td>Multivariate test behavior depends on group covariance structure</td><td>Prefer Pillai's trace; robust analysis; reconsider outcomes/model</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout warn"><strong>Do not use assumption tests mechanically.</strong> A large sample can make a trivial departure “significant,” while a small sample can miss a serious departure. Combine design knowledge, residual plots, group sizes and sensitivity analyses.</div>
+      </section>
+
+      <section id="worked-example" aria-labelledby="worked-h">
+        <p class="section-kicker">Worked example</p>
+        <h2 id="worked-h">Does cooling strategy change yield strength?</h2>
+        <p>An engineer compares three cooling strategies using five independently produced coils per strategy. The response is yield strength in MPa.</p>
+        <div class="table-scroll">
+          <table style="min-width:520px">
+            <thead><tr><th>Coil</th><th>Standard</th><th>Moderate</th><th>Intensive</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>472</td><td>490</td><td>508</td></tr>
+              <tr><td>2</td><td>478</td><td>495</td><td>512</td></tr>
+              <tr><td>3</td><td>475</td><td>488</td><td>505</td></tr>
+              <tr><td>4</td><td>469</td><td>492</td><td>510</td></tr>
+              <tr><td>5</td><td>476</td><td>497</td><td>515</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ol class="steps">
+          <li><strong>State the hypotheses.</strong> H₀: μ<sub>Standard</sub> = μ<sub>Moderate</sub> = μ<sub>Intensive</sub>. H₁: at least one differs.</li>
+          <li><strong>Compute group means.</strong> Standard = 474.0 MPa; Moderate = 492.4 MPa; Intensive = 510.0 MPa. Grand mean = 492.13 MPa.</li>
+          <li><strong>Compute between-group SS.</strong> 5(474−492.13)² + 5(492.4−492.13)² + 5(510−492.13)² = 3240.53.</li>
+          <li><strong>Compute within-group SS.</strong> Sum the squared deviations from each group mean: 50.0 + 53.2 + 58.0 = 161.2.</li>
+          <li><strong>Check the identity.</strong> SS<sub>Total</sub> = 3401.73 = 3240.53 + 161.20.</li>
+          <li><strong>Convert SS to MS.</strong> df<sub>B</sub> = 2, df<sub>W</sub> = 12. MS<sub>B</sub> = 1620.27; MS<sub>W</sub> = 13.43.</li>
+          <li><strong>Calculate F.</strong> F = 1620.27 / 13.43 = 120.62.</li>
+          <li><strong>Decide and interpret.</strong> p is far below 0.05, so reject H₀. Cooling strategy is associated with yield strength. Follow with multiplicity-controlled comparisons and effect size.</li>
+        </ol>
+        <div class="callout tip"><strong>Practical reading:</strong> the means increase by about 18 MPa at each step, while within-strategy standard deviations are only about 3–4 MPa. The signal is large relative to noise.</div>
+      </section>
+
+      <section id="calculator" aria-labelledby="calc-h">
+        <p class="section-kicker">Interactive calculator</p>
+        <h2 id="calc-h">Run classical or Welch one-way ANOVA</h2>
+        <p class="section-intro">Enter one group per line using <code>Group name: value, value, value</code>. The calculator produces group statistics, the ANOVA table, effect sizes, a variance diagnostic and Bonferroni-adjusted pairwise comparisons.</p>
+        <div class="tool">
+          <div class="grid-2">
+            <div>
+              <div class="field"><label for="anova-data">Grouped data</label><textarea id="anova-data" spellcheck="false">Standard: 472, 478, 475, 469, 476
+Moderate: 490, 495, 488, 492, 497
+Intensive: 508, 512, 505, 510, 515</textarea></div>
+              <fieldset style="margin-top:.75rem"><legend>Analysis method</legend><div class="radio-row"><label><input type="radio" name="anova-method" value="classic" checked> Classical equal-variance ANOVA</label><label><input type="radio" name="anova-method" value="welch"> Welch ANOVA</label></div></fieldset>
+              <div class="field" style="margin-top:.75rem"><label for="alpha">Significance level α</label><input id="alpha" type="number" min="0.001" max="0.20" step="0.001" value="0.05"></div>
+              <div class="button-row" style="margin-top:1rem"><button class="button" type="button" id="run-anova">Run analysis</button><button class="button secondary" type="button" id="load-close">Load close-means example</button><button class="button ghost" type="button" id="reset-anova">Reset</button></div>
+              <p id="anova-status" class="status" role="status" aria-live="polite"></p>
+            </div>
+            <div>
+              <div id="anova-conclusion" class="result-banner pass" aria-live="polite"></div>
+              <div class="grid-4" style="margin-top:.8rem">
+                <div class="stat-card"><span class="label">F</span><span id="out-f" class="value">—</span></div>
+                <div class="stat-card"><span class="label">p-value</span><span id="out-p" class="value">—</span></div>
+                <div class="stat-card"><span class="label">η²</span><span id="out-eta" class="value">—</span></div>
+                <div class="stat-card"><span class="label">ω²</span><span id="out-omega" class="value">—</span></div>
+              </div>
+              <div class="plot-shell" style="margin-top:.8rem">
+                <svg id="anova-plot" class="plot" viewBox="0 0 620 310" role="img" aria-labelledby="anova-plot-title anova-plot-desc">
+                  <title id="anova-plot-title">Group observations and means</title>
+                  <desc id="anova-plot-desc">Dot plot showing each entered group and its mean.</desc>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div id="group-stats-wrap" class="table-scroll" style="margin-top:1rem"></div>
+          <div id="anova-table-wrap" class="table-scroll" style="margin-top:1rem"></div>
+          <div id="pairwise-wrap" class="table-scroll" style="margin-top:1rem"></div>
+          <div id="anova-diagnostic" class="callout warn" style="margin-top:1rem"></div>
+        </div>
+      </section>
+
+      <section id="posthoc" aria-labelledby="posthoc-h">
+        <p class="section-kicker">After the omnibus test</p>
+        <h2 id="posthoc-h">Post-hoc comparisons, contrasts and effect size</h2>
+        <div class="grid-2">
+          <div class="panel"><h3>Which groups differ?</h3><p>A significant omnibus ANOVA says at least one difference exists. Use a follow-up method chosen before looking at the result.</p><ul><li><strong>Tukey HSD:</strong> all pairwise comparisons under equal variances.</li><li><strong>Games–Howell:</strong> pairwise comparisons when variances/sample sizes differ.</li><li><strong>Dunnett:</strong> every treatment against one control.</li><li><strong>Bonferroni/Holm:</strong> a limited, planned family of comparisons.</li><li><strong>Planned contrasts:</strong> theory-driven comparisons that can be more powerful.</li></ul></div>
+          <div class="panel"><h3>How large is the effect?</h3><p>Statistical significance depends on sample size. Effect size expresses practical magnitude.</p><div class="formula-box"><div class="equation"><span>η²</span><span>=</span><span class="frac"><span>SS<sub>B</sub></span><span>SS<sub>T</sub></span></span></div></div><div class="formula-box" style="margin-top:.6rem"><div class="equation"><span>ω²</span><span>=</span><span class="frac"><span>SS<sub>B</sub> − (k−1)MS<sub>W</sub></span><span>SS<sub>T</sub> + MS<sub>W</sub></span></span></div></div><p class="small muted">ω² is less biased than η² in small samples. Context-specific importance matters more than universal thresholds.</p></div>
+        </div>
+        <div class="callout exam"><strong>Exam rule:</strong> p &lt; α tells you evidence exists; the confidence interval tells you plausible differences; effect size tells you magnitude; process knowledge tells you whether the magnitude matters.</div>
+      </section>
+
+      <section id="interaction" aria-labelledby="interaction-h">
+        <p class="section-kicker">Interactive two-way ANOVA</p>
+        <h2 id="interaction-h">See an interaction before you calculate it</h2>
+        <p>Change the four cell means. Parallel lines indicate little or no interaction. Non-parallel or crossing lines indicate that the effect of factor A depends on factor B.</p>
+        <div class="tool">
+          <div class="grid-2">
+            <div>
+              <h3>Cell means</h3>
+              <div class="field"><label for="a1b1">A1 at B1: <output id="o-a1b1">60</output></label><input id="a1b1" type="range" min="20" max="100" value="60"></div>
+              <div class="field"><label for="a2b1">A2 at B1: <output id="o-a2b1">75</output></label><input id="a2b1" type="range" min="20" max="100" value="75"></div>
+              <div class="field"><label for="a1b2">A1 at B2: <output id="o-a1b2">68</output></label><input id="a1b2" type="range" min="20" max="100" value="68"></div>
+              <div class="field"><label for="a2b2">A2 at B2: <output id="o-a2b2">83</output></label><input id="a2b2" type="range" min="20" max="100" value="83"></div>
+              <div class="button-row" style="margin-top:.8rem"><button type="button" class="button secondary interaction-preset" data-preset="parallel">No interaction</button><button type="button" class="button secondary interaction-preset" data-preset="cross">Crossover</button><button type="button" class="button secondary interaction-preset" data-preset="fan">Fan-shaped</button></div>
+            </div>
+            <div class="plot-shell">
+              <svg id="interaction-plot" class="plot" viewBox="0 0 620 350" role="img" aria-labelledby="interaction-title interaction-desc"><title id="interaction-title">Interaction plot</title><desc id="interaction-desc">Lines compare factor A levels across factor B levels.</desc></svg>
+            </div>
+          </div>
+          <div class="grid-4" style="margin-top:1rem">
+            <div class="stat-card"><span class="label">A main difference</span><span id="main-a" class="value">15.0</span></div>
+            <div class="stat-card"><span class="label">B main difference</span><span id="main-b" class="value">8.0</span></div>
+            <div class="stat-card"><span class="label">Difference-in-differences</span><span id="did" class="value">0.0</span></div>
+            <div class="stat-card"><span class="label">Pattern</span><span id="interaction-label" class="value" style="font-size:1rem">Parallel</span></div>
+          </div>
+          <div id="interaction-explanation" class="result-banner pass" style="margin-top:1rem" aria-live="polite"></div>
+        </div>
+        <div class="callout danger"><strong>Interpret interactions before main effects.</strong> Averages can hide opposite effects. If a treatment improves the response under one condition but worsens it under another, the averaged main effect can be near zero even though the operational conclusion is critical.</div>
+      </section>
+
+      <section id="advanced-family" aria-labelledby="advanced-h">
+        <p class="section-kicker">Advanced extensions</p>
+        <h2 id="advanced-h">ANCOVA, MANOVA and MANCOVA</h2>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Method</th><th>Adds</th><th>Core question</th><th>Key output</th><th>Extra assumption</th></tr></thead>
+            <tbody>
+              <tr><td>ANCOVA</td><td>Continuous covariate(s)</td><td>Do adjusted group means differ after controlling X?</td><td>Adjusted F-tests and adjusted means</td><td>Homogeneity of regression slopes</td></tr>
+              <tr><td>MANOVA</td><td>Multiple correlated DVs</td><td>Do groups differ on the joint response profile?</td><td>Pillai, Wilks, Hotelling–Lawley, Roy</td><td>Multivariate normality and covariance structure</td></tr>
+              <tr><td>MANCOVA</td><td>Covariates to MANOVA</td><td>Do adjusted multivariate profiles differ?</td><td>Adjusted multivariate tests</td><td>Both ANCOVA- and MANOVA-specific conditions</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid-3" style="margin-top:1rem">
+          <div class="panel"><h3>ANCOVA model</h3><div class="formula-box"><div class="equation"><span>Y</span><span>=</span><span>μ + τ<sub>group</sub> + βX + ε</span></div></div><p>It compares groups at a common covariate value. First test Group×X. If slopes differ, a single adjusted mean comparison is not adequate.</p></div>
+          <div class="panel"><h3>MANOVA's four statistics</h3><ul><li><strong>Pillai's trace:</strong> generally the most robust choice.</li><li><strong>Wilks' Λ:</strong> commonly reported; smaller values indicate greater separation.</li><li><strong>Hotelling–Lawley trace:</strong> useful under well-behaved assumptions.</li><li><strong>Roy's largest root:</strong> focuses on the dominant multivariate dimension and is sensitive.</li></ul></div>
+          <div class="panel"><h3>MANCOVA = full model</h3><p>Example: compare three therapy types on anxiety and depression while controlling age and baseline severity. It tests the outcomes jointly and partials out covariate-related variation.</p></div>
+        </div>
+        <div class="callout warn"><strong>Important nuance:</strong> MANOVA does not replace subject-matter judgment. DVs should be conceptually related and meaningfully correlated, but not near-duplicates. A significant multivariate result still requires planned univariate and/or discriminant follow-up with multiplicity control.</div>
+      </section>
+
+      <section id="excel" aria-labelledby="excel-h">
+        <p class="section-kicker">Software guidance</p>
+        <h2 id="excel-h">All ANOVA variants in Excel's Analysis ToolPak</h2>
+        <p>Excel's built-in ToolPak contains exactly three ANOVA procedures. Select the tab for the layout and workflow.</p>
+        <div class="tool">
+          <div class="tabs" role="tablist" aria-label="Excel ANOVA procedures">
+            <button type="button" class="tab-button" id="tab-single" role="tab" aria-selected="true" aria-controls="panel-single">Single Factor</button>
+            <button type="button" class="tab-button" id="tab-rep" role="tab" aria-selected="false" aria-controls="panel-rep">Two-Factor With Replication</button>
+            <button type="button" class="tab-button" id="tab-norep" role="tab" aria-selected="false" aria-controls="panel-norep">Two-Factor Without Replication</button>
+          </div>
+
+          <div id="panel-single" class="tab-panel" role="tabpanel" aria-labelledby="tab-single">
+            <div class="grid-2"><div><h3>ANOVA: Single Factor</h3><p><strong>Use for:</strong> one categorical factor, two or more independent groups and one continuous response.</p><div class="excel-grid" aria-label="Single factor Excel layout"><div class="excel-cell head">Standard</div><div class="excel-cell head">Moderate</div><div class="excel-cell head">Intensive</div><div class="excel-cell head">Notes</div><div class="excel-cell">472</div><div class="excel-cell">490</div><div class="excel-cell">508</div><div class="excel-cell">One group per column</div><div class="excel-cell">478</div><div class="excel-cell">495</div><div class="excel-cell">512</div><div class="excel-cell">Unequal n allowed</div><div class="excel-cell">475</div><div class="excel-cell">488</div><div class="excel-cell">505</div><div class="excel-cell">Include labels</div></div></div><div><ol class="steps"><li>Enable ToolPak: <strong>File → Options → Add-ins → Manage Excel Add-ins → Go → Analysis ToolPak</strong>.</li><li>Arrange one group per column with a header.</li><li>Select <strong>Data → Data Analysis → ANOVA: Single Factor</strong>.</li><li>Select the input range; choose <strong>Grouped By: Columns</strong>; check <strong>Labels in first row</strong>.</li><li>Set α, choose an output location, and select OK.</li><li>Read <strong>F</strong>, <strong>P-value</strong> and <strong>F crit</strong>. Use p &lt; α or equivalently F &gt; F crit.</li></ol></div></div>
+          </div>
+
+          <div id="panel-rep" class="tab-panel" role="tabpanel" aria-labelledby="tab-rep" hidden>
+            <div class="grid-2"><div><h3>ANOVA: Two-Factor With Replication</h3><p><strong>Use for:</strong> two crossed categorical factors with the same number of replicate observations in every factor combination.</p><div class="excel-grid" aria-label="Two-factor with replication Excel layout"><div class="excel-cell head">Cooling</div><div class="excel-cell head">Grade X</div><div class="excel-cell head">Grade Y</div><div class="excel-cell head">Rows/sample</div><div class="excel-cell">Standard</div><div class="excel-cell">472</div><div class="excel-cell">485</div><div class="excel-cell">3</div><div class="excel-cell"></div><div class="excel-cell">478</div><div class="excel-cell">487</div><div class="excel-cell"></div><div class="excel-cell"></div><div class="excel-cell">475</div><div class="excel-cell">482</div><div class="excel-cell"></div><div class="excel-cell">Intensive</div><div class="excel-cell">508</div><div class="excel-cell">510</div><div class="excel-cell">3</div></div></div><div><ol class="steps"><li>Arrange factor B levels in columns and stack equal replicate rows within each level of factor A.</li><li>Select <strong>Data → Data Analysis → ANOVA: Two-Factor With Replication</strong>.</li><li>Select the full range, including both row and column labels.</li><li>Enter <strong>Rows per sample</strong>: the number of replicate rows per A level.</li><li>Set α and output location.</li><li>Interpret <strong>Sample</strong> (row factor), <strong>Columns</strong> (column factor), and <strong>Interaction</strong>.</li></ol><div class="callout danger"><strong>Critical:</strong> Excel requires a balanced layout. Do not fill missing cells with zero; zero is data, not missingness.</div></div></div>
+          </div>
+
+          <div id="panel-norep" class="tab-panel" role="tabpanel" aria-labelledby="tab-norep" hidden>
+            <div class="grid-2"><div><h3>ANOVA: Two-Factor Without Replication</h3><p><strong>Use for:</strong> a randomized-block/additive design with one observation in each row-column combination.</p><div class="excel-grid" aria-label="Two-factor without replication Excel layout"><div class="excel-cell head">Batch</div><div class="excel-cell head">Method A</div><div class="excel-cell head">Method B</div><div class="excel-cell head">Method C</div><div class="excel-cell">Batch 1</div><div class="excel-cell">72</div><div class="excel-cell">75</div><div class="excel-cell">77</div><div class="excel-cell">Batch 2</div><div class="excel-cell">70</div><div class="excel-cell">74</div><div class="excel-cell">76</div><div class="excel-cell">Batch 3</div><div class="excel-cell">73</div><div class="excel-cell">76</div><div class="excel-cell">78</div></div></div><div><ol class="steps"><li>Put one blocking level per row and one treatment level per column.</li><li>Select <strong>Data → Data Analysis → ANOVA: Two-Factor Without Replication</strong>.</li><li>Select the full rectangular range and check labels.</li><li>Set α and output location.</li><li>Interpret <strong>Rows</strong> as the block effect and <strong>Columns</strong> as the treatment effect.</li><li>Document that interaction cannot be estimated separately because there is no replication.</li></ol><div class="callout warn"><strong>Not a general two-way interaction test:</strong> the row×column interaction is confounded with error. Use “with replication” or a GLM when interaction is substantively important.</div></div></div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:1.8rem">How to read Excel's output</h3>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Excel field</th><th>Meaning</th><th>Decision</th><th>Common mistake</th></tr></thead>
+            <tbody>
+              <tr><td>Count, Sum, Average, Variance</td><td>Descriptive summary by group</td><td>Check n, mean pattern and variance imbalance first</td><td>Jumping straight to the p-value</td></tr>
+              <tr><td>SS</td><td>Variation attributed to each source</td><td>Used to create MS and effect size</td><td>Interpreting raw SS without df</td></tr>
+              <tr><td>df</td><td>Independent information for each source</td><td>Defines the reference F distribution</td><td>Using total N where N−k is needed</td></tr>
+              <tr><td>MS</td><td>SS divided by its df</td><td>Comparable variance estimate</td><td>Calling MS a standard deviation</td></tr>
+              <tr><td>F</td><td>Effect MS divided by error MS</td><td>Large values argue against H₀</td><td>Assuming any F&gt;1 is significant</td></tr>
+              <tr><td>P-value</td><td>Right-tail probability under H₀</td><td>Reject H₀ when p&lt;α</td><td>Saying p is the probability H₀ is true</td></tr>
+              <tr><td>F crit</td><td>Critical F at α</td><td>Equivalent rule: reject if F&gt;F crit</td><td>Comparing p-value to F crit</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid-2" style="margin-top:1rem">
+          <div class="panel"><h3>Useful Excel functions</h3><ul><li><code>=F.DIST.RT(F, df1, df2)</code> returns the right-tail p-value.</li><li><code>=F.INV.RT(alpha, df1, df2)</code> returns F critical.</li><li><code>=AVERAGE(range)</code>, <code>=VAR.S(range)</code>, <code>=COUNT(range)</code> support manual checks.</li><li><code>=DEVSQ(range)</code> returns the sum of squared deviations from that range's mean.</li></ul></div>
+          <div class="panel"><h3>What ToolPak does not natively provide</h3><p>Welch ANOVA, Games–Howell, repeated-measures ANOVA, mixed-effects models, nested models, ANCOVA, MANOVA, MANCOVA, Type II/III sums of squares, robust residual diagnostics and integrated post-hoc workflows.</p><p><strong>Use Minitab, R, Python, JMP, SPSS or validated specialized tooling when the design exceeds the three ToolPak layouts.</strong></p></div>
+        </div>
+      </section>
+
+      <section id="minitab" aria-labelledby="minitab-h">
+        <p class="section-kicker">Software guidance</p>
+        <h2 id="minitab-h">Minitab: choose the procedure that matches the model</h2>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Need</th><th>Minitab path</th><th>Key setup</th><th>Output to inspect</th></tr></thead>
+            <tbody>
+              <tr><td>One-way ANOVA / Welch</td><td>Stat → ANOVA → One-Way</td><td>Response data in one column + factor column, or separate columns; choose equal/not-assumed variances</td><td>Method, ANOVA/Welch table, means, residual plots, comparisons</td></tr>
+              <tr><td>Two-way, factorial, ANCOVA, crossed/nested fixed terms</td><td>Stat → ANOVA → General Linear Model → Fit General Linear Model</td><td>Response, factors, covariates, model terms and interactions</td><td>Adjusted SS/MS, term p-values, model summary, residual plots, fitted means</td></tr>
+              <tr><td>Random or mixed factors</td><td>Stat → ANOVA → Mixed Effects Model → Fit Mixed Effects Model</td><td>Specify fixed and random terms; use subject/batch structure</td><td>Variance components, fixed-effect tests, random-effect estimates, residuals</td></tr>
+              <tr><td>Repeated measures</td><td>GLM for suitable balanced designs; mixed model preferred for flexible covariance/missing data</td><td>Long format: response, subject ID and factor/time columns</td><td>Within-subject effects, interactions, residual/covariance behavior</td></tr>
+              <tr><td>MANOVA / MANCOVA</td><td>Stat → ANOVA → General MANOVA</td><td>Multiple responses, common factors, optional covariates</td><td>Pillai/Wilks/Hotelling/Roy, univariate follow-ups, residual plots</td></tr>
+              <tr><td>Power and sample size</td><td>Stat → Power and Sample Size → One-Way ANOVA</td><td>Groups, maximum mean difference, within-group SD and target power</td><td>Required sample size or achieved power</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ol class="steps" style="margin-top:1rem">
+          <li><strong>Structure data in long form</strong> whenever the design is complex: one row per observation, one response column, and separate columns for each factor, covariate and subject/block identifier.</li>
+          <li><strong>Build the model deliberately.</strong> Include scientifically plausible interactions; retain hierarchy when higher-order terms are present.</li>
+          <li><strong>Choose comparisons before seeing results.</strong> Tukey for all pairs, Dunnett versus control, Games–Howell when variances differ, or planned contrasts for targeted questions.</li>
+          <li><strong>Request residual plots.</strong> Never report only the ANOVA table.</li>
+          <li><strong>Report fitted/adjusted means and intervals</strong> when designs are unbalanced or covariates are present.</li>
+        </ol>
+      </section>
+
+      <section id="interpretation" aria-labelledby="interpret-h">
+        <p class="section-kicker">Interpretation guide</p>
+        <h2 id="interpret-h">When you see this, it means this</h2>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>When you see this</th><th>It means</th><th>Your next action</th></tr></thead>
+            <tbody>
+              <tr><td>p ≥ α</td><td>Insufficient evidence to reject equal means/effect = 0</td><td>Do not claim equality; review power, intervals and design sensitivity</td></tr>
+              <tr><td>p &lt; α for one-way ANOVA</td><td>At least one population mean differs</td><td>Use planned or multiplicity-controlled comparisons</td></tr>
+              <tr><td>Significant A×B interaction</td><td>The effect of A depends on B</td><td>Analyze simple effects and interaction plot before main effects</td></tr>
+              <tr><td>Large η² but wide intervals</td><td>Potentially important effect estimated imprecisely</td><td>Report uncertainty and consider more data</td></tr>
+              <tr><td>Levene/Brown–Forsythe concern + unequal n</td><td>Classical pooled error may be unreliable</td><td>Use Welch and Games–Howell or a robust model</td></tr>
+              <tr><td>Residual pattern versus fitted values</td><td>Variance, nonlinearity or omitted structure may remain</td><td>Revisit transformation, factors, interactions or model family</td></tr>
+              <tr><td>Significant MANOVA but no univariate test survives correction</td><td>The joint pattern may be stronger than any single outcome</td><td>Examine multivariate direction and pre-specified follow-up analyses</td></tr>
+              <tr><td>Significant Group×Covariate in ANCOVA</td><td>Regression slopes differ across groups</td><td>Do not report one common adjusted group effect; model the interaction</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel" style="margin-top:1rem"><h3>Reporting template</h3><p>“A [classical/Welch/two-way/etc.] ANOVA evaluated the effect of <em>[factor]</em> on <em>[response and units]</em>. Assumptions were assessed using <em>[design checks and residual diagnostics]</em>. The effect was [significant/not significant], F(df<sub>1</sub>, df<sub>2</sub>) = [value], p = [value], ω²/partial η² = [value]. [Post-hoc/contrast] comparisons showed [specific differences with confidence intervals]. The estimated difference is [practically important/not practically important] relative to [engineering/business criterion].”</p></div>
+      </section>
+
+      <section id="mistakes" aria-labelledby="mistakes-h">
+        <p class="section-kicker">Quality control for analysis</p>
+        <h2 id="mistakes-h">Common mistakes and exam traps</h2>
+        <div class="mistake-grid">
+          <div class="mistake"><span class="type">Calculation error</span><h3>Reversing the F-ratio</h3><p><strong>Wrong:</strong> MS<sub>within</sub>/MS<sub>between</sub>. <strong>Recognize:</strong> strong group separation produces a tiny F. <strong>Avoid:</strong> effect variance goes in the numerator.</p></div>
+          <div class="mistake"><span class="type">Interpretation error</span><h3>“All means differ” after significant ANOVA</h3><p>The omnibus test says at least one differs. Use post-hoc comparisons or planned contrasts to identify where.</p></div>
+          <div class="mistake"><span class="type">Assumption error</span><h3>Testing raw-data normality instead of residuals</h3><p>ANOVA assumes model errors are approximately normal. Grouped raw data can be multimodal even when residuals are acceptable.</p></div>
+          <div class="mistake"><span class="type">Design error</span><h3>Treating repeated measurements as independent</h3><p>Multiple readings from the same subject/coil are correlated. Use repeated-measures or mixed models.</p></div>
+          <div class="mistake"><span class="type">Software-output error</span><h3>Ignoring interaction because main effects are significant</h3><p>A significant interaction changes what the marginal main effects mean. Interpret simple effects first.</p></div>
+          <div class="mistake"><span class="type">Excel trap</span><h3>Using “without replication” to test interaction</h3><p>With one observation per cell, interaction cannot be separated from error.</p></div>
+          <div class="mistake"><span class="type">Multiplicity error</span><h3>Running many t-tests at α = .05</h3><p>Familywise false-positive risk rises. Use a single omnibus test and controlled follow-ups.</p></div>
+          <div class="mistake"><span class="type">Practical-significance error</span><h3>Equating p &lt; .05 with a meaningful improvement</h3><p>Report effect size, confidence interval, units and an operational decision threshold.</p></div>
+          <div class="mistake"><span class="type">Model error</span><h3>Deleting a non-significant main effect while retaining its interaction</h3><p>This violates model hierarchy and can make coefficients difficult to interpret.</p></div>
+          <div class="mistake"><span class="type">Exam trap</span><h3>Calling assumptions the null hypothesis</h3><p>Equal variances and normal residuals are assumptions. The one-way ANOVA null is equality of group means.</p></div>
+        </div>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-h">
+        <p class="section-kicker">Practice activity</p>
+        <h2 id="practice-h">Choose, analyze and defend the method</h2>
+        <div class="panel">
+          <p><strong>Scenario:</strong> A pipe mill compares three forming setups on outside-diameter deviation. Each setup is run on both day and night shift, with four independent coils for every setup-shift combination.</p>
+          <div class="table-scroll"><table style="min-width:580px"><thead><tr><th>Setup</th><th>Day shift deviations</th><th>Night shift deviations</th></tr></thead><tbody><tr><td>A</td><td>0.08, 0.10, 0.07, 0.09</td><td>0.12, 0.11, 0.13, 0.10</td></tr><tr><td>B</td><td>0.05, 0.06, 0.04, 0.05</td><td>0.07, 0.08, 0.06, 0.07</td></tr><tr><td>C</td><td>0.09, 0.08, 0.10, 0.09</td><td>0.18, 0.17, 0.19, 0.16</td></tr></tbody></table></div>
+          <ol><li>Select the analysis.</li><li>State the three hypotheses tested.</li><li>Predict the interaction pattern before calculating.</li><li>Explain which Excel ToolPak option can analyze this balanced layout.</li><li>State at least three diagnostics you would review.</li></ol>
+          <button type="button" class="button secondary reveal-button" aria-expanded="false" aria-controls="practice-answer">Reveal answer</button>
+          <div id="practice-answer" class="answer-key" hidden>
+            <h3>Complete answer</h3>
+            <p><strong>Method:</strong> two-way factorial ANOVA with replication. Factor A is setup (A/B/C); factor B is shift (day/night); response is OD deviation. Four coils replicate every setup×shift cell.</p>
+            <p><strong>Hypotheses:</strong> (1) setup main effect: marginal setup means are equal; (2) shift main effect: day and night marginal means are equal; (3) setup×shift interaction: the shift effect is the same for all setups.</p>
+            <p><strong>Predicted pattern:</strong> Setup C deteriorates much more on night shift than A or B, so non-parallel lines and a likely interaction are expected. Interpret simple setup effects within each shift and the shift effect within each setup.</p>
+            <p><strong>Excel:</strong> Data → Data Analysis → ANOVA: Two-Factor With Replication, with Rows per sample = 4 after arranging the balanced blocks correctly.</p>
+            <p><strong>Diagnostics:</strong> independence from the run/sampling plan, residual normal probability plot, residuals versus fitted values, group variance comparison, unusual residuals/outliers, and whether time order or coil sequence suggests drift.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="mastery-bank" aria-labelledby="mastery-h">
+        <p class="section-kicker">Complete study guide</p>
+        <h2 id="mastery-h">15-question ANOVA, ANCOVA, MANOVA and MANCOVA mastery bank</h2>
+        <p>This section preserves and expands the original 12 multiple-choice questions and three short-answer questions. Open each item for the answer, distractor analysis and marking guidance.</p>
+
+        <details class="mastery-question"><summary>Q1 · One-way ANOVA: What is the null hypothesis?</summary><div class="details-body"><p><strong>A.</strong> All group variances are equal. <strong>B.</strong> All group means are equal (μ₁ = μ₂ = … = μ<sub>k</sub>). <strong>C.</strong> The DV is normally distributed in each group. <strong>D.</strong> There is no interaction between factors.</p><div class="answer-key"><p><strong>Correct: B.</strong> Equal variances and residual normality are assumptions, not the hypothesis. A one-way design has no second factor to interact with.</p><p><strong>Key concept:</strong> rejection says at least one mean differs; post-hoc analysis identifies where.</p></div></div></details>
+
+        <details class="mastery-question"><summary>Q2 · One-way ANOVA: What does the F-ratio represent?</summary><div class="details-body"><p><strong>A.</strong> Within-group variance / between-group variance. <strong>B.</strong> Between-group MS / within-group MS. <strong>C.</strong> Proportion of total variance explained. <strong>D.</strong> Standardized difference between extreme means.</p><div class="answer-key"><p><strong>Correct: B.</strong> A reverses the ratio. C describes η². D resembles a pairwise standardized effect, not the omnibus F.</p><p>Under H₀, numerator and denominator estimate the same variance, so F tends to be near 1.</p></div></div></details>
+
+        <details class="mastery-question"><summary>Q3 · Test selection: Four fertilizer conditions and one crop-yield outcome</summary><div class="details-body"><p><strong>A.</strong> Independent t-test. <strong>B.</strong> One-way ANOVA. <strong>C.</strong> Two-way ANOVA. <strong>D.</strong> MANOVA.</p><div class="answer-key"><p><strong>Correct: B.</strong> One categorical IV with four levels and one continuous DV. A t-test is designed for two means; C needs a second factor; D needs multiple DVs.</p></div></div></details>
+
+        <details class="mastery-question"><summary>Q4 · What does two-way ANOVA provide that one-way cannot?</summary><div class="details-body"><p><strong>A.</strong> It automatically handles non-normal data. <strong>B.</strong> It tests two factors and their interaction. <strong>C.</strong> It automatically controls every familywise error. <strong>D.</strong> It supports multiple DVs.</p><div class="answer-key"><p><strong>Correct: B.</strong> Both share core distributional assumptions. Multiple DVs belong to MANOVA. The unique capability is simultaneous main-effect and A×B interaction testing.</p></div></div></details>
+
+        <details class="mastery-question"><summary>Q5 · What does a significant A×B interaction mean?</summary><div class="details-body"><p><strong>A.</strong> Both main effects must also be significant. <strong>B.</strong> The effect of A varies across levels of B. <strong>C.</strong> Variance homogeneity was violated. <strong>D.</strong> Post-hoc analysis is unnecessary.</p><div class="answer-key"><p><strong>Correct: B.</strong> Interactions and main effects can have different significance patterns. The interaction is a substantive model result, not a variance diagnostic. Significant interactions commonly require simple-effects analysis.</p><p><strong>Critical exam point:</strong> interpret interaction before marginal main effects.</p></div></div></details>
+
+        <details class="mastery-question"><summary>Q6 · ANCOVA extends ANOVA primarily by…</summary><div class="details-body"><p><strong>A.</strong> Adding a second categorical factor. <strong>B.</strong> Adding continuous covariate(s). <strong>C.</strong> Replacing F with chi-square. <strong>D.</strong> Adding multiple DVs.</p><div class="answer-key"><p><strong>Correct: B.</strong> ANCOVA controls continuous variables and can reduce error variance. A describes two-way ANOVA; D describes MANOVA/MANCOVA; ANCOVA still uses F-tests.</p></div></div></details>
+
+        <details class="mastery-question"><summary>Q7 · Three teaching methods, exam score, and varying prior knowledge</summary><div class="details-body"><p><strong>A.</strong> One-way ANOVA because randomization makes prior knowledge irrelevant. <strong>B.</strong> Categorize prior knowledge and use two-way ANOVA. <strong>C.</strong> ANCOVA with prior knowledge as a continuous covariate. <strong>D.</strong> MANOVA.</p><div class="answer-key"><p><strong>Correct: C.</strong> ANCOVA preserves the continuous information and adjusts the method comparison. Categorizing the covariate loses information; MANOVA requires multiple outcomes.</p></div></div></details>
+
+        <details class="mastery-question"><summary>Q8 · Which assumption is unique to ANCOVA relative to standard ANOVA?</summary><div class="details-body"><p><strong>A.</strong> Residual normality. <strong>B.</strong> Homogeneity of regression slopes. <strong>C.</strong> Independence. <strong>D.</strong> Equal variances.</p><div class="answer-key"><p><strong>Correct: B.</strong> The covariate-to-DV relationship should have the same slope across groups when a common adjusted effect is reported. Test a Group×Covariate interaction in a preliminary/full model.</p></div></div></details>
+
+        <details class="mastery-question"><summary>Q9 · Primary advantage of MANOVA over separate ANOVAs</summary><div class="details-body"><p><strong>A.</strong> It alone can handle more than two groups. <strong>B.</strong> It jointly tests correlated DVs, controls the omnibus Type I error family and detects multivariate patterns. <strong>C.</strong> It automatically includes covariates. <strong>D.</strong> It uses chi-square instead of F.</p><div class="answer-key"><p><strong>Correct: B.</strong> Both can handle k≥2 groups. Covariates define MANCOVA. MANOVA statistics are transformed into exact or approximate F tests.</p><p>For k independent tests at α, familywise risk is 1−(1−α)<sup>k</sup>; MANOVA provides one multivariate omnibus test.</p></div></div></details>
+
+        <details class="mastery-question"><summary>Q10 · Which statistic is produced by MANOVA?</summary><div class="details-body"><p><strong>A.</strong> Cohen's d. <strong>B.</strong> Pillai's trace. <strong>C.</strong> Tukey HSD. <strong>D.</strong> Cronbach's α.</p><div class="answer-key"><p><strong>Correct: B.</strong> Pillai, Wilks, Hotelling–Lawley and Roy are multivariate test statistics. Cohen's d is pairwise effect size, Tukey is post-hoc, and Cronbach's α is reliability.</p></div></div></details>
+
+        <details class="mastery-question"><summary>Q11 · Exercise type affects anxiety and depression scores</summary><div class="details-body"><p><strong>A.</strong> Two separate one-way ANOVAs. <strong>B.</strong> MANOVA. <strong>C.</strong> Two-way ANOVA treating outcomes as factors. <strong>D.</strong> ANCOVA using one outcome as covariate.</p><div class="answer-key"><p><strong>Correct: B.</strong> One factor and two correlated continuous outcomes. MANOVA tests the joint profile and uses their covariance structure.</p></div></div></details>
+
+        <details class="mastery-question"><summary>Q12 · MANCOVA is best described as…</summary><div class="details-body"><p><strong>A.</strong> MANOVA restricted to two groups. <strong>B.</strong> MANOVA with continuous covariate(s). <strong>C.</strong> MANOVA after replacing DVs with one score. <strong>D.</strong> ANOVA on a multivariate dataset without covariates.</p><div class="answer-key"><p><strong>Correct: B.</strong> MANCOVA retains multiple DVs and adds covariate control. It works with any appropriate number of groups.</p></div></div></details>
+
+        <details class="mastery-question"><summary>Q13 · Short answer: MANOVA versus multiple separate ANOVAs</summary><div class="details-body"><p><strong>Prompt:</strong> Explain (a) Type I error inflation and (b) what multivariate information MANOVA captures that separate ANOVAs miss.</p><div class="answer-key"><h3>Model answer</h3><p>Running separate ANOVAs at α=.05 increases the probability of at least one false positive across the family: 1−(1−α)<sup>k</sup>. With three DVs this is about 14%; with five, about 23%. MANOVA provides one joint omnibus test of the vector of means.</p><p>Separate ANOVAs ignore the variance–covariance structure among outcomes. MANOVA evaluates linear combinations of the DVs and can detect a consistent joint pattern even when no single outcome is individually strong enough after correction.</p><div class="marking"><strong>Marking (10):</strong> +3 familywise concept/formula; +2 one joint omnibus test; +3 covariance and multivariate pattern; +2 concrete example or correct terminology.</div></div></div></details>
+
+        <details class="mastery-question"><summary>Q14 · Short answer: Three drug doses, systolic + diastolic BP, baseline BMI</summary><div class="details-body"><p><strong>Prompt:</strong> Which analysis and why? Name at least three assumptions.</p><div class="answer-key"><h3>Model answer</h3><p><strong>MANCOVA.</strong> Dose is one categorical IV with three levels; systolic and diastolic BP are two correlated continuous DVs; baseline BMI is a continuous covariate. MANCOVA tests the multivariate dose effect while controlling BMI.</p><p>Verify independence; multivariate residual normality; equality of covariance matrices; homogeneous BMI-to-outcome regression slopes across dose groups; absence of extreme multivariate outliers; and meaningful but non-redundant outcome correlation.</p><div class="marking"><strong>Marking (10):</strong> +3 correct MANCOVA structure; +1 why alternatives are inferior; +2 regression slopes; +2 covariance matrices; +2 third valid assumption with explanation.</div></div></div></details>
+
+        <details class="mastery-question"><summary>Q15 · Short answer: Describe the five-method hierarchy</summary><div class="details-body"><p><strong>Prompt:</strong> Use the structure “X adds [feature] to Y.”</p><div class="answer-key"><h3>Model answer</h3><p><strong>One-way ANOVA</strong> is the baseline: one categorical IV and one continuous DV. <strong>Two-way ANOVA adds</strong> a second categorical IV and the A×B interaction. <strong>ANCOVA adds</strong> one or more continuous covariates to ANOVA, adjusting means and potentially reducing error variance. <strong>MANOVA adds</strong> multiple correlated DVs to ANOVA and tests them jointly. <strong>MANCOVA adds</strong> continuous covariates to MANOVA.</p><div class="marking"><strong>Marking (10):</strong> +1 baseline; +2 second factor and interaction; +2 covariate and benefit; +2 multiple DVs and joint test; +2 MANOVA + covariates; +1 clear progression.</div></div></div></details>
+      </section>
+
+      <section id="quiz" aria-labelledby="quiz-h">
+        <p class="section-kicker">Mini quiz</p>
+        <h2 id="quiz-h">Check your understanding</h2>
+        <form id="quiz-form" novalidate>
+          <div class="quiz-question" data-answer="b">
+            <fieldset><legend><strong>1. Three independent suppliers are compared on tensile strength. Variances differ substantially and sample sizes are unequal. Best omnibus test?</strong></legend>
+              <label class="option"><input type="radio" name="q1" value="a"> Classical one-way ANOVA</label>
+              <label class="option"><input type="radio" name="q1" value="b"> Welch one-way ANOVA</label>
+              <label class="option"><input type="radio" name="q1" value="c"> Repeated-measures ANOVA</label>
+              <label class="option"><input type="radio" name="q1" value="d"> MANOVA</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> Welch ANOVA is designed for unequal variances and is especially valuable when sample sizes are also unequal.</div>
+          </div>
+          <div class="quiz-question" data-answer="c">
+            <fieldset><legend><strong>2. A significant two-way interaction means:</strong></legend>
+              <label class="option"><input type="radio" name="q2" value="a"> Both main effects are significant</label>
+              <label class="option"><input type="radio" name="q2" value="b"> The residuals are non-normal</label>
+              <label class="option"><input type="radio" name="q2" value="c"> The effect of one factor depends on the other factor</label>
+              <label class="option"><input type="radio" name="q2" value="d"> Every cell mean differs</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> Interaction is non-additivity: factor A's effect changes across levels of B.</div>
+          </div>
+          <div class="quiz-question" data-answer="a">
+            <fieldset><legend><strong>3. What does η² = 0.32 mean in one-way ANOVA?</strong></legend>
+              <label class="option"><input type="radio" name="q3" value="a"> About 32% of total sample variation is associated with the grouping factor</label>
+              <label class="option"><input type="radio" name="q3" value="b"> The null hypothesis is 32% likely to be true</label>
+              <label class="option"><input type="radio" name="q3" value="c"> Every group differs by 32%</label>
+              <label class="option"><input type="radio" name="q3" value="d"> The p-value equals 0.32</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> Eta-squared is SS between divided by SS total, a sample variance-explained measure.</div>
+          </div>
+          <div class="quiz-question" data-answer="d">
+            <fieldset><legend><strong>4. Excel's Two-Factor Without Replication procedure cannot separately estimate:</strong></legend>
+              <label class="option"><input type="radio" name="q4" value="a"> Row effects</label>
+              <label class="option"><input type="radio" name="q4" value="b"> Column effects</label>
+              <label class="option"><input type="radio" name="q4" value="c"> Grand mean</label>
+              <label class="option"><input type="radio" name="q4" value="d"> Row×column interaction</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> One observation per cell leaves no separate replication-based estimate of interaction; it is confounded with residual error.</div>
+          </div>
+          <div class="quiz-question" data-answer="b">
+            <fieldset><legend><strong>5. In ANCOVA, a significant Group×Covariate term indicates:</strong></legend>
+              <label class="option"><input type="radio" name="q5" value="a"> The covariate should be deleted</label>
+              <label class="option"><input type="radio" name="q5" value="b"> Regression slopes differ across groups</label>
+              <label class="option"><input type="radio" name="q5" value="c"> Group means are equal</label>
+              <label class="option"><input type="radio" name="q5" value="d"> The DV must be categorical</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> The common-slope ANCOVA interpretation is not valid when the covariate relationship changes by group; model the interaction.</div>
+          </div>
+          <div class="button-row"><button type="submit" class="button">Submit quiz</button><button type="button" class="button secondary" id="reset-quiz">Reset quiz</button></div>
+          <div id="quiz-result" class="result-banner pass" role="status" aria-live="polite" style="margin-top:1rem">Answer all five questions, then submit.</div>
+        </form>
+      </section>
+
+      <section id="summary" aria-labelledby="summary-h">
+        <p class="section-kicker">Final summary</p>
+        <h2 id="summary-h">The ANOVA workflow to remember</h2>
+        <div class="grid-2">
+          <div class="panel"><h3>Eight takeaways</h3><ol><li>Start with the design, not the software menu.</li><li>ANOVA compares explained variation with residual variation.</li><li>A significant omnibus result means at least one effect exists—not that every group differs.</li><li>Independence is designed into the study; it cannot be repaired by a normality test.</li><li>Use Welch/Games–Howell when unequal variances and imbalance threaten classical ANOVA.</li><li>Interpret interactions before main effects.</li><li>Use effect size, intervals and operational criteria alongside p-values.</li><li>Excel covers three layouts; advanced designs require GLM, mixed or multivariate software.</li></ol></div>
+          <div class="panel"><h3>Concise decision rule</h3><p><strong>One DV + independent groups:</strong> one-way or factorial ANOVA.</p><p><strong>Unequal variances:</strong> Welch.</p><p><strong>Repeated observations:</strong> repeated-measures or mixed model.</p><p><strong>Covariate:</strong> ANCOVA/GLM.</p><p><strong>Multiple correlated DVs:</strong> MANOVA.</p><p><strong>Multiple DVs + covariates:</strong> MANCOVA.</p><div class="callout tip"><strong>Remember this:</strong> Design → model → diagnostics → omnibus test → focused comparisons → practical decision.</div></div>
+        </div>
+        <p><strong>Suggested next lesson:</strong> <a href="/lessons/statistics/regression-model-selection">Regression Model Selection: Interactions, Curvature and Validation</a>.</p>
+      </section>
+
+      <section id="references" aria-labelledby="refs-h">
+        <p class="section-kicker">References</p>
+        <h2 id="refs-h">Authoritative sources</h2>
+        <ul class="references">
+          <li><a href="https://support.microsoft.com/en-us/office/use-the-analysis-toolpak-to-perform-complex-data-analysis-6c67ccf0-f4a9-487c-8dec-bdb5a2cefab6">Microsoft Support: Use the Analysis ToolPak to perform complex data analysis</a>.</li>
+          <li><a href="https://support.microsoft.com/en-us/office/load-the-analysis-toolpak-in-excel-6a63e598-cd6d-42e3-9317-6b40ba1a66b4">Microsoft Support: Load the Analysis ToolPak in Excel</a>.</li>
+          <li><a href="https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/anova/how-to/one-way-anova/before-you-start/overview/">Minitab Support: Overview for One-Way ANOVA</a>.</li>
+          <li><a href="https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/anova/how-to/fit-general-linear-model/before-you-start/overview/">Minitab Support: Fit General Linear Model</a>.</li>
+          <li><a href="https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/anova/how-to/general-manova/before-you-start/overview/">Minitab Support: General MANOVA</a>.</li>
+          <li><a href="https://www.itl.nist.gov/div898/handbook/prc/section4/prc431.htm">NIST/SEMATECH e-Handbook: One-way ANOVA overview</a>.</li>
+          <li>Montgomery, D. C. <em>Design and Analysis of Experiments</em>. Wiley.</li>
+        </ul>
+      </section>
+    </article>
+
+    <footer class="lesson-footer">
+      <p><strong>UpSkill Sprint Consulting</strong> · Interactive statistics lesson.</p>
+      <p class="small">Educational content supports analysis and exam preparation; it does not replace a qualified statistician's review for safety-critical, regulated or high-stakes decisions.</p>
+    </footer>
+  </main>
+
+  <!-- EDIT: Interactive lesson JavaScript -->
+  <script>
+  (() => {
+    'use strict';
+
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+    const fmt = (value, digits = 3) => Number.isFinite(value) ? value.toLocaleString(undefined, { maximumFractionDigits: digits }) : '—';
+    const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
+
+    // ---------- Numerical distributions ----------
+    function logGamma(z) {
+      const c = [676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+      if (z < 0.5) return Math.log(Math.PI) - Math.log(Math.sin(Math.PI * z)) - logGamma(1 - z);
+      z -= 1;
+      let x = 0.99999999999980993;
+      for (let i = 0; i < c.length; i += 1) x += c[i] / (z + i + 1);
+      const t = z + c.length - 0.5;
+      return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x);
+    }
+
+    function betaContinuedFraction(a, b, x) {
+      const maxIter = 200;
+      const eps = 3e-14;
+      const fpmin = 1e-300;
+      let qab = a + b;
+      let qap = a + 1;
+      let qam = a - 1;
+      let c = 1;
+      let d = 1 - qab * x / qap;
+      if (Math.abs(d) < fpmin) d = fpmin;
+      d = 1 / d;
+      let h = d;
+      for (let m = 1; m <= maxIter; m += 1) {
+        const m2 = 2 * m;
+        let aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+        d = 1 + aa * d; if (Math.abs(d) < fpmin) d = fpmin;
+        c = 1 + aa / c; if (Math.abs(c) < fpmin) c = fpmin;
+        d = 1 / d; h *= d * c;
+        aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+        d = 1 + aa * d; if (Math.abs(d) < fpmin) d = fpmin;
+        c = 1 + aa / c; if (Math.abs(c) < fpmin) c = fpmin;
+        d = 1 / d;
+        const del = d * c;
+        h *= del;
+        if (Math.abs(del - 1) < eps) break;
+      }
+      return h;
+    }
+
+    function regularizedBeta(x, a, b) {
+      if (x <= 0) return 0;
+      if (x >= 1) return 1;
+      const bt = Math.exp(logGamma(a + b) - logGamma(a) - logGamma(b) + a * Math.log(x) + b * Math.log(1 - x));
+      if (x < (a + 1) / (a + b + 2)) return bt * betaContinuedFraction(a, b, x) / a;
+      return 1 - bt * betaContinuedFraction(b, a, 1 - x) / b;
+    }
+
+    function fRightTail(f, df1, df2) {
+      if (!(f >= 0) || !(df1 > 0) || !(df2 > 0)) return NaN;
+      const x = (df1 * f) / (df1 * f + df2);
+      return clamp(1 - regularizedBeta(x, df1 / 2, df2 / 2), 0, 1);
+    }
+
+    function studentTTwoTail(t, df) {
+      if (!(df > 0)) return NaN;
+      const x = df / (df + t * t);
+      return clamp(regularizedBeta(x, df / 2, 0.5), 0, 1);
+    }
+
+    // ---------- Shared statistics ----------
+    const mean = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+    const variance = arr => {
+      if (arr.length < 2) return NaN;
+      const m = mean(arr);
+      return arr.reduce((s, v) => s + (v - m) ** 2, 0) / (arr.length - 1);
+    };
+
+    function parseGroupedData(text) {
+      const lines = text.split(/\n+/).map(s => s.trim()).filter(Boolean);
+      if (lines.length < 2) throw new Error('Enter at least two non-empty group lines.');
+      const seen = new Set();
+      return lines.map((line, idx) => {
+        const colon = line.indexOf(':');
+        if (colon < 1) throw new Error(`Line ${idx + 1} needs a group name followed by a colon.`);
+        const name = line.slice(0, colon).trim();
+        if (seen.has(name.toLowerCase())) throw new Error(`Group name “${name}” appears more than once.`);
+        seen.add(name.toLowerCase());
+        const tokens = line.slice(colon + 1).split(/[;,\s]+/).filter(Boolean);
+        const values = tokens.map(Number);
+        if (values.some(v => !Number.isFinite(v))) throw new Error(`Line ${idx + 1} contains a non-numeric value.`);
+        if (values.length < 2) throw new Error(`Group “${name}” needs at least two observations.`);
+        return { name, values };
+      });
+    }
+
+    function classicalAnova(groups) {
+      const all = groups.flatMap(g => g.values);
+      const grand = mean(all);
+      const k = groups.length;
+      const N = all.length;
+      const ssBetween = groups.reduce((s, g) => s + g.values.length * (mean(g.values) - grand) ** 2, 0);
+      const ssWithin = groups.reduce((s, g) => {
+        const m = mean(g.values);
+        return s + g.values.reduce((ss, v) => ss + (v - m) ** 2, 0);
+      }, 0);
+      const ssTotal = all.reduce((s, v) => s + (v - grand) ** 2, 0);
+      const df1 = k - 1;
+      const df2 = N - k;
+      const msBetween = ssBetween / df1;
+      const msWithin = ssWithin / df2;
+      const F = msBetween / msWithin;
+      const p = fRightTail(F, df1, df2);
+      const eta = ssBetween / ssTotal;
+      const omega = Math.max(0, (ssBetween - df1 * msWithin) / (ssTotal + msWithin));
+      return { method: 'Classical one-way ANOVA', grand, k, N, ssBetween, ssWithin, ssTotal, df1, df2, msBetween, msWithin, F, p, eta, omega };
+    }
+
+    function welchAnova(groups) {
+      const k = groups.length;
+      const stats = groups.map(g => ({ n: g.values.length, m: mean(g.values), v: variance(g.values) }));
+      if (stats.some(s => !(s.v > 0))) throw new Error('Welch ANOVA requires positive within-group variance in every group.');
+      stats.forEach(s => { s.w = s.n / s.v; });
+      const W = stats.reduce((s, g) => s + g.w, 0);
+      const weightedMean = stats.reduce((s, g) => s + g.w * g.m, 0) / W;
+      const numerator = stats.reduce((s, g) => s + g.w * (g.m - weightedMean) ** 2, 0) / (k - 1);
+      const c = stats.reduce((s, g) => s + ((1 - g.w / W) ** 2) / (g.n - 1), 0);
+      const denominator = 1 + (2 * (k - 2) / (k * k - 1)) * c;
+      const F = numerator / denominator;
+      const df1 = k - 1;
+      const df2 = (k * k - 1) / (3 * c);
+      const p = fRightTail(F, df1, df2);
+      const classical = classicalAnova(groups);
+      return { ...classical, method: 'Welch one-way ANOVA', F, p, df1, df2, msBetween: NaN, msWithin: NaN };
+    }
+
+    function bonferroniPairs(groups, classical, alpha) {
+      const m = groups.length * (groups.length - 1) / 2;
+      const rows = [];
+      for (let i = 0; i < groups.length; i += 1) {
+        for (let j = i + 1; j < groups.length; j += 1) {
+          const gi = groups[i], gj = groups[j];
+          const diff = mean(gi.values) - mean(gj.values);
+          const se = Math.sqrt(classical.msWithin * (1 / gi.values.length + 1 / gj.values.length));
+          const t = Math.abs(diff / se);
+          const rawP = studentTTwoTail(t, classical.df2);
+          const adjP = Math.min(1, rawP * m);
+          rows.push({ comparison: `${gi.name} − ${gj.name}`, diff, t, rawP, adjP, significant: adjP < alpha });
+        }
+      }
+      return rows;
+    }
+
+    // ---------- Method selector ----------
+    const selectorInputs = ['sel-dv','sel-factors','sel-repeated','sel-cov','sel-var','sel-random'].map(id => document.getElementById(id));
+    const selectorResult = $('#selector-result');
+    function updateSelector() {
+      const dv = $('#sel-dv').value;
+      const factors = Number($('#sel-factors').value);
+      const repeated = $('#sel-repeated').value === 'yes';
+      const cov = $('#sel-cov').value === 'yes';
+      const unequal = $('#sel-var').value === 'no';
+      const random = $('#sel-random').value === 'yes';
+      let method = '', why = '', caution = '';
+      if (dv === '2') {
+        if (repeated || random) {
+          method = 'Multivariate or multilevel mixed-effects model';
+          why = 'Multiple outcomes plus repeated/random structure require a model that handles both outcome covariance and clustered observations.';
+        } else if (cov) {
+          method = 'MANCOVA (General MANOVA with covariates)';
+          why = 'You have multiple correlated outcomes and at least one continuous covariate.';
+        } else {
+          method = factors === 1 ? 'One-way MANOVA' : 'Factorial MANOVA';
+          why = 'You have multiple correlated continuous outcomes and categorical factor(s).';
+        }
+        caution = 'Check multivariate outliers, covariance matrices, outcome redundancy and the follow-up testing plan.';
+      } else if (random) {
+        method = 'Linear mixed-effects model';
+        why = 'At least one factor is random or observations are clustered within sampled units.';
+        caution = 'Specify random intercepts/slopes and the correct nesting/crossing structure; REML is commonly used for variance components.';
+      } else if (repeated) {
+        method = cov ? 'Repeated-measures ANCOVA or mixed-effects model' : 'Repeated-measures ANOVA or mixed-effects model';
+        why = 'The same experimental units are observed more than once, so residuals are correlated.';
+        caution = 'Check sphericity for classical repeated-measures ANOVA; mixed models are more flexible for missing/unequally spaced data.';
+      } else if (cov) {
+        method = factors === 1 ? 'ANCOVA' : 'Factorial ANCOVA / General Linear Model';
+        why = 'One continuous outcome is compared across factors while controlling continuous covariate(s).';
+        caution = 'Test factor×covariate terms before assuming homogeneous regression slopes.';
+      } else if (factors === 1 && unequal) {
+        method = 'Welch one-way ANOVA';
+        why = 'One independent factor with evidence of unequal group variances.';
+        caution = 'Use Games–Howell rather than Tukey for pairwise comparisons.';
+      } else if (factors === 1) {
+        method = 'Classical one-way ANOVA';
+        why = 'One categorical factor, one continuous response and independent groups.';
+        caution = 'If the omnibus test is significant, use planned contrasts or a multiplicity-controlled post-hoc method.';
+      } else if (factors === 2) {
+        method = 'Two-way factorial ANOVA / General Linear Model';
+        why = 'Two categorical factors can be tested for two main effects and their interaction.';
+        caution = 'Include and interpret A×B before simplifying the model.';
+      } else {
+        method = 'N-way factorial ANOVA / General Linear Model';
+        why = 'Three or more categorical factors require a multi-factor model with a carefully planned interaction hierarchy.';
+        caution = 'Use designed-experiment principles to avoid an uninterpretable high-order interaction model.';
+      }
+      selectorResult.className = 'result-banner pass';
+      selectorResult.innerHTML = `<strong>Recommended: ${method}</strong><p>${why}</p><p class="small"><strong>Watch:</strong> ${caution}</p>`;
+    }
+    selectorInputs.forEach(el => el.addEventListener('change', updateSelector));
+    updateSelector();
+
+    // ---------- One-way calculator ----------
+    const defaultData = `Standard: 472, 478, 475, 469, 476\nModerate: 490, 495, 488, 492, 497\nIntensive: 508, 512, 505, 510, 515`;
+    const closeData = `Line A: 50, 52, 49, 55, 51, 48\nLine B: 51, 54, 50, 53, 52, 49\nLine C: 53, 52, 55, 51, 54, 50`;
+
+    function renderDotPlot(groups) {
+      const svg = $('#anova-plot');
+      const width = 620, height = 310, left = 65, right = 25, top = 25, bottom = 60;
+      const values = groups.flatMap(g => g.values);
+      let min = Math.min(...values), max = Math.max(...values);
+      if (min === max) { min -= 1; max += 1; }
+      const pad = (max - min) * .12;
+      min -= pad; max += pad;
+      const xFor = i => left + (i + .5) * ((width - left - right) / groups.length);
+      const yFor = v => top + (max - v) / (max - min) * (height - top - bottom);
+      const parts = [];
+      for (let t = 0; t <= 5; t += 1) {
+        const v = min + (max - min) * t / 5;
+        const y = yFor(v);
+        parts.push(`<line class="gridline" x1="${left}" y1="${y}" x2="${width-right}" y2="${y}"></line>`);
+        parts.push(`<text class="plot-label" x="${left-8}" y="${y+4}" text-anchor="end">${fmt(v,1)}</text>`);
+      }
+      parts.push(`<line class="axis" x1="${left}" y1="${top}" x2="${left}" y2="${height-bottom}"></line>`);
+      parts.push(`<line class="axis" x1="${left}" y1="${height-bottom}" x2="${width-right}" y2="${height-bottom}"></line>`);
+      groups.forEach((g, i) => {
+        const x = xFor(i);
+        g.values.forEach((v, j) => {
+          const jitter = ((j % 5) - 2) * 7;
+          parts.push(`<circle cx="${x+jitter}" cy="${yFor(v)}" r="5" fill="var(--teal)" opacity=".65"><title>${g.name}: ${v}</title></circle>`);
+        });
+        const m = mean(g.values);
+        parts.push(`<line x1="${x-28}" y1="${yFor(m)}" x2="${x+28}" y2="${yFor(m)}" stroke="var(--amber)" stroke-width="5"><title>${g.name} mean: ${fmt(m,2)}</title></line>`);
+        parts.push(`<text class="plot-label" x="${x}" y="${height-bottom+25}" text-anchor="middle">${g.name.replace(/[<>&]/g,'')}</text>`);
+      });
+      svg.innerHTML = `<title id="anova-plot-title">Group observations and means</title><desc id="anova-plot-desc">Dot plot of ${groups.length} groups; amber bars show group means.</desc>${parts.join('')}`;
+    }
+
+    function pText(p) {
+      if (!Number.isFinite(p)) return '—';
+      if (p < .0001) return '<0.0001';
+      return p.toFixed(4);
+    }
+
+    function runAnova() {
+      const status = $('#anova-status');
+      try {
+        const alpha = Number($('#alpha').value);
+        if (!(alpha > 0 && alpha < 1)) throw new Error('Alpha must be between 0 and 1.');
+        const groups = parseGroupedData($('#anova-data').value);
+        const classical = classicalAnova(groups);
+        if (!(classical.ssWithin > 0)) throw new Error('Within-group variation must be greater than zero.');
+        const method = $('input[name="anova-method"]:checked').value;
+        const result = method === 'welch' ? welchAnova(groups) : classical;
+        const reject = result.p < alpha;
+        $('#out-f').textContent = fmt(result.F, 3);
+        $('#out-p').textContent = pText(result.p);
+        $('#out-eta').textContent = fmt(classical.eta, 3);
+        $('#out-omega').textContent = fmt(classical.omega, 3);
+        const conclusion = $('#anova-conclusion');
+        conclusion.className = `result-banner ${reject ? 'fail' : 'pass'}`;
+        conclusion.innerHTML = `<strong>${reject ? 'Reject H₀' : 'Do not reject H₀'} at α=${fmt(alpha,3)}</strong><p>${reject ? 'There is evidence that at least one population mean differs.' : 'The data do not provide sufficient evidence that the population means differ.'}</p><p class="small">${result.method}: F(${fmt(result.df1,2)}, ${fmt(result.df2,2)}) = ${fmt(result.F,3)}, p ${result.p < .0001 ? '&lt; 0.0001' : '= ' + result.p.toFixed(4)}.</p>`;
+
+        const groupRows = groups.map(g => `<tr><td>${g.name.replace(/[<>&]/g,'')}</td><td class="num">${g.values.length}</td><td class="num">${fmt(mean(g.values),3)}</td><td class="num">${fmt(Math.sqrt(variance(g.values)),3)}</td><td class="num">${fmt(Math.min(...g.values),3)}</td><td class="num">${fmt(Math.max(...g.values),3)}</td></tr>`).join('');
+        $('#group-stats-wrap').innerHTML = `<table><caption>Group descriptive statistics</caption><thead><tr><th>Group</th><th class="num">n</th><th class="num">Mean</th><th class="num">SD</th><th class="num">Min</th><th class="num">Max</th></tr></thead><tbody>${groupRows}</tbody></table>`;
+
+        if (method === 'classic') {
+          $('#anova-table-wrap').innerHTML = `<table><caption>Classical one-way ANOVA table</caption><thead><tr><th>Source</th><th class="num">SS</th><th class="num">df</th><th class="num">MS</th><th class="num">F</th><th class="num">p</th></tr></thead><tbody><tr><td>Between groups</td><td class="num">${fmt(result.ssBetween,3)}</td><td class="num">${result.df1}</td><td class="num">${fmt(result.msBetween,3)}</td><td class="num">${fmt(result.F,3)}</td><td class="num">${pText(result.p)}</td></tr><tr><td>Within groups</td><td class="num">${fmt(result.ssWithin,3)}</td><td class="num">${result.df2}</td><td class="num">${fmt(result.msWithin,3)}</td><td class="num">—</td><td class="num">—</td></tr><tr><td>Total</td><td class="num">${fmt(result.ssTotal,3)}</td><td class="num">${result.N-1}</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr></tbody></table>`;
+        } else {
+          $('#anova-table-wrap').innerHTML = `<table><caption>Welch one-way ANOVA</caption><thead><tr><th>Test</th><th class="num">F</th><th class="num">df1</th><th class="num">df2</th><th class="num">p</th></tr></thead><tbody><tr><td>Welch</td><td class="num">${fmt(result.F,3)}</td><td class="num">${fmt(result.df1,2)}</td><td class="num">${fmt(result.df2,2)}</td><td class="num">${pText(result.p)}</td></tr></tbody></table>`;
+        }
+
+        const pairs = bonferroniPairs(groups, classical, alpha);
+        $('#pairwise-wrap').innerHTML = `<table><caption>Exploratory Bonferroni-adjusted pairwise t comparisons using pooled MSE (appropriate only under equal variances)</caption><thead><tr><th>Comparison</th><th class="num">Mean difference</th><th class="num">t</th><th class="num">Raw p</th><th class="num">Adjusted p</th><th>Decision</th></tr></thead><tbody>${pairs.map(r => `<tr><td>${r.comparison.replace(/[<>&]/g,'')}</td><td class="num">${fmt(r.diff,3)}</td><td class="num">${fmt(r.t,3)}</td><td class="num">${pText(r.rawP)}</td><td class="num">${pText(r.adjP)}</td><td>${r.significant ? 'Significant' : 'Not significant'}</td></tr>`).join('')}</tbody></table>`;
+
+        const sds = groups.map(g => Math.sqrt(variance(g.values)));
+        const varianceRatio = Math.max(...sds) / Math.min(...sds);
+        const imbalance = Math.max(...groups.map(g => g.values.length)) / Math.min(...groups.map(g => g.values.length));
+        const diag = $('#anova-diagnostic');
+        const flags = [];
+        if (varianceRatio > 2) flags.push(`largest SD is ${fmt(varianceRatio,2)}× the smallest`);
+        if (imbalance > 1.5) flags.push(`largest sample is ${fmt(imbalance,2)}× the smallest`);
+        if (groups.some(g => g.values.length < 5)) flags.push('at least one group has fewer than five observations');
+        diag.className = `callout ${flags.length ? 'warn' : 'tip'}`;
+        diag.innerHTML = `<strong>Diagnostic snapshot:</strong> ${flags.length ? flags.join('; ') + '. Review residual plots and consider Welch/Games–Howell.' : 'No major variance-ratio or imbalance warning from this small numeric screen. Still inspect design, residuals and outliers.'}<p class="small">SD ratio = ${fmt(varianceRatio,2)}; sample-size ratio = ${fmt(imbalance,2)}. These are heuristics, not formal pass/fail tests.</p>`;
+        renderDotPlot(groups);
+        status.textContent = 'Analysis updated.';
+        status.className = 'status success';
+      } catch (err) {
+        status.textContent = err.message || 'Unable to calculate. Check your entries.';
+        status.className = 'status error';
+      }
+    }
+
+    $('#run-anova').addEventListener('click', runAnova);
+    $('#load-close').addEventListener('click', () => { $('#anova-data').value = closeData; runAnova(); });
+    $('#reset-anova').addEventListener('click', () => {
+      $('#anova-data').value = defaultData;
+      $('#alpha').value = '0.05';
+      $('input[name="anova-method"][value="classic"]').checked = true;
+      runAnova();
+    });
+    $$('input[name="anova-method"]').forEach(r => r.addEventListener('change', runAnova));
+    runAnova();
+
+    // ---------- Interaction explorer ----------
+    const interactionIds = ['a1b1','a2b1','a1b2','a2b2'];
+    function updateInteraction() {
+      const v = Object.fromEntries(interactionIds.map(id => [id, Number($('#'+id).value)]));
+      interactionIds.forEach(id => $('#o-'+id).textContent = v[id]);
+      const a1Mean = (v.a1b1 + v.a1b2) / 2;
+      const a2Mean = (v.a2b1 + v.a2b2) / 2;
+      const b1Mean = (v.a1b1 + v.a2b1) / 2;
+      const b2Mean = (v.a1b2 + v.a2b2) / 2;
+      const did = (v.a2b2 - v.a1b2) - (v.a2b1 - v.a1b1);
+      $('#main-a').textContent = fmt(a2Mean - a1Mean, 1);
+      $('#main-b').textContent = fmt(b2Mean - b1Mean, 1);
+      $('#did').textContent = fmt(did, 1);
+      let pattern = 'Parallel / additive', cls = 'pass', explanation = 'The effect of A is approximately the same at B1 and B2. Main effects can be interpreted as stable average differences.';
+      if (Math.abs(did) >= 20) { pattern = (v.a2b1 - v.a1b1) * (v.a2b2 - v.a1b2) < 0 ? 'Crossover interaction' : 'Strong interaction'; cls = 'fail'; explanation = 'The A effect changes substantially across B. Analyze simple effects; marginal main effects may conceal the operational conclusion.'; }
+      else if (Math.abs(did) >= 7) { pattern = 'Moderate interaction'; cls = 'warn'; explanation = 'The A effect changes meaningfully across B. Inspect confidence intervals and simple effects rather than relying only on marginal means.'; }
+      $('#interaction-label').textContent = pattern;
+      const box = $('#interaction-explanation');
+      box.className = `result-banner ${cls}`;
+      box.innerHTML = `<strong>${pattern}</strong><p>${explanation}</p><p class="small">Difference-in-differences = (A2−A1 at B2) − (A2−A1 at B1) = ${fmt(did,1)}.</p>`;
+
+      const svg = $('#interaction-plot');
+      const width = 620, height = 350, left = 70, right = 30, top = 25, bottom = 55;
+      const min = 15, max = 105;
+      const x1 = left + 120, x2 = width - right - 120;
+      const y = val => top + (max - val) / (max - min) * (height - top - bottom);
+      const parts = [];
+      for (let t = 20; t <= 100; t += 20) { const yy = y(t); parts.push(`<line class="gridline" x1="${left}" y1="${yy}" x2="${width-right}" y2="${yy}"></line><text class="plot-label" x="${left-9}" y="${yy+4}" text-anchor="end">${t}</text>`); }
+      parts.push(`<line class="axis" x1="${left}" y1="${top}" x2="${left}" y2="${height-bottom}"></line><line class="axis" x1="${left}" y1="${height-bottom}" x2="${width-right}" y2="${height-bottom}"></line>`);
+      parts.push(`<path class="line-a" d="M ${x1} ${y(v.a1b1)} L ${x2} ${y(v.a2b1)}"></path><circle class="point-a" cx="${x1}" cy="${y(v.a1b1)}" r="7"></circle><circle class="point-a" cx="${x2}" cy="${y(v.a2b1)}" r="7"></circle>`);
+      parts.push(`<path class="line-b" d="M ${x1} ${y(v.a1b2)} L ${x2} ${y(v.a2b2)}"></path><circle class="point-b" cx="${x1}" cy="${y(v.a1b2)}" r="7"></circle><circle class="point-b" cx="${x2}" cy="${y(v.a2b2)}" r="7"></circle>`);
+      parts.push(`<text class="plot-label" x="${x1}" y="${height-bottom+28}" text-anchor="middle">A1</text><text class="plot-label" x="${x2}" y="${height-bottom+28}" text-anchor="middle">A2</text>`);
+      parts.push(`<line x1="${width-170}" y1="30" x2="${width-130}" y2="30" class="line-a"></line><text class="plot-label" x="${width-120}" y="34">B1</text><line x1="${width-170}" y1="52" x2="${width-130}" y2="52" class="line-b"></line><text class="plot-label" x="${width-120}" y="56">B2</text>`);
+      svg.innerHTML = `<title id="interaction-title">Interaction plot</title><desc id="interaction-desc">Factor A has two levels on the horizontal axis. Teal is B1 and amber is B2. ${pattern}.</desc>${parts.join('')}`;
+    }
+    interactionIds.forEach(id => $('#'+id).addEventListener('input', updateInteraction));
+    $$('.interaction-preset').forEach(btn => btn.addEventListener('click', () => {
+      const presets = {
+        parallel: [60,75,68,83],
+        cross: [45,85,82,48],
+        fan: [55,68,55,92]
+      };
+      interactionIds.forEach((id, i) => { $('#'+id).value = presets[btn.dataset.preset][i]; });
+      updateInteraction();
+    }));
+    updateInteraction();
+
+    // ---------- Excel tabs ----------
+    const tabButtons = $$('.tab-button');
+    function activateTab(button) {
+      tabButtons.forEach(btn => {
+        const selected = btn === button;
+        btn.setAttribute('aria-selected', String(selected));
+        const panel = document.getElementById(btn.getAttribute('aria-controls'));
+        panel.hidden = !selected;
+      });
+    }
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => activateTab(btn));
+      btn.addEventListener('keydown', event => {
+        const i = tabButtons.indexOf(btn);
+        let next = null;
+        if (event.key === 'ArrowRight') next = tabButtons[(i + 1) % tabButtons.length];
+        if (event.key === 'ArrowLeft') next = tabButtons[(i - 1 + tabButtons.length) % tabButtons.length];
+        if (next) { event.preventDefault(); next.focus(); activateTab(next); }
+      });
+    });
+
+    // ---------- Reveals ----------
+    $$('.reveal-button').forEach(btn => btn.addEventListener('click', () => {
+      const panel = document.getElementById(btn.getAttribute('aria-controls'));
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      panel.hidden = open;
+      btn.textContent = open ? 'Reveal answer' : 'Hide answer';
+    }));
+
+    // ---------- Quiz ----------
+    const quizForm = $('#quiz-form');
+    quizForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const questions = $$('.quiz-question', quizForm);
+      let score = 0, answered = 0;
+      questions.forEach((q, index) => {
+        const chosen = $(`input[name="q${index+1}"]:checked`, q);
+        const feedback = $('.feedback', q);
+        q.classList.remove('correct','incorrect');
+        feedback.hidden = false;
+        if (chosen) {
+          answered += 1;
+          const correct = chosen.value === q.dataset.answer;
+          if (correct) { score += 1; q.classList.add('correct'); feedback.innerHTML = `<strong>Correct.</strong> ${feedback.textContent.replace(/^Explanation:\s*/,'')}`; }
+          else { q.classList.add('incorrect'); feedback.innerHTML = `<strong>Not quite.</strong> ${feedback.textContent.replace(/^Explanation:\s*/,'')}`; }
+        } else {
+          q.classList.add('incorrect');
+          feedback.innerHTML = `<strong>No answer selected.</strong> ${feedback.textContent.replace(/^Explanation:\s*/,'')}`;
+        }
+      });
+      const result = $('#quiz-result');
+      result.className = `result-banner ${score >= 4 ? 'pass' : score >= 3 ? 'warn' : 'fail'}`;
+      result.innerHTML = `<strong>Score: ${score}/5 (${score*20}%)</strong><p>${answered < 5 ? `You answered ${answered} of 5 questions. ` : ''}${score === 5 ? 'Excellent—your method selection and interpretation are strong.' : score >= 4 ? 'Strong result. Review the explanation for the missed item.' : score >= 3 ? 'Good foundation. Revisit the assumptions and interaction sections.' : 'Review the method selector, core mathematics and Excel limitations, then retry.'}</p>`;
+      result.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
+    });
+    $('#reset-quiz').addEventListener('click', () => {
+      quizForm.reset();
+      $$('.quiz-question', quizForm).forEach(q => { q.classList.remove('correct','incorrect'); $('.feedback', q).hidden = true; });
+      const result = $('#quiz-result');
+      result.className = 'result-banner pass';
+      result.textContent = 'Answer all five questions, then submit.';
+    });
+
+    // Update SVGs when theme changes, because CSS variables used inside SVG update automatically,
+    // but re-rendering also refreshes descriptions and protects embedded-browser behavior.
+    const observer = new MutationObserver(() => {
+      try { runAnova(); updateInteraction(); } catch (_) { /* retain current visuals */ }
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  })();
+  </script>
+</body>
+</html>

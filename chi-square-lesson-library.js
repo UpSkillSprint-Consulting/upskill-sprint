@@ -3,6 +3,18 @@
 
   const LESSONS = [
     {
+      marker: 'data-anova-analysis-one-stop-shop',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/anova-analysis-one-stop-shop',
+      topic: 'statistics',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'anova analysis of variance one way two way factorial welch repeated measures ancova manova mancova interaction f statistic p value effect size tukey post hoc excel analysis toolpak minitab statistics',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>90–110 min</span><span>Excel + Minitab</span>',
+      title: 'ANOVA Analysis: One-Stop Masterclass',
+      description: 'Select, calculate, diagnose and interpret one-way, factorial, repeated-measures, ANCOVA, MANOVA and MANCOVA—with Excel and Minitab guidance.'
+    },
+    {
       marker: 'data-chi-square-goodness-of-fit',
       sectionId: 'statistics',
       path: '/lessons/statistics/chi-square-goodness-of-fit-test',
