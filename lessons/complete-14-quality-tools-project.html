@@ -1,5 +1,36 @@
 <!doctype html>
 <html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "The Complete Quality Toolbox: All 14 Tools",
+  "slug": "complete-14-quality-tools-project",
+  "category": "Quality Engineering",
+  "category_slug": "quality-engineering",
+  "level": "Advanced",
+  "estimated_minutes": 45,
+  "interactive": true,
+  "card_title": "The Complete Quality Toolbox: All 14 Tools",
+  "card_description": "Run an end-to-end quality investigation from process mapping and root-cause evidence through corrective-action planning and sustainment.",
+  "search_keywords": [
+    "complete quality toolbox",
+    "14 quality tools",
+    "integrated quality investigation",
+    "root cause analysis",
+    "corrective action",
+    "capstone project",
+    "qc tools",
+    "management and planning tools",
+    "dmaic",
+    "tool relationship network",
+    "quality engineering",
+    "asq cssbb",
+    "asq cqe",
+    "advanced",
+    "interactive"
+  ],
+  "suggested_github_path": "lessons/complete-14-quality-tools-project.html"
+}
+-->
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -48,6 +79,7 @@
 .qw-net-preT{color:var(--qw-blue);font-weight:700}
 .qw-net-sucT{color:var(--qw-amber);font-weight:700}
 @media(max-width:620px){.qw-net-svg{min-width:640px}}
+
 /* ---- fillable capstone worksheet (additive) ---- */
 .qw-capstone{margin:18px 0 8px;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--tint)}
 .qw-cap-head h3{margin:0 0 4px}
@@ -69,6 +101,7 @@
 .qw-cap-status{font-size:12.5px;font-weight:700;color:var(--qw-teal)}
 @media(max-width:620px){.qw-cap-meta{grid-template-columns:1fr}}
 @media print{.qw-capstone{display:none!important}}
+.qw-tool-lesson{display:inline-flex;align-items:center;gap:6px;margin-top:14px;min-height:40px;padding:9px 14px;border:1px solid var(--qw-teal);border-radius:9px;background:color-mix(in srgb,var(--qw-teal) 8%,var(--card));color:var(--qw-teal);font-weight:750;font-size:13.5px;text-decoration:none}.qw-tool-lesson:hover{background:var(--qw-teal);color:#fff}
 </style>
 </head>
 <body>
@@ -121,7 +154,8 @@ const tools=[
 ];
 const grid=document.getElementById('tool-grid');
 function renderTools(filter='all'){grid.innerHTML=tools.filter(t=>filter==='all'||t.phase===filter).map(t=>`<button class="qw-tool qw-phase" data-phase="${t.phase}" data-tool="${t.id}"><b>${t.name}</b><span class="qw-badge">${t.level}</span><small>${t.purpose}</small></button>`).join('');grid.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>showTool(b.dataset.tool));}
-function showTool(id){const t=tools.find(x=>x.id===id);const d=document.getElementById('tool-details');d.classList.add('show');d.innerHTML=`<h3>${t.name}</h3><p>${t.purpose}</p><table class="qw-table"><tr><th>What should come before</th><td>${t.before}</td></tr><tr><th>What normally comes after</th><td>${t.after}</td></tr><tr><th>Why this level matters</th><td>${t.why}</td></tr></table>`;d.scrollIntoView({behavior:'smooth',block:'nearest'});}
+const LESSON_LINKS={flow:['/lessons/7-essential-quality-tools#tool-explorer','The 7 Essential Quality Tools'],check:['/lessons/7-essential-quality-tools#tool-explorer','The 7 Essential Quality Tools'],strat:['/lessons/7-essential-quality-tools#tool-explorer','The 7 Essential Quality Tools'],hist:['/lessons/7-essential-quality-tools#tool-explorer','The 7 Essential Quality Tools'],pareto:['/lessons/understanding-pareto-chart','Understanding the Pareto Chart'],fish:['/lessons/root-cause-analysis-5-whys-fishbone','Root Cause Analysis: 5 Whys & Fishbone'],hyp:['/lessons/hypothesis-testing-for-beginners','Hypothesis Testing for Beginners'],reg:['/lessons/minitab-best-predictive-regression-model','Finding the Best Predictive Regression Model in Minitab'],doe:['/lessons/introduction-to-design-of-experiment-doe','Introduction to Design of Experiment (DOE)'],aff:['/lessons/7-management-planning-tools#tool-explorer','The 7 Management & Planning Tools'],inter:['/lessons/7-management-planning-tools#tool-explorer','The 7 Management & Planning Tools'],tree:['/lessons/7-management-planning-tools#tool-explorer','The 7 Management & Planning Tools'],priority:['/lessons/7-management-planning-tools#tool-explorer','The 7 Management & Planning Tools'],matrix:['/lessons/7-management-planning-tools#tool-explorer','The 7 Management & Planning Tools'],pdpc:['/lessons/7-management-planning-tools#tool-explorer','The 7 Management & Planning Tools'],network:['/lessons/7-management-planning-tools#tool-explorer','The 7 Management & Planning Tools'],spc:['/lessons/control-charts-explained','Control Charts, Explained'],cap:['/lessons/lean-six-sigma/process-capability-cp-and-cpk','Process Capability (Cp & Cpk)']};
+function showTool(id){const t=tools.find(x=>x.id===id);const d=document.getElementById('tool-details');d.classList.add('show');d.innerHTML=`<h3>${t.name}</h3><p>${t.purpose}</p><table class="qw-table"><tr><th>What should come before</th><td>${t.before}</td></tr><tr><th>What normally comes after</th><td>${t.after}</td></tr><tr><th>Why this level matters</th><td>${t.why}</td></tr></table>${LESSON_LINKS[id]?`<a class="qw-tool-lesson" href="${LESSON_LINKS[id][0]}">Open the full lesson: ${LESSON_LINKS[id][1]} \u2192</a>`:''}`;d.scrollIntoView({behavior:'smooth',block:'nearest'});}
 window.__QT_TOOLS=tools;window.__QT_showTool=showTool;renderTools();document.querySelectorAll('#phase-tabs .qw-tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('#phase-tabs .qw-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderTools(b.dataset.filter);});
 const questions=[
 {q:'What are you trying to accomplish?',opts:[['understand','Understand or define the process'],['collect','Collect or improve data'],['find','Find the biggest or most concentrated problem'],['cause','Find and validate root cause'],['optimize','Optimize several process factors'],['plan','Plan and implement corrective action'],['control','Sustain and monitor an improvement']]},
