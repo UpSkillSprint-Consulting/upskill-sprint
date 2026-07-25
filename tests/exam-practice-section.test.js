@@ -32,23 +32,27 @@ test('the Exam Practice section sits between Data Analytics and Quality Engineer
   assert.ok(da < ex && ex < qe, 'order is Data Analytics → Exam Practice → Quality Engineering');
 });
 
-test('the section has the expected heading, coming-soon state, and cert previews', async () => {
+test('the section has the expected heading, a certification count, and cert previews', async () => {
   const { window } = await loadPage();
   const sec = window.document.getElementById('exam-practice');
   assert.ok(sec, 'section present');
   assert.match(sec.querySelector('h2').textContent, /Simulated Exam Practice/);
-  assert.match(sec.querySelector('.category-count').textContent, /Coming soon/);
+  const badge = sec.querySelector('.category-count').textContent;
+  assert.doesNotMatch(badge, /Coming soon/, 'the section itself is not marked coming soon');
+  assert.match(badge, /certifications/, 'shows a certification count instead');
   assert.ok(sec.hasAttribute('data-empty-category'), 'uses the empty-category pattern');
   const certs = Array.from(sec.querySelectorAll('.chip')).map(c => c.textContent);
   ['CSSBB', 'CQE', 'CRE', 'CQA', 'CMQ/OE', 'CSSGB'].forEach(c =>
     assert.ok(certs.includes(c), `previews ${c}`));
 });
 
-test('the section has no dead links (only the request-an-exam CTA)', async () => {
+test('the section is enter-able — it links into the Test Bank', async () => {
   const { window } = await loadPage();
   const sec = window.document.getElementById('exam-practice');
-  const links = Array.from(sec.querySelectorAll('a')).map(a => a.getAttribute('href'));
-  assert.deepEqual(links, ['request-topic.html'], 'the only link is the request CTA');
+  const link = sec.querySelector('a[href="test-bank.html"]');
+  assert.ok(link, 'has an Open the Test Bank link');
+  assert.match(link.textContent, /Test Bank/);
+  assert.ok(fs.existsSync(path.join(ROOT, 'test-bank.html')), 'the Test Bank page exists on disk');
 });
 
 test('the section is wired into the jump nav, topic filter, and footer', async () => {
