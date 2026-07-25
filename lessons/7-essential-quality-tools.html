@@ -18,6 +18,77 @@
 <style>
 .qe-shell{max-width:1180px;margin:auto;padding:34px 20px 72px}.qe-hero{padding:34px 0 28px;border-bottom:1px solid var(--line)}.qe-kicker{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal)}.qe-hero h1{font-size:clamp(38px,5vw,60px);line-height:1.05;margin:10px 0 14px}.qe-hero>p{max-width:900px;font-size:17px;line-height:1.7;color:var(--muted)}.qe-pills,.qe-hero-controls{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.qe-pill{border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:var(--card);font-size:12px;font-weight:700}.qe-hero-controls{margin-top:22px;justify-content:space-between}.qe-back{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-weight:700;text-decoration:none}.qe-meta{display:flex;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:13px}.qe-meta span{padding:6px 9px;border-radius:999px;background:var(--tint)}.qe-section{margin-top:34px}.qe-section h2{font-size:clamp(27px,4vw,39px);margin:0 0 8px}.qe-lead{max-width:880px;color:var(--muted);line-height:1.7}.qe-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.qe-card,.qe-panel{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:20px}.qe-sequence{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.qe-step{border:1px solid var(--line);border-radius:10px;padding:13px;background:var(--paper)}.qe-step b{display:block}.qe-step small{display:block;color:var(--muted);margin-top:5px;line-height:1.4}.qe-wizard{display:grid;grid-template-columns:1fr 1fr;gap:18px}.qe-option{display:block;width:100%;text-align:left;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);padding:12px;margin:8px 0;cursor:pointer}.qe-option:hover,.qe-option.active{border-color:var(--teal);background:var(--tint)}.qe-tools{display:grid;grid-template-columns:280px minmax(0,1fr);gap:20px;align-items:start}.qe-tool-nav{position:sticky;top:88px;border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--card)}.qe-tool-btn{display:block;width:100%;text-align:left;border:0;border-radius:8px;background:transparent;color:var(--ink);padding:11px;font-weight:700;cursor:pointer}.qe-tool-btn:hover,.qe-tool-btn.active{background:var(--tint);color:var(--teal)}.qe-detail h3{font-size:25px;margin:0 0 8px}.qe-list{margin:0;padding-left:20px}.qe-list li{margin:7px 0;line-height:1.55}.qe-callout{border-left:4px solid var(--teal);background:var(--tint);padding:14px 16px;border-radius:8px;line-height:1.6}.qe-progress{height:10px;border-radius:999px;background:var(--tint);overflow:hidden}.qe-progress span{display:block;height:100%;width:0;background:var(--teal);transition:.25s}.qe-completion{max-width:960px;margin:42px auto 0;padding:28px;border:1px solid var(--line);border-radius:16px;background:var(--card);text-align:center}.qe-completion h2{margin:0 0 8px}.qe-completion-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}.qe-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 15px;border:1px solid var(--teal);border-radius:8px;background:var(--teal);color:#fff;font-weight:700;text-decoration:none;cursor:pointer}.qe-btn.secondary{background:var(--card);color:var(--ink);border-color:var(--line)}
 @media(max-width:900px){.qe-sequence{grid-template-columns:repeat(2,1fr)}.qe-wizard,.qe-tools,.qe-grid{grid-template-columns:1fr}.qe-tool-nav{position:static;display:grid;grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.qe-shell{padding-left:14px;padding-right:14px}.qe-sequence,.qe-tool-nav{grid-template-columns:1fr}.qe-hero-controls{align-items:flex-start;flex-direction:column}}
+/* ---- deep-dive expansion + interactive widgets (additive) ---- */
+.qt-deep{margin-top:22px;padding-top:20px;border-top:1px dashed var(--line)}
+.qt-deep-h{font-size:15px;margin:18px 0 6px;color:var(--teal);letter-spacing:.02em}
+.qt-deep p{line-height:1.7;color:var(--ink);margin:0 0 6px}
+.qt-example,.qt-mistake{border-radius:8px;padding:12px 14px;margin:14px 0;line-height:1.6}
+.qt-example{background:var(--tint);border:1px solid var(--line)}
+.qt-mistake{background:var(--tint);border-left:4px solid #d9822b}
+.qt-callout{margin-top:14px}
+.qt-viz{margin:18px 0 4px;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+.qt-viz-title{font-weight:700;margin:0 0 12px;font-size:14px}
+.qt-info{margin:12px 0 0;line-height:1.6;color:var(--muted)}
+.qt-good{color:var(--ink)}
+.qt-warn{color:#c0392b;font-weight:600}
+.qt-svg{width:100%;height:auto;max-width:520px;display:block;margin:0 auto}
+.qt-chart{overflow-x:auto}
+.qt-axlbl{font-size:9px;fill:var(--muted);text-anchor:middle;font-family:inherit}
+.qt-axis,.qt-limit,.qt-center,.qt-80,.qt-spine,.qt-bone{stroke:var(--line)}
+.qt-bar{fill:var(--teal);opacity:.55}
+.qt-bar.vital{fill:var(--teal);opacity:1}
+.qt-cumline,.qt-trend,.qt-ctrlline{stroke:var(--teal);stroke-width:2}
+.qt-cumdot{fill:var(--teal)}
+.qt-80{stroke-dasharray:4 4;stroke:#d9822b}
+.qt-limit{stroke-dasharray:5 4;stroke:#c0392b}
+.qt-center{stroke:var(--teal)}
+.qt-scatterdot{fill:var(--teal);opacity:.6}
+.qt-ctrldot{fill:var(--ink)}
+.qt-ctrldot.flag{fill:#c0392b;stroke:#c0392b}
+.qt-seg{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 14px}
+.qt-segbtn{min-height:40px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font-weight:600;font-size:13px;cursor:pointer}
+.qt-segbtn:hover{border-color:var(--teal)}
+.qt-segbtn.active{background:var(--tint);border-color:var(--teal);color:var(--teal)}
+.qt-slider{display:flex;align-items:center;gap:10px;margin:4px 0 12px;font-size:13px;font-weight:600}
+.qt-slider input[type=range]{flex:1;min-width:120px;max-width:260px;accent-color:var(--teal)}
+.qt-slnum{min-width:44px;font-variant-numeric:tabular-nums}
+.qt-flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.qt-node{min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-weight:600;cursor:pointer}
+.qt-node:hover{border-color:var(--teal)}
+.qt-node.active{background:var(--tint);border-color:var(--teal);color:var(--teal)}
+.qt-node.qt-loop{box-shadow:0 0 0 2px #d9822b inset}
+.qt-arrow{color:var(--muted)}
+.qt-toggle{min-height:40px;margin-top:12px;padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-weight:600;cursor:pointer}
+.qt-toggle:hover{border-color:var(--teal)}
+.qt-check{width:100%;border-collapse:collapse;font-size:13px}
+.qt-check th,.qt-check td{border:1px solid var(--line);padding:6px;text-align:center}
+.qt-check th[scope=row]{text-align:left}
+.qt-cell{width:100%;min-height:44px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--ink)}
+.qt-cell:hover{background:var(--tint)}
+.qt-tally{font-size:14px;letter-spacing:1px;min-height:16px;color:var(--teal)}
+.qt-num{font-size:11px;color:var(--muted)}
+.qt-rowtot{font-weight:700}
+.qt-strat{display:flex;flex-wrap:wrap;gap:12px}
+.qt-col{flex:1;min-width:120px;border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--card)}
+.qt-coltitle{font-weight:700;font-size:13px;margin-bottom:8px}
+.qt-dots{display:flex;flex-wrap:wrap;gap:4px;min-height:40px}
+.qt-dot{width:12px;height:12px;border-radius:50%}
+.qt-dot.ok{background:var(--teal);opacity:.4}
+.qt-dot.bad{background:#c0392b}
+.qt-colstat{margin-top:8px;font-size:12px;color:var(--muted)}
+.qt-fishwrap{overflow-x:auto}
+.qt-spine{stroke-width:2}
+.qt-bone{stroke-width:1.5}
+.qt-fishhead{fill:var(--teal);opacity:.6}
+.qt-bonelbl{font-size:10px;font-weight:700;fill:var(--ink)}
+.qt-branchbtns{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.qt-causelist{margin-top:6px}
+.qt-cause{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;min-height:44px;text-align:left;padding:10px 12px;margin:6px 0;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer}
+.qt-cause:hover{border-color:var(--teal)}
+.qt-cause.flagged{background:var(--tint);border-color:var(--teal)}
+.qt-flag{font-size:11px;font-weight:700;color:var(--teal);white-space:nowrap}
+.qt-causelist h5,.qt-info h5,.qt-deep h5{margin:6px 0;font-size:14px}
+@media(max-width:560px){.qt-flow{font-size:13px}.qt-strat{flex-direction:column}.qt-seg{gap:6px}}
 </style>
 </head>
 <body>
@@ -70,11 +141,657 @@
 </footer>
 
 <script>
+/* ============================================================================
+   The 7 Essential Quality Tools — deep-dive expansion + interactive widgets.
+
+   This module is ADDITIVE. It renders below the existing tool detail (title,
+   question, purpose, inputs, outputs, "Do not overclaim") without altering it.
+   For each tool the learner gets: a fuller explanation, a "how to read it"
+   guide, a worked micro-example, common mistakes, an exam/real-world note, and
+   a genuine hands-on interactive.
+
+   Everything is vanilla JS, inline SVG, and theme-aware via CSS custom
+   properties. A namespaced test hook (window.__QT7) exposes the pure helpers.
+   ============================================================================ */
+(function () {
+  'use strict';
+
+  /* ---- small DOM + math helpers ------------------------------------------ */
+  function el(html) {
+    const t = document.createElement('template');
+    t.innerHTML = html.trim();
+    return t.content.firstElementChild;
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  }
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  function sum(a) { return a.reduce((x, y) => x + y, 0); }
+
+  /* Deterministic PRNG so redraws are stable and testable. */
+  function mulberry32(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  /* ---- pure computations (unit-tested) ----------------------------------- */
+
+  // Order categories by a chosen metric, descending, with cumulative %.
+  function paretoModel(categories, metricKey) {
+    const rows = categories
+      .map(c => ({ label: c.label, value: c[metricKey] }))
+      .sort((a, b) => b.value - a.value);
+    const total = sum(rows.map(r => r.value)) || 1;
+    let running = 0;
+    rows.forEach(r => { running += r.value; r.cum = running / total; });
+    const vitalFew = [];
+    let acc = 0;
+    for (const r of rows) {
+      vitalFew.push(r.label);
+      acc += r.value;
+      if (acc / total >= 0.8) break;
+    }
+    return { rows, total, vitalFew };
+  }
+
+  // Bin continuous values into equal-width bins.
+  function histogram(values, binCount) {
+    const lo = Math.min.apply(null, values);
+    const hi = Math.max.apply(null, values);
+    const width = (hi - lo) / binCount || 1;
+    const bins = new Array(binCount).fill(0);
+    values.forEach(v => {
+      let idx = Math.floor((v - lo) / width);
+      if (idx >= binCount) idx = binCount - 1;
+      if (idx < 0) idx = 0;
+      bins[idx]++;
+    });
+    return { bins, lo, hi, width };
+  }
+
+  // Generate a sample of one of three canonical shapes.
+  function shapeSample(shape, n, seed) {
+    const rnd = mulberry32(seed);
+    const gauss = (m, s) => {
+      const u = Math.max(1e-9, rnd()), v = rnd();
+      return m + s * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    };
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      if (shape === 'normal') out.push(gauss(50, 8));
+      else if (shape === 'skewed') { const g = gauss(0, 1); out.push(35 + Math.abs(g) * Math.abs(g) * 6); }
+      else /* bimodal */ out.push(rnd() < 0.5 ? gauss(38, 5) : gauss(62, 5));
+    }
+    return out;
+  }
+
+  // Generate paired data with an approximate target correlation r.
+  function correlatedPairs(targetR, n, seed) {
+    const rnd = mulberry32(seed);
+    const gauss = () => {
+      const u = Math.max(1e-9, rnd()), v = rnd();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    };
+    const r = clamp(targetR, -0.99, 0.99);
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      const x = gauss();
+      const y = r * x + Math.sqrt(1 - r * r) * gauss();
+      pts.push({ x, y });
+    }
+    return pts;
+  }
+
+  // Pearson r for a set of {x,y}.
+  function pearson(pts) {
+    const n = pts.length;
+    const mx = sum(pts.map(p => p.x)) / n, my = sum(pts.map(p => p.y)) / n;
+    let sxy = 0, sxx = 0, syy = 0;
+    pts.forEach(p => { const dx = p.x - mx, dy = p.y - my; sxy += dx * dy; sxx += dx * dx; syy += dy * dy; });
+    const d = Math.sqrt(sxx * syy);
+    return d === 0 ? 0 : sxy / d;
+  }
+
+  // Build a control-chart series and flag out-of-limit points (>3σ).
+  function controlModel(scenario, seed) {
+    const rnd = mulberry32(seed);
+    const gauss = (m, s) => {
+      const u = Math.max(1e-9, rnd()), v = rnd();
+      return m + s * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    };
+    const n = 24, center = 50, sigma = 3;
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      let v = gauss(center, sigma);
+      if (scenario === 'shift' && i >= 14) v += 11;
+      if (scenario === 'trend' && i >= 10) v += (i - 10) * 1.6;
+      if (scenario === 'spike' && i === 17) v += 16;
+      pts.push(v);
+    }
+    const ucl = center + 3 * sigma, lcl = center - 3 * sigma;
+    const flags = pts.map(v => v > ucl || v < lcl);
+    return { pts, center, ucl, lcl, sigma, flags };
+  }
+
+  /* ---- deep explanatory content per tool --------------------------------- */
+  // Each entry: how it works, how to read it, worked micro-example, mistakes,
+  // and an ASQ CSSBB/CQE + real-world note.
+  const DEEP = {
+    flowchart: {
+      how: 'A flowchart or process map lays out the real sequence of operations, decisions, handoffs, and rework loops. You build it by walking the process and recording what actually happens — not what the SOP claims. Every arrow is a chance for variation to enter; every decision diamond is a place a defect can be created or passed downstream.',
+      read: 'Look for hidden rework loops (a sign of built-in scrap), decision points with no clear rule (operator judgment = variation), and handoffs between people or shifts (where information and material get dropped). These become your candidate data-collection points.',
+      example: 'Mapping a steel bar line revealed an undocumented "re-heat if cold" loop between rolling and cooling. That loop — invisible on the official SOP — turned out to be where inconsistent finish temperatures entered, which later drove the yield-strength spread.',
+      mistake: 'Mapping the ideal process instead of the actual one. If your map has no rework loops, you probably have not walked the floor yet.',
+      exam: 'On the ASQ CSSBB/CQE exam, the process map is the Measure-phase deliverable that identifies where to place data collection. Expect questions that ask what to do FIRST — the answer is usually "map the process," because you cannot collect meaningful data on a process you do not understand.'
+    },
+    checksheet: {
+      how: 'A check sheet is a structured form for collecting data in real time at the point of occurrence. Its power is the operational definition: every category is defined precisely enough that two different operators would record the same event the same way. Tally-style check sheets also reveal a rough pattern as the data accumulates.',
+      read: 'Watch the tallies build. Concentration in one or two categories hints at where to look next, but the check sheet only structures collection — you still need Pareto to prioritize and stratification to localize.',
+      example: 'A surface-defect check sheet with clear categories (scratch, pit, scale, crack) collected by shift immediately showed scale defects clustering on the night shift — a lead the old PASS/FAIL log could never have surfaced.',
+      mistake: 'Vague categories ("bad", "other") and no traceability fields (shift, machine, time). Without operational definitions the counts are not comparable and the whole investigation inherits the noise.',
+      exam: 'Exam items frame the check sheet as the tool that turns a mapped process into reliable, traceable data. Key phrase to recognize: operational definition. If two people would count differently, the check sheet is not done.'
+    },
+    stratification: {
+      how: 'Stratification separates a pooled dataset into meaningful subgroups — by shift, machine, grade, operator, material lot, or line end. Aggregated data can hide or even reverse a signal; splitting by the right factor makes the real pattern visible.',
+      read: 'Compare subgroups side by side. If one stratum carries most of the problem, you have localized the issue (the "where"). If every stratum looks the same, the factor you chose is not the driver — try another.',
+      example: 'Pooled failures looked like uniform random noise. Stratified by shift, 70% of failures sat on one shift. That single split redirected the entire investigation.',
+      mistake: 'Interpreting pooled results before stratifying (a Simpson\'s-paradox trap), or stratifying by a factor with no traceability so subgroups cannot be reconstructed.',
+      exam: 'CSSBB/CQE questions test whether you stratify BEFORE drawing conclusions. Remember: stratification shows where the signal lives, never why — that comes later with fishbone and DOE.'
+    },
+    pareto: {
+      how: 'A Pareto chart ranks categories by a declared metric — frequency, cost, downtime, or risk — as descending bars, with a cumulative-percentage line. It operationalizes the 80/20 idea: a vital few categories usually account for most of the effect.',
+      read: 'Read the bars for rank and the cumulative line for how quickly you reach ~80%. The categories left of that crossing are your vital few. Critically: change the metric and the ranking can change — the most frequent defect is often not the most expensive.',
+      example: 'By frequency, minor scratches dominated. Re-run by cost of poor quality, cracks — rare but scrap-causing — jumped to the top. The team correctly prioritized cracks.',
+      mistake: 'Treating the tallest bar as the root cause, or never questioning the metric. Pareto prioritizes; it does not explain or prove.',
+      exam: 'Expect a question where switching from count to cost reorders the chart — the exam wants you to prioritize by business impact, not raw frequency. Pareto is a prioritization tool, not a causation tool.'
+    },
+    fishbone: {
+      how: 'A fishbone (Ishikawa / cause-and-effect) diagram organizes candidate causes of one focused effect into branches — classically the 6Ms: Man, Machine, Method, Material, Measurement, and Mother Nature (Environment). It is a structured brainstorm that produces hypotheses, not conclusions.',
+      read: 'Each branch is a category of possible cause; each twig is a specific, testable hypothesis. A good diagram is broad (all 6Ms considered) and specific (twigs you can actually go verify with data).',
+      example: 'For "low yield strength," the Material branch surfaced "chemistry variation between heats" and the Method branch surfaced "inconsistent finish temperature." Both became measurable hypotheses feeding the next stage.',
+      mistake: 'Confusing a branch with proof. A cause written on the diagram is a claim awaiting evidence. Skipping straight from fishbone to corrective action is the classic error.',
+      exam: 'CSSBB/CQE items pair the fishbone with the Analyze phase: it generates hypotheses that must then be validated (hypothesis tests, DOE, regression). If an answer choice "implements the first idea," it is wrong.'
+    },
+    histogram: {
+      how: 'A histogram bins continuous measurements into intervals and shows their frequency, revealing center, spread, and — most importantly — shape. Shape carries diagnostic information that summary statistics alone hide.',
+      read: 'A single symmetric peak suggests one stable population. Two peaks (bimodal) suggest mixed populations — go stratify. A long tail (skew) or values piled against a spec limit suggest measurement rounding, sorting, or a boundary effect. Bin width matters: too few bins hide structure, too many create noise.',
+      example: 'A yield-strength histogram was clearly bimodal. That shape pointed straight to two populations — later confirmed as two different heat-treat recipes running on alternate shifts.',
+      mistake: 'Reading a histogram as if it showed time order (it does not — that is the control chart\'s job), or picking a bin width that flattens real structure.',
+      exam: 'Exam questions use shape as a clue: bimodal → mixed populations → stratify. The histogram describes distribution; it deliberately discards sequence.'
+    },
+    scatter: {
+      how: 'A scatter plot shows paired (X, Y) observations to reveal association: direction, strength, linearity, range, outliers, and subgroup clustering. It is the visual precursor to correlation and regression.',
+      read: 'Judge direction (up/down), strength (tight vs. cloud), and form (line vs. curve). Watch for outliers that distort the trend and for separate clusters that signal a lurking subgroup. A visible relationship is evidence of association only.',
+      example: 'Finish temperature vs. yield strength showed a clear positive band, motivating a controlled study. But two clusters in the cloud hinted at a shift effect — a reminder to stratify before claiming a single clean relationship.',
+      mistake: 'Reading correlation as causation, or extrapolating the trend beyond the range of the data. A lurking variable can create association with no direct cause.',
+      exam: 'The guaranteed exam trap: correlation does not prove causation. Scatter plots motivate hypotheses and set up regression/DOE; they never close the causal loop alone.'
+    },
+    control: {
+      how: 'A control chart plots a process characteristic in time order against a center line and control limits (typically ±3σ from the process itself, NOT the specification). It separates common-cause variation (inherent, stable noise) from special-cause variation (a signal something changed).',
+      read: 'A point beyond a control limit, or a nonrandom pattern (a run, a trend, a shift), signals a special cause to investigate. Points hugging the center within the limits are common-cause variation — leave the process alone. Control limits answer "is it stable?"; specification limits answer "is it acceptable?" — never confuse the two.',
+      example: 'After a corrective action, an I-MR chart held steady inside the limits for weeks — evidence the fix was sustained. When a raw-material lot changed, a sudden upward shift tripped the limit and triggered the reaction plan.',
+      mistake: 'Reacting to every point (tampering with a stable process) or drawing control limits from the spec instead of the data. Both inflate variation.',
+      exam: 'CSSBB/CQE items hinge on common vs. special cause and on control-vs-spec limits. The control chart is the Control-phase tool that proves a fix held; it monitors stability, it does not by itself name the root cause.'
+    }
+  };
+
+  /* ---- interactive widget builders --------------------------------------- */
+  // Each returns an element and wires its own events. All are self-contained.
+
+  function vizFlowchart() {
+    const stages = [
+      { id: 'recv', name: 'Receiving', doing: 'Incoming steel is logged and staged.', risk: 'Wrong lot or unverified chemistry enters here.', collect: 'Record heat/lot ID — the traceability anchor for everything downstream.' },
+      { id: 'heat', name: 'Heat treat', doing: 'Bars are brought to temperature.', risk: 'Furnace variation shifts final properties.', collect: 'Log soak temperature and time per batch.' },
+      { id: 'roll', name: 'Rolling', doing: 'Bars are rolled to final dimension.', risk: 'Speed/temperature interaction affects grain structure.', collect: 'Capture finish temperature — a prime suspect variable.' },
+      { id: 'cool', name: 'Cooling', doing: 'Controlled cool-down.', risk: 'Undocumented "re-heat if cold" rework loop lives here.', collect: 'Flag any bar that re-enters the loop.' },
+      { id: 'test', name: 'Testing', doing: 'Tensile / yield strength measured.', risk: 'Measurement error can masquerade as a process problem.', collect: 'Best data-collection point: results tied to upstream IDs.' },
+      { id: 'ship', name: 'Shipping', doing: 'Passing bars are released.', risk: 'Escaped defects reach the customer.', collect: 'Final containment check.' }
+    ];
+    const root = el('<div class="qt-viz"></div>');
+    root.appendChild(el('<p class="qt-viz-title">Interactive process map — tap a stage</p>'));
+    const flow = el('<div class="qt-flow" role="group" aria-label="Process stages"></div>');
+    let loops = false;
+    stages.forEach((s, i) => {
+      const b = el('<button type="button" class="qt-node" data-id="' + s.id + '">' + esc(s.name) + '</button>');
+      flow.appendChild(b);
+      if (i < stages.length - 1) flow.appendChild(el('<span class="qt-arrow" aria-hidden="true">→</span>'));
+    });
+    root.appendChild(flow);
+    const toggle = el('<button type="button" class="qt-toggle">Show rework loop</button>');
+    root.appendChild(toggle);
+    const info = el('<div class="qt-info" aria-live="polite"></div>');
+    root.appendChild(info);
+    function pick(id) {
+      const s = stages.find(x => x.id === id);
+      flow.querySelectorAll('.qt-node').forEach(n => n.classList.toggle('active', n.dataset.id === id));
+      info.innerHTML = '<h5>' + esc(s.name) + '</h5><p><strong>What happens:</strong> ' + esc(s.doing) + '</p><p><strong>Where a defect can originate:</strong> ' + esc(s.risk) + '</p><p class="qt-good"><strong>Data-collection point:</strong> ' + esc(s.collect) + '</p>';
+    }
+    flow.addEventListener('click', e => { const b = e.target.closest('.qt-node'); if (b) pick(b.dataset.id); });
+    toggle.addEventListener('click', () => {
+      loops = !loops;
+      root.classList.toggle('qt-show-loop', loops);
+      toggle.textContent = loops ? 'Hide rework loop' : 'Show rework loop';
+      const cool = flow.querySelector('[data-id="cool"]');
+      if (cool) cool.classList.toggle('qt-loop', loops);
+    });
+    pick('roll');
+    return root;
+  }
+
+  function vizChecksheet() {
+    const defects = ['Scratch', 'Pit', 'Scale', 'Crack'];
+    const shifts = ['Day', 'Swing', 'Night'];
+    const counts = defects.map(() => shifts.map(() => 0));
+    const root = el('<div class="qt-viz"></div>');
+    root.appendChild(el('<p class="qt-viz-title">Tally check sheet — tap a cell to record a defect</p>'));
+    const table = el('<table class="qt-check"><thead></thead><tbody></tbody></table>');
+    const thead = table.querySelector('thead');
+    thead.appendChild(el('<tr><th scope="col">Defect \\ Shift</th>' + shifts.map(s => '<th scope="col">' + esc(s) + '</th>').join('') + '<th scope="col">Total</th></tr>'));
+    const tbody = table.querySelector('tbody');
+    defects.forEach((d, di) => {
+      const tr = el('<tr><th scope="row">' + esc(d) + '</th>' + shifts.map((s, si) => '<td><button type="button" class="qt-cell" data-d="' + di + '" data-s="' + si + '" aria-label="Add ' + esc(d) + ' on ' + esc(s) + '"><span class="qt-tally"></span><span class="qt-num">0</span></button></td>').join('') + '<td class="qt-rowtot" data-row="' + di + '">0</td></tr>');
+      tbody.appendChild(tr);
+    });
+    root.appendChild(table);
+    const note = el('<p class="qt-info" aria-live="polite">Records accumulate into a pattern — the raw material for a Pareto chart.</p>');
+    const reset = el('<button type="button" class="qt-toggle">Reset sheet</button>');
+    root.appendChild(reset);
+    root.appendChild(note);
+    function tallyMarks(n) { // classic 4-and-a-slash grouping, text form
+      const groups = Math.floor(n / 5), rem = n % 5;
+      return ('卌 '.repeat(groups) + '|'.repeat(rem)).trim();
+    }
+    function refresh() {
+      let grandMax = 0, maxLabel = '';
+      defects.forEach((d, di) => {
+        const rowTotal = sum(counts[di]);
+        table.querySelector('.qt-rowtot[data-row="' + di + '"]').textContent = rowTotal;
+        if (rowTotal > grandMax) { grandMax = rowTotal; maxLabel = d; }
+      });
+      if (grandMax > 0) note.innerHTML = 'Leading category so far: <strong>' + esc(maxLabel) + '</strong> (' + grandMax + '). This is what a Pareto chart would rank first.';
+    }
+    table.addEventListener('click', e => {
+      const b = e.target.closest('.qt-cell'); if (!b) return;
+      const di = +b.dataset.d, si = +b.dataset.s;
+      counts[di][si]++;
+      b.querySelector('.qt-num').textContent = counts[di][si];
+      b.querySelector('.qt-tally').textContent = tallyMarks(counts[di][si]);
+      refresh();
+    });
+    reset.addEventListener('click', () => {
+      defects.forEach((d, di) => shifts.forEach((s, si) => counts[di][si] = 0));
+      table.querySelectorAll('.qt-cell').forEach(c => { c.querySelector('.qt-num').textContent = '0'; c.querySelector('.qt-tally').textContent = ''; });
+      note.textContent = 'Records accumulate into a pattern — the raw material for a Pareto chart.';
+      refresh();
+    });
+    return root;
+  }
+
+  function vizStratification() {
+    // 30 points, each with a shift and grade; night shift carries most defects.
+    const rnd = mulberry32(7);
+    const pts = [];
+    for (let i = 0; i < 30; i++) {
+      const shift = i % 3 === 0 ? 'Night' : (i % 3 === 1 ? 'Day' : 'Swing');
+      const grade = i % 2 === 0 ? 'A36' : 'A572';
+      const defect = shift === 'Night' ? rnd() < 0.75 : rnd() < 0.18;
+      pts.push({ shift, grade, defect });
+    }
+    const root = el('<div class="qt-viz"></div>');
+    root.appendChild(el('<p class="qt-viz-title">Stratify the pooled data — pick a factor</p>'));
+    const controls = el('<div class="qt-seg" role="group" aria-label="Stratifier"></div>');
+    ['Pool', 'By shift', 'By grade'].forEach((label, i) => {
+      controls.appendChild(el('<button type="button" class="qt-segbtn' + (i === 0 ? ' active' : '') + '" data-mode="' + label + '">' + label + '</button>'));
+    });
+    root.appendChild(controls);
+    const stage = el('<div class="qt-strat"></div>');
+    root.appendChild(stage);
+    const info = el('<p class="qt-info" aria-live="polite"></p>');
+    root.appendChild(info);
+    function column(title, items) {
+      const dots = items.map(p => '<span class="qt-dot ' + (p.defect ? 'bad' : 'ok') + '" title="' + esc(p.shift + ' / ' + p.grade) + '"></span>').join('');
+      const bad = items.filter(p => p.defect).length;
+      return '<div class="qt-col"><div class="qt-coltitle">' + esc(title) + '</div><div class="qt-dots">' + dots + '</div><div class="qt-colstat">' + bad + ' / ' + items.length + ' defective</div></div>';
+    }
+    function render(mode) {
+      let html = '', caption = '';
+      if (mode === 'Pool') {
+        html = column('All data (pooled)', pts);
+        caption = 'Pooled, the defects look like uniform noise — no obvious target.';
+      } else if (mode === 'By shift') {
+        const groups = ['Day', 'Swing', 'Night'];
+        html = groups.map(g => column(g, pts.filter(p => p.shift === g))).join('');
+        const worst = groups.map(g => ({ g, r: pts.filter(p => p.shift === g && p.defect).length })).sort((a, b) => b.r - a.r)[0];
+        caption = 'Split by shift, the signal localizes: <strong>' + worst.g + '</strong> carries the most defects. This is the "where."';
+      } else {
+        const groups = ['A36', 'A572'];
+        html = groups.map(g => column(g, pts.filter(p => p.grade === g))).join('');
+        caption = 'Split by grade, both look similar — grade is <strong>not</strong> the driver here. Try another factor.';
+      }
+      stage.innerHTML = html;
+      info.innerHTML = caption;
+    }
+    controls.addEventListener('click', e => {
+      const b = e.target.closest('.qt-segbtn'); if (!b) return;
+      controls.querySelectorAll('.qt-segbtn').forEach(x => x.classList.toggle('active', x === b));
+      render(b.dataset.mode);
+    });
+    render('Pool');
+    return root;
+  }
+
+  function vizPareto() {
+    const categories = [
+      { label: 'Scratch', count: 42, cost: 8 },
+      { label: 'Scale', count: 30, cost: 14 },
+      { label: 'Pit', count: 18, cost: 20 },
+      { label: 'Crack', count: 9, cost: 95 },
+      { label: 'Warp', count: 6, cost: 40 }
+    ];
+    const root = el('<div class="qt-viz"></div>');
+    root.appendChild(el('<p class="qt-viz-title">Pareto chart — switch the metric and watch the ranking change</p>'));
+    const seg = el('<div class="qt-seg" role="group" aria-label="Metric"></div>');
+    seg.appendChild(el('<button type="button" class="qt-segbtn active" data-metric="count">By frequency</button>'));
+    seg.appendChild(el('<button type="button" class="qt-segbtn" data-metric="cost">By total cost</button>'));
+    root.appendChild(seg);
+    const holder = el('<div class="qt-chart"></div>');
+    root.appendChild(holder);
+    const info = el('<p class="qt-info" aria-live="polite"></p>');
+    root.appendChild(info);
+    function draw(metric) {
+      const model = paretoModel(categories.map(c => ({ label: c.label, count: c.count, cost: c.count * (metric === 'cost' ? c.cost : 1) })), metric === 'cost' ? 'cost' : 'count');
+      const W = 320, H = 190, padL = 34, padB = 34, padT = 12, padR = 30;
+      const bw = (W - padL - padR) / model.rows.length;
+      const maxV = model.rows[0].value;
+      let bars = '', line = '', pts = '';
+      model.rows.forEach((r, i) => {
+        const h = (r.value / maxV) * (H - padT - padB);
+        const x = padL + i * bw, y = H - padB - h;
+        const vital = model.vitalFew.includes(r.label);
+        bars += '<rect x="' + (x + 4) + '" y="' + y + '" width="' + (bw - 8) + '" height="' + h + '" rx="3" class="qt-bar ' + (vital ? 'vital' : '') + '"></rect>';
+        bars += '<text x="' + (x + bw / 2) + '" y="' + (H - padB + 12) + '" class="qt-axlbl">' + esc(r.label) + '</text>';
+        const cx = x + bw / 2, cy = padT + (1 - r.cum) * (H - padT - padB);
+        pts += '<circle cx="' + cx + '" cy="' + cy + '" r="3" class="qt-cumdot"></circle>';
+        line += (i === 0 ? 'M' : 'L') + cx + ' ' + cy + ' ';
+      });
+      const y80 = padT + (1 - 0.8) * (H - padT - padB);
+      const svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="qt-svg" role="img" aria-label="Pareto chart by ' + metric + '">' +
+        '<line x1="' + padL + '" y1="' + y80 + '" x2="' + (W - padR) + '" y2="' + y80 + '" class="qt-80"></line>' +
+        '<text x="' + (W - padR) + '" y="' + (y80 - 4) + '" class="qt-axlbl" text-anchor="end">80%</text>' +
+        bars + '<path d="' + line + '" class="qt-cumline" fill="none"></path>' + pts + '</svg>';
+      holder.innerHTML = svg;
+      info.innerHTML = 'Vital few by ' + (metric === 'cost' ? 'cost' : 'frequency') + ': <strong>' + model.vitalFew.map(esc).join(', ') + '</strong>. ' +
+        (metric === 'cost' ? 'Notice cracks — rare but expensive — now rank near the top. Prioritize by business impact, not raw count.' : 'Scratches lead by count, but are they the costliest? Switch the metric.');
+    }
+    seg.addEventListener('click', e => {
+      const b = e.target.closest('.qt-segbtn'); if (!b) return;
+      seg.querySelectorAll('.qt-segbtn').forEach(x => x.classList.toggle('active', x === b));
+      draw(b.dataset.metric);
+    });
+    draw('count');
+    return root;
+  }
+
+  function vizFishbone() {
+    const branches = {
+      Man: ['Operator technique varies', 'Training gaps between shifts'],
+      Machine: ['Furnace calibration drift', 'Roll speed inconsistent'],
+      Method: ['Inconsistent finish temperature', 'Undocumented rework loop'],
+      Material: ['Chemistry varies between heats', 'Supplier lot mix'],
+      Measurement: ['Extensometer slip', 'Gauge R&R not verified'],
+      Environment: ['Ambient cooling swings', 'Humidity on storage']
+    };
+    const keys = Object.keys(branches);
+    const hyps = new Set();
+    const root = el('<div class="qt-viz"></div>');
+    root.appendChild(el('<p class="qt-viz-title">Fishbone (6M) for “Low yield strength” — tap a bone, then flag hypotheses to test</p>'));
+    const svgW = 320, svgH = 150;
+    let bonesTop = '', bonesBot = '', labels = '';
+    keys.forEach((k, i) => {
+      const top = i < 3;
+      const col = i % 3;
+      const bx = 40 + col * 80;
+      const by = top ? 20 : svgH - 20;
+      const spineY = svgH / 2;
+      bonesTop += '<line x1="' + bx + '" y1="' + by + '" x2="' + (bx + 34) + '" y2="' + spineY + '" class="qt-bone"></line>';
+      labels += '<text x="' + bx + '" y="' + (top ? by - 4 : by + 14) + '" class="qt-bonelbl" data-k="' + k + '">' + k + '</text>';
+    });
+    const svg = '<svg viewBox="0 0 ' + svgW + ' ' + svgH + '" class="qt-svg qt-fishsvg" role="img" aria-label="Fishbone diagram">' +
+      '<line x1="20" y1="' + (svgH / 2) + '" x2="' + (svgW - 40) + '" y2="' + (svgH / 2) + '" class="qt-spine"></line>' +
+      '<polygon points="' + (svgW - 40) + ',' + (svgH / 2 - 10) + ' ' + (svgW - 14) + ',' + (svgH / 2) + ' ' + (svgW - 40) + ',' + (svgH / 2 + 10) + '" class="qt-fishhead"></polygon>' +
+      '<text x="' + (svgW - 30) + '" y="' + (svgH / 2 - 14) + '" class="qt-axlbl">Effect</text>' +
+      bonesTop + labels + '</svg>';
+    root.appendChild(el('<div class="qt-fishwrap">' + svg + '</div>'));
+    const chips = el('<div class="qt-branchbtns" role="group" aria-label="6M branches"></div>');
+    keys.forEach((k, i) => chips.appendChild(el('<button type="button" class="qt-segbtn' + (i === 0 ? ' active' : '') + '" data-k="' + k + '">' + k + '</button>')));
+    root.appendChild(chips);
+    const list = el('<div class="qt-causelist" aria-live="polite"></div>');
+    root.appendChild(list);
+    const counter = el('<p class="qt-info qt-good"></p>');
+    root.appendChild(counter);
+    function updateCounter() {
+      counter.innerHTML = '<strong>' + hyps.size + '</strong> hypothesis' + (hyps.size === 1 ? '' : 'es') + ' flagged to test. Each is a claim awaiting data — not yet a proven cause.';
+    }
+    function show(k) {
+      chips.querySelectorAll('.qt-segbtn').forEach(x => x.classList.toggle('active', x.dataset.k === k));
+      list.innerHTML = '<h5>' + esc(k) + '</h5>' + branches[k].map(c => {
+        const id = k + '::' + c;
+        const on = hyps.has(id);
+        return '<button type="button" class="qt-cause' + (on ? ' flagged' : '') + '" data-id="' + esc(id) + '">' + esc(c) + '<span class="qt-flag">' + (on ? '✓ hypothesis' : '+ flag to test') + '</span></button>';
+      }).join('');
+    }
+    list.addEventListener('click', e => {
+      const b = e.target.closest('.qt-cause'); if (!b) return;
+      const id = b.dataset.id;
+      if (hyps.has(id)) hyps.delete(id); else hyps.add(id);
+      show(id.split('::')[0]);
+      updateCounter();
+    });
+    chips.addEventListener('click', e => { const b = e.target.closest('.qt-segbtn'); if (b) show(b.dataset.k); });
+    show(keys[0]);
+    updateCounter();
+    return root;
+  }
+
+  function vizHistogram() {
+    const root = el('<div class="qt-viz"></div>');
+    root.appendChild(el('<p class="qt-viz-title">Histogram — change the shape and bin width</p>'));
+    const seg = el('<div class="qt-seg" role="group" aria-label="Distribution shape"></div>');
+    [['normal', 'Normal'], ['skewed', 'Skewed'], ['bimodal', 'Bimodal']].forEach((s, i) =>
+      seg.appendChild(el('<button type="button" class="qt-segbtn' + (i === 0 ? ' active' : '') + '" data-shape="' + s[0] + '">' + s[1] + '</button>')));
+    root.appendChild(seg);
+    const slider = el('<label class="qt-slider">Bins: <input type="range" min="5" max="16" value="9" aria-label="Bin count"><span class="qt-slnum">9</span></label>');
+    root.appendChild(slider);
+    const holder = el('<div class="qt-chart"></div>');
+    root.appendChild(holder);
+    const info = el('<p class="qt-info" aria-live="polite"></p>');
+    root.appendChild(info);
+    const input = slider.querySelector('input');
+    let shape = 'normal';
+    function draw() {
+      const n = 240;
+      const values = shapeSample(shape, n, 42);
+      const bins = +input.value;
+      slider.querySelector('.qt-slnum').textContent = bins;
+      const h = histogram(values, bins);
+      const W = 320, H = 180, padL = 24, padB = 24, padT = 10, padR = 10;
+      const bw = (W - padL - padR) / h.bins.length;
+      const maxC = Math.max.apply(null, h.bins) || 1;
+      let bars = '';
+      h.bins.forEach((c, i) => {
+        const bh = (c / maxC) * (H - padT - padB);
+        const x = padL + i * bw, y = H - padB - bh;
+        bars += '<rect x="' + (x + 2) + '" y="' + y + '" width="' + (bw - 4) + '" height="' + bh + '" rx="2" class="qt-bar"></rect>';
+      });
+      holder.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="qt-svg" role="img" aria-label="' + shape + ' histogram"><line x1="' + padL + '" y1="' + (H - padB) + '" x2="' + (W - padR) + '" y2="' + (H - padB) + '" class="qt-axis"></line>' + bars + '</svg>';
+      const msg = {
+        normal: 'One symmetric peak → a single stable population. Summary stats describe it well.',
+        skewed: 'A long tail → boundary effects, rounding, or a natural floor. The mean is pulled toward the tail.',
+        bimodal: 'Two peaks → likely mixed populations. The next move is to <strong>stratify</strong> and separate them.'
+      };
+      info.innerHTML = msg[shape] + ' Try too few or too many bins to see how bin width can hide or invent structure.';
+    }
+    seg.addEventListener('click', e => {
+      const b = e.target.closest('.qt-segbtn'); if (!b) return;
+      seg.querySelectorAll('.qt-segbtn').forEach(x => x.classList.toggle('active', x === b));
+      shape = b.dataset.shape; draw();
+    });
+    input.addEventListener('input', draw);
+    draw();
+    return root;
+  }
+
+  function vizScatter() {
+    const root = el('<div class="qt-viz"></div>');
+    root.appendChild(el('<p class="qt-viz-title">Scatter plot — drag the slider to set the relationship strength</p>'));
+    const slider = el('<label class="qt-slider">Target r: <input type="range" min="-100" max="100" value="70" aria-label="Correlation strength"><span class="qt-slnum">0.70</span></label>');
+    root.appendChild(slider);
+    const holder = el('<div class="qt-chart"></div>');
+    root.appendChild(holder);
+    const info = el('<p class="qt-info" aria-live="polite"></p>');
+    root.appendChild(info);
+    const input = slider.querySelector('input');
+    function draw() {
+      const target = +input.value / 100;
+      const pts = correlatedPairs(target, 60, 11);
+      const r = pearson(pts);
+      slider.querySelector('.qt-slnum').textContent = (target >= 0 ? '+' : '') + target.toFixed(2);
+      const W = 300, H = 200, pad = 22;
+      const xs = pts.map(p => p.x), ys = pts.map(p => p.y);
+      const xlo = Math.min.apply(null, xs), xhi = Math.max.apply(null, xs);
+      const ylo = Math.min.apply(null, ys), yhi = Math.max.apply(null, ys);
+      const sx = v => pad + (v - xlo) / (xhi - xlo || 1) * (W - 2 * pad);
+      const sy = v => H - pad - (v - ylo) / (yhi - ylo || 1) * (H - 2 * pad);
+      let dots = '';
+      pts.forEach(p => { dots += '<circle cx="' + sx(p.x).toFixed(1) + '" cy="' + sy(p.y).toFixed(1) + '" r="3" class="qt-scatterdot"></circle>'; });
+      // least-squares line
+      const n = pts.length, mx = sum(xs) / n, my = sum(ys) / n;
+      let num = 0, den = 0; pts.forEach(p => { num += (p.x - mx) * (p.y - my); den += (p.x - mx) * (p.x - mx); });
+      const slope = den === 0 ? 0 : num / den, intc = my - slope * mx;
+      const lx1 = xlo, lx2 = xhi;
+      const trend = '<line x1="' + sx(lx1) + '" y1="' + sy(slope * lx1 + intc) + '" x2="' + sx(lx2) + '" y2="' + sy(slope * lx2 + intc) + '" class="qt-trend"></line>';
+      holder.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="qt-svg" role="img" aria-label="Scatter plot, r ' + r.toFixed(2) + '">' + trend + dots + '</svg>';
+      const strength = Math.abs(r) < 0.2 ? 'essentially no linear association' : Math.abs(r) < 0.5 ? 'a weak association' : Math.abs(r) < 0.8 ? 'a moderate association' : 'a strong association';
+      const dir = r > 0 ? 'positive' : 'negative';
+      info.innerHTML = 'Measured r = <strong>' + (r >= 0 ? '+' : '') + r.toFixed(2) + '</strong> → ' + strength + ' (' + dir + '). ' +
+        '<span class="qt-warn">Even a strong r is association only — correlation does not prove causation.</span>';
+    }
+    input.addEventListener('input', draw);
+    draw();
+    return root;
+  }
+
+  function vizControl() {
+    const root = el('<div class="qt-viz"></div>');
+    root.appendChild(el('<p class="qt-viz-title">Control chart — inject a special cause and watch the signal</p>'));
+    const seg = el('<div class="qt-seg" role="group" aria-label="Scenario"></div>');
+    [['stable', 'Stable'], ['shift', 'Sudden shift'], ['trend', 'Gradual trend'], ['spike', 'Single spike']].forEach((s, i) =>
+      seg.appendChild(el('<button type="button" class="qt-segbtn' + (i === 0 ? ' active' : '') + '" data-sc="' + s[0] + '">' + s[1] + '</button>')));
+    root.appendChild(seg);
+    const holder = el('<div class="qt-chart"></div>');
+    root.appendChild(holder);
+    const info = el('<p class="qt-info" aria-live="polite"></p>');
+    root.appendChild(info);
+    function draw(scenario) {
+      const m = controlModel(scenario, 5);
+      const W = 320, H = 190, padL = 30, padR = 10, padT = 12, padB = 20;
+      const lo = m.lcl - 4, hi = m.ucl + 4;
+      const sx = i => padL + i / (m.pts.length - 1) * (W - padL - padR);
+      const sy = v => padT + (1 - (v - lo) / (hi - lo)) * (H - padT - padB);
+      const yC = sy(m.center), yU = sy(m.ucl), yL = sy(m.lcl);
+      let path = '', dots = '';
+      m.pts.forEach((v, i) => {
+        path += (i === 0 ? 'M' : 'L') + sx(i).toFixed(1) + ' ' + sy(v).toFixed(1) + ' ';
+        dots += '<circle cx="' + sx(i).toFixed(1) + '" cy="' + sy(v).toFixed(1) + '" r="3" class="qt-ctrldot' + (m.flags[i] ? ' flag' : '') + '"></circle>';
+      });
+      holder.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="qt-svg" role="img" aria-label="Control chart, ' + scenario + '">' +
+        '<line x1="' + padL + '" y1="' + yU + '" x2="' + (W - padR) + '" y2="' + yU + '" class="qt-limit"></line>' +
+        '<text x="' + padL + '" y="' + (yU - 3) + '" class="qt-axlbl">UCL</text>' +
+        '<line x1="' + padL + '" y1="' + yC + '" x2="' + (W - padR) + '" y2="' + yC + '" class="qt-center"></line>' +
+        '<line x1="' + padL + '" y1="' + yL + '" x2="' + (W - padR) + '" y2="' + yL + '" class="qt-limit"></line>' +
+        '<text x="' + padL + '" y="' + (yL + 12) + '" class="qt-axlbl">LCL</text>' +
+        '<path d="' + path + '" class="qt-ctrlline" fill="none"></path>' + dots + '</svg>';
+      const flagged = m.flags.filter(Boolean).length;
+      const msg = {
+        stable: 'All points fall within ±3σ and vary randomly → <strong>common-cause</strong> variation. Leave the process alone; reacting now is tampering.',
+        shift: 'A sudden level change trips the limit → a <strong>special cause</strong> (e.g., a new material lot). Trigger the reaction plan.',
+        trend: 'A steady climb signals drift (tool wear, temperature creep) → special cause, even before a point exits the limits.',
+        spike: 'A lone point beyond the limit → an isolated special cause. Investigate that specific event, not the whole process.'
+      };
+      info.innerHTML = msg[scenario] + (flagged ? ' <span class="qt-warn">' + flagged + ' point' + (flagged === 1 ? '' : 's') + ' beyond the control limits.</span>' : '') +
+        ' Remember: control limits come from the process (±3σ), never from the specification.';
+    }
+    seg.addEventListener('click', e => {
+      const b = e.target.closest('.qt-segbtn'); if (!b) return;
+      seg.querySelectorAll('.qt-segbtn').forEach(x => x.classList.toggle('active', x === b));
+      draw(b.dataset.sc);
+    });
+    draw('stable');
+    return root;
+  }
+
+  const VIZ = {
+    flowchart: vizFlowchart,
+    checksheet: vizChecksheet,
+    stratification: vizStratification,
+    pareto: vizPareto,
+    fishbone: vizFishbone,
+    histogram: vizHistogram,
+    scatter: vizScatter,
+    control: vizControl
+  };
+
+  /* ---- mount: called after the existing select() sets #tool-deep ---------- */
+  function mountDeep(key) {
+    const host = document.getElementById('tool-deep');
+    if (!host) return;
+    const d = DEEP[key];
+    if (!d) { host.innerHTML = ''; return; }
+    host.innerHTML =
+      '<div class="qt-deep">' +
+      '<h4 class="qt-deep-h">In depth</h4>' +
+      '<p>' + d.how + '</p>' +
+      '<h4 class="qt-deep-h">How to read it</h4>' +
+      '<p>' + d.read + '</p>' +
+      '<div class="qt-example"><strong>Worked example.</strong> ' + d.example + '</div>' +
+      '<div class="qt-viz-slot"></div>' +
+      '<div class="qt-mistake"><strong>Common mistake.</strong> ' + d.mistake + '</div>' +
+      '<div class="qt-callout qe-callout"><strong>Exam &amp; real-world.</strong> ' + d.exam + '</div>' +
+      '</div>';
+    const slot = host.querySelector('.qt-viz-slot');
+    const builder = VIZ[key];
+    if (slot && builder) {
+      try { slot.appendChild(builder()); }
+      catch (err) { slot.innerHTML = '<p class="qt-info">Interactive unavailable.</p>'; }
+    }
+  }
+
+  // Expose for the lesson IIFE and for tests.
+  window.__QT7 = {
+    mountDeep: mountDeep,
+    DEEP: DEEP,
+    VIZ: VIZ,
+    paretoModel: paretoModel,
+    histogram: histogram,
+    shapeSample: shapeSample,
+    correlatedPairs: correlatedPairs,
+    pearson: pearson,
+    controlModel: controlModel
+  };
+})();
+
+</script>
+<script>
 (function(){'use strict';
 const tools={flowchart:{title:'Flowchart / Process Map',q:'Where can the issue originate?',purpose:'Visualize the actual sequence, decisions, handoffs, rework loops, and candidate origin points.',inputs:['SOPs','Operator knowledge','Process walk observations'],outputs:['Current-state map','Data collection locations'],limits:'Does not prove root cause.'},checksheet:{title:'Check Sheet',q:'How will evidence be collected?',purpose:'Create consistent operational definitions and traceable data collection.',inputs:['Definitions','Categories','Traceability fields'],outputs:['Reliable structured observations'],limits:'Does not interpret the pattern.'},stratification:{title:'Stratification',q:'Which subgroup carries the issue?',purpose:'Separate mixed populations by grade, shift, line, end, operator, or other meaningful factors.',inputs:['Traceable records','Plausible subgroup fields'],outputs:['Localized signal'],limits:'Shows where, not why.'},pareto:{title:'Pareto Chart',q:'What deserves priority?',purpose:'Rank categories using a declared metric such as frequency, cost, or risk.',inputs:['Categorical data','Decision metric'],outputs:['Vital few priorities'],limits:'The largest category is not automatically the cause.'},fishbone:{title:'Fishbone Diagram',q:'What could cause it?',purpose:'Organize candidate causes into a structured hypothesis set.',inputs:['Focused effect statement','Cross-functional knowledge'],outputs:['Testable hypotheses'],limits:'Brainstormed branches are not proof.'},histogram:{title:'Histogram',q:'What is the distribution doing?',purpose:'Show center, spread, shape, tails, gaps, and possible mixtures.',inputs:['Continuous measurements'],outputs:['Distribution pattern'],limits:'Removes time order.'},scatter:{title:'Scatter Plot',q:'Do X and Y move together?',purpose:'Visualize association, nonlinearity, range, outliers, and subgroup structure.',inputs:['Paired observations'],outputs:['Relationship evidence'],limits:'Correlation does not prove causation.'},control:{title:'Control Chart',q:'Is the process stable?',purpose:'Distinguish common-cause and special-cause variation using time-ordered data.',inputs:['Time order','Rational subgrouping'],outputs:['Stability signals and reaction triggers'],limits:'Does not identify root cause by itself.'}};
 const order=Object.keys(tools);const wizard=[['Where can the issue originate?','flowchart'],['How should we collect consistent evidence?','checksheet'],['Which subgroup carries the issue?','stratification'],['Which category deserves priority?','pareto'],['What could cause the focused effect?','fishbone'],['What does the distribution look like?','histogram'],['Do two variables move together?','scatter'],['Is the process stable over time?','control']];
 const w=document.getElementById('wizard-options');wizard.forEach(x=>{const b=document.createElement('button');b.className='qe-option';b.textContent=x[0];b.onclick=()=>{const t=tools[x[1]];document.getElementById('wizard-result').innerHTML='<h3>'+t.title+'</h3><p><strong>Question:</strong> '+t.q+'</p><p>'+t.purpose+'</p><div class="qe-callout"><strong>Boundary:</strong> '+t.limits+'</div>';};w.appendChild(b)});
-const nav=document.getElementById('tool-nav');function select(key){document.querySelectorAll('.qe-tool-btn').forEach(b=>b.classList.toggle('active',b.dataset.tool===key));const t=tools[key];document.getElementById('tool-detail').innerHTML='<h3>'+t.title+'</h3><p><strong>'+t.q+'</strong></p><p>'+t.purpose+'</p><div class="qe-grid"><div><h4>Inputs</h4><ul class="qe-list">'+t.inputs.map(x=>'<li>'+x+'</li>').join('')+'</ul></div><div><h4>Outputs</h4><ul class="qe-list">'+t.outputs.map(x=>'<li>'+x+'</li>').join('')+'</ul></div></div><div class="qe-callout" style="margin-top:16px"><strong>Do not overclaim:</strong> '+t.limits+'</div>';}order.forEach((key,i)=>{const b=document.createElement('button');b.className='qe-tool-btn'+(i===0?' active':'');b.dataset.tool=key;b.textContent=(i+1)+'. '+tools[key].title;b.onclick=()=>select(key);nav.appendChild(b)});select(order[0]);
+const nav=document.getElementById('tool-nav');function select(key){document.querySelectorAll('.qe-tool-btn').forEach(b=>b.classList.toggle('active',b.dataset.tool===key));const t=tools[key];document.getElementById('tool-detail').innerHTML='<h3>'+t.title+'</h3><p><strong>'+t.q+'</strong></p><p>'+t.purpose+'</p><div class="qe-grid"><div><h4>Inputs</h4><ul class="qe-list">'+t.inputs.map(x=>'<li>'+x+'</li>').join('')+'</ul></div><div><h4>Outputs</h4><ul class="qe-list">'+t.outputs.map(x=>'<li>'+x+'</li>').join('')+'</ul></div></div><div class="qe-callout" style="margin-top:16px"><strong>Do not overclaim:</strong> '+t.limits+'</div><div id="tool-deep" class="qt-deep-mount"></div>';if(window.__QT7)window.__QT7.mountDeep(key);}order.forEach((key,i)=>{const b=document.createElement('button');b.className='qe-tool-btn'+(i===0?' active':'');b.dataset.tool=key;b.textContent=(i+1)+'. '+tools[key].title;b.onclick=()=>select(key);nav.appendChild(b)});select(order[0]);
 const stages=[['A low yield-strength result appears at final testing. What first?',['Map the full process','Build a fishbone immediately','Run DOE'],0],['The map is complete but records contain only PASS/FAIL. What next?',['Create a traceable check sheet','Fit regression','Close the project'],0],['Failures are pooled across grades and shifts. What next?',['Stratify the data','Average everything','Widen specifications'],0],['One shift carries most failures and several modes remain. What next?',['Build a Pareto chart','Declare the shift the cause','Skip to control'],0],['Low YS is the dominant mode. What next?',['Generate testable hypotheses','Implement the first idea','Delete failures'],0],['The YS histogram is bimodal. What does this suggest?',['Possible mixed populations','Random variation only','Control limits are wrong'],0],['Finish temperature is associated with YS. What next?',['Investigate subgrouping and validate the relationship','Claim causation','Extrapolate beyond range'],0],['The fix is implemented. How is it sustained?',['Control chart and reaction plan','One histogram','No further monitoring'],0]];let step=0;function renderCap(){const s=stages[step],box=document.getElementById('capstone');document.getElementById('cap-label').textContent='Stage '+(step+1)+' of '+stages.length;document.getElementById('cap-progress').style.width=(step/stages.length*100)+'%';box.innerHTML='<h3>'+s[0]+'</h3>'+s[1].map((x,i)=>'<button class="qe-option" data-answer="'+i+'">'+x+'</button>').join('')+'<div id="cap-feedback" aria-live="polite"></div>';box.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{const ok=Number(b.dataset.answer)===s[2];const f=document.getElementById('cap-feedback');if(!ok){f.innerHTML='<p class="qe-callout">Not yet. Choose the tool that answers the immediate unresolved question.</p>';return;}if(step<stages.length-1){f.innerHTML='<p class="qe-callout">Correct.</p><button class="qe-btn" id="cap-next">Continue</button>';document.getElementById('cap-next').onclick=()=>{step++;renderCap()};}else{document.getElementById('cap-progress').style.width='100%';f.innerHTML='<p class="qe-callout"><strong>Investigation complete.</strong> You moved from process understanding through evidence, prioritization, hypothesis testing, and control.</p>';}})}renderCap();
 const complete=document.getElementById('lesson-complete');complete.addEventListener('click',()=>{localStorage.setItem('qt-progress-'+location.pathname,'100');complete.textContent='Completed ✓';complete.disabled=true;document.getElementById('completion-copy').textContent='Lesson completed. Continue to the Management & Planning Tools lesson.';document.dispatchEvent(new CustomEvent('upskill-lesson-complete'));});
 })();
