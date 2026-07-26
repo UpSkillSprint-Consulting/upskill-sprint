@@ -52,14 +52,28 @@ test('the rail lists all six certifications', async () => {
   CERTS.forEach(c => assert.ok(badges.includes(c), `rail includes ${c}`));
 });
 
-test('the five exams without a bank are marked Coming soon; the sample exam is not', async () => {
+test('the five exams without a bank are marked Coming soon; CSSBB is live', async () => {
   const { window } = await loadPage();
   const tiles = Array.from(window.document.querySelectorAll('.tb-tile'));
   const soon = tiles.filter(t => /Coming soon/.test(t.textContent));
   assert.equal(soon.length, 5, 'five exams still coming soon');
   const cssbb = tiles.find(t => t.dataset.exam === 'cssbb');
-  assert.doesNotMatch(cssbb.textContent, /Coming soon/, 'the sample exam is live, not coming soon');
-  assert.match(cssbb.textContent, /ready/i, 'it advertises the sample diagnostic / readiness');
+  assert.doesNotMatch(cssbb.textContent, /Coming soon/, 'CSSBB is live, not coming soon');
+  assert.match(cssbb.textContent, /Exam Set 1/, 'it advertises Exam Set 1');
+});
+
+test('CSSBB is backed by the full 165-question bank across all nine ASQ areas', async () => {
+  const { window } = await loadPage();
+  const e = window.__TB.EXAMS.cssbb;
+  assert.equal(e.bank.length, 165, 'the full exam set is loaded');
+  const areas = {}; e.bank.forEach(q => { areas[q.sub] = (areas[q.sub] || 0) + 1; });
+  assert.deepEqual(areas, { p1: 12, p2: 10, tm: 18, def: 15, mea: 37, ana: 22, imp: 21, con: 17, dfss: 13 }, 'ASQ BoK weighting preserved');
+  // every question maps to a real BoK area and has a valid answer
+  const units = new Set(window.__TB.subUnits(e).map(u => u.id));
+  e.bank.forEach(q => {
+    assert.ok(units.has(q.sub), 'question maps to a real area');
+    assert.ok(q.answer >= 0 && q.answer < q.options.length, 'valid answer index');
+  });
 });
 
 /* ---------- adaptive engine ---------- */
@@ -79,12 +93,12 @@ test('readiness score spans the range and rewards mastery', async () => {
 test('the study plan ranks by weakness x BoK weight and allocates study time', async () => {
   const { window } = await loadPage();
   const TB = window.__TB, e = TB.EXAMS.cssbb, units = TB.subUnits(e);
-  // miss everything in Control (heavy, 20%), ace the rest
+  // miss everything in Measure (the heaviest area, 37/165), ace the rest
   const ans = {};
-  e.bank.forEach((q, i) => { ans[i] = (q.sub === 'spc' || q.sub === 'cplan') ? (q.answer + 1) % 4 : q.answer; });
+  e.bank.forEach((q, i) => { ans[i] = (q.sub === 'mea') ? (q.answer + 1) % 4 : q.answer; });
   const plan = TB.studyPlan(units, TB.subAgg(e.bank, ans));
   assert.ok(plan.length > 0, 'plan produced');
-  assert.ok(['spc', 'cplan'].includes(plan[0].id), 'weakest heavy area ranked first');
+  assert.equal(plan[0].id, 'mea', 'the weakest heavy area ranks first');
   assert.ok(plan[0].timePct >= plan[plan.length - 1].timePct, 'time allocation is weakness-weighted');
   const sum = plan.reduce((a, p) => a + p.timePct, 0);
   assert.ok(Math.abs(sum - 100) <= 3, 'time percentages sum to ~100');
@@ -101,15 +115,17 @@ test('SM-2 spaced repetition lengthens intervals on success and resets on failur
   assert.equal(TB.sm2(c, 1).interval, 1, 'a failed recall resets the interval');
 });
 
-test('the diagnostic produces a readiness score, a plan, and persists across sessions', async () => {
+test('the placement diagnostic produces a readiness score, a plan, and persists', async () => {
   const { window } = await loadPage();
   window.localStorage.removeItem('tb-adaptive-cssbb');
   const ov = () => window.document.getElementById('tb-overview');
   const click = el => el.dispatchEvent(new window.Event('click', { bubbles: true }));
+  click(ov().querySelector('[data-diagtimed="0"]')); // untimed, so no interval
   click(ov().querySelector('[data-diag]'));
   assert.ok(ov().querySelector('.tb-quiz'), 'diagnostic player opens');
-  const e = window.__TB.EXAMS.cssbb;
-  for (let i = 0; i < e.bank.length; i++) {
+  const total = ov().querySelectorAll('.tb-navcell').length;
+  assert.ok(total >= 9 && total <= 30, 'a short stratified placement (~18), not the full 165, got ' + total);
+  for (let i = 0; i < total; i++) {
     click(ov().querySelectorAll('.tb-opt')[0]);
     const nx = ov().querySelector('[data-next]');
     if (nx) click(nx); else break;
@@ -120,9 +136,8 @@ test('the diagnostic produces a readiness score, a plan, and persists across ses
   assert.ok(ov().querySelector('[data-practice2]'), 'weakness-weighted practice offered');
   const st = JSON.parse(window.localStorage.getItem('tb-adaptive-cssbb'));
   assert.equal(st.attempts, 1, 'attempt persisted');
-  assert.ok(Object.keys(st.subState).length >= 10, 'per-subtopic SM-2 state persisted');
+  assert.ok(Object.keys(st.subState).length >= 8, 'per-area SM-2 state persisted');
   assert.ok(typeof st.lastReadiness === 'number', 'readiness persisted');
-  // returning banner reflects the saved state
   click(ov().querySelector('[data-back]'));
   assert.match(ov().textContent, /Readiness \d+%/, 'returning banner shows saved readiness');
 });
@@ -140,16 +155,21 @@ test('weakness-weighted practice draws from the bank favouring weak subtopics', 
 
 /* ---------- the exam overview ---------- */
 
-test('the overview offers the three practice modes with launch gated as coming-soon', async () => {
+test('CSSBB offers three live practice modes; coming-soon exams stay gated', async () => {
   const { window } = await loadPage();
-  const ov = window.document.getElementById('tb-overview');
-  assert.ok(ov.querySelector('.tb-soon'), 'coming-soon pill on the exam title');
-  const titles = Array.from(ov.querySelectorAll('.tb-mode h4')).map(h => h.textContent);
-  assert.deepEqual(titles, ['Full Exam', 'Quick Quiz', 'Focused Quiz'], 'all three modes present');
-  const starts = ov.querySelectorAll('.tb-start');
-  assert.equal(starts.length, 3, 'a start control per mode');
-  Array.from(starts).forEach(s => assert.match(s.textContent, /Coming soon/, 'launch is gated'));
-  assert.doesNotMatch(ov.textContent, /Start Final Simulation/, 'nothing playable ships yet');
+  const ov = () => window.document.getElementById('tb-overview');
+  const click = el => el.dispatchEvent(new window.Event('click', { bubbles: true }));
+  const titles = Array.from(ov().querySelectorAll('.tb-mode h4')).map(h => h.textContent);
+  assert.equal(titles.length, 3, 'three modes present');
+  assert.match(titles[0], /Full Exam/);
+  // CSSBB: live launch buttons, no coming-soon on the modes
+  const modeBtns = ov().querySelectorAll('[data-mode]');
+  assert.equal(modeBtns.length, 3, 'a live Start per mode');
+  assert.equal(ov().querySelectorAll('.tb-start').length, 0, 'no coming-soon placeholders on a live exam');
+  // a coming-soon exam still gates its modes
+  click(window.document.querySelector('.tb-tile[data-exam="cqe"]'));
+  assert.equal(ov().querySelectorAll('[data-mode]').length, 0, 'CQE modes are not launchable');
+  assert.equal(ov().querySelectorAll('.tb-start').length, 3, 'CQE modes show coming-soon');
 });
 
 test('Full Exam toggles between a strict timed limit and untimed', async () => {
@@ -258,9 +278,9 @@ test('a timed diagnostic shows a countdown paced to the real exam', async () => 
   const timer = window.document.getElementById('tb-timer');
   assert.ok(timer, 'countdown timer present');
   assert.match(timer.textContent, /^\d+:\d\d$/, 'shows MM:SS');
-  // 16 sample questions at CSSBB pace (270min/165q) ~= 26 min
+  // ~18-question placement at CSSBB pace (270min/165q) ~= 29 min
   const mins = parseInt(timer.textContent, 10);
-  assert.ok(mins >= 20 && mins <= 30, 'paced to the exam (~26 min), got ' + mins);
+  assert.ok(mins >= 20 && mins <= 30, 'paced to the exam (~29 min), got ' + mins);
 });
 
 test('untimed mode is offered and shows no countdown', async () => {
