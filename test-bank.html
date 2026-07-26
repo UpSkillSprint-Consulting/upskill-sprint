@@ -24,6 +24,11 @@
   .tb-hero h1{font-family:"Source Serif 4",serif;font-size:32px;margin:0 0 8px;color:var(--ink)}
   .tb-hero p{font-size:15.5px;line-height:1.6;color:var(--muted);max-width:66ch;margin:0 0 26px}
   .tb-shell{display:grid;grid-template-columns:1fr 330px;gap:24px;align-items:start}
+  .tb-shell.exam-mode{grid-template-columns:1fr}
+  .tb-shell.exam-mode .tb-rail{display:none}
+  .tb-quizback{margin-top:20px;display:flex;justify-content:flex-start}
+  .tb-backsim{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--tint);color:var(--ink);font-family:"Work Sans",sans-serif;font-weight:600;font-size:13.5px;border-radius:9px;padding:10px 15px;cursor:pointer;transition:background-color .15s ease,border-color .15s ease}
+  .tb-backsim:hover{border-color:var(--teal);color:var(--teal)}
   .tb-main{min-width:0}
   /* overview card */
   .tb-pane{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}
@@ -168,6 +173,7 @@
   #tb-toollayer .tb-x{border:0;background:none;font-size:22px;line-height:1;color:var(--muted);cursor:pointer;padding:0 4px}
   #tb-toollayer .tb-x:hover{color:var(--ink)}
   .tb-drawer{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;background:var(--paper);border-left:1px solid var(--line);box-shadow:-16px 0 40px -24px rgba(0,0,0,.5);z-index:60;display:flex;flex-direction:column;padding:18px}
+  .tb-drawer[hidden]{display:none}
   .tb-drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
   .tb-drawer-head h3{font-family:"Source Serif 4",serif;font-size:18px;color:var(--ink);margin:0}
   .tb-refsearch{width:100%;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:10px 12px;font:inherit;font-size:14px;margin-bottom:12px}
@@ -219,10 +225,24 @@
       <a href="faq.html">FAQ</a>
       <a href="contact.html">Contact</a>
     </nav>
-    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1c1f26" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-    </label>
-    <a href="lessons.html" class="btn btn-teal header-cta" style="padding:9px 15px;font-size:12.5px;">Start a 15-min lesson</a>
+    <div class="header-actions">
+      <div class="theme-control" aria-label="Colour theme">
+        <svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <span class="sr-only">Toggle dark and light mode</span>
+        </button>
+        <svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </div>
+      <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1c1f26" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </label>
+      <a href="lessons.html" class="btn btn-teal header-cta" style="padding:9px 15px;font-size:12.5px;">Start a 15-min lesson</a>
+    </div>
   </header>
   <nav class="mobile-nav">
     <a href="start-here.html">Start Here</a>
@@ -790,7 +810,8 @@
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(subName)+'</div>'+
       '<div class="tb-stem">'+esc(q.stem)+'</div>'+opts+
       '<div class="tb-quizfoot"><div class="tb-nav">'+nav+'</div>'+
-        (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div></div>';
+        (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
+      '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';
   }
   function wireQuiz(){
     var host=document.getElementById('tb-overview');
@@ -802,6 +823,7 @@
     var fm=host.querySelector('[data-formulas]');if(fm)fm.addEventListener('click',function(){toggleTool('formulas');});
     var cc=host.querySelector('[data-calc]');if(cc)cc.addEventListener('click',function(){toggleTool('calc');});
     var qt=host.querySelector('[data-quit]');if(qt)qt.addEventListener('click',function(){stopTimer();stopTools();view='browse';session=null;renderMain();});
+    var bs=host.querySelector('[data-backsim]');if(bs)bs.addEventListener('click',function(){stopTimer();stopTools();view='browse';session=null;renderRail();renderMain();});
   }
 
   /* ---------- results ---------- */
@@ -860,6 +882,8 @@
   /* ---------- view switch ---------- */
   function renderMain(){
     var host=document.getElementById('tb-overview');
+    var shell=document.querySelector('.tb-shell');
+    if(shell)shell.classList.toggle('exam-mode',view==='quiz'||view==='results');
     if(view==='quiz'){host.innerHTML=quizHTML();wireQuiz();}
     else if(view==='results'){host.innerHTML=resultsHTML();wireResults();}
     else{host.innerHTML=overviewHTML();wireOverview();}
