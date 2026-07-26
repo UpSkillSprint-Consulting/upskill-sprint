@@ -23,6 +23,8 @@
   .tb-crumb a{color:var(--muted);font-weight:600} .tb-crumb b{color:var(--ink)}
   .tb-hero h1{font-family:"Source Serif 4",serif;font-size:32px;margin:0 0 8px;color:var(--ink)}
   .tb-hero p{font-size:15.5px;line-height:1.6;color:var(--muted);max-width:66ch;margin:0 0 26px}
+  .tb-hero.exam h1{font-size:26px;margin-bottom:4px}
+  .tb-hero.exam{margin-bottom:18px}
   .tb-shell{display:grid;grid-template-columns:1fr 330px;gap:24px;align-items:start}
   .tb-shell.exam-mode{grid-template-columns:1fr}
   .tb-shell.exam-mode .tb-rail{display:none}
@@ -266,8 +268,8 @@
 
   <main class="tb-wrap">
     <div class="tb-crumb"><a href="lessons.html">Lessons</a> › <b>Certification Test Bank</b></div>
-    <div class="tb-hero">
-      <h1>Certification Test Bank</h1>
+    <div class="tb-hero" id="tb-hero">
+      <h1 id="tb-herotitle">Certification Test Bank</h1>
       <p>Full-length, timed exam simulations for the major ASQ certifications. Each simulation ends with a per-domain diagnostic that pinpoints the exact subtopic you are weakest in — and links you straight to the lesson that rebuilds it. Pick a certification to see its Body of Knowledge coverage.</p>
     </div>
 
@@ -1082,7 +1084,15 @@
   function renderMain(){
     var host=document.getElementById('tb-overview');
     var shell=document.querySelector('.tb-shell');
-    if(shell)shell.classList.toggle('exam-mode',view==='quiz'||view==='results');
+    var examMode=(view==='quiz'||view==='results');
+    if(shell)shell.classList.toggle('exam-mode',examMode);
+    var hero=document.getElementById('tb-hero');
+    if(hero){
+      hero.classList.toggle('exam',examMode);
+      var ht=document.getElementById('tb-herotitle'), hp=hero.querySelector('p');
+      if(examMode){ht.textContent=EXAMS[current].body;if(hp)hp.hidden=true;}
+      else{ht.textContent='Certification Test Bank';if(hp)hp.hidden=false;}
+    }
     if(view==='quiz'){host.innerHTML=quizHTML();wireQuiz();}
     else if(view==='results'){host.innerHTML=resultsHTML();wireResults();}
     else{host.innerHTML=overviewHTML();wireOverview();}
