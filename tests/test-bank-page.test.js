@@ -47,11 +47,90 @@ test('the rail lists all six certifications', async () => {
   CERTS.forEach(c => assert.ok(badges.includes(c), `rail includes ${c}`));
 });
 
-test('every certification is marked Coming soon (on the exam, not the section)', async () => {
+test('the five exams without a bank are marked Coming soon; the sample exam is not', async () => {
   const { window } = await loadPage();
-  const tags = window.document.querySelectorAll('.tb-tile .tb-tag');
-  assert.equal(tags.length, 6, 'a coming-soon tag on every exam');
-  Array.from(tags).forEach(t => assert.match(t.textContent, /Coming soon/));
+  const tiles = Array.from(window.document.querySelectorAll('.tb-tile'));
+  const soon = tiles.filter(t => /Coming soon/.test(t.textContent));
+  assert.equal(soon.length, 5, 'five exams still coming soon');
+  const cssbb = tiles.find(t => t.dataset.exam === 'cssbb');
+  assert.doesNotMatch(cssbb.textContent, /Coming soon/, 'the sample exam is live, not coming soon');
+  assert.match(cssbb.textContent, /ready/i, 'it advertises the sample diagnostic / readiness');
+});
+
+/* ---------- adaptive engine ---------- */
+
+test('readiness score spans the range and rewards mastery', async () => {
+  const { window } = await loadPage();
+  const TB = window.__TB, e = TB.EXAMS.cssbb, units = TB.subUnits(e);
+  const right = {}, wrong = {};
+  e.bank.forEach((q, i) => { right[i] = q.answer; wrong[i] = (q.answer + 1) % 4; });
+  const rR = TB.readiness(units, TB.subAgg(e.bank, right), e.pass);
+  const rW = TB.readiness(units, TB.subAgg(e.bank, wrong), e.pass);
+  assert.ok(rR.readiness >= 90, 'all-correct is near-certain to pass');
+  assert.ok(rW.readiness <= 10, 'all-wrong is near-certain to fail');
+  assert.ok(rR.readiness > rW.readiness, 'more mastery => higher readiness');
+});
+
+test('the study plan ranks by weakness x BoK weight and allocates study time', async () => {
+  const { window } = await loadPage();
+  const TB = window.__TB, e = TB.EXAMS.cssbb, units = TB.subUnits(e);
+  // miss everything in Control (heavy, 20%), ace the rest
+  const ans = {};
+  e.bank.forEach((q, i) => { ans[i] = (q.sub === 'spc' || q.sub === 'cplan') ? (q.answer + 1) % 4 : q.answer; });
+  const plan = TB.studyPlan(units, TB.subAgg(e.bank, ans));
+  assert.ok(plan.length > 0, 'plan produced');
+  assert.ok(['spc', 'cplan'].includes(plan[0].id), 'weakest heavy area ranked first');
+  assert.ok(plan[0].timePct >= plan[plan.length - 1].timePct, 'time allocation is weakness-weighted');
+  const sum = plan.reduce((a, p) => a + p.timePct, 0);
+  assert.ok(Math.abs(sum - 100) <= 3, 'time percentages sum to ~100');
+  assert.ok(plan[0].lesson && plan[0].lessonName, 'each plan item links to a lesson');
+});
+
+test('SM-2 spaced repetition lengthens intervals on success and resets on failure', async () => {
+  const { window } = await loadPage();
+  const TB = window.__TB;
+  const a = TB.sm2(null, 5), b = TB.sm2(a, 5), c = TB.sm2(b, 5);
+  assert.equal(a.interval, 1);
+  assert.equal(b.interval, 6);
+  assert.ok(c.interval > b.interval, 'interval grows with repeated success');
+  assert.equal(TB.sm2(c, 1).interval, 1, 'a failed recall resets the interval');
+});
+
+test('the diagnostic produces a readiness score, a plan, and persists across sessions', async () => {
+  const { window } = await loadPage();
+  window.localStorage.removeItem('tb-adaptive-cssbb');
+  const ov = () => window.document.getElementById('tb-overview');
+  const click = el => el.dispatchEvent(new window.Event('click', { bubbles: true }));
+  click(ov().querySelector('[data-diag]'));
+  assert.ok(ov().querySelector('.tb-quiz'), 'diagnostic player opens');
+  const e = window.__TB.EXAMS.cssbb;
+  for (let i = 0; i < e.bank.length; i++) {
+    click(ov().querySelectorAll('.tb-opt')[0]);
+    const nx = ov().querySelector('[data-next]');
+    if (nx) click(nx); else break;
+  }
+  click(ov().querySelector('[data-submit]'));
+  assert.ok(ov().querySelector('.tb-ring.big'), 'readiness ring shown');
+  assert.ok(ov().querySelectorAll('.tb-planrow').length > 0, 'study plan shown');
+  assert.ok(ov().querySelector('[data-practice2]'), 'weakness-weighted practice offered');
+  const st = JSON.parse(window.localStorage.getItem('tb-adaptive-cssbb'));
+  assert.equal(st.attempts, 1, 'attempt persisted');
+  assert.ok(Object.keys(st.subState).length >= 10, 'per-subtopic SM-2 state persisted');
+  assert.ok(typeof st.lastReadiness === 'number', 'readiness persisted');
+  // returning banner reflects the saved state
+  click(ov().querySelector('[data-back]'));
+  assert.match(ov().textContent, /Readiness \d+%/, 'returning banner shows saved readiness');
+});
+
+test('weakness-weighted practice draws from the bank favouring weak subtopics', async () => {
+  const { window } = await loadPage();
+  const TB = window.__TB, e = TB.EXAMS.cssbb;
+  // pretend everything weak in analyze/hyp
+  const agg = {}; e.bank.forEach(q => { agg[q.sub] = agg[q.sub] || { c: 0, t: 1 }; });
+  agg['hyp'] = { c: 0, t: 2 };
+  const picks = TB.weightedPick(e.bank, agg, 8, { hyp: 1 });
+  assert.equal(picks.length, 8, 'returns the requested number of questions');
+  picks.forEach(q => assert.ok(e.bank.includes(q), 'questions come from the real bank'));
 });
 
 /* ---------- the exam overview ---------- */
