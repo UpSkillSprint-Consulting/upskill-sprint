@@ -32,7 +32,7 @@ test('CSSBB now carries two 165-question sets; Set 1 is unchanged and is still e
   assert.equal(e.sets[2].length, 165, 'Set 2 has a full 165 questions');
   // Set 2 follows the BoK-weighted distribution
   const d = {}; e.sets[2].forEach(q => { d[q.sub] = (d[q.sub] || 0) + 1; });
-  assert.deepEqual(d, { p1: 13, p2: 13, tm: 17, def: 22, mea: 27, ana: 24, imp: 23, con: 19, dfss: 7 });
+  assert.deepEqual(d, { p1: 12, p2: 9, tm: 12, def: 24, mea: 28, ana: 26, imp: 24, con: 21, dfss: 9 });
   e.sets[2].forEach((q, i) => {
     assert.equal(q.set, 2, 'q ' + i + ' tagged set 2');
     assert.equal(q.options.length, 4, 'q ' + i + ' has four options');
@@ -47,6 +47,8 @@ test('Set 1 and Set 2 are disjoint in content', async () => {
   const s1 = new Set(e.sets[1].map(q => q.stem));
   const overlap = e.sets[2].filter(q => s1.has(q.stem));
   assert.equal(overlap.length, 0, 'no shared stems between the two sets');
+  // and Set 2 has no internal repeats
+  assert.equal(new Set(e.sets[2].map(q => q.stem)).size, 165, 'all 165 Set-2 stems are unique');
 });
 
 /* ---------- the selector routes which pool you practise ---------- */
