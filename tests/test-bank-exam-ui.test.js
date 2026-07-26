@@ -76,6 +76,25 @@ test('the quiz shows a Back to Exam Simulator button that returns to the overvie
   assert.ok(ov().querySelector('[data-diag], [data-mode]'), 'overview is rendered again');
 });
 
+/* ---------- the page hero shows the exam being taken, not the landing intro ---------- */
+
+test('the intro hero is replaced by the exam name during a session and restored on the overview', async () => {
+  const { window } = await loadPage();
+  const doc = window.document;
+  const ov = () => doc.getElementById('tb-overview');
+  const title = () => doc.getElementById('tb-herotitle');
+  const intro = () => doc.getElementById('tb-hero').querySelector('p');
+  assert.equal(title().textContent, 'Certification Test Bank', 'overview shows the landing title');
+  assert.equal(intro().hidden, false, 'intro paragraph visible on the overview');
+  click(window, ov().querySelector('[data-diag]'));            // start a session
+  assert.equal(title().textContent, window.__TB.EXAMS.cssbb.body, 'hero now names the exam being taken');
+  assert.notEqual(title().textContent, 'Certification Test Bank');
+  assert.equal(intro().hidden, true, 'landing intro is hidden while taking the exam');
+  click(window, ov().querySelector('[data-backsim]'));         // back to the simulator
+  assert.equal(title().textContent, 'Certification Test Bank', 'intro restored on the overview');
+  assert.equal(intro().hidden, false);
+});
+
 /* ---------- Fix 3: a dark / light theme toggle is present ---------- */
 
 test('header carries exactly one site-standard theme toggle inside .header-actions', () => {
