@@ -56,12 +56,49 @@ test('every certification is marked Coming soon (on the exam, not the section)',
 
 /* ---------- the exam overview ---------- */
 
-test('the overview shows a Coming soon pill and no playable exam', async () => {
+test('the overview offers the three practice modes with launch gated as coming-soon', async () => {
   const { window } = await loadPage();
   const ov = window.document.getElementById('tb-overview');
   assert.ok(ov.querySelector('.tb-soon'), 'coming-soon pill on the exam title');
-  assert.ok(ov.querySelector('.tb-disabled'), 'the start button is disabled');
-  assert.doesNotMatch(ov.textContent, /Start Final Simulation/, 'no live simulation is offered yet');
+  const titles = Array.from(ov.querySelectorAll('.tb-mode h4')).map(h => h.textContent);
+  assert.deepEqual(titles, ['Full Exam', 'Quick Quiz', 'Focused Quiz'], 'all three modes present');
+  const starts = ov.querySelectorAll('.tb-start');
+  assert.equal(starts.length, 3, 'a start control per mode');
+  Array.from(starts).forEach(s => assert.match(s.textContent, /Coming soon/, 'launch is gated'));
+  assert.doesNotMatch(ov.textContent, /Start Final Simulation/, 'nothing playable ships yet');
+});
+
+test('Full Exam toggles between a strict timed limit and untimed', async () => {
+  const { window } = await loadPage();
+  const ov = () => window.document.getElementById('tb-overview');
+  const fullSum = () => ov().querySelector('.tb-mode .tb-mode-sum').textContent;
+  assert.match(fullSum(), /Strict .* limit/, 'defaults to a strict timed limit');
+  ov().querySelector('[data-timed="0"]').dispatchEvent(new window.Event('click', { bubbles: true }));
+  assert.match(fullSum(), /No time limit/, 'untimed removes the limit');
+});
+
+test('quiz question count is selectable for both quiz types', async () => {
+  const { window } = await loadPage();
+  const ov = () => window.document.getElementById('tb-overview');
+  // preset options exist
+  assert.ok(ov().querySelector('[data-count="quick"][data-n="10"]'), 'quick quiz has count options');
+  assert.ok(ov().querySelector('[data-count="focus"][data-n="50"]'), 'focused quiz has count options');
+  ov().querySelector('[data-count="quick"][data-n="30"]').dispatchEvent(new window.Event('click', { bubbles: true }));
+  assert.match(ov().querySelectorAll('.tb-mode-sum')[1].textContent, /30 questions/, 'quick count updates');
+  ov().querySelector('[data-count="focus"][data-n="50"]').dispatchEvent(new window.Event('click', { bubbles: true }));
+  assert.match(ov().querySelectorAll('.tb-mode-sum')[2].textContent, /50 questions/, 'focused count updates');
+});
+
+test('Focused Quiz lets you pick any Body-of-Knowledge area', async () => {
+  const { window } = await loadPage();
+  const ov = () => window.document.getElementById('tb-overview');
+  const sel = ov().querySelector('[data-focusdom]');
+  assert.ok(sel, 'area selector present');
+  assert.ok(sel.options.length >= 5, 'populated from the exam BoK domains');
+  sel.value = sel.options[1].value;
+  sel.dispatchEvent(new window.Event('change'));
+  const label = sel.options[1].textContent;
+  assert.ok(ov().querySelectorAll('.tb-mode-sum')[2].textContent.includes(label), 'summary reflects the chosen area');
 });
 
 test('the overview shows the Body of Knowledge weighting and domains', async () => {

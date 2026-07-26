@@ -65,6 +65,26 @@
   .tb-tag{display:inline-flex;align-items:center;gap:6px;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9a6a12;background:rgba(220,166,60,.14);border:1px solid rgba(220,166,60,.34);border-radius:99px;padding:3px 9px}
   .tb-tag::before{content:"";width:5px;height:5px;border-radius:50%;background:#d99a2a}
   html[data-theme="dark"] .tb-tag{color:#f0c36a}
+  .tb-modes{display:grid;gap:12px;margin-bottom:22px}
+  .tb-mode{border:1px solid var(--line);border-radius:11px;padding:16px 18px;background:var(--tint)}
+  .tb-mode-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+  .tb-mode-ic{width:38px;height:38px;flex:none;border-radius:9px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);color:var(--teal);font-size:16px}
+  .tb-mode-head h4{font-family:"Source Serif 4",serif;font-size:16px;color:var(--ink);margin:0 0 3px}
+  .tb-mode-head p{font-size:13px;color:var(--muted);margin:0;line-height:1.45}
+  .tb-mode-controls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:14px}
+  .tb-ctl-label{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .tb-seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
+  .tb-seg button{border:0;background:none;padding:8px 15px;font:inherit;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:.12s}
+  .tb-seg button.on{background:var(--teal);color:#fff}
+  .tb-counts{display:inline-flex;gap:6px}
+  .tb-count{border:1px solid var(--line);background:var(--card);border-radius:7px;min-width:42px;padding:7px 10px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;transition:.12s}
+  .tb-count.on{border-color:var(--teal);background:var(--teal);color:#fff}
+  .tb-select{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:8px 10px;font:inherit;font-size:13px}
+  .tb-mode-foot{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between}
+  .tb-mode-sum{font-size:12.5px;color:var(--muted)} .tb-mode-sum b{color:var(--ink);font-weight:600}
+  .tb-start{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:8px;padding:9px 15px;font-weight:600;font-size:12.5px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;cursor:not-allowed}
+  .tb-start .dot{width:6px;height:6px;border-radius:50%;background:#d99a2a;flex:none}
+  .tb-requestlink{display:inline-block;font-weight:700;font-size:13.5px;color:var(--teal)}
   @media(max-width:860px){
     .tb-shell{grid-template-columns:1fr}
     .tb-rail{order:-1}
@@ -218,8 +238,49 @@
       }).join('')+'</div>';
     }).join('');
     Array.prototype.forEach.call(host.querySelectorAll('.tb-tile'),function(b){
-      b.addEventListener('click',function(){current=b.dataset.exam;renderRail();renderOverview();});
+      b.addEventListener('click',function(){current=b.dataset.exam;resetMode();renderRail();renderOverview();});
     });
+  }
+
+  var NUMS=[10,20,30,50];
+  var mode={timed:true,quickN:20,focusDom:null,focusN:20};
+  function resetMode(){mode={timed:true,quickN:20,focusDom:EXAMS[current].bok[0].domain,focusN:20};}
+  function fmtDur(min){var h=Math.floor(min/60),m=min%60;return (h?h+'h':'')+(h&&m?' ':'')+(m?m+'m':'');}
+  function counts(kind,val){return '<span class="tb-counts" role="group" aria-label="Number of questions">'+NUMS.map(function(n){
+    return '<button type="button" class="tb-count'+(n===val?' on':'')+'" data-count="'+kind+'" data-n="'+n+'" aria-pressed="'+(n===val)+'">'+n+'</button>';}).join('')+'</span>';}
+  function startBtn(){return '<span class="tb-start"><span class="dot"></span>Start &middot; Coming soon</span>';}
+
+  function modesHTML(e){
+    var full='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u25A4</span>'+
+      '<div><h4>Full Exam</h4><p>All '+e.questions+' questions across every domain, weighted to match the real exam.</p></div></div>'+
+      '<div class="tb-mode-controls"><span class="tb-ctl-label">Timing</span>'+
+        '<span class="tb-seg" role="group" aria-label="Timing"><button type="button" data-timed="1" class="'+(mode.timed?'on':'')+'" aria-pressed="'+mode.timed+'">Timed</button>'+
+        '<button type="button" data-timed="0" class="'+(mode.timed?'':'on')+'" aria-pressed="'+(!mode.timed)+'">Untimed</button></span></div>'+
+      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+
+        (mode.timed?'Strict <b>'+fmtDur(e.minutes)+'</b> limit &mdash; mirrors the real exam.':'<b>No time limit</b> &mdash; work at your own pace.')+
+        '</span>'+startBtn()+'</div></div>';
+    var quick='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u26A1</span>'+
+      '<div><h4>Quick Quiz</h4><p>A randomized set drawn from the entire Body of Knowledge &mdash; a fast check with instant feedback.</p></div></div>'+
+      '<div class="tb-mode-controls"><span class="tb-ctl-label">Questions</span>'+counts('quick',mode.quickN)+'</div>'+
+      '<div class="tb-mode-foot"><span class="tb-mode-sum">Random <b>'+mode.quickN+'</b> questions from the whole Body of Knowledge.</span>'+startBtn()+'</div></div>';
+    var opts=e.bok.map(function(x){return '<option value="'+x.domain+'"'+(x.domain===mode.focusDom?' selected':'')+'>'+esc(DM[x.domain].name)+'</option>';}).join('');
+    var focusName=DM[mode.focusDom]?DM[mode.focusDom].name:'';
+    var focus='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u25CE</span>'+
+      '<div><h4>Focused Quiz</h4><p>Drill a single area of the Body of Knowledge you want to strengthen.</p></div></div>'+
+      '<div class="tb-mode-controls"><span class="tb-ctl-label">Area</span><select class="tb-select" data-focusdom aria-label="Body of Knowledge area">'+opts+'</select>'+
+        '<span class="tb-ctl-label">Questions</span>'+counts('focus',mode.focusN)+'</div>'+
+      '<div class="tb-mode-foot"><span class="tb-mode-sum">Random <b>'+mode.focusN+'</b> questions from <b>'+esc(focusName)+'</b>.</span>'+startBtn()+'</div></div>';
+    return full+quick+focus;
+  }
+
+  function wireOverview(){
+    var host=document.getElementById('tb-overview');
+    Array.prototype.forEach.call(host.querySelectorAll('[data-timed]'),function(b){
+      b.addEventListener('click',function(){mode.timed=b.dataset.timed==='1';renderOverview();});});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){
+      b.addEventListener('click',function(){var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderOverview();});});
+    var sel=host.querySelector('[data-focusdom]');
+    if(sel)sel.addEventListener('change',function(){mode.focusDom=sel.value;renderOverview();});
   }
 
   function renderOverview(){
@@ -230,7 +291,7 @@
     document.getElementById('tb-overview').innerHTML=
       '<div class="tb-ovbadge"><span class="tb-badge" style="background:'+e.bc+'">'+e.badge+'</span><span class="tb-ovsub">'+esc(e.body)+'</span></div>'+
       '<h2 class="tb-title">'+esc(e.title)+' <span class="tb-soon">Coming soon</span></h2>'+
-      '<p class="tb-soonline">This exam isn\u2019t live yet — we\u2019re building its question bank. Below is the Body of Knowledge it will cover.</p>'+
+      '<p class="tb-soonline">This exam isn\u2019t live yet — we\u2019re building its question bank. Below is the Body of Knowledge it covers and the practice modes that will be available.</p>'+
       '<div class="tb-stats">'+
         '<div class="tb-stat"><div class="k">Questions</div><div class="v">'+e.questions+'</div></div>'+
         '<div class="tb-stat"><div class="k">Time limit</div><div class="v">'+Math.floor(e.minutes/60)+'<small>h </small>'+(e.minutes%60)+'<small>m</small></div></div>'+
@@ -239,11 +300,13 @@
       '</div>'+
       '<div class="tb-sec">Body of Knowledge coverage</div>'+
       '<div class="tb-weightbar">'+bar+'</div><div class="tb-legend">'+legend+'</div>'+
-      '<div class="tb-cta"><span class="tb-disabled">Question bank coming soon</span>'+
-        '<a class="btn btn-teal" style="padding:12px 18px;font-size:14px" href="request-topic.html">Request this exam &rarr;</a></div>';
+      '<div class="tb-sec">Choose your practice mode</div>'+
+      '<div class="tb-modes">'+modesHTML(e)+'</div>'+
+      '<a class="tb-requestlink" href="request-topic.html">Request this exam &rarr;</a>';
+    wireOverview();
   }
 
-  renderRail(); renderOverview();
+  resetMode(); renderRail(); renderOverview();
 })();
 </script>
 <script src="/contrast-fix.js"></script>
