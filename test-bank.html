@@ -153,6 +153,43 @@
   .tb-soon.sample{color:#0e7566;background:rgba(43,183,173,.16);box-shadow:none;animation:none}
   .tb-soon.sample::before{background:#0e7566}
   html[data-theme="dark"] .tb-soon.sample{color:#67d4df}
+  /* exam realism: toolbar, timer, flag */
+  .tb-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .tb-timer{font-family:"IBM Plex Mono","Work Sans",monospace;font-variant-numeric:tabular-nums;font-weight:700;font-size:16px;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 12px;background:var(--tint);min-width:78px;text-align:center}
+  .tb-timer.warn{color:#b8791b;border-color:#b8791b66}
+  .tb-timer.danger{color:#c0453f;border-color:#c0453f;animation:tbPulse 1s infinite}
+  .tb-timer.untimed{font-family:inherit;font-weight:600;font-size:12.5px;color:var(--muted)}
+  @keyframes tbPulse{0%,100%{opacity:1}50%{opacity:.55}}
+  .tb-tbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:7px 12px;font:inherit;font-weight:600;font-size:12.5px;cursor:pointer;white-space:nowrap}
+  .tb-tbtn:hover{border-color:var(--teal)} .tb-tbtn.on{background:#b8791b;color:#fff;border-color:transparent}
+  .tb-navcell.flag{border-color:#b8791b;box-shadow:inset 0 -3px 0 #b8791b}
+  .tb-timing{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  /* tool layer */
+  #tb-toollayer .tb-x{border:0;background:none;font-size:22px;line-height:1;color:var(--muted);cursor:pointer;padding:0 4px}
+  #tb-toollayer .tb-x:hover{color:var(--ink)}
+  .tb-drawer{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;background:var(--paper);border-left:1px solid var(--line);box-shadow:-16px 0 40px -24px rgba(0,0,0,.5);z-index:60;display:flex;flex-direction:column;padding:18px}
+  .tb-drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .tb-drawer-head h3{font-family:"Source Serif 4",serif;font-size:18px;color:var(--ink);margin:0}
+  .tb-refsearch{width:100%;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:10px 12px;font:inherit;font-size:14px;margin-bottom:12px}
+  .tb-reflist{overflow:auto;flex:1;-webkit-overflow-scrolling:touch}
+  .tb-refgroup{margin-bottom:16px}
+  .tb-refgroup h4{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);font-weight:700;margin:0 0 8px}
+  .tb-refitem{border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:8px;background:var(--card)}
+  .tb-refn{font-weight:700;font-size:13px;color:var(--ink);margin-bottom:3px}
+  .tb-reff{font-family:"IBM Plex Mono","Work Sans",monospace;font-size:13px;color:var(--ink);line-height:1.5}
+  .tb-refnote2{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.45}
+  .tb-refnote{font-size:11.5px;color:var(--muted);line-height:1.45;margin:10px 0 0}
+  .tb-refempty{font-size:13px;color:var(--muted)}
+  .tb-calcw{position:fixed;right:22px;bottom:22px;width:260px;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:0 20px 50px -20px rgba(0,0,0,.6);z-index:61;padding:12px}
+  .tb-calc-head{display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:13px;color:var(--ink);margin-bottom:8px}
+  .tb-calc-disp{background:var(--tint);border:1px solid var(--line);border-radius:8px;padding:10px 12px;text-align:right;font-family:"IBM Plex Mono","Work Sans",monospace;font-size:18px;color:var(--ink);min-height:42px;overflow:auto;white-space:nowrap;margin-bottom:8px}
+  .tb-calc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .tb-ck{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:11px 0;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+  .tb-ck:hover{border-color:var(--teal)} .tb-ck.eq{background:var(--teal);color:#fff;border-color:transparent} .tb-ck.clr{color:#c0453f}
+  @media(max-width:860px){
+    .tb-drawer{width:100%;max-width:100vw}
+    .tb-calcw{left:12px;right:12px;width:auto;bottom:12px}
+  }
   @media(max-width:860px){
     .tb-shell{grid-template-columns:1fr}
     .tb-rail{order:-1}
@@ -316,6 +353,7 @@
   };
   var GROUPS=[['Six Sigma',['cssbb','cssgb']],['Quality',['cqe','cqa','cmq']],['Reliability',['cre']]];
   var current='cssbb', view='browse', session=null;
+  var diagTimed=true, timerId=null, calcExpr='';
   var DAY=86400000;
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -338,7 +376,79 @@
   function saveState(id,st){try{localStorage.setItem(keyFor(id),JSON.stringify(st));return true;}catch(e){return false;}}
   function recordAttempt(examId,units,agg,pass){var st=loadState(examId)||{attempts:0,subState:{},history:[]};var now=Date.now();var r=readiness(units,agg,pass);units.forEach(function(u){var a=agg[u.id];if(!a||!a.t)return;var mastery=a.c/a.t;var prev=st.subState[u.id];var next=sm2(prev,qualityFromMastery(mastery));next.mastery=Math.round(mastery*100)/100;next.due=now+next.interval*DAY;next.at=now;st.subState[u.id]=next;});st.attempts=(st.attempts||0)+1;st.lastReadiness=r.readiness;st.lastMastery=r.mastery;st.lastAt=now;st.history=(st.history||[]).concat([{at:now,readiness:r.readiness}]).slice(-20);saveState(examId,st);return {state:st,readiness:r};}
 
-  window.__TB={DM:DM,EXAMS:EXAMS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor};
+  /* ---------- exam realism: reference formulas + calculator ---------- */
+  var REFS={
+    cssbb:[
+      {group:'Process capability',items:[
+        {n:'Cp',f:'Cp = (USL \u2212 LSL) / (6\u03c3)',note:'Potential capability; spread only, ignores centering.'},
+        {n:'Cpk',f:'Cpk = min[(USL \u2212 \u03bc)/(3\u03c3), (\u03bc \u2212 LSL)/(3\u03c3)]',note:'Actual capability; accounts for how off-center the mean is.'},
+        {n:'Pp / Ppk',f:'Same as Cp/Cpk using long-term (overall) \u03c3',note:'Performance indices over the full study period.'}
+      ]},
+      {group:'Sigma level & defects',items:[
+        {n:'DPMO',f:'DPMO = (defects / (units \u00d7 opportunities)) \u00d7 1,000,000',note:'Defects per million opportunities.'},
+        {n:'DPU',f:'DPU = total defects / total units',note:'Defects per unit.'},
+        {n:'Yield (first pass)',f:'Y = e^(\u2212DPU)',note:'Probability a unit has zero defects (Poisson).'},
+        {n:'Z-score',f:'Z = (x \u2212 \u03bc) / \u03c3',note:'Standardized distance from the mean.'},
+        {n:'Sigma (with shift)',f:'6\u03c3 \u2248 3.4 DPMO (1.5\u03c3 long-term shift assumed)'}
+      ]},
+      {group:'Central tendency & spread',items:[
+        {n:'Mean',f:'x\u0304 = \u03a3x / n'},
+        {n:'Sample std dev',f:'s = \u221a[ \u03a3(x \u2212 x\u0304)\u00b2 / (n \u2212 1) ]'},
+        {n:'Standard error',f:'SE = s / \u221an'}
+      ]},
+      {group:'Control limits',items:[
+        {n:'X\u0304 chart',f:'UCL/LCL = x\u033f \u00b1 A\u2082\u00b7R\u0305',note:'A\u2082 from the subgroup-size table.'},
+        {n:'R chart',f:'UCL = D\u2084\u00b7R\u0305,  LCL = D\u2083\u00b7R\u0305'},
+        {n:'p chart',f:'CL = p\u0304 \u00b1 3\u221a[ p\u0304(1\u2212p\u0304)/n ]'},
+        {n:'c chart',f:'CL = c\u0304 \u00b1 3\u221ac\u0304'}
+      ]},
+      {group:'Inference',items:[
+        {n:'t statistic',f:'t = (x\u0304 \u2212 \u03bc\u2080) / (s/\u221an)'},
+        {n:'Confidence interval',f:'x\u0304 \u00b1 t\u00b7(s/\u221an)'}
+      ]},
+      {group:'Improvement & risk',items:[
+        {n:'RPN (FMEA)',f:'RPN = Severity \u00d7 Occurrence \u00d7 Detection'},
+        {n:'Takt time',f:'Takt = available time / customer demand'},
+        {n:'OEE',f:'OEE = Availability \u00d7 Performance \u00d7 Quality'}
+      ]}
+    ]
+  };
+  function factorial(n){if(n<0||n!==Math.floor(n)||n>170)return NaN;var r=1;for(var i=2;i<=n;i++)r*=i;return r;}
+  function calcEval(expr){
+    var s=String(expr).replace(/\s+/g,'');if(!s)return '';
+    var funcs={sqrt:Math.sqrt,ln:Math.log,log:function(x){return Math.log(x)/Math.LN10;},exp:Math.exp,sin:Math.sin,cos:Math.cos,tan:Math.tan};
+    var tok=[],i=0;
+    while(i<s.length){var c=s[i];
+      if(/[0-9.]/.test(c)){var num='';while(i<s.length&&/[0-9.]/.test(s[i]))num+=s[i++];tok.push({t:'num',v:parseFloat(num)});continue;}
+      if(/[a-z]/i.test(c)){var nm='';while(i<s.length&&/[a-z]/i.test(s[i]))nm+=s[i++];nm=nm.toLowerCase();
+        if(nm==='pi')tok.push({t:'num',v:Math.PI});else if(nm==='e')tok.push({t:'num',v:Math.E});
+        else if(funcs[nm])tok.push({t:'func',v:nm});else throw new Error('name');continue;}
+      if(c==='('){tok.push({t:'lp'});i++;continue;} if(c===')'){tok.push({t:'rp'});i++;continue;}
+      if(c==='!'){tok.push({t:'fact'});i++;continue;}
+      if('+-*/^'.indexOf(c)>=0){tok.push({t:'op',v:c});i++;continue;}
+      throw new Error('char');}
+    var out=[],ops=[],prec={'+':1,'-':1,'*':2,'/':2,'^':3,'u-':4},rt={'^':1,'u-':1},prev=null;
+    for(var k=0;k<tok.length;k++){var t=tok[k];
+      if(t.t==='num')out.push(t);
+      else if(t.t==='func')ops.push(t);
+      else if(t.t==='fact')out.push(t);
+      else if(t.t==='op'){var op=t.v;if(op==='-'&&(prev===null||prev.t==='op'||prev.t==='lp'||prev.t==='func')){op='u-';t={t:'op',v:'u-'};}
+        while(ops.length){var top=ops[ops.length-1];if(top.t==='op'&&(prec[top.v]>prec[op]||(prec[top.v]===prec[op]&&!rt[op])))out.push(ops.pop());else break;}ops.push(t);}
+      else if(t.t==='lp')ops.push(t);
+      else if(t.t==='rp'){while(ops.length&&ops[ops.length-1].t!=='lp')out.push(ops.pop());if(!ops.length)throw new Error('paren');ops.pop();if(ops.length&&ops[ops.length-1].t==='func')out.push(ops.pop());}
+      prev=t;}
+    while(ops.length){var o=ops.pop();if(o.t==='lp')throw new Error('paren');out.push(o);}
+    var stk=[];out.forEach(function(t){
+      if(t.t==='num')stk.push(t.v);
+      else if(t.t==='fact')stk.push(factorial(stk.pop()));
+      else if(t.t==='func')stk.push(funcs[t.v](stk.pop()));
+      else if(t.t==='op'){if(t.v==='u-')stk.push(-stk.pop());else{var b=stk.pop(),a=stk.pop();stk.push(t.v==='+'?a+b:t.v==='-'?a-b:t.v==='*'?a*b:t.v==='/'?a/b:Math.pow(a,b));}}});
+    if(stk.length!==1||!isFinite(stk[0]))throw new Error('eval');
+    return stk[0];
+  }
+  function fmtClock(sec){sec=Math.max(0,Math.floor(sec));var h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s2=sec%60;var mm=(h?String(m).padStart(2,'0'):String(m)),ss=String(s2).padStart(2,'0');return (h?h+':':'')+mm+':'+ss;}
+
+  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock};
 
   /* ---------- rail ---------- */
   function renderRail(){
@@ -399,17 +509,20 @@
       return '<div class="tb-diag returning"><div class="tb-diag-top"><div><div class="tb-diag-kick">Your adaptive study plan</div>'+
         '<h4>Readiness '+st.lastReadiness+'%</h4></div><div class="tb-ring" style="--p:'+st.lastReadiness+';--rc:'+(st.lastReadiness>=50?'var(--good,#1f9d6b)':'#c0453f')+'"><span>'+st.lastReadiness+'%</span></div></div>'+
         '<p class="tb-diag-sub">'+(due.length?('<b>'+due.length+'</b> subtopic'+(due.length>1?'s are':' is')+' due for review.'):'Nothing due for review right now &mdash; nicely kept up.')+' Retake the diagnostic to update your score.</p>'+
+        '<div class="tb-timing"><span class="tb-ctl-label">Mode</span><span class="tb-seg" role="group" aria-label="Timing">'+'<button type="button" data-diagtimed="1" class="'+(diagTimed?'on':'')+'">Timed '+Math.round(n*e.minutes/e.questions)+' min</button>'+'<button type="button" data-diagtimed="0" class="'+(diagTimed?'':'on')+'">Untimed</button></span></div>'+
         '<div class="tb-diag-cta"><button type="button" class="btn btn-teal" data-diag>Retake diagnostic</button>'+
         (due.length?'<button type="button" class="tb-ghost" data-practice>Practice '+due.length+' due subtopic'+(due.length>1?'s':'')+'</button>':'')+'</div></div>';
     }
     return '<div class="tb-diag"><div class="tb-diag-top"><div><div class="tb-diag-kick">Start here</div><h4>Sample Diagnostic</h4></div><span class="tb-badge2">'+n+' questions</span></div>'+
       '<p class="tb-diag-sub">Take a short, free diagnostic and get a <b>Readiness Score</b> plus a personalized study plan that pinpoints your weakest subtopics and tells you exactly where to spend your time. A preview of the full adaptive engine \u2014 the complete '+e.questions+'-question exam is coming.</p>'+
+      '<div class="tb-timing"><span class="tb-ctl-label">Mode</span><span class="tb-seg" role="group" aria-label="Timing">'+'<button type="button" data-diagtimed="1" class="'+(diagTimed?'on':'')+'">Timed '+Math.round(n*e.minutes/e.questions)+' min</button>'+'<button type="button" data-diagtimed="0" class="'+(diagTimed?'':'on')+'">Untimed</button></span></div>'+
       '<div class="tb-diag-cta"><button type="button" class="btn btn-teal" data-diag>Start the '+n+'-question diagnostic &rarr;</button></div></div>';
   }
 
   function wireOverview(){
     var host=document.getElementById('tb-overview');
     var diag=host.querySelector('[data-diag]');if(diag)diag.addEventListener('click',function(){startDiagnostic();});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-diagtimed]'),function(b){b.addEventListener('click',function(){diagTimed=b.dataset.diagtimed==='1';renderMain();});});
     var prac=host.querySelector('[data-practice]');if(prac)prac.addEventListener('click',function(){startPractice();});
     Array.prototype.forEach.call(host.querySelectorAll('[data-timed]'),function(b){b.addEventListener('click',function(){mode.timed=b.dataset.timed==='1';renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){b.addEventListener('click',function(){var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderMain();});});
@@ -435,21 +548,82 @@
   }
 
   /* ---------- quiz player ---------- */
-  function startDiagnostic(){var e=EXAMS[current];var qs=e.bank.map(function(q,i){return {q:q,idx:i};});shuffle(qs);session={kind:'diagnostic',items:qs,answers:{},i:0};view='quiz';renderMain();}
-  function startPractice(){var e=EXAMS[current];var st=loadState(current);var due=st?dueSubs(st.subState,Date.now()):[];var dueSet={};due.forEach(function(id){dueSet[id]=1;});var agg=st&&st.subState?masteryAgg(st.subState):{};var picks=weightedPick(e.bank,agg,Math.min(8,e.bank.length),dueSet);session={kind:'practice',items:picks.map(function(q){return {q:q,idx:e.bank.indexOf(q)};}),answers:{},i:0};view='quiz';renderMain();}
+  function startDiagnostic(){var e=EXAMS[current];var qs=e.bank.map(function(q,i){return {q:q,idx:i};});shuffle(qs);var limit=Math.round(qs.length*e.minutes/e.questions);session={kind:'diagnostic',items:qs,answers:{},flags:{},i:0,timed:diagTimed,limit:limit,endsAt:diagTimed?Date.now()+limit*60000:null};buildTools();view='quiz';renderMain();startTimer();}
+  function startPractice(){var e=EXAMS[current];var st=loadState(current);var due=st?dueSubs(st.subState,Date.now()):[];var dueSet={};due.forEach(function(id){dueSet[id]=1;});var agg=st&&st.subState?masteryAgg(st.subState):{};var picks=weightedPick(e.bank,agg,Math.min(8,e.bank.length),dueSet);buildTools();session={kind:'practice',items:picks.map(function(q){return {q:q,idx:e.bank.indexOf(q)};}),answers:{},flags:{},i:0,timed:false,endsAt:null};view='quiz';renderMain();}
   function masteryAgg(subState){var agg={};for(var id in subState){var m=subState[id].mastery;agg[id]={c:m,t:1};}return agg;}
   function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+  /* ---------- countdown timer (ASQ-paced) ---------- */
+  function startTimer(){stopTimer();if(!session||!session.timed)return;timerId=setInterval(tickTimer,1000);tickTimer();}
+  function stopTimer(){if(timerId){clearInterval(timerId);timerId=null;}}
+  function tickTimer(){if(!session||!session.timed){stopTimer();return;}var rem=(session.endsAt-Date.now())/1000;var el=document.getElementById('tb-timer');if(el){el.textContent=fmtClock(rem);el.className='tb-timer'+(rem<=60?' danger':rem<=300?' warn':'');}if(rem<=0){stopTimer();submitQuiz();}}
+
+  /* ---------- reference drawer + calculator (persistent overlay) ---------- */
+  function calcKeys(){
+    var rows=[
+      [['C','','clear'],['\u232B','','back'],['(','('],[')',')']],
+      [['7','7'],['8','8'],['9','9'],['\u00f7','/']],
+      [['4','4'],['5','5'],['6','6'],['\u00d7','*']],
+      [['1','1'],['2','2'],['3','3'],['\u2212','-']],
+      [['0','0'],['.','.'],['^','^'],['+','+']],
+      [['\u221a','sqrt('],['x\u00b2','^2'],['ln','ln('],['log','log(']],
+      [['\u03c0','pi'],['n!','!'],['exp','exp('],['=','','eq']]
+    ];
+    return rows.map(function(r){return r.map(function(k){
+      var act=k[2];var attrs=act?('data-act="'+act+'"'):('data-k="'+String(k[1]).replace(/"/g,'&quot;')+'"');
+      var cls='tb-ck'+(act==='eq'?' eq':'')+(act==='clear'?' clr':'');
+      return '<button type="button" class="'+cls+'" '+attrs+'>'+k[0]+'</button>';
+    }).join('');}).join('');
+  }
+  function buildTools(){
+    if(document.getElementById('tb-toollayer'))return;
+    var layer=document.createElement('div');layer.id='tb-toollayer';
+    layer.innerHTML=
+      '<aside class="tb-drawer" id="tb-formulas" hidden aria-label="Formula and reference sheet">'+
+        '<div class="tb-drawer-head"><h3>Formula &amp; reference sheet</h3><button type="button" class="tb-x" data-close="formulas" aria-label="Close">\u00d7</button></div>'+
+        '<input type="search" class="tb-refsearch" id="tb-refsearch" placeholder="Search formulas\u2026" aria-label="Search formulas">'+
+        '<div class="tb-reflist" id="tb-reflist"></div>'+
+        '<p class="tb-refnote">Open-book practice: several ASQ exams allow the official handbook. The skill is finding what you need fast \u2014 so practise the lookup under time.</p></aside>'+
+      '<div class="tb-calcw" id="tb-calc" hidden aria-label="Calculator">'+
+        '<div class="tb-calc-head"><span>Calculator</span><button type="button" class="tb-x" data-close="calc" aria-label="Close">\u00d7</button></div>'+
+        '<div class="tb-calc-disp" id="tb-calcdisp">0</div>'+
+        '<div class="tb-calc-keys">'+calcKeys()+'</div></div>';
+    document.body.appendChild(layer);wireTools();
+  }
+  function setDisp(v){var d=document.getElementById('tb-calcdisp');if(d)d.textContent=(v===''||v==null)?'0':String(v);}
+  function calcPress(el){var act=el.getAttribute('data-act');
+    if(act==='clear'){calcExpr='';setDisp('0');return;}
+    if(act==='back'){calcExpr=calcExpr.slice(0,-1);setDisp(calcExpr||'0');return;}
+    if(act==='eq'){try{var r=calcEval(calcExpr);r=Math.round(r*1e10)/1e10;calcExpr=String(r);setDisp(r);}catch(e){setDisp('Error');calcExpr='';}return;}
+    calcExpr+=el.getAttribute('data-k');setDisp(calcExpr);}
+  function renderRefs(query){var host=document.getElementById('tb-reflist');if(!host)return;var q=(query||'').toLowerCase();var groups=REFS[current]||[];
+    var html=groups.map(function(g){var items=g.items.filter(function(it){return !q||(it.n+' '+it.f+' '+(it.note||'')).toLowerCase().indexOf(q)>=0;});if(!items.length)return '';
+      return '<div class="tb-refgroup"><h4>'+esc(g.group)+'</h4>'+items.map(function(it){return '<div class="tb-refitem"><div class="tb-refn">'+esc(it.n)+'</div><div class="tb-reff">'+esc(it.f)+'</div>'+(it.note?'<div class="tb-refnote2">'+esc(it.note)+'</div>':'')+'</div>';}).join('')+'</div>';}).join('');
+    host.innerHTML=html||'<p class="tb-refempty">No formula matches \u201c'+esc(query)+'\u201d.</p>';}
+  function wireTools(){var layer=document.getElementById('tb-toollayer');
+    Array.prototype.forEach.call(layer.querySelectorAll('[data-close]'),function(b){b.addEventListener('click',function(){var t=document.getElementById(b.dataset.close==='calc'?'tb-calc':'tb-formulas');if(t)t.hidden=true;});});
+    var srch=layer.querySelector('#tb-refsearch');if(srch)srch.addEventListener('input',function(){renderRefs(srch.value);});
+    Array.prototype.forEach.call(layer.querySelectorAll('.tb-ck'),function(b){b.addEventListener('click',function(){calcPress(b);});});}
+  function toggleTool(name){var el=document.getElementById(name==='calc'?'tb-calc':'tb-formulas');if(!el)return;var show=el.hidden;el.hidden=!show;if(name==='formulas'&&show)renderRefs('');if(name==='calc'&&show){calcExpr='';setDisp('0');}}
+  function stopTools(){var c=document.getElementById('tb-calc'),f=document.getElementById('tb-formulas');if(c)c.hidden=true;if(f)f.hidden=true;}
+
 
   function quizHTML(){
     var e=EXAMS[current],n=session.items.length,it=session.items[session.i],q=it.q;
     var answered=Object.keys(session.answers).length;
+    var flagged=0;for(var fk in session.flags){if(session.flags[fk])flagged++;}
     var dm=domainOf(e,q.sub);var col=DM[dm].color;
     var subName='';e.bok.forEach(function(bd){bd.subs.forEach(function(x){if(x.id===q.sub)subName=x.name;});});
-    var nav=session.items.map(function(_,i){return '<button type="button" class="tb-navcell'+(session.answers[i]!=null?' done':'')+(i===session.i?' cur':'')+'" data-goto="'+i+'">'+(i+1)+'</button>';}).join('');
+    var nav=session.items.map(function(_,i){return '<button type="button" class="tb-navcell'+(session.answers[i]!=null?' done':'')+(i===session.i?' cur':'')+(session.flags[i]?' flag':'')+'" data-goto="'+i+'" aria-label="Question '+(i+1)+(session.flags[i]?', flagged':'')+'">'+(i+1)+'</button>';}).join('');
     var opts=q.options.map(function(o,i){return '<button type="button" class="tb-opt'+(session.answers[session.i]===i?' sel':'')+'" data-opt="'+i+'"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>';}).join('');
-    return '<div class="tb-quiz"><div class="tb-quiztop"><div><div class="tb-diag-kick">'+(session.kind==='diagnostic'?'Sample diagnostic':'Weak-area practice')+'</div>'+
-      '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered</div></div>'+
-      '<button type="button" class="tb-ghost" data-quit>Exit</button></div>'+
+    var timer=session.timed?'<span class="tb-timer" id="tb-timer">'+fmtClock((session.endsAt-Date.now())/1000)+'</span>':'<span class="tb-timer untimed">Untimed</span>';
+    var toolbar='<div class="tb-toolbar">'+timer+
+      '<button type="button" class="tb-tbtn'+(session.flags[session.i]?' on':'')+'" data-flag>\u2691 '+(session.flags[session.i]?'Flagged':'Flag')+'</button>'+
+      '<button type="button" class="tb-tbtn" data-formulas>\u2630 Formulas</button>'+
+      '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>'+
+      '<button type="button" class="tb-ghost" data-quit>Exit</button></div>';
+    return '<div class="tb-quiz"><div class="tb-quiztop"><div><div class="tb-diag-kick">'+(session.kind==='diagnostic'?'Sample diagnostic'+(session.timed?' \u00b7 timed':' \u00b7 untimed'):'Weak-area practice')+'</div>'+
+      '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered'+(flagged?' &middot; '+flagged+' flagged':'')+'</div></div>'+toolbar+'</div>'+
       '<div class="tb-progress"><span style="width:'+(answered/n*100)+'%"></span></div>'+
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(subName)+'</div>'+
       '<div class="tb-stem">'+esc(q.stem)+'</div>'+opts+
@@ -462,11 +636,15 @@
     Array.prototype.forEach.call(host.querySelectorAll('[data-goto]'),function(b){b.addEventListener('click',function(){session.i=+b.dataset.goto;renderMain();});});
     var nx=host.querySelector('[data-next]');if(nx)nx.addEventListener('click',function(){session.i++;renderMain();});
     var sb=host.querySelector('[data-submit]');if(sb)sb.addEventListener('click',function(){submitQuiz();});
-    var qt=host.querySelector('[data-quit]');if(qt)qt.addEventListener('click',function(){view='browse';session=null;renderMain();});
+    var fl=host.querySelector('[data-flag]');if(fl)fl.addEventListener('click',function(){session.flags[session.i]=!session.flags[session.i];renderMain();});
+    var fm=host.querySelector('[data-formulas]');if(fm)fm.addEventListener('click',function(){toggleTool('formulas');});
+    var cc=host.querySelector('[data-calc]');if(cc)cc.addEventListener('click',function(){toggleTool('calc');});
+    var qt=host.querySelector('[data-quit]');if(qt)qt.addEventListener('click',function(){stopTimer();stopTools();view='browse';session=null;renderMain();});
   }
 
   /* ---------- results ---------- */
   function submitQuiz(){
+    stopTimer();stopTools();
     var e=EXAMS[current];
     var bankAnswers={};session.items.forEach(function(it,i){bankAnswers[it.idx]=session.answers[i];});
     var agg=subAgg(e.bank,bankAnswers);

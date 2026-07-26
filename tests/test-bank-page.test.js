@@ -1,6 +1,7 @@
 'use strict';
 const assert = require('node:assert/strict');
 const test = require('node:test');
+const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
@@ -10,6 +11,9 @@ const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
 
 const CERTS = ['CSSBB', 'CSSGB', 'CQE', 'CQA', 'CMQ', 'CRE'];
 
+let _windows = [];
+afterEach(() => { _windows.splice(0).forEach(w => { try { w.close(); } catch (e) {} }); });
+
 function loadPage() {
   const errors = [];
   const vc = new VirtualConsole();
@@ -18,6 +22,7 @@ function loadPage() {
     url: 'https://upskillsprint.com/test-bank.html',
     runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole: vc
   });
+  _windows.push(dom.window);
   return new Promise(res => dom.window.addEventListener('load', () => res({ window: dom.window, errors })));
 }
 
@@ -227,4 +232,86 @@ test('every local .html link on the page resolves to a real file (no dead links)
 test('the page loads with no runtime errors', async () => {
   const { errors } = await loadPage();
   assert.deepEqual(errors, []);
+});
+
+/* ---------- exam realism (#2) ---------- */
+
+test('the calculator evaluates expressions with correct precedence and functions', async () => {
+  const { window } = await loadPage();
+  const { calcEval } = window.__TB;
+  assert.equal(calcEval('2+3*4'), 14);
+  assert.equal(calcEval('(2+3)*4'), 20);
+  assert.equal(calcEval('sqrt(16)'), 4);
+  assert.equal(calcEval('5!'), 120);
+  assert.ok(Math.abs(calcEval('ln(e)') - 1) < 1e-9);
+  assert.ok(Math.abs(calcEval('log(1000)') - 3) < 1e-9);
+  assert.throws(() => calcEval('2++'), 'invalid input throws');
+});
+
+test('a timed diagnostic shows a countdown paced to the real exam', async () => {
+  const { window } = await loadPage();
+  window.localStorage.removeItem('tb-adaptive-cssbb');
+  const ov = () => window.document.getElementById('tb-overview');
+  const click = el => el.dispatchEvent(new window.Event('click', { bubbles: true }));
+  assert.ok(ov().querySelector('[data-diagtimed="1"]'), 'timing toggle present');
+  click(ov().querySelector('[data-diag]'));
+  const timer = window.document.getElementById('tb-timer');
+  assert.ok(timer, 'countdown timer present');
+  assert.match(timer.textContent, /^\d+:\d\d$/, 'shows MM:SS');
+  // 16 sample questions at CSSBB pace (270min/165q) ~= 26 min
+  const mins = parseInt(timer.textContent, 10);
+  assert.ok(mins >= 20 && mins <= 30, 'paced to the exam (~26 min), got ' + mins);
+});
+
+test('untimed mode is offered and shows no countdown', async () => {
+  const { window } = await loadPage();
+  window.localStorage.removeItem('tb-adaptive-cssbb');
+  const ov = () => window.document.getElementById('tb-overview');
+  const click = el => el.dispatchEvent(new window.Event('click', { bubbles: true }));
+  click(ov().querySelector('[data-diagtimed="0"]'));
+  click(ov().querySelector('[data-diag]'));
+  assert.ok(ov().querySelector('.tb-timer.untimed'), 'untimed label shown, no countdown');
+});
+
+test('mark-and-review flags a question in the navigator', async () => {
+  const { window } = await loadPage();
+  const ov = () => window.document.getElementById('tb-overview');
+  const click = el => el.dispatchEvent(new window.Event('click', { bubbles: true }));
+  click(ov().querySelector('[data-diag]'));
+  click(ov().querySelector('[data-flag]'));
+  assert.ok(ov().querySelector('.tb-navcell.flag'), 'the question is flagged in the nav grid');
+  assert.match(ov().textContent, /1 flagged/, 'the flagged count shows');
+});
+
+test('the formula reference drawer opens and search filters it', async () => {
+  const { window } = await loadPage();
+  const ov = () => window.document.getElementById('tb-overview');
+  const click = el => el.dispatchEvent(new window.Event('click', { bubbles: true }));
+  click(ov().querySelector('[data-diag]'));
+  click(ov().querySelector('[data-formulas]'));
+  const drawer = window.document.getElementById('tb-formulas');
+  assert.ok(drawer && !drawer.hidden, 'drawer opens');
+  const all = window.document.querySelectorAll('#tb-reflist .tb-refitem').length;
+  assert.ok(all >= 10, 'the sheet has a real set of formulas');
+  const search = window.document.getElementById('tb-refsearch');
+  search.value = 'cpk';
+  search.dispatchEvent(new window.Event('input'));
+  const filtered = window.document.querySelectorAll('#tb-reflist .tb-refitem').length;
+  assert.ok(filtered > 0 && filtered < all, 'search narrows the list');
+});
+
+test('the in-app calculator computes from its keypad and survives navigation', async () => {
+  const { window } = await loadPage();
+  const ov = () => window.document.getElementById('tb-overview');
+  const click = el => el.dispatchEvent(new window.Event('click', { bubbles: true }));
+  click(ov().querySelector('[data-diag]'));
+  click(ov().querySelector('[data-calc]'));
+  const key = label => click(Array.from(window.document.querySelectorAll('.tb-ck')).find(x => x.textContent === label));
+  ['(', '2', '+', '3', ')', '\u00d7', '4'].forEach(key);
+  click(Array.from(window.document.querySelectorAll('.tb-ck')).find(x => x.getAttribute('data-act') === 'eq'));
+  assert.equal(window.document.getElementById('tb-calcdisp').textContent, '20');
+  // persists across question navigation (lives in a persistent layer)
+  click(ov().querySelector('[data-next]'));
+  assert.equal(window.document.getElementById('tb-calc').hidden, false, 'calculator stays open');
+  assert.equal(window.document.getElementById('tb-calcdisp').textContent, '20', 'its value is preserved');
 });
