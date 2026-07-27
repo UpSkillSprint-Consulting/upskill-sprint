@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Chebyshev vs. the Empirical Rule: How Much Data Is Really Inside?",
+  "slug": "chebyshev-inequality-vs-empirical-rule",
+  "category": "Statistics",
+  "category_slug": "statistics",
+  "level": "Beginner",
+  "estimated_minutes": 22,
+  "interactive": true,
+  "card_title": "Chebyshev vs. the Empirical Rule",
+  "card_description": "Compare guaranteed and normal-distribution coverage with live curves, distribution shapes, bounds, and practice challenges.",
+  "search_keywords": [
+    "Chebyshev inequality",
+    "Chebyshev theorem",
+    "Empirical Rule",
+    "68 95 99.7 rule",
+    "distribution bounds",
+    "mean and standard deviation",
+    "normal distribution",
+    "probability",
+    "statistics beginner",
+    "interactive statistics"
+  ],
+  "suggested_github_path": "lessons/statistics/chebyshev-inequality-vs-empirical-rule.html"
+}
+-->
+<head>
+  <!-- EDIT: Lesson metadata -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chebyshev vs. the Empirical Rule | UpSkill Sprint Consulting</title>
+  <meta name="description" content="A beginner-friendly interactive lesson comparing Chebyshev's inequality with the Empirical Rule using live coverage curves, distribution shapes, calculators, examples, and a quiz.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/statistics/chebyshev-inequality-vs-empirical-rule">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Chebyshev vs. the Empirical Rule | UpSkill Sprint Consulting">
+  <meta property="og:description" content="Explore guaranteed coverage for any distribution and expected coverage for normal data using synchronized interactive visuals.">
+  <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/statistics/chebyshev-inequality-vs-empirical-rule">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+
+  <!-- EDIT: Lesson styles -->
+  <style>
+    :root {
+      --paper:#fff;--surface:#fff;--surface-soft:#f4f7fa;--ink:#101828;--ink-soft:#344054;
+      --muted:#667085;--line:#dfe5ec;--navy:#0f2a43;--teal:#0e7c86;--teal-dark:#075f68;
+      --amber:#d97706;--success:#2f855a;--warning:#b7791f;--danger:#c24132;--info:#2f6fb0;
+      --cheb:#d97706;--normal:#0e7c86;--actual:#4f46a5;--focus:#f59e0b;
+      --shadow:0 8px 24px rgba(15,42,67,.08);--radius:14px;
+    }
+    html[data-theme="dark"] {
+      --paper:#0b1220;--surface:#111c2d;--surface-soft:#0f1a2b;--ink:#f3f6fb;--ink-soft:#d5deeb;
+      --muted:#aab7c9;--line:#2b3b50;--navy:#17344d;--teal:#46c4cb;--teal-dark:#7bdde1;
+      --amber:#f0b35d;--success:#67c992;--warning:#efb65d;--danger:#ed8176;--info:#79aee1;
+      --cheb:#f0b35d;--normal:#46c4cb;--actual:#a7a1ff;--focus:#f7c96f;--shadow:none;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:1rem/1.68 Arial,Helvetica,sans-serif}
+    h1,h2,h3,h4{color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.25}h1{margin:.35rem 0 .8rem;font-size:clamp(2rem,5vw,3.25rem)}
+    h2{display:inline-block;margin:0 0 1rem;padding-bottom:.2rem;border-bottom:3px solid var(--amber);font-size:clamp(1.45rem,3vw,1.95rem)}
+    h3{margin:1.15rem 0 .45rem;font-size:1.2rem}h4{margin:0 0 .35rem;font-size:1.02rem}p{margin:.65rem 0}a{color:var(--teal-dark)}strong{color:var(--ink)}
+    code{padding:.08rem .35rem;border:1px solid var(--line);border-radius:5px;background:var(--surface-soft);color:var(--ink);overflow-wrap:anywhere}
+    button,input,select{font:inherit}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+    .skip-link{position:absolute;left:-9999px;top:0;z-index:200;padding:.7rem 1rem;border-radius:0 0 8px;background:var(--navy);color:#fff}.skip-link:focus{left:0}
+    header.site.lesson-sitebar{position:sticky;top:0;z-index:80;display:flex;min-height:64px;align-items:center;justify-content:space-between;gap:1rem;padding:.65rem max(1rem,calc((100vw - 1120px)/2));border-bottom:1px solid var(--line);background:var(--paper)}
+    .lesson-sitebar .brand{display:inline-flex;align-items:center;gap:.65rem;color:var(--ink);font-weight:700;text-decoration:none}.lesson-sitebar .brand img{width:34px;height:34px;object-fit:contain}
+    .header-actions{display:flex;align-items:center;gap:.85rem}.lesson-back{font-size:.9rem;font-weight:700;text-decoration:none}.theme-control{display:inline-flex;align-items:center;gap:.4rem}
+    .theme-toggle{position:relative;width:46px;height:26px;padding:0;border:1px solid var(--line);border-radius:999px;background:var(--surface-soft);cursor:pointer}
+    .theme-toggle::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--teal);transition:transform .2s ease}html[data-theme="dark"] .theme-toggle::after{transform:translateX(20px)}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    main#lesson-content{max-width:1060px;margin:0 auto;padding:1rem 1rem 4rem}article.lesson-wrapper{display:block}section{margin:3rem 0;scroll-margin-top:82px}
+    .lesson-hero{position:relative;overflow:hidden;margin-top:1.2rem;padding:clamp(1.5rem,4vw,3rem);border-radius:20px;background:linear-gradient(135deg,var(--navy),var(--teal-dark));color:#fff}
+    .lesson-hero h1,.lesson-hero strong{color:#fff}.lesson-lede{max-width:72ch;color:#eaf7f8;font-size:1.12rem}.lesson-meta-row{display:flex;flex-wrap:wrap;gap:.5rem}
+    .pill{display:inline-flex;padding:.28rem .7rem;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.1);color:#fff;font-size:.82rem;font-weight:700}.pill.accent{background:#fff;color:var(--navy)}
+    .why-it-matters{max-width:78ch;margin-top:1rem;padding:.85rem 1rem;border-left:4px solid #f7c96f;border-radius:0 9px 9px 0;background:rgba(255,255,255,.11);color:#fff}
+    nav.lesson-toc{margin:1.7rem 0;padding:1rem 1.2rem;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow)}
+    nav.lesson-toc h2{margin:0 0 .5rem;border:0;color:var(--muted);font:700 .83rem Arial,sans-serif;letter-spacing:.07em;text-transform:uppercase}
+    nav.lesson-toc ol{margin:0;padding-left:1.25rem;columns:2;column-gap:2rem}nav.lesson-toc li{margin:.25rem 0;break-inside:avoid}nav.lesson-toc a{text-decoration:none}nav.lesson-toc a:hover{text-decoration:underline}
+    .panel,.tool,.formula-box,.quiz-question{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}.panel{padding:1.15rem 1.25rem}.tool{padding:clamp(1rem,3vw,1.4rem);border-top:5px solid var(--teal)}
+    .soft-panel{background:var(--surface-soft)}.callout{margin:1rem 0;padding:.85rem 1rem;border-left:4px solid var(--info);border-radius:0 9px 9px 0;background:var(--surface-soft)}.callout.success{border-left-color:var(--success)}.callout.warning{border-left-color:var(--warning)}.callout.danger{border-left-color:var(--danger)}
+    .objectives-list,.steps,.takeaways{padding-left:1.35rem}.objectives-list li,.steps li,.takeaways li{margin:.55rem 0}.objectives-list li::marker,.steps li::marker,.takeaways li::marker{color:var(--teal);font-weight:700}
+    .grid-2,.grid-3,.metric-grid,.software-grid,.mistake-grid{display:grid;gap:1rem}.grid-2,.software-grid,.mistake-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3,.metric-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .term-card,.mistake-card,.metric-card{padding:1rem;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.term-card h3,.mistake-card h3{margin-top:0}.metric-label{color:var(--muted);font-size:.82rem;font-weight:700;text-transform:uppercase}.metric-value{margin:.2rem 0;color:var(--ink);font:700 clamp(1.45rem,4vw,2rem) Georgia,serif}.metric-note{color:var(--muted);font-size:.88rem}
+    .formula-box{padding:1rem 1.15rem;border-left:5px solid var(--teal);overflow-x:auto}.math{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.45rem;color:var(--ink);font:600 clamp(1.15rem,4vw,1.55rem) Georgia,serif}.frac{display:inline-flex;flex-direction:column;align-items:center}.frac .top{padding:0 .3rem .08rem;border-bottom:1.5px solid var(--ink)}.frac .bottom{padding:.08rem .3rem 0}.formula-caption{text-align:center;color:var(--muted)}
+    .table-scroll{max-width:100%;overflow-x:auto}table{width:100%;min-width:600px;border-collapse:collapse;background:var(--surface)}caption{text-align:left;color:var(--muted);padding:0 0 .45rem}th,td{padding:.65rem .75rem;border:1px solid var(--line);text-align:left;vertical-align:top}th{background:var(--navy);color:#fff}tbody tr:nth-child(even){background:var(--surface-soft)}
+    .worked-steps{counter-reset:work}.worked-step{position:relative;margin:.8rem 0;padding:.85rem 1rem .85rem 3.2rem;border-left:3px solid var(--teal);background:var(--surface-soft)}.worked-step::before{counter-increment:work;content:counter(work);position:absolute;left:.8rem;top:.75rem;display:grid;width:1.65rem;height:1.65rem;place-items:center;border-radius:50%;background:var(--teal);color:#fff;font-weight:700}
+    .controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}.control-field label{display:block;margin-bottom:.3rem;font-weight:700}.control-field input,.control-field select{width:100%;min-height:44px;padding:.65rem .7rem;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--ink)}
+    .range-row{grid-column:1/-1}.range-row input{padding:0}.range-scale{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem}.button-row{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1rem}.btn{min-height:44px;padding:.65rem .95rem;border:1px solid var(--teal);border-radius:9px;background:var(--teal);color:#fff;font-weight:700;cursor:pointer}.btn.secondary{background:var(--surface);color:var(--teal-dark)}.btn.ghost{border-color:var(--line);background:var(--surface-soft);color:var(--ink)}
+    .error-box{margin:1rem 0;padding:.75rem 1rem;border:1px solid var(--danger);border-radius:9px;background:var(--surface-soft);color:var(--danger);font-weight:700}.metric-grid{margin-top:1rem}.method-equation,.reverse-result{margin-top:1rem;padding:.8rem 1rem;border-radius:10px;background:var(--surface-soft);font-weight:700}
+    .chart-shell{margin-top:1.25rem;padding:1rem;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.chart-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}.chart-title-row h3{margin-top:0}.chart-note{color:var(--muted);font-size:.9rem}.chart-view{width:100%;min-height:300px}.chart-view svg{display:block;width:100%;height:auto}.side-chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.side-chart-panel{min-width:0}.chart-legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.6rem;color:var(--muted);font-size:.86rem}.legend-item{display:inline-flex;align-items:center;gap:.4rem}.legend-swatch{width:18px;height:4px;border-radius:3px;background:var(--normal)}.legend-swatch.cheb{background:var(--cheb)}.legend-swatch.actual{background:var(--actual)}
+    .reverse-tool{display:grid;grid-template-columns:minmax(220px,.7fr) minmax(0,1.5fr);gap:1rem;align-items:end;margin-top:1rem}.mistake-tag{display:inline-block;margin-bottom:.45rem;padding:.12rem .45rem;border-radius:999px;background:var(--surface-soft);color:var(--danger);font-size:.74rem;font-weight:700;text-transform:uppercase}
+    .practice-answer{margin-top:1rem;padding:1rem;border:1px solid var(--success);border-radius:12px;background:var(--surface-soft)}[hidden]{display:none!important}.quiz-question{margin:1rem 0;padding:1rem}.quiz-question fieldset{border:0;margin:0;padding:0}.quiz-question legend{margin-bottom:.55rem;font-weight:700}.quiz-option{display:flex;align-items:flex-start;gap:.55rem;margin:.35rem 0;padding:.65rem .75rem;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer}.quiz-option:hover{background:var(--surface-soft)}.quiz-option input{margin-top:.25rem;accent-color:var(--teal)}.quiz-question.correct{border-color:var(--success);box-shadow:inset 4px 0 var(--success)}.quiz-question.incorrect{border-color:var(--danger);box-shadow:inset 4px 0 var(--danger)}.quiz-feedback{margin-top:.65rem;padding:.65rem .75rem;border-radius:8px;background:var(--surface-soft)}.quiz-feedback.correct{border:1px solid var(--success)}.quiz-feedback.incorrect{border:1px solid var(--danger)}#quiz-score{font-weight:700}
+    .remember{margin-top:1rem;padding:1rem 1.2rem;border-radius:12px;background:var(--navy);color:#fff;font-size:1.08rem;font-weight:700}.remember strong{color:#fff}.lesson-footer{padding:1.2rem max(1rem,calc((100vw - 1060px)/2));border-top:1px solid var(--line);background:var(--surface);color:var(--muted)}.footer-inner{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    @media(max-width:820px){.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3,.metric-grid{grid-template-columns:1fr}.side-chart-grid,.software-grid,.mistake-grid{grid-template-columns:1fr}.reverse-tool{grid-template-columns:1fr}.chart-title-row{display:block}.chart-title-row .button-row{margin-bottom:.7rem}}
+    @media(max-width:620px){nav.lesson-toc ol{columns:1}.grid-2{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.header-actions{gap:.45rem}.lesson-back{display:none}.lesson-sitebar .brand span{font-size:.9rem}.chart-view{min-height:240px}table{min-width:520px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+    @media print{header.site.lesson-sitebar,.skip-link,.button-row,.theme-control,.lesson-footer{display:none!important}body{background:#fff!important;color:#000!important}.lesson-hero{background:none!important;color:#000!important;border:1px solid #999}.lesson-hero h1,.lesson-hero strong,.lesson-lede,.why-it-matters{color:#000!important}main#lesson-content{max-width:none;padding:0}}
+  </style>
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+</head>
+<body data-lesson-page="true" data-category="statistics" data-level="beginner" data-interactive="true">
+  <a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+
+  <!-- SITE INTEGRATION: Header -->
+  <header class="site lesson-sitebar">
+    <a class="brand" href="/">
+      <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
+      <span>UpSkill Sprint Consulting</span>
+    </a>
+    <div class="header-actions">
+      <a class="lesson-back" href="/lessons#statistics">Back to Statistics</a>
+      <div class="theme-control" aria-label="Colour theme">
+        <span aria-hidden="true">Light</span>
+        <button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button>
+        <span aria-hidden="true">Dark</span>
+      </div>
+    </div>
+  </header>
+
+  <main id="lesson-content">
+    <article class="lesson-wrapper">
+      <!-- EDIT: Lesson header -->
+      <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-meta-row">
+          <span class="pill">Statistics</span><span class="pill">Beginner</span><span class="pill">22 minutes</span><span class="pill accent">Interactive</span>
+        </div>
+        <h1 id="lesson-title">Chebyshev vs. the Empirical Rule</h1>
+        <p class="lesson-lede">Learn two different ways to describe how much data lies near the mean—and why one is a guarantee for almost any distribution while the other is a stronger approximation for bell-shaped data.</p>
+        <div class="why-it-matters"><strong>Why this matters:</strong> engineers and analysts often know only a mean and standard deviation. Choosing the wrong rule can make a cautious statement look falsely precise.</div>
+      </section>
+
+      <nav class="lesson-toc" aria-label="Lesson contents">
+        <h2>In this lesson</h2>
+        <ol>
+          <li><a href="#learning-objectives">Learning objectives</a></li><li><a href="#prerequisites">Prerequisites</a></li>
+          <li><a href="#key-concepts">Concept in plain English</a></li><li><a href="#terminology">Key terminology</a></li>
+          <li><a href="#core-formula">Core formulas</a></li><li><a href="#procedure">Step-by-step method</a></li>
+          <li><a href="#worked-example">Worked example</a></li><li><a href="#interactive-lab">Interactive lab</a></li>
+          <li><a href="#interpretation">Interpretation guide</a></li><li><a href="#mistakes">Common mistakes</a></li>
+          <li><a href="#software">Excel and Minitab</a></li><li><a href="#practice">Practice activity</a></li>
+          <li><a href="#quiz">Mini quiz</a></li><li><a href="#summary">Summary</a></li>
+        </ol>
+      </nav>
+
+      <section id="learning-objectives" aria-labelledby="objectives-heading">
+        <h2 id="objectives-heading">Learning objectives</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ol class="objectives-list">
+          <li><strong>Explain</strong> the difference between a guaranteed lower bound and a normal-distribution approximation.</li>
+          <li><strong>Calculate</strong> Chebyshev coverage and the interval μ ± kσ.</li>
+          <li><strong>Compare</strong> Chebyshev with the 68–95–99.7 Empirical Rule.</li>
+          <li><strong>Select</strong> the appropriate rule from the information given about distribution shape.</li>
+          <li><strong>Interpret</strong> results using “at least,” “at most,” and “approximately” correctly.</li>
+        </ol>
+      </section>
+
+      <section id="prerequisites" aria-labelledby="prerequisites-heading">
+        <h2 id="prerequisites-heading">Prerequisites</h2>
+        <div class="panel"><p><strong>No prior knowledge is required.</strong> It helps to know that the mean is the average and standard deviation measures typical spread around that average.</p></div>
+      </section>
+
+      <section id="key-concepts" aria-labelledby="concepts-heading">
+        <h2 id="concepts-heading">The idea in plain English</h2>
+        <div class="grid-2">
+          <div class="panel"><h3>Chebyshev's inequality</h3><p>Gives a <strong>minimum guaranteed proportion</strong> inside a symmetric interval for any distribution with a finite mean and variance—even when the shape is skewed, bimodal, or unknown.</p></div>
+          <div class="panel"><h3>The Empirical Rule</h3><p>States that approximately <strong>68%, 95%, and 99.7%</strong> lie within 1, 2, and 3 standard deviations when data are approximately normal.</p></div>
+        </div>
+        <div class="callout warning"><strong>What neither rule tells you:</strong> neither proves a process is stable, capable, or normal. They describe spread around the mean, not conformity to specifications.</div>
+      </section>
+
+      <section id="terminology" aria-labelledby="terminology-heading">
+        <h2 id="terminology-heading">Key terminology</h2>
+        <div class="grid-3">
+          <div class="term-card"><h3>Mean, μ</h3><p>The population average and centre of the interval.</p></div>
+          <div class="term-card"><h3>Standard deviation, σ</h3><p>The population's typical spread, in the same units as the data.</p></div>
+          <div class="term-card"><h3>k</h3><p>The number of standard deviations placed on each side of the mean.</p></div>
+          <div class="term-card"><h3>Coverage</h3><p>The proportion of observations inside μ ± kσ.</p></div>
+          <div class="term-card"><h3>Lower bound</h3><p>A minimum that the true coverage cannot fall below under the stated assumptions.</p></div>
+          <div class="term-card"><h3>Approximately normal</h3><p>Roughly symmetric, single-peaked, and bell-shaped without severe outliers.</p></div>
+        </div>
+      </section>
+
+      <section id="core-formula" aria-labelledby="formula-heading">
+        <h2 id="formula-heading">Core formulas</h2>
+        <div class="formula-box">
+          <div class="math" aria-label="Probability that X is within k standard deviations of the mean is at least one minus one over k squared">
+            P(|X − μ| &lt; kσ) ≥ 1 − <span class="frac"><span class="top">1</span><span class="bottom">k²</span></span>
+          </div>
+          <p class="formula-caption">Chebyshev's inside bound, valid for k &gt; 1.</p>
+        </div>
+        <div class="formula-box" style="margin-top:1rem">
+          <div class="math">Lower = μ − kσ &nbsp; | &nbsp; Upper = μ + kσ</div>
+          <p class="formula-caption">The bounds use the same units as the original measurement.</p>
+        </div>
+        <div class="formula-box" style="margin-top:1rem">
+          <div class="math">Maximum outside ≤ <span class="frac"><span class="top">1</span><span class="bottom">k²</span></span></div>
+          <p class="formula-caption">Inside and outside are complements: inside ≥ 1 − 1/k²; outside ≤ 1/k².</p>
+        </div>
+        <div class="table-scroll" style="margin-top:1rem">
+          <table>
+            <caption>Same interval, different claims.</caption>
+            <thead><tr><th>k</th><th>Chebyshev minimum</th><th>Empirical Rule</th><th>Correct wording</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>0% useful guarantee</td><td>About 68%</td><td>Use the normal result only when normality is reasonable.</td></tr>
+              <tr><td>2</td><td>At least 75%</td><td>About 95%</td><td>Chebyshev guarantees; Empirical approximates.</td></tr>
+              <tr><td>3</td><td>At least 88.89%</td><td>About 99.7%</td><td>Do not call either value exact unless using the exact normal CDF.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout"><strong>Assumptions:</strong> Chebyshev requires a finite mean and finite variance. The Empirical Rule additionally requires a distribution reasonably close to normal.</div>
+      </section>
+
+      <section id="procedure" aria-labelledby="procedure-heading">
+        <h2 id="procedure-heading">Step-by-step method</h2>
+        <ol class="steps">
+          <li><strong>Identify the question.</strong> Are you finding a guaranteed percentage, a normal-model percentage, or numerical bounds?</li>
+          <li><strong>Check distribution information.</strong> If shape is unknown or clearly non-normal, use Chebyshev. If approximately normal, the Empirical Rule may be used.</li>
+          <li><strong>Determine k.</strong> From an interval, compute k = distance from mean ÷ standard deviation.</li>
+          <li><strong>Calculate coverage.</strong> Chebyshev uses 1 − 1/k². Normal data use the Empirical Rule or exact normal probabilities.</li>
+          <li><strong>Calculate bounds.</strong> Use μ − kσ and μ + kσ.</li>
+          <li><strong>Interpret with disciplined language.</strong> Say “at least” for Chebyshev and “approximately” for the Empirical Rule.</li>
+          <li><strong>Document the assumption.</strong> State whether distribution shape was unknown, non-normal, or approximately normal.</li>
+        </ol>
+      </section>
+
+      <section id="worked-example" aria-labelledby="example-heading">
+        <h2 id="example-heading">Worked example: package fill weights</h2>
+        <div class="panel">
+          <p><strong>Problem:</strong> A filler produces packages with mean 500 g and standard deviation 12 g. The distribution shape has not been established. What can be guaranteed within two standard deviations?</p>
+          <div class="worked-steps">
+            <div class="worked-step"><strong>Select the method.</strong> Shape is unknown, so use Chebyshev.</div>
+            <div class="worked-step"><strong>Set k.</strong> The question says two standard deviations, so k = 2.</div>
+            <div class="worked-step"><strong>Calculate coverage.</strong> 1 − 1/2² = 1 − 1/4 = 0.75 = 75%.</div>
+            <div class="worked-step"><strong>Calculate bounds.</strong> 500 ± 2(12) = 500 ± 24, giving 476 g to 524 g.</div>
+            <div class="worked-step"><strong>Interpret.</strong> At least 75% of all package weights lie between 476 g and 524 g, assuming the population has a finite mean and variance.</div>
+          </div>
+          <div class="callout warning"><strong>Limitation:</strong> you cannot claim 95% unless the distribution is reasonably normal. Chebyshev's 75% is conservative; actual coverage may be higher.</div>
+        </div>
+      </section>
+
+      <!-- EDIT: Interactive calculator -->
+      <section id="interactive-lab" aria-labelledby="lab-heading">
+        <h2 id="lab-heading">Interactive comparison lab</h2>
+        <p>Change the shape, mean, standard deviation, and k. The metrics, bounds, and charts update together.</p>
+        <div class="tool">
+          <div class="controls">
+            <div class="control-field"><label for="distribution-select">Distribution shape</label><select id="distribution-select"><option value="normal">Normal</option><option value="skewed">Right-skewed</option><option value="bimodal">Bimodal</option><option value="heavy">Heavy-tailed</option></select></div>
+            <div class="control-field"><label for="mean-input">Mean, μ</label><input id="mean-input" type="number" value="100" step="any" inputmode="decimal"></div>
+            <div class="control-field"><label for="sd-input">Standard deviation, σ</label><input id="sd-input" type="number" value="10" min="0.000001" step="any" inputmode="decimal"></div>
+            <div class="control-field"><label for="k-input">Standard deviations, k</label><input id="k-input" type="number" value="2" min="1.01" max="4.5" step="0.01" inputmode="decimal"></div>
+            <div class="control-field range-row"><label for="k-slider">Play with k: <strong id="k-slider-value">2.00</strong></label><input id="k-slider" type="range" min="1.01" max="4.5" step="0.01" value="2"><div class="range-scale"><span>1.01σ</span><span>2σ</span><span>3σ</span><span>4.5σ</span></div></div>
+          </div>
+          <div class="button-row"><button class="btn secondary" type="button" id="sample-button">Load manufacturing example</button><button class="btn ghost" type="button" id="reset-lab-button">Reset lab</button></div>
+          <div id="lab-error" class="error-box" role="alert" hidden></div>
+          <div class="metric-grid" aria-live="polite" aria-atomic="true">
+            <div class="metric-card"><div class="metric-label">Chebyshev minimum</div><div class="metric-value" id="cheb-metric">75.00%</div><div class="metric-note">Guaranteed for any eligible shape</div></div>
+            <div class="metric-card"><div class="metric-label">Normal-model coverage</div><div class="metric-value" id="normal-metric">95.45%</div><div class="metric-note">Only when normal is reasonable</div></div>
+            <div class="metric-card"><div class="metric-label">Selected shape: actual area</div><div class="metric-value" id="actual-metric">95.45%</div><div class="metric-note" id="actual-note">Normal distribution</div></div>
+          </div>
+          <div class="method-equation" id="live-method" aria-live="polite">Interval = 100 ± 2(10) = 80 to 120; Chebyshev minimum = 75.00%.</div>
+          <div class="callout success" id="comparison-message" aria-live="polite"></div>
+          <div class="chart-shell">
+            <div class="chart-title-row"><div><h3>Coverage as k changes</h3><p class="chart-note">Overlay the conservative Chebyshev floor with exact normal-model coverage, or separate them side by side.</p></div><div class="button-row" role="group" aria-label="Coverage chart layout"><button class="btn secondary" type="button" id="overlay-view-button" aria-pressed="true">Overlay</button><button class="btn secondary" type="button" id="side-view-button" aria-pressed="false">Side by side</button></div></div>
+            <div id="coverage-overlay-view" class="chart-view" role="img" aria-label="Overlay chart comparing Chebyshev guaranteed coverage with normal distribution coverage"></div>
+            <div id="coverage-side-view" class="side-chart-grid" hidden><div class="side-chart-panel"><h4>Chebyshev guarantee</h4><div id="cheb-side-chart" class="chart-view" role="img" aria-label="Chebyshev guaranteed coverage curve"></div></div><div class="side-chart-panel"><h4>Normal-model coverage</h4><div id="normal-side-chart" class="chart-view" role="img" aria-label="Normal distribution coverage curve"></div></div></div>
+            <div class="chart-legend" aria-hidden="true"><span class="legend-item"><span class="legend-swatch cheb"></span>Chebyshev minimum</span><span class="legend-item"><span class="legend-swatch"></span>Normal-model area</span></div>
+          </div>
+          <div class="chart-shell"><h3>Selected distribution</h3><p class="chart-note">The shaded region is the theoretical area inside μ ± kσ for the selected shape.</p><div id="distribution-chart" class="chart-view" role="img" aria-label="Selected distribution with the interval within k standard deviations shaded"></div><div class="chart-legend" aria-hidden="true"><span class="legend-item"><span class="legend-swatch actual"></span>Area inside the interval</span></div></div>
+          <div class="reverse-tool"><div class="control-field"><label for="target-input">Target guaranteed coverage (%)</label><input id="target-input" type="number" value="90" min="0.01" max="99.99" step="0.01" inputmode="decimal"></div><div class="reverse-result" id="reverse-result" aria-live="polite">To guarantee 90%, Chebyshev requires k ≥ 3.162.</div></div>
+        </div>
+      </section>
+
+      <section id="interpretation" aria-labelledby="interpretation-heading">
+        <h2 id="interpretation-heading">Interpretation guide</h2>
+        <div class="table-scroll"><table><caption>When you see this, it means this.</caption><thead><tr><th>When you see this</th><th>It means this</th><th>What to say</th></tr></thead><tbody>
+          <tr><td>Chebyshev = 75% at k = 2</td><td>No eligible distribution can have less than 75% inside ±2σ.</td><td>“At least 75%.”</td></tr>
+          <tr><td>Normal coverage ≈ 95% at k = 2</td><td>A bell-shaped population places much more area near the mean.</td><td>“Approximately 95%, assuming normality.”</td></tr>
+          <tr><td>Actual selected-shape area exceeds Chebyshev</td><td>The bound is conservative, as intended.</td><td>Do not replace the guarantee with the simulated value unless the model is justified.</td></tr>
+          <tr><td>A target of 90%</td><td>Chebyshev needs k ≥ √10 ≈ 3.162.</td><td>Report the calculated k and bounds.</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section id="mistakes" aria-labelledby="mistakes-heading">
+        <h2 id="mistakes-heading">Common mistakes and exam traps</h2>
+        <div class="mistake-grid">
+          <div class="mistake-card"><span class="mistake-tag">Calculation error</span><h3>Using 1 − 1/k</h3><p><strong>Why wrong:</strong> k must be squared. <strong>Avoid it:</strong> write 1 − 1/k² before substituting.</p></div>
+          <div class="mistake-card"><span class="mistake-tag">Interpretation error</span><h3>Saying “exactly 75%”</h3><p><strong>Why wrong:</strong> Chebyshev gives a minimum. <strong>Avoid it:</strong> always say “at least.”</p></div>
+          <div class="mistake-card"><span class="mistake-tag">Assumption error</span><h3>Using 68–95–99.7 for any shape</h3><p><strong>Why wrong:</strong> the Empirical Rule depends on approximate normality. <strong>Avoid it:</strong> check shape first.</p></div>
+          <div class="mistake-card"><span class="mistake-tag">Calculation error</span><h3>Forgetting the numerical interval</h3><p><strong>Why wrong:</strong> a percentage alone does not identify the measurement range. <strong>Avoid it:</strong> calculate μ ± kσ.</p></div>
+          <div class="mistake-card"><span class="mistake-tag">Software-output error</span><h3>Using NORM.DIST as Chebyshev</h3><p><strong>Why wrong:</strong> Excel's normal functions assume a normal model. <strong>Avoid it:</strong> calculate Chebyshev directly.</p></div>
+          <div class="mistake-card"><span class="mistake-tag">Exam trap</span><h3>Using k = 1 as a useful bound</h3><p><strong>Why wrong:</strong> Chebyshev gives 0% at k = 1. <strong>Avoid it:</strong> use k &gt; 1.</p></div>
+        </div>
+      </section>
+
+      <section id="software" aria-labelledby="software-heading">
+        <h2 id="software-heading">Excel and Minitab guidance</h2>
+        <div class="software-grid">
+          <div class="panel"><h3>Excel</h3><p>With mean in B2, standard deviation in B3, and k in B4:</p><ul><li>Lower: <code>=B2-B4*B3</code></li><li>Upper: <code>=B2+B4*B3</code></li><li>Chebyshev inside: <code>=1-1/B4^2</code></li><li>Maximum outside: <code>=1/B4^2</code></li><li>Exact normal area: <code>=NORM.S.DIST(B4,TRUE)-NORM.S.DIST(-B4,TRUE)</code></li></ul><div class="callout warning"><strong>Caution:</strong> normal functions do not verify normality.</div></div>
+          <div class="panel"><h3>Minitab</h3><ol><li>Assess shape with <strong>Graph → Histogram</strong> or <strong>Graph → Probability Plot</strong>.</li><li>Use <strong>Stat → Basic Statistics → Graphical Summary</strong> for mean, standard deviation, and normality information.</li><li>Use <strong>Calc → Calculator</strong> to store <code>1 - 1 / k**2</code> when k is in a worksheet constant or column.</li><li>Report the rule, k, bounds, and distribution assumption.</li></ol><p>Minitab supports the analysis; it does not choose the correct theorem for you.</p></div>
+        </div>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-heading">
+        <h2 id="practice-heading">Practice activity</h2>
+        <div class="panel"><p>A filling process has mean 250 mL and standard deviation 4 mL. Distribution shape is unknown. Find an interval guaranteed to contain at least 90% of fills.</p><button class="btn" type="button" id="practice-reveal-button" aria-expanded="false" aria-controls="practice-answer">Reveal answer</button><div class="practice-answer" id="practice-answer" hidden><p>Set 1 − 1/k² = 0.90. Then 1/k² = 0.10, so k² = 10 and k = √10 = 3.162.</p><p>Bounds: 250 ± 3.162(4) = 250 ± 12.649, or approximately <strong>237.35 mL to 262.65 mL</strong>.</p><p><strong>Conclusion:</strong> at least 90% of fills lie within this interval, assuming finite mean and variance.</p></div></div>
+      </section>
+
+      <!-- EDIT: Quiz questions -->
+      <section id="quiz" aria-labelledby="quiz-heading">
+        <h2 id="quiz-heading">Mini quiz</h2>
+        <form id="quiz-form" novalidate>
+          <div class="quiz-question" data-answer="2"><fieldset><legend>1. What makes Chebyshev's inequality especially useful?</legend><label class="quiz-option"><input type="radio" name="q1" value="1"><span>It proves every distribution is normal.</span></label><label class="quiz-option"><input type="radio" name="q1" value="2"><span>It gives a guaranteed minimum for any distribution with finite mean and variance.</span></label><label class="quiz-option"><input type="radio" name="q1" value="3"><span>It always gives the exact percentage.</span></label></fieldset><div class="quiz-feedback" hidden data-explanation="Chebyshev is distribution-free with respect to shape, provided mean and variance are finite."></div></div>
+          <div class="quiz-question" data-answer="3"><fieldset><legend>2. For k = 2, what is the Chebyshev minimum inside the interval?</legend><label class="quiz-option"><input type="radio" name="q2" value="1"><span>50%</span></label><label class="quiz-option"><input type="radio" name="q2" value="2"><span>68%</span></label><label class="quiz-option"><input type="radio" name="q2" value="3"><span>75%</span></label><label class="quiz-option"><input type="radio" name="q2" value="4"><span>95%</span></label></fieldset><div class="quiz-feedback" hidden data-explanation="1 − 1/2² = 1 − 1/4 = 0.75, so at least 75% lies inside."></div></div>
+          <div class="quiz-question" data-answer="1"><fieldset><legend>3. Mean = 80, σ = 5, and k = 3. What are the bounds?</legend><label class="quiz-option"><input type="radio" name="q3" value="1"><span>65 to 95</span></label><label class="quiz-option"><input type="radio" name="q3" value="2"><span>70 to 90</span></label><label class="quiz-option"><input type="radio" name="q3" value="3"><span>75 to 85</span></label></fieldset><div class="quiz-feedback" hidden data-explanation="80 ± 3(5) = 80 ± 15, giving 65 to 95."></div></div>
+          <div class="quiz-question" data-answer="2"><fieldset><legend>4. When is the Empirical Rule appropriate?</legend><label class="quiz-option"><input type="radio" name="q4" value="1"><span>Whenever a mean is available.</span></label><label class="quiz-option"><input type="radio" name="q4" value="2"><span>When the distribution is approximately normal.</span></label><label class="quiz-option"><input type="radio" name="q4" value="3"><span>Only when the sample size is exactly 30.</span></label></fieldset><div class="quiz-feedback" hidden data-explanation="The 68–95–99.7 rule relies on an approximately normal distribution."></div></div>
+          <div class="quiz-question" data-answer="3"><fieldset><legend>5. Which wording is correct for Chebyshev at k = 3?</legend><label class="quiz-option"><input type="radio" name="q5" value="1"><span>Exactly 88.89% lies inside.</span></label><label class="quiz-option"><input type="radio" name="q5" value="2"><span>Approximately 99.7% lies inside for every distribution.</span></label><label class="quiz-option"><input type="radio" name="q5" value="3"><span>At least 88.89% lies inside.</span></label></fieldset><div class="quiz-feedback" hidden data-explanation="Chebyshev is a lower bound, so the correct phrase is at least 88.89%."></div></div>
+        </form>
+        <div class="button-row"><button class="btn" type="button" id="quiz-submit">Submit quiz</button><button class="btn secondary" type="button" id="quiz-reset">Reset quiz</button></div><p id="quiz-score" aria-live="polite">Score: not submitted</p>
+      </section>
+
+      <section id="summary" aria-labelledby="summary-heading">
+        <h2 id="summary-heading">Final summary</h2>
+        <ul class="takeaways"><li>Chebyshev gives a minimum guaranteed coverage for any distribution with finite mean and variance.</li><li>The Empirical Rule gives approximate 68–95–99.7 coverage only for approximately normal data.</li><li>Chebyshev inside coverage is 1 − 1/k² for k &gt; 1.</li><li>Numerical bounds are μ − kσ and μ + kσ.</li><li>Use “at least” for Chebyshev and “approximately” for the Empirical Rule.</li><li>A conservative bound can be much lower than the actual proportion.</li></ul>
+        <div class="callout"><strong>Decision rule:</strong> unknown or non-normal shape → Chebyshev; approximately normal shape → Empirical Rule or exact normal probabilities.</div>
+        <div class="remember"><strong>Remember this:</strong> Chebyshev guarantees; the Empirical Rule assumes.</div>
+        <p><strong>Suggested next lesson:</strong> <a href="/lessons/statistics/the-normal-distribution-meet-the-bell-curve">The Normal Distribution: Meet the Bell Curve</a>.</p>
+      </section>
+
+      <section id="references" aria-labelledby="references-heading">
+        <h2 id="references-heading">References</h2>
+        <ul><li>NIST/SEMATECH, <a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc261.htm">Chebyshev's inequality</a>.</li><li>Microsoft Support, <a href="https://support.microsoft.com/en-us/office/norm-s-dist-function-1e787282-3832-4520-a9ae-bd2a8d99ba88">NORM.S.DIST function</a>.</li><li>Minitab Support, <a href="https://support.minitab.com/en-us/minitab/help-and-how-to/statistics/basic-statistics/how-to/graphical-summary/before-you-start/overview/">Overview for Graphical Summary</a>.</li></ul>
+      </section>
+    </article>
+  </main>
+
+  <footer class="lesson-footer"><div class="footer-inner"><span>UpSkill Sprint Consulting · Interactive Statistics Lesson</span><a href="/lessons#statistics">Back to Statistics</a></div></footer>
+
+  <!-- EDIT: Lesson JavaScript -->
+  <script>
+    (() => {
+      "use strict";
+      const $ = id => document.getElementById(id);
+      const el = {
+        distribution:$("distribution-select"),mean:$("mean-input"),sd:$("sd-input"),k:$("k-input"),slider:$("k-slider"),sliderValue:$("k-slider-value"),target:$("target-input"),error:$("lab-error"),
+        chebMetric:$("cheb-metric"),normalMetric:$("normal-metric"),actualMetric:$("actual-metric"),actualNote:$("actual-note"),method:$("live-method"),comparison:$("comparison-message"),
+        overlay:$("coverage-overlay-view"),side:$("coverage-side-view"),chebSide:$("cheb-side-chart"),normalSide:$("normal-side-chart"),distChart:$("distribution-chart"),reverse:$("reverse-result"),
+        overlayBtn:$("overlay-view-button"),sideBtn:$("side-view-button"),sampleBtn:$("sample-button"),resetBtn:$("reset-lab-button"),practiceBtn:$("practice-reveal-button"),practiceAnswer:$("practice-answer"),quizForm:$("quiz-form"),quizSubmit:$("quiz-submit"),quizReset:$("quiz-reset"),quizScore:$("quiz-score")
+      };
+      if (!el.distribution) return;
+      const defaults={shape:"normal",mean:100,sd:10,k:2,target:90};
+      const labels={normal:"Normal distribution",skewed:"Right-skewed distribution",bimodal:"Bimodal distribution",heavy:"Heavy-tailed distribution"};
+      const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+      const fmt=v=>Number.isFinite(v)?Number(v.toFixed(3)).toString():"—";
+      const erf=x=>{const sign=x<0?-1:1,a=Math.abs(x),t=1/(1+.3275911*a);return sign*(1-(((((1.061405429*t-1.453152027)*t+1.421413741)*t-.284496736)*t+.254829592)*t)*Math.exp(-a*a));};
+      const normalCdf=z=>.5*(1+erf(z/Math.SQRT2));
+      const normalCoverage=k=>2*normalCdf(k)-1;
+      const chebCoverage=k=>1-1/(k*k);
+      const normalPdf=z=>Math.exp(-.5*z*z)/Math.sqrt(2*Math.PI);
+      const t3Pdf=x=>2/(Math.PI*Math.sqrt(3))*Math.pow(1+x*x/3,-2);
+      const pdf=(shape,z)=>{
+        if(shape==="normal")return normalPdf(z);
+        if(shape==="heavy")return Math.sqrt(3)*t3Pdf(Math.sqrt(3)*z);
+        if(shape==="bimodal"){const s=.6,m=1.5,sd=Math.sqrt(m*m+s*s),x=sd*z;return sd*.5*(normalPdf((x-m)/s)/s+normalPdf((x+m)/s)/s);}
+        const sl=.75,mean=Math.exp(sl*sl/2),sd=Math.sqrt((Math.exp(sl*sl)-1)*Math.exp(sl*sl)),x=mean+sd*z;if(x<=0)return 0;return sd*(Math.exp(-Math.pow(Math.log(x),2)/(2*sl*sl))/(x*sl*Math.sqrt(2*Math.PI)));
+      };
+      const integrate=(fn,a,b,n=1000)=>{if(a>=b)return 0;if(n%2)n++;const h=(b-a)/n;let sum=fn(a)+fn(b);for(let i=1;i<n;i++)sum+=(i%2?4:2)*fn(a+i*h);return sum*h/3;};
+      const actualCoverage=(shape,k)=>clamp(integrate(z=>pdf(shape,z),-k,k),0,1);
+      const css=name=>getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      const svgNode=(tag,attrs={})=>{const n=document.createElementNS("http://www.w3.org/2000/svg",tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));return n;};
+      const addText=(svg,x,y,text,attrs={})=>{const t=svgNode("text",{x,y,...attrs});t.textContent=text;svg.appendChild(t);};
+      function coverageSvg(series,k,compact=false){
+        const W=760,H=compact?270:330,m={l:58,r:20,t:24,b:48},pw=W-m.l-m.r,ph=H-m.t-m.b,x=v=>m.l+(v-1)/(4.5-1)*pw,y=v=>m.t+(100-v)/100*ph;
+        const svg=svgNode("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Coverage percentage by number of standard deviations"}),ink=css("--ink"),muted=css("--muted"),line=css("--line");
+        [0,25,50,75,100].forEach(v=>{svg.appendChild(svgNode("line",{x1:m.l,y1:y(v),x2:W-m.r,y2:y(v),stroke:line}));addText(svg,m.l-8,y(v)+4,`${v}%`,{fill:muted,"font-size":11,"text-anchor":"end"});});
+        [1,2,3,4].forEach(v=>addText(svg,x(v),H-m.b+20,String(v),{fill:muted,"font-size":11,"text-anchor":"middle"}));
+        series.forEach(type=>{const pts=[];for(let v=1.01;v<=4.5;v+=.03){const p=(type==="cheb"?chebCoverage(v):normalCoverage(v))*100;pts.push(`${pts.length?"L":"M"}${x(v).toFixed(2)},${y(p).toFixed(2)}`);}svg.appendChild(svgNode("path",{d:pts.join(" "),fill:"none",stroke:type==="cheb"?css("--cheb"):css("--normal"),"stroke-width":4,"stroke-linecap":"round"}));});
+        const selected={cheb:chebCoverage(k)*100,normal:normalCoverage(k)*100};series.forEach(type=>svg.appendChild(svgNode("circle",{cx:x(k),cy:y(selected[type]),r:6,fill:type==="cheb"?css("--cheb"):css("--normal"),stroke:css("--surface"),"stroke-width":2})));
+        svg.appendChild(svgNode("line",{x1:x(k),y1:m.t,x2:x(k),y2:H-m.b,stroke:ink,"stroke-dasharray":"5 5",opacity:.55}));addText(svg,W/2,H-7,"k (standard deviations from mean)",{fill:ink,"font-size":12,"font-weight":700,"text-anchor":"middle"});return svg;
+      }
+      function distributionSvg(shape,mean,sd,k){
+        const W=760,H=320,m={l:44,r:20,t:24,b:52},pw=W-m.l-m.r,ph=H-m.t-m.b,min=-4.5,max=4.5,x=z=>m.l+(z-min)/(max-min)*pw;
+        const pts=[];let ymax=0;for(let z=min;z<=max;z+=.035){const p=pdf(shape,z);pts.push({z,p});ymax=Math.max(ymax,p);}const y=p=>m.t+(ymax-p)/ymax*ph,svg=svgNode("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":`${labels[shape]} with shaded coverage interval`});
+        svg.appendChild(svgNode("line",{x1:m.l,y1:H-m.b,x2:W-m.r,y2:H-m.b,stroke:css("--line"),"stroke-width":1.5}));
+        const inside=pts.filter(p=>p.z>=-k&&p.z<=k),area=[`M${x(-k)},${y(0)}`,...inside.map(p=>`L${x(p.z).toFixed(2)},${y(p.p).toFixed(2)}`),`L${x(k)},${y(0)} Z`];svg.appendChild(svgNode("path",{d:area.join(" "),fill:css("--actual"),opacity:.28}));
+        svg.appendChild(svgNode("path",{d:pts.map((p,i)=>`${i?"L":"M"}${x(p.z).toFixed(2)},${y(p.p).toFixed(2)}`).join(" "),fill:"none",stroke:css("--actual"),"stroke-width":4,"stroke-linecap":"round"}));
+        [-k,k].forEach((z,i)=>{svg.appendChild(svgNode("line",{x1:x(z),y1:m.t,x2:x(z),y2:H-m.b,stroke:css("--cheb"),"stroke-width":2,"stroke-dasharray":"6 5"}));addText(svg,x(z),m.t+14,`${i?"Upper":"Lower"}: ${fmt(mean+z*sd)}`,{fill:css("--cheb"),"font-size":11,"font-weight":700,"text-anchor":i?"start":"end"});});
+        addText(svg,x(0),H-m.b+22,`Mean μ = ${fmt(mean)}`,{fill:css("--ink"),"font-size":12,"font-weight":700,"text-anchor":"middle"});addText(svg,W/2,H-8,"Standardized distance from the mean",{fill:css("--ink"),"font-size":12,"font-weight":700,"text-anchor":"middle"});return svg;
+      }
+      const replace=(node,child)=>node.replaceChildren(child);
+      function read(){const mean=Number(el.mean.value),sd=Number(el.sd.value),k=Number(el.k.value),target=Number(el.target.value),errors=[];if(!Number.isFinite(mean))errors.push("Mean must be a number.");if(!Number.isFinite(sd)||sd<=0)errors.push("Standard deviation must be greater than zero.");if(!Number.isFinite(k)||k<=1||k>4.5)errors.push("k must be greater than 1 and no more than 4.5.");return{shape:el.distribution.value,mean,sd,k,target,errors};}
+      function renderCharts(v){replace(el.overlay,coverageSvg(["cheb","normal"],v.k));replace(el.chebSide,coverageSvg(["cheb"],v.k,true));replace(el.normalSide,coverageSvg(["normal"],v.k,true));replace(el.distChart,distributionSvg(v.shape,v.mean,v.sd,v.k));}
+      function renderReverse(v){if(!Number.isFinite(v.target)||v.target<=0||v.target>=100||v.sd<=0){el.reverse.textContent="Enter a target strictly between 0% and 100%, plus a valid mean and positive standard deviation.";return;}const p=v.target/100,k=1/Math.sqrt(1-p),low=v.mean-k*v.sd,high=v.mean+k*v.sd;el.reverse.innerHTML=`To guarantee <strong>${v.target.toFixed(2)}%</strong>, Chebyshev requires <strong>k ≥ ${k.toFixed(3)}</strong>, giving approximately <strong>${fmt(low)} to ${fmt(high)}</strong>.`;}
+      function update(){const v=read();if(v.errors.length){el.error.hidden=false;el.error.textContent=v.errors.join(" ");return;}el.error.hidden=true;el.slider.value=v.k;el.sliderValue.textContent=v.k.toFixed(2);const c=chebCoverage(v.k),n=normalCoverage(v.k),a=actualCoverage(v.shape,v.k),low=v.mean-v.k*v.sd,high=v.mean+v.k*v.sd;el.chebMetric.textContent=`${(c*100).toFixed(2)}%`;el.normalMetric.textContent=`${(n*100).toFixed(2)}%`;el.actualMetric.textContent=`${(a*100).toFixed(2)}%`;el.actualNote.textContent=labels[v.shape];el.method.textContent=`Interval = ${fmt(v.mean)} ± ${v.k.toFixed(2)}(${fmt(v.sd)}) = ${fmt(low)} to ${fmt(high)}; Chebyshev minimum = ${(c*100).toFixed(2)}%.`;const benchmark=v.shape==="normal"?"For a normal shape, the normal-model percentage is the theoretical coverage.":"The normal percentage is only a benchmark for this non-normal shape.";el.comparison.innerHTML=`<strong>${labels[v.shape]}:</strong> actual theoretical area is ${((a-c)*100).toFixed(2)} percentage points above the Chebyshev floor. ${benchmark}`;renderCharts(v);renderReverse(v);}
+      function view(mode){const overlay=mode==="overlay";el.overlay.hidden=!overlay;el.side.hidden=overlay;el.overlayBtn.setAttribute("aria-pressed",String(overlay));el.sideBtn.setAttribute("aria-pressed",String(!overlay));}
+      function reset(){el.distribution.value=defaults.shape;el.mean.value=defaults.mean;el.sd.value=defaults.sd;el.k.value=defaults.k;el.slider.value=defaults.k;el.target.value=defaults.target;view("overlay");update();}
+      function sample(){el.distribution.value="skewed";el.mean.value=500;el.sd.value=12;el.k.value=2;el.slider.value=2;el.target.value=90;update();}
+      function grade(){const qs=[...el.quizForm.querySelectorAll(".quiz-question")];let score=0,unanswered=0;qs.forEach(q=>{const selected=q.querySelector("input:checked"),answer=Number(q.dataset.answer),f=q.querySelector(".quiz-feedback"),exp=f.dataset.explanation;q.classList.remove("correct","incorrect");f.classList.remove("correct","incorrect");f.hidden=false;if(!selected){unanswered++;q.classList.add("incorrect");f.classList.add("incorrect");f.textContent=`Not answered. ${exp}`;}else if(Number(selected.value)===answer){score++;q.classList.add("correct");f.classList.add("correct");f.textContent=`Correct. ${exp}`;}else{q.classList.add("incorrect");f.classList.add("incorrect");f.textContent=`Incorrect. ${exp}`;}});const pct=Math.round(score/qs.length*100),msg=pct===100?"Excellent mastery.":pct>=80?"Strong understanding.":pct>=60?"Good start—review the comparison chart.":"Review the formulas and try again.";el.quizScore.textContent=`Score: ${score}/${qs.length} (${pct}%). ${msg}${unanswered?` ${unanswered} unanswered.`:""}`;}
+      function resetQuiz(){el.quizForm.reset();el.quizForm.querySelectorAll(".quiz-question").forEach(q=>{q.classList.remove("correct","incorrect");const f=q.querySelector(".quiz-feedback");f.hidden=true;f.classList.remove("correct","incorrect");f.textContent="";});el.quizScore.textContent="Score: not submitted";}
+      el.slider.addEventListener("input",()=>{el.k.value=el.slider.value;update();});[el.distribution,el.mean,el.sd,el.k,el.target].forEach(input=>{input.addEventListener("input",update);input.addEventListener("change",update);});
+      el.overlayBtn.addEventListener("click",()=>view("overlay"));el.sideBtn.addEventListener("click",()=>view("side"));el.sampleBtn.addEventListener("click",sample);el.resetBtn.addEventListener("click",reset);
+      el.practiceBtn.addEventListener("click",()=>{const show=el.practiceAnswer.hidden;el.practiceAnswer.hidden=!show;el.practiceBtn.setAttribute("aria-expanded",String(show));el.practiceBtn.textContent=show?"Hide answer":"Reveal answer";});el.quizSubmit.addEventListener("click",grade);el.quizReset.addEventListener("click",resetQuiz);
+      new MutationObserver(m=>{if(m.some(x=>x.attributeName==="data-theme")){const v=read();if(!v.errors.length)renderCharts(v);}}).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+      view("overlay");update();
+    })();
+  </script>
+</body>
+</html>
