@@ -30,15 +30,17 @@ test('CSSBB now carries two 165-question sets; Set 1 is unchanged and is still e
   assert.equal(e.sets[1], e.bank, 'Set 1 remains the canonical e.bank');
   assert.equal(e.sets[1].length, 165);
   assert.equal(e.sets[2].length, 165, 'Set 2 has a full 165 questions');
-  // Set 2 follows the BoK-weighted distribution
+  // Set 2 distribution (thin generator domains capped at their unique-stem yield,
+  // shortfall redistributed into the larger BoK domains to keep all 165 unique)
   const d = {}; e.sets[2].forEach(q => { d[q.sub] = (d[q.sub] || 0) + 1; });
-  assert.deepEqual(d, { p1: 13, p2: 13, tm: 17, def: 22, mea: 27, ana: 24, imp: 23, con: 19, dfss: 7 });
+  assert.deepEqual(d, { p1: 12, p2: 9, tm: 12, def: 25, mea: 30, ana: 27, imp: 20, con: 21, dfss: 9 });
   e.sets[2].forEach((q, i) => {
     assert.equal(q.set, 2, 'q ' + i + ' tagged set 2');
     assert.equal(q.options.length, 4, 'q ' + i + ' has four options');
     assert.ok(q.answer >= 0 && q.answer <= 3, 'q ' + i + ' answer in range');
     assert.equal(new Set(q.options).size, 4, 'q ' + i + ' options unique');
   });
+  assert.equal(new Set(e.sets[2].map(q => q.stem)).size, 165, 'all 165 Set-2 stems are unique');
 });
 
 test('Set 1 and Set 2 are disjoint in content', async () => {
@@ -84,7 +86,7 @@ test('choosing Set 1 draws questions from Set 1 only', async () => {
   assert.ok(e.sets[1].some(q => q.stem === stem) && !e.sets[2].some(q => q.stem === stem));
 });
 
-/* ---------- a full exam is always 165, even from the mixed 330-pool ---------- */
+/* ---------- a full exam is always 165, even from the mixed 495-pool ---------- */
 
 async function fullExamCount(w, setVal) {
   click(w, ov(w).querySelector('[data-set="' + setVal + '"]'));
@@ -95,7 +97,7 @@ async function fullExamCount(w, setVal) {
 test('a full exam is capped at 165 questions for every set choice', async () => {
   assert.equal(await fullExamCount(await loadPage(), '1'), 165, 'Set 1 full exam');
   assert.equal(await fullExamCount(await loadPage(), '2'), 165, 'Set 2 full exam');
-  assert.equal(await fullExamCount(await loadPage(), 'mix'), 165, 'Mixed full exam still 165 (from 330)');
+  assert.equal(await fullExamCount(await loadPage(), 'mix'), 165, 'Mixed full exam still 165 (from 495)');
 });
 
 /* ---------- scoring is over the questions presented, so mixed is not diluted ---------- */
