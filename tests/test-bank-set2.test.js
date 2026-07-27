@@ -51,16 +51,16 @@ test('Set 1 and Set 2 are disjoint in content', async () => {
 
 /* ---------- the selector routes which pool you practise ---------- */
 
-test('the overview shows a three-way set selector defaulting to Set 1', async () => {
+test('the overview shows a four-way set selector defaulting to Set 1', async () => {
   const w = await loadPage();
   const btns = ov(w).querySelectorAll('[data-set]');
-  assert.equal(btns.length, 3, 'Set 1 / Set 2 / Mixed');
+  assert.equal(btns.length, 4, 'Set 1 / Set 2 / Set 3 / Mixed');
   const vals = Array.from(btns).map(b => b.dataset.set);
-  assert.deepEqual(vals, ['1', '2', 'mix']);
+  assert.deepEqual(vals, ['1', '2', '3', 'mix']);
   const on = ov(w).querySelector('[data-set].on');
   assert.equal(on.dataset.set, '1', 'defaults to Set 1');
-  // Mixed advertises the pooled size
-  assert.match(ov(w).querySelector('[data-set="mix"]').textContent, /330/);
+  // Mixed advertises the pooled size across all three 165-question sets
+  assert.match(ov(w).querySelector('[data-set="mix"]').textContent, /495/);
 });
 
 async function stemAfterSelecting(setVal) {
