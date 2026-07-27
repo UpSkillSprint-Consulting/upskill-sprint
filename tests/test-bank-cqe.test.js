@@ -55,9 +55,9 @@ test('the CQE tile is live (Exam Set 1) and its modes launch', async () => {
   assert.equal(ov(w).querySelectorAll('[data-mode]').length, 3, 'three launchable modes');
   assert.equal(ov(w).querySelectorAll('.tb-start').length, 0, 'no coming-soon placeholders');
   const setBtns = ov(w).querySelectorAll('[data-set]');
-  assert.equal(setBtns.length, 3, 'Set 1 / Set 2 / Mixed');
-  assert.deepEqual(Array.from(setBtns).map(b => b.dataset.set), ['1', '2', 'mix']);
-  assert.match(ov(w).querySelector('[data-set="mix"]').textContent, /320/, 'Mixed pools both sets');
+  assert.equal(setBtns.length, 4, 'Set 1 / Set 2 / Set 3 / Mixed');
+  assert.deepEqual(Array.from(setBtns).map(b => b.dataset.set), ['1', '2', '3', 'mix']);
+  assert.match(ov(w).querySelector('[data-set="mix"]').textContent, /480/, 'Mixed pools all three sets');
 });
 
 test('CQE has a second 160-question set, disjoint from Set 1, same BoK weighting', async () => {
@@ -78,7 +78,7 @@ test('CQE has a second 160-question set, disjoint from Set 1, same BoK weighting
   assert.equal(e.sets[2].filter(q => s1.has(q.stem)).length, 0, 'Set 2 disjoint from Set 1');
 });
 
-test('CQE set selector: Set 2 draws only from Set 2; Mixed pools 320; full exam capped at 160', async () => {
+test('CQE set selector: Set 2 draws only from Set 2; Set 2 provenance and 160-cap', async () => {
   // provenance: choosing Set 2 yields a Set-2 question
   let w = await loadPage();
   click(w, w.document.querySelector('.tb-tile[data-exam="cqe"]'));
@@ -105,4 +105,34 @@ test('a CQE diagnostic starts and draws from the CQE bank', async () => {
   click(w, ov(w).querySelector('[data-diag]'));
   const stem = ov(w).querySelector('.tb-stem').textContent;
   assert.ok(w.__TB.EXAMS.cqe.bank.some(q => q.stem === stem), 'quiz shows a CQE question');
+});
+
+test('CQE has a third 160-question set, disjoint from Sets 1 and 2', async () => {
+  const w = await loadPage();
+  const e = w.__TB.EXAMS.cqe;
+  assert.ok(e.sets[3] && e.sets[3].length === 160, 'Set 3 of 160 loaded');
+  const d = {}; e.sets[3].forEach(q => { d[q.sub] = (d[q.sub] || 0) + 1; });
+  assert.deepEqual(d, { mgmt: 17, qsys: 18, design: 21, ppc: 23, ci: 26, quant: 34, risk: 21 });
+  e.sets[3].forEach((q, i) => {
+    assert.equal(q.set, 3, 'q ' + i + ' tagged set 3');
+    assert.equal(q.options.length, 4);
+    assert.ok(q.answer >= 0 && q.answer <= 3);
+    assert.equal(new Set(q.options).size, 4);
+    assert.ok(q.stem && q.why);
+  });
+  assert.equal(new Set(e.sets[3].map(q => q.stem)).size, 160, 'all Set-3 stems unique');
+  const prior = new Set(e.sets[1].concat(e.sets[2]).map(q => q.stem));
+  assert.equal(e.sets[3].filter(q => prior.has(q.stem)).length, 0, 'Set 3 disjoint from Sets 1 and 2');
+});
+
+test('CQE full exam is 160 for Set 3 and for the all-sets Mixed (480) pool', async () => {
+  async function count(setVal) {
+    const w = await loadPage();
+    click(w, w.document.querySelector('.tb-tile[data-exam="cqe"]'));
+    click(w, ov(w).querySelector('[data-set="' + setVal + '"]'));
+    click(w, ov(w).querySelector('[data-mode="full"]'));
+    return ov(w).querySelectorAll('.tb-navcell').length;
+  }
+  assert.equal(await count('3'), 160, 'Set 3 full exam');
+  assert.equal(await count('mix'), 160, 'Mixed full exam is 160 drawn from the 480 pool');
 });
