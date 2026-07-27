@@ -52,14 +52,17 @@ test('the rail lists all six certifications', async () => {
   CERTS.forEach(c => assert.ok(badges.includes(c), `rail includes ${c}`));
 });
 
-test('the five exams without a bank are marked Coming soon; CSSBB is live', async () => {
+test('the four exams without a bank are marked Coming soon; CSSBB and CQE are live', async () => {
   const { window } = await loadPage();
   const tiles = Array.from(window.document.querySelectorAll('.tb-tile'));
   const soon = tiles.filter(t => /Coming soon/.test(t.textContent));
-  assert.equal(soon.length, 5, 'five exams still coming soon');
+  assert.equal(soon.length, 4, 'four exams still coming soon');
   const cssbb = tiles.find(t => t.dataset.exam === 'cssbb');
   assert.doesNotMatch(cssbb.textContent, /Coming soon/, 'CSSBB is live, not coming soon');
   assert.match(cssbb.textContent, /Exam Set 1/, 'it advertises Exam Set 1');
+  const cqe = tiles.find(t => t.dataset.exam === 'cqe');
+  assert.doesNotMatch(cqe.textContent, /Coming soon/, 'CQE is live now');
+  assert.match(cqe.textContent, /Exam Set 1/, 'CQE advertises Exam Set 1');
 });
 
 test('CSSBB is backed by the full 165-question bank across all nine ASQ areas', async () => {
@@ -167,9 +170,9 @@ test('CSSBB offers three live practice modes; coming-soon exams stay gated', asy
   assert.equal(modeBtns.length, 3, 'a live Start per mode');
   assert.equal(ov().querySelectorAll('.tb-start').length, 0, 'no coming-soon placeholders on a live exam');
   // a coming-soon exam still gates its modes
-  click(window.document.querySelector('.tb-tile[data-exam="cqe"]'));
-  assert.equal(ov().querySelectorAll('[data-mode]').length, 0, 'CQE modes are not launchable');
-  assert.equal(ov().querySelectorAll('.tb-start').length, 3, 'CQE modes show coming-soon');
+  click(window.document.querySelector('.tb-tile[data-exam="cqa"]'));
+  assert.equal(ov().querySelectorAll('[data-mode]').length, 0, 'CQA modes are not launchable');
+  assert.equal(ov().querySelectorAll('.tb-start').length, 3, 'CQA modes show coming-soon');
 });
 
 test('Full Exam toggles between a strict timed limit and untimed', async () => {
