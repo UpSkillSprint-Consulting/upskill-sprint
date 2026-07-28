@@ -70,6 +70,10 @@ function validateLesson(html, css) {
   require(quizCount === 5, `Quiz must contain exactly five questions; found ${quizCount}.`);
   require(/id=["']resetQuizBtn["']/i.test(html), 'Quiz reset control is missing.');
   require(/id=["']quizScore["'][^>]*aria-live=/i.test(html) || /aria-live=["'][^"']+["'][^>]*id=["']quizScore["']/i.test(html), 'Quiz score requires an aria-live region.');
+  require(/expected count in 300 m/i.test(html), 'Quiz is missing a calculation question.');
+  require(/What does P\(T &gt; 75\)/i.test(html), 'Quiz is missing an interpretation question.');
+  require(/challenges a basic Poisson model/i.test(html), 'Quiz is missing an assumption question.');
+  require(/different inspected lengths/i.test(html), 'Quiz is missing a practical chart-selection question.');
 
   require(!/\son[a-z]+\s*=/i.test(html), 'Inline event handlers are not allowed.');
   require(!/data:(?:text|application)\/[a-z0-9.+-]+;base64,/i.test(html), 'Base64-encoded source is not allowed.');
@@ -98,6 +102,11 @@ function validateLesson(html, css) {
   require(/Problem setup/i.test(html) && /Substitution/i.test(html) && /Limitations/i.test(html), 'Worked examples must include setup, substitution, interpretation, and limitations.');
   require(/Calculation mistakes/i.test(html) && /Interpretation mistakes/i.test(html) && /Assumption mistakes/i.test(html) && /Software-output mistakes/i.test(html) && /Exam traps/i.test(html), 'Common mistakes are not organized into all required categories.');
   require(/Try it first/i.test(html), 'Practice section must prompt the learner to try before revealing the solution.');
+  require(/<div\b(?=[^>]*\bid=["']practiceAnswer["'])(?=[^>]*\bhidden\b)[^>]*>/i.test(html) && /aria-controls=["']practiceAnswer["']/i.test(html), 'Primary practice answer must start hidden and be linked to its reveal control.');
+  require(/<div\b(?=[^>]*\bid=["']extensionAnswer["'])(?=[^>]*\bhidden\b)[^>]*>/i.test(html) && /aria-controls=["']extensionAnswer["']/i.test(html), 'Extension answer must start hidden and be linked to its reveal control.');
+  const requiredResetIds = ['resetSelectorBtn', 'resetBinomialBtn', 'resetLabBtn', 'resetCalcBtn', 'wbResetBtn', 'resetAttributeBtn', 'assumptionResetBtn', 'resetQuizBtn'];
+  const missingResetIds = requiredResetIds.filter(id => !targetIds.has(id));
+  require(missingResetIds.length === 0, `Required reset control(s) missing: ${missingResetIds.join(', ')}`);
   require(/References/i.test(html), 'References section is missing.');
 
   const requiredCssVariables = [
@@ -140,16 +149,16 @@ const marker = 'data-binomial-poisson-exponential-distributions';
 const insertionPoint = "    {\n      marker: 'data-beyond-the-bell',";
 const entry = `    {\n      marker: 'data-binomial-poisson-exponential-distributions',\n      sectionId: 'statistics',\n      path: '/lessons/statistics/binomial-poisson-exponential-distributions',\n      topic: 'statistics',\n      level: 'beginner',\n      interactive: 'true',\n      search: 'binomial poisson exponential distributions probability event count yes no trials waiting time poisson process rare event approximation pmf cdf survival c chart u chart p chart np chart excel minitab quality engineering statistics beginner interactive simulator calculator',\n      meta: '<span>Beginner</span><span>Interactive</span><span>50 min</span><span>Excel + Minitab</span>',\n      title: 'Binomial vs. Poisson vs. Exponential',\n      description: 'Choose the right event model, calculate exact and cumulative probabilities, and explore simulations, waiting times, assumptions, and c/u charts.'\n    },\n`;
 
-if (!library.includes(marker)) {
+const existingEntryPattern = /    \{\n      marker: 'data-binomial-poisson-exponential-distributions',[\s\S]*?\n    \},\n/;
+if (existingEntryPattern.test(library)) {
+  library = library.replace(existingEntryPattern, entry);
+} else {
   if (!library.includes(insertionPoint)) {
     throw new Error('Could not locate the Statistics lesson insertion point in chi-square-lesson-library.js');
   }
   library = library.replace(insertionPoint, entry + insertionPoint);
-  await writeFile(libraryPath, library, 'utf8');
-} else {
-  library = library.replace(/meta: '<span>Beginner<\/span><span>Interactive<\/span><span>\d+ min<\/span><span>Excel \+ Minitab<\/span>'/, "meta: '<span>Beginner</span><span>Interactive</span><span>50 min</span><span>Excel + Minitab</span>'");
-  await writeFile(libraryPath, library, 'utf8');
 }
+await writeFile(libraryPath, library, 'utf8');
 
 console.log(`Built and validated Binomial, Poisson, and Exponential lesson (${validation.warnings.length} warning(s)).`);
 validation.warnings.forEach(warning => console.warn(`  - ${warning}`));
