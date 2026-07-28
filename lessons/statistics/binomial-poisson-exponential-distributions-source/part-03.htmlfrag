@@ -1,0 +1,177 @@
+<section class="lesson-card" id="worked-example">
+<h2>8. Worked examples: choose, calculate, and interpret</h2>
+<p>A steel quality team studies rejected pipes and surface defects. Each question uses the same operating context but a different random variable.</p>
+<div class="worked-stack">
+<div class="worked-card">
+<h3>Example A: exactly 2 failures in 20 pipes</h3>
+<p><strong>Problem setup:</strong> Each inspected pipe has a 10% probability of failure. Find the probability that exactly 2 of 20 pipes fail.</p>
+<p><strong>Data:</strong> n = 20 pipes, p = 0.10 failure per pipe, x = 2 failures.</p>
+<p><strong>Selected method:</strong> Binomial, because there are 20 fixed pass/fail trials and the response is the number of failed pipes.</p>
+<div class="formula">P(X=2)=<span class="fraction"><span>20!</span><span>2!18!</span></span>(0.10)<sup>2</sup>(0.90)<sup>18</sup></div>
+<ol class="calculation-steps">
+<li><strong>Substitution:</strong> Combination term: 20!/(2!18!) = (20 × 19)/(2 × 1) = 190.</li>
+<li>Failure term: (0.10)<sup>2</sup> = 0.0100.</li>
+<li>Pass term: (0.90)<sup>18</sup> ≈ 0.150095.</li>
+<li>Multiply: 190 × 0.0100 × 0.150095 ≈ 0.285180.</li>
+</ol>
+<p><strong>Final answer:</strong> P(X = 2) ≈ 0.2852, or 28.52%.</p>
+<p><strong>Practical interpretation:</strong> if many comparable samples of 20 pipes were inspected under the same conditions, about 28.5% of those samples would contain exactly two failures.</p>
+<p class="small"><strong>Limitations:</strong> this result is only defensible if the 10% failure probability is reasonably constant and dependence among pipes is negligible.</p>
+</div>
+<div class="worked-card">
+<h3>Example B: exactly 3 defects in 100 m</h3>
+<p><strong>Problem setup:</strong> Surface defects occur at an average rate of 2 per 100 m. Find the probability of exactly 3 defects in the next 100 m.</p>
+<p><strong>Data:</strong> λ = 2 defects per 100 m, t = 1 unit of 100 m, so μ = λt = 2 × 1 = 2; x = 3.</p>
+<p><strong>Selected method:</strong> Poisson, because multiple defect events can occur inside a fixed length.</p>
+<div class="formula">P(X=3)=<span class="fraction"><span>e<sup>−2</sup>2<sup>3</sup></span><span>3!</span></span></div>
+<ol class="calculation-steps">
+<li><strong>Substitution:</strong> e<sup>−2</sup> ≈ 0.135335.</li>
+<li>2<sup>3</sup> = 8.</li>
+<li>3! = 3 × 2 × 1 = 6.</li>
+<li>Substitute: (0.135335 × 8) ÷ 6 ≈ 0.180447.</li>
+</ol>
+<p><strong>Final answer:</strong> P(X = 3) ≈ 0.1804, or 18.04%.</p>
+<p><strong>Practical interpretation:</strong> in repeated comparable 100 m sections, roughly 18% would contain exactly three defects under this model.</p>
+<p class="small"><strong>Limitations:</strong> clustering, changing line conditions, or inconsistent inspection sensitivity can make a basic Poisson model underestimate variability.</p>
+</div>
+<div class="worked-card">
+<h3>Example C: more than 75 m without a defect</h3>
+<p><strong>Problem setup:</strong> Using the same defect process, find the probability that the next defect is more than 75 m away.</p>
+<p><strong>Data:</strong> λ = 2/100 = 0.02 defect per metre; t = 75 m.</p>
+<p><strong>Selected method:</strong> Exponential survival probability, because the response is continuous distance until the next event.</p>
+<div class="formula">P(T&gt;75)=e<sup>−0.02×75</sup></div>
+<ol class="calculation-steps">
+<li><strong>Substitution:</strong> Compute the exponent: −0.02 × 75 = −1.5.</li>
+<li>Evaluate the exponential: e<sup>−1.5</sup> ≈ 0.223130.</li>
+</ol>
+<p><strong>Final answer:</strong> P(T &gt; 75) ≈ 0.2231, or 22.31%.</p>
+<p><strong>Practical interpretation:</strong> there is about a 22% chance that the next 75 m contains no defect.</p>
+<p class="small"><strong>Limitations:</strong> this interpretation depends on a reasonably constant hazard; it is not appropriate if defects become more likely after a setup change or occur in bursts.</p>
+</div>
+</div>
+<h3>Try the live Poisson–Exponential calculator</h3>
+<p class="section-intro">Enter λ as events per base exposure unit and enter exposure in the same base units. For example, use λ = 2 events per 100 m and exposure = 1 for a 100 m window.</p>
+<div class="controls">
+<div class="control"><label for="calcRate">Rate λ per base unit</label><input id="calcRate" min="0.0001" step="0.1" type="number" value="2"/></div>
+<div class="control"><label for="calcExposure">Exposure in base units</label><input id="calcExposure" min="0" step="0.1" type="number" value="1"/></div>
+<div class="control"><label for="calcCount">Exact count x</label><input id="calcCount" max="500" min="0" step="1" type="number" value="3"/></div>
+</div>
+<div class="button-row">
+<button class="btn" id="calculateBtn" type="button">Calculate both views</button>
+<button class="btn secondary" id="resetCalcBtn" type="button">Reset calculator</button>
+</div>
+<div aria-live="polite" class="callout" id="calcMessage">Enter a rate, exposure, and count, then calculate.</div>
+</section>
+<!-- EDIT: Unified probability workbench -->
+<section class="lesson-card" id="probability-workbench">
+<h2>9. Unified probability workbench</h2>
+<p class="section-intro">Choose the model and the probability wording. The workbench highlights the relevant region, reports the calculation method, and translates the result into operational language.</p>
+<div class="interactive-shell">
+<div class="compact-controls">
+<div class="control"><label for="wbModel">Model</label><select id="wbModel"><option value="binomial">Binomial</option><option value="poisson">Poisson</option><option value="exponential">Exponential</option></select></div>
+<div class="control"><label for="wbQuestion">Probability question</label><select id="wbQuestion"><option value="exact">Exactly x</option><option value="atMost">At most / by x</option><option value="atLeast">At least / beyond x</option><option value="between">Between two values</option></select></div>
+<div class="control dynamic-fields" id="wbNGroup"><label for="wbN">Trials n</label><input id="wbN" max="500" min="1" step="1" type="number" value="20"/></div>
+<div class="control dynamic-fields" id="wbPGroup"><label for="wbP">Probability p</label><input id="wbP" max="1" min="0" step="0.01" type="number" value="0.10"/></div>
+<div class="control dynamic-fields" hidden id="wbRateGroup"><label for="wbRate">Rate λ per exposure unit</label><input id="wbRate" max="1000000" min="0.0001" step="0.1" type="number" value="2"/></div>
+<div class="control dynamic-fields" hidden id="wbExposureGroup"><label for="wbExposure">Exposure</label><input id="wbExposure" max="1000000" min="0" step="0.1" type="number" value="1"/></div>
+<div class="control"><label for="wbX1" id="wbX1Label">Count x</label><input id="wbX1" max="1000" min="0" step="1" type="number" value="2"/></div>
+<div class="control dynamic-fields" hidden id="wbX2Group"><label for="wbX2" id="wbX2Label">Upper count x₂</label><input id="wbX2" max="1000" min="0" step="1" type="number" value="4"/></div>
+</div>
+<div class="button-row"><button class="btn" id="wbCalculateBtn" type="button">Calculate probability</button><button class="btn secondary" id="wbSampleBtn" type="button">Load Poisson example</button><button class="btn secondary" id="wbResetBtn" type="button">Reset workbench</button></div>
+<div aria-live="assertive" class="callout warn" hidden id="wbError"></div>
+<div class="result-grid">
+<div class="result-card"><span>Calculated probability</span><strong class="result-number" id="wbProbability">—</strong><p id="wbInterpretation">Choose inputs and calculate.</p></div>
+<div class="result-card"><strong>Calculation method</strong><div class="method-box" id="wbMethod">—</div></div>
+</div>
+<div class="chart-wrap"><canvas aria-describedby="workbenchDescription" aria-label="Probability distribution with selected probability region" height="360" id="workbenchCanvas" role="img" width="720"></canvas><p class="chart-caption" id="workbenchDescription">The highlighted region represents the requested probability.</p></div>
+</div>
+</section>
+<section class="lesson-card" id="quality-charts">
+<h2>10. Why c and u charts are both Poisson</h2>
+<p>Both <strong>c charts</strong> and <strong>u charts</strong> are used for <strong>defect counts</strong>. A defect is a random event, and more than one defect can occur on the same unit. That is why both charts are based on the <strong>Poisson distribution</strong>.</p>
+<div class="big-memory">The only chart-selection question is whether every observation had the same opportunity for defects to occur.</div>
+<div class="grid-2">
+<div class="concept-card">
+<h3>c chart: equal opportunity</h3>
+<p>Use a c chart when every inspected unit is the same size and is inspected in the same way.</p>
+<p><strong>Example:</strong> every steel plate is 2 m × 2 m, and the full surface of every plate is inspected.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Plate</th><th>Defects</th></tr></thead>
+<tbody><tr><td>1</td><td>2</td></tr><tr><td>2</td><td>4</td></tr><tr><td>3</td><td>1</td></tr><tr><td>4</td><td>3</td></tr></tbody>
+</table></div>
+<p>Because every plate provides the same inspection opportunity, the raw defect counts can be compared directly.</p>
+</div>
+<div class="concept-card">
+<h3>u chart: unequal opportunity</h3>
+<p>Use a u chart when the inspected sizes, lengths, areas, or sample quantities differ.</p>
+<p><strong>Example:</strong> plates have different inspected surface areas.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Plate</th><th>Area, m²</th><th>Defects</th><th>Defects/m²</th></tr></thead>
+<tbody><tr><td>A</td><td>2</td><td>2</td><td>1.00</td></tr><tr><td>B</td><td>6</td><td>5</td><td>0.83</td></tr><tr><td>C</td><td>10</td><td>7</td><td>0.70</td></tr></tbody>
+</table></div>
+<p>Plate C has the largest raw count, but it has the lowest defect rate. A u chart corrects for unequal opportunity.</p>
+</div>
+</div>
+<div class="callout good"><strong>Why both are Poisson:</strong> in both cases, the underlying random variable is the number of defect events. The u chart does not change the probability model; it divides the Poisson count by the amount of inspection opportunity.</div>
+<h3>A comparison that makes it stick</h3>
+<div class="grid-2">
+<div class="concept-card"><h3>Same-length exam</h3><p>If every student answers the same number of questions, compare the raw number of mistakes.</p><p><strong>This is like a c chart.</strong></p></div>
+<div class="concept-card"><h3>Different-length exams</h3><p>If one student answers 20 questions and another answers 100, compare mistakes per question.</p><p><strong>This is like a u chart.</strong></p></div>
+</div>
+<h3>Decision rule</h3>
+<div class="formula decision-tree" aria-label="Decision tree: defects with equal opportunity use a c chart; defects with unequal opportunity use a u chart">
+Are you counting defects?
+        │
+        ▼
+       Yes
+    (Poisson)
+        │
+        ▼
+Is inspection opportunity equal?
+        │
+   ┌────┴────┐
+   │         │
+  Yes        No
+   │         │
+c chart    u chart
+(raw count) (defects per unit)
+</div>
+<div class="big-memory"><strong>Memory trick:</strong> c = count. u = defects per unit.</div>
+<div class="table-wrap"><table>
+<thead><tr><th>Chart or model</th><th>What it monitors</th><th>Underlying distribution</th></tr></thead>
+<tbody>
+<tr><td>np chart</td><td>Number of defective units when sample size is constant</td><td>Binomial</td></tr>
+<tr><td>p chart</td><td>Proportion defective when sample size varies</td><td>Binomial</td></tr>
+<tr><td>c chart</td><td>Defect count when opportunity is constant</td><td>Poisson</td></tr>
+<tr><td>u chart</td><td>Defects per unit when opportunity varies</td><td>Poisson</td></tr>
+<tr><td>Exponential model</td><td>Time, distance, or area until the next event</td><td>Exponential</td></tr>
+</tbody>
+</table></div>
+</section>
+<!-- EDIT: c and u chart opportunity lab -->
+<section class="lesson-card" id="attribute-lab">
+<h2>11. Interactive c/u chart opportunity lab</h2>
+<p class="section-intro">Enter defect counts and inspection opportunities. The lab selects a c chart when opportunity is constant and a u chart when opportunity varies, then calculates the centre line and basic 3σ limits.</p>
+<div class="interactive-shell">
+<div class="editable-table">
+<table>
+<thead><tr><th>Sample</th><th>Defects cᵢ</th><th>Opportunity nᵢ</th><th>Rate uᵢ = cᵢ/nᵢ</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><label class="sr-only" for="attrDefects1">Sample 1 defect count</label><input id="attrDefects1" min="0" step="1" type="number" value="4"/></td><td><label class="sr-only" for="attrOpportunity1">Sample 1 inspection opportunity</label><input id="attrOpportunity1" min="0.001" step="0.5" type="number" value="2"/></td><td id="attrRate1">—</td></tr>
+<tr><td>2</td><td><label class="sr-only" for="attrDefects2">Sample 2 defect count</label><input id="attrDefects2" min="0" step="1" type="number" value="5"/></td><td><label class="sr-only" for="attrOpportunity2">Sample 2 inspection opportunity</label><input id="attrOpportunity2" min="0.001" step="0.5" type="number" value="2"/></td><td id="attrRate2">—</td></tr>
+<tr><td>3</td><td><label class="sr-only" for="attrDefects3">Sample 3 defect count</label><input id="attrDefects3" min="0" step="1" type="number" value="3"/></td><td><label class="sr-only" for="attrOpportunity3">Sample 3 inspection opportunity</label><input id="attrOpportunity3" min="0.001" step="0.5" type="number" value="2"/></td><td id="attrRate3">—</td></tr>
+<tr><td>4</td><td><label class="sr-only" for="attrDefects4">Sample 4 defect count</label><input id="attrDefects4" min="0" step="1" type="number" value="6"/></td><td><label class="sr-only" for="attrOpportunity4">Sample 4 inspection opportunity</label><input id="attrOpportunity4" min="0.001" step="0.5" type="number" value="2"/></td><td id="attrRate4">—</td></tr>
+<tr><td>5</td><td><label class="sr-only" for="attrDefects5">Sample 5 defect count</label><input id="attrDefects5" min="0" step="1" type="number" value="2"/></td><td><label class="sr-only" for="attrOpportunity5">Sample 5 inspection opportunity</label><input id="attrOpportunity5" min="0.001" step="0.5" type="number" value="2"/></td><td id="attrRate5">—</td></tr>
+<tr><td>6</td><td><label class="sr-only" for="attrDefects6">Sample 6 defect count</label><input id="attrDefects6" min="0" step="1" type="number" value="5"/></td><td><label class="sr-only" for="attrOpportunity6">Sample 6 inspection opportunity</label><input id="attrOpportunity6" min="0.001" step="0.5" type="number" value="2"/></td><td id="attrRate6">—</td></tr>
+<tr><td>7</td><td><label class="sr-only" for="attrDefects7">Sample 7 defect count</label><input id="attrDefects7" min="0" step="1" type="number" value="4"/></td><td><label class="sr-only" for="attrOpportunity7">Sample 7 inspection opportunity</label><input id="attrOpportunity7" min="0.001" step="0.5" type="number" value="2"/></td><td id="attrRate7">—</td></tr>
+<tr><td>8</td><td><label class="sr-only" for="attrDefects8">Sample 8 defect count</label><input id="attrDefects8" min="0" step="1" type="number" value="11"/></td><td><label class="sr-only" for="attrOpportunity8">Sample 8 inspection opportunity</label><input id="attrOpportunity8" min="0.001" step="0.5" type="number" value="2"/></td><td id="attrRate8">—</td></tr>
+</tbody>
+</table>
+</div>
+<div class="button-row"><button class="btn" id="analyzeAttributeBtn" type="button">Analyze and choose chart</button><button class="btn secondary" id="equalOpportunityBtn" type="button">Load equal opportunity</button><button class="btn secondary" id="unequalOpportunityBtn" type="button">Load unequal opportunity</button><button class="btn secondary" id="resetAttributeBtn" type="button">Reset lab</button></div>
+<p aria-live="polite" class="status-line" id="attributeMessage"></p>
+<div class="chart-wrap"><canvas aria-describedby="attributeDescription" aria-label="Selected c or u control chart" height="360" id="attributeCanvas" role="img" width="720"></canvas><p class="chart-caption" id="attributeDescription">Control chart with centre line and 3σ limits.</p></div>
+<div class="legend-row"><span class="legend-key"><span class="legend-swatch"></span>Observed value</span><span class="legend-key"><span class="legend-swatch center"></span>Centre line</span><span class="legend-key"><span class="legend-swatch limit"></span>Control limits</span><span class="legend-key"><span class="signal-marker">●</span>Potential signal</span></div>
+</div>
+<div class="callout warn"><strong>Interpret cautiously:</strong> a point beyond a control limit signals special-cause investigation; it does not identify the root cause. Also verify independence, rational subgrouping, and a stable inspection method.</div>
+</section>
