@@ -39,6 +39,18 @@
       description: 'Master the bell curve, the 68-95-99.7 rule, and z-scores with interactive graphs, a live calculator, worked examples, and a quiz.'
     },
     {
+      marker: 'data-chebyshev-empirical-rule',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/chebyshev-inequality-vs-empirical-rule',
+      topic: 'statistics',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'chebyshev inequality theorem empirical rule 68 95 99.7 distribution bounds mean standard deviation normal non-normal probability statistics beginner interactive calculator',
+      meta: '<span>Beginner</span><span>Interactive</span><span>22 min</span>',
+      title: 'Chebyshev vs. the Empirical Rule',
+      description: 'Compare guaranteed and normal-distribution coverage with live overlaid curves, distribution shapes, bounds, and practice challenges.'
+    },
+    {
       marker: 'data-beyond-the-bell',
       sectionId: 'statistics',
       path: '/lessons/statistics/beyond-the-bell-the-normal-distribution-and-its-relatives',
@@ -131,7 +143,7 @@
       interactive: 'true',
       search: '7 management planning tools affinity diagram interrelationship digraph tree diagram prioritization matrix matrix diagram PDPC activity network quality engineering ASQ CQE CSSBB interactive',
       meta: '<span>Intermediate</span><span>Interactive</span><span>35 min</span>',
-      title: 'The 7 Management &amp; Planning Tools',
+      title: 'The 7 Management & Planning Tools',
       description: 'Turn a confirmed cause into an executable plan with affinity grouping, weighted prioritization, RACI ownership, PDPC, and critical-path logic.'
     },
     {
