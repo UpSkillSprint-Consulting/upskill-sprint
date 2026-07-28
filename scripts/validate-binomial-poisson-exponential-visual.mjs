@@ -4,10 +4,12 @@ import path from 'node:path';
 const root = process.cwd();
 const cssPath = path.join(root, 'lessons', 'statistics', 'binomial-poisson-exponential-distributions.css');
 const htmlPath = path.join(root, 'lessons', 'statistics', 'binomial-poisson-exponential-distributions.html');
+const baseScriptPath = path.join(root, 'lessons', 'statistics', 'binomial-poisson-exponential-distributions-base.js');
 
-const [css, html] = await Promise.all([
+const [css, html, baseScript] = await Promise.all([
   readFile(cssPath, 'utf8'),
-  readFile(htmlPath, 'utf8')
+  readFile(htmlPath, 'utf8'),
+  readFile(baseScriptPath, 'utf8')
 ]);
 
 const compact = css.replace(/\s+/g, ' ');
@@ -25,6 +27,7 @@ require(/main#lesson-content\s*\{[^}]*max-width\s*:\s*1060px/i.test(css), 'Readi
 require(/header\.site\.lesson-sitebar\s*\{[^}]*justify-content\s*:\s*flex-start/i.test(css), 'Header controls must remain grouped rather than spread across the full viewport.');
 require(/\.site-actions\s*\{[^}]*margin-left\s*:\s*auto/i.test(css), 'Theme and account controls must align together on the right.');
 require(/\.theme-toggle\s*\{[^}]*font-size\s*:\s*0\s*!important/i.test(css), 'Theme switch text must be visually hidden to prevent label collision.');
+require(!/themeToggle\.textContent\s*=/.test(baseScript), 'Lesson JavaScript must not replace the theme switch with visible Light/Dark text.');
 require(/h2\s*\{[^}]*border-bottom\s*:\s*3px\s+solid\s+var\(--amber\)/i.test(css), 'Section headings require the UpSkill Sprint amber hierarchy rule.');
 require(/\.hero\s*\{[^}]*linear-gradient\(135deg,var\(--navy\),var\(--teal-dark\)\)/i.test(compact), 'Lesson hero must use the approved navy-to-teal treatment.');
 require((html.match(/<nav[^>]*class=["'][^"']*lesson-toc/gi) || []).length === 1, 'Exactly one lesson contents navigation is required.');
