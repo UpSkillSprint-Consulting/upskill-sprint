@@ -41,6 +41,9 @@ async function loadPage() {
   });
   windows.push(dom.window);
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
+  if (!dom.window.Element.prototype.scrollIntoView) {
+    dom.window.Element.prototype.scrollIntoView = function () {};
+  }
   dom.window.eval(phase1);
   dom.window.eval(phase2);
   await settle(dom.window);
