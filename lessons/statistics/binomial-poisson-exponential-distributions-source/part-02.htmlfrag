@@ -1,6 +1,6 @@
 <section class="lesson-card" id="binomial">
-<h2>2. Binomial: repeated yes-or-no trials</h2>
-<p>The Binomial distribution applies when you have a <strong>fixed number of independent trials</strong>, each trial has only two outcomes, and the probability of the selected outcome is constant.</p>
+<h2>3. Binomial: repeated yes-or-no trials</h2>
+<p>The Binomial distribution applies when you have a <strong>fixed number of approximately independent trials</strong>, each trial has only two outcomes, and the probability of the selected outcome is reasonably constant.</p>
 <div class="grid-2">
 <div class="concept-card">
 <h3>Pipe inspection example</h3>
@@ -8,23 +8,29 @@
 <ul>
 <li>Trial: one pipe</li>
 <li>Selected outcome: fail</li>
-<li>Number of trials: n = 20</li>
+<li>Number of trials: n = 20 pipes</li>
 <li>Probability of failure: p</li>
-<li>Random variable: number of failed pipes</li>
+<li>Random variable: X = number of failed pipes</li>
 </ul>
 </div>
 <div class="concept-card">
 <h3>Why this is not Poisson</h3>
 <p>Each pipe contributes at most one selected outcome: fail or not fail. The maximum possible count is therefore 20.</p>
-<p>Poisson is different: one pipe or one inspection interval may contain several defects.</p>
+<p>Poisson is different: one pipe or one inspection interval may contain several defect events.</p>
 </div>
 </div>
 <div aria-label="Binomial probability formula" class="formula">
-    P(X=x)=
-    <span class="fraction"><span>n!</span><span>x!(n-x)!</span></span>
-    p<sup>x</sup>(1-p)<sup>n-x</sup>
+P(X=x)=
+<span class="fraction"><span>n!</span><span>x!(n-x)!</span></span>
+p<sup>x</sup>(1-p)<sup>n-x</sup>
 </div>
-<p>The expected number of selected outcomes is <strong>np</strong>, and the variance is <strong>np(1-p)</strong>.</p>
+<div class="formula-guide">
+<div><strong>Symbols and units</strong><p><strong>X</strong> = selected-outcome count; <strong>x</strong> = a particular whole-number count; <strong>n</strong> = number of trials; <strong>p</strong> = probability per trial. Counts and probabilities are dimensionless.</p></div>
+<div><strong>What the formula does</strong><p>The combination term counts how many trial arrangements contain x selected outcomes. The probability terms weight each arrangement.</p></div>
+<div><strong>Use it when</strong><p>n is fixed, each trial is yes/no for the selected response, p is reasonably constant, and dependence is negligible.</p></div>
+<div><strong>Do not use it when</strong><p>multiple events can occur within one unit, the trial count is not fixed, or p changes materially across suppliers, shifts, products, or time.</p></div>
+</div>
+<p>The expected number of selected outcomes is <strong>E(X) = np</strong>, and the variance is <strong>Var(X) = np(1-p)</strong>. In plain English, np is the long-run average count from repeated samples of n trials.</p>
 <h3>Live Binomial simulator</h3>
 <div class="controls">
 <div class="control">
@@ -56,8 +62,8 @@
 <!-- EDIT: Rare-event approximation explorer -->
 <section class="lesson-card" id="rare-event-approximation">
 <h2>4. When Poisson can approximate Binomial</h2>
-<p class="section-intro">A Binomial process remains Binomial, but when <strong>n is large</strong> and <strong>p is small</strong>, a Poisson distribution with <strong>μ = np</strong> can closely approximate its probabilities. Use this as a computational approximation—not as a change in the data-generating mechanism.</p>
-<div class="callout warn"><strong>Practical screening rule:</strong> the approximation is often reasonable when p ≤ 0.05 and np is not large. Always compare against the exact Binomial result when software is available.</div>
+<p class="section-intro">A Binomial process remains Binomial, but when <strong>n is large</strong> and <strong>p is small</strong>, a Poisson distribution with <strong>μ = np</strong> can closely approximate its probabilities. This is a computational approximation, not a change in the data-generating mechanism.</p>
+<div class="callout warn"><strong>Practical screening rule:</strong> the approximation is often reasonable when p ≤ 0.05 and n is large enough that the distribution is not constrained near n. Compare with the exact Binomial result whenever software is available.</div>
 <div class="interactive-shell">
 <div class="compact-controls">
 <div class="control"><label for="approxN">Trials n: <span class="value-badge" id="approxNValue">100</span></label><input id="approxN" max="500" min="20" step="10" type="range" value="100"/></div>
@@ -67,19 +73,19 @@
 </div>
 <div class="chart-wrap">
 <canvas aria-describedby="approxDescription" aria-label="Comparison of exact Binomial and Poisson-approximation probabilities" height="360" id="approxCanvas" role="img" width="720"></canvas>
-<p class="chart-caption" id="approxDescription">Blue bars are exact Binomial probabilities; amber bars are Poisson probabilities with μ = np.</p>
+<p class="chart-caption" id="approxDescription">The chart compares exact Binomial probabilities with Poisson probabilities using μ = np.</p>
 </div>
 <div class="kpi-strip">
 <div class="kpi"><span>Exact Binomial P(X=x)</span><strong id="approxBinProb">—</strong></div>
 <div class="kpi"><span>Poisson approximation</span><strong id="approxPoiProb">—</strong></div>
-<div class="kpi"><span>Difference</span><strong id="approxDifference">—</strong></div>
+<div class="kpi"><span>Absolute difference</span><strong id="approxDifference">—</strong></div>
 </div>
 <p aria-live="polite" class="status-line" id="approxMessage"></p>
 </div>
 </section>
 <section class="lesson-card" id="live-lab">
-<h2>3. Live Poisson–Exponential process laboratory</h2>
-<p>Adjust the event rate and inspection length. The same generated event locations are then viewed as both <strong>counts</strong> and <strong>gaps</strong>.</p>
+<h2>5. Live Poisson–Exponential process laboratory</h2>
+<p>Adjust the event rate and inspection length. The same generated event locations are viewed as both <strong>counts</strong> and <strong>gaps</strong>.</p>
 <div class="controls">
 <div class="control">
 <label for="rateSlider">Average rate λ: <span class="value-badge" id="rateValue">2.0</span> events per 100 m</label>
@@ -98,7 +104,7 @@
 <button class="btn" id="resimulateBtn" type="button">Generate a new random process</button>
 <button class="btn secondary" id="resetLabBtn" type="button">Reset example</button>
 </div>
-<div class="callout warn" hidden="" id="labError"></div>
+<div aria-live="polite" class="callout warn" hidden id="labError"></div>
 <div class="sim-grid">
 <div class="panel">
 <h3>Poisson view: events per window</h3>
@@ -119,40 +125,43 @@
 </div>
 <div class="bridge">
 <div class="callout"><strong>Poisson summary</strong><br/>Count all events inside equal windows.</div>
-<div class="bridge-arrow">⇄</div>
-<div class="callout"><strong>Exponential summary</strong><br/>Measure the distance between each consecutive pair.</div>
+<div class="bridge-arrow" aria-hidden="true">⇄</div>
+<div class="callout"><strong>Exponential summary</strong><br/>Measure the distance between consecutive events.</div>
 </div>
 </section>
 <section class="lesson-card" id="formulas">
-<h2>4. The formulas—and what they actually mean</h2>
-<h3>Binomial probability</h3>
-<div aria-label="Binomial probability formula" class="formula">
-P(X=x)=
-<span class="fraction"><span>n!</span><span>x!(n-x)!</span></span>
-p<sup>x</sup>(1-p)<sup>n-x</sup>
-</div>
-<p><strong>n</strong> is the fixed number of trials, <strong>x</strong> is the number of selected outcomes, and <strong>p</strong> is the probability of that outcome on each trial.</p>
+<h2>6. Core formulas, symbols, and decision criteria</h2>
 <h3>Poisson probability</h3>
 <div aria-label="Poisson probability formula" class="formula">
-        P(X = x) = <span class="fraction"><span>e<sup>−μ</sup> μ<sup>x</sup></span><span>x!</span></span>
+P(X=x)=<span class="fraction"><span>e<sup>−μ</sup>μ<sup>x</sup></span><span>x!</span></span>
 </div>
-<p><strong>X</strong> is the event count, <strong>x</strong> is a particular whole-number count, and <strong>μ</strong> is the expected number of events in the selected window.</p>
 <div class="formula">μ = λt</div>
-<p>If λ is 2 defects per 100 m and the window is 300 m, then μ = 2 × 3 = 6 expected defects.</p>
+<div class="formula-guide">
+<div><strong>Symbols and units</strong><p><strong>X</strong> and <strong>x</strong> are event counts; <strong>λ</strong> is events per exposure unit; <strong>t</strong> is exposure; <strong>μ</strong> is expected events in that exposure. λ and t must use compatible units.</p></div>
+<div><strong>Plain-language meaning</strong><p>The model converts an average event rate into the probability of observing a particular whole-number count.</p></div>
+<div><strong>Use it when</strong><p>events are counted in a defined interval, multiple events are possible, events are approximately independent, and the rate is reasonably constant.</p></div>
+<div><strong>Do not use it when</strong><p>the response is pass/fail out of fixed n, events cluster strongly, exposure is ignored, or the rate changes materially across the interval.</p></div>
+</div>
+<p><strong>Example:</strong> if λ is 2 defects per 100 m and the window is 300 m, express t as 3 units of 100 m. Then μ = 2 × 3 = 6 expected defects.</p>
 <h3>Exponential waiting probability</h3>
 <div aria-label="Exponential survival formula" class="formula">P(T &gt; t) = e<sup>−λt</sup></div>
-<p><strong>T</strong> is the waiting time or distance. This equation gives the probability of waiting <em>longer than</em> t without seeing the next event.</p>
 <div class="formula">E(T) = <span class="fraction"><span>1</span><span>λ</span></span></div>
-<p>The average gap is the reciprocal of the rate. At 2 defects per 100 m, the mean gap is 100 ÷ 2 = 50 m.</p>
-<h3>The powerful bridge</h3>
+<div class="formula-guide">
+<div><strong>Symbols and units</strong><p><strong>T</strong> is the random waiting time or distance; <strong>t</strong> is a chosen threshold in the same exposure units; <strong>λ</strong> is events per exposure unit.</p></div>
+<div><strong>Plain-language meaning</strong><p>P(T &gt; t) is the chance of travelling or waiting beyond t without the next event. The mean gap is 1/λ.</p></div>
+<div><strong>Use it when</strong><p>you measure the continuous gap to the next event and the underlying Poisson-process rate is reasonably constant.</p></div>
+<div><strong>Do not use it when</strong><p>you need an event count, the hazard changes with age or time, or maintenance, clustering, seasonality, or wear-out materially changes the process.</p></div>
+</div>
+<h3>The Poisson–Exponential bridge</h3>
 <div class="formula">P(T &gt; t) = P[N(t)=0] = e<sup>−λt</sup></div>
-<p>This is the connection in one line: <strong>waiting longer than t for the next event means exactly zero events occurred during the next t units.</strong></p>
-<div class="callout warn"><strong>Required assumptions:</strong> events occur independently, the average rate is approximately constant, two events are not occurring at exactly the same instant/location in the idealized model, and the process is observed consistently.</div>
+<p><strong>Interpretation:</strong> waiting longer than t for the next event is equivalent to observing exactly zero events during the next t exposure units.</p>
+<div class="callout warn"><strong>Shared assumptions:</strong> events occur approximately independently, the average rate is reasonably constant over the range being modelled, simultaneous events are negligible in the idealized model, and the event definition and exposure measurement remain consistent.</div>
 </section>
 <!-- EDIT: Memoryless property explorer -->
 <section class="lesson-card" id="memoryless">
-<h2>6. Exponential memorylessness—what it does and does not mean</h2>
-<p>The Exponential distribution is <strong>memoryless</strong>: under a constant event rate, time already waited does not change the probability of waiting an additional amount. Mathematically, P(T &gt; s + t | T &gt; s) = P(T &gt; t).</p>
+<h2>7. Exponential memorylessness—what it does and does not mean</h2>
+<p>The Exponential distribution is <strong>memoryless</strong>: under a constant event rate, time already waited does not change the probability of waiting an additional amount.</p>
+<div class="formula">P(T &gt; s+t | T &gt; s) = P(T &gt; t)</div>
 <div class="callout warn"><strong>Important limitation:</strong> memorylessness is a property of the model, not a claim that real equipment never ages. Wear-out, maintenance, seasonality, or changing loads can make the hazard change with time.</div>
 <div class="interactive-shell">
 <div class="controls">
@@ -161,8 +170,8 @@ p<sup>x</sup>(1-p)<sup>n-x</sup>
 <div class="control"><label for="memoryExtra">Additional wait t: <span class="value-badge" id="memoryExtraValue">30</span></label><input id="memoryExtra" max="150" min="5" step="5" type="range" value="30"/></div>
 </div>
 <div class="memory-bars">
-<div class="memory-bar"><span>P(T &gt; s + t)</span><div class="bar-track"><div class="bar-fill secondary" id="memoryTotalBar"></div></div><strong id="memoryTotalValue">—</strong></div>
-<div class="memory-bar"><span>P(T &gt; s + t | T &gt; s)</span><div class="bar-track"><div class="bar-fill" id="memoryConditionalBar"></div></div><strong id="memoryConditionalValue">—</strong></div>
+<div class="memory-bar"><span>P(T &gt; s+t)</span><div class="bar-track"><div class="bar-fill secondary" id="memoryTotalBar"></div></div><strong id="memoryTotalValue">—</strong></div>
+<div class="memory-bar"><span>P(T &gt; s+t | T &gt; s)</span><div class="bar-track"><div class="bar-fill" id="memoryConditionalBar"></div></div><strong id="memoryConditionalValue">—</strong></div>
 <div class="memory-bar"><span>P(T &gt; t), starting fresh</span><div class="bar-track"><div class="bar-fill" id="memoryFreshBar"></div></div><strong id="memoryFreshValue">—</strong></div>
 </div>
 <p aria-live="polite" class="status-line good" id="memoryMessage"></p>
