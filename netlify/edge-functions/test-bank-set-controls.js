@@ -7,7 +7,8 @@ export default async function testBankSetControls(request, context) {
   const html = await response.text();
   const scripts = [
     '<script src="/test-bank-set-controls.js" defer></script>',
-    '<script src="/test-bank-feedback-loop.js" defer></script>'
+    '<script src="/test-bank-feedback-loop.js" defer></script>',
+    '<script src="/test-bank-deep-feedback.js" defer></script>'
   ];
   const missingScripts = scripts.filter(function (script) {
     const source = script.match(/src="([^"]+)"/)[1];
