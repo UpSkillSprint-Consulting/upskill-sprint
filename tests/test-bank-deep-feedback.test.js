@@ -182,12 +182,14 @@ test('accuracy gate remains grounded across the complete live CSSBB bank', async
   const { window } = await loadPage();
   const api = window.__TBDeepFeedback;
   const questions = allQuestions(window);
-  assert.ok(questions.length >= 400, 'all three live CSSBB sets are validated');
+  assert.equal(questions.length, 495, 'all three live CSSBB sets are validated');
 
   questions.forEach(question => {
     const source = plain(window, question.why);
-    const point = api.extractKeyPoint(question.why).replace(/…$/, '');
-    assert.ok(source.includes(point), 'key point is drawn from the bank explanation');
+    const rendered = api.extractKeyPoint(question.why);
+    const point = rendered.replace(/…$/, '');
+    if (source) assert.ok(source.includes(point), 'key point is drawn from the bank explanation');
+    else assert.match(rendered, /not available/i, 'missing explanations are disclosed rather than invented');
 
     question.options.forEach((option, index) => {
       if (index === question.answer) return;
