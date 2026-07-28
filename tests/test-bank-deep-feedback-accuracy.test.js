@@ -10,6 +10,7 @@ const { JSDOM } = require('jsdom');
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
 const phase2 = fs.readFileSync(path.join(ROOT, 'test-bank-deep-feedback.js'), 'utf8');
+const grounding = fs.readFileSync(path.join(ROOT, 'test-bank-deep-feedback-grounding.js'), 'utf8');
 const windows = [];
 afterEach(() => windows.splice(0).forEach(window => { try { window.close(); } catch (error) {} }));
 
@@ -19,6 +20,7 @@ async function load() {
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
   if (!dom.window.Element.prototype.scrollIntoView) dom.window.Element.prototype.scrollIntoView = function () {};
   dom.window.eval(phase2);
+  dom.window.eval(grounding);
   return dom.window;
 }
 
