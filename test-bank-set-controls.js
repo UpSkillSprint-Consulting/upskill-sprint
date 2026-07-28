@@ -67,6 +67,12 @@
     return fragment;
   }
 
+  function appendBold(parent, value) {
+    const bold = document.createElement('b');
+    bold.textContent = value;
+    parent.appendChild(bold);
+  }
+
   function updateSummary(card, kind, setName) {
     const summary = card.querySelector('.tb-mode-sum');
     if (!summary) return;
@@ -75,16 +81,23 @@
       return node.textContent.trim();
     });
     const count = boldValues[0] || '20';
-    let nextHtml;
+    const area = kind === 'focus' ? (boldValues[1] || 'the selected area') : '';
+    const desiredText = kind === 'quick'
+      ? 'Random ' + count + ' questions from ' + setName + ' across the whole Body of Knowledge.'
+      : 'Random ' + count + ' questions from ' + area + ' in ' + setName + '.';
 
-    if (kind === 'quick') {
-      nextHtml = 'Random <b>' + count + '</b> questions from <b>' + setName + '</b> across the whole Body of Knowledge.';
-    } else {
-      const area = boldValues[1] || 'the selected area';
-      nextHtml = 'Random <b>' + count + '</b> questions from <b>' + area + '</b> in <b>' + setName + '</b>.';
+    if (summary.textContent.replace(/\s+/g, ' ').trim() === desiredText) return;
+
+    summary.replaceChildren();
+    summary.append('Random ');
+    appendBold(summary, count);
+    summary.append(' questions from ');
+    if (kind === 'focus') {
+      appendBold(summary, area);
+      summary.append(' in ');
     }
-
-    if (summary.innerHTML !== nextHtml) summary.innerHTML = nextHtml;
+    appendBold(summary, setName);
+    summary.append(kind === 'quick' ? ' across the whole Body of Knowledge.' : '.');
   }
 
   function enhanceCard(overview, card, kind, setName) {
