@@ -1,35 +1,77 @@
-<section class="lesson-card">
-<h2>11. A practical selection procedure</h2>
-<ol class="steps"><li><strong>Define the experimental unit or interval. </strong>Is one observation a pipe, a 100 m length, an hour, or the space between events?</li><li><strong>Ask whether each unit has two outcomes. </strong>A fixed number of pass/fail or yes/no trials points to Binomial.</li><li><strong>Ask whether multiple events can occur in one interval. </strong>Random event counts inside time, length, area, or volume point to Poisson.</li><li><strong>Ask whether you are measuring the gap. </strong>Time or distance until the next event points to Exponential.</li><li><strong>Check assumptions. </strong>Binomial needs fixed n, constant p, and approximately independent trials. Poisson/Exponential need a reasonably constant rate and independent events.</li><li><strong>Select the operational tool. </strong>Binomial → p or np chart; Poisson → c or u chart; waiting time/distance → Exponential.</li></ol>
+<section class="lesson-card" id="selection-procedure">
+<h2>12. A practical selection procedure</h2>
+<ol class="steps">
+<li><strong>Define the observation.</strong> State whether one observation is a pipe, a 100 m length, an hour, a surface area, or the gap between events.</li>
+<li><strong>Define the response.</strong> Is it a yes/no classification, a whole-number event count, or a continuous waiting time or distance?</li>
+<li><strong>Check the data-generating mechanism.</strong> Fixed two-outcome trials point to Binomial; events in exposure point to Poisson; a gap to the next event points to Exponential.</li>
+<li><strong>Align units.</strong> Convert λ and t to compatible exposure units before calculating μ = λt or e<sup>−λt</sup>.</li>
+<li><strong>Check assumptions.</strong> Evaluate independence, constant p or λ, consistent exposure, clustering, aging, seasonality, and inspection consistency.</li>
+<li><strong>Select the probability wording.</strong> Decide whether the question asks for exactly, at most, at least, between, by a time, or beyond a time.</li>
+<li><strong>Calculate and validate.</strong> Show substitution and intermediate values; compare with software or a second method where practical.</li>
+<li><strong>Interpret and document.</strong> State the result in operational language, identify limitations, and record the model, parameters, units, and assumptions.</li>
+</ol>
 </section>
-<section class="lesson-card">
-<h2>12. When you see this, it means this</h2>
-<table>
+<section class="lesson-card" id="interpretation">
+<h2>13. When you see this, it means this</h2>
+<div class="table-wrap"><table>
 <thead><tr><th>When you see this</th><th>It means this</th></tr></thead>
 <tbody>
+<tr><td>A fixed n with pass/fail outcomes</td><td>The selected-outcome count is bounded by n; consider a Binomial model.</td></tr>
+<tr><td>Multiple events can occur in one interval</td><td>The response is an event count rather than a defective-unit count; consider Poisson.</td></tr>
+<tr><td>A continuous time or distance until the next event</td><td>The response is a gap; consider Exponential if the event rate is stable.</td></tr>
 <tr><td>Large λ</td><td>Events are frequent; expected counts are higher and average gaps are shorter.</td></tr>
 <tr><td>Small λ</td><td>Events are rare; expected counts are lower and average gaps are longer.</td></tr>
 <tr><td>μ = λt</td><td>Expected count grows in direct proportion to the observation opportunity.</td></tr>
-<tr><td>1/λ</td><td>The average waiting time or distance between consecutive events.</td></tr>
-<tr><td>P(T&gt;t)</td><td>The probability of seeing zero events during the next t units.</td></tr>
-<tr><td>Event rate changes over time</td><td>A simple stationary Poisson/Exponential model may be inappropriate or require stratification.</td></tr>
+<tr><td>1/λ</td><td>The long-run average waiting time or distance between consecutive events.</td></tr>
+<tr><td>P(T &gt; t)</td><td>The probability of seeing zero events during the next t exposure units.</td></tr>
+<tr><td>Poisson variance far above the mean</td><td>Clustering, mixed rates, or omitted exposure effects may be present.</td></tr>
+<tr><td>Opportunity is equal across samples</td><td>A c chart can compare raw defect counts.</td></tr>
+<tr><td>Opportunity varies across samples</td><td>A u chart should compare defects per unit with sample-specific limits.</td></tr>
+<tr><td>Event rate changes over time</td><td>A single stationary Poisson/Exponential model may be inappropriate or require stratification.</td></tr>
 </tbody>
-</table>
+</table></div>
 </section>
-<section class="lesson-card">
-<h2>13. Common mistakes and exam traps</h2>
+<section class="lesson-card" id="common-mistakes">
+<h2>14. Common mistakes and exam traps</h2>
+<div class="mistake-group">
+<h3>Calculation mistakes</h3>
 <div class="grid-2">
-<div class="trap-card"><strong>Assuming every count is Poisson</strong><p>A count of failed units out of a fixed sample is Binomial. A count of defects in an interval is Poisson.</p></div>
-<div class="trap-card"><strong>Using Exponential for the number of events</strong><p>Exponential is continuous. Counts such as 0, 1, 2, … belong to Poisson.</p></div>
-<div class="trap-card"><strong>Forgetting to align units</strong><p>A rate of 2 per 100 m must become 0.02 per metre when t is entered in metres.</p></div>
-<div class="trap-card"><strong>Using a c chart with varying opportunity</strong><p>Larger units naturally have more defects. Use a u chart or an offset model when opportunity varies.</p></div>
-<div class="trap-card"><strong>Assuming “memoryless” means equipment never ages</strong><p>It only applies when the constant-hazard Exponential model is reasonable. Wear-out failures often violate it.</p></div>
-<div class="trap-card"><strong>Ignoring clustering</strong><p>If defects occur in bursts, the variance may exceed the mean. A basic Poisson model can underestimate variability.</p></div>
+<div class="trap-card"><span class="tag calc">Calculation</span><strong>Misaligning rate and exposure units</strong><p><strong>Why it is wrong:</strong> λt is only meaningful when the units cancel correctly.</p><p><strong>Recognize it:</strong> λ is entered per 100 m while t is entered in metres.</p><p><strong>Avoid it:</strong> convert λ to events per metre or express t in 100 m units before multiplying.</p></div>
+<div class="trap-card"><span class="tag calc">Calculation</span><strong>Using the wrong tail</strong><p><strong>Why it is wrong:</strong> P(X ≥ x) is not the same as P(X ≤ x).</p><p><strong>Recognize it:</strong> the wording says “at least” or “more than,” but the cumulative lower tail is reported directly.</p><p><strong>Avoid it:</strong> translate the wording before calculating and use complements carefully.</p></div>
+</div>
+</div>
+<div class="mistake-group">
+<h3>Interpretation mistakes</h3>
+<div class="grid-2">
+<div class="trap-card"><span class="tag interp">Interpretation</span><strong>Assuming every count is Poisson</strong><p><strong>Why it is wrong:</strong> failed units out of fixed n are Binomial, while defects in exposure are Poisson.</p><p><strong>Recognize it:</strong> each unit contributes at most one selected outcome.</p><p><strong>Avoid it:</strong> ask how the count was generated, not merely whether it is a whole number.</p></div>
+<div class="trap-card"><span class="tag interp">Interpretation</span><strong>Treating a control-limit signal as a root cause</strong><p><strong>Why it is wrong:</strong> a signal indicates unusual variation; it does not identify why it occurred.</p><p><strong>Recognize it:</strong> the conclusion jumps directly from “outside limits” to a specific cause.</p><p><strong>Avoid it:</strong> investigate process history, measurement, materials, methods, and operating conditions.</p></div>
+</div>
+</div>
+<div class="mistake-group">
+<h3>Assumption mistakes</h3>
+<div class="grid-2">
+<div class="trap-card"><span class="tag assume">Assumption</span><strong>Ignoring clustering or changing rates</strong><p><strong>Why it is wrong:</strong> basic Poisson variance may be too small for a bursty or mixed-rate process.</p><p><strong>Recognize it:</strong> count variance greatly exceeds the mean or events occur in bursts.</p><p><strong>Avoid it:</strong> stratify the process and consider an overdispersed model.</p></div>
+<div class="trap-card"><span class="tag assume">Assumption</span><strong>Assuming memoryless means equipment never ages</strong><p><strong>Why it is wrong:</strong> memorylessness follows from a constant hazard; real wear-out can increase hazard with age.</p><p><strong>Recognize it:</strong> older components fail more frequently.</p><p><strong>Avoid it:</strong> examine hazard behavior and consider Weibull or another reliability model.</p></div>
+</div>
+</div>
+<div class="mistake-group">
+<h3>Software-output mistakes</h3>
+<div class="grid-2">
+<div class="trap-card"><span class="tag software">Software</span><strong>Confusing density with probability</strong><p><strong>Why it is wrong:</strong> for a continuous Exponential variable, the density at one exact time is not the probability of that exact time.</p><p><strong>Recognize it:</strong> a software “probability density” value is interpreted as an interval probability.</p><p><strong>Avoid it:</strong> use cumulative or survival probabilities for practical time intervals and thresholds.</p></div>
+<div class="trap-card"><span class="tag software">Software</span><strong>Entering Exponential rate where software expects scale</strong><p><strong>Why it is wrong:</strong> rate λ and scale 1/λ are reciprocals.</p><p><strong>Recognize it:</strong> Minitab asks for scale but the event rate is entered unchanged.</p><p><strong>Avoid it:</strong> calculate scale = 1/λ and verify the software parameterization.</p></div>
+</div>
+</div>
+<div class="mistake-group">
+<h3>Exam traps</h3>
+<div class="grid-2">
+<div class="trap-card"><span class="tag exam">Exam trap</span><strong>Defective versus defect</strong><p><strong>Why it is wrong:</strong> a defective unit is a yes/no classification; a unit may contain multiple defects.</p><p><strong>Recognize it:</strong> the question alternates between “units failing” and “nonconformities found.”</p><p><strong>Avoid it:</strong> map defective to Binomial charts and defects to Poisson charts.</p></div>
+<div class="trap-card"><span class="tag exam">Exam trap</span><strong>c chart versus u chart</strong><p><strong>Why it is wrong:</strong> raw counts are not comparable when inspection opportunity varies.</p><p><strong>Recognize it:</strong> sample length, area, or number of units changes.</p><p><strong>Avoid it:</strong> equal opportunity → c; unequal opportunity → u.</p></div>
+</div>
 </div>
 </section>
 <!-- EDIT: Assumption checker -->
 <section class="lesson-card" id="assumptions">
-<h2>14. Assumption checker</h2>
+<h2>15. Assumption checker</h2>
 <p class="section-intro">A formula can be mathematically correct and still be operationally misleading. Use this checklist as a screening tool before relying on a model.</p>
 <div class="interactive-shell">
 <div class="control"><label for="assumptionModel">Model to assess</label><select id="assumptionModel"><option value="binomial">Binomial</option><option value="poisson">Poisson</option><option value="exponential">Exponential</option></select></div>
@@ -37,65 +79,93 @@
 <div class="button-row"><button class="btn" id="assumptionAllBtn" type="button">Mark all supported</button><button class="btn secondary" id="assumptionResetBtn" type="button">Clear checklist</button></div>
 <p aria-live="polite" class="status-line warn" id="assumptionResult"></p>
 </div>
-<table><thead><tr><th>Diagnostic clue</th><th>What it may indicate</th><th>Next action</th></tr></thead><tbody>
+<div class="table-wrap"><table><thead><tr><th>Diagnostic clue</th><th>What it may indicate</th><th>Next action</th></tr></thead><tbody>
 <tr><td>Poisson count variance far above the mean</td><td>Clustering, mixed rates, or omitted exposure effects</td><td>Stratify the data; consider negative-binomial or another overdispersed count model.</td></tr>
 <tr><td>Poisson count variance far below the mean</td><td>Regular spacing, process constraints, or dependence</td><td>Review the event definition and whether occurrences inhibit one another.</td></tr>
 <tr><td>Failure rate increases with age</td><td>Constant-hazard Exponential assumption is violated</td><td>Consider Weibull or a reliability model that allows changing hazard.</td></tr>
 <tr><td>Binomial p changes by supplier, shift, or product</td><td>Trials do not share one constant probability</td><td>Stratify or model the probability using relevant predictors.</td></tr>
-</tbody></table>
+</tbody></table></div>
 </section>
 <!-- EDIT: Software guidance -->
 <section class="lesson-card" id="software">
-<h2>15. Excel and Minitab guidance</h2>
-<p>Software should execute the probability calculation; it should not choose the model for you. Define the random variable and confirm the assumptions first.</p>
+<h2>16. Excel and Minitab guidance</h2>
+<p>Software should execute the probability calculation; it should not choose the model for you. Define the random variable, align units, and confirm assumptions first.</p>
 <div class="sheet-grid">
 <div class="software-card"><h3>Excel</h3>
-<p><strong>Binomial:</strong></p><code class="code-line">=BINOM.DIST(x, n, p, FALSE)</code><p class="small">Exact probability P(X=x).</p>
-<code class="code-line">=BINOM.DIST(x, n, p, TRUE)</code><p class="small">Cumulative probability P(X≤x).</p>
-<p><strong>Poisson:</strong></p><code class="code-line">=POISSON.DIST(x, mean, FALSE)</code><p class="small">Exact probability, where mean = λt.</p>
-<code class="code-line">=POISSON.DIST(x, mean, TRUE)</code><p class="small">Cumulative probability P(X≤x).</p>
-<p><strong>Exponential:</strong></p><code class="code-line">=EXPON.DIST(t, lambda, TRUE)</code><p class="small">P(T≤t). For P(T&gt;t), use <code>1-EXPON.DIST(t,lambda,TRUE)</code>.</p>
+<p><strong>Binomial exact:</strong></p><code class="code-line">=BINOM.DIST(x, n, p, FALSE)</code><p class="small">Returns P(X = x).</p>
+<p><strong>Binomial cumulative:</strong></p><code class="code-line">=BINOM.DIST(x, n, p, TRUE)</code><p class="small">Returns P(X ≤ x). For P(X ≥ x), use <code>1-BINOM.DIST(x-1,n,p,TRUE)</code>.</p>
+<p><strong>Poisson exact:</strong></p><code class="code-line">=POISSON.DIST(x, mean, FALSE)</code><p class="small">Returns P(X = x), where mean = μ = λt.</p>
+<p><strong>Poisson cumulative:</strong></p><code class="code-line">=POISSON.DIST(x, mean, TRUE)</code><p class="small">Returns P(X ≤ x). For P(X ≥ x), use <code>1-POISSON.DIST(x-1,mean,TRUE)</code>.</p>
+<p><strong>Exponential cumulative:</strong></p><code class="code-line">=EXPON.DIST(t, lambda, TRUE)</code><p class="small">Returns P(T ≤ t). For P(T &gt; t), use <code>1-EXPON.DIST(t,lambda,TRUE)</code> or <code>EXP(-lambda*t)</code>.</p>
 <div class="callout warn"><strong>Common Excel mistake:</strong> entering a rate per 100 m while t is measured in metres. Convert the units before multiplying λt.</div>
 </div>
 <div class="software-card"><h3>Minitab</h3>
 <p><strong>Probability calculations:</strong> choose <em>Calc → Probability Distributions</em>, then select Binomial, Poisson, or Exponential.</p>
-<ol><li>Select <strong>Probability</strong> for an exact discrete probability or density value.</li><li>Select <strong>Cumulative probability</strong> for P(X≤x) or P(T≤t).</li><li>Enter the correct parameter: n and p for Binomial; mean μ for Poisson; scale 1/λ for Exponential.</li><li>Store the result in a constant or column when documenting repeated calculations.</li></ol>
+<ol>
+<li>Select <strong>Probability</strong> for an exact discrete probability or a continuous density value.</li>
+<li>Select <strong>Cumulative probability</strong> for P(X ≤ x) or P(T ≤ t).</li>
+<li>Enter the correct parameter: n and p for Binomial; mean μ for Poisson; scale 1/λ for Exponential.</li>
+<li>For an upper tail, subtract the appropriate cumulative probability from 1 and check whether the boundary is inclusive.</li>
+<li>Store the result in a constant or column when documenting repeated calculations.</li>
+</ol>
+<p><strong>Output fields that matter:</strong> the entered parameters, input value, probability type, and returned probability. Record all four so another analyst can reproduce the result.</p>
 <p><strong>Attribute charts:</strong> choose <em>Stat → Control Charts → Attribute Charts</em>. Use <strong>C</strong> for constant opportunity and <strong>U</strong> when opportunity varies; supply subgroup sizes or opportunity values for the u chart.</p>
 <div class="callout warn"><strong>Common Minitab mistake:</strong> confusing Exponential scale with rate. The scale is the mean waiting time, 1/λ.</div>
 </div>
 </div>
 </section>
 <section class="lesson-card" id="practice">
-<h2>16. Practice activity</h2>
+<h2>17. Practice activity</h2>
+<p><strong>Try it first:</strong> answer each question before revealing the worked solution.</p>
 <p>A coating line inspects 30 panels. Each panel has a 5% chance of being rejected, while pinholes occur at an average rate of 4 per 200 m².</p>
 <ol><li>Which distribution models the number of rejected panels?</li><li>What is the expected number of rejected panels?</li><li>Which distribution models the number of pinholes in the next 200 m²?</li><li>Which distribution models the inspected area until the next pinhole?</li><li>What is the mean area between pinholes?</li></ol>
-<button aria-expanded="false" class="btn" id="revealPracticeBtn" type="button">Reveal answer</button>
-<div class="reveal" id="practiceAnswer"><p><strong>1. Binomial.</strong> There are 30 fixed yes-or-no panel trials.</p><p><strong>2. Expected rejected panels = 1.5.</strong> np = 30 × 0.05 = 1.5.</p><p><strong>3. Poisson.</strong> The response is the number of pinhole events in a fixed area.</p><p><strong>4. Exponential.</strong> The response is the continuous area until the next pinhole.</p><p><strong>5. Mean gap = 50 m².</strong> Rate = 4/200 = 0.02 per m², so 1/λ = 50 m².</p></div>
+<button aria-controls="practiceAnswer" aria-expanded="false" class="btn" id="revealPracticeBtn" type="button">Reveal answer</button>
+<div class="reveal" hidden id="practiceAnswer"><p><strong>1. Binomial.</strong> There are 30 fixed yes-or-no panel trials.</p><p><strong>2. Expected rejected panels = 1.5.</strong> E(X) = np = 30 × 0.05 = 1.5.</p><p><strong>3. Poisson.</strong> The response is the number of pinhole events in a fixed area.</p><p><strong>4. Exponential.</strong> The response is the continuous area until the next pinhole.</p><p><strong>5. Mean gap = 50 m².</strong> Rate = 4/200 = 0.02 per m², so E(T) = 1/λ = 1/0.02 = 50 m².</p></div>
 <div class="extension-practice">
 <h3>Extension: choose a chart and test a waiting-time claim</h3>
 <p>Eight inspected coil lengths are 100, 150, 80, 200, 120, 100, 250, and 100 m. Their defect counts are 2, 5, 1, 7, 3, 2, 9, and 2. The long-run rate is estimated at 0.03 defect per metre.</p>
 <ol><li>Should the team use a c chart or u chart?</li><li>What is the probability of travelling more than 50 m before the next defect under the Exponential model?</li><li>State one assumption that must be checked.</li></ol>
-<button aria-expanded="false" class="btn secondary" id="revealExtensionBtn" type="button">Reveal extension answer</button>
-<div class="reveal" id="extensionAnswer"><p><strong>1. Use a u chart.</strong> Inspected lengths vary, so raw counts have unequal opportunities. Plot defects per metre (or per 100 m) with limits that reflect each length.</p><p><strong>2. P(T&gt;50)=e<sup>−0.03×50</sup>=e<sup>−1.5</sup>≈0.2231.</strong> There is about a 22.31% chance of more than 50 m without the next defect.</p><p><strong>3. Check that the defect rate is reasonably constant and events are not clustered.</strong> A bursty process can invalidate the basic Poisson–Exponential assumptions.</p></div>
+<button aria-controls="extensionAnswer" aria-expanded="false" class="btn secondary" id="revealExtensionBtn" type="button">Reveal extension answer</button>
+<div class="reveal" hidden id="extensionAnswer"><p><strong>1. Use a u chart.</strong> Inspected lengths vary, so raw counts have unequal opportunities. Plot defects per metre or per 100 m with limits that reflect each length.</p><p><strong>2. P(T &gt; 50) = e<sup>−0.03×50</sup> = e<sup>−1.5</sup> ≈ 0.2231.</strong> There is about a 22.31% chance of more than 50 m without the next defect.</p><p><strong>3. Check that the defect rate is reasonably constant and events are not clustered.</strong> A bursty process can invalidate the basic Poisson–Exponential assumptions.</p></div>
 </div>
 </section>
 <section class="lesson-card" id="quiz">
-<h2>17. Mini quiz</h2>
-<form id="quizForm"><div class="quiz-question" data-answer="b"><p><strong>1. Which question is Binomial?</strong></p><label class="option"><input name="q1" type="radio" value="a"/> How many scratches occur in 100 m?</label><label class="option"><input name="q1" type="radio" value="b"/> How many of 20 pipes fail?</label><label class="option"><input name="q1" type="radio" value="c"/> How many metres until the next scratch?</label><div class="feedback">Binomial models the number of selected outcomes in a fixed number of yes-or-no trials.</div></div><div class="quiz-question" data-answer="c"><p><strong>2. Which question is Poisson?</strong></p><label class="option"><input name="q2" type="radio" value="a"/> How many of 50 welds fail?</label><label class="option"><input name="q2" type="radio" value="b"/> How long until the next failure?</label><label class="option"><input name="q2" type="radio" value="c"/> How many inclusions occur in one plate?</label><div class="feedback">Poisson models random event counts in a fixed interval or opportunity.</div></div><div class="quiz-question" data-answer="a"><p><strong>3. Which question is Exponential?</strong></p><label class="option"><input name="q3" type="radio" value="a"/> How many hours until the next breakdown?</label><label class="option"><input name="q3" type="radio" value="b"/> How many breakdowns occur this week?</label><label class="option"><input name="q3" type="radio" value="c"/> How many of 10 machines fail inspection?</label><div class="feedback">Exponential models continuous waiting time or distance to the next event.</div></div><div class="quiz-question" data-answer="b"><p><strong>4. What is the key difference between Binomial and Poisson counts?</strong></p><label class="option"><input name="q4" type="radio" value="a"/> Binomial is continuous and Poisson is discrete.</label><label class="option"><input name="q4" type="radio" value="b"/> Binomial has a fixed number of two-outcome trials; Poisson counts events in an interval.</label><label class="option"><input name="q4" type="radio" value="c"/> There is no difference.</label><div class="feedback">Both are discrete counts, but they are generated by different mechanisms.</div></div><div class="quiz-question" data-answer="c"><p><strong>5. Which control-chart pairing is correct?</strong></p><label class="option"><input name="q5" type="radio" value="a"/> p and np are Poisson; c and u are Binomial.</label><label class="option"><input name="q5" type="radio" value="b"/> All four are Exponential.</label><label class="option"><input name="q5" type="radio" value="c"/> p and np are Binomial; c and u are Poisson.</label><div class="feedback">p and np charts are based on Binomial data, while c and u charts are based on Poisson counts.</div></div><div class="button-row">
-<button class="btn" type="submit">Submit quiz</button>
-<button class="btn secondary" id="resetQuizBtn" type="button">Reset quiz</button>
-</div><div aria-live="polite" id="quizScore"></div></form>
+<h2>18. Mini quiz</h2>
+<form id="quizForm">
+<div class="quiz-question" data-answer="b"><p><strong>1. Which statement correctly distinguishes Binomial and Poisson counts?</strong></p><label class="option"><input name="q1" type="radio" value="a"/> Binomial counts are continuous, while Poisson counts are discrete.</label><label class="option"><input name="q1" type="radio" value="b"/> Binomial counts selected outcomes in fixed two-outcome trials; Poisson counts events in an exposure interval.</label><label class="option"><input name="q1" type="radio" value="c"/> Poisson counts can never exceed the sample size.</label><div aria-live="polite" class="feedback" role="status">Both models produce discrete counts, but the data-generating mechanisms are different.</div></div>
+<div class="quiz-question" data-answer="c"><p><strong>2. Defects occur at 2 per 100 m. What is the expected count in 300 m?</strong></p><label class="option"><input name="q2" type="radio" value="a"/> 0.67 defects</label><label class="option"><input name="q2" type="radio" value="b"/> 2 defects</label><label class="option"><input name="q2" type="radio" value="c"/> 6 defects</label><div aria-live="polite" class="feedback" role="status">Use μ = λt. Three 100 m exposure units give μ = 2 × 3 = 6 expected defects.</div></div>
+<div class="quiz-question" data-answer="a"><p><strong>3. What does P(T &gt; 75) = 0.223 mean in the defect-distance example?</strong></p><label class="option"><input name="q3" type="radio" value="a"/> There is a 22.3% chance of travelling more than 75 m before the next defect.</label><label class="option"><input name="q3" type="radio" value="b"/> Exactly 22.3 defects are expected in 75 m.</label><label class="option"><input name="q3" type="radio" value="c"/> Every 75 m section contains a defect.</label><div aria-live="polite" class="feedback" role="status">The Exponential survival probability is the chance of zero events during the next 75 m, which is equivalent to waiting more than 75 m for the next event.</div></div>
+<div class="quiz-question" data-answer="c"><p><strong>4. Which observation most strongly challenges a basic Poisson model?</strong></p><label class="option"><input name="q4" type="radio" value="a"/> Counts are non-negative whole numbers.</label><label class="option"><input name="q4" type="radio" value="b"/> The inspection opportunity is clearly defined.</label><label class="option"><input name="q4" type="radio" value="c"/> Events occur in bursts and the count variance greatly exceeds the mean.</label><div aria-live="polite" class="feedback" role="status">Bursting and strong overdispersion indicate clustering or mixed rates, which violate the simplest independent, constant-rate Poisson process.</div></div>
+<div class="quiz-question" data-answer="b"><p><strong>5. Eight coils have different inspected lengths. Which chart should compare their defect results?</strong></p><label class="option"><input name="q5" type="radio" value="a"/> c chart using raw counts</label><label class="option"><input name="q5" type="radio" value="b"/> u chart using defects per inspection opportunity</label><label class="option"><input name="q5" type="radio" value="c"/> np chart using the number defective</label><div aria-live="polite" class="feedback" role="status">Use a u chart when opportunity varies because it plots defects per unit and uses limits that reflect each sample’s exposure.</div></div>
+<div class="button-row"><button class="btn" type="submit">Submit quiz</button><button class="btn secondary" id="resetQuizBtn" type="button">Reset quiz</button></div>
+<div aria-live="polite" id="quizScore"></div>
+</form>
 </section>
 <section class="lesson-card" id="summary">
-<h2>18. Final summary</h2>
-<ul><li>Binomial models the number of selected outcomes in a fixed number of yes-or-no trials.</li><li>Poisson models the number of random events in a fixed interval or opportunity.</li><li>Exponential models the waiting time or distance until the next Poisson event.</li><li>Binomial counts are bounded by n; Poisson counts are not fixed by a trial count.</li><li>For Binomial data, the expected count is np.</li><li>For Poisson data, the expected count is μ = λt.</li><li>For Exponential data, the mean gap is 1/λ.</li><li>p and np charts are Binomial; c and u charts are Poisson.</li></ul>
+<h2>19. Final summary</h2>
+<ul>
+<li>Binomial models selected outcomes in a fixed number of yes-or-no trials.</li>
+<li>Poisson models random event counts in a defined interval or opportunity.</li>
+<li>Exponential models the continuous waiting time or distance until the next Poisson event.</li>
+<li>Binomial counts are bounded by n; Poisson counts are not bounded by a fixed trial count.</li>
+<li>For Binomial data, E(X) = np and Var(X) = np(1-p).</li>
+<li>For Poisson data, μ = λt and both the mean and variance equal μ under the ideal model.</li>
+<li>For Exponential data, the mean gap is 1/λ and P(T &gt; t) = e<sup>−λt</sup>.</li>
+<li>p and np charts are Binomial; c and u charts are Poisson.</li>
+</ul>
 <div class="big-memory">Decision rule: fixed yes-or-no trials → Binomial; event count in an interval → Poisson; waiting time or distance → Exponential.</div>
 <p><strong>Remember this:</strong> <em>Count selected trials, count random events, or measure the spaces.</em></p>
 <p><strong>Suggested next lesson:</strong> Attribute control charts—choosing among p, np, c, and u charts.</p>
 </section>
 <section class="lesson-card" id="references">
 <h2>References</h2>
-<p class="small">Montgomery, D. C. <em>Introduction to Statistical Quality Control</em>. Wiley. Ross, S. M. <em>Introduction to Probability Models</em>. Academic Press.</p>
+<ul class="small references-list">
+<li>Montgomery, D. C. <em>Introduction to Statistical Quality Control</em>. Wiley.</li>
+<li>Ross, S. M. <em>Introduction to Probability Models</em>. Academic Press.</li>
+<li>NIST/SEMATECH. <em>e-Handbook of Statistical Methods</em>, sections on probability distributions and control charts.</li>
+<li>Microsoft Support. Excel statistical distribution function documentation.</li>
+<li>Minitab Support. Probability distributions and attribute control chart documentation.</li>
+</ul>
 </section>
 <footer class="lesson-footer">
 <div class="lesson-footer-inner">
@@ -107,45 +177,6 @@
 </article>
 </main>
 <!-- EDIT: Interactive lesson JavaScript -->
-
-<script src="/lessons/statistics/binomial-poisson-exponential-distributions-base.js"></script><script src="/lessons/statistics/binomial-poisson-exponential-distributions-concepts.js"></script><script src="/lessons/statistics/binomial-poisson-exponential-distributions-workbench.js"></script><script src="/lessons/statistics/binomial-poisson-exponential-distributions-quality.js"></script><script>(() => {
-  "use strict";
-  const $ = id => document.getElementById(id);
-  const feedback = [...document.querySelectorAll(".feedback")];
-  feedback.forEach(item => { item.dataset.explanation = item.textContent.trim(); });
-  $("quizForm").addEventListener("submit", () => queueMicrotask(() => {
-    document.querySelectorAll(".quiz-question").forEach(question => {
-      const item = question.querySelector(".feedback");
-      const chosen = question.querySelector("input:checked");
-      const prefix = chosen && chosen.value === question.dataset.answer ? "Correct. " : chosen ? "Not quite. " : "No answer selected. ";
-      item.textContent = prefix + item.dataset.explanation;
-    });
-  }));
-  const logFactorial = n => { let total = 0; for (let i = 2; i <= n; i++) total += Math.log(i); return total; };
-  $("calculateBtn").addEventListener("click", event => {
-    event.stopImmediatePropagation();
-    const rate = Number($("calcRate").value), exposure = Number($("calcExposure").value), x = Number($("calcCount").value), box = $("calcMessage");
-    if (!(rate > 0) || !(exposure >= 0) || !Number.isInteger(x) || x < 0 || x > 500) {
-      box.textContent = "Enter a positive rate, a non-negative exposure, and a whole-number count from 0 to 500.";
-      box.className = "callout warn";
-      return;
-    }
-    const mu = rate * exposure;
-    const pCount = mu === 0 ? (x === 0 ? 1 : 0) : Math.exp(-mu + x * Math.log(mu) - logFactorial(x));
-    const pWait = Math.exp(-mu);
-    box.innerHTML = `<strong>Expected count μ = ${mu.toFixed(4)}</strong><br>Poisson: P(X = ${x}) = ${pCount.toFixed(6)} (${(pCount * 100).toFixed(2)}%)<br>Exponential/zero-event bridge: P(T &gt; exposure) = P(X = 0) = ${pWait.toFixed(6)} (${(pWait * 100).toFixed(2)}%)`;
-    box.className = "callout good";
-  }, true);
-  const clearIfNoEvents = () => queueMicrotask(() => {
-    if (!$("labError").hidden) {
-      ["countCanvas", "gapCanvas"].forEach(id => {
-        const canvas = $(id), ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      });
-      $("mEvents").textContent = "0"; $("mRate").textContent = "0.00"; $("mCount").textContent = "0.00"; $("mGap").textContent = "No events";
-    }
-  });
-  ["rateSlider", "lengthSlider", "windowSlider"].forEach(id => $(id).addEventListener("input", clearIfNoEvents));
-  $("resimulateBtn").addEventListener("click", clearIfNoEvents);
-})();</script></body>
+<!-- LESSON_SCRIPT_BUNDLE -->
+</body>
 </html>
