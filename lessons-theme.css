@@ -74,3 +74,14 @@
 .quiz-feedback { display: none; margin-top: 14px; padding: 14px 16px; border-radius: 8px; font-weight: 600; font-size: 14.5px; }
 .quiz-feedback.correct { display: block; background: var(--practice-bg); color: #065f46; border: 1px solid #bbf7d0; }
 .quiz-feedback.incorrect { display: block; background: var(--danger-bg); color: #991b1b; border: 1px solid #fecaca; }
+
+/* Chebyshev lesson: keep category navigation at the bottom-left. */
+html:has(link[rel="canonical"][href$="/chebyshev-inequality-vs-empirical-rule"]) .lesson-sitebar .lesson-back {
+  display: none !important;
+}
+html:has(link[rel="canonical"][href$="/chebyshev-inequality-vs-empirical-rule"]) .lesson-footer .footer-inner > a[href="/lessons#statistics"] {
+  order: -1;
+}
+html:has(link[rel="canonical"][href$="/chebyshev-inequality-vs-empirical-rule"]) .lesson-footer .footer-inner > span {
+  margin-left: auto;
+}
