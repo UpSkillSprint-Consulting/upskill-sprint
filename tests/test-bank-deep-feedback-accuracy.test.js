@@ -43,12 +43,14 @@ test('accuracy-count: all three CSSBB sets are in the validation pool', async ()
   assert.equal(questions(window).length, 495);
 });
 
-test('accuracy-keypoint: every learning point is a literal excerpt of its stored explanation', async () => {
+test('accuracy-keypoint: every learning point is grounded or explicitly unavailable', async () => {
   const window = await load();
   questions(window).forEach(question => {
     const source = plain(window, question.why);
-    const point = window.__TBDeepFeedback.extractKeyPoint(question.why).replace(/…$/, '');
-    assert.ok(source.includes(point), question.stem);
+    const rendered = window.__TBDeepFeedback.extractKeyPoint(question.why);
+    const point = rendered.replace(/…$/, '');
+    if (source) assert.ok(source.includes(point), question.stem);
+    else assert.match(rendered, /not available/i, question.stem);
   });
 });
 
