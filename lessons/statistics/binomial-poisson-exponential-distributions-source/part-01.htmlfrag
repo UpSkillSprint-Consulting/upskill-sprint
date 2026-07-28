@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <!-- UPSKILLSPRINT_LESSON_META
@@ -9,14 +8,15 @@
   "category": "Statistics",
   "category_slug": "statistics",
   "level": "Beginner",
-  "estimated_minutes": 25,
+  "estimated_minutes": 50,
   "interactive": true,
   "card_title": "Binomial vs. Poisson vs. Exponential",
-  "card_description": "See how yes-or-no outcomes, event counts, and waiting times answer three different probability questions.",
+  "card_description": "Choose the right probability model for yes-or-no trials, event counts, and waiting times through guided examples and live simulations.",
   "search_keywords": [
-    "Binomial distribution, Poisson distribution",
+    "binomial distribution",
+    "poisson distribution",
     "exponential distribution",
-    "Poisson process",
+    "poisson process",
     "c chart",
     "u chart",
     "waiting time",
@@ -28,17 +28,13 @@
 -->
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="An interactive beginner lesson comparing Binomial, Poisson, and Exponential distributions through intuitive examples and live simulations." name="description"/>
+<meta content="An interactive beginner lesson comparing Binomial, Poisson, and Exponential distributions through realistic quality-engineering examples, calculations, and live simulations." name="description"/>
 <link href="https://upskillsprint.com/lessons/statistics/binomial-poisson-exponential-distributions" rel="canonical"/>
 <title>Binomial vs. Poisson vs. Exponential Distributions | UpSkill Sprint</title>
 <link href="/style.css" rel="stylesheet"/>
 <link href="/lessons-theme.css" rel="stylesheet"/>
 <!-- EDIT: Lesson styles -->
-<link href="/lessons/statistics/binomial-poisson-exponential-distributions.css" rel="stylesheet"/><style>
-/* Final integration overrides */
-.sr-only{left:0;top:0}
-@media print{.lesson-sitebar,.lesson-toc,.button-row,.theme-toggle,.skip-link{display:none!important}.lesson-wrapper{display:block}.lesson-card,.hero{box-shadow:none;break-inside:avoid}}
-</style>
+<!-- LESSON_STYLE_BUNDLE -->
 <script src="/theme.js"></script>
 <script src="/site-sections.js"></script>
 </head>
@@ -46,13 +42,16 @@
 <a class="skip-link" href="#lesson-content">Skip to lesson content</a>
 <!-- SITE INTEGRATION: Header -->
 <header class="site lesson-sitebar">
-<a class="brand-link" href="/">
-<img alt="UpSkill Sprint Consulting logo" src="/assets/logo-icon.png"/>
-<span>UpSkill Sprint Consulting</span>
-</a>
-<div class="site-actions">
-<button aria-checked="false" class="theme-toggle" data-theme-toggle="true" role="switch" type="button">Dark mode</button>
-</div>
+  <div class="brand-stack">
+    <a class="brand-link" href="/">
+      <img alt="UpSkill Sprint Consulting logo" src="/assets/logo-icon.png"/>
+      <span>UpSkill Sprint Consulting</span>
+    </a>
+    <a class="back-link" href="/lessons#statistics">Back to Statistics</a>
+  </div>
+  <div class="site-actions">
+    <button aria-checked="false" aria-label="Switch to dark mode" class="theme-toggle" data-theme-toggle="true" role="switch" type="button">Dark mode</button>
+  </div>
 </header>
 <main id="lesson-content">
 <article class="lesson-wrapper">
@@ -66,10 +65,13 @@
 <a href="#live-lab">Poisson–Exponential lab</a>
 <a href="#formulas">Formulas</a>
 <a href="#memoryless">Memoryless property</a>
-<a href="#worked-example">Worked example</a>
+<a href="#worked-example">Worked examples</a>
 <a href="#probability-workbench">Probability workbench</a>
 <a href="#quality-charts">c and u charts</a>
 <a href="#attribute-lab">c/u chart lab</a>
+<a href="#selection-procedure">Selection procedure</a>
+<a href="#interpretation">Interpretation guide</a>
+<a href="#common-mistakes">Mistakes and exam traps</a>
 <a href="#assumptions">Assumptions</a>
 <a href="#software">Excel and Minitab</a>
 <a href="#practice">Practice</a>
@@ -82,29 +84,52 @@
 <h1>Binomial, Poisson and Exponential: Three Questions, Three Models</h1>
 <p class="lead">Learn the distributions by asking the right question—not by memorizing formulas. Use Binomial for yes-or-no trials, Poisson for event counts, and Exponential for waiting time or distance.</p>
 <div class="meta-row">
-<span class="pill">Beginner</span><span class="pill">25 minutes</span><span class="pill">Interactive</span><span class="pill">No prerequisites</span>
+<span class="pill">Beginner</span><span class="pill">50 minutes</span><span class="pill">Interactive</span><span class="pill">Browser only</span>
 </div>
 <div class="why-matters"><strong>Why this matters:</strong> selecting the wrong distribution can produce the wrong probability, the wrong control chart, and the wrong operational decision—even when the arithmetic is flawless.</div>
-<div class="big-memory">Binomial asks <strong>“How many successes out of n trials?”</strong> Poisson asks <strong>“How many events in an interval?”</strong> Exponential asks <strong>“How long until the next event?”</strong></div>
+<div class="big-memory">Binomial asks <strong>“How many selected outcomes out of n trials?”</strong> Poisson asks <strong>“How many events in an interval?”</strong> Exponential asks <strong>“How long until the next event?”</strong></div>
 </header>
 <section class="lesson-card" id="learning-objectives">
 <h2>Learning objectives</h2>
 <p>By the end of this lesson, you will be able to:</p>
-<ul><li>Distinguish yes-or-no trial data, event-count data, and waiting-time data.</li><li>Explain when to use the Binomial, Poisson, and Exponential distributions.</li><li>Recognize how Binomial and Poisson differ even though both involve counts.</li><li>Explain why Poisson counts and Exponential waiting times arise from the same event process.</li><li>Calculate simple probabilities and choose the correct quality-control application.</li></ul>
+<ul>
+<li><strong>Identify</strong> whether a response is a binary-trial count, an event count, or a waiting-time measurement.</li>
+<li><strong>Select</strong> Binomial, Poisson, or Exponential from the way the data are generated.</li>
+<li><strong>Calculate</strong> exact, cumulative, tail, and interval probabilities.</li>
+<li><strong>Explain</strong> how Poisson counts and Exponential waiting times arise from the same process.</li>
+<li><strong>Choose</strong> between p, np, c, and u control-chart applications.</li>
+<li><strong>Evaluate</strong> assumptions before trusting a probability or control-chart result.</li>
+</ul>
+<div class="audience-grid">
 <div class="callout good"><strong>Prerequisite:</strong> No prior knowledge is required.</div>
+<div class="callout"><strong>Target audience:</strong> quality professionals, engineers, analysts, students, and anyone who needs to model pass/fail outcomes, defect counts, arrivals, failures, or waiting times.</div>
+<div class="callout"><strong>Tools:</strong> a modern browser. Excel and Minitab are optional for the software-guidance section.</div>
+</div>
 </section>
 <section class="lesson-card" id="key-concepts">
 <h2>1. Start with three different questions</h2>
-<p>Imagine inspecting steel pipes. A pipe may pass or fail, defects may appear along its surface, and the distance between defects may vary. These are three different random variables.</p>
-<div class="grid-3"><div class="concept-card"><div class="icon">✓ / ✕</div><div class="question">How many of 20 pipes fail inspection?</div><p class="answer-type">Answer: 0, 1, 2, …, 20</p><p><strong>Use Binomial.</strong> There is a fixed number of trials, and each pipe has two possible outcomes: fail or pass.</p></div><div class="concept-card"><div class="icon">#</div><div class="question">How many defects occur in 100 metres?</div><p class="answer-type">Answer: 0, 1, 2, 3, …</p><p><strong>Use Poisson.</strong> You are counting random event occurrences inside a fixed interval.</p></div><div class="concept-card"><div class="icon">↔</div><div class="question">How far until the next defect?</div><p class="answer-type">Answer: 4.2 m, 18.7 m, 53.1 m, …</p><p><strong>Use Exponential.</strong> You are measuring a continuous waiting distance between events.</p></div></div>
-<div class="big-memory">Do not choose a distribution because the data are called a “count.” Choose it based on how the count was generated.</div>
+<p>Imagine inspecting steel pipes. A pipe may pass or fail, defects may appear along its surface, and the distance between defects may vary. Those are three different random variables, so they require three different models.</p>
+<div class="grid-3">
+<div class="concept-card"><div class="icon" aria-hidden="true">✓ / ✕</div><div class="question">How many of 20 pipes fail inspection?</div><p class="answer-type">Answer: 0, 1, 2, …, 20</p><p><strong>Use Binomial.</strong> There is a fixed number of trials, and each pipe has two possible outcomes: fail or pass.</p></div>
+<div class="concept-card"><div class="icon" aria-hidden="true">#</div><div class="question">How many defects occur in 100 metres?</div><p class="answer-type">Answer: 0, 1, 2, 3, …</p><p><strong>Use Poisson.</strong> You are counting random event occurrences inside a fixed interval.</p></div>
+<div class="concept-card"><div class="icon" aria-hidden="true">↔</div><div class="question">How far until the next defect?</div><p class="answer-type">Answer: 4.2 m, 18.7 m, 53.1 m, …</p><p><strong>Use Exponential.</strong> You are measuring a continuous waiting distance between events.</p></div>
+</div>
+<div class="big-memory">Do not choose a distribution merely because the data are called a “count.” Choose it from the mechanism that generated the response.</div>
+<div class="callout warn"><strong>What these models do not tell you:</strong> a probability model describes expected random variation under stated assumptions. It does not identify a root cause, prove independence, establish process stability, or guarantee that the rate or probability will remain unchanged.</div>
 <h3>Key terminology</h3>
-<div class="grid-3"><div class="term-card"><strong>Trial</strong><p>One repeated opportunity with two possible outcomes, such as pass/fail.</p></div><div class="term-card"><strong>Success probability, p</strong><p>The probability of the selected outcome on each Binomial trial.</p></div><div class="term-card"><strong>Event</strong><p>Something counted in an interval: defect, call, failure, or inclusion.</p></div><div class="term-card"><strong>Rate, λ</strong><p>The average number of events per unit of time, length, area, or volume.</p></div><div class="term-card"><strong>Count</strong><p>A whole-number result. It may be Binomial or Poisson depending on how it was generated.</p></div><div class="term-card"><strong>Gap</strong><p>The continuous time or distance between consecutive events; modelled by Exponential.</p></div></div>
+<div class="grid-3 terminology-grid">
+<div class="term-card"><strong>Trial</strong><p><span class="term-label">Plain meaning:</span> one repeated opportunity.</p><p><span class="term-label">Technical meaning:</span> one Bernoulli experiment with two mutually exclusive outcomes.</p><p><span class="term-label">Practical interpretation:</span> one pipe, weld, order, or record that can be classified yes/no.</p></div>
+<div class="term-card"><strong>Success probability, p</strong><p><span class="term-label">Plain meaning:</span> the chance of the selected outcome.</p><p><span class="term-label">Technical meaning:</span> the constant Bernoulli probability assigned to each Binomial trial.</p><p><span class="term-label">Practical interpretation:</span> “success” may mean failure, rejection, or any outcome you choose to count.</p></div>
+<div class="term-card"><strong>Event</strong><p><span class="term-label">Plain meaning:</span> something that happens and is counted.</p><p><span class="term-label">Technical meaning:</span> an occurrence in a defined time, length, area, volume, or opportunity interval.</p><p><span class="term-label">Practical interpretation:</span> a defect, call, breakdown, inclusion, or arrival.</p></div>
+<div class="term-card"><strong>Rate, λ</strong><p><span class="term-label">Plain meaning:</span> how frequently events occur.</p><p><span class="term-label">Technical meaning:</span> expected events per unit of exposure in a stationary Poisson process.</p><p><span class="term-label">Practical interpretation:</span> 2 defects per 100 m, 5 calls per hour, or 0.01 failures per day.</p></div>
+<div class="term-card"><strong>Expected count, μ</strong><p><span class="term-label">Plain meaning:</span> the long-run average count in the chosen interval.</p><p><span class="term-label">Technical meaning:</span> μ = λt for a Poisson count over exposure t.</p><p><span class="term-label">Practical interpretation:</span> changing the inspection length changes μ even when λ stays constant.</p></div>
+<div class="term-card"><strong>Gap or waiting time, T</strong><p><span class="term-label">Plain meaning:</span> the time or distance until the next event.</p><p><span class="term-label">Technical meaning:</span> a continuous random variable modelled by Exponential under a constant event rate.</p><p><span class="term-label">Practical interpretation:</span> metres until the next defect or hours until the next arrival.</p></div>
+</div>
 </section>
 <!-- EDIT: Interactive model selector -->
 <section class="lesson-card" id="model-selector">
 <h2>2. Choose the model from the question</h2>
-<p class="section-intro">This decision trainer gives you realistic situations. Read how the response is generated, identify the data type, and then select the model. “Neither” is available because a familiar distribution should not be forced onto a process that violates its assumptions.</p>
+<p class="section-intro">Read how the response is generated, identify the data type, and select the model. “Neither” is available because a familiar distribution should not be forced onto a process that violates its assumptions.</p>
 <div class="interactive-shell">
 <div class="selector-scenario">
 <h3 id="selectorTitle">Incoming inspection</h3>
