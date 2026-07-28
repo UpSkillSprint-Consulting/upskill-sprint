@@ -1,6 +1,13 @@
 name: Assemble Binomial Poisson Exponential lesson
 
 on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
   push:
     branches:
       - agent/add-binomial-poisson-exponential-lesson
@@ -12,9 +19,10 @@ permissions:
 
 jobs:
   assemble:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
-      - name: Check out branch
+      - name: Check out lesson branch
         uses: actions/checkout@v4
         with:
           ref: agent/add-binomial-poisson-exponential-lesson
