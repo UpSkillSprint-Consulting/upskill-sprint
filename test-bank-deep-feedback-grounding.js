@@ -22,6 +22,10 @@
     return slice.slice(0, boundary).trimEnd() + '…';
   }
 
+  function installApiGuard() {
+    if (window.__TBDeepFeedback) window.__TBDeepFeedback.extractKeyPoint = literalKeyPoint;
+  }
+
   function currentExam() {
     const active = document.querySelector('.tb-tile.active[data-exam]');
     const examId = active ? active.dataset.exam : 'cssbb';
@@ -66,15 +70,12 @@
 
   function apply() {
     scheduled = false;
+    installApiGuard();
     const overview = document.getElementById(OVERVIEW_ID);
     if (!overview) return;
     const questions = questionMap();
     replaceReviewPoints(overview, questions);
     replaceSimilarPoint(overview, questions);
-
-    if (window.__TBDeepFeedback) {
-      window.__TBDeepFeedback.extractKeyPoint = literalKeyPoint;
-    }
   }
 
   function schedule() {
@@ -84,12 +85,14 @@
   }
 
   function initialize() {
+    installApiGuard();
     schedule();
     const overview = document.getElementById(OVERVIEW_ID);
     if (overview) new MutationObserver(schedule).observe(overview, { childList: true, subtree: true });
   }
 
   window.__TBFeedbackGrounding = { literalKeyPoint: literalKeyPoint };
+  installApiGuard();
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });
   else initialize();
