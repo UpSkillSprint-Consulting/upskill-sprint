@@ -1,0 +1,32 @@
+export default async function testBankSetControls(request, context) {
+  const response = await context.next();
+  const contentType = response.headers.get('content-type') || '';
+
+  if (!contentType.includes('text/html')) return response;
+
+  const html = await response.text();
+  if (html.includes('/test-bank-set-controls.js')) {
+    return new Response(html, response);
+  }
+
+  const injection = '<script src="/test-bank-set-controls.js" defer></script>';
+  const enhancedHtml = html.includes('</body>')
+    ? html.replace('</body>', injection + '</body>')
+    : html + injection;
+
+  const headers = new Headers(response.headers);
+  headers.delete('content-length');
+  headers.delete('etag');
+
+  return new Response(enhancedHtml, {
+    status: response.status,
+    statusText: response.statusText,
+    headers
+  });
+}
+
+export const config = {
+  path: ['/test-bank', '/test-bank/', '/test-bank.html'],
+  method: 'GET',
+  onError: 'bypass'
+};
