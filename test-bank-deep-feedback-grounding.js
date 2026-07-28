@@ -13,7 +13,7 @@
 
   function literalKeyPoint(explanation) {
     const text = stripHtml(explanation);
-    if (!text) return 'A validated learning point is not available for this question yet.';
+    if (!text) return 'A stored learning point is not available for this question yet.';
     if (text.length <= MAX_POINT_LENGTH) return text;
 
     const slice = text.slice(0, MAX_POINT_LENGTH - 1);
