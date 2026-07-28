@@ -5,11 +5,18 @@ export default async function testBankSetControls(request, context) {
   if (!contentType.includes('text/html')) return response;
 
   const html = await response.text();
-  if (html.includes('/test-bank-set-controls.js')) {
-    return new Response(html, response);
-  }
+  const scripts = [
+    '<script src="/test-bank-set-controls.js" defer></script>',
+    '<script src="/test-bank-feedback-loop.js" defer></script>'
+  ];
+  const missingScripts = scripts.filter(function (script) {
+    const source = script.match(/src="([^"]+)"/)[1];
+    return !html.includes(source);
+  });
 
-  const injection = '<script src="/test-bank-set-controls.js" defer></script>';
+  if (!missingScripts.length) return new Response(html, response);
+
+  const injection = missingScripts.join('');
   const enhancedHtml = html.includes('</body>')
     ? html.replace('</body>', injection + '</body>')
     : html + injection;
