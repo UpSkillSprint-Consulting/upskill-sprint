@@ -1,0 +1,75 @@
+name: Assemble Binomial Poisson Exponential lesson
+
+on:
+  push:
+    branches:
+      - agent/add-binomial-poisson-exponential-lesson
+    paths:
+      - '.lesson-build/ready'
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/add-binomial-poisson-exponential-lesson
+
+      - name: Assemble validated lesson files
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64
+
+          build = Path('.lesson-build')
+          outputs = {
+              'html': Path('lessons/statistics/binomial-poisson-exponential-distributions.html'),
+              'js': Path('lessons/statistics/binomial-poisson-exponential-distributions.js'),
+          }
+          for prefix, output in outputs.items():
+              encoded = ''.join(
+                  part.read_text(encoding='utf-8').strip()
+                  for part in sorted(build.glob(f'{prefix}_*.b64'))
+              )
+              if not encoded:
+                  raise SystemExit(f'Missing {prefix} transfer chunks')
+              output.parent.mkdir(parents=True, exist_ok=True)
+              output.write_bytes(base64.b64decode(encoded, validate=True))
+
+          library = Path('chi-square-lesson-library.js')
+          text = library.read_text(encoding='utf-8')
+          marker = "data-binomial-poisson-exponential-distributions"
+          if marker not in text:
+              before = "    {\n      marker: 'data-beyond-the-bell',"
+              entry = """    {
+      marker: 'data-binomial-poisson-exponential-distributions',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/binomial-poisson-exponential-distributions',
+      topic: 'statistics',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'binomial poisson exponential distributions probability event count yes no trials waiting time poisson process rare event approximation pmf pdf cdf survival c chart u chart p chart np chart excel minitab quality engineering statistics beginner interactive simulator calculator',
+      meta: '<span>Beginner</span><span>Interactive</span><span>25 min</span><span>Excel + Minitab</span>',
+      title: 'Binomial vs. Poisson vs. Exponential',
+      description: 'Choose the right event model, calculate exact and cumulative probabilities, and explore simulations, waiting times, assumptions, and c/u charts.'
+    },
+"""
+              if before not in text:
+                  raise SystemExit('Could not locate Statistics lesson insertion point')
+              text = text.replace(before, entry + before, 1)
+              library.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit clean lesson changes
+        run: |
+          rm -rf .lesson-build
+          rm -f .github/workflows/assemble-binomial-lesson.yml
+          git config user.name "upskillsprint-agent"
+          git config user.email "304186367+upskillsprint-agent@users.noreply.github.com"
+          git add -A
+          git commit -m "Add interactive Binomial, Poisson, and Exponential lesson"
+          git push origin HEAD:agent/add-binomial-poisson-exponential-lesson
