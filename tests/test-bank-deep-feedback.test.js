@@ -11,6 +11,7 @@ const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
 const phase1 = fs.readFileSync(path.join(ROOT, 'test-bank-feedback-loop.js'), 'utf8');
 const phase2 = fs.readFileSync(path.join(ROOT, 'test-bank-deep-feedback.js'), 'utf8');
+const grounding = fs.readFileSync(path.join(ROOT, 'test-bank-deep-feedback-grounding.js'), 'utf8');
 
 const windows = [];
 afterEach(() => {
@@ -46,6 +47,7 @@ async function loadPage() {
   }
   dom.window.eval(phase1);
   dom.window.eval(phase2);
+  dom.window.eval(grounding);
   await settle(dom.window);
   return { window: dom.window, errors };
 }
