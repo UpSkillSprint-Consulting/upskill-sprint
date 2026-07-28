@@ -18,9 +18,13 @@ afterEach(() => {
   });
 });
 
-function settle(window) {
+function settle(window, frames = 2) {
   return new Promise(resolve => {
-    window.requestAnimationFrame(() => window.requestAnimationFrame(resolve));
+    function next(remaining) {
+      if (!remaining) return resolve();
+      window.requestAnimationFrame(() => next(remaining - 1));
+    }
+    next(frames);
   });
 }
 
@@ -64,6 +68,20 @@ test('Quick and Focused Quiz expose Set 1, Set 2, Set 3, and Mixed controls', as
   assert.match(modeCard(window, 1).querySelector('.tb-mode-sum').textContent, /Set 1/);
   assert.match(modeCard(window, 2).querySelector('.tb-mode-sum').textContent, /Set 1/);
   assert.deepEqual(errors, []);
+});
+
+test('entity-containing area names do not create a perpetual summary mutation loop', async () => {
+  const { window } = await loadEnhancedPage();
+  const summary = modeCard(window, 2).querySelector('.tb-mode-sum');
+  assert.match(summary.textContent, /Enterprise & Leadership/);
+
+  let mutations = 0;
+  const observer = new window.MutationObserver(items => { mutations += items.length; });
+  observer.observe(summary, { childList: true, subtree: true, characterData: true });
+  await settle(window, 6);
+  observer.disconnect();
+
+  assert.equal(mutations, 0, 'the stable summary is not rewritten on every animation frame');
 });
 
 test('selecting a Quick Quiz set routes the quiz directly to that question bank', async () => {
