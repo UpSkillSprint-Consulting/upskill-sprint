@@ -80,16 +80,42 @@
         const surfaceSoft = cssValue('--surface-soft');
         const minData = Math.min(...values, lower ?? Infinity, center);
         const maxData = Math.max(...values, upper ?? -Infinity, center);
-        const pad = Math.max((maxData - minData) * 0.12, 0.5);
-        const minY = Math.min(0, minData - pad);
+        const dataSpan = maxData - minData;
+        const pad = Math.max(dataSpan * 0.12, Math.abs(center || maxData || 1) * 0.002, 0.25);
+        const hasZeroLowerLimit = Number.isFinite(lower) && Math.abs(lower) < 1e-12;
+        const minY = hasZeroLowerLimit ? 0 : minData - pad;
         const maxY = maxData + pad;
+        const chartSpan = maxY - minY || 1;
         const xScale = (index) => values.length === 1 ? x + width / 2 : x + (index / (values.length - 1)) * width;
-        const yScale = (value) => y + height - ((value - minY) / (maxY - minY || 1)) * height;
+        const yScale = (value) => y + height - ((value - minY) / chartSpan) * height;
 
         svg.appendChild(makeSvgElement('rect', { x, y, width, height, rx: 8, fill: surfaceSoft, stroke: line }));
         const titleText = makeSvgElement('text', { x: x + 8, y: y - 8, fill: ink, 'font-size': 14, 'font-weight': 800 });
         titleText.textContent = title;
         svg.appendChild(titleText);
+
+        for (let tick = 0; tick <= 4; tick += 1) {
+          const tickValue = maxY - (chartSpan * tick / 4);
+          const yPos = yScale(tickValue);
+          svg.appendChild(makeSvgElement('line', {
+            x1: x,
+            y1: yPos,
+            x2: x + width,
+            y2: yPos,
+            stroke: line,
+            'stroke-width': 0.8,
+            'stroke-dasharray': '2 5'
+          }));
+          const tickLabel = makeSvgElement('text', {
+            x: x - 9,
+            y: yPos + 4,
+            fill: muted,
+            'font-size': 10,
+            'text-anchor': 'end'
+          });
+          tickLabel.textContent = tickValue.toFixed(dataSpan < 10 ? 1 : 0);
+          svg.appendChild(tickLabel);
+        }
 
         const guides = [
           { value: upper, label: 'UCL', color: danger, dash: '5 4' },
@@ -124,9 +150,9 @@
         svg.append(title, desc);
         const signalI = new Set([...result.outI, ...result.runs]);
         const signalMR = new Set(result.outMR);
-        drawPanel(svg, { x: 55, y: 55, width: 820, height: 210, values: result.values, center: result.avg, upper: result.uclI, lower: result.lclI, title: 'Individuals chart', signalIndexes: signalI });
-        drawPanel(svg, { x: 55, y: 345, width: 820, height: 175, values: result.movingRanges, center: result.mrbar, upper: result.uclMR, lower: 0, title: 'Moving Range chart', signalIndexes: signalMR, indexOffset: 1 });
-        const xLabel = makeSvgElement('text', { x: 460, y: 575, fill: cssValue('--muted'), 'font-size': 12, 'text-anchor': 'middle' });
+        drawPanel(svg, { x: 65, y: 55, width: 810, height: 210, values: result.values, center: result.avg, upper: result.uclI, lower: result.lclI, title: 'Individuals chart', signalIndexes: signalI });
+        drawPanel(svg, { x: 65, y: 345, width: 810, height: 175, values: result.movingRanges, center: result.mrbar, upper: result.uclMR, lower: 0, title: 'Moving Range chart', signalIndexes: signalMR, indexOffset: 1 });
+        const xLabel = makeSvgElement('text', { x: 470, y: 575, fill: cssValue('--muted'), 'font-size': 12, 'text-anchor': 'middle' });
         xLabel.textContent = 'Chronological observation sequence';
         svg.appendChild(xLabel);
         chartContainer.appendChild(svg);
