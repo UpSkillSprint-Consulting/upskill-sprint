@@ -1,33 +1,27 @@
       <!-- EDIT: Lesson header -->
-      <header class="hero">
-        <div>
-          <p class="eyebrow">Interactive Minitab SPC reference</p>
-          <h1>Minitab Control Charts: Select, Build, and Interpret the Right Chart</h1>
-          <p class="hero-copy">A one-stop lesson for moving from a process question to the correct Minitab control chart, preparing the worksheet correctly, running the analysis, and interpreting special-cause signals without confusing control limits with specifications.</p>
-          <p><strong>Why this matters:</strong> the wrong chart can create false alarms, hide real process changes, or encourage unnecessary process adjustment.</p>
-          <div class="meta-row" aria-label="Lesson metadata">
-            <span class="badge">Power BI, Excel &amp; SQL</span>
-            <span class="badge">Intermediate</span>
-            <span class="badge">55 minutes</span>
-            <span class="badge">Interactive</span>
-            <span class="badge">Minitab required for software practice</span>
-          </div>
+      <section class="lesson-hero" aria-labelledby="lesson-title">
+        <p class="eyebrow">Power BI, Excel &amp; SQL · Interactive Minitab lesson</p>
+        <h1 id="lesson-title">Minitab Control Charts: Select, Build, and Interpret the Right Chart</h1>
+        <div class="lesson-meta-row" aria-label="Lesson metadata">
+          <span class="pill">Intermediate</span>
+          <span class="pill">55 minutes</span>
+          <span class="pill accent">Interactive</span>
+          <span class="pill">Minitab software guidance</span>
         </div>
-        <aside class="hero-panel" aria-label="Lesson roadmap">
-          <h2>Use this lesson in four moves</h2>
-          <ol>
-            <li>Identify the data type and sampling structure.</li>
-            <li>Use the selector to choose the correct chart.</li>
-            <li>Follow the exact Minitab navigation and dialog setup.</li>
-            <li>Interpret variation first, then process location.</li>
-          </ol>
-          <p class="small">Menu navigation is aligned to Minitab desktop documentation reviewed in July 2026. Labels can vary slightly by release.</p>
-        </aside>
-      </header>
+        <p class="lesson-lede">Move from a process question to the correct Minitab control chart, prepare the worksheet correctly, run the analysis, and interpret special-cause signals without confusing control limits with specifications.</p>
+        <p class="why-it-matters"><strong>Why this matters at work:</strong> the wrong chart can create false alarms, hide real process changes, or encourage unnecessary process adjustment. This lesson turns Minitab’s control-chart menu into one practical analysis workflow.</p>
+      </section>
+
+      <div class="lesson-toolbar" aria-label="Lesson navigation">
+        <a class="back-link" href="/lessons#power-bi-excel-sql">Back to Power BI, Excel &amp; SQL</a>
+        <span class="toolbar-note">Use the selector first, then open the matching Minitab category.</span>
+      </div>
 
       <nav class="lesson-toc" aria-label="Lesson contents">
+        <h2>In this lesson</h2>
         <ul>
-          <li><a href="#learning-objectives">Objectives</a></li>
+          <li><a href="#learning-objectives">Learning objectives</a></li>
+          <li><a href="#prerequisites">Prerequisites</a></li>
           <li><a href="#key-concepts">Foundations</a></li>
           <li><a href="#selector">Chart selector</a></li>
           <li><a href="#minitab-categories">Minitab categories</a></li>
@@ -36,27 +30,34 @@
           <li><a href="#signal-lab">Signal lab</a></li>
           <li><a href="#practice">Practice</a></li>
           <li><a href="#quiz">Quiz</a></li>
-          <li><a href="#summary">Summary</a></li>
+          <li><a href="#summary">Final summary</a></li>
+          <li><a href="#references">References</a></li>
         </ul>
       </nav>
 
-      <section class="lesson-section" id="learning-objectives">
-        <h2>Learning objectives</h2>
-        <p>By the end of this lesson, you will be able to:</p>
-        <div class="grid-3">
-          <div class="info-card"><strong>Select</strong> the correct control chart from Minitab’s six chart categories.</div>
-          <div class="info-card"><strong>Prepare</strong> individual, subgroup, attribute, multivariate, and rare-event data correctly.</div>
-          <div class="info-card"><strong>Navigate</strong> to each chart using the full Minitab menu path.</div>
-          <div class="info-card"><strong>Perform</strong> a defensible control-chart analysis using appropriate tests, stages, and historical parameters.</div>
-          <div class="info-card"><strong>Interpret</strong> center lines, control limits, and special-cause tests in the correct order.</div>
-          <div class="info-card"><strong>Distinguish</strong> process stability from process capability and specification compliance.</div>
+      <!-- EDIT: Learning objectives -->
+      <section class="lesson-section" id="learning-objectives" aria-labelledby="objectives-title">
+        <h2 id="objectives-title">By the end, you should be able to</h2>
+        <div class="panel">
+          <ul class="objectives-list">
+            <li><strong>Select</strong> the correct control chart from Minitab’s six chart categories.</li>
+            <li><strong>Prepare</strong> individual, subgroup, attribute, multivariate, and rare-event data correctly.</li>
+            <li><strong>Navigate</strong> to each chart using the complete Minitab menu path.</li>
+            <li><strong>Perform</strong> a defensible control-chart analysis using appropriate tests, stages, and historical parameters.</li>
+            <li><strong>Interpret</strong> center lines, control limits, variation panels, and special-cause signals in the correct order.</li>
+            <li><strong>Distinguish</strong> process stability from process capability and specification compliance.</li>
+          </ul>
         </div>
-        <h3>Prerequisites</h3>
-        <p>Basic familiarity with averages, variation, and chronological data is helpful. No previous Minitab control-chart experience is required.</p>
       </section>
 
-      <section class="lesson-section" id="key-concepts">
-        <h2>Control charts in plain English</h2>
+      <section class="lesson-section" id="prerequisites" aria-labelledby="prerequisites-title">
+        <h2 id="prerequisites-title">Before you start</h2>
+        <p>Basic familiarity with averages, variation, and chronological data is helpful. No previous Minitab control-chart experience is required.</p>
+        <div class="callout success"><strong>Useful mindset:</strong> the software menu does not choose the chart for you. The data-generating process, subgroup logic, and monitoring objective determine the method.</div>
+      </section>
+
+      <section class="lesson-section" id="key-concepts" aria-labelledby="key-concepts-title">
+        <h2 id="key-concepts-title">Control charts in plain English</h2>
         <p class="section-lead">A control chart is a time-ordered process graph with statistically calculated limits. It answers: <strong>“Is the process behaving like one stable system, or is something unusual changing it?”</strong></p>
         <div class="grid-2">
           <div class="callout success">
@@ -78,7 +79,7 @@
           </div>
         </div>
 
-        <h3>Key terminology</h3>
+        <h3 id="terminology">Key terminology</h3>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Term</th><th>Plain-language meaning</th><th>Practical interpretation</th></tr></thead>
@@ -97,7 +98,7 @@
           </table>
         </div>
 
-        <h3>Core calculations behind common charts</h3>
+        <h3 id="core-formulas">Core calculations behind common charts</h3>
         <div class="grid-3">
           <div class="formula-card">
             <h4>Subgroup mean</h4>
