@@ -2,7 +2,7 @@ name: Fix short-run SPC quiz contrast
 
 on:
   pull_request:
-    types: [ready_for_review]
+    types: [synchronize]
     branches: [main]
 
 permissions:
@@ -87,12 +87,14 @@ jobs:
           print('Quiz contrast CSS updated successfully.')
           PY
 
-      - name: Commit corrected quiz styles
+      - name: Commit corrected quiz styles and remove temporary files
         shell: bash
         run: |
           set -euo pipefail
+          rm -f .quiz-contrast-trigger
+          rm -f .github/workflows/fix-short-run-spc-quiz-contrast.yml
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add lessons/lean-six-sigma/short-run-spc-control-charts.html
+          git add lessons/lean-six-sigma/short-run-spc-control-charts.html .quiz-contrast-trigger .github/workflows/fix-short-run-spc-quiz-contrast.yml
           git commit -m 'fix: improve quiz option contrast'
           git push origin HEAD:agent/add-short-run-spc-lesson
