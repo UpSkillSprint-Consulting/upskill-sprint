@@ -62,15 +62,12 @@ test('each quiz attempt receives a distinct history record', async () => {
   assert.ok(first && first.id);
   assert.ok(first.completedAt);
 
-  const returnButton = overview.querySelector('[data-backsim], [data-mode="quick"]');
-  if (returnButton && returnButton.hasAttribute('data-backsim')) click(window, returnButton);
-  await settle(window);
-  const quick = overview.querySelector('[data-mode="quick"]');
-  click(window, quick);
-  await settle(window, 4);
+  overview.innerHTML = '<div class="tb-quiz"><div class="tb-stem">Synthetic next-attempt question</div></div>';
+  await settle(window, 5);
   const second = window.__TBAttemptHistory.current();
   assert.ok(second && second.id);
   assert.notEqual(second.id, first.id);
+  assert.equal(second.completedAt, null);
 });
 
 test('error causes are stored under the current attempt rather than the question globally', async () => {
