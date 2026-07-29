@@ -1,0 +1,54 @@
+      <section class="lesson-section" id="signal-lab">
+        <h2>Interactive I-MR signal lab</h2>
+        <p class="section-lead">Paste one chronological continuous observation per line or separate values with commas. The lab calculates an educational I-MR chart, Test 1 signals, and a nine-point same-side run. It is not a replacement for Minitab’s complete methods and options.</p>
+        <div class="lab-grid">
+          <div>
+            <div class="field-group">
+              <label for="imr-data">Process observations</label>
+              <textarea id="imr-data" spellcheck="false">799, 801, 800, 802, 798, 801, 800, 803, 799, 801, 800, 802, 801, 800, 802, 804, 805, 806, 805, 807, 806, 808, 807, 809, 808</textarea>
+              <small>Minimum: 10 valid numeric observations.</small>
+            </div>
+            <div class="button-row">
+              <button class="button-primary" type="button" id="analyze-imr">Analyze data</button>
+              <button type="button" id="load-stable">Load stable example</button>
+              <button type="button" id="load-shift">Load shift example</button>
+              <button type="button" id="reset-imr">Reset</button>
+            </div>
+            <p class="error-box" id="imr-error" role="alert"></p>
+            <div class="callout warning">
+              <strong>Assumptions:</strong> values are time ordered, consecutive observations are not strongly autocorrelated, one stable measurement system is used, and the data represent one process unless stages are intentionally defined.
+            </div>
+          </div>
+          <div>
+            <div class="metric-grid" aria-label="I-MR summary statistics">
+              <div class="metric"><span>Observations</span><strong id="metric-n">—</strong></div>
+              <div class="metric"><span>Mean</span><strong id="metric-mean">—</strong></div>
+              <div class="metric"><span>MR average</span><strong id="metric-mrbar">—</strong></div>
+              <div class="metric"><span>Estimated sigma</span><strong id="metric-sigma">—</strong></div>
+            </div>
+            <div class="chart-canvas" id="imr-chart" role="img" aria-label="Interactive Individuals and Moving Range chart"></div>
+            <div id="imr-findings" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="interpretation-guide">
+        <h2>Interpretation guide: when you see this, it means this</h2>
+        <div class="table-wrap">
+          <table class="interpretation-table">
+            <thead><tr><th>When you see this</th><th>What it may mean</th><th>What to do next</th></tr></thead>
+            <tbody>
+              <tr><td>Variation chart out of control</td><td>The short-term variation estimate is unstable.</td><td>Investigate variation signals first; delay conclusions from the mean chart.</td></tr>
+              <tr><td>One point beyond a control limit</td><td>A large special cause may have occurred.</td><td>Trace the exact time to material, equipment, setup, measurement, and operating records.</td></tr>
+              <tr><td>Nine points on one side</td><td>The process level may have shifted.</td><td>Identify a change point, verify whether it was intentional, and consider staged limits.</td></tr>
+              <tr><td>Six points steadily increasing</td><td>A drift may be occurring.</td><td>Check wear, thermal buildup, tool condition, calibration drift, or progressive material change.</td></tr>
+              <tr><td>P or U limits change each subgroup</td><td>Sample size or opportunity varies.</td><td>Do not force constant limits; verify the subgroup-size column is correct.</td></tr>
+              <tr><td>Many P/U signals with huge samples</td><td>Overdispersion, underdispersion, or mixed process structure may exist.</td><td>Investigate the structure, then assess Laney P′ or U′ if appropriate.</td></tr>
+              <tr><td>G/T point becomes very low</td><td>Rare adverse events are occurring closer together.</td><td>Escalate the investigation even though low values may look visually “better” on ordinary charts.</td></tr>
+              <tr><td>T² signal with stable univariate charts</td><td>The joint combination of variables is unusual.</td><td>Examine contributions, correlations, and process context rather than dismissing the signal.</td></tr>
+              <tr><td>All points inside limits but process misses specs</td><td>The process may be stable but incapable.</td><td>Perform capability analysis after confirming stability.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
