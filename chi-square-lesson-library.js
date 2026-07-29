@@ -111,6 +111,18 @@
       description: 'DOE, Design of Experiment'
     },
     {
+      marker: 'data-short-run-spc-control-charts',
+      sectionId: 'lean-six-sigma',
+      path: '/lessons/lean-six-sigma/short-run-spc-control-charts',
+      topic: 'lean-six-sigma',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'short run spc short-run control charts high mix low volume x nominal x target dnom z mr z-mr z w standardized p np c u chart selection product family steel mill minitab excel lean six sigma intermediate interactive',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>50 min</span><span>Excel + Minitab</span>',
+      title: 'Short-Run SPC: Control Charts for High-Mix, Low-Volume Processes',
+      description: 'Select, calculate, and interpret short-run SPC charts using a clickable decision flowchart, product-family checks, and steel-mill examples.'
+    },
+    {
       marker: 'data-understanding-dot-notation',
       sectionId: 'statistics',
       path: '/lessons/statistics/understanding-dot-notation',
