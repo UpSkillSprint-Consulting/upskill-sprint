@@ -1,12 +1,12 @@
       <section class="lesson-section" id="signal-lab">
         <h2>Interactive I-MR signal lab</h2>
-        <p class="section-lead">Paste one chronological continuous observation per line or separate values with commas. The lab calculates an educational I-MR chart, Test 1 signals, and a nine-point same-side run. It is not a replacement for Minitab’s complete methods and options.</p>
+        <p class="section-lead">Paste chronological continuous observations—one per line or separated with commas. The lab recalculates the limits and automatically adapts each chart’s scale, tick spacing, number format, x-axis labels, line weight, and marker density to the values and number of observations supplied. It detects Test 1 signals and a nine-point same-side run. It is not a replacement for Minitab’s complete methods and options.</p>
         <div class="lab-grid">
           <div>
             <div class="field-group">
               <label for="imr-data">Process observations</label>
               <textarea id="imr-data" spellcheck="false">799, 801, 800, 802, 798, 801, 800, 803, 799, 801, 800, 802, 801, 800, 802, 804, 805, 806, 805, 807, 806, 808, 807, 809, 808</textarea>
-              <small>Minimum: 10 valid numeric observations.</small>
+              <small>Enter 10 to 1,000 valid numeric observations. Negative values, decimals, very small values, and large values are supported.</small>
             </div>
             <div class="button-row">
               <button class="button-primary" type="button" id="analyze-imr">Analyze data</button>
@@ -51,4 +51,3 @@
           </table>
         </div>
       </section>
-
