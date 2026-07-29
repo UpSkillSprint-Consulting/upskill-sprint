@@ -12,6 +12,7 @@ const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
 const sources = [
   'test-bank-set-controls.js',
   'test-bank-feedback-loop.js',
+  'test-bank-phase1-api.js',
   'test-bank-deep-feedback.js',
   'test-bank-deep-feedback-grounding.js',
   'test-bank-phase2-hardening.js',
@@ -77,6 +78,7 @@ test('edge injection loads every phase exactly once and in dependency order', ()
   const expected = [
     '/test-bank-set-controls.js',
     '/test-bank-feedback-loop.js',
+    '/test-bank-phase1-api.js',
     '/test-bank-deep-feedback.js',
     '/test-bank-phase2-hardening.js',
     '/test-bank-adaptive-mastery.js',
@@ -98,6 +100,7 @@ test('all three phase APIs coexist without runtime errors', async () => {
   const health = window.__TBPhaseIntegration.health();
   assert.equal(health.ok, true, health.issues.join('; '));
   assert.deepEqual(JSON.parse(JSON.stringify(health.phases)), { phase1: true, phase2: true, phase3: true });
+  assert.equal(window.__TBFeedbackLoop.healthy(), true);
   assert.deepEqual(errors, []);
 });
 
@@ -108,6 +111,7 @@ test('a completed quiz creates one integrated feedback loop and one mastery dash
   assert.equal(overview.querySelectorAll('#tb-adaptive-mastery').length, 1);
   assert.ok(overview.querySelector('.tb-quality-audit'));
   assert.ok(overview.querySelector('.tb-mastery-reliability'));
+  assert.equal(window.__TBFeedbackLoop.status().feedbackRendered, true);
   assert.equal(window.__TBPhaseIntegration.health().ok, true);
   assert.deepEqual(errors, []);
 });
