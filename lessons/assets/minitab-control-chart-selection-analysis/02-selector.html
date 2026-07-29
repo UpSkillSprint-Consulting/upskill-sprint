@@ -1,0 +1,92 @@
+      <section class="lesson-section" id="selector">
+        <h2>Interactive control-chart selector</h2>
+        <p class="section-lead">Answer the questions based on how the data are generated—not based on which chart looks familiar.</p>
+        <div class="wizard">
+          <form class="form-stack" id="selector-form" novalidate>
+            <div class="field-group">
+              <label for="data-family">1. What kind of process data do you have?</label>
+              <select id="data-family" name="data-family">
+                <option value="continuous">One continuous measurement</option>
+                <option value="attribute">Counts of defectives or defects</option>
+                <option value="multivariate">Two or more correlated continuous measurements</option>
+                <option value="rare">Time or opportunities between rare events</option>
+              </select>
+            </div>
+
+            <div class="field-group selector-conditional" id="continuous-structure-group">
+              <label for="continuous-structure">2. How are continuous measurements collected?</label>
+              <select id="continuous-structure" name="continuous-structure">
+                <option value="individual">One observation per time point</option>
+                <option value="subgroup-small">Rational subgroups of 2–8</option>
+                <option value="subgroup-large">Rational subgroups of 9 or more</option>
+                <option value="nested">Repeated measurements within each distinct part or batch</option>
+              </select>
+            </div>
+
+            <div class="field-group selector-conditional" id="continuous-goal-group">
+              <label for="continuous-goal">3. What is the main monitoring objective?</label>
+              <select id="continuous-goal" name="continuous-goal">
+                <option value="mean-and-variation">Mean and variation</option>
+                <option value="mean-only">Process level only</option>
+                <option value="variation-only">Variation only</option>
+                <option value="small-shift">Detect a small sustained shift</option>
+                <option value="mixed-products">Short runs with different products or targets</option>
+              </select>
+            </div>
+
+            <div class="field-group selector-conditional" id="attribute-type-group" hidden>
+              <label for="attribute-type">2. Are you counting defective units or individual defects?</label>
+              <select id="attribute-type" name="attribute-type">
+                <option value="defectives">Defective units: pass/fail</option>
+                <option value="defects">Defects: multiple per unit are possible</option>
+              </select>
+            </div>
+
+            <div class="field-group selector-conditional" id="sample-size-group" hidden>
+              <label for="sample-size-pattern">3. Is sample size or inspection opportunity constant?</label>
+              <select id="sample-size-pattern" name="sample-size-pattern">
+                <option value="varying">It varies</option>
+                <option value="constant">It is constant</option>
+              </select>
+            </div>
+
+            <div class="field-group selector-conditional" id="dispersion-group" hidden>
+              <label for="dispersion-status">4. Does the traditional P or U chart show overdispersion or underdispersion?</label>
+              <select id="dispersion-status" name="dispersion-status">
+                <option value="no">No or not yet assessed</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+
+            <div class="field-group selector-conditional" id="multivariate-goal-group" hidden>
+              <label for="multivariate-goal">2. What do you need to monitor jointly?</label>
+              <select id="multivariate-goal" name="multivariate-goal">
+                <option value="both">Joint mean and joint variation</option>
+                <option value="mean">Joint mean only</option>
+                <option value="variation">Joint variation only</option>
+                <option value="small-shifts">Small joint mean shifts</option>
+              </select>
+            </div>
+
+            <div class="field-group selector-conditional" id="rare-type-group" hidden>
+              <label for="rare-type">2. How is spacing between rare events recorded?</label>
+              <select id="rare-type" name="rare-type">
+                <option value="opportunities">Number of units, opportunities, or whole days</option>
+                <option value="continuous-time">Exact elapsed time or date-time stamps</option>
+              </select>
+            </div>
+
+            <div class="button-row">
+              <button class="button-primary" type="submit">Recommend a chart</button>
+              <button class="button-secondary" type="reset">Reset selector</button>
+            </div>
+          </form>
+
+          <div class="wizard-result" id="selector-result" aria-live="polite">
+            <p class="kicker">Recommendation</p>
+            <h3>Complete the selector</h3>
+            <p>Your recommended chart, Minitab navigation path, data layout, and interpretation order will appear here.</p>
+          </div>
+        </div>
+      </section>
+
