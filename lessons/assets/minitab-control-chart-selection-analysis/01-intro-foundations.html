@@ -1,0 +1,137 @@
+      <!-- EDIT: Lesson header -->
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Interactive Minitab SPC reference</p>
+          <h1>Minitab Control Charts: Select, Build, and Interpret the Right Chart</h1>
+          <p class="hero-copy">A one-stop lesson for moving from a process question to the correct Minitab control chart, preparing the worksheet correctly, running the analysis, and interpreting special-cause signals without confusing control limits with specifications.</p>
+          <p><strong>Why this matters:</strong> the wrong chart can create false alarms, hide real process changes, or encourage unnecessary process adjustment.</p>
+          <div class="meta-row" aria-label="Lesson metadata">
+            <span class="badge">Power BI, Excel &amp; SQL</span>
+            <span class="badge">Intermediate</span>
+            <span class="badge">55 minutes</span>
+            <span class="badge">Interactive</span>
+            <span class="badge">Minitab required for software practice</span>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Lesson roadmap">
+          <h2>Use this lesson in four moves</h2>
+          <ol>
+            <li>Identify the data type and sampling structure.</li>
+            <li>Use the selector to choose the correct chart.</li>
+            <li>Follow the exact Minitab navigation and dialog setup.</li>
+            <li>Interpret variation first, then process location.</li>
+          </ol>
+          <p class="small">Menu navigation is aligned to Minitab desktop documentation reviewed in July 2026. Labels can vary slightly by release.</p>
+        </aside>
+      </header>
+
+      <nav class="lesson-toc" aria-label="Lesson contents">
+        <ul>
+          <li><a href="#learning-objectives">Objectives</a></li>
+          <li><a href="#key-concepts">Foundations</a></li>
+          <li><a href="#selector">Chart selector</a></li>
+          <li><a href="#minitab-categories">Minitab categories</a></li>
+          <li><a href="#analysis-workflow">Analysis workflow</a></li>
+          <li><a href="#worked-example">Worked example</a></li>
+          <li><a href="#signal-lab">Signal lab</a></li>
+          <li><a href="#practice">Practice</a></li>
+          <li><a href="#quiz">Quiz</a></li>
+          <li><a href="#summary">Summary</a></li>
+        </ul>
+      </nav>
+
+      <section class="lesson-section" id="learning-objectives">
+        <h2>Learning objectives</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <div class="grid-3">
+          <div class="info-card"><strong>Select</strong> the correct control chart from Minitab’s six chart categories.</div>
+          <div class="info-card"><strong>Prepare</strong> individual, subgroup, attribute, multivariate, and rare-event data correctly.</div>
+          <div class="info-card"><strong>Navigate</strong> to each chart using the full Minitab menu path.</div>
+          <div class="info-card"><strong>Perform</strong> a defensible control-chart analysis using appropriate tests, stages, and historical parameters.</div>
+          <div class="info-card"><strong>Interpret</strong> center lines, control limits, and special-cause tests in the correct order.</div>
+          <div class="info-card"><strong>Distinguish</strong> process stability from process capability and specification compliance.</div>
+        </div>
+        <h3>Prerequisites</h3>
+        <p>Basic familiarity with averages, variation, and chronological data is helpful. No previous Minitab control-chart experience is required.</p>
+      </section>
+
+      <section class="lesson-section" id="key-concepts">
+        <h2>Control charts in plain English</h2>
+        <p class="section-lead">A control chart is a time-ordered process graph with statistically calculated limits. It answers: <strong>“Is the process behaving like one stable system, or is something unusual changing it?”</strong></p>
+        <div class="grid-2">
+          <div class="callout success">
+            <h3>What a control chart tells you</h3>
+            <ul>
+              <li>Whether variation appears consistent over time.</li>
+              <li>Whether an unusual point, shift, trend, cycle, or mixture pattern may require investigation.</li>
+              <li>Whether process changes produced a sustained change.</li>
+            </ul>
+          </div>
+          <div class="callout warning">
+            <h3>What it does not tell you</h3>
+            <ul>
+              <li>Whether the process meets customer specifications.</li>
+              <li>Why a special cause occurred.</li>
+              <li>Whether the measurement system is trustworthy.</li>
+              <li>Whether correlation proves causation.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Key terminology</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Term</th><th>Plain-language meaning</th><th>Practical interpretation</th></tr></thead>
+            <tbody>
+              <tr><td>Common-cause variation</td><td>Routine background variation built into the current system.</td><td>Improve the system; do not chase individual points.</td></tr>
+              <tr><td>Special-cause variation</td><td>An unusual source that is not consistently present.</td><td>Investigate the specific time, material, setup, equipment, operator, or environment.</td></tr>
+              <tr><td>Center line</td><td>The expected process level or rate.</td><td>Usually estimated from baseline data unless a validated historical parameter is entered.</td></tr>
+              <tr><td>Control limits</td><td>Expected boundaries for a stable process.</td><td>Usually based on approximately ±3 standard deviations, with chart-specific distributions.</td></tr>
+              <tr><td>Specification limits</td><td>Engineering or customer acceptance requirements.</td><td>They evaluate conformance, not stability. They should not replace control limits.</td></tr>
+              <tr><td>Rational subgroup</td><td>Observations collected under nearly identical short-term conditions.</td><td>Within-subgroup variation represents short-term noise; between-subgroup differences reveal process changes.</td></tr>
+              <tr><td>Defective</td><td>A unit classified once as pass/fail.</td><td>Use P, NP, or Laney P′ charts.</td></tr>
+              <tr><td>Defect</td><td>An individual nonconformity; one unit may have several.</td><td>Use C, U, or Laney U′ charts.</td></tr>
+              <tr><td>Phase I</td><td>Establish and clean a historical baseline.</td><td>Investigate special causes and estimate defensible limits.</td></tr>
+              <tr><td>Phase II</td><td>Monitor future production against established limits.</td><td>Use frozen historical limits unless the process is intentionally changed.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Core calculations behind common charts</h3>
+        <div class="grid-3">
+          <div class="formula-card">
+            <h4>Subgroup mean</h4>
+            <div class="formula"><span>x̄<sub>i</sub> = </span><span class="fraction"><span>Σx<sub>ij</sub></span><span>n<sub>i</sub></span></span></div>
+            <p>Average of the observations in subgroup <em>i</em>.</p>
+          </div>
+          <div class="formula-card">
+            <h4>Range within a subgroup</h4>
+            <div class="formula">R<sub>i</sub> = x<sub>max,i</sub> − x<sub>min,i</sub></div>
+            <p>Used by R charts and Xbar-R charts for smaller subgroups.</p>
+          </div>
+          <div class="formula-card">
+            <h4>Moving range</h4>
+            <div class="formula">MR<sub>i</sub> = |x<sub>i</sub> − x<sub>i−1</sub>|</div>
+            <p>Measures change between consecutive individual values—or consecutive subgroup means in an I-MR-R/S chart.</p>
+          </div>
+          <div class="formula-card">
+            <h4>Proportion defective</h4>
+            <div class="formula"><span>p<sub>i</sub> = </span><span class="fraction"><span>d<sub>i</sub></span><span>n<sub>i</sub></span></span></div>
+            <p><em>d</em> is the number defective; <em>n</em> is the number inspected.</p>
+          </div>
+          <div class="formula-card">
+            <h4>Defects per unit</h4>
+            <div class="formula"><span>u<sub>i</sub> = </span><span class="fraction"><span>c<sub>i</sub></span><span>n<sub>i</sub></span></span></div>
+            <p><em>c</em> is the number of defects; <em>n</em> is the inspection opportunity.</p>
+          </div>
+          <div class="formula-card">
+            <h4>EWMA statistic</h4>
+            <div class="formula">Z<sub>t</sub> = λx<sub>t</sub> + (1 − λ)Z<sub>t−1</sub></div>
+            <p>Recent data receive more weight; smaller λ values provide more smoothing.</p>
+          </div>
+        </div>
+        <div class="callout danger">
+          <strong>Golden rule:</strong> stabilize the variation chart before interpreting the process-location chart. For Xbar-R, read R before Xbar. For Xbar-S, read S before Xbar. For I-MR, read MR before I. For I-MR-R/S, read R/S, then MR, then I. For T²-Generalized Variance, read Generalized Variance before T².
+        </div>
+      </section>
+
