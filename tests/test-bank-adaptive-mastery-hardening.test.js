@@ -1,0 +1,136 @@
+'use strict';
+
+const assert = require('node:assert/strict');
+const test = require('node:test');
+const { afterEach } = require('node:test');
+const fs = require('node:fs');
+const path = require('node:path');
+const { JSDOM, VirtualConsole } = require('jsdom');
+
+const ROOT = path.join(__dirname, '..');
+const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
+const mastery = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery.js'), 'utf8');
+const hardening = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery-hardening.js'), 'utf8');
+const completion = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery-completion-guard.js'), 'utf8');
+const windows = [];
+afterEach(() => windows.splice(0).forEach(window => { try { window.close(); } catch (error) {} }));
+
+function settle(window, frames = 4) {
+  return new Promise(resolve => {
+    function next(count) {
+      if (!count) return resolve();
+      window.requestAnimationFrame(() => next(count - 1));
+    }
+    next(frames);
+  });
+}
+
+async function load() {
+  const errors = [];
+  const virtualConsole = new VirtualConsole();
+  virtualConsole.on('jsdomError', error => errors.push(error.message));
+  const dom = new JSDOM(html, { url: 'https://upskillsprint.com/test-bank', runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole });
+  windows.push(dom.window);
+  await new Promise(resolve => dom.window.addEventListener('load', resolve));
+  if (!dom.window.Element.prototype.scrollIntoView) dom.window.Element.prototype.scrollIntoView = function () {};
+  dom.window.eval(mastery);
+  dom.window.eval(hardening);
+  dom.window.eval(completion);
+  await settle(dom.window);
+  return { window: dom.window, errors };
+}
+
+function hash(value) {
+  let output = 2166136261;
+  String(value || '').split('').forEach(character => {
+    output ^= character.charCodeAt(0);
+    output = Math.imul(output, 16777619);
+  });
+  return (output >>> 0).toString(36);
+}
+
+function questions(window) {
+  const exam = window.__TB.EXAMS.cssbb;
+  const seen = new Set();
+  return Object.values(exam.sets).flat().filter(question => {
+    if (!question || !question.stem || seen.has(question.stem)) return false;
+    seen.add(question.stem);
+    return true;
+  });
+}
+
+function seedStore(window, attemptedQuestions, timestamp) {
+  const states = {};
+  attemptedQuestions.forEach((question, index) => {
+    states[hash(question.stem)] = {
+      id: hash(question.stem), stem: question.stem, sub: question.sub, attempts: 5, correct: index % 3 ? 4 : 2,
+      incorrect: index % 3 ? 1 : 3, unanswered: 0, streak: index % 3 ? 3 : 0, ease: 2.3,
+      intervalDays: 1, dueAt: timestamp - 86400000, lastSeenAt: timestamp - 5 * 86400000,
+      lastStatus: index % 3 ? 'correct' : 'incorrect', mastery: index % 3 ? 80 : 35, history: []
+    };
+  });
+  window.localStorage.setItem('tb-adaptive-mastery-v1', JSON.stringify({ version: 1, exams: { cssbb: { questions: states, attempts: [], sessions: [] } } }));
+}
+
+test('effective mastery decays when retrieval becomes stale', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveHardening;
+  const state = { attempts: 5, correct: 5, streak: 4, lastSeenAt: Date.UTC(2026, 6, 1) };
+  const fresh = api.effectiveMastery(state, Date.UTC(2026, 6, 1));
+  const stale = api.effectiveMastery(state, Date.UTC(2026, 7, 15));
+  assert.ok(fresh > stale);
+  assert.ok(stale <= fresh - 10);
+});
+
+test('coverage-adjusted readiness prevents a tiny evidence sample from looking exam-ready', async () => {
+  const { window } = await load();
+  const timestamp = Date.now();
+  const bank = questions(window);
+  seedStore(window, bank.slice(0, 2), timestamp);
+  const summary = window.__TBAdaptiveHardening.summary(timestamp);
+  assert.equal(summary.attempted, 2);
+  assert.ok(summary.coverage < 2);
+  assert.ok(summary.readiness < summary.attemptedMastery);
+});
+
+test('balanced sessions reserve new material even when many reviews are overdue', async () => {
+  const { window } = await load();
+  const timestamp = Date.now();
+  const bank = questions(window);
+  seedStore(window, bank.slice(0, 30), timestamp);
+  const candidates = window.__TBAdaptiveHardening.balancedCandidates(10, timestamp);
+  const attempted = new Set(bank.slice(0, 30).map(question => question.stem));
+  assert.equal(candidates.length, 10);
+  assert.ok(candidates.some(question => !attempted.has(question.stem)), 'at least one unseen question is reserved');
+  assert.ok(new Set(candidates.map(question => question.sub)).size >= 2, 'session is diversified across subtopics');
+});
+
+test('paused adaptive sessions are restored at the saved question', async () => {
+  const { window } = await load();
+  const bank = questions(window).slice(0, 3);
+  window.localStorage.setItem('tb-adaptive-session-v2', JSON.stringify({
+    version: 2, examId: 'cssbb', id: 'saved', startedAt: Date.now(), stems: bank.map(question => question.stem),
+    reasons: ['due', 'weak', 'new'], index: 1, answers: { 0: bank[0].answer }, checked: { 0: true }, results: [], complete: false
+  }));
+  const restored = window.__TBAdaptiveHardening.restoreSession();
+  assert.ok(restored);
+  assert.equal(restored.index, 1);
+  assert.equal(restored.items.length, 3);
+});
+
+test('completion guard records the final session without a runtime exception', async () => {
+  const { window, errors } = await load();
+  const bank = questions(window).slice(0, 2);
+  const overview = window.document.getElementById('tb-overview');
+  overview.innerHTML = '<section id="tb-feedback-loop"><div id="tb-feedback-live"></div><section id="tb-adaptive-mastery"><div id="tb-adaptive-panel"><button type="button" data-v2-next>Finish session</button></div></section></section>';
+  window.localStorage.setItem('tb-adaptive-session-v2', JSON.stringify({
+    version: 2, examId: 'cssbb', stems: bank.map(question => question.stem), index: 1,
+    answers: { 0: bank[0].answer, 1: bank[1].answer }, checked: { 0: true, 1: true }, results: [], complete: false
+  }));
+  overview.querySelector('[data-v2-next]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 3);
+  assert.equal(window.localStorage.getItem('tb-adaptive-session-v2'), null);
+  assert.match(overview.querySelector('#tb-adaptive-panel').textContent, /Adaptive session complete/);
+  assert.equal(window.__TBAdaptiveMastery.store().exams.cssbb.attempts.length, 1);
+  assert.deepEqual(errors, []);
+});
