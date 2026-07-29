@@ -77,7 +77,7 @@
     {
       marker: 'data-minitab-control-chart-master-guide',
       sectionId: 'power-bi-excel-sql',
-      path: '/lessons/minitab-control-chart-selection-analysis',
+      path: '/lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis',
       topic: 'power-bi-excel-sql',
       level: 'intermediate',
       interactive: 'true',
