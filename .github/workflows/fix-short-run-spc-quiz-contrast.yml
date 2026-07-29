@@ -2,7 +2,7 @@ name: Fix short-run SPC quiz contrast
 
 on:
   pull_request:
-    types: [reopened]
+    types: [opened]
     branches: [main]
 
 permissions:
