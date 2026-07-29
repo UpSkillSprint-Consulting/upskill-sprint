@@ -1,12 +1,13 @@
 name: Assemble short-run SPC lesson
 
 on:
-  push:
+  pull_request:
     branches:
-      - agent/add-short-run-spc-lesson
-    paths:
-      - .github/workflows/assemble-short-run-spc.yml
-      - .lesson-build/short-run-spc/READY
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
   workflow_dispatch:
 
 permissions:
@@ -14,7 +15,7 @@ permissions:
 
 jobs:
   assemble:
-    if: github.event_name == 'workflow_dispatch' || github.event.head_commit.message != 'feat: add short-run SPC lesson'
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - name: Check out branch
@@ -22,7 +23,18 @@ jobs:
         with:
           ref: agent/add-short-run-spc-lesson
 
+      - name: Check assembly state
+        id: state
+        shell: bash
+        run: |
+          if [ -d .lesson-build/short-run-spc/gz ]; then
+            echo 'needs_assembly=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'needs_assembly=false' >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Reconstruct and verify files
+        if: steps.state.outputs.needs_assembly == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -41,6 +53,7 @@ jobs:
           mv /tmp/chi-square-lesson-library.js chi-square-lesson-library.js
 
       - name: Validate lesson integration
+        if: steps.state.outputs.needs_assembly == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -79,6 +92,7 @@ jobs:
           npm test
 
       - name: Commit final website files
+        if: steps.state.outputs.needs_assembly == 'true'
         shell: bash
         run: |
           set -euo pipefail
