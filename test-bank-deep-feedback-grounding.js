@@ -2,7 +2,6 @@
   'use strict';
 
   const OVERVIEW_ID = 'tb-overview';
-  const MAX_POINT_LENGTH = 280;
   let scheduled = false;
 
   function stripHtml(value) {
@@ -14,12 +13,8 @@
   function literalKeyPoint(explanation) {
     const text = stripHtml(explanation);
     if (!text) return 'A stored learning point is not available for this question yet.';
-    if (text.length <= MAX_POINT_LENGTH) return text;
-
-    const slice = text.slice(0, MAX_POINT_LENGTH - 1);
-    const lastSpace = slice.lastIndexOf(' ');
-    const boundary = lastSpace >= 180 ? lastSpace : slice.length;
-    return slice.slice(0, boundary).trimEnd() + '…';
+    const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+    return sentences[0].trim();
   }
 
   function installApiGuard() {
@@ -43,13 +38,17 @@
     return map;
   }
 
+  function setTextIfChanged(node, value) {
+    if (node && node.textContent !== value) node.textContent = value;
+  }
+
   function replaceReviewPoints(root, questions) {
     root.querySelectorAll('.tb-review-card').forEach(function (card) {
       const stem = card.querySelector('.tb-review-stem');
       const point = card.querySelector('.tb-key-point');
       if (!stem || !point) return;
       const question = questions.get(stem.textContent.trim());
-      if (question) point.textContent = literalKeyPoint(question.why);
+      if (question) setTextIfChanged(point, literalKeyPoint(question.why));
     });
   }
 
@@ -63,8 +62,7 @@
 
     panel.querySelectorAll('.tb-deep-label').forEach(function (label) {
       if (label.textContent.trim() !== 'Key learning point') return;
-      const point = label.nextElementSibling;
-      if (point) point.textContent = literalKeyPoint(question.why);
+      setTextIfChanged(label.nextElementSibling, literalKeyPoint(question.why));
     });
   }
 
