@@ -1,0 +1,94 @@
+        <div class="category-block" id="category-time-weighted">
+          <div class="category-heading">
+            <div><p class="kicker">Category 4</p><h3>Time-Weighted Charts</h3></div>
+            <span class="category-tag">Continuous data where small sustained shifts matter</span>
+          </div>
+          <p>These charts use information from previous observations. They can detect small persistent shifts earlier than traditional Shewhart charts when designed and interpreted correctly.</p>
+          <div class="chart-grid">
+            <article class="chart-card advanced" id="chart-cusum">
+              <h4>CUSUM</h4>
+              <p><strong>Best for:</strong> detecting a small persistent shift from a defined target by accumulating deviations.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Time-Weighted Charts &gt; CUSUM</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Use individual observations or subgroup means in time order.</li><li>Define the target mean and an appropriate standard deviation.</li><li>Open CUSUM and enter the variable plus subgroup information if applicable.</li><li>Specify the shift size or CUSUM parameters based on the operationally meaningful change.</li><li>Interpret upper and lower cumulative paths against decision boundaries.</li></ol></details>
+              <p class="small">CUSUM does not use Minitab’s standard tests-for-special-causes menu.</p>
+            </article>
+
+            <article class="chart-card advanced" id="chart-ewma">
+              <h4>EWMA</h4>
+              <p><strong>Best for:</strong> detecting small sustained mean shifts while weighting recent observations more heavily.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Time-Weighted Charts &gt; EWMA</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Prepare chronological individual values or subgroup means.</li><li>Open EWMA and enter the variable plus subgroup information if used.</li><li>Enter the EWMA weight λ; smaller values create stronger smoothing.</li><li>Use a validated target and standard deviation where available.</li><li>Investigate points beyond EWMA limits or sustained movement toward a limit.</li></ol></details>
+            </article>
+
+            <article class="chart-card" id="chart-moving-average">
+              <h4>Moving Average</h4>
+              <p><strong>Best for:</strong> smoothing noise using an equal-weight rolling window.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Time-Weighted Charts &gt; Moving Average</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Place values in chronological order.</li><li>Open Moving Average.</li><li>Enter the variable and moving-average length.</li><li>Select a window that reflects the process cadence—not one chosen only because it makes the graph smooth.</li><li>Interpret the moving averages against their control limits.</li></ol></details>
+              <p class="small">Minitab generally recommends EWMA over a simple moving-average chart because EWMA uses all previous observations with decreasing weights.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="category-block" id="category-multivariate">
+          <div class="category-heading">
+            <div><p class="kicker">Category 5</p><h3>Multivariate Charts</h3></div>
+            <span class="category-tag">Two or more correlated continuous variables</span>
+          </div>
+          <p>Use when several correlated measurements jointly describe process condition. A multivariate signal means the combination is unusual; it does not automatically identify the responsible variable.</p>
+          <div class="chart-grid">
+            <article class="chart-card advanced" id="chart-t2">
+              <h4>T²</h4>
+              <p><strong>Best for:</strong> monitoring the joint mean vector of correlated continuous measurements.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Multivariate Charts &gt; T²</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Place each process variable in its own column.</li><li>Use rows for the same time point or subgroup.</li><li>Open T² and enter the variables plus subgroup IDs if applicable.</li><li>Create the chart and investigate out-of-control T² points.</li><li>Return to univariate charts, contribution diagnostics, and process records to identify drivers.</li></ol></details>
+            </article>
+
+            <article class="chart-card advanced" id="chart-gv">
+              <h4>Generalized Variance</h4>
+              <p><strong>Best for:</strong> monitoring joint dispersion and covariance among correlated variables.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Multivariate Charts &gt; Generalized Variance</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Enter correlated variables in separate columns with valid subgroups.</li><li>Open Generalized Variance.</li><li>Specify variables and subgroup identifiers.</li><li>Investigate signals indicating changes in multivariate spread or relationships.</li></ol></details>
+            </article>
+
+            <article class="chart-card advanced" id="chart-t2gv">
+              <h4>T²-Generalized Variance</h4>
+              <p><strong>Best for:</strong> jointly monitoring multivariate location and variation.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Multivariate Charts &gt; T²-Generalized Variance</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Place each correlated variable in a separate column.</li><li>Provide subgroup IDs where applicable.</li><li>Open the path above and enter the variables.</li><li>Use options for stages or historical parameters.</li><li>Read Generalized Variance first, then T².</li><li>Investigate contributing variables after a signal.</li></ol></details>
+            </article>
+
+            <article class="chart-card advanced" id="chart-mewma">
+              <h4>Multivariate EWMA (MEWMA)</h4>
+              <p><strong>Best for:</strong> detecting small sustained shifts in the joint means of correlated variables.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Multivariate Charts &gt; Multivariate EWMA</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Place each correlated variable in its own column.</li><li>Open Multivariate EWMA.</li><li>Enter variables, subgroup information, and the weighting parameter.</li><li>Use a stable baseline covariance structure.</li><li>Investigate any signal with variable-level plots and process context.</li></ol></details>
+            </article>
+          </div>
+        </div>
+
+        <div class="category-block" id="category-rare">
+          <div class="category-heading">
+            <div><p class="kicker">Category 6</p><h3>Rare Event Charts</h3></div>
+            <span class="category-tag">Spacing between infrequent events</span>
+          </div>
+          <p>Instead of counting events in every period, rare-event charts monitor the number of opportunities or elapsed time between events. On these charts, a lower point often means the adverse event is occurring more frequently.</p>
+          <div class="chart-grid">
+            <article class="chart-card advanced" id="chart-g">
+              <h4>G</h4>
+              <p><strong>Best for:</strong> number of opportunities, units, or whole days between rare events.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Rare Event Charts &gt; G</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Record event dates or the number of opportunities until/between events.</li><li>Open G and select the correct data format.</li><li>Enter the event-date or opportunity column.</li><li>Consider Tests 1 and 2 and the Benneyan test when appropriate.</li><li>Investigate unusually low spacing because it can indicate a worsening event rate.</li></ol></details>
+            </article>
+
+            <article class="chart-card advanced" id="chart-t">
+              <h4>T</h4>
+              <p><strong>Best for:</strong> exact elapsed time between rare events using date-time stamps or continuous durations.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Rare Event Charts &gt; T</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Record exact event date-times or continuous time intervals.</li><li>Open T and choose the matching data format.</li><li>Enter the event or elapsed-time column.</li><li>Use T Chart Options for tests, distribution settings, or stages where appropriate.</li><li>Investigate unusually short times between adverse events.</li></ol></details>
+              <p class="small">Use G when only whole-day dates or discrete opportunity counts are available.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
