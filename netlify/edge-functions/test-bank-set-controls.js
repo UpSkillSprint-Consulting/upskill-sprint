@@ -15,7 +15,8 @@ export default async function testBankSetControls(request, context) {
     '<script src="/test-bank-phase2-reporting.js" defer></script>',
     '<script src="/test-bank-phase2-runtime-coordinator.js" defer></script>',
     '<script src="/test-bank-phase2-quality-assurance.js" defer></script>',
-    '<script src="/test-bank-adaptive-mastery.js" defer></script>'
+    '<script src="/test-bank-adaptive-mastery.js" defer></script>',
+    '<script src="/test-bank-adaptive-mastery-runtime.js" defer></script>'
   ];
   const missingScripts = scripts.filter(function (script) {
     const source = script.match(/src="([^"]+)"/)[1];
