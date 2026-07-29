@@ -8,6 +8,7 @@ export default async function testBankSetControls(request, context) {
   const scripts = [
     '<script src="/test-bank-set-controls.js" defer></script>',
     '<script src="/test-bank-feedback-loop.js" defer></script>',
+    '<script src="/test-bank-phase1-api.js" defer></script>',
     '<script src="/test-bank-deep-feedback.js" defer></script>',
     '<script src="/test-bank-deep-feedback-grounding.js" defer></script>',
     '<script src="/test-bank-phase2-hardening.js" defer></script>',
