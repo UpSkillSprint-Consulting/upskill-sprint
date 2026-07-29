@@ -11,6 +11,7 @@ const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
 const phase1 = fs.readFileSync(path.join(ROOT, 'test-bank-feedback-loop.js'), 'utf8');
 const mastery = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery.js'), 'utf8');
+const runtime = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery-runtime.js'), 'utf8');
 const windows = [];
 afterEach(() => windows.splice(0).forEach(window => { try { window.close(); } catch (error) {} }));
 
@@ -39,6 +40,7 @@ async function load() {
   if (!dom.window.Element.prototype.scrollIntoView) dom.window.Element.prototype.scrollIntoView = function () {};
   dom.window.eval(phase1);
   dom.window.eval(mastery);
+  dom.window.eval(runtime);
   await settle(dom.window);
   return { window: dom.window, errors };
 }
@@ -106,7 +108,7 @@ test('adaptive selection prioritizes due and weak questions while including new 
     { question: questions[1], selected: questions[1].answer, status: 'correct' }
   ], 'test-seed');
   const candidates = api.adaptiveCandidates(5);
-  assert.ok(candidates.length === 5);
+  assert.equal(candidates.length, 5);
   assert.equal(candidates[0].stem, questions[0].stem, 'the weakest attempted item is prioritized');
   assert.ok(candidates.some(question => ![questions[0].stem, questions[1].stem].includes(question.stem)), 'new questions are included');
 });
@@ -140,4 +142,26 @@ test('adaptive practice updates repeated-question improvement and the mistake no
   const summary = api.summary();
   assert.equal(summary.attempted, 1);
   assert.ok(summary.notebook >= 1, 'item remains in notebook until sustained mastery is reached');
+});
+
+test('adaptive completion remains visible after the dashboard refreshes', async () => {
+  const { window } = await load();
+  const overview = await completeQuick(window);
+  click(window, overview.querySelector('[data-start-adaptive]'));
+  await settle(window, 3);
+  let panel = overview.querySelector('#tb-adaptive-panel');
+  for (let index = 0; index < 10; index += 1) {
+    const stem = panel.querySelector('.tb-adaptive-stem').textContent.trim();
+    const item = Object.values(window.__TB.EXAMS.cssbb.sets).flat().find(candidate => candidate.stem === stem);
+    click(window, panel.querySelector('[data-adaptive-opt="' + item.answer + '"]'));
+    click(window, panel.querySelector('[data-adaptive-check]'));
+    await settle(window, 2);
+    click(window, panel.querySelector('[data-adaptive-next]'));
+    await settle(window, 3);
+    panel = overview.querySelector('#tb-adaptive-panel');
+    if (/Adaptive session complete/i.test(panel.textContent)) break;
+  }
+  assert.equal(panel.hidden, false);
+  assert.match(panel.textContent, /Adaptive session complete/);
+  assert.match(panel.textContent, /mastery map has been updated/i);
 });
