@@ -75,6 +75,18 @@
       description: 'Build, validate, challenge, and select an interpretable predictive model using polynomial regression, grouped cross-validation, MARS, and automated model comparison.'
     },
     {
+      marker: 'data-minitab-control-chart-master-guide',
+      sectionId: 'power-bi-excel-sql',
+      path: '/lessons/minitab-control-chart-selection-analysis',
+      topic: 'power-bi-excel-sql',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'minitab control chart master guide control charts spc chart selection xbar r xbar s i mr i-mr-r-s between within p np c u laney ewma cusum zone rare event g t multivariate power bi excel sql intermediate interactive',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>55 min</span><span>Minitab</span>',
+      title: 'Minitab Control Chart Master Guide',
+      description: 'Choose the right control chart, prepare your worksheet, navigate Minitab, and interpret special-cause signals with confidence.'
+    },
+    {
       marker: 'data-process-capability',
       sectionId: 'lean-six-sigma',
       path: '/lessons/lean-six-sigma/process-capability-cp-and-cpk',
