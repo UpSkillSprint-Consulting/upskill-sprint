@@ -81,9 +81,11 @@ The interface uses “similar questions” only when reviewed `conceptId` or `le
 
 ### Learner-data rules
 
-- Mastery records are stored locally in the learner's browser.
+- Mastery records are stored locally in the learner's browser and are not transmitted by the adaptive engine.
 - Each result records whether it was a first encounter or repeated retrieval.
 - Attempt history, adaptive-practice history, review dates, streaks, and mastery estimates are retained separately by exam.
+- Per-question history is limited to the 30 most recent retrieval events.
+- Exam-level attempt history is limited to the 60 most recent attempts.
 - The mistake notebook retains incorrect, unanswered, and below-threshold items until sustained success raises mastery.
 - Internal submission navigation must not be counted as a learner retrieval or response-time event.
 
@@ -91,4 +93,4 @@ The interface uses “similar questions” only when reviewed `conceptId` or `le
 
 Changing `stem`, `options`, `answer`, `why`, `keyPoint`, `trap`, `conceptId`, or `distractors` invalidates the prior review. The editor must update `reviewedAt` and repeat the content review before the question can retain expert-reviewed status.
 
-Automated tests validate structure, review metadata, mastery calculations, schedule transitions, adaptive prioritization, attempt capture, and dashboard rendering. They do not replace independent subject-matter review or psychometric validation.
+Automated tests validate structure, review metadata, mastery calculations, schedule transitions, adaptive prioritization, attempt capture, dashboard rendering, repeated-question improvement, and completion-state persistence. They do not replace independent subject-matter review or psychometric validation.
