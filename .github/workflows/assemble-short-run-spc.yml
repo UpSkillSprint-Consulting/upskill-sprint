@@ -5,6 +5,7 @@ on:
     branches:
       - agent/add-short-run-spc-lesson
     paths:
+      - .github/workflows/assemble-short-run-spc.yml
       - .lesson-build/short-run-spc/READY
   workflow_dispatch:
 
