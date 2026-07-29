@@ -43,6 +43,10 @@ function click(window, element) {
   element.dispatchEvent(new window.Event('click', { bubbles: true }));
 }
 
+function assertNoTrackedTimes(window) {
+  assert.equal(Object.keys(window.__TBPhase2Runtime.getTimes()).length, 0);
+}
+
 test('grounding and hardening converge on the same complete-sentence learning point', async () => {
   const window = await load();
   const question = window.__TB.EXAMS.cssbb.sets[1].find(item => item.why && item.why.length > 80);
@@ -57,10 +61,10 @@ test('runtime timing resets when a new quiz begins', async () => {
   const overview = window.document.getElementById('tb-overview');
   click(window, overview.querySelector('[data-mode="quick"]'));
   await settle(window, 3);
-  assert.deepEqual(window.__TBPhase2Runtime.getTimes(), {});
+  assertNoTrackedTimes(window);
   overview.innerHTML = '<div class="tb-quiz"><div class="tb-stem">New attempt</div></div>';
   await settle(window, 4);
-  assert.deepEqual(window.__TBPhase2Runtime.getTimes(), {});
+  assertNoTrackedTimes(window);
 });
 
 test('runtime labels sub-second internal navigation as unreliable rather than learner time', async () => {
