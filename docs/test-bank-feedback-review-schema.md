@@ -113,8 +113,19 @@ The interface uses “similar questions” only when reviewed `conceptId` or `le
 - The mistake notebook retains incorrect, unanswered, and below-threshold items until sustained success raises mastery.
 - Internal submission navigation must not be counted as a learner retrieval or response-time event.
 
+## Repository compliance requirement
+
+Every HTML file in the repository, including hidden Netlify form-detection pages, must contain these exact shared controller tags once:
+
+```html
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
+```
+
+This repository-wide requirement is enforced by CI. Support pages must not be treated as exceptions unless the compliance test is deliberately redesigned.
+
 ## Review governance
 
 Changing `stem`, `options`, `answer`, `why`, `keyPoint`, `trap`, `conceptId`, or `distractors` invalidates the prior review. The editor must update `reviewedAt` and repeat the content review before the question can retain expert-reviewed status.
 
-Automated tests validate structure, review metadata, mastery calculations, dynamic recency decay, coverage adjustment, schedule transitions, balanced adaptive prioritization, session persistence, attempt capture, dashboard rendering, repeated-question improvement, and completion-state persistence. They do not replace independent subject-matter review or psychometric validation.
+Automated tests validate structure, review metadata, mastery calculations, dynamic recency decay, coverage adjustment, schedule transitions, balanced adaptive prioritization, session persistence, attempt capture, dashboard rendering, repeated-question improvement, completion-state persistence, cross-phase integration, and repository HTML compliance. They do not replace independent subject-matter review or psychometric validation.
