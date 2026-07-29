@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Short-Run SPC: Control Charts for High-Mix, Low-Volume Processes",
+  "slug": "short-run-spc-control-charts",
+  "category": "Lean Six Sigma",
+  "category_slug": "lean-six-sigma",
+  "level": "Intermediate",
+  "estimated_minutes": 50,
+  "interactive": true,
+  "card_title": "Short-Run SPC Control Charts",
+  "card_description": "Select, calculate, and interpret short-run SPC charts for mixed-product processes using an interactive decision flowchart and steel-mill examples.",
+  "search_keywords": [
+    "short-run SPC",
+    "short run control chart",
+    "high mix low volume",
+    "DNOM chart",
+    "X nominal chart",
+    "Z-MR chart",
+    "standardized p chart",
+    "standardized u chart",
+    "control chart selection",
+    "steel mill SPC",
+    "Minitab short run chart",
+    "quality engineering",
+    "Lean Six Sigma"
+  ],
+  "suggested_github_path": "lessons/lean-six-sigma/short-run-spc-control-charts.html"
+}
+-->
+<head>
+  <!-- EDIT: Lesson metadata -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Short-Run SPC: Control Charts for High-Mix, Low-Volume Processes | UpSkill Sprint Consulting</title>
+  <meta name="description" content="An extensive interactive lesson on selecting, calculating, and applying short-run SPC control charts in high-mix manufacturing and steel production.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/lean-six-sigma/short-run-spc-control-charts">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Short-Run SPC: Control Charts for High-Mix, Low-Volume Processes">
+  <meta property="og:description" content="Use an interactive decision flowchart to select short-run SPC charts, understand the formulas, and apply them to steel-mill processes.">
+  <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/lean-six-sigma/short-run-spc-control-charts">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+
+  <!-- EDIT: Lesson styles (single style block) -->
+  <style>
+    :root {
+      --paper: #ffffff;
+      --surface: #ffffff;
+      --surface-soft: #f4f7fa;
+      --surface-strong: #eaf1f5;
+      --ink: #101828;
+      --ink-soft: #344054;
+      --muted: #667085;
+      --line: #dfe5ec;
+      --navy: #0f2a43;
+      --teal: #0e7490;
+      --teal-dark: #0a5a70;
+      --amber: #d97706;
+      --success: #247a4d;
+      --warning: #a86105;
+      --danger: #b42318;
+      --info: #2769a8;
+      --code-bg: #eef2f6;
+      --focus: #f2a900;
+      --flow-line: #91a4b5;
+      --hero-text: #ffffff;
+      --hero-soft: #dceef5;
+    }
+    html[data-theme="dark"] {
+      --paper: #0b1220;
+      --surface: #111c2d;
+      --surface-soft: #0f1a2b;
+      --surface-strong: #17263a;
+      --ink: #f4f7fb;
+      --ink-soft: #d2dbea;
+      --muted: #a9b6c8;
+      --line: #2b3b50;
+      --navy: #102a43;
+      --teal: #2bb7c9;
+      --teal-dark: #67d4df;
+      --amber: #f0b85a;
+      --success: #58c48a;
+      --warning: #e9a94a;
+      --danger: #ef7d73;
+      --info: #79aee0;
+      --code-bg: #152338;
+      --flow-line: #62758a;
+      --hero-text: #ffffff;
+      --hero-soft: #dceef5;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      line-height: 1.65;
+      font-size: 1rem;
+    }
+    h1, h2, h3, h4 {
+      color: var(--ink);
+      line-height: 1.22;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 600;
+    }
+    h1 { font-size: clamp(2rem, 5vw, 3.25rem); margin: 0.25em 0; }
+    h2 { font-size: clamp(1.45rem, 3.2vw, 1.95rem); margin: 0 0 1rem; }
+    h3 { font-size: 1.2rem; margin: 0 0 0.65rem; }
+    h4 { font-size: 1.05rem; margin: 0 0 0.5rem; }
+    p { margin: 0.65rem 0; }
+    a { color: var(--teal-dark); }
+    strong { color: var(--ink); }
+    button, input, select { font: inherit; }
+    button { touch-action: manipulation; }
+    code {
+      background: var(--code-bg);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      padding: 0.08em 0.35em;
+      border-radius: 4px;
+      font-size: 0.92em;
+    }
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      z-index: 200;
+      background: var(--navy);
+      color: #fff;
+      padding: 0.7rem 1rem;
+      border-radius: 0 0 8px 0;
+    }
+    .skip-link:focus { left: 0; }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+    [hidden] { display: none !important; }
+
+    /* SITE INTEGRATION: header */
+    header.site.lesson-sitebar { z-index: 50; }
+    .lesson-sitebar .header-actions { display: flex; align-items: center; gap: 10px; }
+    .lesson-sitebar .theme-control { display: flex; align-items: center; gap: 6px; }
+    .lesson-sitebar .back-link { font-size: 0.88rem; font-weight: 600; text-decoration: none; }
+
+    main#lesson-content { max-width: 1080px; margin: 0 auto; padding: 1rem 1rem 4rem; }
+    article.lesson-wrapper { display: block; }
+    section { margin: 3.2rem 0; scroll-margin-top: 92px; }
+
+    .lesson-hero {
+      padding: clamp(1.4rem, 4vw, 3rem);
+      margin-top: 1.2rem;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #0f2a43 0%, #0e7490 100%);
+      color: var(--hero-text);
+      overflow: hidden;
+      position: relative;
+    }
+    .lesson-hero::after {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      right: -90px;
+      top: -120px;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 50%;
+      box-shadow: 0 0 0 45px rgba(255,255,255,0.04), 0 0 0 90px rgba(255,255,255,0.025);
+      pointer-events: none;
+    }
+    .lesson-hero h1, .lesson-hero strong { color: #fff; }
+    .eyebrow { margin: 0 0 0.4rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700; color: var(--hero-soft); }
+    .lesson-meta-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+    .pill { border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: #fff; border-radius: 999px; padding: 0.28rem 0.76rem; font-size: 0.85rem; font-weight: 650; }
+    .pill.accent { background: #fff; color: #0f2a43; border-color: #fff; }
+    .lesson-lede { max-width: 75ch; color: var(--hero-soft); font-size: 1.12rem; }
+    .why-it-matters { margin-top: 1rem; max-width: 78ch; border-left: 4px solid #f0b85a; padding: 0.7rem 1rem; background: rgba(255,255,255,0.1); border-radius: 0 8px 8px 0; color: #fff; }
+
+    nav.lesson-toc { margin: 1.7rem 0; padding: 1rem 1.25rem; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+    nav.lesson-toc h2 { font: 700 0.86rem/1.3 system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin: 0 0 0.55rem; }
+    nav.lesson-toc ol { columns: 2; column-gap: 2.5rem; margin: 0; padding-left: 1.25rem; }
+    nav.lesson-toc li { break-inside: avoid; margin: 0.24rem 0; }
+    nav.lesson-toc a { text-decoration: none; }
+    nav.lesson-toc a:hover { text-decoration: underline; }
+
+    .panel, .tool, .example-box, .chart-detail, .quiz-q {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.15rem 1.3rem;
+    }
+    .tool { border-top: 5px solid var(--teal); }
+    .example-box { border-left: 5px solid var(--amber); }
+    .callout { border-left: 4px solid var(--info); padding: 0.85rem 1rem; margin: 1rem 0; background: var(--surface-soft); border-radius: 0 10px 10px 0; }
+    .callout.tip { border-left-color: var(--success); }
+    .callout.warn { border-left-color: var(--warning); }
+    .callout.danger { border-left-color: var(--danger); }
+    .remember { background: var(--navy); color: #fff; border-radius: 12px; padding: 1rem 1.2rem; margin-top: 1.2rem; }
+    .remember strong { color: #fff; }
+    .muted { color: var(--muted); }
+    .small { font-size: 0.9rem; color: var(--muted); }
+
+    .objectives-list { padding-left: 1.3rem; }
+    .objectives-list li { margin: 0.42rem 0; }
+    .objectives-list li::marker { color: var(--teal); font-weight: 700; }
+    .two-col, .three-col, .four-col { display: grid; gap: 1rem; }
+    .two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .three-col { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .four-col { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .metric { background: var(--surface-soft); border: 1px solid var(--line); border-radius: 12px; padding: 0.8rem 0.9rem; }
+    .metric .label { display: block; font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
+    .metric .value { display: block; font-size: 1.35rem; font-weight: 750; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { border-collapse: collapse; width: 100%; min-width: 620px; background: var(--surface); }
+    caption { text-align: left; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.4rem; }
+    th, td { border: 1px solid var(--line); padding: 0.62rem 0.72rem; text-align: left; vertical-align: top; }
+    th { background: var(--navy); color: #fff; }
+    tbody tr:nth-child(even) { background: var(--surface-soft); }
+
+    .formula-box { overflow-x: auto; border: 1px solid var(--line); border-left: 5px solid var(--teal); border-radius: 12px; background: var(--surface); padding: 0.95rem 1.1rem; margin: 0.8rem 0; }
+    .equation { font: 1.18rem/1.5 Georgia, "Times New Roman", serif; color: var(--ink); display: flex; align-items: center; flex-wrap: wrap; gap: 0.38rem; min-width: max-content; }
+    .frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; }
+    .frac > span:first-child { border-bottom: 1.5px solid var(--ink); padding: 0 0.28rem 0.08rem; }
+    .frac > span:last-child { padding: 0.08rem 0.28rem 0; }
+    .symbols { margin: 0.7rem 0 0; padding-left: 1.1rem; }
+    .symbols li { margin: 0.28rem 0; }
+    .formula-note { font-size: 0.9rem; color: var(--muted); margin-top: 0.45rem; }
+
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin: 0.8rem 0; }
+    .btn {
+      min-height: 44px;
+      border: 1px solid var(--teal);
+      background: var(--teal);
+      color: #fff;
+      border-radius: 9px;
+      padding: 0.62rem 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--teal-dark); }
+    .btn.secondary { background: var(--surface); color: var(--teal-dark); }
+    .btn.secondary:hover { background: var(--surface-soft); }
+    .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+    .btn[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--amber); }
+
+    .field-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.85rem; margin: 0.8rem 0; }
+    label.field { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.9rem; font-weight: 650; color: var(--ink-soft); }
+    input[type="number"], input[type="text"], select {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 0.55rem 0.65rem;
+    }
+    .check-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.55rem; margin: 0.8rem 0; }
+    .check-row { display: flex; align-items: flex-start; gap: 0.55rem; border: 1px solid var(--line); background: var(--surface); border-radius: 9px; padding: 0.7rem; }
+    .check-row input { margin-top: 0.23rem; }
+    .status { margin-top: 0.8rem; font-weight: 700; }
+    .status.ok { color: var(--success); }
+    .status.warn { color: var(--warning); }
+    .status.no { color: var(--danger); }
+
+    .fig-panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 0.75rem; overflow: hidden; }
+    .fig-panel svg { width: 100%; height: auto; display: block; }
+    .chart-caption { font-size: 0.9rem; color: var(--muted); margin-top: 0.45rem; }
+
+    /* Interactive decision flowchart */
+    .flow-legend { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.87rem; color: var(--muted); }
+    .flow-key { display: inline-flex; align-items: center; gap: 0.42rem; }
+    .flow-key::before {
+      content: "";
+      width: 18px;
+      height: 12px;
+      border: 2px solid var(--ink-soft);
+      border-radius: 999px;
+      background: var(--surface);
+    }
+    .flow-key.decision::before {
+      width: 14px;
+      height: 14px;
+      border-radius: 2px;
+      transform: rotate(45deg);
+      border-color: var(--warning);
+    }
+    .flow-key.terminal::before {
+      width: 18px;
+      height: 12px;
+      border-radius: 8px;
+      border-color: var(--teal);
+    }
+    .flow-book-wrap {
+      margin: 1rem 0;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      -webkit-overflow-scrolling: touch;
+    }
+    .flow-book {
+      position: relative;
+      width: 1220px;
+      min-width: 1220px;
+      height: 930px;
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 95%, var(--surface-soft) 5%), var(--surface));
+      box-shadow: 0 12px 26px rgba(16, 24, 40, 0.08);
+    }
+    .flow-book svg {
+      width: 1220px;
+      height: 930px;
+      display: block;
+    }
+    .flow-svg-ink { stroke: color-mix(in srgb, var(--ink) 88%, #000 12%); fill: none; stroke-width: 2.2; }
+    .flow-svg-soft { stroke: var(--muted); fill: none; stroke-width: 1.6; }
+    .flow-svg-start { fill: color-mix(in srgb, var(--surface) 75%, #f4e4cb 25%); stroke: color-mix(in srgb, var(--warning) 72%, var(--ink) 28%); stroke-width: 2.4; }
+    .flow-svg-decision { fill: color-mix(in srgb, var(--surface) 86%, #f9efe1 14%); stroke: color-mix(in srgb, var(--warning) 78%, var(--ink) 22%); stroke-width: 2.1; }
+    .flow-svg-terminal { fill: color-mix(in srgb, var(--surface) 90%, var(--surface-soft) 10%); stroke: color-mix(in srgb, var(--ink-soft) 65%, var(--teal) 35%); stroke-width: 2.1; }
+    .flow-svg-note { fill: color-mix(in srgb, var(--surface) 88%, var(--surface-soft) 12%); stroke: var(--line); stroke-width: 1.5; }
+    .flow-svg-text { fill: var(--ink); font-family: Georgia, "Times New Roman", serif; font-size: 18px; font-weight: 700; }
+    .flow-svg-small { fill: var(--ink-soft); font-family: Inter, system-ui, sans-serif; font-size: 13px; font-weight: 600; }
+    .flow-svg-body { fill: var(--ink); font-family: Inter, system-ui, sans-serif; font-size: 15px; font-weight: 700; }
+    .flow-svg-label { fill: var(--muted); font-family: Inter, system-ui, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.01em; }
+    .flow-click-hint {
+      margin-top: 0.55rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .flow-hotspot {
+      position: absolute;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      border-radius: 16px;
+    }
+    .flow-hotspot:hover,
+    .flow-hotspot:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--teal) 45%, transparent), 0 8px 16px rgba(14, 116, 144, 0.16);
+      background: color-mix(in srgb, var(--teal) 8%, transparent);
+    }
+    .flow-hotspot[data-open-chart="traditional"] { left: 54px; top: 144px; width: 190px; height: 86px; }
+    .flow-hotspot[data-open-chart="zmr"] { left: 52px; top: 714px; width: 160px; height: 84px; }
+    .flow-hotspot[data-open-chart="zbarw"] { left: 258px; top: 714px; width: 176px; height: 84px; }
+    .flow-hotspot[data-open-chart="std-p"] { left: 505px; top: 410px; width: 184px; height: 64px; }
+    .flow-hotspot[data-open-chart="std-np"] { left: 505px; top: 490px; width: 184px; height: 64px; }
+    .flow-hotspot[data-open-chart="std-c"] { left: 505px; top: 570px; width: 184px; height: 64px; }
+    .flow-hotspot[data-open-chart="std-u"] { left: 505px; top: 650px; width: 184px; height: 64px; }
+    .flow-hotspot[data-open-chart="xnom"] { left: 832px; top: 714px; width: 180px; height: 84px; }
+    .flow-hotspot[data-open-chart="dnom"] { left: 1024px; top: 714px; width: 166px; height: 84px; }
+
+
+    .wizard-stage { border-top: 1px solid var(--line); margin-top: 1rem; padding-top: 1rem; }
+    .wizard-question { font-size: 1.08rem; font-weight: 750; color: var(--ink); }
+    .wizard-path { color: var(--muted); font-size: 0.9rem; margin-bottom: 0.55rem; }
+    .wizard-result { margin-top: 0.8rem; padding: 0.9rem 1rem; border-left: 5px solid var(--success); background: var(--surface-soft); border-radius: 0 10px 10px 0; }
+
+    .chart-detail { margin-top: 1rem; scroll-margin-top: 92px; }
+    .chart-detail[aria-hidden="false"] { border-top: 5px solid var(--teal); }
+    .chart-detail-header { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+    .chart-tag { display: inline-block; color: var(--teal-dark); background: var(--surface-soft); border: 1px solid var(--line); border-radius: 999px; padding: 0.2rem 0.6rem; font-size: 0.8rem; font-weight: 700; }
+    details { border-top: 1px solid var(--line); padding: 0.7rem 0; }
+    details:first-of-type { margin-top: 0.7rem; }
+    summary { cursor: pointer; font-weight: 750; color: var(--ink); }
+    details > div { padding: 0.45rem 0.1rem 0; }
+
+    .steps { counter-reset: step; list-style: none; padding: 0; }
+    .steps li { counter-increment: step; display: grid; grid-template-columns: 2.2rem 1fr; gap: 0.65rem; margin: 0.85rem 0; }
+    .steps li::before { content: counter(step); width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center; background: var(--teal); color: #fff; font-weight: 800; }
+
+    .application-card { border-top: 4px solid var(--teal); }
+    .application-card .recommend { color: var(--teal-dark); font-weight: 750; }
+
+    .quiz-q { margin: 1rem 0; }
+    .quiz-q fieldset { border: 0; padding: 0; margin: 0; }
+    .quiz-q legend { font-weight: 750; margin-bottom: 0.75rem; }
+    .quiz-option { display: flex; gap: 0.55rem; align-items: flex-start; border: 1px solid var(--line); border-radius: 9px; padding: 0.65rem 0.72rem; margin: 0.45rem 0; cursor: pointer; }
+    .quiz-option:hover { background: var(--surface-soft); }
+    .quiz-q.correct { border-color: var(--success); }
+    .quiz-q.incorrect { border-color: var(--danger); }
+    .quiz-feedback { margin-top: 0.6rem; font-weight: 650; }
+    .quiz-feedback.ok { color: var(--success); }
+    .quiz-feedback.no { color: var(--danger); }
+    #quiz-score { font-size: 1.08rem; font-weight: 800; }
+
+    .completion-panel { margin-top: 3rem; padding: 1.2rem 1.35rem; border-radius: 14px; background: var(--surface-soft); border: 1px solid var(--line); }
+    footer.lesson-footer { margin-top: 2rem; border-top: 1px solid var(--line); padding: 1.4rem 1rem; color: var(--muted); }
+    .footer-inner { max-width: 1080px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+    .footer-back { font-weight: 700; text-decoration: none; }
+
+    @media (max-width: 860px) {
+      .three-col, .four-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .flow-row { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .span-2 { grid-column: span 2; }
+      .span-3 { grid-column: span 3; }
+      .span-4 { grid-column: span 3; }
+      .span-6, .span-12 { grid-column: span 6; }
+    }
+    @media (max-width: 640px) {
+      nav.lesson-toc ol { columns: 1; }
+      .two-col, .three-col, .four-col { grid-template-columns: 1fr; }
+      .flow-row { display: flex; flex-direction: column; }
+      .flow-node { min-height: 64px; }
+      .chart-detail-header { flex-direction: column; }
+      .lesson-sitebar .back-link { display: none; }
+      main#lesson-content { padding-inline: 0.75rem; }
+      .lesson-hero { border-radius: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+      button.flow-node:hover { transform: none; }
+    }
+  </style>
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+</head>
+<body data-lesson-page="true" data-category="lean-six-sigma" data-level="intermediate" data-interactive="true">
+  <a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+
+  <!-- SITE INTEGRATION: Header -->
+  <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+  <header class="site lesson-sitebar">
+    <a class="brand" href="/">
+      <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
+      <span>UpSkill Sprint Consulting</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/start-here">Start Here</a>
+      <a href="/lessons" aria-current="page">Lessons</a>
+      <a href="/engineering-tools">Engineering Tools</a>
+      <a href="/services">Services</a>
+      <a href="/request-topic">Request a Topic</a>
+      <a href="/about">About</a>
+      <a href="/faq">FAQ</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a class="back-link" href="/lessons#lean-six-sigma">Back to Lean Six Sigma</a>
+      <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      </label>
+      <div class="theme-control" aria-label="Colour theme">
+        <button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch colour theme">Light / Dark</button>
+      </div>
+    </div>
+  </header>
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="/start-here">Start Here</a>
+    <a href="/lessons">Lessons</a>
+    <a href="/engineering-tools">Engineering Tools</a>
+    <a href="/services">Services</a>
+    <a href="/request-topic">Request a Topic</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+    <a href="/contact">Contact</a>
+  </nav>
+
+  <main id="lesson-content">
+    <article class="lesson-wrapper">
+      <!-- EDIT: Lesson header -->
+      <section class="lesson-hero" aria-labelledby="lesson-title">
+        <p class="eyebrow">Lean Six Sigma · Interactive lesson</p>
+        <h1 id="lesson-title">Short-Run SPC: Control Charts for High-Mix, Low-Volume Processes</h1>
+        <div class="lesson-meta-row">
+          <span class="pill">Intermediate</span>
+          <span class="pill">50 minutes</span>
+          <span class="pill accent">Interactive</span>
+          <span class="pill">Excel and Minitab guidance</span>
+        </div>
+        <p class="lesson-lede">Learn how to monitor one common process while products, grades, gauges, targets, and normal variation keep changing—an intermediate Lean Six Sigma application of statistical process control. You will transform mixed-product data, qualify valid product families, and select the correct short-run chart without mistaking planned product changes for process instability.</p>
+        <p class="why-it-matters"><strong>Why this matters at work:</strong> a conventional chart of raw values can signal every time the mill changes product. Separate charts can be equally weak when each product appears only a few times. Short-run SPC creates one statistically meaningful process view by removing the changes that were supposed to happen.</p>
+      </section>
+
+      <nav class="lesson-toc" aria-label="Lesson contents">
+        <h2>In this lesson</h2>
+        <ol>
+          <li><a href="#learning-objectives">Learning objectives</a></li>
+          <li><a href="#prerequisites">Prerequisites</a></li>
+          <li><a href="#key-concepts">Why short-run charts exist</a></li>
+          <li><a href="#terminology">Key terminology</a></li>
+          <li><a href="#raw-vs-coded">Raw values versus coded values</a></li>
+          <li><a href="#core-formulas">Core transformations</a></li>
+          <li><a href="#decision-flowchart">Interactive selection flowchart</a></li>
+          <li><a href="#product-family">Product-family qualification</a></li>
+          <li><a href="#equal-variation">Equal-variation screening</a></li>
+          <li><a href="#procedure">Implementation procedure</a></li>
+          <li><a href="#worked-example">Steel-mill worked example</a></li>
+          <li><a href="#applications">Steel-mill application gallery</a></li>
+          <li><a href="#limits-vs-specs">Control limits versus specifications</a></li>
+          <li><a href="#interpretation">Interpretation guide</a></li>
+          <li><a href="#mistakes">Common mistakes and exam traps</a></li>
+          <li><a href="#software">Excel and Minitab implementation</a></li>
+          <li><a href="#practice">Practice activity</a></li>
+          <li><a href="#quiz">Five-question quiz</a></li>
+          <li><a href="#summary">Final summary</a></li>
+        </ol>
+      </nav>
+
+      <!-- EDIT: Learning objectives -->
+      <section id="learning-objectives" aria-labelledby="objectives-title">
+        <h2 id="objectives-title">By the end, you should be able to</h2>
+        <div class="panel">
+          <ul class="objectives-list">
+            <li><strong>Explain</strong> why short-run charts are named for short product runs—not for a chart that is used briefly.</li>
+            <li><strong>Recognize</strong> when a traditional control chart becomes misleading in a high-mix process.</li>
+            <li><strong>Calculate</strong> deviation-from-target and standardized short-run statistics.</li>
+            <li><strong>Select</strong> among X-nominal, DNOM, Z/W, standardized p, np, c, and u charts.</li>
+            <li><strong>Qualify</strong> products before pooling them into one common process stream.</li>
+            <li><strong>Apply</strong> short-run SPC to gauge, temperature, weld profiles, mechanical properties, and defect data in a steel mill.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="prerequisites" aria-labelledby="prereq-title">
+        <h2 id="prereq-title">Before you start</h2>
+        <p>You should understand the basic purpose of a control chart, the difference between variables and attributes data, and the meaning of a mean and standard deviation. The companion lesson <a href="/lessons/control-charts-explained">Control Charts, Explained</a> provides that foundation.</p>
+        <div class="callout tip"><strong>Useful mindset:</strong> short-run SPC is not a different theory of variation. It is ordinary SPC applied after legitimate product-to-product differences have been coded out.</div>
+      </section>
+
+      <!-- EDIT: Key concepts -->
+      <section id="key-concepts" aria-labelledby="concepts-title">
+        <h2 id="concepts-title">Why short-run charts exist</h2>
+        <p>A conventional control chart works best when the plotted values come from one stable process condition. In a high-mix operation, however, a schedule may look like this:</p>
+        <div class="remember"><strong>Production sequence:</strong> 8.2 mm → 7.8 mm → 8.4 mm → 8.2 mm → 10.0 mm → 7.8 mm. The target changes are intentional; the question is whether the process is hitting each target consistently.</div>
+        <div class="two-col" style="margin-top:1rem;">
+          <div class="panel">
+            <h3>Problem 1: one raw chart</h3>
+            <p>A raw gauge chart jumps whenever target gauge changes. Those jumps are planned product changes, but the chart can interpret them as shifts, trends, or excessive moving ranges.</p>
+          </div>
+          <div class="panel">
+            <h3>Problem 2: one chart per product</h3>
+            <p>Separate charts may contain only two or three observations before the product disappears for weeks. There is not enough sequential information to estimate or maintain reliable product-specific limits.</p>
+          </div>
+        </div>
+        <h3 style="margin-top:1.4rem;">The short-run solution</h3>
+        <p>Translate each result into a common statistical language before charting it. You can subtract the product target, divide by the product standard deviation, or compare the observed count with its product-specific expected count. The transformed stream then answers:</p>
+        <div class="callout"><strong>Core question:</strong> after accounting for what was supposed to change between products, is the shared process behaving consistently over time?</div>
+        <div class="callout warn"><strong>What short-run SPC does not do:</strong> it does not make unrelated processes comparable, replace engineering judgment, or turn specification limits into control limits.</div>
+      </section>
+
+      <section id="terminology" aria-labelledby="terms-title">
+        <h2 id="terms-title">Key terminology</h2>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Term</th><th>Plain-language meaning</th><th>Practical interpretation</th></tr></thead>
+            <tbody>
+              <tr><td>Short run</td><td>A small quantity of one product before the process changes to another product.</td><td>The chart may run for years; the individual product campaigns are short.</td></tr>
+              <tr><td>Process stream</td><td>The common equipment, method, measurement system, and causal mechanism being monitored.</td><td>Products may differ, but they must still be generated by a defensibly common process.</td></tr>
+              <tr><td>Product family</td><td>A group of products similar enough to share a short-run baseline or transformation.</td><td>Same mill alone is not enough; route, control mechanism, measurement, and variation matter.</td></tr>
+              <tr><td>Nominal or target</td><td>The intended value for a specific product.</td><td>Subtract it to remove planned differences in product center.</td></tr>
+              <tr><td>Deviation from nominal</td><td>Actual result minus that product's target.</td><td>Positive means above target; negative means below target.</td></tr>
+              <tr><td>Standardized value</td><td>Deviation expressed in units of that product's standard deviation.</td><td>A value of +2 is two product-specific standard deviations above expectation.</td></tr>
+              <tr><td>Homogeneity of variance</td><td>Products have sufficiently similar natural process variation.</td><td>Required for simple DNOM/X-nominal pooling; otherwise standardize or separate.</td></tr>
+              <tr><td>Historical parameter</td><td>A validated mean, target, standard deviation, or baseline rate estimated before monitoring.</td><td>It must come from stable, representative data—not a mixture already containing special causes.</td></tr>
+              <tr><td>Rational subgroup</td><td>Measurements grouped so within-subgroup variation represents short-term variation.</td><td>Examples include several thickness readings across one coil or repeated specimens under one condition.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="raw-vs-coded" aria-labelledby="raw-title">
+        <h2 id="raw-title">Interactive: raw values versus coded values</h2>
+        <p>The same twelve coils are shown below. Toggle the display to see why mixed raw values can hide the process story.</p>
+        <div class="tool" aria-label="Raw versus coded chart comparison">
+          <div class="btn-row" role="group" aria-label="Chart view">
+            <button type="button" class="btn" id="raw-view" aria-pressed="true">Raw gauge</button>
+            <button type="button" class="btn secondary" id="deviation-view" aria-pressed="false">Deviation from target</button>
+          </div>
+          <div class="fig-panel">
+            <svg id="raw-coded-svg" viewBox="0 0 820 360" role="img" aria-labelledby="raw-coded-title raw-coded-desc">
+              <title id="raw-coded-title">Mixed-product production chart</title>
+              <desc id="raw-coded-desc">A line chart switches between raw gauge values and deviations from each product target.</desc>
+              <g id="raw-coded-grid"></g>
+              <g id="raw-coded-lines"></g>
+              <g id="raw-coded-points"></g>
+              <g id="raw-coded-labels"></g>
+            </svg>
+          </div>
+          <p id="raw-coded-status" class="status warn" aria-live="polite">Raw gauge changes mainly reflect intentional target changes. A conventional moving range would be inflated at product transitions.</p>
+        </div>
+      </section>
+
+      <section id="core-formulas" aria-labelledby="formulas-title">
+        <h2 id="formulas-title">The two core transformations</h2>
+        <div class="two-col">
+          <div>
+            <h3>1. Difference from nominal</h3>
+            <div class="formula-box">
+              <div class="equation"><span>D<sub>i</sub></span><span>=</span><span>X<sub>i</sub></span><span>−</span><span>T<sub>j</sub></span></div>
+              <ul class="symbols">
+                <li><strong>D<sub>i</sub></strong>: coded deviation for observation <em>i</em>, in the original measurement unit</li>
+                <li><strong>X<sub>i</sub></strong>: observed result</li>
+                <li><strong>T<sub>j</sub></strong>: target for product <em>j</em></li>
+              </ul>
+              <p class="formula-note">Use when product targets differ but natural variation is sufficiently comparable.</p>
+            </div>
+          </div>
+          <div>
+            <h3>2. Standardization</h3>
+            <div class="formula-box">
+              <div class="equation"><span>Z<sub>i</sub></span><span>=</span><span class="frac"><span>X<sub>i</sub> − μ<sub>j</sub></span><span>σ<sub>j</sub></span></span></div>
+              <ul class="symbols">
+                <li><strong>μ<sub>j</sub></strong>: validated expected mean or appropriate target for product <em>j</em></li>
+                <li><strong>σ<sub>j</sub></strong>: validated within-process standard deviation for product <em>j</em></li>
+                <li><strong>Z<sub>i</sub></strong>: distance from expectation in standard-deviation units</li>
+              </ul>
+              <p class="formula-note">Use when both center and natural variation differ across products.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDIT: Interactive calculator -->
+        <div class="tool" id="formula-explorer" style="margin-top:1rem;">
+          <h3>Formula explorer</h3>
+          <p>Change the measurement, target, and product standard deviation. The result updates without reloading the page.</p>
+          <div class="field-grid">
+            <label class="field" for="fx-actual">Actual result, X<input id="fx-actual" type="number" step="0.01" value="10.08"></label>
+            <label class="field" for="fx-target">Target or expected mean<input id="fx-target" type="number" step="0.01" value="10.00"></label>
+            <label class="field" for="fx-sd">Product standard deviation, σ<input id="fx-sd" type="number" min="0.000001" step="0.01" value="0.04"></label>
+          </div>
+          <div class="three-col">
+            <div class="metric"><span class="label">Raw deviation</span><span class="value" id="fx-deviation">+0.08</span></div>
+            <div class="metric"><span class="label">Standardized value</span><span class="value" id="fx-z">+2.00</span></div>
+            <div class="metric"><span class="label">Interpretation</span><span class="value" id="fx-interpretation" style="font-size:1rem;">2.00σ above expected</span></div>
+          </div>
+          <p id="fx-error" class="status no" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section id="decision-flowchart" aria-labelledby="flow-title">
+        <h2 id="flow-title">Interactive decision flowchart: select the short-run SPC chart</h2>
+        <p>This rebuild preserves the logic of the source flowchart. Select any terminal chart to open its purpose, conditions, data requirements, formula, worked example, steel-mill use, and warnings.</p>
+        <div class="flow-legend" aria-label="Flowchart legend">
+          <span class="flow-key">Start / terminal shape</span>
+          <span class="flow-key decision">Decision diamond</span>
+          <span class="flow-key terminal">Clickable chart terminal</span>
+        </div>
+        <p class="flow-click-hint"><strong>How to use it:</strong> follow the arrows like a true flowchart. Click any terminal chart box to jump to the detailed explanation below.</p>
+
+        <div class="flow-book-wrap" aria-label="Short-run SPC chart selection flowchart">
+          <div class="flow-book">
+            <svg viewBox="0 0 1220 930" role="img" aria-labelledby="flowchart-svg-title flowchart-svg-desc">
+              <title id="flowchart-svg-title">Short-run SPC control chart selection flowchart</title>
+              <desc id="flowchart-svg-desc">A decision flowchart for selecting the proper short-run SPC chart. The flow begins at Start, asks whether you are monitoring a product or a process, then branches to traditional charts, standardized short-run charts, or difference-from-nominal charts. Terminal chart boxes are clickable.</desc>
+              <defs>
+                <marker id="flowArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#556576"></path>
+                </marker>
+                <filter id="flowShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="5" stdDeviation="6" flood-opacity="0.08"/>
+                </filter>
+              </defs>
+
+              <!-- connectors -->
+              <path class="flow-svg-ink" marker-end="url(#flowArrow)" d="M610 80 L610 112"/>
+              <path class="flow-svg-ink" marker-end="url(#flowArrow)" d="M490 165 L244 165"/>
+              <path class="flow-svg-ink" marker-end="url(#flowArrow)" d="M730 165 L670 165"/>
+              <path class="flow-svg-ink" marker-end="url(#flowArrow)" d="M780 220 L780 265 L610 265"/>
+              <path class="flow-svg-ink" marker-end="url(#flowArrow)" d="M890 165 L990 165 L990 265"/>
+              <path class="flow-svg-ink" marker-end="url(#flowArrow)" d="M500 320 L500 360 L390 360 L390 390"/>
+              <path class="flow-svg-ink" marker-end="url(#flowArrow)" d="M610 375 L610 392 L597 392 L597 410"/>
+              <path class="flow-svg-ink" marker-end="url(#flowArrow)" d="M280 445 L132 445 L132 714"/>
+              <path class="flow-svg-ink" marker-end="url(#flowArrow)" d="M500 445 L346 445 L346 714"/>
+              <path class="flow-svg-ink" marker-end="url(#flowArrow)" d="M990 375 L990 390"/>
+              <path class="flow-svg-ink" marker-end="url(#flowArrow)" d="M880 445 L922 445 L922 714"/>
+              <path class="flow-svg-ink" marker-end="url(#flowArrow)" d="M1100 445 L1107 445 L1107 714"/>
+
+              <!-- loop back for unequal variation -->
+              <path class="flow-svg-soft" marker-end="url(#flowArrow)" d="M880 320 L850 320 L850 250 L780 250"/>
+
+              <!-- labels -->
+              <text x="383" y="153" class="flow-svg-label">Product</text>
+              <text x="738" y="153" class="flow-svg-label">Process</text>
+              <text x="690" y="235" class="flow-svg-label">Standardized</text>
+              <text x="922" y="235" class="flow-svg-label">Difference</text>
+              <text x="470" y="338" class="flow-svg-label">Variables</text>
+              <text x="693" y="387" class="flow-svg-label">Attributes</text>
+              <text x="272" y="517" class="flow-svg-label">Individuals</text>
+              <text x="432" y="517" class="flow-svg-label">Averages</text>
+              <text x="1018" y="516" class="flow-svg-label">Individuals</text>
+              <text x="1090" y="516" class="flow-svg-label">Averages</text>
+              <text x="844" y="321" class="flow-svg-label">Not equal → return to standardized branch</text>
+              <text x="1020" y="338" class="flow-svg-label">Equal</text>
+
+              <!-- shapes -->
+              <rect x="505" y="22" rx="30" ry="30" width="210" height="58" class="flow-svg-start" filter="url(#flowShadow)"/>
+              <text x="610" y="58" text-anchor="middle" class="flow-svg-text">Start</text>
+
+              <polygon points="610,112 730,165 610,218 490,165" class="flow-svg-decision" filter="url(#flowShadow)"/>
+              <text x="610" y="152" text-anchor="middle" class="flow-svg-body">Product</text>
+              <text x="610" y="173" text-anchor="middle" class="flow-svg-body">or process?</text>
+
+              <rect x="54" y="144" rx="16" ry="16" width="190" height="86" class="flow-svg-terminal" filter="url(#flowShadow)"/>
+              <text x="149" y="177" text-anchor="middle" class="flow-svg-body">Use traditional</text>
+              <text x="149" y="198" text-anchor="middle" class="flow-svg-body">control charts</text>
+
+              <polygon points="780,110 890,165 780,220 670,165" class="flow-svg-decision" filter="url(#flowShadow)"/>
+              <text x="780" y="146" text-anchor="middle" class="flow-svg-body">Difference or</text>
+              <text x="780" y="167" text-anchor="middle" class="flow-svg-body">standardized</text>
+              <text x="780" y="188" text-anchor="middle" class="flow-svg-body">chart?</text>
+
+              <polygon points="610,265 720,320 610,375 500,320" class="flow-svg-decision" filter="url(#flowShadow)"/>
+              <text x="610" y="309" text-anchor="middle" class="flow-svg-body">Variables or</text>
+              <text x="610" y="330" text-anchor="middle" class="flow-svg-body">attributes?</text>
+
+              <polygon points="390,390 500,445 390,500 280,445" class="flow-svg-decision" filter="url(#flowShadow)"/>
+              <text x="390" y="435" text-anchor="middle" class="flow-svg-body">Individuals</text>
+              <text x="390" y="456" text-anchor="middle" class="flow-svg-body">or averages?</text>
+
+              <rect x="505" y="410" rx="14" ry="14" width="184" height="64" class="flow-svg-terminal" filter="url(#flowShadow)"/>
+              <text x="597" y="448" text-anchor="middle" class="flow-svg-body">Use standardized</text>
+              <text x="597" y="467" text-anchor="middle" class="flow-svg-body">p-chart</text>
+
+              <rect x="505" y="490" rx="14" ry="14" width="184" height="64" class="flow-svg-terminal" filter="url(#flowShadow)"/>
+              <text x="597" y="528" text-anchor="middle" class="flow-svg-body">Use standardized</text>
+              <text x="597" y="547" text-anchor="middle" class="flow-svg-body">np-chart</text>
+
+              <rect x="505" y="570" rx="14" ry="14" width="184" height="64" class="flow-svg-terminal" filter="url(#flowShadow)"/>
+              <text x="597" y="608" text-anchor="middle" class="flow-svg-body">Use standardized</text>
+              <text x="597" y="627" text-anchor="middle" class="flow-svg-body">c-chart</text>
+
+              <rect x="505" y="650" rx="14" ry="14" width="184" height="64" class="flow-svg-terminal" filter="url(#flowShadow)"/>
+              <text x="597" y="688" text-anchor="middle" class="flow-svg-body">Use standardized</text>
+              <text x="597" y="707" text-anchor="middle" class="flow-svg-body">u-chart</text>
+
+              <rect x="52" y="714" rx="16" ry="16" width="160" height="84" class="flow-svg-terminal" filter="url(#flowShadow)"/>
+              <text x="132" y="748" text-anchor="middle" class="flow-svg-body">Z–W</text>
+              <text x="132" y="770" text-anchor="middle" class="flow-svg-body">Z*–W*</text>
+
+              <rect x="258" y="714" rx="16" ry="16" width="176" height="84" class="flow-svg-terminal" filter="url(#flowShadow)"/>
+              <text x="346" y="748" text-anchor="middle" class="flow-svg-body">Z̄–W</text>
+              <text x="346" y="770" text-anchor="middle" class="flow-svg-body">Z̄*–W*</text>
+
+              <polygon points="990,265 1100,320 990,375 880,320" class="flow-svg-decision" filter="url(#flowShadow)"/>
+              <text x="990" y="299" text-anchor="middle" class="flow-svg-body">Process</text>
+              <text x="990" y="320" text-anchor="middle" class="flow-svg-body">standard deviations</text>
+              <text x="990" y="341" text-anchor="middle" class="flow-svg-body">equal?</text>
+
+              <polygon points="990,390 1100,445 990,500 880,445" class="flow-svg-decision" filter="url(#flowShadow)"/>
+              <text x="990" y="435" text-anchor="middle" class="flow-svg-body">Individuals</text>
+              <text x="990" y="456" text-anchor="middle" class="flow-svg-body">or averages?</text>
+
+              <rect x="832" y="714" rx="16" ry="16" width="180" height="84" class="flow-svg-terminal" filter="url(#flowShadow)"/>
+              <text x="922" y="748" text-anchor="middle" class="flow-svg-body">Use X nominal charts</text>
+              <text x="922" y="770" text-anchor="middle" class="flow-svg-body">(X-target or difference)</text>
+
+              <rect x="1024" y="714" rx="16" ry="16" width="166" height="84" class="flow-svg-terminal" filter="url(#flowShadow)"/>
+              <text x="1107" y="748" text-anchor="middle" class="flow-svg-body">Use difference from</text>
+              <text x="1107" y="770" text-anchor="middle" class="flow-svg-body">nominal averages</text>
+              <text x="1107" y="789" text-anchor="middle" class="flow-svg-body">and range charts</text>
+
+              <rect x="54" y="840" rx="14" ry="14" width="1136" height="54" class="flow-svg-note"/>
+              <text x="72" y="872" class="flow-svg-small">Flowchart correction: if product standard deviations are not reasonably equal, do not continue to X-nominal or DNOM. Return to the standardized branch or create separate product families.</text>
+            </svg>
+
+            <button type="button" class="flow-hotspot" data-open-chart="traditional" aria-label="Open traditional control charts details"></button>
+            <button type="button" class="flow-hotspot" data-open-chart="zmr" aria-label="Open Z–W and Z-star–W-star chart details"></button>
+            <button type="button" class="flow-hotspot" data-open-chart="zbarw" aria-label="Open Z-bar–W and Z-bar-star–W-star chart details"></button>
+            <button type="button" class="flow-hotspot" data-open-chart="std-p" aria-label="Open standardized p-chart details"></button>
+            <button type="button" class="flow-hotspot" data-open-chart="std-np" aria-label="Open standardized np-chart details"></button>
+            <button type="button" class="flow-hotspot" data-open-chart="std-c" aria-label="Open standardized c-chart details"></button>
+            <button type="button" class="flow-hotspot" data-open-chart="std-u" aria-label="Open standardized u-chart details"></button>
+            <button type="button" class="flow-hotspot" data-open-chart="xnom" aria-label="Open X-nominal chart details"></button>
+            <button type="button" class="flow-hotspot" data-open-chart="dnom" aria-label="Open DNOM chart details"></button>
+          </div>
+        </div>
+
+        <div class="tool" id="selection-wizard">
+          <h3>Guided chart-selection wizard</h3>
+          <p class="wizard-path" id="wizard-path">Start</p>
+          <p class="wizard-question" id="wizard-question">What are you trying to monitor?</p>
+          <div class="btn-row" id="wizard-options"></div>
+          <div id="wizard-result" class="wizard-result" hidden aria-live="polite"></div>
+          <button type="button" class="btn ghost" id="wizard-reset">Restart chart selection</button>
+        </div>
+
+        <div id="chart-details" aria-live="polite">
+          <p class="small">Select a terminal above or complete the wizard. The detailed chart panel will open here.</p>
+
+          <article class="chart-detail" id="detail-traditional" data-chart-detail="traditional" aria-hidden="true" hidden>
+            <div class="chart-detail-header"><div><span class="chart-tag">Product chart</span><h3>Traditional control charts</h3></div><button type="button" class="btn ghost detail-close">Close panel</button></div>
+            <details open><summary>What it is</summary><div>A conventional chart applied to one repeatable product/process condition. Use I-MR, X̄-R, X̄-S, p, np, c, or u according to data type and subgrouping.</div></details>
+            <details><summary>When to use it</summary><div>Use when one product, grade-gauge family, or process condition produces enough sequential observations and its expected center and variation are not intentionally changing.</div></details>
+            <details><summary>Required data</summary><div>Time-ordered measurements or counts, rational subgroup definition where applicable, a stable baseline, and enough data to estimate limits.</div></details>
+            <details><summary>Formula</summary><div>Example I-chart limits for individual values: <div class="formula-box"><div class="equation">UCL = X̄ + 2.66M̄R &nbsp; | &nbsp; CL = X̄ &nbsp; | &nbsp; LCL = X̄ − 2.66M̄R</div></div></div></details>
+            <details><summary>Worked example</summary><div>A 200-coil campaign of one grade, gauge, width, rolling practice, and measuring method can support a conventional I-MR chart of final gauge.</div></details>
+            <details><summary>Steel-mill application</summary><div>Laboratory reference-standard checks, a long single-product campaign, or one recurring high-volume grade-gauge combination.</div></details>
+            <details><summary>Warnings</summary><div>Do not combine planned target changes on one raw-value chart. Do not treat product specifications as statistical control limits.</div></details>
+          </article>
+
+          <article class="chart-detail" id="detail-zmr" data-chart-detail="zmr" aria-hidden="true" hidden>
+            <div class="chart-detail-header"><div><span class="chart-tag">Standardized variables · Individuals</span><h3>Z–W and Z*–W* charts</h3></div><button type="button" class="btn ghost detail-close">Close panel</button></div>
+            <details open><summary>What it is</summary><div>A paired short-run chart for individual variable measurements. The Z chart monitors standardized location; the W chart monitors standardized moving ranges. The starred version uses product-specific average moving ranges instead of known σ values.</div></details>
+            <details><summary>When to use it</summary><div>Use when products have different expected means and different natural standard deviations, observations arrive one at a time, and all products belong to one defensible process stream.</div></details>
+            <details><summary>Required data</summary><div>Product identifier, time order, actual result, validated product mean/target, and either product σ or product average moving range.</div></details>
+            <details><summary>Formula</summary><div>
+              <div class="formula-box"><div class="equation">Z<sub>i</sub> = <span class="frac"><span>X<sub>i</sub> − μ<sub>j</sub></span><span>σ<sub>j</sub></span></span> ; &nbsp; W<sub>i</sub> = |Z<sub>i</sub> − Z<sub>i−1</sub>|</div><p class="formula-note">Z chart: CL 0, limits ±3. For moving ranges of two standardized observations: W center ≈ 1.128, UCL ≈ 3.686, LCL 0.</p></div>
+              <div class="formula-box"><div class="equation">Z*<sub>i</sub> = <span class="frac"><span>X<sub>i</sub> − μ<sub>j</sub></span><span>M̄R<sub>j</sub></span></span> ; &nbsp; W*<sub>i</sub> = <span class="frac"><span>MR<sub>i</sub></span><span>M̄R<sub>j</sub></span></span></div><p class="formula-note">Z* limits are ±2.66; W* center 1, UCL 3.267, LCL 0.</p></div>
+            </div></details>
+            <details><summary>Worked example</summary><div>Product A has μ=8.20 and σ=0.03. A result of 8.26 gives Z=(8.26−8.20)/0.03=+2.00. Product B has μ=10.00 and σ=0.08. A result of 10.16 also gives Z=+2.00. The raw deviations differ, but both are equally unusual for their own product.</div></details>
+            <details><summary>Steel-mill application</summary><div>Coiling-temperature residuals, tensile-property deviations, or weld-profile dimensions when expected variation changes materially with grade, gauge, OD, or wall thickness.</div></details>
+            <details><summary>Warnings</summary><div>Do not estimate μ and σ from unstable or tiny product samples. Do not compute a moving range across a known process break unless the chart design explicitly treats the sequence as continuous coded observations.</div></details>
+          </article>
+
+          <article class="chart-detail" id="detail-zbarw" data-chart-detail="zbarw" aria-hidden="true" hidden>
+            <div class="chart-detail-header"><div><span class="chart-tag">Standardized variables · Subgroups</span><h3>Z̄–W and Z̄*–W* charts</h3></div><button type="button" class="btn ghost detail-close">Close panel</button></div>
+            <details open><summary>What it is</summary><div>A paired short-run chart for rational subgroup averages and within-subgroup dispersion. It puts each subgroup mean and range on a comparable product-specific scale.</div></details>
+            <details><summary>When to use it</summary><div>Use when each production unit or period provides multiple meaningful measurements and product centers or standard deviations differ.</div></details>
+            <details><summary>Required data</summary><div>Subgroup identifier, product identifier, subgroup observations, subgroup size, product mean/target, and either σ or historical average range by product.</div></details>
+            <details><summary>Formula</summary><div>
+              <div class="formula-box"><div class="equation">Z̄<sub>i</sub> = <span class="frac"><span>X̄<sub>i</sub> − μ<sub>j</sub></span><span>σ<sub>j</sub>/√n<sub>i</sub></span></span> ; &nbsp; W<sub>i</sub> = <span class="frac"><span>R<sub>i</sub></span><span>σ<sub>j</sub></span></span></div><p class="formula-note">Z̄ chart: CL 0, limits ±3. W chart: CL d₂, UCL d₂+3d₃, LCL max(0,d₂−3d₃), with constants matched to subgroup size.</p></div>
+              <div class="formula-box"><div class="equation">Z̄*<sub>i</sub> = <span class="frac"><span>X̄<sub>i</sub> − μ<sub>j</sub></span><span>R̄<sub>j</sub></span></span> ; &nbsp; W*<sub>i</sub> = <span class="frac"><span>R<sub>i</sub></span><span>R̄<sub>j</sub></span></span></div><p class="formula-note">Z̄* limits are ±A₂; W* center 1 with D₃ and D₄ limits.</p></div>
+            </div></details>
+            <details><summary>Worked example</summary><div>Five thickness readings across one coil form a subgroup. Compare the subgroup average with that product's expected mean and divide by σ/√5; standardize the range separately.</div></details>
+            <details><summary>Steel-mill application</summary><div>Multiple gauge readings across coil width, repeated profile measurements around pipe circumference, or several specimens taken under one defined production condition.</div></details>
+            <details><summary>Warnings</summary><div>Averages are only valid subgroups when the observations share one short-term process condition. Do not average East and West coil-end tests if the end effect is a known systematic source.</div></details>
+          </article>
+
+          <article class="chart-detail" id="detail-std-p" data-chart-detail="std-p" aria-hidden="true" hidden>
+            <div class="chart-detail-header"><div><span class="chart-tag">Standardized attributes · Defectives</span><h3>Standardized p-chart</h3></div><button type="button" class="btn ghost detail-close">Close panel</button></div>
+            <details open><summary>What it is</summary><div>A short-run chart of the standardized difference between the observed fraction defective and the expected fraction defective for the current product. The standard error automatically accounts for sample size.</div></details>
+            <details><summary>When to use it</summary><div>Use when every inspected unit is classified as conforming or nonconforming, sample size can vary, and different products have different stable baseline defective proportions.</div></details>
+            <details><summary>Required data</summary><div>Time order, product identifier, number defective D<sub>i</sub>, sample size n<sub>i</sub>, and a validated baseline proportion p<sub>0,j</sub> for each product family.</div></details>
+            <details><summary>Formula</summary><div><div class="formula-box"><div class="equation">p<sub>i</sub> = <span class="frac"><span>D<sub>i</sub></span><span>n<sub>i</sub></span></span> ; &nbsp; Z<sub>p,i</sub> = <span class="frac"><span>p<sub>i</sub> − p<sub>0,j</sub></span><span>√[p<sub>0,j</sub>(1−p<sub>0,j</sub>)/n<sub>i</sub>]</span></span></div><p class="formula-note">Standardized chart: CL=0, UCL=+3, LCL=−3.</p></div></div></details>
+            <details><summary>Worked example</summary><div>A product normally has p<sub>0</sub>=0.020. In a sample of 200 coils, 9 are held, so p=0.045. Z=(0.045−0.020)/√[0.020(0.980)/200]=2.53. The result is elevated but remains inside +3.</div></details>
+            <details><summary>Steel-mill application</summary><div>Proportion of coils downgraded, proportion of tensile specimens failing, or proportion of pipe joints requiring repair when inspection batch sizes vary and baseline rates differ by product.</div></details>
+            <details><summary>Warnings</summary><div>Count defective units, not the number of defects. Check that the binomial approximation is reasonable; extremely small expected counts may require exact or alternative monitoring methods.</div></details>
+          </article>
+
+          <article class="chart-detail" id="detail-std-np" data-chart-detail="std-np" aria-hidden="true" hidden>
+            <div class="chart-detail-header"><div><span class="chart-tag">Standardized attributes · Defectives</span><h3>Standardized np-chart</h3></div><button type="button" class="btn ghost detail-close">Close panel</button></div>
+            <details open><summary>What it is</summary><div>A short-run chart of the standardized number of nonconforming units in a fixed-size sample. It compares the observed count with the product-specific expected count.</div></details>
+            <details><summary>When to use it</summary><div>Use when units are classified as conforming/nonconforming, every subgroup has the same sample size n, and expected defective probabilities differ among products.</div></details>
+            <details><summary>Required data</summary><div>Time order, product identifier, number defective D<sub>i</sub>, constant sample size n, and validated baseline defective probability p<sub>0,j</sub>.</div></details>
+            <details><summary>Formula</summary><div><div class="formula-box"><div class="equation">Z<sub>np,i</sub> = <span class="frac"><span>D<sub>i</sub> − n p<sub>0,j</sub></span><span>√[n p<sub>0,j</sub>(1−p<sub>0,j</sub>)]</span></span></div><p class="formula-note">Standardized chart: CL=0, UCL=+3, LCL=−3.</p></div></div></details>
+            <details><summary>Worked example</summary><div>For a fixed sample of 100 units with p<sub>0</sub>=0.03, the expected count is 3. Observing 7 defectives gives Z=(7−3)/√[100(0.03)(0.97)]=2.34.</div></details>
+            <details><summary>Steel-mill application</summary><div>Number of rejected specimens in a fixed daily sample, or number of nonconforming pipe ends in a constant inspection batch when baseline probabilities differ by product family.</div></details>
+            <details><summary>Warnings</summary><div>If sample size changes, use standardized p rather than np. Do not use np for multiple defects on one unit; a unit can only count once as defective.</div></details>
+          </article>
+
+          <article class="chart-detail" id="detail-std-c" data-chart-detail="std-c" aria-hidden="true" hidden>
+            <div class="chart-detail-header"><div><span class="chart-tag">Standardized attributes · Defects</span><h3>Standardized c-chart</h3></div><button type="button" class="btn ghost detail-close">Close panel</button></div>
+            <details open><summary>What it is</summary><div>A short-run chart of standardized defect counts when each inspected unit has the same opportunity for defects. One unit may contain more than one defect.</div></details>
+            <details><summary>When to use it</summary><div>Use when the inspected area, length, time, or number of opportunities is constant, counts are Poisson-like, and expected defect counts differ among products.</div></details>
+            <details><summary>Required data</summary><div>Time order, product identifier, observed defect count c<sub>i</sub>, constant inspection opportunity, and validated expected count c<sub>0,j</sub>.</div></details>
+            <details><summary>Formula</summary><div><div class="formula-box"><div class="equation">Z<sub>c,i</sub> = <span class="frac"><span>c<sub>i</sub> − c<sub>0,j</sub></span><span>√c<sub>0,j</sub></span></span></div><p class="formula-note">Standardized chart: CL=0, UCL=+3, LCL=−3.</p></div></div></details>
+            <details><summary>Worked example</summary><div>A product is expected to have c<sub>0</sub>=4 indications on an equal inspected area. Observing 10 gives Z=(10−4)/√4=3.00, exactly at the upper control limit.</div></details>
+            <details><summary>Steel-mill application</summary><div>Surface indications on equal-area plates, imperfections on equal-length test sections, or reportable weld-profile anomalies when every subgroup has the same exposure.</div></details>
+            <details><summary>Warnings</summary><div>If inspected opportunity changes, use standardized u. Check for clustering, changing inspection sensitivity, and overdispersion; these can violate a simple Poisson model.</div></details>
+          </article>
+
+          <article class="chart-detail" id="detail-std-u" data-chart-detail="std-u" aria-hidden="true" hidden>
+            <div class="chart-detail-header"><div><span class="chart-tag">Standardized attributes · Defects per unit</span><h3>Standardized u-chart</h3></div><button type="button" class="btn ghost detail-close">Close panel</button></div>
+            <details open><summary>What it is</summary><div>A short-run chart of standardized defects per inspection unit. It handles both changing inspection opportunity and product-specific baseline defect rates.</div></details>
+            <details><summary>When to use it</summary><div>Use when one unit can contain multiple defects, inspected length/area/tonnes/time varies, and products have different stable expected rates.</div></details>
+            <details><summary>Required data</summary><div>Time order, product identifier, defect count c<sub>i</sub>, opportunity n<sub>i</sub> expressed in the same unit as the baseline, and expected rate u<sub>0,j</sub>.</div></details>
+            <details><summary>Formula</summary><div><div class="formula-box"><div class="equation">u<sub>i</sub> = <span class="frac"><span>c<sub>i</sub></span><span>n<sub>i</sub></span></span> ; &nbsp; Z<sub>u,i</sub> = <span class="frac"><span>u<sub>i</sub> − u<sub>0,j</sub></span><span>√(u<sub>0,j</sub>/n<sub>i</sub>)</span></span></div><p class="formula-note">Standardized chart: CL=0, UCL=+3, LCL=−3.</p></div></div></details>
+            <details><summary>Worked example</summary><div>A pipe family expects 0.8 indications per 1,000 m. A run has 5 indications over 2,000 m, so u=2.5. With n=2 units of 1,000 m, Z=(2.5−0.8)/√(0.8/2)=2.69.</div></details>
+            <details><summary>Steel-mill application</summary><div>Surface defects per 1,000 m of pipe, holds per 1,000 tonnes, weld repairs per 100 joints, or imperfections per square metre when exposure varies.</div></details>
+            <details><summary>Warnings</summary><div>Use consistent opportunity units. A larger opportunity naturally reduces standard error, so comparing raw u values without the standardized denominator can misstate signal strength.</div></details>
+          </article>
+
+          <article class="chart-detail" id="detail-xnom" data-chart-detail="xnom" aria-hidden="true" hidden>
+            <div class="chart-detail-header"><div><span class="chart-tag">Difference method · Individuals</span><h3>X-nominal and moving-range charts</h3></div><button type="button" class="btn ghost detail-close">Close panel</button></div>
+            <details open><summary>What it is</summary><div>An individuals chart of actual minus product target, paired with a moving-range chart of successive coded deviations. It is also called an X-target or difference chart.</div></details>
+            <details><summary>When to use it</summary><div>Use for individual variable observations when targets differ but the natural standard deviations of the pooled product family are reasonably comparable.</div></details>
+            <details><summary>Required data</summary><div>Time order, product identifier, actual measurement, product target, and a stable pooled baseline of coded deviations.</div></details>
+            <details><summary>Formula</summary><div>
+              <div class="formula-box"><div class="equation">D<sub>i</sub> = X<sub>i</sub> − T<sub>j</sub> ; &nbsp; MR<sub>i</sub> = |D<sub>i</sub> − D<sub>i−1</sub>|</div></div>
+              <div class="formula-box"><div class="equation">Target-centered: CL=0 ; &nbsp; UCL=+2.66M̄R ; &nbsp; LCL=−2.66M̄R</div><p class="formula-note">MR chart: CL=M̄R, UCL=3.267M̄R, LCL=0. If a persistent validated offset is accepted as the process center, use D̄ ± 2.66M̄R instead.</p></div>
+            </div></details>
+            <details><summary>Worked example</summary><div>If M̄R=0.046 mm, target-centered limits are approximately ±0.123 mm. A +0.140 mm deviation is a signal even if the raw 8.34 mm result is inside the product specification.</div></details>
+            <details><summary>Steel-mill application</summary><div>Final gauge minus target gauge, actual width minus ordered width, or exit temperature minus recipe target within one comparable process family.</div></details>
+            <details><summary>Warnings</summary><div>Equal targets are not required; comparable variation is. Do not use a single MR estimate when thin and thick products have materially different controllability.</div></details>
+          </article>
+
+          <article class="chart-detail" id="detail-dnom" data-chart-detail="dnom" aria-hidden="true" hidden>
+            <div class="chart-detail-header"><div><span class="chart-tag">Difference method · Subgroups</span><h3>DNOM and range charts</h3></div><button type="button" class="btn ghost detail-close">Close panel</button></div>
+            <details open><summary>What it is</summary><div>DNOM means difference from nominal. The upper chart plots each subgroup mean minus its product target; the lower chart monitors within-subgroup ranges.</div></details>
+            <details><summary>When to use it</summary><div>Use when rational subgroups exist, product targets differ, subgroup sizes are compatible, and pooled products have comparable within-subgroup variation.</div></details>
+            <details><summary>Required data</summary><div>Product and subgroup identifiers, target by product, all observations within each subgroup, subgroup size, and pooled stable range history.</div></details>
+            <details><summary>Formula</summary><div>
+              <div class="formula-box"><div class="equation">D̄<sub>i</sub> = X̄<sub>i</sub> − T<sub>j</sub> ; &nbsp; R<sub>i</sub> = X<sub>max,i</sub> − X<sub>min,i</sub></div></div>
+              <div class="formula-box"><div class="equation">Target-centered: CL=0 ; &nbsp; UCL=+A₂R̄ ; &nbsp; LCL=−A₂R̄</div><p class="formula-note">Range chart: CL=R̄, UCL=D₄R̄, LCL=D₃R̄. Use constants for the subgroup size.</p></div>
+            </div></details>
+            <details><summary>Worked example</summary><div>Five gauge readings across each coil form a subgroup. If R̄=0.12 mm and n=5, A₂=0.577, so the target-centered limits for mean deviation are ±0.069 mm.</div></details>
+            <details><summary>Steel-mill application</summary><div>Average thickness deviation across a coil width, or several profile measurements around one pipe when those positions represent short-term within-unit variation.</div></details>
+            <details><summary>Warnings</summary><div>Do not use DNOM when standard deviations differ substantially by product. Do not form a subgroup merely to increase n; the grouping must have a process meaning.</div></details>
+          </article>
+        </div>
+      </section>
+
+      <section id="product-family" aria-labelledby="family-title">
+        <h2 id="family-title">Interactive: can these products share one short-run chart?</h2>
+        <p>Short-run SPC begins with engineering qualification, not a formula. Check the statements that are true for the proposed product family.</p>
+        <div class="tool">
+          <div class="check-grid" id="family-checks">
+            <label class="check-row"><input type="checkbox" data-family-weight="2"><span><strong>Same process route:</strong> the products pass through the same relevant equipment and control strategy.</span></label>
+            <label class="check-row"><input type="checkbox" data-family-weight="2"><span><strong>Same measurement system:</strong> method, location, resolution, calibration, and units are comparable.</span></label>
+            <label class="check-row"><input type="checkbox" data-family-weight="2"><span><strong>Same physical mechanism:</strong> the response is controlled by comparable metallurgical or mechanical behaviour.</span></label>
+            <label class="check-row"><input type="checkbox" data-family-weight="1"><span><strong>Comparable sampling logic:</strong> individual values or rational subgroups mean the same thing across products.</span></label>
+            <label class="check-row"><input type="checkbox" data-family-weight="1"><span><strong>Stable product baselines:</strong> targets, means, standard deviations, or rates come from stable history.</span></label>
+            <label class="check-row"><input type="checkbox" data-family-weight="1"><span><strong>Common response to special causes:</strong> sensor drift, roll wear, or cooling problems would affect products in a comparable direction.</span></label>
+          </div>
+          <div class="field-grid">
+            <label class="field" for="family-variation">Product standard deviations are…
+              <select id="family-variation">
+                <option value="unknown">Not yet evaluated</option>
+                <option value="equal">Reasonably comparable</option>
+                <option value="different">Materially different</option>
+              </select>
+            </label>
+            <label class="field" for="family-break">Known process break between products?
+              <select id="family-break">
+                <option value="no">No known break</option>
+                <option value="yes">Yes—different line, heat treatment, test method, or mechanism</option>
+              </select>
+            </label>
+          </div>
+          <button type="button" class="btn" id="family-evaluate">Evaluate product family</button>
+          <button type="button" class="btn secondary" id="family-reset">Reset</button>
+          <div id="family-result" class="callout" aria-live="polite"><strong>Result:</strong> complete the checks, then evaluate.</div>
+        </div>
+        <div class="callout warn"><strong>Steel-mill example:</strong> body Charpy, HAZ Charpy, and weld-metal Charpy may share joules as a unit, but they do not automatically share one physical process distribution. Standardizing unlike mechanisms can hide rather than solve the problem.</div>
+      </section>
+
+      <section id="equal-variation" aria-labelledby="variance-title">
+        <h2 id="variance-title">Interactive: screen for comparable variation</h2>
+        <p>The source flowchart asks whether product standard deviations are equal. In practice, use stable product-specific estimates, engineering judgment, graphical comparison, and—where appropriate—a formal equal-variance analysis. This quick ratio is a <strong>screening diagnostic only</strong>, not a universal acceptance test.</p>
+        <div class="tool">
+          <div class="field-grid">
+            <label class="field" for="sd-a">Product A standard deviation<input type="number" id="sd-a" min="0.000001" step="0.001" value="0.035"></label>
+            <label class="field" for="sd-b">Product B standard deviation<input type="number" id="sd-b" min="0.000001" step="0.001" value="0.039"></label>
+            <label class="field" for="sd-c">Product C standard deviation<input type="number" id="sd-c" min="0.000001" step="0.001" value="0.037"></label>
+            <label class="field" for="sd-d">Product D standard deviation, optional<input type="number" id="sd-d" min="0.000001" step="0.001" placeholder="Optional"></label>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="btn" id="sd-check">Compare variation</button>
+            <button type="button" class="btn secondary" id="sd-example-different">Load clearly different example</button>
+          </div>
+          <div class="three-col">
+            <div class="metric"><span class="label">Largest σ</span><span class="value" id="sd-max">0.039</span></div>
+            <div class="metric"><span class="label">Smallest σ</span><span class="value" id="sd-min">0.035</span></div>
+            <div class="metric"><span class="label">Max / min ratio</span><span class="value" id="sd-ratio">1.11</span></div>
+          </div>
+          <p id="sd-result" class="status ok" aria-live="polite">Screening result: similar enough to investigate a difference-from-nominal chart, subject to stable data and engineering review.</p>
+          <div class="callout"><strong>Interpret the ratio cautiously:</strong> near 1 means similar estimates. A ratio above about 1.5 deserves closer review; above 2 usually makes simple pooled DNOM limits difficult to defend. Sample size, uncertainty, practical units, and product physics still control the final decision.</div>
+        </div>
+      </section>
+
+      <section id="procedure" aria-labelledby="procedure-title">
+        <h2 id="procedure-title">A defensible short-run SPC implementation procedure</h2>
+        <ol class="steps">
+          <li><div><strong>Define the monitoring question.</strong> Decide whether you are monitoring one product or the health of a common process across many products.</div></li>
+          <li><div><strong>Preserve time order.</strong> Arrange observations by actual production or test sequence. Product order is not a substitute for time order.</div></li>
+          <li><div><strong>Define the process stream.</strong> Specify equipment, route, operating mechanism, measurement system, test location, and subgroup logic.</div></li>
+          <li><div><strong>Form candidate product families.</strong> Use engineering knowledge before statistical pooling. Document exclusions and known process breaks.</div></li>
+          <li><div><strong>Validate historical baselines.</strong> Estimate targets, expected means, standard deviations, ranges, or defect rates from stable and representative periods.</div></li>
+          <li><div><strong>Choose the coding method.</strong> Use deviation from nominal only when product variation is comparable; otherwise standardize.</div></li>
+          <li><div><strong>Select the chart family.</strong> Follow variables versus attributes, individuals versus subgroups, and defective units versus defect counts.</div></li>
+          <li><div><strong>Build Phase I limits.</strong> Use enough pooled stable subgroups to estimate the common chart behaviour, investigate signals, remove only verified special causes, and recalculate once.</div></li>
+          <li><div><strong>Freeze the baseline for Phase II.</strong> Monitor new data using the validated historical parameters. Do not let every new point continuously redefine normal.</div></li>
+          <li><div><strong>Maintain traceability.</strong> Keep product, grade, gauge, heat, slab, rolling practice, test location, recipe, and equipment status available for signal investigation even though the chart plots coded values.</div></li>
+        </ol>
+        <div class="callout tip"><strong>Minimum-history principle:</strong> pooling legitimate product families helps accumulate the roughly 20 or more stable subgroups normally desired for an initial control-limit study. The pooled count does not excuse weak product-specific targets or standard deviations.</div>
+      </section>
+
+      <!-- EDIT: Worked example -->
+      <section id="worked-example" aria-labelledby="worked-title">
+        <h2 id="worked-title">Worked steel-mill example: final-gauge deviation</h2>
+        <div class="example-box">
+          <h3>Problem</h3>
+          <p>A rolling mill alternates among three products with targets of 8.20, 7.80, and 8.40 mm. Historical within-product standard deviations are comparable, so an X-nominal chart is proposed. Twelve coils are produced in time order.</p>
+          <div class="table-scroll">
+            <table id="worked-table">
+              <thead><tr><th>Coil</th><th>Product</th><th>Target, mm</th><th>Actual, mm</th><th>Deviation, mm</th><th>Moving range, mm</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>A</td><td>8.20</td><td>8.25</td><td>+0.05</td><td>—</td></tr>
+                <tr><td>2</td><td>B</td><td>7.80</td><td>7.84</td><td>+0.04</td><td>0.01</td></tr>
+                <tr><td>3</td><td>C</td><td>8.40</td><td>8.35</td><td>−0.05</td><td>0.09</td></tr>
+                <tr><td>4</td><td>A</td><td>8.20</td><td>8.23</td><td>+0.03</td><td>0.08</td></tr>
+                <tr><td>5</td><td>B</td><td>7.80</td><td>7.77</td><td>−0.03</td><td>0.06</td></tr>
+                <tr><td>6</td><td>C</td><td>8.40</td><td>8.42</td><td>+0.02</td><td>0.05</td></tr>
+                <tr><td>7</td><td>A</td><td>8.20</td><td>8.21</td><td>+0.01</td><td>0.01</td></tr>
+                <tr><td>8</td><td>B</td><td>7.80</td><td>7.78</td><td>−0.02</td><td>0.03</td></tr>
+                <tr><td>9</td><td>C</td><td>8.40</td><td>8.51</td><td>+0.11</td><td>0.13</td></tr>
+                <tr><td>10</td><td>A</td><td>8.20</td><td>8.33</td><td>+0.13</td><td>0.02</td></tr>
+                <tr><td>11</td><td>B</td><td>7.80</td><td>7.92</td><td>+0.12</td><td>0.01</td></tr>
+                <tr><td>12</td><td>C</td><td>8.40</td><td>8.54</td><td>+0.14</td><td>0.02</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="tool" style="margin-top:1rem;" id="worked-interactive">
+            <h3>Build the chart one step at a time</h3>
+            <div class="btn-row">
+              <button type="button" class="btn" data-worked-step="1">1. Code the data</button>
+              <button type="button" class="btn secondary" data-worked-step="2">2. Calculate M̄R</button>
+              <button type="button" class="btn secondary" data-worked-step="3">3. Calculate limits</button>
+              <button type="button" class="btn secondary" data-worked-step="4">4. Interpret signals</button>
+            </div>
+            <div id="worked-explanation" class="callout"><strong>Step 1:</strong> subtract each coil's own target. The planned differences among 7.80, 8.20, and 8.40 mm disappear; all coded values are now deviations around zero.</div>
+            <div class="four-col">
+              <div class="metric"><span class="label">Average moving range</span><span class="value" id="worked-mr">—</span></div>
+              <div class="metric"><span class="label">Target centerline</span><span class="value">0.000</span></div>
+              <div class="metric"><span class="label">UCL</span><span class="value" id="worked-ucl">—</span></div>
+              <div class="metric"><span class="label">LCL</span><span class="value" id="worked-lcl">—</span></div>
+            </div>
+            <div class="fig-panel" style="margin-top:0.9rem;">
+              <svg id="worked-svg" viewBox="0 0 820 350" role="img" aria-labelledby="worked-svg-title worked-svg-desc">
+                <title id="worked-svg-title">X-nominal chart for the gauge example</title>
+                <desc id="worked-svg-desc">A control chart of twelve gauge deviations with a zero centerline and calculated control limits.</desc>
+                <g id="worked-grid"></g><g id="worked-lines"></g><g id="worked-points"></g><g id="worked-labels"></g>
+              </svg>
+            </div>
+          </div>
+
+          <h3 style="margin-top:1.3rem;">Calculation</h3>
+          <div class="formula-box"><div class="equation">M̄R = <span class="frac"><span>0.01+0.09+0.08+0.06+0.05+0.01+0.03+0.13+0.02+0.01+0.02</span><span>11</span></span> = 0.04636 mm</div></div>
+          <div class="formula-box"><div class="equation">UCL = +2.66(0.04636)=+0.12333 mm ; &nbsp; LCL = −0.12333 mm</div></div>
+          <p><strong>Interpretation:</strong> coils 10 (+0.13 mm) and 12 (+0.14 mm) exceed the target-centered UCL. Coils 9–12 also show a sustained positive shift. Investigate gauge-control bias, roll wear, target-table changes, temperature-model drift, or measurement changes around coil 9.</p>
+          <div class="callout warn"><strong>Phase I caution:</strong> this 12-point example teaches the calculation; it is not enough by itself to establish a permanent production baseline. A real implementation should use a larger stable historical period and recompute limits after verified special causes are addressed.</div>
+        </div>
+      </section>
+
+      <section id="applications" aria-labelledby="applications-title">
+        <h2 id="applications-title">Where short-run SPC fits in a steel mill</h2>
+        <div class="three-col">
+          <div class="panel application-card"><h3>Final gauge</h3><p class="recommend">Strong first application</p><p>Chart actual gauge minus target gauge. Use X-nominal for individuals or DNOM for rational subgroups when gauge variation is comparable; standardize when controllability changes by gauge family.</p></div>
+          <div class="panel application-card"><h3>Exit or finishing temperature</h3><p class="recommend">Difference or standardized</p><p>Chart actual minus recipe target. Separate or standardize rolling practices, slab thicknesses, and grades when their thermal response or sensor variation differs.</p></div>
+          <div class="panel application-card"><h3>Coiling temperature</h3><p class="recommend">Difference or standardized</p><p>Detect broad overcooling or undercooling across grades while retaining product identifiers for nozzle, water-flow, season, and pyrometer investigations.</p></div>
+          <div class="panel application-card"><h3>Width</h3><p class="recommend">Often X-nominal</p><p>Use actual width minus ordered target when trimming or rolling variation is comparable across width families and the same measurement system is used.</p></div>
+          <div class="panel application-card"><h3>Rolling force, torque, power</h3><p class="recommend">Model-residual chart</p><p>Expected values depend on grade, width, reduction, temperature, pass, speed, and roll condition. Chart <strong>actual − predicted</strong>, then standardize the residual if residual variation changes.</p></div>
+          <div class="panel application-card"><h3>ERW weld profiles</h3><p class="recommend">Ratio or model residual</p><p>Account for OD, wall thickness, setup, and commissioning state before pooling OD width, center width, ID width, heights, or ferrite-line width.</p></div>
+          <div class="panel application-card"><h3>Tensile properties</h3><p class="recommend">Standardized residuals</p><p>Do not center YS on SMYS automatically: SMYS is a lower requirement, not the process mean. Model grade, gauge, D/t, end, orientation, test location, and cooling condition.</p></div>
+          <div class="panel application-card"><h3>Charpy energy</h3><p class="recommend">Use narrowly defined families</p><p>Account for specimen size, test temperature, orientation, location, grade, gauge, rolling practice, and slab thickness. Avoid pooling base metal, HAZ, and weld metal merely because all are measured in joules.</p></div>
+          <div class="panel application-card"><h3>Defects and holds</h3><p class="recommend">Standardized p or u</p><p>Use standardized p for proportions defective and standardized u for defects per length, area, tonnes, or other changing inspection opportunity when baseline rates vary by family.</p></div>
+        </div>
+        <div class="formula-box"><div class="equation">Advanced residual approach: &nbsp; e<sub>i</sub> = Y<sub>i</sub> − Ŷ<sub>i</sub></div><p class="formula-note">Ŷ is the expected response from a validated engineering or statistical model. Chart the residual only after checking that residuals represent one stable error mechanism.</p></div>
+      </section>
+
+      <section id="limits-vs-specs" aria-labelledby="limits-title">
+        <h2 id="limits-title">Interactive: control limits are not specification limits</h2>
+        <p>Use the four scenarios to separate process stability from product conformance.</p>
+        <div class="tool">
+          <div class="btn-row" role="group" aria-label="Stability and capability scenarios">
+            <button type="button" class="btn" data-limit-scenario="stable-capable" aria-pressed="true">Stable and capable</button>
+            <button type="button" class="btn secondary" data-limit-scenario="stable-incapable" aria-pressed="false">Stable but incapable</button>
+            <button type="button" class="btn secondary" data-limit-scenario="unstable-in-spec" aria-pressed="false">Unstable, currently in spec</button>
+            <button type="button" class="btn secondary" data-limit-scenario="unstable-incapable" aria-pressed="false">Unstable and incapable</button>
+          </div>
+          <div class="fig-panel">
+            <svg id="limits-svg" viewBox="0 0 820 300" role="img" aria-labelledby="limits-svg-title limits-svg-desc">
+              <title id="limits-svg-title">Control limits and specification limits comparison</title>
+              <desc id="limits-svg-desc">An interactive process chart displays control limits, specification limits, and process points for four stability and capability scenarios.</desc>
+              <g id="limits-grid"></g><g id="limits-lines"></g><g id="limits-points"></g><g id="limits-labels"></g>
+            </svg>
+          </div>
+          <p id="limits-status" class="status ok" aria-live="polite">The process is stable and its natural control band fits inside the customer specifications.</p>
+        </div>
+        <div class="two-col" style="margin-top:1rem;">
+          <div class="panel"><h3>Control limits</h3><p>Calculated from stable process behaviour. They answer: <strong>has the process changed?</strong></p></div>
+          <div class="panel"><h3>Specification limits</h3><p>Set by customers, codes, or engineering requirements. They answer: <strong>is the unit acceptable?</strong></p></div>
+        </div>
+      </section>
+
+      <section id="interpretation" aria-labelledby="interpret-title">
+        <h2 id="interpret-title">Interpretation guide: when you see this, it means this</h2>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>What you see</th><th>What it suggests</th><th>What to investigate</th></tr></thead>
+            <tbody>
+              <tr><td>Raw values jump at every product change, coded values remain stable</td><td>The raw chart was reacting to intended target changes.</td><td>Use the coded short-run chart; keep product labels for traceability.</td></tr>
+              <tr><td>Coded values shift above zero across several products</td><td>A common positive process bias, not a single product target issue.</td><td>Calibration, control-loop bias, recipe table, common sensor, roll or cooling condition.</td></tr>
+              <tr><td>Only one product repeatedly signals after standardization</td><td>Product baseline may be wrong or the family assumption may fail.</td><td>Target/mean/σ estimate, route, test location, product-specific mechanism.</td></tr>
+              <tr><td>Location chart stable; W or range chart signals</td><td>Average performance is centered, but short-term variation has increased.</td><td>Measurement instability, material inconsistency, control oscillation, equipment wear.</td></tr>
+              <tr><td>DNOM chart signals mainly for products with larger σ</td><td>Equal-variation assumption is likely false.</td><td>Standardize by product variation or split the family.</td></tr>
+              <tr><td>Standardized p/u value exceeds +3</td><td>Observed defect level is unexpectedly high after accounting for baseline rate and sample opportunity.</td><td>Defect definition, inspection exposure, product mix, process change, inspection sensitivity.</td></tr>
+              <tr><td>Chart stable but coded center is not zero</td><td>The process may be consistently biased relative to targets.</td><td>Decide whether to remove the bias, revise a technically justified target, or use a process-centered Phase II chart while preserving target performance reporting.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="mistakes" aria-labelledby="mistakes-title">
+        <h2 id="mistakes-title">Common mistakes and exam traps</h2>
+        <div class="two-col">
+          <div class="panel"><h3>1. Pooling because equipment is shared</h3><p>Same mill does not prove the same process stream. Route, mechanism, measurement, and variation must be comparable.</p></div>
+          <div class="panel"><h3>2. Calling specifications control limits</h3><p>Specifications judge conformance; control limits detect change. They are calculated differently and answer different questions.</p></div>
+          <div class="panel"><h3>3. Using SMYS as a tensile process mean</h3><p>A minimum requirement is not the expected stable mean. Centering there can create a biased and uninformative coded chart.</p></div>
+          <div class="panel"><h3>4. Standardizing unstable history</h3><p>Dividing by a standard deviation does not repair special causes. It simply hides them on a different scale.</p></div>
+          <div class="panel"><h3>5. Estimating σ from two or three observations</h3><p>Small estimates are highly uncertain. Use qualified history, hierarchical pooling, or delay live charting until the baseline is defensible.</p></div>
+          <div class="panel"><h3>6. Mixing measurement systems</h3><p>Different gauges, test frames, specimen geometries, or locations can create artificial shifts and false product variation.</p></div>
+          <div class="panel"><h3>7. Creating artificial subgroups</h3><p>A subgroup is not just several rows. Members must represent the same short-term process condition.</p></div>
+          <div class="panel"><h3>8. Sorting by product</h3><p>SPC requires time order. Sorting all Product A observations together destroys the sequence in which special causes occurred.</p></div>
+          <div class="panel"><h3>9. Moving ranges across invalid breaks</h3><p>A shutdown, equipment rebuild, measurement change, or new process era may require a new baseline rather than one continuous MR stream.</p></div>
+          <div class="panel"><h3>10. Over-normalizing destructive tests</h3><p>Sparse Charpy or tensile results may support periodic surveillance, but they should not be treated like high-frequency online process measurements without acknowledging delay and sampling uncertainty.</p></div>
+        </div>
+      </section>
+
+      <section id="software" aria-labelledby="software-title">
+        <h2 id="software-title">Excel and Minitab implementation</h2>
+        <h3>Recommended worksheet structure</h3>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Column</th><th>Purpose</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td>Date/time or sequence</td><td>Preserve production order</td><td>2026-07-29 08:15</td></tr>
+              <tr><td>Product family</td><td>Defines the qualified common stream</td><td>Steckel gauge family 1</td></tr>
+              <tr><td>Product ID</td><td>Retrieves target and parameters</td><td>8⅝ × .323</td></tr>
+              <tr><td>Actual result</td><td>Observed measurement or count</td><td>8.25 mm</td></tr>
+              <tr><td>Target / expected mean</td><td>Product-specific location baseline</td><td>8.20 mm</td></tr>
+              <tr><td>Product σ or rate</td><td>Product-specific variation or attribute baseline</td><td>0.035 mm</td></tr>
+              <tr><td>Coded statistic</td><td>Deviation, Z, or standardized attribute residual</td><td>+1.43</td></tr>
+              <tr><td>Traceability columns</td><td>Signal investigation</td><td>Heat, slab, rolling practice, gauge, end, tester</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:1.4rem;">Excel formulas</h3>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Task</th><th>Example Excel formula</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Look up product target</td><td><code>=XLOOKUP([@Product],Parameters[Product],Parameters[Target])</code></td><td>Keep parameters in a controlled table.</td></tr>
+              <tr><td>Deviation from target</td><td><code>=[@Actual]-[@Target]</code></td><td>Preserves original unit.</td></tr>
+              <tr><td>Standardized variable value</td><td><code>=LET(x,[@Actual],mu,[@Mean],s,[@SD],IF(s&gt;0,(x-mu)/s,NA()))</code></td><td>Guard against zero or missing σ.</td></tr>
+              <tr><td>Moving range</td><td><code>=ABS(CurrentDeviation-PreviousDeviation)</code></td><td>Do not bridge invalid process breaks.</td></tr>
+              <tr><td>Average by product</td><td><code>=AVERAGEIFS(Data[Actual],Data[Product],[@Product])</code></td><td>Use only validated stable baseline rows.</td></tr>
+              <tr><td>Product standard deviation</td><td><code>=STDEV.S(FILTER(Data[Actual],Data[Product]=[@Product]))</code></td><td>Review sample size and stability.</td></tr>
+              <tr><td>Standardized p</td><td><code>=LET(p,[@Defectives]/[@n],p0,[@BaselineRate],(p-p0)/SQRT(p0*(1-p0)/[@n]))</code></td><td>Requires 0&lt;p0&lt;1 and a valid sample size.</td></tr>
+              <tr><td>Standardized u</td><td><code>=LET(u,[@Defects]/[@Opportunity],u0,[@BaselineRate],(u-u0)/SQRT(u0/[@Opportunity]))</code></td><td>Opportunity must use the same unit as u0.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout warn"><strong>Excel mistake:</strong> do not use the entire live dataset to recalculate targets and standard deviations on every refresh. Store validated Phase II parameters separately so a new special cause does not redefine its own limits.</div>
+
+        <h3 style="margin-top:1.4rem;">Minitab: standardized individual variables</h3>
+        <ol class="steps">
+          <li><div>Arrange the individual measurements in one column and the product/part identifier in a second column.</div></li>
+          <li><div>Choose <strong>Stat → Control Charts → Variables Charts for Individuals → Z-MR</strong>.</div></li>
+          <li><div>Enter the measurement column under <strong>Variables</strong> and the product identifier under <strong>Part indicator</strong>.</div></li>
+          <li><div>When validated historical means and standard deviations exist, open <strong>Z-MR Options → Parameters</strong> and supply them by part/product.</div></li>
+          <li><div>Review both panels: the Z chart for location and the MR chart for changes in standardized short-term variation.</div></li>
+        </ol>
+        <p>For X-nominal or other custom transformations, calculate the coded statistic in the worksheet first, then chart the coded column with the appropriate ordinary I-MR or X̄-R procedure using historical parameters where applicable.</p>
+        <div class="callout"><strong>Minitab output to prioritize:</strong> product/part parameter estimates, centerline and limits, tests for special causes, point labels, and whether the moving-range or range panel signals before the location panel.</div>
+        <div class="callout warn"><strong>Minitab mistake:</strong> allowing the software to estimate each product's mean and standard deviation from sparse or unstable observations can give a mathematically complete but operationally weak chart.</div>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-title">
+        <h2 id="practice-title">Practice activity: select and calculate a standardized u-chart point</h2>
+        <div class="tool">
+          <h3>Scenario</h3>
+          <p>A pipe mill monitors surface indications per 1,000 m. Product family P has a stable expected rate of 0.60 indications per 1,000 m. The current run covers 2,500 m and contains 6 indications.</p>
+          <ol class="objectives-list">
+            <li>Choose the chart family.</li>
+            <li>Calculate the observed defects per 1,000 m.</li>
+            <li>Calculate the standardized statistic.</li>
+            <li>Decide whether the point exceeds the +3 control limit.</li>
+          </ol>
+          <div class="field-grid">
+            <label class="field" for="practice-chart">Chart choice
+              <select id="practice-chart">
+                <option value="">Select a chart</option>
+                <option value="p">Standardized p</option>
+                <option value="np">Standardized np</option>
+                <option value="c">Standardized c</option>
+                <option value="u">Standardized u</option>
+              </select>
+            </label>
+            <label class="field" for="practice-u">Observed u, defects per 1,000 m<input id="practice-u" type="number" step="0.01" placeholder="Enter result"></label>
+            <label class="field" for="practice-z">Standardized Z<input id="practice-z" type="number" step="0.01" placeholder="Enter result"></label>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="btn" id="practice-check">Check my work</button>
+            <button type="button" class="btn secondary" id="practice-reveal">Reveal answer</button>
+            <button type="button" class="btn ghost" id="practice-reset">Reset</button>
+          </div>
+          <p id="practice-feedback" class="status" aria-live="polite"></p>
+          <div id="practice-answer" class="callout tip" hidden>
+            <strong>Answer:</strong> use a standardized u-chart because you are counting defects and the inspected opportunity varies.
+            <div class="formula-box"><div class="equation">u = <span class="frac"><span>6 defects</span><span>2.5 units of 1,000 m</span></span> = 2.40 defects per 1,000 m</div></div>
+            <div class="formula-box"><div class="equation">Z<sub>u</sub> = <span class="frac"><span>2.40 − 0.60</span><span>√(0.60 / 2.5)</span></span> = <span class="frac"><span>1.80</span><span>0.4899</span></span> = 3.67</div></div>
+            <p>Because 3.67 exceeds the +3 limit, the run is a special-cause signal after accounting for both the product baseline and the inspected length.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- EDIT: Quiz questions -->
+      <section id="quiz" aria-labelledby="quiz-title">
+        <h2 id="quiz-title">Check your understanding</h2>
+        <p>Answer all five questions, then select <strong>Check my answers</strong>.</p>
+        <form id="quiz-form">
+          <div class="quiz-q" data-q="q1" data-answer="b">
+            <fieldset>
+              <legend>1. Why are these charts called “short-run” charts?</legend>
+              <label class="quiz-option"><input type="radio" name="q1" value="a"><span>The chart must be stopped after 20 points.</span></label>
+              <label class="quiz-option"><input type="radio" name="q1" value="b"><span>Each product is produced in a short campaign before another product is made, even though the chart may continue indefinitely.</span></label>
+              <label class="quiz-option"><input type="radio" name="q1" value="c"><span>They use shorter control limits than conventional charts.</span></label>
+              <label class="quiz-option"><input type="radio" name="q1" value="d"><span>They are only used during process commissioning.</span></label>
+            </fieldset>
+            <div class="quiz-feedback" data-feedback hidden></div>
+          </div>
+
+          <div class="quiz-q" data-q="q2" data-answer="c">
+            <fieldset>
+              <legend>2. Three gauges share the same rolling route, but their stable standard deviations are 0.02, 0.06, and 0.11 mm. What is the strongest initial choice?</legend>
+              <label class="quiz-option"><input type="radio" name="q2" value="a"><span>Pool raw gauge values on one I-MR chart.</span></label>
+              <label class="quiz-option"><input type="radio" name="q2" value="b"><span>Use one DNOM chart because the units are all millimetres.</span></label>
+              <label class="quiz-option"><input type="radio" name="q2" value="c"><span>Use a standardized chart or split the products into defensible families because their variation differs materially.</span></label>
+              <label class="quiz-option"><input type="radio" name="q2" value="d"><span>Replace the standard deviations with specification widths.</span></label>
+            </fieldset>
+            <div class="quiz-feedback" data-feedback hidden></div>
+          </div>
+
+          <div class="quiz-q" data-q="q3" data-answer="a">
+            <fieldset>
+              <legend>3. A product target is 10.00 mm, the actual result is 10.08 mm, and the product σ is 0.04 mm. What is Z?</legend>
+              <label class="quiz-option"><input type="radio" name="q3" value="a"><span>+2.00</span></label>
+              <label class="quiz-option"><input type="radio" name="q3" value="b"><span>+0.08</span></label>
+              <label class="quiz-option"><input type="radio" name="q3" value="c"><span>+0.50</span></label>
+              <label class="quiz-option"><input type="radio" name="q3" value="d"><span>+4.00</span></label>
+            </fieldset>
+            <div class="quiz-feedback" data-feedback hidden></div>
+          </div>
+
+          <div class="quiz-q" data-q="q4" data-answer="d">
+            <fieldset>
+              <legend>4. You count surface defects per kilometre, and inspected pipe length varies by run. Baseline defect rates also differ by product family. Which chart fits?</legend>
+              <label class="quiz-option"><input type="radio" name="q4" value="a"><span>Standardized np-chart</span></label>
+              <label class="quiz-option"><input type="radio" name="q4" value="b"><span>X-nominal chart</span></label>
+              <label class="quiz-option"><input type="radio" name="q4" value="c"><span>Standardized c-chart</span></label>
+              <label class="quiz-option"><input type="radio" name="q4" value="d"><span>Standardized u-chart</span></label>
+            </fieldset>
+            <div class="quiz-feedback" data-feedback hidden></div>
+          </div>
+
+          <div class="quiz-q" data-q="q5" data-answer="b">
+            <fieldset>
+              <legend>5. A short-run deviation chart is statistically stable, but nearly every point is above the zero target line. What does that mean?</legend>
+              <label class="quiz-option"><input type="radio" name="q5" value="a"><span>The process is on target because all points are inside the control limits.</span></label>
+              <label class="quiz-option"><input type="radio" name="q5" value="b"><span>The process may be consistently biased above product targets; stability does not guarantee centering or conformance.</span></label>
+              <label class="quiz-option"><input type="radio" name="q5" value="c"><span>The standard deviations must be equal.</span></label>
+              <label class="quiz-option"><input type="radio" name="q5" value="d"><span>The zero line should be replaced with the USL.</span></label>
+            </fieldset>
+            <div class="quiz-feedback" data-feedback hidden></div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn" id="quiz-check">Check my answers</button>
+            <button type="button" class="btn secondary" id="quiz-reset">Reset quiz</button>
+          </div>
+          <p id="quiz-score" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section id="summary" aria-labelledby="summary-title">
+        <h2 id="summary-title">Final summary</h2>
+        <ul class="objectives-list">
+          <li>“Short run” refers to the limited production quantity of each product—not the operating life of the chart.</li>
+          <li>Use a traditional chart when one repeatable product/process condition supplies enough sequential data.</li>
+          <li>Use <strong>X-nominal or DNOM</strong> when targets differ but product variation is reasonably comparable.</li>
+          <li>Use <strong>Z/W or standardized attribute charts</strong> when product-specific variation or baseline rates differ.</li>
+          <li>Variables versus attributes, individual versus subgroup, defective versus defect, and constant versus varying opportunity determine the terminal chart.</li>
+          <li>Qualify the process stream and product family before pooling. Common units or shared equipment are not sufficient.</li>
+          <li>Control limits detect changes in the coded process; specifications still judge product acceptance.</li>
+          <li>Keep complete product and process traceability so every coded signal can be investigated in engineering terms.</li>
+        </ul>
+        <div class="remember"><strong>Decision rule:</strong> first remove the product differences that should exist; then chart what remains—but only after proving the products share one meaningful process stream.</div>
+        <p><strong>Suggested next lesson:</strong> <a href="/lessons/control-charts-explained">Control Charts, Explained</a> for signal rules, followed by a process-capability lesson once stability is established.</p>
+      </section>
+
+      <section id="references" aria-labelledby="references-title">
+        <h2 id="references-title">References and further reading</h2>
+        <ul>
+          <li>McShane-Vaughn, M. E., <em>The ASQ Certified Six Sigma Black Belt Handbook</em>, short-run control charts decision flowchart and formula summary.</li>
+          <li>Montgomery, D. C., <em>Introduction to Statistical Quality Control</em>, control-chart theory, rational subgrouping, and Phase I/Phase II practice.</li>
+          <li>ISO 7870-8, <em>Control charts — Part 8: Charting techniques for short runs and small mixed batches</em>.</li>
+          <li>NIST/SEMATECH, <a href="https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc3.htm" rel="noopener">e-Handbook of Statistical Methods: Control Charts</a>.</li>
+          <li>Minitab Support, <a href="https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/control-charts/how-to/variables-charts-for-individuals/z-mr-chart/before-you-start/overview/" rel="noopener">Overview for Z-MR Chart</a> and <a href="https://support.minitab.com/minitab/help-and-how-to/quality-and-process-improvement/control-charts/how-to/variables-charts-for-individuals/z-mr-chart/methods-and-formulas/methods-and-formulas/" rel="noopener">Z-MR methods and formulas</a>.</li>
+        </ul>
+      </section>
+
+      <div class="completion-panel">
+        <h2 style="margin-bottom:0.5rem;">Lesson complete</h2>
+        <p>You now have a structured Lean Six Sigma method for deciding whether to use a traditional chart, a difference-from-nominal chart, or a standardized short-run chart—and for defending the product family behind that decision.</p>
+        <a class="btn" href="/lessons#lean-six-sigma" style="display:inline-block;text-decoration:none;">Back to Lean Six Sigma</a>
+      </div>
+
+      <!-- SITE INTEGRATION: Lesson library metadata
+      <a
+        class="lesson-row"
+        href="/lessons/lean-six-sigma/short-run-spc-control-charts"
+        data-lesson-item
+        data-topic="lean-six-sigma"
+        data-level="intermediate"
+        data-interactive="true"
+        data-search="short-run SPC short run control chart high mix low volume DNOM X nominal Z-MR standardized p np c u steel mill Minitab"
+      >
+        <div>
+          <div class="lesson-meta">
+            <span>Intermediate</span>
+            <span>Interactive · 50 min</span>
+          </div>
+          <h3>Short-Run SPC Control Charts</h3>
+          <p>Select, calculate, and interpret short-run SPC charts for mixed-product processes using an interactive decision flowchart and steel-mill examples.</p>
+        </div>
+        <span class="lesson-action">Start lesson</span>
+      </a>
+      -->
+    </article>
+  </main>
+
+  <footer class="lesson-footer">
+    <div class="footer-inner">
+      <a class="footer-back" href="/lessons#lean-six-sigma">Back to Lean Six Sigma</a>
+      <span>&copy; 2026 UpSkill Sprint Consulting · Lean Six Sigma lesson library</span>
+    </div>
+  </footer>
+
+  <!-- EDIT: Lesson JavaScript (single script block, IIFE, no globals) -->
+  <script>
+  (function () {
+    "use strict";
+
+    var NS = "http://www.w3.org/2000/svg";
+    var css = function (name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); };
+    var clear = function (node) { while (node.firstChild) node.removeChild(node.firstChild); };
+    function svgEl(name, attrs, text) {
+      var el = document.createElementNS(NS, name);
+      Object.keys(attrs || {}).forEach(function (key) { el.setAttribute(key, attrs[key]); });
+      if (text !== undefined) el.textContent = text;
+      return el;
+    }
+    function setPressed(groupSelector, active) {
+      document.querySelectorAll(groupSelector).forEach(function (button) {
+        var on = button === active;
+        button.setAttribute("aria-pressed", on ? "true" : "false");
+        button.classList.toggle("secondary", !on);
+      });
+    }
+    function fmt(value, digits) {
+      return Number(value).toFixed(digits === undefined ? 2 : digits);
+    }
+    function signed(value, digits) {
+      var n = Number(value);
+      return (n > 0 ? "+" : "") + n.toFixed(digits === undefined ? 2 : digits);
+    }
+
+    /* ---------- Raw versus coded chart ---------- */
+    var mixedData = [
+      { product: "A", target: 8.20, actual: 8.25 },
+      { product: "B", target: 7.80, actual: 7.84 },
+      { product: "C", target: 8.40, actual: 8.35 },
+      { product: "A", target: 8.20, actual: 8.23 },
+      { product: "B", target: 7.80, actual: 7.77 },
+      { product: "C", target: 8.40, actual: 8.42 },
+      { product: "A", target: 8.20, actual: 8.21 },
+      { product: "B", target: 7.80, actual: 7.78 },
+      { product: "C", target: 8.40, actual: 8.51 },
+      { product: "A", target: 8.20, actual: 8.33 },
+      { product: "B", target: 7.80, actual: 7.92 },
+      { product: "C", target: 8.40, actual: 8.54 }
+    ];
+    var rawCodedSvg = document.getElementById("raw-coded-svg");
+    function renderRawCoded(mode) {
+      var grid = document.getElementById("raw-coded-grid");
+      var lines = document.getElementById("raw-coded-lines");
+      var points = document.getElementById("raw-coded-points");
+      var labels = document.getElementById("raw-coded-labels");
+      [grid, lines, points, labels].forEach(clear);
+      var left = 62, right = 790, top = 30, bottom = 300;
+      var values = mixedData.map(function (d) { return mode === "raw" ? d.actual : d.actual - d.target; });
+      var targets = mixedData.map(function (d) { return mode === "raw" ? d.target : 0; });
+      var yMin = mode === "raw" ? 7.65 : -0.16;
+      var yMax = mode === "raw" ? 8.65 : 0.18;
+      var x = function (i) { return left + i * (right - left) / (values.length - 1); };
+      var y = function (v) { return bottom - (v - yMin) / (yMax - yMin) * (bottom - top); };
+      for (var g = 0; g <= 5; g++) {
+        var val = yMin + g * (yMax - yMin) / 5;
+        grid.appendChild(svgEl("line", { x1:left, x2:right, y1:y(val), y2:y(val), stroke:css("--line"), "stroke-width":"1" }));
+        labels.appendChild(svgEl("text", { x:left - 8, y:y(val) + 4, "text-anchor":"end", "font-size":"12", fill:css("--muted") }, mode === "raw" ? val.toFixed(2) : val.toFixed(2)));
+      }
+      var targetPath = targets.map(function (v, i) { return x(i) + "," + y(v); }).join(" ");
+      lines.appendChild(svgEl("polyline", { points:targetPath, fill:"none", stroke:css("--amber"), "stroke-width":"2", "stroke-dasharray":"7 5" }));
+      var valuePath = values.map(function (v, i) { return x(i) + "," + y(v); }).join(" ");
+      lines.appendChild(svgEl("polyline", { points:valuePath, fill:"none", stroke:css("--teal"), "stroke-width":"2.5" }));
+      values.forEach(function (v, i) {
+        points.appendChild(svgEl("circle", { cx:x(i), cy:y(v), r:"5", fill:css("--teal"), stroke:css("--surface"), "stroke-width":"2" }));
+        labels.appendChild(svgEl("text", { x:x(i), y:bottom + 22, "text-anchor":"middle", "font-size":"12", fill:css("--muted") }, mixedData[i].product + (i + 1)));
+      });
+      labels.appendChild(svgEl("text", { x:(left + right) / 2, y:345, "text-anchor":"middle", "font-size":"13", fill:css("--muted") }, "Production sequence"));
+      labels.appendChild(svgEl("text", { x:18, y:(top + bottom) / 2, transform:"rotate(-90 18 " + ((top + bottom) / 2) + ")", "text-anchor":"middle", "font-size":"13", fill:css("--muted") }, mode === "raw" ? "Gauge (mm)" : "Deviation from target (mm)"));
+      document.getElementById("raw-coded-status").textContent = mode === "raw"
+        ? "Raw gauge changes mainly reflect intentional target changes. A conventional moving range would be inflated at product transitions."
+        : "After subtracting each product target, the first eight coils cluster around zero and coils 9–12 reveal a common positive shift.";
+      document.getElementById("raw-coded-status").className = "status " + (mode === "raw" ? "warn" : "no");
+    }
+    document.getElementById("raw-view").addEventListener("click", function () { setPressed("#raw-vs-coded .btn-row button", this); renderRawCoded("raw"); });
+    document.getElementById("deviation-view").addEventListener("click", function () { setPressed("#raw-vs-coded .btn-row button", this); renderRawCoded("deviation"); });
+
+    /* ---------- Formula explorer ---------- */
+    function updateFormulaExplorer() {
+      var actual = parseFloat(document.getElementById("fx-actual").value);
+      var target = parseFloat(document.getElementById("fx-target").value);
+      var sd = parseFloat(document.getElementById("fx-sd").value);
+      var error = document.getElementById("fx-error");
+      if (!isFinite(actual) || !isFinite(target) || !isFinite(sd) || sd <= 0) {
+        error.textContent = "Enter finite values and a standard deviation greater than zero.";
+        document.getElementById("fx-deviation").textContent = "—";
+        document.getElementById("fx-z").textContent = "—";
+        document.getElementById("fx-interpretation").textContent = "Invalid input";
+        return;
+      }
+      error.textContent = "";
+      var d = actual - target;
+      var z = d / sd;
+      document.getElementById("fx-deviation").textContent = signed(d, 2);
+      document.getElementById("fx-z").textContent = signed(z, 2);
+      var direction = z > 0 ? "above" : z < 0 ? "below" : "at";
+      document.getElementById("fx-interpretation").textContent = Math.abs(z).toFixed(2) + "σ " + direction + " expected";
+    }
+    ["fx-actual", "fx-target", "fx-sd"].forEach(function (id) { document.getElementById(id).addEventListener("input", updateFormulaExplorer); });
+
+    /* ---------- Chart detail panels ---------- */
+    function openChartDetail(key) {
+      document.querySelectorAll("[data-chart-detail]").forEach(function (panel) {
+        var open = panel.getAttribute("data-chart-detail") === key;
+        panel.hidden = !open;
+        panel.setAttribute("aria-hidden", open ? "false" : "true");
+      });
+      var panel = document.querySelector("[data-chart-detail=\"" + key + "\"]");
+      if (panel) {
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+        var heading = panel.querySelector("h3");
+        if (heading) heading.setAttribute("tabindex", "-1");
+        if (heading) heading.focus({ preventScroll: true });
+      }
+    }
+    document.querySelectorAll("[data-open-chart]").forEach(function (button) {
+      button.addEventListener("click", function () { openChartDetail(button.getAttribute("data-open-chart")); });
+    });
+    document.querySelectorAll(".detail-close").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var panel = button.closest("[data-chart-detail]");
+        panel.hidden = true;
+        panel.setAttribute("aria-hidden", "true");
+      });
+    });
+
+    /* ---------- Guided selection wizard ---------- */
+    var wizard = {
+      start: { q:"What are you trying to monitor?", options:[
+        { label:"One repeatedly produced product", next:"traditional" },
+        { label:"One common process across many products", next:"common" }
+      ]},
+      common: { q:"Do the products share a defensible process stream?", options:[
+        { label:"Yes", next:"dataType" },
+        { label:"No or uncertain", result:"Separate the products or qualify narrower families before chart selection.", chart:null }
+      ]},
+      dataType: { q:"What type of response are you charting?", options:[
+        { label:"Variables: measured on a continuous scale", next:"variables" },
+        { label:"Attributes: defectives or defects", next:"attributes" }
+      ]},
+      variables: { q:"How are measurements collected?", options:[
+        { label:"One individual value at a time", next:"individualVariance" },
+        { label:"Rational subgroup averages and ranges", next:"subgroupVariance" }
+      ]},
+      individualVariance: { q:"Are product standard deviations reasonably comparable?", options:[
+        { label:"Yes", result:"Use an X-nominal chart with a moving-range chart.", chart:"xnom" },
+        { label:"No or unknown", result:"Use a standardized Z–W/Z*–W* chart, or split the family.", chart:"zmr" }
+      ]},
+      subgroupVariance: { q:"Are product within-subgroup standard deviations reasonably comparable?", options:[
+        { label:"Yes", result:"Use a DNOM chart with a range chart.", chart:"dnom" },
+        { label:"No or unknown", result:"Use a standardized Z̄–W/Z̄*–W* chart, or split the family.", chart:"zbarw" }
+      ]},
+      attributes: { q:"Which attribute count do you have?", options:[
+        { label:"Proportion defective; sample size varies", result:"Use a standardized p-chart.", chart:"std-p" },
+        { label:"Number defective; sample size is constant", result:"Use a standardized np-chart.", chart:"std-np" },
+        { label:"Number of defects; opportunity is constant", result:"Use a standardized c-chart.", chart:"std-c" },
+        { label:"Defects per unit; opportunity varies", result:"Use a standardized u-chart.", chart:"std-u" }
+      ]},
+      traditional: { result:"Use a traditional chart chosen by data type and subgroup structure.", chart:"traditional" }
+    };
+    var wizardState = "start";
+    var wizardTrail = [];
+    function renderWizard() {
+      var node = wizard[wizardState];
+      var path = document.getElementById("wizard-path");
+      var q = document.getElementById("wizard-question");
+      var options = document.getElementById("wizard-options");
+      var result = document.getElementById("wizard-result");
+      clear(options);
+      path.textContent = ["Start"].concat(wizardTrail).join(" · ");
+      result.hidden = true;
+      if (node.result && !node.q) {
+        q.textContent = "Recommendation";
+        result.hidden = false;
+        result.innerHTML = "<strong>" + node.result + "</strong>";
+        if (node.chart) {
+          var open = document.createElement("button");
+          open.type = "button";
+          open.className = "btn";
+          open.textContent = "Open chart explanation";
+          open.addEventListener("click", function () { openChartDetail(node.chart); });
+          options.appendChild(open);
+        }
+        return;
+      }
+      q.textContent = node.q;
+      node.options.forEach(function (opt) {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "btn secondary";
+        button.textContent = opt.label;
+        button.addEventListener("click", function () {
+          wizardTrail.push(opt.label);
+          if (opt.result) {
+            q.textContent = "Recommendation";
+            result.hidden = false;
+            result.innerHTML = "<strong>" + opt.result + "</strong>";
+            clear(options);
+            if (opt.chart) {
+              var open = document.createElement("button");
+              open.type = "button";
+              open.className = "btn";
+              open.textContent = "Open chart explanation";
+              open.addEventListener("click", function () { openChartDetail(opt.chart); });
+              options.appendChild(open);
+            }
+            path.textContent = ["Start"].concat(wizardTrail).join(" · ");
+          } else {
+            wizardState = opt.next;
+            renderWizard();
+          }
+        });
+        options.appendChild(button);
+      });
+    }
+    document.getElementById("wizard-reset").addEventListener("click", function () { wizardState = "start"; wizardTrail = []; renderWizard(); });
+
+    /* ---------- Product family evaluator ---------- */
+    document.getElementById("family-evaluate").addEventListener("click", function () {
+      var score = 0;
+      document.querySelectorAll("[data-family-weight]").forEach(function (input) { if (input.checked) score += Number(input.getAttribute("data-family-weight")); });
+      var variation = document.getElementById("family-variation").value;
+      var processBreak = document.getElementById("family-break").value;
+      var result = document.getElementById("family-result");
+      if (processBreak === "yes" || score < 5) {
+        result.className = "callout danger";
+        result.innerHTML = "<strong>Keep separate:</strong> the proposed products do not yet support one common process stream. Resolve the route, mechanism, or measurement differences before coding them together.";
+      } else if (variation === "different") {
+        result.className = "callout warn";
+        result.innerHTML = "<strong>Standardize before combining:</strong> the process family may be defensible, but product variation differs. Use Z/W, Z̄/W, or standardized attribute residuals rather than one pooled DNOM scale.";
+      } else if (variation === "equal" && score >= 8) {
+        result.className = "callout tip";
+        result.innerHTML = "<strong>Reasonable short-run family:</strong> a difference-from-nominal chart is a candidate. Confirm the stable baseline, time order, and subgroup logic before implementation.";
+      } else {
+        result.className = "callout";
+        result.innerHTML = "<strong>Promising but incomplete:</strong> the process family looks plausible. Evaluate product-specific variation and validate historical parameters before selecting the final chart.";
+      }
+    });
+    document.getElementById("family-reset").addEventListener("click", function () {
+      document.querySelectorAll("[data-family-weight]").forEach(function (input) { input.checked = false; });
+      document.getElementById("family-variation").value = "unknown";
+      document.getElementById("family-break").value = "no";
+      var result = document.getElementById("family-result");
+      result.className = "callout";
+      result.innerHTML = "<strong>Result:</strong> complete the checks, then evaluate.";
+    });
+
+    /* ---------- Variation screening ---------- */
+    function compareVariation() {
+      var ids = ["sd-a", "sd-b", "sd-c", "sd-d"];
+      var vals = ids.map(function (id) { return document.getElementById(id).value.trim(); })
+        .filter(function (v) { return v !== ""; })
+        .map(Number);
+      var result = document.getElementById("sd-result");
+      if (vals.length < 2 || vals.some(function (v) { return !isFinite(v) || v <= 0; })) {
+        result.className = "status no";
+        result.textContent = "Enter at least two finite standard deviations greater than zero.";
+        return;
+      }
+      var max = Math.max.apply(null, vals), min = Math.min.apply(null, vals), ratio = max / min;
+      document.getElementById("sd-max").textContent = fmt(max, 3);
+      document.getElementById("sd-min").textContent = fmt(min, 3);
+      document.getElementById("sd-ratio").textContent = fmt(ratio, 2);
+      if (ratio <= 1.5) {
+        result.className = "status ok";
+        result.textContent = "Screening result: similar enough to investigate a difference-from-nominal chart, subject to stable data and engineering review.";
+      } else if (ratio <= 2) {
+        result.className = "status warn";
+        result.textContent = "Screening result: borderline variation. Review confidence intervals, product physics, and chart residuals; standardization may be safer.";
+      } else {
+        result.className = "status no";
+        result.textContent = "Screening result: materially different variation. Use a standardized chart or split the family rather than one pooled DNOM scale.";
+      }
+    }
+    document.getElementById("sd-check").addEventListener("click", compareVariation);
+    document.getElementById("sd-example-different").addEventListener("click", function () {
+      document.getElementById("sd-a").value = "0.020";
+      document.getElementById("sd-b").value = "0.055";
+      document.getElementById("sd-c").value = "0.110";
+      document.getElementById("sd-d").value = "";
+      compareVariation();
+    });
+
+    /* ---------- Worked example chart ---------- */
+    var deviations = [0.05, 0.04, -0.05, 0.03, -0.03, 0.02, 0.01, -0.02, 0.11, 0.13, 0.12, 0.14];
+    var movingRanges = deviations.slice(1).map(function (v, i) { return Math.abs(v - deviations[i]); });
+    var mrBar = movingRanges.reduce(function (a, b) { return a + b; }, 0) / movingRanges.length;
+    var workedUcl = 2.66 * mrBar, workedLcl = -workedUcl;
+    var workedStep = 1;
+    function renderWorkedChart() {
+      var grid = document.getElementById("worked-grid"), lines = document.getElementById("worked-lines"), points = document.getElementById("worked-points"), labels = document.getElementById("worked-labels");
+      [grid, lines, points, labels].forEach(clear);
+      var left = 62, right = 790, top = 28, bottom = 290, yMin = -0.17, yMax = 0.18;
+      var x = function (i) { return left + i * (right - left) / (deviations.length - 1); };
+      var y = function (v) { return bottom - (v - yMin) / (yMax - yMin) * (bottom - top); };
+      for (var g = 0; g <= 7; g++) {
+        var val = yMin + g * (yMax - yMin) / 7;
+        grid.appendChild(svgEl("line", { x1:left, x2:right, y1:y(val), y2:y(val), stroke:css("--line"), "stroke-width":"1" }));
+        labels.appendChild(svgEl("text", { x:left - 8, y:y(val) + 4, "text-anchor":"end", "font-size":"12", fill:css("--muted") }, val.toFixed(2)));
+      }
+      lines.appendChild(svgEl("line", { x1:left, x2:right, y1:y(0), y2:y(0), stroke:css("--teal"), "stroke-width":"2" }));
+      labels.appendChild(svgEl("text", { x:right - 4, y:y(0) - 7, "text-anchor":"end", "font-size":"12", fill:css("--teal-dark"), "font-weight":"700" }, "Target CL = 0"));
+      if (workedStep >= 3) {
+        [workedUcl, workedLcl].forEach(function (limit, index) {
+          lines.appendChild(svgEl("line", { x1:left, x2:right, y1:y(limit), y2:y(limit), stroke:css("--danger"), "stroke-width":"2", "stroke-dasharray":"7 5" }));
+          labels.appendChild(svgEl("text", { x:right - 4, y:y(limit) - 6, "text-anchor":"end", "font-size":"12", fill:css("--danger"), "font-weight":"700" }, index === 0 ? "UCL" : "LCL"));
+        });
+      }
+      lines.appendChild(svgEl("polyline", { points:deviations.map(function (v, i) { return x(i) + "," + y(v); }).join(" "), fill:"none", stroke:css("--ink-soft"), "stroke-width":"2" }));
+      deviations.forEach(function (v, i) {
+        var signal = workedStep >= 4 && (v > workedUcl || v < workedLcl);
+        points.appendChild(svgEl("circle", { cx:x(i), cy:y(v), r:signal ? "7" : "5", fill:signal ? css("--danger") : css("--teal"), stroke:css("--surface"), "stroke-width":"2" }));
+        labels.appendChild(svgEl("text", { x:x(i), y:bottom + 21, "text-anchor":"middle", "font-size":"12", fill:css("--muted") }, String(i + 1)));
+      });
+      labels.appendChild(svgEl("text", { x:(left + right) / 2, y:340, "text-anchor":"middle", "font-size":"13", fill:css("--muted") }, "Coil sequence"));
+      labels.appendChild(svgEl("text", { x:18, y:(top + bottom) / 2, transform:"rotate(-90 18 " + ((top + bottom) / 2) + ")", "text-anchor":"middle", "font-size":"13", fill:css("--muted") }, "Deviation (mm)"));
+    }
+    var workedText = {
+      1: "<strong>Step 1:</strong> subtract each coil's own target. The planned differences among 7.80, 8.20, and 8.40 mm disappear; all coded values are now deviations around zero.",
+      2: "<strong>Step 2:</strong> calculate the absolute difference between successive coded deviations, then average the 11 moving ranges. M̄R = 0.04636 mm.",
+      3: "<strong>Step 3:</strong> for a target-centered X-nominal chart, UCL = +2.66M̄R and LCL = −2.66M̄R. The limits are ±0.12333 mm.",
+      4: "<strong>Step 4:</strong> coils 10 and 12 exceed the UCL. Coils 9–12 also form a sustained positive cluster, pointing to a common process bias rather than a planned product change."
+    };
+    document.querySelectorAll("[data-worked-step]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        workedStep = Number(button.getAttribute("data-worked-step"));
+        setPressed("[data-worked-step]", button);
+        document.getElementById("worked-explanation").innerHTML = workedText[workedStep];
+        document.getElementById("worked-mr").textContent = workedStep >= 2 ? fmt(mrBar, 5) : "—";
+        document.getElementById("worked-ucl").textContent = workedStep >= 3 ? signed(workedUcl, 5) : "—";
+        document.getElementById("worked-lcl").textContent = workedStep >= 3 ? signed(workedLcl, 5) : "—";
+        renderWorkedChart();
+      });
+    });
+
+    /* ---------- Limits versus specifications ---------- */
+    var limitScenarios = {
+      "stable-capable": {
+        values:[49.2,50.3,49.7,50.5,49.8,50.1,49.4,50.4,49.9,50.2,49.6,50.0], cl:50, ucl:52, lcl:48, usl:54, lsl:46,
+        text:"The process is stable and its natural control band fits inside the customer specifications.", className:"ok"
+      },
+      "stable-incapable": {
+        values:[46.8,52.9,47.3,52.2,48.1,51.7,47.0,52.5,48.4,51.9,47.5,52.7], cl:50, ucl:53.5, lcl:46.5, usl:52.5, lsl:47.5,
+        text:"The process is statistically stable, but its natural variation extends beyond the specifications. Stability is not capability.", className:"warn"
+      },
+      "unstable-in-spec": {
+        values:[49.1,49.4,49.8,50.1,50.5,50.8,51.1,51.4,51.7,51.9,52.1,52.3], cl:50, ucl:52.8, lcl:47.2, usl:54, lsl:46,
+        text:"All current points are inside specification, but the sustained rise is a special-cause pattern. Investigate before it produces nonconforming units.", className:"no"
+      },
+      "unstable-incapable": {
+        values:[49.3,50.1,49.7,50.4,50.0,52.8,53.4,54.1,53.6,54.4,55.0,54.7], cl:50, ucl:52.4, lcl:47.6, usl:53, lsl:47,
+        text:"The process has shifted and now produces values beyond both the control limit and the specification. Contain product and investigate the special cause.", className:"no"
+      }
+    };
+    var activeLimitScenario = "stable-capable";
+    function renderLimitsScenario(key) {
+      activeLimitScenario = key;
+      var data = limitScenarios[key];
+      var grid = document.getElementById("limits-grid"), lines = document.getElementById("limits-lines"), points = document.getElementById("limits-points"), labels = document.getElementById("limits-labels");
+      [grid, lines, points, labels].forEach(clear);
+      var left = 62, right = 790, top = 25, bottom = 245, yMin = 44, yMax = 56;
+      var x = function (i) { return left + i * (right - left) / (data.values.length - 1); };
+      var y = function (v) { return bottom - (v - yMin) / (yMax - yMin) * (bottom - top); };
+      for (var g = 0; g <= 6; g++) {
+        var val = yMin + g * 2;
+        grid.appendChild(svgEl("line", { x1:left, x2:right, y1:y(val), y2:y(val), stroke:css("--line"), "stroke-width":"1" }));
+        labels.appendChild(svgEl("text", { x:left - 8, y:y(val)+4, "text-anchor":"end", "font-size":"12", fill:css("--muted") }, String(val)));
+      }
+      [
+        {v:data.usl, name:"USL", color:css("--amber"), dash:"3 4"},
+        {v:data.ucl, name:"UCL", color:css("--danger"), dash:"7 5"},
+        {v:data.cl, name:"CL", color:css("--teal"), dash:""},
+        {v:data.lcl, name:"LCL", color:css("--danger"), dash:"7 5"},
+        {v:data.lsl, name:"LSL", color:css("--amber"), dash:"3 4"}
+      ].forEach(function (line) {
+        lines.appendChild(svgEl("line", { x1:left, x2:right, y1:y(line.v), y2:y(line.v), stroke:line.color, "stroke-width":"2", "stroke-dasharray":line.dash }));
+        labels.appendChild(svgEl("text", { x:right - 4, y:y(line.v)-5, "text-anchor":"end", "font-size":"11", fill:line.color, "font-weight":"700" }, line.name));
+      });
+      lines.appendChild(svgEl("polyline", { points:data.values.map(function (v, i) { return x(i)+","+y(v); }).join(" "), fill:"none", stroke:css("--ink-soft"), "stroke-width":"2" }));
+      data.values.forEach(function (v, i) {
+        var signal = v > data.ucl || v < data.lcl || v > data.usl || v < data.lsl;
+        points.appendChild(svgEl("circle", { cx:x(i), cy:y(v), r:"5", fill:signal ? css("--danger") : css("--teal"), stroke:css("--surface"), "stroke-width":"2" }));
+      });
+      var status = document.getElementById("limits-status");
+      status.className = "status " + data.className;
+      status.textContent = data.text;
+    }
+    document.querySelectorAll("[data-limit-scenario]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        setPressed("[data-limit-scenario]", button);
+        renderLimitsScenario(button.getAttribute("data-limit-scenario"));
+      });
+    });
+
+    /* ---------- Practice ---------- */
+    document.getElementById("practice-check").addEventListener("click", function () {
+      var chart = document.getElementById("practice-chart").value;
+      var u = parseFloat(document.getElementById("practice-u").value);
+      var z = parseFloat(document.getElementById("practice-z").value);
+      var feedback = document.getElementById("practice-feedback");
+      if (!chart || !isFinite(u) || !isFinite(z)) {
+        feedback.className = "status no";
+        feedback.textContent = "Select a chart and enter both calculated values.";
+        return;
+      }
+      var chartRight = chart === "u";
+      var uRight = Math.abs(u - 2.4) <= 0.02;
+      var zRight = Math.abs(z - 3.67) <= 0.03;
+      if (chartRight && uRight && zRight) {
+        feedback.className = "status ok";
+        feedback.textContent = "Correct. Standardized u-chart, u = 2.40, Z = 3.67, so the point exceeds +3 and signals a special cause.";
+      } else {
+        var parts = [];
+        if (!chartRight) parts.push("Choose u because these are defects per varying inspection length.");
+        if (!uRight) parts.push("Convert 2,500 m to 2.5 units of 1,000 m: 6 ÷ 2.5 = 2.40.");
+        if (!zRight) parts.push("Use (2.40−0.60)/√(0.60/2.5) = 3.67.");
+        feedback.className = "status no";
+        feedback.textContent = parts.join(" ");
+      }
+    });
+    document.getElementById("practice-reveal").addEventListener("click", function () {
+      var answer = document.getElementById("practice-answer");
+      answer.hidden = !answer.hidden;
+      this.textContent = answer.hidden ? "Reveal answer" : "Hide answer";
+    });
+    document.getElementById("practice-reset").addEventListener("click", function () {
+      document.getElementById("practice-chart").value = "";
+      document.getElementById("practice-u").value = "";
+      document.getElementById("practice-z").value = "";
+      document.getElementById("practice-feedback").textContent = "";
+      document.getElementById("practice-answer").hidden = true;
+      document.getElementById("practice-reveal").textContent = "Reveal answer";
+    });
+
+    /* ---------- Quiz ---------- */
+    var explanations = {
+      q1:"The chart can operate indefinitely. The short element is the product campaign: a few units are made before the next product arrives.",
+      q2:"A single DNOM scale assumes comparable variation. Standardization expresses each result in its own product-specific σ units, while separate families remain appropriate if the process stream itself differs.",
+      q3:"Z=(10.08−10.00)/0.04=0.08/0.04=+2.00. The raw deviation is +0.08 mm; the standardized deviation is +2.00.",
+      q4:"u counts defects per unit and accepts changing opportunity. Standardization also removes product-family differences in expected defect rate.",
+      q5:"A stable chart can be consistently off target. Control addresses predictability; centering and specifications address performance and conformance."
+    };
+    var quizQuestions = Array.prototype.slice.call(document.querySelectorAll(".quiz-q"));
+    document.getElementById("quiz-check").addEventListener("click", function () {
+      var score = 0, answered = 0;
+      quizQuestions.forEach(function (question) {
+        var name = question.getAttribute("data-q");
+        var correct = question.getAttribute("data-answer");
+        var chosen = question.querySelector("input[name=\"" + name + "\"]:checked");
+        var feedback = question.querySelector("[data-feedback]");
+        question.classList.remove("correct", "incorrect");
+        if (!chosen) {
+          feedback.hidden = false;
+          feedback.className = "quiz-feedback no";
+          feedback.textContent = "Select an answer for this question.";
+          return;
+        }
+        answered++;
+        var right = chosen.value === correct;
+        if (right) score++;
+        question.classList.add(right ? "correct" : "incorrect");
+        feedback.hidden = false;
+        feedback.className = "quiz-feedback " + (right ? "ok" : "no");
+        feedback.textContent = (right ? "Correct. " : "Not quite. ") + explanations[name];
+      });
+      var scoreEl = document.getElementById("quiz-score");
+      if (answered < quizQuestions.length) {
+        scoreEl.className = "status no";
+        scoreEl.textContent = "You answered " + answered + " of " + quizQuestions.length + ". Complete every question, then check again.";
+        return;
+      }
+      scoreEl.className = "status " + (score >= 4 ? "ok" : "warn");
+      scoreEl.textContent = "Your score: " + score + " out of " + quizQuestions.length + ". " +
+        (score === 5 ? "Excellent—your selection logic is ready for a real product-family review." :
+         score >= 4 ? "Strong result. Review the one explanation that signaled." :
+         score >= 3 ? "Good foundation. Revisit the flowchart and equal-variation branch." :
+         "Rework the core transformations and complete the chart-selection wizard again.");
+      document.dispatchEvent(new CustomEvent("upskill-quiz-result", { detail: { score:score, total:quizQuestions.length } }));
+    });
+    document.getElementById("quiz-reset").addEventListener("click", function () {
+      quizQuestions.forEach(function (question) {
+        question.classList.remove("correct", "incorrect");
+        question.querySelectorAll("input[type=radio]").forEach(function (radio) { radio.checked = false; });
+        var feedback = question.querySelector("[data-feedback]");
+        feedback.hidden = true;
+        feedback.textContent = "";
+      });
+      var score = document.getElementById("quiz-score");
+      score.textContent = "";
+      score.className = "";
+    });
+
+    /* ---------- Theme-sensitive redraw ---------- */
+    function redrawAll() {
+      var rawMode = document.getElementById("deviation-view").getAttribute("aria-pressed") === "true" ? "deviation" : "raw";
+      renderRawCoded(rawMode);
+      renderWorkedChart();
+      renderLimitsScenario(activeLimitScenario);
+    }
+    var observer = new MutationObserver(function (records) {
+      if (records.some(function (record) { return record.attributeName === "data-theme"; })) redrawAll();
+    });
+    observer.observe(document.documentElement, { attributes:true });
+
+    /* ---------- Initial render ---------- */
+    updateFormulaExplorer();
+    renderRawCoded("raw");
+    renderWizard();
+    compareVariation();
+    renderWorkedChart();
+    renderLimitsScenario("stable-capable");
+  })();
+  </script>
+</body>
+</html>
