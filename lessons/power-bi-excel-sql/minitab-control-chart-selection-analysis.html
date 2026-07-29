@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Minitab Control Charts: Select, Build, and Interpret the Right Chart",
+  "slug": "minitab-control-chart-selection-analysis",
+  "category": "Power BI, Excel & SQL",
+  "category_slug": "power-bi-excel-sql",
+  "level": "Intermediate",
+  "estimated_minutes": 55,
+  "interactive": true,
+  "card_title": "Minitab Control Chart Master Guide",
+  "card_description": "Choose the right control chart, prepare your worksheet, navigate Minitab, and interpret special-cause signals with confidence.",
+  "search_keywords": [
+    "Minitab control charts",
+    "SPC chart selection",
+    "Xbar R and I-MR",
+    "attribute control charts",
+    "EWMA and CUSUM",
+    "rare event control charts",
+    "multivariate SPC"
+  ],
+  "suggested_github_path": "lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis.html"
+}
+-->
+<head>
+  <!-- EDIT: Lesson metadata -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minitab Control Chart Master Guide | UpSkill Sprint Consulting</title>
+  <meta name="description" content="An interactive one-stop guide to selecting, creating, and interpreting every major Minitab control chart category.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Minitab Control Chart Master Guide">
+  <meta property="og:description" content="Choose the right control chart, prepare your worksheet, navigate Minitab, and interpret special-cause signals with confidence.">
+  <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis">
+  <meta name="twitter:card" content="summary">
+
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <link rel="stylesheet" href="/lessons/assets/minitab-control-chart-selection-analysis.css">
+
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+</head>
+<body data-lesson-page="true" data-category="power-bi-excel-sql" data-level="intermediate" data-interactive="true">
+  <a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+
+  <!-- SITE INTEGRATION: Header -->
+  <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+  <header class="site lesson-sitebar">
+    <a class="brand" href="/">
+      <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
+      <span>UpSkill Sprint Consulting</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/start-here">Start Here</a>
+      <a href="/lessons" aria-current="page">Lessons</a>
+      <a href="/engineering-tools">Engineering Tools</a>
+      <a href="/services">Services</a>
+      <a href="/request-topic">Request a Topic</a>
+      <a href="/about">About</a>
+      <a href="/faq">FAQ</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      </label>
+      <div class="theme-control" aria-label="Colour theme">
+        <svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <span class="sr-only">Toggle dark and light mode</span>
+        </button>
+        <svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </div>
+    </div>
+  </header>
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="/start-here">Start Here</a>
+    <a href="/lessons">Lessons</a>
+    <a href="/engineering-tools">Engineering Tools</a>
+    <a href="/services">Services</a>
+    <a href="/request-topic">Request a Topic</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+    <a href="/contact">Contact</a>
+  </nav>
+
+  <main id="lesson-content">
+    <article class="lesson-wrapper" id="lesson-fragment-root" aria-live="polite">
+      <section class="lesson-section" id="lesson-loading">
+        <h1>Loading the Minitab Control Chart Master Guide…</h1>
+        <p>The lesson content is being prepared. This normally takes only a moment.</p>
+      </section>
+    </article>
+    <noscript>
+      <section class="lesson-section">
+        <h1>JavaScript is required for this interactive lesson</h1>
+        <p>Enable JavaScript to load the lesson selector, worked examples, signal lab, and quiz.</p>
+      </section>
+    </noscript>
+  </main>
+
+  <footer class="lesson-footer">
+    <div class="footer-inner">
+      <a class="footer-back" href="/lessons#power-bi-excel-sql">Back to Power BI, Excel &amp; SQL</a>
+      <span>&copy; 2026 UpSkill Sprint Consulting · Power BI, Excel &amp; SQL lesson library</span>
+    </div>
+  </footer>
+
+  <!-- EDIT: Lesson fragment loader initializes the interactive script after content is mounted. -->
+  <script src="/lessons/assets/minitab-control-chart-selection-analysis-loader.js"></script>
+</body>
+</html>
