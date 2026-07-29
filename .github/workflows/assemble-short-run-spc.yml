@@ -89,6 +89,7 @@ jobs:
           print('Lesson metadata and integration checks passed.')
           PY
           node --check /tmp/short-run-spc-inline.js
+          npm ci
           npm test
 
       - name: Commit final website files
