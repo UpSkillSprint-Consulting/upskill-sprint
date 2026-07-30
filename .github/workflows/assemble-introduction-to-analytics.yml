@@ -32,8 +32,8 @@ jobs:
           shopt -s nullglob
           chunks=(.github/intro-analytics-payload/chunk-*)
           echo "count=${#chunks[@]}" >> "$GITHUB_OUTPUT"
-          if [ "${#chunks[@]}" -ne 15 ]; then
-            echo "Waiting for all 15 payload chunks; found ${#chunks[@]}."
+          if [ "${#chunks[@]}" -ne 36 ]; then
+            echo "Waiting for all 36 payload chunks; found ${#chunks[@]}."
             exit 0
           fi
           echo "ready=true" >> "$GITHUB_OUTPUT"
