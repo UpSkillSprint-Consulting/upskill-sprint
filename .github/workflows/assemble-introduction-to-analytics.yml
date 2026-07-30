@@ -4,15 +4,16 @@ on:
   push:
     branches:
       - agent/recover-intro-analytics-payload
-    paths:
-      - '.github/workflows/assemble-introduction-to-analytics.yml'
-      - '.lesson-build/archive/**'
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
 
 jobs:
   assemble:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - name: Check out recovery branch
