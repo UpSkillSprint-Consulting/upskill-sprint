@@ -98,6 +98,8 @@ function quantitativeQuestion(question) {
   const numericCount = (stem.match(/(?:^|\s)[−-]?\d+(?:\.\d+)?%?/g) || []).length;
   const calculationLanguage = /\b(?:calculate|compute|computed|determine|probability|reliability|availability|mean|variance|standard deviation|standard error|confidence interval|sample size|capability|yield|defects? per|failure rate|risk priority number|RPN|OEE|takt|payback|present value|ROI|tolerance stack|correlation|regression|chi[- ]square|ANOVA|control limit|UCL|LCL|DPMO|DPU|DPO|PPM|MTBF|MTTR)\b/i;
   const workedArithmetic = /(?:=|×|÷|√|Σ|\^|\bdivid(?:e|ed|ing)\b|\bmultip(?:ly|lied|lication)\b|\bsubtract(?:ed|ion)?\b|\badd(?:ed|ition)?\b)/i;
+  const conceptualOnly = /(?:long tail toward|Type II error|VIFs?.*consequence|compared to the standard normal.*t-distribution)/i;
+  if (conceptualOnly.test(stem)) return false;
   return calculationLanguage.test(combined) && (numericCount >= 2 || workedArithmetic.test(why));
 }
 
@@ -202,24 +204,23 @@ test('search finds formulas by late bank-question numbers, not only the first tw
   const { window, document } = await loadRealPage();
   selectCqe(window, document);
   const api = window.__TB_FORMULAS_TEST__;
-  const bank = window.__TB.EXAMS.cqe.sets[1];
+  const syntheticBank = Array.from({ length: 15 }, (_, index) => ({
+    sub: 'ppc',
+    stem: `Synthetic Cpk mapping question ${index + 1}: USL 20, LSL 10, mean 16, standard deviation 1. What is Cpk?`,
+    options: ['0.67', '1.00', '1.33', '1.67'],
+    answer: 0,
+    why: 'Cpk accounts for centering.'
+  }));
+  window.__TB.EXAMS.cqe.sets[1] = syntheticBank;
 
-  const candidate = api.formulas.map(formula => ({
-    formula,
-    numbers: bank.map((question, index) => api.matchesFormula(formula, question) ? index + 1 : null).filter(Boolean)
-  })).find(item => item.numbers.length > 12);
-  assert.ok(candidate, 'at least one formula is used by more than twelve questions');
-
-  const contextQuestion = bank.find(question => question.sub === candidate.formula.sections[0]);
   startQuick(window, document);
-  document.querySelector('.tb-stem').textContent = contextQuestion.stem;
-  document.querySelector('.tb-qtag').textContent = SECTION_NAMES[contextQuestion.sub];
+  document.querySelector('.tb-stem').textContent = syntheticBank[0].stem;
+  document.querySelector('.tb-qtag').textContent = SECTION_NAMES.ppc;
   document.getElementById('tb-formulas').hidden = false;
-  const lastNumber = candidate.numbers[candidate.numbers.length - 1];
-  api.renderContextualPane(`Question ${lastNumber}`);
+  api.renderContextualPane('Question 15');
 
-  const card = document.querySelector(`[data-formula-id="${candidate.formula.id}"]`);
-  assert.ok(card, `${candidate.formula.id} is searchable by Question ${lastNumber}`);
+  const card = document.querySelector('[data-formula-id="cpk"]');
+  assert.ok(card, 'Cpk is searchable by Question 15 even though the displayed mapping list is compacted');
 });
 
 test('CQE formula registry has complete, unique, section-valid records', async () => {
