@@ -3,6 +3,18 @@
 
   const LESSONS = [
     {
+      marker: 'data-introduction-to-analytics',
+      sectionId: 'data-analytics',
+      path: '/lessons/data-analytics/introduction-to-analytics',
+      topic: 'data-analytics',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'introduction to analytics data analytics data analysis data science data mining descriptive diagnostic predictive prescriptive D2P3 analytics lifecycle data cleaning patterns trends seasonality correlation clustering anomalies associations business intelligence beginner interactive wall posters',
+      meta: '<span>Beginner</span><span>Interactive</span><span>32 min</span><span>4 downloadable posters</span>',
+      title: 'Introduction to Analytics',
+      description: 'See how analytics turns raw data into decisions through visual models, an editable factory example, four downloadable wall posters, and an interactive pattern explorer.'
+    },
+    {
       marker: 'data-anova-analysis-one-stop-shop',
       sectionId: 'statistics',
       path: '/lessons/statistics/anova-analysis-one-stop-shop',
@@ -193,6 +205,22 @@
     return String(value || '').toLowerCase().trim();
   }
 
+  function ensureLessonList(section) {
+    let list = section && section.querySelector('.lesson-list');
+    if (list) return list;
+
+    const emptyTopic = section && section.querySelector('.empty-topic');
+    if (!section || !emptyTopic) return null;
+
+    emptyTopic.remove();
+    section.removeAttribute('data-empty-category');
+    section.setAttribute('data-category-section', '');
+    list = document.createElement('div');
+    list.className = 'lesson-list';
+    section.appendChild(list);
+    return list;
+  }
+
   function updateCounts() {
     document.querySelectorAll('[data-category-section]').forEach(function (section) {
       const total = section.querySelectorAll('[data-lesson-item]').length;
@@ -235,7 +263,7 @@
 
     LESSONS.forEach(function (definition) {
       const section = document.getElementById(definition.sectionId);
-      const list = section && section.querySelector('.lesson-list');
+      const list = ensureLessonList(section);
       if (!section || !list) return;
 
       affectedSections.add(section);
