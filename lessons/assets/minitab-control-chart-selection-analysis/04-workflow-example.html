@@ -1,0 +1,92 @@
+      <section class="lesson-section" id="analysis-workflow">
+        <h2>Universal step-by-step Minitab control-chart workflow</h2>
+        <p class="section-lead">Use this procedure regardless of chart family. The menu selection changes; the analytical discipline does not.</p>
+        <div class="workflow">
+          <div class="workflow-step"><h3>Define the process question</h3><p>State the process, quality characteristic, unit, sampling frequency, subgroup logic, and action you will take after a signal.</p></div>
+          <div class="workflow-step"><h3>Verify the measurement system</h3><p>Confirm calibration, repeatability, reproducibility, resolution, and consistent defect definitions. A control chart cannot repair unreliable measurement.</p></div>
+          <div class="workflow-step"><h3>Preserve chronological order</h3><p>Sort from oldest to newest. Do not sort by value. Include time, coil, heat, batch, shift, or sequence identifiers for investigation.</p></div>
+          <div class="workflow-step"><h3>Choose rational subgroups</h3><p>Within-subgroup observations should share nearly identical short-term conditions. Avoid subgroups that mix shifts, grades, machines, or long time spans unless that is intentional.</p></div>
+          <div class="workflow-step"><h3>Select the Minitab category and chart</h3><p>Choose <span class="path">Stat &gt; Control Charts</span>, then the category that matches the data-generating process.</p></div>
+          <div class="workflow-step"><h3>Complete the main dialog</h3><p>Enter the response variable(s), subgroup IDs or sizes, defect counts and opportunities, product identifiers, or event dates as required.</p></div>
+          <div class="workflow-step"><h3>Set options deliberately</h3><p>Use chart-specific <strong>Options</strong> for tests, stages, historical parameters, estimate methods, and storage. Minitab uses only Test 1 by default for many charts; add tests only when justified by your standard and false-alarm tolerance.</p></div>
+          <div class="workflow-step"><h3>Read variation before location</h3><p>Confirm the variation estimate is stable before interpreting mean or rate shifts. For multivariate combination charts, evaluate joint variation first.</p></div>
+          <div class="workflow-step"><h3>Investigate signals with process evidence</h3><p>Link signal numbers to material, setup, maintenance, operators, laboratory conditions, measurement changes, grade transitions, and environmental conditions.</p></div>
+          <div class="workflow-step"><h3>Separate Phase I from Phase II</h3><p>During baseline development, remove a point only when a documented assignable cause justifies exclusion. After stabilization, save validated limits and use them to monitor future data.</p></div>
+          <div class="workflow-step"><h3>Assess capability only after stability</h3><p>A process can be stable but incapable, or unstable while all current points happen to meet specifications. Stability and capability answer different questions.</p></div>
+          <div class="workflow-step"><h3>Document the decision</h3><p>Record chart type, subgroup logic, dates, limits, tests, excluded points and reasons, special-cause findings, corrective action, and owner.</p></div>
+        </div>
+
+        <h3>Minitab special-cause tests</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Test</th><th>Pattern</th><th>What it can suggest</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>One point more than 3σ from the center line</td><td>A large isolated special cause.</td></tr>
+              <tr><td>2</td><td>Nine points in a row on the same side</td><td>A sustained process shift.</td></tr>
+              <tr><td>3</td><td>Six points in a row increasing or decreasing</td><td>A trend or drift.</td></tr>
+              <tr><td>4</td><td>Fourteen points alternating up and down</td><td>Systematic over-adjustment or alternating sources.</td></tr>
+              <tr><td>5</td><td>Two of three points more than 2σ from the center line on the same side</td><td>A moderate shift.</td></tr>
+              <tr><td>6</td><td>Four of five points more than 1σ from the center line on the same side</td><td>A small sustained shift.</td></tr>
+              <tr><td>7</td><td>Fifteen points in a row within 1σ of the center line</td><td>Stratification or control limits that are too wide.</td></tr>
+              <tr><td>8</td><td>Eight points in a row more than 1σ from the center line on either side</td><td>A mixture pattern or limits that are too narrow for the data structure.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">Availability varies by chart. Minitab provides Tests 1–8 for most variables charts; R, S, MR, and attribute charts support fewer tests; EWMA and Moving Average support only Test 1; CUSUM, Zone, and multivariate charts use their own signaling logic.</p>
+      </section>
+
+      <section class="lesson-section" id="worked-example">
+        <h2>Worked example: choose and run the correct chart</h2>
+        <div class="callout">
+          <h3>Problem</h3>
+          <p>A rolling mill records one average finishing temperature for each coil. Twenty-five coils are produced in chronological order. The engineer wants to know whether the process mean and short-term coil-to-coil variation are stable.</p>
+        </div>
+        <h3>Step 1: classify the data</h3>
+        <ul>
+          <li>Response: finishing temperature in °C, so the data are continuous.</li>
+          <li>Sampling: one observation per coil, so subgroup size is 1.</li>
+          <li>Objective: monitor both process location and variation.</li>
+        </ul>
+        <p><strong>Selected chart:</strong> I-MR.</p>
+        <div class="path">Stat &gt; Control Charts &gt; Variables Charts for Individuals &gt; I-MR</div>
+
+        <h3>Step 2: calculate the underlying statistics</h3>
+        <p>For illustration, suppose the first six temperatures are 798, 801, 799, 803, 802, and 800°C.</p>
+        <div class="grid-2">
+          <div class="formula-card">
+            <h4>Individual-chart center line</h4>
+            <div class="formula"><span>x̄ = </span><span class="fraction"><span>798 + 801 + 799 + 803 + 802 + 800</span><span>6</span></span><span> = 800.5°C</span></div>
+          </div>
+          <div class="formula-card">
+            <h4>Moving ranges</h4>
+            <div class="formula">3, 2, 4, 1, 2°C</div>
+            <p>For example, |801 − 798| = 3°C.</p>
+          </div>
+        </div>
+        <p>The average moving range is:</p>
+        <div class="formula"><span>MR̄ = </span><span class="fraction"><span>3 + 2 + 4 + 1 + 2</span><span>5</span></span><span> = 2.4°C</span></div>
+        <p>For a moving range of length 2, the short-term standard deviation estimate is:</p>
+        <div class="formula"><span>σ̂ = </span><span class="fraction"><span>MR̄</span><span>d₂</span></span><span> = </span><span class="fraction"><span>2.4</span><span>1.128</span></span><span> = 2.13°C</span></div>
+        <p>Approximate I-chart limits are:</p>
+        <div class="formula">UCL = 800.5 + 3(2.13) = 806.9°C &nbsp;&nbsp; | &nbsp;&nbsp; LCL = 800.5 − 3(2.13) = 794.1°C</div>
+        <p>The MR-chart upper limit is approximately:</p>
+        <div class="formula">UCL<sub>MR</sub> = D₄MR̄ = 3.267(2.4) = 7.84°C</div>
+
+        <h3>Step 3: run it in Minitab</h3>
+        <ol>
+          <li>Place coil sequence in C1 and finishing temperature in C2.</li>
+          <li>Sort the worksheet from oldest to newest by coil sequence.</li>
+          <li>Choose <strong>Stat &gt; Control Charts &gt; Variables Charts for Individuals &gt; I-MR</strong>.</li>
+          <li>Enter <strong>Finishing Temperature</strong> as the variable.</li>
+          <li>Select <strong>I-MR Options &gt; Tests</strong>. Keep Test 1; add Test 2 if the monitoring plan requires detection of sustained shifts.</li>
+          <li>Select <strong>OK</strong> twice.</li>
+        </ol>
+
+        <h3>Step 4: interpret in the correct order</h3>
+        <ol>
+          <li><strong>MR chart:</strong> investigate any unusually large coil-to-coil jump. If unstable, do not trust the I-chart limits yet.</li>
+          <li><strong>I chart:</strong> investigate points outside limits and nonrandom patterns such as a sustained run above the center line.</li>
+          <li><strong>Process conclusion:</strong> stable does not mean capable. Compare the stable distribution with temperature requirements only after the stability review.</li>
+        </ol>
+      </section>
+

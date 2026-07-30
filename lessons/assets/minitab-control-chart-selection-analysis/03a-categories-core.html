@@ -1,0 +1,176 @@
+      <section class="lesson-section" id="minitab-categories">
+        <h2>Minitab’s six control-chart categories</h2>
+        <p class="section-lead">The structure below mirrors the Minitab desktop menu: <span class="path">Stat &gt; Control Charts</span>.</p>
+        <div class="category-nav" aria-label="Control chart categories">
+          <a href="#category-subgroups">Variables Charts for Subgroups</a>
+          <a href="#category-individuals">Variables Charts for Individuals</a>
+          <a href="#category-attributes">Attributes Charts</a>
+          <a href="#category-time-weighted">Time-Weighted Charts</a>
+          <a href="#category-multivariate">Multivariate Charts</a>
+          <a href="#category-rare">Rare Event Charts</a>
+        </div>
+
+        <!-- EDIT: Chart reference cards -->
+        <div class="category-block" id="category-subgroups">
+          <div class="category-heading">
+            <div><p class="kicker">Category 1</p><h3>Variables Charts for Subgroups</h3></div>
+            <span class="category-tag">Continuous measurements collected in rational subgroups</span>
+          </div>
+          <p>Use when several measurements are collected under nearly identical short-term conditions. The subgroup design is part of the analysis—not merely a worksheet format.</p>
+          <div class="chart-grid">
+            <article class="chart-card primary" id="chart-xbar-r">
+              <h4>Xbar-R</h4>
+              <p><strong>Best for:</strong> monitoring the subgroup mean and within-subgroup range when subgroup size is generally 2–8.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Variables Charts for Subgroups &gt; Xbar-R</div>
+              <ul><li>Example: five thickness readings every hour.</li><li>Read the R chart first, then the Xbar chart.</li><li>Use time-ordered rational subgroups.</li></ul>
+              <details><summary>Step-by-step Minitab setup</summary>
+                <ol><li>Place measurements in one column with a subgroup ID column, or place each subgroup across one row.</li><li>Open the menu path above.</li><li>Select the appropriate data arrangement.</li><li>Enter the measurement column(s) and subgroup IDs or subgroup size.</li><li>Select <strong>Xbar-R Options &gt; Tests</strong> to add company-approved special-cause tests.</li><li>Select <strong>OK</strong>. Evaluate R before Xbar.</li></ol>
+              </details>
+              <details><summary>Use another chart when</summary><p>Use Xbar-S for subgroup sizes of 9 or more. Use I-MR-R/S when each subgroup is a distinct batch or part with a consistent within-item variation source.</p></details>
+            </article>
+
+            <article class="chart-card primary" id="chart-xbar-s">
+              <h4>Xbar-S</h4>
+              <p><strong>Best for:</strong> monitoring mean and standard deviation with larger subgroups, generally 9 or more.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Variables Charts for Subgroups &gt; Xbar-S</div>
+              <ul><li>Example: 12 hardness readings per plate.</li><li>S uses every observation and is more efficient than range for larger subgroups.</li><li>Read S first, then Xbar.</li></ul>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Arrange the subgroup observations in columns plus subgroup ID, or across rows.</li><li>Open Xbar-S.</li><li>Specify variables and subgroup structure.</li><li>Use <strong>Xbar-S Options</strong> for tests, stages, and historical parameters.</li><li>Create the chart and investigate S-chart signals before mean signals.</li></ol></details>
+              <details><summary>Use another chart when</summary><p>Use Xbar-R for smaller subgroups. Use I-MR-R/S for repeated measurements within distinct batches or parts.</p></details>
+            </article>
+
+            <article class="chart-card advanced" id="chart-imrrs">
+              <h4>I-MR-R/S (Between/Within)</h4>
+              <p><strong>Best for:</strong> separating variation within each distinct part or batch from variation between consecutive parts or batches.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Variables Charts for Subgroups &gt; I-MR-R/S (Between/Within)</div>
+              <ul><li>Produces three panels: I, MR, and either R or S.</li><li>R/S measures within-subgroup variation.</li><li>MR measures between-subgroup variation using consecutive subgroup means.</li></ul>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Ensure each subgroup represents a distinct batch, part, coil, or repeated-measure unit.</li><li>Arrange one row per subgroup or use one measurement column plus subgroup IDs.</li><li>Open the path above and enter the data structure.</li><li>Use <strong>I-MR-R/S Options</strong> for tests, stages, and known parameters.</li><li>Interpret R/S first, MR second, I last.</li></ol></details>
+              <details><summary>Steel example</summary><p>Five gauge readings across each coil: R/S assesses within-coil uniformity, MR assesses coil-to-coil changes in average gauge, and I assesses the sequence of coil means.</p></details>
+            </article>
+
+            <article class="chart-card" id="chart-xbar">
+              <h4>Xbar</h4>
+              <p><strong>Best for:</strong> monitoring subgroup means only when dispersion is already being evaluated separately.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Variables Charts for Subgroups &gt; Xbar</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Enter subgroup measurements and IDs.</li><li>Open Xbar.</li><li>Specify the variables and subgroup structure.</li><li>Use <strong>Xbar Options</strong> for tests or historical parameters.</li><li>Do not interpret the chart unless short-term variation is stable.</li></ol></details>
+              <p class="small">For routine work, Xbar-R or Xbar-S is usually safer because it displays the companion variation chart.</p>
+            </article>
+
+            <article class="chart-card" id="chart-r">
+              <h4>R</h4>
+              <p><strong>Best for:</strong> monitoring within-subgroup range for smaller subgroups.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Variables Charts for Subgroups &gt; R</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Provide at least two observations per subgroup.</li><li>Open R.</li><li>Enter variables and subgroup IDs or size.</li><li>Create the chart and investigate sudden increases, decreases, trends, or nonrandom patterns in range.</li></ol></details>
+              <p class="small">R compares values inside the same subgroup. It is not the same as MR, which compares consecutive time points.</p>
+            </article>
+
+            <article class="chart-card" id="chart-s">
+              <h4>S</h4>
+              <p><strong>Best for:</strong> monitoring within-subgroup standard deviation for larger subgroups.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Variables Charts for Subgroups &gt; S</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Use larger subgroups with enough observations to estimate standard deviation reliably.</li><li>Open S.</li><li>Specify the variables and subgroup structure.</li><li>Interpret changes in within-subgroup dispersion.</li></ol></details>
+            </article>
+
+            <article class="chart-card advanced" id="chart-zone">
+              <h4>Zone</h4>
+              <p><strong>Best for:</strong> detecting sustained mean shifts through cumulative scores assigned to sigma zones.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Variables Charts for Subgroups &gt; Zone</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Prepare subgrouped continuous data.</li><li>Open Zone.</li><li>Enter variables and subgroup IDs or size.</li><li>Review cumulative scores and signals; the chart does not use the standard special-cause tests menu.</li><li>Investigate sequences accumulating on one side of the center line.</li></ol></details>
+              <p class="small">Consider EWMA or CUSUM when you require a designed sensitivity to a specific small shift.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="category-block" id="category-individuals">
+          <div class="category-heading">
+            <div><p class="kicker">Category 2</p><h3>Variables Charts for Individuals</h3></div>
+            <span class="category-tag">One continuous observation per time point</span>
+          </div>
+          <p>Use when subgrouping is impractical, production volume is low, measurement is destructive or expensive, or only one result exists per coil, heat, batch, or time period.</p>
+          <div class="chart-grid">
+            <article class="chart-card primary" id="chart-imr">
+              <h4>I-MR</h4>
+              <p><strong>Best for:</strong> monitoring individual continuous values and their short-term moving ranges.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Variables Charts for Individuals &gt; I-MR</div>
+              <ul><li>Example: one exit temperature per coil.</li><li>Read MR first, then I.</li><li>Do not average independent observations merely to force an Xbar chart.</li></ul>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Place the measurement in one column, sorted chronologically.</li><li>Open I-MR.</li><li>Enter the variable column.</li><li>Use <strong>I-MR Options</strong> for tests, stages, and historical mean or standard deviation.</li><li>Create the chart. Investigate MR signals before I-chart signals.</li></ol></details>
+            </article>
+
+            <article class="chart-card advanced" id="chart-zmr">
+              <h4>Z-MR</h4>
+              <p><strong>Best for:</strong> short-run monitoring across products, sizes, grades, or targets with different means and standard deviations.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Variables Charts for Individuals &gt; Z-MR</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Place results in one column and product/run identifiers in another.</li><li>Provide or estimate a mean and standard deviation for each run or product.</li><li>Open Z-MR and enter the observations plus identifiers.</li><li>Review standardized Z values and moving ranges.</li><li>Confirm that product-specific reference values are defensible before interpreting signals.</li></ol></details>
+              <p class="small">Do not mix unlike products on a conventional I-MR chart without standardization.</p>
+            </article>
+
+            <article class="chart-card" id="chart-individuals">
+              <h4>Individuals</h4>
+              <p><strong>Best for:</strong> monitoring process location only for individual observations.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Variables Charts for Individuals &gt; Individuals</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Place time-ordered values in one column.</li><li>Open Individuals.</li><li>Enter the variable.</li><li>Use Individuals Options for tests or known parameters.</li><li>Interpret only after variation has been established separately.</li></ol></details>
+              <p class="small">I-MR is normally preferred because it includes the moving-range companion chart.</p>
+            </article>
+
+            <article class="chart-card" id="chart-mr">
+              <h4>Moving Range</h4>
+              <p><strong>Best for:</strong> monitoring short-term variation between consecutive individual observations.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Variables Charts for Individuals &gt; Moving Range</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Place time-ordered individual values in one column.</li><li>Open Moving Range.</li><li>Enter the variable and choose the moving-range length where appropriate.</li><li>Interpret unusual jumps between consecutive observations.</li></ol></details>
+              <p class="small"><strong>MR versus R:</strong> MR compares adjacent time points; R compares multiple values within the same subgroup.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="category-block" id="category-attributes">
+          <div class="category-heading">
+            <div><p class="kicker">Category 3</p><h3>Attributes Charts</h3></div>
+            <span class="category-tag">Counts of defectives or defects</span>
+          </div>
+          <p>First determine whether every unit is classified once as defective/nondefective, or whether you count multiple defects on each unit. Then determine whether sample size or inspection opportunity is constant.</p>
+          <div class="chart-grid">
+            <article class="chart-card primary" id="chart-p">
+              <h4>P</h4>
+              <p><strong>Best for:</strong> proportion defective when subgroup sizes may vary.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Attributes Charts &gt; P</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Create a column for number defective and a column for number inspected.</li><li>Open P.</li><li>Enter the defectives column and subgroup sizes.</li><li>Use <strong>P Chart Options</strong> for tests, stages, or historical proportion.</li><li>Interpret changing limits correctly when sample size varies.</li></ol></details>
+            </article>
+
+            <article class="chart-card" id="chart-np">
+              <h4>NP</h4>
+              <p><strong>Best for:</strong> number defective when the same number of units is inspected each period.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Attributes Charts &gt; NP</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Use one column containing the count defective for each subgroup.</li><li>Confirm a constant sample size.</li><li>Open NP, enter the count column and subgroup size.</li><li>Interpret the plotted count of defective units.</li></ol></details>
+              <p class="small">Use P when sample size varies.</p>
+            </article>
+
+            <article class="chart-card advanced" id="chart-laney-p">
+              <h4>Laney P′</h4>
+              <p><strong>Best for:</strong> proportion defective with overdispersion or underdispersion relative to the binomial model.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Attributes Charts &gt; Laney P′</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>First verify that the response is defective/nondefective.</li><li>Provide defectives and sample sizes as for a P chart.</li><li>Open Laney P′.</li><li>Review the adjusted limits and the dispersion adjustment.</li><li>Investigate process structure before treating Laney adjustment as a substitute for understanding the variation.</li></ol></details>
+            </article>
+
+            <article class="chart-card primary" id="chart-u">
+              <h4>U</h4>
+              <p><strong>Best for:</strong> defects per unit when inspection opportunity or sample size varies.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Attributes Charts &gt; U</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Create a defects column and an opportunity/sample-size column.</li><li>Open U.</li><li>Enter defects and subgroup sizes.</li><li>Use U Chart Options for tests, stages, and historical defect rate.</li><li>Interpret the plotted defects per unit and varying limits.</li></ol></details>
+            </article>
+
+            <article class="chart-card" id="chart-c">
+              <h4>C</h4>
+              <p><strong>Best for:</strong> number of defects when the inspection opportunity is constant.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Attributes Charts &gt; C</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Confirm every subgroup represents the same area, length, time, or number of units inspected.</li><li>Enter one column containing defect counts.</li><li>Open C and enter the count column.</li><li>Interpret changes in the number of defects.</li></ol></details>
+              <p class="small">Use U when opportunity varies.</p>
+            </article>
+
+            <article class="chart-card advanced" id="chart-laney-u">
+              <h4>Laney U′</h4>
+              <p><strong>Best for:</strong> defects per unit with overdispersion or underdispersion relative to the Poisson model.</p>
+              <div class="path">Stat &gt; Control Charts &gt; Attributes Charts &gt; Laney U′</div>
+              <details><summary>Step-by-step Minitab setup</summary><ol><li>Provide defects and opportunity/sample-size columns.</li><li>Open Laney U′.</li><li>Enter the columns as for a U chart.</li><li>Review the adjusted limits and dispersion adjustment.</li><li>Investigate clustering, mixed processes, and other structural sources of excess variation.</li></ol></details>
+            </article>
+          </div>
+        </div>
+

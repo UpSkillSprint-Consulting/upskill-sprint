@@ -1,0 +1,99 @@
+      <section class="lesson-section" id="mistakes">
+        <h2>Common mistakes and software traps</h2>
+        <div class="mistake-list">
+          <div class="mistake"><strong>Selection error: using P for defects.</strong>A P chart counts defective units, not multiple defects. Use C/U/Laney U′ for defects.</div>
+          <div class="mistake"><strong>Subgroup error: grouping unrelated observations.</strong>A subgroup should represent short-term common conditions, not a convenient set of five rows.</div>
+          <div class="mistake"><strong>Interpretation error: reading Xbar before R or S.</strong>Unstable variation compromises the location-chart limits.</div>
+          <div class="mistake"><strong>Software error: entering sample size as the number defective.</strong>For P and U charts, verify the response and opportunity columns are assigned to the correct boxes.</div>
+          <div class="mistake"><strong>Limit error: drawing specification limits as control limits.</strong>Specifications come from design or customer requirements; control limits come from process behavior.</div>
+          <div class="mistake"><strong>Chronology error: sorting values from low to high.</strong>Control charts require production order. Sorting by magnitude destroys the time pattern.</div>
+          <div class="mistake"><strong>Phase I error: deleting every red point.</strong>Exclude a point only after identifying and documenting a credible special cause.</div>
+          <div class="mistake"><strong>Mixed-product error: placing unlike products on one I-MR chart.</strong>Use separate charts, stages, or a Z-MR short-run approach with validated product targets.</div>
+          <div class="mistake"><strong>False-alarm error: turning on every test automatically.</strong>Additional tests increase sensitivity and the chance of false signals. Follow a documented monitoring plan.</div>
+          <div class="mistake"><strong>Capability error: calculating Cpk on an unstable process.</strong>Capability estimates are unreliable when the process distribution changes over time.</div>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="practice">
+        <h2>Practice activity</h2>
+        <div class="practice-card">
+          <h3>Choose the correct chart for a surface-inspection process</h3>
+          <p>Each shift, an inspector records the number of visible surface defects found on coils. The inspected surface area changes from shift to shift because coil lengths and widths vary. One coil may contain several defects.</p>
+          <p><strong>Your task:</strong> select the chart, state the required worksheet columns, provide the full Minitab navigation path, and explain why a C chart would be inappropriate.</p>
+          <button type="button" id="reveal-practice" aria-expanded="false" aria-controls="practice-answer">Reveal answer</button>
+          <div class="answer-panel" id="practice-answer" hidden>
+            <p><strong>Correct chart: U chart.</strong></p>
+            <p><strong>Why:</strong> the response is a count of defects, multiple defects can occur on one coil, and inspection opportunity varies. The U chart standardizes the count as defects per unit of opportunity.</p>
+            <p><strong>Worksheet:</strong> one column for defect count and one column for inspected surface area or another defensible opportunity measure.</p>
+            <div class="path">Stat &gt; Control Charts &gt; Attributes Charts &gt; U</div>
+            <p>A C chart is inappropriate because it assumes constant inspection opportunity. Laney U′ should be considered only after assessing whether overdispersion or underdispersion makes the conventional U chart misleading.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="quiz">
+        <h2>Mini quiz</h2>
+        <form class="quiz-form" id="quiz-form" novalidate>
+          <div class="quiz-question" data-answer="b">
+            <fieldset>
+              <legend>1. You measure one Charpy average per coil. Which standard chart is the best starting point?</legend>
+              <label class="choice"><input type="radio" name="q1" value="a"> Xbar-R</label>
+              <label class="choice"><input type="radio" name="q1" value="b"> I-MR</label>
+              <label class="choice"><input type="radio" name="q1" value="c"> P</label>
+              <label class="choice"><input type="radio" name="q1" value="d"> C</label>
+            </fieldset>
+            <p class="quiz-explanation" hidden>I-MR is appropriate because the response is continuous and there is one observation per coil.</p>
+          </div>
+
+          <div class="quiz-question" data-answer="c">
+            <fieldset>
+              <legend>2. Which statement correctly distinguishes an R chart from an MR chart?</legend>
+              <label class="choice"><input type="radio" name="q2" value="a"> Both compare consecutive subgroup averages.</label>
+              <label class="choice"><input type="radio" name="q2" value="b"> R is for attributes; MR is for continuous data.</label>
+              <label class="choice"><input type="radio" name="q2" value="c"> R measures spread within a subgroup; MR measures change between consecutive values.</label>
+              <label class="choice"><input type="radio" name="q2" value="d"> MR requires at least nine observations per subgroup.</label>
+            </fieldset>
+            <p class="quiz-explanation" hidden>R uses the maximum minus minimum within one subgroup. MR uses the absolute difference between consecutive values—or subgroup means in I-MR-R/S.</p>
+          </div>
+
+          <div class="quiz-question" data-answer="a">
+            <fieldset>
+              <legend>3. You inspect a different number of pipes each day and record how many are rejected. Which chart should you use?</legend>
+              <label class="choice"><input type="radio" name="q3" value="a"> P</label>
+              <label class="choice"><input type="radio" name="q3" value="b"> NP</label>
+              <label class="choice"><input type="radio" name="q3" value="c"> C</label>
+              <label class="choice"><input type="radio" name="q3" value="d"> U</label>
+            </fieldset>
+            <p class="quiz-explanation" hidden>P charts the proportion defective and accommodates varying sample sizes.</p>
+          </div>
+
+          <div class="quiz-question" data-answer="d">
+            <fieldset>
+              <legend>4. Which chart is designed to monitor exact elapsed time between rare events?</legend>
+              <label class="choice"><input type="radio" name="q4" value="a"> G</label>
+              <label class="choice"><input type="radio" name="q4" value="b"> Zone</label>
+              <label class="choice"><input type="radio" name="q4" value="c"> CUSUM</label>
+              <label class="choice"><input type="radio" name="q4" value="d"> T</label>
+            </fieldset>
+            <p class="quiz-explanation" hidden>T charts use continuous elapsed time or exact date-time information. G charts use discrete opportunities or whole-day spacing.</p>
+          </div>
+
+          <div class="quiz-question" data-answer="b">
+            <fieldset>
+              <legend>5. An Xbar-R chart shows an out-of-control R chart but an apparently stable Xbar chart. What should you do first?</legend>
+              <label class="choice"><input type="radio" name="q5" value="a"> Conclude the process mean is stable and calculate Cpk.</label>
+              <label class="choice"><input type="radio" name="q5" value="b"> Investigate the R-chart signals before trusting the Xbar limits.</label>
+              <label class="choice"><input type="radio" name="q5" value="c"> Replace the control limits with specification limits.</label>
+              <label class="choice"><input type="radio" name="q5" value="d"> Delete all subgroups with large ranges.</label>
+            </fieldset>
+            <p class="quiz-explanation" hidden>Variation must be stable before the Xbar chart can be interpreted reliably. Investigate and document the variation signals first.</p>
+          </div>
+
+          <div class="button-row">
+            <button class="button-primary" type="submit">Submit quiz</button>
+            <button type="button" id="reset-quiz">Reset quiz</button>
+          </div>
+          <div class="score-box" id="quiz-score" aria-live="polite">Select one answer for each question, then submit.</div>
+        </form>
+      </section>
+
