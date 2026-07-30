@@ -9,6 +9,7 @@ const ROOT = path.join(__dirname, '..');
 const edge = fs.readFileSync(path.join(ROOT, 'netlify/edge-functions/test-bank-mobile-picker.js'), 'utf8');
 const netlify = fs.readFileSync(path.join(ROOT, 'netlify.toml'), 'utf8');
 
+// Regression coverage for the mobile-only certification selector.
 test('registers the mobile picker for pretty and explicit test-bank URLs', () => {
   assert.match(netlify, /path\s*=\s*"\/test-bank"[\s\S]*?function\s*=\s*"test-bank-mobile-picker"/);
   assert.match(netlify, /path\s*=\s*"\/test-bank\.html"[\s\S]*?function\s*=\s*"test-bank-mobile-picker"/);
