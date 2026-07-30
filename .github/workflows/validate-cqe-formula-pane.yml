@@ -9,6 +9,14 @@ on:
       - test-bank-formulas.js
       - tests/test-bank-formula-pane.test.js
       - .github/workflows/validate-cqe-formula-pane.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - test-bank.html
+      - test-bank-formulas.js
+      - tests/test-bank-formula-pane.test.js
+      - .github/workflows/validate-cqe-formula-pane.yml
 
 permissions:
   contents: read
