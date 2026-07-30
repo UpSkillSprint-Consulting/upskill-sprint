@@ -1,9 +1,9 @@
 name: Apply CQE formula pane hardening
 
 on:
-  push:
+  pull_request:
     branches:
-      - fix/cqe-context-aware-formula-pane
+      - main
     paths:
       - scripts/patch-cqe-formula-pane-validation.js
       - .github/workflows/apply-cqe-formula-pane-hardening.yml
@@ -23,14 +23,14 @@ jobs:
           node-version: 22
       - name: Apply hardening patch
         run: node scripts/patch-cqe-formula-pane-validation.js
-      - name: Commit patched implementation
+      - name: Commit patched implementation and tests
         run: |
-          if git diff --quiet -- test-bank-formulas.js; then
+          if git diff --quiet -- test-bank-formulas.js tests/test-bank-formula-pane-exhaustive.test.js; then
             echo "No patch changes required."
             exit 0
           fi
           git config user.name "upskillsprint-agent"
           git config user.email "304186367+upskillsprint-agent@users.noreply.github.com"
-          git add test-bank-formulas.js
-          git commit -m "fix: harden CQE formula pane lifecycle and mappings"
+          git add test-bank-formulas.js tests/test-bank-formula-pane-exhaustive.test.js
+          git commit -m "fix: expand CQE formula coverage and validation"
           git push origin HEAD:fix/cqe-context-aware-formula-pane
