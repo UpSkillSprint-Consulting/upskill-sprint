@@ -40,6 +40,33 @@
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/lessons-theme.css">
   <link rel="stylesheet" href="/lessons/assets/minitab-control-chart-selection-analysis.css">
+  <style>
+    /* Keep the header theme switch compact even though lesson buttons use larger touch targets. */
+    .lesson-sitebar .theme-control {
+      gap: 5px;
+    }
+    .lesson-sitebar .theme-icon {
+      width: 15px;
+      height: 15px;
+      flex: 0 0 15px;
+    }
+    .lesson-sitebar button.theme-toggle {
+      width: 40px;
+      height: 22px;
+      min-height: 22px;
+      padding: 0;
+      border-radius: 999px;
+    }
+    .lesson-sitebar button.theme-toggle::after {
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+    }
+    html[data-theme="dark"] .lesson-sitebar button.theme-toggle::after {
+      transform: translateX(18px);
+    }
+  </style>
 
   <script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
