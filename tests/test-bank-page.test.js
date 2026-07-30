@@ -59,10 +59,10 @@ test('the four exams without a bank are marked Coming soon; CSSBB and CQE are li
   assert.equal(soon.length, 4, 'four exams still coming soon');
   const cssbb = tiles.find(t => t.dataset.exam === 'cssbb');
   assert.doesNotMatch(cssbb.textContent, /Coming soon/, 'CSSBB is live, not coming soon');
-  assert.match(cssbb.textContent, /Exam Set 1/, 'it advertises Exam Set 1');
+  assert.match(cssbb.textContent, /3 exam sets/i, "tile advertises the set count");
   const cqe = tiles.find(t => t.dataset.exam === 'cqe');
   assert.doesNotMatch(cqe.textContent, /Coming soon/, 'CQE is live now');
-  assert.match(cqe.textContent, /Exam Set 1/, 'CQE advertises Exam Set 1');
+  assert.match(cqe.textContent, /3 exam sets/i, "CQE tile advertises the set count");
 });
 
 test('CSSBB is backed by the full 165-question bank across all nine ASQ areas', async () => {

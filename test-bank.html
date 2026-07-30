@@ -1341,7 +1341,7 @@
     {"sub":"dfss","stem":"The X in Design for X is:","options":["an industry term for Six Sigma.","a variable that can be any constraint to the design process.","an industry term for manufacturing.","a Japanese symbol for zero defects."],"answer":1,"why":"The X in Design for X is a variable that can be any constraint to the design process. [IX.B]","set":3},
   ];
   var EXAMS={
-    cssbb:{badge:'CSSBB',bc:'#6750a4',body:'ASQ Certified Six Sigma Black Belt',title:'Six Sigma Black Belt — Exam Set 1',questions:165,minutes:270,pass:70,setName:'Exam Set 1',
+    cssbb:{badge:'CSSBB',bc:'#6750a4',body:'ASQ Certified Six Sigma Black Belt',title:'Six Sigma Black Belt — Exam Simulation',questions:165,minutes:270,pass:70,setName:'Exam Set 1',
       bok:[
         d('enterprise',40,[s('p1','I. Org-Wide Planning & Deployment','/lessons/what-is-lean-six-sigma','What Is Lean Six Sigma',12),s('p2','II. Process Management & Measures','/lessons/complete-14-quality-tools-project','The Complete Quality Toolbox',10),s('tm','III. Team Management','/lessons/7-management-planning-tools','7 Management & Planning Tools',18)]),
         d('define',15,[s('def','IV. Define','/lessons/what-is-lean-six-sigma','Define & VOC',15)]),
@@ -1382,6 +1382,9 @@
     return s[1];
   }
   function setLabel(){return selectedSet==='2'?'Set 2':selectedSet==='3'?'Set 3':selectedSet==='mix'?'Mixed (all sets)':'Set 1';}
+  function setCount(e){return (e&&e.sets&&e.sets[1])?(e.sets[3]?3:(e.sets[2]?2:1)):0;}
+  function setsAvailLabel(e){var n=setCount(e);return n>=2?(n+' exam sets'):(e.setName||'Live');}
+  function activeSetLabel(e){return hasTwoSets(e)?setLabel():(e.setName||'Live');}
   function examNoun(e){return hasTwoSets(e)?setLabel():(e.setName||'the exam');}
   function setSelectorHTML(e){
     if(!hasTwoSets(e))return '';
@@ -1493,7 +1496,7 @@
     host.innerHTML=GROUPS.map(function(g){
       return '<div class="tb-group"><div class="gl">'+g[0]+'</div>'+g[1].map(function(id){
         var e=EXAMS[id];var st=loadState(id);
-        var tag=hasBank(e)?(st&&st.attempts?'<span class="tb-tag ready"><span class="d2"></span>'+st.lastReadiness+'% ready</span>':'<span class="tb-tag live"><span class="d2"></span>'+esc(e.setName||'Live')+'</span>'):'<span class="tb-tag">Coming soon</span>';
+        var tag=hasBank(e)?(st&&st.attempts?'<span class="tb-tag ready"><span class="d2"></span>'+st.lastReadiness+'% ready</span>':'<span class="tb-tag live"><span class="d2"></span>'+esc(setsAvailLabel(e))+'</span>'):'<span class="tb-tag">Coming soon</span>';
         return '<button class="tb-tile'+(id===current?' active':'')+'" data-exam="'+id+'" aria-label="'+esc(e.body)+'">'+
           '<span class="tb-badge" style="background:'+e.bc+'">'+e.badge+'</span>'+
           '<span class="tb-tinfo"><span class="tb-tn">'+esc(e.body.replace('ASQ ',''))+'</span>'+
@@ -1576,7 +1579,7 @@
       ' <span class="sub">· '+x.subs.length+' subtopic'+(x.subs.length>1?'s':'')+'</span><span class="w">'+Math.round(x.weight/total*100)+'%</span></div>';}).join('');
     var live=hasBank(e);
     return '<div class="tb-ovbadge"><span class="tb-badge" style="background:'+e.bc+'">'+e.badge+'</span><span class="tb-ovsub">'+esc(e.body)+'</span></div>'+
-      '<h2 class="tb-title">'+esc(e.title)+' '+(live?'<span class="tb-soon sample">'+esc(e.setName||'Live')+' &middot; live</span>':'<span class="tb-soon">Coming soon</span>')+'</h2>'+
+      '<h2 class="tb-title">'+esc(e.title)+' '+(live?'<span class="tb-soon sample">'+esc(activeSetLabel(e))+' &middot; live</span>':'<span class="tb-soon">Coming soon</span>')+'</h2>'+
       (live?'':'<p class="tb-soonline">This exam isn\u2019t live yet — we\u2019re building its question bank. Below is the Body of Knowledge it covers and the practice modes that will be available.</p>')+
       (live?setSelectorHTML(e):'')+
       (live?diagnosticHTML(e):'')+
