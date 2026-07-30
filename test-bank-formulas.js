@@ -563,6 +563,10 @@
     return shown.join(', ');
   }
 
+  function questionSearchLabel(numbers) {
+    return numbers.map(function (number) { return 'Q' + number + ' Question ' + number; }).join(' ');
+  }
+
   function formulaCard(item, options) {
     var used = options.used || [];
     var current = options.current;
@@ -606,7 +610,7 @@
     var q = normalize(query == null ? (document.getElementById('tb-refsearch') || {}).value : query);
     function include(item, used) {
       if (!q) return true;
-      var label = used.length ? compactQuestionList(used) : '';
+      var label = used.length ? questionSearchLabel(used) : '';
       return formulaSearchText(item, label).indexOf(q) >= 0;
     }
 
@@ -632,6 +636,7 @@
     }
 
     var sectionCards = sectionFormulas.map(function (item) {
+      if (!q && currentIds[item.id]) return '';
       var used = usedByQuestions(item, context);
       if (!include(item, used)) return '';
       return formulaCard(item, {
@@ -643,9 +648,11 @@
     }).join('');
 
     if (sectionCards) {
-      html += '<section class="tb-refgroup"><h4>' + (q ? 'Matching formulas in ' : 'All formulas for ') + esc(sectionName) + '</h4>' + sectionCards + '</section>';
-    } else {
+      html += '<section class="tb-refgroup"><h4>' + (q ? 'Matching formulas in ' : 'Other formulas for ') + esc(sectionName) + '</h4>' + sectionCards + '</section>';
+    } else if (q) {
       html += '<p class="tb-refempty">No formula matches “' + esc(query || '') + '” in ' + esc(sectionName) + '.</p>';
+    } else {
+      html += '<p class="tb-refempty">No additional formulas are required for this section.</p>';
     }
 
     host.innerHTML = html;
@@ -719,12 +726,15 @@
     }
   }
 
+  var initialized = false;
   function initialize(attempt) {
     attempt = attempt || 0;
-    if (!window.__TB || !document.getElementById('tb-toollayer')) {
-      if (attempt < 80) window.setTimeout(function () { initialize(attempt + 1); }, 25);
+    if (initialized) return;
+    if (!window.__TB) {
+      if (attempt < 400) window.setTimeout(function () { initialize(attempt + 1); }, 25);
       return;
     }
+    initialized = true;
     ensureStyles();
     installFallbackRefs();
     wireEvents();
