@@ -1,0 +1,48 @@
+name: Assemble Introduction to Analytics lesson
+
+on:
+  push:
+    branches:
+      - agent/recover-intro-analytics-payload
+    paths:
+      - '.github/workflows/assemble-introduction-to-analytics.yml'
+      - '.lesson-build/archive/**'
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out recovery branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/recover-intro-analytics-payload
+          fetch-depth: 0
+
+      - name: Bring branch up to date with main
+        shell: bash
+        run: |
+          git config user.name "upskillsprint-agent"
+          git config user.email "upskillsprint-agent@users.noreply.github.com"
+          git fetch origin main
+          git merge --no-edit origin/main
+
+      - name: Assemble complete lesson package
+        shell: bash
+        run: |
+          test -f .lesson-build/archive/000.txt
+          test -f .lesson-build/archive/001.txt
+          cat .lesson-build/archive/000.txt .lesson-build/archive/001.txt | base64 --decode > /tmp/introduction-to-analytics.tar.gz
+          tar -tzf /tmp/introduction-to-analytics.tar.gz
+          tar -xzf /tmp/introduction-to-analytics.tar.gz -C .
+          rm -rf .lesson-build
+          rm -f .github/workflows/assemble-introduction-to-analytics.yml
+
+      - name: Commit production lesson
+        shell: bash
+        run: |
+          git add -A
+          git commit -m "Add complete Introduction to Analytics lesson"
+          git push origin HEAD:agent/recover-intro-analytics-payload
