@@ -186,7 +186,7 @@
       'Use for two-sided capability when both spread and process centering matter.',
       'μ = process mean; σwithin = within-process standard deviation.',
       'Use the smaller one-sided index because the nearest specification limit governs.',
-      [/\bCpk\b|actual capability|off[- ]center|nearest specification|capability.*mean/i], ['process capability index']),
+      [/\bCpk\b|actual capability|off[- ]?center|capability.*center|nearest specification|capability.*mean/i], ['process capability index']),
     f('pp-ppk', ['ppc', 'quant'], 'Process performance, Pp and Ppk',
       'Pp = (USL − LSL)/(6soverall);  Ppk = min[(USL − x̄)/(3soverall), (x̄ − LSL)/(3soverall)]',
       'Use for long-term performance indices based on overall standard deviation.',
@@ -474,7 +474,7 @@
 
   function questionText(question) {
     if (!question) return '';
-    return [question.stem || '', (question.options || []).join(' ')].join(' ');
+    return [question.stem || '', question.why || ''].join(' ');
   }
 
   function matchesFormula(item, question) {
