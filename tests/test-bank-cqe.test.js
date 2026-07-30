@@ -45,11 +45,11 @@ test('every CQE question is valid, unique, and maps to a real BoK area', async (
   assert.equal(new Set(e.bank.map(q => q.stem)).size, 160, 'all CQE stems unique');
 });
 
-test('the CQE tile is live (Exam Set 1) and its modes launch', async () => {
+test('the CQE tile is live (3 exam sets) and its modes launch', async () => {
   const w = await loadPage();
   const tile = w.document.querySelector('.tb-tile[data-exam="cqe"]');
   assert.ok(tile && !/Coming soon/.test(tile.textContent));
-  assert.match(tile.textContent, /Exam Set 1/);
+  assert.match(tile.textContent, /3 exam sets/i);
   click(w, tile);
   // live: launchable modes, no coming-soon placeholders, and a set selector (two sets now)
   assert.equal(ov(w).querySelectorAll('[data-mode]').length, 3, 'three launchable modes');
