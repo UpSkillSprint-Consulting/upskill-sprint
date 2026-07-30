@@ -8,6 +8,7 @@ on:
       - test-bank.html
       - test-bank-formulas.js
       - tests/test-bank-formula-pane.test.js
+      - tests/test-bank-formula-pane-exhaustive.test.js
       - .github/workflows/validate-cqe-formula-pane.yml
   pull_request:
     branches:
@@ -16,6 +17,7 @@ on:
       - test-bank.html
       - test-bank-formulas.js
       - tests/test-bank-formula-pane.test.js
+      - tests/test-bank-formula-pane-exhaustive.test.js
       - .github/workflows/validate-cqe-formula-pane.yml
 
 permissions:
@@ -34,13 +36,13 @@ jobs:
         run: npm ci
       - name: Validate JavaScript syntax
         run: node --check test-bank-formulas.js
-      - name: Run CQE formula-pane integration tests
-        run: node --test tests/test-bank-formula-pane.test.js
+      - name: Run required CQE formula-pane validation
+        run: node --test tests/test-bank-formula-pane.test.js tests/test-bank-formula-pane-exhaustive.test.js
       - name: Run repository suite for regression visibility
         continue-on-error: true
         run: npm test
       - name: Explain known baseline failures
         if: always()
         run: |
-          echo "The CQE formula-pane syntax and focused integration tests are required to pass."
+          echo "The CQE formula-pane syntax and exhaustive interaction tests are required to pass."
           echo "The full repository suite is informational because main currently contains unrelated Minitab lesson metadata/controller-tag failures."
