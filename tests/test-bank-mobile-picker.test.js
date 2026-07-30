@@ -1,0 +1,45 @@
+'use strict';
+
+const assert = require('node:assert/strict');
+const test = require('node:test');
+const fs = require('node:fs');
+const path = require('node:path');
+
+const ROOT = path.join(__dirname, '..');
+const edge = fs.readFileSync(path.join(ROOT, 'netlify/edge-functions/test-bank-mobile-picker.js'), 'utf8');
+const netlify = fs.readFileSync(path.join(ROOT, 'netlify.toml'), 'utf8');
+
+// Regression coverage for the mobile-only certification selector.
+test('registers the mobile picker for pretty and explicit test-bank URLs', () => {
+  assert.match(netlify, /path\s*=\s*"\/test-bank"[\s\S]*?function\s*=\s*"test-bank-mobile-picker"/);
+  assert.match(netlify, /path\s*=\s*"\/test-bank\.html"[\s\S]*?function\s*=\s*"test-bank-mobile-picker"/);
+});
+
+test('keeps the desktop certification rail unchanged and activates the picker only on mobile', () => {
+  assert.match(edge, /\.tb-mobile-cert-picker\{display:none\}/);
+  assert.match(edge, /@media \(max-width:860px\)/);
+  assert.match(edge, /\.tb-groups\{display:none!important\}/);
+  assert.doesNotMatch(edge, /@media\s*\(min-width:/);
+});
+
+test('builds the dropdown from the existing certification tiles', () => {
+  assert.match(edge, /querySelectorAll\('\.tb-tile\[data-exam\]'\)/);
+  assert.match(edge, /option\.value=tile\.dataset\.exam/);
+  assert.match(edge, /Choose a certification exam/);
+});
+
+test('routes mobile selection through the existing certification click logic', () => {
+  assert.match(edge, /select\.addEventListener\('change'/);
+  assert.match(edge, /if\(tile\) tile\.click\(\)/);
+});
+
+test('keeps the mobile dropdown synchronized when the certification rail rerenders', () => {
+  assert.match(edge, /new MutationObserver\(sync\)/);
+  assert.match(edge, /\.tb-tile\.active\[data-exam\]/);
+  assert.match(edge, /select\.value=active\.dataset\.exam/);
+});
+
+test('constrains key mobile containers to the viewport to prevent horizontal page overflow', () => {
+  assert.match(edge, /\.tb-shell,\.tb-main,\.tb-rail,\.tb-pane\{min-width:0;max-width:100%\}/);
+  assert.match(edge, /select\{display:block;width:100%;max-width:100%;min-height:48px;box-sizing:border-box/);
+});

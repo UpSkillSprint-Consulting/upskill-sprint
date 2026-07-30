@@ -14,6 +14,13 @@ const REQUIRED_FIELDS = [
 ];
 const VALID_LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
 
+// Modular lesson packages are assembled into a learner-facing page at runtime.
+// Their internal HTML modules are not standalone lesson pages and therefore do
+// not carry independent library metadata blocks.
+const NON_STANDALONE_LESSON_HTML = [
+  'assets/minitab-control-chart-selection-analysis/'
+];
+
 // The nine lessons this PR brings into compliance, with their expected level.
 const NEWLY_COVERED = {
   'minitab-best-predictive-regression-model': 'Advanced',
@@ -47,7 +54,10 @@ function allLessonFiles() {
       else if (e.name.endsWith('.html')) out.push(full);
     });
   })(LESSONS_DIR);
-  return out;
+  return out.filter(file => {
+    const rel = path.relative(LESSONS_DIR, file).replace(/\\/g, '/');
+    return !NON_STANDALONE_LESSON_HTML.some(prefix => rel.startsWith(prefix));
+  });
 }
 function slugFor(file) {
   return path.relative(LESSONS_DIR, file).replace(/\\/g, '/').replace(/\.html$/, '');
@@ -59,7 +69,7 @@ test('every lesson carries a UPSKILLSPRINT_LESSON_META block (full coverage)', (
   const missing = allLessonFiles()
     .filter(f => !extractMeta(fs.readFileSync(f, 'utf8')))
     .map(f => path.relative(ROOT, f));
-  assert.deepEqual(missing, [], 'no lesson is missing a meta block');
+  assert.deepEqual(missing, [], 'no standalone lesson is missing a meta block');
 });
 
 test('every meta block is valid JSON with all required fields and a sane level', () => {
