@@ -1,0 +1,54 @@
+name: Validate CQE formula pane
+
+on:
+  push:
+    branches:
+      - fix/cqe-context-aware-formula-pane
+    paths:
+      - test-bank.html
+      - test-bank-formulas.js
+      - tests/test-bank-formula-pane.test.js
+      - tests/test-bank-formula-pane-exhaustive.test.js
+      - tests/test-bank-formula-pane-modes.test.js
+      - .github/workflows/validate-cqe-formula-pane.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - test-bank.html
+      - test-bank-formulas.js
+      - tests/test-bank-formula-pane.test.js
+      - tests/test-bank-formula-pane-exhaustive.test.js
+      - tests/test-bank-formula-pane-modes.test.js
+      - .github/workflows/validate-cqe-formula-pane.yml
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Validate JavaScript syntax
+        run: node --check test-bank-formulas.js
+      - name: Run focused CQE formula-pane tests
+        run: node --test tests/test-bank-formula-pane.test.js
+      - name: Run exhaustive CQE formula-pane tests
+        run: node --test tests/test-bank-formula-pane-exhaustive.test.js
+      - name: Run CQE session-mode and recovery tests
+        run: node --test tests/test-bank-formula-pane-modes.test.js
+      - name: Run repository suite for regression visibility
+        continue-on-error: true
+        run: npm test
+      - name: Explain known baseline failures
+        if: always()
+        run: |
+          echo "JavaScript syntax and all three CQE formula-pane test suites are required to pass."
+          echo "The full repository suite is informational because main currently contains unrelated Minitab lesson metadata/controller-tag failures."
