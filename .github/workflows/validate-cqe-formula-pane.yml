@@ -1,0 +1,28 @@
+name: Validate CQE formula pane
+
+on:
+  push:
+    branches:
+      - fix/cqe-context-aware-formula-pane
+    paths:
+      - test-bank.html
+      - test-bank-formulas.js
+      - tests/test-bank-formula-pane.test.js
+      - .github/workflows/validate-cqe-formula-pane.yml
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --check test-bank-formulas.js
+      - run: node --test tests/test-bank-formula-pane.test.js
+      - run: npm test
