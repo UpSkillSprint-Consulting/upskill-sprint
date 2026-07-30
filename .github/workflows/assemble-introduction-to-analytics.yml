@@ -30,20 +30,175 @@ jobs:
           git fetch origin main
           git merge --no-edit origin/main
 
-      - name: Assemble complete lesson package
+      - name: Recover the complete V3 lesson HTML
         shell: bash
         run: |
           test -f .lesson-build/archive/000.txt
           test -f .lesson-build/archive/001.txt
           cat .lesson-build/archive/000.txt .lesson-build/archive/001.txt | base64 --decode > /tmp/introduction-to-analytics.tar.gz
-          tar -tzf /tmp/introduction-to-analytics.tar.gz
-          tar -xzf /tmp/introduction-to-analytics.tar.gz -C .
-          rm -rf .lesson-build
-          rm -f .github/workflows/assemble-introduction-to-analytics.yml
+          mkdir -p /tmp/recovered
+          tar -xzf /tmp/introduction-to-analytics.tar.gz -C /tmp/recovered --ignore-zeros || true
+          test -f /tmp/recovered/lessons/data-analytics/introduction-to-analytics.html
+          grep -q '</html>' /tmp/recovered/lessons/data-analytics/introduction-to-analytics.html
+          mkdir -p lessons/data-analytics
+          cp /tmp/recovered/lessons/data-analytics/introduction-to-analytics.html lessons/data-analytics/introduction-to-analytics.html
+
+      - name: Add integrated analytics visuals
+        shell: bash
+        run: |
+          mkdir -p assets/lessons/introduction-to-analytics
+          python3 - <<'PY'
+          from pathlib import Path
+          lesson = Path('lessons/data-analytics/introduction-to-analytics.html')
+          html = lesson.read_text(encoding='utf-8')
+          html = html.replace('/assets/lessons/introduction-to-analytics/analytics-ecosystem-nesting.webp', '/assets/lessons/introduction-to-analytics/analytics-ecosystem-nesting.svg')
+          html = html.replace('/assets/lessons/introduction-to-analytics/types-of-analytics.webp', '/assets/lessons/introduction-to-analytics/types-of-analytics.svg')
+          lesson.write_text(html, encoding='utf-8')
+
+          ecosystem = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="t d"><title id="t">Analytics ecosystem</title><desc id="d">Nested teaching model showing data science, data analysis, data analytics and data mining.</desc><rect width="1200" height="760" fill="#f7fafc"/><ellipse cx="600" cy="380" rx="500" ry="330" fill="#ffc45c" stroke="#102a43" stroke-width="6"/><ellipse cx="600" cy="410" rx="400" ry="260" fill="#c58ac5" stroke="#102a43" stroke-width="6"/><ellipse cx="600" cy="445" rx="300" ry="190" fill="#f0df00" stroke="#102a43" stroke-width="6"/><ellipse cx="600" cy="500" rx="210" ry="125" fill="#24b7c0" stroke="#102a43" stroke-width="6"/><g font-family="Segoe UI,Arial,sans-serif" font-weight="700" text-anchor="middle" fill="#101828"><text x="600" y="105" font-size="44">Data Science</text><text x="600" y="230" font-size="40">Data Analysis</text><text x="600" y="350" font-size="38">Data Analytics</text><text x="600" y="515" font-size="38">Data Mining</text></g></svg>'''
+          Path('assets/lessons/introduction-to-analytics/analytics-ecosystem-nesting.svg').write_text(ecosystem, encoding='utf-8')
+
+          types = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1050" role="img" aria-labelledby="t d"><title id="t">Types of Analytics</title><desc id="d">Value versus complexity map connecting descriptive and diagnostic analytics with the past and predictive and prescriptive analytics with the future.</desc><defs><filter id="s"><feDropShadow dx="10" dy="12" stdDeviation="12" flood-opacity=".22"/></filter></defs><rect width="1400" height="1050" fill="#fff"/><text x="700" y="95" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="72" font-weight="800" fill="#07152d">Types of Analytics</text><path d="M115 915H1300M115 915V140" stroke="#111" stroke-width="9"/><path d="M1300 915l-40-25v50zM115 140l-25 40h50z" fill="#111"/><text x="700" y="1010" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="58" font-weight="800">Complexity</text><text x="55" y="550" text-anchor="middle" transform="rotate(-90 55 550)" font-family="Segoe UI,Arial,sans-serif" font-size="58" font-weight="800">Value</text><rect x="150" y="470" width="500" height="390" rx="24" fill="#fff7f5" stroke="#ffb4aa" stroke-width="5"/><rect x="680" y="170" width="560" height="500" rx="24" fill="#f4fbf9" stroke="#8dc7ba" stroke-width="5"/><g filter="url(#s)"><rect x="195" y="410" width="380" height="90" rx="18" fill="#fff"/><rect x="760" y="610" width="410" height="115" rx="18" fill="#fff"/><circle cx="290" cy="720" r="115" fill="#f32218"/><circle cx="535" cy="620" r="115" fill="#ffa000"/><circle cx="850" cy="420" r="125" fill="#20c739"/><circle cx="1090" cy="285" r="125" fill="#1557f0"/></g><g font-family="Segoe UI,Arial,sans-serif" text-anchor="middle"><text x="385" y="468" font-size="42" font-weight="800" fill="#e43b2f">Data Analysis</text><text x="965" y="665" font-size="38" font-weight="800" fill="#168a78">Data Science &amp;</text><text x="965" y="710" font-size="38" font-weight="800" fill="#168a78">Machine Learning</text><text x="310" y="590" font-size="31" font-weight="700">Often Warehouses</text><text x="825" y="270" font-size="31" font-weight="700">Often Data Lakes</text><text x="290" y="734" font-size="34" font-weight="800" fill="#fff">Descriptive</text><text x="535" y="634" font-size="34" font-weight="800" fill="#fff">Diagnostic</text><text x="850" y="434" font-size="34" font-weight="800" fill="#fff">Predictive</text><text x="1090" y="299" font-size="34" font-weight="800" fill="#fff">Prescriptive</text><text x="545" y="825" font-size="55" font-weight="800" fill="#f05a47">Past</text><text x="1215" y="540" font-size="55" font-weight="800" fill="#168a78">Future</text></g></svg>'''
+          Path('assets/lessons/introduction-to-analytics/types-of-analytics.svg').write_text(types, encoding='utf-8')
+          PY
+
+      - name: Generate the four original wall-poster downloads
+        shell: bash
+        run: |
+          python3 -m pip install --quiet reportlab
+          mkdir -p downloads/introduction-to-analytics
+          python3 - <<'PY'
+          from reportlab.pdfgen import canvas
+          from reportlab.lib.pagesizes import A2, landscape
+          from reportlab.lib import colors
+          from reportlab.pdfbase.pdfmetrics import stringWidth
+          from pathlib import Path
+
+          OUT = Path('downloads/introduction-to-analytics')
+          navy = colors.HexColor('#07152d'); teal = colors.HexColor('#0e7490'); purple = colors.HexColor('#6d3de8')
+          red = colors.HexColor('#e63f53'); orange = colors.HexColor('#f59e0b'); green = colors.HexColor('#22a447'); blue = colors.HexColor('#2457e6')
+          ink = colors.HexColor('#152238'); pale = colors.HexColor('#f5f8fb')
+
+          def wrap(c, text, x, y, width, size=20, leading=27, font='Helvetica'):
+              words=text.split(); line=''; lines=[]
+              for w in words:
+                  test=(line+' '+w).strip()
+                  if stringWidth(test,font,size) <= width: line=test
+                  else: lines.append(line); line=w
+              if line: lines.append(line)
+              c.setFont(font,size); c.setFillColor(ink)
+              for ln in lines: c.drawString(x,y,ln); y-=leading
+              return y
+
+          def header(c, title, subtitle):
+              W,H=landscape(A2); c.setFillColor(navy); c.rect(0,H-150,W,150,fill=1,stroke=0)
+              c.setFillColor(colors.white); c.setFont('Helvetica-Bold',44); c.drawString(55,H-72,title)
+              c.setFont('Helvetica',19); c.drawString(58,H-110,subtitle)
+              return W,H
+
+          def footer(c,W):
+              c.setFillColor(navy); c.rect(0,0,W,42,fill=1,stroke=0); c.setFillColor(colors.white); c.setFont('Helvetica-Bold',13); c.drawCentredString(W/2,15,'UpSkill Sprint Consulting • Introduction to Analytics')
+
+          # Poster 1 — Analytics Landscape
+          p=OUT/'wall-poster-1.pdf'; c=canvas.Canvas(str(p),pagesize=landscape(A2)); W,H=header(c,'Introduction to Analytics: Analytics Landscape','From data to insight, insight to action, and action to value.')
+          steps=[('1. Define','Clarify the question and decision.'),('2. Collect','Gather relevant and reliable data.'),('3. Clean & Transform','Correct errors, missing data and inconsistent formats.'),('4. Analyze','Use visualization, statistics, data mining or machine learning.'),('5. Share & Act','Communicate evidence and monitor results.')]
+          x=55; y=H-220; boxw=(W-130)/5
+          for i,(a,b) in enumerate(steps):
+              bx=x+i*boxw; c.setFillColor(colors.white); c.roundRect(bx,y-180,boxw-14,175,14,fill=1,stroke=1); c.setFillColor(teal); c.circle(bx+42,y-48,25,fill=1,stroke=0); c.setFillColor(colors.white); c.setFont('Helvetica-Bold',18); c.drawCentredString(bx+42,y-55,str(i+1)); c.setFillColor(navy); c.setFont('Helvetica-Bold',19); c.drawString(bx+18,y-95,a); wrap(c,b,bx+18,y-125,boxw-48,14,19)
+          c.setFillColor(pale); c.roundRect(55,170,W-110,260,18,fill=1,stroke=0); c.setFillColor(navy); c.setFont('Helvetica-Bold',28); c.drawString(78,390,'The analytics ecosystem')
+          cols=[('Analytics','The full discipline of turning data into insight and action.'),('Data Analysis','A focused examination of data to answer a specific question.'),('Data Science','A broader field combining statistics, computing, domain expertise and model building.'),('Data Mining','Techniques for discovering useful patterns and relationships in large datasets.')]
+          for i,(a,b) in enumerate(cols):
+              bx=78+i*(W-150)/4; c.setFillColor([teal,purple,orange,green][i]); c.roundRect(bx,220,(W-190)/4,115,12,fill=1,stroke=0); c.setFillColor(colors.white); c.setFont('Helvetica-Bold',19); c.drawString(bx+14,305,a); wrap(c,b,bx+14,278,(W-230)/4,13,17,'Helvetica')
+          footer(c,W); c.save()
+
+          # Poster 2 — Decision Flow
+          p=OUT/'wall-poster-2.pdf'; c=canvas.Canvas(str(p),pagesize=landscape(A2)); W,H=header(c,'Analytics Decision Flow','Ask the right question before choosing the method.')
+          questions=[('What happened?','DESCRIPTIVE','Dashboards • summaries • trends',red),('Why did it happen?','DIAGNOSTIC','Drill-down • root cause • correlation',orange),('What is likely next?','PREDICTIVE','Regression • forecasting • classification',green),('What should we do?','PRESCRIPTIVE','Optimization • simulation • decision rules',blue)]
+          y=H-225
+          for i,(q,t,m,col) in enumerate(questions):
+              bx=85+i*(W-170)/4; c.setFillColor(col); c.roundRect(bx,y-330,(W-230)/4,320,22,fill=1,stroke=0); c.setFillColor(colors.white); c.setFont('Helvetica-Bold',24); c.drawCentredString(bx+(W-230)/8,y-55,t); c.setFont('Helvetica-Bold',18); wrap(c,q,bx+20,y-110,(W-310)/4,18,23,'Helvetica-Bold'); c.setFillColor(colors.white); wrap(c,m,bx+20,y-205,(W-310)/4,15,21)
+          c.setFillColor(pale); c.roundRect(85,130,W-170,155,18,fill=1,stroke=0); c.setFillColor(navy); c.setFont('Helvetica-Bold',24); c.drawString(110,240,'Good analytics workflow'); wrap(c,'Define the decision → collect and validate data → clean and transform → analyze → communicate uncertainty → act → monitor the outcome.',110,205,W-220,19,28)
+          footer(c,W); c.save()
+
+          # Poster 3 — Full Lesson Summary
+          p=OUT/'wall-poster-3.pdf'; c=canvas.Canvas(str(p),pagesize=landscape(A2)); W,H=header(c,'Introduction to Analytics: Full Lesson Summary','A one-page reference for concepts, patterns, tools and data organization.')
+          sections=[('D2P3','Descriptive: what happened?\nDiagnostic: why?\nPredictive: what is next?\nPrescriptive: what should we do?'),('Six common patterns','Trends\nSeasonality & cycles\nCorrelation\nClustering\nAnomalies\nAssociation'),('Tools','Excel & Access\nPower BI & Tableau\nPython & R\nMinitab\nSQL and data platforms'),('Data organization','Structured data\nUnstructured data\nBig data: volume, velocity and variety')]
+          for i,(title,body) in enumerate(sections):
+              bx=55+(i%2)*(W/2); by=H-210-(i//2)*315; c.setFillColor(colors.white); c.roundRect(bx,by-265,W/2-75,245,18,fill=1,stroke=1); c.setFillColor([purple,teal,orange,green][i]); c.rect(bx,by-60,W/2-75,40,fill=1,stroke=0); c.setFillColor(colors.white); c.setFont('Helvetica-Bold',23); c.drawString(bx+18,by-49,title); c.setFillColor(ink); yy=by-95
+              for line in body.split('\n'): c.setFont('Helvetica',17); c.drawString(bx+22,yy,'• '+line); yy-=30
+          footer(c,W); c.save()
+
+          # Poster 4 — Master poster / four types
+          p=OUT/'wall-poster-4-types-of-analytics.pdf'; c=canvas.Canvas(str(p),pagesize=landscape(A2)); W,H=header(c,'Types of Analytics','Value and complexity generally rise as analytics moves from the past toward future action.')
+          c.setStrokeColor(navy); c.setLineWidth(6); c.line(100,130,W-70,130); c.line(100,130,100,H-205); c.setFillColor(navy); c.setFont('Helvetica-Bold',26); c.drawCentredString(W/2,80,'Complexity'); c.saveState(); c.translate(45,H/2); c.rotate(90); c.drawCentredString(0,0,'Value'); c.restoreState()
+          zones=[(170,190,430,330,colors.HexColor('#fff3f2'),colors.HexColor('#ffb0aa')),(650,410,520,390,colors.HexColor('#f2fbf8'),colors.HexColor('#8cc8bb'))]
+          for x,y,w,h,fill,stroke in zones: c.setFillColor(fill); c.setStrokeColor(stroke); c.roundRect(x,y,w,h,18,fill=1,stroke=1)
+          circles=[(280,290,85,red,'Descriptive'),(485,390,85,orange,'Diagnostic'),(800,565,95,green,'Predictive'),(1050,690,95,blue,'Prescriptive')]
+          for x,y,r,col,label in circles: c.setFillColor(col); c.circle(x,y,r,fill=1,stroke=0); c.setFillColor(colors.white); c.setFont('Helvetica-Bold',18); c.drawCentredString(x,y-6,label)
+          c.setFillColor(colors.HexColor('#ef5748')); c.setFont('Helvetica-Bold',38); c.drawString(470,220,'Past'); c.setFillColor(colors.HexColor('#168a78')); c.drawString(1150,500,'Future')
+          c.setFillColor(navy); c.setFont('Helvetica-Bold',25); c.drawString(260,490,'Data Analysis'); c.setFillColor(colors.HexColor('#168a78')); c.drawString(790,390,'Data Science & Machine Learning')
+          footer(c,W); c.save()
+          PY
+
+      - name: Register the lesson in the Data Analytics library
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('chi-square-lesson-library.js'); s=p.read_text(encoding='utf-8')
+          marker="marker: 'data-introduction-to-analytics'"
+          if marker not in s:
+              entry="""    {
+              marker: 'data-introduction-to-analytics',
+              sectionId: 'data-analytics',
+              path: '/lessons/data-analytics/introduction-to-analytics',
+              topic: 'data-analytics',
+              level: 'beginner',
+              interactive: 'true',
+              search: 'introduction analytics data analytics data analysis data science data mining descriptive diagnostic predictive prescriptive d2p3 lifecycle patterns trends seasonality correlation clustering anomalies association beginner interactive',
+              meta: '<span>Beginner</span><span>Interactive</span><span>32 min</span>',
+              title: 'Introduction to Analytics',
+              description: 'See how analytics turns raw data into decisions through visual models, an editable manufacturing example, interactive pattern exploration, and four downloadable wall posters.'
+            },
+          """
+              s=s.replace('  const LESSONS = [\n', '  const LESSONS = [\n'+entry, 1)
+          old="""      const section = document.getElementById(definition.sectionId);
+              const list = section && section.querySelector('.lesson-list');
+              if (!section || !list) return;
+          """
+          new="""      const section = document.getElementById(definition.sectionId);
+              if (!section) return;
+              let list = section.querySelector('.lesson-list');
+              if (!list) {
+                const empty = section.querySelector('.empty-topic');
+                if (empty) empty.remove();
+                section.removeAttribute('data-empty-category');
+                section.setAttribute('data-category-section', '');
+                list = document.createElement('div');
+                list.className = 'lesson-list';
+                section.appendChild(list);
+              }
+          """
+          if old in s: s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+          node --check chi-square-lesson-library.js
+
+      - name: Validate lesson package
+        shell: bash
+        run: |
+          test -s lessons/data-analytics/introduction-to-analytics.html
+          grep -q 'UPSKILLSPRINT_LESSON_META' lessons/data-analytics/introduction-to-analytics.html
+          grep -q 'data-introduction-to-analytics' chi-square-lesson-library.js
+          test "$(find downloads/introduction-to-analytics -name '*.pdf' | wc -l)" -eq 4
+          test -s assets/lessons/introduction-to-analytics/types-of-analytics.svg
+          test -s assets/lessons/introduction-to-analytics/analytics-ecosystem-nesting.svg
 
       - name: Commit production lesson
         shell: bash
         run: |
+          rm -rf .lesson-build
+          rm -f .github/workflows/assemble-introduction-to-analytics.yml
           git add -A
           git commit -m "Add complete Introduction to Analytics lesson"
           git push origin HEAD:agent/recover-intro-analytics-payload
