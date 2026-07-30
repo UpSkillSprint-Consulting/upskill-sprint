@@ -1,0 +1,159 @@
+name: Assemble Introduction to Analytics
+on:
+  push:
+    branches: [agent/add-introduction-to-analytics-v3]
+permissions:
+  contents: write
+jobs:
+  assemble:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/add-introduction-to-analytics-v3
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --quiet reportlab
+      - name: Build lesson, posters, and library entry
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import base64, gzip, shutil
+          from reportlab.pdfgen import canvas
+          from reportlab.lib.pagesizes import A3, landscape
+          from reportlab.lib.colors import HexColor, white
+
+          root = Path('.')
+          stage = root / '.lesson-build/introduction-to-analytics'
+          parts = sorted(stage.glob('html-part-*.txt'))
+          assert len(parts) == 5, f'Expected five lesson parts; found {len(parts)}'
+          encoded = ''.join(p.read_text().strip() for p in parts)
+          lesson = gzip.decompress(base64.b64decode(encoded))
+          lesson_path = root / 'lessons/data-analytics/introduction-to-analytics.html'
+          lesson_path.parent.mkdir(parents=True, exist_ok=True)
+          lesson_path.write_bytes(lesson)
+
+          out = root / 'downloads/introduction-to-analytics'
+          out.mkdir(parents=True, exist_ok=True)
+          W, H = landscape(A3)
+          navy, purple, teal, amber, red, green, blue = map(HexColor, ['#07142f','#6c3cff','#07889b','#f5a623','#ef3340','#20a452','#2457e6'])
+
+          def text(c, value, x, y, size=18, color=navy, font='Helvetica', max_width=None, leading=None):
+              c.setFillColor(color); c.setFont(font, size)
+              if not max_width:
+                  c.drawString(x, y, value); return y-size
+              words=value.split(); line=''; lead=leading or size*1.25
+              for word in words:
+                  test=(line+' '+word).strip()
+                  if c.stringWidth(test,font,size)>max_width and line:
+                      c.drawString(x,y,line); y-=lead; line=word
+                  else: line=test
+              if line: c.drawString(x,y,line); y-=lead
+              return y
+
+          def header(c, title, subtitle):
+              c.setFillColor(navy); c.rect(0,H-105,W,105,fill=1,stroke=0)
+              text(c,title,44,H-55,30,white,'Helvetica-Bold')
+              text(c,subtitle,44,H-83,14,HexColor('#dce8ff'))
+
+          def footer(c, label):
+              c.setFillColor(navy); c.rect(0,0,W,36,fill=1,stroke=0)
+              text(c,'UPSKILL SPRINT  -  INTRODUCTION TO ANALYTICS',40,13,10,white,'Helvetica-Bold')
+              c.setFillColor(white); c.setFont('Helvetica-Bold',10); c.drawRightString(W-40,13,label)
+
+          p=out/'wall-poster-1.pdf'; c=canvas.Canvas(str(p),pagesize=(W,H)); header(c,'INTRODUCTION TO ANALYTICS','From raw data to evidence, decisions, action, and value')
+          steps=[('1. DEFINE','Clarify the decision and success measure.'),('2. COLLECT','Gather relevant, trustworthy data.'),('3. CLEAN & TRANSFORM','Correct, organize, join, and prepare.'),('4. ANALYZE','Describe, diagnose, predict, prescribe.'),('5. SHARE & ACT','Communicate, decide, monitor, improve.')]
+          x=45; boxw=(W-110)/5
+          for i,(a,b) in enumerate(steps):
+              xx=x+i*(boxw+5); c.setFillColor(HexColor('#f4f7ff')); c.roundRect(xx,H-255,boxw,105,12,fill=1,stroke=0)
+              text(c,a,xx+12,H-180,13,[purple,blue,green,amber,red][i],'Helvetica-Bold'); text(c,b,xx+12,H-205,10,navy,max_width=boxw-24)
+          text(c,'THE FOUR TYPES OF ANALYTICS',45,H-300,18,navy,'Helvetica-Bold')
+          cards=[('DESCRIPTIVE','What happened?',red),('DIAGNOSTIC','Why did it happen?',amber),('PREDICTIVE','What is likely next?',green),('PRESCRIPTIVE','What should we do?',blue)]
+          for i,(a,b,col) in enumerate(cards):
+              xx=45+i*((W-110)/4+7); ww=(W-130)/4; c.setFillColor(col); c.roundRect(xx,H-430,ww,95,14,fill=1,stroke=0)
+              text(c,a,xx+15,H-370,16,white,'Helvetica-Bold'); text(c,b,xx+15,H-398,12,white)
+          text(c,'COMMON PATTERNS',45,H-478,17,navy,'Helvetica-Bold')
+          text(c,'Trends - Seasonality - Correlation - Clusters - Anomalies - Associations',45,H-510,16,purple,'Helvetica-Bold')
+          text(c,'Remember: analytics is not just a calculation. It includes the question, data quality, interpretation, communication, action, and monitoring.',45,85,14,navy,max_width=W-90)
+          footer(c,'WALL POSTER 1'); c.save()
+
+          p=out/'wall-poster-2.pdf'; c=canvas.Canvas(str(p),pagesize=(W,H)); header(c,'ANALYTICS DECISION FLOW','Start with the business question - not the software')
+          flow=[('What happened?','DESCRIPTIVE','Dashboards, summaries, Pareto and trend charts',red),('Why did it happen?','DIAGNOSTIC','Drill-down, comparison, correlation and root-cause evidence',amber),('What is likely next?','PREDICTIVE','Regression, time series, classification and forecasting',green),('What should we do?','PRESCRIPTIVE','Optimization, simulation, scenarios and recommendations',blue)]
+          y=H-170
+          for q,t,m,col in flow:
+              c.setFillColor(HexColor('#f7f9fd')); c.roundRect(60,y-92,W-120,78,14,fill=1,stroke=0)
+              c.setFillColor(col); c.roundRect(75,y-78,190,50,12,fill=1,stroke=0); text(c,t,92,y-58,15,white,'Helvetica-Bold')
+              text(c,q,290,y-44,17,navy,'Helvetica-Bold'); text(c,m,290,y-69,12,HexColor('#33415c'),max_width=W-370)
+              y-=105
+          text(c,'A strong analytic recommendation states the evidence, uncertainty, assumptions, business implication, and next action.',60,82,15,purple,'Helvetica-Bold',max_width=W-120)
+          footer(c,'WALL POSTER 2'); c.save()
+
+          p=out/'wall-poster-3.pdf'; c=canvas.Canvas(str(p),pagesize=(W,H)); header(c,'INTRODUCTION TO ANALYTICS - ONE-PAGE SUMMARY','A visual reference for the complete lesson')
+          sections=[('ANALYTICS PROCESS','Define -> Collect -> Clean -> Transform -> Analyze -> Share & Act -> Monitor'),('D2P3','Descriptive -> Diagnostic -> Predictive -> Prescriptive'),('PATTERNS','Trends - Seasonal/cyclical - Correlation - Clustering - Anomalies - Associations'),('TOOLS','Excel & Access - Power BI & Tableau - SQL - Python & R - Minitab'),('DATA','Structured - Unstructured - Big data: volume, velocity, variety'),('FIELDS','Data analysis extracts meaning; analytics turns insight into decisions; data science is broader; data mining discovers hidden patterns.')]
+          ww=(W-135)/2; yy=H-160
+          for i,(h,b) in enumerate(sections):
+              col=i%2; row=i//2; xx=45+col*(ww+45); y=yy-row*150
+              c.setFillColor(HexColor('#f4f7ff')); c.roundRect(xx,y-115,ww,105,14,fill=1,stroke=0)
+              text(c,h,xx+16,y-40,16,[purple,teal,amber,green,blue,red][i],'Helvetica-Bold'); text(c,b,xx+16,y-68,12,navy,max_width=ww-32)
+          text(c,'KEY TAKEAWAY',45,90,17,amber,'Helvetica-Bold'); text(c,'Good analytics asks the right question, uses trustworthy data, applies the right method, explains the evidence objectively, and drives the right action.',200,90,13,navy,max_width=W-245)
+          footer(c,'WALL POSTER 3'); c.save()
+
+          p=out/'wall-poster-4-types-of-analytics.pdf'; c=canvas.Canvas(str(p),pagesize=(W,H)); header(c,'TYPES OF ANALYTICS','Value and complexity generally rise as work moves from past to future')
+          c.setStrokeColor(navy); c.setLineWidth(4); c.line(95,105,95,H-145); c.line(95,105,W-55,105)
+          text(c,'VALUE',25,H/2,18,navy,'Helvetica-Bold'); text(c,'COMPLEXITY',W/2-65,55,18,navy,'Helvetica-Bold')
+          circles=[(235,220,58,red,'DESCRIPTIVE'),(390,300,65,amber,'DIAGNOSTIC'),(650,425,72,green,'PREDICTIVE'),(850,535,78,blue,'PRESCRIPTIVE')]
+          for x,y,r,col,label in circles:
+              c.setFillColor(col); c.circle(x,y,r,fill=1,stroke=0); c.setFillColor(white); c.setFont('Helvetica-Bold',13); c.drawCentredString(x,y-5,label)
+          c.setFillColor(HexColor('#fff4f4')); c.roundRect(145,155,330,270,16,fill=1,stroke=0); text(c,'DATA ANALYSIS',205,390,18,red,'Helvetica-Bold'); text(c,'Often data warehouses',205,365,12,navy)
+          c.setFillColor(HexColor('#effbf9')); c.roundRect(535,335,405,270,16,fill=1,stroke=0); text(c,'DATA SCIENCE & MACHINE LEARNING',570,575,17,teal,'Helvetica-Bold'); text(c,'Often data lakes',570,550,12,navy)
+          text(c,'PAST',360,145,24,red,'Helvetica-Bold'); text(c,'FUTURE',895,420,24,teal,'Helvetica-Bold')
+          footer(c,'WALL POSTER 4'); c.save()
+
+          library = root/'lessons.html'
+          body = library.read_text()
+          old = '''        <section class="lesson-category" id="data-analytics" data-empty-category data-topic="data-analytics">
+          <div class="category-header">
+            <h2>Data Analytics</h2>
+            <span class="category-count">Coming soon</span>
+          </div>
+          <div class="empty-topic">
+            <p>New lessons on analysis fundamentals are in development.</p>
+            <a href="request-topic.html">Request the first lesson &rarr;</a>
+          </div>
+        </section>'''
+          new = '''        <section class="lesson-category" id="data-analytics" data-category-section data-topic="data-analytics">
+          <div class="category-header">
+            <h2>Data Analytics</h2>
+            <span class="category-count">1 lesson</span>
+          </div>
+          <div class="lesson-list">
+            <a class="lesson-row" href="/lessons/data-analytics/introduction-to-analytics" data-lesson-item data-topic="data-analytics" data-level="beginner" data-interactive="true" data-search="introduction analytics data analysis data science data mining descriptive diagnostic predictive prescriptive d2p3 patterns trends seasonality correlation clustering anomalies associations beginner interactive">
+              <div>
+                <div class="lesson-meta"><span>Beginner</span><span>Interactive</span><span>32 min</span><span>4 downloadable posters</span></div>
+                <h3>Introduction to Analytics</h3>
+                <p>See how analytics turns raw data into decisions through visual models, an editable manufacturing example, and an interactive pattern explorer.</p>
+              </div>
+              <span class="lesson-action">Start lesson <span class="lesson-arrow" aria-hidden="true">&rarr;</span></span>
+            </a>
+          </div>
+        </section>'''
+          assert old in body, 'Data Analytics placeholder not found'
+          library.write_text(body.replace(old,new,1))
+
+          assert b'UPSKILLSPRINT_LESSON_META' in lesson
+          assert lesson.count(b'class="quiz-question"') == 5
+          assert b'id="four-types"' in lesson and b'Types of Analytics' in lesson
+          assert lesson.count(b'poster-action-card') == 4
+          shutil.rmtree(stage)
+          Path('.github/workflows/assemble-introduction-to-analytics.yml').unlink(missing_ok=True)
+          PY
+      - name: Commit assembled website lesson
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git commit -m "Add complete Introduction to Analytics lesson"
+          git push origin HEAD:agent/add-introduction-to-analytics-v3
