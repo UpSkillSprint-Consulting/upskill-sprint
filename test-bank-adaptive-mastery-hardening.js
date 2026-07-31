@@ -285,22 +285,34 @@
   function refreshReliability() {
     const dashboard = document.getElementById('tb-adaptive-mastery');
     if (!dashboard) return;
-    const old = dashboard.querySelector('.tb-mastery-reliability');
-    if (old) old.remove();
     const summary = masterySummary(examData(readStore()), Date.now());
-    const block = document.createElement('section');
-    block.className = 'tb-mastery-reliability';
-    block.innerHTML = '<div class="tb-sec">Mastery confidence and coverage</div><div class="tb-reliability-grid"><div><strong>' + summary.attemptedMastery + '%</strong><span>mastery on attempted questions</span></div><div><strong>' + summary.coverage + '%</strong><span>question-bank coverage</span></div><div><strong>' + summary.readiness + '%</strong><span>coverage-adjusted readiness</span></div></div><p>Readiness discounts high scores based on a small evidence sample. Effective mastery also decays as retrieval becomes stale.</p><div class="tb-data-actions"><button type="button" class="tb-ghost" data-v2-export>Export learning data</button><button type="button" class="tb-ghost danger" data-v2-reset>Reset adaptive data</button></div>';
-    const grid = dashboard.querySelector('.tb-mastery-grid');
-    if (grid) grid.insertAdjacentElement('afterend', block);
-    else dashboard.appendChild(block);
+    const inner = '<div class="tb-sec">Mastery confidence and coverage</div><div class="tb-reliability-grid"><div><strong>' + summary.attemptedMastery + '%</strong><span>mastery on attempted questions</span></div><div><strong>' + summary.coverage + '%</strong><span>question-bank coverage</span></div><div><strong>' + summary.readiness + '%</strong><span>coverage-adjusted readiness</span></div></div><p>Readiness discounts high scores based on a small evidence sample. Effective mastery also decays as retrieval becomes stale.</p><div class="tb-data-actions"><button type="button" class="tb-ghost" data-v2-export>Export learning data</button><button type="button" class="tb-ghost danger" data-v2-reset>Reset adaptive data</button></div>';
+    // Idempotent: only touch the DOM when the rendered content actually changes.
+    // (This function runs on every observed mutation; re-inserting an identical
+    // block would retrigger the observers and create a re-render loop that makes
+    // the results page unresponsive on mobile.)
+    const sig = summary.attemptedMastery + '/' + summary.coverage + '/' + summary.readiness;
+    let block = dashboard.querySelector('.tb-mastery-reliability');
+    if (!block) {
+      block = document.createElement('section');
+      block.className = 'tb-mastery-reliability';
+      block.innerHTML = inner;
+      block.dataset.sig = sig;
+      const grid = dashboard.querySelector('.tb-mastery-grid');
+      if (grid) grid.insertAdjacentElement('afterend', block);
+      else dashboard.appendChild(block);
+    } else if (block.dataset.sig !== sig) {
+      block.innerHTML = inner;
+      block.dataset.sig = sig;
+    }
     const ring = dashboard.querySelector('.tb-mastery-ring');
     if (ring) {
-      ring.style.setProperty('--p', summary.attemptedMastery);
+      if (ring.style.getPropertyValue('--p') !== String(summary.attemptedMastery)) ring.style.setProperty('--p', summary.attemptedMastery);
       const strong = ring.querySelector('strong');
       const label = ring.querySelector('span');
-      if (strong) strong.textContent = summary.attemptedMastery + '%';
-      if (label) label.textContent = 'attempted mastery';
+      const strongText = summary.attemptedMastery + '%';
+      if (strong && strong.textContent !== strongText) strong.textContent = strongText;
+      if (label && label.textContent !== 'attempted mastery') label.textContent = 'attempted mastery';
     }
   }
 

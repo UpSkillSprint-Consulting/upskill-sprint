@@ -134,3 +134,33 @@ test('completion guard records the final session without a runtime exception', a
   assert.equal(window.__TBAdaptiveMastery.store().exams.cssbb.attempts.length, 1);
   assert.deepEqual(errors, []);
 });
+
+test('the mastery reliability block is idempotent (no re-render loop that breaks mobile taps)', async () => {
+  const { window } = await load();
+  // seed a little mastery data so the dashboard has something to summarise
+  window.localStorage.setItem('tb-adaptive-mastery-v1', JSON.stringify({
+    version: 1,
+    exams: { cssbb: { questions: { 'demo-stem': { mastery: 60, attempts: 3, correct: 2, lastSeen: Date.now() } }, attempts: [], sessions: [] } }
+  }));
+  const overview = window.document.getElementById('tb-overview');
+  // minimal results shell that makes the adaptive-mastery dashboard render
+  overview.innerHTML = '<div class="tb-reshead"></div><section id="tb-feedback-loop"><div id="tb-feedback-live"></div></section>';
+  await settle(window, 6);
+
+  const dashboard = window.document.getElementById('tb-adaptive-mastery');
+  assert.ok(dashboard, 'mastery dashboard rendered');
+  const first = overview.querySelectorAll('.tb-mastery-reliability');
+  assert.equal(first.length, 1, 'exactly one reliability block');
+  const node = first[0];
+
+  // Let many more frames pass. Before the fix, refreshReliability removed and
+  // re-added this block (and re-stamped attributes) on every observed mutation,
+  // producing a ~60fps re-render loop that replaced button nodes mid-tap on mobile.
+  await settle(window, 12);
+
+  const after = overview.querySelectorAll('.tb-mastery-reliability');
+  assert.equal(after.length, 1, 'still exactly one reliability block after settling');
+  assert.equal(after[0], node, 'the reliability block is the SAME node (not recreated each frame)');
+  // its action buttons must also be the same nodes (taps depend on stable targets)
+  assert.ok(after[0].querySelector('[data-v2-export]') && after[0].querySelector('[data-v2-reset]'), 'export/reset buttons present and stable');
+});
