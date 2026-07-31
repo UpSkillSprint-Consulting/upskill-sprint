@@ -115,7 +115,7 @@
     transition();
     const feedback = document.getElementById(FEEDBACK_ID);
     if (!feedback || !session) return;
-    feedback.dataset.attemptId = session.id;
+    if (feedback.dataset.attemptId !== String(session.id)) feedback.dataset.attemptId = session.id;
     feedback.querySelectorAll('[data-error-class]').forEach(function (select) {
       const stem = stemFor(select);
       if (!stem) return;

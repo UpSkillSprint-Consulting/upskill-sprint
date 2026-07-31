@@ -270,7 +270,10 @@
     const feedback = document.getElementById(FEEDBACK_ID);
     if (!feedback) return;
     ensureAttempt();
-    feedback.dataset.attemptId = attemptId;
+    // Own a distinct marker: attempt-history owns data-attempt-id, so writing the
+    // same attribute here (with a different id scheme) made the two scripts ping-pong
+    // and re-render every frame.
+    if (feedback.dataset.hardeningAttempt !== String(attemptId)) feedback.dataset.hardeningAttempt = attemptId;
     feedback.querySelectorAll('.tb-review-card').forEach(enhanceCard);
     syncClassifications();
     improveAccessibility();
