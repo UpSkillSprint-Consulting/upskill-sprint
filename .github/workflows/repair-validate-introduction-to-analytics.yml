@@ -55,7 +55,8 @@ jobs:
               'assets/types-of-analytics.png': '/assets/lessons/introduction-to-analytics/types-of-analytics.svg',
               '/assets/lessons/introduction-to-analytics/poster-1.webp': '/downloads/introduction-to-analytics/wall-poster-1.pdf',
               '/assets/lessons/introduction-to-analytics/poster-2.webp': '/downloads/introduction-to-analytics/wall-poster-2.pdf',
-              '/assets/lessons/introduction-to-analytics/poster-3.webp': '/downloads/introduction-to-analytics/wall-poster-3.pdf'
+              '/assets/lessons/introduction-to-analytics/poster-3.webp': '/downloads/introduction-to-analytics/wall-poster-3.pdf',
+              '/downloads/introduction-to-analytics/wall-poster-4.pdf': '/downloads/introduction-to-analytics/wall-poster-4-types-of-analytics.pdf'
           }
           for old, new in replacements.items():
               html = html.replace(old, new)
