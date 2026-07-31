@@ -85,7 +85,7 @@ function prepareApplication(originalHtml) {
     .replaceAll('href="grade_spec_lookup_user_guide.html"', 'href="./how-to-use/"')
     .replace('<div class="top-actions">', '<div class="top-actions"><a class="btn site-companion" href="/tools/material-specification-compliance-checker">Compliance Checker</a>')
     .replace('</head>', '<meta name="description" content="Interactive material specification lookup, comparison, compliance screening, reverse lookup, and engineering calculators for CSA, ASTM, and API material designations.">\n<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + '\n</head>')
-    .replace('<body>', '<body class="grade-spec-tool-page">\n' + siteHeader)
+    .replace('<body>', '<body class="grade-spec-tool-page" data-require-auth>\n' + siteHeader)
     .replace('</body>', backLink + '\n</body>');
 }
 

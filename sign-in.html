@@ -87,6 +87,19 @@
         status.textContent = message;
         status.classList.toggle('auth-status-success', Boolean(isSuccess));
       }
+      function safeNext() {
+        /* Return visitors to the page that sent them here (?next=), but only
+           if it is a same-origin absolute path. Reject anything that could be
+           an off-site redirect: protocol-relative ("//evil"), backslash
+           tricks ("/\\evil"), or absolute URLs (which do not start with "/"). */
+        var raw;
+        try { raw = new URLSearchParams(window.location.search).get('next'); }
+        catch (error) { raw = null; }
+        if (raw && raw.charAt(0) === '/' && raw.charAt(1) !== '/' && raw.charAt(1) !== '\\') {
+          return raw;
+        }
+        return '/';
+      }
       function whenAuthReady(callback) {
         if (window.UpskillAuth) callback();
         else document.addEventListener('upskill-auth-ready', callback, { once: true });
@@ -99,7 +112,7 @@
           setStatus('Signing you in\u2026', false);
           window.UpskillAuth.signIn(email.value.trim(), password.value).then(function () {
             setStatus('Signed in \u2014 taking you back.', true);
-            window.setTimeout(function () { window.location.href = '/'; }, 800);
+            window.setTimeout(function () { window.location.href = safeNext(); }, 800);
           }).catch(function (error) {
             submit.disabled = false;
             setStatus(error && error.message ? error.message : 'Sign in failed. Please try again.', false);
