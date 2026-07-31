@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Introduction to Analytics",
+  "slug": "introduction-to-analytics",
+  "category": "Data Analytics",
+  "category_slug": "data-analytics",
+  "level": "Beginner",
+  "estimated_minutes": 32,
+  "interactive": true,
+  "card_title": "Introduction to Analytics",
+  "card_description": "See how analytics turns raw data into decisions through visual models, an editable factory example, and an interactive pattern explorer.",
+  "search_keywords": [
+    "introduction to analytics",
+    "data analytics",
+    "data analysis",
+    "data science",
+    "data mining",
+    "descriptive analytics",
+    "diagnostic analytics",
+    "predictive analytics",
+    "prescriptive analytics",
+    "D2P3",
+    "analytics lifecycle",
+    "data patterns",
+    "business intelligence",
+    "interactive"
+  ],
+  "suggested_github_path": "lessons/data-analytics/introduction-to-analytics.html"
+}
+-->
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#ffffff" name="theme-color"/>
+<title>Introduction to Analytics | UpSkill Sprint Consulting</title>
+<meta content="A highly visual, interactive introduction to analytics, the four analytics types, common data patterns, the analytics lifecycle, and the relationship between analytics, data analysis, data science, and data mining." name="description"/>
+<link href="https://upskillsprint.com/lessons/data-analytics/introduction-to-analytics" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="Introduction to Analytics | UpSkill Sprint Consulting" property="og:title"/>
+<meta content="Turn raw data into decisions through visual models, an editable factory example, and an interactive pattern explorer." property="og:description"/>
+<meta content="https://upskillsprint.com/assets/logo-icon.png" property="og:image"/>
+<meta content="https://upskillsprint.com/lessons/data-analytics/introduction-to-analytics" property="og:url"/>
+<meta content="summary" name="twitter:card"/>
+<link href="/style.css" rel="stylesheet"/>
+<link href="/lessons-theme.css" rel="stylesheet"/>
+<!-- EDIT: Lesson styling -->
+<link href="/assets/lessons/introduction-to-analytics/lesson.css" rel="stylesheet"/>
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
+</head>
+<body data-category="data-analytics" data-interactive="true" data-lesson-page="true" data-level="beginner">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<!-- SITE INTEGRATION: Header -->
+<header class="site lesson-sitebar">
+<a aria-label="UpSkill Sprint Consulting home" class="brand" href="/">
+<img alt="UpSkill Sprint Consulting logo" decoding="async" loading="lazy" src="/assets/logo-icon.png"/>
+<span>UpSkill Sprint Consulting</span>
+</a>
+<div class="header-actions">
+<a class="back-link" href="/lessons#data-analytics">Back to Data Analytics</a>
+<button aria-checked="false" aria-label="Switch to dark mode" class="theme-toggle" data-theme-toggle="true" role="switch" type="button">
+<span class="sr-only">Toggle dark and light mode</span>
+</button>
+</div>
+</header>
+<main id="lesson-content">
+<article class="lesson-wrapper">
+<!-- EDIT: Lesson header -->
+<section aria-labelledby="lesson-title" class="lesson-hero">
+<div>
+<p class="lesson-eyebrow">Data Analytics · Beginner · Interactive</p>
+<h1 id="lesson-title">Introduction to Analytics</h1>
+<div aria-label="Lesson information" class="lesson-meta-row">
+<span class="pill accent">32 minutes</span>
+<span class="pill">No prior knowledge required</span>
+<span class="pill">Visual lesson</span>
+<span class="pill">Live data lab</span>
+</div>
+<p class="lesson-lede">Analytics is the disciplined journey from a question, through data and evidence, to a decision that improves performance.</p>
+<p class="hero-motto"><strong>Why this matters:</strong> Organizations do not gain value merely by owning data. Value appears when people use data objectively to understand what happened, explain why, anticipate what may happen next, and select a sensible action.</p>
+</div>
+<svg aria-labelledby="hero-visual-title hero-visual-desc" class="hero-visual" role="img" viewbox="0 0 620 420">
+<title id="hero-visual-title">Raw data transforming into insight and action</title>
+<desc id="hero-visual-desc">A visual pipeline moves from database cylinders and messy data points through cleaning gears and an analysis lens to a decision dashboard and action target.</desc>
+<defs>
+<lineargradient id="screenGradient" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#173b60"></stop>
+<stop offset="1" stop-color="#0b1e32"></stop>
+</lineargradient>
+<filter height="140%" id="softGlow" width="140%" x="-20%" y="-20%">
+<fegaussianblur result="blur" stddeviation="5"></fegaussianblur>
+<femerge><femergenode in="blur"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+</defs>
+<rect fill="#071525" height="284" rx="24" stroke="#3ec7d8" stroke-opacity=".45" stroke-width="2" width="480" x="76" y="74"></rect>
+<rect fill="url(#screenGradient)" height="210" rx="14" width="428" x="102" y="99"></rect>
+<g opacity=".25" stroke="#68d8e6" stroke-width="1">
+<path d="M122 130H510M122 170H510M122 210H510M122 250H510M170 112V294M230 112V294M290 112V294M350 112V294M410 112V294M470 112V294"></path>
+</g>
+<g transform="translate(127 148)">
+<rect fill="#2563eb" height="44" rx="4" width="30" x="0" y="82"></rect>
+<rect fill="#3b82f6" height="68" rx="4" width="30" x="44" y="58"></rect>
+<rect fill="#13b8c9" height="98" rx="4" width="30" x="88" y="28"></rect>
+<rect fill="#2dd4bf" height="121" rx="4" width="30" x="132" y="5"></rect>
+</g>
+<g transform="translate(350 134)">
+<path d="M0 105L36 77L72 87L109 42L145 54" fill="none" filter="url(#softGlow)" stroke="#2dd4bf" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path>
+<g fill="#0b1e32" stroke="#5eead4" stroke-width="4">
+<circle cx="0" cy="105" r="7"></circle><circle cx="36" cy="77" r="7"></circle><circle cx="72" cy="87" r="7"></circle><circle cx="109" cy="42" r="7"></circle><circle cx="145" cy="54" r="7"></circle>
+</g>
+</g>
+<g transform="translate(281 319)">
+<rect fill="#6382a3" height="16" rx="8" width="70" x="0" y="0"></rect>
+<rect fill="#89a9c7" height="30" rx="5" width="22" x="24" y="14"></rect>
+<rect fill="#45647f" height="16" rx="8" width="160" x="-45" y="42"></rect>
+</g>
+<g transform="translate(33 265)">
+<ellipse cx="42" cy="10" fill="#13b8c9" rx="36" ry="13"></ellipse>
+<path d="M6 10v62c0 7 16 13 36 13s36-6 36-13V10" fill="#0e7490"></path>
+<ellipse cx="42" cy="41" fill="none" rx="36" ry="13" stroke="#78e7ed" stroke-width="3"></ellipse>
+<ellipse cx="42" cy="72" fill="#13b8c9" rx="36" ry="13"></ellipse>
+</g>
+<g transform="translate(525 276)">
+<circle cx="35" cy="35" fill="#ea580c" opacity=".95" r="33"></circle>
+<circle cx="35" cy="35" fill="#0f2a43" r="21" stroke="#ffbc8d" stroke-width="4"></circle>
+<path d="M35 35L69 1" stroke="#ffffff" stroke-linecap="round" stroke-width="6"></path>
+<path d="M59 4h12v12" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"></path>
+</g>
+<path d="M117 330C165 282 197 287 238 270" fill="none" stroke="#9ff3ef" stroke-dasharray="10 8" stroke-width="4"></path>
+<path d="M466 300C496 286 509 284 530 297" fill="none" stroke="#ffc08d" stroke-dasharray="10 8" stroke-width="4"></path>
+<g fill="#dffbff" font-size="16" font-weight="700">
+<text x="30" y="386">DATA</text>
+<text x="246" y="386">INSIGHT</text>
+<text x="506" y="386">ACTION</text>
+</g>
+</svg>
+</section>
+<nav aria-label="Lesson contents" class="lesson-toc">
+<h2>In this lesson</h2>
+<ol>
+<li><a href="#learning-objectives">Learning objectives</a></li>
+<li><a href="#wallposters">Downloadable infographics</a></li>
+<li><a href="#key-concepts">What analytics really is</a></li>
+<li><a href="#analytics-ecosystem">Analytics, analysis, data science, and data mining</a></li>
+<li><a href="#four-types">The four types of analytics</a></li>
+<li><a href="#analytics-lifecycle">When analytics is involved</a></li>
+<li><a href="#patterns">Patterns analytics can reveal</a></li>
+<li><a href="#worked-example">Worked factory example</a></li>
+<li><a href="#data-lab">Interactive data lab</a></li>
+<li><a href="#software-guidance">Tools and software</a></li>
+<li><a href="#practice">Practice activity</a></li>
+<li><a href="#quiz">Mini quiz</a></li>
+<li><a href="#summary">Summary</a></li>
+</ol>
+</nav>
+<section aria-labelledby="wallposters-title" id="wallposters">
+<p class="section-kicker">Visual library</p>
+<h2 id="wallposters-title">Download the Introduction to Analytics wall posters</h2>
+<p class="section-intro">Choose any of the four infographic wall posters below. Use the animated icons to download a printable PDF or open the full-size poster in a new tab. Each option works well as a desk reference, classroom handout, or wall poster.</p>
+<div aria-label="Four downloadable Introduction to Analytics wall posters" class="poster-grid">
+<article class="poster-card" data-poster-number="Poster 1">
+<div class="poster-copy">
+<h3>Analytics Landscape</h3>
+<p>A visual overview of the analytics landscape, four analytics types, patterns, tools, data organization, and related disciplines.</p>
+<p class="poster-meta">Printable PDF · Full-resolution poster</p>
+</div>
+<div aria-label="Analytics Landscape poster actions" class="poster-actions">
+<a aria-label="Download Analytics Landscape wall poster as PDF" class="poster-action-link poster-download" download="" href="/downloads/introduction-to-analytics/wall-poster-1.pdf" title="Download PDF">
+<svg aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+<span class="poster-action-label">Download PDF</span>
+<span class="poster-action-note">Save &amp; print</span>
+</a>
+<a aria-label="Open the Analytics Landscape wall poster" class="poster-action-link poster-open" href="/downloads/introduction-to-analytics/wall-poster-1.pdf" rel="noopener" target="_blank" title="Open poster">
+<svg aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+<span class="poster-action-label">Open Poster</span>
+<span class="poster-action-note">View full size</span>
+</a>
+</div>
+</article>
+<article class="poster-card" data-poster-number="Poster 2">
+<div class="poster-copy">
+<h3>Decision Flow View</h3>
+<p>A visual guide to analytics questions, process flow, techniques, patterns, tools, and decision-making.</p>
+<p class="poster-meta">Printable PDF · Full-resolution poster</p>
+</div>
+<div aria-label="Decision Flow View poster actions" class="poster-actions">
+<a aria-label="Download Decision Flow View wall poster as PDF" class="poster-action-link poster-download" download="" href="/downloads/introduction-to-analytics/wall-poster-2.pdf" title="Download PDF">
+<svg aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+<span class="poster-action-label">Download PDF</span>
+<span class="poster-action-note">Save &amp; print</span>
+</a>
+<a aria-label="Open the Decision Flow View wall poster" class="poster-action-link poster-open" href="/downloads/introduction-to-analytics/wall-poster-2.pdf" rel="noopener" target="_blank" title="Open poster">
+<svg aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+<span class="poster-action-label">Open Poster</span>
+<span class="poster-action-note">View full size</span>
+</a>
+</div>
+</article>
+<article class="poster-card" data-poster-number="Poster 3">
+<div class="poster-copy">
+<h3>Full Lesson Summary</h3>
+<p>A one-page recap of the analytics process, D2P3, patterns, tools, timing, data science, analytics, and data mining.</p>
+<p class="poster-meta">Printable PDF · Full-resolution poster</p>
+</div>
+<div aria-label="Full Lesson Summary poster actions" class="poster-actions">
+<a aria-label="Download Full Lesson Summary wall poster as PDF" class="poster-action-link poster-download" download="" href="/downloads/introduction-to-analytics/wall-poster-3.pdf" title="Download PDF">
+<svg aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+<span class="poster-action-label">Download PDF</span>
+<span class="poster-action-note">Save &amp; print</span>
+</a>
+<a aria-label="Open the Full Lesson Summary wall poster" class="poster-action-link poster-open" href="/downloads/introduction-to-analytics/wall-poster-3.pdf" rel="noopener" target="_blank" title="Open poster">
+<svg aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+<span class="poster-action-label">Open Poster</span>
+<span class="poster-action-note">View full size</span>
+</a>
+</div>
+</article>
+<article class="poster-card" data-poster-number="Poster 4">
+<div class="poster-copy">
+<h3>Introduction to Analytics Master Poster</h3>
+<p>A comprehensive visual summary of the analytics process, D2P3 framework, common patterns, interactive data exploration, tools, data organization, and related disciplines.</p>
+<p class="poster-meta">Printable PDF · Full-resolution poster</p>
+</div>
+<div aria-label="Introduction to Analytics Master Poster actions" class="poster-actions">
+<a aria-label="Download Introduction to Analytics Master Poster as PDF" class="poster-action-link poster-download" download="" href="/downloads/introduction-to-analytics/wall-poster-4.pdf" title="Download PDF">
+<svg aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+<span class="poster-action-label">Download PDF</span>
+<span class="poster-action-note">Save &amp; print</span>
+</a>
+<a aria-label="Open the Introduction to Analytics Master Poster" class="poster-action-link poster-open" href="/downloads/introduction-to-analytics/wall-poster-4.pdf" rel="noopener" target="_blank" title="Open poster">
+<svg aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+<span class="poster-action-label">Open Poster</span>
+<span class="poster-action-note">View full size</span>
+</a>
+</div>
+</article>
+</div>
+<div class="callout callout-success"><strong>Tip:</strong> These poster downloads are meant to reinforce the lesson, not replace it. Use them as a one-page memory aid after working through the interactive sections below.</div>
+</section>
+<section aria-labelledby="objectives-title" id="learning-objectives">
+<p class="section-kicker">Learning objectives</p>
+<h2 id="objectives-title">By the end of this lesson, you should be able to</h2>
+<div class="panel">
+<ul class="objective-list">
+<li><strong>Explain</strong> analytics in plain language and describe the business value it creates.</li>
+<li><strong>Compare</strong> data analytics, data analysis, data science, and data mining without treating them as interchangeable.</li>
+<li><strong>Select</strong> descriptive, diagnostic, predictive, or prescriptive analytics for a practical question.</li>
+<li><strong>Identify</strong> trends, seasonal or cyclical behavior, relationships, clusters, anomalies, and associations in data.</li>
+<li><strong>Apply</strong> an end-to-end analytics lifecycle from objective definition to action and monitoring.</li>
+<li><strong>Interpret</strong> a simple defect-rate trend, correlation, and forecast while recognizing their limitations.</li>
+</ul>
+</div>
+<div class="callout callout-success"><strong>Prerequisite:</strong> No prior knowledge is required. Comfort reading a simple table or chart is helpful.</div>
+</section>
+<section aria-labelledby="key-concepts-title" id="key-concepts">
+<p class="section-kicker">Concept in plain English</p>
+<h2 id="key-concepts-title">What really is analytics?</h2>
+<p class="section-intro">Data analytics is the process of collecting, transforming, organizing, and examining data to identify patterns, draw conclusions, and make informed decisions. It turns raw observations into actionable insight that can improve business performance, optimize processes, explain problems, and anticipate future outcomes.</p>
+<div class="grid-3" style="margin-top:1.2rem;">
+<article class="concept-card">
+<span aria-hidden="true" class="icon-disc">1</span>
+<h3>Start with an objective</h3>
+<p>Analytics begins with a decision, problem, or opportunity—not with a chart. A clear question determines the data, method, and level of rigor required.</p>
+</article>
+<article class="concept-card">
+<span aria-hidden="true" class="icon-disc">2</span>
+<h3>Prepare trustworthy data</h3>
+<p>Collect relevant data, remove duplicates, correct errors, address missing information, and organize the dataset before drawing conclusions.</p>
+</article>
+<article class="concept-card">
+<span aria-hidden="true" class="icon-disc">3</span>
+<h3>Convert evidence into action</h3>
+<p>Use visualization, statistics, regression, time-series methods, data mining, and machine learning to produce insight that people can apply.</p>
+</article>
+</div>
+<div class="callout callout-warning">
+<strong>What analytics does not tell us automatically:</strong> Analytics does not guarantee causation, eliminate uncertainty, fix poor data, or replace domain judgment. A sophisticated model can still produce a poor decision when the question, data, assumptions, or interpretation are weak.
+        </div>
+<h3 style="margin-top:2rem;">Key terminology</h3>
+<div class="responsive-table">
+<table>
+<thead>
+<tr><th scope="col">Term</th><th scope="col">Plain-language meaning</th><th scope="col">Practical interpretation</th></tr>
+</thead>
+<tbody>
+<tr><td>Data</td><td>Recorded facts, measurements, events, text, images, or transactions.</td><td>The raw material. It may be structured, unstructured, clean, messy, complete, or incomplete.</td></tr>
+<tr><td>Information</td><td>Data given context and organization.</td><td>A table showing weekly defects is more useful than a list of isolated defect counts.</td></tr>
+<tr><td>Insight</td><td>An evidence-based understanding that changes how you see a problem.</td><td>“Defect rate rises when downtime rises” is an insight to investigate, not yet proof of cause.</td></tr>
+<tr><td>Decision</td><td>A selected course of action.</td><td>The business value of analytics appears when insight influences what people do.</td></tr>
+<tr><td>Model</td><td>A simplified mathematical or logical representation of reality.</td><td>Models help describe, explain, predict, or optimize—but always contain assumptions.</td></tr>
+<tr><td>Pattern</td><td>A repeatable structure in data.</td><td>Examples include trends, seasonality, correlations, clusters, anomalies, and associations.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section aria-labelledby="ecosystem-title" id="analytics-ecosystem">
+<p class="section-kicker">The analytics ecosystem</p>
+<h2 id="ecosystem-title">Analytics, analysis, data science, and data mining</h2>
+<p class="section-intro">These fields overlap, but they are not identical. The concentric-circle picture is a useful beginner model, yet it can imply a strict hierarchy that does not fit every organization. Use the controls to compare a simple teaching model with a more realistic overlap model.</p>
+<div class="figure-grid" style="margin-top:1.2rem;">
+<figure class="lesson-figure-card">
+<img alt="Nested visual showing Data Science on the outside, then Data Analysis, Data Analytics, and Data Mining at the center" decoding="async" loading="lazy" src="/assets/lessons/introduction-to-analytics/analytics-ecosystem-nesting.svg"/>
+<figcaption class="lesson-figure-copy">
+<h3>Classroom view of the relationship</h3>
+<p>This static teaching visual reinforces a simple beginner model: data science is shown as the broadest area, while data mining is the most specialized inner activity. It is easy to remember, but it should be treated as a teaching aid rather than an absolute rule for every organization.</p>
+<p class="figure-note">In this lesson, the interactive model below helps refine that idea by showing both a simplified nesting view and a more practical overlap view.</p>
+</figcaption>
+</figure>
+</div>
+<div class="panel scope-layout">
+<div>
+<div aria-label="Choose ecosystem model" class="scope-controls" role="group">
+<button aria-pressed="true" class="segmented-button" data-scope-mode="nested" type="button">Simplified nesting</button>
+<button aria-pressed="false" class="segmented-button" data-scope-mode="overlap" type="button">Practical overlap</button>
+</div>
+<div class="scope-figure">
+<svg aria-labelledby="scope-title scope-desc" id="scope-svg" role="img" viewbox="0 0 560 420">
+<title id="scope-title">Relationship among data science, data analytics, data analysis, and data mining</title>
+<desc id="scope-desc">The current view shows a simplified nesting model with data science as the broadest area, data analytics inside it, data analysis inside analytics, and data mining as a specialized pattern-discovery method.</desc>
+<g id="scope-nested">
+<circle cx="280" cy="210" fill="var(--orange-soft)" r="176" stroke="var(--orange)" stroke-width="4"></circle>
+<circle cx="300" cy="225" fill="var(--blue-soft)" r="133" stroke="var(--blue)" stroke-width="4"></circle>
+<circle cx="318" cy="242" fill="var(--green-soft)" r="88" stroke="var(--success)" stroke-width="4"></circle>
+<circle cx="340" cy="267" fill="var(--purple-soft)" r="48" stroke="var(--purple)" stroke-width="4"></circle>
+<g fill="var(--ink)" font-family="Segoe UI, Arial" font-weight="800" text-anchor="middle">
+<text font-size="19" x="280" y="69">Data Science</text>
+<text font-size="18" x="300" y="124">Data Analytics</text>
+<text font-size="17" x="318" y="200">Data Analysis</text>
+<text font-size="14" x="340" y="272">Data Mining</text>
+</g>
+</g>
+<g hidden="" id="scope-overlap">
+<circle cx="205" cy="200" fill="var(--orange-soft)" fill-opacity=".88" r="145" stroke="var(--orange)" stroke-width="4"></circle>
+<circle cx="345" cy="200" fill="var(--blue-soft)" fill-opacity=".84" r="145" stroke="var(--blue)" stroke-width="4"></circle>
+<circle cx="275" cy="294" fill="var(--green-soft)" fill-opacity=".86" r="102" stroke="var(--success)" stroke-width="4"></circle>
+<ellipse cx="275" cy="195" fill="var(--purple-soft)" rx="72" ry="48" stroke="var(--purple)" stroke-width="4"></ellipse>
+<g fill="var(--ink)" font-family="Segoe UI, Arial" font-weight="800" text-anchor="middle">
+<text font-size="18" x="150" y="112">Data Science</text>
+<text font-size="18" x="400" y="112">Data Analytics</text>
+<text font-size="17" x="275" y="347">Data Analysis</text>
+<text font-size="15" x="275" y="201">Data Mining</text>
+</g>
+</g>
+</svg>
+</div>
+</div>
+<div aria-live="polite" class="scope-copy">
+<h3 id="scope-copy-title">Simplified nesting model</h3>
+<p id="scope-copy-text">This model is easy to remember: data science is the broad discipline, data analytics converts data into insight, data analysis is the focused act of examining a dataset, and data mining is a set of techniques for finding hidden patterns.</p>
+<ul class="scope-list">
+<li><strong>Data analytics:</strong> the end-to-end process of defining objectives, preparing data, analyzing it, communicating results, and supporting decisions.</li>
+<li><strong>Data analysis:</strong> the focused examination of available data using summaries, charts, statistical methods, and interpretation.</li>
+<li><strong>Data science:</strong> a broader discipline that can include data engineering, experimentation, statistics, machine learning, AI, software development, and data products.</li>
+<li><strong>Data mining:</strong> techniques for discovering non-obvious patterns, relationships, clusters, anomalies, and frequent itemsets in large datasets.</li>
+</ul>
+</div>
+</div>
+<div class="callout">
+<strong>Storytelling without bias:</strong> Analysts and data scientists communicate evidence through stories, but it is not their job to force the data into a preferred narrative. Good practice is to let the evidence lead, disclose uncertainty, test alternative explanations, and remain objective.
+        </div>
+</section>
+<section aria-labelledby="four-types-title" id="four-types">
+<p class="section-kicker">D2P3 framework</p>
+<h2 id="four-types-title">The four types of analytics</h2>
+<div class="callout callout-success"><strong>Visual guide:</strong> The value-versus-complexity diagram appears immediately below and connects descriptive, diagnostic, predictive, and prescriptive analytics to past- and future-oriented work.</div>
+<p class="section-intro">A useful progression is <strong>descriptive → diagnostic → predictive → prescriptive</strong>. The original notes call this D2P3: one D for descriptive, a second D for diagnostic, then predictive and prescriptive.</p>
+<div class="figure-grid" style="margin-top:1.2rem;">
+<figure class="lesson-figure-card">
+<img alt="A chart titled Types of Analytics with value on the vertical axis and complexity on the horizontal axis, showing descriptive and diagnostic analytics nearer the past, and predictive and prescriptive analytics nearer the future" decoding="async" loading="eager" src="/assets/lessons/introduction-to-analytics/types-of-analytics.svg"/>
+<figcaption class="lesson-figure-copy">
+<h3>Another way to picture D2P3</h3>
+<p>This visual shows a common progression: descriptive and diagnostic analytics are often associated with reporting and past-focused analysis, while predictive and prescriptive analytics usually require more complexity and are often linked to data science and machine learning work.</p>
+<p class="figure-note">The exact boundaries vary in practice, but the graphic is useful because it emphasizes two ideas at once: the shift from past to future, and the rise in analytical complexity as the questions become more advanced.</p>
+</figcaption>
+</figure>
+</div>
+<div aria-label="Four analytics types arranged from past to future action" class="analytics-journey">
+<article class="journey-card descriptive"><span class="number">1</span><h3>Descriptive</h3><p><strong>What happened?</strong><br/>Summarize past and current performance.</p></article>
+<article class="journey-card diagnostic"><span class="number">2</span><h3>Diagnostic</h3><p><strong>Why did it happen?</strong><br/>Investigate causes and relationships.</p></article>
+<article class="journey-card predictive"><span class="number">3</span><h3>Predictive</h3><p><strong>What is likely next?</strong><br/>Estimate future outcomes and risk.</p></article>
+<article class="journey-card prescriptive"><span class="number">4</span><h3>Prescriptive</h3><p><strong>What should we do?</strong><br/>Compare actions and recommend a course.</p></article>
+</div>
+<div class="type-explorer panel">
+<div aria-label="Explore analytics types" class="type-controls" role="group">
+<button aria-pressed="true" class="type-button" data-type="descriptive" type="button">Descriptive analytics</button>
+<button aria-pressed="false" class="type-button" data-type="diagnostic" type="button">Diagnostic analytics</button>
+<button aria-pressed="false" class="type-button" data-type="predictive" type="button">Predictive analytics</button>
+<button aria-pressed="false" class="type-button" data-type="prescriptive" type="button">Prescriptive analytics</button>
+</div>
+<div aria-live="polite" class="type-detail">
+<h3 id="type-title">Descriptive analytics</h3>
+<p id="type-summary">Summarizes historical or current data to explain what happened, how much, when, and where.</p>
+<div class="type-detail-grid">
+<div class="type-fact"><strong>Typical questions</strong><span id="type-questions">How many defects occurred? Which product had the highest sales? When did downtime increase?</span></div>
+<div class="type-fact"><strong>Common methods</strong><span id="type-methods">Dashboards, summary statistics, Pareto charts, trend charts, frequency tables, and reporting.</span></div>
+<div class="type-fact"><strong>Typical output</strong><span id="type-output">A factual picture of performance and where attention may be required.</span></div>
+<div class="type-fact"><strong>Time orientation</strong><span id="type-time">Past and present.</span></div>
+</div>
+</div>
+</div>
+<div class="responsive-table" style="margin-top:1.2rem;">
+<table>
+<thead><tr><th scope="col">Analytics generation</th><th scope="col">Included activities</th><th scope="col">Primary focus</th><th scope="col">Typical questions</th></tr></thead>
+<tbody>
+<tr><td>Analytics 1.0</td><td>Descriptive and diagnostic analytics</td><td>Visualization, reporting, and learning from the past</td><td>What happened? How many? When and where? Why did it happen? Where should we look?</td></tr>
+<tr><td>Analytics 2.0</td><td>Predictive analytics</td><td>Statistical and predictive modeling focused on the future</td><td>What pattern is present? What is likely to happen next?</td></tr>
+<tr><td>Analytics 3.0</td><td>Prescriptive analytics</td><td>Optimization, simulation, and decision recommendations</td><td>What is the best action? What if we try this instead of that?</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section aria-labelledby="lifecycle-title" id="analytics-lifecycle">
+<p class="section-kicker">When analytics is involved</p>
+<h2 id="lifecycle-title">Analytics surrounds the analysis—not just the calculation</h2>
+<p class="section-intro">Analytics is involved whenever a person or organization uses data to answer a meaningful question and support an action. The work begins before the dataset is ready and continues after the chart or model is complete.</p>
+<div aria-label="Seven-stage analytics lifecycle" class="lifecycle-track">
+<article class="lifecycle-stage"><span class="stage-index">1</span><h3>Define</h3><p>Clarify the objective, decision, stakeholder, scope, and success measure.</p></article>
+<article class="lifecycle-stage"><span class="stage-index">2</span><h3>Collect</h3><p>Gather relevant data from databases, systems, files, sensors, surveys, or external sources.</p></article>
+<article class="lifecycle-stage"><span class="stage-index">3</span><h3>Clean</h3><p>Remove duplicates, correct errors, address missing data, standardize units, and validate quality.</p></article>
+<article class="lifecycle-stage"><span class="stage-index">4</span><h3>Transform</h3><p>Join, filter, aggregate, reshape, engineer variables, and organize data for analysis.</p></article>
+<article class="lifecycle-stage"><span class="stage-index">5</span><h3>Analyze</h3><p>Use visualization, statistics, regression, time series, data mining, or machine learning.</p></article>
+<article class="lifecycle-stage"><span class="stage-index">6</span><h3>Share and act</h3><p>Communicate the evidence, recommendation, uncertainty, and decision implications.</p></article>
+<article class="lifecycle-stage"><span class="stage-index">7</span><h3>Monitor</h3><p>Measure the result, learn from the action, detect drift, and improve the next decision.</p></article>
+</div>
+<div aria-label="Explore the analytics lifecycle" class="stage-controls" role="group">
+<button aria-pressed="true" class="stage-button" data-stage="define" type="button">Define</button>
+<button aria-pressed="false" class="stage-button" data-stage="collect" type="button">Collect</button>
+<button aria-pressed="false" class="stage-button" data-stage="clean" type="button">Clean</button>
+<button aria-pressed="false" class="stage-button" data-stage="transform" type="button">Transform</button>
+<button aria-pressed="false" class="stage-button" data-stage="analyze" type="button">Analyze</button>
+<button aria-pressed="false" class="stage-button" data-stage="share" type="button">Share and act</button>
+<button aria-pressed="false" class="stage-button" data-stage="monitor" type="button">Monitor</button>
+</div>
+<div aria-live="polite" class="panel stage-detail">
+<h3 id="stage-title">1. Define the objective</h3>
+<p id="stage-text">State the business problem, the decision to be made, who will use the result, the unit of analysis, the time horizon, and how success will be measured. A vague question produces vague analytics.</p>
+<p><strong>Quality gate:</strong> <span id="stage-gate">Can the team write one precise question that the analysis must answer?</span></p>
+</div>
+</section>
+<section aria-labelledby="patterns-title" id="patterns">
+<p class="section-kicker">Pattern recognition</p>
+<h2 id="patterns-title">Common patterns identified in analytics</h2>
+<p class="section-intro">A dataset can reveal basic changes over time or complex relationships among many variables. Select a visual card to see what the pattern means, where it appears, and how analysts usually investigate it.</p>
+<div aria-label="Choose a data pattern" class="pattern-grid" role="group">
+<button aria-pressed="true" class="pattern-button" data-pattern="trend" type="button">
+<svg aria-hidden="true" viewbox="0 0 240 105"><path d="M20 88H225M20 88V12" opacity=".35" stroke="currentColor"></path><path d="M24 78L58 58L90 66L126 37L160 48L213 14" fill="none" stroke="var(--blue)" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"></path><g fill="var(--surface)" stroke="var(--blue)" stroke-width="3"><circle cx="24" cy="78" r="5"></circle><circle cx="58" cy="58" r="5"></circle><circle cx="90" cy="66" r="5"></circle><circle cx="126" cy="37" r="5"></circle><circle cx="160" cy="48" r="5"></circle><circle cx="213" cy="14" r="5"></circle></g></svg>
+<strong>Trend analysis</strong><span>Upward, downward, or horizontal direction over time.</span>
+</button>
+<button aria-pressed="false" class="pattern-button" data-pattern="seasonal" type="button">
+<svg aria-hidden="true" viewbox="0 0 240 105"><path d="M18 55C42 9 66 101 90 55S138 9 162 55S210 101 226 54" fill="none" stroke="var(--purple)" stroke-width="5"></path><path d="M18 72C42 38 66 106 90 72S138 38 162 72S210 106 226 72" fill="none" opacity=".75" stroke="var(--teal)" stroke-width="3"></path></svg>
+<strong>Seasonal and cyclical</strong><span>Repeating fluctuations at regular or longer irregular intervals.</span>
+</button>
+<button aria-pressed="false" class="pattern-button" data-pattern="correlation" type="button">
+<svg aria-hidden="true" viewbox="0 0 240 105"><path d="M23 88L220 15" stroke="var(--success)" stroke-width="4"></path><g fill="var(--blue)"><circle cx="32" cy="79" r="6"></circle><circle cx="61" cy="69" r="6"></circle><circle cx="83" cy="70" r="6"></circle><circle cx="110" cy="50" r="6"></circle><circle cx="135" cy="55" r="6"></circle><circle cx="163" cy="32" r="6"></circle><circle cx="196" cy="30" r="6"></circle><circle cx="218" cy="14" r="6"></circle></g></svg>
+<strong>Correlation and relationships</strong><span>Variables move together positively, negatively, or not at all.</span>
+</button>
+<button aria-pressed="false" class="pattern-button" data-pattern="cluster" type="button">
+<svg aria-hidden="true" viewbox="0 0 240 105"><g fill="var(--teal)"><circle cx="50" cy="41" r="7"></circle><circle cx="70" cy="30" r="7"></circle><circle cx="78" cy="55" r="7"></circle><circle cx="41" cy="63" r="7"></circle></g><g fill="var(--orange)"><circle cx="151" cy="62" r="7"></circle><circle cx="174" cy="52" r="7"></circle><circle cx="186" cy="74" r="7"></circle><circle cx="157" cy="82" r="7"></circle></g><g fill="var(--purple)"><circle cx="140" cy="20" r="7"></circle><circle cx="166" cy="24" r="7"></circle><circle cx="151" cy="38" r="7"></circle></g></svg>
+<strong>Clustering and segmentation</strong><span>Group similar customers, products, events, or behaviors.</span>
+</button>
+<button aria-pressed="false" class="pattern-button" data-pattern="anomaly" type="button">
+<svg aria-hidden="true" viewbox="0 0 240 105"><g fill="var(--blue)" opacity=".65"><circle cx="29" cy="71" r="5"></circle><circle cx="51" cy="62" r="5"></circle><circle cx="73" cy="68" r="5"></circle><circle cx="95" cy="57" r="5"></circle><circle cx="117" cy="65" r="5"></circle><circle cx="139" cy="55" r="5"></circle><circle cx="161" cy="60" r="5"></circle><circle cx="183" cy="51" r="5"></circle></g><circle cx="207" cy="18" fill="var(--danger)" r="10"></circle><circle cx="207" cy="18" fill="none" r="18" stroke="var(--danger)" stroke-width="3"></circle></svg>
+<strong>Anomalies and outliers</strong><span>Find unusual values, errors, fraud, failures, or rare events.</span>
+</button>
+<button aria-pressed="false" class="pattern-button" data-pattern="association" type="button">
+<svg aria-hidden="true" viewbox="0 0 240 105"><path d="M38 24h32l12 48h76l18-35H77" fill="none" stroke="var(--orange)" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"></path><circle cx="93" cy="87" fill="var(--orange)" r="8"></circle><circle cx="151" cy="87" fill="var(--orange)" r="8"></circle><path d="M180 38h38M199 20v38" stroke="var(--purple)" stroke-linecap="round" stroke-width="5"></path></svg>
+<strong>Association and frequent itemsets</strong><span>Find items or events that repeatedly occur together.</span>
+</button>
+</div>
+<div aria-live="polite" class="panel pattern-detail">
+<h3 id="pattern-title">Trend analysis</h3>
+<p id="pattern-description">A trend describes the general direction of a series of data points over time. It may be upward, downward, or approximately horizontal.</p>
+<div class="grid-3">
+<div class="type-fact"><strong>Example</strong><span id="pattern-example">Website traffic rises each quarter, or a manufacturing defect rate steadily declines after an improvement.</span></div>
+<div class="type-fact"><strong>Useful methods</strong><span id="pattern-methods">Time-series graph, moving average, slope, regression, and control chart.</span></div>
+<div class="type-fact"><strong>Watch out</strong><span id="pattern-caution">A short run of rising points can be noise. Check the time horizon, scale, and process context.</span></div>
+</div>
+</div>
+<h3 style="margin-top:2rem;">How analysts identify these patterns</h3>
+<div class="grid-4">
+<article class="concept-card"><span aria-hidden="true" class="icon-disc">V</span><h3>Data visualization</h3><p>Charts, scatter plots, time-series graphs, maps, and dashboards make trends and anomalies visible.</p></article>
+<article class="concept-card"><span aria-hidden="true" class="icon-disc">Σ</span><h3>Statistical analysis</h3><p>Averages, variation, confidence intervals, hypothesis tests, correlation, and regression quantify patterns.</p></article>
+<article class="concept-card"><span aria-hidden="true" class="icon-disc">ML</span><h3>Machine learning</h3><p>Algorithms learn from data to classify, predict, rank, detect anomalies, or create clusters.</p></article>
+<article class="concept-card"><span aria-hidden="true" class="icon-disc">DM</span><h3>Data mining</h3><p>Pattern-discovery techniques sift through large datasets to uncover hidden relationships and frequent combinations.</p></article>
+</div>
+</section>
+<section aria-labelledby="worked-example-title" id="worked-example">
+<p class="section-kicker">Worked example</p>
+<h2 id="worked-example-title">From rising defects to an operational decision</h2>
+<p class="section-intro">A manufacturing line has produced roughly 1,000 units each week. Defects appear to be rising, and supervisors suspect that equipment downtime may be involved. We will use the same dataset to demonstrate all four analytics types.</p>
+<div class="responsive-table">
+<table>
+<thead><tr><th scope="col">Week</th><th scope="col">Units produced</th><th scope="col">Defects</th><th scope="col">Downtime (hours)</th><th scope="col">Defect rate</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>1,000</td><td>18</td><td>2.1</td><td>1.80%</td></tr>
+<tr><td>2</td><td>1,020</td><td>20</td><td>2.3</td><td>1.96%</td></tr>
+<tr><td>3</td><td>980</td><td>19</td><td>2.0</td><td>1.94%</td></tr>
+<tr><td>4</td><td>1,050</td><td>23</td><td>2.5</td><td>2.19%</td></tr>
+<tr><td>5</td><td>990</td><td>28</td><td>3.0</td><td>2.83%</td></tr>
+<tr><td>6</td><td>1,010</td><td>34</td><td>4.2</td><td>3.37%</td></tr>
+<tr><td>7</td><td>1,030</td><td>40</td><td>5.0</td><td>3.88%</td></tr>
+<tr><td>8</td><td>970</td><td>44</td><td>5.4</td><td>4.54%</td></tr>
+</tbody>
+</table>
+</div>
+<h3>Core calculations</h3>
+<div aria-label="Defect rate formula" class="formula">
+          Defect rate (%) = <span class="fraction"><span>Number of defects</span><span>Units produced</span></span> × 100
+        </div>
+<div aria-label="Simple linear regression equation" class="formula">
+          Predicted defect rate = a + b × Week
+        </div>
+<div class="symbols-table">
+<table>
+<thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Unit</th><th scope="col">Use and limitation</th></tr></thead>
+<tbody>
+<tr><td>a</td><td>Regression intercept</td><td>Percentage points</td><td>The fitted value when Week = 0; it may not have a direct practical meaning.</td></tr>
+<tr><td>b</td><td>Estimated weekly change in defect rate</td><td>Percentage points per week</td><td>Use for a short-range linear trend only; do not extrapolate far beyond the data.</td></tr>
+<tr><td>r</td><td>Pearson correlation between downtime and defect rate</td><td>Dimensionless, from −1 to +1</td><td>Measures linear association. It does not prove that downtime causes defects.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="worked-flow">
+<div class="worked-step"><strong>Descriptive</strong>The defect rate increased from 1.80% in Week 1 to 4.54% in Week 8. The average across the eight weeks is about 2.81%.</div>
+<div class="worked-step"><strong>Diagnostic</strong>Downtime and defect rate rise together. The sample correlation is very strong, so maintenance-related causes deserve investigation.</div>
+<div class="worked-step"><strong>Predictive</strong>A simple linear trend projects the Week 9 defect rate above 4.5%. This is a planning estimate, not a guarantee.</div>
+<div class="worked-step"><strong>Prescriptive</strong>Schedule a targeted maintenance intervention, verify the suspected mechanism, and monitor whether defect rate falls afterward.</div>
+</div>
+<div class="callout callout-danger"><strong>Important limitation:</strong> The analysis is observational. A strong correlation between downtime and defects could reflect a third factor, such as product mix, material quality, operator changes, or equipment condition. A designed test or stronger causal investigation may be required.</div>
+</section>
+<section aria-labelledby="data-lab-title" id="data-lab">
+<p class="section-kicker">Interactive demonstration</p>
+<h2 id="data-lab-title">Factory analytics lab</h2>
+<p class="section-intro">Edit the data, run the analysis, and watch the descriptive, diagnostic, predictive, and prescriptive outputs update together. This demonstrates why analytics is an integrated workflow rather than a single chart.</p>
+<div class="data-lab">
+<div class="lab-toolbar">
+<div>
+<h3 style="margin-bottom:0.2rem;">Editable weekly data</h3>
+<p style="margin:0;color:var(--muted);">Use non-negative numbers. Defects cannot exceed units produced.</p>
+</div>
+<div class="button-row">
+<button class="btn-primary" id="analyze-data" type="button">Analyze data</button>
+<button class="btn-secondary" id="load-sample" type="button">Load sample data</button>
+<button class="btn-danger" id="reset-lab" type="button">Reset</button>
+</div>
+</div>
+<div aria-label="Editable analytics data table" class="editable-data">
+<table>
+<thead><tr><th scope="col">Week</th><th scope="col">Units produced</th><th scope="col">Defects</th><th scope="col">Downtime (hours)</th><th scope="col">Calculated defect rate</th></tr></thead>
+<tbody id="lab-table-body"></tbody>
+</table>
+</div>
+<div class="lab-error" hidden="" id="lab-error" role="alert"></div>
+<div aria-live="polite" class="lab-results">
+<div class="metric-card"><span class="metric-label">Average defect rate</span><span class="metric-value" id="metric-average">—</span></div>
+<div class="metric-card"><span class="metric-label">Latest defect rate</span><span class="metric-value" id="metric-latest">—</span></div>
+<div class="metric-card"><span class="metric-label">Downtime correlation</span><span class="metric-value" id="metric-correlation">—</span></div>
+<div class="metric-card"><span class="metric-label">Week 9 prediction</span><span class="metric-value" id="metric-prediction">—</span></div>
+</div>
+<div class="chart-wrap">
+<svg aria-labelledby="defect-chart-title defect-chart-desc" id="defect-chart" role="img" viewbox="0 0 900 360">
+<title id="defect-chart-title">Weekly defect-rate trend with Week 9 prediction</title>
+<desc id="defect-chart-desc">The chart will display the calculated weekly defect rates and the projected Week 9 value after the user analyzes the table.</desc>
+</svg>
+</div>
+<div aria-live="polite" class="insight-stack">
+<article class="insight-card"><h4>Descriptive: What happened?</h4><p id="insight-descriptive">Run the analysis to summarize the trend.</p></article>
+<article class="insight-card"><h4>Diagnostic: Why might it have happened?</h4><p id="insight-diagnostic">Run the analysis to examine the relationship with downtime.</p></article>
+<article class="insight-card"><h4>Predictive: What may happen next?</h4><p id="insight-predictive">Run the analysis to estimate Week 9.</p></article>
+<article class="insight-card"><h4>Prescriptive: What should we do?</h4><p id="insight-prescriptive">Run the analysis to generate a cautious action recommendation.</p></article>
+</div>
+</div>
+</section>
+<section aria-labelledby="interpretation-title" id="interpretation-guide">
+<p class="section-kicker">Interpretation guide</p>
+<h2 id="interpretation-title">When you see this, it means this</h2>
+<div class="responsive-table">
+<table>
+<thead><tr><th scope="col">When you see this</th><th scope="col">It means this</th><th scope="col">What to do next</th></tr></thead>
+<tbody>
+<tr><td>A sustained upward or downward trend</td><td>The process or behavior may be changing over time.</td><td>Check the time scale, data quality, context, and whether the change is statistically or practically meaningful.</td></tr>
+<tr><td>A repeating pattern at fixed intervals</td><td>Seasonality may be present.</td><td>Compare equivalent periods and include seasonal terms in forecasting.</td></tr>
+<tr><td>A strong positive or negative correlation</td><td>Two variables move together linearly.</td><td>Investigate mechanism, confounders, and time order before making causal claims.</td></tr>
+<tr><td>Distinct groups of similar records</td><td>Clusters or segments may exist.</td><td>Profile the groups and test whether they are stable, useful, and actionable.</td></tr>
+<tr><td>A point far from the rest</td><td>It may be an error, rare event, fraud, failure, or important special case.</td><td>Verify the record before deleting it; investigate the operational story.</td></tr>
+<tr><td>Items repeatedly appearing together</td><td>An association or frequent itemset may exist.</td><td>Measure support, confidence, and lift; avoid confusing co-occurrence with causation.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section aria-labelledby="mistakes-title" id="common-mistakes">
+<p class="section-kicker">Common mistakes and exam traps</p>
+<h2 id="mistakes-title">Where beginners go wrong</h2>
+<div class="mistake-grid">
+<article class="mistake-card"><span class="mistake-label">Calculation error</span><h3>Comparing defect counts instead of defect rates</h3><p><strong>Why wrong:</strong> Counts can rise simply because more units were produced. <strong>Avoid it:</strong> Normalize by the appropriate denominator.</p></article>
+<article class="mistake-card"><span class="mistake-label">Interpretation error</span><h3>Calling correlation causation</h3><p><strong>Why wrong:</strong> A relationship can be driven by coincidence or a third variable. <strong>Avoid it:</strong> Investigate mechanism and use experiments or causal methods where needed.</p></article>
+<article class="mistake-card"><span class="mistake-label">Assumption error</span><h3>Extending a straight-line forecast indefinitely</h3><p><strong>Why wrong:</strong> Trends often change outside the observed range. <strong>Avoid it:</strong> Forecast only within a defensible horizon and include uncertainty.</p></article>
+<article class="mistake-card"><span class="mistake-label">Data-quality error</span><h3>Analyzing before cleaning</h3><p><strong>Why wrong:</strong> Duplicates, missing values, unit mismatches, and entry errors can create false patterns. <strong>Avoid it:</strong> Build a reproducible data-quality check before modeling.</p></article>
+<article class="mistake-card"><span class="mistake-label">Software-output error</span><h3>Accepting the chart or model because software produced it</h3><p><strong>Why wrong:</strong> Software executes instructions; it does not confirm that the question, method, or assumptions are valid. <strong>Avoid it:</strong> Validate inputs and interpret in context.</p></article>
+<article class="mistake-card"><span class="mistake-label">Exam trap</span><h3>Choosing predictive analytics for “why did this happen?”</h3><p><strong>Why wrong:</strong> Prediction estimates future outcomes; diagnosis investigates causes. <strong>Avoid it:</strong> Match the verb in the question to the analytics type.</p></article>
+<article class="mistake-card"><span class="mistake-label">Communication error</span><h3>Starting with every technical detail</h3><p><strong>Why wrong:</strong> Decision-makers may miss the message. <strong>Avoid it:</strong> Lead with the question, evidence, implication, uncertainty, and recommendation.</p></article>
+<article class="mistake-card"><span class="mistake-label">Ethics and bias</span><h3>Forcing the data to support the expected story</h3><p><strong>Why wrong:</strong> Confirmation bias distorts decisions. <strong>Avoid it:</strong> Predefine criteria, test alternatives, document exclusions, and disclose limitations.</p></article>
+</div>
+</section>
+<section aria-labelledby="software-title" id="software-guidance">
+<p class="section-kicker">Software guidance</p>
+<h2 id="software-title">Analytics tools and where they fit</h2>
+<p class="section-intro">Tools support the analytics lifecycle; they do not replace it. Choose software based on the problem, data volume, required methods, collaboration needs, governance, and maintainability.</p>
+<div class="responsive-table">
+<table class="software-matrix">
+<thead><tr><th scope="col">Tool or platform</th><th scope="col">Where to begin</th><th scope="col">Best suited for</th><th scope="col">Common mistake</th></tr></thead>
+<tbody>
+<tr><td>Microsoft Excel and Access</td><td><strong>Excel:</strong> Data → Get Data; Insert → PivotTable; Data → Data Analysis. <strong>Access:</strong> Create queries and relational tables.</td><td>Small-to-medium datasets, business calculations, summaries, quick models, and reporting.</td><td>Using manual copy-and-paste steps that cannot be reproduced or audited.</td></tr>
+<tr><td>Power BI and Tableau</td><td><strong>Power BI:</strong> Home → Get data; Home → Transform data; build the model, measures, and visuals. <strong>Tableau:</strong> Connect → Data Source → Worksheet.</td><td>Interactive dashboards, business intelligence, monitoring, and communication.</td><td>Building attractive visuals without a clear decision question or sound data model.</td></tr>
+<tr><td>Python and R</td><td><strong>Python:</strong> pandas, NumPy, matplotlib, scikit-learn. <strong>R:</strong> tidyverse, ggplot2, tidymodels.</td><td>Reproducible analysis, automation, statistics, machine learning, and large or complex workflows.</td><td>Writing code that works once but lacks validation, documentation, tests, or version control.</td></tr>
+<tr><td>Minitab</td><td>Graph menus for visualization; Stat menus for basic statistics, regression, time series, quality tools, and DOE.</td><td>Statistical analysis, quality engineering, process capability, control charts, regression, and designed experiments.</td><td>Reading only the p-value while ignoring assumptions, effect size, residuals, and practical meaning.</td></tr>
+<tr><td>SQL databases and historians</td><td>Use <code>SELECT</code>, <code>WHERE</code>, <code>JOIN</code>, <code>GROUP BY</code>, and window functions; examples include SQL Server, PostgreSQL, and Wonderware historians.</td><td>Structured data stored in rows, columns, relational tables, and time-series systems.</td><td>Pulling the wrong grain, duplicating rows through joins, or failing to validate row counts.</td></tr>
+<tr><td>MongoDB and other document stores</td><td>Query document collections and nested fields; define a consistent schema and indexes.</td><td>Unstructured or semi-structured data such as documents, event payloads, and variable records.</td><td>Treating “schema-flexible” as “no data governance required.”</td></tr>
+<tr><td>Apache Spark, Hadoop, and distributed platforms</td><td>Use distributed storage and processing when data volume, velocity, or variety exceeds a single machine.</td><td>Big data processing, large-scale transformation, streaming, and distributed machine learning.</td><td>Using big-data technology for a problem that a simpler database or local tool could solve better.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section aria-labelledby="practice-title" id="practice">
+<p class="section-kicker">Practice activity</p>
+<h2 id="practice-title">Classify the analytics questions</h2>
+<div class="practice-card">
+<p>A retailer notices that holiday sales c
+</body>
+</html>
