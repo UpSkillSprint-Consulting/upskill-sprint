@@ -1,0 +1,148 @@
+name: Finalize Introduction to Analytics mobile layout
+
+on:
+  push:
+    branches:
+      - agent/recover-intro-analytics-payload
+    paths:
+      - '.github/workflows/finalize-introduction-to-analytics-mobile.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/recover-intro-analytics-payload
+          fetch-depth: 0
+
+      - name: Apply guild navigation and responsive refinements
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('lessons/data-analytics/introduction-to-analytics.html')
+          html = p.read_text(encoding='utf-8')
+
+          html = html.replace('      <a class="back-link" href="/lessons#data-analytics">Back to Data Analytics</a>\n', '')
+          html = html.replace('        <p><a href="/lessons#data-analytics">Back to Data Analytics</a></p>\n', '')
+
+          marker = '      <footer class="lesson-footer">\n'
+          nav = '''      <nav class="lesson-bottom-nav" aria-label="Return to lesson library">\n        <a class="back-to-category" href="/lessons#data-analytics" aria-label="Back to Data Analytics lessons">\n          <span aria-hidden="true">←</span> Back to Data Analytics\n        </a>\n      </nav>\n\n'''
+          if 'class="lesson-bottom-nav"' not in html:
+              html = html.replace(marker, nav + marker, 1)
+
+          css = '''
+    /* Lesson Creation Guild: bottom-left category navigation and mobile hardening */
+    .lesson-bottom-nav {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+    }
+    .back-to-category {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      min-height: 44px;
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--teal-dark);
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 8px 18px var(--shadow);
+    }
+    .back-to-category:hover,
+    .back-to-category:focus-visible {
+      background: var(--surface-soft);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+    img, svg, canvas { max-width: 100%; }
+    button, input, select, textarea { max-width: 100%; }
+    .responsive-table, .editable-data { -webkit-overflow-scrolling: touch; }
+    .responsive-table table, .editable-data table { width: 100%; }
+
+    @media (max-width: 700px) {
+      body { overflow-x: hidden; }
+      header.site.lesson-sitebar { min-height: 58px; }
+      .header-actions { margin-left: auto; }
+      .lesson-wrapper > section,
+      nav.lesson-toc,
+      .lesson-footer { scroll-margin-top: 78px; }
+      section { margin-top: 2.25rem; }
+      section > h2 { font-size: clamp(1.55rem, 7vw, 2rem); line-height: 1.15; }
+      h3 { overflow-wrap: anywhere; }
+      .lesson-meta-row { gap: 0.45rem; }
+      .pill { white-space: normal; text-align: center; }
+      .poster-actions, .button-row { gap: 0.65rem; }
+      .poster-action-link, .button-row button, .back-to-category { min-height: 48px; }
+      .type-tabs, .pattern-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 0.35rem;
+        -webkit-overflow-scrolling: touch;
+      }
+      .type-tabs button, .pattern-tabs button { flex: 0 0 auto; }
+      .lesson-footer {
+        margin-top: 2.5rem;
+        padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+      }
+      .lesson-bottom-nav { margin-top: 2rem; padding-bottom: 0.25rem; }
+    }
+
+    @media (max-width: 430px) {
+      main#lesson-content { width: min(100% - 0.75rem, 1160px); }
+      .lesson-hero, section, nav.lesson-toc { border-radius: 12px; }
+      .lesson-hero { padding: 1rem; }
+      .lesson-lede { font-size: 1.05rem; }
+      .poster-card, .panel, .callout, .remember-card { border-radius: 12px; }
+      .poster-actions { grid-template-columns: 1fr; }
+      .back-to-category { width: 100%; justify-content: flex-start; }
+      .responsive-table, .editable-data { margin-inline: -0.15rem; }
+    }
+'''
+          if 'Lesson Creation Guild: bottom-left category navigation' not in html:
+              html = html.replace('  </style>', css + '\n  </style>', 1)
+
+          p.write_text(html, encoding='utf-8')
+          PY
+
+      - name: Validate production lesson
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('lessons/data-analytics/introduction-to-analytics.html')
+          text = p.read_text(encoding='utf-8')
+          assert text.lstrip().lower().startswith('<!doctype html>')
+          assert '<meta content="width=device-width, initial-scale=1.0" name="viewport"' in text or 'name="viewport"' in text
+          assert text.count('class="poster-card"') == 4
+          assert text.count('class="lesson-bottom-nav"') == 1
+          assert 'header-actions">\n<a class="back-link"' not in text
+          assert text.count('href="/lessons#data-analytics"') == 1
+          assert '</html>' in text
+          ids = re.findall(r'\bid="([^"]+)"', text)
+          assert len(ids) == len(set(ids)), 'Duplicate HTML IDs found'
+          assert 'prefers-reduced-motion: reduce' in text
+          assert '@media (max-width: 700px)' in text
+          assert 'overflow-x: auto' in text
+          print('Validation passed: content retained, four posters retained, unique IDs, mobile rules present, bottom-left return navigation present.')
+          PY
+
+      - name: Commit final validated lesson
+        shell: bash
+        run: |
+          git config user.name "upskillsprint-agent"
+          git config user.email "upskillsprint-agent@users.noreply.github.com"
+          rm -f .github/workflows/finalize-introduction-to-analytics-mobile.yml
+          git add -A
+          git commit -m "Finalize analytics lesson mobile layout and guild navigation"
+          git push origin HEAD:agent/recover-intro-analytics-payload
