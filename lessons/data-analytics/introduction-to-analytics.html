@@ -59,7 +59,6 @@
 <span>UpSkill Sprint Consulting</span>
 </a>
 <div class="header-actions">
-<a class="back-link" href="/lessons#data-analytics">Back to Data Analytics</a>
 <button aria-checked="false" aria-label="Switch to dark mode" class="theme-toggle" data-theme-toggle="true" role="switch" type="button">
 <span class="sr-only">Toggle dark and light mode</span>
 </button>
@@ -224,12 +223,12 @@
 <p class="poster-meta">Printable PDF · Full-resolution poster</p>
 </div>
 <div aria-label="Introduction to Analytics Master Poster actions" class="poster-actions">
-<a aria-label="Download Introduction to Analytics Master Poster as PDF" class="poster-action-link poster-download" download="" href="/downloads/introduction-to-analytics/wall-poster-4.pdf" title="Download PDF">
+<a aria-label="Download Introduction to Analytics Master Poster as PDF" class="poster-action-link poster-download" download="" href="/downloads/introduction-to-analytics/wall-poster-4-types-of-analytics.pdf" title="Download PDF">
 <svg aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
 <span class="poster-action-label">Download PDF</span>
 <span class="poster-action-note">Save &amp; print</span>
 </a>
-<a aria-label="Open the Introduction to Analytics Master Poster" class="poster-action-link poster-open" href="/downloads/introduction-to-analytics/wall-poster-4.pdf" rel="noopener" target="_blank" title="Open poster">
+<a aria-label="Open the Introduction to Analytics Master Poster" class="poster-action-link poster-open" href="/downloads/introduction-to-analytics/wall-poster-4-types-of-analytics.pdf" rel="noopener" target="_blank" title="Open poster">
 <svg aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
 <span class="poster-action-label">Open Poster</span>
 <span class="poster-action-note">View full size</span>
@@ -623,10 +622,614 @@
 </table>
 </div>
 </section>
-<section aria-labelledby="practice-title" id="practice">
-<p class="section-kicker">Practice activity</p>
-<h2 id="practice-title">Classify the analytics questions</h2>
-<div class="practice-card">
-<p>A retailer notices that holiday sales c
+      <section id="practice" aria-labelledby="practice-title">
+        <p class="section-kicker">Practice activity</p>
+        <h2 id="practice-title">Classify the analytics questions</h2>
+        <div class="practice-card">
+          <p>A retailer notices that holiday sales change sharply each year. Classify each question as descriptive, diagnostic, predictive, or prescriptive:</p>
+          <ol>
+            <li>How much did sales increase last December compared with the prior year?</li>
+            <li>Why did online sales grow while in-store sales fell?</li>
+            <li>What will weekly demand likely be during the next holiday period?</li>
+            <li>How should inventory and staffing be allocated to maximize service and minimize cost?</li>
+          </ol>
+          <button type="button" class="btn-primary" id="reveal-practice" aria-expanded="false" aria-controls="practice-answer">Reveal answer</button>
+          <div id="practice-answer" class="reveal-panel" hidden>
+            <ol>
+              <li><strong>Descriptive:</strong> it summarizes what happened and how much.</li>
+              <li><strong>Diagnostic:</strong> it investigates why the channels behaved differently.</li>
+              <li><strong>Predictive:</strong> it forecasts future demand.</li>
+              <li><strong>Prescriptive:</strong> it recommends the best allocation of resources under objectives and constraints.</li>
+            </ol>
+            <p><strong>Reasoning rule:</strong> identify the decision verb—summarize, explain, predict, or recommend.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="quiz" aria-labelledby="quiz-title">
+        <p class="section-kicker">Mini quiz</p>
+        <h2 id="quiz-title">Check your understanding</h2>
+        <form id="analytics-quiz" class="quiz-form" novalidate>
+          <fieldset class="quiz-question" data-correct="b">
+            <legend>1. Which statement best describes analytics?</legend>
+            <div class="quiz-options">
+              <label><input type="radio" name="q1" value="a"> Creating charts from any available data</label>
+              <label><input type="radio" name="q1" value="b"> An end-to-end process that turns questions and data into evidence-based decisions</label>
+              <label><input type="radio" name="q1" value="c"> Using machine learning for every business problem</label>
+              <label><input type="radio" name="q1" value="d"> Storing large quantities of data</label>
+            </div>
+            <p class="quiz-explanation" hidden>Analytics includes defining the objective, preparing and analyzing data, communicating results, supporting action, and monitoring outcomes.</p>
+          </fieldset>
+
+          <fieldset class="quiz-question" data-correct="c">
+            <legend>2. “Why did customer complaints rise after the product change?” is primarily which type?</legend>
+            <div class="quiz-options">
+              <label><input type="radio" name="q2" value="a"> Descriptive</label>
+              <label><input type="radio" name="q2" value="b"> Predictive</label>
+              <label><input type="radio" name="q2" value="c"> Diagnostic</label>
+              <label><input type="radio" name="q2" value="d"> Prescriptive</label>
+            </div>
+            <p class="quiz-explanation" hidden>Diagnostic analytics investigates why an event occurred and where the causes may be found.</p>
+          </fieldset>
+
+          <fieldset class="quiz-question" data-correct="a">
+            <legend>3. A strong positive correlation between downtime and defects proves that downtime causes defects.</legend>
+            <div class="quiz-options">
+              <label><input type="radio" name="q3" value="a"> False</label>
+              <label><input type="radio" name="q3" value="b"> True</label>
+            </div>
+            <p class="quiz-explanation" hidden>Correlation measures association, not causation. A third variable or reverse relationship may explain the pattern.</p>
+          </fieldset>
+
+          <fieldset class="quiz-question" data-correct="d">
+            <legend>4. Which pattern is most directly associated with customers who frequently buy milk and bread together?</legend>
+            <div class="quiz-options">
+              <label><input type="radio" name="q4" value="a"> Trend</label>
+              <label><input type="radio" name="q4" value="b"> Seasonality</label>
+              <label><input type="radio" name="q4" value="c"> Anomaly</label>
+              <label><input type="radio" name="q4" value="d"> Association or frequent itemset</label>
+            </div>
+            <p class="quiz-explanation" hidden>Market-basket analysis looks for items that occur together more often than expected.</p>
+          </fieldset>
+
+          <fieldset class="quiz-question" data-correct="b">
+            <legend>5. Which step should happen before selecting a sophisticated model?</legend>
+            <div class="quiz-options">
+              <label><input type="radio" name="q5" value="a"> Build a dashboard immediately</label>
+              <label><input type="radio" name="q5" value="b"> Define the business objective and decision question</label>
+              <label><input type="radio" name="q5" value="c"> Delete every outlier</label>
+              <label><input type="radio" name="q5" value="d"> Convert all data to percentages</label>
+            </div>
+            <p class="quiz-explanation" hidden>The objective determines what data, method, time horizon, and success criteria are appropriate.</p>
+          </fieldset>
+
+          <div class="button-row">
+            <button type="submit" class="btn-primary">Submit quiz</button>
+            <button type="button" class="btn-secondary" id="reset-quiz">Reset quiz</button>
+          </div>
+          <div id="quiz-score" class="quiz-score" role="status" aria-live="polite" hidden></div>
+        </form>
+      </section>
+
+      <section id="summary" aria-labelledby="summary-title">
+        <p class="section-kicker">Final summary</p>
+        <h2 id="summary-title">The analytics mindset</h2>
+        <div class="summary-grid">
+          <div class="panel">
+            <ul class="objective-list">
+              <li>Analytics turns raw data into meaningful patterns, conclusions, decisions, and measurable action.</li>
+              <li>The full workflow includes defining, collecting, cleaning, transforming, analyzing, sharing, acting, and monitoring.</li>
+              <li>Descriptive asks what happened; diagnostic asks why; predictive asks what is likely next; prescriptive asks what should be done.</li>
+              <li>Data analysis is a focused activity within the broader analytics process.</li>
+              <li>Data science, analytics, analysis, and data mining overlap; the exact boundaries vary by organization.</li>
+              <li>Common patterns include trends, seasonality, cycles, relationships, clusters, anomalies, and frequent itemsets.</li>
+              <li>Good analysts let the evidence lead, avoid causal overclaims, disclose uncertainty, and communicate objectively.</li>
+              <li>The best tool is the simplest tool that answers the decision question reliably and reproducibly.</li>
+            </ul>
+            <div class="callout callout-success"><strong>Decision rule:</strong> Match the question to the analytics type, then choose the minimum data and method needed to answer it credibly.</div>
+          </div>
+          <div class="remember-card">
+            <div>
+              <h3>Remember this</h3>
+              <p class="remember-phrase">Question → Data → Pattern → Insight → Action → Learning</p>
+              <p>Suggested next lesson: <strong>Data Cleaning Fundamentals</strong>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <nav class="lesson-bottom-nav" aria-label="Return to lesson library">
+        <a class="back-to-category" href="/lessons#data-analytics" aria-label="Back to Data Analytics lessons">
+          <span aria-hidden="true">←</span> Back to Data Analytics
+        </a>
+      </nav>
+
+      <footer class="lesson-footer">
+        <h2>References and source notes</h2>
+        <p>This lesson preserves and expands the concepts in the supplied document, <em>Introduction to Data Analytics</em>, including the four analytics types, the D2P3 framework, common patterns, data-cleaning emphasis, tools, data organization, and the relationship among analytics, analysis, data science, and data mining.</p>
+        <p>The source document also listed these further-reading addresses:</p>
+        <p class="url-text">https://datafloq.com/read/the-four-types-of-data-analytics/</p>
+        <p class="url-text">https://forums.bsdinsight.com/threads/descriptive-predictive-and-prescriptive-analytics-explained.41558/</p>
+      </footer>
+    </article>
+  </main>
+
+  <!-- EDIT: Interactive lesson JavaScript -->
+  <script>
+    (function () {
+      'use strict';
+
+      const scopeData = {
+        nested: {
+          title: 'Simplified nesting model',
+          text: 'This model is easy to remember: data science is the broad discipline, data analytics converts data into insight, data analysis is the focused act of examining a dataset, and data mining is a set of techniques for finding hidden patterns.',
+          description: 'The current view shows a simplified nesting model with data science as the broadest area, data analytics inside it, data analysis inside analytics, and data mining as a specialized pattern-discovery method.'
+        },
+        overlap: {
+          title: 'Practical overlap model',
+          text: 'In real organizations, the boundaries overlap. Analysts may build predictive models, data scientists may perform exploratory analysis, and data-mining techniques may be used inside either analytics or data-science work. Job titles are less important than the question, methods, and deliverable.',
+          description: 'The current view shows overlapping circles for data science, data analytics, data analysis, and data mining, emphasizing shared methods and responsibilities.'
+        }
+      };
+
+      const typeData = {
+        descriptive: {
+          title: 'Descriptive analytics',
+          summary: 'Summarizes historical or current data to explain what happened, how much, when, and where.',
+          questions: 'How many defects occurred? Which product had the highest sales? When did downtime increase?',
+          methods: 'Dashboards, summary statistics, Pareto charts, trend charts, frequency tables, and reporting.',
+          output: 'A factual picture of performance and where attention may be required.',
+          time: 'Past and present.'
+        },
+        diagnostic: {
+          title: 'Diagnostic analytics',
+          summary: 'Investigates why an event occurred by examining relationships, segments, process changes, and possible root causes.',
+          questions: 'Why did yield fall? Which factors changed before the failure? Where should the investigation focus?',
+          methods: 'Drill-down analysis, stratification, root cause tools, correlation, regression, hypothesis testing, and process mapping.',
+          output: 'Evidence about likely contributors and a prioritized investigation path.',
+          time: 'Past event with cause-focused analysis.'
+        },
+        predictive: {
+          title: 'Predictive analytics',
+          summary: 'Uses historical patterns to estimate future outcomes, probabilities, demand, risk, or classifications.',
+          questions: 'What will demand be next month? Which customer is likely to leave? What failure risk is expected?',
+          methods: 'Regression, time-series forecasting, classification, survival analysis, and machine learning.',
+          output: 'A forecast or probability with uncertainty and assumptions.',
+          time: 'Future-oriented.'
+        },
+        prescriptive: {
+          title: 'Prescriptive analytics',
+          summary: 'Compares possible actions and recommends a course that best meets an objective under constraints.',
+          questions: 'Which schedule minimizes cost? How should inventory be allocated? What if we change this setting?',
+          methods: 'Optimization, simulation, decision analysis, scenario testing, and policy rules.',
+          output: 'A recommended action, trade-off, or decision policy.',
+          time: 'Future action and decision.'
+        }
+      };
+
+      const stageData = {
+        define: ['1. Define the objective', 'State the business problem, the decision to be made, who will use the result, the unit of analysis, the time horizon, and how success will be measured. A vague question produces vague analytics.', 'Can the team write one precise question that the analysis must answer?'],
+        collect: ['2. Collect relevant data', 'Identify internal and external sources, confirm ownership and access, understand the data-generating process, and capture enough context to interpret the records correctly.', 'Can each field be traced to a source, definition, owner, and time period?'],
+        clean: ['3. Clean and validate', 'Remove duplicates, correct invalid values, standardize formats and units, investigate missing data, and verify that filters did not silently remove important records.', 'Do row counts, ranges, missingness, duplicates, and units pass documented checks?'],
+        transform: ['4. Transform and organize', 'Join tables at the correct grain, create calculated fields, aggregate only when appropriate, reshape the data, and preserve a reproducible path from raw source to analytic dataset.', 'Can another person reproduce the same analytic table from the raw sources?'],
+        analyze: ['5. Analyze and model', 'Explore the data visually, choose methods that match the question and data type, test assumptions, quantify uncertainty, and compare reasonable alternative explanations.', 'Does the selected method answer the question without exceeding what the data can support?'],
+        share: ['6. Share, decide, and act', 'Communicate the finding, evidence, limitations, business implication, recommendation, and expected effect in a format suited to the stakeholder.', 'Can the decision-maker clearly state what the result means and what action is proposed?'],
+        monitor: ['7. Monitor and learn', 'Track the outcome after action, distinguish temporary movement from sustained improvement, detect model drift, and feed new learning into the next analytics cycle.', 'Did the action produce the expected benefit, and what should change next time?']
+      };
+
+      const patternData = {
+        trend: {
+          title: 'Trend analysis',
+          description: 'A trend describes the general direction of a series of data points over time. It may be upward, downward, or approximately horizontal.',
+          example: 'Website traffic rises each quarter, or a manufacturing defect rate steadily declines after an improvement.',
+          methods: 'Time-series graph, moving average, slope, regression, and control chart.',
+          caution: 'A short run of rising points can be noise. Check the time horizon, scale, and process context.'
+        },
+        seasonal: {
+          title: 'Seasonal and cyclical patterns',
+          description: 'Seasonality repeats over a fixed, known interval such as a day, week, month, or year. Cyclicality occurs over longer, less predictable periods, often connected to economic or operational cycles.',
+          example: 'Retail sales spike during the holiday season, while capital spending may rise and fall with the business cycle.',
+          methods: 'Seasonal plots, decomposition, autocorrelation, time-series models, and period-over-period comparison.',
+          caution: 'Do not confuse a one-time event with seasonality. Multiple cycles are usually needed to establish a repeating pattern.'
+        },
+        correlation: {
+          title: 'Correlation and relationships',
+          description: 'Correlation identifies whether variables tend to move together. Positive correlation means they rise together; negative correlation means one tends to fall as the other rises; near-zero correlation means no clear linear relationship.',
+          example: 'Temperature and ice-cream sales may be positively correlated, while temperature and soup sales may be negatively correlated.',
+          methods: 'Scatter plot, correlation coefficient, regression, stratification, and partial correlation.',
+          caution: 'Correlation does not establish causation and may hide non-linear relationships or confounding variables.'
+        },
+        cluster: {
+          title: 'Clustering and segmentation',
+          description: 'Clustering groups similar data points based on shared characteristics. Segmentation turns those groups into meaningful business categories.',
+          example: 'Group customers by demographics and purchase behavior, or group app users by navigation patterns.',
+          methods: 'K-means, hierarchical clustering, density methods, profile comparison, and domain validation.',
+          caution: 'A mathematically distinct cluster is not automatically useful. It must be stable, interpretable, and actionable.'
+        },
+        anomaly: {
+          title: 'Anomalies and outliers',
+          description: 'An anomalies analysis identifies records that deviate substantially from the typical pattern. They may represent errors, fraud, system failures, rare events, or important discoveries.',
+          example: 'An unusual credit-card transaction, a sudden network-traffic spike, or one measurement far outside the normal process range.',
+          methods: 'Control charts, z-scores, robust statistics, isolation methods, rules, and domain thresholds.',
+          caution: 'Do not delete an outlier simply because it is inconvenient. Verify the record and understand the operational cause first.'
+        },
+        association: {
+          title: 'Association and frequent itemsets',
+          description: 'Association analysis finds items or events that occur together more often than expected within transactions or sequences.',
+          example: 'Customers who buy milk may also buy bread, or website users may follow a recurring sequence of pages.',
+          methods: 'Market-basket analysis, support, confidence, lift, sequence mining, and clickstream analysis.',
+          caution: 'Frequent co-occurrence is not the same as causal influence or guaranteed cross-selling value.'
+        }
+      };
+
+      const sampleRows = [
+        { week: 1, units: 1000, defects: 18, downtime: 2.1 },
+        { week: 2, units: 1020, defects: 20, downtime: 2.3 },
+        { week: 3, units: 980, defects: 19, downtime: 2.0 },
+        { week: 4, units: 1050, defects: 23, downtime: 2.5 },
+        { week: 5, units: 990, defects: 28, downtime: 3.0 },
+        { week: 6, units: 1010, defects: 34, downtime: 4.2 },
+        { week: 7, units: 1030, defects: 40, downtime: 5.0 },
+        { week: 8, units: 970, defects: 44, downtime: 5.4 }
+      ];
+
+      function setPressed(buttons, activeButton) {
+        buttons.forEach(function (button) {
+          button.setAttribute('aria-pressed', String(button === activeButton));
+        });
+      }
+
+      function initScopeExplorer() {
+        const buttons = Array.from(document.querySelectorAll('[data-scope-mode]'));
+        const nested = document.getElementById('scope-nested');
+        const overlap = document.getElementById('scope-overlap');
+        const title = document.getElementById('scope-copy-title');
+        const text = document.getElementById('scope-copy-text');
+        const desc = document.getElementById('scope-desc');
+
+        buttons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            const mode = button.dataset.scopeMode;
+            setPressed(buttons, button);
+            nested.hidden = mode !== 'nested';
+            overlap.hidden = mode !== 'overlap';
+            title.textContent = scopeData[mode].title;
+            text.textContent = scopeData[mode].text;
+            desc.textContent = scopeData[mode].description;
+          });
+        });
+      }
+
+      function initTypeExplorer() {
+        const buttons = Array.from(document.querySelectorAll('[data-type]'));
+        const fields = {
+          title: document.getElementById('type-title'),
+          summary: document.getElementById('type-summary'),
+          questions: document.getElementById('type-questions'),
+          methods: document.getElementById('type-methods'),
+          output: document.getElementById('type-output'),
+          time: document.getElementById('type-time')
+        };
+
+        buttons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            const data = typeData[button.dataset.type];
+            setPressed(buttons, button);
+            Object.keys(fields).forEach(function (key) { fields[key].textContent = data[key]; });
+          });
+        });
+      }
+
+      function initStageExplorer() {
+        const buttons = Array.from(document.querySelectorAll('[data-stage]'));
+        const title = document.getElementById('stage-title');
+        const text = document.getElementById('stage-text');
+        const gate = document.getElementById('stage-gate');
+
+        buttons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            const data = stageData[button.dataset.stage];
+            setPressed(buttons, button);
+            title.textContent = data[0];
+            text.textContent = data[1];
+            gate.textContent = data[2];
+          });
+        });
+      }
+
+      function initPatternExplorer() {
+        const buttons = Array.from(document.querySelectorAll('[data-pattern]'));
+        const fields = {
+          title: document.getElementById('pattern-title'),
+          description: document.getElementById('pattern-description'),
+          example: document.getElementById('pattern-example'),
+          methods: document.getElementById('pattern-methods'),
+          caution: document.getElementById('pattern-caution')
+        };
+
+        buttons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            const data = patternData[button.dataset.pattern];
+            setPressed(buttons, button);
+            Object.keys(fields).forEach(function (key) { fields[key].textContent = data[key]; });
+          });
+        });
+      }
+
+      function renderLabRows(rows) {
+        const body = document.getElementById('lab-table-body');
+        body.textContent = '';
+        rows.forEach(function (row) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = [
+            '<td><span class="week-label">' + row.week + '</span></td>',
+            '<td><label class="sr-only" for="units-' + row.week + '">Units produced in week ' + row.week + '</label><input id="units-' + row.week + '" data-field="units" data-week="' + row.week + '" type="number" min="1" step="1" value="' + row.units + '"></td>',
+            '<td><label class="sr-only" for="defects-' + row.week + '">Defects in week ' + row.week + '</label><input id="defects-' + row.week + '" data-field="defects" data-week="' + row.week + '" type="number" min="0" step="1" value="' + row.defects + '"></td>',
+            '<td><label class="sr-only" for="downtime-' + row.week + '">Downtime hours in week ' + row.week + '</label><input id="downtime-' + row.week + '" data-field="downtime" data-week="' + row.week + '" type="number" min="0" step="0.1" value="' + row.downtime + '"></td>',
+            '<td><output id="rate-' + row.week + '">—</output></td>'
+          ].join('');
+          body.appendChild(tr);
+        });
+      }
+
+      function readLabRows() {
+        const rows = [];
+        for (let week = 1; week <= 8; week += 1) {
+          const units = Number(document.getElementById('units-' + week).value);
+          const defects = Number(document.getElementById('defects-' + week).value);
+          const downtime = Number(document.getElementById('downtime-' + week).value);
+          if (!Number.isFinite(units) || units <= 0) throw new Error('Week ' + week + ': units produced must be greater than zero.');
+          if (!Number.isFinite(defects) || defects < 0 || defects > units) throw new Error('Week ' + week + ': defects must be between 0 and units produced.');
+          if (!Number.isFinite(downtime) || downtime < 0) throw new Error('Week ' + week + ': downtime must be zero or greater.');
+          rows.push({ week: week, units: units, defects: defects, downtime: downtime, rate: defects / units * 100 });
+        }
+        return rows;
+      }
+
+      function mean(values) {
+        return values.reduce(function (sum, value) { return sum + value; }, 0) / values.length;
+      }
+
+      function correlation(x, y) {
+        const xMean = mean(x);
+        const yMean = mean(y);
+        let numerator = 0;
+        let xSum = 0;
+        let ySum = 0;
+        for (let i = 0; i < x.length; i += 1) {
+          const dx = x[i] - xMean;
+          const dy = y[i] - yMean;
+          numerator += dx * dy;
+          xSum += dx * dx;
+          ySum += dy * dy;
+        }
+        const denominator = Math.sqrt(xSum * ySum);
+        return denominator === 0 ? 0 : numerator / denominator;
+      }
+
+      function linearRegression(x, y) {
+        const xMean = mean(x);
+        const yMean = mean(y);
+        let numerator = 0;
+        let denominator = 0;
+        for (let i = 0; i < x.length; i += 1) {
+          numerator += (x[i] - xMean) * (y[i] - yMean);
+          denominator += Math.pow(x[i] - xMean, 2);
+        }
+        const slope = denominator === 0 ? 0 : numerator / denominator;
+        return { slope: slope, intercept: yMean - slope * xMean };
+      }
+
+      function correlationLabel(value) {
+        const absolute = Math.abs(value);
+        if (absolute >= 0.8) return 'very strong';
+        if (absolute >= 0.6) return 'strong';
+        if (absolute >= 0.4) return 'moderate';
+        if (absolute >= 0.2) return 'weak';
+        return 'very weak';
+      }
+
+      function svgElement(name, attributes) {
+        const element = document.createElementNS('http://www.w3.org/2000/svg', name);
+        Object.keys(attributes).forEach(function (key) { element.setAttribute(key, attributes[key]); });
+        return element;
+      }
+
+      function renderChart(rows, prediction) {
+        const svg = document.getElementById('defect-chart');
+        const title = svg.querySelector('title').cloneNode(true);
+        const desc = svg.querySelector('desc').cloneNode(true);
+        svg.textContent = '';
+        svg.append(title, desc);
+
+        const width = 900;
+        const height = 360;
+        const margin = { top: 30, right: 70, bottom: 55, left: 72 };
+        const plotWidth = width - margin.left - margin.right;
+        const plotHeight = height - margin.top - margin.bottom;
+        const values = rows.map(function (row) { return row.rate; }).concat([prediction]);
+        const maxY = Math.max(5, Math.ceil(Math.max.apply(null, values) * 1.15));
+        const xScale = function (week) { return margin.left + (week - 1) / 8 * plotWidth; };
+        const yScale = function (value) { return margin.top + plotHeight - value / maxY * plotHeight; };
+
+        for (let tick = 0; tick <= maxY; tick += 1) {
+          const y = yScale(tick);
+          svg.appendChild(svgElement('line', { x1: margin.left, y1: y, x2: width - margin.right, y2: y, class: 'chart-grid-line' }));
+          const label = svgElement('text', { x: margin.left - 14, y: y + 4, 'text-anchor': 'end', class: 'chart-label' });
+          label.textContent = tick + '%';
+          svg.appendChild(label);
+        }
+        for (let week = 1; week <= 9; week += 1) {
+          const x = xScale(week);
+          const label = svgElement('text', { x: x, y: height - 22, 'text-anchor': 'middle', class: 'chart-label' });
+          label.textContent = 'W' + week;
+          svg.appendChild(label);
+        }
+        svg.appendChild(svgElement('line', { x1: margin.left, y1: margin.top, x2: margin.left, y2: height - margin.bottom, class: 'chart-axis' }));
+        svg.appendChild(svgElement('line', { x1: margin.left, y1: height - margin.bottom, x2: width - margin.right, y2: height - margin.bottom, class: 'chart-axis' }));
+
+        const points = rows.map(function (row) { return xScale(row.week) + ',' + yScale(row.rate); }).join(' ');
+        svg.appendChild(svgElement('polyline', { points: points, class: 'chart-series' }));
+        rows.forEach(function (row) {
+          const circle = svgElement('circle', { cx: xScale(row.week), cy: yScale(row.rate), r: 7, class: 'chart-point' });
+          const pointTitle = svgElement('title', {});
+          pointTitle.textContent = 'Week ' + row.week + ': ' + row.rate.toFixed(2) + '%';
+          circle.appendChild(pointTitle);
+          svg.appendChild(circle);
+        });
+
+        const last = rows[rows.length - 1];
+        svg.appendChild(svgElement('line', { x1: xScale(last.week), y1: yScale(last.rate), x2: xScale(9), y2: yScale(prediction), class: 'chart-prediction' }));
+        const predictionPoint = svgElement('circle', { cx: xScale(9), cy: yScale(prediction), r: 8, class: 'chart-prediction-point' });
+        const predictionTitle = svgElement('title', {});
+        predictionTitle.textContent = 'Week 9 prediction: ' + prediction.toFixed(2) + '%';
+        predictionPoint.appendChild(predictionTitle);
+        svg.appendChild(predictionPoint);
+
+        const yTitle = svgElement('text', { x: 18, y: 180, transform: 'rotate(-90 18 180)', 'text-anchor': 'middle', class: 'chart-label' });
+        yTitle.textContent = 'Defect rate (%)';
+        svg.appendChild(yTitle);
+      }
+
+      function analyzeLab() {
+        const error = document.getElementById('lab-error');
+        try {
+          const rows = readLabRows();
+          error.hidden = true;
+          const rates = rows.map(function (row) { return row.rate; });
+          const downtimes = rows.map(function (row) { return row.downtime; });
+          const weeks = rows.map(function (row) { return row.week; });
+          const avg = mean(rates);
+          const latest = rates[rates.length - 1];
+          const corr = correlation(downtimes, rates);
+          const regression = linearRegression(weeks, rates);
+          const prediction = regression.intercept + regression.slope * 9;
+          const first = rates[0];
+          const relativeChange = first === 0 ? 0 : (latest - first) / first * 100;
+
+          rows.forEach(function (row) {
+            document.getElementById('rate-' + row.week).textContent = row.rate.toFixed(2) + '%';
+          });
+          document.getElementById('metric-average').textContent = avg.toFixed(2) + '%';
+          document.getElementById('metric-latest').textContent = latest.toFixed(2) + '%';
+          document.getElementById('metric-correlation').textContent = corr.toFixed(2);
+          document.getElementById('metric-prediction').textContent = prediction.toFixed(2) + '%';
+
+          const direction = regression.slope > 0.05 ? 'upward' : regression.slope < -0.05 ? 'downward' : 'approximately flat';
+          document.getElementById('insight-descriptive').textContent = 'The latest defect rate is ' + latest.toFixed(2) + '%, compared with ' + first.toFixed(2) + '% in Week 1. That is a ' + Math.abs(relativeChange).toFixed(0) + '% ' + (relativeChange >= 0 ? 'increase' : 'decrease') + ', and the fitted trend is ' + direction + '.';
+          document.getElementById('insight-diagnostic').textContent = 'The Pearson correlation between downtime and defect rate is r = ' + corr.toFixed(2) + ', a ' + correlationLabel(corr) + ' ' + (corr >= 0 ? 'positive' : 'negative') + ' linear relationship. Investigate the mechanism and possible confounders before claiming causation.';
+          document.getElementById('insight-predictive').textContent = 'The simple linear model is defect rate = ' + regression.intercept.toFixed(2) + ' + ' + regression.slope.toFixed(2) + ' × Week. It predicts ' + prediction.toFixed(2) + '% for Week 9. This short-range forecast assumes the recent linear pattern continues.';
+
+          let prescription;
+          if (prediction >= 3.5 && corr >= 0.6) {
+            prescription = 'The projected rate is high and downtime is strongly associated with defects. Prioritize a targeted maintenance and root-cause intervention, then compare post-action defect rates with the baseline.';
+          } else if (prediction >= 3.5) {
+            prescription = 'The projected rate is high, but downtime alone does not explain it strongly. Investigate product mix, materials, methods, operators, measurement, and environment before selecting the intervention.';
+          } else {
+            prescription = 'The projected rate is below the 3.5% action screen used in this demonstration. Continue monitoring, verify process stability, and define a business threshold based on cost, risk, and customer requirements.';
+          }
+          document.getElementById('insight-prescriptive').textContent = prescription;
+          document.getElementById('defect-chart-desc').textContent = 'Weekly defect rates range from ' + Math.min.apply(null, rates).toFixed(2) + '% to ' + Math.max.apply(null, rates).toFixed(2) + '%, with a Week 9 prediction of ' + prediction.toFixed(2) + '%.';
+          renderChart(rows, prediction);
+        } catch (analysisError) {
+          error.textContent = analysisError.message;
+          error.hidden = false;
+        }
+      }
+
+      function initDataLab() {
+        renderLabRows(sampleRows);
+        document.getElementById('analyze-data').addEventListener('click', analyzeLab);
+        document.getElementById('load-sample').addEventListener('click', function () {
+          renderLabRows(sampleRows);
+          analyzeLab();
+        });
+        document.getElementById('reset-lab').addEventListener('click', function () {
+          const blankRows = sampleRows.map(function (row) { return { week: row.week, units: '', defects: '', downtime: '' }; });
+          renderLabRows(blankRows);
+          document.getElementById('lab-error').hidden = true;
+          ['metric-average', 'metric-latest', 'metric-correlation', 'metric-prediction'].forEach(function (id) { document.getElementById(id).textContent = '—'; });
+          ['insight-descriptive', 'insight-diagnostic', 'insight-predictive', 'insight-prescriptive'].forEach(function (id) { document.getElementById(id).textContent = 'Enter data and run the analysis.'; });
+          const svg = document.getElementById('defect-chart');
+          const title = svg.querySelector('title').cloneNode(true);
+          const desc = svg.querySelector('desc').cloneNode(true);
+          svg.textContent = '';
+          svg.append(title, desc);
+        });
+        analyzeLab();
+      }
+
+      function initPractice() {
+        const button = document.getElementById('reveal-practice');
+        const answer = document.getElementById('practice-answer');
+        button.addEventListener('click', function () {
+          const willOpen = answer.hidden;
+          answer.hidden = !willOpen;
+          button.setAttribute('aria-expanded', String(willOpen));
+          button.textContent = willOpen ? 'Hide answer' : 'Reveal answer';
+        });
+      }
+
+      function initQuiz() {
+        const form = document.getElementById('analytics-quiz');
+        const scoreBox = document.getElementById('quiz-score');
+        const resetButton = document.getElementById('reset-quiz');
+
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          const questions = Array.from(form.querySelectorAll('.quiz-question'));
+          let score = 0;
+          let answered = 0;
+
+          questions.forEach(function (question) {
+            const selected = question.querySelector('input[type="radio"]:checked');
+            const correct = question.dataset.correct;
+            const explanation = question.querySelector('.quiz-explanation');
+            question.querySelectorAll('label').forEach(function (label) { label.classList.remove('correct', 'incorrect'); });
+            explanation.hidden = false;
+
+            if (selected) {
+              answered += 1;
+              const label = selected.closest('label');
+              if (selected.value === correct) {
+                score += 1;
+                label.classList.add('correct');
+              } else {
+                label.classList.add('incorrect');
+                const correctInput = question.querySelector('input[value="' + correct + '"]');
+                if (correctInput) correctInput.closest('label').classList.add('correct');
+              }
+            }
+          });
+
+          if (answered < questions.length) {
+            scoreBox.textContent = 'You answered ' + answered + ' of ' + questions.length + ' questions. Complete every question for a final score.';
+          } else {
+            scoreBox.textContent = 'Score: ' + score + ' / ' + questions.length + '. ' + (score === questions.length ? 'Excellent—your analytics foundations are strong.' : score >= 4 ? 'Good work—review the explanation for the missed item.' : 'Review the four analytics types and the interpretation cautions, then try again.');
+          }
+          scoreBox.hidden = false;
+        });
+
+        resetButton.addEventListener('click', function () {
+          form.reset();
+          form.querySelectorAll('label').forEach(function (label) { label.classList.remove('correct', 'incorrect'); });
+          form.querySelectorAll('.quiz-explanation').forEach(function (explanation) { explanation.hidden = true; });
+          scoreBox.hidden = true;
+          scoreBox.textContent = '';
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        initScopeExplorer();
+        initTypeExplorer();
+        initStageExplorer();
+        initPatternExplorer();
+        initDataLab();
+        initPractice();
+        initQuiz();
+      });
+    }());
+  </script>
+  <script src="/contrast-fix.js"></script>
 </body>
 </html>
