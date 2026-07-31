@@ -7,12 +7,17 @@ on:
     paths:
       - '.lesson-build/v3-tail.html.gz.b64'
       - '.github/workflows/repair-validate-introduction-to-analytics.yml'
+  pull_request:
+    branches:
+      - main
+    types: [reopened, synchronize]
 
 permissions:
   contents: write
 
 jobs:
   repair-validate:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - name: Check out PR branch
@@ -55,7 +60,6 @@ jobs:
           for old, new in replacements.items():
               html = html.replace(old, new)
 
-          # Guild placement: remove category return links from the top site bar; retain bottom-left control.
           html = re.sub(r'\s*<a[^>]*class="back-link"[^>]*>.*?</a>', '', html, count=1, flags=re.S)
           lesson.write_text(html, encoding='utf-8')
           PY
@@ -67,7 +71,6 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           from bs4 import BeautifulSoup
-          import re
 
           lesson = Path('lessons/data-analytics/introduction-to-analytics.html')
           html = lesson.read_text(encoding='utf-8')
@@ -88,11 +91,7 @@ jobs:
           duplicates = sorted({value for value in ids if ids.count(value) > 1})
           assert not duplicates, f'Duplicate IDs: {duplicates}'
 
-          required = [
-            'learning-objectives','wallposters','key-concepts','analytics-ecosystem','four-types',
-            'analytics-lifecycle','patterns','worked-example','data-lab','software-guidance',
-            'practice','quiz','summary'
-          ]
+          required = ['learning-objectives','wallposters','key-concepts','analytics-ecosystem','four-types','analytics-lifecycle','patterns','worked-example','data-lab','software-guidance','practice','quiz','summary']
           missing = [value for value in required if not soup.find(id=value)]
           assert not missing, f'Missing lesson sections: {missing}'
 
