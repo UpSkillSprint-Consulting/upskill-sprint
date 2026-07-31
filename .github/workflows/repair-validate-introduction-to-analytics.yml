@@ -81,7 +81,7 @@ jobs:
           assert soup.find('meta', attrs={'name':'viewport'})
           assert soup.find(id='lesson-content')
           assert soup.find(id='practice') and soup.find(id='quiz') and soup.find(id='summary')
-          assert soup.find(id='quiz-form') and soup.find(id='analyze-data')
+          assert soup.find(id='analytics-quiz') and soup.find(id='analyze-data')
           assert len(soup.select('.poster-card')) == 4
           assert len(soup.select('a[download]')) == 4
           assert len(soup.select('.back-to-category')) == 1
