@@ -74,7 +74,9 @@ jobs:
           from bs4 import BeautifulSoup
 
           lesson = Path('lessons/data-analytics/introduction-to-analytics.html')
+          css_path = Path('assets/lessons/introduction-to-analytics/lesson.css')
           html = lesson.read_text(encoding='utf-8')
+          css = css_path.read_text(encoding='utf-8')
           soup = BeautifulSoup(html, 'html.parser')
 
           assert html.lstrip().lower().startswith('<!doctype html>')
@@ -116,8 +118,11 @@ jobs:
 
           assert 'data:image/png;base64' not in html
           assert html.count('Back to Data Analytics') == 1
-          assert 'prefers-reduced-motion' in html
-          print('HTML, sections, IDs, assets, poster links, navigation, and reduced-motion checks passed.')
+          assert 'prefers-reduced-motion' in css
+          assert '@media(max-width:700px)' in css or '@media (max-width: 700px)' in css
+          assert 'overflow-x:auto' in css or 'overflow-x: auto' in css
+          assert 'min-height:44px' in css or 'min-height: 44px' in css
+          print('HTML, sections, IDs, assets, poster links, navigation, responsive CSS, and reduced-motion checks passed.')
           PY
 
           python3 - <<'PY'
