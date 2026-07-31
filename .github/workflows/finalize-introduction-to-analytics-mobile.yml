@@ -19,6 +19,15 @@ jobs:
           ref: agent/recover-intro-analytics-payload
           fetch-depth: 0
 
+      - name: Restore complete lesson stylesheet
+        shell: bash
+        run: |
+          mkdir -p assets/lessons/introduction-to-analytics
+          cat > /tmp/lesson.css.gz.b64 <<'B64'
+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
+B64
+          base64 --decode /tmp/lesson.css.gz.b64 | gzip -dc > assets/lessons/introduction-to-analytics/lesson.css
+
       - name: Apply guild navigation and responsive refinements
         shell: bash
         run: |
@@ -26,93 +35,24 @@ jobs:
           from pathlib import Path
           p = Path('lessons/data-analytics/introduction-to-analytics.html')
           html = p.read_text(encoding='utf-8')
-
-          html = html.replace('      <a class="back-link" href="/lessons#data-analytics">Back to Data Analytics</a>\n', '')
-          html = html.replace('        <p><a href="/lessons#data-analytics">Back to Data Analytics</a></p>\n', '')
-
-          marker = '      <footer class="lesson-footer">\n'
-          nav = '''      <nav class="lesson-bottom-nav" aria-label="Return to lesson library">\n        <a class="back-to-category" href="/lessons#data-analytics" aria-label="Back to Data Analytics lessons">\n          <span aria-hidden="true">←</span> Back to Data Analytics\n        </a>\n      </nav>\n\n'''
+          html = html.replace('<a class="back-link" href="/lessons#data-analytics">Back to Data Analytics</a>\n', '')
+          html = html.replace('<p><a href="/lessons#data-analytics">Back to Data Analytics</a></p>\n', '')
+          marker = '<footer class="lesson-footer">\n'
+          nav = '''<nav class="lesson-bottom-nav" aria-label="Return to lesson library">\n<a class="back-to-category" href="/lessons#data-analytics" aria-label="Back to Data Analytics lessons"><span aria-hidden="true">←</span> Back to Data Analytics</a>\n</nav>\n'''
           if 'class="lesson-bottom-nav"' not in html:
               html = html.replace(marker, nav + marker, 1)
-
-          css = '''
-    /* Lesson Creation Guild: bottom-left category navigation and mobile hardening */
-    .lesson-bottom-nav {
-      display: flex;
-      justify-content: flex-start;
-      margin-top: 2rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--line);
-    }
-    .back-to-category {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.55rem;
-      min-height: 44px;
-      padding: 0.7rem 1rem;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: var(--surface);
-      color: var(--teal-dark);
-      font-weight: 800;
-      text-decoration: none;
-      box-shadow: 0 8px 18px var(--shadow);
-    }
-    .back-to-category:hover,
-    .back-to-category:focus-visible {
-      background: var(--surface-soft);
-      text-decoration: none;
-      transform: translateY(-1px);
-    }
-    img, svg, canvas { max-width: 100%; }
-    button, input, select, textarea { max-width: 100%; }
-    .responsive-table, .editable-data { -webkit-overflow-scrolling: touch; }
-    .responsive-table table, .editable-data table { width: 100%; }
-
-    @media (max-width: 700px) {
-      body { overflow-x: hidden; }
-      header.site.lesson-sitebar { min-height: 58px; }
-      .header-actions { margin-left: auto; }
-      .lesson-wrapper > section,
-      nav.lesson-toc,
-      .lesson-footer { scroll-margin-top: 78px; }
-      section { margin-top: 2.25rem; }
-      section > h2 { font-size: clamp(1.55rem, 7vw, 2rem); line-height: 1.15; }
-      h3 { overflow-wrap: anywhere; }
-      .lesson-meta-row { gap: 0.45rem; }
-      .pill { white-space: normal; text-align: center; }
-      .poster-actions, .button-row { gap: 0.65rem; }
-      .poster-action-link, .button-row button, .back-to-category { min-height: 48px; }
-      .type-tabs, .pattern-tabs {
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        padding-bottom: 0.35rem;
-        -webkit-overflow-scrolling: touch;
-      }
-      .type-tabs button, .pattern-tabs button { flex: 0 0 auto; }
-      .lesson-footer {
-        margin-top: 2.5rem;
-        padding-bottom: calc(1rem + env(safe-area-inset-bottom));
-      }
-      .lesson-bottom-nav { margin-top: 2rem; padding-bottom: 0.25rem; }
-    }
-
-    @media (max-width: 430px) {
-      main#lesson-content { width: min(100% - 0.75rem, 1160px); }
-      .lesson-hero, section, nav.lesson-toc { border-radius: 12px; }
-      .lesson-hero { padding: 1rem; }
-      .lesson-lede { font-size: 1.05rem; }
-      .poster-card, .panel, .callout, .remember-card { border-radius: 12px; }
-      .poster-actions { grid-template-columns: 1fr; }
-      .back-to-category { width: 100%; justify-content: flex-start; }
-      .responsive-table, .editable-data { margin-inline: -0.15rem; }
-    }
-'''
-          if 'Lesson Creation Guild: bottom-left category navigation' not in html:
-              html = html.replace('  </style>', css + '\n  </style>', 1)
-
           p.write_text(html, encoding='utf-8')
           PY
+          cat >> assets/lessons/introduction-to-analytics/lesson.css <<'CSS'
+
+/* Lesson Creation Guild: bottom-left category navigation and mobile hardening */
+.lesson-bottom-nav{display:flex;justify-content:flex-start;margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--line)}
+.back-to-category{display:inline-flex;align-items:center;gap:.55rem;min-height:44px;padding:.7rem 1rem;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--teal-dark);font-weight:800;text-decoration:none;box-shadow:0 8px 18px var(--shadow)}
+.back-to-category:hover,.back-to-category:focus-visible{background:var(--surface-soft);text-decoration:none;transform:translateY(-1px)}
+img,svg,canvas{max-width:100%}button,input,select,textarea{max-width:100%}.responsive-table,.editable-data{-webkit-overflow-scrolling:touch}.responsive-table table,.editable-data table{width:100%}
+@media(max-width:700px){body{overflow-x:hidden}header.site.lesson-sitebar{min-height:58px}.header-actions{margin-left:auto}.lesson-wrapper>section,nav.lesson-toc,.lesson-footer{scroll-margin-top:78px}section{margin-top:2.25rem}section>h2{font-size:clamp(1.55rem,7vw,2rem);line-height:1.15}h3{overflow-wrap:anywhere}.lesson-meta-row{gap:.45rem}.pill{white-space:normal;text-align:center}.poster-actions,.button-row{gap:.65rem}.poster-action-link,.button-row button,.back-to-category{min-height:48px}.type-tabs,.pattern-tabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:.35rem;-webkit-overflow-scrolling:touch}.type-tabs button,.pattern-tabs button{flex:0 0 auto}.lesson-footer{margin-top:2.5rem;padding-bottom:calc(1rem + env(safe-area-inset-bottom))}.lesson-bottom-nav{margin-top:2rem;padding-bottom:.25rem}}
+@media(max-width:430px){main#lesson-content{width:min(100% - .75rem,1160px)}.lesson-hero,section,nav.lesson-toc{border-radius:12px}.lesson-hero{padding:1rem}.lesson-lede{font-size:1.05rem}.poster-card,.panel,.callout,.remember-card{border-radius:12px}.poster-actions{grid-template-columns:1fr}.back-to-category{width:100%;justify-content:flex-start}.responsive-table,.editable-data{margin-inline:-.15rem}}
+CSS
 
       - name: Validate production lesson
         shell: bash
@@ -120,21 +60,22 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           import re
-          p = Path('lessons/data-analytics/introduction-to-analytics.html')
-          text = p.read_text(encoding='utf-8')
-          assert text.lstrip().lower().startswith('<!doctype html>')
-          assert '<meta content="width=device-width, initial-scale=1.0" name="viewport"' in text or 'name="viewport"' in text
-          assert text.count('class="poster-card"') == 4
-          assert text.count('class="lesson-bottom-nav"') == 1
-          assert 'header-actions">\n<a class="back-link"' not in text
-          assert text.count('href="/lessons#data-analytics"') == 1
-          assert '</html>' in text
-          ids = re.findall(r'\bid="([^"]+)"', text)
-          assert len(ids) == len(set(ids)), 'Duplicate HTML IDs found'
-          assert 'prefers-reduced-motion: reduce' in text
-          assert '@media (max-width: 700px)' in text
-          assert 'overflow-x: auto' in text
-          print('Validation passed: content retained, four posters retained, unique IDs, mobile rules present, bottom-left return navigation present.')
+          h = Path('lessons/data-analytics/introduction-to-analytics.html').read_text(encoding='utf-8')
+          c = Path('assets/lessons/introduction-to-analytics/lesson.css').read_text(encoding='utf-8')
+          assert h.lstrip().lower().startswith('<!doctype html>')
+          assert 'name="viewport"' in h
+          assert h.count('class="poster-card"') == 4
+          assert h.count('class="lesson-bottom-nav"') == 1
+          assert 'class="back-link"' not in h
+          assert h.count('href="/lessons#data-analytics"') == 1
+          assert '</html>' in h
+          ids = re.findall(r'\bid="([^"]+)"', h)
+          assert len(ids) == len(set(ids))
+          assert len(c) > 30000
+          assert '@media(max-width:700px)' in c
+          assert 'prefers-reduced-motion' in c
+          assert 'overflow-x:auto' in c.replace(' ', '')
+          print('Final lesson validation passed.')
           PY
 
       - name: Commit final validated lesson
