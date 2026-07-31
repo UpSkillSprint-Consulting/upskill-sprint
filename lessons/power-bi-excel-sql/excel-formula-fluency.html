@@ -213,7 +213,16 @@
     .checklist { list-style:none; padding:0; }
     .checklist li { position:relative; margin:8px 0; padding-left:27px; }
     .checklist li::before { position:absolute; left:0; content:"✓"; color:var(--excel); font-weight:900; }
-    footer { padding:35px 24px; color:#d9eee2; background:#0c3525; text-align:center; }
+    .topbar .theme-control { order:3; margin-left:auto; }
+    .topbar .top-progress { order:1; }
+    .topbar .phase2-top-actions { order:2; margin-left:0; margin-right:0; }
+    .lesson-footer { padding:35px 24px; color:#d9eee2; background:#0c3525; }
+    .lesson-footer .footer-inner { display:flex; align-items:center; justify-content:space-between; gap:18px; max-width:1440px; margin:0 auto; }
+    .lesson-footer .footer-back { display:inline-flex; align-items:center; min-height:44px; padding:10px 15px; color:#fff; border:1px solid rgba(255,255,255,.28); border-radius:9px; font-weight:750; text-decoration:none; }
+    .lesson-footer .footer-back:hover { background:rgba(255,255,255,.10); border-color:#fff; }
+    html[data-theme="dark"] .topbar { background:rgba(11,18,32,.95); }
+    html[data-theme="dark"] .toc { background:#0f1a2b; }
+    html[data-theme="dark"] .progress-track { background:#263548; }
     .mobile-toc { display:none; width:100%; }
     @media (max-width: 920px) {
       .layout { display:block; }
@@ -235,6 +244,8 @@
       .flow, .mastery { grid-template-columns:1fr; }
       .scoreboard { width:100%; justify-content:space-between; }
       .nav-buttons { flex-wrap:wrap; }
+      .topbar .phase2-top-actions { right:70px; }
+      .lesson-footer .footer-inner { align-items:flex-start; flex-direction:column; }
     }
     @media print {
       .topbar, .toc, .practice-toolbar, .challenge-list, .btn { display:none !important; }
@@ -563,6 +574,11 @@ html, body { max-width: 100%; overflow-x: hidden; }
     <div class="top-progress" role="region" aria-label="Lesson progress">
       <div class="top-progress-row"><span>Adaptive mastery</span><strong id="progressLabel">0%</strong></div>
       <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <div class="theme-control" aria-label="Colour theme">
+      <svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+      <button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button>
+      <svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
     </div>
   </header>
 
@@ -1202,7 +1218,12 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
       </section>
     </main>
   </div>
-  <footer>Excel Formula Fluency · Adaptive practice for analysis, engineering, and continuous improvement</footer>
+  <footer class="lesson-footer">
+    <div class="footer-inner">
+      <a class="footer-back" href="/lessons#power-bi-excel-sql">Back to Power BI, Excel &amp; SQL</a>
+      <span>Excel Formula Fluency · Adaptive practice for analysis, engineering, and continuous improvement</span>
+    </div>
+  </footer>
 
 <div class="phase1-toast" id="phase1Toast" role="status" aria-live="polite"></div>
 
