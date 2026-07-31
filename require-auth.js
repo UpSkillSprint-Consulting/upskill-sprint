@@ -37,9 +37,22 @@
     }
 
     var settled = false;
+
+    /* Safety net: if the session never resolves (e.g. auth.js's getSession
+       has no .catch, so a hung/failed auth request would otherwise leave the
+       overlay up forever), reveal the content rather than trap the visitor.
+       Normal resolution is sub-second, so this only fires on genuine failure,
+       and — like the unconfigured case — it fails open, never closed. */
+    var failOpen = window.setTimeout(function () {
+      if (settled) return;
+      settled = true;
+      reveal(body);
+    }, 8000);
+
     auth.onChange(function (user) {
       if (settled) return; /* act once, on the first resolved session state */
       settled = true;
+      window.clearTimeout(failOpen);
       if (user) {
         reveal(body);
       } else {

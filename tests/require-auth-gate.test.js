@@ -26,13 +26,15 @@ function runGate(opts) {
     replaced: null,
     replace(url) { this.replaced = url; }
   };
+  const timers = [];
   const win = {
     UpskillAuth: opts.auth,
     location: loc,
-    setTimeout() { /* gate only schedules this while auth is missing */ }
+    setTimeout(fn) { timers.push(fn); return timers.length; }, /* record, don't fire */
+    clearTimeout() {}
   };
   new Function('window', 'document', gateSrc)(win, doc);
-  return { classes, loc };
+  return { classes, loc, timers };
 }
 
 test('signed-in visitor: content is revealed, no redirect', () => {
@@ -65,6 +67,17 @@ test('unconfigured auth fails open (no lockout, no redirect)', () => {
   });
   assert.ok(classes.has('auth-ready'), 'content is revealed rather than trapping the visitor');
   assert.equal(loc.replaced, null, 'no redirect when auth is not configured');
+});
+
+test('never traps a visitor: fail-open timeout reveals if the session never resolves', () => {
+  const r = runGate({
+    auth: { isConfigured: () => true, onChange: () => { /* never resolves */ } }
+  });
+  assert.ok(!r.classes.has('auth-ready'), 'content stays hidden until the timeout');
+  assert.ok(r.timers.length >= 1, 'a fail-open timer was scheduled');
+  r.timers[0](); /* simulate the timeout firing */
+  assert.ok(r.classes.has('auth-ready'), 'revealed after fail-open timeout');
+  assert.equal(r.loc.replaced, null, 'fail-open never redirects');
 });
 
 test('pages without data-require-auth are left untouched', () => {
