@@ -1,0 +1,140 @@
+name: Repair and validate Introduction to Analytics
+
+on:
+  push:
+    branches:
+      - agent/recover-intro-analytics-payload
+    paths:
+      - '.lesson-build/v3-tail.html.gz.b64'
+      - '.github/workflows/repair-validate-introduction-to-analytics.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/recover-intro-analytics-payload
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "upskillsprint-agent"
+          git config user.email "upskillsprint-agent@users.noreply.github.com"
+
+      - name: Restore complete V3 tail and normalize production links
+        shell: bash
+        run: |
+          base64 --decode .lesson-build/v3-tail.html.gz.b64 | gzip -dc > /tmp/v3-tail.html
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          lesson = Path('lessons/data-analytics/introduction-to-analytics.html')
+          html = lesson.read_text(encoding='utf-8')
+          tail = Path('/tmp/v3-tail.html').read_text(encoding='utf-8')
+
+          markers = ['<section aria-labelledby="practice-title" id="practice">', '<section id="practice" aria-labelledby="practice-title">']
+          positions = [html.find(marker) for marker in markers if html.find(marker) >= 0]
+          if not positions:
+              raise SystemExit('Practice section marker not found')
+          html = html[:min(positions)] + tail
+
+          replacements = {
+              '/assets/lessons/introduction-to-analytics/analytics-ecosystem-nesting.webp': '/assets/lessons/introduction-to-analytics/analytics-ecosystem-nesting.svg',
+              '/assets/lessons/introduction-to-analytics/types-of-analytics.png': '/assets/lessons/introduction-to-analytics/types-of-analytics.svg',
+              'assets/types-of-analytics.png': '/assets/lessons/introduction-to-analytics/types-of-analytics.svg',
+              '/assets/lessons/introduction-to-analytics/poster-1.webp': '/downloads/introduction-to-analytics/wall-poster-1.pdf',
+              '/assets/lessons/introduction-to-analytics/poster-2.webp': '/downloads/introduction-to-analytics/wall-poster-2.pdf',
+              '/assets/lessons/introduction-to-analytics/poster-3.webp': '/downloads/introduction-to-analytics/wall-poster-3.pdf'
+          }
+          for old, new in replacements.items():
+              html = html.replace(old, new)
+
+          # Guild placement: remove category return links from the top site bar; retain bottom-left control.
+          html = re.sub(r'\s*<a[^>]*class="back-link"[^>]*>.*?</a>', '', html, count=1, flags=re.S)
+          lesson.write_text(html, encoding='utf-8')
+          PY
+
+      - name: Validate structure, content, visuals, and interactions
+        shell: bash
+        run: |
+          python3 -m pip install --quiet beautifulsoup4
+          python3 - <<'PY'
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          import re
+
+          lesson = Path('lessons/data-analytics/introduction-to-analytics.html')
+          html = lesson.read_text(encoding='utf-8')
+          soup = BeautifulSoup(html, 'html.parser')
+
+          assert html.lstrip().lower().startswith('<!doctype html>')
+          assert '</html>' in html.lower()
+          assert soup.find('meta', attrs={'name':'viewport'})
+          assert soup.find(id='lesson-content')
+          assert soup.find(id='practice') and soup.find(id='quiz') and soup.find(id='summary')
+          assert soup.find(id='quiz-form') and soup.find(id='analyze-data')
+          assert len(soup.select('.poster-card')) == 4
+          assert len(soup.select('a[download]')) == 4
+          assert len(soup.select('.back-to-category')) == 1
+          assert not soup.select('header .back-link')
+
+          ids = [tag.get('id') for tag in soup.find_all(attrs={'id': True})]
+          duplicates = sorted({value for value in ids if ids.count(value) > 1})
+          assert not duplicates, f'Duplicate IDs: {duplicates}'
+
+          required = [
+            'learning-objectives','wallposters','key-concepts','analytics-ecosystem','four-types',
+            'analytics-lifecycle','patterns','worked-example','data-lab','software-guidance',
+            'practice','quiz','summary'
+          ]
+          missing = [value for value in required if not soup.find(id=value)]
+          assert not missing, f'Missing lesson sections: {missing}'
+
+          local_refs = []
+          for tag, attr in [('img','src'),('script','src'),('link','href'),('a','href')]:
+            for node in soup.find_all(tag):
+              ref = node.get(attr, '')
+              if ref.startswith('/') and not ref.startswith('//'):
+                local_refs.append(ref.split('#')[0].split('?')[0])
+          production_assets = {
+            '/assets/lessons/introduction-to-analytics/analytics-ecosystem-nesting.svg',
+            '/assets/lessons/introduction-to-analytics/types-of-analytics.svg',
+            '/downloads/introduction-to-analytics/wall-poster-1.pdf',
+            '/downloads/introduction-to-analytics/wall-poster-2.pdf',
+            '/downloads/introduction-to-analytics/wall-poster-3.pdf',
+            '/downloads/introduction-to-analytics/wall-poster-4-types-of-analytics.pdf'
+          }
+          for ref in production_assets:
+            assert ref in local_refs, f'Lesson does not reference {ref}'
+            assert Path(ref.lstrip('/')).is_file(), f'Missing asset: {ref}'
+
+          assert 'data:image/png;base64' not in html
+          assert html.count('Back to Data Analytics') == 1
+          assert 'prefers-reduced-motion' in html
+          print('HTML, sections, IDs, assets, poster links, navigation, and reduced-motion checks passed.')
+          PY
+
+          python3 - <<'PY'
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          html = Path('lessons/data-analytics/introduction-to-analytics.html').read_text(encoding='utf-8')
+          soup = BeautifulSoup(html, 'html.parser')
+          scripts = [s.get_text() for s in soup.find_all('script') if not s.get('src') and s.get_text().strip()]
+          Path('/tmp/lesson-inline.js').write_text('\n'.join(scripts), encoding='utf-8')
+          PY
+          node --check /tmp/lesson-inline.js
+
+      - name: Commit repaired production lesson
+        shell: bash
+        run: |
+          rm -rf .lesson-build
+          rm -f .github/workflows/repair-validate-introduction-to-analytics.yml
+          git add -A
+          git commit -m "Restore complete V3 lesson and validate mobile workflow"
+          git push origin HEAD:agent/recover-intro-analytics-payload
