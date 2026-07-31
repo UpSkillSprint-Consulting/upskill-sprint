@@ -200,19 +200,6 @@
     .lesson-sitebar .brand:hover { text-decoration: none; }
     .lesson-sitebar .brand img { width: 38px; height: 38px; object-fit: contain; }
     .header-actions { display: flex; align-items: center; gap: 0.75rem; }
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      min-height: 42px;
-      padding: 0.45rem 0.75rem;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--ink-soft);
-      font-size: 0.88rem;
-      font-weight: 700;
-      text-decoration: none;
-    }
-    .back-link:hover { background: var(--surface-soft); text-decoration: none; }
     .theme-toggle {
       position: relative;
       width: 48px;
@@ -761,7 +748,6 @@
     @media (max-width: 700px) {
       header.site.lesson-sitebar { padding: 0.65rem 0.8rem; }
       .lesson-sitebar .brand span { font-size: 0.9rem; }
-      .back-link { display: none; }
       main#lesson-content { width: min(100% - 1rem, 1160px); }
       .lesson-hero { border-radius: 14px; padding: 1.35rem; }
       nav.lesson-toc ol { columns: 1; }
@@ -1103,7 +1089,6 @@
       <span>UpSkill Sprint Consulting</span>
     </a>
     <div class="header-actions">
-      <a class="back-link" href="/lessons#data-analytics">Back to Data Analytics</a>
       <button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode">
         <span class="sr-only">Toggle dark and light mode</span>
       </button>
