@@ -111,6 +111,30 @@ test('the three engineering tools opt into the gate', () => {
     'grade specification lookup app is gated at build time');
 });
 
+test('every gated page also loads the gate script (or the overlay would trap visitors)', () => {
+  /* The gate overlay is pure CSS keyed off data-require-auth; only require-auth.js
+     dismisses it. A page that opts in but never loads the gate script (directly,
+     or via site-sections.js which loads it) leaves every visitor stuck on
+     "Checking your account…" forever — the bug that hit the grade-lookup app. */
+  const loadsGate = (html) => /require-auth\.js/.test(html) || /site-sections\.js/.test(html);
+
+  // Static tool pages: opt in AND load site-sections.js (which loads require-auth.js).
+  for (const p of ['tools/steel-phase-explorer.html', 'tools/material-specification-compliance-checker.html']) {
+    const html = read(p);
+    assert.match(html, /data-require-auth/, p + ' is gated');
+    assert.ok(loadsGate(html), p + ' opts into the gate but never loads the gate script');
+  }
+
+  // The grade-lookup app is build-generated and does NOT use site-sections.js, so
+  // the build must inject the gate script itself onto the gated page. (Asserted on
+  // the build source rather than by building, to avoid generating files mid-suite.)
+  const build = read('scripts/build-grade-specification-lookup.mjs');
+  assert.match(build, /const authHead[\s\S]*?supabase-config\.js[\s\S]*?vendor\/supabase\.js[\s\S]*?auth\.js[\s\S]*?require-auth\.js/,
+    'build must define an auth head that loads the full gate stack');
+  assert.match(build, /grade-spec-tool-page" data-require-auth/, 'the app page is gated');
+  assert.match(build, /integrationHead \+ authHead/, 'the gated app head must inject the auth stack (require-auth.js)');
+});
+
 test('the engineering-tools hub is intentionally left public', () => {
   assert.doesNotMatch(read('engineering-tools.html'), /data-require-auth/,
     'the hub stays browsable to drive sign-ups');
