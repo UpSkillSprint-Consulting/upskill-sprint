@@ -79,12 +79,23 @@ function renameTool(originalHtml) {
     .replaceAll('Grade Specification Lookup', 'Material Specification Lookup');
 }
 
+/* The standalone app page does not load site-sections.js, so it must load the
+   auth stack itself for the sign-in gate (require-auth.js) to run. Without
+   this, the page carries data-require-auth (and the overlay CSS from
+   style.css) but nothing ever resolves it — trapping every visitor on
+   "Checking your account…". Only the gated app page gets this, not the guide. */
+const authHead = `
+<script src="/supabase-config.js"></script>
+<script src="/vendor/supabase.js"></script>
+<script src="/auth.js"></script>
+<script src="/require-auth.js"></script>`;
+
 function prepareApplication(originalHtml) {
   return renameTool(originalHtml)
     .replace('<title>Material Specification Lookup — Compliance & Calculators</title>', '<title>Material Specification Lookup | UpSkill Sprint Consulting</title>')
     .replaceAll('href="grade_spec_lookup_user_guide.html"', 'href="./how-to-use/"')
     .replace('<div class="top-actions">', '<div class="top-actions"><a class="btn site-companion" href="/tools/material-specification-compliance-checker">Compliance Checker</a>')
-    .replace('</head>', '<meta name="description" content="Interactive material specification lookup, comparison, compliance screening, reverse lookup, and engineering calculators for CSA, ASTM, and API material designations.">\n<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + '\n</head>')
+    .replace('</head>', '<meta name="description" content="Interactive material specification lookup, comparison, compliance screening, reverse lookup, and engineering calculators for CSA, ASTM, and API material designations.">\n<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + authHead + '\n</head>')
     .replace('<body>', '<body class="grade-spec-tool-page" data-require-auth>\n' + siteHeader)
     .replace('</body>', backLink + '\n</body>');
 }
