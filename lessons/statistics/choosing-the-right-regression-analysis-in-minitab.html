@@ -183,7 +183,7 @@ details .inside{padding:0 16px 16px}
     <a href="#decision">9. Which method should I choose?</a>
     <a href="#interpretation">10. Model-selection statistics</a>
     <a href="#workflow">11. Recommended workflow</a>
-    <a href="#practice">12. Practice exercises</a>
+    <a href="#practice">12. Guided practice</a>
     <a href="#excel">13. Excel companion functions</a>
     <a href="#mistakes">14. Common mistakes</a>
     <a href="#predict">15. Predicting a response</a>
@@ -1536,22 +1536,52 @@ with greater uncertainty because predictors overlap in the information they prov
 </section>
 
 <section id="practice">
-<h2>12. Guided practice using the seven-column dataset</h2>
+<h2>12. Guided practice using the practice dataset</h2>
 
-<p>
-Use the practice dataset created earlier. It contains one response and six candidate predictors:
-Tensile Strength, Carbon, Rolling Temperature, Cooling Rate, Thickness, Furnace Time, and Line Speed.
-The data intentionally contain useful predictors, one mostly irrelevant predictor, mild collinearity,
-an interaction, curvature, and random noise.
+<p class="lead">
+Download the practice dataset below and work through the exercises in Minitab. It is a fictitious steel-coil dataset with
+<strong>50 rows and 10 columns</strong>: an identifier, one response (Tensile Strength), and eight candidate predictors.
+It was built on purpose to contain useful predictors, one mostly irrelevant predictor, mild collinearity, a
+Carbon &times; Cooling&nbsp;Rate interaction, Rolling&nbsp;Temperature curvature, and random noise &mdash; so every selection
+method has something to reveal.
 </p>
 
-<h3>Exercise 1 — Six Fitted Line Plots</h3>
-<p>Create Tensile Strength versus each predictor separately. Record slope direction, R², p-value, and visual curvature.</p>
-
-<h3>Exercise 2 — Full multiple regression</h3>
 <p>
-Use <code>Fit Regression Model</code> with all six predictors and method <strong>None</strong>.
-Compare coefficient p-values, VIF, adjusted R², predicted R², and residual plots.
+<a class="btn btn-teal" style="display:inline-block;background:#0f6b78;color:#fff;padding:11px 18px;border-radius:10px;text-decoration:none;font-weight:600" href="/assets/lessons/choosing-the-right-regression-analysis-in-minitab/regression-practice-dataset.xlsx" download>&#8681; Download the practice dataset (Excel .xlsx)</a>
+</p>
+
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Column</th><th>Role</th><th>What it does in the data</th></tr></thead>
+<tbody>
+<tr><td>Coil ID</td><td>Identifier</td><td>Row label only &mdash; not a predictor.</td></tr>
+<tr><td>Tensile Strength (MPa)</td><td>Response (Y)</td><td>The variable you model and predict.</td></tr>
+<tr><td>Carbon (wt%)</td><td>Predictor</td><td>Strong, useful predictor.</td></tr>
+<tr><td>Manganese (wt%)</td><td>Predictor</td><td>Useful, but mildly collinear with Carbon.</td></tr>
+<tr><td>Rolling Temperature (&deg;C)</td><td>Predictor</td><td>Curved (quadratic) effect; strength peaks mid-range.</td></tr>
+<tr><td>Cooling Rate (&deg;C/s)</td><td>Predictor</td><td>Useful; interacts with Carbon.</td></tr>
+<tr><td>Thickness (mm)</td><td>Predictor</td><td>Useful; more thickness lowers strength.</td></tr>
+<tr><td>Furnace Time (min)</td><td>Predictor</td><td>Weak-to-moderate; mildly collinear with Rolling Temperature.</td></tr>
+<tr><td>Line Speed (m/min)</td><td>Predictor</td><td>Very weak effect.</td></tr>
+<tr><td>Ambient Humidity (%)</td><td>Predictor</td><td>Mostly irrelevant noise &mdash; a good test for selection methods.</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout">
+<strong>Before you start.</strong> The workbook has two tabs: <em>Practice Data</em> (load this into Minitab) and
+<em>Data Dictionary</em> (documents every column and the structure built into the data). When you choose predictors,
+ignore <strong>Coil ID</strong> &mdash; it is only a row label.
+</div>
+
+<h3>Exercise 1 &mdash; Eight Fitted Line Plots</h3>
+<p>Create Tensile Strength versus each candidate predictor separately. Record slope direction, R&sup2;, p-value, and any visual curvature. Expect Rolling Temperature to look curved and Ambient Humidity to look essentially flat.</p>
+
+<h3>Exercise 2 &mdash; Full multiple regression</h3>
+<p>
+Use <code>Fit Regression Model</code> with all eight candidate predictors and method <strong>None</strong>.
+Compare coefficient p-values, VIF (watch the Carbon/Manganese and Rolling&nbsp;Temperature/Furnace&nbsp;Time pairs),
+adjusted R&sup2;, predicted R&sup2;, and residual plots.
 </p>
 
 <h3>Exercise 3 — Forward Selection</h3>
@@ -1582,10 +1612,11 @@ Split the data into training and validation samples. Confirm that the entry sequ
 while the validation statistic identifies the preferred step.
 </p>
 
-<h3>Exercise 8 — Best Subsets</h3>
+<h3>Exercise 8 &mdash; Best Subsets</h3>
 <p>
-Compare the best one-, two-, three-, four-, five-, and six-predictor models.
-Look for the smallest model with strong predicted R², low S, and a reasonable C<sub>p</sub>.
+Compare the best one- through eight-predictor models.
+Look for the smallest model with strong predicted R&sup2;, low S, and a reasonable C<sub>p</sub>.
+Confirm that Ambient Humidity is rarely selected.
 </p>
 
 <h3>Exercise 9 — Interaction</h3>
