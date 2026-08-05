@@ -87,6 +87,18 @@
       description: 'Build, validate, challenge, and select an interpretable predictive model using polynomial regression, grouped cross-validation, MARS, and automated model comparison.'
     },
     {
+      marker: 'data-choosing-right-regression-analysis-minitab',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/choosing-the-right-regression-analysis-in-minitab',
+      topic: 'statistics',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'choosing right regression analysis minitab fitted line plot fit regression model stepwise forward selection backward elimination forward information criteria validation best subsets nonlinear regression interactions hierarchy polynomial intermediate statistics',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>60 min</span><span>Minitab</span>',
+      title: 'Choosing the Right Regression Analysis in Minitab',
+      description: 'Choose among fitted line plots, multiple regression, stepwise methods, Best Subsets, validation, interactions, polynomial models, and nonlinear regression.'
+    },
+    {
       marker: 'data-minitab-control-chart-master-guide',
       sectionId: 'power-bi-excel-sql',
       path: '/lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis',

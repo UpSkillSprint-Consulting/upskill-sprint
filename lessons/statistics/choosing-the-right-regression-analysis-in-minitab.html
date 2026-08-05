@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{"title":"Choosing the Right Regression Analysis in Minitab","slug":"choosing-the-right-regression-analysis-in-minitab","category":"Statistics","category_slug":"statistics","level":"Intermediate","estimated_minutes":60,"interactive":true,"card_title":"Choosing the Right Regression Analysis in Minitab","card_description":"Choose among fitted line plots, multiple regression, stepwise methods, Best Subsets, validation, interactions, and nonlinear regression in Minitab.","search_keywords":["regression","Minitab","best subsets","stepwise","forward selection","backward elimination","validation","interaction","nonlinear regression"],"suggested_github_path":"lessons/statistics/choosing-the-right-regression-analysis-in-minitab.html"}
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Choosing the Right Regression Analysis in Minitab</title>
+<meta name="description" content="A comprehensive guide to selecting and using regression methods in Minitab.">
+<link rel="canonical" href="https://upskillsprint.com/lessons/statistics/choosing-the-right-regression-analysis-in-minitab.html">
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/lessons-theme.css">
+<style>
+:root{
+  --navy:#17365d;
+  --blue:#1f4e78;
+  --teal:#0f6b78;
+  --light:#eef5fb;
+  --lighter:#f8fbfe;
+  --gold:#c79224;
+  --red:#9e2f2f;
+  --green:#2d6a4f;
+  --ink:#1d2733;
+  --muted:#586575;
+  --line:#d7e0e8;
+  --white:#fff;
+  --shadow:0 10px 28px rgba(23,54,93,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  color:var(--ink);
+  background:#f4f7fa;
+  line-height:1.65;
+}
+a{color:var(--blue)}
+.hero{
+  background:linear-gradient(135deg,var(--navy),var(--teal));
+  color:white;
+  padding:64px 22px 52px;
+}
+.hero .wrap{max-width:1180px;margin:auto}
+.eyebrow{
+  display:inline-block;padding:6px 10px;border:1px solid rgba(255,255,255,.35);
+  border-radius:999px;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase
+}
+.hero h1{font-size:clamp(2.1rem,5vw,4.1rem);line-height:1.06;margin:.7rem 0 1rem}
+.hero p{max-width:900px;font-size:1.15rem;color:#e6f1f7}
+.layout{max-width:1180px;margin:24px auto;display:grid;grid-template-columns:260px 1fr;gap:24px;padding:0 18px}
+.sidebar{
+  position:sticky;top:18px;align-self:start;background:white;border:1px solid var(--line);
+  border-radius:16px;padding:16px;box-shadow:var(--shadow);max-height:calc(100vh - 36px);overflow:auto
+}
+.sidebar h3{margin:.2rem 0 .7rem;color:var(--navy)}
+.sidebar a{
+  display:block;text-decoration:none;padding:7px 9px;border-radius:8px;color:#34495e;font-size:.92rem
+}
+.sidebar a:hover{background:var(--light);color:var(--navy)}
+main{min-width:0}
+section{
+  background:white;border:1px solid var(--line);border-radius:18px;padding:28px;
+  margin-bottom:22px;box-shadow:var(--shadow)
+}
+h2{color:var(--navy);margin-top:0;font-size:1.8rem}
+h3{color:var(--blue);margin-top:1.5rem}
+h4{color:var(--teal)}
+.lead{font-size:1.08rem;color:#33485d}
+.callout{
+  border-left:5px solid var(--blue);background:var(--light);padding:16px 18px;border-radius:10px;margin:18px 0
+}
+.callout.warning{border-color:var(--gold);background:#fff8e8}
+.callout.critical{border-color:var(--red);background:#fff0f0}
+.callout.good{border-color:var(--green);background:#edf8f2}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{
+  border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--lighter)
+}
+.card h3,.card h4{margin-top:0}
+.badge{
+  display:inline-block;background:#dcecf7;color:var(--navy);padding:4px 9px;border-radius:999px;
+  font-size:.78rem;font-weight:700;margin-right:6px
+}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.95rem}
+th{background:var(--navy);color:white;text-align:left}
+th,td{border:1px solid var(--line);padding:10px;vertical-align:top}
+tr:nth-child(even) td{background:#fafcfe}
+code,.formula{
+  font-family:Consolas,Monaco,monospace;background:#f1f4f7;padding:.15rem .35rem;border-radius:5px
+}
+.equation{
+  display:block;text-align:center;font-family:Cambria,Georgia,serif;font-size:1.16rem;
+  background:#f7f9fb;border:1px solid var(--line);border-radius:10px;padding:14px;margin:14px 0
+}
+.flow{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:stretch;margin:16px 0
+}
+.flow div{background:var(--light);border:1px solid #c7dbea;border-radius:10px;padding:14px;text-align:center}
+details{border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fff}
+summary{cursor:pointer;font-weight:700;color:var(--navy);padding:14px 16px}
+details .inside{padding:0 16px 16px}
+.tool{
+  background:linear-gradient(180deg,#fafdff,#eef5fb);
+  border:1px solid #c9dce9;border-radius:14px;padding:18px;margin:18px 0
+}
+.tool label{font-weight:700;display:block;margin-bottom:6px}
+.tool select,.tool input,.tool button{
+  width:100%;padding:10px;border:1px solid #b8c6d3;border-radius:8px;font:inherit
+}
+.tool button{
+  background:var(--blue);color:white;border:none;font-weight:700;cursor:pointer;margin-top:10px
+}
+.result{margin-top:12px;padding:12px;background:white;border-radius:9px;border:1px solid var(--line)}
+.kpi{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0
+}
+.kpi div{background:#f6f9fc;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
+.kpi strong{display:block;color:var(--navy);font-size:1.25rem}
+.step{
+  counter-increment:step;background:#fafcfe;border:1px solid var(--line);padding:16px 16px 16px 62px;
+  border-radius:12px;margin:12px 0;position:relative
+}
+.steps{counter-reset:step}
+.step:before{
+  content:counter(step);position:absolute;left:16px;top:15px;width:32px;height:32px;border-radius:50%;
+  display:grid;place-items:center;background:var(--blue);color:#fff;font-weight:800
+}
+.footer{max-width:1180px;margin:0 auto 32px;padding:0 18px;color:var(--muted);font-size:.9rem}
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:relative;top:auto;max-height:none}
+  .grid,.flow,.kpi{grid-template-columns:1fr}
+  section{padding:20px}
+}
+@media print{
+  .sidebar,.tool button{display:none}
+  body{background:white}
+  section{box-shadow:none;break-inside:avoid}
+  .layout{display:block}
+}
+</style>
+</head>
+<body data-lesson-page="true" data-category="statistics" data-level="intermediate" data-interactive="true" data-lesson-type="general">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<nav class="mobile-nav" aria-label="Mobile navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Regression Selection Guide • Minitab</span>
+    <h1>Choosing the Right Regression Analysis in Minitab</h1>
+    <p>
+      A comprehensive, practical lesson for users who want to understand how Minitab’s regression tools work,
+      how the major model-selection methods differ, and how to choose the right method for the question, data,
+      and purpose of the analysis.
+    </p>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" aria-label="Lesson navigation">
+    <h3>Lesson map</h3>
+    <a href="#objectives">1. Learning objectives</a>
+    <a href="#foundation">2. Regression foundations</a>
+    <a href="#fitted-line">3. Fitted Line Plot</a>
+    <a href="#fit-model">4. Fit Regression Model</a>
+    <a href="#selection">5. Variable-selection methods</a>
+    <a href="#validation">6. Forward selection with validation</a>
+    <a href="#best-subsets">7. Best Subsets Regression</a>
+    <a href="#nonlinear">8. Nonlinear Regression</a>
+    <a href="#decision">9. Which method should I choose?</a>
+    <a href="#interpretation">10. Model-selection statistics</a>
+    <a href="#workflow">11. Recommended workflow</a>
+    <a href="#practice">12. Guided practice</a>
+    <a href="#excel">13. Excel companion functions</a>
+    <a href="#mistakes">14. Common mistakes</a>
+    <a href="#predict">15. Predicting a response</a>
+   <a href="#summary">16. Final summary</a>
+  </nav>
+
+  <main>
+
+<section id="objectives">
+<h2>1. Learning objectives</h2>
+<p class="lead">By the end of this lesson, you should be able to:</p>
+<ul>
+  <li>Distinguish a Fitted Line Plot from a full multiple regression model.</li>
+  <li>Explain the difference between None, Stepwise, Forward Selection, Backward Elimination, Forward Information Criteria, and Forward Selection with Validation.</li>
+  <li>Explain how Best Subsets Regression searches the model space.</li>
+  <li>Understand why validation selects the best model size rather than the next term in Minitab’s forward-selection-with-validation procedure.</li>
+  <li>Recognize the difference between a curved linear model and a genuinely nonlinear model.</li>
+  <li>Choose a regression procedure based on the response type, number of predictors, purpose of the model, and engineering knowledge.</li>
+</ul>
+</section>
+
+<section id="foundation">
+<h2>2. Regression foundations</h2>
+
+<h3>2.1 What regression is trying to do</h3>
+<p>
+Regression relates a response variable, usually called <strong>Y</strong>, to one or more predictor variables,
+usually called <strong>X</strong>. A regression model can be used for explanation, prediction, process understanding,
+optimization, or screening variables.
+</p>
+
+<span class="equation">Predicted response = systematic model component + unexplained random error</span>
+
+<p>For a simple linear regression:</p>
+<span class="equation">ŷ = b₀ + b₁X</span>
+
+<p>For multiple regression:</p>
+<span class="equation">ŷ = b₀ + b₁X₁ + b₂X₂ + ··· + bₖXₖ</span>
+
+<div class="callout">
+<strong>Important:</strong> “Linear regression” does not necessarily mean the graph must be a straight line.
+It means the model is linear in its unknown coefficients.
+</div>
+
+<h3>2.2 Prediction versus explanation</h3>
+<div class="grid">
+  <div class="card">
+    <h4>Explanatory modeling</h4>
+    <p>Focuses on effects, coefficient signs, confidence intervals, p-values, engineering interpretation, and causal caution.</p>
+  </div>
+  <div class="card">
+    <h4>Predictive modeling</h4>
+    <p>Focuses on performance on new data, predicted R², validation RMSE, model stability, and avoiding overfitting.</p>
+  </div>
+</div>
+
+<h3>2.3 One predictor versus many predictors</h3>
+<table>
+<thead><tr><th>Situation</th><th>Typical Minitab tool</th><th>Main purpose</th></tr></thead>
+<tbody>
+<tr><td>One continuous X and one continuous Y</td><td>Stat → Regression → Fitted Line Plot</td><td>Visualize and model one relationship</td></tr>
+<tr><td>One or many predictors</td><td>Stat → Regression → Regression → Fit Regression Model</td><td>Fit a specified linear model</td></tr>
+<tr><td>Many possible predictors</td><td>Stepwise methods or Best Subsets</td><td>Select a smaller model</td></tr>
+<tr><td>Known nonlinear scientific equation</td><td>Stat → Regression → Nonlinear Regression</td><td>Estimate nonlinear parameters</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="fitted-line">
+<h2>3. Fitted Line Plot</h2>
+
+<p class="lead">
+A Fitted Line Plot is the simplest regression tool in Minitab. It answers:
+<strong>“How does one X variable relate to one Y variable?”</strong>
+</p>
+
+<h3>3.1 Minitab path</h3>
+<p><code>Stat → Regression → Fitted Line Plot</code></p>
+
+<h3>3.2 What it produces</h3>
+<ul>
+<li>A scatterplot of Y versus X</li>
+<li>A fitted line or curve</li>
+<li>The regression equation</li>
+<li>R² and often adjusted R²</li>
+<li>ANOVA and coefficient results</li>
+<li>Residual plots when requested</li>
+</ul>
+
+<h3>3.3 Example</h3>
+<p>Suppose the response is <strong>Tensile Strength</strong> and the predictor is <strong>Cooling Rate</strong>.</p>
+<span class="equation">Tensile Strength = 420 + 8.5(Cooling Rate)</span>
+<p>
+The slope means that a 1°C/s increase in cooling rate is associated with an estimated 8.5 MPa increase in tensile strength,
+within the observed data range and under the assumptions of the model.
+</p>
+
+<div class="callout warning">
+<strong>Do not interpret the intercept automatically.</strong>
+If a cooling rate of zero is outside the observed range or physically impossible, the intercept is mainly a mathematical anchor.
+</div>
+
+<h3>3.4 Straight line, quadratic, or cubic</h3>
+<p>Minitab’s Fitted Line Plot can also fit polynomial curves. A quadratic model is:</p>
+<span class="equation">ŷ = b₀ + b₁X + b₂X²</span>
+<p>
+Even though the graph is curved, this is still a linear regression model because the unknown coefficients
+b₀, b₁, and b₂ enter linearly.
+</p>
+
+<h3>3.5 When to use it</h3>
+<ul>
+<li>Exploring one predictor at a time</li>
+<li>Teaching simple regression</li>
+<li>Checking whether a relationship appears linear or curved</li>
+<li>Showing a relationship visually to stakeholders</li>
+</ul>
+
+<h3>3.6 When not to use it</h3>
+<ul>
+<li>When several predictors jointly influence Y</li>
+<li>When confounding is likely</li>
+<li>When interactions matter</li>
+<li>When the response is binary, ordinal, nominal, or a count</li>
+</ul>
+</section>
+
+<section id="fit-model">
+<h2>4. Fit Regression Model</h2>
+
+<p class="lead">
+Fit Regression Model is Minitab’s main workhorse for ordinary linear regression. It can fit one predictor or many predictors,
+continuous terms, categorical factors, interactions, and polynomial terms.
+</p>
+
+<h3>4.1 Minitab path</h3>
+<p><code>Stat → Regression → Regression → Fit Regression Model</code></p>
+
+<h3>4.2 What “None” means in the Stepwise dialog</h3>
+<p>
+When the stepwise method is set to <strong>None</strong>, Minitab fits exactly the model you specify.
+It does not add or remove variables automatically.
+</p>
+
+<div class="callout good">
+Use <strong>None</strong> when engineering knowledge, theory, a study protocol, or a designed experiment already defines the terms that must be in the model.
+</div>
+
+<h3>4.3 Example full model</h3>
+<span class="equation">
+Tensile Strength = β₀ + β₁(Carbon) + β₂(Rolling Temperature) + β₃(Cooling Rate)
++ β₄(Thickness) + β₅(Furnace Time) + β₆(Line Speed)
+</span>
+
+<h3>4.4 Interactions</h3>
+<p>An interaction means the effect of one predictor depends on the level of another predictor.</p>
+<span class="equation">ŷ = b₀ + b₁Carbon + b₂Cooling + b₃(Carbon × Cooling)</span>
+
+<p>
+If the interaction is significant, the effect of cooling rate should not be interpreted as one constant number for every carbon level.
+</p>
+
+<h3>4.5 Polynomial terms</h3>
+<p>Use polynomial terms when the response bends smoothly.</p>
+<span class="equation">ŷ = b₀ + b₁Temperature + b₂Temperature²</span>
+
+<div class="callout">
+A polynomial model belongs in <strong>Fit Regression Model</strong>, not necessarily Nonlinear Regression.
+</div>
+</section>
+
+
+<section id="selection">
+<h2>5. Variable-selection methods in the Stepwise dialog</h2>
+
+<p class="lead">
+The methods in Minitab’s Stepwise dialog differ in three fundamental ways:
+where the search starts, whether terms can enter or leave, and what rule controls the next move.
+The examples below use six candidate predictors—A, B, C, D, E, and F—so you can see exactly how each method proceeds.
+</p>
+
+<table>
+<thead>
+<tr>
+<th>Method</th><th>Starts with</th><th>Can enter?</th><th>Can leave?</th><th>Main selection rule</th><th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>None</td><td>User-defined model</td><td>No</td><td>No</td><td>No automatic selection</td><td>Predefined engineering model</td></tr>
+<tr><td>Stepwise</td><td>Usually intercept or initial terms</td><td>Yes</td><td>Yes</td><td>Entry and removal p-values</td><td>Flexible screening</td></tr>
+<tr><td>Forward Selection</td><td>Small model</td><td>Yes</td><td>No</td><td>Smallest qualifying p-value</td><td>Simple sequential selection</td></tr>
+<tr><td>Backward Elimination</td><td>Full model</td><td>No</td><td>Yes</td><td>Largest nonqualifying p-value removed</td><td>Reduce a plausible full model</td></tr>
+<tr><td>Forward Information Criteria</td><td>Small model</td><td>Yes</td><td>Typically no</td><td>AIC/AICc-type improvement</td><td>Fit-complexity balance</td></tr>
+<tr><td>Forward Selection with Validation</td><td>Small model</td><td>Yes</td><td>No along forward path</td><td>Stepwise rule builds path; validation selects step</td><td>Prediction-focused model-size selection</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<strong>Common setup for the examples:</strong> assume the candidate predictors are A, B, C, D, E, and F.
+For p-value-based methods, suppose the alpha-to-enter and alpha-to-remove thresholds are both 0.15 unless stated otherwise.
+</div>
+
+<details open>
+<summary>5.1 None — fit exactly the model you specify</summary>
+<div class="inside">
+<p>
+With <strong>None</strong>, Minitab performs no variable-selection search. You decide the model before fitting it.
+If you place A, B, C, and the interaction A×B in the model, Minitab fits exactly that equation:
+</p>
+
+<span class="equation">Y = β₀ + β₁A + β₂B + β₃C + β₄(A×B)</span>
+
+<p>Minitab does not ask whether D, E, or F should enter, and it does not remove A, B, C, or A×B automatically.</p>
+
+<h4>When this is the correct choice</h4>
+<ul>
+<li>The model was specified by engineering theory or prior studies.</li>
+<li>A designed experiment defines the required main effects and interactions.</li>
+<li>You are validating a published or regulated model.</li>
+<li>You need stable coefficient interpretation rather than exploratory screening.</li>
+</ul>
+
+<div class="callout good">
+<strong>Mental model:</strong> “I am telling Minitab what equation to fit.”
+</div>
+</div>
+</details>
+
+<details>
+<summary>5.2 Forward Selection — variables enter one at a time and stay</summary>
+<div class="inside">
+
+<p>Forward Selection begins with the intercept-only model:</p>
+<span class="equation">Model 0: Y = β₀</span>
+
+<h4>Step 1 — test every possible first predictor</h4>
+<p>Minitab temporarily evaluates:</p>
+<ul>
+<li>Y = β₀ + A</li>
+<li>Y = β₀ + B</li>
+<li>Y = β₀ + C</li>
+<li>Y = β₀ + D</li>
+<li>Y = β₀ + E</li>
+<li>Y = β₀ + F</li>
+</ul>
+
+<p>Suppose the candidate p-values are:</p>
+<table>
+<thead><tr><th>Candidate</th><th>Entry p-value</th></tr></thead>
+<tbody>
+<tr><td>A</td><td><strong>0.001</strong></td></tr>
+<tr><td>B</td><td>0.028</td></tr>
+<tr><td>C</td><td>0.190</td></tr>
+<tr><td>D</td><td>0.350</td></tr>
+<tr><td>E</td><td>0.110</td></tr>
+<tr><td>F</td><td>0.420</td></tr>
+</tbody>
+</table>
+
+<p>A has the smallest p-value and satisfies alpha-to-enter = 0.15, so A enters:</p>
+<span class="equation">Model 1: Y = β₀ + A</span>
+
+<h4>Step 2 — test the remaining predictors conditional on A</h4>
+<p>Minitab evaluates A+B, A+C, A+D, A+E, and A+F. Suppose B has the smallest qualifying p-value.</p>
+<span class="equation">Model 2: Y = β₀ + A + B</span>
+
+<h4>Step 3 — continue from the current model</h4>
+<p>Minitab tests A+B+C, A+B+D, A+B+E, and A+B+F. Suppose C enters.</p>
+<span class="equation">Model 3: Y = β₀ + A + B + C</span>
+
+<p>The sequence might continue:</p>
+<p><code>A → A+B → A+B+C → A+B+C+D</code></p>
+
+<div class="callout warning">
+Once A enters, ordinary Forward Selection does not remove it later, even if A becomes less useful after other terms are added.
+That is the method’s main limitation.
+</div>
+
+<h4>How it stops</h4>
+<p>The procedure stops when none of the remaining candidates has an entry p-value at or below alpha-to-enter.</p>
+
+<div class="callout good">
+<strong>Mental model:</strong> “Start empty, add the strongest qualifying term, and never go backward.”
+</div>
+</div>
+</details>
+
+<details>
+<summary>5.3 Backward Elimination — start full and remove weak terms</summary>
+<div class="inside">
+
+<p>Backward Elimination starts with all candidate predictors:</p>
+<span class="equation">Model 0: Y = β₀ + A + B + C + D + E + F</span>
+
+<h4>Step 1 — inspect all included terms</h4>
+<p>Suppose the p-values in the full model are:</p>
+<table>
+<thead><tr><th>Included term</th><th>p-value</th></tr></thead>
+<tbody>
+<tr><td>A</td><td>0.004</td></tr>
+<tr><td>B</td><td>0.031</td></tr>
+<tr><td>C</td><td>0.082</td></tr>
+<tr><td>D</td><td>0.410</td></tr>
+<tr><td>E</td><td>0.170</td></tr>
+<tr><td>F</td><td><strong>0.690</strong></td></tr>
+</tbody>
+</table>
+
+<p>F has the largest p-value and exceeds alpha-to-remove = 0.15, so F is removed:</p>
+<span class="equation">Model 1: Y = β₀ + A + B + C + D + E</span>
+
+<h4>Step 2 — refit before removing anything else</h4>
+<p>
+Minitab refits the reduced model because p-values can change when a correlated predictor is removed.
+Suppose D now has the largest p-value, 0.38. D is removed:
+</p>
+<span class="equation">Model 2: Y = β₀ + A + B + C + E</span>
+
+<h4>Step 3 — continue until all remaining terms qualify</h4>
+<p>
+Suppose E now has p = 0.09 and all remaining terms are at or below 0.15. The procedure stops with A, B, C, and E.
+</p>
+
+<div class="callout warning">
+Backward Elimination requires the full model to be estimable. If the sample is small relative to the number of terms,
+or if predictors are perfectly aliased, the method may be inappropriate.
+</div>
+
+<div class="callout good">
+<strong>Mental model:</strong> “Start with everything, remove the weakest term, refit, and repeat.”
+</div>
+</div>
+</details>
+
+<details>
+<summary>5.4 Stepwise — variables can enter and later leave</summary>
+<div class="inside">
+
+<p>
+Stepwise regression combines forward entry with backward checking.
+It begins like Forward Selection, but after each addition Minitab re-examines terms already in the model.
+</p>
+
+<h4>Step 1 — A enters</h4>
+<p>From the intercept-only model, A has the smallest qualifying p-value:</p>
+<span class="equation">Model 1: Y = β₀ + A</span>
+
+<h4>Step 2 — B enters</h4>
+<p>Conditional on A, B has the smallest qualifying p-value:</p>
+<span class="equation">Model 2: Y = β₀ + A + B</span>
+
+<h4>Step 3 — C enters</h4>
+<span class="equation">Model 3: Y = β₀ + A + B + C</span>
+
+<h4>Step 4 — Minitab checks whether A and B still deserve to stay</h4>
+<p>
+Suppose adding C reveals that B was mostly acting as a proxy for C.
+After refitting, the p-values are:
+</p>
+
+<table>
+<thead><tr><th>Included term</th><th>p-value after C enters</th></tr></thead>
+<tbody>
+<tr><td>A</td><td>0.006</td></tr>
+<tr><td>B</td><td><strong>0.220</strong></td></tr>
+<tr><td>C</td><td>0.012</td></tr>
+</tbody>
+</table>
+
+<p>B now exceeds alpha-to-remove = 0.15, so B leaves:</p>
+<span class="equation">Model 4: Y = β₀ + A + C</span>
+
+<h4>Step 5 — forward entry resumes</h4>
+<p>Minitab again evaluates the remaining candidates B, D, E, and F conditional on A and C.</p>
+
+<p>A possible path is:</p>
+<p><code>A → A+B → A+B+C → A+C → A+C+D</code></p>
+
+<div class="callout">
+A term can enter, leave, and potentially re-enter later because its p-value depends on the other terms currently in the model.
+</div>
+
+<div class="callout warning">
+Stepwise results can be unstable when predictors are highly correlated. Small changes in the data may change the selected path.
+</div>
+
+<div class="callout good">
+<strong>Mental model:</strong> “Move forward, but after every move, look backward and clean up.”
+</div>
+</div>
+</details>
+
+<details>
+<summary>5.5 Forward Information Criteria — add terms using fit-versus-complexity</summary>
+<div class="inside">
+
+<p>
+Forward Information Criteria also builds a model from small to large, but the next term is selected using an information criterion,
+such as AIC or AICc, rather than only a significance threshold.
+</p>
+
+<h4>Step 1 — compare one-predictor candidates</h4>
+<table>
+<thead><tr><th>Candidate model</th><th>AICc</th></tr></thead>
+<tbody>
+<tr><td>A</td><td><strong>412.4</strong></td></tr>
+<tr><td>B</td><td>418.9</td></tr>
+<tr><td>C</td><td>415.7</td></tr>
+<tr><td>D</td><td>426.1</td></tr>
+<tr><td>E</td><td>421.5</td></tr>
+<tr><td>F</td><td>429.0</td></tr>
+</tbody>
+</table>
+
+<p>The lower information criterion is preferred, so A enters:</p>
+<span class="equation">Model 1: Y = β₀ + A</span>
+
+<h4>Step 2 — compare additions to A</h4>
+<table>
+<thead><tr><th>Candidate model</th><th>AICc</th></tr></thead>
+<tbody>
+<tr><td>A+B</td><td>398.5</td></tr>
+<tr><td>A+C</td><td><strong>392.8</strong></td></tr>
+<tr><td>A+D</td><td>409.4</td></tr>
+<tr><td>A+E</td><td>404.7</td></tr>
+<tr><td>A+F</td><td>411.6</td></tr>
+</tbody>
+</table>
+
+<p>C enters because A+C gives the largest improvement, represented here by the lowest AICc.</p>
+
+<h4>Step 3 — stop when no addition improves the criterion enough</h4>
+<p>
+Suppose A+C+D has AICc = 391.9, while the current A+C model has AICc = 392.8.
+Depending on the exact rule and software implementation, D may enter because it improves the criterion.
+</p>
+
+<div class="callout warning">
+A retained term may have an individual p-value above 0.05. That is not necessarily a contradiction:
+information criteria optimize the model’s fit-complexity balance, not a sequence of individual hypothesis tests.
+</div>
+
+<div class="callout good">
+<strong>Mental model:</strong> “Add the term that gives the best trade-off between improved fit and added complexity.”
+</div>
+</div>
+</details>
+</section>
+
+<section id="validation">
+<h2>6. Forward Selection with Validation</h2>
+
+<div class="callout critical">
+<strong>Critical correction:</strong> the next term is selected primarily by the forward stepwise significance rule.
+Validation is then used to identify the best model size or step.
+It is not a brute-force search that directly tests every possible equation and adds whichever term gives the largest validation improvement.
+</div>
+
+<h3>6.1 Two separate jobs</h3>
+<div class="flow">
+  <div><strong>Job 1</strong><br>Build a forward sequence using the stepwise entry rule</div>
+  <div><strong>Job 2</strong><br>Evaluate the completed models on validation data</div>
+  <div><strong>Decision</strong><br>Select the model size with the best validation performance</div>
+</div>
+
+<h3>6.2 Job 1 — build the forward-selection path</h3>
+
+<p>Assume the potential predictors are A, B, C, D, E, and F. The starting model is:</p>
+<span class="equation">Model 0: Y = β₀</span>
+
+<h4>Step 1 — choose the first term by the forward significance rule</h4>
+<p>Minitab temporarily evaluates six one-predictor models:</p>
+<p><code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>E</code>, and <code>F</code>.</p>
+
+<table>
+<thead><tr><th>Candidate term</th><th>Entry p-value</th></tr></thead>
+<tbody>
+<tr><td>A</td><td><strong>0.001</strong></td></tr>
+<tr><td>B</td><td>0.028</td></tr>
+<tr><td>C</td><td>0.190</td></tr>
+<tr><td>D</td><td>0.350</td></tr>
+<tr><td>E</td><td>0.110</td></tr>
+<tr><td>F</td><td>0.420</td></tr>
+</tbody>
+</table>
+
+<p>A has the smallest qualifying p-value, so A enters:</p>
+<span class="equation">Model 1: Y = β₀ + A</span>
+
+<div class="callout">
+Validation has not chosen A. A entered because of the forward stepwise significance rule.
+</div>
+
+<h4>Step 2 — choose the next term conditional on A</h4>
+<p>Minitab compares A+B, A+C, A+D, A+E, and A+F.</p>
+
+<table>
+<thead><tr><th>Candidate addition</th><th>Entry p-value given A</th></tr></thead>
+<tbody>
+<tr><td>B</td><td><strong>0.004</strong></td></tr>
+<tr><td>C</td><td>0.080</td></tr>
+<tr><td>D</td><td>0.310</td></tr>
+<tr><td>E</td><td>0.160</td></tr>
+<tr><td>F</td><td>0.270</td></tr>
+</tbody>
+</table>
+
+<p>B enters:</p>
+<span class="equation">Model 2: Y = β₀ + A + B</span>
+
+<h4>Step 3 — continue from A+B</h4>
+<p>Minitab tests A+B+C, A+B+D, A+B+E, and A+B+F. Suppose C enters:</p>
+<span class="equation">Model 3: Y = β₀ + A + B + C</span>
+
+<h4>Step 4 and beyond</h4>
+<p>Suppose D enters next, followed by E:</p>
+<p><code>Intercept → A → A+B → A+B+C → A+B+C+D → A+B+C+D+E</code></p>
+
+<p>
+That entire sequence is created by the forward-selection rule.
+It is only one path through the possible model space.
+</p>
+
+<h3>6.3 Job 2 — evaluate each completed model using validation data</h3>
+
+<table>
+<thead><tr><th>Step</th><th>Model</th><th>Validation RMSE</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>Intercept only</td><td>18.4</td></tr>
+<tr><td>1</td><td>A</td><td>12.9</td></tr>
+<tr><td>2</td><td>A+B</td><td>8.7</td></tr>
+<tr><td>3</td><td>A+B+C</td><td><strong>6.8</strong></td></tr>
+<tr><td>4</td><td>A+B+C+D</td><td>7.5</td></tr>
+<tr><td>5</td><td>A+B+C+D+E</td><td>8.4</td></tr>
+</tbody>
+</table>
+
+<p>
+Although D and E were statistically eligible to enter along the forward path,
+the three-predictor model A+B+C has the lowest validation RMSE.
+Therefore, the preferred model size is Step 3:
+</p>
+
+<span class="equation">Selected model: Y = β₀ + A + B + C</span>
+
+<h3>6.4 What Minitab is not doing</h3>
+<p>Minitab is not performing this brute-force loop:</p>
+
+<div class="callout critical">
+Try every possible equation → calculate validation error → add whichever term improves validation most → repeat.
+</div>
+
+<p>Instead, it performs:</p>
+
+<div class="callout good">
+Forward significance selection → create one ordered sequence → calculate validation performance for each step → choose the best stopping point.
+</div>
+
+<h3>6.5 Why this is not Best Subsets</h3>
+<p>With six predictors, there are:</p>
+<span class="equation">2⁶ − 1 = 63 possible non-empty subsets</span>
+
+<p>
+Forward Selection with Validation does not test all 63 subsets.
+It may evaluate only the six nested models on its selected path.
+A strong model such as A+C+E can be missed if B entered earlier and the path never visits A+C+E.
+</p>
+
+<h3>6.6 Why validation does not choose the next term</h3>
+<p>Validation results contain sampling noise. Suppose:</p>
+
+<table>
+<thead><tr><th>Candidate</th><th>Entry p-value</th><th>Validation RMSE</th></tr></thead>
+<tbody>
+<tr><td>A</td><td><strong>0.0001</strong></td><td>8.72</td></tr>
+<tr><td>B</td><td>0.0800</td><td><strong>8.70</strong></td></tr>
+</tbody>
+</table>
+
+<p>
+The RMSE difference of 0.02 may be random.
+If the software repeatedly chased tiny validation improvements,
+it could overfit the validation sample.
+Separating entry selection from model-size validation reduces that risk.
+</p>
+
+<div class="callout good">
+<strong>Mental model:</strong> “Forward Selection first, Validation second.”
+</div>
+</section>
+
+
+<section id="best-subsets">
+<h2>7. Best Subsets Regression</h2>
+
+<p class="lead">
+Best Subsets Regression evaluates many or all combinations of predictors and identifies the strongest candidate model
+for each model size.
+</p>
+
+<h3>7.1 Minitab path</h3>
+<p><code>Stat → Regression → Regression → Best Subsets</code></p>
+
+<h3>7.2 How it works with six predictors</h3>
+<p>For six candidate predictors, the number of non-empty subsets is:</p>
+<span class="equation">2⁶ − 1 = 63 models</span>
+
+<table>
+<thead><tr><th>Model size</th><th>Number of possible models</th></tr></thead>
+<tbody>
+<tr><td>1 predictor</td><td>6</td></tr>
+<tr><td>2 predictors</td><td>15</td></tr>
+<tr><td>3 predictors</td><td>20</td></tr>
+<tr><td>4 predictors</td><td>15</td></tr>
+<tr><td>5 predictors</td><td>6</td></tr>
+<tr><td>6 predictors</td><td>1</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>63</strong></td></tr>
+</tbody>
+</table>
+
+<h3>7.3 Why it differs from forward selection</h3>
+<div class="grid">
+<div class="card">
+<h4>Forward Selection</h4>
+<p>Follows one path:</p>
+<p><code>A → A+B → A+B+C → A+B+C+D</code></p>
+<p>It does not revisit every alternative subset of the same size.</p>
+</div>
+<div class="card">
+<h4>Best Subsets</h4>
+<p>Compares competing combinations:</p>
+<p><code>A+B+C</code>, <code>A+B+D</code>, <code>A+C+D</code>, and so on.</p>
+<p>It is much more exhaustive for a moderate number of predictors.</p>
+</div>
+</div>
+
+<h3>7.4 What “best” means</h3>
+<p>Minitab commonly compares models using:</p>
+<ul>
+<li>R²</li>
+<li>Adjusted R²</li>
+<li>Predicted R²</li>
+<li>Mallows’ C<sub>p</sub></li>
+<li>S, the residual standard deviation</li>
+</ul>
+
+<div class="callout warning">
+The model with the highest ordinary R² is usually the largest model, because R² never decreases when predictors are added.
+Do not select a model from R² alone.
+</div>
+
+<h3>7.5 Model count calculator</h3>
+<div class="tool">
+<label for="pcount">Number of candidate predictors</label>
+<input id="pcount" type="number" min="1" max="30" value="6">
+<button type="button" onclick="calcModels()">Calculate possible non-empty subsets</button>
+<div id="modelResult" class="result">For 6 predictors: 63 possible non-empty models.</div>
+</div>
+
+<h3>7.6 When Best Subsets is useful</h3>
+<ul>
+<li>You have a moderate number of candidate predictors.</li>
+<li>You want to compare alternative models of the same size.</li>
+<li>You want a transparent shortlist rather than one automatic final answer.</li>
+<li>You plan to use engineering judgment after statistical screening.</li>
+</ul>
+
+<h3>7.7 Limitations</h3>
+<ul>
+<li>The search grows exponentially as predictors increase.</li>
+<li>Searching many models increases the chance of finding patterns that do not reproduce.</li>
+<li>Results can be unstable with correlated predictors.</li>
+<li>Best Subsets does not replace residual analysis, validation, or subject-matter judgment.</li>
+</ul>
+
+<h3>7.8 Best Subsets and interaction terms</h3>
+
+<div class="callout critical">
+<strong>Major limitation to understand:</strong> Best Subsets Regression does not automatically create interaction terms.
+It only searches among the numeric predictor columns that you supply.
+</div>
+
+<h4>What Minitab can and cannot see</h4>
+
+<p>Suppose your worksheet contains only three predictors:</p>
+
+<p><code>A</code>, <code>B</code>, and <code>C</code></p>
+
+<p>Then Best Subsets can compare models such as:</p>
+
+<ul>
+<li><code>A</code></li>
+<li><code>B</code></li>
+<li><code>C</code></li>
+<li><code>A + B</code></li>
+<li><code>A + C</code></li>
+<li><code>B + C</code></li>
+<li><code>A + B + C</code></li>
+</ul>
+
+<p>It cannot automatically evaluate:</p>
+
+<ul>
+<li><code>A × B</code></li>
+<li><code>A × C</code></li>
+<li><code>B × C</code></li>
+<li><code>A²</code></li>
+<li><code>B²</code></li>
+<li><code>C²</code></li>
+</ul>
+
+<p>
+Those terms do not exist from Best Subsets’ point of view unless you first create them as separate worksheet columns.
+</p>
+
+<div class="callout">
+<strong>Mental model:</strong> Best Subsets searches the columns you give it. It does not invent new terms.
+</div>
+
+<h4>Example engineering situation</h4>
+
+<p>Suppose:</p>
+
+<ul>
+<li>A = Carbon content</li>
+<li>B = Cooling rate</li>
+<li>C = Thickness</li>
+<li>Y = Tensile strength</li>
+</ul>
+
+<p>
+Engineering knowledge suggests that the effect of cooling rate changes with carbon content.
+The intended model includes an interaction:
+</p>
+
+<span class="equation">
+Y = β₀ + β₁A + β₂B + β₃C + β₁₂(A×B)
+</span>
+
+<p>
+If the worksheet contains only A, B, and C, Best Subsets will never evaluate the A×B interaction.
+The interaction is invisible until you create it as its own column.
+</p>
+
+<h4>How to create interaction columns in Minitab</h4>
+
+<div class="steps">
+<div class="step">
+Go to <code>Calc → Calculator</code>.
+</div>
+<div class="step">
+In <strong>Store result in variable</strong>, enter a new worksheet column name such as <code>A_B</code>.
+</div>
+<div class="step">
+In <strong>Expression</strong>, enter <code>A * B</code>.
+</div>
+<div class="step">
+Click <strong>OK</strong>.
+</div>
+<div class="step">
+Repeat for any additional interactions you want to evaluate, such as <code>A_C = A*C</code> and <code>B_C = B*C</code>.
+</div>
+</div>
+
+<h4>Worksheet structure after creating interactions</h4>
+
+<table>
+<thead>
+<tr><th>Response</th><th>Main-effect columns</th><th>Interaction columns</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>Y</td>
+<td>A, B, C</td>
+<td>A_B, A_C, B_C</td>
+</tr>
+</tbody>
+</table>
+
+<p>Now Best Subsets can compare models containing any of the supplied columns, including:</p>
+
+<ul>
+<li><code>A + B + A_B</code></li>
+<li><code>A + C + A_C</code></li>
+<li><code>B + C + B_C</code></li>
+<li><code>A + B + C + A_B</code></li>
+<li><code>A + B + C + A_B + A_C</code></li>
+</ul>
+
+<h4>How to set up Best Subsets</h4>
+
+<div class="steps">
+<div class="step">
+Go to <code>Stat → Regression → Regression → Best Subsets</code>.
+</div>
+<div class="step">
+Place Y in <strong>Response</strong>.
+</div>
+<div class="step">
+Place the main-effect columns and the manually created interaction columns in the predictor list.
+</div>
+<div class="step">
+Run the analysis and compare the leading models using predicted R², adjusted R², S, and Mallows’ C<sub>p</sub>.
+</div>
+</div>
+
+<h3>7.9 The hierarchy principle</h3>
+
+<p>
+Best Subsets treats an interaction column as an ordinary numeric predictor.
+It does not automatically understand that <code>A_B</code> represents A×B or that A and B should accompany it.
+</p>
+
+<p>This means Best Subsets can return a mathematically possible but structurally undesirable model such as:</p>
+
+<div class="callout critical">
+<code>Y = β₀ + β₁(A×B)</code>
+</div>
+
+<p>In most engineering and statistical applications, prefer the hierarchical form:</p>
+
+<div class="callout good">
+<code>Y = β₀ + β₁A + β₂B + β₃(A×B)</code>
+</div>
+
+<p>
+This is called the <strong>principle of hierarchy</strong>.
+When an interaction is retained, the associated lower-order main effects should ordinarily remain in the model.
+</p>
+
+<h4>Why hierarchy matters</h4>
+
+<ul>
+<li>The interaction describes how the effect of A changes with B.</li>
+<li>Without A and B, the coefficient of A×B becomes difficult to interpret.</li>
+<li>Dropping the main effects can make the result depend strongly on how the variables are centered or coded.</li>
+<li>Hierarchical models are usually easier to communicate and defend scientifically.</li>
+</ul>
+
+<h4>Example interpretation</h4>
+
+<p>For the hierarchical model:</p>
+
+<span class="equation">
+Y = β₀ + β₁A + β₂B + β₃(A×B)
+</span>
+
+<p>The effect of A is not just β₁. It depends on B:</p>
+
+<span class="equation">
+Effect of A = β₁ + β₃B
+</span>
+
+<p>Similarly, the effect of B depends on A:</p>
+
+<span class="equation">
+Effect of B = β₂ + β₃A
+</span>
+
+<div class="callout warning">
+Because the main effects are conditional when an interaction is present, interpret them at meaningful reference values.
+Centering continuous predictors before creating interaction columns often makes the coefficients easier to interpret.
+</div>
+
+<h3>7.10 Creating polynomial terms for Best Subsets</h3>
+
+<p>
+The same limitation applies to curvature.
+Best Subsets does not automatically create squared or cubic terms.
+If you want it to consider a quadratic effect of A, first create:
+</p>
+
+<p><code>A_sq = A * A</code></p>
+
+<p>Then supply both <code>A</code> and <code>A_sq</code> as candidate predictors.</p>
+
+<p>Respect polynomial hierarchy as well:</p>
+
+<div class="callout good">
+If <code>A²</code> is retained, ordinarily retain <code>A</code>.
+</div>
+
+<h3>7.11 Recommended Best Subsets workflow with interactions</h3>
+
+<div class="steps">
+<div class="step">
+Use engineering knowledge, prior studies, process maps, or DOE principles to identify plausible interactions and curved terms.
+</div>
+<div class="step">
+Create those interaction and polynomial columns using <code>Calc → Calculator</code>.
+</div>
+<div class="step">
+Run Best Subsets using the main effects and the manually created derived terms.
+</div>
+<div class="step">
+Review the strongest candidate models, but reject nonhierarchical combinations unless there is a compelling technical reason.
+</div>
+<div class="step">
+Rebuild the chosen candidate in <code>Fit Regression Model</code>.
+</div>
+<div class="step">
+Check hierarchy, VIF, residual plots, influential observations, predicted R², and engineering plausibility.
+</div>
+<div class="step">
+Validate the final model on new or held-out data before using it for decisions or prediction.
+</div>
+</div>
+
+<div class="callout good">
+<strong>Best practice:</strong> use Best Subsets to generate candidate models, then finalize the model in Fit Regression Model,
+where you can explicitly control main effects, interactions, polynomial terms, hierarchy, diagnostics, and interpretation.
+</div>
+
+<h3>7.12 Best method when your model contains interaction terms</h3>
+
+<p class="lead">
+Best Subsets is useful for comparing prepared predictor columns, but when your analysis contains several interaction terms,
+categorical factors, or polynomial terms, <strong>Fit Regression Model</strong> is usually the better Minitab workflow.
+It can generate model terms automatically and can protect model hierarchy during selection.
+</p>
+
+<h4>Why Best Subsets becomes awkward with many interactions</h4>
+
+<p>
+Suppose your candidate terms are:
+</p>
+
+<p><code>A</code>, <code>B</code>, <code>C</code>, <code>A_B</code>, <code>A_C</code>, and <code>B_C</code>.</p>
+
+<p>
+Best Subsets treats all six worksheet columns as unrelated numeric predictors.
+It does not inherently understand that <code>A_B</code> represents A×B.
+Therefore, it can select:
+</p>
+
+<div class="callout critical">
+<code>Y = β₀ + β₁₂(A×B)</code>
+</div>
+
+<p>
+without selecting A or B. That model is mathematically estimable, but it is normally undesirable because it violates hierarchy
+and makes the interaction difficult to interpret.
+</p>
+
+<h4>Recommended approach: Fit Regression Model</h4>
+
+<p><strong>Minitab path:</strong></p>
+
+<p><code>Stat → Regression → Regression → Fit Regression Model</code></p>
+
+<div class="steps">
+<div class="step">
+Place the response variable in <strong>Response</strong>.
+For example, use <code>Tensile_Strength_MPa</code>.
+</div>
+
+<div class="step">
+Place the continuous predictors in <strong>Continuous predictors</strong>.
+For example, use Carbon, Rolling Temperature, Cooling Rate, and Thickness.
+</div>
+
+<div class="step">
+Place categorical predictors, such as grade, rolling practice, production line, or furnace, in the appropriate categorical or factor field.
+Do not manually multiply text-coded categories to create interaction columns.
+</div>
+
+<div class="step">
+Click <strong>Model...</strong>.
+</div>
+
+<div class="step">
+Highlight the predictors that should participate in the interaction structure.
+</div>
+
+<div class="step">
+Choose <strong>Interactions through order 2</strong> to generate all two-way interactions among the selected predictors.
+</div>
+
+<div class="step">
+Click <strong>Add</strong>.
+Minitab adds the requested main effects and interaction terms to the model specification.
+</div>
+
+<div class="step">
+Return to the main dialog and click <strong>Stepwise...</strong> if automatic term selection is required.
+</div>
+
+<div class="step">
+Choose Stepwise, Forward Selection, Backward Elimination, Forward Information Criteria,
+or Forward Selection with Validation, depending on your modeling purpose.
+</div>
+
+<div class="step">
+Use the hierarchy controls so lower-order terms remain whenever a higher-order interaction or polynomial term is retained.
+</div>
+</div>
+
+<h4>What Minitab creates automatically</h4>
+
+<p>
+If A, B, and C are selected and you request interactions through order 2,
+Minitab can generate the following terms within the model:
+</p>
+
+<ul>
+<li><code>A</code></li>
+<li><code>B</code></li>
+<li><code>C</code></li>
+<li><code>A*B</code></li>
+<li><code>A*C</code></li>
+<li><code>B*C</code></li>
+</ul>
+
+<p>
+You do not have to create separate worksheet columns for A×B, A×C, and B×C when using Fit Regression Model.
+</p>
+
+<h4>How hierarchy protects the model</h4>
+
+<p>
+Suppose the selection procedure retains:
+</p>
+
+<p><code>A*B</code></p>
+
+<p>With hierarchy enforced, Minitab also retains:</p>
+
+<ul>
+<li><code>A</code></li>
+<li><code>B</code></li>
+</ul>
+
+<p>The resulting structure is:</p>
+
+<span class="equation">
+Y = β₀ + β₁A + β₂B + β₃(A×B)
+</span>
+
+<p>
+This is easier to interpret, more stable under recoding or centering, and usually more defensible scientifically.
+</p>
+
+<h4>Example with engineering variables</h4>
+
+<p>Suppose:</p>
+
+<ul>
+<li>A = Carbon content</li>
+<li>B = Cooling rate</li>
+<li>C = Thickness</li>
+<li>Y = Tensile strength</li>
+</ul>
+
+<p>Requesting two-way interactions produces:</p>
+
+<ul>
+<li>Carbon</li>
+<li>Cooling Rate</li>
+<li>Thickness</li>
+<li>Carbon × Cooling Rate</li>
+<li>Carbon × Thickness</li>
+<li>Cooling Rate × Thickness</li>
+</ul>
+
+<p>
+If Carbon × Cooling Rate is retained, hierarchy keeps both Carbon and Cooling Rate in the model.
+The interaction then means that the effect of cooling rate depends on carbon content.
+</p>
+
+<h4>Best Subsets versus Fit Regression Model for interactions</h4>
+
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Best Subsets</th>
+<th>Fit Regression Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Creates interaction terms automatically</td>
+<td>No</td>
+<td>Yes, through the Model dialog</td>
+</tr>
+<tr>
+<td>Requires manual worksheet interaction columns</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Understands the parent main effects of an interaction</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Can enforce hierarchy</td>
+<td>Not inherently</td>
+<td>Yes, through hierarchy controls</td>
+</tr>
+<tr>
+<td>Handles categorical-factor interactions naturally</td>
+<td>Awkward and error-prone</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Best use</td>
+<td>Compare prepared subsets of mainly main-effect predictors</td>
+<td>Build structured engineering models with interactions and curvature</td>
+</tr>
+</tbody>
+</table>
+
+<h4>When to use Best Subsets</h4>
+
+<ul>
+<li>You mainly have continuous main-effect predictors.</li>
+<li>You want to compare many competing subsets of a moderate predictor set.</li>
+<li>You have only a few carefully prepared derived terms.</li>
+<li>You are willing to manually review hierarchy afterward.</li>
+</ul>
+
+<h4>When to use Fit Regression Model</h4>
+
+<ul>
+<li>You have several interaction terms.</li>
+<li>You need to preserve hierarchy.</li>
+<li>You have categorical factors.</li>
+<li>You are analyzing DOE, response-surface, or structured engineering models.</li>
+<li>You want Minitab to create interaction and polynomial terms automatically.</li>
+<li>You plan to use a stepwise method while maintaining model structure.</li>
+</ul>
+
+<h4>Recommended engineering workflow</h4>
+
+<div class="steps">
+<div class="step">
+Use process knowledge to identify plausible main effects, interactions, and curved terms.
+</div>
+
+<div class="step">
+Open <code>Fit Regression Model</code> and define the response, continuous predictors, and categorical factors.
+</div>
+
+<div class="step">
+Use the <strong>Model</strong> dialog to generate the required interaction and polynomial terms.
+</div>
+
+<div class="step">
+Apply hierarchy so interactions retain their component main effects and squared terms retain their linear terms.
+</div>
+
+<div class="step">
+If screening is necessary, use Stepwise, Forward Selection, Forward Information Criteria,
+or Forward Selection with Validation within the structured model.
+</div>
+
+<div class="step">
+Refit and review the selected model using coefficient tables, VIF, residual plots, influential-observation diagnostics,
+adjusted R², predicted R², and validation performance.
+</div>
+
+<div class="step">
+Confirm that the selected interactions make physical and process sense before using the model for optimization or prediction.
+</div>
+</div>
+
+<div class="callout good">
+<strong>Practical rule:</strong> Best Subsets is excellent for comparing prepared subsets.
+Fit Regression Model is usually better for building and selecting models that contain many interactions,
+categorical factors, or polynomial terms.
+</div>
+
+
+</section>
+
+<section id="nonlinear">
+<h2>8. Nonlinear Regression</h2>
+
+<p class="lead">
+Nonlinear Regression is used when the expected response follows a known equation that is nonlinear in its unknown parameters.
+</p>
+
+<h3>8.1 Minitab path</h3>
+<p><code>Stat → Regression → Nonlinear Regression</code></p>
+
+<h3>8.2 Curved does not automatically mean nonlinear</h3>
+<table>
+<thead><tr><th>Model</th><th>Curved?</th><th>Linear in parameters?</th><th>Minitab tool</th></tr></thead>
+<tbody>
+<tr><td>Y = β₀ + β₁X</td><td>No</td><td>Yes</td><td>Fitted Line Plot or Fit Regression Model</td></tr>
+<tr><td>Y = β₀ + β₁X + β₂X²</td><td>Yes</td><td>Yes</td><td>Fitted Line Plot or Fit Regression Model</td></tr>
+<tr><td>Y = a·exp(bX)</td><td>Yes</td><td>No</td><td>Nonlinear Regression</td></tr>
+<tr><td>Y = aX/(b+X)</td><td>Yes</td><td>No</td><td>Nonlinear Regression</td></tr>
+</tbody>
+</table>
+
+<h3>8.3 Why Minitab asks for an expectation function</h3>
+<p>
+In Nonlinear Regression, you provide the scientific or engineering equation. Minitab then estimates the unknown parameters.
+Examples include:
+</p>
+
+<div class="grid">
+<div class="card">
+<h4>Exponential decay</h4>
+<span class="equation">C = C₀e<sup>−kt</sup></span>
+<p>Useful for chemical decay, cooling, and degradation.</p>
+</div>
+<div class="card">
+<h4>Saturating response</h4>
+<span class="equation">Y = aX/(b+X)</span>
+<p>Useful for rate processes that rise and level off.</p>
+</div>
+<div class="card">
+<h4>Logistic growth</h4>
+<span class="equation">Y = K/[1 + Ae<sup>−rt</sup>]</span>
+<p>Useful for S-shaped growth with a limiting capacity.</p>
+</div>
+<div class="card">
+<h4>Asymptotic rise</h4>
+<span class="equation">Y = a(1 − e<sup>−bX</sup>)</span>
+<p>Useful when the response approaches a maximum.</p>
+</div>
+</div>
+
+<h3>8.4 How nonlinear estimation works</h3>
+<div class="steps">
+<div class="step">Supply the response and nonlinear expectation function.</div>
+<div class="step">Provide starting values for the unknown parameters when required.</div>
+<div class="step">Minitab calculates predictions and residuals.</div>
+<div class="step">An iterative algorithm updates the parameter estimates.</div>
+<div class="step">The process repeats until the objective function changes negligibly or a stopping rule is reached.</div>
+</div>
+
+<h3>8.5 Risks and cautions</h3>
+<ul>
+<li>Poor starting values can prevent convergence or lead to an inferior local solution.</li>
+<li>Parameters may be highly correlated or weakly identified.</li>
+<li>The equation should have scientific meaning, not merely fit the current data.</li>
+<li>Extrapolation beyond the observed range can be especially dangerous.</li>
+</ul>
+</section>
+
+<section id="decision">
+<h2>9. Which method should I choose?</h2>
+
+<div class="tool">
+<label for="goal">What is your main situation?</label>
+<select id="goal" onchange="recommend()">
+<option value="one">One continuous predictor and one continuous response</option>
+<option value="specified">I already know the terms that belong in the model</option>
+<option value="screen">I have many candidate predictors and want automatic screening</option>
+<option value="all">I want to compare many alternative predictor combinations</option>
+<option value="predict">My main goal is prediction on new data</option>
+<option value="curve">The relationship is curved but polynomial terms are reasonable</option>
+<option value="physics">I have a known scientific equation with parameters inside exponents or denominators</option>
+<option value="binary">My response is pass/fail or yes/no</option>
+<option value="count">My response is a count</option>
+</select>
+<div id="recommendation" class="result"></div>
+</div>
+
+<table>
+<thead><tr><th>Your question</th><th>Recommended Minitab analysis</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>How does one X relate to one continuous Y?</td><td>Fitted Line Plot</td><td>Provides the clearest visual and simple regression output.</td></tr>
+<tr><td>What is the adjusted effect of several X variables?</td><td>Fit Regression Model, method None</td><td>Fits the model you specify.</td></tr>
+<tr><td>Which variables may be useful?</td><td>Stepwise, Forward, or Backward</td><td>Provides automatic screening.</td></tr>
+<tr><td>Which combinations are strongest?</td><td>Best Subsets</td><td>Compares alternative subsets across model sizes.</td></tr>
+<tr><td>Which model size predicts new data best?</td><td>Forward Selection with Validation</td><td>Uses validation to choose among models along the forward path.</td></tr>
+<tr><td>Is a curved polynomial relationship adequate?</td><td>Fitted Line Plot or Fit Regression Model</td><td>Polynomial regression is still linear in coefficients.</td></tr>
+<tr><td>What are the parameters in a known nonlinear equation?</td><td>Nonlinear Regression</td><td>Uses iterative estimation for nonlinear parameters.</td></tr>
+<tr><td>Is the response yes/no?</td><td>Binary Logistic Regression</td><td>Models probability rather than an unbounded continuous response.</td></tr>
+<tr><td>Is the response an ordered category?</td><td>Ordinal Logistic Regression</td><td>Respects the order of categories.</td></tr>
+<tr><td>Is the response an unordered category?</td><td>Nominal Logistic Regression</td><td>Handles multiple unordered outcomes.</td></tr>
+<tr><td>Is the response a count?</td><td>Poisson Regression</td><td>Models count outcomes and rate structures.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="interpretation">
+<h2>10. How to interpret model-selection statistics</h2>
+
+<div class="kpi">
+<div><strong>R²</strong>Variation explained in the training data</div>
+<div><strong>Adjusted R²</strong>R² penalized for unnecessary predictors</div>
+<div><strong>Predicted R²</strong>Estimated performance on new observations</div>
+<div><strong>S</strong>Typical residual size in response units</div>
+</div>
+
+<h3>10.1 R²</h3>
+<p>
+R² measures the percentage of observed response variation explained by the fitted model.
+It never decreases when predictors are added, so it can reward unnecessary complexity.
+</p>
+
+<h3>10.2 Adjusted R²</h3>
+<p>
+Adjusted R² penalizes the addition of terms that do not improve the model enough.
+It is more useful than R² for comparing models with different numbers of predictors.
+</p>
+
+<h3>10.3 Predicted R²</h3>
+<p>
+Predicted R² estimates how well the model predicts observations that were not used to estimate the coefficients.
+A large gap between adjusted R² and predicted R² can indicate overfitting, influential observations, or instability.
+</p>
+
+<h3>10.4 Mallows’ C<sub>p</sub></h3>
+<p>
+A desirable candidate often has a relatively small C<sub>p</sub> that is close to the number of model parameters,
+including the intercept. C<sub>p</sub> should be interpreted alongside predicted R², S, residual plots, and subject-matter logic.
+</p>
+
+<h3>10.5 S</h3>
+<p>
+S is the residual standard deviation. It represents the typical distance between observed responses and fitted values,
+in the original units of the response.
+</p>
+
+<h3>10.6 P-values</h3>
+<p>
+A coefficient p-value tests whether the data provide evidence that the adjusted coefficient differs from zero,
+given the other terms in the current model. It does not establish causality, practical importance, or predictive value by itself.
+</p>
+
+<h3>10.7 VIF</h3>
+<p>
+Variance Inflation Factors diagnose multicollinearity. Large VIF values mean that a coefficient is being estimated
+with greater uncertainty because predictors overlap in the information they provide.
+</p>
+</section>
+
+<section id="workflow">
+<h2>11. Recommended practical workflow</h2>
+
+<div class="steps">
+<div class="step"><strong>Define the response and purpose.</strong> Is the goal explanation, prediction, optimization, or screening?</div>
+<div class="step"><strong>Confirm the response type.</strong> Continuous, binary, ordinal, nominal, or count?</div>
+<div class="step"><strong>Plot the data.</strong> Use scatterplots, matrix plots, time plots, and fitted line plots.</div>
+<div class="step"><strong>Use engineering knowledge.</strong> Identify required terms, likely interactions, physical bounds, and confounders.</div>
+<div class="step"><strong>Fit a reasonable full model.</strong> Review coefficient signs, p-values, VIF, residual plots, leverage, and influential points.</div>
+<div class="step"><strong>Use selection methods as screening tools.</strong> Compare Forward, Stepwise, Backward, and Best Subsets rather than blindly trusting one method.</div>
+<div class="step"><strong>Validate.</strong> Use validation data, predicted R², PRESS-type results, or cross-validation where available.</div>
+<div class="step"><strong>Choose the simplest defensible model.</strong> Prefer a model that is stable, interpretable, and nearly as predictive as larger alternatives.</div>
+<div class="step"><strong>Confirm assumptions.</strong> Linearity, constant variance, residual normality where relevant, independence, and absence of severe influence.</div>
+<div class="step"><strong>Document the final equation and its limits.</strong> State the data range, intended use, uncertainty, and conditions under which predictions are valid.</div>
+</div>
+</section>
+
+<section id="practice">
+<h2>12. Guided practice using the practice dataset</h2>
+
+<p class="lead">
+Download the practice dataset below and work through the exercises in Minitab. It is a fictitious steel-coil dataset with
+<strong>50 rows and 10 columns</strong>: an identifier, one response (Tensile Strength), and eight candidate predictors.
+It was built on purpose to contain useful predictors, one mostly irrelevant predictor, mild collinearity, a
+Carbon &times; Cooling&nbsp;Rate interaction, Rolling&nbsp;Temperature curvature, and random noise &mdash; so every selection
+method has something to reveal.
+</p>
+
+<p>
+<a class="btn btn-teal" style="display:inline-block;background:#0f6b78;color:#fff;padding:11px 18px;border-radius:10px;text-decoration:none;font-weight:600" href="/assets/lessons/choosing-the-right-regression-analysis-in-minitab/regression-practice-dataset.xlsx" download>&#8681; Download the practice dataset (Excel .xlsx)</a>
+</p>
+
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Column</th><th>Role</th><th>What it does in the data</th></tr></thead>
+<tbody>
+<tr><td>Coil ID</td><td>Identifier</td><td>Row label only &mdash; not a predictor.</td></tr>
+<tr><td>Tensile Strength (MPa)</td><td>Response (Y)</td><td>The variable you model and predict.</td></tr>
+<tr><td>Carbon (wt%)</td><td>Predictor</td><td>Strong, useful predictor.</td></tr>
+<tr><td>Manganese (wt%)</td><td>Predictor</td><td>Useful, but mildly collinear with Carbon.</td></tr>
+<tr><td>Rolling Temperature (&deg;C)</td><td>Predictor</td><td>Curved (quadratic) effect; strength peaks mid-range.</td></tr>
+<tr><td>Cooling Rate (&deg;C/s)</td><td>Predictor</td><td>Useful; interacts with Carbon.</td></tr>
+<tr><td>Thickness (mm)</td><td>Predictor</td><td>Useful; more thickness lowers strength.</td></tr>
+<tr><td>Furnace Time (min)</td><td>Predictor</td><td>Weak-to-moderate; mildly collinear with Rolling Temperature.</td></tr>
+<tr><td>Line Speed (m/min)</td><td>Predictor</td><td>Very weak effect.</td></tr>
+<tr><td>Ambient Humidity (%)</td><td>Predictor</td><td>Mostly irrelevant noise &mdash; a good test for selection methods.</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout">
+<strong>Before you start.</strong> The workbook has two tabs: <em>Practice Data</em> (load this into Minitab) and
+<em>Data Dictionary</em> (documents every column and the structure built into the data). When you choose predictors,
+ignore <strong>Coil ID</strong> &mdash; it is only a row label.
+</div>
+
+<h3>Exercise 1 &mdash; Eight Fitted Line Plots</h3>
+<p>Create Tensile Strength versus each candidate predictor separately. Record slope direction, R&sup2;, p-value, and any visual curvature. Expect Rolling Temperature to look curved and Ambient Humidity to look essentially flat.</p>
+
+<h3>Exercise 2 &mdash; Full multiple regression</h3>
+<p>
+Use <code>Fit Regression Model</code> with all eight candidate predictors and method <strong>None</strong>.
+Compare coefficient p-values, VIF (watch the Carbon/Manganese and Rolling&nbsp;Temperature/Furnace&nbsp;Time pairs),
+adjusted R&sup2;, predicted R&sup2;, and residual plots.
+</p>
+
+<h3>Exercise 3 — Forward Selection</h3>
+<p>
+Use alpha-to-enter = 0.15. Record the order in which variables enter.
+Then refit the final selected model using method None and inspect full diagnostics.
+</p>
+
+<h3>Exercise 4 — Stepwise</h3>
+<p>
+Use alpha-to-enter = 0.15 and alpha-to-remove = 0.15.
+Observe whether any variable enters and later leaves.
+</p>
+
+<h3>Exercise 5 — Backward Elimination</h3>
+<p>
+Start with all predictors. Record the removal order and compare the final model with Forward and Stepwise.
+</p>
+
+<h3>Exercise 6 — Forward Information Criteria</h3>
+<p>
+Compare the selected model with the p-value-based selections. Note whether a term is retained despite a p-value above 0.05.
+</p>
+
+<h3>Exercise 7 — Forward Selection with Validation</h3>
+<p>
+Split the data into training and validation samples. Confirm that the entry sequence follows the forward-selection path,
+while the validation statistic identifies the preferred step.
+</p>
+
+<h3>Exercise 8 &mdash; Best Subsets</h3>
+<p>
+Compare the best one- through eight-predictor models.
+Look for the smallest model with strong predicted R&sup2;, low S, and a reasonable C<sub>p</sub>.
+Confirm that Ambient Humidity is rarely selected.
+</p>
+
+<h3>Exercise 9 — Interaction</h3>
+<p>
+Fit Carbon, Cooling Rate, and Carbon × Cooling Rate. Interpret the interaction before interpreting the main effects.
+</p>
+
+<h3>Exercise 10 — Polynomial regression</h3>
+<p>
+Fit Rolling Temperature and Rolling Temperature². Compare residual plots and predicted R² against the straight-line model.
+</p>
+
+<h3>Exercise 11 — Nonlinear thought exercise</h3>
+<p>
+Suppose theory says strength approaches an upper limit according to
+<code>Strength = a*(1-exp(-b*CoolingRate))</code>.
+Explain why this belongs in Nonlinear Regression and what starting values for a and b would mean.
+</p>
+</section>
+
+<section id="excel">
+<h2>13. Excel companion functions</h2>
+
+<p>
+Minitab is the primary tool for this lesson, but Excel can reproduce or support several calculations.
+</p>
+
+<table>
+<thead><tr><th>Purpose</th><th>Excel function or tool</th><th>Comment</th></tr></thead>
+<tbody>
+<tr><td>Slope of simple regression</td><td><code>SLOPE(known_y, known_x)</code></td><td>Returns the fitted slope.</td></tr>
+<tr><td>Intercept</td><td><code>INTERCEPT(known_y, known_x)</code></td><td>Returns the fitted intercept.</td></tr>
+<tr><td>R²</td><td><code>RSQ(known_y, known_x)</code></td><td>Simple linear regression only.</td></tr>
+<tr><td>Regression coefficients and statistics</td><td><code>LINEST(...,TRUE,TRUE)</code></td><td>Supports multiple predictors and additional statistics.</td></tr>
+<tr><td>Prediction from a simple line</td><td><code>FORECAST.LINEAR(x, known_y, known_x)</code></td><td>Predicts Y for a given X.</td></tr>
+<tr><td>Correlation</td><td><code>CORREL(array1,array2)</code></td><td>Measures linear association, not adjusted regression effects.</td></tr>
+<tr><td>Full regression dialog</td><td>Data → Data Analysis → Regression</td><td>Requires the Analysis ToolPak.</td></tr>
+<tr><td>Polynomial terms</td><td>Create X², X³ columns</td><td>Then include them as predictors.</td></tr>
+<tr><td>Interaction term</td><td>Create X1*X2 column</td><td>Then include main effects and interaction.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="mistakes">
+<h2>14. Common mistakes and how to avoid them</h2>
+
+<details open>
+<summary>Mistake 1: Treating variable selection as proof</summary>
+<div class="inside">
+<p>Automatic selection is exploratory. It does not prove that selected terms are causal or that omitted variables are unimportant.</p>
+</div>
+</details>
+
+<details>
+<summary>Mistake 2: Believing forward selection searches every model</summary>
+<div class="inside">
+<p>Forward selection follows one path. Best Subsets is the more exhaustive procedure for moderate predictor counts.</p>
+</div>
+</details>
+
+<details>
+<summary>Mistake 3: Believing validation chooses the next variable in Minitab’s forward-validation method</summary>
+<div class="inside">
+<p>The forward stepwise rule determines the sequence. Validation chooses the preferred model size along that sequence.</p>
+</div>
+</details>
+
+<details>
+<summary>Mistake 4: Choosing the largest R²</summary>
+<div class="inside">
+<p>R² always favors larger models. Compare adjusted R², predicted R², S, C<sub>p</sub>, validation error, and practical simplicity.</p>
+</div>
+</details>
+
+<details>
+<summary>Mistake 5: Calling every curve “nonlinear regression”</summary>
+<div class="inside">
+<p>A polynomial curve is still linear regression if the unknown coefficients enter linearly.</p>
+</div>
+</details>
+
+<details>
+<summary>Mistake 6: Ignoring hierarchy</summary>
+<div class="inside">
+<p>If an interaction or squared term is included, retain the associated lower-order terms unless there is a strong, defensible reason not to.</p>
+</div>
+</details>
+
+<details>
+<summary>Mistake 7: Ignoring residual diagnostics</summary>
+<div class="inside">
+<p>A selected model can still violate assumptions, contain influential points, or show unmodeled curvature.</p>
+</div>
+</details>
+
+<details>
+<summary>Mistake 8: Extrapolating beyond the data</summary>
+<div class="inside">
+<p>Regression predictions outside the observed predictor range can be physically unrealistic and highly uncertain.</p>
+</div>
+</details>
+</section>
+
+<section id="predict">
+<h2>15. Predicting a response at specific predictor settings</h2>
+
+<p class="lead">
+Once you have chosen a model, a common next step is to predict the response at particular predictor values &mdash;
+for example, &ldquo;what tensile strength should I expect at these settings?&rdquo; You could substitute the values into the
+fitted equation by hand, but the reliable approach is to let Minitab predict from the <strong>stored model</strong>, because it
+also reports the uncertainty around the prediction. This section shows the official workflow, a worked example, and how to read
+the output.
+</p>
+
+<h3>15.1 First make sure the model is stored</h3>
+<p>
+Best Subsets Regression only <em>identifies</em> candidate models &mdash; it does not leave behind a fitted model that Minitab can
+predict from. So if you are working from Best Subsets, refit your chosen subset with <strong>Fit Regression Model</strong> first.
+</p>
+<p><code>Stat &rarr; Regression &rarr; Regression &rarr; Fit Regression Model</code></p>
+<div class="steps">
+  <div class="step">In the Best Subsets output, identify the model you selected using the <strong>X</strong> marks in its row.</div>
+  <div class="step">Enter your <strong>response</strong> (Y).</div>
+  <div class="step">Enter the <strong>selected predictors</strong> as continuous or categorical terms.</div>
+  <div class="step">Under <strong>Model</strong>, add the exact <strong>interaction</strong> and <strong>polynomial</strong> terms that the chosen subset includes.</div>
+  <div class="step">Check the residual plots and model assumptions, then click <strong>OK</strong>.</div>
+</div>
+<div class="callout good">
+This creates a <strong>stored regression model</strong>. Everything in the Predict step below uses that stored equation, so the model must exist before you can predict from it.
+</div>
+
+<h3>15.2 Predict the response</h3>
+<p><code>Stat &rarr; Regression &rarr; Regression &rarr; Predict</code></p>
+<div class="steps">
+  <div class="step">Select the response/model you just fitted.</div>
+  <div class="step">Choose <strong>Enter individual values</strong>.</div>
+  <div class="step">Enter the desired setting for <strong>every</strong> predictor in the model.</div>
+  <div class="step">Click <strong>Options</strong> and normally keep <strong>Confidence level 95%</strong> and <strong>Interval type: Two-sided</strong>.</div>
+  <div class="step">Click <strong>OK</strong>. Minitab uses the stored equation to calculate the prediction.</div>
+</div>
+<div class="callout">
+To predict at many settings at once, choose <strong>Enter columns of values</strong> instead and point Minitab at worksheet columns holding the predictor settings &mdash; it returns one prediction per row.
+</div>
+
+<h3>15.3 Worked example</h3>
+<p>Suppose your fitted equation is:</p>
+<span class="equation">&#375; = 10 + 2A &minus; 1.5B + 0.4(A &times; B)</span>
+<p>and you want the predicted response at <strong>A = 3</strong> and <strong>B = 4</strong>. Minitab computes:</p>
+<span class="equation">&#375; = 10 + 2(3) &minus; 1.5(4) + 0.4(3 &times; 4) = 10 + 6 &minus; 6 + 4.8 = 14.8</span>
+<p>So the predicted response is <span class="badge">&#375; = 14.8</span>.</p>
+
+<div class="callout warning">
+<strong>Entering interaction terms correctly.</strong>
+If <code>A&times;B</code> was added through the <strong>Model</strong> dialog, enter only <strong>A = 3</strong> and <strong>B = 4</strong> &mdash; Minitab computes the interaction for you.
+If instead you built an <code>A_B</code> worksheet column manually <em>before</em> running Best Subsets, Minitab will ask for that column too, and you must enter its value yourself:
+</div>
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Predictor</th><th>Value to enter</th></tr></thead>
+<tbody>
+<tr><td>A</td><td>3</td></tr>
+<tr><td>B</td><td>4</td></tr>
+<tr><td>A_B</td><td>3 &times; 4 = 12</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>15.4 Understanding the prediction output</h3>
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Output</th><th>What it means</th></tr></thead>
+<tbody>
+<tr><td><strong>Fit</strong></td><td>The best point estimate of the response at those settings.</td></tr>
+<tr><td><strong>SE Fit</strong></td><td>The uncertainty in that estimated <em>mean</em> response.</td></tr>
+<tr><td><strong>95% CI</strong></td><td>A range for the <em>average</em> response at those settings.</td></tr>
+<tr><td><strong>95% PI</strong></td><td>A range for a single <em>individual</em> future result at those settings.</td></tr>
+</tbody>
+</table>
+</div>
+<p>For our example the output might read:</p>
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Fit</th><th>95% CI</th><th>95% PI</th></tr></thead>
+<tbody>
+<tr><td>14.8</td><td>13.9 &ndash; 15.7</td><td>11.2 &ndash; 18.4</td></tr>
+</tbody>
+</table>
+</div>
+<p>Read that as:</p>
+<ul>
+<li>The estimated <strong>average</strong> response at these settings is <strong>14.8</strong>.</li>
+<li>That average is likely between <strong>13.9 and 15.7</strong> (the 95% confidence interval).</li>
+<li>One <strong>new</strong> result could reasonably fall between <strong>11.2 and 18.4</strong> (the 95% prediction interval).</li>
+</ul>
+
+<div class="callout good">
+<strong>Confidence interval vs. prediction interval.</strong>
+When you care about a <em>single</em> future coil, heat, slab, or test result, the <strong>prediction interval</strong> is the one that matters. It is wider than the confidence interval because an individual outcome carries more variation than an estimated average.
+</div>
+
+<h3>15.5 A caution on extrapolation</h3>
+<div class="callout critical">
+Avoid predicting far <strong>outside</strong> the predictor ranges used to build the model. Minitab may flag such settings as <strong>unusual</strong> (an <code>X</code> in the output), and extrapolated predictions can be unreliable because the fitted relationship was never verified in that region.
+</div>
+<div class="callout">
+<strong>Exam tip (CSSBB/CQE).</strong> Be ready to distinguish the confidence interval for the <em>mean</em> response from the prediction interval for an <em>individual</em> value, and to pick the prediction interval when a question asks about one future outcome. Knowing the Predict menu path and that interactions/polynomials must be present in the stored model is frequently tested in applied items.
+</div>
+</section>
+
+<section id="summary">
+<h2>16. Final summary</h2>
+
+<table>
+<thead><tr><th>Method</th><th>Best concise description</th></tr></thead>
+<tbody>
+<tr><td>Fitted Line Plot</td><td>Visual simple regression for one continuous X and one continuous Y.</td></tr>
+<tr><td>Fit Regression Model — None</td><td>Fits exactly the linear model you specify.</td></tr>
+<tr><td>Forward Selection</td><td>Adds qualifying predictors one at a time and usually does not remove them.</td></tr>
+<tr><td>Backward Elimination</td><td>Starts full and removes weak terms.</td></tr>
+<tr><td>Stepwise</td><td>Allows predictors to enter and leave according to significance rules.</td></tr>
+<tr><td>Forward Information Criteria</td><td>Adds predictors according to a fit-versus-complexity criterion.</td></tr>
+<tr><td>Forward Selection with Validation</td><td>Builds one forward path, then uses validation to select the preferred step.</td></tr>
+<tr><td>Best Subsets</td><td>Compares many or all predictor combinations and presents leading models by size.</td></tr>
+<tr><td>Nonlinear Regression</td><td>Fits a user-specified scientific equation that is nonlinear in its parameters.</td></tr>
+</tbody>
+</table>
+
+<div class="callout good">
+<strong>Best overall principle:</strong> use selection procedures to generate candidate models, not to replace engineering judgment.
+The final model should be statistically sound, physically credible, interpretable, stable, validated, and appropriate for the intended decision.
+</div>
+</section>
+
+  </main>
+</div>
+
+<div class="footer">
+  <p>Lesson: <strong>Choosing the Right Regression Analysis in Minitab</strong></p>
+</div>
+
+<script>
+function calcModels(){
+  const p = Number(document.getElementById('pcount').value);
+  const out = document.getElementById('modelResult');
+  if(!Number.isFinite(p) || p < 1 || p > 30){
+    out.textContent = 'Enter a whole number from 1 to 30.';
+    return;
+  }
+  const total = Math.pow(2,p)-1;
+  out.innerHTML = `For <strong>${p}</strong> predictors: <strong>${total.toLocaleString()}</strong> possible non-empty subsets.`;
+}
+function recommend(){
+  const v = document.getElementById('goal').value;
+  const map = {
+    one: '<strong>Use Fitted Line Plot.</strong> It gives the clearest visual and simple regression output for one X and one Y.',
+    specified: '<strong>Use Fit Regression Model with Method = None.</strong> This preserves your predefined engineering model.',
+    screen: '<strong>Use Stepwise, Forward Selection, or Backward Elimination.</strong> Treat the result as screening, then refit and validate.',
+    all: '<strong>Use Best Subsets Regression.</strong> It compares competing predictor combinations rather than following one path.',
+    predict: '<strong>Use Forward Selection with Validation or another validated modeling workflow.</strong> Remember: the forward rule builds the path; validation chooses the preferred step.',
+    curve: '<strong>Use Fitted Line Plot or Fit Regression Model with polynomial terms.</strong> A curved polynomial model is still linear regression.',
+    physics: '<strong>Use Nonlinear Regression.</strong> Supply the scientific expectation function and suitable starting values.',
+    binary: '<strong>Use Binary Logistic Regression.</strong> A continuous linear model is not appropriate for a yes/no response.',
+    count: '<strong>Use Poisson Regression.</strong> This is designed for count or rate responses.'
+  };
+  document.getElementById('recommendation').innerHTML = map[v];
+}
+recommend();
+</script>
+
+<style id="uss-quiz-style">
+.uss-tail{max-width:900px;margin:0 auto;padding:0 20px}
+.quiz-section{margin:34px auto 8px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-head h3{margin:0 0 4px}
+.quiz-head p{margin:0 0 6px;color:#586575;font-size:14.5px}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+.lesson-backlink{margin:26px auto;text-align:left}
+.lesson-backlink a{color:#1f4e78;font-weight:600;text-decoration:none;font-size:15px}
+.lesson-backlink a:hover{text-decoration:underline}
+</style>
+
+<section class="uss-tail quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz" id="lesson-quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer for each question, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form" class="quiz-body">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Fitted Line Plot is built for one continuous predictor and one continuous response; it cannot adjust for other predictors, so use Fit Regression Model when several predictors matter.">
+        <legend>1. When is Fitted Line Plot the right choice?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> When you have several predictors and want automatic selection</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> When you have one continuous X and one continuous Y</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> When the response is a yes/no outcome</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Selecting None in the Stepwise dialog tells Minitab to fit exactly the model you specified, with no automatic entry or removal of terms.">
+        <legend>2. In Fit Regression Model, what does choosing &ldquo;None&rdquo; in the Stepwise dialog do?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> Runs Best Subsets across all predictors</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> Removes the least significant term automatically</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> Fits exactly the model you specified, with no automatic selection</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="The forward stepwise significance rule builds one nested path of models; validation does not choose which term enters next&mdash;it identifies the preferred step or model size along that path.">
+        <legend>3. In Forward Selection with Validation, what primarily determines which term enters next?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> The forward stepwise significance rule</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> The largest validation improvement among every possible equation</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> The highest simple correlation with the response</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Best Subsets only searches the worksheet columns you supply, so interaction terms such as A&times;B are not created automatically&mdash;you must build the column or use Fit Regression Model to generate interactions.">
+        <legend>4. How does Best Subsets handle interaction terms?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> It automatically tests every two-way interaction</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> It does not create them; you must supply the interaction column yourself</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> It refuses to run if interactions are present</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Curvature alone does not require Nonlinear Regression. Use ordinary regression with polynomial terms for curves; reserve Nonlinear Regression for equations that are nonlinear in their parameters, such as Y = a&middot;exp(bX).">
+        <legend>5. When do you actually need Nonlinear Regression rather than ordinary regression?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> Whenever the relationship looks curved on a scatterplot</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> Whenever you add an X&sup2; term</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> When the scientific equation is nonlinear in its unknown parameters</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="A yes/no response calls for Binary Logistic Regression, and a count response calls for Poisson Regression; an ordinary linear model is not appropriate for either.">
+        <legend>6. Which method fits a yes/no (pass/fail) response?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> Binary Logistic Regression</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> Fitted Line Plot</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> Nonlinear Regression</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+<section class="uss-tail lesson-backlink" aria-label="Return to lesson category"><a href="/lessons#statistics">&larr; Back to Statistics lessons</a></section>
+
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) {
+        unanswered++;
+        if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; }
+        return;
+      }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) {
+        fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad');
+        fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || '');
+      }
+    });
+    if (result) {
+      result.className = 'quiz-result show';
+      result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : '');
+    }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+
+
+<style id="uss-dark-overrides">
+/* Dark-mode legibility overrides for this self-styled lesson.
+   Surface/text vars are darkened; accent hues (navy/teal) are kept so the
+   hero gradient stays dark. Placed last so it wins equal-specificity ties. */
+html[data-theme="dark"]{
+  --light:#182635; --lighter:#15212e; --white:#141f2b;
+  --ink:#e7eef4; --muted:#a7b7c6; --line:#2b3b4c;
+  --shadow:0 10px 28px rgba(0,0,0,.5);
+}
+html[data-theme="dark"] body{ background:#0c1622; color:var(--ink); }
+html[data-theme="dark"] section{ background:#131f2c; border-color:#243546; }
+html[data-theme="dark"] .sidebar{ background:#131f2c; border-color:#243546; }
+html[data-theme="dark"] .sidebar h3{ color:#dbe8f2; }
+html[data-theme="dark"] .sidebar a{ color:#c3d3e1; }
+html[data-theme="dark"] .sidebar a:hover{ background:#1c2a39; color:#fff; }
+html[data-theme="dark"] h2{ color:#dbe8f2; }
+html[data-theme="dark"] h3{ color:#8ec3ea; }
+html[data-theme="dark"] h4{ color:#5cc7d6; }
+html[data-theme="dark"] a{ color:#8ec3ea; }
+html[data-theme="dark"] .lead{ color:#c3d3e1; }
+html[data-theme="dark"] .callout{ background:#15212e; }
+html[data-theme="dark"] .callout.warning{ background:#2a2413; }
+html[data-theme="dark"] .callout.critical{ background:#2c1717; }
+html[data-theme="dark"] .callout.good{ background:#13291f; }
+html[data-theme="dark"] .card{ background:#15212e; border-color:#243546; }
+html[data-theme="dark"] .badge{ background:#22384a; color:#dbe8f2; }
+html[data-theme="dark"] th{ background:#1f3a5c; color:#fff; }
+html[data-theme="dark"] td{ border-color:#243546; }
+html[data-theme="dark"] tr:nth-child(even) td{ background:#111c28; }
+html[data-theme="dark"] code, html[data-theme="dark"] .formula{ background:#0f1a26; color:#e7eef4; }
+html[data-theme="dark"] .equation{ background:#0f1a26; }
+html[data-theme="dark"] details{ background:#131f2c; }
+html[data-theme="dark"] summary{ color:#dbe8f2; }
+html[data-theme="dark"] .tool{ background:linear-gradient(180deg,#15212e,#0f1a26); }
+html[data-theme="dark"] .result{ background:#0f1a26; color:var(--ink); }
+html[data-theme="dark"] .kpi div{ background:#111c28; }
+html[data-theme="dark"] .kpi strong{ color:#dbe8f2; }
+html[data-theme="dark"] .step{ background:#111c28; }
+html[data-theme="dark"] .flow div{ background:#15212e; }
+/* comprehension quiz + back link */
+html[data-theme="dark"] .quiz{ background:#131f2c; border-color:#243546; }
+html[data-theme="dark"] .quiz-head p{ color:#a7b7c6; }
+html[data-theme="dark"] .quiz-question{ background:#15212e; border-color:#243546; }
+html[data-theme="dark"] .quiz-option{ background:#111c28; border-color:#2b3b4c; color:#e7eef4; }
+html[data-theme="dark"] .quiz-question.is-correct{ background:#13291f; border-color:#3fa27a; }
+html[data-theme="dark"] .quiz-question.is-incorrect{ background:#2c1717; border-color:#e06a6a; }
+html[data-theme="dark"] .quiz-feedback.good{ background:#13291f; }
+html[data-theme="dark"] .quiz-feedback.bad{ background:#2c1717; }
+html[data-theme="dark"] .quiz-feedback.warn{ background:#2a2413; }
+html[data-theme="dark"] .quiz-result{ background:#12202e; border-left-color:#5b9bd5; color:var(--ink); }
+html[data-theme="dark"] .lesson-backlink a{ color:#8ec3ea; }
+</style>
+</body>
+</html>
