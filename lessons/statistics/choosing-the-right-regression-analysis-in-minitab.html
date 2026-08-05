@@ -186,7 +186,8 @@ details .inside{padding:0 16px 16px}
     <a href="#practice">12. Practice exercises</a>
     <a href="#excel">13. Excel companion functions</a>
     <a href="#mistakes">14. Common mistakes</a>
-    <a href="#summary">15. Final summary</a>
+    <a href="#predict">15. Predicting a response</a>
+   <a href="#summary">16. Final summary</a>
   </nav>
 
   <main>
@@ -1688,8 +1689,114 @@ Minitab is the primary tool for this lesson, but Excel can reproduce or support 
 </details>
 </section>
 
+<section id="predict">
+<h2>15. Predicting a response at specific predictor settings</h2>
+
+<p class="lead">
+Once you have chosen a model, a common next step is to predict the response at particular predictor values &mdash;
+for example, &ldquo;what tensile strength should I expect at these settings?&rdquo; You could substitute the values into the
+fitted equation by hand, but the reliable approach is to let Minitab predict from the <strong>stored model</strong>, because it
+also reports the uncertainty around the prediction. This section shows the official workflow, a worked example, and how to read
+the output.
+</p>
+
+<h3>15.1 First make sure the model is stored</h3>
+<p>
+Best Subsets Regression only <em>identifies</em> candidate models &mdash; it does not leave behind a fitted model that Minitab can
+predict from. So if you are working from Best Subsets, refit your chosen subset with <strong>Fit Regression Model</strong> first.
+</p>
+<p><code>Stat &rarr; Regression &rarr; Regression &rarr; Fit Regression Model</code></p>
+<div class="steps">
+  <div class="step">In the Best Subsets output, identify the model you selected using the <strong>X</strong> marks in its row.</div>
+  <div class="step">Enter your <strong>response</strong> (Y).</div>
+  <div class="step">Enter the <strong>selected predictors</strong> as continuous or categorical terms.</div>
+  <div class="step">Under <strong>Model</strong>, add the exact <strong>interaction</strong> and <strong>polynomial</strong> terms that the chosen subset includes.</div>
+  <div class="step">Check the residual plots and model assumptions, then click <strong>OK</strong>.</div>
+</div>
+<div class="callout good">
+This creates a <strong>stored regression model</strong>. Everything in the Predict step below uses that stored equation, so the model must exist before you can predict from it.
+</div>
+
+<h3>15.2 Predict the response</h3>
+<p><code>Stat &rarr; Regression &rarr; Regression &rarr; Predict</code></p>
+<div class="steps">
+  <div class="step">Select the response/model you just fitted.</div>
+  <div class="step">Choose <strong>Enter individual values</strong>.</div>
+  <div class="step">Enter the desired setting for <strong>every</strong> predictor in the model.</div>
+  <div class="step">Click <strong>Options</strong> and normally keep <strong>Confidence level 95%</strong> and <strong>Interval type: Two-sided</strong>.</div>
+  <div class="step">Click <strong>OK</strong>. Minitab uses the stored equation to calculate the prediction.</div>
+</div>
+<div class="callout">
+To predict at many settings at once, choose <strong>Enter columns of values</strong> instead and point Minitab at worksheet columns holding the predictor settings &mdash; it returns one prediction per row.
+</div>
+
+<h3>15.3 Worked example</h3>
+<p>Suppose your fitted equation is:</p>
+<span class="equation">&#375; = 10 + 2A &minus; 1.5B + 0.4(A &times; B)</span>
+<p>and you want the predicted response at <strong>A = 3</strong> and <strong>B = 4</strong>. Minitab computes:</p>
+<span class="equation">&#375; = 10 + 2(3) &minus; 1.5(4) + 0.4(3 &times; 4) = 10 + 6 &minus; 6 + 4.8 = 14.8</span>
+<p>So the predicted response is <span class="badge">&#375; = 14.8</span>.</p>
+
+<div class="callout warning">
+<strong>Entering interaction terms correctly.</strong>
+If <code>A&times;B</code> was added through the <strong>Model</strong> dialog, enter only <strong>A = 3</strong> and <strong>B = 4</strong> &mdash; Minitab computes the interaction for you.
+If instead you built an <code>A_B</code> worksheet column manually <em>before</em> running Best Subsets, Minitab will ask for that column too, and you must enter its value yourself:
+</div>
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Predictor</th><th>Value to enter</th></tr></thead>
+<tbody>
+<tr><td>A</td><td>3</td></tr>
+<tr><td>B</td><td>4</td></tr>
+<tr><td>A_B</td><td>3 &times; 4 = 12</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>15.4 Understanding the prediction output</h3>
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Output</th><th>What it means</th></tr></thead>
+<tbody>
+<tr><td><strong>Fit</strong></td><td>The best point estimate of the response at those settings.</td></tr>
+<tr><td><strong>SE Fit</strong></td><td>The uncertainty in that estimated <em>mean</em> response.</td></tr>
+<tr><td><strong>95% CI</strong></td><td>A range for the <em>average</em> response at those settings.</td></tr>
+<tr><td><strong>95% PI</strong></td><td>A range for a single <em>individual</em> future result at those settings.</td></tr>
+</tbody>
+</table>
+</div>
+<p>For our example the output might read:</p>
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Fit</th><th>95% CI</th><th>95% PI</th></tr></thead>
+<tbody>
+<tr><td>14.8</td><td>13.9 &ndash; 15.7</td><td>11.2 &ndash; 18.4</td></tr>
+</tbody>
+</table>
+</div>
+<p>Read that as:</p>
+<ul>
+<li>The estimated <strong>average</strong> response at these settings is <strong>14.8</strong>.</li>
+<li>That average is likely between <strong>13.9 and 15.7</strong> (the 95% confidence interval).</li>
+<li>One <strong>new</strong> result could reasonably fall between <strong>11.2 and 18.4</strong> (the 95% prediction interval).</li>
+</ul>
+
+<div class="callout good">
+<strong>Confidence interval vs. prediction interval.</strong>
+When you care about a <em>single</em> future coil, heat, slab, or test result, the <strong>prediction interval</strong> is the one that matters. It is wider than the confidence interval because an individual outcome carries more variation than an estimated average.
+</div>
+
+<h3>15.5 A caution on extrapolation</h3>
+<div class="callout critical">
+Avoid predicting far <strong>outside</strong> the predictor ranges used to build the model. Minitab may flag such settings as <strong>unusual</strong> (an <code>X</code> in the output), and extrapolated predictions can be unreliable because the fitted relationship was never verified in that region.
+</div>
+<div class="callout">
+<strong>Exam tip (CSSBB/CQE).</strong> Be ready to distinguish the confidence interval for the <em>mean</em> response from the prediction interval for an <em>individual</em> value, and to pick the prediction interval when a question asks about one future outcome. Knowing the Predict menu path and that interactions/polynomials must be present in the stored model is frequently tested in applied items.
+</div>
+</section>
+
 <section id="summary">
-<h2>15. Final summary</h2>
+<h2>16. Final summary</h2>
 
 <table>
 <thead><tr><th>Method</th><th>Best concise description</th></tr></thead>
