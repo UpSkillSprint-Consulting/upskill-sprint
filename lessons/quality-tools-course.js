@@ -82,6 +82,14 @@
   }
 
   function installProductionChrome() {
+    // Lessons using this script now ship the static canonical site chrome
+    // (skip-link, header/nav, footer) directly in their HTML. This script runs
+    // near the end of <body>, before the static footer is parsed, so its footer
+    // guard would not see the static footer and would inject a second (older)
+    // footer. Runtime chrome injection is therefore disabled; the static chrome
+    // is the single source of truth.
+    return;
+    // eslint-disable-next-line no-unreachable
     if (!q('.skip-link')) {
       const skip = document.createElement('a');
       skip.className = 'skip-link';
