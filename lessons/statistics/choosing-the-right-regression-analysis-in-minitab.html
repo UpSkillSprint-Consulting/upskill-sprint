@@ -1869,5 +1869,58 @@ recommend();
 })();
 </script>
 
+
+<style id="uss-dark-overrides">
+/* Dark-mode legibility overrides for this self-styled lesson.
+   Surface/text vars are darkened; accent hues (navy/teal) are kept so the
+   hero gradient stays dark. Placed last so it wins equal-specificity ties. */
+html[data-theme="dark"]{
+  --light:#182635; --lighter:#15212e; --white:#141f2b;
+  --ink:#e7eef4; --muted:#a7b7c6; --line:#2b3b4c;
+  --shadow:0 10px 28px rgba(0,0,0,.5);
+}
+html[data-theme="dark"] body{ background:#0c1622; color:var(--ink); }
+html[data-theme="dark"] section{ background:#131f2c; border-color:#243546; }
+html[data-theme="dark"] .sidebar{ background:#131f2c; border-color:#243546; }
+html[data-theme="dark"] .sidebar h3{ color:#dbe8f2; }
+html[data-theme="dark"] .sidebar a{ color:#c3d3e1; }
+html[data-theme="dark"] .sidebar a:hover{ background:#1c2a39; color:#fff; }
+html[data-theme="dark"] h2{ color:#dbe8f2; }
+html[data-theme="dark"] h3{ color:#8ec3ea; }
+html[data-theme="dark"] h4{ color:#5cc7d6; }
+html[data-theme="dark"] a{ color:#8ec3ea; }
+html[data-theme="dark"] .lead{ color:#c3d3e1; }
+html[data-theme="dark"] .callout{ background:#15212e; }
+html[data-theme="dark"] .callout.warning{ background:#2a2413; }
+html[data-theme="dark"] .callout.critical{ background:#2c1717; }
+html[data-theme="dark"] .callout.good{ background:#13291f; }
+html[data-theme="dark"] .card{ background:#15212e; border-color:#243546; }
+html[data-theme="dark"] .badge{ background:#22384a; color:#dbe8f2; }
+html[data-theme="dark"] th{ background:#1f3a5c; color:#fff; }
+html[data-theme="dark"] td{ border-color:#243546; }
+html[data-theme="dark"] tr:nth-child(even) td{ background:#111c28; }
+html[data-theme="dark"] code, html[data-theme="dark"] .formula{ background:#0f1a26; color:#e7eef4; }
+html[data-theme="dark"] .equation{ background:#0f1a26; }
+html[data-theme="dark"] details{ background:#131f2c; }
+html[data-theme="dark"] summary{ color:#dbe8f2; }
+html[data-theme="dark"] .tool{ background:linear-gradient(180deg,#15212e,#0f1a26); }
+html[data-theme="dark"] .result{ background:#0f1a26; color:var(--ink); }
+html[data-theme="dark"] .kpi div{ background:#111c28; }
+html[data-theme="dark"] .kpi strong{ color:#dbe8f2; }
+html[data-theme="dark"] .step{ background:#111c28; }
+html[data-theme="dark"] .flow div{ background:#15212e; }
+/* comprehension quiz + back link */
+html[data-theme="dark"] .quiz{ background:#131f2c; border-color:#243546; }
+html[data-theme="dark"] .quiz-head p{ color:#a7b7c6; }
+html[data-theme="dark"] .quiz-question{ background:#15212e; border-color:#243546; }
+html[data-theme="dark"] .quiz-option{ background:#111c28; border-color:#2b3b4c; color:#e7eef4; }
+html[data-theme="dark"] .quiz-question.is-correct{ background:#13291f; border-color:#3fa27a; }
+html[data-theme="dark"] .quiz-question.is-incorrect{ background:#2c1717; border-color:#e06a6a; }
+html[data-theme="dark"] .quiz-feedback.good{ background:#13291f; }
+html[data-theme="dark"] .quiz-feedback.bad{ background:#2c1717; }
+html[data-theme="dark"] .quiz-feedback.warn{ background:#2a2413; }
+html[data-theme="dark"] .quiz-result{ background:#12202e; border-left-color:#5b9bd5; color:var(--ink); }
+html[data-theme="dark"] .lesson-backlink a{ color:#8ec3ea; }
+</style>
 </body>
 </html>
