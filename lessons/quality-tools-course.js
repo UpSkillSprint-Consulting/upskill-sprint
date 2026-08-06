@@ -57,7 +57,7 @@
         'Use DOE only when deliberate factor changes are safe and feasible.',
         'Close only after ownership, reaction plans, and time-ordered stability are established.'
       ],
-      next: '/lessons.html#quality-engineering', nextLabel: 'Return to Quality Engineering', final: true
+      next: '/lessons#quality-engineering', nextLabel: 'Return to Quality Engineering', final: true
     }
   };
 
@@ -82,6 +82,14 @@
   }
 
   function installProductionChrome() {
+    // Lessons using this script now ship the static canonical site chrome
+    // (skip-link, header/nav, footer) directly in their HTML. This script runs
+    // near the end of <body>, before the static footer is parsed, so its footer
+    // guard would not see the static footer and would inject a second (older)
+    // footer. Runtime chrome injection is therefore disabled; the static chrome
+    // is the single source of truth.
+    return;
+    // eslint-disable-next-line no-unreachable
     if (!q('.skip-link')) {
       const skip = document.createElement('a');
       skip.className = 'skip-link';
@@ -103,12 +111,12 @@
       header.innerHTML =
         '<a href="/" class="brand"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>' +
         '<nav class="desktop-nav" aria-label="Primary navigation">' +
-          '<a href="/start-here.html">Start Here</a>' +
-          '<a href="/lessons.html" aria-current="page">Lessons</a>' +
-          '<a href="/engineering-tools.html">Engineering Tools</a>' +
-          '<a href="/services.html">Services</a>' +
-          '<a href="/about.html">About</a>' +
-          '<a href="/contact.html">Contact</a>' +
+          '<a href="/start-here">Start Here</a>' +
+          '<a href="/lessons" aria-current="page">Lessons</a>' +
+          '<a href="/engineering-tools">Engineering Tools</a>' +
+          '<a href="/services">Services</a>' +
+          '<a href="/about">About</a>' +
+          '<a href="/contact">Contact</a>' +
         '</nav>' +
         '<div class="header-actions">' + themeControlMarkup() +
           '<label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></label>' +
@@ -118,7 +126,7 @@
       mobile.className = 'mobile-nav';
       mobile.setAttribute('aria-label', 'Mobile navigation');
       mobile.innerHTML =
-        '<a href="/start-here.html">Start Here</a><a href="/lessons.html">Lessons</a><a href="/engineering-tools.html">Engineering Tools</a><a href="/services.html">Services</a><a href="/about.html">About</a><a href="/contact.html">Contact</a>';
+        '<a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/about">About</a><a href="/contact">Contact</a>';
 
       fragment.appendChild(checkbox);
       fragment.appendChild(header);
@@ -132,11 +140,11 @@
       footer.innerHTML =
         '<div class="wrap"><div class="footer-grid">' +
           '<div><div class="brand" style="margin-bottom:14px;"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:var(--muted);max-width:260px;margin:0;">Practical learning for quality, data, process improvement, and business problem-solving.</p></div>' +
-          '<div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here.html">Start Here</a><a href="/lessons.html">Lessons</a><a href="/engineering-tools.html">Engineering Tools</a><a href="/services.html">Services</a><a href="/request-topic.html">Request a Topic</a><a href="/about.html">About</a><a href="/faq.html">FAQ</a><a href="/contact.html">Contact</a></div>' +
-          '<div><h4>Topics</h4><a href="/lessons.html#data-analytics">Data Analytics</a><a href="/lessons.html#quality-engineering">Quality Engineering</a><a href="/lessons.html#lean-six-sigma">Lean Six Sigma</a><a href="/lessons.html#power-bi-excel-sql">Power BI, Excel & SQL</a><a href="/lessons.html#business-decision-making">Business Decision-Making</a><a href="/lessons.html#ai-for-work">AI for Work</a></div>' +
+          '<div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div>' +
+          '<div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel & SQL</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div>' +
           '<div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:var(--muted);margin:0;">Saskatchewan, Canada</p></div>' +
         '</div></div>' +
-        '<div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Use</a></div></div>';
+        '<div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div>';
       document.body.appendChild(footer);
     }
   }
@@ -148,7 +156,7 @@
     const controls = document.createElement('div');
     controls.className = 'lesson-hero-controls';
     controls.innerHTML =
-      '<a class="lesson-section-back" href="/lessons.html#quality-engineering"><span aria-hidden="true">←</span> Back to Quality Engineering</a>' +
+      '<a class="lesson-section-back" href="/lessons#quality-engineering"><span aria-hidden="true">←</span> Back to Quality Engineering</a>' +
       '<div class="lesson-meta-line"><span>Interactive lesson</span><span>' + p.minutes + ' minutes</span><span>' + p.level + '</span></div>';
     hero.appendChild(controls);
   }
