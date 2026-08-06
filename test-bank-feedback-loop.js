@@ -233,6 +233,57 @@
       '</article>';
   }
 
+  const STATUS_GLYPH = { correct: '\u2713', incorrect: '\u2717', unanswered: '\u2013' };
+  const STATUS_LABEL = { correct: 'correct', incorrect: 'incorrect', unanswered: 'skipped' };
+
+  function gridCellHtml(record, currentIndex) {
+    const status = statusOf(record);
+    const classes = ['tb-review-navcell', status];
+    if (record.index === currentIndex) classes.push('cur');
+    const label = 'Question ' + (record.index + 1) + ', ' + STATUS_LABEL[status] +
+      (record.flagged ? ', flagged' : '');
+    return '<button type="button" class="' + classes.join(' ') + '" data-review-goto="' + record.index + '" aria-label="' + label + '">' +
+      '<span class="tb-rnc-glyph" aria-hidden="true">' + STATUS_GLYPH[status] + '</span>' +
+      '<span class="tb-rnc-num">' + (record.index + 1) + '</span>' +
+      (record.flagged ? '<span class="tb-rnc-flag" aria-hidden="true">\u2691</span>' : '') +
+      '</button>';
+  }
+
+  function paintReviewGrid(currentIndex) {
+    const grid = document.getElementById('tb-review-grid');
+    if (!grid) return;
+    grid.innerHTML = attemptRecords().map(function (record) {
+      return gridCellHtml(record, currentIndex);
+    }).join('');
+  }
+
+  function clearReviewTabs(review) {
+    Array.from(review.querySelectorAll('[data-review-tab]')).forEach(function (button) {
+      button.classList.remove('on');
+      button.setAttribute('aria-pressed', 'false');
+    });
+  }
+
+  function renderReviewSingle(index) {
+    const review = document.getElementById('tb-answer-review');
+    const retry = document.getElementById('tb-retry-panel');
+    const list = document.getElementById('tb-review-list');
+    if (!review || !list) return;
+
+    const record = attemptRecords().find(function (item) { return item.index === index; });
+    if (!record) return;
+
+    review.hidden = false;
+    if (retry) retry.hidden = true;
+    review.dataset.activeFilter = 'single';
+    clearReviewTabs(review);
+    paintReviewGrid(index);
+
+    list.innerHTML = reviewCardHtml(record);
+    const card = list.querySelector('.tb-review-card');
+    if (card && typeof card.scrollIntoView === 'function') card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
   function renderReview(filter) {
     const review = document.getElementById('tb-answer-review');
     const retry = document.getElementById('tb-retry-panel');
@@ -250,6 +301,8 @@
       button.classList.toggle('on', active);
       button.setAttribute('aria-pressed', String(active));
     });
+
+    paintReviewGrid(null);
 
     list.innerHTML = filtered.length
       ? filtered.map(reviewCardHtml).join('')
@@ -360,7 +413,16 @@
           '<button type="button" data-review-tab="unanswered">Unanswered <span>' + counts.unanswered + '</span></button>' +
           '<button type="button" data-review-tab="correct">Correct <span>' + counts.correct + '</span></button>' +
           '<button type="button" data-review-tab="flagged">Flagged <span>' + counts.flagged + '</span></button>' +
-        '</div></div><div id="tb-review-list" class="tb-review-list"></div></div>' +
+        '</div></div>' +
+        '<div class="tb-review-gridwrap">' +
+          '<div id="tb-review-grid" class="tb-review-grid" role="group" aria-label="Jump to any question"></div>' +
+          '<div class="tb-review-gridkey" aria-hidden="true">' +
+            '<span class="tb-gk correct"><i>\u2713</i> Correct</span>' +
+            '<span class="tb-gk incorrect"><i>\u2717</i> Incorrect</span>' +
+            '<span class="tb-gk unanswered"><i>\u2013</i> Skipped</span>' +
+          '</div>' +
+        '</div>' +
+        '<div id="tb-review-list" class="tb-review-list"></div></div>' +
       '<div id="tb-retry-panel" class="tb-retry-panel" hidden></div>' +
       '</section>';
   }
@@ -376,12 +438,22 @@
       .tb-feedback-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:17px}.tb-answer-review,.tb-retry-panel{margin-top:20px;padding-top:20px;border-top:1px solid var(--line);scroll-margin-top:18px}
       .tb-review-toolbar{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:14px}.tb-review-toolbar .tb-sec{margin-bottom:3px}.tb-review-toolbar p{margin:0;color:var(--muted);font-size:12.5px}.tb-review-tabs{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}.tb-review-tabs button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 11px;font:inherit;font-size:12px;font-weight:600;cursor:pointer}.tb-review-tabs button.on{border-color:var(--teal);background:var(--teal);color:#fff}.tb-review-tabs span{opacity:.8;margin-left:3px}
       .tb-review-list{display:grid;gap:14px}.tb-review-card{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:18px}.tb-review-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px}.tb-review-qno{display:block;color:var(--ink);font-weight:700;font-size:14px}.tb-review-topic{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}.tb-review-badges{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}.tb-review-status{border-radius:999px;padding:5px 9px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}.tb-review-status.correct{color:#14734f;background:rgba(31,157,107,.13)}.tb-review-status.incorrect{color:#a3332f;background:rgba(192,69,63,.13)}.tb-review-status.unanswered{color:#8b5c0c;background:rgba(184,121,27,.15)}.tb-review-status.flagged{color:#8b5c0c;background:rgba(184,121,27,.12);border:1px solid rgba(184,121,27,.3)}
+      .tb-review-gridwrap{margin-bottom:16px}.tb-review-grid{display:flex;flex-wrap:wrap;gap:6px}
+      .tb-review-navcell{position:relative;width:40px;min-height:42px;display:grid;grid-template-rows:auto auto;place-items:center;gap:1px;padding:4px 2px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit;cursor:pointer;transition:.12s}
+      .tb-review-navcell .tb-rnc-glyph{font-size:12px;font-weight:700;line-height:1}.tb-review-navcell .tb-rnc-num{font-size:12px;font-weight:600;line-height:1}
+      .tb-review-navcell .tb-rnc-flag{position:absolute;top:-5px;right:-4px;font-size:9px;color:#b8791b}
+      .tb-review-navcell.correct{border-color:#1f9d6b;background:color-mix(in srgb,#1f9d6b 12%,var(--card));color:#14734f}
+      .tb-review-navcell.incorrect{border-color:#c0453f;background:color-mix(in srgb,#c0453f 12%,var(--card));color:#a3332f}
+      .tb-review-navcell.unanswered{border-color:#b8791b;background:color-mix(in srgb,#b8791b 15%,var(--card));color:#8b5c0c}
+      .tb-review-navcell:hover{filter:brightness(.97)}.tb-review-navcell.cur{outline:2px solid var(--teal);outline-offset:2px}
+      .tb-review-gridkey{display:flex;flex-wrap:wrap;gap:12px;margin-top:9px}.tb-review-gridkey .tb-gk{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--muted)}.tb-review-gridkey .tb-gk i{font-style:normal;width:17px;height:17px;display:grid;place-items:center;border-radius:5px;font-size:11px;font-weight:700}.tb-review-gridkey .tb-gk.correct i{color:#14734f;background:rgba(31,157,107,.15)}.tb-review-gridkey .tb-gk.incorrect i{color:#a3332f;background:rgba(192,69,63,.15)}.tb-review-gridkey .tb-gk.unanswered i{color:#8b5c0c;background:rgba(184,121,27,.18)}
       .tb-review-stem{color:var(--ink);font-size:16px;font-weight:600;line-height:1.5;margin-bottom:14px}.tb-review-options{display:grid;gap:8px}.tb-review-option{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--tint);color:var(--ink);font-size:13.5px}.tb-review-option.is-correct{border-color:#1f9d6b;background:color-mix(in srgb,#1f9d6b 9%,var(--card))}.tb-review-option.is-wrong{border-color:#c0453f;background:color-mix(in srgb,#c0453f 8%,var(--card))}.tb-answer-letter{width:25px;height:25px;display:grid;place-items:center;border:1px solid var(--line);border-radius:7px;font-size:12px;font-weight:700}.tb-answer-tags{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end}.tb-answer-tag{border-radius:999px;padding:3px 7px;font-size:9.5px;font-weight:700;white-space:nowrap}.tb-answer-tag.yours{background:rgba(59,111,176,.14);color:#315f99}.tb-answer-tag.correct{background:rgba(31,157,107,.14);color:#14734f}
       .tb-answer-compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.tb-answer-compare>div{padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--tint)}.tb-answer-compare span{display:block;color:var(--muted);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}.tb-answer-compare strong{display:block;color:var(--ink);font-size:13px;line-height:1.4}
       .tb-explanation{padding:13px 14px;border-left:3px solid var(--teal);border-radius:7px;background:color-mix(in srgb,var(--teal) 7%,var(--tint));margin-bottom:10px}.tb-explanation-title{color:var(--ink);font-size:12px;font-weight:700;margin-bottom:5px}.tb-explanation-copy{color:var(--muted);font-size:13px;line-height:1.55}.tb-explanation-copy b,.tb-explanation-copy strong{color:var(--ink)}.tb-review-lesson{display:inline-flex;color:var(--teal);font-size:12.5px;font-weight:700}.tb-review-empty{padding:25px;border:1px dashed var(--line);border-radius:10px;color:var(--muted);text-align:center}
       .tb-retry-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:14px}.tb-retry-head h3,.tb-retry-summary h3{font-family:"Source Serif 4",serif;color:var(--ink);font-size:21px;margin:2px 0}.tb-retry-topic{font-size:11.5px;color:var(--teal);font-weight:700;margin-bottom:10px}.tb-retry-options{display:grid;gap:9px}.tb-retry-option{display:flex;align-items:flex-start;gap:10px;width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;background:var(--tint);color:var(--ink);font:inherit;font-size:14px;text-align:left;cursor:pointer}.tb-retry-option:hover:not(:disabled),.tb-retry-option.selected{border-color:var(--teal)}.tb-retry-option.correct{border-color:#1f9d6b;background:color-mix(in srgb,#1f9d6b 9%,var(--card))}.tb-retry-option.wrong{border-color:#c0453f;background:color-mix(in srgb,#c0453f 8%,var(--card))}.tb-retry-feedback{margin-top:12px;padding:13px 14px;border-radius:9px;font-size:13.5px;line-height:1.5}.tb-retry-feedback.correct{background:color-mix(in srgb,#1f9d6b 10%,var(--card));border:1px solid rgba(31,157,107,.35)}.tb-retry-feedback.wrong{background:color-mix(in srgb,#c0453f 8%,var(--card));border:1px solid rgba(192,69,63,.32)}.tb-retry-feedback .tb-explanation-copy{margin:7px 0}.tb-retry-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}.tb-retry-summary{display:flex;align-items:center;gap:20px}.tb-retry-summary p{margin:5px 0 0;color:var(--muted);font-size:13.5px;line-height:1.55}
       html[data-theme="dark"] .tb-review-status.correct,html[data-theme="dark"] .tb-answer-tag.correct{color:#6ee7b7}html[data-theme="dark"] .tb-review-status.incorrect{color:#fca5a5}html[data-theme="dark"] .tb-review-status.unanswered,html[data-theme="dark"] .tb-review-status.flagged{color:#f0c36a}html[data-theme="dark"] .tb-answer-tag.yours{color:#93c5fd}
-      @media(max-width:760px){.tb-feedback-head,.tb-review-toolbar,.tb-retry-summary{align-items:stretch;flex-direction:column}.tb-feedback-stats,.tb-review-tabs{justify-content:flex-start}.tb-answer-compare{grid-template-columns:1fr}.tb-review-option{grid-template-columns:auto minmax(0,1fr)}.tb-answer-tags{grid-column:1/-1;justify-content:flex-start}.tb-review-card{padding:15px}}
+      html[data-theme="dark"] .tb-review-navcell.correct,html[data-theme="dark"] .tb-review-gridkey .tb-gk.correct i{color:#6ee7b7}html[data-theme="dark"] .tb-review-navcell.incorrect,html[data-theme="dark"] .tb-review-gridkey .tb-gk.incorrect i{color:#fca5a5}html[data-theme="dark"] .tb-review-navcell.unanswered,html[data-theme="dark"] .tb-review-gridkey .tb-gk.unanswered i{color:#f0c36a}
+      @media(max-width:760px){.tb-feedback-head,.tb-review-toolbar,.tb-retry-summary{align-items:stretch;flex-direction:column}.tb-feedback-stats,.tb-review-tabs{justify-content:flex-start}.tb-answer-compare{grid-template-columns:1fr}.tb-review-option{grid-template-columns:auto minmax(0,1fr)}.tb-answer-tags{grid-column:1/-1;justify-content:flex-start}.tb-review-card{padding:15px}.tb-review-grid{gap:5px}.tb-review-navcell{width:38px;min-height:40px}}
     `;
     document.head.appendChild(style);
   }
@@ -406,6 +478,10 @@
 
     if (target.dataset.openReview) {
       renderReview(target.dataset.openReview);
+      return;
+    }
+    if (target.dataset.reviewGoto != null) {
+      renderReviewSingle(Number(target.dataset.reviewGoto));
       return;
     }
     if (target.dataset.reviewTab) {
