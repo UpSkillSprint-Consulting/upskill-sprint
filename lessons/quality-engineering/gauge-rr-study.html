@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Gage R&R for Beginners: See Measurement Error Happen",
+  "slug": "gauge-rr-study",
+  "category": "Quality Engineering",
+  "category_slug": "quality-engineering",
+  "level": "Beginner",
+  "lesson_type": "General",
+  "estimated_minutes": 75,
+  "interactive": true,
+  "card_title": "Gage R&R for Beginners",
+  "card_description": "See repeatability, reproducibility, bias, linearity, and stability change in real time—then design and interpret a defensible Gage R&R study.",
+  "search_keywords": [
+    "gage R&R",
+    "gauge R&R",
+    "measurement system analysis",
+    "MSA",
+    "repeatability",
+    "reproducibility",
+    "bias",
+    "linearity",
+    "stability",
+    "Minitab",
+    "Excel",
+    "ndc"
+  ],
+  "suggested_github_path": "lessons/quality-engineering/gauge-rr-study.html"
+}
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Gage R&amp;R for Beginners | UpSkillSprint</title>
+  <meta name="description" content="A beginner-friendly, interactive Gage R&amp;R lesson covering repeatability, reproducibility, bias, linearity, stability, Minitab, Excel, and interpretation.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/quality-engineering/gauge-rr-study">
+  <script defer src="https://cdn.plot.ly/plotly-3.6.0.min.js" charset="utf-8"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+
+  <!-- EDIT: Lesson styles -->
+  <style>
+    :root{
+      color-scheme:light;
+      --grr-bg:#f5f7fa;--grr-surface:#fff;--grr-surface-2:#edf2f6;--grr-ink:#132238;--grr-text:#36475c;
+      --grr-muted:#65758a;--grr-line:#d7e0e8;--grr-navy:#102a43;--grr-teal:#087f8c;--grr-teal-2:#dff5f4;
+      --grr-amber:#b76900;--grr-amber-2:#fff2d9;--grr-green:#16724a;--grr-green-2:#e6f6ef;
+      --grr-red:#b33a3a;--grr-red-2:#fdecec;--grr-blue:#2367a8;--grr-blue-2:#eaf3fb;--grr-purple:#6b55b5;
+      --grr-shadow:0 14px 40px rgba(16,42,67,.10);--grr-radius:18px;
+      --grr-body:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      --grr-display:"Arial Narrow","Roboto Condensed",Arial,sans-serif;
+      --grr-mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+    }
+    html[data-theme="dark"]{
+      color-scheme:dark;--grr-bg:#0e1217;--grr-surface:#151b22;--grr-surface-2:#1c2530;--grr-ink:#edf3f8;
+      --grr-text:#c4ced8;--grr-muted:#98a8b9;--grr-line:#2e3945;--grr-navy:#e6f1f8;--grr-teal:#52d0cd;
+      --grr-teal-2:#153c3d;--grr-amber:#f0aa3c;--grr-amber-2:#3c2b12;--grr-green:#5ad19a;--grr-green-2:#153629;
+      --grr-red:#ff8585;--grr-red-2:#3b2022;--grr-blue:#7bbaff;--grr-blue-2:#182f48;--grr-purple:#b9a5ff;
+      --grr-shadow:0 16px 44px rgba(0,0,0,.28);
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:90px}
+    #lesson-content{margin:0;background:var(--grr-bg);color:var(--grr-text);font-family:var(--grr-body);font-size:16px;line-height:1.72}
+    :where(#lesson-content) button,:where(#lesson-content) input,:where(#lesson-content) select{font:inherit}
+    :where(#lesson-content) button{touch-action:manipulation}
+    :where(#lesson-content) a{color:var(--grr-blue)}
+    a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{
+      outline:3px solid var(--grr-amber);outline-offset:3px
+    }
+        .scroll-progress{position:fixed;z-index:501;left:0;top:0;height:4px;width:0;background:linear-gradient(90deg,var(--grr-teal),var(--grr-amber))}
+    .shell{width:min(1160px,calc(100% - 32px));margin:auto}
+    .hero{padding:74px 0 42px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(310px,.85fr);gap:48px;align-items:center}
+    .eyebrow,.chapter-label{font:800 .72rem/1.3 var(--grr-mono);letter-spacing:.13em;text-transform:uppercase;color:var(--grr-amber)}
+    :where(#lesson-content) h1,:where(#lesson-content) h2,:where(#lesson-content) h3,:where(#lesson-content) h4{color:var(--grr-ink);font-family:var(--grr-display);line-height:1.1}
+    :where(#lesson-content) h1{font-size:clamp(3.2rem,8vw,6.6rem);letter-spacing:-.035em;text-transform:uppercase;margin:.18em 0}
+    :where(#lesson-content) h1 em{color:var(--grr-teal);font-style:normal}
+    :where(#lesson-content) h2{font-size:clamp(2.15rem,4.5vw,3.8rem);letter-spacing:-.025em;margin:.15em 0 .45em}
+    :where(#lesson-content) h3{font-size:clamp(1.35rem,2.6vw,2rem);margin:1.55em 0 .55em}
+    h4{font-size:1.15rem;margin:.7em 0 .35em}
+    :where(#lesson-content) p{margin:.65em 0 1em}
+    .lead{font-size:clamp(1.08rem,2vw,1.32rem);max-width:720px;color:var(--grr-muted)}
+    .hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}
+    .tag{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;background:var(--grr-surface);border:1px solid var(--grr-line);border-radius:999px;font-size:.82rem;font-weight:750;color:var(--grr-ink)}
+    .hero-visual{background:linear-gradient(145deg,var(--grr-surface),var(--grr-surface-2));border:1px solid var(--grr-line);border-radius:28px;padding:26px;box-shadow:var(--grr-shadow)}
+    .hero-visual h2{font-size:1.25rem;margin:0 0 18px}
+    .signal-strip{display:grid;gap:10px}
+    .signal-row{display:grid;grid-template-columns:116px 1fr 45px;gap:10px;align-items:center;font-size:.78rem;font-weight:700}
+    .signal-track{height:12px;border-radius:999px;background:var(--grr-line);overflow:hidden}
+    .signal-fill{display:block;height:100%;border-radius:inherit;animation:pulse 2.4s ease-in-out infinite alternate}
+    .signal-parts{width:86%;background:var(--grr-green)}.signal-repeat{width:16%;background:var(--grr-teal)}.signal-repro{width:10%;background:var(--grr-amber)}
+    @keyframes pulse{from{filter:saturate(.8);transform:scaleX(.97);transform-origin:left}to{filter:saturate(1.2);transform:scaleX(1)}}
+    .hero-question{margin:22px 0 0;padding:16px;border-radius:14px;background:var(--grr-navy);color:var(--grr-bg);font-weight:750}
+    html[data-theme="dark"] .hero-question{background:#e6f1f8;color:#102a43}
+    .toc-wrap{position:sticky;top:64px;z-index:450;background:var(--grr-bg);border-block:1px solid var(--grr-line)}
+    .toc{display:flex;gap:6px;overflow-x:auto;padding:10px 0;scrollbar-width:thin}
+    .toc a{flex:0 0 auto;text-decoration:none;color:var(--grr-muted);font-size:.76rem;font-weight:800;padding:7px 10px;border-radius:8px}
+    .toc a:hover{background:var(--grr-surface-2);color:var(--grr-ink)}
+    main section{padding:74px 0;border-bottom:1px solid var(--grr-line)}
+    .chapter{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+    .chapter::after{content:"";height:1px;flex:1;background:var(--grr-line)}
+    .intro-grid,.two-col,.three-col,.metric-grid,.concept-grid,.software-grid,.quiz-grid,.challenge-grid{display:grid;gap:18px}
+    .intro-grid,.three-col{grid-template-columns:repeat(3,1fr)}
+    .two-col,.software-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .metric-grid{grid-template-columns:repeat(4,1fr)}
+    .concept-grid{grid-template-columns:repeat(3,1fr)}
+    .card,.callout,.objective,.concept-card,.metric-card,.software-card,.question-card,.challenge-card{
+      background:var(--grr-surface);border:1px solid var(--grr-line);border-radius:var(--grr-radius);padding:22px
+    }
+    .card,.concept-card,.software-card,.challenge-card{box-shadow:0 5px 20px rgba(16,42,67,.04)}
+    .objective strong{display:block;color:var(--grr-ink);font-size:1.02rem;margin-bottom:6px}
+    .objective span{color:var(--grr-muted);font-size:.92rem}
+    .callout{border-left:5px solid var(--grr-blue);background:var(--grr-blue-2)}
+    .callout.good{border-left-color:var(--grr-green);background:var(--grr-green-2)}
+    .callout.warn{border-left-color:var(--grr-amber);background:var(--grr-amber-2)}
+    .callout.bad{border-left-color:var(--grr-red);background:var(--grr-red-2)}
+    .callout strong{color:var(--grr-ink)}
+    .formula{display:block;overflow-x:auto;margin:20px 0;padding:18px 20px;background:var(--grr-navy);color:white;border-radius:14px;font:700 1rem/1.6 var(--grr-mono);text-align:center}
+    html[data-theme="dark"] .formula{background:#203448}
+    .grr-steps{counter-reset:step;display:grid;gap:14px;padding:0;list-style:none}
+    .grr-steps li{counter-increment:step;position:relative;padding:18px 18px 18px 66px;background:var(--grr-surface);border:1px solid var(--grr-line);border-radius:14px}
+    .grr-steps li::before{content:counter(step);position:absolute;left:18px;top:17px;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--grr-teal);color:white;font-weight:900}
+    .plain-table{width:100%;border-collapse:collapse;background:var(--grr-surface);border-radius:14px;overflow:hidden}
+    .plain-table th,.plain-table td{padding:13px 14px;text-align:left;border-bottom:1px solid var(--grr-line);vertical-align:top}
+    .plain-table th{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--grr-muted);background:var(--grr-surface-2)}
+    .scroll-table{overflow-x:auto;border:1px solid var(--grr-line);border-radius:14px}
+    .scroll-table .plain-table{border-radius:0}
+    .term{color:var(--grr-teal);font-weight:850}
+    .status{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;font-size:.76rem;font-weight:850}
+    .status.good{background:var(--grr-green-2);color:var(--grr-green)}.status.warn{background:var(--grr-amber-2);color:var(--grr-amber)}.status.bad{background:var(--grr-red-2);color:var(--grr-red)}
+    .tip{display:inline-grid;place-items:center;width:20px;height:20px;margin-left:5px;border:1px solid currentColor;border-radius:50%;font:900 .7rem var(--grr-body);cursor:help;vertical-align:middle}
+    .tip[data-tip]{position:relative}
+    .tip[data-tip]::after{content:attr(data-tip);position:absolute;z-index:30;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);width:230px;padding:10px 12px;border-radius:9px;background:var(--grr-ink);color:var(--grr-bg);font:600 .75rem/1.45 var(--grr-body);opacity:0;pointer-events:none;transition:.15s}
+    .tip:hover::after,.tip:focus::after{opacity:1}
+    .lab{background:var(--grr-surface);border:1px solid var(--grr-line);border-radius:24px;box-shadow:var(--grr-shadow);overflow:hidden}
+    .lab-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:24px;border-bottom:1px solid var(--grr-line);background:linear-gradient(120deg,var(--grr-surface-2),var(--grr-surface))}
+    .lab-head h3{margin:0}.lab-head p{margin:.35em 0 0;color:var(--grr-muted)}
+    .lab-body{padding:24px}
+    .control-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .control{background:var(--grr-surface-2);border:1px solid var(--grr-line);border-radius:13px;padding:13px}
+    .control label{color:var(--grr-ink);font-size:.82rem;font-weight:800;margin-bottom:8px}
+    .control-head{display:flex;justify-content:space-between;gap:10px;align-items:start;margin-bottom:8px}.control-head label{margin-bottom:0}
+    .control output{color:var(--grr-teal);white-space:nowrap}
+    input[type="range"]{width:100%;accent-color:var(--grr-teal)}
+    input[type="number"],select{width:100%;padding:10px 11px;border:1px solid var(--grr-line);border-radius:9px;background:var(--grr-surface);color:var(--grr-ink)}
+    .button-row,.preset-row{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 14px;border:1px solid var(--grr-line);border-radius:10px;background:var(--grr-surface);color:var(--grr-ink);font-weight:800;cursor:pointer}
+    .btn:hover{border-color:var(--grr-teal);transform:translateY(-1px)}
+    .btn.primary{background:var(--grr-teal);border-color:var(--grr-teal);color:white}
+    .btn.ghost{background:transparent}
+    .btn[aria-pressed="true"],.btn.active{background:var(--grr-navy);border-color:var(--grr-navy);color:var(--grr-bg)}
+    html[data-theme="dark"] .btn[aria-pressed="true"],html[data-theme="dark"] .btn.active{color:#102a43}
+    .plot{width:100%;min-height:340px;border:1px solid var(--grr-line);border-radius:14px;background:var(--grr-surface)}
+    .plot.small{min-height:300px}
+    .plot-fallback{display:grid;place-items:center;min-height:300px;padding:24px;text-align:center;color:var(--grr-muted)}
+    .chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}
+    .chart-card{min-width:0}.chart-card h4{margin:0 0 5px}.chart-card>p{font-size:.86rem;color:var(--grr-muted);min-height:44px}
+    .chart-card.wide{grid-column:1/-1}
+    .metric-card small{display:block;color:var(--grr-muted);font-weight:750}.metric-card strong{display:block;color:var(--grr-ink);font:900 clamp(1.5rem,3vw,2.25rem)/1.1 var(--grr-display);margin:7px 0}.metric-card span{font-size:.8rem}
+    .metric-card.good{border-top:5px solid var(--grr-green)}.metric-card.warn{border-top:5px solid var(--grr-amber)}.metric-card.bad{border-top:5px solid var(--grr-red)}.metric-card.pending{border-top:5px solid var(--grr-line)}
+    .coach{display:flex;gap:14px;align-items:flex-start;margin:18px 0;padding:17px;border-radius:14px;background:var(--grr-blue-2);border:1px solid color-mix(in srgb,var(--grr-blue) 30%,var(--grr-line))}
+    .coach-icon{display:grid;place-items:center;flex:0 0 38px;height:38px;border-radius:50%;background:var(--grr-blue);color:white;font-weight:900}
+    .coach p{margin:.25em 0 0}
+    .collection-bar{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin:10px 0}
+    .collection-bar input{grid-column:1}.collection-bar output{grid-column:2;color:var(--grr-muted);font-weight:800}
+    .concept-card{cursor:pointer;text-align:left;color:var(--grr-text);font:inherit}
+    .concept-card strong{display:block;color:var(--grr-ink);font-size:1.05rem;margin-bottom:5px}
+    .concept-card span{color:var(--grr-muted);font-size:.87rem}
+    .concept-card.active{border-color:var(--grr-teal);box-shadow:0 0 0 3px color-mix(in srgb,var(--grr-teal) 18%,transparent)}
+    .concept-detail{margin-top:16px;padding:24px;border-radius:18px;background:var(--grr-navy);color:white}
+    .concept-detail h3{color:white;margin:0 0 8px}.concept-detail p:last-child{margin-bottom:0}
+    .target-wrap{display:grid;grid-template-columns:minmax(250px,1fr) minmax(260px,1fr);gap:24px;align-items:center}
+    #targetSvg{width:100%;max-width:420px;margin:auto;display:block}
+    .target-note{min-height:116px}
+    .decision-output{padding:18px;border-radius:14px;background:var(--grr-green-2);border:1px solid color-mix(in srgb,var(--grr-green) 35%,var(--grr-line));min-height:120px}
+    .decision-output h3{margin:0 0 6px;font-size:1.45rem}
+    .path{display:block;margin:12px 0;padding:13px 15px;border-radius:10px;background:var(--grr-navy);color:white;font:750 .88rem/1.5 var(--grr-mono);overflow-x:auto}
+    html[data-theme="dark"] .path{background:#203448}
+    details{background:var(--grr-surface);border:1px solid var(--grr-line);border-radius:13px;margin:10px 0}
+    summary{cursor:pointer;padding:15px 17px;color:var(--grr-ink);font-weight:850}
+    details>div{padding:0 17px 17px}
+    .challenge-card button{margin-top:8px}
+    .challenge-answer{margin-top:12px;padding-top:12px;border-top:1px solid var(--grr-line);color:var(--grr-muted)}
+    .quiz-grid{grid-template-columns:1fr}
+    .question-card fieldset{border:0;padding:0;margin:0}
+    .question-card legend{color:var(--grr-ink);font-weight:850;margin-bottom:12px}
+    .option{display:flex;gap:10px;align-items:flex-start;padding:9px 0}
+    .feedback{margin-top:12px;padding:11px;border-radius:9px;font-size:.9rem}
+    .feedback.good{background:var(--grr-green-2);color:var(--grr-green)}.feedback.bad{background:var(--grr-red-2);color:var(--grr-red)}
+    .score{font-size:1.1rem;font-weight:850;padding:16px;border-radius:12px;background:var(--grr-surface-2)}
+    .completion{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px;border-radius:20px;background:linear-gradient(120deg,var(--grr-navy),#1c5267);color:white}
+    .completion h3{color:white;margin:0}.completion p{margin:.4em 0 0}
+    .completion .btn{flex:0 0 auto}
+    .mt-16{margin-top:16px}.mt-20{margin-top:20px}.mt-22{margin-top:22px}
+    .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    .hidden{display:none!important}
+    :where(#lesson-content) ul,:where(#lesson-content) ol{padding-left:1.35em}
+    li{margin:.38em 0}
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr}.hero-visual{max-width:620px}
+      .intro-grid,.three-col,.concept-grid{grid-template-columns:repeat(2,1fr)}
+      .control-grid,.metric-grid{grid-template-columns:repeat(2,1fr)}
+      .chart-grid{grid-template-columns:1fr}
+      .target-wrap{grid-template-columns:1fr}
+    }
+    @media(max-width:620px){
+      #lesson-content{font-size:15px}.shell{width:min(100% - 22px,1160px)}
+      .hero{padding-top:46px;gap:28px}h1{font-size:clamp(3rem,18vw,5rem)}
+      main section{padding:56px 0}
+      .intro-grid,.two-col,.three-col,.concept-grid,.software-grid,.metric-grid,.control-grid{grid-template-columns:1fr}
+      .lab-head{display:block}.lab-body,.lab-head{padding:17px}
+      .completion{display:block}.completion .btn{margin-top:16px;width:100%}
+      .signal-row{grid-template-columns:100px 1fr 40px}
+      .plot{min-height:310px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+    }
+  </style>
+
+  <style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+</head>
+<body data-lesson-page="true" data-category="quality-engineering" data-level="beginner" data-interactive="true" data-lesson-type="general">
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+  <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+  <header class="site lesson-sitebar">
+    <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+    <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+    <div class="header-actions">
+      <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+      <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+    </div>
+  </header>
+
+  <nav class="toc-wrap" aria-label="Lesson sections">
+    <div class="shell toc">
+      <a href="#start">Start</a><a href="#language">Foundations</a><a href="#msa-map">MSA map</a>
+      <a href="#accuracy-lab">Bias &amp; linearity</a><a href="#design">Study design</a>
+      <a href="#grr-lab">Live Gage R&amp;R</a><a href="#interpret">Interpret</a>
+      <a href="#software">Minitab &amp; Excel</a><a href="#practice">Practice</a><a href="#quiz">Quiz</a>
+    </div>
+  </nav>
+
+  <main id="lesson-content">
+    <article>
+      <header class="shell hero" id="start">
+        <div>
+          <p class="eyebrow">Quality Engineering · Measurement System Analysis · Beginner</p>
+          <h1>Gage R&amp;R<br><em>You Can See</em></h1>
+          <p class="lead">A measurement is never just a number. Learn to see what came from the part, what came from the gage, and what came from the person using it—then run the study yourself.</p>
+          <div class="hero-meta">
+            <span class="tag">75 minutes</span><span class="tag">Beginner</span><span class="tag">8 live activities</span><span class="tag">Minitab + Excel</span>
+          </div>
+          <div class="callout good"><strong>By the end:</strong> you will be able to explain, design, run, interpret, and improve a variable Gage R&amp;R study without treating one percentage as the whole answer.</div>
+        </div>
+        <div class="hero-visual" role="img" aria-label="Illustration of desired measurement variation">
+          <h2>What should create the spread?</h2>
+          <div class="signal-strip">
+            <div class="signal-row"><span>Real parts</span><span class="signal-track"><i class="signal-fill signal-parts"></i></span><strong>Large</strong></div>
+            <div class="signal-row"><span>Repeatability</span><span class="signal-track"><i class="signal-fill signal-repeat"></i></span><strong>Small</strong></div>
+            <div class="signal-row"><span>Reproducibility</span><span class="signal-track"><i class="signal-fill signal-repro"></i></span><strong>Small</strong></div>
+          </div>
+          <p class="hero-question">A good system makes real part differences easy to see and measurement noise hard to notice.</p>
+        </div>
+      </header>
+
+      <section>
+        <div class="shell">
+          <div class="chapter"><span class="chapter-label">Your learning route</span></div>
+          <h2>Start With the Question, Not the Formula</h2>
+          <div class="intro-grid">
+            <div class="objective"><strong>1 · See the error</strong><span>Move sliders and watch repeated readings separate, shift, or drift.</span></div>
+            <div class="objective"><strong>2 · Name the source</strong><span>Tell repeatability, reproducibility, bias, linearity, stability, and part variation apart.</span></div>
+            <div class="objective"><strong>3 · Run the study</strong><span>Collect a randomized crossed study and watch ANOVA separate the components.</span></div>
+            <div class="objective"><strong>4 · Read the evidence</strong><span>Use graphs, %Study Variation, %Tolerance, %Contribution, and ndc together.</span></div>
+            <div class="objective"><strong>5 · Choose the design</strong><span>Select crossed, nested, expanded, Type 1, or linearity and bias based on the question.</span></div>
+            <div class="objective"><strong>6 · Improve the system</strong><span>Connect the dominant error source to practical corrective action.</span></div>
+          </div>
+          <p class="callout warn"><strong>Vocabulary note:</strong> industry software and the AIAG manual commonly spell the word <em>gage</em>. General English often uses <em>gauge</em>. This lesson uses “Gage R&amp;R,” but both spellings refer to the same study.</p>
+        </div>
+      </section>
+
+      <section id="language">
+        <div class="shell">
+          <div class="chapter"><span class="chapter-label">01 · First principles</span></div>
+          <h2>Every Reading Has a Story</h2>
+          <p class="lead">Suppose a pipe wall is truly 8.000 mm thick. A micrometer might show 8.006 mm. The extra 0.006 mm did not necessarily come from the pipe.</p>
+          <span class="formula">Observed reading = reference or part value + systematic error + random error</span>
+
+          <div class="lab">
+            <div class="lab-head">
+              <div><h3 id="warmTitle">Measurement Anatomy Lab</h3><p>Keep the same part. Change only the measurement system.</p></div>
+              <span class="tag">Move any slider</span>
+            </div>
+            <div class="lab-body">
+              <div class="control-grid">
+                <div class="control"><div class="control-head"><label for="warmTrue">True part value</label><output id="warmTrueOut" for="warmTrue">8.000 mm</output></div><input id="warmTrue" type="range" min="7.8" max="8.2" step=".005" value="8"></div>
+                <div class="control"><div class="control-head"><label for="warmBias">Common bias</label><output id="warmBiasOut" for="warmBias">+0.000 mm</output></div><input id="warmBias" type="range" min="-.06" max=".06" step=".002" value="0"></div>
+                <div class="control"><div class="control-head"><label for="warmRepeat">Repeatability σ</label><output id="warmRepeatOut" for="warmRepeat">0.006 mm</output></div><input id="warmRepeat" type="range" min=".001" max=".05" step=".001" value=".006"></div>
+                <div class="control"><div class="control-head"><label for="warmRepro">Appraiser spread</label><output id="warmReproOut" for="warmRepro">0.004 mm</output></div><input id="warmRepro" type="range" min="0" max=".05" step=".001" value=".004"></div>
+              </div>
+              <div id="warmPlot" class="plot" role="img" aria-label="Repeated measurements of one part by three appraisers"></div>
+              <div class="metric-grid mt-16">
+                <div class="metric-card pending"><small>Average reading</small><strong id="warmMean">—</strong><span>centre of all readings</span></div>
+                <div class="metric-card pending"><small>Observed bias</small><strong id="warmObservedBias">—</strong><span>average − reference</span></div>
+                <div class="metric-card pending"><small>Reading spread</small><strong id="warmSpread">—</strong><span>highest − lowest</span></div>
+                <div class="metric-card pending"><small>What changed?</small><strong id="warmDiagnosis">—</strong><span id="warmDiagnosisNote">Move a slider</span></div>
+              </div>
+            </div>
+          </div>
+
+          <h3>Systematic Error and Random Error Are Different</h3>
+          <div class="two-col">
+            <div class="card"><span class="status warn">Systematic</span><h3>Shift or pattern</h3><p>The results are consistently high, low, changing with size, or drifting with time. Bias, linearity, and stability problems live here.</p><p><strong>It can be precise and still wrong.</strong></p></div>
+            <div class="card"><span class="status good">Random</span><h3>Scatter</h3><p>The result moves unpredictably when the same thing is measured again. Repeatability and reproducibility are major sources of this scatter.</p><p><strong>It makes real differences harder to see.</strong></p></div>
+          </div>
+
+          <h3>Accuracy and Precision Are Not Synonyms</h3>
+          <div class="target-wrap card">
+            <svg id="targetSvg" viewBox="0 0 360 360" role="img" aria-label="Interactive accuracy and precision target">
+              <circle cx="180" cy="180" r="148" fill="none" stroke="var(--grr-line)" stroke-width="3"/>
+              <circle cx="180" cy="180" r="100" fill="none" stroke="var(--grr-line)" stroke-width="3"/>
+              <circle cx="180" cy="180" r="52" fill="none" stroke="var(--grr-line)" stroke-width="3"/>
+              <line x1="22" x2="338" y1="180" y2="180" stroke="var(--grr-line)" stroke-width="2"/>
+              <line y1="22" y2="338" x1="180" x2="180" stroke="var(--grr-line)" stroke-width="2"/>
+              <g id="targetDots"></g>
+            </svg>
+            <div>
+              <div class="button-row" role="group" aria-label="Accuracy and precision examples">
+                <button class="btn target-preset active" type="button" data-target="both" aria-pressed="true">Accurate + precise</button>
+                <button class="btn target-preset" type="button" data-target="precise" aria-pressed="false">Precise, biased</button>
+                <button class="btn target-preset" type="button" data-target="accurate" aria-pressed="false">Accurate on average</button>
+                <button class="btn target-preset" type="button" data-target="neither" aria-pressed="false">Neither</button>
+              </div>
+              <div class="target-note callout good" id="targetNote"><strong>Accurate and precise:</strong> readings are close to the reference and close to one another. This is the goal.</div>
+              <p><strong>Gage R&amp;R mainly studies precision.</strong> Bias and linearity studies assess accuracy against reference values. A complete MSA needs both questions.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="msa-map">
+        <div class="shell">
+          <div class="chapter"><span class="chapter-label">02 · The MSA family</span></div>
+          <h2>Six Concepts Beginners Must Separate</h2>
+          <p class="lead">Select a card. Each concept asks a different question and needs different evidence.</p>
+          <div class="concept-grid" id="conceptGrid">
+            <button class="concept-card active" type="button" data-concept="repeatability" aria-pressed="true"><strong>Repeatability (EV)</strong><span>Same part, person, gage, method—again.</span></button>
+            <button class="concept-card" type="button" data-concept="reproducibility" aria-pressed="false"><strong>Reproducibility (AV)</strong><span>Different appraisers, setups, or conditions.</span></button>
+            <button class="concept-card" type="button" data-concept="bias" aria-pressed="false"><strong>Bias</strong><span>Average difference from a reference.</span></button>
+            <button class="concept-card" type="button" data-concept="linearity" aria-pressed="false"><strong>Linearity</strong><span>Does bias change across the range?</span></button>
+            <button class="concept-card" type="button" data-concept="stability" aria-pressed="false"><strong>Stability</strong><span>Does the system change over time?</span></button>
+            <button class="concept-card" type="button" data-concept="resolution" aria-pressed="false"><strong>Resolution</strong><span>What is the smallest displayed increment?</span></button>
+          </div>
+          <div class="concept-detail" id="conceptDetail" aria-live="polite">
+            <h3 id="conceptTitle">Repeatability (equipment variation, EV)</h3>
+            <p id="conceptQuestion"><strong>Question:</strong> If one appraiser measures the same part several times under the same conditions, how tightly do the readings agree?</p>
+            <p id="conceptEvidence"><strong>Evidence:</strong> repeated readings, within-cell ranges, the R chart, and the repeatability variance component.</p>
+            <p id="conceptAction"><strong>Typical action:</strong> inspect gage condition, fixturing, locating method, measurement force, environment, and resolution.</p>
+          </div>
+
+          <h3>Where Part Variation Fits</h3>
+          <div class="callout good"><strong>Part-to-part variation (PV) is the useful signal.</strong> It is the real variation among the sampled parts. Gage R&amp;R asks whether the measurement system can separate that signal from measurement noise.</div>
+          <div class="three-col">
+            <div class="card"><h4>Repeatability</h4><p>Scatter when the same appraiser repeats the measurement.</p></div>
+            <div class="card"><h4>Reproducibility</h4><p>Differences among appraisers, plus part × appraiser interaction when included.</p></div>
+            <div class="card"><h4>Total Gage R&amp;R</h4><p>The combined measurement-system standard deviation.</p></div>
+          </div>
+          <span class="formula">\(\sigma_{GRR}=\sqrt{\sigma^2_{repeatability}+\sigma^2_{appraiser}+\sigma^2_{part\times appraiser}}\)</span>
+          <span class="formula">\(\sigma_{total}=\sqrt{\sigma^2_{GRR}+\sigma^2_{part}}\)</span>
+          <p class="callout warn"><strong>Do not add standard deviations directly.</strong> Independent variance components add. Convert back to standard deviation by taking the square root.</p>
+        </div>
+      </section>
+
+      <section id="accuracy-lab">
+        <div class="shell">
+          <div class="chapter"><span class="chapter-label">03 · Accuracy across size and time</span></div>
+          <h2>Bias, Linearity, and Stability—Made Visible</h2>
+
+          <h3>Bias and Linearity Lab</h3>
+          <p><strong>Bias</strong> is the average measurement minus the accepted reference value. Positive bias means the gage reads high; negative bias means it reads low. <strong>Linearity</strong> asks whether that bias stays the same across the operating range.</p>
+          <div class="lab">
+            <div class="lab-head"><div><h3 id="linearityTitle">Reference-to-Reading Simulator</h3><p>A healthy fitted line is close to horizontal and close to zero.</p></div><span class="tag">Accuracy study</span></div>
+            <div class="lab-body">
+              <div class="preset-row" role="group" aria-label="Bias and linearity presets">
+                <button class="btn linearity-preset active" type="button" data-preset="accurate" aria-pressed="true">Healthy</button>
+                <button class="btn linearity-preset" type="button" data-preset="high" aria-pressed="false">Constant high bias</button>
+                <button class="btn linearity-preset" type="button" data-preset="slope" aria-pressed="false">Linearity problem</button>
+              </div>
+              <div class="control-grid">
+                <div class="control"><div class="control-head"><label for="biasOffset">Bias at midpoint</label><output id="biasOffsetOut" for="biasOffset">+0.000 mm</output></div><input id="biasOffset" type="range" min="-.06" max=".06" step=".002" value="0"></div>
+                <div class="control"><div class="control-head"><label for="biasSlope">Bias change per mm</label><output id="biasSlopeOut" for="biasSlope">+0.000</output></div><input id="biasSlope" type="range" min="-.12" max=".12" step=".005" value="0"></div>
+                <div class="control"><div class="control-head"><label for="biasNoise">Repeatability σ</label><output id="biasNoiseOut" for="biasNoise">0.005 mm</output></div><input id="biasNoise" type="range" min=".001" max=".025" step=".001" value=".005"></div>
+              </div>
+              <div id="linearityPlot" class="plot" role="img" aria-label="Bias versus reference value plot"></div>
+              <div class="metric-grid">
+                <div class="metric-card pending"><small>Average bias</small><strong id="linearityMeanBias">—</strong><span>all references combined</span></div>
+                <div class="metric-card pending"><small>Fitted slope</small><strong id="linearitySlopeResult">—</strong><span>bias change per mm</span></div>
+                <div class="metric-card pending"><small>Direction</small><strong id="linearityDirection">—</strong><span>positive reads high</span></div>
+                <div class="metric-card pending"><small>Visual diagnosis</small><strong id="linearityDiagnosis">—</strong><span id="linearityDiagnosisNote">educational simulator</span></div>
+              </div>
+            </div>
+          </div>
+          <p class="callout"><strong>How the formal study works:</strong> choose reference parts across the gage range, obtain accepted reference values, have one appraiser measure each part repeatedly in randomized order, and regress bias on reference value. Use the slope test for linearity and the bias tests—not a visual threshold alone.</p>
+
+          <h3>Stability Lab</h3>
+          <p><strong>Stability</strong> means the measurement system stays statistically consistent over time. A gage can pass a short Gage R&amp;R today and drift next month.</p>
+          <div class="lab">
+            <div class="lab-head"><div><h3 id="stabilityTitle">Check-Standard Timeline</h3><p>The same reference is measured three times each period.</p></div><span class="tag">Time matters</span></div>
+            <div class="lab-body">
+              <div class="control-grid">
+                <div class="control"><div class="control-head"><label for="stabilityDrift">Drift per period</label><output id="stabilityDriftOut" for="stabilityDrift">+0.0000 mm</output></div><input id="stabilityDrift" type="range" min="-.004" max=".004" step=".0002" value="0"></div>
+                <div class="control"><div class="control-head"><label for="stabilityNoise">Short-term σ</label><output id="stabilityNoiseOut" for="stabilityNoise">0.004 mm</output></div><input id="stabilityNoise" type="range" min=".001" max=".015" step=".001" value=".004"></div>
+              </div>
+              <div id="stabilityPlot" class="plot small" role="img" aria-label="Check standard averages over time"></div>
+              <div class="two-col">
+                <div class="metric-card pending"><small>First-half versus last-half</small><strong id="stabilityShift">—</strong><span>change in average reading</span></div>
+                <div class="metric-card pending"><small>Stability signal</small><strong id="stabilityDiagnosis">—</strong><span id="stabilityNote">watch the time pattern</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scroll-table mt-22">
+            <table class="plain-table">
+              <thead><tr><th>Question</th><th>Concept</th><th>Typical study</th></tr></thead>
+              <tbody>
+                <tr><td>Do repeated readings agree?</td><td class="term">Repeatability</td><td>Type 1 or Gage R&amp;R</td></tr>
+                <tr><td>Do appraisers agree?</td><td class="term">Reproducibility</td><td>Crossed/nested Gage R&amp;R</td></tr>
+                <tr><td>Is the average correct?</td><td class="term">Bias</td><td>Type 1 or bias study</td></tr>
+                <tr><td>Is accuracy consistent across size?</td><td class="term">Linearity</td><td>Gage linearity and bias study</td></tr>
+                <tr><td>Does performance stay consistent over time?</td><td class="term">Stability</td><td>Check standard + control chart</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="design">
+        <div class="shell">
+          <div class="chapter"><span class="chapter-label">04 · Choose the right study</span></div>
+          <h2>Study Design Comes Before Software</h2>
+          <div class="callout warn"><strong>First verify the basics:</strong> the instrument is calibrated, its resolution is suitable, the normal work method is defined, the characteristic is measurable, and the study parts are safe and representative. Gage R&amp;R cannot repair a flawed study design.</div>
+
+          <div class="two-col">
+            <div>
+              <h3>Pick a situation</h3>
+              <div class="button-row" id="designButtons">
+                <button class="btn design-btn active" type="button" data-design="crossed" aria-pressed="true">Same parts can be remeasured</button>
+                <button class="btn design-btn" type="button" data-design="nested" aria-pressed="false">Test destroys the specimen</button>
+                <button class="btn design-btn" type="button" data-design="expanded" aria-pressed="false">Extra factors or unbalanced data</button>
+                <button class="btn design-btn" type="button" data-design="type1" aria-pressed="false">One reference, one appraiser</button>
+                <button class="btn design-btn" type="button" data-design="linearity" aria-pressed="false">Accuracy across the range</button>
+              </div>
+            </div>
+            <div class="decision-output" id="designOutput" aria-live="polite">
+              <h3>Crossed Gage R&amp;R</h3>
+              <p>Every appraiser measures every part. Use this for non-destructive measurements such as wall thickness on the same pipe rings.</p>
+              <p><strong>Structure:</strong> Part × Appraiser × Trial</p>
+            </div>
+          </div>
+
+          <h3>A Defensible Crossed Study—Step by Step</h3>
+          <ol class="grr-steps">
+            <li><strong>Define the decision.</strong> State the characteristic, units, specification, intended use, and required measurement performance.</li>
+            <li><strong>Select representative parts.</strong> Use at least about 10 parts spanning the normal low-to-high process range—not ten nearly identical parts.</li>
+            <li><strong>Select typical appraisers.</strong> A common starting point is three people representing normal shifts, skill levels, and methods.</li>
+            <li><strong>Plan repeats.</strong> Use two or three trials per appraiser-part cell. A 10 × 3 × 2 design gives 60 readings.</li>
+            <li><strong>Randomize and blind.</strong> Hide part identity where practical, randomize order for every trial, and keep earlier results hidden.</li>
+            <li><strong>Reset the measurement.</strong> Remove, reposition, and re-fixture the part between repeats. Re-reading the same display understates error.</li>
+            <li><strong>Use normal conditions.</strong> Keep the production method, fixture, environment, instrument, and rounding rule realistic.</li>
+            <li><strong>Record—not erase—events.</strong> Document unusual conditions. Investigate questionable readings rather than silently deleting them.</li>
+          </ol>
+          <p class="callout bad"><strong>Destructive-test warning:</strong> if appraisers do not measure the same physical parts, the ordinary crossed model is not present. Use a justified nested or expanded design; do not relabel different specimens as the “same part.”</p>
+        </div>
+      </section>
+
+      <section id="grr-lab">
+        <div class="shell">
+          <div class="chapter"><span class="chapter-label">05 · Live study</span></div>
+          <h2>Run a Gage R&amp;R Study in Real Time</h2>
+          <p class="lead">This miniature measurement lab generates a balanced crossed study. Change one source of variation and watch every graph and metric respond.</p>
+
+          <div class="lab" id="grrLab">
+            <div class="lab-head">
+              <div><h3 id="grrLabTitle">Pipe-Wall Measurement Control Room</h3><p>Nominal wall = 8.000 mm. Each simulated reading contains part, appraiser, interaction, and repeatability effects.</p></div>
+              <span class="tag">Balanced crossed ANOVA</span>
+            </div>
+            <div class="lab-body">
+              <div class="preset-row" role="group" aria-label="Gage R&amp;R diagnostic presets">
+                <button class="btn grr-preset active" type="button" data-preset="capable" aria-pressed="true">Capable system</button>
+                <button class="btn grr-preset" type="button" data-preset="repeat" aria-pressed="false">Poor repeatability</button>
+                <button class="btn grr-preset" type="button" data-preset="operator" aria-pressed="false">Appraiser shift</button>
+                <button class="btn grr-preset" type="button" data-preset="interaction" aria-pressed="false">Interaction problem</button>
+                <button class="btn grr-preset" type="button" data-preset="narrow" aria-pressed="false">Narrow part range</button>
+              </div>
+              <div class="control-grid">
+                <div class="control"><div class="control-head"><label for="grrParts">Parts</label><output id="grrPartsOut" for="grrParts">10</output></div><input id="grrParts" type="range" min="5" max="12" step="1" value="10"></div>
+                <div class="control"><div class="control-head"><label for="grrOperators">Appraisers</label><output id="grrOperatorsOut" for="grrOperators">3</output></div><input id="grrOperators" type="range" min="2" max="4" step="1" value="3"></div>
+                <div class="control"><div class="control-head"><label for="grrTrials">Trials</label><output id="grrTrialsOut" for="grrTrials">2</output></div><input id="grrTrials" type="range" min="2" max="3" step="1" value="2"></div>
+                <div class="control"><div class="control-head"><label for="grrTolerance">Tolerance width</label><output id="grrToleranceOut" for="grrTolerance">0.500 mm</output></div><input id="grrTolerance" type="range" min=".1" max="1" step=".025" value=".5"></div>
+                <div class="control"><div class="control-head"><label for="grrPartSigma">Part σ</label><output id="grrPartSigmaOut" for="grrPartSigma">0.110 mm</output></div><input id="grrPartSigma" type="range" min=".01" max=".18" step=".005" value=".11"></div>
+                <div class="control"><div class="control-head"><label for="grrRepeatSigma">Repeatability σ</label><output id="grrRepeatSigmaOut" for="grrRepeatSigma">0.006 mm</output></div><input id="grrRepeatSigma" type="range" min=".001" max=".07" step=".001" value=".006"></div>
+                <div class="control"><div class="control-head"><label for="grrOperatorSigma">Appraiser σ</label><output id="grrOperatorSigmaOut" for="grrOperatorSigma">0.002 mm</output></div><input id="grrOperatorSigma" type="range" min="0" max=".05" step=".001" value=".002"></div>
+                <div class="control"><div class="control-head"><label for="grrInteractionSigma">Interaction σ</label><output id="grrInteractionSigmaOut" for="grrInteractionSigma">0.001 mm</output></div><input id="grrInteractionSigma" type="range" min="0" max=".05" step=".001" value=".001"></div>
+              </div>
+
+              <div class="button-row">
+                <button class="btn primary" type="button" id="grrGenerate">Generate new study</button>
+                <button class="btn" type="button" id="grrPlay" aria-pressed="false">▶ Play collection</button>
+                <button class="btn" type="button" id="grrNext">Next reading</button>
+                <button class="btn" type="button" id="grrShowAll">Show complete study</button>
+              </div>
+              <div class="collection-bar">
+                <label class="sr-only" for="grrProgress">Collected readings</label>
+                <input id="grrProgress" type="range" min="0" max="60" step="1" value="60">
+                <output id="grrProgressOut">60 / 60 readings</output>
+              </div>
+
+              <div class="metric-grid">
+                <div class="metric-card pending" id="grrStudyCard"><small>% Study Variation <span class="tip" tabindex="0" data-tip="Measurement-system standard deviation divided by total study standard deviation.">?</span></small><strong id="grrStudyResult">—</strong><span id="grrStudyNote">Finish the study</span></div>
+                <div class="metric-card pending" id="grrTolCard"><small>% Tolerance <span class="tip" tabindex="0" data-tip="Six standard deviations of Gage R&amp;R divided by the full specification width.">?</span></small><strong id="grrTolResult">—</strong><span id="grrTolNote">Finish the study</span></div>
+                <div class="metric-card pending" id="grrNdcCard"><small>ndc <span class="tip" tabindex="0" data-tip="Estimated number of distinct part categories the system can separate. Target is commonly at least 5.">?</span></small><strong id="grrNdcResult">—</strong><span id="grrNdcNote">Common target ≥ 5</span></div>
+                <div class="metric-card pending" id="grrDecisionCard"><small>Common guideline</small><strong id="grrDecisionResult">Collecting</strong><span id="grrDecisionNote">Graphs still update live</span></div>
+              </div>
+
+              <div class="coach" aria-live="polite">
+                <span class="coach-icon">i</span>
+                <div><strong id="grrCoachTitle">The study is complete.</strong><p id="grrCoachText">Now change one error source or play the randomized collection to see what the analysis can and cannot know before all planned readings exist.</p></div>
+              </div>
+
+              <div class="chart-grid">
+                <div class="chart-card"><h4>Measurements by part</h4><p>Healthy: tight clusters within each part and clear separation between part averages.</p><div id="grrPartPlot" class="plot small" role="img" aria-label="Measurements by part"></div></div>
+                <div class="chart-card"><h4>Part × appraiser interaction</h4><p>Healthy: appraiser lines are close and roughly parallel.</p><div id="grrInteractionPlot" class="plot small" role="img" aria-label="Part by appraiser interaction plot"></div></div>
+                <div class="chart-card"><h4>Variance contribution</h4><p>Healthy: real part-to-part variance dominates the measurement components.</p><div id="grrVariancePlot" class="plot small" role="img" aria-label="Variance contribution chart"></div></div>
+                <div class="chart-card"><h4>Appraiser comparison</h4><p>Healthy: appraiser centres and spreads are similar.</p><div id="grrOperatorPlot" class="plot small" role="img" aria-label="Measurements by appraiser"></div></div>
+                <div class="chart-card wide"><h4>Within-cell range chart</h4><p>Each point is the range of all repeated readings for one completed part-appraiser cell. A point appears only after every planned trial in that cell has been collected.</p><div id="grrRangePlot" class="plot small" role="img" aria-label="Within-cell range chart"></div></div>
+              </div>
+
+              <details>
+                <summary>Open the randomized measurement table</summary>
+                <div>
+                  <div class="button-row"><button class="btn" type="button" id="downloadCsv">Download study CSV</button></div>
+                  <div class="scroll-table"><table class="plain-table"><thead><tr><th>Order</th><th>Part</th><th>Appraiser</th><th>Trial</th><th>Measurement (mm)</th><th>Status</th></tr></thead><tbody id="grrDataBody"></tbody></table></div>
+                </div>
+              </details>
+              <span class="sr-only" id="grrAnnouncer" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <div class="challenge-grid mt-20">
+            <div class="challenge-card"><span class="status warn">Challenge 1</span><h3>Which graph exposes poor repeatability?</h3><p>Load the poor-repeatability preset. Predict what changes before showing the answer.</p><button class="btn reveal-btn" type="button" data-reveal="answer1" aria-expanded="false">Reveal answer</button><div class="challenge-answer hidden" id="answer1">Within-part points spread vertically, appraiser boxes widen, and repeatability dominates the variance chart. The interaction lines may remain broadly parallel.</div></div>
+            <div class="challenge-card"><span class="status warn">Challenge 2</span><h3>What does crossing mean?</h3><p>Load interaction problem. Why can similar overall appraiser averages still mislead?</p><button class="btn reveal-btn" type="button" data-reveal="answer2" aria-expanded="false">Reveal answer</button><div class="challenge-answer hidden" id="answer2">Crossing or fanning lines mean an appraiser’s difference depends on the part. Overall averages can cancel while part-specific disagreement remains.</div></div>
+            <div class="challenge-card"><span class="status warn">Challenge 3</span><h3>Why can narrow parts hurt ndc?</h3><p>Load narrow part range. The gage did not change—so why did the study look worse?</p><button class="btn reveal-btn" type="button" data-reveal="answer3" aria-expanded="false">Reveal answer</button><div class="challenge-answer hidden" id="answer3">The sampled PV shrank. The same measurement noise now occupies more of total study variation, so %Study Variation rises and ndc falls. This is a sampling problem, not automatically a damaged gage.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="interpret">
+        <div class="shell">
+          <div class="chapter"><span class="chapter-label">06 · Interpret without shortcuts</span></div>
+          <h2>Four Metrics, Four Different Questions</h2>
+          <div class="scroll-table">
+            <table class="plain-table">
+              <thead><tr><th>Metric</th><th>Question answered</th><th>Common guideline</th><th>Important caution</th></tr></thead>
+              <tbody>
+                <tr><td class="term">%Study Variation</td><td>How large is measurement spread relative to the spread in this study?</td><td>&lt;10% acceptable; 10–30% conditional; &gt;30% generally unacceptable</td><td>Depends strongly on whether study parts represent the intended process variation.</td></tr>
+                <tr><td class="term">%Tolerance</td><td>How much of USL − LSL is consumed by 6σ of measurement error?</td><td>Same common 10% and 30% bands</td><td>Needs the correct full tolerance and the chosen study-variation multiplier.</td></tr>
+                <tr><td class="term">%Contribution</td><td>What share of total variance comes from each source?</td><td>&lt;1% acceptable; 1–9% conditional; &gt;9% generally unacceptable for Total Gage R&amp;R</td><td>Uses variance, so it is the squared counterpart of the study-variation proportion.</td></tr>
+                <tr><td class="term">ndc</td><td>How many distinct part categories can the system separate?</td><td>Common minimum ≥5; ≥10 is stronger</td><td>A narrow part sample can reduce ndc even when repeatability is unchanged.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="callout warn"><strong>These are guidelines, not universal laws.</strong> Customer rules, decision risk, product safety, cost, and intended use can require stricter criteria. State the governing criterion in the report.</p>
+
+          <h3>Core Formulas</h3>
+          <div class="two-col">
+            <div class="card"><h4>%Study Variation</h4><span class="formula">\(100\times\sigma_{GRR}/\sigma_{total}\)</span><p>Compares measurement spread with the observed study spread.</p></div>
+            <div class="card"><h4>%Tolerance</h4><span class="formula">\(100\times 6\sigma_{GRR}/(USL-LSL)\)</span><p>Uses the full tolerance width. Minitab’s default study-variation multiplier is 6.</p></div>
+            <div class="card"><h4>%Contribution</h4><span class="formula">\(100\times\sigma^2_{GRR}/\sigma^2_{total}\)</span><p>Compares variance rather than standard deviation.</p></div>
+            <div class="card"><h4>Distinct categories</h4><span class="formula">\(ndc=1.41\times\sigma_{part}/\sigma_{GRR}\)</span><p>Software reports an integer category count.</p></div>
+          </div>
+
+          <div class="lab">
+            <div class="lab-head"><div><h3 id="calcTitle">Result Interpreter</h3><p>Enter standard-deviation components from an analysis.</p></div><span class="tag">Instant calculation</span></div>
+            <div class="lab-body">
+              <div class="control-grid">
+                <div class="control"><label for="calcEv">Repeatability σ (EV)</label><input id="calcEv" type="number" min="0" step=".001" value=".018"></div>
+                <div class="control"><label for="calcAv">Appraiser σ (AV)</label><input id="calcAv" type="number" min="0" step=".001" value=".012"></div>
+                <div class="control"><label for="calcInt">Interaction σ</label><input id="calcInt" type="number" min="0" step=".001" value="0"></div>
+                <div class="control"><label for="calcPv">Part σ (PV)</label><input id="calcPv" type="number" min="0" step=".001" value=".110"></div>
+                <div class="control"><label for="calcTol">Tolerance width</label><input id="calcTol" type="number" min="0" step=".001" value=".500"></div>
+              </div>
+              <div class="metric-grid mt-16">
+                <div class="metric-card pending"><small>σ Gage R&amp;R</small><strong id="calcGrr">—</strong><span>root-sum-of-squares</span></div>
+                <div class="metric-card pending"><small>% Study Variation</small><strong id="calcStudy">—</strong><span>measurement ÷ total</span></div>
+                <div class="metric-card pending"><small>% Tolerance</small><strong id="calcTolerance">—</strong><span>6σ ÷ tolerance</span></div>
+                <div class="metric-card pending"><small>ndc</small><strong id="calcNdc">—</strong><span>common target ≥5</span></div>
+              </div>
+              <p class="coach" id="calcVerdict" aria-live="polite"><span class="coach-icon">i</span><span>Enter valid non-negative components and a positive tolerance.</span></p>
+            </div>
+          </div>
+
+          <h3>Read the Graphs Before the Verdict</h3>
+          <ol class="grr-steps">
+            <li><strong>Start with the R chart or within-cell ranges.</strong> Unstable or inconsistent repeats make later averages less trustworthy.</li>
+            <li><strong>Check measurements by part.</strong> Repeats should cluster tightly; part averages should cover the intended range.</li>
+            <li><strong>Check measurements by appraiser.</strong> Look for shifted centres, unequal spread, rounding patterns, or one appraiser behaving differently.</li>
+            <li><strong>Check part × appraiser interaction.</strong> Crossing or fanning lines mean disagreement depends on the part.</li>
+            <li><strong>Then read variance components and metrics.</strong> Identify the dominant measurement source and connect it to action.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="worked-example">
+        <div class="shell">
+          <div class="chapter"><span class="chapter-label">07 · Worked steel example</span></div>
+          <h2>Pipe-Wall Micrometer Study</h2>
+          <p>A quality team studies a 0.500 mm-wide tolerance using 10 pipe rings, 3 inspectors, and 2 randomized trials. ANOVA estimates:</p>
+          <div class="three-col">
+            <div class="metric-card"><small>Repeatability σ</small><strong>0.018 mm</strong><span>within-appraiser scatter</span></div>
+            <div class="metric-card"><small>Appraiser σ</small><strong>0.012 mm</strong><span>between-appraiser effect</span></div>
+            <div class="metric-card"><small>Part σ</small><strong>0.110 mm</strong><span>real sampled part spread</span></div>
+          </div>
+          <span class="formula">\(\sigma_{GRR}=\sqrt{0.018^2+0.012^2}=0.0216\text{ mm}\)</span>
+          <span class="formula">\(\%StudyVar=100\times0.0216/\sqrt{0.0216^2+0.110^2}=19.3\%\)</span>
+          <span class="formula">\(\%Tolerance=100\times6(0.0216)/0.500=26.0\%\)</span>
+          <span class="formula">\(ndc=\lfloor1.41(0.110/0.0216)\rfloor=7\)</span>
+          <div class="callout warn"><strong>Conclusion:</strong> the system is conditionally acceptable under common guidelines, not automatically “passed.” It can distinguish at least five categories, but measurement error consumes a meaningful share of both study variation and tolerance. Repeatability is the larger component, so first investigate measurement force, contact cleanliness, positioning, fixturing, and instrument condition. Confirm the applicable customer criterion before release.</div>
+        </div>
+      </section>
+
+      <section id="software">
+        <div class="shell">
+          <div class="chapter"><span class="chapter-label">08 · Software implementation</span></div>
+          <h2>Run It in Minitab or Build Carefully in Excel</h2>
+          <div class="software-grid">
+            <div class="software-card">
+              <h3>Minitab · Crossed</h3>
+              <span class="path">Stat → Quality Tools → Gage Study → Gage R&amp;R Study (Crossed)</span>
+              <ol>
+                <li>Place one reading per row in <strong>Part</strong>, <strong>Appraiser</strong>, and <strong>Measurement</strong> columns.</li>
+                <li>Assign the matching columns to Part numbers, Operators, and Measurement data.</li>
+                <li>Select <strong>ANOVA</strong> as the method.</li>
+                <li>In Options, enter <strong>USL − LSL</strong> as process tolerance and confirm the study-variation multiplier.</li>
+                <li>Request confidence intervals when decisions are high risk.</li>
+              </ol>
+            </div>
+            <div class="software-card">
+              <h3>Minitab · Other designs</h3>
+              <span class="path">Stat → Quality Tools → Gage Study</span>
+              <ul>
+                <li><strong>Gage R&amp;R Study (Nested):</strong> parts are unique to appraisers.</li>
+                <li><strong>Gage R&amp;R Study (Expanded):</strong> additional factors, fixed factors, crossed/nested mixtures, or unbalanced data.</li>
+                <li><strong>Type 1 Gage Study:</strong> one reference part, one appraiser, repeated measurements.</li>
+                <li><strong>Gage Linearity and Bias Study:</strong> accuracy across reference values.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3>Recommended Data Layout</h3>
+          <div class="scroll-table">
+            <table class="plain-table">
+              <thead><tr><th>Part</th><th>Appraiser</th><th>Trial</th><th>Measurement_mm</th><th>Random_Order</th></tr></thead>
+              <tbody><tr><td>P07</td><td>A</td><td>1</td><td>8.214</td><td>1</td></tr><tr><td>P02</td><td>A</td><td>1</td><td>7.986</td><td>2</td></tr><tr><td>P09</td><td>C</td><td>2</td><td>8.331</td><td>37</td></tr></tbody>
+            </table>
+          </div>
+          <p><strong>Never average the trials before analysis.</strong> The repeats are needed to estimate repeatability.</p>
+
+          <h3>Excel Function Table</h3>
+          <div class="scroll-table">
+            <table class="plain-table">
+              <thead><tr><th>Task</th><th>Excel function or formula</th><th>Use</th><th>Caution</th></tr></thead>
+              <tbody>
+                <tr><td>Cell average</td><td><code>AVERAGEIFS()</code></td><td>Average by part and appraiser</td><td>Needs tidy identifiers and does not estimate variance components by itself.</td></tr>
+                <tr><td>Within-cell spread</td><td><code>MAXIFS()-MINIFS()</code></td><td>Range of repeated measurements</td><td>Range method is less flexible than ANOVA, especially with interaction.</td></tr>
+                <tr><td>Sample standard deviation</td><td><code>STDEV.S()</code></td><td>Descriptive scatter</td><td>Do not substitute one overall SD for a crossed variance-component model.</td></tr>
+                <tr><td>Root-sum-of-squares</td><td><code>SQRT(EV^2+AV^2+INT^2)</code></td><td>Combine standard-deviation components</td><td>Only after valid components have been estimated.</td></tr>
+                <tr><td>%Study Variation</td><td><code>100*GRR/SQRT(GRR^2+PV^2)</code></td><td>Relative to study variation</td><td>PV depends on representative part sampling.</td></tr>
+                <tr><td>%Tolerance</td><td><code>100*6*GRR/(USL-LSL)</code></td><td>Relative to specification width</td><td>Confirm the multiplier and full tolerance.</td></tr>
+                <tr><td>ndc</td><td><code>MAX(1,INT(1.41*PV/GRR))</code></td><td>Distinct category estimate</td><td>Handle GRR = 0 separately.</td></tr>
+                <tr><td>Bias</td><td><code>AVERAGE(Measurements)-Reference</code></td><td>Average offset</td><td>Formal inference needs repeated reference measurements.</td></tr>
+                <tr><td>Linearity slope</td><td><code>SLOPE(BiasRange,ReferenceRange)</code></td><td>Bias change across range</td><td>Use the formal study output for tests and confidence intervals.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="callout bad"><strong>Excel limitation:</strong> ordinary worksheet formulas do not automatically fit the required random-effects ANOVA or handle pooling, interaction, negative variance estimates, unbalanced data, or confidence intervals correctly. Use a validated workbook or statistical software for formal decisions. The Average-and-Range method is useful for teaching and simple balanced studies, but ANOVA is stronger when interaction matters.</p>
+        </div>
+      </section>
+
+      <section id="practice">
+        <div class="shell">
+          <div class="chapter"><span class="chapter-label">09 · Diagnose and improve</span></div>
+          <h2>Match the Symptom to the Correct Action</h2>
+          <div class="scroll-table">
+            <table class="plain-table">
+              <thead><tr><th>Evidence</th><th>Likely source</th><th>First investigation</th></tr></thead>
+              <tbody>
+                <tr><td>Large within-part scatter; high ranges</td><td class="term">Repeatability</td><td>Gage wear, dirt, contact force, fixture, location, environment, resolution.</td></tr>
+                <tr><td>One appraiser is consistently higher</td><td class="term">Reproducibility</td><td>Method interpretation, zeroing, pressure, training, setup, fixture use.</td></tr>
+                <tr><td>Appraiser lines cross or fan</td><td class="term">Part × appraiser interaction</td><td>Part-specific access, surface shape, technique, datum selection, readability.</td></tr>
+                <tr><td>All averages shifted from references</td><td class="term">Bias</td><td>Calibration, zero offset, master value, environmental correction.</td></tr>
+                <tr><td>Bias becomes larger at high values</td><td class="term">Linearity</td><td>Calibration range, scale factor, worn mechanism, wrong correction model.</td></tr>
+                <tr><td>Check standard trends over weeks</td><td class="term">Stability</td><td>Wear, temperature, maintenance, master drift, recalibration interval.</td></tr>
+                <tr><td>Few distinct displayed values</td><td class="term">Resolution</td><td>Instrument discrimination or excessive rounding/data entry.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Six Traps That Ruin Conclusions</h3>
+          <div class="three-col">
+            <div class="card"><h4>Narrow part range</h4><p>Understates PV, inflates %Study Variation, and reduces ndc.</p></div>
+            <div class="card"><h4>Wrong design</h4><p>Crossed analysis cannot represent destructive measurements on unique specimens.</p></div>
+            <div class="card"><h4>No repositioning</h4><p>Repeated display readings make repeatability look artificially small.</p></div>
+            <div class="card"><h4>Adding SDs</h4><p>Variance components add; standard deviations combine by root-sum-of-squares.</p></div>
+            <div class="card"><h4>Ignoring graphs</h4><p>A single Total Gage R&amp;R value can hide interaction or an abnormal appraiser.</p></div>
+            <div class="card"><h4>Equating precision with accuracy</h4><p>A highly repeatable gage can still be biased or nonlinear.</p></div>
+          </div>
+
+          <details>
+            <summary>Practice case: Should this system be released?</summary>
+            <div>
+              <p>A study reports %Study Variation = 8%, %Tolerance = 7%, and ndc = 12. A separate reference study shows +0.080 mm bias on a ±0.100 mm specification.</p>
+              <p><strong>Answer:</strong> Do not release it based on Gage R&amp;R alone. Precision is strong, but the systematic offset is large relative to the specification. Investigate and correct bias, then verify accuracy and repeatability again.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Practice case: Is a 35% Gage R&amp;R always a gage failure?</summary>
+            <div>
+              <p><strong>Answer:</strong> It is generally unacceptable under common guidelines, but first check the study design. If all parts came from a very narrow range, PV may be understated. %Tolerance, graphs, sample representativeness, and the dominant variance component tell you whether the main problem is the system, the sample, or both.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+        <p class="lesson-kicker">Knowledge check</p>
+        <h2 id="quiz-heading">Check your understanding</h2>
+        <div class="quiz">
+          <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+          <form id="quiz-form">
+            <fieldset class="quiz-question" data-answer="b" data-explanation="Repeatability is the scatter you see when the same appraiser measures the same part repeatedly under the same conditions.">
+              <legend>1. One appraiser measures the same pipe ring five times and the readings scatter widely. What source is most directly shown?</legend>
+              <label class="quiz-option"><input type="radio" name="q1" value="a"> Part-to-part variation</label>
+              <label class="quiz-option"><input type="radio" name="q1" value="b"> Repeatability</label>
+              <label class="quiz-option"><input type="radio" name="q1" value="c"> Linearity</label>
+              <div class="quiz-feedback"></div>
+            </fieldset>
+            <fieldset class="quiz-question" data-answer="c" data-explanation="Bias = average measurement &minus; reference = 8.025 &minus; 8.000 = +0.025 mm.">
+              <legend>2. A gage average is 8.025 mm when the accepted reference is 8.000 mm. What is the bias?</legend>
+              <label class="quiz-option"><input type="radio" name="q2" value="a"> &minus;0.025 mm</label>
+              <label class="quiz-option"><input type="radio" name="q2" value="b"> 8.025 mm</label>
+              <label class="quiz-option"><input type="radio" name="q2" value="c"> +0.025 mm</label>
+              <div class="quiz-feedback"></div>
+            </fieldset>
+            <fieldset class="quiz-question" data-answer="a" data-explanation="A bias that changes as the reference value changes is a linearity problem, not simple bias or stability.">
+              <legend>3. Bias is near zero for small parts but increasingly positive for large parts. What is the main concern?</legend>
+              <label class="quiz-option"><input type="radio" name="q3" value="a"> Linearity</label>
+              <label class="quiz-option"><input type="radio" name="q3" value="b"> Stability</label>
+              <label class="quiz-option"><input type="radio" name="q3" value="c"> Part-to-part variation</label>
+              <div class="quiz-feedback"></div>
+            </fieldset>
+            <fieldset class="quiz-question" data-answer="c" data-explanation="When testing destroys each specimen so parts are unique to appraisers, a nested design is appropriate&mdash;provided its sampling assumptions hold.">
+              <legend>4. Each tensile specimen is destroyed and each operator tests different specimens. Which ordinary design is appropriate?</legend>
+              <label class="quiz-option"><input type="radio" name="q4" value="a"> Crossed</label>
+              <label class="quiz-option"><input type="radio" name="q4" value="b"> Type 1 only</label>
+              <label class="quiz-option"><input type="radio" name="q4" value="c"> Nested, if its assumptions are justified</label>
+              <div class="quiz-feedback"></div>
+            </fieldset>
+            <fieldset class="quiz-question" data-answer="b" data-explanation="Low Gage R&amp;R shows the system is precise; consistently high readings versus references show bias, so it can be precise yet not accurate.">
+              <legend>5. Total Gage R&amp;R is low, but all measurements are consistently high versus references. Which statement is correct?</legend>
+              <label class="quiz-option"><input type="radio" name="q5" value="a"> The system is fully acceptable</label>
+              <label class="quiz-option"><input type="radio" name="q5" value="b"> It is precise but may not be accurate</label>
+              <label class="quiz-option"><input type="radio" name="q5" value="c"> High part variation caused the bias</label>
+              <div class="quiz-feedback"></div>
+            </fieldset>
+            <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+            <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+      </section>
+
+      <section id="summary">
+        <div class="shell">
+          <div class="chapter"><span class="chapter-label">11 · Final mental model</span></div>
+          <h2>The Whole Lesson in One Minute</h2>
+          <div class="three-col">
+            <div class="card"><h3>Signal</h3><p><strong>PV</strong> is the real difference among study parts. You want the gage to separate it clearly.</p></div>
+            <div class="card"><h3>Random noise</h3><p><strong>Repeatability + reproducibility + interaction</strong> combine into Total Gage R&amp;R.</p></div>
+            <div class="card"><h3>Systematic error</h3><p><strong>Bias, linearity, and stability</strong> can make precise results consistently wrong.</p></div>
+          </div>
+          <ul class="grr-steps">
+            <li>Define the measurement decision and choose the correct study.</li>
+            <li>Use representative parts, normal appraisers, repeats, randomization, blinding, and repositioning.</li>
+            <li>Inspect graphs before reducing the study to one number.</li>
+            <li>Interpret %Study Variation, %Tolerance, %Contribution, and ndc as different views—not interchangeable labels.</li>
+            <li>Match the dominant source to corrective action, then repeat the study under the improved method.</li>
+            <li>Never claim accuracy, linearity, or stability from Gage R&amp;R alone.</li>
+          </ul>
+
+          <div class="completion">
+            <div><h3>Lesson complete</h3><p>You have moved from “What is Gage R&amp;R?” to designing and diagnosing a full measurement study.</p><p id="completionStatus" aria-live="polite"></p></div>
+            <button class="btn" type="button" id="completeLesson" aria-pressed="false">Mark lesson complete</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="references">
+        <div class="shell">
+          <div class="chapter"><span class="chapter-label">References</span></div>
+          <h2>Authoritative Follow-Up</h2>
+          <ul>
+            <li><a href="https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/how-to/gage-study/crossed-gage-r-r-study/before-you-start/overview/" target="_blank" rel="noopener">Minitab: Crossed Gage R&amp;R Study overview</a></li>
+            <li><a href="https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/how-to/gage-study/crossed-gage-r-r-study/interpret-the-results/key-results/" target="_blank" rel="noopener">Minitab: Interpret Crossed Gage R&amp;R results</a></li>
+            <li><a href="https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/how-to/gage-study/gage-linearity-and-bias-study/before-you-start/overview/" target="_blank" rel="noopener">Minitab: Gage Linearity and Bias Study overview</a></li>
+            <li><a href="https://www.itl.nist.gov/div898/handbook/mpc/section4/mpc4.htm" target="_blank" rel="noopener">NIST/SEMATECH: Gauge R&amp;R studies and measurement-process characterization</a></li>
+          </ul>
+          <p>Use the applicable customer, industry, and organizational measurement-system requirements for acceptance decisions. Common 10%/30% bands are screening guidelines, not a replacement for risk-based criteria.</p>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+    <a href="/lessons#quality-engineering" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Quality Engineering lessons</a>
+  </section>
+
+  <footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+
+  <!-- EDIT: Lesson script -->
+  <script>
+  (function () {
+    'use strict';
+
+    const $ = (id) => document.getElementById(id);
+    const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+    const operatorNames = ['Appraiser A', 'Appraiser B', 'Appraiser C', 'Appraiser D'];
+    const operatorColors = ['#087f8c', '#e07a1f', '#7257c7', '#d14a61'];
+    const plotConfig = { responsive: true, displaylogo: false, modeBarButtonsToRemove: ['lasso2d', 'select2d'] };
+    const fixedZ = [-1.31, .18, .77, -.56, 1.08, -.16, .43, -1.04, .68, -.37, 1.42, -.71, .04, .93, -.82, .51, -1.19, .29, 1.16, -.47, .62, -.95, .11, .84];
+
+    function mean(values) {
+      return values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : 0;
+    }
+
+    function sampleSd(values) {
+      if (values.length < 2) return 0;
+      const center = mean(values);
+      return Math.sqrt(values.reduce((sum, value) => sum + (value - center) ** 2, 0) / (values.length - 1));
+    }
+
+    function signed(value, digits = 3, unit = '') {
+      const sign = value > 0 ? '+' : '';
+      return sign + value.toFixed(digits) + unit;
+    }
+
+    function clamp(value, minimum, maximum) {
+      return Math.min(maximum, Math.max(minimum, value));
+    }
+
+    function cssVar(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function plotTheme() {
+      return {
+        surface: cssVar('--grr-surface') || '#ffffff',
+        ink: cssVar('--grr-ink') || '#132238',
+        muted: cssVar('--grr-muted') || '#65758a',
+        line: cssVar('--grr-line') || '#d7e0e8',
+        teal: cssVar('--grr-teal') || '#087f8c',
+        amber: cssVar('--grr-amber') || '#b76900',
+        green: cssVar('--grr-green') || '#16724a',
+        red: cssVar('--grr-red') || '#b33a3a',
+        purple: cssVar('--grr-purple') || '#6b55b5'
+      };
+    }
+
+    function baseLayout(xTitle, yTitle, height = 320) {
+      const c = plotTheme();
+      return {
+        height,
+        margin: { l: 62, r: 22, t: 24, b: 55 },
+        paper_bgcolor: c.surface,
+        plot_bgcolor: c.surface,
+        font: { family: 'Inter, system-ui, sans-serif', color: c.muted, size: 12 },
+        hoverlabel: { bgcolor: c.ink, font: { color: c.surface } },
+        xaxis: { title: xTitle, gridcolor: c.line, zerolinecolor: c.line, automargin: true },
+        yaxis: { title: yTitle, gridcolor: c.line, zerolinecolor: c.line, automargin: true },
+        legend: { orientation: 'h', y: 1.12, x: 0 },
+        showlegend: true
+      };
+    }
+
+    function emptyLayout(message, height = 320) {
+      const layout = baseLayout('', '', height);
+      layout.xaxis.visible = false;
+      layout.yaxis.visible = false;
+      layout.annotations = [{ text: message, x: .5, y: .5, xref: 'paper', yref: 'paper', showarrow: false, font: { size: 14, color: plotTheme().muted } }];
+      return layout;
+    }
+
+    function renderPlot(id, traces, layout) {
+      const node = $(id);
+      if (!node) return;
+      if (!window.Plotly) {
+        node.innerHTML = '<div class="plot-fallback"><div><strong>Interactive graph could not load.</strong><br>The lesson calculations and tables still work. Reload when connected to view the graph.</div></div>';
+        return;
+      }
+      window.Plotly.react(node, traces, layout, plotConfig);
+    }
+
+    function setCardStatus(card, status) {
+      if (!card) return;
+      card.classList.remove('good', 'warn', 'bad', 'pending');
+      card.classList.add(status);
+    }
+
+    function seededRandom(seed) {
+      let state = seed >>> 0;
+      return function () {
+        state += 0x6D2B79F5;
+        let t = state;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function normalRandom(random) {
+      let u = 0;
+      let v = 0;
+      while (u === 0) u = random();
+      while (v === 0) v = random();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+
+    function standardize(values, targetSigma) {
+      const center = mean(values);
+      const centered = values.map((value) => value - center);
+      const current = sampleSd(centered);
+      if (targetSigma === 0 || current === 0) return centered.map(() => 0);
+      return centered.map((value) => value * targetSigma / current);
+    }
+
+    function linearRegression(x, y) {
+      const xBar = mean(x);
+      const yBar = mean(y);
+      const denominator = x.reduce((sum, value) => sum + (value - xBar) ** 2, 0);
+      const slope = denominator === 0 ? 0 : x.reduce((sum, value, index) => sum + (value - xBar) * (y[index] - yBar), 0) / denominator;
+      return { slope, intercept: yBar - slope * xBar };
+    }
+
+    function initTheme() {
+      let saved = null;
+      try { saved = localStorage.getItem('upskillsprint-theme'); } catch (error) { saved = null; }
+      const preferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      const initial = saved === 'dark' || saved === 'light' ? saved : preferred;
+      document.documentElement.dataset.theme = initial;
+      $('themeToggle').setAttribute('aria-checked', String(initial === 'dark'));
+
+      $('themeToggle').addEventListener('click', function () {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        this.setAttribute('aria-checked', String(next === 'dark'));
+        try { localStorage.setItem('upskillsprint-theme', next); } catch (error) { /* local preference only */ }
+        window.setTimeout(renderAllPlots, 30);
+      });
+    }
+
+    function initScrollProgress() {
+      const update = function () {
+        const available = document.documentElement.scrollHeight - window.innerHeight;
+        const percent = available > 0 ? 100 * window.scrollY / available : 0;
+        $('scrollProgress').style.width = clamp(percent, 0, 100) + '%';
+      };
+      update();
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+    }
+
+    const targetPresets = {
+      both: {
+        center: [180, 180], spread: 13,
+        note: '<strong>Accurate and precise:</strong> readings are close to the reference and close to one another. This is the goal.',
+        className: 'good'
+      },
+      precise: {
+        center: [244, 116], spread: 13,
+        note: '<strong>Precise but biased:</strong> readings agree with one another but miss the reference in the same direction. Gage R&amp;R can look good while accuracy is poor.',
+        className: 'warn'
+      },
+      accurate: {
+        center: [180, 180], spread: 52,
+        note: '<strong>Accurate on average, not precise:</strong> the cloud centres on the reference, but individual results vary too much. Repeatability or reproducibility needs improvement.',
+        className: 'warn'
+      },
+      neither: {
+        center: [244, 116], spread: 52,
+        note: '<strong>Neither accurate nor precise:</strong> results are shifted and scattered. Investigate systematic and random errors.',
+        className: 'bad'
+      }
+    };
+
+    function drawTarget(name) {
+      const preset = targetPresets[name];
+      const offsets = [[-1.1, .2], [-.5, -.8], [.2, .7], [.8, -.2], [1.05, .75], [-.85, 1], [.4, -1.1], [-.15, .05]];
+      $('targetDots').innerHTML = offsets.map((pair, index) => {
+        const x = preset.center[0] + pair[0] * preset.spread;
+        const y = preset.center[1] + pair[1] * preset.spread;
+        return '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="8" fill="' + (index % 2 ? '#e07a1f' : '#087f8c') + '" opacity=".88"/>';
+      }).join('');
+      const note = $('targetNote');
+      note.innerHTML = preset.note;
+      note.className = 'target-note callout ' + preset.className;
+      $$('.target-preset').forEach((button) => {
+        const active = button.dataset.target === name;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+    }
+
+    function initTarget() {
+      $$('.target-preset').forEach((button) => button.addEventListener('click', () => drawTarget(button.dataset.target)));
+      drawTarget('both');
+    }
+
+    const concepts = {
+      repeatability: {
+        title: 'Repeatability (equipment variation, EV)',
+        question: '<strong>Question:</strong> If one appraiser measures the same part several times under the same conditions, how tightly do the readings agree?',
+        evidence: '<strong>Evidence:</strong> repeated readings, within-cell ranges, the R chart, and the repeatability variance component.',
+        action: '<strong>Typical action:</strong> inspect gage condition, fixturing, locating method, measurement force, environment, and resolution.'
+      },
+      reproducibility: {
+        title: 'Reproducibility (appraiser variation, AV)',
+        question: '<strong>Question:</strong> Do appraisers or measurement conditions produce different results on the same parts?',
+        evidence: '<strong>Evidence:</strong> measurements by appraiser, the appraiser variance component, and the part × appraiser interaction.',
+        action: '<strong>Typical action:</strong> clarify the method, train users, standardize setup, improve fixtures, and resolve part-specific technique differences.'
+      },
+      bias: {
+        title: 'Bias (average systematic offset)',
+        question: '<strong>Question:</strong> How far is the average reading from an accepted reference value?',
+        evidence: '<strong>Evidence:</strong> repeated readings of a traceable reference. Bias = average measurement − reference.',
+        action: '<strong>Typical action:</strong> check calibration, zero, master value, environmental compensation, and systematic setup error.'
+      },
+      linearity: {
+        title: 'Linearity (bias across the operating range)',
+        question: '<strong>Question:</strong> Does the gage have the same bias at low, middle, and high reference values?',
+        evidence: '<strong>Evidence:</strong> a bias-versus-reference plot, fitted slope, tests, and confidence intervals.',
+        action: '<strong>Typical action:</strong> assess scale factor, calibration range, wear, geometry, and correction models.'
+      },
+      stability: {
+        title: 'Stability (performance over time)',
+        question: '<strong>Question:</strong> Does the centre or spread of a check-standard measurement change with time?',
+        evidence: '<strong>Evidence:</strong> repeated check-standard readings plotted on an appropriate control chart.',
+        action: '<strong>Typical action:</strong> investigate wear, temperature, maintenance, master drift, damage, and recalibration frequency.'
+      },
+      resolution: {
+        title: 'Resolution (display discrimination)',
+        question: '<strong>Question:</strong> Is the displayed increment fine enough for the process and specification decisions?',
+        evidence: '<strong>Evidence:</strong> the smallest increment, number of distinct recorded values, and rounding patterns.',
+        action: '<strong>Typical action:</strong> use a finer instrument or data-capture method, but remember resolution alone does not guarantee accuracy.'
+      }
+    };
+
+    function selectConcept(name) {
+      const concept = concepts[name];
+      $('conceptTitle').textContent = concept.title;
+      $('conceptQuestion').innerHTML = concept.question;
+      $('conceptEvidence').innerHTML = concept.evidence;
+      $('conceptAction').innerHTML = concept.action;
+      $$('.concept-card').forEach((button) => {
+        const active = button.dataset.concept === name;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+    }
+
+    function initConcepts() {
+      $$('.concept-card').forEach((button) => button.addEventListener('click', () => selectConcept(button.dataset.concept)));
+    }
+
+    function warmValues() {
+      return {
+        trueValue: Number($('warmTrue').value),
+        bias: Number($('warmBias').value),
+        repeatability: Number($('warmRepeat').value),
+        reproducibility: Number($('warmRepro').value)
+      };
+    }
+
+    function renderWarm() {
+      const cfg = warmValues();
+      $('warmTrueOut').textContent = cfg.trueValue.toFixed(3) + ' mm';
+      $('warmBiasOut').textContent = signed(cfg.bias, 3, ' mm');
+      $('warmRepeatOut').textContent = cfg.repeatability.toFixed(3) + ' mm';
+      $('warmReproOut').textContent = cfg.reproducibility.toFixed(3) + ' mm';
+      const operatorEffects = [-cfg.reproducibility, 0, cfg.reproducibility];
+      const traces = [];
+      const allReadings = [];
+      operatorEffects.forEach((effect, operator) => {
+        const readings = Array.from({ length: 6 }, (_, trial) => cfg.trueValue + cfg.bias + effect + cfg.repeatability * fixedZ[operator * 6 + trial]);
+        allReadings.push(...readings);
+        traces.push({
+          type: 'scatter', mode: 'markers', name: operatorNames[operator],
+          x: readings.map((_, index) => index + 1), y: readings,
+          marker: { size: 11, color: operatorColors[operator], line: { color: '#ffffff', width: 1 } },
+          hovertemplate: operatorNames[operator] + '<br>Repeat %{x}<br>%{y:.4f} mm<extra></extra>'
+        });
+      });
+      const c = plotTheme();
+      const layout = baseLayout('Repeat number', 'Measured wall (mm)', 340);
+      layout.shapes = [{ type: 'line', x0: .5, x1: 6.5, y0: cfg.trueValue, y1: cfg.trueValue, line: { color: c.green, width: 2, dash: 'dash' } }];
+      layout.annotations = [{ x: 6.45, y: cfg.trueValue, text: 'reference', showarrow: false, xanchor: 'right', yshift: 12, font: { color: c.green } }];
+      renderPlot('warmPlot', traces, layout);
+
+      const average = mean(allReadings);
+      const observedBias = average - cfg.trueValue;
+      const spread = Math.max(...allReadings) - Math.min(...allReadings);
+      $('warmMean').textContent = average.toFixed(3) + ' mm';
+      $('warmObservedBias').textContent = signed(observedBias, 3, ' mm');
+      $('warmSpread').textContent = spread.toFixed(3) + ' mm';
+      const candidates = [
+        ['Bias', Math.abs(cfg.bias), 'The whole cloud shifts from the reference.'],
+        ['Repeatability', cfg.repeatability * 2, 'Readings spread within each appraiser.'],
+        ['Reproducibility', cfg.reproducibility * 1.6, 'Appraiser centres separate.']
+      ].sort((a, b) => b[1] - a[1]);
+      const clean = candidates[0][1] < .008;
+      $('warmDiagnosis').textContent = clean ? 'Low error' : candidates[0][0];
+      $('warmDiagnosisNote').textContent = clean ? 'the readings are tight and centred' : candidates[0][2];
+    }
+
+    function initWarm() {
+      ['warmTrue', 'warmBias', 'warmRepeat', 'warmRepro'].forEach((id) => $(id).addEventListener('input', renderWarm));
+      renderWarm();
+    }
+
+    const linearityPresets = {
+      accurate: { offset: 0, slope: 0, noise: .005 },
+      high: { offset: .030, slope: 0, noise: .005 },
+      slope: { offset: 0, slope: .080, noise: .005 }
+    };
+
+    function applyLinearityPreset(name) {
+      const preset = linearityPresets[name];
+      $('biasOffset').value = preset.offset;
+      $('biasSlope').value = preset.slope;
+      $('biasNoise').value = preset.noise;
+      $$('.linearity-preset').forEach((button) => {
+        const active = button.dataset.preset === name;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      renderLinearity();
+    }
+
+    function renderLinearity() {
+      const offset = Number($('biasOffset').value);
+      const slopeInput = Number($('biasSlope').value);
+      const noise = Number($('biasNoise').value);
+      $('biasOffsetOut').textContent = signed(offset, 3, ' mm');
+      $('biasSlopeOut').textContent = signed(slopeInput, 3);
+      $('biasNoiseOut').textContent = noise.toFixed(3) + ' mm';
+
+      const references = [7.6, 7.8, 8.0, 8.2, 8.4];
+      const x = [];
+      const biases = [];
+      const averages = [];
+      references.forEach((reference, partIndex) => {
+        const partBiases = Array.from({ length: 8 }, (_, repeat) => offset + slopeInput * (reference - 8) + noise * fixedZ[(partIndex * 5 + repeat) % fixedZ.length]);
+        partBiases.forEach((bias) => { x.push(reference); biases.push(bias); });
+        averages.push(mean(partBiases));
+      });
+      const fit = linearRegression(x, biases);
+      const fitted = references.map((reference) => fit.intercept + fit.slope * reference);
+      const c = plotTheme();
+      const traces = [
+        { type: 'scatter', mode: 'markers', name: 'Individual bias', x, y: biases, marker: { color: c.teal, size: 8, opacity: .45 }, hovertemplate: 'Reference %{x:.3f}<br>Bias %{y:+.4f} mm<extra></extra>' },
+        { type: 'scatter', mode: 'markers', name: 'Mean bias', x: references, y: averages, marker: { color: c.amber, size: 13, symbol: 'diamond' }, hovertemplate: 'Reference %{x:.3f}<br>Mean bias %{y:+.4f} mm<extra></extra>' },
+        { type: 'scatter', mode: 'lines', name: 'Fitted line', x: references, y: fitted, line: { color: c.red, width: 3 }, hoverinfo: 'skip' }
+      ];
+      const layout = baseLayout('Accepted reference (mm)', 'Bias = measurement − reference (mm)', 360);
+      layout.shapes = [{ type: 'line', x0: 7.55, x1: 8.45, y0: 0, y1: 0, line: { color: c.green, width: 2, dash: 'dash' } }];
+      renderPlot('linearityPlot', traces, layout);
+
+      const averageBias = mean(biases);
+      $('linearityMeanBias').textContent = signed(averageBias, 3, ' mm');
+      $('linearitySlopeResult').textContent = signed(fit.slope, 3);
+      $('linearityDirection').textContent = averageBias > .003 ? 'Reads high' : averageBias < -.003 ? 'Reads low' : 'Centred';
+      let diagnosis = 'Healthy';
+      let note = 'line is near zero and horizontal';
+      if (Math.abs(fit.slope) > .02) { diagnosis = 'Linearity'; note = 'bias changes with reference value'; }
+      else if (Math.abs(averageBias) > .01) { diagnosis = 'Bias'; note = 'line is shifted from zero'; }
+      else if (noise > .012) { diagnosis = 'Noisy'; note = 'repeatability hides the line'; }
+      $('linearityDiagnosis').textContent = diagnosis;
+      $('linearityDiagnosisNote').textContent = note;
+      $$('.linearity-preset').forEach((button) => {
+        const preset = linearityPresets[button.dataset.preset];
+        const active = Math.abs(offset - preset.offset) < 1e-8 && Math.abs(slopeInput - preset.slope) < 1e-8 && Math.abs(noise - preset.noise) < 1e-8;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+    }
+
+    function initLinearity() {
+      $$('.linearity-preset').forEach((button) => button.addEventListener('click', () => applyLinearityPreset(button.dataset.preset)));
+      ['biasOffset', 'biasSlope', 'biasNoise'].forEach((id) => $(id).addEventListener('input', renderLinearity));
+      renderLinearity();
+    }
+
+    function renderStability() {
+      const drift = Number($('stabilityDrift').value);
+      const noise = Number($('stabilityNoise').value);
+      $('stabilityDriftOut').textContent = signed(drift, 4, ' mm');
+      $('stabilityNoiseOut').textContent = noise.toFixed(3) + ' mm';
+      const periods = Array.from({ length: 24 }, (_, index) => index + 1);
+      const readings = periods.map((period, index) => {
+        const repeats = [0, 1, 2].map((repeat) => 8 + drift * index + noise * fixedZ[(index * 3 + repeat) % fixedZ.length]);
+        return mean(repeats);
+      });
+      const baseline = readings.slice(0, 8);
+      const center = mean(baseline);
+      const baselineSd = Math.max(sampleSd(baseline), noise / Math.sqrt(3) * .75);
+      const ucl = center + 3 * baselineSd;
+      const lcl = center - 3 * baselineSd;
+      const laterSignals = readings.slice(8).filter((value) => value > ucl || value < lcl).length;
+      const shift = mean(readings.slice(12)) - mean(readings.slice(0, 12));
+      const c = plotTheme();
+      const layout = baseLayout('Time period', 'Mean check-standard reading (mm)', 330);
+      layout.shapes = [
+        { type: 'line', x0: 1, x1: 24, y0: center, y1: center, line: { color: c.green, width: 2 } },
+        { type: 'line', x0: 1, x1: 24, y0: ucl, y1: ucl, line: { color: c.red, width: 1.5, dash: 'dash' } },
+        { type: 'line', x0: 1, x1: 24, y0: lcl, y1: lcl, line: { color: c.red, width: 1.5, dash: 'dash' } }
+      ];
+      renderPlot('stabilityPlot', [{
+        type: 'scatter', mode: 'lines+markers', name: 'Period average', x: periods, y: readings,
+        line: { color: c.teal, width: 2 }, marker: { color: readings.map((value, index) => index >= 8 && (value > ucl || value < lcl) ? c.red : c.teal), size: 8 },
+        hovertemplate: 'Period %{x}<br>Mean %{y:.4f} mm<extra></extra>'
+      }], layout);
+      $('stabilityShift').textContent = signed(shift, 4, ' mm');
+      const drifting = laterSignals > 0 || Math.abs(shift) > 2 * noise / Math.sqrt(3);
+      $('stabilityDiagnosis').textContent = drifting ? 'Investigate drift' : 'Stable pattern';
+      $('stabilityNote').textContent = drifting ? laterSignals + ' later point(s) beyond baseline limits' : 'no clear time signal in this simulation';
+      setCardStatus($('stabilityDiagnosis').closest('.metric-card'), drifting ? 'bad' : 'good');
+    }
+
+    function initStability() {
+      ['stabilityDrift', 'stabilityNoise'].forEach((id) => $(id).addEventListener('input', renderStability));
+      renderStability();
+    }
+
+    const designChoices = {
+      crossed: { title: 'Crossed Gage R&R', text: 'Every appraiser measures every part. Use this for non-destructive measurements such as wall thickness on the same pipe rings.', structure: 'Part × Appraiser × Trial' },
+      nested: { title: 'Nested Gage R&R', text: 'Each physical part is unique to one appraiser. Use when the test destroys or permanently changes specimens, provided the sampling structure supports the comparison.', structure: 'Part nested within Appraiser' },
+      expanded: { title: 'Expanded Gage R&R', text: 'Use when you have extra factors such as fixture or gage, fixed factors, an unbalanced design, or a mixture of crossed and nested factors.', structure: 'A custom mixed-effects measurement model' },
+      type1: { title: 'Type 1 Gage Study', text: 'One appraiser repeatedly measures one reference part. This is a preliminary check of repeatability and bias, not a full appraiser reproducibility study.', structure: 'Reference + one appraiser + repeats' },
+      linearity: { title: 'Gage Linearity and Bias Study', text: 'Use reference parts across the operating range to determine whether accuracy changes with size and whether bias exists.', structure: 'Reference value + repeated measurement + regression' }
+    };
+
+    function selectDesign(name) {
+      const choice = designChoices[name];
+      $('designOutput').innerHTML = '<h3>' + choice.title + '</h3><p>' + choice.text + '</p><p><strong>Structure:</strong> ' + choice.structure + '</p>';
+      $$('.design-btn').forEach((button) => {
+        const active = button.dataset.design === name;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+    }
+
+    function initDesign() {
+      $$('.design-btn').forEach((button) => button.addEventListener('click', () => selectDesign(button.dataset.design)));
+    }
+
+    const grrControls = {
+      parts: 'grrParts', operators: 'grrOperators', trials: 'grrTrials', tolerance: 'grrTolerance',
+      partSigma: 'grrPartSigma', repeatSigma: 'grrRepeatSigma', operatorSigma: 'grrOperatorSigma', interactionSigma: 'grrInteractionSigma'
+    };
+    const grrOutputs = {
+      parts: 'grrPartsOut', operators: 'grrOperatorsOut', trials: 'grrTrialsOut', tolerance: 'grrToleranceOut',
+      partSigma: 'grrPartSigmaOut', repeatSigma: 'grrRepeatSigmaOut', operatorSigma: 'grrOperatorSigmaOut', interactionSigma: 'grrInteractionSigmaOut'
+    };
+    const grrPresets = {
+      capable: { parts: 10, operators: 3, trials: 2, tolerance: .5, partSigma: .11, repeatSigma: .006, operatorSigma: .002, interactionSigma: .001 },
+      repeat: { parts: 10, operators: 3, trials: 2, tolerance: .5, partSigma: .11, repeatSigma: .038, operatorSigma: .002, interactionSigma: .001 },
+      operator: { parts: 10, operators: 3, trials: 2, tolerance: .5, partSigma: .11, repeatSigma: .006, operatorSigma: .032, interactionSigma: .001 },
+      interaction: { parts: 10, operators: 3, trials: 2, tolerance: .5, partSigma: .11, repeatSigma: .006, operatorSigma: .002, interactionSigma: .035 },
+      narrow: { parts: 10, operators: 3, trials: 2, tolerance: .5, partSigma: .022, repeatSigma: .012, operatorSigma: .005, interactionSigma: .002 }
+    };
+    const grrState = { seed: 20260806, rows: [], trueParts: [], progress: 0, timer: null, config: null, analysis: null };
+
+    function readGrrConfig() {
+      return {
+        parts: Number($(grrControls.parts).value),
+        operators: Number($(grrControls.operators).value),
+        trials: Number($(grrControls.trials).value),
+        tolerance: Number($(grrControls.tolerance).value),
+        partSigma: Number($(grrControls.partSigma).value),
+        repeatSigma: Number($(grrControls.repeatSigma).value),
+        operatorSigma: Number($(grrControls.operatorSigma).value),
+        interactionSigma: Number($(grrControls.interactionSigma).value),
+        nominal: 8
+      };
+    }
+
+    function updateGrrControlOutputs() {
+      const cfg = readGrrConfig();
+      $('grrPartsOut').textContent = cfg.parts;
+      $('grrOperatorsOut').textContent = cfg.operators;
+      $('grrTrialsOut').textContent = cfg.trials;
+      $('grrToleranceOut').textContent = cfg.tolerance.toFixed(3) + ' mm';
+      $('grrPartSigmaOut').textContent = cfg.partSigma.toFixed(3) + ' mm';
+      $('grrRepeatSigmaOut').textContent = cfg.repeatSigma.toFixed(3) + ' mm';
+      $('grrOperatorSigmaOut').textContent = cfg.operatorSigma.toFixed(3) + ' mm';
+      $('grrInteractionSigmaOut').textContent = cfg.interactionSigma.toFixed(3) + ' mm';
+    }
+
+    function makeInteraction(parts, operators, sigma, random) {
+      const raw = Array.from({ length: parts }, () => Array.from({ length: operators }, () => normalRandom(random)));
+      const rowMeans = raw.map((row) => mean(row));
+      const columnMeans = Array.from({ length: operators }, (_, operator) => mean(raw.map((row) => row[operator])));
+      const grand = mean(rowMeans);
+      const residual = raw.map((row, part) => row.map((value, operator) => value - rowMeans[part] - columnMeans[operator] + grand));
+      const flat = residual.flat();
+      const current = sampleSd(flat);
+      if (sigma === 0 || current === 0) return residual.map((row) => row.map(() => 0));
+      return residual.map((row) => row.map((value) => value * sigma / current));
+    }
+
+    function shuffleRows(rows, random) {
+      for (let index = rows.length - 1; index > 0; index -= 1) {
+        const swap = Math.floor(random() * (index + 1));
+        [rows[index], rows[swap]] = [rows[swap], rows[index]];
+      }
+      rows.forEach((row, index) => { row.order = index + 1; });
+    }
+
+    function stopGrrPlayback() {
+      if (grrState.timer) window.clearInterval(grrState.timer);
+      grrState.timer = null;
+      $('grrPlay').textContent = '▶ Play collection';
+      $('grrPlay').setAttribute('aria-pressed', 'false');
+    }
+
+    function generateGrr(newSeed = true) {
+      stopGrrPlayback();
+      updateGrrControlOutputs();
+      if (newSeed) grrState.seed += 101;
+      const cfg = readGrrConfig();
+      const random = seededRandom(grrState.seed);
+      const partEffects = standardize(Array.from({ length: cfg.parts }, () => normalRandom(random)), cfg.partSigma).sort((a, b) => a - b);
+      const operatorEffects = standardize(Array.from({ length: cfg.operators }, (_, index) => index - (cfg.operators - 1) / 2), cfg.operatorSigma);
+      const interactions = makeInteraction(cfg.parts, cfg.operators, cfg.interactionSigma, random);
+      const rows = [];
+      for (let part = 0; part < cfg.parts; part += 1) {
+        for (let operator = 0; operator < cfg.operators; operator += 1) {
+          for (let trial = 0; trial < cfg.trials; trial += 1) {
+            const trueValue = cfg.nominal + partEffects[part];
+            const measurement = trueValue + operatorEffects[operator] + interactions[part][operator] + cfg.repeatSigma * normalRandom(random);
+            rows.push({ part, operator, trial, measurement, trueValue });
+          }
+        }
+      }
+      shuffleRows(rows, random);
+      grrState.config = cfg;
+      grrState.rows = rows;
+      grrState.trueParts = partEffects.map((effect) => cfg.nominal + effect);
+      grrState.progress = rows.length;
+      $('grrProgress').max = rows.length;
+      $('grrProgress').value = rows.length;
+      renderGrrTable();
+      renderGrr();
+    }
+
+    function crossedAnova(rows, cfg) {
+      const grand = mean(rows.map((row) => row.measurement));
+      const partMeans = Array.from({ length: cfg.parts }, (_, part) => mean(rows.filter((row) => row.part === part).map((row) => row.measurement)));
+      const operatorMeans = Array.from({ length: cfg.operators }, (_, operator) => mean(rows.filter((row) => row.operator === operator).map((row) => row.measurement)));
+      const cellMeans = Array.from({ length: cfg.parts }, (_, part) =>
+        Array.from({ length: cfg.operators }, (_, operator) =>
+          mean(rows.filter((row) => row.part === part && row.operator === operator).map((row) => row.measurement))
+        )
+      );
+      const ssPart = cfg.operators * cfg.trials * partMeans.reduce((sum, value) => sum + (value - grand) ** 2, 0);
+      const ssOperator = cfg.parts * cfg.trials * operatorMeans.reduce((sum, value) => sum + (value - grand) ** 2, 0);
+      let ssInteraction = 0;
+      let ssError = 0;
+      for (let part = 0; part < cfg.parts; part += 1) {
+        for (let operator = 0; operator < cfg.operators; operator += 1) {
+          const interaction = cellMeans[part][operator] - partMeans[part] - operatorMeans[operator] + grand;
+          ssInteraction += cfg.trials * interaction ** 2;
+          rows.filter((row) => row.part === part && row.operator === operator).forEach((row) => {
+            ssError += (row.measurement - cellMeans[part][operator]) ** 2;
+          });
+        }
+      }
+      const msPart = ssPart / (cfg.parts - 1);
+      const msOperator = ssOperator / (cfg.operators - 1);
+      const msInteraction = ssInteraction / ((cfg.parts - 1) * (cfg.operators - 1));
+      const msError = ssError / (cfg.parts * cfg.operators * (cfg.trials - 1));
+      const variance = {
+        repeatability: Math.max(msError, 0),
+        appraiser: Math.max((msOperator - msInteraction) / (cfg.parts * cfg.trials), 0),
+        interaction: Math.max((msInteraction - msError) / cfg.trials, 0),
+        part: Math.max((msPart - msInteraction) / (cfg.operators * cfg.trials), 0)
+      };
+      const grrVariance = variance.repeatability + variance.appraiser + variance.interaction;
+      const totalVariance = grrVariance + variance.part;
+      const sigmaGrr = Math.sqrt(grrVariance);
+      const sigmaPart = Math.sqrt(variance.part);
+      const sigmaTotal = Math.sqrt(totalVariance);
+      const percentStudy = sigmaTotal > 0 ? 100 * sigmaGrr / sigmaTotal : 0;
+      const percentTolerance = cfg.tolerance > 0 ? 100 * 6 * sigmaGrr / cfg.tolerance : Infinity;
+      const percentContribution = totalVariance > 0 ? 100 * grrVariance / totalVariance : 0;
+      const ndc = sigmaGrr === 0 ? Infinity : Math.max(1, Math.floor(1.41 * sigmaPart / sigmaGrr));
+      return { variance, grrVariance, totalVariance, sigmaGrr, sigmaPart, sigmaTotal, percentStudy, percentTolerance, percentContribution, ndc, partMeans, operatorMeans, cellMeans };
+    }
+
+    function grrStatus(value) {
+      if (value < 10) return 'good';
+      if (value <= 30) return 'warn';
+      return 'bad';
+    }
+
+    function renderGrrMetrics(analysis) {
+      if (!analysis) {
+        $('grrStudyResult').textContent = '—';
+        $('grrTolResult').textContent = '—';
+        $('grrNdcResult').textContent = '—';
+        $('grrDecisionResult').textContent = 'Collecting';
+        $('grrStudyNote').textContent = 'Finish the balanced study';
+        $('grrTolNote').textContent = 'Finish the balanced study';
+        $('grrNdcNote').textContent = 'Common target ≥ 5';
+        $('grrDecisionNote').textContent = 'Graphs update as readings arrive';
+        ['grrStudyCard', 'grrTolCard', 'grrNdcCard', 'grrDecisionCard'].forEach((id) => setCardStatus($(id), 'pending'));
+        return;
+      }
+      $('grrStudyResult').textContent = analysis.percentStudy.toFixed(1) + '%';
+      $('grrTolResult').textContent = analysis.percentTolerance.toFixed(1) + '%';
+      $('grrNdcResult').textContent = Number.isFinite(analysis.ndc) ? analysis.ndc : '∞';
+      $('grrStudyNote').textContent = analysis.percentContribution.toFixed(1) + '% variance contribution';
+      $('grrTolNote').textContent = '6σ measurement spread ÷ tolerance';
+      $('grrNdcNote').textContent = analysis.ndc >= 5 ? 'meets common minimum' : 'below common minimum';
+      setCardStatus($('grrStudyCard'), grrStatus(analysis.percentStudy));
+      setCardStatus($('grrTolCard'), grrStatus(analysis.percentTolerance));
+      setCardStatus($('grrNdcCard'), analysis.ndc >= 5 ? 'good' : 'bad');
+      const acceptable = analysis.percentStudy < 10 && analysis.percentTolerance < 10 && analysis.ndc >= 5;
+      const conditional = analysis.percentStudy <= 30 && analysis.percentTolerance <= 30 && analysis.ndc >= 5;
+      const decision = acceptable ? 'Acceptable' : conditional ? 'Conditional' : 'Improve';
+      const status = acceptable ? 'good' : conditional ? 'warn' : 'bad';
+      $('grrDecisionResult').textContent = decision;
+      $('grrDecisionNote').textContent = acceptable ? 'confirm application criteria' : conditional ? 'risk-based review required' : 'measurement system action required';
+      setCardStatus($('grrDecisionCard'), status);
+    }
+
+    function renderGrrCoach(analysis) {
+      if (!analysis) {
+        const last = grrState.rows[Math.max(0, grrState.progress - 1)];
+        $('grrCoachTitle').textContent = grrState.progress === 0 ? 'No readings collected yet.' : 'Collection is still incomplete.';
+        $('grrCoachText').textContent = grrState.progress === 0 ? 'Press Play or Next reading. A valid balanced ANOVA result waits until every planned cell is complete.' : 'Reading ' + grrState.progress + ' of ' + grrState.rows.length + (last ? ' came from Part ' + (last.part + 1) + ', ' + operatorNames[last.operator] + '.' : '.');
+        return;
+      }
+      const sources = [
+        ['repeatability', analysis.variance.repeatability],
+        ['appraiser', analysis.variance.appraiser],
+        ['part × appraiser interaction', analysis.variance.interaction]
+      ].sort((a, b) => b[1] - a[1]);
+      const dominant = sources[0][0];
+      $('grrCoachTitle').textContent = 'Largest measurement source: ' + dominant + '.';
+      const messages = {
+        repeatability: 'Look first at instrument condition, measurement force, fixturing, positioning, surface cleanliness, resolution, and short-term environment.',
+        appraiser: 'Look for different zeroing, force, location, setup, rounding, method interpretation, or training among appraisers.',
+        'part × appraiser interaction': 'The appraiser difference depends on the part. Investigate access, geometry, surface, datum choice, and part-specific technique.'
+      };
+      $('grrCoachText').textContent = messages[dominant] + ' Confirm the graphs before acting on the ranking.';
+    }
+
+    function renderGrrPartPlot(visible) {
+      if (!visible.length) {
+        renderPlot('grrPartPlot', [], emptyLayout('Collect a reading to begin.', 320));
+        return;
+      }
+      const traces = Array.from({ length: grrState.config.operators }, (_, operator) => {
+        const rows = visible.filter((row) => row.operator === operator);
+        return {
+          type: 'scatter', mode: 'markers', name: operatorNames[operator],
+          x: rows.map((row) => row.part + 1), y: rows.map((row) => row.measurement),
+          marker: { size: 9, color: operatorColors[operator], opacity: .76 },
+          hovertemplate: operatorNames[operator] + '<br>Part %{x}<br>%{y:.4f} mm<extra></extra>'
+        };
+      });
+      traces.push({
+        type: 'scatter', mode: 'lines+markers', name: 'True part value',
+        x: grrState.trueParts.map((_, index) => index + 1), y: grrState.trueParts,
+        line: { color: plotTheme().green, width: 2, dash: 'dot' }, marker: { size: 6 }, hovertemplate: 'Part %{x}<br>True %{y:.4f} mm<extra></extra>'
+      });
+      renderPlot('grrPartPlot', traces, baseLayout('Part', 'Measurement (mm)', 320));
+    }
+
+    function renderGrrInteractionPlot(visible) {
+      if (!visible.length) {
+        renderPlot('grrInteractionPlot', [], emptyLayout('Collect readings to reveal appraiser patterns.', 320));
+        return;
+      }
+      const traces = Array.from({ length: grrState.config.operators }, (_, operator) => {
+        const x = [];
+        const y = [];
+        for (let part = 0; part < grrState.config.parts; part += 1) {
+          const values = visible.filter((row) => row.operator === operator && row.part === part).map((row) => row.measurement);
+          if (values.length) { x.push(part + 1); y.push(mean(values)); }
+        }
+        return {
+          type: 'scatter', mode: 'lines+markers', name: operatorNames[operator], x, y,
+          line: { color: operatorColors[operator], width: 2 }, marker: { size: 7 },
+          hovertemplate: operatorNames[operator] + '<br>Part %{x}<br>Mean %{y:.4f} mm<extra></extra>'
+        };
+      });
+      renderPlot('grrInteractionPlot', traces, baseLayout('Part', 'Appraiser mean (mm)', 320));
+    }
+
+    function renderGrrVariancePlot(analysis) {
+      if (!analysis) {
+        renderPlot('grrVariancePlot', [], emptyLayout('Variance components appear after the balanced study is complete.', 320));
+        return;
+      }
+      const items = [
+        ['Repeatability', analysis.variance.repeatability, plotTheme().teal],
+        ['Appraiser', analysis.variance.appraiser, plotTheme().amber],
+        ['Interaction', analysis.variance.interaction, plotTheme().purple],
+        ['Part-to-part', analysis.variance.part, plotTheme().green]
+      ];
+      const percentages = items.map((item) => analysis.totalVariance > 0 ? 100 * item[1] / analysis.totalVariance : 0);
+      const layout = baseLayout('Source', '% of total variance', 320);
+      layout.showlegend = false;
+      layout.yaxis.range = [0, Math.max(100, Math.max(...percentages) * 1.12)];
+      renderPlot('grrVariancePlot', [{
+        type: 'bar', x: items.map((item) => item[0]), y: percentages,
+        marker: { color: items.map((item) => item[2]) },
+        text: percentages.map((value) => value.toFixed(1) + '%'), textposition: 'outside',
+        hovertemplate: '%{x}<br>%{y:.2f}% of variance<extra></extra>'
+      }], layout);
+    }
+
+    function renderGrrOperatorPlot(visible) {
+      if (!visible.length) {
+        renderPlot('grrOperatorPlot', [], emptyLayout('Collect readings to compare appraisers.', 320));
+        return;
+      }
+      const traces = Array.from({ length: grrState.config.operators }, (_, operator) => {
+        const values = visible.filter((row) => row.operator === operator).map((row) => row.measurement);
+        return {
+          type: 'box', name: operatorNames[operator], y: values,
+          marker: { color: operatorColors[operator] }, line: { color: operatorColors[operator] },
+          boxpoints: 'all', jitter: .3, pointpos: 0, hovertemplate: operatorNames[operator] + '<br>%{y:.4f} mm<extra></extra>'
+        };
+      });
+      const layout = baseLayout('Appraiser', 'Measurement (mm)', 320);
+      layout.showlegend = false;
+      renderPlot('grrOperatorPlot', traces, layout);
+    }
+
+    function renderGrrRangePlot(visible) {
+      const cfg = grrState.config;
+      const cells = [];
+      for (let part = 0; part < cfg.parts; part += 1) {
+        for (let operator = 0; operator < cfg.operators; operator += 1) {
+          const values = visible.filter((row) => row.part === part && row.operator === operator).map((row) => row.measurement);
+          if (values.length === cfg.trials) {
+            cells.push({
+              label: 'P' + (part + 1) + ' · ' + String.fromCharCode(65 + operator),
+              range: Math.max(...values) - Math.min(...values)
+            });
+          }
+        }
+      }
+      if (!cells.length) {
+        renderPlot('grrRangePlot', [], emptyLayout('Complete every trial for at least one part-appraiser cell to create a range.', 320));
+        return;
+      }
+      const averageRange = mean(cells.map((cell) => cell.range));
+      const d4 = cfg.trials === 2 ? 3.267 : 2.574;
+      const ucl = d4 * averageRange;
+      const c = plotTheme();
+      const x = cells.map((_, index) => index + 1);
+      const layout = baseLayout('Completed part-appraiser cell', 'Range (mm)', 320);
+      layout.showlegend = false;
+      layout.shapes = [
+        { type: 'line', x0: .5, x1: cells.length + .5, y0: averageRange, y1: averageRange, line: { color: c.green, width: 2 } },
+        { type: 'line', x0: .5, x1: cells.length + .5, y0: ucl, y1: ucl, line: { color: c.red, width: 2, dash: 'dash' } }
+      ];
+      layout.annotations = [
+        { x: cells.length + .45, y: averageRange, text: 'R̄', showarrow: false, xanchor: 'right', yshift: 12, font: { color: c.green } },
+        { x: cells.length + .45, y: ucl, text: 'UCL', showarrow: false, xanchor: 'right', yshift: 12, font: { color: c.red } }
+      ];
+      renderPlot('grrRangePlot', [{
+        type: 'scatter', mode: 'lines+markers', x, y: cells.map((cell) => cell.range),
+        line: { color: c.teal, width: 2 },
+        marker: { size: 8, color: cells.map((cell) => cell.range > ucl ? c.red : c.teal) },
+        text: cells.map((cell) => cell.label),
+        hovertemplate: '%{text}<br>Range %{y:.4f} mm<extra></extra>'
+      }], layout);
+    }
+
+    function renderGrrTable() {
+      $('grrDataBody').innerHTML = grrState.rows.map((row, index) => {
+        const collected = index < grrState.progress;
+        return '<tr><td>' + row.order + '</td><td>P' + String(row.part + 1).padStart(2, '0') + '</td><td>' + operatorNames[row.operator] + '</td><td>' + (row.trial + 1) + '</td><td>' + (collected ? row.measurement.toFixed(4) : '—') + '</td><td><span class="status ' + (collected ? 'good' : 'warn') + '">' + (collected ? 'Collected' : 'Waiting') + '</span></td></tr>';
+      }).join('');
+    }
+
+    function renderGrr() {
+      const visible = grrState.rows.slice(0, grrState.progress);
+      const complete = grrState.rows.length > 0 && grrState.progress === grrState.rows.length;
+      const analysis = complete ? crossedAnova(grrState.rows, grrState.config) : null;
+      grrState.analysis = analysis;
+      $('grrProgress').value = grrState.progress;
+      $('grrProgressOut').textContent = grrState.progress + ' / ' + grrState.rows.length + ' readings';
+      renderGrrMetrics(analysis);
+      renderGrrCoach(analysis);
+      renderGrrPartPlot(visible);
+      renderGrrInteractionPlot(visible);
+      renderGrrVariancePlot(analysis);
+      renderGrrOperatorPlot(visible);
+      renderGrrRangePlot(visible);
+      renderGrrTable();
+    }
+
+    function setGrrProgress(value, announce = false) {
+      grrState.progress = clamp(Math.round(value), 0, grrState.rows.length);
+      renderGrr();
+      if (announce) $('grrAnnouncer').textContent = grrState.progress + ' of ' + grrState.rows.length + ' readings collected.';
+      if (grrState.progress === grrState.rows.length) stopGrrPlayback();
+    }
+
+    function applyGrrPreset(name) {
+      const preset = grrPresets[name];
+      Object.entries(preset).forEach(([key, value]) => { $(grrControls[key]).value = value; });
+      $$('.grr-preset').forEach((button) => {
+        const active = button.dataset.preset === name;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      generateGrr(true);
+    }
+
+    function initGrr() {
+      Object.values(grrControls).forEach((id) => $(id).addEventListener('input', function () {
+        $$('.grr-preset').forEach((button) => { button.classList.remove('active'); button.setAttribute('aria-pressed', 'false'); });
+        generateGrr(false);
+      }));
+      $$('.grr-preset').forEach((button) => button.addEventListener('click', () => applyGrrPreset(button.dataset.preset)));
+      $('grrGenerate').addEventListener('click', () => generateGrr(true));
+      $('grrShowAll').addEventListener('click', () => { stopGrrPlayback(); setGrrProgress(grrState.rows.length, true); });
+      $('grrNext').addEventListener('click', () => { stopGrrPlayback(); setGrrProgress(grrState.progress + 1, true); });
+      $('grrProgress').addEventListener('input', function () { stopGrrPlayback(); setGrrProgress(Number(this.value)); });
+      $('grrPlay').addEventListener('click', function () {
+        if (grrState.timer) { stopGrrPlayback(); return; }
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          setGrrProgress(grrState.rows.length, true);
+          return;
+        }
+        if (grrState.progress >= grrState.rows.length) setGrrProgress(0);
+        this.textContent = '❚❚ Pause collection';
+        this.setAttribute('aria-pressed', 'true');
+        grrState.timer = window.setInterval(() => setGrrProgress(grrState.progress + 1), 130);
+      });
+      $('downloadCsv').addEventListener('click', function () {
+        const lines = ['Order,Part,Appraiser,Trial,Measurement_mm'].concat(grrState.rows.map((row) =>
+          [row.order, 'P' + String(row.part + 1).padStart(2, '0'), operatorNames[row.operator], row.trial + 1, row.measurement.toFixed(5)].join(',')
+        ));
+        const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'gage-rr-simulated-study.csv';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      });
+      generateGrr(false);
+    }
+
+    function updateCalculator() {
+      const ev = Number($('calcEv').value);
+      const av = Number($('calcAv').value);
+      const interaction = Number($('calcInt').value);
+      const pv = Number($('calcPv').value);
+      const tolerance = Number($('calcTol').value);
+      const valid = [ev, av, interaction, pv].every((value) => Number.isFinite(value) && value >= 0) && Number.isFinite(tolerance) && tolerance > 0;
+      if (!valid) {
+        ['calcGrr', 'calcStudy', 'calcTolerance', 'calcNdc'].forEach((id) => $(id).textContent = '—');
+        $('calcVerdict').innerHTML = '<span class="coach-icon">!</span><span>Use non-negative components and a positive tolerance width.</span>';
+        return;
+      }
+      const grr = Math.hypot(ev, av, interaction);
+      const total = Math.hypot(grr, pv);
+      const study = total > 0 ? 100 * grr / total : 0;
+      const pctTolerance = 100 * 6 * grr / tolerance;
+      const ndc = grr === 0 ? Infinity : Math.max(1, Math.floor(1.41 * pv / grr));
+      $('calcGrr').textContent = grr.toFixed(4);
+      $('calcStudy').textContent = study.toFixed(1) + '%';
+      $('calcTolerance').textContent = pctTolerance.toFixed(1) + '%';
+      $('calcNdc').textContent = Number.isFinite(ndc) ? ndc : '∞';
+      const acceptable = study < 10 && pctTolerance < 10 && ndc >= 5;
+      const conditional = study <= 30 && pctTolerance <= 30 && ndc >= 5;
+      const message = acceptable ? 'Common guidelines indicate an acceptable system. Confirm graphs, bias, stability, and application criteria.' :
+        conditional ? 'Common guidelines place this system in the conditional range. Review risk and the dominant component.' :
+        'One or more common criteria indicate that the measurement system needs improvement or the study design needs review.';
+      $('calcVerdict').innerHTML = '<span class="coach-icon">i</span><span>' + message + '</span>';
+    }
+
+    function initCalculator() {
+      ['calcEv', 'calcAv', 'calcInt', 'calcPv', 'calcTol'].forEach((id) => $(id).addEventListener('input', updateCalculator));
+      updateCalculator();
+    }
+
+    function initReveals() {
+      $$('.reveal-btn').forEach((button) => button.addEventListener('click', function () {
+        const answer = $(this.dataset.reveal);
+        const showing = !answer.classList.contains('hidden');
+        answer.classList.toggle('hidden', showing);
+        this.setAttribute('aria-expanded', String(!showing));
+        this.textContent = showing ? 'Reveal answer' : 'Hide answer';
+      }));
+    }
+
+    const quizExplanations = {
+      q1: 'Repeatability is the scatter when the same appraiser repeats the same measurement under the same conditions.',
+      q2: 'Bias = average measurement − reference = 8.025 − 8.000 = +0.025 mm.',
+      q3: 'A change in bias as the reference value changes is a linearity problem.',
+      q4: 'When specimens are unique to appraisers because testing destroys them, the structure is nested if the sampling assumptions support that comparison.',
+      q5: 'Low Gage R&R indicates precision. Consistent high readings versus references indicate bias, so accuracy still needs action.'
+    };
+
+    function initQuiz() {
+      $('quizForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const cards = $$('.question-card', this);
+        const missing = cards.some((card, index) => !this.querySelector('input[name="q' + (index + 1) + '"]:checked'));
+        if (missing) {
+          $('quizScore').textContent = 'Please answer all five questions before scoring.';
+          return;
+        }
+        let score = 0;
+        cards.forEach((card, index) => {
+          const name = 'q' + (index + 1);
+          const selected = this.querySelector('input[name="' + name + '"]:checked').value;
+          const correct = selected === card.dataset.answer;
+          if (correct) score += 1;
+          const feedback = card.querySelector('.feedback');
+          feedback.classList.remove('hidden', 'good', 'bad');
+          feedback.classList.add(correct ? 'good' : 'bad');
+          feedback.textContent = (correct ? 'Correct. ' : 'Not quite. ') + quizExplanations[name];
+        });
+        $('quizScore').textContent = 'Score: ' + score + ' / 5. ' + (score === 5 ? 'Excellent—you separated precision, accuracy, design, and interpretation correctly.' : score >= 4 ? 'Strong result. Review the explanation for the missed question.' : 'Review the interactive labs, then try again.');
+      });
+      $('resetQuiz').addEventListener('click', function () {
+        $('quizForm').reset();
+        $$('.feedback').forEach((feedback) => { feedback.className = 'feedback hidden'; feedback.textContent = ''; });
+        $('quizScore').textContent = 'Answer all five questions, then score the quiz.';
+      });
+    }
+
+    function initCompletion() {
+      let completed = false;
+      try { completed = localStorage.getItem('lesson:gauge-rr-study:complete') === 'true'; } catch (error) { completed = false; }
+      function render() {
+        $('completeLesson').setAttribute('aria-pressed', String(completed));
+        $('completeLesson').textContent = completed ? 'Completed ✓' : 'Mark lesson complete';
+        $('completionStatus').textContent = completed ? 'Your completion is saved on this device.' : '';
+      }
+      $('completeLesson').addEventListener('click', function () {
+        completed = !completed;
+        try { localStorage.setItem('lesson:gauge-rr-study:complete', String(completed)); } catch (error) { /* device storage unavailable */ }
+        render();
+      });
+      render();
+    }
+
+    function renderAllPlots() {
+      renderWarm();
+      renderLinearity();
+      renderStability();
+      if (grrState.rows.length) renderGrr();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      initScrollProgress();
+      initTarget();
+      initConcepts();
+      initWarm();
+      initLinearity();
+      initStability();
+      initDesign();
+      initGrr();
+      initCalculator();
+      initReveals();
+      initCompletion();
+      window.setTimeout(renderAllPlots, 80);
+    });
+  }());
+  </script>
+  <script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+</body>
+</html>
