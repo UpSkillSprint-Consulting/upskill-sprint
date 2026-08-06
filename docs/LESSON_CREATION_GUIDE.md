@@ -206,6 +206,14 @@ inline `<style>`:
 - A lesson may define its own visual design in an inline `<style>` block, but that block
   MUST come **after** the two stylesheet links so site classes (`.site`, `.footer-grid`,
   `.desktop-nav`, quiz classes, etc.) still resolve.
+- Lesson-specific CSS MUST NOT redefine, shadow, or repurpose site-wide custom properties
+  declared by `/style.css` or `/lessons-theme.css`. Site tokens control shared chrome such as
+  the header, footer, navigation, and progress card.
+- Every lesson-owned custom property MUST use a collision-resistant namespace, preferably
+  `--lesson-<name>` or `--<lesson-slug>-<name>`. Generic names such as `--navy`, `--primary`,
+  `--background`, `--surface`, or `--text` are prohibited in lesson-specific CSS unless the
+  repository explicitly documents them as shared site tokens and the lesson only consumes
+  them without redefining them.
 
 ---
 
@@ -342,40 +350,154 @@ section on the lessons page (root-relative, using the `category_slug`):
 
 ---
 
-## 9. Self-styled lessons and dark mode
+## 9. Mandatory light and dark mode compatibility
 
-Lessons may either rely on site CSS or ship a self-contained inline `<style>` design. If a
-lesson defines its own colours, it MUST also provide dark-mode overrides, because the site
-has a theme toggle and un-themed lessons render light text on light backgrounds in dark mode.
+Every lesson MUST be fully readable and functional in both light and dark mode before it
+can be approved or merged. This applies whether the lesson relies on site CSS or ships a
+self-contained inline `<style>` design.
 
-Rules:
+### 9.1 Theme implementation requirements
 
-- Keep the accent hues that feed gradients (do not blindly invert every variable, or hero
-  gradients wash out). Instead, add an override block scoped to `html[data-theme="dark"]`
-  that darkens surfaces and lightens text for every component the lesson styles.
-- Place this override block **last** in the document (just before `</body>`) so it wins the
-  cascade over both site CSS and the lesson's own light rules.
+1. Use shared CSS custom properties for backgrounds, text, borders, links, controls, and
+   status colours. Define every theme-dependent property in both light and dark modes.
+2. Do not rely on inherited text colour inside a component with a fixed background.
+3. **Any component that declares `background` or `background-color` MUST also declare an
+   intentional compatible text colour in both themes.**
+4. Avoid hard-coded component colours unless a matching dark-mode rule is also provided.
+5. Do not use colour alone to communicate meaning. Pair colour with text, labels, icons,
+   patterns, or another visible indicator.
+6. Declare `color-scheme: light dark` so native controls render appropriately.
+7. Keep accent hues that feed gradients; do not blindly invert every variable. Darken
+   surfaces and lighten text while preserving intentional accent contrast.
+8. Scope dark-mode overrides to `html[data-theme="dark"]` and place the final override
+   block last in the document (just before `</body>`) so it wins the cascade.
+9. Namespace every lesson-owned custom property with `--lesson-` or a slug-specific prefix.
+   Lesson CSS MUST NOT declare generic custom properties on `:root`, `html`, `body`, or
+   `html[data-theme="dark"]` that can collide with the site's shared tokens.
+10. Treat the canonical header, footer, navigation, theme control, and injected progress card
+    as protected site chrome. Lesson selectors MUST NOT restyle them, and lesson variables
+    MUST NOT change their computed colours, typography, spacing, opacity, or layout.
+11. Before adding a custom property, search `/style.css` and `/lessons-theme.css` for the same
+    name. If it already exists, consume it as documented or choose a lesson-prefixed name;
+    never override it for a lesson-specific meaning.
 
-Skeleton to adapt (add a rule for every surface/text class the lesson introduces):
+Reference token pattern (adapt names and values as needed):
 
-```html
-<style id="uss-dark-overrides">
-html[data-theme="dark"] body{ background:#0c1622; color:#e7eef4; }
-html[data-theme="dark"] section{ background:#131f2c; border-color:#243546; }
-html[data-theme="dark"] h2{ color:#dbe8f2; }
-html[data-theme="dark"] h3{ color:#8ec3ea; }
-html[data-theme="dark"] a{ color:#8ec3ea; }
-html[data-theme="dark"] table th{ background:#1f3a5c; color:#fff; }
-html[data-theme="dark"] table td{ border-color:#243546; }
-html[data-theme="dark"] code{ background:#0f1a26; color:#e7eef4; }
-/* …one line per remaining light surface/text class in this lesson… */
-</style>
+```css
+:root {
+  color-scheme: light dark;
+  --lesson-page-bg: #f8fafc;
+  --lesson-surface-bg: #ffffff;
+  --lesson-surface-muted: #f1f5f9;
+  --lesson-text-primary: #172033;
+  --lesson-text-secondary: #475569;
+  --lesson-border-color: #cbd5e1;
+  --lesson-link-color: #075985;
+}
+
+html[data-theme="dark"] {
+  --lesson-page-bg: #0f172a;
+  --lesson-surface-bg: #182338;
+  --lesson-surface-muted: #243149;
+  --lesson-text-primary: #f8fafc;
+  --lesson-text-secondary: #cbd5e1;
+  --lesson-border-color: #475569;
+  --lesson-link-color: #7dd3fc;
+}
+
+.lesson-card,
+.callout,
+.topic-pill,
+.quiz-panel {
+  color: var(--lesson-text-primary);
+  background-color: var(--lesson-surface-bg);
+  border-color: var(--lesson-border-color);
+}
+```
+
+### 9.2 Required components and states to inspect
+
+Check every component the lesson contains in both themes, including:
+
+- Page backgrounds; body text; headings; subtitles; and muted text.
+- Topic pills, tags, badges, workflow labels, formula boxes, and worked examples.
+- Information, warning, success, and critical callouts.
+- Cards, panels, accordions, tabs, tables, code blocks, and inline code.
+- Form fields, selectors, buttons, disabled controls, and navigation links.
+- Quiz questions, answer choices, feedback, results, and reset controls.
+- Charts, diagrams, axes, legends, labels, meaningful graphics, and tooltips.
+- Default, hover, focus, active, selected, correct, incorrect, and disabled states.
+- Canonical header, footer, navigation, theme control, and injected progress card, confirming
+  they are visually unchanged by lesson-specific CSS in both themes.
+
+### 9.3 Contrast requirements
+
+All lesson content MUST meet WCAG 2.1 AA contrast requirements:
+
+- Normal text: at least **4.5:1**.
+- Large text: at least **3:1**.
+- Controls, component boundaries, focus indicators, and meaningful graphics: at least
+  **3:1** against adjacent colours.
+- Placeholder and muted text must remain readable and MUST NOT carry essential instructions.
+
+### 9.4 Prohibited patterns
+
+A lesson MUST NOT be approved if it contains any of the following:
+
+- White or near-white text on a white or light background.
+- Dark text on a dark background.
+- A light-mode background combined with inherited dark-mode text.
+- Hard-coded white cards or panels without dark-mode overrides.
+- Transparent components whose text becomes unreadable over their parent background.
+- Correct/incorrect or other status feedback communicated through colour alone.
+- Charts whose labels, axes, legends, tooltips, or data marks disappear in either theme.
+- Lesson-specific CSS that redefines a site-wide custom property or uses an unnamespaced,
+  generic token such as `--navy`, causing shared site chrome to inherit lesson colours.
+- Broad lesson selectors such as `footer`, `header`, `.site`, `.brand`, or `.footer-grid`
+  that unintentionally override canonical site chrome.
+
+### 9.5 Mandatory visual validation
+
+Before approval:
+
+1. Open the complete lesson in light mode and review it from top to bottom at desktop width.
+2. Repeat the complete review in dark mode at desktop width.
+3. Repeat both reviews at a narrow mobile viewport.
+4. Interact with every button, quiz, tab, accordion, selector, and calculator in both themes.
+5. Inspect every supported default, hover, focus, selected, correct, incorrect, and disabled
+   state.
+6. Capture at least one full-page screenshot in each theme and attach both to the PR.
+7. Correct every contrast or visibility failure before merging.
+
+Passing automated checks does not replace visual inspection.
+
+### 9.6 Automated accessibility validation
+
+Where supported, run Axe, Lighthouse, or an equivalent accessibility scan in both themes.
+The lesson MUST have:
+
+- No serious or critical colour-contrast violations.
+- No missing accessible names on interactive controls.
+- A visible keyboard-focus indicator in both themes.
+- No content hidden solely because the theme changes.
+
+### 9.7 Pull-request acceptance evidence
+
+Every new or materially restyled lesson PR MUST report:
+
+```
+[ ] Light-mode desktop validation completed.
+[ ] Dark-mode desktop validation completed.
+[ ] Light-mode mobile validation completed.
+[ ] Dark-mode mobile validation completed.
+[ ] All interactive states tested in both themes.
+[ ] WCAG AA contrast validation completed.
+[ ] Light-mode screenshot attached.
+[ ] Dark-mode screenshot attached.
+[ ] No unresolved theme or contrast defects.
 ```
 
 Verify in both light and dark mode before submitting (§16).
-
----
-
 ## 10. Mobile requirements (all lessons)
 
 - Include `<meta name="viewport" content="width=device-width, initial-scale=1">`.
@@ -523,8 +645,14 @@ Run all of these from the repo root and confirm each passes:
    output.** Restore build-mutated tracked files and delete generated files before committing.
 3. **New behaviour needs a regression test.** If you fixed a bug, add a test that fails on the
    old code and passes on the fix (verify by temporarily reverting the fix).
-4. **Visual check** the deploy preview in **both light and dark mode** and at a **narrow
-   (mobile) viewport**.
+4. **CSS custom-property collision check** — inspect every custom property declared by the
+   lesson and compare it with `/style.css` and `/lessons-theme.css`. Rename any lesson-owned
+   collision with a `--lesson-` or slug-specific prefix. Also reject broad selectors that
+   target canonical chrome (`header`, `footer`, `.site`, `.brand`, `.footer-grid`, or
+   `.desktop-nav`) unless the guide explicitly requires that exact rule.
+5. **Visual check** the deploy preview in **both light and dark mode** and at a **narrow
+   (mobile) viewport**. Confirm the header, footer, navigation, theme control, and progress
+   card retain the canonical site appearance as well as checking the lesson content.
 
 ---
 
@@ -561,7 +689,15 @@ Run all of these from the repo root and confirm each passes:
     the upskill-quiz-result event.
 [ ] A left-aligned "Back to <Category> lessons" link points to /lessons#<category-slug>.
 [ ] Exactly the canonical footer (§4.2) sits right before </body>.
+[ ] Light + dark mode verified at desktop + mobile widths; all interactive states checked.
+[ ] WCAG AA contrast thresholds met; no serious/critical contrast violations.
+[ ] Any component with its own background has an intentional text colour in both themes.
+[ ] Every lesson-owned CSS custom property uses `--lesson-` or a slug-specific prefix.
+[ ] No lesson CSS redefines a custom property from /style.css or /lessons-theme.css.
+[ ] No broad lesson selector overrides canonical header/footer/navigation/progress-card styles.
+[ ] Header, footer, navigation, theme control, and progress card remain correct in both themes.
 [ ] Self-styled lesson? Dark-mode override block present and placed last.
+[ ] Light-mode and dark-mode full-page screenshots attached to the PR.
 [ ] All tables wrapped in overflow-x:auto; viewport meta present; verified on mobile.
 [ ] Statistics lesson? "Statistics Implementation" section present with all 4 parts.
 [ ] Lesson registered in chi-square-lesson-library.js as a plain literal entry;
@@ -586,4 +722,10 @@ Run all of these from the repo root and confirm each passes:
 - ❌ Committing `engineering-tools/` or other build-generated output.
 - ❌ Fabricating Excel functions, Minitab menu paths, formulas, or dataset values.
 - ❌ A self-styled lesson with no dark-mode overrides.
+- ❌ A component background without an intentional compatible text colour in both themes.
+- ❌ Defining unnamespaced lesson tokens such as `--navy`, `--primary`, `--background`,
+  `--surface`, or `--text`, or redefining any site-wide custom property.
+- ❌ Using broad lesson CSS selectors that restyle canonical header, footer, navigation,
+  theme controls, or the injected progress card.
+- ❌ Approving a lesson without desktop/mobile screenshots in both light and dark mode.
 - ❌ Referencing a "practice dataset" that does not exist as a downloadable file.
