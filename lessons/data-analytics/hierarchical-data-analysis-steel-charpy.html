@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Hierarchical Data Analysis for Steel Charpy Testing",
+  "slug": "hierarchical-data-analysis-steel-charpy",
+  "category": "Data Analytics",
+  "category_slug": "data-analytics",
+  "level": "Advanced",
+  "lesson_type": "General",
+  "estimated_minutes": 75,
+  "interactive": true,
+  "card_title": "Hierarchical Data Analysis for Steel Charpy",
+  "card_description": "Learn how to analyze heat, pipe, and specimen data without pseudoreplication.",
+  "search_keywords": ["hierarchical data", "mixed effects", "charpy", "pseudoreplication", "cluster bootstrap", "steel analytics"],
+  "suggested_github_path": "lessons/data-analytics/hierarchical-data-analysis-steel-charpy.html"
+}
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Interactive lesson on heat, pipe, and specimen-level analysis for steel Charpy data.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/data-analytics/hierarchical-data-analysis-steel-charpy">
+  <title>Hierarchical Data Analysis for Steel Charpy Testing | UpSkill Sprint</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+  <style>
+    /* EDIT: Lesson styling — all tokens are lesson-scoped to avoid site collisions. */
+    :root {
+      color-scheme: light dark;
+      --hda-paper:#f6f8fb;--hda-surface:#fff;--hda-surface-soft:#eef4f7;
+      --hda-ink:#152238;--hda-ink-soft:#33465f;--hda-muted:#5b6b7f;--hda-line:#cad5df;
+      --hda-navy:#102a43;--hda-teal:#087f8c;--hda-teal-dark:#08636d;--hda-amber:#a65c00;
+      --hda-success:#176b3a;--hda-warning:#8a5000;--hda-danger:#a3212c;--hda-info:#075985;
+      --hda-focus:#f59e0b;--hda-code:#e8eef5;--hda-shadow:0 12px 35px rgba(15,42,67,.09);
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    #lesson-content{color:var(--hda-ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif}
+    #lesson-content a{color:var(--hda-teal-dark)}#lesson-content a:focus-visible,#lesson-content button:focus-visible,#lesson-content input:focus-visible,#lesson-content select:focus-visible{outline:3px solid var(--hda-focus);outline-offset:3px}
+    #lesson-content .button{border:1px solid var(--hda-line);border-radius:.55rem;background:var(--hda-surface-soft);color:var(--hda-ink);font:inherit;font-weight:700;padding:.65rem .9rem;cursor:pointer;min-height:44px}#lesson-content .button.primary{background:var(--hda-teal-dark);color:#fff;border-color:var(--hda-teal-dark)}html[data-theme="dark"] #lesson-content .button.primary{color:#07131d;background:var(--hda-teal)}
+    .hero{background:linear-gradient(130deg,#102a43,#075985);color:#fff;padding:clamp(2.5rem,6vw,5rem) 1rem}.hero-inner{max-width:1050px;margin:auto}.eyebrow{font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:.77rem;color:#9ee9ee}.hero h1{font-size:clamp(2rem,5vw,4rem);line-height:1.08;max-width:850px;margin:.6rem 0 1rem}.hero p{max-width:780px;font-size:1.12rem;color:#e4edf7}.meta{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:1.4rem}.meta span{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:.35rem .7rem;font-size:.85rem}
+    #lesson-content{max-width:1180px;margin:auto;padding:2rem 1rem 5rem}.lesson-wrapper{display:grid;grid-template-columns:260px minmax(0,1fr);gap:2rem}.lesson-toc{position:sticky;top:1rem;align-self:start;background:var(--hda-surface);border:1px solid var(--hda-line);border-radius:.8rem;padding:1rem;box-shadow:var(--hda-shadow)}.lesson-toc strong{display:block;margin-bottom:.5rem}.lesson-toc a{display:block;padding:.32rem 0;text-decoration:none;font-size:.9rem}
+    .lesson-body{min-width:0}.lesson-body section{scroll-margin-top:1rem;margin-bottom:3.5rem}.lesson-body h2{font-size:clamp(1.55rem,3vw,2.25rem);line-height:1.2;color:var(--hda-navy);margin-bottom:.8rem}.lesson-body h3{color:var(--hda-teal-dark);margin-top:1.7rem}.lede{font-size:1.15rem;color:var(--hda-ink-soft)}.top-gap{margin-top:1rem}
+    .card,.callout,.interactive,.quiz-question{background:var(--hda-surface);border:1px solid var(--hda-line);border-radius:.85rem;padding:1.25rem;box-shadow:var(--hda-shadow)}.callout{border-left:5px solid var(--hda-info)}.callout.warning{border-left-color:var(--hda-warning)}.callout.danger{border-left-color:var(--hda-danger)}.callout.success{border-left-color:var(--hda-success)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.stack>*+*{margin-top:1rem}.hierarchy{display:grid;gap:.65rem;max-width:700px;margin:1.5rem auto}.level{padding:1rem;border-radius:.7rem;border:2px solid var(--hda-teal);background:var(--hda-surface);text-align:center}.level+ .level{margin-inline:7%}.level+ .level+ .level{margin-inline:14%}.arrow{text-align:center;color:var(--hda-muted);font-weight:800}
+    .table-wrap{overflow:auto;border:1px solid var(--hda-line);border-radius:.7rem;background:var(--hda-surface)}table{border-collapse:collapse;width:100%;min-width:650px}caption{text-align:left;font-weight:700;padding:.85rem}th,td{padding:.7rem .8rem;text-align:left;border-bottom:1px solid var(--hda-line);vertical-align:top}th{background:var(--hda-surface-soft);color:var(--hda-ink)}
+    .formula{overflow:auto;background:var(--hda-surface-soft);border:1px solid var(--hda-line);border-radius:.7rem;padding:1rem;text-align:center;font:600 1.05rem Georgia,serif}.symbols{font-size:.94rem;color:var(--hda-ink-soft)}
+    #lesson-content pre{overflow:auto;background:var(--hda-code);color:var(--hda-ink);border:1px solid var(--hda-line);border-radius:.7rem;padding:1rem;white-space:pre;font-size:.82rem}#lesson-content code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.inline-code{background:var(--hda-code);padding:.1rem .3rem;border-radius:.25rem}
+    #lesson-content label{display:block;font-weight:700;margin-bottom:.25rem}.controls{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:1rem}.field input,.field select{width:100%;min-height:44px;border:1px solid var(--hda-line);border-radius:.45rem;padding:.55rem;background:var(--hda-surface);color:var(--hda-ink);font:inherit}.result{margin-top:1rem;padding:1rem;border-radius:.65rem;background:var(--hda-surface-soft);border-left:5px solid var(--hda-teal)}.result strong{font-size:1.2rem}.bar-track{height:18px;background:var(--hda-line);border-radius:999px;overflow:hidden}.bar{height:100%;width:0;background:var(--hda-teal);transition:width .25s}
+    #lesson-content details{background:var(--hda-surface);border:1px solid var(--hda-line);border-radius:.65rem;padding:.8rem 1rem;margin:.7rem 0}#lesson-content summary{cursor:pointer;font-weight:750;color:var(--hda-teal-dark)}
+    .method-result{margin-top:1rem}.pill{display:inline-block;border:1px solid var(--hda-line);border-radius:999px;padding:.2rem .55rem;font-size:.82rem;background:var(--hda-surface-soft)}
+    .scenario-configurator{border-top:5px solid var(--hda-teal);background:linear-gradient(145deg,var(--hda-surface),var(--hda-surface-soft))}.scenario-heading{display:flex;align-items:center;gap:.7rem}.scenario-heading::before{content:"⚙";display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--hda-teal-dark);color:#fff;font-size:1rem}.scenario-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.help-label{display:flex;align-items:center;gap:.35rem}.help-wrap{position:relative;display:inline-flex;vertical-align:middle}.help-button{display:inline-grid;place-items:center;width:1.35rem;height:1.35rem;padding:0;border:2px solid var(--hda-teal-dark);border-radius:50%;background:var(--hda-surface);color:var(--hda-teal-dark);font:900 .78rem/1 system-ui,sans-serif;cursor:help}.help-button:hover,.help-button:focus-visible,.help-button[aria-expanded="true"]{background:var(--hda-teal-dark);color:var(--hda-surface)}.help-tooltip{position:absolute;z-index:30;left:0;top:calc(100% + .45rem);display:none;width:min(310px,calc(100vw - 2rem));padding:.7rem .8rem;border:1px solid var(--hda-line);border-radius:.55rem;background:var(--hda-ink);color:var(--hda-surface);box-shadow:0 10px 26px rgba(0,0,0,.24);font-size:.82rem;font-weight:500;line-height:1.45;text-align:left}.help-tooltip strong{display:block;margin-bottom:.2rem;color:var(--hda-surface)}.help-wrap:hover .help-tooltip,.help-wrap:focus-within .help-tooltip,.help-button[aria-expanded="true"]+.help-tooltip{display:block}.help-wrap.align-right .help-tooltip{left:auto;right:0}.button-with-help{display:inline-flex;align-items:center;gap:.4rem}.builder-block{margin-top:1.2rem;padding:1rem;border:1px solid var(--hda-line);border-radius:.75rem;background:var(--hda-surface)}.builder-title{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap}.builder-title h4{margin:0}.dynamic-row{display:grid;grid-template-columns:1.1fr .8fr .8fr auto;gap:.65rem;align-items:end;padding:.8rem 0;border-bottom:1px solid var(--hda-line)}.dynamic-row.predictor-row{grid-template-columns:1.1fr .8fr .8fr .8fr auto}.dynamic-row:last-child{border-bottom:0}.icon-button{min-height:44px;min-width:44px;border:1px solid var(--hda-line);border-radius:.45rem;background:var(--hda-surface-soft);color:var(--hda-ink);font:inherit;font-weight:800;cursor:pointer}.icon-button:disabled{opacity:.45;cursor:not-allowed}.structure-preview{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin-top:.8rem}.structure-node{padding:.35rem .6rem;border:1px solid var(--hda-teal);border-radius:999px;background:var(--hda-surface-soft);font-weight:750}.structure-arrow{color:var(--hda-muted)}.scenario-output{margin-top:1.2rem}.scenario-summary{font-size:1.02rem;line-height:1.8}.scenario-summary strong{color:var(--hda-teal-dark)}.recommendation-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:1rem;margin-top:1rem}.recommendation-panel{background:var(--hda-surface);border:1px solid var(--hda-line);border-radius:.75rem;padding:1rem}.recommendation-panel h3{margin:.05rem 0 .5rem}.ranked-models{display:grid;gap:.7rem;margin-top:.8rem}.ranked-model{display:grid;grid-template-columns:auto 1fr;gap:.7rem;padding:.8rem;border:1px solid var(--hda-line);border-radius:.6rem}.rank-badge{display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--hda-teal-dark);color:#fff;font-weight:900}.ranked-model h4{margin:0;color:var(--hda-teal-dark)}.ranked-model p{margin:.2rem 0 0}.risk-list{margin:.5rem 0;padding-left:1.25rem}.risk-list li{margin:.35rem 0}.quick-picks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem;margin-top:1rem}.quick-pick{padding:1rem;border:1px solid var(--hda-line);border-radius:.7rem;background:var(--hda-surface);color:var(--hda-ink);font:inherit;text-align:left;cursor:pointer}.quick-pick strong{display:block;color:var(--hda-teal-dark);font-size:1rem;margin:.25rem 0}.quick-pick small{color:var(--hda-muted)}.quick-pick.recommended{border:2px solid var(--hda-amber);box-shadow:0 0 0 2px color-mix(in srgb,var(--hda-amber) 15%,transparent)}.quick-pick.recommended::after{content:"Recommended";display:inline-block;margin-top:.65rem;padding:.12rem .45rem;border-radius:999px;background:var(--hda-amber);color:#111;font-size:.72rem;font-weight:850}.method-highlight{outline:3px solid var(--hda-amber);outline-offset:3px}.validation-note{font-size:.86rem;color:var(--hda-muted);margin:.65rem 0 0}
+    .quiz-question{margin:1rem 0}.quiz-question fieldset{border:0;padding:0}.quiz-question legend{font-weight:800;margin-bottom:.5rem}.option{display:flex;gap:.6rem;align-items:flex-start;padding:.5rem;border-radius:.4rem}.option input{margin-top:.35rem}.option.correct{border:2px solid var(--hda-success)}.option.incorrect{border:2px solid var(--hda-danger)}.explanation{display:none;margin-top:.75rem;color:var(--hda-ink-soft)}.explanation.show{display:block}.button-row{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
+    .muted{color:var(--hda-muted)}
+    .section-kicker{color:var(--hda-teal-dark);font-size:.78rem;font-weight:850;letter-spacing:.1em;text-transform:uppercase;margin:0 0 .35rem}.outcome-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hda-line);border:1px solid var(--hda-line);border-radius:.8rem;overflow:hidden;margin:1.25rem 0}.outcome-strip>div{background:var(--hda-surface);padding:1rem}.outcome-strip strong{display:block;color:var(--hda-navy);font-size:1.05rem}.numbered-flow{counter-reset:workflow;display:grid;gap:1rem}.numbered-flow>article{position:relative;padding:1.2rem 1.2rem 1.2rem 4.4rem;background:var(--hda-surface);border:1px solid var(--hda-line);border-radius:.8rem}.numbered-flow>article::before{counter-increment:workflow;content:counter(workflow);position:absolute;left:1rem;top:1rem;display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:50%;background:var(--hda-teal-dark);color:#fff;font-weight:900}.numbered-flow h3{margin:.05rem 0 .35rem}.formula-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.formula-card{background:var(--hda-surface);border:1px solid var(--hda-line);border-radius:.8rem;overflow:hidden}.formula-card header{padding:.8rem 1rem;background:var(--hda-surface-soft);font-weight:800}.formula-card .formula-body{padding:1rem}.equation{font:600 clamp(1rem,2.2vw,1.28rem) Georgia,serif;text-align:center;padding:.9rem;overflow:auto}.symbol-list{display:grid;grid-template-columns:auto 1fr;gap:.35rem .65rem;margin:.8rem 0}.symbol-list dt{font-weight:800;color:var(--hda-teal-dark)}.symbol-list dd{margin:0}.decision-banner{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center;padding:1.2rem;border-radius:.8rem;background:linear-gradient(120deg,var(--hda-surface-soft),var(--hda-surface));border:1px solid var(--hda-line)}.decision-banner .big-number{font-size:2rem;font-weight:900;color:var(--hda-teal-dark)}.comparison-table td:first-child{font-weight:750}.status{display:inline-flex;align-items:center;gap:.35rem;font-size:.83rem;font-weight:800;border-radius:999px;padding:.2rem .55rem;border:1px solid currentColor}.status::before{content:"";width:.5rem;height:.5rem;border-radius:50%;background:currentColor}.status.good{color:var(--hda-success)}.status.caution{color:var(--hda-warning)}.status.stop{color:var(--hda-danger)}.checklist{list-style:none;padding:0}.checklist li{position:relative;padding:.55rem 0 .55rem 2rem;border-bottom:1px solid var(--hda-line)}.checklist li::before{content:"✓";position:absolute;left:.25rem;color:var(--hda-success);font-weight:900}.mini-chart{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;align-items:end;height:190px;padding:1rem;border-left:2px solid var(--hda-line);border-bottom:2px solid var(--hda-line)}.mini-chart .column{display:flex;flex-direction:column;justify-content:end;align-items:center;height:100%;gap:.35rem}.mini-chart .column span{width:70%;min-height:4px;background:var(--hda-teal);border-radius:.4rem .4rem 0 0}.mini-chart small{text-align:center}.model-output{font-variant-numeric:tabular-nums}.model-output td:not(:first-child),.model-output th:not(:first-child){text-align:right}.step-calc{border-left:4px solid var(--hda-teal);padding:.8rem 1rem;margin:.7rem 0;background:var(--hda-surface-soft)}.lab-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(260px,.9fr);gap:1.2rem}.insight-panel{background:var(--hda-surface-soft);border:1px solid var(--hda-line);border-radius:.8rem;padding:1rem}.field-hint{font-size:.82rem;color:var(--hda-muted);margin:.2rem 0 0}.error{color:var(--hda-danger);font-weight:750}.answer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}.classify-button{text-align:left;min-height:72px}.classify-button[aria-pressed="true"]{border:2px solid var(--hda-teal);background:var(--hda-surface-soft)}.audit-table th:first-child{width:23%}.reference-list li{margin:.45rem 0}
+    .scenario-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;margin:.85rem 0 0}.scenario-fact{padding:.7rem .8rem;border:1px solid var(--hda-line);border-radius:.55rem;background:var(--hda-surface)}.scenario-fact-label{display:block;color:var(--hda-muted);font-size:.78rem;font-weight:850;letter-spacing:.03em;text-transform:uppercase}.scenario-predictors{margin:.45rem 0 0;padding-left:1.25rem}.scenario-predictors li{margin:.3rem 0}
+    @media(max-width:850px){.lesson-wrapper{grid-template-columns:1fr}.lesson-toc{position:static}.grid,.grid.three,.formula-grid,.lab-grid,.recommendation-grid{grid-template-columns:1fr}.controls,.scenario-controls{grid-template-columns:repeat(2,1fr)}.dynamic-row,.dynamic-row.predictor-row{grid-template-columns:repeat(2,minmax(0,1fr))}.outcome-strip{grid-template-columns:1fr}.quick-picks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:540px){.controls,.scenario-controls,.quick-picks,.dynamic-row,.dynamic-row.predictor-row,.scenario-facts{grid-template-columns:1fr}.hero{padding-top:2rem}#lesson-content{padding-inline:.75rem}.card,.interactive{padding:1rem}.level+ .level,.level+ .level+ .level{margin-inline:0}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+  </style>
+  <style id="uss-quiz-style">
+  .quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px;color:#172033}
+  .quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+  .quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff;color:#172033}
+  .quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px;background:#fff;color:#172033}
+  .quiz-question legend{font-weight:600;padding:0 4px}
+  .quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px;background:#fff;color:#172033}
+  .quiz-option input{margin-right:9px}
+  .quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7;color:#172033}
+  .quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6;color:#172033}
+  .quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+  .quiz-feedback.show{display:block}.quiz-feedback.good{background:#eef8f2;color:#172033;border-left:4px solid #2d6a4f}.quiz-feedback.bad{background:#fff1f1;color:#172033;border-left:4px solid #a32d2d}.quiz-feedback.warn{background:#fff8e6;color:#172033;border-left:4px solid #c79224}
+  .quiz-actions{margin-top:16px}.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+  .quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;color:#172033;border-left:4px solid #1f4e78;font-size:15px}.quiz-result.show{display:block}
+  </style>
+</head>
+<body data-lesson-page="true" data-category="data-analytics" data-level="advanced" data-interactive="true" data-lesson-type="general">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Data Analytics · Advanced · Interactive</div>
+      <h1>Hierarchical Data Analysis for Steel Charpy Testing</h1>
+      <p>Choose and validate models for heat → pipe → specimen data without pretending repeated measurements are independent evidence.</p>
+      <div class="meta"><span>75 minutes</span><span>Flagship engineering case study</span><span>Excel · Minitab · Python · R</span></div>
+    </div>
+  </div>
+
+  <main id="lesson-content">
+    <article class="lesson-wrapper">
+      <nav class="lesson-toc" aria-label="Lesson contents"><strong>In this lesson</strong>
+        <a href="#scenario-configurator">Configure your scenario</a><a href="#learning-objectives">Start here</a><a href="#key-concepts">Foundations</a><a href="#analysis-workflow">Analysis workflow</a><a href="#method-selection">Method selection</a><a href="#worked-example">Complete case study</a><a href="#interactive-lab">Design laboratory</a><a href="#diagnostics">Diagnostics</a><a href="#software">Software playbooks</a><a href="#interpretation">Interpretation</a><a href="#mistakes">Failure modes</a><a href="#practice">Practice</a><a href="#quiz">Knowledge check</a><a href="#summary">Field checklist</a>
+      </nav>
+
+      <div class="lesson-body">
+        <section id="scenario-configurator">
+          <p class="section-kicker">Start with your own data</p>
+          <h2>Scenario Configurator — describe your data structure</h2>
+          <p class="lede">Name the units and variables exactly as they appear in your project. The guide will translate your structure into an analysis path, warn you about invalid replication, and recommend a primary model plus sensitivity checks.</p>
+          <div class="interactive scenario-configurator">
+            <div class="scenario-heading"><h3>Build your analysis scenario</h3></div>
+            <div class="scenario-controls">
+              <div class="field"><label class="help-label" for="sc-outcome">Outcome variable (Y)<span class="help-wrap"><button type="button" class="help-button" aria-label="Help for outcome variable" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip"><strong>What:</strong> The result you want to explain or predict. <strong>How:</strong> Enter the exact column name and unit, such as Charpy energy (J). <strong>Why:</strong> The outcome defines what the model estimates.</span></span></label><input id="sc-outcome" type="text" value="Charpy energy (J)" maxlength="60"></div>
+              <div class="field"><label class="help-label" for="sc-response-type">Outcome type<span class="help-wrap"><button type="button" class="help-button" aria-label="Help for outcome type" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip"><strong>What:</strong> The mathematical form of Y. <strong>How:</strong> Choose continuous values, pass/fail, counts, ordered ratings, or censored time-to-event data. <strong>Why:</strong> This selects the model family and link function.</span></span></label><select id="sc-response-type"><option value="continuous">Continuous</option><option value="binary">Binary / pass-fail</option><option value="count">Count</option><option value="ordinal">Ordered categories</option><option value="survival">Time-to-event / censored</option></select></div>
+              <div class="field"><label class="help-label" for="sc-y-level">Y is measured at<span class="help-wrap"><button type="button" class="help-button" aria-label="Help for outcome measurement level" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip"><strong>What:</strong> The hierarchy level that produces each outcome value. <strong>How:</strong> Select the row-level unit on which Y is physically measured. <strong>Why:</strong> Comparing Y's level with each predictor's level reveals clustering and pseudoreplication risk.</span></span></label><select id="sc-y-level" aria-describedby="sc-y-help"></select><p class="field-hint" id="sc-y-help">Choose after defining the levels below.</p></div>
+              <div class="field"><label class="help-label" for="sc-goal">Primary analysis goal<span class="help-wrap"><button type="button" class="help-button" aria-label="Help for primary analysis goal" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip"><strong>What:</strong> The decision the analysis must support. <strong>How:</strong> Choose the single most important goal; use sensitivity models for secondary goals. <strong>Why:</strong> Estimation, prediction, variance analysis, specification risk, and causal claims require different validation.</span></span></label><select id="sc-goal"><option value="association">Estimate an association</option><option value="prediction">Predict new outcomes</option><option value="variance">Explain sources of variation</option><option value="specification">Estimate pass probability</option><option value="causal">Support a causal change</option></select></div>
+              <div class="field"><label class="help-label" for="sc-confounding">Confounding / overlap<span class="help-wrap"><button type="button" class="help-button" aria-label="Help for confounding and overlap" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip"><strong>What:</strong> Whether predictor combinations overlap enough to separate their effects. <strong>How:</strong> Select manageable only after checking cross-tabs, ranges, and plots; otherwise choose not checked. <strong>Why:</strong> Severe confounding can make a coefficient uninterpretable even when software fits the model.</span></span></label><select id="sc-confounding"><option value="manageable">Manageable overlap</option><option value="unknown">Not checked yet</option><option value="severe">Severe confounding</option></select></div>
+              <div class="field"><label class="help-label" for="sc-domain">Domain / context<span class="help-wrap"><button type="button" class="help-button" aria-label="Help for domain and context" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip"><strong>What:</strong> The process or field that generated the data. <strong>How:</strong> Use a short description such as steel manufacturing or healthcare. <strong>Why:</strong> It keeps the recommendation and final scenario statement grounded in the real decision context.</span></span></label><input id="sc-domain" type="text" value="Steel manufacturing" maxlength="60"></div>
+            </div>
+            <div class="builder-block"><div class="builder-title"><div><h4 class="help-label">1. Build the level structure <span class="help-wrap"><button type="button" class="help-button" aria-label="Help for the level structure" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip"><strong>What:</strong> The chain of units that contains your observations. <strong>How:</strong> Start with the broadest independent unit and end with the unit represented by each data row. <strong>Why:</strong> The hierarchy determines which observations share information and which random or correlation terms may be needed.</span></span></h4><p class="field-hint">Add as many levels as the real data require. Put the broadest independent unit first and the row-level unit last.</p></div><span class="button-with-help"><button type="button" class="button" id="add-level">+ Add level</button><span class="help-wrap align-right"><button type="button" class="help-button" aria-label="Help for add level" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip"><strong>What:</strong> Adds another unit beneath the current lowest level. <strong>How:</strong> Add every real sampling or repeated-measurement level; there is no fixed limit. <strong>Why:</strong> Omitting a level can hide dependence and understate uncertainty.</span></span></span></div><div id="level-builder"></div><div class="structure-preview" id="structure-preview" aria-live="polite"></div></div>
+            <div class="builder-block"><div class="builder-title"><div><h4 class="help-label">2. Add predictors <span class="help-wrap"><button type="button" class="help-button" aria-label="Help for predictors" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip"><strong>What:</strong> Inputs, exposures, or controls that may explain Y. <strong>How:</strong> Add each predictor separately and assign it to the level where its value truly changes. <strong>Why:</strong> Predictors at different levels have different independent sample sizes and interpretations.</span></span></h4><p class="field-hint">Each predictor can vary at a different level. “Upper level only” is valid; select the first level.</p></div><span class="button-with-help"><button type="button" class="button" id="add-predictor">+ Add predictor</button><span class="help-wrap align-right"><button type="button" class="help-button" aria-label="Help for add predictor" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip"><strong>What:</strong> Creates another explanatory-variable row. <strong>How:</strong> Add all candidate predictors, blockers, and random-slope candidates you plan to evaluate. <strong>Why:</strong> The tool checks their combined complexity and measurement levels.</span></span></span></div><div id="predictor-builder"></div></div>
+            <div class="button-row"><span class="button-with-help"><button type="button" class="button primary" id="apply-scenario">Analyze scenario ↓</button><span class="help-wrap"><button type="button" class="help-button" aria-label="Help for analyze scenario" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip"><strong>What:</strong> Runs the model-selection logic. <strong>How:</strong> Review all fields first, then select this button. <strong>Why:</strong> It generates ranked methods, structural warnings, and validity checks from your entries.</span></span></span><span class="button-with-help"><button type="button" class="button" id="reset-scenario">Reset steel example</button><span class="help-wrap"><button type="button" class="help-button" aria-label="Help for reset scenario" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip"><strong>What:</strong> Restores the original heat → pipe → Charpy specimen example. <strong>How:</strong> Use it to discard the current configuration and start again. <strong>Why:</strong> It provides a known example for learning or troubleshooting.</span></span></span></div>
+            <div class="scenario-output" id="scenario-output" aria-live="polite"></div>
+          </div>
+          <h3>Quick-pick — which strategy fits your situation?</h3>
+          <div class="quick-picks" id="scenario-quick-picks">
+            <button class="quick-pick" type="button" data-method="descriptive"><small>Use when</small><strong>Evidence is too sparse</strong>Descriptive analysis and more independent groups</button>
+            <button class="quick-pick" type="button" data-method="aggregate"><small>Simple between-group view</small><strong>Group-level aggregation</strong>One defensible row per upper-level unit</button>
+            <button class="quick-pick" type="button" data-method="mixed"><small>Nested or unbalanced data</small><strong>Mixed-effects model</strong>Partition group, member, and residual variation</button>
+            <button class="quick-pick" type="button" data-method="marginal"><small>Population-average effect</small><strong>GEE / cluster-robust</strong>Correct uncertainty for within-group correlation</button>
+            <button class="quick-pick" type="button" data-method="prediction"><small>Predict unseen groups</small><strong>Grouped validation</strong>Mixed or Bayesian model with group-held-out testing</button>
+            <button class="quick-pick" type="button" data-method="bootstrap"><small>Uncertainty sensitivity</small><strong>Cluster bootstrap</strong>Resample complete upper-level groups</button>
+            <button class="quick-pick" type="button" data-method="specification"><small>Binary or threshold outcome</small><strong>Generalized mixed model</strong>Model pass probability without discarding nesting</button>
+            <button class="quick-pick" type="button" data-method="redesign"><small>Causal or confounded question</small><strong>Redesign / restrict claim</strong>A model cannot manufacture overlap or randomization</button>
+          </div>
+        </section>
+
+        <section id="learning-objectives">
+          <p class="section-kicker">Orientation</p>
+          <h2>Learning objectives</h2>
+          <p class="lede">This lesson takes you from a raw specimen table to a defensible engineering conclusion. It is designed for analysts who must explain not only <em>what</em> the model says, but why the evidence deserves trust.</p>
+          <div class="outcome-strip"><div><strong>Diagnose the design</strong>Map every variable to the level where it changes.</div><div><strong>Choose the analysis</strong>Match the model to the question, hierarchy, and heat count.</div><div><strong>Defend the conclusion</strong>Validate uncertainty, influence, overlap, and engineering meaning.</div></div>
+          <p>By the end, you will be able to:</p>
+          <ul><li>Identify the independent experimental unit and the measurement unit.</li><li>Classify variables as heat-, pipe-, test-set-, or specimen-level.</li><li>Explain pseudoreplication using ICC, design effect, and effective sample size.</li><li>Select aggregation, cluster-robust, GEE, mixed-model, Bayesian, or bootstrap methods.</li><li>Validate a three-level model and communicate limitations responsibly.</li><li>Implement a defensible workflow in Excel, Minitab, Python, or R.</li></ul>
+          <div class="grid top-gap"><div class="callout"><strong>Prerequisites:</strong> basic regression, averages, standard deviation, confidence intervals, and the idea that correlation does not prove causation. Mixed-model experience is not required.</div><div class="callout success"><strong>Deliverable:</strong> a complete analysis plan, a validated model comparison, and a reporting statement suitable for an engineering review.</div></div>
+          <h3>Case question</h3>
+          <p>A steel mill wants to know whether heat-level calcium and sulfur are associated with transverse base-metal Charpy energy after accounting for product dimensions and rolling conditions. Each heat supplies several pipes, and each pipe supplies three specimens. The temptation is to run ordinary regression on every specimen row. This lesson shows why that shortcut can be badly misleading—and what to do instead.</p>
+        </section>
+
+        <section id="key-concepts">
+          <p class="section-kicker">Foundation 1</p>
+          <h2>Why ordinary regression fails</h2>
+          <p class="lede">If calcium and sulfur are measured once per heat, repeating those values on every pipe or specimen does not create more independent chemistry observations.</p>
+          <div class="hierarchy" role="img" aria-label="Three-level hierarchy from heat to pipe or coil to Charpy specimen">
+            <div class="level"><strong>Heat</strong><br>Ca, S, C, Mn, CE, caster, melting practice</div><div class="arrow" aria-hidden="true">↓ contains</div>
+            <div class="level"><strong>Pipe or coil within heat</strong><br>OD, gauge, rolling practice, exit and coiling temperature</div><div class="arrow" aria-hidden="true">↓ contains</div>
+            <div class="level"><strong>Charpy specimen</strong><br>specimen number and measured energy</div>
+          </div>
+          <div class="callout danger"><strong>Central rule:</strong> the effective sample size for a heat-level chemistry effect is driven primarily by the number of independent heats—not the number of pipes or Charpy specimens.</div>
+
+          <h3>The fastest way to understand the problem</h3>
+          <div class="grid"><div class="card"><h4>What changes?</h4><p>Calcium and sulfur change from heat to heat. Exit temperature may change by pipe. Charpy energy changes by specimen.</p></div><div class="card"><h4>What repeats?</h4><p>The same heat chemistry is copied into every lower-level row. Repetition improves precision about that heat, but it does not create another independent heat.</p></div><div class="card"><h4>What does naïve OLS assume?</h4><p>After accounting for predictors, every residual is independent. Specimens from the same pipe and heat rarely satisfy that assumption.</p></div><div class="card"><h4>What goes wrong?</h4><p>Coefficient estimates may look plausible, while standard errors, p-values, and confidence intervals become too optimistic.</p></div></div>
+
+          <h3>Key terminology</h3>
+          <div class="table-wrap"><table><caption>Terms used throughout the lesson</caption><thead><tr><th>Term</th><th>Plain meaning</th><th>Practical interpretation</th></tr></thead><tbody>
+            <tr><td>Experimental unit</td><td>The smallest unit independently exposed to the condition of interest.</td><td>For heat chemistry, usually the heat.</td></tr>
+            <tr><td>Measurement unit</td><td>The unit on which a result is recorded.</td><td>A Charpy specimen can be a measurement unit without being independent.</td></tr>
+            <tr><td>Nested data</td><td>Lower-level units belong to one higher-level unit.</td><td>Specimens are within pipes; pipes are within heats.</td></tr>
+            <tr><td>Crossed factor</td><td>A factor appears across many clusters.</td><td>Lab, machine, operator, or test date may cross heats.</td></tr>
+            <tr><td>Pseudoreplication</td><td>Repeated measurements are treated as independent replicates.</td><td>It usually makes standard errors too small and evidence look stronger.</td></tr>
+            <tr><td>Fixed effect</td><td>A systematic average association to estimate.</td><td>Expected Charpy change per 10 ppm Ca, controlling for other variables.</td></tr>
+            <tr><td>Random effect</td><td>Cluster-to-cluster deviation represented by a distribution.</td><td>Each heat can have its own baseline.</td></tr>
+            <tr><td>ICC</td><td>Share of total variance associated with a cluster.</td><td>High ICC means observations within a heat are strongly alike.</td></tr>
+            <tr><td>Partial pooling</td><td>Cluster estimates borrow strength from the full population.</td><td>Noisy heat effects shrink toward the overall average.</td></tr>
+            <tr><td>Marginal effect</td><td>An average association across the population of heats.</td><td>Often targeted by GEE or cluster-robust inference.</td></tr>
+            <tr><td>Conditional effect</td><td>An association for observations sharing the same modeled random effects.</td><td>Often reported from a mixed-effects model.</td></tr>
+            <tr><td>Random slope</td><td>The effect of a predictor is allowed to differ by cluster.</td><td>It needs within-cluster variation in that predictor and enough clusters.</td></tr>
+            <tr><td>Singular fit</td><td>A random-effect variance is estimated near zero or correlations hit a boundary.</td><td>The proposed random structure may be more complex than the data support.</td></tr>
+          </tbody></table></div>
+
+          <h3>Core formulas</h3>
+          <div class="formula-grid">
+            <article class="formula-card"><header>Intraclass correlation</header><div class="formula-body"><div class="equation">ICC<sub>heat</sub> = σ²<sub>heat</sub> / (σ²<sub>heat</sub> + σ²<sub>pipe</sub> + σ²<sub>residual</sub>)</div><dl class="symbol-list"><dt>σ²<sub>heat</sub></dt><dd>between-heat variance, J²</dd><dt>σ²<sub>pipe</sub></dt><dd>pipe-within-heat variance, J²</dd><dt>σ²<sub>residual</sub></dt><dd>specimen-level variance, J²</dd></dl><p><strong>Use:</strong> quantify how similar results are within heat. <strong>Do not use:</strong> as proof that the hierarchy is causal or complete.</p></div></article>
+            <article class="formula-card"><header>Design-effect approximation</header><div class="formula-body"><div class="equation">DE = 1 + (m̄ − 1)ρ</div><dl class="symbol-list"><dt>m̄</dt><dd>average observations per cluster</dd><dt>ρ</dt><dd>intraclass correlation, 0 to 1</dd></dl><p><strong>Use:</strong> teach how clustering reduces independent information in a simple one-cluster-level setting. <strong>Do not use:</strong> as an exact substitute for a three-level variance model, especially with unequal cluster sizes.</p></div></article>
+            <article class="formula-card"><header>Approximate effective sample size</header><div class="formula-body"><div class="equation">n<sub>eff</sub> ≈ n / DE</div><dl class="symbol-list"><dt>n</dt><dd>raw number of rows</dd><dt>n<sub>eff</sub></dt><dd>approximate information-equivalent count</dd></dl><p>This is an intuition aid. For a predictor that changes only across heats, the distinct heat count remains the key replication count.</p></div></article>
+            <article class="formula-card"><header>Three-level mixed model</header><div class="formula-body"><div class="equation">Y<sub>hpk</sub> = β₀ + β₁X<sub>h</sub> + β₂Z<sub>hp</sub> + u<sub>h</sub> + v<sub>hp</sub> + ε<sub>hpk</sub></div><dl class="symbol-list"><dt>Y</dt><dd>Charpy energy, J</dd><dt>X</dt><dd>heat-level predictor</dd><dt>Z</dt><dd>pipe-level predictor</dd><dt>u, v, ε</dt><dd>heat, pipe, and specimen deviations</dd></dl><p>Use when the hierarchy and cluster counts support variance estimation. Random effects are usually assumed mean-zero, mutually independent, and approximately normal unless another structure is specified.</p></div></article>
+          </div>
+          <div class="callout warning top-gap"><strong>Important nuance:</strong> “effective sample size” is not one universal number. It depends on the estimand, model, ICC structure, balance, and predictor level. Use the design-effect calculation for intuition; use design-respecting model-based uncertainty for conclusions.</div>
+        </section>
+
+        <section id="analysis-workflow">
+          <p class="section-kicker">Foundation 2</p>
+          <h2>The eight-gate analysis workflow</h2>
+          <p class="lede">A mixed model is not the first step. The first step is proving that the data structure, estimand, and model are aligned.</p>
+          <div class="numbered-flow">
+            <article><h3>Define the engineering decision</h3><p>Write the decision before opening software: estimation, prediction, process understanding, screening, or causal change. Define the response precisely—average Charpy, minimum individual energy, probability of meeting a requirement, or another endpoint.</p><p><strong>Gate:</strong> Could two reviewers read the question and identify the same response, population, contrast, and decision threshold?</p></article>
+            <article><h3>Map the hierarchy and every variable</h3><p>Create one row per specimen, but record the level where each predictor truly changes. Mark heat, slab, coil/pipe, test set, specimen, and crossed factors such as laboratory or machine.</p><p><strong>Gate:</strong> No “heat-level” variable may have multiple unexplained values within a heat.</p></article>
+            <article><h3>Count independent information</h3><p>Count distinct heats for heat-level effects, distinct pipes for pipe-level effects, and specimens for specimen-level variation. Compute the residual degrees of freedom for any aggregated model: <span class="inline-code">n independent units − p estimated parameters</span>.</p><p><strong>Gate:</strong> If independent clusters are scarce relative to model complexity, restrict the model or remain descriptive.</p></article>
+            <article><h3>Audit comparability and overlap</h3><p>Cross-tab chemistry ranges against grade, rolling practice, slab thickness, OD, gauge, test temperature, orientation, specimen size, and production period. A coefficient cannot separate effects where the data contain no overlap.</p><p><strong>Gate:</strong> The contrast of interest must be supported inside the observed data region.</p></article>
+            <article><h3>Explore at the correct levels</h3><p>Plot heat means against heat predictors; pipe means against pipe predictors; and within-pipe specimen spread separately. Use connected or faceted plots to reveal clusters rather than hiding them.</p><p><strong>Gate:</strong> Data errors, impossible units, missingness patterns, and influential clusters have been investigated.</p></article>
+            <article><h3>Fit a primary model and planned sensitivities</h3><p>Choose one primary estimand and model. Predefine complementary checks such as heat aggregation, cluster-robust covariance, mixed effects, grouped cross-validation, or cluster bootstrap.</p><p><strong>Gate:</strong> Every model answers a named question; no method is included merely because software offers it.</p></article>
+            <article><h3>Validate assumptions and stability</h3><p>Check convergence, singularity, residual form, variance structure, multicollinearity, nonlinear effects, cluster influence, and sensitivity to exclusions and engineering definitions.</p><p><strong>Gate:</strong> The conclusion survives reasonable analysis choices—or instability is clearly reported.</p></article>
+            <article><h3>Translate evidence into an engineering statement</h3><p>Report the contrast, effect size, interval, observed range, practical threshold, population, confounding limits, and whether the result is association or causation.</p><p><strong>Gate:</strong> A decision-maker can act without reading the software output.</p></article>
+          </div>
+        </section>
+
+        <section id="method-selection">
+          <p class="section-kicker">Decision point</p>
+          <h2>Select the method from the question and data</h2>
+          <div class="table-wrap"><table><caption>Methods are complementary—not interchangeable</caption><thead><tr><th>Method</th><th>Best fit</th><th>Important caution</th></tr></thead><tbody>
+            <tr><td>Descriptive only</td><td>Very few independent heats or severe confounding</td><td>Do not report inferential p-values.</td></tr>
+            <tr><td>OLS / GLM</td><td>One-level independent observations; choose Gaussian, logistic, count, or ordinal family to match Y</td><td>Invalid when residuals remain clustered or repeated.</td></tr>
+            <tr><td>Heat-level aggregation</td><td>Simple heat-level association with adequate heats</td><td>Loses pipe/specimen detail; weighting needs justification.</td></tr>
+            <tr><td>Weighted least squares</td><td>Aggregated means with meaningfully different, estimable precisions</td><td>Weights must represent inverse variance—not merely larger row counts.</td></tr>
+            <tr><td>Fixed-effects / blocked model</td><td>Within-group contrasts while absorbing stable group differences</td><td>Cannot estimate a predictor that is constant within the absorbed group.</td></tr>
+            <tr><td>Cluster-robust SE</td><td>Population-average association with many independent clusters</td><td>Use an appropriate finite-sample correction; not a cure for few heats.</td></tr>
+            <tr><td>GEE</td><td>Marginal or population-average effects</td><td>Requires enough clusters and a chosen working correlation.</td></tr>
+            <tr><td>Mixed-effects model</td><td>Nested variance, cluster-specific effects, unbalanced data</td><td>Check convergence, singularity, and random-effect support.</td></tr>
+            <tr><td>Generalized mixed model</td><td>Binary, count, or ordinal outcomes with nested or crossed dependence</td><td>Choose the link and distribution from the response—not convenience.</td></tr>
+            <tr><td>Longitudinal / repeated model</td><td>Ordered measurements over time or position</td><td>Exchangeable correlation may be wrong; inspect lag and time structure.</td></tr>
+            <tr><td>Crossed-effects model</td><td>Factors such as lab, operator, machine, or batch cross multiple groups</td><td>Do not force crossed factors into a false nesting hierarchy.</td></tr>
+            <tr><td>Bayesian hierarchy</td><td>Complex hierarchy or sparse cells with defensible priors</td><td>Report prior sensitivity and posterior predictive checks.</td></tr>
+            <tr><td>GAM / nonlinear hierarchy</td><td>Engineering-supported curvature or thresholds</td><td>Control flexibility and validate on unseen groups.</td></tr>
+            <tr><td>Survival / frailty model</td><td>Time-to-failure outcomes with censoring and clustering</td><td>Ordinary regression of observed failure times mishandles censoring.</td></tr>
+            <tr><td>Cluster bootstrap</td><td>Interval sensitivity check with a reasonable number of heats</td><td>Resample whole heats; bootstrapping cannot create missing information.</td></tr>
+          </tbody></table></div>
+          <h3>What each method estimates</h3>
+          <div class="grid three"><div class="card"><span class="status good">Simple</span><h4>Heat aggregation</h4><p>Answers a between-heat question using one row per heat. Transparent and auditable, but lower-level variation is summarized.</p></div><div class="card"><span class="status good">Marginal</span><h4>GEE or robust covariance</h4><p>Targets the average population association while protecting uncertainty against within-heat correlation under stated conditions.</p></div><div class="card"><span class="status good">Conditional</span><h4>Mixed effects</h4><p>Models conditional means and partitions variation across heat, pipe, and specimen levels. It requires enough structure to estimate those components.</p></div></div>
+          <div class="callout"><strong>Your configured recommendation appears at the top of this lesson.</strong> Use this table to understand the alternatives and their assumptions. The configurator is intentionally conservative: group-count cutoffs are screening rules, not universal laws; complexity, leverage, balance, and small-sample corrections still matter.</div>
+        </section>
+
+        <section id="worked-example">
+          <p class="section-kicker">Complete case study</p>
+          <h2>From 486 specimen rows to one defensible conclusion</h2>
+          <p class="lede">A fictional X65 dataset contains 36 independent heats, 2–7 pipes per heat, and three full-size transverse base-metal Charpy specimens per pipe tested at −5°C. The imbalance is intentional: real mill datasets are rarely perfectly balanced.</p>
+          <div class="callout warning"><strong>Units:</strong> Ca and S are stored as ppm (for example, 22 ppm)—not ambiguous decimal fractions. Orientation, specimen size, location, and temperature are separate fields.</div>
+          <div class="table-wrap"><table><caption>Preview of the downloadable fictional dataset</caption><thead><tr><th>Heat</th><th>Pipe</th><th>Specimen</th><th>Ca (ppm)</th><th>S (ppm)</th><th>Exit temp (°C)</th><th>Charpy (J)</th></tr></thead><tbody id="data-preview"></tbody></table></div>
+          <div class="button-row"><a class="button primary" href="/assets/lessons/hierarchical-data-analysis-steel-charpy/hierarchical-charpy-practice.csv" download>Download practice dataset (CSV)</a></div>
+
+          <div class="outcome-strip"><div><strong>36 heats</strong>Independent units for Ca and S</div><div><strong>162 pipes</strong>2–7 pipes nested within each heat</div><div><strong>486 specimens</strong>Three measurements nested within each pipe</div></div>
+
+          <h3>Step 1: define the question and estimand</h3>
+          <div class="decision-banner"><div class="big-number">10 ppm</div><div><strong>Primary contrast</strong><br>Estimate the average difference in base-metal Charpy energy associated with a 10 ppm higher heat-level Ca value, adjusted for S and mean exit temperature, within the ranges represented by these fictional data.</div></div>
+          <p>This is an <strong>observational between-heat association</strong>. It is not a causal claim and it is not a probability-of-passing model. The response is average Charpy energy in joules—not the minimum specimen result.</p>
+
+          <h3>Step 2: classify each variable</h3>
+          <ol><li><strong>Heat:</strong> Ca, S, chemistry, caster, melting practice.</li><li><strong>Pipe:</strong> OD, gauge, rolling practice, exit and coiling temperatures.</li><li><strong>Test set:</strong> test temperature, orientation, specimen size, location.</li><li><strong>Specimen:</strong> specimen number and energy.</li></ol>
+
+          <h3>Step 3: validate the data structure</h3>
+          <div class="table-wrap"><table class="audit-table"><caption>Mandatory pre-model checks</caption><thead><tr><th>Audit</th><th>Expected result</th><th>Why it matters</th></tr></thead><tbody><tr><td>Distinct Heat IDs</td><td>36</td><td>Defines the independent replication for chemistry effects.</td></tr><tr><td>Pipes within heat</td><td>2–7; 162 total</td><td>Confirms imbalance and nested structure.</td></tr><tr><td>Specimens per pipe</td><td>Exactly 3</td><td>Detects missing or duplicate specimens.</td></tr><tr><td>Ca values within heat</td><td>One unique value</td><td>Verifies Ca is truly heat-level.</td></tr><tr><td>Ca observed range</td><td>12–36 ppm</td><td>Defines the no-extrapolation region.</td></tr><tr><td>S observed range</td><td>7–24 ppm</td><td>Defines the no-extrapolation region.</td></tr><tr><td>Charpy observed range</td><td>124–217 J</td><td>Flags impossible units and supports context.</td></tr></tbody></table></div>
+
+          <h3>Step 4: quantify clustering without overstating it</h3>
+          <p>Assume the fitted three-level variance model estimates heat ICC = 0.38. The average cluster contains 13.5 specimens because 486 ÷ 36 = 13.5.</p>
+          <div class="step-calc"><strong>Design effect</strong><br>DE = 1 + (13.5 − 1)(0.38) = 5.75</div>
+          <div class="step-calc"><strong>Information-equivalent row count</strong><br>n<sub>eff</sub> ≈ 486 ÷ 5.75 = 84.5 rows</div>
+          <p>This approximation shows how correlation erodes the apparent information in 486 rows. It does <em>not</em> turn 84.5 into the sample size for Ca. Because Ca changes only between heats, the Ca association is supported by 36 independent Ca-bearing units.</p>
+
+          <h3>Step 5: build the transparent heat-level sensitivity model</h3>
+          <p>Aggregate to one row per heat and fit:</p>
+          <div class="formula">Mean Charpy<sub>h</sub> = β₀ + β₁(Ca<sub>h</sub>) + β₂(S<sub>h</sub>) + β₃(Mean exit temperature<sub>h</sub>) + ε<sub>h</sub></div>
+          <p>There are 36 rows and four estimated parameters, including the intercept, so the residual degrees of freedom are:</p>
+          <div class="step-calc"><strong>Residual df</strong><br>36 independent heats − 4 estimated parameters = 32</div>
+          <div class="table-wrap"><table class="model-output"><caption>Reproducible heat-level sensitivity result from the supplied fictional dataset</caption><thead><tr><th>Term</th><th>Estimate</th><th>SE</th><th>Approx. 95% CI</th><th>Engineering reading</th></tr></thead><tbody><tr><td>Ca, per 1 ppm</td><td>−1.03 J</td><td>0.34</td><td>−1.72 to −0.33</td><td>10 ppm higher Ca corresponds to about 10.3 J lower mean energy.</td></tr><tr><td>S, per 1 ppm</td><td>−2.39 J</td><td>0.48</td><td>−3.36 to −1.42</td><td>Association is conditional on Ca and mean exit temperature.</td></tr><tr><td>Mean exit temperature, per 1°C</td><td>−0.26 J</td><td>0.14</td><td>−0.55 to 0.03</td><td>The interval includes zero; important effects in either direction must be judged against engineering limits.</td></tr></tbody></table></div>
+          <div class="callout"><strong>Why not celebrate the p-values?</strong> The data are synthetic and the coefficients were embedded for teaching. In real historical data, model form, overlap, confounding, measurement error, influential heats, and selection processes determine whether such precision is credible.</div>
+
+          <h3>Step 6: compare complementary analyses</h3>
+          <div class="table-wrap"><table class="comparison-table"><caption>Triangulation plan</caption><thead><tr><th>Analysis</th><th>Purpose</th><th>Agreement to seek</th><th>Failure signal</th></tr></thead><tbody><tr><td>Heat-level OLS</td><td>Transparent between-heat sensitivity model</td><td>Direction and practical magnitude</td><td>One heat drives the coefficient</td></tr><tr><td>Three-level mixed model</td><td>Use all rows and partition heat/pipe/specimen variance</td><td>Similar fixed-effect contrast with valid convergence</td><td>Singular fit or unstable variance terms</td></tr><tr><td>Cluster-robust covariance</td><td>Marginal uncertainty check</td><td>Interval tells the same practical story</td><td>Large small-sample sensitivity</td></tr><tr><td>Heat cluster bootstrap</td><td>Distribution-free sensitivity at the heat level</td><td>Median and percentile interval broadly agree</td><td>Erratic or highly skewed coefficient distribution</td></tr><tr><td>Leave-one-heat-out</td><td>Influence analysis</td><td>Conclusion remains stable</td><td>Direction or decision changes after one omission</td></tr></tbody></table></div>
+
+          <h3>Step 7: make the engineering interpretation</h3>
+          <div class="callout success"><strong>Defensible example statement:</strong> “Within this fictional 36-heat dataset, and after adjustment for sulfur and heat-mean exit temperature, a 10 ppm higher calcium value was associated with an estimated 10.3 J lower heat-average Charpy energy. The approximate 95% interval for the 10 ppm contrast was 3.3 to 17.2 J lower. This is an observational between-heat association within the 12–36 ppm Ca range; it does not establish that changing calcium would cause the predicted energy change.”</div>
+          <p>Before using the statement operationally, confirm that grade, product dimensions, rolling practice, test temperature, slab thickness, specimen size, orientation, and production period either overlap sufficiently, are controlled appropriately, or define a deliberately restricted population.</p>
+          <div class="callout"><strong>Three-heat mini-example:</strong> three heats can demonstrate the hierarchy, but an intercept plus Ca and S uses all three heat-level degrees of freedom and leaves zero residual degrees of freedom. It cannot support standard errors, confidence intervals, p-values, ICC claims, or a dependable cluster bootstrap.</div>
+        </section>
+
+        <section id="interactive-lab">
+          <p class="section-kicker">Interactive laboratory</p>
+          <h2>See why more rows are not always more evidence</h2>
+          <p>Change the design. The lab calculates raw observations, design effect, and approximate effective sample size. It also explains why adding independent heats is usually more valuable for a heat-level chemistry effect.</p>
+          <div class="interactive">
+            <div class="controls">
+              <div class="field"><label for="sim-heats">Heats</label><input id="sim-heats" type="number" min="2" max="500" value="36"></div>
+              <div class="field"><label for="sim-pipes">Pipes per heat</label><input id="sim-pipes" type="number" min="1" max="50" value="4"></div>
+              <div class="field"><label for="sim-specimens">Specimens per pipe</label><input id="sim-specimens" type="number" min="1" max="20" value="3"></div>
+              <div class="field"><label for="sim-icc">Heat ICC (0–0.95)</label><input id="sim-icc" type="number" min="0" max="0.95" step="0.01" value="0.38"></div>
+            </div>
+            <div class="button-row"><button type="button" class="button primary" id="calculate-design">Calculate</button><button type="button" class="button" id="reset-design">Reset</button></div>
+            <div class="result" id="design-result" aria-live="polite"></div>
+            <div class="bar-track" aria-hidden="true"><div class="bar" id="eff-bar"></div></div>
+          </div>
+          <h3>Compare two ways to spend the next 36 tests</h3>
+          <div class="lab-grid"><div class="interactive"><div class="controls"><div class="field"><label for="compare-heats">Current heats</label><input id="compare-heats" type="number" min="3" max="200" value="12"></div><div class="field"><label for="compare-per-heat">Current specimens per heat</label><input id="compare-per-heat" type="number" min="1" max="100" value="9"></div><div class="field"><label for="compare-extra">Additional tests available</label><input id="compare-extra" type="number" min="1" max="500" value="36"></div><div class="field"><label for="compare-icc">Heat ICC</label><input id="compare-icc" type="number" min="0" max=".95" step=".01" value=".45"></div></div><div class="button-row"><button type="button" class="button primary" id="compare-designs">Compare designs</button><button type="button" class="button" id="reset-comparison">Reset</button></div><div class="result" id="comparison-result" aria-live="polite"></div></div><aside class="insight-panel"><h4>Choice A: deepen existing heats</h4><p>Use all additional tests on the same heats. This improves within-heat precision, but adds no new Ca values if chemistry is heat-level.</p><h4>Choice B: add independent heats</h4><p>Spread the tests across new heats while maintaining the minimum valid test set. This usually contributes much more information about a heat-level chemistry effect.</p><p class="muted">The calculator uses the simple one-level design-effect approximation for teaching, not formal power planning.</p></aside></div>
+
+          <h3>Variable-level challenge</h3>
+          <p>Select the level where each variable normally changes. Your goal is to recognize when a column repeated down a spreadsheet is still a higher-level variable.</p>
+          <div class="interactive"><div class="answer-grid" id="classification-items"><button type="button" class="button classify-button" data-level="heat">Ladle sulfur (ppm)</button><button type="button" class="button classify-button" data-level="pipe">Exit temperature (°C)</button><button type="button" class="button classify-button" data-level="specimen">Measured Charpy energy (J)</button><button type="button" class="button classify-button" data-level="test">Notch orientation</button></div><div class="field top-gap"><label for="classification-level">Assign the selected variable to</label><select id="classification-level"><option value="heat">Heat</option><option value="pipe">Pipe/coil</option><option value="test">Test set</option><option value="specimen">Specimen</option></select></div><div class="button-row"><button type="button" class="button primary" id="check-classification">Check selection</button><button type="button" class="button" id="reset-classification">Reset activity</button></div><div class="result" id="classification-result" aria-live="polite">Select a variable, choose its level, then check your answer.</div></div>
+        </section>
+
+        <section id="diagnostics">
+          <p class="section-kicker">Evidence quality</p>
+          <h2>Model validation and sensitivity checks</h2>
+          <p class="lede">A coefficient table is the beginning of validation, not the end. Each diagnostic below tests a different way the conclusion could fail.</p>
+          <div class="grid">
+            <div class="card"><h3>Residual behavior</h3><ul><li>Residual versus fitted</li><li>Normal Q–Q plot</li><li>Residuals by heat and pipe</li><li>Heteroscedasticity and transformations</li></ul></div>
+            <div class="card"><h3>Cluster influence</h3><ul><li>Leave-one-heat-out coefficients</li><li>Heat-level influence measures</li><li>Random-effect distribution</li><li>Influential rolling practices</li></ul></div>
+            <div class="card"><h3>Model structure</h3><ul><li>Convergence and singular fit</li><li>Random intercept versus slope</li><li>Crossed lab/machine effects</li><li>Nonlinearity and interactions</li></ul></div>
+            <div class="card"><h3>Engineering sensitivity</h3><ul><li>Raw versus size-normalized energy</li><li>Mean versus minimum individual result</li><li>Weighting choices</li><li>Missing-data and exclusion rules</li></ul></div>
+          </div>
+          <div class="callout danger"><strong>Steel-specific confounding:</strong> chemistry, grade, rolling practice, product dimensions, slab thickness, test temperature, specimen size, and time may move together. A sophisticated model cannot repair a complete lack of overlap.</div>
+          <h3>Diagnostic action matrix</h3>
+          <div class="table-wrap"><table><caption>Do not merely create the plot—decide what you will do with it</caption><thead><tr><th>Check</th><th>Acceptable pattern</th><th>Warning pattern</th><th>Response</th></tr></thead><tbody><tr><td>Residuals vs fitted</td><td>Roughly random band around zero</td><td>Curve, funnel, or groups</td><td>Revisit nonlinearity, variance structure, interactions, or omitted groups.</td></tr><tr><td>Q–Q plot</td><td>Most points near the reference line</td><td>Severe tails or multiple regimes</td><td>Inspect records; consider robust sensitivity or a better response model.</td></tr><tr><td>Residuals by heat</td><td>Comparable centres and spreads</td><td>Persistent heat patterns</td><td>Check omitted heat-level drivers and random structure.</td></tr><tr><td>Leave-one-heat-out</td><td>Contrast and decision remain stable</td><td>Sign, magnitude, or decision flips</td><td>Investigate leverage; report fragility and collect supporting heats.</td></tr><tr><td>Collinearity</td><td>Predictors have useful independent overlap</td><td>Ca and practice or grade nearly determine each other</td><td>Restrict scope, combine scientifically, or redesign collection; do not interpret isolated coefficients.</td></tr><tr><td>Singularity</td><td>Variance terms estimable away from boundaries</td><td>Variance near zero or correlation ±1</td><td>Simplify the random structure with written justification.</td></tr><tr><td>Grouped validation</td><td>Performance holds on unseen heats</td><td>Random-row validation looks good but unseen-heat performance collapses</td><td>Use grouped cross-validation and reduce leakage.</td></tr></tbody></table></div>
+          <h3>Minimum sensitivity set</h3>
+          <ul class="checklist"><li>Primary analysis fitted exactly as planned.</li><li>One-row-per-heat model compared with the hierarchical result.</li><li>Every heat removed once; effect contrast and interval retained.</li><li>Exclusion and missing-data rules varied within defensible limits.</li><li>Raw and normalized Charpy definitions compared only where scientifically appropriate.</li><li>Product, grade, practice, and time overlap visualized.</li><li>Prediction assessed with entire heats held out—not random specimen rows.</li></ul>
+        </section>
+
+        <section id="software">
+          <p class="section-kicker">Execution</p>
+          <h2>Statistics Implementation</h2>
+          <p class="lede">Software does not choose the experimental unit for you. Complete the hierarchy map and estimand first; then use the playbook that matches your environment.</p>
+          <details><summary>Excel: prepare and audit the hierarchy</summary>
+            <h3>Excel Functions</h3>
+            <ol><li>Convert the specimen table to an Excel Table with <strong>Ctrl+T</strong>; name it <span class="inline-code">CharpyData</span>.</li><li>Keep explicit identifiers: <span class="inline-code">Heat_ID</span>, <span class="inline-code">Pipe_ID</span>, <span class="inline-code">Specimen_ID</span>. Never infer nesting from row order.</li><li>Create a PivotTable: <strong>Insert → PivotTable</strong>. Put Heat then Pipe in Rows; place Charpy in Values as Average, Standard Deviation, and Count.</li><li>Build a heat summary with one row per heat. Use the functions below to audit counts and calculate transparent summaries.</li><li>Plot heat-average Charpy versus Ca and label influential heats. Use the chart for exploration, not clustered inference.</li><li>Export the clean long table as CSV for a mixed model in Minitab, Python, or R.</li></ol>
+            <div class="table-wrap"><table><caption>Excel functions used in this lesson</caption><thead><tr><th>Purpose</th><th>Example formula</th><th>What to verify</th></tr></thead><tbody><tr><td>Heat mean</td><td><code>=AVERAGEIFS(CharpyData[Charpy_J],CharpyData[Heat_ID],A2)</code></td><td>Response definition and exclusions are consistent.</td></tr><tr><td>Specimen rows per heat</td><td><code>=COUNTIFS(CharpyData[Heat_ID],A2)</code></td><td>Do not call this the number of independent chemistry observations.</td></tr><tr><td>Unique pipes per heat</td><td><code>=COUNTA(UNIQUE(FILTER(CharpyData[Pipe_ID],CharpyData[Heat_ID]=A2)))</code></td><td>Available in Microsoft 365.</td></tr><tr><td>Within-heat SD</td><td><code>=STDEV.S(FILTER(CharpyData[Charpy_J],CharpyData[Heat_ID]=A2))</code></td><td>This mixes pipe and specimen variation unless pipe means are separated.</td></tr><tr><td>Ca consistency</td><td><code>=COUNTA(UNIQUE(FILTER(CharpyData[Ca_ppm],CharpyData[Heat_ID]=A2)))</code></td><td>Must equal 1 if Ca is heat-level.</td></tr><tr><td>Lower-tail review</td><td><code>=PERCENTILE.INC(FILTER(CharpyData[Charpy_J],CharpyData[Heat_ID]=A2),0.10)</code></td><td>Do not substitute a percentile for a specification rule.</td></tr></tbody></table></div>
+            <h3>Excel Use Cases</h3>
+            <p><strong>Heat-level sensitivity:</strong> create one row per heat with <code>AVERAGEIFS</code>, verify chemistry is constant with <code>UNIQUE</code>, then fit the transparent regression to those independent heat rows. <strong>Lower-tail review:</strong> use <code>PERCENTILE.INC</code> only as a descriptive screen and keep specification pass/fail rules separate.</p>
+            <div class="callout warning"><strong>Excel boundary:</strong> Analysis ToolPak regression assumes independent residuals and does not directly fit a three-level mixed model. It is suitable for the one-row-per-heat sensitivity analysis, not naïve specimen-level inference.</div>
+          </details>
+          <h3>Minitab Navigation</h3>
+          <details><summary>Minitab: mixed-effects workflow</summary>
+            <ol><li>Open the long-format dataset with one row per specimen. Store Heat and Pipe as categorical identifiers; store Ca, S, temperatures, OD, and gauge as numeric columns.</li><li>Verify nesting with <strong>Stat → Tables → Cross Tabulation and Chi-Square</strong>: each Pipe ID should map to one Heat ID.</li><li>Explore the response with <strong>Graph → Boxplot → One Y, With Groups</strong>. Graph Charpy by Heat and then by Pipe.</li><li>For a mixed model, use <strong>Stat → ANOVA → Mixed Effects Model → Fit Mixed Effects Model</strong>. Menu wording can vary by release.</li><li>Enter Charpy_J as the response. Add scientifically justified fixed terms such as centred Ca, centred S, centred exit temperature, and required product controls.</li><li>Specify Heat and Pipe-within-Heat as random terms only if the design supports their variance estimation. Do not add random slopes for heat-level Ca because Ca does not vary within a heat.</li><li>Under <strong>Graphs</strong>, request four-in-one residual plots and residuals versus relevant predictors. Under <strong>Results</strong>, request the model summary, fixed-effect table, and variance components.</li><li>Review warnings first. Then inspect variance components, fixed-effect contrasts with confidence intervals, residual plots, and unusual observations.</li><li>Use <strong>Predict</strong> only for combinations represented by the fitted design. State whether prediction is for a new observation, pipe, or heat.</li></ol>
+            <div class="callout"><strong>Output fields that matter:</strong> convergence status, variance components, fixed-effect estimate and interval for a meaningful contrast, residual degrees of freedom method, residual diagnostics, and any unusual observations. A low p-value does not override a singular fit or confounded design.</div>
+          </details>
+          <h3>Exam Tips</h3>
+          <div class="callout"><strong>ASQ and real-work connection:</strong> identify the experimental unit before selecting a method, distinguish replication from repeated measurement, and never let a large row count disguise a small number of independent groups. On an exam, these cues point to blocking, nested factors, repeated measures, or a hierarchical model; at work, they determine whether the uncertainty and engineering conclusion are defensible.</div>
+          <details><summary>Python: complete analysis skeleton</summary><pre><code>import pandas as pd
+import statsmodels.formula.api as smf
+
+df = pd.read_csv("hierarchical_charpy_practice.csv")
+required = {"heat_id","pipe_id","charpy_j","ca_ppm","s_ppm","exit_temp_c"}
+assert required.issubset(df.columns)
+
+# Verify heat-level predictors are constant within heat.
+assert df.groupby("heat_id")["ca_ppm"].nunique().max() == 1
+assert df.groupby("heat_id")["s_ppm"].nunique().max() == 1
+
+# Heat-level sensitivity model: one independent row per heat.
+heat = df.groupby("heat_id", as_index=False).agg(
+    charpy_mean_j=("charpy_j", "mean"),
+    ca_ppm=("ca_ppm", "first"), s_ppm=("s_ppm", "first"),
+    pipes=("pipe_id", "nunique"))
+heat_fit = smf.ols("charpy_mean_j ~ ca_ppm + s_ppm", data=heat).fit()
+
+# Marginal sensitivity: cluster-robust covariance by heat.
+robust = smf.ols(
+    "charpy_j ~ ca_ppm + s_ppm + exit_temp_c", data=df
+).fit(cov_type="cluster", cov_kwds={
+    "groups": df["heat_id"], "use_correction": True
+})
+
+# Random heat intercept plus pipe-within-heat variance component.
+# pipe_id must be globally unique, as it is in the practice dataset.
+mixed = smf.mixedlm(
+    "charpy_j ~ ca_ppm + s_ppm + exit_temp_c", df,
+    groups="heat_id", re_formula="1",
+    vc_formula={"pipe": "0 + C(pipe_id)"}
+).fit(reml=True)
+
+print(f"rows={len(df)}, heats={df.heat_id.nunique()}, "
+      f"pipes={df.pipe_id.nunique()}")
+print(heat_fit.summary())
+print(robust.summary())
+print(mixed.summary())</code></pre></details>
+          <details><summary>R: nested mixed model and checks</summary><pre><code>library(readr)
+library(dplyr)
+library(lme4)
+library(lmerTest)
+
+d &lt;- read_csv("hierarchical_charpy_practice.csv")
+stopifnot(max(tapply(d$ca_ppm, d$heat_id, function(x) n_distinct(x))) == 1)
+
+m &lt;- lmer(charpy_j ~ ca_ppm + s_ppm + exit_temp_c +
+          (1 | heat_id/pipe_id), data = d, REML = TRUE)
+summary(m)
+isSingular(m)
+plot(m)
+qqnorm(resid(m)); qqline(resid(m))
+
+# Leave one entire heat out at a time.
+loo &lt;- lapply(unique(d$heat_id), function(h) {
+  fit &lt;- lm(charpy_j ~ ca_ppm + s_ppm + exit_temp_c,
+            data = filter(d, heat_id != h))
+  c(omitted_heat = h, ca = coef(fit)["ca_ppm"])
+})
+do.call(rbind, loo)</code></pre></details>
+          <details><summary>Correct cluster-bootstrap pattern</summary><pre><code># Each sampled heat occurrence receives a NEW bootstrap cluster ID.
+import numpy as np
+
+rng = np.random.default_rng(42)
+heat_ids = df["heat_id"].unique()
+boot_coefs = []
+
+for b in range(2000):
+    sampled = rng.choice(heat_ids, len(heat_ids), replace=True)
+    pieces = []
+    for instance, heat_id in enumerate(sampled):
+        part = df.loc[df.heat_id.eq(heat_id)].copy()
+        part["boot_heat_id"] = f"b{instance}"  # preserves multiplicity
+        pieces.append(part)
+    boot = pd.concat(pieces, ignore_index=True)
+    bh = boot.groupby("boot_heat_id", as_index=False).agg(
+        charpy_mean_j=("charpy_j", "mean"),
+        ca_ppm=("ca_ppm", "first"), s_ppm=("s_ppm", "first"))
+    if bh[["ca_ppm", "s_ppm"]].drop_duplicates().shape[0] &gt; 3:
+        fit = smf.ols("charpy_mean_j ~ ca_ppm + s_ppm", bh).fit()
+        boot_coefs.append(fit.params["ca_ppm"])
+
+print(np.quantile(boot_coefs, [0.025, 0.5, 0.975]))</code></pre></details>
+        </section>
+
+        <section id="interpretation">
+          <p class="section-kicker">Decision language</p>
+          <h2>When you see this, it means this</h2>
+          <div class="table-wrap"><table><caption>Interpretation guide</caption><thead><tr><th>When you see this</th><th>It means this</th><th>Action</th></tr></thead><tbody>
+            <tr><td>High heat ICC</td><td>Results from the same heat are strongly correlated.</td><td>Model heat clustering; do not count specimens as independent chemistry replicates.</td></tr>
+            <tr><td>Singular mixed-model fit</td><td>The proposed random structure may exceed what the data support.</td><td>Simplify with engineering justification; do not hide the warning.</td></tr>
+            <tr><td>Large leave-one-heat-out change</td><td>One heat strongly influences the conclusion.</td><td>Investigate data quality and report sensitivity.</td></tr>
+            <tr><td>OLS and mixed-model SE differ</td><td>Clustering or variance structure affects uncertainty.</td><td>Use the design-respecting result.</td></tr>
+            <tr><td>No overlap across practices</td><td>Practice and chemistry effects are confounded.</td><td>Restrict conclusions or collect better-balanced data.</td></tr>
+            <tr><td>Interval includes zero but excludes large harm</td><td>No clear direction, yet practically important harm may be unlikely.</td><td>Discuss engineering bounds, not only “not significant.”</td></tr>
+            <tr><td>Random-row accuracy exceeds grouped-by-heat accuracy</td><td>The original validation leaked heat-specific information.</td><td>Use grouped folds and report new-heat performance.</td></tr>
+            <tr><td>Random heat variance is near zero</td><td>After fixed effects, little additional heat-level variance was estimated.</td><td>Check singularity and whether the random term is supported; do not conclude heats are identical.</td></tr>
+            <tr><td>Ca coefficient changes sharply after adding practice</td><td>The unadjusted result was sensitive to practice composition.</td><td>Show both models, inspect overlap, and narrow the claim.</td></tr>
+            <tr><td>Confidence interval is narrow but outside historical range</td><td>The numerical prediction is extrapolation despite apparent precision.</td><td>Do not use it as validated evidence; collect supporting data.</td></tr>
+          </tbody></table></div>
+          <div class="callout success"><strong>Reporting template:</strong> “After controlling for product dimensions, test temperature, and rolling practice, a 10 ppm increase in heat-level Ca was associated with an estimated X J change in average Charpy energy (95% interval Y to Z J). This is a heat-level observational association and does not establish causation.”</div>
+        </section>
+
+        <section id="mistakes">
+          <p class="section-kicker">Failure prevention</p>
+          <h2>Common mistakes, warning signs, and corrections</h2>
+          <div class="stack">
+            <details><summary>Calculation error: using specimen count as heat-level n</summary><p><strong>Why wrong:</strong> repeated Ca and S values do not create independent chemistry contrasts. <strong>Recognize it:</strong> the same predictor value appears on many rows with the same Heat ID. <strong>Prevent it:</strong> count distinct heats, show the hierarchy, and use cluster-aware inference.</p></details>
+            <details><summary>Interpretation error: association becomes causation</summary><p><strong>Why wrong:</strong> grade, practice, dimensions, and time may jointly influence chemistry and Charpy. <strong>Recognize it:</strong> words such as “caused,” “improved,” or “reduced” appear in an observational result. <strong>Prevent it:</strong> use “was associated with” and state the design limits.</p></details>
+            <details><summary>Assumption error: bootstrap will rescue three heats</summary><p><strong>Why wrong:</strong> resampling cannot create new independent information. <strong>Recognize it:</strong> thousands of bootstrap draws are used to disguise a single-digit cluster count. <strong>Prevent it:</strong> keep the analysis descriptive or collect more heats.</p></details>
+            <details><summary>Software-output error: ignoring convergence or singular-fit warnings</summary><p><strong>Why wrong:</strong> parameters may sit on a boundary or be poorly identified. <strong>Recognize it:</strong> warnings, near-zero variances, correlations near ±1, or unstable estimates. <strong>Prevent it:</strong> inspect warnings first and simplify with engineering justification.</p></details>
+            <details><summary>Weighting error: calling inverse-variance WLS automatically optimal</summary><p><strong>Why wrong:</strong> estimated variances can be noisy and may weight large clusters in unintended ways. <strong>Recognize it:</strong> weights are applied without a variance model or sensitivity check. <strong>Prevent it:</strong> define the estimand, justify weights, and compare unweighted and defensibly weighted results.</p></details>
+            <details><summary>Data error: mixing ppm, wt%, and mass fraction</summary><p><strong>Why wrong:</strong> unit errors change a value by factors of 100 or 10,000. <strong>Recognize it:</strong> a column called “Ca” contains decimals without units. <strong>Prevent it:</strong> use names such as <span class="inline-code">Ca_ppm</span>. Remember: 22 ppm = 0.0022 wt% = 0.000022 mass fraction.</p></details>
+            <details><summary>Engineering error: mixing incompatible Charpy definitions</summary><p><strong>Why wrong:</strong> base metal, weld, fusion line, HAZ, orientation, specimen size, and test temperature represent different populations. <strong>Recognize it:</strong> the same response column silently combines them. <strong>Prevent it:</strong> standardize or stratify definitions before modeling.</p></details>
+            <details><summary>Validation error: splitting specimen rows at random</summary><p><strong>Why wrong:</strong> specimens from one heat can enter both training and validation sets, leaking heat-specific information. <strong>Recognize it:</strong> unusually strong validation performance that drops on a new production period. <strong>Prevent it:</strong> group cross-validation by Heat ID.</p></details>
+            <details><summary>Exam trap: random intercept versus random slope</summary><p>A heat-level Ca value cannot support a within-heat Ca slope because Ca does not vary inside a heat. A random Ca slope by heat is therefore not identified from this design. Random slopes require within-cluster predictor variation.</p></details>
+          </div>
+        </section>
+
+        <section id="practice">
+          <p class="section-kicker">Apply the workflow</p>
+          <h2>Engineering review challenge</h2>
+          <div class="card"><p><strong>Scenario:</strong> 120 Charpy specimens came from 5 heats. Ca and S are measured once per heat. Exit temperature varies by pipe. A colleague fits specimen-level OLS with Ca, S, and exit temperature, reports p = 0.002 for Ca, and recommends changing the calcium target.</p><div class="grid"><div><h3>Your review</h3><ol><li>Identify the experimental unit for Ca.</li><li>Calculate the heat-level residual df for an intercept + Ca + S model.</li><li>Explain why the reported p-value is suspect.</li><li>State what analysis is defensible now.</li><li>State what new data would materially improve the decision.</li></ol></div><div><h3>Reviewer standard</h3><ul class="checklist"><li>Names the correct independent unit</li><li>Shows the df calculation</li><li>Separates descriptive from inferential claims</li><li>Explains why a mixed model cannot create heats</li><li>Recommends a better data design</li></ul></div></div><button type="button" class="button primary" id="reveal-practice" aria-expanded="false" aria-controls="practice-answer">Reveal model answer</button><div id="practice-answer" hidden><hr><h3>Model answer</h3><p><strong>1. Experimental unit:</strong> Heat, because Ca and S vary only between heats.</p><p><strong>2. Residual degrees of freedom:</strong> 5 heats − 3 parameters (intercept, Ca, S) = 2 residual df. Adding more heat-level predictors would reduce this further.</p><p><strong>3. Why p = 0.002 is suspect:</strong> specimen-level OLS treats correlated rows as independent and repeats the same Ca and S values dozens of times. The nominal standard error is therefore likely too small.</p><p><strong>4. Defensible current analysis:</strong> display the five heat means, chemistry values, within-heat distributions, and confounding table. Treat any regression as descriptive and explicitly avoid inferential or causal claims. A mixed model may describe variance but cannot make the chemistry effect well-supported with five heats.</p><p><strong>5. Better data:</strong> collect more independent heats spanning the Ca range with overlap across sulfur, grade, practice, dimensions, slab thickness, and production period. Preserve multiple pipes and specimens to estimate lower-level variation, but prioritize new heats for the heat-level chemistry question.</p></div></div>
+        </section>
+
+        <section id="summary">
+          <p class="section-kicker">Take it to work</p>
+          <h2>Field checklist for hierarchical engineering data</h2>
+          <ul><li>Match the analysis unit to the level at which the predictor varies.</li><li>Heat-level chemistry needs independent heats.</li><li>Pipe and specimen replication estimate lower-level variation but do not replace heats.</li><li>Use descriptive, marginal, and hierarchical methods according to the goal.</li><li>Check convergence, influence, overlap, missingness, and engineering definitions.</li><li>Cluster bootstrap resamples whole heats and needs a reasonable number of them.</li><li>Report effect size, uncertainty, practical meaning, range, and causal limits.</li></ul>
+          <div class="callout success"><strong>Remember this:</strong> count the units that received or carry the predictor—not the rows in the spreadsheet.</div>
+          <h3>One-page decision rule</h3>
+          <div class="decision-banner"><div class="big-number">Level → n → model</div><div><strong>First:</strong> identify the level where the predictor changes. <strong>Second:</strong> count independent units at that level. <strong>Third:</strong> choose a model whose uncertainty respects the resulting dependence. If overlap is absent or independent units are too few, stop at a descriptive conclusion.</div></div>
+          <h3>Pre-release analysis checklist</h3>
+          <ul class="checklist"><li>The engineering response and decision threshold are defined.</li><li>Heat, pipe, test-set, specimen, and crossed factors are mapped.</li><li>Distinct independent units—not rows—are counted for every key predictor.</li><li>Units and chemistry conversions are explicit.</li><li>Grade, practice, dimensions, temperature, specimen size, and time overlap are reviewed.</li><li>The primary estimand and model are named before interpretation.</li><li>Convergence, singularity, residuals, influence, and grouped validation are checked.</li><li>Effect size and uncertainty are translated into a meaningful engineering contrast.</li><li>Extrapolation and causal limitations are stated.</li><li>The analysis can be reproduced from the dataset, code, and decision log.</li></ul>
+          <p><strong>Suggested next lesson:</strong> Building and validating mixed-effects models in Minitab, Python, and R.</p>
+          <h3>References and further study</h3><ul class="reference-list"><li>Pinheiro, J. C. &amp; Bates, D. M. <em>Mixed-Effects Models in S and S-PLUS</em>. Springer.</li><li>Gelman, A. &amp; Hill, J. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Cambridge University Press.</li><li>West, B. T., Welch, K. B. &amp; Galecki, A. T. <em>Linear Mixed Models: A Practical Guide Using Statistical Software</em>. CRC Press.</li><li>Official documentation for Minitab mixed-effects models, Python statsmodels MixedLM, and R lme4.</li></ul>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+    <p class="lesson-kicker">Knowledge check</p>
+    <h2 id="quiz-heading">Check your understanding</h2>
+    <div class="quiz">
+      <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+      <form id="quiz-form">
+        <fieldset class="quiz-question" data-answer="b" data-explanation="Ca is measured at heat level, so independent Ca information comes from independent heats."><legend>1. What is the primary independent unit for a heat-level Ca effect?</legend><label class="quiz-option"><input type="radio" name="q1" value="a"> Charpy specimen</label><label class="quiz-option"><input type="radio" name="q1" value="b"> Heat</label><label class="quiz-option"><input type="radio" name="q1" value="c"> Test machine</label><div class="quiz-feedback"></div></fieldset>
+        <fieldset class="quiz-question" data-answer="c" data-explanation="DE = 1 + (10 − 1)(0.40) = 4.6."><legend>2. With m̄ = 10 and ICC = 0.40, what is the design effect?</legend><label class="quiz-option"><input type="radio" name="q2" value="a"> 1.4</label><label class="quiz-option"><input type="radio" name="q2" value="b"> 4.0</label><label class="quiz-option"><input type="radio" name="q2" value="c"> 4.6</label><div class="quiz-feedback"></div></fieldset>
+        <fieldset class="quiz-question" data-answer="a" data-explanation="A mixed-effects model can partition heat, pipe-within-heat, and residual variance when the design and cluster counts support it."><legend>3. Which method directly estimates nested variance components?</legend><label class="quiz-option"><input type="radio" name="q3" value="a"> Mixed-effects model</label><label class="quiz-option"><input type="radio" name="q3" value="b"> Ordinary specimen-level OLS</label><label class="quiz-option"><input type="radio" name="q3" value="c"> A heat mean chart alone</label><div class="quiz-feedback"></div></fieldset>
+        <fieldset class="quiz-question" data-answer="c" data-explanation="Resampling whole independent clusters preserves the hierarchy and multiplicity of each selected heat."><legend>4. What must a heat-level cluster bootstrap resample?</legend><label class="quiz-option"><input type="radio" name="q4" value="a"> Individual specimens</label><label class="quiz-option"><input type="radio" name="q4" value="b"> Individual pipes only</label><label class="quiz-option"><input type="radio" name="q4" value="c"> Whole heats with all their lower-level rows</label><div class="quiz-feedback"></div></fieldset>
+        <fieldset class="quiz-question" data-answer="b" data-explanation="Without overlap, the Ca and rolling-practice effects cannot be separated reliably; more specimens from the same heats do not repair that design problem."><legend>5. Ca occurs only in one rolling practice. What is the safest conclusion?</legend><label class="quiz-option"><input type="radio" name="q5" value="a"> The model separates both effects automatically</label><label class="quiz-option"><input type="radio" name="q5" value="b"> Ca and practice are confounded; causal separation is not supported</label><label class="quiz-option"><input type="radio" name="q5" value="c"> Add more specimens from the same heats</label><div class="quiz-feedback"></div></fieldset>
+        <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+        <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+  <section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+    <a href="/lessons#data-analytics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Data Analytics lessons</a>
+  </section>
+
+  <footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+  <!-- EDIT: Interactive lesson JavaScript -->
+  <script>
+  (() => {
+    "use strict";
+    const byId = id => document.getElementById(id);
+
+    function buildDataset() {
+      const rows = [];
+      for (let h = 1; h <= 36; h += 1) {
+        const heat = `H-${String(h).padStart(3,"0")}`;
+        const ca = 12 + ((h * 7) % 25);
+        const sulphur = 7 + ((h * 5) % 18);
+        const pipes = 2 + ((h * 5) % 6);
+        const slabThicknessIn = h % 3 === 0 ? 10 : 8;
+        const meltingPractice = `MP-${String(1 + (h % 4)).padStart(2,"0")}`;
+        const heatEffect = 1.2 * (((h * 37) % 23) - 11);
+        for (let p = 1; p <= pipes; p += 1) {
+          const exitTemp = 780 + ((h * 9 + p * 7) % 61);
+          const coilingTemp = 545 + ((h * 7 + p * 11) % 56);
+          const odIn = [8.625, 10.75, 12.75][(h + p) % 3];
+          const gaugeIn = [0.300, 0.323, 0.331][(h + 2 * p) % 3];
+          const rollingPractice = `RP-${String(1 + ((h + p) % 3)).padStart(2,"0")}`;
+          const pipeEffect = 0.9 * (((h * 13 + p * 17) % 13) - 6);
+          for (let s = 1; s <= 3; s += 1) {
+            const specimenEffect = 0.8 * (((h * 11 + p * 5 + s * 3) % 17) - 8);
+            const charpy = Math.round(232 - 1.25 * ca - 1.8 * sulphur - 0.18 * (exitTemp - 800) + heatEffect + pipeEffect + specimenEffect);
+            rows.push({heat_id:heat,pipe_id:`${heat}-P${String(p).padStart(2,"0")}`,specimen:s,grade:"X65",melting_practice:meltingPractice,rolling_practice:rollingPractice,slab_thickness_in:slabThicknessIn,od_in:odIn,gauge_in:gaugeIn,ca_ppm:ca,s_ppm:sulphur,exit_temp_c:exitTemp,coiling_temp_c:coilingTemp,test_temp_c:-5,orientation:"Transverse",specimen_size:"Full-size",location:"Base metal",charpy_j:charpy});
+          }
+        }
+      }
+      return rows;
+    }
+    const dataset = buildDataset();
+    byId("data-preview").innerHTML = dataset.slice(0,6).map(r => `<tr><td>${r.heat_id}</td><td>${r.pipe_id}</td><td>${r.specimen}</td><td>${r.ca_ppm}</td><td>${r.s_ppm}</td><td>${r.exit_temp_c}</td><td>${r.charpy_j}</td></tr>`).join("");
+
+    const safe = value => String(value).replace(/[&<>"']/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));
+    const scenarioDefaults = {
+      levels:[{name:"Heat",count:36,relation:"top"},{name:"Pipe",count:4,relation:"nested"},{name:"Charpy specimen",count:3,relation:"nested"}],
+      predictors:[{name:"Calcium content",type:"continuous",level:0,role:"fixed"},{name:"Exit temperature",type:"continuous",level:1,role:"fixed"}],
+      fields:{"sc-outcome":"Charpy energy (J)","sc-response-type":"continuous","sc-goal":"association","sc-confounding":"manageable","sc-domain":"Steel manufacturing"}
+    };
+    let scenarioState = JSON.parse(JSON.stringify(scenarioDefaults));
+    const levelBuilder = byId("level-builder"), predictorBuilder = byId("predictor-builder");
+    const responseFamilies = {continuous:"Gaussian / continuous",binary:"binomial / logistic",count:"Poisson or negative-binomial",ordinal:"ordinal-link",survival:"survival / hazard"};
+    const scenarioHelp = {
+      levelName:"<strong>What:</strong> The real unit represented at this level. <strong>How:</strong> Use a singular engineering name such as Heat, Pipe, Operator, Patient, or Measurement. <strong>Why:</strong> Clear unit names make the hierarchy and model terms interpretable.",
+      levelCount:"<strong>What:</strong> The number of units supplying independent information at this level. <strong>How:</strong> For the top level enter the total independent units; below it enter the typical units within each parent. <strong>Why:</strong> This count drives degrees of freedom, power, and whether a complex model is defensible.",
+      relationship:"<strong>What:</strong> How this level relates to the one above. <strong>How:</strong> Choose nested when each unit belongs to one parent; choose crossed when the same unit appears under several parents. <strong>Why:</strong> Nested and crossed designs require different covariance structures.",
+      removeLevel:"<strong>What:</strong> Removes this hierarchy level. <strong>How:</strong> Use only when the unit is not a real sampling, grouping, or repeated-measurement level. <strong>Why:</strong> Removing a true level may create pseudoreplication; predictor level assignments will also be adjusted.",
+      predictorName:"<strong>What:</strong> The explanatory variable or control. <strong>How:</strong> Enter its actual column name and unit, such as Exit temperature (°C). <strong>Why:</strong> Each predictor is evaluated at the level where it varies.",
+      predictorType:"<strong>What:</strong> The predictor's data form. <strong>How:</strong> Choose continuous, categorical, binary, or time-varying. <strong>Why:</strong> Type affects coding, functional form, degrees of freedom, and possible longitudinal treatment.",
+      predictorLevel:"<strong>What:</strong> The hierarchy level where this predictor can change. <strong>How:</strong> Assign chemistry to Heat, rolling conditions to Pipe, and test conditions to Specimen when that matches the data. <strong>Why:</strong> Repeated lower-level rows do not increase the independent sample size for an upper-level predictor.",
+      predictorRole:"<strong>What:</strong> How the predictor enters the model. <strong>How:</strong> Use fixed effect for an estimated association, random slope when its effect may vary by group, or control/blocker to adjust comparisons. <strong>Why:</strong> The role changes both interpretation and model complexity.",
+      removePredictor:"<strong>What:</strong> Removes this predictor from the scenario. <strong>How:</strong> Use it when the variable is outside the analysis scope. <strong>Why:</strong> Predictor count affects overfitting checks and the ranked model paths."
+    };
+    function helpMarkup(text,label,alignRight=false){return `<span class="help-wrap${alignRight?" align-right":""}"><button type="button" class="help-button" aria-label="${safe(label)}" aria-expanded="false">?</button><span class="help-tooltip" role="tooltip">${text}</span></span>`;}
+
+    function levelOptions(selected) { return scenarioState.levels.map((level,index) => `<option value="${index}"${Number(selected)===index?" selected":""}>Level ${index+1}: ${safe(level.name || "Unnamed")}</option>`).join(""); }
+    function syncStateFromBuilders() {
+      scenarioState.levels = [...levelBuilder.querySelectorAll(".level-row")].map((row,index) => ({name:row.querySelector(".level-name").value.trim() || `Level ${index+1}`,count:Number(row.querySelector(".level-count").value),relation:index===0?"top":row.querySelector(".level-relation").value}));
+      scenarioState.predictors = [...predictorBuilder.querySelectorAll(".predictor-row")].map(row => ({name:row.querySelector(".predictor-name").value.trim() || "Unnamed predictor",type:row.querySelector(".predictor-type").value,level:Number(row.querySelector(".predictor-level").value),role:row.querySelector(".predictor-role").value}));
+    }
+    function renderBuilders() {
+      levelBuilder.innerHTML = scenarioState.levels.map((level,index) => `<div class="dynamic-row level-row" data-index="${index}"><div class="field"><label class="help-label">Level ${index+1} name ${helpMarkup(scenarioHelp.levelName,`Help for level ${index+1} name`)}</label><input class="level-name" value="${safe(level.name)}" maxlength="40"></div><div class="field"><label class="help-label">${index===0?"Independent units":"Typical units per parent"} ${helpMarkup(scenarioHelp.levelCount,`Help for level ${index+1} unit count`)}</label><input class="level-count" type="number" min="1" max="100000" value="${level.count}"></div><div class="field"><label class="help-label">Relationship ${helpMarkup(scenarioHelp.relationship,`Help for level ${index+1} relationship`)}</label><select class="level-relation" ${index===0?"disabled":""}>${index===0?'<option value="top">Highest level</option>':`<option value="nested"${level.relation==="nested"?" selected":""}>Nested in level above</option><option value="crossed"${level.relation==="crossed"?" selected":""}>Crossed with level above</option>`}</select></div><span class="button-with-help"><button type="button" class="icon-button remove-level" aria-label="Remove level ${index+1}" ${scenarioState.levels.length===1?"disabled":""}>×</button>${helpMarkup(scenarioHelp.removeLevel,`Help for removing level ${index+1}`,true)}</span></div>`).join("");
+      predictorBuilder.innerHTML = scenarioState.predictors.map((predictor,index) => `<div class="dynamic-row predictor-row" data-index="${index}"><div class="field"><label class="help-label">Predictor ${index+1} ${helpMarkup(scenarioHelp.predictorName,`Help for predictor ${index+1} name`)}</label><input class="predictor-name" value="${safe(predictor.name)}" maxlength="60"></div><div class="field"><label class="help-label">Data type ${helpMarkup(scenarioHelp.predictorType,`Help for predictor ${index+1} data type`)}</label><select class="predictor-type"><option value="continuous"${predictor.type==="continuous"?" selected":""}>Continuous</option><option value="categorical"${predictor.type==="categorical"?" selected":""}>Categorical</option><option value="binary"${predictor.type==="binary"?" selected":""}>Binary</option><option value="time"${predictor.type==="time"?" selected":""}>Time-varying</option></select></div><div class="field"><label class="help-label">Varies at ${helpMarkup(scenarioHelp.predictorLevel,`Help for predictor ${index+1} level`)}</label><select class="predictor-level">${levelOptions(Math.min(predictor.level,scenarioState.levels.length-1))}</select></div><div class="field"><label class="help-label">Use as ${helpMarkup(scenarioHelp.predictorRole,`Help for predictor ${index+1} role`)}</label><select class="predictor-role"><option value="fixed"${predictor.role==="fixed"?" selected":""}>Fixed effect</option><option value="random"${predictor.role==="random"?" selected":""}>Random slope candidate</option><option value="control"${predictor.role==="control"?" selected":""}>Control / blocker</option></select></div><span class="button-with-help"><button type="button" class="icon-button remove-predictor" aria-label="Remove predictor ${index+1}" ${scenarioState.predictors.length===1?"disabled":""}>×</button>${helpMarkup(scenarioHelp.removePredictor,`Help for removing predictor ${index+1}`,true)}</span></div>`).join("");
+      const previousY = Number(byId("sc-y-level").value || scenarioState.levels.length-1);
+      byId("sc-y-level").innerHTML = levelOptions(Math.min(previousY,scenarioState.levels.length-1));
+      byId("structure-preview").innerHTML = scenarioState.levels.map((level,index) => `${index?'<span class="structure-arrow" aria-hidden="true">→</span>':''}<span class="structure-node">${safe(level.name)}</span>`).join("");
+    }
+    function model(name,reason,key){return {name,reason,key};}
+    function configureScenario(shouldFocus=false) {
+      // Read the current form values without rebuilding the controls. Replacing
+      // the dynamic rows during typing destroys the active input and caret,
+      // which makes free-form names feel locked after the debounce interval.
+      syncStateFromBuilders();
+      const output=byId("scenario-output"), outcome=byId("sc-outcome").value.trim()||"outcome", response=byId("sc-response-type").value, goal=byId("sc-goal").value, confounding=byId("sc-confounding").value, domain=byId("sc-domain").value.trim()||"your domain", yLevel=Number(byId("sc-y-level").value);
+      const invalid=scenarioState.levels.find(level=>!Number.isInteger(level.count)||level.count<1);
+      if(invalid){output.innerHTML='<div class="result"><span class="error">Every level needs at least one valid unit count.</span></div>';return;}
+      const top=scenarioState.levels[0], clustered=scenarioState.levels.length>1&&scenarioState.levels.slice(1).some(level=>level.count>1), crossed=scenarioState.levels.some(level=>level.relation==="crossed"), risks=[], candidates=[];
+      const upperPredictors=scenarioState.predictors.filter(p=>p.level<yLevel), samePredictors=scenarioState.predictors.filter(p=>p.level===yLevel), lowerPredictors=scenarioState.predictors.filter(p=>p.level>yLevel);
+      const minIndependent=Math.min(...scenarioState.predictors.map(p=>scenarioState.levels[p.level]?.count||top.count));
+      upperPredictors.forEach(p=>risks.push(`${p.name} varies at ${scenarioState.levels[p.level].name}, above the ${scenarioState.levels[yLevel].name} outcome level. Its repeated lower-level values are not independent replication.`));
+      if(lowerPredictors.length) risks.push(`${lowerPredictors.map(p=>p.name).join(", ")} is recorded below the outcome level; define an aggregation or time-alignment rule before modeling.`);
+      if(crossed) risks.push("At least one factor is crossed, so a simple nested random-effects formula would misrepresent the design.");
+      if(confounding==="unknown") risks.push("Confounding and overlap are not checked; audit predictor combinations before interpreting coefficients.");
+      if(confounding==="severe") risks.push("Severe confounding can make effects non-identifiable even when software returns coefficients.");
+      if(scenarioState.predictors.length+2>=minIndependent&&upperPredictors.length) risks.push(`The smallest relevant independent-unit count is about ${minIndependent}, but the model already has ${scenarioState.predictors.length} predictors. Reduce complexity or collect more independent units.`);
+      if(goal==="causal"||confounding==="severe") candidates.push(model("Design-based analysis / redesign","Use randomization, blocking, matching, interrupted time series, or a restricted descriptive claim; regression alone cannot create causal identification.","redesign"));
+      if(!clustered&&scenarioState.levels.length===1){const family=response==="continuous"?"ordinary least squares":response==="binary"?"logistic regression":response==="count"?"Poisson / negative-binomial regression":response==="ordinal"?"ordinal regression":"survival regression";candidates.push(model(family,"There is one analysis level and no repeated lower-level structure to model.","aggregate"));}
+      if(upperPredictors.length)candidates.push(model("Level-aligned aggregation"+(response==="continuous"?" / WLS":""),`Create one defensible summary per ${scenarioState.levels[Math.min(...upperPredictors.map(p=>p.level))].name}; use weights only when their variance meaning is justified.`,"aggregate"));
+      if(clustered){
+        const family=response==="continuous"?"linear mixed-effects model":response==="binary"?"logistic GLMM":response==="count"?"Poisson / negative-binomial GLMM":response==="ordinal"?"ordinal mixed model":"frailty / multilevel survival model";
+        candidates.push(model(`${crossed?"Crossed":"Nested"} ${family}`,`Model ${responseFamilies[response]} outcomes while preserving ${scenarioState.levels.map(l=>l.name).join(" → ")} dependence${crossed?" and crossed factors":""}.`,response==="continuous"?"mixed":"specification"));
+        candidates.push(model(response==="continuous"?"GEE or cluster-robust regression":"GEE with appropriate link",`Estimate population-average effects with uncertainty clustered at ${top.name}; use a small-sample correction when clusters are limited.`,"marginal"));
+        candidates.push(model("Bayesian hierarchical model","Useful for complex, sparse, or partially pooled structures when priors and posterior predictive checks can be defended.","mixed"));
+      }
+      if(samePredictors.some(p=>p.role==="control")||scenarioState.predictors.some(p=>p.type==="categorical")) candidates.push(model("Fixed-effects / blocked model","Absorb stable group differences when within-group contrasts answer the question; upper-level effects cannot be estimated after absorbing that same level.","marginal"));
+      if(goal==="prediction") candidates.unshift(model("Hierarchical prediction + grouped validation",`Train with the hierarchy, then hold out complete ${top.name} clusters to prevent leakage and test generalization.`,"prediction"));
+      if(scenarioState.predictors.some(p=>p.type==="time")) candidates.push(model("Longitudinal model with covariance structure","Represent time ordering using random slopes, autoregressive correlation, splines, or GEE rather than treating time points as exchangeable.","mixed"));
+      if(scenarioState.predictors.some(p=>p.type==="continuous")) candidates.push(model("Nonlinear / GAM extension","Use only when plots and engineering knowledge support curvature; retain the hierarchy or clustered uncertainty.","mixed"));
+      const unique=candidates.filter((item,index,array)=>array.findIndex(other=>other.name===item.name)===index).slice(0,5);
+      if(minIndependent<8&&upperPredictors.length){unique.unshift(model("Descriptive analysis + collect more independent units",`Only about ${minIndependent} independent units support at least one upper-level predictor. Show raw unit-level results and avoid fragile inference.`,"descriptive"));unique.splice(5);}
+      const primary=unique[0]||model("Descriptive structure audit","Define at least one valid predictor and confirm the hierarchy.","descriptive");
+      document.querySelectorAll(".quick-pick").forEach(card=>card.classList.toggle("recommended",card.dataset.method===primary.key));
+      const levelText=scenarioState.levels.map((l,i)=>`${safe(l.name)} (≈${l.count}${i?" per parent":" independent"})`).join(" → ");
+      const predictorText=scenarioState.predictors.map(p=>`${safe(p.name)} at ${safe(scenarioState.levels[p.level].name)}`).join("; ");
+      output.innerHTML=`<div class="result scenario-summary"><span class="help-label"><strong>Your scenario</strong> ${helpMarkup("<strong>What:</strong> A plain-language translation of everything you entered. <strong>How:</strong> Confirm the levels, counts, outcome level, and predictor levels match the real data before using the recommendations. <strong>Why:</strong> A model recommendation is only as valid as the structure supplied to it.","Help for scenario summary")}</span> In ${safe(domain)}, the structure is ${levelText}. <strong>${safe(outcome)}</strong> is a ${safe(responseFamilies[response])} outcome measured at ${safe(scenarioState.levels[yLevel].name)}. Predictors: ${predictorText}.</div><div class="recommendation-grid"><div class="recommendation-panel"><span class="help-label"><span class="status good">Ranked analysis paths</span>${helpMarkup("<strong>What:</strong> Up to five methods ordered for the scenario you described. <strong>How:</strong> Treat rank 1 as the starting point, then compare assumptions and use the other paths as alternatives or sensitivity checks. <strong>Why:</strong> No method is approved until diagnostics and engineering assumptions pass.","Help for ranked analysis paths")}</span><div class="ranked-models">${unique.map((item,index)=>`<div class="ranked-model"><span class="rank-badge">${index+1}</span><div><h4>${safe(item.name)}</h4><p>${safe(item.reason)}</p></div></div>`).join("")}</div><span class="button-with-help top-gap"><button type="button" class="button primary" id="view-method">Compare all methods ↓</button>${helpMarkup("<strong>What:</strong> Opens the detailed method-comparison section. <strong>How:</strong> Use it after reviewing the ranked paths and risk flags. <strong>Why:</strong> The table explains assumptions, estimands, strengths, and limitations before you commit to a model.","Help for compare all methods")}</span></div><div class="recommendation-panel"><span class="help-label"><span class="status ${risks.length?"caution":"good"}">${risks.length?`${risks.length} risk flag${risks.length===1?"":"s"}`:"Structure check"}</span>${helpMarkup("<strong>What:</strong> Structural conditions that could invalidate inference. <strong>How:</strong> Resolve each flag through data review, simpler modeling, sensitivity analysis, or more independent data. <strong>Why:</strong> Software can return coefficients even when the design cannot support the claim.","Help for validity risk flags",true)}</span><h3>Validity checks before modeling</h3><ul class="risk-list">${risks.length?risks.map(r=>`<li>${safe(r)}</li>`).join(""):"<li>No immediate structural stop signal was selected. Diagnostics remain mandatory.</li>"}</ul></div></div><p class="validation-note">Decision support—not automatic model approval. Final selection still requires estimand definition, distribution checks, degrees of freedom, missingness review, convergence, influence, overlap, and engineering judgment.</p>`;
+      const typeLabels={continuous:"continuous",categorical:"categorical",binary:"binary",time:"time-varying"};
+      const roleLabels={fixed:"fixed effect",random:"random-slope candidate",control:"control / blocker"};
+      const predictorItems=scenarioState.predictors.map((p,index)=>`<li><strong>Predictor ${index+1}: ${safe(p.name)}</strong> — ${safe(typeLabels[p.type]||p.type)}, varies at <strong>${safe(scenarioState.levels[p.level]?.name||"unassigned level")}</strong>, used as a ${safe(roleLabels[p.role]||p.role)}.</li>`).join("");
+      output.querySelector(".scenario-summary").innerHTML=`<span class="help-label"><strong>Your scenario</strong> ${helpMarkup("<strong>What:</strong> A plain-language translation of everything you entered. <strong>How:</strong> Confirm the levels, counts, response, and every predictor match the real data before using the recommendations. <strong>Why:</strong> A model recommendation is only as valid as the structure supplied to it.","Help for scenario summary")}</span><div class="scenario-facts"><div class="scenario-fact"><span class="scenario-fact-label">Context</span>${safe(domain)}</div><div class="scenario-fact"><span class="scenario-fact-label">Data structure</span>${levelText}</div><div class="scenario-fact"><span class="scenario-fact-label">Response (Y)</span><strong>${safe(outcome)}</strong></div><div class="scenario-fact"><span class="scenario-fact-label">Response definition</span>${safe(responseFamilies[response])}, measured at <strong>${safe(scenarioState.levels[yLevel]?.name||"unassigned level")}</strong></div></div><div class="scenario-fact top-gap"><span class="scenario-fact-label">Predictors (X) — ${scenarioState.predictors.length}</span>${predictorItems?`<ol class="scenario-predictors">${predictorItems}</ol>`:"<p>No predictors have been added.</p>"}</div>`;
+      byId("view-method").addEventListener("click",()=>byId("method-selection").scrollIntoView({behavior:"smooth",block:"start"}));
+      if(shouldFocus){output.setAttribute("tabindex","-1");output.focus();}
+    }
+    byId("add-level").addEventListener("click",()=>{syncStateFromBuilders();scenarioState.levels.push({name:`Level ${scenarioState.levels.length+1}`,count:2,relation:"nested"});renderBuilders();configureScenario();});
+    byId("add-predictor").addEventListener("click",()=>{syncStateFromBuilders();scenarioState.predictors.push({name:`Predictor ${scenarioState.predictors.length+1}`,type:"continuous",level:0,role:"fixed"});renderBuilders();configureScenario();});
+    document.addEventListener("click",event=>{const help=event.target.closest(".help-button");document.querySelectorAll('.help-button[aria-expanded="true"]').forEach(button=>{if(button!==help)button.setAttribute("aria-expanded","false");});if(help){event.preventDefault();help.setAttribute("aria-expanded",String(help.getAttribute("aria-expanded")!=="true"));}});
+    document.addEventListener("keydown",event=>{if(event.key==="Escape")document.querySelectorAll('.help-button[aria-expanded="true"]').forEach(button=>button.setAttribute("aria-expanded","false"));});
+    levelBuilder.addEventListener("click",event=>{const button=event.target.closest(".remove-level");if(!button)return;syncStateFromBuilders();scenarioState.levels.splice(Number(button.closest(".level-row").dataset.index),1);scenarioState.predictors.forEach(p=>p.level=Math.min(p.level,scenarioState.levels.length-1));renderBuilders();configureScenario();});
+    predictorBuilder.addEventListener("click",event=>{const button=event.target.closest(".remove-predictor");if(!button)return;syncStateFromBuilders();scenarioState.predictors.splice(Number(button.closest(".predictor-row").dataset.index),1);renderBuilders();configureScenario();});
+    let scenarioUpdateTimer;
+    function scheduleScenarioUpdate(){clearTimeout(scenarioUpdateTimer);scenarioUpdateTimer=setTimeout(()=>configureScenario(),180);}
+    levelBuilder.addEventListener("input",scheduleScenarioUpdate);
+    levelBuilder.addEventListener("change",()=>{syncStateFromBuilders();renderBuilders();configureScenario();});
+    predictorBuilder.addEventListener("input",scheduleScenarioUpdate);
+    predictorBuilder.addEventListener("change",()=>configureScenario());
+    byId("apply-scenario").addEventListener("click",()=>configureScenario(true));
+    byId("reset-scenario").addEventListener("click",()=>{scenarioState=JSON.parse(JSON.stringify(scenarioDefaults));Object.entries(scenarioDefaults.fields).forEach(([id,value])=>byId(id).value=value);renderBuilders();byId("sc-y-level").value=String(scenarioState.levels.length-1);configureScenario();});
+    ["sc-response-type","sc-y-level","sc-goal","sc-confounding"].forEach(id=>byId(id).addEventListener("change",()=>configureScenario()));
+    ["sc-outcome","sc-domain"].forEach(id=>byId(id).addEventListener("input",scheduleScenarioUpdate));
+    document.querySelectorAll(".quick-pick").forEach(card=>card.addEventListener("click",()=>byId("method-selection").scrollIntoView({behavior:"smooth",block:"start"})));
+    renderBuilders();byId("sc-y-level").value="2";configureScenario();
+
+    function calculateDesign() {
+      const heats = Number(byId("sim-heats").value), pipes = Number(byId("sim-pipes").value), specimens = Number(byId("sim-specimens").value), icc = Number(byId("sim-icc").value);
+      if (![heats,pipes,specimens,icc].every(Number.isFinite) || heats < 2 || pipes < 1 || specimens < 1 || icc < 0 || icc > .95) { byId("design-result").textContent="Enter valid values: heats ≥ 2, pipes and specimens ≥ 1, and ICC from 0 to 0.95."; return; }
+      const m = pipes * specimens, raw = heats * m, de = 1 + (m - 1) * icc, neff = raw / de, ratio = 100 * neff / raw;
+      byId("design-result").innerHTML = `<strong>${raw} raw rows → approximately ${neff.toFixed(1)} effective rows</strong><br>DE = 1 + (${m} − 1) × ${icc.toFixed(2)} = ${de.toFixed(2)}. For a heat-level chemistry effect, the primary independent count is still ${heats} heats.`;
+      byId("eff-bar").style.width = `${Math.max(2,ratio)}%`;
+    }
+    byId("calculate-design").addEventListener("click", calculateDesign);
+    byId("reset-design").addEventListener("click", () => { byId("sim-heats").value=36;byId("sim-pipes").value=4;byId("sim-specimens").value=3;byId("sim-icc").value=.38;calculateDesign(); }); calculateDesign();
+
+    function designEffectiveN(clusters, perCluster, icc) {
+      const raw = clusters * perCluster;
+      return raw / (1 + (perCluster - 1) * icc);
+    }
+    function compareDesigns() {
+      const heats = Number(byId("compare-heats").value);
+      const perHeat = Number(byId("compare-per-heat").value);
+      const extra = Number(byId("compare-extra").value);
+      const icc = Number(byId("compare-icc").value);
+      const output = byId("comparison-result");
+      if (![heats,perHeat,extra,icc].every(Number.isFinite) || heats < 3 || perHeat < 1 || extra < 1 || icc < 0 || icc > .95) {
+        output.innerHTML = '<span class="error">Enter heats ≥ 3, specimens per heat ≥ 1, additional tests ≥ 1, and ICC from 0 to 0.95.</span>';
+        return;
+      }
+      const deepPerHeat = perHeat + extra / heats;
+      const deepNeff = designEffectiveN(heats, deepPerHeat, icc);
+      const testsPerNewHeat = Math.min(3, perHeat);
+      const newHeats = Math.floor(extra / testsPerNewHeat);
+      const broadHeats = heats + newHeats;
+      const broadRaw = heats * perHeat + newHeats * testsPerNewHeat;
+      const broadAverage = broadRaw / broadHeats;
+      const broadNeff = designEffectiveN(broadHeats, broadAverage, icc);
+      const gain = broadNeff / deepNeff;
+      output.innerHTML = `<strong>Adding independent heats provides about ${gain.toFixed(1)}× the approximate effective information</strong><br>Deepen existing heats: n<sub>eff</sub> ≈ ${deepNeff.toFixed(1)}. Add ${newHeats} new heats with ${testsPerNewHeat} tests each: n<sub>eff</sub> ≈ ${broadNeff.toFixed(1)}. For the Ca effect, the independent heat count changes from ${heats} to ${broadHeats} only in the second design.`;
+    }
+    byId("compare-designs").addEventListener("click", compareDesigns);
+    byId("reset-comparison").addEventListener("click", () => { byId("compare-heats").value=12;byId("compare-per-heat").value=9;byId("compare-extra").value=36;byId("compare-icc").value=.45;compareDesigns(); });
+    compareDesigns();
+
+    let selectedClassification = null;
+    const classificationButtons = [...document.querySelectorAll(".classify-button")];
+    classificationButtons.forEach(button => button.addEventListener("click", () => {
+      classificationButtons.forEach(item => item.setAttribute("aria-pressed", "false"));
+      button.setAttribute("aria-pressed", "true");
+      selectedClassification = button;
+      byId("classification-result").textContent = `Selected: ${button.textContent}. Now choose its data level.`;
+    }));
+    byId("check-classification").addEventListener("click", () => {
+      if (!selectedClassification) { byId("classification-result").innerHTML='<span class="error">Select a variable first.</span>'; return; }
+      const choice = byId("classification-level").value;
+      const correct = selectedClassification.dataset.level;
+      const labels = {heat:"heat",pipe:"pipe or coil",test:"test set",specimen:"specimen"};
+      byId("classification-result").innerHTML = choice === correct
+        ? `<strong>Correct.</strong> ${selectedClassification.textContent} belongs at the ${labels[correct]} level in this design.`
+        : `<strong>Not quite.</strong> ${selectedClassification.textContent} belongs at the ${labels[correct]} level, not the ${labels[choice]} level.`;
+    });
+    byId("reset-classification").addEventListener("click", () => { selectedClassification=null;classificationButtons.forEach(item=>item.setAttribute("aria-pressed","false"));byId("classification-level").value="heat";byId("classification-result").textContent="Select a variable, choose its level, then check your answer."; });
+
+    byId("reveal-practice").addEventListener("click", event => { const panel=byId("practice-answer");panel.hidden=!panel.hidden;event.currentTarget.setAttribute("aria-expanded",String(!panel.hidden));event.currentTarget.textContent=panel.hidden?"Reveal model answer":"Hide model answer"; });
+  })();
+  </script>
+  <script>
+  (function () {
+    'use strict';
+    var form = document.getElementById('quiz-form');
+    if (!form) return;
+    var btn = document.getElementById('quiz-submit');
+    var result = document.getElementById('quiz-result');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+      var total = questions.length, score = 0, unanswered = 0;
+      questions.forEach(function (q) {
+        var chosen = q.querySelector('input[type="radio"]:checked');
+        var fb = q.querySelector('.quiz-feedback');
+        q.classList.remove('is-correct', 'is-incorrect');
+        if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+        var correct = chosen.value === q.getAttribute('data-answer');
+        if (correct) score++;
+        q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+        if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+      });
+      if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' — ' + unanswered + ' unanswered' : ''); }
+      document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+    });
+  })();
+  </script>
+  <style>
+  html[data-theme="dark"] {
+    --hda-paper:#0b1420;--hda-surface:#122032;--hda-surface-soft:#1a2c41;
+    --hda-ink:#f4f7fb;--hda-ink-soft:#d7e0ea;--hda-muted:#b4c0ce;--hda-line:#3c5067;
+    --hda-navy:#dcecff;--hda-teal:#62d7df;--hda-teal-dark:#8be4e9;--hda-amber:#ffc56a;
+    --hda-success:#7fe0a3;--hda-warning:#ffd080;--hda-danger:#ff9ca5;--hda-info:#8ed8ff;
+    --hda-focus:#ffd166;--hda-code:#0a111b;--hda-shadow:none;
+  }
+  html[data-theme="dark"] .quiz-section{color:#e7eef4}
+  html[data-theme="dark"] .quiz{background:#131f2c;color:#e7eef4;border-color:#243546}
+  html[data-theme="dark"] .quiz-question{background:#15212e;color:#e7eef4;border-color:#243546}
+  html[data-theme="dark"] .quiz-option{background:#111c28;color:#e7eef4;border-color:#2b3b4c}
+  html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;color:#e7eef4;border-color:#3fa27a}
+  html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;color:#e7eef4;border-color:#e06a6a}
+  html[data-theme="dark"] .quiz-feedback.good{background:#13291f;color:#e7eef4}
+  html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717;color:#e7eef4}
+  html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413;color:#e7eef4}
+  html[data-theme="dark"] .quiz-result{background:#12202e;color:#e7eef4;border-left-color:#5b9bd5}
+  </style>
+</body>
+</html>
