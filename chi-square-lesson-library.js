@@ -3,6 +3,18 @@
 
   const LESSONS = [
     {
+      marker: 'data-engineering-data-science-analysis-protocol',
+      sectionId: 'ai-for-work',
+      path: '/lessons/ai-for-work/engineering-data-science-analysis-protocol',
+      topic: 'ai-for-work',
+      level: 'advanced',
+      interactive: 'true',
+      search: 'engineering data science analysis protocol ai for work artificial intelligence prompts data quality model validation engineering analytics decision support reproducibility confounding grouped validation advanced interactive',
+      meta: '<span>Advanced</span><span>Interactive</span><span>90 min</span><span>AI for Work</span>',
+      title: 'Engineering Data Science Analysis Protocol',
+      description: 'Apply a gated, AI-assisted workflow from decision framing and data quality through model validation, engineering interpretation, and reproducible delivery.'
+    },
+    {
       marker: 'data-introduction-to-analytics',
       sectionId: 'data-analytics',
       path: '/lessons/data-analytics/introduction-to-analytics',
