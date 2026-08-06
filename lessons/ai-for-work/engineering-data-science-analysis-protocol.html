@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Engineering Data Science Analysis Protocol",
+  "slug": "engineering-data-science-analysis-protocol",
+  "category": "AI for Work",
+  "category_slug": "ai-for-work",
+  "level": "Advanced",
+  "lesson_type": "Reference",
+  "estimated_minutes": 90,
+  "interactive": true,
+  "card_title": "Engineering Data Science Analysis Protocol",
+  "card_description": "Apply a gated, AI-assisted engineering analytics workflow from problem definition and data quality through validation, risk-based decisions, and reproducible delivery.",
+  "search_keywords": ["engineering data science","analysis protocol","data quality","model validation","engineering analytics","ai prompts","decision support","reproducibility","confounding"],
+  "suggested_github_path": "lessons/ai-for-work/engineering-data-science-analysis-protocol.html"
+}
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Engineering Data Science Analysis Protocol</title>
+<meta name="description" content="A rigorous, AI-assisted protocol for planning, validating, interpreting, and documenting engineering data science analyses.">
+<link rel="canonical" href="https://upskillsprint.com/lessons/ai-for-work/engineering-data-science-analysis-protocol">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
+<style>
+:root{--n:#0f2742;--b:#1f5f99;--t:#117a7a;--bg:#f5f8fb;--card:#fff;--text:#1f2937;--line:#d7e0e8;--soft:#eaf4fb}body[data-lesson-page=true]{background:var(--bg);color:var(--text)}#lesson-content{max-width:1180px;margin:auto;padding:28px 20px 56px}#lesson-content>section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin:22px 0;box-shadow:0 8px 25px rgba(15,39,66,.08)}.lesson-hero{background:linear-gradient(135deg,#0f2742,#1f5f99)!important;color:#fff!important}.lesson-hero h1{font-size:clamp(2.2rem,5vw,4rem);line-height:1.05;margin:.35rem 0 1rem;color:#fff}.lead{font-size:1.15rem;max-width:850px;color:#edf6ff}.eyebrow,.lesson-kicker{text-transform:uppercase;letter-spacing:.09em;font-size:.78rem;font-weight:800;color:#0f6b78}.lesson-hero .eyebrow{color:#bfe7ff}.learning-grid,.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}.learning-grid article{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);padding:20px;border-radius:14px}.learning-grid h2{color:#fff}#lesson-content h2{color:var(--n)}#lesson-content h3{color:var(--b)}#lesson-content h4{color:var(--t)}table{border-collapse:collapse;width:100%;min-width:620px}th,td{border:1px solid var(--line);padding:11px 12px;text-align:left;vertical-align:top}th{background:var(--n);color:#fff}pre{background:#111827;color:#eef2ff;padding:18px;border-radius:12px;overflow:auto;white-space:pre-wrap}.callout{border-left:5px solid var(--b);background:var(--soft);padding:16px 18px;border-radius:10px;margin:18px 0}.warning{border-left-color:#b26a00;background:#fff7e8}.critical{border-left-color:#b42318;background:#fff0ee}.success{border-left-color:#2e7d32;background:#edf8ee}.phase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.phase-card{border:1px solid var(--line);border-radius:14px;padding:18px}.phase-number{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--n);color:#fff;margin-bottom:10px}.gate{border:2px solid var(--n);border-radius:14px;padding:18px;margin:20px 0;background:#fbfdff}.gate-title{font-weight:800;color:var(--n)}.pill{display:inline-block;background:#edf1f5;border-radius:999px;padding:4px 10px;margin:3px 5px 3px 0;font-size:.82rem;font-weight:600}.checklist{list-style:none;padding:0}.checklist li{position:relative;padding-left:30px;margin:9px 0}.checklist li:before{content:'☐';position:absolute;left:0;color:var(--b)}ol code{display:block;background:#f3f6f9;border:1px solid var(--line);padding:10px 12px;border-radius:9px;color:#213547}.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.flow span[role=listitem]{background:#eaf4fb;border:1px solid #b9d8ec;color:#123d62;padding:8px 12px;border-radius:999px;font-weight:700}.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer}.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px}.quiz-feedback.show{display:block}.good{background:#eef8f2}.bad{background:#fff1f1}.warn{background:#fff8e6}.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-weight:600}.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb}.quiz-result.show{display:block}@media(max-width:820px){.learning-grid,.two-col{grid-template-columns:1fr}.phase-grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){#lesson-content{padding:16px 12px}.phase-grid{grid-template-columns:1fr}.flow span[role=listitem]{width:100%;text-align:center}.flow span[aria-hidden=true]{display:none}}
+
+/* EDIT: Lesson design tokens */
+:root {
+  --paper: #f5f8fb;
+  --surface: #ffffff;
+  --surface-soft: #eaf4fb;
+  --ink: #1f2937;
+  --ink-soft: #334155;
+  --muted: #64748b;
+  --line: #d7e0e8;
+  --navy: #0f2742;
+  --teal: #117a7a;
+  --teal-dark: #0f6b78;
+  --amber: #b26a00;
+  --success: #2e7d32;
+  --warning: #b26a00;
+  --danger: #b42318;
+  --info: #1f5f99;
+}
+html[data-theme="dark"] {
+  --paper: #0c1622;
+  --surface: #131f2c;
+  --surface-soft: #12202e;
+  --ink: #e7eef4;
+  --ink-soft: #dbe8f2;
+  --muted: #a9b8c7;
+  --line: #2b3b4c;
+  --navy: #dbe8f2;
+  --teal: #8ed8d8;
+  --teal-dark: #8ec3ea;
+  --amber: #f2bd63;
+  --success: #75c78a;
+  --warning: #f2bd63;
+  --danger: #ff8f87;
+  --info: #8ec3ea;
+}
+.lesson-wrapper { display: block; }
+.lesson-toc {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  margin: 22px 0;
+  padding: 18px;
+}
+.lesson-toc ul { columns: 2; margin-bottom: 0; }
+.lesson-toc a { color: var(--teal-dark); }
+.content-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(15, 39, 66, 0.08);
+  margin: 22px 0;
+  padding: 28px;
+}
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+.reveal-answer[hidden] { display: none; }
+.quiz-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.quiz-actions .secondary { background: var(--surface-soft); color: var(--ink); border: 1px solid var(--line); }
+@media (max-width: 700px) { .lesson-toc ul { columns: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}
+
+</style>
+</head>
+<body data-lesson-page="true" data-category="ai-for-work" data-level="advanced" data-interactive="true" data-lesson-type="reference">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions"><label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label><div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div></div>
+</header>
+<main id="lesson-content">
+<article class="lesson-wrapper">
+<section class="lesson-hero" aria-labelledby="lesson-title"><p class="eyebrow">AI for Work · Advanced · 90 minutes · Interactive reference</p><h1 id="lesson-title">Engineering Data Science Analysis Protocol</h1><p class="lead">Use a disciplined, gated workflow to convert engineering data into statistically defensible, physically credible, reproducible, and decision-ready recommendations.</p><div class="learning-grid"><article><h2>What you will learn</h2><ul><li>Frame an engineering decision before selecting a method.</li><li>Audit grain, lineage, measurement quality, confounding, and leakage.</li><li>Select and validate models that match process structure.</li><li>Translate output into operational risk and action.</li><li>Use AI prompts without surrendering technical judgment.</li></ul></article><article><h2>How to use this lesson</h2><p>Work through the phases in order. Treat each gate as a stop/go review. Use the phase prompts as reusable AI instructions, then verify every output against process knowledge and source evidence.</p></article></div></section>
+
+<!-- EDIT: Learning objectives and prerequisites -->
+<section id="learning-objectives" class="content-card">
+  <p class="lesson-kicker">Learning objectives</p>
+  <h2>What you will be able to do</h2>
+  <ul>
+    <li>Define an engineering decision, response, population, unit of analysis, and success criterion.</li>
+    <li>Identify data-grain, lineage, measurement, confounding, and leakage risks.</li>
+    <li>Select a proportionate analysis and validation strategy.</li>
+    <li>Interpret statistical output using engineering knowledge and uncertainty.</li>
+    <li>Apply reusable AI prompts while retaining human review and accountability.</li>
+  </ul>
+  <h3>Prerequisites</h3>
+  <p>Basic familiarity with engineering data, descriptive statistics, and spreadsheets is helpful. No programming knowledge is required.</p>
+</section>
+<section id="key-concepts" class="content-card">
+  <p class="lesson-kicker">Concept in plain English</p>
+  <h2>What this protocol is—and is not</h2>
+  <p>This protocol is a repeatable way to move from a workplace question to a defensible decision. It asks what decision is being made, whether the data are fit for that decision, which method matches the process structure, and how uncertainty changes the recommendation.</p>
+  <p>It is used when an analysis could influence a process setting, quality disposition, model, investment, or operational action. It does not make weak data trustworthy, prove causation from association, or replace engineering judgment.</p>
+  <h3>Key terminology</h3>
+  <div class="table-scroll"><table>
+    <thead><tr><th>Term</th><th>Plain-language meaning</th><th>Practical interpretation</th></tr></thead>
+    <tbody>
+      <tr><td>Data grain</td><td>What one row represents.</td><td>Heat-level and specimen-level rows cannot be joined casually.</td></tr>
+      <tr><td>Confounder</td><td>A third factor linked to both the input and outcome.</td><td>A temperature effect may actually be a grade or rolling-practice effect.</td></tr>
+      <tr><td>Leakage</td><td>Future or outcome information entering model development.</td><td>Reported model accuracy becomes unrealistically optimistic.</td></tr>
+      <tr><td>Extrapolation</td><td>Predicting beyond observed conditions.</td><td>Uncertainty and technical risk increase outside historical support.</td></tr>
+      <tr><td>Validation</td><td>Testing whether conclusions remain reliable.</td><td>Use time-, group-, or process-aware checks that match deployment.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+<nav class="lesson-toc" aria-label="Lesson contents">
+  <strong>Lesson contents</strong>
+  <ul>
+    <li><a href="#learning-objectives">Objectives</a></li>
+    <li><a href="#key-concepts">Key concepts</a></li>
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#worked-example">Worked example</a></li>
+    <li><a href="#practice">Practice</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+
+<section aria-labelledby="map-title"><p class="lesson-kicker">Workflow map</p><h2 id="map-title">From business question to sustained decision</h2><div class="flow" role="list"><span role="listitem">Intake</span><span aria-hidden="true">→</span><span role="listitem">Define</span><span aria-hidden="true">→</span><span role="listitem">Acquire</span><span aria-hidden="true">→</span><span role="listitem">Quality gate</span><span aria-hidden="true">→</span><span role="listitem">Explore</span><span aria-hidden="true">→</span><span role="listitem">Engineer</span><span aria-hidden="true">→</span><span role="listitem">Model</span><span aria-hidden="true">→</span><span role="listitem">Validate</span><span aria-hidden="true">→</span><span role="listitem">Interpret</span><span aria-hidden="true">→</span><span role="listitem">Decide</span><span aria-hidden="true">→</span><span role="listitem">Document</span></div></section>
+<section id="purpose">
+<h2>1. Purpose and Scope</h2>
+<p>
+        This protocol defines the minimum analytical steps required before engineering data is used to support a process change,
+        quality disposition, operating recommendation, technical risk assessment, predictive model, optimization study, or management decision.
+      </p>
+<p>It is suitable for analyses involving:</p>
+<div>
+<span class="pill">Regression</span>
+<span class="pill">Mixed-effects models</span>
+<span class="pill">DOE</span>
+<span class="pill">SPC</span>
+<span class="pill">Reliability</span>
+<span class="pill">Classification</span>
+<span class="pill">Time series</span>
+<span class="pill">Root-cause analysis</span>
+<span class="pill">Process optimization</span>
+<span class="pill">Quality risk</span>
+</div>
+<div class="callout">
+<strong>Primary objective:</strong> produce conclusions that are statistically valid, physically plausible,
+        operationally useful, traceable to source data, and robust enough to withstand technical review.
+      </div>
+</section>
+<section id="principles">
+<h2>2. Governing Principles</h2>
+<div class="table-scroll" style="overflow-x:auto"><table>
+<thead>
+<tr><th>Principle</th><th>Required behavior</th></tr>
+</thead>
+<tbody>
+<tr><td>Decision-first analysis</td><td>Define the decision, risk, and success criterion before selecting a method.</td></tr>
+<tr><td>Data quality before modeling</td><td>No inferential or predictive model should proceed until data quality risks are documented.</td></tr>
+<tr><td>Engineering plausibility</td><td>Statistical relationships must be assessed against physical and process knowledge.</td></tr>
+<tr><td>Uncertainty disclosure</td><td>Predictions must include uncertainty, not only point estimates.</td></tr>
+<tr><td>Confounding awareness</td><td>Alternative explanations, grade effects, practice effects, equipment effects, and time effects must be tested.</td></tr>
+<tr><td>Reproducibility</td><td>Data source, transformations, exclusions, code, assumptions, and model settings must be recorded.</td></tr>
+<tr><td>Model proportionality</td><td>Use the simplest model that adequately answers the decision question.</td></tr>
+<tr><td>Independent challenge</td><td>Actively attempt to disprove the preferred conclusion before acceptance.</td></tr>
+</tbody>
+</table></div>
+</section>
+<section id="workflow">
+<h2>3. End-to-End Workflow</h2>
+<div class="phase-grid">
+<div class="phase-card"><div class="phase-number">0</div><strong>Analysis intake</strong><p class="small">Capture the request, owner, decision, deadline, and required confidence.</p></div>
+<div class="phase-card"><div class="phase-number">1</div><strong>Problem definition</strong><p class="small">Translate the business need into a testable engineering question.</p></div>
+<div class="phase-card"><div class="phase-number">2</div><strong>Data acquisition</strong><p class="small">Identify source systems, grain, joins, lineage, and measurement systems.</p></div>
+<div class="phase-card"><div class="phase-number">3</div><strong>Data quality gate</strong><p class="small">Validate completeness, correctness, consistency, uniqueness, and suitability.</p></div>
+<div class="phase-card"><div class="phase-number">4</div><strong>Exploratory analysis</strong><p class="small">Understand distributions, relationships, structure, and anomalies.</p></div>
+<div class="phase-card"><div class="phase-number">5</div><strong>Feature engineering</strong><p class="small">Construct meaningful, justified process variables and interactions.</p></div>
+<div class="phase-card"><div class="phase-number">6</div><strong>Model strategy</strong><p class="small">Fit and compare appropriate candidate models.</p></div>
+<div class="phase-card"><div class="phase-number">7</div><strong>Validation</strong><p class="small">Test assumptions, generalization, stability, and sensitivity.</p></div>
+<div class="phase-card"><div class="phase-number">8</div><strong>Engineering interpretation</strong><p class="small">Translate statistical output into physical and operational meaning.</p></div>
+<div class="phase-card"><div class="phase-number">9</div><strong>Decision analysis</strong><p class="small">Quantify risk, probability of success, and recommended action.</p></div>
+<div class="phase-card"><div class="phase-number">10</div><strong>Documentation</strong><p class="small">Package evidence, code, limitations, conclusions, and next steps.</p></div>
+</div>
+</section>
+<section id="phase0">
+<h2>Phase 0 — Analysis Intake</h2>
+<p>Before touching the data, record the request in a structured intake form.</p>
+<ul class="checklist">
+<li>Project title and analysis owner</li>
+<li>Decision-maker and affected stakeholders</li>
+<li>Operational or business decision to be supported</li>
+<li>Required completion date</li>
+<li>Consequence of a wrong conclusion</li>
+<li>Available data sources and known limitations</li>
+<li>Required output format: technical report, presentation, dashboard, model, or recommendation</li>
+</ul>
+<div class="gate">
+<div class="gate-title">Gate 0 — Proceed?</div>
+        Proceed only when the decision question and intended use of the result are explicit.
+      </div>
+<h3>AI Prompt Library</h3><p>Use or adapt the following prompts to obtain high-quality, structured assistance from AI during this phase.</p><ol><li><code>Create a complete analysis intake from the information I provide. Identify missing information before proceeding.</code></li><li><code>List every stakeholder, decision, risk, and required deliverable for this project.</code></li><li><code>Rewrite my problem statement into a precise engineering decision statement.</code></li><li><code>Identify ambiguities in my request that could invalidate the analysis later.</code></li><li><code>Generate a project charter using engineering best practices.</code></li></ol></section>
+<section id="phase1">
+<h2>Phase 1 — Problem Definition</h2>
+<h3>1.1 Convert the request into an analytical question</h3>
+<p>A strong problem statement identifies the response, predictors, population, comparison, decision threshold, and operating context.</p>
+<pre>Weak:
+Determine whether temperature affects Charpy energy.
+
+Strong:
+Estimate the effect of exit temperature on transverse base-metal Charpy energy
+after controlling for grade, OD, wall thickness, rolling practice, slab thickness,
+chemistry, coiling temperature, and test temperature. Quantify the probability
+that a proposed X65 product will meet the specified average and minimum requirements.</pre>
+<h3>1.2 Define the analysis framework</h3>
+<div class="table-scroll" style="overflow-x:auto"><table>
+<tbody>
+<tr><th>Item</th><th>Required definition</th></tr>
+<tr><td>Response variable</td><td>What outcome is being explained, predicted, controlled, or optimized?</td></tr>
+<tr><td>Unit of analysis</td><td>Heat, slab, coil, test specimen, pipe, shift, batch, day, or campaign?</td></tr>
+<tr><td>Population</td><td>What products, grades, assets, periods, and operating conditions are in scope?</td></tr>
+<tr><td>Success criterion</td><td>Specification, target, tolerance, economic threshold, or risk limit.</td></tr>
+<tr><td>Primary hypothesis</td><td>The relationship or difference being evaluated.</td></tr>
+<tr><td>Alternative explanations</td><td>Known confounders and competing mechanisms.</td></tr>
+<tr><td>Decision error</td><td>What are the consequences of false positive and false negative conclusions?</td></tr>
+</tbody>
+</table></div>
+<div class="callout warning">
+        Do not select a regression, DOE, machine-learning model, or control chart until the unit of analysis and decision objective are defined.
+      </div>
+<h3>AI Prompt Library</h3><p>Use or adapt the following prompts to obtain high-quality, structured assistance from AI during this phase.</p><ol><li><code>Convert this business problem into statistically testable hypotheses.</code></li><li><code>Identify the response variable, predictors, confounders, and unit of analysis.</code></li><li><code>Challenge my assumptions and propose alternative explanations.</code></li><li><code>Determine the most appropriate analytical objective and success criteria.</code></li><li><code>Identify decisions that depend on this analysis and their risks.</code></li></ol></section>
+<section id="phase2">
+<h2>Phase 2 — Data Acquisition and Lineage</h2>
+<h3>2.1 Establish the data grain</h3>
+<p>Every table must have a clearly defined grain. Combining tables of different grain without aggregation rules can create duplicate observations and false statistical confidence.</p>
+<ul class="checklist">
+<li>Document the row definition for every source table</li>
+<li>Identify primary and foreign keys</li>
+<li>Confirm one-to-one, one-to-many, or many-to-many joins</li>
+<li>Test whether joins duplicate the response variable</li>
+<li>Record all filters and exclusions</li>
+<li>Preserve a raw, unchanged extract</li>
+</ul>
+<h3>2.2 Data lineage record</h3>
+<div class="table-scroll" style="overflow-x:auto"><table>
+<thead><tr><th>Field</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Source system</td><td>QADW, historian, laboratory database, ERP, manual workbook</td></tr>
+<tr><td>Source table/view</td><td>Fully qualified table or file name</td></tr>
+<tr><td>Extraction date</td><td>Date and time pulled</td></tr>
+<tr><td>Date range</td><td>Earliest and latest production/test date</td></tr>
+<tr><td>Filters</td><td>Grade, facility, product, valid test type, date, status</td></tr>
+<tr><td>Join keys</td><td>Heat number, slab ID, coil ID, sample ID</td></tr>
+<tr><td>Transformations</td><td>Aggregations, conversions, derived columns, normalization</td></tr>
+</tbody>
+</table></div>
+<h3>AI Prompt Library</h3><p>Use or adapt the following prompts to obtain high-quality, structured assistance from AI during this phase.</p><ol><li><code>Design the ideal dataset schema and required joins for this analysis.</code></li><li><code>Review my SQL query for duplicate risks and grain mismatches.</code></li><li><code>Identify missing source tables or variables that should be collected.</code></li><li><code>Produce a complete data lineage document.</code></li><li><code>Audit my joins for one-to-many and many-to-many problems.</code></li></ol></section>
+<section id="phase3">
+<h2>Phase 3 — Data Quality Gate</h2>
+<p>No model should proceed until the dataset is assessed against the following dimensions.</p>
+<div class="two-col">
+<div>
+<h3>Structural checks</h3>
+<ul class="checklist">
+<li>Duplicate rows and duplicate business keys</li>
+<li>Unexpected many-to-many joins</li>
+<li>Missing records caused by filters or failed joins</li>
+<li>Incorrect data types</li>
+<li>Inconsistent category labels</li>
+<li>Mixed units</li>
+<li>Timestamp and timezone inconsistencies</li>
+</ul>
+</div>
+<div>
+<h3>Measurement checks</h3>
+<ul class="checklist">
+<li>Impossible or physically implausible values</li>
+<li>Instrument resolution and rounding</li>
+<li>Calibration or method changes</li>
+<li>Censoring and detection limits</li>
+<li>Retests and replacement results</li>
+<li>Operator, machine, and laboratory effects</li>
+<li>Measurement-system capability</li>
+</ul>
+</div>
+</div>
+<h3>3.1 Missing data analysis</h3>
+<p>Report missingness by variable, time period, product, grade, asset, and operational subgroup. Determine whether data are plausibly missing completely at random, missing at random, or missing not at random.</p>
+<h3>3.2 Outlier handling</h3>
+<p>Do not remove an observation only because it is statistically unusual. Classify each outlier as:</p>
+<div class="table-scroll" style="overflow-x:auto"><table>
+<thead><tr><th>Classification</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td>Data error</td><td>Correct from source evidence or exclude with documented reason.</td></tr>
+<tr><td>Measurement failure</td><td>Investigate test validity and instrument condition.</td></tr>
+<tr><td>Valid extreme process condition</td><td>Retain and evaluate influence.</td></tr>
+<tr><td>Special cause</td><td>Analyze separately if the decision concerns stable operation.</td></tr>
+<tr><td>Unknown</td><td>Retain, flag, and run sensitivity analysis with and without the point.</td></tr>
+</tbody>
+</table></div>
+<div class="gate"><div class="gate-title">Gate 3 — Data quality disposition</div>Classify the dataset as <strong>Fit for purpose</strong>, <strong>Fit with limitations</strong>, or <strong>Not fit for purpose</strong>. Record all unresolved risks before continuing.</div>
+<h3>AI Prompt Library</h3><p>Use or adapt the following prompts to obtain high-quality, structured assistance from AI during this phase.</p><ol><li><code>Perform a complete engineering data-quality audit before modeling.</code></li><li><code>Identify missing values, duplicates, impossible values, and inconsistent units.</code></li><li><code>Look for data leakage and hidden sampling bias.</code></li><li><code>Recommend treatment for every outlier with justification.</code></li><li><code>Determine whether this dataset is fit for purpose.</code></li></ol></section>
+<section id="phase4"><h2>Phase 4 — Exploratory Data Analysis</h2><p>Exploration is used to understand the data structure. It is not the final basis for causal conclusions.</p><h3>Minimum exploratory outputs</h3><ul class="checklist"><li>Response distribution and subgroup distributions</li><li>Time-order plot</li><li>Scatterplots for continuous predictors</li><li>Boxplots or interval plots for categorical predictors</li><li>Correlation matrix for numeric variables</li><li>Counts per subgroup and predictor combination</li><li>Missingness map</li><li>Outlier and leverage screening</li><li>Process sequence or campaign effects</li><li>Potential nonlinear patterns and interactions</li></ul><h3>Confounding and Simpson’s paradox checks</h3><p>For each apparent relationship, stratify or condition on major process variables. A pooled trend may disappear or reverse when examined within grade, product, rolling practice, slab thickness, line, or time period.</p><div class="callout critical">A strong pooled correlation is not sufficient evidence of a process mechanism. Verify that the relationship exists within relevant operating groups.</div><div class="gate"><div class="gate-title">Gate 4 — Exploration review</div>Confirm that key subgroup structure, time effects, rare combinations, and confounders have been identified before model construction.</div><h3>AI Prompt Library</h3><p>Use or adapt the following prompts to obtain high-quality, structured assistance from AI during this phase.</p><ol><li><code>Perform exploratory analysis without drawing conclusions.</code></li><li><code>Identify hidden clusters, subgroup effects, and nonlinear relationships.</code></li><li><code>Test for Simpson's paradox and confounding.</code></li><li><code>Recommend the most informative visualizations.</code></li><li><code>Summarize insights that require confirmatory testing.</code></li></ol></section>
+<section id="phase5"><h2>Phase 5 — Feature Engineering</h2><p>Derived variables should reflect process knowledge rather than arbitrary mathematical manipulation.</p><h3>Acceptable feature categories</h3><ul class="checklist"><li>Unit conversions and standardized units</li><li>Process deltas, such as exit minus coiling temperature</li><li>Rates, ratios, residence times, and specific energy</li><li>Chemistry equivalents and metallurgical indices</li><li>Lagged or rolling process variables</li><li>Product geometry terms</li><li>Interactions supported by engineering mechanisms</li><li>Grouped categorical factors for equipment, practice, or campaign</li></ul><h3>Feature rules</h3><div class="table-scroll" style="overflow-x:auto"><table><thead><tr><th>Rule</th><th>Reason</th></tr></thead><tbody><tr><td>Create features before splitting only when they do not use outcome information.</td><td>Prevents data leakage.</td></tr><tr><td>Center continuous variables before creating polynomial or interaction terms.</td><td>Improves interpretability and numerical stability.</td></tr><tr><td>Retain parent terms when interactions are included.</td><td>Preserves model hierarchy.</td></tr><tr><td>Avoid redundant variables representing the same physical quantity.</td><td>Reduces multicollinearity and unstable coefficients.</td></tr><tr><td>Document every derived formula.</td><td>Ensures reproducibility.</td></tr></tbody></table></div><h3>AI Prompt Library</h3><p>Use or adapt the following prompts to obtain high-quality, structured assistance from AI during this phase.</p><ol><li><code>Recommend engineered features based on process knowledge.</code></li><li><code>Identify useful interaction terms and polynomial effects.</code></li><li><code>Detect redundant predictors and multicollinearity risks.</code></li><li><code>Explain every engineered feature in engineering language.</code></li><li><code>Prioritize features by expected predictive value.</code></li></ol></section>
+<section id="phase6"><h2>Phase 6 — Model Strategy and Comparison</h2><p>The model family must match the response type, data structure, and decision objective.</p><div class="table-scroll" style="overflow-x:auto"><table><thead><tr><th>Situation</th><th>Candidate method</th></tr></thead><tbody><tr><td>Continuous response, interpretable effects</td><td>Multiple linear regression or general linear model</td></tr><tr><td>Repeated tests, heats, coils, batches, operators, or campaigns</td><td>Mixed-effects model</td></tr><tr><td>Pass/fail or defect probability</td><td>Binary logistic regression</td></tr><tr><td>Counts of events or defects</td><td>Poisson or negative binomial model</td></tr><tr><td>Nonlinear response with known functional form</td><td>Nonlinear regression</td></tr><tr><td>Many correlated predictors</td><td>Ridge, LASSO, or elastic net</td></tr><tr><td>Complex prediction with nonlinear interactions</td><td>Random forest or gradient boosting</td></tr><tr><td>Time-dependent process behavior</td><td>Time-series or state-space model</td></tr><tr><td>Designed process study</td><td>ANOVA, factorial DOE, response surface methodology</td></tr></tbody></table></div><h3>6.1 Baseline model</h3><p>Always fit a simple baseline model. Complex methods must demonstrate a meaningful improvement over the baseline.</p><h3>6.2 Model comparison criteria</h3><ul class="checklist"><li>Prediction error on unseen data</li><li>Adjusted R², AIC, BIC, or likelihood-based criteria where appropriate</li><li>Calibration</li><li>Residual behavior</li><li>Stability across subgroups and time periods</li><li>Interpretability</li><li>Operational deployability</li><li>Consistency with engineering knowledge</li></ul><div class="callout">The best engineering model is not automatically the model with the highest R². Prefer the model that gives adequate accuracy, stable behavior, transparent assumptions, and actionable interpretation.</div><h3>AI Prompt Library</h3><p>Use or adapt the following prompts to obtain high-quality, structured assistance from AI during this phase.</p><ol><li><code>Compare all appropriate statistical and machine-learning models.</code></li><li><code>Recommend the simplest defensible model and explain why.</code></li><li><code>Rank candidate models by accuracy, interpretability, and deployment risk.</code></li><li><code>Identify assumptions for each model family.</code></li><li><code>Explain when a mixed-effects model is preferable.</code></li></ol></section>
+<section id="phase7"><h2>Phase 7 — Validation and Stress Testing</h2><h3>7.1 Select the correct validation design</h3><div class="table-scroll" style="overflow-x:auto"><table><thead><tr><th>Data structure</th><th>Preferred validation</th></tr></thead><tbody><tr><td>Independent observations</td><td>Random train/test split or repeated cross-validation</td></tr><tr><td>Multiple rows from the same heat, coil, batch, or subject</td><td>Grouped split</td></tr><tr><td>Time-ordered process data</td><td>Forward-chaining or time-based holdout</td></tr><tr><td>Rare grade or product combinations</td><td>Leave-group-out validation and extrapolation review</td></tr><tr><td>Small engineering dataset</td><td>Bootstrap, cross-validation, and uncertainty emphasis</td></tr></tbody></table></div><h3>7.2 Regression diagnostics</h3><ul class="checklist"><li>Residuals versus fitted values</li><li>Normal probability plot where inference depends on normality</li><li>Constant variance</li><li>Independence and time-order behavior</li><li>Influential observations and Cook’s distance</li><li>Leverage</li><li>Variance inflation factors</li><li>Specification errors and omitted nonlinear terms</li></ul><h3>7.3 Sensitivity analysis</h3><ul class="checklist"><li>Fit with and without influential observations</li><li>Compare alternative subgroup definitions</li><li>Test alternate missing-data treatments</li><li>Test alternate model forms</li><li>Test plausible measurement error</li><li>Evaluate prediction under nearby operating conditions</li><li>Assess whether conclusions depend on a small number of groups</li></ul><h3>7.4 Extrapolation control</h3><p>For every prediction, compare requested predictor values with the historical data range and combinations. A value may be within each individual variable’s range but still represent an unseen combination.</p><div class="gate"><div class="gate-title">Gate 7 — Model acceptance</div>Accept the model only when validation performance, residual behavior, subgroup stability, and extrapolation risk are documented.</div><h3>AI Prompt Library</h3><p>Use or adapt the following prompts to obtain high-quality, structured assistance from AI during this phase.</p><ol><li><code>Design the best validation strategy for this dataset.</code></li><li><code>Perform a complete regression diagnostic review.</code></li><li><code>Stress-test the model against alternative assumptions.</code></li><li><code>Evaluate extrapolation risk for requested predictions.</code></li><li><code>Recommend sensitivity analyses before approval.</code></li></ol></section>
+<section id="phase8">
+<h2>Phase 8 — Engineering Interpretation</h2>
+<p>Translate statistical output into process language.</p>
+<h3>Required interpretation questions</h3>
+<ul class="checklist">
+<li>What physical mechanism could explain the relationship?</li>
+<li>Is the direction of effect credible?</li>
+<li>Is the magnitude practically important?</li>
+<li>Does the effect hold within relevant product and process groups?</li>
+<li>Could the variable be acting as a proxy for another process condition?</li>
+<li>Is the effect controllable in operation?</li>
+<li>Would changing this variable create a trade-off elsewhere?</li>
+</ul>
+<h3>Coefficient interpretation format</h3>
+<pre>Statistical statement:
+Holding the other model variables constant, a 10°C increase in exit temperature
+is associated with an estimated 6 J reduction in average Charpy energy.
+
+Engineering statement:
+Within the historical operating range represented by the model, higher exit
+temperature is associated with lower toughness after accounting for the listed
+process and chemistry variables. This relationship should not be interpreted
+as causal unless supported by a controlled trial or stronger process evidence.</pre>
+<h3>AI Prompt Library</h3><p>Use or adapt the following prompts to obtain high-quality, structured assistance from AI during this phase.</p><ol><li><code>Translate every statistical result into engineering language.</code></li><li><code>Explain whether the observed effects are physically plausible.</code></li><li><code>Identify operational actions supported by the model.</code></li><li><code>Separate correlation from likely causation.</code></li><li><code>Explain coefficient magnitudes in practical process terms.</code></li></ol></section>
+<section id="phase9">
+<h2>Phase 9 — Decision and Risk Analysis</h2>
+<p>Convert the model into a decision statement, not merely a statistical conclusion.</p>
+<h3>Minimum decision outputs</h3>
+<ul class="checklist">
+<li>Point prediction or estimated effect</li>
+<li>Confidence interval</li>
+<li>Prediction interval where an individual future result matters</li>
+<li>Probability of meeting the specification or target</li>
+<li>Probability of an adverse outcome</li>
+<li>Sensitivity to uncertain inputs</li>
+<li>Extrapolation classification</li>
+<li>Operational recommendation</li>
+<li>Required safeguards or verification plan</li>
+</ul>
+<h3>Risk classification</h3>
+<div class="table-scroll" style="overflow-x:auto"><table>
+<thead><tr><th>Classification</th><th>Typical condition</th><th>Recommended action</th></tr></thead>
+<tbody>
+<tr><td>Low</td><td>Strong historical support, stable model, narrow uncertainty</td><td>Proceed under normal controls</td></tr>
+<tr><td>Moderate</td><td>Some uncertainty, limited subgroup data, mild extrapolation</td><td>Proceed with additional monitoring or controlled trial</td></tr>
+<tr><td>High</td><td>Material extrapolation, unstable model, sparse data, unresolved confounding</td><td>Do not rely on prediction alone; collect targeted data</td></tr>
+</tbody>
+</table></div>
+<div class="callout success">A recommendation should state what to do, why, under what limits, and what evidence would trigger reconsideration.</div>
+<h3>AI Prompt Library</h3><p>Use or adapt the following prompts to obtain high-quality, structured assistance from AI during this phase.</p><ol><li><code>Convert the model into an executive decision recommendation.</code></li><li><code>Estimate probability of meeting specification.</code></li><li><code>Quantify operational and business risks.</code></li><li><code>Recommend implementation safeguards.</code></li><li><code>Summarize uncertainty for management.</code></li></ol></section>
+<section id="phase10">
+<h2>Phase 10 — Documentation and Reproducibility</h2>
+<h3>Required analysis package</h3>
+<ul class="checklist">
+<li>Approved problem statement</li><li>Data dictionary</li><li>Source query or extraction logic</li><li>Raw and cleaned dataset references</li><li>Data quality report</li><li>Exploratory visuals</li><li>Model specification and settings</li><li>Diagnostics and validation results</li><li>Sensitivity analysis</li><li>Final engineering interpretation</li><li>Decision recommendation</li><li>Limitations and unresolved risks</li><li>Reproducible code or software instructions</li><li>Version and review history</li>
+</ul>
+<h3>Software-equivalent requirements</h3><p>Where practical, provide:</p>
+<div class="table-scroll" style="overflow-x:auto"><table><thead><tr><th>Platform</th><th>Required output</th></tr></thead><tbody><tr><td>Python</td><td>Complete reproducible code with imports, preprocessing, model, diagnostics, and prediction.</td></tr><tr><td>Minitab</td><td>Menu navigation, field assignments, options, diagnostics, and prediction steps.</td></tr><tr><td>Excel</td><td>Formula logic, table structure, Solver setup, chart setup, or deployment method.</td></tr><tr><td>SQL</td><td>Documented query, grain, joins, filters, and deduplication logic.</td></tr></tbody></table></div>
+<h3>AI Prompt Library</h3><p>Use or adapt the following prompts to obtain high-quality, structured assistance from AI during this phase.</p><ol><li><code>Create a fully reproducible analysis package.</code></li><li><code>Generate Python, Minitab, Excel, and SQL implementation guidance.</code></li><li><code>Produce executive and technical summaries.</code></li><li><code>List every limitation and assumption.</code></li><li><code>Create a peer-review-ready report.</code></li></ol></section>
+<section id="peerreview"><h2>4. Final Peer-Review Checklist</h2><p>Before release, perform an adversarial review using the following questions.</p><ul class="checklist"><li>Could the conclusion be caused by confounding?</li><li>Could Simpson’s paradox be present?</li><li>Was the data grain handled correctly?</li><li>Were repeated observations treated as independent?</li><li>Could data leakage inflate performance?</li><li>Does the validation method match the data structure?</li><li>Are influential points driving the result?</li><li>Are key predictor combinations absent from the historical data?</li><li>Is the model extrapolating?</li><li>Are statistical significance and practical significance being confused?</li><li>Are assumptions supported by diagnostics?</li><li>Does the physical mechanism make sense?</li><li>Are uncertainty and limitations clearly communicated?</li><li>Can another analyst reproduce the result?</li><li>Would the recommendation change under a reasonable alternative model?</li></ul><div class="gate"><div class="gate-title">Release decision</div>Mark the analysis as <strong>Approved</strong>, <strong>Approved with limitations</strong>, or <strong>Not approved</strong>.</div></section>
+<section id="prompt"><h2>5. Master ChatGPT Prompt</h2><p>Use the following prompt at the start of a new engineering analysis.</p><pre>You are acting as my senior engineering data scientist and independent technical reviewer.
+
+Your role is to help me produce a statistically valid, physically credible, reproducible,
+and decision-oriented analysis.
+
+Follow the Engineering Data Science Analysis Protocol below.
+
+1. Begin by restating the business decision, analytical question, response variable,
+   unit of analysis, population, success criterion, and consequence of a wrong conclusion.
+2. Create a data lineage and data-quality plan before modeling.
+3. Audit missing values, duplicate business keys, incorrect joins, impossible values,
+   inconsistent units, outliers, measurement-system issues, time effects, subgroup
+   imbalance, data leakage, confounding, sampling bias, and extrapolation risk.
+4. Separate exploratory analysis from confirmatory analysis.
+5. Test alternative explanations including grade, product, geometry, practice, equipment,
+   campaign, chemistry, time, and measurement effects.
+6. Recommend the simplest valid baseline model and compare stronger candidates where appropriate.
+7. Select validation that respects grouped, repeated, or time-ordered data.
+8. Check assumptions, residuals, influence, multicollinearity, calibration, stability, and sensitivity.
+9. Do not interpret correlation as causation.
+10. Translate findings into engineering and operational language.
+11. Report point estimates, intervals, probability of meeting specification, practical
+    significance, extrapolation status, risk classification, limitations, and action.
+12. Attempt to disprove the preferred conclusion before accepting it.
+13. Provide reproducible Python, Minitab, Excel, and SQL implementation where applicable.
+14. Stop and report any condition that makes the analysis unreliable.
+
+Project title:
+Business decision:
+Primary question:
+Response variable:
+Potential predictors:
+Unit of analysis:
+Population:
+Specification or target:
+Known process knowledge:
+Known confounders:
+Data sources:
+Required deliverables:
+Decision deadline:</pre></section>
+<section id="templates"><h2>6. Reusable Templates</h2><h3>6.1 Project charter</h3><pre>Project title:
+Owner:
+Decision-maker:
+Business decision:
+Primary analytical question:
+Response variable:
+Predictor variables:
+Unit of analysis:
+Population:
+Date range:
+Success criterion:
+Risk of false positive:
+Risk of false negative:
+Known confounders:
+Expected deliverables:
+Approval authority:</pre><h3>6.2 Data-quality summary</h3><pre>Dataset:
+Source:
+Row count:
+Date range:
+Business key:
+Duplicate count:
+Missingness:
+Unit issues:
+Outlier count:
+Join risks:
+Measurement risks:
+Subgroup imbalance:
+Extrapolation concerns:
+Disposition:
+- Fit for purpose
+- Fit with limitations
+- Not fit for purpose</pre><h3>6.3 Model comparison table</h3><div class="table-scroll" style="overflow-x:auto"><table><thead><tr><th>Model</th><th>Purpose</th><th>Validation metric</th><th>Interpretability</th><th>Diagnostics</th><th>Decision</th></tr></thead><tbody><tr><td>Baseline</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Candidate 1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Candidate 2</td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div><h3>6.4 Final recommendation format</h3><pre>Decision:
+Recommended action:
+Estimated result:
+Uncertainty:
+Probability of meeting target:
+Historical support:
+Extrapolation status:
+Primary risk:
+Key assumptions:
+Required controls:
+Verification plan:
+Conditions that would change the recommendation:</pre></section>
+<section id="deliverables"><h2>7. Standard Deliverables</h2><div class="table-scroll" style="overflow-x:auto"><table><thead><tr><th>Deliverable</th><th>Audience</th><th>Purpose</th></tr></thead><tbody><tr><td>One-page executive summary</td><td>Managers and decision-makers</td><td>Decision, evidence, risk, and recommendation</td></tr><tr><td>Technical report</td><td>Engineers and analysts</td><td>Methods, diagnostics, assumptions, and limitations</td></tr><tr><td>Reproducible analysis package</td><td>Analysts and auditors</td><td>Queries, code, data transformations, and model files</td></tr><tr><td>Validation appendix</td><td>Technical reviewers</td><td>Residuals, sensitivity, subgroup checks, and model comparison</td></tr><tr><td>Operational control plan</td><td>Process owners</td><td>Limits, monitoring, escalation, and verification actions</td></tr></tbody></table></div><div class="callout">This protocol is intentionally rigorous. For quick screening studies, the depth may be reduced, but the decision definition, data quality gate, confounding review, uncertainty statement, and reproducibility requirements should remain.</div></section>
+
+<!-- EDIT: Worked example -->
+<section id="worked-example" class="content-card">
+  <p class="lesson-kicker">Worked example</p>
+  <h2>Separating temperature from rolling-practice effects</h2>
+  <p><strong>Problem:</strong> A pooled chart suggests that higher exit temperature lowers Charpy energy. Management must decide whether to tighten the temperature window.</p>
+  <ol>
+    <li><strong>Define the unit:</strong> one slab, with specimen results summarized using a documented aggregation rule.</li>
+    <li><strong>Audit the structure:</strong> the high-temperature observations are concentrated in different rolling practices.</li>
+    <li><strong>Test the alternative explanation:</strong> compare temperature–Charpy relationships within product and rolling practice, then fit a model controlling for grade, geometry, chemistry, practice, slab thickness, coiling temperature, and test temperature.</li>
+    <li><strong>Validate:</strong> use grouped validation by heat or campaign and inspect influential observations and unsupported combinations.</li>
+    <li><strong>Decide:</strong> if the pooled trend disappears within practice, do not attribute the change to temperature alone. Recommend a controlled trial or additional balanced data.</li>
+  </ol>
+  <p><strong>Interpretation:</strong> the protocol prevents a correlation created by operating mix from being presented as a physical temperature effect. The limitation is that historical data may still lack the combinations needed for a causal conclusion.</p>
+</section>
+<section id="interpretation-guide" class="content-card">
+  <h2>Interpretation guide</h2>
+  <div class="table-scroll"><table>
+    <thead><tr><th>When you see this</th><th>It means this</th><th>Required response</th></tr></thead>
+    <tbody>
+      <tr><td>Pooled and within-group trends disagree</td><td>Confounding or Simpson’s paradox may be present.</td><td>Report subgroup results and control the relevant factors.</td></tr>
+      <tr><td>Random validation is much stronger than grouped validation</td><td>Related records may be leaking across folds.</td><td>Use a split that matches future deployment.</td></tr>
+      <tr><td>Prediction is outside historical ranges</td><td>The result is extrapolation.</td><td>Increase caution, disclose uncertainty, and consider a trial.</td></tr>
+      <tr><td>Model fit is high but residuals show structure</td><td>The model has missed process behavior.</td><td>Revisit the model form and process variables.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+<section id="common-mistakes" class="content-card">
+  <h2>Common mistakes and review traps</h2>
+  <ol>
+    <li><strong>Calculation:</strong> duplicating the response through a one-to-many join. Check row counts and business keys before and after every join.</li>
+    <li><strong>Interpretation:</strong> treating correlation or a small p-value as causation. Test competing explanations and use process knowledge.</li>
+    <li><strong>Assumption:</strong> deleting every unusual point. Classify each point and run sensitivity checks.</li>
+    <li><strong>Software output:</strong> selecting the model with the highest R². Compare out-of-sample error, diagnostics, stability, and interpretability.</li>
+    <li><strong>Exam/review trap:</strong> reporting a point prediction without an interval or support check. State uncertainty and whether the case is interpolation or extrapolation.</li>
+  </ol>
+</section>
+<section id="software-guidance" class="content-card">
+  <h2>Software guidance</h2>
+  <div class="table-scroll"><table>
+    <thead><tr><th>Tool</th><th>Use it for</th><th>Important output</th></tr></thead>
+    <tbody>
+      <tr><td>Excel / Power Query</td><td>Source profiling, joins, units, missingness, and traceable tables.</td><td>Row counts, duplicate keys, errors, nulls, and transformation steps.</td></tr>
+      <tr><td>Minitab</td><td>Graphical analysis, regression, mixed models, DOE, SPC, and diagnostics.</td><td>Effect estimates, intervals, residual plots, variance components, and validation statistics.</td></tr>
+      <tr><td>SQL</td><td>Reproducible extraction at a declared grain.</td><td>Join cardinality, filters, keys, and aggregation logic.</td></tr>
+      <tr><td>Python or R</td><td>Automated pipelines, group-aware validation, sensitivity analysis, and reproducible reporting.</td><td>Versioned code, held-out metrics, diagnostics, and saved model settings.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Software executes the method; it does not choose the decision, verify the measurement system, or establish engineering plausibility.</p>
+</section>
+<section id="practice" class="content-card">
+  <p class="lesson-kicker">Practice activity</p>
+  <h2>Choose the next analytical action</h2>
+  <p>A model predicts tensile strength using 2,400 specimen rows. Several specimens come from the same heat, and a random train/test split reports excellent accuracy. What should you do before accepting the result?</p>
+  <button type="button" id="reveal-practice" aria-expanded="false" aria-controls="practice-answer">Reveal answer</button>
+  <div id="practice-answer" class="reveal-answer callout" hidden>
+    <p><strong>Answer:</strong> repeat validation with all specimens from each heat kept in the same fold or holdout set.</p>
+    <p><strong>Reasoning:</strong> random row splitting lets closely related specimens from one heat appear in both training and test data. That leakage can inflate accuracy. Compare the grouped result with the random result, document the gap, and use the grouped estimate for deployment decisions.</p>
+  </div>
+</section>
+<section id="summary" class="content-card">
+  <p class="lesson-kicker">Final summary</p>
+  <h2>Key takeaways</h2>
+  <ul>
+    <li>Start with the decision, risk, population, and unit of analysis.</li>
+    <li>Do not model until data grain, lineage, measurement quality, and fitness are documented.</li>
+    <li>Challenge pooled relationships using subgroup and time-aware analysis.</li>
+    <li>Match validation to how the model will be used.</li>
+    <li>Report uncertainty, historical support, and extrapolation status.</li>
+    <li>Use AI to structure and challenge work, not to replace verification or accountability.</li>
+  </ul>
+  <p><strong>Decision rule:</strong> proceed only when the evidence is fit for the intended decision and the remaining uncertainty is acceptable for the consequence of being wrong.</p>
+  <p><strong>Remember this:</strong> decision first, data quality second, modeling third.</p>
+  <p><strong>Suggested next lesson:</strong> Engineering AI Prompt Library.</p>
+</section>
+
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading"><p class="lesson-kicker">Knowledge check</p><h2 id="quiz-heading">Check your understanding</h2><div class="quiz"><form id="quiz-form">
+<fieldset class="quiz-question" data-answer="b" data-explanation="The decision and unit of analysis determine what data and method are appropriate."><legend>1. What comes before method selection?</legend><label class="quiz-option"><input type="radio" name="q1" value="a"> Software choice</label><label class="quiz-option"><input type="radio" name="q1" value="b"> Decision question and unit of analysis</label><label class="quiz-option"><input type="radio" name="q1" value="c"> Chart colours</label><div class="quiz-feedback"></div></fieldset>
+<fieldset class="quiz-question" data-answer="c" data-explanation="Modeling starts only after the data-quality gate is completed."><legend>2. When should modeling begin?</legend><label class="quiz-option"><input type="radio" name="q2" value="a"> Immediately</label><label class="quiz-option"><input type="radio" name="q2" value="b"> After deleting all outliers</label><label class="quiz-option"><input type="radio" name="q2" value="c"> After the data-quality gate</label><div class="quiz-feedback"></div></fieldset>
+<fieldset class="quiz-question" data-answer="a" data-explanation="Grouped and time-based validation prevents leakage and overly optimistic results."><legend>3. Why respect grouped or time-ordered data?</legend><label class="quiz-option"><input type="radio" name="q3" value="a"> To prevent leakage</label><label class="quiz-option"><input type="radio" name="q3" value="b"> To guarantee causation</label><label class="quiz-option"><input type="radio" name="q3" value="c"> To remove uncertainty</label><div class="quiz-feedback"></div></fieldset>
+<fieldset class="quiz-question" data-answer="c" data-explanation="Decision-ready recommendations combine evidence, uncertainty, risk, controls, and verification."><legend>4. What makes a recommendation decision-ready?</legend><label class="quiz-option"><input type="radio" name="q4" value="a"> High R² only</label><label class="quiz-option"><input type="radio" name="q4" value="b"> A p-value only</label><label class="quiz-option"><input type="radio" name="q4" value="c"> Evidence, uncertainty, risk, controls, and verification</label><div class="quiz-feedback"></div></fieldset>
+
+<fieldset class="quiz-question" data-answer="b" data-explanation="Extrapolation must be disclosed because historical data provide weaker support outside observed conditions.">
+  <legend>5. What should you do when a prediction is outside the historical operating range?</legend>
+  <label class="quiz-option"><input type="radio" name="q5" value="a"> Report it as equally reliable</label>
+  <label class="quiz-option"><input type="radio" name="q5" value="b"> Flag extrapolation, widen caution, and consider a controlled trial</label>
+  <label class="quiz-option"><input type="radio" name="q5" value="c"> Remove the operating-range variables</label>
+  <div class="quiz-feedback"></div>
+</fieldset>
+
+<div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button><button type="button" id="quiz-reset" class="secondary">Reset quiz</button></div><div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div></form></div></section>
+</article>
+</main>
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left"><a href="/lessons#ai-for-work" style="color:#1f4e78;font-weight:600;text-decoration:none">Back to AI for Work</a></section>
+<footer class="site lesson-footer"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<script>
+/* EDIT: Interactive practice and quiz */
+(function () {
+  'use strict';
+
+  var revealButton = document.getElementById('reveal-practice');
+  var practiceAnswer = document.getElementById('practice-answer');
+  if (revealButton && practiceAnswer) {
+    revealButton.addEventListener('click', function () {
+      var willShow = practiceAnswer.hidden;
+      practiceAnswer.hidden = !willShow;
+      revealButton.setAttribute('aria-expanded', String(willShow));
+      revealButton.textContent = willShow ? 'Hide answer' : 'Reveal answer';
+    });
+  }
+
+  var form = document.getElementById('quiz-form');
+  var submitButton = document.getElementById('quiz-submit');
+  var resetButton = document.getElementById('quiz-reset');
+  var result = document.getElementById('quiz-result');
+  if (!form || !submitButton || !result) return;
+
+  submitButton.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var score = 0;
+    var unanswered = 0;
+
+    questions.forEach(function (question) {
+      var selected = question.querySelector('input[type="radio"]:checked');
+      var feedback = question.querySelector('.quiz-feedback');
+      question.classList.remove('is-correct', 'is-incorrect');
+
+      if (!selected) {
+        unanswered += 1;
+        feedback.className = 'quiz-feedback show warn';
+        feedback.textContent = 'Select an answer to see feedback.';
+        return;
+      }
+
+      var isCorrect = selected.value === question.getAttribute('data-answer');
+      if (isCorrect) score += 1;
+      question.classList.add(isCorrect ? 'is-correct' : 'is-incorrect');
+      feedback.className = 'quiz-feedback show ' + (isCorrect ? 'good' : 'bad');
+      feedback.textContent = (isCorrect ? 'Correct. ' : 'Not quite. ') +
+        (question.getAttribute('data-explanation') || '');
+    });
+
+    result.className = 'quiz-result show';
+    result.textContent = 'Score: ' + score + ' / ' + questions.length +
+      (unanswered ? ' — ' + unanswered + ' unanswered' : '');
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', {
+      detail: { score: score, total: questions.length }
+    }));
+  });
+
+  if (resetButton) {
+    resetButton.addEventListener('click', function () {
+      form.reset();
+      form.querySelectorAll('.quiz-question').forEach(function (question) {
+        question.classList.remove('is-correct', 'is-incorrect');
+        var feedback = question.querySelector('.quiz-feedback');
+        feedback.className = 'quiz-feedback';
+        feedback.textContent = '';
+      });
+      result.className = 'quiz-result';
+      result.textContent = '';
+    });
+  }
+}());
+</script>
+</body>
+</html>
