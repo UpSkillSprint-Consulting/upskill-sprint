@@ -27,6 +27,18 @@
       description: 'See how analytics turns raw data into decisions through visual models, an editable factory example, four downloadable wall posters, and an interactive pattern explorer.'
     },
     {
+      marker: 'data-hierarchical-data-analysis-steel-charpy',
+      sectionId: 'data-analytics',
+      path: '/lessons/data-analytics/hierarchical-data-analysis-steel-charpy',
+      topic: 'data-analytics',
+      level: 'advanced',
+      interactive: 'true',
+      search: 'hierarchical data analysis mixed effects multilevel model nested crossed levels predictors charpy steel pseudoreplication cluster bootstrap gee robust covariance excel minitab python r advanced interactive',
+      meta: '<span>Advanced</span><span>Interactive</span><span>75 min</span><span>Excel + Minitab + Python + R</span>',
+      title: 'Hierarchical Data Analysis for Steel Charpy',
+      description: 'Build a defensible model for nested or crossed engineering data with a flexible scenario configurator, method ranking, diagnostics, software playbooks, and practice data.'
+    },
+    {
       marker: 'data-anova-analysis-one-stop-shop',
       sectionId: 'statistics',
       path: '/lessons/statistics/anova-analysis-one-stop-shop',
