@@ -195,6 +195,18 @@
       description: 'Dot notation'
     },
     {
+      marker: 'data-gauge-rr-study',
+      sectionId: 'quality-engineering',
+      path: '/lessons/quality-engineering/gauge-rr-study',
+      topic: 'quality-engineering',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'gage r&r gauge r&r measurement system analysis msa repeatability reproducibility bias linearity stability ndc percent study variation percent tolerance crossed nested minitab excel quality engineering beginner interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>75 min</span><span>Minitab + Excel</span>',
+      title: 'Gage R&R for Beginners',
+      description: 'See repeatability, reproducibility, bias, linearity, and stability change in real time, then design and interpret a defensible Gage R&R study.'
+    },
+    {
       marker: 'data-essential-quality-tools',
       sectionId: 'quality-engineering',
       path: '/lessons/7-essential-quality-tools',
