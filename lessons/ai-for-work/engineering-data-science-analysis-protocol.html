@@ -64,6 +64,77 @@ html[data-theme="dark"] {
   --danger: #ff8f87;
   --info: #8ec3ea;
 }
+/* Keep every lesson-specific component legible in dark mode. */
+html[data-theme="dark"] body[data-lesson-page="true"] {
+  --bg: var(--paper);
+  --card: var(--surface);
+  --text: var(--ink);
+  --soft: var(--surface-soft);
+  background: var(--paper);
+  color: var(--ink);
+}
+html[data-theme="dark"] #lesson-content > section,
+html[data-theme="dark"] #lesson-content .content-card {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+}
+html[data-theme="dark"] #lesson-content h2 { color: var(--navy); }
+html[data-theme="dark"] #lesson-content h3 { color: var(--info); }
+html[data-theme="dark"] #lesson-content h4 { color: var(--teal); }
+html[data-theme="dark"] .pill {
+  background: #223548;
+  border: 1px solid #3d5369;
+  color: #f1f6fa;
+}
+html[data-theme="dark"] .callout {
+  background: #172b3d;
+  color: var(--ink);
+}
+html[data-theme="dark"] .callout.warning,
+html[data-theme="dark"] .warning { background: #3a2a12; color: #fff0cf; }
+html[data-theme="dark"] .callout.critical,
+html[data-theme="dark"] .critical { background: #3a1d22; color: #ffe1df; }
+html[data-theme="dark"] .callout.success,
+html[data-theme="dark"] .success { background: #183322; color: #ddf6e3; }
+html[data-theme="dark"] .gate {
+  background: #111c28;
+  border-color: var(--info);
+  color: var(--ink);
+}
+html[data-theme="dark"] .gate-title { color: var(--info); }
+html[data-theme="dark"] ol code {
+  background: #0d1824;
+  border-color: var(--line);
+  color: var(--ink);
+}
+html[data-theme="dark"] .flow span[role="listitem"] {
+  background: #183249;
+  border-color: #40627d;
+  color: #eaf5ff;
+}
+html[data-theme="dark"] th {
+  background: #203b55;
+  border-color: #4a6075;
+  color: #f7fbff;
+}
+html[data-theme="dark"] .quiz,
+html[data-theme="dark"] .quiz-question,
+html[data-theme="dark"] .quiz-option {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+}
+html[data-theme="dark"] .quiz-option:hover { background: #1b3043; }
+html[data-theme="dark"] .good { background: #183322; color: #ddf6e3; }
+html[data-theme="dark"] .bad { background: #3a1d22; color: #ffe1df; }
+html[data-theme="dark"] .warn { background: #3a2a12; color: #fff0cf; }
+html[data-theme="dark"] .quiz-result {
+  background: #172b3d;
+  color: var(--ink);
+}
+html[data-theme="dark"] .category-backlink { color: var(--teal-dark); }
+
 .lesson-wrapper { display: block; }
 .lesson-toc {
   background: var(--surface);
@@ -569,7 +640,7 @@ Conditions that would change the recommendation:</pre></section>
 <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button><button type="button" id="quiz-reset" class="secondary">Reset quiz</button></div><div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div></form></div></section>
 </article>
 </main>
-<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left"><a href="/lessons#ai-for-work" style="color:#1f4e78;font-weight:600;text-decoration:none">Back to AI for Work</a></section>
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left"><a class="category-backlink" href="/lessons#ai-for-work">Back to AI for Work</a></section>
 <footer class="site lesson-footer"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
 <script>
 /* EDIT: Interactive practice and quiz */
