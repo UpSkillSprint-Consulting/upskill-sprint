@@ -387,6 +387,18 @@ table.toolmap tr:hover td{background:rgba(63,182,216,.03)}
     </div>
     <p class="dim" style="font-size:14px">That lone <strong>+1</strong> under the root is the entire difference between the two intervals. Drop it and you have a CI; keep it and you have a PI. As sample size grows the CI term shrinks toward zero, but the +1 never does — the PI can't get narrower than the process's own noise. The widget below lets you feel that.</p>
 
+    <h3>Connection between them</h3>
+    <p>Strip away the regression machinery and the same logic shows up in the simplest possible case — a plain sample mean, no model at all. For a mean \(\bar{X}\) with sample standard deviation \(S\) and \(t = t_{\alpha/2,\,n-1}\):</p>
+    <p style="margin-bottom:4px"><strong>Confidence interval</strong> — for the process average</p>
+    <div class="eqbox">
+      $$\bar{X} \;\pm\; t\,S\,\sqrt{\dfrac{1}{n}}$$
+    </div>
+    <p style="margin-bottom:4px"><strong>Prediction interval</strong> — for a single next observation</p>
+    <div class="eqbox">
+      $$\bar{X} \;\pm\; t\,S\,\sqrt{1 + \dfrac{1}{n}}$$
+    </div>
+    <p>Notice the prediction interval carries \(\sqrt{1 + \frac{1}{n}}\) where the confidence interval only has \(\sqrt{\frac{1}{n}}\). Since \(1 + \frac{1}{n} > \frac{1}{n}\) for <em>every</em> sample size, the prediction interval is <strong>always wider</strong>. And as \(n\) grows the \(\frac{1}{n}\) term melts toward zero — the CI can shrink to a point, but the PI can't drop below \(\bar{X} \pm tS\), because that leading <strong>1</strong> is the process's own scatter. It is the exact same role the <strong>+1</strong> plays inside the regression formula above.</p>
+
     <div class="widget">
       <h4>Interactive · CI vs PI as sample size grows</h4>
       <p class="sub">Yield strength vs mill reduction. Drag <em>n</em> up and watch the bands. The <span style="color:var(--atm-cyan)">confidence band</span> squeezes toward the line; the <span style="color:var(--atm-orange)">prediction band</span> refuses to go below the noise floor.</p>
