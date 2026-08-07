@@ -315,8 +315,60 @@
     return row;
   }
 
+  const FEATURED_CATEGORY_NAMES = {
+    'data-analytics': 'Data Analytics',
+    'quality-engineering': 'Quality Engineering',
+    'lean-six-sigma': 'Lean Six Sigma',
+    'statistics': 'Statistics',
+    'power-bi-excel-sql': 'Power BI, Excel & SQL',
+    'project-management': 'Project Management',
+    'business-decision-making': 'Business Decision-Making',
+    'ai-for-work': 'AI for Work'
+  };
+
+  function titleCaseWord(value) {
+    return String(value || '').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+  }
+
+  // Pick a random lesson to feature on each visit / refresh (was a static "ANOVA in Plain English").
+  function featureRandomLesson() {
+    const section = document.getElementById('featured-section');
+    const heading = document.getElementById('featured-heading');
+    if (!section || !heading || !Array.isArray(LESSONS) || !LESSONS.length) return;
+    const card = section.querySelector('.featured-lesson');
+    if (!card) return;
+
+    const pick = LESSONS[Math.floor(Math.random() * LESSONS.length)];
+    if (!pick || !pick.title || !pick.path) return;
+
+    heading.textContent = pick.title;
+
+    const textColumn = heading.parentElement;
+    const description = textColumn && textColumn.querySelector('p:not(.featured-label)');
+    if (description && pick.description) description.textContent = pick.description;
+
+    const meta = card.querySelector('.featured-meta');
+    if (meta) {
+      const category = FEATURED_CATEGORY_NAMES[pick.topic] || titleCaseWord(pick.topic);
+      const level = titleCaseWord(pick.level);
+      const parts = [category, level];
+      if (pick.interactive === 'true' || pick.interactive === true) parts.push('Interactive');
+      meta.textContent = '';
+      parts.forEach(function (label) {
+        const span = document.createElement('span');
+        span.textContent = label;
+        meta.appendChild(span);
+      });
+    }
+
+    const action = card.querySelector('.featured-action');
+    if (action) action.setAttribute('href', pick.path);
+  }
+
   function installLessons() {
     if (!isLessonsPage()) return;
+
+    featureRandomLesson();
 
     const managedRows = [];
     const affectedSections = new Set();
