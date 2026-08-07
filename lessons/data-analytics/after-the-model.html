@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "After the Model — Prediction, Optimization & Beyond",
+  "slug": "after-the-model",
+  "category": "Data Analytics",
+  "category_slug": "data-analytics",
+  "level": "Advanced",
+  "lesson_type": "General",
+  "estimated_minutes": 55,
+  "interactive": true,
+  "card_title": "After the Model — Prediction, Optimization & Beyond",
+  "card_description": "Turn a fitted model into decisions: predict with the right interval, optimize and robustify settings, simulate capability, confirm against reality, and monitor for drift.",
+  "search_keywords": [
+    "prediction interval",
+    "response optimization",
+    "monte carlo capability",
+    "robust design",
+    "confirmation runs",
+    "spc drift monitoring",
+    "desirability",
+    "design of experiments",
+    "minitab predict",
+    "excel solver"
+  ],
+  "suggested_github_path": "lessons/data-analytics/after-the-model.html"
+}
+-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>After the Model — Prediction, Optimization & Beyond | UpSkill Sprint</title>
+<meta name="description" content="What to do after a model is fitted: predict with confidence and prediction intervals, optimize and robustify settings, simulate capability, confirm, and monitor for drift.">
+<link rel="canonical" href="https://upskillsprint.com/lessons/data-analytics/after-the-model">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$']] }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
+<style>
+:root{
+  color-scheme: light dark;
+  /* Light theme (default). Dark values are restored in the override block at the end of the page. */
+  --atm-bg:#f4f8fc; --atm-panel:#ffffff; --atm-panel2:#eef4fa; --atm-line:#cdd9e6;
+  --atm-surface:#eef3f9; --atm-surface-deep:#e6edf6;
+  --atm-ink:#152233; --atm-ink-dim:#3f5266; --atm-ink-faint:#586d84;
+  --atm-strong:#0a1626;
+  --atm-cyan:#0e7fa6; --atm-amber:#a4680f; --atm-teal:#0a8f76; --atm-orange:#c05226;
+  --atm-violet:#5b4fd6; --atm-danger:#bd3145;
+  --atm-mtb:#0e7a4e; --atm-xl:#0b7a3f;
+  --atm-hair:rgba(21,34,51,.42); --atm-dot:#152233;
+  --atm-mono:'IBM Plex Mono',monospace; --atm-sans:'IBM Plex Sans',system-ui,sans-serif;
+  --atm-disp:'Barlow Condensed',sans-serif;
+  --atm-maxw:1080px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+#lesson-content{
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(63,182,216,.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(91,79,214,.07), transparent 55%),
+    var(--atm-bg);
+  color:var(--atm-ink); font-family:var(--atm-sans); line-height:1.62; font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+#lesson-content a{color:var(--atm-cyan);text-decoration:none}
+#lesson-content a:hover{text-decoration:underline}
+
+/* (site header/footer come from canonical chrome) */
+
+/* ---------- layout ---------- */
+.container{max-width:var(--atm-maxw);margin:0 auto;padding:0 22px}
+#lesson-content section{padding:46px 0;border-bottom:1px solid var(--atm-line)}
+#lesson-content h1,#lesson-content h2,#lesson-content h3{font-family:var(--atm-disp);font-weight:700;line-height:1.08;letter-spacing:.3px}
+#lesson-content h2{font-size:30px;margin:0 0 6px;color:var(--atm-ink)}
+#lesson-content h3{font-size:21px;margin:26px 0 8px;color:var(--atm-cyan);font-weight:600;letter-spacing:.5px}
+.eyebrow{font-family:var(--atm-mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--atm-amber);margin:0 0 10px}
+#lesson-content p{margin:0 0 14px;color:var(--atm-ink)}
+.dim{color:var(--atm-ink-dim)}
+#lesson-content strong{color:var(--atm-strong);font-weight:600}
+#lesson-content code{font-family:var(--atm-mono);font-size:13px;background:rgba(63,182,216,.12);color:var(--atm-cyan);padding:1.5px 6px;border-radius:4px;border:1px solid rgba(63,182,216,.25)}
+
+/* ---------- hero ---------- */
+.hero{padding:60px 0 40px;border-bottom:1px solid var(--atm-line)}
+.hero h1{font-size:52px;margin:0 0 14px}
+.hero h1 .accent{color:var(--atm-cyan)}
+.hero .lede{font-size:18px;color:var(--atm-ink-dim);max-width:720px}
+.pill{display:inline-block;font-family:var(--atm-mono);font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--atm-teal);border:1px solid rgba(55,199,167,.35);border-radius:100px;padding:4px 12px;margin-bottom:18px}
+
+/* the "then what" spine */
+.spine{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:26px;font-family:var(--atm-mono);font-size:13px}
+.spine .node{border:1px solid var(--atm-line);border-radius:8px;padding:8px 12px;background:var(--atm-panel);color:var(--atm-ink-dim)}
+.spine .node.here{border-color:var(--atm-cyan);color:var(--atm-cyan);background:rgba(63,182,216,.08);box-shadow:0 0 0 1px rgba(63,182,216,.25)}
+.spine .arw{color:var(--atm-ink-faint)}
+
+/* ---------- callouts ---------- */
+.note{border-left:3px solid var(--atm-cyan);background:var(--atm-panel);padding:14px 18px;border-radius:0 8px 8px 0;margin:18px 0}
+.note.warn{border-left-color:var(--atm-danger)}
+.note.warn .lbl{color:var(--atm-danger)}
+.note.tip{border-left-color:var(--atm-teal)}
+.note.tip .lbl{color:var(--atm-teal)}
+.note .lbl{font-family:var(--atm-mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--atm-cyan);display:block;margin-bottom:5px}
+.note p:last-child{margin-bottom:0}
+
+/* ---------- menu cards ---------- */
+.menu{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:22px}
+.card{background:linear-gradient(180deg,var(--atm-panel),var(--atm-panel2));border:1px solid var(--atm-line);border-radius:12px;padding:18px 18px 16px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:0;height:100%;width:3px;background:var(--atm-c,var(--atm-cyan))}
+.card .qn{font-family:var(--atm-mono);font-size:12px;color:var(--atm-ink-faint);letter-spacing:.3px;margin-bottom:2px}
+.card h4{font-family:var(--atm-disp);font-size:20px;font-weight:600;margin:0 0 8px;color:var(--atm-c,var(--atm-cyan));letter-spacing:.4px}
+.card p{font-size:14.5px;color:var(--atm-ink-dim);margin:0 0 10px}
+.card .tools{font-family:var(--atm-mono);font-size:11.5px;color:var(--atm-ink-faint);border-top:1px solid rgba(27,51,80,.7);padding-top:9px}
+.card .tools b{color:var(--atm-ink-dim);font-weight:500}
+
+/* ---------- detailed blocks ---------- */
+.detail{background:var(--atm-panel);border:1px solid var(--atm-line);border-radius:12px;padding:22px 24px;margin:20px 0}
+.detail .kicker{font-family:var(--atm-mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--atm-c,var(--atm-cyan));margin-bottom:2px}
+.detail h3{margin-top:4px}
+ul.clean{list-style:none;padding:0;margin:10px 0}
+ul.clean li{padding:7px 0 7px 26px;position:relative;color:var(--atm-ink-dim);border-bottom:1px solid rgba(27,51,80,.4)}
+ul.clean li:last-child{border-bottom:none}
+ul.clean li::before{content:"▸";position:absolute;left:4px;top:7px;color:var(--atm-cyan)}
+ul.clean li b{color:var(--atm-ink)}
+
+/* two-col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+
+/* ---------- interactive widgets ---------- */
+.widget{background:var(--atm-surface);border:1px solid var(--atm-line);border-radius:12px;padding:20px;margin:20px 0}
+.widget h4{font-family:var(--atm-disp);font-size:19px;font-weight:600;margin:0 0 4px;color:var(--atm-ink);letter-spacing:.4px}
+.widget .sub{font-size:13.5px;color:var(--atm-ink-faint);margin:0 0 14px}
+.canvas-wrap{width:100%;background:var(--atm-surface-deep);border:1px solid rgba(27,51,80,.7);border-radius:8px;overflow:hidden}
+#lesson-content canvas{display:block;width:100%;height:auto}
+.controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px}
+.controls label{font-family:var(--atm-mono);font-size:12px;color:var(--atm-ink-dim);letter-spacing:.3px;display:flex;align-items:center;gap:10px}
+#lesson-content input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:4px;background:var(--atm-line);width:180px;outline:none}
+#lesson-content input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;height:16px;width:16px;border-radius:50%;background:var(--atm-cyan);cursor:pointer;border:2px solid var(--atm-surface);box-shadow:0 0 0 1px var(--atm-cyan)}
+#lesson-content input[type=range]::-moz-range-thumb{height:16px;width:16px;border-radius:50%;background:var(--atm-cyan);cursor:pointer;border:2px solid var(--atm-surface)}
+.readout{font-family:var(--atm-mono);font-size:13px;color:var(--atm-cyan);background:rgba(63,182,216,.08);border:1px solid rgba(63,182,216,.2);border-radius:6px;padding:5px 10px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--atm-mono);font-size:11.5px;color:var(--atm-ink-dim);margin-top:12px}
+.legend span{display:flex;align-items:center;gap:6px}
+.swatch{width:14px;height:10px;border-radius:2px;display:inline-block}
+
+/* ---------- DMAIC map ---------- */
+.dmaic{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+@media(max-width:760px){.dmaic{grid-template-columns:1fr}}
+.phase{border:1px solid var(--atm-line);border-radius:12px;padding:16px 18px;background:var(--atm-panel)}
+.phase .ph{font-family:var(--atm-disp);font-size:22px;font-weight:700;letter-spacing:.5px;margin-bottom:4px}
+.phase.analyze .ph{color:var(--atm-violet)}
+.phase.improve .ph{color:var(--atm-amber)}
+.phase.control .ph{color:var(--atm-teal)}
+.phase ul{margin:8px 0 0;padding-left:18px}
+.phase li{color:var(--atm-ink-dim);font-size:14px;margin-bottom:5px}
+.phase li::marker{color:var(--atm-ink-faint)}
+
+/* ---------- traps table ---------- */
+table.traps{width:100%;border-collapse:collapse;margin-top:18px;font-size:14.5px}
+table.traps th,table.traps td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--atm-line);vertical-align:top}
+table.traps th{font-family:var(--atm-mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--atm-amber);border-bottom:1px solid var(--atm-amber)}
+table.traps td:first-child{color:var(--atm-danger);font-weight:600;white-space:nowrap;width:34%}
+table.traps td:last-child{color:var(--atm-ink-dim)}
+table.traps tr:hover td{background:rgba(63,182,216,.03)}
+
+/* ---------- recap ---------- */
+.recap{background:linear-gradient(180deg,rgba(63,182,216,.06),transparent);border:1px solid var(--atm-line);border-radius:12px;padding:24px 26px;margin-top:22px}
+.recap ol{margin:6px 0 0;padding-left:20px}
+.recap li{margin-bottom:9px;color:var(--atm-ink)}
+.recap li b{color:var(--atm-cyan)}
+
+.eqbox{background:var(--atm-surface);border:1px solid var(--atm-line);border-radius:8px;padding:6px 16px;margin:12px 0;overflow-x:auto}
+
+/* ---------- tool section headers ---------- */
+.toolhead{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+.chip{font-family:var(--atm-mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:4px 11px;border-radius:6px;border:1px solid;white-space:nowrap}
+.chip.mtb{color:var(--atm-mtb);border-color:rgba(79,209,138,.4);background:rgba(79,209,138,.08)}
+.chip.xl{color:var(--atm-xl);border-color:rgba(63,195,122,.4);background:rgba(63,195,122,.08)}
+.breadcrumb{font-family:var(--atm-mono);font-size:12.5px;color:var(--atm-ink-dim);letter-spacing:.3px}
+.breadcrumb b{color:var(--atm-cyan);font-weight:500}
+
+/* ---------- minitab session output ---------- */
+.session{background:var(--atm-surface-deep);border:1px solid var(--atm-line);border-radius:8px;margin:14px 0;overflow:hidden;font-family:var(--atm-mono)}
+.session .bar{background:var(--atm-panel);border-bottom:1px solid var(--atm-line);padding:7px 14px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--atm-ink-faint);display:flex;justify-content:space-between;align-items:center}
+.session .bar .dot{width:9px;height:9px;border-radius:50%;background:var(--atm-line);display:inline-block;margin-left:5px}
+.session pre{margin:0;padding:14px 16px;font-size:13px;line-height:1.7;color:var(--atm-ink);white-space:pre;overflow-x:auto}
+.session .hd{color:var(--atm-amber)}
+.session .ok{color:var(--atm-teal)}
+.session .bad{color:var(--atm-danger)}
+.session .mut{color:var(--atm-ink-faint)}
+
+/* ---------- excel grid mock ---------- */
+.xlgrid{border:1px solid var(--atm-line);border-radius:8px;overflow:auto;margin:14px 0;background:var(--atm-surface)}
+.xltbl{border-collapse:collapse;font-family:var(--atm-mono);font-size:12.5px;width:100%;min-width:420px}
+.xltbl td,.xltbl th{border:1px solid var(--atm-line);padding:6px 10px;text-align:right;color:var(--atm-ink);white-space:nowrap}
+.xltbl th{background:var(--atm-panel);color:var(--atm-ink-faint);font-weight:500;text-align:center;font-size:11px}
+.xltbl td.lbl{text-align:left;color:var(--atm-ink-dim)}
+.xltbl td.formula{color:var(--atm-cyan);background:rgba(63,182,216,.06)}
+.xltbl td.target{color:var(--atm-amber);background:rgba(229,162,60,.08)}
+.xltbl td.changing{color:var(--atm-teal);background:rgba(55,199,167,.08)}
+.xltbl tr:first-child th:first-child{background:var(--atm-panel2)}
+
+/* ---------- dialog step list ---------- */
+ol.steps{counter-reset:st;list-style:none;padding:0;margin:12px 0}
+ol.steps li{counter-increment:st;position:relative;padding:6px 0 6px 38px;color:var(--atm-ink-dim);font-size:14.5px;border-bottom:1px solid rgba(27,51,80,.4)}
+ol.steps li:last-child{border-bottom:none}
+ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:24px;height:24px;border-radius:6px;background:rgba(63,182,216,.1);border:1px solid rgba(63,182,216,.3);color:var(--atm-cyan);font-family:var(--atm-mono);font-size:12px;display:flex;align-items:center;justify-content:center}
+ol.steps li b{color:var(--atm-ink)}
+ol.steps code{font-size:12px}
+
+/* ---------- data-table heatmap ---------- */
+.htwrap{overflow-x:auto;margin:14px 0}
+.heatmap{border-collapse:collapse;font-family:var(--atm-mono);font-size:12px;margin:0 auto}
+.heatmap th{background:var(--atm-panel);color:var(--atm-ink-faint);padding:6px 8px;font-weight:500;font-size:11px;border:1px solid var(--atm-line)}
+.heatmap td.corner{background:var(--atm-panel2);color:var(--atm-cyan);font-size:10px}
+.heatmap td.cell{padding:8px 10px;text-align:center;color:#04101f;border:1px solid var(--atm-line);font-weight:600;transition:box-shadow .1s}
+.heatmap td.cell.pass{box-shadow:inset 0 0 0 2px var(--atm-teal)}
+.heatmap .axislabel{font-family:var(--atm-mono);font-size:11px;color:var(--atm-ink-faint);letter-spacing:.5px}
+
+/* ---------- tool equivalence table ---------- */
+table.toolmap{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
+table.toolmap th,table.toolmap td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--atm-line);vertical-align:top}
+table.toolmap th{font-family:var(--atm-mono);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--atm-cyan);border-bottom:1px solid var(--atm-cyan)}
+table.toolmap td:first-child{color:var(--atm-ink);font-weight:600}
+table.toolmap td{color:var(--atm-ink-dim);font-family:var(--atm-mono);font-size:12.5px}
+table.toolmap tr:hover td{background:rgba(63,182,216,.03)}
+
+.miniconsole{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.miniconsole{grid-template-columns:1fr}.session pre{font-size:11.5px}}
+.field{margin-bottom:12px}
+.field label{display:block;font-family:var(--atm-mono);font-size:12px;color:var(--atm-ink-dim);margin-bottom:5px;letter-spacing:.3px}
+.field input[type=number]{width:100%;background:var(--atm-surface-deep);border:1px solid var(--atm-line);border-radius:6px;color:var(--atm-ink);font-family:var(--atm-mono);font-size:14px;padding:8px 10px;outline:none}
+.field input[type=number]:focus{border-color:var(--atm-cyan)}
+.btn{font-family:var(--atm-mono);font-size:12.5px;letter-spacing:.5px;text-transform:uppercase;color:#ffffff;background:var(--atm-cyan);border:none;border-radius:6px;padding:9px 16px;cursor:pointer;font-weight:600}
+.btn:hover{background:#5cc9e8}
+.btn.ghost{background:transparent;color:var(--atm-cyan);border:1px solid var(--atm-cyan)}
+
+/* ---------- enhanced interactivity ---------- */
+#lesson-content canvas.hoverable{cursor:crosshair}
+.seg{display:inline-flex;border:1px solid var(--atm-line);border-radius:7px;overflow:hidden}
+.seg button{background:transparent;border:none;color:var(--atm-ink-dim);font-family:var(--atm-mono);font-size:12px;padding:6px 12px;cursor:pointer;letter-spacing:.4px}
+.seg button+button{border-left:1px solid var(--atm-line)}
+.seg button.on{background:rgba(63,182,216,.14);color:var(--atm-cyan)}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:14px}
+.stat{background:var(--atm-surface-deep);border:1px solid var(--atm-line);border-radius:8px;padding:10px 12px}
+.stat .k{font-family:var(--atm-mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--atm-ink-faint);margin-bottom:3px}
+.stat .v{font-family:var(--atm-mono);font-size:20px;font-weight:600;color:var(--atm-cyan);line-height:1.1}
+.stat .v small{font-size:12px;color:var(--atm-ink-dim)}
+.stat.good .v{color:var(--atm-teal)} .stat.bad .v{color:var(--atm-danger)} .stat.warn2 .v{color:var(--atm-amber)}
+.wsplit{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}
+@media(max-width:760px){.wsplit{grid-template-columns:1fr}}
+.sloc{display:flex;flex-direction:column;gap:12px}
+.sloc .row{display:flex;flex-direction:column;gap:5px}
+.sloc .row .lab{display:flex;justify-content:space-between;font-family:var(--atm-mono);font-size:12px;color:var(--atm-ink-dim)}
+.sloc .row .lab b{color:var(--atm-cyan);font-weight:500}
+.hint{font-family:var(--atm-mono);font-size:11px;color:var(--atm-ink-faint);margin-top:8px;letter-spacing:.3px}
+.tally{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.tally .t{font-family:var(--atm-mono);font-size:12px;padding:6px 12px;border-radius:6px;border:1px solid var(--atm-line)}
+.tally .t b{font-size:16px;display:block}
+.tally .t.in{color:var(--atm-teal);border-color:rgba(55,199,167,.4)}
+.tally .t.out{color:var(--atm-danger);border-color:rgba(224,87,107,.4)}
+    /* clickable menu cards -> jump to lesson section */
+    .card{cursor:pointer}
+    .card:hover,.card:focus-within{border-color:var(--atm-cyan);box-shadow:0 0 0 1px var(--atm-cyan)}
+    .card-link{position:absolute;inset:0;z-index:2;border-radius:12px;font-size:0;line-height:0;color:transparent;text-decoration:none}
+    #lesson-content .card-link:focus-visible{outline:3px solid var(--atm-cyan);outline-offset:2px}
+    #lesson-content section{scroll-margin-top:90px}
+</style>
+</head>
+<body data-lesson-page="true" data-category="data-analytics" data-level="advanced" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<main id="lesson-content">
+
+<div class="hero">
+  <div class="container">
+    <span class="pill">Lesson · Modeling & Analytics</span>
+    <h1>You built the model.<br><span class="accent">Then what?</span></h1>
+    <p class="lede">Fitting a regression, a response surface, or a CatBoost model in Minitab, Excel, or Python is the <em>middle</em> of the job, not the end. A model is a mathematical stand-in for your process — it only earns its keep when you use it to <strong>decide</strong> or <strong>act</strong>. This lesson walks the menu of what comes next, in the order you'll actually reach for it.</p>
+    <div class="spine">
+      <div class="node">Define the question</div><span class="arw">→</span>
+      <div class="node">Get &amp; clean data</div><span class="arw">→</span>
+      <div class="node">Build &amp; validate model</div><span class="arw">→</span>
+      <div class="node here">◆ You are here</div><span class="arw">→</span>
+      <div class="node">Decide / act</div>
+    </div>
+  </div>
+</div>
+
+<section id="intro">
+  <div class="container">
+    <span class="eyebrow">The core idea</span>
+    <h2>A model is a means, not a deliverable</h2>
+    <p>Nobody ships a model. They ship a <strong>decision</strong>: a mill reduction schedule, a dryer operating window, a soft-sensor readout, a control-plan setpoint. The model is the tool that lets you answer a question cheaply — in silico — instead of running another 30 heats.</p>
+    <p>So the honest way to ask "then what?" is to ask <strong>what question are you trying to answer</strong>. Each question routes you to a different next step. Here's the whole menu on one plate; the rest of the lesson takes each item in turn.</p>
+
+    <div class="menu" id="menu">
+      <div class="card" style="--atm-c:var(--atm-cyan)">
+        <div class="qn">"What will Y be if I set X here?"</div>
+        <a class="card-link" href="#predict" aria-label="Jump to the Predict section"></a>
+        <h4>1 · Predict</h4>
+        <p>Score new settings inside the design space. Point estimate <em>plus</em> an interval — and you must pick the right interval.</p>
+        <div class="tools"><b>Tools:</b> Minitab Predict · Excel TREND/FORECAST · statsmodels <code>get_prediction()</code></div>
+      </div>
+      <div class="card" style="--atm-c:var(--atm-amber)">
+        <div class="qn">"What X gives me the best Y?"</div>
+        <a class="card-link" href="#optimize" aria-label="Jump to the Optimize section"></a>
+        <h4>2 · Optimize</h4>
+        <p>Find the settings that maximize, minimize, or hit a target — often for several responses at once, without breaking any of them.</p>
+        <div class="tools"><b>Tools:</b> Minitab Response Optimizer · Excel Solver · <code>scipy.optimize</code></div>
+      </div>
+      <div class="card" style="--atm-c:var(--atm-violet)">
+        <div class="qn">"What actually matters?"</div>
+        <a class="card-link" href="#robust" aria-label="Jump to the Rank drivers section"></a>
+        <h4>3 · Rank drivers</h4>
+        <p>Sort factors by leverage so you know where to tighten control and where you have slack to give away.</p>
+        <div class="tools"><b>Tools:</b> Pareto of effects · std. coefficients · SHAP · partial dependence</div>
+      </div>
+      <div class="card" style="--atm-c:var(--atm-teal)">
+        <div class="qn">"How do I stay good when inputs wobble?"</div>
+        <a class="card-link" href="#robust" aria-label="Jump to the Robustify section"></a>
+        <h4>4 · Robustify</h4>
+        <p>Don't just chase the best mean — find the setpoint that's <em>least sensitive</em> to noise you can't control.</p>
+        <div class="tools"><b>Tools:</b> Taguchi · dual-response · propagation of error</div>
+      </div>
+      <div class="card" style="--atm-c:var(--atm-orange)">
+        <div class="qn">"What's the risk / spread of outcomes?"</div>
+        <a class="card-link" href="#robust" aria-label="Jump to the Simulate section"></a>
+        <h4>5 · Simulate</h4>
+        <p>Push input variation through the model to predict the <em>distribution</em> of Y — and the capability — before you commit.</p>
+        <div class="tools"><b>Tools:</b> Monte Carlo · tolerance analysis · predicted Cpk</div>
+      </div>
+      <div class="card" style="--atm-c:var(--atm-cyan)">
+        <div class="qn">"Did the model tell the truth?"</div>
+        <a class="card-link" href="#confirm" aria-label="Jump to the Confirm section"></a>
+        <h4>6 · Confirm</h4>
+        <p>Run trials at the predicted optimum. If reality lands inside the prediction interval, you're validated. If not, back up.</p>
+        <div class="tools"><b>Tools:</b> confirmation runs · actual-vs-predicted check</div>
+      </div>
+      <div class="card" style="--atm-c:var(--atm-amber)">
+        <div class="qn">"How do I hold the gains?"</div>
+        <a class="card-link" href="#control" aria-label="Jump to the Deploy and monitor section"></a>
+        <h4>7 · Deploy &amp; monitor</h4>
+        <p>Lock in setpoints, update the control plan, run the model as a soft sensor, and watch residuals for drift.</p>
+        <div class="tools"><b>Tools:</b> SPC · control plan · scoring pipeline · drift monitoring</div>
+      </div>
+      <div class="card" style="--atm-c:var(--atm-violet)">
+        <div class="qn">"Is this the right model at all?"</div>
+        <a class="card-link" href="#dmaic" aria-label="Jump to the Loop back section"></a>
+        <h4>0 · (Loop back)</h4>
+        <p>If confirmation fails or residuals trend, you don't polish — you return upstream: re-specify, add terms, or collect data in a new region.</p>
+        <div class="tools"><b>Tools:</b> residual diagnostics · lack-of-fit · augmenting the design</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PREDICT ============ -->
+<section id="predict">
+  <div class="container">
+    <span class="eyebrow">Menu item 1</span>
+    <h2>Predict — and pick the right interval</h2>
+    <p>The simplest use: plug new settings into the fitted equation and read off \(\hat{Y}\). For a yield-strength model that's <code>predict(reduction=18%, C=0.06, Nb=0.035, coil_temp=560)</code>. The number itself is the easy part. The part people get wrong — and the part that changes decisions — is <strong>how much to trust it</strong>.</p>
+
+    <div class="note warn">
+      <span class="lbl">The one distinction that trips everyone</span>
+      <p><strong>Confidence interval (CI)</strong> = uncertainty about the <em>average</em> Y at those settings. <strong>Prediction interval (PI)</strong> = uncertainty about a single <em>next</em> observation. The PI is always wider because it carries both the model's uncertainty <em>and</em> the process's own scatter.</p>
+    </div>
+
+    <p>Decision rule: if you're setting policy about the process on average ("does grade X70 clear 355 MPa on average?"), the CI is your tool. If you're making a call about the <em>next pipe</em> or <em>next heat</em> ("will this heat pass?"), you owe the customer a PI. Quoting a CI where a PI belongs is how a process that looks capable on paper ships nonconforming product.</p>
+
+    <div class="eqbox">
+      $$\hat{Y}_0 \pm t_{\alpha/2,\,n-p}\; s\sqrt{\underbrace{x_0^\top (X^\top X)^{-1} x_0}_{\text{mean: CI}} \;+\; \underbrace{1}_{\text{new obs: PI}}}$$
+    </div>
+    <p class="dim" style="font-size:14px">That lone <strong>+1</strong> under the root is the entire difference between the two intervals. Drop it and you have a CI; keep it and you have a PI. As sample size grows the CI term shrinks toward zero, but the +1 never does — the PI can't get narrower than the process's own noise. The widget below lets you feel that.</p>
+
+    <h3>Connection between them</h3>
+    <p>Strip away the regression machinery and the same logic shows up in the simplest possible case — a plain sample mean, no model at all. For a mean \(\bar{X}\) with sample standard deviation \(S\) and \(t = t_{\alpha/2,\,n-1}\):</p>
+    <p style="margin-bottom:4px"><strong>Confidence interval</strong> — for the process average</p>
+    <div class="eqbox">
+      $$\bar{X} \;\pm\; t\,S\,\sqrt{\dfrac{1}{n}}$$
+    </div>
+    <p style="margin-bottom:4px"><strong>Prediction interval</strong> — for a single next observation</p>
+    <div class="eqbox">
+      $$\bar{X} \;\pm\; t\,S\,\sqrt{1 + \dfrac{1}{n}}$$
+    </div>
+    <p>Notice the prediction interval carries \(\sqrt{1 + \frac{1}{n}}\) where the confidence interval only has \(\sqrt{\frac{1}{n}}\). Since \(1 + \frac{1}{n} > \frac{1}{n}\) for <em>every</em> sample size, the prediction interval is <strong>always wider</strong>. And as \(n\) grows the \(\frac{1}{n}\) term melts toward zero — the CI can shrink to a point, but the PI can't drop below \(\bar{X} \pm tS\), because that leading <strong>1</strong> is the process's own scatter. It is the exact same role the <strong>+1</strong> plays inside the regression formula above.</p>
+
+    <div class="widget">
+      <h4>Interactive · CI vs PI as sample size grows</h4>
+      <p class="sub">Yield strength vs mill reduction. Drag <em>n</em> up and watch the bands. The <span style="color:var(--atm-cyan)">confidence band</span> squeezes toward the line; the <span style="color:var(--atm-orange)">prediction band</span> refuses to go below the noise floor.</p>
+      <div class="canvas-wrap"><canvas id="cvCanvas" class="hoverable" width="1000" height="440"></canvas></div>
+      <div class="controls">
+        <label>Sample size n <input type="range" id="nSlider" min="8" max="400" value="30"></label>
+        <span class="readout" id="nOut">n = 30</span>
+        <div class="seg" id="clSeg">
+          <button data-cl="90">90%</button><button data-cl="95" class="on">95%</button><button data-cl="99">99%</button>
+        </div>
+      </div>
+      <p class="hint" id="cvHover">Hover the plot to read Fit, CI and PI at any reduction · <span id="widthOut"></span></p>
+      <div class="legend">
+        <span><span class="swatch" style="background:var(--atm-cyan)"></span>fit \(\hat{Y}\)</span>
+        <span><span class="swatch" style="background:rgba(63,182,216,.35)"></span>95% CI (mean)</span>
+        <span><span class="swatch" style="background:rgba(232,116,59,.28)"></span>95% PI (next obs)</span>
+        <span><span class="swatch" style="background:#7f9ab5"></span>data</span>
+      </div>
+    </div>
+
+    <div class="note">
+      <span class="lbl">Also non-negotiable</span>
+      <p><strong>Never extrapolate.</strong> A model is only honest inside the region you sampled. Predicting yield strength at 30% reduction when your DOE only spanned 10–20% is guessing dressed up as math — the equation will happily return a number, and it may be nonsense. Minitab flags this with an <code>X</code> hidden-extrapolation warning; in Python you have to guard the ranges yourself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPTIMIZE ============ -->
+<section id="optimize">
+  <div class="container">
+    <span class="eyebrow">Menu item 2</span>
+    <h2>Optimize — find the best settings</h2>
+    <p>Prediction answers "what if I set X <em>here</em>." Optimization inverts it: <strong>where should X be</strong> so Y is best? Three flavors depending on the goal — maximize (throughput), minimize (defect rate, energy), or hit a target (yield strength inside a spec band, not just as high as possible).</p>
+
+    <h3>Single response is the easy case</h3>
+    <p>With one Y, walk the response surface to its peak/valley: contour and surface plots to see the landscape, then the optimizer to pin the coordinates. In Excel that's <strong>Solver</strong> on the fitted equation; in Python, <code>scipy.optimize.minimize</code> (negate to maximize); in Minitab, the <strong>Response Optimizer</strong>.</p>
+
+    <h3>Real problems have competing responses</h3>
+    <p>You almost never optimize one thing in isolation. On a roughing-mill reduction schedule you want strength <em>up</em>, toughness <em>held</em>, roll load and energy <em>down</em>, all at once — and the setting that maxes one degrades another. Two standard ways to handle it:</p>
+    <ul class="clean">
+      <li><b>Desirability functions (Derringer–Suich).</b> Convert each response to a 0–1 desirability \(d_i\) (0 = unacceptable, 1 = ideal), then combine into one composite \(D=(d_1 d_2 \cdots d_k)^{1/k}\), optionally weighted by importance. The optimizer maximizes \(D\). Because it's a geometric mean, <em>any</em> \(d_i = 0\) forces \(D=0\) — one violated response kills the whole setting. That's the behavior you want.</li>
+      <li><b>Overlaid contour plots.</b> Draw each response's spec contour on the same factor axes; the region where all of them are simultaneously satisfied <em>is</em> your operating window. This is precisely the deliverable behind an "operating-window optimization" — you're not handing over a single point, you're handing over the feasible zone plus a recommended center.</li>
+    </ul>
+
+    <div class="widget">
+      <h4>Interactive · Desirability on a mill reduction schedule</h4>
+      <p class="sub">Two competing responses vs reduction per pass. <span style="color:var(--atm-amber)">Strength</span> wants more reduction; <span style="color:var(--atm-teal)">toughness</span> falls off if you push too hard. Composite desirability <span style="color:var(--atm-cyan)">D</span> finds the sweet spot neither response would pick alone.</p>
+      <div class="canvas-wrap"><canvas id="optCanvas" class="hoverable" width="1000" height="440"></canvas></div>
+      <div class="controls">
+        <label>Reduction / pass <input type="range" id="rSlider" min="0" max="100" value="42"></label>
+        <span class="readout" id="rOut"></span>
+        <span class="readout" id="dOut"></span>
+        <button class="btn ghost" id="optSnap">Snap to optimum</button>
+      </div>
+      <div class="controls" style="margin-top:8px">
+        <label>Strength importance <input type="range" id="wS" min="1" max="5" value="1"></label>
+        <span class="readout" id="wSout">×1</span>
+        <label>Toughness importance <input type="range" id="wT" min="1" max="5" value="1"></label>
+        <span class="readout" id="wTout">×1</span>
+      </div>
+      <p class="hint">Drag directly on the plot to set the reduction. Change the importance weights and the optimum moves — a customer who cares more about toughness pulls the best setpoint left.</p>
+      <div class="legend">
+        <span><span class="swatch" style="background:var(--atm-amber)"></span>d(strength)</span>
+        <span><span class="swatch" style="background:var(--atm-teal)"></span>d(toughness)</span>
+        <span><span class="swatch" style="background:var(--atm-cyan)"></span>composite D</span>
+        <span><span class="swatch" style="background:var(--atm-ink-faint)"></span>optimum</span>
+      </div>
+    </div>
+    <div class="note tip">
+      <span class="lbl">Watch what the composite does</span>
+      <p>Slide to the far right: strength desirability is near 1, but toughness has cratered, so <strong>D collapses</strong>. The optimum isn't where either curve peaks — it's the reduction that keeps <em>both</em> acceptable. That's the whole argument for a composite objective instead of tuning one KPI and hoping the others survive.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RANK / ROBUST / SIMULATE ============ -->
+<section id="robust">
+  <div class="container">
+    <span class="eyebrow">Menu items 3–5</span>
+    <h2>Rank drivers · robustify · simulate</h2>
+
+    <div class="detail" style="--atm-c:var(--atm-violet)">
+      <div class="kicker">3 · Rank the drivers</div>
+      <h3>Which knobs actually move Y</h3>
+      <p>Before optimizing, know your leverage. From a designed experiment: the <strong>Pareto of standardized effects</strong> and the normal/half-normal plot separate the vital few from the trivial many. From a fitted regression: standardized coefficients. From a tree model like your CatBoost yield-strength work: <strong>SHAP values</strong> and partial-dependence plots, which show not just <em>how much</em> a factor matters but <em>which direction and where</em> it bites.</p>
+      <p class="dim" style="font-size:14.5px;margin-bottom:0">Why bother before optimizing? Because it tells you where to spend control effort. A factor with huge leverage needs tight tolerances at the setpoint; a factor with near-zero effect is free real estate — loosen its tolerance and buy back cost or throughput.</p>
+    </div>
+
+    <div class="detail" style="--atm-c:var(--atm-teal)">
+      <div class="kicker">4 · Robust design</div>
+      <h3>The best mean can be a fragile place to sit</h3>
+      <p>The peak of a response surface is often on a steep slope — great average, but a small drift in a noisy input sends Y tumbling. Robust design asks a different question: <strong>where is the surface flat?</strong> A slightly lower mean on a plateau beats a higher mean on a cliff, because the plateau <em>transmits less variation</em> from the noise you can't control.</p>
+      <ul class="clean">
+        <li><b>Taguchi robust parameter design</b> — deliberately separates control factors from noise factors and finds settings that minimize the noise's effect.</li>
+        <li><b>Dual-response surface</b> — model the mean <em>and</em> the variance, then optimize for on-target mean with minimum variance.</li>
+        <li><b>Propagation of error</b> — use the model's slopes to predict how much input scatter shows up in output scatter; steep slope = high transmitted variation.</li>
+      </ul>
+      <div class="widget">
+        <h4>Interactive · plateau vs cliff — drag the operating point</h4>
+        <p class="sub">Same input noise (±σ on the setting) everywhere. Drag along the curve: on the steep <em>cliff</em> that wobble becomes big output swing; on the flat <em>plateau</em> the same wobble barely moves Y. Highest mean ≠ most robust.</p>
+        <div class="canvas-wrap"><canvas id="robCanvas" class="hoverable" width="1000" height="400"></canvas></div>
+        <div class="controls">
+          <label>Operating point <input type="range" id="robSlider" min="0" max="1000" value="300"></label>
+          <label>Input noise σ <input type="range" id="robNoise" min="10" max="90" value="45"></label>
+          <button class="btn ghost" id="robSnap">Snap to robust point</button>
+        </div>
+        <div class="statgrid">
+          <div class="stat"><div class="k">Mean output</div><div class="v" id="robMean">—</div></div>
+          <div class="stat" id="robTransBox"><div class="k">Transmitted σ (out)</div><div class="v" id="robTrans">—</div></div>
+          <div class="stat"><div class="k">Worst-case drop</div><div class="v" id="robSlope">—</div></div>
+          <div class="stat" id="robVerdict"><div class="k">Verdict</div><div class="v" style="font-size:14px" id="robWord">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail" style="--atm-c:var(--atm-orange)">
+      <div class="kicker">5 · Simulate the spread</div>
+      <h3>A point estimate hides the risk; a distribution shows it</h3>
+      <p>Your optimizer hands back a single setpoint and a predicted mean. But every input has real variation — tundish weight drifts, chemistry ranges, coil temperature swings. <strong>Monte Carlo</strong> pushes those input distributions through the model thousands of times to produce the <em>distribution</em> of Y. From that you read the predicted defect rate and predicted <strong>Cpk</strong> — capability, estimated <em>before</em> you commit a single trial heat.</p>
+      <p style="margin-bottom:0" class="dim" font-size:14.5px>This is the natural bridge from "the model says the mean will be 372 MPa" to "the model says 98.6% of heats clear 355 MPa with the current input tolerances." One is a number; the other is a business decision.</p>
+      <div class="widget">
+        <h4>Interactive · Monte Carlo capability</h4>
+        <p class="sub">Set your operating point and how much each input actually wobbles in production. Every "Run" fires 4,000 virtual heats through the model + process noise and reads off the predicted defect rate and Cpk — before a single real trial.</p>
+        <div class="wsplit">
+          <div class="canvas-wrap"><canvas id="mcCanvas" width="1000" height="380"></canvas></div>
+          <div class="sloc">
+            <div class="row"><div class="lab">Reduction setpoint <b id="mcRl">16.0%</b></div><input type="range" id="mcR" min="100" max="200" value="160"></div>
+            <div class="row"><div class="lab">Reduction σ <b id="mcRsl">0.5</b></div><input type="range" id="mcRs" min="0" max="150" value="50"></div>
+            <div class="row"><div class="lab">Carbon setpoint <b id="mcCl">0.055%</b></div><input type="range" id="mcC" min="30" max="70" value="55"></div>
+            <div class="row"><div class="lab">Carbon σ <b id="mcCsl">0.004</b></div><input type="range" id="mcCs" min="0" max="100" value="40"></div>
+            <div class="row"><div class="lab">Spec min (LSL) <b id="mcLl">355</b></div><input type="range" id="mcL" min="320" max="420" value="355" step="5"></div>
+            <button class="btn" id="mcRun">Run 4,000 heats</button>
+          </div>
+        </div>
+        <div class="statgrid">
+          <div class="stat"><div class="k">Mean strength</div><div class="v" id="mcMean">—</div></div>
+          <div class="stat"><div class="k">Total σ</div><div class="v" id="mcSd">—</div></div>
+          <div class="stat" id="mcCpkBox"><div class="k">Predicted Cpk</div><div class="v" id="mcCpk">—</div></div>
+          <div class="stat" id="mcPassBox"><div class="k">% clearing spec</div><div class="v" id="mcPass">—</div></div>
+          <div class="stat" id="mcDpmoBox"><div class="k">DPMO</div><div class="v" id="mcDpmo">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note tip">
+      <span class="lbl">Multi-orientation / multi-test data — pivot before you compare</span>
+      <p>When a model or its inputs span several test orientations or test types per sample (LPA vs TWA, longitudinal vs transverse), analyze and predict on the <em>pivoted</em> shape so orientations sit side by side per sample. In pandas:</p>
+      <div class="eqbox" style="padding:12px 16px"><code style="background:none;border:none;color:var(--atm-teal);font-size:12.5px">df.groupby(['sample_no','heat_no','test_orientation_code']).first().unstack('test_orientation_code')</code></div>
+      <p style="margin-bottom:0">One row per <code>sample_no + heat_no</code>, one column block per orientation — so you can difference or join orientations cleanly instead of double-counting them as independent rows.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONFIRM ============ -->
+<section id="confirm">
+  <div class="container">
+    <span class="eyebrow">Menu item 6</span>
+    <h2>Confirm — reality gets a vote</h2>
+    <p>The model is a hypothesis about the process. Before you roll a new schedule to production, you <strong>test the hypothesis</strong>: run confirmation trials at the predicted optimum and compare what actually happens to what the model promised.</p>
+    <div class="two">
+      <div class="detail" style="--atm-c:var(--atm-teal);margin:0">
+        <div class="kicker">Pass</div>
+        <p style="margin-bottom:0">Actual results land <strong>inside the prediction interval</strong> from item 1. The model generalizes; you've earned the right to deploy. Note that "inside the PI" is the right bar — not "exactly equal to the point prediction," which never happens.</p>
+      </div>
+      <div class="detail" style="--atm-c:var(--atm-danger);margin:0">
+        <div class="kicker">Fail</div>
+        <p style="margin-bottom:0">Results fall <strong>outside the PI</strong>. Don't tune the setpoint and try again — that's fitting to noise. Loop back: check for a missing term or interaction, a curvature you didn't model, extrapolation, or a lurking variable that shifted between the design runs and now.</p>
+      </div>
+    </div>
+    <div class="note warn" style="margin-top:18px">
+      <span class="lbl">The most common way good analyses go bad</span>
+      <p>Skipping confirmation. A response surface optimized on 20 runs will <em>always</em> report an impressive optimum — that's what optimizers do. Whether that optimum survives contact with the real process is a separate, empirical question. In DMAIC this is a gate, not a formality: no confirmed result, no Control phase.</p>
+    </div>
+    <div class="widget">
+      <h4>Interactive · run confirmation heats against the PI</h4>
+      <p class="sub">The model predicts a mean and a 95% PI at your optimum. Fire real heats and watch where they land. Flip on a hidden process shift to see what a <em>failed</em> confirmation looks like — the dots start escaping the band and the verdict turns.</p>
+      <div class="canvas-wrap"><canvas id="confCanvas" width="1000" height="360"></canvas></div>
+      <div class="controls">
+        <button class="btn" id="confRun">Run a heat</button>
+        <button class="btn" id="confRun10">Run 10</button>
+        <button class="btn ghost" id="confReset">Reset</button>
+        <label style="margin-left:6px">Hidden process shift <input type="range" id="confBias" min="0" max="40" value="0"></label>
+        <span class="readout" id="confBiasOut">+0 MPa</span>
+      </div>
+      <div class="tally">
+        <div class="t in">inside PI<b id="confIn">0</b></div>
+        <div class="t out">outside PI<b id="confOut">0</b></div>
+        <div class="t" id="confVerdict" style="flex:1;min-width:180px">verdict<b id="confWord">run some heats…</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTROL / DEPLOY ============ -->
+<section id="control">
+  <div class="container">
+    <span class="eyebrow">Menu item 7</span>
+    <h2>Deploy &amp; monitor — hold the gains</h2>
+    <p>A confirmed optimum that isn't held drifts back to baseline within a quarter. Deployment is what turns a one-time improvement into a permanent one, and it's where the model often gets a second life as an operational asset.</p>
+    <ul class="clean">
+      <li><b>Lock the setpoints into the control plan.</b> The optimized settings become documented operating parameters with tolerances — tightest on the high-leverage factors from item 3, loosest where you have slack.</li>
+      <li><b>Put SPC on the vital few.</b> Control charts on the key X's <em>and</em> the Y catch drift before it becomes scrap. This is the "hold" mechanism — signal vs noise, tampering vs missed shifts.</li>
+      <li><b>Run the model as a soft sensor.</b> If Y is slow, expensive, or destructive to measure (Charpy, tensile) and the X's are cheap and fast, the model predicts Y in near-real-time from routine inputs — an inferential measurement between physical tests.</li>
+      <li><b>Score new data in a pipeline.</b> Batch or streaming, the fitted model becomes a step in production: new heat → predict → flag if predicted Y approaches spec.</li>
+      <li><b>Monitor for drift.</b> Models decay as equipment wears, feedstock shifts, seasons change. Track the residuals (actual − predicted) on a control chart of their own; a trend or a widening spread is the model telling you it's going stale and needs a refit.</li>
+    </ul>
+    <div class="note">
+      <span class="lbl">The quiet killer</span>
+      <p>"Set and forget." A model deployed with no drift monitoring is a liability with a shelf life — it keeps returning confident predictions long after the process has moved out from under it. Budget for periodic revalidation the same way you budget for gauge R&amp;R.</p>
+    </div>
+    <div class="widget">
+      <h4>Interactive · residual control chart — catch the drift</h4>
+      <p class="sub">Each point is one heat's residual (actual − predicted). While the model holds, residuals scatter around zero inside the ±3σ limits. Turn up the drift and stream heats — watch the model go stale and the chart raise the alarm.</p>
+      <div class="canvas-wrap"><canvas id="driftCanvas" width="1000" height="330"></canvas></div>
+      <div class="controls">
+        <button class="btn" id="driftStream">Stream heats</button>
+        <button class="btn ghost" id="driftReset">Reset</button>
+        <label>Drift per heat <input type="range" id="driftRate" min="0" max="100" value="0"></label>
+        <span class="readout" id="driftStatus">stable</span>
+      </div>
+      <p class="hint">A single point past a limit, or a run of 7+ climbing points, is the model telling you the process moved out from under it — time to refit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DMAIC MAP ============ -->
+<section id="dmaic">
+  <div class="container">
+    <span class="eyebrow">Where this sits</span>
+    <h2>The menu, mapped to DMAIC</h2>
+    <p>None of this is new machinery — it's the back half of the roadmap you already run. Model-building closes out <strong>Analyze</strong>; everything after it lives in <strong>Improve</strong> and <strong>Control</strong>.</p>
+    <div class="dmaic">
+      <div class="phase analyze">
+        <div class="ph">Analyze</div>
+        <ul>
+          <li>Build &amp; validate the model</li>
+          <li>Rank drivers (item 3)</li>
+          <li>Confirm which X's are real</li>
+        </ul>
+      </div>
+      <div class="phase improve">
+        <div class="ph">Improve</div>
+        <ul>
+          <li>Predict at candidate settings (1)</li>
+          <li>Optimize / operating window (2)</li>
+          <li>Robust design (4) · simulate (5)</li>
+          <li>Confirmation runs (6)</li>
+        </ul>
+      </div>
+      <div class="phase control">
+        <div class="ph">Control</div>
+        <ul>
+          <li>Lock setpoints in control plan (7)</li>
+          <li>SPC on vital few</li>
+          <li>Soft sensor · scoring pipeline</li>
+          <li>Drift monitoring &amp; refit</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MINITAB ============ -->
+<section id="minitab">
+  <div class="container">
+    <span class="eyebrow">Doing it for real · Tool 1</span>
+    <div class="toolhead">
+      <h2 style="margin:0">In Minitab</h2>
+      <span class="chip mtb">Stat ▸ Regression / DOE</span>
+    </div>
+    <p class="breadcrumb" style="margin-top:8px"><b>Stat ▸ Regression ▸ Regression ▸</b> Fit Regression Model · Best Subsets · <b>Predict</b> · <b>Factorial Plots</b> · Contour Plot · Surface Plot · Overlaid Contour Plot · <b>Response Optimizer</b></p>
+    <p>Once you've run <em>Fit Regression Model</em> (or a DOE analysis), Minitab stores the equation and every option below operates on it. The three you'll reach for after fitting map straight onto the menu you already know — Predict, Factorial Plots, and Response Optimizer — and they cover items 1, 3, and 2 of the menu above.</p>
+
+    <div class="note warn">
+      <span class="lbl">Read this before you click Predict</span>
+      <p>A model can post a healthy <strong>R-sq</strong> and still be useless for prediction. Check <strong>R-sq(pred)</strong> in the model summary first: an R-sq of 76% next to an R-sq(pred) of <strong>0.00%</strong> means the model explains the data you already have and predicts <em>nothing</em> new — every Predict output from it would be fiction. R-sq(pred) is the gatekeeper for this whole section.</p>
+    </div>
+
+    <!-- Predict -->
+    <div class="detail" style="--atm-c:#4fd18a">
+      <div class="kicker">Predict — item 1</div>
+      <h3 style="color:#4fd18a">Score new settings, with CI and PI in one table</h3>
+      <p>Enter the factor levels you're considering; Minitab returns the fitted value plus both intervals side by side. This is the CI/PI distinction from earlier, delivered as a table instead of a band. <strong>Real problem:</strong> "If we run the roughing schedule at 18% reduction with 0.06% C, what yield strength should we expect, and can I promise a single heat clears 355 MPa?"</p>
+      <div class="miniconsole">
+        <div class="widget" style="margin:0">
+          <h4>Predict console</h4>
+          <p class="sub">Enter settings → get a Minitab-style Predict table. Design space: reduction 10–20%, carbon 0.03–0.07%.</p>
+          <div class="field"><label>Reduction per pass (%)</label><input type="number" id="pR" value="18" step="0.5">
+            <input type="range" id="pRr" min="6" max="26" step="0.5" value="18" style="width:100%;margin-top:8px"></div>
+          <div class="field"><label>Carbon (% mass)</label><input type="number" id="pC" value="0.06" step="0.005">
+            <input type="range" id="pCr" min="20" max="90" step="1" value="60" style="width:100%;margin-top:8px"></div>
+          <button class="btn" id="pRun">Predict</button>
+          <p class="hint" style="margin-top:8px">Type or drag — the table updates live.</p>
+        </div>
+        <div class="session" style="margin:0">
+          <div class="bar"><span>SESSION — Prediction for Strength</span><span><i class="dot"></i><i class="dot"></i><i class="dot"></i></span></div>
+          <pre id="pOut"></pre>
+        </div>
+      </div>
+      <p class="dim" style="font-size:14px;margin-top:14px">Notice the PI is always the wider pair — that's the interval you quote for a single heat. Push either input past the design-space edge and Minitab (and this console) flags <span style="color:var(--atm-danger)">extrapolation</span>: the number still prints, but it's unsupported.</p>
+    </div>
+
+    <!-- Factorial Plots -->
+    <div class="detail" style="--atm-c:var(--atm-violet)">
+      <div class="kicker">Factorial Plots — item 3</div>
+      <h3 style="color:var(--atm-violet)">Main effects &amp; interactions, read at a glance</h3>
+      <p>Factorial Plots draw two things: <strong>main-effects plots</strong> (how the mean response moves as each factor goes low→high) and <strong>interaction plots</strong> (whether one factor's effect depends on another's level). The reading rule is simple and the widget below drills it in: <strong>parallel lines = no interaction</strong>; the more they cross, the stronger the interaction. <strong>Real problem:</strong> does the strength gain from more reduction hold at every carbon level, or does high carbon flip the story?</p>
+      <div class="widget">
+        <h4>Interactive · reading an interaction plot</h4>
+        <p class="sub">Response = yield strength. Two carbon levels vs reduction. Drag the interaction strength and watch parallel become crossing.</p>
+        <div class="canvas-wrap"><canvas id="intCanvas" width="1000" height="380"></canvas></div>
+        <div class="controls">
+          <label>Interaction strength <input type="range" id="intSlider" min="0" max="100" value="12"></label>
+          <span class="readout" id="intOut"></span>
+        </div>
+        <div class="legend">
+          <span><span class="swatch" style="background:var(--atm-amber)"></span>C = 0.04% (low)</span>
+          <span><span class="swatch" style="background:var(--atm-teal)"></span>C = 0.07% (high)</span>
+        </div>
+      </div>
+      <p class="dim" style="font-size:14px;margin-top:4px">When lines cross, you can't state "more reduction raises strength" without naming the carbon level — the interaction term belongs in the model, and the optimizer must consider both factors together.</p>
+    </div>
+
+    <!-- Response Optimizer -->
+    <div class="detail" style="--atm-c:var(--atm-amber)">
+      <div class="kicker">Response Optimizer — item 2</div>
+      <h3 style="color:var(--atm-amber)">Multiple responses, one desirability, draggable setpoints</h3>
+      <p>The Response Optimizer is Minitab's desirability engine (the composite <strong>D</strong> from the optimize widget, run for real). You state a goal and importance for each response; it returns the factor settings that maximize composite desirability and an <em>optimization plot</em> with red vertical lines you can drag to explore trade-offs live. <strong>Real problem:</strong> set the roughing schedule so strength hits target, toughness stays acceptable, and roll load stays under the mill's limit.</p>
+      <div class="session">
+        <div class="bar"><span>RESPONSE OPTIMIZER — Goals</span><span class="mut">3 responses</span></div>
+<pre><span class="hd">Response      Goal        Lower   Target   Upper   Weight  Import</span>
+Strength      Maximize    355     420        —        1       1
+Toughness     Target       80     120      160        1       1
+Roll load     Minimize      —       —      9.5        1       1
+
+<span class="hd">Solution</span>
+Reduction = <span class="ok">16.4%</span>   Carbon = <span class="ok">0.058%</span>
+
+<span class="hd">Composite Desirability  D = <span class="ok">0.87</span></span>
+<span class="mut">Predicted:  Strength 401 MPa   Toughness 118 J   Roll load 9.1 MN</span></pre>
+      </div>
+      <p class="dim" style="font-size:14px;margin-top:4px">D = 0.87 (not 1.0) is honest: no single setting is perfect for all three, and the geometric mean would have collapsed to 0 if any response were out of bounds. Drag a setpoint in the real optimization plot and every predicted response — and D — recomputes instantly.</p>
+    </div>
+
+    <div class="note tip">
+      <span class="lbl">Why Contour / Surface / Overlaid were greyed out</span>
+      <p>Those three need <strong>two or more continuous predictors</strong> in the fitted model to have a surface to draw. Add a second factor and they wake up — and <strong>Overlaid Contour Plot</strong> becomes your operating-window deliverable: every response's spec contour on one pair of axes, with the feasible region shaded where they all overlap.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXCEL ============ -->
+<section id="excel">
+  <div class="container">
+    <span class="eyebrow">Doing it for real · Tool 2</span>
+    <div class="toolhead">
+      <h2 style="margin:0">In Excel</h2>
+      <span class="chip xl">Data ▸ What-If Analysis · Solver</span>
+    </div>
+    <p class="breadcrumb" style="margin-top:8px"><b>Data ▸ What-If Analysis ▸</b> Scenario Manager · Goal Seek · Data Table &nbsp;|&nbsp; <b>Data ▸ Analyze ▸</b> Solver</p>
+    <p>Excel does the same four jobs without a stats package — the trick is that your model has to live in a cell as a <strong>formula</strong> so these tools can push values through it. Once your fitted equation is in a cell referencing input cells, all four What-If tools are just different ways to interrogate it. Solver (a separate add-in in the Analyze group) is the heavy one.</p>
+
+    <!-- Goal Seek -->
+    <div class="detail" style="--atm-c:#3fc37a">
+      <div class="kicker">Goal Seek — back-solve one input</div>
+      <h3 style="color:#3fc37a">"Hit this number — what input gets me there?"</h3>
+      <p>Goal Seek inverts a formula: you fix the <em>output</em> you want and it changes <em>one</em> input cell until the formula lands there. <strong>Real problem:</strong> the customer needs 380 MPa minimum. Your strength formula is <code>=290+4.6*Reduction</code>. What reduction hits exactly 380?</p>
+      <ol class="steps">
+        <li>Put the model in a cell: <code>B3 =290+4.6*B1</code> (B1 = reduction).</li>
+        <li><b>Data ▸ What-If Analysis ▸ Goal Seek.</b></li>
+        <li><b>Set cell</b> <code>B3</code> &nbsp; <b>To value</b> <code>380</code> &nbsp; <b>By changing cell</b> <code>B1</code>.</li>
+        <li>Excel iterates and writes the answer back into B1.</li>
+      </ol>
+      <div class="widget">
+        <h4>Interactive · Goal Seek</h4>
+        <p class="sub">Target the strength you need; watch Excel iterate the reduction cell to reach it. Formula: strength = 290 + 4.6 × reduction.</p>
+        <div class="miniconsole">
+          <div>
+            <div class="field"><label>Target strength (MPa)</label><input type="number" id="gsTarget" value="380" step="1"></div>
+            <button class="btn" id="gsRun">Run Goal Seek</button>
+            <button class="btn ghost" id="gsReset" style="margin-left:8px">Reset</button>
+          </div>
+          <div class="session" style="margin:0">
+            <div class="bar"><span>GOAL SEEK — iterating</span><span class="mut" id="gsStatus">idle</span></div>
+            <pre id="gsOut"></pre>
+          </div>
+        </div>
+      </div>
+      <div class="note warn">
+        <span class="lbl">Goal Seek's hard limits</span>
+        <p>One input, one target, one answer. It can't honor constraints, can't change two cells, and will happily return a physically impossible reduction if that's what the math needs. The moment you have more than one lever or any constraint, you've outgrown Goal Seek — that's Solver's job.</p>
+      </div>
+    </div>
+
+    <!-- Scenario Manager -->
+    <div class="detail" style="--atm-c:var(--atm-cyan)">
+      <div class="kicker">Scenario Manager — compare named cases</div>
+      <h3>Best case / base case / worst case, side by side</h3>
+      <p>Scenario Manager saves whole <em>sets</em> of input values under names and swaps between them, then prints a summary comparing the outputs. <strong>Real problem:</strong> three roughing strategies — conservative, nominal, aggressive — each a bundle of reduction + carbon settings. Which balances strength against roll load?</p>
+      <div class="xlgrid">
+        <table class="xltbl">
+          <tr><th></th><th>Conservative</th><th>Nominal</th><th>Aggressive</th></tr>
+          <tr><td class="lbl">Reduction (%)</td><td class="changing">13.0</td><td class="changing">16.4</td><td class="changing">19.5</td></tr>
+          <tr><td class="lbl">Carbon (%)</td><td class="changing">0.050</td><td class="changing">0.058</td><td class="changing">0.065</td></tr>
+          <tr><td class="lbl">Strength (MPa)</td><td class="formula">366</td><td class="formula">401</td><td class="formula">432</td></tr>
+          <tr><td class="lbl">Roll load (MN)</td><td class="formula">7.9</td><td class="formula">9.1</td><td class="formula">10.4</td></tr>
+          <tr><td class="lbl">Energy ($/t)</td><td class="formula">18.2</td><td class="formula">21.0</td><td class="formula">24.6</td></tr>
+        </table>
+      </div>
+      <p class="dim" style="font-size:14px"><span style="color:var(--atm-teal)">Green</span> cells are the changing inputs each scenario stores; <span style="color:var(--atm-cyan)">blue</span> are formula outputs. The summary makes the trade obvious: aggressive clears strength easily but blows past the 9.5 MN roll-load limit — nominal is the only one that's both strong enough and inside the mill's envelope.</p>
+    </div>
+
+    <!-- Solver -->
+    <div class="detail" style="--atm-c:var(--atm-orange)">
+      <div class="kicker">Solver — constrained optimization</div>
+      <h3 style="color:var(--atm-orange)">Excel's Response Optimizer: many levers, real constraints</h3>
+      <p>Solver minimizes or maximizes an objective cell by changing several input cells, <em>subject to constraints</em> — the piece Goal Seek can't do. <strong>Real problem:</strong> minimize energy cost while keeping strength ≥ 355, toughness ≥ 100, and roll load ≤ 9.5.</p>
+      <ol class="steps">
+        <li><b>Set Objective:</b> energy-cost cell → <b>Min</b>.</li>
+        <li><b>By Changing Variable Cells:</b> reduction + carbon cells.</li>
+        <li><b>Subject to Constraints:</b> <code>Strength ≥ 355</code>, <code>Toughness ≥ 100</code>, <code>RollLoad ≤ 9.5</code>, plus range bounds like <code>Reduction ≤ 20</code>.</li>
+        <li>Pick <b>GRG Nonlinear</b> for smooth models (or Evolutionary if it's bumpy), then <b>Solve</b>.</li>
+      </ol>
+      <div class="session">
+        <div class="bar"><span>SOLVER RESULTS</span><span class="ok">Solution found</span></div>
+<pre><span class="hd">Objective (Energy $/t)   Min      →   <span class="ok">19.4</span></span>
+Variable  Reduction   =   <span class="ok">15.1%</span>
+Variable  Carbon      =   <span class="ok">0.056%</span>
+
+<span class="hd">Constraints</span>
+Strength   401 MPa   ≥ 355   <span class="ok">✓ satisfied</span>
+Toughness  121 J     ≥ 100   <span class="ok">✓ satisfied</span>
+Roll load  8.8 MN    ≤ 9.5   <span class="ok">✓ satisfied</span></pre>
+      </div>
+      <p class="dim" style="font-size:14px;margin-top:4px">Same problem as the Minitab Response Optimizer, expressed as objective + constraints instead of goals + desirabilities. Both land in the same neighborhood — pick the tool your data already lives in.</p>
+    </div>
+
+    <!-- Data Table -->
+    <div class="detail" style="--atm-c:var(--atm-teal)">
+      <div class="kicker">Data Table — sensitivity grid</div>
+      <h3 style="color:var(--atm-teal)">Sweep two inputs, see the whole surface as a table</h3>
+      <p>A two-variable Data Table recomputes your formula across a grid of two inputs at once — the spreadsheet version of a contour/operating-window. <strong>Real problem:</strong> map predicted strength across every reduction × carbon combination, and shade where it clears spec. That shaded region <em>is</em> your operating window.</p>
+      <div class="widget">
+        <h4>Interactive · two-variable Data Table (operating window)</h4>
+        <p class="sub">Rows = reduction %, columns = carbon %. Cells = predicted strength. Drag the spec minimum; cells that clear it get a <span style="color:var(--atm-teal)">teal outline</span> — the feasible window shifts as the requirement tightens.</p>
+        <div class="htwrap"><div id="htMount"></div></div>
+        <div class="controls">
+          <label>Spec minimum (MPa) <input type="range" id="specSlider" min="340" max="440" value="380" step="5"></label>
+          <span class="readout" id="specOut"></span>
+          <span class="readout" id="winOut"></span>
+        </div>
+        <p class="hint" id="htReadout">Hover a cell to inspect it · click to lock an operating point.</p>
+      </div>
+      <p class="dim" style="font-size:14px;margin-top:4px">Corner cell holds the formula; the top row and left column are the input values Excel substitutes. Read it like a heat map: the outlined block is where you can operate and still pass — exactly the deliverable an Overlaid Contour Plot gives you in Minitab.</p>
+    </div>
+
+    <!-- equivalence -->
+    <span class="eyebrow" style="margin-top:30px;display:block">Same job, three toolboxes</span>
+    <h3 style="color:var(--atm-ink)">Which tool is which, across platforms</h3>
+    <table class="toolmap">
+      <tr><th>The job</th><th>Minitab</th><th>Excel</th><th>Python</th></tr>
+      <tr><td>Predict Y at new X (+ interval)</td><td>Regression ▸ Predict</td><td>formula + TREND/FORECAST</td><td>get_prediction().conf_int()</td></tr>
+      <tr><td>See main effects / interactions</td><td>Factorial Plots</td><td>chart of Data Table rows</td><td>partial dependence / SHAP</td></tr>
+      <tr><td>Back-solve one input to a target</td><td>—</td><td>Goal Seek</td><td>scipy.optimize.brentq</td></tr>
+      <tr><td>Compare discrete scenarios</td><td>Predict on a settings grid</td><td>Scenario Manager</td><td>DataFrame of cases</td></tr>
+      <tr><td>Constrained multi-var optimize</td><td>Response Optimizer</td><td>Solver</td><td>scipy.optimize.minimize</td></tr>
+      <tr><td>Two-factor sensitivity surface</td><td>Contour / Overlaid Contour</td><td>2-variable Data Table</td><td>meshgrid + contourf</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============ STATISTICS IMPLEMENTATION ============ -->
+<section id="stats-impl">
+  <div class="container">
+    <span class="eyebrow">Doing it for real · Reference</span>
+    <h2>Statistics Implementation</h2>
+    <p>The interactive consoles above are teaching models. When you sit down with real output, you drive the same four jobs &mdash; predict, bound, optimize, and check capability &mdash; through actual Excel functions and Minitab menus. This section is the lookup table. The worked numbers use the lesson's toy model, <code>strength = 290 + 4.6&middot;R + 320&middot;(C&minus;0.05)</code>, with residual spread <code>s &asymp; 11 MPa</code>.</p>
+
+    <h3>Excel functions</h3>
+    <div style="overflow-x:auto">
+      <table class="toolmap">
+        <tr><th>Function</th><th>Syntax</th><th>Purpose</th><th>When to use it</th></tr>
+        <tr><td>TREND</td><td><code>=TREND(known_ys, known_xs, new_xs)</code></td><td>Fit a linear least-squares model and return the fitted Y at one or more new X values.</td><td>Fast point predictions straight from historical X/Y columns, no separate model object.</td></tr>
+        <tr><td>FORECAST.LINEAR</td><td><code>=FORECAST.LINEAR(x, known_ys, known_xs)</code></td><td>Predict Y at a single new X on the fitted line.</td><td>A one-off point prediction with a single predictor (successor to the legacy FORECAST).</td></tr>
+        <tr><td>LINEST</td><td><code>=LINEST(known_ys, known_xs, TRUE, TRUE)</code></td><td>Array result: coefficients, their standard errors, R&sup2;, F, residual df, and s.</td><td>When you need the coefficients and s to build confidence / prediction intervals by hand or for several predictors.</td></tr>
+        <tr><td>SLOPE / INTERCEPT</td><td><code>=SLOPE(ys, xs)</code> &middot; <code>=INTERCEPT(ys, xs)</code></td><td>Return b&#8321; and b&#8320; of a simple linear fit.</td><td>Rebuild the prediction equation in a cell so Goal Seek, Solver, or a Data Table can push values through it.</td></tr>
+        <tr><td>STEYX</td><td><code>=STEYX(known_ys, known_xs)</code></td><td>Standard error of the estimate, <code>s</code>.</td><td>The process-spread term that sets prediction-interval width.</td></tr>
+        <tr><td>T.INV.2T</td><td><code>=T.INV.2T(alpha, df)</code></td><td>Two-tailed Student-t critical value.</td><td>The multiplier for a CI or PI at confidence 1&minus;alpha (e.g. alpha = 0.05 for 95%).</td></tr>
+        <tr><td>NORM.DIST</td><td><code>=NORM.DIST(x, mean, sd, TRUE)</code></td><td>Cumulative normal probability up to x.</td><td>Fraction of heats below an LSL (yield loss) or above a USL; feeds DPMO.</td></tr>
+        <tr><td>NORM.S.INV</td><td><code>=NORM.S.INV(probability)</code></td><td>Inverse standard normal (z-score).</td><td>Convert a target yield to a z, or build z-based capability estimates.</td></tr>
+        <tr><td>Cpk (manual)</td><td><code>=(mean&minus;LSL)/(3*sd)</code></td><td>One-sided lower capability index.</td><td>Turn a simulated mean and sd into predicted capability before committing to runs.</td></tr>
+      </table>
+    </div>
+    <p class="dim" style="font-size:13.5px">Array note: modern Excel spills <code>LINEST</code> automatically; in older versions enter it as an array with <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Enter</kbd>. The optimisation and What-If tools (Solver, Goal Seek, two-variable Data Table) are covered in the <a href="#excel">In Excel</a> section above.</p>
+
+    <h3>Excel use cases</h3>
+    <ul class="clean">
+      <li><b>Point prediction:</b> put the fitted equation <code>=290+4.6*B1+320*(B2-0.05)</code> in a cell with reduction in <code>B1</code> and carbon in <code>B2</code>. At <code>R = 16.4%</code>, <code>C = 0.058%</code> it returns about <b>368 MPa</b>.</li>
+      <li><b>Prediction interval:</b> with <code>s</code> from <code>STEYX</code> (&asymp; 11) and <code>t = T.INV.2T(0.05, n&minus;2)</code>, a single-heat 95% PI is roughly <code>fit &plusmn; t&middot;&radic;(s&sup2; + SE_fit&sup2;)</code>. Quote the <em>lower</em> bound when you promise a heat clears 355 MPa.</li>
+      <li><b>Confidence interval:</b> same <code>t</code> but only <code>SE_fit</code> (drop the <code>s&sup2;</code> term) &mdash; the narrower band for the <em>average</em> heat, not a single one.</li>
+      <li><b>Predicted capability:</b> after a Monte-Carlo Data Table, compute <code>=(mean&minus;355)/(3*sd)</code> for Cpk and <code>=1&minus;NORM.DIST(355, mean, sd, TRUE)</code> for the fraction clearing spec.</li>
+    </ul>
+
+    <h3>Minitab navigation</h3>
+    <ul class="clean">
+      <li><b>Fit the model:</b> <code>Stat &rarr; Regression &rarr; Regression &rarr; Fit Regression Model</code>. From a designed experiment use <code>Stat &rarr; DOE &rarr; Factorial &rarr; Analyze Factorial Design</code> or <code>Stat &rarr; DOE &rarr; Response Surface &rarr; Analyze Response Surface Design</code>.</li>
+      <li><b>Predict with CI &amp; PI (item 1):</b> <code>Stat &rarr; Regression &rarr; Regression &rarr; Predict</code>. Enter the factor settings; the table returns Fit, SE Fit, 95% CI, and 95% PI side by side. DOE alternative: <code>Stat &rarr; DOE &rarr; Response Surface &rarr; Predict</code>. Choose <em>Predict</em> (not a fitted-line plot) when you need the numeric interval table for specific settings.</li>
+      <li><b>Optimize (item 2):</b> <code>Stat &rarr; DOE &rarr; Response Surface &rarr; Response Optimizer</code> (or the Factorial equivalent) for multi-response desirability. For a feasible operating window rather than one point, use <code>Stat &rarr; DOE &rarr; Response Surface &rarr; Overlaid Contour Plot</code>.</li>
+      <li><b>Rank drivers &amp; interactions (item 3):</b> <code>Stat &rarr; DOE &rarr; Factorial &rarr; Factorial Plots</code> (Main Effects and Interaction) and the Pareto of standardized effects from the analysis dialog.</li>
+      <li><b>Capability from the prediction (item 5):</b> <code>Stat &rarr; Quality Tools &rarr; Capability Analysis &rarr; Normal</code>.</li>
+      <li><b>Monitor residuals (item 7):</b> <code>Stat &rarr; Control Charts &rarr; Variables Charts for Individuals &rarr; I-MR</code> on the actual&minus;predicted residuals.</li>
+    </ul>
+
+    <div class="note tip">
+      <span class="lbl">Exam tips</span>
+      <p><strong>CI vs PI is a classic trap.</strong> On the ASQ CSSBB and CQE exams, remember the prediction interval is always wider because it adds the individual-observation spread; a question that asks about a single future unit wants the PI. The confidence interval is for the mean response.</p>
+      <p><strong>Improve-phase content.</strong> Response-surface optimization and desirability sit in the CSSBB <em>Improve</em> body of knowledge; capability indices (Cpk / Ppk) and control-chart monitoring map to CSSBB <em>Control</em> and to the CQE statistics and SPC sections. Expect items on choosing the Response Optimizer vs an overlaid contour plot.</p>
+      <p><strong>Real-world discipline.</strong> Never extrapolate beyond the design space, confirm at the predicted optimum before deploying, and watch residuals for drift &mdash; the same sequence the consoles above rehearse.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRAPS ============ -->
+<section id="traps">
+  <div class="container">
+    <span class="eyebrow">Cheat sheet</span>
+    <h2>Traps between "model built" and "value delivered"</h2>
+    <table class="traps">
+      <tr><th>Trap</th><th>What it costs you</th></tr>
+      <tr><td>Extrapolating past the design space</td><td>The equation returns confident numbers that may be physically meaningless. Guard your input ranges.</td></tr>
+      <tr><td>Quoting a CI where a PI belongs</td><td>Process looks capable on average while individual units fail. Use PI for any per-unit decision.</td></tr>
+      <tr><td>Optimizing one Y, breaking another</td><td>Strength up, toughness gone. Use a composite objective or overlaid contours across all responses.</td></tr>
+      <tr><td>Optimizing the mean, ignoring variance</td><td>You land on a cliff. A flatter, slightly-lower setpoint transmits less noise and holds better.</td></tr>
+      <tr><td>Skipping confirmation runs</td><td>An in-silico optimum that never touched the real process. No confirmation, no rollout.</td></tr>
+      <tr><td>Chasing R² instead of prediction error</td><td>A model that fits the training data and predicts poorly. Judge on hold-out RMSE / MAE.</td></tr>
+      <tr><td>Deploy and forget</td><td>Silent decay. Chart the residuals; refit when they trend or spread.</td></tr>
+      <tr><td>Treating hierarchical rows as independent</td><td>Pseudoreplication inflates significance. Aggregate to the right level (slab / heat) before you model or predict.</td></tr>
+    </table>
+
+    <div class="recap">
+      <h3 style="margin-top:0;color:var(--atm-ink)">The one-screen recap</h3>
+      <ol>
+        <li>A model is a <b>surrogate for a decision</b> — building it is the middle of the job.</li>
+        <li><b>Predict</b> with the right interval: CI for the mean, PI for the next unit. Never extrapolate.</li>
+        <li><b>Optimize</b> across all responses at once — desirability or overlaid contours give an operating window, not a fragile point.</li>
+        <li><b>Rank, robustify, simulate</b> — know your leverage, sit on a plateau not a cliff, and predict the spread and Cpk before committing.</li>
+        <li><b>Confirm</b> against reality; land inside the PI or loop back.</li>
+        <li><b>Deploy &amp; monitor</b> — control plan, SPC, soft sensor, and watch the residuals for drift.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+html[data-theme="dark"] .quiz-section .lesson-kicker{color:#5fd3c4}
+html[data-theme="dark"] #quiz-heading{color:#e7eef4}
+</style>
+
+  <section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+    <p class="lesson-kicker">Knowledge check</p>
+    <h2 id="quiz-heading">Check your understanding</h2>
+    <div class="quiz">
+      <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+      <form id="quiz-form">
+        <fieldset class="quiz-question" data-answer="b" data-explanation="A prediction interval covers a single future observation, so it adds the process spread (sigma) on top of the fit uncertainty and is always wider than the confidence interval for the mean.">
+          <legend>1. You must promise that one future heat clears 355 MPa. Which interval do you quote?</legend>
+          <label class="quiz-option"><input type="radio" name="q1" value="a"> The 95% confidence interval for the mean response</label>
+          <label class="quiz-option"><input type="radio" name="q1" value="b"> The 95% prediction interval</label>
+          <label class="quiz-option"><input type="radio" name="q1" value="c"> The standard error of the fit</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+        <fieldset class="quiz-question" data-answer="c" data-explanation="The model is only honest inside the sampled region. Scoring at 30% reduction when the design spanned 10-20% is hidden extrapolation; Minitab flags it with an X and the number is unsupported.">
+          <legend>2. Your DOE spanned 10-20% reduction. Predicting yield at 30% reduction is&hellip;</legend>
+          <label class="quiz-option"><input type="radio" name="q2" value="a"> Fine, the equation returns a value</label>
+          <label class="quiz-option"><input type="radio" name="q2" value="b"> Fine if the R-squared is high</label>
+          <label class="quiz-option"><input type="radio" name="q2" value="c"> Hidden extrapolation - unsupported</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+        <fieldset class="quiz-question" data-answer="a" data-explanation="Robust design chases the setpoint that is least sensitive to uncontrolled input noise - a flat plateau - not simply the highest mean, which may sit on a fragile cliff.">
+          <legend>3. Robustify (Taguchi / dual-response) tells you to pick the setpoint that&hellip;</legend>
+          <label class="quiz-option"><input type="radio" name="q3" value="a"> Is least sensitive to input noise (flattest response)</label>
+          <label class="quiz-option"><input type="radio" name="q3" value="b"> Has the single highest mean response</label>
+          <label class="quiz-option"><input type="radio" name="q3" value="c"> Has the largest slope</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+        <fieldset class="quiz-question" data-answer="b" data-explanation="A Monte Carlo pushes input variation through the fitted model to predict the distribution of Y, giving a predicted Cpk and %-out-of-spec before you commit any real runs.">
+          <legend>4. What does a Monte Carlo simulation on the fitted model give you?</legend>
+          <label class="quiz-option"><input type="radio" name="q4" value="a"> The exact coefficients of the model</label>
+          <label class="quiz-option"><input type="radio" name="q4" value="b"> The predicted distribution and capability of Y</label>
+          <label class="quiz-option"><input type="radio" name="q4" value="c"> A guarantee the process will pass</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+        <fieldset class="quiz-question" data-answer="c" data-explanation="Confirmation runs at the predicted optimum are the reality check: if actual results land inside the prediction interval you are validated; if they fall outside, you loop back and re-specify rather than deploy.">
+          <legend>5. Confirmation runs land mostly OUTSIDE the prediction interval. You should&hellip;</legend>
+          <label class="quiz-option"><input type="radio" name="q5" value="a"> Deploy anyway - the model is fitted</label>
+          <label class="quiz-option"><input type="radio" name="q5" value="b"> Widen the interval until they fit</label>
+          <label class="quiz-option"><input type="radio" name="q5" value="c"> Loop back and re-specify the model</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+        <fieldset class="quiz-question" data-answer="a" data-explanation="After deployment you monitor residuals (actual minus predicted) on a control chart. A 7-point run or an out-of-limit point signals drift and tells you the model needs refitting.">
+          <legend>6. In the Deploy &amp; monitor stage, what do you chart to catch model drift?</legend>
+          <label class="quiz-option"><input type="radio" name="q6" value="a"> Residuals (actual - predicted) over time</label>
+          <label class="quiz-option"><input type="radio" name="q6" value="b"> The R-squared each day</label>
+          <label class="quiz-option"><input type="radio" name="q6" value="c"> The number of model terms</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+        <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+        <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+  <section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+    <a href="/lessons#data-analytics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Data Analytics lessons</a>
+  </section>
+
+  <footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+
+<script>
+window.__ATM_REDRAW = window.__ATM_REDRAW || [];
+function ATMV(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+/* ============================================================
+   Widget 1 — CI vs PI as n grows (+ confidence toggle + hover)
+   ============================================================ */
+(function(){
+  const cv = document.getElementById('cvCanvas');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const pad = {l:64, r:24, t:26, b:48};
+  const plot = {x:pad.l, y:pad.t, w:W-pad.l-pad.r, h:H-pad.t-pad.b};
+
+  const xMin=8, xMax=22;
+  const b0=290, b1=4.6;
+  const sigma=11;
+
+  let CYAN,ORANGE,DIM,LINE;
+  function _c(){ const css=getComputedStyle(document.documentElement);
+    CYAN=css.getPropertyValue('--atm-cyan').trim(); ORANGE=css.getPropertyValue('--atm-orange').trim();
+    DIM=css.getPropertyValue('--atm-ink-faint').trim(); LINE=css.getPropertyValue('--atm-line').trim(); }
+  _c();
+
+  let seed=12345;
+  function rnd(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+  function gauss(){ let u=0,v=0; while(u===0)u=rnd(); while(v===0)v=rnd(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+  const pool=[];
+  for(let i=0;i<400;i++){ const x=xMin+(xMax-xMin)*rnd(); pool.push({x, y:b0+b1*x+sigma*gauss()}); }
+
+  const sx = x => plot.x + (x-xMin)/(xMax-xMin)*plot.w;
+  const yMin=330, yMax=470;
+  const sy = y => plot.y + (1-(y-yMin)/(yMax-yMin))*plot.h;
+  const invx = px => xMin + (px-plot.x)/plot.w*(xMax-xMin);
+
+  const Z={90:1.645,95:1.96,99:2.576};
+  function tCrit(cl,df){ const z=Z[cl]; return z*(1+(z*z+1)/(4*Math.max(df,1))); }
+
+  let state={n:30, cl:95, hoverX:null};
+
+  function stats(n){
+    const pts=pool.slice(0,n);
+    const xbar=pts.reduce((a,p)=>a+p.x,0)/n;
+    const Sxx=pts.reduce((a,p)=>a+(p.x-xbar)*(p.x-xbar),0);
+    return {pts,xbar,Sxx};
+  }
+  function seAt(x,st,n){ return sigma*Math.sqrt(1/n+(x-st.xbar)*(x-st.xbar)/st.Sxx); }
+
+  function draw(){
+    const n=state.n, t=tCrit(state.cl,n-2);
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle=LINE; ctx.lineWidth=1; ctx.fillStyle=DIM;
+    ctx.font="12px 'IBM Plex Mono', monospace"; ctx.textAlign="right"; ctx.textBaseline="middle";
+    for(let y=340;y<=460;y+=20){ const py=sy(y); ctx.globalAlpha=.4; ctx.beginPath();ctx.moveTo(plot.x,py);ctx.lineTo(plot.x+plot.w,py);ctx.stroke(); ctx.globalAlpha=1; ctx.fillText(y,plot.x-10,py); }
+    ctx.textAlign="center"; ctx.textBaseline="top";
+    for(let x=8;x<=22;x+=2){ ctx.fillText(x+'%',sx(x),plot.h+plot.y+10); }
+    ctx.save(); ctx.translate(16,plot.y+plot.h/2); ctx.rotate(-Math.PI/2); ctx.fillText('Yield strength (MPa)',0,0); ctx.restore();
+    ctx.fillText('Mill reduction per pass',plot.x+plot.w/2,H-18);
+
+    const st=stats(n);
+    const step=(xMax-xMin)/120;
+    function band(mult){ const up=[],lo=[];
+      for(let x=xMin;x<=xMax+1e-9;x+=step){ const se=sigma*Math.sqrt(mult+1/n+(x-st.xbar)*(x-st.xbar)/st.Sxx); const m=b0+b1*x;
+        up.push([sx(x),sy(m+t*se)]); lo.push([sx(x),sy(m-t*se)]); } return {up,lo}; }
+    function fillBand(bd,color){ ctx.beginPath(); ctx.moveTo(bd.up[0][0],bd.up[0][1]); bd.up.forEach(p=>ctx.lineTo(p[0],p[1])); for(let i=bd.lo.length-1;i>=0;i--)ctx.lineTo(bd.lo[i][0],bd.lo[i][1]); ctx.closePath(); ctx.fillStyle=color; ctx.fill(); }
+    fillBand(band(1),'rgba(232,116,59,.20)');
+    fillBand(band(0),'rgba(63,182,216,.32)');
+
+    ctx.fillStyle='rgba(127,154,181,.75)';
+    st.pts.forEach(p=>{ ctx.beginPath(); ctx.arc(sx(p.x),sy(p.y),2.6,0,7); ctx.fill(); });
+
+    ctx.strokeStyle=CYAN; ctx.lineWidth=2; ctx.beginPath();
+    ctx.moveTo(sx(xMin),sy(b0+b1*xMin)); ctx.lineTo(sx(xMax),sy(b0+b1*xMax)); ctx.stroke();
+
+    // hover query
+    let ho='';
+    if(state.hoverX!=null){
+      const x=Math.max(xMin,Math.min(xMax,state.hoverX));
+      const m=b0+b1*x, se=seAt(x,st,n), seP=Math.sqrt(se*se+sigma*sigma);
+      const px=sx(x);
+      ctx.strokeStyle=ATMV('--atm-hair'); ctx.setLineDash([4,4]); ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(px,plot.y); ctx.lineTo(px,plot.y+plot.h); ctx.stroke(); ctx.setLineDash([]);
+      // CI whisker (cyan) & PI whisker (orange)
+      ctx.strokeStyle=ORANGE; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(px,sy(m-t*seP)); ctx.lineTo(px,sy(m+t*seP)); ctx.stroke();
+      ctx.strokeStyle=CYAN; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(px,sy(m-t*se)); ctx.lineTo(px,sy(m+t*se)); ctx.stroke();
+      ctx.fillStyle=ATMV('--atm-dot'); ctx.beginPath(); ctx.arc(px,sy(m),3.5,0,7); ctx.fill();
+      ho='@ '+x.toFixed(1)+'%  Fit '+m.toFixed(0)+'  ·  CI ['+(m-t*se).toFixed(0)+','+(m+t*se).toFixed(0)+']  ·  PI ['+(m-t*seP).toFixed(0)+','+(m+t*seP).toFixed(0)+']';
+    } else {
+      const seCI=sigma*Math.sqrt(1/n)*t, sePI=sigma*Math.sqrt(1+1/n)*t;
+      ho='at centre  ±CI '+seCI.toFixed(1)+'  ·  ±PI '+sePI.toFixed(1)+' MPa  ('+state.cl+'%)';
+    }
+    document.getElementById('widthOut').textContent=ho;
+  }
+
+  const sl=document.getElementById('nSlider'), out=document.getElementById('nOut');
+  sl.addEventListener('input',()=>{ state.n=+sl.value; out.textContent='n = '+state.n; draw(); });
+  document.querySelectorAll('#clSeg button').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('#clSeg button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); state.cl=+b.dataset.cl; draw();
+  }));
+  cv.addEventListener('mousemove',e=>{ const r=cv.getBoundingClientRect(); const px=(e.clientX-r.left)*(W/r.width); state.hoverX=invx(px); draw(); });
+  cv.addEventListener('mouseleave',()=>{ state.hoverX=null; draw(); });
+  cv.addEventListener('touchmove',e=>{ const r=cv.getBoundingClientRect(); const px=(e.touches[0].clientX-r.left)*(W/r.width); state.hoverX=invx(px); draw(); e.preventDefault(); },{passive:false});
+  draw();
+  window.__ATM_REDRAW.push(function(){ _c(); draw(); });
+})();
+
+/* ============================================================
+   Widget 2 — Desirability optimization (+ weights + drag + snap)
+   ============================================================ */
+(function(){
+  const cv=document.getElementById('optCanvas');
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  const pad={l:56,r:24,t:26,b:48};
+  const plot={x:pad.l,y:pad.t,w:W-pad.l-pad.r,h:H-pad.t-pad.b};
+  let AMBER,TEAL,CYAN,DIM,LINE;
+  function _c(){ const css=getComputedStyle(document.documentElement);
+    AMBER=css.getPropertyValue('--atm-amber').trim(); TEAL=css.getPropertyValue('--atm-teal').trim();
+    CYAN=css.getPropertyValue('--atm-cyan').trim(); DIM=css.getPropertyValue('--atm-ink-faint').trim();
+    LINE=css.getPropertyValue('--atm-line').trim(); }
+  _c();
+
+  function dStrength(r){ return 1/(1+Math.exp(-9*(r-0.35))); }
+  function dTough(r){ return 1/(1+Math.exp(12*(r-0.62))); }
+  let wS=1, wT=1;
+  function D(r){ const a=Math.max(1e-6,dStrength(r)), b=Math.max(1e-6,dTough(r));
+    return Math.pow(Math.pow(a,wS)*Math.pow(b,wT), 1/(wS+wT)); }
+
+  let rStar=0,Dstar=-1;
+  function findOpt(){ rStar=0;Dstar=-1; for(let r=0;r<=1;r+=0.001){ const d=D(r); if(d>Dstar){Dstar=d;rStar=r;} } }
+  findOpt();
+
+  const sx=r=>plot.x+r*plot.w;
+  const sy=d=>plot.y+(1-d)*plot.h;
+  const invr=px=>Math.max(0,Math.min(1,(px-plot.x)/plot.w));
+
+  function curve(fn,color,lw){ ctx.strokeStyle=color; ctx.lineWidth=lw; ctx.beginPath();
+    for(let r=0;r<=1;r+=0.005){ const px=sx(r),py=sy(fn(r)); r===0?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke(); }
+
+  function draw(r){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle=LINE; ctx.fillStyle=DIM; ctx.font="12px 'IBM Plex Mono', monospace";
+    ctx.textAlign="right"; ctx.textBaseline="middle";
+    for(let d=0;d<=1.0001;d+=0.25){ const py=sy(d); ctx.globalAlpha=.4;ctx.beginPath();ctx.moveTo(plot.x,py);ctx.lineTo(plot.x+plot.w,py);ctx.stroke();ctx.globalAlpha=1; ctx.fillText(d.toFixed(2),plot.x-10,py);}
+    ctx.textAlign="center"; ctx.textBaseline="top";
+    for(let i=0;i<=100;i+=20){ ctx.fillText(i+'%',sx(i/100),plot.y+plot.h+10); }
+    ctx.save(); ctx.translate(15,plot.y+plot.h/2); ctx.rotate(-Math.PI/2); ctx.fillText('Desirability  d',0,0); ctx.restore();
+    ctx.fillText('Reduction per pass',plot.x+plot.w/2,H-18);
+
+    ctx.beginPath(); ctx.moveTo(sx(0),sy(0));
+    for(let rr=0;rr<=1;rr+=0.005) ctx.lineTo(sx(rr),sy(D(rr)));
+    ctx.lineTo(sx(1),sy(0)); ctx.closePath();
+    ctx.fillStyle='rgba(63,182,216,.12)'; ctx.fill();
+
+    curve(dStrength,AMBER,2);
+    curve(dTough,TEAL,2);
+    curve(D,CYAN,2.6);
+
+    ctx.strokeStyle=DIM; ctx.setLineDash([5,4]); ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(sx(rStar),plot.y); ctx.lineTo(sx(rStar),plot.y+plot.h); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle=DIM; ctx.beginPath(); ctx.arc(sx(rStar),sy(Dstar),4,0,7); ctx.fill();
+
+    ctx.strokeStyle=CYAN; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(sx(r),plot.y); ctx.lineTo(sx(r),plot.y+plot.h); ctx.stroke();
+    ctx.fillStyle=AMBER; ctx.beginPath(); ctx.arc(sx(r),sy(dStrength(r)),4,0,7); ctx.fill();
+    ctx.fillStyle=TEAL; ctx.beginPath(); ctx.arc(sx(r),sy(dTough(r)),4,0,7); ctx.fill();
+    ctx.fillStyle=CYAN; ctx.beginPath(); ctx.arc(sx(r),sy(D(r)),4.5,0,7); ctx.fill();
+  }
+
+  const sl=document.getElementById('rSlider');
+  const rOut=document.getElementById('rOut'), dOut=document.getElementById('dOut');
+  const wSs=document.getElementById('wS'), wTs=document.getElementById('wT');
+  const wSo=document.getElementById('wSout'), wTo=document.getElementById('wTout');
+  function upd(){
+    const r=+sl.value/100;
+    draw(r);
+    rOut.textContent='set = '+(r*100).toFixed(0)+'%';
+    const atOpt=Math.abs(r-rStar)<0.015;
+    dOut.textContent='D = '+D(r).toFixed(3)+(atOpt?'  ◆ optimum':'  (opt @ '+(rStar*100).toFixed(0)+'%)');
+    dOut.style.color = atOpt ? TEAL : CYAN;
+  }
+  function reweight(){ wS=+wSs.value; wT=+wTs.value; wSo.textContent='×'+wS; wTo.textContent='×'+wT; findOpt(); upd(); }
+  sl.addEventListener('input',upd);
+  wSs.addEventListener('input',reweight);
+  wTs.addEventListener('input',reweight);
+  document.getElementById('optSnap').addEventListener('click',()=>{ sl.value=Math.round(rStar*100); upd(); });
+
+  let drag=false;
+  function setFromEvent(clientX){ const rect=cv.getBoundingClientRect(); const px=(clientX-rect.left)*(W/rect.width); sl.value=Math.round(invr(px)*100); upd(); }
+  cv.addEventListener('mousedown',e=>{ drag=true; setFromEvent(e.clientX); });
+  window.addEventListener('mousemove',e=>{ if(drag) setFromEvent(e.clientX); });
+  window.addEventListener('mouseup',()=>{ drag=false; });
+  cv.addEventListener('touchstart',e=>{ setFromEvent(e.touches[0].clientX); e.preventDefault(); },{passive:false});
+  cv.addEventListener('touchmove',e=>{ setFromEvent(e.touches[0].clientX); e.preventDefault(); },{passive:false});
+  upd();
+  window.__ATM_REDRAW.push(function(){ _c(); upd(); });
+})();
+
+/* ============================================================
+   Shared toy model (steel yield strength, MPa)
+   ============================================================ */
+function strengthModel(R, C){ return 290 + 4.6*R + 320*(C-0.05); } // R=%, C=fraction
+const DESIGN = { Rmin:10, Rmax:20, Cmin:0.03, Cmax:0.07, n:30, sigma:11, t:2.05 };
+
+/* ============================================================
+   Widget 3 — Minitab Predict console
+   ============================================================ */
+(function(){
+  const pR=document.getElementById('pR'), pC=document.getElementById('pC');
+  const out=document.getElementById('pOut'), btn=document.getElementById('pRun');
+  function seFit(R,C){
+    const Rbar=15, Cbar=0.05, SxxR=600, SxxC=0.006;
+    return DESIGN.sigma*Math.sqrt(1/DESIGN.n + (R-Rbar)*(R-Rbar)/SxxR + (C-Cbar)*(C-Cbar)/SxxC);
+  }
+  function run(){
+    const R=parseFloat(pR.value), C=parseFloat(pC.value);
+    if(isNaN(R)||isNaN(C)){ out.innerHTML='<span class="bad">Enter numeric values.</span>'; return; }
+    const fit=strengthModel(R,C);
+    const se=seFit(R,C);
+    const ciL=fit-DESIGN.t*se, ciU=fit+DESIGN.t*se;
+    const sePred=Math.sqrt(se*se+DESIGN.sigma*DESIGN.sigma);
+    const piL=fit-DESIGN.t*sePred, piU=fit+DESIGN.t*sePred;
+    const extrap = R<DESIGN.Rmin||R>DESIGN.Rmax||C<DESIGN.Cmin||C>DESIGN.Cmax;
+    const pass = piL>=355;
+    let s='';
+    s+='<span class="hd">Settings</span>\n';
+    s+='  Reduction = '+R.toFixed(1)+' %\n  Carbon    = '+C.toFixed(3)+' %\n\n';
+    s+='<span class="hd">  Fit    SE Fit        95% CI            95% PI</span>\n';
+    s+='  '+fit.toFixed(1)+'   '+se.toFixed(2)+'    ('+ciL.toFixed(1)+', '+ciU.toFixed(1)+')   ('+piL.toFixed(1)+', '+piU.toFixed(1)+')\n\n';
+    if(extrap){
+      s+='<span class="bad">  X  Hidden extrapolation — settings outside the\n     design space ('+DESIGN.Rmin+'–'+DESIGN.Rmax+'% R, '+DESIGN.Cmin+'–'+DESIGN.Cmax+'% C).\n     Prediction is unsupported.</span>';
+    } else {
+      s+= pass
+        ? '<span class="ok">  ✓ Even the lower PI bound clears 355 MPa —\n     safe to promise for a single heat.</span>'
+        : '<span class="bad">  ! Lower PI bound ('+piL.toFixed(1)+') is below 355 —\n     a single heat could fail spec.</span>';
+    }
+    out.innerHTML=s;
+  }
+  btn.addEventListener('click',run);
+  pR.addEventListener('keydown',e=>{if(e.key==='Enter')run();});
+  pC.addEventListener('keydown',e=>{if(e.key==='Enter')run();});
+  const pRr=document.getElementById('pRr'), pCr=document.getElementById('pCr');
+  pRr.addEventListener('input',()=>{ pR.value=(+pRr.value).toFixed(1); run(); });
+  pCr.addEventListener('input',()=>{ pC.value=(+pCr.value/1000).toFixed(3); run(); });
+  pR.addEventListener('input',()=>{ pRr.value=pR.value; run(); });
+  pC.addEventListener('input',()=>{ pCr.value=Math.round((+pC.value)*1000); run(); });
+  run();
+})();
+
+/* ============================================================
+   Widget 4 — Interaction plot (Factorial Plots)
+   ============================================================ */
+(function(){
+  const cv=document.getElementById('intCanvas'), ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height, pad={l:60,r:24,t:24,b:46};
+  const plot={x:pad.l,y:pad.t,w:W-pad.l-pad.r,h:H-pad.t-pad.b};
+  let AMBER,TEAL,DIM,LINE;
+  function _c(){ const css=getComputedStyle(document.documentElement);
+    AMBER=css.getPropertyValue('--atm-amber').trim(); TEAL=css.getPropertyValue('--atm-teal').trim();
+    DIM=css.getPropertyValue('--atm-ink-faint').trim(); LINE=css.getPropertyValue('--atm-line').trim(); }
+  _c();
+  const Rmin=10,Rmax=20,yMin=320,yMax=470;
+  const sx=R=>plot.x+(R-Rmin)/(Rmax-Rmin)*plot.w;
+  const sy=y=>plot.y+(1-(y-yMin)/(yMax-yMin))*plot.h;
+  function draw(k){ // k: 0..1 interaction strength
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle=LINE;ctx.fillStyle=DIM;ctx.font="12px 'IBM Plex Mono',monospace";
+    ctx.textAlign="right";ctx.textBaseline="middle";
+    for(let y=340;y<=460;y+=20){const py=sy(y);ctx.globalAlpha=.4;ctx.beginPath();ctx.moveTo(plot.x,py);ctx.lineTo(plot.x+plot.w,py);ctx.stroke();ctx.globalAlpha=1;ctx.fillText(y,plot.x-10,py);}
+    ctx.textAlign="center";ctx.textBaseline="top";
+    for(let R=10;R<=20;R+=2){ctx.fillText(R+'%',sx(R),plot.y+plot.h+10);}
+    ctx.save();ctx.translate(15,plot.y+plot.h/2);ctx.rotate(-Math.PI/2);ctx.fillText('Yield strength (MPa)',0,0);ctx.restore();
+    ctx.fillText('Reduction per pass',plot.x+plot.w/2,H-16);
+    // low carbon: strong positive slope; high carbon: slope reduced by interaction, pivots at center
+    const base=6.0, Rc=15;
+    function low(R){ return 360 + base*(R-Rc); }
+    function high(R){ return 380 + (base - k*11)*(R-Rc); } // as k grows, high-C slope flattens then inverts -> crossing
+    function line(fn,color){
+      ctx.strokeStyle=color;ctx.lineWidth=2.4;ctx.beginPath();
+      ctx.moveTo(sx(Rmin),sy(fn(Rmin)));ctx.lineTo(sx(Rmax),sy(fn(Rmax)));ctx.stroke();
+      [Rmin,15,Rmax].forEach(R=>{ctx.fillStyle=color;ctx.beginPath();ctx.arc(sx(R),sy(fn(R)),3.4,0,7);ctx.fill();});
+    }
+    line(low,AMBER); line(high,TEAL);
+  }
+  const sl=document.getElementById('intSlider'), out=document.getElementById('intOut');
+  function upd(){
+    const k=+sl.value/100; draw(k);
+    let label;
+    if(k<0.12) label='≈ parallel · no interaction';
+    else if(k<0.5) label='mild interaction';
+    else if(k<0.85) label='strong interaction';
+    else label='crossing · effect reverses';
+    out.textContent=label;
+  }
+  sl.addEventListener('input',upd); upd();
+  window.__ATM_REDRAW.push(function(){ _c(); upd(); });
+})();
+
+/* ============================================================
+   Widget 5 — Excel Goal Seek (animated iteration)
+   ============================================================ */
+(function(){
+  const tgt=document.getElementById('gsTarget'), out=document.getElementById('gsOut');
+  const run=document.getElementById('gsRun'), reset=document.getElementById('gsReset');
+  const status=document.getElementById('gsStatus');
+  const b0=290,b1=4.6; // strength = b0 + b1*R  (hold carbon at 0.05)
+  let timer=null;
+  function stop(){ if(timer){clearInterval(timer);timer=null;} }
+  function reseter(){ stop(); out.innerHTML='<span class="mut">B1 (Reduction) = 15.0\nB3 =290+4.6*B1  →  359.0\n\nSet target, then Run Goal Seek.</span>'; status.textContent='idle'; }
+  function go(){
+    stop();
+    const T=parseFloat(tgt.value);
+    if(isNaN(T)){ out.innerHTML='<span class="bad">Enter a target.</span>'; return; }
+    let R=15; // starting guess (current B1)
+    let i=0; const lines=['<span class="hd">iter   B1 (Reduction)   B3 (Strength)</span>'];
+    status.textContent='running';
+    timer=setInterval(()=>{
+      const y=b0+b1*R, err=T-y;
+      lines.push('  '+String(i).padStart(2)+'      '+R.toFixed(3)+'          '+y.toFixed(2));
+      out.innerHTML=lines.join('\n');
+      if(Math.abs(err)<0.05 || i>=8){
+        stop();
+        const Rstar=(T-b0)/b1;
+        const feasible=Rstar>=DESIGN.Rmin&&Rstar<=DESIGN.Rmax;
+        lines.push('\n<span class="'+(feasible?'ok':'bad')+'">Goal Seek found a solution.\nB1 = '+Rstar.toFixed(2)+' %'+(feasible?'':'  ⚠ outside 10–20% design range')+'</span>');
+        out.innerHTML=lines.join('\n');
+        status.textContent='done';
+        return;
+      }
+      R += err/b1 * 0.6; // damped step toward root
+      i++;
+    },260);
+  }
+  run.addEventListener('click',go);
+  reset.addEventListener('click',reseter);
+  tgt.addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+  reseter();
+})();
+
+/* ============================================================
+   Widget 6 — Excel two-variable Data Table (operating window)
+   ============================================================ */
+(function(){
+  const mount=document.getElementById('htMount');
+  const sl=document.getElementById('specSlider');
+  const specOut=document.getElementById('specOut'), winOut=document.getElementById('winOut');
+  const Rvals=[10,12,14,16,18,20];            // rows: reduction %
+  const Cvals=[0.03,0.04,0.05,0.06,0.07];      // cols: carbon %
+  // precompute value range for color scaling
+  let vmin=1e9,vmax=-1e9;
+  const grid=Rvals.map(R=>Cvals.map(C=>{const v=strengthModel(R,C);vmin=Math.min(vmin,v);vmax=Math.max(vmax,v);return v;}));
+  function color(v){
+    const t=(v-vmin)/(vmax-vmin); // 0..1
+    // dim slate -> cyan
+    const r=Math.round(30+t*(63-30)), g=Math.round(50+t*(182-50)), b=Math.round(75+t*(216-75));
+    return 'rgb('+r+','+g+','+b+')';
+  }
+  function render(spec){
+    let html='<table class="heatmap"><tr><td class="corner">=290+4.6R<br>+320(C−.05)</td>';
+    Cvals.forEach(C=>{ html+='<th>C='+C.toFixed(2)+'</th>'; });
+    html+='</tr>';
+    let passCount=0;
+    grid.forEach((row,i)=>{
+      html+='<tr><th>R='+Rvals[i]+'%</th>';
+      row.forEach((v,j)=>{
+        const pass=v>=spec; if(pass)passCount++;
+        const locked=(lock&&lock.i===i&&lock.j===j)?' style="outline:2px solid #fff;outline-offset:-2px;"':'';
+        html+='<td class="cell'+(pass?' pass':'')+'" data-i="'+i+'" data-j="'+j+'" style="background:'+color(v)+'">'+v.toFixed(0)+'</td>';
+      });
+      html+='</tr>';
+    });
+    html+='</table>';
+    mount.innerHTML=html;
+    specOut.textContent='spec ≥ '+spec+' MPa';
+    winOut.textContent=passCount+' / '+(Rvals.length*Cvals.length)+' cells feasible';
+    // re-apply lock outline + wire events
+    mount.querySelectorAll('td.cell').forEach(td=>{
+      const i=+td.dataset.i, j=+td.dataset.j;
+      if(lock&&lock.i===i&&lock.j===j){ td.style.boxShadow='inset 0 0 0 3px #fff'; }
+      td.addEventListener('mouseenter',()=>{ show(i,j,spec,'hover'); });
+      td.addEventListener('click',()=>{ lock={i,j}; render(+sl.value); show(i,j,spec,'locked'); });
+    });
+    if(lock) show(lock.i,lock.j,spec,'locked');
+  }
+  function show(i,j,spec,mode){
+    const v=grid[i][j]; const pass=v>=spec;
+    read.innerHTML=(mode==='locked'?'◆ locked · ':'')+'R='+Rvals[i]+'% , C='+Cvals[j].toFixed(2)+'% → <b style="color:'+(pass?'var(--atm-teal)':'var(--atm-danger)')+'">'+v.toFixed(0)+' MPa</b> · '+(pass?'clears spec':'below spec');
+  }
+  const read=document.getElementById('htReadout');
+  let lock=null;
+  sl.addEventListener('input',()=>render(+sl.value));
+  render(+sl.value);
+})();
+
+/* ============================================================
+   Shared gaussian
+   ============================================================ */
+function randn(){ let u=0,v=0; while(u===0)u=Math.random(); while(v===0)v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+function cssv(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+
+/* ============================================================
+   Widget 7 — Robust: plateau vs cliff
+   ============================================================ */
+(function(){
+  const cv=document.getElementById('robCanvas'), ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height, pad={l:58,r:24,t:22,b:44};
+  const plot={x:pad.l,y:pad.t,w:W-pad.l-pad.r,h:H-pad.t-pad.b};
+  let CYAN,AMBER,TEAL,DIM,LINE,DANGER;
+  function _c(){ CYAN=cssv('--atm-cyan');AMBER=cssv('--atm-amber');TEAL=cssv('--atm-teal');DIM=cssv('--atm-ink-faint');LINE=cssv('--atm-line');DANGER=cssv('--atm-danger'); }
+  _c();
+  // narrow high peak (highest MEAN) + broad slightly-lower plateau (robust)
+  function f(x){ return 380 + 66*Math.exp(-((x-0.28)*(x-0.28))/(2*0.05*0.05)) + 44/(1+Math.exp(-24*(x-0.62))); }
+  let yMin=375,yMax=455;
+  const sx=x=>plot.x+x*plot.w, sy=y=>plot.y+(1-(y-yMin)/(yMax-yMin))*plot.h, invx=px=>Math.max(0,Math.min(1,(px-plot.x)/plot.w));
+  const xPeak=0.28;
+  // transmitted output stats from the input distribution actually mapped through f
+  function transmit(x,sigx){
+    let sum=0,s2=0,mn=1e9; const K=300;
+    for(let i=0;i<K;i++){ const xi=Math.max(0,Math.min(1,x+randn()*sigx)); const y=f(xi); sum+=y;s2+=y*y; if(y<mn)mn=y; }
+    const m=sum/K, sd=Math.sqrt(Math.max(0,s2/K-m*m));
+    return {mean:m, sd, drop:f(x)-mn};
+  }
+  function robustPoint(sigx){ // flattest high-value setting
+    let xr=0.85,best=1e9;
+    for(let x=0.4;x<=0.98;x+=0.004){ const tr=transmit(x,sigx); if(f(x)>=415 && tr.sd<best){best=tr.sd;xr=x;} }
+    return xr;
+  }
+  function draw(x,sigx){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle=LINE;ctx.fillStyle=DIM;ctx.font="12px 'IBM Plex Mono',monospace";ctx.textAlign="right";ctx.textBaseline="middle";
+    for(let y=380;y<=450;y+=10){const py=sy(y);ctx.globalAlpha=.35;ctx.beginPath();ctx.moveTo(plot.x,py);ctx.lineTo(plot.x+plot.w,py);ctx.stroke();ctx.globalAlpha=1;ctx.fillText(y,plot.x-8,py);}
+    ctx.textAlign="center";ctx.textBaseline="top";
+    ctx.fillText('control-factor setting  →',plot.x+plot.w/2,H-16);
+    ctx.save();ctx.translate(15,plot.y+plot.h/2);ctx.rotate(-Math.PI/2);ctx.fillText('Response (MPa)',0,0);ctx.restore();
+    ctx.strokeStyle=CYAN;ctx.lineWidth=2.4;ctx.beginPath();
+    for(let t=0;t<=1;t+=0.004){const px=sx(t),py=sy(f(t));t===0?ctx.moveTo(px,py):ctx.lineTo(px,py);}ctx.stroke();
+    const xRob=robustPoint(sigx);
+    ctx.fillStyle=AMBER;ctx.beginPath();ctx.arc(sx(xPeak),sy(f(xPeak)),4,0,7);ctx.fill();
+    ctx.fillStyle=TEAL;ctx.beginPath();ctx.arc(sx(xRob),sy(f(xRob)),4,0,7);ctx.fill();
+    ctx.font="11px 'IBM Plex Mono',monospace";ctx.textAlign="center";
+    ctx.fillStyle=AMBER;ctx.fillText('highest mean',sx(xPeak),sy(f(xPeak))-14);
+    ctx.fillStyle=TEAL;ctx.fillText('robust',sx(xRob),sy(f(xRob))-14);
+    // input noise bracket
+    const xl=Math.max(0,x-sigx), xr=Math.min(1,x+sigx);
+    ctx.strokeStyle=ATMV('--atm-hair');ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(sx(xl),plot.y+plot.h+2);ctx.lineTo(sx(xr),plot.y+plot.h+2);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(sx(xl),plot.y+plot.h-1);ctx.lineTo(sx(xl),plot.y+plot.h+5);ctx.moveTo(sx(xr),plot.y+plot.h-1);ctx.lineTo(sx(xr),plot.y+plot.h+5);ctx.stroke();
+    // transmitted output band
+    const tr=transmit(x,sigx), m=f(x);
+    ctx.fillStyle='rgba(224,87,107,.20)';
+    ctx.fillRect(plot.x,sy(tr.mean+tr.sd),plot.w,sy(tr.mean-tr.sd)-sy(tr.mean+tr.sd));
+    ctx.strokeStyle=ATMV('--atm-hair');ctx.setLineDash([4,4]);ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(sx(x),plot.y+plot.h);ctx.lineTo(sx(x),sy(m));ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=ATMV('--atm-dot');ctx.beginPath();ctx.arc(sx(x),sy(m),5,0,7);ctx.fill();
+    document.getElementById('robMean').innerHTML=m.toFixed(0)+'<small> MPa</small>';
+    document.getElementById('robTrans').innerHTML='±'+tr.sd.toFixed(1)+'<small> MPa</small>';
+    document.getElementById('robSlope').innerHTML='−'+tr.drop.toFixed(0)+'<small> MPa</small>';
+    const box=document.getElementById('robTransBox'), verb=document.getElementById('robVerdict'), word=document.getElementById('robWord');
+    box.className='stat '+(tr.sd>9?'bad':tr.sd>3.5?'warn2':'good');
+    if(tr.sd>9){ verb.className='stat bad'; word.textContent='CLIFF — fragile'; }
+    else if(tr.sd>3.5){ verb.className='stat warn2'; word.textContent='shoulder — watch it'; }
+    else { verb.className='stat good'; word.textContent='ROBUST — flat'; }
+  }
+  const sl=document.getElementById('robSlider'), ns=document.getElementById('robNoise');
+  function upd(){ draw(+sl.value/1000, +ns.value/1000); }
+  sl.addEventListener('input',upd); ns.addEventListener('input',upd);
+  document.getElementById('robSnap').addEventListener('click',()=>{ sl.value=Math.round(robustPoint(+ns.value/1000)*1000); upd(); });
+  let drag=false;
+  cv.addEventListener('mousedown',e=>{drag=true;const r=cv.getBoundingClientRect();sl.value=Math.round(invx((e.clientX-r.left)*(W/r.width))*1000);upd();});
+  window.addEventListener('mousemove',e=>{if(drag){const r=cv.getBoundingClientRect();sl.value=Math.round(invx((e.clientX-r.left)*(W/r.width))*1000);upd();}});
+  window.addEventListener('mouseup',()=>drag=false);
+  upd();
+  window.__ATM_REDRAW.push(function(){ _c(); upd(); });
+})();
+
+/* ============================================================
+   Widget 8 — Monte Carlo capability
+   ============================================================ */
+(function(){
+  const cv=document.getElementById('mcCanvas'), ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height, pad={l:20,r:20,t:20,b:40};
+  const plot={x:pad.l,y:pad.t,w:W-pad.l-pad.r,h:H-pad.t-pad.b};
+  let CYAN,TEAL,DIM,LINE,DANGER,AMBER;
+  function _c(){ CYAN=cssv('--atm-cyan');TEAL=cssv('--atm-teal');DIM=cssv('--atm-ink-faint');LINE=cssv('--atm-line');DANGER=cssv('--atm-danger');AMBER=cssv('--atm-amber'); }
+  _c();
+  const el=id=>document.getElementById(id);
+  const N=4000, procSig=8;
+  const xLo=300,xHi=470, bins=44;
+  const sx=v=>plot.x+(v-xLo)/(xHi-xLo)*plot.w;
+  let hist=new Array(bins).fill(0), stats={}, anim=0, raf=null, lsl=355;
+  function simulate(){
+    const R=+el('mcR').value/10, C=+el('mcC').value/1000, sR=+el('mcRs').value/100, sC=+el('mcCs').value/10000;
+    lsl=+el('mcL').value;
+    hist=new Array(bins).fill(0); let sum=0,sum2=0,pass=0; const vals=[];
+    for(let i=0;i<N;i++){ const r=R+randn()*sR, c=C+randn()*sC; const y=strengthModel(r,c)+randn()*procSig;
+      vals.push(y); sum+=y; sum2+=y*y; if(y>=lsl)pass++;
+      const b=Math.floor((y-xLo)/(xHi-xLo)*bins); if(b>=0&&b<bins)hist[b]++; }
+    const mean=sum/N, sd=Math.sqrt(sum2/N-mean*mean), cpk=(mean-lsl)/(3*sd), pr=pass/N;
+    stats={mean,sd,cpk,pr,dpmo:Math.round((1-pr)*1e6)};
+    el('mcMean').innerHTML=mean.toFixed(0)+'<small> MPa</small>';
+    el('mcSd').innerHTML=sd.toFixed(1)+'<small> MPa</small>';
+    el('mcCpk').textContent=cpk.toFixed(2);
+    el('mcPass').innerHTML=(pr*100).toFixed(2)+'<small>%</small>';
+    el('mcDpmo').textContent=stats.dpmo.toLocaleString();
+    el('mcCpkBox').className='stat '+(cpk>=1.33?'good':cpk>=1?'warn2':'bad');
+    el('mcPassBox').className='stat '+(pr>=0.9973?'good':pr>=0.95?'warn2':'bad');
+    el('mcDpmoBox').className='stat '+(stats.dpmo<=1350?'good':stats.dpmo<=50000?'warn2':'bad');
+    anim=0; cancelAnimationFrame(raf); loop();
+  }
+  function loop(){ anim=Math.min(1,anim+0.08); draw(anim); if(anim<1) raf=requestAnimationFrame(loop); }
+  function draw(k){
+    ctx.clearRect(0,0,W,H);
+    const maxH=Math.max(...hist)||1;
+    // axis
+    ctx.strokeStyle=LINE;ctx.fillStyle=DIM;ctx.font="11px 'IBM Plex Mono',monospace";ctx.textAlign="center";ctx.textBaseline="top";
+    for(let v=300;v<=460;v+=40){ctx.fillText(v,sx(v),plot.y+plot.h+8);}
+    // bars
+    const bw=plot.w/bins;
+    for(let i=0;i<bins;i++){ const h=(hist[i]/maxH)*plot.h*k; const x=plot.x+i*bw;
+      ctx.fillStyle='rgba(63,182,216,.55)'; ctx.fillRect(x+1,plot.y+plot.h-h,bw-2,h); }
+    // LSL line
+    ctx.strokeStyle=DANGER;ctx.lineWidth=2;ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(sx(lsl),plot.y);ctx.lineTo(sx(lsl),plot.y+plot.h);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=DANGER;ctx.textAlign="left";ctx.fillText('LSL '+lsl,sx(lsl)+4,plot.y+2);
+    // mean line
+    if(stats.mean){ ctx.strokeStyle=AMBER;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(sx(stats.mean),plot.y);ctx.lineTo(sx(stats.mean),plot.y+plot.h);ctx.stroke();
+      ctx.fillStyle=AMBER;ctx.fillText('μ',sx(stats.mean)+4,plot.y+2); }
+  }
+  ['mcR','mcRs','mcC','mcCs','mcL'].forEach(id=>el(id).addEventListener('input',()=>{
+    el('mcRl').textContent=(+el('mcR').value/10).toFixed(1)+'%';
+    el('mcRsl').textContent=(+el('mcRs').value/100).toFixed(2);
+    el('mcCl').textContent=(+el('mcC').value/1000).toFixed(3)+'%';
+    el('mcCsl').textContent=(+el('mcCs').value/10000).toFixed(4);
+    el('mcLl').textContent=el('mcL').value;
+  }));
+  ['mcR','mcRs','mcC','mcCs','mcL'].forEach(id=>el(id).addEventListener('change',simulate));
+  el('mcRun').addEventListener('click',simulate);
+  simulate();
+  window.__ATM_REDRAW.push(function(){ _c(); draw(1); });
+})();
+
+/* ============================================================
+   Widget 9 — Confirmation runs vs PI
+   ============================================================ */
+(function(){
+  const cv=document.getElementById('confCanvas'), ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height, pad={l:56,r:20,t:20,b:40};
+  const plot={x:pad.l,y:pad.t,w:W-pad.l-pad.r,h:H-pad.t-pad.b};
+  let CYAN,TEAL,DIM,LINE,DANGER;
+  function _c(){ CYAN=cssv('--atm-cyan');TEAL=cssv('--atm-teal');DIM=cssv('--atm-ink-faint');LINE=cssv('--atm-line');DANGER=cssv('--atm-danger'); }
+  _c();
+  const el=id=>document.getElementById(id);
+  const predMean=strengthModel(16.4,0.058), sigma=11, t=2.0;
+  const seFit=3.2, sePred=Math.sqrt(seFit*seFit+sigma*sigma);
+  const piLo=predMean-t*sePred, piHi=predMean+t*sePred;
+  const yLo=predMean-55, yHi=predMean+55, maxRuns=48;
+  let runs=[], nIn=0, nOut=0;
+  const sy=y=>plot.y+(1-(y-yLo)/(yHi-yLo))*plot.h;
+  const sxi=i=>plot.x+ (maxRuns<=1?0:(i/(maxRuns-1))*plot.w);
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // PI band
+    ctx.fillStyle='rgba(232,116,59,.16)';ctx.fillRect(plot.x,sy(piHi),plot.w,sy(piLo)-sy(piHi));
+    ctx.strokeStyle=DIM;ctx.font="11px 'IBM Plex Mono',monospace";ctx.textAlign="right";ctx.textBaseline="middle";ctx.fillStyle=DIM;
+    [piLo,predMean,piHi].forEach((y,k)=>{ const py=sy(y); ctx.globalAlpha=.5;ctx.beginPath();ctx.moveTo(plot.x,py);ctx.lineTo(plot.x+plot.w,py);ctx.stroke();ctx.globalAlpha=1;
+      ctx.fillText((k===1?'pred ':'PI ')+y.toFixed(0),plot.x-6,py); });
+    ctx.strokeStyle=CYAN;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(plot.x,sy(predMean));ctx.lineTo(plot.x+plot.w,sy(predMean));ctx.stroke();
+    ctx.fillStyle=DIM;ctx.textAlign="center";ctx.textBaseline="top";ctx.fillText('confirmation heat #',plot.x+plot.w/2,plot.y+plot.h+8);
+    // dots
+    runs.forEach((r,i)=>{ const inside=r>=piLo&&r<=piHi; ctx.fillStyle=inside?TEAL:DANGER;
+      ctx.beginPath();ctx.arc(sxi(i),sy(Math.max(yLo,Math.min(yHi,r))),4,0,7);ctx.fill(); });
+  }
+  function addRun(){
+    const bias=+el('confBias').value; const y=predMean+bias+randn()*sigma;
+    if(runs.length>=maxRuns) runs.shift();
+    runs.push(y); if(y>=piLo&&y<=piHi)nIn++;else nOut++;
+    el('confIn').textContent=nIn; el('confOut').textContent=nOut;
+    const total=nIn+nOut, outRate=total?nOut/total:0;
+    const word=el('confWord'), box=el('confVerdict');
+    if(total<5){ word.textContent='need a few more…'; box.className='t'; }
+    else if(outRate<=0.1){ word.textContent='✓ VALIDATED — deploy'; box.className='t in'; }
+    else if(outRate<=0.25){ word.textContent='marginal — investigate'; box.className='t'; }
+    else { word.textContent='✗ FAILED — loop back'; box.className='t out'; }
+    draw();
+  }
+  el('confRun').addEventListener('click',addRun);
+  el('confRun10').addEventListener('click',()=>{ let k=0; const iv=setInterval(()=>{addRun(); if(++k>=10)clearInterval(iv);},90); });
+  el('confReset').addEventListener('click',()=>{ runs=[];nIn=0;nOut=0;el('confIn').textContent=0;el('confOut').textContent=0;el('confWord').textContent='run some heats…';el('confVerdict').className='t';draw(); });
+  el('confBias').addEventListener('input',()=>{ el('confBiasOut').textContent='+'+el('confBias').value+' MPa'; });
+  draw();
+  window.__ATM_REDRAW.push(function(){ _c(); draw(); });
+})();
+
+/* ============================================================
+   Widget 10 — Drift monitoring residual control chart
+   ============================================================ */
+(function(){
+  const cv=document.getElementById('driftCanvas'), ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height, pad={l:52,r:20,t:20,b:36};
+  const plot={x:pad.l,y:pad.t,w:W-pad.l-pad.r,h:H-pad.t-pad.b};
+  let DIM,LINE,DANGER,TEAL,CYAN;
+  function _c(){ DIM=cssv('--atm-ink-faint');LINE=cssv('--atm-line');DANGER=cssv('--atm-danger');TEAL=cssv('--atm-teal');CYAN=cssv('--atm-cyan'); }
+  _c();
+  const el=id=>document.getElementById(id);
+  const sigR=10, UCL=30, LCL=-30, maxPts=46, yLo=-50, yHi=50;
+  let pts=[], drift=0, timer=null, up=0;
+  const sy=y=>plot.y+(1-(y-yLo)/(yHi-yLo))*plot.h;
+  const sxi=i=>plot.x+(maxPts<=1?0:(i/(maxPts-1))*plot.w);
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle=DIM;ctx.font="11px 'IBM Plex Mono',monospace";ctx.textAlign="right";ctx.textBaseline="middle";
+    // limits + center
+    [[UCL,'UCL +30',DANGER],[0,'CL 0',DIM],[LCL,'LCL −30',DANGER]].forEach(([y,lab,col])=>{
+      ctx.strokeStyle=col;ctx.globalAlpha=y===0?.5:.8;ctx.setLineDash(y===0?[]:[6,4]);ctx.lineWidth=1.2;
+      ctx.beginPath();ctx.moveTo(plot.x,sy(y));ctx.lineTo(plot.x+plot.w,sy(y));ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;
+      ctx.fillStyle=col;ctx.fillText(lab,plot.x-6,sy(y)); });
+    ctx.fillStyle=DIM;ctx.textAlign="center";ctx.textBaseline="top";ctx.fillText('heat # (residual = actual − predicted)',plot.x+plot.w/2,plot.y+plot.h+6);
+    // connect + dots
+    ctx.strokeStyle='rgba(63,182,216,.35)';ctx.lineWidth=1;ctx.beginPath();
+    pts.forEach((p,i)=>{ const X=sxi(i),Y=sy(Math.max(yLo,Math.min(yHi,p))); i===0?ctx.moveTo(X,Y):ctx.lineTo(X,Y); });ctx.stroke();
+    pts.forEach((p,i)=>{ const oob=p>UCL||p<LCL; ctx.fillStyle=oob?DANGER:CYAN;
+      ctx.beginPath();ctx.arc(sxi(i),sy(Math.max(yLo,Math.min(yHi,p))),3.6,0,7);ctx.fill(); });
+  }
+  function tick(){
+    drift += (+el('driftRate').value/100)*2; // up to 2 MPa/heat
+    const r=drift+randn()*sigR;
+    if(pts.length>=maxPts)pts.shift();
+    pts.push(r);
+    // detect
+    const last=pts[pts.length-1]; let trend=false;
+    if(pts.length>=7){ trend=true; for(let i=pts.length-7;i<pts.length-1;i++){ if(pts[i+1]<=pts[i]){trend=false;break;} } }
+    const oob=last>UCL||last<LCL;
+    const st=el('driftStatus');
+    if(oob){ st.textContent='⚠ OUT OF CONTROL — refit'; st.style.color=DANGER; }
+    else if(trend){ st.textContent='⚠ 7-pt run up — drifting'; st.style.color=cssv('--atm-amber'); }
+    else { st.textContent='stable'; st.style.color=TEAL; }
+    draw();
+  }
+  el('driftStream').addEventListener('click',()=>{ if(timer){clearInterval(timer);timer=null;el('driftStream').textContent='Stream heats';return;} el('driftStream').textContent='Pause'; timer=setInterval(tick,220); });
+  el('driftReset').addEventListener('click',()=>{ pts=[];drift=0; if(timer){clearInterval(timer);timer=null;el('driftStream').textContent='Stream heats';} el('driftStatus').textContent='stable';el('driftStatus').style.color=TEAL; draw(); });
+  // seed a few stable points
+  for(let i=0;i<10;i++)pts.push(randn()*sigR);
+  draw();
+  window.__ATM_REDRAW.push(function(){ _c(); draw(); });
+})();
+
+try{ new MutationObserver(function(){ (window.__ATM_REDRAW||[]).forEach(function(f){ try{f();}catch(e){} }); })
+  .observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']}); }catch(e){}
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<style>
+/* ---- Dark theme: restore the lesson's original palette (placed last so it wins) ---- */
+html[data-theme="dark"]{
+  --atm-bg:#071120; --atm-panel:#0d1b30; --atm-panel2:#0f2038; --atm-line:#1b3350;
+  --atm-surface:#08152a; --atm-surface-deep:#061020;
+  --atm-ink:#e8f1f8; --atm-ink-dim:#9fb6cc; --atm-ink-faint:#6f8aa6;
+  --atm-strong:#ffffff;
+  --atm-cyan:#3fb6d8; --atm-amber:#e5a23c; --atm-teal:#37c7a7; --atm-orange:#e8743b;
+  --atm-violet:#9b8cff; --atm-danger:#e0576b;
+  --atm-mtb:#4fd18a; --atm-xl:#3fc37a;
+  --atm-hair:rgba(232,240,248,.42); --atm-dot:#ffffff;
+}
+</style>
+</body>
+</html>

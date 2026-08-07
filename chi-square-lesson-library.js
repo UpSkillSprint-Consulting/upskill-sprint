@@ -39,6 +39,18 @@
       description: 'Build a defensible model for nested or crossed engineering data with a flexible scenario configurator, method ranking, diagnostics, software playbooks, and practice data.'
     },
     {
+      marker: 'data-after-the-model',
+      sectionId: 'data-analytics',
+      path: '/lessons/data-analytics/after-the-model',
+      topic: 'data-analytics',
+      level: 'advanced',
+      interactive: 'true',
+      search: 'after the model prediction confidence interval prediction interval response optimization desirability solver robust design taguchi monte carlo capability cpk confirmation runs spc drift monitoring dmaic minitab predict excel data analytics advanced interactive',
+      meta: '<span>Advanced</span><span>Interactive</span><span>55 min</span><span>Minitab + Excel + Python</span>',
+      title: 'After the Model \u2014 Prediction, Optimization & Beyond',
+      description: 'Turn a fitted model into decisions: predict with the right interval, optimize and robustify settings, simulate capability, confirm against reality, and monitor for drift.'
+    },
+    {
       marker: 'data-anova-analysis-one-stop-shop',
       sectionId: 'statistics',
       path: '/lessons/statistics/anova-analysis-one-stop-shop',
