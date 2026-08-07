@@ -265,10 +265,15 @@ table.toolmap tr:hover td{background:rgba(63,182,216,.03)}
 .tally .t b{font-size:16px;display:block}
 .tally .t.in{color:var(--atm-teal);border-color:rgba(55,199,167,.4)}
 .tally .t.out{color:var(--atm-danger);border-color:rgba(224,87,107,.4)}
+    /* clickable menu cards -> jump to lesson section */
+    .card{cursor:pointer}
+    .card:hover,.card:focus-within{border-color:var(--atm-cyan);box-shadow:0 0 0 1px var(--atm-cyan)}
+    .card-link{position:absolute;inset:0;z-index:2;border-radius:12px;font-size:0;line-height:0;color:transparent;text-decoration:none}
+    #lesson-content .card-link:focus-visible{outline:3px solid var(--atm-cyan);outline-offset:2px}
+    #lesson-content section{scroll-margin-top:90px}
 </style>
 </head>
 <body data-lesson-page="true" data-category="data-analytics" data-level="advanced" data-interactive="true" data-lesson-type="general">
-<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
 <header class="site lesson-sitebar">
   <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
@@ -305,48 +310,56 @@ table.toolmap tr:hover td{background:rgba(63,182,216,.03)}
     <div class="menu" id="menu">
       <div class="card" style="--atm-c:var(--atm-cyan)">
         <div class="qn">"What will Y be if I set X here?"</div>
+        <a class="card-link" href="#predict" aria-label="Jump to the Predict section"></a>
         <h4>1 · Predict</h4>
         <p>Score new settings inside the design space. Point estimate <em>plus</em> an interval — and you must pick the right interval.</p>
         <div class="tools"><b>Tools:</b> Minitab Predict · Excel TREND/FORECAST · statsmodels <code>get_prediction()</code></div>
       </div>
       <div class="card" style="--atm-c:var(--atm-amber)">
         <div class="qn">"What X gives me the best Y?"</div>
+        <a class="card-link" href="#optimize" aria-label="Jump to the Optimize section"></a>
         <h4>2 · Optimize</h4>
         <p>Find the settings that maximize, minimize, or hit a target — often for several responses at once, without breaking any of them.</p>
         <div class="tools"><b>Tools:</b> Minitab Response Optimizer · Excel Solver · <code>scipy.optimize</code></div>
       </div>
       <div class="card" style="--atm-c:var(--atm-violet)">
         <div class="qn">"What actually matters?"</div>
+        <a class="card-link" href="#robust" aria-label="Jump to the Rank drivers section"></a>
         <h4>3 · Rank drivers</h4>
         <p>Sort factors by leverage so you know where to tighten control and where you have slack to give away.</p>
         <div class="tools"><b>Tools:</b> Pareto of effects · std. coefficients · SHAP · partial dependence</div>
       </div>
       <div class="card" style="--atm-c:var(--atm-teal)">
         <div class="qn">"How do I stay good when inputs wobble?"</div>
+        <a class="card-link" href="#robust" aria-label="Jump to the Robustify section"></a>
         <h4>4 · Robustify</h4>
         <p>Don't just chase the best mean — find the setpoint that's <em>least sensitive</em> to noise you can't control.</p>
         <div class="tools"><b>Tools:</b> Taguchi · dual-response · propagation of error</div>
       </div>
       <div class="card" style="--atm-c:var(--atm-orange)">
         <div class="qn">"What's the risk / spread of outcomes?"</div>
+        <a class="card-link" href="#robust" aria-label="Jump to the Simulate section"></a>
         <h4>5 · Simulate</h4>
         <p>Push input variation through the model to predict the <em>distribution</em> of Y — and the capability — before you commit.</p>
         <div class="tools"><b>Tools:</b> Monte Carlo · tolerance analysis · predicted Cpk</div>
       </div>
       <div class="card" style="--atm-c:var(--atm-cyan)">
         <div class="qn">"Did the model tell the truth?"</div>
+        <a class="card-link" href="#confirm" aria-label="Jump to the Confirm section"></a>
         <h4>6 · Confirm</h4>
         <p>Run trials at the predicted optimum. If reality lands inside the prediction interval, you're validated. If not, back up.</p>
         <div class="tools"><b>Tools:</b> confirmation runs · actual-vs-predicted check</div>
       </div>
       <div class="card" style="--atm-c:var(--atm-amber)">
         <div class="qn">"How do I hold the gains?"</div>
+        <a class="card-link" href="#control" aria-label="Jump to the Deploy and monitor section"></a>
         <h4>7 · Deploy &amp; monitor</h4>
         <p>Lock in setpoints, update the control plan, run the model as a soft sensor, and watch residuals for drift.</p>
         <div class="tools"><b>Tools:</b> SPC · control plan · scoring pipeline · drift monitoring</div>
       </div>
       <div class="card" style="--atm-c:var(--atm-violet)">
         <div class="qn">"Is this the right model at all?"</div>
+        <a class="card-link" href="#dmaic" aria-label="Jump to the Loop back section"></a>
         <h4>0 · (Loop back)</h4>
         <p>If confirmation fails or residuals trend, you don't polish — you return upstream: re-specify, add terms, or collect data in a new region.</p>
         <div class="tools"><b>Tools:</b> residual diagnostics · lack-of-fit · augmenting the design</div>
@@ -367,7 +380,7 @@ table.toolmap tr:hover td{background:rgba(63,182,216,.03)}
       <p><strong>Confidence interval (CI)</strong> = uncertainty about the <em>average</em> Y at those settings. <strong>Prediction interval (PI)</strong> = uncertainty about a single <em>next</em> observation. The PI is always wider because it carries both the model's uncertainty <em>and</em> the process's own scatter.</p>
     </div>
 
-    <p>Decision rule: if you're setting policy about the process on average ("does grade L-355 clear 355 MPa on average?"), the CI is your tool. If you're making a call about the <em>next pipe</em> or <em>next heat</em> ("will this heat pass?"), you owe the customer a PI. Quoting a CI where a PI belongs is how a process that looks capable on paper ships nonconforming product.</p>
+    <p>Decision rule: if you're setting policy about the process on average ("does grade X70 clear 355 MPa on average?"), the CI is your tool. If you're making a call about the <em>next pipe</em> or <em>next heat</em> ("will this heat pass?"), you owe the customer a PI. Quoting a CI where a PI belongs is how a process that looks capable on paper ships nonconforming product.</p>
 
     <div class="eqbox">
       $$\hat{Y}_0 \pm t_{\alpha/2,\,n-p}\; s\sqrt{\underbrace{x_0^\top (X^\top X)^{-1} x_0}_{\text{mean: CI}} \;+\; \underbrace{1}_{\text{new obs: PI}}}$$
