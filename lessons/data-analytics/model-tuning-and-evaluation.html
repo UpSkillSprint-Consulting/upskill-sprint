@@ -196,11 +196,11 @@ pre .cm{ color:#84a9e6; } pre .fn{ color:#7fe0c9; } pre .kw{ color:#f0a868; }
 @media screen{
   html{ background:#e9edf3; }
   body{ font-size:12px; }
-  .mte-sheet{ max-width:940px; margin:26px auto 46px; background:#fff;
-         padding:6px 46px 42px; border-radius:14px; box-shadow:0 6px 30px rgba(16,26,43,.10); }
+  .mte-sheet{ max-width:1120px; margin:26px auto 46px; background:#fff;
+         padding:6px 56px 42px; border-radius:14px; box-shadow:0 6px 30px rgba(16,26,43,.10); }
   .cover{ height:auto; min-height:330px; }
-  .cover-top{ padding:40px 46px 0; }
-  .cover-strip{ padding:14px 46px; }
+  .cover-top{ padding:40px max(56px, calc((100% - 1120px)/2 + 56px)) 0; }
+  .cover-strip{ padding:14px max(56px, calc((100% - 1120px)/2 + 56px)); }
   .poster-embed{ margin:14px 0 6px; border:1px solid var(--mte-line); border-radius:12px;
                  overflow:hidden; background:#f7f9fc; }
   .poster-embed object, .poster-embed iframe{ display:block; width:100%; height:80vh;
@@ -212,6 +212,12 @@ pre .cm{ color:#84a9e6; } pre .fn{ color:#7fe0c9; } pre .kw{ color:#f0a868; }
   .embed-note{ font-size:10.5px; color:var(--mte-muted); margin-top:8px; }
 }
 @media print{ .poster-embed{ display:none; } }
+
+@media (max-width:640px){
+  .cover-top{ padding-left:20px; padding-right:20px; }
+  .cover-strip{ padding-left:20px; padding-right:20px; }
+  .mte-sheet{ padding-left:20px; padding-right:20px; }
+}
 
 /* ===================== INTERACTIVE WIDGETS ===================== */
 .widget{ border:1px solid var(--mte-line); border-radius:14px; background:linear-gradient(180deg,#fbfcfe,#f4f8fd);
