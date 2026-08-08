@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Model Tuning & Evaluation",
+  "slug": "model-tuning-and-evaluation",
+  "category": "Data Analytics",
+  "category_slug": "data-analytics",
+  "level": "Intermediate",
+  "lesson_type": "General",
+  "estimated_minutes": 45,
+  "interactive": true,
+  "card_title": "Model Tuning & Evaluation",
+  "card_description": "How to tell whether a predictive model is actually good \u2014 what it predicts, how to validate and tune it honestly, which metric to trust, and how to read regression diagnostics.",
+  "search_keywords": ["model evaluation","overfitting","cross-validation","bias-variance","regression metrics","confusion matrix","regression diagnostics","hyperparameter tuning"],
+  "suggested_github_path": "lessons/data-analytics/model-tuning-and-evaluation.html"
+}
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Model Tuning &amp; Evaluation</title>
+  <meta name="description" content="How to tell whether a predictive model is actually good: what it predicts, how to validate and tune it honestly, which metric to trust, and how to read regression diagnostics.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/data-analytics/model-tuning-and-evaluation">
+  <link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
+  <style>
+:root{
+  color-scheme:light dark;
+  --mte-ink:#101a2b; --mte-muted:#5a6980; --mte-line:#e3e8f0; --mte-soft:#f5f7fb; --mte-card:#ffffff;
+  --mte-navy:#12315c; --mte-blue:#1f5fbf; --mte-blue2:#3b82f6; --mte-teal:#0d9488; --mte-violet:#6d28d9;
+  --mte-good:#15803d; --mte-goodbg:#eaf6ee; --mte-warn:#b45309; --mte-warnbg:#fdf2e2; --mte-bad:#b91c1c; --mte-badbg:#fbeaea;
+  --mte-info:#1d4ed8; --mte-infobg:#eaf0fd;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+body{
+  font-family:"Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;
+  color:var(--mte-ink); margin:0; font-size:11.2px; line-height:1.6;
+}
+@page{ size:Letter; margin:15mm 14mm; }
+@page nobleed{ size:Letter; margin:0; }
+.cover, .poster{ page:nobleed; }
+
+/* ---------- Page flow helpers ---------- */
+.page{ page-break-after:always; }
+.page:last-child{ page-break-after:auto; }
+h2,h3,h4{ break-after:avoid; }
+table,.card,.callout,.formula,.qc,.steps li,.verdict-row{ break-inside:avoid; }
+
+/* ---------- Typography ---------- */
+h1{ font-size:30px; line-height:1.12; margin:0 0 8px; letter-spacing:-.5px; }
+h2{ font-size:19px; margin:26px 0 10px; color:var(--mte-navy); letter-spacing:-.2px; }
+h3{ font-size:14.5px; margin:16px 0 6px; color:var(--mte-ink); }
+h4{ font-size:12px; margin:12px 0 4px; color:var(--mte-navy); text-transform:uppercase; letter-spacing:.4px; }
+p{ margin:7px 0; }
+.kicker{ font-size:10px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase; color:var(--mte-blue); margin:0 0 2px; }
+.lead{ font-size:13px; color:#26364d; }
+strong{ color:var(--mte-ink); }
+code{ font-family:"Cascadia Code",Consolas,"Courier New",monospace; background:#eef2f8; padding:1px 5px; border-radius:5px; font-size:10.3px; color:#0b2f6b; }
+a{ color:var(--mte-blue); text-decoration:none; }
+sub,sup{ font-size:.72em; }
+
+/* ---------- Section wrapper ---------- */
+.sec{ margin-top:22px; }
+.sec-head{ border-bottom:2px solid var(--mte-line); padding-bottom:6px; margin-bottom:6px; }
+.divider{ height:2px; background:linear-gradient(90deg,var(--mte-blue),transparent); margin:4px 0 0; border-radius:2px; }
+
+/* ---------- Cover ---------- */
+.cover{ height:100vh; color:#fff; padding:0; display:flex; flex-direction:column;
+  background:radial-gradient(120% 90% at 85% -10%,#2a5db0 0%,#173d78 42%,#0d2145 100%); }
+.cover-top{ padding:26mm 20mm 0; flex:1; }
+.cover-badges{ display:flex; gap:8px; margin-bottom:22px; }
+.cbadge{ font-size:10px; font-weight:700; letter-spacing:.5px; padding:5px 11px; border-radius:999px;
+  background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.28); }
+.cover h1{ font-size:46px; line-height:1.05; margin:0 0 14px; max-width:15ch; }
+.cover .tag{ font-size:15px; color:#cfe0fb; max-width:52ch; line-height:1.5; }
+.cover-meta{ display:flex; gap:26px; margin-top:30px; flex-wrap:wrap; }
+.cover-meta div{ border-left:2px solid rgba(255,255,255,.35); padding-left:12px; }
+.cover-meta .n{ font-size:19px; font-weight:800; }
+.cover-meta .l{ font-size:10.5px; color:#bcd0f2; text-transform:uppercase; letter-spacing:.6px; }
+.cover-strip{ background:rgba(0,0,0,.22); padding:12px 20mm; display:flex; justify-content:space-between;
+  align-items:center; font-size:11px; color:#d8e5fb; }
+.cover-pill{ display:inline-flex; gap:7px; align-items:center; }
+.dot{ width:8px; height:8px; border-radius:50%; background:#54e0c7; display:inline-block; }
+
+/* ---------- TOC ---------- */
+.toc-grid{ display:grid; grid-template-columns:1fr 1fr; gap:6px 30px; margin-top:12px; }
+.toc-item{ display:flex; align-items:baseline; gap:10px; padding:7px 0; border-bottom:1px dashed var(--mte-line); }
+.toc-num{ font-weight:800; color:var(--mte-blue); font-size:12px; min-width:20px; }
+.toc-t{ font-size:12px; }
+.toc-t small{ display:block; color:var(--mte-muted); font-size:10px; }
+
+/* ---------- Callouts ---------- */
+.callout{ border-radius:10px; padding:11px 14px 11px 14px; margin:12px 0; font-size:10.8px;
+  border:1px solid var(--mte-line); background:var(--mte-soft); position:relative; }
+.callout .ct{ font-weight:800; font-size:10px; text-transform:uppercase; letter-spacing:.6px; display:block; margin-bottom:3px; }
+.callout.why{ background:var(--mte-infobg); border-color:#c9d9f7; } .callout.why .ct{ color:var(--mte-info); }
+.callout.watch{ background:var(--mte-warnbg); border-color:#f3ddb6; } .callout.watch .ct{ color:var(--mte-warn); }
+.callout.exam{ background:#f2ecfb; border-color:#ddccf5; } .callout.exam .ct{ color:var(--mte-violet); }
+.callout.good{ background:var(--mte-goodbg); border-color:#c4e6cf; } .callout.good .ct{ color:var(--mte-good); }
+.callout.bad{ background:var(--mte-badbg); border-color:#eecccc; } .callout.bad .ct{ color:var(--mte-bad); }
+.callout.note{ background:var(--mte-soft); } .callout.note .ct{ color:var(--mte-navy); }
+
+/* ---------- Quick check ---------- */
+.qc{ border:1px solid #cfe0d6; background:linear-gradient(180deg,#f2faf5,#ffffff); border-radius:10px;
+  padding:11px 14px; margin:12px 0; }
+.qc .qh{ font-weight:800; color:var(--mte-teal); font-size:10px; text-transform:uppercase; letter-spacing:.7px; margin-bottom:4px; }
+.qc .qq{ font-weight:600; }
+.qc .qa{ margin-top:6px; padding-top:6px; border-top:1px dashed #cfe0d6; color:#245a3a; font-size:10.6px; }
+.qc .qa b{ color:var(--mte-teal); }
+
+/* ---------- Steps ---------- */
+.steps{ list-style:none; padding:0; margin:12px 0; counter-reset:s; }
+.steps li{ position:relative; padding:2px 0 12px 42px; margin-bottom:2px; }
+.steps li::before{ counter-increment:s; content:counter(s); position:absolute; left:0; top:0;
+  width:28px; height:28px; border-radius:8px; background:var(--mte-navy); color:#fff; font-weight:800;
+  display:flex; align-items:center; justify-content:center; font-size:13px; }
+.steps li h4{ margin:2px 0 3px; text-transform:none; letter-spacing:0; font-size:12.5px; color:var(--mte-navy); }
+
+/* ---------- Cards ---------- */
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0; }
+.card-grid.three{ grid-template-columns:1fr 1fr 1fr; }
+.card{ border:1px solid var(--mte-line); border-radius:10px; padding:11px 13px; background:var(--mte-card); }
+.card .ch{ font-weight:800; font-size:11.6px; color:var(--mte-navy); margin-bottom:3px; }
+.card .cs{ font-size:10.5px; color:var(--mte-muted); }
+.card.accent{ border-top:3px solid var(--mte-blue); }
+.chip{ display:inline-block; font-size:9px; font-weight:800; letter-spacing:.4px; padding:2px 7px;
+  border-radius:999px; text-transform:uppercase; }
+.chip.good{ background:var(--mte-goodbg); color:var(--mte-good); }
+.chip.warn{ background:var(--mte-warnbg); color:var(--mte-warn); }
+.chip.bad{ background:var(--mte-badbg); color:var(--mte-bad); }
+.chip.info{ background:var(--mte-infobg); color:var(--mte-info); }
+
+/* ---------- Tables ---------- */
+table.tbl{ width:100%; border-collapse:collapse; margin:12px 0; font-size:10.4px; }
+table.tbl th{ background:var(--mte-navy); color:#fff; text-align:left; padding:7px 9px; font-size:10px;
+  letter-spacing:.3px; vertical-align:top; }
+table.tbl td{ padding:6px 9px; border-bottom:1px solid var(--mte-line); vertical-align:top; }
+table.tbl tr:nth-child(even) td{ background:#fafbfe; }
+table.tbl.tight td,table.tbl.tight th{ padding:5px 8px; }
+.v-good{ color:var(--mte-good); font-weight:800; } .v-warn{ color:var(--mte-warn); font-weight:800; } .v-bad{ color:var(--mte-bad); font-weight:800; }
+
+/* ---------- Formula ---------- */
+.formula{ background:#0f2547; color:#eaf1ff; border-radius:10px; padding:12px 16px; margin:12px 0;
+  font-family:"Cambria Math",Cambria,Georgia,serif; font-size:13.5px; text-align:center; }
+.formula .lbl{ display:block; font-family:"Segoe UI",sans-serif; font-size:9.5px; letter-spacing:.6px;
+  text-transform:uppercase; color:#8fb4ef; margin-bottom:6px; }
+.frac{ display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 4px; }
+.frac .num{ border-bottom:1.5px solid #eaf1ff; padding:0 6px 1px; }
+.frac .den{ padding:1px 6px 0; }
+.mono{ font-family:Consolas,"Courier New",monospace; }
+
+/* ---------- Code block ---------- */
+pre{ background:#0f2547; color:#dbe7ff; padding:11px 14px; border-radius:9px; overflow:auto;
+  font-family:Consolas,"Courier New",monospace; font-size:10px; line-height:1.55; margin:10px 0; }
+pre .cm{ color:#84a9e6; } pre .fn{ color:#7fe0c9; } pre .kw{ color:#f0a868; }
+
+/* =====================================================================
+   POSTERS
+   ===================================================================== */
+.poster{ height:100vh; color:#fff; padding:14mm 13mm; page-break-after:always; overflow:hidden;
+  display:flex; flex-direction:column; }
+.poster .p-kicker{ font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; opacity:.85; }
+.poster h2{ color:#fff; font-size:27px; margin:2px 0 2px; border:0; letter-spacing:-.3px; }
+.poster .p-sub{ font-size:11.5px; opacity:.9; max-width:70ch; margin-bottom:12px; }
+.poster .p-foot{ margin-top:auto; font-size:9.5px; opacity:.72; display:flex; justify-content:space-between; padding-top:10px; border-top:1px solid rgba(255,255,255,.22); }
+.pbox{ background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22); border-radius:12px; padding:11px 13px; }
+.pbox h3{ color:#fff; font-size:12.5px; margin:0 0 6px; }
+.pgrid{ display:grid; gap:9px; }
+.pill-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+.ppill{ background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.28); border-radius:8px; padding:5px 9px; font-size:10px; }
+.p-flow{ display:flex; align-items:stretch; gap:0; margin:6px 0 12px; }
+.p-node{ flex:1; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.3); border-radius:10px;
+  padding:9px 8px; text-align:center; position:relative; }
+.p-node .pn-n{ font-size:9px; font-weight:800; letter-spacing:.6px; opacity:.8; }
+.p-node .pn-t{ font-size:12px; font-weight:800; margin:2px 0; }
+.p-node .pn-d{ font-size:9px; opacity:.9; line-height:1.35; }
+.p-arrow{ align-self:center; padding:0 5px; font-size:16px; opacity:.85; }
+
+/* Poster palettes */
+.poster.p1{ background:radial-gradient(120% 100% at 100% 0%,#2a5db0,#153a76 45%,#0b2247); }
+.poster.p2{ background:radial-gradient(120% 100% at 0% 0%,#0f8f86,#0b6b6a 45%,#083f45); }
+.poster.p3{ background:radial-gradient(120% 100% at 100% 0%,#7c3aed,#5b21b6 45%,#2e1065); }
+.poster.p4{ background:radial-gradient(120% 100% at 0% 0%,#2f4360,#243449 48%,#141d2b); }
+
+.ptable{ width:100%; border-collapse:collapse; font-size:9.6px; }
+.ptable th{ text-align:left; padding:5px 7px; font-size:9px; letter-spacing:.4px; text-transform:uppercase;
+  border-bottom:1.5px solid rgba(255,255,255,.4); opacity:.9; }
+.ptable td{ padding:5px 7px; border-bottom:1px solid rgba(255,255,255,.16); vertical-align:top; }
+.tag2{ font-size:8.5px; font-weight:800; padding:1px 6px; border-radius:6px; }
+.tag2.g{ background:rgba(80,220,150,.25); } .tag2.w{ background:rgba(250,200,90,.28); } .tag2.b{ background:rgba(250,120,120,.3); }
+/* ================= SCREEN / WEB PRESENTATION ================= */
+@media screen{
+  html{ background:#e9edf3; }
+  body{ font-size:12px; }
+  .wrap{ max-width:940px; margin:26px auto 46px; background:#fff;
+         padding:6px 46px 42px; border-radius:14px; box-shadow:0 6px 30px rgba(16,26,43,.10); }
+  .cover{ height:auto; min-height:330px; }
+  .cover-top{ padding:40px 46px 0; }
+  .cover-strip{ padding:14px 46px; }
+  .poster-embed{ margin:14px 0 6px; border:1px solid var(--mte-line); border-radius:12px;
+                 overflow:hidden; background:#f7f9fc; }
+  .poster-embed object, .poster-embed iframe{ display:block; width:100%; height:80vh;
+                 min-height:560px; border:0; }
+  .poster-embed .fallback{ padding:26px; text-align:center; color:var(--mte-muted); font-size:12px; }
+  a.dl{ display:inline-flex; align-items:center; gap:8px; font-weight:700; font-size:12.5px;
+        background:var(--mte-blue); color:#fff; padding:9px 15px; border-radius:9px; }
+  a.dl:hover{ background:#1a52a8; }
+  .embed-note{ font-size:10.5px; color:var(--mte-muted); margin-top:8px; }
+}
+@media print{ .poster-embed{ display:none; } }
+
+/* ===================== INTERACTIVE WIDGETS ===================== */
+.widget{ border:1px solid var(--mte-line); border-radius:14px; background:linear-gradient(180deg,#fbfcfe,#f4f8fd);
+  padding:15px 16px 14px; margin:18px 0; }
+.widget .w-head{ display:flex; align-items:center; gap:9px; margin:0 0 3px; flex-wrap:wrap; }
+.widget .w-tag{ font-size:8.5px; font-weight:800; letter-spacing:1.1px; text-transform:uppercase; color:#fff;
+  background:var(--mte-blue); padding:3px 9px; border-radius:999px; }
+.widget .w-title{ font-size:13.5px; font-weight:800; color:var(--mte-navy); }
+.widget .w-sub{ font-size:11px; color:var(--mte-muted); margin:3px 0 12px; line-height:1.5; }
+.w-row{ display:flex; gap:18px; flex-wrap:wrap; align-items:flex-start; }
+.w-col{ flex:1; min-width:250px; }
+canvas.w-canvas{ width:100%; height:auto; background:#fff; border:1px solid var(--mte-line); border-radius:10px; display:block; }
+.w-ctl{ display:flex; align-items:center; gap:11px; margin:11px 0 2px; flex-wrap:wrap; }
+.w-ctl label{ font-size:11px; font-weight:700; color:var(--mte-ink); white-space:nowrap; }
+.w-ctl .val{ font-variant-numeric:tabular-nums; font-weight:800; color:var(--mte-blue); min-width:30px; }
+input[type=range].w-slider{ -webkit-appearance:none; appearance:none; height:6px; border-radius:6px; margin:0;
+  background:linear-gradient(90deg,var(--mte-blue),#c3d6f2); outline:none; flex:1; min-width:120px; }
+input[type=range].w-slider::-webkit-slider-thumb{ -webkit-appearance:none; width:19px; height:19px; border-radius:50%;
+  background:var(--mte-blue); border:3px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.32); cursor:pointer; }
+input[type=range].w-slider::-moz-range-thumb{ width:19px;height:19px;border-radius:50%;background:var(--mte-blue);border:3px solid #fff;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.32);}
+.w-btn{ font-size:11.5px; font-weight:700; border:0; border-radius:9px; padding:8px 14px; cursor:pointer; background:var(--mte-navy); color:#fff; transition:.12s; }
+.w-btn:hover{ background:#0d2447; }
+.w-btn:active{ transform:translateY(1px); }
+.w-btn.alt{ background:#eaf0fb; color:var(--mte-navy); border:1px solid #cfe0fb; }
+.w-btn.alt.on{ background:var(--mte-blue); color:#fff; border-color:var(--mte-blue); }
+.w-readout{ display:flex; gap:9px; flex-wrap:wrap; margin-top:11px; }
+.w-stat{ flex:1; min-width:88px; background:#fff; border:1px solid var(--mte-line); border-radius:10px; padding:8px 11px; }
+.w-stat .k{ font-size:8.5px; text-transform:uppercase; letter-spacing:.5px; color:var(--mte-muted); font-weight:800; }
+.w-stat .v{ font-size:20px; font-weight:800; color:var(--mte-navy); font-variant-numeric:tabular-nums; line-height:1.2; }
+.w-badge{ display:inline-block; font-size:11px; font-weight:800; padding:5px 13px; border-radius:999px; }
+.w-badge.good{ background:var(--mte-goodbg); color:var(--mte-good); } .w-badge.warn{ background:var(--mte-warnbg); color:var(--mte-warn); }
+.w-badge.bad{ background:var(--mte-badbg); color:var(--mte-bad); } .w-badge.info{ background:var(--mte-infobg); color:var(--mte-info); }
+.w-note{ font-size:11px; color:#33415c; margin-top:10px; line-height:1.55; background:#fff; border:1px solid var(--mte-line);
+  border-left:3px solid var(--mte-blue); border-radius:8px; padding:9px 11px; }
+
+/* confusion matrix */
+.cm{ display:grid; grid-template-columns:64px 1fr 1fr; gap:5px; font-size:11px; }
+.cm .cm-cell{ border-radius:8px; padding:9px 6px; text-align:center; color:#fff; }
+.cm .cm-lab{ background:transparent; color:var(--mte-muted); font-weight:800; display:flex; align-items:center; justify-content:center; font-size:9px; text-align:center; text-transform:uppercase; letter-spacing:.4px; }
+.cm .tp{ background:#15803d } .cm .tn{ background:#2563eb } .cm .fp{ background:#c2740a } .cm .fn{ background:#b91c1c }
+.cm .cm-cell .n{ font-size:21px; font-weight:800; font-variant-numeric:tabular-nums; } .cm .cm-cell .t{ font-size:8.5px; opacity:.92; letter-spacing:.3px; }
+.metric-line{ display:flex; align-items:center; gap:9px; margin:7px 0; }
+.metric-line .ml-lab{ font-size:10.5px; font-weight:700; width:78px; color:var(--mte-ink); }
+.metric-line .ml-val{ font-size:12px; font-weight:800; color:var(--mte-navy); width:44px; text-align:right; font-variant-numeric:tabular-nums; }
+.bar{ height:9px; border-radius:6px; background:#e7edf6; overflow:hidden; flex:1; }
+.bar > i{ display:block; height:100%; border-radius:6px; background:var(--mte-blue); transition:width .18s; }
+
+/* metric chooser */
+.chooser-group{ margin:9px 0; }
+.chooser-group .cg-lab{ font-size:9.5px; font-weight:800; text-transform:uppercase; letter-spacing:.6px; color:var(--mte-muted); margin-bottom:6px; }
+.chooser-opts{ display:flex; flex-wrap:wrap; gap:6px; }
+.result-card{ margin-top:14px; background:#fff; border:1px solid var(--mte-line); border-left:4px solid var(--mte-teal); border-radius:10px; padding:12px 15px; }
+.result-card .rc-k{ font-size:9px; text-transform:uppercase; letter-spacing:.6px; color:var(--mte-muted); font-weight:800; }
+.result-card .rc-metric{ font-size:17px; font-weight:800; color:var(--mte-navy); margin-top:2px; }
+.result-card .rc-why{ font-size:11.5px; color:#33415c; margin-top:5px; line-height:1.5; }
+
+/* signature bars */
+.sig-toggle{ display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+.sig-bars{ display:flex; gap:22px; align-items:flex-end; height:158px; padding:6px 8px 0; border-bottom:2px solid var(--mte-line); }
+.sig-bar{ flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:6px; height:100%; }
+.sig-bar .bval{ font-size:12px; font-weight:800; color:var(--mte-navy); font-variant-numeric:tabular-nums; }
+.sig-bar .bcol{ width:64%; border-radius:8px 8px 0 0; transition:height .55s cubic-bezier(.2,.8,.2,1); min-height:2px; }
+.sig-bar .blab{ font-size:10px; font-weight:700; color:var(--mte-muted); text-align:center; }
+.sig-verdict{ margin-top:13px; }
+
+/* reveal cards (diagnostics triage + interpretation flip) */
+.reveal-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:11px; margin-top:13px; }
+.rcard{ background:#fff; border:1px solid var(--mte-line); border-radius:11px; padding:12px 13px; cursor:pointer; transition:.15s; }
+.rcard:hover{ border-color:var(--mte-blue); box-shadow:0 4px 14px rgba(31,95,191,.13); transform:translateY(-1px); }
+.rcard .rc-front{ font-weight:800; font-size:12px; color:var(--mte-navy); line-height:1.35; }
+.rcard .rc-meta{ font-size:10px; color:var(--mte-muted); margin-top:3px; }
+.rcard .rc-hint{ font-size:9px; color:var(--mte-blue); margin-top:9px; text-transform:uppercase; letter-spacing:.6px; font-weight:800; }
+.rcard .rc-back{ display:none; font-size:11px; color:#33415c; margin-top:9px; line-height:1.5; border-top:1px dashed var(--mte-line); padding-top:9px; }
+.rcard.open .rc-back{ display:block; } .rcard.open .rc-hint{ display:none; }
+.rcard .verdict{ font-size:9.5px; font-weight:800; padding:3px 9px; border-radius:999px; margin-top:9px; display:inline-block; }
+.verdict.good{ background:var(--mte-goodbg); color:var(--mte-good);} .verdict.warn{ background:var(--mte-warnbg); color:var(--mte-warn);} .verdict.bad{ background:var(--mte-badbg); color:var(--mte-bad);}
+
+/* quiz */
+.quiz{ margin-top:14px; }
+.quiz-progress{ height:8px; background:#e7edf6; border-radius:6px; overflow:hidden; margin-bottom:15px; }
+.quiz-progress > i{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--mte-blue),var(--mte-teal)); transition:width .4s; }
+.q{ border:1px solid var(--mte-line); border-radius:12px; padding:14px 16px; margin-bottom:12px; background:#fff; }
+.q .qn{ font-size:12.5px; font-weight:700; color:var(--mte-ink); margin-bottom:10px; line-height:1.5; }
+.q .qn .num{ color:var(--mte-blue); font-weight:800; margin-right:7px; }
+.opt{ display:block; width:100%; text-align:left; font-size:11.5px; border:1.5px solid var(--mte-line); background:#fff;
+  border-radius:9px; padding:9px 12px; margin:6px 0; cursor:pointer; transition:.12s; color:var(--mte-ink); font-family:inherit; }
+.opt:hover{ border-color:var(--mte-blue); background:#f5f9ff; }
+.opt.correct{ border-color:var(--mte-good); background:var(--mte-goodbg); color:#0f5c2c; font-weight:700; }
+.opt.wrong{ border-color:var(--mte-bad); background:var(--mte-badbg); color:#8f1a1a; }
+.opt.disabled{ pointer-events:none; opacity:.9; }
+.opt .mark{ font-weight:800; margin-right:6px; }
+.q .explain{ display:none; font-size:11px; margin-top:9px; padding:9px 12px; border-radius:8px; background:#eef3fb; color:#26364d; border-left:3px solid var(--mte-blue); line-height:1.5; }
+.q.answered .explain{ display:block; }
+.quiz-score{ display:none; text-align:center; padding:20px; border-radius:13px; background:radial-gradient(120% 120% at 50% 0%,#1c4a8f,#0d2145); color:#fff; margin-top:8px; }
+.quiz-score.show{ display:block; }
+.quiz-score .big{ font-size:34px; font-weight:800; letter-spacing:-.5px; }
+.quiz-score .msg{ font-size:12px; opacity:.92; margin-top:5px; }
+.quiz-reset{ margin-top:12px; }
+
+@media print{ .widget,.quiz{ display:none !important; } }
+
+/* ===================== POSTER CARDS (dark, matches site) ===================== */
+.poster-cards{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:16px 0 4px; }
+@media (max-width:720px){ .poster-cards{ grid-template-columns:1fr; } }
+.pcard{ position:relative; border-radius:18px; padding:22px 22px 20px; overflow:hidden;
+  background:linear-gradient(160deg,#122238,#0b1626 70%); border:1px solid rgba(255,255,255,.09);
+  box-shadow:0 10px 30px rgba(8,15,30,.18); }
+.pcard::before{ content:""; position:absolute; width:240px; height:240px; right:-70px; top:-90px; border-radius:50%;
+  background:radial-gradient(circle,var(--mte-glow) 0%,transparent 68%); opacity:.55; pointer-events:none; }
+.pcard.pc1{ --mte-glow:#2f6fd6; } .pcard.pc2{ --mte-glow:#0f9f92; } .pcard.pc3{ --mte-glow:#8b46f0; } .pcard.pc4{ --mte-glow:#5b7196; }
+.pcard-badge{ display:inline-block; font-size:11px; font-weight:800; letter-spacing:1.4px; color:#fff;
+  padding:6px 15px; border-radius:999px; }
+.pc1 .pcard-badge{ background:#2f6fd6; } .pc2 .pcard-badge{ background:#0f9f92; }
+.pc3 .pcard-badge{ background:#8b46f0; } .pc4 .pcard-badge{ background:#5b7196; }
+.pcard-title{ font-family:Georgia,"Times New Roman",serif; font-size:24px; font-weight:700; color:#f3f7fe;
+  margin:16px 0 10px; letter-spacing:.2px; }
+.pcard-desc{ font-size:12.5px; line-height:1.6; color:#aebaccd0; color:#a9b6cb; margin:0 0 14px; }
+.pcard-label{ font-size:11px; font-weight:800; letter-spacing:1px; color:#7f8ba3; text-transform:uppercase; margin:0 0 14px; }
+.pcard-actions{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.pcard-btn{ position:relative; display:flex; flex-direction:column; align-items:center; gap:5px; text-align:center;
+  padding:16px 10px; border-radius:13px; text-decoration:none; background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.12); transition:.16s; }
+.pcard-btn:hover{ background:rgba(255,255,255,.07); border-color:var(--mte-glow); transform:translateY(-1px); }
+.pcard-btn svg{ width:26px; height:26px; stroke:#eaf1fb; }
+.pcard-btn .b1{ font-size:13px; font-weight:800; color:#f3f7fe; }
+.pcard-btn .b2{ font-size:10.5px; color:#8f9bb3; }
+.pcard-btn .spark{ position:absolute; top:8px; right:10px; width:12px; height:12px; color:var(--mte-glow); opacity:.9; }
+@media print{ .poster-cards{ display:none !important; } .posters-print-note{ display:block !important; } }
+
+</style>
+  <style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+.quiz-head h3{margin:0 0 4px}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+html[data-theme="dark"] .quiz-section .lesson-kicker{color:#5fd3c4}
+html[data-theme="dark"] #quiz-heading{color:#e7eef4}
+</style>
+</head>
+<body data-lesson-page="true" data-category="data-analytics" data-level="intermediate" data-interactive="true" data-lesson-type="general">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<main id="lesson-content">
+<section class="cover page">
+  <div class="cover-top">
+    <div class="cover-badges">
+      <span class="cbadge">Data Analytics</span>
+      <span class="cbadge">Intermediate</span>
+      <span class="cbadge">Interactive</span>
+    </div>
+    <h1>Model Tuning &amp; Evaluation</h1>
+    <p class="tag">How to tell whether a predictive model is actually good — what it really predicts, how to test it honestly, how to tune it, which metric to trust, and how to read the diagnostic output without being fooled.</p>
+    <div class="cover-meta">
+      <div><div class="n">40&ndash;50 min</div><div class="l">Estimated time</div></div>
+      <div><div class="n">6 modules</div><div class="l">Plus 4 wall posters</div></div>
+      <div><div class="n">CSSBB / CQE</div><div class="l">Exam-aligned</div></div>
+      <div><div class="n">Regression &amp; ML</div><div class="l">Scope</div></div>
+    </div>
+  </div>
+  <div class="cover-strip">
+    <span class="cover-pill"><span class="dot"></span> UpSkill Sprint Consulting &nbsp;·&nbsp; upskillsprint.com</span>
+    <span>Worked throughout on a real steel-process energy model</span>
+  </div>
+</section>
+
+<div class="wrap">
+
+<section class="page">
+  <p class="kicker">Overview</p>
+  <h1 style="font-size:26px;color:var(--mte-navy)">In this lesson</h1>
+  <p class="lead">Evaluation is the discipline of asking, honestly, “would this model still be right on data it has never seen?” Tuning is the discipline of improving it without lying to yourself in the process. This lesson builds both, one layer at a time.</p>
+
+  <div class="toc-grid">
+    <div class="toc-item"><span class="toc-num">01</span><span class="toc-t">What your model actually predicts<small>The conditional mean, residuals, and why a line is a line of averages</small></span></div>
+    <div class="toc-item"><span class="toc-num">02</span><span class="toc-t">Validate: train, holdout &amp; cross-validation<small>The three R² values and how overfitting shows up</small></span></div>
+    <div class="toc-item"><span class="toc-num">03</span><span class="toc-t">Tune: bias, variance &amp; hyperparameters<small>Improving a model without cheating on the test set</small></span></div>
+    <div class="toc-item"><span class="toc-num">04</span><span class="toc-t">Measure: the metric catalog<small>Regression, classification, clustering &amp; quantile metrics</small></span></div>
+    <div class="toc-item"><span class="toc-num">05</span><span class="toc-t">Diagnose: reading the regression output<small>Omnibus, JB, DW, condition number, VIF, AIC/BIC</small></span></div>
+    <div class="toc-item"><span class="toc-num">06</span><span class="toc-t">Statistics Implementation<small>Excel functions, use cases, Minitab paths &amp; exam tips</small></span></div>
+    <div class="toc-item"><span class="toc-num">+</span><span class="toc-t">Interpretation guide &amp; common traps<small>“When you see this, it means this”</small></span></div>
+    <div class="toc-item"><span class="toc-num">✓</span><span class="toc-t">Practice activity &amp; mini quiz<small>With a full answer key</small></span></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><p class="kicker" style="margin:0">Learning objectives</p></div>
+    <h3 style="margin-top:8px">By the end of this lesson you should be able to</h3>
+    <ul style="margin:6px 0 0; padding-left:18px; font-size:11px; line-height:1.7">
+      <li><strong>Explain</strong> what a regression model predicts (the conditional mean) and why the residual exists.</li>
+      <li><strong>Distinguish</strong> training, holdout, and cross-validation performance, and read the gap between them as a sign of overfitting.</li>
+      <li><strong>Tune</strong> a model with cross-validation while keeping an untouched test set, understanding the bias–variance trade-off.</li>
+      <li><strong>Select</strong> the correct evaluation metric for a regression, classification, clustering, or quantile problem based on the cost of each kind of error.</li>
+      <li><strong>Interpret</strong> a regression diagnostic block — normality tests, Durbin–Watson, condition number, VIF, AIC/BIC — and know which warnings to act on.</li>
+      <li><strong>Reproduce</strong> the core metrics in Excel and Minitab and connect them to ASQ CSSBB/CQE exam expectations.</li>
+    </ul>
+    <div class="callout note"><span class="ct">Prerequisite</span> You should have met simple linear regression and the idea of a “model” before. No coding is required to follow the lesson, though Python output is shown because that is where these numbers usually appear.</div>
+  </div>
+</section>
+
+<!-- ============================== POSTERS (EMBEDDED PDF) ============================== -->
+<section class="sec" id="posters">
+  <div class="sec-head"><p class="kicker" style="margin:0">Visual library</p></div>
+  <h2>Four quick-reference posters</h2>
+  <div class="divider"></div>
+  <p class="lead" style="margin-top:10px">Four full-resolution infographics &mdash; one per pillar of the lesson. Download to print as a desk reference, or open full size on screen.</p>
+
+  <div class="poster-cards">
+    <div class="pcard pc1">
+      <span class="pcard-badge">POSTER 1</span>
+      <div class="pcard-title">The Evaluation Workflow</div>
+      <p class="pcard-desc">The five-stage map from &ldquo;what does it predict?&rdquo; to &ldquo;can I trust it?&rdquo; &mdash; the backbone of the whole lesson.</p>
+      <p class="pcard-label">Printable PDF &middot; Full-resolution poster</p>
+      <div class="pcard-actions">
+        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-1.pdf" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+          <span class="b1">Download PDF</span><span class="b2">Save &amp; print</span></a>
+        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-1.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span class="b1">Open Poster</span><span class="b2">View full size</span></a>
+      </div>
+    </div>
+    <div class="pcard pc2">
+      <span class="pcard-badge">POSTER 2</span>
+      <div class="pcard-title">The Metric Cheat Sheet</div>
+      <p class="pcard-desc">Every metric for regression, classification, clustering, and quantile models &mdash; what it measures, its formula, and when to reach for it.</p>
+      <p class="pcard-label">Printable PDF &middot; Full-resolution poster</p>
+      <div class="pcard-actions">
+        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-2.pdf" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+          <span class="b1">Download PDF</span><span class="b2">Save &amp; print</span></a>
+        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-2.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span class="b1">Open Poster</span><span class="b2">View full size</span></a>
+      </div>
+    </div>
+    <div class="pcard pc3">
+      <span class="pcard-badge">POSTER 3</span>
+      <div class="pcard-title">Overfitting &amp; Validation Decoder</div>
+      <p class="pcard-desc">The three R&sup2;s, the complexity curve, healthy-vs-overfit signatures, cross-validation, and the bias&ndash;variance trade-off on one page.</p>
+      <p class="pcard-label">Printable PDF &middot; Full-resolution poster</p>
+      <div class="pcard-actions">
+        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-3.pdf" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+          <span class="b1">Download PDF</span><span class="b2">Save &amp; print</span></a>
+        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-3.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span class="b1">Open Poster</span><span class="b2">View full size</span></a>
+      </div>
+    </div>
+    <div class="pcard pc4">
+      <span class="pcard-badge">POSTER 4</span>
+      <div class="pcard-title">Regression Diagnostics Decoder</div>
+      <p class="pcard-desc">The statsmodels summary block decoded: every test, its benchmark, the steel-model value, and what to do when it fails.</p>
+      <p class="pcard-label">Printable PDF &middot; Full-resolution poster</p>
+      <div class="pcard-actions">
+        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-4.pdf" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+          <span class="b1">Download PDF</span><span class="b2">Save &amp; print</span></a>
+        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-4.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span class="b1">Open Poster</span><span class="b2">View full size</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== MODULE 1 : PREDICT ============================== -->
+<section class="sec">
+  <div class="sec-head"><p class="kicker" style="margin:0">Module 01 · Foundation</p></div>
+  <h2>What is your model actually predicting?</h2>
+  <div class="divider"></div>
+  <p class="lead" style="margin-top:10px">Before you can judge a model, you have to know what it is trying to do. Almost everyone’s first misunderstanding is the same one: they think a regression predicts the exact value. It doesn’t — and that gap is where every evaluation metric lives.</p>
+
+  <h3>The confusion, stated plainly</h3>
+  <p>“When people say OLS regression predicts the <em>average</em>, I get confused, because I thought it predicts the <em>actual</em> value of y.” This is the single most common stumbling block in modeling, and it is worth clearing up completely.</p>
+
+  <div class="callout why"><span class="ct">The weight analogy</span> If I ask you to guess the weight of a person you have never met, your safest single guess is the <strong>average</strong> weight of everyone in the room. OLS regression does exactly this — just with more information. When you give it an input, it doesn’t know the random quirks that made one specific real value what it is; it gives you the <strong>average outcome for cases like this one</strong>.</div>
+
+  <ul class="steps">
+    <li><h4>It predicts the “conditional mean”</h4>When you plug an <strong>x</strong> into the model, OLS looks at how the target behaves for that kind of input and returns the <strong>average</strong> — the mean of y <em>conditional on</em> x. The goal is to predict the actual value; the reality is that the best possible guess for any specific case is the average of similar cases.</li>
+    <li><h4>The error is the leftover</h4>For any single data point: <strong>Actual = Predicted + Error</strong>. The error (also called the <strong>residual</strong>) is the part OLS cannot predict — the random noise it can’t see. The model hands you only the “Predicted” part, which is the average behavior at that x.</li>
+    <li><h4>Why a straight line still works</h4>Real data has scatter, so a straight line cannot touch every point. By minimizing the <strong>squares</strong> of the errors, the line settles right in the middle of the cloud of points — which is precisely why it behaves like a line of averages.</li>
+  </ul>
+
+  <div class="formula">
+    <span class="lbl">The decomposition every metric is built on</span>
+    y<sub>i</sub> &nbsp;=&nbsp; ŷ<sub>i</sub> &nbsp;+&nbsp; e<sub>i</sub>
+    &nbsp;&nbsp;&nbsp;where&nbsp;&nbsp; ŷ<sub>i</sub> = predicted (conditional mean)&nbsp;&nbsp;·&nbsp;&nbsp; e<sub>i</sub> = residual (what’s left)
+  </div>
+
+  <div class="callout note"><span class="ct">The reframe</span> Stop reading “line of best fit” and start reading “<strong>line of averages</strong>.” OLS predicts what y would be <em>on average</em> for a given x — which is, statistically, your most accurate single guess for the actual value.</div>
+
+  <div class="qc">
+    <div class="qh">Quick check</div>
+    <div class="qq">Your steel-process model predicts 512 kWh for a slab, but the slab actually used 505 kWh. Did the model fail?</div>
+    <div class="qa"><b>No.</b> 512 kWh is the model’s estimate of the <em>average</em> energy for slabs with those settings. The 7 kWh gap is the residual — random, slab-specific variation the model was never trying to capture. You judge the model by the <em>pattern</em> of residuals across many slabs, not by any single miss.</div>
+  </div>
+
+<div class="widget" id="w-residual">
+  <div class="w-head"><span class="w-tag">Try it</span><span class="w-title">Predicted mean vs. the actual slab</span></div>
+  <div class="w-sub">The blue line is the model — a <b>line of averages</b>. Pick a process setting to see the predicted mean, then sample a real slab and watch the <b>residual</b> appear. Sample a few: the actuals scatter <i>around</i> the line, never on it.</div>
+  <canvas class="w-canvas"></canvas>
+  <div class="w-ctl"><label>Process setting</label><input type="range" class="w-slider rd-x" min="42" max="58" step="0.5" value="50"><span class="val rd-xval">50</span>
+    <button class="w-btn rd-sample">Sample an actual slab &#8617;</button></div>
+  <div class="w-note rd-out">Move the slider to a setting, then sample an actual slab to reveal its residual.</div>
+</div>
+  <h3>Not every model predicts the mean</h3>
+  <p>This matters because it decides which metrics are even valid. Ordinary regression predicts the mean. <strong>Quantile regression</strong> deliberately predicts a chosen slice of the distribution instead — say the 90th percentile of energy use, the level you’ll stay under 90% of the time. Because it is not aiming at the mean, mean-based metrics like R² and RMSE measure the wrong target. We return to its special metrics in Module 4.</p>
+
+  <div class="callout exam"><span class="ct">Why this leads the lesson</span> Every downstream choice — which metric, which diagnostic, what “good” looks like — depends on knowing what the model estimates. Get this wrong and you will happily optimize a number that means nothing.</div>
+</section>
+
+<!-- ============================== MODULE 2 : VALIDATE ============================== -->
+<section class="sec">
+  <div class="sec-head"><p class="kicker" style="margin:0">Module 02 · Validation</p></div>
+  <h2>Validate: train, holdout &amp; cross-validation</h2>
+  <div class="divider"></div>
+  <p class="lead" style="margin-top:10px">A model that is graded on the same data it studied is like a student who saw the exam in advance. To know if it truly learned, you must test it on material it has never seen. That is the entire idea behind the three R² values you will see printed in modeling code.</p>
+
+  <div class="callout watch"><span class="ct">The core danger</span> A flexible model can <strong>memorize</strong> its training data — capturing not just the real signal but the random noise. It then looks brilliant in training and collapses in the real world. This is <strong>overfitting</strong>, and validation exists to catch it.</div>
+
+  <h3>The three R² values, in order of trust</h3>
+  <ul class="steps">
+    <li><h4>In-sample R² — Training R²</h4><code>r2_train = r2_score(y_train, y_pred_train)</code><br>How well the model fits the <strong>same data</strong> it was trained on. A high value (0.9+) means it fits training data well — but if it is much higher than the other two, that is a red flag for overfitting, not a trophy. <span class="chip info">Diagnostic only</span></li>
+    <li><h4>Holdout R² — Test R²</h4><code>r2_holdout = r2_score(y_test, y_pred_test)</code><br>Performance on a separate ~20% slice the model <strong>never saw</strong> during training. This is your first real test of generalization. <span class="chip info">Quick reality check</span></li>
+    <li><h4>Cross-validation R² — CV R²</h4><code>cv_scores = cross_val_score(...)</code><br>The model is trained and tested several times on <strong>different splits</strong> of the data, and the scores are averaged. You get both a central estimate and a spread. <span class="chip good">The number to trust</span></li>
+  </ul>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="ch">How k-fold cross-validation works</div>
+      <div class="cs">The data is cut into k equal folds (5 is common). Each fold takes a turn as the test set while the other four train the model. Average the five scores for a robust estimate, and read the spread as a stability check.</div>
+      <div style="overflow-x:auto"><table class="tbl tight" style="margin-top:8px">
+        <tr><th>Fold</th><th>Train</th><th>Test</th></tr>
+        <tr><td>1–5 (each)</td><td>80%</td><td>20%</td></tr>
+      </table></div>
+      <p style="font-size:10px;margin:6px 0 0"><code>5-fold CV R²: 0.68 ± 0.05</code> → average predictive power 0.68, split-to-split variation 0.05.</p>
+    </div>
+    <div class="card">
+      <div class="ch">Reading the three together</div>
+      <div style="overflow-x:auto"><table class="tbl tight" style="margin-top:2px">
+        <tr><th>Metric</th><th>Data used</th><th>Purpose</th></tr>
+        <tr><td>In-sample R²</td><td>Training data</td><td>Fit quality</td></tr>
+        <tr><td>Holdout R²</td><td>20% unseen</td><td>Generalization test</td></tr>
+        <tr><td>CV R²</td><td>Many unseen splits</td><td>Robust performance</td></tr>
+      </table></div>
+      <div class="callout good" style="margin:8px 0 0"><span class="ct">Rule of thumb</span> Use <strong>CV R² as your main metric.</strong> Training R² is a diagnostic, holdout R² is a quick check, CV R² is the true performance estimate.</div>
+    </div>
+  </div>
+
+  <h3>Two signatures you must recognize</h3>
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--mte-good)">
+      <div class="ch"><span class="chip good">Healthy</span> &nbsp;What good looks like</div>
+      <div style="overflow-x:auto"><table class="tbl tight" style="margin-top:6px">
+        <tr><th>Metric</th><th>Value</th></tr>
+        <tr><td>Training R²</td><td class="v-good">0.78</td></tr>
+        <tr><td>Holdout R²</td><td class="v-good">0.74</td></tr>
+        <tr><td>CV R²</td><td class="v-good">0.72 ± 0.03</td></tr>
+      </table></div>
+      <div class="cs" style="margin-top:6px">Training slightly higher than the rest; holdout and CV are close; the spread is small. The model learned the signal.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--mte-bad)">
+      <div class="ch"><span class="chip bad">Overfit</span> &nbsp;What trouble looks like</div>
+      <div style="overflow-x:auto"><table class="tbl tight" style="margin-top:6px">
+        <tr><th>Metric</th><th>Value</th></tr>
+        <tr><td>Training R²</td><td class="v-bad">0.96</td></tr>
+        <tr><td>Holdout R²</td><td class="v-bad">0.42</td></tr>
+        <tr><td>CV R²</td><td class="v-bad">0.38 ± 0.10</td></tr>
+      </table></div>
+      <div class="cs" style="margin-top:6px">A huge drop from training to test, and a large, unstable spread. The model memorized noise.</div>
+    </div>
+  </div>
+
+  <div class="callout why"><span class="ct">Use case · the steel-process dataset</span> The energy model groups rows by <strong>SlabID</strong>. Using <code>GroupKFold</code>, every measurement from one slab stays together — all in train or all in test, never split across both. So CV R² answers the question that actually matters on the plant floor: <em>“How well can the model predict energy for completely new slabs it has never seen?”</em> That is the most realistic measure you can get.</div>
+
+  <div class="callout watch"><span class="ct">The leakage trap</span> If the same slab appears in both train and test, the model can “recognize” it and post an inflated score that evaporates in production. Grouped splitting is not a nicety here — it is the difference between an honest number and a fantasy.</div>
+
+<div class="widget" id="w-signature">
+  <div class="w-head"><span class="w-tag">Compare</span><span class="w-title">The three-R&sup2; signature</span></div>
+  <div class="w-sub">Toggle a scenario and read the shape of the three bars &mdash; the same at-a-glance diagnosis you'll make on real output.</div>
+  <div class="sig-toggle">
+    <button class="w-btn alt sig-tog" data-k="healthy">Healthy</button>
+    <button class="w-btn alt sig-tog" data-k="overfit">Overfit</button>
+    <button class="w-btn alt sig-tog" data-k="underfit">Underfit</button>
+  </div>
+  <div class="sig-bars">
+    <div class="sig-bar"><span class="bval">&mdash;</span><div class="bcol"></div><span class="blab">Training R&sup2;</span></div>
+    <div class="sig-bar"><span class="bval">&mdash;</span><div class="bcol"></div><span class="blab">Holdout R&sup2;</span></div>
+    <div class="sig-bar"><span class="bval">&mdash;</span><div class="bcol"></div><span class="blab">Cross-val R&sup2;</span></div>
+  </div>
+  <div class="sig-verdict"><span class="w-badge sig-badge good">&mdash;</span><div class="w-note sig-msg" style="border-left-color:var(--mte-blue)">&mdash;</div></div>
+</div>
+  <div class="qc">
+    <div class="qh">Quick check</div>
+    <div class="qq">A model reports Training R² = 0.94, Holdout R² = 0.51, CV R² = 0.47 ± 0.12. What is your diagnosis, and what is your next move?</div>
+    <div class="qa"><b>Overfitting.</b> The 0.94 → 0.51 collapse plus the wide ±0.12 spread are the classic signature. Next move: reduce model complexity (simpler model, fewer/less-correlated features, or regularization) and re-check with grouped cross-validation — covered in Module 3.</div>
+  </div>
+</section>
+
+<!-- ============================== MODULE 3 : TUNE ============================== -->
+<section class="sec">
+  <div class="sec-head"><p class="kicker" style="margin:0">Module 03 · Tuning</p></div>
+  <h2>Tune: bias, variance &amp; hyperparameters</h2>
+  <div class="divider"></div>
+  <p class="lead" style="margin-top:10px">Validation tells you <em>whether</em> a model generalizes. Tuning is how you make it generalize <em>better</em> — dialing the model’s complexity to the sweet spot between too simple and too clever. The whole art is doing this without secretly cheating on your final test.</p>
+
+  <h3>The bias–variance trade-off</h3>
+  <p>Every model’s total error on unseen data splits into two competing parts. Push one down and the other tends to rise; good tuning finds the balance.</p>
+  <div class="card-grid three">
+    <div class="card" style="border-top:3px solid var(--mte-warn)">
+      <div class="ch">High bias · Underfit</div>
+      <div class="cs">The model is too simple to capture the real pattern. It is wrong even on the training data. <br><br><strong>Signature:</strong> low R² <em>everywhere</em> — training, holdout, and CV all mediocre.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--mte-bad)">
+      <div class="ch">High variance · Overfit</div>
+      <div class="cs">The model is too flexible and chases noise. It is brilliant on training data and poor on new data.<br><br><strong>Signature:</strong> high training R², big drop to holdout/CV, wide spread.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--mte-good)">
+      <div class="ch">The sweet spot</div>
+      <div class="cs">Enough complexity to catch the signal, not so much that it memorizes noise.<br><br><strong>Signature:</strong> training a touch higher than holdout/CV, all three close together.</div>
+    </div>
+  </div>
+
+<div class="widget" id="w-overfit">
+  <div class="w-head"><span class="w-tag">Explore</span><span class="w-title">The overfitting explorer</span></div>
+  <div class="w-sub">Drag <b>model complexity</b> and watch the fit. The same training data is scored on held-out <b>test</b> points. Training R&sup2; only ever climbs &mdash; but test R&sup2; peaks, then collapses. That peak is the sweet spot tuning is hunting for.</div>
+  <div class="w-row">
+    <div class="w-col"><canvas class="w-canvas of-scatter"></canvas></div>
+    <div class="w-col" style="min-width:220px">
+      <canvas class="w-canvas of-mini"></canvas>
+      <div class="w-readout">
+        <div class="w-stat"><div class="k">Training R&sup2;</div><div class="v of-tr">&mdash;</div></div>
+        <div class="w-stat"><div class="k">Test / CV R&sup2;</div><div class="v of-te">&mdash;</div></div>
+      </div>
+      <div style="margin-top:10px"><span class="w-badge of-badge info">&mdash;</span></div>
+    </div>
+  </div>
+  <div class="w-ctl"><label>Model complexity (polynomial degree)</label><input type="range" class="w-slider of-deg" min="1" max="8" step="1" value="1"><span class="val of-degval">1</span></div>
+  <div class="w-note of-note">&mdash;</div>
+</div>
+  <h3>Parameters vs hyperparameters</h3>
+  <div style="overflow-x:auto"><table class="tbl">
+    <tr><th style="width:24%">&nbsp;</th><th>Parameters</th><th>Hyperparameters</th></tr>
+    <tr><td><strong>Who sets them</strong></td><td>The learning algorithm, from the data</td><td>You, before training</td></tr>
+    <tr><td><strong>Examples</strong></td><td>Regression coefficients (slopes, intercept)</td><td>Tree depth, number of trees, regularization strength (λ), k in k-NN, learning rate</td></tr>
+    <tr><td><strong>How to choose</strong></td><td>Automatic — this <em>is</em> “training”</td><td>Deliberate search, judged by cross-validation</td></tr>
+  </table></div>
+  <p>Tuning is specifically the job of choosing hyperparameters well. And the tool you use to judge each candidate is the one you already met: <strong>cross-validation</strong>.</p>
+
+  <ul class="steps">
+    <li><h4>Define a search space</h4>List the hyperparameter values worth trying — e.g. tree depth ∈ {3, 5, 8, 12} and λ ∈ {0.01, 0.1, 1, 10}.</li>
+    <li><h4>Score each candidate with CV</h4>For every combination, run grouped cross-validation and record the mean CV score. Never judge a candidate by its training score.</li>
+    <li><h4>Search efficiently</h4><strong>Grid search</strong> tries every combination — thorough but expensive. <strong>Random search</strong> samples combinations — usually finds a near-best setting far faster when the space is large.</li>
+    <li><h4>Lock it in, then test once</h4>Pick the winning hyperparameters, retrain on all your training data, and evaluate a single time on the untouched test set.</li>
+  </ul>
+
+  <div class="callout bad"><span class="ct">The tuning trap — do not skip this</span> If you tune your hyperparameters against the <strong>test set</strong>, you have quietly turned it into a training set. Your final number becomes optimistic and dishonest. Keep three roles: <strong>train</strong> (fit), <strong>validation / CV</strong> (tune), and a <strong>held-back test set</strong> (report once, at the very end). Nested cross-validation formalizes this when data is scarce.</div>
+
+  <div class="callout why"><span class="ct">Regularization — a tuning lever with a bonus</span> Ridge and Lasso regression add a penalty (λ) that shrinks coefficients toward zero. Turning λ up fights overfitting <em>and</em> stabilizes a model suffering from multicollinearity — which is exactly the “condition number” problem you will meet in Module 5. Lasso can also zero out weak predictors, doing feature selection for you.</div>
+
+  <div class="qc">
+    <div class="qh">Quick check · steel model</div>
+    <div class="qq">You are tuning the maximum depth of a tree on the steel data. Depth 3 gives CV R² 0.61, depth 8 gives 0.73, depth 20 gives training R² 0.98 but CV R² 0.55. Which depth do you ship, and why?</div>
+    <div class="qa"><b>Depth 8.</b> It has the best <em>cross-validated</em> score. Depth 3 underfits (0.61 everywhere). Depth 20 overfits — the gorgeous 0.98 training score with a 0.55 CV score is memorization. You always tune to the CV number, not the training number.</div>
+  </div>
+</section>
+
+<!-- ============================== MODULE 4 : MEASURE ============================== -->
+<section class="sec">
+  <div class="sec-head"><p class="kicker" style="margin:0">Module 04 · Metrics</p></div>
+  <h2>Measure: choosing the right metric</h2>
+  <div class="divider"></div>
+  <p class="lead" style="margin-top:10px">A metric is a lens. The wrong lens can make a bad model look great. The metric must match three things at once: the <strong>type of problem</strong>, <strong>what the model predicts</strong>, and <strong>which mistake actually costs you</strong>.</p>
+
+<div class="widget" id="w-metric">
+  <div class="w-head"><span class="w-tag">Decide</span><span class="w-title">Which metric should I use?</span></div>
+  <div class="w-sub">The right metric depends on the <b>problem type</b> and <b>what an error costs you</b>. Pick both &mdash; the recommendation updates live.</div>
+  <div class="chooser-group"><div class="cg-lab">Problem type</div><div class="chooser-opts"><button class="w-btn alt mc-opt on" data-g="type" data-v="Regression">Regression</button><button class="w-btn alt mc-opt" data-g="type" data-v="Classification · balanced">Classification · balanced</button><button class="w-btn alt mc-opt" data-g="type" data-v="Classification · imbalanced">Classification · imbalanced</button><button class="w-btn alt mc-opt" data-g="type" data-v="Clustering">Clustering</button><button class="w-btn alt mc-opt" data-g="type" data-v="Quantile (percentile)">Quantile (percentile)</button></div></div>
+  <div class="chooser-group"><div class="cg-lab">What matters most</div><div class="chooser-opts"><button class="w-btn alt mc-opt on" data-g="prio" data-v="Punish big misses">Punish big misses</button><button class="w-btn alt mc-opt" data-g="prio" data-v="Treat all errors equally">Treat all errors equally</button><button class="w-btn alt mc-opt" data-g="prio" data-v="Catch every positive">Catch every positive</button><button class="w-btn alt mc-opt" data-g="prio" data-v="Avoid false alarms">Avoid false alarms</button><button class="w-btn alt mc-opt" data-g="prio" data-v="Overall balance">Overall balance</button></div></div>
+  <div class="result-card mc-result"></div>
+</div>
+  <h3>Regression metrics — when the target is a number</h3>
+  <div style="overflow-x:auto"><table class="tbl">
+    <tr><th style="width:16%">Metric</th><th>What it measures</th><th>Behaviour</th><th>Use it when</th></tr>
+    <tr><td><strong>MAE</strong><br>Mean Absolute Error</td><td>The average size of the errors, ignoring sign.</td><td>Treats all errors equally; robust to outliers.</td><td>You want a plain, honest “typical miss” in original units.</td></tr>
+    <tr><td><strong>MSE</strong><br>Mean Squared Error</td><td>The average of the squared errors.</td><td>Punishes large mistakes far more heavily than small ones.</td><td>Big misses are especially costly and must be discouraged.</td></tr>
+    <tr><td><strong>RMSE</strong><br>Root Mean Squared Error</td><td>The square root of MSE.</td><td>Same penalty as MSE but back in the target’s units.</td><td>You want MSE’s sensitivity with a number you can read.</td></tr>
+    <tr><td><strong>R²</strong><br>Coefficient of determination</td><td>The share of variance in the target the model explains.</td><td>Ranges toward 1.0 for a strong fit; can be misleading alone.</td><td>Communicating overall fit; comparing to a baseline.</td></tr>
+  </table></div>
+  <div class="formula">
+    <span class="lbl">The three regression errors, side by side</span>
+    MAE = <span class="frac"><span class="num">1</span><span class="den">n</span></span> Σ |y − ŷ|
+    &nbsp;&nbsp;·&nbsp;&nbsp;
+    MSE = <span class="frac"><span class="num">1</span><span class="den">n</span></span> Σ (y − ŷ)²
+    &nbsp;&nbsp;·&nbsp;&nbsp;
+    RMSE = √MSE
+  </div>
+  <div class="callout note"><span class="ct">MAE vs RMSE in one line</span> If a few huge errors should hurt a lot, use RMSE. If every error should count the same, use MAE. RMSE ≥ MAE always, and the gap between them tells you how much your errors vary in size.</div>
+
+  <h3>Classification metrics — when the target is a class</h3>
+  <p>These all come from the <strong>confusion matrix</strong>: counts of true positives (TP), false positives (FP), true negatives (TN), and false negatives (FN).</p>
+  <div style="overflow-x:auto"><table class="tbl">
+    <tr><th style="width:16%">Metric</th><th>Plain meaning</th><th>Formula</th><th>Use it when</th></tr>
+    <tr><td><strong>Accuracy</strong></td><td>Share of all predictions that are correct.</td><td>(TP+TN) / all</td><td>Classes are balanced. <span class="chip warn">Misleads on imbalance</span></td></tr>
+    <tr><td><strong>Precision</strong></td><td>Of the cases flagged positive, how many really are.</td><td>TP / (TP+FP)</td><td>False positives are costly (false alarms).</td></tr>
+    <tr><td><strong>Recall</strong><br>(sensitivity)</td><td>Of the real positives, how many you caught.</td><td>TP / (TP+FN)</td><td>Missing a positive is dangerous.</td></tr>
+    <tr><td><strong>F1-score</strong></td><td>The balance point between precision and recall.</td><td>harmonic mean</td><td>You need both and the data is imbalanced.</td></tr>
+    <tr><td><strong>ROC-AUC</strong></td><td>Ability to separate classes across all thresholds.</td><td>area under ROC</td><td>Ranking quality; threshold-free comparison.</td></tr>
+  </table></div>
+  <div class="callout why"><span class="ct">Use case · defect detection</span> A vision system flags defective parts. Here a missed defect (a false negative) ships a bad part to a customer — expensive and dangerous — while a false alarm just triggers a re-inspection. So you optimize <strong>Recall</strong>, accepting some precision loss. Flip the costs (say, a fraud filter that freezes innocent customers’ accounts) and you would optimize <strong>Precision</strong> instead. The metric follows the cost.</div>
+  <div class="callout watch"><span class="ct">The accuracy illusion</span> If 99% of parts are good, a model that blindly says “good” every time scores 99% accuracy — and catches zero defects. On imbalanced data, accuracy is the metric that lies most confidently. Reach for precision, recall, F1, or ROC-AUC.</div>
+
+<div class="widget" id="w-threshold">
+  <div class="w-head"><span class="w-tag">Try it</span><span class="w-title">Move the threshold &mdash; watch precision fight recall</span></div>
+  <div class="w-sub">Each dot is a part the model scored 0&rarr;1 for &ldquo;defect.&rdquo; Slide the decision <b>threshold</b>: everything to its right is flagged. There is no free lunch &mdash; catching more defects (recall) means more false alarms (precision).</div>
+  <canvas class="w-canvas th-strip"></canvas>
+  <div class="w-ctl"><label>Decision threshold</label><input type="range" class="w-slider th-t" min="0.05" max="0.95" step="0.03" value="0.5"><span class="val th-tval">0.50</span></div>
+  <div class="w-row" style="margin-top:6px">
+    <div class="w-col">
+      <div class="cm">
+        <div class="cm-lab"></div><div class="cm-lab">Flagged<br>(pred +)</div><div class="cm-lab">Passed<br>(pred &minus;)</div>
+        <div class="cm-lab">Actual<br>defect</div><div class="cm-cell tp th-tp"><div class="n">0</div><div class="t">True Positive</div></div><div class="cm-cell fn th-fn"><div class="n">0</div><div class="t">False Neg &middot; missed</div></div>
+        <div class="cm-lab">Actual<br>good</div><div class="cm-cell fp th-fp"><div class="n">0</div><div class="t">False Pos &middot; false alarm</div></div><div class="cm-cell tn th-tn"><div class="n">0</div><div class="t">True Negative</div></div>
+      </div>
+    </div>
+    <div class="w-col" style="min-width:230px">
+      <div class="metric-line"><span class="ml-lab">Precision</span><span class="bar"><i></i></span><span class="ml-val th-prec">&mdash;</span></div>
+      <div class="metric-line"><span class="ml-lab">Recall</span><span class="bar"><i></i></span><span class="ml-val th-rec">&mdash;</span></div>
+      <div class="metric-line"><span class="ml-lab">F1-score</span><span class="bar"><i></i></span><span class="ml-val th-f1">&mdash;</span></div>
+      <div class="metric-line"><span class="ml-lab">Accuracy</span><span class="bar"><i></i></span><span class="ml-val th-acc">&mdash;</span></div>
+      <div class="w-note" style="border-left-color:var(--mte-teal)">On this defect problem a miss (red, passed) ships a bad part &mdash; so you'd push the threshold <b>left</b> to raise recall, accepting more false alarms.</div>
+    </div>
+  </div>
+</div>
+  <h3>Clustering metrics — when there are no labels</h3>
+  <div style="overflow-x:auto"><table class="tbl">
+    <tr><th style="width:22%">Metric</th><th>What it measures</th><th>Use it when</th></tr>
+    <tr><td><strong>Silhouette score</strong></td><td>How similar each point is to its own cluster versus the nearest other cluster. Ranges −1 to +1; higher means denser, better-separated groups.</td><td>You have no ground truth and want to judge how clean the grouping is.</td></tr>
+    <tr><td><strong>Adjusted Rand Index (ARI)</strong></td><td>How well the predicted groups agree with known true labels, corrected for chance.</td><td>You <em>do</em> have true groups and want to score the clustering against them.</td></tr>
+  </table></div>
+
+  <h3>Quantile-regression metrics — when you predict a percentile</h3>
+  <p>Recall from Module 1 that quantile regression aims at a slice of the distribution, not the mean. So mean-based metrics measure the wrong thing. Two purpose-built metrics take their place.</p>
+  <div class="card-grid">
+    <div class="card accent">
+      <div class="ch">Pinball loss (quantile loss)</div>
+      <div class="cs">The primary error metric. Unlike MSE, it is <strong>asymmetric</strong> — it penalizes over- and under-predictions differently depending on the target quantile τ.
+      <ul style="margin:6px 0 0;padding-left:16px">
+        <li><strong>τ = 0.5 (median):</strong> penalties are equal both ways — this is exactly MAE.</li>
+        <li><strong>τ = 0.9 (90th pctl):</strong> under-predicting is penalized <strong>9×</strong> more than over-predicting, which forces the line to sit above ~90% of the points.</li>
+      </ul></div>
+    </div>
+    <div class="card accent">
+      <div class="ch">Pseudo R²</div>
+      <div class="cs">The goodness-of-fit measure, in the spirit of R². It compares your model’s pinball loss to that of a <strong>null model</strong> (no predictors — it just guesses the sample quantile). Like R², it runs 0→1; higher means your predictors beat the baseline. This is McFadden’s pseudo R², in the Koenker–Machado form for quantile regression.</div>
+    </div>
+  </div>
+  <div style="overflow-x:auto"><table class="tbl tight">
+    <tr><th>Feature</th><th>OLS regression (mean)</th><th>Quantile regression (τ)</th></tr>
+    <tr><td>Primary loss</td><td>Mean Squared Error</td><td>Pinball (quantile) loss</td></tr>
+    <tr><td>Error metric</td><td>RMSE / MAE</td><td>Mean pinball loss (= MAE if τ=0.5)</td></tr>
+    <tr><td>Fit metric</td><td>R²</td><td>Pseudo R²</td></tr>
+  </table></div>
+
+  <div class="qc">
+    <div class="qh">Quick check</div>
+    <div class="qq">You’re predicting hospital readmission (rare, ~5% positive). Someone reports 95% accuracy. Are you impressed?</div>
+    <div class="qa"><b>Not yet — maybe not at all.</b> A model that predicts “no readmission” for everyone already scores 95% and helps no one. Ask for <b>recall</b> (are we catching the readmissions?), <b>precision</b>, and ideally <b>ROC-AUC</b>. On rare-event problems, accuracy is close to meaningless.</div>
+  </div>
+</section>
+
+<!-- ============================== MODULE 5 : DIAGNOSE ============================== -->
+<section class="sec">
+  <div class="sec-head"><p class="kicker" style="margin:0">Module 05 · Diagnostics</p></div>
+  <h2>Diagnose: reading the regression output</h2>
+  <div class="divider"></div>
+  <p class="lead" style="margin-top:10px">Metrics tell you how <em>accurate</em> a model is. Diagnostics tell you whether you are even <em>allowed</em> to trust it — whether its assumptions hold and its coefficients are stable. A model can predict well and still fail its diagnostics, and vice versa. Read both.</p>
+
+  <p>When you fit an OLS model in <code>statsmodels</code>, the summary prints a block of diagnostics beneath the coefficients. Here is that block, decoded, using the real values from the steel-process energy model.</p>
+
+  <div style="overflow-x:auto"><table class="tbl">
+    <tr><th style="width:15%">Diagnostic</th><th style="width:26%">What it tests for</th><th>Benchmark</th><th>Steel value</th><th>Verdict</th></tr>
+    <tr><td><strong>Omnibus p</strong></td><td>Overall normality of residuals (skew + kurtosis together)</td><td>&gt; 0.05 = normal</td><td>0.000</td><td class="v-bad">✘ ignore (large N)</td></tr>
+    <tr><td><strong>Jarque–Bera p</strong></td><td>Normality of residuals (a second test)</td><td>&gt; 0.05 = normal</td><td>~0</td><td class="v-bad">✘ ignore (same reason)</td></tr>
+    <tr><td><strong>Skew</strong></td><td>Symmetry of the residual distribution</td><td>≈ 0</td><td>−0.21</td><td class="v-good">✔ good</td></tr>
+    <tr><td><strong>Kurtosis</strong></td><td>Tail heaviness / outliers in residuals</td><td>≈ 3</td><td>2.61</td><td class="v-good">✔ good</td></tr>
+    <tr><td><strong>Durbin–Watson</strong></td><td>Autocorrelation — are residuals independent?</td><td>≈ 2</td><td>1.57</td><td class="v-warn">⚠ mild autocorrelation</td></tr>
+    <tr><td><strong>Condition Number</strong></td><td>Multicollinearity / numerical stability</td><td>&lt; 100 (ideally &lt; 30)</td><td>7,500</td><td class="v-bad">✘ needs attention</td></tr>
+    <tr><td><strong>AIC</strong></td><td>Fit vs complexity trade-off (prediction focus)</td><td>Lower is better (relative only)</td><td>~917,400</td><td class="v-warn">⚠ compare models only</td></tr>
+    <tr><td><strong>BIC</strong></td><td>Fit vs complexity, with a stronger penalty</td><td>Lower is better (relative only)</td><td>~917,400+</td><td class="v-warn">⚠ compare models only</td></tr>
+  </table></div>
+
+  <div class="callout bad"><span class="ct">The large-N trap — the most important lesson here</span> With tens of thousands of rows, the <strong>Omnibus and Jarque–Bera normality tests almost always “fail” (p ≈ 0)</strong>, because they are powerful enough to flag microscopic, harmless departures from perfect normality. That is why both are marked “ignore” above even though the residuals are actually fine. Trust the <strong>skew (−0.21 ≈ 0) and kurtosis (2.61 ≈ 3)</strong> values and a residual plot instead of the p-value. This single misread sinks a lot of otherwise-good analyses.</div>
+
+<div class="widget" id="w-diag-triage" style="background:none;border:0;padding:0">
+  <div class="w-head" style="padding-left:2px"><span class="w-tag">Self-check</span><span class="w-title">Diagnostic triage &mdash; act or ignore?</span></div>
+  <div class="w-sub" style="padding-left:2px">Before you read the verdict, decide for yourself: is each number a real problem, or a distraction? Tap to reveal.</div>
+  <div class="reveal-grid"><div class="rcard"><div class="rc-front">Omnibus p = 0.000</div><div class="rc-meta">tests: normality of residuals</div><div class="rc-hint">Tap: act or ignore?</div><div class="rc-back">With 60k rows this test flags microscopic, harmless departures from normality. Judge normality by skew &amp; kurtosis instead &mdash; not this p-value.<br><span class="verdict bad">&#10007; Ignore</span></div></div><div class="rcard"><div class="rc-front">Jarque–Bera p ≈ 0</div><div class="rc-meta">tests: normality (second test)</div><div class="rc-hint">Tap: act or ignore?</div><div class="rc-back">Same large-N trap as Omnibus. Two failing normality p-values here mean nothing on their own at this sample size.<br><span class="verdict bad">&#10007; Ignore</span></div></div><div class="rcard"><div class="rc-front">Skew = −0.21</div><div class="rc-meta">tests: symmetry of residuals</div><div class="rc-hint">Tap: act or ignore?</div><div class="rc-back">Essentially symmetric (target ≈ 0). This is the value you actually trust for normality &mdash; and it says the residuals are fine.<br><span class="verdict good">&#10003; Fine</span></div></div><div class="rcard"><div class="rc-front">Kurtosis = 2.61</div><div class="rc-meta">tests: tail heaviness</div><div class="rc-hint">Tap: act or ignore?</div><div class="rc-back">Close to the normal benchmark of 3, slightly light-tailed. No outlier problem in the residuals.<br><span class="verdict good">&#10003; Fine</span></div></div><div class="rcard"><div class="rc-front">Durbin–Watson = 1.57</div><div class="rc-meta">tests: independence of residuals</div><div class="rc-hint">Tap: act or ignore?</div><div class="rc-back">Below the ideal 2 &rarr; mild positive autocorrelation. Check row ordering / grouping; consider robust standard errors.<br><span class="verdict warn">&#9888; Watch</span></div></div><div class="rcard"><div class="rc-front">Condition No. = 7,500</div><div class="rc-meta">tests: multicollinearity</div><div class="rc-hint">Tap: act or ignore?</div><div class="rc-back">Far above 30. Predictors are nearly collinear, so individual coefficients are unstable. Drop/combine features or use ridge.<br><span class="verdict bad">&#10007; Act</span></div></div><div class="rcard"><div class="rc-front">AIC / BIC ≈ 917k</div><div class="rc-meta">tests: fit vs complexity</div><div class="rc-hint">Tap: act or ignore?</div><div class="rc-back">Only meaningful compared to another model fit to the <i>same</i> data. The absolute number says nothing on its own.<br><span class="verdict warn">&#9888; Relative</span></div></div><div class="rcard"><div class="rc-front">VIF (per predictor)</div><div class="rc-meta">tests: collinearity per variable</div><div class="rc-hint">Tap: act or ignore?</div><div class="rc-back">VIF &gt; 10 (some say 5) flags a predictor tangled with the others &mdash; the per-variable companion to the condition number.<br><span class="verdict warn">&#9888; Check</span></div></div></div>
+</div>
+  <h3>The other diagnostics you will meet</h3>
+  <p>Beyond the summary block, these appear whenever you evaluate a regression seriously:</p>
+  <div style="overflow-x:auto"><table class="tbl">
+    <tr><th style="width:20%">Diagnostic</th><th>What it tells you</th><th>Rule of thumb</th></tr>
+    <tr><td><strong>VIF</strong><br>Variance Inflation Factor</td><td>How much one predictor is explained by the others — collinearity, measured per variable (where the condition number is the whole-model view).</td><td>&lt; 5 fine · 5–10 caution · &gt; 10 serious</td></tr>
+    <tr><td><strong>Standard error</strong></td><td>The uncertainty around a coefficient (or around predictions, as “S”, the standard error of the estimate).</td><td>Smaller = more precise estimates</td></tr>
+    <tr><td><strong>PRESS</strong></td><td>Predicted residual sum of squares — leave-one-out prediction error. A built-in generalization check.</td><td>Lower is better; compare models</td></tr>
+    <tr><td><strong>MAE / RMSE</strong></td><td>Error magnitude in the target’s units — see Module 4.</td><td>Lower is better; RMSE punishes big misses</td></tr>
+    <tr><td><strong>McFadden Pseudo R²</strong></td><td>A goodness-of-fit measure for models where ordinary R² doesn’t apply (logistic, quantile).</td><td>0.2–0.4 already indicates a good fit</td></tr>
+  </table></div>
+
+  <h3>What to do when a diagnostic fails</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="ch">High condition number / VIF → multicollinearity</div>
+      <div class="cs">Your predictors overlap, so coefficients become unstable and their signs can flip. Fix: drop or combine correlated predictors, standardize the inputs, prune by VIF, or apply <strong>ridge regression</strong> (Module 3).</div>
+    </div>
+    <div class="card">
+      <div class="ch">Durbin–Watson far from 2 → autocorrelation</div>
+      <div class="cs">Residuals aren’t independent — common with time-ordered or grouped data. Fix: check the ordering, add lag terms, model the group structure, or use autocorrelation-robust standard errors. At 1.57 the steel model shows only mild positive autocorrelation.</div>
+    </div>
+    <div class="card">
+      <div class="ch">Non-normal residuals</div>
+      <div class="cs">With large samples the central limit theorem protects your inference, so mild non-normality is usually fine. Real problems are strong skew or heavy tails driven by outliers — investigate those points, consider a transform.</div>
+    </div>
+    <div class="card">
+      <div class="ch">AIC / BIC look enormous</div>
+      <div class="cs">Their absolute size is meaningless — they only matter <strong>relative</strong> to another model on the same data. Lower wins; BIC penalizes extra predictors harder, so it prefers simpler models.</div>
+    </div>
+  </div>
+
+  <div class="callout exam"><span class="ct">The mental model</span> Metrics answer “is it accurate?” Diagnostics answer “is it <em>trustworthy</em>?” The steel model is a perfect example: its residuals are well-shaped (good skew and kurtosis), but a condition number of 7,500 warns that its coefficients are riding on multicollinearity and should not be interpreted one-by-one until that is fixed.</div>
+
+  <div class="qc">
+    <div class="qh">Quick check</div>
+    <div class="qq">A colleague rejects a 60,000-row model because the Jarque–Bera p-value is 0.000, declaring “the residuals aren’t normal, the model is invalid.” Are they right?</div>
+    <div class="qa"><b>Almost certainly not.</b> At 60,000 rows JB will reject on trivial departures from normality. Point them to the skew and kurtosis (near 0 and 3 = fine) and a residual histogram. The p-value is being driven by sample size, not by a real problem.</div>
+  </div>
+</section>
+
+<!-- ============================== MODULE 6 : STATISTICS IMPLEMENTATION ============================== -->
+<section class="sec">
+  <div class="sec-head"><p class="kicker" style="margin:0">Module 06 · Statistics Implementation</p></div>
+  <h2>Doing it in Excel &amp; Minitab</h2>
+  <div class="divider"></div>
+  <p class="lead" style="margin-top:10px">These numbers don’t only live in Python. On the exam and on the job you will build and read them in Excel and Minitab. This section maps every core evaluation metric to the functions and menu paths that produce it.</p>
+
+  <h3>Excel functions</h3>
+  <div style="overflow-x:auto"><table class="tbl">
+    <tr><th style="width:15%">Function</th><th style="width:29%">Syntax</th><th>Purpose</th><th>When to use it</th></tr>
+    <tr><td><strong>RSQ</strong></td><td><span class="mono">=RSQ(known_y, known_x)</span></td><td>R² of a simple linear regression.</td><td>Quick fit measure for one predictor.</td></tr>
+    <tr><td><strong>LINEST</strong></td><td><span class="mono">=LINEST(y, x_range, TRUE, TRUE)</span></td><td>Full regression: coefficients, standard errors, R², F, and residual df (array-entered).</td><td>Multiple regression, or when you need SEs and R² together.</td></tr>
+    <tr><td><strong>SLOPE / INTERCEPT</strong></td><td><span class="mono">=SLOPE(y,x)</span> · <span class="mono">=INTERCEPT(y,x)</span></td><td>The b and a of the fitted line.</td><td>Reporting or hand-computing predictions.</td></tr>
+    <tr><td><strong>TREND / FORECAST.LINEAR</strong></td><td><span class="mono">=FORECAST.LINEAR(new_x, y, x)</span></td><td>Predicted y (ŷ) for new inputs.</td><td>Generating the predicted column for error metrics.</td></tr>
+    <tr><td><strong>STEYX</strong></td><td><span class="mono">=STEYX(known_y, known_x)</span></td><td>Standard error of the estimate (Minitab’s “S”).</td><td>Typical prediction error in the target’s units.</td></tr>
+    <tr><td><strong>SUMXMY2</strong></td><td><span class="mono">=SUMXMY2(actual, predicted)</span></td><td>Σ(actual − predicted)² — the SSE, the building block of MSE/RMSE.</td><td>Manually computing MSE and RMSE.</td></tr>
+    <tr><td><strong>DEVSQ</strong></td><td><span class="mono">=DEVSQ(actual)</span></td><td>Σ(actual − mean)² — the total sum of squares (SST).</td><td>Manually computing R² = 1 − SSE/SST.</td></tr>
+    <tr><td><strong>CORREL / PEARSON</strong></td><td><span class="mono">=CORREL(a, b)</span></td><td>Pearson correlation r between two variables.</td><td>Screening relationships and collinearity.</td></tr>
+    <tr><td><strong>SKEW / KURT</strong></td><td><span class="mono">=SKEW(residuals)</span> · <span class="mono">=KURT(residuals)</span></td><td>Skewness and kurtosis of residuals.</td><td>Checking residual shape (see caveat below).</td></tr>
+    <tr><td><strong>COUNTIFS</strong></td><td><span class="mono">=COUNTIFS(actual,1,pred,1)</span></td><td>Counts TP / FP / TN / FN cells of a confusion matrix.</td><td>Building precision, recall, accuracy, F1 by hand.</td></tr>
+  </table></div>
+  <div class="callout watch"><span class="ct">Caveat that trips people up</span> Excel’s <span class="mono">KURT</span> returns <strong>excess</strong> kurtosis, so a normal distribution reads ≈ <strong>0</strong> — whereas the statsmodels output in Module 5 reports <strong>raw</strong> kurtosis, where normal ≈ <strong>3</strong>. Same shape, two conventions. Add 3 to Excel’s value to compare.</div>
+
+  <h3>Excel use cases</h3>
+  <div class="card-grid">
+    <div class="card accent">
+      <div class="ch">1 · R², MAE and RMSE from two columns</div>
+      <div class="cs">With <span class="mono">A2:A100</span> = actual and <span class="mono">B2:B100</span> = predicted:</div>
+<pre><span class="cm"># R-squared</span>
+=1 - SUMXMY2(A2:A100,B2:B100)/DEVSQ(A2:A100)
+<span class="cm"># MAE</span>
+=SUMPRODUCT(ABS(A2:A100-B2:B100))/COUNT(A2:A100)
+<span class="cm"># RMSE</span>
+=SQRT(SUMXMY2(A2:A100,B2:B100)/COUNT(A2:A100))</pre>
+    </div>
+    <div class="card accent">
+      <div class="ch">2 · Confusion matrix → precision &amp; recall</div>
+      <div class="cs">With actual labels in <span class="mono">D</span> and predictions in <span class="mono">E</span> (1 = positive):</div>
+<pre><span class="cm"># TP, FP, FN</span>
+TP =COUNTIFS(D:D,1,E:E,1)
+FP =COUNTIFS(D:D,0,E:E,1)
+FN =COUNTIFS(D:D,1,E:E,0)
+<span class="cm"># Precision &amp; Recall</span>
+Precision =TP/(TP+FP)
+Recall    =TP/(TP+FN)
+F1        =2*P*R/(P+R)</pre>
+    </div>
+  </div>
+  <div class="callout note"><span class="ct">3 · Standard error of the estimate</span> <span class="mono">=STEYX(actual, x)</span> gives the typical distance between the points and the regression line, in the target’s own units — the single most intuitive “how wrong is it, usually?” number, and the direct Excel equivalent of Minitab’s <strong>S</strong>.</div>
+
+  <h3>Minitab navigation</h3>
+  <div style="overflow-x:auto"><table class="tbl">
+    <tr><th style="width:34%">Menu path</th><th>What it gives you</th><th>Which to use &amp; why</th></tr>
+    <tr><td><strong>Stat → Regression → Regression → Fit Regression Model</strong></td><td>Coefficients, R², adjusted R², <strong>S</strong>, <strong>VIF</strong>, <strong>Durbin–Watson</strong>, AIC/BIC, and residual plots in one run.</td><td>Your main tool — it produces almost every diagnostic in Module 5 at once.</td></tr>
+    <tr><td><strong>Stat → Regression → Regression → Predict</strong></td><td>Fitted values and prediction intervals for new input rows.</td><td>Generate ŷ for a holdout set to compute MAE/RMSE.</td></tr>
+    <tr><td><strong>Stat → Basic Statistics → Normality Test</strong> <br><em>(alt: Graph → Probability Plot)</em></td><td>Anderson–Darling test and a probability plot of the residuals.</td><td>Prefer the <strong>plot</strong> over the p-value on large samples — same large-N trap as Module 5.</td></tr>
+    <tr><td><strong>Stat → Basic Statistics → Correlation</strong></td><td>Pearson r between predictors.</td><td>First-pass multicollinearity screen before trusting coefficients.</td></tr>
+    <tr><td><strong>Stat → Regression → Binary Logistic Regression</strong></td><td>Classification fit with a confusion matrix and pseudo R².</td><td>When the target is a class, not a number.</td></tr>
+    <tr><td><strong>Stat → Multivariate → Cluster K-Means</strong> <br><em>(alt: Cluster Observations)</em></td><td>Cluster assignments and cluster-distance summaries.</td><td>Unlabeled grouping; judge tightness the way silhouette does.</td></tr>
+  </table></div>
+  <div class="callout why"><span class="ct">Reading Minitab’s regression output</span> Check the diagnostics in this order: <strong>S</strong> and <strong>R²(adj)</strong> for accuracy → <strong>VIF</strong> for multicollinearity → <strong>Durbin–Watson</strong> for independence → the <strong>residual plots</strong> for normality and constant variance. Use AIC/BIC only to rank competing models on the same data.</div>
+
+  <h3>Exam tips — ASQ CSSBB / CQE</h3>
+  <ul style="margin:6px 0 0;padding-left:18px;font-size:11px;line-height:1.7">
+    <li><strong>R² vs adjusted R²:</strong> the exam expects you to know that plain R² only ever rises when you add predictors, while <strong>adjusted R²</strong> penalizes useless ones — use it to compare models with different numbers of terms.</li>
+    <li><strong>“S” (standard error of the estimate)</strong> is the exam’s favourite “typical prediction error” value — smaller is better, and it is in the response’s units. Know it maps to Excel’s <span class="mono">STEYX</span>.</li>
+    <li><strong>VIF &gt; 10</strong> is the classic multicollinearity flag on the exam; the recommended remedies (remove/combine predictors, collect better data) are frequently tested.</li>
+    <li><strong>Residual analysis</strong> — independence (Durbin–Watson ≈ 2), constant variance (no funnel in the residual plot), and normality (probability plot) — is core CSSBB Analyze/Improve content. Expect to interpret a residual plot, not just compute a number.</li>
+    <li><strong>Match the metric to the question:</strong> regression → MAE/RMSE/R²; classification → precision/recall/F1 and the cost of each error. The exam rewards choosing recall when a miss is dangerous and precision when a false alarm is costly.</li>
+    <li><strong>The large-N caveat</strong> — that normality tests over-reject on big samples — is exactly the kind of interpretation nuance CQE questions use to separate rote memorizers from real analysts.</li>
+  </ul>
+</section>
+
+<!-- ============================== INTERPRETATION GUIDE ============================== -->
+<section class="sec">
+  <div class="sec-head"><p class="kicker" style="margin:0">Reference</p></div>
+  <h2>When you see this, it means this</h2>
+  <div class="divider"></div>
+  <p class="w-sub" style="margin-top:10px">Tap any card to flip it &mdash; front is the symptom you'd spot in output, back is the diagnosis and the fix.</p>
+  <div class="reveal-grid"><div class="rcard"><div class="rc-front">Training R&sup2; &#8811; holdout / CV R&sup2;</div><div class="rc-hint">Tap: what it means &rarr;</div><div class="rc-back"><b>Means:</b> Overfitting &mdash; the model memorized noise.<br><b>Do:</b> Simplify, cut correlated features, add regularization; re-check with grouped CV.<br><span class="verdict bad">BAD</span></div></div><div class="rcard"><div class="rc-front">All three R&sup2; values low</div><div class="rc-hint">Tap: what it means &rarr;</div><div class="rc-back"><b>Means:</b> Underfitting &mdash; the model is too simple.<br><b>Do:</b> Add signal: better features, interactions, or a more flexible model.<br><span class="verdict warn">WARN</span></div></div><div class="rcard"><div class="rc-front">Wide &plusmn; spread on CV R&sup2;</div><div class="rc-hint">Tap: what it means &rarr;</div><div class="rc-back"><b>Means:</b> Instability &mdash; performance depends on the split.<br><b>Do:</b> Get more data, reduce complexity, confirm the split fits the data's structure.<br><span class="verdict warn">WARN</span></div></div><div class="rcard"><div class="rc-front">95%+ accuracy on a rare event</div><div class="rc-hint">Tap: what it means &rarr;</div><div class="rc-back"><b>Means:</b> The accuracy illusion &mdash; 'always negative' scores high.<br><b>Do:</b> Switch to recall, precision, F1, or ROC-AUC.<br><span class="verdict bad">BAD</span></div></div><div class="rcard"><div class="rc-front">Normality p ≈ 0 on a huge dataset</div><div class="rc-hint">Tap: what it means &rarr;</div><div class="rc-back"><b>Means:</b> Usually the large-N trap, not a real problem.<br><b>Do:</b> Judge by skew (≈0), kurtosis (≈3), and a residual plot.<br><span class="verdict good">GOOD</span></div></div><div class="rcard"><div class="rc-front">Condition number in thousands / VIF &gt; 10</div><div class="rc-hint">Tap: what it means &rarr;</div><div class="rc-back"><b>Means:</b> Multicollinearity &mdash; coefficients unstable.<br><b>Do:</b> Drop or combine predictors, standardize, or use ridge regression.<br><span class="verdict bad">BAD</span></div></div><div class="rcard"><div class="rc-front">Durbin–Watson well below 2</div><div class="rc-hint">Tap: what it means &rarr;</div><div class="rc-back"><b>Means:</b> Positive autocorrelation &mdash; residuals not independent.<br><b>Do:</b> Check ordering/grouping, add lag terms, or use robust SEs.<br><span class="verdict warn">WARN</span></div></div><div class="rcard"><div class="rc-front">R&sup2; reported for a quantile model</div><div class="rc-hint">Tap: what it means &rarr;</div><div class="rc-back"><b>Means:</b> Wrong metric &mdash; it assumes a mean prediction.<br><b>Do:</b> Use pinball loss and pseudo R&sup2; instead.<br><span class="verdict bad">BAD</span></div></div></div>
+</section>
+
+<!-- ============================== COMMON MISTAKES ============================== -->
+<section class="sec">
+  <div class="sec-head"><p class="kicker" style="margin:0">Traps</p></div>
+  <h2>Where people go wrong</h2>
+  <div class="divider"></div>
+  <div class="card-grid" style="margin-top:12px">
+    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Judging on the training score</div><div class="cs"><strong>Why wrong:</strong> a model can memorize its training data. <strong>Avoid it:</strong> report cross-validated performance on unseen data.</div></div>
+    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Tuning on the test set</div><div class="cs"><strong>Why wrong:</strong> it quietly turns the test set into training data and inflates your final number. <strong>Avoid it:</strong> tune with CV, keep one untouched test set.</div></div>
+    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Leaking groups across the split</div><div class="cs"><strong>Why wrong:</strong> the same slab in train and test lets the model “recognize” it. <strong>Avoid it:</strong> use GroupKFold to keep whole groups together.</div></div>
+    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Trusting accuracy on imbalanced data</div><div class="cs"><strong>Why wrong:</strong> the majority class dominates the score. <strong>Avoid it:</strong> use precision, recall, F1, or ROC-AUC.</div></div>
+    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Chasing a normality p-value on big data</div><div class="cs"><strong>Why wrong:</strong> the test over-rejects at large N. <strong>Avoid it:</strong> read skew, kurtosis, and plots.</div></div>
+    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Interpreting coefficients under multicollinearity</div><div class="cs"><strong>Why wrong:</strong> a high condition number makes individual coefficients unstable and their signs unreliable. <strong>Avoid it:</strong> fix collinearity first, then interpret.</div></div>
+    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Comparing AIC/BIC across different datasets</div><div class="cs"><strong>Why wrong:</strong> their scale has no absolute meaning. <strong>Avoid it:</strong> compare only across models fit to the same data.</div></div>
+    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Trusting a model because the software ran</div><div class="cs"><strong>Why wrong:</strong> software executes instructions; it doesn’t validate the question or the assumptions. <strong>Avoid it:</strong> check inputs, metrics, and diagnostics in context.</div></div>
+  </div>
+</section>
+
+<!-- ============================== PRACTICE ============================== -->
+<section class="sec">
+  <div class="sec-head"><p class="kicker" style="margin:0">Practice</p></div>
+  <h2>Practice activity — diagnose these three models</h2>
+  <div class="divider"></div>
+  <p style="margin-top:10px">For each result, name the problem (healthy, overfit, underfit, or unstable) and give one next step. Answers are on the following page.</p>
+  <div style="overflow-x:auto"><table class="tbl">
+    <tr><th>Model</th><th>Training R²</th><th>Holdout R²</th><th>CV R²</th></tr>
+    <tr><td>A · steel energy, depth-2 tree</td><td>0.44</td><td>0.42</td><td>0.41 ± 0.02</td></tr>
+    <tr><td>B · steel energy, depth-25 tree</td><td>0.99</td><td>0.55</td><td>0.49 ± 0.11</td></tr>
+    <tr><td>C · steel energy, tuned tree</td><td>0.80</td><td>0.76</td><td>0.75 ± 0.03</td></tr>
+  </table></div>
+  <p><strong>Bonus:</strong> Model B was validated with a plain random split rather than GroupKFold. How might its holdout R² of 0.55 be <em>even worse</em> than it looks?</p>
+</section>
+
+<!-- ============================== QUIZ (canonical) ============================== -->
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="OLS returns the average of y for that kind of x — the conditional mean. The gap to any single real value is the residual.">
+        <legend>1. What does an OLS regression predict for a given input?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> The exact actual value</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> The conditional mean of the target</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> The median of the target</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="d"> A random draw from the data</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Cross-validation R² averages over many held-out splits, so it is the most honest estimate of performance on new data.">
+        <legend>2. Which R² should be your headline performance metric?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> Training R²</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> Holdout R²</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> Cross-validation R²</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> Adjusted R²</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="A large train→CV collapse plus a wide ± spread is the textbook overfitting signature.">
+        <legend>3. Training R² = 0.97, CV R² = 0.44 ± 0.13. This is:</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> A great model</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Underfitting</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Overfitting</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="d"> A data-entry error</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="A missed defect is a false negative. Recall = TP/(TP+FN) is exactly the metric that penalizes misses.">
+        <legend>4. A defect detector must not miss bad parts. Optimize for:</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> Precision</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> Recall</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> Accuracy</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> Silhouette score</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="A high condition number signals multicollinearity — predictors are nearly linearly dependent, making coefficients unstable.">
+        <legend>5. A condition number of 7,500 warns of:</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> Overfitting</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> Autocorrelation</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> Multicollinearity</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="d"> Non-normal residuals</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="The large-N trap: normality tests over-reject on big samples. Judge normality by skew (≈0), kurtosis (≈3), and residual plots.">
+        <legend>6. On 60,000 rows the Jarque–Bera p-value is 0.000. You should:</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> Reject the model</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> Check skew, kurtosis &amp; plots instead</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> Add more predictors</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="d"> Delete the outliers</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Splitting by SlabID stops the same slab appearing in train and test, which would leak information and inflate the score.">
+        <legend>7. Why use GroupKFold (by SlabID) on the steel data?</legend>
+        <label class="quiz-option"><input type="radio" name="q7" value="a"> It runs faster</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="b"> It keeps whole slabs together to prevent leakage</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="c"> It always raises R²</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="d"> It normalizes the residuals</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Quantile models target a percentile, not the mean, so use pinball (quantile) loss and pseudo R² — not mean-based metrics.">
+        <legend>8. Which metric fits a quantile-regression model?</legend>
+        <label class="quiz-option"><input type="radio" name="q8" value="a"> R²</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="b"> RMSE</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="c"> Pinball loss</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="d"> Accuracy</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<!-- ============================== ANSWER KEY ============================== -->
+<section class="sec">
+  <div class="sec-head"><p class="kicker" style="margin:0">Answer key</p></div>
+  <h2>Practice &amp; quiz answers</h2>
+  <div class="divider"></div>
+  <h3 style="margin-top:12px">Practice activity</h3>
+  <ul style="padding-left:18px;font-size:11px;line-height:1.7">
+    <li><strong>A — Underfit.</strong> Everything is low (~0.42) and stable. The depth-2 tree is too simple. Next step: allow more depth / add signal.</li>
+    <li><strong>B — Overfit &amp; unstable.</strong> 0.99 training collapses to ~0.49 CV with a wide ±0.11 spread. Next step: reduce depth, prune features, regularize.</li>
+    <li><strong>C — Healthy.</strong> Training slightly above holdout/CV, all close, small spread. Ship it.</li>
+    <li><strong>Bonus.</strong> With a plain random split, measurements from the same slab can land in both train and test, so the model “recognizes” slabs it has partly seen. The true score on genuinely new slabs (via GroupKFold) would likely be <em>below</em> 0.55 — the honest number is worse than it appears.</li>
+  </ul>
+</section>
+
+<!-- ============================== SUMMARY ============================== -->
+<section class="sec">
+  <div class="sec-head"><p class="kicker" style="margin:0">Wrap-up</p></div>
+  <h2>The evaluation mindset</h2>
+  <div class="divider"></div>
+  <ul style="margin-top:12px;padding-left:18px;font-size:11px;line-height:1.75">
+    <li>A regression predicts the <strong>conditional mean</strong> — the average outcome for cases like this one. The residual is the part it can’t and isn’t trying to predict.</li>
+    <li>Judge a model on data it has <strong>never seen.</strong> Training R² is a diagnostic, holdout R² is a quick check, <strong>cross-validation R² is the truth.</strong></li>
+    <li>A big train→test gap and a wide CV spread mean <strong>overfitting</strong>; low scores everywhere mean <strong>underfitting</strong>. Tuning navigates the bias–variance trade-off between them.</li>
+    <li><strong>Tune with cross-validation, never on the test set.</strong> Keep one untouched test set for a single, honest final number.</li>
+    <li>Match the metric to the problem <em>and</em> the cost of errors: recall when a miss is dangerous, precision when a false alarm is costly, RMSE when big misses hurt, and never accuracy alone on imbalanced data.</li>
+    <li>Diagnostics test <strong>trustworthiness</strong>, not accuracy. Beware the large-N normality trap; act on high condition number / VIF and on Durbin–Watson far from 2.</li>
+    <li>With grouped data, split by the group (SlabID) so the score answers the real question: can it predict something <strong>brand new?</strong></li>
+  </ul>
+  <div class="formula" style="font-family:'Segoe UI',sans-serif;font-size:15px;letter-spacing:.3px">
+    <span class="lbl">Remember this</span>
+    Predict &nbsp;→&nbsp; Validate &nbsp;→&nbsp; Tune &nbsp;→&nbsp; Measure &nbsp;→&nbsp; Diagnose
+  </div>
+  <div class="callout note"><span class="ct">Decision rule</span> Never trust a single number. Read fit and generalization together, match the metric to the decision, and let the diagnostics tell you whether you’re even allowed to believe the coefficients.</div>
+  <p style="text-align:center;color:var(--mte-muted);font-size:10px;margin-top:20px">UpSkill Sprint Consulting · upskillsprint.com · Practical learning for quality, data, and process improvement · © 2026</p>
+</section>
+
+</div>
+</main>
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#data-analytics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Data Analytics lessons</a>
+</section>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<script>
+(function(){
+"use strict";
+var $=function(s,r){return (r||document).querySelector(s);};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+
+/* theme-aware canvas colours + redraw registry (keeps chart marks visible in dark mode) */
+function dk(){return document.documentElement.getAttribute('data-theme')==='dark';}
+var REDRAW=[];
+var C={};
+Object.defineProperties(C,{
+  train:{get:function(){return dk()?'#7fb0ff':'#12315c';}},
+  axis:{get:function(){return dk()?'#35485e':'#e3e8f0';}},
+  grid:{get:function(){return dk()?'#22344a':'#eef2f8';}},
+  ink:{get:function(){return dk()?'#dbe7ff':'#12315c';}}
+});
+
+/* ---------- canvas helper (DPR-aware) ---------- */
+function setup(canvas, hCss){
+  var dpr=window.devicePixelRatio||1;
+  var wCss=canvas.clientWidth||canvas.parentElement.clientWidth||520;
+  canvas.width=Math.round(wCss*dpr); canvas.height=Math.round(hCss*dpr);
+  canvas.style.height=hCss+"px";
+  var ctx=canvas.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx._w=wCss; ctx._h=hCss; return ctx;
+}
+
+/* ---------- shared polynomial least squares (ridge) ---------- */
+function solve(A,b){var n=b.length,M=A.map(function(r,i){return r.concat([b[i]]);});
+  for(var c=0;c<n;c++){var p=c;for(var r=c+1;r<n;r++)if(Math.abs(M[r][c])>Math.abs(M[p][c]))p=r;
+    var tmp=M[c];M[c]=M[p];M[p]=tmp;var pv=M[c][c]||1e-12;
+    for(var r2=0;r2<n;r2++){if(r2===c)continue;var f=M[r2][c]/pv;for(var k=c;k<=n;k++)M[r2][k]-=f*M[c][k];}}
+  return M.map(function(r,i){return r[n]/(r[i]||1e-12);});}
+function polyfit(xs,ys,deg,lam){var n=xs.length,m=deg+1,i,a,b2;
+  var X=xs.map(function(x){var r=[],p=1;for(var j=0;j<m;j++){r.push(p);p*=x;}return r;});
+  var XtX=[],Xty=[];for(a=0;a<m;a++){Xty[a]=0;XtX[a]=[];for(b2=0;b2<m;b2++)XtX[a][b2]=0;}
+  for(i=0;i<n;i++)for(a=0;a<m;a++){Xty[a]+=X[i][a]*ys[i];for(b2=0;b2<m;b2++)XtX[a][b2]+=X[i][a]*X[i][b2];}
+  for(a=0;a<m;a++)XtX[a][a]+=(lam||1e-7);return solve(XtX,Xty);}
+function ppred(beta,x){var p=1,s=0;for(var i=0;i<beta.length;i++){s+=beta[i]*p;p*=x;}return s;}
+function r2(beta,xs,ys){var mean=ys.reduce(function(a,b){return a+b;},0)/ys.length,ssr=0,sst=0,i;
+  for(i=0;i<xs.length;i++){var e=ys[i]-ppred(beta,xs[i]);ssr+=e*e;var d=ys[i]-mean;sst+=d*d;}return 1-ssr/sst;}
+
+/* ============================================================= *
+ * W1 — Conditional-mean / residual demo
+ * ============================================================= */
+function initResidual(){
+  var box=$("#w-residual"); if(!box) return;
+  var cv=$("canvas",box), out=$(".rd-out",box), slider=$(".rd-x",box), xval=$(".rd-xval",box), btn=$(".rd-sample",box);
+  // fixed "slabs": x = process index 42..58, mean = a+b*x, actual = mean + noise
+  var A=430, B=1.7; // mean at x=50 -> 515
+  function mean(x){return A+B*x;}
+  var seed=7; function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
+  var slabs=[]; for(var i=0;i<32;i++){var x=42+16*i/31;slabs.push({x:x,y:mean(x)+(rnd()*2-1)*11});}
+  var fit=polyfit(slabs.map(function(s){return s.x;}),slabs.map(function(s){return s.y;}),1,0);
+  var samples=[]; // sampled actuals
+  var xmin=41,xmax=59,ymin=470,ymax=560;
+  function px(x){return 44+(x-xmin)/(xmax-xmin)*(cvW-58);}
+  function py(y){return 12+(1-(y-ymin)/(ymax-ymin))*(cvH-40);}
+  var cvW,cvH,ctx;
+  function draw(){
+    ctx=setup(cv,300);cvW=ctx._w;cvH=ctx._h;ctx.clearRect(0,0,cvW,cvH);
+    // axes
+    ctx.strokeStyle=C.axis;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(44,12);ctx.lineTo(44,cvH-28);ctx.lineTo(cvW-14,cvH-28);ctx.stroke();
+    ctx.fillStyle="#8a97ab";ctx.font="9px Segoe UI";ctx.fillText("energy (kWh)",6,10);ctx.fillText("process setting →",cvW-92,cvH-8);
+    // training slabs (grey)
+    ctx.fillStyle="rgba(90,105,128,.42)";
+    slabs.forEach(function(s){ctx.beginPath();ctx.arc(px(s.x),py(s.y),3,0,7);ctx.fill();});
+    // OLS line = line of averages
+    ctx.strokeStyle="#1f5fbf";ctx.lineWidth=2.5;ctx.beginPath();
+    ctx.moveTo(px(xmin),py(ppred(fit,xmin)));ctx.lineTo(px(xmax),py(ppred(fit,xmax)));ctx.stroke();
+    // sampled actuals (faint) + residuals
+    samples.forEach(function(s,idx){
+      var fade=idx===samples.length-1?1:0.32;
+      var yhat=ppred(fit,s.x);
+      ctx.strokeStyle="rgba(185,28,28,"+fade+")";ctx.lineWidth=idx===samples.length-1?2:1;
+      ctx.beginPath();ctx.moveTo(px(s.x),py(yhat));ctx.lineTo(px(s.x),py(s.y));ctx.stroke();
+      ctx.fillStyle="rgba(217,119,6,"+fade+")";ctx.beginPath();ctx.arc(px(s.x),py(s.y),idx===samples.length-1?4.5:3,0,7);ctx.fill();
+    });
+    // current x marker on the line (predicted mean)
+    var cx=+slider.value, yhat=ppred(fit,cx);
+    ctx.setLineDash([4,4]);ctx.strokeStyle="#94a3b8";ctx.beginPath();ctx.moveTo(px(cx),py(ymin<yhat?ymax:ymin));ctx.lineTo(px(cx),cvH-28);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=C.ink;ctx.beginPath();ctx.arc(px(cx),py(yhat),5.5,0,7);ctx.fill();
+    ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke();
+  }
+  function sync(){ xval.textContent=(+slider.value).toFixed(0); draw(); }
+  slider.addEventListener("input",sync);
+  btn.addEventListener("click",function(){
+    var x=+slider.value, yhat=ppred(fit,x), actual=mean(x)+(rnd()*2-1)*13;
+    samples.push({x:x,y:actual}); if(samples.length>6)samples.shift();
+    var resid=actual-yhat;
+    out.innerHTML="Predicted mean <b>"+yhat.toFixed(0)+" kWh</b> &nbsp;·&nbsp; Actual slab <b>"+actual.toFixed(0)+" kWh</b> &nbsp;·&nbsp; Residual <b style='color:"+(Math.abs(resid)>0?'#b91c1c':'#15803d')+"'>"+(resid>=0?"+":"")+resid.toFixed(0)+"</b> — random, slab-specific noise the line never tried to predict.";
+    draw();
+  });
+  window.addEventListener("resize",draw);
+  sync();
+  REDRAW.push(draw);
+}
+
+/* ============================================================= *
+ * W2 — Overfitting explorer  (centerpiece)
+ * ============================================================= */
+function initOverfit(){
+  var box=$("#w-overfit"); if(!box) return;
+  var cv=$(".of-scatter",box), mini=$(".of-mini",box), slider=$(".of-deg",box), dval=$(".of-degval",box);
+  var trV=$(".of-tr",box), teV=$(".of-te",box), badge=$(".of-badge",box), note=$(".of-note",box);
+  // fixed dataset (validated: sweet spot at deg 3, collapse by deg 7)
+  var XS=[-1,-0.92,-0.84,-0.76,-0.68,-0.6,-0.52,-0.44,-0.36,-0.28,-0.2,-0.12,-0.04,0.04,0.12,0.2,0.28,0.36,0.44,0.52,0.6,0.68,0.76,0.84,0.92,1];
+  var YS=[-0.954,-0.293,-0.296,-0.837,-0.485,-0.323,-0.813,-0.335,0.052,0.114,0.03,0.225,0.267,0.471,0.467,0.403,0.388,0.773,0.895,0.526,0.084,0.749,0.644,0.059,0.534,-0.131];
+  var trX=[],trY=[],teX=[],teY=[];
+  XS.forEach(function(x,i){ if(i%3===1){teX.push(x);teY.push(YS[i]);} else {trX.push(x);trY.push(YS[i]);} });
+  var DEGS=[1,2,3,4,5,6,7,8];
+  var curves={},trR2={},teR2={};
+  DEGS.forEach(function(d){var b=polyfit(trX,trY,d,1e-7);curves[d]=b;trR2[d]=r2(b,trX,trY);teR2[d]=r2(b,teX,teY);});
+  var verdict={
+    1:["Underfitting","warn","Too rigid — it misses the real curve. Both scores are low; the model has high <b>bias</b>."],
+    2:["Getting warmer","info","Better, but still leaving signal on the table. Keep adding a little flexibility."],
+    3:["Sweet spot","good","Best test score with a tiny train–test gap. This is the model you ship."],
+    4:["Still healthy","good","Essentially tied with degree 3 — a touch more flexible, still generalizing well."],
+    5:["Overfitting","bad","Test score is falling while train keeps rising. The extra flexibility is fitting noise."],
+    6:["Overfitting","bad","The curve begins to wiggle between points. Train looks great; test does not."],
+    7:["Severe overfitting","bad","Test R² has gone <b>negative</b> — the model is now worse than just guessing the mean."],
+    8:["Severe overfitting","bad","Wild swings between points (Runge phenomenon). The model memorized; it did not learn."]
+  };
+  var xmin=-1.08,xmax=1.08,ymin=-1.4,ymax=1.4;
+  function draw(){
+    var d=+slider.value, beta=curves[d];
+    var ctx=setup(cv,270),W=ctx._w,H=ctx._h;ctx.clearRect(0,0,W,H);
+    function px(x){return 30+(x-xmin)/(xmax-xmin)*(W-42);}
+    function py(y){return 12+(1-(y-ymin)/(ymax-ymin))*(H-30);}
+    // zero line
+    ctx.strokeStyle=C.grid;ctx.beginPath();ctx.moveTo(30,py(0));ctx.lineTo(W-12,py(0));ctx.stroke();
+    // fitted curve
+    ctx.strokeStyle="#6d28d9";ctx.lineWidth=2.5;ctx.beginPath();
+    for(var i=0;i<=160;i++){var x=xmin+(xmax-xmin)*i/160;var y=Math.max(ymin,Math.min(ymax,ppred(beta,x)));var X=px(x),Y=py(y);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);}ctx.stroke();
+    // train points (filled navy)
+    ctx.fillStyle=C.train;trX.forEach(function(x,i){ctx.beginPath();ctx.arc(px(x),py(trY[i]),3.4,0,7);ctx.fill();});
+    // test points (hollow orange)
+    ctx.strokeStyle="#d97706";ctx.lineWidth=2;teX.forEach(function(x,i){ctx.beginPath();ctx.arc(px(x),py(teY[i]),3.6,0,7);ctx.stroke();});
+    // legend
+    ctx.font="9px Segoe UI";ctx.fillStyle=C.train;ctx.fillText("● train",W-96,16);ctx.fillStyle="#d97706";ctx.fillText("○ test (held out)",W-96,28);
+    drawMini(d);
+    // readouts
+    dval.textContent=d;
+    trV.textContent=trR2[d].toFixed(2);
+    teV.textContent=teR2[d]<-9?"«0":teR2[d].toFixed(2);
+    teV.style.color=teR2[d]<0.5?"#b91c1c":"#15803d";
+    var v=verdict[d];badge.className="w-badge of-badge "+v[1];badge.textContent=v[0];
+    note.innerHTML=v[2];
+  }
+  function drawMini(cur){
+    var ctx=setup(mini,150),W=ctx._w,H=ctx._h;ctx.clearRect(0,0,W,H);
+    var pad=26, x0=pad, x1=W-10, y0=10, y1=H-18;
+    function mx(d){return x0+(d-1)/(DEGS.length-1)*(x1-x0);}
+    var lo=-0.6, hi=1;
+    function my(v){v=Math.max(lo,Math.min(hi,v));return y0+(1-(v-lo)/(hi-lo))*(y1-y0);}
+    // grid: 0 and 1 lines
+    ctx.strokeStyle=C.grid;ctx.beginPath();ctx.moveTo(x0,my(0));ctx.lineTo(x1,my(0));ctx.moveTo(x0,my(1));ctx.lineTo(x1,my(1));ctx.stroke();
+    ctx.fillStyle="#a7b2c4";ctx.font="8px Segoe UI";ctx.fillText("R² 1.0",2,my(1)+3);ctx.fillText("0",14,my(0)+3);
+    // current degree marker
+    ctx.strokeStyle="#c7d2e6";ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(mx(cur),y0);ctx.lineTo(mx(cur),y1);ctx.stroke();ctx.setLineDash([]);
+    // train line
+    function line(map,color){ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();DEGS.forEach(function(d,i){var X=mx(d),Y=my(map[d]);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);});ctx.stroke();
+      DEGS.forEach(function(d){ctx.fillStyle=color;ctx.beginPath();ctx.arc(mx(d),my(map[d]),d===cur?3.4:2,0,7);ctx.fill();});}
+    line(trR2,C.train); line(teR2,"#d97706");
+    ctx.fillStyle=C.train;ctx.fillText("train",x1-64,y0+8);ctx.fillStyle="#d97706";ctx.fillText("test",x1-28,y0+8);
+    ctx.fillStyle="#8a97ab";ctx.fillText("complexity (degree) →",x0,H-4);
+  }
+  slider.addEventListener("input",draw);
+  window.addEventListener("resize",draw);
+  draw();
+  REDRAW.push(draw);
+}
+
+/* ============================================================= *
+ * W3 — Threshold → confusion matrix → precision/recall/F1
+ * ============================================================= */
+function initThreshold(){
+  var box=$("#w-threshold"); if(!box) return;
+  var strip=$(".th-strip",box), slider=$(".th-t",box), tval=$(".th-tval",box);
+  // items: {s: score, a: actual(1=defect)}
+  var items=[
+    {s:.05,a:0},{s:.08,a:0},{s:.11,a:0},{s:.13,a:0},{s:.16,a:0},{s:.19,a:0},{s:.22,a:0},{s:.25,a:0},
+    {s:.28,a:0},{s:.31,a:0},{s:.34,a:1},{s:.37,a:0},{s:.4,a:0},{s:.42,a:1},{s:.45,a:0},{s:.47,a:1},
+    {s:.5,a:0},{s:.52,a:1},{s:.55,a:0},{s:.57,a:1},{s:.6,a:1},{s:.62,a:0},{s:.65,a:1},{s:.68,a:1},
+    {s:.71,a:1},{s:.74,a:0},{s:.77,a:1},{s:.8,a:1},{s:.83,a:1},{s:.86,a:1},{s:.9,a:1},{s:.94,a:1}
+  ];
+  var el={TP:$(".th-tp .n",box),FP:$(".th-fp .n",box),FN:$(".th-fn .n",box),TN:$(".th-tn .n",box)};
+  var m={prec:$(".th-prec",box),rec:$(".th-rec",box),f1:$(".th-f1",box),acc:$(".th-acc",box)};
+  function compute(t){var TP=0,FP=0,FN=0,TN=0;items.forEach(function(it){var pos=it.s>=t;
+    if(it.a===1&&pos)TP++;else if(it.a===0&&pos)FP++;else if(it.a===1&&!pos)FN++;else TN++;});
+    return{TP:TP,FP:FP,FN:FN,TN:TN};}
+  function bar(node,v){$(".bar>i",node.parentElement).style.width=(v*100).toFixed(0)+"%";node.textContent=isNaN(v)?"—":v.toFixed(2);}
+  function drawStrip(t){var ctx=setup(strip,64),W=ctx._w,H=ctx._h;ctx.clearRect(0,0,W,H);
+    var pad=8;function sx(s){return pad+s*(W-2*pad);}
+    // threshold line
+    ctx.strokeStyle=C.ink;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sx(t),4);ctx.lineTo(sx(t),H-14);ctx.stroke();
+    ctx.fillStyle=C.ink;ctx.font="8px Segoe UI";ctx.fillText("threshold",Math.min(sx(t)+3,W-52),12);
+    ctx.fillStyle="#8a97ab";ctx.fillText("model score 0 → 1",pad,H-2);
+    items.forEach(function(it,i){var x=sx(it.s),y=20+(i%3)*11;
+      ctx.fillStyle=it.a===1?"#b91c1c":"#15803d";ctx.globalAlpha=it.s>=t?1:.45;
+      ctx.beginPath();ctx.arc(x,y,3.4,0,7);ctx.fill();ctx.globalAlpha=1;});
+    ctx.fillStyle="#b91c1c";ctx.fillText("● defect",W-108,H-2);ctx.fillStyle="#15803d";ctx.fillText("● good",W-52,H-2);
+  }
+  function update(){var t=+slider.value;tval.textContent=t.toFixed(2);var c=compute(t);
+    el.TP.textContent=c.TP;el.FP.textContent=c.FP;el.FN.textContent=c.FN;el.TN.textContent=c.TN;
+    var prec=c.TP/(c.TP+c.FP),rec=c.TP/(c.TP+c.FN),f1=2*prec*rec/(prec+rec),acc=(c.TP+c.TN)/items.length;
+    bar(m.prec,prec);bar(m.rec,rec);bar(m.f1,f1);bar(m.acc,acc);drawStrip(t);}
+  slider.addEventListener("input",update);window.addEventListener("resize",function(){drawStrip(+slider.value);});
+  update();
+  REDRAW.push(update);
+}
+
+/* ============================================================= *
+ * W4 — Metric chooser
+ * ============================================================= */
+function initChooser(){
+  var box=$("#w-metric"); if(!box) return;
+  var state={type:"Regression",prio:"Punish big misses"};
+  var out=$(".mc-result",box);
+  function pick(){
+    var t=state.type,p=state.prio,metric="",why="";
+    if(t==="Clustering"){ metric="Silhouette score (or ARI)";
+      why="Clustering has no target to compare against per row. Use the Silhouette score to judge separation with no labels; use the Adjusted Rand Index when you happen to have true groups. Error-cost priorities don't apply here."; }
+    else if(t==="Quantile (percentile)"){ metric="Pinball loss + Pseudo R²";
+      why="A quantile model aims at a percentile, not the mean, so mean-based metrics measure the wrong target. Score it with pinball (quantile) loss and report McFadden/Koenker–Machado pseudo R²."; }
+    else if(t==="Regression"){
+      if(p==="Punish big misses"){metric="RMSE";why="Squaring makes large misses dominate, so RMSE is the metric to minimize when big errors are especially costly. Report it in the target's own units.";}
+      else if(p==="Treat all errors equally"){metric="MAE";why="Mean Absolute Error weights every error the same and is robust to a few outliers — the honest 'typical miss' in original units.";}
+      else if(p==="Overall balance"){metric="R² (with RMSE)";why="R² communicates overall fit on a 0→1 scale for non-specialists; pair it with RMSE for the real-unit error. Use adjusted R² when comparing models with different predictor counts.";}
+      else {metric="RMSE or MAE";why="'Catch positives' and 'avoid false alarms' are classification ideas. For a numeric target, choose RMSE (punish big misses) or MAE (treat errors equally) instead.";}
+    }
+    else { // classification
+      var imb=t.indexOf("imbalanced")>=0;
+      if(p==="Catch every positive"){metric="Recall (+ ROC-AUC)";why="Recall = TP/(TP+FN) measures how many real positives you caught — the metric when a miss is dangerous (defects, disease). Watch precision as a counterweight.";}
+      else if(p==="Avoid false alarms"){metric="Precision";why="Precision = TP/(TP+FP) measures how many flagged cases are truly positive — the metric when false alarms are costly (fraud freezes, needless recalls).";}
+      else if(p==="Overall balance"){metric=imb?"F1 or ROC-AUC":"F1-score";why=imb?"On imbalanced data, balance precision and recall with F1, or compare ranking quality threshold-free with ROC-AUC. Never lead with accuracy here.":"F1 balances precision and recall in one number when you care about both.";}
+      else { metric=imb?"F1 / ROC-AUC (never accuracy)":"Accuracy (or F1)"; why=imb?"With rare positives, accuracy is the metric that lies most — 'always negative' can score 95%+. Use F1 or ROC-AUC and inspect recall/precision.":"With balanced classes, accuracy is a fair headline; F1 adds nuance when errors differ in cost.";}
+    }
+    out.innerHTML='<div class="rc-k">Recommended metric</div><div class="rc-metric">'+metric+'</div><div class="rc-why">'+why+'</div>';
+  }
+  $$(".mc-opt",box).forEach(function(b){b.addEventListener("click",function(){
+    var g=b.getAttribute("data-g");state[g]=b.getAttribute("data-v");
+    $$('.mc-opt[data-g="'+g+'"]',box).forEach(function(x){x.classList.remove("on");});b.classList.add("on");pick();});});
+  pick();
+}
+
+/* ============================================================= *
+ * W5 / W7 — reveal cards (diagnostics triage + interpretation)
+ * ============================================================= */
+function initReveal(){
+  $$(".rcard").forEach(function(c){ c.addEventListener("click",function(){c.classList.toggle("open");});
+    c.setAttribute("role","button");c.setAttribute("tabindex","0");
+    c.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();c.classList.toggle("open");}}); });
+}
+
+/* ============================================================= *
+ * W6 — three-R² signature toggle
+ * ============================================================= */
+function initSignature(){
+  var box=$("#w-signature"); if(!box) return;
+  var presets={
+    healthy:{v:[.78,.74,.72],c:"#15803d",badge:["Healthy — ship it","good"],
+      msg:"Training sits a touch above holdout and CV, and all three cluster tightly. The model learned the signal and generalizes."},
+    overfit:{v:[.96,.42,.38],c:"#b91c1c",badge:["Overfitting","bad"],
+      msg:"A gorgeous training score collapses on unseen data, with a wide spread. The model memorized noise. Simplify and regularize."},
+    underfit:{v:[.45,.43,.42],c:"#b45309",badge:["Underfitting","warn"],
+      msg:"Low everywhere and flat. The model is too simple to capture the pattern. Add signal — better features or a more flexible model."}
+  };
+  var bars=$$(".sig-bar",box), badge=$(".sig-badge",box), msg=$(".sig-msg",box);
+  function show(key){var p=presets[key];bars.forEach(function(bar,i){
+    var col=$(".bcol",bar),val=$(".bval",bar);col.style.height=(p.v[i]*140)+"px";col.style.background=p.c;val.textContent=p.v[i].toFixed(2);});
+    badge.className="w-badge sig-badge "+p.badge[1];badge.textContent=p.badge[0];msg.innerHTML=p.msg;
+    $$(".sig-tog",box).forEach(function(b){b.classList.toggle("on",b.getAttribute("data-k")===key);});}
+  $$(".sig-tog",box).forEach(function(b){b.addEventListener("click",function(){show(b.getAttribute("data-k"));});});
+  show("healthy");
+}
+
+/* ============================================================= *
+ * W8 — interactive graded quiz
+ * ============================================================= */
+function initQuiz(){
+  var box=$("#w-quiz"); if(!box) return;
+  var QS=[
+    {q:"What does an OLS regression predict for a given input?",o:["The exact actual value","The conditional mean of the target","The median","A random draw"],c:1,e:"OLS returns the average of y for that kind of x — the conditional mean. The gap to any real value is the residual."},
+    {q:"Which R² should be your headline performance metric?",o:["Training R²","Holdout R²","Cross-validation R²","Adjusted R²"],c:2,e:"Cross-validation R² averages over many held-out splits, so it's the most honest estimate of performance on new data."},
+    {q:"Training R² = 0.97, CV R² = 0.44 ± 0.13. This is:",o:["A great model","Underfitting","Overfitting","A data error"],c:2,e:"A big train→CV collapse plus a wide spread is the textbook overfitting signature."},
+    {q:"A defect detector must not miss bad parts. Optimize for:",o:["Precision","Recall","Accuracy","Silhouette"],c:1,e:"A missed defect is a false negative. Recall = TP/(TP+FN) is exactly the metric that penalizes misses."},
+    {q:"A condition number of 7,500 warns of:",o:["Overfitting","Autocorrelation","Multicollinearity","Non-normal residuals"],c:2,e:"A high condition number signals multicollinearity — predictors are nearly linearly dependent, making coefficients unstable."},
+    {q:"On 60,000 rows the Jarque–Bera p-value is 0.000. You should:",o:["Reject the model","Check skew, kurtosis & plots instead","Add predictors","Delete outliers"],c:1,e:"The large-N trap: normality tests over-reject on big samples. Judge normality by skew (≈0), kurtosis (≈3), and plots."},
+    {q:"Why use GroupKFold on the steel data?",o:["It is faster","It keeps whole slabs together to prevent leakage","It raises R²","It normalizes residuals"],c:1,e:"Splitting by SlabID stops the same slab appearing in train and test, which would leak information and inflate the score."},
+    {q:"Which metric fits a quantile-regression model?",o:["R²","RMSE","Pinball loss","Accuracy"],c:2,e:"Quantile models target a percentile, not the mean, so use pinball (quantile) loss and pseudo R² — not mean-based metrics."}
+  ];
+  var wrap=$(".quiz-body",box), prog=$(".quiz-progress > i",box), scoreEl=$(".quiz-score",box);
+  var answered=0, correct=0;
+  QS.forEach(function(item,qi){
+    var q=document.createElement("div");q.className="q";
+    var h='<div class="qn"><span class="num">Q'+(qi+1)+'</span>'+item.q+'</div>';
+    item.o.forEach(function(opt,oi){h+='<button class="opt" data-o="'+oi+'"><span class="mark"></span>'+opt+'</button>';});
+    h+='<div class="explain"></div>';q.innerHTML=h;
+    $$(".opt",q).forEach(function(btn){btn.addEventListener("click",function(){
+      if(q.classList.contains("answered"))return;
+      var oi=+btn.getAttribute("data-o"),right=oi===item.c;
+      $$(".opt",q).forEach(function(b){b.classList.add("disabled");
+        var m=$(".mark",b);
+        if(+b.getAttribute("data-o")===item.c){b.classList.add("correct");m.textContent="✓ ";}
+      });
+      if(!right){btn.classList.add("wrong");$(".mark",btn).textContent="✗ ";}
+      $(".explain",q).innerHTML="<b>"+(right?"Correct.":"Not quite.")+"</b> "+item.e;
+      q.classList.add("answered");answered++;if(right)correct++;
+      prog.style.width=(answered/QS.length*100)+"%";
+      if(answered===QS.length){finish();}
+    });});
+    wrap.appendChild(q);
+  });
+  function finish(){
+    scoreEl.classList.add("show");
+    var pct=Math.round(correct/QS.length*100);
+    var msg=pct===100?"Perfect — you can read a model's report card cold.":pct>=75?"Strong. You've got the core judgment calls down.":pct>=50?"Decent start — revisit the modules on the ones you missed.":"Worth another pass through the lesson, then retry.";
+    scoreEl.innerHTML='<div class="big">'+correct+' / '+QS.length+'</div><div class="msg">'+msg+'</div>';
+    try{document.dispatchEvent(new CustomEvent("upskill-quiz-result",{detail:{score:correct,total:QS.length,percent:pct}}));}catch(e){}
+    scoreEl.scrollIntoView({behavior:"smooth",block:"nearest"});
+  }
+  $(".quiz-reset",box).addEventListener("click",function(){
+    answered=0;correct=0;prog.style.width="0";scoreEl.classList.remove("show");
+    $$(".q",wrap).forEach(function(q){q.classList.remove("answered");
+      $$(".opt",q).forEach(function(b){b.classList.remove("disabled","correct","wrong");$(".mark",b).textContent="";});});
+  });
+}
+
+/* ---------- boot ---------- */
+function boot(){ initResidual();initOverfit();initThreshold();initChooser();initReveal();initSignature();initQuiz();
+  try{ new MutationObserver(function(){ REDRAW.forEach(function(f){ try{f();}catch(e){} }); })
+      .observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']}); }catch(e){}
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+})();
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<style id="mte-dark">
+/* ---- Model Tuning & Evaluation: dark-mode overrides (placed last) ---- */
+html[data-theme="dark"]{
+  --mte-ink:#e8f1f8; --mte-muted:#9fb6cc; --mte-line:#26384c; --mte-soft:#0f2038; --mte-card:#0d1b30;
+  --mte-navy:#bcd6ff; --mte-blue:#7fb0ff; --mte-blue2:#5b9bd5; --mte-teal:#37c7a7; --mte-violet:#b9a5ff;
+  --mte-good:#4fd18a; --mte-goodbg:#13291f; --mte-warn:#e5a23c; --mte-warnbg:#2a2413;
+  --mte-bad:#e06a6a; --mte-badbg:#2c1717; --mte-info:#7fb0ff; --mte-infobg:#12202e;
+}
+html[data-theme="dark"]{ background:#071120; }
+html[data-theme="dark"] body{ color:var(--mte-ink); }
+html[data-theme="dark"] .wrap{ background:#0c1a30; box-shadow:0 6px 30px rgba(0,0,0,.45); }
+html[data-theme="dark"] .lead{ color:#c7d3e6; }
+html[data-theme="dark"] code{ background:#12233c; color:#bcd6ff; }
+html[data-theme="dark"] .callout.exam{ background:#1d1633; border-color:#3a2d63; }
+html[data-theme="dark"] .callout.why{ border-color:#2b4570; }
+html[data-theme="dark"] .callout.watch{ border-color:#5a4a22; }
+html[data-theme="dark"] .callout.good{ border-color:#295a3c; }
+html[data-theme="dark"] .callout.bad{ border-color:#5a2a2a; }
+html[data-theme="dark"] .qc{ background:linear-gradient(180deg,#10241a,#0d1b30); border-color:#265440; }
+html[data-theme="dark"] .qc .qa{ color:#a7d8bb; border-top-color:#265440; }
+html[data-theme="dark"] .steps li > .n, html[data-theme="dark"] .steps li b:first-child{ background:#1f5fbf; color:#fff; }
+/* widgets */
+html[data-theme="dark"] .widget{ background:linear-gradient(180deg,#0e1f36,#0b1830); border-color:#26384c; }
+html[data-theme="dark"] .w-stat, html[data-theme="dark"] .w-note, html[data-theme="dark"] .rcard,
+html[data-theme="dark"] .result-card{ background:#0e2038; border-color:#26384c; color:var(--mte-ink); }
+html[data-theme="dark"] .w-note{ color:#c7d3e6; }
+html[data-theme="dark"] .rcard .rc-back{ color:#c7d3e6; border-top-color:#33465c; }
+html[data-theme="dark"] .bar{ background:#22344a; }
+html[data-theme="dark"] .metric-line .ml-lab{ color:#c7d3e6; }
+html[data-theme="dark"] canvas.w-canvas{ background:#0b1220; border-color:#26384c; }
+html[data-theme="dark"] .w-ctl label{ color:#c7d3e6; }
+html[data-theme="dark"] .divhead .t{ color:#9fb6cc; }
+html[data-theme="dark"] .dtable td{ color:#c7d3e6; border-bottom-color:#26384c; }
+html[data-theme="dark"] .dtable th{ color:#9fb6cc; border-bottom-color:#33465c; }
+html[data-theme="dark"] .toc-t small{ color:#9fb6cc; }
+/* tables: keep a dark header + dark zebra so striped rows never turn light-on-light */
+html[data-theme="dark"] table.tbl th{ background:#173a63; color:#eaf1fb; }
+html[data-theme="dark"] table.tbl td{ border-bottom-color:#26384c; color:var(--mte-ink); }
+html[data-theme="dark"] table.tbl tr:nth-child(even) td{ background:#102338; }
+html[data-theme="dark"] .ptable th{ color:#eaf1fb; }
+</style>
+</body>
+</html>
