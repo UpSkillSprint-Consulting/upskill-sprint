@@ -339,7 +339,18 @@ input[type=range].w-slider::-moz-range-thumb{ width:19px;height:19px;border-radi
 .pcard-btn .b1{ font-size:13px; font-weight:800; color:#f3f7fe; }
 .pcard-btn .b2{ font-size:10.5px; color:#8f9bb3; }
 .pcard-btn .spark{ position:absolute; top:8px; right:10px; width:12px; height:12px; color:var(--mte-glow); opacity:.9; }
-@media print{ .poster-cards{ display:none !important; } .posters-print-note{ display:block !important; } }
+@media print{ .poster-cards, .poster-pack{ display:none !important; } }
+/* poster pack (one combined PDF) */
+.poster-pack{ display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center; padding:20px 22px; border-radius:16px; margin:16px 0 12px;
+  background:linear-gradient(160deg,#14294a,#0b1626 72%); border:1px solid rgba(255,255,255,.10); box-shadow:0 10px 30px rgba(8,15,30,.18); }
+.poster-pack .pp-badge{ display:inline-block; font-size:10px; font-weight:800; letter-spacing:1.4px; color:#fff; background:#2f6fd6; padding:5px 13px; border-radius:999px; }
+.poster-pack .pp-title{ font-family:Georgia,"Times New Roman",serif; font-size:22px; font-weight:700; color:#f3f7fe; margin:12px 0 8px; }
+.poster-pack .pp-desc{ font-size:12px; line-height:1.55; color:#a9b6cb; max-width:62ch; margin:0; }
+.poster-pack .pp-actions{ display:flex; gap:12px; min-width:320px; }
+.poster-pack .pp-actions .pcard-btn{ flex:1; }
+@media (max-width:640px){ .poster-pack{ grid-template-columns:1fr; } .poster-pack .pp-actions{ min-width:0; } }
+.poster-cards.info .pcard{ padding:16px 18px; }
+.pcard-page{ font-size:10px; font-weight:800; letter-spacing:1px; color:#7f8ba3; text-transform:uppercase; margin:8px 0 0; }
 
 </style>
   <style id="uss-quiz-style">
@@ -449,64 +460,49 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
   <div class="divider"></div>
   <p class="lead" style="margin-top:10px">Four full-resolution infographics covering the whole model-building playbook &mdash; the workflow, and the regression, classification, quantile &amp; clustering metric families with formulas. Download to print as a desk reference, or open full size on screen.</p>
 
-  <div class="poster-cards">
+  <div class="poster-pack">
+    <div class="pp-copy">
+      <span class="pp-badge">POSTER PACK</span>
+      <div class="pp-title">All four posters &mdash; one PDF, four pages</div>
+      <p class="pp-desc">A single full-resolution download: the build-the-best-model workflow, plus the regression, classification, and quantile &amp; clustering metric families &mdash; every acronym spelled out, with formulas and acceptance ranges. Print the set as a desk reference.</p>
+    </div>
+    <div class="pp-actions">
+      <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/model-tuning-and-evaluation-posters.pdf" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+        <span class="b1">Download PDF</span><span class="b2">4 pages &middot; print</span></a>
+      <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/model-tuning-and-evaluation-posters.pdf" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span class="b1">Open Pack</span><span class="b2">View full size</span></a>
+    </div>
+  </div>
+
+  <div class="poster-cards info">
     <div class="pcard pc1">
       <span class="pcard-badge">POSTER 1</span>
       <div class="pcard-title">Build the Best Model: Workflow, Overfitting &amp; Validation</div>
       <p class="pcard-desc">The end-to-end modelling pipeline, data splitting &amp; leakage, the three R&sup2;s, bias&ndash;variance, cross-validation schemes, hyperparameter search, and regularization.</p>
-      <p class="pcard-label">Printable PDF &middot; Full-resolution poster</p>
-      <div class="pcard-actions">
-        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-1.pdf" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
-          <span class="b1">Download PDF</span><span class="b2">Save &amp; print</span></a>
-        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-1.pdf" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span class="b1">Open Poster</span><span class="b2">View full size</span></a>
-      </div>
+      <p class="pcard-page">Page 1</p>
     </div>
     <div class="pcard pc2">
       <span class="pcard-badge">POSTER 2</span>
       <div class="pcard-title">Regression Metrics: Meaning, Formula &amp; Acceptance Range</div>
       <p class="pcard-desc">Every continuous-target metric with its equation and acceptance range &mdash; MAE, MSE, RMSE, RMSLE, MAPE, R&sup2; / adjusted R&sup2;, AIC / BIC / Mallows&rsquo; Cp, and the residual diagnostics.</p>
-      <p class="pcard-label">Printable PDF &middot; Full-resolution poster</p>
-      <div class="pcard-actions">
-        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-2.pdf" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
-          <span class="b1">Download PDF</span><span class="b2">Save &amp; print</span></a>
-        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-2.pdf" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span class="b1">Open Poster</span><span class="b2">View full size</span></a>
-      </div>
+      <p class="pcard-page">Page 2</p>
     </div>
     <div class="pcard pc3">
       <span class="pcard-badge">POSTER 3</span>
       <div class="pcard-title">Classification Metrics &amp; Tuning &mdash; with Equations</div>
       <p class="pcard-desc">The confusion matrix and every classification metric with formulas &mdash; precision, recall, F1 / F&beta;, ROC-AUC, PR-AUC, log loss, Brier, MCC &mdash; plus threshold tuning, imbalance, and calibration.</p>
-      <p class="pcard-label">Printable PDF &middot; Full-resolution poster</p>
-      <div class="pcard-actions">
-        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-3.pdf" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
-          <span class="b1">Download PDF</span><span class="b2">Save &amp; print</span></a>
-        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-3.pdf" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span class="b1">Open Poster</span><span class="b2">View full size</span></a>
-      </div>
+      <p class="pcard-page">Page 3</p>
     </div>
     <div class="pcard pc4">
       <span class="pcard-badge">POSTER 4</span>
       <div class="pcard-title">Quantile &amp; Clustering Evaluation &mdash; with Equations</div>
       <p class="pcard-desc">Pinball loss, prediction-interval coverage &amp; width, and clustering indices with equations &mdash; silhouette, Davies&ndash;Bouldin, Calinski&ndash;Harabasz, choosing k, and external ARI / NMI.</p>
-      <p class="pcard-label">Printable PDF &middot; Full-resolution poster</p>
-      <div class="pcard-actions">
-        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-4.pdf" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
-          <span class="b1">Download PDF</span><span class="b2">Save &amp; print</span></a>
-        <a class="pcard-btn" href="/downloads/model-tuning-and-evaluation/wall-poster-4.pdf" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span class="b1">Open Poster</span><span class="b2">View full size</span></a>
-      </div>
+      <p class="pcard-page">Page 4</p>
     </div>
   </div>
+  <p class="embed-note" style="font-size:10.5px;color:var(--mte-muted);margin-top:10px">One PDF, four pages &mdash; one poster per page.</p>
 </section>
 
 <!-- ============================== MODULE 1 : PREDICT ============================== -->
