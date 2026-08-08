@@ -48,7 +48,7 @@ body{
 .page{ page-break-after:always; }
 .page:last-child{ page-break-after:auto; }
 h2,h3,h4{ break-after:avoid; }
-table,.card,.callout,.formula,.qc,.steps li,.verdict-row{ break-inside:avoid; }
+table,.mte-card,.mte-callout,.formula,.qc,.steps li,.verdict-row{ break-inside:avoid; }
 
 /* ---------- Typography ---------- */
 h1{ font-size:30px; line-height:1.12; margin:0 0 8px; letter-spacing:-.5px; }
@@ -94,15 +94,15 @@ sub,sup{ font-size:.72em; }
 .toc-t small{ display:block; color:var(--mte-muted); font-size:10px; }
 
 /* ---------- Callouts ---------- */
-.callout{ border-radius:10px; padding:11px 14px 11px 14px; margin:12px 0; font-size:10.8px;
+.mte-callout{ border-radius:10px; padding:11px 14px 11px 14px; margin:12px 0; font-size:10.8px;
   border:1px solid var(--mte-line); background:var(--mte-soft); position:relative; }
-.callout .ct{ font-weight:800; font-size:10px; text-transform:uppercase; letter-spacing:.6px; display:block; margin-bottom:3px; }
-.callout.why{ background:var(--mte-infobg); border-color:#c9d9f7; } .callout.why .ct{ color:var(--mte-info); }
-.callout.watch{ background:var(--mte-warnbg); border-color:#f3ddb6; } .callout.watch .ct{ color:var(--mte-warn); }
-.callout.exam{ background:#f2ecfb; border-color:#ddccf5; } .callout.exam .ct{ color:var(--mte-violet); }
-.callout.good{ background:var(--mte-goodbg); border-color:#c4e6cf; } .callout.good .ct{ color:var(--mte-good); }
-.callout.bad{ background:var(--mte-badbg); border-color:#eecccc; } .callout.bad .ct{ color:var(--mte-bad); }
-.callout.note{ background:var(--mte-soft); } .callout.note .ct{ color:var(--mte-navy); }
+.mte-callout .ct{ font-weight:800; font-size:10px; text-transform:uppercase; letter-spacing:.6px; display:block; margin-bottom:3px; }
+.mte-callout.why{ background:var(--mte-infobg); border-color:#c9d9f7; } .mte-callout.why .ct{ color:var(--mte-info); }
+.mte-callout.watch{ background:var(--mte-warnbg); border-color:#f3ddb6; } .mte-callout.watch .ct{ color:var(--mte-warn); }
+.mte-callout.exam{ background:#f2ecfb; border-color:#ddccf5; } .mte-callout.exam .ct{ color:var(--mte-violet); }
+.mte-callout.good{ background:var(--mte-goodbg); border-color:#c4e6cf; } .mte-callout.good .ct{ color:var(--mte-good); }
+.mte-callout.bad{ background:var(--mte-badbg); border-color:#eecccc; } .mte-callout.bad .ct{ color:var(--mte-bad); }
+.mte-callout.note{ background:var(--mte-soft); } .mte-callout.note .ct{ color:var(--mte-navy); }
 
 /* ---------- Quick check ---------- */
 .qc{ border:1px solid #cfe0d6; background:linear-gradient(180deg,#f2faf5,#ffffff); border-radius:10px;
@@ -123,16 +123,16 @@ sub,sup{ font-size:.72em; }
 /* ---------- Cards ---------- */
 .card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0; }
 .card-grid.three{ grid-template-columns:1fr 1fr 1fr; }
-.card{ border:1px solid var(--mte-line); border-radius:10px; padding:11px 13px; background:var(--mte-card); }
-.card .ch{ font-weight:800; font-size:11.6px; color:var(--mte-navy); margin-bottom:3px; }
-.card .cs{ font-size:10.5px; color:var(--mte-muted); }
-.card.accent{ border-top:3px solid var(--mte-blue); }
-.chip{ display:inline-block; font-size:9px; font-weight:800; letter-spacing:.4px; padding:2px 7px;
+.mte-card{ border:1px solid var(--mte-line); border-radius:10px; padding:11px 13px; background:var(--mte-card); }
+.mte-card .ch{ font-weight:800; font-size:11.6px; color:var(--mte-navy); margin-bottom:3px; }
+.mte-card .cs{ font-size:10.5px; color:var(--mte-muted); }
+.mte-card.accent{ border-top:3px solid var(--mte-blue); }
+.mte-chip{ display:inline-block; font-size:9px; font-weight:800; letter-spacing:.4px; padding:2px 7px;
   border-radius:999px; text-transform:uppercase; }
-.chip.good{ background:var(--mte-goodbg); color:var(--mte-good); }
-.chip.warn{ background:var(--mte-warnbg); color:var(--mte-warn); }
-.chip.bad{ background:var(--mte-badbg); color:var(--mte-bad); }
-.chip.info{ background:var(--mte-infobg); color:var(--mte-info); }
+.mte-chip.good{ background:var(--mte-goodbg); color:var(--mte-good); }
+.mte-chip.warn{ background:var(--mte-warnbg); color:var(--mte-warn); }
+.mte-chip.bad{ background:var(--mte-badbg); color:var(--mte-bad); }
+.mte-chip.info{ background:var(--mte-infobg); color:var(--mte-info); }
 
 /* ---------- Tables ---------- */
 table.tbl{ width:100%; border-collapse:collapse; margin:12px 0; font-size:10.4px; }
@@ -196,7 +196,7 @@ pre .cm{ color:#84a9e6; } pre .fn{ color:#7fe0c9; } pre .kw{ color:#f0a868; }
 @media screen{
   html{ background:#e9edf3; }
   body{ font-size:12px; }
-  .wrap{ max-width:940px; margin:26px auto 46px; background:#fff;
+  .mte-sheet{ max-width:940px; margin:26px auto 46px; background:#fff;
          padding:6px 46px 42px; border-radius:14px; box-shadow:0 6px 30px rgba(16,26,43,.10); }
   .cover{ height:auto; min-height:330px; }
   .cover-top{ padding:40px 46px 0; }
@@ -299,7 +299,7 @@ input[type=range].w-slider::-moz-range-thumb{ width:19px;height:19px;border-radi
 .opt{ display:block; width:100%; text-align:left; font-size:11.5px; border:1.5px solid var(--mte-line); background:#fff;
   border-radius:9px; padding:9px 12px; margin:6px 0; cursor:pointer; transition:.12s; color:var(--mte-ink); font-family:inherit; }
 .opt:hover{ border-color:var(--mte-blue); background:#f5f9ff; }
-.opt.correct{ border-color:var(--mte-good); background:var(--mte-goodbg); color:#0f5c2c; font-weight:700; }
+.opt.mte-correct{ border-color:var(--mte-good); background:var(--mte-goodbg); color:#0f5c2c; font-weight:700; }
 .opt.wrong{ border-color:var(--mte-bad); background:var(--mte-badbg); color:#8f1a1a; }
 .opt.disabled{ pointer-events:none; opacity:.9; }
 .opt .mark{ font-weight:800; margin-right:6px; }
@@ -352,6 +352,9 @@ input[type=range].w-slider::-moz-range-thumb{ width:19px;height:19px;border-radi
 .poster-cards.info .pcard{ padding:16px 18px; }
 .pcard-page{ font-size:10px; font-weight:800; letter-spacing:1px; color:#7f8ba3; text-transform:uppercase; margin:8px 0 0; }
 
+
+#lesson-content{ background:#e7ecf3; }
+.mte-sheet{ border:1px solid #e1e7f0; }
 </style>
   <style id="uss-quiz-style">
 .quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
@@ -409,7 +412,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
     <p class="tag">How to tell whether a predictive model is actually good — what it really predicts, how to test it honestly, how to tune it, which metric to trust, and how to read the diagnostic output without being fooled.</p>
     <div class="cover-meta">
       <div><div class="n">40&ndash;50 min</div><div class="l">Estimated time</div></div>
-      <div><div class="n">6 modules</div><div class="l">Plus 4 wall posters</div></div>
+      <div><div class="n">6 modules</div><div class="l">Plus a 4-page poster pack</div></div>
       <div><div class="n">CSSBB / CQE</div><div class="l">Exam-aligned</div></div>
       <div><div class="n">Regression &amp; ML</div><div class="l">Scope</div></div>
     </div>
@@ -420,7 +423,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
   </div>
 </section>
 
-<div class="wrap">
+<div class="mte-sheet">
 
 <section class="page">
   <p class="kicker">Overview</p>
@@ -449,7 +452,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
       <li><strong>Interpret</strong> a regression diagnostic block — normality tests, Durbin–Watson, condition number, VIF, AIC/BIC — and know which warnings to act on.</li>
       <li><strong>Reproduce</strong> the core metrics in Excel and Minitab and connect them to ASQ CSSBB/CQE exam expectations.</li>
     </ul>
-    <div class="callout note"><span class="ct">Prerequisite</span> You should have met simple linear regression and the idea of a “model” before. No coding is required to follow the lesson, though Python output is shown because that is where these numbers usually appear.</div>
+    <div class="mte-callout note"><span class="ct">Prerequisite</span> You should have met simple linear regression and the idea of a “model” before. No coding is required to follow the lesson, though Python output is shown because that is where these numbers usually appear.</div>
   </div>
 </section>
 
@@ -515,7 +518,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
   <h3>The confusion, stated plainly</h3>
   <p>“When people say OLS regression predicts the <em>average</em>, I get confused, because I thought it predicts the <em>actual</em> value of y.” This is the single most common stumbling block in modeling, and it is worth clearing up completely.</p>
 
-  <div class="callout why"><span class="ct">The weight analogy</span> If I ask you to guess the weight of a person you have never met, your safest single guess is the <strong>average</strong> weight of everyone in the room. OLS regression does exactly this — just with more information. When you give it an input, it doesn’t know the random quirks that made one specific real value what it is; it gives you the <strong>average outcome for cases like this one</strong>.</div>
+  <div class="mte-callout why"><span class="ct">The weight analogy</span> If I ask you to guess the weight of a person you have never met, your safest single guess is the <strong>average</strong> weight of everyone in the room. OLS regression does exactly this — just with more information. When you give it an input, it doesn’t know the random quirks that made one specific real value what it is; it gives you the <strong>average outcome for cases like this one</strong>.</div>
 
   <ul class="steps">
     <li><h4>It predicts the “conditional mean”</h4>When you plug an <strong>x</strong> into the model, OLS looks at how the target behaves for that kind of input and returns the <strong>average</strong> — the mean of y <em>conditional on</em> x. The goal is to predict the actual value; the reality is that the best possible guess for any specific case is the average of similar cases.</li>
@@ -529,7 +532,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
     &nbsp;&nbsp;&nbsp;where&nbsp;&nbsp; ŷ<sub>i</sub> = predicted (conditional mean)&nbsp;&nbsp;·&nbsp;&nbsp; e<sub>i</sub> = residual (what’s left)
   </div>
 
-  <div class="callout note"><span class="ct">The reframe</span> Stop reading “line of best fit” and start reading “<strong>line of averages</strong>.” OLS predicts what y would be <em>on average</em> for a given x — which is, statistically, your most accurate single guess for the actual value.</div>
+  <div class="mte-callout note"><span class="ct">The reframe</span> Stop reading “line of best fit” and start reading “<strong>line of averages</strong>.” OLS predicts what y would be <em>on average</em> for a given x — which is, statistically, your most accurate single guess for the actual value.</div>
 
   <div class="qc">
     <div class="qh">Quick check</div>
@@ -548,7 +551,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
   <h3>Not every model predicts the mean</h3>
   <p>This matters because it decides which metrics are even valid. Ordinary regression predicts the mean. <strong>Quantile regression</strong> deliberately predicts a chosen slice of the distribution instead — say the 90th percentile of energy use, the level you’ll stay under 90% of the time. Because it is not aiming at the mean, mean-based metrics like R² and RMSE measure the wrong target. We return to its special metrics in Module 4.</p>
 
-  <div class="callout exam"><span class="ct">Why this leads the lesson</span> Every downstream choice — which metric, which diagnostic, what “good” looks like — depends on knowing what the model estimates. Get this wrong and you will happily optimize a number that means nothing.</div>
+  <div class="mte-callout exam"><span class="ct">Why this leads the lesson</span> Every downstream choice — which metric, which diagnostic, what “good” looks like — depends on knowing what the model estimates. Get this wrong and you will happily optimize a number that means nothing.</div>
 </section>
 
 <!-- ============================== MODULE 2 : VALIDATE ============================== -->
@@ -558,17 +561,17 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
   <div class="divider"></div>
   <p class="lead" style="margin-top:10px">A model that is graded on the same data it studied is like a student who saw the exam in advance. To know if it truly learned, you must test it on material it has never seen. That is the entire idea behind the three R² values you will see printed in modeling code.</p>
 
-  <div class="callout watch"><span class="ct">The core danger</span> A flexible model can <strong>memorize</strong> its training data — capturing not just the real signal but the random noise. It then looks brilliant in training and collapses in the real world. This is <strong>overfitting</strong>, and validation exists to catch it.</div>
+  <div class="mte-callout watch"><span class="ct">The core danger</span> A flexible model can <strong>memorize</strong> its training data — capturing not just the real signal but the random noise. It then looks brilliant in training and collapses in the real world. This is <strong>overfitting</strong>, and validation exists to catch it.</div>
 
   <h3>The three R² values, in order of trust</h3>
   <ul class="steps">
-    <li><h4>In-sample R² — Training R²</h4><code>r2_train = r2_score(y_train, y_pred_train)</code><br>How well the model fits the <strong>same data</strong> it was trained on. A high value (0.9+) means it fits training data well — but if it is much higher than the other two, that is a red flag for overfitting, not a trophy. <span class="chip info">Diagnostic only</span></li>
-    <li><h4>Holdout R² — Test R²</h4><code>r2_holdout = r2_score(y_test, y_pred_test)</code><br>Performance on a separate ~20% slice the model <strong>never saw</strong> during training. This is your first real test of generalization. <span class="chip info">Quick reality check</span></li>
-    <li><h4>Cross-validation R² — CV R²</h4><code>cv_scores = cross_val_score(...)</code><br>The model is trained and tested several times on <strong>different splits</strong> of the data, and the scores are averaged. You get both a central estimate and a spread. <span class="chip good">The number to trust</span></li>
+    <li><h4>In-sample R² — Training R²</h4><code>r2_train = r2_score(y_train, y_pred_train)</code><br>How well the model fits the <strong>same data</strong> it was trained on. A high value (0.9+) means it fits training data well — but if it is much higher than the other two, that is a red flag for overfitting, not a trophy. <span class="mte-chip info">Diagnostic only</span></li>
+    <li><h4>Holdout R² — Test R²</h4><code>r2_holdout = r2_score(y_test, y_pred_test)</code><br>Performance on a separate ~20% slice the model <strong>never saw</strong> during training. This is your first real test of generalization. <span class="mte-chip info">Quick reality check</span></li>
+    <li><h4>Cross-validation R² — CV R²</h4><code>cv_scores = cross_val_score(...)</code><br>The model is trained and tested several times on <strong>different splits</strong> of the data, and the scores are averaged. You get both a central estimate and a spread. <span class="mte-chip good">The number to trust</span></li>
   </ul>
 
   <div class="card-grid">
-    <div class="card">
+    <div class="mte-card">
       <div class="ch">How k-fold cross-validation works</div>
       <div class="cs">The data is cut into k equal folds (5 is common). Each fold takes a turn as the test set while the other four train the model. Average the five scores for a robust estimate, and read the spread as a stability check.</div>
       <div style="overflow-x:auto"><table class="tbl tight" style="margin-top:8px">
@@ -577,7 +580,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
       </table></div>
       <p style="font-size:10px;margin:6px 0 0"><code>5-fold CV R²: 0.68 ± 0.05</code> → average predictive power 0.68, split-to-split variation 0.05.</p>
     </div>
-    <div class="card">
+    <div class="mte-card">
       <div class="ch">Reading the three together</div>
       <div style="overflow-x:auto"><table class="tbl tight" style="margin-top:2px">
         <tr><th>Metric</th><th>Data used</th><th>Purpose</th></tr>
@@ -585,14 +588,14 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
         <tr><td>Holdout R²</td><td>20% unseen</td><td>Generalization test</td></tr>
         <tr><td>CV R²</td><td>Many unseen splits</td><td>Robust performance</td></tr>
       </table></div>
-      <div class="callout good" style="margin:8px 0 0"><span class="ct">Rule of thumb</span> Use <strong>CV R² as your main metric.</strong> Training R² is a diagnostic, holdout R² is a quick check, CV R² is the true performance estimate.</div>
+      <div class="mte-callout good" style="margin:8px 0 0"><span class="ct">Rule of thumb</span> Use <strong>CV R² as your main metric.</strong> Training R² is a diagnostic, holdout R² is a quick check, CV R² is the true performance estimate.</div>
     </div>
   </div>
 
   <h3>Two signatures you must recognize</h3>
   <div class="card-grid">
-    <div class="card" style="border-top:3px solid var(--mte-good)">
-      <div class="ch"><span class="chip good">Healthy</span> &nbsp;What good looks like</div>
+    <div class="mte-card" style="border-top:3px solid var(--mte-good)">
+      <div class="ch"><span class="mte-chip good">Healthy</span> &nbsp;What good looks like</div>
       <div style="overflow-x:auto"><table class="tbl tight" style="margin-top:6px">
         <tr><th>Metric</th><th>Value</th></tr>
         <tr><td>Training R²</td><td class="v-good">0.78</td></tr>
@@ -601,8 +604,8 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
       </table></div>
       <div class="cs" style="margin-top:6px">Training slightly higher than the rest; holdout and CV are close; the spread is small. The model learned the signal.</div>
     </div>
-    <div class="card" style="border-top:3px solid var(--mte-bad)">
-      <div class="ch"><span class="chip bad">Overfit</span> &nbsp;What trouble looks like</div>
+    <div class="mte-card" style="border-top:3px solid var(--mte-bad)">
+      <div class="ch"><span class="mte-chip bad">Overfit</span> &nbsp;What trouble looks like</div>
       <div style="overflow-x:auto"><table class="tbl tight" style="margin-top:6px">
         <tr><th>Metric</th><th>Value</th></tr>
         <tr><td>Training R²</td><td class="v-bad">0.96</td></tr>
@@ -613,9 +616,9 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
     </div>
   </div>
 
-  <div class="callout why"><span class="ct">Use case · the steel-process dataset</span> The energy model groups rows by <strong>SlabID</strong>. Using <code>GroupKFold</code>, every measurement from one slab stays together — all in train or all in test, never split across both. So CV R² answers the question that actually matters on the plant floor: <em>“How well can the model predict energy for completely new slabs it has never seen?”</em> That is the most realistic measure you can get.</div>
+  <div class="mte-callout why"><span class="ct">Use case · the steel-process dataset</span> The energy model groups rows by <strong>SlabID</strong>. Using <code>GroupKFold</code>, every measurement from one slab stays together — all in train or all in test, never split across both. So CV R² answers the question that actually matters on the plant floor: <em>“How well can the model predict energy for completely new slabs it has never seen?”</em> That is the most realistic measure you can get.</div>
 
-  <div class="callout watch"><span class="ct">The leakage trap</span> If the same slab appears in both train and test, the model can “recognize” it and post an inflated score that evaporates in production. Grouped splitting is not a nicety here — it is the difference between an honest number and a fantasy.</div>
+  <div class="mte-callout watch"><span class="ct">The leakage trap</span> If the same slab appears in both train and test, the model can “recognize” it and post an inflated score that evaporates in production. Grouped splitting is not a nicety here — it is the difference between an honest number and a fantasy.</div>
 
 <div class="widget" id="w-signature">
   <div class="w-head"><span class="w-tag">Compare</span><span class="w-title">The three-R&sup2; signature</span></div>
@@ -649,15 +652,15 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
   <h3>The bias–variance trade-off</h3>
   <p>Every model’s total error on unseen data splits into two competing parts. Push one down and the other tends to rise; good tuning finds the balance.</p>
   <div class="card-grid three">
-    <div class="card" style="border-top:3px solid var(--mte-warn)">
+    <div class="mte-card" style="border-top:3px solid var(--mte-warn)">
       <div class="ch">High bias · Underfit</div>
       <div class="cs">The model is too simple to capture the real pattern. It is wrong even on the training data. <br><br><strong>Signature:</strong> low R² <em>everywhere</em> — training, holdout, and CV all mediocre.</div>
     </div>
-    <div class="card" style="border-top:3px solid var(--mte-bad)">
+    <div class="mte-card" style="border-top:3px solid var(--mte-bad)">
       <div class="ch">High variance · Overfit</div>
       <div class="cs">The model is too flexible and chases noise. It is brilliant on training data and poor on new data.<br><br><strong>Signature:</strong> high training R², big drop to holdout/CV, wide spread.</div>
     </div>
-    <div class="card" style="border-top:3px solid var(--mte-good)">
+    <div class="mte-card" style="border-top:3px solid var(--mte-good)">
       <div class="ch">The sweet spot</div>
       <div class="cs">Enough complexity to catch the signal, not so much that it memorizes noise.<br><br><strong>Signature:</strong> training a touch higher than holdout/CV, all three close together.</div>
     </div>
@@ -696,9 +699,9 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
     <li><h4>Lock it in, then test once</h4>Pick the winning hyperparameters, retrain on all your training data, and evaluate a single time on the untouched test set.</li>
   </ul>
 
-  <div class="callout bad"><span class="ct">The tuning trap — do not skip this</span> If you tune your hyperparameters against the <strong>test set</strong>, you have quietly turned it into a training set. Your final number becomes optimistic and dishonest. Keep three roles: <strong>train</strong> (fit), <strong>validation / CV</strong> (tune), and a <strong>held-back test set</strong> (report once, at the very end). Nested cross-validation formalizes this when data is scarce.</div>
+  <div class="mte-callout bad"><span class="ct">The tuning trap — do not skip this</span> If you tune your hyperparameters against the <strong>test set</strong>, you have quietly turned it into a training set. Your final number becomes optimistic and dishonest. Keep three roles: <strong>train</strong> (fit), <strong>validation / CV</strong> (tune), and a <strong>held-back test set</strong> (report once, at the very end). Nested cross-validation formalizes this when data is scarce.</div>
 
-  <div class="callout why"><span class="ct">Regularization — a tuning lever with a bonus</span> Ridge and Lasso regression add a penalty (λ) that shrinks coefficients toward zero. Turning λ up fights overfitting <em>and</em> stabilizes a model suffering from multicollinearity — which is exactly the “condition number” problem you will meet in Module 5. Lasso can also zero out weak predictors, doing feature selection for you.</div>
+  <div class="mte-callout why"><span class="ct">Regularization — a tuning lever with a bonus</span> Ridge and Lasso regression add a penalty (λ) that shrinks coefficients toward zero. Turning λ up fights overfitting <em>and</em> stabilizes a model suffering from multicollinearity — which is exactly the “condition number” problem you will meet in Module 5. Lasso can also zero out weak predictors, doing feature selection for you.</div>
 
   <div class="qc">
     <div class="qh">Quick check · steel model</div>
@@ -737,20 +740,20 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
     &nbsp;&nbsp;·&nbsp;&nbsp;
     RMSE = √MSE
   </div>
-  <div class="callout note"><span class="ct">MAE vs RMSE in one line</span> If a few huge errors should hurt a lot, use RMSE. If every error should count the same, use MAE. RMSE ≥ MAE always, and the gap between them tells you how much your errors vary in size.</div>
+  <div class="mte-callout note"><span class="ct">MAE vs RMSE in one line</span> If a few huge errors should hurt a lot, use RMSE. If every error should count the same, use MAE. RMSE ≥ MAE always, and the gap between them tells you how much your errors vary in size.</div>
 
   <h3>Classification metrics — when the target is a class</h3>
   <p>These all come from the <strong>confusion matrix</strong>: counts of true positives (TP), false positives (FP), true negatives (TN), and false negatives (FN).</p>
   <div style="overflow-x:auto"><table class="tbl">
     <tr><th style="width:16%">Metric</th><th>Plain meaning</th><th>Formula</th><th>Use it when</th></tr>
-    <tr><td><strong>Accuracy</strong></td><td>Share of all predictions that are correct.</td><td>(TP+TN) / all</td><td>Classes are balanced. <span class="chip warn">Misleads on imbalance</span></td></tr>
+    <tr><td><strong>Accuracy</strong></td><td>Share of all predictions that are correct.</td><td>(TP+TN) / all</td><td>Classes are balanced. <span class="mte-chip warn">Misleads on imbalance</span></td></tr>
     <tr><td><strong>Precision</strong></td><td>Of the cases flagged positive, how many really are.</td><td>TP / (TP+FP)</td><td>False positives are costly (false alarms).</td></tr>
     <tr><td><strong>Recall</strong><br>(sensitivity)</td><td>Of the real positives, how many you caught.</td><td>TP / (TP+FN)</td><td>Missing a positive is dangerous.</td></tr>
     <tr><td><strong>F1-score</strong></td><td>The balance point between precision and recall.</td><td>harmonic mean</td><td>You need both and the data is imbalanced.</td></tr>
     <tr><td><strong>ROC-AUC</strong></td><td>Ability to separate classes across all thresholds.</td><td>area under ROC</td><td>Ranking quality; threshold-free comparison.</td></tr>
   </table></div>
-  <div class="callout why"><span class="ct">Use case · defect detection</span> A vision system flags defective parts. Here a missed defect (a false negative) ships a bad part to a customer — expensive and dangerous — while a false alarm just triggers a re-inspection. So you optimize <strong>Recall</strong>, accepting some precision loss. Flip the costs (say, a fraud filter that freezes innocent customers’ accounts) and you would optimize <strong>Precision</strong> instead. The metric follows the cost.</div>
-  <div class="callout watch"><span class="ct">The accuracy illusion</span> If 99% of parts are good, a model that blindly says “good” every time scores 99% accuracy — and catches zero defects. On imbalanced data, accuracy is the metric that lies most confidently. Reach for precision, recall, F1, or ROC-AUC.</div>
+  <div class="mte-callout why"><span class="ct">Use case · defect detection</span> A vision system flags defective parts. Here a missed defect (a false negative) ships a bad part to a customer — expensive and dangerous — while a false alarm just triggers a re-inspection. So you optimize <strong>Recall</strong>, accepting some precision loss. Flip the costs (say, a fraud filter that freezes innocent customers’ accounts) and you would optimize <strong>Precision</strong> instead. The metric follows the cost.</div>
+  <div class="mte-callout watch"><span class="ct">The accuracy illusion</span> If 99% of parts are good, a model that blindly says “good” every time scores 99% accuracy — and catches zero defects. On imbalanced data, accuracy is the metric that lies most confidently. Reach for precision, recall, F1, or ROC-AUC.</div>
 
 <div class="widget" id="w-threshold">
   <div class="w-head"><span class="w-tag">Try it</span><span class="w-title">Move the threshold &mdash; watch precision fight recall</span></div>
@@ -784,7 +787,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
   <h3>Quantile-regression metrics — when you predict a percentile</h3>
   <p>Recall from Module 1 that quantile regression aims at a slice of the distribution, not the mean. So mean-based metrics measure the wrong thing. Two purpose-built metrics take their place.</p>
   <div class="card-grid">
-    <div class="card accent">
+    <div class="mte-card accent">
       <div class="ch">Pinball loss (quantile loss)</div>
       <div class="cs">The primary error metric. Unlike MSE, it is <strong>asymmetric</strong> — it penalizes over- and under-predictions differently depending on the target quantile τ.
       <ul style="margin:6px 0 0;padding-left:16px">
@@ -792,7 +795,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
         <li><strong>τ = 0.9 (90th pctl):</strong> under-predicting is penalized <strong>9×</strong> more than over-predicting, which forces the line to sit above ~90% of the points.</li>
       </ul></div>
     </div>
-    <div class="card accent">
+    <div class="mte-card accent">
       <div class="ch">Pseudo R²</div>
       <div class="cs">The goodness-of-fit measure, in the spirit of R². It compares your model’s pinball loss to that of a <strong>null model</strong> (no predictors — it just guesses the sample quantile). Like R², it runs 0→1; higher means your predictors beat the baseline. This is McFadden’s pseudo R², in the Koenker–Machado form for quantile regression.</div>
     </div>
@@ -832,7 +835,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
     <tr><td><strong>BIC</strong></td><td>Fit vs complexity, with a stronger penalty</td><td>Lower is better (relative only)</td><td>~917,400+</td><td class="v-warn">⚠ compare models only</td></tr>
   </table></div>
 
-  <div class="callout bad"><span class="ct">The large-N trap — the most important lesson here</span> With tens of thousands of rows, the <strong>Omnibus and Jarque–Bera normality tests almost always “fail” (p ≈ 0)</strong>, because they are powerful enough to flag microscopic, harmless departures from perfect normality. That is why both are marked “ignore” above even though the residuals are actually fine. Trust the <strong>skew (−0.21 ≈ 0) and kurtosis (2.61 ≈ 3)</strong> values and a residual plot instead of the p-value. This single misread sinks a lot of otherwise-good analyses.</div>
+  <div class="mte-callout bad"><span class="ct">The large-N trap — the most important lesson here</span> With tens of thousands of rows, the <strong>Omnibus and Jarque–Bera normality tests almost always “fail” (p ≈ 0)</strong>, because they are powerful enough to flag microscopic, harmless departures from perfect normality. That is why both are marked “ignore” above even though the residuals are actually fine. Trust the <strong>skew (−0.21 ≈ 0) and kurtosis (2.61 ≈ 3)</strong> values and a residual plot instead of the p-value. This single misread sinks a lot of otherwise-good analyses.</div>
 
 <div class="widget" id="w-diag-triage" style="background:none;border:0;padding:0">
   <div class="w-head" style="padding-left:2px"><span class="w-tag">Self-check</span><span class="w-title">Diagnostic triage &mdash; act or ignore?</span></div>
@@ -852,25 +855,25 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
 
   <h3>What to do when a diagnostic fails</h3>
   <div class="card-grid">
-    <div class="card">
+    <div class="mte-card">
       <div class="ch">High condition number / VIF → multicollinearity</div>
       <div class="cs">Your predictors overlap, so coefficients become unstable and their signs can flip. Fix: drop or combine correlated predictors, standardize the inputs, prune by VIF, or apply <strong>ridge regression</strong> (Module 3).</div>
     </div>
-    <div class="card">
+    <div class="mte-card">
       <div class="ch">Durbin–Watson far from 2 → autocorrelation</div>
       <div class="cs">Residuals aren’t independent — common with time-ordered or grouped data. Fix: check the ordering, add lag terms, model the group structure, or use autocorrelation-robust standard errors. At 1.57 the steel model shows only mild positive autocorrelation.</div>
     </div>
-    <div class="card">
+    <div class="mte-card">
       <div class="ch">Non-normal residuals</div>
       <div class="cs">With large samples the central limit theorem protects your inference, so mild non-normality is usually fine. Real problems are strong skew or heavy tails driven by outliers — investigate those points, consider a transform.</div>
     </div>
-    <div class="card">
+    <div class="mte-card">
       <div class="ch">AIC / BIC look enormous</div>
       <div class="cs">Their absolute size is meaningless — they only matter <strong>relative</strong> to another model on the same data. Lower wins; BIC penalizes extra predictors harder, so it prefers simpler models.</div>
     </div>
   </div>
 
-  <div class="callout exam"><span class="ct">The mental model</span> Metrics answer “is it accurate?” Diagnostics answer “is it <em>trustworthy</em>?” The steel model is a perfect example: its residuals are well-shaped (good skew and kurtosis), but a condition number of 7,500 warns that its coefficients are riding on multicollinearity and should not be interpreted one-by-one until that is fixed.</div>
+  <div class="mte-callout exam"><span class="ct">The mental model</span> Metrics answer “is it accurate?” Diagnostics answer “is it <em>trustworthy</em>?” The steel model is a perfect example: its residuals are well-shaped (good skew and kurtosis), but a condition number of 7,500 warns that its coefficients are riding on multicollinearity and should not be interpreted one-by-one until that is fixed.</div>
 
   <div class="qc">
     <div class="qh">Quick check</div>
@@ -900,11 +903,11 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
     <tr><td><strong>SKEW / KURT</strong></td><td><span class="mono">=SKEW(residuals)</span> · <span class="mono">=KURT(residuals)</span></td><td>Skewness and kurtosis of residuals.</td><td>Checking residual shape (see caveat below).</td></tr>
     <tr><td><strong>COUNTIFS</strong></td><td><span class="mono">=COUNTIFS(actual,1,pred,1)</span></td><td>Counts TP / FP / TN / FN cells of a confusion matrix.</td><td>Building precision, recall, accuracy, F1 by hand.</td></tr>
   </table></div>
-  <div class="callout watch"><span class="ct">Caveat that trips people up</span> Excel’s <span class="mono">KURT</span> returns <strong>excess</strong> kurtosis, so a normal distribution reads ≈ <strong>0</strong> — whereas the statsmodels output in Module 5 reports <strong>raw</strong> kurtosis, where normal ≈ <strong>3</strong>. Same shape, two conventions. Add 3 to Excel’s value to compare.</div>
+  <div class="mte-callout watch"><span class="ct">Caveat that trips people up</span> Excel’s <span class="mono">KURT</span> returns <strong>excess</strong> kurtosis, so a normal distribution reads ≈ <strong>0</strong> — whereas the statsmodels output in Module 5 reports <strong>raw</strong> kurtosis, where normal ≈ <strong>3</strong>. Same shape, two conventions. Add 3 to Excel’s value to compare.</div>
 
   <h3>Excel use cases</h3>
   <div class="card-grid">
-    <div class="card accent">
+    <div class="mte-card accent">
       <div class="ch">1 · R², MAE and RMSE from two columns</div>
       <div class="cs">With <span class="mono">A2:A100</span> = actual and <span class="mono">B2:B100</span> = predicted:</div>
 <pre><span class="cm"># R-squared</span>
@@ -914,7 +917,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
 <span class="cm"># RMSE</span>
 =SQRT(SUMXMY2(A2:A100,B2:B100)/COUNT(A2:A100))</pre>
     </div>
-    <div class="card accent">
+    <div class="mte-card accent">
       <div class="ch">2 · Confusion matrix → precision &amp; recall</div>
       <div class="cs">With actual labels in <span class="mono">D</span> and predictions in <span class="mono">E</span> (1 = positive):</div>
 <pre><span class="cm"># TP, FP, FN</span>
@@ -927,7 +930,7 @@ Recall    =TP/(TP+FN)
 F1        =2*P*R/(P+R)</pre>
     </div>
   </div>
-  <div class="callout note"><span class="ct">3 · Standard error of the estimate</span> <span class="mono">=STEYX(actual, x)</span> gives the typical distance between the points and the regression line, in the target’s own units — the single most intuitive “how wrong is it, usually?” number, and the direct Excel equivalent of Minitab’s <strong>S</strong>.</div>
+  <div class="mte-callout note"><span class="ct">3 · Standard error of the estimate</span> <span class="mono">=STEYX(actual, x)</span> gives the typical distance between the points and the regression line, in the target’s own units — the single most intuitive “how wrong is it, usually?” number, and the direct Excel equivalent of Minitab’s <strong>S</strong>.</div>
 
   <h3>Minitab navigation</h3>
   <div style="overflow-x:auto"><table class="tbl">
@@ -939,7 +942,7 @@ F1        =2*P*R/(P+R)</pre>
     <tr><td><strong>Stat → Regression → Binary Logistic Regression</strong></td><td>Classification fit with a confusion matrix and pseudo R².</td><td>When the target is a class, not a number.</td></tr>
     <tr><td><strong>Stat → Multivariate → Cluster K-Means</strong> <br><em>(alt: Cluster Observations)</em></td><td>Cluster assignments and cluster-distance summaries.</td><td>Unlabeled grouping; judge tightness the way silhouette does.</td></tr>
   </table></div>
-  <div class="callout why"><span class="ct">Reading Minitab’s regression output</span> Check the diagnostics in this order: <strong>S</strong> and <strong>R²(adj)</strong> for accuracy → <strong>VIF</strong> for multicollinearity → <strong>Durbin–Watson</strong> for independence → the <strong>residual plots</strong> for normality and constant variance. Use AIC/BIC only to rank competing models on the same data.</div>
+  <div class="mte-callout why"><span class="ct">Reading Minitab’s regression output</span> Check the diagnostics in this order: <strong>S</strong> and <strong>R²(adj)</strong> for accuracy → <strong>VIF</strong> for multicollinearity → <strong>Durbin–Watson</strong> for independence → the <strong>residual plots</strong> for normality and constant variance. Use AIC/BIC only to rank competing models on the same data.</div>
 
   <h3>Exam tips — ASQ CSSBB / CQE</h3>
   <ul style="margin:6px 0 0;padding-left:18px;font-size:11px;line-height:1.7">
@@ -967,14 +970,14 @@ F1        =2*P*R/(P+R)</pre>
   <h2>Where people go wrong</h2>
   <div class="divider"></div>
   <div class="card-grid" style="margin-top:12px">
-    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Judging on the training score</div><div class="cs"><strong>Why wrong:</strong> a model can memorize its training data. <strong>Avoid it:</strong> report cross-validated performance on unseen data.</div></div>
-    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Tuning on the test set</div><div class="cs"><strong>Why wrong:</strong> it quietly turns the test set into training data and inflates your final number. <strong>Avoid it:</strong> tune with CV, keep one untouched test set.</div></div>
-    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Leaking groups across the split</div><div class="cs"><strong>Why wrong:</strong> the same slab in train and test lets the model “recognize” it. <strong>Avoid it:</strong> use GroupKFold to keep whole groups together.</div></div>
-    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Trusting accuracy on imbalanced data</div><div class="cs"><strong>Why wrong:</strong> the majority class dominates the score. <strong>Avoid it:</strong> use precision, recall, F1, or ROC-AUC.</div></div>
-    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Chasing a normality p-value on big data</div><div class="cs"><strong>Why wrong:</strong> the test over-rejects at large N. <strong>Avoid it:</strong> read skew, kurtosis, and plots.</div></div>
-    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Interpreting coefficients under multicollinearity</div><div class="cs"><strong>Why wrong:</strong> a high condition number makes individual coefficients unstable and their signs unreliable. <strong>Avoid it:</strong> fix collinearity first, then interpret.</div></div>
-    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Comparing AIC/BIC across different datasets</div><div class="cs"><strong>Why wrong:</strong> their scale has no absolute meaning. <strong>Avoid it:</strong> compare only across models fit to the same data.</div></div>
-    <div class="card"><div class="ch"><span class="chip bad">Trap</span> Trusting a model because the software ran</div><div class="cs"><strong>Why wrong:</strong> software executes instructions; it doesn’t validate the question or the assumptions. <strong>Avoid it:</strong> check inputs, metrics, and diagnostics in context.</div></div>
+    <div class="mte-card"><div class="ch"><span class="mte-chip bad">Trap</span> Judging on the training score</div><div class="cs"><strong>Why wrong:</strong> a model can memorize its training data. <strong>Avoid it:</strong> report cross-validated performance on unseen data.</div></div>
+    <div class="mte-card"><div class="ch"><span class="mte-chip bad">Trap</span> Tuning on the test set</div><div class="cs"><strong>Why wrong:</strong> it quietly turns the test set into training data and inflates your final number. <strong>Avoid it:</strong> tune with CV, keep one untouched test set.</div></div>
+    <div class="mte-card"><div class="ch"><span class="mte-chip bad">Trap</span> Leaking groups across the split</div><div class="cs"><strong>Why wrong:</strong> the same slab in train and test lets the model “recognize” it. <strong>Avoid it:</strong> use GroupKFold to keep whole groups together.</div></div>
+    <div class="mte-card"><div class="ch"><span class="mte-chip bad">Trap</span> Trusting accuracy on imbalanced data</div><div class="cs"><strong>Why wrong:</strong> the majority class dominates the score. <strong>Avoid it:</strong> use precision, recall, F1, or ROC-AUC.</div></div>
+    <div class="mte-card"><div class="ch"><span class="mte-chip bad">Trap</span> Chasing a normality p-value on big data</div><div class="cs"><strong>Why wrong:</strong> the test over-rejects at large N. <strong>Avoid it:</strong> read skew, kurtosis, and plots.</div></div>
+    <div class="mte-card"><div class="ch"><span class="mte-chip bad">Trap</span> Interpreting coefficients under multicollinearity</div><div class="cs"><strong>Why wrong:</strong> a high condition number makes individual coefficients unstable and their signs unreliable. <strong>Avoid it:</strong> fix collinearity first, then interpret.</div></div>
+    <div class="mte-card"><div class="ch"><span class="mte-chip bad">Trap</span> Comparing AIC/BIC across different datasets</div><div class="cs"><strong>Why wrong:</strong> their scale has no absolute meaning. <strong>Avoid it:</strong> compare only across models fit to the same data.</div></div>
+    <div class="mte-card"><div class="ch"><span class="mte-chip bad">Trap</span> Trusting a model because the software ran</div><div class="cs"><strong>Why wrong:</strong> software executes instructions; it doesn’t validate the question or the assumptions. <strong>Avoid it:</strong> check inputs, metrics, and diagnostics in context.</div></div>
   </div>
 </section>
 
@@ -1102,7 +1105,7 @@ F1        =2*P*R/(P+R)</pre>
     <span class="lbl">Remember this</span>
     Predict &nbsp;→&nbsp; Validate &nbsp;→&nbsp; Tune &nbsp;→&nbsp; Measure &nbsp;→&nbsp; Diagnose
   </div>
-  <div class="callout note"><span class="ct">Decision rule</span> Never trust a single number. Read fit and generalization together, match the metric to the decision, and let the diagnostics tell you whether you’re even allowed to believe the coefficients.</div>
+  <div class="mte-callout note"><span class="ct">Decision rule</span> Never trust a single number. Read fit and generalization together, match the metric to the decision, and let the diagnostics tell you whether you’re even allowed to believe the coefficients.</div>
   <p style="text-align:center;color:var(--mte-muted);font-size:10px;margin-top:20px">UpSkill Sprint Consulting · upskillsprint.com · Practical learning for quality, data, and process improvement · © 2026</p>
 </section>
 
@@ -1486,7 +1489,8 @@ html[data-theme="dark"]{
 }
 html[data-theme="dark"]{ background:#071120; }
 html[data-theme="dark"] body{ color:var(--mte-ink); }
-html[data-theme="dark"] .wrap{ background:#0c1a30; box-shadow:0 6px 30px rgba(0,0,0,.45); }
+html[data-theme="dark"] .mte-sheet{ background:#111f38; border-color:#233451; box-shadow:0 6px 30px rgba(0,0,0,.45); }
+html[data-theme="dark"] #lesson-content{ background:#0a1424; }
 html[data-theme="dark"] .lead{ color:#c7d3e6; }
 html[data-theme="dark"] code{ background:#12233c; color:#bcd6ff; }
 html[data-theme="dark"] .callout.exam{ background:#1d1633; border-color:#3a2d63; }
