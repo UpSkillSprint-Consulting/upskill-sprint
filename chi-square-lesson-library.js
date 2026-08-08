@@ -51,6 +51,18 @@
       description: 'Turn a fitted model into decisions: predict with the right interval, optimize and robustify settings, simulate capability, confirm against reality, and monitor for drift.'
     },
     {
+      marker: 'data-model-tuning-and-evaluation',
+      sectionId: 'data-analytics',
+      path: '/lessons/data-analytics/model-tuning-and-evaluation',
+      topic: 'data-analytics',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'model tuning evaluation overfitting underfitting cross validation holdout bias variance hyperparameter regularization grid search regression metrics mae mse rmse r2 classification precision recall f1 roc auc confusion matrix clustering silhouette quantile pinball regression diagnostics residuals normality durbin watson condition number multicollinearity vif groupkfold conditional mean data analytics intermediate interactive posters',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>45 min</span><span>4 downloadable posters</span>',
+      title: 'Model Tuning & Evaluation',
+      description: 'Judge whether a model is actually good: what it predicts, honest validation and tuning, the right metric for the problem, and how to read regression diagnostics \u2014 with interactive widgets and four downloadable posters.'
+    },
+    {
       marker: 'data-anova-analysis-one-stop-shop',
       sectionId: 'statistics',
       path: '/lessons/statistics/anova-analysis-one-stop-shop',
