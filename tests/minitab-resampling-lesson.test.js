@@ -119,6 +119,12 @@ test('inline statistical notation cannot inherit the block formula treatment', (
   assert.match(lessonStyle, /\.resampling-lesson \.formula-inline\s*\{[\s\S]*?white-space:\s*nowrap;/);
 });
 
+test('help-enhanced analysis controls receive explicit accessible names', () => {
+  assert.ok(html.includes('control.setAttribute("aria-label", key)'));
+  assert.ok(html.includes("input:not([type='range']), select"));
+  assert.equal(document.querySelectorAll('.resampling-lesson input[type="range"]:not([aria-label])').length, 0);
+});
+
 test('catalog registers the resampling lesson as a readable literal entry', () => {
   const catalog = fs.readFileSync(catalogPath, 'utf8');
   assert.ok(catalog.includes("marker: 'data-resampling-in-minitab'"));
