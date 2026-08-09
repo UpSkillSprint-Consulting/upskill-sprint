@@ -91,9 +91,17 @@ test('Section 1 includes the complete resampling Q&A accordion set', () => {
   const section = document.querySelector('#start');
   assert.ok(section, 'Section 1 should exist');
 
-  const questions = Array.from(section.querySelectorAll(':scope > details > summary'))
+  const collection = section.querySelector(':scope > details.faq-collection');
+  assert.ok(collection, 'the outer Q&A collection should be present');
+  assert.equal(collection.hasAttribute('open'), false, 'the Q&A collection should be closed initially');
+  assert.match(collection.querySelector(':scope > summary').textContent, /21 questions/);
+
+  const questionDetails = Array.from(collection.querySelectorAll(':scope > .faq-list > details'));
+  const questions = questionDetails
+    .map((details) => details.querySelector(':scope > summary'))
     .map((summary) => summary.textContent.trim());
-  assert.equal(questions.length, 11, 'the two original and nine added questions should be present');
+  assert.equal(questions.length, 21, 'the two original and nineteen added questions should be present');
+  assert.ok(questionDetails.every((details) => !details.hasAttribute('open')), 'all answers should be closed initially');
 
   for (const expected of [
     'What does “with replacement” mean?',
@@ -107,10 +115,19 @@ test('Section 1 includes the complete resampling Q&A accordion set', () => {
     'Is sign-flipping the method Minitab uses for a 1-sample randomization test?',
     'How does Minitab perform a 2-sample randomization test?',
     'If my original bootstrap sample size is 6 and I resample 1,000 times, does every resample also contain 6 observations?',
+    'What resampling methods should I practice in Minitab, and what questions do they answer?',
+    'What does each resampling method mean, what is it used for, and what is a practical example?',
+    'How does bootstrapping for a 1-sample function work?',
+    'How does bootstrapping for 2-sample means work?',
+    'How does a randomization test for a 1-sample mean work?',
+    'If we already have a target mean, why do we still need to resample?',
+    'Are we resampling the original dataset, or are we simply simulating random samples?',
+    'What is the purpose of the recentering step in a 1-sample randomization test?',
+    'How does a randomization test for 2-sample means work?',
+    'How does a randomization test for a 1-sample proportion work?',
   ]) assert.ok(questions.includes(expected), `missing Q&A: ${expected}`);
 
-  assert.equal(section.querySelectorAll('details[id^="resampling-faq-"]').length, 9);
-  assert.equal(section.querySelectorAll('details[id^="resampling-faq-"] table').length, 8);
+  assert.equal(section.querySelectorAll('details[id^="resampling-faq-"]').length, 19);
   for (const table of section.querySelectorAll('details[id^="resampling-faq-"] table')) {
     assert.ok(table.parentElement.classList.contains('tablewrap'));
   }
