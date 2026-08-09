@@ -240,6 +240,15 @@
         border-radius: 10px;
         overflow: auto;
       }
+      .resampling-lesson .formula-inline {
+        display: inline;
+        font:
+          700 0.95em ui-monospace,
+          SFMono-Regular,
+          monospace;
+        color: inherit;
+        white-space: nowrap;
+      }
       .resampling-lesson .path {
         display: flex;
         flex-wrap: wrap;
@@ -426,25 +435,6 @@
         border: 1px solid #bcccdc;
         border-radius: 9px;
         margin-bottom: 10px;
-      }
-      .resampling-lesson .quiz button {
-        display: block;
-        width: 100%;
-        text-align: left;
-        margin: 8px 0;
-        padding: 12px;
-        border: 1px solid var(--lesson-resampling-line);
-        border-radius: 10px;
-        background: #fff;
-        cursor: pointer;
-      }
-      .resampling-lesson .quiz button.good {
-        background: #e8f7f0;
-        border-color: var(--lesson-resampling-green);
-      }
-      .resampling-lesson .quiz button.bad {
-        background: #fff0f1;
-        border-color: var(--lesson-resampling-red);
       }
       .resampling-lesson details {
         border: 1px solid var(--lesson-resampling-line);
@@ -1412,7 +1402,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <li><a href="#r2">Randomization: 2-sample means</a></li>
         <li><a href="#data">Explore the practice dataset</a></li>
         <li><a href="#implementation">Statistics implementation</a></li>
-        <li><a href="#quiz">Check your learning</a></li>
+        <li><a href="#quiz">Knowledge check</a></li>
       </ol>
     </nav>
     <main id="lesson-content" class="wrap">
@@ -2603,8 +2593,8 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <div class="grid">
           <article class="mini"><h4>One bootstrap mean</h4><p>If <code>Strength_MPa</code> is in <code>D2:D121</code>, enter this in <code>H2</code>:</p><p class="formula"><code>=LET(x,$D$2:$D$121,n,ROWS(x),draw,INDEX(x,RANDARRAY(n,1,1,n,TRUE)),AVERAGE(draw))</code></p><p>Fill the formula down to <code>H5001</code>. Each row is one bootstrap mean. Then calculate the 95% percentile interval with <code>=PERCENTILE.INC(H2:H5001,0.025)</code> and <code>=PERCENTILE.INC(H2:H5001,0.975)</code>. Pressing Calculate again rebuilds the random results, so paste values if you need to preserve a run.</p></article>
           <article class="mini"><h4>One shuffled mean difference</h4><p>With group labels in <code>B2:B121</code> and strengths in <code>D2:D121</code>, enter:</p><p class="formula"><code>=LET(y,$D$2:$D$121,g,$B$2:$B$121,gp,SORTBY(g,RANDARRAY(ROWS(g))),AVERAGE(FILTER(y,gp="New"))-AVERAGE(FILTER(y,gp="Standard")))</code></p><p>This shuffles only the group labels and returns one New − Standard difference under the null. Fill down for many permutations, then count results at least as extreme as the observed difference to estimate the p-value.</p></article>
-          <article class="mini"><h4>One null-centred mean resample</h4><p>To test <span class="formula">H₀: μ = 51 MPa</span>, use:</p><p class="formula"><code>=LET(x,$D$2:$D$121,mu0,51,shifted,x-AVERAGE(x)+mu0,n,ROWS(x),AVERAGE(INDEX(shifted,RANDARRAY(n,1,1,n,TRUE))))</code></p><p>The data are shifted so their mean equals the null mean before sampling with replacement. Repeat the formula to build the null distribution.</p></article>
-          <article class="mini"><h4>One null pass-rate simulation</h4><p>For <span class="formula">H₀: p = 0.90</span>, use:</p><p class="formula"><code>=AVERAGE(--(RANDARRAY(ROWS($E$2:$E$121),1)&lt;0.90))</code></p><p>Each random number below 0.90 acts like a Pass under the null. Repeating the formula builds the reference distribution for the pass proportion.</p></article>
+          <article class="mini"><h4>One null-centred mean resample</h4><p>To test <span class="formula-inline">H₀: μ = 51 MPa</span>, use:</p><p class="formula"><code>=LET(x,$D$2:$D$121,mu0,51,shifted,x-AVERAGE(x)+mu0,n,ROWS(x),AVERAGE(INDEX(shifted,RANDARRAY(n,1,1,n,TRUE))))</code></p><p>The data are shifted so their mean equals the null mean before sampling with replacement. Repeat the formula to build the null distribution.</p></article>
+          <article class="mini"><h4>One null pass-rate simulation</h4><p>For <span class="formula-inline">H₀: p = 0.90</span>, use:</p><p class="formula"><code>=AVERAGE(--(RANDARRAY(ROWS($E$2:$E$121),1)&lt;0.90))</code></p><p>Each random number below 0.90 acts like a Pass under the null. Repeating the formula builds the reference distribution for the pass proportion.</p></article>
         </div>
 
         <h3>Minitab Navigation</h3>
@@ -2625,58 +2615,12 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <h3>Exam Tips</h3>
         <ul>
           <li><strong>Know the resampling unit.</strong> ASQ CSSBB/CQE questions may hide dependence inside batches, heats, patients, shifts, or repeated readings. Resample the independent unit, not automatically every row.</li>
-          <li><strong>Separate estimation from testing.</strong> A bootstrap confidence interval estimates a plausible range for a parameter; a randomization test evaluates how unusual the observed statistic is under <span class="formula">H₀</span>.</li>
+          <li><strong>Separate estimation from testing.</strong> A bootstrap confidence interval estimates a plausible range for a parameter; a randomization test evaluates how unusual the observed statistic is under <span class="formula-inline">H₀</span>.</li>
           <li><strong>Remember “with replacement.”</strong> Bootstrap samples can contain duplicates and omit original observations. That is expected, not a computer having a small crisis.</li>
           <li><strong>Read the subtraction order.</strong> A positive New − Standard difference means New is higher. Reversing the order reverses the sign, although a two-sided significance conclusion is unchanged.</li>
           <li><strong>Do not confuse significance with importance.</strong> Compare the effect with specifications, risk, cost, and the minimum practically meaningful difference before recommending action.</li>
           <li><strong>Report reproducibility details.</strong> In real analysis, record the data source, statistic, resample count, confidence level or alpha, alternative hypothesis, and random seed.</li>
         </ul>
-      </section>
-
-      <section id="practice-quiz" class="card quiz">
-        <h2>5. Check your understanding</h2>
-        <div data-answer="b">
-          <h3>
-            1. You need a 95% interval for a median with no normality
-            assumption. What is the best choice?
-          </h3>
-          <button data-v="a">Randomization test</button
-          ><button data-v="b">Bootstrap for a 1-sample function</button
-          ><button data-v="c">Two-sample t test only</button>
-          <p></p>
-        </div>
-        <div data-answer="c">
-          <h3>2. What changes during a two-sample randomization test?</h3>
-          <button data-v="a">The measured strengths</button
-          ><button data-v="b">The number of rows</button
-          ><button data-v="c">The group labels</button>
-          <p></p>
-        </div>
-        <div data-answer="a">
-          <h3>
-            3. A 95% CI for New − Standard is entirely above zero. What is
-            defensible?
-          </h3>
-          <button data-v="a">
-            The data support a positive population mean difference</button
-          ><button data-v="b">
-            Every New observation exceeds every Standard observation</button
-          ><button data-v="c">
-            There is a 95% chance this fixed interval contains the parameter
-          </button>
-          <p></p>
-        </div>
-        <div data-answer="b">
-          <h3>
-            4. Why can ordinary resampling be unsafe for multiple coils from the
-            same heat?
-          </h3>
-          <button data-v="a">Coils never have numerical measurements</button
-          ><button data-v="b">
-            Rows may be dependent; the heat may be the sampling unit</button
-          ><button data-v="c">Bootstrap requires exactly 30 rows</button>
-          <p></p>
-        </div>
       </section>
 
       <section class="card">
@@ -2717,8 +2661,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     </main>
 </div>
 <section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
-  <p class="lesson-kicker">Knowledge check</p>
-  <h2 id="quiz-heading">Check your understanding</h2>
+  <h2 id="quiz-heading">7. Knowledge Check</h2>
   <div class="quiz">
     <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
     <form id="quiz-form">
@@ -3985,20 +3928,6 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       }
       rows();
       document.getElementById("search").oninput = (e) => rows(e.target.value);
-      document.querySelectorAll(".quiz [data-answer]").forEach((q) =>
-        q.querySelectorAll("button").forEach(
-          (b) =>
-            (b.onclick = () => {
-              q.querySelectorAll("button").forEach((x) => (x.className = ""));
-              let ok = b.dataset.v === q.dataset.answer;
-              b.className = ok ? "good" : "bad";
-              q.querySelector("p").innerHTML = ok
-                ? "<strong>Correct.</strong>"
-                : `Not quite. Try again and revisit the method comparison above.`;
-            }),
-        ),
-      );
-
       /* Guided learning, richer data handling, accessibility, interpretation, and progress. */
       const learningLabs = ["b1", "b2", "r1", "rp", "r2"];
       const learningMeta = {
@@ -4747,23 +4676,6 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
-      function improveQuizFeedback() {
-        let explanations = [
-          "A bootstrap for a 1-sample function can estimate uncertainty for a median without assuming its sampling distribution is normal.",
-          "The measured responses remain fixed. Group labels are shuffled to represent a world where labels have no relationship with the response.",
-          "An interval entirely above zero supports a positive population mean difference; it does not imply complete separation of individual observations.",
-          "If coils share a heat, they may not be independent. The heat—not each coil row—may be the true resampling unit.",
-        ];
-        document.querySelectorAll(".quiz [data-answer]").forEach((q, i) =>
-          q.querySelectorAll("button").forEach((b) =>
-            b.addEventListener("click", () => {
-              let ok = b.dataset.v === q.dataset.answer;
-              q.querySelector("p").innerHTML =
-                `<strong>${ok ? "Correct" : "Review this:"}</strong> ${explanations[i]}`;
-            }),
-          ),
-        );
-      }
       function addCompletion() {
         document
           .querySelector("main")
@@ -4792,7 +4704,6 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         learningLabs.forEach(addResultLearning);
         addHelpButtons();
         learningLabs.forEach(setupGuidedLab);
-        improveQuizFeedback();
         addCompletion();
         document
           .querySelectorAll(
