@@ -102,8 +102,8 @@ Every lesson is a single self-contained `.html` file with this structure:
 - The metadata comment MUST appear immediately after `<html lang="en">`, on the next line.
   The exact bytes `<html lang="en">\n<!-- UPSKILLSPRINT_LESSON_META` are checked by tests.
 - There MUST be exactly one `<html>`, one outer `<head>`, and one outer `<body>`.
-- The main content MUST be inside `<main id="lesson-content">…</main>` so the header's
-  "Skip to lesson content" link works.
+- The main content MUST be inside `<main id="lesson-content">…</main>` to preserve a stable
+  content landmark and anchor for lesson navigation and automated checks.
 
 ---
 
@@ -162,8 +162,11 @@ Engineering Tools, Services, Request a Topic, About, FAQ, Contact.
 
 ### 4.1 Header — paste immediately after the `<body …>` tag
 
+Do **not** add a visible or hidden "Skip to lesson content" link before the header. New
+lessons must begin with the mobile-navigation checkbox shown below. The site intentionally
+does not include that link in lesson chrome.
+
 ```html
-<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
 <header class="site lesson-sitebar">
   <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
@@ -680,8 +683,9 @@ Run all of these from the repo root and confirm each passes:
     level is Beginner/Intermediate/Advanced; >=5 search_keywords.
 [ ] <head> loads /style.css, /lessons-theme.css, /theme.js, /site-sections.js (root-relative),
     with any inline <style> AFTER the stylesheet links.
-[ ] Exactly the canonical header (§4.1) sits right after <body>; nav has all 8 items,
-    root-relative, in order.
+[ ] Exactly the canonical header block (§4.1) sits right after <body>; it starts with the
+    mobile-navigation checkbox, contains no "Skip to lesson content" link, and its nav has
+    all 8 items, root-relative, in order.
 [ ] <body> has data-lesson-page/category/level/interactive/lesson-type attributes.
 [ ] Progress card is NOT hardcoded (it auto-injects).
 [ ] Main content is inside <main id="lesson-content">…</main>.
@@ -718,6 +722,7 @@ Run all of these from the repo root and confirm each passes:
 - ❌ Hardcoding the "Your progress" card (it duplicates the injected one).
 - ❌ Using `../` or absolute `https://upskillsprint.com/...` links in the header/footer.
 - ❌ Adding, dropping, renaming, or reordering nav items.
+- ❌ Adding a "Skip to lesson content" link before the canonical lesson header.
 - ❌ Omitting or altering the `<script src="/site-sections.js"></script>` tag.
 - ❌ Committing `engineering-tools/` or other build-generated output.
 - ❌ Fabricating Excel functions, Minitab menu paths, formulas, or dataset values.
