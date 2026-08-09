@@ -102,8 +102,9 @@ Every lesson is a single self-contained `.html` file with this structure:
 - The metadata comment MUST appear immediately after `<html lang="en">`, on the next line.
   The exact bytes `<html lang="en">\n<!-- UPSKILLSPRINT_LESSON_META` are checked by tests.
 - There MUST be exactly one `<html>`, one outer `<head>`, and one outer `<body>`.
-- The main content MUST be inside `<main id="lesson-content">…</main>` to preserve a stable
-  content landmark and anchor for lesson navigation and automated checks.
+- The main content MUST be inside `<main id="lesson-content">…</main>` so the progress card
+  injects correctly and `:where(#lesson-content)` scoping works (it is also the stable content
+  landmark that lesson navigation and automated checks anchor to).
 
 ---
 
