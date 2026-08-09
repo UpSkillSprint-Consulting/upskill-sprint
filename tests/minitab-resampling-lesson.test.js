@@ -54,6 +54,10 @@ test('resampling lesson carries canonical site assets, chrome, quiz, and categor
   );
   assert.ok(document.querySelector('#quiz-form'));
   assert.equal(document.querySelectorAll('#quiz-form .quiz-question').length, 5);
+  assert.equal(document.querySelectorAll('#quiz').length, 1);
+  assert.equal(document.querySelector('#quiz-heading').textContent.trim(), '7. Knowledge Check');
+  assert.equal(document.querySelector('#practice-quiz'), null, 'the legacy duplicate quiz must stay removed');
+  assert.equal(document.querySelectorAll('main .quiz').length, 0, 'only the canonical knowledge check should remain');
   assert.ok(html.includes("new CustomEvent('upskill-quiz-result'"));
   assert.equal(document.querySelector('a[href="/lessons#statistics"]').textContent.trim(), '← Back to Statistics lessons');
   assert.ok(!html.includes('Want to save your progress and quiz scores for this lesson?'));
@@ -104,6 +108,15 @@ test('lesson styles are scoped and custom properties are namespaced', () => {
     assert.ok(!new RegExp(`(^|[},]\\s*)${prohibited.replace('.', '\\.')}\\s*[{,]`, 'm').test(lessonStyle), `unscoped protected selector: ${prohibited}`);
   }
   assert.ok(document.querySelector('#resampling-dark-mode'));
+});
+
+test('inline statistical notation cannot inherit the block formula treatment', () => {
+  assert.equal(document.querySelectorAll('span.formula').length, 0);
+  assert.equal(document.querySelectorAll('.formula-inline').length, 3);
+
+  const lessonStyle = document.querySelector('head style:not(#uss-quiz-style)').textContent;
+  assert.match(lessonStyle, /\.resampling-lesson \.formula-inline\s*\{[\s\S]*?display:\s*inline;/);
+  assert.match(lessonStyle, /\.resampling-lesson \.formula-inline\s*\{[\s\S]*?white-space:\s*nowrap;/);
 });
 
 test('catalog registers the resampling lesson as a readable literal entry', () => {
