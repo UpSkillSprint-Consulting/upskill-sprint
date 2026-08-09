@@ -87,6 +87,52 @@ test('resampling lesson contains all five methods and required Statistics implem
   assert.ok(implementation.textContent.includes('ASQ CSSBB/CQE'));
 });
 
+test('Section 1 includes the complete resampling Q&A accordion set', () => {
+  const section = document.querySelector('#start');
+  assert.ok(section, 'Section 1 should exist');
+
+  const collection = section.querySelector(':scope > details.faq-collection');
+  assert.ok(collection, 'the outer Q&A collection should be present');
+  assert.equal(collection.hasAttribute('open'), false, 'the Q&A collection should be closed initially');
+  assert.match(collection.querySelector(':scope > summary').textContent, /21 questions/);
+
+  const questionDetails = Array.from(collection.querySelectorAll(':scope > .faq-list > details'));
+  const questions = questionDetails
+    .map((details) => details.querySelector(':scope > summary'))
+    .map((summary) => summary.textContent.trim());
+  assert.equal(questions.length, 21, 'the two original and nineteen added questions should be present');
+  assert.ok(questionDetails.every((details) => !details.hasAttribute('open')), 'all answers should be closed initially');
+
+  for (const expected of [
+    'What does “with replacement” mean?',
+    'Does resampling create new real-world information?',
+    'Does a confidence interval assume that the underlying distribution is normal?',
+    'What is the difference between randomization and bootstrapping?',
+    'What does “randomization rearranges labels without replacement” mean?',
+    'How do we determine how often random shuffling produces a difference as large as the observed 31 J?',
+    'What about a one-sample randomization test?',
+    'If we use the same one sample without replacement, wouldn’t the mean stay the same?',
+    'Is sign-flipping the method Minitab uses for a 1-sample randomization test?',
+    'How does Minitab perform a 2-sample randomization test?',
+    'If my original bootstrap sample size is 6 and I resample 1,000 times, does every resample also contain 6 observations?',
+    'What resampling methods should I practice in Minitab, and what questions do they answer?',
+    'What does each resampling method mean, what is it used for, and what is a practical example?',
+    'How does bootstrapping for a 1-sample function work?',
+    'How does bootstrapping for 2-sample means work?',
+    'How does a randomization test for a 1-sample mean work?',
+    'If we already have a target mean, why do we still need to resample?',
+    'Are we resampling the original dataset, or are we simply simulating random samples?',
+    'What is the purpose of the recentering step in a 1-sample randomization test?',
+    'How does a randomization test for 2-sample means work?',
+    'How does a randomization test for a 1-sample proportion work?',
+  ]) assert.ok(questions.includes(expected), `missing Q&A: ${expected}`);
+
+  assert.equal(section.querySelectorAll('details[id^="resampling-faq-"]').length, 19);
+  for (const table of section.querySelectorAll('details[id^="resampling-faq-"] table')) {
+    assert.ok(table.parentElement.classList.contains('tablewrap'));
+  }
+});
+
 test('all lesson tables are responsive and downloadable practice assets exist', () => {
   const lessonTables = Array.from(document.querySelectorAll('.resampling-lesson table'));
   assert.ok(lessonTables.length >= 3);

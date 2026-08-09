@@ -447,6 +447,49 @@
         font-weight: 800;
         color: var(--lesson-resampling-navy);
       }
+      .resampling-lesson .faq-collection {
+        margin-top: 22px;
+        padding: 0;
+        border: 2px solid var(--lesson-resampling-blue);
+        border-radius: 14px;
+        overflow: clip;
+      }
+      .resampling-lesson .faq-collection > summary {
+        padding: 18px 20px;
+        background: linear-gradient(135deg, #edf6ff, #f0fdfa);
+        list-style-position: inside;
+        font-size: 1.08rem;
+      }
+      .resampling-lesson .faq-collection > summary span {
+        display: block;
+        margin: 4px 0 0 25px;
+        color: var(--lesson-resampling-muted);
+        font-size: 0.92rem;
+        font-weight: 600;
+      }
+      .resampling-lesson .faq-collection[open] > summary {
+        border-bottom: 1px solid var(--lesson-resampling-line);
+      }
+      .resampling-lesson .faq-list {
+        padding: 8px 14px 14px;
+      }
+      .resampling-lesson .faq-list > details {
+        background: var(--lesson-resampling-card);
+      }
+      .resampling-lesson .faq-list > details > summary {
+        padding: 3px 0;
+      }
+      .resampling-lesson .faq-list .steps {
+        display: grid;
+        gap: 10px;
+        margin: 15px 0;
+      }
+      .resampling-lesson .faq-list .step {
+        padding: 13px 15px;
+        border: 1px solid var(--lesson-resampling-line);
+        border-radius: 10px;
+        background: #f8fafc;
+      }
       .resampling-lesson .footer {
         text-align: center;
         color: var(--lesson-resampling-muted);
@@ -1621,6 +1664,12 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
           Data → apply resampling rule → calculate statistic → repeat many times
           → interpret distribution
         </p>
+        <details class="faq-collection">
+          <summary>
+            Questions &amp; Answers — 21 questions
+            <span>Open this section to explore common questions about bootstrapping and randomization tests.</span>
+          </summary>
+          <div class="faq-list">
         <details>
           <summary>What does “with replacement” mean?</summary>
           <p>
@@ -1636,6 +1685,737 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
             resampling rule. A biased, dependent, or unrepresentative sample
             remains problematic.
           </p>
+        </details>
+        <details id="resampling-faq-ci-normality">
+          <summary>Does a confidence interval assume that the underlying distribution is normal?</summary>
+          <p>
+            Not always. It depends on <strong>what confidence interval you are calculating,
+            the sample size, and the method used</strong>.
+          </p>
+          <div class="tablewrap" role="region" aria-label="Confidence interval normality guidance" tabindex="0">
+            <table>
+              <thead>
+                <tr><th>Situation</th><th>Does the raw data need to be normal?</th><th>Why?</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Small sample, for example <em>n</em> &lt; 30</td><td>Approximately yes for a classical t-based interval</td><td>The method relies more heavily on the population being approximately normal.</td></tr>
+                <tr><td>Large sample, for example <em>n</em> ≥ 30</td><td>Usually no</td><td>The Central Limit Theorem often makes the sampling distribution of the mean approximately normal.</td></tr>
+                <tr><td>Very skewed data or major outliers</td><td>Be careful</td><td>Even <em>n</em> = 30 may not be enough.</td></tr>
+                <tr><td>Bootstrap confidence interval</td><td>No normality assumption is required</td><td>The sampling distribution is estimated by resampling the observed data.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            The key distinction is that a standard confidence interval for the mean does
+            <strong>not necessarily require the raw data to be normally distributed</strong>.
+            What matters is whether the <strong>sampling distribution of the mean</strong> is
+            approximately normal.
+          </p>
+          <p>For example, individual Charpy values could be right-skewed:</p>
+          <p class="formula">80, 95, 110, 115, 125, 140, 160, 220, 310, …</p>
+          <p>
+            If you repeatedly took samples of 50 specimens and calculated the mean of each
+            sample, those means would tend to form a more nearly normal distribution because
+            of the Central Limit Theorem.
+          </p>
+          <div class="callout">
+            <strong>Keep the two distributions separate:</strong><br>
+            Population or data distribution → can be non-normal.<br>
+            Sampling distribution of x̄ → becomes approximately normal as <em>n</em> increases.
+          </div>
+          <div class="callout warn">
+            <strong>Important:</strong> “<em>n</em> ≥ 30” is a rule of thumb, not a law.
+            Severe skewness or outliers may require a much larger sample or a bootstrap interval.
+          </div>
+        </details>
+        <details id="resampling-faq-randomization-v-bootstrap">
+          <summary>What is the difference between randomization and bootstrapping?</summary>
+          <div class="callout">
+            <strong>Randomization asks:</strong> “Could this observed difference have happened
+            by chance if there were really no effect?”<br><br>
+            <strong>Bootstrapping asks:</strong> “How uncertain is my estimate?”
+          </div>
+          <p>
+            Suppose two rolling practices have an observed mean Charpy difference of about 31 J.
+          </p>
+          <p>
+            <strong>Randomization or permutation test:</strong> start with the null hypothesis
+            that the two groups are equivalent. Combine the observations, shuffle the A/B labels,
+            split them back into groups of the original sizes, calculate the mean difference, and
+            repeat thousands of times. This creates a <strong>null distribution</strong>.
+          </p>
+          <p>
+            <strong>Bootstrapping:</strong> preserve the groups and repeatedly sample
+            <strong>with replacement</strong> from each group. Calculate the statistic each time.
+            This creates a <strong>bootstrap distribution</strong> that describes the precision
+            and uncertainty of the estimate.
+          </p>
+          <div class="tablewrap" role="region" aria-label="Randomization and bootstrapping comparison" tabindex="0">
+            <table>
+              <thead><tr><th>Feature</th><th>Randomization</th><th>Bootstrapping</th></tr></thead>
+              <tbody>
+                <tr><td>Main purpose</td><td>Hypothesis testing</td><td>Estimation and uncertainty</td></tr>
+                <tr><td>Typical output</td><td>p-value</td><td>Confidence interval or standard error</td></tr>
+                <tr><td>Main question</td><td>Could this happen by chance under H₀?</td><td>How variable is my estimate?</td></tr>
+                <tr><td>Sampling</td><td>Usually without replacement</td><td>With replacement</td></tr>
+                <tr><td>Group labels</td><td>Usually shuffled</td><td>Usually preserved</td></tr>
+                <tr><td>Creates</td><td>Null distribution</td><td>Sampling distribution</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout">
+            <strong>Memory trick:</strong> Randomization = shuffle; bootstrap = resample with
+            replacement. Randomization asks about evidence of an effect. Bootstrap asks how
+            precisely the effect was estimated.
+          </div>
+        </details>
+        <details id="resampling-faq-labels-without-replacement">
+          <summary>What does “randomization rearranges labels without replacement” mean?</summary>
+          <p>Suppose the observed data are:</p>
+          <div class="tablewrap" role="region" aria-label="Two rolling practice example" tabindex="0">
+            <table>
+              <thead><tr><th>Practice A</th><th>Practice B</th></tr></thead>
+              <tbody><tr><td>200</td><td>150</td></tr><tr><td>210</td><td>160</td></tr><tr><td>220</td><td>170</td></tr></tbody>
+            </table>
+          </div>
+          <p>
+            The observed difference in means is 50 J. The randomization test asks: if A and B
+            really had no effect, could a 50 J difference arise just by randomly assigning these
+            observations to two groups?
+          </p>
+          <p>First remove the labels:</p>
+          <p class="formula">200, 210, 220, 150, 160, 170</p>
+          <p>
+            Then randomly assign three observations to A and three to B. Every original
+            observation appears <strong>exactly once</strong> in that randomization.
+          </p>
+          <p class="formula">Valid: A = [200, 160, 170] &nbsp;&nbsp; B = [210, 220, 150]</p>
+          <p class="formula">Not valid: A = [200, 200, 170]</p>
+          <p>
+            The second assignment is invalid because the original dataset contained only one
+            200 J observation. <strong>Without replacement</strong> means that once an observation
+            is assigned during one randomization, it cannot be selected again in that same
+            randomization. Bootstrap sampling is different: repeated values are allowed.
+          </p>
+        </details>
+        <details id="resampling-faq-extreme-differences">
+          <summary>How do we determine how often random shuffling produces a difference as large as the observed 31 J?</summary>
+          <p>Begin with the observed difference:</p>
+          <p class="formula">D<sub>observed</sub> = 31 J</p>
+          <p>Assume the null hypothesis is true:</p>
+          <p class="formula">H₀: μ<sub>A</sub> = μ<sub>B</sub></p>
+          <p>
+            Shuffle the group labels thousands of times. After each shuffle, calculate:
+          </p>
+          <p class="formula">D* = x̄<sub>A</sub>* − x̄<sub>B</sub>*</p>
+          <p>
+            For a <strong>two-sided</strong> test, count randomized differences at least as
+            extreme as the observed result in either direction:
+          </p>
+          <p class="formula">|D*| ≥ |D<sub>observed</sub>|</p>
+          <p>Suppose 10,000 randomizations produce:</p>
+          <div class="tablewrap" role="region" aria-label="Extreme randomization count example" tabindex="0">
+            <table>
+              <thead><tr><th>Result</th><th>Number of randomizations</th></tr></thead>
+              <tbody>
+                <tr><td>−31 &lt; D* &lt; +31</td><td>9,720</td></tr>
+                <tr><td>D* ≥ +31</td><td>145</td></tr>
+                <tr><td>D* ≤ −31</td><td>135</td></tr>
+                <tr><td><strong>Total</strong></td><td><strong>10,000</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="formula">Extreme results = 145 + 135 = 280</p>
+          <p class="formula">p = 280 / 10,000 = 0.028</p>
+          <p>
+            If A and B truly had no difference, about 2.8% of random label assignments produced
+            a difference at least as extreme as the 31 J result observed.
+          </p>
+          <div class="callout">
+            Actual data → observed difference → assume H₀ → shuffle labels → calculate D* →
+            count extreme values → p-value
+          </div>
+        </details>
+        <details id="resampling-faq-one-sample-randomization">
+          <summary>What about a one-sample randomization test?</summary>
+          <p>
+            A one-sample randomization test follows the same broad idea, but there are no A/B
+            group labels to shuffle. Suppose:
+          </p>
+          <p class="formula">H₀: μ = 180 J</p>
+          <p class="formula">Sample: 185, 190, 175, 200, 195</p>
+          <p>
+            The sample mean is 189 J, so the observed difference from the null value is 9 J.
+            One possible one-sample method is a <strong>sign-randomization test</strong>. First
+            calculate the deviations from 180:
+          </p>
+          <p class="formula">+5, +10, −5, +20, +15</p>
+          <p>Keep the magnitudes but randomly flip their signs. For example:</p>
+          <p class="formula">+5, −10, +5, −20, +15</p>
+          <p>
+            This randomized set has a mean deviation of −1 J, corresponding to a randomized
+            sample mean of 179 J. Repeating the sign randomization creates a null distribution
+            centered around the hypothesized value.
+          </p>
+          <div class="callout warn">
+            <strong>Technical caveat:</strong> sign-flipping is not a completely assumption-free
+            test of the population mean. It relies on an appropriate symmetry or exchangeability
+            assumption. Minitab’s one-sample randomization procedure uses the null-centering
+            method explained below instead.
+          </div>
+        </details>
+        <details id="resampling-faq-shuffling-one-sample">
+          <summary>If we use the same one sample without replacement, wouldn’t the mean stay the same?</summary>
+          <p><strong>Yes. That objection is correct.</strong></p>
+          <p>If we simply reorder:</p>
+          <p class="formula">185, 190, 175, 200, 195</p>
+          <p>into:</p>
+          <p class="formula">200, 175, 195, 185, 190</p>
+          <p>
+            the mean does not change. Reordering one sample cannot create a useful null
+            distribution. A one-sample randomization procedure must randomize something other
+            than the observation order.
+          </p>
+          <p>
+            In a sign-randomization approach, the signs attached to the deviation magnitudes
+            change. For example, the magnitudes 5, 10, 5, 20, and 15 could become:
+          </p>
+          <p class="formula">+5, −10, +5, −20, +15</p>
+          <p class="formula">−5, +10, −5, +20, +15</p>
+          <p>Those different sign patterns produce different means.</p>
+          <div class="callout">
+            <strong>Key insight:</strong> If you literally shuffle a single sample without
+            replacement, nothing happens to its mean.
+          </div>
+        </details>
+        <details id="resampling-faq-minitab-one-sample">
+          <summary>Is sign-flipping the method Minitab uses for a 1-sample randomization test?</summary>
+          <p><strong>No.</strong> Minitab uses a different approach.</p>
+          <p class="formula">Sample: 185, 190, 175, 200, 195 &nbsp;&nbsp; x̄ = 189 &nbsp;&nbsp; H₀: μ = 180</p>
+          <p>
+            Minitab first shifts every observation by the same amount so the adjusted sample mean
+            equals the hypothesized mean. The required shift is:
+          </p>
+          <p class="formula">180 − 189 = −9</p>
+          <p>The null-adjusted data become:</p>
+          <p class="formula">176, 181, 166, 191, 186 &nbsp;&nbsp; adjusted mean = 180</p>
+          <p>
+            Minitab then repeatedly <strong>resamples with replacement</strong> from this
+            null-adjusted sample, keeping the original sample size. Each resample produces a new
+            mean, building a null distribution centered around 180.
+          </p>
+          <p class="formula">176, 176, 191, 181, 191 → mean = 183</p>
+          <p class="formula">166, 181, 166, 186, 176 → mean = 175</p>
+          <div class="tablewrap" role="region" aria-label="Bootstrap and Minitab one-sample randomization comparison" tabindex="0">
+            <table>
+              <thead><tr><th>Bootstrap confidence interval</th><th>Minitab 1-sample randomization</th></tr></thead>
+              <tbody>
+                <tr><td>Starts with the original data</td><td>Starts with the original data</td></tr>
+                <tr><td>Keeps the center at x̄</td><td>Shifts the data so the center equals μ₀</td></tr>
+                <tr><td>Samples with replacement</td><td>Samples with replacement</td></tr>
+                <tr><td>Builds a distribution around x̄</td><td>Builds a distribution around μ₀</td></tr>
+                <tr><td>Estimates uncertainty or a confidence interval</td><td>Tests H₀ and calculates a p-value</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            In short, Minitab uses <strong>bootstrap-style resampling after first forcing the
+            data to represent the null hypothesis</strong>.
+          </p>
+        </details>
+        <details id="resampling-faq-minitab-two-sample">
+          <summary>How does Minitab perform a 2-sample randomization test?</summary>
+          <p>
+            Minitab’s 2-sample randomization test follows the classic permutation logic. Suppose:
+          </p>
+          <div class="tablewrap" role="region" aria-label="Two-sample Charpy randomization example" tabindex="0">
+            <table>
+              <thead><tr><th>Practice A</th><th>Practice B</th></tr></thead>
+              <tbody>
+                <tr><td>210</td><td>175</td></tr><tr><td>195</td><td>182</td></tr>
+                <tr><td>220</td><td>168</td></tr><tr><td>205</td><td>190</td></tr>
+                <tr><td>215</td><td>177</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="formula">x̄<sub>A</sub> = 209 &nbsp;&nbsp; x̄<sub>B</sub> = 178.4 &nbsp;&nbsp; D<sub>observed</sub> = 30.6 J</p>
+          <p class="formula">H₀: μ<sub>A</sub> − μ<sub>B</sub> = 0</p>
+          <p>
+            Minitab pools all observations, randomly reallocates them into two groups while
+            preserving the original group sizes, and calculates a new difference in means.
+          </p>
+          <div class="tablewrap" role="region" aria-label="Example randomized group allocation" tabindex="0">
+            <table>
+              <thead><tr><th>Randomized A</th><th>Randomized B</th></tr></thead>
+              <tbody>
+                <tr><td>210</td><td>195</td></tr><tr><td>175</td><td>220</td></tr>
+                <tr><td>182</td><td>205</td></tr><tr><td>190</td><td>215</td></tr>
+                <tr><td>177</td><td>168</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="formula">D* = x̄<sub>A</sub>* − x̄<sub>B</sub>*</p>
+          <p>
+            Repeating this process thousands of times creates a distribution centered near zero,
+            representing differences expected under the null hypothesis. For a two-sided test,
+            Minitab counts the proportion satisfying:
+          </p>
+          <p class="formula">|D*| ≥ 30.6</p>
+          <p>That proportion is the randomization p-value.</p>
+        </details>
+        <details id="resampling-faq-bootstrap-sample-size">
+          <summary>If my original bootstrap sample size is 6 and I resample 1,000 times, does every resample also contain 6 observations?</summary>
+          <p>
+            <strong>Yes.</strong> In ordinary nonparametric bootstrapping, if the original sample
+            size is <em>n</em> = 6, every bootstrap resample also contains six observations. Those
+            observations are selected <strong>with replacement</strong>.
+          </p>
+          <p class="formula">Original sample: [100, 110, 120, 130, 140, 150]</p>
+          <div class="tablewrap" role="region" aria-label="Bootstrap samples retaining sample size six" tabindex="0">
+            <table>
+              <thead><tr><th>Sample</th><th>Six selected observations</th><th>Mean</th></tr></thead>
+              <tbody>
+                <tr><td>Original</td><td>100, 110, 120, 130, 140, 150</td><td>125.0</td></tr>
+                <tr><td>Bootstrap #1</td><td>100, 100, 120, 140, 140, 150</td><td>125.0</td></tr>
+                <tr><td>Bootstrap #2</td><td>110, 110, 110, 130, 150, 150</td><td>126.7</td></tr>
+                <tr><td>Bootstrap #3</td><td>100, 120, 120, 120, 130, 140</td><td>121.7</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Every resample contains exactly six selections, but some original observations may
+            appear several times while others may not appear at all. Do not confuse these numbers:
+          </p>
+          <p class="formula"><em>n</em> = 6 → observations inside each bootstrap resample</p>
+          <p class="formula"><em>B</em> = 1,000 → number of separate bootstrap resamples</p>
+          <p>
+            You create 1,000 separate samples of six observations each and usually calculate one
+            statistic from each sample. Keeping the resample size at six approximates how the
+            statistic would vary across repeated studies having the same sample size as the
+            original study.
+          </p>
+          <div class="callout">
+            Original sample <em>n</em> = 6 → draw 6 values with replacement → calculate one
+            statistic → repeat 1,000 times → 1,000 bootstrap statistics
+          </div>
+        </details>
+        <details id="resampling-faq-professional-q1">
+          <summary>What resampling methods should I practice in Minitab, and what questions do they answer?</summary>
+            <p>The practice set was organized around five Minitab resampling methods:</p>
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 1, table 1" tabindex="0">
+            <table>
+            <thead><tr><th>Method</th><th>Practice Variable(s)</th><th>Core Question</th></tr></thead>
+            <tbody>
+            <tr><td>Bootstrapping for 1-Sample Function</td><td><code>Strength_MPa</code></td><td>What is the 95% confidence interval for the average strength?</td></tr>
+            <tr><td>Bootstrapping for 2-Sample Means</td><td><code>Strength_MPa</code> + <code>Group</code></td><td>Is the New process mean higher than Standard?</td></tr>
+            <tr><td>Randomization Test for 1-Sample Mean</td><td><code>Strength_MPa</code></td><td>Is the average strength different from 51 MPa?</td></tr>
+            <tr><td>Randomization Test for 1-Sample Proportion</td><td><code>PassFail</code></td><td>Is the pass rate greater than 90%?</td></tr>
+            <tr><td>Randomization Test for 2-Sample Means</td><td><code>Strength_MPa</code> + <code>Group</code></td><td>Is the New process statistically different from Standard?</td></tr>
+            </tbody>
+            </table>
+            </div>
+            <p>Use 1,000 or 5,000 resamples to start. Higher numbers of resamples give smoother resampling distributions.</p>
+        </details>
+        <details id="resampling-faq-professional-q2">
+          <summary>What does each resampling method mean, what is it used for, and what is a practical example?</summary>
+            <p>These methods in Minitab fall under <strong>resampling statistics</strong>. They are powerful because they do not rely as heavily on normal-distribution assumptions as many traditional t-tests and z-tests. They use repeated random sampling or simulation to estimate uncertainty, significance, or confidence intervals.</p>
+
+            <h3>1. Bootstrapping for 1-Sample Function</h3>
+            <p>Bootstrapping repeatedly:</p>
+            <ol><li>Randomly samples your data.</li><li>Samples <strong>with replacement</strong>.</li><li>Calculates a statistic each time.</li><li>Builds a distribution of that statistic.</li></ol>
+            <p>“Function” simply means the statistic you care about: mean, median, standard deviation, percentile, capability metric, and so on.</p>
+            <p>It is used when you want confidence intervals, robust estimates, small-sample analysis, or non-normal-data analysis.</p>
+            <div class="callout">Real steel question: “What is the likely range of average Charpy toughness for this production run?”</div>
+            <p>For example, instead of assuming normality for 25 Charpy tests, bootstrap resampling takes repeated samples from those 25 observations, estimates the mean each time, and creates an empirical confidence interval.</p>
+
+            <h3>2. Bootstrapping for 2-Sample Means</h3>
+            <p>This uses the same concept but compares the mean of Group A with the mean of Group B. Both groups are repeatedly resampled.</p>
+            <p>It is used to estimate the difference between process means, the confidence interval for that difference, and the stability of the difference.</p>
+            <div class="callout">Example: “Did the new cooling practice improve yield strength?”</div>
+
+            <h3>3. Randomization Test for 1-Sample Mean</h3>
+            <p>This is a simulation-based hypothesis test. It asks whether a sample mean is significantly different from a target without relying on a theoretical t-distribution in the same way as the classical test.</p>
+            <div class="callout">Example: Target strength = 51 MPa; observed average = 53 MPa. “Could this difference happen by random chance?”</div>
+
+            <h3>4. Randomization Test for 1-Sample Proportion</h3>
+            <p>This tests whether a proportion differs from a target proportion. A proportion can represent pass/fail, good/bad, defect/no defect, yield, scrap rate, or acceptance rate.</p>
+            <div class="callout">Example: 93 of 100 pipes pass. Target = 90%. “Is the process truly better than 90%, or is this random variation?”</div>
+
+            <h3>5. Randomization Test for 2-Sample Means</h3>
+            <p>This tests whether two groups truly differ. It repeatedly shuffles group labels, recalculates the difference, and builds a null distribution.</p>
+            <div class="callout">Example: Compare coil exit temperatures for good coils versus failed coils. “Are the means statistically different?”</div>
+
+            <h3>Key Difference: Bootstrap vs. Randomization</h3>
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 2, table 1" tabindex="0">
+            <table class="compare">
+            <thead><tr><th>Method</th><th>Main Purpose</th><th>Mental Model</th><th>Typical Output</th></tr></thead>
+            <tbody>
+            <tr><td>Bootstrapping</td><td>Estimate uncertainty / confidence intervals</td><td>“What values are plausible?”</td><td>Confidence intervals; estimate variability</td></tr>
+            <tr><td>Randomization Test</td><td>Test statistical significance</td><td>“Could this happen by chance?”</td><td>p-values; significance evidence</td></tr>
+            </tbody>
+            </table>
+            </div>
+        </details>
+        <details id="resampling-faq-professional-q3">
+          <summary>How does bootstrapping for a 1-sample function work?</summary>
+            <p>Bootstrapping answers this question:</p>
+            <div class="callout">“If I repeated this experiment many times, what range of answers would I likely get?”</div>
+            <p>But instead of collecting new real-world samples, we repeatedly resample from the data we already have.</p>
+
+            <h3>The Big Concept</h3>
+            <p>Suppose you collected only five yield-strength observations:</p>
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 3, table 1" tabindex="0">
+            <table><thead><tr><th>Coil</th><th>Yield Strength</th></tr></thead>
+            <tbody><tr><td>C1</td><td>71</td></tr><tr><td>C2</td><td>69</td></tr><tr><td>C3</td><td>74</td></tr><tr><td>C4</td><td>73</td></tr><tr><td>C5</td><td>68</td></tr></tbody></table>
+            </div>
+            <p>Bootstrapping says:</p>
+            <div class="callout">“Let’s simulate thousands of possible samples using the observed data itself.”</div>
+
+            <h3>What “With Replacement” Means</h3>
+            <p>This is the most important concept. From the original data:</p>
+            <div class="formula">71, 69, 74, 73, 68</div>
+            <p>a bootstrap sample might be:</p>
+            <div class="formula">71, 71, 74, 68, 73</div>
+            <p>Another might be:</p>
+            <div class="formula">69, 68, 68, 74, 71</div>
+            <p>Some values repeat and some disappear because sampling is <strong>with replacement</strong>. After selecting a value, it goes back into the pool.</p>
+
+            <h3>Why This Works</h3>
+            <p>Your original sample is treated as the best estimate of the real population. Bootstrapping simulates thousands of alternate realities based on your observed process variation.</p>
+
+            <h3>What Is a “Function”?</h3>
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 3, table 2" tabindex="0">
+            <table><thead><tr><th>Function</th><th>Meaning</th></tr></thead>
+            <tbody><tr><td>Mean</td><td>Average</td></tr><tr><td>Median</td><td>Middle value</td></tr><tr><td>Standard deviation</td><td>Variation</td></tr><tr><td>Percentile</td><td>Distribution location</td></tr><tr><td>Maximum</td><td>Worst case</td></tr><tr><td>Cpk</td><td>Capability</td></tr><tr><td>Correlation</td><td>Relationship strength</td></tr></tbody></table>
+            </div>
+
+            <h3>What Bootstrapping Produces</h3>
+            <p>Usually, a confidence interval. For example:</p>
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 3, table 3" tabindex="0">
+            <table><thead><tr><th>Statistic</th><th>Result</th></tr></thead>
+            <tbody><tr><td>Mean YS</td><td>71.2 ksi</td></tr><tr><td>95% CI</td><td>69.8–72.5 ksi</td></tr></tbody></table>
+            </div>
+            <p>Meaning:</p>
+            <div class="callout">“We are 95% confident the true process mean lies in this range.”</div>
+
+            <h3>Practical Steel Example</h3>
+            <p>Suppose coiling-temperature measurements are 610, 618, 605, 622, and 611. The question is:</p>
+            <div class="callout">“What is the likely true average coiling temperature?”</div>
+            <p>Bootstrap:</p>
+            <ol><li>Resamples the data thousands of times.</li><li>Computes the mean each time.</li><li>Builds a distribution of means.</li><li>Calculates a confidence interval.</li></ol>
+
+            <h3>Step-by-Step in Minitab</h3>
+            <div class="steps">
+            <div class="step"><strong>Step 1 — Open the dataset.</strong> Use <code>Strength_MPa</code>.</div>
+            <div class="step"><strong>Step 2 — Open the tool.</strong> Calc → Resampling → Bootstrapping for 1-Sample Function.</div>
+            <div class="step"><strong>Step 3 — Fill the dialog.</strong> Samples = <code>Strength_MPa</code>; Function = Mean; Number of resamples = 1,000 or 5,000.</div>
+            <div class="step"><strong>Step 4 — Confidence level.</strong> Choose 95%.</div>
+            <div class="step"><strong>Step 5 — Run.</strong> Click OK.</div>
+            </div>
+
+            <div class="callout"><strong>Important insight:</strong> Bootstrap does not magically create more information. It estimates the uncertainty in your estimate.</div>
+            <div class="callout"><strong>Common mistake:</strong> “Bootstrapping creates fake data.” Not exactly. It creates simulated samples from the observed empirical distribution.</div>
+        </details>
+        <details id="resampling-faq-professional-q4">
+          <summary>How does bootstrapping for 2-sample means work?</summary>
+            <div class="callout">This directly addresses: “Are these two processes actually different?”</div>
+            <p>Instead of estimating one mean, we estimate the <strong>difference between two means</strong>.</p>
+            <p>Bootstrap repeatedly:</p>
+            <ol><li>Resamples Group A.</li><li>Resamples Group B.</li><li>Calculates both means.</li><li>Computes their difference.</li><li>Repeats thousands of times.</li></ol>
+            <p>This builds a distribution of mean differences.</p>
+
+            <h3>Example</h3>
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 4, table 1" tabindex="0">
+            <table><thead><tr><th>Group</th><th>Mean Strength</th></tr></thead><tbody><tr><td>Standard</td><td>51.2</td></tr><tr><td>New</td><td>53.8</td></tr></tbody></table>
+            </div>
+            <div class="formula">Observed difference = 53.8 − 51.2 = +2.6 MPa</div>
+            <p>But is that real, or random variation? Bootstrap helps estimate uncertainty around that difference.</p>
+
+            <h3>What Bootstrap Does Internally</h3>
+            <p><strong>Standard group:</strong> original 51, 52, 50, 53, 49 → possible bootstrap sample 51, 51, 53, 49, 50 → mean = 51.0.</p>
+            <p><strong>New group:</strong> original 54, 55, 53, 52, 56 → possible bootstrap sample 55, 55, 53, 52, 54 → mean = 53.8.</p>
+            <div class="formula">Δ* = x̄<sub>New</sub>* − x̄<sub>Standard</sub>* = 53.8 − 51.0 = +2.8 MPa</div>
+            <p>Repeat thousands of times. Values such as 2.8, 2.1, 3.4, 1.9, and 2.6 form the bootstrap distribution of mean differences.</p>
+
+            <h3>Key Interpretation Rule</h3>
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 4, table 2" tabindex="0">
+            <table><thead><tr><th>Confidence Interval</th><th>Interpretation</th></tr></thead>
+            <tbody>
+            <tr><td>Does not cross 0</td><td>A meaningful difference is supported by the interval.</td></tr>
+            <tr><td>Crosses 0</td><td>The uncertainty includes “no difference.”</td></tr>
+            <tr><td>Fully positive</td><td>New process likely improves strength.</td></tr>
+            <tr><td>Fully negative</td><td>New process likely worsened strength.</td></tr>
+            </tbody></table>
+            </div>
+            <p>Why zero? Because:</p>
+            <div class="formula">Δ = μ<sub>New</sub> − μ<sub>Standard</sub> = 0</div>
+            <p>means there is no difference between the group means.</p>
+
+            <h3>Step-by-Step in Minitab</h3>
+            <div class="steps">
+            <div class="step"><strong>Step 1.</strong> Use <code>Strength_MPa</code> and <code>Group</code>.</div>
+            <div class="step"><strong>Step 2.</strong> Calc → Resampling → Bootstrapping for 2-Sample Means.</div>
+            <div class="step"><strong>Step 3.</strong> Samples = <code>Strength_MPa</code>; Corresponding groups = <code>Group</code>; First sample = Standard; Second sample = New.</div>
+            <div class="step"><strong>Step 4.</strong> Use 5,000 resamples.</div>
+            <div class="step"><strong>Step 5.</strong> Use a 95% confidence level.</div>
+            <div class="step"><strong>Step 6.</strong> Click OK.</div>
+            </div>
+            <div class="callout"><strong>Important insight:</strong> Bootstrap gives <em>magnitude + uncertainty</em>, not just “significant/not significant.” Practical significance matters too.</div>
+        </details>
+        <details id="resampling-faq-professional-q5">
+          <summary>How does a randomization test for a 1-sample mean work?</summary>
+            <p>Now we move from <strong>estimating uncertainty</strong> with bootstrap to <strong>testing significance</strong> with randomization testing. This is a major conceptual shift.</p>
+            <div class="callout">“Could my observed sample mean reasonably occur by random chance if the true mean were actually the target value?”</div>
+            <p>This is fundamentally a hypothesis test, but performed using simulation instead of relying only on theoretical distributions.</p>
+
+            <h3>Engineering Example</h3>
+            <p>Suppose target yield strength = 51 MPa and the sample is 53, 52, 54, 51, 55. The observed mean is 53 MPa.</p>
+            <div class="formula">H<sub>0</sub>: μ = 51 MPa<br>H<sub>1</sub>: μ ≠ 51 MPa</div>
+            <p>Now the question becomes:</p>
+            <div class="callout">“Is 53 truly different from 51?” — or — “Could this difference happen just from random variation?”</div>
+
+            <h3>Core Logic</h3>
+            <div class="formula">Assume H<sub>0</sub> is true → generate simulated samples under H<sub>0</sub> → compute a mean each time → build a null distribution → compare the actual mean</div>
+            <p>The randomization distribution represents what random variation alone would produce if the null hypothesis were true.</p>
+
+            <h3>The p-value</h3>
+            <p>The p-value answers how unusual the observed result is under H<sub>0</sub>. A small p-value means the observed result is rare in the simulated null world; a large p-value means random variation could readily explain it.</p>
+            <div class="callout warn"><strong>Important engineering interpretation:</strong> The procedure does not prove H<sub>0</sub> or H<sub>1</sub>. It evaluates whether the observed evidence is surprising under H<sub>0</sub>. Statistical significance is also not the same as practical significance.</div>
+
+            <h3>Step-by-Step in Minitab</h3>
+            <div class="steps">
+            <div class="step"><strong>Step 1.</strong> Use <code>Strength_MPa</code>.</div>
+            <div class="step"><strong>Step 2.</strong> Calc → Resampling → Randomization Test for 1-Sample Mean.</div>
+            <div class="step"><strong>Step 3.</strong> Sample = <code>Strength_MPa</code>; Test mean = 51.</div>
+            <div class="step"><strong>Step 4.</strong> Choose the alternative: ≠ for different, &gt; for greater than, or &lt; for less than. For practice, use ≠.</div>
+            <div class="step"><strong>Step 5.</strong> Use 5,000 resamples.</div>
+            <div class="step"><strong>Step 6.</strong> Click OK.</div>
+            </div>
+        </details>
+        <details id="resampling-faq-professional-q6">
+          <summary>If we already have a target mean, why do we still need to resample?</summary>
+            <p>The key is this:</p>
+            <div class="callout"><strong>We are NOT resampling to estimate the target. We are resampling to estimate what random variation would look like IF the target were true.</strong></div>
+            <p>Suppose the target mean is:</p>
+            <div class="formula">μ<sub>0</sub> = 51</div>
+            <p>and the observed sample mean is:</p>
+            <div class="formula">x̄ = 53</div>
+            <p>Now the question becomes:</p>
+            <div class="callout">“Is 53 unusually far from 51?” — or — “Could random chance naturally produce 53 even if the true mean were actually 51?”</div>
+
+            <h3>Why We Cannot Just Compare 53 vs. 51 Directly</h3>
+            <p>Because samples naturally vary. Even if the true process mean is 51, one sample may average 49, another 52, another 50.5, and another 53 because of random process and sampling variation.</p>
+            <p>So we need a way to determine how much variation is “normal.”</p>
+
+            <h3>The Dartboard Analogy</h3>
+            <p>Imagine a dartboard whose target center is 51. Darts naturally scatter around the center. If one dart lands at 53, is that normal scatter or evidence that the aim has shifted?</p>
+            <p>You need to know how wide the natural scatter normally is. <strong>That is what resampling estimates.</strong></p>
+
+            <h3>What Randomization Builds</h3>
+            <p>It builds the distribution of expected random variation under the null hypothesis — the <strong>null distribution</strong>.</p>
+            <p>Suppose Minitab simulates 5,000 samples under:</p>
+            <div class="formula">H<sub>0</sub>: μ = 51</div>
+            <p>and generates means such as 50.8, 51.2, 50.5, 51.7, 49.9. Most are near 51 because under H<sub>0</sub>, 51 is assumed true.</p>
+            <p>Then compare the real mean, 53, and ask:</p>
+            <div class="callout">“How often do simulated means get as far as 53?”</div>
+
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 6, table 1" tabindex="0">
+            <table>
+            <thead><tr><th>Outcome</th><th>Interpretation</th></tr></thead>
+            <tbody>
+            <tr><td>53 is rare in the null distribution</td><td>53 is unusually far from 51 → evidence against H<sub>0</sub>.</td></tr>
+            <tr><td>53 is common in the null distribution</td><td>Normal variation could readily explain it → insufficient evidence against H<sub>0</sub>.</td></tr>
+            </tbody>
+            </table>
+            </div>
+
+            <div class="callout">
+            <strong>Simplest possible mental model:</strong><br>
+            Target mean → “What are we testing against?”<br>
+            Resampling → “How much random variation should we expect around that target?”
+            </div>
+            <p>Randomization testing is basically:</p>
+            <div class="callout">“Let’s pretend the target is true and simulate reality thousands of times. Does our observed result fit naturally into that simulated reality?”</div>
+        </details>
+        <details id="resampling-faq-professional-q7">
+          <summary>Are we resampling the original dataset, or are we simply simulating random samples?</summary>
+            <p>We <strong>are resampling the original dataset</strong>, but in a way that simulates what random samples would look like under the null hypothesis. That subtle distinction is the whole trick.</p>
+
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 7, table 1" tabindex="0">
+            <table>
+            <thead><tr><th>Method</th><th>What Gets Resampled?</th></tr></thead>
+            <tbody>
+            <tr><td>Bootstrap</td><td>Original dataset directly</td></tr>
+            <tr><td>Randomization test for 1-sample mean</td><td>Modified / recentered version of the original data</td></tr>
+            </tbody>
+            </table>
+            </div>
+
+            <h3>Bootstrap</h3>
+            <div class="callout">“Assume the sample is reality.”</div>
+            <p>So bootstrap directly resamples the original data with replacement.</p>
+
+            <h3>Randomization Test</h3>
+            <div class="callout">“Assume the null hypothesis is reality.”</div>
+            <p>Before resampling, the data is shifted/recentered to align with the target mean. Then resampling/simulation occurs.</p>
+
+            <p>For example, suppose:</p>
+            <div class="formula">Data = 53, 52, 54, 51, 55 &nbsp;&nbsp; and &nbsp;&nbsp; x̄ = 53<br>H<sub>0</sub>: μ = 51</div>
+            <p>The data are centered at 53, but under H<sub>0</sub> they should be centered at 51. So Minitab first transforms the data.</p>
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 7, table 2" tabindex="0">
+            <table><thead><tr><th>Original</th><th>Recentered</th></tr></thead>
+            <tbody><tr><td>53</td><td>51</td></tr><tr><td>52</td><td>50</td></tr><tr><td>54</td><td>52</td></tr><tr><td>51</td><td>49</td></tr><tr><td>55</td><td>53</td></tr></tbody></table>
+            </div>
+
+            <p>Then it repeatedly samples from the recentered data, computes means, and builds the null distribution.</p>
+
+            <div class="formula">Bootstrap: Observed Data → Resample Directly → Estimate uncertainty</div>
+            <div class="formula">1-Sample Randomization: Observed Data → Recenter to H<sub>0</sub> → Resample → Test significance</div>
+
+            <div class="callout"><strong>Extremely important insight:</strong> The randomization distribution represents what we would expect to see purely from random chance if the null hypothesis were true.</div>
+        </details>
+        <details id="resampling-faq-professional-q8">
+          <summary>What is the purpose of the recentering step in a 1-sample randomization test?</summary>
+            <p>The recentering step exists because:</p>
+            <div class="callout"><strong>We must force the data to behave as though the null hypothesis is true.</strong></div>
+            <p>Without recentering, the simulation would still reflect your observed sample mean instead of the hypothesized mean. That would break the logic of the test.</p>
+
+            <h3>The Core Goal</h3>
+            <div class="callout">“If the null hypothesis were actually true, what kinds of sample means would naturally occur from random variation alone?”</div>
+            <p>Suppose:</p>
+            <div class="formula">x̄ = 53 &nbsp;&nbsp; but &nbsp;&nbsp; H<sub>0</sub>: μ = μ<sub>0</sub> = 51</div>
+            <p>If we directly resample the original data, simulated samples will naturally center around 53, not 51. The simulation would represent a world where the true mean is 53, which contradicts the null hypothesis.</p>
+            <p>Then the test would effectively ask:</p>
+            <div class="callout">“Could 53 happen if the true mean were 53?”</div>
+            <p>which is meaningless. Of course 53 is common if reality is centered at 53.</p>
+
+            <h3>The Recentering Equation</h3>
+            <div class="formula">x<sub>i</sub><sup>*</sup> = x<sub>i</sub> − x̄ + μ<sub>0</sub></div>
+            <p>where:</p>
+            <ul>
+            <li><em>x<sub>i</sub></em> = original observation</li>
+            <li><em>x̄</em> = observed sample mean</li>
+            <li><em>μ<sub>0</sub></em> = hypothesized mean</li>
+            <li><em>x<sub>i</sub><sup>*</sup></em> = recentered observation</li>
+            </ul>
+
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 8, table 1" tabindex="0">
+            <table><thead><tr><th>Original</th><th>Recentered</th></tr></thead>
+            <tbody><tr><td>53</td><td>51</td></tr><tr><td>52</td><td>50</td></tr><tr><td>54</td><td>52</td></tr><tr><td>51</td><td>49</td></tr><tr><td>55</td><td>53</td></tr></tbody></table>
+            </div>
+
+            <h3>What Recentering Preserves</h3>
+            <p>Recentering changes the <strong>center</strong>, but preserves the spread, variability, shape, skewness, outliers, and process behavior.</p>
+            <p>Visually, it simply slides the whole distribution from a center of 53 to a center of 51 while leaving the shape the same.</p>
+
+            <div class="callout">Recentering exists to force the simulated data to obey the null hypothesis while preserving the original process variation.</div>
+        </details>
+        <details id="resampling-faq-professional-q9">
+          <summary>How does a randomization test for 2-sample means work?</summary>
+            <div class="callout">“Could the observed difference between two group means happen purely by random chance if the groups were actually equivalent?”</div>
+            <p>This is a significance test for the difference between two means.</p>
+
+            <h3>Engineering Example</h3>
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 9, table 1" tabindex="0">
+            <table><thead><tr><th>Group</th><th>Mean Yield Strength</th></tr></thead>
+            <tbody><tr><td>Standard MP</td><td>51 MPa</td></tr><tr><td>New MP</td><td>54 MPa</td></tr></tbody></table>
+            </div>
+            <div class="formula">Δ<sub>observed</sub> = x̄<sub>New</sub> − x̄<sub>Standard</sub> = 54 − 51 = 3 MPa</div>
+            <p>The question is:</p>
+            <div class="callout">“Is this 3 MPa difference real?” — or — “Could random process variation easily create this difference?”</div>
+
+            <h3>The Null Hypothesis</h3>
+            <div class="formula">H<sub>0</sub>: μ<sub>1</sub> = μ<sub>2</sub><br>equivalently, H<sub>0</sub>: μ<sub>1</sub> − μ<sub>2</sub> = 0</div>
+            <p>Under H<sub>0</sub>, group labels should not matter. That is the entire philosophy of the test.</p>
+
+            <h3>Why This Differs From 1-Sample Randomization</h3>
+            <p>A 1-sample randomization test needed recentering because there was a target mean. A 2-sample randomization test usually does not need that same recentering step. Under H<sub>0</sub>, both groups are treated as coming from the same population, so instead we shuffle the group labels.</p>
+
+            <h3>How the Randomization Works</h3>
+            <p>Original data:</p>
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 9, table 2" tabindex="0">
+            <table><thead><tr><th>Value</th><th>Group</th></tr></thead>
+            <tbody><tr><td>51</td><td>Standard</td></tr><tr><td>50</td><td>Standard</td></tr><tr><td>52</td><td>Standard</td></tr><tr><td>55</td><td>New</td></tr><tr><td>54</td><td>New</td></tr><tr><td>53</td><td>New</td></tr></tbody></table>
+            </div>
+            <div class="steps">
+            <div class="step"><strong>Step 1 — Pool all data.</strong> Combine 51, 50, 52, 55, 54, 53 and temporarily ignore the original labels.</div>
+            <div class="step"><strong>Step 2 — Randomly reassign labels.</strong> Keep the original group sizes, but randomly assign observations to Standard or New.</div>
+            <div class="step"><strong>Step 3 — Compute the randomized difference.</strong> Calculate the two randomized group means and their difference.</div>
+            <div class="step"><strong>Step 4 — Repeat thousands of times.</strong> Values such as 0.8, −1.2, 1.5, 0.3, −0.6 form the null distribution.</div>
+            </div>
+
+            <p>The null distribution represents:</p>
+            <div class="callout">“What kind of differences occur naturally if the groups are truly equivalent?”</div>
+            <p>Then compare the observed difference, +3 MPa, and ask:</p>
+            <div class="callout">“How often does random label shuffling create a difference this extreme?”</div>
+
+            <h3>Why Label Shuffling Makes Sense</h3>
+            <p>If H<sub>0</sub> is true, group membership is meaningless. Therefore, randomly reassigning labels should produce equally plausible datasets.</p>
+            <p>If randomized differences resemble the observed difference, the observed difference is not unusual. If the observed difference is much larger than what randomization usually produces, that is evidence the groups differ.</p>
+
+            <h3>Step-by-Step in Minitab</h3>
+            <div class="steps">
+            <div class="step"><strong>Step 1.</strong> Use <code>Strength_MPa</code> and <code>Group</code>.</div>
+            <div class="step"><strong>Step 2.</strong> Calc → Resampling → Randomization Test for 2-Sample Means.</div>
+            <div class="step"><strong>Step 3.</strong> Samples = <code>Strength_MPa</code>; Corresponding groups = <code>Group</code>; First sample = Standard; Second sample = New.</div>
+            <div class="step"><strong>Step 4.</strong> Usually choose ≠ for a two-sided test.</div>
+            <div class="step"><strong>Step 5.</strong> Use 5,000 resamples.</div>
+            <div class="step"><strong>Step 6.</strong> Click OK.</div>
+            </div>
+            <div class="callout warn"><strong>Engineering insight:</strong> Statistical significance ≠ practical significance. A tiny difference can be statistically significant but operationally meaningless. Always evaluate engineering impact.</div>
+        </details>
+        <details id="resampling-faq-professional-q10">
+          <summary>How does a randomization test for a 1-sample proportion work?</summary>
+            <p>Now we move from means to proportions. This is extremely important in quality engineering because many industrial problems are naturally pass/fail, defect/no defect, cracked/not cracked, downgraded/not downgraded, or accepted/rejected.</p>
+
+            <div class="callout">“Could the observed proportion reasonably occur by random chance if the true process proportion were the target value?”</div>
+
+            <h3>Quality Example</h3>
+            <p>Suppose historical pass rate = 90%, so the target proportion is:</p>
+            <div class="formula">p<sub>0</sub> = 0.90</div>
+            <p>Now suppose 100 pipes are tested and only 83 pass:</p>
+            <div class="formula">p̂ = 83/100 = 0.83</div>
+            <p>The question is:</p>
+            <div class="callout">“Is 83% significantly worse than 90%?” — or — “Could normal random variation explain this?”</div>
+
+            <h3>Hypotheses</h3>
+            <div class="formula">H<sub>0</sub>: p = 0.90</div>
+            <p>For a two-sided question:</p>
+            <div class="formula">H<sub>1</sub>: p ≠ 0.90</div>
+            <p>For a deterioration question:</p>
+            <div class="formula">H<sub>1</sub>: p &lt; 0.90</div>
+
+            <h3>The Key Concept</h3>
+            <p>Under H<sub>0</sub>, the process still has a 90% pass probability. The randomization procedure simulates what pass/fail outcomes would naturally look like if that were true.</p>
+            <p>With proportions, the outcomes are binary. If:</p>
+            <div class="formula">p<sub>0</sub> = 0.90</div>
+            <p>then each simulated observation has a 90% probability of Pass and a 10% probability of Fail.</p>
+            <p>For 100 pipes, one simulation might produce 91 Pass / 9 Fail; another 88 / 12; another 93 / 7. These results build the null distribution of pass rates.</p>
+
+            <p>Then compare the actual 83% and ask:</p>
+            <div class="callout">“How often would a true 90% process randomly produce 83% or worse?”</div>
+
+            <div class="tablewrap" role="region" aria-label="Additional Q&amp;A 10, table 1" tabindex="0">
+            <table><thead><tr><th>Result</th><th>Meaning</th></tr></thead>
+            <tbody>
+            <tr><td>Small p-value, e.g. 0.002</td><td>Only a very small proportion of null simulations are this poor → evidence the process degraded.</td></tr>
+            <tr><td>Large p-value, e.g. 0.28</td><td>The observed result is not especially unusual under the target process.</td></tr>
+            </tbody></table>
+            </div>
+
+            <h3>Step-by-Step in Minitab</h3>
+            <div class="steps">
+            <div class="step"><strong>Step 1.</strong> Use <code>PassFail</code>, containing Pass and Fail.</div>
+            <div class="step"><strong>Step 2.</strong> Calc → Resampling → Randomization Test for 1-Sample Proportion.</div>
+            <div class="step"><strong>Step 3.</strong> Sample = <code>PassFail</code>; Event = Pass; Test proportion = 0.90.</div>
+            <div class="step"><strong>Step 4.</strong> For a degradation study, use &lt; to test whether the pass rate fell below target.</div>
+            <div class="step"><strong>Step 5.</strong> Use 5,000 resamples.</div>
+            <div class="step"><strong>Step 6.</strong> Click OK.</div>
+            </div>
+
+            <div class="callout"><strong>Final engineering insight:</strong> A statistically significant defect increase may still be operationally manageable, while a non-significant increase may still require monitoring. Statistics supports engineering judgment — it does not replace it.</div>
+        </details>
+          </div>
         </details>
       </section>
 
@@ -4853,6 +5633,17 @@ html[data-theme="dark"] .resampling-lesson canvas {background:#0f1a28;color:#e7e
 html[data-theme="dark"] .resampling-lesson .minitab-output {background:#060b13;color:#dbeafe}
 html[data-theme="dark"] .resampling-lesson .help-pop {background:#111c2a;color:#e7eef4}
 html[data-theme="dark"] .resampling-lesson .resample-values span.dup {background:#3a2c10;color:#fde68a}
+html[data-theme="dark"] .resampling-lesson .faq-collection > summary {
+  background:#172b43;
+  color:#f1f5f9;
+  border-color:#52657a;
+}
+html[data-theme="dark"] .resampling-lesson .faq-collection > summary span {color:#cbd5e1}
+html[data-theme="dark"] .resampling-lesson .faq-list .step {
+  background:#152235;
+  color:#f1f5f9;
+  border-color:#52657a;
+}
 html[data-theme="dark"] .resampling-lesson .learning-toolbar,
 html[data-theme="dark"] .resampling-lesson .lab-modebar,
 html[data-theme="dark"] .resampling-lesson .storyhead,
