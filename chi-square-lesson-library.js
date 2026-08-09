@@ -99,6 +99,18 @@
       description: 'Master the bell curve, the 68-95-99.7 rule, and z-scores with interactive graphs, a live calculator, worked examples, and a quiz.'
     },
     {
+      marker: 'data-resampling-in-minitab',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/resampling-in-minitab',
+      topic: 'statistics',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'resampling bootstrap randomization test permutation test confidence interval p value minitab excel simulation statistics beginner interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>90 min</span><span>Minitab + Excel</span>',
+      title: 'Resampling in Minitab',
+      description: 'Learn bootstrap confidence intervals and randomization tests through five guided Minitab labs, editable datasets, live simulations, and coached interpretation.'
+    },
+    {
       marker: 'data-chebyshev-empirical-rule',
       sectionId: 'statistics',
       path: '/lessons/statistics/chebyshev-inequality-vs-empirical-rule',
