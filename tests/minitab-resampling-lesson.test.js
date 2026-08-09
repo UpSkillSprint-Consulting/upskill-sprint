@@ -87,6 +87,35 @@ test('resampling lesson contains all five methods and required Statistics implem
   assert.ok(implementation.textContent.includes('ASQ CSSBB/CQE'));
 });
 
+test('Section 1 includes the complete resampling Q&A accordion set', () => {
+  const section = document.querySelector('#start');
+  assert.ok(section, 'Section 1 should exist');
+
+  const questions = Array.from(section.querySelectorAll(':scope > details > summary'))
+    .map((summary) => summary.textContent.trim());
+  assert.equal(questions.length, 11, 'the two original and nine added questions should be present');
+
+  for (const expected of [
+    'What does “with replacement” mean?',
+    'Does resampling create new real-world information?',
+    'Does a confidence interval assume that the underlying distribution is normal?',
+    'What is the difference between randomization and bootstrapping?',
+    'What does “randomization rearranges labels without replacement” mean?',
+    'How do we determine how often random shuffling produces a difference as large as the observed 31 J?',
+    'What about a one-sample randomization test?',
+    'If we use the same one sample without replacement, wouldn’t the mean stay the same?',
+    'Is sign-flipping the method Minitab uses for a 1-sample randomization test?',
+    'How does Minitab perform a 2-sample randomization test?',
+    'If my original bootstrap sample size is 6 and I resample 1,000 times, does every resample also contain 6 observations?',
+  ]) assert.ok(questions.includes(expected), `missing Q&A: ${expected}`);
+
+  assert.equal(section.querySelectorAll('details[id^="resampling-faq-"]').length, 9);
+  assert.equal(section.querySelectorAll('details[id^="resampling-faq-"] table').length, 8);
+  for (const table of section.querySelectorAll('details[id^="resampling-faq-"] table')) {
+    assert.ok(table.parentElement.classList.contains('tablewrap'));
+  }
+});
+
 test('all lesson tables are responsive and downloadable practice assets exist', () => {
   const lessonTables = Array.from(document.querySelectorAll('.resampling-lesson table'));
   assert.ok(lessonTables.length >= 3);
