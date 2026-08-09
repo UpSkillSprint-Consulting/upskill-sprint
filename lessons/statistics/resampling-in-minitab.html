@@ -4077,6 +4077,9 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
                 .trim();
               let key = Object.keys(helpText).find((k) => raw.startsWith(k));
               if (!key || label.querySelector(".help-btn")) return;
+              let control = label.querySelector("input:not([type='range']), select");
+              if (control && !control.hasAttribute("aria-label"))
+                control.setAttribute("aria-label", key);
               label.insertAdjacentHTML(
                 "afterbegin",
                 `<button class="help-btn" type="button" aria-label="Explain ${esc(key)}" onclick="event.preventDefault();event.stopPropagation();openHelp('${esc(key)}')">?</button>`,
