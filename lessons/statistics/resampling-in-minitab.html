@@ -1637,6 +1637,319 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
             remains problematic.
           </p>
         </details>
+        <details id="resampling-faq-ci-normality">
+          <summary>Does a confidence interval assume that the underlying distribution is normal?</summary>
+          <p>
+            Not always. It depends on <strong>what confidence interval you are calculating,
+            the sample size, and the method used</strong>.
+          </p>
+          <div class="tablewrap" role="region" aria-label="Confidence interval normality guidance" tabindex="0">
+            <table>
+              <thead>
+                <tr><th>Situation</th><th>Does the raw data need to be normal?</th><th>Why?</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Small sample, for example <em>n</em> &lt; 30</td><td>Approximately yes for a classical t-based interval</td><td>The method relies more heavily on the population being approximately normal.</td></tr>
+                <tr><td>Large sample, for example <em>n</em> ≥ 30</td><td>Usually no</td><td>The Central Limit Theorem often makes the sampling distribution of the mean approximately normal.</td></tr>
+                <tr><td>Very skewed data or major outliers</td><td>Be careful</td><td>Even <em>n</em> = 30 may not be enough.</td></tr>
+                <tr><td>Bootstrap confidence interval</td><td>No normality assumption is required</td><td>The sampling distribution is estimated by resampling the observed data.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            The key distinction is that a standard confidence interval for the mean does
+            <strong>not necessarily require the raw data to be normally distributed</strong>.
+            What matters is whether the <strong>sampling distribution of the mean</strong> is
+            approximately normal.
+          </p>
+          <p>For example, individual Charpy values could be right-skewed:</p>
+          <p class="formula">80, 95, 110, 115, 125, 140, 160, 220, 310, …</p>
+          <p>
+            If you repeatedly took samples of 50 specimens and calculated the mean of each
+            sample, those means would tend to form a more nearly normal distribution because
+            of the Central Limit Theorem.
+          </p>
+          <div class="callout">
+            <strong>Keep the two distributions separate:</strong><br>
+            Population or data distribution → can be non-normal.<br>
+            Sampling distribution of x̄ → becomes approximately normal as <em>n</em> increases.
+          </div>
+          <div class="callout warn">
+            <strong>Important:</strong> “<em>n</em> ≥ 30” is a rule of thumb, not a law.
+            Severe skewness or outliers may require a much larger sample or a bootstrap interval.
+          </div>
+        </details>
+        <details id="resampling-faq-randomization-v-bootstrap">
+          <summary>What is the difference between randomization and bootstrapping?</summary>
+          <div class="callout">
+            <strong>Randomization asks:</strong> “Could this observed difference have happened
+            by chance if there were really no effect?”<br><br>
+            <strong>Bootstrapping asks:</strong> “How uncertain is my estimate?”
+          </div>
+          <p>
+            Suppose two rolling practices have an observed mean Charpy difference of about 31 J.
+          </p>
+          <p>
+            <strong>Randomization or permutation test:</strong> start with the null hypothesis
+            that the two groups are equivalent. Combine the observations, shuffle the A/B labels,
+            split them back into groups of the original sizes, calculate the mean difference, and
+            repeat thousands of times. This creates a <strong>null distribution</strong>.
+          </p>
+          <p>
+            <strong>Bootstrapping:</strong> preserve the groups and repeatedly sample
+            <strong>with replacement</strong> from each group. Calculate the statistic each time.
+            This creates a <strong>bootstrap distribution</strong> that describes the precision
+            and uncertainty of the estimate.
+          </p>
+          <div class="tablewrap" role="region" aria-label="Randomization and bootstrapping comparison" tabindex="0">
+            <table>
+              <thead><tr><th>Feature</th><th>Randomization</th><th>Bootstrapping</th></tr></thead>
+              <tbody>
+                <tr><td>Main purpose</td><td>Hypothesis testing</td><td>Estimation and uncertainty</td></tr>
+                <tr><td>Typical output</td><td>p-value</td><td>Confidence interval or standard error</td></tr>
+                <tr><td>Main question</td><td>Could this happen by chance under H₀?</td><td>How variable is my estimate?</td></tr>
+                <tr><td>Sampling</td><td>Usually without replacement</td><td>With replacement</td></tr>
+                <tr><td>Group labels</td><td>Usually shuffled</td><td>Usually preserved</td></tr>
+                <tr><td>Creates</td><td>Null distribution</td><td>Sampling distribution</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout">
+            <strong>Memory trick:</strong> Randomization = shuffle; bootstrap = resample with
+            replacement. Randomization asks about evidence of an effect. Bootstrap asks how
+            precisely the effect was estimated.
+          </div>
+        </details>
+        <details id="resampling-faq-labels-without-replacement">
+          <summary>What does “randomization rearranges labels without replacement” mean?</summary>
+          <p>Suppose the observed data are:</p>
+          <div class="tablewrap" role="region" aria-label="Two rolling practice example" tabindex="0">
+            <table>
+              <thead><tr><th>Practice A</th><th>Practice B</th></tr></thead>
+              <tbody><tr><td>200</td><td>150</td></tr><tr><td>210</td><td>160</td></tr><tr><td>220</td><td>170</td></tr></tbody>
+            </table>
+          </div>
+          <p>
+            The observed difference in means is 50 J. The randomization test asks: if A and B
+            really had no effect, could a 50 J difference arise just by randomly assigning these
+            observations to two groups?
+          </p>
+          <p>First remove the labels:</p>
+          <p class="formula">200, 210, 220, 150, 160, 170</p>
+          <p>
+            Then randomly assign three observations to A and three to B. Every original
+            observation appears <strong>exactly once</strong> in that randomization.
+          </p>
+          <p class="formula">Valid: A = [200, 160, 170] &nbsp;&nbsp; B = [210, 220, 150]</p>
+          <p class="formula">Not valid: A = [200, 200, 170]</p>
+          <p>
+            The second assignment is invalid because the original dataset contained only one
+            200 J observation. <strong>Without replacement</strong> means that once an observation
+            is assigned during one randomization, it cannot be selected again in that same
+            randomization. Bootstrap sampling is different: repeated values are allowed.
+          </p>
+        </details>
+        <details id="resampling-faq-extreme-differences">
+          <summary>How do we determine how often random shuffling produces a difference as large as the observed 31 J?</summary>
+          <p>Begin with the observed difference:</p>
+          <p class="formula">D<sub>observed</sub> = 31 J</p>
+          <p>Assume the null hypothesis is true:</p>
+          <p class="formula">H₀: μ<sub>A</sub> = μ<sub>B</sub></p>
+          <p>
+            Shuffle the group labels thousands of times. After each shuffle, calculate:
+          </p>
+          <p class="formula">D* = x̄<sub>A</sub>* − x̄<sub>B</sub>*</p>
+          <p>
+            For a <strong>two-sided</strong> test, count randomized differences at least as
+            extreme as the observed result in either direction:
+          </p>
+          <p class="formula">|D*| ≥ |D<sub>observed</sub>|</p>
+          <p>Suppose 10,000 randomizations produce:</p>
+          <div class="tablewrap" role="region" aria-label="Extreme randomization count example" tabindex="0">
+            <table>
+              <thead><tr><th>Result</th><th>Number of randomizations</th></tr></thead>
+              <tbody>
+                <tr><td>−31 &lt; D* &lt; +31</td><td>9,720</td></tr>
+                <tr><td>D* ≥ +31</td><td>145</td></tr>
+                <tr><td>D* ≤ −31</td><td>135</td></tr>
+                <tr><td><strong>Total</strong></td><td><strong>10,000</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="formula">Extreme results = 145 + 135 = 280</p>
+          <p class="formula">p = 280 / 10,000 = 0.028</p>
+          <p>
+            If A and B truly had no difference, about 2.8% of random label assignments produced
+            a difference at least as extreme as the 31 J result observed.
+          </p>
+          <div class="callout">
+            Actual data → observed difference → assume H₀ → shuffle labels → calculate D* →
+            count extreme values → p-value
+          </div>
+        </details>
+        <details id="resampling-faq-one-sample-randomization">
+          <summary>What about a one-sample randomization test?</summary>
+          <p>
+            A one-sample randomization test follows the same broad idea, but there are no A/B
+            group labels to shuffle. Suppose:
+          </p>
+          <p class="formula">H₀: μ = 180 J</p>
+          <p class="formula">Sample: 185, 190, 175, 200, 195</p>
+          <p>
+            The sample mean is 189 J, so the observed difference from the null value is 9 J.
+            One possible one-sample method is a <strong>sign-randomization test</strong>. First
+            calculate the deviations from 180:
+          </p>
+          <p class="formula">+5, +10, −5, +20, +15</p>
+          <p>Keep the magnitudes but randomly flip their signs. For example:</p>
+          <p class="formula">+5, −10, +5, −20, +15</p>
+          <p>
+            This randomized set has a mean deviation of −1 J, corresponding to a randomized
+            sample mean of 179 J. Repeating the sign randomization creates a null distribution
+            centered around the hypothesized value.
+          </p>
+          <div class="callout warn">
+            <strong>Technical caveat:</strong> sign-flipping is not a completely assumption-free
+            test of the population mean. It relies on an appropriate symmetry or exchangeability
+            assumption. Minitab’s one-sample randomization procedure uses the null-centering
+            method explained below instead.
+          </div>
+        </details>
+        <details id="resampling-faq-shuffling-one-sample">
+          <summary>If we use the same one sample without replacement, wouldn’t the mean stay the same?</summary>
+          <p><strong>Yes. That objection is correct.</strong></p>
+          <p>If we simply reorder:</p>
+          <p class="formula">185, 190, 175, 200, 195</p>
+          <p>into:</p>
+          <p class="formula">200, 175, 195, 185, 190</p>
+          <p>
+            the mean does not change. Reordering one sample cannot create a useful null
+            distribution. A one-sample randomization procedure must randomize something other
+            than the observation order.
+          </p>
+          <p>
+            In a sign-randomization approach, the signs attached to the deviation magnitudes
+            change. For example, the magnitudes 5, 10, 5, 20, and 15 could become:
+          </p>
+          <p class="formula">+5, −10, +5, −20, +15</p>
+          <p class="formula">−5, +10, −5, +20, +15</p>
+          <p>Those different sign patterns produce different means.</p>
+          <div class="callout">
+            <strong>Key insight:</strong> If you literally shuffle a single sample without
+            replacement, nothing happens to its mean.
+          </div>
+        </details>
+        <details id="resampling-faq-minitab-one-sample">
+          <summary>Is sign-flipping the method Minitab uses for a 1-sample randomization test?</summary>
+          <p><strong>No.</strong> Minitab uses a different approach.</p>
+          <p class="formula">Sample: 185, 190, 175, 200, 195 &nbsp;&nbsp; x̄ = 189 &nbsp;&nbsp; H₀: μ = 180</p>
+          <p>
+            Minitab first shifts every observation by the same amount so the adjusted sample mean
+            equals the hypothesized mean. The required shift is:
+          </p>
+          <p class="formula">180 − 189 = −9</p>
+          <p>The null-adjusted data become:</p>
+          <p class="formula">176, 181, 166, 191, 186 &nbsp;&nbsp; adjusted mean = 180</p>
+          <p>
+            Minitab then repeatedly <strong>resamples with replacement</strong> from this
+            null-adjusted sample, keeping the original sample size. Each resample produces a new
+            mean, building a null distribution centered around 180.
+          </p>
+          <p class="formula">176, 176, 191, 181, 191 → mean = 183</p>
+          <p class="formula">166, 181, 166, 186, 176 → mean = 175</p>
+          <div class="tablewrap" role="region" aria-label="Bootstrap and Minitab one-sample randomization comparison" tabindex="0">
+            <table>
+              <thead><tr><th>Bootstrap confidence interval</th><th>Minitab 1-sample randomization</th></tr></thead>
+              <tbody>
+                <tr><td>Starts with the original data</td><td>Starts with the original data</td></tr>
+                <tr><td>Keeps the center at x̄</td><td>Shifts the data so the center equals μ₀</td></tr>
+                <tr><td>Samples with replacement</td><td>Samples with replacement</td></tr>
+                <tr><td>Builds a distribution around x̄</td><td>Builds a distribution around μ₀</td></tr>
+                <tr><td>Estimates uncertainty or a confidence interval</td><td>Tests H₀ and calculates a p-value</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            In short, Minitab uses <strong>bootstrap-style resampling after first forcing the
+            data to represent the null hypothesis</strong>.
+          </p>
+        </details>
+        <details id="resampling-faq-minitab-two-sample">
+          <summary>How does Minitab perform a 2-sample randomization test?</summary>
+          <p>
+            Minitab’s 2-sample randomization test follows the classic permutation logic. Suppose:
+          </p>
+          <div class="tablewrap" role="region" aria-label="Two-sample Charpy randomization example" tabindex="0">
+            <table>
+              <thead><tr><th>Practice A</th><th>Practice B</th></tr></thead>
+              <tbody>
+                <tr><td>210</td><td>175</td></tr><tr><td>195</td><td>182</td></tr>
+                <tr><td>220</td><td>168</td></tr><tr><td>205</td><td>190</td></tr>
+                <tr><td>215</td><td>177</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="formula">x̄<sub>A</sub> = 209 &nbsp;&nbsp; x̄<sub>B</sub> = 178.4 &nbsp;&nbsp; D<sub>observed</sub> = 30.6 J</p>
+          <p class="formula">H₀: μ<sub>A</sub> − μ<sub>B</sub> = 0</p>
+          <p>
+            Minitab pools all observations, randomly reallocates them into two groups while
+            preserving the original group sizes, and calculates a new difference in means.
+          </p>
+          <div class="tablewrap" role="region" aria-label="Example randomized group allocation" tabindex="0">
+            <table>
+              <thead><tr><th>Randomized A</th><th>Randomized B</th></tr></thead>
+              <tbody>
+                <tr><td>210</td><td>195</td></tr><tr><td>175</td><td>220</td></tr>
+                <tr><td>182</td><td>205</td></tr><tr><td>190</td><td>215</td></tr>
+                <tr><td>177</td><td>168</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="formula">D* = x̄<sub>A</sub>* − x̄<sub>B</sub>*</p>
+          <p>
+            Repeating this process thousands of times creates a distribution centered near zero,
+            representing differences expected under the null hypothesis. For a two-sided test,
+            Minitab counts the proportion satisfying:
+          </p>
+          <p class="formula">|D*| ≥ 30.6</p>
+          <p>That proportion is the randomization p-value.</p>
+        </details>
+        <details id="resampling-faq-bootstrap-sample-size">
+          <summary>If my original bootstrap sample size is 6 and I resample 1,000 times, does every resample also contain 6 observations?</summary>
+          <p>
+            <strong>Yes.</strong> In ordinary nonparametric bootstrapping, if the original sample
+            size is <em>n</em> = 6, every bootstrap resample also contains six observations. Those
+            observations are selected <strong>with replacement</strong>.
+          </p>
+          <p class="formula">Original sample: [100, 110, 120, 130, 140, 150]</p>
+          <div class="tablewrap" role="region" aria-label="Bootstrap samples retaining sample size six" tabindex="0">
+            <table>
+              <thead><tr><th>Sample</th><th>Six selected observations</th><th>Mean</th></tr></thead>
+              <tbody>
+                <tr><td>Original</td><td>100, 110, 120, 130, 140, 150</td><td>125.0</td></tr>
+                <tr><td>Bootstrap #1</td><td>100, 100, 120, 140, 140, 150</td><td>125.0</td></tr>
+                <tr><td>Bootstrap #2</td><td>110, 110, 110, 130, 150, 150</td><td>126.7</td></tr>
+                <tr><td>Bootstrap #3</td><td>100, 120, 120, 120, 130, 140</td><td>121.7</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Every resample contains exactly six selections, but some original observations may
+            appear several times while others may not appear at all. Do not confuse these numbers:
+          </p>
+          <p class="formula"><em>n</em> = 6 → observations inside each bootstrap resample</p>
+          <p class="formula"><em>B</em> = 1,000 → number of separate bootstrap resamples</p>
+          <p>
+            You create 1,000 separate samples of six observations each and usually calculate one
+            statistic from each sample. Keeping the resample size at six approximates how the
+            statistic would vary across repeated studies having the same sample size as the
+            original study.
+          </p>
+          <div class="callout">
+            Original sample <em>n</em> = 6 → draw 6 values with replacement → calculate one
+            statistic → repeat 1,000 times → 1,000 bootstrap statistics
+          </div>
+        </details>
       </section>
 
       <section id="choose" class="card">
