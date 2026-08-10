@@ -123,6 +123,18 @@
       description: 'Compare guaranteed and normal-distribution coverage with live overlaid curves, distribution shapes, bounds, and practice challenges.'
     },
     {
+      marker: 'data-pearson-spearman-kendall-correlation',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/pearson-spearman-kendall-correlation-coefficients',
+      topic: 'statistics',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'pearson correlation spearman rank correlation kendall tau correlation coefficient concordant discordant pairs monotonic relationship linear relationship nonparametric correlation correlation vs causation outliers ranks excel minitab statistics intermediate interactive',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>~50 min</span><span>Excel + Minitab</span>',
+      title: 'Pearson, Spearman & Kendall Correlation',
+      description: 'Compare linear, monotonic, and rank-based association with a live relationship explorer, a concordant/discordant pairs demo, a paste-your-own-data calculator, and Excel + Minitab guidance.'
+    },
+    {
       marker: 'data-beyond-the-bell',
       sectionId: 'statistics',
       path: '/lessons/statistics/beyond-the-bell-the-normal-distribution-and-its-relatives',
