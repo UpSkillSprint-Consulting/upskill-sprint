@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Pearson, Spearman & Kendall: Choosing the Right Correlation Coefficient",
+  "slug": "pearson-spearman-kendall-correlation-coefficients",
+  "category": "Statistics",
+  "category_slug": "statistics",
+  "level": "Intermediate",
+  "lesson_type": "General",
+  "estimated_minutes": 50,
+  "interactive": true,
+  "card_title": "Pearson, Spearman & Kendall Correlation",
+  "card_description": "Compare linear, monotonic, and rank-based association with a live relationship explorer, a concordant/discordant pairs demo, a paste-your-own-data calculator, and Excel + Minitab guidance.",
+  "search_keywords": ["pearson correlation", "spearman rank correlation", "kendall tau", "correlation coefficient", "concordant discordant pairs", "monotonic relationship", "nonparametric correlation", "correlation vs causation", "CORREL RANK.AVG", "statistics intermediate"],
+  "suggested_github_path": "lessons/statistics/pearson-spearman-kendall-correlation-coefficients.html"
+}
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pearson, Spearman & Kendall: Choosing the Right Correlation Coefficient | UpSkill Sprint Consulting</title>
+  <meta name="description" content="An interactive lesson comparing Pearson, Spearman, and Kendall correlation with a live relationship explorer, a concordant/discordant pairs demo, a paste-your-own-data calculator, and Excel/Minitab guidance.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/statistics/pearson-spearman-kendall-correlation-coefficients">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Pearson, Spearman & Kendall Correlation | UpSkill Sprint Consulting">
+  <meta property="og:description" content="Choose the right correlation coefficient with live scatterplots, a pairwise concordance demo, and a calculator for your own data.">
+  <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/statistics/pearson-spearman-kendall-correlation-coefficients">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <style>
+    :root{
+      --psk-paper:#fff;--psk-surface:#fff;--psk-surface-soft:#f4f7fa;--psk-ink:#101828;--psk-ink-soft:#344054;
+      --psk-muted:#667085;--psk-line:#dfe5ec;--psk-navy:#12283f;--psk-teal:#0e7c86;--psk-teal-dark:#075f68;
+      --psk-solid:#0e7c86;--psk-hero-end:#075f68;--psk-badge-good:#1f6b46;--psk-badge-bad:#a3301f;--psk-badge-neutral:#4b5568;
+      --psk-amber:#b7791f;--psk-violet:#5b4fb0;--psk-success:#2f855a;--psk-warning:#b7791f;--psk-danger:#c24132;--psk-info:#2f6fb0;
+      --psk-pearson:#0e7c86;--psk-spearman:#b7791f;--psk-kendall:#5b4fb0;--psk-outlier:#c24132;--psk-focus:#c24132;
+      --psk-shadow:0 8px 24px rgba(15,42,67,.08);--psk-radius:14px;color-scheme:light dark;
+    }
+    html[data-theme="dark"]{
+      --psk-paper:#0b1220;--psk-surface:#111c2d;--psk-surface-soft:#0f1a2b;--psk-ink:#f3f6fb;--psk-ink-soft:#d5deeb;
+      --psk-muted:#aab7c9;--psk-line:#2b3b50;--psk-navy:#17344d;--psk-teal:#46c4cb;--psk-teal-dark:#7bdde1;
+      --psk-solid:#106974;--psk-hero-end:#0e4a52;--psk-badge-good:#67c992;--psk-badge-bad:#ed8176;--psk-badge-neutral:#aab7c9;
+      --psk-amber:#f0b35d;--psk-violet:#b6aaff;--psk-success:#67c992;--psk-warning:#efb65d;--psk-danger:#ed8176;--psk-info:#79aee1;
+      --psk-pearson:#46c4cb;--psk-spearman:#f0b35d;--psk-kendall:#b6aaff;--psk-outlier:#ed8176;--psk-focus:#f7c96f;--psk-shadow:none;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;background:var(--psk-paper);color:var(--psk-ink);font:1rem/1.68 Arial,Helvetica,sans-serif}
+    h1,h2,h3,h4{color:var(--psk-ink);font-family:Georgia,"Times New Roman",serif;line-height:1.25}
+    h1{margin:.35rem 0 .8rem;font-size:clamp(1.9rem,5vw,3.1rem)}
+    h2{display:inline-block;margin:0 0 1rem;padding-bottom:.2rem;border-bottom:3px solid var(--psk-amber);font-size:clamp(1.4rem,3vw,1.9rem)}
+    h3{margin:1.15rem 0 .45rem;font-size:1.18rem}h4{margin:0 0 .35rem;font-size:1.02rem}
+    p{margin:.65rem 0}a{color:var(--psk-teal-dark)}strong{color:var(--psk-ink)}
+    code{padding:.08rem .35rem;border:1px solid var(--psk-line);border-radius:5px;background:var(--psk-surface-soft);color:var(--psk-ink);overflow-wrap:anywhere;font-size:.94em}
+    button,input,select,textarea{font:inherit}
+    a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--psk-focus);outline-offset:2px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    main#lesson-content{max-width:1080px;margin:0 auto;padding:1rem 1rem 4rem}
+    section{margin:3rem 0;scroll-margin-top:82px}
+    .lesson-hero{position:relative;overflow:hidden;margin-top:1.2rem;padding:clamp(1.5rem,4vw,3rem);border-radius:20px;background:linear-gradient(135deg,var(--psk-navy),var(--psk-hero-end));color:#fff}
+    .lesson-hero h1,.lesson-hero strong{color:#fff}
+    .lesson-lede{max-width:74ch;color:#eaf7f8;font-size:1.12rem}
+    .lesson-meta-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.9rem}
+    .pill{display:inline-flex;padding:.28rem .7rem;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(255,255,255,.1);color:#fff;font-size:.82rem;font-weight:700}
+    .pill.accent{background:#fff;color:var(--psk-navy)}
+    .why-it-matters{max-width:80ch;margin-top:1rem;padding:.85rem 1rem;border-left:4px solid #f7c96f;border-radius:0 9px 9px 0;background:rgba(255,255,255,.12);color:#fff}
+    nav.lesson-toc{margin:1.7rem 0;padding:1rem 1.2rem;border:1px solid var(--psk-line);border-radius:var(--psk-radius);background:var(--psk-surface);box-shadow:var(--psk-shadow)}
+    nav.lesson-toc h2{margin:0 0 .5rem;border:0;color:var(--psk-muted);font:700 .82rem Arial,sans-serif;letter-spacing:.07em;text-transform:uppercase}
+    nav.lesson-toc ol{margin:0;padding-left:1.25rem;columns:2;column-gap:2rem}
+    nav.lesson-toc li{margin:.25rem 0;break-inside:avoid}
+    nav.lesson-toc a{text-decoration:none}nav.lesson-toc a:hover{text-decoration:underline}
+    .panel,.tool,.formula-box,.quiz-question{border:1px solid var(--psk-line);border-radius:var(--psk-radius);background:var(--psk-surface)}
+    .panel{padding:1.15rem 1.25rem}
+    .tool{padding:clamp(1rem,3vw,1.4rem);border-top:5px solid var(--psk-teal)}
+    .soft-panel{background:var(--psk-surface-soft)}
+    .callout{margin:1rem 0;padding:.85rem 1rem;border-left:4px solid var(--psk-info);border-radius:0 9px 9px 0;background:var(--psk-surface-soft)}
+    .callout.success{border-left-color:var(--psk-success)}.callout.warning{border-left-color:var(--psk-warning)}.callout.danger{border-left-color:var(--psk-danger)}
+    .objectives-list,.steps,.takeaways{padding-left:1.35rem}
+    .objectives-list li,.steps li,.takeaways li{margin:.55rem 0}
+    .objectives-list li::marker,.steps li::marker,.takeaways li::marker{color:var(--psk-teal);font-weight:700}
+    .grid-2,.grid-3,.metric-grid,.engr-grid{display:grid;gap:1rem}
+    .grid-2,.engr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid-3,.metric-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .term-card,.engr-card,.metric-card{padding:1rem;border:1px solid var(--psk-line);border-radius:12px;background:var(--psk-surface)}
+    .term-card h3,.engr-card h3{margin-top:0}
+    .metric-label{color:var(--psk-muted);font-size:.82rem;font-weight:700;text-transform:uppercase}
+    .metric-value{margin:.2rem 0;font:700 clamp(1.35rem,4vw,1.9rem) Georgia,serif}
+    .metric-value.pearson{color:var(--psk-pearson)}.metric-value.spearman{color:var(--psk-spearman)}.metric-value.kendall{color:var(--psk-kendall)}
+    .metric-note{color:var(--psk-muted);font-size:.88rem}
+    .formula-box{padding:1rem 1.15rem;border-left:5px solid var(--psk-teal);overflow-x:auto}
+    .math{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.45rem;color:var(--psk-ink);font:600 clamp(1.1rem,4vw,1.5rem) Georgia,serif}
+    .frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1.05}
+    .frac .top{padding:0 .3rem .08rem;border-bottom:1.5px solid var(--psk-ink)}
+    .frac .bottom{padding:.08rem .3rem 0}
+    .formula-caption{text-align:center;color:var(--psk-muted)}
+    .table-scroll{max-width:100%;overflow-x:auto}
+    table{width:100%;min-width:560px;border-collapse:collapse;background:var(--psk-surface)}
+    caption{text-align:left;color:var(--psk-muted);padding:0 0 .45rem}
+    th,td{padding:.62rem .72rem;border:1px solid var(--psk-line);text-align:left;vertical-align:top}
+    th{background:var(--psk-navy);color:#fff}
+    tbody tr:nth-child(even){background:var(--psk-surface-soft)}
+    .badge{display:inline-block;padding:.05rem .5rem;border-radius:999px;font-size:.78rem;font-weight:700}
+    .badge.concordant{background:rgba(47,133,90,.16);color:var(--psk-badge-good)}
+    .badge.discordant{background:rgba(194,65,50,.16);color:var(--psk-badge-bad)}
+    .badge.tied{background:rgba(102,112,133,.16);color:var(--psk-badge-neutral)}
+    .controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;align-items:end}
+    .control-field label{display:block;margin-bottom:.3rem;font-weight:700;font-size:.92rem}
+    .control-field input,.control-field select{width:100%;min-height:44px;padding:.6rem .7rem;border:1px solid var(--psk-line);border-radius:9px;background:var(--psk-surface);color:var(--psk-ink)}
+    .control-field.range-row{grid-column:1/-1}
+    .control-field.range-row input{padding:0}
+    .range-scale{display:flex;justify-content:space-between;color:var(--psk-muted);font-size:.8rem}
+    .button-row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+    .preset-row{display:flex;flex-wrap:wrap;gap:.55rem}
+    .btn{min-height:44px;padding:.6rem .95rem;border:1px solid var(--psk-solid);border-radius:9px;background:var(--psk-solid);color:#fff;font-weight:700;cursor:pointer}
+    .btn.secondary{background:var(--psk-surface);color:var(--psk-teal-dark)}
+    .btn.ghost{border-color:var(--psk-line);background:var(--psk-surface-soft);color:var(--psk-ink)}
+    .btn[aria-pressed="true"]{box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
+    .error-box{margin:1rem 0;padding:.75rem 1rem;border:1px solid var(--psk-danger);border-radius:9px;background:var(--psk-surface-soft);color:var(--psk-danger);font-weight:700}
+    .chart-shell{margin-top:1.15rem;padding:1rem;border:1px solid var(--psk-line);border-radius:12px;background:var(--psk-surface)}
+    .chart-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .chart-title-row h3{margin-top:0}
+    .chart-note{color:var(--psk-muted);font-size:.9rem}
+    .chart-view{width:100%;min-height:300px}
+    .chart-view svg{display:block;width:100%;height:auto}
+    .side-chart-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:1rem}
+    .side-chart-panel{min-width:0}
+    .chart-legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.6rem;color:var(--psk-muted);font-size:.86rem}
+    .legend-item{display:inline-flex;align-items:center;gap:.4rem}
+    .legend-swatch{width:16px;height:16px;border-radius:50%;background:var(--psk-pearson)}
+    .legend-swatch.outlier{background:var(--psk-outlier)}
+    .explainer-box{margin-top:1rem;padding:.9rem 1rem;border-radius:10px;background:var(--psk-surface-soft);border:1px solid var(--psk-line)}
+    .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .calc-grid textarea{width:100%;min-height:140px;padding:.65rem .7rem;border:1px solid var(--psk-line);border-radius:9px;background:var(--psk-surface);color:var(--psk-ink);font-family:ui-monospace,Consolas,monospace;font-size:.92rem;resize:vertical}
+    .calc-field label{display:block;margin-bottom:.3rem;font-weight:700;font-size:.92rem}
+    .worked-steps{counter-reset:work}
+    .worked-step{position:relative;margin:.8rem 0;padding:.85rem 1rem .85rem 3.2rem;border-left:3px solid var(--psk-teal);background:var(--psk-surface-soft)}
+    .worked-step::before{counter-increment:work;content:counter(work);position:absolute;left:.8rem;top:.75rem;display:grid;width:1.65rem;height:1.65rem;place-items:center;border-radius:50%;background:var(--psk-solid);color:#fff;font-weight:700}
+    .pairs-reveal{margin-top:1rem}
+    .pairs-summary{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:.8rem}
+    .pairs-summary .metric-card{flex:1;min-width:150px}
+    [hidden]{display:none!important}
+    .quiz-question{margin:1rem 0;padding:1rem}
+    .quiz-question fieldset{border:0;margin:0;padding:0}
+    .quiz-question legend{margin-bottom:.55rem;font-weight:700}
+    .quiz-option{display:flex;align-items:flex-start;gap:.55rem;margin:.35rem 0;padding:.65rem .75rem;border:1px solid var(--psk-line);border-radius:8px;background:var(--psk-surface);cursor:pointer}
+    .quiz-option:hover{background:var(--psk-surface-soft)}
+    .quiz-option input{margin-top:.25rem;accent-color:var(--psk-teal)}
+    .quiz-question.correct{border-color:var(--psk-success);box-shadow:inset 4px 0 var(--psk-success)}
+    .quiz-question.incorrect{border-color:var(--psk-danger);box-shadow:inset 4px 0 var(--psk-danger)}
+    .quiz-feedback{margin-top:.65rem;padding:.65rem .75rem;border-radius:8px;background:var(--psk-surface-soft)}
+    .quiz-feedback.good,.quiz-feedback.correct{border:1px solid var(--psk-success)}
+    .quiz-feedback.bad,.quiz-feedback.incorrect{border:1px solid var(--psk-danger)}
+    .quiz-feedback.warn{border:1px solid var(--psk-warning)}
+    .quiz-actions{margin-top:1rem}
+    .quiz-actions button{background:var(--psk-solid);color:#fff;border:0;border-radius:10px;padding:.7rem 1.1rem;font-size:1rem;font-weight:700;cursor:pointer}
+    .quiz-result{display:none;margin-top:1rem;padding:.75rem 1rem;border-radius:10px;background:var(--psk-surface-soft);border-left:4px solid var(--psk-info)}
+    .quiz-result.show{display:block}
+    .remember{margin-top:1rem;padding:1rem 1.2rem;border-radius:12px;background:var(--psk-navy);color:#fff;font-size:1.06rem;font-weight:700}
+    .remember strong{color:#fff}
+    @media(max-width:820px){.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3,.metric-grid,.engr-grid{grid-template-columns:1fr}.side-chart-grid,.calc-grid{grid-template-columns:1fr}.chart-title-row{display:block}.chart-title-row .button-row{margin-bottom:.7rem}}
+    @media(max-width:620px){nav.lesson-toc ol{columns:1}.grid-2{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.chart-view{min-height:230px}table{min-width:480px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+    html[data-theme="dark"] .legend-swatch{box-shadow:0 0 0 1px rgba(255,255,255,.25)}
+  </style>
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+</head>
+<body data-lesson-page="true" data-category="statistics" data-level="intermediate" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+
+<main id="lesson-content">
+  <article class="lesson-wrapper">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+      <div class="lesson-meta-row"><span class="pill accent">Statistics</span><span class="pill">Intermediate</span><span class="pill">Interactive</span><span class="pill">~50 min</span></div>
+      <h1 id="lesson-title">Pearson, Spearman &amp; Kendall: Choosing the Right Correlation Coefficient</h1>
+      <p class="lesson-lede">When you select a correlation metric, you are fundamentally choosing <strong>how you want to measure association</strong> between two variables. The three most common coefficients &mdash; <strong>Pearson</strong>, <strong>Spearman</strong>, and <strong>Kendall</strong> &mdash; differ in their assumptions, their sensitivity to outliers and non-linearity, and exactly what number they hand you at the end. Picking the wrong one doesn't just give you an imprecise answer &mdash; it can give you a confidently wrong one.</p>
+      <div class="why-it-matters"><strong>Why it matters:</strong> Reporting a Pearson r on skewed, outlier-heavy, or ranked engineering data is one of the most common statistics mistakes on the shop floor &mdash; and one of the more commonly tested distinctions on the ASQ CSSBB and CQE exams.</div>
+    </section>
+
+    <nav class="lesson-toc" aria-label="Lesson sections">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#overview">Three ways to measure association</a></li>
+        <li><a href="#pearson">1. Pearson correlation (r)</a></li>
+        <li><a href="#spearman">2. Spearman&rsquo;s rank correlation (&rho;)</a></li>
+        <li><a href="#kendall">3. Kendall&rsquo;s tau (&tau;)</a></li>
+        <li><a href="#comparison">Side-by-side comparison</a></li>
+        <li><a href="#explorer">Interactive: relationship explorer</a></li>
+        <li><a href="#calculator">Interactive: correlation calculator</a></li>
+        <li><a href="#decision-rule">Practical decision rule</a></li>
+        <li><a href="#engineering">Engineering &amp; data-science context</a></li>
+        <li><a href="#pitfalls">Common pitfalls</a></li>
+        <li><a href="#implementation">Statistics Implementation</a></li>
+        <li><a href="#quiz">Knowledge check</a></li>
+      </ol>
+    </nav>
+
+    <section id="overview" aria-labelledby="overview-h">
+      <h2 id="overview-h">Three ways to measure association</h2>
+      <p>All three coefficients return a number between <strong>&minus;1 and +1</strong>. A value near +1 means the variables move together strongly and positively; near &minus;1 means they move strongly in opposite directions; near 0 means little consistent association was detected <em>by that particular method</em>. That last caveat is the whole lesson: the same dataset can hand you three different numbers depending on which question you asked.</p>
+      <div class="grid-3">
+        <div class="term-card"><h3>Pearson r</h3><p><strong>Question asked:</strong> &ldquo;Do these two variables move together in a straight line?&rdquo; Sensitive to the actual values and to outliers.</p></div>
+        <div class="term-card"><h3>Spearman &rho;</h3><p><strong>Question asked:</strong> &ldquo;When X goes up, does Y consistently go up too &mdash; in any shape, not just a straight line?&rdquo; Works on ranks.</p></div>
+        <div class="term-card"><h3>Kendall &tau;</h3><p><strong>Question asked:</strong> &ldquo;For every possible pair of points, do X and Y agree on which one is bigger?&rdquo; Also rank-based, more conservative.</p></div>
+      </div>
+    </section>
+
+    <section id="pearson" aria-labelledby="pearson-h">
+      <h2 id="pearson-h">1&#65039;&#8419; Pearson correlation (r)</h2>
+      <h3>What it measures</h3>
+      <p>The strength of a <strong>linear</strong> relationship between two continuous variables &mdash; how tightly the points cluster around a straight line.</p>
+      <div class="formula-box">
+        <div class="math">r&nbsp;=&nbsp;<span class="frac"><span class="top">Cov(X,Y)</span><span class="bottom">&sigma;<sub>X</sub>&sigma;<sub>Y</sub></span></span></div>
+        <p class="formula-caption">Covariance of X and Y, standardized by the product of their standard deviations.</p>
+      </div>
+      <div class="grid-2">
+        <div class="panel soft-panel">
+          <h4>Key properties</h4>
+          <ul class="objectives-list">
+            <li>Range: &minus;1 to +1</li>
+            <li>Assumes a <strong>linear</strong> relationship</li>
+            <li>Assumes continuous (interval/ratio) data</li>
+            <li>Assumes approximate normality and homoscedasticity</li>
+            <li>Highly sensitive to <strong>outliers</strong></li>
+          </ul>
+        </div>
+        <div class="panel soft-panel">
+          <h4>Interpretation &amp; when to use</h4>
+          <ul class="objectives-list">
+            <li>+1 &rarr; perfect positive linear relationship</li>
+            <li>0 &rarr; no <em>linear</em> relationship detected</li>
+            <li>&minus;1 &rarr; perfect negative linear relationship</li>
+            <li>Best for process variables, financial returns, and continuous engineering measurements when the scatterplot already looks like a straight line</li>
+          </ul>
+        </div>
+      </div>
+      <p class="callout success">If your data are roughly normal and you already expect linearity from the physics or process &mdash; for example, temperature vs. a mechanical property &mdash; <strong>use Pearson.</strong></p>
+    </section>
+
+    <section id="spearman" aria-labelledby="spearman-h">
+      <h2 id="spearman-h">2&#65039;&#8419; Spearman&rsquo;s rank correlation (&rho; or r<sub>s</sub>)</h2>
+      <h3>What it measures</h3>
+      <p>A <strong>monotonic</strong> relationship &mdash; not necessarily a straight line, just a consistent direction. Instead of correlating the raw values, Spearman first converts each variable to <strong>ranks</strong> and then runs a Pearson correlation on those ranks.</p>
+      <div class="formula-box">
+        <div class="math">&rho;&nbsp;=&nbsp;1&nbsp;&minus;&nbsp;<span class="frac"><span class="top">6&sum;d<sub>i</sub><sup>2</sup></span><span class="bottom">n(n<sup>2</sup>&minus;1)</span></span></div>
+        <p class="formula-caption">d<sub>i</sub> is the difference between the ranks of the i-th pair of observations; n is the sample size. (This shortcut form assumes no tied ranks; with ties, Spearman is computed as the Pearson correlation of the two rank columns instead.)</p>
+      </div>
+      <div class="grid-2">
+        <div class="panel soft-panel">
+          <h4>Key properties</h4>
+          <ul class="objectives-list">
+            <li>Range: &minus;1 to +1</li>
+            <li>Nonparametric &mdash; no normality assumption</li>
+            <li>Works with ordinal data as well as continuous data</li>
+            <li>Less sensitive to outliers than Pearson (an extreme value only shifts a rank, not the raw distance)</li>
+          </ul>
+        </div>
+        <div class="panel soft-panel">
+          <h4>Interpretation &amp; when to use</h4>
+          <ul class="objectives-list">
+            <li>Measures whether, as X increases, Y tends to increase (or decrease) consistently</li>
+            <li>Best for non-normal or skewed data, ordinal data, and monotonic-but-curved relationships</li>
+          </ul>
+        </div>
+      </div>
+      <p class="callout success">If the relationship is monotonic but visibly curved &mdash; for example, a rank of defect severity vs. customer complaints &mdash; <strong>use Spearman.</strong></p>
+      <div class="worked-steps">
+        <div class="worked-step"><strong>Rank each variable separately.</strong> The smallest X gets rank 1, the next smallest rank 2, and so on; tied values share the average of the ranks they would have occupied.</div>
+        <div class="worked-step"><strong>Do the same for Y.</strong></div>
+        <div class="worked-step"><strong>Run an ordinary Pearson correlation on the two rank columns.</strong> That result is &rho;.</div>
+      </div>
+    </section>
+
+    <section id="kendall" aria-labelledby="kendall-h">
+      <h2 id="kendall-h">3&#65039;&#8419; Kendall&rsquo;s tau (&tau;)</h2>
+      <h3>What it measures</h3>
+      <p>Association based on <strong>concordant vs. discordant pairs</strong>. Take every possible pair of observations. If the pair agrees on ordering &mdash; the one with the bigger X also has the bigger Y &mdash; it's <strong>concordant</strong>. If they disagree, it's <strong>discordant</strong>. Kendall's tau is built directly from that tally.</p>
+      <div class="formula-box">
+        <div class="math">&tau;&nbsp;=&nbsp;<span class="frac"><span class="top">C&nbsp;&minus;&nbsp;D</span><span class="bottom">&frac12;n(n&minus;1)</span></span></div>
+        <p class="formula-caption">C = number of concordant pairs, D = number of discordant pairs. (The version used below and by most software, &ldquo;tau-b,&rdquo; adjusts the denominator to account for tied ranks.)</p>
+      </div>
+      <div class="grid-2">
+        <div class="panel soft-panel">
+          <h4>Key properties</h4>
+          <ul class="objectives-list">
+            <li>Range: &minus;1 to +1</li>
+            <li>Nonparametric; robust with small samples</li>
+            <li>Handles tied ranks explicitly in its own formula (tau-b)</li>
+            <li>Usually smaller in magnitude than Spearman&rsquo;s &rho; for the same data &mdash; that's expected, not an error</li>
+          </ul>
+        </div>
+        <div class="panel soft-panel">
+          <h4>Interpretation &amp; when to use</h4>
+          <ul class="objectives-list">
+            <li>Best for small datasets</li>
+            <li>Best when there are many tied ranks</li>
+            <li>Preferred when you need more statistically robust inference (its sampling distribution behaves better in small samples)</li>
+          </ul>
+        </div>
+      </div>
+      <p class="callout success">If the sample is small or there are many ties &mdash; for example, comparing a handful of small production-batch heats &mdash; <strong>use Kendall.</strong></p>
+
+      <div class="tool" style="margin-top:1.25rem">
+        <h3>See it happen: concordant vs. discordant pairs</h3>
+        <p>Six production batches were ranked by furnace temperature and by tensile strength. Reveal every one of the 15 possible pairs to see exactly which ones agree (concordant), disagree (discordant), or tie.</p>
+        <div class="table-scroll">
+          <table id="kendall-data-table">
+            <caption>Six batches, ranked on two variables</caption>
+            <thead><tr><th>Batch</th><th>Temp. rank</th><th>Strength rank</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="button-row"><button type="button" class="btn" id="reveal-pairs-btn" aria-expanded="false" aria-controls="pairs-detail">Reveal all 15 pairs</button></div>
+        <div id="pairs-detail" class="pairs-reveal" hidden>
+          <div class="table-scroll">
+            <table id="pairs-table">
+              <caption>Every pair, classified</caption>
+              <thead><tr><th>Pair</th><th>&Delta;Temp&nbsp;rank</th><th>&Delta;Strength&nbsp;rank</th><th>Classification</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="pairs-summary">
+            <div class="metric-card"><div class="metric-label">Concordant (C)</div><div class="metric-value" id="pairs-c">&mdash;</div></div>
+            <div class="metric-card"><div class="metric-label">Discordant (D)</div><div class="metric-value" id="pairs-d">&mdash;</div></div>
+            <div class="metric-card"><div class="metric-label">Kendall&rsquo;s &tau;<sub>b</sub></div><div class="metric-value kendall" id="pairs-tau">&mdash;</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="comparison" aria-labelledby="comparison-h">
+      <h2 id="comparison-h">Side-by-side comparison</h2>
+      <div class="table-scroll">
+        <table>
+          <caption>Feature comparison</caption>
+          <thead><tr><th>Feature</th><th>Pearson</th><th>Spearman</th><th>Kendall</th></tr></thead>
+          <tbody>
+            <tr><td>Type</td><td>Parametric</td><td>Nonparametric</td><td>Nonparametric</td></tr>
+            <tr><td>Measures</td><td>Linear relationship</td><td>Monotonic relationship</td><td>Monotonic relationship</td></tr>
+            <tr><td>Data type</td><td>Continuous</td><td>Ordinal / continuous</td><td>Ordinal / continuous</td></tr>
+            <tr><td>Normality required</td><td>Yes</td><td>No</td><td>No</td></tr>
+            <tr><td>Outlier sensitivity</td><td>High</td><td>Moderate</td><td>Low</td></tr>
+            <tr><td>Best for</td><td>Linear engineering data</td><td>Ranked or skewed data</td><td>Small samples, theoretical rigor</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="callout"><strong>One more important insight:</strong> Pearson measures <em>covariance strength</em>. Spearman and Kendall measure <em>order consistency</em>. That distinction is the reason the same dataset can honestly produce three different numbers &mdash; they are not competing estimates of one true quantity, they are answers to three different questions.</p>
+    </section>
+
+    <section id="explorer" aria-labelledby="explorer-h">
+      <h2 id="explorer-h">Interactive: relationship explorer</h2>
+      <p>Pick a relationship pattern, drag the noise slider, and watch what happens to all three coefficients at once. This is the fastest way to build intuition for when Pearson quietly fails.</p>
+      <div class="tool">
+        <h3>Pattern</h3>
+        <div class="preset-row" role="group" aria-label="Relationship pattern presets">
+          <button type="button" class="btn preset-btn" data-pattern="linear" aria-pressed="true">Linear</button>
+          <button type="button" class="btn secondary preset-btn" data-pattern="curved" aria-pressed="false">Monotonic &amp; curved</button>
+          <button type="button" class="btn secondary preset-btn" data-pattern="outlier" aria-pressed="false">Outliers present</button>
+          <button type="button" class="btn secondary preset-btn" data-pattern="ties" aria-pressed="false">Small sample, many ties</button>
+        </div>
+        <div class="controls" style="margin-top:1.1rem">
+          <div class="control-field range-row">
+            <label for="noise-slider">Noise intensity: <span id="noise-value">50</span>%</label>
+            <input type="range" id="noise-slider" min="0" max="100" value="50">
+            <div class="range-scale"><span>Clean signal</span><span>Pure noise</span></div>
+          </div>
+        </div>
+        <div class="button-row">
+          <button type="button" class="btn secondary" id="regenerate-btn">&#8635; Regenerate sample</button>
+        </div>
+
+        <div class="side-chart-grid" style="margin-top:1.25rem">
+          <div class="chart-shell side-chart-panel">
+            <div class="chart-title-row"><h3>Scatterplot</h3><span class="chart-note">n = <span id="explorer-n">30</span></span></div>
+            <div class="chart-view" id="explorer-scatter"></div>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-swatch"></span>Sample point</span>
+              <span class="legend-item"><span class="legend-swatch outlier"></span>Outlier</span>
+            </div>
+          </div>
+          <div class="chart-shell side-chart-panel">
+            <div class="chart-title-row"><h3>Coefficients</h3></div>
+            <div class="chart-view" id="explorer-bars"></div>
+            <div class="metric-grid" style="margin-top:.6rem">
+              <div class="metric-card"><div class="metric-label">Pearson r</div><div class="metric-value pearson" id="explorer-r">&mdash;</div></div>
+              <div class="metric-card"><div class="metric-label">Spearman &rho;</div><div class="metric-value spearman" id="explorer-rho">&mdash;</div></div>
+              <div class="metric-card"><div class="metric-label">Kendall &tau;</div><div class="metric-value kendall" id="explorer-tau">&mdash;</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="explainer-box" id="explorer-explainer">Choose a pattern above to see how each coefficient reacts.</div>
+      </div>
+    </section>
+
+    <section id="calculator" aria-labelledby="calculator-h">
+      <h2 id="calculator-h">Interactive: correlation calculator</h2>
+      <p>Paste or type your own paired data (comma, space, or newline separated &mdash; same count of values on each side) to compute all three coefficients directly.</p>
+      <div class="tool">
+        <div class="calc-grid">
+          <div class="calc-field">
+            <label for="calc-x">X values</label>
+            <textarea id="calc-x" spellcheck="false">12, 15, 18, 20, 22, 25, 28, 30, 33, 36</textarea>
+          </div>
+          <div class="calc-field">
+            <label for="calc-y">Y values</label>
+            <textarea id="calc-y" spellcheck="false">101, 108, 112, 119, 121, 130, 133, 140, 146, 151</textarea>
+          </div>
+        </div>
+        <div class="button-row"><button type="button" class="btn" id="calc-btn">Calculate</button><button type="button" class="btn ghost" id="calc-clear-btn">Clear</button></div>
+        <div class="error-box" id="calc-error" hidden></div>
+        <div class="side-chart-grid" style="margin-top:1.1rem" id="calc-results" hidden>
+          <div class="chart-shell side-chart-panel">
+            <h3>Scatterplot of your data</h3>
+            <div class="chart-view" id="calc-scatter"></div>
+          </div>
+          <div class="chart-shell side-chart-panel">
+            <h3>Results</h3>
+            <div class="metric-grid">
+              <div class="metric-card"><div class="metric-label">Pearson r</div><div class="metric-value pearson" id="calc-r">&mdash;</div></div>
+              <div class="metric-card"><div class="metric-label">Spearman &rho;</div><div class="metric-value spearman" id="calc-rho">&mdash;</div></div>
+              <div class="metric-card"><div class="metric-label">Kendall &tau;</div><div class="metric-value kendall" id="calc-tau">&mdash;</div></div>
+            </div>
+            <p class="metric-note" id="calc-n-note"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="decision-rule" aria-labelledby="decision-rule-h">
+      <h2 id="decision-rule-h">Practical decision rule</h2>
+      <ol class="steps">
+        <li><strong>Is the data continuous and roughly normal, and do you expect a straight-line relationship?</strong> &rarr; Use <strong>Pearson</strong>.</li>
+        <li><strong>Is the relationship monotonic but not linear?</strong> &rarr; Use <strong>Spearman</strong>.</li>
+        <li><strong>Is the sample small, or are there many tied ranks?</strong> &rarr; Use <strong>Kendall</strong>.</li>
+      </ol>
+      <p class="callout warning">Always look at the scatterplot before trusting any single number. All three coefficients can look &ldquo;reasonable&rdquo; while completely missing a non-monotonic (e.g., U-shaped) relationship &mdash; none of the three is designed to detect that.</p>
+    </section>
+
+    <section id="engineering" aria-labelledby="engineering-h">
+      <h2 id="engineering-h">Engineering &amp; data-science context</h2>
+      <p>In steel and process analytics, the choice usually falls out of the question being asked:</p>
+      <div class="engr-grid">
+        <div class="engr-card"><h3>Temperature vs. mechanical property</h3><p>Continuous, physically linear over the working range &rarr; <strong>Pearson</strong>.</p></div>
+        <div class="engr-card"><h3>Rank of defect severity vs. customer complaints</h3><p>Ordinal severity tiers, consistent direction but not a straight line &rarr; <strong>Spearman</strong>.</p></div>
+        <div class="engr-card"><h3>Small batch-to-batch heat comparisons</h3><p>A handful of heats, ties likely, need robust small-sample inference &rarr; <strong>Kendall</strong>.</p></div>
+      </div>
+    </section>
+
+    <section id="pitfalls" aria-labelledby="pitfalls-h">
+      <h2 id="pitfalls-h">Common pitfalls</h2>
+      <ul class="takeaways">
+        <li><strong>Correlation is not causation.</strong> Any of the three coefficients can be large because of a lurking (confounding) variable, not because X drives Y.</li>
+        <li><strong>A single outlier can dominate Pearson.</strong> Two extreme points can swing r dramatically while barely moving Spearman or Kendall &mdash; try the &ldquo;Outliers present&rdquo; preset above.</li>
+        <li><strong>Zero correlation does not mean no relationship.</strong> All three coefficients can sit near zero for a strong but non-monotonic (curved both ways) pattern.</li>
+        <li><strong>Ties need the right formula.</strong> Skip the shortcut Spearman formula when ranks are tied; use the rank-then-Pearson approach or the tau-b version of Kendall instead.</li>
+        <li><strong>A big r does not certify a good regression.</strong> Linearity, constant variance, and independence still need to be checked separately before fitting a line.</li>
+      </ul>
+    </section>
+
+    <section id="implementation" aria-labelledby="implementation-h">
+      <h2 id="implementation-h">Statistics Implementation</h2>
+      <p class="callout">Excel has native, one-cell support for Pearson correlation, but no built-in Spearman or Kendall function &mdash; both have to be assembled from ranks. The table and worked examples below show exactly how, without guessing at syntax that doesn't exist.</p>
+
+      <h3>Excel Functions</h3>
+      <div class="table-scroll">
+        <table>
+          <caption>Functions used across this lesson's Excel workflow</caption>
+          <thead><tr><th>Function</th><th>Syntax</th><th>Purpose</th><th>When to use it</th></tr></thead>
+          <tbody>
+            <tr><td><code>CORREL</code></td><td><code>=CORREL(array1,array2)</code></td><td>Pearson correlation coefficient between two ranges.</td><td>Use directly on raw values for Pearson r; use on two rank columns to get Spearman &rho;.</td></tr>
+            <tr><td><code>PEARSON</code></td><td><code>=PEARSON(array1,array2)</code></td><td>Mathematically identical to <code>CORREL</code>; older function name kept for compatibility.</td><td>Either function is fine &mdash; most analysts default to <code>CORREL</code>.</td></tr>
+            <tr><td><code>RSQ</code></td><td><code>=RSQ(known_ys,known_xs)</code></td><td>Returns the square of the Pearson correlation coefficient (r&sup2;).</td><td>Use to report the proportion of variance explained when discussing r in a simple-linear-regression context.</td></tr>
+            <tr><td><code>RANK.AVG</code></td><td><code>=RANK.AVG(number,ref,[order])</code></td><td>Ranks a value within a range, averaging tied ranks.</td><td>Use to build the rank columns that Spearman (and a manual Kendall check) both depend on. Prefer this over the legacy <code>RANK</code>, which does not average ties.</td></tr>
+            <tr><td><code>SIGN</code></td><td><code>=SIGN(number)</code></td><td>Returns &minus;1, 0, or +1.</td><td>Use on pairwise differences to classify a pair as concordant, discordant, or tied when building Kendall's tau by hand.</td></tr>
+            <tr><td><code>SUMPRODUCT</code></td><td><code>=SUMPRODUCT(array1,array2,...)</code></td><td>Multiplies arrays element-wise and sums the result.</td><td>Use with <code>SIGN</code> across a helper pairwise grid to tally concordant/discordant pairs for Kendall's tau (Excel has no native <code>KENDALL</code> function).</td></tr>
+            <tr><td><code>T.DIST.2T</code></td><td><code>=T.DIST.2T(x,deg_freedom)</code></td><td>Two-tailed p-value from the t-distribution.</td><td>Use to test whether a Pearson r is significantly different from zero: t&nbsp;=&nbsp;r&radic;((n&minus;2)/(1&minus;r&sup2;)), then <code>=T.DIST.2T(ABS(t), n-2)</code>.</td></tr>
+            <tr><td><code>FISHER</code> / <code>FISHERINV</code></td><td><code>=FISHER(x)</code> / <code>=FISHERINV(y)</code></td><td>Fisher z-transformation and its inverse.</td><td>Use to build an approximate confidence interval for Pearson r: transform r with <code>FISHER</code>, build a normal-based interval on the z-scale, then convert the endpoints back with <code>FISHERINV</code>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Excel Use Cases</h3>
+      <div class="grid-2">
+        <article class="term-card"><h4>Pearson r, directly</h4><p>With X in <code>A2:A31</code> and Y in <code>B2:B31</code>:</p><p><code>=CORREL(A2:A31,B2:B31)</code></p><p>One cell, one answer &mdash; but only trust it once you've looked at the scatterplot.</p></article>
+        <article class="term-card"><h4>Spearman &rho;, via ranks</h4><p>In helper columns, rank each variable, averaging ties:</p><p><code>=RANK.AVG(A2,$A$2:$A$31,1)</code> filled down for X, and the same pattern for Y in another column.</p><p>Then run <code>CORREL</code> on the two rank columns &mdash; that result is Spearman's &rho;.</p></article>
+        <article class="term-card"><h4>Significance test for Pearson r</h4><p>With r in cell <code>D2</code> and n = 30:</p><p><code>=D2*SQRT((30-2)/(1-D2^2))</code> for t, then <code>=T.DIST.2T(ABS(t_cell),28)</code> for the two-tailed p-value.</p><p>Compare the p-value to your chosen &alpha; to decide whether the correlation is statistically distinguishable from zero.</p></article>
+        <article class="term-card"><h4>Kendall's tau, built by hand</h4><p>Excel has no native Kendall function. Build an n&times;n helper grid of <code>SIGN</code> of each pairwise X-difference times the <code>SIGN</code> of the matching Y-difference, then use <code>SUMPRODUCT</code> to count how many pairs are +1 (concordant) vs. &minus;1 (discordant), and apply the tau-b formula from this lesson by hand. For anything beyond a small teaching example, use statistical software instead.</p></article>
+      </div>
+
+      <h3>Minitab Navigation</h3>
+      <div class="table-scroll">
+        <table>
+          <caption>Menu paths for correlation in Minitab</caption>
+          <thead><tr><th>Task</th><th>Menu path</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Pearson or Spearman correlation</td><td><code>Stat &rarr; Basic Statistics &rarr; Correlation</code></td><td>Enter two or more numeric columns; the dialog's Method option lets you choose Pearson (default) or Spearman rank correlation, plus a significance test for each pair.</td></tr>
+            <tr><td>Check linearity/monotonicity first</td><td><code>Graph &rarr; Scatterplot</code></td><td>Alternative/companion step. Always view the scatterplot &mdash; with or without a fitted line &mdash; before trusting a correlation number, since Minitab will compute r or &rho; on any pair of columns whether or not the relationship is actually well-suited to it.</td></tr>
+            <tr><td>Kendall's tau between two variables</td><td>No dedicated menu item in standard Minitab Basic Statistics</td><td>Be transparent about this limitation: Minitab's built-in Correlation dialog covers Pearson and Spearman only. For a two-variable Kendall's tau, either compute it manually from ranks (as shown above) or use software with native support (e.g., R's <code>cor(method="kendall")</code> or Python's <code>scipy.stats.kendalltau</code>). Do not confuse this with Minitab's separate <em>Kendall's Coefficient of Concordance</em>, which measures agreement across multiple raters and is a different statistic.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="callout"><strong>Which option should you choose?</strong> Start from the decision rule, not the menu: run <code>Stat &rarr; Basic Statistics &rarr; Correlation</code> with Method set to Pearson when you expect linearity and normality, switch the same dialog's Method to Spearman when the relationship is monotonic but not linear or the data are ordinal, and fall back to a manual or external Kendall's tau calculation for small, tie-heavy samples.</p>
+
+      <h3>Exam Tips</h3>
+      <ul class="takeaways">
+        <li><strong>Correlation &ne; causation, every time it's tested.</strong> ASQ CSSBB/CQE items frequently plant a high r and ask what conclusion is <em>defensible</em> &mdash; the answer is rarely &ldquo;X causes Y.&rdquo;</li>
+        <li><strong>Match the assumption to the data before picking a formula.</strong> A question describing skewed, ordinal, or ranked engineering data (defect severity tiers, inspector scores) is cueing you toward Spearman or Kendall, not Pearson.</li>
+        <li><strong>Know why r can mislead.</strong> Exam scenarios love the &ldquo;one extreme outlier&rdquo; setup precisely because it shows Pearson's sensitivity &mdash; if the question hinges on a couple of unusual points, expect Spearman/Kendall to be the more defensible answer.</li>
+        <li><strong>Connect r to regression.</strong> r&sup2; (via <code>RSQ</code>) is the proportion of variance in Y explained by a simple linear fit on X &mdash; a common bridge question between correlation and regression topics.</li>
+        <li><strong>Ties matter for both real analysis and exam wording.</strong> If a scenario mentions repeated or tied ranks, that's the cue for Kendall's tau-b or a rank-based Spearman calculation, not the tie-naive shortcut formula.</li>
+        <li><strong>Statistical significance is not practical significance.</strong> A statistically significant correlation in a huge dataset can still be too weak to act on; always weigh the coefficient's size against engineering tolerances and cost of action.</li>
+      </ul>
+    </section>
+
+    <div class="remember">Remember: Pearson asks &ldquo;is it a straight line?&rdquo;, Spearman and Kendall ask &ldquo;is it a consistent direction?&rdquo; &mdash; choose the question that actually matches your data before you trust the number.</div>
+  </article>
+</main>
+
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Pearson correlation specifically measures the strength of a linear relationship and assumes approximate normality and continuous data; it says nothing directly about monotonic-but-curved patterns.">
+        <legend>1. Which coefficient measures only a linear association and typically assumes approximately normal, continuous data?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> Kendall's tau</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> Pearson correlation</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> Spearman's rho</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Spearman converts both variables to ranks first, so it captures any consistent monotonic direction, curved or not, rather than only straight-line association.">
+        <legend>2. A relationship is clearly monotonic but strongly curved (for example, exponential), with no outliers. Which coefficient is built to capture that consistent direction, curve and all?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> Pearson correlation</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> Spearman's rho</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> None of the three can detect monotonic curvature</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="Pearson correlation is calculated from raw values and is highly sensitive to extreme points; rank-based Spearman and Kendall barely move because an outlier still just occupies one rank position.">
+        <legend>3. Two extreme outliers are added to an otherwise clean, tightly linear dataset. Which coefficient is most likely to change dramatically?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> Pearson correlation</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Spearman's rho</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Kendall's tau</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="A concordant pair is one where the relative order agrees on both variables: the observation with the larger X value also has the larger Y value (or both are smaller). A discordant pair disagrees on that ordering.">
+        <legend>4. In Kendall's tau, what defines a pair of observations as &ldquo;concordant&rdquo;?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> Both X values are identical</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> The pair sits close together on the scatterplot</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> The observation with the larger X value also has the larger Y value</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Kendall's tau (tau-b) explicitly incorporates tied ranks into its own formula and has better-behaved small-sample theoretical properties, which is why it is often preferred over Spearman for small, tie-heavy datasets.">
+        <legend>5. Why might Kendall's tau be preferred over Spearman's rho for a small sample with many tied ranks?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> Kendall's tau always produces a larger coefficient</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> Kendall's tau handles ties explicitly and has more robust small-sample properties</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> Kendall's tau requires normally distributed data, which stabilizes small samples</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="CORREL (and the older PEARSON function) computes the Pearson correlation coefficient directly from two ranges of raw values. Excel has no native Spearman or Kendall function; both must be built from ranks or pairwise comparisons.">
+        <legend>6. Which built-in Excel function computes the Pearson correlation coefficient directly from two ranges of values?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> CORREL</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> KENDALL</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> RANK.AVG</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="A high correlation coefficient of any of the three kinds only describes association; it never by itself establishes that one variable causes changes in the other, since a lurking or confounding variable could explain both.">
+        <legend>7. A CSSBB exam question reports a Pearson r of 0.91 between two process variables and asks what can be concluded. What is the defensible answer?</legend>
+        <label class="quiz-option"><input type="radio" name="q7" value="a"> The first variable causes the second</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="b"> The two variables are guaranteed to have a perfect linear relationship</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="c"> The two variables show a strong linear association, but causation is not established</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#statistics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Statistics lessons</a>
+</section>
+
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- shared math helpers ---------- */
+  function mean(a){ var s=0; for (var i=0;i<a.length;i++) s+=a[i]; return s/a.length; }
+
+  function rankArray(values){
+    var n = values.length;
+    var idx = values.map(function(v,i){ return i; });
+    idx.sort(function(a,b){ return values[a]-values[b]; });
+    var ranks = new Array(n);
+    var i = 0;
+    while (i < n){
+      var j = i;
+      while (j+1 < n && values[idx[j+1]] === values[idx[i]]) j++;
+      var avgRank = (i+j)/2 + 1;
+      for (var k=i;k<=j;k++) ranks[idx[k]] = avgRank;
+      i = j+1;
+    }
+    return ranks;
+  }
+
+  function pearson(x,y){
+    var n = x.length, mx = mean(x), my = mean(y);
+    var sxy=0, sxx=0, syy=0;
+    for (var i=0;i<n;i++){ var dx=x[i]-mx, dy=y[i]-my; sxy+=dx*dy; sxx+=dx*dx; syy+=dy*dy; }
+    if (sxx===0 || syy===0) return 0;
+    return sxy/Math.sqrt(sxx*syy);
+  }
+
+  function spearman(x,y){ return pearson(rankArray(x), rankArray(y)); }
+
+  function kendallTauB(x,y){
+    var n = x.length, C=0, D=0, Tx=0, Ty=0;
+    for (var i=0;i<n;i++){
+      for (var j=i+1;j<n;j++){
+        var dx = x[i]-x[j], dy = y[i]-y[j];
+        if (dx===0 && dy===0){ continue; }
+        if (dx===0){ Tx++; continue; }
+        if (dy===0){ Ty++; continue; }
+        var s = (dx>0?1:-1) * (dy>0?1:-1);
+        if (s>0) C++; else D++;
+      }
+    }
+    var n0 = n*(n-1)/2;
+    var denom = Math.sqrt((n0-Tx)*(n0-Ty));
+    if (denom===0) return 0;
+    return (C-D)/denom;
+  }
+
+  function randn(){
+    var u=0, v=0;
+    while (u===0) u = Math.random();
+    while (v===0) v = Math.random();
+    return Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
+  }
+
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function svgEl(tag, attrs){
+    var el = document.createElementNS(SVGNS, tag);
+    for (var k in attrs){ el.setAttribute(k, attrs[k]); }
+    return el;
+  }
+
+  function renderScatter(container, x, y, opts){
+    opts = opts || {};
+    container.innerHTML = '';
+    var W = 560, H = 320, pad = 34;
+    var minX = Math.min.apply(null, x), maxX = Math.max.apply(null, x);
+    var minY = Math.min.apply(null, y), maxY = Math.max.apply(null, y);
+    var rangeX = (maxX-minX) || 1, rangeY = (maxY-minY) || 1;
+    minX -= rangeX*0.08; maxX += rangeX*0.08;
+    minY -= rangeY*0.08; maxY += rangeY*0.08;
+    var svg = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, preserveAspectRatio: 'xMidYMid meet', role: 'img', 'aria-label': opts.ariaLabel || 'Scatterplot of the sample data' });
+    var gridColor = 'var(--psk-line)';
+    for (var g=0; g<=4; g++){
+      var gx = pad + (W-2*pad) * g/4;
+      var gy = pad + (H-2*pad) * g/4;
+      svg.appendChild(svgEl('line', { x1:gx, y1:pad, x2:gx, y2:H-pad, stroke:gridColor, 'stroke-width':1, opacity:0.6 }));
+      svg.appendChild(svgEl('line', { x1:pad, y1:gy, x2:W-pad, y2:gy, stroke:gridColor, 'stroke-width':1, opacity:0.6 }));
+    }
+    svg.appendChild(svgEl('rect', { x:pad, y:pad, width:W-2*pad, height:H-2*pad, fill:'none', stroke:gridColor, 'stroke-width':1.5 }));
+    for (var i=0;i<x.length;i++){
+      var px = pad + (W-2*pad) * (x[i]-minX)/(maxX-minX);
+      var py = (H-pad) - (H-2*pad) * (y[i]-minY)/(maxY-minY);
+      var isOutlier = opts.outlierIndex && opts.outlierIndex.indexOf(i) !== -1;
+      svg.appendChild(svgEl('circle', { cx:px, cy:py, r: isOutlier ? 6 : 4.5, fill: isOutlier ? 'var(--psk-outlier)' : 'var(--psk-pearson)', opacity: isOutlier ? 0.95 : 0.78 }));
+    }
+    container.appendChild(svg);
+  }
+
+  function renderBars(container, r, rho, tau){
+    container.innerHTML = '';
+    var W = 380, H = 200, padL = 66, padR = 20, top = 14, rowH = 46;
+    var svg = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, preserveAspectRatio: 'xMidYMid meet', role: 'img', 'aria-label': 'Bar chart comparing Pearson, Spearman, and Kendall coefficients' });
+    var zeroX = padL + (W-padL-padR)/2;
+    var scale = (W-padL-padR)/2;
+    var rows = [ ['r', r, 'var(--psk-pearson)'], ['\u03C1', rho, 'var(--psk-spearman)'], ['\u03C4', tau, 'var(--psk-kendall)'] ];
+    svg.appendChild(svgEl('line', { x1:zeroX, y1:top, x2:zeroX, y2:top+rowH*3, stroke:'var(--psk-line)', 'stroke-width':1.5 }));
+    rows.forEach(function(row, idx){
+      var y = top + idx*rowH + rowH/2;
+      var val = Math.max(-1, Math.min(1, row[1]));
+      var barW = Math.abs(val) * scale;
+      var barX = val >= 0 ? zeroX : zeroX - barW;
+      svg.appendChild(svgEl('text', { x: 8, y: y+5, fill: 'var(--psk-ink)', 'font-size': 15, 'font-weight': 700, 'font-family':'Georgia,serif' })).textContent = row[0];
+      svg.appendChild(svgEl('rect', { x:barX, y: y-11, width: Math.max(barW,1), height: 22, rx: 5, fill: row[2] }));
+      var labelX = val >= 0 ? barX + barW + 8 : barX - 8;
+      var anchor = val >= 0 ? 'start' : 'end';
+      var t = svgEl('text', { x: labelX, y: y+5, fill:'var(--psk-ink)', 'font-size': 13, 'text-anchor': anchor });
+      t.textContent = row[1].toFixed(3);
+      svg.appendChild(t);
+    });
+    container.appendChild(svg);
+  }
+
+  /* ---------- Relationship Explorer ---------- */
+  var explorer = {
+    pattern: 'linear',
+    noise: 50,
+    lastOutlierIdx: []
+  };
+
+  var EXPLANATIONS = {
+    linear: 'A clean linear cloud: all three coefficients should sit close together. As you push the noise slider up, watch all three fall in tandem \u2014 there is no dramatic disagreement because the underlying pattern really is a straight line.',
+    curved: 'The relationship is monotonic (always increasing) but curved, not straight. Spearman and Kendall, which only care about consistent direction, stay high. Pearson is noticeably lower because it is specifically measuring straight-line fit, and this line is not straight.',
+    outlier: 'Two deliberately extreme points have been added to an otherwise ordinary linear cloud. Watch Pearson swing hard toward (or away from) the outliers\u2019 direction, while Spearman and Kendall barely move \u2014 an outlier only occupies one rank position, however extreme its raw value is.',
+    ties: 'A small sample (n = 10) with several repeated X and Y values, so many pairs are tied. Kendall\u2019s tau-b is built to absorb ties directly in its formula and is usually the smaller, more conservative number here; Spearman is usually larger for the same data.'
+  };
+
+  function generateExplorerData(pattern, noisePct){
+    var n = pattern === 'ties' ? 10 : 30;
+    var noiseFrac = noisePct/100;
+    var x = [], y = [], outlierIdx = [];
+    var i;
+    if (pattern === 'linear'){
+      for (i=0;i<n;i++){
+        var xv = i/(n-1)*10;
+        var yv = 3 + 1.6*xv + noiseFrac*7*randn();
+        x.push(xv); y.push(yv);
+      }
+    } else if (pattern === 'curved'){
+      for (i=0;i<n;i++){
+        var xv2 = i/(n-1)*10;
+        var yv2 = Math.exp(0.42*xv2) + noiseFrac*4*randn();
+        x.push(xv2); y.push(yv2);
+      }
+    } else if (pattern === 'outlier'){
+      for (i=0;i<n-2;i++){
+        var xv3 = i/(n-3)*10;
+        var yv3 = 3 + 1.6*xv3 + noiseFrac*3*randn();
+        x.push(xv3); y.push(yv3);
+      }
+      x.push(1.0); y.push(45 + noiseFrac*2*randn());
+      x.push(1.6); y.push(48 + noiseFrac*2*randn());
+      outlierIdx = [n-2, n-1];
+    } else if (pattern === 'ties'){
+      var buckets = [1,1,2,2,3,3,4,4,5,5];
+      for (i=0;i<n;i++){
+        var xv4 = buckets[i];
+        var yv4 = Math.round(2 + 1.1*xv4 + noiseFrac*1.4*randn());
+        x.push(xv4); y.push(yv4);
+      }
+    }
+    return { x:x, y:y, outlierIdx:outlierIdx };
+  }
+
+  function renderExplorer(){
+    var data = generateExplorerData(explorer.pattern, explorer.noise);
+    var r = pearson(data.x, data.y);
+    var rho = spearman(data.x, data.y);
+    var tau = kendallTauB(data.x, data.y);
+    document.getElementById('explorer-n').textContent = data.x.length;
+    document.getElementById('explorer-r').textContent = r.toFixed(3);
+    document.getElementById('explorer-rho').textContent = rho.toFixed(3);
+    document.getElementById('explorer-tau').textContent = tau.toFixed(3);
+    document.getElementById('explorer-explainer').textContent = EXPLANATIONS[explorer.pattern];
+    renderScatter(document.getElementById('explorer-scatter'), data.x, data.y, { outlierIndex:data.outlierIdx, ariaLabel:'Scatterplot of the current sample pattern' });
+    renderBars(document.getElementById('explorer-bars'), r, rho, tau);
+  }
+
+  document.querySelectorAll('.preset-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.preset-btn').forEach(function(b){
+        b.setAttribute('aria-pressed','false');
+        b.classList.add('secondary');
+      });
+      btn.setAttribute('aria-pressed','true');
+      btn.classList.remove('secondary');
+      explorer.pattern = btn.getAttribute('data-pattern');
+      renderExplorer();
+    });
+  });
+  var noiseSlider = document.getElementById('noise-slider');
+  noiseSlider.addEventListener('input', function(){
+    explorer.noise = parseInt(noiseSlider.value, 10);
+    document.getElementById('noise-value').textContent = explorer.noise;
+    renderExplorer();
+  });
+  document.getElementById('regenerate-btn').addEventListener('click', renderExplorer);
+
+  /* ---------- Correlation Calculator ---------- */
+  function parseNumberList(text){
+    return text.split(/[,\s]+/).map(function(s){ return s.trim(); }).filter(function(s){ return s.length>0; }).map(Number);
+  }
+
+  document.getElementById('calc-btn').addEventListener('click', function(){
+    var errBox = document.getElementById('calc-error');
+    var resultsBox = document.getElementById('calc-results');
+    var xs = parseNumberList(document.getElementById('calc-x').value);
+    var ys = parseNumberList(document.getElementById('calc-y').value);
+    if (xs.length < 3 || ys.length < 3){
+      errBox.hidden = false; errBox.textContent = 'Enter at least 3 numeric values for each variable.';
+      resultsBox.hidden = true; return;
+    }
+    if (xs.length !== ys.length){
+      errBox.hidden = false; errBox.textContent = 'X and Y must have the same number of values (X has ' + xs.length + ', Y has ' + ys.length + ').';
+      resultsBox.hidden = true; return;
+    }
+    if (xs.some(isNaN) || ys.some(isNaN)){
+      errBox.hidden = false; errBox.textContent = 'One or more entries could not be read as a number. Separate values with commas, spaces, or new lines.';
+      resultsBox.hidden = true; return;
+    }
+    errBox.hidden = true;
+    var r = pearson(xs, ys), rho = spearman(xs, ys), tau = kendallTauB(xs, ys);
+    document.getElementById('calc-r').textContent = r.toFixed(3);
+    document.getElementById('calc-rho').textContent = rho.toFixed(3);
+    document.getElementById('calc-tau').textContent = tau.toFixed(3);
+    document.getElementById('calc-n-note').textContent = 'n = ' + xs.length + ' paired observations.';
+    renderScatter(document.getElementById('calc-scatter'), xs, ys, { ariaLabel:'Scatterplot of the entered data' });
+    resultsBox.hidden = false;
+  });
+  document.getElementById('calc-clear-btn').addEventListener('click', function(){
+    document.getElementById('calc-x').value = '';
+    document.getElementById('calc-y').value = '';
+    document.getElementById('calc-error').hidden = true;
+    document.getElementById('calc-results').hidden = true;
+  });
+
+  /* ---------- Concordant / discordant pairs demo ---------- */
+  var batchLabels = ['A','B','C','D','E','F'];
+  var tempRank = [1, 2, 2, 4, 5, 6];
+  var strengthRank = [2, 1, 3, 4, 6, 5];
+
+  (function fillKendallTable(){
+    var tbody = document.querySelector('#kendall-data-table tbody');
+    for (var i=0;i<batchLabels.length;i++){
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>Batch ' + batchLabels[i] + '</td><td>' + tempRank[i] + '</td><td>' + strengthRank[i] + '</td>';
+      tbody.appendChild(tr);
+    }
+  })();
+
+  document.getElementById('reveal-pairs-btn').addEventListener('click', function(){
+    var detail = document.getElementById('pairs-detail');
+    var btn = this;
+    var willShow = detail.hidden;
+    detail.hidden = !willShow;
+    btn.setAttribute('aria-expanded', String(willShow));
+    btn.textContent = willShow ? 'Hide the 15 pairs' : 'Reveal all 15 pairs';
+    if (!willShow) return;
+    var tbody = document.querySelector('#pairs-table tbody');
+    tbody.innerHTML = '';
+    var C = 0, D = 0, Tcount = 0;
+    for (var i=0;i<batchLabels.length;i++){
+      for (var j=i+1;j<batchLabels.length;j++){
+        var dx = tempRank[i]-tempRank[j], dy = strengthRank[i]-strengthRank[j];
+        var cls, label;
+        if (dx===0 || dy===0){ cls='tied'; label='Tied'; Tcount++; }
+        else if ((dx>0 && dy>0) || (dx<0 && dy<0)){ cls='concordant'; label='Concordant'; C++; }
+        else { cls='discordant'; label='Discordant'; D++; }
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td>' + batchLabels[i] + ' &ndash; ' + batchLabels[j] + '</td><td>' + dx + '</td><td>' + dy + '</td><td><span class="badge ' + cls + '">' + label + '</span></td>';
+        tbody.appendChild(tr);
+      }
+    }
+    document.getElementById('pairs-c').textContent = C;
+    document.getElementById('pairs-d').textContent = D;
+    document.getElementById('pairs-tau').textContent = kendallTauB(tempRank, strengthRank).toFixed(3);
+  });
+
+  /* ---------- Quiz grader ---------- */
+  (function () {
+    var form = document.getElementById('quiz-form');
+    if (!form) return;
+    var btn = document.getElementById('quiz-submit');
+    var result = document.getElementById('quiz-result');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+      var total = questions.length, score = 0, unanswered = 0;
+      questions.forEach(function (q) {
+        var chosen = q.querySelector('input[type="radio"]:checked');
+        var fb = q.querySelector('.quiz-feedback');
+        q.classList.remove('is-correct', 'is-incorrect', 'correct', 'incorrect');
+        if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+        var correct = chosen.value === q.getAttribute('data-answer');
+        if (correct) score++;
+        q.classList.add(correct ? 'correct' : 'incorrect');
+        if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+      });
+      if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+      document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+    });
+  })();
+
+  /* ---------- init ---------- */
+  renderExplorer();
+})();
+</script>
+</body>
+</html>
