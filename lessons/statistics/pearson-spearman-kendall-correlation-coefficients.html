@@ -83,9 +83,10 @@
     .grid-2,.grid-3,.metric-grid,.engr-grid{display:grid;gap:1rem}
     .grid-2,.engr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .grid-3,.metric-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .metric-grid{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
     .term-card,.engr-card,.metric-card{padding:1rem;border:1px solid var(--psk-line);border-radius:12px;background:var(--psk-surface)}
     .term-card h3,.engr-card h3{margin-top:0}
-    .metric-label{color:var(--psk-muted);font-size:.82rem;font-weight:700;text-transform:uppercase}
+    .metric-label{color:var(--psk-muted);font-size:.72rem;letter-spacing:-.2px;font-weight:700;text-transform:uppercase;white-space:nowrap}
     .metric-value{margin:.2rem 0;font:700 clamp(1.35rem,4vw,1.9rem) Georgia,serif}
     .metric-value.pearson{color:var(--psk-pearson)}.metric-value.spearman{color:var(--psk-spearman)}.metric-value.kendall{color:var(--psk-kendall)}
     .metric-note{color:var(--psk-muted);font-size:.88rem}
