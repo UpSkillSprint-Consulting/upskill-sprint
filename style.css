@@ -242,3 +242,28 @@ body[data-require-auth]:not(.auth-ready)::after {
 body[data-require-auth]:not(.auth-ready) main {
   visibility: hidden;
 }
+
+/* Icon badges used on card grids (homepage Engineering Tools + Services).
+   Background colour varies per card for visual distinction; icon colour
+   is white by default but flips to dark for the teal/amber variants in
+   dark mode, since those two accent colours turn light in dark theme
+   while navy stays dark in both themes. Verified against WCAG contrast
+   in both themes before shipping. */
+.icon-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(15, 42, 67, 0.15);
+}
+.icon-badge svg { width: 20px; height: 20px; }
+.icon-badge.badge-navy { background: var(--navy); }
+.icon-badge.badge-teal { background: var(--teal); }
+.icon-badge.badge-amber { background: var(--amber); }
+html[data-theme="dark"] .icon-badge { box-shadow: none; }
+html[data-theme="dark"] .icon-badge.badge-teal { color: #101828; }
+html[data-theme="dark"] .icon-badge.badge-amber { color: #101828; }
