@@ -596,6 +596,56 @@ and MUST still contain the literal `marker: 'data-beyond-the-bell',`.
 - For synthetic practice data, generate it deterministically, keep it realistic, and add a
   "Data Dictionary" tab documenting each column and that the data is fictitious.
 
+### 13.1 Icons
+
+If a lesson needs an icon (a card, a step marker, a callout, a nav-style tile — anything
+that would otherwise be an empty decorative shape), the standard source is Ernest's Vector
+Library on Google Drive:
+
+<https://drive.google.com/drive/folders/1ey7tvh4e9AXzph_rMWUf0htDzARmYyqo>
+
+Do not hand-draw a new icon and do not ship an empty coloured placeholder `<div>` — both
+were real problems found on the homepage (see §19). Check the library first.
+
+**Folder structure:** 10 category folders (Consultant, Internet, Business, Education,
+People, Engineering, SEO, Marketing, E-Learning, Manufacturing-Icons) → format subfolder
+(use **SVG**, not Figma/PPTX/Sketch/AI/PNG/Keynote/Slides) → **Light** or **Dark** subfolder.
+
+**What "Light" and "Dark" actually mean here — verified by downloading and reading both,
+not assumed:** these are not tied to the site's theme toggle. They are two pre-coloured
+exports of the same icon:
+- `Light/<Icon>.svg` — the path has no explicit fill, so it renders **solid black**
+  (SVG's default). Use on a **light-coloured background**.
+- `Dark/<Icon>.svg` — the path carries a baked-in `fill:#FFFFFF` via a `<style>` class.
+  Use on a **dark-coloured background**.
+
+Which one you need depends on the colour the icon will actually sit on, not on whether the
+page is currently in light or dark theme — a badge whose own background flips from
+medium-dark to light between themes (e.g. this site's `--teal`, `--amber`) needs the
+opposite icon colour in dark mode than a badge whose background stays dark in both themes
+(e.g. `--navy`). Verify computed contrast for the icon against its actual background **in
+both themes** per §9.3/§9.5 — do not assume the folder name matches the page theme.
+
+**Embedding workflow:**
+1. Pick the closest-matching icon from the appropriate category folder.
+2. Fetch the SVG source (either variant — the fill gets overridden in step 3 regardless).
+3. Strip the file down before embedding:
+   - Delete the `<style>` block and every empty sibling `<g id="...">...</g>` — these are
+     leftover artboards from the pack's shared multi-icon master file and carry no content
+     for the icon you picked.
+   - Keep only the one `<g id="IconName">` that has real `<path>` data, and the outer `<svg
+     viewBox="0 0 24 24" ...>` wrapper.
+   - Remove the `class="st0"` or `class="st1"` attribute from the `<path>` and add
+     `fill="currentColor"` directly on it (or on the `<g>`) instead. This is what makes the
+     icon themeable through ordinary CSS `color`, matching the pattern already used for
+     `.icon-badge` on the homepage — do not leave a hardcoded black or white fill baked
+     into a lesson.
+4. Size and colour it the same way the homepage `.icon-badge` classes do: a small
+   fixed-size wrapper with `color` set per background/theme, `<svg>` at a fixed width/height
+   inside it, `fill="currentColor"` on the icon's own paths.
+5. Only add an icon if it genuinely helps (a step marker, a card, a tool tile). Do not add
+   one purely decoratively just because the library exists.
+
 ---
 
 ## 14. Content Preservation Rule (updates only)
@@ -729,6 +779,9 @@ Run all of these from the repo root and confirm each passes:
 - ❌ Fabricating Excel functions, Minitab menu paths, formulas, or dataset values.
 - ❌ A self-styled lesson with no dark-mode overrides.
 - ❌ A component background without an intentional compatible text colour in both themes.
+- ❌ An icon-sized placeholder `<div>`/`<span>` with only a background colour and no glyph —
+  ships as if it were a finished icon (found and fixed on the homepage Engineering
+  Tools/Services cards; source real icons from the Vector Library per §13.1 instead).
 - ❌ Defining unnamespaced lesson tokens such as `--navy`, `--primary`, `--background`,
   `--surface`, or `--text`, or redefining any site-wide custom property.
 - ❌ Using broad lesson CSS selectors that restyle canonical header, footer, navigation,
