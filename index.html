@@ -69,42 +69,204 @@
   </nav>
 
   <section class="section" style="position:relative;padding-top:100px;padding-bottom:380px;text-align:center;overflow:hidden;">
-    <svg class="hero-visual" viewBox="0 0 1400 380" preserveAspectRatio="xMidYMid meet" style="position:absolute;left:0;right:0;bottom:40px;width:100%;height:340px;opacity:0.4;pointer-events:none;">
-      <path d="M 30,300 C 90,300 105,60 175,60 C 245,60 260,300 320,300" fill="none" stroke="#0e7490" stroke-width="4">
-        <animate attributeName="stroke-width" values="4;5.5;4" dur="3.5s" repeatCount="indefinite"></animate>
-      </path>
-      <circle r="5" fill="#0e7490"><animateMotion dur="4s" repeatCount="indefinite" path="M 30,300 C 90,300 105,60 175,60 C 245,60 260,300 320,300"></animateMotion></circle>
-      <text x="175" y="350" text-anchor="middle" font-family="monospace" font-size="16" font-weight="700" fill="#344054">Normal(&#956;, &#963;&#178;)</text>
-      <g fill="#0f2a43">
-        <rect x="410" y="290" width="18" height="10"><animate attributeName="height" values="10;16;10" dur="2.6s" repeatCount="indefinite"></animate></rect>
-        <rect x="434" y="250" width="18" height="50"><animate attributeName="height" values="50;58;50" dur="2.6s" begin="0.15s" repeatCount="indefinite"></animate></rect>
-        <rect x="458" y="190" width="18" height="110"><animate attributeName="height" values="110;120;110" dur="2.6s" begin="0.3s" repeatCount="indefinite"></animate></rect>
-        <rect x="482" y="120" width="18" height="180"><animate attributeName="height" values="180;192;180" dur="2.6s" begin="0.45s" repeatCount="indefinite"></animate></rect>
-        <rect x="506" y="90" width="18" height="210"><animate attributeName="height" values="210;222;210" dur="2.6s" begin="0.6s" repeatCount="indefinite"></animate></rect>
-        <rect x="530" y="140" width="18" height="160"><animate attributeName="height" values="160;170;160" dur="2.6s" begin="0.75s" repeatCount="indefinite"></animate></rect>
-        <rect x="554" y="210" width="18" height="90"><animate attributeName="height" values="90;98;90" dur="2.6s" begin="0.9s" repeatCount="indefinite"></animate></rect>
-        <rect x="578" y="265" width="18" height="35"><animate attributeName="height" values="35;42;35" dur="2.6s" begin="1.05s" repeatCount="indefinite"></animate></rect>
-        <rect x="602" y="288" width="18" height="12"><animate attributeName="height" values="12;18;12" dur="2.6s" begin="1.2s" repeatCount="indefinite"></animate></rect>
-      </g>
-      <text x="514" y="350" text-anchor="middle" font-family="monospace" font-size="16" font-weight="700" fill="#344054">Binomial(n, p)</text>
-      <g fill="#0e7490">
-        <rect x="700" y="270" width="16" height="30"><animate attributeName="height" values="30;38;30" dur="2.8s" repeatCount="indefinite"></animate></rect>
-        <rect x="722" y="210" width="16" height="90"><animate attributeName="height" values="90;100;90" dur="2.8s" begin="0.15s" repeatCount="indefinite"></animate></rect>
-        <rect x="744" y="140" width="16" height="160"><animate attributeName="height" values="160;172;160" dur="2.8s" begin="0.3s" repeatCount="indefinite"></animate></rect>
-        <rect x="766" y="95" width="16" height="205"><animate attributeName="height" values="205;218;205" dur="2.8s" begin="0.45s" repeatCount="indefinite"></animate></rect>
-        <rect x="788" y="110" width="16" height="190"><animate attributeName="height" values="190;202;190" dur="2.8s" begin="0.6s" repeatCount="indefinite"></animate></rect>
-        <rect x="810" y="160" width="16" height="140"><animate attributeName="height" values="140;150;140" dur="2.8s" begin="0.75s" repeatCount="indefinite"></animate></rect>
-        <rect x="832" y="215" width="16" height="85"><animate attributeName="height" values="85;93;85" dur="2.8s" begin="0.9s" repeatCount="indefinite"></animate></rect>
-        <rect x="854" y="260" width="16" height="40"><animate attributeName="height" values="40;47;40" dur="2.8s" begin="1.05s" repeatCount="indefinite"></animate></rect>
-        <rect x="876" y="285" width="16" height="15"><animate attributeName="height" values="15;21;15" dur="2.8s" begin="1.2s" repeatCount="indefinite"></animate></rect>
-      </g>
-      <text x="796" y="350" text-anchor="middle" font-family="monospace" font-size="16" font-weight="700" fill="#344054">Poisson(&#955;)</text>
-      <path d="M 980,60 C 1010,140 1040,300 1360,300" fill="none" stroke="#0f2a43" stroke-width="4">
-        <animate attributeName="stroke-width" values="4;5.5;4" dur="3.5s" begin="0.5s" repeatCount="indefinite"></animate>
-      </path>
-      <circle r="5" fill="#0f2a43"><animateMotion dur="3.5s" repeatCount="indefinite" path="M 980,60 C 1010,140 1040,300 1360,300"></animateMotion></circle>
-      <text x="1170" y="350" text-anchor="middle" font-family="monospace" font-size="16" font-weight="700" fill="#344054">Exponential(&#955;)</text>
-    </svg>
+    <svg class="hero-visual" id="hero-distributions" viewBox="0 0 1400 380" preserveAspectRatio="xMidYMid meet" style="position:absolute;left:0;right:0;bottom:40px;width:100%;height:340px;opacity:0.4;pointer-events:none;"></svg>
+    <script>
+    (function () {
+      'use strict';
+
+      function normalPdf(x, mu, sigma) {
+        var z = (x - mu) / sigma;
+        return Math.exp(-0.5 * z * z) / (sigma * Math.sqrt(2 * Math.PI));
+      }
+      function exponentialPdf(x, lambda) { return x < 0 ? 0 : lambda * Math.exp(-lambda * x); }
+      function gammaFn(z) {
+        var g = 7;
+        var c = [0.99999999999980993, 676.5203681218851, -1259.1392167224028,
+          771.32342877765313, -176.61502916214059, 12.507343278686905,
+          -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+        if (z < 0.5) return Math.PI / (Math.sin(Math.PI * z) * gammaFn(1 - z));
+        z -= 1;
+        var x = c[0];
+        for (var i = 1; i < g + 2; i++) x += c[i] / (z + i);
+        var t = z + g + 0.5;
+        return Math.sqrt(2 * Math.PI) * Math.pow(t, z + 0.5) * Math.exp(-t) * x;
+      }
+      function chiSquarePdf(x, k) {
+        if (x <= 0) return 0;
+        return Math.pow(x, k / 2 - 1) * Math.exp(-x / 2) / (Math.pow(2, k / 2) * gammaFn(k / 2));
+      }
+      function studentTPdf(x, nu) {
+        var num = gammaFn((nu + 1) / 2);
+        var den = Math.sqrt(nu * Math.PI) * gammaFn(nu / 2);
+        return (num / den) * Math.pow(1 + (x * x) / nu, -(nu + 1) / 2);
+      }
+      function fPdf(x, d1, d2) {
+        if (x <= 0) return 0;
+        var num = Math.sqrt(Math.pow(d1 * x, d1) * Math.pow(d2, d2) / Math.pow(d1 * x + d2, d1 + d2));
+        var beta = gammaFn(d1 / 2) * gammaFn(d2 / 2) / gammaFn((d1 + d2) / 2);
+        return num / (x * beta);
+      }
+      function lognormalPdf(x, mu, sigma) {
+        if (x <= 0) return 0;
+        var lx = Math.log(x);
+        return Math.exp(-Math.pow(lx - mu, 2) / (2 * sigma * sigma)) / (x * sigma * Math.sqrt(2 * Math.PI));
+      }
+      function weibullPdf(x, k, lambda) {
+        if (x < 0) return 0;
+        return (k / lambda) * Math.pow(x / lambda, k - 1) * Math.exp(-Math.pow(x / lambda, k));
+      }
+      function binomialPmf(n, p) {
+        var out = [];
+        function choose(n, k) { var r = 1; for (var i = 0; i < k; i++) r *= (n - i) / (i + 1); return r; }
+        for (var k = 0; k <= n; k++) out.push(choose(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k));
+        return out;
+      }
+      function poissonPmf(lambda, maxK) {
+        var out = [];
+        for (var k = 0; k <= maxK; k++) {
+          var logp = -lambda + k * Math.log(lambda);
+          for (var i = 2; i <= k; i++) logp -= Math.log(i);
+          out.push(Math.exp(logp));
+        }
+        return out;
+      }
+      function hypergeometricPmf(N, K, n) {
+        var out = [];
+        function logChoose(n, k) {
+          if (k < 0 || k > n) return -Infinity;
+          var s = 0;
+          for (var i = 0; i < k; i++) s += Math.log(n - i) - Math.log(i + 1);
+          return s;
+        }
+        var kMin = Math.max(0, n - (N - K));
+        var kMax = Math.min(n, K);
+        for (var k = kMin; k <= kMax; k++) out.push(Math.exp(logChoose(K, k) + logChoose(N - K, n - k) - logChoose(N, n)));
+        return out;
+      }
+
+      function curvePath(pdf, xMin, xMax, x0, x1, baseY, rise, nPoints) {
+        nPoints = nPoints || 70;
+        var pts = [], maxY = 0, ys = [];
+        for (var i = 0; i <= nPoints; i++) {
+          var x = xMin + (xMax - xMin) * (i / nPoints);
+          var y = pdf(x);
+          ys.push(y);
+          if (y > maxY) maxY = y;
+        }
+        if (maxY <= 0) maxY = 1;
+        for (i = 0; i <= nPoints; i++) {
+          pts.push([x0 + (x1 - x0) * (i / nPoints), baseY - (ys[i] / maxY) * rise]);
+        }
+        var d = 'M ' + pts[0][0].toFixed(1) + ',' + pts[0][1].toFixed(1) + ' ';
+        for (i = 0; i < pts.length - 1; i++) {
+          var cx = pts[i][0], cy = pts[i][1], nx = pts[i + 1][0], ny = pts[i + 1][1];
+          var mx = (cx + nx) / 2, my = (cy + ny) / 2;
+          d += 'Q ' + cx.toFixed(1) + ',' + cy.toFixed(1) + ' ' + mx.toFixed(1) + ',' + my.toFixed(1) + ' ';
+        }
+        d += 'L ' + pts[pts.length - 1][0].toFixed(1) + ',' + pts[pts.length - 1][1].toFixed(1);
+        return d;
+      }
+
+      function barsFromPmf(pmf, x0, x1, baseY, rise) {
+        var maxP = Math.max.apply(null, pmf);
+        var gap = 4, count = pmf.length;
+        var barW = (x1 - x0 - gap * (count - 1)) / count;
+        var bars = [];
+        for (var i = 0; i < count; i++) {
+          var h = Math.max(6, (pmf[i] / maxP) * rise);
+          bars.push({ x: x0 + i * (barW + gap), y: baseY - h, width: barW, height: h });
+        }
+        return bars;
+      }
+
+      function ellipsePath(cx, cy, rx, ry, rotDeg, scale) {
+        var rot = rotDeg * Math.PI / 180, pts = [], n = 40;
+        for (var i = 0; i <= n; i++) {
+          var t = (i / n) * 2 * Math.PI;
+          var ex = rx * scale * Math.cos(t), ey = ry * scale * Math.sin(t);
+          pts.push([cx + ex * Math.cos(rot) - ey * Math.sin(rot), cy + ex * Math.sin(rot) + ey * Math.cos(rot)]);
+        }
+        return 'M ' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L ');
+      }
+
+      var BASE_Y = 300, RISE = 240, LABEL_Y = 350;
+
+      var POOL = [
+        { key: 'normal', label: 'Normal(\u03BC, \u03C3\u00B2)', kind: 'curve', pdf: function (x) { return normalPdf(x, 5, 1.7); }, xMin: 0, xMax: 10 },
+        { key: 'exponential', label: 'Exponential(\u03BB)', kind: 'curve', pdf: function (x) { return exponentialPdf(x, 0.6); }, xMin: 0, xMax: 9 },
+        { key: 'chisquare', label: 'Chi-Square(k)', kind: 'curve', pdf: function (x) { return chiSquarePdf(x, 4); }, xMin: 0.05, xMax: 16 },
+        { key: 'studentt', label: 'Student\u2019s t(\u03BD)', kind: 'curve', pdf: function (x) { return studentTPdf(x, 3); }, xMin: -6, xMax: 6 },
+        { key: 'f', label: 'F(d\u2081, d\u2082)', kind: 'curve', pdf: function (x) { return fPdf(x, 5, 10); }, xMin: 0.02, xMax: 5 },
+        { key: 'lognormal', label: 'Lognormal(\u03BC, \u03C3)', kind: 'curve', pdf: function (x) { return lognormalPdf(x, 0, 0.5); }, xMin: 0.02, xMax: 4 },
+        { key: 'weibull', label: 'Weibull(k, \u03BB)', kind: 'curve', pdf: function (x) { return weibullPdf(x, 1.8, 1); }, xMin: 0, xMax: 2.6 },
+        { key: 'binomial', label: 'Binomial(n, p)', kind: 'bars', pmf: binomialPmf(10, 0.55) },
+        { key: 'poisson', label: 'Poisson(\u03BB)', kind: 'bars', pmf: poissonPmf(4, 10) },
+        { key: 'hypergeometric', label: 'Hypergeometric(N, K, n)', kind: 'bars', pmf: hypergeometricPmf(40, 16, 12) },
+        { key: 'bivariate', label: 'Bivariate Normal(\u03C1)', kind: 'bivariate' }
+      ];
+
+      var SLOTS = [
+        { x0: 30, x1: 320, labelX: 175 },
+        { x0: 410, x1: 620, labelX: 514 },
+        { x0: 700, x1: 895, labelX: 796 },
+        { x0: 980, x1: 1360, labelX: 1170 }
+      ];
+      var COLORS = ['#0e7490', '#0f2a43', '#0e7490', '#0f2a43'];
+
+      function pickFour(pool) {
+        var arr = pool.slice();
+        for (var i = arr.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+        }
+        return arr.slice(0, 4);
+      }
+
+      function esc(s) { return String(s).replace(/&/g, '&amp;'); }
+
+      function renderSlot(dist, slot, color, idx) {
+        var svg = '';
+        var strokeDur = (3.3 + idx * 0.2).toFixed(1) + 's';
+        var motionDur = (3.8 + idx * 0.2).toFixed(1) + 's';
+        if (dist.kind === 'curve') {
+          var d = curvePath(dist.pdf, dist.xMin, dist.xMax, slot.x0, slot.x1, BASE_Y, RISE);
+          svg += '<path d="' + d + '" fill="none" stroke="' + color + '" stroke-width="4">' +
+            '<animate attributeName="stroke-width" values="4;5.5;4" dur="' + strokeDur + '" repeatCount="indefinite"></animate></path>';
+          svg += '<circle r="5" fill="' + color + '"><animateMotion dur="' + motionDur + '" repeatCount="indefinite" path="' + d + '"></animateMotion></circle>';
+        } else if (dist.kind === 'bars') {
+          var bars = barsFromPmf(dist.pmf, slot.x0, slot.x1, BASE_Y, RISE);
+          bars.forEach(function (b, i) {
+            var delta = 8 + (b.height / RISE) * 6;
+            var y2 = (b.y - delta).toFixed(1), h2 = (b.height + delta).toFixed(1);
+            svg += '<rect x="' + b.x.toFixed(1) + '" y="' + b.y.toFixed(1) + '" width="' + b.width.toFixed(1) + '" height="' + b.height.toFixed(1) + '" fill="' + color + '">' +
+              '<animate attributeName="y" values="' + b.y.toFixed(1) + ';' + y2 + ';' + b.y.toFixed(1) + '" dur="2.6s" begin="' + (i * 0.12).toFixed(2) + 's" repeatCount="indefinite"></animate>' +
+              '<animate attributeName="height" values="' + b.height.toFixed(1) + ';' + h2 + ';' + b.height.toFixed(1) + '" dur="2.6s" begin="' + (i * 0.12).toFixed(2) + 's" repeatCount="indefinite"></animate></rect>';
+          });
+        } else if (dist.kind === 'bivariate') {
+          var cx = (slot.x0 + slot.x1) / 2, cy = BASE_Y - RISE / 2;
+          var rx = (slot.x1 - slot.x0) / 2.6, ry = RISE / 3.4;
+          [1, 0.62, 0.32].forEach(function (scale, i) {
+            var ed = ellipsePath(cx, cy, rx, ry, -28, scale);
+            svg += '<path d="' + ed + '" fill="none" stroke="' + color + '" stroke-width="' + (i === 0 ? 3.5 : 2.2) + '" opacity="' + (1 - i * 0.18) + '">' +
+              '<animate attributeName="stroke-width" values="' + (i === 0 ? '3.5;4.6;3.5' : '2.2;2.9;2.2') + '" dur="' + (3.3 + i * 0.3).toFixed(1) + 's" repeatCount="indefinite"></animate></path>';
+          });
+        }
+        svg += '<text x="' + slot.labelX + '" y="' + LABEL_Y + '" text-anchor="middle" font-family="monospace" font-size="16" font-weight="700" fill="#344054">' + esc(dist.label) + '</text>';
+        return svg;
+      }
+
+      function render() {
+        var chosen = pickFour(POOL);
+        var svgEl = document.getElementById('hero-distributions');
+        if (!svgEl) return;
+        var html = '';
+        for (var i = 0; i < 4; i++) html += renderSlot(chosen[i], SLOTS[i], COLORS[i], i);
+        svgEl.innerHTML = html;
+      }
+
+      render();
+    })();
+    </script>
     <div class="wrap" style="max-width:820px;position:relative;">
       <p class="eyebrow">Free &middot; Practical &middot; Focused</p>
       <h1 style="font-size:44px;line-height:1.18;margin:0 0 24px;">Practical Skills for Data, Quality &amp; Improvement</h1>
