@@ -255,6 +255,18 @@
       description: 'See repeatability, reproducibility, bias, linearity, and stability change in real time, then design and interpret a defensible Gage R&R study.'
     },
     {
+      marker: 'data-cost-of-poor-quality',
+      sectionId: 'quality-engineering',
+      path: '/lessons/quality-engineering/cost-of-poor-quality',
+      topic: 'quality-engineering',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'cost of poor quality copq cost of quality coq prevention appraisal failure paf model juran internal failure cost external failure cost quality costs cssbb cqe intermediate interactive',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>40 min</span>',
+      title: 'Cost of Poor Quality (COPQ)',
+      description: 'Learn the Prevention-Appraisal-Failure model, calculate COPQ, and practice classifying quality costs with a dive-the-iceberg interactive.'
+    },
+    {
       marker: 'data-essential-quality-tools',
       sectionId: 'quality-engineering',
       path: '/lessons/7-essential-quality-tools',
