@@ -380,6 +380,108 @@
     font-size: 0.88rem;
   }
 
+  /* ===== Lesson hero + table of contents (matches site-wide lesson header pattern) ===== */
+  :root {
+    --copq-hero-on: #ffffff;
+    --copq-hero-on-soft: #e8f3f6;
+    --copq-hero-glass: rgba(255, 255, 255, 0.12);
+    --copq-hero-glass-line: rgba(255, 255, 255, 0.28);
+    --copq-hero-shadow: rgba(15, 42, 67, 0.09);
+  }
+  html[data-theme="dark"] {
+    --copq-hero-glass: rgba(255, 255, 255, 0.11);
+    --copq-hero-glass-line: rgba(255, 255, 255, 0.24);
+    --copq-hero-shadow: rgba(0, 0, 0, 0.24);
+  }
+
+  .copq-hero {
+    position: relative;
+    overflow: hidden;
+    margin: 1rem auto 0;
+    max-width: var(--maxw, 880px);
+    padding: clamp(1.6rem, 4vw, 3.3rem);
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--navy, #0f2a43), var(--teal, #0e7490));
+    color: var(--copq-hero-on);
+    box-shadow: 0 18px 44px var(--copq-hero-shadow);
+  }
+  .copq-hero::after {
+    content: "";
+    position: absolute;
+    right: -5rem;
+    bottom: -7rem;
+    width: 19rem;
+    height: 19rem;
+    border: 2rem solid var(--copq-hero-glass);
+    border-radius: 50%;
+  }
+  .copq-hero > * { position: relative; z-index: 1; }
+  .copq-hero h1, .copq-hero strong { color: var(--copq-hero-on); margin: 0.15em 0; }
+  .copq-hero-eyebrow {
+    margin: 0;
+    color: var(--copq-hero-on-soft);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .copq-hero-meta-row { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 0.8rem 0 1rem; }
+  .copq-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.28rem 0.75rem;
+    border: 1px solid var(--copq-hero-glass-line);
+    border-radius: 999px;
+    background: var(--copq-hero-glass);
+    color: var(--copq-hero-on);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+  .copq-pill-accent { background: var(--copq-hero-on); color: var(--navy, #0f2a43); }
+  .copq-hero-lede { max-width: 68ch; margin: 0; color: var(--copq-hero-on-soft); font-size: clamp(1.04rem, 2vw, 1.2rem); }
+  .copq-why-it-matters {
+    max-width: 78ch;
+    margin-top: 1.2rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--copq-hero-glass-line);
+    border-left: 4px solid var(--copq-accent);
+    border-radius: 0 10px 10px 0;
+    background: var(--copq-hero-glass);
+    color: var(--copq-hero-on);
+  }
+
+  nav.copq-toc {
+    margin: 1.6rem auto;
+    max-width: var(--maxw, 880px);
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--copq-border);
+    border-radius: 14px;
+    background: var(--copq-bg-panel);
+    box-shadow: 0 8px 24px var(--copq-hero-shadow);
+  }
+  nav.copq-toc h2 {
+    margin: 0 0 0.55rem;
+    color: var(--copq-text);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  nav.copq-toc ol {
+    margin: 0;
+    padding-left: 1.25rem;
+    columns: 2;
+    column-gap: 2rem;
+    color: var(--copq-text);
+  }
+  nav.copq-toc li { break-inside: avoid; margin: 0.28rem 0; }
+  nav.copq-toc a { text-decoration: none; color: var(--copq-appraisal); }
+  nav.copq-toc a:hover { text-decoration: underline; }
+  @media (max-width: 640px) {
+    nav.copq-toc ol { columns: 1; }
+    .copq-hero { border-radius: 14px; }
+  }
+
   /* ===== Cost of Quality hierarchy tree ===== */
   .copq-tree-wrap { margin: 1.25rem 0; }
   .copq-tree-root {
@@ -643,8 +745,43 @@
 
   <main id="lesson-content">
 
-  <section class="copq-section">
+  <header class="copq-hero">
+    <p class="copq-hero-eyebrow">Quality Engineering · Intermediate · 40 min read</p>
     <h1>Cost of Poor Quality (COPQ)</h1>
+    <div class="copq-hero-meta-row" aria-label="Lesson features">
+      <span class="copq-pill copq-pill-accent">Interactive</span>
+      <span class="copq-pill">CSSBB / CQE</span>
+      <span class="copq-pill">Juran PAF Model</span>
+    </div>
+    <p class="copq-hero-lede">
+      Learn the Prevention-Appraisal-Failure model that turns nonconformances into dollars leadership actually
+      budgets against — then dive an interactive iceberg, classify real cost scenarios, and run your own numbers
+      through a live COPQ calculator.
+    </p>
+    <div class="copq-why-it-matters">
+      <strong>Why this matters at work:</strong> Most organizations only track the visible slice of quality
+      failure — scrap, warranty, obvious rework — and miss the larger hidden cost underneath. COPQ gives you the
+      vocabulary and the math to make that hidden cost visible to the people who control the budget.
+    </div>
+  </header>
+
+  <nav class="copq-toc" aria-label="Lesson contents">
+    <h2>Lesson contents</h2>
+    <ol>
+      <li><a href="#intro">Why COPQ matters</a></li>
+      <li><a href="#paf-model">The PAF model</a></li>
+      <li><a href="#classical-vs-modern">Classical vs. modern cost curves</a></li>
+      <li><a href="#iceberg">Dive the cost iceberg</a></li>
+      <li><a href="#classify">Classify the cost</a></li>
+      <li><a href="#worked-example">Worked example</a></li>
+      <li><a href="#calculator">COPQ calculator</a></li>
+      <li><a href="#under-reported">Why COPQ hides</a></li>
+      <li><a href="#reducing-copq">Reducing COPQ</a></li>
+      <li><a href="#quiz">Knowledge check</a></li>
+    </ol>
+  </nav>
+
+  <section class="copq-section" id="intro">
     <p class="copq-lede">
       Every scrap unit, warranty claim, and re-inspection has a dollar sign on it — most organizations just
       aren't looking. Cost of Poor Quality (COPQ) is the framework that puts a number on the price of not doing
@@ -692,7 +829,7 @@
     </div>
   </section>
 
-  <section class="copq-section">
+  <section class="copq-section" id="paf-model">
     <h2>The Prevention-Appraisal-Failure (PAF) Model</h2>
     <p class="copq-lede">
       Joseph Juran's PAF model, still the backbone of ASQ's quality cost framework, sorts every quality-related
@@ -829,7 +966,7 @@
   </section>
 
   <!-- ================= COQ CURVE: CLASSICAL VS MODERN VIEW ================= -->
-  <section class="copq-section">
+  <section class="copq-section" id="classical-vs-modern">
     <h2>Classical vs. Modern View of Optimal Quality Cost</h2>
     <p class="copq-lede">
       Two competing models show up on CSSBB/CQE exams. The classical model says there's an interior "sweet
@@ -911,7 +1048,7 @@
   </section>
 
   <!-- ================= ICEBERG WIDGET ================= -->
-  <section class="copq-section">
+  <section class="copq-section" id="iceberg">
     <h2>Interactive: Dive the Cost Iceberg</h2>
     <p class="copq-lede">
       The costs everyone tracks — scrap, rework, warranty — sit above the waterline. The costs that actually
@@ -1019,7 +1156,7 @@
   </section>
 
   <!-- ================= CLASSIFICATION EXERCISE ================= -->
-  <section class="copq-section">
+  <section class="copq-section" id="classify">
     <h2>Interactive: Classify the Cost</h2>
     <p class="copq-lede">
       Tap a scenario, then tap the bucket you think it belongs in. You'll get instant feedback — this is the
@@ -1050,7 +1187,7 @@
   </section>
 
   <!-- ================= WORKED EXAMPLE ================= -->
-  <section class="copq-section">
+  <section class="copq-section" id="worked-example">
     <h2>Worked Example: Reading the Numbers</h2>
     <p class="copq-lede">
       Before you touch the calculator, it helps to walk through one real-shaped example by hand. Consider a
@@ -1085,7 +1222,7 @@
   </section>
 
   <!-- ================= CALCULATOR WIDGET ================= -->
-  <section class="copq-section">
+  <section class="copq-section" id="calculator">
     <h2>Interactive: COPQ Calculator</h2>
     <p class="copq-lede">
       The fields below are pre-filled with the worked example you just read, so the first thing you see matches
@@ -1140,7 +1277,7 @@
     </div>
   </section>
 
-  <section class="copq-section">
+  <section class="copq-section" id="under-reported">
     <h2>Why COPQ Is Chronically Under-Reported</h2>
     <p class="copq-lede">
       Ask a plant manager for their scrap cost and they can usually answer within a minute. Ask for their true
@@ -1159,7 +1296,7 @@
     </p>
   </section>
 
-  <section class="copq-section">
+  <section class="copq-section" id="reducing-copq">
     <h2>Reducing COPQ: Where the Leverage Is</h2>
     <p class="copq-lede">
       Because prevention spending suppresses appraisal, internal failure, and external failure costs all at
