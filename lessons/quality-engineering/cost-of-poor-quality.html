@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Cost of Poor Quality (COPQ): The Prevention-Appraisal-Failure Model",
+  "slug": "cost-of-poor-quality",
+  "category": "Quality Engineering",
+  "category_slug": "quality-engineering",
+  "level": "Intermediate",
+  "lesson_type": "General",
+  "estimated_minutes": 40,
+  "interactive": true,
+  "card_title": "Cost of Poor Quality (COPQ)",
+  "card_description": "Learn the Prevention-Appraisal-Failure model, calculate COPQ, and practice classifying quality costs with a dive-the-iceberg interactive — built for ASQ CSSBB/CQE prep.",
+  "search_keywords": [
+    "cost of poor quality",
+    "COPQ",
+    "cost of quality",
+    "COQ",
+    "prevention appraisal failure",
+    "PAF model",
+    "Juran",
+    "internal failure cost",
+    "external failure cost",
+    "quality costs",
+    "CSSBB",
+    "CQE"
+  ],
+  "suggested_github_path": "lessons/quality-engineering/cost-of-poor-quality.html"
+}
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cost of Poor Quality (COPQ) | UpSkillSprint</title>
+  <meta name="description" content="Learn the Prevention-Appraisal-Failure model, calculate COPQ, and practice classifying quality costs — built for ASQ CSSBB/CQE prep.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/quality-engineering/cost-of-poor-quality">
+
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+
+<style>
+  /* ===== Namespaced lesson tokens (copq-*) ===== */
+  :root {
+    color-scheme: light dark;
+    --copq-prevention: #2e7d32;
+    --copq-appraisal: #1565c0;
+    --copq-internal: #ef6c00;
+    --copq-external: #c62828;
+    --copq-bg-panel: #f7f8fa;
+    --copq-border: var(--line, #dfe3e8);
+    --copq-text: var(--ink, #1a1d23);
+    --copq-accent: var(--amber, #e8a33d);
+    --copq-radius: 10px;
+    --copq-iceberg-water: #bfe3f0;
+    --copq-iceberg-deep: #0d3b52;
+  }
+
+  .copq-section {
+    max-width: var(--maxw, 880px);
+    margin: 2.5rem auto;
+    padding: 0 1rem;
+  }
+
+  .copq-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--copq-text);
+  }
+
+  .copq-section h3 {
+    font-size: 1.15rem;
+    margin: 1.25rem 0 0.5rem;
+  }
+
+  .copq-lede {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--copq-text);
+  }
+
+  .copq-callout {
+    background: var(--copq-bg-panel);
+    border: 1px solid var(--copq-border);
+    border-left: 4px solid var(--copq-accent);
+    border-radius: var(--copq-radius);
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+  }
+
+  /* ===== PAF category grid ===== */
+  .copq-paf-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+  @media (max-width: 640px) {
+    .copq-paf-grid { grid-template-columns: 1fr; }
+  }
+  .copq-paf-card {
+    border-radius: var(--copq-radius);
+    padding: 1rem;
+    color: #fff;
+  }
+  .copq-paf-card h4 { margin: 0 0 0.4rem; font-size: 1rem; }
+  .copq-paf-card p { margin: 0; font-size: 0.9rem; line-height: 1.45; opacity: 0.95; }
+  .copq-paf-card.prevention { background: var(--copq-prevention); }
+  .copq-paf-card.appraisal  { background: var(--copq-appraisal); }
+  .copq-paf-card.internal   { background: var(--copq-internal); }
+  .copq-paf-card.external   { background: var(--copq-external); }
+
+  /* ===== Formula block ===== */
+  .copq-formula-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.95rem;
+  }
+  .copq-formula-table th, .copq-formula-table td {
+    border: 1px solid var(--copq-border);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+  }
+  .copq-formula-table th { background: var(--copq-bg-panel); }
+  .copq-scroll-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* ===== Iceberg widget ===== */
+  .copq-iceberg-wrap {
+    border: 1px solid var(--copq-border);
+    border-radius: var(--copq-radius);
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+  .copq-iceberg-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: var(--copq-bg-panel);
+    border-bottom: 1px solid var(--copq-border);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .copq-btn {
+    background: var(--copq-accent);
+    color: #1a1d23;
+    border: none;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+  .copq-btn:hover { filter: brightness(0.95); }
+  .copq-btn:focus-visible { outline: 3px solid var(--copq-appraisal); outline-offset: 2px; }
+  .copq-btn.secondary {
+    background: transparent;
+    border: 1px solid var(--copq-border);
+    color: var(--copq-text);
+  }
+
+  .copq-iceberg-scene {
+    position: relative;
+    min-height: 380px;
+    background: linear-gradient(to bottom, #e8f4fb 0%, #e8f4fb 32%, var(--copq-iceberg-water) 32%, var(--copq-iceberg-water) 100%);
+  }
+  .copq-iceberg-shape {
+    position: absolute;
+    left: 50%;
+    top: 6%;
+    transform: translateX(-50%);
+    width: 42%;
+    min-width: 160px;
+    clip-path: polygon(50% 0%, 85% 30%, 100% 100%, 0% 100%, 15% 30%);
+    background: linear-gradient(to bottom, #ffffff 0%, #ffffff 32%, var(--copq-iceberg-deep) 32%, var(--copq-iceberg-deep) 100%);
+    height: 320px;
+    transition: height 0.5s ease;
+  }
+  .copq-iceberg-scene.expanded .copq-iceberg-shape { height: 340px; }
+
+  .copq-iceberg-label {
+    position: absolute;
+    max-width: 220px;
+    background: #fff;
+    border: 1px solid var(--copq-border);
+    border-radius: 8px;
+    padding: 0.5rem 0.65rem;
+    font-size: 0.82rem;
+    line-height: 1.35;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+  .copq-iceberg-label.visible-cost { top: 8%; }
+  .copq-iceberg-label.visible-cost.left { left: 3%; }
+  .copq-iceberg-label.visible-cost.right { right: 3%; }
+  .copq-iceberg-label.hidden-cost {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+  }
+  .copq-iceberg-scene.expanded .copq-iceberg-label.hidden-cost {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .copq-iceberg-label.hidden-cost.left { left: 2%; }
+  .copq-iceberg-label.hidden-cost.right { right: 2%; }
+  .copq-iceberg-label.hc1 { top: 42%; }
+  .copq-iceberg-label.hc2 { top: 58%; }
+  .copq-iceberg-label.hc3 { top: 74%; }
+  @media (max-width: 640px) {
+    .copq-iceberg-scene { min-height: 520px; }
+    .copq-iceberg-label { max-width: 42%; font-size: 0.75rem; }
+  }
+
+  /* ===== Classification exercise ===== */
+  .copq-classify-wrap {
+    border: 1px solid var(--copq-border);
+    border-radius: var(--copq-radius);
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  .copq-scenario-pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.75rem 0 1.25rem;
+    min-height: 48px;
+  }
+  .copq-scenario-chip {
+    background: #fff;
+    border: 2px solid var(--copq-border);
+    border-radius: 8px;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.88rem;
+    cursor: pointer;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    touch-action: manipulation;
+  }
+  .copq-scenario-chip.selected {
+    border-color: var(--copq-appraisal);
+    box-shadow: 0 0 0 2px rgba(21,101,192,0.25);
+  }
+  .copq-scenario-chip[disabled], .copq-scenario-chip.placed {
+    display: none;
+  }
+  .copq-bucket-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.6rem;
+  }
+  @media (max-width: 760px) {
+    .copq-bucket-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .copq-bucket {
+    border: 2px dashed var(--copq-border);
+    border-radius: var(--copq-radius);
+    min-height: 140px;
+    padding: 0.6rem;
+    background: var(--copq-bg-panel);
+  }
+  .copq-bucket h5 {
+    margin: 0 0 0.5rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .copq-bucket[data-bucket="prevention"] h5 { color: var(--copq-prevention); }
+  .copq-bucket[data-bucket="appraisal"] h5 { color: var(--copq-appraisal); }
+  .copq-bucket[data-bucket="internal"] h5 { color: var(--copq-internal); }
+  .copq-bucket[data-bucket="external"] h5 { color: var(--copq-external); }
+  .copq-bucket-item {
+    background: #fff;
+    border: 1px solid var(--copq-border);
+    border-radius: 6px;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.4rem;
+  }
+  .copq-bucket-item.correct { border-color: var(--copq-prevention); background: #eaf5eb; }
+  .copq-bucket-item.incorrect { border-color: var(--copq-external); background: #fbeaea; }
+  .copq-classify-controls {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .copq-classify-score { font-weight: 600; font-size: 0.9rem; }
+
+  /* ===== Calculator widget ===== */
+  .copq-calc-wrap {
+    border: 1px solid var(--copq-border);
+    border-radius: var(--copq-radius);
+    padding: 1.25rem;
+    margin: 1rem 0;
+  }
+  .copq-calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 560px) {
+    .copq-calc-grid { grid-template-columns: 1fr; }
+  }
+  .copq-field label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .copq-field .copq-swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-right: 0.4rem;
+  }
+  .copq-field input {
+    width: 100%;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid var(--copq-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    min-height: 44px;
+    box-sizing: border-box;
+    background: #fff;
+    color: var(--copq-text);
+  }
+  .copq-calc-results {
+    background: var(--copq-bg-panel);
+    border-radius: var(--copq-radius);
+    padding: 1rem;
+  }
+  .copq-result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.35rem 0;
+    font-size: 0.92rem;
+    border-bottom: 1px dashed var(--copq-border);
+  }
+  .copq-result-row:last-child { border-bottom: none; }
+  .copq-result-row.total { font-weight: 700; font-size: 1.05rem; }
+  .copq-bar-chart {
+    display: flex;
+    height: 28px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 0.9rem 0;
+    border: 1px solid var(--copq-border);
+  }
+  .copq-bar-seg { transition: width 0.4s ease; }
+  .copq-bar-seg.prevention { background: var(--copq-prevention); }
+  .copq-bar-seg.appraisal { background: var(--copq-appraisal); }
+  .copq-bar-seg.internal { background: var(--copq-internal); }
+  .copq-bar-seg.external { background: var(--copq-external); }
+  .copq-legend { display: flex; flex-wrap: wrap; gap: 0.75rem; font-size: 0.78rem; margin-top: 0.5rem; }
+  .copq-legend span { display: inline-flex; align-items: center; gap: 0.3rem; }
+  .copq-legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .copq-verdict {
+    margin-top: 0.75rem;
+    padding: 0.65rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+  .copq-verdict.low { background: #eaf5eb; color: #1e5c22; }
+  .copq-verdict.moderate { background: #fff4e0; color: #8a5a00; }
+  .copq-verdict.high { background: #fbeaea; color: #8f1f1f; }
+
+  .copq-table-implementation th, .copq-table-implementation td {
+    font-size: 0.88rem;
+  }
+
+  /* ===== Cost of Quality hierarchy tree ===== */
+  .copq-tree-wrap { margin: 1.25rem 0; }
+  .copq-tree-root {
+    background: #23272f;
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.9rem;
+    border-radius: var(--copq-radius);
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .copq-tree-stem {
+    width: 2px;
+    height: 1.5rem;
+    background: var(--copq-border);
+    margin: 0 auto;
+  }
+  .copq-tree-branches {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    border-top: 2px solid var(--copq-border);
+    padding-top: 1.5rem;
+    position: relative;
+  }
+  @media (max-width: 640px) {
+    .copq-tree-branches { grid-template-columns: 1fr; border-top: none; padding-top: 0; }
+  }
+  .copq-tree-branch-head {
+    text-align: center;
+    font-weight: 700;
+    color: #fff;
+    padding: 0.7rem;
+    border-radius: 8px 8px 0 0;
+    font-size: 0.98rem;
+  }
+  .copq-tree-branch-head.cogq { background: var(--copq-prevention); }
+  .copq-tree-branch-head.copq-red { background: var(--copq-external); }
+  .copq-tree-branch-body {
+    border: 1px solid var(--copq-border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+  }
+  @media (max-width: 480px) {
+    .copq-tree-branch-body { grid-template-columns: 1fr; }
+  }
+  .copq-tree-leaf h5 {
+    margin: 0 0 0.4rem;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .copq-tree-leaf.prevention h5 { color: var(--copq-prevention); }
+  .copq-tree-leaf.appraisal h5  { color: var(--copq-appraisal); }
+  .copq-tree-leaf.internal h5   { color: var(--copq-internal); }
+  .copq-tree-leaf.external h5   { color: var(--copq-external); }
+  .copq-tree-leaf ul { margin: 0; padding-left: 1.1rem; font-size: 0.82rem; line-height: 1.55; }
+
+  /* ===== COQ curve comparison chart ===== */
+  .copq-chart-svg { display: block; width: 860px; height: 400px; max-width: none; }
+  .copq-chart-title { font-size: 13px; font-weight: 700; fill: var(--copq-text); }
+  .copq-chart-axis { stroke: var(--copq-border); stroke-width: 1.5; }
+  .copq-chart-label { font-size: 11px; fill: var(--copq-text); }
+  .copq-chart-curve { fill: none; stroke-width: 2.5; }
+  .copq-chart-curve.failure { stroke: var(--copq-external); }
+  .copq-chart-curve.pa { stroke: var(--copq-prevention); }
+  .copq-chart-curve.total { stroke: var(--copq-appraisal); stroke-width: 3.5; }
+  .copq-chart-dash { stroke: var(--copq-border); stroke-width: 1.5; stroke-dasharray: 4 3; }
+  .copq-chart-dot { fill: var(--copq-appraisal); }
+  .copq-chart-legend-row { font-size: 11.5px; fill: var(--copq-text); }
+
+  /* ===== Iceberg widget (v3 — dive experience) ===== */
+  .copq-iceberg-toolbar span { color: var(--copq-text); font-size: 0.85rem; font-weight: 600; }
+  .copq-iceberg-inner {
+    padding: 1.25rem;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 1.25rem;
+    align-items: start;
+  }
+  @media (max-width: 640px) {
+    .copq-iceberg-inner { grid-template-columns: 1fr; }
+  }
+  .copq-iceberg-svg-wrap { text-align: center; }
+  .copq-iceberg-svg-frame { position: relative; display: inline-block; width: 100%; max-width: 220px; }
+  .copq-iceberg-svg { width: 100%; height: auto; display: block; }
+  .copq-ice-above { fill: #eef7fb; stroke: #4a90a4; stroke-width: 2; }
+  .copq-ice-below { fill: var(--copq-iceberg-deep); opacity: 0.9; }
+  .copq-ice-water { fill: var(--copq-iceberg-water); }
+  .copq-ice-line { stroke: #2c6f86; stroke-width: 2; fill: none; }
+  .copq-ice-tier-mark { stroke: rgba(255,255,255,0.35); stroke-width: 1; stroke-dasharray: 3 3; }
+
+  .copq-wave { fill: var(--copq-iceberg-water); }
+  .copq-wave-back { opacity: 0.6; }
+  .copq-wave-front { opacity: 0.85; fill: #3a9bb8; }
+  .copq-wave-shimmer { fill: #ffffff; opacity: 0.45; }
+
+  .copq-diver {
+    position: absolute;
+    left: 50%;
+    top: 32%;
+    transform: translate(-50%, -50%);
+    font-size: 1.3rem;
+    transition: top 0.25s ease;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+    pointer-events: none;
+  }
+
+  .copq-depth-control {
+    margin-top: 0.9rem;
+    background: var(--copq-bg-panel);
+    border: 1px solid var(--copq-border);
+    border-radius: 8px;
+    padding: 0.6rem 0.65rem 0.5rem;
+  }
+  .copq-depth-slider-label { font-size: 0.78rem; font-weight: 600; display: block; margin-bottom: 0.3rem; color: var(--copq-text); }
+  #copq-depth-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 999px;
+    background: linear-gradient(to right, #cfe8f0, var(--copq-iceberg-deep));
+    outline-offset: 4px;
+  }
+  #copq-depth-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--copq-accent);
+    border: 3px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+    cursor: pointer;
+  }
+  #copq-depth-slider::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--copq-accent);
+    border: 3px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+    cursor: pointer;
+  }
+  .copq-depth-ticks { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--copq-text); opacity: 0.7; margin-top: 0.2rem; }
+
+  .copq-iceberg-stats { display: flex; gap: 0.75rem; margin-top: 1rem; }
+  .copq-stat {
+    flex: 1;
+    background: var(--copq-bg-panel);
+    border: 1px solid var(--copq-border);
+    border-radius: 8px;
+    padding: 0.55rem 0.5rem;
+    text-align: center;
+  }
+  .copq-stat-num { display: block; font-size: 1.3rem; font-weight: 700; color: var(--copq-iceberg-deep); }
+  .copq-stat-label { display: block; font-size: 0.68rem; color: var(--copq-text); opacity: 0.8; line-height: 1.3; margin-top: 0.15rem; }
+
+  .copq-chip-group h4 {
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .copq-chip-group.above h4 { color: #2c6f86; }
+  .copq-chip-group.tier h4 { color: var(--copq-iceberg-deep); }
+  .copq-chip-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+  .copq-chip {
+    background: #eef7fb;
+    border: 1px solid #bcdce6;
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.82rem;
+    font-family: inherit;
+    color: var(--copq-text);
+    cursor: pointer;
+    min-height: 36px;
+    touch-action: manipulation;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .copq-chip:hover { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+  .copq-chip:focus-visible { outline: 3px solid var(--copq-appraisal); outline-offset: 2px; }
+  .copq-chip.below-water { background: #e3edf3; border-color: #b7c8d1; }
+  .copq-chip.chip-active { box-shadow: 0 0 0 2px var(--copq-accent) inset; }
+  .copq-chip-detail {
+    flex-basis: 100%;
+    background: var(--copq-bg-panel);
+    border: 1px solid var(--copq-border);
+    border-radius: 8px;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    margin-top: -0.15rem;
+  }
+  .copq-chip-hint { font-size: 0.78rem; opacity: 0.75; padding: 0 1.25rem 1rem; margin: 0; }
+
+  .copq-chip-group.tier {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: max-height 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
+  }
+  .copq-chip-group.tier.revealed {
+    max-height: 600px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== Dark mode — always last ===== */
+  html[data-theme="dark"] {
+    --copq-bg-panel: #1c2027;
+    --copq-border: #333944;
+    --copq-text: #e7e9ec;
+    --copq-iceberg-water: #123048;
+    --copq-iceberg-deep: #04121d;
+  }
+  html[data-theme="dark"] .copq-iceberg-scene {
+    background: linear-gradient(to bottom, #10202c 0%, #10202c 32%, var(--copq-iceberg-water) 32%, var(--copq-iceberg-water) 100%);
+  }
+  html[data-theme="dark"] .copq-iceberg-shape {
+    background: linear-gradient(to bottom, #2a3542 0%, #2a3542 32%, var(--copq-iceberg-deep) 32%, var(--copq-iceberg-deep) 100%);
+  }
+  html[data-theme="dark"] .copq-scenario-chip,
+  html[data-theme="dark"] .copq-bucket-item,
+  html[data-theme="dark"] .copq-field input,
+  html[data-theme="dark"] .copq-iceberg-label { background: #262b33; color: #e7e9ec; }
+  html[data-theme="dark"] .copq-verdict.low { background: #163a1c; color: #a8e6ac; }
+  html[data-theme="dark"] .copq-verdict.moderate { background: #4a3200; color: #ffd889; }
+  html[data-theme="dark"] .copq-verdict.high { background: #4a1414; color: #ff9d9d; }
+  html[data-theme="dark"] .copq-tree-branch-body { background: #1c2027; }
+  html[data-theme="dark"] .copq-ice-above { fill: #24313a; stroke: #6fb2c8; }
+  html[data-theme="dark"] .copq-wave-front { fill: #1c5a70; }
+  html[data-theme="dark"] .copq-chip { background: #1c2b33; border-color: #2c4753; color: #d7e9ef; }
+  html[data-theme="dark"] .copq-chip.below-water { background: #172631; border-color: #2a3d47; color: #cfe0e8; }
+  html[data-theme="dark"] .copq-stat { background: #1c2027; }
+  html[data-theme="dark"] .copq-stat-num { color: #7fc4dd; }
+  html[data-theme="dark"] .copq-chip-detail { background: #1c2027; }
+  html[data-theme="dark"] #copq-depth-slider { background: linear-gradient(to right, #1c3a44, #05141c); }
+</style>
+</head>
+
+<body data-lesson-page="true" data-category="quality-engineering" data-level="intermediate" data-interactive="true" data-lesson-type="general">
+
+  <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+  <header class="site lesson-sitebar">
+    <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+    <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+    <div class="header-actions">
+      <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+      <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+    </div>
+  </header>
+
+  <main id="lesson-content">
+
+  <section class="copq-section">
+    <h1>Cost of Poor Quality (COPQ)</h1>
+    <p class="copq-lede">
+      Every scrap unit, warranty claim, and re-inspection has a dollar sign on it — most organizations just
+      aren't looking. Cost of Poor Quality (COPQ) is the framework that puts a number on the price of not doing
+      it right the first time, and it's one of the most commonly tested cost-of-quality concepts on both the
+      CSSBB and CQE exams.
+    </p>
+    <p class="copq-lede">
+      The core problem COPQ solves is a communication gap. Quality engineers talk in defect rates, Cpk values,
+      and nonconformance reports. Executives talk in dollars. COPQ translates one language into the other — it
+      takes "we had 42 nonconformances last quarter" and turns it into "we lost $950,000 last quarter," which is
+      a sentence that gets budget approved. That translation is exactly why ASQ treats COPQ as a core competency
+      for both the CSSBB (strategic, financial framing) and the CQE (operational, root-cause framing) exams.
+    </p>
+    <p class="copq-lede">
+      The idea traces to Joseph Juran, who in the 1950s argued that quality costs behave like any other
+      manageable cost category and organized them into the Prevention-Appraisal-Failure (PAF) model you'll work
+      with in this lesson. Philip Crosby popularized the idea for a broader business audience in his 1979 book
+      <em>Quality Is Free</em>, arguing that the cost of poor quality routinely dwarfs the cost of preventing it
+      — a claim borne out by the benchmark data below. ASQ's Quality Costs Committee later formalized the PAF
+      structure into the standard most CSSBB/CQE materials use today.
+    </p>
+    <div class="copq-callout">
+      <strong>Rule of thumb:</strong> COPQ commonly runs 10–20% of sales revenue in manufacturing organizations,
+      and in immature quality programs, failure costs alone can consume 60–70% of total quality spend — while
+      prevention gets only 5–10%. The goal of quality management isn't to spend less on quality overall; it's to
+      shift the spend from failure toward prevention.
+    </div>
+
+    <h3>COPQ as a maturity signal</h3>
+    <p class="copq-lede">
+      Because prevention spending suppresses the other three categories, the ratio of COPQ to revenue is one of
+      the more reliable proxies for how mature an organization's quality system actually is — more reliable,
+      often, than self-reported certifications or audit scores. The table below is a rough guide used across
+      Six Sigma and lean literature; treat the bands as directional, not exact thresholds.
+    </p>
+    <div class="copq-scroll-wrap">
+      <table class="copq-formula-table">
+        <thead><tr><th>COPQ as % of revenue</th><th>Maturity band</th><th>What you'd typically see</th></tr></thead>
+        <tbody>
+          <tr><td>Below 5%</td><td>Low COPQ / high maturity</td><td>Six Sigma-mature or highly developed lean systems; heavy in-process control and poka-yoke; most defects eliminated at the source</td></tr>
+          <tr><td>5% – 20%</td><td>Moderate COPQ / mid maturity</td><td>Structured quality systems with defined inspection processes; internal failures measured and tracked; external failures declining as inspection improves</td></tr>
+          <tr><td>Above 20%</td><td>High COPQ / low maturity</td><td>Reactive, inspection-dependent quality management; failure costs dominate the budget; prevention chronically underfunded</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="copq-section">
+    <h2>The Prevention-Appraisal-Failure (PAF) Model</h2>
+    <p class="copq-lede">
+      Joseph Juran's PAF model, still the backbone of ASQ's quality cost framework, sorts every quality-related
+      dollar into one of four categories. Understanding which bucket a cost belongs in — and how the buckets
+      relate to each other — is the foundation for everything else in this lesson.
+    </p>
+    <p class="copq-lede">
+      The categories aren't independent — they're causally linked, and that link is the entire point of the
+      model. A dollar spent on prevention reduces the number of defects created, which reduces the appraisal
+      effort needed to find them, which reduces internal failure costs (fewer defects to scrap or rework), which
+      reduces external failure costs (fewer defective units escaping to the customer). Spend on the far-left
+      category and the other three fall like dominoes; spend only on inspection (appraisal) and you can catch
+      defects but you're doing nothing to stop them from being created in the first place.
+    </p>
+    <div class="copq-paf-grid">
+      <div class="copq-paf-card prevention">
+        <h4>Prevention Costs</h4>
+        <p>Money spent to keep defects from happening at all — training, FMEA, control plan development, supplier
+        qualification, design reviews, poka-yoke.</p>
+      </div>
+      <div class="copq-paf-card appraisal">
+        <h4>Appraisal Costs</h4>
+        <p>Money spent to find defects before the customer does — incoming inspection, in-process SPC checks,
+        final test, gauge calibration, internal audits.</p>
+      </div>
+      <div class="copq-paf-card internal">
+        <h4>Internal Failure Costs</h4>
+        <p>Costs from defects caught before the customer ever sees them — scrap, rework, re-inspection,
+        downtime, material review board time.</p>
+      </div>
+      <div class="copq-paf-card external">
+        <h4>External Failure Costs</h4>
+        <p>Costs from defects the customer finds — warranty claims, field returns, complaint handling, recalls,
+        lost future business.</p>
+      </div>
+    </div>
+    <p class="copq-lede">
+      Notice the asymmetry between the last two cards. Internal failure is expensive, but it's a cost you
+      control and can usually estimate accurately from labor and material records. External failure is far more
+      dangerous, because the visible line items — warranty checks, freight to return a unit — are usually the
+      smallest part of it. The real cost is a lost customer who doesn't tell you why they left, which is why
+      external failure is the category most often under-counted, and the one this lesson's iceberg exercise
+      focuses on below.
+    </p>
+
+    <h3>How the categories add up</h3>
+    <p class="copq-lede">
+      Once you can sort a cost into one of the four PAF buckets, three higher-level rollups let you talk about
+      quality spend the way a controller or CFO would:
+    </p>
+    <div class="copq-scroll-wrap">
+      <table class="copq-formula-table">
+        <thead><tr><th>Term</th><th>Formula</th><th>What it represents</th></tr></thead>
+        <tbody>
+          <tr><td>Cost of Good Quality (COGQ)</td><td>Prevention + Appraisal</td><td>What you spend on purpose, to catch or avoid defects</td></tr>
+          <tr><td>Cost of Poor Quality (COPQ)</td><td>Internal Failure + External Failure</td><td>What you lose because a defect happened</td></tr>
+          <tr><td>Total Cost of Quality (COQ)</td><td>COGQ + COPQ</td><td>Everything quality-related, in and out of your control</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="copq-lede">
+      COGQ is discretionary — leadership chooses how much to spend on it, and can spend more or less depending
+      on strategy. COPQ is not discretionary in the same sense; it's the bill that arrives after the fact for
+      whatever COGQ failed to prevent. A mature quality organization deliberately increases COGQ, on the bet
+      that it will reduce COPQ by more than the increase cost — and, as the curves in the next section show,
+      that bet almost always pays off up to a point.
+    </p>
+    <div class="copq-callout">
+      <strong>Exam trap:</strong> Some materials define COPQ loosely as "all four categories." On the CSSBB/CQE
+      body of knowledge, hold the narrow definition — <strong>COPQ = Internal Failure + External Failure</strong>
+      — and treat Prevention and Appraisal as the "cost of good quality" that reduces it over time.
+    </div>
+
+    <h3>Where common activities fall in the hierarchy</h3>
+    <div class="copq-tree-wrap" role="img" aria-label="Cost of Quality splits into Cost of Good Quality (Prevention and Appraisal) and Cost of Poor Quality (Internal Failure and External Failure), each with example activities.">
+      <div class="copq-tree-root">Cost of Quality</div>
+      <div class="copq-tree-stem" aria-hidden="true"></div>
+      <div class="copq-tree-branches">
+        <div class="copq-tree-branch">
+          <div class="copq-tree-branch-head cogq">Cost of Good Quality</div>
+          <div class="copq-tree-branch-body">
+            <div class="copq-tree-leaf prevention">
+              <h5>Prevention</h5>
+              <ul>
+                <li>FMEA</li>
+                <li>FTA</li>
+                <li>Process capability studies</li>
+                <li>Variation reduction</li>
+                <li>Lessons learned</li>
+                <li>Training</li>
+              </ul>
+            </div>
+            <div class="copq-tree-leaf appraisal">
+              <h5>Appraisal Costs</h5>
+              <ul>
+                <li>Incoming inspection</li>
+                <li>In-process inspection</li>
+                <li>Final inspection</li>
+                <li>Calibration</li>
+                <li>Auditing</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="copq-tree-branch">
+          <div class="copq-tree-branch-head copq-red">Cost of Poor Quality</div>
+          <div class="copq-tree-branch-body">
+            <div class="copq-tree-leaf internal">
+              <h5>Internal Failure</h5>
+              <ul>
+                <li>Process delay</li>
+                <li>Rework</li>
+                <li>Scrap</li>
+                <li>Defects</li>
+                <li>Retest</li>
+                <li>8D / RCA / CAPA</li>
+                <li>Downtime</li>
+                <li>Loss of capacity</li>
+              </ul>
+            </div>
+            <div class="copq-tree-leaf external">
+              <h5>External Failure</h5>
+              <ul>
+                <li>Customer returns</li>
+                <li>Warranty claims</li>
+                <li>Loss of customer sales</li>
+                <li>Repair &amp; at-customer-location costs</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COQ CURVE: CLASSICAL VS MODERN VIEW ================= -->
+  <section class="copq-section">
+    <h2>Classical vs. Modern View of Optimal Quality Cost</h2>
+    <p class="copq-lede">
+      Two competing models show up on CSSBB/CQE exams. The classical model says there's an interior "sweet
+      spot," roughly mid-range on the conformance axis, where total cost of quality is minimized — pushing
+      conformance higher than that point costs more than it saves, and the curve rises sharply on either side.
+      The modern (zero-defects) view, which dominates current Six Sigma and lean thinking, doesn't argue the
+      optimum disappears — it argues cheaper, more effective prevention technology pushes that optimum much
+      further to the right and flattens the curve dramatically, so the penalty for chasing near-100% conformance
+      becomes small instead of severe.
+    </p>
+    <div class="copq-scroll-wrap">
+      <svg class="copq-chart-svg" width="860" height="400" viewBox="0 0 860 400" preserveAspectRatio="xMinYMin meet" role="img" aria-labelledby="copq-chart-title-1 copq-chart-desc-1">
+        <title id="copq-chart-title-1">Classical vs. modern cost of quality curves</title>
+        <desc id="copq-chart-desc-1">Left panel: classical view where total cost of quality is sharply U-shaped with an interior optimum around one-third conformance. Right panel: modern view where the same curves produce a much flatter total cost curve with its minimum shifted well to the right, around 60 percent conformance, and only a slight rise toward 100 percent.</desc>
+
+        <!-- LEFT PANEL: classical -->
+        <g transform="translate(60,50)">
+          <text class="copq-chart-title" x="175" y="-20" text-anchor="middle">Classical View</text>
+          <line class="copq-chart-axis" x1="0" y1="0" x2="0" y2="280"></line>
+          <line class="copq-chart-axis" x1="0" y1="280" x2="360" y2="280"></line>
+          <text class="copq-chart-label" x="-30" y="140" text-anchor="middle" transform="rotate(-90 -30 140)">Cost per good unit of product</text>
+          <text class="copq-chart-label" x="180" y="315" text-anchor="middle">Conformance or Quality Level</text>
+          <text class="copq-chart-label" x="0" y="298">0%</text>
+          <text class="copq-chart-label" x="345" y="298">100%</text>
+
+          <path class="copq-chart-curve failure" d="M10.0,58.8 L27.0,143.9 L44.0,181.7 L61.0,203.1 L78.0,216.8 L95.0,226.4 L112.0,233.4 L129.0,238.9 L146.0,243.1 L163.0,246.6 L180.0,249.5 L197.0,251.9 L214.0,254.0 L231.0,255.8 L248.0,257.3 L265.0,258.7 L282.0,259.9 L299.0,261.0 L316.0,261.9 L333.0,262.8 L350.0,263.6"></path>
+          <path class="copq-chart-curve pa" d="M10.0,262.3 L27.0,262.3 L44.0,262.1 L61.0,261.5 L78.0,260.4 L95.0,258.6 L112.0,255.9 L129.0,252.2 L146.0,247.2 L163.0,240.8 L180.0,232.8 L197.0,223.1 L214.0,211.3 L231.0,197.5 L248.0,181.4 L265.0,162.8 L282.0,141.5 L299.0,117.4 L316.0,90.3 L333.0,60.0 L350.0,26.4"></path>
+          <path class="copq-chart-curve total" d="M10.0,41.1 L27.0,126.2 L44.0,163.8 L61.0,184.6 L78.0,197.2 L95.0,205.0 L112.0,209.4 L129.0,211.0 L146.0,210.3 L163.0,207.4 L180.0,202.3 L197.0,195.0 L214.0,185.3 L231.0,173.3 L248.0,158.7 L265.0,141.5 L282.0,121.4 L299.0,98.4 L316.0,72.3 L333.0,42.9 L350.0,10.0"></path>
+
+          <line class="copq-chart-dash" x1="129" y1="211.0" x2="129" y2="280"></line>
+          <circle class="copq-chart-dot" cx="129" cy="211.0" r="4"></circle>
+          <text class="copq-chart-label" x="129" y="345" text-anchor="middle">Optimum Quality Level</text>
+
+          <text class="copq-chart-legend-row" x="225" y="270" fill="var(--copq-external)">Failure Cost</text>
+          <text class="copq-chart-legend-row" x="195" y="150" fill="var(--copq-prevention)">Prevention &amp; Appraisal</text>
+          <text class="copq-chart-legend-row" x="255" y="45" fill="var(--copq-appraisal)">Total COQ</text>
+        </g>
+
+        <!-- RIGHT PANEL: modern -->
+        <g transform="translate(470,50)">
+          <text class="copq-chart-title" x="175" y="-20" text-anchor="middle">Modern (Zero-Defects) View</text>
+          <line class="copq-chart-axis" x1="0" y1="0" x2="0" y2="280"></line>
+          <line class="copq-chart-axis" x1="0" y1="280" x2="360" y2="280"></line>
+          <text class="copq-chart-label" x="-30" y="140" text-anchor="middle" transform="rotate(-90 -30 140)">Cost per good unit of product</text>
+          <text class="copq-chart-label" x="180" y="315" text-anchor="middle">Conformance or Quality Level</text>
+          <text class="copq-chart-label" x="0" y="298">0%</text>
+          <text class="copq-chart-label" x="345" y="298">100%</text>
+
+          <path class="copq-chart-curve failure" d="M10.0,30.0 L27.0,126.2 L44.0,168.9 L61.0,193.0 L78.0,208.6 L95.0,219.4 L112.0,227.4 L129.0,233.5 L146.0,238.3 L163.0,242.3 L180.0,245.5 L197.0,248.3 L214.0,250.6 L231.0,252.6 L248.0,254.4 L265.0,255.9 L282.0,257.3 L299.0,258.5 L316.0,259.6 L333.0,260.6 L350.0,261.5"></path>
+          <path class="copq-chart-curve pa" d="M10.0,260.0 L27.0,259.9 L44.0,259.7 L61.0,259.2 L78.0,258.7 L95.0,257.9 L112.0,257.0 L129.0,255.9 L146.0,254.7 L163.0,253.2 L180.0,251.7 L197.0,249.9 L214.0,248.0 L231.0,245.9 L248.0,243.7 L265.0,241.2 L282.0,238.7 L299.0,235.9 L316.0,233.0 L333.0,229.9 L350.0,226.7"></path>
+          <path class="copq-chart-curve total" d="M10.0,10.0 L27.0,106.1 L44.0,148.6 L61.0,172.3 L78.0,187.2 L95.0,197.3 L112.0,204.4 L129.0,209.4 L146.0,213.0 L163.0,215.5 L180.0,217.2 L197.0,218.2 L214.0,218.6 L231.0,218.5 L248.0,218.0 L265.0,217.2 L282.0,215.9 L299.0,214.4 L316.0,212.6 L333.0,210.5 L350.0,208.1"></path>
+
+          <text class="copq-chart-legend-row" x="100" y="200" fill="var(--copq-external)">Failure Cost</text>
+          <text class="copq-chart-legend-row" x="150" y="255" fill="var(--copq-prevention)">Prevention &amp; Appraisal</text>
+          <text class="copq-chart-legend-row" x="140" y="150" fill="var(--copq-appraisal)">Total COQ</text>
+        </g>
+      </svg>
+    </div>
+    <p class="copq-lede" style="font-size:0.85rem;font-style:italic;">
+      Both panels plot Total COQ as the literal sum of the Failure Cost and Prevention &amp; Appraisal curves at
+      every point — the shapes above aren't just illustrative sketches, they're internally consistent with the
+      formula COQ = Failure + (Prevention + Appraisal).
+    </p>
+    <p class="copq-lede" style="font-size:0.92rem;">
+      Both models still have a lowest-cost point — the modern view doesn't erase the optimum, it moves it. When
+      prevention is cheap and effective (automated poka-yoke, in-line sensors, statistical process control built
+      into the equipment itself), the Prevention &amp; Appraisal curve stays low for much longer, which drags the
+      whole Total COQ curve flatter and pushes its minimum much further right — well into the 60–80% conformance
+      range instead of the classical model's mid-range optimum — and the penalty for overshooting it is far
+      smaller than the classical model predicts.
+    </p>
+    <div class="copq-callout">
+      <strong>Exam tip:</strong> If a question describes cheap, highly effective prevention technology (e.g.
+      automated poka-yoke, in-line sensors), favor an answer that pushes conformance well above the classical
+      "mid-range" optimum — the modern view still has a best point, it's just much closer to 100%. If the
+      question describes a traditional, inspection-heavy environment with expensive prevention, the classical
+      mid-range interior optimum is likely the intended answer.
+    </div>
+  </section>
+
+  <!-- ================= ICEBERG WIDGET ================= -->
+  <section class="copq-section">
+    <h2>Interactive: Dive the Cost Iceberg</h2>
+    <p class="copq-lede">
+      The costs everyone tracks — scrap, rework, warranty — sit above the waterline. The costs that actually
+      sink margins are almost always beneath it. Drag the depth slider to descend and uncover them one layer at
+      a time — then tap any cost to see why it tends to stay hidden.
+    </p>
+    <div class="copq-iceberg-wrap">
+      <div class="copq-iceberg-toolbar">
+        <span id="copq-depth-status">Depth: Surface — tap and drag to dive</span>
+      </div>
+      <div class="copq-iceberg-inner">
+        <div class="copq-iceberg-svg-wrap">
+          <div class="copq-iceberg-svg-frame">
+            <svg class="copq-iceberg-svg" width="300" height="340" viewBox="0 0 300 340" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="copq-ice-title copq-ice-desc">
+              <title id="copq-ice-title">COPQ iceberg</title>
+              <desc id="copq-ice-desc">A small visible peak above the waterline represents easily measured costs like waste and rework. A much larger mass below the waterline represents hidden costs like motion, waiting, and employee turnover, revealed in tiers as the depth slider moves.</desc>
+              <defs>
+                <clipPath id="copq-water-clip">
+                  <rect x="-10" y="108" width="320" height="232"></rect>
+                </clipPath>
+              </defs>
+              <rect class="copq-ice-water" x="0" y="110" width="300" height="230"></rect>
+              <g clip-path="url(#copq-water-clip)">
+                <path class="copq-wave copq-wave-back" d="M-300,120 Q-262.5,106 -225,120 T-150,120 T-75,120 T0,120 T75,120 T150,120 T225,120 T300,120 T375,120 T450,120 T525,120 T600,120 L600,340 L-300,340 Z">
+                  <animateTransform attributeName="transform" attributeType="XML" type="translate" values="0,0; -300,0" dur="7s" repeatCount="indefinite"></animateTransform>
+                </path>
+                <path class="copq-wave copq-wave-front" d="M-300,113 Q-262.5,126 -225,113 T-150,113 T-75,113 T0,113 T75,113 T150,113 T225,113 T300,113 T375,113 T450,113 T525,113 T600,113 L600,340 L-300,340 Z">
+                  <animateTransform attributeName="transform" attributeType="XML" type="translate" values="0,0; 300,0" dur="4.5s" repeatCount="indefinite"></animateTransform>
+                </path>
+                <path class="copq-wave copq-wave-shimmer" d="M-300,109 Q-262.5,102 -225,109 T-150,109 T-75,109 T0,109 T75,109 T150,109 T225,109 T300,109 T375,109 T450,109 T525,109 T600,109 L600,117 L-300,117 Z">
+                  <animateTransform attributeName="transform" attributeType="XML" type="translate" values="0,0; -300,0" dur="2.6s" repeatCount="indefinite"></animateTransform>
+                </path>
+              </g>
+              <g class="copq-ice-float">
+                <animateTransform attributeName="transform" attributeType="XML" type="translate" values="0,0; 0,3; 0,0" dur="4.5s" repeatCount="indefinite"></animateTransform>
+                <path class="copq-ice-below" d="M100,112 Q58,155 43,212 Q33,272 90,318 Q150,338 150,338 Q150,338 210,318 Q267,272 257,212 Q242,155 200,112 Z"></path>
+                <path class="copq-ice-above" d="M150,8 L177,58 L162,58 L202,112 L98,112 L138,58 L123,58 Z"></path>
+              </g>
+              <path class="copq-ice-line" d="M0,112 Q37,104 75,112 T150,112 T225,112 T300,112"></path>
+              <line class="copq-ice-tier-mark" x1="0" y1="175" x2="300" y2="175"></line>
+              <line class="copq-ice-tier-mark" x1="0" y1="240" x2="300" y2="240"></line>
+              <line class="copq-ice-tier-mark" x1="0" y1="300" x2="300" y2="300"></line>
+            </svg>
+            <div class="copq-diver" id="copq-diver" aria-hidden="true">🔦</div>
+          </div>
+          <div class="copq-depth-control">
+            <label for="copq-depth-slider" class="copq-depth-slider-label">Dive depth</label>
+            <input type="range" id="copq-depth-slider" min="0" max="100" value="0" step="1">
+            <div class="copq-depth-ticks"><span>Surface</span><span>Seafloor</span></div>
+          </div>
+          <div class="copq-iceberg-stats">
+            <div class="copq-stat"><span class="copq-stat-num" id="copq-hidden-count">0</span><span class="copq-stat-label">hidden costs uncovered</span></div>
+            <div class="copq-stat"><span class="copq-stat-num" id="copq-ratio">1.0×</span><span class="copq-stat-label">hidden-to-visible weight so far</span></div>
+          </div>
+        </div>
+        <div class="copq-chip-groups">
+          <div class="copq-chip-group above">
+            <h4>Surface — always visible</h4>
+            <div class="copq-chip-list">
+              <button type="button" class="copq-chip" data-detail="The easiest cost to spot — obvious scrap sitting in a bin.">Waste</button>
+              <button type="button" class="copq-chip" data-detail="A rejected unit is tagged and tracked, so it shows up in reports immediately.">Reject</button>
+              <button type="button" class="copq-chip" data-detail="Budgeted and invoiced — it appears on a P&amp;L line by design.">Testing cost</button>
+              <button type="button" class="copq-chip" data-detail="Tracked via labor hours charged to a rework work order.">Rework</button>
+              <button type="button" class="copq-chip" data-detail="A planned, recurring line item in the quality budget.">Inspection cost</button>
+              <button type="button" class="copq-chip" data-detail="Logged the moment a return authorization is issued.">Customer returns</button>
+            </div>
+          </div>
+          <div class="copq-chip-group tier" data-reveal-at="20">
+            <h4>Just below the surface</h4>
+            <div class="copq-chip-list">
+              <button type="button" class="copq-chip below-water" data-detail="Extra shipping to reroute defective parts rarely gets coded as a quality cost.">Transportation cost</button>
+              <button type="button" class="copq-chip below-water" data-detail="Buffer stock held to cover unreliable processes ties up cash nobody labels 'quality.'">Inventory cost</button>
+              <button type="button" class="copq-chip below-water" data-detail="Operators walking extra distance to work around a bad layout — invisible in any ledger.">Motion cost</button>
+              <button type="button" class="copq-chip below-water" data-detail="Idle time while a machine is down for an unplanned fix blends into 'downtime,' not COPQ.">Waiting cost</button>
+            </div>
+          </div>
+          <div class="copq-chip-group tier" data-reveal-at="50">
+            <h4>Mid-depth</h4>
+            <div class="copq-chip-list">
+              <button type="button" class="copq-chip below-water" data-detail="Doing more work than the customer needs, often to compensate for upstream variation.">Over-processing cost</button>
+              <button type="button" class="copq-chip below-water" data-detail="Making extra units 'just in case' scrap happens — inflates inventory, not the COPQ line.">Over-production cost</button>
+              <button type="button" class="copq-chip below-water" data-detail="Escaped defects nobody caught yet — the cost is real but hasn't been billed to quality.">Defects</button>
+            </div>
+          </div>
+          <div class="copq-chip-group tier" data-reveal-at="80">
+            <h4>The seafloor</h4>
+            <div class="copq-chip-list">
+              <button type="button" class="copq-chip below-water" data-detail="A skilled technician doing low-value rework instead of prevention work.">Under-utilization of employee skill</button>
+              <button type="button" class="copq-chip below-water" data-detail="Burnout from constant firefighting drives good people out — recruiting cost never gets coded to quality.">Excessive employee turnover</button>
+              <button type="button" class="copq-chip below-water" data-detail="Morale erodes long before anyone quits — there's no line item for it.">Low employee morale</button>
+              <button type="button" class="copq-chip below-water" data-detail="Paying premium wages to catch up after a quality escape, buried in ordinary payroll.">Expensive overtime</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="copq-chip-hint">Tap any cost above to see why it tends to stay hidden.</p>
+    </div>
+    <p class="copq-lede" style="font-size:0.92rem;">
+      Practitioners frequently estimate that for every dollar of visible failure cost, there are several more
+      dollars of hidden cost underneath — which is why COPQ studies routinely surprise leadership teams that
+      were only watching the scrap bin. Note the overlap with the eight classic lean wastes (transportation,
+      inventory, motion, waiting, over-processing, over-production, defects, and under-utilized talent) — COPQ
+      and lean waste are two lenses on the same underlying losses.
+    </p>
+  </section>
+
+  <!-- ================= CLASSIFICATION EXERCISE ================= -->
+  <section class="copq-section">
+    <h2>Interactive: Classify the Cost</h2>
+    <p class="copq-lede">
+      Tap a scenario, then tap the bucket you think it belongs in. You'll get instant feedback — this is the
+      exact skill CSSBB/CQE exam questions test when they describe a cost and ask you to categorize it.
+    </p>
+    <p class="copq-lede">
+      Two questions do most of the sorting work for you. First: <em>has the customer received this yet?</em> If
+      yes, it's external failure, full stop — it doesn't matter how small the cost was. If no, ask the second
+      question: <em>is this money spent to find a defect, or to fix/scrap one that was already found?</em>
+      Finding = appraisal. Fixing/scrapping = internal failure. Anything spent before a defect could even occur
+      — training, design reviews, supplier vetting — is prevention.
+    </p>
+    <div class="copq-classify-wrap">
+      <div class="copq-scenario-pool" id="copq-scenario-pool">
+        <!-- chips injected by JS from data below -->
+      </div>
+      <div class="copq-bucket-grid">
+        <div class="copq-bucket" data-bucket="prevention"><h5>Prevention</h5><div class="copq-bucket-items"></div></div>
+        <div class="copq-bucket" data-bucket="appraisal"><h5>Appraisal</h5><div class="copq-bucket-items"></div></div>
+        <div class="copq-bucket" data-bucket="internal"><h5>Internal Failure</h5><div class="copq-bucket-items"></div></div>
+        <div class="copq-bucket" data-bucket="external"><h5>External Failure</h5><div class="copq-bucket-items"></div></div>
+      </div>
+      <div class="copq-classify-controls">
+        <span class="copq-classify-score" id="copq-classify-score">Score: 0 / 8</span>
+        <button type="button" class="copq-btn secondary" id="copq-classify-reset">Reset exercise</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WORKED EXAMPLE ================= -->
+  <section class="copq-section">
+    <h2>Worked Example: Reading the Numbers</h2>
+    <p class="copq-lede">
+      Before you touch the calculator, it helps to walk through one real-shaped example by hand. Consider a
+      medical device team that ships 10,000 units in a quarter against $5,000,000 in quarterly revenue.
+    </p>
+    <p class="copq-lede">
+      Their scrap and rework on rejected assemblies — caught before shipment — totals $150,000 in internal
+      failure cost. A field corrective action plus ordinary warranty claims add up to $800,000 in external
+      failure cost, once you include the labor to process each return, not just the parts. That's the trap: the
+      $800,000 figure only shows up if someone deliberately tracks staff time and logistics against the warranty
+      account instead of letting it get buried in "general operations."
+    </p>
+    <div class="copq-scroll-wrap">
+      <table class="copq-formula-table">
+        <thead><tr><th>Step</th><th>Calculation</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Cost of Poor Quality</td><td>$150,000 + $800,000</td><td>$950,000</td></tr>
+          <tr><td>COPQ as % of revenue</td><td>$950,000 ÷ $5,000,000</td><td>19.0%</td></tr>
+          <tr><td>Maturity band</td><td>19.0% falls in the moderate band</td><td>5–20% — structured but reactive</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="copq-lede">
+      At 19%, this team is spending almost a fifth of every revenue dollar cleaning up after defects — and
+      because external failure ($800,000) outweighs internal failure ($150,000) more than 5 to 1, most of that
+      spend is happening after the product already reached the customer, which is the most expensive place for a
+      defect to be found. That single ratio — external-to-internal failure cost — is often a faster diagnostic
+      than the overall COPQ percentage: a team that's mostly internal failure has a controllable, in-house
+      problem; a team that's mostly external failure has a detection problem, meaning appraisal isn't catching
+      what it should before shipment.
+    </p>
+  </section>
+
+  <!-- ================= CALCULATOR WIDGET ================= -->
+  <section class="copq-section">
+    <h2>Interactive: COPQ Calculator</h2>
+    <p class="copq-lede">
+      The fields below are pre-filled with the worked example you just read, so the first thing you see matches
+      the numbers above. Change any figure to see the bar chart and verdict update live — try dragging internal
+      failure up and external failure down while holding total failure cost roughly constant, and watch the
+      verdict stay the same even though the story behind the number is completely different.
+    </p>
+    <div class="copq-calc-wrap">
+      <div class="copq-calc-grid">
+        <div class="copq-field">
+          <label for="copq-in-revenue">Quarterly revenue ($)</label>
+          <input type="number" id="copq-in-revenue" min="0" step="1000" value="5000000">
+        </div>
+        <div class="copq-field">
+          <label for="copq-in-prevention"><span class="copq-swatch" style="background:var(--copq-prevention)"></span>Prevention costs ($)</label>
+          <input type="number" id="copq-in-prevention" min="0" step="500" value="60000">
+        </div>
+        <div class="copq-field">
+          <label for="copq-in-appraisal"><span class="copq-swatch" style="background:var(--copq-appraisal)"></span>Appraisal costs ($)</label>
+          <input type="number" id="copq-in-appraisal" min="0" step="500" value="90000">
+        </div>
+        <div class="copq-field">
+          <label for="copq-in-internal"><span class="copq-swatch" style="background:var(--copq-internal)"></span>Internal failure costs ($)</label>
+          <input type="number" id="copq-in-internal" min="0" step="500" value="150000">
+        </div>
+        <div class="copq-field">
+          <label for="copq-in-external"><span class="copq-swatch" style="background:var(--copq-external)"></span>External failure costs ($)</label>
+          <input type="number" id="copq-in-external" min="0" step="500" value="800000">
+        </div>
+      </div>
+
+      <div class="copq-bar-chart" id="copq-bar-chart">
+        <div class="copq-bar-seg prevention" id="copq-seg-prevention"></div>
+        <div class="copq-bar-seg appraisal" id="copq-seg-appraisal"></div>
+        <div class="copq-bar-seg internal" id="copq-seg-internal"></div>
+        <div class="copq-bar-seg external" id="copq-seg-external"></div>
+      </div>
+      <div class="copq-legend">
+        <span><i style="background:var(--copq-prevention)"></i>Prevention</span>
+        <span><i style="background:var(--copq-appraisal)"></i>Appraisal</span>
+        <span><i style="background:var(--copq-internal)"></i>Internal failure</span>
+        <span><i style="background:var(--copq-external)"></i>External failure</span>
+      </div>
+
+      <div class="copq-calc-results">
+        <div class="copq-result-row"><span>Cost of Good Quality (Prevention + Appraisal)</span><span id="copq-out-cogq">$0</span></div>
+        <div class="copq-result-row"><span>Cost of Poor Quality (Internal + External)</span><span id="copq-out-copq">$0</span></div>
+        <div class="copq-result-row total"><span>Total Cost of Quality</span><span id="copq-out-coq">$0</span></div>
+        <div class="copq-result-row total"><span>COPQ as % of revenue</span><span id="copq-out-pct">0%</span></div>
+      </div>
+      <div class="copq-verdict" id="copq-verdict">Enter values to see your COPQ maturity band.</div>
+    </div>
+  </section>
+
+  <section class="copq-section">
+    <h2>Why COPQ Is Chronically Under-Reported</h2>
+    <p class="copq-lede">
+      Ask a plant manager for their scrap cost and they can usually answer within a minute. Ask for their true
+      COPQ and most can't — not because the costs aren't real, but because they're scattered across ten
+      different general-ledger accounts instead of one. Rework labor gets buried in direct labor. Warranty
+      reserves sit in a finance account nobody in quality ever opens. Expedited freight to fix a shipment gets
+      coded as ordinary freight. Engineering time spent firefighting a field issue gets coded as ordinary
+      engineering hours. None of these are hidden on purpose — they're just never aggregated, so nobody sees the
+      total.
+    </p>
+    <p class="copq-lede">
+      Practitioners with decades running DMAIC projects report seeing COPQ hide 15–40% of revenue in plants that
+      believed their quality costs were well understood, purely because of this fragmentation. The practical
+      fix is unglamorous: someone has to go account-by-account and deliberately tag quality-related transactions,
+      rather than trusting that "quality costs" already live in a single line somewhere.
+    </p>
+  </section>
+
+  <section class="copq-section">
+    <h2>Reducing COPQ: Where the Leverage Is</h2>
+    <p class="copq-lede">
+      Because prevention spending suppresses appraisal, internal failure, and external failure costs all at
+      once, it's the highest-leverage dollar in the model. That said, leverage isn't the same as an unlimited
+      budget — the classical-view curve earlier in this lesson exists precisely because prevention and appraisal
+      spending can itself become wasteful past a certain point. The sequence below is a DMAIC-aligned way to find
+      that leverage without overspending on the wrong things.
+    </p>
+    <ol class="copq-lede">
+      <li><strong>Measure</strong> — pull actual dollars from accounting, not estimates. Costs are typically
+      scattered across ten different accounts, so under-reporting is the default failure mode. Build a simple
+      cost-of-quality worksheet with one row per PAF category and populate it from source documents (scrap
+      tickets, warranty claim logs, rework labor time cards, complaint tracking system exports) rather than
+      trusting a single GL rollup.</li>
+      <li><strong>Analyze</strong> — Pareto the failure costs by category and by root cause; a small number of
+      failure modes usually drive most of the dollars. Cross-reference against the external-to-internal failure
+      ratio from the worked example above — a high ratio points you toward appraisal gaps, a low ratio points
+      you toward process capability issues.</li>
+      <li><strong>Improve</strong> — shift budget toward prevention tools (FMEA, control plans, poka-yoke,
+      supplier development) targeted at the top failure modes identified in Analyze, not spread evenly across
+      every category. A common mistake is funding prevention broadly instead of aiming it at the Pareto-vital
+      few failure modes.</li>
+      <li><strong>Control</strong> — track COPQ as % of revenue over time as a leading indicator of quality
+      system maturity, not just a lagging financial metric. Report it alongside — not instead of — traditional
+      quality metrics like defect rate and Cpk, since COPQ is what makes those metrics legible to a non-technical
+      audience.</li>
+    </ol>
+  </section>
+
+  <!-- ============ STANDARD PROGRESS CARD INJECTION POINT ============ -->
+  <!-- progress.js auto-injects the "Your progress" card via body[data-lesson-page] — do not hardcode -->
+
+  <style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+  </style>
+
+  <section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+    <p class="lesson-kicker">Knowledge check</p>
+    <h2 id="quiz-heading">Check your understanding</h2>
+    <div class="quiz">
+      <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+      <form id="quiz-form">
+        <fieldset class="quiz-question" data-answer="b" data-explanation="COPQ, in the narrow CSSBB/CQE sense, is Internal Failure + External Failure costs only. Prevention and Appraisal make up the Cost of Good Quality.">
+          <legend>1. Under the standard CSSBB/CQE definition, COPQ equals:</legend>
+          <label class="quiz-option"><input type="radio" name="q1" value="a"> Prevention + Appraisal costs</label>
+          <label class="quiz-option"><input type="radio" name="q1" value="b"> Internal Failure + External Failure costs</label>
+          <label class="quiz-option"><input type="radio" name="q1" value="c"> All four PAF categories combined</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+
+        <fieldset class="quiz-question" data-answer="b" data-explanation="Calibrating a gauge is done to detect whether output conforms — that's an appraisal activity, not a prevention activity (which would stop the defect from occurring in the first place).">
+          <legend>2. Calibrating an inspection gauge is an example of which cost category?</legend>
+          <label class="quiz-option"><input type="radio" name="q2" value="a"> Prevention</label>
+          <label class="quiz-option"><input type="radio" name="q2" value="b"> Appraisal</label>
+          <label class="quiz-option"><input type="radio" name="q2" value="c"> Internal failure</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+
+        <fieldset class="quiz-question" data-answer="a" data-explanation="A product recalled after reaching customers is a classic external failure cost — the defect was found after delivery.">
+          <legend>3. A recall of a product already in customers' hands is:</legend>
+          <label class="quiz-option"><input type="radio" name="q3" value="a"> External failure cost</label>
+          <label class="quiz-option"><input type="radio" name="q3" value="b"> Internal failure cost</label>
+          <label class="quiz-option"><input type="radio" name="q3" value="c"> Appraisal cost</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+
+        <fieldset class="quiz-question" data-answer="b" data-explanation="FMEA is a proactive tool used before production to anticipate and design out failure modes — that's prevention, not appraisal.">
+          <legend>4. Conducting an FMEA during design is best classified as:</legend>
+          <label class="quiz-option"><input type="radio" name="q4" value="a"> Appraisal</label>
+          <label class="quiz-option"><input type="radio" name="q4" value="b"> Prevention</label>
+          <label class="quiz-option"><input type="radio" name="q4" value="c"> Internal failure</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+
+        <fieldset class="quiz-question" data-answer="c" data-explanation="Immature quality programs typically spend the majority of quality dollars reacting to failures (60-70%) and very little on prevention (5-10%), which is precisely the imbalance COPQ analysis is used to correct.">
+          <legend>5. In organizations with immature quality programs, failure costs typically consume roughly what share of total quality spend?</legend>
+          <label class="quiz-option"><input type="radio" name="q5" value="a"> 5-10%</label>
+          <label class="quiz-option"><input type="radio" name="q5" value="b"> 20-30%</label>
+          <label class="quiz-option"><input type="radio" name="q5" value="c"> 60-70%</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+
+        <fieldset class="quiz-question" data-answer="a" data-explanation="Rework performed on a rejected assembly before it ships is caught internally — before the customer receives it — making it an internal failure cost.">
+          <legend>6. Reworking a rejected sub-assembly on the line, before shipment, is:</legend>
+          <label class="quiz-option"><input type="radio" name="q6" value="a"> Internal failure cost</label>
+          <label class="quiz-option"><input type="radio" name="q6" value="b"> Appraisal cost</label>
+          <label class="quiz-option"><input type="radio" name="q6" value="c"> External failure cost</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+
+        <fieldset class="quiz-question" data-answer="b" data-explanation="Because COPQ costs are scattered across many different accounts (materials, labor, warranty reserves, freight, etc.), organizations routinely under-report it unless they deliberately aggregate across accounts.">
+          <legend>7. Why do organizations commonly under-report their true COPQ?</legend>
+          <label class="quiz-option"><input type="radio" name="q7" value="a"> COPQ is not a recognized accounting category anywhere</label>
+          <label class="quiz-option"><input type="radio" name="q7" value="b"> The costs are spread across many different accounts instead of one</label>
+          <label class="quiz-option"><input type="radio" name="q7" value="c"> External failure costs cannot legally be tracked</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+
+        <fieldset class="quiz-question" data-answer="b" data-explanation="The classical model shows total cost of quality as U-shaped with an interior minimum — pushing conformance past that point costs more in prevention/appraisal spend than it saves in failure costs, according to that model.">
+          <legend>8. In the classical (traditional) cost-of-quality model, why isn't 100% conformance the cost optimum?</legend>
+          <label class="quiz-option"><input type="radio" name="q8" value="a"> Because external failure costs cannot be measured</label>
+          <label class="quiz-option"><input type="radio" name="q8" value="b"> Because prevention and appraisal costs rise faster than failure costs fall beyond the optimum point</label>
+          <label class="quiz-option"><input type="radio" name="q8" value="c"> Because ASQ certification requires some defects</label>
+          <div class="quiz-feedback"></div>
+        </fieldset>
+
+        <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+        <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+  </main>
+
+  <section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+    <a href="/lessons#quality-engineering" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Quality Engineering lessons</a>
+  </section>
+
+  <footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+
+  <!-- EDIT: Lesson script -->
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Respect prefers-reduced-motion for iceberg wave/bob animations ---------- */
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll(".copq-iceberg-svg animateTransform").forEach(function (anim) {
+      anim.setAttribute("repeatCount", "0");
+      anim.parentNode.removeChild(anim);
+    });
+  }
+
+  /* ---------- Iceberg dive experience ---------- */
+  var depthSlider = document.getElementById("copq-depth-slider");
+  var depthStatus = document.getElementById("copq-depth-status");
+  var diver = document.getElementById("copq-diver");
+  var tierGroups = Array.prototype.slice.call(document.querySelectorAll(".copq-chip-group.tier"));
+  var hiddenCountEl = document.getElementById("copq-hidden-count");
+  var ratioEl = document.getElementById("copq-ratio");
+  var TOTAL_HIDDEN = tierGroups.reduce(function (sum, g) {
+    return sum + g.querySelectorAll(".copq-chip").length;
+  }, 0);
+
+  function depthLabel(v) {
+    if (v < 15) return "Surface — tap and drag to dive";
+    if (v < 40) return "Just below the surface";
+    if (v < 65) return "Mid-depth";
+    if (v < 90) return "Approaching the seafloor";
+    return "Seafloor — nothing left hidden";
+  }
+
+  function updateDive() {
+    var v = parseInt(depthSlider.value, 10);
+    if (depthStatus) depthStatus.textContent = "Depth: " + depthLabel(v);
+    if (diver) diver.style.top = (30 + v * 0.62) + "%";
+
+    var revealedCount = 0;
+    tierGroups.forEach(function (g) {
+      var threshold = parseInt(g.dataset.revealAt, 10);
+      var isRevealed = v >= threshold;
+      g.classList.toggle("revealed", isRevealed);
+      if (isRevealed) revealedCount += g.querySelectorAll(".copq-chip").length;
+    });
+
+    if (hiddenCountEl) hiddenCountEl.textContent = revealedCount + " / " + TOTAL_HIDDEN;
+    if (ratioEl) {
+      var ratio = 1 + (revealedCount / TOTAL_HIDDEN) * 4.2;
+      ratioEl.textContent = ratio.toFixed(1) + "×";
+    }
+  }
+
+  if (depthSlider) {
+    depthSlider.addEventListener("input", updateDive);
+    updateDive();
+  }
+
+  /* ---------- Cost chip click-to-explain ---------- */
+  document.querySelectorAll(".copq-chip[data-detail]").forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      var existing = chip.parentElement.querySelector(".copq-chip-detail[data-for='" + chip.textContent.trim() + "']");
+      document.querySelectorAll(".copq-chip.chip-active").forEach(function (c) {
+        if (c !== chip) c.classList.remove("chip-active");
+      });
+      chip.parentElement.querySelectorAll(".copq-chip-detail").forEach(function (d) {
+        if (!existing || d !== existing) d.remove();
+      });
+      if (existing) {
+        existing.remove();
+        chip.classList.remove("chip-active");
+        return;
+      }
+      var detail = document.createElement("div");
+      detail.className = "copq-chip-detail";
+      detail.setAttribute("data-for", chip.textContent.trim());
+      detail.textContent = chip.dataset.detail;
+      chip.insertAdjacentElement("afterend", detail);
+      chip.classList.add("chip-active");
+    });
+  });
+
+  /* ---------- Classification exercise ---------- */
+  var scenarios = [
+    { id: "s1", text: "Warranty claim paid on a returned unit", bucket: "external" },
+    { id: "s2", text: "Operator training on new SOPs", bucket: "prevention" },
+    { id: "s3", text: "Final inspection before shipment", bucket: "appraisal" },
+    { id: "s4", text: "Scrapping a batch that failed in-process testing", bucket: "internal" },
+    { id: "s5", text: "Supplier qualification audit before first order", bucket: "prevention" },
+    { id: "s6", text: "Rework labor on a rejected weld", bucket: "internal" },
+    { id: "s7", text: "Customer complaint call-center staffing", bucket: "external" },
+    { id: "s8", text: "Calibrating a torque wrench monthly", bucket: "appraisal" }
+  ];
+
+  var pool = document.getElementById("copq-scenario-pool");
+  var scoreEl = document.getElementById("copq-classify-score");
+  var resetBtn = document.getElementById("copq-classify-reset");
+  var selectedChip = null;
+  var correctCount = 0;
+  var placedCount = 0;
+
+  function buildScenarios() {
+    pool.innerHTML = "";
+    selectedChip = null;
+    correctCount = 0;
+    placedCount = 0;
+    scoreEl.textContent = "Score: 0 / " + scenarios.length;
+    document.querySelectorAll(".copq-bucket-items").forEach(function (b) { b.innerHTML = ""; });
+
+    scenarios.forEach(function (s) {
+      var chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "copq-scenario-chip";
+      chip.textContent = s.text;
+      chip.dataset.id = s.id;
+      chip.dataset.bucket = s.bucket;
+      chip.setAttribute("aria-pressed", "false");
+      chip.addEventListener("click", function () {
+        if (selectedChip === chip) {
+          chip.classList.remove("selected");
+          chip.setAttribute("aria-pressed", "false");
+          selectedChip = null;
+          return;
+        }
+        if (selectedChip) {
+          selectedChip.classList.remove("selected");
+          selectedChip.setAttribute("aria-pressed", "false");
+        }
+        chip.classList.add("selected");
+        chip.setAttribute("aria-pressed", "true");
+        selectedChip = chip;
+      });
+      pool.appendChild(chip);
+    });
+  }
+
+  document.querySelectorAll(".copq-bucket").forEach(function (bucketEl) {
+    bucketEl.addEventListener("click", function (e) {
+      if (!selectedChip) return;
+      var target = e.target.closest(".copq-bucket");
+      if (!target) return;
+      var guess = target.dataset.bucket;
+      var correct = selectedChip.dataset.bucket === guess;
+
+      var item = document.createElement("div");
+      item.className = "copq-bucket-item " + (correct ? "correct" : "incorrect");
+      item.textContent = selectedChip.textContent + (correct ? " ✓" : " ✗ (try: " + labelFor(selectedChip.dataset.bucket) + ")");
+      target.querySelector(".copq-bucket-items").appendChild(item);
+
+      selectedChip.classList.add("placed");
+      placedCount++;
+      if (correct) correctCount++;
+      scoreEl.textContent = "Score: " + correctCount + " / " + scenarios.length;
+      selectedChip = null;
+    });
+  });
+
+  function labelFor(bucket) {
+    return { prevention: "Prevention", appraisal: "Appraisal", internal: "Internal Failure", external: "External Failure" }[bucket] || bucket;
+  }
+
+  if (resetBtn) resetBtn.addEventListener("click", buildScenarios);
+  buildScenarios();
+
+  /* ---------- Calculator ---------- */
+  var inRevenue = document.getElementById("copq-in-revenue");
+  var inPrevention = document.getElementById("copq-in-prevention");
+  var inAppraisal = document.getElementById("copq-in-appraisal");
+  var inInternal = document.getElementById("copq-in-internal");
+  var inExternal = document.getElementById("copq-in-external");
+
+  var segPrevention = document.getElementById("copq-seg-prevention");
+  var segAppraisal = document.getElementById("copq-seg-appraisal");
+  var segInternal = document.getElementById("copq-seg-internal");
+  var segExternal = document.getElementById("copq-seg-external");
+
+  var outCogq = document.getElementById("copq-out-cogq");
+  var outCopq = document.getElementById("copq-out-copq");
+  var outCoq = document.getElementById("copq-out-coq");
+  var outPct = document.getElementById("copq-out-pct");
+  var verdictEl = document.getElementById("copq-verdict");
+
+  function fmtUSD(n) {
+    return "$" + Math.round(n).toLocaleString("en-US");
+  }
+
+  function recalc() {
+    var revenue = Math.max(0, parseFloat(inRevenue.value) || 0);
+    var prevention = Math.max(0, parseFloat(inPrevention.value) || 0);
+    var appraisal = Math.max(0, parseFloat(inAppraisal.value) || 0);
+    var internal = Math.max(0, parseFloat(inInternal.value) || 0);
+    var external = Math.max(0, parseFloat(inExternal.value) || 0);
+
+    var cogq = prevention + appraisal;
+    var copq = internal + external;
+    var coq = cogq + copq;
+    var pct = revenue > 0 ? (copq / revenue) * 100 : 0;
+
+    outCogq.textContent = fmtUSD(cogq);
+    outCopq.textContent = fmtUSD(copq);
+    outCoq.textContent = fmtUSD(coq);
+    outPct.textContent = pct.toFixed(1) + "%";
+
+    var total = coq || 1;
+    segPrevention.style.width = (prevention / total * 100) + "%";
+    segAppraisal.style.width = (appraisal / total * 100) + "%";
+    segInternal.style.width = (internal / total * 100) + "%";
+    segExternal.style.width = (external / total * 100) + "%";
+
+    verdictEl.classList.remove("low", "moderate", "high");
+    if (pct < 5) {
+      verdictEl.classList.add("low");
+      verdictEl.textContent = "Low COPQ (< 5% of revenue) — consistent with a mature Six Sigma / lean quality system.";
+    } else if (pct <= 20) {
+      verdictEl.classList.add("moderate");
+      verdictEl.textContent = "Moderate COPQ (5–20% of revenue) — structured quality system, room to shift spend toward prevention.";
+    } else {
+      verdictEl.classList.add("high");
+      verdictEl.textContent = "High COPQ (> 20% of revenue) — failure costs are consuming a large share of quality spend.";
+    }
+  }
+
+  [inRevenue, inPrevention, inAppraisal, inInternal, inExternal].forEach(function (el) {
+    el.addEventListener("input", recalc);
+  });
+  recalc();
+  })();
+  </script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+</body>
+</html>
