@@ -97,6 +97,23 @@
     return { attemptedMastery: attemptedMastery, coverage: coverage, readiness: readiness, attempted: attempted.length, total: questions.length, mastered: mastered, due: due };
   }
 
+  function subtopicBreakdown(data, timestamp) {
+    const questions = allQuestions();
+    const groups = {};
+    questions.forEach(function (question) {
+      const state = stateFor(question, data);
+      if (!state.attempts) return;
+      const sub = question.sub || 'general';
+      if (!groups[sub]) groups[sub] = { sub: sub, attempted: 0, masterySum: 0 };
+      groups[sub].attempted += 1;
+      groups[sub].masterySum += effectiveMastery(state, timestamp);
+    });
+    return Object.keys(groups).sort().map(function (sub) {
+      const group = groups[sub];
+      return { sub: sub, attempted: group.attempted, avgMastery: Math.round(group.masterySum / group.attempted) };
+    });
+  }
+
   function seededShuffle(items, seedText) {
     const output = items.slice();
     let seed = parseInt(hash(seedText), 36) || 1;
@@ -316,8 +333,7 @@
     }
   }
 
-  function exportData() {
-    const payload = { exportedAt: new Date().toISOString(), examId: examId(), mastery: examData(readStore()) };
+  function downloadJSONFallback(payload) {
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -326,7 +342,160 @@
     link.click();
     link.remove();
     setTimeout(function () { URL.revokeObjectURL(link.href); }, 0);
-    announce('Adaptive learning data export prepared.');
+    announce('Adaptive learning data export prepared as JSON (PDF export was unavailable).');
+  }
+
+  function loadImageDataUrl(path) {
+    return fetch(path).then(function (response) {
+      if (!response.ok) throw new Error('logo fetch failed');
+      return response.blob();
+    }).then(function (blob) {
+      return new Promise(function (resolve, reject) {
+        const reader = new FileReader();
+        reader.onload = function () { resolve(reader.result); };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    });
+  }
+
+  const GREEN = [53, 156, 48];
+  const CHARCOAL = [49, 55, 59];
+  const GRAY = [110, 110, 110];
+  const PAGE_RIGHT = 192;
+  const MARGIN_X = 18;
+
+  function sectionHeader(doc, title, y) {
+    doc.setFillColor(GREEN[0], GREEN[1], GREEN[2]);
+    doc.rect(MARGIN_X, y, PAGE_RIGHT - MARGIN_X, 8, 'F');
+    doc.setFont('times', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(255, 255, 255);
+    doc.text(title.toUpperCase(), MARGIN_X + 3, y + 5.6);
+    doc.setTextColor(CHARCOAL[0], CHARCOAL[1], CHARCOAL[2]);
+    return y + 8 + 8;
+  }
+
+  function buildMasteryReport(doc, summary, breakdown, examLabel, dateStr, reportId, logoDataUrl) {
+    let y = 18;
+    const textX = logoDataUrl ? MARGIN_X + 20 : MARGIN_X;
+    if (logoDataUrl) {
+      try { doc.addImage(logoDataUrl, 'PNG', MARGIN_X, y - 3, 15.4, 17.6); } catch (error) {}
+    }
+    doc.setFont('times', 'bold');
+    doc.setFontSize(16);
+    doc.setTextColor(CHARCOAL[0], CHARCOAL[1], CHARCOAL[2]);
+    doc.text('UpSkill Sprint Consulting', textX, y + 4);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
+    doc.text('Certification Prep & Engineering Education', textX, y + 9.5);
+
+    doc.setFont('times', 'bold');
+    doc.setFontSize(13);
+    doc.setTextColor(CHARCOAL[0], CHARCOAL[1], CHARCOAL[2]);
+    doc.text(examLabel + ' Mastery Report', PAGE_RIGHT, y + 4, { align: 'right' });
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
+    doc.text('Generated ' + dateStr, PAGE_RIGHT, y + 9.5, { align: 'right' });
+
+    y += 17;
+    doc.setDrawColor(GREEN[0], GREEN[1], GREEN[2]);
+    doc.setLineWidth(0.7);
+    doc.line(MARGIN_X, y, PAGE_RIGHT, y);
+    doc.setLineWidth(0.2);
+    y += 10;
+
+    y = sectionHeader(doc, 'Mastery confidence and coverage', y);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    const metrics = [
+      ['Mastery on attempted questions', summary.attemptedMastery + '%'],
+      ['Question-bank coverage', summary.coverage + '% (' + summary.attempted + ' of ' + summary.total + ' questions)'],
+      ['Coverage-adjusted readiness', summary.readiness + '%'],
+      ['Questions mastered (3+ attempts, 80%+ mastery)', String(summary.mastered)],
+      ['Questions due for review', String(summary.due)]
+    ];
+    metrics.forEach(function (row) {
+      doc.text(row[0], MARGIN_X, y);
+      doc.setFont('helvetica', 'bold');
+      doc.text(row[1], PAGE_RIGHT, y, { align: 'right' });
+      doc.setFont('helvetica', 'normal');
+      y += 7;
+    });
+    y += 3;
+    doc.setFontSize(8.5);
+    doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
+    doc.text('Readiness discounts high scores based on a small evidence sample.', MARGIN_X, y);
+    y += 4.5;
+    doc.text('Effective mastery also decays as retrieval becomes stale.', MARGIN_X, y);
+    doc.setTextColor(CHARCOAL[0], CHARCOAL[1], CHARCOAL[2]);
+    y += 12;
+
+    if (breakdown.length) {
+      y = sectionHeader(doc, 'Mastery by subtopic', y);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9.5);
+      doc.text('Subtopic', MARGIN_X, y);
+      doc.text('Attempted', 140, y, { align: 'right' });
+      doc.text('Avg. mastery', PAGE_RIGHT, y, { align: 'right' });
+      y += 4;
+      doc.setDrawColor(215, 215, 215);
+      doc.line(MARGIN_X, y, PAGE_RIGHT, y);
+      y += 6;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9.5);
+      breakdown.forEach(function (row, index) {
+        if (y > 270) {
+          doc.addPage();
+          y = 20;
+        }
+        if (index % 2 === 0) {
+          doc.setFillColor(245, 247, 245);
+          doc.rect(MARGIN_X, y - 4.6, PAGE_RIGHT - MARGIN_X, 6.6, 'F');
+        }
+        doc.text(row.sub, MARGIN_X, y);
+        doc.text(String(row.attempted), 140, y, { align: 'right' });
+        doc.text(row.avgMastery + '%', PAGE_RIGHT, y, { align: 'right' });
+        y += 7;
+      });
+    }
+
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let page = 1; page <= pageCount; page++) {
+      doc.setPage(page);
+      doc.setDrawColor(GREEN[0], GREEN[1], GREEN[2]);
+      doc.setLineWidth(0.4);
+      doc.line(MARGIN_X, 284, PAGE_RIGHT, 284);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
+      doc.text(reportId, MARGIN_X, 289);
+      doc.text('Page ' + page + ' of ' + pageCount, 105, 289, { align: 'center' });
+      doc.text('upskillsprint.com  \u2022  For personal study use only', PAGE_RIGHT, 289, { align: 'right' });
+    }
+  }
+
+  function exportData() {
+    const timestamp = Date.now();
+    const data = examData(readStore());
+    const summary = masterySummary(data, timestamp);
+    const breakdown = subtopicBreakdown(data, timestamp);
+    const examLabel = examId().toUpperCase();
+    const dateStr = new Date(timestamp).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    const reportId = 'RPT-' + examId().toUpperCase() + '-' + timestamp.toString(36).toUpperCase();
+    Promise.all([
+      import('https://cdn.jsdelivr.net/npm/jspdf@2.5.2/+esm'),
+      loadImageDataUrl('/assets/logo-icon.png').catch(function () { return null; })
+    ]).then(function (results) {
+      const doc = new results[0].jsPDF();
+      buildMasteryReport(doc, summary, breakdown, examLabel, dateStr, reportId, results[1]);
+      doc.save('upskillsprint-' + examId() + '-mastery-' + new Date(timestamp).toISOString().slice(0, 10) + '.pdf');
+      announce('Adaptive learning data export prepared.');
+    }).catch(function () {
+      downloadJSONFallback({ exportedAt: new Date(timestamp).toISOString(), examId: examId(), mastery: data });
+    });
   }
 
   function resetData(button) {
@@ -418,9 +587,11 @@
   window.__TBAdaptiveHardening = {
     effectiveMastery: effectiveMastery,
     summary: function (timestamp) { return masterySummary(examData(readStore()), timestamp || Date.now()); },
+    subtopicBreakdown: function (timestamp) { return subtopicBreakdown(examData(readStore()), timestamp || Date.now()); },
     balancedCandidates: function (limit, timestamp) { return balancedCandidates(limit || SESSION_SIZE, timestamp || Date.now()); },
     stateFor: stateFor,
-    restoreSession: restoreSession
+    restoreSession: restoreSession,
+    buildMasteryReport: buildMasteryReport
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });

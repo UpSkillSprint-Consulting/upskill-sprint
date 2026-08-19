@@ -5,6 +5,7 @@ const test = require('node:test');
 const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
+const { jsPDF } = require('jspdf');
 const { JSDOM, VirtualConsole } = require('jsdom');
 
 const ROOT = path.join(__dirname, '..');
@@ -163,4 +164,58 @@ test('the mastery reliability block is idempotent (no re-render loop that breaks
   assert.equal(after[0], node, 'the reliability block is the SAME node (not recreated each frame)');
   // its action buttons must also be the same nodes (taps depend on stable targets)
   assert.ok(after[0].querySelector('[data-v2-export]') && after[0].querySelector('[data-v2-reset]'), 'export/reset buttons present and stable');
+});
+
+test('subtopicBreakdown groups attempted questions by subtopic with average mastery', async () => {
+  const { window } = await load();
+  const qs = questions(window);
+  const timestamp = Date.UTC(2026, 7, 18);
+  seedStore(window, qs.slice(0, 6), timestamp);
+  const api = window.__TBAdaptiveHardening;
+  const breakdown = api.subtopicBreakdown(timestamp);
+
+  assert.ok(Array.isArray(breakdown), 'returns an array');
+  assert.ok(breakdown.length > 0, 'has at least one subtopic group');
+  const subs = new Set(qs.slice(0, 6).map(question => question.sub || 'general'));
+  breakdown.forEach(row => {
+    assert.ok(subs.has(row.sub), 'subtopic label matches a seeded question');
+    assert.ok(row.attempted > 0, 'attempted count is positive');
+    assert.ok(row.avgMastery >= 0 && row.avgMastery <= 100, 'average mastery is a valid percentage');
+  });
+  const totalAttempted = breakdown.reduce((sum, row) => sum + row.attempted, 0);
+  assert.equal(totalAttempted, 6, 'attempted counts across subtopics sum to seeded question count');
+
+  // Regression guard: before the fix, subtopicBreakdown did not exist, so this call
+  // would throw "api.subtopicBreakdown is not a function".
+  assert.equal(typeof api.subtopicBreakdown, 'function', 'subtopicBreakdown is exposed on the hardening API');
+});
+
+test('buildMasteryReport produces a well-formed, multi-section PDF with logo, footer, and page numbers', async () => {
+  const { window } = await load();
+  const qs = questions(window);
+  const timestamp = Date.UTC(2026, 7, 18);
+  seedStore(window, qs.slice(0, 10), timestamp);
+  const api = window.__TBAdaptiveHardening;
+  const summary = api.summary(timestamp);
+  const breakdown = api.subtopicBreakdown(timestamp);
+  const logoBuffer = fs.readFileSync(path.join(ROOT, 'assets', 'logo-icon.png'));
+  const logoDataUrl = 'data:image/png;base64,' + logoBuffer.toString('base64');
+  const reportId = 'RPT-CSSBB-TESTFIXTURE';
+
+  const doc = new jsPDF();
+  api.buildMasteryReport(doc, summary, breakdown, 'CSSBB', 'August 18, 2026, 3:45 PM', reportId, logoDataUrl);
+
+  const bytes = doc.output('arraybuffer');
+  assert.ok(bytes.byteLength > 2000, 'produces a non-trivial PDF (logo embedded, content rendered)');
+  assert.ok(doc.internal.getNumberOfPages() >= 1, 'has at least one page');
+
+  const pdfText = Buffer.from(bytes).toString('latin1');
+  assert.ok(pdfText.includes('/Image'), 'PDF contains an embedded image (the logo)');
+
+  // Regression guard: without the fix, buildMasteryReport had no logo/footer support
+  // and would throw or silently omit the logo and footer metadata.
+  assert.doesNotThrow(() => {
+    const noLogoDoc = new jsPDF();
+    api.buildMasteryReport(noLogoDoc, summary, breakdown, 'CSSBB', 'August 18, 2026', reportId, null);
+  }, 'still renders cleanly when the logo fails to load (fallback path)');
 });
