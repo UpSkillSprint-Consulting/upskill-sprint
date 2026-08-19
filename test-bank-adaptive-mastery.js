@@ -206,6 +206,14 @@
     return data.questions[hash(question.stem)] || initialQuestionState(question);
   }
 
+  function unattemptedFilter(questions) {
+    const store = readStore();
+    const data = examStore(store);
+    return (questions || []).filter(function (question) {
+      return question && stateFor(question, data).attempts === 0;
+    });
+  }
+
   function dueQuestions(data, timestamp) {
     return allQuestions().filter(function (question) {
       const state = stateFor(question, data);
@@ -529,7 +537,8 @@
     summary: function () { const store = readStore(); return masterySummary(examStore(store)); },
     improvement: function () { const store = readStore(); return improvement(examStore(store)); },
     store: readStore,
-    recordResults: recordResults
+    recordResults: recordResults,
+    unattemptedFilter: unattemptedFilter
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });

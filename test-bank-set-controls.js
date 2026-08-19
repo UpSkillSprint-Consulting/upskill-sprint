@@ -105,6 +105,10 @@
     const controls = card.querySelector('.tb-mode-controls');
     if (!controls) return;
 
+    // "New questions only" always draws from the pooled Mixed bank, independent
+    // of this Set picker, so the Set choice is moot while it's on.
+    const unseenActive = controls.getAttribute('data-unseen-active') === 'true';
+
     if (description) {
       const nextDescription = kind === 'quick'
         ? 'Choose Set 1, Set 2, Set 3, or Mixed, then draw a randomized sample across the whole Body of Knowledge.'
@@ -117,6 +121,15 @@
       controls.insertBefore(createSetControls(overview, kind), controls.firstChild);
     }
 
+    Array.prototype.forEach.call(controls.querySelectorAll('[data-quiz-set="' + kind + '"]'), function (button) {
+      button.disabled = unseenActive;
+      button.setAttribute('aria-disabled', String(unseenActive));
+      button.title = unseenActive ? 'Ignored while New questions only is on \u2014 that always draws from Mixed.' : '';
+    });
+
+    // The core script owns the summary text while "New questions only" is on
+    // (it needs to report the live unseen-question count); don't fight it.
+    if (unseenActive) return;
     updateSummary(card, kind, setName);
   }
 

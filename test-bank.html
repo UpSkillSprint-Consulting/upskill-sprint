@@ -87,7 +87,15 @@
   .tb-counts{display:inline-flex;gap:6px}
   .tb-count{border:1px solid var(--line);background:var(--card);border-radius:7px;min-width:42px;padding:7px 10px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;transition:.12s}
   .tb-count.on{border-color:var(--teal);background:var(--teal);color:#fff}
+  .tb-count[disabled]{opacity:.45;cursor:not-allowed}
   .tb-select{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:8px 10px;font:inherit;font-size:13px}
+  .tb-unseen{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 12px 6px 8px;font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;transition:.12s}
+  .tb-unseen .sw{width:26px;height:15px;border-radius:99px;background:var(--line);position:relative;flex:none;transition:.15s}
+  .tb-unseen .sw::after{content:"";position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:#fff;transition:.15s}
+  .tb-unseen.on{border-color:var(--teal);color:var(--ink)}
+  .tb-unseen.on .sw{background:var(--teal)}
+  .tb-unseen.on .sw::after{left:13px}
+  .tb-mstart[disabled]{opacity:.5;cursor:not-allowed}
   .tb-mode-foot{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between}
   .tb-mode-sum{font-size:12.5px;color:var(--muted)} .tb-mode-sum b{color:var(--ink);font-weight:600}
   .tb-start{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:8px;padding:9px 15px;font-weight:600;font-size:12.5px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;cursor:not-allowed}
@@ -1381,6 +1389,21 @@
     if(selectedSet==='mix')return s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]);
     return s[1];
   }
+  /* the pooled bank across every set, independent of the Set 1/2/3/Mixed picker \u2014
+     used by the "New questions only" toggle so it always draws against the full bank */
+  function mixedBank(e){
+    if(!hasTwoSets(e))return e.bank||[];
+    var s=e.sets;
+    return s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]);
+  }
+  /* filters to questions with zero prior attempts, per the adaptive mastery store.
+     falls back to the full list (no filtering) if that module hasn't loaded yet. */
+  function unseenOnly(list){
+    if(window.__TBAdaptiveMastery&&typeof window.__TBAdaptiveMastery.unattemptedFilter==='function'){
+      return window.__TBAdaptiveMastery.unattemptedFilter(list);
+    }
+    return list;
+  }
   function setLabel(){return selectedSet==='2'?'Set 2':selectedSet==='3'?'Set 3':selectedSet==='mix'?'Mixed (all sets)':'Set 1';}
   function setCount(e){return (e&&e.sets&&e.sets[1])?(e.sets[3]?3:(e.sets[2]?2:1)):0;}
   function setsAvailLabel(e){var n=setCount(e);return n>=2?(n+' exam sets'):(e.setName||'Live');}
@@ -1511,13 +1534,16 @@
 
   /* ---------- practice modes (overview) ---------- */
   var NUMS=[10,20,30,50];
-  var mode={timed:true,quickN:20,focusDom:null,focusN:20};
-  function resetMode(){mode={timed:true,quickN:20,focusDom:EXAMS[current].bok[0].domain,focusN:20};selectedSet='1';}
+  var mode={timed:true,quickN:20,focusDom:null,focusN:20,quickUnseen:false,focusUnseen:false};
+  function resetMode(){mode={timed:true,quickN:20,focusDom:EXAMS[current].bok[0].domain,focusN:20,quickUnseen:false,focusUnseen:false};selectedSet='1';}
   function fmtDur(min){var h=Math.floor(min/60),m=min%60;return (h?h+'h':'')+(h&&m?' ':'')+(m?m+'m':'');}
   function counts(kind,val){return '<span class="tb-counts" role="group" aria-label="Number of questions">'+NUMS.map(function(n){
     return '<button type="button" class="tb-count'+(n===val?' on':'')+'" data-count="'+kind+'" data-n="'+n+'" aria-pressed="'+(n===val)+'">'+n+'</button>';}).join('')+'</span>';}
   function startBtn(){return '<span class="tb-start"><span class="dot"></span>Start &middot; Coming soon</span>';}
-  function liveStart(m,label){return '<button type="button" class="btn btn-teal tb-mstart" data-mode="'+m+'">'+label+' &rarr;</button>';}
+  function liveStart(m,label,disabled){return '<button type="button" class="btn btn-teal tb-mstart" data-mode="'+m+'"'+(disabled?' disabled aria-disabled="true"':'')+'>'+label+' &rarr;</button>';}
+  function unseenToggleHTML(kind,on){
+    return '<button type="button" class="tb-unseen'+(on?' on':'')+'" data-unseen="'+kind+'" aria-pressed="'+on+'"><span class="sw"></span>New questions only</button>';
+  }
   function modesHTML(e){
     var live=hasBank(e);
     var full='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u25A4</span>'+
@@ -1528,17 +1554,33 @@
       '<div class="tb-mode-foot"><span class="tb-mode-sum">'+
         (mode.timed?'Strict <b>'+fmtDur(e.minutes)+'</b> limit &mdash; mirrors the real exam.':'<b>No time limit</b> &mdash; work at your own pace.')+
         '</span>'+(live?liveStart('full','Start '+examNoun(e)):startBtn())+'</div></div>';
+
+    var quickAvail=live&&mode.quickUnseen?unseenOnly(mixedBank(e)).length:null;
+    var quickEffN=mode.quickUnseen?Math.min(mode.quickN,quickAvail||0):mode.quickN;
+    var quickSum=mode.quickUnseen
+      ? (quickAvail
+          ? 'Random <b>'+quickEffN+'</b> new question'+(quickEffN===1?'':'s')+' from <b>Mixed (all sets)</b> across the whole Body of Knowledge, ignoring the Set selection above.'+(quickAvail<mode.quickN?' Only <b>'+quickAvail+'</b> unseen question'+(quickAvail===1?'':'s')+' remain.':'')
+          : 'You\u2019ve attempted every question in Mixed (all sets). Turn off New questions only to review previously seen questions.')
+      : 'Random <b>'+mode.quickN+'</b> questions from the whole Body of Knowledge.';
     var quick='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u26A1</span>'+
       '<div><h4>Quick Quiz</h4><p>A randomized set drawn from the entire Body of Knowledge &mdash; a fast check.</p></div></div>'+
-      '<div class="tb-mode-controls"><span class="tb-ctl-label">Questions</span>'+counts('quick',mode.quickN)+'</div>'+
-      '<div class="tb-mode-foot"><span class="tb-mode-sum">Random <b>'+mode.quickN+'</b> questions from the whole Body of Knowledge.</span>'+(live?liveStart('quick','Start quiz'):startBtn())+'</div></div>';
+      '<div class="tb-mode-controls" data-unseen-active="'+(!!mode.quickUnseen)+'"><span class="tb-ctl-label">Questions</span>'+counts('quick',mode.quickN)+unseenToggleHTML('quick',mode.quickUnseen)+'</div>'+
+      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+quickSum+'</span>'+(live?liveStart('quick','Start quiz',mode.quickUnseen&&quickAvail===0):startBtn())+'</div></div>';
+
     var opts=e.bok.map(function(x){return '<option value="'+x.domain+'"'+(x.domain===mode.focusDom?' selected':'')+'>'+esc(DM[x.domain].name)+'</option>';}).join('');
     var focusName=DM[mode.focusDom]?DM[mode.focusDom].name:'';
+    var focusAvail=live&&mode.focusUnseen?unseenOnly(mixedBank(e)).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:null;
+    var focusEffN=mode.focusUnseen?Math.min(mode.focusN,focusAvail||0):mode.focusN;
+    var focusSum=mode.focusUnseen
+      ? (focusAvail
+          ? 'Random <b>'+focusEffN+'</b> new question'+(focusEffN===1?'':'s')+' from <b>'+esc(focusName)+'</b> in <b>Mixed (all sets)</b>, ignoring the Set selection above.'+(focusAvail<mode.focusN?' Only <b>'+focusAvail+'</b> unseen question'+(focusAvail===1?'':'s')+' remain in this area.':'')
+          : 'You\u2019ve attempted every question in <b>'+esc(focusName)+'</b> across Mixed (all sets). Turn off New questions only to review previously seen questions.')
+      : 'Random <b>'+mode.focusN+'</b> questions from <b>'+esc(focusName)+'</b>.';
     var focus='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u25CE</span>'+
       '<div><h4>Focused Quiz</h4><p>Drill a single area of the Body of Knowledge you want to strengthen.</p></div></div>'+
-      '<div class="tb-mode-controls"><span class="tb-ctl-label">Area</span><select class="tb-select" data-focusdom aria-label="Body of Knowledge area">'+opts+'</select>'+
-        '<span class="tb-ctl-label">Questions</span>'+counts('focus',mode.focusN)+'</div>'+
-      '<div class="tb-mode-foot"><span class="tb-mode-sum">Random <b>'+mode.focusN+'</b> questions from <b>'+esc(focusName)+'</b>.</span>'+(live?liveStart('focus','Start quiz'):startBtn())+'</div></div>';
+      '<div class="tb-mode-controls" data-unseen-active="'+(!!mode.focusUnseen)+'"><span class="tb-ctl-label">Area</span><select class="tb-select" data-focusdom aria-label="Body of Knowledge area">'+opts+'</select>'+
+        '<span class="tb-ctl-label">Questions</span>'+counts('focus',mode.focusN)+unseenToggleHTML('focus',mode.focusUnseen)+'</div>'+
+      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+focusSum+'</span>'+(live?liveStart('focus','Start quiz',mode.focusUnseen&&focusAvail===0):startBtn())+'</div></div>';
     return full+quick+focus;
   }
 
@@ -1569,6 +1611,7 @@
     Array.prototype.forEach.call(host.querySelectorAll('[data-timed]'),function(b){b.addEventListener('click',function(){mode.timed=b.dataset.timed==='1';renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){b.addEventListener('click',function(){var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderMain();});});
     var sel=host.querySelector('[data-focusdom]');if(sel)sel.addEventListener('change',function(){mode.focusDom=sel.value;renderMain();});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-unseen]'),function(b){b.addEventListener('click',function(){if(b.dataset.unseen==='quick')mode.quickUnseen=!mode.quickUnseen;else mode.focusUnseen=!mode.focusUnseen;renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-mode]'),function(b){b.addEventListener('click',function(){var m=b.dataset.mode;if(m==='full')startFull();else if(m==='quick')startQuick();else if(m==='focus')startFocused();});});
   }
 
@@ -1597,8 +1640,21 @@
   function beginSession(e,items,kind,timed,limit){buildTools();session={kind:kind,items:items.map(function(q){return {q:q};}),answers:{},flags:{},i:0,timed:!!timed,limit:limit||null,endsAt:timed?Date.now()+(limit||e.minutes)*60000:null};view='quiz';renderMain();startTimer();}
   function startDiagnostic(){var e=EXAMS[current];var qs=pickStratified(activeBank(e),2);var limit=Math.round(qs.length*e.minutes/e.questions);beginSession(e,qs,'diagnostic',diagTimed,limit);}
   function startFull(){var e=EXAMS[current];var qs=activeBank(e).slice();shuffle(qs);qs=qs.slice(0,e.questions);beginSession(e,qs,'exam',mode.timed,e.minutes);}
-  function startQuick(){var e=EXAMS[current];var qs=activeBank(e).slice();shuffle(qs);beginSession(e,qs.slice(0,Math.min(mode.quickN,qs.length)),'quiz',false,null);}
-  function startFocused(){var e=EXAMS[current];var qs=activeBank(e).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;});shuffle(qs);beginSession(e,qs.slice(0,Math.min(mode.focusN,qs.length)),'quiz',false,null);}
+  function startQuick(){
+    var e=EXAMS[current];
+    var qs=mode.quickUnseen?unseenOnly(mixedBank(e)):activeBank(e).slice();
+    if(mode.quickUnseen&&!qs.length)return;
+    shuffle(qs);
+    beginSession(e,qs.slice(0,Math.min(mode.quickN,qs.length)),'quiz',false,null);
+  }
+  function startFocused(){
+    var e=EXAMS[current];
+    var base=mode.focusUnseen?unseenOnly(mixedBank(e)):activeBank(e);
+    var qs=base.filter(function(q){return domainOf(e,q.sub)===mode.focusDom;});
+    if(mode.focusUnseen&&!qs.length)return;
+    shuffle(qs);
+    beginSession(e,qs.slice(0,Math.min(mode.focusN,qs.length)),'quiz',false,null);
+  }
   function startPractice(){var e=EXAMS[current];var b=activeBank(e);var st=loadState(current);var due=st?dueSubs(st.subState,Date.now()):[];var dueSet={};due.forEach(function(id){dueSet[id]=1;});var agg=st&&st.subState?masteryAgg(st.subState):{};var picks=weightedPick(b,agg,Math.min(10,b.length),dueSet);beginSession(e,picks,'practice',false,null);}
   function masteryAgg(subState){var agg={};for(var id in subState){var m=subState[id].mastery;agg[id]={c:m,t:1};}return agg;}
   function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
