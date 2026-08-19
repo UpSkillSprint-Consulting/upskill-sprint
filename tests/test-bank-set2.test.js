@@ -61,8 +61,8 @@ test('the overview shows a four-way set selector defaulting to Set 1', async () 
   assert.deepEqual(vals, ['1', '2', '3', 'mix']);
   const on = ov(w).querySelector('[data-set].on');
   assert.equal(on.dataset.set, '1', 'defaults to Set 1');
-  // Mixed advertises the pooled size across all three 165-question sets
-  assert.match(ov(w).querySelector('[data-set="mix"]').textContent, /495/);
+  // Mixed advertises the pooled size across all three sets (165 + 165 + 696)
+  assert.match(ov(w).querySelector('[data-set="mix"]').textContent, /1025/);
 });
 
 async function stemAfterSelecting(setVal) {

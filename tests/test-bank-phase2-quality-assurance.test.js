@@ -35,7 +35,7 @@ test('all CSSBB questions receive an explicit feedback quality level', async () 
   const window = await load();
   const api = window.__TBFeedbackQuality;
   const questions = uniqueQuestions(window);
-  assert.equal(questions.length, 495);
+  assert.equal(questions.length, 1025);
   questions.forEach(question => {
     assert.ok(['expert-reviewed', 'bank-grounded', 'review-required'].includes(api.qualityLevel(question).level));
   });
@@ -77,7 +77,7 @@ test('structural defects are never labelled bank-grounded or expert-reviewed', a
 test('bank audit counts every unique CSSBB question and reports valid totals', async () => {
   const window = await load();
   const report = window.__TBFeedbackQuality.audit();
-  assert.equal(report.total, 495);
+  assert.equal(report.total, 1025);
   assert.equal(report.expertReviewed + report.bankGrounded + report.reviewRequired, report.total);
   assert.ok(report.structurallyValid <= report.total);
 });
