@@ -57,7 +57,7 @@ test('the CQE tile is live (3 exam sets) and its modes launch', async () => {
   const setBtns = ov(w).querySelectorAll('[data-set]');
   assert.equal(setBtns.length, 4, 'Set 1 / Set 2 / Set 3 / Mixed');
   assert.deepEqual(Array.from(setBtns).map(b => b.dataset.set), ['1', '2', '3', 'mix']);
-  assert.match(ov(w).querySelector('[data-set="mix"]').textContent, /495/, 'Mixed pools all three sets');
+  assert.match(ov(w).querySelector('[data-set="mix"]').textContent, /511/, 'Mixed pools all three sets');
 });
 
 test('CQE has a second 160-question set, disjoint from Set 1, same BoK weighting', async () => {
@@ -110,9 +110,9 @@ test('a CQE diagnostic starts and draws from the CQE bank', async () => {
 test('CQE carries an expanding Set 3, seeded from the study-guide practice bank, disjoint from Sets 1 and 2', async () => {
   const w = await loadPage();
   const e = w.__TB.EXAMS.cqe;
-  assert.ok(e.sets[3] && e.sets[3].length === 175, 'Set 3 has grown to 175 questions');
+  assert.ok(e.sets[3] && e.sets[3].length === 191, 'Set 3 has grown to 191 questions');
   const d = {}; e.sets[3].forEach(q => { d[q.sub] = (d[q.sub] || 0) + 1; });
-  assert.deepEqual(d, { mgmt: 17, qsys: 33, design: 21, ppc: 23, ci: 26, quant: 34, risk: 21 });
+  assert.deepEqual(d, { mgmt: 33, qsys: 33, design: 21, ppc: 23, ci: 26, quant: 34, risk: 21 });
   e.sets[3].forEach((q, i) => {
     assert.equal(q.set, 3, 'q ' + i + ' tagged set 3');
     assert.equal(q.options.length, 4);
@@ -121,7 +121,7 @@ test('CQE carries an expanding Set 3, seeded from the study-guide practice bank,
     assert.ok(q.stem && q.why);
     assert.ok(!/<\/?[a-zA-Z][a-zA-Z0-9]*(\s[^>]*)?>/.test(q.stem + q.options.join('')), 'q ' + i + ' has no HTML tags');
   });
-  assert.equal(new Set(e.sets[3].map(q => q.stem)).size, 175, 'all Set-3 stems unique');
+  assert.equal(new Set(e.sets[3].map(q => q.stem)).size, 191, 'all Set-3 stems unique');
   const prior = new Set(e.sets[1].concat(e.sets[2]).map(q => q.stem));
   assert.equal(e.sets[3].filter(q => prior.has(q.stem)).length, 0, 'Set 3 disjoint from Sets 1 and 2');
 });
@@ -134,6 +134,6 @@ test('a CQE full exam always draws exactly 160 questions, regardless of set/pool
     click(w, ov(w).querySelector('[data-mode="full"]'));
     return ov(w).querySelectorAll('.tb-navcell').length;
   }
-  assert.equal(await count('3'), 160, 'Set 3 full exam is 160 drawn from its 175-question pool');
-  assert.equal(await count('mix'), 160, 'Mixed full exam is 160 drawn from the 495 pool');
+  assert.equal(await count('3'), 160, 'Set 3 full exam is 160 drawn from its 191-question pool');
+  assert.equal(await count('mix'), 160, 'Mixed full exam is 160 drawn from the 511 pool');
 });
