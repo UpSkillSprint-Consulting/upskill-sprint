@@ -19,6 +19,7 @@ export default async function testBankSetControls(request, context) {
     '<script src="/test-bank-adaptive-mastery.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery-runtime.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery-hardening.js" defer></script>',
+    '<script src="/test-bank-analytics-dashboard.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery-completion-guard.js" defer></script>',
     '<script src="/test-bank-phases-integration.js" defer></script>'
   ];
