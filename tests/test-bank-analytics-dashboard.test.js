@@ -349,3 +349,57 @@ test('completing an adaptive practice session does not leave the analytics panel
     assert.ok(analyticsPanel.hidden, 'refreshDashboard() rebuilding the host element must not resurrect an analytics panel the user closed by navigating away');
   }
 });
+
+test('resetting adaptive data (which also destroys and removes #tb-adaptive-mastery) does not leave a phantom analytics panel', async () => {
+  const { window } = await load();
+  showDashboard(window);
+  await settle(window, 6);
+
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  assert.ok(!window.document.getElementById('tb-analytics-panel').hidden, 'analytics panel starts open');
+
+  const resetButton = window.document.querySelector('[data-v2-reset]');
+  assert.ok(resetButton, 'reset button is present');
+  resetButton.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  resetButton.dispatchEvent(new window.MouseEvent('click', { bubbles: true })); // confirm
+  await settle(window, 8);
+
+  const analyticsPanel = window.document.getElementById('tb-analytics-panel');
+  assert.ok(!analyticsPanel, 'the whole dashboard (including our panel) was removed by reset, and nothing resurrects it silently');
+});
+
+test('domains and readiness tabs degrade gracefully instead of showing a confusing blank grid when an exam has no object-style BoK domains', async () => {
+  const { window } = await load();
+  showDashboard(window);
+  await settle(window, 6);
+  window.window.__TB.EXAMS.cssbb.bok = []; // simulate an exam whose BoK data hasn't been authored in the id/weight format yet
+
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  let panel = window.document.getElementById('tb-analytics-panel');
+  assert.ok(panel.textContent.includes('not available for this exam yet'), 'readiness tab explains the gap instead of rendering an empty radar');
+  assert.equal(panel.querySelectorAll('.tb-an-radar').length, 0);
+
+  window.document.querySelector('[data-analytics-tab="domains"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  panel = window.document.getElementById('tb-analytics-panel');
+  assert.ok(panel.textContent.includes('not available for this exam yet'), 'domains tab explains the gap instead of a blank zero-stat grid');
+  assert.equal(panel.querySelectorAll('.tb-an-domain-row').length, 0);
+});
+
+test('the domains tab describes the real exam length instead of a CSSBB-specific hardcoded number', async () => {
+  const { window } = await load();
+  const original = window.__TB.EXAMS.cssbb.questions;
+  window.__TB.EXAMS.cssbb.questions = 123; // arbitrary, distinct from the real 165, to prove it's read dynamically
+  showDashboard(window);
+  await settle(window, 6);
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  window.document.querySelector('[data-analytics-tab="domains"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  const panel = window.document.getElementById('tb-analytics-panel');
+  assert.ok(panel.textContent.includes('123-question exam blueprint'), 'reads exam.questions live rather than a hardcoded 165');
+  window.__TB.EXAMS.cssbb.questions = original;
+});

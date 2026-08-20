@@ -286,6 +286,16 @@
     const summary = readinessSummary(timestamp);
     const domains = domainStats(timestamp);
     const leverage = topLeverage(timestamp, 3);
+    const domainSection = domains.length ?
+      '<div class="tb-an-two">' +
+        '<div><div class="tb-an-label">Mastery vs. exam blueprint weight</div>' + radarSvg(domains) +
+          '<div class="tb-an-legend"><span><i class="tb-an-swatch weight"></i>Exam weight</span><span><i class="tb-an-swatch mastery"></i>Your mastery</span></div></div>' +
+        '<div><div class="tb-an-label">Highest-leverage fixes</div><p class="tb-an-desc">Ranked by exam weight &times; mastery gap — where an hour of study moves your score the most.</p>' +
+          '<ul class="tb-an-leverage">' + (leverage.length ? leverage.map(function (item, index) {
+            return '<li><span class="tb-an-rank">' + (index + 1) + '</span><span class="tb-an-lev-name">' + esc(item.name) + '</span><span class="tb-pill ' + tone(item.avgMastery) + '">' + (item.attempted ? item.avgMastery + '% mastery' : 'not attempted') + '</span></li>';
+          }).join('') : '<li class="tb-an-empty">Complete some questions to see ranked priorities.</li>') + '</ul></div>' +
+      '</div>' :
+      '<p class="tb-an-empty">Domain-level detail is not available for this exam yet.</p>';
     return '<div class="tb-an-ring-wrap">' +
       '<div class="tb-an-ring" style="--p:' + summary.readiness + '"><strong>' + summary.readiness + '%</strong><span>readiness</span></div>' +
       '<div class="tb-an-stat-row">' +
@@ -294,21 +304,16 @@
         '<div class="tb-an-stat"><b>' + summary.attempted + '/' + summary.total + '</b><span>questions seen</span></div>' +
       '</div></div>' +
       '<p class="tb-an-desc">Readiness blends how well you do on questions you have attempted with how much of the full pool you have covered — a high score on 20 questions reads lower than the same score on 500.</p>' +
-      '<div class="tb-an-two">' +
-        '<div><div class="tb-an-label">Mastery vs. exam blueprint weight</div>' + radarSvg(domains) +
-          '<div class="tb-an-legend"><span><i class="tb-an-swatch weight"></i>Exam weight</span><span><i class="tb-an-swatch mastery"></i>Your mastery</span></div></div>' +
-        '<div><div class="tb-an-label">Highest-leverage fixes</div><p class="tb-an-desc">Ranked by exam weight &times; mastery gap — where an hour of study moves your score the most.</p>' +
-          '<ul class="tb-an-leverage">' + (leverage.length ? leverage.map(function (item, index) {
-            return '<li><span class="tb-an-rank">' + (index + 1) + '</span><span class="tb-an-lev-name">' + esc(item.name) + '</span><span class="tb-pill ' + tone(item.avgMastery) + '">' + (item.attempted ? item.avgMastery + '% mastery' : 'not attempted') + '</span></li>';
-          }).join('') : '<li class="tb-an-empty">Complete some questions to see ranked priorities.</li>') + '</ul></div>' +
-      '</div>';
+      domainSection;
   }
 
   function domainsTab(timestamp) {
     const domains = domainStats(timestamp);
+    if (!domains.length) return '<p class="tb-an-empty">Domain-level detail is not available for this exam yet.</p>';
     const totalPool = domains.reduce(function (sum, item) { return sum + item.poolSize; }, 0);
     const totalAttempted = domains.reduce(function (sum, item) { return sum + item.attempted; }, 0);
-    return '<p class="tb-an-desc">All 9 ASQ Body of Knowledge domains. Bar length is your mastery; the number in parentheses is that domain\u2019s share of the 165-question exam blueprint.</p>' +
+    const examLength = exam() && exam().questions != null ? exam().questions : totalPool;
+    return '<p class="tb-an-desc">All ' + domains.length + ' ASQ Body of Knowledge domains. Bar length is your mastery; the number in parentheses is that domain\u2019s share of the ' + examLength + '-question exam blueprint.</p>' +
       '<div class="tb-an-domain-list">' + domains.map(function (item) {
         return '<div class="tb-an-domain-row">' +
           '<div class="tb-an-domain-head"><span>' + esc(item.name) + ' <i>(' + item.weightPct + '% of exam)</i></span><b class="tb-pill ' + tone(item.avgMastery) + '">' + item.avgMastery + '%</b></div>' +
@@ -401,9 +406,9 @@
     const timestamp = Date.now();
     return '<div class="tb-an-head"><div><div class="tb-diag-kick">Full analytics</div><h3>Your complete study picture</h3></div><button type="button" class="tb-ghost" data-close-analytics>Close</button></div>' +
       '<div class="tb-an-tabs" role="tablist">' + TABS.map(function (tab) {
-        return '<button type="button" role="tab" class="tb-an-tab' + (tab.id === activeTab ? ' active' : '') + '" data-analytics-tab="' + tab.id + '">' + tab.label + '</button>';
+        return '<button type="button" role="tab" aria-selected="' + (tab.id === activeTab ? 'true' : 'false') + '" class="tb-an-tab' + (tab.id === activeTab ? ' active' : '') + '" data-analytics-tab="' + tab.id + '">' + tab.label + '</button>';
       }).join('') + '</div>' +
-      '<div class="tb-an-body" data-analytics-body>' + tabMarkup(activeTab, timestamp) + '</div>';
+      '<div class="tb-an-body" data-analytics-body role="tabpanel">' + tabMarkup(activeTab, timestamp) + '</div>';
   }
 
   function ensurePanel() {
