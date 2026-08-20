@@ -540,7 +540,18 @@
   function schedule() {
     requestAnimationFrame(function () {
       ensureButton();
-      if (open) renderPanel();
+      const panel = document.getElementById('tb-analytics-panel');
+      const masteryOwnedPanel = document.getElementById('tb-adaptive-panel');
+      if (panel && !panel.hidden && masteryOwnedPanel && !masteryOwnedPanel.hidden && masteryOwnedPanel.innerHTML) {
+        closePanel();
+        return;
+      }
+      // mastery.js's refreshDashboard() removes and rebuilds #tb-adaptive-mastery
+      // (our panel's parent) every time an adaptive session completes. Read the
+      // real DOM instead of trusting the "open" flag, or a stale true would
+      // silently recreate and show the panel the user never asked to reopen.
+      if (panel && !panel.hidden) renderPanel();
+      else open = false;
     });
   }
 

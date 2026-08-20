@@ -274,3 +274,78 @@ test('edge injection includes the analytics script exactly once, after hardening
   assert.ok(analyticsIndex < guardIndex, 'analytics dashboard loads before the completion guard');
   assert.equal(edge.indexOf('/test-bank-analytics-dashboard.js', analyticsIndex + 1), -1, 'script is injected only once');
 });
+
+test('starting adaptive practice while the analytics panel is open closes it, so the two panels never show at once', async () => {
+  const { window } = await load();
+  showDashboard(window);
+  await settle(window, 6);
+
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  assert.ok(!window.document.getElementById('tb-analytics-panel').hidden, 'analytics panel starts open');
+
+  window.document.querySelector('[data-start-adaptive]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  assert.ok(window.document.getElementById('tb-analytics-panel').hidden, 'analytics panel closes the moment an adaptive session starts');
+  assert.ok(!window.document.getElementById('tb-adaptive-panel').hidden, 'the adaptive practice panel it owns is the one left visible');
+});
+
+test('opening the mistake notebook or mastery details closes the analytics panel', async () => {
+  const { window } = await load();
+  showDashboard(window);
+  await settle(window, 6);
+
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  window.document.querySelector('[data-open-notebook]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  assert.ok(window.document.getElementById('tb-analytics-panel').hidden, 'analytics panel closes when the mistake notebook opens');
+  assert.ok(!window.document.getElementById('tb-adaptive-panel').hidden, 'mistake notebook is shown in its own panel');
+
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  window.document.querySelector('[data-open-mastery-details]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  assert.ok(window.document.getElementById('tb-analytics-panel').hidden, 'analytics panel closes when mastery details opens');
+});
+
+test('completing an adaptive practice session does not leave the analytics panel silently reopened after the dashboard is rebuilt', async () => {
+  const { window } = await load();
+  showDashboard(window);
+  await settle(window, 6);
+
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+
+  window.document.querySelector('[data-start-adaptive]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+
+  let guard = 0;
+  while (guard < 15) {
+    guard += 1;
+    const adaptivePanel = window.document.getElementById('tb-adaptive-panel');
+    if (!adaptivePanel) break;
+    const option = adaptivePanel.querySelector('[data-adaptive-opt]');
+    if (option) {
+      option.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+      await settle(window, 1);
+    }
+    const check = adaptivePanel.querySelector('[data-adaptive-check]');
+    if (check) {
+      check.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+      await settle(window, 1);
+    }
+    const next = adaptivePanel.querySelector('[data-adaptive-next]');
+    if (next) {
+      next.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+      await settle(window, 2);
+    }
+    if (!option && !check && !next) break;
+  }
+  await settle(window, 8);
+
+  const analyticsPanel = window.document.getElementById('tb-analytics-panel');
+  if (analyticsPanel) {
+    assert.ok(analyticsPanel.hidden, 'refreshDashboard() rebuilding the host element must not resurrect an analytics panel the user closed by navigating away');
+  }
+});
