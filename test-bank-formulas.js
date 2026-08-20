@@ -162,7 +162,7 @@
       'Use for variable data collected in rational subgroups, commonly with subgroup sizes 2–10.',
       'X̿ = grand mean; R̄ = average subgroup range; A₂, D₃, D₄ depend on subgroup size.',
       'Control limits describe process behavior; they are not specification limits.',
-      [/X[-̄ ]?bar.*R chart|\bX and R chart\b|X̄\s*chart|A2|D3|D4|average range|subgroup range/i], ['xbar-r', 'mean and range chart']),
+      [/X[-̄ ]?bar.*R chart|\bX and R chart\b|X̄\s*(?:and\s*R\s*)?chart|A2|D3|D4|average range|subgroup range/i], ['xbar-r', 'mean and range chart']),
     f('xbar-s', ['ppc', 'quant'], 'X̄ and S chart limits',
       'X̄ chart: UCL/LCL = X̿ ± A₃s̄;  S chart: UCL = B₄s̄, LCL = B₃s̄',
       'Use for variable data in larger rational subgroups where subgroup standard deviation is preferred to range.',
