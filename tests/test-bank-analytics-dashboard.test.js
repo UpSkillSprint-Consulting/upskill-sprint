@@ -403,3 +403,38 @@ test('the domains tab describes the real exam length instead of a CSSBB-specific
   assert.ok(panel.textContent.includes('123-question exam blueprint'), 'reads exam.questions live rather than a hardcoded 165');
   window.__TB.EXAMS.cssbb.questions = original;
 });
+
+test('switching to a different exam tile while the analytics panel is open does not leave a phantom panel behind', async () => {
+  const { window } = await load();
+  showDashboard(window);
+  await settle(window, 6);
+
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  assert.ok(!window.document.getElementById('tb-analytics-panel').hidden, 'analytics panel starts open on CSSBB');
+
+  const cqeTile = window.document.querySelector('.tb-tile[data-exam="cqe"]');
+  assert.ok(cqeTile, 'CQE tile is present in the rail');
+  cqeTile.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 8);
+
+  const panelAfterSwitch = window.document.getElementById('tb-analytics-panel');
+  if (panelAfterSwitch) {
+    assert.ok(panelAfterSwitch.hidden, 'switching exams rebuilds #tb-overview entirely; the old panel must not resurrect on the new exam');
+  }
+});
+
+test('radar chart does not produce NaN coordinates if a hypothetical exam has all-zero blueprint weights', async () => {
+  const { window } = await load();
+  const timestamp = Date.now();
+  const bank = Object.values(window.__TB.EXAMS.cssbb.sets).flat().filter((q, i, arr) => arr.findIndex(x => x.stem === q.stem) === i);
+  const originalBok = window.__TB.EXAMS.cssbb.bok;
+  window.__TB.EXAMS.cssbb.bok = [{ domain: 'test', weight: 0, subs: [{ id: 'p1', name: 'Zero-weight domain', w: 0 }, { id: 'mea', name: 'Also zero', w: 0 }] }];
+  showDashboard(window);
+  await settle(window, 6);
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  const panel = window.document.getElementById('tb-analytics-panel');
+  assert.ok(!panel.innerHTML.includes('NaN'), 'radar SVG must not render NaN coordinates when every domain weight rounds to 0%');
+  window.__TB.EXAMS.cssbb.bok = originalBok;
+});

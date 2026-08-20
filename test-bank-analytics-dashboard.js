@@ -267,7 +267,8 @@
     function ring(fraction) {
       return items.map(function (item, index) { const pt = point(index, fraction); return pt[0].toFixed(1) + ',' + pt[1].toFixed(1); }).join(' ');
     }
-    const weightPoly = items.map(function (item, index) { const pt = point(index, item.weightPct / Math.max.apply(null, items.map(function (x) { return x.weightPct; })) ); return pt[0].toFixed(1) + ',' + pt[1].toFixed(1); }).join(' ');
+    const maxWeightPct = Math.max.apply(null, items.map(function (x) { return x.weightPct; }).concat([1]));
+    const weightPoly = items.map(function (item, index) { const pt = point(index, item.weightPct / maxWeightPct); return pt[0].toFixed(1) + ',' + pt[1].toFixed(1); }).join(' ');
     const masteryPoly = items.map(function (item, index) { const pt = point(index, item.avgMastery / 100); return pt[0].toFixed(1) + ',' + pt[1].toFixed(1); }).join(' ');
     const labels = items.map(function (item, index) {
       const pt = point(index, 1.18);
