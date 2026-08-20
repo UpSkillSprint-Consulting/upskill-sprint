@@ -133,3 +133,19 @@ test('retry missed questions launches a correction quiz and reveals feedback aft
   assert.match(panel.querySelector('.tb-retry-feedback').textContent, /Correct/);
   assert.ok(panel.querySelector('.tb-explanation-copy').textContent.trim().length > 20, 'retry explanation is shown');
 });
+
+test('missed-question review shows which exam set the question came from', async () => {
+  const { window } = await loadEnhancedPage();
+  const { overview, stem, question } = await submitPartiallyAnsweredQuickQuiz(window);
+
+  click(window, overview.querySelector('[data-open-review="missed"]'));
+
+  const review = overview.querySelector('#tb-answer-review');
+  const card = Array.from(review.querySelectorAll('.tb-review-card'))
+    .find(item => item.querySelector('.tb-review-stem').textContent.trim() === stem);
+  assert.ok(card, 'the missed question appears in review');
+
+  const setBadge = card.querySelector('.tb-review-setbadge');
+  assert.ok(setBadge, 'a set badge is rendered on the review card');
+  assert.equal(setBadge.textContent.trim(), 'Set ' + question.set, 'the badge names the question\'s actual origin set');
+});
