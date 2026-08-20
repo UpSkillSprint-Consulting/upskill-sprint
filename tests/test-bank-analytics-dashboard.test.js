@@ -438,3 +438,61 @@ test('radar chart does not produce NaN coordinates if a hypothetical exam has al
   assert.ok(!panel.innerHTML.includes('NaN'), 'radar SVG must not render NaN coordinates when every domain weight rounds to 0%');
   window.__TB.EXAMS.cssbb.bok = originalBok;
 });
+
+test('radar axis labels carry the full domain name for hover/focus/tap, with a native <title> tooltip as well', async () => {
+  const { window } = await load();
+  showDashboard(window);
+  await settle(window, 6);
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  const panel = window.document.getElementById('tb-analytics-panel');
+  const axes = panel.querySelectorAll('.tb-an-radar-axis');
+  assert.equal(axes.length, 9, 'one hoverable axis group per CSSBB BoK domain');
+  const measureAxis = Array.from(axes).find(a => a.getAttribute('data-radar-name') === 'V. Measure');
+  assert.ok(measureAxis, 'the Measure axis carries its full BoK name');
+  assert.ok(measureAxis.querySelector('title'), 'native SVG title tooltip is present for desktop hover');
+  assert.equal(measureAxis.querySelector('title').textContent, 'V. Measure');
+  assert.equal(measureAxis.getAttribute('tabindex'), '0', 'axis is keyboard-focusable');
+});
+
+test('hovering, focusing, or tapping a radar axis updates the caption with the full name; leaving resets it', async () => {
+  const { window } = await load();
+  showDashboard(window);
+  await settle(window, 6);
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  const panel = window.document.getElementById('tb-analytics-panel');
+  const caption = panel.querySelector('[data-radar-caption]');
+  const defaultText = caption.textContent;
+  const measureAxis = Array.from(panel.querySelectorAll('.tb-an-radar-axis')).find(a => a.getAttribute('data-radar-name') === 'V. Measure');
+
+  measureAxis.dispatchEvent(new window.Event('pointerenter'));
+  assert.equal(caption.textContent, 'V. Measure', 'hovering the Measure axis shows its full name in the caption');
+  measureAxis.dispatchEvent(new window.Event('pointerleave'));
+  assert.equal(caption.textContent, defaultText, 'leaving resets the caption to the default prompt');
+
+  measureAxis.dispatchEvent(new window.Event('focus'));
+  assert.equal(caption.textContent, 'V. Measure', 'keyboard-focusing the axis also shows its full name');
+  measureAxis.dispatchEvent(new window.Event('blur'));
+  assert.equal(caption.textContent, defaultText);
+
+  measureAxis.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  assert.equal(caption.textContent, 'V. Measure', 'tapping (click) the axis shows its full name for touch devices without hover');
+});
+
+test('switching tabs and back re-wires the radar tooltip listeners on the freshly rendered DOM', async () => {
+  const { window } = await load();
+  showDashboard(window);
+  await settle(window, 6);
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  window.document.querySelector('[data-analytics-tab="domains"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  window.document.querySelector('[data-analytics-tab="readiness"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  const panel = window.document.getElementById('tb-analytics-panel');
+  const caption = panel.querySelector('[data-radar-caption]');
+  const analyzeAxis = Array.from(panel.querySelectorAll('.tb-an-radar-axis')).find(a => a.getAttribute('data-radar-name') === 'VI. Analyze');
+  analyzeAxis.dispatchEvent(new window.Event('pointerenter'));
+  assert.equal(caption.textContent, 'VI. Analyze', 'tooltip listeners work on the re-rendered radar after navigating away and back');
+});

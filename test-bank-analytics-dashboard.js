@@ -272,7 +272,12 @@
     const masteryPoly = items.map(function (item, index) { const pt = point(index, item.avgMastery / 100); return pt[0].toFixed(1) + ',' + pt[1].toFixed(1); }).join(' ');
     const labels = items.map(function (item, index) {
       const pt = point(index, 1.18);
-      return '<text x="' + pt[0].toFixed(1) + '" y="' + pt[1].toFixed(1) + '" font-size="8" fill="var(--muted)" text-anchor="middle">' + esc(item.id.toUpperCase()) + '</text>';
+      const fullName = esc(item.name);
+      return '<g class="tb-an-radar-axis" tabindex="0" role="img" aria-label="' + fullName + '" data-radar-name="' + fullName + '">' +
+        '<circle cx="' + pt[0].toFixed(1) + '" cy="' + pt[1].toFixed(1) + '" r="13" class="tb-an-radar-hit"></circle>' +
+        '<text x="' + pt[0].toFixed(1) + '" y="' + pt[1].toFixed(1) + '" font-size="8" fill="var(--muted)" text-anchor="middle">' + esc(item.id.toUpperCase()) + '</text>' +
+        '<title>' + fullName + '</title>' +
+      '</g>';
     }).join('');
     return '<svg viewBox="0 0 ' + size + ' ' + size + '" class="tb-an-radar" role="img" aria-label="Mastery compared with exam blueprint weight, by domain">' +
       '<polygon points="' + ring(1) + '" class="tb-an-radar-grid"></polygon>' +
@@ -290,6 +295,7 @@
     const domainSection = domains.length ?
       '<div class="tb-an-two">' +
         '<div><div class="tb-an-label">Mastery vs. exam blueprint weight</div>' + radarSvg(domains) +
+          '<p class="tb-an-radar-caption" data-radar-caption data-default="Hover, tap, or tab to a domain on the chart for its full name">Hover, tap, or tab to a domain on the chart for its full name</p>' +
           '<div class="tb-an-legend"><span><i class="tb-an-swatch weight"></i>Exam weight</span><span><i class="tb-an-swatch mastery"></i>Your mastery</span></div></div>' +
         '<div><div class="tb-an-label">Highest-leverage fixes</div><p class="tb-an-desc">Ranked by exam weight &times; mastery gap — where an hour of study moves your score the most.</p>' +
           '<ul class="tb-an-leverage">' + (leverage.length ? leverage.map(function (item, index) {
@@ -426,10 +432,26 @@
     return panel;
   }
 
+  function wireRadarTooltips(panel) {
+    const caption = panel.querySelector('[data-radar-caption]');
+    if (!caption) return;
+    const defaultText = caption.dataset.default || caption.textContent;
+    function show(axis) { caption.textContent = axis.getAttribute('data-radar-name') || defaultText; }
+    function reset() { caption.textContent = defaultText; }
+    Array.prototype.forEach.call(panel.querySelectorAll('.tb-an-radar-axis'), function (axis) {
+      axis.addEventListener('pointerenter', function () { show(axis); });
+      axis.addEventListener('pointerleave', reset);
+      axis.addEventListener('focus', function () { show(axis); });
+      axis.addEventListener('blur', reset);
+      axis.addEventListener('click', function () { show(axis); });
+    });
+  }
+
   function renderPanel() {
     const panel = ensurePanel();
     if (!panel) return;
     panel.innerHTML = panelMarkup();
+    wireRadarTooltips(panel);
   }
 
   function openPanel() {
@@ -499,6 +521,11 @@
       '.tb-an-radar-grid{fill:none;stroke:var(--line);stroke-width:1}' +
       '.tb-an-radar-weight{fill:color-mix(in srgb,var(--muted) 18%,transparent);stroke:var(--muted);stroke-width:1}' +
       '.tb-an-radar-mastery{fill:color-mix(in srgb,#6656b5 22%,transparent);stroke:#6656b5;stroke-width:1.5}' +
+      '.tb-an-radar-axis{cursor:pointer;outline:none}' +
+      '.tb-an-radar-axis .tb-an-radar-hit{fill:transparent}' +
+      '.tb-an-radar-axis:hover text,.tb-an-radar-axis:focus-visible text{fill:#6656b5;font-weight:700}' +
+      '.tb-an-radar-axis:focus-visible .tb-an-radar-hit{fill:color-mix(in srgb,#6656b5 12%,transparent);stroke:#6656b5;stroke-width:1}' +
+      '.tb-an-radar-caption{min-height:15px;text-align:center;font-size:11px;color:var(--muted);margin:8px 0 0}' +
       '.tb-an-legend{display:flex;gap:14px;justify-content:center;margin-top:6px;font-size:11px;color:var(--muted)}' +
       '.tb-an-legend span{display:flex;align-items:center;gap:5px}' +
       '.tb-an-swatch{width:10px;height:10px;border-radius:3px;display:inline-block}.tb-an-swatch.weight{background:var(--muted)}.tb-an-swatch.mastery{background:#6656b5}' +
