@@ -55,16 +55,16 @@
     #sign-in-status { margin: 14px 0 0; font-size: 14.5px; color: var(--muted); min-height: 1.4em; }
     #sign-in-status.auth-status-success { color: var(--teal); font-weight: 600; }
     #sign-in .auth-alt { margin: 22px 0 0; font-size: 14.5px; color: var(--muted); text-align: center; }
-    #sign-in .auth-forgot { display: block; font-size: 13.5px; margin: -6px 0 18px; text-align: right; }
+    #sign-in .auth-forgot { display: block; font-size: 13.5px; margin: -4px 0 18px; text-align: right; }
   </style>
   <div class="wrap">
     <p class="eyebrow" style="text-align:center;">Welcome back</p>
     <h1 id="sign-in-heading" style="font-size:28px;margin:0 0 12px;text-align:center;">Sign in</h1>
-    <p style="font-size:15.5px;color:var(--muted);margin:0 0 28px;text-align:center;">Pick up your lessons where you left off.</p>
+    <p style="font-size:15.5px;color:var(--muted);margin:0 0 28px;text-align:center;">Pick up on any device with your progress synced to your account.</p>
 
-    <form id="sign-in-form" class="card">
-      <label class="field">Email<input type="email" id="sign-in-email" name="email" required autocomplete="email"></label>
-      <label class="field">Password<input type="password" id="sign-in-password" name="password" required autocomplete="current-password"></label>
+    <form id="sign-in-form" class="card" data-auth-form>
+      <label class="field">Email<input type="email" id="sign-in-email" name="email" required autocomplete="email" autocapitalize="none" spellcheck="false"></label>
+      <label class="field">Password<input type="password" id="sign-in-password" name="password" required autocomplete="current-password" data-auth-password></label>
       <a class="auth-forgot" href="/reset-password.html">Forgot password?</a>
       <button type="submit" class="btn btn-teal" id="sign-in-submit" style="width:100%;">Sign in</button>
       <p id="sign-in-status" role="status" aria-live="polite"></p>
@@ -88,10 +88,6 @@
         status.classList.toggle('auth-status-success', Boolean(isSuccess));
       }
       function safeNext() {
-        /* Return visitors to the page that sent them here (?next=), but only
-           if it is a same-origin absolute path. Reject anything that could be
-           an off-site redirect: protocol-relative ("//evil"), backslash
-           tricks ("/\\evil"), or absolute URLs (which do not start with "/"). */
         var raw;
         try { raw = new URLSearchParams(window.location.search).get('next'); }
         catch (error) { raw = null; }
@@ -108,18 +104,28 @@
       whenAuthReady(function () {
         form.addEventListener('submit', function (event) {
           event.preventDefault();
+          var captchaToken;
+          try { captchaToken = window.UpskillAuthForms.getCaptchaToken(form); }
+          catch (error) {
+            setStatus(error.message, false);
+            return;
+          }
           submit.disabled = true;
           setStatus('Signing you in\u2026', false);
-          window.UpskillAuth.signIn(email.value.trim(), password.value).then(function () {
+          window.UpskillAuth.signIn(email.value.trim(), password.value, captchaToken).then(function () {
             setStatus('Signed in \u2014 taking you back.', true);
-            window.setTimeout(function () { window.location.href = safeNext(); }, 800);
+            window.setTimeout(function () { window.location.href = safeNext(); }, 650);
           }).catch(function (error) {
             submit.disabled = false;
-            setStatus(error && error.message ? error.message : 'Sign in failed. Please try again.', false);
+            window.UpskillAuthForms.resetCaptcha(form);
+            setStatus(window.UpskillAuthForms.friendlyError(
+              error,
+              'Sign in failed. Check your details and try again.'
+            ), false);
           });
         });
       });
-    })();
+    }());
   </script>
 </section>
   <footer class="site">

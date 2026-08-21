@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Profile | UpSkill Sprint Consulting</title>
+<meta name="description" content="Manage your UpSkill Sprint account profile and communication preferences.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://upskillsprint.com/profile.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
+</head>
+<body data-require-auth>
+  <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+  <header class="site">
+    <a href="index.html" class="brand">
+      <img src="assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
+      <span>UpSkill Sprint Consulting</span>
+    </a>
+    <nav class="desktop-nav">
+      <a href="start-here.html">Start Here</a>
+      <a href="lessons.html">Lessons</a>
+      <a href="services.html">Services</a>
+      <a href="request-topic.html">Request a Topic</a>
+      <a href="about.html">About</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1c1f26" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </label>
+    <a href="lessons.html" class="btn btn-teal header-cta" style="padding:9px 15px;font-size:12.5px;">Start a 15-min lesson</a>
+  </header>
+  <nav class="mobile-nav">
+    <a href="start-here.html">Start Here</a>
+    <a href="lessons.html">Lessons</a>
+    <a href="services.html">Services</a>
+    <a href="request-topic.html">Request a Topic</a>
+    <a href="about.html">About</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <main class="section" id="account-profile" aria-labelledby="account-profile-heading">
+    <style id="account-profile-styles">
+      #account-profile .wrap { max-width: 680px; }
+      #account-profile .profile-heading { margin-bottom: 28px; text-align: center; }
+      #account-profile .card { text-align: left; }
+      #account-profile .profile-section + .profile-section { margin-top: 26px; padding-top: 24px; border-top: 1px solid var(--line); }
+      #account-profile .profile-section h2 { margin: 0 0 6px; font-size: 19px; }
+      #account-profile .profile-help { margin: 0 0 18px; color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+      #account-profile .auth-check { display: flex; gap: 10px; align-items: flex-start; color: var(--muted); font-size: 14px; cursor: pointer; }
+      #account-profile .auth-check input { margin-top: 3px; }
+      #profile-status { min-height: 1.4em; margin: 14px 0 0; color: var(--muted); font-size: 14px; }
+      #profile-status.auth-status-success { color: var(--teal); font-weight: 600; }
+      #account-profile .profile-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 24px; }
+      #account-profile .profile-links { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 18px; font-size: 13.5px; }
+    </style>
+    <div class="wrap">
+      <div class="profile-heading">
+        <p class="eyebrow">Your account</p>
+        <h1 id="account-profile-heading" style="font-size:30px;margin:0 0 10px;">Profile &amp; preferences</h1>
+        <p style="margin:0;color:var(--muted);">Keep your account details and communication choices up to date.</p>
+      </div>
+
+      <form id="profile-form" class="card">
+        <section class="profile-section" aria-labelledby="profile-details-heading">
+          <h2 id="profile-details-heading">Profile details</h2>
+          <p class="profile-help">This is the name shown in your account menu. Your email is managed by your secure sign-in.</p>
+          <label class="field">Name<input type="text" id="profile-display-name" name="display_name" required minlength="2" maxlength="100" autocomplete="name"></label>
+          <label class="field">Email<input type="email" id="profile-email" name="email" readonly autocomplete="email" aria-describedby="profile-email-help"></label>
+          <p id="profile-email-help" class="profile-help" style="margin-top:-8px;">Email changes will be added in a later account-security phase.</p>
+          <input type="hidden" id="profile-timezone" name="timezone" value="UTC">
+        </section>
+
+        <section class="profile-section" aria-labelledby="profile-communications-heading">
+          <h2 id="profile-communications-heading">Communication preferences</h2>
+          <p class="profile-help">Marketing email is optional and never required to use your account.</p>
+          <label class="auth-check"><input type="checkbox" id="profile-newsletter" name="newsletter_opt_in">Email me when new lessons are published (unsubscribe anytime).</label>
+        </section>
+
+        <div class="profile-actions">
+          <button type="submit" class="btn btn-teal" id="profile-submit">Save changes</button>
+          <span id="profile-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="profile-links">
+          <a href="/reset-password.html">Change password</a>
+          <a href="/privacy.html">Privacy Policy</a>
+          <a href="/terms.html">Terms of Use</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script id="profile-page-script">
+    (function () {
+      'use strict';
+      var form = document.getElementById('profile-form');
+      var name = document.getElementById('profile-display-name');
+      var email = document.getElementById('profile-email');
+      var timezone = document.getElementById('profile-timezone');
+      var newsletter = document.getElementById('profile-newsletter');
+      var submit = document.getElementById('profile-submit');
+      var status = document.getElementById('profile-status');
+      if (!form || !name || !email || !timezone || !newsletter || !submit || !status) return;
+
+      function setStatus(message, isSuccess) {
+        status.textContent = message;
+        status.classList.toggle('auth-status-success', Boolean(isSuccess));
+      }
+
+      function fill(profile) {
+        var user = window.UpskillAuth && window.UpskillAuth.getUser();
+        if (!profile || !user) return;
+        name.value = profile.display_name || '';
+        email.value = user.email || '';
+        timezone.value = profile.timezone || window.UpskillProfile.browserTimezone();
+        newsletter.checked = Boolean(profile.newsletter_opt_in);
+        submit.disabled = false;
+      }
+
+      function initialize() {
+        if (!window.UpskillAuth || !window.UpskillProfile) return;
+        submit.disabled = true;
+        setStatus('Loading your profile\u2026', false);
+        window.UpskillProfile.onChange(function (profile) {
+          if (!profile) return;
+          fill(profile);
+          setStatus('', false);
+        });
+        var user = window.UpskillAuth.getUser();
+        if (user) {
+          window.UpskillProfile.load(user).catch(function () {
+            setStatus('Your profile could not be loaded. Refresh and try again.', false);
+          });
+        }
+      }
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        submit.disabled = true;
+        setStatus('Saving\u2026', false);
+        window.UpskillProfile.save({
+          display_name: name.value,
+          timezone: timezone.value || window.UpskillProfile.browserTimezone(),
+          newsletter_opt_in: newsletter.checked
+        }).then(function () {
+          submit.disabled = false;
+          setStatus('Your profile is up to date.', true);
+        }).catch(function (error) {
+          submit.disabled = false;
+          setStatus(error && error.message ? error.message : 'Changes could not be saved. Try again.', false);
+        });
+      });
+
+      if (window.UpskillProfile) initialize();
+      else document.addEventListener('upskill-profile-ready', initialize, { once: true });
+    }());
+  </script>
+
+  <footer class="site">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="brand" style="margin-bottom:14px;">
+            <img src="assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
+            <span>UpSkill Sprint Consulting</span>
+          </div>
+          <p style="font-size:13.5px;line-height:1.6;color:var(--muted);max-width:260px;margin:0;">Practical learning for quality, data, process improvement, and business problem-solving.</p>
+        </div>
+        <div><h4>Quick Links</h4><a href="index.html">Home</a><a href="start-here.html">Start Here</a><a href="lessons.html">Lessons</a><a href="services.html">Services</a><a href="contact.html">Contact</a></div>
+        <div><h4>Topics</h4><a href="lessons.html#data-analytics">Data Analytics</a><a href="lessons.html#quality-engineering">Quality Engineering</a><a href="lessons.html#lean-six-sigma">Lean Six Sigma</a><a href="lessons.html#ai-for-work">AI for Work</a></div>
+        <div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:var(--muted);margin:0;">Saskatchewan, Canada</p></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div></div>
+  </footer>
+  <script src="/contrast-fix.js"></script>
+</body>
+</html>

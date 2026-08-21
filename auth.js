@@ -11,6 +11,7 @@
 
   var SIGN_IN_PATH = '/sign-in.html';
   var SIGN_UP_PATH = '/signup.html';
+  var PROFILE_PATH = '/profile.html';
   var PLACEHOLDER = 'YOUR_SUPABASE';
   var NOT_CONFIGURED_MESSAGE = 'Accounts are not set up yet. Supabase credentials are missing from supabase-config.js.';
 
@@ -79,14 +80,31 @@
     isConfigured: isConfigured,
     getClient: getClient,
     getUser: getUser,
-    signUp: function (email, password) {
+    signUp: function (email, password, options) {
+      options = options || {};
       return requireClient().then(function (authClient) {
-        return authClient.auth.signUp({ email: email, password: password }).then(unwrap);
+        var authOptions = {
+          data: {
+            display_name: options.displayName || '',
+            full_name: options.displayName || '',
+            timezone: options.timezone || 'UTC',
+            newsletter_opt_in: Boolean(options.newsletterOptIn),
+            terms_accepted: Boolean(options.termsAccepted)
+          }
+        };
+        if (options.captchaToken) authOptions.captchaToken = options.captchaToken;
+        return authClient.auth.signUp({
+          email: email,
+          password: password,
+          options: authOptions
+        }).then(unwrap);
       });
     },
-    signIn: function (email, password) {
+    signIn: function (email, password, captchaToken) {
       return requireClient().then(function (authClient) {
-        return authClient.auth.signInWithPassword({ email: email, password: password }).then(unwrap);
+        var payload = { email: email, password: password };
+        if (captchaToken) payload.options = { captchaToken: captchaToken };
+        return authClient.auth.signInWithPassword(payload).then(unwrap);
       });
     },
     signOut: function () {
@@ -94,10 +112,23 @@
         return authClient.auth.signOut().then(unwrap);
       });
     },
-    resetPassword: function (email) {
+    resetPassword: function (email, captchaToken) {
       return requireClient().then(function (authClient) {
-        return authClient.auth.resetPasswordForEmail(email, {
+        var options = {
           redirectTo: window.location.origin + '/update-password.html'
+        };
+        if (captchaToken) options.captchaToken = captchaToken;
+        return authClient.auth.resetPasswordForEmail(email, options).then(unwrap);
+      });
+    },
+    resendSignup: function (email, captchaToken) {
+      return requireClient().then(function (authClient) {
+        var options = { emailRedirectTo: window.location.origin + '/' };
+        if (captchaToken) options.captchaToken = captchaToken;
+        return authClient.auth.resend({
+          type: 'signup',
+          email: email,
+          options: options
         }).then(unwrap);
       });
     },
@@ -136,8 +167,10 @@
       '  border-radius: var(--radius, 6px); box-shadow: 0 10px 28px rgba(16,24,40,.14); }',
       '.account-menu-label { font-size: 11.5px; font-weight: 700; letter-spacing: .06em;',
       '  text-transform: uppercase; color: var(--muted, #667085); margin: 4px 12px 6px; }',
-      '.account-menu-email { font-size: 13px; color: var(--muted, #667085);',
-      '  margin: 0; padding: 0 12px 8px; word-break: break-all; }',
+      '.account-menu-name { font-size: 15px; font-weight: 650; color: var(--ink, #101828);',
+      '  margin: 0; padding: 0 12px 3px; overflow-wrap: anywhere; }',
+      '.account-menu-email { font-size: 12.5px; color: var(--muted, #667085);',
+      '  margin: 0; padding: 0 12px 9px; word-break: break-all; }',
       '.account-menu-panel a, .account-menu-panel button {',
       '  display: block; width: 100%; text-align: left; padding: 9px 12px;',
       '  border: none; border-radius: 4px; background: none; cursor: pointer;',
@@ -166,7 +199,15 @@
     return svg;
   }
 
-  function renderPanel(panel, user) {
+  function profileDisplayName(user, profile) {
+    var metadata = user && user.user_metadata ? user.user_metadata : {};
+    var candidate = profile && profile.display_name;
+    if (!candidate) candidate = metadata.display_name || metadata.full_name || metadata.name;
+    candidate = String(candidate || '').replace(/\s+/g, ' ').trim();
+    return candidate.length >= 2 ? candidate : 'Learner';
+  }
+
+  function renderPanel(panel, user, profile) {
     panel.textContent = '';
 
     var label = document.createElement('p');
@@ -175,11 +216,23 @@
     panel.appendChild(label);
 
     if (user) {
+      var name = document.createElement('p');
+      name.className = 'account-menu-name';
+      name.id = 'account-menu-name';
+      name.textContent = profileDisplayName(user, profile);
+      panel.appendChild(name);
+
       var email = document.createElement('p');
       email.className = 'account-menu-email';
       email.id = 'account-menu-email';
       email.textContent = user.email || '';
       panel.appendChild(email);
+
+      var profileLink = document.createElement('a');
+      profileLink.href = PROFILE_PATH;
+      profileLink.id = 'account-menu-profile';
+      profileLink.textContent = 'Profile & preferences';
+      panel.appendChild(profileLink);
 
       var signOut = document.createElement('button');
       signOut.type = 'button';
@@ -256,9 +309,15 @@
       }
     });
 
-    renderPanel(panel, getUser());
+    var menuProfile = window.UpskillProfile ? window.UpskillProfile.getCurrent() : null;
+    renderPanel(panel, getUser(), menuProfile);
     window.UpskillAuth.onChange(function (user) {
-      renderPanel(panel, user);
+      if (!user) menuProfile = null;
+      renderPanel(panel, user, menuProfile);
+    });
+    document.addEventListener('upskill-profile-change', function (event) {
+      menuProfile = event.detail && event.detail.profile ? event.detail.profile : null;
+      renderPanel(panel, getUser(), menuProfile);
     });
 
     container.appendChild(button);
@@ -278,3 +337,4 @@
     initialize();
   }
 }());
+

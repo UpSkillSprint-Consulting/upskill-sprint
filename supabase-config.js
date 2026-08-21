@@ -5,5 +5,8 @@
    the database, never from hiding this key. */
 window.UPSKILLSPRINT_SUPABASE_CONFIG = {
   url: 'https://prerurzpikodzbnezvgz.supabase.co',
-  anonKey: 'sb_publishable_CagbT4_UPEi95EieYdq4nw_TdKQ4fqH'
+  anonKey: 'sb_publishable_CagbT4_UPEi95EieYdq4nw_TdKQ4fqH',
+  // Set after Turnstile is enabled in Supabase Auth protection settings.
+  turnstileSiteKey: ''
 };
+
