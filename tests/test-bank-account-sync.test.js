@@ -98,7 +98,8 @@ test('polls for remote progress and permits every later remote refresh', () => {
   const dom = load();
   assert.equal(dom.window.__TBAccountSync.REMOTE_POLL_MS, 15000);
   assert.match(source, /sync\('remote-poll'\)/);
-  assert.match(source, /if \(changed\) location\.reload\(\)/);
+  assert.match(source, /const shouldReload = changed \|\| reloadForAccountSwitch/);
+  assert.match(source, /if \(shouldReload\) location\.reload\(\)/);
   assert.doesNotMatch(source, /tb-account-sync-reloaded/);
   dom.window.close();
 });
