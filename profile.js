@@ -19,6 +19,7 @@
   var currentUserId = null;
   var loadPromise = null;
   var listeners = [];
+  var ACCOUNT_CHANGED_MESSAGE = 'Your account changed while the profile was being saved. Review the active account and try again.';
 
   function normalizeName(value) {
     return String(value || '').replace(/\s+/g, ' ').trim().slice(0, 100);
@@ -52,6 +53,13 @@
     var authClient = window.UpskillAuth && window.UpskillAuth.getClient();
     if (!user || !authClient) return null;
     return authClient;
+  }
+
+  function assertActiveUser(userId) {
+    var activeUser = window.UpskillAuth && window.UpskillAuth.getUser();
+    if (!activeUser || activeUser.id !== userId) {
+      throw new Error(ACCOUNT_CHANGED_MESSAGE);
+    }
   }
 
   function initialProfile(user) {
@@ -105,14 +113,18 @@
     }
     if (loadPromise && currentUserId === user.id) return loadPromise;
     currentUserId = user.id;
-    loadPromise = fetchProfile(user).then(function (profile) {
+    var request = fetchProfile(user).then(function (profile) {
       if (currentUserId === user.id) notify(profile);
       return profile;
-    }).catch(function (error) {
-      loadPromise = null;
+    });
+    var handledRequest = request.catch(function (error) {
+      if (currentUserId === user.id && loadPromise === handledRequest) {
+        loadPromise = null;
+      }
       throw error;
     });
-    return loadPromise;
+    loadPromise = handledRequest;
+    return handledRequest;
   }
 
   function save(fields) {
@@ -127,6 +139,7 @@
     var timezone = String((fields && fields.timezone) || browserTimezone()).trim().slice(0, 100) || 'UTC';
 
     return load(user).then(function (existing) {
+      assertActiveUser(user.id);
       var payload = {
         display_name: name,
         timezone: timezone,
@@ -139,11 +152,13 @@
         .single()
         .then(function (result) {
           if (result.error) throw result.error;
-          loadPromise = Promise.resolve(result.data);
-          notify(result.data);
+          assertActiveUser(user.id);
           return authClient.auth.updateUser({
             data: { display_name: name, full_name: name, timezone: timezone }
           }).catch(function () { return null; }).then(function () {
+            assertActiveUser(user.id);
+            loadPromise = Promise.resolve(result.data);
+            notify(result.data);
             return result.data;
           });
         });
