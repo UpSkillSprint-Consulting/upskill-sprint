@@ -373,19 +373,46 @@ test('u-chart, Gpk, Cpm, and X-bar control limit questions now state their input
   const xbarLimits = findQuestion(bank, 'A process is monitored with an X-bar/S chart: X-bar = 29.87');
   assert.equal(xbarLimits.options.length, 4, 'the bled-in Q22/23 text was stripped, leaving exactly 4 clean options');
   assert.equal(xbarLimits.options[xbarLimits.answer], '[27.16, 32.58]');
+
+  const sChart = findQuestion(bank, 'Using the same X-bar/S chart process');
+  assert.ok(sChart, 'the S-chart companion to the X-bar control-limits question (originally "questions 20 and 21") is now present with its own data');
+  assert.equal(sChart.options[sChart.answer], '[1.590, 5.510]');
 });
 
-test('known gap: several referenced sibling question groups appear to be genuinely missing from the bank, not merely corrupted (documented, not fabricated)', async () => {
+test('several sibling question groups initially thought missing were actually present with bare stems, found via a broader sweep and fixed: PP/Ppk, individuals/moving-range chart, p-chart and np-chart centerlines, sample mean/variance', async () => {
   const { window } = await load();
   const bank = cssbbBank(window);
-  // These are the specific data points/scenarios referenced by the stripped bled-in text
-  // that could not be found anywhere else in the bank. This test exists to make the gap
-  // visible and trackable, not to assert they should be absent -- if any of these get
-  // reconstructed from the source book in a future pass, this test should be updated
-  // to assert their presence instead.
+
+  const pp = findQuestion(bank, 'A process is analyzed over five months');
+  const ppk = findQuestion(bank, 'Using the same process (average = 45.67');
+  assert.equal(pp.options[pp.answer], '1.33');
+  assert.equal(ppk.options[ppk.answer], '0.74');
+
+  const individuals = findQuestion(bank, 'A single sample was measured each hour over 25 hours');
+  const movingRange = findQuestion(bank, 'Using the same 25-hour individuals and moving range data');
+  assert.equal(individuals.options[individuals.answer], '[24.27, 29.69]');
+  assert.equal(movingRange.options[movingRange.answer], '[0, 3.32]');
+
+  const pChartCl = findQuestion(bank, "Across 30 subgroups, an attributes chart's underlying data totals \u03a3np = 55 and \u03a3n = 2800. What is the centerline");
+  assert.equal(pChartCl.options[pChartCl.answer], '0.0196');
+
+  const npCl = findQuestion(bank, 'An np-chart is built from 25 subgroups');
+  const npLimits = findQuestion(bank, 'Using the same np-chart data');
+  assert.equal(npCl.options[npCl.answer], '3.120');
+  assert.equal(npLimits.options[npLimits.answer], '[0, 8.38]');
+
+  const sampleMean = findQuestion(bank, 'Given the sample data {94, 91, 76, 43, 66, 77, 55, 27, 50, 60}');
+  const sampleVar = findQuestion(bank, 'Using the same sample data {94, 91, 76, 43, 66, 77, 55, 27, 50, 60}');
+  assert.equal(sampleMean.options[sampleMean.answer], '63.9');
+  assert.equal(sampleVar.options[sampleVar.answer], '449.9');
+});
+
+test('known gap: a smaller set of referenced sibling question groups still appears genuinely missing from the bank, not merely corrupted (documented, not fabricated)', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  // Narrowed down from an earlier, larger list -- several groups originally thought missing
+  // were found on a broader sweep (see the test above). These four remain unlocated.
   const missingSignatures = [
-    /94.*91.*76.*43.*66.*77/,             // skewness data set
-    /k\s*=\s*30/,                          // p-chart with k subgroups
     /fiber composite|tensile propert/i,    // textile DOE scenario
     /ABC Manufacturing.*55 parts/i,        // production order scenario
     /injection molding.*48 minutes/i,      // OEE downtime scenario
