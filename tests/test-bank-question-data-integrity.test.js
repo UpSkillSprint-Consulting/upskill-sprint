@@ -138,12 +138,12 @@ test('the 24 CQE questions with stray dash artifacts remain fully answerable and
   const banks = allExamsUniqueQuestions(window);
   const steelRod = findByStemPrefix(banks, 'cqe', 'The diameter of a steel rod is a quality characteristic');
   assert.equal(steelRod.stem, 'The diameter of a steel rod is a quality characteristic of interest. Samples of size twelve will be selected in the subgroups. Which of the following control charts is preferred to monitor the process variability?');
-  assert.deepEqual(Array.from(steelRod.options), ['X and R chart', 'X and s chart', 'p-chart', 'c-chart']);
-  assert.equal(steelRod.options[steelRod.answer], 'X and s chart');
+  assert.deepEqual(Array.from(steelRod.options), ['X\u0304 and R chart', 'X\u0304 and s chart', 'p-chart', 'c-chart']);
+  assert.equal(steelRod.options[steelRod.answer], 'X\u0304 and s chart');
 
   const hospital = findByStemPrefix(banks, 'cqe', 'A hospital is monitoring the surgeries');
   assert.ok(!hospital.stem.endsWith('\u2013'), 'trailing dash removed from the hospital p-chart question');
 
   const pChart = findByStemPrefix(banks, 'cqe', 'A factory collected data on the number of nonconforming parts and constructed a p-chart');
-  assert.match(pChart.stem, /the average fraction of nonconforming parts was p = 0\.037/, 'mid-sentence dash removed, sentence reads cleanly');
+  assert.match(pChart.stem, /the average fraction of nonconforming parts was p\u0304 = 0\.037/, 'mid-sentence dash removed and p\u0304 overline notation applied, sentence reads cleanly');
 });

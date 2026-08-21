@@ -442,3 +442,121 @@ test('CSSBB Set 3 has no sparse holes: every index from 0 to length-1 is a real,
     assert.ok(set3[i] && typeof set3[i] === 'object' && typeof set3[i].stem === 'string', 'index ' + i + ' is a real question object, not a hole');
   }
 });
+
+/* ---------- new chart types added for CQE: control-single, oc-curve, interaction-plot, risk-matrix ---------- */
+
+function cqeBank(window) {
+  const seen = new Set();
+  return Object.values(window.__TB.EXAMS.cqe.sets).flat().filter(q => {
+    if (!q || seen.has(q.stem)) return false;
+    seen.add(q.stem);
+    return true;
+  });
+}
+
+test('chartControlSingle (new type) renders one labeled series with no NaN coordinates, reusing the existing chartSeriesSvg helper', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'control-single', title: 'p-chart', data: [0.05, 0.09, 0.03], ucl: 0.1151, cl: 0.0675, lcl: 0.0199 });
+  assert.match(svg, />p-chart</);
+  assert.doesNotMatch(svg, /NaN/);
+  assert.match(svg, /<svg[^>]*role="img"/);
+});
+
+test('chartControlSingle flags an out-of-control point with the same dot class as chartXbarR', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'control-single', title: 'MR chart', data: [8, 12, 40, 9], ucl: 36.25, cl: 11.09, lcl: 0 });
+  assert.match(svg, /tb-chart-dot-out/);
+});
+
+test('chartOcCurve (new type) renders two distinguishable curves, one dashed', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'oc-curve' });
+  assert.match(svg, /stroke-dasharray="6 4"/, 'one curve is dashed to distinguish it from the solid curve');
+  assert.match(svg, /Curve A \(dashed\)/);
+  assert.match(svg, /Curve B \(solid\)/);
+  assert.doesNotMatch(svg, /NaN/);
+});
+
+test('chartInteractionPlot (new type) renders visibly different paths for parallel vs crossing lines', async () => {
+  const { window } = await load();
+  const parallel = window.__TB.renderQuestionChart({ type: 'interaction-plot', parallel: true });
+  const crossing = window.__TB.renderQuestionChart({ type: 'interaction-plot', parallel: false });
+  assert.notEqual(parallel, crossing, 'the two interaction patterns render visibly different line paths');
+  assert.doesNotMatch(parallel, /NaN/);
+  assert.doesNotMatch(crossing, /NaN/);
+});
+
+test('chartRiskMatrix (new type) renders one coloured cell per grid position and highlights only the requested cells', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({
+    type: 'risk-matrix',
+    rows: ['High', 'Medium', 'Low'],
+    cols: ['Low', 'Medium', 'High'],
+    cells: [['medium', 'high', 'high'], ['low', 'medium', 'high'], ['low', 'low', 'medium']],
+    highlights: [{ row: 0, col: 2, label: 'X' }]
+  });
+  assert.equal((svg.match(/<rect/g) || []).length, 9, 'a 3x3 matrix renders exactly 9 cells');
+  assert.equal((svg.match(/tb-chart-risk-hi"/g) || []).length, 1, 'exactly one cell is highlighted (the highlight class is always last in the attribute, so this excludes "risk-high" substring collisions)');
+  assert.match(svg, />X</, 'the highlighted cell carries its label');
+  assert.doesNotMatch(svg, /NaN/);
+});
+
+test('renderQuestionChart dispatches all 4 new CQE chart types without throwing (regression: a typo in the type-name comparison would silently fall through to the empty-string branch)', async () => {
+  const { window } = await load();
+  ['control-single', 'oc-curve', 'interaction-plot', 'risk-matrix'].forEach(type => {
+    const spec = type === 'control-single' ? { type, data: [1, 2, 3], ucl: 5, cl: 2, lcl: 0 }
+      : type === 'risk-matrix' ? { type, rows: ['A'], cols: ['B'], cells: [['low']] }
+      : { type };
+    const svg = window.__TB.renderQuestionChart(spec);
+    assert.ok(svg.includes('<svg'), type + ' renders real SVG markup, not the empty-string fallback');
+  });
+});
+
+test('every CQE question wired to a control-single or xbar-r chart has plotted data internally consistent with its stated correct answer', async () => {
+  const { window } = await load();
+  const bank = cqeBank(window);
+  const chartQs = bank.filter(q => q.chart && (q.chart.type === 'control-single' || q.chart.type === 'xbar-r'));
+  assert.ok(chartQs.length >= 9, 'at least the 9 wired control-chart questions are present');
+  chartQs.forEach(q => {
+    const answerText = q.options[q.answer];
+    if (q.chart.type === 'control-single') {
+      const outCount = q.chart.data.filter(v => v > q.chart.ucl || v < q.chart.lcl).length;
+      if (/within the control limits|is stable/i.test(answerText)) {
+        assert.equal(outCount, 0, q.stem.slice(0, 50) + ': answer says in-control but a plotted point is out of limits');
+      }
+    }
+    if (q.chart.type === 'xbar-r') {
+      const xOut = q.chart.xbar.data.some(v => v > q.chart.xbar.ucl || v < q.chart.xbar.lcl);
+      const rOut = q.chart.r.data.some(v => v > q.chart.r.ucl || v < q.chart.r.lcl);
+      if (/only the range was outside/i.test(answerText)) {
+        assert.equal(rOut, true, 'range series should have an out-of-control point');
+        assert.equal(xOut, false, 'mean series should not');
+      }
+    }
+  });
+});
+
+test('the two risk-matrix CQE questions render a grid with at least 9 cells and (for the mitigation question) two highlighted before/after cells', async () => {
+  const { window } = await load();
+  const bank = cqeBank(window);
+  const riskQs = bank.filter(q => q.chart && q.chart.type === 'risk-matrix');
+  assert.equal(riskQs.length, 2);
+  riskQs.forEach(q => {
+    assert.ok(q.chart.rows.length * q.chart.cols.length >= 9);
+  });
+  const mitigation = riskQs.find(q => q.stem.includes('timing belt'));
+  assert.equal(mitigation.chart.highlights.length, 2, 'the before/after mitigation question highlights exactly two cells');
+});
+
+test('the OC-curve and both interaction-plot CQE questions are wired to their new chart types', async () => {
+  const { window } = await load();
+  const bank = cqeBank(window);
+  const oc = bank.find(q => q.stem.includes('OC (operating characteristic) curves'));
+  assert.equal(oc.chart.type, 'oc-curve');
+  const parallelPlot = bank.find(q => q.stem.includes("stay parallel, following identical up-and-down patterns"));
+  const crossingPlot = bank.find(q => q.stem.includes('the lines are not parallel'));
+  assert.equal(parallelPlot.chart.type, 'interaction-plot');
+  assert.equal(parallelPlot.chart.parallel, true);
+  assert.equal(crossingPlot.chart.type, 'interaction-plot');
+  assert.equal(crossingPlot.chart.parallel, false);
+});
