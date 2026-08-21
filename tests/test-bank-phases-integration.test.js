@@ -182,6 +182,23 @@ test('the knowledge-area dropdown filters the mistake notebook to a single subto
   assert.equal(notebook.querySelectorAll('.tb-mistake-card').length, 1, 'only the selected knowledge area remains');
 });
 
+test('a missed question with an embedded chart shows the chart in the notebook snapshot', async () => {
+  const { window } = await load();
+  const overview = await completeQuick(window);
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[3].find(item => item.chart);
+  assert.ok(question, 'test fixture needs a chart-bearing question');
+  api.recordResults([{ question, selected: (question.answer + 1) % question.options.length, status: 'incorrect' }], 'exam-attempt');
+  window.__TBPhaseIntegration.refresh();
+  await settle(window, 2);
+  click(window, overview.querySelector('[data-open-notebook]'));
+  await settle(window, 2);
+  const notebook = overview.querySelector('#tb-adaptive-panel');
+  const card = notebook.querySelector('.tb-mistake-card');
+  assert.ok(card, 'the missed question renders as a mistake card');
+  assert.ok(card.querySelector('svg'), 'the chart that was part of the original question is rendered in the notebook snapshot');
+});
+
 test('deduplication removes extra dashboards and live regions', async () => {
   const { window } = await load();
   const overview = await completeQuick(window);

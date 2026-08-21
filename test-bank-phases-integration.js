@@ -197,11 +197,16 @@
     }).join('');
   }
 
+  function chartHtml(chart) {
+    return (window.__TB && window.__TB.renderQuestionChart) ? window.__TB.renderQuestionChart(chart) : '';
+  }
+
   function mistakeCardMarkup(entry) {
     const question = entry.question;
     const lesson = lessonFor(entry.sub);
     return '<article class="tb-mistake-card">' +
       '<div class="tb-mistake-meta"><span class="tb-mistake-sub">' + esc(subtopicName(entry.sub)) + '</span><span class="tb-mistake-when">' + formatAttemptWhen(entry.at) + ' · ' + sourceLabel(entry.source) + '</span></div>' +
+      chartHtml(question.chart) +
       '<div class="tb-mistake-stem">' + esc(question.stem) + '</div>' +
       '<ol class="tb-mistake-options">' + mistakeOptionMarkup(question, entry) + '</ol>' +
       (question.why ? '<div class="tb-mistake-why"><strong>Why:</strong> ' + esc(question.why) + '</div>' : '') +
