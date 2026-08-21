@@ -99,6 +99,58 @@ test('an incorrect answer resets the success streak and schedules near-term revi
   assert.equal(state.lastStatus, 'incorrect');
 });
 
+test('recording a new answer migrates legacy aggregates without losing older correct attempts', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  const timestamp = Date.UTC(2026, 6, 29);
+  const history = [];
+  for (let index = 0; index < 40; index += 1) history.push({ at: timestamp - 100 + index, status: 'correct' });
+  for (let index = 0; index < 60; index += 1) history.push({ at: timestamp - 60 + index, status: 'incorrect' });
+  const state = {
+    id: 'legacy-q', stem: question.stem, sub: question.sub,
+    attempts: 160, correct: 100, incorrect: 60, unanswered: 0,
+    streak: 0, ease: 2.3, intervalDays: 1, dueAt: timestamp,
+    lastSeenAt: timestamp - 1, lastStatus: 'incorrect', mastery: 54, history
+  };
+
+  api.applyResult(state, question, 'correct', question.answer, 'test', timestamp);
+
+  assert.equal(state.masteryBaseline.attempts, 160);
+  assert.equal(state.masteryHistory.length, 1);
+  assert.match(state.masteryHistory[0].id, /^mastery-/);
+  assert.equal(state.attempts, 161);
+  assert.equal(state.correct, 101);
+  assert.equal(state.incorrect, 60);
+  assert.equal(state.streak, 1);
+});
+
+test('mastery evidence compaction preserves exact counters and trailing streak state', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  const state = {
+    id: 'q', stem: question.stem, sub: question.sub, attempts: 0, correct: 0, incorrect: 0, unanswered: 0,
+    streak: 0, ease: 2.3, intervalDays: 0, dueAt: 0, lastSeenAt: 0, lastStatus: 'new', mastery: 0,
+    history: [], masteryBaseline: {
+      at: 0, firstSeenAt: 0, attempts: 0, correct: 0, incorrect: 0, unanswered: 0,
+      streak: 0, lastSeenAt: 0, lastStatus: 'new'
+    }, masteryHistory: []
+  };
+  const startedAt = Date.UTC(2026, 0, 1);
+  for (let index = 0; index < 520; index += 1) {
+    const status = index % 2 === 0 ? 'correct' : 'incorrect';
+    api.applyResult(state, question, status, status === 'correct' ? question.answer : (question.answer + 1) % question.options.length, 'stress', startedAt + index);
+  }
+  assert.equal(state.masteryBaseline.attempts, 20);
+  assert.equal(state.masteryHistory.length, 500);
+  assert.equal(state.attempts, 520);
+  assert.equal(state.correct, 260);
+  assert.equal(state.incorrect, 260);
+  assert.equal(state.streak, 0);
+  assert.equal(state.lastStatus, 'incorrect');
+});
+
 test('adaptive selection prioritizes due and weak questions while including new material', async () => {
   const { window } = await load();
   const api = window.__TBAdaptiveMastery;
@@ -142,6 +194,23 @@ test('adaptive practice updates repeated-question improvement and the mistake no
   const summary = api.summary();
   assert.equal(summary.attempted, 1);
   assert.ok(summary.notebook >= 1, 'item remains in notebook until sustained mastery is reached');
+});
+
+test('improvement metrics use the balanced mastery ledger after notebook history trims old correct answers', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  for (let index = 0; index < 50; index += 1) {
+    api.recordResults([{ question, selected: question.answer, status: 'correct' }], 'evidence-test');
+  }
+  const state = Object.values(api.store().exams.cssbb.questions).find(candidate => candidate.stem === question.stem);
+  assert.equal(state.history.length, 40, 'the notebook archive keeps its bounded non-error snapshot');
+  assert.equal(state.masteryHistory.length, 50, 'mastery evidence retains every status symmetrically');
+  const improvement = api.improvement();
+  assert.equal(improvement.firstTotal, 1);
+  assert.equal(improvement.repeatTotal, 49);
+  assert.equal(improvement.first, 100);
+  assert.equal(improvement.repeat, 100);
 });
 
 test('adaptive completion remains visible after the dashboard refreshes', async () => {

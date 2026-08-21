@@ -8,6 +8,7 @@
   const DAY = 86400000;
   const MASTERY_THRESHOLD = 80;
   const SESSION_SIZE = 10;
+  const MASTERY_EVIDENCE_LIMIT = 500;
 
   let scheduled = false;
   let attempt = null;
@@ -40,6 +41,11 @@
   }
 
   function now() { return Date.now(); }
+
+  function eventId(timestamp) {
+    const random = window.crypto && window.crypto.randomUUID ? window.crypto.randomUUID() : Math.random().toString(36).slice(2, 12);
+    return 'mastery-' + Number(timestamp || now()).toString(36) + '-' + random;
+  }
 
   function examId() {
     const active = document.querySelector('.tb-tile.active[data-exam]');
@@ -103,8 +109,125 @@
       lastSeenAt: 0,
       lastStatus: 'new',
       mastery: 0,
-      history: []
+      history: [],
+      masteryBaseline: emptyMasteryBaseline(),
+      masteryHistory: []
     };
+  }
+
+  function count(value) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : 0;
+  }
+
+  function evidenceOrder(left, right) {
+    const time = Number(left && left.at || 0) - Number(right && right.at || 0);
+    if (time) return time;
+    const sequence = Number(left && left.priorAttempts || 0) - Number(right && right.priorAttempts || 0);
+    if (sequence) return sequence;
+    return String(left && left.id || '').localeCompare(String(right && right.id || ''));
+  }
+
+  function emptyMasteryBaseline() {
+    return { at: 0, firstSeenAt: 0, attempts: 0, correct: 0, incorrect: 0, unanswered: 0, streak: 0, lastSeenAt: 0, lastStatus: 'new' };
+  }
+
+  function normalizeMasteryBaseline(value) {
+    const source = value && typeof value === 'object' ? value : {};
+    return {
+      at: Number(source.at || source.lastSeenAt || 0),
+      firstSeenAt: Number(source.firstSeenAt || 0),
+      attempts: count(source.attempts),
+      correct: count(source.correct),
+      incorrect: count(source.incorrect),
+      unanswered: count(source.unanswered),
+      streak: count(source.streak),
+      lastSeenAt: Number(source.lastSeenAt || source.at || 0),
+      lastStatus: source.lastStatus || 'new'
+    };
+  }
+
+  function legacyMasteryBaseline(state) {
+    return normalizeMasteryBaseline({
+      at: state.lastSeenAt,
+      /* Legacy aggregates can include events no longer present in the notebook
+         archive, so their true first observation is intentionally unknown. */
+      firstSeenAt: 0,
+      attempts: state.attempts,
+      correct: state.correct,
+      incorrect: state.incorrect,
+      unanswered: state.unanswered,
+      streak: state.streak,
+      lastSeenAt: state.lastSeenAt,
+      lastStatus: state.lastStatus
+    });
+  }
+
+  function foldEvidenceIntoBaseline(baseline, entries) {
+    const output = normalizeMasteryBaseline(baseline);
+    (entries || []).forEach(function (entry) {
+      const timestamp = Number(entry && entry.at || 0);
+      output.attempts += 1;
+      if (entry.status === 'correct') output.correct += 1;
+      else if (entry.status === 'unanswered') output.unanswered += 1;
+      else output.incorrect += 1;
+      output.streak = entry.status === 'correct' ? output.streak + 1 : 0;
+      if (!output.firstSeenAt || (timestamp && timestamp < output.firstSeenAt)) output.firstSeenAt = timestamp;
+      if (timestamp >= output.lastSeenAt) {
+        output.lastSeenAt = timestamp;
+        output.lastStatus = entry.status || output.lastStatus;
+      }
+      output.at = Math.max(output.at, timestamp);
+    });
+    return output;
+  }
+
+  function compactMasteryEvidence(baseline, history) {
+    const sorted = (history || []).slice().sort(evidenceOrder);
+    if (sorted.length <= MASTERY_EVIDENCE_LIMIT) return { baseline: normalizeMasteryBaseline(baseline), history: sorted };
+    const overflow = sorted.slice(0, sorted.length - MASTERY_EVIDENCE_LIMIT);
+    return { baseline: foldEvidenceIntoBaseline(baseline, overflow), history: sorted.slice(-MASTERY_EVIDENCE_LIMIT) };
+  }
+
+  function ensureMasteryEvidence(state) {
+    if (state.masteryBaseline && Array.isArray(state.masteryHistory)) {
+      return compactMasteryEvidence(state.masteryBaseline, state.masteryHistory);
+    }
+    return { baseline: legacyMasteryBaseline(state), history: [] };
+  }
+
+  function rebuildMasteryState(state, timestamp) {
+    const canonical = compactMasteryEvidence(state.masteryBaseline, state.masteryHistory);
+    const baseline = canonical.baseline;
+    let attempts = baseline.attempts;
+    let correct = baseline.correct;
+    let incorrect = baseline.incorrect;
+    let unanswered = baseline.unanswered;
+    let streak = baseline.streak;
+    let lastSeenAt = baseline.lastSeenAt;
+    let lastStatus = baseline.lastStatus;
+    canonical.history.forEach(function (entry) {
+      attempts += 1;
+      if (entry.status === 'correct') correct += 1;
+      else if (entry.status === 'unanswered') unanswered += 1;
+      else incorrect += 1;
+      streak = entry.status === 'correct' ? streak + 1 : 0;
+      if (Number(entry.at || 0) >= lastSeenAt) {
+        lastSeenAt = Number(entry.at || 0);
+        lastStatus = entry.status || lastStatus;
+      }
+    });
+    state.masteryBaseline = baseline;
+    state.masteryHistory = canonical.history;
+    state.attempts = attempts;
+    state.correct = correct;
+    state.incorrect = incorrect;
+    state.unanswered = unanswered;
+    state.streak = streak;
+    state.lastSeenAt = lastSeenAt;
+    state.lastStatus = lastStatus;
+    state.mastery = calculateMastery(state, timestamp);
+    return state;
   }
 
   function calculateMastery(state, timestamp) {
@@ -139,30 +262,32 @@
      can show a complete chronological record; correct/unanswered attempts are
      capped to bound storage growth, and an overall ceiling guards worst case. */
   function trimHistory(history) {
-    const sorted = (history || []).slice().sort(function (a, b) { return (a.at || 0) - (b.at || 0); });
+    const sorted = (history || []).slice().sort(evidenceOrder);
     const incorrect = sorted.filter(function (entry) { return entry.status === 'incorrect'; });
     const other = sorted.filter(function (entry) { return entry.status !== 'incorrect'; }).slice(-40);
-    return incorrect.concat(other).sort(function (a, b) { return (a.at || 0) - (b.at || 0); }).slice(-500);
+    return incorrect.concat(other).sort(evidenceOrder).slice(-500);
   }
 
   function applyResult(state, question, status, selected, source, timestamp) {
+    const canonical = ensureMasteryEvidence(state);
+    state.masteryBaseline = canonical.baseline;
+    state.masteryHistory = canonical.history;
+    rebuildMasteryState(state, timestamp);
     const priorAttempts = state.attempts;
-    state.attempts += 1;
-    if (status === 'correct') state.correct += 1;
-    else if (status === 'unanswered') state.unanswered += 1;
-    else state.incorrect += 1;
     nextSchedule(state, status, timestamp);
-    state.lastSeenAt = timestamp;
-    state.lastStatus = status;
-    state.mastery = calculateMastery(state, timestamp);
-    state.history = trimHistory((state.history || []).concat([{
+    const entry = {
+      id: eventId(timestamp),
       at: timestamp,
       status: status,
       selected: selected,
       source: source,
       priorAttempts: priorAttempts,
-      mastery: state.mastery
-    }]));
+      mastery: 0
+    };
+    state.history = trimHistory((state.history || []).concat([entry]));
+    state.masteryHistory = state.masteryHistory.concat([entry]);
+    rebuildMasteryState(state, timestamp);
+    entry.mastery = state.mastery;
     return state;
   }
 
@@ -324,8 +449,10 @@
     let repeatCorrect = 0;
     let repeatTotal = 0;
     Object.values(data.questions || {}).forEach(function (state) {
-      (state.history || []).forEach(function (entry) {
-        if (entry.priorAttempts === 0) {
+      const evidence = Array.isArray(state.masteryHistory) ? state.masteryHistory : (state.history || []);
+      evidence.forEach(function (entry) {
+        if (!Number.isFinite(Number(entry.priorAttempts))) return;
+        if (Number(entry.priorAttempts) === 0) {
           firstTotal += 1;
           if (entry.status === 'correct') firstCorrect += 1;
         } else {

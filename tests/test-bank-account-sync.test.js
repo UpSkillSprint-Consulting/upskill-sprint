@@ -92,6 +92,69 @@ test('combines question histories and rebuilds counts', () => {
   const result = merge(left, right).exams.cssbb;
   assert.equal(result.attempts.length, 2); assert.equal(result.questions.q1.attempts, 2); assert.equal(result.questions.q1.correct, 1); assert.equal(result.questions.q1.incorrect, 1); dom.window.close();
 });
+test('syncing legacy progress does not recalculate mastery from the notebook-only history subset', () => {
+  const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
+  const timestamp = Date.now();
+  const history = [];
+  for (let index = 0; index < 100; index += 1) history.push({ at: timestamp - 160 + index, status: 'correct' });
+  for (let index = 0; index < 60; index += 1) history.push({ at: timestamp - 60 + index, status: 'incorrect' });
+  const question = {
+    attempts: 160,
+    correct: 100,
+    incorrect: 60,
+    unanswered: 0,
+    streak: 0,
+    lastSeenAt: timestamp - 1,
+    lastStatus: 'incorrect',
+    mastery: 54,
+    history
+  };
+  const left = { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: question } } } };
+  const right = { version: 1, exams: {} };
+
+  const result = merge(left, right).exams.cssbb.questions.q1;
+
+  assert.equal(result.attempts, 160);
+  assert.equal(result.correct, 100);
+  assert.equal(result.incorrect, 60);
+  assert.equal(result.unanswered, 0);
+  assert.equal(result.mastery, 54);
+  dom.window.close();
+});
+test('canonical mastery evidence merges concurrent device answers once and remains idempotent', () => {
+  const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
+  const baseline = {
+    at: 100, firstSeenAt: 10, attempts: 2, correct: 1, incorrect: 1, unanswered: 0,
+    streak: 0, lastSeenAt: 100, lastStatus: 'incorrect'
+  };
+  const leftEvent = { id: 'device-a-answer', at: 200, status: 'correct', priorAttempts: 2 };
+  const rightEvent = { id: 'device-b-answer', at: 200, status: 'incorrect', priorAttempts: 2 };
+  const left = { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+    masteryBaseline: baseline, masteryHistory: [leftEvent], history: [leftEvent], lastSeenAt: 200
+  } } } } };
+  const right = { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+    masteryBaseline: baseline, masteryHistory: [rightEvent], history: [rightEvent], lastSeenAt: 201
+  } } } } };
+
+  const first = merge(left, right);
+  const state = first.exams.cssbb.questions.q1;
+  assert.equal(state.attempts, 4);
+  assert.equal(state.correct, 2);
+  assert.equal(state.incorrect, 2);
+  assert.deepEqual(Array.from(state.masteryHistory, entry => entry.id), ['device-a-answer', 'device-b-answer']);
+  assert.equal(state.lastStatus, 'incorrect');
+  assert.equal(state.streak, 0);
+
+  const reverse = merge(right, left).exams.cssbb.questions.q1;
+  assert.deepEqual(Array.from(reverse.masteryHistory, entry => entry.id), ['device-a-answer', 'device-b-answer']);
+  assert.equal(reverse.lastStatus, state.lastStatus, 'same-millisecond concurrent answers converge regardless of merge direction');
+  assert.equal(reverse.streak, state.streak);
+
+  const second = merge(first, first).exams.cssbb.questions.q1;
+  assert.equal(second.attempts, 4, 're-merging the converged payload does not count either answer twice');
+  assert.equal(second.masteryHistory.length, 2);
+  dom.window.close();
+});
 test('merging two devices retains every incorrect attempt in a question history, not just the most recent 30', () => {
   const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
   const leftHistory = [];
@@ -190,6 +253,47 @@ test('a reset marker preserves only adaptive activity recorded after the reset',
   assert.equal(exam.questions.mixed.incorrect, 0);
   assert.deepEqual(Array.from(result.values['tb-adaptive-cssbb'].history, item => item.at), [200]);
   assert.deepEqual(Object.keys(result.values['tb-adaptive-cssbb'].subState), ['fresh']);
+  dom.window.close();
+});
+
+test('a reset discards an indivisible pre-reset baseline and rebuilds only from post-reset mastery evidence', () => {
+  const dom = load();
+  const result = dom.window.__TBAccountSync.mergePayloads([{
+    schemaVersion: 2,
+    resets: { 'mastery-exam:cssbb': 250 },
+    values: {
+      'tb-adaptive-mastery-v1': {
+        version: 1,
+        exams: {
+          cssbb: {
+            attempts: [], sessions: [], questions: {
+              q1: {
+                masteryBaseline: {
+                  at: 100, firstSeenAt: 10, attempts: 20, correct: 12, incorrect: 8, unanswered: 0,
+                  streak: 0, lastSeenAt: 100, lastStatus: 'incorrect'
+                },
+                masteryHistory: [
+                  { id: 'before-reset', at: 200, status: 'incorrect' },
+                  { id: 'after-reset', at: 300, status: 'correct' }
+                ],
+                history: [
+                  { id: 'before-reset', at: 200, status: 'incorrect' },
+                  { id: 'after-reset', at: 300, status: 'correct' }
+                ],
+                lastSeenAt: 300
+              }
+            }
+          }
+        }
+      }
+    }
+  }]);
+  const state = result.values['tb-adaptive-mastery-v1'].exams.cssbb.questions.q1;
+  assert.equal(state.masteryBaseline.attempts, 0);
+  assert.deepEqual(Array.from(state.masteryHistory, entry => entry.id), ['after-reset']);
+  assert.equal(state.attempts, 1);
+  assert.equal(state.correct, 1);
+  assert.equal(state.incorrect, 0);
   dom.window.close();
 });
 

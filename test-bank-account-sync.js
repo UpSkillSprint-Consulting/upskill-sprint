@@ -8,6 +8,7 @@
   const MASTER_KEY = 'tb-adaptive-mastery-v1';
   const HISTORY_KEY = 'tb-attempt-history-v3';
   const MASTERY_RESET_PREFIX = 'mastery-exam:';
+  const MASTERY_EVIDENCE_LIMIT = 500;
   const LOCAL_WATCH_MS = 3000;
   const REMOTE_POLL_MS = 15000;
   let syncing = false, lastDigest = '', timer = 0, nextRemoteAt = 0;
@@ -83,33 +84,130 @@
     });
     return output;
   }
+  function evidenceOrder(left, right) {
+    const time = Number(left && left.at || 0) - Number(right && right.at || 0);
+    if (time) return time;
+    const sequence = Number(left && left.priorAttempts || 0) - Number(right && right.priorAttempts || 0);
+    if (sequence) return sequence;
+    const leftKey = left && left.id ? 'id:' + left.id : 'value:' + hash(stable(left));
+    const rightKey = right && right.id ? 'id:' + right.id : 'value:' + hash(stable(right));
+    return leftKey.localeCompare(rightKey);
+  }
   /* Incorrect attempts are kept in full across merges so the mistake notebook
      retains a complete cross-device record; other statuses are capped. */
   function trimQuestionHistory(history) {
-    const sorted = (history || []).slice().sort((x, y) => Number(x.at || 0) - Number(y.at || 0));
+    const sorted = (history || []).slice().sort(evidenceOrder);
     const incorrect = sorted.filter(x => x.status === 'incorrect');
     const other = sorted.filter(x => x.status !== 'incorrect').slice(-40);
-    return incorrect.concat(other).sort((x, y) => Number(x.at || 0) - Number(y.at || 0)).slice(-500);
+    return incorrect.concat(other).sort(evidenceOrder).slice(-500);
   }
-  function rebuildQuestionState(state, history) {
-    if (!history.length) return state;
-    state.history = history; state.attempts = history.length;
-    state.correct = history.filter(x => x.status === 'correct').length;
-    state.incorrect = history.filter(x => x.status === 'incorrect').length;
-    state.unanswered = history.filter(x => x.status === 'unanswered').length;
-    state.lastSeenAt = Number(history[history.length - 1].at || state.lastSeenAt || 0);
-    state.lastStatus = history[history.length - 1].status || state.lastStatus;
-    let streak = 0; for (let i = history.length - 1; i >= 0 && history[i].status === 'correct'; i -= 1) streak += 1;
-    state.streak = streak;
-    const accuracy = state.correct / state.attempts, confidence = Math.min(state.attempts / 5, 1);
-    const recency = Math.max(0, 1 - Math.max(0, (Date.now() - state.lastSeenAt) / 86400000) / 45);
-    state.mastery = Math.max(0, Math.min(100, Math.round((.58 * accuracy + .24 * Math.min(streak / 4, 1) + .18 * recency) * (.62 + .38 * confidence) * 100)));
+  function count(value) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : 0;
+  }
+  function emptyMasteryBaseline() {
+    return { at: 0, firstSeenAt: 0, attempts: 0, correct: 0, incorrect: 0, unanswered: 0, streak: 0, lastSeenAt: 0, lastStatus: 'new' };
+  }
+  function normalizeMasteryBaseline(value) {
+    const source = value && typeof value === 'object' ? value : {};
+    return {
+      at: Number(source.at || source.lastSeenAt || 0),
+      firstSeenAt: Number(source.firstSeenAt || 0),
+      attempts: count(source.attempts),
+      correct: count(source.correct),
+      incorrect: count(source.incorrect),
+      unanswered: count(source.unanswered),
+      streak: count(source.streak),
+      lastSeenAt: Number(source.lastSeenAt || source.at || 0),
+      lastStatus: source.lastStatus || 'new'
+    };
+  }
+  function legacyMasteryBaseline(state) {
+    return normalizeMasteryBaseline({
+      at: state && state.lastSeenAt,
+      /* A legacy aggregate may include attempts no longer present in history,
+         so its earliest observation is deliberately treated as unknown. */
+      firstSeenAt: 0,
+      attempts: state && state.attempts,
+      correct: state && state.correct,
+      incorrect: state && state.incorrect,
+      unanswered: state && state.unanswered,
+      streak: state && state.streak,
+      lastSeenAt: state && state.lastSeenAt,
+      lastStatus: state && state.lastStatus
+    });
+  }
+  function hasAggregateCounters(state) {
+    return Boolean(state && ['attempts', 'correct', 'incorrect', 'unanswered'].some(key => Object.prototype.hasOwnProperty.call(state, key) && Number.isFinite(Number(state[key]))));
+  }
+  function foldEvidenceIntoBaseline(baseline, entries) {
+    const output = normalizeMasteryBaseline(baseline);
+    (entries || []).forEach(entry => {
+      const timestamp = Number(entry && entry.at || 0);
+      output.attempts += 1;
+      if (entry.status === 'correct') output.correct += 1;
+      else if (entry.status === 'unanswered') output.unanswered += 1;
+      else output.incorrect += 1;
+      output.streak = entry.status === 'correct' ? output.streak + 1 : 0;
+      if (!output.firstSeenAt || (timestamp && timestamp < output.firstSeenAt)) output.firstSeenAt = timestamp;
+      if (timestamp >= output.lastSeenAt) { output.lastSeenAt = timestamp; output.lastStatus = entry.status || output.lastStatus; }
+      output.at = Math.max(output.at, timestamp);
+    });
+    return output;
+  }
+  function compactMasteryEvidence(baseline, history) {
+    const sorted = (history || []).slice().sort(evidenceOrder);
+    if (sorted.length <= MASTERY_EVIDENCE_LIMIT) return { baseline: normalizeMasteryBaseline(baseline), history: sorted };
+    const overflow = sorted.slice(0, sorted.length - MASTERY_EVIDENCE_LIMIT);
+    return { baseline: foldEvidenceIntoBaseline(baseline, overflow), history: sorted.slice(-MASTERY_EVIDENCE_LIMIT) };
+  }
+  function canonicalMastery(state) {
+    if (state && state.masteryBaseline && Array.isArray(state.masteryHistory)) {
+      return compactMasteryEvidence(state.masteryBaseline, state.masteryHistory);
+    }
+    if (hasAggregateCounters(state)) return { baseline: legacyMasteryBaseline(state), history: [] };
+    return { baseline: emptyMasteryBaseline(), history: clone(state && state.history || []) };
+  }
+  function rebuildQuestionState(state, canonical) {
+    const compacted = compactMasteryEvidence(canonical && canonical.baseline, canonical && canonical.history);
+    const baseline = compacted.baseline;
+    let attempts = baseline.attempts, correct = baseline.correct, incorrect = baseline.incorrect, unanswered = baseline.unanswered;
+    let streak = baseline.streak, lastSeenAt = baseline.lastSeenAt, lastStatus = baseline.lastStatus;
+    compacted.history.forEach(entry => {
+      attempts += 1;
+      if (entry.status === 'correct') correct += 1;
+      else if (entry.status === 'unanswered') unanswered += 1;
+      else incorrect += 1;
+      streak = entry.status === 'correct' ? streak + 1 : 0;
+      if (Number(entry.at || 0) >= lastSeenAt) { lastSeenAt = Number(entry.at || 0); lastStatus = entry.status || lastStatus; }
+    });
+    state.masteryBaseline = baseline; state.masteryHistory = compacted.history;
+    state.attempts = attempts; state.correct = correct; state.incorrect = incorrect; state.unanswered = unanswered;
+    state.lastSeenAt = lastSeenAt; state.lastStatus = lastStatus; state.streak = streak;
+    if (!attempts) state.mastery = 0;
+    else {
+      const accuracy = correct / attempts, confidence = Math.min(attempts / 5, 1);
+      const recency = Math.max(0, 1 - Math.max(0, (Date.now() - lastSeenAt) / 86400000) / 45);
+      state.mastery = Math.max(0, Math.min(100, Math.round((.58 * accuracy + .24 * Math.min(streak / 4, 1) + .18 * recency) * (.62 + .38 * confidence) * 100)));
+    }
     return state;
+  }
+  function mergeQuestionEvidence(a, b) {
+    const left = canonicalMastery(a), right = canonicalMastery(b);
+    const leftRank = Number(left.baseline.at || 0), rightRank = Number(right.baseline.at || 0);
+    const leftScore = left.baseline.attempts, rightScore = right.baseline.attempts;
+    const sameBaseline = stable(left.baseline) === stable(right.baseline);
+    let chosen = left, other = right;
+    if (rightRank > leftRank || (rightRank === leftRank && rightScore > leftScore) || (rightRank === leftRank && rightScore === leftScore && stable(right.baseline) > stable(left.baseline))) {
+      chosen = right; other = left;
+    }
+    const otherHistory = sameBaseline ? other.history : other.history.filter(entry => Number(entry && entry.at || 0) > Number(chosen.baseline.at || 0));
+    return compactMasteryEvidence(chosen.baseline, mergeArray(chosen.history, otherHistory));
   }
   function mergeQuestion(a, b) {
     const state = clone(Number(a && a.lastSeenAt || 0) >= Number(b && b.lastSeenAt || 0) ? (a || b || {}) : (b || a || {}));
-    const history = trimQuestionHistory(mergeArray(a && a.history, b && b.history));
-    return rebuildQuestionState(state, history);
+    state.history = trimQuestionHistory(mergeArray(a && a.history, b && b.history));
+    return rebuildQuestionState(state, mergeQuestionEvidence(a, b));
   }
   function mergeMastery(a, b) {
     const output = { version: 1, exams: {} };
@@ -134,8 +232,27 @@
   function filterQuestionAfterReset(state, resetAt) {
     if (!state || typeof state !== 'object') return null;
     const history = (state.history || []).filter(entry => timeValue(entry && entry.at) > resetAt);
-    if (history.length) return rebuildQuestionState(clone(state), history);
-    return timeValue(state.lastSeenAt) > resetAt ? clone(state) : null;
+    let canonical = { baseline: emptyMasteryBaseline(), history: [] };
+    if (state.masteryBaseline && Array.isArray(state.masteryHistory)) {
+      const existing = canonicalMastery(state);
+      const baselineIsEntirelyNew = existing.baseline.attempts > 0 && existing.baseline.firstSeenAt > resetAt;
+      if (baselineIsEntirelyNew) canonical.baseline = existing.baseline;
+      canonical.history = existing.history.filter(entry => timeValue(entry && entry.at) > resetAt);
+      /* When an aggregate crosses the reset boundary it cannot be partitioned;
+         rebuild only from post-reset event records, including notebook records
+         retained by an older client. */
+      if (!baselineIsEntirelyNew) canonical.history = mergeArray(canonical.history, history);
+    } else {
+      canonical.history = clone(history);
+    }
+    if (!canonical.baseline.attempts && !canonical.history.length && timeValue(state.lastSeenAt) > resetAt) {
+      canonical.baseline = legacyMasteryBaseline(state);
+      canonical.baseline.firstSeenAt = timeValue(state.lastSeenAt);
+    }
+    if (!canonical.baseline.attempts && !canonical.history.length) return null;
+    const output = clone(state);
+    output.history = history;
+    return rebuildQuestionState(output, canonical);
   }
   function filterMasteryExamAfterReset(exam, resetAt) {
     const source = exam && typeof exam === 'object' ? exam : {};
