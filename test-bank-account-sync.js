@@ -626,7 +626,8 @@
     if (!ctx.user || !scope) return Promise.resolve({ skipped: true });
     prepareUser(ctx.user.id);
     const resets = readResetMarkers();
-    resets[scope] = Math.max(Number(resets[scope] || 0), Date.now());
+    const previousReset = Number(resets[scope] || 0);
+    resets[scope] = Math.max(previousReset + 1, Date.now());
     localStorage.setItem(RESET_KEY, JSON.stringify(resets));
     return sync('adaptive-reset');
   }

@@ -1013,3 +1013,41 @@ test('reserved JSON record keys remain own data properties instead of mutating m
   assert.equal(legacy.__proto__.polluted, true);
   dom.window.close();
 });
+
+test('a later reset creates a new generation even when the device clock moves backward', async () => {
+  const service = fakeProgressService();
+  const dom = load();
+  dom.window.document.body.innerHTML = '<div class="tb-shell exam-mode"></div>';
+  dom.window.UpskillAuth = {
+    getClient: () => service.clientFor('clock-reset-user'),
+    getUser: () => ({ id: 'clock-reset-user' })
+  };
+  dom.window.localStorage.setItem('tb-account-sync-resets-v1', JSON.stringify({ 'mastery-exam:cssbb': 1000 }));
+  const event = {
+    id: 'generation-one-1', deviceId: 'device-a', streamId: 'generation-one',
+    resetAt: 1000, sequence: 1, at: 1000, status: 'incorrect'
+  };
+  dom.window.localStorage.setItem('tb-adaptive-mastery-v1', JSON.stringify({
+    version: 1,
+    exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+      history: [event], masteryBaseline: { legacy: {}, devices: {} },
+      masteryHistory: [event], lastSeenAt: 1000
+    } } } }
+  }));
+  dom.window.Date.now = () => 900;
+
+  await dom.window.__TBAccountSync.resetAdaptiveExam('cssbb');
+
+  const resets = JSON.parse(dom.window.localStorage.getItem('tb-account-sync-resets-v1'));
+  assert.equal(resets['mastery-exam:cssbb'], 1001, 'every reset must advance the generation marker');
+  const stored = JSON.parse(dom.window.localStorage.getItem('tb-adaptive-mastery-v1'));
+  assert.equal(Object.hasOwn(stored.exams, 'cssbb'), false, 'the second reset must remove first-generation evidence');
+
+  for (let index = 1; index <= 25; index += 1) {
+    dom.window.Date.now = () => 900 - index;
+    await dom.window.__TBAccountSync.resetAdaptiveExam('cssbb');
+    const marker = JSON.parse(dom.window.localStorage.getItem('tb-account-sync-resets-v1'))['mastery-exam:cssbb'];
+    assert.equal(marker, 1001 + index, 'rollback reset generation ' + index + ' advances exactly once');
+  }
+  dom.window.close();
+});
