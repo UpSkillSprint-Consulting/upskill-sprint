@@ -271,8 +271,8 @@ test('chartVsmSymbol renders a rectangle with a cut top-right corner, matching t
 test('the critical-path questions now carry their precedence table data in the stem, not only in the why field', async () => {
   const { window } = await load();
   const bank = cssbbBank(window);
-  const critPath = findQuestion(bank, 'A project has the following activities');
-  const lateStart = findQuestion(bank, 'Using the same project precedence table');
+  const critPath = bank.find(q => q.stem.startsWith('A project has the following activities') && q.stem.includes('critical path?'));
+  const lateStart = bank.find(q => q.stem.startsWith('Using the same project precedence table') && q.stem.includes('latest day that Activity D can begin'));
   assert.ok(critPath && lateStart, 'both companion questions found');
 
   // Both questions must state every activity's duration and predecessor directly in the
@@ -292,7 +292,7 @@ test('the critical-path questions now carry their precedence table data in the s
 test('the precedence-table data used is internally self-consistent with the stated critical-path answer (the source book has a real erratum here: its question page prints Activity D as 15 days, its own solution page prints 5 days and calculates using 5 -- used the value consistent with the graded answer so the practice question is not self-contradicting)', async () => {
   const { window } = await load();
   const bank = cssbbBank(window);
-  const critPath = findQuestion(bank, 'A project has the following activities');
+  const critPath = bank.find(q => q.stem.startsWith('A project has the following activities') && q.stem.includes('critical path?'));
   assert.match(critPath.stem, /D \(no predecessor, 5 days\)/);
   // ACG = 10+10+5 = 25, BCG = 5+10+5 = 20, DEFG = 5+5+5+5 = 20 -- ACG must be strictly longest.
   const acg = 10 + 10 + 5, bcg = 5 + 10 + 5, defg = 5 + 5 + 5 + 5;
@@ -310,4 +310,101 @@ test('no CQE question contains a unicode replacement character or an unresolved 
   assert.ok(cqeBank.length > 0);
   const garbled = cqeBank.filter(q => /[\uFFFD]/.test(q.stem) || /[\uFFFD]/.test(q.why || ''));
   assert.deepEqual(Array.from(garbled).map(q => q.stem), []);
+});
+
+/* ---------- third-pass audit: systemic option-contamination bug (21 questions) ---------- */
+
+test('no option in the entire bank contains bled-in "shared context for the next question" text (regression for a 21-question extraction bug)', async () => {
+  const { window } = await load();
+  const contaminated = [];
+  Object.keys(window.__TB.EXAMS).forEach(examId => {
+    const e = window.__TB.EXAMS[examId];
+    const bank = [].concat(e.bank || [], Object.values(e.sets || {}).flat());
+    const seen = new Set();
+    bank.forEach(q => {
+      if (!q || seen.has(q.stem)) return;
+      seen.add(q.stem);
+      (q.options || []).forEach(o => {
+        if (/Use the (following|precedence|table|figure|house of quality|prioritization matrix)\b/i.test(o) || /answer questions? \d/i.test(o)) {
+          contaminated.push(examId + ' | ' + q.stem.slice(0, 60));
+        }
+      });
+    });
+  });
+  assert.deepEqual(Array.from(contaminated), []);
+});
+
+test('the second critical-path trio (Q49/50/51, a different precedence table than the D-erratum one) now carries its data in each stem', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const q49 = findQuestion(bank, 'A project has the following activities, predecessors, and durations. Activity: A (no predecessor, 5 days)');
+  const q50 = bank.find(q => q.stem.includes('Using the same project precedence table') && q.stem.includes('early start time for Activity C'));
+  const q51 = bank.find(q => q.stem.includes('Using the same project precedence table') && q.stem.includes('Activity E is delayed'));
+  assert.ok(q49 && q50 && q51, 'all three questions found with corrected stems');
+
+  assert.equal(q49.options[q49.answer], 'EF');
+  assert.notEqual(q49.options[1], 'BOE', 'the OCR-garbled "BOE" option was corrected to "BDF"');
+  assert.equal(q49.options[1], 'BDF');
+
+  // ACF = 5+8+6=19, BDF = 10+2+6=18, EF = 15+6=21 -- EF must be strictly the longest.
+  const acf = 5 + 8 + 6, bdf = 10 + 2 + 6, ef = 15 + 6;
+  assert.ok(ef > acf && ef > bdf, 'EF is genuinely the critical path given the stem\u2019s own stated durations');
+
+  assert.equal(q50.options[q50.answer], '5');
+  assert.equal(q51.options[q51.answer], 'The project will finish at least five days late.');
+});
+
+test('u-chart, Gpk, Cpm, and X-bar control limit questions now state their input data in the stem instead of only in a garbled why field', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+
+  const uChart = findQuestion(bank, 'A u-chart is used to monitor defects per unit');
+  assert.match(uChart.stem, /240 defects/);
+  assert.match(uChart.stem, /1,550 units/);
+  assert.equal(uChart.options[uChart.answer], '0.154');
+
+  const gpk = findQuestion(bank, 'A process metric is normally distributed. An X-bar R chart shows it is in control');
+  assert.match(gpk.stem, /X-double-bar = 23\.5/);
+  assert.equal(gpk.options[gpk.answer], '0.52');
+
+  const cpm = findQuestion(bank, 'Using the same process (X-double-bar = 23.5');
+  assert.equal(cpm.options[cpm.answer], '0.613');
+
+  const xbarLimits = findQuestion(bank, 'A process is monitored with an X-bar/S chart: X-bar = 29.87');
+  assert.equal(xbarLimits.options.length, 4, 'the bled-in Q22/23 text was stripped, leaving exactly 4 clean options');
+  assert.equal(xbarLimits.options[xbarLimits.answer], '[27.16, 32.58]');
+});
+
+test('known gap: several referenced sibling question groups appear to be genuinely missing from the bank, not merely corrupted (documented, not fabricated)', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  // These are the specific data points/scenarios referenced by the stripped bled-in text
+  // that could not be found anywhere else in the bank. This test exists to make the gap
+  // visible and trackable, not to assert they should be absent -- if any of these get
+  // reconstructed from the source book in a future pass, this test should be updated
+  // to assert their presence instead.
+  const missingSignatures = [
+    /94.*91.*76.*43.*66.*77/,             // skewness data set
+    /k\s*=\s*30/,                          // p-chart with k subgroups
+    /fiber composite|tensile propert/i,    // textile DOE scenario
+    /ABC Manufacturing.*55 parts/i,        // production order scenario
+    /injection molding.*48 minutes/i,      // OEE downtime scenario
+    /Outside Resources.*Time to Implement/i // prioritization matrix scenario
+  ];
+  missingSignatures.forEach(re => {
+    const found = bank.some(q => re.test(q.stem) || re.test(q.why || ''));
+    assert.equal(found, false, 'expected still-missing: ' + re);
+  });
+});
+
+test('no double commas immediately after a closing brace ("},,") anywhere in test-bank.html (regression: a boundary-slicing edit once left a stray comma there, creating a sparse array hole that silently inflated Set 3\u2019s reported length by one)', () => {
+  assert.doesNotMatch(html, /\},\s*,/, 'a double comma in a JS array literal creates a hole -- .length counts it but .forEach/.map skip it, so it is invisible to most checks and only shows up as an off-by-one count');
+});
+
+test('CSSBB Set 3 has no sparse holes: every index from 0 to length-1 is a real, distinct question object', async () => {
+  const { window } = await load();
+  const set3 = window.__TB.EXAMS.cssbb.sets[3];
+  for (let i = 0; i < set3.length; i += 1) {
+    assert.ok(set3[i] && typeof set3[i] === 'object' && typeof set3[i].stem === 'string', 'index ' + i + ' is a real question object, not a hole');
+  }
 });
