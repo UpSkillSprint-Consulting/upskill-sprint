@@ -47,13 +47,13 @@
     if (!isConfigured()) return null;
     var config = getConfig();
     client = window.supabase.createClient(config.url, config.anonKey);
+    var restoreRevision = sessionRevision;
     client.auth.onAuthStateChange(function (_event, session) {
       sessionRevision += 1;
       currentSession = session;
       sessionKnown = true;
       notifyListeners();
     });
-    var restoreRevision = sessionRevision;
     client.auth.getSession().then(function (result) {
       if (sessionRevision !== restoreRevision) return;
       currentSession = result && result.data ? result.data.session : null;
