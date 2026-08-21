@@ -77,15 +77,28 @@
   }
   function mergeIdentifiedItem(left, right) {
     const leftRank = itemRank(left), rightRank = itemRank(right);
-    const rightWins = rightRank > leftRank || (rightRank === leftRank && stable(right) > stable(left));
-    const older = rightWins ? left : right, newer = rightWins ? right : left;
-    const output = Object.assign({}, clone(older), clone(newer));
-    ['errors', 'records', 'times'].forEach(key => {
-      if (leftRank !== rightRank) {
-        if (newer && Object.prototype.hasOwnProperty.call(newer, key)) output[key] = clone(newer[key]);
-      } else if ((older && older[key]) || (newer && newer[key])) {
-        output[key] = Object.assign({}, clone(older && older[key] || {}), clone(newer && newer[key] || {}));
+    if (leftRank !== rightRank) return clone(rightRank > leftRank ? right : left);
+    const output = {};
+    const mapFields = { errors: true, records: true, times: true };
+    const leftItem = asRecord(left), rightItem = asRecord(right);
+    new Set(Object.keys(leftItem).concat(Object.keys(rightItem))).forEach(key => {
+      const leftHas = Object.prototype.hasOwnProperty.call(leftItem, key);
+      const rightHas = Object.prototype.hasOwnProperty.call(rightItem, key);
+      if (!leftHas) { output[key] = clone(rightItem[key]); return; }
+      if (!rightHas) { output[key] = clone(leftItem[key]); return; }
+      if (!mapFields[key]) {
+        output[key] = clone(stable(rightItem[key]) > stable(leftItem[key]) ? rightItem[key] : leftItem[key]);
+        return;
       }
+      output[key] = {};
+      const leftMap = asRecord(leftItem[key]), rightMap = asRecord(rightItem[key]);
+      new Set(Object.keys(leftMap).concat(Object.keys(rightMap))).forEach(mapKey => {
+        const leftMapHas = Object.prototype.hasOwnProperty.call(leftMap, mapKey);
+        const rightMapHas = Object.prototype.hasOwnProperty.call(rightMap, mapKey);
+        if (!leftMapHas) output[key][mapKey] = clone(rightMap[mapKey]);
+        else if (!rightMapHas) output[key][mapKey] = clone(leftMap[mapKey]);
+        else output[key][mapKey] = clone(stable(rightMap[mapKey]) > stable(leftMap[mapKey]) ? rightMap[mapKey] : leftMap[mapKey]);
+      });
     });
     return output;
   }
@@ -98,7 +111,10 @@
         else { positions.set(key, output.length); output.push(clone(item)); }
         return;
       }
-      const key = 'value:' + hash(stable(item));
+      /* A 32-bit hash is not a unique identity: distinct legacy records can
+         collide and one would then be silently discarded. Keep the canonical
+         serialization itself as the transient deduplication key. */
+      const key = 'value:' + stable(item);
       if (!values.has(key)) { values.add(key); output.push(clone(item)); }
     });
     return output.sort(itemOrder);

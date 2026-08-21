@@ -936,3 +936,48 @@ test('disjoint legacy evidence ledgers never collapse into one unverifiable aggr
   assert.deepEqual(JSON.parse(JSON.stringify(forward)), JSON.parse(JSON.stringify(reverse)));
   dom.window.close();
 });
+
+test('three-way feedback merges cannot resurrect an omitted older nested map', () => {
+  const dom = load(), mergePayloads = dom.window.__TBAccountSync.mergePayloads;
+  function payload(record) {
+    return { schemaVersion: 2, values: { 'tb-attempt-feedback-v2': { attempts: { shared: record } } } };
+  }
+  const a = payload({
+    id: 'shared', updatedAt: 3, completedAt: 4, label: 'latest-a',
+    errors: { q2: 'concept' }, times: { q1: 3000 }, records: { q2: 'keep' }
+  });
+  const b = payload({
+    id: 'shared', updatedAt: 4, completedAt: 0, label: 'latest-b',
+    errors: { q0: 'guess' }, times: { q1: 3000 }
+  });
+  const older = payload({
+    id: 'shared', updatedAt: 0, completedAt: 0, label: 'old',
+    times: { q2: 3000 }, records: { q1: 'must-not-return' }
+  });
+
+  const leftGrouped = mergePayloads([mergePayloads([a, b]), older]);
+  const rightGrouped = mergePayloads([a, mergePayloads([b, older])]);
+  assert.deepEqual(JSON.parse(JSON.stringify(leftGrouped)), JSON.parse(JSON.stringify(rightGrouped)));
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(leftGrouped.values['tb-attempt-feedback-v2'].attempts.shared.records)),
+    { q2: 'keep' }
+  );
+  dom.window.close();
+});
+
+test('distinct no-ID records survive even when their former 32-bit identities collide', () => {
+  const dom = load(), mergePayloads = dom.window.__TBAccountSync.mergePayloads;
+  /* These canonical records both hash to 1lsms3h under the previous FNV-1a
+     deduplication key, despite containing different timestamps and statuses. */
+  const left = { schemaVersion: 2, values: { 'tb-attempt-history-v3': { attempts: [
+    { startedAt: 19150, status: 'legacy-19150' }
+  ] } } };
+  const right = { schemaVersion: 2, values: { 'tb-attempt-history-v3': { attempts: [
+    { startedAt: 69939, status: 'legacy-69939' }
+  ] } } };
+
+  const result = mergePayloads([left, right]).values['tb-attempt-history-v3'];
+  assert.equal(result.attempts.length, 2);
+  assert.deepEqual(Array.from(result.attempts, item => item.status), ['legacy-19150', 'legacy-69939']);
+  dom.window.close();
+});
