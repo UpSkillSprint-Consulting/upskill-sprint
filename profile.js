@@ -111,13 +111,19 @@
       notify(null);
       return Promise.resolve(null);
     }
+    if ((currentUserId && currentUserId !== user.id) ||
+        (currentProfile && currentProfile.user_id !== user.id)) {
+      loadPromise = null;
+      notify(null);
+    }
     if (loadPromise && currentUserId === user.id) return loadPromise;
     currentUserId = user.id;
+    var handledRequest;
     var request = fetchProfile(user).then(function (profile) {
-      if (currentUserId === user.id) notify(profile);
+      if (currentUserId === user.id && loadPromise === handledRequest) notify(profile);
       return profile;
     });
-    var handledRequest = request.catch(function (error) {
+    handledRequest = request.catch(function (error) {
       if (currentUserId === user.id && loadPromise === handledRequest) {
         loadPromise = null;
       }

@@ -190,6 +190,68 @@ function profileRaceRuntime(options = {}) {
   };
 }
 
+function accountSwitchMenuRuntime(options = {}) {
+  const users = {
+    a: { id: 'user-a', email: 'a@example.com', user_metadata: { display_name: 'Metadata A' } },
+    b: { id: 'user-b', email: 'b@example.com', user_metadata: { display_name: 'Metadata B' } }
+  };
+  const profiles = {
+    'user-a': { user_id: 'user-a', display_name: 'Canonical A', timezone: 'America/Regina', newsletter_opt_in: false },
+    'user-b': { user_id: 'user-b', display_name: 'Canonical B', timezone: 'America/Regina', newsletter_opt_in: false }
+  };
+  const aProfile = deferred();
+  const bProfile = deferred();
+  let aProfileRequests = 0;
+  let authCallback = null;
+
+  function selectChain() {
+    let userId = null;
+    return {
+      eq(_column, value) { userId = value; return this; },
+      maybeSingle() {
+        if (userId === users.a.id && options.deferInitialA && aProfileRequests++ === 0) {
+          return aProfile.promise;
+        }
+        if (userId === users.b.id) return bProfile.promise;
+        return Promise.resolve({ data: profiles[userId], error: null });
+      },
+      single() { return Promise.resolve({ data: profiles[userId], error: null }); }
+    };
+  }
+
+  const client = {
+    auth: {
+      onAuthStateChange(callback) { authCallback = callback; },
+      getSession() { return Promise.resolve({ data: { session: { user: users.a } } }); },
+      signOut() { return Promise.resolve({ data: null, error: null }); }
+    },
+    from(table) {
+      assert.equal(table, 'profiles');
+      return {
+        select() { return selectChain(); },
+        insert() { throw new Error('unexpected profile insert'); }
+      };
+    }
+  };
+  const dom = new JSDOM('<!doctype html><html><head></head><body><header class="site"><a class="header-cta"></a></header></body></html>', {
+    url: 'https://upskillsprint.com/', runScripts: 'outside-only'
+  });
+  dom.window.UPSKILLSPRINT_SUPABASE_CONFIG = { url: 'https://project.supabase.co', anonKey: 'public-anon-key' };
+  dom.window.supabase = { createClient: () => client };
+  dom.window.eval(authSource);
+  dom.window.eval(profileSource);
+  dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
+
+  return {
+    dom,
+    users,
+    aProfile,
+    bProfile,
+    switchToB() { authCallback('SIGNED_IN', { user: users.b }); },
+    refreshA() { authCallback('TOKEN_REFRESHED', { user: users.a }); }
+  };
+}
+
 test('restored session renders the canonical profile name and email', async () => {
   const { dom } = runtime();
   await flush(); await flush(); await flush();
@@ -197,6 +259,92 @@ test('restored session renders the canonical profile name and email', async () =
   assert.equal(dom.window.document.querySelector('#account-menu-email').textContent, 'learner@example.com');
   assert.equal(dom.window.document.querySelector('#account-menu-profile').getAttribute('href'), '/profile.html');
   dom.window.close();
+});
+
+test('account switching never pairs the new user with the previous user profile', async () => {
+  const runtime = accountSwitchMenuRuntime();
+  await flush(); await flush(); await flush();
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Canonical A');
+
+  runtime.switchToB();
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-email').textContent, 'b@example.com');
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Metadata B');
+  assert.equal(runtime.dom.window.UpskillProfile.getCurrent(), null);
+
+  runtime.bProfile.resolve({ data: {
+    user_id: 'user-b', display_name: 'Canonical B', timezone: 'America/Regina', newsletter_opt_in: false
+  }, error: null });
+  await flush(); await flush();
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Canonical B');
+  runtime.dom.window.document.dispatchEvent(new runtime.dom.window.CustomEvent('upskill-profile-change', {
+    detail: { profile: { user_id: 'user-a', display_name: 'Late Canonical A' } }
+  }));
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Canonical B');
+  runtime.dom.window.close();
+});
+
+test('a failed new-account profile load cannot restore the previous account name', async () => {
+  const runtime = accountSwitchMenuRuntime();
+  await flush(); await flush(); await flush();
+  runtime.switchToB();
+  runtime.bProfile.resolve({ data: null, error: new Error('profile unavailable') });
+  await flush(); await flush();
+
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-email').textContent, 'b@example.com');
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Metadata B');
+  assert.equal(runtime.dom.window.UpskillProfile.getCurrent(), null);
+  runtime.dom.window.close();
+});
+
+test('same-user token refresh retains the matching canonical profile', async () => {
+  const runtime = accountSwitchMenuRuntime();
+  await flush(); await flush(); await flush();
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Canonical A');
+
+  runtime.refreshA();
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Canonical A');
+  await flush();
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Canonical A');
+  runtime.dom.window.close();
+});
+
+test('a late profile response cannot overwrite a rapid switch back to the first account', async () => {
+  const runtime = accountSwitchMenuRuntime();
+  await flush(); await flush(); await flush();
+  runtime.switchToB();
+  runtime.refreshA();
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-email').textContent, 'a@example.com');
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Metadata A');
+  await flush(); await flush();
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Canonical A');
+
+  runtime.bProfile.resolve({ data: {
+    user_id: 'user-b', display_name: 'Late Canonical B', timezone: 'America/Regina', newsletter_opt_in: false
+  }, error: null });
+  await flush(); await flush();
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-email').textContent, 'a@example.com');
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Canonical A');
+  assert.equal(runtime.dom.window.UpskillProfile.getCurrent().user_id, 'user-a');
+  runtime.dom.window.close();
+});
+
+test('an older same-account response cannot win an A-to-B-to-A request race', async () => {
+  const runtime = accountSwitchMenuRuntime({ deferInitialA: true });
+  await flush(); await flush();
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Metadata A');
+
+  runtime.switchToB();
+  runtime.refreshA();
+  await flush(); await flush();
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Canonical A');
+
+  runtime.aProfile.resolve({ data: {
+    user_id: 'user-a', display_name: 'Stale Canonical A', timezone: 'America/Regina', newsletter_opt_in: false
+  }, error: null });
+  await flush(); await flush();
+  assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Canonical A');
+  assert.equal(runtime.dom.window.UpskillProfile.getCurrent().display_name, 'Canonical A');
+  runtime.dom.window.close();
 });
 
 test('profile save sends only editable fields and refreshes the menu', async () => {

@@ -62,7 +62,8 @@ test('auth controller sends profile metadata and optional CAPTCHA tokens', () =>
 
 test('account menu shows canonical name, email, and profile link', () => {
   const auth = read('auth.js');
-  assert.match(auth, /profile && profile\.display_name/);
+  assert.match(auth, /profile && user && profile\.user_id === user\.id/);
+  assert.match(auth, /profileMatchesUser \? profile\.display_name/);
   assert.match(auth, /account-menu-name/);
   assert.match(auth, /account-menu-email/);
   assert.match(auth, /Profile & preferences/);
