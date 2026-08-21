@@ -407,21 +407,28 @@ test('several sibling question groups initially thought missing were actually pr
   assert.equal(sampleVar.options[sampleVar.answer], '449.9');
 });
 
-test('known gap: a smaller set of referenced sibling question groups still appears genuinely missing from the bank, not merely corrupted (documented, not fabricated)', async () => {
+test('4 more sibling questions found (ABC Manufacturing waste question, both prioritization-matrix questions, injection-molding availability) via a deeper sweep, narrowing the known gap to a single confirmed-absent scenario', async () => {
   const { window } = await load();
   const bank = cssbbBank(window);
-  // Narrowed down from an earlier, larger list -- several groups originally thought missing
-  // were found on a broader sweep (see the test above). These four remain unlocated.
-  const missingSignatures = [
-    /fiber composite|tensile propert/i,    // textile DOE scenario
-    /ABC Manufacturing.*55 parts/i,        // production order scenario
-    /injection molding.*48 minutes/i,      // OEE downtime scenario
-    /Outside Resources.*Time to Implement/i // prioritization matrix scenario
-  ];
-  missingSignatures.forEach(re => {
-    const found = bank.some(q => re.test(q.stem) || re.test(q.why || ''));
-    assert.equal(found, false, 'expected still-missing: ' + re);
-  });
+
+  const criterion = findQuestion(bank, 'A team scores four potential solutions against four weighted criteria');
+  const solution = bank.find(q => q.stem.startsWith('Using the same prioritization matrix'));
+  assert.equal(criterion.options[criterion.answer], 'Positive impact on the customer');
+  assert.equal(solution.options[solution.answer], 'Solution B');
+  assert.notEqual(solution.options[1], 'Solution 8', 'the OCR-garbled "Solution 8" was corrected to "Solution B"');
+
+  const abcWaste = findQuestion(bank, "ABC Manufacturing, a machine shop using total productive maintenance methodologies, receives a purchase order for 50 parts");
+  assert.equal(abcWaste.options[abcWaste.answer], 'Defects');
+
+  const availability = findQuestion(bank, 'An injection molding process runs one eight-hour shift per day');
+  assert.equal(availability.options[availability.answer], '0.8575');
+});
+
+test('known gap: one referenced scenario (a textile fiber-composite DOE) could not be located anywhere in the source PDF, not just the bank -- confirmed absent rather than fabricated', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const found = bank.some(q => /fiber composite|tensile propert.*temperature.*pressure/i.test(q.stem) || /fiber composite/i.test(q.why || ''));
+  assert.equal(found, false);
 });
 
 test('no double commas immediately after a closing brace ("},,") anywhere in test-bank.html (regression: a boundary-slicing edit once left a stray comma there, creating a sparse array hole that silently inflated Set 3\u2019s reported length by one)', () => {
