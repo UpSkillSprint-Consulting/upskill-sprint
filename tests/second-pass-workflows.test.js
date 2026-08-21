@@ -15,11 +15,14 @@ const deferred = () => {
   return { promise, resolve, reject };
 };
 
-function authRaceRuntime(sessionPromise) {
+function authRaceRuntime(sessionPromise, immediateSession) {
   const user = { id: 'user-1', email: 'learner@example.com' };
   const client = {
     auth: {
-      onAuthStateChange(callback) { client.auth.callback = callback; },
+      onAuthStateChange(callback) {
+        client.auth.callback = callback;
+        if (immediateSession) callback('INITIAL_SESSION', { user });
+      },
       getSession() { return sessionPromise; },
       signUp() { return Promise.resolve({ data: {}, error: null }); },
       signInWithPassword() { return Promise.resolve({ data: { user }, error: null }); },
@@ -56,6 +59,15 @@ test('a stale null restoration cannot erase a newer signed-in session', async ()
   await flush();
   client.auth.callback('SIGNED_IN', { user });
   restore.resolve({ data: { session: null } });
+  await flush(); await flush();
+  assert.equal(dom.window.UpskillAuth.getUser().id, user.id);
+  dom.window.close();
+});
+
+test('a synchronous initial-session event survives a later restoration failure', async () => {
+  const restore = deferred();
+  const { dom, user } = authRaceRuntime(restore.promise, true);
+  restore.reject(new Error('late restoration failure'));
   await flush(); await flush();
   assert.equal(dom.window.UpskillAuth.getUser().id, user.id);
   dom.window.close();
@@ -410,6 +422,12 @@ test('merged histories retain the application limits and newest records', () => 
   assert.equal(mergedMastery.attempts[0].id, 'b0');
   assert.equal(mergedMastery.sessions.length, 60);
   assert.equal(mergedMastery.sessions[0].id, 's-b0');
+  const questionHistory = dom.window.__TBAccountSync.mergeMastery(
+    { exams: { cssbb: { attempts: [], sessions: [], questions: { q1: { history: make('q-a', 30, 0, 'at'), lastSeenAt: 29 } } } } },
+    { exams: { cssbb: { attempts: [], sessions: [], questions: { q1: { history: make('q-b', 30, 30, 'at'), lastSeenAt: 59 } } } } }
+  ).exams.cssbb.questions.q1.history;
+  assert.equal(questionHistory.length, 30);
+  assert.equal(questionHistory[0].id, 'q-b0');
   const mergedHistory = dom.window.__TBAccountSync.mergePayloads([
     { values: { 'tb-attempt-history-v3': { attempts: make('h-a', 50, 0, 'startedAt') } } },
     { values: { 'tb-attempt-history-v3': { attempts: make('h-b', 50, 50, 'startedAt') } } }
