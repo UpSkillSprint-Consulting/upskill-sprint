@@ -129,6 +129,24 @@
   .tb-qtag{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:99px;margin-bottom:16px}
   .tb-qtag i{width:8px;height:8px;border-radius:2px}
   .tb-stem{font-size:17px;line-height:1.5;color:var(--ink);font-weight:600;margin-bottom:18px}
+  .tb-q-chart-wrap{margin-bottom:16px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--tint);overflow-x:auto}
+  .tb-q-chart{width:100%;min-width:340px;max-width:560px;display:block;margin:0 auto}
+  .tb-q-chart-quad{max-width:420px}
+  .tb-chart-limit{stroke:#c0453f;stroke-width:1;stroke-dasharray:4 3}
+  .tb-chart-cl{stroke:var(--muted);stroke-width:1}
+  .tb-chart-line{stroke:#6656b5;stroke-width:1.5}
+  .tb-chart-dot{fill:#6656b5}
+  .tb-chart-dot-out{fill:#c0453f}
+  .tb-chart-grid{stroke:var(--line);stroke-width:1}
+  .tb-chart-whisker{stroke:var(--ink);stroke-width:1.3}
+  .tb-chart-box{fill:color-mix(in srgb,#6656b5 14%,var(--card));stroke:var(--ink);stroke-width:1.3}
+  .tb-chart-median{stroke:var(--ink);stroke-width:1.6}
+  .tb-chart-outlier{fill:none;stroke:#c0453f;stroke-width:1.6}
+  .tb-chart-band{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3}
+  .tb-chart-ring{fill:none;stroke:var(--muted);stroke-width:1}
+  .tb-chart-target-dot{fill:var(--ink)}
+  .tb-q-chart-quad-hi .tb-chart-ring{stroke:#6656b5}
+  .tb-q-chart-quad-hi .tb-chart-target-dot{fill:#6656b5}
   .tb-opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:var(--tint);border:1px solid var(--line);border-radius:11px;padding:14px 15px;margin-bottom:10px;color:var(--ink);font:inherit;font-size:15px;cursor:pointer;transition:.12s}
   .tb-opt:hover{border-color:var(--teal)} .tb-opt.sel{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 12%,var(--card))}
   .tb-opt .k{width:26px;height:26px;flex:none;border-radius:7px;border:1px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:13px;color:var(--muted)}
@@ -1926,9 +1944,9 @@
     {"sub":"mea","stem":"A precision-to-tolerance ratio is calculated to be 0.50. What can be said about the measurement system?","options":["The measurement system is stable.","The variability of the measurement system is too large.","The variability of the products is too large.","The specification range is too small."],"answer":1,"why":"A precision-to-tolerance ratio (PTR) is a measure of the capability of the measurement system. PTR values less than 0.10 are considered good, while values greater than 0.30 require improvement in the measurement system in terms of reducing its variability. [V.C. 1]","set":3},
     {"sub":"mea","stem":"In a measurement system analysis, percent contribution is equal to:","options":["the square root of the precision.","the square of the discrimination.","the precision-to-tolerance ratio.","the square of the total percent gage R&R."],"answer":3,"why":"The percent contribution of the measurement system is the square of the total percent gage R&R. Note that the total percent gage R&R is the precision-to-tolerance ratio expressed as a percentage. [V.C. 1]","set":3},
     {"sub":"mea","stem":"If the bias of a measuring system increases across the measurement range, the measuring device is said to have poor:","options":["stability.","linearity.","bias.","reproducibility. Use the figure below to answer questions 38 and 39. � � A B (iJC � D"],"answer":1,"why":"If the bias of a measuring system increases across the measurement range, it is said to have poor linearity. A system with good linearity will have a constant bias across the range of measurement. [V.C. 1]","set":3},
-    {"sub":"mea","stem":"Which quadrant of the figure shows high precision but low accuracy?","options":["Quadrant A","Quadrant 8","Quadrant C","Quadrant D"],"answer":3,"why":"The quadrant in the lower right is displaying an example of high precision. It is consistent but not accurate since the points are not at the target. [V.C. 1]","set":3},
-    {"sub":"mea","stem":"Which quadrant in the figure shows high accuracy and low precision?","options":["Quadrant A","Quadrant 8","Quadrant C","Quadrant D"],"answer":0,"why":"The quadrant in the upper left is displaying a system with high accuracy, since the points are near the target, but low precision because their location is not consistent. [IV.C. 1]","set":3},
-    {"sub":"mea","stem":"What is the measurement system concept depicted in the figure below? True or reference value �::::, �,.,, � Average of measured values Measured value","options":["Precision","Stability","Linear bias","Repeatability"],"answer":2,"why":"The figure depicts the concept of linear bias, in which the measured values are consistently biased across the range of measurement. [V.C. 1]","set":3},
+    {"sub":"mea","stem":"Which quadrant of the figure shows high precision but low accuracy?","options":["Quadrant A","Quadrant B","Quadrant C","Quadrant D"],"answer":3,"why":"The quadrant in the lower right (D) shows an example of high precision. It is consistent (tightly clustered) but not accurate since the points are not at the target. [V.C.1]","set":3,"chart":{"type":"precision-accuracy","highlight":"D"}},
+    {"sub":"mea","stem":"Which quadrant in the figure shows high accuracy and low precision?","options":["Quadrant A","Quadrant B","Quadrant C","Quadrant D"],"answer":0,"why":"The quadrant in the upper left (A) shows a system with high accuracy, since the points average out near the target, but low precision because their locations are not consistent. [V.C.1]","set":3,"chart":{"type":"precision-accuracy","highlight":"A"}},
+    {"sub":"mea","stem":"What is the measurement system concept depicted in the figure below?","options":["Precision","Stability","Linear bias","Repeatability"],"answer":2,"why":"The figure depicts the concept of linear bias: the average of measured values runs parallel to the true/reference value line but is consistently offset from it across the full range of measurement. [V.C.1]","set":3,"chart":{"type":"bias-diagram"}},
     {"sub":"mea","stem":"Calculate the precision-to-tolerance ratio (PTR) using the following information: Specifications 10 ± 0.5 cm and a total = 0.045 cm.","options":["13.5%,","27°/c,","37%","75%,"],"answer":1,"why":"To calculate the precision-to-tolerance ratio (PTR), we use 6 X 0.045 =. =%. P TR = 6ato tal = 0 27 27 USL - LSL 1 0.5 - 9.5 [V.C. 1]","set":3},
     {"sub":"mea","stem":"A measurement system has been evaluated with the following results: repeatability = 0.81 and reproducibility = 5.15. What is the gage R&R?","options":["2.44","5.21","5.96","27.14"],"answer":1,"why":"To calculate the gage R&R, we use aGage R& R = a r2epeatab,hh; 2.. + a reproduc1b1hh...; ✓ = 0.81 2 + 5.15 2 = 5.21. [V.C. 1]","set":3},
     {"sub":"mea","stem":"The gage R&R for a measurement system is equal to 3.45. The equipment variation is found to be equal to 1.22. What is the appraiser variation?","options":["1.40","2.23","3.23","3.27"],"answer":2,"why":"We can use the formula for gage R&R and a little algebra to find appraiser variation: a Gage R & R✓ = E V 2 + AV 2 3.45 = ✓1.22 + A V2 2 A V 2 = 3.45 2 - 1.22 2 A V = 10.41 = 3.23. ✓ [V.C. 1]","set":3},
@@ -1970,13 +1988,13 @@
     {"sub":"mea","stem":"Given the sample set of data { 13.3, 14.5, -4.0, 23.9, 24.2}, calculate the standard deviation.","options":["10.26","11.47","14.38","Cannot be calculated."],"answer":1,"why":"The sample standard deviation can be calculated using i (xi - x) 2 I x; - nx 2 2 S = � i-1 �-- i-1 1559.99 - 5 (14.38 ) ---�-� = 1 1.47. n-1 n-1 [V. D.3]","set":3},
     {"sub":"mea","stem":"Given the sample set of data { 17.0, 14.5, 2.5, 4.5, 12.3}, calculate the standard error of the mean.","options":["1.27","2.84","5.67","6.34"],"answer":1,"why":"The standard error of the mean is calculated using S e = J;, = 6}s4 = 2.84. [V. D.3]","set":3},
     {"sub":"mea","stem":"Calculate the mean using the frequency table shown below. Bounds Frequency 10-29 14 30-49 10 50-69 5 70-89 4","options":["6.00","8.25","38.89","49.50"],"answer":2,"why":"Given the frequency table, we first calculate the midpoints M; of each class. The midpoint is equal to M = LB + (UB - LB) / 2. The midpoint of the first class is calculated as M l = 10 + (29 - 10) / 2 = 19.5. The other midpoints are calculated similarly. Bounds Mid point Frequency 1 0-29 1 9.5 14 Bounds Mid point Frequency 30-49 39.5 10 50-69 59.5 5 70-89 79.5 4 We then calculate a weighted average using - fi MJ ( 19.5 X 14 ) + ( 39.5 X 1 0) + ( 59.5 X 5) + ( 79.5 X 4 ) 1283.5 X = ---'--\"--- =....:...,.._----=--'-----'--'----....:...,.._-'----'- = -- = 38.89.14+10+ 5+ 4 33:i f i-1 [V. D.3]","set":3},
-    {"sub":"mea","stem":"Calculate the interquartile range using the box plot shown below: Box Plot 35 30 25 20 15 10 5 0","options":["10","12","21","27"],"answer":0,"why":"The interquartile range is the difference between the third and first quartiles. The middle 50% of the data is contained between these two quartiles. The upper boundary of the box denotes Q3 and the lower boundary denotes Q 1. (25 - 15) = 10. [V. D.4]","set":3},
-    {"sub":"mea","stem":"What insight does the box plot below show? Box Plot 1 80 1 70:: 1 60 1 50 1 40 1 30 X 1 20 110 1 00 90 80","options":["The data is symmetric.","The data is left skewed.","There is an outlier.","The median is greater than the mean."],"answer":2,"why":"The box plot shows that the data is right skewed and that the mean is greater than the median. The data value of 170 is an outlier. [V. D.4]","set":3},
+    {"sub":"mea","stem":"Calculate the interquartile range using the box plot shown below.","options":["10","12","21","27"],"answer":0,"why":"The interquartile range is the difference between the third and first quartiles. The middle 50% of the data is contained between these two quartiles. The upper boundary of the box denotes Q3 and the lower boundary denotes Q1. (25 - 15) = 10. [V.D.4]","set":3,"chart":{"type":"boxplot","min":7,"q1":15,"median":20,"mean":21,"q3":25,"max":31}},
+    {"sub":"mea","stem":"What insight does the box plot below show?","options":["The data is symmetric.","The data is left skewed.","There is an outlier.","The median is greater than the mean."],"answer":2,"why":"The box plot shows that the data is right skewed and that the mean is greater than the median. The data value of 170 is an outlier. [V.D.4]","set":3,"chart":{"type":"boxplot","min":100,"q1":118,"median":120,"mean":127,"q3":135,"max":160,"outliers":[170]}},
     {"sub":"mea","stem":"Which of the following graphs can be used as a quick check for normality?","options":["Histogram","Scatter plot","Run chart","Pareto chart"],"answer":0,"why":"A histogram shows the center, spread, and shape of a distribution and can be used as a quick check for normality. [V. D.4]","set":3},
     {"sub":"mea","stem":"A scatter plot:","options":["shows the relationship between two quantitative variables.","orders data from highest to lowest.","lists causes such as materials, methods, and measurements.","can only indicate linear relationships."],"answer":0,"why":"A scatter plot shows the relationship between two quantitative variables. Based on the scatter plot, the analyst can assess the nature and direction of the relationship and the correlation between the variables. [V. D.4]","set":3},
     {"sub":"mea","stem":"Given the frequency table below, what is the cumulative frequency associated with X = 6? X Frequency 4 10 5 12 6 14 7 4 8 2","options":["14","22","36","42"],"answer":2,"why":"The cumulative frequency at X = 6 is equal to 36, as shown in the table below. [V. D.4] X Frequency Cumulative Frequency 4 10 10 5 12 22 X Frequency Cumulative Frequency 6 14 36 7 4 40 8 2 42","set":3},
-    {"sub":"mea","stem":"Interpret the normal probability plot shown below. 2.33 1.83 1.33 0.83 w er: O 0.33 (.) � -0.1 7 -0.67 -1.1 7 -1.67 -2.1 7 --------'--�-'----�--�- 15 25 35","options":["The data are normally distributed.","The data are right skewed.","The standard deviation is greater than the mean.","The data should be checked for errors."],"answer":0,"why":"This normal probability plot has points that roughly follow the 45-degree line, with no points outside the 95% confidence bands. We can assume the data is normally distributed. [V. D.4]","set":3},
-    {"sub":"mea","stem":"Interpret the normal probability plot shown below. 2.42 1.42 0.42 -0.58 -1.58 -2.58 -1 5 -5 5 15 25","options":["The data are normally distributed.","The data are right skewed.","The data are left skewed.","The data set has many negative values."],"answer":1,"why":"The normal probability plot shows that the data are not normally distributed. There are many data points near the value of zero, and then fewer at higher values. This is a right-skewed distribution. In fact, the plot was created using an exponential distribution. [V. D.4]","set":3},
+    {"sub":"mea","stem":"Interpret the normal probability plot shown below (Plot 1).","options":["The data are normally distributed.","The data are right skewed.","The standard deviation is greater than the mean.","The data should be checked for errors."],"answer":0,"why":"This normal probability plot has points that roughly follow the 45-degree line, with no points outside the 95% confidence bands. We can assume the data is normally distributed. [V.D.4]","set":3,"chart":{"type":"normal-prob","pattern":"linear"}},
+    {"sub":"mea","stem":"Interpret the normal probability plot shown below (Plot 2).","options":["The data are normally distributed.","The data are right skewed.","The data are left skewed.","The data set has many negative values."],"answer":1,"why":"The normal probability plot shows that the data are not normally distributed: the points bow away from the fitted line and fall outside the confidence bands at both ends. There are many data points near the value of zero, and then fewer at higher values. This is a right-skewed distribution. In fact, the plot was created using an exponential distribution. [V.D.4]","set":3,"chart":{"type":"normal-prob","pattern":"s-curve"}},
     {"sub":"mea","stem":"Metal plates are inspected for two types of defects: burrs and scratches. A Black Belt calculates the probability of finding a burr or a scratch on a metal panel. Which probability rule would they use?","options":["Multiplication rule","Mutual exclusive rule","Complement rule","Addition rule"],"answer":3,"why":"Let Event A = Burr and Event 8 = Scratch. When finding the probability of Event A OR Event 8, we use the addition rule. [V.E. 1]","set":3},
     {"sub":"mea","stem":"A project team consists of twelve members. How many ways can members be chosen for a three-member subcommittee?","options":["4","12","220","1320"],"answer":2,"why":"Since these are committee assignments, order does not matter. We calculate 12C3 = 220 using 12! = 22 0.1 2C3 = (12 - 3 ) ! 3 ! [V.E. 1]","set":3},
     {"sub":"mea","stem":"A sample of three numbers is selected from the numbers 1 to 45, inclusive. How many different combinations are possible?","options":["14, 190","28,380","42, 570","85, 140"],"answer":0,"why":"We calculate 45C3 = 14, 190 using 45 ! 45C3 = = 1 4, 1 90. ( 45 - 3 ) ! 3 ! [V.E. 1]","set":3},
@@ -2273,7 +2291,7 @@
     {"sub":"mea","stem":"Temperature recorded in degrees Celsius is an example of which scale of measurement?","options":["Nominal","Interval","Ratio","Ordinal"],"answer":1,"why":"Temperature measured in either Celsius or Fahrenheit is an example of an interval measurement scale. The values can be ordered, and the difference between values is meaningful, but there is no true zero. [V.B.2]","set":3},
     {"sub":"mea","stem":"A quality inspector chooses every 10th pallet and then samples from the first layer of the chosen pallet. What type of sampling scheme is being used?","options":["Simple random sampling","Block sampling","Systematic sampling","Stratified sampling"],"answer":2,"why":"Choosing every 10th pallet and then sampling from the first layer of the pallet is an example of systematic sampling. [V.B.3]","set":3},
     {"sub":"p1","stem":"What type of error occurs when the null hypotheses is not rejected when it is false?","options":["Alpha","Beta","Gamma","No error; it is a correct decision."],"answer":1,"why":"If the null hypothesis is not rejected when it is false, this is an error of inaction, also known as a beta or Type II error. [V I.B. 1]","set":3},
-    {"sub":"p1","stem":"A Black Belt is studying an X-bar R chart that tracks length. What is the status of the X-bar R chart shown below? X-bar R Chart r-'-P 600 UCL = 581.0 Cl) a, 550 E a.E 500.1 �vv I\\ I\\ �•77 x = 5 1 2.5 Q) en Cl) � 450 LCL = 443.9 3 5 7 9 11 13 15 17 19 21 23 25 Sample 240 Q) UCL = 2 1 4.7 g1 1 80 Cl) _gi 1 20 R = 94.1 E 60 en Cl) 0 LCL = 0 3 5 7 9 11 13 15 17 19 21 23 25 Sample","options":["Both the X-bar and R charts are out of specification.","The X-bar chart is in control; the R chart is out of control at point 5.","Both the X-bar and R charts exhibit out-of-control conditions.","The X-bar chart is out of control; the R chart is out of specification."],"answer":2,"why":"The X-bar chart is out of control due to six points in row trending down. The R chart is also out of control at point 5. The X-bar R chart tracks whether the process in is statistical control, not whether the units are within specifications. [V III.A.5]","set":3},
+    {"sub":"p1","stem":"A Black Belt is studying an X-bar R chart that tracks length. What is the status of the X-bar R chart shown below?","options":["Both the X-bar and R charts are out of specification.","The X-bar chart is in control; the R chart is out of control at point 5.","Both the X-bar and R charts exhibit out-of-control conditions.","The X-bar chart is out of control; the R chart is out of specification."],"answer":2,"why":"The X-bar chart is out of control due to six points in a row trending down (samples 19-25). The R chart is also out of control at point 5, which exceeds the upper control limit. The X-bar R chart tracks whether the process is in statistical control, not whether the units are within specifications. [VIII.A.5]","set":3,"chart":{"type":"xbar-r","xbar":{"ucl":581.0,"cl":512.5,"lcl":443.9,"data":[500,522,490,500,552,485,520,528,530,510,560,495,520,528,505,510,485,528,570,520,510,495,490,485,478]},"r":{"ucl":214.7,"cl":94.1,"lcl":0,"data":[58,95,88,50,235,62,62,120,65,48,150,110,65,100,122,95,58,110,145,150,95,130,60,48,42]}}},
     {"sub":"p1","stem":"A lagging indicator:","options":["shows the number of backorders of a product.","is reported after there is a means to change the outcome.","is forward looking.","can only be operational."],"answer":1,"why":"A lagging indicator is reported after there is a way to change the outcome. It is preferrable to use leading indicators to be able to detect problems earlier instead of after the fact. [I1.C. 1]","set":3},
     {"sub":"mea","stem":"The symbol below is used to on a value stream map to denote which of the following items?","options":["Supermarket","Production kanban","Customer","Safety or buffer stock"],"answer":1,"why":"The symbol below is used to denote a production kanban in a value stream map. [V.A.2]","set":3},
     {"sub":"p1","stem":"The average customer demand across a shift is 900 units. A shift consists of eight hours with staggered 30-minute lunch breaks during which the line is still running. There are two 15- minute breaks during each shift when the line is shut down for maintenance. What is the takt time in seconds?","options":["0.50","0.93","30.0","35.8"],"answer":2,"why":"The net available time during the shift is 8 x 60 = 480 minutes, less the two 15-minute breaks for maintenance. The line is not shut down for lunch. Finding takt time in seconds, then Net available time. = ----- Takt tzme Customer demand ( 8 x 60 - 15 - 15 ) x 60 900 = 30.0 sec / unit. [Vll.8.2]","set":3},
@@ -2284,8 +2302,8 @@
     {"sub":"p1","stem":"A Black Belt performs a hypothesis test, and the analysis returns a p-value equal to 0.075. What is the interpretation of the p-value?","options":["The null hypothesis is true with a probability equal to 0.925.","The alternative hypothesis is true with a probability equal to 0.075.","Assuming H0 is true, the probability of the current result or something more extreme is 0.075.","Assuming H 1 is true, the probability of the current result or something more extreme is equal to 0.925."],"answer":2,"why":"The p-value is calculated under the assumption that the null hypothesis is true. It is the probability of getting the current test statistics or one that is more extreme assuming that H0 is true. A p-value less than alpha will prompt us to reject H0 and conclude that H 1 is correct. [Vl.8.1]","set":3},
     {"sub":"p1","stem":"Which of the following statements concerning the p-chart is true?","options":["It applies to quality characteristics that are continuous measures.","It gives a poor overall quality picture.","It can be used to track defects.","It can be used for varying sample sizes."],"answer":3,"why":"The p-chart can be used for tracking defectives when sample size varies. [V III.A.4]","set":3},
     {"sub":"p1","stem":"Which leadership approach is best used for team members with medium competence but low commitment?","options":["Coaching","Delegating","Directing","Supportive Use the figure below to answer questions 105 and 106. @ A � B (W) C � D"],"answer":0,"why":"For team members with moderate competence but low commitment, the team leader should use the coaching approach. [111.B.4]","set":3},
-    {"sub":"mea","stem":"Which quadrant of the figure shows low precision and low accuracy?","options":["Quadrant A","Quadrant 8","Quadrant C","Quadrant D"],"answer":2,"why":"Quadrant C displays low precision and low accuracy. [V.C. 1]","set":3},
-    {"sub":"mea","stem":"Which quadrant in the figure shows high precision and low accuracy?","options":["Quadrant A","Quadrant 8","Quadrant C","Quadrant D"],"answer":3,"why":"Quadrant D displays high precision and low accuracy. [V.C. 1]","set":3},
+    {"sub":"mea","stem":"Which quadrant of the figure shows low precision and low accuracy?","options":["Quadrant A","Quadrant B","Quadrant C","Quadrant D"],"answer":2,"why":"Quadrant C displays low precision (scattered points) and low accuracy (not centered on the target). [V.C.1]","set":3,"chart":{"type":"precision-accuracy","highlight":"C"}},
+    {"sub":"mea","stem":"Which quadrant in the figure shows high precision and low accuracy?","options":["Quadrant A","Quadrant B","Quadrant C","Quadrant D"],"answer":3,"why":"Quadrant D displays high precision (tightly clustered points) and low accuracy (off the target). [V.C.1]","set":3,"chart":{"type":"precision-accuracy","highlight":"D"}},
     {"sub":"p1","stem":"OEE is a metric that combines which three measures?","options":["Availability, productivity, and quality","Availability, cycle time, and gage R&R","Takt time, inventory, and defects","Work in process, cycle time, and quality"],"answer":0,"why":"Overall equipment effectiveness, or OEE, combines availability, productivity, and quality. OEE = A x P x Q. [Vll.8.4]","set":3},
     {"sub":"p1","stem":"Given the following completed two-way ANOVA table, what is the F-statistic for the AB interaction?\nSource | Sum of Squares | df | Mean Square | F-statistic\nFactor A | 344 | 3 | 114.67 | 7.45\nFactor B | 234 | 4 | 58.5 | 3.80\nAB Interaction | 120 | 12 | 10 | ?\nError | 77 | 5 | 15.4 | Total | 775 | 24 | |","options":["0.65","1.54","2.23","2.86"],"answer":0,"why":"The completed ANOVA table is shown below: Source of Sum of Degrees of Mean F- Variation Squares Freedom Square statistic Factor A 344 3 1 1 4.67 7.45 Factor B 234 4 58.5 3.80 I nteraction 1 20 12 10 0.65 Error 77 5 1 5.4 Total 775 24 S SE = S S - S S A - S SB - S SAB Tota l = 775 - 344 - 234 - 120 = 77 DFA B = DFA x DFB = 3 x 4 = 12 D FErro r = DFTotal - DFA - DFB - DFAB = 24 - 3 - 4 - 12 = 5 120 = = = 10 SS AB 12 M S E AB DFA B = 77 = = 15.4 SS MS £ Erro r DFE rror 5 = = JQ_ = 0.65. M S AB 1 5.4 FA B MS Error [Vl.8.6]","set":3},
     {"sub":"p1","stem":"In a supplier risk analysis, items that are classified as low supply-risk, but high profit-impact are considered:","options":["noncritical items.","bottleneck items.","strategic items.","leverage items."],"answer":3,"why":"In a supplier risk analysis, items that are classified as low supply-risk but high profit-impact are considered leverage items. [V I.C. 1]","set":3},
@@ -2361,6 +2379,142 @@
   var DAY=86400000;
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  /* ---------- question charts (control charts, box plots, normal probability plots, MSA diagrams) ---------- */
+  function chartSeriesSvg(w,left,right,top,innerH,title,unit,data,ucl,cl,lcl){
+    var span=(ucl-lcl)||1, min=Math.min(lcl,Math.min.apply(null,data))-span*0.1, max=Math.max(ucl,Math.max.apply(null,data))+span*0.1;
+    var innerW=w-left-right;
+    function y(v){return top+innerH*(1-(v-min)/(max-min));}
+    function x(i){return left+innerW*(data.length>1?i/(data.length-1):0.5);}
+    var pts=data.map(function(v,i){return x(i).toFixed(1)+','+y(v).toFixed(1);}).join(' ');
+    var dots=data.map(function(v,i){
+      var out=v>ucl||v<lcl;
+      return '<circle cx="'+x(i).toFixed(1)+'" cy="'+y(v).toFixed(1)+'" r="'+(out?4.2:2.4)+'" class="'+(out?'tb-chart-dot-out':'tb-chart-dot')+'"></circle>';
+    }).join('');
+    var uclY=y(ucl).toFixed(1), clY=y(cl).toFixed(1), lclY=y(lcl).toFixed(1);
+    var ticks=data.map(function(v,i){return (i===0||(i+1)%2===0)?'<text x="'+x(i).toFixed(1)+'" y="'+(top+innerH+14)+'" font-size="9" fill="var(--muted)" text-anchor="middle">'+(i+1)+'</text>':'';}).join('');
+    return '<text x="'+left+'" y="'+(top-4)+'" font-size="11" font-weight="700" fill="var(--ink)">'+esc(title)+'</text>'+
+      '<line x1="'+left+'" y1="'+uclY+'" x2="'+(w-right)+'" y2="'+uclY+'" class="tb-chart-limit"></line>'+
+      '<line x1="'+left+'" y1="'+clY+'" x2="'+(w-right)+'" y2="'+clY+'" class="tb-chart-cl"></line>'+
+      '<line x1="'+left+'" y1="'+lclY+'" x2="'+(w-right)+'" y2="'+lclY+'" class="tb-chart-limit"></line>'+
+      '<text x="'+(w-right+6)+'" y="'+(+uclY+3)+'" font-size="9" fill="var(--muted)">UCL='+ucl+unit+'</text>'+
+      '<text x="'+(w-right+6)+'" y="'+(+clY+3)+'" font-size="9" fill="var(--muted)">CL='+cl+unit+'</text>'+
+      '<text x="'+(w-right+6)+'" y="'+(+lclY+3)+'" font-size="9" fill="var(--muted)">LCL='+lcl+unit+'</text>'+
+      '<polyline points="'+pts+'" fill="none" class="tb-chart-line"></polyline>'+dots+ticks;
+  }
+  function chartXbarR(spec){
+    var w=560, left=54, right=76, gap=34, seriesH=118;
+    var h=seriesH*2+gap+34;
+    var top1=26, top2=top1+seriesH+gap;
+    return '<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="X-bar and R control chart">'+
+      chartSeriesSvg(w,left,right,top1,seriesH,'X-bar chart (sample mean)','',spec.xbar.data,spec.xbar.ucl,spec.xbar.cl,spec.xbar.lcl)+
+      chartSeriesSvg(w,left,right,top2,seriesH,'R chart (sample range)','',spec.r.data,spec.r.ucl,spec.r.cl,spec.r.lcl)+
+      '<text x="'+(w/2)+'" y="'+(h-4)+'" font-size="10" fill="var(--muted)" text-anchor="middle">Sample</text>'+
+      '</svg>';
+  }
+  function chartBoxplot(spec){
+    var w=420,h=190,left=54,right=20,top=14,innerH=140;
+    var outlierVals=(spec.outliers||[]);
+    var lo=Math.min.apply(null,[spec.min].concat(outlierVals));
+    var hi=Math.max.apply(null,[spec.max].concat(outlierVals));
+    var pad=(hi-lo)*0.12, axisMin=Math.floor((lo-pad)/5)*5, axisMax=Math.ceil((hi+pad)/5)*5;
+    function y(v){return top+innerH*(1-(v-axisMin)/(axisMax-axisMin));}
+    var step=Math.round((axisMax-axisMin)/7/5)*5||5;
+    var gridlines='';
+    for(var gy=axisMin; gy<=axisMax; gy+=step){
+      gridlines+='<line x1="'+left+'" y1="'+y(gy).toFixed(1)+'" x2="'+(w-right)+'" y2="'+y(gy).toFixed(1)+'" class="tb-chart-grid"></line>'+
+        '<text x="'+(left-8)+'" y="'+(y(gy)+3).toFixed(1)+'" font-size="9" fill="var(--muted)" text-anchor="end">'+gy+'</text>';
+    }
+    var cx=(left+(w-right))/2, boxW=90;
+    var outliers=outlierVals.map(function(v){return '<circle cx="'+cx+'" cy="'+y(v).toFixed(1)+'" r="4" class="tb-chart-outlier"></circle>';}).join('');
+    return '<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Box plot">'+
+      gridlines+
+      '<line x1="'+cx+'" y1="'+y(spec.min).toFixed(1)+'" x2="'+cx+'" y2="'+y(spec.q1).toFixed(1)+'" class="tb-chart-whisker"></line>'+
+      '<line x1="'+cx+'" y1="'+y(spec.q3).toFixed(1)+'" x2="'+cx+'" y2="'+y(spec.max).toFixed(1)+'" class="tb-chart-whisker"></line>'+
+      '<line x1="'+(cx-16)+'" y1="'+y(spec.min).toFixed(1)+'" x2="'+(cx+16)+'" y2="'+y(spec.min).toFixed(1)+'" class="tb-chart-whisker"></line>'+
+      '<line x1="'+(cx-16)+'" y1="'+y(spec.max).toFixed(1)+'" x2="'+(cx+16)+'" y2="'+y(spec.max).toFixed(1)+'" class="tb-chart-whisker"></line>'+
+      '<rect x="'+(cx-boxW/2)+'" y="'+y(spec.q3).toFixed(1)+'" width="'+boxW+'" height="'+(y(spec.q1)-y(spec.q3)).toFixed(1)+'" class="tb-chart-box"></rect>'+
+      '<line x1="'+(cx-boxW/2)+'" y1="'+y(spec.median).toFixed(1)+'" x2="'+(cx+boxW/2)+'" y2="'+y(spec.median).toFixed(1)+'" class="tb-chart-median"></line>'+
+      (spec.mean!=null?'<text x="'+cx+'" y="'+(y(spec.mean)+4).toFixed(1)+'" font-size="13" fill="var(--muted)" text-anchor="middle">\u00d7</text>':'')+
+      outliers+'</svg>';
+  }
+  function chartNormalProb(spec){
+    var w=420,h=220,left=54,right=20,top=14,innerH=170,innerW=w-left-right;
+    var n=14, pts=[];
+    for(var i=0;i<n;i++){
+      var t=i/(n-1);
+      var bow=spec.pattern==='s-curve'?Math.pow(t-0.5,3)*3.2:0;
+      pts.push({x:t,y:Math.max(0,Math.min(1,t+bow))});
+    }
+    function px(t){return left+innerW*t;}
+    function py(t){return top+innerH*(1-t);}
+    var dotPts=pts.map(function(p){return '<circle cx="'+px(p.x).toFixed(1)+'" cy="'+py(p.y).toFixed(1)+'" r="3" class="tb-chart-dot"></circle>';}).join('');
+    var fitLine='<line x1="'+px(0).toFixed(1)+'" y1="'+py(0).toFixed(1)+'" x2="'+px(1).toFixed(1)+'" y2="'+py(1).toFixed(1)+'" class="tb-chart-cl"></line>';
+    function bandOffset(t){return 0.09+Math.pow(t-0.5,2)*0.5;}
+    var upperBand='', lowerBand='', steps=20;
+    for(var s=0;s<=steps;s++){var t=s/steps,off=bandOffset(t);upperBand+=(s===0?'M':'L')+px(t).toFixed(1)+' '+py(Math.min(1,t+off)).toFixed(1)+' ';lowerBand+=(s===0?'M':'L')+px(t).toFixed(1)+' '+py(Math.max(0,t-off)).toFixed(1)+' ';}
+    return '<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Normal probability plot">'+
+      '<path d="'+upperBand+'" fill="none" class="tb-chart-band"></path>'+
+      '<path d="'+lowerBand+'" fill="none" class="tb-chart-band"></path>'+
+      fitLine+dotPts+
+      '<text x="'+left+'" y="'+(top-4)+'" font-size="10" fill="var(--muted)">Normal score</text>'+
+      '<text x="'+(w/2)+'" y="'+(h-2)+'" font-size="10" fill="var(--muted)" text-anchor="middle">Data value</text>'+
+      '</svg>';
+  }
+  function chartPrecisionAccuracy(spec){
+    var w=420,h=400,cell=190,gap=10,r=78;
+    var panels=[
+      {label:'A',cx:cell/2,cy:cell/2,dots:[[-16,-18],[18,-16],[-18,16],[16,18]]},
+      {label:'B',cx:cell+gap+cell/2,cy:cell/2,dots:[[-6,-5],[6,-6],[-5,6],[5,5],[0,-3]]},
+      {label:'C',cx:cell/2,cy:cell+gap+cell/2,dots:[[-2,-60],[38,-42],[46,-8],[24,30],[-46,44]]},
+      {label:'D',cx:cell+gap+cell/2,cy:cell+gap+cell/2,dots:[[36,-6],[42,10],[30,22],[40,20]]}
+    ];
+    var highlight=spec&&spec.highlight;
+    var rings=[1,0.75,0.5,0.25];
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart tb-q-chart-quad" role="img" aria-label="Four target diagrams showing precision and accuracy">'+
+      '<line x1="'+cell+'" y1="0" x2="'+cell+'" y2="'+(cell*2+gap)+'" class="tb-chart-grid"></line>'+
+      '<line x1="0" y1="'+cell+'" x2="'+w+'" y2="'+cell+'" class="tb-chart-grid"></line>';
+    panels.forEach(function(p){
+      var isHi=highlight===p.label;
+      svg+='<g'+(isHi?' class="tb-q-chart-quad-hi"':'')+'>';
+      rings.forEach(function(f){svg+='<circle cx="'+p.cx+'" cy="'+p.cy+'" r="'+(r*f).toFixed(1)+'" class="tb-chart-ring"></circle>';});
+      p.dots.forEach(function(d){svg+='<circle cx="'+(p.cx+d[0])+'" cy="'+(p.cy+d[1])+'" r="5.5" class="tb-chart-target-dot"></circle>';});
+      svg+='<text x="'+p.cx+'" y="'+(p.cy+r+22)+'" font-size="13" font-weight="700" fill="var(--ink)" text-anchor="middle">'+p.label+'</text>';
+      svg+='</g>';
+    });
+    return svg+'</svg>';
+  }
+  function chartBiasDiagram(){
+    var w=420,h=240,left=64,right=30,top=24,bottom=40,dy=30;
+    var x1=left,x2=w-right,yB=h-bottom,yT=top;
+    function trueY(t){return yB+t*(yT-yB);}
+    function trueX(t){return x1+t*(x2-x1);}
+    function tick(t){
+      var x=trueX(t),y1=trueY(t),y2=trueY(t)+dy;
+      return '<line x1="'+x+'" y1="'+y1+'" x2="'+x+'" y2="'+y2+'" class="tb-chart-whisker"></line>';
+    }
+    return '<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Bias diagram: true value line versus average of measured values, offset by a constant gap across the range">'+
+      '<line x1="'+x1+'" y1="'+yB+'" x2="'+x1+'" y2="'+top+'" class="tb-chart-grid"></line>'+
+      '<line x1="'+x1+'" y1="'+yB+'" x2="'+x2+'" y2="'+yB+'" class="tb-chart-grid"></line>'+
+      '<line x1="'+trueX(0)+'" y1="'+trueY(0)+'" x2="'+trueX(1)+'" y2="'+trueY(1)+'" class="tb-chart-median"></line>'+
+      '<line x1="'+trueX(0)+'" y1="'+(trueY(0)+dy)+'" x2="'+trueX(1)+'" y2="'+(trueY(1)+dy)+'" class="tb-chart-cl" stroke-dasharray="5 4"></line>'+
+      tick(0.12)+tick(0.88)+
+      '<text x="'+trueX(0.42)+'" y="'+(trueY(0.42)-10)+'" font-size="10" fill="var(--ink)" text-anchor="middle">True or reference value</text>'+
+      '<text x="'+trueX(0.62)+'" y="'+(trueY(0.62)+dy+16)+'" font-size="10" fill="var(--muted)" text-anchor="middle">Average of measured values</text>'+
+      '<text x="16" y="'+((top+yB)/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 16 '+((top+yB)/2)+')">True value</text>'+
+      '<text x="'+((x1+x2)/2)+'" y="'+(h-8)+'" font-size="10" fill="var(--muted)" text-anchor="middle">Measured value</text>'+
+      '</svg>';
+  }
+  function renderQuestionChart(chart){
+    if(!chart)return '';
+    var inner='';
+    if(chart.type==='xbar-r')inner=chartXbarR(chart);
+    else if(chart.type==='boxplot')inner=chartBoxplot(chart);
+    else if(chart.type==='bias-diagram')inner=chartBiasDiagram();
+    else if(chart.type==='normal-prob')inner=chartNormalProb(chart);
+    else if(chart.type==='precision-accuracy')inner=chartPrecisionAccuracy(chart);
+    else return '';
+    return '<div class="tb-q-chart-wrap">'+inner+'</div>';
+  }
   function hasBank(e){return e&&e.bank&&e.bank.length>0;}
   function hasTwoSets(e){return !!(e&&e.sets&&e.sets[2]&&e.sets[2].length);}
   /* the question pool the draw functions sample from, per the user's set choice */
@@ -2493,7 +2647,7 @@
   }
   function fmtClock(sec){sec=Math.max(0,Math.floor(sec));var h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s2=sec%60;var mm=(h?String(m).padStart(2,'0'):String(m)),ss=String(s2).padStart(2,'0');return (h?h+':':'')+mm+':'+ss;}
 
-  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock};
+  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,renderQuestionChart:renderQuestionChart};
 
   /* ---------- rail ---------- */
   function renderRail(){
@@ -2715,7 +2869,7 @@
       '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered'+(flagged?' &middot; '+flagged+' flagged':'')+'</div></div>'+toolbar+'</div>'+
       '<div class="tb-progress"><span style="width:'+(answered/n*100)+'%"></span></div>'+
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(subName)+'</div>'+
-      '<div class="tb-stem">'+esc(q.stem)+'</div>'+opts+
+      renderQuestionChart(q.chart)+'<div class="tb-stem">'+esc(q.stem)+'</div>'+opts+
       '<div class="tb-quizfoot"><div class="tb-nav">'+nav+'</div>'+
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';
