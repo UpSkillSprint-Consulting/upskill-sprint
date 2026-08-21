@@ -191,7 +191,7 @@ test('an offline older answer survives after another device compacts its mastery
   assert.equal(state.attempts, 601, 'the compacted aggregate and the previously unseen offline event are both counted');
   assert.equal(state.correct, 300);
   assert.equal(state.incorrect, 301);
-  assert.equal(state.masteryBaseline.devices['device-b'].sequence, 1, 'the offline answer is compacted into its own device component, not discarded');
+  assert.ok(state.masteryHistory.some(entry => entry.id === 'device-b-1'), 'the offline answer remains explicit in its own bounded stream tail');
   dom.window.close();
 });
 test('compacted per-device components merge without dropping or double-counting evidence', () => {
@@ -248,12 +248,17 @@ test('three 700-answer devices converge under different merge orders and repeate
     assert.equal(state.correct, 699);
     assert.equal(state.incorrect, 702);
     assert.equal(state.unanswered, 699);
-    assert.equal(state.masteryHistory.length, 500);
+    assert.equal(state.masteryHistory.length, 1500, 'each of the three streams retains its own bounded 500-event tail');
   }
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(leftFirst)),
+    JSON.parse(JSON.stringify(rightFirst)),
+    'alternate merge grouping produces the same compacted representation, not only the same counters'
+  );
   let repeated = leftFirst;
   for (let index = 0; index < 25; index += 1) repeated = merge(repeated, [a, b, c][index % 3]);
   assert.equal(repeated.exams.cssbb.questions.q1.attempts, 2100);
-  assert.equal(repeated.exams.cssbb.questions.q1.masteryHistory.length, 500);
+  assert.equal(repeated.exams.cssbb.questions.q1.masteryHistory.length, 1500);
   dom.window.close();
 });
 test('merging two devices retains every incorrect attempt in a question history, not just the most recent 30', () => {
@@ -804,5 +809,130 @@ test('attempt-feedback object maps merge every device record and converge', () =
   assert.equal(forward.attempts.shared.completedAt, 450);
   assert.deepEqual(JSON.parse(JSON.stringify(forward.attempts.shared.errors)), { q2: 'concept', q4: 'guess' });
   assert.deepEqual(JSON.parse(JSON.stringify(forward.attempts.shared.times)), { q2: 800, q4: 600 });
+  dom.window.close();
+});
+
+test('compaction never advances a stream watermark across a missing sequence', () => {
+  const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
+  function payload(events) {
+    return { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+      masteryBaseline: { legacy: {}, devices: {} },
+      masteryHistory: events,
+      history: events,
+      lastSeenAt: Math.max.apply(Math, events.map(event => event.at))
+    } } } } };
+  }
+  const gapped = Array.from({ length: 501 }, (_, index) => {
+    const sequence = index + 2;
+    return { id: 'stream-a-' + sequence, deviceId: 'device-a', streamId: 'stream-a', sequence, at: sequence, status: 'correct' };
+  });
+  const missingFirst = [{
+    id: 'stream-a-1', deviceId: 'device-a', streamId: 'stream-a', sequence: 1, at: 1, status: 'incorrect'
+  }];
+
+  const state = merge(payload(gapped), payload(missingFirst)).exams.cssbb.questions.q1;
+  assert.equal(state.attempts, 502, 'the late sequence 1 answer is counted instead of hidden behind a sequence 2 watermark');
+  assert.equal(state.correct, 501);
+  assert.equal(state.incorrect, 1);
+  assert.equal(state.masteryBaseline.devices['stream-a'].sequence, 2, 'compaction resumes only after sequences 1 and 2 form a verified prefix');
+  assert.equal(state.masteryBaseline.devices['stream-a'].attempts, 2);
+  assert.equal(state.masteryHistory.length, 500);
+  dom.window.close();
+});
+
+test('malformed list fields and question snapshots cannot abort a valid progress merge', () => {
+  const dom = load(), mergePayloads = dom.window.__TBAccountSync.mergePayloads;
+  const corrupt = { schemaVersion: 2, values: {
+    'tb-attempt-history-v3': { attempts: { not: 'an array' } },
+    'tb-adaptive-mastery-v1': { version: 1, exams: { cssbb: {
+      attempts: { not: 'an array' }, sessions: 'not-an-array',
+      questions: { q1: 'damaged-state', q2: ['also-damaged'] }
+    } } }
+  } };
+  const goodEvent = { id: 'good-answer', at: 200, status: 'correct' };
+  const good = { schemaVersion: 2, values: {
+    'tb-attempt-history-v3': { attempts: [{ id: 'good-attempt', startedAt: 200 }] },
+    'tb-adaptive-mastery-v1': { version: 1, exams: { cssbb: {
+      attempts: [{ id: 'good-summary', at: 200 }], sessions: [{ id: 'good-session', startedAt: 200 }],
+      questions: { q1: { history: [goodEvent], lastSeenAt: 200 } }
+    } } }
+  } };
+
+  const result = mergePayloads([corrupt, good]);
+  const exam = result.values['tb-adaptive-mastery-v1'].exams.cssbb;
+  assert.deepEqual(Array.from(result.values['tb-attempt-history-v3'].attempts, item => item.id), ['good-attempt']);
+  assert.deepEqual(Array.from(exam.attempts, item => item.id), ['good-summary']);
+  assert.deepEqual(Array.from(exam.sessions, item => item.id), ['good-session']);
+  assert.equal(exam.questions.q1.attempts, 1);
+  assert.equal(Object.hasOwn(exam.questions, 'q2'), false, 'an invalid question snapshot is ignored instead of becoming empty progress');
+  dom.window.close();
+});
+
+test('identical mastery evidence produces the same persisted score on different sync dates', () => {
+  const early = load(), late = load();
+  const answeredAt = Date.UTC(2026, 0, 1);
+  early.window.Date.now = () => answeredAt;
+  late.window.Date.now = () => answeredAt + 45 * 86400000;
+  const event = { id: 'answer-1', at: answeredAt, status: 'correct' };
+  const payload = { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+    history: [event], lastSeenAt: answeredAt
+  } } } } };
+
+  const earlyState = early.window.__TBAccountSync.mergeMastery(payload, { version: 1, exams: {} }).exams.cssbb.questions.q1;
+  const lateState = late.window.__TBAccountSync.mergeMastery(payload, { version: 1, exams: {} }).exams.cssbb.questions.q1;
+  assert.equal(earlyState.mastery, lateState.mastery, 'wall-clock time must not change the persisted merge result');
+  early.window.close(); late.window.close();
+});
+
+test('remote payload values cannot write outside the tracked progress-key allowlist', () => {
+  const dom = load(), mergePayloads = dom.window.__TBAccountSync.mergePayloads;
+  const result = mergePayloads([{ schemaVersion: 2, values: {
+    'unrelated-site-setting': { poisoned: true },
+    'tb-account-sync-user-v1': 'different-user',
+    'tb-attempt-history-v3': { attempts: [{ id: 'allowed', startedAt: 100 }] }
+  } }]);
+
+  assert.deepEqual(Object.keys(result.values), ['tb-attempt-history-v3']);
+  assert.equal(result.values['tb-attempt-history-v3'].attempts[0].id, 'allowed');
+  dom.window.close();
+});
+
+test('a newer feedback snapshot can clear stale nested classifications and times', () => {
+  const dom = load(), mergePayloads = dom.window.__TBAccountSync.mergePayloads;
+  const older = { schemaVersion: 2, values: { 'tb-attempt-feedback-v2': { attempts: { shared: {
+    startedAt: 100, completedAt: 200, updatedAt: 200,
+    errors: { q1: 'guess' }, times: { q1: 1200 }
+  } } } } };
+  const newer = { schemaVersion: 2, values: { 'tb-attempt-feedback-v2': { attempts: { shared: {
+    startedAt: 100, completedAt: 200, updatedAt: 300,
+    errors: {}, times: {}
+  } } } } };
+
+  const result = mergePayloads([newer, older]).values['tb-attempt-feedback-v2'].attempts.shared;
+  assert.deepEqual(JSON.parse(JSON.stringify(result.errors)), {});
+  assert.deepEqual(JSON.parse(JSON.stringify(result.times)), {});
+  assert.equal(result.updatedAt, 300);
+  dom.window.close();
+});
+
+test('disjoint legacy evidence ledgers never collapse into one unverifiable aggregate', () => {
+  const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
+  function payload(prefix) {
+    const events = Array.from({ length: 600 }, (_, index) => ({
+      id: prefix + index, at: 1000 + index, status: index % 2 ? 'correct' : 'incorrect'
+    }));
+    return { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+      masteryBaseline: { legacy: {}, devices: {} }, masteryHistory: events, history: events, lastSeenAt: 1599
+    } } } } };
+  }
+
+  const left = payload('left-'), right = payload('right-');
+  const forward = merge(left, right).exams.cssbb.questions.q1;
+  const reverse = merge(right, left).exams.cssbb.questions.q1;
+  assert.equal(forward.attempts, 1200);
+  assert.equal(forward.correct, 600);
+  assert.equal(forward.incorrect, 600);
+  assert.equal(forward.masteryHistory.length, 1200, 'legacy events remain explicit because they have no merge-safe stream watermark');
+  assert.deepEqual(JSON.parse(JSON.stringify(forward)), JSON.parse(JSON.stringify(reverse)));
   dom.window.close();
 });

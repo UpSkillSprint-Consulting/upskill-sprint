@@ -339,3 +339,31 @@ test('every incorrect attempt on a question is retained for the notebook, not tr
   const incorrectEntries = state.history.filter(entry => entry.status === 'incorrect');
   assert.equal(incorrectEntries.length, 35, 'no incorrect attempt is dropped once the count exceeds the old 30-entry cap');
 });
+
+test('recording an answer repairs malformed persisted mastery collections', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  let keyHash = 2166136261;
+  String(question.stem).split('').forEach(character => {
+    keyHash ^= character.charCodeAt(0);
+    keyHash = Math.imul(keyHash, 16777619);
+  });
+  const questionKey = (keyHash >>> 0).toString(36);
+  window.localStorage.setItem('tb-adaptive-mastery-v1', JSON.stringify({
+    version: 1,
+    exams: { cssbb: {
+      questions: { [questionKey]: 'damaged-question-state' },
+      attempts: { not: 'an array' },
+      sessions: 'not-an-array'
+    } }
+  }));
+
+  const summary = api.recordResults([{ question, selected: question.answer, status: 'correct' }], 'repair-test');
+  const stored = api.store().exams.cssbb;
+  assert.equal(summary.correct, 1);
+  assert.equal(stored.attempts.length, 1);
+  assert.deepEqual(Array.from(stored.sessions), []);
+  assert.equal(stored.questions[questionKey].attempts, 1);
+  assert.equal(stored.questions[questionKey].correct, 1);
+});

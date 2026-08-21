@@ -18,6 +18,10 @@
   let adaptive = null;
   let notebookFilter = 'all';
 
+  function asArray(value) { return Array.isArray(value) ? value : []; }
+  function isRecord(value) { return Boolean(value && typeof value === 'object' && !Array.isArray(value)); }
+  function asRecord(value) { return isRecord(value) ? value : {}; }
+
   function esc(value) {
     return String(value == null ? '' : value).replace(/[&<>\"]/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
@@ -82,8 +86,8 @@
       seen.add(question.stem);
       output.push(question);
     }
-    if (source && source.sets) Object.keys(source.sets).forEach(function (key) { (source.sets[key] || []).forEach(add); });
-    if (source && source.bank) source.bank.forEach(add);
+    if (source && source.sets) Object.keys(source.sets).forEach(function (key) { asArray(source.sets[key]).forEach(add); });
+    if (source && source.bank) asArray(source.bank).forEach(add);
     return output;
   }
 
@@ -94,7 +98,9 @@
   function readStore() {
     try {
       const parsed = JSON.parse(localStorage.getItem(STORE_KEY));
-      return parsed && parsed.version === 1 ? parsed : { version: 1, exams: {} };
+      if (!isRecord(parsed) || parsed.version !== 1) return { version: 1, exams: {} };
+      parsed.exams = asRecord(parsed.exams);
+      return parsed;
     } catch (error) {
       return { version: 1, exams: {} };
     }
@@ -105,9 +111,14 @@
   }
 
   function examStore(store) {
-    store.exams = store.exams || {};
-    store.exams[examId()] = store.exams[examId()] || { questions: {}, attempts: [], sessions: [] };
-    return store.exams[examId()];
+    store.exams = asRecord(store.exams);
+    const id = examId();
+    const current = asRecord(store.exams[id]);
+    current.questions = asRecord(current.questions);
+    current.attempts = asArray(current.attempts);
+    current.sessions = asArray(current.sessions);
+    store.exams[id] = current;
+    return current;
   }
 
   function initialQuestionState(question) {
@@ -199,7 +210,7 @@
       lastStatus: latest.lastStatus,
       legacy: normalizedLegacy,
       devices: normalizedDevices,
-      foldedIds: Array.from(new Set((foldedIds || []).map(String))).slice(-MASTERY_EVIDENCE_LIMIT)
+      foldedIds: Array.from(new Set(asArray(foldedIds).map(String))).slice(-MASTERY_EVIDENCE_LIMIT)
     };
   }
 
@@ -235,8 +246,8 @@
     const legacy = normalizeMasteryComponent(normalized.legacy);
     const devices = {};
     Object.keys(normalized.devices || {}).forEach(function (device) { devices[device] = normalizeMasteryComponent(normalized.devices[device]); });
-    const foldedIds = (normalized.foldedIds || []).slice();
-    (entries || []).forEach(function (entry) {
+    const foldedIds = asArray(normalized.foldedIds).slice();
+    asArray(entries).forEach(function (entry) {
       const timestamp = Number(entry && entry.at || 0);
       const device = entry && entry.deviceId ? String(entry.deviceId) : '';
       const stream = entry && entry.streamId ? String(entry.streamId) : device;
@@ -274,12 +285,12 @@
     const sequence = count(entry && entry.sequence);
     if (stream && sequence) return sequence <= count(normalized.devices[stream] && normalized.devices[stream].sequence);
     const identity = entry && entry.id ? 'id:' + entry.id : 'value:' + hash(JSON.stringify(entry));
-    return (normalized.foldedIds || []).indexOf(identity) !== -1;
+    return asArray(normalized.foldedIds).indexOf(identity) !== -1;
   }
 
-  function partitionMasteryEvidence(history, overflowCount) {
+  function partitionMasteryEvidence(baseline, history) {
     const grouped = {};
-    (history || []).forEach(function (entry) {
+    asArray(history).forEach(function (entry) {
       const device = entry && entry.deviceId ? String(entry.deviceId) : '';
       const stream = entry && entry.streamId ? String(entry.streamId) : device;
       const sequence = count(entry && entry.sequence);
@@ -296,29 +307,35 @@
         }
         return evidenceOrder(left, right);
       });
-      return { items: items, index: 0 };
+      /* Legacy entries have no source watermark, so compacting them creates an
+         aggregate that cannot be safely unioned with another device's. */
+      let foldableCount = 0;
+      if (isDevice) {
+        const stream = key.slice('stream:'.length);
+        let expected = count(baseline && baseline.devices && baseline.devices[stream] && baseline.devices[stream].sequence) + 1;
+        foldableCount = 0;
+        while (foldableCount < items.length && count(items[foldableCount] && items[foldableCount].sequence) === expected) {
+          foldableCount += 1;
+          expected += 1;
+        }
+      }
+      return { items: items, foldableCount: foldableCount };
     });
     const overflow = [];
-    while (overflow.length < overflowCount) {
-      let chosen = null;
-      groups.forEach(function (group) {
-        const candidate = group.items[group.index];
-        if (candidate && (!chosen || evidenceOrder(candidate, chosen.item) < 0)) chosen = { group: group, item: candidate };
-      });
-      if (!chosen) break;
-      overflow.push(chosen.item);
-      chosen.group.index += 1;
-    }
     const retained = [];
-    groups.forEach(function (group) { retained.push.apply(retained, group.items.slice(group.index)); });
+    groups.forEach(function (group) {
+      const requested = Math.max(0, group.items.length - MASTERY_EVIDENCE_LIMIT);
+      const folded = Math.min(requested, group.foldableCount);
+      overflow.push.apply(overflow, group.items.slice(0, folded));
+      retained.push.apply(retained, group.items.slice(folded));
+    });
     return { overflow: overflow, retained: retained.sort(evidenceOrder) };
   }
 
   function compactMasteryEvidence(baseline, history) {
     const normalized = normalizeMasteryBaseline(baseline);
-    const sorted = (history || []).filter(function (entry) { return !evidenceAlreadyFolded(normalized, entry); }).slice().sort(evidenceOrder);
-    if (sorted.length <= MASTERY_EVIDENCE_LIMIT) return { baseline: normalized, history: sorted };
-    const partitioned = partitionMasteryEvidence(sorted, sorted.length - MASTERY_EVIDENCE_LIMIT);
+    const sorted = asArray(history).filter(function (entry) { return !evidenceAlreadyFolded(normalized, entry); }).slice().sort(evidenceOrder);
+    const partitioned = partitionMasteryEvidence(normalized, sorted);
     return { baseline: foldEvidenceIntoBaseline(normalized, partitioned.overflow), history: partitioned.retained };
   }
 
@@ -338,7 +355,7 @@
       const component = baseline.devices[key];
       if (component.deviceId === device && component.resetAt === resetAt && component.lastSeenAt >= latestAt) { stream = key; latestAt = component.lastSeenAt; }
     });
-    (state.masteryHistory || []).forEach(function (entry) {
+    asArray(state.masteryHistory).forEach(function (entry) {
       if (String(entry && entry.deviceId || '') === device && Number(entry && entry.resetAt || 0) === resetAt && Number(entry.at || 0) >= latestAt) {
         stream = String(entry.streamId || entry.deviceId);
         latestAt = Number(entry.at || 0);
@@ -349,7 +366,7 @@
       stream = device + '-' + random;
     }
     let sequence = count(baseline.devices[stream] && baseline.devices[stream].sequence);
-    (state.masteryHistory || []).forEach(function (entry) {
+    asArray(state.masteryHistory).forEach(function (entry) {
       if (String(entry && (entry.streamId || entry.deviceId) || '') === stream) sequence = Math.max(sequence, count(entry.sequence));
     });
     sequence += 1;
@@ -422,7 +439,7 @@
      can show a complete chronological record; correct/unanswered attempts are
      capped to bound storage growth, and an overall ceiling guards worst case. */
   function trimHistory(history) {
-    const sorted = (history || []).slice().sort(evidenceOrder);
+    const sorted = asArray(history).slice().sort(evidenceOrder);
     const incorrect = sorted.filter(function (entry) { return entry.status === 'incorrect'; });
     const other = sorted.filter(function (entry) { return entry.status !== 'incorrect'; }).slice(-40);
     return incorrect.concat(other).sort(evidenceOrder).slice(-500);
@@ -449,7 +466,7 @@
       priorAttempts: priorAttempts,
       mastery: 0
     };
-    state.history = trimHistory((state.history || []).concat([entry]));
+    state.history = trimHistory(asArray(state.history).concat([entry]));
     state.masteryHistory = state.masteryHistory.concat([entry]);
     rebuildMasteryState(state, timestamp);
     entry.mastery = state.mastery;
@@ -457,7 +474,8 @@
   }
 
   function recordResults(records, source) {
-    if (!records || !records.length) return null;
+    records = asArray(records);
+    if (!records.length) return null;
     const timestamp = now();
     const store = readStore();
     const data = examStore(store);
@@ -468,14 +486,14 @@
       const question = record.question;
       if (!question) return;
       const key = hash(question.stem);
-      const state = data.questions[key] || initialQuestionState(question);
+      const state = isRecord(data.questions[key]) ? data.questions[key] : initialQuestionState(question);
       if (state.attempts) summary.repeated += 1;
       else summary.newQuestions += 1;
       if (record.status === 'correct') summary.correct += 1;
       data.questions[key] = applyResult(state, question, record.status, record.selected, source, timestamp);
     });
 
-    data.attempts = (data.attempts || []).concat([summary]).slice(-60);
+    data.attempts = asArray(data.attempts).concat([summary]).slice(-60);
     writeStore(store);
     return summary;
   }
@@ -508,13 +526,14 @@
   }
 
   function stateFor(question, data) {
-    return data.questions[hash(question.stem)] || initialQuestionState(question);
+    const state = data.questions[hash(question.stem)];
+    return isRecord(state) ? state : initialQuestionState(question);
   }
 
   function unattemptedFilter(questions) {
     const store = readStore();
     const data = examStore(store);
-    return (questions || []).filter(function (question) {
+    return asArray(questions).filter(function (question) {
       return question && stateFor(question, data).attempts === 0;
     });
   }
@@ -614,7 +633,7 @@
     let repeatCorrect = 0;
     let repeatTotal = 0;
     Object.values(data.questions || {}).forEach(function (state) {
-      const evidence = Array.isArray(state.masteryHistory) ? state.masteryHistory : (state.history || []);
+      const evidence = Array.isArray(state.masteryHistory) ? state.masteryHistory : asArray(state.history);
       evidence.forEach(function (entry) {
         if (!Number.isFinite(Number(entry.priorAttempts))) return;
         if (Number(entry.priorAttempts) === 0) {
@@ -635,7 +654,7 @@
   }
 
   function trend(data) {
-    return (data.attempts || []).slice(-8).map(function (entry) {
+    return asArray(data.attempts).slice(-8).map(function (entry) {
       return entry.total ? Math.round(entry.correct / entry.total * 100) : 0;
     });
   }
@@ -731,7 +750,7 @@
       const state = data.questions[key];
       const question = questionByStem(state.stem);
       if (!question) return;
-      (state.history || []).forEach(function (entry) {
+      asArray(state.history).forEach(function (entry) {
         if (entry.status !== 'incorrect') return;
         rows.push({ question: question, sub: state.sub, at: entry.at, selected: entry.selected, source: entry.source });
       });

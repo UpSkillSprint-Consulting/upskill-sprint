@@ -47,7 +47,10 @@
       const data = JSON.parse(localStorage.getItem(LEGACY_STORE));
       if (!data || !data.attempts) return;
       Object.keys(data.attempts).forEach(function (key) {
-        if (data.attempts[key]) data.attempts[key].errors = {};
+        if (data.attempts[key]) {
+          data.attempts[key].errors = {};
+          data.attempts[key].updatedAt = Date.now();
+        }
       });
       localStorage.setItem(LEGACY_STORE, JSON.stringify(data));
     } catch (error) {}
@@ -75,6 +78,7 @@
       data.attempts[latest].errors = data.attempts[latest].errors || {};
       if (select.value) data.attempts[latest].errors[key] = select.value;
       else delete data.attempts[latest].errors[key];
+      data.attempts[latest].updatedAt = Date.now();
       localStorage.setItem(LEGACY_STORE, JSON.stringify(data));
     } catch (error) {}
   }

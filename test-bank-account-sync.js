@@ -16,6 +16,9 @@
   let pendingProgressRefresh = false, progressRefreshObserver = null;
 
   function clone(v) { return v == null ? v : JSON.parse(JSON.stringify(v)); }
+  function asArray(value) { return Array.isArray(value) ? value : []; }
+  function isRecord(value) { return Boolean(value && typeof value === 'object' && !Array.isArray(value)); }
+  function asRecord(value) { return isRecord(value) ? value : {}; }
   function parse(v, fallback) { try { return JSON.parse(v); } catch (_) { return fallback; } }
   function stable(v) {
     if (Array.isArray(v)) return '[' + v.map(stable).join(',') + ']';
@@ -66,7 +69,7 @@
   function readResetMarkers() { return normalizeResetMarkers(parse(localStorage.getItem(RESET_KEY), {})); }
   function mergeResetMarkers(payloads) {
     const output = {};
-    (payloads || []).forEach(payload => {
+    asArray(payloads).forEach(payload => {
       const resets = normalizeResetMarkers(payload && payload.resets);
       Object.keys(resets).forEach(scope => { output[scope] = Math.max(Number(output[scope] || 0), resets[scope]); });
     });
@@ -78,13 +81,17 @@
     const older = rightWins ? left : right, newer = rightWins ? right : left;
     const output = Object.assign({}, clone(older), clone(newer));
     ['errors', 'records', 'times'].forEach(key => {
-      if ((older && older[key]) || (newer && newer[key])) output[key] = Object.assign({}, clone(older && older[key] || {}), clone(newer && newer[key] || {}));
+      if (leftRank !== rightRank) {
+        if (newer && Object.prototype.hasOwnProperty.call(newer, key)) output[key] = clone(newer[key]);
+      } else if ((older && older[key]) || (newer && newer[key])) {
+        output[key] = Object.assign({}, clone(older && older[key] || {}), clone(newer && newer[key] || {}));
+      }
     });
     return output;
   }
   function mergeArray(a, b) {
     const output = [], positions = new Map(), values = new Set();
-    (a || []).concat(b || []).forEach(item => {
+    asArray(a).concat(asArray(b)).forEach(item => {
       if (item && item.id) {
         const key = 'id:' + item.id;
         if (positions.has(key)) output[positions.get(key)] = mergeIdentifiedItem(output[positions.get(key)], item);
@@ -106,7 +113,7 @@
   /* Incorrect attempts are kept in full across merges so the mistake notebook
      retains a complete cross-device record; other statuses are capped. */
   function trimQuestionHistory(history) {
-    const sorted = (history || []).slice().sort(evidenceOrder);
+    const sorted = asArray(history).slice().sort(evidenceOrder);
     const incorrect = sorted.filter(x => x.status === 'incorrect');
     const other = sorted.filter(x => x.status !== 'incorrect').slice(-40);
     return incorrect.concat(other).sort(evidenceOrder).slice(-500);
@@ -163,7 +170,7 @@
       lastStatus: latest.lastStatus,
       legacy: normalizedLegacy,
       devices: normalizedDevices,
-      foldedIds: Array.from(new Set((foldedIds || []).map(String))).sort().slice(-MASTERY_EVIDENCE_LIMIT)
+      foldedIds: Array.from(new Set(asArray(foldedIds).map(String))).sort().slice(-MASTERY_EVIDENCE_LIMIT)
     };
   }
   function emptyMasteryBaseline() {
@@ -197,8 +204,8 @@
     const normalized = normalizeMasteryBaseline(baseline);
     const legacy = normalizeMasteryComponent(normalized.legacy);
     const devices = clone(normalized.devices || {});
-    const foldedIds = (normalized.foldedIds || []).slice();
-    (entries || []).forEach(entry => {
+    const foldedIds = asArray(normalized.foldedIds).slice();
+    asArray(entries).forEach(entry => {
       const timestamp = Number(entry && entry.at || 0);
       const device = entry && entry.deviceId ? String(entry.deviceId) : '';
       const stream = entry && entry.streamId ? String(entry.streamId) : device;
@@ -244,7 +251,7 @@
     return assembleMasteryBaseline(
       componentWins(left.legacy, right.legacy),
       devices,
-      (left.foldedIds || []).concat(right.foldedIds || [])
+      asArray(left.foldedIds).concat(asArray(right.foldedIds))
     );
   }
   function evidenceAlreadyFolded(baseline, entry) {
@@ -254,11 +261,11 @@
     const sequence = count(entry && entry.sequence);
     if (stream && sequence) return sequence <= count(normalized.devices[stream] && normalized.devices[stream].sequence);
     const identity = entry && entry.id ? 'id:' + entry.id : 'value:' + hash(stable(entry));
-    return (normalized.foldedIds || []).indexOf(identity) !== -1;
+    return asArray(normalized.foldedIds).indexOf(identity) !== -1;
   }
-  function partitionMasteryEvidence(history, overflowCount) {
+  function partitionMasteryEvidence(baseline, history) {
     const grouped = {};
-    (history || []).forEach(entry => {
+    asArray(history).forEach(entry => {
       const device = entry && entry.deviceId ? String(entry.deviceId) : '';
       const stream = entry && entry.streamId ? String(entry.streamId) : device;
       const sequence = count(entry && entry.sequence);
@@ -275,28 +282,34 @@
         }
         return evidenceOrder(left, right);
       });
-      return { items, index: 0 };
+      /* Legacy entries have no source watermark, so compacting them creates an
+         aggregate that cannot be safely unioned with another device's. */
+      let foldableCount = 0;
+      if (isDevice) {
+        const stream = key.slice('stream:'.length);
+        let expected = count(baseline && baseline.devices && baseline.devices[stream] && baseline.devices[stream].sequence) + 1;
+        foldableCount = 0;
+        while (foldableCount < items.length && count(items[foldableCount] && items[foldableCount].sequence) === expected) {
+          foldableCount += 1;
+          expected += 1;
+        }
+      }
+      return { items, foldableCount };
     });
     const overflow = [];
-    while (overflow.length < overflowCount) {
-      let chosen = null;
-      groups.forEach(group => {
-        const candidate = group.items[group.index];
-        if (candidate && (!chosen || evidenceOrder(candidate, chosen.item) < 0)) chosen = { group, item: candidate };
-      });
-      if (!chosen) break;
-      overflow.push(chosen.item);
-      chosen.group.index += 1;
-    }
     const retained = [];
-    groups.forEach(group => { retained.push.apply(retained, group.items.slice(group.index)); });
+    groups.forEach(group => {
+      const requested = Math.max(0, group.items.length - MASTERY_EVIDENCE_LIMIT);
+      const folded = Math.min(requested, group.foldableCount);
+      overflow.push.apply(overflow, group.items.slice(0, folded));
+      retained.push.apply(retained, group.items.slice(folded));
+    });
     return { overflow, retained: retained.sort(evidenceOrder) };
   }
   function compactMasteryEvidence(baseline, history) {
     const normalized = normalizeMasteryBaseline(baseline);
-    const sorted = (history || []).filter(entry => !evidenceAlreadyFolded(normalized, entry)).slice().sort(evidenceOrder);
-    if (sorted.length <= MASTERY_EVIDENCE_LIMIT) return { baseline: normalized, history: sorted };
-    const partitioned = partitionMasteryEvidence(sorted, sorted.length - MASTERY_EVIDENCE_LIMIT);
+    const sorted = asArray(history).filter(entry => !evidenceAlreadyFolded(normalized, entry)).slice().sort(evidenceOrder);
+    const partitioned = partitionMasteryEvidence(normalized, sorted);
     return { baseline: foldEvidenceIntoBaseline(normalized, partitioned.overflow), history: partitioned.retained };
   }
   function canonicalMastery(state) {
@@ -304,7 +317,7 @@
       return compactMasteryEvidence(state.masteryBaseline, state.masteryHistory);
     }
     if (hasAggregateCounters(state)) return { baseline: legacyMasteryBaseline(state), history: [] };
-    return { baseline: emptyMasteryBaseline(), history: clone(state && state.history || []) };
+    return { baseline: emptyMasteryBaseline(), history: clone(asArray(state && state.history)) };
   }
   function rebuildQuestionState(state, canonical) {
     const compacted = compactMasteryEvidence(canonical && canonical.baseline, canonical && canonical.history);
@@ -325,7 +338,9 @@
     if (!attempts) state.mastery = 0;
     else {
       const accuracy = correct / attempts, confidence = Math.min(attempts / 5, 1);
-      const recency = Math.max(0, 1 - Math.max(0, (Date.now() - lastSeenAt) / 86400000) / 45);
+      /* Persist mastery at the deterministic evidence timestamp. Current-age
+         decay belongs in rendering, not in a cross-device merge result. */
+      const recency = lastSeenAt ? 1 : 0;
       state.mastery = Math.max(0, Math.min(100, Math.round((.58 * accuracy + .24 * Math.min(streak / 4, 1) + .18 * recency) * (.62 + .38 * confidence) * 100)));
     }
     return state;
@@ -349,7 +364,7 @@
     return stable(metadata);
   }
   function mergeQuestion(a, b) {
-    const left = a || {}, right = b || {};
+    const left = asRecord(a), right = asRecord(b);
     const leftSeen = Number(left.lastSeenAt || 0), rightSeen = Number(right.lastSeenAt || 0);
     const preferred = rightSeen > leftSeen || (rightSeen === leftSeen && questionMetadataKey(right) > questionMetadataKey(left)) ? right : left;
     const state = clone(preferred);
@@ -358,15 +373,20 @@
   }
   function mergeMastery(a, b) {
     const output = { version: 1, exams: {} };
-    const ids = new Set(Object.keys(a && a.exams || {}).concat(Object.keys(b && b.exams || {})));
+    const leftExams = asRecord(a && a.exams), rightExams = asRecord(b && b.exams);
+    const ids = new Set(Object.keys(leftExams).concat(Object.keys(rightExams)));
     ids.forEach(id => {
-      const left = a && a.exams && a.exams[id] || {}, right = b && b.exams && b.exams[id] || {};
+      const left = asRecord(leftExams[id]), right = asRecord(rightExams[id]);
       const exam = {
         questions: {},
         attempts: mergeArray(left.attempts, right.attempts).sort(itemOrder).slice(-60),
         sessions: mergeArray(left.sessions, right.sessions).sort(itemOrder).slice(-60)
       };
-      new Set(Object.keys(left.questions || {}).concat(Object.keys(right.questions || {}))).forEach(q => { exam.questions[q] = mergeQuestion(left.questions && left.questions[q], right.questions && right.questions[q]); });
+      const leftQuestions = asRecord(left.questions), rightQuestions = asRecord(right.questions);
+      new Set(Object.keys(leftQuestions).concat(Object.keys(rightQuestions))).forEach(q => {
+        const leftQuestion = leftQuestions[q], rightQuestion = rightQuestions[q];
+        if (isRecord(leftQuestion) || isRecord(rightQuestion)) exam.questions[q] = mergeQuestion(leftQuestion, rightQuestion);
+      });
       output.exams[id] = exam;
     });
     return output;
@@ -386,7 +406,7 @@
   }
   function filterQuestionAfterReset(state, resetAt) {
     if (!state || typeof state !== 'object') return null;
-    const history = (state.history || []).filter(entry => evidenceAfterReset(entry, resetAt));
+    const history = asArray(state.history).filter(entry => evidenceAfterReset(entry, resetAt));
     let canonical = { baseline: emptyMasteryBaseline(), history: [] };
     const hasCanonicalEvidence = Boolean(state.masteryBaseline && Array.isArray(state.masteryHistory));
     if (hasCanonicalEvidence) {
@@ -414,8 +434,8 @@
     const source = exam && typeof exam === 'object' ? exam : {};
     const output = {
       questions: {},
-      attempts: (source.attempts || []).filter(item => itemAfterReset(item, resetAt)).map(clone),
-      sessions: (source.sessions || []).filter(item => itemAfterReset(item, resetAt)).map(clone)
+      attempts: asArray(source.attempts).filter(item => itemAfterReset(item, resetAt)).map(clone),
+      sessions: asArray(source.sessions).filter(item => itemAfterReset(item, resetAt)).map(clone)
     };
     Object.keys(source.questions || {}).forEach(questionId => {
       const state = filterQuestionAfterReset(source.questions[questionId], resetAt);
@@ -424,12 +444,12 @@
     return output;
   }
   function hasMasteryData(exam) {
-    return Boolean(exam && (Object.keys(exam.questions || {}).length || (exam.attempts || []).length || (exam.sessions || []).length));
+    return Boolean(exam && (Object.keys(asRecord(exam.questions)).length || asArray(exam.attempts).length || asArray(exam.sessions).length));
   }
   function filterLegacyAdaptiveAfterReset(value, resetAt) {
     if (!value || typeof value !== 'object') return null;
     const output = clone(value);
-    output.history = (value.history || []).filter(item => timeValue(item && item.at) > resetAt);
+    output.history = asArray(value.history).filter(item => timeValue(item && item.at) > resetAt);
     output.subState = {};
     Object.keys(value.subState || {}).forEach(subId => {
       if (timeValue(value.subState[subId] && value.subState[subId].at) > resetAt) output.subState[subId] = clone(value.subState[subId]);
@@ -501,7 +521,12 @@
   }
   function mergePayloads(payloads) {
     const merged = { schemaVersion: 2, values: {}, resets: mergeResetMarkers(payloads) };
-    (payloads || []).forEach(payload => Object.keys(payload && payload.values || {}).forEach(key => { merged.values[key] = mergeValue(key, merged.values[key], payload.values[key]); }));
+    asArray(payloads).forEach(payload => {
+      const values = asRecord(payload && payload.values);
+      Object.keys(values).forEach(key => {
+        if (trackedKey(key)) merged.values[key] = mergeValue(key, merged.values[key], values[key]);
+      });
+    });
     return applyResetMarkers(merged);
   }
   function applyPayload(payload) {
@@ -517,7 +542,12 @@
         localStorage.removeItem(legacyKey); changed = true;
       }
     });
-    Object.keys(payload && payload.values || {}).forEach(key => { if (stable(payload.values[key]) !== stable(parse(localStorage.getItem(key), null))) { localStorage.setItem(key, JSON.stringify(payload.values[key])); changed = true; } });
+    const values = asRecord(payload && payload.values);
+    Object.keys(values).forEach(key => {
+      if (trackedKey(key) && stable(values[key]) !== stable(parse(localStorage.getItem(key), null))) {
+        localStorage.setItem(key, JSON.stringify(values[key])); changed = true;
+      }
+    });
     return changed;
   }
   function context() { const auth = window.UpskillAuth; return { client: auth && auth.getClient ? auth.getClient() : null, user: auth && auth.getUser ? auth.getUser() : null }; }
