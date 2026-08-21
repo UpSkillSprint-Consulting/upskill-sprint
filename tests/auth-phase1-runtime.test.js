@@ -11,6 +11,12 @@ const profileSource = fs.readFileSync(path.join(root, 'profile.js'), 'utf8');
 
 function flush() { return new Promise(resolve => setTimeout(resolve, 0)); }
 
+function deferred() {
+  let resolve;
+  const promise = new Promise(resolvePromise => { resolve = resolvePromise; });
+  return { promise, resolve };
+}
+
 function runtime(options = {}) {
   const calls = { updatePayloads: [], authUpdates: [], signups: [] };
   const user = {
@@ -82,6 +88,108 @@ function runtime(options = {}) {
   return { dom, calls, user };
 }
 
+function profileRaceRuntime(options = {}) {
+  const users = {
+    a: {
+      id: 'user-a',
+      email: 'a@example.com',
+      user_metadata: { display_name: 'Account A' }
+    },
+    b: {
+      id: 'user-b',
+      email: 'b@example.com',
+      user_metadata: { display_name: 'Account B' }
+    }
+  };
+  const profiles = {
+    'user-a': {
+      user_id: 'user-a',
+      display_name: 'Account A',
+      timezone: 'America/Regina',
+      newsletter_opt_in: false
+    },
+    'user-b': {
+      user_id: 'user-b',
+      display_name: 'Account B',
+      timezone: 'America/Regina',
+      newsletter_opt_in: false
+    }
+  };
+  const profileUpdate = deferred();
+  const authUpdate = deferred();
+  const calls = { authUpdates: [], profileUpdates: [] };
+  let activeUser = users.a;
+  let authListener = null;
+
+  function selectChain() {
+    let userId = null;
+    return {
+      eq(_column, value) { userId = value; return this; },
+      maybeSingle() { return Promise.resolve({ data: profiles[userId] || null, error: null }); },
+      single() { return Promise.resolve({ data: profiles[userId] || null, error: null }); }
+    };
+  }
+
+  function updateChain(payload) {
+    let userId = null;
+    return {
+      eq(_column, value) { userId = value; return this; },
+      select() { return this; },
+      single() {
+        calls.profileUpdates.push({ userId, payload });
+        const finish = () => {
+          profiles[userId] = { ...profiles[userId], ...payload };
+          return { data: profiles[userId], error: null };
+        };
+        return options.deferProfileUpdate ? profileUpdate.promise.then(finish) : Promise.resolve(finish());
+      }
+    };
+  }
+
+  const client = {
+    auth: {
+      updateUser(payload) {
+        calls.authUpdates.push({ userId: activeUser && activeUser.id, payload });
+        const result = { data: { user: activeUser }, error: null };
+        return options.deferAuthUpdate ? authUpdate.promise.then(() => result) : Promise.resolve(result);
+      }
+    },
+    from(table) {
+      assert.equal(table, 'profiles');
+      return {
+        select() { return selectChain(); },
+        update(payload) { return updateChain(payload); }
+      };
+    }
+  };
+
+  const dom = new JSDOM('<!doctype html><html><body></body></html>', {
+    url: 'https://upskillsprint.com/profile.html',
+    runScripts: 'outside-only'
+  });
+  dom.window.UpskillAuth = {
+    getUser: () => activeUser,
+    getClient: () => client,
+    onChange(callback) {
+      authListener = callback;
+      callback(activeUser);
+    }
+  };
+  dom.window.eval(profileSource);
+
+  return {
+    dom,
+    users,
+    calls,
+    profileUpdate,
+    authUpdate,
+    switchUser(user) {
+      activeUser = user;
+      authListener(user);
+    }
+  };
+}
+
 test('restored session renders the canonical profile name and email', async () => {
   const { dom } = runtime();
   await flush(); await flush(); await flush();
@@ -112,6 +220,49 @@ test('profile save sends only editable fields and refreshes the menu', async () 
     timezone: 'America/Regina'
   });
   dom.window.close();
+});
+
+test('profile save cannot publish stale data or update metadata after an account switch', async () => {
+  const race = profileRaceRuntime({ deferProfileUpdate: true });
+  await flush();
+  const savePromise = race.dom.window.UpskillProfile.save({
+    display_name: 'Updated Account A',
+    timezone: 'America/Regina',
+    newsletter_opt_in: true
+  });
+  const rejectedSave = assert.rejects(savePromise, /account changed while the profile was being saved/i);
+  await flush();
+
+  race.switchUser(race.users.b);
+  await flush();
+  assert.equal(race.dom.window.UpskillProfile.getCurrent().user_id, 'user-b');
+
+  race.profileUpdate.resolve();
+  await rejectedSave;
+  assert.equal(race.dom.window.UpskillProfile.getCurrent().user_id, 'user-b');
+  assert.equal(race.calls.authUpdates.length, 0);
+  assert.equal(race.calls.profileUpdates[0].userId, 'user-a');
+  race.dom.window.close();
+});
+
+test('profile save cannot republish stale data when auth metadata completes after an account switch', async () => {
+  const race = profileRaceRuntime({ deferAuthUpdate: true });
+  await flush();
+  const savePromise = race.dom.window.UpskillProfile.save({
+    display_name: 'Updated Account A',
+    timezone: 'America/Regina',
+    newsletter_opt_in: true
+  });
+  const rejectedSave = assert.rejects(savePromise, /account changed while the profile was being saved/i);
+  await flush();
+  assert.equal(race.calls.authUpdates[0].userId, 'user-a');
+
+  race.switchUser(race.users.b);
+  await flush();
+  race.authUpdate.resolve();
+  await rejectedSave;
+  assert.equal(race.dom.window.UpskillProfile.getCurrent().user_id, 'user-b');
+  race.dom.window.close();
 });
 
 test('signup sends explicit consent, profile metadata, and CAPTCHA', async () => {
