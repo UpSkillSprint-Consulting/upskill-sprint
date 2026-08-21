@@ -24,5 +24,10 @@ test('selects deterministic legacy readiness snapshot', () => {
 });
 test('SQL migration enables RLS and scopes policies to auth.uid()', () => {
   const sql = fs.readFileSync(path.join(__dirname, '..', 'supabase', 'test-bank-progress.sql'), 'utf8');
-  assert.match(sql, /enable row level security/i); assert.match(sql, /grant select, insert, update, delete .* to authenticated/i); assert.equal((sql.match(/auth\.uid\(\)/g) || []).length, 4); assert.doesNotMatch(sql, /service_role/i);
+  const policies = sql.match(/create policy[\s\S]*?;/gi) || [];
+  assert.match(sql, /enable row level security/i);
+  assert.match(sql, /grant select, insert, update, delete .* to authenticated/i);
+  assert.equal(policies.length, 4);
+  policies.forEach(policy => assert.match(policy, /\(select auth\.uid\(\)\) = user_id/i));
+  assert.doesNotMatch(sql, /service_role/i);
 });
