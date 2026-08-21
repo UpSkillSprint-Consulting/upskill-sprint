@@ -4,14 +4,23 @@
   const OVERVIEW_ID = 'tb-overview';
   const FEEDBACK_ID = 'tb-feedback-loop';
   const STORE_KEY = 'tb-adaptive-mastery-v1';
+  const DEVICE_KEY = 'tb-account-sync-device-v1';
+  const RESET_KEY = 'tb-account-sync-resets-v1';
+  const MASTERY_RESET_PREFIX = 'mastery-exam:';
   const STYLE_ID = 'tb-adaptive-mastery-styles';
   const DAY = 86400000;
   const MASTERY_THRESHOLD = 80;
   const SESSION_SIZE = 10;
+  const MASTERY_EVIDENCE_LIMIT = 500;
 
   let scheduled = false;
   let attempt = null;
   let adaptive = null;
+  let notebookFilter = 'all';
+
+  function asArray(value) { return Array.isArray(value) ? value : []; }
+  function isRecord(value) { return Boolean(value && typeof value === 'object' && !Array.isArray(value)); }
+  function asRecord(value) { return isRecord(value) ? value : {}; }
 
   function esc(value) {
     return String(value == null ? '' : value).replace(/[&<>\"]/g, function (c) {
@@ -40,6 +49,25 @@
 
   function now() { return Date.now(); }
 
+  function syncDeviceId() {
+    let id = localStorage.getItem(DEVICE_KEY);
+    if (!id) {
+      id = window.crypto && window.crypto.randomUUID ? window.crypto.randomUUID() : 'device-' + now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
+      localStorage.setItem(DEVICE_KEY, id);
+    }
+    return id;
+  }
+
+  function currentResetAt() {
+    try {
+      const markers = JSON.parse(localStorage.getItem(RESET_KEY) || '{}');
+      const value = Number(markers && markers[MASTERY_RESET_PREFIX + examId()] || 0);
+      return Number.isFinite(value) && value > 0 ? value : 0;
+    } catch (error) {
+      return 0;
+    }
+  }
+
   function examId() {
     const active = document.querySelector('.tb-tile.active[data-exam]');
     return active ? active.dataset.exam : 'cssbb';
@@ -58,8 +86,8 @@
       seen.add(question.stem);
       output.push(question);
     }
-    if (source && source.sets) Object.keys(source.sets).forEach(function (key) { (source.sets[key] || []).forEach(add); });
-    if (source && source.bank) source.bank.forEach(add);
+    if (source && source.sets) Object.keys(source.sets).forEach(function (key) { asArray(source.sets[key]).forEach(add); });
+    if (source && source.bank) asArray(source.bank).forEach(add);
     return output;
   }
 
@@ -70,7 +98,9 @@
   function readStore() {
     try {
       const parsed = JSON.parse(localStorage.getItem(STORE_KEY));
-      return parsed && parsed.version === 1 ? parsed : { version: 1, exams: {} };
+      if (!isRecord(parsed) || parsed.version !== 1) return { version: 1, exams: {} };
+      parsed.exams = asRecord(parsed.exams);
+      return parsed;
     } catch (error) {
       return { version: 1, exams: {} };
     }
@@ -81,9 +111,14 @@
   }
 
   function examStore(store) {
-    store.exams = store.exams || {};
-    store.exams[examId()] = store.exams[examId()] || { questions: {}, attempts: [], sessions: [] };
-    return store.exams[examId()];
+    store.exams = asRecord(store.exams);
+    const id = examId();
+    const current = asRecord(store.exams[id]);
+    current.questions = asRecord(current.questions);
+    current.attempts = asArray(current.attempts);
+    current.sessions = asArray(current.sessions);
+    store.exams[id] = current;
+    return current;
   }
 
   function initialQuestionState(question) {
@@ -102,8 +137,274 @@
       lastSeenAt: 0,
       lastStatus: 'new',
       mastery: 0,
-      history: []
+      history: [],
+      masteryBaseline: emptyMasteryBaseline(),
+      masteryHistory: []
     };
+  }
+
+  function count(value) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : 0;
+  }
+
+  function evidenceOrder(left, right) {
+    const time = Number(left && left.at || 0) - Number(right && right.at || 0);
+    if (time) return time;
+    const sequence = Number(left && left.priorAttempts || 0) - Number(right && right.priorAttempts || 0);
+    if (sequence) return sequence;
+    return String(left && left.id || '').localeCompare(String(right && right.id || ''));
+  }
+
+  function emptyMasteryComponent() {
+    return { deviceId: '', streamId: '', resetAt: 0, sequence: 0, at: 0, firstSeenAt: 0, attempts: 0, correct: 0, incorrect: 0, unanswered: 0, streak: 0, lastSeenAt: 0, lastStatus: 'new' };
+  }
+
+  function normalizeMasteryComponent(value) {
+    const source = value && typeof value === 'object' ? value : {};
+    return {
+      deviceId: source.deviceId ? String(source.deviceId) : '',
+      streamId: source.streamId ? String(source.streamId) : '',
+      resetAt: Number(source.resetAt || 0),
+      sequence: count(source.sequence),
+      at: Number(source.at || source.lastSeenAt || 0),
+      firstSeenAt: Number(source.firstSeenAt || 0),
+      attempts: count(source.attempts),
+      correct: count(source.correct),
+      incorrect: count(source.incorrect),
+      unanswered: count(source.unanswered),
+      streak: count(source.streak),
+      lastSeenAt: Number(source.lastSeenAt || source.at || 0),
+      lastStatus: source.lastStatus || 'new'
+    };
+  }
+
+  function assembleMasteryBaseline(legacy, devices, foldedIds) {
+    const normalizedLegacy = normalizeMasteryComponent(legacy);
+    const normalizedDevices = {};
+    Object.keys(devices && typeof devices === 'object' ? devices : {}).sort().forEach(function (device) {
+      const component = normalizeMasteryComponent(devices[device]);
+      component.streamId = component.streamId || device;
+      component.deviceId = component.deviceId || device;
+      if (component.attempts || component.sequence) normalizedDevices[device] = component;
+    });
+    const keys = ['legacy'].concat(Object.keys(normalizedDevices));
+    let attempts = 0, correct = 0, incorrect = 0, unanswered = 0, firstSeenAt = 0, unknownFirstSeen = false;
+    let latest = emptyMasteryComponent(), latestKey = '';
+    keys.forEach(function (key) {
+      const component = key === 'legacy' ? normalizedLegacy : normalizedDevices[key];
+      attempts += component.attempts; correct += component.correct; incorrect += component.incorrect; unanswered += component.unanswered;
+      if (component.attempts && !component.firstSeenAt) unknownFirstSeen = true;
+      else if (component.firstSeenAt && (!firstSeenAt || component.firstSeenAt < firstSeenAt)) firstSeenAt = component.firstSeenAt;
+      if (component.lastSeenAt > latest.lastSeenAt || (component.lastSeenAt === latest.lastSeenAt && key > latestKey)) { latest = component; latestKey = key; }
+    });
+    return {
+      at: latest.lastSeenAt,
+      firstSeenAt: unknownFirstSeen ? 0 : firstSeenAt,
+      attempts: attempts,
+      correct: correct,
+      incorrect: incorrect,
+      unanswered: unanswered,
+      streak: latest.streak,
+      lastSeenAt: latest.lastSeenAt,
+      lastStatus: latest.lastStatus,
+      legacy: normalizedLegacy,
+      devices: normalizedDevices,
+      foldedIds: Array.from(new Set(asArray(foldedIds).map(String))).slice(-MASTERY_EVIDENCE_LIMIT)
+    };
+  }
+
+  function emptyMasteryBaseline() {
+    return assembleMasteryBaseline(emptyMasteryComponent(), {}, []);
+  }
+
+  function normalizeMasteryBaseline(value) {
+    const source = value && typeof value === 'object' ? value : {};
+    if (source.legacy || source.devices) return assembleMasteryBaseline(source.legacy, source.devices, source.foldedIds);
+    return assembleMasteryBaseline(source, {}, source.foldedIds);
+  }
+
+  function legacyMasteryBaseline(state) {
+    const legacy = normalizeMasteryComponent({
+      at: state.lastSeenAt,
+      /* Legacy aggregates can include events no longer present in the notebook
+         archive, so their true first observation is intentionally unknown. */
+      firstSeenAt: 0,
+      attempts: state.attempts,
+      correct: state.correct,
+      incorrect: state.incorrect,
+      unanswered: state.unanswered,
+      streak: state.streak,
+      lastSeenAt: state.lastSeenAt,
+      lastStatus: state.lastStatus
+    });
+    return assembleMasteryBaseline(legacy, {}, []);
+  }
+
+  function foldEvidenceIntoBaseline(baseline, entries) {
+    const normalized = normalizeMasteryBaseline(baseline);
+    const legacy = normalizeMasteryComponent(normalized.legacy);
+    const devices = {};
+    Object.keys(normalized.devices || {}).forEach(function (device) { devices[device] = normalizeMasteryComponent(normalized.devices[device]); });
+    const foldedIds = asArray(normalized.foldedIds).slice();
+    asArray(entries).forEach(function (entry) {
+      const timestamp = Number(entry && entry.at || 0);
+      const device = entry && entry.deviceId ? String(entry.deviceId) : '';
+      const stream = entry && entry.streamId ? String(entry.streamId) : device;
+      const sequence = count(entry && entry.sequence);
+      let component = legacy;
+      if (stream && sequence) {
+        component = normalizeMasteryComponent(devices[stream]);
+        if (sequence <= component.sequence) return;
+        component.deviceId = device || component.deviceId;
+        component.streamId = stream;
+        component.resetAt = Math.max(component.resetAt, Number(entry && entry.resetAt || 0));
+        component.sequence = sequence;
+        devices[stream] = component;
+      } else {
+        const identity = entry && entry.id ? 'id:' + entry.id : 'value:' + hash(JSON.stringify(entry));
+        if (foldedIds.indexOf(identity) !== -1) return;
+        foldedIds.push(identity);
+      }
+      component.attempts += 1;
+      if (entry.status === 'correct') component.correct += 1;
+      else if (entry.status === 'unanswered') component.unanswered += 1;
+      else component.incorrect += 1;
+      component.streak = entry.status === 'correct' ? component.streak + 1 : 0;
+      if (!component.firstSeenAt || (timestamp && timestamp < component.firstSeenAt)) component.firstSeenAt = timestamp;
+      if (timestamp >= component.lastSeenAt) { component.lastSeenAt = timestamp; component.lastStatus = entry.status || component.lastStatus; }
+      component.at = Math.max(component.at, timestamp);
+    });
+    return assembleMasteryBaseline(legacy, devices, foldedIds);
+  }
+
+  function evidenceAlreadyFolded(baseline, entry) {
+    const normalized = normalizeMasteryBaseline(baseline);
+    const device = entry && entry.deviceId ? String(entry.deviceId) : '';
+    const stream = entry && entry.streamId ? String(entry.streamId) : device;
+    const sequence = count(entry && entry.sequence);
+    if (stream && sequence) return sequence <= count(normalized.devices[stream] && normalized.devices[stream].sequence);
+    const identity = entry && entry.id ? 'id:' + entry.id : 'value:' + hash(JSON.stringify(entry));
+    return asArray(normalized.foldedIds).indexOf(identity) !== -1;
+  }
+
+  function partitionMasteryEvidence(baseline, history) {
+    const grouped = {};
+    asArray(history).forEach(function (entry) {
+      const device = entry && entry.deviceId ? String(entry.deviceId) : '';
+      const stream = entry && entry.streamId ? String(entry.streamId) : device;
+      const sequence = count(entry && entry.sequence);
+      const key = stream && sequence ? 'stream:' + stream : 'legacy';
+      grouped[key] = grouped[key] || [];
+      grouped[key].push(entry);
+    });
+    const groups = Object.keys(grouped).sort().map(function (key) {
+      const isDevice = key.indexOf('stream:') === 0;
+      const items = grouped[key].slice().sort(function (left, right) {
+        if (isDevice) {
+          const sequence = count(left && left.sequence) - count(right && right.sequence);
+          if (sequence) return sequence;
+        }
+        return evidenceOrder(left, right);
+      });
+      /* Legacy entries have no source watermark, so compacting them creates an
+         aggregate that cannot be safely unioned with another device's. */
+      let foldableCount = 0;
+      if (isDevice) {
+        const stream = key.slice('stream:'.length);
+        let expected = count(baseline && baseline.devices && baseline.devices[stream] && baseline.devices[stream].sequence) + 1;
+        foldableCount = 0;
+        while (foldableCount < items.length && count(items[foldableCount] && items[foldableCount].sequence) === expected) {
+          foldableCount += 1;
+          expected += 1;
+        }
+      }
+      return { items: items, foldableCount: foldableCount };
+    });
+    const overflow = [];
+    const retained = [];
+    groups.forEach(function (group) {
+      const requested = Math.max(0, group.items.length - MASTERY_EVIDENCE_LIMIT);
+      const folded = Math.min(requested, group.foldableCount);
+      overflow.push.apply(overflow, group.items.slice(0, folded));
+      retained.push.apply(retained, group.items.slice(folded));
+    });
+    return { overflow: overflow, retained: retained.sort(evidenceOrder) };
+  }
+
+  function compactMasteryEvidence(baseline, history) {
+    const normalized = normalizeMasteryBaseline(baseline);
+    const sorted = asArray(history).filter(function (entry) { return !evidenceAlreadyFolded(normalized, entry); }).slice().sort(evidenceOrder);
+    const partitioned = partitionMasteryEvidence(normalized, sorted);
+    return { baseline: foldEvidenceIntoBaseline(normalized, partitioned.overflow), history: partitioned.retained };
+  }
+
+  function ensureMasteryEvidence(state) {
+    if (state.masteryBaseline && Array.isArray(state.masteryHistory)) {
+      return compactMasteryEvidence(state.masteryBaseline, state.masteryHistory);
+    }
+    return { baseline: legacyMasteryBaseline(state), history: [] };
+  }
+
+  function nextEvidenceIdentity(state) {
+    const device = syncDeviceId();
+    const resetAt = currentResetAt();
+    const baseline = normalizeMasteryBaseline(state.masteryBaseline);
+    let stream = '', latestAt = -1;
+    Object.keys(baseline.devices || {}).forEach(function (key) {
+      const component = baseline.devices[key];
+      if (component.deviceId === device && component.resetAt === resetAt && component.lastSeenAt >= latestAt) { stream = key; latestAt = component.lastSeenAt; }
+    });
+    asArray(state.masteryHistory).forEach(function (entry) {
+      if (String(entry && entry.deviceId || '') === device && Number(entry && entry.resetAt || 0) === resetAt && Number(entry.at || 0) >= latestAt) {
+        stream = String(entry.streamId || entry.deviceId);
+        latestAt = Number(entry.at || 0);
+      }
+    });
+    if (!stream) {
+      const random = window.crypto && window.crypto.randomUUID ? window.crypto.randomUUID() : now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
+      stream = device + '-' + random;
+    }
+    let sequence = count(baseline.devices[stream] && baseline.devices[stream].sequence);
+    asArray(state.masteryHistory).forEach(function (entry) {
+      if (String(entry && (entry.streamId || entry.deviceId) || '') === stream) sequence = Math.max(sequence, count(entry.sequence));
+    });
+    sequence += 1;
+    return { id: 'mastery-' + stream + '-' + sequence, deviceId: device, streamId: stream, resetAt: resetAt, sequence: sequence };
+  }
+
+  function rebuildMasteryState(state, timestamp) {
+    const canonical = compactMasteryEvidence(state.masteryBaseline, state.masteryHistory);
+    const baseline = canonical.baseline;
+    let attempts = baseline.attempts;
+    let correct = baseline.correct;
+    let incorrect = baseline.incorrect;
+    let unanswered = baseline.unanswered;
+    let streak = baseline.streak;
+    let lastSeenAt = baseline.lastSeenAt;
+    let lastStatus = baseline.lastStatus;
+    canonical.history.forEach(function (entry) {
+      attempts += 1;
+      if (entry.status === 'correct') correct += 1;
+      else if (entry.status === 'unanswered') unanswered += 1;
+      else incorrect += 1;
+      streak = entry.status === 'correct' ? streak + 1 : 0;
+      if (Number(entry.at || 0) >= lastSeenAt) {
+        lastSeenAt = Number(entry.at || 0);
+        lastStatus = entry.status || lastStatus;
+      }
+    });
+    state.masteryBaseline = baseline;
+    state.masteryHistory = canonical.history;
+    state.attempts = attempts;
+    state.correct = correct;
+    state.incorrect = incorrect;
+    state.unanswered = unanswered;
+    state.streak = streak;
+    state.lastSeenAt = lastSeenAt;
+    state.lastStatus = lastStatus;
+    state.mastery = calculateMastery(state, timestamp);
+    return state;
   }
 
   function calculateMastery(state, timestamp) {
@@ -134,47 +435,65 @@
     state.dueAt = timestamp + state.intervalDays * DAY;
   }
 
+  /* Every incorrect attempt is retained without limit so the mistake notebook
+     can show a complete chronological record; correct/unanswered attempts are
+     capped to bound storage growth, and an overall ceiling guards worst case. */
+  function trimHistory(history) {
+    const sorted = asArray(history).slice().sort(evidenceOrder);
+    const incorrect = sorted.filter(function (entry) { return entry.status === 'incorrect'; });
+    const other = sorted.filter(function (entry) { return entry.status !== 'incorrect'; }).slice(-40);
+    return incorrect.concat(other).sort(evidenceOrder).slice(-500);
+  }
+
   function applyResult(state, question, status, selected, source, timestamp) {
+    const canonical = ensureMasteryEvidence(state);
+    state.masteryBaseline = canonical.baseline;
+    state.masteryHistory = canonical.history;
+    rebuildMasteryState(state, timestamp);
     const priorAttempts = state.attempts;
-    state.attempts += 1;
-    if (status === 'correct') state.correct += 1;
-    else if (status === 'unanswered') state.unanswered += 1;
-    else state.incorrect += 1;
+    const identity = nextEvidenceIdentity(state);
     nextSchedule(state, status, timestamp);
-    state.lastSeenAt = timestamp;
-    state.lastStatus = status;
-    state.mastery = calculateMastery(state, timestamp);
-    state.history = (state.history || []).concat([{
+    const entry = {
+      id: identity.id,
+      deviceId: identity.deviceId,
+      streamId: identity.streamId,
+      resetAt: identity.resetAt,
+      sequence: identity.sequence,
       at: timestamp,
       status: status,
       selected: selected,
       source: source,
       priorAttempts: priorAttempts,
-      mastery: state.mastery
-    }]).slice(-30);
+      mastery: 0
+    };
+    state.history = trimHistory(asArray(state.history).concat([entry]));
+    state.masteryHistory = state.masteryHistory.concat([entry]);
+    rebuildMasteryState(state, timestamp);
+    entry.mastery = state.mastery;
     return state;
   }
 
   function recordResults(records, source) {
-    if (!records || !records.length) return null;
+    records = asArray(records);
+    if (!records.length) return null;
     const timestamp = now();
     const store = readStore();
     const data = examStore(store);
     const attemptId = examId() + '-' + timestamp.toString(36) + '-' + Math.random().toString(36).slice(2, 7);
-    const summary = { id: attemptId, at: timestamp, source: source, total: records.length, correct: 0, repeated: 0, newQuestions: 0 };
+    const summary = { id: attemptId, at: timestamp, resetAt: currentResetAt(), source: source, total: records.length, correct: 0, repeated: 0, newQuestions: 0 };
 
     records.forEach(function (record) {
       const question = record.question;
       if (!question) return;
       const key = hash(question.stem);
-      const state = data.questions[key] || initialQuestionState(question);
+      const state = isRecord(data.questions[key]) ? data.questions[key] : initialQuestionState(question);
       if (state.attempts) summary.repeated += 1;
       else summary.newQuestions += 1;
       if (record.status === 'correct') summary.correct += 1;
       data.questions[key] = applyResult(state, question, record.status, record.selected, source, timestamp);
     });
 
-    data.attempts = (data.attempts || []).concat([summary]).slice(-60);
+    data.attempts = asArray(data.attempts).concat([summary]).slice(-60);
     writeStore(store);
     return summary;
   }
@@ -207,13 +526,14 @@
   }
 
   function stateFor(question, data) {
-    return data.questions[hash(question.stem)] || initialQuestionState(question);
+    const state = data.questions[hash(question.stem)];
+    return isRecord(state) ? state : initialQuestionState(question);
   }
 
   function unattemptedFilter(questions) {
     const store = readStore();
     const data = examStore(store);
-    return (questions || []).filter(function (question) {
+    return asArray(questions).filter(function (question) {
       return question && stateFor(question, data).attempts === 0;
     });
   }
@@ -313,8 +633,10 @@
     let repeatCorrect = 0;
     let repeatTotal = 0;
     Object.values(data.questions || {}).forEach(function (state) {
-      (state.history || []).forEach(function (entry) {
-        if (entry.priorAttempts === 0) {
+      const evidence = Array.isArray(state.masteryHistory) ? state.masteryHistory : asArray(state.history);
+      evidence.forEach(function (entry) {
+        if (!Number.isFinite(Number(entry.priorAttempts))) return;
+        if (Number(entry.priorAttempts) === 0) {
           firstTotal += 1;
           if (entry.status === 'correct') firstCorrect += 1;
         } else {
@@ -332,7 +654,7 @@
   }
 
   function trend(data) {
-    return (data.attempts || []).slice(-8).map(function (entry) {
+    return asArray(data.attempts).slice(-8).map(function (entry) {
       return entry.total ? Math.round(entry.correct / entry.total * 100) : 0;
     });
   }
@@ -418,15 +740,79 @@
     renderAdaptive();
   }
 
-  function notebookMarkup(data) {
-    const items = weakQuestions(data).slice(0, 50);
-    return '<div class="tb-notebook-head"><div><div class="tb-diag-kick">Mistake notebook</div><h3>Questions that still need reinforcement</h3><p>Items leave the notebook after sustained correct performance raises estimated mastery to ' + MASTERY_THRESHOLD + '% or higher.</p></div><button type="button" class="tb-ghost" data-close-adaptive>Close</button></div>' +
-      '<div class="tb-notebook-list">' + (items.length ? items.map(function (question) {
-        const state = stateFor(question, data);
-        const lesson = lessonFor(question.sub);
-        const due = state.dueAt <= now() ? 'Due now' : 'Due ' + new Date(state.dueAt).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
-        return '<article><div><span>' + esc(subtopicName(question.sub)) + '</span><strong>' + esc(question.stem) + '</strong><small>Last result: ' + esc(state.lastStatus) + ' · ' + due + ' · ' + state.attempts + ' attempts</small></div><div class="tb-notebook-score"><b>' + state.mastery + '%</b><a href="' + esc(lesson.href) + '">' + esc(lesson.name) + '</a></div></article>';
-      }).join('') : '<p class="tb-review-empty">Your mistake notebook is empty.</p>') + '</div>';
+  /* Flattens every stored incorrect attempt, across every question, into a
+     single chronological log entry list (most recent first). Each entry
+     carries the question object (for the full stem/options/answer snapshot)
+     alongside the knowledge-area id and when/how the attempt happened. */
+  function mistakeEntries(data) {
+    const rows = [];
+    Object.keys(data.questions || {}).forEach(function (key) {
+      const state = data.questions[key];
+      const question = questionByStem(state.stem);
+      if (!question) return;
+      asArray(state.history).forEach(function (entry) {
+        if (entry.status !== 'incorrect') return;
+        rows.push({ question: question, sub: state.sub, at: entry.at, selected: entry.selected, source: entry.source });
+      });
+    });
+    return rows.sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
+  }
+
+  function mistakeKnowledgeAreas(entries) {
+    const seen = {};
+    const list = [];
+    entries.forEach(function (entry) {
+      if (seen[entry.sub]) return;
+      seen[entry.sub] = true;
+      list.push(entry.sub);
+    });
+    return list.sort(function (a, b) { return subtopicName(a).localeCompare(subtopicName(b)); });
+  }
+
+  function formatAttemptWhen(timestamp) {
+    return timestamp ? new Date(timestamp).toLocaleString('en-CA', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'Unknown date';
+  }
+
+  function sourceLabel(source) {
+    if (source === 'adaptive-practice') return 'Adaptive practice';
+    if (source === 'exam-attempt') return 'Test attempt';
+    return source ? esc(source) : 'Practice';
+  }
+
+  function mistakeOptionMarkup(question, entry) {
+    return question.options.map(function (option, optionIndex) {
+      let cls = 'tb-mistake-opt';
+      if (optionIndex === question.answer) cls += ' tb-mistake-opt-correct';
+      if (entry.selected === optionIndex && optionIndex !== question.answer) cls += ' tb-mistake-opt-wrong';
+      const tag = optionIndex === question.answer ? '<em>Correct answer</em>' : (entry.selected === optionIndex ? '<em>Your answer</em>' : '');
+      return '<li class="' + cls + '"><span>' + String.fromCharCode(65 + optionIndex) + '</span><div>' + esc(option) + tag + '</div></li>';
+    }).join('');
+  }
+
+  function mistakeCardMarkup(entry) {
+    const question = entry.question;
+    const lesson = lessonFor(entry.sub);
+    return '<article class="tb-mistake-card">' +
+      '<div class="tb-mistake-meta"><span class="tb-mistake-sub">' + esc(subtopicName(entry.sub)) + '</span><span class="tb-mistake-when">' + formatAttemptWhen(entry.at) + ' · ' + sourceLabel(entry.source) + '</span></div>' +
+      chartHtml(question.chart) +
+      '<div class="tb-mistake-stem">' + esc(question.stem) + '</div>' +
+      '<ol class="tb-mistake-options">' + mistakeOptionMarkup(question, entry) + '</ol>' +
+      (question.why ? '<div class="tb-mistake-why"><strong>Why:</strong> ' + question.why + '</div>' : '') +
+      '<a class="tb-mistake-link" href="' + esc(lesson.href) + '">Review: ' + esc(lesson.name) + '</a>' +
+      '</article>';
+  }
+
+  function notebookMarkup(data, filter) {
+    const entries = mistakeEntries(data);
+    const areas = mistakeKnowledgeAreas(entries);
+    const activeFilter = filter && areas.indexOf(filter) !== -1 ? filter : 'all';
+    const shown = activeFilter === 'all' ? entries : entries.filter(function (entry) { return entry.sub === activeFilter; });
+    const filterOptions = '<option value="all">All knowledge areas</option>' + areas.map(function (sub) {
+      return '<option value="' + esc(sub) + '"' + (sub === activeFilter ? ' selected' : '') + '>' + esc(subtopicName(sub)) + '</option>';
+    }).join('');
+    return '<div class="tb-notebook-head"><div><div class="tb-diag-kick">Mistake notebook</div><h3>Every question answered incorrectly</h3><p>A complete, chronological record of missed questions across every test and practice attempt. Entries stay here as a permanent study log, even after a question is later answered correctly.</p></div><button type="button" class="tb-ghost" data-close-adaptive>Close</button></div>' +
+      (entries.length ? '<div class="tb-notebook-filter"><label for="tb-notebook-filter-select">Knowledge area</label><select id="tb-notebook-filter-select" data-notebook-filter>' + filterOptions + '</select><span class="tb-notebook-count">' + shown.length + ' of ' + entries.length + ' missed attempt' + (entries.length === 1 ? '' : 's') + '</span></div>' : '') +
+      '<div class="tb-notebook-list">' + (shown.length ? shown.map(mistakeCardMarkup).join('') : '<p class="tb-review-empty">' + (entries.length ? 'No missed questions in this knowledge area yet.' : 'Your mistake notebook is empty.') + '</p>') + '</div>';
   }
 
   function detailsMarkup(data) {
@@ -435,12 +821,19 @@
       '<div class="tb-mastery-explain"><p><strong>Accuracy (58%)</strong> measures the proportion answered correctly.</p><p><strong>Success streak (24%)</strong> rewards repeated correct retrieval rather than one lucky answer.</p><p><strong>Recency (18%)</strong> gradually lowers confidence when knowledge has not been retrieved recently.</p><p><strong>Evidence adjustment</strong> limits high mastery from only one or two observations. A question is counted as mastered only after at least two attempts and an estimate of ' + MASTERY_THRESHOLD + '% or higher.</p><p><strong>Current scope:</strong> ' + summary.attempted + ' questions attempted. This estimate supports study prioritization; it does not predict an official examination result.</p></div>';
   }
 
+  function renderNotebook() {
+    const panel = document.getElementById('tb-adaptive-panel');
+    if (!panel || panel.hidden) return;
+    const store = readStore();
+    panel.innerHTML = notebookMarkup(examStore(store), notebookFilter);
+  }
+
   function openNotebook() {
     const panel = document.getElementById('tb-adaptive-panel');
-    const store = readStore();
     if (!panel) return;
+    notebookFilter = 'all';
     panel.hidden = false;
-    panel.innerHTML = notebookMarkup(examStore(store));
+    renderNotebook();
     panel.tabIndex = -1;
     panel.focus();
   }
@@ -475,7 +868,7 @@
     if (document.getElementById(STYLE_ID)) return;
     const style = document.createElement('style');
     style.id = STYLE_ID;
-    style.textContent = '.tb-mastery{margin-top:22px;padding:20px;border:1px solid var(--line);border-radius:13px;background:linear-gradient(180deg,color-mix(in srgb,#6656b5 7%,var(--card)),var(--card))}.tb-mastery-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.tb-mastery-head h2{font-family:"Source Serif 4",serif;font-size:23px;color:var(--ink);margin:3px 0 7px}.tb-mastery-head p{max-width:72ch;color:var(--muted);font-size:13px;line-height:1.55;margin:0}.tb-mastery-ring{--p:0;width:104px;height:104px;flex:0 0 auto;border-radius:50%;display:grid;place-content:center;text-align:center;background:conic-gradient(#6656b5 calc(var(--p)*1%),var(--line) 0);position:relative}.tb-mastery-ring:before{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--card)}.tb-mastery-ring strong,.tb-mastery-ring span{position:relative}.tb-mastery-ring strong{font-size:24px;color:var(--ink)}.tb-mastery-ring span{font-size:9px;color:var(--muted);text-transform:uppercase}.tb-mastery-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:16px 0}.tb-mastery-stats div{padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--card);text-align:center}.tb-mastery-stats strong{display:block;color:var(--ink);font-size:21px}.tb-mastery-stats span{color:var(--muted);font-size:10.5px}.tb-mastery-actions,.tb-adaptive-actions{display:flex;flex-wrap:wrap;gap:9px}.tb-mastery-grid{display:grid;grid-template-columns:1.25fr .9fr .85fr;gap:12px;margin-top:16px}.tb-mastery-grid>section{padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--card)}.tb-weak-list{display:grid;gap:9px;margin-top:10px}.tb-weak-list>div{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;font-size:12px;color:var(--ink)}.tb-weak-list b{font-size:11px}.tb-weak-list i{grid-column:1/-1;height:5px;border-radius:999px;background:linear-gradient(90deg,#6656b5 calc(var(--p)*1%),var(--line) 0)}.tb-improvement{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.tb-improvement>div{padding:10px;border-radius:8px;background:var(--tint)}.tb-improvement span,.tb-improvement small{display:block;color:var(--muted);font-size:10px}.tb-improvement strong{display:block;color:var(--ink);font-size:22px;margin:3px 0}.tb-trend{height:90px;display:flex;align-items:flex-end;gap:5px;margin-top:10px}.tb-trend i{flex:1;height:100%;display:flex;align-items:flex-end;background:var(--tint);border-radius:4px;overflow:hidden}.tb-trend i span{display:block;width:100%;height:calc(var(--p)*1%);background:#6656b5}.tb-adaptive-panel{margin-top:20px;padding-top:20px;border-top:1px solid var(--line);outline:none}.tb-adaptive-head,.tb-notebook-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:14px}.tb-adaptive-head h3,.tb-notebook-head h3,.tb-adaptive-summary h3{font-family:"Source Serif 4",serif;color:var(--ink);font-size:21px;margin:2px 0}.tb-adaptive-mastery-chip{padding:8px 10px;border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:11px}.tb-adaptive-mastery-chip strong{color:var(--ink)}.tb-adaptive-stem{color:var(--ink);font-size:16px;font-weight:600;line-height:1.5;margin-bottom:13px}.tb-adaptive-options{display:grid;gap:8px}.tb-adaptive-option{display:flex;gap:10px;align-items:flex-start;width:100%;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--tint);color:var(--ink);font:inherit;text-align:left;cursor:pointer}.tb-adaptive-option span{width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;font-size:11px;font-weight:700}.tb-adaptive-option.selected{border-color:#6656b5}.tb-adaptive-option.correct{border-color:#1f9d6b;background:color-mix(in srgb,#1f9d6b 9%,var(--card))}.tb-adaptive-option.wrong{border-color:#c0453f;background:color-mix(in srgb,#c0453f 8%,var(--card))}.tb-adaptive-feedback{margin:12px 0;padding:12px;border-radius:9px;color:var(--ink);font-size:13px;line-height:1.5}.tb-adaptive-feedback.correct{border:1px solid rgba(31,157,107,.35);background:color-mix(in srgb,#1f9d6b 9%,var(--card))}.tb-adaptive-feedback.incorrect{border:1px solid rgba(192,69,63,.3);background:color-mix(in srgb,#c0453f 7%,var(--card))}.tb-adaptive-actions{margin-top:14px}.tb-adaptive-summary{display:flex;align-items:center;gap:20px}.tb-notebook-list{display:grid;gap:9px}.tb-notebook-list article{display:flex;justify-content:space-between;gap:14px;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--card)}.tb-notebook-list article span,.tb-notebook-list article small{display:block;color:var(--muted);font-size:10.5px}.tb-notebook-list article strong{display:block;color:var(--ink);font-size:13px;line-height:1.4;margin:3px 0}.tb-notebook-score{text-align:right;min-width:110px}.tb-notebook-score b,.tb-notebook-score a{display:block}.tb-notebook-score b{color:var(--ink);font-size:18px}.tb-notebook-score a{color:var(--teal);font-size:10.5px;margin-top:5px}.tb-mastery-explain{display:grid;gap:9px}.tb-mastery-explain p{margin:0;padding:11px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--muted);font-size:12.5px;line-height:1.5}.tb-mastery-explain strong{color:var(--ink)}@media(max-width:820px){.tb-mastery-grid{grid-template-columns:1fr}.tb-mastery-stats{grid-template-columns:1fr 1fr}}@media(max-width:560px){.tb-mastery-head,.tb-adaptive-head,.tb-notebook-head,.tb-adaptive-summary{flex-direction:column}.tb-mastery-ring{width:90px;height:90px}.tb-notebook-list article{flex-direction:column}.tb-notebook-score{text-align:left}.tb-mastery-stats{grid-template-columns:1fr 1fr}}';
+    style.textContent = '.tb-mastery{margin-top:22px;padding:20px;border:1px solid var(--line);border-radius:13px;background:linear-gradient(180deg,color-mix(in srgb,#6656b5 7%,var(--card)),var(--card))}.tb-mastery-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.tb-mastery-head h2{font-family:"Source Serif 4",serif;font-size:23px;color:var(--ink);margin:3px 0 7px}.tb-mastery-head p{max-width:72ch;color:var(--muted);font-size:13px;line-height:1.55;margin:0}.tb-mastery-ring{--p:0;width:104px;height:104px;flex:0 0 auto;border-radius:50%;display:grid;place-content:center;text-align:center;background:conic-gradient(#6656b5 calc(var(--p)*1%),var(--line) 0);position:relative}.tb-mastery-ring:before{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--card)}.tb-mastery-ring strong,.tb-mastery-ring span{position:relative}.tb-mastery-ring strong{font-size:24px;color:var(--ink)}.tb-mastery-ring span{font-size:9px;color:var(--muted);text-transform:uppercase}.tb-mastery-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:16px 0}.tb-mastery-stats div{padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--card);text-align:center}.tb-mastery-stats strong{display:block;color:var(--ink);font-size:21px}.tb-mastery-stats span{color:var(--muted);font-size:10.5px}.tb-mastery-actions,.tb-adaptive-actions{display:flex;flex-wrap:wrap;gap:9px}.tb-mastery-grid{display:grid;grid-template-columns:1.25fr .9fr .85fr;gap:12px;margin-top:16px}.tb-mastery-grid>section{padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--card)}.tb-weak-list{display:grid;gap:9px;margin-top:10px}.tb-weak-list>div{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;font-size:12px;color:var(--ink)}.tb-weak-list b{font-size:11px}.tb-weak-list i{grid-column:1/-1;height:5px;border-radius:999px;background:linear-gradient(90deg,#6656b5 calc(var(--p)*1%),var(--line) 0)}.tb-improvement{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.tb-improvement>div{padding:10px;border-radius:8px;background:var(--tint)}.tb-improvement span,.tb-improvement small{display:block;color:var(--muted);font-size:10px}.tb-improvement strong{display:block;color:var(--ink);font-size:22px;margin:3px 0}.tb-trend{height:90px;display:flex;align-items:flex-end;gap:5px;margin-top:10px}.tb-trend i{flex:1;height:100%;display:flex;align-items:flex-end;background:var(--tint);border-radius:4px;overflow:hidden}.tb-trend i span{display:block;width:100%;height:calc(var(--p)*1%);background:#6656b5}.tb-adaptive-panel{margin-top:20px;padding-top:20px;border-top:1px solid var(--line);outline:none}.tb-adaptive-head,.tb-notebook-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:14px}.tb-adaptive-head h3,.tb-notebook-head h3,.tb-adaptive-summary h3{font-family:"Source Serif 4",serif;color:var(--ink);font-size:21px;margin:2px 0}.tb-adaptive-mastery-chip{padding:8px 10px;border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:11px}.tb-adaptive-mastery-chip strong{color:var(--ink)}.tb-adaptive-stem{color:var(--ink);font-size:16px;font-weight:600;line-height:1.5;margin-bottom:13px}.tb-adaptive-options{display:grid;gap:8px}.tb-adaptive-option{display:flex;gap:10px;align-items:flex-start;width:100%;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--tint);color:var(--ink);font:inherit;text-align:left;cursor:pointer}.tb-adaptive-option span{width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;font-size:11px;font-weight:700}.tb-adaptive-option.selected{border-color:#6656b5}.tb-adaptive-option.correct{border-color:#1f9d6b;background:color-mix(in srgb,#1f9d6b 9%,var(--card))}.tb-adaptive-option.wrong{border-color:#c0453f;background:color-mix(in srgb,#c0453f 8%,var(--card))}.tb-adaptive-feedback{margin:12px 0;padding:12px;border-radius:9px;color:var(--ink);font-size:13px;line-height:1.5}.tb-adaptive-feedback.correct{border:1px solid rgba(31,157,107,.35);background:color-mix(in srgb,#1f9d6b 9%,var(--card))}.tb-adaptive-feedback.incorrect{border:1px solid rgba(192,69,63,.3);background:color-mix(in srgb,#c0453f 7%,var(--card))}.tb-adaptive-actions{margin-top:14px}.tb-adaptive-summary{display:flex;align-items:center;gap:20px}.tb-notebook-filter{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}.tb-notebook-filter label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}.tb-notebook-filter select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit;font-size:12.5px}.tb-notebook-count{color:var(--muted);font-size:11.5px;margin-left:auto}.tb-notebook-list{display:grid;gap:14px}.tb-mistake-card{padding:16px;border:1px solid var(--line);border-radius:11px;background:var(--card)}.tb-mistake-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-bottom:10px}.tb-mistake-sub{color:var(--teal);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}.tb-mistake-when{color:var(--muted);font-size:11px}.tb-mistake-stem{color:var(--ink);font-size:14.5px;font-weight:600;line-height:1.5;margin-bottom:11px}.tb-mistake-options{display:grid;gap:7px;margin:0 0 11px;padding:0;list-style:none}.tb-mistake-opt{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--tint);color:var(--ink);font-size:13px;line-height:1.45}.tb-mistake-opt span{width:22px;height:22px;flex:0 0 auto;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;font-size:10.5px;font-weight:700;background:var(--card)}.tb-mistake-opt em{display:block;margin-top:3px;font-style:normal;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}.tb-mistake-opt-correct{border-color:#1f9d6b;background:color-mix(in srgb,#1f9d6b 12%,var(--card))}.tb-mistake-opt-correct em{color:#1f9d6b}.tb-mistake-opt-wrong{border-color:#c0453f;background:color-mix(in srgb,#c0453f 10%,var(--card))}.tb-mistake-opt-wrong em{color:#c0453f}.tb-mistake-why{padding:11px;border-radius:8px;background:var(--tint);color:var(--muted);font-size:12.5px;line-height:1.5;margin-bottom:10px}.tb-mistake-why strong{color:var(--ink)}.tb-mistake-link{color:var(--teal);font-size:12px;font-weight:600}.tb-mastery-explain{display:grid;gap:9px}.tb-mastery-explain p{margin:0;padding:11px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--muted);font-size:12.5px;line-height:1.5}.tb-mastery-explain strong{color:var(--ink)}@media(max-width:820px){.tb-mastery-grid{grid-template-columns:1fr}.tb-mastery-stats{grid-template-columns:1fr 1fr}}@media(max-width:560px){.tb-mastery-head,.tb-adaptive-head,.tb-notebook-head,.tb-adaptive-summary{flex-direction:column}.tb-mastery-ring{width:90px;height:90px}.tb-mastery-stats{grid-template-columns:1fr 1fr}}';
     document.head.appendChild(style);
   }
 
@@ -528,6 +921,12 @@
       const navigation = event.target.closest('.tb-navcell,.tb-opt,[data-flag]');
       if (navigation && overview.contains(navigation)) captureCurrent();
       handleClick(event);
+    });
+    document.addEventListener('change', function (event) {
+      const select = event.target.closest('[data-notebook-filter]');
+      if (!select) return;
+      notebookFilter = select.value;
+      renderNotebook();
     });
     new MutationObserver(schedule).observe(overview, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden'] });
     schedule();

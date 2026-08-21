@@ -99,6 +99,112 @@ test('an incorrect answer resets the success streak and schedules near-term revi
   assert.equal(state.lastStatus, 'incorrect');
 });
 
+test('recording a new answer migrates legacy aggregates without losing older correct attempts', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  const timestamp = Date.UTC(2026, 6, 29);
+  const history = [];
+  for (let index = 0; index < 40; index += 1) history.push({ at: timestamp - 100 + index, status: 'correct' });
+  for (let index = 0; index < 60; index += 1) history.push({ at: timestamp - 60 + index, status: 'incorrect' });
+  const state = {
+    id: 'legacy-q', stem: question.stem, sub: question.sub,
+    attempts: 160, correct: 100, incorrect: 60, unanswered: 0,
+    streak: 0, ease: 2.3, intervalDays: 1, dueAt: timestamp,
+    lastSeenAt: timestamp - 1, lastStatus: 'incorrect', mastery: 54, history
+  };
+
+  api.applyResult(state, question, 'correct', question.answer, 'test', timestamp);
+
+  assert.equal(state.masteryBaseline.attempts, 160);
+  assert.equal(state.masteryHistory.length, 1);
+  assert.match(state.masteryHistory[0].id, /^mastery-/);
+  assert.ok(state.masteryHistory[0].deviceId);
+  assert.ok(state.masteryHistory[0].streamId);
+  assert.equal(state.masteryHistory[0].sequence, 1);
+  assert.equal(state.attempts, 161);
+  assert.equal(state.correct, 101);
+  assert.equal(state.incorrect, 60);
+  assert.equal(state.streak, 1);
+});
+
+test('mastery evidence compaction preserves exact counters and trailing streak state', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  const state = {
+    id: 'q', stem: question.stem, sub: question.sub, attempts: 0, correct: 0, incorrect: 0, unanswered: 0,
+    streak: 0, ease: 2.3, intervalDays: 0, dueAt: 0, lastSeenAt: 0, lastStatus: 'new', mastery: 0,
+    history: [], masteryBaseline: {
+      at: 0, firstSeenAt: 0, attempts: 0, correct: 0, incorrect: 0, unanswered: 0,
+      streak: 0, lastSeenAt: 0, lastStatus: 'new'
+    }, masteryHistory: []
+  };
+  const startedAt = Date.UTC(2026, 0, 1);
+  for (let index = 0; index < 520; index += 1) {
+    const status = index % 2 === 0 ? 'correct' : 'incorrect';
+    api.applyResult(state, question, status, status === 'correct' ? question.answer : (question.answer + 1) % question.options.length, 'stress', startedAt + index);
+  }
+  assert.equal(state.masteryBaseline.attempts, 20);
+  assert.equal(state.masteryHistory.length, 500);
+  const stream = state.masteryHistory[0].streamId;
+  assert.equal(state.masteryBaseline.devices[stream].sequence, 20);
+  assert.equal(state.masteryHistory[0].sequence, 21);
+  assert.equal(state.masteryHistory[499].sequence, 520);
+  assert.equal(state.attempts, 520);
+  assert.equal(state.correct, 260);
+  assert.equal(state.incorrect, 260);
+  assert.equal(state.streak, 0);
+  assert.equal(state.lastStatus, 'incorrect');
+});
+
+test('mastery compaction preserves every answer when the device clock moves backward', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  const state = {
+    id: 'clock-shift-q', stem: question.stem, sub: question.sub, attempts: 0, correct: 0, incorrect: 0, unanswered: 0,
+    streak: 0, ease: 2.3, intervalDays: 0, dueAt: 0, lastSeenAt: 0, lastStatus: 'new', mastery: 0,
+    history: [], masteryBaseline: {}, masteryHistory: []
+  };
+  const startedAt = Date.UTC(2026, 0, 1);
+  for (let index = 0; index < 520; index += 1) {
+    const status = index % 2 === 0 ? 'correct' : 'incorrect';
+    api.applyResult(state, question, status, question.answer, 'clock-shift-stress', startedAt - index);
+  }
+  assert.equal(state.attempts, 520);
+  assert.equal(state.correct, 260);
+  assert.equal(state.incorrect, 260);
+  assert.equal(state.masteryBaseline.attempts, 20);
+  assert.equal(state.masteryHistory.length, 500);
+});
+
+test('a reset starts a new evidence stream while consecutive answers reuse the current stream', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  function emptyState(id) {
+    return {
+      id, stem: question.stem, sub: question.sub, attempts: 0, correct: 0, incorrect: 0, unanswered: 0,
+      streak: 0, ease: 2.3, intervalDays: 0, dueAt: 0, lastSeenAt: 0, lastStatus: 'new', mastery: 0,
+      history: [], masteryBaseline: {}, masteryHistory: []
+    };
+  }
+  const beforeReset = emptyState('before-reset');
+  api.applyResult(beforeReset, question, 'correct', question.answer, 'stream-test', 100);
+  api.applyResult(beforeReset, question, 'correct', question.answer, 'stream-test', 101);
+  assert.equal(beforeReset.masteryHistory[0].streamId, beforeReset.masteryHistory[1].streamId);
+  assert.deepEqual(Array.from(beforeReset.masteryHistory, entry => entry.sequence), [1, 2]);
+
+  window.localStorage.setItem('tb-account-sync-resets-v1', JSON.stringify({ 'mastery-exam:cssbb': 150 }));
+  const afterReset = emptyState('after-reset');
+  api.applyResult(afterReset, question, 'correct', question.answer, 'stream-test', 200);
+  assert.notEqual(afterReset.masteryHistory[0].streamId, beforeReset.masteryHistory[0].streamId);
+  assert.equal(afterReset.masteryHistory[0].deviceId, beforeReset.masteryHistory[0].deviceId);
+  assert.equal(afterReset.masteryHistory[0].resetAt, 150);
+  assert.equal(afterReset.masteryHistory[0].sequence, 1);
+});
+
 test('adaptive selection prioritizes due and weak questions while including new material', async () => {
   const { window } = await load();
   const api = window.__TBAdaptiveMastery;
@@ -144,6 +250,23 @@ test('adaptive practice updates repeated-question improvement and the mistake no
   assert.ok(summary.notebook >= 1, 'item remains in notebook until sustained mastery is reached');
 });
 
+test('improvement metrics use the balanced mastery ledger after notebook history trims old correct answers', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  for (let index = 0; index < 50; index += 1) {
+    api.recordResults([{ question, selected: question.answer, status: 'correct' }], 'evidence-test');
+  }
+  const state = Object.values(api.store().exams.cssbb.questions).find(candidate => candidate.stem === question.stem);
+  assert.equal(state.history.length, 40, 'the notebook archive keeps its bounded non-error snapshot');
+  assert.equal(state.masteryHistory.length, 50, 'mastery evidence retains every status symmetrically');
+  const improvement = api.improvement();
+  assert.equal(improvement.firstTotal, 1);
+  assert.equal(improvement.repeatTotal, 49);
+  assert.equal(improvement.first, 100);
+  assert.equal(improvement.repeat, 100);
+});
+
 test('adaptive completion remains visible after the dashboard refreshes', async () => {
   const { window } = await load();
   const overview = await completeQuick(window);
@@ -164,4 +287,83 @@ test('adaptive completion remains visible after the dashboard refreshes', async 
   assert.equal(panel.hidden, false);
   assert.match(panel.textContent, /Adaptive session complete/);
   assert.match(panel.textContent, /mastery map has been updated/i);
+});
+
+test('the mistake notebook renders a chronological, filterable log of every incorrect attempt with a red/green snapshot', async () => {
+  const { window } = await load();
+  const overview = await completeQuick(window);
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  const wrongIndex = (question.answer + 1) % question.options.length;
+  api.recordResults([{ question, selected: wrongIndex, status: 'incorrect' }], 'exam-attempt');
+  api.recordResults([{ question, selected: wrongIndex, status: 'incorrect' }], 'adaptive-practice');
+  click(window, overview.querySelector('[data-open-notebook]'));
+  await settle(window, 2);
+  const notebook = overview.querySelector('#tb-adaptive-panel');
+  assert.ok(notebook && !notebook.hidden);
+  const cards = notebook.querySelectorAll('.tb-mistake-card');
+  assert.equal(cards.length, 2, 'each failed attempt gets its own chronological entry');
+  assert.ok(cards[0].querySelector('.tb-mistake-opt-wrong'), 'selected wrong answer is highlighted red');
+  assert.ok(cards[0].querySelector('.tb-mistake-opt-correct'), 'correct answer is highlighted green');
+  assert.equal(cards[0].querySelectorAll('.tb-mistake-opt').length, question.options.length);
+  assert.ok(notebook.querySelector('[data-notebook-filter]'), 'knowledge-area filter dropdown is present');
+});
+
+test('the "why" explanation renders its authored inline HTML instead of showing raw tags', async () => {
+  const { window } = await load();
+  const overview = await completeQuick(window);
+  const api = window.__TBAdaptiveMastery;
+  const bank = Object.values(window.__TB.EXAMS.cssbb.sets).flat();
+  const question = bank.find(item => item.why && /<[a-z]+>/i.test(item.why));
+  assert.ok(question, 'test fixture needs a question whose explanation contains inline HTML markup');
+  api.recordResults([{ question, selected: (question.answer + 1) % question.options.length, status: 'incorrect' }], 'exam-attempt');
+  click(window, overview.querySelector('[data-open-notebook]'));
+  await settle(window, 2);
+  const notebook = overview.querySelector('#tb-adaptive-panel');
+  const why = notebook.querySelector('.tb-mistake-why');
+  assert.ok(why, 'the why block is rendered');
+  assert.doesNotMatch(why.textContent, /<[a-z]+>/i, 'the authored emphasis tag renders as markup, not literal visible text');
+});
+
+test('every incorrect attempt on a question is retained for the notebook, not truncated by the history cap', async () => {
+  const { window } = await load();
+  await completeQuick(window);
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][1];
+  const wrongIndex = (question.answer + 1) % question.options.length;
+  for (let index = 0; index < 35; index += 1) {
+    api.recordResults([{ question, selected: wrongIndex, status: 'incorrect' }], 'exam-attempt');
+  }
+  const store = api.store();
+  const state = Object.values(store.exams.cssbb.questions).find(candidate => candidate.stem === question.stem);
+  const incorrectEntries = state.history.filter(entry => entry.status === 'incorrect');
+  assert.equal(incorrectEntries.length, 35, 'no incorrect attempt is dropped once the count exceeds the old 30-entry cap');
+});
+
+test('recording an answer repairs malformed persisted mastery collections', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  let keyHash = 2166136261;
+  String(question.stem).split('').forEach(character => {
+    keyHash ^= character.charCodeAt(0);
+    keyHash = Math.imul(keyHash, 16777619);
+  });
+  const questionKey = (keyHash >>> 0).toString(36);
+  window.localStorage.setItem('tb-adaptive-mastery-v1', JSON.stringify({
+    version: 1,
+    exams: { cssbb: {
+      questions: { [questionKey]: 'damaged-question-state' },
+      attempts: { not: 'an array' },
+      sessions: 'not-an-array'
+    } }
+  }));
+
+  const summary = api.recordResults([{ question, selected: question.answer, status: 'correct' }], 'repair-test');
+  const stored = api.store().exams.cssbb;
+  assert.equal(summary.correct, 1);
+  assert.equal(stored.attempts.length, 1);
+  assert.deepEqual(Array.from(stored.sessions), []);
+  assert.equal(stored.questions[questionKey].attempts, 1);
+  assert.equal(stored.questions[questionKey].correct, 1);
 });

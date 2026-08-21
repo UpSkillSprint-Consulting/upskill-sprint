@@ -74,7 +74,7 @@
     attemptId = examId() + '-' + attemptStartedAt.toString(36) + '-' + Math.random().toString(36).slice(2, 8);
     const data = readStore();
     data.attempts = data.attempts || {};
-    data.attempts[attemptId] = data.attempts[attemptId] || { examId: examId(), startedAt: attemptStartedAt, errors: {}, times: {} };
+    data.attempts[attemptId] = data.attempts[attemptId] || { examId: examId(), startedAt: attemptStartedAt, updatedAt: attemptStartedAt, errors: {}, times: {} };
     writeStore(data);
     return attemptId;
   }
@@ -90,6 +90,7 @@
     data.attempts = data.attempts || {};
     const record = data.attempts[attemptId] || { examId: examId(), startedAt: attemptStartedAt, errors: {}, times: {} };
     update(record);
+    record.updatedAt = Date.now();
     data.attempts[attemptId] = record;
     writeStore(data);
   }
