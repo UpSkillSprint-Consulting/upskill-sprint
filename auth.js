@@ -55,6 +55,12 @@
       currentSession = result && result.data ? result.data.session : null;
       sessionKnown = true;
       notifyListeners();
+    }).catch(function () {
+      /* Resolve consumers even when session restoration fails. Protected data
+         still relies on RLS; the UI can offer sign-in instead of hanging. */
+      currentSession = null;
+      sessionKnown = true;
+      notifyListeners();
     });
     return client;
   }
