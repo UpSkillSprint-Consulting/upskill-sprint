@@ -19,6 +19,10 @@
     });
   }
 
+  function chartHtml(chart) {
+    return (window.__TB && window.__TB.renderQuestionChart) ? window.__TB.renderQuestionChart(chart) : '';
+  }
+
   function stripHtml(value) {
     const node = document.createElement('div');
     node.innerHTML = String(value == null ? '' : value);
@@ -373,7 +377,7 @@
     }).join('');
     const status = selected == null ? 'unanswered' : selected === question.answer ? 'correct' : 'incorrect';
     return '<div class="tb-adaptive-head"><div><div class="tb-diag-kick">Adaptive practice · ' + (index + 1) + ' of ' + total + '</div><h3>' + esc(subtopicName(question.sub)) + '</h3></div><div class="tb-adaptive-mastery-chip">Current mastery <strong>' + state.mastery + '%</strong></div></div>' +
-      '<div class="tb-adaptive-stem">' + esc(question.stem) + '</div><div class="tb-adaptive-options">' + options + '</div>' +
+      chartHtml(question.chart) + '<div class="tb-adaptive-stem">' + esc(question.stem) + '</div><div class="tb-adaptive-options">' + options + '</div>' +
       (checked ? '<div class="tb-adaptive-feedback ' + status + '"><strong>' + (status === 'correct' ? 'Correct.' : 'Not yet.') + '</strong><div>' + (question.why || 'A stored explanation is not available.') + '</div></div>' : '') +
       '<div class="tb-adaptive-actions">' + (!checked ? '<button type="button" class="btn btn-teal" data-adaptive-check' + (selected == null ? ' disabled' : '') + '>Check answer</button>' : '<button type="button" class="btn btn-teal" data-adaptive-next>' + (index === total - 1 ? 'Finish session' : 'Next question') + '</button>') + '<button type="button" class="tb-ghost" data-close-adaptive>Close</button></div>';
   }

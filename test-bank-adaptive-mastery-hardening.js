@@ -18,6 +18,10 @@
     });
   }
 
+  function chartHtml(chart) {
+    return (window.__TB && window.__TB.renderQuestionChart) ? window.__TB.renderQuestionChart(chart) : '';
+  }
+
   function hash(value) {
     let output = 2166136261;
     String(value || '').split('').forEach(function (character) {
@@ -243,7 +247,7 @@
     host.hidden = false;
     host.innerHTML = '<div class="tb-adaptive-head"><div><div class="tb-diag-kick">Adaptive practice · ' + (session.index + 1) + ' of ' + session.items.length + '</div><h3>' + esc(question.sub || 'General review') + '</h3><p class="tb-adaptive-rationale">Selected because it is ' + esc(session.reasons[session.index] || 'part of your balanced review plan') + '.</p></div><div class="tb-adaptive-mastery-chip">Current effective mastery <strong>' + currentMastery + '%</strong></div></div>' +
       '<div class="tb-adaptive-progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + session.items.length + '" aria-valuenow="' + session.index + '"><span style="--p:' + Math.round(session.index / session.items.length * 100) + '"></span></div>' +
-      '<div class="tb-adaptive-stem">' + esc(question.stem) + '</div><div class="tb-adaptive-options">' + options + '</div>' +
+      chartHtml(question.chart) + '<div class="tb-adaptive-stem">' + esc(question.stem) + '</div><div class="tb-adaptive-options">' + options + '</div>' +
       (checked ? '<div class="tb-adaptive-feedback ' + status + '" role="status"><strong>' + (status === 'correct' ? 'Correct.' : 'Not yet. The correct answer is ' + String.fromCharCode(65 + question.answer) + '.') + '</strong><div>' + (question.why || 'A stored explanation is not available.') + '</div></div>' : '') +
       '<div class="tb-adaptive-actions">' + (!checked ? '<button type="button" class="btn btn-teal" data-v2-check' + (selected == null ? ' disabled' : '') + '>Check answer</button>' : '<button type="button" class="btn btn-teal" data-v2-next>' + (session.index === session.items.length - 1 ? 'Finish session' : 'Next question') + '</button>') + '<button type="button" class="tb-ghost" data-v2-pause>Pause and save</button></div>';
     host.tabIndex = -1;
