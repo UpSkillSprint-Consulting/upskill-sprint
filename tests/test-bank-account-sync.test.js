@@ -676,3 +676,133 @@ test('an adaptive reset marker cannot cross account boundaries after a user swit
 
   dom.window.close(); b.window.close();
 });
+
+test('same-timestamp question schedule metadata converges regardless of merge direction', () => {
+  const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
+  function payload(question) {
+    return { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: question } } } };
+  }
+  const left = payload({
+    ease: 1.9, intervalDays: 1, dueAt: 200,
+    history: [{ id: 'answer-a', at: 100, status: 'incorrect' }], lastSeenAt: 100
+  });
+  const right = payload({
+    ease: 2.4, intervalDays: 4, dueAt: 500,
+    history: [{ id: 'answer-b', at: 100, status: 'correct' }], lastSeenAt: 100
+  });
+
+  const forward = merge(left, right).exams.cssbb.questions.q1;
+  const reverse = merge(right, left).exams.cssbb.questions.q1;
+  assert.deepEqual(
+    { ease: forward.ease, intervalDays: forward.intervalDays, dueAt: forward.dueAt },
+    { ease: reverse.ease, intervalDays: reverse.intervalDays, dueAt: reverse.dueAt }
+  );
+  dom.window.close();
+});
+
+test('same-timestamp question schedule metadata converges across merge grouping', () => {
+  const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
+  function payload(id, ease, intervalDays, dueAt, status) {
+    return { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+      ease, intervalDays, dueAt,
+      history: [{ id: 'answer-' + id, at: 100, status }], lastSeenAt: 100
+    } } } } };
+  }
+  const a = payload('a', 1.8, 1, 200, 'incorrect');
+  const b = payload('b', 2.2, 3, 400, 'correct');
+  const c = payload('c', 2.5, 5, 600, 'correct');
+  const leftGrouped = merge(merge(a, b), c).exams.cssbb.questions.q1;
+  const rightGrouped = merge(a, merge(b, c)).exams.cssbb.questions.q1;
+  assert.deepEqual(
+    { ease: leftGrouped.ease, intervalDays: leftGrouped.intervalDays, dueAt: leftGrouped.dueAt },
+    { ease: rightGrouped.ease, intervalDays: rightGrouped.intervalDays, dueAt: rightGrouped.dueAt }
+  );
+  dom.window.close();
+});
+
+test('same-timestamp bounded attempt and session lists converge at their caps', () => {
+  const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
+  function items(prefix, count, field) {
+    return Array.from({ length: count }, (_, index) => ({ id: prefix + index, [field]: 100 }));
+  }
+  function payload(prefix) {
+    return { version: 1, exams: { cssbb: {
+      attempts: items(prefix + '-attempt-', 35, 'startedAt'),
+      sessions: items(prefix + '-session-', 35, 'startedAt'),
+      questions: {}
+    } } };
+  }
+  const left = payload('left'), right = payload('right');
+  const forward = merge(left, right).exams.cssbb;
+  const reverse = merge(right, left).exams.cssbb;
+
+  assert.deepEqual(Array.from(forward.attempts, item => item.id), Array.from(reverse.attempts, item => item.id));
+  assert.deepEqual(Array.from(forward.sessions, item => item.id), Array.from(reverse.sessions, item => item.id));
+
+  const historyLeft = { schemaVersion: 2, values: { 'tb-attempt-history-v3': { attempts: items('left-history-', 30, 'startedAt') } } };
+  const historyRight = { schemaVersion: 2, values: { 'tb-attempt-history-v3': { attempts: items('right-history-', 30, 'startedAt') } } };
+  const historyForward = dom.window.__TBAccountSync.mergePayloads([historyLeft, historyRight]);
+  const historyReverse = dom.window.__TBAccountSync.mergePayloads([historyRight, historyLeft]);
+  assert.deepEqual(
+    Array.from(historyForward.values['tb-attempt-history-v3'].attempts, item => item.id),
+    Array.from(historyReverse.values['tb-attempt-history-v3'].attempts, item => item.id)
+  );
+  dom.window.close();
+});
+
+test('folded legacy evidence IDs converge when their bounded union exceeds the cap', () => {
+  const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
+  function payload(prefix) {
+    return { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+      masteryBaseline: {
+        legacy: {}, devices: {},
+        foldedIds: Array.from({ length: 300 }, (_, index) => prefix + index)
+      },
+      masteryHistory: [], history: [], lastSeenAt: 0
+    } } } } };
+  }
+  const left = payload('left-'), right = payload('right-');
+  const forward = merge(left, right).exams.cssbb.questions.q1.masteryBaseline.foldedIds;
+  const reverse = merge(right, left).exams.cssbb.questions.q1.masteryBaseline.foldedIds;
+  assert.deepEqual(Array.from(forward), Array.from(reverse));
+  dom.window.close();
+});
+
+test('equal-ranked legacy snapshots and same-ID attempts converge deterministically', () => {
+  const dom = load(), mergePayloads = dom.window.__TBAccountSync.mergePayloads;
+  const legacyA = { schemaVersion: 2, values: { 'tb-adaptive-cssbb': { attempts: 4, lastReadiness: 80, lastAt: 100, mode: 'a' } } };
+  const legacyB = { schemaVersion: 2, values: { 'tb-adaptive-cssbb': { attempts: 4, lastReadiness: 80, lastAt: 100, mode: 'b' } } };
+  assert.deepEqual(
+    mergePayloads([legacyA, legacyB]).values['tb-adaptive-cssbb'],
+    mergePayloads([legacyB, legacyA]).values['tb-adaptive-cssbb']
+  );
+
+  const attemptA = { schemaVersion: 2, values: { 'tb-attempt-history-v3': { attempts: [{ id: 'same', startedAt: 100, status: 'a' }] } } };
+  const attemptB = { schemaVersion: 2, values: { 'tb-attempt-history-v3': { attempts: [{ id: 'same', startedAt: 100, status: 'b' }] } } };
+  assert.deepEqual(
+    mergePayloads([attemptA, attemptB]).values['tb-attempt-history-v3'],
+    mergePayloads([attemptB, attemptA]).values['tb-attempt-history-v3']
+  );
+  dom.window.close();
+});
+
+test('attempt-feedback object maps merge every device record and converge', () => {
+  const dom = load(), mergePayloads = dom.window.__TBAccountSync.mergePayloads;
+  const left = { schemaVersion: 2, values: { 'tb-attempt-feedback-v2': { attempts: {
+    left: { startedAt: 100, completedAt: 200, errors: { q1: 'concept' }, times: { q1: 1000 } },
+    shared: { startedAt: 300, completedAt: 350, errors: { q2: 'guess' }, times: { q2: 500 } }
+  } } } };
+  const right = { schemaVersion: 2, values: { 'tb-attempt-feedback-v2': { attempts: {
+    right: { startedAt: 400, completedAt: 500, errors: { q3: 'calculation' }, times: { q3: 1500 } },
+    shared: { startedAt: 300, completedAt: 450, errors: { q2: 'concept', q4: 'guess' }, times: { q2: 800, q4: 600 } }
+  } } } };
+
+  const forward = mergePayloads([left, right]).values['tb-attempt-feedback-v2'];
+  const reverse = mergePayloads([right, left]).values['tb-attempt-feedback-v2'];
+  assert.deepEqual(forward, reverse);
+  assert.deepEqual(Object.keys(forward.attempts), ['left', 'right', 'shared']);
+  assert.equal(forward.attempts.shared.completedAt, 450);
+  assert.deepEqual(JSON.parse(JSON.stringify(forward.attempts.shared.errors)), { q2: 'concept', q4: 'guess' });
+  assert.deepEqual(JSON.parse(JSON.stringify(forward.attempts.shared.times)), { q2: 800, q4: 600 });
+  dom.window.close();
+});

@@ -40,6 +40,15 @@
     if (!item || typeof item !== 'object') return 0;
     return Math.max.apply(Math, ['updatedAt', 'completedAt', 'finishedAt', 'at', 'startedAt', 'createdAt'].map(key => timeValue(item[key])));
   }
+  function itemIdentity(item) {
+    return item && item.id ? 'id:' + String(item.id) : 'value:' + hash(stable(item));
+  }
+  function itemOrder(left, right) {
+    const time = itemRank(left) - itemRank(right);
+    if (time) return time;
+    const identity = itemIdentity(left).localeCompare(itemIdentity(right));
+    return identity || stable(left).localeCompare(stable(right));
+  }
   function itemAfterReset(item, resetAt) { return Number(item && item.resetAt || 0) >= resetAt || itemRank(item) > resetAt; }
   function evidenceAfterReset(entry, resetAt) { return Number(entry && entry.resetAt || 0) >= resetAt || timeValue(entry && entry.at) > resetAt; }
   function validExamId(examId) { return /^[a-z0-9_-]{1,80}$/i.test(String(examId || '')); }
@@ -64,10 +73,11 @@
     return output;
   }
   function mergeIdentifiedItem(left, right) {
-    const rightWins = itemRank(right) >= itemRank(left);
+    const leftRank = itemRank(left), rightRank = itemRank(right);
+    const rightWins = rightRank > leftRank || (rightRank === leftRank && stable(right) > stable(left));
     const older = rightWins ? left : right, newer = rightWins ? right : left;
     const output = Object.assign({}, clone(older), clone(newer));
-    ['errors', 'records'].forEach(key => {
+    ['errors', 'records', 'times'].forEach(key => {
       if ((older && older[key]) || (newer && newer[key])) output[key] = Object.assign({}, clone(older && older[key] || {}), clone(newer && newer[key] || {}));
     });
     return output;
@@ -84,16 +94,14 @@
       const key = 'value:' + hash(stable(item));
       if (!values.has(key)) { values.add(key); output.push(clone(item)); }
     });
-    return output;
+    return output.sort(itemOrder);
   }
   function evidenceOrder(left, right) {
     const time = Number(left && left.at || 0) - Number(right && right.at || 0);
     if (time) return time;
     const sequence = Number(left && left.priorAttempts || 0) - Number(right && right.priorAttempts || 0);
     if (sequence) return sequence;
-    const leftKey = left && left.id ? 'id:' + left.id : 'value:' + hash(stable(left));
-    const rightKey = right && right.id ? 'id:' + right.id : 'value:' + hash(stable(right));
-    return leftKey.localeCompare(rightKey);
+    return itemIdentity(left).localeCompare(itemIdentity(right));
   }
   /* Incorrect attempts are kept in full across merges so the mistake notebook
      retains a complete cross-device record; other statuses are capped. */
@@ -155,7 +163,7 @@
       lastStatus: latest.lastStatus,
       legacy: normalizedLegacy,
       devices: normalizedDevices,
-      foldedIds: Array.from(new Set((foldedIds || []).map(String))).slice(-MASTERY_EVIDENCE_LIMIT)
+      foldedIds: Array.from(new Set((foldedIds || []).map(String))).sort().slice(-MASTERY_EVIDENCE_LIMIT)
     };
   }
   function emptyMasteryBaseline() {
@@ -328,8 +336,23 @@
     const history = mergeArray(left.history, right.history).filter(entry => !evidenceAlreadyFolded(baseline, entry));
     return compactMasteryEvidence(baseline, history);
   }
+  function questionMetadataKey(value) {
+    const derived = {
+      attempts: true, correct: true, incorrect: true, unanswered: true,
+      streak: true, lastSeenAt: true, lastStatus: true, mastery: true,
+      history: true, masteryBaseline: true, masteryHistory: true
+    };
+    const metadata = {};
+    Object.keys(value && typeof value === 'object' ? value : {}).forEach(key => {
+      if (!derived[key]) metadata[key] = value[key];
+    });
+    return stable(metadata);
+  }
   function mergeQuestion(a, b) {
-    const state = clone(Number(a && a.lastSeenAt || 0) >= Number(b && b.lastSeenAt || 0) ? (a || b || {}) : (b || a || {}));
+    const left = a || {}, right = b || {};
+    const leftSeen = Number(left.lastSeenAt || 0), rightSeen = Number(right.lastSeenAt || 0);
+    const preferred = rightSeen > leftSeen || (rightSeen === leftSeen && questionMetadataKey(right) > questionMetadataKey(left)) ? right : left;
+    const state = clone(preferred);
     state.history = trimQuestionHistory(mergeArray(a && a.history, b && b.history));
     return rebuildQuestionState(state, mergeQuestionEvidence(a, b));
   }
@@ -340,19 +363,15 @@
       const left = a && a.exams && a.exams[id] || {}, right = b && b.exams && b.exams[id] || {};
       const exam = {
         questions: {},
-        attempts: mergeArray(left.attempts, right.attempts)
-          .sort((x, y) => Number(x.at || x.startedAt || 0) - Number(y.at || y.startedAt || 0))
-          .slice(-60),
-        sessions: mergeArray(left.sessions, right.sessions)
-          .sort((x, y) => Number(x.startedAt || x.at || 0) - Number(y.startedAt || y.at || 0))
-          .slice(-60)
+        attempts: mergeArray(left.attempts, right.attempts).sort(itemOrder).slice(-60),
+        sessions: mergeArray(left.sessions, right.sessions).sort(itemOrder).slice(-60)
       };
       new Set(Object.keys(left.questions || {}).concat(Object.keys(right.questions || {}))).forEach(q => { exam.questions[q] = mergeQuestion(left.questions && left.questions[q], right.questions && right.questions[q]); });
       output.exams[id] = exam;
     });
     return output;
   }
-  function mergeHistory(a, b) { return { attempts: mergeArray(a && a.attempts, b && b.attempts).sort((x, y) => Number(x.startedAt || 0) - Number(y.startedAt || 0)).slice(-50) }; }
+  function mergeHistory(a, b) { return { attempts: mergeArray(a && a.attempts, b && b.attempts).sort(itemOrder).slice(-50) }; }
   function filterMasteryBaselineAfterReset(baseline, resetAt) {
     const existing = normalizeMasteryBaseline(baseline);
     const legacyIsNew = existing.legacy.resetAt >= resetAt || existing.legacy.firstSeenAt > resetAt;
@@ -441,13 +460,44 @@
     });
     return payload;
   }
-  function legacyRank(v) { return !v || typeof v !== 'object' ? -1 : Number(v.attempts || 0) * 1000 + Number(v.lastReadiness || 0); }
+  function mergeAttemptFeedback(a, b) {
+    const left = a && typeof a === 'object' ? a : {}, right = b && typeof b === 'object' ? b : {};
+    const output = { attempts: {} };
+    new Set(Object.keys(left).concat(Object.keys(right))).forEach(key => {
+      if (key === 'attempts') return;
+      if (!Object.prototype.hasOwnProperty.call(left, key)) output[key] = clone(right[key]);
+      else if (!Object.prototype.hasOwnProperty.call(right, key)) output[key] = clone(left[key]);
+      else output[key] = clone(stable(right[key]) > stable(left[key]) ? right[key] : left[key]);
+    });
+    const leftAttempts = left.attempts && typeof left.attempts === 'object' ? left.attempts : {};
+    const rightAttempts = right.attempts && typeof right.attempts === 'object' ? right.attempts : {};
+    Array.from(new Set(Object.keys(leftAttempts).concat(Object.keys(rightAttempts)))).sort().forEach(id => {
+      if (!Object.prototype.hasOwnProperty.call(leftAttempts, id)) output.attempts[id] = clone(rightAttempts[id]);
+      else if (!Object.prototype.hasOwnProperty.call(rightAttempts, id)) output.attempts[id] = clone(leftAttempts[id]);
+      else output.attempts[id] = mergeIdentifiedItem(leftAttempts[id], rightAttempts[id]);
+    });
+    return output;
+  }
+  function legacyRank(v) {
+    if (!v || typeof v !== 'object') return -1;
+    const attempts = Number(v.attempts || 0), readiness = Number(v.lastReadiness || 0);
+    return (Number.isFinite(attempts) ? attempts : 0) * 1000 + (Number.isFinite(readiness) ? readiness : 0);
+  }
+  function preferredSnapshot(a, b) {
+    const leftRank = legacyRank(a), rightRank = legacyRank(b);
+    if (rightRank !== leftRank) return rightRank > leftRank ? b : a;
+    return stable(b) > stable(a) ? b : a;
+  }
   function mergeValue(key, a, b) {
     if (a == null) return clone(b); if (b == null) return clone(a);
     if (key === MASTER_KEY) return mergeMastery(a, b);
     if (key === HISTORY_KEY) return mergeHistory(a, b);
-    if (a && b && Array.isArray(a.attempts) && Array.isArray(b.attempts)) return Object.assign({}, a, b, { attempts: mergeArray(a.attempts, b.attempts) });
-    return legacyRank(b) > legacyRank(a) ? clone(b) : clone(a);
+    if (key === 'tb-attempt-feedback-v2') return mergeAttemptFeedback(a, b);
+    if (a && b && Array.isArray(a.attempts) && Array.isArray(b.attempts)) {
+      const preferred = preferredSnapshot(a, b), older = preferred === b ? a : b;
+      return Object.assign({}, clone(older), clone(preferred), { attempts: mergeArray(a.attempts, b.attempts) });
+    }
+    return clone(preferredSnapshot(a, b));
   }
   function mergePayloads(payloads) {
     const merged = { schemaVersion: 2, values: {}, resets: mergeResetMarkers(payloads) };
