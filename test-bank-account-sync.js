@@ -5,7 +5,9 @@
   const META_KEY = 'tb-account-sync-meta-v1';
   const MASTER_KEY = 'tb-adaptive-mastery-v1';
   const HISTORY_KEY = 'tb-attempt-history-v3';
-  let syncing = false, lastDigest = '', timer = 0;
+  const LOCAL_WATCH_MS = 3000;
+  const REMOTE_POLL_MS = 15000;
+  let syncing = false, lastDigest = '', timer = 0, nextRemoteAt = 0;
 
   function clone(v) { return v == null ? v : JSON.parse(JSON.stringify(v)); }
   function parse(v, fallback) { try { return JSON.parse(v); } catch (_) { return fallback; } }
@@ -89,8 +91,12 @@
       if (result.error) throw result.error;
       localStorage.setItem(META_KEY, JSON.stringify({ lastSyncedAt: new Date().toISOString(), reason: reason || 'automatic', status: 'synced' }));
       lastDigest = stable(localPayload());
+      nextRemoteAt = Date.now() + REMOTE_POLL_MS;
       document.dispatchEvent(new CustomEvent('upskill-test-progress-synced', { detail: { changed } }));
-      if (changed && !sessionStorage.getItem('tb-account-sync-reloaded')) { sessionStorage.setItem('tb-account-sync-reloaded', '1'); location.reload(); }
+      /* Test-bank metrics are calculated during page initialization. Reload only
+         when remote progress changed local state; the next merge is then stable,
+         so later device updates can refresh the page without a one-time guard. */
+      if (changed) location.reload();
       return { changed };
     } catch (error) {
       localStorage.setItem(META_KEY, JSON.stringify({ lastAttemptAt: new Date().toISOString(), reason: reason || 'automatic', status: 'error', message: String(error && error.message || error) }));
@@ -99,13 +105,23 @@
   }
   function watch() {
     clearInterval(timer); lastDigest = stable(localPayload());
-    timer = setInterval(() => { const next = stable(localPayload()); if (next !== lastDigest) { lastDigest = next; sync('local-change'); } }, 3000);
+    nextRemoteAt = Date.now() + REMOTE_POLL_MS;
+    timer = setInterval(() => {
+      const next = stable(localPayload());
+      if (next !== lastDigest) { lastDigest = next; sync('local-change'); return; }
+      /* Focus and online events cover common resumptions. Polling closes the
+         remaining gap when two signed-in devices stay open at the same time. */
+      if (Date.now() >= nextRemoteAt) {
+        nextRemoteAt = Date.now() + REMOTE_POLL_MS;
+        sync('remote-poll');
+      }
+    }, LOCAL_WATCH_MS);
   }
   function start() {
     const auth = window.UpskillAuth; if (!auth || !auth.onChange) return;
     auth.onChange(user => { if (user) sync('sign-in').then(watch); else clearInterval(timer); });
     addEventListener('online', () => sync('online')); addEventListener('focus', () => sync('focus'));
   }
-  window.__TBAccountSync = { sync, mergePayloads, mergeMastery, localPayload };
+  window.__TBAccountSync = { sync, mergePayloads, mergeMastery, localPayload, REMOTE_POLL_MS };
   if (window.UpskillAuth) start(); else document.addEventListener('upskill-auth-ready', start, { once: true });
 }());

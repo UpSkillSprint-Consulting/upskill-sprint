@@ -28,7 +28,11 @@ comment on column public.profiles.newsletter_consent_at is
 alter table public.profiles enable row level security;
 
 revoke all on table public.profiles from public, anon, authenticated;
-grant select, insert, update on table public.profiles to authenticated;
+grant select on table public.profiles to authenticated;
+grant insert (user_id, display_name, timezone, newsletter_opt_in, onboarding_completed)
+  on table public.profiles to authenticated;
+grant update (display_name, timezone, newsletter_opt_in, onboarding_completed)
+  on table public.profiles to authenticated;
 
 drop policy if exists "Users can read their own profile" on public.profiles;
 create policy "Users can read their own profile"
@@ -51,6 +55,39 @@ create policy "Users can update their own profile"
   to authenticated
   using ((select auth.uid()) = user_id)
   with check ((select auth.uid()) = user_id);
+
+-- Audit timestamps are assigned by Postgres, not accepted from browser input.
+-- This also protects them if a future client accidentally sends extra fields.
+create or replace function public.set_profile_audit_fields()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if tg_op = 'INSERT' then
+    new.created_at := coalesce(new.created_at, now());
+    new.newsletter_consent_at := case when new.newsletter_opt_in then now() else null end;
+  else
+    new.user_id := old.user_id;
+    new.created_at := old.created_at;
+    new.terms_accepted_at := old.terms_accepted_at;
+    if new.newsletter_opt_in is distinct from old.newsletter_opt_in then
+      new.newsletter_consent_at := case when new.newsletter_opt_in then now() else null end;
+    else
+      new.newsletter_consent_at := old.newsletter_consent_at;
+    end if;
+  end if;
+  new.updated_at := now();
+  return new;
+end;
+$$;
+
+revoke all on function public.set_profile_audit_fields() from public, anon, authenticated;
+
+drop trigger if exists profiles_set_audit_fields on public.profiles;
+create trigger profiles_set_audit_fields
+  before insert or update on public.profiles
+  for each row execute function public.set_profile_audit_fields();
 
 -- Create a profile at signup so email-confirmation flows do not lose the
 -- user's name or consent choices. The function has a locked search_path and

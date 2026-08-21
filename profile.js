@@ -62,9 +62,7 @@
       display_name: fallbackName(user),
       timezone: String(metadata.timezone || browserTimezone()).slice(0, 100),
       newsletter_opt_in: optedIn,
-      newsletter_consent_at: optedIn ? new Date().toISOString() : null,
-      terms_accepted_at: metadata.terms_accepted === true ? new Date().toISOString() : null,
-      updated_at: new Date().toISOString()
+      onboarding_completed: false
     };
   }
 
@@ -132,11 +130,7 @@
       var payload = {
         display_name: name,
         timezone: timezone,
-        newsletter_opt_in: optedIn,
-        newsletter_consent_at: optedIn
-          ? ((existing && existing.newsletter_opt_in && existing.newsletter_consent_at) || new Date().toISOString())
-          : null,
-        updated_at: new Date().toISOString()
+        newsletter_opt_in: optedIn
       };
       return authClient.from('profiles')
         .update(payload)
@@ -145,6 +139,7 @@
         .single()
         .then(function (result) {
           if (result.error) throw result.error;
+          loadPromise = Promise.resolve(result.data);
           notify(result.data);
           return authClient.auth.updateUser({
             data: { display_name: name, full_name: name, timezone: timezone }
