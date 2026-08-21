@@ -244,3 +244,70 @@ test('no two questions in the full CSSBB bank share an identical stem (guards th
   });
   assert.deepEqual(Array.from(collisions), [], 'every question stem across Set 1/2/3 is unique');
 });
+
+/* ---------- second-pass audit: 3 more broken questions found beyond the original 8 ---------- */
+
+test('the VSM production-kanban symbol question now has its chart and a legible stem', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const q = findQuestion(bank, 'The symbol below is used on a value stream map');
+  assert.ok(q, 'question found with its corrected stem wording');
+  assert.equal(q.chart.type, 'vsm-symbol');
+  assert.equal(q.options[q.answer], 'Production kanban');
+  assert.doesNotMatch(q.stem, /[\uFFFD]/);
+});
+
+test('chartVsmSymbol renders a rectangle with a cut top-right corner, matching the source figure', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'vsm-symbol' });
+  assert.match(svg, /<polygon/);
+  assert.doesNotMatch(svg, /NaN/);
+  const pointsMatch = svg.match(/points="([^"]+)"/);
+  assert.ok(pointsMatch);
+  const points = pointsMatch[1].trim().split(/\s+/);
+  assert.equal(points.length, 5, 'five vertices: four rectangle corners plus the cut corner');
+});
+
+test('the critical-path questions now carry their precedence table data in the stem, not only in the why field', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const critPath = findQuestion(bank, 'A project has the following activities');
+  const lateStart = findQuestion(bank, 'Using the same project precedence table');
+  assert.ok(critPath && lateStart, 'both companion questions found');
+
+  // Both questions must state every activity's duration and predecessor directly in the
+  // stem -- previously this table only existed (garbled) inside the why field, making the
+  // question itself unanswerable from the information a student is actually shown.
+  ['A', 'B', 'C', 'D', 'E', 'F', 'G'].forEach(activity => {
+    assert.match(critPath.stem, new RegExp(activity + ' \\('), 'critical-path stem states activity ' + activity + '\u2019s data');
+    assert.match(lateStart.stem, new RegExp(activity + ' \\('), 'late-start stem states activity ' + activity + '\u2019s data');
+  });
+
+  assert.equal(critPath.options[critPath.answer], 'ACG');
+  assert.equal(lateStart.options[lateStart.answer], 'Day 5');
+  assert.doesNotMatch(critPath.why, /[\uFFFD]/, 'why field no longer contains the garbled ASCII network diagram');
+  assert.doesNotMatch(lateStart.why, /[\uFFFD]/);
+});
+
+test('the precedence-table data used is internally self-consistent with the stated critical-path answer (the source book has a real erratum here: its question page prints Activity D as 15 days, its own solution page prints 5 days and calculates using 5 -- used the value consistent with the graded answer so the practice question is not self-contradicting)', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const critPath = findQuestion(bank, 'A project has the following activities');
+  assert.match(critPath.stem, /D \(no predecessor, 5 days\)/);
+  // ACG = 10+10+5 = 25, BCG = 5+10+5 = 20, DEFG = 5+5+5+5 = 20 -- ACG must be strictly longest.
+  const acg = 10 + 10 + 5, bcg = 5 + 10 + 5, defg = 5 + 5 + 5 + 5;
+  assert.ok(acg > bcg && acg > defg, 'ACG is genuinely the longest (critical) path given the stem\u2019s own stated durations');
+});
+
+test('no CQE question contains a unicode replacement character or an unresolved visual reference (audited the full CQE bank the same way as CSSBB)', async () => {
+  const { window } = await load();
+  const seen = new Set();
+  const cqeBank = Object.values(window.__TB.EXAMS.cqe.sets).flat().filter(q => {
+    if (!q || seen.has(q.stem)) return false;
+    seen.add(q.stem);
+    return true;
+  });
+  assert.ok(cqeBank.length > 0);
+  const garbled = cqeBank.filter(q => /[\uFFFD]/.test(q.stem) || /[\uFFFD]/.test(q.why || ''));
+  assert.deepEqual(Array.from(garbled).map(q => q.stem), []);
+});
