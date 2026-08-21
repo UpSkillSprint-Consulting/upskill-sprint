@@ -4,8 +4,10 @@
   const DEVICE_KEY = 'tb-account-sync-device-v1';
   const META_KEY = 'tb-account-sync-meta-v1';
   const USER_KEY = 'tb-account-sync-user-v1';
+  const RESET_KEY = 'tb-account-sync-resets-v1';
   const MASTER_KEY = 'tb-adaptive-mastery-v1';
   const HISTORY_KEY = 'tb-attempt-history-v3';
+  const MASTERY_RESET_PREFIX = 'mastery-exam:';
   const LOCAL_WATCH_MS = 3000;
   const REMOTE_POLL_MS = 15000;
   let syncing = false, lastDigest = '', timer = 0, nextRemoteAt = 0;
@@ -25,7 +27,7 @@
   function localPayload() {
     const values = {};
     for (let i = 0; i < localStorage.length; i += 1) { const key = localStorage.key(i); if (trackedKey(key)) values[key] = parse(localStorage.getItem(key), null); }
-    return { schemaVersion: 1, values };
+    return { schemaVersion: 2, values, resets: readResetMarkers() };
   }
   function timeValue(value) {
     if (typeof value === 'number' && Number.isFinite(value)) return value;
@@ -35,6 +37,27 @@
   function itemRank(item) {
     if (!item || typeof item !== 'object') return 0;
     return Math.max.apply(Math, ['updatedAt', 'completedAt', 'finishedAt', 'at', 'startedAt', 'createdAt'].map(key => timeValue(item[key])));
+  }
+  function validExamId(examId) { return /^[a-z0-9_-]{1,80}$/i.test(String(examId || '')); }
+  function masteryResetScope(examId) { return validExamId(examId) ? MASTERY_RESET_PREFIX + examId : null; }
+  function normalizeResetMarkers(value) {
+    const output = {};
+    Object.keys(value && typeof value === 'object' ? value : {}).forEach(scope => {
+      const timestamp = Number(value[scope]);
+      if (scope.indexOf(MASTERY_RESET_PREFIX) === 0 && validExamId(scope.slice(MASTERY_RESET_PREFIX.length)) && Number.isFinite(timestamp) && timestamp > 0) {
+        output[scope] = timestamp;
+      }
+    });
+    return output;
+  }
+  function readResetMarkers() { return normalizeResetMarkers(parse(localStorage.getItem(RESET_KEY), {})); }
+  function mergeResetMarkers(payloads) {
+    const output = {};
+    (payloads || []).forEach(payload => {
+      const resets = normalizeResetMarkers(payload && payload.resets);
+      Object.keys(resets).forEach(scope => { output[scope] = Math.max(Number(output[scope] || 0), resets[scope]); });
+    });
+    return output;
   }
   function mergeIdentifiedItem(left, right) {
     const rightWins = itemRank(right) >= itemRank(left);
@@ -59,9 +82,7 @@
     });
     return output;
   }
-  function mergeQuestion(a, b) {
-    const state = clone(Number(a && a.lastSeenAt || 0) >= Number(b && b.lastSeenAt || 0) ? (a || b || {}) : (b || a || {}));
-    const history = mergeArray(a && a.history, b && b.history).sort((x, y) => Number(x.at || 0) - Number(y.at || 0)).slice(-30);
+  function rebuildQuestionState(state, history) {
     if (!history.length) return state;
     state.history = history; state.attempts = history.length;
     state.correct = history.filter(x => x.status === 'correct').length;
@@ -75,6 +96,11 @@
     const recency = Math.max(0, 1 - Math.max(0, (Date.now() - state.lastSeenAt) / 86400000) / 45);
     state.mastery = Math.max(0, Math.min(100, Math.round((.58 * accuracy + .24 * Math.min(streak / 4, 1) + .18 * recency) * (.62 + .38 * confidence) * 100)));
     return state;
+  }
+  function mergeQuestion(a, b) {
+    const state = clone(Number(a && a.lastSeenAt || 0) >= Number(b && b.lastSeenAt || 0) ? (a || b || {}) : (b || a || {}));
+    const history = mergeArray(a && a.history, b && b.history).sort((x, y) => Number(x.at || 0) - Number(y.at || 0)).slice(-30);
+    return rebuildQuestionState(state, history);
   }
   function mergeMastery(a, b) {
     const output = { version: 1, exams: {} };
@@ -96,6 +122,62 @@
     return output;
   }
   function mergeHistory(a, b) { return { attempts: mergeArray(a && a.attempts, b && b.attempts).sort((x, y) => Number(x.startedAt || 0) - Number(y.startedAt || 0)).slice(-50) }; }
+  function filterQuestionAfterReset(state, resetAt) {
+    if (!state || typeof state !== 'object') return null;
+    const history = (state.history || []).filter(entry => timeValue(entry && entry.at) > resetAt);
+    if (history.length) return rebuildQuestionState(clone(state), history);
+    return timeValue(state.lastSeenAt) > resetAt ? clone(state) : null;
+  }
+  function filterMasteryExamAfterReset(exam, resetAt) {
+    const source = exam && typeof exam === 'object' ? exam : {};
+    const output = {
+      questions: {},
+      attempts: (source.attempts || []).filter(item => itemRank(item) > resetAt).map(clone),
+      sessions: (source.sessions || []).filter(item => itemRank(item) > resetAt).map(clone)
+    };
+    Object.keys(source.questions || {}).forEach(questionId => {
+      const state = filterQuestionAfterReset(source.questions[questionId], resetAt);
+      if (state) output.questions[questionId] = state;
+    });
+    return output;
+  }
+  function hasMasteryData(exam) {
+    return Boolean(exam && (Object.keys(exam.questions || {}).length || (exam.attempts || []).length || (exam.sessions || []).length));
+  }
+  function filterLegacyAdaptiveAfterReset(value, resetAt) {
+    if (!value || typeof value !== 'object') return null;
+    const output = clone(value);
+    output.history = (value.history || []).filter(item => timeValue(item && item.at) > resetAt);
+    output.subState = {};
+    Object.keys(value.subState || {}).forEach(subId => {
+      if (timeValue(value.subState[subId] && value.subState[subId].at) > resetAt) output.subState[subId] = clone(value.subState[subId]);
+    });
+    if (!output.history.length && !Object.keys(output.subState).length) return null;
+    output.attempts = output.history.length;
+    if (output.history.length) output.lastAt = Math.max.apply(Math, output.history.map(item => timeValue(item && item.at)));
+    return output;
+  }
+  function applyResetMarkers(payload) {
+    payload.values = payload.values && typeof payload.values === 'object' ? payload.values : {};
+    const resets = normalizeResetMarkers(payload && payload.resets);
+    Object.keys(resets).forEach(scope => {
+      const examId = scope.slice(MASTERY_RESET_PREFIX.length);
+      const resetAt = resets[scope];
+      const mastery = payload.values[MASTER_KEY];
+      if (mastery && mastery.exams && mastery.exams[examId]) {
+        const filtered = filterMasteryExamAfterReset(mastery.exams[examId], resetAt);
+        if (hasMasteryData(filtered)) mastery.exams[examId] = filtered;
+        else delete mastery.exams[examId];
+      }
+      const legacyKey = 'tb-adaptive-' + examId;
+      if (Object.prototype.hasOwnProperty.call(payload.values, legacyKey)) {
+        const filteredLegacy = filterLegacyAdaptiveAfterReset(payload.values[legacyKey], resetAt);
+        if (filteredLegacy) payload.values[legacyKey] = filteredLegacy;
+        else delete payload.values[legacyKey];
+      }
+    });
+    return payload;
+  }
   function legacyRank(v) { return !v || typeof v !== 'object' ? -1 : Number(v.attempts || 0) * 1000 + Number(v.lastReadiness || 0); }
   function mergeValue(key, a, b) {
     if (a == null) return clone(b); if (b == null) return clone(a);
@@ -105,12 +187,23 @@
     return legacyRank(b) > legacyRank(a) ? clone(b) : clone(a);
   }
   function mergePayloads(payloads) {
-    const merged = { schemaVersion: 1, values: {} };
+    const merged = { schemaVersion: 2, values: {}, resets: mergeResetMarkers(payloads) };
     (payloads || []).forEach(payload => Object.keys(payload && payload.values || {}).forEach(key => { merged.values[key] = mergeValue(key, merged.values[key], payload.values[key]); }));
-    return merged;
+    return applyResetMarkers(merged);
   }
   function applyPayload(payload) {
     let changed = false;
+    const resets = normalizeResetMarkers(payload && payload.resets);
+    if (stable(resets) !== stable(readResetMarkers())) {
+      localStorage.setItem(RESET_KEY, JSON.stringify(resets));
+      changed = true;
+    }
+    Object.keys(resets).forEach(scope => {
+      const legacyKey = 'tb-adaptive-' + scope.slice(MASTERY_RESET_PREFIX.length);
+      if (!Object.prototype.hasOwnProperty.call(payload.values || {}, legacyKey) && localStorage.getItem(legacyKey) != null) {
+        localStorage.removeItem(legacyKey); changed = true;
+      }
+    });
     Object.keys(payload && payload.values || {}).forEach(key => { if (stable(payload.values[key]) !== stable(parse(localStorage.getItem(key), null))) { localStorage.setItem(key, JSON.stringify(payload.values[key])); changed = true; } });
     return changed;
   }
@@ -118,6 +211,7 @@
   function clearTrackedPayload() {
     const keys = [];
     for (let i = 0; i < localStorage.length; i += 1) { const key = localStorage.key(i); if (trackedKey(key)) keys.push(key); }
+    if (localStorage.getItem(RESET_KEY) != null) keys.push(RESET_KEY);
     keys.forEach(key => localStorage.removeItem(key));
     return keys.length > 0;
   }
@@ -131,6 +225,15 @@
   function currentUserIs(userId) {
     const auth = window.UpskillAuth, user = auth && auth.getUser ? auth.getUser() : null;
     return Boolean(user && user.id === userId);
+  }
+  function resetAdaptiveExam(examId) {
+    const ctx = context(), scope = masteryResetScope(examId);
+    if (!ctx.user || !scope) return Promise.resolve({ skipped: true });
+    prepareUser(ctx.user.id);
+    const resets = readResetMarkers();
+    resets[scope] = Math.max(Number(resets[scope] || 0), Date.now());
+    localStorage.setItem(RESET_KEY, JSON.stringify(resets));
+    return sync('adaptive-reset');
   }
   async function sync(reason) {
     const ctx = context(); if (!ctx.client || !ctx.user) return { skipped: true };
@@ -197,6 +300,6 @@
     });
     addEventListener('online', () => sync('online')); addEventListener('focus', () => sync('focus'));
   }
-  window.__TBAccountSync = { sync, mergePayloads, mergeMastery, localPayload, REMOTE_POLL_MS };
+  window.__TBAccountSync = { sync, mergePayloads, mergeMastery, localPayload, resetAdaptiveExam, REMOTE_POLL_MS };
   if (window.UpskillAuth) start(); else document.addEventListener('upskill-auth-ready', start, { once: true });
 }());

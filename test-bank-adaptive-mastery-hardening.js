@@ -506,16 +506,28 @@
     if (button.dataset.confirmReset !== 'true') {
       button.dataset.confirmReset = 'true';
       button.textContent = 'Confirm reset adaptive data';
-      announce('Press the reset button again to permanently clear adaptive learning data for this browser.');
+      announce('Press the reset button again to permanently clear adaptive learning data for this exam. Signed-in resets are synchronized across devices.');
       return;
     }
+    const activeExamId = examId();
     const store = readStore();
-    if (store.exams) delete store.exams[examId()];
+    if (store.exams) delete store.exams[activeExamId];
     try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (error) {}
+    try { localStorage.removeItem('tb-adaptive-' + activeExamId); } catch (error) {}
     clearSession();
     const dashboard = document.getElementById('tb-adaptive-mastery');
     if (dashboard) dashboard.remove();
-    announce('Adaptive learning data has been reset.');
+    const accountSync = window.__TBAccountSync;
+    const auth = window.UpskillAuth;
+    const signedIn = Boolean(auth && typeof auth.getUser === 'function' && auth.getUser());
+    if (signedIn && accountSync && typeof accountSync.resetAdaptiveExam === 'function') {
+      accountSync.resetAdaptiveExam(activeExamId).then(function (result) {
+        if (result && result.error) announce('Adaptive data was reset in this browser. Cross-device synchronization will retry automatically.');
+      });
+      announce('Adaptive learning data has been reset and will be removed from your synced devices.');
+    } else {
+      announce('Adaptive learning data has been reset in this browser.');
+    }
   }
 
   function closePanel() {

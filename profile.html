@@ -105,6 +105,9 @@
       var newsletter = document.getElementById('profile-newsletter');
       var submit = document.getElementById('profile-submit');
       var status = document.getElementById('profile-status');
+      var activeUserId = null;
+      var loadedUserId = null;
+      var loadRevision = 0;
       if (!form || !name || !email || !timezone || !newsletter || !submit || !status) return;
 
       function setStatus(message, isSuccess) {
@@ -112,46 +115,93 @@
         status.classList.toggle('auth-status-success', Boolean(isSuccess));
       }
 
+      function setEditable(editable) {
+        name.disabled = !editable;
+        timezone.disabled = !editable;
+        newsletter.disabled = !editable;
+        submit.disabled = !editable;
+        form.setAttribute('aria-busy', editable ? 'false' : 'true');
+      }
+
+      function clearForm(user, message) {
+        loadedUserId = null;
+        name.value = '';
+        email.value = '';
+        timezone.value = window.UpskillProfile ? window.UpskillProfile.browserTimezone() : 'UTC';
+        newsletter.checked = false;
+        setEditable(false);
+        setStatus(message != null ? message : (user ? 'Loading your profile\u2026' : ''), false);
+      }
+
       function fill(profile) {
         var user = window.UpskillAuth && window.UpskillAuth.getUser();
-        if (!profile || !user) return;
+        if (!profile || !user || profile.user_id !== user.id) return false;
         name.value = profile.display_name || '';
         email.value = user.email || '';
         timezone.value = profile.timezone || window.UpskillProfile.browserTimezone();
         newsletter.checked = Boolean(profile.newsletter_opt_in);
-        submit.disabled = false;
+        activeUserId = user.id;
+        loadedUserId = user.id;
+        setEditable(true);
+        return true;
+      }
+
+      function loadForUser(user) {
+        var nextUserId = user ? user.id : null;
+        if (nextUserId && nextUserId === activeUserId && loadedUserId === nextUserId) return;
+        activeUserId = nextUserId;
+        var revision = ++loadRevision;
+        clearForm(user);
+        if (!user) return;
+        window.UpskillProfile.load(user).then(function (profile) {
+          if (revision !== loadRevision) return;
+          if (fill(profile)) setStatus('', false);
+        }).catch(function () {
+          var currentUser = window.UpskillAuth && window.UpskillAuth.getUser();
+          if (revision !== loadRevision || !currentUser || currentUser.id !== user.id) return;
+          clearForm(currentUser, 'Your profile could not be loaded. Refresh and try again.');
+        });
       }
 
       function initialize() {
         if (!window.UpskillAuth || !window.UpskillProfile) return;
-        submit.disabled = true;
-        setStatus('Loading your profile\u2026', false);
+        clearForm(window.UpskillAuth.getUser(), 'Loading your profile\u2026');
         window.UpskillProfile.onChange(function (profile) {
-          if (!profile) return;
-          fill(profile);
-          setStatus('', false);
+          var user = window.UpskillAuth.getUser();
+          if (!profile) {
+            clearForm(user);
+            return;
+          }
+          if (fill(profile)) setStatus('', false);
         });
-        var user = window.UpskillAuth.getUser();
-        if (user) {
-          window.UpskillProfile.load(user).catch(function () {
-            setStatus('Your profile could not be loaded. Refresh and try again.', false);
-          });
-        }
+        window.UpskillAuth.onChange(loadForUser);
       }
 
       form.addEventListener('submit', function (event) {
         event.preventDefault();
-        submit.disabled = true;
+        var user = window.UpskillAuth && window.UpskillAuth.getUser();
+        if (!user || loadedUserId !== user.id) {
+          setEditable(false);
+          setStatus('Wait for your profile to finish loading before saving.', false);
+          return;
+        }
+        var saveUserId = user.id;
+        var saveRevision = loadRevision;
+        setEditable(false);
         setStatus('Saving\u2026', false);
         window.UpskillProfile.save({
           display_name: name.value,
           timezone: timezone.value || window.UpskillProfile.browserTimezone(),
           newsletter_opt_in: newsletter.checked
         }).then(function () {
-          submit.disabled = false;
+          var currentUser = window.UpskillAuth && window.UpskillAuth.getUser();
+          if (!currentUser || currentUser.id !== saveUserId || loadRevision !== saveRevision) return;
+          setEditable(true);
           setStatus('Your profile is up to date.', true);
         }).catch(function (error) {
-          submit.disabled = false;
+          var currentUser = window.UpskillAuth && window.UpskillAuth.getUser();
+          if (!currentUser || currentUser.id !== saveUserId || loadRevision !== saveRevision) return;
+          setEditable(true);
           setStatus(error && error.message ? error.message : 'Changes could not be saved. Try again.', false);
         });
       });
