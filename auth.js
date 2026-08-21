@@ -212,7 +212,8 @@
 
   function profileDisplayName(user, profile) {
     var metadata = user && user.user_metadata ? user.user_metadata : {};
-    var candidate = profile && profile.display_name;
+    var profileMatchesUser = Boolean(profile && user && profile.user_id === user.id);
+    var candidate = profileMatchesUser ? profile.display_name : '';
     if (!candidate) candidate = metadata.display_name || metadata.full_name || metadata.name;
     candidate = String(candidate || '').replace(/\s+/g, ' ').trim();
     return candidate.length >= 2 ? candidate : 'Learner';
@@ -320,15 +321,23 @@
       }
     });
 
+    var menuUser = getUser();
+    var menuUserId = menuUser ? menuUser.id : null;
     var menuProfile = window.UpskillProfile ? window.UpskillProfile.getCurrent() : null;
-    renderPanel(panel, getUser(), menuProfile);
+    if (!menuProfile || menuProfile.user_id !== menuUserId) menuProfile = null;
+    renderPanel(panel, menuUser, menuProfile);
     window.UpskillAuth.onChange(function (user) {
-      if (!user) menuProfile = null;
+      var nextUserId = user ? user.id : null;
+      if (!nextUserId || nextUserId !== menuUserId) menuProfile = null;
+      menuUserId = nextUserId;
       renderPanel(panel, user, menuProfile);
     });
     document.addEventListener('upskill-profile-change', function (event) {
-      menuProfile = event.detail && event.detail.profile ? event.detail.profile : null;
-      renderPanel(panel, getUser(), menuProfile);
+      var user = getUser();
+      var nextProfile = event.detail && event.detail.profile ? event.detail.profile : null;
+      if (!user || !nextProfile) menuProfile = null;
+      else if (nextProfile.user_id === user.id) menuProfile = nextProfile;
+      renderPanel(panel, user, menuProfile);
     });
 
     container.appendChild(button);

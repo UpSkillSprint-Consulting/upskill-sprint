@@ -166,6 +166,35 @@ test('the mastery reliability block is idempotent (no re-render loop that breaks
   assert.ok(after[0].querySelector('[data-v2-export]') && after[0].querySelector('[data-v2-reset]'), 'export/reset buttons present and stable');
 });
 
+test('reset adaptive data clears both stores and records a signed-in account reset', async () => {
+  const { window } = await load();
+  seedStore(window, questions(window).slice(0, 3), Date.now());
+  window.localStorage.setItem('tb-adaptive-cssbb', JSON.stringify({ attempts: 1, history: [{ at: Date.now() }], subState: {} }));
+  let resetExamId = null;
+  window.UpskillAuth = { getUser: () => ({ id: 'user-1' }) };
+  window.__TBAccountSync = {
+    resetAdaptiveExam(examId) {
+      resetExamId = examId;
+      return Promise.resolve({ changed: false });
+    }
+  };
+  const overview = window.document.getElementById('tb-overview');
+  overview.innerHTML = '<div class="tb-reshead"></div><section id="tb-feedback-loop"><div id="tb-feedback-live"></div></section>';
+  await settle(window, 6);
+  const button = overview.querySelector('[data-v2-reset]');
+  assert.ok(button, 'reset button rendered');
+
+  button.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  assert.equal(button.dataset.confirmReset, 'true');
+  button.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await Promise.resolve();
+
+  const stored = JSON.parse(window.localStorage.getItem('tb-adaptive-mastery-v1'));
+  assert.equal(Object.hasOwn(stored.exams, 'cssbb'), false);
+  assert.equal(window.localStorage.getItem('tb-adaptive-cssbb'), null);
+  assert.equal(resetExamId, 'cssbb');
+});
+
 test('subtopicBreakdown groups attempted questions by subtopic with average mastery', async () => {
   const { window } = await load();
   const qs = questions(window);

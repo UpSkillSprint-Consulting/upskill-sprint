@@ -72,14 +72,30 @@
     var client = getClient();
     var user = getUser();
     if (!client || !user) return Promise.resolve(null);
+    var userId = user.id;
     var row = Object.assign({ user_id: user.id, lesson_slug: PAGE_SLUG }, fields);
     return client.from(TABLE).upsert(row, { onConflict: 'user_id,lesson_slug' })
-      .then(function (result) { return result && !result.error ? row : null; });
+      .then(function (result) {
+        var activeUser = getUser();
+        return result && !result.error && activeUser && activeUser.id === userId ? row : null;
+      });
   }
 
   /* ---------- Lesson page: progress widget ---------- */
 
   var currentRow = null;
+  var currentRowUserId = null;
+  var lessonRequestRevision = 0;
+
+  function currentRowFor(user) {
+    return user && currentRowUserId === user.id ? currentRow : null;
+  }
+
+  function isCurrentLessonRequest(userId, revision) {
+    var activeUser = getUser();
+    return Boolean(activeUser && activeUser.id === userId &&
+      currentRowUserId === userId && lessonRequestRevision === revision);
+  }
 
   function injectWidgetStyles() {
     if (document.getElementById('lesson-progress-styles')) return;
@@ -160,6 +176,7 @@
 
     var container = ensureWidgetContainer();
     var user = getUser();
+    var row = currentRowFor(user);
     container.textContent = '';
 
     var card = document.createElement('div');
@@ -182,7 +199,7 @@
 
     var statusLine = document.createElement('p');
     statusLine.id = 'lesson-progress-status';
-    if (currentRow && currentRow.status === 'completed') {
+    if (row && row.status === 'completed') {
       statusLine.textContent = 'Lesson completed. Nice work.';
     } else {
       statusLine.textContent = 'In progress \u2014 saves to your account automatically.';
@@ -192,8 +209,8 @@
     var quizLine = document.createElement('p');
     quizLine.id = 'lesson-progress-quiz';
     quizLine.className = 'lp-muted';
-    if (currentRow && currentRow.quiz_score != null && currentRow.quiz_total != null) {
-      quizLine.textContent = 'Best quiz score: ' + currentRow.quiz_score + ' of ' + currentRow.quiz_total + '.';
+    if (row && row.quiz_score != null && row.quiz_total != null) {
+      quizLine.textContent = 'Best quiz score: ' + row.quiz_score + ' of ' + row.quiz_total + '.';
     } else {
       quizLine.textContent = 'Take the quiz and your best score will be saved here.';
     }
@@ -204,20 +221,25 @@
     var completeBtn = document.createElement('button');
     completeBtn.type = 'button';
     completeBtn.id = 'lesson-progress-complete';
-    if (currentRow && currentRow.status === 'completed') {
+    if (row && row.status === 'completed') {
       completeBtn.textContent = 'Completed';
       completeBtn.disabled = true;
     } else {
       completeBtn.textContent = 'Mark lesson complete';
+      var actionUserId = user.id;
+      var actionRevision = lessonRequestRevision;
       completeBtn.addEventListener('click', function () {
         completeBtn.disabled = true;
         upsertProgress({
           status: 'completed',
-          quiz_score: currentRow ? currentRow.quiz_score : null,
-          quiz_total: currentRow ? currentRow.quiz_total : null,
+          quiz_score: row ? row.quiz_score : null,
+          quiz_total: row ? row.quiz_total : null,
           updated_at: new Date().toISOString()
         }).then(function (row) {
-          if (row) { currentRow = row; renderWidget(); }
+          if (row && isCurrentLessonRequest(actionUserId, actionRevision)) {
+            currentRow = row;
+            renderWidget();
+          }
           else { completeBtn.disabled = false; }
         });
       });
@@ -230,13 +252,25 @@
   }
 
   function startLessonTracking(user) {
-    if (!user) { currentRow = null; renderWidget(); return; }
+    var revision = ++lessonRequestRevision;
+    var userId = user && user.id;
+    if (!userId) {
+      currentRow = null;
+      currentRowUserId = null;
+      renderWidget();
+      return;
+    }
+    if (currentRowUserId !== userId) currentRow = null;
+    currentRowUserId = userId;
+    renderWidget();
     fetchProgress(PAGE_SLUG).then(function (row) {
+      if (!isCurrentLessonRequest(userId, revision)) return;
       if (row) {
         currentRow = row;
         renderWidget();
       } else {
         upsertProgress({ status: 'in_progress', updated_at: new Date().toISOString() }).then(function (created) {
+          if (!isCurrentLessonRequest(userId, revision)) return;
           currentRow = created || { status: 'in_progress', quiz_score: null, quiz_total: null };
           renderWidget();
         });
@@ -251,28 +285,35 @@
   function saveQuizResult(score, total) {
     score = parseInt(score, 10);
     total = parseInt(total, 10);
-    if (!isLessonPage() || !getUser()) return;
+    var user = getUser();
+    if (!isLessonPage() || !user) return;
     if (isNaN(score) || isNaN(total) || total <= 0 || score < 0 || score > total) return;
+
+    var userId = user.id;
+    var revision = lessonRequestRevision;
+    var row = currentRowFor(user);
 
     var key = score + '/' + total;
     if (key === lastSaved) return;
 
     var bestScore = score;
     var bestTotal = total;
-    if (currentRow && currentRow.quiz_score != null && currentRow.quiz_total === total &&
-        currentRow.quiz_score > score) {
-      bestScore = currentRow.quiz_score;
-      bestTotal = currentRow.quiz_total;
+    if (row && row.quiz_score != null && row.quiz_total === total && row.quiz_score > score) {
+      bestScore = row.quiz_score;
+      bestTotal = row.quiz_total;
     }
     lastSaved = key;
 
     upsertProgress({
-      status: currentRow && currentRow.status === 'completed' ? 'completed' : 'in_progress',
+      status: row && row.status === 'completed' ? 'completed' : 'in_progress',
       quiz_score: bestScore,
       quiz_total: bestTotal,
       updated_at: new Date().toISOString()
-    }).then(function (row) {
-      if (row) { currentRow = row; renderWidget(); }
+    }).then(function (savedRow) {
+      if (savedRow && isCurrentLessonRequest(userId, revision)) {
+        currentRow = savedRow;
+        renderWidget();
+      }
     });
   }
 
@@ -323,6 +364,14 @@
   }
 
   var progressBySlug = null;
+  var progressOwnerId = null;
+  var indexRequestRevision = 0;
+
+  function isCurrentIndexRequest(userId, revision) {
+    var activeUser = getUser();
+    return Boolean(activeUser && activeUser.id === userId &&
+      progressOwnerId === userId && indexRequestRevision === revision);
+  }
 
   function badgeForRow(link) {
     if (!progressBySlug || link.querySelector('.lesson-progress-badge')) return;
@@ -355,10 +404,24 @@
   }
 
   function startIndexBadges(user) {
-    if (!user) { progressBySlug = null; clearBadges(); return; }
+    var revision = ++indexRequestRevision;
+    var userId = user && user.id;
+    if (!userId) {
+      progressOwnerId = null;
+      progressBySlug = null;
+      clearBadges();
+      return;
+    }
+    if (progressOwnerId !== userId) {
+      progressBySlug = null;
+      clearBadges();
+    }
+    progressOwnerId = userId;
     fetchAllProgress().then(function (rows) {
+      if (!isCurrentIndexRequest(userId, revision)) return;
       progressBySlug = {};
       rows.forEach(function (row) { progressBySlug[normalizeSlug(row.lesson_slug)] = row; });
+      clearBadges();
       applyBadges();
     });
 
@@ -391,7 +454,7 @@
       markComplete: function () {
         return upsertProgress({ status: 'completed', updated_at: new Date().toISOString() });
       },
-      getCurrent: function () { return currentRow; }
+      getCurrent: function () { return currentRowFor(getUser()); }
     };
   }
 
