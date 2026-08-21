@@ -981,3 +981,35 @@ test('distinct no-ID records survive even when their former 32-bit identities co
   assert.deepEqual(Array.from(result.attempts, item => item.status), ['legacy-19150', 'legacy-69939']);
   dom.window.close();
 });
+
+test('reserved JSON record keys remain own data properties instead of mutating merge-map prototypes', () => {
+  const dom = load(), mergePayloads = dom.window.__TBAccountSync.mergePayloads;
+  const ordinary = { schemaVersion: 2, values: {
+    'tb-attempt-feedback-v2': { attempts: { normal: { id: 'normal', updatedAt: 1 } } },
+    'tb-adaptive-mastery-v1': { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: {} } } },
+    'tb-adaptive-cssbb': { attempts: [{ id: 'normal' }], lastReadiness: 1 }
+  } };
+  const reserved = JSON.parse('{"schemaVersion":2,"values":{' +
+    '"tb-attempt-feedback-v2":{"attempts":{"__proto__":{"id":"__proto__","updatedAt":5,"errors":{"__proto__":"classification"}}}},' +
+    '"tb-adaptive-mastery-v1":{"version":1,"exams":{"__proto__":{"attempts":[],"sessions":[],"questions":{"__proto__":{"history":[],"lastSeenAt":0}}}}},' +
+    '"tb-adaptive-cssbb":{"attempts":[{"id":"reserved"}],"lastReadiness":2,"__proto__":{"polluted":true}}' +
+  '}}');
+
+  const result = mergePayloads([ordinary, reserved]).values;
+  const attempts = result['tb-attempt-feedback-v2'].attempts;
+  assert.equal(Object.prototype.hasOwnProperty.call(attempts, '__proto__'), true);
+  assert.equal(Object.getPrototypeOf(attempts).id, undefined);
+  assert.equal(Object.prototype.hasOwnProperty.call(attempts.__proto__.errors, '__proto__'), true);
+  assert.equal(attempts.__proto__.errors.__proto__, 'classification');
+
+  const exams = result['tb-adaptive-mastery-v1'].exams;
+  assert.equal(Object.prototype.hasOwnProperty.call(exams, '__proto__'), true);
+  assert.equal(Object.getPrototypeOf(exams).questions, undefined);
+  assert.equal(Object.prototype.hasOwnProperty.call(exams.__proto__.questions, '__proto__'), true);
+
+  const legacy = result['tb-adaptive-cssbb'];
+  assert.equal(Object.prototype.hasOwnProperty.call(legacy, '__proto__'), true);
+  assert.equal(Object.getPrototypeOf(legacy).polluted, undefined);
+  assert.equal(legacy.__proto__.polluted, true);
+  dom.window.close();
+});

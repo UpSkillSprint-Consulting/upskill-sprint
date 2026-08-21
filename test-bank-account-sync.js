@@ -16,6 +16,10 @@
   let pendingProgressRefresh = false, progressRefreshObserver = null;
 
   function clone(v) { return v == null ? v : JSON.parse(JSON.stringify(v)); }
+  function setOwn(target, key, value) {
+    Object.defineProperty(target, String(key), { value, enumerable: true, configurable: true, writable: true });
+    return value;
+  }
   function asArray(value) { return Array.isArray(value) ? value : []; }
   function isRecord(value) { return Boolean(value && typeof value === 'object' && !Array.isArray(value)); }
   function asRecord(value) { return isRecord(value) ? value : {}; }
@@ -84,20 +88,20 @@
     new Set(Object.keys(leftItem).concat(Object.keys(rightItem))).forEach(key => {
       const leftHas = Object.prototype.hasOwnProperty.call(leftItem, key);
       const rightHas = Object.prototype.hasOwnProperty.call(rightItem, key);
-      if (!leftHas) { output[key] = clone(rightItem[key]); return; }
-      if (!rightHas) { output[key] = clone(leftItem[key]); return; }
+      if (!leftHas) { setOwn(output, key, clone(rightItem[key])); return; }
+      if (!rightHas) { setOwn(output, key, clone(leftItem[key])); return; }
       if (!mapFields[key]) {
-        output[key] = clone(stable(rightItem[key]) > stable(leftItem[key]) ? rightItem[key] : leftItem[key]);
+        setOwn(output, key, clone(stable(rightItem[key]) > stable(leftItem[key]) ? rightItem[key] : leftItem[key]));
         return;
       }
-      output[key] = {};
+      const outputMap = setOwn(output, key, {});
       const leftMap = asRecord(leftItem[key]), rightMap = asRecord(rightItem[key]);
       new Set(Object.keys(leftMap).concat(Object.keys(rightMap))).forEach(mapKey => {
         const leftMapHas = Object.prototype.hasOwnProperty.call(leftMap, mapKey);
         const rightMapHas = Object.prototype.hasOwnProperty.call(rightMap, mapKey);
-        if (!leftMapHas) output[key][mapKey] = clone(rightMap[mapKey]);
-        else if (!rightMapHas) output[key][mapKey] = clone(leftMap[mapKey]);
-        else output[key][mapKey] = clone(stable(rightMap[mapKey]) > stable(leftMap[mapKey]) ? rightMap[mapKey] : leftMap[mapKey]);
+        if (!leftMapHas) setOwn(outputMap, mapKey, clone(rightMap[mapKey]));
+        else if (!rightMapHas) setOwn(outputMap, mapKey, clone(leftMap[mapKey]));
+        else setOwn(outputMap, mapKey, clone(stable(rightMap[mapKey]) > stable(leftMap[mapKey]) ? rightMap[mapKey] : leftMap[mapKey]));
       });
     });
     return output;
@@ -166,7 +170,7 @@
       const component = normalizeMasteryComponent(devices[device]);
       component.streamId = component.streamId || device;
       component.deviceId = component.deviceId || device;
-      if (component.attempts || component.sequence) normalizedDevices[device] = component;
+      if (component.attempts || component.sequence) setOwn(normalizedDevices, device, component);
     });
     const components = [normalizedLegacy].concat(Object.keys(normalizedDevices).map(device => normalizedDevices[device]));
     let attempts = 0, correct = 0, incorrect = 0, unanswered = 0, firstSeenAt = 0, unknownFirstSeen = false;
@@ -234,7 +238,7 @@
         component.streamId = stream;
         component.resetAt = Math.max(component.resetAt, Number(entry && entry.resetAt || 0));
         component.sequence = sequence;
-        devices[stream] = component;
+        setOwn(devices, stream, component);
       } else {
         const identity = entry && entry.id ? 'id:' + entry.id : 'value:' + hash(stable(entry));
         if (foldedIds.indexOf(identity) !== -1) return;
@@ -262,7 +266,7 @@
     const left = normalizeMasteryBaseline(a), right = normalizeMasteryBaseline(b);
     const devices = {};
     new Set(Object.keys(left.devices || {}).concat(Object.keys(right.devices || {}))).forEach(device => {
-      devices[device] = componentWins(left.devices && left.devices[device], right.devices && right.devices[device]);
+      setOwn(devices, device, componentWins(left.devices && left.devices[device], right.devices && right.devices[device]));
     });
     return assembleMasteryBaseline(
       componentWins(left.legacy, right.legacy),
@@ -375,7 +379,7 @@
     };
     const metadata = {};
     Object.keys(value && typeof value === 'object' ? value : {}).forEach(key => {
-      if (!derived[key]) metadata[key] = value[key];
+      if (!derived[key]) setOwn(metadata, key, value[key]);
     });
     return stable(metadata);
   }
@@ -401,9 +405,9 @@
       const leftQuestions = asRecord(left.questions), rightQuestions = asRecord(right.questions);
       new Set(Object.keys(leftQuestions).concat(Object.keys(rightQuestions))).forEach(q => {
         const leftQuestion = leftQuestions[q], rightQuestion = rightQuestions[q];
-        if (isRecord(leftQuestion) || isRecord(rightQuestion)) exam.questions[q] = mergeQuestion(leftQuestion, rightQuestion);
+        if (isRecord(leftQuestion) || isRecord(rightQuestion)) setOwn(exam.questions, q, mergeQuestion(leftQuestion, rightQuestion));
       });
-      output.exams[id] = exam;
+      setOwn(output.exams, id, exam);
     });
     return output;
   }
@@ -415,7 +419,7 @@
     const devices = {};
     Object.keys(existing.devices || {}).forEach(device => {
       const component = existing.devices[device];
-      if (component.attempts && (component.resetAt >= resetAt || component.firstSeenAt > resetAt)) devices[device] = component;
+      if (component.attempts && (component.resetAt >= resetAt || component.firstSeenAt > resetAt)) setOwn(devices, device, component);
     });
     const allComponentsKept = legacy.attempts === existing.legacy.attempts && Object.keys(devices).length === Object.keys(existing.devices || {}).length;
     return assembleMasteryBaseline(legacy, devices, allComponentsKept ? existing.foldedIds : []);
@@ -455,7 +459,7 @@
     };
     Object.keys(source.questions || {}).forEach(questionId => {
       const state = filterQuestionAfterReset(source.questions[questionId], resetAt);
-      if (state) output.questions[questionId] = state;
+      if (state) setOwn(output.questions, questionId, state);
     });
     return output;
   }
@@ -468,7 +472,7 @@
     output.history = asArray(value.history).filter(item => timeValue(item && item.at) > resetAt);
     output.subState = {};
     Object.keys(value.subState || {}).forEach(subId => {
-      if (timeValue(value.subState[subId] && value.subState[subId].at) > resetAt) output.subState[subId] = clone(value.subState[subId]);
+      if (timeValue(value.subState[subId] && value.subState[subId].at) > resetAt) setOwn(output.subState, subId, clone(value.subState[subId]));
     });
     if (!output.history.length && !Object.keys(output.subState).length) return null;
     output.attempts = output.history.length;
@@ -484,7 +488,7 @@
       const mastery = payload.values[MASTER_KEY];
       if (mastery && mastery.exams && mastery.exams[examId]) {
         const filtered = filterMasteryExamAfterReset(mastery.exams[examId], resetAt);
-        if (hasMasteryData(filtered)) mastery.exams[examId] = filtered;
+        if (hasMasteryData(filtered)) setOwn(mastery.exams, examId, filtered);
         else delete mastery.exams[examId];
       }
       const legacyKey = 'tb-adaptive-' + examId;
@@ -501,16 +505,16 @@
     const output = { attempts: {} };
     new Set(Object.keys(left).concat(Object.keys(right))).forEach(key => {
       if (key === 'attempts') return;
-      if (!Object.prototype.hasOwnProperty.call(left, key)) output[key] = clone(right[key]);
-      else if (!Object.prototype.hasOwnProperty.call(right, key)) output[key] = clone(left[key]);
-      else output[key] = clone(stable(right[key]) > stable(left[key]) ? right[key] : left[key]);
+      if (!Object.prototype.hasOwnProperty.call(left, key)) setOwn(output, key, clone(right[key]));
+      else if (!Object.prototype.hasOwnProperty.call(right, key)) setOwn(output, key, clone(left[key]));
+      else setOwn(output, key, clone(stable(right[key]) > stable(left[key]) ? right[key] : left[key]));
     });
     const leftAttempts = left.attempts && typeof left.attempts === 'object' ? left.attempts : {};
     const rightAttempts = right.attempts && typeof right.attempts === 'object' ? right.attempts : {};
     Array.from(new Set(Object.keys(leftAttempts).concat(Object.keys(rightAttempts)))).sort().forEach(id => {
-      if (!Object.prototype.hasOwnProperty.call(leftAttempts, id)) output.attempts[id] = clone(rightAttempts[id]);
-      else if (!Object.prototype.hasOwnProperty.call(rightAttempts, id)) output.attempts[id] = clone(leftAttempts[id]);
-      else output.attempts[id] = mergeIdentifiedItem(leftAttempts[id], rightAttempts[id]);
+      if (!Object.prototype.hasOwnProperty.call(leftAttempts, id)) setOwn(output.attempts, id, clone(rightAttempts[id]));
+      else if (!Object.prototype.hasOwnProperty.call(rightAttempts, id)) setOwn(output.attempts, id, clone(leftAttempts[id]));
+      else setOwn(output.attempts, id, mergeIdentifiedItem(leftAttempts[id], rightAttempts[id]));
     });
     return output;
   }
@@ -531,7 +535,11 @@
     if (key === 'tb-attempt-feedback-v2') return mergeAttemptFeedback(a, b);
     if (a && b && Array.isArray(a.attempts) && Array.isArray(b.attempts)) {
       const preferred = preferredSnapshot(a, b), older = preferred === b ? a : b;
-      return Object.assign({}, clone(older), clone(preferred), { attempts: mergeArray(a.attempts, b.attempts) });
+      const output = {};
+      Object.keys(asRecord(older)).forEach(field => setOwn(output, field, clone(older[field])));
+      Object.keys(asRecord(preferred)).forEach(field => setOwn(output, field, clone(preferred[field])));
+      setOwn(output, 'attempts', mergeArray(a.attempts, b.attempts));
+      return output;
     }
     return clone(preferredSnapshot(a, b));
   }
