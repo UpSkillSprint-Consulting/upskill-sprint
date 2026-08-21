@@ -4,6 +4,9 @@
   const OVERVIEW_ID = 'tb-overview';
   const FEEDBACK_ID = 'tb-feedback-loop';
   const STORE_KEY = 'tb-adaptive-mastery-v1';
+  const DEVICE_KEY = 'tb-account-sync-device-v1';
+  const RESET_KEY = 'tb-account-sync-resets-v1';
+  const MASTERY_RESET_PREFIX = 'mastery-exam:';
   const STYLE_ID = 'tb-adaptive-mastery-styles';
   const DAY = 86400000;
   const MASTERY_THRESHOLD = 80;
@@ -42,9 +45,23 @@
 
   function now() { return Date.now(); }
 
-  function eventId(timestamp) {
-    const random = window.crypto && window.crypto.randomUUID ? window.crypto.randomUUID() : Math.random().toString(36).slice(2, 12);
-    return 'mastery-' + Number(timestamp || now()).toString(36) + '-' + random;
+  function syncDeviceId() {
+    let id = localStorage.getItem(DEVICE_KEY);
+    if (!id) {
+      id = window.crypto && window.crypto.randomUUID ? window.crypto.randomUUID() : 'device-' + now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
+      localStorage.setItem(DEVICE_KEY, id);
+    }
+    return id;
+  }
+
+  function currentResetAt() {
+    try {
+      const markers = JSON.parse(localStorage.getItem(RESET_KEY) || '{}');
+      const value = Number(markers && markers[MASTERY_RESET_PREFIX + examId()] || 0);
+      return Number.isFinite(value) && value > 0 ? value : 0;
+    } catch (error) {
+      return 0;
+    }
   }
 
   function examId() {
@@ -128,13 +145,17 @@
     return String(left && left.id || '').localeCompare(String(right && right.id || ''));
   }
 
-  function emptyMasteryBaseline() {
-    return { at: 0, firstSeenAt: 0, attempts: 0, correct: 0, incorrect: 0, unanswered: 0, streak: 0, lastSeenAt: 0, lastStatus: 'new' };
+  function emptyMasteryComponent() {
+    return { deviceId: '', streamId: '', resetAt: 0, sequence: 0, at: 0, firstSeenAt: 0, attempts: 0, correct: 0, incorrect: 0, unanswered: 0, streak: 0, lastSeenAt: 0, lastStatus: 'new' };
   }
 
-  function normalizeMasteryBaseline(value) {
+  function normalizeMasteryComponent(value) {
     const source = value && typeof value === 'object' ? value : {};
     return {
+      deviceId: source.deviceId ? String(source.deviceId) : '',
+      streamId: source.streamId ? String(source.streamId) : '',
+      resetAt: Number(source.resetAt || 0),
+      sequence: count(source.sequence),
       at: Number(source.at || source.lastSeenAt || 0),
       firstSeenAt: Number(source.firstSeenAt || 0),
       attempts: count(source.attempts),
@@ -147,8 +168,53 @@
     };
   }
 
+  function assembleMasteryBaseline(legacy, devices, foldedIds) {
+    const normalizedLegacy = normalizeMasteryComponent(legacy);
+    const normalizedDevices = {};
+    Object.keys(devices && typeof devices === 'object' ? devices : {}).sort().forEach(function (device) {
+      const component = normalizeMasteryComponent(devices[device]);
+      component.streamId = component.streamId || device;
+      component.deviceId = component.deviceId || device;
+      if (component.attempts || component.sequence) normalizedDevices[device] = component;
+    });
+    const keys = ['legacy'].concat(Object.keys(normalizedDevices));
+    let attempts = 0, correct = 0, incorrect = 0, unanswered = 0, firstSeenAt = 0, unknownFirstSeen = false;
+    let latest = emptyMasteryComponent(), latestKey = '';
+    keys.forEach(function (key) {
+      const component = key === 'legacy' ? normalizedLegacy : normalizedDevices[key];
+      attempts += component.attempts; correct += component.correct; incorrect += component.incorrect; unanswered += component.unanswered;
+      if (component.attempts && !component.firstSeenAt) unknownFirstSeen = true;
+      else if (component.firstSeenAt && (!firstSeenAt || component.firstSeenAt < firstSeenAt)) firstSeenAt = component.firstSeenAt;
+      if (component.lastSeenAt > latest.lastSeenAt || (component.lastSeenAt === latest.lastSeenAt && key > latestKey)) { latest = component; latestKey = key; }
+    });
+    return {
+      at: latest.lastSeenAt,
+      firstSeenAt: unknownFirstSeen ? 0 : firstSeenAt,
+      attempts: attempts,
+      correct: correct,
+      incorrect: incorrect,
+      unanswered: unanswered,
+      streak: latest.streak,
+      lastSeenAt: latest.lastSeenAt,
+      lastStatus: latest.lastStatus,
+      legacy: normalizedLegacy,
+      devices: normalizedDevices,
+      foldedIds: Array.from(new Set((foldedIds || []).map(String))).slice(-MASTERY_EVIDENCE_LIMIT)
+    };
+  }
+
+  function emptyMasteryBaseline() {
+    return assembleMasteryBaseline(emptyMasteryComponent(), {}, []);
+  }
+
+  function normalizeMasteryBaseline(value) {
+    const source = value && typeof value === 'object' ? value : {};
+    if (source.legacy || source.devices) return assembleMasteryBaseline(source.legacy, source.devices, source.foldedIds);
+    return assembleMasteryBaseline(source, {}, source.foldedIds);
+  }
+
   function legacyMasteryBaseline(state) {
-    return normalizeMasteryBaseline({
+    const legacy = normalizeMasteryComponent({
       at: state.lastSeenAt,
       /* Legacy aggregates can include events no longer present in the notebook
          archive, so their true first observation is intentionally unknown. */
@@ -161,32 +227,99 @@
       lastSeenAt: state.lastSeenAt,
       lastStatus: state.lastStatus
     });
+    return assembleMasteryBaseline(legacy, {}, []);
   }
 
   function foldEvidenceIntoBaseline(baseline, entries) {
-    const output = normalizeMasteryBaseline(baseline);
+    const normalized = normalizeMasteryBaseline(baseline);
+    const legacy = normalizeMasteryComponent(normalized.legacy);
+    const devices = {};
+    Object.keys(normalized.devices || {}).forEach(function (device) { devices[device] = normalizeMasteryComponent(normalized.devices[device]); });
+    const foldedIds = (normalized.foldedIds || []).slice();
     (entries || []).forEach(function (entry) {
       const timestamp = Number(entry && entry.at || 0);
-      output.attempts += 1;
-      if (entry.status === 'correct') output.correct += 1;
-      else if (entry.status === 'unanswered') output.unanswered += 1;
-      else output.incorrect += 1;
-      output.streak = entry.status === 'correct' ? output.streak + 1 : 0;
-      if (!output.firstSeenAt || (timestamp && timestamp < output.firstSeenAt)) output.firstSeenAt = timestamp;
-      if (timestamp >= output.lastSeenAt) {
-        output.lastSeenAt = timestamp;
-        output.lastStatus = entry.status || output.lastStatus;
+      const device = entry && entry.deviceId ? String(entry.deviceId) : '';
+      const stream = entry && entry.streamId ? String(entry.streamId) : device;
+      const sequence = count(entry && entry.sequence);
+      let component = legacy;
+      if (stream && sequence) {
+        component = normalizeMasteryComponent(devices[stream]);
+        if (sequence <= component.sequence) return;
+        component.deviceId = device || component.deviceId;
+        component.streamId = stream;
+        component.resetAt = Math.max(component.resetAt, Number(entry && entry.resetAt || 0));
+        component.sequence = sequence;
+        devices[stream] = component;
+      } else {
+        const identity = entry && entry.id ? 'id:' + entry.id : 'value:' + hash(JSON.stringify(entry));
+        if (foldedIds.indexOf(identity) !== -1) return;
+        foldedIds.push(identity);
       }
-      output.at = Math.max(output.at, timestamp);
+      component.attempts += 1;
+      if (entry.status === 'correct') component.correct += 1;
+      else if (entry.status === 'unanswered') component.unanswered += 1;
+      else component.incorrect += 1;
+      component.streak = entry.status === 'correct' ? component.streak + 1 : 0;
+      if (!component.firstSeenAt || (timestamp && timestamp < component.firstSeenAt)) component.firstSeenAt = timestamp;
+      if (timestamp >= component.lastSeenAt) { component.lastSeenAt = timestamp; component.lastStatus = entry.status || component.lastStatus; }
+      component.at = Math.max(component.at, timestamp);
     });
-    return output;
+    return assembleMasteryBaseline(legacy, devices, foldedIds);
+  }
+
+  function evidenceAlreadyFolded(baseline, entry) {
+    const normalized = normalizeMasteryBaseline(baseline);
+    const device = entry && entry.deviceId ? String(entry.deviceId) : '';
+    const stream = entry && entry.streamId ? String(entry.streamId) : device;
+    const sequence = count(entry && entry.sequence);
+    if (stream && sequence) return sequence <= count(normalized.devices[stream] && normalized.devices[stream].sequence);
+    const identity = entry && entry.id ? 'id:' + entry.id : 'value:' + hash(JSON.stringify(entry));
+    return (normalized.foldedIds || []).indexOf(identity) !== -1;
+  }
+
+  function partitionMasteryEvidence(history, overflowCount) {
+    const grouped = {};
+    (history || []).forEach(function (entry) {
+      const device = entry && entry.deviceId ? String(entry.deviceId) : '';
+      const stream = entry && entry.streamId ? String(entry.streamId) : device;
+      const sequence = count(entry && entry.sequence);
+      const key = stream && sequence ? 'stream:' + stream : 'legacy';
+      grouped[key] = grouped[key] || [];
+      grouped[key].push(entry);
+    });
+    const groups = Object.keys(grouped).sort().map(function (key) {
+      const isDevice = key.indexOf('stream:') === 0;
+      const items = grouped[key].slice().sort(function (left, right) {
+        if (isDevice) {
+          const sequence = count(left && left.sequence) - count(right && right.sequence);
+          if (sequence) return sequence;
+        }
+        return evidenceOrder(left, right);
+      });
+      return { items: items, index: 0 };
+    });
+    const overflow = [];
+    while (overflow.length < overflowCount) {
+      let chosen = null;
+      groups.forEach(function (group) {
+        const candidate = group.items[group.index];
+        if (candidate && (!chosen || evidenceOrder(candidate, chosen.item) < 0)) chosen = { group: group, item: candidate };
+      });
+      if (!chosen) break;
+      overflow.push(chosen.item);
+      chosen.group.index += 1;
+    }
+    const retained = [];
+    groups.forEach(function (group) { retained.push.apply(retained, group.items.slice(group.index)); });
+    return { overflow: overflow, retained: retained.sort(evidenceOrder) };
   }
 
   function compactMasteryEvidence(baseline, history) {
-    const sorted = (history || []).slice().sort(evidenceOrder);
-    if (sorted.length <= MASTERY_EVIDENCE_LIMIT) return { baseline: normalizeMasteryBaseline(baseline), history: sorted };
-    const overflow = sorted.slice(0, sorted.length - MASTERY_EVIDENCE_LIMIT);
-    return { baseline: foldEvidenceIntoBaseline(baseline, overflow), history: sorted.slice(-MASTERY_EVIDENCE_LIMIT) };
+    const normalized = normalizeMasteryBaseline(baseline);
+    const sorted = (history || []).filter(function (entry) { return !evidenceAlreadyFolded(normalized, entry); }).slice().sort(evidenceOrder);
+    if (sorted.length <= MASTERY_EVIDENCE_LIMIT) return { baseline: normalized, history: sorted };
+    const partitioned = partitionMasteryEvidence(sorted, sorted.length - MASTERY_EVIDENCE_LIMIT);
+    return { baseline: foldEvidenceIntoBaseline(normalized, partitioned.overflow), history: partitioned.retained };
   }
 
   function ensureMasteryEvidence(state) {
@@ -194,6 +327,33 @@
       return compactMasteryEvidence(state.masteryBaseline, state.masteryHistory);
     }
     return { baseline: legacyMasteryBaseline(state), history: [] };
+  }
+
+  function nextEvidenceIdentity(state) {
+    const device = syncDeviceId();
+    const resetAt = currentResetAt();
+    const baseline = normalizeMasteryBaseline(state.masteryBaseline);
+    let stream = '', latestAt = -1;
+    Object.keys(baseline.devices || {}).forEach(function (key) {
+      const component = baseline.devices[key];
+      if (component.deviceId === device && component.resetAt === resetAt && component.lastSeenAt >= latestAt) { stream = key; latestAt = component.lastSeenAt; }
+    });
+    (state.masteryHistory || []).forEach(function (entry) {
+      if (String(entry && entry.deviceId || '') === device && Number(entry && entry.resetAt || 0) === resetAt && Number(entry.at || 0) >= latestAt) {
+        stream = String(entry.streamId || entry.deviceId);
+        latestAt = Number(entry.at || 0);
+      }
+    });
+    if (!stream) {
+      const random = window.crypto && window.crypto.randomUUID ? window.crypto.randomUUID() : now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
+      stream = device + '-' + random;
+    }
+    let sequence = count(baseline.devices[stream] && baseline.devices[stream].sequence);
+    (state.masteryHistory || []).forEach(function (entry) {
+      if (String(entry && (entry.streamId || entry.deviceId) || '') === stream) sequence = Math.max(sequence, count(entry.sequence));
+    });
+    sequence += 1;
+    return { id: 'mastery-' + stream + '-' + sequence, deviceId: device, streamId: stream, resetAt: resetAt, sequence: sequence };
   }
 
   function rebuildMasteryState(state, timestamp) {
@@ -274,9 +434,14 @@
     state.masteryHistory = canonical.history;
     rebuildMasteryState(state, timestamp);
     const priorAttempts = state.attempts;
+    const identity = nextEvidenceIdentity(state);
     nextSchedule(state, status, timestamp);
     const entry = {
-      id: eventId(timestamp),
+      id: identity.id,
+      deviceId: identity.deviceId,
+      streamId: identity.streamId,
+      resetAt: identity.resetAt,
+      sequence: identity.sequence,
       at: timestamp,
       status: status,
       selected: selected,
@@ -297,7 +462,7 @@
     const store = readStore();
     const data = examStore(store);
     const attemptId = examId() + '-' + timestamp.toString(36) + '-' + Math.random().toString(36).slice(2, 7);
-    const summary = { id: attemptId, at: timestamp, source: source, total: records.length, correct: 0, repeated: 0, newQuestions: 0 };
+    const summary = { id: attemptId, at: timestamp, resetAt: currentResetAt(), source: source, total: records.length, correct: 0, repeated: 0, newQuestions: 0 };
 
     records.forEach(function (record) {
       const question = record.question;

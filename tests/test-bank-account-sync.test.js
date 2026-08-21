@@ -155,6 +155,107 @@ test('canonical mastery evidence merges concurrent device answers once and remai
   assert.equal(second.masteryHistory.length, 2);
   dom.window.close();
 });
+test('an offline older answer survives after another device compacts its mastery evidence', () => {
+  const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
+  const retained = [];
+  for (let at = 101; at <= 600; at += 1) {
+    retained.push({ id: 'device-a-' + at, deviceId: 'device-a', sequence: at, at, status: at % 2 ? 'correct' : 'incorrect' });
+  }
+  const compacted = {
+    version: 1,
+    exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+      masteryBaseline: {
+        at: 100, firstSeenAt: 1, attempts: 100, correct: 50, incorrect: 50, unanswered: 0,
+        streak: 0, lastSeenAt: 100, lastStatus: 'incorrect',
+        legacy: { at: 0, firstSeenAt: 0, attempts: 0, correct: 0, incorrect: 0, unanswered: 0, streak: 0, lastSeenAt: 0, lastStatus: 'new' },
+        devices: {
+          'device-a': { sequence: 100, at: 100, firstSeenAt: 1, attempts: 100, correct: 50, incorrect: 50, unanswered: 0, streak: 0, lastSeenAt: 100, lastStatus: 'incorrect' }
+        }
+      },
+      masteryHistory: retained,
+      history: retained,
+      lastSeenAt: 600
+    } } } }
+  };
+  const offlineEvent = { id: 'device-b-1', deviceId: 'device-b', sequence: 1, at: 50, status: 'incorrect' };
+  const offline = {
+    version: 1,
+    exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+      masteryBaseline: { at: 0, firstSeenAt: 0, attempts: 0, correct: 0, incorrect: 0, unanswered: 0, streak: 0, lastSeenAt: 0, lastStatus: 'new', legacy: {}, devices: {} },
+      masteryHistory: [offlineEvent], history: [offlineEvent], lastSeenAt: 50
+    } } } }
+  };
+
+  const state = merge(compacted, offline).exams.cssbb.questions.q1;
+
+  assert.equal(state.attempts, 601, 'the compacted aggregate and the previously unseen offline event are both counted');
+  assert.equal(state.correct, 300);
+  assert.equal(state.incorrect, 301);
+  assert.equal(state.masteryBaseline.devices['device-b'].sequence, 1, 'the offline answer is compacted into its own device component, not discarded');
+  dom.window.close();
+});
+test('compacted per-device components merge without dropping or double-counting evidence', () => {
+  const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
+  function component(sequence, correct, incorrect, lastSeenAt) {
+    return { sequence, at: lastSeenAt, firstSeenAt: 1, attempts: correct + incorrect, correct, incorrect, unanswered: 0, streak: 0, lastSeenAt, lastStatus: 'incorrect' };
+  }
+  function payload(devices, history) {
+    return { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+      masteryBaseline: { legacy: {}, devices }, masteryHistory: history || [], history: history || [], lastSeenAt: 500
+    } } } } };
+  }
+  const left = payload({ 'device-a': component(100, 50, 50, 100) });
+  const right = payload({ 'device-b': component(80, 40, 40, 80) });
+  const merged = merge(left, right).exams.cssbb.questions.q1;
+  assert.equal(merged.attempts, 180);
+  assert.equal(merged.correct, 90);
+  assert.equal(merged.incorrect, 90);
+  assert.deepEqual(Object.keys(merged.masteryBaseline.devices), ['device-a', 'device-b']);
+
+  const alreadyFolded = { id: 'device-a-100', deviceId: 'device-a', sequence: 100, at: 100, status: 'incorrect' };
+  const duplicate = merge(left, payload({}, [alreadyFolded])).exams.cssbb.questions.q1;
+  assert.equal(duplicate.attempts, 100, 'an event at or below a device watermark is already represented in that component');
+  assert.equal(duplicate.masteryHistory.length, 0);
+  dom.window.close();
+});
+test('three 700-answer devices converge under different merge orders and repeated syncs', () => {
+  const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
+  function status(sequence) { return sequence % 3 === 0 ? 'correct' : sequence % 3 === 1 ? 'incorrect' : 'unanswered'; }
+  function devicePayload(device, timestampFor) {
+    const counts = { correct: 0, incorrect: 0, unanswered: 0 };
+    for (let sequence = 1; sequence <= 200; sequence += 1) counts[status(sequence)] += 1;
+    const component = {
+      sequence: 200, at: timestampFor(200), firstSeenAt: Math.min(timestampFor(1), timestampFor(200)), attempts: 200,
+      correct: counts.correct, incorrect: counts.incorrect, unanswered: counts.unanswered,
+      streak: 0, lastSeenAt: timestampFor(200), lastStatus: status(200)
+    };
+    const history = [];
+    for (let sequence = 201; sequence <= 700; sequence += 1) {
+      history.push({ id: device + '-' + sequence, deviceId: device, sequence, at: timestampFor(sequence), status: status(sequence), priorAttempts: sequence - 1 });
+    }
+    return { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+      masteryBaseline: { legacy: {}, devices: { [device]: component } }, masteryHistory: history, history, lastSeenAt: timestampFor(700)
+    } } } } };
+  }
+  const a = devicePayload('device-a', sequence => 1000 + sequence);
+  const b = devicePayload('device-b', sequence => 4000 - sequence);
+  const c = devicePayload('device-c', sequence => 7000 + sequence);
+  const leftFirst = merge(merge(a, b), c);
+  const rightFirst = merge(a, merge(b, c));
+  for (const value of [leftFirst, rightFirst]) {
+    const state = value.exams.cssbb.questions.q1;
+    assert.equal(state.attempts, 2100);
+    assert.equal(state.correct, 699);
+    assert.equal(state.incorrect, 702);
+    assert.equal(state.unanswered, 699);
+    assert.equal(state.masteryHistory.length, 500);
+  }
+  let repeated = leftFirst;
+  for (let index = 0; index < 25; index += 1) repeated = merge(repeated, [a, b, c][index % 3]);
+  assert.equal(repeated.exams.cssbb.questions.q1.attempts, 2100);
+  assert.equal(repeated.exams.cssbb.questions.q1.masteryHistory.length, 500);
+  dom.window.close();
+});
 test('merging two devices retains every incorrect attempt in a question history, not just the most recent 30', () => {
   const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
   const leftHistory = [];
@@ -294,6 +395,101 @@ test('a reset discards an indivisible pre-reset baseline and rebuilds only from 
   assert.equal(state.attempts, 1);
   assert.equal(state.correct, 1);
   assert.equal(state.incorrect, 0);
+  dom.window.close();
+});
+
+test('a reset keeps only compacted device components created entirely after the reset', () => {
+  const dom = load();
+  const result = dom.window.__TBAccountSync.mergePayloads([{
+    schemaVersion: 2,
+    resets: { 'mastery-exam:cssbb': 250 },
+    values: {
+      'tb-adaptive-mastery-v1': {
+        version: 1,
+        exams: { cssbb: { attempts: [], sessions: [], questions: { q1: {
+          attempts: 25, correct: 15, incorrect: 10, unanswered: 0, lastSeenAt: 400,
+          masteryBaseline: {
+            legacy: { at: 100, firstSeenAt: 0, attempts: 20, correct: 12, incorrect: 8, unanswered: 0, streak: 0, lastSeenAt: 100, lastStatus: 'incorrect' },
+            devices: {
+              'device-a': { sequence: 5, at: 400, firstSeenAt: 300, attempts: 5, correct: 3, incorrect: 2, unanswered: 0, streak: 0, lastSeenAt: 400, lastStatus: 'incorrect' }
+            }
+          },
+          masteryHistory: [], history: []
+        } } } }
+      }
+    }
+  }]);
+  const state = result.values['tb-adaptive-mastery-v1'].exams.cssbb.questions.q1;
+  assert.equal(state.attempts, 5);
+  assert.equal(state.correct, 3);
+  assert.equal(state.incorrect, 2);
+  assert.equal(Object.hasOwn(state.masteryBaseline.devices, 'device-a'), true);
+  assert.equal(state.masteryBaseline.legacy.attempts, 0);
+  dom.window.close();
+});
+
+test('a post-reset answer from the same browser is not suppressed by its stale pre-reset watermark', () => {
+  const dom = load();
+  const postResetEvents = [];
+  for (let sequence = 1; sequence <= 50; sequence += 1) {
+    postResetEvents.push({
+      id: 'new-stream-' + sequence, deviceId: 'device-a', streamId: 'stream-after-reset', sequence,
+      at: 300 + sequence, status: 'correct'
+    });
+  }
+  const result = dom.window.__TBAccountSync.mergePayloads([
+    {
+      schemaVersion: 2,
+      resets: { 'mastery-exam:cssbb': 250 },
+      values: { 'tb-adaptive-mastery-v1': { version: 1, exams: { cssbb: {
+        attempts: [], sessions: [], questions: { q1: {
+          masteryBaseline: { legacy: {}, devices: {} }, masteryHistory: postResetEvents, history: postResetEvents, lastSeenAt: 350
+        } }
+      } } } }
+    },
+    {
+      schemaVersion: 1,
+      values: { 'tb-adaptive-mastery-v1': { version: 1, exams: { cssbb: {
+        attempts: [], sessions: [], questions: { q1: {
+          attempts: 100, correct: 50, incorrect: 50, unanswered: 0, lastSeenAt: 200,
+          masteryBaseline: {
+            legacy: {},
+            devices: {
+              'device-a': { deviceId: 'device-a', streamId: 'device-a', sequence: 100, at: 200, firstSeenAt: 1, attempts: 100, correct: 50, incorrect: 50, unanswered: 0, streak: 0, lastSeenAt: 200, lastStatus: 'incorrect' }
+            }
+          },
+          masteryHistory: [], history: []
+        } }
+      } } } }
+    }
+  ]);
+  const state = result.values['tb-adaptive-mastery-v1'].exams.cssbb.questions.q1;
+  assert.equal(state.attempts, 50);
+  assert.equal(state.correct, 50);
+  assert.equal(state.incorrect, 0);
+  assert.equal(state.masteryHistory[0].streamId, 'stream-after-reset');
+  dom.window.close();
+});
+
+test('a post-reset answer survives when the device clock moves behind the reset timestamp', () => {
+  const dom = load();
+  const event = {
+    id: 'clock-behind-1', deviceId: 'device-a', streamId: 'clock-behind-stream', sequence: 1,
+    resetAt: 250, at: 100, status: 'correct'
+  };
+  const result = dom.window.__TBAccountSync.mergePayloads([{
+    schemaVersion: 2,
+    resets: { 'mastery-exam:cssbb': 250 },
+    values: { 'tb-adaptive-mastery-v1': { version: 1, exams: { cssbb: {
+      attempts: [], sessions: [], questions: { q1: {
+        masteryBaseline: { legacy: {}, devices: {} }, masteryHistory: [event], history: [event], lastSeenAt: 100
+      } }
+    } } } }
+  }]);
+  const state = result.values['tb-adaptive-mastery-v1'].exams.cssbb.questions.q1;
+  assert.equal(state.attempts, 1);
+  assert.equal(state.correct, 1);
+  assert.equal(state.masteryHistory[0].resetAt, 250);
   dom.window.close();
 });
 

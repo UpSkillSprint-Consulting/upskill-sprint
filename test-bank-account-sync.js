@@ -40,6 +40,8 @@
     if (!item || typeof item !== 'object') return 0;
     return Math.max.apply(Math, ['updatedAt', 'completedAt', 'finishedAt', 'at', 'startedAt', 'createdAt'].map(key => timeValue(item[key])));
   }
+  function itemAfterReset(item, resetAt) { return Number(item && item.resetAt || 0) >= resetAt || itemRank(item) > resetAt; }
+  function evidenceAfterReset(entry, resetAt) { return Number(entry && entry.resetAt || 0) >= resetAt || timeValue(entry && entry.at) > resetAt; }
   function validExamId(examId) { return /^[a-z0-9_-]{1,80}$/i.test(String(examId || '')); }
   function masteryResetScope(examId) { return validExamId(examId) ? MASTERY_RESET_PREFIX + examId : null; }
   function normalizeResetMarkers(value) {
@@ -105,12 +107,16 @@
     const parsed = Number(value);
     return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : 0;
   }
-  function emptyMasteryBaseline() {
-    return { at: 0, firstSeenAt: 0, attempts: 0, correct: 0, incorrect: 0, unanswered: 0, streak: 0, lastSeenAt: 0, lastStatus: 'new' };
+  function emptyMasteryComponent() {
+    return { deviceId: '', streamId: '', resetAt: 0, sequence: 0, at: 0, firstSeenAt: 0, attempts: 0, correct: 0, incorrect: 0, unanswered: 0, streak: 0, lastSeenAt: 0, lastStatus: 'new' };
   }
-  function normalizeMasteryBaseline(value) {
+  function normalizeMasteryComponent(value) {
     const source = value && typeof value === 'object' ? value : {};
     return {
+      deviceId: source.deviceId ? String(source.deviceId) : '',
+      streamId: source.streamId ? String(source.streamId) : '',
+      resetAt: Number(source.resetAt || 0),
+      sequence: count(source.sequence),
       at: Number(source.at || source.lastSeenAt || 0),
       firstSeenAt: Number(source.firstSeenAt || 0),
       attempts: count(source.attempts),
@@ -122,8 +128,46 @@
       lastStatus: source.lastStatus || 'new'
     };
   }
+  function assembleMasteryBaseline(legacy, devices, foldedIds) {
+    const normalizedLegacy = normalizeMasteryComponent(legacy);
+    const normalizedDevices = {};
+    Object.keys(devices && typeof devices === 'object' ? devices : {}).sort().forEach(device => {
+      const component = normalizeMasteryComponent(devices[device]);
+      component.streamId = component.streamId || device;
+      component.deviceId = component.deviceId || device;
+      if (component.attempts || component.sequence) normalizedDevices[device] = component;
+    });
+    const components = [normalizedLegacy].concat(Object.keys(normalizedDevices).map(device => normalizedDevices[device]));
+    let attempts = 0, correct = 0, incorrect = 0, unanswered = 0, firstSeenAt = 0, unknownFirstSeen = false;
+    let latest = emptyMasteryComponent();
+    components.forEach(component => {
+      attempts += component.attempts; correct += component.correct; incorrect += component.incorrect; unanswered += component.unanswered;
+      if (component.attempts && !component.firstSeenAt) unknownFirstSeen = true;
+      else if (component.firstSeenAt && (!firstSeenAt || component.firstSeenAt < firstSeenAt)) firstSeenAt = component.firstSeenAt;
+      if (component.lastSeenAt > latest.lastSeenAt || (component.lastSeenAt === latest.lastSeenAt && stable(component) > stable(latest))) latest = component;
+    });
+    return {
+      at: latest.lastSeenAt,
+      firstSeenAt: unknownFirstSeen ? 0 : firstSeenAt,
+      attempts, correct, incorrect, unanswered,
+      streak: latest.streak,
+      lastSeenAt: latest.lastSeenAt,
+      lastStatus: latest.lastStatus,
+      legacy: normalizedLegacy,
+      devices: normalizedDevices,
+      foldedIds: Array.from(new Set((foldedIds || []).map(String))).slice(-MASTERY_EVIDENCE_LIMIT)
+    };
+  }
+  function emptyMasteryBaseline() {
+    return assembleMasteryBaseline(emptyMasteryComponent(), {}, []);
+  }
+  function normalizeMasteryBaseline(value) {
+    const source = value && typeof value === 'object' ? value : {};
+    if (source.legacy || source.devices) return assembleMasteryBaseline(source.legacy, source.devices, source.foldedIds);
+    return assembleMasteryBaseline(source, {}, source.foldedIds);
+  }
   function legacyMasteryBaseline(state) {
-    return normalizeMasteryBaseline({
+    const legacy = normalizeMasteryComponent({
       at: state && state.lastSeenAt,
       /* A legacy aggregate may include attempts no longer present in history,
          so its earliest observation is deliberately treated as unknown. */
@@ -136,30 +180,116 @@
       lastSeenAt: state && state.lastSeenAt,
       lastStatus: state && state.lastStatus
     });
+    return assembleMasteryBaseline(legacy, {}, []);
   }
   function hasAggregateCounters(state) {
     return Boolean(state && ['attempts', 'correct', 'incorrect', 'unanswered'].some(key => Object.prototype.hasOwnProperty.call(state, key) && Number.isFinite(Number(state[key]))));
   }
   function foldEvidenceIntoBaseline(baseline, entries) {
-    const output = normalizeMasteryBaseline(baseline);
+    const normalized = normalizeMasteryBaseline(baseline);
+    const legacy = normalizeMasteryComponent(normalized.legacy);
+    const devices = clone(normalized.devices || {});
+    const foldedIds = (normalized.foldedIds || []).slice();
     (entries || []).forEach(entry => {
       const timestamp = Number(entry && entry.at || 0);
-      output.attempts += 1;
-      if (entry.status === 'correct') output.correct += 1;
-      else if (entry.status === 'unanswered') output.unanswered += 1;
-      else output.incorrect += 1;
-      output.streak = entry.status === 'correct' ? output.streak + 1 : 0;
-      if (!output.firstSeenAt || (timestamp && timestamp < output.firstSeenAt)) output.firstSeenAt = timestamp;
-      if (timestamp >= output.lastSeenAt) { output.lastSeenAt = timestamp; output.lastStatus = entry.status || output.lastStatus; }
-      output.at = Math.max(output.at, timestamp);
+      const device = entry && entry.deviceId ? String(entry.deviceId) : '';
+      const stream = entry && entry.streamId ? String(entry.streamId) : device;
+      const sequence = count(entry && entry.sequence);
+      let component = legacy;
+      if (stream && sequence) {
+        component = normalizeMasteryComponent(devices[stream]);
+        if (sequence <= component.sequence) return;
+        component.deviceId = device || component.deviceId;
+        component.streamId = stream;
+        component.resetAt = Math.max(component.resetAt, Number(entry && entry.resetAt || 0));
+        component.sequence = sequence;
+        devices[stream] = component;
+      } else {
+        const identity = entry && entry.id ? 'id:' + entry.id : 'value:' + hash(stable(entry));
+        if (foldedIds.indexOf(identity) !== -1) return;
+        foldedIds.push(identity);
+      }
+      component.attempts += 1;
+      if (entry.status === 'correct') component.correct += 1;
+      else if (entry.status === 'unanswered') component.unanswered += 1;
+      else component.incorrect += 1;
+      component.streak = entry.status === 'correct' ? component.streak + 1 : 0;
+      if (!component.firstSeenAt || (timestamp && timestamp < component.firstSeenAt)) component.firstSeenAt = timestamp;
+      if (timestamp >= component.lastSeenAt) { component.lastSeenAt = timestamp; component.lastStatus = entry.status || component.lastStatus; }
+      component.at = Math.max(component.at, timestamp);
     });
-    return output;
+    return assembleMasteryBaseline(legacy, devices, foldedIds);
+  }
+  function componentWins(left, right) {
+    const a = normalizeMasteryComponent(left), b = normalizeMasteryComponent(right);
+    if (b.sequence !== a.sequence) return b.sequence > a.sequence ? b : a;
+    if (b.lastSeenAt !== a.lastSeenAt) return b.lastSeenAt > a.lastSeenAt ? b : a;
+    if (b.attempts !== a.attempts) return b.attempts > a.attempts ? b : a;
+    return stable(b) > stable(a) ? b : a;
+  }
+  function mergeMasteryBaselines(a, b) {
+    const left = normalizeMasteryBaseline(a), right = normalizeMasteryBaseline(b);
+    const devices = {};
+    new Set(Object.keys(left.devices || {}).concat(Object.keys(right.devices || {}))).forEach(device => {
+      devices[device] = componentWins(left.devices && left.devices[device], right.devices && right.devices[device]);
+    });
+    return assembleMasteryBaseline(
+      componentWins(left.legacy, right.legacy),
+      devices,
+      (left.foldedIds || []).concat(right.foldedIds || [])
+    );
+  }
+  function evidenceAlreadyFolded(baseline, entry) {
+    const normalized = normalizeMasteryBaseline(baseline);
+    const device = entry && entry.deviceId ? String(entry.deviceId) : '';
+    const stream = entry && entry.streamId ? String(entry.streamId) : device;
+    const sequence = count(entry && entry.sequence);
+    if (stream && sequence) return sequence <= count(normalized.devices[stream] && normalized.devices[stream].sequence);
+    const identity = entry && entry.id ? 'id:' + entry.id : 'value:' + hash(stable(entry));
+    return (normalized.foldedIds || []).indexOf(identity) !== -1;
+  }
+  function partitionMasteryEvidence(history, overflowCount) {
+    const grouped = {};
+    (history || []).forEach(entry => {
+      const device = entry && entry.deviceId ? String(entry.deviceId) : '';
+      const stream = entry && entry.streamId ? String(entry.streamId) : device;
+      const sequence = count(entry && entry.sequence);
+      const key = stream && sequence ? 'stream:' + stream : 'legacy';
+      grouped[key] = grouped[key] || [];
+      grouped[key].push(entry);
+    });
+    const groups = Object.keys(grouped).sort().map(key => {
+      const isDevice = key.indexOf('stream:') === 0;
+      const items = grouped[key].slice().sort((left, right) => {
+        if (isDevice) {
+          const sequence = count(left && left.sequence) - count(right && right.sequence);
+          if (sequence) return sequence;
+        }
+        return evidenceOrder(left, right);
+      });
+      return { items, index: 0 };
+    });
+    const overflow = [];
+    while (overflow.length < overflowCount) {
+      let chosen = null;
+      groups.forEach(group => {
+        const candidate = group.items[group.index];
+        if (candidate && (!chosen || evidenceOrder(candidate, chosen.item) < 0)) chosen = { group, item: candidate };
+      });
+      if (!chosen) break;
+      overflow.push(chosen.item);
+      chosen.group.index += 1;
+    }
+    const retained = [];
+    groups.forEach(group => { retained.push.apply(retained, group.items.slice(group.index)); });
+    return { overflow, retained: retained.sort(evidenceOrder) };
   }
   function compactMasteryEvidence(baseline, history) {
-    const sorted = (history || []).slice().sort(evidenceOrder);
-    if (sorted.length <= MASTERY_EVIDENCE_LIMIT) return { baseline: normalizeMasteryBaseline(baseline), history: sorted };
-    const overflow = sorted.slice(0, sorted.length - MASTERY_EVIDENCE_LIMIT);
-    return { baseline: foldEvidenceIntoBaseline(baseline, overflow), history: sorted.slice(-MASTERY_EVIDENCE_LIMIT) };
+    const normalized = normalizeMasteryBaseline(baseline);
+    const sorted = (history || []).filter(entry => !evidenceAlreadyFolded(normalized, entry)).slice().sort(evidenceOrder);
+    if (sorted.length <= MASTERY_EVIDENCE_LIMIT) return { baseline: normalized, history: sorted };
+    const partitioned = partitionMasteryEvidence(sorted, sorted.length - MASTERY_EVIDENCE_LIMIT);
+    return { baseline: foldEvidenceIntoBaseline(normalized, partitioned.overflow), history: partitioned.retained };
   }
   function canonicalMastery(state) {
     if (state && state.masteryBaseline && Array.isArray(state.masteryHistory)) {
@@ -194,15 +324,9 @@
   }
   function mergeQuestionEvidence(a, b) {
     const left = canonicalMastery(a), right = canonicalMastery(b);
-    const leftRank = Number(left.baseline.at || 0), rightRank = Number(right.baseline.at || 0);
-    const leftScore = left.baseline.attempts, rightScore = right.baseline.attempts;
-    const sameBaseline = stable(left.baseline) === stable(right.baseline);
-    let chosen = left, other = right;
-    if (rightRank > leftRank || (rightRank === leftRank && rightScore > leftScore) || (rightRank === leftRank && rightScore === leftScore && stable(right.baseline) > stable(left.baseline))) {
-      chosen = right; other = left;
-    }
-    const otherHistory = sameBaseline ? other.history : other.history.filter(entry => Number(entry && entry.at || 0) > Number(chosen.baseline.at || 0));
-    return compactMasteryEvidence(chosen.baseline, mergeArray(chosen.history, otherHistory));
+    const baseline = mergeMasteryBaselines(left.baseline, right.baseline);
+    const history = mergeArray(left.history, right.history).filter(entry => !evidenceAlreadyFolded(baseline, entry));
+    return compactMasteryEvidence(baseline, history);
   }
   function mergeQuestion(a, b) {
     const state = clone(Number(a && a.lastSeenAt || 0) >= Number(b && b.lastSeenAt || 0) ? (a || b || {}) : (b || a || {}));
@@ -229,25 +353,38 @@
     return output;
   }
   function mergeHistory(a, b) { return { attempts: mergeArray(a && a.attempts, b && b.attempts).sort((x, y) => Number(x.startedAt || 0) - Number(y.startedAt || 0)).slice(-50) }; }
+  function filterMasteryBaselineAfterReset(baseline, resetAt) {
+    const existing = normalizeMasteryBaseline(baseline);
+    const legacyIsNew = existing.legacy.resetAt >= resetAt || existing.legacy.firstSeenAt > resetAt;
+    const legacy = existing.legacy.attempts && legacyIsNew ? existing.legacy : emptyMasteryComponent();
+    const devices = {};
+    Object.keys(existing.devices || {}).forEach(device => {
+      const component = existing.devices[device];
+      if (component.attempts && (component.resetAt >= resetAt || component.firstSeenAt > resetAt)) devices[device] = component;
+    });
+    const allComponentsKept = legacy.attempts === existing.legacy.attempts && Object.keys(devices).length === Object.keys(existing.devices || {}).length;
+    return assembleMasteryBaseline(legacy, devices, allComponentsKept ? existing.foldedIds : []);
+  }
   function filterQuestionAfterReset(state, resetAt) {
     if (!state || typeof state !== 'object') return null;
-    const history = (state.history || []).filter(entry => timeValue(entry && entry.at) > resetAt);
+    const history = (state.history || []).filter(entry => evidenceAfterReset(entry, resetAt));
     let canonical = { baseline: emptyMasteryBaseline(), history: [] };
-    if (state.masteryBaseline && Array.isArray(state.masteryHistory)) {
+    const hasCanonicalEvidence = Boolean(state.masteryBaseline && Array.isArray(state.masteryHistory));
+    if (hasCanonicalEvidence) {
       const existing = canonicalMastery(state);
-      const baselineIsEntirelyNew = existing.baseline.attempts > 0 && existing.baseline.firstSeenAt > resetAt;
-      if (baselineIsEntirelyNew) canonical.baseline = existing.baseline;
-      canonical.history = existing.history.filter(entry => timeValue(entry && entry.at) > resetAt);
+      canonical.baseline = filterMasteryBaselineAfterReset(existing.baseline, resetAt);
+      canonical.history = existing.history.filter(entry => evidenceAfterReset(entry, resetAt));
       /* When an aggregate crosses the reset boundary it cannot be partitioned;
          rebuild only from post-reset event records, including notebook records
          retained by an older client. */
-      if (!baselineIsEntirelyNew) canonical.history = mergeArray(canonical.history, history);
+      if (canonical.baseline.attempts !== existing.baseline.attempts) canonical.history = mergeArray(canonical.history, history);
     } else {
       canonical.history = clone(history);
     }
-    if (!canonical.baseline.attempts && !canonical.history.length && timeValue(state.lastSeenAt) > resetAt) {
-      canonical.baseline = legacyMasteryBaseline(state);
-      canonical.baseline.firstSeenAt = timeValue(state.lastSeenAt);
+    if (!hasCanonicalEvidence && !canonical.baseline.attempts && !canonical.history.length && timeValue(state.lastSeenAt) > resetAt) {
+      const fallback = legacyMasteryBaseline(state);
+      fallback.legacy.firstSeenAt = timeValue(state.lastSeenAt);
+      canonical.baseline = assembleMasteryBaseline(fallback.legacy, {}, []);
     }
     if (!canonical.baseline.attempts && !canonical.history.length) return null;
     const output = clone(state);
@@ -258,8 +395,8 @@
     const source = exam && typeof exam === 'object' ? exam : {};
     const output = {
       questions: {},
-      attempts: (source.attempts || []).filter(item => itemRank(item) > resetAt).map(clone),
-      sessions: (source.sessions || []).filter(item => itemRank(item) > resetAt).map(clone)
+      attempts: (source.attempts || []).filter(item => itemAfterReset(item, resetAt)).map(clone),
+      sessions: (source.sessions || []).filter(item => itemAfterReset(item, resetAt)).map(clone)
     };
     Object.keys(source.questions || {}).forEach(questionId => {
       const state = filterQuestionAfterReset(source.questions[questionId], resetAt);

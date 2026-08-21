@@ -119,6 +119,9 @@ test('recording a new answer migrates legacy aggregates without losing older cor
   assert.equal(state.masteryBaseline.attempts, 160);
   assert.equal(state.masteryHistory.length, 1);
   assert.match(state.masteryHistory[0].id, /^mastery-/);
+  assert.ok(state.masteryHistory[0].deviceId);
+  assert.ok(state.masteryHistory[0].streamId);
+  assert.equal(state.masteryHistory[0].sequence, 1);
   assert.equal(state.attempts, 161);
   assert.equal(state.correct, 101);
   assert.equal(state.incorrect, 60);
@@ -144,11 +147,62 @@ test('mastery evidence compaction preserves exact counters and trailing streak s
   }
   assert.equal(state.masteryBaseline.attempts, 20);
   assert.equal(state.masteryHistory.length, 500);
+  const stream = state.masteryHistory[0].streamId;
+  assert.equal(state.masteryBaseline.devices[stream].sequence, 20);
+  assert.equal(state.masteryHistory[0].sequence, 21);
+  assert.equal(state.masteryHistory[499].sequence, 520);
   assert.equal(state.attempts, 520);
   assert.equal(state.correct, 260);
   assert.equal(state.incorrect, 260);
   assert.equal(state.streak, 0);
   assert.equal(state.lastStatus, 'incorrect');
+});
+
+test('mastery compaction preserves every answer when the device clock moves backward', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  const state = {
+    id: 'clock-shift-q', stem: question.stem, sub: question.sub, attempts: 0, correct: 0, incorrect: 0, unanswered: 0,
+    streak: 0, ease: 2.3, intervalDays: 0, dueAt: 0, lastSeenAt: 0, lastStatus: 'new', mastery: 0,
+    history: [], masteryBaseline: {}, masteryHistory: []
+  };
+  const startedAt = Date.UTC(2026, 0, 1);
+  for (let index = 0; index < 520; index += 1) {
+    const status = index % 2 === 0 ? 'correct' : 'incorrect';
+    api.applyResult(state, question, status, question.answer, 'clock-shift-stress', startedAt - index);
+  }
+  assert.equal(state.attempts, 520);
+  assert.equal(state.correct, 260);
+  assert.equal(state.incorrect, 260);
+  assert.equal(state.masteryBaseline.attempts, 20);
+  assert.equal(state.masteryHistory.length, 500);
+});
+
+test('a reset starts a new evidence stream while consecutive answers reuse the current stream', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  function emptyState(id) {
+    return {
+      id, stem: question.stem, sub: question.sub, attempts: 0, correct: 0, incorrect: 0, unanswered: 0,
+      streak: 0, ease: 2.3, intervalDays: 0, dueAt: 0, lastSeenAt: 0, lastStatus: 'new', mastery: 0,
+      history: [], masteryBaseline: {}, masteryHistory: []
+    };
+  }
+  const beforeReset = emptyState('before-reset');
+  api.applyResult(beforeReset, question, 'correct', question.answer, 'stream-test', 100);
+  api.applyResult(beforeReset, question, 'correct', question.answer, 'stream-test', 101);
+  assert.equal(beforeReset.masteryHistory[0].streamId, beforeReset.masteryHistory[1].streamId);
+  assert.deepEqual(Array.from(beforeReset.masteryHistory, entry => entry.sequence), [1, 2]);
+
+  window.localStorage.setItem('tb-account-sync-resets-v1', JSON.stringify({ 'mastery-exam:cssbb': 150 }));
+  const afterReset = emptyState('after-reset');
+  api.applyResult(afterReset, question, 'correct', question.answer, 'stream-test', 200);
+  assert.notEqual(afterReset.masteryHistory[0].streamId, beforeReset.masteryHistory[0].streamId);
+  assert.equal(afterReset.masteryHistory[0].deviceId, beforeReset.masteryHistory[0].deviceId);
+  assert.equal(afterReset.masteryHistory[0].resetAt, 150);
+  assert.equal(afterReset.masteryHistory[0].sequence, 1);
 });
 
 test('adaptive selection prioritizes due and weak questions while including new material', async () => {
