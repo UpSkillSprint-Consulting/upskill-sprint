@@ -8,6 +8,10 @@ const { JSDOM } = require('jsdom');
 const root = path.resolve(__dirname, '..');
 const authSource = fs.readFileSync(path.join(root, 'auth.js'), 'utf8');
 const profileSource = fs.readFileSync(path.join(root, 'profile.js'), 'utf8');
+const profilePageHtml = fs.readFileSync(path.join(root, 'profile.html'), 'utf8');
+const profilePageMatch = profilePageHtml.match(/<script id="profile-page-script">([\s\S]*?)<\/script>/);
+if (!profilePageMatch) throw new Error('profile page script not found');
+const profilePageSource = profilePageMatch[1];
 
 function flush() { return new Promise(resolve => setTimeout(resolve, 0)); }
 
@@ -252,6 +256,110 @@ function accountSwitchMenuRuntime(options = {}) {
   };
 }
 
+function profilePageSwitchRuntime(options = {}) {
+  const users = {
+    a: { id: 'user-a', email: 'a@example.com', user_metadata: { display_name: 'Metadata A' } },
+    b: { id: 'user-b', email: 'b@example.com', user_metadata: { display_name: 'Metadata B' } }
+  };
+  const profiles = {
+    'user-a': { user_id: 'user-a', display_name: 'Canonical A', timezone: 'America/Regina', newsletter_opt_in: true },
+    'user-b': { user_id: 'user-b', display_name: 'Canonical B', timezone: 'UTC', newsletter_opt_in: false }
+  };
+  const aProfile = deferred();
+  const bProfile = deferred();
+  const bRetryProfile = deferred();
+  const profileUpdate = deferred();
+  const updates = [];
+  let aProfileRequests = 0;
+  let bProfileRequests = 0;
+  let activeUser = users.a;
+  let authCallback = null;
+
+  function selectChain() {
+    let userId = null;
+    return {
+      eq(_column, value) { userId = value; return this; },
+      maybeSingle() {
+        if (userId === users.a.id && options.deferInitialA && aProfileRequests++ === 0) {
+          return aProfile.promise;
+        }
+        if (userId === users.b.id) {
+          if (options.retryB && bProfileRequests++ > 0) return bRetryProfile.promise;
+          return bProfile.promise;
+        }
+        return Promise.resolve({ data: profiles[userId], error: null });
+      },
+      single() { return Promise.resolve({ data: profiles[userId], error: null }); }
+    };
+  }
+
+  function updateChain(payload) {
+    let userId = null;
+    return {
+      eq(_column, value) { userId = value; return this; },
+      select() { return this; },
+      single() {
+        updates.push({ userId, payload });
+        const finish = () => {
+          profiles[userId] = { ...profiles[userId], ...payload };
+          return { data: profiles[userId], error: null };
+        };
+        return options.deferProfileUpdate ? profileUpdate.promise.then(finish) : Promise.resolve(finish());
+      }
+    };
+  }
+
+  const client = {
+    auth: {
+      onAuthStateChange(callback) { authCallback = callback; },
+      getSession() { return Promise.resolve({ data: { session: { user: users.a } } }); },
+      updateUser() { return Promise.resolve({ data: { user: activeUser }, error: null }); },
+      signOut() { return Promise.resolve({ data: null, error: null }); }
+    },
+    from(table) {
+      assert.equal(table, 'profiles');
+      return {
+        select() { return selectChain(); },
+        update(payload) { return updateChain(payload); },
+        insert() { throw new Error('unexpected profile insert'); }
+      };
+    }
+  };
+  const dom = new JSDOM(profilePageHtml, {
+    url: 'https://upskillsprint.com/profile.html', runScripts: 'outside-only'
+  });
+  dom.window.UPSKILLSPRINT_SUPABASE_CONFIG = { url: 'https://project.supabase.co', anonKey: 'public-anon-key' };
+  dom.window.supabase = { createClient: () => client };
+  dom.window.eval(authSource);
+  dom.window.eval(profileSource);
+  dom.window.eval(profilePageSource);
+  dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
+
+  return {
+    dom,
+    aProfile,
+    bProfile,
+    bRetryProfile,
+    profileUpdate,
+    updates,
+    switchToB() {
+      activeUser = users.b;
+      authCallback('SIGNED_IN', { user: users.b });
+    },
+    switchToA() {
+      activeUser = users.a;
+      authCallback('SIGNED_IN', { user: users.a });
+    },
+    refreshActiveUser() {
+      authCallback('TOKEN_REFRESHED', { user: activeUser });
+    },
+    signOut() {
+      activeUser = null;
+      authCallback('SIGNED_OUT', null);
+    }
+  };
+}
+
 test('restored session renders the canonical profile name and email', async () => {
   const { dom } = runtime();
   await flush(); await flush(); await flush();
@@ -344,6 +452,179 @@ test('an older same-account response cannot win an A-to-B-to-A request race', as
   await flush(); await flush();
   assert.equal(runtime.dom.window.document.querySelector('#account-menu-name').textContent, 'Canonical A');
   assert.equal(runtime.dom.window.UpskillProfile.getCurrent().display_name, 'Canonical A');
+  runtime.dom.window.close();
+});
+
+test('profile page clears and locks account A fields while account B loads', async () => {
+  const runtime = profilePageSwitchRuntime();
+  await flush(); await flush(); await flush();
+  const document = runtime.dom.window.document;
+  assert.equal(document.querySelector('#profile-display-name').value, 'Canonical A');
+  assert.equal(document.querySelector('#profile-email').value, 'a@example.com');
+  assert.equal(document.querySelector('#profile-newsletter').checked, true);
+
+  runtime.switchToB();
+  assert.equal(document.querySelector('#profile-display-name').value, '');
+  assert.equal(document.querySelector('#profile-email').value, '');
+  assert.equal(document.querySelector('#profile-newsletter').checked, false);
+  assert.equal(document.querySelector('#profile-submit').disabled, true);
+  assert.equal(document.querySelector('#profile-display-name').disabled, true);
+  assert.equal(document.querySelector('#profile-timezone').disabled, true);
+  assert.equal(document.querySelector('#profile-newsletter').disabled, true);
+  assert.equal(document.querySelector('#profile-form').getAttribute('aria-busy'), 'true');
+
+  runtime.bProfile.resolve({ data: {
+    user_id: 'user-b', display_name: 'Canonical B', timezone: 'UTC', newsletter_opt_in: false
+  }, error: null });
+  await flush(); await flush();
+  assert.equal(document.querySelector('#profile-display-name').value, 'Canonical B');
+  assert.equal(document.querySelector('#profile-email').value, 'b@example.com');
+  assert.equal(document.querySelector('#profile-submit').disabled, false);
+  assert.equal(document.querySelector('#profile-display-name').disabled, false);
+  assert.equal(document.querySelector('#profile-newsletter').disabled, false);
+  assert.equal(document.querySelector('#profile-form').getAttribute('aria-busy'), 'false');
+  runtime.dom.window.close();
+});
+
+test('a failed account B profile load leaves no account A data in the form', async () => {
+  const runtime = profilePageSwitchRuntime();
+  await flush(); await flush(); await flush();
+  runtime.switchToB();
+  runtime.bProfile.resolve({ data: null, error: new Error('profile unavailable') });
+  await flush(); await flush();
+  const document = runtime.dom.window.document;
+
+  assert.equal(document.querySelector('#profile-display-name').value, '');
+  assert.equal(document.querySelector('#profile-email').value, '');
+  assert.equal(document.querySelector('#profile-newsletter').checked, false);
+  assert.equal(document.querySelector('#profile-submit').disabled, true);
+  assert.match(document.querySelector('#profile-status').textContent, /could not be loaded/i);
+  runtime.dom.window.close();
+});
+
+test('a submit during an account switch cannot copy account A form data into account B', async () => {
+  const runtime = profilePageSwitchRuntime();
+  await flush(); await flush(); await flush();
+  const document = runtime.dom.window.document;
+  runtime.switchToB();
+  document.querySelector('#profile-display-name').value = 'Canonical A';
+  document.querySelector('#profile-newsletter').checked = true;
+  document.querySelector('#profile-form').dispatchEvent(new runtime.dom.window.Event('submit', {
+    bubbles: true, cancelable: true
+  }));
+
+  runtime.bProfile.resolve({ data: {
+    user_id: 'user-b', display_name: 'Canonical B', timezone: 'UTC', newsletter_opt_in: false
+  }, error: null });
+  await flush(); await flush(); await flush();
+  assert.equal(runtime.updates.length, 0);
+  assert.equal(document.querySelector('#profile-display-name').value, 'Canonical B');
+  assert.equal(document.querySelector('#profile-newsletter').checked, false);
+  runtime.dom.window.close();
+});
+
+test('profile page ignores an older account A response after an A-to-B-to-A race', async () => {
+  const runtime = profilePageSwitchRuntime({ deferInitialA: true });
+  await flush(); await flush();
+  const document = runtime.dom.window.document;
+  runtime.switchToB();
+  runtime.switchToA();
+  await flush(); await flush();
+  assert.equal(document.querySelector('#profile-display-name').value, 'Canonical A');
+
+  runtime.aProfile.resolve({ data: {
+    user_id: 'user-a', display_name: 'Stale Canonical A', timezone: 'UTC', newsletter_opt_in: false
+  }, error: null });
+  await flush(); await flush();
+  assert.equal(document.querySelector('#profile-display-name').value, 'Canonical A');
+  assert.equal(document.querySelector('#profile-newsletter').checked, true);
+  runtime.dom.window.close();
+});
+
+test('an account A save completion cannot unlock or repopulate the account B form', async () => {
+  const runtime = profilePageSwitchRuntime({ deferProfileUpdate: true });
+  await flush(); await flush(); await flush();
+  const document = runtime.dom.window.document;
+  document.querySelector('#profile-display-name').value = 'Updated Canonical A';
+  document.querySelector('#profile-form').dispatchEvent(new runtime.dom.window.Event('submit', {
+    bubbles: true, cancelable: true
+  }));
+  await flush();
+  assert.equal(runtime.updates.length, 1);
+
+  runtime.switchToB();
+  assert.equal(document.querySelector('#profile-display-name').value, '');
+  assert.equal(document.querySelector('#profile-submit').disabled, true);
+  runtime.profileUpdate.resolve();
+  await flush(); await flush();
+  assert.equal(document.querySelector('#profile-display-name').value, '');
+  assert.equal(document.querySelector('#profile-email').value, '');
+  assert.equal(document.querySelector('#profile-submit').disabled, true);
+
+  runtime.bProfile.resolve({ data: {
+    user_id: 'user-b', display_name: 'Canonical B', timezone: 'UTC', newsletter_opt_in: false
+  }, error: null });
+  await flush(); await flush();
+  assert.equal(document.querySelector('#profile-display-name').value, 'Canonical B');
+  assert.equal(document.querySelector('#profile-email').value, 'b@example.com');
+  assert.equal(document.querySelector('#profile-submit').disabled, false);
+  runtime.dom.window.close();
+});
+
+test('same-user token refresh preserves unsaved profile form edits', async () => {
+  const runtime = profilePageSwitchRuntime();
+  await flush(); await flush(); await flush();
+  const document = runtime.dom.window.document;
+  document.querySelector('#profile-display-name').value = 'Unsaved Account A';
+  document.querySelector('#profile-newsletter').checked = false;
+
+  runtime.refreshActiveUser();
+  await flush(); await flush();
+  assert.equal(document.querySelector('#profile-display-name').value, 'Unsaved Account A');
+  assert.equal(document.querySelector('#profile-newsletter').checked, false);
+  assert.equal(document.querySelector('#profile-submit').disabled, false);
+  runtime.dom.window.close();
+});
+
+test('sign-out immediately clears and locks every account-owned profile field', async () => {
+  const runtime = profilePageSwitchRuntime();
+  await flush(); await flush(); await flush();
+  const document = runtime.dom.window.document;
+  assert.equal(document.querySelector('#profile-display-name').value, 'Canonical A');
+
+  runtime.signOut();
+  assert.equal(document.querySelector('#profile-display-name').value, '');
+  assert.equal(document.querySelector('#profile-email').value, '');
+  assert.equal(document.querySelector('#profile-newsletter').checked, false);
+  assert.equal(document.querySelector('#profile-display-name').disabled, true);
+  assert.equal(document.querySelector('#profile-timezone').disabled, true);
+  assert.equal(document.querySelector('#profile-newsletter').disabled, true);
+  assert.equal(document.querySelector('#profile-submit').disabled, true);
+  assert.equal(document.querySelector('#profile-form').getAttribute('aria-busy'), 'true');
+  runtime.dom.window.close();
+});
+
+test('same-user auth refresh retries a failed profile load without restoring account A data', async () => {
+  const runtime = profilePageSwitchRuntime({ retryB: true });
+  await flush(); await flush(); await flush();
+  const document = runtime.dom.window.document;
+  runtime.switchToB();
+  runtime.bProfile.resolve({ data: null, error: new Error('profile unavailable') });
+  await flush(); await flush();
+  assert.equal(document.querySelector('#profile-display-name').value, '');
+  assert.match(document.querySelector('#profile-status').textContent, /could not be loaded/i);
+
+  runtime.refreshActiveUser();
+  assert.equal(document.querySelector('#profile-display-name').value, '');
+  assert.equal(document.querySelector('#profile-submit').disabled, true);
+  assert.match(document.querySelector('#profile-status').textContent, /loading your profile/i);
+  runtime.bRetryProfile.resolve({ data: {
+    user_id: 'user-b', display_name: 'Canonical B', timezone: 'UTC', newsletter_opt_in: false
+  }, error: null });
+  await flush(); await flush();
+  assert.equal(document.querySelector('#profile-display-name').value, 'Canonical B');
+  assert.equal(document.querySelector('#profile-email').value, 'b@example.com');
+  assert.equal(document.querySelector('#profile-submit').disabled, false);
   runtime.dom.window.close();
 });
 
