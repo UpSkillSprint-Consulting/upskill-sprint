@@ -165,3 +165,38 @@ test('adaptive completion remains visible after the dashboard refreshes', async 
   assert.match(panel.textContent, /Adaptive session complete/);
   assert.match(panel.textContent, /mastery map has been updated/i);
 });
+
+test('the mistake notebook renders a chronological, filterable log of every incorrect attempt with a red/green snapshot', async () => {
+  const { window } = await load();
+  const overview = await completeQuick(window);
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  const wrongIndex = (question.answer + 1) % question.options.length;
+  api.recordResults([{ question, selected: wrongIndex, status: 'incorrect' }], 'exam-attempt');
+  api.recordResults([{ question, selected: wrongIndex, status: 'incorrect' }], 'adaptive-practice');
+  click(window, overview.querySelector('[data-open-notebook]'));
+  await settle(window, 2);
+  const notebook = overview.querySelector('#tb-adaptive-panel');
+  assert.ok(notebook && !notebook.hidden);
+  const cards = notebook.querySelectorAll('.tb-mistake-card');
+  assert.equal(cards.length, 2, 'each failed attempt gets its own chronological entry');
+  assert.ok(cards[0].querySelector('.tb-mistake-opt-wrong'), 'selected wrong answer is highlighted red');
+  assert.ok(cards[0].querySelector('.tb-mistake-opt-correct'), 'correct answer is highlighted green');
+  assert.equal(cards[0].querySelectorAll('.tb-mistake-opt').length, question.options.length);
+  assert.ok(notebook.querySelector('[data-notebook-filter]'), 'knowledge-area filter dropdown is present');
+});
+
+test('every incorrect attempt on a question is retained for the notebook, not truncated by the history cap', async () => {
+  const { window } = await load();
+  await completeQuick(window);
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][1];
+  const wrongIndex = (question.answer + 1) % question.options.length;
+  for (let index = 0; index < 35; index += 1) {
+    api.recordResults([{ question, selected: wrongIndex, status: 'incorrect' }], 'exam-attempt');
+  }
+  const store = api.store();
+  const state = Object.values(store.exams.cssbb.questions).find(candidate => candidate.stem === question.stem);
+  const incorrectEntries = state.history.filter(entry => entry.status === 'incorrect');
+  assert.equal(incorrectEntries.length, 35, 'no incorrect attempt is dropped once the count exceeds the old 30-entry cap');
+});

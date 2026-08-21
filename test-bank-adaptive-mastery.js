@@ -12,6 +12,7 @@
   let scheduled = false;
   let attempt = null;
   let adaptive = null;
+  let notebookFilter = 'all';
 
   function esc(value) {
     return String(value == null ? '' : value).replace(/[&<>\"]/g, function (c) {
@@ -134,6 +135,16 @@
     state.dueAt = timestamp + state.intervalDays * DAY;
   }
 
+  /* Every incorrect attempt is retained without limit so the mistake notebook
+     can show a complete chronological record; correct/unanswered attempts are
+     capped to bound storage growth, and an overall ceiling guards worst case. */
+  function trimHistory(history) {
+    const sorted = (history || []).slice().sort(function (a, b) { return (a.at || 0) - (b.at || 0); });
+    const incorrect = sorted.filter(function (entry) { return entry.status === 'incorrect'; });
+    const other = sorted.filter(function (entry) { return entry.status !== 'incorrect'; }).slice(-40);
+    return incorrect.concat(other).sort(function (a, b) { return (a.at || 0) - (b.at || 0); }).slice(-500);
+  }
+
   function applyResult(state, question, status, selected, source, timestamp) {
     const priorAttempts = state.attempts;
     state.attempts += 1;
@@ -144,14 +155,14 @@
     state.lastSeenAt = timestamp;
     state.lastStatus = status;
     state.mastery = calculateMastery(state, timestamp);
-    state.history = (state.history || []).concat([{
+    state.history = trimHistory((state.history || []).concat([{
       at: timestamp,
       status: status,
       selected: selected,
       source: source,
       priorAttempts: priorAttempts,
       mastery: state.mastery
-    }]).slice(-30);
+    }]));
     return state;
   }
 
@@ -418,15 +429,79 @@
     renderAdaptive();
   }
 
-  function notebookMarkup(data) {
-    const items = weakQuestions(data).slice(0, 50);
-    return '<div class="tb-notebook-head"><div><div class="tb-diag-kick">Mistake notebook</div><h3>Questions that still need reinforcement</h3><p>Items leave the notebook after sustained correct performance raises estimated mastery to ' + MASTERY_THRESHOLD + '% or higher.</p></div><button type="button" class="tb-ghost" data-close-adaptive>Close</button></div>' +
-      '<div class="tb-notebook-list">' + (items.length ? items.map(function (question) {
-        const state = stateFor(question, data);
-        const lesson = lessonFor(question.sub);
-        const due = state.dueAt <= now() ? 'Due now' : 'Due ' + new Date(state.dueAt).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
-        return '<article><div><span>' + esc(subtopicName(question.sub)) + '</span><strong>' + esc(question.stem) + '</strong><small>Last result: ' + esc(state.lastStatus) + ' · ' + due + ' · ' + state.attempts + ' attempts</small></div><div class="tb-notebook-score"><b>' + state.mastery + '%</b><a href="' + esc(lesson.href) + '">' + esc(lesson.name) + '</a></div></article>';
-      }).join('') : '<p class="tb-review-empty">Your mistake notebook is empty.</p>') + '</div>';
+  /* Flattens every stored incorrect attempt, across every question, into a
+     single chronological log entry list (most recent first). Each entry
+     carries the question object (for the full stem/options/answer snapshot)
+     alongside the knowledge-area id and when/how the attempt happened. */
+  function mistakeEntries(data) {
+    const rows = [];
+    Object.keys(data.questions || {}).forEach(function (key) {
+      const state = data.questions[key];
+      const question = questionByStem(state.stem);
+      if (!question) return;
+      (state.history || []).forEach(function (entry) {
+        if (entry.status !== 'incorrect') return;
+        rows.push({ question: question, sub: state.sub, at: entry.at, selected: entry.selected, source: entry.source });
+      });
+    });
+    return rows.sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
+  }
+
+  function mistakeKnowledgeAreas(entries) {
+    const seen = {};
+    const list = [];
+    entries.forEach(function (entry) {
+      if (seen[entry.sub]) return;
+      seen[entry.sub] = true;
+      list.push(entry.sub);
+    });
+    return list.sort(function (a, b) { return subtopicName(a).localeCompare(subtopicName(b)); });
+  }
+
+  function formatAttemptWhen(timestamp) {
+    return timestamp ? new Date(timestamp).toLocaleString('en-CA', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'Unknown date';
+  }
+
+  function sourceLabel(source) {
+    if (source === 'adaptive-practice') return 'Adaptive practice';
+    if (source === 'exam-attempt') return 'Test attempt';
+    return source ? esc(source) : 'Practice';
+  }
+
+  function mistakeOptionMarkup(question, entry) {
+    return question.options.map(function (option, optionIndex) {
+      let cls = 'tb-mistake-opt';
+      if (optionIndex === question.answer) cls += ' tb-mistake-opt-correct';
+      if (entry.selected === optionIndex && optionIndex !== question.answer) cls += ' tb-mistake-opt-wrong';
+      const tag = optionIndex === question.answer ? '<em>Correct answer</em>' : (entry.selected === optionIndex ? '<em>Your answer</em>' : '');
+      return '<li class="' + cls + '"><span>' + String.fromCharCode(65 + optionIndex) + '</span><div>' + esc(option) + tag + '</div></li>';
+    }).join('');
+  }
+
+  function mistakeCardMarkup(entry) {
+    const question = entry.question;
+    const lesson = lessonFor(entry.sub);
+    return '<article class="tb-mistake-card">' +
+      '<div class="tb-mistake-meta"><span class="tb-mistake-sub">' + esc(subtopicName(entry.sub)) + '</span><span class="tb-mistake-when">' + formatAttemptWhen(entry.at) + ' · ' + sourceLabel(entry.source) + '</span></div>' +
+      chartHtml(question.chart) +
+      '<div class="tb-mistake-stem">' + esc(question.stem) + '</div>' +
+      '<ol class="tb-mistake-options">' + mistakeOptionMarkup(question, entry) + '</ol>' +
+      (question.why ? '<div class="tb-mistake-why"><strong>Why:</strong> ' + esc(question.why) + '</div>' : '') +
+      '<a class="tb-mistake-link" href="' + esc(lesson.href) + '">Review: ' + esc(lesson.name) + '</a>' +
+      '</article>';
+  }
+
+  function notebookMarkup(data, filter) {
+    const entries = mistakeEntries(data);
+    const areas = mistakeKnowledgeAreas(entries);
+    const activeFilter = filter && areas.indexOf(filter) !== -1 ? filter : 'all';
+    const shown = activeFilter === 'all' ? entries : entries.filter(function (entry) { return entry.sub === activeFilter; });
+    const filterOptions = '<option value="all">All knowledge areas</option>' + areas.map(function (sub) {
+      return '<option value="' + esc(sub) + '"' + (sub === activeFilter ? ' selected' : '') + '>' + esc(subtopicName(sub)) + '</option>';
+    }).join('');
+    return '<div class="tb-notebook-head"><div><div class="tb-diag-kick">Mistake notebook</div><h3>Every question answered incorrectly</h3><p>A complete, chronological record of missed questions across every test and practice attempt. Entries stay here as a permanent study log, even after a question is later answered correctly.</p></div><button type="button" class="tb-ghost" data-close-adaptive>Close</button></div>' +
+      (entries.length ? '<div class="tb-notebook-filter"><label for="tb-notebook-filter-select">Knowledge area</label><select id="tb-notebook-filter-select" data-notebook-filter>' + filterOptions + '</select><span class="tb-notebook-count">' + shown.length + ' of ' + entries.length + ' missed attempt' + (entries.length === 1 ? '' : 's') + '</span></div>' : '') +
+      '<div class="tb-notebook-list">' + (shown.length ? shown.map(mistakeCardMarkup).join('') : '<p class="tb-review-empty">' + (entries.length ? 'No missed questions in this knowledge area yet.' : 'Your mistake notebook is empty.') + '</p>') + '</div>';
   }
 
   function detailsMarkup(data) {
@@ -435,12 +510,19 @@
       '<div class="tb-mastery-explain"><p><strong>Accuracy (58%)</strong> measures the proportion answered correctly.</p><p><strong>Success streak (24%)</strong> rewards repeated correct retrieval rather than one lucky answer.</p><p><strong>Recency (18%)</strong> gradually lowers confidence when knowledge has not been retrieved recently.</p><p><strong>Evidence adjustment</strong> limits high mastery from only one or two observations. A question is counted as mastered only after at least two attempts and an estimate of ' + MASTERY_THRESHOLD + '% or higher.</p><p><strong>Current scope:</strong> ' + summary.attempted + ' questions attempted. This estimate supports study prioritization; it does not predict an official examination result.</p></div>';
   }
 
+  function renderNotebook() {
+    const panel = document.getElementById('tb-adaptive-panel');
+    if (!panel || panel.hidden) return;
+    const store = readStore();
+    panel.innerHTML = notebookMarkup(examStore(store), notebookFilter);
+  }
+
   function openNotebook() {
     const panel = document.getElementById('tb-adaptive-panel');
-    const store = readStore();
     if (!panel) return;
+    notebookFilter = 'all';
     panel.hidden = false;
-    panel.innerHTML = notebookMarkup(examStore(store));
+    renderNotebook();
     panel.tabIndex = -1;
     panel.focus();
   }
@@ -475,7 +557,7 @@
     if (document.getElementById(STYLE_ID)) return;
     const style = document.createElement('style');
     style.id = STYLE_ID;
-    style.textContent = '.tb-mastery{margin-top:22px;padding:20px;border:1px solid var(--line);border-radius:13px;background:linear-gradient(180deg,color-mix(in srgb,#6656b5 7%,var(--card)),var(--card))}.tb-mastery-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.tb-mastery-head h2{font-family:"Source Serif 4",serif;font-size:23px;color:var(--ink);margin:3px 0 7px}.tb-mastery-head p{max-width:72ch;color:var(--muted);font-size:13px;line-height:1.55;margin:0}.tb-mastery-ring{--p:0;width:104px;height:104px;flex:0 0 auto;border-radius:50%;display:grid;place-content:center;text-align:center;background:conic-gradient(#6656b5 calc(var(--p)*1%),var(--line) 0);position:relative}.tb-mastery-ring:before{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--card)}.tb-mastery-ring strong,.tb-mastery-ring span{position:relative}.tb-mastery-ring strong{font-size:24px;color:var(--ink)}.tb-mastery-ring span{font-size:9px;color:var(--muted);text-transform:uppercase}.tb-mastery-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:16px 0}.tb-mastery-stats div{padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--card);text-align:center}.tb-mastery-stats strong{display:block;color:var(--ink);font-size:21px}.tb-mastery-stats span{color:var(--muted);font-size:10.5px}.tb-mastery-actions,.tb-adaptive-actions{display:flex;flex-wrap:wrap;gap:9px}.tb-mastery-grid{display:grid;grid-template-columns:1.25fr .9fr .85fr;gap:12px;margin-top:16px}.tb-mastery-grid>section{padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--card)}.tb-weak-list{display:grid;gap:9px;margin-top:10px}.tb-weak-list>div{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;font-size:12px;color:var(--ink)}.tb-weak-list b{font-size:11px}.tb-weak-list i{grid-column:1/-1;height:5px;border-radius:999px;background:linear-gradient(90deg,#6656b5 calc(var(--p)*1%),var(--line) 0)}.tb-improvement{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.tb-improvement>div{padding:10px;border-radius:8px;background:var(--tint)}.tb-improvement span,.tb-improvement small{display:block;color:var(--muted);font-size:10px}.tb-improvement strong{display:block;color:var(--ink);font-size:22px;margin:3px 0}.tb-trend{height:90px;display:flex;align-items:flex-end;gap:5px;margin-top:10px}.tb-trend i{flex:1;height:100%;display:flex;align-items:flex-end;background:var(--tint);border-radius:4px;overflow:hidden}.tb-trend i span{display:block;width:100%;height:calc(var(--p)*1%);background:#6656b5}.tb-adaptive-panel{margin-top:20px;padding-top:20px;border-top:1px solid var(--line);outline:none}.tb-adaptive-head,.tb-notebook-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:14px}.tb-adaptive-head h3,.tb-notebook-head h3,.tb-adaptive-summary h3{font-family:"Source Serif 4",serif;color:var(--ink);font-size:21px;margin:2px 0}.tb-adaptive-mastery-chip{padding:8px 10px;border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:11px}.tb-adaptive-mastery-chip strong{color:var(--ink)}.tb-adaptive-stem{color:var(--ink);font-size:16px;font-weight:600;line-height:1.5;margin-bottom:13px}.tb-adaptive-options{display:grid;gap:8px}.tb-adaptive-option{display:flex;gap:10px;align-items:flex-start;width:100%;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--tint);color:var(--ink);font:inherit;text-align:left;cursor:pointer}.tb-adaptive-option span{width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;font-size:11px;font-weight:700}.tb-adaptive-option.selected{border-color:#6656b5}.tb-adaptive-option.correct{border-color:#1f9d6b;background:color-mix(in srgb,#1f9d6b 9%,var(--card))}.tb-adaptive-option.wrong{border-color:#c0453f;background:color-mix(in srgb,#c0453f 8%,var(--card))}.tb-adaptive-feedback{margin:12px 0;padding:12px;border-radius:9px;color:var(--ink);font-size:13px;line-height:1.5}.tb-adaptive-feedback.correct{border:1px solid rgba(31,157,107,.35);background:color-mix(in srgb,#1f9d6b 9%,var(--card))}.tb-adaptive-feedback.incorrect{border:1px solid rgba(192,69,63,.3);background:color-mix(in srgb,#c0453f 7%,var(--card))}.tb-adaptive-actions{margin-top:14px}.tb-adaptive-summary{display:flex;align-items:center;gap:20px}.tb-notebook-list{display:grid;gap:9px}.tb-notebook-list article{display:flex;justify-content:space-between;gap:14px;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--card)}.tb-notebook-list article span,.tb-notebook-list article small{display:block;color:var(--muted);font-size:10.5px}.tb-notebook-list article strong{display:block;color:var(--ink);font-size:13px;line-height:1.4;margin:3px 0}.tb-notebook-score{text-align:right;min-width:110px}.tb-notebook-score b,.tb-notebook-score a{display:block}.tb-notebook-score b{color:var(--ink);font-size:18px}.tb-notebook-score a{color:var(--teal);font-size:10.5px;margin-top:5px}.tb-mastery-explain{display:grid;gap:9px}.tb-mastery-explain p{margin:0;padding:11px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--muted);font-size:12.5px;line-height:1.5}.tb-mastery-explain strong{color:var(--ink)}@media(max-width:820px){.tb-mastery-grid{grid-template-columns:1fr}.tb-mastery-stats{grid-template-columns:1fr 1fr}}@media(max-width:560px){.tb-mastery-head,.tb-adaptive-head,.tb-notebook-head,.tb-adaptive-summary{flex-direction:column}.tb-mastery-ring{width:90px;height:90px}.tb-notebook-list article{flex-direction:column}.tb-notebook-score{text-align:left}.tb-mastery-stats{grid-template-columns:1fr 1fr}}';
+    style.textContent = '.tb-mastery{margin-top:22px;padding:20px;border:1px solid var(--line);border-radius:13px;background:linear-gradient(180deg,color-mix(in srgb,#6656b5 7%,var(--card)),var(--card))}.tb-mastery-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.tb-mastery-head h2{font-family:"Source Serif 4",serif;font-size:23px;color:var(--ink);margin:3px 0 7px}.tb-mastery-head p{max-width:72ch;color:var(--muted);font-size:13px;line-height:1.55;margin:0}.tb-mastery-ring{--p:0;width:104px;height:104px;flex:0 0 auto;border-radius:50%;display:grid;place-content:center;text-align:center;background:conic-gradient(#6656b5 calc(var(--p)*1%),var(--line) 0);position:relative}.tb-mastery-ring:before{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--card)}.tb-mastery-ring strong,.tb-mastery-ring span{position:relative}.tb-mastery-ring strong{font-size:24px;color:var(--ink)}.tb-mastery-ring span{font-size:9px;color:var(--muted);text-transform:uppercase}.tb-mastery-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:16px 0}.tb-mastery-stats div{padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--card);text-align:center}.tb-mastery-stats strong{display:block;color:var(--ink);font-size:21px}.tb-mastery-stats span{color:var(--muted);font-size:10.5px}.tb-mastery-actions,.tb-adaptive-actions{display:flex;flex-wrap:wrap;gap:9px}.tb-mastery-grid{display:grid;grid-template-columns:1.25fr .9fr .85fr;gap:12px;margin-top:16px}.tb-mastery-grid>section{padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--card)}.tb-weak-list{display:grid;gap:9px;margin-top:10px}.tb-weak-list>div{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;font-size:12px;color:var(--ink)}.tb-weak-list b{font-size:11px}.tb-weak-list i{grid-column:1/-1;height:5px;border-radius:999px;background:linear-gradient(90deg,#6656b5 calc(var(--p)*1%),var(--line) 0)}.tb-improvement{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.tb-improvement>div{padding:10px;border-radius:8px;background:var(--tint)}.tb-improvement span,.tb-improvement small{display:block;color:var(--muted);font-size:10px}.tb-improvement strong{display:block;color:var(--ink);font-size:22px;margin:3px 0}.tb-trend{height:90px;display:flex;align-items:flex-end;gap:5px;margin-top:10px}.tb-trend i{flex:1;height:100%;display:flex;align-items:flex-end;background:var(--tint);border-radius:4px;overflow:hidden}.tb-trend i span{display:block;width:100%;height:calc(var(--p)*1%);background:#6656b5}.tb-adaptive-panel{margin-top:20px;padding-top:20px;border-top:1px solid var(--line);outline:none}.tb-adaptive-head,.tb-notebook-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:14px}.tb-adaptive-head h3,.tb-notebook-head h3,.tb-adaptive-summary h3{font-family:"Source Serif 4",serif;color:var(--ink);font-size:21px;margin:2px 0}.tb-adaptive-mastery-chip{padding:8px 10px;border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:11px}.tb-adaptive-mastery-chip strong{color:var(--ink)}.tb-adaptive-stem{color:var(--ink);font-size:16px;font-weight:600;line-height:1.5;margin-bottom:13px}.tb-adaptive-options{display:grid;gap:8px}.tb-adaptive-option{display:flex;gap:10px;align-items:flex-start;width:100%;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--tint);color:var(--ink);font:inherit;text-align:left;cursor:pointer}.tb-adaptive-option span{width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;font-size:11px;font-weight:700}.tb-adaptive-option.selected{border-color:#6656b5}.tb-adaptive-option.correct{border-color:#1f9d6b;background:color-mix(in srgb,#1f9d6b 9%,var(--card))}.tb-adaptive-option.wrong{border-color:#c0453f;background:color-mix(in srgb,#c0453f 8%,var(--card))}.tb-adaptive-feedback{margin:12px 0;padding:12px;border-radius:9px;color:var(--ink);font-size:13px;line-height:1.5}.tb-adaptive-feedback.correct{border:1px solid rgba(31,157,107,.35);background:color-mix(in srgb,#1f9d6b 9%,var(--card))}.tb-adaptive-feedback.incorrect{border:1px solid rgba(192,69,63,.3);background:color-mix(in srgb,#c0453f 7%,var(--card))}.tb-adaptive-actions{margin-top:14px}.tb-adaptive-summary{display:flex;align-items:center;gap:20px}.tb-notebook-filter{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}.tb-notebook-filter label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}.tb-notebook-filter select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit;font-size:12.5px}.tb-notebook-count{color:var(--muted);font-size:11.5px;margin-left:auto}.tb-notebook-list{display:grid;gap:14px}.tb-mistake-card{padding:16px;border:1px solid var(--line);border-radius:11px;background:var(--card)}.tb-mistake-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-bottom:10px}.tb-mistake-sub{color:var(--teal);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}.tb-mistake-when{color:var(--muted);font-size:11px}.tb-mistake-stem{color:var(--ink);font-size:14.5px;font-weight:600;line-height:1.5;margin-bottom:11px}.tb-mistake-options{display:grid;gap:7px;margin:0 0 11px;padding:0;list-style:none}.tb-mistake-opt{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--tint);color:var(--ink);font-size:13px;line-height:1.45}.tb-mistake-opt span{width:22px;height:22px;flex:0 0 auto;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;font-size:10.5px;font-weight:700;background:var(--card)}.tb-mistake-opt em{display:block;margin-top:3px;font-style:normal;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}.tb-mistake-opt-correct{border-color:#1f9d6b;background:color-mix(in srgb,#1f9d6b 12%,var(--card))}.tb-mistake-opt-correct em{color:#1f9d6b}.tb-mistake-opt-wrong{border-color:#c0453f;background:color-mix(in srgb,#c0453f 10%,var(--card))}.tb-mistake-opt-wrong em{color:#c0453f}.tb-mistake-why{padding:11px;border-radius:8px;background:var(--tint);color:var(--muted);font-size:12.5px;line-height:1.5;margin-bottom:10px}.tb-mistake-why strong{color:var(--ink)}.tb-mistake-link{color:var(--teal);font-size:12px;font-weight:600}.tb-mastery-explain{display:grid;gap:9px}.tb-mastery-explain p{margin:0;padding:11px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--muted);font-size:12.5px;line-height:1.5}.tb-mastery-explain strong{color:var(--ink)}@media(max-width:820px){.tb-mastery-grid{grid-template-columns:1fr}.tb-mastery-stats{grid-template-columns:1fr 1fr}}@media(max-width:560px){.tb-mastery-head,.tb-adaptive-head,.tb-notebook-head,.tb-adaptive-summary{flex-direction:column}.tb-mastery-ring{width:90px;height:90px}.tb-notebook-list article{flex-direction:column}.tb-notebook-score{text-align:left}.tb-mastery-stats{grid-template-columns:1fr 1fr}}';
     document.head.appendChild(style);
   }
 
@@ -528,6 +610,12 @@
       const navigation = event.target.closest('.tb-navcell,.tb-opt,[data-flag]');
       if (navigation && overview.contains(navigation)) captureCurrent();
       handleClick(event);
+    });
+    document.addEventListener('change', function (event) {
+      const select = event.target.closest('[data-notebook-filter]');
+      if (!select) return;
+      notebookFilter = select.value;
+      renderNotebook();
     });
     new MutationObserver(schedule).observe(overview, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden'] });
     schedule();

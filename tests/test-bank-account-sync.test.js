@@ -78,6 +78,19 @@ test('combines question histories and rebuilds counts', () => {
   const result = merge(left, right).exams.cssbb;
   assert.equal(result.attempts.length, 2); assert.equal(result.questions.q1.attempts, 2); assert.equal(result.questions.q1.correct, 1); assert.equal(result.questions.q1.incorrect, 1); dom.window.close();
 });
+test('merging two devices retains every incorrect attempt in a question history, not just the most recent 30', () => {
+  const dom = load(), merge = dom.window.__TBAccountSync.mergeMastery;
+  const leftHistory = [];
+  for (let index = 0; index < 20; index += 1) leftHistory.push({ at: index, status: 'incorrect' });
+  const rightHistory = [];
+  for (let index = 20; index < 40; index += 1) rightHistory.push({ at: index, status: 'incorrect' });
+  const left = { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: { history: leftHistory, lastSeenAt: 19 } } } } };
+  const right = { version: 1, exams: { cssbb: { attempts: [], sessions: [], questions: { q1: { history: rightHistory, lastSeenAt: 39 } } } } };
+  const result = merge(left, right).exams.cssbb.questions.q1;
+  const incorrectEntries = result.history.filter(entry => entry.status === 'incorrect');
+  assert.equal(incorrectEntries.length, 40, 'no incorrect attempt from either device is dropped once the merged count exceeds the old 30-entry cap');
+  dom.window.close();
+});
 test('selects deterministic legacy readiness snapshot', () => {
   const dom = load(); const result = dom.window.__TBAccountSync.mergePayloads([{ schemaVersion: 1, values: { 'tb-adaptive-cssbb': { attempts: 2, lastReadiness: 91 } } }, { schemaVersion: 1, values: { 'tb-adaptive-cssbb': { attempts: 4, lastReadiness: 77 } } }]);
   assert.equal(result.values['tb-adaptive-cssbb'].attempts, 4); assert.equal(result.values['tb-adaptive-cssbb'].lastReadiness, 77); dom.window.close();

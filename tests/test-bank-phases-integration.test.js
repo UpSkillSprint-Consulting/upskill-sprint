@@ -116,26 +116,70 @@ test('a completed quiz creates one integrated feedback loop and one mastery dash
   assert.deepEqual(errors, []);
 });
 
-test('integrated dashboard and notebook use current effective mastery', async () => {
+test('mistake notebook shows a chronological log of missed questions with a red/green answer snapshot', async () => {
   const { window } = await load();
   const overview = await completeQuick(window);
-  const store = window.__TBAdaptiveMastery.store();
-  const data = store.exams.cssbb;
-  const state = Object.values(data.questions)[0];
-  state.lastSeenAt = Date.now() - 50 * 86400000;
-  state.attempts = Math.max(state.attempts, 3);
-  state.correct = state.attempts;
-  state.streak = 3;
-  state.lastStatus = 'correct';
-  window.localStorage.setItem('tb-adaptive-mastery-v1', JSON.stringify(store));
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  const wrongIndex = (question.answer + 1) % question.options.length;
+  api.recordResults([{ question, selected: wrongIndex, status: 'incorrect' }], 'exam-attempt');
   window.__TBPhaseIntegration.refresh();
-  await settle(window, 3);
+  await settle(window, 2);
   click(window, overview.querySelector('[data-open-notebook]'));
   await settle(window, 2);
   const notebook = overview.querySelector('#tb-adaptive-panel');
   assert.ok(notebook && !notebook.hidden);
-  assert.match(notebook.textContent, /Effective mastery is recalculated/);
-  assert.ok(notebook.querySelector('.tb-notebook-score b'));
+  assert.match(notebook.textContent, /Every question answered incorrectly/);
+  const card = notebook.querySelector('.tb-mistake-card');
+  assert.ok(card, 'the missed question renders as a mistake card');
+  assert.equal(card.querySelectorAll('.tb-mistake-opt').length, question.options.length, 'all answer choices are shown');
+  const wrongOption = card.querySelector('.tb-mistake-opt-wrong');
+  const correctOption = card.querySelector('.tb-mistake-opt-correct');
+  assert.ok(wrongOption, 'the selected incorrect answer is highlighted red');
+  assert.ok(correctOption, 'the correct answer is highlighted green');
+  assert.ok(notebook.querySelector('[data-notebook-filter]'), 'a knowledge-area filter dropdown is present');
+});
+
+test('the same question missed more than once creates a separate notebook entry per failed attempt', async () => {
+  const { window } = await load();
+  const overview = await completeQuick(window);
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  const wrongIndex = (question.answer + 1) % question.options.length;
+  api.recordResults([{ question, selected: wrongIndex, status: 'incorrect' }], 'exam-attempt');
+  api.recordResults([{ question, selected: wrongIndex, status: 'incorrect' }], 'adaptive-practice');
+  window.__TBPhaseIntegration.refresh();
+  await settle(window, 2);
+  click(window, overview.querySelector('[data-open-notebook]'));
+  await settle(window, 2);
+  const notebook = overview.querySelector('#tb-adaptive-panel');
+  const cards = notebook.querySelectorAll('.tb-mistake-card');
+  assert.equal(cards.length, 2, 'each failed attempt on the same question gets its own entry');
+  const whens = Array.from(notebook.querySelectorAll('.tb-mistake-when')).map(node => node.textContent);
+  assert.equal(new Set(whens).size <= whens.length, true);
+});
+
+test('the knowledge-area dropdown filters the mistake notebook to a single subtopic', async () => {
+  const { window } = await load();
+  const overview = await completeQuick(window);
+  const api = window.__TBAdaptiveMastery;
+  const bank = Object.values(window.__TB.EXAMS.cssbb.sets).flat();
+  const first = bank[0];
+  const second = bank.find(item => item.sub !== first.sub);
+  assert.ok(second, 'test fixture needs at least two knowledge areas');
+  api.recordResults([{ question: first, selected: (first.answer + 1) % first.options.length, status: 'incorrect' }], 'exam-attempt');
+  api.recordResults([{ question: second, selected: (second.answer + 1) % second.options.length, status: 'incorrect' }], 'exam-attempt');
+  window.__TBPhaseIntegration.refresh();
+  await settle(window, 2);
+  click(window, overview.querySelector('[data-open-notebook]'));
+  await settle(window, 2);
+  const notebook = overview.querySelector('#tb-adaptive-panel');
+  assert.equal(notebook.querySelectorAll('.tb-mistake-card').length, 2);
+  const select = notebook.querySelector('[data-notebook-filter]');
+  select.value = first.sub;
+  select.dispatchEvent(new window.Event('change', { bubbles: true }));
+  await settle(window, 2);
+  assert.equal(notebook.querySelectorAll('.tb-mistake-card').length, 1, 'only the selected knowledge area remains');
 });
 
 test('deduplication removes extra dashboards and live regions', async () => {

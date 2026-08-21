@@ -59,9 +59,17 @@
     });
     return output;
   }
+  /* Incorrect attempts are kept in full across merges so the mistake notebook
+     retains a complete cross-device record; other statuses are capped. */
+  function trimQuestionHistory(history) {
+    const sorted = (history || []).slice().sort((x, y) => Number(x.at || 0) - Number(y.at || 0));
+    const incorrect = sorted.filter(x => x.status === 'incorrect');
+    const other = sorted.filter(x => x.status !== 'incorrect').slice(-40);
+    return incorrect.concat(other).sort((x, y) => Number(x.at || 0) - Number(y.at || 0)).slice(-500);
+  }
   function mergeQuestion(a, b) {
     const state = clone(Number(a && a.lastSeenAt || 0) >= Number(b && b.lastSeenAt || 0) ? (a || b || {}) : (b || a || {}));
-    const history = mergeArray(a && a.history, b && b.history).sort((x, y) => Number(x.at || 0) - Number(y.at || 0)).slice(-30);
+    const history = trimQuestionHistory(mergeArray(a && a.history, b && b.history));
     if (!history.length) return state;
     state.history = history; state.attempts = history.length;
     state.correct = history.filter(x => x.status === 'correct').length;

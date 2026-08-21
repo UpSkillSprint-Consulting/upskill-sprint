@@ -426,8 +426,9 @@ test('merged histories retain the application limits and newest records', () => 
     { exams: { cssbb: { attempts: [], sessions: [], questions: { q1: { history: make('q-a', 30, 0, 'at'), lastSeenAt: 29 } } } } },
     { exams: { cssbb: { attempts: [], sessions: [], questions: { q1: { history: make('q-b', 30, 30, 'at'), lastSeenAt: 59 } } } } }
   ).exams.cssbb.questions.q1.history;
-  assert.equal(questionHistory.length, 30);
-  assert.equal(questionHistory[0].id, 'q-b0');
+  // Non-incorrect entries (no status set here) are capped at the newest 40 once merged.
+  assert.equal(questionHistory.length, 40);
+  assert.equal(questionHistory[0].id, 'q-a20');
   const mergedHistory = dom.window.__TBAccountSync.mergePayloads([
     { values: { 'tb-attempt-history-v3': { attempts: make('h-a', 50, 0, 'startedAt') } } },
     { values: { 'tb-attempt-history-v3': { attempts: make('h-b', 50, 50, 'startedAt') } } }

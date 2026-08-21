@@ -142,24 +142,91 @@
     }
   }
 
-  function notebookMarkup() {
-    const data = examData();
-    const items = questions().map(function (question) {
-      return { question: question, state: stateFor(question, data) };
-    }).filter(function (item) {
-      return item.state && item.state.attempts > 0 && (item.state.lastStatus !== 'correct' || effectiveMastery(item.state) < 80);
-    }).sort(function (a, b) {
-      const dueDifference = a.state.dueAt - b.state.dueAt;
-      return dueDifference || effectiveMastery(a.state) - effectiveMastery(b.state);
-    }).slice(0, 50);
+  let notebookFilter = 'all';
 
-    return '<div class="tb-notebook-head"><div><div class="tb-diag-kick">Mistake notebook</div><h3>Questions that still need reinforcement</h3><p>Effective mastery is recalculated using current recency. Items leave after at least three attempts and sustained mastery of 80% or higher.</p></div><button type="button" class="tb-ghost" data-close-adaptive>Close</button></div><div class="tb-notebook-list">' +
-      (items.length ? items.map(function (item) {
-        const lesson = lessonFor(item.question.sub);
-        const mastery = effectiveMastery(item.state);
-        const due = item.state.dueAt <= Date.now() ? 'Due now' : 'Due ' + new Date(item.state.dueAt).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
-        return '<article><div><span>' + esc(subtopicName(item.question.sub)) + '</span><strong>' + esc(item.question.stem) + '</strong><small>Last result: ' + esc(item.state.lastStatus) + ' · ' + due + ' · ' + item.state.attempts + ' attempts</small></div><div class="tb-notebook-score"><b>' + mastery + '%</b><a href="' + esc(lesson.href) + '">' + esc(lesson.name) + '</a></div></article>';
-      }).join('') : '<p class="tb-review-empty">Your mistake notebook is empty.</p>') + '</div>';
+  function questionByStem(stem) {
+    return questions().find(function (question) { return question.stem === stem; }) || null;
+  }
+
+  /* Flattens every stored incorrect attempt, across every question, into a
+     single chronological log (most recent first). Each row carries the full
+     question object so the card below can render a complete A-D snapshot. */
+  function mistakeEntries() {
+    const data = examData();
+    const rows = [];
+    Object.keys(data.questions || {}).forEach(function (key) {
+      const state = data.questions[key];
+      const question = questionByStem(state.stem);
+      if (!question) return;
+      (state.history || []).forEach(function (entry) {
+        if (entry.status !== 'incorrect') return;
+        rows.push({ question: question, sub: state.sub || question.sub, at: entry.at, selected: entry.selected, source: entry.source });
+      });
+    });
+    return rows.sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
+  }
+
+  function mistakeKnowledgeAreas(entries) {
+    const seen = {};
+    const list = [];
+    entries.forEach(function (entry) {
+      if (seen[entry.sub]) return;
+      seen[entry.sub] = true;
+      list.push(entry.sub);
+    });
+    return list.sort(function (a, b) { return subtopicName(a).localeCompare(subtopicName(b)); });
+  }
+
+  function formatAttemptWhen(timestamp) {
+    return timestamp ? new Date(timestamp).toLocaleString('en-CA', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'Unknown date';
+  }
+
+  function sourceLabel(source) {
+    if (source === 'adaptive-practice') return 'Adaptive practice';
+    if (source === 'exam-attempt') return 'Test attempt';
+    return source ? esc(source) : 'Practice';
+  }
+
+  function mistakeOptionMarkup(question, entry) {
+    return question.options.map(function (option, optionIndex) {
+      let cls = 'tb-mistake-opt';
+      if (optionIndex === question.answer) cls += ' tb-mistake-opt-correct';
+      if (entry.selected === optionIndex && optionIndex !== question.answer) cls += ' tb-mistake-opt-wrong';
+      const tag = optionIndex === question.answer ? '<em>Correct answer</em>' : (entry.selected === optionIndex ? '<em>Your answer</em>' : '');
+      return '<li class="' + cls + '"><span>' + String.fromCharCode(65 + optionIndex) + '</span><div>' + esc(option) + tag + '</div></li>';
+    }).join('');
+  }
+
+  function mistakeCardMarkup(entry) {
+    const question = entry.question;
+    const lesson = lessonFor(entry.sub);
+    return '<article class="tb-mistake-card">' +
+      '<div class="tb-mistake-meta"><span class="tb-mistake-sub">' + esc(subtopicName(entry.sub)) + '</span><span class="tb-mistake-when">' + formatAttemptWhen(entry.at) + ' · ' + sourceLabel(entry.source) + '</span></div>' +
+      '<div class="tb-mistake-stem">' + esc(question.stem) + '</div>' +
+      '<ol class="tb-mistake-options">' + mistakeOptionMarkup(question, entry) + '</ol>' +
+      (question.why ? '<div class="tb-mistake-why"><strong>Why:</strong> ' + esc(question.why) + '</div>' : '') +
+      '<a class="tb-mistake-link" href="' + esc(lesson.href) + '">Review: ' + esc(lesson.name) + '</a>' +
+      '</article>';
+  }
+
+  function notebookMarkup() {
+    const entries = mistakeEntries();
+    const areas = mistakeKnowledgeAreas(entries);
+    const activeFilter = notebookFilter && areas.indexOf(notebookFilter) !== -1 ? notebookFilter : 'all';
+    const shown = activeFilter === 'all' ? entries : entries.filter(function (entry) { return entry.sub === activeFilter; });
+    const filterOptions = '<option value="all">All knowledge areas</option>' + areas.map(function (sub) {
+      return '<option value="' + esc(sub) + '"' + (sub === activeFilter ? ' selected' : '') + '>' + esc(subtopicName(sub)) + '</option>';
+    }).join('');
+
+    return '<div class="tb-notebook-head"><div><div class="tb-diag-kick">Mistake notebook</div><h3>Every question answered incorrectly</h3><p>A complete, chronological record of missed questions across every test and practice attempt. Entries stay here as a permanent study log, even after a question is later answered correctly.</p></div><button type="button" class="tb-ghost" data-close-adaptive>Close</button></div>' +
+      (entries.length ? '<div class="tb-notebook-filter"><label for="tb-notebook-filter-select">Knowledge area</label><select id="tb-notebook-filter-select" data-notebook-filter>' + filterOptions + '</select><span class="tb-notebook-count">' + shown.length + ' of ' + entries.length + ' missed attempt' + (entries.length === 1 ? '' : 's') + '</span></div>' : '') +
+      '<div class="tb-notebook-list">' + (shown.length ? shown.map(mistakeCardMarkup).join('') : '<p class="tb-review-empty">' + (entries.length ? 'No missed questions in this knowledge area yet.' : 'Your mistake notebook is empty.') + '</p>') + '</div>';
+  }
+
+  function renderNotebook() {
+    const panel = document.getElementById('tb-adaptive-panel');
+    if (!panel || panel.hidden) return;
+    panel.innerHTML = notebookMarkup();
   }
 
   function openNotebook(event) {
@@ -169,12 +236,20 @@
     event.stopImmediatePropagation();
     const panel = document.getElementById('tb-adaptive-panel');
     if (!panel) return;
+    notebookFilter = 'all';
     panel.hidden = false;
-    panel.innerHTML = notebookMarkup();
+    renderNotebook();
     panel.tabIndex = -1;
     panel.focus();
     const live = document.getElementById('tb-feedback-live');
     if (live) live.textContent = 'Mistake notebook opened.';
+  }
+
+  function handleNotebookFilterChange(event) {
+    const select = event.target.closest && event.target.closest('[data-notebook-filter]');
+    if (!select) return;
+    notebookFilter = select.value;
+    renderNotebook();
   }
 
   function integrationHealth() {
@@ -202,7 +277,8 @@
     if (document.getElementById(STYLE_ID)) return;
     const style = document.createElement('style');
     style.id = STYLE_ID;
-    style.textContent = '.tb-weak-list small{grid-column:1/-1;color:var(--muted);font-size:10px}.tb-integration-status{margin-top:8px;color:var(--muted);font-size:10px}';
+    style.textContent = '.tb-weak-list small{grid-column:1/-1;color:var(--muted);font-size:10px}.tb-integration-status{margin-top:8px;color:var(--muted);font-size:10px}' +
+      '.tb-notebook-filter{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}.tb-notebook-filter label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}.tb-notebook-filter select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit;font-size:12.5px}.tb-notebook-count{color:var(--muted);font-size:11.5px;margin-left:auto}.tb-notebook-list{display:grid;gap:14px}.tb-mistake-card{padding:16px;border:1px solid var(--line);border-radius:11px;background:var(--card)}.tb-mistake-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-bottom:10px}.tb-mistake-sub{color:var(--teal);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}.tb-mistake-when{color:var(--muted);font-size:11px}.tb-mistake-stem{color:var(--ink);font-size:14.5px;font-weight:600;line-height:1.5;margin-bottom:11px}.tb-mistake-options{display:grid;gap:7px;margin:0 0 11px;padding:0;list-style:none}.tb-mistake-opt{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--tint);color:var(--ink);font-size:13px;line-height:1.45}.tb-mistake-opt span{width:22px;height:22px;flex:0 0 auto;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;font-size:10.5px;font-weight:700;background:var(--card)}.tb-mistake-opt em{display:block;margin-top:3px;font-style:normal;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}.tb-mistake-opt-correct{border-color:#1f9d6b;background:color-mix(in srgb,#1f9d6b 12%,var(--card))}.tb-mistake-opt-correct em{color:#1f9d6b}.tb-mistake-opt-wrong{border-color:#c0453f;background:color-mix(in srgb,#c0453f 10%,var(--card))}.tb-mistake-opt-wrong em{color:#c0453f}.tb-mistake-why{padding:11px;border-radius:8px;background:var(--tint);color:var(--muted);font-size:12.5px;line-height:1.5;margin-bottom:10px}.tb-mistake-why strong{color:var(--ink)}.tb-mistake-link{color:var(--teal);font-size:12px;font-weight:600}@media(max-width:560px){.tb-notebook-filter{flex-direction:column;align-items:flex-start}.tb-notebook-count{margin-left:0}}';
     document.head.appendChild(style);
   }
 
@@ -222,6 +298,7 @@
   function initialize() {
     ensureStyles();
     document.addEventListener('click', openNotebook, true);
+    document.addEventListener('change', handleNotebookFilterChange);
     document.addEventListener('tb:adaptive-complete', function () { requestAnimationFrame(updateDashboard); });
     const overview = document.getElementById(OVERVIEW_ID);
     if (overview) new MutationObserver(schedule).observe(overview, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden'] });
