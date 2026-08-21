@@ -199,6 +199,26 @@ test('a missed question with an embedded chart shows the chart in the notebook s
   assert.ok(card.querySelector('svg'), 'the chart that was part of the original question is rendered in the notebook snapshot');
 });
 
+test('the "why" explanation renders its authored inline HTML instead of showing raw tags', async () => {
+  const { window } = await load();
+  const overview = await completeQuick(window);
+  const api = window.__TBAdaptiveMastery;
+  const bank = Object.values(window.__TB.EXAMS.cssbb.sets).flat();
+  const question = bank.find(item => item.why && /<[a-z]+>/i.test(item.why));
+  assert.ok(question, 'test fixture needs a question whose explanation contains inline HTML markup');
+  api.recordResults([{ question, selected: (question.answer + 1) % question.options.length, status: 'incorrect' }], 'exam-attempt');
+  window.__TBPhaseIntegration.refresh();
+  await settle(window, 2);
+  click(window, overview.querySelector('[data-open-notebook]'));
+  await settle(window, 2);
+  const notebook = overview.querySelector('#tb-adaptive-panel');
+  const why = notebook.querySelector('.tb-mistake-why');
+  assert.ok(why, 'the why block is rendered');
+  // If the markup were escaped, the tag characters would show up as literal
+  // visible text (e.g. "<b>catchball</b>") instead of being parsed as an element.
+  assert.doesNotMatch(why.textContent, /<[a-z]+>/i, 'the authored emphasis tag renders as markup, not literal visible text');
+});
+
 test('deduplication removes extra dashboards and live regions', async () => {
   const { window } = await load();
   const overview = await completeQuick(window);

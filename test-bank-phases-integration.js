@@ -209,7 +209,7 @@
       chartHtml(question.chart) +
       '<div class="tb-mistake-stem">' + esc(question.stem) + '</div>' +
       '<ol class="tb-mistake-options">' + mistakeOptionMarkup(question, entry) + '</ol>' +
-      (question.why ? '<div class="tb-mistake-why"><strong>Why:</strong> ' + esc(question.why) + '</div>' : '') +
+      (question.why ? '<div class="tb-mistake-why"><strong>Why:</strong> ' + question.why + '</div>' : '') +
       '<a class="tb-mistake-link" href="' + esc(lesson.href) + '">Review: ' + esc(lesson.name) + '</a>' +
       '</article>';
   }

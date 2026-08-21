@@ -186,6 +186,22 @@ test('the mistake notebook renders a chronological, filterable log of every inco
   assert.ok(notebook.querySelector('[data-notebook-filter]'), 'knowledge-area filter dropdown is present');
 });
 
+test('the "why" explanation renders its authored inline HTML instead of showing raw tags', async () => {
+  const { window } = await load();
+  const overview = await completeQuick(window);
+  const api = window.__TBAdaptiveMastery;
+  const bank = Object.values(window.__TB.EXAMS.cssbb.sets).flat();
+  const question = bank.find(item => item.why && /<[a-z]+>/i.test(item.why));
+  assert.ok(question, 'test fixture needs a question whose explanation contains inline HTML markup');
+  api.recordResults([{ question, selected: (question.answer + 1) % question.options.length, status: 'incorrect' }], 'exam-attempt');
+  click(window, overview.querySelector('[data-open-notebook]'));
+  await settle(window, 2);
+  const notebook = overview.querySelector('#tb-adaptive-panel');
+  const why = notebook.querySelector('.tb-mistake-why');
+  assert.ok(why, 'the why block is rendered');
+  assert.doesNotMatch(why.textContent, /<[a-z]+>/i, 'the authored emphasis tag renders as markup, not literal visible text');
+});
+
 test('every incorrect attempt on a question is retained for the notebook, not truncated by the history cap', async () => {
   const { window } = await load();
   await completeQuick(window);
