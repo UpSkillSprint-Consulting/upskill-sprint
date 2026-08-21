@@ -1,7 +1,9 @@
 export default async function testBankSetControls(request, context) {
   const response = await context.next();
   const contentType = response.headers.get('content-type') || '';
+
   if (!contentType.includes('text/html')) return response;
+
   const html = await response.text();
   const scripts = [
     '<script src="/test-bank-set-controls.js" defer></script>',
@@ -22,11 +24,31 @@ export default async function testBankSetControls(request, context) {
     '<script src="/test-bank-adaptive-mastery-completion-guard.js" defer></script>',
     '<script src="/test-bank-phases-integration.js" defer></script>'
   ];
-  const missingScripts = scripts.filter(script => !html.includes(script.match(/src="([^"]+)"/)[1]));
+  const missingScripts = scripts.filter(function (script) {
+    const source = script.match(/src="([^"]+)"/)[1];
+    return !html.includes(source);
+  });
+
   if (!missingScripts.length) return new Response(html, response);
+
   const injection = missingScripts.join('');
-  const enhancedHtml = html.includes('</body>') ? html.replace('</body>', injection + '</body>') : html + injection;
-  const headers = new Headers(response.headers); headers.delete('content-length'); headers.delete('etag');
-  return new Response(enhancedHtml, { status: response.status, statusText: response.statusText, headers });
+  const enhancedHtml = html.includes('</body>')
+    ? html.replace('</body>', injection + '</body>')
+    : html + injection;
+
+  const headers = new Headers(response.headers);
+  headers.delete('content-length');
+  headers.delete('etag');
+
+  return new Response(enhancedHtml, {
+    status: response.status,
+    statusText: response.statusText,
+    headers
+  });
 }
-export const config = { path: ['/test-bank', '/test-bank/', '/test-bank.html'], method: 'GET', onError: 'bypass' };
+
+export const config = {
+  path: ['/test-bank', '/test-bank/', '/test-bank.html'],
+  method: 'GET',
+  onError: 'bypass'
+};
