@@ -61,7 +61,7 @@
   }
   function mergeQuestion(a, b) {
     const state = clone(Number(a && a.lastSeenAt || 0) >= Number(b && b.lastSeenAt || 0) ? (a || b || {}) : (b || a || {}));
-    const history = mergeArray(a && a.history, b && b.history).sort((x, y) => Number(x.at || 0) - Number(y.at || 0)).slice(-60);
+    const history = mergeArray(a && a.history, b && b.history).sort((x, y) => Number(x.at || 0) - Number(y.at || 0)).slice(-30);
     if (!history.length) return state;
     state.history = history; state.attempts = history.length;
     state.correct = history.filter(x => x.status === 'correct').length;
