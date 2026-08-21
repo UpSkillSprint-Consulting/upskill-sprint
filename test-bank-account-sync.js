@@ -3,11 +3,13 @@
   const TABLE = 'test_bank_progress_devices';
   const DEVICE_KEY = 'tb-account-sync-device-v1';
   const META_KEY = 'tb-account-sync-meta-v1';
+  const USER_KEY = 'tb-account-sync-user-v1';
   const MASTER_KEY = 'tb-adaptive-mastery-v1';
   const HISTORY_KEY = 'tb-attempt-history-v3';
   const LOCAL_WATCH_MS = 3000;
   const REMOTE_POLL_MS = 15000;
   let syncing = false, lastDigest = '', timer = 0, nextRemoteAt = 0;
+  let pendingReason = '', reloadForAccountSwitch = false;
 
   function clone(v) { return v == null ? v : JSON.parse(JSON.stringify(v)); }
   function parse(v, fallback) { try { return JSON.parse(v); } catch (_) { return fallback; } }
@@ -25,11 +27,41 @@
     for (let i = 0; i < localStorage.length; i += 1) { const key = localStorage.key(i); if (trackedKey(key)) values[key] = parse(localStorage.getItem(key), null); }
     return { schemaVersion: 1, values };
   }
-  function unique(items, identity) { const seen = new Set(); return (items || []).filter(item => { const key = identity(item); if (seen.has(key)) return false; seen.add(key); return true; }); }
-  function mergeArray(a, b) { return unique((a || []).concat(b || []), item => item && item.id ? 'id:' + item.id : 'value:' + hash(stable(item))); }
+  function timeValue(value) {
+    if (typeof value === 'number' && Number.isFinite(value)) return value;
+    const parsed = Date.parse(value || '');
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+  function itemRank(item) {
+    if (!item || typeof item !== 'object') return 0;
+    return Math.max.apply(Math, ['updatedAt', 'completedAt', 'finishedAt', 'at', 'startedAt', 'createdAt'].map(key => timeValue(item[key])));
+  }
+  function mergeIdentifiedItem(left, right) {
+    const rightWins = itemRank(right) >= itemRank(left);
+    const older = rightWins ? left : right, newer = rightWins ? right : left;
+    const output = Object.assign({}, clone(older), clone(newer));
+    ['errors', 'records'].forEach(key => {
+      if ((older && older[key]) || (newer && newer[key])) output[key] = Object.assign({}, clone(older && older[key] || {}), clone(newer && newer[key] || {}));
+    });
+    return output;
+  }
+  function mergeArray(a, b) {
+    const output = [], positions = new Map(), values = new Set();
+    (a || []).concat(b || []).forEach(item => {
+      if (item && item.id) {
+        const key = 'id:' + item.id;
+        if (positions.has(key)) output[positions.get(key)] = mergeIdentifiedItem(output[positions.get(key)], item);
+        else { positions.set(key, output.length); output.push(clone(item)); }
+        return;
+      }
+      const key = 'value:' + hash(stable(item));
+      if (!values.has(key)) { values.add(key); output.push(clone(item)); }
+    });
+    return output;
+  }
   function mergeQuestion(a, b) {
     const state = clone(Number(a && a.lastSeenAt || 0) >= Number(b && b.lastSeenAt || 0) ? (a || b || {}) : (b || a || {}));
-    const history = mergeArray(a && a.history, b && b.history).sort((x, y) => Number(x.at || 0) - Number(y.at || 0)).slice(-60);
+    const history = mergeArray(a && a.history, b && b.history).sort((x, y) => Number(x.at || 0) - Number(y.at || 0)).slice(-30);
     if (!history.length) return state;
     state.history = history; state.attempts = history.length;
     state.correct = history.filter(x => x.status === 'correct').length;
@@ -49,13 +81,21 @@
     const ids = new Set(Object.keys(a && a.exams || {}).concat(Object.keys(b && b.exams || {})));
     ids.forEach(id => {
       const left = a && a.exams && a.exams[id] || {}, right = b && b.exams && b.exams[id] || {};
-      const exam = { questions: {}, attempts: mergeArray(left.attempts, right.attempts), sessions: mergeArray(left.sessions, right.sessions) };
+      const exam = {
+        questions: {},
+        attempts: mergeArray(left.attempts, right.attempts)
+          .sort((x, y) => Number(x.at || x.startedAt || 0) - Number(y.at || y.startedAt || 0))
+          .slice(-60),
+        sessions: mergeArray(left.sessions, right.sessions)
+          .sort((x, y) => Number(x.startedAt || x.at || 0) - Number(y.startedAt || y.at || 0))
+          .slice(-60)
+      };
       new Set(Object.keys(left.questions || {}).concat(Object.keys(right.questions || {}))).forEach(q => { exam.questions[q] = mergeQuestion(left.questions && left.questions[q], right.questions && right.questions[q]); });
       output.exams[id] = exam;
     });
     return output;
   }
-  function mergeHistory(a, b) { return { attempts: mergeArray(a && a.attempts, b && b.attempts).sort((x, y) => Number(x.startedAt || 0) - Number(y.startedAt || 0)).slice(-200) }; }
+  function mergeHistory(a, b) { return { attempts: mergeArray(a && a.attempts, b && b.attempts).sort((x, y) => Number(x.startedAt || 0) - Number(y.startedAt || 0)).slice(-50) }; }
   function legacyRank(v) { return !v || typeof v !== 'object' ? -1 : Number(v.attempts || 0) * 1000 + Number(v.lastReadiness || 0); }
   function mergeValue(key, a, b) {
     if (a == null) return clone(b); if (b == null) return clone(a);
@@ -75,33 +115,62 @@
     return changed;
   }
   function context() { const auth = window.UpskillAuth; return { client: auth && auth.getClient ? auth.getClient() : null, user: auth && auth.getUser ? auth.getUser() : null }; }
+  function clearTrackedPayload() {
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i += 1) { const key = localStorage.key(i); if (trackedKey(key)) keys.push(key); }
+    keys.forEach(key => localStorage.removeItem(key));
+    return keys.length > 0;
+  }
+  function prepareUser(userId) {
+    const previous = localStorage.getItem(USER_KEY);
+    const switched = Boolean(previous && previous !== userId);
+    if (switched) { clearTrackedPayload(); reloadForAccountSwitch = true; }
+    localStorage.setItem(USER_KEY, userId);
+    return switched;
+  }
+  function currentUserIs(userId) {
+    const auth = window.UpskillAuth, user = auth && auth.getUser ? auth.getUser() : null;
+    return Boolean(user && user.id === userId);
+  }
   async function sync(reason) {
-    if (syncing || !navigator.onLine) return { skipped: true };
     const ctx = context(); if (!ctx.client || !ctx.user) return { skipped: true };
+    prepareUser(ctx.user.id);
+    if (!navigator.onLine) return { skipped: true };
+    if (syncing) { pendingReason = reason || 'queued'; return { queued: true }; }
     syncing = true;
     try {
-      const id = deviceId(), local = localPayload(), timestamp = new Date().toISOString();
-      let result = await ctx.client.from(TABLE).upsert({ user_id: ctx.user.id, device_id: id, payload: local, updated_at: timestamp }, { onConflict: 'user_id,device_id' });
+      const id = deviceId(), initialLocal = localPayload();
+      let result = await ctx.client.from(TABLE).select('device_id,payload,updated_at').order('updated_at', { ascending: true });
       if (result.error) throw result.error;
-      result = await ctx.client.from(TABLE).select('device_id,payload,updated_at').order('updated_at', { ascending: true });
-      if (result.error) throw result.error;
-      const merged = mergePayloads((result.data || []).map(row => row.payload).concat([local]));
+      if (!currentUserIs(ctx.user.id)) return { stale: true };
+      const merged = mergePayloads((result.data || []).map(row => row.payload).concat([initialLocal, localPayload()]));
       const changed = applyPayload(merged);
+      const mergedDigest = stable(merged);
+      if (!currentUserIs(ctx.user.id)) return { stale: true };
       result = await ctx.client.from(TABLE).upsert({ user_id: ctx.user.id, device_id: id, payload: merged, updated_at: new Date().toISOString() }, { onConflict: 'user_id,device_id' });
       if (result.error) throw result.error;
+      if (!currentUserIs(ctx.user.id)) return { stale: true };
       localStorage.setItem(META_KEY, JSON.stringify({ lastSyncedAt: new Date().toISOString(), reason: reason || 'automatic', status: 'synced' }));
-      lastDigest = stable(localPayload());
+      lastDigest = mergedDigest;
       nextRemoteAt = Date.now() + REMOTE_POLL_MS;
       document.dispatchEvent(new CustomEvent('upskill-test-progress-synced', { detail: { changed } }));
       /* Test-bank metrics are calculated during page initialization. Reload only
          when remote progress changed local state; the next merge is then stable,
          so later device updates can refresh the page without a one-time guard. */
-      if (changed) location.reload();
+      const shouldReload = changed || reloadForAccountSwitch;
+      reloadForAccountSwitch = false;
+      if (shouldReload) location.reload();
       return { changed };
     } catch (error) {
-      localStorage.setItem(META_KEY, JSON.stringify({ lastAttemptAt: new Date().toISOString(), reason: reason || 'automatic', status: 'error', message: String(error && error.message || error) }));
+      if (currentUserIs(ctx.user.id)) localStorage.setItem(META_KEY, JSON.stringify({ lastAttemptAt: new Date().toISOString(), reason: reason || 'automatic', status: 'error', message: String(error && error.message || error) }));
       return { error };
-    } finally { syncing = false; }
+    } finally {
+      syncing = false;
+      if (pendingReason) {
+        const nextReason = pendingReason; pendingReason = '';
+        Promise.resolve().then(() => sync(nextReason));
+      }
+    }
   }
   function watch() {
     clearInterval(timer); lastDigest = stable(localPayload());
@@ -119,7 +188,13 @@
   }
   function start() {
     const auth = window.UpskillAuth; if (!auth || !auth.onChange) return;
-    auth.onChange(user => { if (user) sync('sign-in').then(watch); else clearInterval(timer); });
+    auth.onChange(user => {
+      if (user) sync('sign-in').then(watch);
+      else {
+        clearInterval(timer); pendingReason = ''; reloadForAccountSwitch = false;
+        if (localStorage.getItem(USER_KEY)) clearTrackedPayload();
+      }
+    });
     addEventListener('online', () => sync('online')); addEventListener('focus', () => sync('focus'));
   }
   window.__TBAccountSync = { sync, mergePayloads, mergeMastery, localPayload, REMOTE_POLL_MS };

@@ -18,6 +18,7 @@
   var client = null;
   var currentSession = null;
   var sessionKnown = false;
+  var sessionRevision = 0;
   var listeners = [];
 
   function getConfig() {
@@ -46,16 +47,20 @@
     if (!isConfigured()) return null;
     var config = getConfig();
     client = window.supabase.createClient(config.url, config.anonKey);
+    var restoreRevision = sessionRevision;
     client.auth.onAuthStateChange(function (_event, session) {
+      sessionRevision += 1;
       currentSession = session;
       sessionKnown = true;
       notifyListeners();
     });
     client.auth.getSession().then(function (result) {
+      if (sessionRevision !== restoreRevision) return;
       currentSession = result && result.data ? result.data.session : null;
       sessionKnown = true;
       notifyListeners();
     }).catch(function () {
+      if (sessionRevision !== restoreRevision) return;
       /* Resolve consumers even when session restoration fails. Protected data
          still relies on RLS; the UI can offer sign-in instead of hanging. */
       currentSession = null;
@@ -343,4 +348,3 @@
     initialize();
   }
 }());
-
