@@ -129,25 +129,39 @@
   .tb-qtag{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:99px;margin-bottom:16px}
   .tb-qtag i{width:8px;height:8px;border-radius:2px}
   .tb-stem{font-size:17px;line-height:1.5;color:var(--ink);font-weight:600;margin-bottom:18px}
-  .tb-q-chart-wrap{margin-bottom:16px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--tint);overflow-x:auto}
-  .tb-q-chart{width:100%;min-width:340px;max-width:560px;display:block;margin:0 auto}
-  .tb-q-chart-symbol{max-width:180px;min-width:140px}
+  .tb-q-chart-wrap{margin-bottom:16px;padding:16px 18px;border:1px solid var(--line);border-radius:10px;background:var(--tint);overflow-x:auto}
+  @media(max-width:420px){.tb-q-chart-wrap{padding:12px 10px}}
+  .tb-q-chart-wrap-compact{max-width:220px;margin-left:auto;margin-right:auto}
+  .tb-q-chart-eyebrow{display:block;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);margin:0 0 10px}
+  .tb-q-chart{width:100%;min-width:280px;max-width:560px;display:block;margin:0 auto}
+  .tb-q-chart-symbol{max-width:130px;min-width:110px}
   .tb-q-chart-quad{max-width:420px}
-  .tb-chart-limit{stroke:#c0453f;stroke-width:1;stroke-dasharray:4 3}
-  .tb-chart-cl{stroke:var(--muted);stroke-width:1}
-  .tb-chart-line{stroke:#6656b5;stroke-width:1.5}
-  .tb-chart-dot{fill:#6656b5}
-  .tb-chart-dot-out{fill:#c0453f}
-  .tb-chart-grid{stroke:var(--line);stroke-width:1}
-  .tb-chart-whisker{stroke:var(--ink);stroke-width:1.3}
-  .tb-chart-box{fill:color-mix(in srgb,#6656b5 14%,var(--card));stroke:var(--ink);stroke-width:1.3}
-  .tb-chart-median{stroke:var(--ink);stroke-width:1.6}
-  .tb-chart-outlier{fill:none;stroke:#c0453f;stroke-width:1.6}
-  .tb-chart-band{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3}
-  .tb-chart-ring{fill:none;stroke:var(--muted);stroke-width:1}
-  .tb-chart-target-dot{fill:var(--ink)}
-  .tb-q-chart-quad-hi .tb-chart-ring{stroke:#6656b5}
+  .tb-chart-limit{stroke:#c0453f;stroke-width:1.1;stroke-dasharray:4 3;opacity:.72}
+  .tb-chart-cl{stroke:var(--muted);stroke-width:1.1}
+  .tb-chart-line{stroke:#6656b5;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .tb-chart-dot{fill:#6656b5;stroke:var(--card);stroke-width:1.5}
+  .tb-chart-dot-out{fill:#c0453f;stroke:var(--card);stroke-width:1.5}
+  .tb-chart-grid{stroke:var(--line);stroke-width:1;opacity:.8}
+  .tb-chart-whisker{stroke:var(--ink);stroke-width:1.4;stroke-linecap:round}
+  .tb-chart-box{fill:color-mix(in srgb,#6656b5 15%,var(--card));stroke:var(--ink);stroke-width:1.4}
+  .tb-chart-box-roof{fill:color-mix(in srgb,var(--teal) 16%,var(--card));stroke:var(--teal)}
+  .tb-chart-median{stroke:var(--ink);stroke-width:2;stroke-linecap:round}
+  .tb-chart-mean{fill:#6656b5;font-weight:700}
+  .tb-chart-label-halo{paint-order:stroke;stroke:var(--tint);stroke-width:4px;stroke-linejoin:round}
+  .tb-chart-outlier{fill:none;stroke:#c0453f;stroke-width:1.8}
+  .tb-chart-band{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3;opacity:.65}
+  .tb-chart-ring{fill:none;stroke:var(--muted);stroke-width:1;opacity:.55}
+  .tb-chart-ring-inner{opacity:.9}
+  .tb-chart-target-dot{fill:var(--ink);stroke:var(--card);stroke-width:1.3}
+  .tb-q-chart-quad-hi .tb-chart-ring{stroke:#6656b5;opacity:.95}
   .tb-q-chart-quad-hi .tb-chart-target-dot{fill:#6656b5}
+  .tb-q-chart-quad-hi .tb-chart-box{fill:color-mix(in srgb,#6656b5 28%,var(--card));stroke:#6656b5}
+  .tb-q-data-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+  .tb-q-data-table th{background:var(--card);color:var(--ink);font-weight:700;text-align:left;padding:9px 12px;border-bottom:2px solid var(--line);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase}
+  .tb-q-data-table td{padding:8px 12px;border-bottom:1px solid var(--line);color:var(--ink)}
+  .tb-q-data-table tr:last-child td{border-bottom:none}
+  .tb-q-data-table tr:nth-child(even) td{background:color-mix(in srgb,var(--tint) 55%,var(--card))}
+  .tb-q-data-table td.tb-q-num{text-align:right;font-variant-numeric:tabular-nums}
   .tb-chart-risk-low{fill:color-mix(in srgb,#1f9d6b 22%,var(--card));stroke:var(--line);stroke-width:1}
   .tb-chart-risk-medium{fill:color-mix(in srgb,#b8791b 26%,var(--card));stroke:var(--line);stroke-width:1}
   .tb-chart-risk-high{fill:color-mix(in srgb,#c0453f 26%,var(--card));stroke:var(--line);stroke-width:1}
@@ -425,7 +439,7 @@
 {a:"TM",q:"An operator resists a new standard work procedure saying 'we tried something like this in 2019 and it failed.' The most effective influence approach is to:",o:["Cite the sponsor's authority for the change","Acknowledge the history, explore what failed, and involve the operator in piloting the new method","Provide statistical evidence the new method is superior","Reassign the operator away from the pilot line"],c:1,e:"Resistance rooted in experience responds to <b>participation and acknowledgment</b>, not authority or data alone — involvement converts a resister into a co-designer. This mirrors the classic change-management finding that participation reduces resistance most durably."},
 {a:"DEF",q:"Which problem statement is correctly written for a project charter?",o:["Hydrotest failures are too high because operators skip the fill-rate standard","Reduce hydrotest failures by installing automated fill-rate control by Q3","Hydrotest first-pass failure rate averaged 6.2% over the last 12 months versus a 2% target, costing $410k in rework","Hydrotest performance must improve to satisfy our largest customer"],c:2,e:"A proper problem statement is <b>specific, measured, baselined, bounded in time, and quantified in impact — with no cause and no solution</b>. Option A embeds a cause, B embeds a solution, D is unmeasured."},
 {a:"DEF",q:"A project network has activities on two paths: A→B→D (5+7+4 days) and A→C→D (5+6+4 days). The critical path duration is:",o:["15 days","16 days","19 days","31 days"],c:1,e:"Path A-B-D = 5+7+4 = <b>16 days</b>; A-C-D = 15 days. The critical path is the <b>longest</b> path — it sets minimum project duration. Summing all activities (31) double-counts shared activities."},
-{a:"DEF",q:"In the network above, the total float (slack) of activity C is:",o:["0 days","1 day","2 days","6 days"],c:1,e:"Float = critical path length − noncritical path length through that activity = 16 − 15 = <b>1 day</b>. Activity C can slip one day without delaying the project; activities on the critical path have zero float."},
+{a:"DEF",q:"In the activity network diagram below, path A-B is the critical path (6 + 10 = 16 days) and path C-D runs in parallel (9 + 6 = 15 days). The total float (slack) of activity C is:",o:["0 days","1 day","2 days","6 days"],c:1,e:"Float = critical path length − noncritical path length through that activity = 16 − 15 = <b>1 day</b>. Activity C can slip one day without delaying the project; activities on the critical path have zero float.",chart:{"type":"activity-network","highlight":"C","nodes":{"A":{"col":0,"row":0,"dur":6},"B":{"col":1,"row":0,"dur":10},"C":{"col":0,"row":1,"dur":9},"D":{"col":1,"row":1,"dur":6},"Finish":{"col":2,"row":0.5,"dur":0}},"edges":[["A","B"],["B","Finish"],["C","D"],["D","Finish"]]}},
 {a:"DEF",q:"In the Kano model, flawless surface finish that customers never mention but whose absence triggers immediate complaints is a:",o:["Performance (one-dimensional) attribute","Basic (must-be) attribute","Excitement (delighter) attribute","Indifferent attribute"],c:1,e:"<b>Must-be</b> attributes are assumed: fulfilling them earns no credit, missing them causes strong dissatisfaction. Performance attributes scale satisfaction linearly; delighters surprise. Note delighters decay into must-bes over time — a favorite exam nuance."},
 {a:"DEF",q:"Which VOC collection method is BEST for discovering latent needs customers cannot articulate?",o:["Structured survey with Likert scales","Analysis of warranty claims","Direct observation of the product in use (going to the gemba)","Focus group with prepared questions"],c:2,e:"<b>Observation in the use environment</b> reveals workarounds and unspoken needs — customers can't report what they don't consciously notice. Surveys and focus groups capture only articulated needs; claims data captures only failures."},
 {a:"DEF",q:"A team collects 120 scattered VOC statements and must organize them into natural need themes before building a CTQ tree. The correct tool is:",o:["Interrelationship digraph","Affinity diagram","Matrix diagram","Prioritization matrix"],c:1,e:"The <b>affinity diagram</b> groups large volumes of verbal data into themes via intuitive silent sorting. The interrelationship digraph comes after, to map cause-effect logic among themes; matrices come later still for prioritization."},
@@ -550,7 +564,7 @@
 {a:"DFSS",q:"Early in concept design, a team allocates the system-level CTQ 'coating adhesion ≥ X' down into measurable requirements on surface prep, primer chemistry, and cure profile, each with its own target and tolerance. This activity is called:",o:["CTQ flow-down (requirements allocation)","Benchmarking","Tolerance stack-up analysis","Verification planning"],c:0,e:"<b>CTQ flow-down</b> decomposes system requirements into subsystem and component requirements with allocated targets/variances, so capability can be predicted bottom-up (flow-up) before hardware exists — a core DFSS discipline."}
   ];
   function tbShuf4(opts,ans,ix){var o=opts.slice(),ord=[0,1,2,3],a=((ix+1)*2654435761^0x9E3779B9)|0;function r(){a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}for(var k=3;k>0;k--){var j=Math.floor(r()*(k+1));var t=ord[k];ord[k]=ord[j];ord[j]=t;}return {options:ord.map(function(i){return o[i];}),answer:ord.indexOf(ans)};}
-  var CSSBB_BANK=SET1.map(function(x,ix){var s=tbShuf4(x.o,x.c,ix);return {sub:AREA2SUB[x.a],stem:x.q,options:s.options,answer:s.answer,why:x.e,set:1};});
+  var CSSBB_BANK=SET1.map(function(x,ix){var s=tbShuf4(x.o,x.c,ix);return {sub:AREA2SUB[x.a],stem:x.q,options:s.options,answer:s.answer,why:x.e,set:1,chart:x.chart};});
   var SET2_BANK=[
     {"sub":"p1","stem":"A deployment council must choose the strongest first Black Belt project for a medical claims process. Which proposal has the best screening characteristics?","options":["Improve quality throughout the entire organization as soon as possible.","Reduce employee frustration, with success determined by informal management impressions.","Reduce the verified 18% error rate to below 6% in one defined process within six months, with an accountable sponsor and accessible data.","Install a new information system because the department manager prefers that solution."],"answer":2,"why":"It links a measurable Y to strategy, has bounded scope, sponsorship, baseline data, and a realistic time horizon.","set":2},
     {"sub":"p1","stem":"Which approach is MOST appropriate? A chronic defect problem has a measurable gap, unknown causes, and an existing process.","options":["DMADV","Immediate capital authorization","DMAIC","Benchmarking alone"],"answer":2,"why":"DMAIC is intended for improving an existing process when causes and solutions are not yet known.","set":2},
@@ -1860,7 +1874,7 @@
     {"sub":"p2","stem":"A trucking company strives to improve its on-time delivery. In a staff meeting, it is reported that the on-time delivery rate has increased, and transportation costs have also increased due to trucks leaving the facility half-full. This is an example of:","options":["Six Sigma improvement.","suboptimized systems.","increased failure rate.","unbalanced scorecard."],"answer":1,"why":"Concentrating solely on on-time delivery rates is an example of a suboptimized system. When improvements are proposed, it is important to think systemically, so that optimizing one metric will not result in the degradation of another. [I1.C. 1]","set":3},
     {"sub":"p2","stem":"One of the functions of key behavior indicators is to:","options":["track cultural change in an organization.","punish low performers.","dictate social norms.","increase regulatory compliance."],"answer":0,"why":"Key behavior indicators (KBls) are used to track behavior that can lead to high-level performance. This includes tracking cultural change in an organization. [I1.C. 1]","set":3},
     {"sub":"p2","stem":"Which of the following statements is true about objectives and key results (OKRs)?","options":["OKRs are used to reduce the workforce equitably.","OKRs list objectives and the results required to achieve them.","OKRs incorporate benchmarking metrics.","OKRs cannot be used to track individual achievement."],"answer":1,"why":"OKRs list objectives for either an organization, a department, or an individual, and then list the results that will be required to achieve the objective. [I1.C. 1]","set":3},
-    {"sub":"p2","stem":"A customer satisfaction survey asks respondents how likely they are to recommend the product to a friend or colleague using a Likert scale in which 1 maps to not likely at all and 10 maps to extremely likely. Based on the results shown below, what is the value of the net promoter score? Responses Count 9-10 23 7-8 12 5-6 5 3-4 4 1-2 1","options":["28.9%,","51.1%,","55.6%","77.8%,"],"answer":0,"why":"The net promoter score is calculated as the percentage of respondents who are promoters (scores of 9 or 10) minus the percentage of respondents who are detractors (scores from 1- 6). NP S = 23 - l O = 28.9% 45 [I1.C. 1]","set":3},
+    {"sub":"p2","stem":"A customer satisfaction survey asks respondents how likely they are to recommend the product to a friend or colleague using a Likert scale in which 1 maps to not likely at all and 10 maps to extremely likely. Based on the results shown below, what is the value of the net promoter score?","options":["28.9%","51.1%","55.6%","77.8%"],"answer":0,"why":"Promoters (scores 9-10) = 23. Detractors (scores 1-6) = 5 + 4 + 1 = 10. Total respondents = 23+12+5+4+1 = 45. NPS = (promoters - detractors) / total = (23-10)/45 = 28.9%. [II.C.1]","set":3,"chart":{"type":"data-table","columns":["Responses","Count"],"rows":[["9-10","23"],["7-8","12"],["5-6","5"],["3-4","4"],["1-2","1"]]}},
     {"sub":"p2","stem":"A company monitors the number of hits on its website sales page. This metric is likely a leading indicator of:","options":["future sales.","customer returns.","warranty charges.","customer retention."],"answer":0,"why":"The number of hits on the company's sales page is likely a leading indicator of future sales. [I1.C. 1]","set":3},
     {"sub":"p2","stem":"Which perspective defines an organization's value proposition and measures how effective the organization is in creating value?","options":["Internal business processes perspective","Learning and growth perspective","Financial perspective","Customer perspective"],"answer":0,"why":"The internal business processes perspective defines an organization's value proposition and measures how effective the organization is in creating value. [I1.C. 1]","set":3},
     {"sub":"p2","stem":"Which perspective includes the capabilities and skills of an organization?","options":["Financial perspective","Learning and growth perspective","Internal business process perspective","Customer perspective"],"answer":1,"why":"The learning and growth perspective includes the capability and skills of an organization. [I1.C. 1]","set":3},
@@ -1911,8 +1925,8 @@
     {"sub":"def","stem":"In the house of quality, customer requirements are generally written:","options":["along the far-left side.","on the \"roof.\"","in the interior of the house.","on the bottom of the matrix."],"answer":0,"why":"The leftmost side of the house of quality lists customer requirements. [IV.A.3]","set":3},
     {"sub":"def","stem":"In a house of quality, the top portion, or roof, shows the relationship between:","options":["technical requirements.","customer requirements.","technical and customer requirements.","competitors and customer requirements."],"answer":0,"why":"The \"roof' of the house of quality shows the relationship between pairs of technical requirements using symbols. [IV.A.3]","set":3},
     {"sub":"def","stem":"An advantage of a SIPOC diagram is that it:","options":["is more detailed than a value stream map.","can provide quick insights into inputs and outputs.","can be used to track waste.","can be used to determine root causes of a problem."],"answer":1,"why":"A SIPOC diagram gives a high-level view of the process and can provide quick insights into inputs and outputs. [IV.A.3]","set":3},
-    {"sub":"def","stem":"The target values for each technical requirement appear in which area of the house of quality?","options":["Area 2","Area 4","Area 7","Area 9"],"answer":2,"why":"The target values for each technical requirement appear in Area 7 of the house of quality. The technical requirements themselves are listed in Area 2. [IV.A.3]","set":3},
-    {"sub":"def","stem":"Customer requirements are listed in which area of the house of quality?","options":["Area 1","Area 2","Area 4","Area 9"],"answer":0,"why":"Customer requirements are listed along the left side of the house of quality, in Area 1. [IV.A.3]","set":3},
+    {"sub":"def","stem":"Use the house of quality diagram below to answer this question and the next. The target values for each technical requirement appear in which area of the house of quality?","options":["Area 2","Area 4","Area 7","Area 9"],"answer":2,"why":"The target values for each technical requirement appear in Area 7, directly below the technical requirements themselves (Area 6). [IV.A.3]","set":3,"chart":{"type":"house-of-quality","highlight":"7"}},
+    {"sub":"def","stem":"Using the same house of quality diagram, customer requirements are listed in which area of the house of quality?","options":["Area 1","Area 2","Area 4","Area 9"],"answer":0,"why":"Customer requirements are listed along the left side of the house of quality, in Area 1. [IV.A.3]","set":3,"chart":{"type":"house-of-quality","highlight":"1"}},
     {"sub":"def","stem":"A Six Sigma project is chartered to increase on-time deliveries. The team has decided that it will track two metrics: on-time deliveries as well as shipping cost. Shipping cost has likely been added to the project metrics to:","options":["appease the finance department.","set the team up for failure.","avoid suboptimizing the process.","satisfy the project champion."],"answer":2,"why":"The team must track both on-time deliveries and shipping costs so that the overall delivery process is not suboptimized. [IV.B.4]","set":3},
     {"sub":"def","stem":"An increase in project scope can result in:","options":["an increase in quality and a decrease in cost.","a decrease in duration and quality.","an increase in duration and cost.","a decrease in cost and quality."],"answer":2,"why":"Increasing project scope can lead to an increase in the project's duration as well as increased costs. [IV.B.5]","set":3},
     {"sub":"def","stem":"The project management tool that allows the team to see planned and completed tasks on a timeline is the:","options":["Gantt chart.","affinity diagram.","tree diagram.","interrelationship diagram."],"answer":0,"why":"A Gantt chart shows planned and completed tasks on a timeline. [IV.C. 1]","set":3},
@@ -1930,12 +1944,12 @@
     {"sub":"def","stem":"Quality function deployment is an example of a more complicated:","options":["affinity diagram.","Gantt chart.","scatter plot.","matrix diagram."],"answer":3,"why":"Quality function deployment uses the house of quality, which is an example of a matrix diagram. [IV. D.3]","set":3},
     {"sub":"def","stem":"A tool that compares two or more sets of data to discover existing relationships is the:","options":["matrix diagram.","affinity diagram.","Pareto chart.","histogram."],"answer":0,"why":"The matrix diagram compares two or more sets of data to discover existing relationships. [IV. D.3]","set":3},
     {"sub":"def","stem":"What type of matrix is represented here?","options":["L-shaped matrix","T-shaped matrix","X-shaped matrix","Y-shaped matrix"],"answer":2,"why":"This matrix compares the pairwise relationships between four variables: division, part, customer, and shipper. It is a Y shaped matrix. [IV. D.3]","set":3},
-    {"sub":"def","stem":"Based on the matrix diagram, what can be said about Part B?","options":["Part B is only produced by Division 2.","Division 1 makes the highest volume of Part B.","Customer 2 buys a large volume of Part B.","Division 2 ships Part B using Shipper 2."],"answer":2,"why":"The matrix shows that Customer 2 buys a large volume of Part B. We can also see that Customer 1 does not order Part B, and that Division 2 produces only Part B and ships it using only Shipper 1. [IV. D.3]","set":3},
+    {"sub":"def","stem":"A manufacturer compares manufacturing sites, products, customers, and shipping companies in terms of volume using the matrix diagram below. Based on the matrix diagram, what can be said about Part B?","options":["Part B is only produced by Division 2.","Division 1 makes the highest volume of Part B.","Customer 2 buys a large volume of Part B.","Division 2 ships Part B using Shipper 2."],"answer":2,"why":"The matrix shows that Customer 2 buys a large volume of Part B. We can also see that Customer 1 does not order Part B, and that Division 2 produces only Part B and ships it using only Shipper 1. [IV.D.3]","set":3,"chart":{"type":"matrix-diagram","rowLabels":["Division 1","Division 2","Customer 1","Customer 2"],"colGroups":[{"label":"Shipper","cols":["1","2"]},{"label":"Part","cols":["A","B"]}],"cells":[[true,false,true,false],[true,false,false,true],[false,false,true,false],[false,true,false,true]]}},
     {"sub":"def","stem":"Which type of matrix can be used to compare pairwise relationships between three variables?","options":["Roof-shaped matrix","L-matrix","T-shaped matrix","X matrix"],"answer":2,"why":"To compare the pairwise relationships between three variables, use a T-shaped matrix. [IV. D.3].","set":3},
     {"sub":"def","stem":"A prioritization matrix was created by a team to choose which software product to purchase. Each criterion was ranked from 1 = best to 4 = worst. Based on the completed matrix, which product should the team consider first? Ease of Use Low Cost Time to Install Product 50% 25% 25% A 4 3 1 B 3 1 2 C 1 2 4 D 2 4 3","options":["Product A","Product B","Product C","Product D"],"answer":2,"why":"We calculate the sum of the weighted ranks as shown below. For example, the total rank for each product is calculated as: Rank A = ( 4 x 0.50 ) + ( 3 x 0.25 ) + ( 1 x 0.25 ) = 3.00 Rank B = ( 3 x 0.50 ) + ( l x 0.25 ) + ( 2 x 0.25 ) = 2.25 Rank C = ( l x 0.50 ) + ( 2 x 0.25 ) + ( 4 x 0.25 ) = 2.00 Rank D = ( 2 x 0.50 ) + ( 6 x 0.25 ) + ( 3 x 0.25 ) = 2.75. Ease of Use Low Cost Time to Install Product 50% 25% 25% Total Rank A 4 3 1 3.00 Ease of Use Low Cost Time to Install B 3 1 2 2.25 C 1 2 4 2.00 D 2 4 3 2.75 Since the ranking system has 1 = the best, we look for the product with the lowest total rank. Product C should be considered first. [IV. D.4]","set":3},
-    {"sub":"def","stem":"A project has the following activities, predecessors, and durations. Activity: A (no predecessor, 5 days), B (no predecessor, 10 days), C (predecessor A, 8 days), D (predecessor B, 2 days), E (no predecessor, 15 days), F (predecessors C, D & E, 6 days). Use this table to answer this question and the next two. Identify the activities on the critical path.","options":["ACF","BDF","EF","CE"],"answer":2,"why":"There are three paths through the network: ACF = 5+8+6 = 19 days, BDF = 10+2+6 = 18 days, and EF = 15+6 = 21 days. EF is the path with the longest duration and is therefore the critical path. [IV.D.5]","set":3},
-    {"sub":"def","stem":"Using the same project precedence table (Activity: A (no predecessor, 5 days), B (no predecessor, 10 days), C (predecessor A, 8 days), D (predecessor B, 2 days), E (no predecessor, 15 days), F (predecessors C, D & E, 6 days).), what is the early start time for Activity C?","options":["5","8","10","13"],"answer":0,"why":"Activity C's only predecessor is Activity A, which runs from day 0 to day 5. The early start for Activity C is therefore equal to the early finish of Activity A, which is 5. [IV.D.5]","set":3},
-    {"sub":"def","stem":"Using the same project precedence table (Activity: A (no predecessor, 5 days), B (no predecessor, 10 days), C (predecessor A, 8 days), D (predecessor B, 2 days), E (no predecessor, 15 days), F (predecessors C, D & E, 6 days).), Activity E is delayed by five days; what effect will this have on the overall project timeline?","options":["There is no effect on the finish date.","The other activities can be completed early to maintain the schedule.","Activity C will not be able to start on time.","The project will finish at least five days late."],"answer":3,"why":"Activity E sits on the critical path (EF, at 21 days). Delaying any activity on the critical path delays the entire project by the same amount, so the project will finish at least five days late even if every other activity stays on schedule. [IV.D.5]","set":3},
+    {"sub":"def","stem":"Use the precedence table below to answer this question and the next two. Identify the activities on the critical path.","options":["ACF","BDF","EF","CE"],"answer":2,"why":"There are three paths through the network: ACF = 5+8+6 = 19 days, BDF = 10+2+6 = 18 days, and EF = 15+6 = 21 days. EF is the path with the longest duration and is therefore the critical path. [IV.D.5]","set":3,"chart":{"type":"data-table","columns":["Activity","Predecessor","Time"],"rows":[["A","\u2014","5"],["B","\u2014","10"],["C","A","8"],["D","B","2"],["E","\u2014","15"],["F","C, D, E","6"]]}},
+    {"sub":"def","stem":"Using the same precedence table, what is the early start time for Activity C?","options":["5","8","10","13"],"answer":0,"why":"Activity C's only predecessor is Activity A, which runs from day 0 to day 5. The early start for Activity C is therefore equal to the early finish of Activity A, which is 5. [IV.D.5]","set":3,"chart":{"type":"data-table","columns":["Activity","Predecessor","Time"],"rows":[["A","\u2014","5"],["B","\u2014","10"],["C","A","8"],["D","B","2"],["E","\u2014","15"],["F","C, D, E","6"]]}},
+    {"sub":"def","stem":"Using the same precedence table, Activity E is delayed by five days; what effect will this have on the overall project timeline?","options":["There is no effect on the finish date.","The other activities can be completed early to maintain the schedule.","Activity C will not be able to start on time.","The project will finish at least five days late."],"answer":3,"why":"Activity E sits on the critical path (EF, at 21 days). Delaying any activity on the critical path delays the entire project by the same amount, so the project will finish at least five days late even if every other activity stays on schedule. [IV.D.5]","set":3,"chart":{"type":"data-table","columns":["Activity","Predecessor","Time"],"rows":[["A","\u2014","5"],["B","\u2014","10"],["C","A","8"],["D","B","2"],["E","\u2014","15"],["F","C, D, E","6"]]}},
     {"sub":"def","stem":"In an activity network diagram, a \"late finish\" value for an activity represents:","options":["the expected overrun in the project timeline.","the latest that activity can finish without delaying the project.","the slack time for the activity.","the critical path."],"answer":1,"why":"The late finish for an activity in an activity network diagram shows the latest that the activity can finish without delaying the project. For activities on the critical path, early finish and late finish values are equal. [IV. D.5]","set":3},
     {"sub":"def","stem":"The slack time for all activities in the critical path is equal to:","options":["the project completion time.","zero.","the longest activity in the path.","the late start time of the first activity."],"answer":1,"why":"By definition, all activities in the critical path have slack values equal to zero. If any of these activities takes longer to complete, the entire project will be delayed. [IV. D.5]","set":3},
     {"sub":"def","stem":"A tool that lists ways a project activity can go wrong and proposed countermeasures is called a/an:","options":["FMEA.","interrelationship digraph.","affinity diagram.","process decision program chart."],"answer":3,"why":"The process decision program chart (PDPC) is used to list all the ways an activity can go wrong and then propose countermeasures in the event of a problem. [IV. D. 6]","set":3},
@@ -1997,7 +2011,7 @@
     {"sub":"mea","stem":"What insight does the box plot below show?","options":["The data is symmetric.","The data is left skewed.","There is an outlier.","The median is greater than the mean."],"answer":2,"why":"The box plot shows that the data is right skewed and that the mean is greater than the median. The data value of 170 is an outlier. [V.D.4]","set":3,"chart":{"type":"boxplot","min":100,"q1":118,"median":120,"mean":127,"q3":135,"max":160,"outliers":[170]}},
     {"sub":"mea","stem":"Which of the following graphs can be used as a quick check for normality?","options":["Histogram","Scatter plot","Run chart","Pareto chart"],"answer":0,"why":"A histogram shows the center, spread, and shape of a distribution and can be used as a quick check for normality. [V. D.4]","set":3},
     {"sub":"mea","stem":"A scatter plot:","options":["shows the relationship between two quantitative variables.","orders data from highest to lowest.","lists causes such as materials, methods, and measurements.","can only indicate linear relationships."],"answer":0,"why":"A scatter plot shows the relationship between two quantitative variables. Based on the scatter plot, the analyst can assess the nature and direction of the relationship and the correlation between the variables. [V. D.4]","set":3},
-    {"sub":"mea","stem":"Given the frequency table below, what is the cumulative frequency associated with X = 6? X Frequency 4 10 5 12 6 14 7 4 8 2","options":["14","22","36","42"],"answer":2,"why":"The cumulative frequency at X = 6 is equal to 36, as shown in the table below. [V. D.4] X Frequency Cumulative Frequency 4 10 10 5 12 22 X Frequency Cumulative Frequency 6 14 36 7 4 40 8 2 42","set":3},
+    {"sub":"mea","stem":"Given the frequency table below, what is the cumulative frequency associated with X = 6?","options":["14","22","36","42"],"answer":2,"why":"Cumulative frequency at X = 6 is the running total through that row: 10 + 12 + 14 = 36. [V.D.4]","set":3,"chart":{"type":"data-table","columns":["X","Frequency"],"rows":[["4","10"],["5","12"],["6","14"],["7","4"],["8","2"]]}},
     {"sub":"mea","stem":"Interpret the normal probability plot shown below (Plot 1).","options":["The data are normally distributed.","The data are right skewed.","The standard deviation is greater than the mean.","The data should be checked for errors."],"answer":0,"why":"This normal probability plot has points that roughly follow the 45-degree line, with no points outside the 95% confidence bands. We can assume the data is normally distributed. [V.D.4]","set":3,"chart":{"type":"normal-prob","pattern":"linear"}},
     {"sub":"mea","stem":"Interpret the normal probability plot shown below (Plot 2).","options":["The data are normally distributed.","The data are right skewed.","The data are left skewed.","The data set has many negative values."],"answer":1,"why":"The normal probability plot shows that the data are not normally distributed: the points bow away from the fitted line and fall outside the confidence bands at both ends. There are many data points near the value of zero, and then fewer at higher values. This is a right-skewed distribution. In fact, the plot was created using an exponential distribution. [V.D.4]","set":3,"chart":{"type":"normal-prob","pattern":"s-curve"}},
     {"sub":"mea","stem":"Metal plates are inspected for two types of defects: burrs and scratches. A Black Belt calculates the probability of finding a burr or a scratch on a metal panel. Which probability rule would they use?","options":["Multiplication rule","Mutual exclusive rule","Complement rule","Addition rule"],"answer":3,"why":"Let Event A = Burr and Event 8 = Scratch. When finding the probability of Event A OR Event 8, we use the addition rule. [V.E. 1]","set":3},
@@ -2063,19 +2077,19 @@
     {"sub":"mea","stem":"A 3-sigma process output is normally distributed and centered at the specification target. If the mean shifts upward by 1.5 standard deviations, what is the resulting yield?","options":["95.45%","93.32%","99.34%","99.73%"],"answer":1,"why":"For a 3-sigma process output that is normally distributed, the yield will equal 93.32% if the mean shifts upward by 1.5 standard deviations. This information is tabulated in several sources, such as The ASQ Certified Six Sigma Black Belt Handbook. [V. F. 7]","set":3},
     {"sub":"mea","stem":"Short-term capability:","options":["is a snapshot of the process taken under ideal conditions.","captures both within and between subgroup variation.","does not need the process to be in-control.","offers the most realistic view of the actual process performance."],"answer":0,"why":"Short-term capability is measured using Gp, Cpk, and Cpm · The indices provide a snapshot of the process under ideal conditions. [V. F. 7]","set":3},
     {"sub":"mea","stem":"Long-term capability:","options":["can be expressed using the Cpm index.","requires the process to be in-control.","captures both within and between subgroup variation.","is often larger in magnitude than short-term measures."],"answer":1,"why":"Long-term capability measures such as Pp and Ppk capture both within and between subgroup variation. The measures are often calculated when the process is not in control. It is argued that these measures offer a more realistic view of the actual process performance. [V. F. 7] Section VI Analyze VI. Analyze (22 Questions) A. Measuring and modeling relationships and variables 1. Correlation coefficient. Calculate and interpret the correlation coefficient and its confidence interval and describe the difference between correlation and causation. (Evaluate) 2. Linear regression. Calculate and interpret regression analysis and apply and interpret hypothesis tests for regression parameters. Use the regression model for estimation and prediction, analyze the uncertainty in the estimate, and perform a residual analysis to validate the model. (Evaluate) 3. Multivariate tools. Understand sources of variation through multivariate (e.g., factor analysis, discriminant analysis, multiple analysis of variance (MANOVA)). (Understand) B. Hypothesis testing 1. Terminology. Define and interpret the significance level, power, type I, and type II errors of statistical tests. (Evaluate) 2. Statistical versus practical significance. Define, compare, and interpret statistical and practical significance. (Evaluate) 3. Sample size. Calculate sample size for common hypothesis tests: equality of means and equality of proportions. (Apply) 4. Point and interval estimates. Define and distinguish between confidence and prediction intervals. Define and interpret the efficiency and bias of estimators. Calculate tolerance and confidence intervals. (Evaluate) 5. Tests for means, variances, and proportions. Use and interpret the results of hypothesis tests for means, variances, and proportions. (Evaluate) 6. Analysis of variance (ANO VA). Select, calculate, and interpret the results of ANOVAs. (Evaluate) 7. Goodness-of-fit (chi-square) tests. Define, select, and interpret the results of these tests. (Evaluate) C. Risk analysis and management 1. Types of risk. Identify, assess, and prioritize various types of risk such as enterprise, operational, supplier, security, product, and cybersecurity. (Analyze) 2. Failure mode and effects analysis (FMEA). Describe the purpose and elements of FMEA, including risk priority number (RPN), and evaluate FMEA results for processes, products, and services. Distinguish between design FMEA (DFMEA) and process FMEA (PFMEA) and interpret their results. (Evaluate) D. Additional analysis methods 1. Gap analysis. Analyze scenarios to identify performance gaps and compare current and future states using predefined metrics. (Analyze) 2. Root cause analysis. Define and describe the purpose of root cause analysis, recognize the issues involved in identifying a root cause, and use various tools (e.g., 5 whys, Pareto charts, fault tree analysis, cause-and-effect diagrams, and A3) to resolve chronic problems. (Analyze) 3. Waste analysis. Identify and interpret the seven classic wastes (overproduction, inventory, defects, over-processing, waiting, motion, and transportation) and resource under utilization. (Analyze)","set":3},
-    {"sub":"ana","stem":"Which figure demonstrates negative correlation?","options":["Figure A","Figure B","Figure C","Figure D"],"answer":1,"why":"The plotted points decrease from left to right along the y-axis as we move along the x-axis. This is indicative of a negative correlation. The variables X and Y are moving in opposite directions. [V I.A. 1]","set":3},
-    {"sub":"ana","stem":"Which figure demonstrates a nonlinear relationship?","options":["Figure A","Figure B","Figure C","Figure D"],"answer":3,"why":"The points plotted in Figure D suggest a parabolic, or nonlinear, relationship. [V I.A. 1]","set":3},
-    {"sub":"ana","stem":"What is the value of the sample correlation coefficient?","options":["-0.96","0.77","0.88","0.96"],"answer":2,"why":"To calculate the sample correlation coefficient from the information given in the table, we note that n = 8, and then perform the following steps: 1. Calculate x-bar. x = L X; = 20.0 = 2.5 n 8 2. Calculate y-bar. 3. Calculate SSxy• ssxy = }: x;y; - nxy = 899.5 - 8 ( 2.5 ) ( 43 ) = 39.5 4. Calculate SSxx · ss xx = }: x� - nx 2 = 59 - 8 ( 2.5 2 ) = 9.0 5. Calculate SSyy· = \" Y 2 - ny_ 2 Li i 55 yy = 1 501 6 - 8 ( 43 2 ) = 224 6. Calculate the sample correlation coefficient, r. 55 r = -----;======== xy ✓ 55 xx 5 5yy 39.5 -✓ 9 x 224 = 0.88 [V I.A. 1]","set":3},
-    {"sub":"ana","stem":"What is the estimated slope of the regression line predicting strength from time?","options":["1.91","2.10","4.39","14.33"],"answer":2,"why":"To estimate the slope of a simple linear regression line, we can use b1 = 55 xy 55 xx 39.5 9.0 = 4.39. Alternatively, we can calculate the slope using the sample correlation coefficient: b = rJss:: 1..)5 5xx 0.88 ✓ = --=-- 224 ✓9 = 4.39. [V I.A. 1]","set":3},
+    {"sub":"ana","stem":"The four scatter plots below all show the relationship between the same two variables under different conditions. Which figure demonstrates negative correlation?","options":["Figure A","Figure B","Figure C","Figure D"],"answer":1,"why":"In Figure B, y decreases as x increases -- the points trend downward left to right, indicating the variables move in opposite directions (negative correlation). [VI.A.1]","set":3,"chart":{"type":"scatter-quadrant","highlight":"B"}},
+    {"sub":"ana","stem":"Using the same four scatter plots, which figure demonstrates a nonlinear relationship?","options":["Figure A","Figure B","Figure C","Figure D"],"answer":3,"why":"The points plotted in Figure D rise and then fall, suggesting a parabolic (nonlinear) relationship rather than a straight-line trend. [VI.A.1]","set":3,"chart":{"type":"scatter-quadrant","highlight":"D"}},
+    {"sub":"ana","stem":"A Black Belt collects Time (X) and Strength (Y) data for 8 samples, shown below. Use this table to answer this question and the next. What is the value of the sample correlation coefficient?","options":["-0.96","0.77","0.88","0.96"],"answer":2,"why":"n=8, x-bar=20.0/8=2.5, y-bar=344.0/8=43. SSxy = Sum(XY) - n*x-bar*y-bar = 899.5 - 8(2.5)(43) = 39.5. SSxx = Sum(X\u00b2) - n*x-bar\u00b2 = 59 - 8(2.5\u00b2) = 9.0. SSyy = Sum(Y\u00b2) - n*y-bar\u00b2 = 15016 - 8(43\u00b2) = 224. r = SSxy / sqrt(SSxx * SSyy) = 39.5 / sqrt(9 x 224) = 0.88. [VI.A.1]","set":3,"chart":{"type":"data-table","columns":["X (Time)","Y (Strength)","XY","X\u00b2","Y\u00b2"],"rows":[["0.5","37.0","18.5","0.25","1369.00"],["1.5","36.0","54.0","2.25","1296.00"],["2.0","42.0","84.0","4.00","1764.00"],["2.5","39.0","97.5","6.25","1521.00"],["3.0","46.0","138.0","9.00","2116.00"],["3.0","43.0","129.0","9.00","1849.00"],["3.5","51.0","178.5","12.25","2601.00"],["4.0","50.0","200.0","16.00","2500.00"],["SUM (n=8)","20.0 / 344.0","899.5","59.00","15016.00"]]}},
+    {"sub":"ana","stem":"Using the same Time/Strength data below, what is the estimated slope of the regression line predicting strength from time?","options":["1.91","2.10","4.39","14.33"],"answer":2,"why":"SSxy = 39.5, SSxx = 9.0 (see the previous question for the full derivation). The slope is b1 = SSxy / SSxx = 39.5 / 9.0 = 4.39. [VI.A.1]","set":3,"chart":{"type":"data-table","columns":["X (Time)","Y (Strength)","XY","X\u00b2","Y\u00b2"],"rows":[["0.5","37.0","18.5","0.25","1369.00"],["1.5","36.0","54.0","2.25","1296.00"],["2.0","42.0","84.0","4.00","1764.00"],["2.5","39.0","97.5","6.25","1521.00"],["3.0","46.0","138.0","9.00","2116.00"],["3.0","43.0","129.0","9.00","1849.00"],["3.5","51.0","178.5","12.25","2601.00"],["4.0","50.0","200.0","16.00","2500.00"],["SUM (n=8)","20.0 / 344.0","899.5","59.00","15016.00"]]}},
     {"sub":"ana","stem":"A Black Belt calculates a sample correlation to be -0.37 using n = 24 pairs of observations. What is the critical value for the hypothesis test shown below, assuming alpha = 0.05? Ho: p = 0","options":["- 1.868","- 1.7 17","- 1.7 14","- 1.645"],"answer":1,"why":"The critical value for a one-sided, less-than hypothesis test on the correlation is -t (a, n - 2). Using a Student's t table, we find -t(0.05, 22) = - 1.7 17. [V I.A. 1]","set":3},
-    {"sub":"ana","stem":"What is the equation of the estimated regression line?","options":["y = 5.309 + 0.777x","y = 5.605 + 0.877 x","y = -5.906 + 0.777x","y = -5.956x + 0.877"],"answer":2,"why":"To fi nd the esti mated slope of the reg ression l i ne: x x = }: = 546 = 68.25 n 8 y = L Y = 377 = 47.125 n 8 ssxy = }: xy - nxy = 28841 - 8 x 68.25 x 47.125 = 31 10.75 ssxx = }: x 2 - nx 2 = 41268 - 8 x 68.25 2 = 4003.5 SS xy 31 10.75 b1 = = = 0_777 _ ss xx 4003.5 Next, we calculate the y-i ntercept of the reg ression l i ne: bo = y - b1 x = 47.125 - 0.777 x 68.25 = -5.906. [V I.A.2]","set":3},
-    {"sub":"ana","stem":"What is the value of R2, the coefficient of determination?","options":["0.60","0.70","0.80","0.90"],"answer":3,"why":"The coefficient of determination for a simple linear regression is the square of the correlation coefficient, r. We can find the correlation coefficient using SSyy as well as SSxy and SSxx that were calculated for question 8. ss y = I y y 2 - ny 2 = 20451 - 8 x 47.125 2 = 2684.875 r ss x = 31 10.75 = = 0.9488 ✓ y \\JI ss xx ss yy 4003.5 x 2684.875 R 2 = 0.9488 2 = 0.90 [V I.A.2]","set":3},
+    {"sub":"ana","stem":"A warehouse manager wants to predict processing time from the number of pallets in an order. They record pallets and processing time for 8 orders, shown below. Use this table to answer this question and the next. What is the equation of the estimated regression line?","options":["y = 5.309 + 0.777x","y = 5.605 + 0.877x","y = -5.906 + 0.777x","y = -5.956x + 0.877"],"answer":2,"why":"x-bar = 546/8 = 68.25, y-bar = 377/8 = 47.125. SSxy = Sum(XY) - n*x-bar*y-bar = 28841 - 8(68.25)(47.125) = 3110.75. SSxx = Sum(X\u00b2) - n*x-bar\u00b2 = 41268 - 8(68.25\u00b2) = 4003.5. Slope b1 = SSxy/SSxx = 3110.75/4003.5 = 0.777. Intercept b0 = y-bar - b1*x-bar = 47.125 - 0.777(68.25) = -5.906. [VI.A.2]","set":3,"chart":{"type":"data-table","columns":["Observation","X (Pallets)","Y (Time)","XY","X\u00b2","Y\u00b2"],"rows":[["1","30","20","600","900","400"],["2","45","27","1215","2025","729"],["3","58","35","2030","3364","1225"],["4","65","42","2730","4225","1764"],["5","70","58","4060","4900","3364"],["6","85","52","4420","7225","2704"],["7","95","76","7220","9025","5776"],["8","98","67","6566","9604","4489"],["SUM (n=8)","546","377","28,841","41,268","20,451"]]}},
+    {"sub":"ana","stem":"Using the same pallets/processing-time data below (SSxy = 3110.75, SSxx = 4003.5), what is the value of R\u00b2, the coefficient of determination?","options":["0.60","0.70","0.80","0.90"],"answer":3,"why":"R\u00b2 is the square of the correlation coefficient r. SSyy = Sum(Y\u00b2) - n*y-bar\u00b2 = 20451 - 8(47.125\u00b2) = 2684.875. r = SSxy / sqrt(SSxx * SSyy) = 3110.75 / sqrt(4003.5 x 2684.875) = 0.9488. R\u00b2 = 0.9488\u00b2 = 0.90. [VI.A.2]","set":3,"chart":{"type":"data-table","columns":["Observation","X (Pallets)","Y (Time)","XY","X\u00b2","Y\u00b2"],"rows":[["1","30","20","600","900","400"],["2","45","27","1215","2025","729"],["3","58","35","2030","3364","1225"],["4","65","42","2730","4225","1764"],["5","70","58","4060","4900","3364"],["6","85","52","4420","7225","2704"],["7","95","76","7220","9025","5776"],["8","98","67","6566","9604","4489"],["SUM (n=8)","546","377","28,841","41,268","20,451"]]}},
     {"sub":"ana","stem":"A simple linear regression model was estimated to predict the number of customer returns based on the number of sales the previous month. y = 230 + 0.0034x What is the expected number of returns if last month's sales equaled 45, 678 units?","options":["155.3","230","385.3","456.8"],"answer":2,"why":"For x = sales = 45, 678 units, the expected number of returns is equal to Y = 230 + 0.0034X = 230 + 0.0034 X 45, 678 = 385.3. [V I.A.2]","set":3},
     {"sub":"ana","stem":"A Black Belt estimates a regression model to be \u0177 = -32.5 + 12.0x\u2081 + 0.45x\u2082 - 3.9x\u2081x\u2082. What type of model is this?","options":["Multiple linear regression model","Nonlinear regression model","Simple linear regression model","Logistic regression model"],"answer":0,"why":"The equation \u0177 = -32.5 + 12.0x\u2081 + 0.45x\u2082 - 3.9x\u2081x\u2082 is an example of a multiple linear regression model. It has more than one independent variable predicting the response. [VI.A.3]","set":3},
     {"sub":"ana","stem":"To determine the efficacy of a weight loss regimen, participants are weighed at the start and at the end of the 12-week program. Which pair of hypotheses would be appropriate?","options":["Ho: µ1 = µ2 vs. H1: µ1 #- µ2","Ho: µ1 - µ2 = 0 vs. H1: µ1 - µ2 &gt; 0","Ho: µo = 0 vs. H 1: µo '¢ 0","Ho: µD = 0 vs. H1: µo &gt; 0"],"answer":3,"why":"Since each participant is weighed two times, this is an application of a paired sample test. To demonstrate that the weight loss program is effective, we would test H0: µ0 = 0 vs. H 1: µD &gt; 0. [Vl.8.5]","set":3},
     {"sub":"ana","stem":"To compare the means of three or more groups, which of the following tests is the most appropriate?","options":["Student's t-test","Fisher's exact test","Chi-squared test","ANOVA"],"answer":3,"why":"To compare the means of three or more groups, we use analysis of variance (ANOVA). [V I.B. 6]","set":3},
-    {"sub":"ana","stem":"Given the following completed two-way ANOVA table, what is the value of the F-statistic for Factor B?\nSource | Sum of Squares | df | Mean Square | F-statistic\nFactor A | 144 | 2 | 72 | 14.4\nFactor B | 85 | 4 | 21.25 | ?\nAB Interaction | 360 | 8 | 45 | 9.0\nError | 75 | 15 | 5 | Total | 664 | 29 | |","options":["2.13","4.25","9.0","14.4"],"answer":1,"why":"The completed ANOVA table is shown below: Source of Variation Sum of Squares Degrees of Freedom Mean Square F-statistic Factor A 1 44 2 72 1 4.4 Factor B 85 4 2 1.25 4.25 AB I nteraction 360 8 45 9 Error 75 15 5 Total 664 29 where: DFAB = DFA X DFB 8 = 2 x DF8 DF.B = 4 DfError = DfTotal - DFA - DFB - DfAB = 29 - 2 - 4 - 8 = 15 SSB 85 MS8 = = = 21.25 DF.B 4 SS 75 MS = E = = 5 E DFE 15 MSB 21.25.. F.8 = = = 4 25 MEE 5 [V I.B. 6]","set":3},
-    {"sub":"ana","stem":"Based on the ANOVA table, which of the following statements is correct?","options":["Factors A and B are significant at alpha = 0.05.","Factor A and the AB interaction are significant at alpha = 0.05.","Factor B and the AB interaction are significant at alpha = 0.05","Factors A, B, and the AB interaction are significant at alpha = 0.05."],"answer":3,"why":"The critical values for the F tests are shown below: Factor A: F(0.05, 2, 15) = 3.68. F0 &gt; F(0.05, 2, 15). Reject H0, conclude Factor A is significant. Factor B: F(0.05, 4, 15) = 3.05. F0 &gt; F(0.05, 2, 5). Reject H0, conclude Factor B is significant. AB interaction: F(0.05, 8, 15) = 2.64. F0 &gt; F(0.05, 8, 5). Reject H0, conclude AB interaction is significant. [V I.B. 6]","set":3},
+    {"sub":"ana","stem":"A two-way ANOVA table is partially completed, shown below. Use this table to answer this question and the next. What is the F-statistic for Factor B?","options":["2.13","4.25","9.0","14.4"],"answer":1,"why":"First find the missing degrees of freedom: dfAB = dfA x dfB, so 8 = 2 x dfB, giving dfB = 4. dfError = dfTotal - dfA - dfB - dfAB = 29 - 2 - 4 - 8 = 15. Next find SSB using the fact that all sums of squares must add to the total: SSB = SSTotal - SSA - SSAB - SSError = 664 - 144 - 360 - 75 = 85. MSB = SSB/dfB = 85/4 = 21.25. MSError = SSError/dfError = 75/15 = 5. F(B) = MSB/MSError = 21.25/5 = 4.25. [VI.B.6]","set":3,"chart":{"type":"data-table","columns":["Source","Sum of Squares","df","Mean Square","F-statistic"],"rows":[["Factor A","144","2","",""],["Factor B","","","",""],["AB Interaction","360","8","",""],["Error","75","","",""],["Total","664","29","",""]]}},
+    {"sub":"ana","stem":"Using the same two-way ANOVA table (below), which of the following statements is correct?","options":["Factors A and B are significant at alpha = 0.05.","Factor A and the AB interaction are significant at alpha = 0.05.","Factor B and the AB interaction are significant at alpha = 0.05","Factors A, B, and the AB interaction are significant at alpha = 0.05."],"answer":3,"why":"Using dfError = 15 (derived from dfTotal - dfA - dfB - dfAB = 29-2-4-8), the critical values are: Factor A: F0 = 14.4 > F(0.05,2,15) = 3.68, significant. Factor B: F0 = 4.25 > F(0.05,4,15) = 3.06, significant. AB interaction: F0 = 9.0 > F(0.05,8,15) = 2.64, significant. All three are significant at alpha = 0.05. [VI.B.6]","set":3,"chart":{"type":"data-table","columns":["Source","Sum of Squares","df","Mean Square","F-statistic"],"rows":[["Factor A","144","2","",""],["Factor B","","","",""],["AB Interaction","360","8","",""],["Error","75","","",""],["Total","664","29","",""]]}},
     {"sub":"ana","stem":"A Black Belt performs chi-square goodness-of-fit test with alpha = 0.05 to determine whether the distribution of defect types last month was different from the historical percentages. Given the data table below, which is statement is true? Defect Type Length Weig ht Strength Historical% 50% 25% 25% Month ly Inspection 60 35 45","options":["The test statistic = 3.889 and the critical value = 5.991.","The test statistic = 4.286 and the critical value = 5.991.","The test statistic = 3.889 and the critical value = 7.815.","The test statistic = 4.286 and the critical value = 7.815."],"answer":1,"why":"Using the table, we note that 140 defects were found last month. We then calculate the expected number of defects using the historical percentages: Defect Type Length Weight Strength H istorical% 50% 25% 25% Defect Type Length Weig ht Strength Observed 60 35 45 Month ly Inspection Expected 1 40 X 0.50 = 70 1 40 X 0.25 = 35 1 40 X 0.25 = 35 We then calculate the chi-square test statistic using ( 60 - 70 ) ( 35 - 35 ) ( 45 - 35 ) 2 2 2 = --- + --- + --- 70 35 35 = 4.286. The chi-square critical value has (k - 1) = (3 - 1) = 2 degrees of freedom. Using the chi-square table, we find x 2 (0.05, 2) = 5.991. [V I.B. 7]","set":3},
     {"sub":"ana","stem":"With n observations from a random sample, each of which could be classified into exactly one of k categories, how many degrees of freedom does a goodness-of-fit test with specified probabilities have?","options":["n","n - 1","k - 1","k - 2"],"answer":2,"why":"For a chi-squared goodness-of-fit test, there will be k - 1 degrees of freedom. [Vl.8.7]","set":3},
     {"sub":"ana","stem":"The SWIFT technique can be used to identify:","options":["strengths and weaknesses in an organization.","root causes of a problem.","risks and causes.","wastes in a process."],"answer":2,"why":"The SWIFT technique can be used to identify risks and causes. [V I.C. 1]","set":3},
@@ -2100,14 +2114,14 @@
     {"sub":"ana","stem":"Which tool is based on the principle of \"the vital few and the useful many\"?","options":["Affinity diagram","Fishbone diagram","Pareto chart","Process decision program chart"],"answer":2,"why":"The Pareto chart is based on the principle of the vital few and useful many, also known as the 80/20 rule. [V I. D.2]","set":3},
     {"sub":"ana","stem":"Which of the following tools can be used to drill down to a root cause?","options":["Eight wastes","5S","S M E D","5 Whys"],"answer":3,"why":"The 5 Whys tool can be used to drill down to a root cause. [V I. D.2]","set":3},
     {"sub":"ana","stem":"Which of the following tools is used to provide visual identification of many potential causes of a problem?","options":["Decision tree","Process flowchart","Cause-and-effect diagram","Check sheet"],"answer":2,"why":"A cause-and-effect, or fishbone, diagram is used to provide visual identification of many potential causes of a problem. [V I. D.2]","set":3},
-    {"sub":"ana","stem":"Which of the FTA symbols indicates an AND gate?","options":["2 and 6","3 and 4","5","7, 9, and 10"],"answer":0,"why":"Symbols 2 and 6 denote AND gates. The output for an AND gate occurs only if all inputs occur. [V I. D.2]","set":3},
-    {"sub":"ana","stem":"Which of the FTA symbols indicates the primary event?","options":["1","3","4","3 and 4"],"answer":0,"why":"Symbol 1 represents the primary, or head, event. This is the failure mode being investigated. [V I. D.2]","set":3},
+    {"sub":"ana","stem":"Use the fault tree diagram below to answer this question and the next. Which of the FTA symbols indicates an AND gate?","options":["2 and 6","3 and 4","5","7, 9, and 10"],"answer":0,"why":"Symbols 2 and 6 denote AND gates. The output for an AND gate occurs only if all inputs occur. [VI.D.2]","set":3,"chart":{"type":"fta-diagram","highlightSet":["2","6"]}},
+    {"sub":"ana","stem":"Using the same fault tree diagram, which of the FTA symbols indicates the primary event?","options":["1","3","4","3 and 4"],"answer":0,"why":"Symbol 1 represents the primary, or head, event. This is the failure mode being investigated. [VI.D.2]","set":3,"chart":{"type":"fta-diagram","highlightSet":["1"]}},
     {"sub":"ana","stem":"When constructing a Pareto diagram, where is the \"other\" category placed?","options":["Left-most column.","Right-most column.","Depends on the number of other items.","The \"other\" column should not be used."],"answer":1,"why":"In a Pareto chart, the \"Other\" column should appear as the last column. [V I. D.2]","set":3},
     {"sub":"ana","stem":"Producing 55 parts when the order was for 50 is an example of which of the Eight Wastes?","options":["Transportation","Time","Defects","Overprocessing"],"answer":3,"why":"Producing more than needed is an overprocessing waste. [V I. D.3]","set":3},
     {"sub":"ana","stem":"ABC Company is actively eliminating what type of waste?","options":["Inventory","Processing","Waiting","Transportation"],"answer":2,"why":"ABC Company is trying to eliminate waiting waste due to long lead times. [V I. D.3]","set":3},
     {"sub":"ana","stem":"ABC Manufacturing, a machine shop using total productive maintenance methodologies, receives a purchase order for 50 parts. Because of ABC's manufacturing experience and the long lead time to produce these parts, ABC creates a production order for 55 parts to ensure they can still deliver at least 50 good parts. It can be assumed that the most likely reason ABC is producing 55 parts instead of 50 parts is due to what type of waste?","options":["Overprocessing","Defects","Transportation","Inventory"],"answer":1,"why":"Building in extra units to cover an anticipated shortfall is a hedge against expected scrap/rework during production, i.e. defect waste. [VI.D.3]","set":3},
     {"sub":"ana","stem":"In an effort to detect a critical defect, quality inspectors are asked to perform a 100% inspection. This activity is an example of which type of waste?","options":["Time","Defects","Transportation","Overprocessing"],"answer":3,"why":"One hundred percent human inspection is an example of overprocessing waste. [V I. D.3] Section VI I Improve VII. Improve (21 Questions) A. Design of experiments (DOE) 1. Terminology. Define basic DOE terms, e.g., independent and dependent variables, factors and levels, response, treatment, error, and nested. (Understand) 2. Design principles. Define and apply DOE principles, e.g., power, sample size, balance, repetition, replication, order, efficiency, randomization, blocking, interaction, confounding, and resolution. (Apply) 3. Planning experiments. Plan and evaluate DOEs by determining the objective, selecting appropriate factors, responses, and measurement methods, and choosing the appropriate design. (Evaluate) 4. One-factor experiments. Understand when to use completely randomized, randomized block, and Latin square designs. (Understand) 5. Two-level fractional factorial experiments. Understand these types of experiments and describe how confounding can affect their use. (Understand) 6. Full-factorial experiments. Understand these types of experiments. (Understand) B. Lean methods 1. Waste elimination. Select and apply tools and techniques for eliminating or preventing waste, e.g., pull systems, kanban, 5S, standard work, and poka-yoke. (Analyze) 2. Cycle-time reduction. Use various tools and techniques for reducing cycle time, e.g., continuous flow, single-minute exchange of die (SMED), and heijunka (production leveling). (Analyze) 3. Kaizen. Define and distinguish between kaizen and kaizen blitz and describe when to use each method. (Apply) 4. Other improvement tools and techniques. Identify and describe how other process improvement methodologies are used, e.g., theory of constraints (TOC), and overall equipment effectiveness (OEE). (Understand) C. Implementation. Develop plans for implementing proposed improvements, including conducting pilot tests or simulations, and evaluate results to select the optimum solution. (Evaluate)","set":3},
-    {"sub":"imp","stem":"The ANOVA table showed that there are two significant interaction effects. Which factors have significant interactions?","options":["AB and BC","AB and AC","BC and AB","BC and AC"],"answer":1,"why":"The lines in the interaction plots for AB and AC are not parallel, indicating that these factors interact. [V II.A.2]","set":3},
+    {"sub":"imp","stem":"A Black Belt conducted a three-factor full factorial experiment, with each factor having two levels. The interaction plots for y are shown below. The ANOVA table showed that there are two significant interaction effects. Which factors have significant interactions?","options":["AB and BC","AB and AC","BC and AB","BC and AC"],"answer":1,"why":"The lines in the interaction plots for AB and AC cross (are not parallel), indicating that these factors interact. The BC lines run roughly parallel, indicating no significant interaction between B and C. [VII.A.2]","set":3,"chart":{"type":"interaction-plot-3"}},
     {"sub":"imp","stem":"If Factor A is set at the low level, what is the effect of changing Factor C from low to high on the mean response?","options":["The response does not change.","The response increases.","The response decreases.","The response cannot be determined using the graphs."],"answer":2,"why":"From the AC interaction graph, we see that if A is at the low level, moving C from low to high decreases the response. [V II.A.2]","set":3},
     {"sub":"imp","stem":"In a resolution IV experiment:","options":["main effects are confounded with other main effects.","main effects are confounded with two-factor interactions.","some two-factor interactions are confounded with other two factor interactions.","main effects are confounded with the mean."],"answer":2,"why":"In a Resolution IV experiment, some two-factor interactions are confounded with other two-factor interactions. [V II.A.5]","set":3},
     {"sub":"imp","stem":"How many runs are required for a 24- 1 experiment?","options":["8","9","15","16"],"answer":0,"why":"A 24- 1 experiment is a half-fraction of a 24 experiment. The fractional factorial will require 24 + 2 = 8 runs. [V II.A.5]","set":3},
@@ -2197,13 +2211,13 @@
     {"sub":"dfss","stem":"The most important contributor to the success of Design for producibility, manufacturability, and assembly is:","options":["considering costs in the design process.","having assembly or manufacturing subject matter experts in the design process.","having gates for each phase.","management support."],"answer":1,"why":"The most important contributor to the success of Design for producibility, manufacturability, and assembly is having assembly or manufacturing subject matter experts in the design process. Other strategies include: 1. minimize part count. 2. design parts so they can be used on either side. 3. use off-the-shelf parts, standard components, and purchased parts. 4. use modular design where possible. [IX.BJ","set":3},
     {"sub":"dfss","stem":"Design for test is unique to other Design for X methodologies in the sense that:","options":["parts using design for test are designed to be sampled.","design for test is only used on printed wire boards.","design for test uses one final functional test to verify that a quality part was made.","additional features are added to the design to allow for testing of the product throughout the assembly process."],"answer":3,"why":"Design for test adds features to the design to allow for testing of the product throughout the assembly processes, instead of relying only on a functional test at the end of assembly. [IX. B]","set":3},
     {"sub":"dfss","stem":"A functional requirement:","options":["defines how a part should be built.","defines the performance of a product under specific conditions.","is a requirement that can only be observed but not verified.","is a requirement that requires validation studies to be performed to verify its effectiveness."],"answer":1,"why":"A functional requirement defines the performance of a product under specific conditions. [IX.B]","set":3},
-    {"sub":"dfss","stem":"Calculate the total tolerance of the overall length using the conventional tolerance method.","options":["0.62","1.0","2.0","6.8"],"answer":1,"why":"Convention tolerancing is the method used to determine the tolerance when several parts are stacked together. To calculate the tolerance of the overall length, we sum the tolerance of each component: 0.5 + 0.2 + 0.3 = 1.0. [IX.C]","set":3},
-    {"sub":"dfss","stem":"Calculate the total tolerance of the overall length using the statistical tolerance method.","options":["0.62","1.0","2.0","6.8"],"answer":0,"why":"Statistical tolerances are used if the processes producing the parts are capable and the dimensions are normally distributed. The tolerances in this case are equal to 3a A, 3a 8, and 3a c, respectively. Unlike conventional tolerances, standard deviations are not additive. Variances, however, are additive. The total statistical tolerance then can be calculated using 2 2 2 Tstack = 3.J(a A ) + ( a a ) + ( ac ) =.J(3a A ) + (3a 8 ) + (3ac ) 2 2 2 = ✓T� + T; + T� = ✓0.5 + 0.2 + 0.3 = 0.62.2 2 2 [IX.C]","set":3},
+    {"sub":"dfss","stem":"An assembly's overall length is the stack of three component tolerances: Part A = \u00b10.5, Part B = \u00b10.2, Part C = \u00b10.3. Calculate the total tolerance of the overall length using the conventional tolerance method.","options":["0.62","1.0","2.0","6.8"],"answer":1,"why":"Conventional tolerancing sums the tolerance of each stacked component: 0.5 + 0.2 + 0.3 = 1.0. [IX.C]","set":3},
+    {"sub":"dfss","stem":"An assembly's overall length is the stack of three component tolerances: Part A = \u00b10.5, Part B = \u00b10.2, Part C = \u00b10.3. (Standard deviations are not additive, but variances are.) Calculate the total tolerance of the overall length using the statistical tolerance method.","options":["0.62","1.0","2.0","6.8"],"answer":0,"why":"Statistical tolerancing uses the root-sum-square of the individual tolerances: sqrt(0.5^2 + 0.2^2 + 0.3^2) = sqrt(0.25 + 0.04 + 0.09) = sqrt(0.38) = 0.62. [IX.C]","set":3},
     {"sub":"dfss","stem":"Taguchi's loss function:","options":["combines cost, target, and variation into one metric.","can only be used for robust designs.","is only concerned with production losses in dollars due to waste of raw material.","is a step-function with steps occurring at the specification limits."],"answer":0,"why":"Taguchi's loss function combines cost, target, and variation into one metric. [IX. C]","set":3},
     {"sub":"dfss","stem":"What is the most common loss function used for symmetric two-sided tolerances?","options":["Variance is best.","Larger is better.","Smaller is better.","Nominal is best."],"answer":3,"why":"The nominal-is-best loss function is most commonly used for two-sided symmetric tolerances. [IX. C]","set":3},
     {"sub":"dfss","stem":"Designing around the use of inferior-grade, low-cost components and raw materials in the design process is referred to as:","options":["tolerance design.","parameter design.","Taguchi array.","system design."],"answer":1,"why":"Parameter design is used to make a product or process more robust against variation from inferior-grade, low-cost components, and raw materials. [IX. C]","set":3},
     {"sub":"dfss","stem":"The process of selectively upgrading components to eliminate excessive variation is known as:","options":["tolerance design.","parameter design.","Taguchi arrays.","system design."],"answer":0,"why":"Tolerance design is the process of selectively upgrading components to eliminate excessive variation. [IX.C]","set":3},
-    {"sub":"dfss","stem":"Using the statistical tolerancing method, calculate the lower and upper specifications of the stacked assembly shown below. Part A Part B Part C LS L 0.750 0.355 1.230 USL 0.795 0.360 1.280","options":["[2.285, 2.485]","[2.3 18, 2452]","[2.335, 2.385]","[2.351, 2.419]"],"answer":3,"why":"The specifications for Part A are 0.7725 ± 0.0225. For Part B, 0.3575 ± 0.0025 and for Part C, 1.255 ± 0.025. The statistical tolerance can be found by using = 3 ✓( 0A ) + ( a s ) + ( a c ) 2 2 2 Tstack = ✓( 3a A ) + ( 3a 8 ) + ( 3ac ) 2 2 2 = \\JlyA2 + y,2B + yC2 =.Jo.0225 2 + 0.0025 2 + 0.025 2 = 0.034. The overall nominal value is equal to NominalTotal = ( 0.75 + 0.0225 ) + ( 0.355 + 0.0025 ) + ( 1.23 + 0.025 ) = 2.385. We then calculate the lower and upper tolerance limits: [2.385 - 0.034, 2.385 + 0.034] = [2.351, 2.419]. [IX. C]","set":3},
+    {"sub":"dfss","stem":"Using the statistical tolerancing method, calculate the lower and upper specifications of the stacked assembly shown below.","options":["[2.285, 2.485]","[2.318, 2.452]","[2.335, 2.385]","[2.351, 2.419]"],"answer":3,"why":"Nominal/tolerance for each part: A = 0.7725 \u00b1 0.0225, B = 0.3575 \u00b1 0.0025, C = 1.255 \u00b1 0.025. Statistical tolerance stack: sqrt(0.0225\u00b2 + 0.0025\u00b2 + 0.025\u00b2) = 0.034. Nominal total = 0.7725 + 0.3575 + 1.255 = 2.385. Limits: [2.385 - 0.034, 2.385 + 0.034] = [2.351, 2.419]. [IX.C]","set":3,"chart":{"type":"data-table","columns":["","Part A","Part B","Part C"],"rows":[["LSL","0.750","0.355","1.230"],["USL","0.795","0.360","1.280"]]}},
     {"sub":"dfss","stem":"A 15-piece sample from a normal distribution yields a sample mean equal to 34.56 and a sample standard deviation equal to 2.34. Calculate the two-sided tolerance interval in which we will be 90% confident that the interval will cover 95% of the population.","options":["[34.266, 39.348]","[34.511, 39.921]","[34.700, 40.363]","[34.926, 40.892]"],"answer":3,"why":"In order to find the tolerance interval, we must use a table value such as the one found in Appendix J.2 of The ASQ Certified Six Sigma Handbook. We look up the K value for 90% confidence, 0.95 proportion, and n = 15 and find K = 2.706. Then we use X ± Ks = 34.56 ± 2.706 x 2.34 = [34.926, 40.892]. [IX. C]","set":3},
     {"sub":"dfss","stem":"The principle of Taguchi's loss function is that:","options":["parts outside the control limits are scrapped.","any part not at the nominal value incurs loss.","loss is best modeled by a step function.","loss can be reduced by tightening specifications."],"answer":1,"why":"The principle of Taguchi's loss function is that any part not at the nominal value incurs loss. Part B Simulated Exam Part B of the study guide presents 150 questions corresponding to each section of the Black Belt BoK, in random order. The number of questions for each section of the BoK is shown in the table below. BoKSection Topic Number of Questions on Certification Exam Section I Organization-Wide Planning and 12 Deployment Section I I Organizational Process Management and 10 Measures Section I l l Team Management 18 Section IV Defi ne 20 Section V Measure 25 Section VI Analyze 22 Section VI I I mprove 21 Section VI I I Control 15 Section IX Design for Six Sigma (DFSS) Framework and Methodolog ies [IX.C]","set":3},
     {"sub":"p1","stem":"Some hallmarks of Six Sigma include the use of teams to work on well-defined projects, and an emphasis on:","options":["eliminating waste.","grassroots support.","opinion-led decisions.","a five-step problem-solving process."],"answer":3,"why":"Some hallmarks of Six Sigma include the use of teams to work on well-defined projects and an emphasis on a five-step problem-solving process. [I.A. 1]","set":3},
@@ -2218,8 +2232,8 @@
     {"sub":"p1","stem":"Which type of improvement team is least affected by geography?","options":["Cross-directional","Self-directed","Virtual","Informal"],"answer":2,"why":"Virtual teams are least affected by geography. [111.A. 1]","set":3},
     {"sub":"p1","stem":"A balanced designed experiment is one in which:","options":["all responses are equivalent.","the number of runs for each factor level is equal.","there are an even number of factors.","the factors are set to the same levels."],"answer":1,"why":"A balanced designed experiment is one in which the number of runs for each factor level is equal. [V II.A.2]","set":3},
     {"sub":"mea","stem":"Material that has entered the process but has not reached the output or finished stage can be defined as:","options":["a bottleneck.","overprocessing waste.","work in progress (WIP).","work in queue (WIQ)."],"answer":2,"why":"Work in progress (WIP) is the material that has entered the process but has not reached the output or finished stage. Work in queue is a component of WIP. [V.A. 1]","set":3},
-    {"sub":"p1","stem":"A project has the following activities, predecessors, and durations. Activity: A (no predecessor, 10 days), B (no predecessor, 5 days), C (predecessors A & B, 10 days), D (no predecessor, 5 days), E (predecessor D, 5 days), F (predecessor E, 5 days), G (predecessors C & F, 5 days). Use the precedence table to answer this question and the next. What activities make up the critical path?","options":["ABCG","ACG","BCG","DEFG"],"answer":1,"why":"There are three paths through the network: ACG = 10 + 10 + 5 = 25 days, BCG = 5 + 10 + 5 = 20 days, and DEFG = 5 + 5 + 5 + 5 = 20 days. The path with the longest duration is the critical path, which is ACG. [IV.D.5]","set":3},
-    {"sub":"p1","stem":"Using the same project precedence table (Activity: A (no predecessor, 10 days), B (no predecessor, 5 days), C (predecessors A & B, 10 days), D (no predecessor, 5 days), E (predecessor D, 5 days), F (predecessor E, 5 days), G (predecessors C & F, 5 days).), what is the latest day that Activity D can begin without affecting the project delivery date?","options":["Day 0","Day 3","Day 5","Day 10"],"answer":2,"why":"Activity D is not on the critical path (ACG, at 25 days). The slack in path DEFG is equal to 25 - 20 = 5 days. Therefore, the latest start for Activity D is day 5. [IV.D.5]","set":3},
+    {"sub":"p1","stem":"Use the precedence table below to answer this question and the next. What activities make up the critical path?","options":["ABCG","ACG","BCG","DEFG"],"answer":1,"why":"There are three paths through the network: ACG = 10 + 10 + 5 = 25 days, BCG = 5 + 10 + 5 = 20 days, and DEFG = 5 + 5 + 5 + 5 = 20 days. The path with the longest duration is the critical path, which is ACG. [IV.D.5]","set":3,"chart":{"type":"data-table","columns":["Activity","Predecessor","Time"],"rows":[["A","\u2014","10"],["B","\u2014","5"],["C","A, B","10"],["D","\u2014","5"],["E","D","5"],["F","E","5"],["G","C, F","5"]]}},
+    {"sub":"p1","stem":"Using the same precedence table, what is the latest day that Activity D can begin without affecting the project delivery date?","options":["Day 0","Day 3","Day 5","Day 10"],"answer":2,"why":"Activity D is not on the critical path (ACG, at 25 days). The slack in path DEFG is equal to 25 - 20 = 5 days. Therefore, the latest start for Activity D is day 5. [IV.D.5]","set":3,"chart":{"type":"data-table","columns":["Activity","Predecessor","Time"],"rows":[["A","\u2014","10"],["B","\u2014","5"],["C","A, B","10"],["D","\u2014","5"],["E","D","5"],["F","E","5"],["G","C, F","5"]]}},
     {"sub":"p1","stem":"The term White Belt is usually associated with an individual who:","options":["retains their regular position but is trained in the tools, methods, and skills necessary to conduct Six Sigma improvement projects.","has a basic understanding of Six Sigma principles.","is typically assigned full time to train, mentor, and lead the strategy for the organization's strategic projects.","has the authority or ability to make changes to the process as required."],"answer":1,"why":"White Belts have a basic understanding of Six Sigma principles. [I. 8.1]","set":3},
     {"sub":"def","stem":"A Six Sigma project is chartered to speed up loan processing times. The team has decided that it will track two metrics: processing time and error counts. Error counts has likely been added to the project metrics to:","options":["appease the quality department.","set the team up for failure.","avoid sub-optimizing the process.","satisfy the project champion."],"answer":2,"why":"By simply concentrating on speed, the team may inadvertently create more process errors. Tracking both processing time and error counts will help the team avoid suboptimizing the process. [IV.B.4]","set":3},
     {"sub":"p2","stem":"An employee who might experience negative effects from a Six Sigma project would be considered a:","options":["stakeholder.","subject matter expert.","Yellow Belt.","project champion."],"answer":0,"why":"An employee who might experience negative effects from a Six Sigma project would be considered a stakeholder. Stakeholders are those individuals or entities that will be affected by a project or can influence the outcome of the project. [II.A]","set":3},
@@ -2335,7 +2349,7 @@
     {"sub":"p1","stem":"Schedule boards, signage, and color-coded bins are examples of:","options":["visual management.","kanban.","theory of constraints.","5S."],"answer":0,"why":"Schedule boards, signage, and color-coded bins are examples of visual management. [V III.B.2]","set":3},
     {"sub":"p2","stem":"If a project stakeholder is deemed to have low influence and high importance, what behavior approach should the project leader adopt for this stakeholder?","options":["Collaborate","Engage to prevent sabotage","Protect, defend, and give voice","Monitor"],"answer":2,"why":"If a project stakeholder is deemed to have low influence and high importance, the project leader should adopt the \"protect and defend, and give voice\" approach. [II.A]","set":3},
     {"sub":"p1","stem":"Which of the following subgroup sizes for an X and R chart would not be used?","options":["1","2","5","7"],"answer":0,"why":"The X-bar and R chart uses between two to nine samples per subgroup. If there is a single sample per time period, Black Belts can use an X-mr chart or an EWMA chart. [V III.A.4]","set":3},
-    {"sub":"p1","stem":"A Black Belt is testing whether the standard deviations of two normal populations are different with a = 0.05. They take samples of sizes n 1 = 30 and n2 = 25. What is the critical value for the corresponding hypothesis test?","options":["F(0.05, 30, 25)","✓ F(0.025, 29, 24)","F(0.025, 29, 24)","X2 (0.025, 54)"],"answer":2,"why":"A hypothesis test on the ratio of two standard deviations from normal distributions uses the F distribution. The hypothesis test described is two-sided, so we will divide the alpha value by 2 when looking up the critical value in the F table. We use the degrees of freedom (n 1 - 1) = 29 and (n2 - 1) = 24. The look up value is then F(0.025, 29, 24). [V I.B.5]","set":3},
+
     {"sub":"p1","stem":"Robust design methods aim to:","options":["set noise factors to minimize the effects of control factors.","set control factors to minimize the effects of noise factors.","set noise factors to optimal levels.","identify noise factors and eliminate them."],"answer":1,"why":"Robust design aims to set control factors to minimize the effects of noise factors. [IX. C]","set":3},
     {"sub":"p1","stem":"A production supervisor runs a punch press line for a few extra hours to create back-up stock \"just in case.\" What types of waste have been created?","options":["Defects and skills","Overproduction and inventory","Waiting and transportation","Defects and motion"],"answer":1,"why":"Running the line a few extra hours to build up inventory would create both overproduction and inventory waste. [V I. D.3]","set":3},
     {"sub":"p1","stem":"On an eight-hour shift, a process runs a total of 438 minutes due to a scheduled 30-minute shutdown for lunch and 12 minutes of downtime due to a broken clamp. What is the availability of the process?","options":["0.9125","0.93 15","0.9375","0.9733"],"answer":3,"why":"Availability is the ratio of actual production time divided by planned production time. The 30-minute lunch shutdown is planned. [Vll.8.4] Actual operating time = ( 8 x 6 0 ) - 30 - 12 = 438 = Availability = 0.9 733 Planned operating time ( 8 x 60 ) - 30 450","set":3},
@@ -2385,19 +2399,25 @@
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   /* ---------- question charts (control charts, box plots, normal probability plots, MSA diagrams) ---------- */
-  function chartSeriesSvg(w,left,right,top,innerH,title,unit,data,ucl,cl,lcl){
+  function chartSeriesSvg(w,left,right,top,innerH,title,unit,data,ucl,cl,lcl,gid){
     var span=(ucl-lcl)||1, min=Math.min(lcl,Math.min.apply(null,data))-span*0.1, max=Math.max(ucl,Math.max.apply(null,data))+span*0.1;
     var innerW=w-left-right;
     function y(v){return top+innerH*(1-(v-min)/(max-min));}
     function x(i){return left+innerW*(data.length>1?i/(data.length-1):0.5);}
     var pts=data.map(function(v,i){return x(i).toFixed(1)+','+y(v).toFixed(1);}).join(' ');
+    var areaPts='M'+x(0).toFixed(1)+','+(top+innerH).toFixed(1)+' L'+data.map(function(v,i){return x(i).toFixed(1)+','+y(v).toFixed(1);}).join(' L')+' L'+x(data.length-1).toFixed(1)+','+(top+innerH).toFixed(1)+' Z';
     var dots=data.map(function(v,i){
       var out=v>ucl||v<lcl;
-      return '<circle cx="'+x(i).toFixed(1)+'" cy="'+y(v).toFixed(1)+'" r="'+(out?4.2:2.4)+'" class="'+(out?'tb-chart-dot-out':'tb-chart-dot')+'"></circle>';
+      return '<circle cx="'+x(i).toFixed(1)+'" cy="'+y(v).toFixed(1)+'" r="'+(out?4.4:2.6)+'" class="'+(out?'tb-chart-dot-out':'tb-chart-dot')+'"></circle>';
     }).join('');
     var uclY=y(ucl).toFixed(1), clY=y(cl).toFixed(1), lclY=y(lcl).toFixed(1);
     var ticks=data.map(function(v,i){return (i===0||(i+1)%2===0)?'<text x="'+x(i).toFixed(1)+'" y="'+(top+innerH+14)+'" font-size="9" fill="var(--muted)" text-anchor="middle">'+(i+1)+'</text>':'';}).join('');
-    return '<text x="'+left+'" y="'+(top-4)+'" font-size="11" font-weight="700" fill="var(--ink)">'+esc(title)+'</text>'+
+    return '<defs><linearGradient id="'+gid+'" x1="0" y1="0" x2="0" y2="1">'+
+        '<stop offset="0%" stop-color="#6656b5" stop-opacity=".16"></stop>'+
+        '<stop offset="100%" stop-color="#6656b5" stop-opacity="0"></stop>'+
+      '</linearGradient></defs>'+
+      '<text x="'+left+'" y="'+(top-8)+'" font-size="11.5" font-weight="700" fill="var(--ink)" letter-spacing=".01em">'+esc(title)+'</text>'+
+      '<path d="'+areaPts+'" fill="url(#'+gid+')" stroke="none"></path>'+
       '<line x1="'+left+'" y1="'+uclY+'" x2="'+(w-right)+'" y2="'+uclY+'" class="tb-chart-limit"></line>'+
       '<line x1="'+left+'" y1="'+clY+'" x2="'+(w-right)+'" y2="'+clY+'" class="tb-chart-cl"></line>'+
       '<line x1="'+left+'" y1="'+lclY+'" x2="'+(w-right)+'" y2="'+lclY+'" class="tb-chart-limit"></line>'+
@@ -2407,13 +2427,14 @@
       '<polyline points="'+pts+'" fill="none" class="tb-chart-line"></polyline>'+dots+ticks;
   }
   function chartXbarR(spec){
-    var w=560, left=54, right=76, gap=34, seriesH=118;
-    var h=seriesH*2+gap+34;
-    var top1=26, top2=top1+seriesH+gap;
+    var w=560, left=54, right=76, gap=46, seriesH=112;
+    var top1=28, top2=top1+seriesH+gap;
+    var tickBottom=top2+seriesH+14, sampleY=tickBottom+18, h=sampleY+10;
     return '<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="X-bar and R control chart">'+
-      chartSeriesSvg(w,left,right,top1,seriesH,'X-bar chart (sample mean)','',spec.xbar.data,spec.xbar.ucl,spec.xbar.cl,spec.xbar.lcl)+
-      chartSeriesSvg(w,left,right,top2,seriesH,'R chart (sample range)','',spec.r.data,spec.r.ucl,spec.r.cl,spec.r.lcl)+
-      '<text x="'+(w/2)+'" y="'+(h-4)+'" font-size="10" fill="var(--muted)" text-anchor="middle">Sample</text>'+
+      chartSeriesSvg(w,left,right,top1,seriesH,'X-bar chart (sample mean)','',spec.xbar.data,spec.xbar.ucl,spec.xbar.cl,spec.xbar.lcl,'tbGradXbar')+
+      '<line x1="'+left+'" y1="'+(top1+seriesH+gap/2)+'" x2="'+(w-right)+'" y2="'+(top1+seriesH+gap/2)+'" class="tb-chart-grid" stroke-dasharray="2 4"></line>'+
+      chartSeriesSvg(w,left,right,top2,seriesH,'R chart (sample range)','',spec.r.data,spec.r.ucl,spec.r.cl,spec.r.lcl,'tbGradR')+
+      '<text x="'+(w/2)+'" y="'+sampleY+'" font-size="10" fill="var(--muted)" text-anchor="middle">Sample</text>'+
       '</svg>';
   }
   function chartBoxplot(spec){
@@ -2439,7 +2460,7 @@
       '<line x1="'+(cx-16)+'" y1="'+y(spec.max).toFixed(1)+'" x2="'+(cx+16)+'" y2="'+y(spec.max).toFixed(1)+'" class="tb-chart-whisker"></line>'+
       '<rect x="'+(cx-boxW/2)+'" y="'+y(spec.q3).toFixed(1)+'" width="'+boxW+'" height="'+(y(spec.q1)-y(spec.q3)).toFixed(1)+'" class="tb-chart-box"></rect>'+
       '<line x1="'+(cx-boxW/2)+'" y1="'+y(spec.median).toFixed(1)+'" x2="'+(cx+boxW/2)+'" y2="'+y(spec.median).toFixed(1)+'" class="tb-chart-median"></line>'+
-      (spec.mean!=null?'<text x="'+cx+'" y="'+(y(spec.mean)+4).toFixed(1)+'" font-size="13" fill="var(--muted)" text-anchor="middle">\u00d7</text>':'')+
+      (spec.mean!=null?'<text x="'+cx+'" y="'+(y(spec.mean)+4).toFixed(1)+'" font-size="15" class="tb-chart-mean" text-anchor="middle">\u00d7</text>':'')+
       outliers+'</svg>';
   }
   function chartNormalProb(spec){
@@ -2452,12 +2473,16 @@
     }
     function px(t){return left+innerW*t;}
     function py(t){return top+innerH*(1-t);}
-    var dotPts=pts.map(function(p){return '<circle cx="'+px(p.x).toFixed(1)+'" cy="'+py(p.y).toFixed(1)+'" r="3" class="tb-chart-dot"></circle>';}).join('');
-    var fitLine='<line x1="'+px(0).toFixed(1)+'" y1="'+py(0).toFixed(1)+'" x2="'+px(1).toFixed(1)+'" y2="'+py(1).toFixed(1)+'" class="tb-chart-cl"></line>';
+    var dotPts=pts.map(function(p){return '<circle cx="'+px(p.x).toFixed(1)+'" cy="'+py(p.y).toFixed(1)+'" r="3.4" class="tb-chart-dot"></circle>';}).join('');
+    var fitLine='<line x1="'+px(0).toFixed(1)+'" y1="'+py(0).toFixed(1)+'" x2="'+px(1).toFixed(1)+'" y2="'+py(1).toFixed(1)+'" class="tb-chart-cl" stroke-width="1.5"></line>';
     function bandOffset(t){return 0.09+Math.pow(t-0.5,2)*0.5;}
-    var upperBand='', lowerBand='', steps=20;
-    for(var s=0;s<=steps;s++){var t=s/steps,off=bandOffset(t);upperBand+=(s===0?'M':'L')+px(t).toFixed(1)+' '+py(Math.min(1,t+off)).toFixed(1)+' ';lowerBand+=(s===0?'M':'L')+px(t).toFixed(1)+' '+py(Math.max(0,t-off)).toFixed(1)+' ';}
+    var steps=20, upperPts=[], lowerPts=[];
+    for(var s=0;s<=steps;s++){var t=s/steps,off=bandOffset(t);upperPts.push([px(t),py(Math.min(1,t+off))]);lowerPts.push([px(t),py(Math.max(0,t-off))]);}
+    function pathFrom(pairs){return pairs.map(function(p,i){return (i===0?'M':'L')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');}
+    var upperBand=pathFrom(upperPts), lowerBand=pathFrom(lowerPts);
+    var bandFill=pathFrom(upperPts)+' L'+lowerPts.slice().reverse().map(function(p){return p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' L')+' Z';
     return '<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Normal probability plot">'+
+      '<path d="'+bandFill+'" fill="var(--card)" opacity=".5" stroke="none"></path>'+
       '<path d="'+upperBand+'" fill="none" class="tb-chart-band"></path>'+
       '<path d="'+lowerBand+'" fill="none" class="tb-chart-band"></path>'+
       fitLine+dotPts+
@@ -2481,7 +2506,7 @@
     panels.forEach(function(p){
       var isHi=highlight===p.label;
       svg+='<g'+(isHi?' class="tb-q-chart-quad-hi"':'')+'>';
-      rings.forEach(function(f){svg+='<circle cx="'+p.cx+'" cy="'+p.cy+'" r="'+(r*f).toFixed(1)+'" class="tb-chart-ring"></circle>';});
+      rings.forEach(function(f,fi){svg+='<circle cx="'+p.cx+'" cy="'+p.cy+'" r="'+(r*f).toFixed(1)+'" class="tb-chart-ring'+(fi>=2?' tb-chart-ring-inner':'')+'"'+(f===1?' stroke-width="1.4"':'')+'></circle>';});
       p.dots.forEach(function(d){svg+='<circle cx="'+(p.cx+d[0])+'" cy="'+(p.cy+d[1])+'" r="5.5" class="tb-chart-target-dot"></circle>';});
       svg+='<text x="'+p.cx+'" y="'+(p.cy+r+22)+'" font-size="13" font-weight="700" fill="var(--ink)" text-anchor="middle">'+p.label+'</text>';
       svg+='</g>';
@@ -2495,24 +2520,24 @@
     function trueX(t){return x1+t*(x2-x1);}
     function tick(t){
       var x=trueX(t),y1=trueY(t),y2=trueY(t)+dy;
-      return '<line x1="'+x+'" y1="'+y1+'" x2="'+x+'" y2="'+y2+'" class="tb-chart-whisker"></line>';
+      return '<line x1="'+x+'" y1="'+y1+'" x2="'+x+'" y2="'+y2+'" class="tb-chart-whisker" stroke-width="1.6"></line>';
     }
     return '<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Bias diagram: true value line versus average of measured values, offset by a constant gap across the range">'+
       '<line x1="'+x1+'" y1="'+yB+'" x2="'+x1+'" y2="'+top+'" class="tb-chart-grid"></line>'+
       '<line x1="'+x1+'" y1="'+yB+'" x2="'+x2+'" y2="'+yB+'" class="tb-chart-grid"></line>'+
-      '<line x1="'+trueX(0)+'" y1="'+trueY(0)+'" x2="'+trueX(1)+'" y2="'+trueY(1)+'" class="tb-chart-median"></line>'+
-      '<line x1="'+trueX(0)+'" y1="'+(trueY(0)+dy)+'" x2="'+trueX(1)+'" y2="'+(trueY(1)+dy)+'" class="tb-chart-cl" stroke-dasharray="5 4"></line>'+
+      '<line x1="'+trueX(0)+'" y1="'+trueY(0)+'" x2="'+trueX(1)+'" y2="'+trueY(1)+'" class="tb-chart-median" stroke-linecap="round"></line>'+
+      '<line x1="'+trueX(0)+'" y1="'+(trueY(0)+dy)+'" x2="'+trueX(1)+'" y2="'+(trueY(1)+dy)+'" class="tb-chart-cl" stroke-dasharray="5 4" stroke-linecap="round"></line>'+
       tick(0.12)+tick(0.88)+
-      '<text x="'+trueX(0.42)+'" y="'+(trueY(0.42)-10)+'" font-size="10" fill="var(--ink)" text-anchor="middle">True or reference value</text>'+
-      '<text x="'+trueX(0.62)+'" y="'+(trueY(0.62)+dy+16)+'" font-size="10" fill="var(--muted)" text-anchor="middle">Average of measured values</text>'+
+      '<text x="'+trueX(0.42)+'" y="'+(trueY(0.42)-20)+'" font-size="10.5" font-weight="700" fill="var(--ink)" text-anchor="middle" class="tb-chart-label-halo">True or reference value</text>'+
+      '<text x="'+trueX(0.62)+'" y="'+(trueY(0.62)+dy+18)+'" font-size="10" fill="var(--muted)" text-anchor="middle" class="tb-chart-label-halo">Average of measured values</text>'+
       '<text x="16" y="'+((top+yB)/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 16 '+((top+yB)/2)+')">True value</text>'+
       '<text x="'+((x1+x2)/2)+'" y="'+(h-8)+'" font-size="10" fill="var(--muted)" text-anchor="middle">Measured value</text>'+
       '</svg>';
   }
   function chartControlSingle(spec){
-    var w=560,left=54,right=76,top=26,innerH=150,h=top+innerH+40;
+    var w=560,left=54,right=76,top=28,innerH=150,h=top+innerH+40;
     return '<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="'+esc(spec.title||'Control chart')+'">'+
-      chartSeriesSvg(w,left,right,top,innerH,spec.title||'Control chart',spec.unit||'',spec.data,spec.ucl,spec.cl,spec.lcl)+
+      chartSeriesSvg(w,left,right,top,innerH,spec.title||'Control chart',spec.unit||'',spec.data,spec.ucl,spec.cl,spec.lcl,'tbGradSingle')+
       '<text x="'+(w/2)+'" y="'+(h-4)+'" font-size="10" fill="var(--muted)" text-anchor="middle">Sample</text>'+
       '</svg>';
   }
@@ -2601,13 +2626,226 @@
     return svg+'</svg>';
   }
   function chartVsmSymbol(){
-    var w=260,h=200,cx=130,cy=100,rw=150,rh=90,cut=26;
+    var w=220,h=170,cx=110,cy=85,rw=130,rh=76,cut=24;
     var x1=cx-rw/2,x2=cx+rw/2,y1=cy-rh/2,y2=cy+rh/2;
     var pts=[x1+','+y1, (x2-cut)+','+y1, x2+','+(y1+cut), x2+','+y2, x1+','+y2].join(' ');
     return '<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart tb-q-chart-symbol" role="img" aria-label="Value stream map symbol: a rectangle with its top-right corner cut off">'+
-      '<polygon points="'+pts+'" class="tb-chart-box"></polygon>'+
+      '<polygon points="'+pts+'" class="tb-chart-box" stroke-width="1.8" stroke-linejoin="round"></polygon>'+
       '</svg>';
   }
+  function chartScatterQuadrant(spec){
+    var w=440,h=440,cell=210,gap=10,pad=30,plotW=cell-pad-10,plotH=cell-pad-30;
+    var highlight=spec&&spec.highlight;
+    function panelOrigin(index){
+      var col=index%2, row=Math.floor(index/2);
+      return {x: col*(cell+gap)+pad, y: row*(cell+gap)+10, labelX: col*(cell+gap)+cell/2, labelY: row*(cell+gap)+cell-4};
+    }
+    function axes(o){
+      return '<line x1="'+o.x+'" y1="'+(o.y+plotH)+'" x2="'+(o.x+plotW)+'" y2="'+(o.y+plotH)+'" class="tb-chart-grid"></line>'+
+        '<line x1="'+o.x+'" y1="'+o.y+'" x2="'+o.x+'" y2="'+(o.y+plotH)+'" class="tb-chart-grid"></line>';
+    }    function dots(o, pts){
+      return pts.map(function(p){return '<circle cx="'+(o.x+p[0]*plotW).toFixed(1)+'" cy="'+(o.y+(1-p[1])*plotH).toFixed(1)+'" r="3.2" class="tb-chart-target-dot"></circle>';}).join('');
+    }
+    var positive=[[0.08,0.12],[0.2,0.22],[0.3,0.35],[0.42,0.4],[0.5,0.52],[0.62,0.58],[0.72,0.68],[0.82,0.78],[0.9,0.85],[0.95,0.92]];
+    var negative=positive.map(function(p){return [p[0], 1-p[1]];});
+    var scattered=[[0.1,0.55],[0.18,0.82],[0.22,0.3],[0.3,0.68],[0.35,0.9],[0.4,0.45],[0.48,0.15],[0.52,0.72],[0.58,0.35],[0.63,0.88],[0.68,0.55],[0.74,0.2],[0.8,0.65],[0.85,0.4],[0.9,0.78]];
+    var nonlinear=[[0.05,0.25],[0.12,0.4],[0.2,0.55],[0.28,0.68],[0.35,0.78],[0.42,0.85],[0.5,0.88],[0.58,0.85],[0.65,0.75],[0.72,0.6],[0.8,0.45],[0.88,0.3],[0.95,0.18]];
+    var panels=[
+      {label:'A', pts: positive},
+      {label:'B', pts: negative},
+      {label:'C', pts: scattered},
+      {label:'D', pts: nonlinear}
+    ];
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Four scatter plots labeled A through D">';
+    panels.forEach(function(p, i){
+      var o=panelOrigin(i);
+      var isHi=highlight===p.label;
+      svg+='<g'+(isHi?' class="tb-q-chart-quad-hi"':'')+'>'+axes(o)+dots(o,p.pts)+
+        '<text x="'+(o.x-16)+'" y="'+(o.y+plotH/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle">y</text>'+
+        '<text x="'+(o.x+plotW/2)+'" y="'+(o.y+plotH+16)+'" font-size="10" fill="var(--muted)" text-anchor="middle">x</text>'+
+        '<text x="'+o.labelX+'" y="'+o.labelY+'" font-size="13" font-weight="700" fill="var(--ink)" text-anchor="middle">'+p.label+'</text>'+
+        '</g>';
+    });
+    return svg+'</svg>';
+  }
+  function chartHouseOfQuality(spec){
+    var w=420,h=390;
+    var highlight=spec&&spec.highlight;
+    function box(id,x,y,bw,bh,label,isRoof){
+      var isHi=String(highlight)===String(id);
+      var labelLines=label?String(label).split('\n'):[];
+      var idY=labelLines.length?y+bh/2-6:y+bh/2+4;
+      var labelSvg=labelLines.map(function(line,i){return '<text x="'+(x+bw/2)+'" y="'+(idY+14+i*11)+'" font-size="8" fill="var(--muted)" text-anchor="middle">'+esc(line)+'</text>';}).join('');
+      var boxClass='tb-chart-box'+(isRoof?' tb-chart-box-roof':'');
+      return '<g'+(isHi?' class="tb-q-chart-quad-hi"':'')+'>'+
+        '<rect x="'+x+'" y="'+y+'" width="'+bw+'" height="'+bh+'" rx="4" class="'+boxClass+'"></rect>'+
+        '<text x="'+(x+bw/2)+'" y="'+idY+'" font-size="11" font-weight="700" fill="var(--ink)" text-anchor="middle">'+id+'</text>'+
+        labelSvg+
+        '</g>';
+    }
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="House of quality diagram with 8 labeled areas">';
+    svg+=box(2, 130, 10, 160, 55, 'Correlations\n(roof)', true);
+    svg+=box(1, 10, 75, 100, 140, 'Customer\nrequirements');
+    svg+=box(3, 120, 75, 55, 140, 'Importance');
+    svg+=box(4, 185, 75, 100, 140, 'Relationships');
+    svg+=box(5, 295, 75, 115, 140, 'Competitive\nassessment');
+    svg+=box(6, 185, 225, 100, 44, 'Technical\nrequirements');
+    svg+=box(7, 185, 279, 100, 44, 'Target\nvalues');
+    svg+=box(8, 185, 333, 100, 48, 'Tech.\ncomparison');
+    return svg+'</svg>';
+  }
+  function chartActivityNetwork(spec){
+    var nodeW=64,nodeH=44,colGap=120,rowGap=90,margin=20;
+    var nodes=spec.nodes;
+    function nodeXY(n){return {x:n.col*colGap+margin, y:n.row*rowGap+margin};}
+    var maxCol=0,maxRow=0;
+    Object.keys(nodes).forEach(function(key){
+      var n=nodes[key];
+      if(n.col>maxCol)maxCol=n.col;
+      if(n.row>maxRow)maxRow=n.row;
+    });
+    var w=maxCol*colGap+margin+nodeW+margin, h=maxRow*rowGap+margin+nodeH+margin;
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Activity network diagram">'+
+      '<defs><marker id="tbArrow" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" class="tb-chart-target-dot"></path></marker></defs>';
+    (spec.edges||[]).forEach(function(edge){
+      var a=nodeXY(nodes[edge[0]]), b=nodeXY(nodes[edge[1]]);
+      var x1=a.x+nodeW, y1=a.y+nodeH/2, x2=b.x-2, y2=b.y+nodeH/2;
+      svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" class="tb-chart-whisker" stroke-width="1.6" marker-end="url(#tbArrow)"></line>';
+    });
+    Object.keys(nodes).forEach(function(key){
+      var n=nodes[key], o=nodeXY(n);
+      var isHi=spec.highlight===key;
+      svg+='<g'+(isHi?' class="tb-q-chart-quad-hi"':'')+'>'+
+        '<rect x="'+o.x+'" y="'+o.y+'" width="'+nodeW+'" height="'+nodeH+'" rx="6" class="tb-chart-box"></rect>'+
+        '<text x="'+(o.x+nodeW/2)+'" y="'+(o.y+18)+'" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">'+esc(key)+'</text>'+
+        '<text x="'+(o.x+nodeW/2)+'" y="'+(o.y+34)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+n.dur+' days</text>'+
+        '</g>';
+    });
+    return svg+'</svg>';
+  }
+  function chartDataTable(spec){
+    var cols=spec.columns, rows=spec.rows;
+    var html='<table class="tb-q-data-table"><thead><tr>'+cols.map(function(c){return '<th>'+esc(c)+'</th>';}).join('')+'</tr></thead><tbody>';
+    rows.forEach(function(r){
+      html+='<tr>'+r.map(function(cell,i){return '<td'+(i===0?'':' class="tb-q-num"')+'>'+esc(cell)+'</td>';}).join('')+'</tr>';
+    });
+    return html+'</tbody></table>';
+  }
+  function chartFtaDiagram(spec){
+    var w=460,h=280;
+    var highlight=spec&&spec.highlightSet||[];
+    function isHi(id){return highlight.indexOf(id)>-1;}
+    function rect(id,cx,cy){
+      return '<g'+(isHi(id)?' class="tb-q-chart-quad-hi"':'')+'><rect x="'+(cx-22)+'" y="'+(cy-16)+'" width="44" height="32" rx="2" class="tb-chart-box"></rect>'+
+        '<text x="'+cx+'" y="'+(cy+5)+'" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">'+id+'</text></g>';
+    }
+    function andGate(id,cx,cy){
+      var r=20;
+      var d='M'+(cx-r)+' '+(cy+r)+' L'+(cx-r)+' '+cy+' A'+r+' '+r+' 0 0 1 '+(cx+r)+' '+cy+' L'+(cx+r)+' '+(cy+r)+' Z';
+      return '<g'+(isHi(id)?' class="tb-q-chart-quad-hi"':'')+'><path d="'+d+'" class="tb-chart-box"></path>'+
+        '<text x="'+cx+'" y="'+(cy+r+16)+'" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">'+id+'</text></g>';
+    }
+    function orGate(id,cx,cy){
+      var r=20;
+      var d='M'+(cx-r)+' '+(cy+r)+' Q'+(cx-r)+' '+(cy-6)+' '+cx+' '+(cy-r)+' Q'+(cx+r)+' '+(cy-6)+' '+(cx+r)+' '+(cy+r)+' Q'+cx+' '+(cy+r-8)+' '+(cx-r)+' '+(cy+r)+' Z';
+      return '<g'+(isHi(id)?' class="tb-q-chart-quad-hi"':'')+'><path d="'+d+'" class="tb-chart-box"></path>'+
+        '<text x="'+cx+'" y="'+(cy+r+16)+'" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">'+id+'</text></g>';
+    }
+    function circle(id,cx,cy){
+      return '<g'+(isHi(id)?' class="tb-q-chart-quad-hi"':'')+'><circle cx="'+cx+'" cy="'+cy+'" r="18" class="tb-chart-box"></circle>'+
+        '<text x="'+cx+'" y="'+(cy+5)+'" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">'+id+'</text></g>';
+    }
+    function diamond(id,cx,cy){
+      var r=19;
+      var pts=(cx)+','+(cy-r)+' '+(cx+r)+','+cy+' '+cx+','+(cy+r)+' '+(cx-r)+','+cy;
+      return '<g'+(isHi(id)?' class="tb-q-chart-quad-hi"':'')+'><polygon points="'+pts+'" class="tb-chart-box"></polygon>'+
+        '<text x="'+cx+'" y="'+(cy+5)+'" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">'+id+'</text></g>';
+    }
+    function link(x1,y1,x2,y2){return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" class="tb-chart-whisker"></line>';}
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Fault tree diagram with numbered symbols">';
+    svg+=link(230,52,230,84)+link(230,104,150,132)+link(230,104,310,132)+
+      link(150,150,110,182)+link(150,150,190,182)+
+      link(310,150,270,182)+link(310,150,350,182);
+    svg+=rect('1',230,36);
+    svg+=andGate('2',230,84);
+    svg+=rect('3',150,132);
+    svg+=rect('4',310,132);
+    svg+=orGate('5',150,182);
+    svg+=andGate('6',310,182);
+    svg+=circle('7',110,236);
+    svg+=diamond('8',190,236);
+    svg+=circle('9',270,236);
+    svg+=circle('10',350,236);
+    return svg+'</svg>';
+  }
+  function chartMatrixDiagram(spec){
+    var w=420,rowH=32,labelW=100,colW=64,top=10,headerH=32,bottomMargin=24;
+    var rowLabels=spec.rowLabels, colGroups=spec.colGroups, cells=spec.cells;
+    var h=top+headerH+rowH*rowLabels.length+bottomMargin;
+    var allCols=[];
+    colGroups.forEach(function(g){g.cols.forEach(function(c){allCols.push(c);});});
+    function dot(filled,cx,cy){
+      return filled?'<circle cx="'+cx+'" cy="'+cy+'" r="6" class="tb-chart-target-dot"></circle>':
+        '<circle cx="'+cx+'" cy="'+cy+'" r="6" fill="none" class="tb-chart-ring" stroke-width="1.4"></circle>';
+    }
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Matrix diagram showing volume by division, shipper, customer, and part">';
+    var colX=allCols.map(function(c,i){return labelW+colW*i+colW/2;});
+    var gx=labelW;
+    colGroups.forEach(function(g){
+      var gw=colW*g.cols.length;
+      svg+='<text x="'+(gx+gw/2)+'" y="'+(top+10)+'" font-size="9" font-weight="700" fill="var(--muted)" text-anchor="middle">'+esc(g.label)+'</text>';
+      gx+=gw;
+    });
+    allCols.forEach(function(c,i){svg+='<text x="'+colX[i]+'" y="'+(top+26)+'" font-size="9" fill="var(--ink)" text-anchor="middle">'+esc(c)+'</text>';});
+    svg+='<line x1="0" y1="'+(top+headerH)+'" x2="'+w+'" y2="'+(top+headerH)+'" class="tb-chart-grid"></line>';
+    rowLabels.forEach(function(r,ri){
+      var y=top+headerH+rowH*ri+rowH/2;
+      svg+='<text x="6" y="'+(y+3)+'" font-size="9.5" fill="var(--ink)">'+esc(r)+'</text>';
+      allCols.forEach(function(c,ci){svg+=dot(cells[ri][ci],colX[ci],y);});
+      svg+='<line x1="0" y1="'+(y+rowH/2)+'" x2="'+w+'" y2="'+(y+rowH/2)+'" class="tb-chart-grid"></line>';
+    });
+    var legendY=top+headerH+rowH*rowLabels.length+18;
+    svg+=dot(true,16,legendY)+'<text x="28" y="'+(legendY+3)+'" font-size="9" fill="var(--muted)">Large volume</text>';
+    svg+=dot(false,140,legendY)+'<text x="152" y="'+(legendY+3)+'" font-size="9" fill="var(--muted)">Small volume</text>';
+    return svg+'</svg>';
+  }
+  function chartInteractionPlot3(spec){
+    var w=460,left=54,right=90,innerH=94,innerW=w-left-right,titleH=16,panelGap=22,topMargin=10,bottomMargin=32;
+    var levels=[-1,1];
+    function px(t){return left+innerW*((t+1)/2);}
+    function py(top0,v){return top0+innerH*(1-v/50);}
+    function panel(panelTop,title,lowLine,highLine){
+      var chartTop=panelTop+titleH;
+      var s='<text x="'+left+'" y="'+(panelTop+11)+'" font-size="9.5" font-weight="700" fill="var(--ink)">'+esc(title)+'</text>'+
+        '<line x1="'+left+'" y1="'+(chartTop+innerH)+'" x2="'+(w-right)+'" y2="'+(chartTop+innerH)+'" class="tb-chart-grid"></line>'+
+        '<line x1="'+left+'" y1="'+chartTop+'" x2="'+left+'" y2="'+(chartTop+innerH)+'" class="tb-chart-grid"></line>';
+      [lowLine,highLine].forEach(function(line,li){
+        var pts=levels.map(function(t,i){return px(t).toFixed(1)+','+py(chartTop,line[i]).toFixed(1);}).join(' ');
+        s+='<polyline points="'+pts+'" fill="none" class="tb-chart-line"'+(li===0?' stroke-dasharray="6 4"':'')+'></polyline>';
+        levels.forEach(function(t,i){s+='<circle cx="'+px(t).toFixed(1)+'" cy="'+py(chartTop,line[i]).toFixed(1)+'" r="3" class="tb-chart-dot"></circle>';});
+      });
+      levels.forEach(function(t){s+='<text x="'+px(t).toFixed(1)+'" y="'+(chartTop+innerH+14)+'" font-size="9" fill="var(--muted)" text-anchor="middle">'+t+'</text>';});
+      return s;
+    }
+    var panelTop1=topMargin, panelTop2=panelTop1+titleH+innerH+panelGap, panelTop3=panelTop2+titleH+innerH+panelGap;
+    var h=panelTop3+titleH+innerH+bottomMargin;
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Interaction plots for three factor pairs, showing which pairs have parallel (no interaction) versus crossing (interaction) lines">';
+    svg+=panel(panelTop1,'A * B (crossing = interaction)', [45,20],[24,32]);
+    svg+=panel(panelTop2,'A * C (crossing = interaction)', [45,16],[24,33]);
+    svg+=panel(panelTop3,'B * C (parallel = no interaction)', [23,37],[20,37]);
+    svg+='<text x="'+((left+w-right)/2)+'" y="'+(h-6)+'" font-size="10" fill="var(--muted)" text-anchor="middle">Factor level</text>';
+    svg+='<text x="14" y="'+(h/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 14 '+(h/2)+')">Mean of y</text>';
+    return svg+'</svg>';
+  }
+  var CHART_EYEBROWS={
+    'xbar-r':'Control chart', 'boxplot':'Box plot', 'bias-diagram':'Bias diagram',
+    'normal-prob':'Normal probability plot', 'precision-accuracy':'Target diagram', 'vsm-symbol':'VSM symbol',
+    'scatter-quadrant':'Scatter plots', 'house-of-quality':'House of quality', 'activity-network':'Network diagram',
+    'data-table':'Reference table', 'control-single':'Control chart', 'oc-curve':'OC curve',
+    'interaction-plot':'Interaction plot', 'risk-matrix':'Risk matrix', 'fta-diagram':'Fault tree diagram',
+    'matrix-diagram':'Matrix diagram', 'interaction-plot-3':'Interaction plots'
+  };
+  var CHART_COMPACT={'vsm-symbol':1};
   function renderQuestionChart(chart){
     if(!chart)return '';
     var inner='';
@@ -2617,12 +2855,21 @@
     else if(chart.type==='normal-prob')inner=chartNormalProb(chart);
     else if(chart.type==='precision-accuracy')inner=chartPrecisionAccuracy(chart);
     else if(chart.type==='vsm-symbol')inner=chartVsmSymbol();
+    else if(chart.type==='scatter-quadrant')inner=chartScatterQuadrant(chart);
+    else if(chart.type==='house-of-quality')inner=chartHouseOfQuality(chart);
+    else if(chart.type==='activity-network')inner=chartActivityNetwork(chart);
+    else if(chart.type==='data-table')inner=chartDataTable(chart);
     else if(chart.type==='control-single')inner=chartControlSingle(chart);
     else if(chart.type==='oc-curve')inner=chartOcCurve(chart);
     else if(chart.type==='interaction-plot')inner=chartInteractionPlot(chart);
     else if(chart.type==='risk-matrix')inner=chartRiskMatrix(chart);
+    else if(chart.type==='fta-diagram')inner=chartFtaDiagram(chart);
+    else if(chart.type==='matrix-diagram')inner=chartMatrixDiagram(chart);
+    else if(chart.type==='interaction-plot-3')inner=chartInteractionPlot3(chart);
     else return '';
-    return '<div class="tb-q-chart-wrap">'+inner+'</div>';
+    var eyebrow=CHART_EYEBROWS[chart.type];
+    var wrapClass='tb-q-chart-wrap'+(CHART_COMPACT[chart.type]?' tb-q-chart-wrap-compact':'');
+    return '<div class="'+wrapClass+'">'+(eyebrow?'<span class="tb-q-chart-eyebrow">'+esc(eyebrow)+'</span>':'')+inner+'</div>';
   }
   function hasBank(e){return e&&e.bank&&e.bank.length>0;}
   function hasTwoSets(e){return !!(e&&e.sets&&e.sets[2]&&e.sets[2].length);}

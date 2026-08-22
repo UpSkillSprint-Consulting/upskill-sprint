@@ -184,7 +184,7 @@ test('accuracy gate remains grounded across the complete live CSSBB bank', async
   const { window } = await loadPage();
   const api = window.__TBDeepFeedback;
   const questions = allQuestions(window);
-  assert.equal(questions.length, 1025, 'all three live CSSBB sets are validated');
+  assert.equal(questions.length, 1024, 'all three live CSSBB sets are validated');
 
   questions.forEach(question => {
     const source = plain(window, question.why);
