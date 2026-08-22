@@ -186,8 +186,12 @@ test('a missed question with an embedded chart shows the chart in the notebook s
   const { window } = await load();
   const overview = await completeQuick(window);
   const api = window.__TBAdaptiveMastery;
-  const question = window.__TB.EXAMS.cssbb.sets[3].find(item => item.chart);
-  assert.ok(question, 'test fixture needs a chart-bearing question');
+  // Charts render as either an <svg> (most types) or an HTML <table> (the data-table type,
+  // added for questions whose source is a plain reference table rather than a plotted
+  // figure) -- pick a question whose chart is guaranteed to render as svg, so this test's
+  // assertion about svg rendering stays meaningful regardless of array order.
+  const question = window.__TB.EXAMS.cssbb.sets[3].find(item => item.chart && item.chart.type !== 'data-table');
+  assert.ok(question, 'test fixture needs a chart-bearing question that renders as svg');
   api.recordResults([{ question, selected: (question.answer + 1) % question.options.length, status: 'incorrect' }], 'exam-attempt');
   window.__TBPhaseIntegration.refresh();
   await settle(window, 2);
@@ -197,6 +201,23 @@ test('a missed question with an embedded chart shows the chart in the notebook s
   const card = notebook.querySelector('.tb-mistake-card');
   assert.ok(card, 'the missed question renders as a mistake card');
   assert.ok(card.querySelector('svg'), 'the chart that was part of the original question is rendered in the notebook snapshot');
+});
+
+test('a missed question whose chart is a data table (not svg) also renders its chart in the notebook snapshot', async () => {
+  const { window } = await load();
+  const overview = await completeQuick(window);
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[3].find(item => item.chart && item.chart.type === 'data-table');
+  assert.ok(question, 'test fixture needs a data-table chart-bearing question');
+  api.recordResults([{ question, selected: (question.answer + 1) % question.options.length, status: 'incorrect' }], 'exam-attempt');
+  window.__TBPhaseIntegration.refresh();
+  await settle(window, 2);
+  click(window, overview.querySelector('[data-open-notebook]'));
+  await settle(window, 2);
+  const notebook = overview.querySelector('#tb-adaptive-panel');
+  const card = notebook.querySelector('.tb-mistake-card');
+  assert.ok(card, 'the missed question renders as a mistake card');
+  assert.ok(card.querySelector('table.tb-q-data-table'), 'the reference table that was part of the original question is rendered in the notebook snapshot');
 });
 
 test('the "why" explanation renders its authored inline HTML instead of showing raw tags', async () => {

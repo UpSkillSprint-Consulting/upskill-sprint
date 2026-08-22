@@ -268,19 +268,19 @@ test('chartVsmSymbol renders a rectangle with a cut top-right corner, matching t
   assert.equal(points.length, 5, 'five vertices: four rectangle corners plus the cut corner');
 });
 
-test('the critical-path questions now carry their precedence table data in the stem, not only in the why field', async () => {
+test('the critical-path questions now carry their precedence table as a real chart, not embedded text or only the why field', async () => {
   const { window } = await load();
   const bank = cssbbBank(window);
-  const critPath = bank.find(q => q.stem.startsWith('A project has the following activities') && q.stem.includes('critical path?'));
-  const lateStart = bank.find(q => q.stem.startsWith('Using the same project precedence table') && q.stem.includes('latest day that Activity D can begin'));
+  const critPath = bank.find(q => q.stem.includes('precedence table below') && q.stem.includes('critical path?'));
+  const lateStart = bank.find(q => q.stem.startsWith('Using the same precedence table') && q.stem.includes('latest day that Activity D can begin'));
   assert.ok(critPath && lateStart, 'both companion questions found');
 
-  // Both questions must state every activity's duration and predecessor directly in the
-  // stem -- previously this table only existed (garbled) inside the why field, making the
-  // question itself unanswerable from the information a student is actually shown.
+  // Both questions must carry every activity's duration and predecessor in a real chart --
+  // previously this table only existed (garbled) inside the why field, making the question
+  // itself unanswerable from the information a student is actually shown.
   ['A', 'B', 'C', 'D', 'E', 'F', 'G'].forEach(activity => {
-    assert.match(critPath.stem, new RegExp(activity + ' \\('), 'critical-path stem states activity ' + activity + '\u2019s data');
-    assert.match(lateStart.stem, new RegExp(activity + ' \\('), 'late-start stem states activity ' + activity + '\u2019s data');
+    assert.ok(critPath.chart && critPath.chart.rows.some(r => r[0] === activity), 'critical-path chart states activity ' + activity + '\u2019s row');
+    assert.ok(lateStart.chart && lateStart.chart.rows.some(r => r[0] === activity), 'late-start chart states activity ' + activity + '\u2019s row');
   });
 
   assert.equal(critPath.options[critPath.answer], 'ACG');
@@ -292,11 +292,12 @@ test('the critical-path questions now carry their precedence table data in the s
 test('the precedence-table data used is internally self-consistent with the stated critical-path answer (the source book has a real erratum here: its question page prints Activity D as 15 days, its own solution page prints 5 days and calculates using 5 -- used the value consistent with the graded answer so the practice question is not self-contradicting)', async () => {
   const { window } = await load();
   const bank = cssbbBank(window);
-  const critPath = bank.find(q => q.stem.startsWith('A project has the following activities') && q.stem.includes('critical path?'));
-  assert.match(critPath.stem, /D \(no predecessor, 5 days\)/);
+  const critPath = bank.find(q => q.stem.includes('precedence table below') && q.stem.includes('critical path?'));
+  const dRow = critPath.chart.rows.find(r => r[0] === 'D');
+  assert.equal(dRow[2], '5', 'chart uses D=5 (the value consistent with the graded answer), not the question-page D=15');
   // ACG = 10+10+5 = 25, BCG = 5+10+5 = 20, DEFG = 5+5+5+5 = 20 -- ACG must be strictly longest.
   const acg = 10 + 10 + 5, bcg = 5 + 10 + 5, defg = 5 + 5 + 5 + 5;
-  assert.ok(acg > bcg && acg > defg, 'ACG is genuinely the longest (critical) path given the stem\u2019s own stated durations');
+  assert.ok(acg > bcg && acg > defg, 'ACG is genuinely the longest (critical) path given the chart\u2019s own stated durations');
 });
 
 test('no CQE question contains a unicode replacement character or an unresolved visual reference (audited the full CQE bank the same way as CSSBB)', async () => {
@@ -334,13 +335,17 @@ test('no option in the entire bank contains bled-in "shared context for the next
   assert.deepEqual(Array.from(contaminated), []);
 });
 
-test('the second critical-path trio (Q49/50/51, a different precedence table than the D-erratum one) now carries its data in each stem', async () => {
+test('the second critical-path trio (Q49/50/51, a different precedence table than the D-erratum one) now carries its data as a real chart in each question', async () => {
   const { window } = await load();
   const bank = cssbbBank(window);
-  const q49 = findQuestion(bank, 'A project has the following activities, predecessors, and durations. Activity: A (no predecessor, 5 days)');
-  const q50 = bank.find(q => q.stem.includes('Using the same project precedence table') && q.stem.includes('early start time for Activity C'));
-  const q51 = bank.find(q => q.stem.includes('Using the same project precedence table') && q.stem.includes('Activity E is delayed'));
+  const q49 = bank.find(q => q.stem.includes('precedence table below') && q.stem.includes('critical path.'));
+  const q50 = bank.find(q => q.stem.startsWith('Using the same precedence table') && q.stem.includes('early start time for Activity C'));
+  const q51 = bank.find(q => q.stem.startsWith('Using the same precedence table') && q.stem.includes('Activity E is delayed'));
   assert.ok(q49 && q50 && q51, 'all three questions found with corrected stems');
+  [q49, q50, q51].forEach(q => {
+    assert.ok(q.chart && q.chart.type === 'data-table', 'question carries a real table chart');
+    ['A', 'B', 'C', 'D', 'E', 'F'].forEach(activity => assert.ok(q.chart.rows.some(r => r[0] === activity), activity + ' row present'));
+  });
 
   assert.equal(q49.options[q49.answer], 'EF');
   assert.notEqual(q49.options[1], 'BOE', 'the OCR-garbled "BOE" option was corrected to "BDF"');
@@ -348,7 +353,7 @@ test('the second critical-path trio (Q49/50/51, a different precedence table tha
 
   // ACF = 5+8+6=19, BDF = 10+2+6=18, EF = 15+6=21 -- EF must be strictly the longest.
   const acf = 5 + 8 + 6, bdf = 10 + 2 + 6, ef = 15 + 6;
-  assert.ok(ef > acf && ef > bdf, 'EF is genuinely the critical path given the stem\u2019s own stated durations');
+  assert.ok(ef > acf && ef > bdf, 'EF is genuinely the critical path given the chart\u2019s own stated durations');
 
   assert.equal(q50.options[q50.answer], '5');
   assert.equal(q51.options[q51.answer], 'The project will finish at least five days late.');
@@ -794,4 +799,172 @@ test('no chart type introduced or touched in this pass produces NaN in its outpu
     { type: 'data-table', columns: ['a'], rows: [['1']] }
   ];
   cases.forEach(c => assert.doesNotMatch(window.__TB.renderQuestionChart(c), /NaN/, c.type));
+});
+
+/* ---------- seventh pass: user-supplied source images cross-referenced against the bank ---------- */
+
+test('the FTA symbol questions render the fault tree diagram with the correct AND-gate symbols highlighted', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const andGate = bank.find(q => q.stem.includes('indicates an AND gate?'));
+  const primaryEvent = bank.find(q => q.stem.includes('indicates the primary event?'));
+  assert.ok(andGate && primaryEvent);
+  assert.deepEqual(Array.from(andGate.chart.highlightSet), ['2', '6']);
+  assert.deepEqual(Array.from(primaryEvent.chart.highlightSet), ['1']);
+  assert.equal(andGate.options[andGate.answer], '2 and 6');
+});
+
+test('chartFtaDiagram renders all 10 numbered symbols with distinct AND-gate, OR-gate, rectangle, circle, and diamond shapes', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'fta-diagram', highlightSet: ['2', '6'] });
+  for (let i = 1; i <= 10; i += 1) assert.match(svg, new RegExp('>' + i + '<'));
+  assert.match(svg, /<path/, 'gate shapes use path elements');
+  assert.match(svg, /<polygon/, 'the diamond (undeveloped event) uses a polygon');
+  assert.match(svg, /<circle/, 'basic events use circles');
+  assert.match(svg, /<rect/, 'the top and intermediate events use rectangles');
+  assert.equal((svg.match(/tb-q-chart-quad-hi/g) || []).length, 2, 'exactly the 2 highlighted AND-gate symbols get the highlight class');
+  assert.doesNotMatch(svg, /NaN/);
+});
+
+test('the matrix diagram question renders the diagram consistent with what its own why field states', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const q = bank.find(q2 => q2.stem.includes('Based on the matrix diagram, what can be said about Part B?'));
+  assert.ok(q && q.chart);
+  const div2Row = q.chart.rowLabels.indexOf('Division 2');
+  const cust2Row = q.chart.rowLabels.indexOf('Customer 2');
+  const cust1Row = q.chart.rowLabels.indexOf('Customer 1');
+  // Division 2: ships via Shipper 1 only, produces Part B only (not Part A) -- matches the why field.
+  assert.deepEqual(Array.from(q.chart.cells[div2Row]), [true, false, false, true]);
+  // Customer 2 buys a large volume of Part B; Customer 1 does not.
+  assert.equal(q.chart.cells[cust2Row][3], true);
+  assert.equal(q.chart.cells[cust1Row][3], false);
+});
+
+test('chartMatrixDiagram renders a header row, a legend, and one dot per cell with no NaN', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({
+    type: 'matrix-diagram',
+    rowLabels: ['Row A', 'Row B'],
+    colGroups: [{ label: 'Group', cols: ['X', 'Y'] }],
+    cells: [[true, false], [false, true]]
+  });
+  assert.match(svg, /Large volume/);
+  assert.match(svg, /Small volume/);
+  assert.match(svg, />Row A</);
+  assert.match(svg, />Row B</);
+  assert.doesNotMatch(svg, /NaN/);
+});
+
+test('the interaction-plot question now carries the real three-factor DOE scenario and a 3-panel chart', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const q = bank.find(q2 => q2.stem.includes('two significant interaction effects'));
+  assert.ok(q);
+  assert.match(q.stem, /three-factor full factorial experiment/);
+  assert.equal(q.chart.type, 'interaction-plot-3');
+  assert.equal(q.options[q.answer], 'AB and AC');
+});
+
+test('chartInteractionPlot3 renders all 3 panels within its own viewBox with no clipping (regression: an earlier height formula cut the third panel off entirely)', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'interaction-plot-3' });
+  const viewBoxMatch = svg.match(/viewBox="0 0 (\d+) ([\d.]+)"/);
+  assert.ok(viewBoxMatch);
+  const vbHeight = Number(viewBoxMatch[2]);
+  const allYs = Array.from(svg.matchAll(/[xy]\d?="[\d.]+" y="([\d.]+)"/g)).map(m => Number(m[1]))
+    .concat(Array.from(svg.matchAll(/cy="([\d.]+)"/g)).map(m => Number(m[1])));
+  const maxY = Math.max.apply(null, allYs);
+  assert.ok(maxY <= vbHeight, 'no element sits below the visible viewBox (' + maxY + ' vs height ' + vbHeight + ')');
+  assert.match(svg, /B \* C \(parallel = no interaction\)/, 'third panel title is present, not cut off');
+  assert.doesNotMatch(svg, /NaN/);
+});
+
+test('chartInteractionPlot3\u2019s polylines use valid comma-separated point syntax, not path "L" commands (regression: <polyline> points do not support path commands)', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'interaction-plot-3' });
+  const pointsAttrs = Array.from(svg.matchAll(/<polyline points="([^"]+)"/g)).map(m => m[1]);
+  assert.ok(pointsAttrs.length > 0);
+  pointsAttrs.forEach(pts => {
+    assert.doesNotMatch(pts, /[A-Za-z]/, 'points attribute contains only numbers, commas, spaces, and periods -- no path command letters: ' + pts);
+  });
+});
+
+test('the NPS question now renders a clean data table instead of the crammed "Responses Count 9-10 23..." text dump', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const q = bank.find(q2 => q2.stem.includes('using a Likert scale in which 1 maps to not likely at all'));
+  assert.ok(q && q.chart && q.chart.type === 'data-table');
+  assert.doesNotMatch(q.stem, /Responses Count 9-10/, 'the raw crammed table is no longer dumped into the stem text');
+  assert.equal(q.options[q.answer], '28.9%');
+});
+
+test('the two regression pairs (Time/Strength and warehouse pallets) each carry their own full source data table, not just the first question of the pair', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const corr = bank.find(q => q.stem.includes('sample correlation coefficient'));
+  const slope = bank.find(q => q.stem.includes('estimated slope of the regression line predicting strength'));
+  const whEq = bank.find(q => q.stem.includes('equation of the estimated regression line'));
+  const whR2 = bank.find(q => q.stem.includes('coefficient of determination'));
+  [corr, slope, whEq, whR2].forEach(q => assert.ok(q && q.chart && q.chart.type === 'data-table', q ? q.stem.slice(0, 40) : 'missing'));
+  assert.equal(corr.options[corr.answer], '0.88');
+  assert.equal(slope.options[slope.answer], '4.39');
+  assert.equal(whEq.options[whEq.answer], 'y = -5.906 + 0.777x');
+  assert.equal(whR2.options[whR2.answer], '0.90');
+  // both pairs share one table each -- confirm slope's chart actually matches correlation's, not a copy-paste of the wrong dataset.
+  assert.deepEqual(Array.from(corr.chart.rows), Array.from(slope.chart.rows));
+  assert.deepEqual(Array.from(whEq.chart.rows), Array.from(whR2.chart.rows));
+});
+
+test('the ANOVA Factor-B question now shows only the real, partially-blank table the source book gives -- not the fully pre-solved version that made the question trivial (regression: a prior fix had given away SSB, MSB, and MSError, leaving only a single division for the student)', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const q = bank.find(q2 => q2.stem.includes('F-statistic for Factor B'));
+  assert.ok(q && q.chart);
+  const factorBRow = q.chart.rows.find(r => r[0] === 'Factor B');
+  assert.deepEqual(Array.from(factorBRow).slice(1), ['', '', '', ''], 'Factor B row is blank in the chart, matching the real exam question, not pre-filled with the derived SS/MS values');
+  const errorRow = q.chart.rows.find(r => r[0] === 'Error');
+  assert.equal(errorRow[1], '75');
+  assert.equal(errorRow[2], '', 'Error df is blank -- the student must derive it, not read it off the table');
+  assert.equal(q.options[q.answer], '4.25');
+  assert.match(q.why, /SSB = SSTotal - SSA - SSAB - SSError/, 'the why field now shows the SSB derivation step that was previously missing');
+});
+
+test('the ANOVA "which statements are correct" question shares the same real (partially blank) table as the Factor-B question', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const q = bank.find(q2 => q2.stem.includes('which of the following statements is correct'));
+  assert.ok(q && q.chart);
+  const factorBRow = q.chart.rows.find(r => r[0] === 'Factor B');
+  assert.deepEqual(Array.from(factorBRow).slice(1), ['', '', '', '']);
+  assert.equal(q.options[q.answer], 'Factors A, B, and the AB interaction are significant at alpha = 0.05.');
+});
+
+test('the tolerance-stack question (Q18) now renders a clean LSL/USL table instead of the crammed "Part A Part B Part C LS L 0.750..." text', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const q = bank.find(q2 => q2.stem.includes('lower and upper specifications of the stacked assembly'));
+  assert.ok(q && q.chart && q.chart.type === 'data-table');
+  assert.doesNotMatch(q.stem, /Part A Part B Part C LS L/);
+  assert.equal(q.options[q.answer], '[2.351, 2.419]');
+});
+
+test('both precedence-table question groups (the D-erratum trio and the second ACF/BDF/EF trio) were upgraded from embedded prose to real table charts, with every sibling carrying its own copy', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const erratumCrit = bank.find(q => q.stem.includes('precedence table below') && q.stem.includes('critical path?') && q.options.includes('ACG'));
+  const erratumLate = bank.find(q => q.stem.startsWith('Using the same precedence table') && q.stem.includes('latest day that Activity D can begin'));
+  assert.ok(erratumCrit && erratumLate);
+  assert.equal(erratumCrit.sub, 'p1', 'sub topic preserved from before the rewrite, not accidentally changed');
+  assert.equal(erratumLate.sub, 'p1', 'sub topic preserved from before the rewrite, not accidentally changed (regression: a rewrite once silently changed this to "def")');
+  assert.deepEqual(Array.from(erratumCrit.chart.rows), Array.from(erratumLate.chart.rows));
+
+  const secondCrit = bank.find(q => q.stem.includes('precedence table below') && q.options.includes('EF'));
+  assert.ok(secondCrit && secondCrit.chart);
+  assert.doesNotMatch(secondCrit.stem, /Activity: A \(no predecessor/, 'the old embedded-prose description is gone, replaced by a real chart');
+});
+
+test('CSSBB Set 3 question count is unchanged by this whole pass (694) -- no question was accidentally duplicated or dropped while rewriting 15 entries', async () => {
+  const { window } = await load();
+  assert.equal(window.__TB.EXAMS.cssbb.sets[3].length, 694);
 });
