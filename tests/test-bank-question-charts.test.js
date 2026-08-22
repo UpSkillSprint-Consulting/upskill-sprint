@@ -687,3 +687,111 @@ test('the weld-inspection kappa question is genuinely self-contained (correctly 
   assert.ok(q);
   assert.ok(!q.chart, 'no chart needed -- the interpretation options are answerable from the given kappa value alone');
 });
+
+/* ---------- sixth pass: aesthetic refinement (eyebrow labels, spacing, depth, no regressions) ---------- */
+
+test('every chart type renders an eyebrow label identifying what kind of chart it is', async () => {
+  const { window } = await load();
+  const cases = [
+    ['xbar-r', { xbar: { ucl: 1, cl: 0, lcl: -1, data: [0, 0] }, r: { ucl: 1, cl: 0, lcl: -1, data: [0, 0] } }, 'Control chart'],
+    ['boxplot', { min: 0, q1: 1, median: 2, q3: 3, max: 4 }, 'Box plot'],
+    ['scatter-quadrant', { highlight: 'A' }, 'Scatter plots'],
+    ['house-of-quality', { highlight: '1' }, 'House of quality'],
+    ['data-table', { columns: ['a'], rows: [['1']] }, 'Reference table'],
+    ['vsm-symbol', {}, 'VSM symbol']
+  ];
+  cases.forEach(([type, extra, label]) => {
+    const html = window.__TB.renderQuestionChart(Object.assign({ type: type }, extra));
+    assert.match(html, /class="tb-q-chart-eyebrow"/, type + ' has an eyebrow label');
+    assert.match(html, new RegExp(label), type + ' eyebrow reads "' + label + '"');
+  });
+});
+
+test('the X-bar/R chart\u2019s "Sample" axis label sits below the R chart\u2019s tick numbers, not overlapping them (regression: a spacing change once put them 2px apart)', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({
+    type: 'xbar-r',
+    xbar: { ucl: 581, cl: 512.5, lcl: 443.9, data: [500, 522, 490] },
+    r: { ucl: 214.7, cl: 94.1, lcl: 0, data: [58, 95, 88] }
+  });
+  const sampleMatch = svg.match(/y="([\d.]+)" font-size="10" fill="var\(--muted\)" text-anchor="middle">Sample</);
+  assert.ok(sampleMatch, 'Sample label found');
+  const tickYs = Array.from(svg.matchAll(/y="([\d.]+)" font-size="9" fill="var\(--muted\)" text-anchor="middle">\d+</g)).map(m => Number(m[1]));
+  const maxTickY = Math.max.apply(null, tickYs);
+  assert.ok(Number(sampleMatch[1]) > maxTickY + 8, 'Sample label (y=' + sampleMatch[1] + ') sits comfortably below the lowest tick label (y=' + maxTickY + ')');
+});
+
+test('chartSeriesSvg renders a gradient-filled area under the line with a unique id per caller, so two series in one SVG (X-bar and R) do not collide', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({
+    type: 'xbar-r',
+    xbar: { ucl: 581, cl: 512.5, lcl: 443.9, data: [500, 522, 490] },
+    r: { ucl: 214.7, cl: 94.1, lcl: 0, data: [58, 95, 88] }
+  });
+  assert.match(svg, /id="tbGradXbar"/);
+  assert.match(svg, /id="tbGradR"/);
+  assert.doesNotMatch(svg, /NaN/);
+  const gradientIds = Array.from(svg.matchAll(/<linearGradient id="([^"]+)"/g)).map(m => m[1]);
+  assert.equal(new Set(gradientIds).size, gradientIds.length, 'no duplicate gradient ids between the two stacked series');
+});
+
+test('the box plot mean marker uses the accent color class, not the low-contrast muted text color it used to (regression: it was nearly invisible)', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'boxplot', min: 0, q1: 10, median: 20, mean: 22, q3: 30, max: 40 });
+  assert.match(svg, /class="tb-chart-mean"/);
+  assert.doesNotMatch(svg, /font-size="13" fill="var\(--muted\)" text-anchor="middle">\u00d7/, 'no longer uses the old low-contrast inline style for the mean marker');
+});
+
+test('the VSM symbol renders in a compact wrapper instead of the full-width chart card (regression: a 260x200 icon sat inside an oversized full-width card)', async () => {
+  const { window } = await load();
+  const html = window.__TB.renderQuestionChart({ type: 'vsm-symbol' });
+  assert.match(html, /class="tb-q-chart-wrap tb-q-chart-wrap-compact"/);
+});
+
+test('the house-of-quality roof (area 2) is visually distinguished from the other areas via a dedicated CSS class', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'house-of-quality', highlight: '5' });
+  assert.match(svg, /tb-chart-box-roof/, 'the roof box carries a distinct class when it is not the highlighted area');
+});
+
+test('the activity-network highlighted node renders with the same fill-based highlight class used by every other diagram type, for a consistent "you are here" treatment', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({
+    type: 'activity-network', highlight: 'C',
+    nodes: { A: { col: 0, row: 0, dur: 6 }, C: { col: 0, row: 1, dur: 9 } },
+    edges: [['A', 'C']]
+  });
+  assert.equal((svg.match(/tb-q-chart-quad-hi/g) || []).length, 1);
+  assert.doesNotMatch(svg, /NaN/);
+});
+
+test('the normal-probability confidence band renders as a properly closed, non-self-intersecting fill path (regression: a naive string-token reversal once corrupted the closing path data)', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'normal-prob', pattern: 'linear' });
+  const fillPathMatch = svg.match(/<path d="([^"]+)" fill="var\(--card\)"/);
+  assert.ok(fillPathMatch, 'band fill path exists');
+  const d = fillPathMatch[1];
+  assert.match(d, /^M[\d.]+ [\d.]+/, 'path starts with a valid M command');
+  assert.match(d, /Z$/, 'path is explicitly closed');
+  // every coordinate pair must be a clean "number space number" -- a corrupted reversal
+  // would leave stray "L" letters glued to the wrong tokens, which this pattern rejects.
+  const commands = d.slice(0, -1).trim().split(/(?=[ML])/).filter(Boolean);
+  commands.forEach(cmd => assert.match(cmd.trim(), /^[ML][\d.]+ [\d.]+$/, 'well-formed path command: ' + cmd));
+});
+
+test('no chart type introduced or touched in this pass produces NaN in its output', async () => {
+  const { window } = await load();
+  const cases = [
+    { type: 'xbar-r', xbar: { ucl: 1, cl: 0, lcl: -1, data: [0.1, 0.2] }, r: { ucl: 1, cl: 0, lcl: -1, data: [0.1, 0.2] } },
+    { type: 'boxplot', min: 0, q1: 1, median: 2, mean: 2.1, q3: 3, max: 4, outliers: [5] },
+    { type: 'normal-prob', pattern: 's-curve' },
+    { type: 'precision-accuracy', highlight: 'B' },
+    { type: 'bias-diagram' },
+    { type: 'vsm-symbol' },
+    { type: 'scatter-quadrant', highlight: 'A' },
+    { type: 'house-of-quality', highlight: '3' },
+    { type: 'activity-network', highlight: 'A', nodes: { A: { col: 0, row: 0, dur: 1 } }, edges: [] },
+    { type: 'data-table', columns: ['a'], rows: [['1']] }
+  ];
+  cases.forEach(c => assert.doesNotMatch(window.__TB.renderQuestionChart(c), /NaN/, c.type));
+});
