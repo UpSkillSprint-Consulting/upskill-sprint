@@ -130,9 +130,10 @@
   .tb-qtag i{width:8px;height:8px;border-radius:2px}
   .tb-stem{font-size:17px;line-height:1.5;color:var(--ink);font-weight:600;margin-bottom:18px}
   .tb-q-chart-wrap{margin-bottom:16px;padding:16px 18px;border:1px solid var(--line);border-radius:10px;background:var(--tint);overflow-x:auto}
+  @media(max-width:420px){.tb-q-chart-wrap{padding:12px 10px}}
   .tb-q-chart-wrap-compact{max-width:220px;margin-left:auto;margin-right:auto}
   .tb-q-chart-eyebrow{display:block;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);margin:0 0 10px}
-  .tb-q-chart{width:100%;min-width:340px;max-width:560px;display:block;margin:0 auto}
+  .tb-q-chart{width:100%;min-width:280px;max-width:560px;display:block;margin:0 auto}
   .tb-q-chart-symbol{max-width:130px;min-width:110px}
   .tb-q-chart-quad{max-width:420px}
   .tb-chart-limit{stroke:#c0453f;stroke-width:1.1;stroke-dasharray:4 3;opacity:.72}
@@ -2694,9 +2695,16 @@
     return svg+'</svg>';
   }
   function chartActivityNetwork(spec){
-    var w=460,h=200,nodeW=64,nodeH=44;
+    var nodeW=64,nodeH=44,colGap=120,rowGap=90,margin=20;
     var nodes=spec.nodes;
-    function nodeXY(n){return {x:n.col*120+20, y:n.row*90+20};}
+    function nodeXY(n){return {x:n.col*colGap+margin, y:n.row*rowGap+margin};}
+    var maxCol=0,maxRow=0;
+    Object.keys(nodes).forEach(function(key){
+      var n=nodes[key];
+      if(n.col>maxCol)maxCol=n.col;
+      if(n.row>maxRow)maxRow=n.row;
+    });
+    var w=maxCol*colGap+margin+nodeW+margin, h=maxRow*rowGap+margin+nodeH+margin;
     var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Activity network diagram">'+
       '<defs><marker id="tbArrow" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" class="tb-chart-target-dot"></path></marker></defs>';
     (spec.edges||[]).forEach(function(edge){
@@ -2771,8 +2779,9 @@
     return svg+'</svg>';
   }
   function chartMatrixDiagram(spec){
-    var w=420,h=190,rowH=32,labelW=100,colW=64,top=10;
+    var w=420,rowH=32,labelW=100,colW=64,top=10,headerH=32,bottomMargin=24;
     var rowLabels=spec.rowLabels, colGroups=spec.colGroups, cells=spec.cells;
+    var h=top+headerH+rowH*rowLabels.length+bottomMargin;
     var allCols=[];
     colGroups.forEach(function(g){g.cols.forEach(function(c){allCols.push(c);});});
     function dot(filled,cx,cy){
@@ -2788,7 +2797,6 @@
       gx+=gw;
     });
     allCols.forEach(function(c,i){svg+='<text x="'+colX[i]+'" y="'+(top+26)+'" font-size="9" fill="var(--ink)" text-anchor="middle">'+esc(c)+'</text>';});
-    var headerH=32;
     svg+='<line x1="0" y1="'+(top+headerH)+'" x2="'+w+'" y2="'+(top+headerH)+'" class="tb-chart-grid"></line>';
     rowLabels.forEach(function(r,ri){
       var y=top+headerH+rowH*ri+rowH/2;

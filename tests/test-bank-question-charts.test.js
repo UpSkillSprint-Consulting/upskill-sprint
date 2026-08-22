@@ -968,3 +968,69 @@ test('CSSBB Set 3 question count is unchanged by this whole pass (694) -- no que
   const { window } = await load();
   assert.equal(window.__TB.EXAMS.cssbb.sets[3].length, 694);
 });
+
+/* ---------- eighth pass: stress test with edge cases beyond the shipped questions' exact shapes ---------- */
+
+test('chartActivityNetwork scales its viewBox to the actual node grid (columns/rows), with no overflow (regression: width/height were hardcoded for a 3-column, 2-row layout, clipping any question with more columns or rows)', async () => {
+  const { window } = await load();
+  const layouts = [
+    { A: { col: 0, row: 0, dur: 1 } }, // single node
+    { A: { col: 0, row: 0, dur: 1 }, B: { col: 1, row: 0, dur: 2 }, C: { col: 2, row: 0, dur: 3 }, D: { col: 0, row: 1, dur: 4 }, E: { col: 1, row: 1, dur: 5 }, F: { col: 2, row: 1, dur: 6 }, G: { col: 0, row: 2, dur: 7 } } // 3 cols x 3 rows
+  ];
+  layouts.forEach((nodes, i) => {
+    const svg = window.__TB.renderQuestionChart({ type: 'activity-network', highlight: Object.keys(nodes)[0], nodes, edges: [] });
+    const vb = svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+    assert.ok(vb, 'layout ' + i + ': viewBox present');
+    const vbW = Number(vb[1]), vbH = Number(vb[2]);
+    const allXs = Array.from(svg.matchAll(/x1?="([\d.]+)"/g)).map(m => Number(m[1]));
+    const allYs = Array.from(svg.matchAll(/y1?="([\d.]+)"/g)).map(m => Number(m[1]));
+    assert.ok(Math.max.apply(null, allXs) <= vbW + 2, 'layout ' + i + ': no element exceeds viewBox width');
+    assert.ok(Math.max.apply(null, allYs) <= vbH + 2, 'layout ' + i + ': no element exceeds viewBox height');
+  });
+});
+
+test('chartMatrixDiagram scales its viewBox height to the actual number of rows, with no overflow (regression: height was hardcoded for exactly 4 rows, clipping legend and later rows for any question with 5+ rows)', async () => {
+  const { window } = await load();
+  [1, 4, 6, 10].forEach(n => {
+    const rowLabels = Array.from({ length: n }, (_, i) => 'Row ' + i);
+    const cells = rowLabels.map((_, i) => [i % 2 === 0, i % 2 === 1]);
+    const svg = window.__TB.renderQuestionChart({ type: 'matrix-diagram', rowLabels, colGroups: [{ label: 'G', cols: ['A', 'B'] }], cells });
+    const vb = svg.match(/viewBox="0 0 (\d+) ([\d.]+)"/);
+    assert.ok(vb, n + ' rows: viewBox present');
+    const vbHeight = Number(vb[2]);
+    const allYs = Array.from(svg.matchAll(/y="([\d.]+)"/g)).map(m => Number(m[1]))
+      .concat(Array.from(svg.matchAll(/cy="([\d.]+)"/g)).map(m => Number(m[1])));
+    const maxY = Math.max.apply(null, allYs);
+    assert.ok(maxY <= vbHeight, n + ' rows: no element (max y=' + maxY + ') exceeds the viewBox height (' + vbHeight + ')');
+  });
+});
+
+test('every chart-rendering function escapes HTML-unsafe characters in user-supplied labels rather than injecting them raw', async () => {
+  const { window } = await load();
+  const dangerous = '<script>alert(1)</script>&"quoted"';
+  const cases = [
+    window.__TB.renderQuestionChart({ type: 'data-table', columns: [dangerous], rows: [[dangerous]] }),
+    window.__TB.renderQuestionChart({ type: 'matrix-diagram', rowLabels: [dangerous], colGroups: [{ label: dangerous, cols: [dangerous] }], cells: [[true]] })
+  ];
+  cases.forEach(html => {
+    assert.doesNotMatch(html, /<script>alert/, 'raw script tag never appears unescaped');
+    assert.match(html, /&lt;script&gt;/, 'the label is HTML-escaped');
+  });
+});
+
+test('all three new chart types (fta-diagram, matrix-diagram, interaction-plot-3) tolerate missing/empty optional fields without throwing or producing NaN', async () => {
+  const { window } = await load();
+  const cases = [
+    { type: 'fta-diagram' },
+    { type: 'fta-diagram', highlightSet: [] },
+    { type: 'fta-diagram', highlightSet: ['not-a-real-id'] },
+    { type: 'matrix-diagram', rowLabels: [], colGroups: [{ label: 'G', cols: ['A'] }], cells: [] },
+    { type: 'interaction-plot-3' }
+  ];
+  cases.forEach(c => {
+    let out;
+    assert.doesNotThrow(() => { out = window.__TB.renderQuestionChart(c); }, c.type + ' does not throw');
+    assert.doesNotMatch(out, /NaN/, c.type);
+    assert.doesNotMatch(out, /undefined/, c.type);
+  });
+});
