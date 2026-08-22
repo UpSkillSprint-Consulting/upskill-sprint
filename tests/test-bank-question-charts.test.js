@@ -560,3 +560,130 @@ test('the OC-curve and both interaction-plot CQE questions are wired to their ne
   assert.equal(crossingPlot.chart.type, 'interaction-plot');
   assert.equal(crossingPlot.chart.parallel, false);
 });
+/* ---------- fifth pass: user-reported screenshots (scatter figures, HoQ, tolerance, frequency table, Set 1 network diagram, an unrecoverable erratum) ---------- */
+
+test('the F-test critical-value question with a genuine printing erratum (options B and C identical on the actual scanned page) was removed rather than given a fabricated option', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const found = bank.some(q => q.stem.includes('standard deviations of two normal populations are different'));
+  assert.equal(found, false);
+});
+
+test('CSSBB Set 3 count reflects the erratum question having been removed (694, down from 695)', async () => {
+  const { window } = await load();
+  assert.equal(window.__TB.EXAMS.cssbb.sets[3].length, 694);
+});
+
+test('the negative-correlation and nonlinear-relationship questions share one scatter-quadrant chart, each highlighting its own correct panel', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const negCorr = findQuestion(bank, 'The four scatter plots below all show the relationship');
+  const nonlinear = findQuestion(bank, 'Using the same four scatter plots');
+  assert.ok(negCorr && nonlinear);
+  assert.equal(negCorr.chart.type, 'scatter-quadrant');
+  assert.equal(negCorr.chart.highlight, 'B');
+  assert.equal(negCorr.options[negCorr.answer], 'Figure B');
+  assert.equal(nonlinear.chart.highlight, 'D');
+  assert.equal(nonlinear.options[nonlinear.answer], 'Figure D');
+});
+
+test('chartScatterQuadrant renders 4 distinct labeled panels with no NaN, and produces a visibly different point pattern per panel', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'scatter-quadrant', highlight: 'D' });
+  ['A', 'B', 'C', 'D'].forEach(l => assert.match(svg, new RegExp('>' + l + '<')));
+  assert.doesNotMatch(svg, /NaN/);
+  assert.equal((svg.match(/tb-q-chart-quad-hi/g) || []).length, 1);
+});
+
+test('both tolerance-stack questions now state the Part A/B/C tolerance values that their own why field was already using to compute the answer', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const conventional = findQuestion(bank, "An assembly's overall length is the stack of three component tolerances");
+  const statistical = bank.find(q => q.stem.includes('statistical tolerance method') && q.stem.includes('Part A'));
+  assert.ok(conventional && statistical);
+  assert.equal(conventional.options[conventional.answer], '1.0');
+  assert.equal(statistical.options[statistical.answer], '0.62');
+});
+
+test('both house-of-quality questions now render the 8-area diagram, each highlighting the area referenced in its own why field', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const targets = findQuestion(bank, 'Use the house of quality diagram below to answer this question and the next');
+  const customerReqs = findQuestion(bank, 'Using the same house of quality diagram');
+  assert.equal(targets.chart.highlight, '7');
+  assert.equal(targets.options[targets.answer], 'Area 7');
+  assert.equal(customerReqs.chart.highlight, '1');
+  assert.equal(customerReqs.options[customerReqs.answer], 'Area 1');
+});
+
+test('chartHouseOfQuality renders all 8 areas with no overlapping text bleeding outside a box (regression: areas 6/7/8 were too short for their labels)', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'house-of-quality', highlight: '7' });
+  for (let i = 1; i <= 8; i += 1) assert.match(svg, new RegExp('>' + i + '<'));
+  assert.doesNotMatch(svg, /NaN/);
+  // every text y-position must land within some rect's [y, y+height] band
+  const rects = Array.from(svg.matchAll(/<rect x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" height="([\d.]+)"/g))
+    .map(m => ({ x: +m[1], y: +m[2], w: +m[3], h: +m[4] }));
+  const texts = Array.from(svg.matchAll(/<text x="([\d.]+)" y="([\d.]+)"/g)).map(m => ({ x: +m[1], y: +m[2] }));
+  texts.forEach(t => {
+    const inSomeBox = rects.some(r => t.x >= r.x - 2 && t.x <= r.x + r.w + 2 && t.y >= r.y - 2 && t.y <= r.y + r.h + 2);
+    assert.ok(inSomeBox, 'text at y=' + t.y + ' falls within its box vertically, not spilling past the bottom edge');
+  });
+});
+
+test('the frequency table question now renders a real data table instead of a crammed, unreadable line of numbers', async () => {
+  const { window } = await load();
+  const bank = cssbbBank(window);
+  const q = findQuestion(bank, 'Given the frequency table below');
+  assert.equal(q.chart.type, 'data-table');
+  assert.deepEqual(Array.from(q.chart.rows).map(r => r.join(',')), ['4,10', '5,12', '6,14', '7,4', '8,2']);
+  assert.equal(q.options[q.answer], '36');
+  assert.doesNotMatch(q.stem, /X Frequency 4 10 5 12/, 'the raw crammed numbers are no longer dumped into the stem text');
+});
+
+test('chartDataTable renders a real HTML table with the given columns and rows', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({ type: 'data-table', columns: ['X', 'Frequency'], rows: [['4', '10'], ['5', '12']] });
+  assert.match(svg, /<table class="tb-q-data-table">/);
+  assert.match(svg, /<th>X<\/th><th>Frequency<\/th>/);
+  assert.match(svg, /<td>4<\/td>/);
+});
+
+test('the Set 1 activity-network question (originally "the network above" with no diagram, hand-authored content with no external source to recover from) now has a diagram consistent with its own stated float calculation', async () => {
+  const { window } = await load();
+  const cssbbBank2 = window.__TB.EXAMS.cssbb.bank;
+  const q = cssbbBank2.find(item => item.stem.includes('total float (slack) of activity C'));
+  assert.ok(q, 'question found in Set 1');
+  assert.ok(q.chart && q.chart.type === 'activity-network');
+  const nodes = q.chart.nodes;
+  const pathAB = nodes.A.dur + nodes.B.dur;
+  const pathCD = nodes.C.dur + nodes.D.dur;
+  assert.equal(pathAB, 16, 'path A-B (critical) sums to the 16 days the why field states');
+  assert.equal(pathCD, 15, 'path C-D sums to the 15 days the why field states');
+  assert.equal(pathAB - pathCD, 1, 'this is exactly the 1-day float the stored correct answer requires');
+});
+
+test('SET1.map now passes through an optional chart field, so hand-authored Set 1 questions can carry diagrams the same way OCR-extracted Set 3 questions do', () => {
+  assert.match(html, /var CSSBB_BANK=SET1\.map\(function\(x,ix\)\{var s=tbShuf4\(x\.o,x\.c,ix\);return \{sub:AREA2SUB\[x\.a\],stem:x\.q,options:s\.options,answer:s\.answer,why:x\.e,set:1,chart:x\.chart\};\}\);/);
+});
+
+test('chartActivityNetwork renders labeled duration boxes connected by arrows with no NaN', async () => {
+  const { window } = await load();
+  const svg = window.__TB.renderQuestionChart({
+    type: 'activity-network', highlight: 'C',
+    nodes: { A: { col: 0, row: 0, dur: 6 }, B: { col: 1, row: 0, dur: 10 }, C: { col: 0, row: 1, dur: 9 }, D: { col: 1, row: 1, dur: 6 }, Finish: { col: 2, row: 0.5, dur: 0 } },
+    edges: [['A', 'B'], ['B', 'Finish'], ['C', 'D'], ['D', 'Finish']]
+  });
+  assert.match(svg, />A<\/text>/);
+  assert.match(svg, /9 days/);
+  assert.doesNotMatch(svg, /NaN/);
+  assert.equal((svg.match(/tb-q-chart-quad-hi/g) || []).length, 1);
+});
+
+test('the weld-inspection kappa question is genuinely self-contained (correctly not flagged for a fix)', async () => {
+  const { window } = await load();
+  const cssbbBank2 = window.__TB.EXAMS.cssbb.bank;
+  const q = cssbbBank2.find(item => item.stem.includes('within-appraiser kappa of 0.42'));
+  assert.ok(q);
+  assert.ok(!q.chart, 'no chart needed -- the interpretation options are answerable from the given kappa value alone');
+});

@@ -42,7 +42,7 @@ function plain(window, value) {
 
 test('accuracy-count: all three CSSBB sets are in the validation pool', async () => {
   const window = await load();
-  assert.equal(questions(window).length, 1025);
+  assert.equal(questions(window).length, 1024);
 });
 
 test('accuracy-keypoint: every learning point is grounded or explicitly unavailable', async () => {

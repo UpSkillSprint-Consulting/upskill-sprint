@@ -19,13 +19,13 @@ function loadPage() {
 const click = (w, el) => el.dispatchEvent(new w.Event('click', { bubbles: true }));
 const ov = w => w.document.getElementById('tb-overview');
 
-test('CSSBB carries a third 695-question set with the BoK distribution', async () => {
+test('CSSBB carries a third 694-question set with the BoK distribution', async () => {
   const w = await loadPage();
   const e = w.__TB.EXAMS.cssbb;
   assert.ok(e.sets[3], 'Set 3 registered');
-  assert.equal(e.sets[3].length, 695);
+  assert.equal(e.sets[3].length, 694);
   const d = {}; e.sets[3].forEach(q => { d[q.sub] = (d[q.sub] || 0) + 1; });
-  assert.deepEqual(d, { p1: 152, p2: 41, tm: 52, def: 67, mea: 166, ana: 68, imp: 63, con: 65, dfss: 21 });
+  assert.deepEqual(d, { p1: 151, p2: 41, tm: 52, def: 67, mea: 166, ana: 68, imp: 63, con: 65, dfss: 21 });
   e.sets[3].forEach((q, i) => {
     assert.equal(q.set, 3, 'q ' + i + ' tagged set 3');
     assert.equal(q.options.length, 4);
@@ -34,7 +34,7 @@ test('CSSBB carries a third 695-question set with the BoK distribution', async (
     assert.ok(q.stem && q.why);
     assert.ok(!/[<>]/.test(q.stem + q.options.join('')), 'q ' + i + ' has no leftover markup');
   });
-  assert.equal(new Set(e.sets[3].map(q => q.stem)).size, 695, 'all Set-3 stems unique');
+  assert.equal(new Set(e.sets[3].map(q => q.stem)).size, 694, 'all Set-3 stems unique');
 });
 
 test('Set 3 is disjoint from Sets 1 and 2', async () => {
@@ -63,5 +63,5 @@ test('a full exam is 165 for Set 3 and for the all-sets Mixed pool', async () =>
     return ov(w).querySelectorAll('.tb-navcell').length;
   }
   assert.equal(await count('3'), 165, 'Set 3 full exam');
-  assert.equal(await count('mix'), 165, 'Mixed full exam is 165 drawn from the 1025 pool');
+  assert.equal(await count('mix'), 165, 'Mixed full exam is 165 drawn from the 1024 pool');
 });
