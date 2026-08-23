@@ -600,12 +600,18 @@ test('chartScatterQuadrant renders 4 distinct labeled panels with no NaN, and pr
   assert.equal((svg.match(/tb-q-chart-quad-hi/g) || []).length, 1);
 });
 
-test('both tolerance-stack questions now state the Part A/B/C tolerance values that their own why field was already using to compute the answer', async () => {
+test('both tolerance-stack questions now share one tolerance data-table chart with the Part A/B/C values their own why field was already using to compute the answer', async () => {
   const { window } = await load();
   const bank = cssbbBank(window);
-  const conventional = findQuestion(bank, "An assembly's overall length is the stack of three component tolerances");
-  const statistical = bank.find(q => q.stem.includes('statistical tolerance method') && q.stem.includes('Part A'));
+  const conventional = findQuestion(bank, 'Use the tolerance table below to answer this question and the next.');
+  const statistical = bank.find(q => q.stem.includes('statistical tolerance method') && q.stem.includes('same tolerance table'));
   assert.ok(conventional && statistical);
+  assert.equal(conventional.chart.type, 'data-table');
+  assert.deepEqual(conventional.chart, statistical.chart);
+  const partRows = Object.fromEntries(conventional.chart.rows.map(r => [r[0], r[1]]));
+  assert.equal(partRows['A'], '\u00b10.5');
+  assert.equal(partRows['B'], '\u00b10.2');
+  assert.equal(partRows['C'], '\u00b10.3');
   assert.equal(conventional.options[conventional.answer], '1.0');
   assert.equal(statistical.options[statistical.answer], '0.62');
 });
