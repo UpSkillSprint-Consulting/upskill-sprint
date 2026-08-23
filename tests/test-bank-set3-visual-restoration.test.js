@@ -46,7 +46,8 @@ test('the ROI question now renders the Year/Cost/Benefit cash-flow table', async
     ['1', '$15,000', '$45,000'],
     ['2', '$15,000', '$45,000']
   ]);
-  assert.match(q.options[q.answer], /^\$80,\s?782$/);
+  assert.equal(q.options[q.answer], '$80,782');
+  q.options.forEach(o => assert.doesNotMatch(o, /\d,\s\d/, o + ' has no stray space after the thousands comma'));
 });
 
 test('the "what type of matrix" question now shares the same matrix-diagram chart as its paired Part B question', async () => {
@@ -100,7 +101,7 @@ test('the u-chart capability comparison question now renders the Process/Capabil
   assert.ok(q);
   assert.equal(q.chart.type, 'data-table');
   assert.deepEqual(Array.from(q.chart.rows).map(r => Array.from(r)), [['A', '2.31'], ['B', '0.67'], ['C', '1.67'], ['D', '1.33']]);
-  assert.match(q.options[q.answer], /Process/);
+  assert.equal(q.options[q.answer], 'Process B');
 });
 
 test('the defect-tally question now renders the Defect Type/Tally table with the Total row', async () => {
@@ -147,7 +148,7 @@ test('both improve-phase prioritization matrix questions (Q61-62) share one rest
   const { window } = await load();
   const bank = set3Bank(window);
   const q1 = findQuestion(bank, 'A team scores four potential solutions against four weighted criteria');
-  const q2 = findQuestion(bank, 'Using the same prioritization matrix (shown below), which potential solution');
+  const q2 = findQuestion(bank, 'Using the same prioritization matrix, which potential solution');
   assert.ok(q1 && q2);
   assert.deepEqual(JSON.parse(JSON.stringify(q1.chart)), JSON.parse(JSON.stringify(q2.chart)));
   assert.equal(q1.chart.type, 'data-table');
@@ -155,17 +156,44 @@ test('both improve-phase prioritization matrix questions (Q61-62) share one rest
   assert.equal(q2.options[q2.answer], 'Solution B');
 });
 
-test('both Part B house-of-quality questions (Q75-76) render the shared diagram, each highlighting the area referenced in its own why field', async () => {
+test('both Part B house-of-quality questions (Q75-76) highlight a box that actually exists in this renderer\'s 8-box diagram, and the highlighted box\'s own label matches what the question asks about', async () => {
+  // chartHouseOfQuality hardcodes exactly 8 boxes (ids 1-8); there is no box 9.
+  // Box 4 is labelled "Relationships" and box 2 is the roof, labelled "Correlations".
+  // The original source-guide answer text ("Area 3" / "Area 9") used the textbook's
+  // own numbering, which does not match this renderer's box ids -- copying those
+  // numbers verbatim produced a highlight that pointed at the wrong box (Q75) or at
+  // no box at all (Q76, box 9 doesn't exist). This pins the corrected, renderer-
+  // consistent version instead.
   const { window } = await load();
   const bank = set3Bank(window);
   const q1 = findQuestion(bank, 'Use the house of quality diagram below to answer this question and the next. The relationship matrix');
   const q2 = findQuestion(bank, 'Using the same house of quality diagram, the relationship between technical requirements');
   assert.ok(q1 && q2);
   assert.equal(q1.chart.type, 'house-of-quality');
-  assert.equal(q1.chart.highlight, '3');
-  assert.equal(q1.options[q1.answer], 'Area 3');
-  assert.equal(q2.chart.highlight, '9');
-  assert.equal(q2.options[q2.answer], 'Area 9');
+
+  const svg1 = window.__TB.renderQuestionChart(q1.chart);
+  const svg2 = window.__TB.renderQuestionChart(q2.chart);
+
+  // Q75 asks about "the relationship matrix" -- the renderer's box 4 is the one
+  // literally labelled "Relationships", so the highlighted box must be box 4,
+  // and "Area 4" must be an answerable option.
+  assert.equal(q1.chart.highlight, '4');
+  assert.match(svg1, /<text[^>]*>4<\/text>[\s\S]*?Relationships/);
+  assert.equal(q1.options[q1.answer], 'Area 4');
+
+  // Q76 asks about the correlations between technical requirements -- that's the
+  // roof, which the renderer labels "Correlations (roof)" and ids as box 2.
+  assert.equal(q2.chart.highlight, '2');
+  assert.match(svg2, /<text[^>]*>2<\/text>[\s\S]*?Correlations/);
+  assert.equal(q2.options[q2.answer], 'Area 2');
+
+  // No option on either question should reference a box this diagram doesn't have.
+  [q1, q2].forEach(q => {
+    q.options.forEach(opt => {
+      const n = opt.match(/Area (\d+)/)[1];
+      assert.ok(Number(n) >= 1 && Number(n) <= 8, opt + ' refers to a box that exists in the 8-box diagram');
+    });
+  });
 });
 
 test('the Part B assembly-tolerance question (Q6) now renders the Part A/B/C dimension table', async () => {
@@ -201,7 +229,8 @@ test('the Part B chi-square job-shop question (Q116) now renders the last-year/l
   assert.ok(q);
   assert.equal(q.chart.type, 'data-table');
   assert.deepEqual(Array.from(q.chart.columns), ['', 'Part A', 'Part B', 'Part C']);
-  assert.match(q.options[q.answer], /^Chi-sq = 8\.308, Chi-square critical = 5\.99\s?1$/);
+  assert.equal(q.options[q.answer], 'Chi-sq = 8.308, Chi-square critical = 5.991');
+  q.options.forEach(o => assert.doesNotMatch(o, /\d\.\d+\s\d/, o + ' has no stray mid-number space'));
 });
 
 test('renderQuestionChart produces well-formed markup for every restored data-table chart with no NaN/undefined leakage', async () => {
@@ -235,4 +264,40 @@ test('Set 3 still has exactly 694 questions after the visual-restoration pass', 
   const { window } = await load();
   const bank = set3Bank(window);
   assert.equal(bank.length, 694);
+});
+
+test('"using the same" follow-up questions never say "below" -- the shared visual was already introduced by the first question in the pair', async () => {
+  // House style (established by the pre-existing Q19/Q46/etc. pairs): the first
+  // question in a shared-visual pair says "...below" once; every follow-up question
+  // says "Using the same X, ..." with no second "below". Two of the newly restored
+  // pairs (Q13 and Q62) drifted from this convention on the first pass.
+  const { window } = await load();
+  const bank = set3Bank(window);
+  const followUps = bank.filter(q => q.stem.startsWith('Using the same'));
+  assert.ok(followUps.length > 5, 'sanity: there are several shared-visual follow-up questions');
+  followUps.forEach(q => {
+    assert.doesNotMatch(q.stem, /same [a-z ]+ below/i, q.stem);
+  });
+});
+
+test('the two newly-restored house-of-quality questions (Q75-76) only offer "Area N" options that exist in this renderer\'s 8-box diagram', async () => {
+  // Narrower, PR-scoped version of the box-existence guard above. NOTE: the two
+  // pre-existing HOQ questions (idx253/254, shipped in an earlier PR, out of scope
+  // here) also list "Area 9" as a distractor even though this renderer has no box 9
+  // -- harmless since it's never the highlighted/correct box, but worth a mention
+  // if this file is revisited. This test only covers the two questions this PR
+  // actually restored, where the guard fully applies.
+  const { window } = await load();
+  const bank = set3Bank(window);
+  const q1 = findQuestion(bank, 'Use the house of quality diagram below to answer this question and the next. The relationship matrix');
+  const q2 = findQuestion(bank, 'Using the same house of quality diagram, the relationship between technical requirements');
+  [q1, q2].forEach(q => {
+    const svg = window.__TB.renderQuestionChart(q.chart);
+    const boxIds = Array.from(svg.matchAll(/<text[^>]*font-weight="700"[^>]*>(\d+)<\/text>/g)).map(m => m[1]);
+    q.options.forEach(opt => {
+      const m = opt.match(/Area (\d+)/);
+      assert.ok(m && boxIds.includes(m[1]), opt + ' references a box id that exists in this diagram (' + boxIds.join(',') + ')');
+    });
+    assert.ok(boxIds.includes(String(q.chart.highlight)), 'highlight ' + q.chart.highlight + ' matches a real box');
+  });
 });
