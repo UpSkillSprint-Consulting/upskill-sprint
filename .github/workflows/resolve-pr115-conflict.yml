@@ -1,0 +1,232 @@
+name: Resolve PR 115 merge conflict
+
+on:
+  push:
+    branches:
+      - test-bank-set3-cp-cpk-and-table-styling
+    paths:
+      - .github/workflows/resolve-pr115-conflict.yml
+
+permissions:
+  contents: write
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: test-bank-set3-cp-cpk-and-table-styling
+          fetch-depth: 0
+
+      - name: Merge current main and resolve test-bank overlap semantically
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+
+          # Merge first so every non-conflicting change from main is retained.
+          # test-bank.html is the expected overlap between PR 115 and the newer
+          # Set 3 why-field OCR cleanup already merged to main.
+          if git merge --no-commit --no-ff origin/main; then
+            echo "Merge completed without a content conflict."
+          else
+            unresolved="$(git diff --name-only --diff-filter=U)"
+            unexpected="$(printf '%s\n' "$unresolved" | grep -v '^test-bank.html$' || true)"
+            if [ -n "$unexpected" ]; then
+              echo "Unexpected merge conflicts:" >&2
+              printf '%s\n' "$unexpected" >&2
+              exit 1
+            fi
+            if ! printf '%s\n' "$unresolved" | grep -qx 'test-bank.html'; then
+              echo "Expected test-bank.html conflict was not present; refusing an unverified resolution." >&2
+              exit 1
+            fi
+
+            # Start from main's version so the newer, broader OCR explanation
+            # cleanup remains authoritative, then reapply PR 115's targeted
+            # capability/Box-Cox/radical/table fixes below.
+            git checkout --theirs -- test-bank.html
+          fi
+
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          import re
+
+          path = Path('test-bank.html')
+          lines = path.read_text(encoding='utf-8').splitlines()
+
+          # --- PR 115: data-table styling -----------------------------------
+          css_hits = {'th': 0, 'td': 0, 'num': 0}
+          out = []
+          for line in lines:
+              stripped = line.strip()
+              if stripped.startswith('.tb-q-data-table th{') and ':last-child' not in stripped:
+                  css_hits['th'] += 1
+                  indent = line[:len(line) - len(line.lstrip())]
+                  line = (indent + '.tb-q-data-table th{background:var(--card);color:var(--ink);font-weight:700;'
+                          'text-align:center;padding:9px 12px;border-bottom:2px solid var(--line);'
+                          'border-right:1px solid var(--line);font-size:10.5px;letter-spacing:.04em;'
+                          'text-transform:uppercase}')
+                  out.append(line)
+                  out.append(indent + '.tb-q-data-table th:last-child{border-right:none}')
+                  continue
+              if stripped.startswith('.tb-q-data-table td{') and '.tb-q-num' not in stripped and ':last-child' not in stripped:
+                  css_hits['td'] += 1
+                  indent = line[:len(line) - len(line.lstrip())]
+                  line = (indent + '.tb-q-data-table td{padding:8px 12px;border-bottom:1px solid var(--line);'
+                          'border-right:1px solid var(--line);color:var(--ink);text-align:center}')
+                  out.append(line)
+                  out.append(indent + '.tb-q-data-table td:last-child{border-right:none}')
+                  continue
+              if stripped.startswith('.tb-q-data-table td.tb-q-num{'):
+                  css_hits['num'] += 1
+                  indent = line[:len(line) - len(line.lstrip())]
+                  line = indent + '.tb-q-data-table td.tb-q-num{font-variant-numeric:tabular-nums}'
+              out.append(line)
+
+          if css_hits != {'th': 1, 'td': 1, 'num': 1}:
+              raise SystemExit(f'Unexpected data-table CSS match counts: {css_hits}')
+          lines = out
+
+          # --- PR 115: Set 3 semantic corrections ---------------------------
+          capability_re = re.compile(r'\b[Gg][Pp](?:[KkMm])?\b')
+          capability_fixes = 0
+          erk_fixes = 0
+          boxcox_fixes = 0
+          radical_fixes = 0
+          normalized = []
+
+          for line in lines:
+              if '"set":3' not in line:
+                  normalized.append(line)
+                  continue
+
+              indent = line[:len(line) - len(line.lstrip())]
+              body = line.strip()
+              trailing_comma = body.endswith(',')
+              raw_obj = body[:-1] if trailing_comma else body
+
+              try:
+                  q = json.loads(raw_obj)
+              except json.JSONDecodeError:
+                  # Set 3 question records are expected to be one JSON object per line.
+                  # Do not silently rewrite an unparsed record.
+                  normalized.append(line)
+                  continue
+
+              def fix_capability_text(value):
+                  nonlocal_counter = [0]
+                  def repl(match):
+                      nonlocal_counter[0] += 1
+                      token = match.group(0).lower()
+                      return {'gp': 'Cp', 'gpk': 'Cpk', 'gpm': 'Cpm'}[token]
+                  fixed = capability_re.sub(repl, value)
+                  return fixed, nonlocal_counter[0]
+
+              for key in ('stem', 'why'):
+                  if isinstance(q.get(key), str):
+                      q[key], count = fix_capability_text(q[key])
+                      capability_fixes += count
+              if isinstance(q.get('options'), list):
+                  new_options = []
+                  for option in q['options']:
+                      if isinstance(option, str):
+                          option, count = fix_capability_text(option)
+                          capability_fixes += count
+                      new_options.append(option)
+                  q['options'] = new_options
+
+              if isinstance(q.get('why'), str):
+                  q['why'], count = re.subn(r'\berk\b', 'Cpk', q['why'])
+                  erk_fixes += count
+
+              stem = q.get('stem', '')
+              if stem == 'What is the denominator in the population variance formula?':
+                  if len(q.get('options', [])) != 4:
+                      raise SystemExit('Population variance question has unexpected options shape')
+                  if q['options'][3] != '√N':
+                      q['options'][3] = '√N'
+                      radical_fixes += 1
+
+              if stem.startswith('In a two-level full-factorial design, the effect of Factor A is equal to - 12.4.'):
+                  if len(q.get('options', [])) != 4:
+                      raise SystemExit('Factor A coefficient question has unexpected options shape')
+                  if q['options'][0] != '-12.4 + √MSE':
+                      q['options'][0] = '-12.4 + √MSE'
+                      radical_fixes += 1
+
+              if stem == 'What Box-Cox transformation is used to transform data from a Poisson to a normal distribution?':
+                  q['options'] = ['Y = √X', 'Y = ln(X)', 'Y = X²', 'Y = 1/X']
+                  q['answer'] = 0
+                  q['why'] = 'The Box-Cox transformation from Poisson to normal uses a square root transformation, which is the same as Y = X^0.5 (√X). [V.F.5]'
+                  boxcox_fixes += 1
+
+              rebuilt = indent + json.dumps(q, ensure_ascii=False, separators=(',', ':'))
+              if trailing_comma:
+                  rebuilt += ','
+              normalized.append(rebuilt)
+
+          if capability_fixes < 30:
+              raise SystemExit(f'Expected at least 30 Set 3 Gp/Gpk/Gpm OCR fixes, got {capability_fixes}')
+          if boxcox_fixes != 1:
+              raise SystemExit(f'Expected exactly one Box-Cox question, got {boxcox_fixes}')
+          if radical_fixes != 2:
+              raise SystemExit(f'Expected exactly two radical-option fixes, got {radical_fixes}')
+          if erk_fixes > 1:
+              raise SystemExit(f'Unexpected number of erk fixes: {erk_fixes}')
+
+          text = '\n'.join(normalized) + '\n'
+          # Fail closed on the specific PR 115 invariants before running Jest.
+          set3_lines = [ln for ln in normalized if '"set":3' in ln]
+          offenders = [ln for ln in set3_lines if capability_re.search(ln)]
+          if offenders:
+              raise SystemExit(f'Capability OCR tokens remain in {len(offenders)} Set 3 records')
+          if 'Y = √X' not in text or 'Y = X²' not in text:
+              raise SystemExit('Clean Box-Cox options were not written')
+          if '.tb-q-data-table th:last-child{border-right:none}' not in text:
+              raise SystemExit('Header last-child border guard missing')
+          if '.tb-q-data-table td:last-child{border-right:none}' not in text:
+              raise SystemExit('Cell last-child border guard missing')
+
+          path.write_text(text, encoding='utf-8')
+          print('Semantic resolution complete:', {
+              'capability_fixes': capability_fixes,
+              'erk_fixes': erk_fixes,
+              'boxcox_fixes': boxcox_fixes,
+              'radical_fixes': radical_fixes,
+              'css_hits': css_hits,
+          })
+          PY
+
+          git add test-bank.html
+
+          # Ensure no merge markers or unresolved index entries survive.
+          if git diff --name-only --diff-filter=U | grep -q .; then
+            echo "Unresolved merge entries remain:" >&2
+            git diff --name-only --diff-filter=U >&2
+            exit 1
+          fi
+          if grep -nE '^(<<<<<<<|=======|>>>>>>>)' test-bank.html; then
+            echo "Merge markers remain in test-bank.html" >&2
+            exit 1
+          fi
+
+      - name: Install test dependencies
+        run: npm ci
+
+      - name: Run full regression suite
+        run: npm test
+
+      - name: Commit resolved merge and remove one-shot workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm .github/workflows/resolve-pr115-conflict.yml
+          git add -A
+          git config user.name "upskillsprint-agent"
+          git config user.email "skillsprintconsulting@gmail.com"
+          git commit -m "Resolve PR #115 against current main"
+          git push origin HEAD:test-bank-set3-cp-cpk-and-table-styling
