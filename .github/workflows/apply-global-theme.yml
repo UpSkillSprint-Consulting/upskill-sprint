@@ -1,86 +1,210 @@
-name: Apply shared site controllers
+name: Resolve PR 115 conflict
 
 on:
-  workflow_dispatch:
   push:
     branches:
-      - main
+      - test-bank-set3-cp-cpk-and-table-styling
     paths:
-      - '**/*.html'
-      - theme.js
-      - site-sections.js
       - .github/workflows/apply-global-theme.yml
 
 permissions:
   contents: write
 
 jobs:
-  update-html-pages:
+  resolve-pr115:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Check out PR branch
         uses: actions/checkout@v4
         with:
+          ref: test-bank-set3-cp-cpk-and-table-styling
           fetch-depth: 0
 
-      - name: Add shared controllers to every HTML page
+      - name: Merge main and resolve only the expected test-bank conflict
         shell: bash
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          import re
+          set -euo pipefail
+          git fetch origin main
 
-          repo = Path('.')
-          script_tags = [
-              '<script src="/theme.js"></script>',
-              '<script src="/site-sections.js"></script>',
-          ]
-          changed = []
-
-          inline_theme_pattern = re.compile(
-              r'\s*<script>\s*\(function\s*\(\)\s*\{.*?upskill-theme.*?</script>',
-              flags=re.DOTALL,
-          )
-
-          for path in sorted(repo.rglob('*.html')):
-              if '.git' in path.parts:
-                  continue
-
-              text = path.read_text(encoding='utf-8')
-              original = text
-
-              # Remove the older homepage-only inline theme scripts so the
-              # shared controller remains the single source of truth.
-              text = inline_theme_pattern.sub('', text)
-
-              if '</head>' not in text:
-                  print(f'Skipping {path}: no closing head tag')
-                  continue
-
-              missing_tags = [tag for tag in script_tags if tag not in text]
-              if missing_tags:
-                  insertion = ''.join(f'  {tag}\n' for tag in missing_tags)
-                  text = text.replace('</head>', insertion + '</head>', 1)
-
-              if text != original:
-                  path.write_text(text, encoding='utf-8')
-                  changed.append(str(path))
-
-          print(f'Updated {len(changed)} HTML files')
-          for item in changed:
-              print(f'  - {item}')
-          PY
-
-      - name: Commit generated HTML updates
-        shell: bash
-        run: |
-          if git diff --quiet; then
-            echo "All HTML pages already use the shared site controllers."
-            exit 0
+          if git merge --no-commit --no-ff origin/main; then
+            echo "Merge completed without conflict."
+          else
+            unresolved="$(git diff --name-only --diff-filter=U)"
+            unexpected="$(printf '%s\n' "$unresolved" | grep -v '^test-bank.html$' || true)"
+            if [ -n "$unexpected" ]; then
+              echo "Unexpected conflicts:" >&2
+              printf '%s\n' "$unexpected" >&2
+              exit 1
+            fi
+            printf '%s\n' "$unresolved" | grep -qx 'test-bank.html' || {
+              echo "Expected test-bank.html conflict was not present." >&2
+              exit 1
+            }
+            # Preserve current main's broad Set 3 explanation cleanup, then
+            # reapply PR 115's targeted corrections semantically.
+            git checkout --theirs -- test-bank.html
           fi
 
-          git config user.name "UpSkill Sprint Site Bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add -- '*.html'
-          git commit -m "Load shared theme and site navigation on every page"
-          git push
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          import re
+
+          path = Path('test-bank.html')
+          lines = path.read_text(encoding='utf-8').splitlines()
+
+          # 1) PR 115 data-table styling.
+          css_hits = {'th': 0, 'td': 0, 'num': 0}
+          styled = []
+          for line in lines:
+              stripped = line.strip()
+              indent = line[:len(line) - len(line.lstrip())]
+              if stripped.startswith('.tb-q-data-table th{') and ':last-child' not in stripped:
+                  css_hits['th'] += 1
+                  styled.append(indent + '.tb-q-data-table th{background:var(--card);color:var(--ink);font-weight:700;text-align:center;padding:9px 12px;border-bottom:2px solid var(--line);border-right:1px solid var(--line);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase}')
+                  styled.append(indent + '.tb-q-data-table th:last-child{border-right:none}')
+                  continue
+              if stripped.startswith('.tb-q-data-table td{') and '.tb-q-num' not in stripped and ':last-child' not in stripped:
+                  css_hits['td'] += 1
+                  styled.append(indent + '.tb-q-data-table td{padding:8px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);color:var(--ink);text-align:center}')
+                  styled.append(indent + '.tb-q-data-table td:last-child{border-right:none}')
+                  continue
+              if stripped.startswith('.tb-q-data-table td.tb-q-num{'):
+                  css_hits['num'] += 1
+                  line = indent + '.tb-q-data-table td.tb-q-num{font-variant-numeric:tabular-nums}'
+              styled.append(line)
+
+          if css_hits != {'th': 1, 'td': 1, 'num': 1}:
+              raise SystemExit(f'Unexpected table CSS match counts: {css_hits}')
+
+          # 2) PR 115 Set 3 semantic fixes, while leaving main's cleaned why
+          # text intact everywhere except the specific fields this PR corrects.
+          capability_re = re.compile(r'\b[Gg][Pp](?:[KkMm])?\b')
+          capability_fixes = 0
+          erk_fixes = 0
+          boxcox_fixes = 0
+          radical_fixes = 0
+          normalized = []
+
+          def replace_capability(value):
+              count = [0]
+              def repl(match):
+                  count[0] += 1
+                  return {'gp': 'Cp', 'gpk': 'Cpk', 'gpm': 'Cpm'}[match.group(0).lower()]
+              return capability_re.sub(repl, value), count[0]
+
+          for line in styled:
+              if '"set":3' not in line:
+                  normalized.append(line)
+                  continue
+
+              indent = line[:len(line) - len(line.lstrip())]
+              body = line.strip()
+              trailing_comma = body.endswith(',')
+              raw_obj = body[:-1] if trailing_comma else body
+              try:
+                  q = json.loads(raw_obj)
+              except json.JSONDecodeError:
+                  normalized.append(line)
+                  continue
+
+              for key in ('stem', 'why'):
+                  if isinstance(q.get(key), str):
+                      q[key], n = replace_capability(q[key])
+                      capability_fixes += n
+
+              if isinstance(q.get('options'), list):
+                  fixed = []
+                  for option in q['options']:
+                      if isinstance(option, str):
+                          option, n = replace_capability(option)
+                          capability_fixes += n
+                      fixed.append(option)
+                  q['options'] = fixed
+
+              if isinstance(q.get('why'), str):
+                  q['why'], n = re.subn(r'\berk\b', 'Cpk', q['why'])
+                  erk_fixes += n
+
+              stem = q.get('stem', '')
+              if stem == 'What is the denominator in the population variance formula?':
+                  if len(q.get('options', [])) != 4:
+                      raise SystemExit('Population variance options changed shape')
+                  if q['options'][3] != '√N':
+                      q['options'][3] = '√N'
+                      radical_fixes += 1
+
+              if stem.startswith('In a two-level full-factorial design, the effect of Factor A is equal to - 12.4.'):
+                  if len(q.get('options', [])) != 4:
+                      raise SystemExit('Factor-A coefficient options changed shape')
+                  if q['options'][0] != '-12.4 + √MSE':
+                      q['options'][0] = '-12.4 + √MSE'
+                      radical_fixes += 1
+
+              if stem == 'What Box-Cox transformation is used to transform data from a Poisson to a normal distribution?':
+                  q['options'] = ['Y = √X', 'Y = ln(X)', 'Y = X²', 'Y = 1/X']
+                  q['answer'] = 0
+                  q['why'] = 'The Box-Cox transformation from Poisson to normal uses a square root transformation, which is the same as Y = X^0.5 (√X). [V.F.5]'
+                  boxcox_fixes += 1
+
+              rebuilt = indent + json.dumps(q, ensure_ascii=False, separators=(',', ':'))
+              normalized.append(rebuilt + (',' if trailing_comma else ''))
+
+          if capability_fixes < 30:
+              raise SystemExit(f'Expected at least 30 capability OCR replacements, got {capability_fixes}')
+          if boxcox_fixes != 1:
+              raise SystemExit(f'Expected one Box-Cox correction, got {boxcox_fixes}')
+          if radical_fixes != 2:
+              raise SystemExit(f'Expected two radical-symbol fixes, got {radical_fixes}')
+          if erk_fixes > 1:
+              raise SystemExit(f'Unexpected erk replacement count: {erk_fixes}')
+
+          set3_lines = [ln for ln in normalized if '"set":3' in ln]
+          if any(capability_re.search(ln) for ln in set3_lines):
+              raise SystemExit('Gp/Gpk/Gpm OCR token remains in Set 3')
+
+          text = '\n'.join(normalized) + '\n'
+          for required in ('Y = √X', 'Y = X²', '.tb-q-data-table th:last-child{border-right:none}', '.tb-q-data-table td:last-child{border-right:none}'):
+              if required not in text:
+                  raise SystemExit(f'Missing resolved invariant: {required}')
+
+          path.write_text(text, encoding='utf-8')
+          print({
+              'capability_fixes': capability_fixes,
+              'erk_fixes': erk_fixes,
+              'boxcox_fixes': boxcox_fixes,
+              'radical_fixes': radical_fixes,
+              'css_hits': css_hits,
+          })
+          PY
+
+          git add test-bank.html
+          if git diff --name-only --diff-filter=U | grep -q .; then
+            echo "Unresolved entries remain:" >&2
+            git diff --name-only --diff-filter=U >&2
+            exit 1
+          fi
+          if grep -nE '^(<<<<<<<|=======|>>>>>>>)' test-bank.html; then
+            echo "Merge marker remains in test-bank.html" >&2
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run complete regression suite
+        run: npm test
+
+      - name: Restore workflow files and commit resolved branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Final PR tree must use the canonical workflow from main, not this
+          # one-shot branch-only resolver.
+          git checkout origin/main -- .github/workflows/apply-global-theme.yml
+          git rm -f .github/workflows/resolve-pr115-conflict.yml 2>/dev/null || true
+          git add -A
+          git config user.name "upskillsprint-agent"
+          git config user.email "skillsprintconsulting@gmail.com"
+          git commit -m "Resolve PR #115 against current main"
+          git push origin HEAD:test-bank-set3-cp-cpk-and-table-styling
