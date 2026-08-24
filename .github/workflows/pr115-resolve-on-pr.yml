@@ -1,0 +1,83 @@
+name: Resolve PR 115 on helper PR
+
+on:
+  pull_request:
+    branches:
+      - test-bank-set3-cp-cpk-and-table-styling
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR 115 branch
+        uses: actions/checkout@v4
+        with:
+          ref: test-bank-set3-cp-cpk-and-table-styling
+          fetch-depth: 0
+
+      - name: Merge current main and resolve the expected overlap
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+
+          if git merge --no-commit --no-ff origin/main; then
+            echo "Main merged without content conflicts."
+          else
+            unresolved="$(git diff --name-only --diff-filter=U)"
+            unexpected="$(printf '%s\n' "$unresolved" | grep -v '^test-bank.html$' || true)"
+            if [ -n "$unexpected" ]; then
+              echo "Unexpected merge conflicts:" >&2
+              printf '%s\n' "$unexpected" >&2
+              exit 1
+            fi
+            if ! printf '%s\n' "$unresolved" | grep -qx 'test-bank.html'; then
+              echo "Expected test-bank.html conflict was not present; refusing an unverified resolution." >&2
+              exit 1
+            fi
+
+            # Main contains the newer broad Set 3 why-field OCR cleanup. Keep
+            # that version, then layer PR 115's targeted fixes onto it.
+            git checkout --theirs -- test-bank.html
+          fi
+
+          python scripts/resolve-pr115.py
+          git add test-bank.html
+
+          if git diff --name-only --diff-filter=U | grep -q .; then
+            echo "Unresolved merge entries remain:" >&2
+            git diff --name-only --diff-filter=U >&2
+            exit 1
+          fi
+          if grep -nE '^(<<<<<<<|=======|>>>>>>>)' test-bank.html; then
+            echo "Merge markers remain in test-bank.html" >&2
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run complete regression suite
+        run: npm test
+
+      - name: Commit resolved branch and remove temporary resolver files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # The finished PR must contain the repository's canonical workflow,
+          # not any temporary conflict-resolution machinery.
+          git checkout origin/main -- .github/workflows/apply-global-theme.yml
+          git rm -f .github/workflows/resolve-pr115-conflict.yml 2>/dev/null || true
+          git rm -f .github/workflows/pr115-resolve-on-pr.yml
+          git rm -f scripts/resolve-pr115.py
+          git add -A
+
+          git config user.name "upskillsprint-agent"
+          git config user.email "skillsprintconsulting@gmail.com"
+          git commit -m "Resolve PR #115 against current main"
+          git push origin HEAD:test-bank-set3-cp-cpk-and-table-styling
