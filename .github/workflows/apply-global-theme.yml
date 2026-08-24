@@ -1,3 +1,4 @@
+# Helper-merge trigger for PR 115 resolution
 name: Resolve PR 115 conflict
 
 on:
@@ -40,8 +41,6 @@ jobs:
               echo "Expected test-bank.html conflict was not present." >&2
               exit 1
             }
-            # Preserve current main's broad Set 3 explanation cleanup, then
-            # reapply PR 115's targeted corrections semantically.
             git checkout --theirs -- test-bank.html
           fi
 
@@ -53,7 +52,6 @@ jobs:
           path = Path('test-bank.html')
           lines = path.read_text(encoding='utf-8').splitlines()
 
-          # 1) PR 115 data-table styling.
           css_hits = {'th': 0, 'td': 0, 'num': 0}
           styled = []
           for line in lines:
@@ -77,8 +75,6 @@ jobs:
           if css_hits != {'th': 1, 'td': 1, 'num': 1}:
               raise SystemExit(f'Unexpected table CSS match counts: {css_hits}')
 
-          # 2) PR 115 Set 3 semantic fixes, while leaving main's cleaned why
-          # text intact everywhere except the specific fields this PR corrects.
           capability_re = re.compile(r'\b[Gg][Pp](?:[KkMm])?\b')
           capability_fixes = 0
           erk_fixes = 0
@@ -199,8 +195,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # Final PR tree must use the canonical workflow from main, not this
-          # one-shot branch-only resolver.
           git checkout origin/main -- .github/workflows/apply-global-theme.yml
           git rm -f .github/workflows/resolve-pr115-conflict.yml 2>/dev/null || true
           git add -A
