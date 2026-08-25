@@ -1,0 +1,38 @@
+name: PR119 lesson validation
+
+on:
+  push:
+    branches:
+      - agent/add-permutations-combinations-lesson
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-lesson:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Repository test suite
+        run: node --test tests/*.test.js
+      - name: Authoritative Netlify build chain
+        run: >-
+          node --test tests/test-bank*.test.js &&
+          node scripts/build-binomial-poisson-exponential-lesson.mjs &&
+          node scripts/validate-binomial-poisson-exponential-visual.mjs &&
+          node scripts/build-grade-specification-lookup.mjs &&
+          node scripts/build-interactive-sql-lesson.mjs &&
+          node scripts/focus-sql-clause-learning.mjs
+      - name: Diff whitespace check
+        run: git diff --check HEAD^ HEAD
+      - name: Sitemap XML parse
+        run: python -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml'); print('sitemap.xml OK')"
