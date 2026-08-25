@@ -11,19 +11,19 @@
   "estimated_minutes": 25,
   "interactive": true,
   "card_title": "Permutations & Combinations",
-  "card_description": "Master order, replacement, and repetition with live counting visuals, worked examples, decision rules, and interactive practice.",
-  "search_keywords": ["permutations", "combinations", "counting methods", "factorial", "replacement", "repetition", "nPr", "nCr", "probability", "statistics", "interactive"],
+  "card_description": "Master order, replacement, and repetition with live counting visuals, worked examples, decision rules, Excel and Minitab implementation, and interactive practice.",
+  "search_keywords": ["permutations", "combinations", "counting methods", "factorial", "replacement", "repetition", "npr", "ncr", "probability", "statistics", "excel", "minitab", "interactive"],
   "suggested_github_path": "lessons/statistics/permutations-and-combinations.html"
 }
 -->
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Permutations &amp; Combinations | UpSkill Sprint Consulting</title>
-<meta name="description" content="Learn permutations and combinations from beginner level with live visuals for order, replacement, repetition, worked examples, and interactive practice.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Permutations &amp; Combinations</title>
+<meta name="description" content="Learn permutations and combinations from beginner level with live visuals for order, replacement, repetition, worked examples, Excel and Minitab implementation, and interactive practice.">
 <link rel="canonical" href="https://upskillsprint.com/lessons/statistics/permutations-and-combinations">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Permutations &amp; Combinations | UpSkill Sprint Consulting">
+<meta property="og:title" content="Permutations &amp; Combinations">
 <meta property="og:description" content="Master order, replacement, and repetition with live counting visuals and worked examples.">
 <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
 <meta property="og:url" content="https://upskillsprint.com/lessons/statistics/permutations-and-combinations">
@@ -32,132 +32,153 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&amp;family=Work+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
 <link rel="stylesheet" href="/lessons-theme.css">
-
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
 <script>
 window.MathJax = {
-  tex: {
-    inlineMath: [['\\(','\\)']],
-    displayMath: [['\\[','\\]']]
-  },
-  svg: {
-    fontCache: 'global'
-  }
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global' }
 };
 </script>
 <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-<script src="/theme.js"></script>
-<script src="/site-sections.js"></script>
 
 <style>
 .pc-lesson{
-  --pc-bg:#f4f7fb;--pc-panel:#fff;--pc-card:#f8fafc;--pc-text:#172033;--pc-muted:#607086;
-  --pc-border:#d7e1ec;--pc-accent:#1f4e78;--pc-accent-2:#0e7490;--pc-good:#08785a;
-  --pc-warn:#b86508;--pc-bad:#c73b4c;--pc-soft:#eaf3fb;--pc-formula:#eef5fb;
-  max-width:none;margin:0;padding:0 0 3.5rem;background:var(--pc-bg);color:var(--pc-text);
+  color-scheme:light dark;
+  --lesson-pc-bg:#f4f7fb;--lesson-pc-panel:#ffffff;--lesson-pc-card:#f8fafc;--lesson-pc-text:#172033;--lesson-pc-muted:#53657a;
+  --lesson-pc-border:#cbd8e6;--lesson-pc-accent:#1f4e78;--lesson-pc-accent-2:#0b6677;--lesson-pc-good:#08785a;
+  --lesson-pc-warn:#9a4d00;--lesson-pc-bad:#a92f42;--lesson-pc-soft:#eaf3fb;--lesson-pc-formula:#eef5fb;
+  max-width:none;margin:0;padding:0 0 3.5rem;background:var(--lesson-pc-bg);color:var(--lesson-pc-text);
   font-family:'Work Sans',Segoe UI,Arial,sans-serif;line-height:1.63;
-}
-html[data-theme="dark"] .pc-lesson{
-  --pc-bg:#0b1220;--pc-panel:#111c2e;--pc-card:#142238;--pc-text:#e7eef8;--pc-muted:#aab8ca;
-  --pc-border:#2c4059;--pc-accent:#69b4e4;--pc-accent-2:#67d4df;--pc-good:#58c48a;
-  --pc-warn:#f0b75f;--pc-bad:#ed7c88;--pc-soft:#13283d;--pc-formula:#102238;
 }
 .pc-lesson *{box-sizing:border-box}
 .pc-lesson button,.pc-lesson input{font:inherit}
 .pc-lesson button{cursor:pointer}
 .pc-lesson .wrap{width:min(1160px,calc(100% - 36px));max-width:1160px;margin:auto;padding:24px 0}
-.pc-lesson .hero{position:relative;isolation:isolate;overflow:hidden;padding:clamp(34px,6vw,64px);border-radius:24px;color:#fff;background:linear-gradient(135deg,#102a43,#1f4e78 56%,#0e7490);box-shadow:0 22px 54px rgba(16,42,67,.22)}
+.pc-lesson .hero{position:relative;isolation:isolate;overflow:hidden;padding:clamp(34px,6vw,64px);border-radius:24px;background:linear-gradient(135deg,#102a43,#1f4e78 56%,#0e7490);color:#ffffff;box-shadow:0 22px 54px rgba(16,42,67,.22)}
 .pc-lesson .hero:after{position:absolute;z-index:-1;right:-90px;top:-100px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.08);content:""}
-.pc-lesson .eyebrow{font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.13em;opacity:.9}
+.pc-lesson .eyebrow{font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.13em;opacity:.9;color:#ffffff}
 .pc-lesson h1,.pc-lesson h2,.pc-lesson h3{font-family:'Source Serif 4',Georgia,serif}
-.pc-lesson h1{max-width:850px;font-size:clamp(2.35rem,6vw,4.35rem);line-height:1.02;letter-spacing:-.035em;margin:8px 0 16px;color:#fff}
-.pc-lesson h2{font-size:clamp(1.5rem,3vw,1.9rem);line-height:1.2;margin:0 0 11px;color:var(--pc-accent-2)}
-.pc-lesson h3{font-size:1.12rem;line-height:1.3;margin:0 0 8px;color:var(--pc-text)}
-.pc-lesson p{margin:8px 0;color:var(--pc-text)}
-.pc-lesson .hero p{max-width:850px;color:rgba(255,255,255,.9);font-size:1.08rem}
+.pc-lesson h1{max-width:850px;font-size:clamp(2.35rem,6vw,4.35rem);line-height:1.02;letter-spacing:-.035em;margin:8px 0 16px;color:#ffffff}
+.pc-lesson h2{font-size:clamp(1.5rem,3vw,1.9rem);line-height:1.2;margin:0 0 11px;color:var(--lesson-pc-accent-2)}
+.pc-lesson h3{font-size:1.12rem;line-height:1.3;margin:0 0 8px;color:var(--lesson-pc-text)}
+.pc-lesson p{margin:8px 0;color:var(--lesson-pc-text)}
+.pc-lesson .hero p{max-width:850px;color:#f4f8fc;font-size:1.08rem}
 .pc-lesson .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
-.pc-lesson .chip{padding:7px 11px;border:1px solid rgba(255,255,255,.25);border-radius:999px;background:rgba(255,255,255,.11);font-size:.8rem;font-weight:800}
-.pc-lesson .nav{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;padding:12px;border:1px solid var(--pc-border);border-radius:15px;background:color-mix(in srgb,var(--pc-panel) 94%,transparent);box-shadow:0 8px 24px rgba(16,42,67,.08)}
-.pc-lesson .nav a{min-height:42px;padding:9px 12px;border:1px solid var(--pc-border);border-radius:10px;background:var(--pc-card);color:var(--pc-text);font-weight:700;text-decoration:none}
-.pc-lesson .nav a:hover{border-color:var(--pc-accent-2);color:var(--pc-accent-2)}
-.pc-lesson .section{scroll-margin-top:90px;margin:0 0 20px;padding:clamp(20px,4vw,32px);border:1px solid var(--pc-border);border-radius:18px;background:var(--pc-panel);box-shadow:0 12px 34px rgba(16,42,67,.08)}
-.pc-lesson .level{margin-bottom:5px;color:var(--pc-accent);font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.11em}
-.pc-lesson .muted{color:var(--pc-muted)}
+.pc-lesson .chip{padding:7px 11px;border:1px solid rgba(255,255,255,.38);border-radius:999px;background:rgba(255,255,255,.12);color:#ffffff;font-size:.8rem;font-weight:800}
+.pc-lesson .nav{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;padding:12px;border:1px solid var(--lesson-pc-border);border-radius:15px;background:var(--lesson-pc-panel);color:var(--lesson-pc-text);box-shadow:0 8px 24px rgba(16,42,67,.08)}
+.pc-lesson .nav a{min-height:42px;padding:9px 12px;border:1px solid var(--lesson-pc-border);border-radius:10px;background:var(--lesson-pc-card);color:var(--lesson-pc-text);font-weight:700;text-decoration:none}
+.pc-lesson .nav a:hover{border-color:var(--lesson-pc-accent-2);color:var(--lesson-pc-accent-2)}
+.pc-lesson .section{scroll-margin-top:90px;margin:0 0 20px;padding:clamp(20px,4vw,32px);border:1px solid var(--lesson-pc-border);border-radius:18px;background:var(--lesson-pc-panel);color:var(--lesson-pc-text);box-shadow:0 12px 34px rgba(16,42,67,.08)}
+.pc-lesson .level{margin-bottom:5px;color:var(--lesson-pc-accent);font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.11em}
+.pc-lesson .muted{color:var(--lesson-pc-muted)}
 .pc-lesson .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
 .pc-lesson .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
 .pc-lesson .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
-.pc-lesson .card{min-width:0;padding:17px;border:1px solid var(--pc-border);border-radius:14px;background:var(--pc-card);box-shadow:none;transform:none}
+.pc-lesson .card{min-width:0;padding:17px;border:1px solid var(--lesson-pc-border);border-radius:14px;background:var(--lesson-pc-card);color:var(--lesson-pc-text);box-shadow:none;transform:none}
 .pc-lesson .card:hover{box-shadow:none;transform:none}
-.pc-lesson .story{border-left:5px solid var(--pc-accent)}
-.pc-lesson .good{border-left:5px solid var(--pc-good)}
-.pc-lesson .warn{border-left:5px solid var(--pc-warn)}
+.pc-lesson .story{border-left:5px solid var(--lesson-pc-accent)}
+.pc-lesson .good{border-left:5px solid var(--lesson-pc-good)}
+.pc-lesson .warn{border-left:5px solid var(--lesson-pc-warn)}
 .pc-lesson .big{font-size:1.17rem;font-weight:800}
-.pc-lesson .formula{display:inline-flex;max-width:100%;min-height:42px;align-items:center;justify-content:center;overflow-x:auto;margin:6px 0;padding:10px 14px;border:1px solid var(--pc-border);border-radius:11px;background:var(--pc-formula);color:var(--pc-text);font-family:Cambria,Georgia,serif;font-size:1.08rem;font-weight:700}
-.pc-lesson .formula mjx-container{margin:0!important;color:var(--pc-text)}
+.pc-lesson .formula{display:inline-flex;max-width:100%;min-height:42px;align-items:center;justify-content:center;overflow-x:auto;margin:6px 0;padding:10px 14px;border:1px solid var(--lesson-pc-border);border-radius:11px;background:var(--lesson-pc-formula);color:var(--lesson-pc-text);font-family:Cambria,Georgia,serif;font-size:1.08rem;font-weight:700}
+.pc-lesson .formula mjx-container{margin:0!important;color:var(--lesson-pc-text)}
 .pc-lesson .formula mjx-container svg{max-width:100%;height:auto}
-.pc-lesson .math-display{display:flex;align-items:center;justify-content:center;overflow-x:auto;padding:8px 4px}
-.pc-lesson .math-display mjx-container{margin:.2rem 0!important;color:var(--pc-text)}
+.pc-lesson .math-display{display:flex;align-items:center;justify-content:center;overflow-x:auto;padding:8px 4px;color:var(--lesson-pc-text)}
+.pc-lesson .math-display mjx-container{margin:.2rem 0!important;color:var(--lesson-pc-text)}
 .pc-lesson .math-display mjx-container svg{max-width:100%;height:auto}
-.pc-lesson .memory{padding:16px;border:1px solid color-mix(in srgb,var(--pc-accent) 35%,var(--pc-border));border-radius:13px;background:var(--pc-soft);color:var(--pc-text)}
+.pc-lesson .memory{padding:16px;border:1px solid color-mix(in srgb,var(--lesson-pc-accent) 35%,var(--lesson-pc-border));border-radius:13px;background:var(--lesson-pc-soft);color:var(--lesson-pc-text)}
 .pc-lesson .tablewrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.pc-lesson table{width:100%;min-width:660px;border-collapse:collapse;background:var(--pc-panel);font-size:.92rem}
-.pc-lesson th,.pc-lesson td{padding:11px;border-bottom:1px solid var(--pc-border);color:var(--pc-text);text-align:left;vertical-align:top}
-.pc-lesson th{background:var(--pc-soft);color:var(--pc-muted);font-size:.76rem;text-transform:uppercase;letter-spacing:.05em}
-.pc-lesson .btn{min-height:44px;padding:9px 13px;border:1px solid var(--pc-border);border-radius:10px;background:var(--pc-panel);color:var(--pc-text);font-weight:700}
-.pc-lesson .btn:hover:not(:disabled){border-color:var(--pc-accent-2)}
-.pc-lesson .btn:focus-visible,.pc-lesson a:focus-visible,.pc-lesson input:focus-visible{outline:3px solid color-mix(in srgb,var(--pc-accent-2) 45%,transparent);outline-offset:3px}
-.pc-lesson .btn:disabled{cursor:not-allowed;opacity:.6}
-.pc-lesson .btn.primary{border-color:var(--pc-accent);background:var(--pc-accent);color:#fff}
-.pc-lesson .btn.active{border-color:var(--pc-accent);background:var(--pc-soft);color:var(--pc-accent)}
-.pc-lesson .btn.goodbtn{border-color:var(--pc-good);background:color-mix(in srgb,var(--pc-good) 14%,var(--pc-panel))}
-.pc-lesson .btn.badbtn{border-color:var(--pc-bad);background:color-mix(in srgb,var(--pc-bad) 12%,var(--pc-panel))}
-.pc-lesson .feedback{min-height:48px;margin-top:12px;padding:12px 13px;border-radius:10px;background:var(--pc-soft);color:var(--pc-text)}
-.pc-lesson .viz{overflow:hidden;margin-top:16px;border:1px solid #3b4e67;border-radius:18px;background:#111827;color:#fff;box-shadow:0 16px 36px rgba(2,6,23,.2)}
-.pc-lesson .viz-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:15px 17px;border-bottom:1px solid #344156}
-.pc-lesson .viz .btn{border-color:#526178;background:#1e293b;color:#fff}
-.pc-lesson .viz .btn:hover:not(:disabled){border-color:#69b4e4;background:#26364d}
-.pc-lesson .viz .btn.active{border-color:#69b4e4;background:#163b69}
-.pc-lesson .viz-stage{display:flex;min-height:310px;flex-direction:column;align-items:center;justify-content:center;padding:24px}
-.pc-lesson .viz-label{margin:8px 0;color:#c8d2df;font-size:.82rem;font-weight:800}
+.pc-lesson table{width:100%;min-width:660px;border-collapse:collapse;background:var(--lesson-pc-panel);color:var(--lesson-pc-text);font-size:.92rem}
+.pc-lesson th,.pc-lesson td{padding:11px;border-bottom:1px solid var(--lesson-pc-border);color:var(--lesson-pc-text);text-align:left;vertical-align:top}
+.pc-lesson th{background:var(--lesson-pc-soft);color:var(--lesson-pc-muted);font-size:.76rem;text-transform:uppercase;letter-spacing:.05em}
+.pc-lesson code{display:inline-block;max-width:100%;overflow-wrap:anywhere;padding:.12rem .36rem;border-radius:.35rem;background:var(--lesson-pc-formula);color:var(--lesson-pc-text);font-size:.92em}
+.pc-lesson .btn{min-height:44px;padding:9px 13px;border:1px solid var(--lesson-pc-border);border-radius:10px;background:var(--lesson-pc-panel);color:var(--lesson-pc-text);font-weight:700}
+.pc-lesson .btn:hover:not(:disabled){border-color:var(--lesson-pc-accent-2)}
+.pc-lesson .btn:focus-visible,.pc-lesson a:focus-visible,.pc-lesson input:focus-visible{outline:3px solid #1c8298;outline-offset:3px}
+.pc-lesson .btn:disabled{cursor:not-allowed;opacity:.62}
+.pc-lesson .btn.primary{border-color:var(--lesson-pc-accent);background:var(--lesson-pc-accent);color:#ffffff}
+.pc-lesson .btn.active{border-color:var(--lesson-pc-accent);background:var(--lesson-pc-soft);color:var(--lesson-pc-accent)}
+.pc-lesson .btn.goodbtn{border-color:var(--lesson-pc-good);background:color-mix(in srgb,var(--lesson-pc-good) 14%,var(--lesson-pc-panel));color:var(--lesson-pc-text)}
+.pc-lesson .btn.badbtn{border-color:var(--lesson-pc-bad);background:color-mix(in srgb,var(--lesson-pc-bad) 12%,var(--lesson-pc-panel));color:var(--lesson-pc-text)}
+.pc-lesson .feedback{min-height:48px;margin-top:12px;padding:12px 13px;border-radius:10px;background:var(--lesson-pc-soft);color:var(--lesson-pc-text)}
+.pc-lesson .viz{overflow:hidden;margin-top:16px;border:1px solid #64748b;border-radius:18px;background:#111827;color:#ffffff;box-shadow:0 16px 36px rgba(2,6,23,.2)}
+.pc-lesson .viz-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:15px 17px;border-bottom:1px solid #516176;color:#ffffff}
+.pc-lesson .viz .btn{border-color:#718096;background:#1e293b;color:#ffffff}
+.pc-lesson .viz .btn:hover:not(:disabled){border-color:#8bd3ff;background:#26364d;color:#ffffff}
+.pc-lesson .viz .btn.active{border-color:#8bd3ff;background:#163b69;color:#ffffff}
+.pc-lesson .viz-stage{display:flex;min-height:310px;flex-direction:column;align-items:center;justify-content:center;padding:24px;color:#ffffff}
+.pc-lesson .viz-label{margin:8px 0;color:#e1e9f2;font-size:.82rem;font-weight:800}
 .pc-lesson .tokens,.pc-lesson .slots{display:flex;flex-wrap:wrap;justify-content:center;gap:18px}
-.pc-lesson .token{display:flex;width:48px;height:48px;align-items:center;justify-content:center;border:2px solid #4aa8ff;border-radius:50%;background:#1f2937;color:#fff;font-weight:800;transition:.2s ease}
-.pc-lesson .token.used{opacity:.25;transform:scale(.86)}
-.pc-lesson .token.last{border-color:#8bd3ff;background:#075985;transform:scale(1.08)}
-.pc-lesson .slot{display:flex;width:50px;height:50px;align-items:center;justify-content:center;border:2px dashed #4b6f91;border-radius:50%;font-weight:800}
-.pc-lesson .slot.filled{border-style:solid;border-color:#4aa8ff;background:#0b1220}
-.pc-lesson .viz-info{padding:15px 18px;border-top:1px solid #344156;text-align:center}
-.pc-lesson .viz-formula{font-family:Cambria,Georgia,serif;font-size:1.22rem;font-weight:700}
-.pc-lesson .viz-formula mjx-container{color:#fff}
-.pc-lesson .viz-note{margin-top:6px;color:#d8e0ea;font-size:.9rem}
-.pc-lesson .controls{padding:13px 18px 17px;border-top:1px solid #344156}
-.pc-lesson .crow{display:grid;grid-template-columns:80px 1fr 38px;align-items:center;gap:10px;margin:9px 0}
-.pc-lesson input[type=range]{width:100%;accent-color:#4aa8ff}
+.pc-lesson .token{display:flex;width:48px;height:48px;align-items:center;justify-content:center;border:2px solid #69b9ff;border-radius:50%;background:#1f2937;color:#ffffff;font-weight:800;transition:.2s ease}
+.pc-lesson .token.used{opacity:.35;transform:scale(.86)}
+.pc-lesson .token.last{border-color:#a8ddff;background:#075985;color:#ffffff;transform:scale(1.08)}
+.pc-lesson .slot{display:flex;width:50px;height:50px;align-items:center;justify-content:center;border:2px dashed #7697b8;border-radius:50%;color:#ffffff;font-weight:800}
+.pc-lesson .slot.filled{border-style:solid;border-color:#69b9ff;background:#0b1220;color:#ffffff}
+.pc-lesson .viz-info{padding:15px 18px;border-top:1px solid #516176;color:#ffffff;text-align:center}
+.pc-lesson .viz-formula{color:#ffffff;font-family:Cambria,Georgia,serif;font-size:1.22rem;font-weight:700}
+.pc-lesson .viz-formula mjx-container{color:#ffffff}
+.pc-lesson .viz-note{margin-top:6px;color:#e1e9f2;font-size:.9rem}
+.pc-lesson .controls{padding:13px 18px 17px;border-top:1px solid #516176;color:#ffffff}
+.pc-lesson .crow{display:grid;grid-template-columns:80px 1fr 38px;align-items:center;gap:10px;margin:9px 0;color:#ffffff}
+.pc-lesson input[type=range]{width:100%;accent-color:#69b9ff}
 .pc-lesson .decision{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:13px}
-.pc-lesson .arrow{color:var(--pc-muted);font-size:1.5rem;font-weight:800}
-.pc-lesson .practice{margin-top:13px;padding:17px;border:1px solid var(--pc-border);border-radius:14px;background:var(--pc-card)}
+.pc-lesson .arrow{color:var(--lesson-pc-muted);font-size:1.5rem;font-weight:800}
+.pc-lesson .practice{margin-top:13px;padding:17px;border:1px solid var(--lesson-pc-border);border-radius:14px;background:var(--lesson-pc-card);color:var(--lesson-pc-text)}
 .pc-lesson .hidden{display:none!important}
-.pc-lesson .footer{padding:12px;color:var(--pc-muted);font-size:.85rem;text-align:center}
-.pc-lesson .livebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.pc-lesson .live-dot{width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 5px rgba(34,197,94,.13)}
-.pc-lesson .live-dot.paused{background:#f59e0b;box-shadow:0 0 0 5px rgba(245,158,11,.13)}
+.pc-lesson .footer{padding:12px;color:var(--lesson-pc-muted);font-size:.85rem;text-align:center}
+.pc-lesson .livebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:#ffffff}
+.pc-lesson .live-dot{width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 5px rgba(34,197,94,.18)}
+.pc-lesson .live-dot.paused{background:#f59e0b;box-shadow:0 0 0 5px rgba(245,158,11,.18)}
 .pc-lesson .live-label{color:#dbeafe;font-size:.78rem;font-weight:800}
-.pc-lesson .viz .btn.pause-active{border-color:#f59e0b;background:#704214}
-.pc-lesson-back{max-width:1160px;margin:0 auto;padding:26px 18px 34px;border-top:1px solid var(--line);text-align:left}
-.pc-lesson-back a{display:inline-flex;min-height:42px;align-items:center;padding:10px 15px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-weight:700;text-decoration:none}
-.pc-lesson-back a:hover{border-color:var(--teal);color:var(--teal-dark)}
+.pc-lesson .viz .btn.pause-active{border-color:#fbbf24;background:#704214;color:#ffffff}
+.pc-lesson .implementation-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.pc-lesson .implementation-step{padding:17px;border:1px solid var(--lesson-pc-border);border-radius:14px;background:var(--lesson-pc-card);color:var(--lesson-pc-text)}
+.pc-lesson .source-note{margin-top:14px;padding:12px 14px;border:1px solid var(--lesson-pc-border);border-radius:12px;background:var(--lesson-pc-soft);color:var(--lesson-pc-text);font-size:.9rem}
 @media(max-width:760px){
   .pc-lesson .wrap{width:min(100% - 24px,1160px);padding:14px 0}.pc-lesson .hero{padding:34px 22px;border-radius:18px}
-  .pc-lesson .grid2,.pc-lesson .grid3,.pc-lesson .grid4,.pc-lesson .decision{grid-template-columns:1fr}
+  .pc-lesson .grid2,.pc-lesson .grid3,.pc-lesson .grid4,.pc-lesson .decision,.pc-lesson .implementation-grid{grid-template-columns:1fr}
   .pc-lesson .nav{flex-wrap:nowrap;overflow-x:auto}.pc-lesson .nav a{flex:0 0 auto}
   .pc-lesson .arrow{text-align:center;transform:rotate(90deg)}.pc-lesson .tokens,.pc-lesson .slots{gap:11px}.pc-lesson .token,.pc-lesson .slot{width:43px;height:43px}
   .pc-lesson .viz-head>div:last-child{display:grid;width:100%;grid-template-columns:repeat(3,1fr)}.pc-lesson .viz-head .btn{padding:8px}
 }
 @media(max-width:460px){.pc-lesson .section{padding:19px 16px}.pc-lesson .crow{grid-template-columns:68px 1fr 30px}.pc-lesson table{min-width:590px}}
 @media(prefers-reduced-motion:reduce){.pc-lesson *{scroll-behavior:auto!important}.pc-lesson .token{transition:none}}
-@media print{header.site,.mobile-nav,.theme-control,footer.site,.pc-lesson-back,.pc-lesson .nav,.pc-lesson .viz-head button,.pc-lesson .controls{display:none!important}.pc-lesson{background:#fff;color:#000}.pc-lesson .wrap{width:100%;max-width:none}.pc-lesson .hero{box-shadow:none}.pc-lesson .section,.pc-lesson .card,.pc-lesson .formula{break-inside:avoid;box-shadow:none}}
+@media print{.pc-lesson .nav,.pc-lesson .viz-head button,.pc-lesson .controls{display:none!important}.pc-lesson{background:#ffffff;color:#000000}.pc-lesson .wrap{width:100%;max-width:none}.pc-lesson .hero{box-shadow:none}.pc-lesson .section,.pc-lesson .card,.pc-lesson .formula{break-inside:avoid;box-shadow:none}}
+</style>
+
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff;color:#172033}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px;background:#fff;color:#172033}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px;background:#fff;color:#172033}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7;color:#172033}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6;color:#172033}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;color:#172033;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;color:#172033;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;color:#172033;border-left:4px solid #9a6a00}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-actions button:focus-visible,.quiz-option:focus-within{outline:3px solid #1c8298;outline-offset:3px}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;color:#172033;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;color:#e7eef4;border-color:#44576b}
+html[data-theme="dark"] .quiz-question{background:#15212e;color:#e7eef4;border-color:#44576b}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#52667a;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;color:#e7eef4;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;color:#e7eef4;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f;color:#e7eef4}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717;color:#e7eef4}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413;color:#e7eef4}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
 </style>
 </head>
 <body data-lesson-page="true" data-category="statistics" data-level="beginner" data-interactive="true" data-lesson-type="general">
-<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
 <header class="site lesson-sitebar">
   <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
@@ -165,16 +186,14 @@ html[data-theme="dark"] .pc-lesson{
   <div class="header-actions">
     <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
     <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
-    <a href="/lessons" class="btn btn-teal header-cta">Browse lessons</a>
   </div>
 </header>
 
 <main id="lesson-content" class="pc-lesson">
 <div class="wrap">
-
 <section class="hero" aria-labelledby="lesson-title">
   <div class="eyebrow">UpSkill Sprint • Counting Methods</div>
-  <h1 id="lesson-title">Permutations & Combinations</h1>
+  <h1 id="lesson-title">Permutations &amp; Combinations</h1>
   <p>The easiest way to master permutations and combinations is to stop memorizing formulas first and answer two questions: <strong>Does order matter?</strong> and <strong>Can I select the same item more than once?</strong></p>
   <div class="chips" aria-label="Lesson metadata"><span class="chip">Statistics</span><span class="chip">Beginner • 25 min lesson</span><span class="chip">Interactive visuals</span><span class="chip">Worked examples</span><span class="chip">Exam decision rules</span></div>
 </section>
@@ -182,7 +201,7 @@ html[data-theme="dark"] .pc-lesson{
 <nav class="nav" aria-label="Lesson sections">
 <a href="#master">Master framework</a><a href="#case1">Permutation</a><a href="#case2">Combination</a>
 <a href="#replacement">Replacement</a><a href="#case3">With repetition</a><a href="#case4">Combination + repetition</a>
-<a href="#duplicates">Repeated objects</a><a href="#practice">Practice</a>
+<a href="#duplicates">Repeated objects</a><a href="#practice">Practice</a><a href="#statistics-implementation">Statistics implementation</a><a href="#quiz">Quiz</a>
 </nav>
 
 <section id="master" class="section">
@@ -192,17 +211,12 @@ html[data-theme="dark"] .pc-lesson{
     <div class="card story"><h3>Question 1</h3><p class="big">Does order matter?</p><p>If changing the order creates a different outcome, think <strong>permutation</strong>.</p></div>
     <div class="card good"><h3>Question 2</h3><p class="big">Can I select the same item again?</p><p>If yes, repetition/replacement is allowed. If no, the pool shrinks.</p></div>
   </div>
-  <div class="tablewrap" style="margin-top:14px">
-    <table>
-      <thead><tr><th>Situation</th><th>Order matters?</th><th>Repetition / replacement?</th><th>Method</th></tr></thead>
-      <tbody>
-        <tr><td>Arrange 3 people from 10</td><td>Yes</td><td>No</td><td><strong>Permutation without repetition</strong></td></tr>
-        <tr><td>Create a 4-digit PIN</td><td>Yes</td><td>Yes</td><td><strong>Permutation with repetition</strong></td></tr>
-        <tr><td>Choose 3 people from 10</td><td>No</td><td>No</td><td><strong>Combination without repetition</strong></td></tr>
-        <tr><td>Choose 3 donuts from 5 flavors; flavors may repeat</td><td>No</td><td>Yes</td><td><strong>Combination with repetition</strong></td></tr>
-      </tbody>
-    </table>
-  </div>
+  <div class="tablewrap" style="margin-top:14px"><table><thead><tr><th>Situation</th><th>Order matters?</th><th>Repetition / replacement?</th><th>Method</th></tr></thead><tbody>
+    <tr><td>Arrange 3 people from 10</td><td>Yes</td><td>No</td><td><strong>Permutation without repetition</strong></td></tr>
+    <tr><td>Create a 4-digit PIN</td><td>Yes</td><td>Yes</td><td><strong>Permutation with repetition</strong></td></tr>
+    <tr><td>Choose 3 people from 10</td><td>No</td><td>No</td><td><strong>Combination without repetition</strong></td></tr>
+    <tr><td>Choose 3 donuts from 5 flavors; flavors may repeat</td><td>No</td><td>Yes</td><td><strong>Combination with repetition</strong></td></tr>
+  </tbody></table></div>
 </section>
 
 <section class="section">
@@ -210,24 +224,10 @@ html[data-theme="dark"] .pc-lesson{
   <h2>The most important distinction is order</h2>
   <p>Suppose you have three letters: <strong>A, B, C</strong> and you want to select 2.</p>
   <div class="grid2">
-    <div class="card warn">
-      <h3>If order matters</h3>
-      <p>AB and BA are different.</p>
-      <div class="formula">AB, AC, BA, BC, CA, CB</div>
-      <p>There are 6 outcomes.</p>
-      <p class="big">This is a permutation.</p>
-    </div>
-    <div class="card good">
-      <h3>If order does NOT matter</h3>
-      <p>AB and BA represent the same selection.</p>
-      <div class="formula">AB, AC, BC</div>
-      <p>There are only 3 groups.</p>
-      <p class="big">This is a combination.</p>
-    </div>
+    <div class="card warn"><h3>If order matters</h3><p>AB and BA are different.</p><div class="formula">AB, AC, BA, BC, CA, CB</div><p>There are 6 outcomes.</p><p class="big">This is a permutation.</p></div>
+    <div class="card good"><h3>If order does NOT matter</h3><p>AB and BA represent the same selection.</p><div class="formula">AB, AC, BC</div><p>There are only 3 groups.</p><p class="big">This is a combination.</p></div>
   </div>
-  <div class="memory" style="margin-top:14px">
-    <strong>Remember:</strong> Permutation = position/order matters. Combination = selection only; order does not matter.
-  </div>
+  <div class="memory" style="margin-top:14px"><strong>Remember:</strong> Permutation = position/order matters. Combination = selection only; order does not matter.</div>
 </section>
 
 <section id="case1" class="section">
@@ -235,38 +235,13 @@ html[data-theme="dark"] .pc-lesson{
   <h2>Permutation WITHOUT replacement / repetition</h2>
   <p>Suppose there are 5 people — A, B, C, D, E — and you need to choose a <strong>President, Vice-President and Secretary</strong>.</p>
   <p>Order clearly matters because A as President and B as Vice-President is different from B as President and A as Vice-President. Also, one person cannot occupy two positions.</p>
-  <div class="card story">
-    <p>President: <strong>5 choices</strong></p>
-    <p>Vice-President: <strong>4 choices</strong></p>
-    <p>Secretary: <strong>3 choices</strong></p>
-    <div class="formula">5 × 4 × 3 = 60</div>
-    <p>The general formula is:</p>
-    <div class="formula">\({}_nP_r = \dfrac{n!}{(n-r)!}\)</div>
-    <p>For this example: <span class="formula">\({}_5P_3 = \dfrac{5!}{2!} = 60\)</span></p>
-  </div>
-
+  <div class="card story"><p>President: <strong>5 choices</strong></p><p>Vice-President: <strong>4 choices</strong></p><p>Secretary: <strong>3 choices</strong></p><div class="formula">5 × 4 × 3 = 60</div><p>The general formula is:</p><div class="formula">\({}_nP_r = \dfrac{n!}{(n-r)!}\)</div><p>For this example: <span class="formula">\({}_5P_3 = \dfrac{5!}{2!} = 60\)</span></p></div>
   <div class="viz" id="permViz">
-    <div class="viz-head">
-      <div class="livebar"><span id="permLiveDot" class="live-dot"></span><strong>Interactive permutation visual</strong><span id="permLiveLabel" class="live-label">LIVE</span></div>
-      <div><button class="btn pause-active" id="permPause" type="button" aria-pressed="false">⏸ Pause</button> <button class="btn" id="permDraw" type="button">Draw now</button> <button class="btn" id="permReset" type="button">↻ Reset</button></div>
-    </div>
-    <div class="viz-stage">
-      <div class="viz-label" id="permStatus">Draw 0 of 3</div>
-      <div class="viz-label">Available</div>
-      <div class="tokens" id="permTokens"></div>
-      <div class="viz-label" style="margin-top:24px">Arrangement</div>
-      <div class="slots" id="permSlots"></div>
-    </div>
-    <div class="viz-info">
-      <div class="viz-formula" id="permFormula"></div>
-      <div class="viz-note">This run keeps the draw order. Drawing the same selected tokens in a different order gives a different permutation.</div>
-    </div>
-    <div class="controls">
-      <div class="crow"><label for="permN"><strong>Options</strong></label><input id="permN" type="range" min="2" max="10" value="6"><output id="permNOut" for="permN">6</output></div>
-      <div class="crow"><label for="permR"><strong>Draws</strong></label><input id="permR" type="range" min="1" max="6" value="3"><output id="permROut" for="permR">3</output></div>
-    </div>
+    <div class="viz-head"><div class="livebar"><span id="permLiveDot" class="live-dot" aria-hidden="true"></span><strong>Interactive permutation visual</strong><span id="permLiveLabel" class="live-label">LIVE</span></div><div><button class="btn pause-active" id="permPause" type="button" aria-pressed="false">⏸ Pause</button> <button class="btn" id="permDraw" type="button">Draw now</button> <button class="btn" id="permReset" type="button">↻ Reset</button></div></div>
+    <div class="viz-stage"><div class="viz-label" id="permStatus">Draw 0 of 3</div><div class="viz-label">Available</div><div class="tokens" id="permTokens"></div><div class="viz-label" style="margin-top:24px">Arrangement</div><div class="slots" id="permSlots"></div></div>
+    <div class="viz-info"><div class="viz-formula" id="permFormula"></div><div class="viz-note">This run keeps the draw order. Drawing the same selected tokens in a different order gives a different permutation.</div></div>
+    <div class="controls"><div class="crow"><label for="permN"><strong>Options</strong></label><input id="permN" type="range" min="2" max="10" value="6"><output id="permNOut" for="permN">6</output></div><div class="crow"><label for="permR"><strong>Draws</strong></label><input id="permR" type="range" min="1" max="6" value="3"><output id="permROut" for="permR">3</output></div></div>
   </div>
-
   <div class="memory" style="margin-top:14px"><strong>Key clue:</strong> words such as <em>arrange, rank, first/second/third, assign positions, sequence, schedule</em> usually suggest a permutation.</div>
 </section>
 
@@ -275,392 +250,237 @@ html[data-theme="dark"] .pc-lesson{
   <h2>Combination WITHOUT replacement / repetition</h2>
   <p>Now suppose the same 5 people exist, but instead of assigning positions, you simply select <strong>3 people for a committee</strong>.</p>
   <p>ABC is exactly the same committee as BCA or CAB. Order does not matter.</p>
-  <div class="card good">
-    <div class="formula">\(\binom{n}{r} = \dfrac{n!}{r!(n-r)!}\)</div>
-    <p>For 5 people, choose 3:</p>
-    <div class="formula">\(\binom{5}{3} = \dfrac{5!}{3!2!} = 10\)</div>
-    <p>Notice the relationship:</p>
-    <div class="formula">\(\binom{n}{r} = \dfrac{{}_nP_r}{r!}\)</div>
-    <p>Why divide by r!? Because permutations count every arrangement of the same group.</p>
-  </div>
-
+  <div class="card good"><div class="formula">\(\binom{n}{r} = \dfrac{n!}{r!(n-r)!}\)</div><p>For 5 people, choose 3:</p><div class="formula">\(\binom{5}{3} = \dfrac{5!}{3!2!} = 10\)</div><p>Notice the relationship:</p><div class="formula">\(\binom{n}{r} = \dfrac{{}_nP_r}{r!}\)</div><p>Why divide by r!? Because permutations count every arrangement of the same group.</p></div>
   <div class="viz" id="combViz">
-    <div class="viz-head">
-      <div class="livebar"><span id="combLiveDot" class="live-dot"></span><strong>Interactive combination visual</strong><span id="combLiveLabel" class="live-label">LIVE</span></div>
-      <div><button class="btn pause-active" id="combPause" type="button" aria-pressed="false">⏸ Pause</button> <button class="btn" id="combDraw" type="button">Draw now</button> <button class="btn" id="combReset" type="button">↻ Reset</button></div>
-    </div>
-    <div class="viz-stage">
-      <div class="viz-label" id="combStatus">Draw 0 of 3</div>
-      <div class="viz-label">Available</div>
-      <div class="tokens" id="combTokens"></div>
-      <div class="viz-label" style="margin-top:24px">Selection shown in canonical order</div>
-      <div class="slots" id="combSlots"></div>
-    </div>
-    <div class="viz-info">
-      <div class="viz-formula" id="combFormula"></div>
-      <div class="viz-note">The selected tokens are sorted to emphasize that draw order does not create a new combination.</div>
-    </div>
-    <div class="controls">
-      <div class="crow"><label for="combN"><strong>Options</strong></label><input id="combN" type="range" min="2" max="10" value="6"><output id="combNOut" for="combN">6</output></div>
-      <div class="crow"><label for="combR"><strong>Draws</strong></label><input id="combR" type="range" min="1" max="6" value="3"><output id="combROut" for="combR">3</output></div>
-    </div>
+    <div class="viz-head"><div class="livebar"><span id="combLiveDot" class="live-dot" aria-hidden="true"></span><strong>Interactive combination visual</strong><span id="combLiveLabel" class="live-label">LIVE</span></div><div><button class="btn pause-active" id="combPause" type="button" aria-pressed="false">⏸ Pause</button> <button class="btn" id="combDraw" type="button">Draw now</button> <button class="btn" id="combReset" type="button">↻ Reset</button></div></div>
+    <div class="viz-stage"><div class="viz-label" id="combStatus">Draw 0 of 3</div><div class="viz-label">Available</div><div class="tokens" id="combTokens"></div><div class="viz-label" style="margin-top:24px">Selection shown in canonical order</div><div class="slots" id="combSlots"></div></div>
+    <div class="viz-info"><div class="viz-formula" id="combFormula"></div><div class="viz-note">The selected tokens are sorted to emphasize that draw order does not create a new combination.</div></div>
+    <div class="controls"><div class="crow"><label for="combN"><strong>Options</strong></label><input id="combN" type="range" min="2" max="10" value="6"><output id="combNOut" for="combN">6</output></div><div class="crow"><label for="combR"><strong>Draws</strong></label><input id="combR" type="range" min="1" max="6" value="3"><output id="combROut" for="combR">3</output></div></div>
   </div>
-
-  <div class="card story" style="margin-top:14px">
-    <p>For example, ABC, ACB, BAC, BCA, CAB and CBA are <strong>6 permutations</strong>, because 3! = 6, but they are all <strong>one combination</strong>: {A,B,C}.</p>
-  </div>
+  <div class="card story" style="margin-top:14px"><p>For example, ABC, ACB, BAC, BCA, CAB and CBA are <strong>6 permutations</strong>, because 3! = 6, but they are all <strong>one combination</strong>: {A,B,C}.</p></div>
 </section>
 
 <section id="replacement" class="section">
-  <div class="level">5 • What replacement means</div>
-  <h2>With replacement vs without replacement</h2>
-  <p>Imagine a bag containing A, B, C and D.</p>
-  <div class="grid2">
-    <div class="card story">
-      <h3>Without replacement</h3>
-      <p>If you draw A, you <strong>do not put A back</strong>.</p>
-      <p>The next draw only has B, C and D.</p>
-      <div class="formula">4 → 3 → 2</div>
-    </div>
-    <div class="card good">
-      <h3>With replacement</h3>
-      <p>If you draw A, you <strong>put A back</strong>.</p>
-      <p>The next draw still has A, B, C and D.</p>
-      <div class="formula">4 → 4 → 4</div>
-      <p>So AA becomes possible.</p>
-    </div>
-  </div>
+  <div class="level">5 • What replacement means</div><h2>With replacement vs without replacement</h2><p>Imagine a bag containing A, B, C and D.</p>
+  <div class="grid2"><div class="card story"><h3>Without replacement</h3><p>If you draw A, you <strong>do not put A back</strong>.</p><p>The next draw only has B, C and D.</p><div class="formula">4 → 3 → 2</div></div><div class="card good"><h3>With replacement</h3><p>If you draw A, you <strong>put A back</strong>.</p><p>The next draw still has A, B, C and D.</p><div class="formula">4 → 4 → 4</div><p>So AA becomes possible.</p></div></div>
   <div class="memory" style="margin-top:14px"><strong>With replacement usually means repetition is allowed.</strong></div>
 </section>
 
 <section id="case3" class="section">
-  <div class="level">6 • Case 3</div>
-  <h2>Permutation WITH repetition / replacement</h2>
-  <p>This is one of the easiest formulas.</p>
-  <p>Suppose you create a <strong>4-digit PIN</strong>. Each position can contain 0–9, so each position has 10 choices. Repetition is allowed, so 1111 is valid.</p>
-  <div class="card story">
-    <div class="formula">\(10 \times 10 \times 10 \times 10 = 10^4 = 10{,}000\)</div>
-    <p>The general formula is:</p>
-    <div class="formula">\(n^r\)</div>
-    <p>where n is the number of choices available each time and r is the number of positions.</p>
-  </div>
-
+  <div class="level">6 • Case 3</div><h2>Permutation WITH repetition / replacement</h2><p>This is one of the easiest formulas.</p><p>Suppose you create a <strong>4-digit PIN</strong>. Each position can contain 0–9, so each position has 10 choices. Repetition is allowed, so 1111 is valid.</p>
+  <div class="card story"><div class="formula">\(10 \times 10 \times 10 \times 10 = 10^4 = 10{,}000\)</div><p>The general formula is:</p><div class="formula">\(n^r\)</div><p>where n is the number of choices available each time and r is the number of positions.</p></div>
   <div class="viz">
-    <div class="viz-head">
-      <div class="livebar"><span id="repLiveDot" class="live-dot"></span><strong>Replacement simulator</strong><span id="repLiveLabel" class="live-label">LIVE</span></div>
-      <div><button id="repPause" class="btn pause-active" type="button" aria-pressed="false">⏸ Pause</button> <button id="repDraw" class="btn" type="button">Draw now</button> <button id="repReset" class="btn" type="button">↻ Reset</button></div>
-    </div>
-    <div class="viz-stage">
-      <div class="viz-label" id="repStatus">Draw 0 of 3</div>
-      <div class="viz-label">Available — notice that nothing disappears</div>
-      <div id="repTokens" class="tokens"></div>
-      <div class="viz-label" style="margin-top:24px">Ordered result</div>
-      <div id="repSlots" class="slots"></div>
-    </div>
-    <div class="viz-info">
-      <div id="repFormula" class="viz-formula"></div>
-      <div class="viz-note">Because each selected item is replaced, every position has all n choices again.</div>
-    </div>
-    <div class="controls">
-      <div class="crow"><label for="repN"><strong>Options</strong></label><input id="repN" type="range" min="2" max="10" value="5"><output id="repNOut" for="repN">5</output></div>
-      <div class="crow"><label for="repR"><strong>Draws</strong></label><input id="repR" type="range" min="1" max="6" value="3"><output id="repROut" for="repR">3</output></div>
-    </div>
+    <div class="viz-head"><div class="livebar"><span id="repLiveDot" class="live-dot" aria-hidden="true"></span><strong>Replacement simulator</strong><span id="repLiveLabel" class="live-label">LIVE</span></div><div><button id="repPause" class="btn pause-active" type="button" aria-pressed="false">⏸ Pause</button> <button id="repDraw" class="btn" type="button">Draw now</button> <button id="repReset" class="btn" type="button">↻ Reset</button></div></div>
+    <div class="viz-stage"><div class="viz-label" id="repStatus">Draw 0 of 3</div><div class="viz-label">Available — notice that nothing disappears</div><div id="repTokens" class="tokens"></div><div class="viz-label" style="margin-top:24px">Ordered result</div><div id="repSlots" class="slots"></div></div>
+    <div class="viz-info"><div id="repFormula" class="viz-formula"></div><div class="viz-note">Because each selected item is replaced, every position has all n choices again.</div></div>
+    <div class="controls"><div class="crow"><label for="repN"><strong>Options</strong></label><input id="repN" type="range" min="2" max="10" value="5"><output id="repNOut" for="repN">5</output></div><div class="crow"><label for="repR"><strong>Draws</strong></label><input id="repR" type="range" min="1" max="6" value="3"><output id="repROut" for="repR">3</output></div></div>
   </div>
 </section>
 
 <section id="case4" class="section">
-  <div class="level">7 • Case 4</div>
-  <h2>Combination WITH repetition</h2>
-  <p>This one is less intuitive.</p>
-  <p>Suppose an ice cream shop has 4 flavors — Chocolate, Vanilla, Strawberry, Mint — and you want 3 scoops. You can repeat flavors, but order does not matter.</p>
-  <div class="card good">
-    <p>Chocolate–Vanilla–Strawberry is the same final selection as Vanilla–Strawberry–Chocolate.</p>
-    <div class="formula">\(\binom{n+r-1}{r}\)</div>
-    <p>For 4 flavors and 3 scoops:</p>
-    <div class="formula">\(\binom{4+3-1}{3} = \binom{6}{3} = 20\)</div>
-  </div>
-  <div class="card warn" style="margin-top:14px">
-    <h3>Why not n^r?</h3>
-    <p>Because n^r counts order. It treats CVS, CSV, VCS, VSC, SCV and SVC as different. For a combination, those are the same final selection.</p>
-  </div>
+  <div class="level">7 • Case 4</div><h2>Combination WITH repetition</h2><p>This one is less intuitive.</p><p>Suppose an ice cream shop has 4 flavors — Chocolate, Vanilla, Strawberry, Mint — and you want 3 scoops. You can repeat flavors, but order does not matter.</p>
+  <div class="card good"><p>Chocolate–Vanilla–Strawberry is the same final selection as Vanilla–Strawberry–Chocolate.</p><div class="formula">\(\binom{n+r-1}{r}\)</div><p>For 4 flavors and 3 scoops:</p><div class="formula">\(\binom{4+3-1}{3} = \binom{6}{3} = 20\)</div></div>
+  <div class="card warn" style="margin-top:14px"><h3>Why not n^r?</h3><p>Because n^r counts order. It treats CVS, CSV, VCS, VSC, SCV and SVC as different. For a combination, those are the same final selection.</p></div>
 </section>
 
 <section id="duplicates" class="section">
-  <div class="level">8 • Another meaning of repetition</div>
-  <h2>Repeated identical objects</h2>
-  <p>There is another situation that often appears on exams. This is different from sampling with replacement.</p>
-  <p>Suppose you are asked: <strong>How many arrangements can be made from LEVEL?</strong></p>
-  <div class="card story">
-    <p>LEVEL has 5 letters, but L appears twice and E appears twice.</p>
-    <p>If all letters were unique, there would be 5! = 120 arrangements. But swapping one L with the other L does not make a new word.</p>
-    <div class="formula">\(\dfrac{n!}{n_1!n_2!\cdots n_k!}\)</div>
-    <div class="formula">\(\dfrac{5!}{2!\,2!} = 30\)</div>
-  </div>
-  <div class="grid2" style="margin-top:14px">
-    <div class="card"><h3>Selection with replacement</h3><p>Example: create a 4-digit PIN where digits may repeat.</p><div class="formula">\(n^r\)</div></div>
-    <div class="card"><h3>Objects already contain duplicates</h3><p>Example: arrange the letters in MISSISSIPPI.</p><div class="formula">\(\dfrac{n!}{n_1!n_2!\cdots}\)</div></div>
-  </div>
+  <div class="level">8 • Another meaning of repetition</div><h2>Repeated identical objects</h2><p>There is another situation that often appears on exams. This is different from sampling with replacement.</p><p>Suppose you are asked: <strong>How many arrangements can be made from LEVEL?</strong></p>
+  <div class="card story"><p>LEVEL has 5 letters, but L appears twice and E appears twice.</p><p>If all letters were unique, there would be 5! = 120 arrangements. But swapping one L with the other L does not make a new word.</p><div class="formula">\(\dfrac{n!}{n_1!n_2!\cdots n_k!}\)</div><div class="formula">\(\dfrac{5!}{2!\,2!} = 30\)</div></div>
+  <div class="grid2" style="margin-top:14px"><div class="card"><h3>Selection with replacement</h3><p>Example: create a 4-digit PIN where digits may repeat.</p><div class="formula">\(n^r\)</div></div><div class="card"><h3>Objects already contain duplicates</h3><p>Example: arrange the letters in MISSISSIPPI.</p><div class="formula">\(\dfrac{n!}{n_1!n_2!\cdots}\)</div></div></div>
 </section>
 
 <section class="section">
-  <div class="level">9 • The complete framework</div>
-  <h2>The table worth memorizing</h2>
-  <div class="tablewrap">
-    <table>
-      <thead><tr><th>Order matters?</th><th>Repetition allowed?</th><th>Method</th><th>Formula</th></tr></thead>
-      <tbody>
-        <tr><td>Yes</td><td>No</td><td>Permutation without replacement</td><td><span class="formula">\(\dfrac{n!}{(n-r)!}\)</span></td></tr>
-        <tr><td>Yes</td><td>Yes</td><td>Permutation with replacement</td><td><span class="formula">\(n^r\)</span></td></tr>
-        <tr><td>No</td><td>No</td><td>Combination without replacement</td><td><span class="formula">\(\dfrac{n!}{r!(n-r)!}\)</span></td></tr>
-        <tr><td>No</td><td>Yes</td><td>Combination with repetition</td><td><span class="formula">\(\binom{n+r-1}{r}\)</span></td></tr>
-      </tbody>
-    </table>
-  </div>
+  <div class="level">9 • The complete framework</div><h2>The table worth memorizing</h2>
+  <div class="tablewrap"><table><thead><tr><th>Order matters?</th><th>Repetition allowed?</th><th>Method</th><th>Formula</th></tr></thead><tbody>
+    <tr><td>Yes</td><td>No</td><td>Permutation without replacement</td><td><span class="formula">\(\dfrac{n!}{(n-r)!}\)</span></td></tr>
+    <tr><td>Yes</td><td>Yes</td><td>Permutation with replacement</td><td><span class="formula">\(n^r\)</span></td></tr>
+    <tr><td>No</td><td>No</td><td>Combination without replacement</td><td><span class="formula">\(\dfrac{n!}{r!(n-r)!}\)</span></td></tr>
+    <tr><td>No</td><td>Yes</td><td>Combination with repetition</td><td><span class="formula">\(\binom{n+r-1}{r}\)</span></td></tr>
+  </tbody></table></div>
 </section>
 
 <section class="section">
-  <div class="level">10 • Practice identifying the method</div>
-  <h2>Do not calculate first</h2>
-  <div class="grid2">
-    <div class="card"><h3>Problem 1</h3><p>From 12 engineers, choose 4 for a project team.</p><p><strong>Order?</strong> No. <strong>Repeat?</strong> No.</p><div class="formula">Combination without replacement</div></div>
-    <div class="card"><h3>Problem 2</h3><p>From 12 runners, determine Gold, Silver and Bronze.</p><p><strong>Order?</strong> Yes. <strong>Repeat?</strong> No.</p><div class="formula">Permutation without replacement</div></div>
-    <div class="card"><h3>Problem 3</h3><p>Create a six-digit code using 0–9. Digits may repeat.</p><p><strong>Order?</strong> Yes. <strong>Repeat?</strong> Yes.</p><div class="formula">\(10^6\)</div></div>
-    <div class="card"><h3>Problem 4</h3><p>Choose 6 donuts from 10 flavors. Multiple donuts of the same flavor are allowed.</p><p><strong>Order?</strong> No. <strong>Repeat?</strong> Yes.</p><div class="formula">\(\binom{15}{6}\)</div></div>
-  </div>
+  <div class="level">10 • Practice identifying the method</div><h2>Do not calculate first</h2>
+  <div class="grid2"><div class="card"><h3>Problem 1</h3><p>From 12 engineers, choose 4 for a project team.</p><p><strong>Order?</strong> No. <strong>Repeat?</strong> No.</p><div class="formula">Combination without replacement</div></div><div class="card"><h3>Problem 2</h3><p>From 12 runners, determine Gold, Silver and Bronze.</p><p><strong>Order?</strong> Yes. <strong>Repeat?</strong> No.</p><div class="formula">Permutation without replacement</div></div><div class="card"><h3>Problem 3</h3><p>Create a six-digit code using 0–9. Digits may repeat.</p><p><strong>Order?</strong> Yes. <strong>Repeat?</strong> Yes.</p><div class="formula">\(10^6\)</div></div><div class="card"><h3>Problem 4</h3><p>Choose 6 donuts from 10 flavors. Multiple donuts of the same flavor are allowed.</p><p><strong>Order?</strong> No. <strong>Repeat?</strong> Yes.</p><div class="formula">\(\binom{15}{6}\)</div></div></div>
 </section>
 
 <section class="section">
-  <div class="level">11 • Fast exam decision tree</div>
-  <h2>Use this every time</h2>
-  <div class="decision">
-    <div class="card story"><h3>Question 1</h3><p class="big">Does order matter?</p><p>YES → permutation</p><p>NO → combination</p></div>
-    <div class="arrow">→</div>
-    <div class="card good"><h3>Question 2</h3><p class="big">Can an item be selected more than once?</p><p>YES → repetition/replacement</p><p>NO → without replacement</p></div>
-  </div>
-  <div class="memory" style="margin-top:14px">
-    <strong>Memory trick:</strong><br>
-    <span class="formula">\(P = \text{Position}\)</span>
-    <span class="formula">\(C = \text{Choose}\)</span>
-    <span class="formula">Replacement = Can I use it again?</span>
-  </div>
+  <div class="level">11 • Fast exam decision tree</div><h2>Use this every time</h2>
+  <div class="decision"><div class="card story"><h3>Question 1</h3><p class="big">Does order matter?</p><p>YES → permutation</p><p>NO → combination</p></div><div class="arrow">→</div><div class="card good"><h3>Question 2</h3><p class="big">Can an item be selected more than once?</p><p>YES → repetition/replacement</p><p>NO → without replacement</p></div></div>
+  <div class="memory" style="margin-top:14px"><strong>Memory trick:</strong><br><span class="formula">\(P = \text{Position}\)</span> <span class="formula">\(C = \text{Choose}\)</span> <span class="formula">Replacement = Can I use it again?</span></div>
 </section>
 
 <section id="practice" class="section">
-  <div class="level">12 • Interactive mastery practice</div>
-  <h2>Classify before calculating</h2>
-  <div class="practice">
-    <div id="pNum" class="level"></div>
-    <h3 id="pQ"></h3>
-    <div id="pChoices" class="grid2" role="group" aria-labelledby="pQ"></div>
-    <div id="pFeedback" class="feedback" role="status" aria-live="polite">Choose the method.</div>
-    <div style="margin-top:10px"><button id="pNext" type="button" class="btn primary" disabled>Next problem</button></div>
-  </div>
+  <div class="level">12 • Interactive mastery practice</div><h2>Classify before calculating</h2>
+  <div class="practice"><div id="pNum" class="level"></div><h3 id="pQ"></h3><div id="pChoices" class="grid2" role="group" aria-labelledby="pQ"></div><div id="pFeedback" class="feedback" role="status" aria-live="polite">Choose the method.</div><div style="margin-top:10px"><button id="pNext" type="button" class="btn primary" disabled>Next problem</button></div></div>
 </section>
 
 <section class="section">
-  <div class="level">Final takeaway</div>
-  <h2>The one memory sentence</h2>
-  <div class="memory">
-    <p class="big">Permutation = position matters.</p>
-    <p class="big">Combination = only the group matters.</p>
-    <p class="big">Replacement = can I use it again?</p>
-    <p>Almost every basic counting problem becomes much easier once you answer <strong>ORDER?</strong> and <strong>REPEAT?</strong> before reaching for a formula.</p>
+  <div class="level">Final takeaway</div><h2>The one memory sentence</h2>
+  <div class="memory"><p class="big">Permutation = position matters.</p><p class="big">Combination = only the group matters.</p><p class="big">Replacement = can I use it again?</p><p>Almost every basic counting problem becomes much easier once you answer <strong>ORDER?</strong> and <strong>REPEAT?</strong> before reaching for a formula.</p></div>
+</section>
+
+<section id="statistics-implementation" class="section">
+  <div class="level">Statistics Implementation</div>
+  <h2>Use the same counting logic in Excel and Minitab</h2>
+  <p>The software is fastest after you classify the problem correctly. First decide whether order matters and whether repetition is allowed; then use the matching function or expression.</p>
+
+  <h3>Excel Functions</h3>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Function</th><th>Syntax</th><th>Purpose</th><th>When to use it</th></tr></thead>
+      <tbody>
+        <tr><td><code>FACT</code></td><td><code>FACT(number)</code></td><td>Returns a factorial, such as 5! = 120.</td><td>Use when building a counting formula directly or checking factorial arithmetic.</td></tr>
+        <tr><td><code>PERMUT</code></td><td><code>PERMUT(number, number_chosen)</code></td><td>Counts ordered selections without repetition.</td><td>Use when order matters and an item cannot be selected more than once.</td></tr>
+        <tr><td><code>PERMUTATIONA</code></td><td><code>PERMUTATIONA(number, number_chosen)</code></td><td>Counts ordered selections with repetition.</td><td>Use when order matters and the same option can be used again, such as a PIN.</td></tr>
+        <tr><td><code>COMBIN</code></td><td><code>COMBIN(number, number_chosen)</code></td><td>Counts unordered groups without repetition.</td><td>Use when only the selected group matters and each item can appear once.</td></tr>
+        <tr><td><code>COMBINA</code></td><td><code>COMBINA(number, number_chosen)</code></td><td>Counts unordered selections with repetition.</td><td>Use when order does not matter and repeated choices are allowed.</td></tr>
+        <tr><td><code>MULTINOMIAL</code></td><td><code>MULTINOMIAL(number1, [number2], ...)</code></td><td>Returns the factorial of the total divided by the product of the group factorials.</td><td>Use for arrangements of objects that already contain identical repeats, such as LEVEL.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin-top:22px">Excel Use Cases</h3>
+  <div class="implementation-grid">
+    <div class="implementation-step"><strong>Assign 3 offices from 5 people</strong><p><code>=PERMUT(5,3)</code> → <strong>60</strong>. Roles are different, so order matters; no person repeats.</p></div>
+    <div class="implementation-step"><strong>Choose 3 committee members from 5</strong><p><code>=COMBIN(5,3)</code> → <strong>10</strong>. Only the group matters; no person repeats.</p></div>
+    <div class="implementation-step"><strong>Create a 4-digit PIN</strong><p><code>=PERMUTATIONA(10,4)</code> → <strong>10,000</strong>. Four ordered positions, each with all 10 digits available.</p></div>
+    <div class="implementation-step"><strong>Choose 3 scoops from 4 flavors</strong><p><code>=COMBINA(4,3)</code> → <strong>20</strong>. Scoop order does not matter and flavors can repeat.</p></div>
+    <div class="implementation-step"><strong>Check 5 factorial</strong><p><code>=FACT(5)</code> → <strong>120</strong>. This is the raw count if all five objects are unique and all are arranged.</p></div>
+    <div class="implementation-step"><strong>Arrange LEVEL</strong><p><code>=MULTINOMIAL(2,2,1)</code> → <strong>30</strong>. The counts are L = 2, E = 2, V = 1.</p></div>
+  </div>
+
+  <h3 style="margin-top:22px">Minitab Navigation</h3>
+  <p>For these counting calculations, use <code>Calc → Calculator</code>. Store the answer in a constant (for example, K1) when you need one result, or in a column when the inputs vary by row.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Counting task</th><th>Minitab Calculator expression</th><th>Why this option</th></tr></thead>
+      <tbody>
+        <tr><td>Factorial</td><td><code>FACTORIAL(5)</code></td><td>Directly evaluates n!.</td></tr>
+        <tr><td>Permutation, no repetition</td><td><code>PERMUTATIONS(5,3)</code></td><td>Minitab's permutation function counts ordered choices without repeats.</td></tr>
+        <tr><td>Combination, no repetition</td><td><code>COMBINATIONS(5,3)</code></td><td>Minitab's combination function ignores order.</td></tr>
+        <tr><td>Ordered selection with repetition</td><td><code>10^4</code></td><td>Each of four positions independently has 10 choices.</td></tr>
+        <tr><td>Combination with repetition</td><td><code>COMBINATIONS(4+3-1,3)</code></td><td>Implements the stars-and-bars formula \(\binom{n+r-1}{r}\).</td></tr>
+        <tr><td>Repeated identical objects</td><td><code>FACTORIAL(5)/(FACTORIAL(2)*FACTORIAL(2))</code></td><td>Divides out the duplicate L and E arrangements in LEVEL.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="source-note"><strong>Navigation note:</strong> Minitab's official help places <code>FACTORIAL</code>, <code>PERMUTATIONS</code>, and <code>COMBINATIONS</code> in <code>Calc → Calculator</code>. There is no need to search the Stat menu for a separate permutation or combination analysis.</div>
+
+  <h3 style="margin-top:22px">Exam Tips</h3>
+  <div class="grid2">
+    <div class="card story"><h3>ASQ CSSBB / CQE pattern</h3><p>Expect the exam to hide the method inside the wording. Translate the question into two checks: <strong>order?</strong> and <strong>repeat?</strong>. Do that before touching the calculator.</p></div>
+    <div class="card good"><h3>Fast formula check</h3><p>If a combination answer is larger than the corresponding permutation answer for the same n and r, something is wrong. Without repetition, \({}_nP_r = \binom{n}{r}r!\), so the permutation count is at least as large.</p></div>
+    <div class="card warn"><h3>Do not confuse two types of repetition</h3><p>“Replacement allowed” means you may select the same option again. “Repeated identical objects” means duplicates already exist in the set. They use different formulas.</p></div>
+    <div class="card"><h3>Engineering use</h3><p>Use combinations for sample/team selection when sequence has no meaning; use permutations when assigning ranked roles, inspection sequences, schedules, or position-specific settings.</p></div>
   </div>
 </section>
 
-<div class="footer">UpSkill Sprint • Permutations & Combinations • Beginner</div>
+<div class="footer">UpSkill Sprint • Permutations &amp; Combinations • Beginner</div>
 </div>
 </main>
 
-<section class="pc-lesson-back" aria-label="Return to lesson category"><a href="/lessons#statistics">&larr; Back to Statistics lessons</a></section>
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="The offices are different positions, so order matters. Because one person cannot hold two of the three offices, repetition is not allowed.">
+        <legend>1. Five people are available for President, Vice-President and Secretary. Which method applies?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> Combination without repetition</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> Permutation without repetition</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> Permutation with repetition</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="d"> Combination with repetition</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Only which three people are selected matters; their selection order does not create a new committee, and no person can be chosen twice.">
+        <legend>2. Five people are available and you need a three-person committee. Which method applies?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> Permutation without repetition</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> Permutation with repetition</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> Combination without repetition</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> Repeated-identical-object arrangement</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="d" data-explanation="The four PIN positions are ordered and each digit remains available after every position, so the count is 10^4 = 10,000.">
+        <legend>3. How many four-digit PINs are possible when digits 0–9 may repeat?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> 210</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> 5,040</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> 720</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="d"> 10,000</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="Order does not matter, but a flavor can be selected more than once, so use combination with repetition: C(4+3-1,3) = C(6,3) = 20.">
+        <legend>4. You choose three scoops from four flavors and flavors may repeat. What is the count?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> 20</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> 24</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> 64</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> 12</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="LEVEL has five letters with two Ls and two Es, so the duplicate arrangements must be divided out: 5!/(2!2!) = 30.">
+        <legend>5. How many distinct arrangements can be made from LEVEL?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> 120</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> 30</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> 20</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="d"> 10</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Excel's COMBINA function counts combinations with repetitions, which matches the four-flavor, three-scoop problem.">
+        <legend>6. Which Excel formula directly returns 20 for four flavors and three scoops with repetition?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> =PERMUT(4,3)</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> =COMBIN(4,3)</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> =COMBINA(4,3)</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="d"> =FACT(4)</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#statistics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Statistics lessons</a>
+</section>
+
 <footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
 
 <script>
 (()=>{
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+'use strict';
+const $=s=>document.querySelector(s);
 function fact(n){let v=1;for(let i=2;i<=n;i++)v*=i;return v}
 function nPr(n,r){return r>n?0:fact(n)/fact(n-r)}
 function nCr(n,r){return r>n?0:fact(n)/(fact(r)*fact(n-r))}
 function fmt(x){return Number(x).toLocaleString('en-US')}
-
-function tex(el, expression){
-  el.innerHTML='\\('+expression+'\\)';
-  if(window.MathJax?.typesetPromise){
-    MathJax.typesetClear?.([el]);
-    MathJax.typesetPromise([el]).catch(()=>{});
-  }
-}
-function typesetAll(attempt=0){
-  if(window.MathJax?.typesetPromise){
-    MathJax.typesetPromise().catch(()=>{});
-  }else if(attempt<80){
-    setTimeout(()=>typesetAll(attempt+1),150);
-  }
-}
+function tex(el,expression){if(!el)return;el.innerHTML='\\('+expression+'\\)';if(window.MathJax?.typesetPromise){MathJax.typesetClear?.([el]);MathJax.typesetPromise([el]).catch(()=>{});}}
+function typesetAll(attempt=0){if(window.MathJax?.typesetPromise){MathJax.typesetPromise().catch(()=>{});}else if(attempt<40){setTimeout(()=>typesetAll(attempt+1),150);}}
 typesetAll();
-
 const reduceMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches===true;
 
 function makeNoReplacementViz(prefix,sortSelection){
- let draw=[];
- let running=!reduceMotion;
- let timer=null;
- const N=$('#'+prefix+'N'),R=$('#'+prefix+'R');
- const pauseBtn=$('#'+prefix+'Pause');
- const dot=$('#'+prefix+'LiveDot');
- const liveLabel=$('#'+prefix+'LiveLabel');
-
- function vals(){
-   let n=+N.value;
-   R.max=Math.min(6,n);
-   if(+R.value>n)R.value=n;
-   const r=+R.value;
-   $('#'+prefix+'NOut').textContent=n;
-   $('#'+prefix+'ROut').textContent=r;
-   return {n,r};
- }
-
- function updateLiveState(){
-   pauseBtn.textContent=running?'⏸ Pause':'▶ Resume';
-   pauseBtn.classList.toggle('pause-active',running);
-   pauseBtn.setAttribute('aria-pressed',String(!running));
-   dot.classList.toggle('paused',!running);
-   liveLabel.textContent=running?'LIVE':'PAUSED';
- }
-
- function render(){
-   const {n,r}=vals();
-   const used=new Set(draw);
-   const tokens=$('#'+prefix+'Tokens');tokens.innerHTML='';
-   for(let i=1;i<=n;i++){
-     const t=document.createElement('div');t.className='token';t.textContent=i;
-     if(used.has(i))t.classList.add('used');
-     if(draw.length&&draw[draw.length-1]===i)t.classList.add('last');
-     tokens.appendChild(t);
-   }
-   const shown=sortSelection?[...draw].sort((a,b)=>a-b):[...draw];
-   const slots=$('#'+prefix+'Slots');slots.innerHTML='';
-   for(let i=0;i<r;i++){
-     const s=document.createElement('div');s.className='slot';
-     if(i<shown.length){s.textContent=shown[i];s.classList.add('filled')}
-     slots.appendChild(s);
-   }
-   $('#'+prefix+'Status').textContent=`Draw ${draw.length} of ${r}`;
-   const val=sortSelection?nCr(n,r):nPr(n,r);
-   const expr=sortSelection
-     ? `\\binom{${n}}{${r}} = \\frac{${n}!}{${r}!(${n}-${r})!} = ${fmt(val)}`
-     : `{}_{${n}}P_{${r}} = \\frac{${n}!}{(${n}-${r})!} = ${fmt(val)}`;
-   tex($('#'+prefix+'Formula'),expr);
- }
-
- function drawOne(){
-   const {n,r}=vals();
-   if(draw.length>=r) draw=[];
-   const available=[];
-   for(let i=1;i<=n;i++) if(!draw.includes(i)) available.push(i);
-   if(available.length) draw.push(available[Math.floor(Math.random()*available.length)]);
-   render();
- }
-
- function loop(){
-   clearTimeout(timer);
-   if(!running)return;
-   const {r}=vals();
-   if(draw.length>=r){
-     timer=setTimeout(()=>{draw=[];render();loop();},1400);
-   }else{
-     timer=setTimeout(()=>{drawOne();loop();},850);
-   }
- }
-
- pauseBtn.addEventListener('click',()=>{
-   running=!running;
-   updateLiveState();
-   if(running) loop(); else clearTimeout(timer);
- });
- $('#'+prefix+'Draw').addEventListener('click',()=>{drawOne()});
- $('#'+prefix+'Reset').addEventListener('click',()=>{draw=[];render();if(running)loop()});
- N.addEventListener('input',()=>{draw=[];render();if(running)loop()});
- R.addEventListener('input',()=>{draw=[];render();if(running)loop()});
-
- render();
- updateLiveState();
- loop();
- return {
-   suspend:()=>clearTimeout(timer),
-   resume:()=>{if(running)loop()}
- };
+ let draw=[],running=!reduceMotion,timer=null;
+ const N=$('#'+prefix+'N'),R=$('#'+prefix+'R'),pauseBtn=$('#'+prefix+'Pause'),dot=$('#'+prefix+'LiveDot'),liveLabel=$('#'+prefix+'LiveLabel');
+ function vals(){let n=+N.value;R.max=Math.min(6,n);if(+R.value>n)R.value=n;const r=+R.value;$('#'+prefix+'NOut').textContent=n;$('#'+prefix+'ROut').textContent=r;return {n,r};}
+ function updateLiveState(){pauseBtn.textContent=running?'⏸ Pause':'▶ Resume';pauseBtn.classList.toggle('pause-active',running);pauseBtn.setAttribute('aria-pressed',String(!running));dot.classList.toggle('paused',!running);liveLabel.textContent=running?'LIVE':'PAUSED';}
+ function render(){const {n,r}=vals(),used=new Set(draw),tokens=$('#'+prefix+'Tokens');tokens.innerHTML='';for(let i=1;i<=n;i++){const t=document.createElement('div');t.className='token';t.textContent=i;if(used.has(i))t.classList.add('used');if(draw.length&&draw[draw.length-1]===i)t.classList.add('last');tokens.appendChild(t);}const shown=sortSelection?[...draw].sort((a,b)=>a-b):[...draw],slots=$('#'+prefix+'Slots');slots.innerHTML='';for(let i=0;i<r;i++){const s=document.createElement('div');s.className='slot';if(i<shown.length){s.textContent=shown[i];s.classList.add('filled')}slots.appendChild(s);}$('#'+prefix+'Status').textContent=`Draw ${draw.length} of ${r}`;const val=sortSelection?nCr(n,r):nPr(n,r);const expr=sortSelection?`\\binom{${n}}{${r}} = \\frac{${n}!}{${r}!(${n}-${r})!} = ${fmt(val)}`:`{}_{${n}}P_{${r}} = \\frac{${n}!}{(${n}-${r})!} = ${fmt(val)}`;tex($('#'+prefix+'Formula'),expr);}
+ function drawOne(){const {n,r}=vals();if(draw.length>=r)draw=[];const available=[];for(let i=1;i<=n;i++)if(!draw.includes(i))available.push(i);if(available.length)draw.push(available[Math.floor(Math.random()*available.length)]);render();}
+ function loop(){clearTimeout(timer);if(!running)return;const {r}=vals();if(draw.length>=r){timer=setTimeout(()=>{draw=[];render();loop();},1400);}else{timer=setTimeout(()=>{drawOne();loop();},850);}}
+ pauseBtn.addEventListener('click',()=>{running=!running;updateLiveState();if(running)loop();else clearTimeout(timer);});
+ $('#'+prefix+'Draw').addEventListener('click',drawOne);$('#'+prefix+'Reset').addEventListener('click',()=>{draw=[];render();if(running)loop()});N.addEventListener('input',()=>{draw=[];render();if(running)loop()});R.addEventListener('input',()=>{draw=[];render();if(running)loop()});
+ render();updateLiveState();loop();return {suspend:()=>clearTimeout(timer),resume:()=>{if(running)loop()}};
 }
+const permController=makeNoReplacementViz('perm',false),combController=makeNoReplacementViz('comb',true);
+let repDraw=[],repRunning=!reduceMotion,repTimer=null;
+function repVals(){const n=+$('#repN').value,r=+$('#repR').value;$('#repNOut').textContent=n;$('#repROut').textContent=r;return {n,r};}
+function updateRepLive(){$('#repPause').textContent=repRunning?'⏸ Pause':'▶ Resume';$('#repPause').classList.toggle('pause-active',repRunning);$('#repPause').setAttribute('aria-pressed',String(!repRunning));$('#repLiveDot').classList.toggle('paused',!repRunning);$('#repLiveLabel').textContent=repRunning?'LIVE':'PAUSED';}
+function renderRep(){const {n,r}=repVals(),tok=$('#repTokens');tok.innerHTML='';for(let i=1;i<=n;i++){const t=document.createElement('div');t.className='token';t.textContent=i;if(repDraw.length&&repDraw[repDraw.length-1]===i)t.classList.add('last');tok.appendChild(t);}const slots=$('#repSlots');slots.innerHTML='';for(let i=0;i<r;i++){const s=document.createElement('div');s.className='slot';if(i<repDraw.length){s.textContent=repDraw[i];s.classList.add('filled')}slots.appendChild(s);}$('#repStatus').textContent=`Draw ${repDraw.length} of ${r}`;tex($('#repFormula'),`${n}^{${r}} = ${fmt(Math.pow(n,r))}`);}
+function repDrawOne(){const {n,r}=repVals();if(repDraw.length>=r)repDraw=[];repDraw.push(1+Math.floor(Math.random()*n));renderRep();}
+function repLoop(){clearTimeout(repTimer);if(!repRunning)return;const {r}=repVals();if(repDraw.length>=r){repTimer=setTimeout(()=>{repDraw=[];renderRep();repLoop();},1400);}else{repTimer=setTimeout(()=>{repDrawOne();repLoop();},850);}}
+$('#repPause').addEventListener('click',()=>{repRunning=!repRunning;updateRepLive();if(repRunning)repLoop();else clearTimeout(repTimer);});$('#repDraw').addEventListener('click',repDrawOne);$('#repReset').addEventListener('click',()=>{repDraw=[];renderRep();if(repRunning)repLoop()});$('#repN').addEventListener('input',()=>{repDraw=[];renderRep();if(repRunning)repLoop()});$('#repR').addEventListener('input',()=>{repDraw=[];renderRep();if(repRunning)repLoop()});renderRep();updateRepLive();repLoop();
 
-const permController=makeNoReplacementViz('perm',false);
-const combController=makeNoReplacementViz('comb',true);
-
-let repDraw=[];
-let repRunning=!reduceMotion;
-let repTimer=null;
-
-function repVals(){
- const n=+$('#repN').value,r=+$('#repR').value;
- $('#repNOut').textContent=n;$('#repROut').textContent=r;
- return {n,r};
-}
-function updateRepLive(){
- $('#repPause').textContent=repRunning?'⏸ Pause':'▶ Resume';
- $('#repPause').classList.toggle('pause-active',repRunning);
- $('#repPause').setAttribute('aria-pressed',String(!repRunning));
- $('#repLiveDot').classList.toggle('paused',!repRunning);
- $('#repLiveLabel').textContent=repRunning?'LIVE':'PAUSED';
-}
-function renderRep(){
- const {n,r}=repVals();
- const tok=$('#repTokens');tok.innerHTML='';
- for(let i=1;i<=n;i++){
-   const t=document.createElement('div');t.className='token';t.textContent=i;
-   if(repDraw.length&&repDraw[repDraw.length-1]===i)t.classList.add('last');
-   tok.appendChild(t);
- }
- const slots=$('#repSlots');slots.innerHTML='';
- for(let i=0;i<r;i++){
-   const s=document.createElement('div');s.className='slot';
-   if(i<repDraw.length){s.textContent=repDraw[i];s.classList.add('filled')}
-   slots.appendChild(s);
- }
- $('#repStatus').textContent=`Draw ${repDraw.length} of ${r}`;
- tex($('#repFormula'),`${n}^{${r}} = ${fmt(Math.pow(n,r))}`);
-}
-function repDrawOne(){
- const {n,r}=repVals();
- if(repDraw.length>=r)repDraw=[];
- repDraw.push(1+Math.floor(Math.random()*n));
- renderRep();
-}
-function repLoop(){
- clearTimeout(repTimer);
- if(!repRunning)return;
- const {r}=repVals();
- if(repDraw.length>=r){
-   repTimer=setTimeout(()=>{repDraw=[];renderRep();repLoop();},1400);
- }else{
-   repTimer=setTimeout(()=>{repDrawOne();repLoop();},850);
- }
-}
-$('#repPause').addEventListener('click',()=>{
- repRunning=!repRunning;
- updateRepLive();
- if(repRunning)repLoop();else clearTimeout(repTimer);
-});
-$('#repDraw').addEventListener('click',repDrawOne);
-$('#repReset').addEventListener('click',()=>{repDraw=[];renderRep();if(repRunning)repLoop()});
-$('#repN').addEventListener('input',()=>{repDraw=[];renderRep();if(repRunning)repLoop()});
-$('#repR').addEventListener('input',()=>{repDraw=[];renderRep();if(repRunning)repLoop()});
-renderRep();updateRepLive();repLoop();
-
-const methods=[
- 'Permutation — no replacement',
- 'Permutation — repetition allowed',
- 'Combination — no replacement',
- 'Combination — repetition allowed'
-];
+const methods=['Permutation — no replacement','Permutation — repetition allowed','Combination — no replacement','Combination — repetition allowed'];
 const qs=[
  {q:'From 12 engineers, choose 4 for a project team.',a:2,e:'You are choosing a group. Order does not matter and no engineer can be selected twice.'},
  {q:'From 12 runners, determine Gold, Silver and Bronze.',a:0,e:'Medal positions are distinct, so order matters. A runner cannot occupy two places.'},
@@ -669,48 +489,47 @@ const qs=[
  {q:'Assign President, Vice-President and Secretary from 9 people.',a:0,e:'The roles are different positions, so swapping people changes the outcome.'},
  {q:'Choose 3 samples from 20 coils for destructive testing.',a:2,e:'Only which 3 coils are selected matters; selection order has no meaning.'}
 ];
-let qi=0;
-const practiceResults=Array(qs.length).fill(null);
-function renderPractice(){
- const q=qs[qi];
- $('#pNum').textContent=`Problem ${qi+1} of ${qs.length}`;
- $('#pQ').textContent=q.q;
- $('#pFeedback').textContent='Choose the method.';
- $('#pNext').disabled=true;
- $('#pNext').textContent=qi===qs.length-1?'Practice complete':'Next problem';
- const box=$('#pChoices');box.innerHTML='';
- methods.forEach((m,i)=>{
-   const b=document.createElement('button');b.type='button';b.className='btn';b.textContent=m;
-   b.addEventListener('click',()=>{
-     [...box.children].forEach(x=>x.disabled=true);
-     [...box.children].forEach((x,j)=>{if(j===q.a)x.classList.add('goodbtn')});
-     if(i!==q.a)b.classList.add('badbtn');
-     practiceResults[qi]=i===q.a;
-     const score=practiceResults.filter(Boolean).length;
-     const complete=qi===qs.length-1;
-     $('#pFeedback').innerHTML=(i===q.a?'<strong>Correct.</strong> ':'<strong>Not quite.</strong> ')+q.e+(complete?`<br><strong>Practice complete: ${score} of ${qs.length} correct.</strong>`:'');
-     $('#pNext').disabled=complete;
-     document.dispatchEvent(new CustomEvent('upskill-quiz-result',{detail:{score,total:qs.length}}));
-   });
-   box.appendChild(b);
- });
-}
-$('#pNext').addEventListener('click',()=>{if(qi<qs.length-1){qi++;renderPractice()}});
-renderPractice();
-
-document.addEventListener('visibilitychange',()=>{
- if(document.hidden){
-   // Browsers throttle hidden tabs anyway; explicit pause prevents timer buildup.
-   permController.suspend();
-   combController.suspend();
-   clearTimeout(repTimer);
- }else{
-   permController.resume();
-   combController.resume();
-   if(repRunning)repLoop();
- }
-});
+let qi=0;const practiceResults=Array(qs.length).fill(null);
+function renderPractice(){const q=qs[qi];$('#pNum').textContent=`Problem ${qi+1} of ${qs.length}`;$('#pQ').textContent=q.q;$('#pFeedback').textContent='Choose the method.';$('#pNext').disabled=true;$('#pNext').textContent=qi===qs.length-1?'Practice complete':'Next problem';const box=$('#pChoices');box.innerHTML='';methods.forEach((m,i)=>{const b=document.createElement('button');b.type='button';b.className='btn';b.textContent=m;b.addEventListener('click',()=>{[...box.children].forEach(x=>x.disabled=true);[...box.children].forEach((x,j)=>{if(j===q.a)x.classList.add('goodbtn')});if(i!==q.a)b.classList.add('badbtn');practiceResults[qi]=i===q.a;const score=practiceResults.filter(Boolean).length,complete=qi===qs.length-1;$('#pFeedback').innerHTML=(i===q.a?'<strong>Correct.</strong> ':'<strong>Not quite.</strong> ')+q.e+(complete?`<br><strong>Practice complete: ${score} of ${qs.length} correct.</strong>`:'');$('#pNext').disabled=complete;});box.appendChild(b);});}
+$('#pNext').addEventListener('click',()=>{if(qi<qs.length-1){qi++;renderPractice()}});renderPractice();
+document.addEventListener('visibilitychange',()=>{if(document.hidden){permController.suspend();combController.suspend();clearTimeout(repTimer);}else{permController.resume();combController.resume();if(repRunning)repLoop();}});
 })();
 </script>
+
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' — ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+
+<style id="pc-dark-mode-overrides">
+html[data-theme="dark"] .pc-lesson{
+  --lesson-pc-bg:#0b1220;--lesson-pc-panel:#111c2e;--lesson-pc-card:#142238;--lesson-pc-text:#e7eef8;--lesson-pc-muted:#b8c7d8;
+  --lesson-pc-border:#465d76;--lesson-pc-accent:#86c8f0;--lesson-pc-accent-2:#83dce5;--lesson-pc-good:#69d29a;
+  --lesson-pc-warn:#ffc078;--lesson-pc-bad:#ff9aa6;--lesson-pc-soft:#173049;--lesson-pc-formula:#102b46;
+}
+html[data-theme="dark"] [aria-label="Return to lesson category"] a{color:#7dd3fc!important}
+</style>
 </body>
 </html>
