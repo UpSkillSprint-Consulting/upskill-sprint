@@ -58,7 +58,7 @@ test('the capability-index questions shown in the reported screenshots now read 
   assert.ok(q2, 'found: negative Cpk');
   assert.ok(q2.options.includes('The Cp value is less than 1.'));
 
-  const q3 = findQuestion(bank, 'What is the value of the Cp index?');
+  const q3 = findQuestion(bank, 'Use the following information to answer this question and the next. What is the value of the Cp index?');
   assert.ok(q3, 'found: value of the Cp index');
 
   const q4 = findQuestion(bank, 'A normally distributed, in-control, process output has a Cp = 1.75');
@@ -137,4 +137,48 @@ test('a rendered data-table chart produces correct underlying table markup (stru
   assert.match(html2, /<table class="tb-q-data-table">/);
   assert.match(html2, /<th>Year<\/th>/);
   assert.match(html2, /<td class="tb-q-num">\$75,000<\/td>/);
+});
+
+// --- Cp index / natural tolerance pair (Q121-122) ------------------------------
+// Reported via a screenshot of the source study guide: these two questions share
+// a "Use the following information to answer 121 and 122" data block (X-bar,
+// s-bar, n, spec limits) that was missing entirely from the site. The why fields
+// also had a numeric OCR error -- "s-bar = 39.9" -- that doesn't match the given
+// answer keys; the correct value (confirmed by the source screenshot and by the
+// math working out to the existing correct answers) is "s-bar = 9.9".
+
+test('the Cp-index and natural-tolerance questions (Q121-122) now share a reference table with the correct s-bar value', async () => {
+  const { window } = await load();
+  const bank = set3Bank(window);
+  const q1 = findQuestion(bank, 'Use the following information to answer this question and the next. What is the value of the Cp index?');
+  const q2 = findQuestion(bank, 'Using the same information, what is the estimated natural tolerance?');
+  assert.ok(q1 && q2, 'both questions found');
+
+  assert.deepEqual(JSON.parse(JSON.stringify(q1.chart)), JSON.parse(JSON.stringify(q2.chart)), 'both questions share the identical reference table');
+  assert.equal(q1.chart.type, 'data-table');
+
+  const rows = Object.fromEntries(q1.chart.rows.map(r => [r[0], r[1]]));
+  assert.equal(rows['X-bar'], '904.5');
+  assert.equal(rows['s-bar'], '9.9');
+  assert.equal(rows['n'], '20');
+  assert.equal(rows['Specification'], '900 \u00b1 50');
+});
+
+test('the Cp-index/natural-tolerance why fields no longer state the incorrect "s-bar = 39.9" and instead show the math that actually produces the existing correct answers', async () => {
+  const { window } = await load();
+  const bank = set3Bank(window);
+  const q1 = findQuestion(bank, 'Use the following information to answer this question and the next. What is the value of the Cp index?');
+  const q2 = findQuestion(bank, 'Using the same information, what is the estimated natural tolerance?');
+
+  [q1, q2].forEach(q => {
+    assert.doesNotMatch(q.why, /39\.9/, 'no leftover incorrect s-bar value');
+    assert.match(q.why, /s-bar = 9\.9/);
+    assert.match(q.why, /10\.03/, 'sigma-hat = 9.9 / 0.9869 = 10.03 is shown');
+  });
+
+  assert.equal(q1.options[q1.answer], '1.66');
+  assert.match(q1.why, /100 \/ 60\.19 = 1\.66/);
+
+  assert.equal(q2.options[q2.answer], '60.19');
+  assert.match(q2.why, /6 x 10\.03 = 60\.19/);
 });
