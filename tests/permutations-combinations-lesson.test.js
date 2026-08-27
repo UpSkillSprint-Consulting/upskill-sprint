@@ -165,7 +165,7 @@ test('live visuals, mastery practice, and comprehension quiz execute without run
   const answers=['b','c','d','a','b','c'];
   answers.forEach((value,index)=>{document.querySelector(`input[name="q${index+1}"][value="${value}"]`).checked=true;});
   document.getElementById('quiz-submit').click();
-  assert.deepEqual(reported,{score:6,total:6});
+  assert.deepEqual(JSON.parse(JSON.stringify(reported)),{score:6,total:6});
   assert.match(document.getElementById('quiz-result').textContent,/Score: 6 \/ 6/);
   dom.window.close();assert.deepEqual(errors,[]);
 });
