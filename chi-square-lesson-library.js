@@ -87,6 +87,18 @@
       description: 'Test whether observed category counts fit an expected distribution using a live calculator, graph, worked example, and quiz.'
     },
     {
+      marker: 'data-permutations-combinations',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/permutations-and-combinations',
+      topic: 'statistics',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'permutations combinations counting methods factorial npr ncr order replacement repetition probability statistics beginner interactive excel minitab',
+      meta: '<span>Beginner</span><span>Interactive</span><span>25 min</span><span>Excel + Minitab</span>',
+      title: 'Permutations & Combinations',
+      description: 'Master order, replacement, and repetition with live counting visuals, worked examples, decision rules, Excel and Minitab implementation, and interactive practice.'
+    },
+    {
       marker: 'data-normal-distribution',
       sectionId: 'statistics',
       path: '/lessons/statistics/the-normal-distribution-meet-the-bell-curve',
