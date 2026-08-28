@@ -2400,6 +2400,10 @@
   var perfAnalyticsOpen=false; /* true once the user opens Performance Analytics; used to
     restore it across renderMain() re-renders, since browse-view rendering replaces
     #tb-overview's innerHTML wholesale (e.g. toggling Timed/Untimed, switching Set). */
+  var perfAnalyticsFullOpen=true; /* whether the inner "Full analytics" sub-panel (opened via
+    its own data-open-analytics ghost button, closed via its own data-close-analytics button)
+    should be reopened on restore. Tracked separately so explicitly closing just that
+    sub-panel isn't silently undone by an unrelated re-render elsewhere on the card. */
   var DAY=86400000;
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -3093,7 +3097,7 @@
         '<div class="tb-timing"><span class="tb-ctl-label">Mode</span><span class="tb-seg" role="group" aria-label="Timing">'+'<button type="button" data-diagtimed="1" class="'+(diagTimed?'on':'')+'">Timed '+Math.round(n*e.minutes/e.questions)+' min</button>'+'<button type="button" data-diagtimed="0" class="'+(diagTimed?'':'on')+'">Untimed</button></span></div>'+
         '<div class="tb-diag-cta"><button type="button" class="btn btn-teal" data-diag>Retake diagnostic</button>'+
         (due.length?'<button type="button" class="tb-ghost" data-practice>Practice '+due.length+' due area'+(due.length>1?'s':'')+'</button>':'')+
-        '<button type="button" class="tb-ghost" data-perf-analytics>Performance Analytics</button>'+'</div></div>';
+        '<button type="button" class="tb-ghost" data-perf-analytics aria-pressed="'+(perfAnalyticsOpen?'true':'false')+'">'+(perfAnalyticsOpen?'Hide Analytics':'Performance Analytics')+'</button>'+'</div></div>';
     }
     return '<div class="tb-diag"><div class="tb-diag-top"><div><div class="tb-diag-kick">Start here</div><h4>Placement Diagnostic</h4></div><span class="tb-badge2">'+n+' questions</span></div>'+
       '<p class="tb-diag-sub">A short placement quiz drawn across all nine areas of '+examNoun(e)+'. Get a <b>Readiness Score</b> and a personalized study plan that pinpoints your weakest areas and exactly where to spend your time \u2014 or jump straight into the full '+e.questions+'-question '+examNoun(e)+' below.</p>'+
@@ -3107,12 +3111,19 @@
     var diag=host.querySelector('[data-diag]');if(diag)diag.addEventListener('click',function(){startDiagnostic();});
     Array.prototype.forEach.call(host.querySelectorAll('[data-diagtimed]'),function(b){b.addEventListener('click',function(){diagTimed=b.dataset.diagtimed==='1';renderMain();});});
     var prac=host.querySelector('[data-practice]');if(prac)prac.addEventListener('click',function(){startPractice();});
-    var perf=host.querySelector('[data-perf-analytics]');if(perf)perf.addEventListener('click',function(){openPerformanceAnalytics();});
+    var perf=host.querySelector('[data-perf-analytics]');if(perf)perf.addEventListener('click',function(){togglePerfAnalytics();});
     Array.prototype.forEach.call(host.querySelectorAll('[data-timed]'),function(b){b.addEventListener('click',function(){mode.timed=b.dataset.timed==='1';renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){b.addEventListener('click',function(){var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderMain();});});
     var sel=host.querySelector('[data-focusdom]');if(sel)sel.addEventListener('change',function(){mode.focusDom=sel.value;renderMain();});
     Array.prototype.forEach.call(host.querySelectorAll('[data-unseen]'),function(b){b.addEventListener('click',function(){if(b.dataset.unseen==='quick')mode.quickUnseen=!mode.quickUnseen;else mode.focusUnseen=!mode.focusUnseen;renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-mode]'),function(b){b.addEventListener('click',function(){var m=b.dataset.mode;if(m==='full')startFull();else if(m==='quick')startQuick();else if(m==='focus')startFocused();});});
+    /* The "Full analytics" open/close buttons are added dynamically by
+       test-bank-analytics-dashboard.js after the mastery dashboard mounts, so they can't be
+       wired directly above — delegation catches them whenever they appear. */
+    host.addEventListener('click',function(event){
+      if(event.target.closest('[data-close-analytics]')){perfAnalyticsFullOpen=false;return;}
+      if(event.target.closest('[data-open-analytics]'))perfAnalyticsFullOpen=true;
+    });
     restorePerfAnalytics();
   }
 
@@ -3170,25 +3181,53 @@
     if(!entry){entry=document.createElement('div');entry.id='tb-analytics-entry';overview.appendChild(entry);}
     return api.renderStandalone(entry);
   }
+  function updatePerfAnalyticsButton(){
+    var btn=document.querySelector('[data-perf-analytics]');
+    if(!btn)return;
+    btn.textContent=perfAnalyticsOpen?'Hide Analytics':'Performance Analytics';
+    btn.setAttribute('aria-pressed',perfAnalyticsOpen?'true':'false');
+  }
   function openPerformanceAnalytics(){
     var node=mountPerfAnalytics();
     if(!node)return;
     perfAnalyticsOpen=true;
+    perfAnalyticsFullOpen=true; /* a fresh open of the whole feature always shows Full analytics too */
     if(window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.open==='function')window.__TBAnalyticsDashboard.open();
+    updatePerfAnalyticsButton();
     node.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  /* Fully unmounts the standalone analytics entry (rather than just hiding the Full analytics
+     sub-panel), so re-opening always starts from a clean mount instead of stale internal state
+     (e.g. a half-finished adaptive-practice sub-session). */
+  function closePerformanceAnalytics(){
+    perfAnalyticsOpen=false;
+    perfAnalyticsFullOpen=true; /* reset so the next fresh open defaults to showing Full analytics again */
+    if(window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.close==='function')window.__TBAnalyticsDashboard.close();
+    var entry=document.getElementById('tb-analytics-entry');
+    if(entry)entry.remove();
+    updatePerfAnalyticsButton();
+  }
+  function togglePerfAnalytics(){
+    if(perfAnalyticsOpen)closePerformanceAnalytics();else openPerformanceAnalytics();
   }
   /* Re-mounts Performance Analytics after a browse-view re-render, if the user had it open.
      Bails out (and drops the flag) the moment the diagnostic card's own "returning" condition
      no longer holds — e.g. right after "Reset adaptive data" clears tb-adaptive-<exam> — so a
      reset can never resurrect a zombie panel on the next unrelated click. No auto-scroll, since
-     this fires silently on renders the user didn't ask for (Timed/Untimed toggle, Set switch). */
+     this fires silently on renders the user didn't ask for (Timed/Untimed toggle, Set switch).
+     Only reopens the inner Full analytics sub-panel if perfAnalyticsFullOpen is still true, so
+     explicitly closing just that sub-panel (its own Close button) isn't silently undone by an
+     unrelated re-render elsewhere on the card.
+     The freshly-rendered button already reflects perfAnalyticsOpen (diagnosticHTML reads the
+     flag), but updatePerfAnalyticsButton() is called anyway for safety/consistency. */
   function restorePerfAnalytics(){
     if(!perfAnalyticsOpen)return;
     var st=loadState(current);
     if(!st||!st.attempts){perfAnalyticsOpen=false;return;}
     var node=mountPerfAnalytics();
     if(!node){perfAnalyticsOpen=false;return;}
-    if(window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.open==='function')window.__TBAnalyticsDashboard.open();
+    if(perfAnalyticsFullOpen&&window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.open==='function')window.__TBAnalyticsDashboard.open();
+    updatePerfAnalyticsButton();
   }
   function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 
