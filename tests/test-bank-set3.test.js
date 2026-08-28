@@ -25,7 +25,7 @@ test('CSSBB carries a third 694-question set with the BoK distribution', async (
   assert.ok(e.sets[3], 'Set 3 registered');
   assert.equal(e.sets[3].length, 694);
   const d = {}; e.sets[3].forEach(q => { d[q.sub] = (d[q.sub] || 0) + 1; });
-  assert.deepEqual(d, { p1: 151, p2: 41, tm: 52, def: 67, mea: 166, ana: 68, imp: 63, con: 65, dfss: 21 });
+  assert.deepEqual(d, { p1: 48, p2: 51, tm: 66, def: 74, mea: 174, ana: 89, imp: 84, con: 82, dfss: 26 });
   e.sets[3].forEach((q, i) => {
     assert.equal(q.set, 3, 'q ' + i + ' tagged set 3');
     assert.equal(q.options.length, 4);

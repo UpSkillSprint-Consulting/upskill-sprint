@@ -37,7 +37,7 @@ function findQuestion(bank, stemPrefix) {
 test('the ROI question now renders the Year/Cost/Benefit cash-flow table', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Calculate the discounted return on investment (ROI)');
+  const q = findQuestion(bank, 'Using the cash flows shown, calculate the discounted return on investment (ROI)');
   assert.ok(q, 'question found');
   assert.equal(q.chart.type, 'data-table');
   assert.deepEqual(Array.from(q.chart.columns), ['Year', 'Cost', 'Benefit']);
@@ -46,7 +46,7 @@ test('the ROI question now renders the Year/Cost/Benefit cash-flow table', async
     ['1', '$15,000', '$45,000'],
     ['2', '$15,000', '$45,000']
   ]);
-  assert.equal(q.options[q.answer], '$80,782');
+  assert.equal(q.options[q.answer], '127.1%');
   q.options.forEach(o => assert.doesNotMatch(o, /\d,\s\d/, o + ' has no stray space after the thousands comma'));
 });
 
@@ -237,7 +237,7 @@ test('renderQuestionChart produces well-formed markup for every restored data-ta
   const { window } = await load();
   const bank = set3Bank(window);
   const restoredStemPrefixes = [
-    'Calculate the discounted return on investment',
+    'Using the cash flows shown, calculate the discounted return on investment',
     'A prioritization matrix was created by a team to choose which software product',
     "A survey was conducted to gather employees' opinions on work locations",
     'Calculate the mean using the frequency table shown below.',

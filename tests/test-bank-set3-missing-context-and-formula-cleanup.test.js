@@ -55,29 +55,24 @@ test('the four OEE questions (availability/performance/quality/action) now share
   assert.equal(rows['Ideal run rate'], '10,000 pieces in the planned production time');
 });
 
-test('the OEE quality question (Q481) now has a clean why field matching its own already-correct answer, and the action question (Q482) references the actual availability value', async () => {
+test('the OEE quality question has a clean derivation and the action question selects the lowest OEE factor', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
   const q481 = findQuestion(bank, 'Using the same information, what is the value of the quality metric?');
   const q482 = findQuestion(bank, 'Using the same information, which of the following actions');
   assert.match(q481.why, /7,000 \/ 7,195 = 0\.9729/);
   assert.equal(q481.options[q481.answer], '0.9729');
-  assert.match(q482.why, /availability \(0\.8575\) is the lowest/);
+  assert.match(q482.why, /performance = 0\.8391/);
+  assert.equal(q482.options[q482.answer], 'Increase the performance of the process.');
 });
 
-test('the OEE performance question (Q480) now has the reference table but its answer/options/why are deliberately left untouched pending source-material verification', async () => {
-  // Audit note: tried every plausible reading of the standard OEE Performance
-  // formula against the numbers extractable from this question's own (still
-  // garbled) why field, and none reproduce the marked answer (0.9355) exactly
-  // -- closest is 0.9259, too far off to be rounding. Not confident enough to
-  // rewrite the why field or change the answer without checking the original
-  // source-guide page, so only the missing-context bug (no data at all) was
-  // fixed here; the underlying answer-key question is flagged separately.
+test('the OEE performance question uses consistent planned and operating times', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
   const q480 = findQuestion(bank, 'Using the same information, what is the value of the performance?');
   assert.ok(q480.chart, 'now has the shared reference table');
-  assert.deepEqual(Array.from(q480.options), ['0.7000', '0.7195', '0.9355', '0.9450'], 'options left exactly as found');
+  assert.equal(q480.options[q480.answer], '0.8391');
+  assert.match(q480.why, /7,195\/373.*10,000\/435.*0\.8391/);
 });
 
 // --- Mechanical option-text fixes --------------------------------------------
@@ -85,7 +80,7 @@ test('the OEE performance question (Q480) now has the reference table but its an
 test('the R-chart LCL question no longer has a stray letter "O" where the answer is genuinely 0', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Calculate the lower control limit of an R chart using the following information: - - X = 345.50');
+  const q = findQuestion(bank, 'Calculate the lower control limit of an R chart using X̿ = 345.50');
   assert.ok(q);
   assert.ok(q.options.includes('0'), 'the zero option reads as a digit, not the letter O');
   assert.ok(!q.options.includes('O'));
@@ -107,7 +102,7 @@ test('percent-value options across four questions no longer have stray trailing 
   const cases = [
     { prefix: 'According to Ebbinghaus', expected: ['21%', '28%', '34%', '50%'] },
     { prefix: 'Calculate the precision-to-tolerance ratio (PTR)', expected: ['13.5%', '27%', '37%', '75%'] },
-    { prefix: 'A process output is normally distributed with \u00b5 = 53.7 inches', expected: ['20.3%', '25.2%', '75.4%', '80.0%'] },
+    { prefix: 'A process output is normally distributed with μ = 53.7 inches', expected: ['20.3%', '25.2%', '75.4%', '80.0%'] },
     { prefix: 'A total of 345 units were inspected', expected: ['0.0435%', '4.35%', '15%', '23%'] }
   ];
   cases.forEach(({ prefix, expected }) => {
@@ -130,15 +125,15 @@ test('thirteen questions with deep OCR formula garbling in their why fields now 
     { prefix: 'The net present value (NPV) of the cost', mustMatch: /750,000 \/ \$100,000 = 7\.5/ },
     { prefix: 'What is the denominator in the population variance formula?', mustMatch: /N is the denominator/ },
     { prefix: 'Given the sample set of data { 13.3, 14.5, -4.0, 23.9, 24.2}', mustMatch: /11\.47/ },
-    { prefix: 'A process is running at a 5%, defective rate', mustMatch: /0\.9885/ },
+    { prefix: 'A process is running at a 5% defective rate', mustMatch: /0\.9885/ },
     { prefix: 'Two manufacturing lines produce a bioplastic sheet', mustMatch: /Line B has the lower yield/ },
     { prefix: 'A capability study was conducted on a normally distributed', mustMatch: /1\.35 x 0\.7633 = 1\.03/ },
     { prefix: 'Given the following information from an in-control p-chart, calculate the process capability: sum(np) = 55', mustMatch: /55 \/ 2800 = 0\.0196/ },
     { prefix: 'A customer order for 1000 quarters', mustMatch: /2400 minutes \/ 1000 pieces = 2\.4/ },
-    { prefix: 'Calculate the upper control limit of an X-bar chart', mustMatch: /96\.4835/ },
-    { prefix: "Before an improvement project, the percentage defective for a milling process was equal to 4.9%", mustMatch: /-0\.42/ },
-    { prefix: 'A new electric vehicle is evaluated for its maximum range', mustMatch: /t0 = .*= 2\.52/ },
-    { prefix: 'After making adjustments to a packaging line', mustMatch: /47\.06.*48/ },
+    { prefix: 'Calculate the upper control limit of an X̄ chart', mustMatch: /96\.4835/ },
+    { prefix: 'Before an improvement project, the defective rate for a milling process was 4.9%', mustMatch: /−1\.32/ },
+    { prefix: 'A new electric vehicle is evaluated for its maximum range', mustMatch: /t₀ = .*= 2\.52/ },
+    { prefix: 'After adjustments to a packaging line', mustMatch: /47\.06.*48/ },
     { prefix: 'A quality engineer will test a sample of lightbulbs', mustMatch: /1067\.1.*1068/ }
   ];
   cases.forEach(({ prefix, mustMatch }) => {

@@ -93,7 +93,7 @@ test('the two visible answer options that used a checkmark instead of a radical 
   assert.ok(q1.options.includes('\u221aN'));
   assert.ok(!q1.options.some(o => o.includes('\u2713')));
 
-  const q2 = findQuestion(bank, 'In a two-level full-factorial design, the effect of Factor A is equal to - 12.4.');
+  const q2 = findQuestion(bank, 'In a two-level full-factorial design, the effect of Factor A is −12.4.');
   assert.ok(q2);
   assert.ok(q2.options.some(o => o.includes('\u221aMSE')));
   assert.ok(!q2.options.some(o => o.includes('\u2713')));
@@ -131,7 +131,7 @@ test('the data-table CSS centers all header and cell text and draws a vertical d
 test('a rendered data-table chart produces correct underlying table markup (structural regression guard, independent of the CSS styling change above)', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Calculate the discounted return on investment (ROI)');
+  const q = findQuestion(bank, 'Using the cash flows shown, calculate the discounted return on investment (ROI)');
   assert.ok(q);
   const html2 = window.__TB.renderQuestionChart(q.chart);
   assert.match(html2, /<table class="tb-q-data-table">/);
@@ -158,9 +158,9 @@ test('the Cp-index and natural-tolerance questions (Q121-122) now share a refere
   assert.equal(q1.chart.type, 'data-table');
 
   const rows = Object.fromEntries(q1.chart.rows.map(r => [r[0], r[1]]));
-  assert.equal(rows['X-bar'], '904.5');
-  assert.equal(rows['s-bar'], '9.9');
-  assert.equal(rows['n'], '20');
+  assert.equal(rows['X̄'], '904.5');
+  assert.equal(rows['S̄'], '9.9');
+  assert.equal(rows['Subgroup size, n'], '20');
   assert.equal(rows['Specification'], '900 \u00b1 50');
 });
 

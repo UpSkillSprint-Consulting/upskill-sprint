@@ -41,10 +41,10 @@ test('every control-chart constant lookup in Set 3 matches the standard SPC refe
   const cases = [
     { prefix: 'Use the following information to answer this question and the next. What is the value of the Cp index?', mustMatch: /c4 = 0\.9869/ },
     { prefix: 'A process metric is normally distributed. An X-bar R chart shows it is in control', mustMatch: /d2 = 2\.326/ },
-    { prefix: 'Calculate the upper control limit of an X-bar chart using the following information: X = 90.475', mustMatch: /A2 = 0\.483/ },
-    { prefix: 'Calculate the lower control limit of an R chart using the following information: - - X = 345.50', mustMatch: /D3 for n = 7 is 0\.076/ },
+    { prefix: 'Calculate the upper control limit of an X̄ chart using X̿ = 90.475', mustMatch: /A2 = 0\.483/ },
+    { prefix: 'Calculate the lower control limit of an R chart using X̿ = 345.50', mustMatch: /D₃ = 0\.076/ },
     { prefix: 'Using the same X-bar/S chart process (X-bar = 29.87, s = 3.55, n = 16), calculate the upper and lowe', mustMatch: /B3 = 0\.448 and B4 = 1\.552/ },
-    { prefix: 'Calculate the upper control limit for the S chart given the following information: X-bar = 904.0', mustMatch: /A3 = 0\.680/ }
+    { prefix: 'Calculate the upper control limit for the X̄ chart in an X̄\/S chart', mustMatch: /A₃ = 0\.680/ }
   ];
   cases.forEach(({ prefix, mustMatch }) => {
     const q = findQuestion(bank, prefix);
@@ -84,7 +84,7 @@ test('the missing interaction-plot chart for the "if Factor A is at low level" q
 test('the contour-plot interaction question no longer has a stray digit "8" where the answer means letter "B"', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'A 22 full-factorial experiment is run with three replicates.');
+  const q = findQuestion(bank, 'A 2² full-factorial experiment is run with three replicates.');
   assert.ok(q);
   assert.ok(q.options.includes('There is an interaction between factors A and B.'));
   assert.ok(!q.options.some(o => o.includes(' and 8.')));
@@ -94,7 +94,7 @@ test('two fractional-factorial why fields no longer show a lost division symbol 
   const { window } = await load();
   const bank = set3Bank(window);
 
-  const q452 = findQuestion(bank, 'How many runs are required for a 24- 1 experiment?');
+  const q452 = findQuestion(bank, 'How many runs are required for a 2⁴⁻¹ experiment?');
   assert.match(q452.why, /2\^4 \/ 2 = 16 \/ 2 = 8/);
   assert.doesNotMatch(q452.why, /24 \+ 2 = 8/);
 

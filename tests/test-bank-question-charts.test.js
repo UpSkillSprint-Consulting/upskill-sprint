@@ -389,12 +389,12 @@ test('several sibling question groups initially thought missing were actually pr
   const bank = cssbbBank(window);
 
   const pp = findQuestion(bank, 'A process is analyzed over five months');
-  const ppk = findQuestion(bank, 'Using the same process (average = 45.67');
+  const ppk = findQuestion(bank, 'A process has an average of 45.67');
   assert.equal(pp.options[pp.answer], '1.33');
   assert.equal(ppk.options[ppk.answer], '0.74');
 
   const individuals = findQuestion(bank, 'A single sample was measured each hour over 25 hours');
-  const movingRange = findQuestion(bank, 'Using the same 25-hour individuals and moving range data');
+  const movingRange = findQuestion(bank, 'For 25 hourly individuals, the sum of readings is 674.50');
   assert.equal(individuals.options[individuals.answer], '[24.27, 29.69]');
   assert.equal(movingRange.options[movingRange.answer], '[0, 3.32]');
 
@@ -402,12 +402,12 @@ test('several sibling question groups initially thought missing were actually pr
   assert.equal(pChartCl.options[pChartCl.answer], '0.0196');
 
   const npCl = findQuestion(bank, 'An np-chart is built from 25 subgroups');
-  const npLimits = findQuestion(bank, 'Using the same np-chart data');
+  const npLimits = findQuestion(bank, 'An np-chart is based on 78 nonconforming units');
   assert.equal(npCl.options[npCl.answer], '3.120');
   assert.equal(npLimits.options[npLimits.answer], '[0, 8.38]');
 
   const sampleMean = findQuestion(bank, 'Given the sample data {94, 91, 76, 43, 66, 77, 55, 27, 50, 60}');
-  const sampleVar = findQuestion(bank, 'Using the same sample data {94, 91, 76, 43, 66, 77, 55, 27, 50, 60}');
+  const sampleVar = findQuestion(bank, 'For the sample data {94, 91, 76, 43, 66, 77, 55, 27, 50, 60}');
   assert.equal(sampleMean.options[sampleMean.answer], '63.9');
   assert.equal(sampleVar.options[sampleVar.answer], '449.9');
 });
@@ -961,8 +961,8 @@ test('both precedence-table question groups (the D-erratum trio and the second A
   const erratumCrit = bank.find(q => q.stem.includes('precedence table below') && q.stem.includes('critical path?') && q.options.includes('ACG'));
   const erratumLate = bank.find(q => q.stem.startsWith('Using the same precedence table') && q.stem.includes('latest day that Activity D can begin'));
   assert.ok(erratumCrit && erratumLate);
-  assert.equal(erratumCrit.sub, 'p1', 'sub topic preserved from before the rewrite, not accidentally changed');
-  assert.equal(erratumLate.sub, 'p1', 'sub topic preserved from before the rewrite, not accidentally changed (regression: a rewrite once silently changed this to "def")');
+  assert.equal(erratumCrit.sub, 'def', 'project-management precedence question is classified under Define');
+  assert.equal(erratumLate.sub, 'def', 'the paired precedence question keeps the same Define classification');
   assert.deepEqual(Array.from(erratumCrit.chart.rows), Array.from(erratumLate.chart.rows));
 
   const secondCrit = bank.find(q => q.stem.includes('precedence table below') && q.options.includes('EF'));
