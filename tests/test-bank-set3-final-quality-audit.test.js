@@ -123,12 +123,21 @@ test('statistical conclusions use evidence-based language', () => {
 });
 
 test('final student stress-test blockers are self-contained and independently answerable', () => {
+  [105, 106, 670, 672, 681].forEach((number) => assert.match(q(number).stem, /1\.96/, `Q${number} supplies z*`));
+
   assert.match(q(114).stem, /χ²\(0\.05, 9\) = 3\.325/);
   assert.match(q(115).stem, /zcrit = −1\.645/);
   assert.match(q(116).stem, /t\(0\.05, 3\) = 2\.353/);
 
   assert.match(q(300).stem, /K₁ = 0\.8862/);
   assert.match(q(300).why, /2\.45 × 0\.8862 = 2\.171/);
+
+  assert.match(q(309).stem, /K₃ = 0\.4030/);
+  assert.match(q(309).why, /0\.75 × 0\.4030 = 0\.302/);
+
+  assert.match(q(356).stem, /Φ\(0\.83\) = 0\.7967/);
+  assert.match(q(386).stem, /z\(0\.05\) = 1\.645/);
+  assert.match(q(386).stem, /Cpk,L = Cpk/);
 
   assert.equal(q(353).options[q(353).answer], '13');
   assert.equal(q(353).chart?.type, 'data-table');
@@ -153,8 +162,32 @@ test('final student stress-test blockers are self-contained and independently an
   assert.equal(q(515).options[q(515).answer], '[0, 0.417]');
 
   assert.match(q(658).stem, /zcrit = −1\.645/);
+  assert.match(q(626).stem, /z = −1\.645/);
   assert.match(q(667).stem, /t\(0\.05, 4\) = 2\.132/);
   assert.match(q(667).why, /2\.52 exceeds 2\.132/);
+
+  assert.match(q(681).stem, /3% margin of error at 95% confidence/);
+  assert.match(q(681).stem, /p = 0\.50.*z\* = 1\.96/);
+  assert.equal(q(681).options[q(681).answer], '1068');
+  assert.match(q(681).why, /1067\.11.*rounded up.*1068/);
+});
+
+test('all standalone questions avoid unsupported shared-question references', () => {
+  for (const [index, question] of bank.entries()) {
+    if (!question.chart) assert.doesNotMatch(question.stem, /using the same/i, `Q${index + 1}`);
+  }
+
+  assert.match(q(495).stem, /D₃ = 0.*D₄ = 3\.267/);
+  assert.match(q(510).stem, /78 nonconforming units.*25 subgroups.*200 units/);
+});
+
+test('guide answer-key inconsistencies are corrected for student accuracy', () => {
+  assert.equal(q(446).options[q(446).answer], 'Overproduction');
+  assert.match(q(446).why, /more than current customer demand.*overproduction/i);
+  assert.match(q(446).why, /source-key inconsistency/i);
+
+  assert.equal(q(681).options[q(681).answer], '1068');
+  assert.match(q(681).why, /source guide's answer letter is inconsistent/i);
 });
 
 test('remaining stress-test polish defects are removed from student-facing text', () => {
