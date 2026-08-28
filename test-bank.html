@@ -3089,7 +3089,8 @@
         '<p class="tb-diag-sub">'+(due.length?('<b>'+due.length+'</b> area'+(due.length>1?'s are':' is')+' due for review.'):'Nothing due for review right now &mdash; nicely kept up.')+' Retake the placement diagnostic, or run '+examNoun(e)+' below to update your score.</p>'+
         '<div class="tb-timing"><span class="tb-ctl-label">Mode</span><span class="tb-seg" role="group" aria-label="Timing">'+'<button type="button" data-diagtimed="1" class="'+(diagTimed?'on':'')+'">Timed '+Math.round(n*e.minutes/e.questions)+' min</button>'+'<button type="button" data-diagtimed="0" class="'+(diagTimed?'':'on')+'">Untimed</button></span></div>'+
         '<div class="tb-diag-cta"><button type="button" class="btn btn-teal" data-diag>Retake diagnostic</button>'+
-        (due.length?'<button type="button" class="tb-ghost" data-practice>Practice '+due.length+' due area'+(due.length>1?'s':'')+'</button>':'')+'</div></div>';
+        (due.length?'<button type="button" class="tb-ghost" data-practice>Practice '+due.length+' due area'+(due.length>1?'s':'')+'</button>':'')+
+        '<button type="button" class="tb-ghost" data-perf-analytics>Performance Analytics</button>'+'</div></div>';
     }
     return '<div class="tb-diag"><div class="tb-diag-top"><div><div class="tb-diag-kick">Start here</div><h4>Placement Diagnostic</h4></div><span class="tb-badge2">'+n+' questions</span></div>'+
       '<p class="tb-diag-sub">A short placement quiz drawn across all nine areas of '+examNoun(e)+'. Get a <b>Readiness Score</b> and a personalized study plan that pinpoints your weakest areas and exactly where to spend your time \u2014 or jump straight into the full '+e.questions+'-question '+examNoun(e)+' below.</p>'+
@@ -3103,6 +3104,7 @@
     var diag=host.querySelector('[data-diag]');if(diag)diag.addEventListener('click',function(){startDiagnostic();});
     Array.prototype.forEach.call(host.querySelectorAll('[data-diagtimed]'),function(b){b.addEventListener('click',function(){diagTimed=b.dataset.diagtimed==='1';renderMain();});});
     var prac=host.querySelector('[data-practice]');if(prac)prac.addEventListener('click',function(){startPractice();});
+    var perf=host.querySelector('[data-perf-analytics]');if(perf)perf.addEventListener('click',function(){openPerformanceAnalytics();});
     Array.prototype.forEach.call(host.querySelectorAll('[data-timed]'),function(b){b.addEventListener('click',function(){mode.timed=b.dataset.timed==='1';renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){b.addEventListener('click',function(){var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderMain();});});
     var sel=host.querySelector('[data-focusdom]');if(sel)sel.addEventListener('change',function(){mode.focusDom=sel.value;renderMain();});
@@ -3152,6 +3154,21 @@
   }
   function startPractice(){var e=EXAMS[current];var b=activeBank(e);var st=loadState(current);var due=st?dueSubs(st.subState,Date.now()):[];var dueSet={};due.forEach(function(id){dueSet[id]=1;});var agg=st&&st.subState?masteryAgg(st.subState):{};var picks=weightedPick(b,agg,Math.min(10,b.length),dueSet);beginSession(e,picks,'practice',false,null);}
   function masteryAgg(subState){var agg={};for(var id in subState){var m=subState[id].mastery;agg[id]={c:m,t:1};}return agg;}
+  /* Opens the Phase 3 mastery + Full analytics view directly from the diagnostic card,
+     without requiring a just-completed in-session attempt. The mastery dashboard normally
+     only mounts inside #tb-feedback-loop right after a live results screen; renderStandalone
+     lets it mount into any container using the same persisted mastery store. */
+  function openPerformanceAnalytics(){
+    var overview=document.getElementById('tb-overview');if(!overview)return;
+    var api=window.__TBAdaptiveMastery;
+    if(!api||typeof api.renderStandalone!=='function')return;
+    var entry=document.getElementById('tb-analytics-entry');
+    if(!entry){entry=document.createElement('div');entry.id='tb-analytics-entry';overview.appendChild(entry);}
+    var node=api.renderStandalone(entry);
+    if(!node)return;
+    if(window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.open==='function')window.__TBAnalyticsDashboard.open();
+    node.scrollIntoView({behavior:'smooth',block:'start'});
+  }
   function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 
   /* ---------- countdown timer (ASQ-paced) ---------- */
