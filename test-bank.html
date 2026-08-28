@@ -2397,6 +2397,9 @@
   var current='cssbb', view='browse', session=null;
   var selectedSet='1'; /* '1' | '2' | 'mix' — only exams with e.sets[2] expose the choice */
   var diagTimed=true, timerId=null, calcExpr='';
+  var perfAnalyticsOpen=false; /* true once the user opens Performance Analytics; used to
+    restore it across renderMain() re-renders, since browse-view rendering replaces
+    #tb-overview's innerHTML wholesale (e.g. toggling Timed/Untimed, switching Set). */
   var DAY=86400000;
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -3110,6 +3113,7 @@
     var sel=host.querySelector('[data-focusdom]');if(sel)sel.addEventListener('change',function(){mode.focusDom=sel.value;renderMain();});
     Array.prototype.forEach.call(host.querySelectorAll('[data-unseen]'),function(b){b.addEventListener('click',function(){if(b.dataset.unseen==='quick')mode.quickUnseen=!mode.quickUnseen;else mode.focusUnseen=!mode.focusUnseen;renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-mode]'),function(b){b.addEventListener('click',function(){var m=b.dataset.mode;if(m==='full')startFull();else if(m==='quick')startQuick();else if(m==='focus')startFocused();});});
+    restorePerfAnalytics();
   }
 
   function overviewHTML(){
@@ -3158,16 +3162,33 @@
      without requiring a just-completed in-session attempt. The mastery dashboard normally
      only mounts inside #tb-feedback-loop right after a live results screen; renderStandalone
      lets it mount into any container using the same persisted mastery store. */
-  function openPerformanceAnalytics(){
-    var overview=document.getElementById('tb-overview');if(!overview)return;
+  function mountPerfAnalytics(){
+    var overview=document.getElementById('tb-overview');if(!overview)return null;
     var api=window.__TBAdaptiveMastery;
-    if(!api||typeof api.renderStandalone!=='function')return;
+    if(!api||typeof api.renderStandalone!=='function')return null;
     var entry=document.getElementById('tb-analytics-entry');
     if(!entry){entry=document.createElement('div');entry.id='tb-analytics-entry';overview.appendChild(entry);}
-    var node=api.renderStandalone(entry);
+    return api.renderStandalone(entry);
+  }
+  function openPerformanceAnalytics(){
+    var node=mountPerfAnalytics();
     if(!node)return;
+    perfAnalyticsOpen=true;
     if(window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.open==='function')window.__TBAnalyticsDashboard.open();
     node.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  /* Re-mounts Performance Analytics after a browse-view re-render, if the user had it open.
+     Bails out (and drops the flag) the moment the diagnostic card's own "returning" condition
+     no longer holds — e.g. right after "Reset adaptive data" clears tb-adaptive-<exam> — so a
+     reset can never resurrect a zombie panel on the next unrelated click. No auto-scroll, since
+     this fires silently on renders the user didn't ask for (Timed/Untimed toggle, Set switch). */
+  function restorePerfAnalytics(){
+    if(!perfAnalyticsOpen)return;
+    var st=loadState(current);
+    if(!st||!st.attempts){perfAnalyticsOpen=false;return;}
+    var node=mountPerfAnalytics();
+    if(!node){perfAnalyticsOpen=false;return;}
+    if(window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.open==='function')window.__TBAnalyticsDashboard.open();
   }
   function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 

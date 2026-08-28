@@ -10,6 +10,7 @@ const { JSDOM, VirtualConsole } = require('jsdom');
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
 const mastery = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery.js'), 'utf8');
+const hardening = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery-hardening.js'), 'utf8');
 const analytics = fs.readFileSync(path.join(ROOT, 'test-bank-analytics-dashboard.js'), 'utf8');
 const windows = [];
 afterEach(() => windows.splice(0).forEach(window => { try { window.close(); } catch (error) {} }));
@@ -187,4 +188,151 @@ test('renderStandalone is idempotent and returns null without a container', asyn
   const second = window.__TBAdaptiveMastery.renderStandalone(containerB);
   assert.equal(first, second, 'a second call returns the existing node rather than mounting a duplicate');
   assert.equal(containerB.children.length, 0, 'the already-mounted node is not moved or duplicated into the new container');
+});
+
+// --- Persistence across re-renders -----------------------------------------
+// renderMain() replaces #tb-overview's innerHTML wholesale on every browse-view render
+// (toggling Timed/Untimed, switching Set, switching exams all call it). The diagnostic
+// card's own Timed/Untimed toggle sits directly next to Performance Analytics, so this
+// is not a rare edge case -- it is the very next click most users would make.
+
+test('toggling Timed/Untimed right after opening analytics does not wipe it out', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  click(window, window.document.querySelector('[data-diagtimed="0"]'));
+  await settle(window);
+
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'mastery dashboard survives the very next click in the same card');
+  const panel = window.document.getElementById('tb-analytics-panel');
+  assert.ok(panel && !panel.hidden, 'Full analytics panel is restored and still open, not left for a second click');
+});
+
+test('repeated re-renders while analytics is open never duplicate the mount', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  for (let i = 0; i < 4; i += 1) {
+    click(window, window.document.querySelector('[data-diagtimed]'));
+    await settle(window);
+  }
+
+  assert.equal(window.document.querySelectorAll('#tb-adaptive-mastery').length, 1);
+  assert.equal(window.document.querySelectorAll('#tb-analytics-panel').length, 1);
+  assert.equal(window.document.querySelectorAll('#tb-analytics-entry').length, 1);
+});
+
+test('switching the Set selector while analytics is open restores it for the newly selected set', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  const setBtn = window.document.querySelector('[data-set]');
+  if (setBtn) {
+    click(window, setBtn);
+    await settle(window);
+    assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'survives a Set switch');
+  }
+});
+
+test('resetting adaptive data does not resurrect a zombie analytics panel on the next render', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(hardening);
+  window.eval(analytics);
+  await settle(window);
+
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'analytics opened before reset');
+
+  const resetBtn = window.document.querySelector('[data-v2-reset]');
+  assert.ok(resetBtn, 'reset button is present inside the mounted dashboard');
+  click(window, resetBtn); // arm
+  await settle(window);
+  click(window, resetBtn); // confirm
+  await settle(window);
+
+  assert.ok(!window.document.getElementById('tb-adaptive-mastery'), 'reset removes the panel immediately');
+  assert.equal(window.localStorage.getItem('tb-adaptive-cssbb'), null, 'diagnostic state actually cleared, not just the panel');
+
+  // The diag card itself only re-reads state on the next renderMain(); the stale
+  // "returning" card's own toggle is what a real user would still see and click.
+  click(window, window.document.querySelector('[data-diagtimed]'));
+  await settle(window);
+
+  assert.ok(!window.document.querySelector('[data-perf-analytics]'), 'card correctly reverts to the first-time state after re-render');
+  assert.ok(!window.document.getElementById('tb-adaptive-mastery'), 'no zombie panel resurrected after reset');
+});
+
+test('switching exams while analytics is open does not leak the previous exam data into the new one', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'cssbb analytics mounted');
+
+  const cqeTile = window.document.querySelector('.tb-tile[data-exam="cqe"]');
+  assert.ok(cqeTile, 'a second exam tile exists to switch to');
+  click(window, cqeTile);
+  await settle(window);
+
+  assert.ok(!window.document.querySelector('[data-perf-analytics]'), 'cqe has no returning diagnostic state, so no button');
+  assert.ok(!window.document.getElementById('tb-adaptive-mastery'), 'cssbb analytics does not leak onto the cqe view');
+});
+
+test('retaking the diagnostic to completion restores analytics with the updated attempt count on return to browse', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window, { attempts: 1, lastReadiness: 40 });
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'analytics opened');
+
+  click(window, window.document.querySelector('[data-diag]'));
+  await settle(window, 3);
+  assert.equal(window.document.getElementById('tb-adaptive-mastery'), null, 'analytics correctly disappears while a live quiz is in progress');
+
+  const navCells = window.document.querySelectorAll('.tb-navcell');
+  click(window, navCells[navCells.length - 1]);
+  await settle(window);
+  click(window, window.document.querySelector('[data-submit]'));
+  await settle(window, 8);
+
+  const backBtn = window.document.querySelector('[data-back]');
+  assert.ok(backBtn, 'landed on a results screen with a way back to browse');
+  click(window, backBtn);
+  await settle(window);
+
+  const newState = JSON.parse(window.localStorage.getItem('tb-adaptive-cssbb'));
+  assert.equal(newState.attempts, 2, 'the retake actually recorded a new attempt');
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'analytics auto-restores with fresh data after the retake, using the flag set before the retake began');
 });
