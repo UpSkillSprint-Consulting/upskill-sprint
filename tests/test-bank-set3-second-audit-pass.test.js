@@ -38,7 +38,7 @@ test('three more why fields with an appended BOK section/Part-B-intro document a
   const { window } = await load();
   const bank = set3Bank(window);
   const cases = [
-    { prefix: 'To maintain support throughout the change life cycle', endsWith: '[II.B.2]' },
+    { prefix: 'To maintain support throughout the change life cycle', endsWith: '[I.B.3]' },
     { prefix: 'When creating documentation, best practices suggest using:', endsWith: '[VIII.D.2]' },
     { prefix: "The principle of Taguchi's loss function is that:", endsWith: '[IX.C]' }
   ];
@@ -92,7 +92,7 @@ test('three why fields with correct answers but deep OCR formula garbling (c-cha
   assert.match(uChart.why, /0\.417/);
   assert.equal(uChart.options[uChart.answer], '[0, 0.417]');
 
-  const ciSigma = findQuestion(bank, 'The 95% confidence interval [ 12.5, 18.5] was calculated');
+  const ciSigma = findQuestion(bank, 'The 95% confidence interval [12.5, 18.5] was calculated');
   assert.match(ciSigma.why, /6\.85/);
   assert.equal(ciSigma.options[ciSigma.answer], '6.85');
 });

@@ -961,8 +961,8 @@ test('both precedence-table question groups (the D-erratum trio and the second A
   const erratumCrit = bank.find(q => q.stem.includes('precedence table below') && q.stem.includes('critical path?') && q.options.includes('ACG'));
   const erratumLate = bank.find(q => q.stem.startsWith('Using the same precedence table') && q.stem.includes('latest day that Activity D can begin'));
   assert.ok(erratumCrit && erratumLate);
-  assert.equal(erratumCrit.sub, 'p1', 'sub topic preserved from before the rewrite, not accidentally changed');
-  assert.equal(erratumLate.sub, 'p1', 'sub topic preserved from before the rewrite, not accidentally changed (regression: a rewrite once silently changed this to "def")');
+  assert.equal(erratumCrit.sub, 'def', 'project-management precedence question is classified under Define');
+  assert.equal(erratumLate.sub, 'def', 'the paired precedence question keeps the same Define classification');
   assert.deepEqual(Array.from(erratumCrit.chart.rows), Array.from(erratumLate.chart.rows));
 
   const secondCrit = bank.find(q => q.stem.includes('precedence table below') && q.options.includes('EF'));

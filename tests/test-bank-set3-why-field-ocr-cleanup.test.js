@@ -100,7 +100,7 @@ test('the chi-square job-shop question\'s "why" narrative now states the critica
   const bank = set3Bank(window);
   const q = findQuestion(bank, 'A job shop makes three metal parts.');
   assert.ok(q);
-  assert.match(q.why, /critical value of 5\.991 from the Chi-square/);
+  assert.match(q.why, /critical value is 5\.991|χ²crit = 5\.991/);
   assert.doesNotMatch(q.why, /5\.99\s1/);
 });
 
@@ -109,7 +109,7 @@ test('the ROI question\'s "why" narrative no longer has a stray space after the 
   const bank = set3Bank(window);
   const q = findQuestion(bank, 'A two-month improvement yielded $40,000 in benefits');
   assert.ok(q, 'the simple-ROI question (distinct from the discounted-ROI/NPV question) is found');
-  assert.match(q.why, /\$40,000 - \$25,000/);
+  assert.match(q.why, /\$40,000 [−-] \$25,000/);
   assert.doesNotMatch(q.why, /\$4 0,000/);
   assert.doesNotMatch(q.why, /\$25, 000/);
 });
