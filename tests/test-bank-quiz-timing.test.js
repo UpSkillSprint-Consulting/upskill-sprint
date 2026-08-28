@@ -258,6 +258,79 @@ test('New-only and Missed-only filters keep working in both timing modes', async
   assert.equal(intervals.length, 2, 'only the two timed filtered sessions created countdowns');
 });
 
+test('a reduced filtered pool recalculates both helper text and countdown from the questions actually served', async () => {
+  const { window, intervals } = await loadPage();
+  window.eval(mastery);
+  const exam = window.__TB.EXAMS.cssbb;
+  const missed = exam.sets[1].slice(0, 3);
+  window.__TBAdaptiveMastery.recordResults(missed.map(question => ({
+    question,
+    selected: question.answer === 0 ? 1 : 0,
+    status: 'incorrect'
+  })), 'reduced-pool-timing-test');
+
+  // Re-render once so the filter availability reflects the newly seeded history.
+  click(window, modeCard(window, 'quick').querySelector('[data-count="quick"][data-n="10"]'));
+  click(window, modeCard(window, 'quick').querySelector('[data-missed="quick"]'));
+  click(window, timingButton(window, 'quick', true));
+
+  const summary = modeCard(window, 'quick').querySelector('.tb-mode-sum').textContent;
+  assert.match(summary, /Only 3 missed questions remain/);
+  assert.match(summary, /Timed: 4 min 55 sec/);
+
+  click(window, modeCard(window, 'quick').querySelector('[data-mode="quick"]'));
+  assert.equal(window.document.querySelectorAll('#tb-overview .tb-navcell').length, 3);
+  assert.equal(window.document.querySelector('#tb-overview #tb-timer').textContent, '4:55');
+  assert.equal(intervals.length, 1);
+});
+
+test('every supported count starts with the centralized countdown for the questions actually served', async () => {
+  const { window } = await loadPage();
+  const api = window.__TB;
+  const exam = api.EXAMS.cssbb;
+  const expected = new Map([
+    [10, '16:22'],
+    [20, '32:44'],
+    [30, '49:05'],
+    [50, '1:21:49']
+  ]);
+
+  for (const kind of ['quick', 'focus']) {
+    click(window, timingButton(window, kind, true));
+    for (const [count, timer] of expected) {
+      click(window, modeCard(window, kind).querySelector('[data-count="' + kind + '"][data-n="' + count + '"]'));
+      const summary = modeCard(window, kind).querySelector('.tb-mode-sum').textContent;
+      click(window, modeCard(window, kind).querySelector('[data-mode="' + kind + '"]'));
+      const served = window.document.querySelectorAll('#tb-overview .tb-navcell').length;
+      const seconds = api.quizDurationSeconds(exam, served);
+      const expectedTimer = kind === 'quick' ? timer : api.fmtClock(seconds);
+      assert.equal(window.document.querySelector('#tb-overview #tb-timer').textContent, expectedTimer, kind + ' ' + count);
+      assert.match(summary, new RegExp('Timed: ' + api.fmtQuizDuration(seconds)));
+      if (served < count) assert.match(summary, new RegExp('Only ' + served + ' questions are available'));
+      exitQuiz(window);
+    }
+  }
+});
+
+test('exiting timed sessions clears their intervals and stale ticks cannot submit a later untimed quiz', async () => {
+  const { window, intervals, clearedIntervals, advanceTime } = await loadPage();
+
+  click(window, timingButton(window, 'quick', true));
+  click(window, modeCard(window, 'quick').querySelector('[data-mode="quick"]'));
+  assert.equal(intervals.length, 1);
+  const staleTick = intervals[0];
+  exitQuiz(window);
+  assert.ok(clearedIntervals.includes(1));
+
+  click(window, modeCard(window, 'focus').querySelector('[data-mode="focus"]'));
+  assert.ok(window.document.querySelector('#tb-overview .tb-timer.untimed'));
+  advanceTime(24 * 60 * 60 * 1000);
+  staleTick();
+  assert.ok(window.document.querySelector('#tb-overview .tb-quiz'));
+  assert.ok(window.document.querySelector('#tb-overview .tb-timer.untimed'));
+  assert.equal(window.document.querySelector('#tb-overview .tb-reshead'), null);
+});
+
 test('stress matrix covers all sets, counts, timing modes, and multiple focused areas without corrupting state', async () => {
   const { window } = await loadPage();
   const setValues = ['1', '2', '3', 'mix'];

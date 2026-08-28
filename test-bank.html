@@ -3139,10 +3139,11 @@
 
     var opts=e.bok.map(function(x){return '<option value="'+x.domain+'"'+(x.domain===mode.focusDom?' selected':'')+'>'+esc(DM[x.domain].name)+'</option>';}).join('');
     var focusName=DM[mode.focusDom]?DM[mode.focusDom].name:'';
+    var focusPoolTotal=live?activeBank(e).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:mode.focusN;
     var focusAvail=live&&mode.focusUnseen?unseenOnly(mixedBank(e)).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:null;
     var focusMissedTotal=live?missedOnly(mixedBank(e)).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:0;
     var focusMissedAvail=live&&mode.focusMissed?focusMissedTotal:null;
-    var focusEffN=mode.focusUnseen?Math.min(mode.focusN,focusAvail||0):mode.focusMissed?Math.min(mode.focusN,focusMissedAvail||0):mode.focusN;
+    var focusEffN=mode.focusUnseen?Math.min(mode.focusN,focusAvail||0):mode.focusMissed?Math.min(mode.focusN,focusMissedAvail||0):Math.min(mode.focusN,focusPoolTotal);
     var focusSum=mode.focusUnseen
       ? (focusAvail
           ? 'Random <b>'+focusEffN+'</b> new question'+(focusEffN===1?'':'s')+' from <b>'+esc(focusName)+'</b> in <b>Mixed (all sets)</b>, ignoring the Set selection above.'+(focusAvail<mode.focusN?' Only <b>'+focusAvail+'</b> unseen question'+(focusAvail===1?'':'s')+' remain in this area.':'')
@@ -3151,7 +3152,7 @@
         ? (focusMissedAvail
             ? 'Random <b>'+focusEffN+'</b> previously missed question'+(focusEffN===1?'':'s')+' from <b>'+esc(focusName)+'</b> in <b>Mixed (all sets)</b>, ignoring the Set selection above.'+(focusMissedAvail<mode.focusN?' Only <b>'+focusMissedAvail+'</b> missed question'+(focusMissedAvail===1?'':'s')+' remain in this area.':'')
             : 'No previously missed questions remain in <b>'+esc(focusName)+'</b>.')
-        : 'Random <b>'+mode.focusN+'</b> questions from <b>'+esc(focusName)+'</b> in <b>'+esc(activeSetLabel(e))+'</b>.';
+        : 'Random '+(focusPoolTotal<mode.focusN?'up to <b>'+mode.focusN+'</b> questions':'<b>'+focusEffN+'</b> question'+(focusEffN===1?'':'s'))+' from <b>'+esc(focusName)+'</b> in <b>'+esc(activeSetLabel(e))+'</b>.'+(focusPoolTotal<mode.focusN?' Only <b>'+focusPoolTotal+'</b> question'+(focusPoolTotal===1?' is':'s are')+' available in this area for '+esc(activeSetLabel(e))+'.':'');
     focusSum+=timingSummary(e,focusEffN,mode.focusTimed);
     var focus='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u25CE</span>'+
       '<div><h4>Focused Quiz</h4><p>Drill a single area of the Body of Knowledge you want to strengthen.</p></div></div>'+
