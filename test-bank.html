@@ -2400,6 +2400,10 @@
   var perfAnalyticsOpen=false; /* true once the user opens Performance Analytics; used to
     restore it across renderMain() re-renders, since browse-view rendering replaces
     #tb-overview's innerHTML wholesale (e.g. toggling Timed/Untimed, switching Set). */
+  var perfAnalyticsFullOpen=true; /* whether the inner "Full analytics" sub-panel (opened via
+    its own data-open-analytics ghost button, closed via its own data-close-analytics button)
+    should be reopened on restore. Tracked separately so explicitly closing just that
+    sub-panel isn't silently undone by an unrelated re-render elsewhere on the card. */
   var DAY=86400000;
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -3113,6 +3117,13 @@
     var sel=host.querySelector('[data-focusdom]');if(sel)sel.addEventListener('change',function(){mode.focusDom=sel.value;renderMain();});
     Array.prototype.forEach.call(host.querySelectorAll('[data-unseen]'),function(b){b.addEventListener('click',function(){if(b.dataset.unseen==='quick')mode.quickUnseen=!mode.quickUnseen;else mode.focusUnseen=!mode.focusUnseen;renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-mode]'),function(b){b.addEventListener('click',function(){var m=b.dataset.mode;if(m==='full')startFull();else if(m==='quick')startQuick();else if(m==='focus')startFocused();});});
+    /* The "Full analytics" open/close buttons are added dynamically by
+       test-bank-analytics-dashboard.js after the mastery dashboard mounts, so they can't be
+       wired directly above — delegation catches them whenever they appear. */
+    host.addEventListener('click',function(event){
+      if(event.target.closest('[data-close-analytics]')){perfAnalyticsFullOpen=false;return;}
+      if(event.target.closest('[data-open-analytics]'))perfAnalyticsFullOpen=true;
+    });
     restorePerfAnalytics();
   }
 
@@ -3180,6 +3191,7 @@
     var node=mountPerfAnalytics();
     if(!node)return;
     perfAnalyticsOpen=true;
+    perfAnalyticsFullOpen=true; /* a fresh open of the whole feature always shows Full analytics too */
     if(window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.open==='function')window.__TBAnalyticsDashboard.open();
     updatePerfAnalyticsButton();
     node.scrollIntoView({behavior:'smooth',block:'start'});
@@ -3189,6 +3201,7 @@
      (e.g. a half-finished adaptive-practice sub-session). */
   function closePerformanceAnalytics(){
     perfAnalyticsOpen=false;
+    perfAnalyticsFullOpen=true; /* reset so the next fresh open defaults to showing Full analytics again */
     if(window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.close==='function')window.__TBAnalyticsDashboard.close();
     var entry=document.getElementById('tb-analytics-entry');
     if(entry)entry.remove();
@@ -3202,6 +3215,9 @@
      no longer holds — e.g. right after "Reset adaptive data" clears tb-adaptive-<exam> — so a
      reset can never resurrect a zombie panel on the next unrelated click. No auto-scroll, since
      this fires silently on renders the user didn't ask for (Timed/Untimed toggle, Set switch).
+     Only reopens the inner Full analytics sub-panel if perfAnalyticsFullOpen is still true, so
+     explicitly closing just that sub-panel (its own Close button) isn't silently undone by an
+     unrelated re-render elsewhere on the card.
      The freshly-rendered button already reflects perfAnalyticsOpen (diagnosticHTML reads the
      flag), but updatePerfAnalyticsButton() is called anyway for safety/consistency. */
   function restorePerfAnalytics(){
@@ -3210,7 +3226,7 @@
     if(!st||!st.attempts){perfAnalyticsOpen=false;return;}
     var node=mountPerfAnalytics();
     if(!node){perfAnalyticsOpen=false;return;}
-    if(window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.open==='function')window.__TBAnalyticsDashboard.open();
+    if(perfAnalyticsFullOpen&&window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.open==='function')window.__TBAnalyticsDashboard.open();
     updatePerfAnalyticsButton();
   }
   function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}

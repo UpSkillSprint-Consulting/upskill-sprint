@@ -430,3 +430,97 @@ test('rapid repeated toggling settles into a consistent state with no duplicates
   await settle(window);
   assert.equal(window.document.querySelectorAll('#tb-adaptive-mastery').length, 1, 'exactly one instance, no accumulation from the toggle history');
 });
+
+// --- Inner "Full analytics" sub-panel independence --------------------------
+// The mounted dashboard has its own Close button on the "Full analytics" sub-panel
+// (separate from the main Performance Analytics toggle). Closing it must not be
+// silently undone by an unrelated re-render elsewhere on the card.
+
+test('closing the inner Full analytics sub-panel is not undone by an unrelated re-render', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  click(window, window.document.querySelector('[data-close-analytics]'));
+  await settle(window);
+  const closedPanel = window.document.getElementById('tb-analytics-panel');
+  assert.ok(closedPanel && closedPanel.hidden, 'inner panel closed');
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'mastery summary itself stays visible');
+
+  click(window, window.document.querySelector('[data-diagtimed]')); // unrelated re-render
+  await settle(window);
+
+  assert.equal(window.document.getElementById('tb-analytics-panel'), null, 'inner panel stays closed after the re-render, not silently reopened');
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'mastery summary is still restored');
+});
+
+test('re-clicking the inner Full analytics button after closing it reopens it, and that survives a re-render', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  click(window, window.document.querySelector('[data-close-analytics]'));
+  await settle(window);
+  click(window, window.document.querySelector('[data-open-analytics]'));
+  await settle(window);
+
+  let panel = window.document.getElementById('tb-analytics-panel');
+  assert.ok(panel && !panel.hidden, 'reopened via its own button');
+
+  click(window, window.document.querySelector('[data-diagtimed]'));
+  await settle(window);
+  panel = window.document.getElementById('tb-analytics-panel');
+  assert.ok(panel && !panel.hidden, 'stays open across a re-render after being explicitly reopened');
+});
+
+test('closing the whole feature via the main toggle works regardless of the inner sub-panel state', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  click(window, window.document.querySelector('[data-close-analytics]')); // close inner sub-panel only
+  await settle(window);
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'mastery summary still visible after the inner close');
+
+  click(window, window.document.querySelector('[data-perf-analytics]')); // close the whole feature
+  await settle(window);
+  assert.equal(window.document.getElementById('tb-adaptive-mastery'), null, 'entire feature closes regardless of the inner sub-panel state');
+  assert.equal(window.document.querySelector('[data-perf-analytics]').textContent, 'Performance Analytics');
+});
+
+test('a fresh open after a full close defaults to showing Full analytics again', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  const btn = window.document.querySelector('[data-perf-analytics]');
+  click(window, btn); // open
+  await settle(window);
+  click(window, window.document.querySelector('[data-close-analytics]')); // close inner only
+  await settle(window);
+  click(window, btn); // close whole feature (inner was already closed)
+  await settle(window);
+  click(window, btn); // reopen from scratch
+  await settle(window);
+
+  const panel = window.document.getElementById('tb-analytics-panel');
+  assert.ok(panel && !panel.hidden, 'a brand new open defaults to Full analytics visible again, not stuck closed from a prior session');
+});
