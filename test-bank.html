@@ -81,9 +81,12 @@
   .tb-mode-head p{font-size:13px;color:var(--muted);margin:0;line-height:1.45}
   .tb-mode-controls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:14px}
   .tb-ctl-label{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .tb-timing-choice{display:inline-flex;align-items:center;gap:10px;min-width:0}
   .tb-seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
   .tb-seg button{border:0;background:none;padding:8px 15px;font:inherit;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:.12s}
-  .tb-seg button.on{background:var(--teal);color:#fff}
+  .tb-seg button:hover:not(.on){background:color-mix(in srgb,var(--teal) 8%,var(--card));color:var(--ink)}
+  .tb-seg button:focus-visible{outline:2px solid var(--teal);outline-offset:-3px;position:relative;z-index:1}
+  .tb-seg button.on{background:var(--teal);color:#fff;box-shadow:inset 0 0 0 1px color-mix(in srgb,#fff 38%,transparent)}
   .tb-counts{display:inline-flex;gap:6px}
   .tb-count{border:1px solid var(--line);background:var(--card);border-radius:7px;min-width:42px;padding:7px 10px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;transition:.12s}
   .tb-count.on{border-color:var(--teal);background:var(--teal);color:#fff}
@@ -99,6 +102,7 @@
   .tb-mstart[disabled]{opacity:.5;cursor:not-allowed}
   .tb-mode-foot{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between}
   .tb-mode-sum{font-size:12.5px;color:var(--muted)} .tb-mode-sum b{color:var(--ink);font-weight:600}
+  .tb-time-summary{display:inline}
   .tb-start{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:8px;padding:9px 15px;font-weight:600;font-size:12.5px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;cursor:not-allowed}
   .tb-start .dot{width:6px;height:6px;border-radius:50%;background:#d99a2a;flex:none}
   .tb-requestlink{display:inline-block;font-weight:700;font-size:13.5px;color:var(--teal)}
@@ -117,6 +121,14 @@
   .tb-diag-cta{display:flex;flex-wrap:wrap;gap:10px}
   .tb-ghost{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:8px;padding:10px 16px;font:inherit;font-weight:600;font-size:13px;cursor:pointer}
   .tb-ghost:hover{border-color:var(--teal)}
+  @media(max-width:560px){
+    .tb-mode{padding:15px 14px}
+    .tb-mode-controls{gap:10px 12px}
+    .tb-timing-choice{max-width:100%}
+    .tb-select{max-width:100%}
+    .tb-diag-top{flex-wrap:wrap}
+    .tb-diag-cta>*{max-width:100%;white-space:normal}
+  }
   /* readiness ring */
   .tb-ring{--p:0;width:64px;height:64px;flex:none;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--rc,var(--teal)) calc(var(--p)*1%),color-mix(in srgb,var(--line) 60%,transparent) 0)}
   .tb-ring::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--card)}
@@ -258,12 +270,12 @@
     .tb-calcw{left:12px;right:12px;width:auto;bottom:12px}
   }
   @media(max-width:860px){
-    .tb-shell{grid-template-columns:1fr}
-    .tb-rail{order:-1}
+    .tb-shell{grid-template-columns:minmax(0,1fr)}
+    .tb-rail{order:-1;min-width:0;max-width:100%}
     .tb-railhead{display:flex;margin-bottom:10px}
-    .tb-groups{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+    .tb-groups{display:flex;gap:8px;min-width:0;max-width:100%;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
     .tb-group{display:contents} .tb-group .gl{display:none}
-    .tb-tile{flex:0 0 auto;grid-template-columns:auto auto;align-items:center;gap:9px;padding:9px 12px;margin-bottom:0}
+    .tb-tile{width:auto;flex:0 0 auto;grid-template-columns:auto auto;align-items:center;gap:9px;padding:9px 12px;margin-bottom:0}
     .tb-tile .tb-badge{width:32px;height:32px;font-size:10px;align-self:center}
     .tb-tile .tb-tm,.tb-tile .tb-tag{display:none}
     .tb-tinfo{gap:0} .tb-tn{white-space:nowrap;font-size:13px}
@@ -3024,7 +3036,7 @@
   }
   function fmtClock(sec){sec=Math.max(0,Math.floor(sec));var h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s2=sec%60;var mm=(h?String(m).padStart(2,'0'):String(m)),ss=String(s2).padStart(2,'0');return (h?h+':':'')+mm+':'+ss;}
 
-  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,renderQuestionChart:renderQuestionChart};
+  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart};
 
   /* ---------- rail ---------- */
   function renderRail(){
@@ -3048,9 +3060,43 @@
 
   /* ---------- practice modes (overview) ---------- */
   var NUMS=[10,20,30,50];
-  var mode={timed:true,quickN:20,focusDom:null,focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};
-  function resetMode(){mode={timed:true,quickN:20,focusDom:EXAMS[current].bok[0].domain,focusN:20,quickUnseen:false,focusUnseen:false};selectedSet='1';}
+  var mode={timed:true,quickTimed:false,focusTimed:false,quickN:20,focusDom:null,focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};
+  function resetMode(){mode={timed:true,quickTimed:false,focusTimed:false,quickN:20,focusDom:EXAMS[current].bok[0].domain,focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};selectedSet='1';}
   function fmtDur(min){var h=Math.floor(min/60),m=min%60;return (h?h+'h':'')+(h&&m?' ':'')+(m?m+'m':'');}
+  /* The exam definition is the single timing authority for every timed session. A future
+     timing-policy change therefore updates all quiz paths from one calculation. */
+  function quizDurationSeconds(e,count){return Math.max(0,Math.round(count*e.minutes*60/e.questions));}
+  function fmtQuizDuration(seconds){
+    seconds=Math.max(0,Math.round(seconds));
+    var h=Math.floor(seconds/3600),m=Math.floor((seconds%3600)/60),s=seconds%60,parts=[];
+    if(h)parts.push(h+' hr');
+    if(m)parts.push(m+' min');
+    if(s||!parts.length)parts.push((parts.length?String(s).padStart(2,'0'):s)+' sec');
+    return parts.join(' ');
+  }
+  function timingSummary(e,count,timed){
+    return timed&&count?'<span class="tb-time-summary"> &middot; Timed: <b>'+fmtQuizDuration(quizDurationSeconds(e,count))+'</b></span>':'';
+  }
+  function timingControlHTML(kind,timed){
+    var names={full:'Full Exam',quick:'Quick Quiz',focus:'Focused Quiz'};
+    return '<span class="tb-timing-choice"><span class="tb-ctl-label">Timing</span>'+
+      '<span class="tb-seg" role="group" aria-label="'+names[kind]+' timing" data-timing-group="'+kind+'">'+
+        '<button type="button" data-timing-kind="'+kind+'" data-timed="1" class="'+(timed?'on':'')+'" aria-pressed="'+timed+'">Timed</button>'+
+        '<button type="button" data-timing-kind="'+kind+'" data-timed="0" class="'+(timed?'':'on')+'" aria-pressed="'+(!timed)+'">Untimed</button></span></span>';
+  }
+  function setTiming(kind,timed){if(kind==='full')mode.timed=timed;else if(kind==='quick')mode.quickTimed=timed;else mode.focusTimed=timed;}
+  function wireTimingKeyboard(group){
+    group.addEventListener('keydown',function(event){
+      if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].indexOf(event.key)<0)return;
+      var buttons=Array.prototype.slice.call(group.querySelectorAll('[data-timed]'));
+      var currentIndex=buttons.indexOf(event.target);if(currentIndex<0)return;
+      event.preventDefault();
+      var nextIndex=(event.key==='ArrowLeft'||event.key==='ArrowUp'||event.key==='Home')?0:buttons.length-1;
+      var kind=group.dataset.timingGroup,value=buttons[nextIndex].dataset.timed;
+      buttons[nextIndex].click();
+      requestAnimationFrame(function(){var replacement=document.querySelector('[data-timing-group="'+kind+'"] [data-timed="'+value+'"]');if(replacement)replacement.focus();});
+    });
+  }
   function counts(kind,val){return '<span class="tb-counts" role="group" aria-label="Number of questions">'+NUMS.map(function(n){
     return '<button type="button" class="tb-count'+(n===val?' on':'')+'" data-count="'+kind+'" data-n="'+n+'" aria-pressed="'+(n===val)+'">'+n+'</button>';}).join('')+'</span>';}
   function startBtn(){return '<span class="tb-start"><span class="dot"></span>Start &middot; Coming soon</span>';}
@@ -3067,9 +3113,7 @@
     var live=hasBank(e);
     var full='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u25A4</span>'+
       '<div><h4>'+(live?(hasTwoSets(e)?setLabel():(e.setName||'Full Exam'))+' \u2014 Full Exam':'Full Exam')+'</h4><p>All '+e.questions+' questions across every area, weighted to match the real exam.</p></div></div>'+
-      '<div class="tb-mode-controls"><span class="tb-ctl-label">Timing</span>'+
-        '<span class="tb-seg" role="group" aria-label="Timing"><button type="button" data-timed="1" class="'+(mode.timed?'on':'')+'" aria-pressed="'+mode.timed+'">Timed</button>'+
-        '<button type="button" data-timed="0" class="'+(mode.timed?'':'on')+'" aria-pressed="'+(!mode.timed)+'">Untimed</button></span></div>'+
+      '<div class="tb-mode-controls">'+timingControlHTML('full',mode.timed)+'</div>'+
       '<div class="tb-mode-foot"><span class="tb-mode-sum">'+
         (mode.timed?'Strict <b>'+fmtDur(e.minutes)+'</b> limit &mdash; mirrors the real exam.':'<b>No time limit</b> &mdash; work at your own pace.')+
         '</span>'+(live?liveStart('full','Start '+examNoun(e)):startBtn())+'</div></div>';
@@ -3086,18 +3130,20 @@
         ? (quickMissedAvail
             ? 'Random <b>'+quickEffN+'</b> previously missed question'+(quickEffN===1?'':'s')+' from <b>Mixed (all sets)</b> across the whole Body of Knowledge, ignoring the Set selection above.'+(quickMissedAvail<mode.quickN?' Only <b>'+quickMissedAvail+'</b> missed question'+(quickMissedAvail===1?'':'s')+' remain.':'')
             : 'No previously missed questions remain in Mixed (all sets).')
-        : 'Random <b>'+mode.quickN+'</b> questions from the whole Body of Knowledge.';
+        : 'Random <b>'+mode.quickN+'</b> questions from <b>'+esc(activeSetLabel(e))+'</b> across the whole Body of Knowledge.';
+    quickSum+=timingSummary(e,quickEffN,mode.quickTimed);
     var quick='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u26A1</span>'+
       '<div><h4>Quick Quiz</h4><p>A randomized set drawn from the entire Body of Knowledge &mdash; a fast check.</p></div></div>'+
-      '<div class="tb-mode-controls" data-unseen-active="'+(!!mode.quickUnseen)+'" data-missed-active="'+(!!mode.quickMissed)+'"><span class="tb-ctl-label">Questions</span>'+counts('quick',mode.quickN)+unseenToggleHTML('quick',mode.quickUnseen)+missedToggleHTML('quick',mode.quickMissed,quickMissedTotal===0&&!mode.quickMissed)+'</div>'+
+      '<div class="tb-mode-controls" data-unseen-active="'+(!!mode.quickUnseen)+'" data-missed-active="'+(!!mode.quickMissed)+'"><span class="tb-ctl-label">Questions</span>'+counts('quick',mode.quickN)+timingControlHTML('quick',mode.quickTimed)+unseenToggleHTML('quick',mode.quickUnseen)+missedToggleHTML('quick',mode.quickMissed,quickMissedTotal===0&&!mode.quickMissed)+'</div>'+
       '<div class="tb-mode-foot"><span class="tb-mode-sum">'+quickSum+'</span>'+(live?liveStart('quick','Start quiz',(mode.quickUnseen&&quickAvail===0)||(mode.quickMissed&&quickMissedAvail===0)):startBtn())+'</div></div>';
 
     var opts=e.bok.map(function(x){return '<option value="'+x.domain+'"'+(x.domain===mode.focusDom?' selected':'')+'>'+esc(DM[x.domain].name)+'</option>';}).join('');
     var focusName=DM[mode.focusDom]?DM[mode.focusDom].name:'';
+    var focusPoolTotal=live?activeBank(e).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:mode.focusN;
     var focusAvail=live&&mode.focusUnseen?unseenOnly(mixedBank(e)).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:null;
     var focusMissedTotal=live?missedOnly(mixedBank(e)).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:0;
     var focusMissedAvail=live&&mode.focusMissed?focusMissedTotal:null;
-    var focusEffN=mode.focusUnseen?Math.min(mode.focusN,focusAvail||0):mode.focusMissed?Math.min(mode.focusN,focusMissedAvail||0):mode.focusN;
+    var focusEffN=mode.focusUnseen?Math.min(mode.focusN,focusAvail||0):mode.focusMissed?Math.min(mode.focusN,focusMissedAvail||0):Math.min(mode.focusN,focusPoolTotal);
     var focusSum=mode.focusUnseen
       ? (focusAvail
           ? 'Random <b>'+focusEffN+'</b> new question'+(focusEffN===1?'':'s')+' from <b>'+esc(focusName)+'</b> in <b>Mixed (all sets)</b>, ignoring the Set selection above.'+(focusAvail<mode.focusN?' Only <b>'+focusAvail+'</b> unseen question'+(focusAvail===1?'':'s')+' remain in this area.':'')
@@ -3106,11 +3152,12 @@
         ? (focusMissedAvail
             ? 'Random <b>'+focusEffN+'</b> previously missed question'+(focusEffN===1?'':'s')+' from <b>'+esc(focusName)+'</b> in <b>Mixed (all sets)</b>, ignoring the Set selection above.'+(focusMissedAvail<mode.focusN?' Only <b>'+focusMissedAvail+'</b> missed question'+(focusMissedAvail===1?'':'s')+' remain in this area.':'')
             : 'No previously missed questions remain in <b>'+esc(focusName)+'</b>.')
-        : 'Random <b>'+mode.focusN+'</b> questions from <b>'+esc(focusName)+'</b>.';
+        : 'Random '+(focusPoolTotal<mode.focusN?'up to <b>'+mode.focusN+'</b> questions':'<b>'+focusEffN+'</b> question'+(focusEffN===1?'':'s'))+' from <b>'+esc(focusName)+'</b> in <b>'+esc(activeSetLabel(e))+'</b>.'+(focusPoolTotal<mode.focusN?' Only <b>'+focusPoolTotal+'</b> question'+(focusPoolTotal===1?' is':'s are')+' available in this area for '+esc(activeSetLabel(e))+'.':'');
+    focusSum+=timingSummary(e,focusEffN,mode.focusTimed);
     var focus='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u25CE</span>'+
       '<div><h4>Focused Quiz</h4><p>Drill a single area of the Body of Knowledge you want to strengthen.</p></div></div>'+
       '<div class="tb-mode-controls" data-unseen-active="'+(!!mode.focusUnseen)+'" data-missed-active="'+(!!mode.focusMissed)+'"><span class="tb-ctl-label">Area</span><select class="tb-select" data-focusdom aria-label="Body of Knowledge area">'+opts+'</select>'+
-        '<span class="tb-ctl-label">Questions</span>'+counts('focus',mode.focusN)+unseenToggleHTML('focus',mode.focusUnseen)+missedToggleHTML('focus',mode.focusMissed,focusMissedTotal===0&&!mode.focusMissed)+'</div>'+
+        '<span class="tb-ctl-label">Questions</span>'+counts('focus',mode.focusN)+timingControlHTML('focus',mode.focusTimed)+unseenToggleHTML('focus',mode.focusUnseen)+missedToggleHTML('focus',mode.focusMissed,focusMissedTotal===0&&!mode.focusMissed)+'</div>'+
       '<div class="tb-mode-foot"><span class="tb-mode-sum">'+focusSum+'</span>'+(live?liveStart('focus','Start quiz',(mode.focusUnseen&&focusAvail===0)||(mode.focusMissed&&focusMissedAvail===0)):startBtn())+'</div></div>';
     return full+quick+focus;
   }
@@ -3141,7 +3188,8 @@
     Array.prototype.forEach.call(host.querySelectorAll('[data-diagtimed]'),function(b){b.addEventListener('click',function(){diagTimed=b.dataset.diagtimed==='1';renderMain();});});
     var prac=host.querySelector('[data-practice]');if(prac)prac.addEventListener('click',function(){startPractice();});
     var perf=host.querySelector('[data-perf-analytics]');if(perf)perf.addEventListener('click',function(){togglePerfAnalytics();});
-    Array.prototype.forEach.call(host.querySelectorAll('[data-timed]'),function(b){b.addEventListener('click',function(){mode.timed=b.dataset.timed==='1';renderMain();});});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-timing-kind]'),function(b){b.addEventListener('click',function(){setTiming(b.dataset.timingKind,b.dataset.timed==='1');renderMain();});});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-timing-group]'),wireTimingKeyboard);
     Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){b.addEventListener('click',function(){var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderMain();});});
     var sel=host.querySelector('[data-focusdom]');if(sel)sel.addEventListener('change',function(){mode.focusDom=sel.value;renderMain();});
     Array.prototype.forEach.call(host.querySelectorAll('[data-unseen]'),function(b){b.addEventListener('click',function(){if(b.dataset.unseen==='quick'){mode.quickUnseen=!mode.quickUnseen;if(mode.quickUnseen)mode.quickMissed=false;}else{mode.focusUnseen=!mode.focusUnseen;if(mode.focusUnseen)mode.focusMissed=false;}renderMain();});});
@@ -3179,15 +3227,21 @@
   /* ---------- quiz player ---------- */
   function pickStratified(bank,perArea){var by={};bank.forEach(function(q){(by[q.sub]=by[q.sub]||[]).push(q);});var out=[];for(var k in by){var arr=by[k].slice();shuffle(arr);out=out.concat(arr.slice(0,Math.min(perArea,arr.length)));}return shuffle(out);}
   function diagCount(e){var b=activeBank(e);return Math.min(b.length,pickStratified(b,2).length);}
-  function beginSession(e,items,kind,timed,limit){buildTools();session={kind:kind,items:items.map(function(q){return {q:q};}),answers:{},flags:{},i:0,timed:!!timed,limit:limit||null,endsAt:timed?Date.now()+(limit||e.minutes)*60000:null};view='quiz';renderMain();startTimer();}
-  function startDiagnostic(){var e=EXAMS[current];var qs=pickStratified(activeBank(e),2);var limit=Math.round(qs.length*e.minutes/e.questions);beginSession(e,qs,'diagnostic',diagTimed,limit);}
-  function startFull(){var e=EXAMS[current];var qs=activeBank(e).slice();shuffle(qs);qs=qs.slice(0,e.questions);beginSession(e,qs,'exam',mode.timed,e.minutes);}
+  function beginSession(e,items,kind,timed,limitSeconds){
+    buildTools();
+    var durationSeconds=timed?(limitSeconds==null?quizDurationSeconds(e,items.length):limitSeconds):null;
+    session={kind:kind,items:items.map(function(q){return {q:q};}),answers:{},flags:{},i:0,timed:!!timed,limitSeconds:durationSeconds,endsAt:timed?Date.now()+durationSeconds*1000:null};
+    view='quiz';renderMain();startTimer();
+  }
+  function startDiagnostic(){var e=EXAMS[current];var qs=pickStratified(activeBank(e),2);beginSession(e,qs,'diagnostic',diagTimed,Math.round(qs.length*e.minutes/e.questions)*60);}
+  function startFull(){var e=EXAMS[current];var qs=activeBank(e).slice();shuffle(qs);qs=qs.slice(0,e.questions);beginSession(e,qs,'exam',mode.timed,e.minutes*60);}
   function startQuick(){
     var e=EXAMS[current];
     var qs=mode.quickUnseen?unseenOnly(mixedBank(e)):mode.quickMissed?missedOnly(mixedBank(e)):activeBank(e).slice();
     if((mode.quickUnseen||mode.quickMissed)&&!qs.length)return;
     shuffle(qs);
-    beginSession(e,qs.slice(0,Math.min(mode.quickN,qs.length)),'quiz',false,null);
+    qs=qs.slice(0,Math.min(mode.quickN,qs.length));
+    beginSession(e,qs,'quiz',mode.quickTimed,quizDurationSeconds(e,qs.length));
   }
   function startFocused(){
     var e=EXAMS[current];
@@ -3195,7 +3249,8 @@
     var qs=base.filter(function(q){return domainOf(e,q.sub)===mode.focusDom;});
     if((mode.focusUnseen||mode.focusMissed)&&!qs.length)return;
     shuffle(qs);
-    beginSession(e,qs.slice(0,Math.min(mode.focusN,qs.length)),'quiz',false,null);
+    qs=qs.slice(0,Math.min(mode.focusN,qs.length));
+    beginSession(e,qs,'quiz',mode.focusTimed,quizDurationSeconds(e,qs.length));
   }
   function startPractice(){var e=EXAMS[current];var b=activeBank(e);var st=loadState(current);var due=st?dueSubs(st.subState,Date.now()):[];var dueSet={};due.forEach(function(id){dueSet[id]=1;});var agg=st&&st.subState?masteryAgg(st.subState):{};var picks=weightedPick(b,agg,Math.min(10,b.length),dueSet);beginSession(e,picks,'practice',false,null);}
   function masteryAgg(subState){var agg={};for(var id in subState){var m=subState[id].mastery;agg[id]={c:m,t:1};}return agg;}

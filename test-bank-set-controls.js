@@ -17,11 +17,6 @@
     return active ? active.dataset.set : '1';
   }
 
-  function activeSetName(value) {
-    const match = SETS.find(function (item) { return item.value === value; });
-    return match ? match.name : 'Set 1';
-  }
-
   function availableSets(overview) {
     return SETS.filter(function (item) {
       return Boolean(overview.querySelector('.tb-setpick [data-set="' + item.value + '"]'));
@@ -67,40 +62,7 @@
     return fragment;
   }
 
-  function appendBold(parent, value) {
-    const bold = document.createElement('b');
-    bold.textContent = value;
-    parent.appendChild(bold);
-  }
-
-  function updateSummary(card, kind, setName) {
-    const summary = card.querySelector('.tb-mode-sum');
-    if (!summary) return;
-
-    const boldValues = Array.from(summary.querySelectorAll('b')).map(function (node) {
-      return node.textContent.trim();
-    });
-    const count = boldValues[0] || '20';
-    const area = kind === 'focus' ? (boldValues[1] || 'the selected area') : '';
-    const desiredText = kind === 'quick'
-      ? 'Random ' + count + ' questions from ' + setName + ' across the whole Body of Knowledge.'
-      : 'Random ' + count + ' questions from ' + area + ' in ' + setName + '.';
-
-    if (summary.textContent.replace(/\s+/g, ' ').trim() === desiredText) return;
-
-    summary.replaceChildren();
-    summary.append('Random ');
-    appendBold(summary, count);
-    summary.append(' questions from ');
-    if (kind === 'focus') {
-      appendBold(summary, area);
-      summary.append(' in ');
-    }
-    appendBold(summary, setName);
-    summary.append(kind === 'quick' ? ' across the whole Body of Knowledge.' : '.');
-  }
-
-  function enhanceCard(overview, card, kind, setName) {
+  function enhanceCard(overview, card, kind) {
     const description = card.querySelector('.tb-mode-head p');
     const controls = card.querySelector('.tb-mode-controls');
     if (!controls) return;
@@ -134,10 +96,8 @@
       button.title = setButtonTitle;
     });
 
-    // The core script owns the summary text while "New questions only" or "Missed questions
-    // only" is on (it needs to report the live unseen/missed question count); don't fight it.
-    if (poolOverrideActive) return;
-    updateSummary(card, kind, setName);
+    // The core simulator owns the summary, including Set, filtered counts, and timed duration.
+    // This enhancer only mirrors the page-level Set choice inside each quiz card.
   }
 
   function enhance() {
@@ -145,13 +105,12 @@
     const overview = document.getElementById(OVERVIEW_ID);
     if (!overview || !overview.querySelector('.tb-setpick [data-set]')) return;
 
-    const activeName = activeSetName(activeSetValue(overview));
     Array.from(overview.querySelectorAll('.tb-mode')).forEach(function (card) {
       const title = card.querySelector('h4');
       if (!title) return;
       const name = title.textContent.trim();
-      if (name === 'Quick Quiz') enhanceCard(overview, card, 'quick', activeName);
-      if (name === 'Focused Quiz') enhanceCard(overview, card, 'focus', activeName);
+      if (name === 'Quick Quiz') enhanceCard(overview, card, 'quick');
+      if (name === 'Focused Quiz') enhanceCard(overview, card, 'focus');
     });
   }
 

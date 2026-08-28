@@ -8,6 +8,7 @@ const path = require('node:path');
 const ROOT = path.join(__dirname, '..');
 const edge = fs.readFileSync(path.join(ROOT, 'netlify/edge-functions/test-bank-mobile-picker.js'), 'utf8');
 const netlify = fs.readFileSync(path.join(ROOT, 'netlify.toml'), 'utf8');
+const page = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
 
 // Regression coverage for the mobile-only certification selector.
 test('registers the mobile picker for pretty and explicit test-bank URLs', () => {
@@ -42,4 +43,7 @@ test('keeps the mobile dropdown synchronized when the certification rail rerende
 test('constrains key mobile containers to the viewport to prevent horizontal page overflow', () => {
   assert.match(edge, /\.tb-shell,\.tb-main,\.tb-rail,\.tb-pane\{min-width:0;max-width:100%\}/);
   assert.match(edge, /select\{display:block;width:100%;max-width:100%;min-height:48px;box-sizing:border-box/);
+  assert.match(page, /\.tb-shell\{grid-template-columns:minmax\(0,1fr\)\}/);
+  assert.match(page, /\.tb-tile\{width:auto;flex:0 0 auto/);
+  assert.match(page, /\.tb-diag-cta>\*\{max-width:100%;white-space:normal\}/);
 });
