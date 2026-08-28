@@ -105,9 +105,11 @@
     const controls = card.querySelector('.tb-mode-controls');
     if (!controls) return;
 
-    // "New questions only" always draws from the pooled Mixed bank, independent
-    // of this Set picker, so the Set choice is moot while it's on.
+    // "New questions only" and "Missed questions only" both always draw from the pooled
+    // Mixed bank, independent of this Set picker, so the Set choice is moot while either is on.
     const unseenActive = controls.getAttribute('data-unseen-active') === 'true';
+    const missedActive = controls.getAttribute('data-missed-active') === 'true';
+    const poolOverrideActive = unseenActive || missedActive;
 
     if (description) {
       const nextDescription = kind === 'quick'
@@ -121,15 +123,20 @@
       controls.insertBefore(createSetControls(overview, kind), controls.firstChild);
     }
 
+    const setButtonTitle = unseenActive
+      ? 'Ignored while New questions only is on \u2014 that always draws from Mixed.'
+      : missedActive
+        ? 'Ignored while Missed questions only is on \u2014 that always draws from Mixed.'
+        : '';
     Array.prototype.forEach.call(controls.querySelectorAll('[data-quiz-set="' + kind + '"]'), function (button) {
-      button.disabled = unseenActive;
-      button.setAttribute('aria-disabled', String(unseenActive));
-      button.title = unseenActive ? 'Ignored while New questions only is on \u2014 that always draws from Mixed.' : '';
+      button.disabled = poolOverrideActive;
+      button.setAttribute('aria-disabled', String(poolOverrideActive));
+      button.title = setButtonTitle;
     });
 
-    // The core script owns the summary text while "New questions only" is on
-    // (it needs to report the live unseen-question count); don't fight it.
-    if (unseenActive) return;
+    // The core script owns the summary text while "New questions only" or "Missed questions
+    // only" is on (it needs to report the live unseen/missed question count); don't fight it.
+    if (poolOverrideActive) return;
     updateSummary(card, kind, setName);
   }
 

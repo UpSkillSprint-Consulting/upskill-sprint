@@ -538,6 +538,18 @@
     });
   }
 
+  // "Historically missed": any question with at least one incorrect attempt, ever -- even if
+  // later answered correctly and now well-mastered. Distinct from the Mistake Notebook's
+  // "still shaky" definition (last-attempt-wrong OR below the mastery threshold), which drops
+  // a question once it's been nailed a couple of times in a row.
+  function missedFilter(questions) {
+    const store = readStore();
+    const data = examStore(store);
+    return asArray(questions).filter(function (question) {
+      return question && stateFor(question, data).incorrect > 0;
+    });
+  }
+
   function dueQuestions(data, timestamp) {
     return allQuestions().filter(function (question) {
       const state = stateFor(question, data);
@@ -961,6 +973,7 @@
     store: readStore,
     recordResults: recordResults,
     unattemptedFilter: unattemptedFilter,
+    missedFilter: missedFilter,
     renderStandalone: renderStandalone
   };
 
