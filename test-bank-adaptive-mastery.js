@@ -684,6 +684,25 @@
     feedback.insertAdjacentHTML('beforeend', dashboardMarkup(data));
   }
 
+  // Same mount as renderDashboard, but into an arbitrary container instead of requiring
+  // #tb-feedback-loop (which only exists right after a live, in-session results screen).
+  // Reads the same persisted mastery store, so it works from a fresh page load too.
+  // Idempotent: returns the existing #tb-adaptive-mastery node if one is already mounted.
+  function renderStandalone(container) {
+    if (!container) return null;
+    const existing = document.getElementById('tb-adaptive-mastery');
+    if (existing) return existing;
+    ensureStyles();
+    const store = readStore();
+    const data = examStore(store);
+    const holder = document.createElement('div');
+    holder.innerHTML = dashboardMarkup(data);
+    const node = holder.firstElementChild;
+    if (!node) return null;
+    container.appendChild(node);
+    return node;
+  }
+
   function adaptiveQuestionMarkup(question, index, total) {
     const store = readStore();
     const data = examStore(store);
@@ -941,7 +960,8 @@
     improvement: function () { const store = readStore(); return improvement(examStore(store)); },
     store: readStore,
     recordResults: recordResults,
-    unattemptedFilter: unattemptedFilter
+    unattemptedFilter: unattemptedFilter,
+    renderStandalone: renderStandalone
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });
