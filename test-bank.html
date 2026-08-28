@@ -95,6 +95,7 @@
   .tb-unseen.on{border-color:var(--teal);color:var(--ink)}
   .tb-unseen.on .sw{background:var(--teal)}
   .tb-unseen.on .sw::after{left:13px}
+  .tb-unseen[disabled]{opacity:.45;cursor:not-allowed}
   .tb-mstart[disabled]{opacity:.5;cursor:not-allowed}
   .tb-mode-foot{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between}
   .tb-mode-sum{font-size:12.5px;color:var(--muted)} .tb-mode-sum b{color:var(--ink);font-weight:600}
@@ -2906,6 +2907,17 @@
     }
     return list;
   }
+  /* filters to questions ever answered incorrectly, per the adaptive mastery store.
+     unlike unseenOnly, falls back to an EMPTY list (not the unfiltered list) if that module
+     hasn't loaded yet — the "Missed questions only" toggle greys itself out based on this
+     count, so treating "data not ready" as "nothing missed" keeps it safely disabled rather
+     than showing a misleading enabled toggle backed by no real data. */
+  function missedOnly(list){
+    if(window.__TBAdaptiveMastery&&typeof window.__TBAdaptiveMastery.missedFilter==='function'){
+      return window.__TBAdaptiveMastery.missedFilter(list);
+    }
+    return [];
+  }
   function setLabel(){return selectedSet==='2'?'Set 2':selectedSet==='3'?'Set 3':selectedSet==='mix'?'Mixed (all sets)':'Set 1';}
   function setCount(e){return (e&&e.sets&&e.sets[1])?(e.sets[3]?3:(e.sets[2]?2:1)):0;}
   function setsAvailLabel(e){var n=setCount(e);return n>=2?(n+' exam sets'):(e.setName||'Live');}
@@ -3036,7 +3048,7 @@
 
   /* ---------- practice modes (overview) ---------- */
   var NUMS=[10,20,30,50];
-  var mode={timed:true,quickN:20,focusDom:null,focusN:20,quickUnseen:false,focusUnseen:false};
+  var mode={timed:true,quickN:20,focusDom:null,focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};
   function resetMode(){mode={timed:true,quickN:20,focusDom:EXAMS[current].bok[0].domain,focusN:20,quickUnseen:false,focusUnseen:false};selectedSet='1';}
   function fmtDur(min){var h=Math.floor(min/60),m=min%60;return (h?h+'h':'')+(h&&m?' ':'')+(m?m+'m':'');}
   function counts(kind,val){return '<span class="tb-counts" role="group" aria-label="Number of questions">'+NUMS.map(function(n){
@@ -3045,6 +3057,11 @@
   function liveStart(m,label,disabled){return '<button type="button" class="btn btn-teal tb-mstart" data-mode="'+m+'"'+(disabled?' disabled aria-disabled="true"':'')+'>'+label+' &rarr;</button>';}
   function unseenToggleHTML(kind,on){
     return '<button type="button" class="tb-unseen'+(on?' on':'')+'" data-unseen="'+kind+'" aria-pressed="'+on+'"><span class="sw"></span>New questions only</button>';
+  }
+  function missedToggleHTML(kind,on,disabled){
+    return '<button type="button" class="tb-unseen'+(on?' on':'')+'" data-missed="'+kind+'" aria-pressed="'+on+'"'+
+      (disabled?' disabled aria-disabled="true" title="You haven\u2019t missed any questions yet"':'')+
+      '><span class="sw"></span>Missed questions only</button>';
   }
   function modesHTML(e){
     var live=hasBank(e);
@@ -3058,31 +3075,43 @@
         '</span>'+(live?liveStart('full','Start '+examNoun(e)):startBtn())+'</div></div>';
 
     var quickAvail=live&&mode.quickUnseen?unseenOnly(mixedBank(e)).length:null;
-    var quickEffN=mode.quickUnseen?Math.min(mode.quickN,quickAvail||0):mode.quickN;
+    var quickMissedTotal=live?missedOnly(mixedBank(e)).length:0;
+    var quickMissedAvail=live&&mode.quickMissed?quickMissedTotal:null;
+    var quickEffN=mode.quickUnseen?Math.min(mode.quickN,quickAvail||0):mode.quickMissed?Math.min(mode.quickN,quickMissedAvail||0):mode.quickN;
     var quickSum=mode.quickUnseen
       ? (quickAvail
           ? 'Random <b>'+quickEffN+'</b> new question'+(quickEffN===1?'':'s')+' from <b>Mixed (all sets)</b> across the whole Body of Knowledge, ignoring the Set selection above.'+(quickAvail<mode.quickN?' Only <b>'+quickAvail+'</b> unseen question'+(quickAvail===1?'':'s')+' remain.':'')
           : 'You\u2019ve attempted every question in Mixed (all sets). Turn off New questions only to review previously seen questions.')
-      : 'Random <b>'+mode.quickN+'</b> questions from the whole Body of Knowledge.';
+      : mode.quickMissed
+        ? (quickMissedAvail
+            ? 'Random <b>'+quickEffN+'</b> previously missed question'+(quickEffN===1?'':'s')+' from <b>Mixed (all sets)</b> across the whole Body of Knowledge, ignoring the Set selection above.'+(quickMissedAvail<mode.quickN?' Only <b>'+quickMissedAvail+'</b> missed question'+(quickMissedAvail===1?'':'s')+' remain.':'')
+            : 'No previously missed questions remain in Mixed (all sets).')
+        : 'Random <b>'+mode.quickN+'</b> questions from the whole Body of Knowledge.';
     var quick='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u26A1</span>'+
       '<div><h4>Quick Quiz</h4><p>A randomized set drawn from the entire Body of Knowledge &mdash; a fast check.</p></div></div>'+
-      '<div class="tb-mode-controls" data-unseen-active="'+(!!mode.quickUnseen)+'"><span class="tb-ctl-label">Questions</span>'+counts('quick',mode.quickN)+unseenToggleHTML('quick',mode.quickUnseen)+'</div>'+
-      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+quickSum+'</span>'+(live?liveStart('quick','Start quiz',mode.quickUnseen&&quickAvail===0):startBtn())+'</div></div>';
+      '<div class="tb-mode-controls" data-unseen-active="'+(!!mode.quickUnseen)+'" data-missed-active="'+(!!mode.quickMissed)+'"><span class="tb-ctl-label">Questions</span>'+counts('quick',mode.quickN)+unseenToggleHTML('quick',mode.quickUnseen)+missedToggleHTML('quick',mode.quickMissed,quickMissedTotal===0&&!mode.quickMissed)+'</div>'+
+      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+quickSum+'</span>'+(live?liveStart('quick','Start quiz',(mode.quickUnseen&&quickAvail===0)||(mode.quickMissed&&quickMissedAvail===0)):startBtn())+'</div></div>';
 
     var opts=e.bok.map(function(x){return '<option value="'+x.domain+'"'+(x.domain===mode.focusDom?' selected':'')+'>'+esc(DM[x.domain].name)+'</option>';}).join('');
     var focusName=DM[mode.focusDom]?DM[mode.focusDom].name:'';
     var focusAvail=live&&mode.focusUnseen?unseenOnly(mixedBank(e)).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:null;
-    var focusEffN=mode.focusUnseen?Math.min(mode.focusN,focusAvail||0):mode.focusN;
+    var focusMissedTotal=live?missedOnly(mixedBank(e)).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:0;
+    var focusMissedAvail=live&&mode.focusMissed?focusMissedTotal:null;
+    var focusEffN=mode.focusUnseen?Math.min(mode.focusN,focusAvail||0):mode.focusMissed?Math.min(mode.focusN,focusMissedAvail||0):mode.focusN;
     var focusSum=mode.focusUnseen
       ? (focusAvail
           ? 'Random <b>'+focusEffN+'</b> new question'+(focusEffN===1?'':'s')+' from <b>'+esc(focusName)+'</b> in <b>Mixed (all sets)</b>, ignoring the Set selection above.'+(focusAvail<mode.focusN?' Only <b>'+focusAvail+'</b> unseen question'+(focusAvail===1?'':'s')+' remain in this area.':'')
           : 'You\u2019ve attempted every question in <b>'+esc(focusName)+'</b> across Mixed (all sets). Turn off New questions only to review previously seen questions.')
-      : 'Random <b>'+mode.focusN+'</b> questions from <b>'+esc(focusName)+'</b>.';
+      : mode.focusMissed
+        ? (focusMissedAvail
+            ? 'Random <b>'+focusEffN+'</b> previously missed question'+(focusEffN===1?'':'s')+' from <b>'+esc(focusName)+'</b> in <b>Mixed (all sets)</b>, ignoring the Set selection above.'+(focusMissedAvail<mode.focusN?' Only <b>'+focusMissedAvail+'</b> missed question'+(focusMissedAvail===1?'':'s')+' remain in this area.':'')
+            : 'No previously missed questions remain in <b>'+esc(focusName)+'</b>.')
+        : 'Random <b>'+mode.focusN+'</b> questions from <b>'+esc(focusName)+'</b>.';
     var focus='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u25CE</span>'+
       '<div><h4>Focused Quiz</h4><p>Drill a single area of the Body of Knowledge you want to strengthen.</p></div></div>'+
-      '<div class="tb-mode-controls" data-unseen-active="'+(!!mode.focusUnseen)+'"><span class="tb-ctl-label">Area</span><select class="tb-select" data-focusdom aria-label="Body of Knowledge area">'+opts+'</select>'+
-        '<span class="tb-ctl-label">Questions</span>'+counts('focus',mode.focusN)+unseenToggleHTML('focus',mode.focusUnseen)+'</div>'+
-      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+focusSum+'</span>'+(live?liveStart('focus','Start quiz',mode.focusUnseen&&focusAvail===0):startBtn())+'</div></div>';
+      '<div class="tb-mode-controls" data-unseen-active="'+(!!mode.focusUnseen)+'" data-missed-active="'+(!!mode.focusMissed)+'"><span class="tb-ctl-label">Area</span><select class="tb-select" data-focusdom aria-label="Body of Knowledge area">'+opts+'</select>'+
+        '<span class="tb-ctl-label">Questions</span>'+counts('focus',mode.focusN)+unseenToggleHTML('focus',mode.focusUnseen)+missedToggleHTML('focus',mode.focusMissed,focusMissedTotal===0&&!mode.focusMissed)+'</div>'+
+      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+focusSum+'</span>'+(live?liveStart('focus','Start quiz',(mode.focusUnseen&&focusAvail===0)||(mode.focusMissed&&focusMissedAvail===0)):startBtn())+'</div></div>';
     return full+quick+focus;
   }
 
@@ -3115,7 +3144,8 @@
     Array.prototype.forEach.call(host.querySelectorAll('[data-timed]'),function(b){b.addEventListener('click',function(){mode.timed=b.dataset.timed==='1';renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){b.addEventListener('click',function(){var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderMain();});});
     var sel=host.querySelector('[data-focusdom]');if(sel)sel.addEventListener('change',function(){mode.focusDom=sel.value;renderMain();});
-    Array.prototype.forEach.call(host.querySelectorAll('[data-unseen]'),function(b){b.addEventListener('click',function(){if(b.dataset.unseen==='quick')mode.quickUnseen=!mode.quickUnseen;else mode.focusUnseen=!mode.focusUnseen;renderMain();});});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-unseen]'),function(b){b.addEventListener('click',function(){if(b.dataset.unseen==='quick'){mode.quickUnseen=!mode.quickUnseen;if(mode.quickUnseen)mode.quickMissed=false;}else{mode.focusUnseen=!mode.focusUnseen;if(mode.focusUnseen)mode.focusMissed=false;}renderMain();});});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-missed]'),function(b){b.addEventListener('click',function(){if(b.disabled)return;if(b.dataset.missed==='quick'){mode.quickMissed=!mode.quickMissed;if(mode.quickMissed)mode.quickUnseen=false;}else{mode.focusMissed=!mode.focusMissed;if(mode.focusMissed)mode.focusUnseen=false;}renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-mode]'),function(b){b.addEventListener('click',function(){var m=b.dataset.mode;if(m==='full')startFull();else if(m==='quick')startQuick();else if(m==='focus')startFocused();});});
     /* The "Full analytics" open/close buttons are added dynamically by
        test-bank-analytics-dashboard.js after the mastery dashboard mounts, so they can't be
@@ -3154,16 +3184,16 @@
   function startFull(){var e=EXAMS[current];var qs=activeBank(e).slice();shuffle(qs);qs=qs.slice(0,e.questions);beginSession(e,qs,'exam',mode.timed,e.minutes);}
   function startQuick(){
     var e=EXAMS[current];
-    var qs=mode.quickUnseen?unseenOnly(mixedBank(e)):activeBank(e).slice();
-    if(mode.quickUnseen&&!qs.length)return;
+    var qs=mode.quickUnseen?unseenOnly(mixedBank(e)):mode.quickMissed?missedOnly(mixedBank(e)):activeBank(e).slice();
+    if((mode.quickUnseen||mode.quickMissed)&&!qs.length)return;
     shuffle(qs);
     beginSession(e,qs.slice(0,Math.min(mode.quickN,qs.length)),'quiz',false,null);
   }
   function startFocused(){
     var e=EXAMS[current];
-    var base=mode.focusUnseen?unseenOnly(mixedBank(e)):activeBank(e);
+    var base=mode.focusUnseen?unseenOnly(mixedBank(e)):mode.focusMissed?missedOnly(mixedBank(e)):activeBank(e);
     var qs=base.filter(function(q){return domainOf(e,q.sub)===mode.focusDom;});
-    if(mode.focusUnseen&&!qs.length)return;
+    if((mode.focusUnseen||mode.focusMissed)&&!qs.length)return;
     shuffle(qs);
     beginSession(e,qs.slice(0,Math.min(mode.focusN,qs.length)),'quiz',false,null);
   }
