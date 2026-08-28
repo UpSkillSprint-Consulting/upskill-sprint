@@ -425,7 +425,7 @@ test('4 more sibling questions found (ABC Manufacturing waste question, both pri
   const abcWaste = findQuestion(bank, "ABC Manufacturing, a machine shop using total productive maintenance methodologies, receives a purchase order for 50 parts");
   assert.equal(abcWaste.options[abcWaste.answer], 'Defects');
 
-  const availability = findQuestion(bank, 'An injection molding process runs one eight-hour shift per day');
+  const availability = bank.find(q => q.stem.includes('An injection molding process runs one eight-hour shift per day'));
   assert.equal(availability.options[availability.answer], '0.8575');
 });
 
