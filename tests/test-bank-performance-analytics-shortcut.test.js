@@ -131,7 +131,7 @@ test('clicking Performance Analytics also opens the Full analytics panel in the 
   assert.match(panel.textContent, /complete study picture/i);
 });
 
-test('clicking Performance Analytics a second time re-uses the existing dashboard instead of duplicating it', async () => {
+test('clicking Performance Analytics a second time closes it (toggle behavior)', async () => {
   const { window } = await load();
   seedReturningDiagnostic(window);
   seedMasteryStore(window);
@@ -142,11 +142,40 @@ test('clicking Performance Analytics a second time re-uses the existing dashboar
   const button = window.document.querySelector('[data-perf-analytics]');
   click(window, button);
   await settle(window);
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'first click opens it');
+  assert.equal(button.textContent, 'Hide Analytics');
+  assert.equal(button.getAttribute('aria-pressed'), 'true');
+
   click(window, button);
   await settle(window);
+  assert.ok(!window.document.getElementById('tb-adaptive-mastery'), 'second click on the same button closes it');
+  assert.ok(!window.document.getElementById('tb-analytics-panel'), 'the Full analytics panel is unmounted along with it');
+  assert.ok(!window.document.getElementById('tb-analytics-entry'), 'the whole standalone entry is removed, not just hidden');
+  assert.equal(button.textContent, 'Performance Analytics', 'label reverts once closed');
+  assert.equal(button.getAttribute('aria-pressed'), 'false');
+});
 
-  assert.equal(window.document.querySelectorAll('#tb-adaptive-mastery').length, 1, 'exactly one mastery dashboard exists');
-  assert.equal(window.document.querySelectorAll('#tb-analytics-panel').length, 1, 'exactly one analytics panel exists');
+test('reopening after a close mounts a fresh dashboard, not stale duplicated state', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  const button = window.document.querySelector('[data-perf-analytics]');
+  click(window, button); // open
+  await settle(window);
+  click(window, button); // close
+  await settle(window);
+  click(window, button); // reopen
+  await settle(window);
+
+  assert.equal(window.document.querySelectorAll('#tb-adaptive-mastery').length, 1, 'exactly one dashboard after close+reopen, no leftover duplicate');
+  assert.equal(window.document.querySelectorAll('#tb-analytics-entry').length, 1);
+  const panel = window.document.getElementById('tb-analytics-panel');
+  assert.ok(panel && !panel.hidden, 'Full analytics reopens too');
+  assert.equal(button.textContent, 'Hide Analytics');
 });
 
 test('renderStandalone reads the same persisted mastery data used elsewhere, not a placeholder', async () => {
@@ -335,4 +364,69 @@ test('retaking the diagnostic to completion restores analytics with the updated 
   const newState = JSON.parse(window.localStorage.getItem('tb-adaptive-cssbb'));
   assert.equal(newState.attempts, 2, 'the retake actually recorded a new attempt');
   assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'analytics auto-restores with fresh data after the retake, using the flag set before the retake began');
+});
+
+// --- Toggle edge cases -------------------------------------------------------
+
+test('closing after a restore-triggered re-render still works via the fresh button node', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  // Trigger a re-render: this replaces the button's DOM node entirely, and
+  // restorePerfAnalytics() re-mounts the panel and relabels the new node.
+  click(window, window.document.querySelector('[data-diagtimed="0"]'));
+  await settle(window);
+
+  const freshButton = window.document.querySelector('[data-perf-analytics]');
+  assert.equal(freshButton.textContent, 'Hide Analytics', 'the freshly re-rendered button already shows the open label');
+  click(window, freshButton);
+  await settle(window);
+  assert.ok(!window.document.getElementById('tb-adaptive-mastery'), 'closes correctly even though the button node was replaced by the re-render');
+});
+
+test('closing it, then toggling Timed/Untimed, does not resurrect it', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  click(window, window.document.querySelector('[data-perf-analytics]')); // open
+  await settle(window);
+  click(window, window.document.querySelector('[data-perf-analytics]')); // close
+  await settle(window);
+  assert.ok(!window.document.getElementById('tb-adaptive-mastery'));
+
+  click(window, window.document.querySelector('[data-diagtimed]'));
+  await settle(window);
+  assert.ok(!window.document.getElementById('tb-adaptive-mastery'), 'stays closed after an unrelated re-render');
+  assert.equal(window.document.querySelector('[data-perf-analytics]').textContent, 'Performance Analytics');
+});
+
+test('rapid repeated toggling settles into a consistent state with no duplicates', async () => {
+  const { window } = await load();
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  const btn = window.document.querySelector('[data-perf-analytics]');
+  for (let i = 0; i < 4; i += 1) {
+    click(window, btn);
+    await settle(window);
+  }
+  // Starting closed, 4 toggles: open, close, open, close -> ends closed.
+  assert.ok(!window.document.getElementById('tb-adaptive-mastery'), 'an even number of toggles ends closed');
+
+  click(window, btn); // 5th toggle -> open
+  await settle(window);
+  assert.equal(window.document.querySelectorAll('#tb-adaptive-mastery').length, 1, 'exactly one instance, no accumulation from the toggle history');
 });
