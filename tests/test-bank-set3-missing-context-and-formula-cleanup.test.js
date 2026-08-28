@@ -132,7 +132,7 @@ test('thirteen questions with deep OCR formula garbling in their why fields now 
     { prefix: 'A customer order for 1000 quarters', mustMatch: /2400 minutes \/ 1000 pieces = 2\.4/ },
     { prefix: 'Calculate the upper control limit of an X̄ chart', mustMatch: /96\.4835/ },
     { prefix: 'Before an improvement project, the defective rate for a milling process was 4.9%', mustMatch: /−1\.32/ },
-    { prefix: 'A new electric vehicle is evaluated for its maximum range', mustMatch: /t0 = .*= 2\.52/ },
+    { prefix: 'A new electric vehicle is evaluated for its maximum range', mustMatch: /t₀ = .*= 2\.52/ },
     { prefix: 'After adjustments to a packaging line', mustMatch: /47\.06.*48/ },
     { prefix: 'A quality engineer will test a sample of lightbulbs', mustMatch: /1067\.1.*1068/ }
   ];

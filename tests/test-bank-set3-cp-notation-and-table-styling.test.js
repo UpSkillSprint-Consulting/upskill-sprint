@@ -93,7 +93,7 @@ test('the two visible answer options that used a checkmark instead of a radical 
   assert.ok(q1.options.includes('\u221aN'));
   assert.ok(!q1.options.some(o => o.includes('\u2713')));
 
-  const q2 = findQuestion(bank, 'In a two-level full-factorial design, the effect of Factor A is equal to - 12.4.');
+  const q2 = findQuestion(bank, 'In a two-level full-factorial design, the effect of Factor A is −12.4.');
   assert.ok(q2);
   assert.ok(q2.options.some(o => o.includes('\u221aMSE')));
   assert.ok(!q2.options.some(o => o.includes('\u2713')));

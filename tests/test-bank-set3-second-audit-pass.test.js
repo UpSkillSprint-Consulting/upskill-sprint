@@ -88,7 +88,7 @@ test('three why fields with correct answers but deep OCR formula garbling (c-cha
   assert.match(cChart.why, /5\.22/);
   assert.equal(cChart.options[cChart.answer], '[0, 5.22]');
 
-  const uChart = findQuestion(bank, 'What are the upper and lower control limits for a point with n = 20 samples?');
+  const uChart = findQuestion(bank, 'A u-chart has a centerline of ū = 0.154 defects per unit.');
   assert.match(uChart.why, /0\.417/);
   assert.equal(uChart.options[uChart.answer], '[0, 0.417]');
 

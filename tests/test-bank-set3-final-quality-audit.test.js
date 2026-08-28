@@ -121,3 +121,65 @@ test('statistical conclusions use evidence-based language', () => {
   assert.match(q(669).why, /insufficient evidence to reject H₀/);
   assert.match(q(669).why, /not the same as accepting or proving it/);
 });
+
+test('final student stress-test blockers are self-contained and independently answerable', () => {
+  assert.match(q(114).stem, /χ²\(0\.05, 9\) = 3\.325/);
+  assert.match(q(115).stem, /zcrit = −1\.645/);
+  assert.match(q(116).stem, /t\(0\.05, 3\) = 2\.353/);
+
+  assert.match(q(300).stem, /K₁ = 0\.8862/);
+  assert.match(q(300).why, /2\.45 × 0\.8862 = 2\.171/);
+
+  assert.equal(q(353).options[q(353).answer], '13');
+  assert.equal(q(353).chart?.type, 'data-table');
+  assert.deepEqual(q(353).chart.rows, [['11', '0.9085'], ['12', '0.9496'], ['13', '0.9739']]);
+  assert.match(q(353).why, /0\.9496 is still below 0\.9500/);
+
+  assert.equal(q(355).options[q(355).answer], 'Pr(X ≤ 2)');
+  assert.match(q(355).why, /Pr\(X ≤ 2\)/);
+
+  assert.match(q(397).stem, /54,012 units/);
+  assert.equal(q(397).options[q(397).answer], '8,387');
+  assert.match(q(397).why, /\(453\/54,012\) × 1,000,000 = 8,387 ppm/);
+
+  assert.equal(q(410).chart?.type, 'data-table');
+  assert.ok(q(410).chart.rows.some((row) => row[0] === '22' && row[1] === '1.717'));
+
+  assert.equal(q(439).options[q(439).answer], 'It uses PDCA at its core.');
+  assert.match(q(439).why, /Plan-Do-Check-Act \(PDCA\)/);
+
+  assert.match(q(515).stem, /ū = 0\.154/);
+  assert.doesNotMatch(q(515).why, /previous question/i);
+  assert.equal(q(515).options[q(515).answer], '[0, 0.417]');
+
+  assert.match(q(658).stem, /zcrit = −1\.645/);
+  assert.match(q(667).stem, /t\(0\.05, 4\) = 2\.132/);
+  assert.match(q(667).why, /2\.52 exceeds 2\.132/);
+});
+
+test('remaining stress-test polish defects are removed from student-facing text', () => {
+  assert.equal(q(212).options[0], '$258,621');
+  assert.doesNotMatch(q(321).stem, /table above/i);
+  assert.match(q(325).why, /variance nσ²/);
+  assert.match(q(334).why, /SE = s\/√n = 6\.34\/√5 = 2\.84/);
+  assert.match(q(344).why, /C\(12,3\).*220/);
+  assert.deepEqual(q(345).options, ['14,190', '28,380', '42,570', '85,140']);
+  assert.match(q(362).why, /μ₁.*μ₂.*σ₁.*σ₂.*ρ/);
+  assert.deepEqual(q(399).options, ['6.8', '5,667', '11,333', '56,665']);
+  assert.match(q(402).why, /0\.99 × 0\.95 × 0\.97 = 0\.912/);
+  assert.match(q(413).stem, /45,678 units/);
+  assert.match(q(456).why, /−12\.4\/2 = −6\.2/);
+
+  [188, 432, 439, 566].forEach((number) => {
+    const text = [q(number).stem, ...q(number).options, q(number).why].join(' ');
+    assert.doesNotMatch(text, /POCA/);
+  });
+  assert.doesNotMatch(q(409).why, /previous question/i);
+
+  const repaired = [114, 115, 116, 188, 212, 300, 321, 325, 334, 344, 345, 353, 355, 362, 397, 399, 402, 409, 410, 413, 432, 439, 456, 515, 566, 658, 667];
+  const knownDamage = /POCA|Pr\(X [Ss] 2\)|54,0 12|45, 678|42, 570|85, 140|56, 665|0\.13 1|S e = J|a2 will|na 2|2\.1 71|table above/;
+  for (const number of repaired) {
+    const question = q(number);
+    assert.doesNotMatch([question.stem, ...question.options, question.why].join(' '), knownDamage, `Q${number}`);
+  }
+});
