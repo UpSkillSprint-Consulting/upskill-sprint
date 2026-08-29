@@ -30,12 +30,17 @@
 
   function createSetControls(overview, kind) {
     const current = activeSetValue(overview);
-    const fragment = document.createDocumentFragment();
+
+    const row = document.createElement('div');
+    row.className = 'tb-fieldrow';
 
     const label = document.createElement('span');
-    label.className = 'tb-ctl-label';
+    label.className = 'tb-fieldrow-label';
     label.textContent = 'Set';
-    fragment.appendChild(label);
+    row.appendChild(label);
+
+    const value = document.createElement('div');
+    value.className = 'tb-fieldrow-value';
 
     const group = document.createElement('span');
     group.className = 'tb-counts';
@@ -58,8 +63,9 @@
       group.appendChild(button);
     });
 
-    fragment.appendChild(group);
-    return fragment;
+    value.appendChild(group);
+    row.appendChild(value);
+    return row;
   }
 
   function enhanceCard(overview, card, kind) {

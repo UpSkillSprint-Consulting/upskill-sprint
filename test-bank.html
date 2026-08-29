@@ -80,6 +80,15 @@
   .tb-mode-head h4{font-family:"Source Serif 4",serif;font-size:16px;color:var(--ink);margin:0 0 3px}
   .tb-mode-head p{font-size:13px;color:var(--muted);margin:0;line-height:1.45}
   .tb-mode-controls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:14px}
+  /* stacked variant: one labeled row per control group (Set / Area / Questions / Timing /
+     Filters), used by Quick Quiz and Focused Quiz where the flat single-row layout got too
+     crowded. Full Exam keeps the original flat layout -- it only ever has one row (Timing). */
+  .tb-mode-controls.stacked{display:flex;flex-direction:column;flex-wrap:nowrap;gap:0}
+  .tb-fieldrow{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tb-mode-controls.stacked .tb-fieldrow:first-child{padding-top:0}
+  .tb-mode-controls.stacked .tb-fieldrow:last-child{border-bottom:0;padding-bottom:0}
+  .tb-fieldrow-label{width:78px;flex:none;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .tb-fieldrow-value{display:flex;flex-wrap:wrap;gap:8px;align-items:center;flex:1;min-width:0}
   .tb-ctl-label{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
   .tb-timing-choice{display:inline-flex;align-items:center;gap:10px;min-width:0}
   .tb-seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
@@ -128,6 +137,10 @@
     .tb-select{max-width:100%}
     .tb-diag-top{flex-wrap:wrap}
     .tb-diag-cta>*{max-width:100%;white-space:normal}
+  }
+  @media(max-width:420px){
+    .tb-fieldrow{flex-direction:column;align-items:flex-start;gap:6px}
+    .tb-fieldrow-label{width:auto}
   }
   /* readiness ring */
   .tb-ring{--p:0;width:64px;height:64px;flex:none;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--rc,var(--teal)) calc(var(--p)*1%),color-mix(in srgb,var(--line) 60%,transparent) 0)}
@@ -3077,9 +3090,10 @@
   function timingSummary(e,count,timed){
     return timed&&count?'<span class="tb-time-summary"> &middot; Timed: <b>'+fmtQuizDuration(quizDurationSeconds(e,count))+'</b></span>':'';
   }
-  function timingControlHTML(kind,timed){
+  function timingControlHTML(kind,timed,withLabel){
+    if(withLabel===undefined)withLabel=true;
     var names={full:'Full Exam',quick:'Quick Quiz',focus:'Focused Quiz'};
-    return '<span class="tb-timing-choice"><span class="tb-ctl-label">Timing</span>'+
+    return '<span class="tb-timing-choice">'+(withLabel?'<span class="tb-ctl-label">Timing</span>':'')+
       '<span class="tb-seg" role="group" aria-label="'+names[kind]+' timing" data-timing-group="'+kind+'">'+
         '<button type="button" data-timing-kind="'+kind+'" data-timed="1" class="'+(timed?'on':'')+'" aria-pressed="'+timed+'">Timed</button>'+
         '<button type="button" data-timing-kind="'+kind+'" data-timed="0" class="'+(timed?'':'on')+'" aria-pressed="'+(!timed)+'">Untimed</button></span></span>';
@@ -3134,7 +3148,11 @@
     quickSum+=timingSummary(e,quickEffN,mode.quickTimed);
     var quick='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u26A1</span>'+
       '<div><h4>Quick Quiz</h4><p>A randomized set drawn from the entire Body of Knowledge &mdash; a fast check.</p></div></div>'+
-      '<div class="tb-mode-controls" data-unseen-active="'+(!!mode.quickUnseen)+'" data-missed-active="'+(!!mode.quickMissed)+'"><span class="tb-ctl-label">Questions</span>'+counts('quick',mode.quickN)+timingControlHTML('quick',mode.quickTimed)+unseenToggleHTML('quick',mode.quickUnseen)+missedToggleHTML('quick',mode.quickMissed,quickMissedTotal===0&&!mode.quickMissed)+'</div>'+
+      '<div class="tb-mode-controls stacked" data-unseen-active="'+(!!mode.quickUnseen)+'" data-missed-active="'+(!!mode.quickMissed)+'">'+
+        '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Questions</span><div class="tb-fieldrow-value">'+counts('quick',mode.quickN)+'</div></div>'+
+        '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Timing</span><div class="tb-fieldrow-value">'+timingControlHTML('quick',mode.quickTimed,false)+'</div></div>'+
+        '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Filters</span><div class="tb-fieldrow-value">'+unseenToggleHTML('quick',mode.quickUnseen)+missedToggleHTML('quick',mode.quickMissed,quickMissedTotal===0&&!mode.quickMissed)+'</div></div>'+
+      '</div>'+
       '<div class="tb-mode-foot"><span class="tb-mode-sum">'+quickSum+'</span>'+(live?liveStart('quick','Start quiz',(mode.quickUnseen&&quickAvail===0)||(mode.quickMissed&&quickMissedAvail===0)):startBtn())+'</div></div>';
 
     var opts=e.bok.map(function(x){return '<option value="'+x.domain+'"'+(x.domain===mode.focusDom?' selected':'')+'>'+esc(DM[x.domain].name)+'</option>';}).join('');
@@ -3156,8 +3174,12 @@
     focusSum+=timingSummary(e,focusEffN,mode.focusTimed);
     var focus='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u25CE</span>'+
       '<div><h4>Focused Quiz</h4><p>Drill a single area of the Body of Knowledge you want to strengthen.</p></div></div>'+
-      '<div class="tb-mode-controls" data-unseen-active="'+(!!mode.focusUnseen)+'" data-missed-active="'+(!!mode.focusMissed)+'"><span class="tb-ctl-label">Area</span><select class="tb-select" data-focusdom aria-label="Body of Knowledge area">'+opts+'</select>'+
-        '<span class="tb-ctl-label">Questions</span>'+counts('focus',mode.focusN)+timingControlHTML('focus',mode.focusTimed)+unseenToggleHTML('focus',mode.focusUnseen)+missedToggleHTML('focus',mode.focusMissed,focusMissedTotal===0&&!mode.focusMissed)+'</div>'+
+      '<div class="tb-mode-controls stacked" data-unseen-active="'+(!!mode.focusUnseen)+'" data-missed-active="'+(!!mode.focusMissed)+'">'+
+        '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Area</span><div class="tb-fieldrow-value"><select class="tb-select" data-focusdom aria-label="Body of Knowledge area">'+opts+'</select></div></div>'+
+        '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Questions</span><div class="tb-fieldrow-value">'+counts('focus',mode.focusN)+'</div></div>'+
+        '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Timing</span><div class="tb-fieldrow-value">'+timingControlHTML('focus',mode.focusTimed,false)+'</div></div>'+
+        '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Filters</span><div class="tb-fieldrow-value">'+unseenToggleHTML('focus',mode.focusUnseen)+missedToggleHTML('focus',mode.focusMissed,focusMissedTotal===0&&!mode.focusMissed)+'</div></div>'+
+      '</div>'+
       '<div class="tb-mode-foot"><span class="tb-mode-sum">'+focusSum+'</span>'+(live?liveStart('focus','Start quiz',(mode.focusUnseen&&focusAvail===0)||(mode.focusMissed&&focusMissedAvail===0)):startBtn())+'</div></div>';
     return full+quick+focus;
   }
