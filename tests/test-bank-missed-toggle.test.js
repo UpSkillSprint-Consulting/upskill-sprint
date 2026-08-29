@@ -302,3 +302,56 @@ test('test-bank-set-controls.js does not overwrite the missed-only summary text 
     assert.match(button.title, /Missed questions only/, 'tooltip explains why, specifically naming Missed questions only');
   });
 });
+
+// --- Cross-cutting interactions -----------------------------------------------
+
+test('switching exams while Missed questions only is on resets it explicitly, not by accident of undefined being falsy', async () => {
+  const { window } = await loadPage();
+  const e = window.__TB.EXAMS.cssbb;
+  markSomeMissed(window, e.sets[1].slice(0, 3));
+  click(window, modeCard(window, 1).querySelector('[data-count="quick"][data-n="10"]'));
+  await settle(window);
+  click(window, modeCard(window, 1).querySelector('[data-missed="quick"]'));
+  await settle(window);
+  assert.ok(modeCard(window, 1).querySelector('[data-missed="quick"]').classList.contains('on'), 'on for cssbb');
+
+  const cqeTile = window.document.querySelector('.tb-tile[data-exam="cqe"]');
+  assert.ok(cqeTile, 'a second exam exists to switch to');
+  click(window, cqeTile);
+  await settle(window);
+
+  const toggle = modeCard(window, 1).querySelector('[data-missed="quick"]');
+  assert.ok(!toggle.classList.contains('on'), 'resets to off for the newly selected exam');
+  assert.ok(toggle.disabled, 'disabled since cqe has no missed-question history of its own');
+  assert.doesNotMatch(modeCard(window, 1).querySelector('.tb-mode-sum').textContent, /missed/i, 'no leaked cssbb-specific missed-question state or messaging');
+});
+
+test('resetting adaptive data while Missed questions only is on disables Start but does not crash or duplicate anything', async () => {
+  const { window } = await loadPage();
+  window.eval(fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery-hardening.js'), 'utf8'));
+  const e = window.__TB.EXAMS.cssbb;
+  markSomeMissed(window, e.sets[1].slice(0, 3));
+  window.localStorage.setItem('tb-adaptive-cssbb', JSON.stringify({ attempts: 3, lastReadiness: 91, subState: {} }));
+  click(window, modeCard(window, 1).querySelector('[data-count="quick"][data-n="10"]'));
+  await settle(window);
+  click(window, modeCard(window, 1).querySelector('[data-missed="quick"]'));
+  await settle(window);
+  assert.ok(modeCard(window, 1).querySelector('[data-missed="quick"]').classList.contains('on'));
+
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  const resetBtn = window.document.querySelector('[data-v2-reset]');
+  assert.ok(resetBtn, 'reset control is reachable');
+  click(window, resetBtn); // arm
+  await settle(window);
+  click(window, resetBtn); // confirm
+  await settle(window);
+
+  click(window, modeCard(window, 1).querySelector('[data-count="quick"][data-n="20"]')); // force a re-render
+  await settle(window);
+
+  const toggle = modeCard(window, 1).querySelector('[data-missed="quick"]');
+  assert.ok(!toggle.disabled, 'stays clickable so the user is never stranded, matching the Focused Quiz escape-hatch fix');
+  assert.equal(modeCard(window, 1).querySelector('[data-mode="quick"]').disabled, true, 'Start correctly disabled since nothing remains after the reset');
+  assert.match(modeCard(window, 1).querySelector('.tb-mode-sum').textContent, /No previously missed questions/i);
+});
