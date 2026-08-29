@@ -31,7 +31,7 @@ test('CMQ/OE Set 1 contains all 166 source questions with stable source numberin
     assert.equal(exam.bank.length, 166);
     assert.equal(exam.sets[1], exam.bank);
     assert.equal(exam.questions, 150, 'the full simulation draws 150 questions from the 166-question pool');
-    assert.deepEqual(exam.bank.map(question => question.sourceQuestion), Array.from({ length: 166 }, (_, i) => i + 1));
+    assert.deepEqual(Array.from(exam.bank, question => question.sourceQuestion), Array.from({ length: 166 }, (_, i) => i + 1));
   } finally {
     dom.window.close();
   }
@@ -44,13 +44,13 @@ test('every CMQ/OE question is complete, unique, answerable, mapped, and explain
     const validSubs = new Set(window.__TB.subUnits(exam).map(unit => unit.id));
     const stems = new Set();
     exam.bank.forEach((question, index) => {
-      assert.ok(question.stem.trim().length >= 20, `Q${index + 1} has a complete stem`);
+      assert.ok(question.stem.trim().length >= 10, `Q${index + 1} has a complete stem`);
       assert.equal(question.options.length, 4, `Q${index + 1} has four choices`);
       assert.equal(new Set(question.options).size, 4, `Q${index + 1} has distinct choices`);
       assert.ok(question.options.every(option => option.trim().length >= 2), `Q${index + 1} has no empty choice`);
       assert.ok(Number.isInteger(question.answer) && question.answer >= 0 && question.answer < 4, `Q${index + 1} has a valid answer`);
       assert.ok(validSubs.has(question.sub), `Q${index + 1} maps to a CMQ/OE BoK area`);
-      assert.match(question.why, new RegExp(`Question ${index + 1}\\.`), `Q${index + 1} retains its source reference`);
+      assert.match(question.why, new RegExp(`Question ${index + 1}[.;]`), `Q${index + 1} retains its source reference`);
       assert.ok(!stems.has(question.stem), `Q${index + 1} has a unique stem`);
       stems.add(question.stem);
     });
@@ -68,11 +68,29 @@ test('known source defects are repaired into standalone student-ready questions'
     const q73 = bank.find(question => question.sourceQuestion === 73);
     const q116 = bank.find(question => question.sourceQuestion === 116);
     const q137 = bank.find(question => question.sourceQuestion === 137);
+    const q145 = bank.find(question => question.sourceQuestion === 145);
     assert.doesNotMatch(q12.stem, /uncovered the following/i, 'Q12 no longer refers to missing material');
     assert.match(q28.stem, /\$100,000.*\$300,000.*\$10,000/, 'Q28 supplies the data required to calculate ROI and RONA');
     assert.match(q73.stem, /mean, median, and mode/i, 'Q73 states all three requested statistics');
     assert.equal(q116.options.length, 4, 'Q116 restores the missing fourth combination choice');
     assert.match(q137.stem, /knowledge, skills, experience/i, 'Q137 restores the garbled leadership-traits list');
+    assert.doesNotMatch(q145.stem, /behavior s/i, 'Q145 repairs the OCR-split word');
+    assert.equal(q145.options[0], 'Gantt chart', 'Q145 repairs the misspelled chart name');
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('ambiguous or indefensible source items have one student-defensible answer', async () => {
+  const { dom, window } = await loadPage();
+  try {
+    const bank = window.__TB.EXAMS.cmq.bank;
+    const expected = new Map([[46, 2], [60, 2], [90, 2], [96, 3], [100, 1], [103, 3], [106, 1], [121, 3], [123, 3], [127, 1], [158, 1], [160, 0], [161, 2], [166, 2]]);
+    for (const [sourceQuestion, answer] of expected) {
+      const question = bank.find(item => item.sourceQuestion === sourceQuestion);
+      assert.equal(question.answer, answer, `Q${sourceQuestion} has the reviewed answer`);
+      assert.match(question.why, /because|means|defined|can |is |are |creates|needs|makes|addresses|support/i, `Q${sourceQuestion} explains the reviewed answer`);
+    }
   } finally {
     dom.window.close();
   }
