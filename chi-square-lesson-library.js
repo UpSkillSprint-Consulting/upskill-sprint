@@ -63,6 +63,18 @@
       description: 'Judge whether a model is actually good: what it predicts, honest validation and tuning, the right metric for the problem, and how to read regression diagnostics \u2014 with interactive widgets and four downloadable posters.'
     },
     {
+      marker: 'data-dealing-with-outliers',
+      sectionId: 'data-analytics',
+      path: '/lessons/data-analytics/dealing-with-outliers',
+      topic: 'data-analytics',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'dealing with outliers outlier detection z-score modified z-score median absolute deviation mad iqr tukey fences grubbs test boxplot masking swamping winsorizing trimming influential point special cause variation steel mining data analytics intermediate interactive',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>45 min</span><span>Excel + Minitab</span>',
+      title: 'Dealing with Outliers: A Steel & Mining Detective\u2019s Guide',
+      description: 'Hunt down rogue data points with Z-scores, Modified Z-scores, Tukey fences, and Grubbs\u2019 test using a live steel-mill and mine-site investigation lab with switchable chart views.'
+    },
+    {
       marker: 'data-anova-analysis-one-stop-shop',
       sectionId: 'statistics',
       path: '/lessons/statistics/anova-analysis-one-stop-shop',
