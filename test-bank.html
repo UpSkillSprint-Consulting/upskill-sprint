@@ -399,9 +399,11 @@
     </div>
   </footer>
 
+<script src="/test-bank-cmq-set1.js"></script>
 <script>
 (function(){
   'use strict';
+  var CMQ_SET1=window.CMQ_SET1||[];
   var DM={
     mgmt:{name:'Management & Leadership',short:'Mgmt',color:'#2c8fa6'},
     qsys:{name:'The Quality System',short:'System',color:'#0e8f86'},
@@ -418,7 +420,14 @@
     system:{name:'Quality System',short:'System',color:'#0e8f86'},
     design:{name:'Design & Development',short:'Design',color:'#6b52b5'},
     rtest:{name:'Reliability Testing',short:'Testing',color:'#b8791b'},
-    maint:{name:'Maintainability & Availability',short:'Maint.',color:'#c0453f'}
+    maint:{name:'Maintainability & Availability',short:'Maint.',color:'#c0453f'},
+    leadership:{name:'Leadership',short:'Leadership',color:'#2c8fa6'},
+    strategy:{name:'Strategic Plan Development & Deployment',short:'Strategy',color:'#3b6fb0'},
+    management:{name:'Management Elements & Methods',short:'Management',color:'#6b52b5'},
+    tools:{name:'Quality Management Tools',short:'Quality Tools',color:'#0e8f86'},
+    customer:{name:'Customer-Focused Organizations',short:'Customer',color:'#b8791b'},
+    supply:{name:'Supply Chain Management',short:'Supply Chain',color:'#c0453f'},
+    training:{name:'Training & Development',short:'Training',color:'#a24b8c'}
   };
   function d(domain,weight,subs){return {domain:domain,weight:weight,subs:subs};}
   function s(id,name,lesson,lessonName,w){return {id:id,name:name,lesson:lesson,lessonName:lessonName,w:w};}
@@ -2414,8 +2423,9 @@
       bok:[d('mgmt',17,[s('mgmt','I. Management & Leadership','/lessons.html','Browse lessons',17)]),d('qsys',18,[s('qsys','II. The Quality System','/lessons.html','Browse lessons',18)]),d('design',21,[s('design','III. Product, Process & Service Design','/lessons.html','Browse lessons',21)]),d('ppc',23,[s('ppc','IV. Product & Process Control','/lessons.html','Browse lessons',23)]),d('ci',26,[s('ci','V. Continuous Improvement','/lessons.html','Browse lessons',26)]),d('quant',34,[s('quant','VI. Quantitative Methods & Tools','/lessons.html','Browse lessons',34)]),d('risk',21,[s('risk','VII. Risk Management','/lessons.html','Browse lessons',21)])]},
     cqa:{badge:'CQA',bc:'#2b5aa0',body:'ASQ Certified Quality Auditor',title:'Quality Auditor — Final Exam Simulation',questions:150,minutes:270,pass:70,
       bok:[d('enterprise',30,['Auditing fundamentals','Ethics & professional conduct','Audit roles']),d('measure',20,['Audit preparation','Audit performance','Data collection']),d('analyze',20,['Audit tools & techniques','Root-cause analysis','Reporting']),d('control',30,['Audit program management','Corrective action follow-up','Quality tools'])]},
-    cmq:{badge:'CMQ',bc:'#2c7f92',body:'ASQ Manager of Quality / Org. Excellence',title:'Manager of Quality — Final Exam Simulation',questions:150,minutes:270,pass:70,
-      bok:[d('enterprise',40,['Leadership','Organizational structures','Team management']),d('improve',30,['Strategic planning','Continuous improvement','Project management']),d('control',30,['Quality management tools','Customer focus','Supply chain'])]},
+    cmq:{badge:'CMQ',bc:'#2c7f92',body:'ASQ Manager of Quality / Org. Excellence',title:'Manager of Quality — Final Exam Simulation',setName:'Exam Set 1',questions:150,minutes:270,pass:70,
+      bank:CMQ_SET1,sets:{1:CMQ_SET1},
+      bok:[d('leadership',28,[s('cmq-lead','I. Leadership','/lessons.html','Browse lessons',28)]),d('strategy',23,[s('cmq-strategy','II. Strategic Plan Development & Deployment','/lessons.html','Browse lessons',23)]),d('management',26,[s('cmq-management','III. Management Elements & Methods','/lessons.html','Browse lessons',26)]),d('tools',31,[s('cmq-tools','IV. Quality Management Tools','/lessons.html','Browse lessons',31)]),d('customer',22,[s('cmq-customer','V. Customer-Focused Organizations','/lessons.html','Browse lessons',22)]),d('supply',19,[s('cmq-supply','VI. Supply Chain Management','/lessons.html','Browse lessons',19)]),d('training',16,[s('cmq-training','VII. Training & Development','/lessons.html','Browse lessons',16)])]},
     cre:{badge:'CRE',bc:'#b07016',body:'ASQ Certified Reliability Engineer',title:'Reliability Engineer — Final Exam Simulation',questions:150,minutes:270,pass:70,
       bok:[d('enterprise',14,['Reliability management','Strategy','Ethics']),d('quant',16,['Probability & statistics','Distributions','Confidence intervals']),d('design',22,['Reliability in design','FMEA','Redundancy & derating']),d('analyze',16,['Reliability modeling','Life predictions','Fault tree analysis']),d('rtest',16,['Reliability testing','Accelerated life testing','Test planning']),d('maint',16,['Maintainability','Availability','Data collection & use'])]}
   };
