@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Dealing with Outliers: A Steel & Mining Detective's Guide",
+  "slug": "dealing-with-outliers",
+  "category": "Data Analytics",
+  "category_slug": "data-analytics",
+  "level": "Intermediate",
+  "estimated_minutes": 45,
+  "interactive": true,
+  "card_title": "Dealing with Outliers",
+  "card_description": "Hunt down rogue data points with Z-scores, Modified Z-scores, Tukey fences, and Grubbs' test using a live steel-mill and mine-site investigation lab.",
+  "search_keywords": [
+    "outliers",
+    "outlier detection",
+    "Z-score",
+    "modified Z-score",
+    "median absolute deviation MAD",
+    "IQR Tukey fences",
+    "Grubbs test",
+    "boxplot",
+    "special cause variation",
+    "Winsorizing",
+    "trimming",
+    "masking swamping",
+    "CSSBB",
+    "CQE",
+    "statistics intermediate interactive",
+    "mining steel"
+  ],
+  "suggested_github_path": "lessons/data-analytics/dealing-with-outliers.html"
+}
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dealing with Outliers: A Steel &amp; Mining Detective's Guide | UpSkill Sprint Consulting</title>
+  <meta name="description" content="An interactive, comprehensive lesson on outlier detection — Z-score, Modified Z-score, IQR/Tukey fences, and Grubbs' test — with a live steel-mill and mine-site investigation lab, Excel and Minitab workflows, and a mini quiz.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/data-analytics/dealing-with-outliers">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Dealing with Outliers: A Steel & Mining Detective's Guide | UpSkill Sprint Consulting">
+  <meta property="og:description" content="Detect, investigate, and decide what to do with rogue data points using four detection methods and a live interactive lab.">
+  <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/data-analytics/dealing-with-outliers">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+
+  <style>
+    :root {
+      --otl-paper:#fff;--otl-surface:#fff;--otl-surface-soft:#f4f7fa;--otl-ink:#101828;--otl-ink-soft:#344054;
+      --otl-muted:#667085;--otl-line:#dfe5ec;--otl-navy:#0f2a43;--otl-teal:#0e7c86;--otl-teal-dark:#075f68;
+      --otl-amber:#d97706;--otl-success:#2f855a;--otl-warning:#b7791f;--otl-danger:#c24132;--otl-info:#2f6fb0;
+      --otl-flag:#c24132;--otl-normal:#0e7c86;--otl-fence:#d97706;--otl-focus:#f59e0b;--otl-genuine:#6d3fa0;
+      --otl-shadow:0 8px 24px rgba(15,42,67,.08);--otl-radius:14px;
+    }
+    html[data-theme="dark"] {
+      --otl-paper:#0b1220;--otl-surface:#111c2d;--otl-surface-soft:#0f1a2b;--otl-ink:#f3f6fb;--otl-ink-soft:#d5deeb;
+      --otl-muted:#aab7c9;--otl-line:#2b3b50;--otl-navy:#17344d;--otl-teal:#46c4cb;--otl-teal-dark:#7bdde1;
+      --otl-amber:#f0b35d;--otl-success:#67c992;--otl-warning:#efb65d;--otl-danger:#ed8176;--otl-info:#79aee1;
+      --otl-flag:#ed8176;--otl-normal:#46c4cb;--otl-fence:#f0b35d;--otl-focus:#f7c96f;--otl-genuine:#c3a2f0;--otl-shadow:none;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--otl-paper);color:var(--otl-ink);font:1rem/1.68 Arial,Helvetica,sans-serif}
+    h1,h2,h3,h4{color:var(--otl-ink);font-family:Georgia,"Times New Roman",serif;line-height:1.25}h1{margin:.35rem 0 .8rem;font-size:clamp(2rem,5vw,3.25rem)}
+    h2{display:inline-block;margin:0 0 1rem;padding-bottom:.2rem;border-bottom:3px solid var(--otl-amber);font-size:clamp(1.45rem,3vw,1.95rem)}
+    h3{margin:1.15rem 0 .45rem;font-size:1.2rem}h4{margin:0 0 .35rem;font-size:1.02rem}p{margin:.65rem 0}a{color:var(--otl-teal-dark)}strong{color:var(--otl-ink)}
+    code{padding:.08rem .35rem;border:1px solid var(--otl-line);border-radius:5px;background:var(--otl-surface-soft);color:var(--otl-ink);overflow-wrap:anywhere}
+    button,input,select,textarea{font:inherit}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--otl-focus);outline-offset:3px}
+    .skip-link{position:absolute;left:-9999px;top:0;z-index:200;padding:.7rem 1rem;border-radius:0 0 8px;background:var(--otl-navy);color:#fff}.skip-link:focus{left:0}
+    header.site.lesson-sitebar{position:sticky;top:0;z-index:80;display:flex;min-height:64px;align-items:center;justify-content:space-between;gap:1rem;padding:.65rem max(1rem,calc((100vw - 1120px)/2));border-bottom:1px solid var(--otl-line);background:var(--otl-paper)}
+    .lesson-sitebar .brand{display:inline-flex;align-items:center;gap:.65rem;color:var(--otl-ink);font-weight:700;text-decoration:none}.lesson-sitebar .brand img{width:34px;height:34px;object-fit:contain}
+    .header-actions{display:flex;align-items:center;gap:.85rem}.lesson-back{font-size:.9rem;font-weight:700;text-decoration:none}.theme-control{display:inline-flex;align-items:center;gap:.4rem}
+    .theme-toggle{position:relative;width:46px;height:26px;padding:0;border:1px solid var(--otl-line);border-radius:999px;background:var(--otl-surface-soft);cursor:pointer}
+    .theme-toggle::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--otl-teal);transition:transform .2s ease}html[data-theme="dark"] .theme-toggle::after{transform:translateX(20px)}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    main#lesson-content{max-width:1060px;margin:0 auto;padding:1rem 1rem 4rem}article.lesson-wrapper{display:block}section{margin:3rem 0;scroll-margin-top:82px}
+    .lesson-hero{position:relative;overflow:hidden;margin-top:1.2rem;padding:clamp(1.5rem,4vw,3rem);border-radius:20px;background:linear-gradient(135deg,var(--otl-navy),var(--otl-teal-dark));color:#fff}
+    .lesson-hero h1,.lesson-hero strong{color:#fff}.lesson-lede{max-width:72ch;color:#eaf7f8;font-size:1.12rem}.lesson-meta-row{display:flex;flex-wrap:wrap;gap:.5rem}
+    .pill{display:inline-flex;padding:.28rem .7rem;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.1);color:#fff;font-size:.82rem;font-weight:700}.pill.accent{background:#fff;color:var(--otl-navy)}
+    .why-it-matters{max-width:78ch;margin-top:1rem;padding:.85rem 1rem;border-left:4px solid #f7c96f;border-radius:0 9px 9px 0;background:rgba(255,255,255,.11);color:#fff}
+    nav.lesson-toc{margin:1.7rem 0;padding:1rem 1.2rem;border:1px solid var(--otl-line);border-radius:var(--otl-radius);background:var(--otl-surface);box-shadow:var(--otl-shadow)}
+    nav.lesson-toc h2{margin:0 0 .5rem;border:0;color:var(--otl-muted);font:700 .83rem Arial,sans-serif;letter-spacing:.07em;text-transform:uppercase}
+    nav.lesson-toc ol{margin:0;padding-left:1.25rem;columns:2;column-gap:2rem}nav.lesson-toc li{margin:.25rem 0;break-inside:avoid}nav.lesson-toc a{text-decoration:none}nav.lesson-toc a:hover{text-decoration:underline}
+    .panel,.tool,.formula-box,.quiz-question{border:1px solid var(--otl-line);border-radius:var(--otl-radius);background:var(--otl-surface)}.panel{padding:1.15rem 1.25rem}.tool{padding:clamp(1rem,3vw,1.4rem);border-top:5px solid var(--otl-teal)}
+    .soft-panel{background:var(--otl-surface-soft)}.callout{margin:1rem 0;padding:.85rem 1rem;border-left:4px solid var(--otl-info);border-radius:0 9px 9px 0;background:var(--otl-surface-soft)}.callout.success{border-left-color:var(--otl-success)}.callout.warning{border-left-color:var(--otl-warning)}.callout.danger{border-left-color:var(--otl-danger)}.callout.genuine{border-left-color:var(--otl-genuine)}
+    .objectives-list,.steps,.takeaways{padding-left:1.35rem}.objectives-list li,.steps li,.takeaways li{margin:.55rem 0}.objectives-list li::marker,.steps li::marker,.takeaways li::marker{color:var(--otl-teal);font-weight:700}
+    .grid-2,.grid-3,.grid-4,.metric-grid,.software-grid,.mistake-grid,.method-grid{display:grid;gap:1rem}.grid-2,.software-grid,.mistake-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3,.metric-grid,.method-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .term-card,.mistake-card,.metric-card,.method-card{padding:1rem;border:1px solid var(--otl-line);border-radius:12px;background:var(--otl-surface)}.term-card h3,.mistake-card h3,.method-card h3{margin-top:0}.metric-label{color:var(--otl-muted);font-size:.82rem;font-weight:700;text-transform:uppercase}.metric-value{margin:.2rem 0;color:var(--otl-ink);font:700 clamp(1.3rem,4vw,1.85rem) Georgia,serif}.metric-note{color:var(--otl-muted);font-size:.86rem}
+    .method-card{border-top:4px solid var(--otl-teal)}.method-card.active{border-color:var(--otl-focus);box-shadow:0 0 0 2px var(--otl-focus) inset}
+    .formula-box{padding:1rem 1.15rem;border-left:5px solid var(--otl-teal);overflow-x:auto}.math{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.45rem;color:var(--otl-ink);font:600 clamp(1.05rem,3.6vw,1.4rem) Georgia,serif}.frac{display:inline-flex;flex-direction:column;align-items:center}.frac .top{padding:0 .3rem .08rem;border-bottom:1.5px solid var(--otl-ink)}.frac .bottom{padding:.08rem .3rem 0}.formula-caption{text-align:center;color:var(--otl-muted)}
+    .table-scroll{max-width:100%;overflow-x:auto}table{width:100%;min-width:600px;border-collapse:collapse;background:var(--otl-surface)}caption{text-align:left;color:var(--otl-muted);padding:0 0 .45rem}th,td{padding:.6rem .7rem;border:1px solid var(--otl-line);text-align:left;vertical-align:top}th{background:var(--otl-navy);color:#fff}tbody tr:nth-child(even){background:var(--otl-surface-soft)}
+    tr.flagged-row{outline:2px solid var(--otl-flag);outline-offset:-2px}tr.flagged-row td:first-child{font-weight:700}
+    .worked-steps{counter-reset:work}.worked-step{position:relative;margin:.8rem 0;padding:.85rem 1rem .85rem 3.2rem;border-left:3px solid var(--otl-teal);background:var(--otl-surface-soft)}.worked-step::before{counter-increment:work;content:counter(work);position:absolute;left:.8rem;top:.75rem;display:grid;width:1.65rem;height:1.65rem;place-items:center;border-radius:50%;background:var(--otl-teal);color:#fff;font-weight:700}
+    .controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}.control-field label{display:block;margin-bottom:.3rem;font-weight:700}.control-field input,.control-field select,.control-field textarea{width:100%;min-height:44px;padding:.65rem .7rem;border:1px solid var(--otl-line);border-radius:9px;background:var(--otl-surface);color:var(--otl-ink)}
+    .control-field textarea{min-height:70px;font-family:"Courier New",monospace;resize:vertical}
+    .full-row{grid-column:1/-1}.button-row{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1rem}.btn{min-height:44px;padding:.65rem .95rem;border:1px solid var(--otl-teal);border-radius:9px;background:var(--otl-teal);color:#fff;font-weight:700;cursor:pointer}.btn.secondary{background:var(--otl-surface);color:var(--otl-teal-dark)}.btn.ghost{border-color:var(--otl-line);background:var(--otl-surface-soft);color:var(--otl-ink)}.btn.danger{border-color:var(--otl-danger);background:var(--otl-danger)}
+    .btn[aria-pressed="true"]{box-shadow:0 0 0 3px var(--otl-focus) inset}
+    .error-box{margin:1rem 0;padding:.75rem 1rem;border:1px solid var(--otl-danger);border-radius:9px;background:var(--otl-surface-soft);color:var(--otl-danger);font-weight:700}
+    .lens-row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}.lens-btn{min-height:44px;padding:.6rem 1rem;border:2px solid var(--otl-line);border-radius:999px;background:var(--otl-surface);color:var(--otl-ink);font-weight:700;cursor:pointer}.lens-btn[aria-pressed="true"]{border-color:var(--otl-teal);background:var(--otl-teal);color:#fff}
+    .verdict-panel{margin-top:1rem;padding:1rem 1.2rem;border-radius:12px;background:var(--otl-surface-soft);border:1px solid var(--otl-line)}.verdict-panel.flag{border-color:var(--otl-danger);background:rgba(194,65,50,.08)}.verdict-panel.clear{border-color:var(--otl-success);background:rgba(47,133,90,.08)}
+    .chart-shell{margin-top:1.25rem;padding:1rem;border:1px solid var(--otl-line);border-radius:12px;background:var(--otl-surface)}.chart-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}.chart-title-row h3{margin-top:0}.chart-note{color:var(--otl-muted);font-size:.9rem}.chart-view{width:100%;min-height:230px}.chart-view svg{display:block;width:100%;height:auto}
+    .chart-legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.6rem;color:var(--otl-muted);font-size:.86rem}.legend-item{display:inline-flex;align-items:center;gap:.4rem}.legend-swatch{width:14px;height:14px;border-radius:50%;background:var(--otl-normal)}.legend-swatch.flag{background:var(--otl-flag)}.legend-swatch.fence{width:18px;height:4px;border-radius:3px;background:var(--otl-fence)}
+    .preset-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem}.preset-btn{min-height:56px;padding:.6rem .5rem;border:2px solid var(--otl-line);border-radius:10px;background:var(--otl-surface);color:var(--otl-ink);font-weight:700;cursor:pointer;font-size:.86rem}.preset-btn[aria-pressed="true"]{border-color:var(--otl-teal);background:rgba(14,124,134,.1)}
+    .story-card{margin-top:1rem;padding:1rem 1.2rem;border-radius:12px;border:1px dashed var(--otl-teal);background:var(--otl-surface-soft)}
+    .badge{display:inline-block;padding:.15rem .5rem;border-radius:999px;font-size:.72rem;font-weight:700;text-transform:uppercase;background:var(--otl-navy);color:#fff}
+    .mistake-tag{display:inline-block;margin-bottom:.45rem;padding:.12rem .45rem;border-radius:999px;background:var(--otl-surface-soft);color:var(--otl-danger);font-size:.74rem;font-weight:700;text-transform:uppercase}
+    .practice-answer{margin-top:1rem;padding:1rem;border:1px solid var(--otl-success);border-radius:12px;background:var(--otl-surface-soft)}[hidden]{display:none!important}
+    .quiz-question{margin:1rem 0;padding:1rem}.quiz-question fieldset{border:0;margin:0;padding:0}.quiz-question legend{margin-bottom:.55rem;font-weight:700}.quiz-option{display:flex;align-items:flex-start;gap:.55rem;margin:.35rem 0;padding:.65rem .75rem;border:1px solid var(--otl-line);border-radius:8px;background:var(--otl-surface);cursor:pointer}.quiz-option:hover{background:var(--otl-surface-soft)}.quiz-option input{margin-top:.25rem;accent-color:var(--otl-teal)}.quiz-question.correct{border-color:var(--otl-success);box-shadow:inset 4px 0 var(--otl-success)}.quiz-question.incorrect{border-color:var(--otl-danger);box-shadow:inset 4px 0 var(--otl-danger)}.quiz-feedback{margin-top:.65rem;padding:.65rem .75rem;border-radius:8px;background:var(--otl-surface-soft)}.quiz-feedback.correct{border:1px solid var(--otl-success)}.quiz-feedback.incorrect{border:1px solid var(--otl-danger)}#quiz-score{font-weight:700}
+    .remember{margin-top:1rem;padding:1rem 1.2rem;border-radius:12px;background:var(--otl-navy);color:#fff;font-size:1.08rem;font-weight:700}.remember strong{color:#fff}.lesson-footer{padding:1.2rem max(1rem,calc((100vw - 1060px)/2));border-top:1px solid var(--otl-line);background:var(--otl-surface);color:var(--otl-muted)}.footer-inner{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    @media(max-width:900px){.preset-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:820px){.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3,.metric-grid,.method-grid,.grid-4{grid-template-columns:1fr}.software-grid,.mistake-grid{grid-template-columns:1fr}.chart-title-row{display:block}.chart-title-row .button-row{margin-bottom:.7rem}}
+    @media(max-width:620px){nav.lesson-toc ol{columns:1}.grid-2{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.header-actions{gap:.45rem}.lesson-back{display:none}.lesson-sitebar .brand span{font-size:.9rem}.chart-view{min-height:190px}table{min-width:520px}.preset-grid{grid-template-columns:1fr}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+    @media print{header.site.lesson-sitebar,.skip-link,.button-row,.theme-control,.lesson-footer{display:none!important}body{background:#fff!important;color:#000!important}.lesson-hero{background:none!important;color:#000!important;border:1px solid #999}.lesson-hero h1,.lesson-hero strong,.lesson-lede,.why-it-matters{color:#000!important}main#lesson-content{max-width:none;padding:0}}
+    .otl-icon-row{display:flex;gap:1.4rem;flex-wrap:wrap;margin-top:1.3rem}.otl-icon-chip{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .8rem;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;font-size:.82rem;font-weight:700}.otl-icon-chip svg{width:20px;height:20px;flex-shrink:0}
+    .section-icon{width:24px;height:24px;vertical-align:-5px;margin-right:.45rem;color:var(--otl-teal);flex-shrink:0}
+    .diagram-figure{margin-top:1.1rem}.diagram-caption{margin-top:.5rem;color:var(--otl-muted);font-size:.88rem;text-align:center}
+    .before-after-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .icon-badge{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:var(--otl-surface-soft);border:1px solid var(--otl-line);flex-shrink:0}.icon-badge svg{width:24px;height:24px;color:var(--otl-teal)}
+    .term-card-icon{display:flex;align-items:flex-start;gap:.7rem}.term-card-icon .icon-badge{margin-top:.1rem}
+    @media(max-width:820px){.before-after-grid{grid-template-columns:1fr}}
+  </style>
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+</head>
+<body data-lesson-page="true" data-category="data-analytics" data-level="intermediate" data-interactive="true">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+    <a href="/lessons" class="btn btn-teal header-cta">Browse lessons</a>
+  </div>
+</header>
+
+  <main id="lesson-content">
+    <article class="lesson-wrapper">
+      <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-meta-row"><span class="pill">Data Analytics</span><span class="pill">Intermediate</span><span class="pill">45 minutes</span><span class="pill accent">Interactive</span></div>
+        <h1 id="lesson-title">Dealing with Outliers: A Steel &amp; Mining Detective's Guide</h1>
+        <p class="lesson-lede">Thirty years on shop floors and mine sites taught me one thing: every dataset has a troublemaker. Your job isn't to exorcise it — it's to interrogate it. We'll use blast-furnace temperatures, tensile tests, ore grades, and a runaway conveyor to learn four detection methods and, more importantly, what to do once you've caught your suspect.</p>
+        <div class="why-it-matters"><strong>Why this matters:</strong> delete a genuine high-grade ore pocket and you throw away the best day the pit ever had. Keep a mis-keyed tensile reading and you ship steel on a lie. Outlier handling is a judgment skill, not a delete key.</div>
+        <div class="otl-icon-row" aria-hidden="true">
+          <span class="otl-icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v4M14 3v4M7 9h10l1.2 2.2c.3.5.1 1.2-.4 1.5l-.9.5c-.4.2-.6.7-.5 1.1L18 18a1.6 1.6 0 0 1-1.6 2H7.6A1.6 1.6 0 0 1 6 18l1.6-3.7c.1-.4-.1-.9-.5-1.1l-.9-.5c-.5-.3-.7-1-.4-1.5L7 9Z"/></svg>Furnace temp</span>
+          <span class="otl-icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="15" width="18" height="3" rx="1.5"/><circle cx="6.5" cy="19.3" r="1.5"/><circle cx="17.5" cy="19.3" r="1.5"/><rect x="8.5" y="9" width="7" height="6" rx="1"/></svg>Belt speed</span>
+          <span class="otl-icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 18.5 10 12 20.5 5.5 10Z"/><path d="M8 10h8M12 3.5V10"/></svg>Ore grade</span>
+          <span class="otl-icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 20 20"/></svg>Tensile strength</span>
+        </div>
+      </section>
+
+      <nav class="lesson-toc" aria-label="Lesson contents">
+        <h2>In this lesson</h2>
+        <ol>
+          <li><a href="#learning-objectives">Learning objectives</a></li><li><a href="#prerequisites">Prerequisites</a></li>
+          <li><a href="#key-concepts">What exactly is an outlier?</a></li><li><a href="#terminology">Key terminology</a></li>
+          <li><a href="#core-formula">The four detection methods</a></li><li><a href="#decision-framework">Which method, when?</a></li>
+          <li><a href="#procedure">Step-by-step investigation</a></li><li><a href="#worked-example">Worked example: the furnace mystery</a></li>
+          <li><a href="#interactive-lab">Interactive investigation lab</a></li><li><a href="#interpretation">Interpretation guide</a></li>
+          <li><a href="#mistakes">Common mistakes and exam traps</a></li><li><a href="#software">Statistics Implementation: Excel &amp; Minitab</a></li>
+          <li><a href="#practice">Practice activity</a></li><li><a href="#quiz">Mini quiz</a></li>
+          <li><a href="#summary">Summary</a></li><li><a href="#references">References</a></li>
+        </ol>
+      </nav>
+
+      <section id="learning-objectives" aria-labelledby="objectives-heading">
+        <h2 id="objectives-heading">Learning objectives</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ol class="objectives-list">
+          <li><strong>Define</strong> an outlier and distinguish measurement error, data error, and genuine extreme values.</li>
+          <li><strong>Calculate</strong> the Z-score, Modified Z-score (MAD-based), IQR/Tukey fences, and Grubbs' test statistic by hand and in Excel.</li>
+          <li><strong>Select</strong> the right detection method based on sample size, distribution shape, and data sensitivity.</li>
+          <li><strong>Investigate</strong> a flagged point using a disciplined root-cause procedure before deciding what to do with it.</li>
+          <li><strong>Explain</strong> masking and swamping, and why deleting outliers without investigation is a data-integrity risk.</li>
+          <li><strong>Execute</strong> the full workflow in both Excel and Minitab, and connect it to ASQ CSSBB/CQE exam expectations.</li>
+        </ol>
+      </section>
+
+      <section id="prerequisites" aria-labelledby="prerequisites-heading">
+        <h2 id="prerequisites-heading">Prerequisites</h2>
+        <div class="panel"><p>You should be comfortable with the <strong>mean</strong>, <strong>median</strong>, and <strong>standard deviation</strong>, and have seen a <strong>boxplot</strong> before. If Chebyshev's inequality and the Empirical Rule are new to you, our <a href="/lessons/statistics/chebyshev-inequality-vs-empirical-rule">Chebyshev vs. the Empirical Rule</a> lesson is a good warm-up — outlier fences are built directly on those spread ideas.</p></div>
+      </section>
+
+      <section id="key-concepts" aria-labelledby="concepts-heading">
+        <h2 id="concepts-heading"><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 20 20"/></svg>What exactly is an outlier?</h2>
+        <p>Here's the definition I've used since my first plant assignment: <strong>an outlier is an observation that is inconsistent with the bulk of the data</strong>, given some assumed model of how the data should behave. That's it. Statistics gives you tools to flag candidates — it does not tell you <em>why</em> a point is weird. That part is still your job, and it's the part most courses skip.</p>
+        <p>In thirty years of chasing weird numbers through blast furnaces, rolling mills, and open pits, every flagged point eventually sorted itself into one of four buckets:</p>
+        <figure class="diagram-figure">
+          <div class="grid-2">
+            <div class="panel soft-panel" style="border-top:4px solid var(--otl-danger)">
+              <h3 style="margin-top:0">🚫 The value itself is wrong</h3>
+              <p style="color:var(--otl-muted);margin-top:-.3rem">Fix the pipeline, not just the number.</p>
+              <div class="term-card-icon" style="margin-top:.8rem"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 1 5.4-5.4l-2.7 2.7-2-2Z"/></svg></span><div><strong>Measurement / instrument error</strong><p style="margin:.15rem 0 0">The sensor lied — drift, no tare, a stuck gauge.</p></div></div>
+              <div class="term-card-icon" style="margin-top:.9rem"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M17 10h.01M7 14h10"/></svg></span><div><strong>Data / transcription error</strong><p style="margin:.15rem 0 0">A human or a paste error — 950 typed for 590.</p></div></div>
+            </div>
+            <div class="panel soft-panel" style="border-top:4px solid var(--otl-success)">
+              <h3 style="margin-top:0">✅ The value is correct</h3>
+              <p style="color:var(--otl-muted);margin-top:-.3rem">Respect it — investigate the process behind it.</p>
+              <div class="term-card-icon" style="margin-top:.8rem"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg></span><div><strong>Genuine process shift</strong><p style="margin:.15rem 0 0">A real, assignable cause — material swap, tool change.</p></div></div>
+              <div class="term-card-icon" style="margin-top:.9rem"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 18.5 10 12 20.5 5.5 10Z"/><path d="M8 10h8M12 3.5V10"/></svg></span><div><strong>Genuine rare event</strong><p style="margin:.15rem 0 0">The process working exactly as it does — a rich ore pocket, a true tail value.</p></div></div>
+            </div>
+          </div>
+          <figcaption class="diagram-caption">Every flagged point sorts into one of these two houses before you decide what to do with it.</figcaption>
+        </figure>
+        <div class="grid-2">
+          <div class="term-card"><h3>🔧 Measurement / instrument error</h3><p>A thermocouple drifts, a scale isn't tared, a gauge sticks. The process was fine; the sensor lied.</p></div>
+          <div class="term-card"><h3>⌨️ Data / transcription error</h3><p>Someone typed 950 instead of 590, pasted a column one row off, or a unit got mixed up (mm vs. cm).</p></div>
+          <div class="term-card"><h3>⚙️ Genuine process shift (special cause)</h3><p>A real, assignable cause changed the process — a raw-material swap, a tool change, an operator error. Real, and worth fixing at the source, not the spreadsheet.</p></div>
+          <div class="term-card"><h3>💎 Genuine rare event (natural extreme)</h3><p>The process is behaving exactly as it always does, and this is simply a rare tail value — or, on a good day, a genuinely rich ore pocket. Delete this and you're editing reality.</p></div>
+        </div>
+        <div class="callout warning"><strong>The trap:</strong> statistical tests can tell you a point is <em>far from the rest</em>. They cannot tell you which of the four buckets it belongs in. That takes investigation — walk the floor, pull the calibration log, check the sample log book.</div>
+      </section>
+
+      <section id="terminology" aria-labelledby="terminology-heading">
+        <h2 id="terminology-heading">Key terminology</h2>
+        <div class="grid-3">
+          <div class="term-card"><h3>Z-score</h3><p>Number of standard deviations a point sits from the mean. Sensitive to the very outliers it's trying to detect.</p></div>
+          <div class="term-card"><h3>MAD</h3><p>Median Absolute Deviation — the median of the absolute deviations from the median. A robust stand-in for standard deviation.</p></div>
+          <div class="term-card"><h3>Modified Z-score</h3><p>A Z-score built from the median and MAD instead of the mean and SD, so it resists being fooled by the outlier itself.</p></div>
+          <div class="term-card"><h3>IQR / Tukey fences</h3><p>Q3 − Q1 defines the middle 50% of the data. Fences at 1.5×IQR (mild) and 3×IQR (extreme) beyond Q1/Q3 flag candidates — distribution-free.</p></div>
+          <div class="term-card"><h3>Grubbs' test</h3><p>A formal hypothesis test (assumes approximate normality) for whether the single most extreme value is a statistical outlier.</p></div>
+          <div class="term-card"><h3>Masking &amp; swamping</h3><p>Masking: a second outlier hides the first by inflating the mean/SD. Swamping: a robust method over-flags normal points near a cluster of real outliers.</p></div>
+          <div class="term-card"><h3>Winsorizing</h3><p>Replacing extreme values with the nearest non-extreme value instead of deleting them — keeps the sample size, tempers the influence.</p></div>
+          <div class="term-card"><h3>Trimming</h3><p>Removing a fixed percentage of the most extreme values from each end before calculating statistics (e.g., a 5% trimmed mean).</p></div>
+          <div class="term-card"><h3>Influential point</h3><p>In regression, a point that changes the fitted line disproportionately — not always the same thing as an outlier in Y alone.</p></div>
+        </div>
+        <figure class="diagram-figure chart-shell">
+          <h3 style="margin-top:0">Watch masking happen, with real numbers</h3>
+          <p class="chart-note">Same furnace data from the worked example. Adding a <em>second</em> extreme reading doesn't just fail to get caught — it drags the mean and SD along enough to un-flag the first one too.</p>
+          <svg viewBox="0 0 700 170" role="img" aria-label="Bar gauges comparing the maximum Z-score with one outlier versus two outliers against the flag threshold of 3" style="width:100%;height:auto">
+            <text x="10" y="28" font-size="13" fill="var(--otl-ink)" font-weight="700">One rogue reading (1612°C) added</text>
+            <rect x="10" y="38" width="500" height="22" rx="4" fill="var(--otl-surface-soft)" stroke="var(--otl-line)"/>
+            <rect x="10" y="38" width="309" height="22" rx="4" fill="var(--otl-flag)"/>
+            <line x1="260" y1="32" x2="260" y2="66" stroke="var(--otl-ink)" stroke-width="2" stroke-dasharray="4 3"/>
+            <text x="264" y="30" font-size="11" fill="var(--otl-ink)">threshold |Z| = 3</text>
+            <text x="520" y="54" font-size="13" fill="var(--otl-flag)" font-weight="700">max |Z| = 3.71 — flagged ✓</text>
+            <text x="10" y="100" font-size="13" fill="var(--otl-ink)" font-weight="700">Second rogue reading (1615°C) added too</text>
+            <rect x="10" y="110" width="500" height="22" rx="4" fill="var(--otl-surface-soft)" stroke="var(--otl-line)"/>
+            <rect x="10" y="110" width="223" height="22" rx="4" fill="var(--otl-normal)"/>
+            <line x1="260" y1="104" x2="260" y2="138" stroke="var(--otl-ink)" stroke-width="2" stroke-dasharray="4 3"/>
+            <text x="520" y="126" font-size="13" fill="var(--otl-normal)" font-weight="700">max |Z| = 2.68 — missed ✗</text>
+            <text x="10" y="160" font-size="11" fill="var(--otl-muted)">SD grew from 28.17°C to 37.75°C — enough to pull both extreme readings back under the |Z| &gt; 3 threshold.</text>
+          </svg>
+          <figcaption class="diagram-caption">This is exactly why the decision framework says: cross-check the plain Z-score against IQR fences or the Modified Z-score before concluding "no outliers here."</figcaption>
+        </figure>
+      </section>
+
+      <section id="core-formula" aria-labelledby="formula-heading">
+        <h2 id="formula-heading">The four detection methods</h2>
+        <p>Here are the four tools I keep in my back pocket, from quickest-and-dirtiest to most formal.</p>
+
+        <h3>1. Z-score</h3>
+        <div class="formula-box"><div class="math">Z = <span class="frac"><span class="top">x − x̄</span><span class="bottom">s</span></span></div><p class="formula-caption">x̄ = sample mean, s = sample standard deviation. Common flag threshold: |Z| &gt; 3.</p></div>
+
+        <h3>2. Modified Z-score (MAD-based)</h3>
+        <div class="formula-box"><div class="math">M = <span class="frac"><span class="top">0.6745 (x − x̃)</span><span class="bottom">MAD</span></span> &nbsp;&nbsp; MAD = median(|xᵢ − x̃|)</div><p class="formula-caption">x̃ = median. Iglewicz &amp; Hoaglin's recommended flag threshold: |M| &gt; 3.5. The 0.6745 constant rescales MAD to be comparable to a standard deviation under normality.</p></div>
+
+        <h3>3. IQR / Tukey fences</h3>
+        <div class="formula-box"><div class="math">Lower = Q1 − 1.5(IQR) &nbsp;|&nbsp; Upper = Q3 + 1.5(IQR)</div><p class="formula-caption">IQR = Q3 − Q1. Use 3×IQR for "extreme" outliers instead of "mild" ones. This is the rule your boxplot's whiskers are already using.</p></div>
+        <figure class="diagram-figure chart-shell">
+          <svg viewBox="0 0 700 190" role="img" aria-label="Schematic boxplot showing Q1, median, Q3, the whiskers, the upper Tukey fence, and a flagged outlier beyond a broken axis" style="width:100%;height:auto">
+            <line x1="40" y1="120" x2="330" y2="120" stroke="var(--otl-muted)" stroke-width="1.5"/>
+            <line x1="380" y1="120" x2="660" y2="120" stroke="var(--otl-muted)" stroke-width="1.5"/>
+            <line x1="345" y1="112" x2="357" y2="128" stroke="var(--otl-muted)" stroke-width="2"/>
+            <line x1="357" y1="112" x2="369" y2="128" stroke="var(--otl-muted)" stroke-width="2"/>
+            <line x1="70" y1="105" x2="70" y2="135" stroke="var(--otl-ink)" stroke-width="2"/>
+            <line x1="70" y1="120" x2="150" y2="120" stroke="var(--otl-ink)" stroke-width="2"/>
+            <rect x="150" y="100" width="110" height="40" fill="none" stroke="var(--otl-ink)" stroke-width="2"/>
+            <line x1="205" y1="100" x2="205" y2="140" stroke="var(--otl-ink)" stroke-width="2"/>
+            <line x1="260" y1="120" x2="300" y2="120" stroke="var(--otl-ink)" stroke-width="2"/>
+            <line x1="300" y1="105" x2="300" y2="135" stroke="var(--otl-ink)" stroke-width="2"/>
+            <line x1="330" y1="70" x2="330" y2="150" stroke="var(--otl-fence)" stroke-width="2" stroke-dasharray="6 4"/>
+            <circle cx="600" cy="120" r="7" fill="var(--otl-flag)" stroke="var(--otl-surface)" stroke-width="2"/>
+            <text x="70" y="95" text-anchor="middle" font-size="12" fill="var(--otl-ink)" font-weight="700">Min (in fence)</text>
+            <text x="150" y="95" text-anchor="middle" font-size="12" fill="var(--otl-ink)">Q1</text>
+            <text x="205" y="95" text-anchor="middle" font-size="12" fill="var(--otl-ink)" font-weight="700">Median</text>
+            <text x="260" y="95" text-anchor="middle" font-size="12" fill="var(--otl-ink)">Q3</text>
+            <text x="330" y="60" text-anchor="middle" font-size="12" fill="var(--otl-fence)" font-weight="700">Upper fence</text>
+            <text x="330" y="165" text-anchor="middle" font-size="11" fill="var(--otl-fence)">Q3 + 1.5(IQR)</text>
+            <text x="600" y="100" text-anchor="middle" font-size="12" fill="var(--otl-flag)" font-weight="700">1310 mm</text>
+            <text x="600" y="145" text-anchor="middle" font-size="11" fill="var(--otl-flag)">flagged outlier</text>
+            <text x="205" y="180" text-anchor="middle" font-size="11" fill="var(--otl-muted)">Box width = IQR (Q3 − Q1); whiskers reach the last point still inside the fences</text>
+          </svg>
+          <figcaption class="diagram-caption">Schematic view (axis broken for clarity) using the rolling-mill coil-width practice numbers: Q1 = 1249, Q3 = 1252, upper fence = 1256.5 mm. The 1310 mm reading sits far beyond the fence.</figcaption>
+        </figure>
+
+        <h3>4. Grubbs' test (ESD, one-sided or two-sided)</h3>
+        <div class="formula-box"><div class="math">G = <span class="frac"><span class="top">max|xᵢ − x̄|</span><span class="bottom">s</span></span></div><p class="formula-caption">Reject (flag as outlier) if G exceeds the critical value G<sub>crit</sub>, which depends on n and your significance level α (typically 0.05) via the t-distribution. Assumes the data are approximately normal.</p></div>
+        <div class="callout"><strong>Note:</strong> Grubbs' test formally checks only the <em>single most extreme</em> point. To check for more than one outlier, use an iterative approach (remove, retest) or the Generalized ESD test — but iterate carefully, since removing points changes your critical value each round.</div>
+      </section>
+
+      <section id="decision-framework" aria-labelledby="decision-heading">
+        <h2 id="decision-heading">Which method, when?</h2>
+        <div class="method-grid">
+          <div class="method-card"><h3>Small n, unsure of shape</h3><p>Use <strong>IQR fences</strong>. Distribution-free, robust, and it's literally what your boxplot already shows.</p></div>
+          <div class="method-card"><h3>Approximately normal, need a formal test</h3><p>Use <strong>Grubbs' test</strong>. Gives you a defensible p-value for a report or a capability study.</p></div>
+          <div class="method-card"><h3>Suspect more than one outlier</h3><p>Use the <strong>Modified Z-score</strong>. Median and MAD aren't dragged around by the very points you're hunting.</p></div>
+          <div class="method-card"><h3>Quick screen, large n, normal-ish</h3><p>Use the plain <strong>Z-score</strong>. Fast, familiar, but weak when the outlier itself has inflated the mean and SD (masking).</p></div>
+          <div class="method-card"><h3>Time-ordered process data</h3><p>Use a <strong>control chart</strong> (I-MR or X-bar/R). A point beyond 3σ control limits is a special cause in context, not just a static outlier.</p></div>
+          <div class="method-card"><h3>Regression / multiple variables</h3><p>Check <strong>leverage, Cook's distance, and Mahalanobis distance</strong> — a point can be unremarkable on each variable alone and still be a multivariate outlier.</p></div>
+        </div>
+        <div class="callout success"><strong>My rule of thumb after 30 years:</strong> run at least two methods. If the Z-score, Modified Z-score, IQR fences, and Grubbs' test all agree, you have real confidence. If they disagree, that disagreement is itself information — usually about masking.</div>
+      </section>
+
+      <section id="procedure" aria-labelledby="procedure-heading">
+        <h2 id="procedure-heading"><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="18" height="10" rx="2"/><path d="M8 9V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3M3 14h18"/></svg>Step-by-step investigation procedure</h2>
+        <ol class="steps">
+          <li><strong>Plot it first.</strong> Boxplot, individual value plot, or run chart — before any formula. Your eyes catch things statistics miss.</li>
+          <li><strong>Screen with a distribution-free method.</strong> IQR fences work regardless of shape and cost nothing to compute.</li>
+          <li><strong>Confirm with a formal test if needed.</strong> Grubbs' test if approximately normal; otherwise document the IQR/Modified-Z flag.</li>
+          <li><strong>Investigate the root cause before touching the data.</strong> Pull the calibration log, the sample log, the shift log, the material certs. Talk to the operator.</li>
+          <li><strong>Classify it.</strong> Measurement error, data error, genuine process shift, or genuine rare event — pick one, with evidence.</li>
+          <li><strong>Decide and document.</strong> Correct (if the true value is known), exclude with a documented reason, Winsorize/trim for a specific analysis, or keep it as-is. Never delete silently.</li>
+          <li><strong>Re-run the analysis both ways.</strong> Report how the conclusion changes with and without the point — this transparency is what separates rigor from cherry-picking.</li>
+        </ol>
+        <div class="callout danger"><strong>The cardinal sin:</strong> deleting a point because it "ruins the story" or fails a normality test, with no investigation and no documentation. An auditor — or an ASQ exam question — will find this every time.</div>
+      </section>
+
+      <section id="worked-example" aria-labelledby="example-heading">
+        <h2 id="example-heading">Worked example: the furnace mystery</h2>
+        <div class="panel">
+          <p><strong>Problem:</strong> Sixteen consecutive hot-metal temperature readings (°C) from a blast furnace: 1494, 1502, 1497, 1508, 1499, 1505, 1496, 1501, 1503, 1498, 1500, 1506, 1495, 1504, 1499, 1612. Is 1612°C an outlier, and what should we do about it?</p>
+          <div class="worked-steps">
+            <div class="worked-step"><strong>Plot it.</strong> Fifteen readings cluster tightly around 1500°C; 1612°C sits well clear of the pack on a boxplot.</div>
+            <div class="worked-step"><strong>Screen with IQR.</strong> Q1 = 1497.75, Q3 = 1504.25, IQR = 6.5. Upper fence = 1504.25 + 1.5(6.5) = 1514.0°C. 1612°C is far beyond it.</div>
+            <div class="worked-step"><strong>Confirm with Grubbs.</strong> Mean ≈ 1507.44, s ≈ 28.17, G ≈ 3.71. For n = 16 at α = 0.05, G<sub>crit</sub> ≈ 2.59. Since G &gt; G<sub>crit</sub>, we reject the null — 1612°C is a statistical outlier.</div>
+            <div class="worked-step"><strong>Investigate.</strong> The maintenance log shows the thermocouple was replaced two readings later after failing a calibration check — it had drifted high after a furnace reline.</div>
+            <div class="worked-step"><strong>Classify and decide.</strong> This is a <strong>measurement error</strong>. We exclude the reading from the process-capability calculation, log the reason (thermocouple drift, confirmed by maintenance record), and flag the sensor for more frequent calibration.</div>
+          </div>
+          <div class="callout success"><strong>Payoff:</strong> excluding this one documented point drops the calculated standard deviation from ≈28.2°C to ≈4.2°C — the furnace was never actually running that wild. Reporting 28.2°C as "typical" variation would have triggered an unnecessary and expensive process investigation.</div>
+        </div>
+        <figure class="diagram-figure">
+          <div class="before-after-grid">
+            <div class="chart-shell">
+              <h3 style="margin-top:0">Before: including the glitch</h3>
+              <svg viewBox="0 0 320 165" role="img" aria-label="Histogram of furnace temperatures including the 1612 degree sensor glitch, with a broken axis" style="width:100%;height:auto">
+                <line x1="15" y1="130" x2="165" y2="130" stroke="var(--otl-muted)" stroke-width="1.5"/>
+                <line x1="195" y1="130" x2="300" y2="130" stroke="var(--otl-muted)" stroke-width="1.5"/>
+                <line x1="177" y1="123" x2="185" y2="133" stroke="var(--otl-muted)" stroke-width="2"/>
+                <line x1="185" y1="123" x2="193" y2="133" stroke="var(--otl-muted)" stroke-width="2"/>
+                <rect x="25" y="46" width="55" height="84" fill="var(--otl-normal)"/>
+                <text x="52" y="40" text-anchor="middle" font-size="12" fill="var(--otl-ink)" font-weight="700">7</text>
+                <text x="52" y="145" text-anchor="middle" font-size="10" fill="var(--otl-muted)">1490–1500</text>
+                <rect x="95" y="34" width="55" height="96" fill="var(--otl-normal)"/>
+                <text x="122" y="28" text-anchor="middle" font-size="12" fill="var(--otl-ink)" font-weight="700">8</text>
+                <text x="122" y="145" text-anchor="middle" font-size="10" fill="var(--otl-muted)">1500–1510</text>
+                <rect x="235" y="118" width="30" height="12" fill="var(--otl-flag)"/>
+                <text x="250" y="112" text-anchor="middle" font-size="12" fill="var(--otl-flag)" font-weight="700">1</text>
+                <text x="250" y="145" text-anchor="middle" font-size="10" fill="var(--otl-flag)">1610–1620</text>
+              </svg>
+              <p class="chart-note" style="text-align:center">SD ≈ 28.2°C — looks like a wild process.</p>
+            </div>
+            <div class="chart-shell">
+              <h3 style="margin-top:0">After: glitch excluded</h3>
+              <svg viewBox="0 0 320 165" role="img" aria-label="Histogram of furnace temperatures after excluding the documented sensor glitch" style="width:100%;height:auto">
+                <line x1="15" y1="130" x2="300" y2="130" stroke="var(--otl-muted)" stroke-width="1.5"/>
+                <rect x="70" y="46" width="60" height="84" fill="var(--otl-normal)"/>
+                <text x="100" y="40" text-anchor="middle" font-size="12" fill="var(--otl-ink)" font-weight="700">7</text>
+                <text x="100" y="145" text-anchor="middle" font-size="10" fill="var(--otl-muted)">1490–1500</text>
+                <rect x="150" y="34" width="60" height="96" fill="var(--otl-normal)"/>
+                <text x="180" y="28" text-anchor="middle" font-size="12" fill="var(--otl-ink)" font-weight="700">8</text>
+                <text x="180" y="145" text-anchor="middle" font-size="10" fill="var(--otl-muted)">1500–1510</text>
+              </svg>
+              <p class="chart-note" style="text-align:center">SD ≈ 4.2°C — a tight, well-behaved process.</p>
+            </div>
+          </div>
+          <figcaption class="diagram-caption">One documented, investigated exclusion changes the entire capability story — from "alarmingly variable" to "running exactly as designed."</figcaption>
+        </figure>
+      </section>
+
+      <section id="interactive-lab" aria-labelledby="lab-heading">
+        <h2 id="lab-heading">Interactive investigation lab</h2>
+        <p>Pick a case file from the plant or the pit, choose your detection lens, and see who gets flagged. Add a rogue reading of your own and watch masking happen in real time.</p>
+        <div class="tool">
+          <h3>Case files</h3>
+          <div class="preset-grid" role="group" aria-label="Case file presets">
+            <button class="preset-btn" type="button" data-preset="furnace" aria-pressed="true">🔥 Blast furnace<br>hot metal temp (°C)</button>
+            <button class="preset-btn" type="button" data-preset="tensile">🔩 Steel coil<br>tensile strength (MPa)</button>
+            <button class="preset-btn" type="button" data-preset="ore">⛏️ Iron ore<br>Fe grade (%)</button>
+            <button class="preset-btn" type="button" data-preset="belt">🎢 Conveyor<br>belt speed (m/min)</button>
+          </div>
+
+          <div class="controls" style="margin-top:1.1rem">
+            <div class="control-field full-row"><label for="dataset-input">Data (comma-separated) — edit freely</label><textarea id="dataset-input" inputmode="decimal"></textarea></div>
+          </div>
+          <div class="button-row">
+            <button class="btn secondary" type="button" id="shuffle-button">🎲 Shuffle a fresh random case</button>
+            <button class="btn secondary" type="button" id="add-glitch-button">➕ Add a rogue reading</button>
+            <button class="btn ghost" type="button" id="add-second-glitch-button">➕ Add a 2nd rogue (test masking)</button>
+            <button class="btn ghost" type="button" id="reset-lab-button">↺ Reset case</button>
+          </div>
+          <div id="lab-error" class="error-box" role="alert" hidden></div>
+
+          <h3 style="margin-top:1.4rem">Choose your detection lens</h3>
+          <div class="lens-row" role="group" aria-label="Detection method lens">
+            <button class="lens-btn" type="button" data-lens="z" aria-pressed="true">Z-score (|Z| &gt; 3)</button>
+            <button class="lens-btn" type="button" data-lens="modz" aria-pressed="false">Modified Z (|M| &gt; 3.5)</button>
+            <button class="lens-btn" type="button" data-lens="iqr" aria-pressed="false">IQR / Tukey (1.5×)</button>
+            <button class="lens-btn" type="button" data-lens="grubbs" aria-pressed="false">Grubbs' test (α = 0.05)</button>
+          </div>
+
+          <div class="metric-grid" aria-live="polite" aria-atomic="true">
+            <div class="metric-card"><div class="metric-label">n</div><div class="metric-value" id="metric-n">—</div></div>
+            <div class="metric-card"><div class="metric-label">Mean / SD</div><div class="metric-value" id="metric-mean-sd">—</div></div>
+            <div class="metric-card"><div class="metric-label">Median / MAD</div><div class="metric-value" id="metric-median-mad">—</div></div>
+            <div class="metric-card"><div class="metric-label">Q1 / Q3 / IQR</div><div class="metric-value" id="metric-iqr">—</div></div>
+          </div>
+
+          <div id="verdict-panel" class="verdict-panel" aria-live="polite"></div>
+
+          <div class="chart-shell">
+            <div class="chart-title-row"><div><h3>Boxplot &amp; strip plot</h3><p class="chart-note">Every dot is one reading. Red dots are flagged under the current lens; the amber band shows that lens's fence(s).</p></div><div class="button-row" role="group" aria-label="Chart view"><button class="btn secondary" type="button" id="stripview-button" aria-pressed="true">Boxplot + strip</button><button class="btn secondary" type="button" id="histview-button" aria-pressed="false">Histogram</button></div></div>
+            <div id="dot-chart" class="chart-view" role="img" aria-label="Boxplot and strip plot of the current case data with outliers highlighted"></div>
+            <div id="hist-chart" class="chart-view" role="img" aria-label="Histogram of the current case data with outlier bins highlighted" hidden></div>
+            <div class="chart-legend" aria-hidden="true"><span class="legend-item"><span class="legend-swatch"></span>Normal reading</span><span class="legend-item"><span class="legend-swatch flag"></span>Flagged reading</span><span class="legend-item"><span class="legend-swatch fence"></span>Fence / threshold</span></div>
+          </div>
+
+          <div class="table-scroll" style="margin-top:1.2rem">
+            <table>
+              <caption>Every reading, every lens — see the four methods argue with each other.</caption>
+              <thead><tr><th>#</th><th>Value</th><th>Z-score</th><th>Modified Z</th><th>Inside IQR fences?</th></tr></thead>
+              <tbody id="obs-table-body"></tbody>
+            </table>
+          </div>
+
+          <div id="story-card" class="story-card" hidden>
+            <p><strong>📋 Investigation report:</strong> <span id="story-text"></span></p>
+          </div>
+        </div>
+      </section>
+
+      <section id="interpretation" aria-labelledby="interpretation-heading">
+        <h2 id="interpretation-heading">Interpretation guide</h2>
+        <div class="table-scroll"><table><caption>When you see this, it means this.</caption><thead><tr><th>When you see this</th><th>It means this</th><th>What to say / do</th></tr></thead><tbody>
+          <tr><td>All four methods flag the same point</td><td>Strong, convergent evidence of a genuine outlier.</td><td>Proceed to root-cause investigation with confidence.</td></tr>
+          <tr><td>Z-score misses it, but Modified Z and IQR flag it</td><td>Classic <strong>masking</strong> — the outlier has inflated the mean and SD enough to hide itself from a plain Z-score.</td><td>Trust the robust methods (median/MAD, IQR) over the Z-score here.</td></tr>
+          <tr><td>Grubbs' test says "not significant" on skewed data</td><td>Grubbs assumes approximate normality; a skewed shape can violate that assumption.</td><td>Check a probability plot first; fall back to IQR fences if normality is doubtful.</td></tr>
+          <tr><td>A cluster of points near the fence all get flagged</td><td>Possible <strong>swamping</strong> — legitimate points crowded by a genuinely shifted subgroup.</td><td>Investigate whether a real process shift (not individual point errors) occurred.</td></tr>
+          <tr><td>The flagged point has a confirmed calibration failure</td><td>Measurement error.</td><td>Exclude from analysis, document the reason and evidence, fix or replace the instrument.</td></tr>
+          <tr><td>The flagged point matches a known process/material change</td><td>Genuine special cause.</td><td>Keep it, but segment the analysis; investigate and correct the process, not the data.</td></tr>
+          <tr><td>The flagged point has no assignable cause after real investigation</td><td>Possibly a genuine rare event from natural variation.</td><td>Keep it in the primary analysis; consider reporting a robust statistic (median/IQR) alongside the mean/SD.</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section id="mistakes" aria-labelledby="mistakes-heading">
+        <h2 id="mistakes-heading">Common mistakes and exam traps</h2>
+        <div class="mistake-grid">
+          <div class="mistake-card"><span class="mistake-tag">Judgment error</span><h3>Deleting without investigating</h3><p><strong>Why wrong:</strong> you may be discarding real, important information (or hiding a real defect). <strong>Avoid it:</strong> always document a root cause before removing a point.</p></div>
+          <div class="mistake-card"><span class="mistake-tag">Method error</span><h3>Using Grubbs' test on clearly skewed data</h3><p><strong>Why wrong:</strong> Grubbs assumes approximate normality; skew inflates false positives/negatives. <strong>Avoid it:</strong> check shape first, or use IQR fences instead.</p></div>
+          <div class="mistake-card"><span class="mistake-tag">Calculation error</span><h3>Confusing MAD with average absolute deviation</h3><p><strong>Why wrong:</strong> MAD uses the <em>median</em> of absolute deviations from the <em>median</em> — not the mean. Excel's AVEDEV computes a different, less robust quantity. <strong>Avoid it:</strong> build MAD explicitly with MEDIAN(ABS(...)).</p></div>
+          <div class="mistake-card"><span class="mistake-tag">Statistical trap</span><h3>Ignoring masking</h3><p><strong>Why wrong:</strong> a second extreme point can inflate the mean and SD enough that the plain Z-score misses both. <strong>Avoid it:</strong> cross-check with Modified Z-score or IQR fences, which resist masking.</p></div>
+          <div class="mistake-card"><span class="mistake-tag">Exam trap</span><h3>Treating "outlier" and "error" as synonyms</h3><p><strong>Why wrong:</strong> a statistical outlier can be a completely genuine, correctly recorded extreme value. <strong>Avoid it:</strong> the ASQ exams expect you to know that removal requires a documented, investigated reason.</p></div>
+          <div class="mistake-card"><span class="mistake-tag">Process error</span><h3>Fixing the data instead of the process</h3><p><strong>Why wrong:</strong> if a genuine special cause produced the point, excluding it from a report without fixing the root cause lets the problem recur. <strong>Avoid it:</strong> route genuine special causes to corrective action, not just to the exclusions column.</p></div>
+        </div>
+      </section>
+
+      <section id="software" aria-labelledby="software-heading">
+        <h2 id="software-heading">Statistics Implementation: Excel &amp; Minitab</h2>
+
+        <h3>Excel Functions</h3>
+        <div class="table-scroll">
+          <table>
+            <caption>Functions used to detect and characterize outliers in Excel.</caption>
+            <thead><tr><th>Function</th><th>Syntax</th><th>Purpose</th><th>When to use it</th></tr></thead>
+            <tbody>
+              <tr><td><code>AVERAGE</code></td><td><code>=AVERAGE(range)</code></td><td>Sample mean, x̄</td><td>Baseline center for the Z-score method.</td></tr>
+              <tr><td><code>MEDIAN</code></td><td><code>=MEDIAN(range)</code></td><td>Robust center, x̃</td><td>Foundation for the Modified Z-score and MAD; unaffected by the outlier itself.</td></tr>
+              <tr><td><code>STDEV.S</code></td><td><code>=STDEV.S(range)</code></td><td>Sample standard deviation</td><td>Denominator of the Z-score and Grubbs' G, for a sample (n − 1 divisor).</td></tr>
+              <tr><td><code>STDEV.P</code></td><td><code>=STDEV.P(range)</code></td><td>Population standard deviation</td><td>Only when your data <em>is</em> the entire population, not a sample — rare in process work.</td></tr>
+              <tr><td><code>STANDARDIZE</code></td><td><code>=STANDARDIZE(x, mean, sd)</code></td><td>Computes a Z-score directly</td><td>Fast one-cell Z-score without building the subtraction/division yourself.</td></tr>
+              <tr><td><code>QUARTILE.INC</code></td><td><code>=QUARTILE.INC(range, quart)</code></td><td>Q1 (quart=1) and Q3 (quart=3), inclusive method</td><td>Standard, most-taught method for building IQR/Tukey fences.</td></tr>
+              <tr><td><code>QUARTILE.EXC</code></td><td><code>=QUARTILE.EXC(range, quart)</code></td><td>Q1/Q3, exclusive method</td><td>Use when your course or standard specifically calls for the exclusive definition; gives slightly different fences on small n.</td></tr>
+              <tr><td><code>PERCENTILE.INC</code></td><td><code>=PERCENTILE.INC(range, k)</code></td><td>Any percentile</td><td>Cross-checking quartiles or building custom fences (e.g., 5th/95th percentile).</td></tr>
+              <tr><td><code>ABS</code></td><td><code>=ABS(number)</code></td><td>Absolute value</td><td>Core building block for MAD, Modified Z-score, and Grubbs' numerator.</td></tr>
+              <tr><td><code>AVEDEV</code></td><td><code>=AVEDEV(range)</code></td><td>Average absolute deviation from the <em>mean</em></td><td>Note: this is <strong>not</strong> MAD. Don't substitute it for the median-based MAD formula.</td></tr>
+              <tr><td>MAD (array formula)</td><td><code>=MEDIAN(ABS(range-MEDIAN(range)))</code></td><td>Median Absolute Deviation</td><td>Enter as an array formula (Ctrl+Shift+Enter in older Excel, or automatically in dynamic-array Excel/365). Required for the Modified Z-score.</td></tr>
+              <tr><td><code>LARGE</code> / <code>SMALL</code></td><td><code>=LARGE(range,1)</code> / <code>=SMALL(range,1)</code></td><td>Extreme values by rank</td><td>Pull the most extreme value to feed Grubbs' numerator, max|xᵢ − x̄|.</td></tr>
+              <tr><td><code>T.INV.2T</code></td><td><code>=T.INV.2T(probability, deg_freedom)</code></td><td>Two-tailed inverse t critical value</td><td>Computes the t value needed inside the Grubbs' critical-value formula.</td></tr>
+              <tr><td><code>T.DIST.2T</code></td><td><code>=T.DIST.2T(x, deg_freedom)</code></td><td>Two-tailed p-value from a t statistic</td><td>Convert a Grubbs-derived t statistic back into a p-value for reporting.</td></tr>
+              <tr><td><code>COUNT</code></td><td><code>=COUNT(range)</code></td><td>Sample size, n</td><td>Needed everywhere — Grubbs' critical value depends heavily on n.</td></tr>
+              <tr><td><code>IF</code> / <code>AND</code></td><td><code>=IF(ABS(z)&gt;3,"Flag","OK")</code></td><td>Flagging logic</td><td>Turn any of the above statistics into a pass/fail column for review.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Excel use cases</h3>
+        <div class="panel">
+          <p><strong>Building a Z-score column (data in A2:A17, mean in D1, SD in D2):</strong> <code>=(A2-$D$1)/$D$2</code>, filled down, then flag with <code>=IF(ABS(B2)&gt;3,"Flag","")</code>.</p>
+          <p><strong>Building the Modified Z-score:</strong> with median in D3 and MAD in D4 (array formula above), <code>=0.6745*(A2-$D$3)/$D$4</code>, flag at |M| &gt; 3.5.</p>
+          <p><strong>Building IQR fences:</strong> <code>=QUARTILE.INC($A$2:$A$17,1)</code> and <code>=QUARTILE.INC($A$2:$A$17,3)</code> in two cells, then <code>=Q3-Q1</code> for IQR, and <code>=Q1-1.5*IQR</code> / <code>=Q3+1.5*IQR</code> for the fences.</p>
+          <p><strong>Assembling Grubbs' critical value:</strong> with n in D5, α = 0.05: <code>=T.INV.2T(0.05/D5, D5-2)</code> gives the t value, then <code>=((D5-1)/SQRT(D5))*SQRT(t^2/(D5-2+t^2))</code> gives G<sub>crit</sub>. Compare against G = <code>=MAX(ABS(A2:A17-$D$1))/$D$2</code> (entered as an array formula).</p>
+          <div class="callout warning"><strong>Caution:</strong> Excel has no single built-in "Grubbs' test" function — you assemble it from T.INV.2T, exactly as shown above. Don't confuse this with a simple Z-score screen.</div>
+        </div>
+
+        <h3>Minitab Navigation</h3>
+        <div class="software-grid">
+          <div class="panel"><h3>Descriptive statistics &amp; quartiles</h3><ol><li><strong>Stat → Basic Statistics → Display Descriptive Statistics.</strong> Returns mean, median, SD, Q1, Q3, and IQR directly — no manual formulas needed.</li><li>Alternative: <strong>Stat → Basic Statistics → Graphical Summary</strong> adds a normality test and confidence intervals alongside the same statistics.</li><li>Use Graphical Summary when you also need to judge whether Grubbs' normality assumption is reasonable.</li></ol></div>
+          <div class="panel"><h3>Formal outlier test</h3><ol><li><strong>Stat → Basic Statistics → Outlier Test.</strong> Runs Grubbs' test directly on a column and reports the flagged value and p-value.</li><li>Use this when you need a defensible, documented p-value rather than an eyeballed fence.</li><li>Check the normality assumption first (Graphical Summary's Anderson-Darling test) — Minitab will not stop you from misapplying it to skewed data.</li></ol></div>
+          <div class="panel"><h3>Visual screening</h3><ol><li><strong>Graph → Boxplot.</strong> Minitab marks points beyond 1.5×IQR with an asterisk automatically — your fastest first look.</li><li><strong>Graph → Individual Value Plot</strong> or <strong>Graph → Scatterplot</strong> for a raw view without box-plot compression.</li><li>Use the boxplot for a quick screen, then follow up with Outlier Test or Descriptive Statistics for the formal number.</li></ol></div>
+          <div class="panel"><h3>Time-ordered process data</h3><ol><li><strong>Stat → Control Charts → Variables Charts for Individuals → I-MR.</strong> Flags points beyond 3σ control limits in the context of process order, not just static distribution.</li><li>Use this instead of a static outlier test whenever the data are collected over time — a control chart also tells you whether the shift persisted.</li><li><strong>Stat → Quality Tools → Individual Distribution Identification</strong> helps confirm which distribution model is reasonable before trusting Grubbs or a capability study.</li></ol></div>
+        </div>
+
+        <h3>Exam tips</h3>
+        <div class="callout"><strong>ASQ CSSBB / CQE exam connections:</strong> outlier detection sits under the Measure phase / basic statistics domain. Expect questions that (1) ask you to compute a Z-score, IQR fence, or interpret a Grubbs' test result by hand or from output; (2) test whether you know Grubbs' test requires an approximate normality assumption while IQR fences do not; (3) present a scenario and ask what you should do <em>before</em> removing a point (the answer is almost always "investigate and document," not "delete"); and (4) distinguish an outlier from a point that is merely influential in a regression context. In real-world capability studies, always report whether outliers were included or excluded and why — an auditor will ask.</div>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-heading">
+        <h2 id="practice-heading">Practice activity</h2>
+        <div class="panel">
+          <p>A rolling mill logs 12 coil widths (mm): 1250, 1248, 1252, 1251, 1249, 1253, 1247, 1250, 1252, 1249, 1251, 1310. Using the IQR method, is 1310 mm an outlier? (Q1 = 1249.00, Q3 = 1252.00.)</p>
+          <button class="btn" type="button" id="practice-reveal-button" aria-expanded="false" aria-controls="practice-answer">Reveal answer</button>
+          <div class="practice-answer" id="practice-answer" hidden>
+            <p>IQR = 1252.00 − 1249.00 = 3.0 mm. Upper fence = 1252.00 + 1.5(3.0) = 1256.5 mm.</p>
+            <p>1310 mm is well above 1256.5 mm, so <strong>yes, it is flagged as an outlier</strong> by the IQR method — and by a wide margin.</p>
+            <p><strong>Conclusion:</strong> before removing it, check whether this reading came from a different gauge, a different coil altogether, or a genuine mill excursion. Don't just delete it because it's inconvenient.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="quiz" aria-labelledby="quiz-heading">
+        <h2 id="quiz-heading">Mini quiz</h2>
+        <form id="quiz-form" novalidate>
+          <div class="quiz-question" data-answer="2"><fieldset><legend>1. Which detection method makes no assumption about the shape of the distribution?</legend><label class="quiz-option"><input type="radio" name="q1" value="1"><span>Grubbs' test</span></label><label class="quiz-option"><input type="radio" name="q1" value="2"><span>IQR / Tukey fences</span></label><label class="quiz-option"><input type="radio" name="q1" value="3"><span>Plain Z-score with |Z| &gt; 3</span></label></fieldset><div class="quiz-feedback" hidden data-explanation="IQR fences are distribution-free; Grubbs' test and the Z-score approach both implicitly lean on approximate normality."></div></div>
+          <div class="quiz-question" data-answer="3"><fieldset><legend>2. A second extreme point inflates the mean and standard deviation enough that a plain Z-score fails to flag either point. This is called:</legend><label class="quiz-option"><input type="radio" name="q2" value="1"><span>Swamping</span></label><label class="quiz-option"><input type="radio" name="q2" value="2"><span>Winsorizing</span></label><label class="quiz-option"><input type="radio" name="q2" value="3"><span>Masking</span></label></fieldset><div class="quiz-feedback" hidden data-explanation="Masking is when one outlier's effect on the mean/SD hides another outlier (or itself) from a non-robust method."></div></div>
+          <div class="quiz-question" data-answer="1"><fieldset><legend>3. Median Absolute Deviation (MAD) is best described as:</legend><label class="quiz-option"><input type="radio" name="q3" value="1"><span>The median of the absolute deviations from the median</span></label><label class="quiz-option"><input type="radio" name="q3" value="2"><span>The average of the absolute deviations from the mean</span></label><label class="quiz-option"><input type="radio" name="q3" value="3"><span>The same thing as the standard deviation</span></label></fieldset><div class="quiz-feedback" hidden data-explanation="MAD = median(|xi − median|). Excel's AVEDEV computes the average absolute deviation from the mean, which is a different, less robust quantity."></div></div>
+          <div class="quiz-question" data-answer="2"><fieldset><legend>4. A calibration log confirms a flagged reading came from a drifted, out-of-spec sensor. What should you do?</legend><label class="quiz-option"><input type="radio" name="q4" value="1"><span>Leave it in every calculation, since deleting data is never allowed</span></label><label class="quiz-option"><input type="radio" name="q4" value="2"><span>Exclude it from the analysis, and document the confirmed root cause</span></label><label class="quiz-option"><input type="radio" name="q4" value="3"><span>Silently delete it so the report looks cleaner</span></label></fieldset><div class="quiz-feedback" hidden data-explanation="A confirmed measurement error can be excluded — but only with clear documentation of the evidence and reason, never silently."></div></div>
+          <div class="quiz-question" data-answer="1"><fieldset><legend>5. Which Excel function is required inside the Grubbs' critical-value formula?</legend><label class="quiz-option"><input type="radio" name="q5" value="1"><span>T.INV.2T</span></label><label class="quiz-option"><input type="radio" name="q5" value="2"><span>AVEDEV</span></label><label class="quiz-option"><input type="radio" name="q5" value="3"><span>NORM.S.DIST</span></label></fieldset><div class="quiz-feedback" hidden data-explanation="Grubbs' critical value is built from a two-tailed inverse t critical value, T.INV.2T(alpha/n, n-2), combined algebraically."></div></div>
+          <div class="quiz-question" data-answer="3"><fieldset><legend>6. A high-grade ore pocket produces a genuinely correct 68.9% Fe reading among values normally around 62%. What is the best characterization?</legend><label class="quiz-option"><input type="radio" name="q6" value="1"><span>A data entry error that must be corrected</span></label><label class="quiz-option"><input type="radio" name="q6" value="2"><span>Proof the sampling equipment is broken</span></label><label class="quiz-option"><input type="radio" name="q6" value="3"><span>A genuine rare/extreme value that should generally be kept, with the finding noted</span></label></fieldset><div class="quiz-feedback" hidden data-explanation="Not every statistical outlier is an error. A confirmed genuine extreme value should typically stay in the dataset, reported transparently."></div></div>
+        </form>
+        <div class="button-row"><button class="btn" type="button" id="quiz-submit">Submit quiz</button><button class="btn secondary" type="button" id="quiz-reset">Reset quiz</button></div><p id="quiz-score" aria-live="polite">Score: not submitted</p>
+      </section>
+
+      <section id="summary" aria-labelledby="summary-heading">
+        <h2 id="summary-heading">Final summary</h2>
+        <ul class="takeaways">
+          <li>An outlier is a point inconsistent with the bulk of the data — not automatically an error.</li>
+          <li>Four core detection tools: Z-score, Modified Z-score (MAD-based), IQR/Tukey fences, and Grubbs' test — each with different assumptions and blind spots.</li>
+          <li>Masking (an outlier hiding itself or another) and swamping (flagging good points near a real cluster) are real failure modes — cross-check methods.</li>
+          <li>Detection is step one. Investigation — instrument logs, sample logs, operator interviews — decides what a flagged point actually is.</li>
+          <li>Never delete a point without a documented, investigated reason; report results with and without the point when in doubt.</li>
+          <li>Excel builds each method from AVERAGE/MEDIAN/STDEV.S/QUARTILE.INC/T.INV.2T; Minitab's Outlier Test, Boxplot, and I-MR chart give the same answers with far less manual formula work.</li>
+        </ul>
+        <div class="callout"><strong>Decision rule:</strong> screen with IQR fences (always works) → confirm with Grubbs' test if approximately normal → investigate root cause before any exclusion → document the decision either way.</div>
+        <div class="remember"><strong>Remember this:</strong> statistics finds the suspect. Investigation finds the verdict.</div>
+        <p><strong>Suggested next lesson:</strong> <a href="/lessons/statistics/chebyshev-inequality-vs-empirical-rule">Chebyshev vs. the Empirical Rule</a>.</p>
+      </section>
+
+      <section id="references" aria-labelledby="references-heading">
+        <h2 id="references-heading">References</h2>
+        <ul>
+          <li>NIST/SEMATECH, <a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h.htm">Grubbs' test for outliers</a>, e-Handbook of Statistical Methods.</li>
+          <li>NIST/SEMATECH, <a href="https://www.itl.nist.gov/div898/handbook/prc/section1/prc16.htm">Detection of outliers</a>, e-Handbook of Statistical Methods.</li>
+          <li>Iglewicz, B. and Hoaglin, D., <em>How to Detect and Handle Outliers</em>, ASQC Quality Press.</li>
+          <li>Microsoft Support, <a href="https://support.microsoft.com/en-us/office/t-inv-2t-function-ce72ea19-ec6c-4be7-bed2-b9baf2264f17">T.INV.2T function</a>.</li>
+          <li>Minitab Support, <a href="https://support.minitab.com/en-us/minitab/help-and-how-to/statistics/basic-statistics/how-to/outlier-test/">Outlier Test overview</a>.</li>
+        </ul>
+      </section>
+    </article>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+      const $ = id => document.getElementById(id);
+      const el = {
+        datasetInput:$("dataset-input"),error:$("lab-error"),
+        metricN:$("metric-n"),metricMeanSd:$("metric-mean-sd"),metricMedianMad:$("metric-median-mad"),metricIqr:$("metric-iqr"),
+        verdict:$("verdict-panel"),chart:$("dot-chart"),histChart:$("hist-chart"),stripViewBtn:$("stripview-button"),histViewBtn:$("histview-button"),tableBody:$("obs-table-body"),
+        storyCard:$("story-card"),storyText:$("story-text"),
+        shuffleBtn:$("shuffle-button"),addGlitchBtn:$("add-glitch-button"),addSecondGlitchBtn:$("add-second-glitch-button"),resetBtn:$("reset-lab-button"),
+        practiceBtn:$("practice-reveal-button"),practiceAnswer:$("practice-answer"),
+        quizForm:$("quiz-form"),quizSubmit:$("quiz-submit"),quizReset:$("quiz-reset"),quizScore:$("quiz-score")
+      };
+      if (!el.datasetInput) return;
+
+      const PRESETS = {
+        furnace:{label:"Blast furnace hot metal temperature (°C)",values:[1494,1502,1497,1508,1499,1505,1496,1501,1503,1498,1500,1506,1495,1504,1499,1612],
+          story:"Maintenance records confirm the thermocouple had drifted after a furnace reline and failed its next calibration check. Classified as a <strong>measurement error</strong> — the reading was excluded from the capability study and the sensor's calibration interval was shortened."},
+        tensile:{label:"Steel coil tensile strength (MPa)",values:[572,588,579,585,591,576,583,590,578,582,587,574,581,589,577,584,950,580],
+          story:"The lab log shows the technician's entry sheet had a transposed digit — the true reading was 590 MPa, mis-keyed as 950 MPa. Classified as a <strong>data/transcription error</strong> — corrected in the source system, not just deleted from the analysis."},
+        ore:{label:"Iron ore Fe grade, drill assay (%)",values:[61.2,62.5,61.8,63.1,62.0,61.5,62.8,61.9,62.3,61.6,62.7,61.4,62.1,61.7,62.9,61.3,62.4,61.1,68.9,62.2],
+          story:"Follow-up drilling confirmed a genuine high-grade vein pocket at that location — assay equipment was re-checked and calibrated correctly. Classified as a <strong>genuine rare event</strong> — kept in the dataset and reported as a notable find, not an error."},
+        belt:{label:"Conveyor belt speed (m/min)",values:[184,186,183,187,185,188,182,186,184,185,187,183,0.2,186],
+          story:"Shift log confirms an emergency stop was triggered by a tripped safety switch during that reading — the belt was genuinely stationary for a few seconds. Classified as a <strong>genuine process event</strong> — excluded from steady-state speed analysis but logged separately as an E-stop event."}
+      };
+      let currentPreset = "furnace";
+      let currentLens = "z";
+      let currentView = "strip";
+
+      // ---- numerics ----
+      const mean = a => a.reduce((s,v)=>s+v,0)/a.length;
+      const stdevSample = a => { const m=mean(a); return Math.sqrt(a.reduce((s,v)=>s+(v-m)*(v-m),0)/(a.length-1)); };
+      const sortedOf = a => [...a].sort((x,y)=>x-y);
+      const median = a => { const s=sortedOf(a), n=s.length, mid=Math.floor(n/2); return n%2 ? s[mid] : (s[mid-1]+s[mid])/2; };
+      const mad = a => { const m=median(a); return median(a.map(v=>Math.abs(v-m))); };
+      const percentileInc = (sorted,p) => { const n=sorted.length, idx=p*(n-1), lo=Math.floor(idx), hi=Math.ceil(idx); if(lo===hi) return sorted[lo]; const frac=idx-lo; return sorted[lo]+frac*(sorted[hi]-sorted[lo]); };
+
+      function logGamma(x){
+        const g=7, c=[0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+        if(x<0.5) return Math.log(Math.PI/Math.sin(Math.PI*x))-logGamma(1-x);
+        x-=1; let a=c[0]; const t=x+g+0.5; for(let i=1;i<g+2;i++) a+=c[i]/(x+i);
+        return 0.5*Math.log(2*Math.PI)+(x+0.5)*Math.log(t)-t+Math.log(a);
+      }
+      function betacf(a,b,x){
+        const MAXIT=200,EPS=3e-7,FPMIN=1e-30; const qab=a+b,qap=a+1,qam=a-1;
+        let c=1,d=1-qab*x/qap; if(Math.abs(d)<FPMIN)d=FPMIN; d=1/d; let h=d;
+        for(let m=1;m<=MAXIT;m++){ const m2=2*m; let aa=m*(b-m)*x/((qam+m2)*(a+m2));
+          d=1+aa*d; if(Math.abs(d)<FPMIN)d=FPMIN; c=1+aa/c; if(Math.abs(c)<FPMIN)c=FPMIN; d=1/d; h*=d*c;
+          aa=-(a+m)*(qab+m)*x/((a+m2)*(qap+m2)); d=1+aa*d; if(Math.abs(d)<FPMIN)d=FPMIN; c=1+aa/c; if(Math.abs(c)<FPMIN)c=FPMIN; d=1/d;
+          const del=d*c; h*=del; if(Math.abs(del-1)<EPS) break; }
+        return h;
+      }
+      function betai(a,b,x){
+        if(x<=0) return 0; if(x>=1) return 1;
+        const bt=Math.exp(logGamma(a+b)-logGamma(a)-logGamma(b)+a*Math.log(x)+b*Math.log(1-x));
+        return x<(a+1)/(a+b+2) ? bt*betacf(a,b,x)/a : 1-bt*betacf(b,a,1-x)/b;
+      }
+      function tCdf(t,df){ const x=df/(df+t*t); const p=betai(df/2,0.5,x); return t>0 ? 1-p/2 : p/2; }
+      function tQuantile(p,df){ let lo=-200,hi=200; for(let i=0;i<100;i++){ const mid=(lo+hi)/2; if(tCdf(mid,df)<p) lo=mid; else hi=mid; } return (lo+hi)/2; }
+      function grubbsCritical(n,alpha=0.05){ if(n<3) return NaN; const df=n-2; const t=tQuantile(1-alpha/(2*n),df); return ((n-1)/Math.sqrt(n))*Math.sqrt((t*t)/(n-2+t*t)); }
+
+      const fmt = v => Number.isFinite(v) ? Number(v.toFixed(3)).toString() : "—";
+      const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      const svgNode = (tag,attrs={}) => { const n=document.createElementNS("http://www.w3.org/2000/svg",tag); Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v)); return n; };
+      const addText = (svg,x,y,text,attrs={}) => { const t=svgNode("text",{x,y,...attrs}); t.textContent=text; svg.appendChild(t); };
+
+      function parseDataset(){
+        const raw = el.datasetInput.value.split(",").map(s=>s.trim()).filter(s=>s.length);
+        const values = raw.map(Number);
+        if (!values.length || values.some(v=>!Number.isFinite(v))) return null;
+        if (values.length < 5) return null;
+        return values;
+      }
+
+      function computeStats(values){
+        const n=values.length, m=mean(values), sd=stdevSample(values), med=median(values), MAD=mad(values);
+        const sorted=sortedOf(values), q1=percentileInc(sorted,0.25), q3=percentileInc(sorted,0.75), iqr=q3-q1;
+        const lowerFence=q1-1.5*iqr, upperFence=q3+1.5*iqr;
+        const zScores=values.map(v=>(v-m)/sd);
+        const modZ=values.map(v=> MAD===0 ? 0 : 0.6745*(v-med)/MAD);
+        const deviations=values.map(v=>Math.abs(v-m));
+        const maxDevIdx=deviations.indexOf(Math.max(...deviations));
+        const G = sd===0?0:deviations[maxDevIdx]/sd;
+        const Gcrit = grubbsCritical(n,0.05);
+        return {n,mean:m,sd,median:med,mad:MAD,q1,q3,iqr,lowerFence,upperFence,zScores,modZ,maxDevIdx,G,Gcrit};
+      }
+
+      function flaggedByLens(stats,values,lens,i){
+        if(lens==="z") return Math.abs(stats.zScores[i])>3;
+        if(lens==="modz") return Math.abs(stats.modZ[i])>3.5;
+        if(lens==="iqr") return values[i]<stats.lowerFence || values[i]>stats.upperFence;
+        if(lens==="grubbs") return i===stats.maxDevIdx && stats.G>stats.Gcrit;
+        return false;
+      }
+
+      function renderHistogram(values,stats,lens){
+        const W=760,H=230,m={l:44,r:20,t:20,b:44};
+        const min=Math.min(...values), max=Math.max(...values), pad=(max-min||1)*0.06;
+        const lo=min-pad, hi=max+pad;
+        const binCount=Math.max(5,Math.min(12,Math.round(Math.sqrt(values.length)*1.8)));
+        const binWidth=(hi-lo)/binCount || 1;
+        const bins=Array.from({length:binCount},(_,i)=>({lo:lo+i*binWidth,hi:lo+(i+1)*binWidth,count:0,flagged:false}));
+        values.forEach((v,i)=>{
+          let idx=Math.min(binCount-1,Math.floor((v-lo)/binWidth));
+          bins[idx].count++;
+          if(flaggedByLens(stats,values,lens,i)) bins[idx].flagged=true;
+        });
+        const maxCount=Math.max(...bins.map(b=>b.count),1);
+        const pw=W-m.l-m.r, ph=H-m.t-m.b, bw=pw/binCount;
+        const x=i=>m.l+i*bw, y=c=>m.t+(ph-(c/maxCount)*ph);
+        const svg=svgNode("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Histogram of the current case data"});
+        const ink=css("--otl-ink"), muted=css("--otl-muted"), line=css("--otl-line"), normal=css("--otl-normal"), flag=css("--otl-flag");
+        svg.appendChild(svgNode("line",{x1:m.l,y1:H-m.b,x2:W-m.r,y2:H-m.b,stroke:line}));
+        [0,0.5,1].forEach(f=>{const c=maxCount*f;svg.appendChild(svgNode("line",{x1:m.l,y1:y(c),x2:W-m.r,y2:y(c),stroke:line,"stroke-dasharray":"3 4"}));addText(svg,m.l-8,y(c)+4,String(Math.round(c)),{fill:muted,"font-size":10,"text-anchor":"end"});});
+        bins.forEach((b,i)=>{
+          const h=(b.count/maxCount)*ph;
+          svg.appendChild(svgNode("rect",{x:x(i)+2,y:H-m.b-h,width:Math.max(1,bw-4),height:h,fill:b.flagged?flag:normal,opacity:.9}));
+          if(b.count>0) addText(svg,x(i)+bw/2,H-m.b-h-6,String(b.count),{fill:ink,"font-size":11,"text-anchor":"middle","font-weight":700});
+          if(i%2===0 || binCount<=8) addText(svg,x(i)+bw/2,H-m.b+16,fmt(b.lo),{fill:muted,"font-size":9,"text-anchor":"middle"});
+        });
+        addText(svg,W/2,H-6,"Reading value (bin lower edge shown)",{fill:ink,"font-size":11,"font-weight":700,"text-anchor":"middle"});
+        return svg;
+      }
+
+      function renderChart(values,stats,lens){
+        const W=760,H=190,m={l:40,r:30,t:20,b:34};
+        const min=Math.min(...values), max=Math.max(...values), pad=(max-min||1)*0.12;
+        const lo=min-pad, hi=max+pad, pw=W-m.l-m.r;
+        const x = v => m.l + (v-lo)/(hi-lo)*pw;
+        const svg = svgNode("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Strip plot of the data with boxplot summary"});
+        const ink=css("--otl-ink"), muted=css("--otl-muted"), line=css("--otl-line"), normal=css("--otl-normal"), flag=css("--otl-flag"), fence=css("--otl-fence");
+        // axis
+        svg.appendChild(svgNode("line",{x1:m.l,y1:H-m.b,x2:W-m.r,y2:H-m.b,stroke:line}));
+        [lo, (lo+hi)/2, hi].forEach(v=>addText(svg,x(v),H-m.b+18,fmt(v),{fill:muted,"font-size":10,"text-anchor":"middle"}));
+        // fence band for iqr lens
+        if(lens==="iqr"){
+          const lf=Math.max(stats.lowerFence,lo), uf=Math.min(stats.upperFence,hi);
+          svg.appendChild(svgNode("line",{x1:x(stats.lowerFence),y1:m.t,x2:x(stats.lowerFence),y2:H-m.b,stroke:fence,"stroke-width":2,"stroke-dasharray":"5 4"}));
+          svg.appendChild(svgNode("line",{x1:x(stats.upperFence),y1:m.t,x2:x(stats.upperFence),y2:H-m.b,stroke:fence,"stroke-width":2,"stroke-dasharray":"5 4"}));
+        }
+        if(lens==="z"){
+          [stats.mean-3*stats.sd, stats.mean+3*stats.sd].forEach(v=>{ if(v>=lo&&v<=hi) svg.appendChild(svgNode("line",{x1:x(v),y1:m.t,x2:x(v),y2:H-m.b,stroke:fence,"stroke-width":2,"stroke-dasharray":"5 4"})); });
+        }
+        if(lens==="modz"){
+          const half = stats.mad===0?0:3.5*stats.mad/0.6745;
+          [stats.median-half, stats.median+half].forEach(v=>{ if(v>=lo&&v<=hi) svg.appendChild(svgNode("line",{x1:x(v),y1:m.t,x2:x(v),y2:H-m.b,stroke:fence,"stroke-width":2,"stroke-dasharray":"5 4"})); });
+        }
+        // boxplot
+        const boxY=m.t+18, boxH=26;
+        svg.appendChild(svgNode("rect",{x:x(stats.q1),y:boxY,width:Math.max(1,x(stats.q3)-x(stats.q1)),height:boxH,fill:"none",stroke:ink,"stroke-width":1.5}));
+        svg.appendChild(svgNode("line",{x1:x(stats.median),y1:boxY,x2:x(stats.median),y2:boxY+boxH,stroke:ink,"stroke-width":2}));
+        svg.appendChild(svgNode("line",{x1:x(min),y1:boxY+boxH/2,x2:x(stats.q1),y2:boxY+boxH/2,stroke:ink,"stroke-width":1.2}));
+        svg.appendChild(svgNode("line",{x1:x(stats.q3),y1:boxY+boxH/2,x2:x(max),y2:boxY+boxH/2,stroke:ink,"stroke-width":1.2}));
+        // strip plot dots (jittered)
+        const dotY=H-m.b-16;
+        values.forEach((v,i)=>{
+          const isFlag=flaggedByLens(stats,values,lens,i);
+          const jitter=((i%5)-2)*3.4;
+          svg.appendChild(svgNode("circle",{cx:x(v),cy:dotY+jitter,r:6,fill:isFlag?flag:normal,opacity:.9,stroke:css("--otl-surface"),"stroke-width":1.3}));
+        });
+        return svg;
+      }
+
+      function renderTable(values,stats){
+        el.tableBody.innerHTML="";
+        values.forEach((v,i)=>{
+          const outsideIqr = v<stats.lowerFence || v>stats.upperFence;
+          const tr=document.createElement("tr");
+          if (flaggedByLens(stats,values,currentLens,i)) tr.classList.add("flagged-row");
+          tr.innerHTML = `<td>${i+1}</td><td>${fmt(v)}</td><td>${fmt(stats.zScores[i])}</td><td>${fmt(stats.modZ[i])}</td><td>${outsideIqr?"No — flagged":"Yes"}</td>`;
+          el.tableBody.appendChild(tr);
+        });
+      }
+
+      function renderVerdict(stats){
+        const flags = [];
+        for(let i=0;i<stats.n;i++){}
+        let text="";
+        let anyFlag=false;
+        if(currentLens==="grubbs"){
+          const pass = stats.G>stats.Gcrit;
+          anyFlag = pass;
+          text = `<strong>Grubbs' test:</strong> G = ${fmt(stats.G)}, critical value (α = 0.05, n = ${stats.n}) = ${fmt(stats.Gcrit)}. ${pass ? "G exceeds the critical value — the most extreme point is a statistical outlier." : "G does not exceed the critical value — no significant outlier detected."}`;
+        } else if (currentLens==="iqr"){
+          const count = [];
+          text = `<strong>IQR / Tukey fences:</strong> lower = ${fmt(stats.lowerFence)}, upper = ${fmt(stats.upperFence)}.`;
+          anyFlag = false;
+        } else if (currentLens==="z"){
+          text = `<strong>Z-score lens:</strong> flagging any |Z| &gt; 3, using mean = ${fmt(stats.mean)} and SD = ${fmt(stats.sd)}.`;
+        } else {
+          text = `<strong>Modified Z-score lens:</strong> flagging any |M| &gt; 3.5, using median = ${fmt(stats.median)} and MAD = ${fmt(stats.mad)}.`;
+        }
+        el.verdict.innerHTML = text;
+        el.verdict.className = "verdict-panel";
+      }
+
+      function update(){
+        const values = parseDataset();
+        if(!values){ el.error.hidden=false; el.error.textContent="Enter at least 5 comma-separated numbers."; return; }
+        el.error.hidden=true;
+        const stats = computeStats(values);
+        el.metricN.textContent = stats.n;
+        el.metricMeanSd.textContent = `${fmt(stats.mean)} / ${fmt(stats.sd)}`;
+        el.metricMedianMad.textContent = `${fmt(stats.median)} / ${fmt(stats.mad)}`;
+        el.metricIqr.textContent = `${fmt(stats.q1)} / ${fmt(stats.q3)} / ${fmt(stats.iqr)}`;
+        renderVerdict(stats);
+        el.chart.replaceChildren(renderChart(values,stats,currentLens));
+        el.histChart.replaceChildren(renderHistogram(values,stats,currentLens));
+        renderTable(values,stats);
+        const preset = PRESETS[currentPreset];
+        const flaggedAny = values.some((v,i)=>flaggedByLens(stats,values,currentLens,i));
+        if(preset && flaggedAny){ el.storyCard.hidden=false; el.storyText.innerHTML=preset.story; } else { el.storyCard.hidden=true; }
+      }
+
+      function loadPreset(key){
+        currentPreset=key;
+        el.datasetInput.value = PRESETS[key].values.join(", ");
+        document.querySelectorAll(".preset-btn").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.preset===key)));
+        update();
+      }
+
+      function shuffle(){
+        currentPreset=null;
+        document.querySelectorAll(".preset-btn").forEach(b=>b.setAttribute("aria-pressed","false"));
+        const n = 12 + Math.floor(Math.random()*8);
+        const base = 100 + Math.random()*400;
+        const spread = 3 + Math.random()*6;
+        const values = Array.from({length:n},()=> Math.round((base + (Math.random()*2-1)*spread*2 + (Math.random()*2-1)*spread)*100)/100);
+        if (Math.random()>0.35){
+          const dir = Math.random()>0.5?1:-1;
+          values.push(Math.round((base + dir*spread*(6+Math.random()*6))*100)/100);
+        }
+        el.datasetInput.value = values.join(", ");
+        update();
+      }
+
+      function addGlitch(){
+        const values = parseDataset(); if(!values) return;
+        const m = mean(values), sd = stdevSample(values)||1;
+        const dir = Math.random()>0.5?1:-1;
+        const rogue = Math.round((m + dir*(5+Math.random()*4)*sd)*100)/100;
+        values.push(rogue);
+        el.datasetInput.value = values.join(", ");
+        update();
+      }
+
+      function resetLab(){ if(currentPreset && PRESETS[currentPreset]) loadPreset(currentPreset); else loadPreset("furnace"); }
+
+      document.querySelectorAll(".preset-btn").forEach(btn=>btn.addEventListener("click",()=>loadPreset(btn.dataset.preset)));
+      document.querySelectorAll(".lens-btn").forEach(btn=>btn.addEventListener("click",()=>{
+        currentLens=btn.dataset.lens;
+        document.querySelectorAll(".lens-btn").forEach(b=>b.setAttribute("aria-pressed", String(b===btn)));
+        update();
+      }));
+      function setView(view){
+        currentView=view;
+        const strip=view==="strip";
+        el.chart.hidden=!strip;
+        el.histChart.hidden=strip;
+        el.stripViewBtn.setAttribute("aria-pressed",String(strip));
+        el.histViewBtn.setAttribute("aria-pressed",String(!strip));
+      }
+      el.stripViewBtn.addEventListener("click",()=>setView("strip"));
+      el.histViewBtn.addEventListener("click",()=>setView("hist"));
+      el.datasetInput.addEventListener("input", update);
+      el.shuffleBtn.addEventListener("click", shuffle);
+      el.addGlitchBtn.addEventListener("click", addGlitch);
+      el.addSecondGlitchBtn.addEventListener("click", addGlitch);
+      el.resetBtn.addEventListener("click", resetLab);
+
+      el.practiceBtn.addEventListener("click",()=>{ const show=el.practiceAnswer.hidden; el.practiceAnswer.hidden=!show; el.practiceBtn.setAttribute("aria-expanded",String(show)); el.practiceBtn.textContent = show?"Hide answer":"Reveal answer"; });
+
+      function grade(){
+        const qs=[...el.quizForm.querySelectorAll(".quiz-question")]; let score=0, unanswered=0;
+        qs.forEach(q=>{
+          const selected=q.querySelector("input:checked"), answer=Number(q.dataset.answer), f=q.querySelector(".quiz-feedback"), exp=f.dataset.explanation;
+          q.classList.remove("correct","incorrect"); f.classList.remove("correct","incorrect"); f.hidden=false;
+          if(!selected){ unanswered++; q.classList.add("incorrect"); f.classList.add("incorrect"); f.textContent=`Not answered. ${exp}`; }
+          else if(Number(selected.value)===answer){ score++; q.classList.add("correct"); f.classList.add("correct"); f.textContent=`Correct. ${exp}`; }
+          else { q.classList.add("incorrect"); f.classList.add("incorrect"); f.textContent=`Incorrect. ${exp}`; }
+        });
+        const pct=Math.round(score/qs.length*100);
+        const msg = pct===100?"Case closed — excellent detective work.":pct>=80?"Strong instincts for a data detective.":pct>=60?"Good start — review the interpretation guide.":"Review the four methods and try again.";
+        el.quizScore.textContent = `Score: ${score}/${qs.length} (${pct}%). ${msg}${unanswered?` ${unanswered} unanswered.`:""}`;
+      }
+      function resetQuiz(){
+        el.quizForm.reset();
+        el.quizForm.querySelectorAll(".quiz-question").forEach(q=>{ q.classList.remove("correct","incorrect"); const f=q.querySelector(".quiz-feedback"); f.hidden=true; f.classList.remove("correct","incorrect"); f.textContent=""; });
+        el.quizScore.textContent="Score: not submitted";
+      }
+      el.quizSubmit.addEventListener("click", grade);
+      el.quizReset.addEventListener("click", resetQuiz);
+
+      new MutationObserver(m=>{ if(m.some(x=>x.attributeName==="data-theme")){ update(); } }).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+
+      loadPreset("furnace");
+    })();
+  </script>
+
+<section class="lesson-backlink" aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left"><a href="/lessons#data-analytics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Data Analytics lessons</a></section>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+</body>
+</html>
