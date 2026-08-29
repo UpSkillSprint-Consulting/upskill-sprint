@@ -113,3 +113,62 @@ test('without test-bank-set-controls.js loaded, the Questions row is still first
   const card = modeCard(window, 1);
   assert.deepEqual(fieldrowLabels(card), ['Questions', 'Timing', 'Filters'], 'gracefully degrades to the core rows when the companion script is absent');
 });
+
+// --- Stress-test findings ----------------------------------------------------
+
+test('the Timing segmented control keyboard navigation still works nested inside a fieldrow', async () => {
+  const { window } = await loadPage(false);
+  const quick = modeCard(window, 1);
+  const group = quick.querySelector('[data-timing-group="quick"]');
+  assert.ok(group, 'timing group is found nested inside the fieldrow');
+  group.querySelector('[data-timed="1"]').focus();
+  group.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+  await settle(window, 3);
+  const freshGroup = modeCard(window, 1).querySelector('[data-timing-group="quick"]');
+  assert.ok(freshGroup.querySelector('[data-timed="0"]').classList.contains('on'), 'ArrowRight still moves selection to Untimed');
+});
+
+test('switching exams re-renders the stacked layout correctly with a fresh Set row and no errors', async () => {
+  const { window, errors } = await loadPage();
+  const cqeTile = window.document.querySelector('.tb-tile[data-exam="cqe"]');
+  assert.ok(cqeTile, 'a second exam exists to switch to');
+  cqeTile.dispatchEvent(new window.Event('click', { bubbles: true }));
+  await settle(window);
+  assert.deepEqual(fieldrowLabels(modeCard(window, 1)), ['Set', 'Questions', 'Timing', 'Filters']);
+  assert.deepEqual(errors, []);
+});
+
+test('full production script stack (all 17 companion scripts) loads the new stacked layout with zero JS errors', async () => {
+  const scriptFiles = [
+    'test-bank-set-controls.js', 'test-bank-feedback-loop.js', 'test-bank-phase1-api.js',
+    'test-bank-deep-feedback.js', 'test-bank-deep-feedback-grounding.js', 'test-bank-phase2-hardening.js',
+    'test-bank-phase2-attempt-history.js', 'test-bank-phase2-reporting.js', 'test-bank-phase2-runtime-coordinator.js',
+    'test-bank-phase2-quality-assurance.js', 'test-bank-account-sync.js', 'test-bank-adaptive-mastery.js',
+    'test-bank-adaptive-mastery-runtime.js', 'test-bank-adaptive-mastery-hardening.js', 'test-bank-analytics-dashboard.js',
+    'test-bank-adaptive-mastery-completion-guard.js', 'test-bank-phases-integration.js'
+  ];
+  const { window, errors } = await loadPage(false);
+  window.addEventListener('error', event => errors.push('window error: ' + (event.error ? event.error.message : event.message)));
+
+  scriptFiles.forEach(name => {
+    const filePath = path.join(ROOT, name);
+    if (!fs.existsSync(filePath)) return;
+    try { window.eval(fs.readFileSync(filePath, 'utf8')); } catch (error) { errors.push('eval error in ' + name + ': ' + error.message); }
+  });
+  await settle(window, 10);
+
+  const exam = window.__TB.EXAMS.cssbb;
+  window.__TBAdaptiveMastery.recordResults(
+    exam.sets[2].slice(0, 3).map(question => ({ question, selected: question.answer === 0 ? 1 : 0, status: 'incorrect' })),
+    'test-seed'
+  );
+  modeCard(window, 1).querySelector('[data-count="quick"][data-n="10"]').dispatchEvent(new window.Event('click', { bubbles: true }));
+  await settle(window);
+  modeCard(window, 1).querySelector('[data-missed="quick"]').dispatchEvent(new window.Event('click', { bubbles: true }));
+  await settle(window);
+  modeCard(window, 1).querySelector('[data-mode="quick"]').dispatchEvent(new window.Event('click', { bubbles: true }));
+  await settle(window, 10);
+
+  assert.ok(window.document.getElementById('tb-overview').querySelector('.tb-stem'), 'a live quiz question rendered');
+  assert.deepEqual(errors, [], 'zero JS errors across the full production stack with the new stacked layout');
+});
