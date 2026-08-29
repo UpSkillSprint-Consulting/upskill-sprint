@@ -3027,6 +3027,8 @@
       ]}
     ]
   };
+  /* Green Belt uses the same core Six Sigma formulas as the Black Belt sheet. */
+  REFS.cssgb=REFS.cssbb;
   function factorial(n){if(n<0||n!==Math.floor(n)||n>170)return NaN;var r=1;for(var i=2;i<=n;i++)r*=i;return r;}
   function calcEval(expr){
     var s=String(expr).replace(/\s+/g,'');if(!s)return '';

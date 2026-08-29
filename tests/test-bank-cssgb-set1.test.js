@@ -116,6 +116,30 @@ test('reviewed numerical and source-defect repairs have defensible answers', asy
   } finally { dom.window.close(); }
 });
 
+test('CSSGB exam tools include a populated formula sheet and working calculator', async () => {
+  const { dom, window, errors } = await loadPage();
+  try {
+    const overview = window.document.getElementById('tb-overview');
+    const click = element => element.dispatchEvent(new window.Event('click', { bubbles: true }));
+    click(window.document.querySelector('.tb-tile[data-exam="cssgb"]'));
+    click(overview.querySelector('[data-mode="full"]'));
+
+    click(overview.querySelector('[data-formulas]'));
+    assert.equal(window.document.getElementById('tb-formulas').hidden, false);
+    assert.ok(window.document.querySelectorAll('#tb-reflist .tb-refitem').length > 0, 'formula drawer is populated');
+
+    click(overview.querySelector('[data-calc]'));
+    const calc = window.document.getElementById('tb-calc');
+    assert.equal(calc.hidden, false);
+    click(calc.querySelector('[data-k="2"]'));
+    click(calc.querySelector('[data-k="+"]'));
+    click(calc.querySelector('[data-k="3"]'));
+    click(calc.querySelector('[data-act="eq"]'));
+    assert.equal(window.document.getElementById('tb-calcdisp').textContent, '5');
+    assert.deepEqual(errors, []);
+  } finally { dom.window.close(); }
+});
+
 test('CSSGB launches the full 110-question simulation plus Quick and Focused modes', async () => {
   const { dom, window } = await loadPage();
   try {
