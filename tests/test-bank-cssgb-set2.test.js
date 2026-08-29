@@ -51,14 +51,16 @@ function openCssgb(window) {
   return window.document.getElementById('tb-overview');
 }
 
-test('Set 2 is a complete, independently mapped 110-question bank', () => {
-  assert.equal(SET2.length, 110);
-  assert.equal(new Set(SET2.map(question => question.stem.trim().toLowerCase())).size, 110, 'no duplicate Set 2 stems');
+test('Set 2 contains every Part A and Part B question as a 506-question source bank', () => {
+  assert.equal(SET2.length, 506, '406 Part A questions plus 100 Part B questions');
+  assert.equal(new Set(SET2.map(question => question.stem.trim().toLowerCase())).size, 506, 'no duplicate Set 2 stems');
   const set1Stems = new Set(SET1.map(question => question.stem.trim().toLowerCase()));
   SET2.forEach((question, index) => {
+    assert.ok(question.stem.trim(), `question ${index + 1} has a visible stem`);
     assert.equal(question.set, 2, `question ${index + 1} belongs to Set 2`);
     assert.equal(question.sourceGlobalQuestion, index + 1, `question ${index + 1} has a stable global mapping`);
     assert.equal(question.options.length, 4, `question ${index + 1} has four options`);
+    assert.ok(question.options.every(option => option.trim()), `question ${index + 1} has no empty option`);
     assert.equal(new Set(question.options.map(option => option.trim().toLowerCase())).size, 4, `question ${index + 1} options are distinct`);
     assert.ok(Number.isInteger(question.answer) && question.answer >= 0 && question.answer < 4, `question ${index + 1} has a valid key`);
     assert.match(question.why, new RegExp(`<b>${'ABCD'[question.answer]}\\.`), `question ${index + 1} explanation identifies its keyed choice`);
@@ -66,11 +68,13 @@ test('Set 2 is a complete, independently mapped 110-question bank', () => {
     assert.ok(question.sourcePrintPage >= 4 && question.sourcePrintPage <= 171, `question ${index + 1} has a plausible print page`);
     assert.match(question.bokReference, /^[IVX]+(?:\.[A-Z0-9]+)+$/, `question ${index + 1} has a BoK reference`);
     assert.ok(!set1Stems.has(question.stem.trim().toLowerCase()), `question ${index + 1} does not repeat Set 1`);
-    assert.doesNotMatch(`${question.stem} ${question.options.join(' ')} ${question.why}`, /(?:\bundefined\b|\bNaN\b|\.jpe?g|\ufffd)/i, `question ${index + 1} contains no extraction debris`);
+    assert.doesNotMatch(`${question.stem} ${question.options.join(' ')} ${question.why}`, /(?:\bundefined\b|\bNaN\b|\[\[IMG|\.jpe?g|\ufffd)/i, `question ${index + 1} contains no extraction debris`);
+    const visibleFeedback = JSDOM.fragment(question.why).textContent.replace(/\s+/g, ' ').trim();
+    assert.ok(visibleFeedback.includes(question.options[question.answer]), `question ${index + 1} visibly identifies the complete keyed answer`);
   });
 });
 
-test('all 100 Part B questions and the 10 selected Part A questions retain exact source coordinates', () => {
+test('all 100 Part B and all 406 Part A questions retain exact source coordinates and answer keys', () => {
   const partB = SET2.slice(0, 100);
   assert.deepEqual(Array.from(partB, question => question.sourceQuestion), Array.from({ length: 100 }, (_, index) => index + 1));
   assert.ok(partB.every(question => question.sourcePart === 'Part B: Practice Exam'));
@@ -80,33 +84,36 @@ test('all 100 Part B questions and the 10 selected Part A questions retain exact
   assert.equal(partB.map(question => 'ABCD'[question.answer]).join(''),
     'ABBCBCADCDDADDACABBDBDABBABDBABBBABDCBDDBCBCAACCBBBBBCBCDCAACABCACDCCBBADBDDADBDAADCBCACDADCBBDBACDC');
 
-  const expectedAdditions = [
-    ['OEBPS/xhtml/chapter1.xhtml', 3, 4, 'D'],
-    ['OEBPS/xhtml/chapter2.xhtml', 7, 23, 'A'],
-    ['OEBPS/xhtml/chapter2.xhtml', 14, 24, 'D'],
-    ['OEBPS/xhtml/chapter3.xhtml', 3, 47, 'B'],
-    ['OEBPS/xhtml/chapter3.xhtml', 11, 48, 'B'],
-    ['OEBPS/xhtml/chapter4.xhtml', 22, 88, 'A'],
-    ['OEBPS/xhtml/chapter4.xhtml', 55, 95, 'A'],
-    ['OEBPS/xhtml/chapter5.xhtml', 6, 111, 'C'],
-    ['OEBPS/xhtml/chapter5.xhtml', 29, 117, 'D'],
-    ['OEBPS/xhtml/chapter6.xhtml', 53, 137, 'B']
-  ];
-  assert.deepEqual(Array.from(SET2.slice(100), question => [
-    question.sourceEpubFile, question.sourceQuestion, question.sourcePrintPage, 'ABCD'[question.answer]
-  ]), expectedAdditions);
+  const expectedChapters = {
+    'OEBPS/xhtml/chapter1.xhtml': { count: 51, pages: [4, 14], answers: 'BADDCBDCDACABCCDCAAADBCABBCCBABABDDBBBCADACCDBDCCAB' },
+    'OEBPS/xhtml/chapter2.xhtml': { count: 75, pages: [21, 37], answers: 'ADBDCCAABBBABDBCCBAADADDBCDABBABCBDBDAABCBDBBBCADBCDCCBCBBBBADDCCBACDABABCA' },
+    'OEBPS/xhtml/chapter3.xhtml': { count: 103, pages: [45, 69], answers: 'ADBDCDABBABBCCCDDCACDADBACBADBCCABBABACABBDCABBCBCCABBCACBACABCDBABDBCACAADCACBBBCBDBAABDBABAACDDBCAACA' },
+    'OEBPS/xhtml/chapter4.xhtml': { count: 71, pages: [82, 99], answers: 'CDBABCBAACDABADCCBBACABABBDBACDBCBCDAABDDDDCCACBBACCACABBDADBABCDDBAAAD' },
+    'OEBPS/xhtml/chapter5.xhtml': { count: 44, pages: [110, 120], answers: 'ADAABCBDCBACCAAADDCCAAACCADCDCABCAACABACAACB' },
+    'OEBPS/xhtml/chapter6.xhtml': { count: 62, pages: [126, 139], answers: 'ABDACDAABBDABCACBBBDADCBCCBCDCABCBADCCBABADACBDCADACBACBDADAAB' }
+  };
+  const partA = SET2.slice(100);
+  assert.equal(partA.length, 406);
+  assert.ok(partA.every(question => question.sourcePart === 'Part A: Sample Questions by BoK'));
+  for (const [sourceEpubFile, expected] of Object.entries(expectedChapters)) {
+    const questions = partA.filter(question => question.sourceEpubFile === sourceEpubFile);
+    assert.equal(questions.length, expected.count, `${sourceEpubFile} has every source question`);
+    assert.deepEqual(Array.from(questions, question => question.sourceQuestion), Array.from({ length: expected.count }, (_, index) => index + 1));
+    assert.deepEqual([Math.min(...questions.map(question => question.sourcePrintPage)), Math.max(...questions.map(question => question.sourcePrintPage))], expected.pages);
+    assert.equal(questions.map(question => 'ABCD'[question.answer]).join(''), expected.answers, `${sourceEpubFile} preserves the published answer key`);
+  }
 });
 
-test('the final 110-question domain mix closely preserves the official 100-question weighting', () => {
+test('the full source bank preserves every chapter and the Part B exam domain weighting', () => {
   const counts = {};
   SET2.forEach(question => { counts[question.sub] = (counts[question.sub] || 0) + 1; });
   assert.deepEqual(counts, {
-    'cssgb-org': 12,
-    'cssgb-define': 22,
-    'cssgb-control': 16,
-    'cssgb-improve': 18,
-    'cssgb-analyze': 20,
-    'cssgb-measure': 22
+    'cssgb-org': 62,
+    'cssgb-define': 95,
+    'cssgb-control': 77,
+    'cssgb-improve': 60,
+    'cssgb-analyze': 89,
+    'cssgb-measure': 123
   });
   const partBCounts = {};
   SET2.slice(0, 100).forEach(question => { partBCounts[question.sub] = (partBCounts[question.sub] || 0) + 1; });
@@ -138,11 +145,16 @@ test('calculation-heavy and image-dependent questions retain their reviewed answ
   assert.match(SET2[95].stem, /1\. Build the sequence.+5\. Verify/, 'the five flowcharting steps omitted by text extraction were restored');
 });
 
-test('all required source visuals are represented with accessible repo-native charts', async () => {
+test('all 73 required source visuals are represented with accessible repo-native charts', async () => {
   const chartNumbers = Array.from(SET2, (question, index) => question.chart ? index + 1 : null).filter(Boolean);
-  assert.deepEqual(chartNumbers, [13, 24, 29, 36, 37, 65, 92]);
-  assert.deepEqual(Array.from(SET2.filter(question => question.chart), question => question.chart.type), [
-    'vsm-supermarket', 'data-table', 'data-table', 'data-table', 'data-table', 'main-effects-plot', 'two-level-interaction'
+  assert.equal(chartNumbers.length, 73);
+  assert.deepEqual(chartNumbers.slice(0, 7), [13, 24, 29, 36, 37, 65, 92], 'all existing Part B visuals remain present');
+  const chartTypes = new Set(SET2.filter(question => question.chart).map(question => question.chart.type));
+  assert.deepEqual([...chartTypes].sort(), [
+    'bias-diagram', 'data-table', 'distribution-labels', 'fishbone-labels', 'fta-diagram',
+    'interaction-plot-3', 'labeled-boxplot', 'main-effects-plot', 'multi-vari', 'normal-prob',
+    'scatter-quadrant', 'two-level-interaction', 'two-tail-test', 'vsm-supermarket',
+    'vsm-symbol', 'wbs-diagram'
   ]);
   const { window, errors } = await loadPage();
   assert.deepEqual(errors, []);
@@ -155,15 +167,15 @@ test('all required source visuals are represented with accessible repo-native ch
   });
 });
 
-test('CSSGB exposes Set 1, Set 2, and Mixed and routes a Set 2 quick quiz correctly', async () => {
+test('CSSGB exposes the full 506-question Set 2 pool and routes a quick quiz correctly', async () => {
   const { window, errors } = await loadPage();
   const overview = openCssgb(window);
   assert.deepEqual(errors, []);
   const selectors = Array.from(overview.querySelectorAll('.tb-setpick [data-set]'));
   assert.deepEqual(selectors.map(button => button.dataset.set), ['1', '2', 'mix']);
   assert.match(selectors[0].textContent, /110 questions/);
-  assert.match(selectors[1].textContent, /110 questions/);
-  assert.match(selectors[2].textContent, /220 pooled/);
+  assert.match(selectors[1].textContent, /506 questions/);
+  assert.match(selectors[2].textContent, /616 pooled/);
   click(window, overview.querySelector('[data-set="2"]'));
   const rerendered = window.document.getElementById('tb-overview');
   assert.ok(rerendered.querySelector('[data-set="2"].on'));
@@ -176,12 +188,12 @@ test('CSSGB exposes Set 1, Set 2, and Mixed and routes a Set 2 quick quiz correc
 
 test('Set 2 focused practice reaches every mapped domain without leakage', async () => {
   const expected = {
-    enterprise: { sub: 'cssgb-org', count: 12 },
-    define: { sub: 'cssgb-define', count: 22 },
-    measure: { sub: 'cssgb-measure', count: 22 },
-    analyze: { sub: 'cssgb-analyze', count: 20 },
-    improve: { sub: 'cssgb-improve', count: 18 },
-    control: { sub: 'cssgb-control', count: 16 }
+    enterprise: { sub: 'cssgb-org', pool: 62 },
+    define: { sub: 'cssgb-define', pool: 95 },
+    measure: { sub: 'cssgb-measure', pool: 123 },
+    analyze: { sub: 'cssgb-analyze', pool: 89 },
+    improve: { sub: 'cssgb-improve', pool: 60 },
+    control: { sub: 'cssgb-control', pool: 77 }
   };
   const byStem = new Map(SET2.map(question => [question.stem, question]));
   const { window, errors } = await loadPage();
@@ -197,8 +209,9 @@ test('Set 2 focused practice reaches every mapped domain without leakage', async
     selector.dispatchEvent(new window.Event('change', { bubbles: true }));
     overview = window.document.getElementById('tb-overview');
     click(window, overview.querySelector('[data-mode="focus"]'));
-    assert.equal(window.document.querySelectorAll('.tb-navcell').length, spec.count, `${domain} contains every available Set 2 question`);
-    for (let index = 0; index < spec.count; index += 1) {
+    assert.equal(SET2.filter(question => question.sub === spec.sub).length, spec.pool, `${domain} exposes its complete source pool`);
+    assert.equal(window.document.querySelectorAll('.tb-navcell').length, 50, `${domain} starts the requested 50-question practice session`);
+    for (let index = 0; index < 50; index += 1) {
       click(window, window.document.querySelector(`[data-goto="${index}"]`));
       const question = byStem.get(window.document.querySelector('.tb-stem').textContent);
       assert.ok(question && question.sub === spec.sub, `${domain} focused question ${index + 1} stays in its domain`);
@@ -208,7 +221,7 @@ test('Set 2 focused practice reaches every mapped domain without leakage', async
   assert.deepEqual(errors, []);
 });
 
-test('Mixed full exam uses the 220-question pool while preserving the 110-question exam length', async () => {
+test('Mixed full exam uses the 616-question pool while preserving the 110-question exam length', async () => {
   const { window, errors } = await loadPage();
   let overview = openCssgb(window);
   click(window, overview.querySelector('[data-set="mix"]'));
@@ -231,7 +244,7 @@ test('Mixed full exam uses the 220-question pool while preserving the 110-questi
   assert.deepEqual(errors, []);
 });
 
-test('a student can complete every Set 2 question correctly without a broken or omitted item', async () => {
+test('a student can complete a 110-question Set 2 exam drawn from the full source pool', async () => {
   const { window, errors } = await loadPage();
   let overview = openCssgb(window);
   click(window, overview.querySelector('[data-set="2"]'));
@@ -239,7 +252,7 @@ test('a student can complete every Set 2 question correctly without a broken or 
   click(window, overview.querySelector('[data-timed="0"]'));
   overview = window.document.getElementById('tb-overview');
   click(window, overview.querySelector('[data-mode="full"]'));
-  assert.equal(window.document.querySelectorAll('.tb-navcell').length, 110, 'all 110 questions entered the full exam');
+  assert.equal(window.document.querySelectorAll('.tb-navcell').length, 110, 'the full exam remains a realistic 110-question sitting');
 
   const byStem = new Map(SET2.map(question => [question.stem, question]));
   for (let index = 0; index < 110; index += 1) {
