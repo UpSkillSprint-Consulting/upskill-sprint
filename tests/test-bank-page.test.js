@@ -7,7 +7,9 @@ const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
 
 const ROOT = path.join(__dirname, '..');
-const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
+const cmqScript = fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set1.js'), 'utf8');
+const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
+  .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${cmqScript}</script>`);
 
 const CERTS = ['CSSBB', 'CSSGB', 'CQE', 'CQA', 'CMQ', 'CRE'];
 
@@ -52,17 +54,20 @@ test('the rail lists all six certifications', async () => {
   CERTS.forEach(c => assert.ok(badges.includes(c), `rail includes ${c}`));
 });
 
-test('the four exams without a bank are marked Coming soon; CSSBB and CQE are live', async () => {
+test('the three exams without a bank are marked Coming soon; CSSBB, CQE, and CMQ are live', async () => {
   const { window } = await loadPage();
   const tiles = Array.from(window.document.querySelectorAll('.tb-tile'));
   const soon = tiles.filter(t => /Coming soon/.test(t.textContent));
-  assert.equal(soon.length, 4, 'four exams still coming soon');
+  assert.equal(soon.length, 3, 'three exams still coming soon');
   const cssbb = tiles.find(t => t.dataset.exam === 'cssbb');
   assert.doesNotMatch(cssbb.textContent, /Coming soon/, 'CSSBB is live, not coming soon');
   assert.match(cssbb.textContent, /3 exam sets/i, "tile advertises the set count");
   const cqe = tiles.find(t => t.dataset.exam === 'cqe');
   assert.doesNotMatch(cqe.textContent, /Coming soon/, 'CQE is live now');
   assert.match(cqe.textContent, /3 exam sets/i, "CQE tile advertises the set count");
+  const cmq = tiles.find(t => t.dataset.exam === 'cmq');
+  assert.doesNotMatch(cmq.textContent, /Coming soon/, 'CMQ/OE is live now');
+  assert.match(cmq.textContent, /150 questions/i, 'CMQ/OE tile advertises the full-exam count');
 });
 
 test('CSSBB is backed by the full 165-question bank across all nine ASQ areas', async () => {

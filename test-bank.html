@@ -399,9 +399,11 @@
     </div>
   </footer>
 
+<script src="/test-bank-cmq-set1.js"></script>
 <script>
 (function(){
   'use strict';
+  var CMQ_SET1=window.CMQ_SET1||[];
   var DM={
     mgmt:{name:'Management & Leadership',short:'Mgmt',color:'#2c8fa6'},
     qsys:{name:'The Quality System',short:'System',color:'#0e8f86'},
@@ -418,7 +420,14 @@
     system:{name:'Quality System',short:'System',color:'#0e8f86'},
     design:{name:'Design & Development',short:'Design',color:'#6b52b5'},
     rtest:{name:'Reliability Testing',short:'Testing',color:'#b8791b'},
-    maint:{name:'Maintainability & Availability',short:'Maint.',color:'#c0453f'}
+    maint:{name:'Maintainability & Availability',short:'Maint.',color:'#c0453f'},
+    leadership:{name:'Leadership',short:'Leadership',color:'#2c8fa6'},
+    strategy:{name:'Strategic Plan Development & Deployment',short:'Strategy',color:'#3b6fb0'},
+    management:{name:'Management Elements & Methods',short:'Management',color:'#6b52b5'},
+    tools:{name:'Quality Management Tools',short:'Quality Tools',color:'#0e8f86'},
+    customer:{name:'Customer-Focused Organizations',short:'Customer',color:'#b8791b'},
+    supply:{name:'Supply Chain Management',short:'Supply Chain',color:'#c0453f'},
+    training:{name:'Training & Development',short:'Training',color:'#a24b8c'}
   };
   function d(domain,weight,subs){return {domain:domain,weight:weight,subs:subs};}
   function s(id,name,lesson,lessonName,w){return {id:id,name:name,lesson:lesson,lessonName:lessonName,w:w};}
@@ -2414,8 +2423,9 @@
       bok:[d('mgmt',17,[s('mgmt','I. Management & Leadership','/lessons.html','Browse lessons',17)]),d('qsys',18,[s('qsys','II. The Quality System','/lessons.html','Browse lessons',18)]),d('design',21,[s('design','III. Product, Process & Service Design','/lessons.html','Browse lessons',21)]),d('ppc',23,[s('ppc','IV. Product & Process Control','/lessons.html','Browse lessons',23)]),d('ci',26,[s('ci','V. Continuous Improvement','/lessons.html','Browse lessons',26)]),d('quant',34,[s('quant','VI. Quantitative Methods & Tools','/lessons.html','Browse lessons',34)]),d('risk',21,[s('risk','VII. Risk Management','/lessons.html','Browse lessons',21)])]},
     cqa:{badge:'CQA',bc:'#2b5aa0',body:'ASQ Certified Quality Auditor',title:'Quality Auditor — Final Exam Simulation',questions:150,minutes:270,pass:70,
       bok:[d('enterprise',30,['Auditing fundamentals','Ethics & professional conduct','Audit roles']),d('measure',20,['Audit preparation','Audit performance','Data collection']),d('analyze',20,['Audit tools & techniques','Root-cause analysis','Reporting']),d('control',30,['Audit program management','Corrective action follow-up','Quality tools'])]},
-    cmq:{badge:'CMQ',bc:'#2c7f92',body:'ASQ Manager of Quality / Org. Excellence',title:'Manager of Quality — Final Exam Simulation',questions:150,minutes:270,pass:70,
-      bok:[d('enterprise',40,['Leadership','Organizational structures','Team management']),d('improve',30,['Strategic planning','Continuous improvement','Project management']),d('control',30,['Quality management tools','Customer focus','Supply chain'])]},
+    cmq:{badge:'CMQ',bc:'#2c7f92',body:'ASQ Manager of Quality / Org. Excellence',title:'Manager of Quality — Final Exam Simulation',setName:'Exam Set 1',questions:150,minutes:270,pass:70,
+      bank:CMQ_SET1,sets:{1:CMQ_SET1},
+      bok:[d('leadership',28,[s('cmq-lead','I. Leadership','/lessons.html','Browse lessons',28)]),d('strategy',23,[s('cmq-strategy','II. Strategic Plan Development & Deployment','/lessons.html','Browse lessons',23)]),d('management',26,[s('cmq-management','III. Management Elements & Methods','/lessons.html','Browse lessons',26)]),d('tools',31,[s('cmq-tools','IV. Quality Management Tools','/lessons.html','Browse lessons',31)]),d('customer',22,[s('cmq-customer','V. Customer-Focused Organizations','/lessons.html','Browse lessons',22)]),d('supply',19,[s('cmq-supply','VI. Supply Chain Management','/lessons.html','Browse lessons',19)]),d('training',16,[s('cmq-training','VII. Training & Development','/lessons.html','Browse lessons',16)])]},
     cre:{badge:'CRE',bc:'#b07016',body:'ASQ Certified Reliability Engineer',title:'Reliability Engineer — Final Exam Simulation',questions:150,minutes:270,pass:70,
       bok:[d('enterprise',14,['Reliability management','Strategy','Ethics']),d('quant',16,['Probability & statistics','Distributions','Confidence intervals']),d('design',22,['Reliability in design','FMEA','Redundancy & derating']),d('analyze',16,['Reliability modeling','Life predictions','Fault tree analysis']),d('rtest',16,['Reliability testing','Accelerated life testing','Test planning']),d('maint',16,['Maintainability','Availability','Data collection & use'])]}
   };
@@ -3126,7 +3136,7 @@
   function modesHTML(e){
     var live=hasBank(e);
     var full='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u25A4</span>'+
-      '<div><h4>'+(live?(hasTwoSets(e)?setLabel():(e.setName||'Full Exam'))+' \u2014 Full Exam':'Full Exam')+'</h4><p>All '+e.questions+' questions across every area, weighted to match the real exam.</p></div></div>'+
+      '<div><h4>'+(live?(hasTwoSets(e)?setLabel():(e.setName||'Full Exam'))+' \u2014 Full Exam':'Full Exam')+'</h4><p>'+e.questions+' randomized questions across every available area.</p></div></div>'+
       '<div class="tb-mode-controls">'+timingControlHTML('full',mode.timed)+'</div>'+
       '<div class="tb-mode-foot"><span class="tb-mode-sum">'+
         (mode.timed?'Strict <b>'+fmtDur(e.minutes)+'</b> limit &mdash; mirrors the real exam.':'<b>No time limit</b> &mdash; work at your own pace.')+
@@ -3198,7 +3208,7 @@
         '<button type="button" class="tb-ghost" data-perf-analytics aria-pressed="'+(perfAnalyticsOpen?'true':'false')+'">'+(perfAnalyticsOpen?'Hide Analytics':'Performance Analytics')+'</button>'+'</div></div>';
     }
     return '<div class="tb-diag"><div class="tb-diag-top"><div><div class="tb-diag-kick">Start here</div><h4>Placement Diagnostic</h4></div><span class="tb-badge2">'+n+' questions</span></div>'+
-      '<p class="tb-diag-sub">A short placement quiz drawn across all nine areas of '+examNoun(e)+'. Get a <b>Readiness Score</b> and a personalized study plan that pinpoints your weakest areas and exactly where to spend your time \u2014 or jump straight into the full '+e.questions+'-question '+examNoun(e)+' below.</p>'+
+      '<p class="tb-diag-sub">A short placement quiz drawn across all '+e.bok.length+' areas of '+examNoun(e)+'. Get a <b>Readiness Score</b> and a personalized study plan that pinpoints your weakest areas and exactly where to spend your time \u2014 or jump straight into the full '+e.questions+'-question '+examNoun(e)+' below.</p>'+
       '<div class="tb-timing"><span class="tb-ctl-label">Mode</span><span class="tb-seg" role="group" aria-label="Timing">'+'<button type="button" data-diagtimed="1" class="'+(diagTimed?'on':'')+'">Timed '+Math.round(n*e.minutes/e.questions)+' min</button>'+'<button type="button" data-diagtimed="0" class="'+(diagTimed?'':'on')+'">Untimed</button></span></div>'+
       '<div class="tb-diag-cta"><button type="button" class="btn btn-teal" data-diag>Start the '+n+'-question diagnostic &rarr;</button></div></div>';
   }
@@ -3263,7 +3273,7 @@
     if((mode.quickUnseen||mode.quickMissed)&&!qs.length)return;
     shuffle(qs);
     qs=qs.slice(0,Math.min(mode.quickN,qs.length));
-    beginSession(e,qs,'quiz',mode.quickTimed,quizDurationSeconds(e,qs.length));
+    beginSession(e,qs,'quick',mode.quickTimed,quizDurationSeconds(e,qs.length));
   }
   function startFocused(){
     var e=EXAMS[current];
@@ -3272,7 +3282,7 @@
     if((mode.focusUnseen||mode.focusMissed)&&!qs.length)return;
     shuffle(qs);
     qs=qs.slice(0,Math.min(mode.focusN,qs.length));
-    beginSession(e,qs,'quiz',mode.focusTimed,quizDurationSeconds(e,qs.length));
+    beginSession(e,qs,'focus',mode.focusTimed,quizDurationSeconds(e,qs.length));
   }
   function startPractice(){var e=EXAMS[current];var b=activeBank(e);var st=loadState(current);var due=st?dueSubs(st.subState,Date.now()):[];var dueSet={};due.forEach(function(id){dueSet[id]=1;});var agg=st&&st.subState?masteryAgg(st.subState):{};var picks=weightedPick(b,agg,Math.min(10,b.length),dueSet);beginSession(e,picks,'practice',false,null);}
   function masteryAgg(subState){var agg={};for(var id in subState){var m=subState[id].mastery;agg[id]={c:m,t:1};}return agg;}
@@ -3407,7 +3417,8 @@
       '<button type="button" class="tb-tbtn" data-formulas>\u2630 Formulas</button>'+
       '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>'+
       '<button type="button" class="tb-ghost" data-quit>Exit</button></div>';
-    return '<div class="tb-quiz"><div class="tb-quiztop"><div><div class="tb-diag-kick">'+(session.kind==='diagnostic'?'Sample diagnostic'+(session.timed?' \u00b7 timed':' \u00b7 untimed'):'Weak-area practice')+'</div>'+
+    var sessionTitle=session.kind==='diagnostic'?'Sample diagnostic':session.kind==='exam'?'Full Exam':session.kind==='quick'?'Quick Quiz':session.kind==='focus'?'Focused Quiz':'Weak-area practice';
+    return '<div class="tb-quiz"><div class="tb-quiztop"><div><div class="tb-diag-kick">'+sessionTitle+(session.kind==='practice'?'':session.timed?' \u00b7 timed':' \u00b7 untimed')+'</div>'+
       '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered'+(flagged?' &middot; '+flagged+' flagged':'')+'</div></div>'+toolbar+'</div>'+
       '<div class="tb-progress"><span style="width:'+(answered/n*100)+'%"></span></div>'+
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(subName)+'</div>'+
@@ -3463,13 +3474,16 @@
     }).join('');
     var deltaTxt=delta!=null?(' <span class="tb-delta '+(delta>=0?'up':'down')+'">'+(delta>=0?'\u25b2 +':'\u25bc ')+delta+'</span>'):'';
     var passLine=rd.readiness>=50?'On track \u2014 keep closing the gaps below.':'Below the line \u2014 the plan below is where to start.';
-    return '<div class="tb-resbar"><button type="button" class="tb-ghost" data-back>&larr; Back to '+e.badge+'</button>'+(session.kind==='practice'?'<span class="tb-restag">Weak-area practice</span>':'<span class="tb-restag">Sample diagnostic result</span>')+'</div>'+
+    var resultLabel=session.kind==='diagnostic'?'Sample diagnostic result':session.kind==='exam'?'Full Exam result':session.kind==='quick'?'Quick Quiz result':session.kind==='focus'?'Focused Quiz result':'Weak-area practice';
+    var attemptLabel=session.kind==='diagnostic'?'diagnostic':session.kind==='exam'?'full exam':session.kind==='quick'?'quick quiz':session.kind==='focus'?'focused quiz':'practice set';
+    var retakeLabel=session.kind==='diagnostic'?'Retake diagnostic':session.kind==='exam'?'Retake Full Exam':session.kind==='quick'?'Retake Quick Quiz':session.kind==='focus'?'Retake Focused Quiz':'';
+    return '<div class="tb-resbar"><button type="button" class="tb-ghost" data-back>&larr; Back to '+e.badge+'</button><span class="tb-restag">'+resultLabel+'</span></div>'+
       '<div class="tb-reshead"><div class="tb-ring big" style="--p:'+rd.readiness+';--rc:'+(rd.readiness>=50?'var(--good,#1f9d6b)':'#c0453f')+'"><span>'+rd.readiness+'<small>%</small></span></div>'+
         '<div class="tb-resverd"><div class="tb-diag-kick">Readiness score'+deltaTxt+'</div><h2>Predicted chance of passing</h2>'+
-        '<p>You answered '+scored+' of '+tot+' correctly on this '+(session.kind==='practice'?'practice set':'diagnostic')+'. '+passLine+' Coverage of the exam sampled: '+Math.round(rd.readiness>=0?r.readiness.coverage*100:0)+'%.</p></div></div>'+
+        '<p>You answered '+scored+' of '+tot+' correctly on this '+attemptLabel+'. '+passLine+' Coverage of the exam sampled: '+Math.round(rd.readiness>=0?r.readiness.coverage*100:0)+'%.</p></div></div>'+
       '<div class="tb-sec">Your personalized study plan</div>'+
       '<div class="tb-plan">'+planRows+'</div>'+
-      '<div class="tb-planacts"><button type="button" class="btn btn-teal" data-practice2>Practice your weak areas</button><button type="button" class="tb-ghost" data-retake>Retake diagnostic</button></div>'+
+      '<div class="tb-planacts"><button type="button" class="btn btn-teal" data-practice2>Practice your weak areas</button>'+(retakeLabel?'<button type="button" class="tb-ghost" data-retake>'+retakeLabel+'</button>':'')+'</div>'+
       '<div class="tb-sec">Full breakdown by phase &rarr; subtopic</div>'+
       '<div class="tb-breakdown">'+breakdown+'</div>'+
       '<p class="tb-srnote">Each subtopic is scheduled with spaced repetition and saved in this browser, so your plan and readiness update every time you return. Sign-in sync across devices is coming.</p>';
@@ -3477,7 +3491,7 @@
   function wireResults(){
     var host=document.getElementById('tb-overview');
     var bk=host.querySelector('[data-back]');if(bk)bk.addEventListener('click',function(){view='browse';session=null;renderRail();renderMain();});
-    var rt=host.querySelector('[data-retake]');if(rt)rt.addEventListener('click',function(){startDiagnostic();});
+    var rt=host.querySelector('[data-retake]');if(rt)rt.addEventListener('click',function(){if(session.kind==='exam')startFull();else if(session.kind==='quick')startQuick();else if(session.kind==='focus')startFocused();else startDiagnostic();});
     var pr=host.querySelector('[data-practice2]');if(pr)pr.addEventListener('click',function(){startPractice();});
   }
 
