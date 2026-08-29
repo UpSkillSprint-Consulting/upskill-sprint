@@ -103,8 +103,46 @@ test('CMQ/OE launches all three live modes and Full Exam draws exactly 150 quest
     click(window.document.querySelector('.tb-tile[data-exam="cmq"]'));
     const overview = window.document.getElementById('tb-overview');
     assert.equal(overview.querySelectorAll('[data-mode]').length, 3);
+    assert.match(overview.textContent, /across all 7 areas/i, 'the diagnostic states the seven-area CMQ blueprint');
+    assert.doesNotMatch(overview.textContent, /all nine areas|weighted to match the real exam/i, 'CMQ makes no incorrect area-count or sampling claim');
+    assert.match(overview.textContent, /150 randomized questions across every available area/i, 'Full Exam accurately describes its randomized selection');
     click(overview.querySelector('[data-mode="full"]'));
     assert.equal(overview.querySelectorAll('.tb-navcell').length, 150);
+    assert.match(overview.textContent, /Full Exam · timed/i, 'Full Exam retains its identity in the player');
+    click(overview.querySelector('[data-backsim]'));
+    click(overview.querySelector('[data-mode="quick"]'));
+    assert.match(overview.textContent, /Quick Quiz · untimed/i, 'Quick Quiz retains its identity in the player');
+    click(overview.querySelector('[data-backsim]'));
+    click(overview.querySelector('[data-mode="focus"]'));
+    assert.match(overview.textContent, /Focused Quiz · untimed/i, 'Focused Quiz retains its identity in the player');
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('a perfect CMQ Quick Quiz scores correctly and retakes the same mode', async () => {
+  const { dom, window } = await loadPage();
+  try {
+    const overview = window.document.getElementById('tb-overview');
+    const click = element => element.dispatchEvent(new window.Event('click', { bubbles: true }));
+    click(window.document.querySelector('.tb-tile[data-exam="cmq"]'));
+    click(overview.querySelector('[data-count="quick"][data-n="10"]'));
+    click(overview.querySelector('[data-mode="quick"]'));
+    const bank = window.__TB.EXAMS.cmq.bank;
+    for (let index = 0; index < 10; index += 1) {
+      const stem = overview.querySelector('.tb-stem').textContent;
+      const question = bank.find(item => item.stem === stem);
+      assert.ok(question, `rendered question ${index + 1} belongs to the CMQ bank`);
+      click(overview.querySelector(`[data-opt="${question.answer}"]`));
+      click(overview.querySelector(index < 9 ? '[data-next]' : '[data-submit]'));
+    }
+    assert.match(overview.textContent, /Quick Quiz result/i);
+    assert.match(overview.textContent, /answered 10 of 10 correctly on this quick quiz/i);
+    const retake = overview.querySelector('[data-retake]');
+    assert.match(retake.textContent, /Retake Quick Quiz/i);
+    click(retake);
+    assert.match(overview.textContent, /Quick Quiz · untimed/i);
+    assert.equal(overview.querySelectorAll('.tb-navcell').length, 10);
   } finally {
     dom.window.close();
   }
