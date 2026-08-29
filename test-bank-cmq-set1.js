@@ -640,8 +640,8 @@
       "Quality management system audit",
       "Employee performance appraisal"
     ],
-    "answer": 0,
-    "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>A. Process map</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 46.</span>",
+    "answer": 2,
+    "why": "A quality management system audit evaluates whether the system is implemented and effective, so it can identify a specific system-effectiveness problem. A process map shows workflow but does not by itself assess QMS effectiveness. <b>C. Quality management system audit</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 46; answer corrected for student use.</span>",
     "set": 1,
     "sourceQuestion": 46
   },
@@ -675,7 +675,7 @@
   },
   {
     "sub": "cmq-tools",
-    "stem": "Which of the following is true?",
+    "stem": "Which statement about quality-improvement approaches is true?",
     "options": [
       "Benchmarking should be an ongoing process contributing to continual improvement",
       "Six Sigma methodology is only applicable to large problems causing variation in manufactured product",
@@ -833,11 +833,11 @@
     "options": [
       "Brainstorming and an Ishikawa diagram",
       "Five whys and a problem-solving model",
-      "FMEA and DMAIC",
+      "Gauge calibration and acceptance sampling",
       "Check sheet and affinity diagram"
     ],
     "answer": 2,
-    "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>C. FMEA and DMAIC</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 60.</span>",
+    "why": "Gauge calibration and acceptance sampling address measurement accuracy and lot acceptance; neither is a cause-analysis method for student tardiness. The other pairs can organize observations, generate causes, or investigate root causes. <b>C. Gauge calibration and acceptance sampling</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 60; defective choice repaired for student use.</span>",
     "set": 1,
     "sourceQuestion": 60
   },
@@ -969,7 +969,7 @@
   },
   {
     "sub": "cmq-tools",
-    "stem": "Takt time:",
+    "stem": "In lean production, takt time:",
     "options": [
       "Is a measure of the time between each operation in a cycle.",
       "Sets the pace of production to coincide with customer demand.",
@@ -977,7 +977,7 @@
       "Is the total sequential processing time to produce one item in a work cell."
     ],
     "answer": 1,
-    "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>B. Sets the pace of production to coincide with customer demand.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 70.</span>",
+    "why": "Takt time is available production time divided by customer demand, so it establishes the production pace needed to meet that demand. It is not cycle time or total processing time. <b>B. Sets the pace of production to coincide with customer demand.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 70.</span>",
     "set": 1,
     "sourceQuestion": 70
   },
@@ -1256,8 +1256,8 @@
       "Trade-off analysis",
       "In-person interview"
     ],
-    "answer": 3,
-    "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>D. In-person interview</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 90.</span>",
+    "answer": 2,
+    "why": "Trade-off analysis directly measures the value customers assign to competing product or service attributes by requiring explicit preference choices. Interviews collect qualitative input but do not inherently quantify value trade-offs. <b>C. Trade-off analysis</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 90; answer corrected for student use.</span>",
     "set": 1,
     "sourceQuestion": 90
   },
@@ -1340,8 +1340,8 @@
       "I and II only",
       "I, II, and IV only"
     ],
-    "answer": 0,
-    "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>A. I only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 96.</span>",
+    "answer": 3,
+    "why": "Complaints, focus-group satisfaction data, and warranty registrations all contain customer-facing evidence useful in designing a consumer survey. Pre-shipment defect counts are internal process data rather than direct consumer input. <b>D. I, II, and IV only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 96; answer corrected for student use.</span>",
     "set": 1,
     "sourceQuestion": 96
   },
@@ -1396,8 +1396,8 @@
       "II, III, and IV only",
       "I, II, III, and IV"
     ],
-    "answer": 3,
-    "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>D. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 100.</span>",
+    "answer": 1,
+    "why": "Managing customer diversity means responding to differing customer needs and continuing to differentiate services as expectations evolve. Lean cycle-time work and publisher management may support operations, but they do not directly manage customer diversity. <b>B. II and III only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 100; answer corrected for student use.</span>",
     "set": 1,
     "sourceQuestion": 100
   },
@@ -1438,8 +1438,8 @@
       "I, II, and III only",
       "I, II, III, and IV"
     ],
-    "answer": 1,
-    "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>B. III and IV only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 103.</span>",
+    "answer": 3,
+    "why": "Unit and lot traceability can support guarantees, warranty replacements, recalls, and analysis for process improvement because each action may require linking a product to its production and distribution history. <b>D. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 103; answer corrected for student use.</span>",
     "set": 1,
     "sourceQuestion": 103
   },
@@ -1480,8 +1480,8 @@
       "I and II only",
       "I, II, and IV only"
     ],
-    "answer": 3,
-    "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>D. I, II, and IV only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 106.</span>",
+    "answer": 1,
+    "why": "Technical support, process capability, internally detected and reworked defects, and field reliability all reveal supplier performance that matters for safety-critical aircraft engines. Rework before shipment should not be excluded merely because the defect was contained. <b>B. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 106; answer corrected for student use.</span>",
     "set": 1,
     "sourceQuestion": 106
   },
@@ -1688,10 +1688,10 @@
       "A new law requires that training be done",
       "A continual stream of terminations and new hires is occurring",
       "A cell structure is being created and all employees within each cell must be able to do any task within the cell",
-      "All employees must learn basic quality principles"
+      "A performance gap is caused solely by unavailable equipment, and employees already demonstrate the required skills"
     ],
     "answer": 3,
-    "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>D. All employees must learn basic quality principles</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 121.</span>",
+    "why": "Training cannot correct a performance gap caused solely by unavailable equipment when employees already have the required knowledge and skills. The other situations introduce a legal, onboarding, or cross-training requirement. <b>D. A performance gap is caused solely by unavailable equipment, and employees already demonstrate the required skills</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 121; ambiguous choice repaired for student use.</span>",
     "set": 1,
     "sourceQuestion": 121
   },
@@ -1716,10 +1716,10 @@
       "Critical incident analysis",
       "Focus group",
       "Task analysis",
-      "Performance problem analysis"
+      "Annual budget variance analysis"
     ],
     "answer": 3,
-    "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>D. Performance problem analysis</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 123.</span>",
+    "why": "Critical incidents, focus groups, and task analysis can identify knowledge or skill gaps. Annual budget variance analysis is a financial-control technique, not a training-needs assessment method. <b>D. Annual budget variance analysis</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 123; ambiguous choice repaired for student use.</span>",
     "set": 1,
     "sourceQuestion": 123
   },
@@ -1739,7 +1739,7 @@
   },
   {
     "sub": "cmq-training",
-    "stem": "Which of the following is true?",
+    "stem": "Which statement about training delivery is true?",
     "options": [
       "Training to be delivered via an in-house intranet is likely to be more costly to develop than classroom-type training.",
       "Training embedded in a transaction- processing computer program is usually ineffective as well as annoying to operators.",
@@ -1774,8 +1774,8 @@
       "Training always delivered without the presence of an instructor or advisor.",
       "Any training not delivered in a classroom setting."
     ],
-    "answer": 0,
-    "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>A. Self-paced learning in some combination of print material, computer-aided testing and simulations, CD-ROMs, and so on.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 127.</span>",
+    "answer": 1,
+    "why": "Self-directed learning is defined by the learner taking initiative and making choices about learning goals and activities. It may be self-paced or supported by an instructor, so delivery format alone does not define it. <b>B. The choice an individual has as to what he or she wishes to learn.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 127; answer corrected for student use.</span>",
     "set": 1,
     "sourceQuestion": 127
   },
@@ -2019,15 +2019,15 @@
   },
   {
     "sub": "cmq-lead",
-    "stem": "Managing change is particularly complex due to the fact that much of what must be changed often consists of intangibles such as beliefs, behavior s and policies. These types of constraints are more difficult to identify. We can get help from:",
+    "stem": "Managing change is particularly complex because much of what must be changed consists of intangibles such as beliefs, behaviors, and policies. These constraints are more difficult to identify. Which tool can help?",
     "options": [
-      "GATT chart",
+      "Gantt chart",
       "PERT chart",
       "A force-field analysis",
       "None of these"
     ],
     "answer": 2,
-    "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>C. A force-field analysis</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 145.</span>",
+    "why": "Force-field analysis makes the intangible forces supporting and resisting a proposed change explicit so they can be evaluated and addressed. Gantt and PERT charts are scheduling tools. <b>C. A force-field analysis</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 145.</span>",
     "set": 1,
     "sourceQuestion": 145
   },
@@ -2208,8 +2208,8 @@
       "Cross-functionals deal with internal groups, whereas matrices deal with external groups.",
       "Cross-functionals usually consist of personnel with technical skills, whereas matrices usually consist of high-level functional executives."
     ],
-    "answer": 0,
-    "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>A. Cross-functionals deal with companywide issues, whereas matrices focus on specific projects.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 158.</span>",
+    "answer": 1,
+    "why": "A cross-functional team is commonly assembled temporarily around an issue or improvement effort, while a matrix is an ongoing organizational structure with dual functional and project authority. <b>B. Cross-functionals are often temporary, whereas matrices are permanent.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 158; answer corrected for student use.</span>",
     "set": 1,
     "sourceQuestion": 158
   },
@@ -2236,8 +2236,8 @@
       "Simply purchase the software because you know it is the best based on the matrix you used for analysis of the various packages.",
       "Select another statistical software package to avoid any possible perception of bias."
     ],
-    "answer": 1,
-    "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>B. Tell the company of your financial interest in the software selected, along with the reasons for selecting it as the best option.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 160.</span>",
+    "answer": 0,
+    "why": "Receiving royalties creates a direct financial conflict of interest. Disclosure is necessary, but the strongest safeguard is to recuse yourself from the selection rather than remain the decision maker. <b>A. State that you can not participate in the selection process because of your potential bias.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 160; answer corrected for student use.</span>",
     "set": 1,
     "sourceQuestion": 160
   },
@@ -2250,8 +2250,8 @@
       "Negotiation skills",
       "Knowledge of the customer's product"
     ],
-    "answer": 3,
-    "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. Knowledge of the customer's product</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 161.</span>",
+    "answer": 2,
+    "why": "The team needs interpersonal ability, problem-solving skill, and product knowledge to diagnose a recurring customer problem. Negotiation skill is comparatively less important because the assignment is collaborative problem resolution, not bargaining. <b>C. Negotiation skills</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 161; answer corrected for student use.</span>",
     "set": 1,
     "sourceQuestion": 161
   },
@@ -2320,8 +2320,8 @@
       "Ask a facilitator to attend the next few meetings to help reduce conflict.",
       "Do nothing."
     ],
-    "answer": 3,
-    "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. Do nothing.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 166.</span>",
+    "answer": 2,
+    "why": "The new membership has moved the team back into a conflict-heavy development stage. A neutral facilitator can help the whole team establish productive norms without excluding or blaming the new members. <b>C. Ask a facilitator to attend the next few meetings to help reduce conflict.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 166; answer corrected for student use.</span>",
     "set": 1,
     "sourceQuestion": 166
   }
