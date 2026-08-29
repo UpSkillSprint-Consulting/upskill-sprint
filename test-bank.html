@@ -401,11 +401,13 @@
 
 <script src="/test-bank-cmq-set1.js"></script>
 <script src="/test-bank-cssgb-set1.js"></script>
+<script src="/test-bank-cssgb-set2.js"></script>
 <script>
 (function(){
   'use strict';
   var CMQ_SET1=window.CMQ_SET1||[];
   var CSSGB_SET1=window.CSSGB_SET1||[];
+  var CSSGB_SET2=window.CSSGB_SET2||[];
   var DM={
     mgmt:{name:'Management & Leadership',short:'Mgmt',color:'#2c8fa6'},
     qsys:{name:'The Quality System',short:'System',color:'#0e8f86'},
@@ -2419,7 +2421,7 @@
       ],
       bank:CSSBB_BANK,sets:{1:CSSBB_BANK,2:SET2_BANK,3:SET3_BANK}},
     cssgb:{badge:'CSSGB',bc:'#4f63c0',body:'ASQ Certified Six Sigma Green Belt',title:'Six Sigma Green Belt — Final Exam Simulation',setName:'Exam Set 1',questions:110,minutes:258,pass:70,
-      bank:CSSGB_SET1,sets:{1:CSSGB_SET1},
+      bank:CSSGB_SET1,sets:{1:CSSGB_SET1,2:CSSGB_SET2},
       bok:[d('enterprise',11,[s('cssgb-org','I. Overview: Six Sigma and the Organization','/lessons/what-is-lean-six-sigma','What Is Lean Six Sigma',11)]),d('define',20,[s('cssgb-define','II. Define Phase','/lessons/what-is-lean-six-sigma','Define & Voice of the Customer',20)]),d('measure',20,[s('cssgb-measure','III. Measure Phase','/lessons/lean-six-sigma/process-capability-cp-and-cpk','Process Capability (Cp & Cpk)',20)]),d('analyze',18,[s('cssgb-analyze','IV. Analyze Phase','/lessons/hypothesis-testing-for-beginners','Hypothesis Testing',18)]),d('improve',16,[s('cssgb-improve','V. Improve Phase','/lessons/introduction-to-design-of-experiment-doe','Design of Experiments',16)]),d('control',15,[s('cssgb-control','VI. Control Phase','/lessons/control-charts-explained','Control Charts, Explained',15)])]},
     cqe:{badge:'CQE',bc:'#12756e',body:'ASQ Certified Quality Engineer',title:'Quality Engineer — Final Exam Simulation',setName:'Exam Set 1',questions:160,minutes:300,pass:70,
       bank:CQE_SET1,sets:{1:CQE_SET1,2:CQE_SET2,3:CQE_SET3},
@@ -2779,6 +2781,64 @@
     });
     return html+'</tbody></table>';
   }
+  function chartVsmSupermarket(){
+    var w=300,h=160,left=86,top=22,shelfW=128,shelfH=34;
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Value stream map supermarket symbol: three open inventory shelves">';
+    for(var i=0;i<3;i++){
+      var y=top+i*shelfH;
+      svg+='<path d="M'+left+' '+y+' V'+(y+shelfH)+' H'+(left+shelfW)+' V'+y+'" fill="none" class="tb-chart-line"></path>';
+    }
+    svg+='<text x="'+(left+shelfW/2)+'" y="143" font-size="11" fill="var(--muted)" text-anchor="middle">Controlled inventory</text>';
+    return svg+'</svg>';
+  }
+  function chartMainEffectsPlot(spec){
+    var w=460,h=210,left=50,right=18,top=24,bottom=42,gap=34;
+    var panels=spec.panels||[],panelW=(w-left-right-gap)/2;
+    var values=[];
+    panels.forEach(function(p){values.push(p.low,p.high);});
+    values.push(spec.overall);
+    var min=Math.min.apply(null,values)-1,max=Math.max.apply(null,values)+1;
+    function py(v){return top+(max-v)/(max-min)*(h-top-bottom);}
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Main effects plot for factors A and B">';
+    svg+='<line x1="'+left+'" y1="'+py(spec.overall)+'" x2="'+(w-right)+'" y2="'+py(spec.overall)+'" class="tb-chart-grid" stroke-dasharray="5 4"></line>';
+    panels.forEach(function(p,i){
+      var x0=left+i*(panelW+gap),x1=x0+panelW;
+      svg+='<line x1="'+x0+'" y1="'+(h-bottom)+'" x2="'+x1+'" y2="'+(h-bottom)+'" class="tb-chart-grid"></line>'+
+        '<line x1="'+x0+'" y1="'+top+'" x2="'+x0+'" y2="'+(h-bottom)+'" class="tb-chart-grid"></line>'+
+        '<polyline points="'+x0+','+py(p.low)+' '+x1+','+py(p.high)+'" fill="none" class="tb-chart-line"></polyline>'+
+        '<circle cx="'+x0+'" cy="'+py(p.low)+'" r="4" class="tb-chart-dot"></circle>'+
+        '<circle cx="'+x1+'" cy="'+py(p.high)+'" r="4" class="tb-chart-dot"></circle>'+
+        '<text x="'+((x0+x1)/2)+'" y="14" font-size="11" font-weight="700" fill="var(--ink)" text-anchor="middle">Factor '+esc(p.factor)+'</text>'+
+        '<text x="'+x0+'" y="'+(h-bottom+17)+'" font-size="10" fill="var(--muted)" text-anchor="middle">Low</text>'+
+        '<text x="'+x1+'" y="'+(h-bottom+17)+'" font-size="10" fill="var(--muted)" text-anchor="middle">High</text>'+
+        '<text x="'+x0+'" y="'+(py(p.low)-8)+'" font-size="10" fill="var(--ink)" text-anchor="middle">'+p.low+'</text>'+
+        '<text x="'+x1+'" y="'+(py(p.high)-8)+'" font-size="10" fill="var(--ink)" text-anchor="middle">'+p.high+'</text>';
+    });
+    svg+='<text x="16" y="'+(h/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 16 '+(h/2)+')">Mean response</text>'+
+      '<text x="'+(w-right)+'" y="'+(py(spec.overall)-6)+'" font-size="9" fill="var(--muted)" text-anchor="end">Overall '+spec.overall+'</text>';
+    return svg+'</svg>';
+  }
+  function chartTwoLevelInteraction(spec){
+    var w=460,h=220,left=58,right=92,top=24,bottom=42,values=spec.lowLine.concat(spec.highLine);
+    var min=Math.min.apply(null,values)-1,max=Math.max.apply(null,values)+1;
+    function py(v){return top+(max-v)/(max-min)*(h-top-bottom);}
+    var x0=left,x1=w-right;
+    function line(values,label,dashed){
+      var out='<polyline points="'+x0+','+py(values[0])+' '+x1+','+py(values[1])+'" fill="none" class="tb-chart-line"'+(dashed?' stroke-dasharray="7 4"':'')+'></polyline>';
+      out+='<circle cx="'+x0+'" cy="'+py(values[0])+'" r="4" class="tb-chart-dot"></circle><circle cx="'+x1+'" cy="'+py(values[1])+'" r="4" class="tb-chart-dot"></circle>';
+      out+='<text x="'+(x1+12)+'" y="'+(py(values[1])+4)+'" font-size="10" fill="var(--ink)">'+esc(label)+'</text>';
+      return out;
+    }
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Interaction plot for factors '+esc(spec.factorA)+' and '+esc(spec.factorB)+'">'+
+      '<line x1="'+x0+'" y1="'+(h-bottom)+'" x2="'+x1+'" y2="'+(h-bottom)+'" class="tb-chart-grid"></line>'+
+      '<line x1="'+x0+'" y1="'+top+'" x2="'+x0+'" y2="'+(h-bottom)+'" class="tb-chart-grid"></line>'+
+      line(spec.lowLine,spec.lowLabel,false)+line(spec.highLine,spec.highLabel,true)+
+      '<text x="'+x0+'" y="'+(h-bottom+17)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.factorA)+' low</text>'+
+      '<text x="'+x1+'" y="'+(h-bottom+17)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.factorA)+' high</text>'+
+      '<text x="16" y="'+(h/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 16 '+(h/2)+')">Mean response</text>'+
+      '</svg>';
+    return svg;
+  }
   function chartFtaDiagram(spec){
     var w=460,h=280;
     var highlight=spec&&spec.highlightSet||[];
@@ -2891,9 +2951,11 @@
     'scatter-quadrant':'Scatter plots', 'house-of-quality':'House of quality', 'activity-network':'Network diagram',
     'data-table':'Reference table', 'control-single':'Control chart', 'oc-curve':'OC curve',
     'interaction-plot':'Interaction plot', 'risk-matrix':'Risk matrix', 'fta-diagram':'Fault tree diagram',
-    'matrix-diagram':'Matrix diagram', 'interaction-plot-3':'Interaction plots'
+    'matrix-diagram':'Matrix diagram', 'interaction-plot-3':'Interaction plots',
+    'vsm-supermarket':'VSM symbol', 'main-effects-plot':'Main effects plot',
+    'two-level-interaction':'Interaction plot'
   };
-  var CHART_COMPACT={'vsm-symbol':1};
+  var CHART_COMPACT={'vsm-symbol':1,'vsm-supermarket':1};
   function renderQuestionChart(chart){
     if(!chart)return '';
     var inner='';
@@ -2907,6 +2969,9 @@
     else if(chart.type==='house-of-quality')inner=chartHouseOfQuality(chart);
     else if(chart.type==='activity-network')inner=chartActivityNetwork(chart);
     else if(chart.type==='data-table')inner=chartDataTable(chart);
+    else if(chart.type==='vsm-supermarket')inner=chartVsmSupermarket(chart);
+    else if(chart.type==='main-effects-plot')inner=chartMainEffectsPlot(chart);
+    else if(chart.type==='two-level-interaction')inner=chartTwoLevelInteraction(chart);
     else if(chart.type==='control-single')inner=chartControlSingle(chart);
     else if(chart.type==='oc-curve')inner=chartOcCurve(chart);
     else if(chart.type==='interaction-plot')inner=chartInteractionPlot(chart);

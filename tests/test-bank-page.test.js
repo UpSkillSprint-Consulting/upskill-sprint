@@ -9,9 +9,11 @@ const { JSDOM, VirtualConsole } = require('jsdom');
 const ROOT = path.join(__dirname, '..');
 const cmqScript = fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set1.js'), 'utf8');
 const cssgbScript = fs.readFileSync(path.join(ROOT, 'test-bank-cssgb-set1.js'), 'utf8');
+const cssgbSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-cssgb-set2.js'), 'utf8');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
   .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${cmqScript}</script>`)
-  .replace('<script src="/test-bank-cssgb-set1.js"></script>', `<script>${cssgbScript}</script>`);
+  .replace('<script src="/test-bank-cssgb-set1.js"></script>', `<script>${cssgbScript}</script>`)
+  .replace('<script src="/test-bank-cssgb-set2.js"></script>', `<script>${cssgbSet2Script}</script>`);
 
 const CERTS = ['CSSBB', 'CSSGB', 'CQE', 'CQA', 'CMQ', 'CRE'];
 
@@ -73,6 +75,7 @@ test('only CQA and CRE remain Coming soon; CSSBB, CSSGB, CQE, and CMQ are live',
   const cssgb = tiles.find(t => t.dataset.exam === 'cssgb');
   assert.doesNotMatch(cssgb.textContent, /Coming soon/, 'CSSGB is live now');
   assert.match(cssgb.textContent, /110 questions/i, 'CSSGB tile advertises the complete computer-based simulation count');
+  assert.match(cssgb.textContent, /2 exam sets/i, 'CSSGB tile advertises both complete exam sets');
 });
 
 test('CSSBB is backed by the full 165-question bank across all nine ASQ areas', async () => {
