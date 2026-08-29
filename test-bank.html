@@ -400,10 +400,12 @@
   </footer>
 
 <script src="/test-bank-cmq-set1.js"></script>
+<script src="/test-bank-cssgb-set1.js"></script>
 <script>
 (function(){
   'use strict';
   var CMQ_SET1=window.CMQ_SET1||[];
+  var CSSGB_SET1=window.CSSGB_SET1||[];
   var DM={
     mgmt:{name:'Management & Leadership',short:'Mgmt',color:'#2c8fa6'},
     qsys:{name:'The Quality System',short:'System',color:'#0e8f86'},
@@ -2416,8 +2418,9 @@
         d('control',17,[s('con','VIII. Control','/lessons/control-charts-explained','Control Charts, Explained',17)])
       ],
       bank:CSSBB_BANK,sets:{1:CSSBB_BANK,2:SET2_BANK,3:SET3_BANK}},
-    cssgb:{badge:'CSSGB',bc:'#4f63c0',body:'ASQ Certified Six Sigma Green Belt',title:'Six Sigma Green Belt — Final Exam Simulation',questions:110,minutes:240,pass:70,
-      bok:[d('define',20,['Project identification','Voice of the customer','Project management basics']),d('measure',24,['Process analysis','Data collection','Measurement systems','Basic statistics']),d('analyze',22,['Hypothesis testing','Correlation','Root-cause analysis']),d('improve',18,['DOE fundamentals','Lean methods']),d('control',16,['SPC','Control plans'])]},
+    cssgb:{badge:'CSSGB',bc:'#4f63c0',body:'ASQ Certified Six Sigma Green Belt',title:'Six Sigma Green Belt — Final Exam Simulation',setName:'Exam Set 1',questions:110,minutes:258,pass:70,
+      bank:CSSGB_SET1,sets:{1:CSSGB_SET1},
+      bok:[d('enterprise',11,[s('cssgb-org','I. Overview: Six Sigma and the Organization','/lessons/what-is-lean-six-sigma','What Is Lean Six Sigma',11)]),d('define',20,[s('cssgb-define','II. Define Phase','/lessons/what-is-lean-six-sigma','Define & Voice of the Customer',20)]),d('measure',20,[s('cssgb-measure','III. Measure Phase','/lessons/lean-six-sigma/process-capability-cp-and-cpk','Process Capability (Cp & Cpk)',20)]),d('analyze',18,[s('cssgb-analyze','IV. Analyze Phase','/lessons/hypothesis-testing-for-beginners','Hypothesis Testing',18)]),d('improve',16,[s('cssgb-improve','V. Improve Phase','/lessons/introduction-to-design-of-experiment-doe','Design of Experiments',16)]),d('control',15,[s('cssgb-control','VI. Control Phase','/lessons/control-charts-explained','Control Charts, Explained',15)])]},
     cqe:{badge:'CQE',bc:'#12756e',body:'ASQ Certified Quality Engineer',title:'Quality Engineer — Final Exam Simulation',setName:'Exam Set 1',questions:160,minutes:300,pass:70,
       bank:CQE_SET1,sets:{1:CQE_SET1,2:CQE_SET2,3:CQE_SET3},
       bok:[d('mgmt',17,[s('mgmt','I. Management & Leadership','/lessons.html','Browse lessons',17)]),d('qsys',18,[s('qsys','II. The Quality System','/lessons.html','Browse lessons',18)]),d('design',21,[s('design','III. Product, Process & Service Design','/lessons.html','Browse lessons',21)]),d('ppc',23,[s('ppc','IV. Product & Process Control','/lessons.html','Browse lessons',23)]),d('ci',26,[s('ci','V. Continuous Improvement','/lessons.html','Browse lessons',26)]),d('quant',34,[s('quant','VI. Quantitative Methods & Tools','/lessons.html','Browse lessons',34)]),d('risk',21,[s('risk','VII. Risk Management','/lessons.html','Browse lessons',21)])]},
@@ -3024,6 +3027,8 @@
       ]}
     ]
   };
+  /* Green Belt uses the same core Six Sigma formulas as the Black Belt sheet. */
+  REFS.cssgb=REFS.cssbb;
   function factorial(n){if(n<0||n!==Math.floor(n)||n>170)return NaN;var r=1;for(var i=2;i<=n;i++)r*=i;return r;}
   function calcEval(expr){
     var s=String(expr).replace(/\s+/g,'');if(!s)return '';

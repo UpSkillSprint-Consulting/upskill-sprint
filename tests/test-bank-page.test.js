@@ -8,8 +8,10 @@ const { JSDOM, VirtualConsole } = require('jsdom');
 
 const ROOT = path.join(__dirname, '..');
 const cmqScript = fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set1.js'), 'utf8');
+const cssgbScript = fs.readFileSync(path.join(ROOT, 'test-bank-cssgb-set1.js'), 'utf8');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
-  .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${cmqScript}</script>`);
+  .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${cmqScript}</script>`)
+  .replace('<script src="/test-bank-cssgb-set1.js"></script>', `<script>${cssgbScript}</script>`);
 
 const CERTS = ['CSSBB', 'CSSGB', 'CQE', 'CQA', 'CMQ', 'CRE'];
 
@@ -54,11 +56,11 @@ test('the rail lists all six certifications', async () => {
   CERTS.forEach(c => assert.ok(badges.includes(c), `rail includes ${c}`));
 });
 
-test('the three exams without a bank are marked Coming soon; CSSBB, CQE, and CMQ are live', async () => {
+test('only CQA and CRE remain Coming soon; CSSBB, CSSGB, CQE, and CMQ are live', async () => {
   const { window } = await loadPage();
   const tiles = Array.from(window.document.querySelectorAll('.tb-tile'));
   const soon = tiles.filter(t => /Coming soon/.test(t.textContent));
-  assert.equal(soon.length, 3, 'three exams still coming soon');
+  assert.equal(soon.length, 2, 'two exams still coming soon');
   const cssbb = tiles.find(t => t.dataset.exam === 'cssbb');
   assert.doesNotMatch(cssbb.textContent, /Coming soon/, 'CSSBB is live, not coming soon');
   assert.match(cssbb.textContent, /3 exam sets/i, "tile advertises the set count");
@@ -68,6 +70,9 @@ test('the three exams without a bank are marked Coming soon; CSSBB, CQE, and CMQ
   const cmq = tiles.find(t => t.dataset.exam === 'cmq');
   assert.doesNotMatch(cmq.textContent, /Coming soon/, 'CMQ/OE is live now');
   assert.match(cmq.textContent, /150 questions/i, 'CMQ/OE tile advertises the full-exam count');
+  const cssgb = tiles.find(t => t.dataset.exam === 'cssgb');
+  assert.doesNotMatch(cssgb.textContent, /Coming soon/, 'CSSGB is live now');
+  assert.match(cssgb.textContent, /110 questions/i, 'CSSGB tile advertises the complete computer-based simulation count');
 });
 
 test('CSSBB is backed by the full 165-question bank across all nine ASQ areas', async () => {
