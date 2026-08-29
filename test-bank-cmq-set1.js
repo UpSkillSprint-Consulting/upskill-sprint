@@ -1599,7 +1599,7 @@
   },
   {
     "sub": "cmq-supply",
-    "stem": "When there is a slippage in quality, just-in- time inventory systems affect:",
+    "stem": "When there is a slippage in quality, just-in-time inventory systems affect:",
     "options": [
       "Product scrap rates.",
       "Production schedules.",
@@ -1742,7 +1742,7 @@
     "stem": "Which statement about training delivery is true?",
     "options": [
       "Training to be delivered via an in-house intranet is likely to be more costly to develop than classroom-type training.",
-      "Training embedded in a transaction- processing computer program is usually ineffective as well as annoying to operators.",
+      "Training embedded in a transaction-processing computer program is usually ineffective as well as annoying to operators.",
       "A printed training workbook serves only one purpose - documentation of textual content.",
       "OJT is how an \"old hand\" teaches a new hire how things are done - it involves no structure or instructional standards."
     ],
@@ -2201,7 +2201,7 @@
   },
   {
     "sub": "cmq-lead",
-    "stem": "Which of the following best describes the differences between crossfunctional and matrix organizations?",
+    "stem": "Which of the following best describes the differences between cross-functional and matrix organizations?",
     "options": [
       "Cross-functionals deal with companywide issues, whereas matrices focus on specific projects.",
       "Cross-functionals are often temporary, whereas matrices are permanent.",
@@ -2231,13 +2231,13 @@
     "sub": "cmq-lead",
     "stem": "In your former position of employment you helped develop a statistical software package that the company markets, and because of your position there you receive royalties on the sales. Your current employer needs to purchase some statistical software and has asked you to select the best available package. You believe that the one sold by your former employer best meets the criteria. You should:",
     "options": [
-      "State that you can not participate in the selection process because of your potential bias.",
+      "State that you cannot participate in the selection process because of your potential bias.",
       "Tell the company of your financial interest in the software selected, along with the reasons for selecting it as the best option.",
       "Simply purchase the software because you know it is the best based on the matrix you used for analysis of the various packages.",
       "Select another statistical software package to avoid any possible perception of bias."
     ],
     "answer": 0,
-    "why": "Receiving royalties creates a direct financial conflict of interest. Disclosure is necessary, but the strongest safeguard is to recuse yourself from the selection rather than remain the decision maker. <b>A. State that you can not participate in the selection process because of your potential bias.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 160; answer corrected for student use.</span>",
+    "why": "Receiving royalties creates a direct financial conflict of interest. Disclosure is necessary, but the strongest safeguard is to recuse yourself from the selection rather than remain the decision maker. <b>A. State that you cannot participate in the selection process because of your potential bias.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 160; answer corrected for student use.</span>",
     "set": 1,
     "sourceQuestion": 160
   },
@@ -2271,7 +2271,7 @@
   },
   {
     "sub": "cmq-lead",
-    "stem": "Managers who take shortcuts, push employees beyond their limits, eliminate training, and-neglect equipment maintenance probably are:",
+    "stem": "Managers who take shortcuts, push employees beyond their limits, eliminate training, and neglect equipment maintenance probably are:",
     "options": [
       "Dissatisfied with their current salaries.",
       "Evaluated against short-term results.",
