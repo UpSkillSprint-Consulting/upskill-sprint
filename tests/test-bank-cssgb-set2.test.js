@@ -114,6 +114,21 @@ test('student-facing corrections resolve documented source errors and ambiguous 
   assert.match(kpi.stem, /standard ASQ quality terminology/);
   assert.match(kpi.why, /book keys Key Process Indicator.+corrected here/);
 
+  const houseOfQuality = partA(2, 13);
+  assert.match(houseOfQuality.stem, /primary matrix used in quality function deployment/);
+  assert.doesNotMatch(houseOfQuality.stem, /QFD is also known/i);
+  assert.match(houseOfQuality.why, /matrix used within QFD/);
+  assert.match(houseOfQuality.why, /not another name for the entire QFD method/);
+
+  const tollgates = partA(2, 32);
+  assert.match(tollgates.stem, /project-governance mechanism/);
+  assert.match(tollgates.why, /formal reviews conducted at phase boundaries/);
+  assert.doesNotMatch(tollgates.why, /also known as advance product quality planning/i);
+
+  const centralLimit = partA(3, 18);
+  assert.match(centralLimit.why, /central limit theorem/);
+  assert.doesNotMatch(centralLimit.why, /central limit distribution/);
+
   const binomial = partA(3, 31);
   assert.equal(binomial.options[binomial.answer], '0.3543');
   assert.ok(Math.abs(6 * 0.10 * (0.90 ** 5) - 0.3543) < 0.00001);
@@ -123,14 +138,40 @@ test('student-facing corrections resolve documented source errors and ambiguous 
   assert.equal(capability.options[capability.answer], 'A process producing a consistent output within specifications');
   assert.match(capability.why, /capability measures are predictive only after the process is stable/);
 
+  const variationComponents = partA(3, 83);
+  assert.match(variationComponents.stem, /total observed variation/);
+  assert.doesNotMatch(variationComponents.stem, /total variation of a measurement system/);
+  assert.match(variationComponents.why, /GR&amp;R alone represents the measurement-system contribution/);
+
+  const totalVariation = partA(3, 86);
+  assert.match(totalVariation.stem, /total observed variation/);
+  assert.doesNotMatch(totalVariation.stem, /total variation of the measurement system/);
+  assert.match(totalVariation.why, /TV = √\(PV² \+ GR&amp;R²\)/);
+
+  const confidenceInterval = partA(4, 38);
+  assert.equal(confidenceInterval.options[confidenceInterval.answer], '0.33 ± 1.645(0.047).');
+  assert.ok(confidenceInterval.options.every(option => option.includes('±')));
+  assert.doesNotMatch(confidenceInterval.why, /\+\/–/);
+
   const variance = partA(4, 39);
   assert.equal(variance.options[variance.answer], 'F₀ = 2.94, Fcrit = 2.40, Reject H₀.');
   assert.match(variance.why, /two-sided F test/);
   assert.match(variance.why, /α\/2 = 0\.05/);
 
   const pairedT = partA(4, 42);
-  assert.match(pairedT.why, /left-tail cutoff is −2\.132/);
+  assert.match(pairedT.stem, /define each paired difference as pre-test minus post-test/);
+  assert.equal(pairedT.options[pairedT.answer], 't = −2.132');
+  assert.match(pairedT.why, /critical value is −2\.132/);
   assert.doesNotMatch(pairedT.why, /\|t\|/);
+
+  const pairedHypotheses = partA(4, 40);
+  assert.match(pairedHypotheses.stem, /define each paired difference as pre-test minus post-test/);
+  assert.equal(pairedHypotheses.options[pairedHypotheses.answer], 'H₀: μD = 0 vs. H₁: μD < 0');
+  assert.doesNotMatch(pairedHypotheses.options.join(' '), /—/);
+
+  const anovaDecision = partA(4, 46);
+  assert.equal(anovaDecision.options[anovaDecision.answer], 'Fcalc > Fcrit, Reject H₀.');
+  assert.doesNotMatch(anovaDecision.options.join(' '), /[ₐᵢ]/);
 
   const fiveWhys = partA(4, 65);
   assert.match(fiveWhys.stem, /repeatedly asking why/);
@@ -278,7 +319,7 @@ test('Set 2 focused practice reaches every mapped domain without leakage', async
   assert.deepEqual(errors, []);
 });
 
-test('every one of the 506 Set 2 questions renders and accepts its keyed option in the student UI', async () => {
+test('every one of the 506 Set 2 questions renders and accepts its keyed option in blueprint-balanced student exams', async () => {
   const { window, errors } = await loadPage();
   let overview = openCssgb(window);
   click(window, overview.querySelector('[data-set="2"]'));
@@ -287,32 +328,45 @@ test('every one of the 506 Set 2 questions renders and accepts its keyed option 
   window.Math.random = () => 0.999999; // make the in-place shuffle a no-op
 
   const original = Array.from(window.CSSGB_SET2);
+  const targets = [
+    { sub: 'cssgb-org', count: 12 },
+    { sub: 'cssgb-define', count: 22 },
+    { sub: 'cssgb-measure', count: 22 },
+    { sub: 'cssgb-analyze', count: 20 },
+    { sub: 'cssgb-improve', count: 18 },
+    { sub: 'cssgb-control', count: 16 }
+  ];
+  const groups = Object.fromEntries(targets.map(target => [target.sub, original.filter(question => question.sub === target.sub)]));
   const covered = new Set();
-  for (let start = 0; start < original.length; start += 110) {
-    const batch = original.slice(start, start + 110);
-    const batchSet = new Set(batch);
-    const fill = original.filter(question => !batchSet.has(question)).slice(0, 110 - batch.length);
-    const leading = new Set(batch.concat(fill));
-    const reordered = batch.concat(fill, original.filter(question => !leading.has(question)));
+  for (let session = 0; session < 6; session += 1) {
+    const expected = [];
+    const reordered = [];
+    targets.forEach(target => {
+      const group = groups[target.sub];
+      const chosen = Array.from({ length: target.count }, (_, offset) => group[(session * target.count + offset) % group.length]);
+      const chosenSet = new Set(chosen);
+      expected.push(...chosen);
+      reordered.push(...chosen, ...group.filter(question => !chosenSet.has(question)));
+    });
     window.CSSGB_SET2.splice(0, window.CSSGB_SET2.length, ...reordered);
 
     overview = window.document.getElementById('tb-overview');
     click(window, overview.querySelector('[data-mode="full"]'));
     assert.equal(window.document.querySelectorAll('.tb-navcell').length, 110);
 
-    for (let index = 0; index < batch.length; index += 1) {
+    for (let index = 0; index < expected.length; index += 1) {
       click(window, window.document.querySelector(`[data-goto="${index}"]`));
-      const expected = batch[index];
-      assert.equal(window.document.querySelector('.tb-stem').textContent, expected.stem, `question ${expected.sourceGlobalQuestion} stem renders completely`);
+      const question = expected[index];
+      assert.equal(window.document.querySelector('.tb-stem').textContent, question.stem, `question ${question.sourceGlobalQuestion} stem renders completely`);
       assert.deepEqual(
         Array.from(window.document.querySelectorAll('.tb-opt > span:last-child'), node => node.textContent),
-        Array.from(expected.options),
-        `question ${expected.sourceGlobalQuestion} options render completely`
+        Array.from(question.options),
+        `question ${question.sourceGlobalQuestion} options render completely`
       );
-      if (expected.chart) assert.ok(window.document.querySelector('.tb-q-chart-wrap'), `question ${expected.sourceGlobalQuestion} visual renders`);
-      click(window, window.document.querySelector(`[data-opt="${expected.answer}"]`));
-      assert.ok(window.document.querySelector(`.tb-opt.sel[data-opt="${expected.answer}"]`), `question ${expected.sourceGlobalQuestion} keyed option is selectable`);
-      covered.add(expected.sourceGlobalQuestion);
+      if (question.chart) assert.ok(window.document.querySelector('.tb-q-chart-wrap'), `question ${question.sourceGlobalQuestion} visual renders`);
+      click(window, window.document.querySelector(`[data-opt="${question.answer}"]`));
+      assert.ok(window.document.querySelector(`.tb-opt.sel[data-opt="${question.answer}"]`), `question ${question.sourceGlobalQuestion} keyed option is selectable`);
+      covered.add(question.sourceGlobalQuestion);
     }
 
     click(window, window.document.querySelector('[data-backsim]'));
@@ -335,13 +389,21 @@ test('Mixed full exam uses the 616-question pool while preserving the 110-questi
   const set1Stems = new Set(SET1.map(question => question.stem));
   const set2Stems = new Set(SET2.map(question => question.stem));
   const seenSets = new Set();
+  const domainCounts = {};
+  const byStem = new Map(SET1.concat(SET2).map(question => [question.stem, question]));
   for (let index = 0; index < 110; index += 1) {
     click(window, window.document.querySelector(`[data-goto="${index}"]`));
     const stem = window.document.querySelector('.tb-stem').textContent;
+    const question = byStem.get(stem);
+    domainCounts[question.sub] = (domainCounts[question.sub] || 0) + 1;
     if (set1Stems.has(stem)) seenSets.add(1);
     if (set2Stems.has(stem)) seenSets.add(2);
   }
   assert.deepEqual([...seenSets].sort(), [1, 2], 'the deterministic Mixed draw includes both source sets');
+  assert.deepEqual(domainCounts, {
+    'cssgb-org': 12, 'cssgb-define': 22, 'cssgb-measure': 22,
+    'cssgb-analyze': 20, 'cssgb-improve': 18, 'cssgb-control': 16
+  }, 'Mixed full exams follow the published six-domain blueprint');
   assert.deepEqual(errors, []);
 });
 
@@ -356,10 +418,12 @@ test('a student can complete a 110-question Set 2 exam drawn from the full sourc
   assert.equal(window.document.querySelectorAll('.tb-navcell').length, 110, 'the full exam remains a realistic 110-question sitting');
 
   const byStem = new Map(SET2.map(question => [question.stem, question]));
+  const domainCounts = {};
   for (let index = 0; index < 110; index += 1) {
     const stem = window.document.querySelector('.tb-stem').textContent;
     const question = byStem.get(stem);
     assert.ok(question, `rendered question ${index + 1} belongs to Set 2`);
+    domainCounts[question.sub] = (domainCounts[question.sub] || 0) + 1;
     const options = window.document.querySelectorAll('.tb-opt');
     assert.equal(options.length, 4, `rendered question ${index + 1} has all four choices`);
     click(window, options[question.answer]);
@@ -369,5 +433,9 @@ test('a student can complete a 110-question Set 2 exam drawn from the full sourc
   const results = window.document.getElementById('tb-overview').textContent;
   assert.match(results, /100%/, 'the source answer mapping produces a perfect score');
   assert.match(results, /answered 110 of 110 correctly/i, 'all questions were scored');
+  assert.deepEqual(domainCounts, {
+    'cssgb-org': 12, 'cssgb-define': 22, 'cssgb-measure': 22,
+    'cssgb-analyze': 20, 'cssgb-improve': 18, 'cssgb-control': 16
+  }, 'Set 2 Full Exam follows the published six-domain blueprint');
   assert.deepEqual(errors, [], 'the entire student journey generated no runtime errors');
 });

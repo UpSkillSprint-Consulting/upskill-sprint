@@ -3734,7 +3734,7 @@
   },
   {
     "sub": "cssgb-define",
-    "stem": "A QFD is also known as the house of:",
+    "stem": "The primary matrix used in quality function deployment (QFD) to translate customer needs into technical requirements is called the house of:",
     "options": [
       "design and redesign.",
       "quality.",
@@ -3742,7 +3742,7 @@
       "product planning."
     ],
     "answer": 1,
-    "why": "QFD or quality function deployment is also known as the house of quality. <b>B. quality.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A II. Define Phase, Question 13 (print p. 24), II.B.3.</span>",
+    "why": "The House of Quality is the primary matrix used within QFD to translate customer needs into technical requirements. It is not another name for the entire QFD method. <b>B. quality.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A II. Define Phase, Question 13 (print p. 24), II.B.3.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -4136,7 +4136,7 @@
   },
   {
     "sub": "cssgb-define",
-    "stem": "Which of the following tools has been developed to ensure that the project is on the right path to ensure the desired outcomes?",
+    "stem": "Which project-governance mechanism is used to confirm at the end of each phase that a project remains on track for its intended outcomes?",
     "options": [
       "Force field analysis",
       "Tollgates",
@@ -4144,7 +4144,7 @@
       "Plan-do-check-act"
     ],
     "answer": 1,
-    "why": "Tollgates, also known as advance product quality planning (APQP), are used to verify the project process. <b>B. Tollgates</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A II. Define Phase, Question 32 (print p. 28), II.C.6.</span>",
+    "why": "Tollgates are formal reviews conducted at phase boundaries to confirm that required work is complete and the project should continue. Advanced product quality planning (APQP) may use gate reviews, but APQP and tollgates are not synonyms. <b>B. Tollgates</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A II. Define Phase, Question 32 (print p. 28), II.C.6.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -5547,7 +5547,7 @@
       "Normal with μ = 10, σ = 10"
     ],
     "answer": 2,
-    "why": "This is an application of the central limit distribution. If samples are taken from a distribution with mean μ and standard deviation σ, then the distribution of sample averages will approximately follow a normal distribution with mean μ and standard deviation σ / √n, where n is the number of data points used to calculate a sample average. Here, we are given that μ = 10, σ = 10, and n = 36. Therefore, the sample average will follow a normal distribution with mean 10 and standard deviation 10 / √36 = 1.667 <b>C. Normal with μ = 10, σ = 1.667</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 18 (print p. 50), III.B.2.</span>",
+    "why": "This is an application of the central limit theorem. The sampling distribution of the mean is approximately normal with mean μ = 10 and standard error σ/√n = 10/√36 = 1.667. <b>C. Normal with μ = 10, σ = 1.667</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 18 (print p. 50), III.B.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -7034,7 +7034,7 @@
   },
   {
     "sub": "cssgb-measure",
-    "stem": "What components comprise the total variation of a measurement system?",
+    "stem": "Which components combine to form total observed variation in a Gage R&R study?",
     "options": [
       "Gage R&R and appraiser variation",
       "Part-to-part variation and gage R&R",
@@ -7042,7 +7042,7 @@
       "Part-to-part variation and repeatability"
     ],
     "answer": 1,
-    "why": "Part-to-part variation and gage R&amp;R comprise the total variation of the measurement system. <b>B. Part-to-part variation and gage R&amp;R</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 83 (print p. 65), III.E.</span>",
+    "why": "Total observed variation combines part-to-part variation with gage repeatability and reproducibility (GR&amp;R). GR&amp;R alone represents the measurement-system contribution. <b>B. Part-to-part variation and gage R&amp;R</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 83 (print p. 65), III.E.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -7097,7 +7097,7 @@
   },
   {
     "sub": "cssgb-measure",
-    "stem": "What is the total variation of the measurement system that has part variation equal to 1.60 and gage R&R equal to 0.89?",
+    "stem": "What is the total observed variation when part-to-part variation is 1.60 and gage R&R is 0.89?",
     "options": [
       "1.83",
       "2.49",
@@ -7105,7 +7105,7 @@
       "3.35"
     ],
     "answer": 0,
-    "why": "Total variation of the measurement system is a combination of gage R&amp;R and part variation (PV). We calculate total variation using: Total variation = √(GR&amp;R² + part variation²) = √(0.89² + 1.60²) = 1.83. <b>A. 1.83</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 86 (print p. 65), III.E.</span>",
+    "why": "Total observed variation combines part-to-part variation (PV) with gage repeatability and reproducibility (GR&amp;R): TV = √(PV² + GR&amp;R²) = √(1.60² + 0.89²) = 1.83. <b>A. 1.83</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 86 (print p. 65), III.E.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -8561,7 +8561,7 @@
       "H₀: x̄₁−x̄₂ = 0 vs. H₁: x̄₁−x̄₂ ≠ 0"
     ],
     "answer": 1,
-    "why": "The null hypothesis always contains some form of equality, and hypotheses are always written in terms of population parameters. To test two means that we can use: H₀: µ₁—µ₂ = 0 vs. H₁: µ₁—µ₂ ≠ 0. <b>B. H₀: μ₁ − μ₂ = 0 vs. H₁: μ₁ − μ₂ ≠ 0</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 28 (print p. 89), IV.B.2.</span>",
+    "why": "The null hypothesis contains equality, and hypotheses are expressed in terms of population parameters. To compare two population means, use H₀: μ₁ − μ₂ = 0 versus H₁: μ₁ − μ₂ ≠ 0. <b>B. H₀: μ₁ − μ₂ = 0 vs. H₁: μ₁ − μ₂ ≠ 0</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 28 (print p. 89), IV.B.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -8765,13 +8765,13 @@
     "sub": "cssgb-analyze",
     "stem": "When calculating a 90 percent confidence interval for a proportion with a sample size of 100 and a sample proportion of 0.33, the interval is calculated using:",
     "options": [
-      "0.33 +/– 1.645 (0.047).",
-      "0.33 +/– 1.645 (0.0022).",
-      "0.33 +/– 1.96 (0.047).",
-      "0.33 +/– 1.96 (0.0022)."
+      "0.33 ± 1.645(0.047).",
+      "0.33 ± 1.645(0.0022).",
+      "0.33 ± 1.96(0.047).",
+      "0.33 ± 1.96(0.0022)."
     ],
     "answer": 0,
-    "why": "The Z value for a two-tailed 90 percent confidence interval is 1.645. The estimated proportion is 0.33, and n = 100. We then use the formula: p̂ ± Z√[p̂(1−p̂)/n] = 0.33 ± 1.645(0.047). <b>A. 0.33 +/– 1.645 (0.047).</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 38 (print p. 91), IV.B.2.</span>",
+    "why": "For a two-sided 90% confidence interval, z* = 1.645. The estimated standard error is √[0.33(1−0.33)/100] ≈ 0.047, so the interval is calculated as 0.33 ± 1.645(0.047). <b>A. 0.33 ± 1.645(0.047).</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 38 (print p. 91), IV.B.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -8825,15 +8825,15 @@
   },
   {
     "sub": "cssgb-analyze",
-    "stem": "Participants took the same test before and after training; the instructor wants to determine whether training improved scores. What is the appropriate set of hypotheses for the test?",
+    "stem": "Participants took the same test before and after training; define each paired difference as pre-test minus post-test. The instructor wants to determine whether training improved scores. What is the appropriate set of hypotheses for the test?",
     "options": [
-      "H₀: µ₁ = µ₂ vs. H₁: µ₁ ≠ µ₂",
-      "H₀: µ₁—µ₂ = 0 vs. H₁: µ₁—µ₂ < 0",
-      "H₀: µD = 0 vs. H₁: µD ≠ 0",
-      "H₀: µD = 0 vs. H₁: µD < 0"
+      "H₀: μ₁ = μ₂ vs. H₁: μ₁ ≠ μ₂",
+      "H₀: μ₁ − μ₂ = 0 vs. H₁: μ₁ − μ₂ < 0",
+      "H₀: μD = 0 vs. H₁: μD ≠ 0",
+      "H₀: μD = 0 vs. H₁: μD < 0"
     ],
     "answer": 3,
-    "why": "This is a paired sample test in which we want to show that the training succeeded. This will be the case if the mean difference between the individuals’ pre- and post-test scores is negative. Thus, the appropriate hypotheses for this study are: H₀: µD = 0 vs. H₁: µD &lt; 0. <b>D. H₀: µD = 0 vs. H₁: µD &lt; 0</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 40 (print p. 92), IV.B.2.</span>",
+    "why": "Because each paired difference is defined as pre-test minus post-test, improvement produces negative differences. Use the paired hypotheses H₀: μD = 0 versus H₁: μD &lt; 0. <b>D. H₀: μD = 0 vs. H₁: μD &lt; 0</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 40 (print p. 92), IV.B.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -8937,15 +8937,15 @@
   },
   {
     "sub": "cssgb-analyze",
-    "stem": "Participants took the same test before and after training; the alternative is that training improves scores. What is the critical value for the test, assuming α = 0.05?",
+    "stem": "Participants took the same test before and after training; define each paired difference as pre-test minus post-test. The alternative is that training improves scores. What is the critical value for the test, assuming α = 0.05?",
     "options": [
       "t = 1.812",
       "Z = 1.860",
       "Z= 2.015",
-      "t = 2.132"
+      "t = −2.132"
     ],
     "answer": 3,
-    "why": "There are 5 paired differences, so df = 4. For a one-sided test at α = 0.05, the critical-value magnitude is 2.132. Because differences are defined as pre-test minus post-test, the left-tail cutoff is −2.132; the observed t₀ = −2.22 falls below it, so reject H₀. <b>D. t = 2.132</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 42 (print p. 92), IV.B.2.</span>",
+    "why": "There are 5 paired differences, so df = 4. Because differences are defined as pre-test minus post-test, improvement is a left-tailed alternative. For α = 0.05, the critical value is −2.132; the observed t₀ = −2.22 falls below it, so reject H₀. <b>D. t = −2.132</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 42 (print p. 92), IV.B.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -9157,13 +9157,13 @@
     "sub": "cssgb-analyze",
     "stem": "A Green Belt is comparing five suppliers using the ANOVA table shown. What is the conclusion for the statistical test?",
     "options": [
-      "Fcₐlc > Fcrᵢt, Reject H₀.",
-      "Fcₐlc < Fcrᵢt, Reject H₀.",
-      "Fcₐlc > Fcrᵢt, Do not reject H₀.",
-      "Fcₐlc < Fcrᵢt, Do not reject H₀."
+      "Fcalc > Fcrit, Reject H₀.",
+      "Fcalc < Fcrit, Reject H₀.",
+      "Fcalc > Fcrit, Do not reject H₀.",
+      "Fcalc < Fcrit, Do not reject H₀."
     ],
     "answer": 0,
-    "why": "The calculated F = 4.50 is greater than the table value F(4, 20, 0.01) = 4.43. Therefore, we reject H₀ and conclude that at least one supplier mean is not equal to the rest. <b>A. Fcₐlc &gt; Fcrᵢt, Reject H₀.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 46 (print p. 93), IV.B.2.</span>",
+    "why": "The calculated F = 4.50 is greater than the critical value F(4, 20, 0.01) = 4.43. Therefore Fcalc &gt; Fcrit, so reject H₀ and conclude that at least one supplier mean differs. <b>A. Fcalc &gt; Fcrit, Reject H₀.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 46 (print p. 93), IV.B.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",

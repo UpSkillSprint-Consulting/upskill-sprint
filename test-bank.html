@@ -3419,6 +3419,34 @@
 
   /* ---------- quiz player ---------- */
   function pickStratified(bank,perArea){var by={};bank.forEach(function(q){(by[q.sub]=by[q.sub]||[]).push(q);});var out=[];for(var k in by){var arr=by[k].slice();shuffle(arr);out=out.concat(arr.slice(0,Math.min(perArea,arr.length)));}return shuffle(out);}
+  /* Draw a full exam to the published Body-of-Knowledge proportions. Large
+     source banks otherwise inherit the book's chapter counts, which can make
+     a nominal exam materially over- or under-sample an ASQ domain. */
+  function pickBlueprintExam(e,bank,count){
+    if(bank.length<=count){shuffle(bank);return bank.slice(0,count);}
+    var total=e.bok.reduce(function(sum,area){return sum+area.weight;},0);
+    var targets=e.bok.map(function(area,index){
+      var exact=count*area.weight/total;
+      return {domain:area.domain,index:index,count:Math.floor(exact),remainder:exact-Math.floor(exact)};
+    });
+    var assigned=targets.reduce(function(sum,target){return sum+target.count;},0);
+    targets.slice().sort(function(a,b){return b.remainder-a.remainder||a.index-b.index;}).slice(0,count-assigned).forEach(function(target){target.count++;});
+    var byDomain={},unmapped=[];
+    bank.forEach(function(q){
+      var domain=domainOf(e,q.sub);
+      if(domain)(byDomain[domain]=byDomain[domain]||[]).push(q);else unmapped.push(q);
+    });
+    var out=[],rest=unmapped.slice();
+    targets.forEach(function(target){
+      var pool=(byDomain[target.domain]||[]).slice();
+      shuffle(pool);
+      out=out.concat(pool.slice(0,target.count));
+      rest=rest.concat(pool.slice(target.count));
+    });
+    shuffle(rest);
+    out=out.concat(rest.slice(0,Math.max(0,count-out.length)));
+    return shuffle(out.slice(0,count));
+  }
   function diagCount(e){var b=activeBank(e);return Math.min(b.length,pickStratified(b,2).length);}
   function beginSession(e,items,kind,timed,limitSeconds){
     buildTools();
@@ -3427,7 +3455,7 @@
     view='quiz';renderMain();startTimer();
   }
   function startDiagnostic(){var e=EXAMS[current];var qs=pickStratified(activeBank(e),2);beginSession(e,qs,'diagnostic',diagTimed,Math.round(qs.length*e.minutes/e.questions)*60);}
-  function startFull(){var e=EXAMS[current];var qs=activeBank(e).slice();shuffle(qs);qs=qs.slice(0,e.questions);beginSession(e,qs,'exam',mode.timed,e.minutes*60);}
+  function startFull(){var e=EXAMS[current];var qs=pickBlueprintExam(e,activeBank(e).slice(),e.questions);beginSession(e,qs,'exam',mode.timed,e.minutes*60);}
   function startQuick(){
     var e=EXAMS[current];
     var qs=mode.quickUnseen?unseenOnly(mixedBank(e)):mode.quickMissed?missedOnly(mixedBank(e)):activeBank(e).slice();
