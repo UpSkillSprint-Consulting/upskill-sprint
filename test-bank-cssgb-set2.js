@@ -2471,15 +2471,15 @@
   },
   {
     "sub": "cssgb-org",
-    "stem": "Which definition of KPI is most often used by Green Belts?",
+    "stem": "What does KPI stand for in standard ASQ quality terminology?",
     "options": [
       "Key Performance Indicator",
       "Key Preference Indicator",
       "Key Process Indicator",
       "Key Presentation Indicator"
     ],
-    "answer": 2,
-    "why": "Remember that a key driver of Six Sigma is to reduce variation in the process, so KPI for Six Sigma practitioners is based on the key process indicators. <b>C. Key Process Indicator</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A I. Overview: Six Sigma and the Organization, Question 11 (print p. 6), I.A.3.</span>",
+    "answer": 0,
+    "why": "KPI is the standard abbreviation for Key Performance Indicator. The book keys Key Process Indicator, but that expansion conflicts with ASQ's standard quality terminology; the student-facing key is corrected here. <b>A. Key Performance Indicator</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A I. Overview: Six Sigma and the Organization, Question 11 (print p. 6), I.A.3.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -3805,7 +3805,7 @@
       "one-dimensional versus two-dimensional."
     ],
     "answer": 2,
-    "why": "In the Kano model representation, the y axis shows customer dissatisfaction/satisfaction, as shown below. <b>C. dissatisfaction/satisfaction.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A II. Define Phase, Question 16 (print p. 24), II.B.3.</span>",
+    "why": "In the traditional Kano model, the vertical axis represents customer dissatisfaction through customer satisfaction. <b>C. dissatisfaction/satisfaction.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A II. Define Phase, Question 16 (print p. 24), II.B.3.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -4585,7 +4585,7 @@
       "6000"
     ],
     "answer": 2,
-    "why": "There are three opportunities for defects on each shaft. The defects per million opportunities are calculated using: DPMO = defects / opportunities × 10⁶ = 6 / (3 × 1000) × 10⁶ = 2000.. <b>C. 2000</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A II. Define Phase, Question 53 (print p. 32), II.E.1.</span>",
+    "why": "Each shaft has three defect opportunities, so DPMO = 6 / (1000 × 3) × 10⁶ = 2000. <b>C. 2000</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A II. Define Phase, Question 53 (print p. 32), II.E.1.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -5313,7 +5313,7 @@
       "0.42"
     ],
     "answer": 1,
-    "why": "Here, we are given P(Machine A and Defective) = 0.02 and P(Machine A) = 0.40.We are asked to find the conditional probability P(Defective|Machine A). Let P(A) = P(Machine A) and P(B) = P(Defective). Then, using the conditional probability formula: P(Defective | Machine A) = 0.02 / 0.40 = 0.05. <b>B. 0.05</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 11 (print p. 48), III.B.1.</span>",
+    "why": "Use conditional probability: P(Defective | Machine A) = P(Machine A and Defective) / P(Machine A) = 0.02 / 0.40 = 0.05. <b>B. 0.05</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 11 (print p. 48), III.B.1.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -5819,8 +5819,8 @@
       "0.3281",
       "0.2916"
     ],
-    "answer": 2,
-    "why": "This is an application of the binomial distribution with n = 6, p = 0.10. To find P(X = 1) we use: P(X = 1) = C(6,1)(0.10)(0.90)⁵ = 0.3543.. <b>C. 0.3281</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 31 (print p. 53), III.C.</span>",
+    "answer": 1,
+    "why": "For X ~ Binomial(n = 6, p = 0.10), P(X = 1) = C(6,1)(0.10)(0.90)⁵ = 0.354294, which rounds to 0.3543. The book's printed key says 0.3281 even though its displayed calculation gives 0.3543; the student-facing key is corrected here. <b>B. 0.3543</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 31 (print p. 53), III.C.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -5904,7 +5904,7 @@
       "0.8545"
     ],
     "answer": 1,
-    "why": "To find P(1.00 &lt; Z &lt; 2.50), we can use a standard normal table to find P(Z &lt; 2.50) − P(Z &lt; 1.00) = 0.99379 − 0.84134 = 0.15245. See the sketch below. <b>B. 0.1524</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 35 (print p. 54), III.C.</span>",
+    "why": "Using a standard normal table, P(1.00 &lt; Z &lt; 2.50) = P(Z &lt; 2.50) − P(Z &lt; 1.00) = 0.99379 − 0.84134 = 0.15245, which rounds to 0.1524. <b>B. 0.1524</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 35 (print p. 54), III.C.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -5946,7 +5946,7 @@
       "0.9970"
     ],
     "answer": 1,
-    "why": "To find P(−1.33 &lt; Z &lt; 2.75), we can use a standard normal table to find P(Z &lt; 2.75) − P(Z &lt; −1.33) = 0.99702 − 0.09176 = 0.90526. [Depending on the standard normal table you are using, you may have to find P(Z &lt; −1.33) by calculating 1− P(Z &lt; 1.33) = 1− P(Z &lt; 1.33) = 1− 0.90824 = 0.09176.] See the sketch below. <b>B. 0.9053</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 37 (print p. 54), III.C.</span>",
+    "why": "Using a standard normal table, P(−1.33 &lt; Z &lt; 2.75) = 0.99702 − 0.09176 = 0.90526, which rounds to 0.9053. <b>B. 0.9053</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 37 (print p. 54), III.C.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -6781,7 +6781,7 @@
       "21"
     ],
     "answer": 2,
-    "why": "Using the table below, calculate the averages for each row (A1 = 20.6, A2 = 19.8, A3 = 18.4) and then calculate the X-bar for all three rows = 19.6. Use standard rounding rules: round to nearest whole number or round to even if a 0.5 occurs. Gage Repeatability and Reproducibility Data Collection Sheet Appraiser/ trial # Part Average 1 2 3 4 5 6 7 8 9 10 A1 23 33 22 10 15 A2 21 31 21 10 16 A3 19 29 23 10 11 Average ₐ Range Ṝₐ <b>C. 20</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 76 (print p. 63), III.E.</span>",
+    "why": "The three appraiser-trial averages are A1 = 20.6, A2 = 19.8, and A3 = 18.4. Their overall average is (20.6 + 19.8 + 18.4) / 3 = 19.6, which rounds to 20. <b>C. 20</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 76 (print p. 63), III.E.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -7286,15 +7286,15 @@
   },
   {
     "sub": "cssgb-measure",
-    "stem": "Which scenario is best suited for using capability process measures (CPMs)?",
+    "stem": "Which process is best suited for interpreting process-capability measures as predictive of future performance?",
     "options": [
       "A process with only short-term fluctuations",
       "A process with no historical data available",
       "A process with inconsistent variations",
       "A process producing a consistent output within specifications"
     ],
-    "answer": 2,
-    "why": "Cpm is appropriate for processes with inconsistent variations, as it helps assess the process’s ability to consistently meet specifications despite variations. <b>C. A process with inconsistent variations</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 95 (print p. 67), III.F.2.</span>",
+    "answer": 3,
+    "why": "Process-capability measures are predictive only after the process is stable, with consistent output and no unresolved special causes. The book keys inconsistent variation, but capability indices from an unstable process are not reliable predictors; the student-facing key is corrected here. <b>D. A process producing a consistent output within specifications</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A III. Measure Phase, Question 95 (print p. 67), III.F.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -8271,7 +8271,7 @@
       "1.78"
     ],
     "answer": 2,
-    "why": "To calculate the sample correlation coefficient, we can use: r = Σ(x−x̄)(y−ȳ) / [(n−1)sₓsᵧ]. Using a calculator, we can find the sample standard deviation of each variable: sₓ = 3.61 and sy = 2.65. The numerator of the formula is equal to 17, as shown in the preceding table. Note that we have three (x, y) pairs, so n = 3. Then, r = 17 / [(3−1)(3.61)(2.65)] = 0.89. <b>C. 0.89</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 16 (print p. 86), IV.A.2.</span>",
+    "why": "For the displayed three (x, y) pairs, Σ(x−x̄)(y−ȳ) = 17, sₓ = 3.61, and sᵧ = 2.65. Therefore r = 17 / [(3−1)(3.61)(2.65)] = 0.89. <b>C. 0.89</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 16 (print p. 86), IV.A.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -8540,7 +8540,7 @@
       "is not rejected when it is false."
     ],
     "answer": 3,
-    "why": "A Type II error occurs when we fail to reject the null when the alternative is true. See the following truth table. Decision Truth Do not Reject Hₒ Reject Hₒ Hₒ Correct Type I, alpha error H₁ Type II, beta error Correct <b>D. is not rejected when it is false.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 27 (print p. 89), IV.B.1.</span>",
+    "why": "A Type II (beta) error occurs when the null hypothesis is false but the test fails to reject it. <b>D. is not rejected when it is false.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 27 (print p. 89), IV.B.1.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -8786,13 +8786,13 @@
     "sub": "cssgb-analyze",
     "stem": "A Six Sigma Green Belt is studying the output of two milling machines. Assuming the output of each machine follows a normal distribution, test whether there is a significant difference in the variances of the two machines at α = 0.10. Use the information in the following table.",
     "options": [
-      "F₀ = 2.94, Fcrᵢt = 1.92, Reject H₀.",
-      "F₀ = 2.94, Fcrᵢt = 1.97, Reject H₀.",
-      "F₀ = 2.94, Fcrᵢt = 2.33, Reject H₀.",
-      "F₀ = 2.94, Fcrᵢt = 2.40, Reject H₀."
+      "F₀ = 2.94, Fcrit = 1.92, Reject H₀.",
+      "F₀ = 2.94, Fcrit = 1.97, Reject H₀.",
+      "F₀ = 2.94, Fcrit = 2.33, Reject H₀.",
+      "F₀ = 2.94, Fcrit = 2.40, Reject H₀."
     ],
-    "answer": 1,
-    "why": "The hypotheses for this test are: H₀: σ₁²/σ₂² = 1; H₁: σ₁²/σ₂² &gt; 1. The test statistic is calculated by: F₀ = s₁²/s₂² = 4.55/1.55 = 2.94. Noting that n₁ = 20 and n₂ = 15, we calculate the degrees of freedom for the F critical value of 19 and 14. Looking up the table value for F(0.10, 19,14), we get Fcrᵢt = 1.97. Since F₀ &gt; Fcrᵢt, we reject H₀ and conclude that the variances of the machines are not equal. <b>B. F₀ = 2.94, Fcrᵢt = 1.97, Reject H₀.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 39 (print p. 91), IV.B.2.</span>",
+    "answer": 3,
+    "why": "The wording asks whether the variances differ, so this is a two-sided F test: H₀: σ₁² = σ₂² versus H₁: σ₁² ≠ σ₂². F₀ = 4.55/1.55 = 2.94. With df₁ = 19, df₂ = 14, and α/2 = 0.05 in the upper tail, Fcrit ≈ 2.40, so reject H₀. The book uses the one-sided α = 0.10 value 1.97; the student-facing key is corrected to match the two-sided question. <b>D. F₀ = 2.94, Fcrit = 2.40, Reject H₀.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 39 (print p. 91), IV.B.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -8945,7 +8945,7 @@
       "t = 2.132"
     ],
     "answer": 3,
-    "why": "The degrees of freedom for the Student’s t distribution for this test are equal to 4, since there are 5 students. Noting that this is a one-sided study, we find t(0.05, 4) = 2.132. Since |–2.22| &gt; 2.132, we reject H₀ is | t₀ | &gt; tcrᵢt and conclude that the training was effective. <b>D. t = 2.132</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 42 (print p. 92), IV.B.2.</span>",
+    "why": "There are 5 paired differences, so df = 4. For a one-sided test at α = 0.05, the critical-value magnitude is 2.132. Because differences are defined as pre-test minus post-test, the left-tail cutoff is −2.132; the observed t₀ = −2.22 falls below it, so reject H₀. <b>D. t = 2.132</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 42 (print p. 92), IV.B.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -9055,7 +9055,7 @@
       "9.00"
     ],
     "answer": 2,
-    "why": "The completed ANOVA table is shown: Source SS df MS F Supplier 360 4 90 4.5 Error 400 20 20 Total 760 23 MS is equal to SS/df for Supplier and Error. To calculate the F statistics, we divide MSsupplᵢₑr by MSErrₒr. <b>C. 4.50</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 44 (print p. 93), IV.B.2.</span>",
+    "why": "From the displayed ANOVA table, MSsupplier = 360/4 = 90 and MSerror = 400/20 = 20. The F statistic is 90/20 = 4.50. <b>C. 4.50</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 44 (print p. 93), IV.B.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -9279,7 +9279,7 @@
       "11.143"
     ],
     "answer": 1,
-    "why": "The critical value is 7.815. The degrees of freedom are equal to one less than the number of categories, k. Here, (k − 1) = 3. Since goodness of fit is always a right-tailed test, the χ² table value at α = 0.05 value is applied. <b>B. 7.815</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 48 (print p. 94), IV.B.2.</span>",
+    "why": "With four categories, df = k − 1 = 3. A chi-square goodness-of-fit test is right-tailed, and the α = 0.05 critical value is 7.815. <b>B. 7.815</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 48 (print p. 94), IV.B.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -9613,7 +9613,7 @@
       "Five Whys."
     ],
     "answer": 3,
-    "why": "The tool that is a persistent questioning technique used to probe deeper to reach the cause of a problem is known as the Five Whys, which is also called the 5W1H method. <b>D. Five Whys.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 60 (print p. 96), IV.C.2.</span>",
+    "why": "Five Whys is a persistent questioning technique: repeatedly ask why, using each answer to frame the next question, until the causal chain reaches an actionable root cause. <b>D. Five Whys.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 60 (print p. 96), IV.C.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -9710,7 +9710,7 @@
   },
   {
     "sub": "cssgb-analyze",
-    "stem": "A technique for discovering the root causes of a problem and showing the relationship of those causes is the:",
+    "stem": "A technique that traces a problem through a causal chain by repeatedly asking why at each step is the:",
     "options": [
       "root cause.",
       "cause-and-effect diagram.",
@@ -9718,7 +9718,7 @@
       "Five Whys."
     ],
     "answer": 3,
-    "why": "The tool described is the Five Whys, which is also called the 5W1H method. <b>D. Five Whys.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 65 (print p. 97), IV.C.2.</span>",
+    "why": "Five Whys traces a causal chain by repeatedly asking why at each step until the team reaches an actionable root cause. It is distinct from the 5W1H questioning framework. <b>D. Five Whys.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 65 (print p. 97), IV.C.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -9731,7 +9731,7 @@
   },
   {
     "sub": "cssgb-analyze",
-    "stem": "What values are summed up to form the top-level cause within fault tree analysis?",
+    "stem": "In quantitative fault tree analysis, which inputs are combined according to AND/OR gate logic to obtain the top-event probability?",
     "options": [
       "The AND/OR logic leading to the failure of the system",
       "The logical relationship between the causes",
@@ -9739,7 +9739,7 @@
       "The probabilities of each assignable cause"
     ],
     "answer": 3,
-    "why": "For a fault tree analysis, the probability of each assignable cause is calculated in either series or parallel. All the probabilities are then summed up to the top-level cause. <b>D. The probabilities of each assignable cause</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 66 (print p. 97), IV.C.2.</span>",
+    "why": "In quantitative fault tree analysis, probabilities assigned to basic or assignable causes are combined according to the tree's AND/OR gate logic to calculate the top-event probability; they are not simply added together. <b>D. The probabilities of each assignable cause</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A IV. Analyze Phase, Question 66 (print p. 97), IV.C.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -9913,15 +9913,15 @@
   },
   {
     "sub": "cssgb-improve",
-    "stem": "Randomization of experimental runs is intended to reduce:",
+    "stem": "Randomizing experimental run order primarily helps prevent which influence from being systematically confounded with a factor effect?",
     "options": [
-      "special cause variation.",
+      "special-cause or time-order variation.",
       "common cause variation.",
       "main effects.",
       "interaction effects."
     ],
     "answer": 0,
-    "why": "Randomization organizes experiments to lessen the effects of special cause variation by randomly assigning the order in which tests are run. <b>A. special cause variation.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A V. Improve Phase, Question 3 (print p. 110), V.A.1.</span>",
+    "why": "Randomizing run order distributes special-cause, time-order, and other lurking influences across factor settings so they do not systematically bias one estimated factor effect. Randomization does not remove the underlying variation. <b>A. special-cause or time-order variation.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A V. Improve Phase, Question 3 (print p. 110), V.A.1.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -9976,7 +9976,7 @@
   },
   {
     "sub": "cssgb-improve",
-    "stem": "A Green Belt runs an experiment and finds that the yield of a process is maximized when the machine temperature is set to 450ᵒ F and pressure is set to 40 psi. What should be the next step?",
+    "stem": "A Green Belt runs an experiment and finds that process yield is maximized at 450°F and 40 psi. What should be the next step?",
     "options": [
       "Implement the changes and update the work instructions.",
       "Train the operators to use the new settings.",
@@ -10631,11 +10631,11 @@
     "options": [
       "proof of concept.",
       "try-storming simulations.",
-      "piloting testing.",
+      "pilot testing.",
       "advanced product quality planning."
     ],
     "answer": 2,
-    "why": "A pilot test is a process to hone the project prior to completion. There are opportunities to sample or improve the solution prior to full deployment. <b>C. piloting testing.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A V. Improve Phase, Question 24 (print p. 116), V.B.</span>",
+    "why": "Pilot testing lets the team try and refine a proposed solution on a limited scale before full deployment. <b>C. pilot testing.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A V. Improve Phase, Question 24 (print p. 116), V.B.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -11866,12 +11866,12 @@
     "stem": "What is the centerline of the u-chart?",
     "options": [
       "0.006",
-      "0.154",
+      "0.155",
       "3.85",
       "9.60"
     ],
     "answer": 1,
-    "why": "To calculate the centerline for the u-chart, we use ū = Σcᵢ/Σnᵢ = 240/1550 = 0.1548 (approximately 0.154 in the source choices). The variable k is the number of subgroups used for the control limits. In this example, 240 defects were found in 25 subgroups, and 1550 units were inspected. <b>B. 0.154</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A VI. Control Phase, Question 27 (print p. 132), VI.A.3.</span>",
+    "why": "The u-chart centerline is ū = Σcᵢ/Σnᵢ = 240/1550 = 0.1548387, which rounds to 0.155 to three decimal places. <b>B. 0.155</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A VI. Control Phase, Question 27 (print p. 132), VI.A.3.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -11913,11 +11913,11 @@
     "options": [
       "[0, 0.059]",
       "[0.131, 0.177]",
-      "[0, 0.417]",
+      "[0, 0.419]",
       "[0.1241, 0.1838]"
     ],
     "answer": 2,
-    "why": "To calculate the control limits for the u-chart, we note that u-bar = 0.154, as shown in the previous question, and nᵢ = 20. Then we use u-chart limits = ū ± 3√(ū/nᵢ) = 0.154 ± 3√(0.154/20) = [0, 0.417]. <b>C. [0, 0.417]</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A VI. Control Phase, Question 28 (print p. 132), VI.A.3.</span>",
+    "why": "First calculate ū = 240/1550 = 0.1548. For nᵢ = 20, the limits are ū ± 3√(ū/nᵢ) = 0.1548 ± 3√(0.1548/20), giving LCL = 0 after truncation and UCL ≈ 0.419. <b>C. [0, 0.419]</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A VI. Control Phase, Question 28 (print p. 132), VI.A.3.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -12102,15 +12102,15 @@
   },
   {
     "sub": "cssgb-control",
-    "stem": "The dynamic control plan is a living document whereby:",
+    "stem": "A dynamic control plan is a living document. How should operators handle a needed update when process conditions change?",
     "options": [
       "document control practices are suspended during operations.",
       "standard operating procedures, failure modes, and effects analysis contradict each other.",
       "root causes and corrective actions are applied to future versions.",
-      "operators have the right and responsibility to make updates any time that things change."
+      "Identify the update and route it through the approved document-control review."
     ],
     "answer": 3,
-    "why": "Operators have the right and responsibility to update the dynamic control plan. <b>D. operators have the right and responsibility to make updates any time that things change.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A VI. Control Phase, Question 36 (print p. 133), VI.B.2.</span>",
+    "why": "Operators should identify needed changes, but a controlled plan remains subject to the organization's approved review, authorization, revision, and document-control process. <b>D. Identify the update and route it through the approved document-control review.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A VI. Control Phase, Question 36 (print p. 133), VI.B.2.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",
@@ -12291,7 +12291,7 @@
   },
   {
     "sub": "cssgb-control",
-    "stem": "When an audit is conducted by a registrar in your organization, the audit type is called a:",
+    "stem": "When an independent registrar audits your organization, the audit type is called a:",
     "options": [
       "first-party audit.",
       "second-party audit.",
@@ -12299,7 +12299,7 @@
       "fourth-party audit."
     ],
     "answer": 2,
-    "why": "Third-party audit (also described in ISO 19011:2018). An audit conducted by a registrar on your organization is called a third-party audit. <b>C. third-party audit.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A VI. Control Phase, Question 45 (print p. 135), VI.B.4.</span>",
+    "why": "An audit performed by an independent registrar on an organization is a third-party audit. <b>C. third-party audit.</b> <span class=\"tb-source-ref\">Source: The ASQ Certified Six Sigma Green Belt Study Guide (2024), Part A VI. Control Phase, Question 45 (print p. 135), VI.B.4.</span>",
     "set": 2,
     "sourceType": "Book BoK Sample Question",
     "sourcePart": "Part A: Sample Questions by BoK",

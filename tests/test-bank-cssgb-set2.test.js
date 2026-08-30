@@ -74,7 +74,7 @@ test('Set 2 contains every Part A and Part B question as a 506-question source b
   });
 });
 
-test('all 100 Part B and all 406 Part A questions retain exact source coordinates and answer keys', () => {
+test('all 100 Part B and all 406 Part A questions retain source coordinates and reviewed answer keys', () => {
   const partB = SET2.slice(0, 100);
   assert.deepEqual(Array.from(partB, question => question.sourceQuestion), Array.from({ length: 100 }, (_, index) => index + 1));
   assert.ok(partB.every(question => question.sourcePart === 'Part B: Practice Exam'));
@@ -85,10 +85,10 @@ test('all 100 Part B and all 406 Part A questions retain exact source coordinate
     'ABBCBCADCDDADDACABBDBDABBABDBABBBABDCBDDBCBCAACCBBBBBCBCDCAACABCACDCCBBADBDDADBDAADCBCACDADCBBDBACDC');
 
   const expectedChapters = {
-    'OEBPS/xhtml/chapter1.xhtml': { count: 51, pages: [4, 14], answers: 'BADDCBDCDACABCCDCAAADBCABBCCBABABDDBBBCADACCDBDCCAB' },
+    'OEBPS/xhtml/chapter1.xhtml': { count: 51, pages: [4, 14], answers: 'BADDCBDCDAAABCCDCAAADBCABBCCBABABDDBBBCADACCDBDCCAB' },
     'OEBPS/xhtml/chapter2.xhtml': { count: 75, pages: [21, 37], answers: 'ADBDCCAABBBABDBCCBAADADDBCDABBABCBDBDAABCBDBBBCADBCDCCBCBBBBADDCCBACDABABCA' },
-    'OEBPS/xhtml/chapter3.xhtml': { count: 103, pages: [45, 69], answers: 'ADBDCDABBABBCCCDDCACDADBACBADBCCABBABACABBDCABBCBCCABBCACBACABCDBABDBCACAADCACBBBCBDBAABDBABAACDDBCAACA' },
-    'OEBPS/xhtml/chapter4.xhtml': { count: 71, pages: [82, 99], answers: 'CDBABCBAACDABADCCBBACABABBDBACDBCBCDAABDDDDCCACBBACCACABBDADBABCDDBAAAD' },
+    'OEBPS/xhtml/chapter3.xhtml': { count: 103, pages: [45, 69], answers: 'ADBDCDABBABBCCCDDCACDADBACBADBBCABBABACABBDCABBCBCCABBCACBACABCDBABDBCACAADCACBBBCBDBAABDBABAADDDBCAACA' },
+    'OEBPS/xhtml/chapter4.xhtml': { count: 71, pages: [82, 99], answers: 'CDBABCBAACDABADCCBBACABABBDBACDBCBCDAADDDDDCCACBBACCACABBDADBABCDDBAAAD' },
     'OEBPS/xhtml/chapter5.xhtml': { count: 44, pages: [110, 120], answers: 'ADAABCBDCBACCAAADDCCAAACCADCDCABCAACABACAACB' },
     'OEBPS/xhtml/chapter6.xhtml': { count: 62, pages: [126, 139], answers: 'ABDACDAABBDABCACBBBDADCBCCBCDCABCBADCCBABADACBDCADACBACBDADAAB' }
   };
@@ -100,8 +100,65 @@ test('all 100 Part B and all 406 Part A questions retain exact source coordinate
     assert.equal(questions.length, expected.count, `${sourceEpubFile} has every source question`);
     assert.deepEqual(Array.from(questions, question => question.sourceQuestion), Array.from({ length: expected.count }, (_, index) => index + 1));
     assert.deepEqual([Math.min(...questions.map(question => question.sourcePrintPage)), Math.max(...questions.map(question => question.sourcePrintPage))], expected.pages);
-    assert.equal(questions.map(question => 'ABCD'[question.answer]).join(''), expected.answers, `${sourceEpubFile} preserves the published answer key`);
+    assert.equal(questions.map(question => 'ABCD'[question.answer]).join(''), expected.answers, `${sourceEpubFile} preserves the reviewed answer-key sequence`);
   }
+});
+
+test('student-facing corrections resolve documented source errors and ambiguous wording', () => {
+  function partA(chapter, number) {
+    return SET2.find(question => question.sourceEpubFile === `OEBPS/xhtml/chapter${chapter}.xhtml` && question.sourceQuestion === number);
+  }
+
+  const kpi = partA(1, 11);
+  assert.equal(kpi.options[kpi.answer], 'Key Performance Indicator');
+  assert.match(kpi.stem, /standard ASQ quality terminology/);
+  assert.match(kpi.why, /book keys Key Process Indicator.+corrected here/);
+
+  const binomial = partA(3, 31);
+  assert.equal(binomial.options[binomial.answer], '0.3543');
+  assert.ok(Math.abs(6 * 0.10 * (0.90 ** 5) - 0.3543) < 0.00001);
+  assert.match(binomial.why, /book's printed key says 0\.3281/);
+
+  const capability = partA(3, 95);
+  assert.equal(capability.options[capability.answer], 'A process producing a consistent output within specifications');
+  assert.match(capability.why, /capability measures are predictive only after the process is stable/);
+
+  const variance = partA(4, 39);
+  assert.equal(variance.options[variance.answer], 'F₀ = 2.94, Fcrit = 2.40, Reject H₀.');
+  assert.match(variance.why, /two-sided F test/);
+  assert.match(variance.why, /α\/2 = 0\.05/);
+
+  const pairedT = partA(4, 42);
+  assert.match(pairedT.why, /left-tail cutoff is −2\.132/);
+  assert.doesNotMatch(pairedT.why, /\|t\|/);
+
+  const fiveWhys = partA(4, 65);
+  assert.match(fiveWhys.stem, /repeatedly asking why/);
+  assert.match(fiveWhys.why, /distinct from the 5W1H/);
+  assert.doesNotMatch(partA(4, 60).why, /also called the 5W1H/);
+
+  const faultTree = partA(4, 66);
+  assert.match(faultTree.why, /AND\/OR gate logic/);
+  assert.match(faultTree.why, /not simply added together/);
+
+  const uCenter = partA(6, 27);
+  assert.equal(uCenter.options[uCenter.answer], '0.155');
+  assert.ok(Math.abs(240 / 1550 - 0.1548387) < 0.0000001);
+  const uLimits = partA(6, 28);
+  assert.equal(uLimits.options[uLimits.answer], '[0, 0.419]');
+  assert.match(uLimits.why, /240\/1550/);
+  assert.doesNotMatch(uLimits.why, /previous question/i);
+
+  assert.equal(partA(5, 24).options[2], 'pilot testing.');
+  assert.match(partA(6, 36).options[3], /approved document-control review/);
+  assert.match(partA(6, 45).stem, /independent registrar/);
+});
+
+test('Set 2 feedback is self-contained and free of known extraction artifacts', () => {
+  const combined = SET2.map(question => `${question.stem} ${question.options.join(' ')} ${question.why}`).join('\n');
+  assert.doesNotMatch(combined, /(?:as shown in the previous question|preceding table|see the sketch below|0\.40\.We|piloting testing|0\.3543\.\.)/i);
+  assert.doesNotMatch(combined, /Average ₐ Range Ṝₐ/);
+  assert.match(SET2.find(question => question.sourceGlobalQuestion === 302).why, /\(20\.6 \+ 19\.8 \+ 18\.4\) \/ 3 = 19\.6/);
 });
 
 test('the full source bank preserves every chapter and the Part B exam domain weighting', () => {
@@ -218,6 +275,50 @@ test('Set 2 focused practice reaches every mapped domain without leakage', async
     }
     click(window, window.document.querySelector('[data-backsim]'));
   }
+  assert.deepEqual(errors, []);
+});
+
+test('every one of the 506 Set 2 questions renders and accepts its keyed option in the student UI', async () => {
+  const { window, errors } = await loadPage();
+  let overview = openCssgb(window);
+  click(window, overview.querySelector('[data-set="2"]'));
+  overview = window.document.getElementById('tb-overview');
+  click(window, overview.querySelector('[data-timed="0"]'));
+  window.Math.random = () => 0.999999; // make the in-place shuffle a no-op
+
+  const original = Array.from(window.CSSGB_SET2);
+  const covered = new Set();
+  for (let start = 0; start < original.length; start += 110) {
+    const batch = original.slice(start, start + 110);
+    const batchSet = new Set(batch);
+    const fill = original.filter(question => !batchSet.has(question)).slice(0, 110 - batch.length);
+    const leading = new Set(batch.concat(fill));
+    const reordered = batch.concat(fill, original.filter(question => !leading.has(question)));
+    window.CSSGB_SET2.splice(0, window.CSSGB_SET2.length, ...reordered);
+
+    overview = window.document.getElementById('tb-overview');
+    click(window, overview.querySelector('[data-mode="full"]'));
+    assert.equal(window.document.querySelectorAll('.tb-navcell').length, 110);
+
+    for (let index = 0; index < batch.length; index += 1) {
+      click(window, window.document.querySelector(`[data-goto="${index}"]`));
+      const expected = batch[index];
+      assert.equal(window.document.querySelector('.tb-stem').textContent, expected.stem, `question ${expected.sourceGlobalQuestion} stem renders completely`);
+      assert.deepEqual(
+        Array.from(window.document.querySelectorAll('.tb-opt > span:last-child'), node => node.textContent),
+        Array.from(expected.options),
+        `question ${expected.sourceGlobalQuestion} options render completely`
+      );
+      if (expected.chart) assert.ok(window.document.querySelector('.tb-q-chart-wrap'), `question ${expected.sourceGlobalQuestion} visual renders`);
+      click(window, window.document.querySelector(`[data-opt="${expected.answer}"]`));
+      assert.ok(window.document.querySelector(`.tb-opt.sel[data-opt="${expected.answer}"]`), `question ${expected.sourceGlobalQuestion} keyed option is selectable`);
+      covered.add(expected.sourceGlobalQuestion);
+    }
+
+    click(window, window.document.querySelector('[data-backsim]'));
+  }
+
+  assert.equal(covered.size, 506, 'every Set 2 source question was exercised');
   assert.deepEqual(errors, []);
 });
 
