@@ -640,9 +640,9 @@
     return match ? { current: Number(match[1]), total: Number(match[2]) } : { current: null, total: null };
   }
 
-  function findQuestionInBanks(stem) {
+  function findQuestionInBanks(examId, stem) {
     var tb = window.__TB;
-    var exam = tb && tb.EXAMS && tb.EXAMS.cqe;
+    var exam = tb && tb.EXAMS && tb.EXAMS[examId];
     var sets = exam && exam.sets;
     var target = normalize(stem);
     if (!sets || !target) return null;
@@ -659,29 +659,47 @@
     return null;
   }
 
-  function inferSectionFromTag() {
-    var tag = normalize(document.querySelector('.tb-qtag') && document.querySelector('.tb-qtag').textContent);
-    var found = SECTION_ORDER.find(function (id) {
-      return tag.indexOf(normalize(SECTION_META[id].name.replace(/^[IVX]+\.\s*/, ''))) >= 0;
+  function examSectionMeta(examId) {
+    if (examId === 'cqe') return SECTION_META;
+    var tb = window.__TB;
+    var exam = tb && tb.EXAMS && tb.EXAMS[examId];
+    var meta = {};
+    (exam && exam.bok || []).forEach(function (domain) {
+      if (!Array.isArray(domain.subs)) return;
+      domain.subs.forEach(function (sub) {
+        if (sub && typeof sub === 'object' && sub.id && sub.name) meta[sub.id] = { id: sub.id, name: sub.name };
+      });
     });
-    return found || 'quant';
+    return meta;
+  }
+
+  function inferSectionFromTag(examId) {
+    var tag = normalize(document.querySelector('.tb-qtag') && document.querySelector('.tb-qtag').textContent);
+    var meta = examSectionMeta(examId);
+    var ids = examId === 'cqe' ? SECTION_ORDER : Object.keys(meta);
+    var found = ids.find(function (id) {
+      return tag.indexOf(normalize(meta[id].name.replace(/^[IVX]+\.\s*/, ''))) >= 0;
+    });
+    return found || null;
   }
 
   function getContext() {
     var stemNode = document.querySelector('.tb-stem');
     var stem = stemNode ? stemNode.textContent.trim() : '';
-    var located = findQuestionInBanks(stem);
+    var examId = activeExamId();
+    var located = findQuestionInBanks(examId, stem);
     var progress = currentQuestionNumber();
+    var inferredSection = inferSectionFromTag(examId);
     return {
-      examId: activeExamId(),
+      examId: examId,
       stem: stem,
       sessionQuestion: progress.current,
       sessionTotal: progress.total,
       set: located ? located.set : null,
       bank: located ? located.bank : null,
       bankIndex: located ? located.bankIndex : null,
-      question: located ? located.question : (stem ? { stem: stem, options: [], sub: inferSectionFromTag() } : null),
-      sectionId: located ? located.question.sub : inferSectionFromTag()
+      question: located ? located.question : (stem ? { stem: stem, options: [], sub: inferredSection } : null),
+      sectionId: located ? located.question.sub : inferredSection
     };
   }
 

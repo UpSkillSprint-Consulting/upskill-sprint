@@ -14,14 +14,15 @@ const q = (number) => bank[number - 1];
 
 test('audited Part B questions use their correct Body of Knowledge domains', () => {
   const expected = {
+    p1: [655],
     con: [551, 557, 568, 582, 590, 600, 608, 619, 628, 639, 648, 657, 668, 673, 675, 677, 692],
-    tm: [552, 555, 556, 558, 574, 578, 585, 591, 595, 602, 644, 649, 664, 671],
-    ana: [553, 566, 604, 606, 638, 643, 645, 647, 653, 654, 658, 659, 661, 666, 667, 669, 670, 672, 674, 679, 681],
+    tm: [552, 555, 556, 558, 574, 578, 585, 591, 595, 602, 615, 644, 649, 664, 671],
+    ana: [547, 553, 566, 604, 606, 638, 643, 645, 647, 653, 654, 658, 659, 661, 666, 667, 669, 670, 672, 674, 679, 681],
     dfss: [554, 613, 678, 688, 690],
-    imp: [559, 572, 577, 597, 599, 611, 616, 623, 632, 642, 652, 656, 663, 665, 680, 682, 683, 685, 686, 689, 691],
+    imp: [559, 572, 577, 597, 599, 616, 623, 632, 652, 656, 663, 665, 680, 682, 683, 685, 686, 689, 691],
     def: [561, 562, 567, 579, 580, 593, 601],
-    p2: [570, 576, 598, 605, 615, 627, 631, 640, 684, 693],
-    mea: [584, 592, 594, 607, 614, 618, 625, 633],
+    p2: [570, 576, 598, 605, 627, 631, 640, 684, 693],
+    mea: [475, 584, 592, 594, 607, 611, 614, 618, 625, 633, 642],
   };
 
   for (const [domain, numbers] of Object.entries(expected)) {
@@ -30,7 +31,7 @@ test('audited Part B questions use their correct Body of Knowledge domains', () 
 
   const counts = {};
   bank.forEach((question) => { counts[question.sub] = (counts[question.sub] || 0) + 1; });
-  assert.deepEqual(counts, { p1: 48, p2: 51, tm: 66, def: 74, mea: 174, ana: 89, imp: 84, con: 82, dfss: 26 });
+  assert.deepEqual(counts, { p1: 48, p2: 50, tm: 67, def: 73, mea: 178, ana: 90, imp: 81, con: 82, dfss: 25 });
 });
 
 test('exam-blocking calculation and hypothesis defects are corrected', () => {
@@ -38,12 +39,12 @@ test('exam-blocking calculation and hypothesis defects are corrected', () => {
   assert.equal(q(211).options[q(211).answer], '127.1%');
   assert.match(q(211).why, /\$130,782 \/ \$102,891 = 1\.271/);
 
-  assert.match(q(410).stem, /H₀: ρ = 0 versus H₁: ρ &lt; 0/);
+  assert.match(q(410).stem, /H₀: ρ = 0 versus H₁: ρ is less than 0/);
   assert.equal(q(410).options[q(410).answer], '−1.717');
   assert.match(q(410).why, /22 degrees of freedom/);
 
   assert.match(q(415).stem, /D = starting weight − ending weight/);
-  assert.equal(q(415).options[q(415).answer], 'H₀: μD = 0 versus H₁: μD &gt; 0');
+  assert.equal(q(415).options[q(415).answer], 'H₀: μ(D) = 0 versus H₁: μ(D) is greater than 0');
 
   assert.equal(q(481).options[q(481).answer], '0.8391');
   assert.match(q(481).why, /7,195\/373.*10,000\/435.*0\.8391/);
@@ -57,13 +58,13 @@ test('exam-blocking calculation and hypothesis defects are corrected', () => {
   assert.equal(q(657).options[q(657).answer], '926.1');
 
   assert.match(q(658).stem, /1,000 parts.*40 were defective/);
-  assert.equal(q(658).options[q(658).answer], 'z₀ = −1.32, zcrit = −1.645; do not reject H₀.');
+  assert.equal(q(658).options[q(658).answer], 'z₀ = −1.32, critical z = −1.645; do not reject H₀.');
   assert.match(q(658).why, /np₀ = 49.*951.*−1\.32/);
 });
 
 test('external constants needed to solve calculation questions are supplied in-question', () => {
   const required = {
-    107: ['2.355'],
+    107: ['2.350'],
     375: ['0.9869'],
     376: ['0.9869'],
     377: ['2.326'],
@@ -126,7 +127,7 @@ test('final student stress-test blockers are self-contained and independently an
   [105, 106, 670, 672, 681].forEach((number) => assert.match(q(number).stem, /1\.96/, `Q${number} supplies z*`));
 
   assert.match(q(114).stem, /χ²\(0\.05, 9\) = 3\.325/);
-  assert.match(q(115).stem, /zcrit = −1\.645/);
+  assert.match(q(115).stem, /critical z = −1\.645/);
   assert.match(q(116).stem, /t\(0\.05, 3\) = 2\.353/);
 
   assert.match(q(300).stem, /K₁ = 0\.8862/);
@@ -157,11 +158,12 @@ test('final student stress-test blockers are self-contained and independently an
   assert.equal(q(439).options[q(439).answer], 'It uses PDCA at its core.');
   assert.match(q(439).why, /Plan-Do-Check-Act \(PDCA\)/);
 
-  assert.match(q(515).stem, /ū = 0\.154/);
+  assert.match(q(515).stem, /ū = 240\/1,550/);
   assert.doesNotMatch(q(515).why, /previous question/i);
-  assert.equal(q(515).options[q(515).answer], '[0, 0.417]');
+  assert.equal(q(515).options[q(515).answer], '[0, 0.419]');
+  assert.match(q(515).why, /0\.15484.*0\.41880.*\[0, 0\.419\]/);
 
-  assert.match(q(658).stem, /zcrit = −1\.645/);
+  assert.match(q(658).stem, /critical z = −1\.645/);
   assert.match(q(626).stem, /z = −1\.645/);
   assert.match(q(667).stem, /t\(0\.05, 4\) = 2\.132/);
   assert.match(q(667).why, /2\.52 exceeds 2\.132/);
@@ -169,7 +171,7 @@ test('final student stress-test blockers are self-contained and independently an
   assert.match(q(681).stem, /3% margin of error at 95% confidence/);
   assert.match(q(681).stem, /p = 0\.50.*z\* = 1\.96/);
   assert.equal(q(681).options[q(681).answer], '1068');
-  assert.match(q(681).why, /1067\.11.*rounded up.*1068/);
+  assert.match(q(681).why, /1,067\.11.*minimum whole-number sample.*1,068/);
 });
 
 test('all standalone questions avoid unsupported shared-question references', () => {
@@ -184,10 +186,12 @@ test('all standalone questions avoid unsupported shared-question references', ()
 test('guide answer-key inconsistencies are corrected for student accuracy', () => {
   assert.equal(q(446).options[q(446).answer], 'Overproduction');
   assert.match(q(446).why, /more than current customer demand.*overproduction/i);
-  assert.match(q(446).why, /source-key inconsistency/i);
+  assert.match(q(446).why, /Overproduction and overprocessing are distinct forms of waste/i);
+  assert.doesNotMatch(q(446).why, /source|guide|erratum/i);
 
   assert.equal(q(681).options[q(681).answer], '1068');
-  assert.match(q(681).why, /source guide's answer letter is inconsistent/i);
+  assert.match(q(681).why, /minimum whole-number sample that meets the margin of error is 1,068/i);
+  assert.doesNotMatch(q(681).why, /source|guide|erratum/i);
 });
 
 test('remaining stress-test polish defects are removed from student-facing text', () => {

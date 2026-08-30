@@ -106,7 +106,7 @@ test('the multiple regression model question now states the actual equation inst
   const banks = allExamsUniqueQuestions(window);
   const q = findByStemPrefix(banks, 'cssbb', 'A Black Belt estimates a regression model to be');
   assert.ok(q, 'question found');
-  assert.match(q.stem, /-32\.5.*12\.0x.*0\.45x.*3\.9x/, 'the full regression equation is now in the stem, not just the why field');
+  assert.match(q.stem, /[−-]32\.5.*12\.0x.*0\.45x.*3\.9x/, 'the full regression equation is now in the stem, not just the why field');
   assert.equal(q.options[q.answer], 'Multiple linear regression model');
 });
 

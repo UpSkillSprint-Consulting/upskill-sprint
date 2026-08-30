@@ -25,8 +25,9 @@ function set3Bank(window) {
   return window.__TB.EXAMS.cssbb.sets[3];
 }
 
-function findQuestion(bank, stemPrefix) {
-  return bank.find(q => q.stem.startsWith(stemPrefix));
+function question(bank, number) {
+  assert.ok(Number.isInteger(number) && number >= 1 && number <= bank.length, `valid Set 3 question number: ${number}`);
+  return bank[number - 1];
 }
 
 // Each of these questions was identified via a cross-reference against the
@@ -37,8 +38,7 @@ function findQuestion(bank, stemPrefix) {
 test('the ROI question now renders the Year/Cost/Benefit cash-flow table', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Using the cash flows shown, calculate the discounted return on investment (ROI)');
-  assert.ok(q, 'question found');
+  const q = question(bank, 211);
   assert.equal(q.chart.type, 'data-table');
   assert.deepEqual(Array.from(q.chart.columns), ['Year', 'Cost', 'Benefit']);
   assert.deepEqual(Array.from(q.chart.rows).map(r => Array.from(r)), [
@@ -53,9 +53,10 @@ test('the ROI question now renders the Year/Cost/Benefit cash-flow table', async
 test('the "what type of matrix" question now shares the same matrix-diagram chart as its paired Part B question', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const typeQ = findQuestion(bank, 'Use the matrix diagram below to answer this question and the next. What type of matrix');
-  const partBQ = findQuestion(bank, 'A manufacturer compares manufacturing sites, products, customers, and shipping companies');
-  assert.ok(typeQ && partBQ);
+  const typeQ = question(bank, 272);
+  const partBQ = question(bank, 273);
+  assert.match(typeQ.stem, /matrix diagram below/i);
+  assert.match(partBQ.stem, /matrix diagram below/i);
   assert.deepEqual(JSON.parse(JSON.stringify(typeQ.chart)), JSON.parse(JSON.stringify(partBQ.chart)));
   assert.equal(typeQ.chart.type, 'matrix-diagram');
 });
@@ -63,8 +64,7 @@ test('the "what type of matrix" question now shares the same matrix-diagram char
 test('the software prioritization matrix question now renders its criterion-weighted data table', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'A prioritization matrix was created by a team to choose which software product');
-  assert.ok(q);
+  const q = question(bank, 275);
   assert.equal(q.chart.type, 'data-table');
   assert.deepEqual(Array.from(q.chart.columns), ['Product', 'Ease of Use (50%)', 'Low Cost (25%)', 'Time to Install (25%)']);
   assert.equal(q.chart.rows.length, 4);
@@ -74,8 +74,7 @@ test('the software prioritization matrix question now renders its criterion-weig
 test('the work-location survey question now renders its preference table with the exact source percentages', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, "A survey was conducted to gather employees' opinions on work locations");
-  assert.ok(q);
+  const q = question(bank, 321);
   assert.equal(q.chart.type, 'data-table');
   const rows = Object.fromEntries(q.chart.rows.map(r => [r[0], r[1]]));
   assert.equal(rows['In-office full-time'], '12%');
@@ -86,19 +85,17 @@ test('the work-location survey question now renders its preference table with th
 test('the "calculate the mean" question now renders the Bounds/Frequency table instead of cramped inline text', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Calculate the mean using the frequency table shown below.');
-  assert.ok(q);
+  const q = question(bank, 335);
   assert.equal(q.chart.type, 'data-table');
   assert.deepEqual(Array.from(q.chart.columns), ['Bounds', 'Frequency']);
-  assert.deepEqual(Array.from(q.chart.rows).map(r => Array.from(r)), [['10-29', '14'], ['30-49', '10'], ['50-69', '5'], ['70-89', '4']]);
+  assert.deepEqual(Array.from(q.chart.rows).map(r => Array.from(r)), [['10–29', '14'], ['30–49', '10'], ['50–69', '5'], ['70–89', '4']]);
   assert.equal(q.options[q.answer], '38.89');
 });
 
 test('the u-chart capability comparison question now renders the Process/Capability table', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Four stable processes are monitored using u-charts');
-  assert.ok(q);
+  const q = question(bank, 391);
   assert.equal(q.chart.type, 'data-table');
   assert.deepEqual(Array.from(q.chart.rows).map(r => Array.from(r)), [['A', '2.31'], ['B', '0.67'], ['C', '1.67'], ['D', '1.33']]);
   assert.equal(q.options[q.answer], 'Process B');
@@ -107,8 +104,7 @@ test('the u-chart capability comparison question now renders the Process/Capabil
 test('the defect-tally question now renders the Defect Type/Tally table with the Total row', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Units are each inspected for four types of defects.');
-  assert.ok(q);
+  const q = question(bank, 398);
   assert.equal(q.chart.type, 'data-table');
   assert.deepEqual(Array.from(q.chart.rows).map(r => Array.from(r)), [['A', '12'], ['B', '29'], ['C', '10'], ['D', '4'], ['Total', '55']]);
   assert.equal(q.options[q.answer], '0.105');
@@ -117,20 +113,21 @@ test('the defect-tally question now renders the Defect Type/Tally table with the
 test('the chi-square goodness-of-fit (defect type) question now renders its historical-vs-observed table', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'A Black Belt performs chi-square goodness-of-fit test with alpha = 0.05 to determine whether the distribution of defect types');
-  assert.ok(q);
+  const q = question(bank, 419);
   assert.equal(q.chart.type, 'data-table');
   assert.deepEqual(Array.from(q.chart.columns), ['Defect Type', 'Length', 'Weight', 'Strength']);
   assert.equal(q.options[q.answer], 'The test statistic = 4.286 and the critical value = 5.991.');
+  assert.match(q.stem, /χ²crit = 5\.991/);
+  assert.match(q.why, /χ² = .*4\.286/);
 });
 
-test('all three FMEA questions (Q53-55) share one restored table matching the current-state and post-action RPNs used in their own why fields', async () => {
+test('Q434-Q436 each carry the complete FMEA table and match their current-state and post-action answers', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q1 = findQuestion(bank, 'Use the FMEA table below');
-  const q2 = findQuestion(bank, 'Using the same FMEA table, give the rows');
-  const q3 = findQuestion(bank, 'Using the same FMEA table, after action has been taken');
-  assert.ok(q1 && q2 && q3, 'all three FMEA questions found');
+  const q1 = question(bank, 434);
+  const q2 = question(bank, 435);
+  const q3 = question(bank, 436);
+  [q1, q2, q3].forEach(q => assert.match(q.stem, /FMEA table below/i));
   assert.deepEqual(JSON.parse(JSON.stringify(q1.chart)), JSON.parse(JSON.stringify(q2.chart)));
   assert.deepEqual(JSON.parse(JSON.stringify(q2.chart)), JSON.parse(JSON.stringify(q3.chart)));
   // Row 3 has severity 10 (highest) with RPNs tied at 150 -- matches q1's why field
@@ -144,77 +141,67 @@ test('all three FMEA questions (Q53-55) share one restored table matching the cu
   assert.equal(q3.options[q3.answer], 'Row 1');
 });
 
-test('both improve-phase prioritization matrix questions (Q61-62) share one restored table matching their own weighted-score why fields', async () => {
+test('Q487-Q488 each carry the complete prioritization matrix and match their weighted-score explanations', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q1 = findQuestion(bank, 'A team scores four potential solutions against four weighted criteria');
-  const q2 = findQuestion(bank, 'Using the same prioritization matrix, which potential solution');
-  assert.ok(q1 && q2);
+  const q1 = question(bank, 487);
+  const q2 = question(bank, 488);
+  [q1, q2].forEach(q => assert.match(q.stem, /prioritization matrix.*below/i));
   assert.deepEqual(JSON.parse(JSON.stringify(q1.chart)), JSON.parse(JSON.stringify(q2.chart)));
   assert.equal(q1.chart.type, 'data-table');
   assert.equal(q1.options[q1.answer], 'Positive impact on the customer');
   assert.equal(q2.options[q2.answer], 'Solution B');
 });
 
-test('both Part B house-of-quality questions (Q75-76) highlight a box that actually exists in this renderer\'s 8-box diagram, and the highlighted box\'s own label matches what the question asks about', async () => {
-  // chartHouseOfQuality hardcodes exactly 8 boxes (ids 1-8); there is no box 9.
-  // Box 4 is labelled "Relationships" and box 2 is the roof, labelled "Correlations".
-  // The original source-guide answer text ("Area 3" / "Area 9") used the textbook's
-  // own numbering, which does not match this renderer's box ids -- copying those
-  // numbers verbatim produced a highlight that pointed at the wrong box (Q75) or at
-  // no box at all (Q76, box 9 doesn't exist). This pins the corrected, renderer-
-  // consistent version instead.
+test('Q254, Q255, Q620, and Q621 use one neutral nine-area house-of-quality diagram with source numbering', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q1 = findQuestion(bank, 'Use the house of quality diagram below to answer this question and the next. The relationship matrix');
-  const q2 = findQuestion(bank, 'Using the same house of quality diagram, the relationship between technical requirements');
-  assert.ok(q1 && q2);
-  assert.equal(q1.chart.type, 'house-of-quality');
+  const questions = [254, 255, 620, 621].map(number => question(bank, number));
+  const expectedAnswers = ['Area 7', 'Area 1', 'Area 3', 'Area 9'];
 
-  const svg1 = window.__TB.renderQuestionChart(q1.chart);
-  const svg2 = window.__TB.renderQuestionChart(q2.chart);
+  questions.forEach((q, index) => {
+    assert.equal(q.chart.type, 'house-of-quality');
+    assert.deepEqual(Object.keys(q.chart), ['type'], 'the unanswered diagram has no answer-revealing highlight metadata');
+    assert.match(q.stem, /numbered house-of-quality diagram below/i);
+    assert.equal(q.options[q.answer], expectedAnswers[index]);
 
-  // Q75 asks about "the relationship matrix" -- the renderer's box 4 is the one
-  // literally labelled "Relationships", so the highlighted box must be box 4,
-  // and "Area 4" must be an answerable option.
-  assert.equal(q1.chart.highlight, '4');
-  assert.match(svg1, /<text[^>]*>4<\/text>[\s\S]*?Relationships/);
-  assert.equal(q1.options[q1.answer], 'Area 4');
-
-  // Q76 asks about the correlations between technical requirements -- that's the
-  // roof, which the renderer labels "Correlations (roof)" and ids as box 2.
-  assert.equal(q2.chart.highlight, '2');
-  assert.match(svg2, /<text[^>]*>2<\/text>[\s\S]*?Correlations/);
-  assert.equal(q2.options[q2.answer], 'Area 2');
-
-  // No option on either question should reference a box this diagram doesn't have.
-  [q1, q2].forEach(q => {
-    q.options.forEach(opt => {
-      const n = opt.match(/Area (\d+)/)[1];
-      assert.ok(Number(n) >= 1 && Number(n) <= 8, opt + ' refers to a box that exists in the 8-box diagram');
+    const svg = window.__TB.renderQuestionChart(q.chart);
+    assert.match(svg, /Area 9 is the triangular roof/);
+    assert.doesNotMatch(svg, /highlight|Relationships|Correlations|Target values|Customer requirements/i);
+    const areaIds = Array.from(svg.matchAll(/data-hoq-area="(\d+)"/g), match => Number(match[1])).sort((a, b) => a - b);
+    assert.deepEqual(areaIds, [1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    q.options.forEach(option => {
+      const match = option.match(/^Area (\d)$/);
+      assert.ok(match && areaIds.includes(Number(match[1])), `${option} maps to a visible numbered area`);
     });
   });
+
+  const rendered = questions.map(q => window.__TB.renderQuestionChart(q.chart));
+  rendered.slice(1).forEach(svg => assert.equal(svg, rendered[0], 'all four questions render the same neutral source diagram'));
 });
 
-test('the Part B assembly-tolerance question (Q6) now renders the Part A/B/C dimension table', async () => {
+test('Q540-Q541 render the component tolerance table and keep exact ± half-width choices', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Using the conventional method, calculate the total tolerance of the assembly shown below.');
-  assert.ok(q);
-  assert.equal(q.chart.type, 'data-table');
-  assert.deepEqual(Array.from(q.chart.rows).map(r => Array.from(r)), [
-    ['A', '1.20 \u00b1 0.05'],
-    ['B', '2.50 \u00b1 0.10'],
-    ['C', '2.0 \u00b1 0.50']
+  const conventional = question(bank, 540);
+  const statistical = question(bank, 541);
+  assert.deepEqual(JSON.parse(JSON.stringify(conventional.chart)), JSON.parse(JSON.stringify(statistical.chart)));
+  assert.equal(conventional.chart.type, 'data-table');
+  assert.deepEqual(Array.from(conventional.chart.rows).map(r => Array.from(r)), [
+    ['A', '±0.5'],
+    ['B', '±0.2'],
+    ['C', '±0.3']
   ]);
-  assert.equal(q.options[q.answer], '0.65');
+  assert.deepEqual(Array.from(conventional.options), ['±0.62', '±1.0', '±2.0', '±6.8']);
+  assert.deepEqual(Array.from(statistical.options), ['±0.62', '±1.0', '±2.0', '±6.8']);
+  assert.equal(conventional.options[conventional.answer], '±1.0');
+  assert.equal(statistical.options[statistical.answer], '±0.62');
 });
 
-test('the Part B two-way ANOVA question (Q108) now renders the completed source table', async () => {
+test('Q653 renders the completed two-way ANOVA source table', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Given the two-way ANOVA table below, what is the F-statistic for the AB interaction?');
-  assert.ok(q);
+  const q = question(bank, 653);
   assert.equal(q.chart.type, 'data-table');
   const rows = Object.fromEntries(q.chart.rows.map(r => [r[0], r]));
   assert.deepEqual(Array.from(rows['Factor A']), ['Factor A', '344', '3', '114.67', '7.45']);
@@ -222,41 +209,33 @@ test('the Part B two-way ANOVA question (Q108) now renders the completed source 
   assert.equal(q.options[q.answer], '0.65');
 });
 
-test('the Part B chi-square job-shop question (Q116) now renders the last-year/last-month table', async () => {
+test('Q661 renders its job-shop data and uses consistent chi-square notation', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'A job shop makes three metal parts.');
-  assert.ok(q);
+  const q = question(bank, 661);
   assert.equal(q.chart.type, 'data-table');
   assert.deepEqual(Array.from(q.chart.columns), ['', 'Part A', 'Part B', 'Part C']);
-  assert.equal(q.options[q.answer], 'Chi-sq = 8.308, Chi-square critical = 5.991');
+  assert.deepEqual(Array.from(q.chart.rows).map(r => Array.from(r)), [
+    ["Last year's percentage", '25%', '50%', '25%'],
+    ["Last month's observed units", '340', '600', '360'],
+    ["Last month's expected units", '325.0', '650.0', '325.0']
+  ]);
+  assert.equal(q.options[q.answer], 'χ² = 8.308; χ² critical value = 5.991');
+  assert.match(q.stem, /χ² critical value = 5\.991/);
+  assert.match(q.why, /χ² = .*8\.308/);
   q.options.forEach(o => assert.doesNotMatch(o, /\d\.\d+\s\d/, o + ' has no stray mid-number space'));
 });
 
 test('renderQuestionChart produces well-formed markup for every restored data-table chart with no NaN/undefined leakage', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const restoredStemPrefixes = [
-    'Using the cash flows shown, calculate the discounted return on investment',
-    'A prioritization matrix was created by a team to choose which software product',
-    "A survey was conducted to gather employees' opinions on work locations",
-    'Calculate the mean using the frequency table shown below.',
-    'Four stable processes are monitored using u-charts',
-    'Units are each inspected for four types of defects.',
-    'A Black Belt performs chi-square goodness-of-fit test with alpha = 0.05 to determine whether the distribution of defect types',
-    'Use the FMEA table below',
-    'A team scores four potential solutions against four weighted criteria',
-    'Using the conventional method, calculate the total tolerance of the assembly shown below.',
-    'Given the two-way ANOVA table below',
-    'A job shop makes three metal parts.'
-  ];
-  restoredStemPrefixes.forEach(prefix => {
-    const q = findQuestion(bank, prefix);
-    assert.ok(q, 'found: ' + prefix);
+  const restoredQuestionNumbers = [211, 275, 321, 335, 391, 398, 419, 434, 435, 436, 487, 488, 540, 541, 653, 661];
+  restoredQuestionNumbers.forEach(number => {
+    const q = question(bank, number);
     const out = window.__TB.renderQuestionChart(q.chart);
-    assert.doesNotMatch(out, /NaN/, prefix);
-    assert.doesNotMatch(out, /undefined/, prefix);
-    assert.match(out, /<table/, prefix + ' renders a table element');
+    assert.doesNotMatch(out, /NaN/, `Q${number}`);
+    assert.doesNotMatch(out, /undefined/, `Q${number}`);
+    assert.match(out, /<table/, `Q${number} renders a table element`);
   });
 });
 
@@ -266,38 +245,28 @@ test('Set 3 still has exactly 694 questions after the visual-restoration pass', 
   assert.equal(bank.length, 694);
 });
 
-test('"using the same" follow-up questions never say "below" -- the shared visual was already introduced by the first question in the pair', async () => {
-  // House style (established by the pre-existing Q19/Q46/etc. pairs): the first
-  // question in a shared-visual pair says "...below" once; every follow-up question
-  // says "Using the same X, ..." with no second "below". Two of the newly restored
-  // pairs (Q13 and Q62) drifted from this convention on the first pass.
+test('shared-chart questions are independently worded and each embeds the complete visual', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const followUps = bank.filter(q => q.stem.startsWith('Using the same'));
-  assert.ok(followUps.length > 5, 'sanity: there are several shared-visual follow-up questions');
-  followUps.forEach(q => {
-    assert.doesNotMatch(q.stem, /same [a-z ]+ below/i, q.stem);
-  });
-});
+  assert.equal(bank.filter(q => /\busing the same\b/i.test(q.stem)).length, 0);
 
-test('the two newly-restored house-of-quality questions (Q75-76) only offer "Area N" options that exist in this renderer\'s 8-box diagram', async () => {
-  // Narrower, PR-scoped version of the box-existence guard above. NOTE: the two
-  // pre-existing HOQ questions (idx253/254, shipped in an earlier PR, out of scope
-  // here) also list "Area 9" as a distractor even though this renderer has no box 9
-  // -- harmless since it's never the highlighted/correct box, but worth a mention
-  // if this file is revisited. This test only covers the two questions this PR
-  // actually restored, where the guard fully applies.
-  const { window } = await load();
-  const bank = set3Bank(window);
-  const q1 = findQuestion(bank, 'Use the house of quality diagram below to answer this question and the next. The relationship matrix');
-  const q2 = findQuestion(bank, 'Using the same house of quality diagram, the relationship between technical requirements');
-  [q1, q2].forEach(q => {
-    const svg = window.__TB.renderQuestionChart(q.chart);
-    const boxIds = Array.from(svg.matchAll(/<text[^>]*font-weight="700"[^>]*>(\d+)<\/text>/g)).map(m => m[1]);
-    q.options.forEach(opt => {
-      const m = opt.match(/Area (\d+)/);
-      assert.ok(m && boxIds.includes(m[1]), opt + ' references a box id that exists in this diagram (' + boxIds.join(',') + ')');
+  const sharedGroups = [
+    [254, 255],
+    [272, 273],
+    [434, 435, 436],
+    [487, 488],
+    [540, 541],
+    [620, 621]
+  ];
+  sharedGroups.forEach(group => {
+    const questions = group.map(number => question(bank, number));
+    questions.forEach((q, index) => {
+      assert.match(q.stem, /(below|shown)/i, `Q${group[index]} identifies its own visual`);
+      assert.ok(q.chart, `Q${group[index]} embeds its visual`);
     });
-    assert.ok(boxIds.includes(String(q.chart.highlight)), 'highlight ' + q.chart.highlight + ' matches a real box');
+    const firstChart = JSON.parse(JSON.stringify(questions[0].chart));
+    questions.slice(1).forEach((q, index) => {
+      assert.deepEqual(JSON.parse(JSON.stringify(q.chart)), firstChart, `Q${group[index + 1]} carries the shared chart`);
+    });
   });
 });

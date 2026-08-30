@@ -135,12 +135,66 @@ test('search no-result, clear, close, and reopen states recover correctly', asyn
 test('formula helper does not alter the existing CSSBB reference pane', async () => {
   const { window, document } = await loadPage();
   selectExam(window, document, 'cssbb');
+  selectSet(window, document, '3');
   click(window, document.querySelector('[data-mode="quick"]'));
   const { list } = await openPane(window, document);
 
   assert.match(list.textContent, /Process capability/i);
   assert.match(list.textContent, /Cpk/i);
   assert.equal(list.querySelector('.tb-fcontextbar'), null, 'CQE contextual renderer stays isolated');
+});
+
+test('formula context resolves every CSSBB Set 3 domain within the active exam', async () => {
+  const { window, document } = await loadPage();
+  selectExam(window, document, 'cssbb');
+  selectSet(window, document, '3');
+  click(window, document.querySelector('[data-mode="quick"]'));
+  const api = window.__TB_FORMULAS_TEST__;
+  const bank = window.__TB.EXAMS.cssbb.sets[3];
+
+  for (const sectionId of ['p1', 'p2', 'tm', 'def', 'mea', 'ana', 'imp', 'con', 'dfss']) {
+    const index = bank.findIndex(question => question.sub === sectionId);
+    assert.ok(index >= 0, `Set 3 contains ${sectionId}`);
+    document.querySelector('.tb-stem').textContent = bank[index].stem;
+    document.querySelector('.tb-qtag').textContent = bank[index].sub;
+    const context = api.getContext();
+    assert.equal(context.examId, 'cssbb', `${sectionId}: active exam`);
+    assert.equal(context.set, '3', `${sectionId}: set`);
+    assert.equal(context.bankIndex, index, `${sectionId}: bank index`);
+    assert.equal(context.sectionId, sectionId, `${sectionId}: section`);
+  }
+});
+
+test('formula context never binds a CSSBB stem to a colliding CQE question', async () => {
+  const { window, document } = await loadPage();
+  selectExam(window, document, 'cssbb');
+  selectSet(window, document, '1');
+  click(window, document.querySelector('[data-mode="quick"]'));
+  const question = window.__TB.EXAMS.cssbb.sets[1].find(item => item.stem.startsWith('An inspector draws 5 pipes'));
+  assert.ok(question, 'shared-stem CSSBB fixture exists');
+  document.querySelector('.tb-stem').textContent = question.stem;
+  document.querySelector('.tb-qtag').textContent = 'Measure · V. Measure';
+
+  const context = window.__TB_FORMULAS_TEST__.getContext();
+  assert.equal(context.examId, 'cssbb');
+  assert.equal(context.set, '1');
+  assert.equal(context.sectionId, 'mea');
+  assert.equal(context.question, question);
+});
+
+test('formula context infers an unmatched CSSBB question from CSSBB section metadata', async () => {
+  const { window, document } = await loadPage();
+  selectExam(window, document, 'cssbb');
+  selectSet(window, document, '3');
+  click(window, document.querySelector('[data-mode="quick"]'));
+  document.querySelector('.tb-stem').textContent = 'Unmatched CSSBB routing fixture';
+  document.querySelector('.tb-qtag').textContent = 'Measure · V. Measure';
+
+  const context = window.__TB_FORMULAS_TEST__.getContext();
+  assert.equal(context.examId, 'cssbb');
+  assert.equal(context.set, null);
+  assert.equal(context.sectionId, 'mea');
+  assert.equal(context.question.sub, 'mea');
 });
 
 test('formula pane supplies guidance without copying the hidden answer explanation', async () => {
