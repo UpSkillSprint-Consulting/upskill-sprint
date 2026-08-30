@@ -198,6 +198,56 @@ test('chartNormalProb plots supplied observations rather than substituting a gen
   assert.doesNotMatch(skewed, /NaN/);
 });
 
+test('chartNormalProb preserves legacy linear and S-curve patterns when no observations are supplied', async () => {
+  const { window } = await load();
+  const linear = window.__TB.renderQuestionChart({ type: 'normal-prob', pattern: 'linear' });
+  const curved = window.__TB.renderQuestionChart({ type: 'normal-prob', pattern: 's-curve' });
+
+  assert.match(linear, /data-normal-prob-pattern="linear"/);
+  assert.match(curved, /data-normal-prob-pattern="s-curve"/);
+  assert.match(linear, /data-normal-prob-n="14"/);
+  assert.match(curved, /data-normal-prob-n="14"/);
+  assert.equal((linear.match(/class="tb-chart-target-dot"/g) || []).length, 14);
+  assert.equal((curved.match(/class="tb-chart-target-dot"/g) || []).length, 14);
+
+  function maximumFitResidualRatio(svg) {
+    const line = svg.match(/<line x1="([\d.-]+)" y1="([\d.-]+)" x2="([\d.-]+)" y2="([\d.-]+)" class="tb-chart-cl"/);
+    assert.ok(line, 'fitted reference line is present');
+    const [x1, y1, x2, y2] = line.slice(1).map(Number);
+    const denominator = Math.hypot(y2 - y1, x2 - x1);
+    const centers = Array.from(svg.matchAll(/<polygon points="([^"]+)" class="tb-chart-target-dot"/g)).map(match => {
+      const vertices = match[1].split(' ').map(pair => pair.split(',').map(Number));
+      return vertices.reduce((sum, point) => [sum[0] + point[0] / vertices.length, sum[1] + point[1] / vertices.length], [0, 0]);
+    });
+    const maximumResidual = Math.max(...centers.map(([x, y]) => Math.abs((y2 - y1) * x - (x2 - x1) * y + x2 * y1 - y2 * x1) / denominator));
+    return maximumResidual / denominator;
+  }
+
+  assert.ok(maximumFitResidualRatio(linear) < 0.002, 'legacy linear points remain on the fitted line');
+  assert.ok(maximumFitResidualRatio(curved) > 0.025, 'legacy S-curve points visibly depart from the fitted line');
+  assert.notEqual(linear, curved, 'the two legacy patterns do not collapse to one generic plot');
+
+  const cqePatternQuestions = cqeBank(window).filter(question => question.chart?.type === 'normal-prob' && question.chart.pattern);
+  assert.equal(cqePatternQuestions.length, 2, 'both legacy CQE probability-plot questions are covered');
+  const cqeNormal = cqePatternQuestions.find(question => question.chart.pattern === 's-curve');
+  const cqeWeibull = cqePatternQuestions.find(question => question.chart.pattern === 'linear');
+  assert.ok(cqeNormal && cqeWeibull);
+  assert.equal(cqeNormal.chart.sourceN, 20);
+  assert.equal(cqeWeibull.chart.sourceN, 20);
+
+  const renderedNormal = window.__TB.renderQuestionChart(cqeNormal.chart);
+  const renderedWeibull = window.__TB.renderQuestionChart(cqeWeibull.chart);
+  assert.match(renderedNormal, /data-normal-prob-n="20"/);
+  assert.match(renderedWeibull, /data-normal-prob-n="20"/);
+  assert.equal((renderedNormal.match(/class="tb-chart-target-dot"/g) || []).length, 20);
+  assert.equal((renderedWeibull.match(/class="tb-chart-target-dot"/g) || []).length, 20);
+  assert.ok(maximumFitResidualRatio(renderedNormal) > 0.025, 'the CQE nonlinear plot remains visibly nonlinear');
+  assert.ok(maximumFitResidualRatio(renderedWeibull) < 0.002, 'the CQE Weibull plot remains linear');
+  assert.match(renderedWeibull, />Weibull probability plot</);
+  assert.match(renderedWeibull, />Weibull score</);
+  assert.doesNotMatch(renderedNormal + renderedWeibull, /NaN|Infinity/);
+});
+
 test('chartPrecisionAccuracy renders exactly 4 neutral labeled panels without revealing the answer', async () => {
   const { window } = await load();
   const svg = window.__TB.renderQuestionChart({ type: 'precision-accuracy', highlight: 'D' });
