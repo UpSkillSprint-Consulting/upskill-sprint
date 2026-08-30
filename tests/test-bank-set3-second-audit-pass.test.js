@@ -25,9 +25,7 @@ function set3Bank(window) {
   return window.__TB.EXAMS.cssbb.sets[3];
 }
 
-function findQuestion(bank, stemPrefix) {
-  return bank.find(q => q.stem.startsWith(stemPrefix));
-}
+const q = (bank, number) => bank[number - 1];
 
 // A second, deeper student-exam audit pass found three more appended-BOK-document
 // corruptions that the original PR #114 sweep missed because it only searched for
@@ -38,16 +36,15 @@ test('three more why fields with an appended BOK section/Part-B-intro document a
   const { window } = await load();
   const bank = set3Bank(window);
   const cases = [
-    { prefix: 'To maintain support throughout the change life cycle', endsWith: '[I.B.3]' },
-    { prefix: 'When creating documentation, best practices suggest using:', endsWith: '[VIII.D.2]' },
-    { prefix: "The principle of Taguchi's loss function is that:", endsWith: '[IX.C]' }
+    { number: 189, endsWith: '[I.B.3]' },
+    { number: 535, endsWith: '[VIII.D.2]' },
+    { number: 548, endsWith: '[IX.C]' }
   ];
-  cases.forEach(({ prefix, endsWith }) => {
-    const q = findQuestion(bank, prefix);
-    assert.ok(q, prefix);
-    assert.ok(q.why.length < 200, prefix + ' why field is now a normal length (' + q.why.length + ' chars)');
-    assert.ok(q.why.endsWith(endsWith));
-    assert.doesNotMatch(q.why, /Section [IVX]+|Part B Simulated Exam|\(Understand\)|\(Apply\)/, prefix);
+  cases.forEach(({ number, endsWith }) => {
+    const question = q(bank, number);
+    assert.ok(question.why.length < 200, `Q${number} why field is now a normal length (${question.why.length} chars)`);
+    assert.ok(question.why.endsWith(endsWith));
+    assert.doesNotMatch(question.why, /Section [IVX]+|Part B Simulated Exam|\(Understand\)|\(Apply\)/, `Q${number}`);
   });
 });
 
@@ -63,20 +60,10 @@ test('eight why fields with a malformed or misplaced BOK citation (internal spac
   const { window } = await load();
   const bank = set3Bank(window);
   const strictCitation = /\[(I|II|III|IV|V|VI|VII|VIII|IX|X)\.[A-Z](\.\d)?\]$/;
-  const cases = [
-    'To find the median, we sort the data from low to high',
-    'The Cp value is a larger-the-better metric.',
-    'If the process spread (6-sigma) is equal to the specification width',
-    'If the Cpk value is negative,',
-    'The Cpm formula includes the distance between the process mean',
-    'To find the first pass yield (FPY) from dpu,',
-    'The rolled throughput yield for the four steps in series',
-    'To calculate defects per unit, we total up the defects'
-  ];
-  cases.forEach(prefix => {
-    const q = bank.find(x => x.why.startsWith(prefix));
-    assert.ok(q, 'found question with why starting: ' + prefix);
-    assert.match(q.why, strictCitation, q.why.slice(-30));
+  const numbers = [332, 371, 372, 374, 381, 400, 402, 398];
+  numbers.forEach(number => {
+    const question = q(bank, number);
+    assert.match(question.why, strictCitation, `Q${number}: ${question.why.slice(-30)}`);
   });
 });
 
@@ -84,15 +71,15 @@ test('three why fields with correct answers but deep OCR formula garbling (c-cha
   const { window } = await load();
   const bank = set3Bank(window);
 
-  const cChart = findQuestion(bank, 'Each hour, 10 units are sampled and inspected for defects.');
+  const cChart = q(bank, 512);
   assert.match(cChart.why, /5\.22/);
   assert.equal(cChart.options[cChart.answer], '[0, 5.22]');
 
-  const uChart = findQuestion(bank, 'A u-chart has a centerline of ū = 0.154 defects per unit.');
-  assert.match(uChart.why, /0\.417/);
-  assert.equal(uChart.options[uChart.answer], '[0, 0.417]');
+  const uChart = q(bank, 515);
+  assert.match(uChart.why, /0\.419/);
+  assert.equal(uChart.options[uChart.answer], '[0, 0.419]');
 
-  const ciSigma = findQuestion(bank, 'The 95% confidence interval [12.5, 18.5] was calculated');
+  const ciSigma = q(bank, 672);
   assert.match(ciSigma.why, /6\.85/);
   assert.equal(ciSigma.options[ciSigma.answer], '6.85');
 });
@@ -101,16 +88,16 @@ test('three option-text formatting bugs are fixed: two stray-space-after-dollar-
   const { window } = await load();
   const bank = set3Bank(window);
 
-  const q206 = findQuestion(bank, 'In five years, $5000 will be available.');
-  assert.ok(q206.options.includes('$1581'));
-  assert.ok(!q206.options.some(o => /\$\s\d/.test(o)));
+  const q207 = q(bank, 207);
+  assert.equal(q207.options[q207.answer], '$3,105');
+  assert.ok(!q207.options.some(o => /\$\s\d/.test(o)));
 
-  const q344 = findQuestion(bank, 'A sample of three numbers is selected from the numbers 1 to 45');
-  assert.ok(q344.options.includes('14,190'));
+  const q345 = q(bank, 345);
+  assert.ok(q345.options.includes('14,190'));
 
-  const q679 = findQuestion(bank, 'On an eight-hour shift, a process runs a total of 438 minutes');
-  assert.ok(q679.options.includes('0.9315'));
-  assert.ok(!q679.options.some(o => /\d\s\d/.test(o)));
+  const q680 = q(bank, 680);
+  assert.ok(q680.options.includes('0.9315'));
+  assert.ok(!q680.options.some(o => /\d\s\d/.test(o)));
 });
 
 test('the garbled "\u00b0/c" percent sign is fully gone from Set 3 (a stem and a why field had it, beyond the two options already fixed in an earlier PR)', async () => {
@@ -131,12 +118,11 @@ test('ANSWER-KEY CORRECTION: the continuous-compounding NPV question now marks t
   // issue, corrected after independently verifying both calculations.
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'To the nearest dollar, what is the net present value of a $ 15,000 cost');
-  assert.ok(q);
-  assert.match(q.stem, /continuous compounding/);
-  assert.equal(q.options[q.answer], '$13,304');
-  assert.match(q.why, /e\^\(-0\.04 x 3\)/);
-  assert.ok(!q.options.some(o => /\$\s\d/.test(o)), 'no stray space after $ remains in any option');
+  const question = q(bank, 210);
+  assert.match(question.stem, /continuously compounded/);
+  assert.equal(question.options[question.answer], '$13,304');
+  assert.match(question.why, /exp\[−\(0\.04\)\(3\)\]/);
+  assert.ok(!question.options.some(o => /\$\s\d/.test(o)), 'no stray space after $ remains in any option');
 });
 
 test('Set 3 still has exactly 694 questions, no duplicate stems, after this second audit pass', async () => {

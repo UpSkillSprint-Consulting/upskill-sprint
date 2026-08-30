@@ -25,9 +25,7 @@ function set3Bank(window) {
   return window.__TB.EXAMS.cssbb.sets[3];
 }
 
-function findQuestion(bank, stemPrefix) {
-  return bank.find(q => q.stem.startsWith(stemPrefix));
-}
+const q = (bank, number) => bank[number - 1];
 
 // "Gp"/"Gpk"/"Gpm" was a systematic OCR misread of "Cp"/"Cpk"/"Cpm" (the actual
 // ASQ-standard process capability index names) scattered across ~14 Measure-domain
@@ -51,49 +49,48 @@ test('the capability-index questions shown in the reported screenshots now read 
   const { window } = await load();
   const bank = set3Bank(window);
 
-  const q1 = findQuestion(bank, 'The numerator of the Cp formula is also referred to as:');
+  const q1 = q(bank, 373);
   assert.ok(q1, 'found: numerator of the Cp formula');
 
-  const q2 = findQuestion(bank, 'What does a negative Cpk signify?');
+  const q2 = q(bank, 374);
   assert.ok(q2, 'found: negative Cpk');
   assert.ok(q2.options.includes('The Cp value is less than 1.'));
 
-  const q3 = findQuestion(bank, 'Use the following information to answer this question and the next. What is the value of the Cp index?');
+  const q3 = q(bank, 375);
   assert.ok(q3, 'found: value of the Cp index');
 
-  const q4 = findQuestion(bank, 'A normally distributed, in-control, process output has a Cp = 1.75');
+  const q4 = q(bank, 369);
   assert.ok(q4, 'found: Cp=1.75/Cpk=1.0 question (previously mixed "Gp" and "Cp" in the same sentence)');
 });
 
 test('the confidence-bound-on-Cpk question no longer has the standalone "erk" OCR fragment (now reads "Cpk = 1.35")', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'A capability study was conducted on a normally distributed process metric using 28 subgroups');
-  assert.ok(q);
-  assert.match(q.why, /n = 28, Cpk = 1\.35/);
-  assert.doesNotMatch(q.why, /\berk\b/);
+  const question = q(bank, 386);
+  assert.match(question.stem, /n = 28 subgroups.*Cpk = 1\.35/);
+  assert.match(question.why, /Cpk,L = 1\.35/);
+  assert.doesNotMatch(question.why, /\berk\b/);
 });
 
 test('the Box-Cox transformation question now has clean, correct answer options instead of garbled OCR text', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'What Box-Cox transformation is used to transform data from a Poisson to a normal distribution?');
-  assert.ok(q);
-  assert.deepEqual(Array.from(q.options), ['Y = \u221aX', 'Y = ln(X)', 'Y = X\u00b2', 'Y = 1/X']);
-  assert.equal(q.options[q.answer], 'Y = \u221aX');
-  assert.doesNotMatch(q.why, /\)\(/, 'why field has no leftover garbled parenthesis notation');
+  const question = q(bank, 393);
+  assert.deepEqual(Array.from(question.options), ['Y = \u221aX', 'Y = ln(X)', 'Y = X\u00b2', 'Y = 1/X']);
+  assert.equal(question.options[question.answer], 'Y = \u221aX');
+  assert.doesNotMatch(question.why, /\)\(/, 'why field has no leftover garbled parenthesis notation');
 });
 
 test('the two visible answer options that used a checkmark instead of a radical sign now show \u221a correctly', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
 
-  const q1 = findQuestion(bank, 'What is the denominator in the population variance formula?');
+  const q1 = q(bank, 320);
   assert.ok(q1);
   assert.ok(q1.options.includes('\u221aN'));
   assert.ok(!q1.options.some(o => o.includes('\u2713')));
 
-  const q2 = findQuestion(bank, 'In a two-level full-factorial design, the effect of Factor A is −12.4.');
+  const q2 = q(bank, 456);
   assert.ok(q2);
   assert.ok(q2.options.some(o => o.includes('\u221aMSE')));
   assert.ok(!q2.options.some(o => o.includes('\u2713')));
@@ -131,9 +128,8 @@ test('the data-table CSS centers all header and cell text and draws a vertical d
 test('a rendered data-table chart produces correct underlying table markup (structural regression guard, independent of the CSS styling change above)', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Using the cash flows shown, calculate the discounted return on investment (ROI)');
-  assert.ok(q);
-  const html2 = window.__TB.renderQuestionChart(q.chart);
+  const question = q(bank, 211);
+  const html2 = window.__TB.renderQuestionChart(question.chart);
   assert.match(html2, /<table class="tb-q-data-table">/);
   assert.match(html2, /<th>Year<\/th>/);
   assert.match(html2, /<td class="tb-q-num">\$75,000<\/td>/);
@@ -150,15 +146,14 @@ test('a rendered data-table chart produces correct underlying table markup (stru
 test('the Cp-index and natural-tolerance questions (Q121-122) now share a reference table with the correct s-bar value', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q1 = findQuestion(bank, 'Use the following information to answer this question and the next. What is the value of the Cp index?');
-  const q2 = findQuestion(bank, 'Using the same information, what is the estimated natural tolerance?');
-  assert.ok(q1 && q2, 'both questions found');
+  const q1 = q(bank, 375);
+  const q2 = q(bank, 376);
 
   assert.deepEqual(JSON.parse(JSON.stringify(q1.chart)), JSON.parse(JSON.stringify(q2.chart)), 'both questions share the identical reference table');
   assert.equal(q1.chart.type, 'data-table');
 
   const rows = Object.fromEntries(q1.chart.rows.map(r => [r[0], r[1]]));
-  assert.equal(rows['X̄'], '904.5');
+  assert.equal(rows['X̿'], '904.5');
   assert.equal(rows['S̄'], '9.9');
   assert.equal(rows['Subgroup size, n'], '20');
   assert.equal(rows['Specification'], '900 \u00b1 50');
@@ -167,18 +162,17 @@ test('the Cp-index and natural-tolerance questions (Q121-122) now share a refere
 test('the Cp-index/natural-tolerance why fields no longer state the incorrect "s-bar = 39.9" and instead show the math that actually produces the existing correct answers', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q1 = findQuestion(bank, 'Use the following information to answer this question and the next. What is the value of the Cp index?');
-  const q2 = findQuestion(bank, 'Using the same information, what is the estimated natural tolerance?');
+  const q1 = q(bank, 375);
+  const q2 = q(bank, 376);
 
-  [q1, q2].forEach(q => {
-    assert.doesNotMatch(q.why, /39\.9/, 'no leftover incorrect s-bar value');
-    assert.match(q.why, /s-bar = 9\.9/);
-    assert.match(q.why, /10\.03/, 'sigma-hat = 9.9 / 0.9869 = 10.03 is shown');
+  [q1, q2].forEach(question => {
+    assert.doesNotMatch(question.why, /39\.9/, 'no leftover incorrect S-bar value');
+    assert.match(question.why, /σ̂ = S̄\/c₄ = 9\.9\/0\.9869 = 10\.03/);
   });
 
   assert.equal(q1.options[q1.answer], '1.66');
-  assert.match(q1.why, /100 \/ 60\.19 = 1\.66/);
+  assert.match(q1.why, /\(950 − 850\)\/\[6\(10\.03\)\] = 1\.66/);
 
   assert.equal(q2.options[q2.answer], '60.19');
-  assert.match(q2.why, /6 x 10\.03 = 60\.19/);
+  assert.match(q2.why, /6σ̂ = 6\(10\.03\) = 60\.19/);
 });

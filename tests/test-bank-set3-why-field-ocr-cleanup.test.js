@@ -25,9 +25,7 @@ function set3Bank(window) {
   return window.__TB.EXAMS.cssbb.sets[3];
 }
 
-function findQuestion(bank, stemPrefix) {
-  return bank.find(q => q.stem.startsWith(stemPrefix));
-}
+const q = (bank, number) => bank[number - 1];
 
 // A well-formed BOK citation looks like [II.C.2] or [VII.C] -- a roman numeral
 // (I-X), a dot, a single subsection letter, and optionally a dot and a single
@@ -46,21 +44,20 @@ test('the seven questions whose "why" field had an entire BOK reference document
   const { window } = await load();
   const bank = set3Bank(window);
   const cases = [
-    { prefix: 'A two-month improvement yielded $40,000', endsWith: '[II.C.2]' },
-    { prefix: 'To evaluate the effectiveness of a training program', endsWith: '[III.D.3]' },
-    { prefix: 'The nodes on an interrelation digraph with the most outgoing arrows', endsWith: '[IV.D.7]' },
-    { prefix: 'Long-term capability:', endsWith: '[V.F.7]' },
-    { prefix: 'In an effort to detect a critical defect, quality inspectors are asked', endsWith: '[VI.D.3]' },
-    { prefix: 'Instructions on how to inform the company about an improved process', endsWith: '[VII.C]' },
-    { prefix: 'Which of the following terms is considered the fourth stage in a Six Sigma maturity model?', endsWith: '[I.A.1]' }
+    { number: 214, endsWith: '[II.C.2]' },
+    { number: 249, endsWith: '[III.D.3]' },
+    { number: 283, endsWith: '[IV.D.7]' },
+    { number: 405, endsWith: '[V.F.7]' },
+    { number: 449, endsWith: '[VI.D.3]' },
+    { number: 489, endsWith: '[VII.C]' },
+    { number: 694, endsWith: '[I.A.1]' }
   ];
-  cases.forEach(({ prefix, endsWith }) => {
-    const q = findQuestion(bank, prefix);
-    assert.ok(q, 'question found: ' + prefix);
-    assert.ok(q.why.length < 400, prefix + ' why field is a normal length (' + q.why.length + ' chars), not a document dump');
-    assert.ok(q.why.endsWith(endsWith), prefix + ' why field ends with ' + endsWith + ', got: ...' + q.why.slice(-60));
-    assert.doesNotMatch(q.why, /Section [IVX]+ (Team Management|Define|Measure|Analyze|Improve|Control)/, prefix + ' has no appended section-reference text');
-    assert.doesNotMatch(q.why, /ASQ Six Sigma Black Belt Certification Body of Knowledge/, prefix + ' has no appended BOK document');
+  cases.forEach(({ number, endsWith }) => {
+    const question = q(bank, number);
+    assert.ok(question.why.length < 400, `Q${number} why field is a normal length (${question.why.length} chars), not a document dump`);
+    assert.ok(question.why.endsWith(endsWith), `Q${number} why field ends with ${endsWith}, got: ...${question.why.slice(-60)}`);
+    assert.doesNotMatch(question.why, /Section [IVX]+ (Team Management|Define|Measure|Analyze|Improve|Control)/, `Q${number} has no appended section-reference text`);
+    assert.doesNotMatch(question.why, /ASQ Six Sigma Black Belt Certification Body of Knowledge/, `Q${number} has no appended BOK document`);
   });
 });
 
@@ -82,7 +79,7 @@ test('specific previously-garbled citations are now correctly normalized (spot c
   const bank = set3Bank(window);
 
   // "I1.C. 1" (digit-for-I plus stray space) -> "II.C.1"
-  const q1 = findQuestion(bank, "An organization's net promoter score is positively correlated");
+  const q1 = q(bank, 193);
   assert.ok(q1);
   assert.ok(q1.why.endsWith('[II.C.1]'), q1.why.slice(-20));
 
@@ -98,20 +95,19 @@ test('specific previously-garbled citations are now correctly normalized (spot c
 test('the chi-square job-shop question\'s "why" narrative now states the critical value as a clean "5.991" instead of the split "5.99 1"', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'A job shop makes three metal parts.');
-  assert.ok(q);
-  assert.match(q.why, /critical value is 5\.991|χ²crit = 5\.991/);
-  assert.doesNotMatch(q.why, /5\.99\s1/);
+  const question = q(bank, 661);
+  assert.match(question.stem, /χ² critical value = 5\.991/);
+  assert.match(question.why, /χ² critical value = 5\.991/);
+  assert.doesNotMatch(question.why, /5\.99\s1/);
 });
 
 test('the ROI question\'s "why" narrative no longer has a stray space after the thousands-comma in its restated cash-flow figures', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'A two-month improvement yielded $40,000 in benefits');
-  assert.ok(q, 'the simple-ROI question (distinct from the discounted-ROI/NPV question) is found');
-  assert.match(q.why, /\$40,000 [−-] \$25,000/);
-  assert.doesNotMatch(q.why, /\$4 0,000/);
-  assert.doesNotMatch(q.why, /\$25, 000/);
+  const question = q(bank, 214);
+  assert.match(question.why, /\$40,000 [−-] \$25,000/);
+  assert.doesNotMatch(question.why, /\$4 0,000/);
+  assert.doesNotMatch(question.why, /\$25, 000/);
 });
 
 test('Set 3 still has exactly 694 questions, no duplicate stems, and no empty "why" fields after the OCR cleanup pass', async () => {

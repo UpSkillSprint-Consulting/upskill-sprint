@@ -25,54 +25,56 @@ function set3Bank(window) {
   return window.__TB.EXAMS.cssbb.sets[3];
 }
 
-function findQuestion(bank, stemPrefix) {
-  return bank.find(q => q.stem.startsWith(stemPrefix));
-}
+const q = (bank, number) => bank[number - 1];
 
-// --- OEE family (Q479-482): was missing all shared context -------------------
+// --- OEE family (Q480-483): was missing all shared context -------------------
 // Student-exam audit found these four questions relied entirely on numbers
 // (7,000 good pieces, 195 scrap, 10,000 ideal run rate, shift/downtime figures)
 // that only existed in a neighboring question's stem or in garbled why fields --
-// never in each question's own text. idx480 and idx481 in particular gave zero
-// data at all ("What is the value of the performance?").
+// never in each question's own text. Each randomized question must now stand on
+// its own while displaying the same complete source-data table.
 
 test('the four OEE questions (availability/performance/quality/action) now share one reference table with the complete dataset', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q479 = findQuestion(bank, 'Use the following information to answer this question and the next three.');
-  const q480 = findQuestion(bank, 'Using the same information, what is the value of the performance?');
-  const q481 = findQuestion(bank, 'Using the same information, what is the value of the quality metric?');
-  const q482 = findQuestion(bank, 'Using the same information, which of the following actions');
-  assert.ok(q479 && q480 && q481 && q482, 'all four OEE questions found');
+  const q480 = q(bank, 480);
+  const q481 = q(bank, 481);
+  const q482 = q(bank, 482);
+  const q483 = q(bank, 483);
 
-  [q480, q481, q482].forEach(q => {
-    assert.deepEqual(JSON.parse(JSON.stringify(q.chart)), JSON.parse(JSON.stringify(q479.chart)), 'shares the exact same reference table as the first question');
+  [q481, q482, q483].forEach(question => {
+    assert.deepEqual(JSON.parse(JSON.stringify(question.chart)), JSON.parse(JSON.stringify(q480.chart)), 'shares the exact same reference table as the first question');
   });
 
-  const rows = Object.fromEntries(q479.chart.rows.map(r => [r[0], r[1]]));
+  [q480, q481, q482, q483].forEach((question) => {
+    assert.match(question.stem, /injection-molding shift summarized below/i);
+    assert.doesNotMatch(question.stem, /same information|previous|next/i);
+  });
+
+  const rows = Object.fromEntries(q480.chart.rows.map(r => [r[0], r[1]]));
   assert.equal(rows['Good pieces produced'], '7,000');
   assert.equal(rows['Scrap/rework pieces'], '195');
-  assert.equal(rows['Ideal run rate'], '10,000 pieces in the planned production time');
+  assert.equal(rows['Planned output at ideal rate'], '10,000 pieces per 435 planned minutes');
 });
 
 test('the OEE quality question has a clean derivation and the action question selects the lowest OEE factor', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q481 = findQuestion(bank, 'Using the same information, what is the value of the quality metric?');
-  const q482 = findQuestion(bank, 'Using the same information, which of the following actions');
-  assert.match(q481.why, /7,000 \/ 7,195 = 0\.9729/);
-  assert.equal(q481.options[q481.answer], '0.9729');
-  assert.match(q482.why, /performance = 0\.8391/);
-  assert.equal(q482.options[q482.answer], 'Increase the performance of the process.');
+  const q482 = q(bank, 482);
+  const q483 = q(bank, 483);
+  assert.match(q482.why, /7,000 \/ 7,195 = 0\.9729/);
+  assert.equal(q482.options[q482.answer], '0.9729');
+  assert.match(q483.why, /performance = 0\.8391/);
+  assert.equal(q483.options[q483.answer], 'Increase the performance of the process.');
 });
 
 test('the OEE performance question uses consistent planned and operating times', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q480 = findQuestion(bank, 'Using the same information, what is the value of the performance?');
-  assert.ok(q480.chart, 'now has the shared reference table');
-  assert.equal(q480.options[q480.answer], '0.8391');
-  assert.match(q480.why, /7,195\/373.*10,000\/435.*0\.8391/);
+  const q481 = q(bank, 481);
+  assert.ok(q481.chart, 'has the complete reference table');
+  assert.equal(q481.options[q481.answer], '0.8391');
+  assert.match(q481.why, /7,195\/373.*10,000\/435.*0\.8391/);
 });
 
 // --- Mechanical option-text fixes --------------------------------------------
@@ -80,36 +82,33 @@ test('the OEE performance question uses consistent planned and operating times',
 test('the R-chart LCL question no longer has a stray letter "O" where the answer is genuinely 0', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Calculate the lower control limit of an R chart using X̿ = 345.50');
-  assert.ok(q);
-  assert.ok(q.options.includes('0'), 'the zero option reads as a digit, not the letter O');
-  assert.ok(!q.options.includes('O'));
+  const question = q(bank, 491);
+  assert.ok(question.options.includes('0'), 'the zero option reads as a digit, not the letter O');
+  assert.ok(!question.options.includes('O'));
 });
 
 test('the "four or more defects" question now shows \u2265 instead of a lost/replacement character', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Thirty car hoods are inspected for paint defects.');
-  assert.ok(q);
-  assert.ok(q.options.includes('Pr (X \u2265 4).'));
-  assert.ok(!q.options.some(o => o.includes('\ufffd')));
-  assert.match(q.why, /Pr\(X\s*\u2265\s*4\)/);
+  const question = q(bank, 610);
+  assert.ok(question.options.includes('P(X \u2265 4)'));
+  assert.ok(!question.options.some(o => o.includes('\ufffd')));
+  assert.match(question.why, /Pr\(X\s*\u2265\s*4\)/);
 });
 
 test('percent-value options across four questions no longer have stray trailing commas or the garbled "\u00b0/c" percent sign', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
   const cases = [
-    { prefix: 'According to Ebbinghaus', expected: ['21%', '28%', '34%', '50%'] },
-    { prefix: 'Calculate the precision-to-tolerance ratio (PTR)', expected: ['13.5%', '27%', '37%', '75%'] },
-    { prefix: 'A process output is normally distributed with μ = 53.7 inches', expected: ['20.3%', '25.2%', '75.4%', '80.0%'] },
-    { prefix: 'A total of 345 units were inspected', expected: ['0.0435%', '4.35%', '15%', '23%'] }
+    { number: 245, expected: ['21%', '28%', '34%', '50%'] },
+    { number: 295, expected: ['13.5%', '27%', '37%', '75%'] },
+    { number: 356, expected: ['20.3%', '25.2%', '75.4%', '80.0%'] },
+    { number: 396, expected: ['0.0435%', '4.35%', '15%', '23%'] }
   ];
-  cases.forEach(({ prefix, expected }) => {
-    const q = findQuestion(bank, prefix);
-    assert.ok(q, prefix);
-    assert.deepEqual(Array.from(q.options), expected);
-    q.options.forEach(o => {
+  cases.forEach(({ number, expected }) => {
+    const question = q(bank, number);
+    assert.deepEqual(Array.from(question.options), expected, `Q${number}`);
+    question.options.forEach(o => {
       assert.doesNotMatch(o, /,\s*$/, o + ' has no trailing comma');
       assert.doesNotMatch(o, /\u00b0\/c/, o + ' has no garbled percent sign');
     });
@@ -122,36 +121,33 @@ test('thirteen questions with deep OCR formula garbling in their why fields now 
   const { window } = await load();
   const bank = set3Bank(window);
   const cases = [
-    { prefix: 'The net present value (NPV) of the cost', mustMatch: /750,000 \/ \$100,000 = 7\.5/ },
-    { prefix: 'What is the denominator in the population variance formula?', mustMatch: /N is the denominator/ },
-    { prefix: 'Given the sample set of data { 13.3, 14.5, -4.0, 23.9, 24.2}', mustMatch: /11\.47/ },
-    { prefix: 'A process is running at a 5% defective rate', mustMatch: /0\.9885/ },
-    { prefix: 'Two manufacturing lines produce a bioplastic sheet', mustMatch: /Line B has the lower yield/ },
-    { prefix: 'A capability study was conducted on a normally distributed', mustMatch: /1\.35 x 0\.7633 = 1\.03/ },
-    { prefix: 'Given the following information from an in-control p-chart, calculate the process capability: sum(np) = 55', mustMatch: /55 \/ 2800 = 0\.0196/ },
-    { prefix: 'A customer order for 1000 quarters', mustMatch: /2400 minutes \/ 1000 pieces = 2\.4/ },
-    { prefix: 'Calculate the upper control limit of an X̄ chart', mustMatch: /96\.4835/ },
-    { prefix: 'Before an improvement project, the defective rate for a milling process was 4.9%', mustMatch: /−1\.32/ },
-    { prefix: 'A new electric vehicle is evaluated for its maximum range', mustMatch: /t₀ = .*= 2\.52/ },
-    { prefix: 'After adjustments to a packaging line', mustMatch: /47\.06.*48/ },
-    { prefix: 'A quality engineer will test a sample of lightbulbs', mustMatch: /1067\.1.*1068/ }
+    { number: 211, mustMatch: /\$130,782 \/ \$102,891 = 1\.271/ },
+    { number: 320, mustMatch: /σ² = Σ\(xᵢ − μ\)²\/N/ },
+    { number: 333, mustMatch: /11\.47/ },
+    { number: 358, mustMatch: /0\.9885/ },
+    { number: 359, mustMatch: /Line B has the lower yield/ },
+    { number: 386, mustMatch: /1\.0305.*1\.03/ },
+    { number: 388, mustMatch: /55\/2,800 = 0\.0196/ },
+    { number: 475, mustMatch: /2,400 minutes\/1,000 pieces = 2\.4/ },
+    { number: 490, mustMatch: /96\.4835/ },
+    { number: 658, mustMatch: /−1\.32/ },
+    { number: 667, mustMatch: /t₀ = .*= 2\.52/ },
+    { number: 670, mustMatch: /47\.06.*48/ },
+    { number: 681, mustMatch: /1,067\.11.*1,068/ }
   ];
-  cases.forEach(({ prefix, mustMatch }) => {
-    const q = findQuestion(bank, prefix);
-    assert.ok(q, 'found: ' + prefix);
-    assert.match(q.why, mustMatch, prefix);
-    assert.doesNotMatch(q.why, /[\ufffd]/, prefix + ' has no replacement characters');
-    assert.doesNotMatch(q.why, /�/, prefix);
+  cases.forEach(({ number, mustMatch }) => {
+    const question = q(bank, number);
+    assert.match(question.why, mustMatch, `Q${number}`);
+    assert.doesNotMatch(question.why, /[\ufffd]/, `Q${number} has no replacement characters`);
   });
 });
 
-test('the p-chart process-capability question\'s stem no longer has the garbled "2, np = 55, 2, n = 2800" and instead reads "sum(np)"/"sum(n)"', async () => {
+test('the p-chart process-capability question uses clean summation notation', async () => {
   const { window } = await load();
   const bank = set3Bank(window);
-  const q = findQuestion(bank, 'Given the following information from an in-control p-chart');
-  assert.ok(q);
-  assert.match(q.stem, /sum\(np\) = 55, sum\(n\) = 2800/);
-  assert.doesNotMatch(q.stem, /2, np = 55/);
+  const question = q(bank, 388);
+  assert.match(question.stem, /Σnp = 55 and Σn = 2,800/);
+  assert.doesNotMatch(question.stem, /2, np = 55/);
 });
 
 test('Set 3 still has exactly 694 questions, no duplicate stems, after the missing-context and formula-cleanup pass', async () => {

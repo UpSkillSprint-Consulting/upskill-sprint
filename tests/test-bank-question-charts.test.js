@@ -38,6 +38,12 @@ function findQuestion(bank, stemPrefix) {
   return bank.find(q => q.stem.startsWith(stemPrefix));
 }
 
+function set3Question(window, number) {
+  const q = window.__TB.EXAMS.cssbb.sets[3][number - 1];
+  assert.ok(q, 'Set 3 Q' + number + ' exists');
+  return q;
+}
+
 /* ---------- wiring: renderQuestionChart is called in the live quiz render path ---------- */
 
 test('quizHTML renders the question chart immediately before the stem, for every quiz view', () => {
@@ -61,29 +67,15 @@ test('both adaptive-practice modules render the chart before their stem, via the
 
 /* ---------- data integrity: the 8 questions that were broken are now clean ---------- */
 
-test('none of the 8 previously chart-dependent questions still contain garbled OCR text in their stem', async () => {
+test('none of the 9 previously chart-dependent questions still contain garbled OCR text in their stem', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const stemPrefixes = [
-    'A Black Belt is studying an X-bar R chart',
-    'Calculate the interquartile range using the box plot',
-    'What insight does the box plot below show?',
-    'Interpret the normal probability plot shown below',
-    'What is the measurement system concept depicted',
-    'Which quadrant of the figure shows high precision but low',
-    'Which quadrant in the figure shows high accuracy and low',
-    'Which quadrant of the figure shows low precision and low',
-    'Which quadrant in the figure shows high precision and low'
-  ];
-  stemPrefixes.forEach(prefix => {
-    const matches = bank.filter(q => q.stem.startsWith(prefix));
-    assert.ok(matches.length > 0, 'question found: ' + prefix);
-    matches.forEach(q => {
-      assert.doesNotMatch(q.stem, /[\uFFFD]/, 'no unicode replacement characters: ' + prefix);
-      assert.doesNotMatch(q.stem, /\bUCL\s*=|\bLCL\s*=|\bCl\)\s|\ben Cl\)/, 'no leaked chart axis/label fragments: ' + prefix);
-      assert.ok(q.stem.length < 200, 'stem is a clean question, not a wall of OCR fragments: ' + prefix);
-      assert.ok(q.chart && q.chart.type, 'has a chart field: ' + prefix);
-    });
+  const questionNumbers = [639, 336, 337, 341, 342, 292, 293, 650, 651];
+  questionNumbers.forEach(number => {
+    const q = set3Question(window, number);
+    assert.doesNotMatch(q.stem, /[\uFFFD]/, 'Q' + number + ': no Unicode replacement characters');
+    assert.doesNotMatch(q.stem, /\bUCL\s*=|\bLCL\s*=|\bCl\)\s|\ben Cl\)/, 'Q' + number + ': no leaked chart labels');
+    assert.ok(q.stem.length < 200, 'Q' + number + ': concise student-facing stem');
+    assert.ok(q.chart && q.chart.type, 'Q' + number + ': chart is attached directly to the question');
   });
 });
 
@@ -99,15 +91,14 @@ test('the four precision/accuracy quadrant questions no longer have the "Quadran
 
 test('the X-bar R chart question data matches the source textbook and supports its stated answer', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const q = findQuestion(bank, 'A Black Belt is studying an X-bar R chart');
+  const q = set3Question(window, 639);
   assert.equal(q.chart.type, 'xbar-r');
   assert.equal(q.chart.xbar.ucl, 581.0);
   assert.equal(q.chart.xbar.cl, 512.5);
   assert.equal(q.chart.xbar.lcl, 443.9);
   assert.equal(q.chart.xbar.data.length, 25);
   assert.equal(q.chart.r.data.length, 25);
-  assert.equal(q.options[q.answer], 'Both the X-bar and R charts exhibit out-of-control conditions.');
+  assert.equal(q.options[q.answer], 'Both the X̄ and R charts exhibit out-of-control signals.');
 
   // X-bar: the last 7 points (samples 19-25) must form a genuine 6-consecutive-decrease run,
   // since that is the specific rule the "why" field cites -- if this data is ever edited, the
@@ -142,15 +133,22 @@ test('the box plot questions carry quartile data consistent with their stated an
 
 test('the two normal probability plot questions use distinct patterns matching their stated answers', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const plots = bank.filter(q => q.stem.startsWith('Interpret the normal probability plot shown below'));
-  assert.equal(plots.length, 2);
-  assert.notEqual(plots[0].stem, plots[1].stem, 'the two plots have distinct stems so they do not collide under stem-based hashing (mastery tracking, dedup) elsewhere in the app');
-  const normal = plots.find(q => q.options[q.answer] === 'The data are normally distributed.');
-  const skewed = plots.find(q => q.options[q.answer] === 'The data are right skewed.');
-  assert.ok(normal && skewed, 'both variants are present with distinct correct answers');
-  assert.equal(normal.chart.pattern, 'linear');
-  assert.equal(skewed.chart.pattern, 's-curve');
+  const normal = set3Question(window, 341);
+  const skewed = set3Question(window, 342);
+  assert.notEqual(normal.stem, skewed.stem, 'the two plots have distinct stems for mastery tracking');
+  assert.equal(normal.options[normal.answer], 'The data are normally distributed.');
+  assert.equal(skewed.options[skewed.answer], 'The data are right skewed.');
+  assert.equal(normal.chart.points.length, 29, 'Plot 1 uses all 29 explicit source observations');
+  assert.equal(skewed.chart.points.length, 100, 'Plot 2 restores all 100 source observations from the digitized curve');
+  assert.equal(normal.chart.sourceN, 29);
+  assert.equal(skewed.chart.sourceN, 100);
+  assert.deepEqual(Array.from(normal.chart.xTicks), [5, 15, 25, 35]);
+  assert.deepEqual(Array.from(skewed.chart.xTicks), [-15, -5, 5, 15, 25]);
+  assert.ok(normal.chart.points.every((point, i, points) => i === 0 || point[1] >= points[i - 1][1]), 'Plot 1 normal scores are ordered');
+  assert.ok(skewed.chart.points.every((point, i, points) => i === 0 || point[1] >= points[i - 1][1]), 'Plot 2 normal scores are ordered');
+  assert.ok(skewed.chart.points.every((point, i, points) => i === 0 || point[0] >= points[i - 1][0]), 'Plot 2 data values are monotone');
+  assert.deepEqual(Array.from(normal.chart.fitPoints, pair => Array.from(pair)), [[11.6, -2.17], [32.8, 2.11]]);
+  assert.deepEqual(Array.from(skewed.chart.fitPoints, pair => Array.from(pair)), [[-8.66, -2.58], [17.4, 2.53]]);
 });
 
 /* ---------- chart rendering: structural correctness per chart type ---------- */
@@ -189,20 +187,22 @@ test('chartBoxplot renders whiskers, box, median, mean marker, and outliers when
   assert.doesNotMatch(noOutlier, /NaN/);
 });
 
-test('chartNormalProb produces different point paths for linear vs s-curve patterns', async () => {
+test('chartNormalProb plots supplied observations rather than substituting a generic pattern', async () => {
   const { window } = await load();
-  const linear = window.__TB.renderQuestionChart({ type: 'normal-prob', pattern: 'linear' });
-  const sCurve = window.__TB.renderQuestionChart({ type: 'normal-prob', pattern: 's-curve' });
-  assert.notEqual(linear, sCurve, 'the two patterns render visibly different point placements');
+  const linear = window.__TB.renderQuestionChart({ type: 'normal-prob', title: 'A', values: [8, 9, 10, 11, 12] });
+  const skewed = window.__TB.renderQuestionChart({ type: 'normal-prob', title: 'B', values: [0, 0.1, 0.3, 1.5, 8] });
+  assert.notEqual(linear, skewed, 'different supplied observations render different point placements');
+  assert.match(linear, /data-normal-prob-n="5"/);
+  assert.match(skewed, /data-normal-prob-n="5"/);
   assert.doesNotMatch(linear, /NaN/);
-  assert.doesNotMatch(sCurve, /NaN/);
+  assert.doesNotMatch(skewed, /NaN/);
 });
 
-test('chartPrecisionAccuracy renders exactly 4 labeled panels and highlights only the requested one', async () => {
+test('chartPrecisionAccuracy renders exactly 4 neutral labeled panels without revealing the answer', async () => {
   const { window } = await load();
   const svg = window.__TB.renderQuestionChart({ type: 'precision-accuracy', highlight: 'D' });
   ['A', 'B', 'C', 'D'].forEach(label => assert.match(svg, new RegExp('>' + label + '<')));
-  assert.equal((svg.match(/tb-q-chart-quad-hi/g) || []).length, 1, 'exactly one panel is highlighted');
+  assert.equal((svg.match(/tb-q-chart-quad-hi/g) || []).length, 0, 'the pre-answer visual does not highlight the correct panel');
   assert.doesNotMatch(svg, /NaN/);
 });
 
@@ -270,9 +270,8 @@ test('chartVsmSymbol renders a rectangle with a cut top-right corner, matching t
 
 test('the critical-path questions now carry their precedence table as a real chart, not embedded text or only the why field', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const critPath = bank.find(q => q.stem.includes('precedence table below') && q.stem.includes('critical path?'));
-  const lateStart = bank.find(q => q.stem.startsWith('Using the same precedence table') && q.stem.includes('latest day that Activity D can begin'));
+  const critPath = set3Question(window, 561);
+  const lateStart = set3Question(window, 562);
   assert.ok(critPath && lateStart, 'both companion questions found');
 
   // Both questions must carry every activity's duration and predecessor in a real chart --
@@ -291,8 +290,7 @@ test('the critical-path questions now carry their precedence table as a real cha
 
 test('the precedence-table data used is internally self-consistent with the stated critical-path answer (the source book has a real erratum here: its question page prints Activity D as 15 days, its own solution page prints 5 days and calculates using 5 -- used the value consistent with the graded answer so the practice question is not self-contradicting)', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const critPath = bank.find(q => q.stem.includes('precedence table below') && q.stem.includes('critical path?'));
+  const critPath = set3Question(window, 561);
   const dRow = critPath.chart.rows.find(r => r[0] === 'D');
   assert.equal(dRow[2], '5', 'chart uses D=5 (the value consistent with the graded answer), not the question-page D=15');
   // ACG = 10+10+5 = 25, BCG = 5+10+5 = 20, DEFG = 5+5+5+5 = 20 -- ACG must be strictly longest.
@@ -337,10 +335,9 @@ test('no option in the entire bank contains bled-in "shared context for the next
 
 test('the second critical-path trio (Q49/50/51, a different precedence table than the D-erratum one) now carries its data as a real chart in each question', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const q49 = bank.find(q => q.stem.includes('precedence table below') && q.stem.includes('critical path.'));
-  const q50 = bank.find(q => q.stem.startsWith('Using the same precedence table') && q.stem.includes('early start time for Activity C'));
-  const q51 = bank.find(q => q.stem.startsWith('Using the same precedence table') && q.stem.includes('Activity E is delayed'));
+  const q49 = set3Question(window, 276);
+  const q50 = set3Question(window, 277);
+  const q51 = set3Question(window, 278);
   assert.ok(q49 && q50 && q51, 'all three questions found with corrected stems');
   [q49, q50, q51].forEach(q => {
     assert.ok(q.chart && q.chart.type === 'data-table', 'question carries a real table chart');
@@ -361,25 +358,24 @@ test('the second critical-path trio (Q49/50/51, a different precedence table tha
 
 test('u-chart, Gpk, Cpm, and X-bar control limit questions now state their input data in the stem instead of only in a garbled why field', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-
-  const uChart = findQuestion(bank, 'A u-chart is used to monitor defects per unit');
+  const uChart = set3Question(window, 514);
   assert.match(uChart.stem, /240 defects/);
   assert.match(uChart.stem, /1,550 units/);
-  assert.equal(uChart.options[uChart.answer], '0.154');
+  assert.equal(uChart.options[uChart.answer], '0.155');
 
-  const gpk = findQuestion(bank, 'A process metric is normally distributed. An X-bar R chart shows it is in control');
-  assert.match(gpk.stem, /X-double-bar = 23\.5/);
+  const gpk = set3Question(window, 377);
+  assert.match(gpk.stem, /X̿ = 23\.5/);
   assert.equal(gpk.options[gpk.answer], '0.52');
 
-  const cpm = findQuestion(bank, 'Using the same process (X-double-bar = 23.5');
+  const cpm = set3Question(window, 378);
   assert.equal(cpm.options[cpm.answer], '0.613');
+  assert.ok(cpm.chart.rows.some(row => row[0] === 'd₂ for n = 5' && row[1] === '2.326'));
 
-  const xbarLimits = findQuestion(bank, 'A process is monitored with an X-bar/S chart: X-bar = 29.87');
+  const xbarLimits = set3Question(window, 493);
   assert.equal(xbarLimits.options.length, 4, 'the bled-in Q22/23 text was stripped, leaving exactly 4 clean options');
   assert.equal(xbarLimits.options[xbarLimits.answer], '[27.16, 32.58]');
 
-  const sChart = findQuestion(bank, 'Using the same X-bar/S chart process');
+  const sChart = set3Question(window, 492);
   assert.ok(sChart, 'the S-chart companion to the X-bar control-limits question (originally "questions 20 and 21") is now present with its own data');
   assert.equal(sChart.options[sChart.answer], '[1.590, 5.510]');
 });
@@ -393,12 +389,12 @@ test('several sibling question groups initially thought missing were actually pr
   assert.equal(pp.options[pp.answer], '1.33');
   assert.equal(ppk.options[ppk.answer], '0.74');
 
-  const individuals = findQuestion(bank, 'A single sample was measured each hour over 25 hours');
-  const movingRange = findQuestion(bank, 'For 25 hourly individuals, the sum of readings is 674.50');
+  const individuals = set3Question(window, 494);
+  const movingRange = set3Question(window, 495);
   assert.equal(individuals.options[individuals.answer], '[24.27, 29.69]');
   assert.equal(movingRange.options[movingRange.answer], '[0, 3.32]');
 
-  const pChartCl = findQuestion(bank, "Across 30 subgroups, an attributes chart's underlying data totals \u03a3np = 55 and \u03a3n = 2800. What is the centerline");
+  const pChartCl = findQuestion(bank, "Across 30 subgroups, an attributes chart's underlying data totals \u03a3np = 55 and \u03a3n = 2,800. What is the centerline");
   assert.equal(pChartCl.options[pChartCl.answer], '0.0196');
 
   const npCl = findQuestion(bank, 'An np-chart is built from 25 subgroups');
@@ -414,18 +410,16 @@ test('several sibling question groups initially thought missing were actually pr
 
 test('4 more sibling questions found (ABC Manufacturing waste question, both prioritization-matrix questions, injection-molding availability) via a deeper sweep, narrowing the known gap to a single confirmed-absent scenario', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-
-  const criterion = findQuestion(bank, 'A team scores four potential solutions against four weighted criteria');
-  const solution = bank.find(q => q.stem.startsWith('Using the same prioritization matrix'));
+  const criterion = set3Question(window, 487);
+  const solution = set3Question(window, 488);
   assert.equal(criterion.options[criterion.answer], 'Positive impact on the customer');
   assert.equal(solution.options[solution.answer], 'Solution B');
   assert.notEqual(solution.options[1], 'Solution 8', 'the OCR-garbled "Solution 8" was corrected to "Solution B"');
 
-  const abcWaste = findQuestion(bank, "ABC Manufacturing, a machine shop using total productive maintenance methodologies, receives a purchase order for 50 parts");
+  const abcWaste = set3Question(window, 448);
   assert.equal(abcWaste.options[abcWaste.answer], 'Defects');
 
-  const availability = bank.find(q => q.stem.includes('An injection molding process runs one eight-hour shift per day'));
+  const availability = set3Question(window, 480);
   assert.equal(availability.options[availability.answer], '0.8575');
 });
 
@@ -491,7 +485,7 @@ test('chartInteractionPlot (new type) renders visibly different paths for parall
   assert.doesNotMatch(crossing, /NaN/);
 });
 
-test('chartRiskMatrix (new type) renders one coloured cell per grid position and highlights only the requested cells', async () => {
+test('chartRiskMatrix renders one labelled coloured cell per grid position without pre-answer highlighting', async () => {
   const { window } = await load();
   const svg = window.__TB.renderQuestionChart({
     type: 'risk-matrix',
@@ -501,8 +495,9 @@ test('chartRiskMatrix (new type) renders one coloured cell per grid position and
     highlights: [{ row: 0, col: 2, label: 'X' }]
   });
   assert.equal((svg.match(/<rect/g) || []).length, 9, 'a 3x3 matrix renders exactly 9 cells');
-  assert.equal((svg.match(/tb-chart-risk-hi"/g) || []).length, 1, 'exactly one cell is highlighted (the highlight class is always last in the attribute, so this excludes "risk-high" substring collisions)');
-  assert.match(svg, />X</, 'the highlighted cell carries its label');
+  assert.equal((svg.match(/tb-chart-risk-hi"/g) || []).length, 0, 'the renderer does not reveal the keyed cell before the student answers');
+  assert.doesNotMatch(svg, />X</, 'answer-label overlays are ignored in the pre-answer visual');
+  ['Low', 'Medium', 'High'].forEach(label => assert.match(svg, new RegExp('>' + label + '<')));
   assert.doesNotMatch(svg, /NaN/);
 });
 
@@ -579,17 +574,16 @@ test('CSSBB Set 3 count reflects the erratum question having been removed (694, 
   assert.equal(window.__TB.EXAMS.cssbb.sets[3].length, 694);
 });
 
-test('the negative-correlation and nonlinear-relationship questions share one scatter-quadrant chart, each highlighting its own correct panel', async () => {
+test('the negative-correlation and nonlinear-relationship questions each carry the same neutral four-panel scatter visual', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const negCorr = findQuestion(bank, 'The four scatter plots below all show the relationship');
-  const nonlinear = findQuestion(bank, 'Using the same four scatter plots');
+  const negCorr = set3Question(window, 406);
+  const nonlinear = set3Question(window, 407);
   assert.ok(negCorr && nonlinear);
   assert.equal(negCorr.chart.type, 'scatter-quadrant');
-  assert.equal(negCorr.chart.highlight, 'B');
   assert.equal(negCorr.options[negCorr.answer], 'Figure B');
-  assert.equal(nonlinear.chart.highlight, 'D');
   assert.equal(nonlinear.options[nonlinear.answer], 'Figure D');
+  assert.equal(negCorr.chart.highlight, undefined);
+  assert.equal(nonlinear.chart.highlight, undefined);
 });
 
 test('chartScatterQuadrant renders 4 distinct labeled panels with no NaN, and produces a visibly different point pattern per panel', async () => {
@@ -597,14 +591,13 @@ test('chartScatterQuadrant renders 4 distinct labeled panels with no NaN, and pr
   const svg = window.__TB.renderQuestionChart({ type: 'scatter-quadrant', highlight: 'D' });
   ['A', 'B', 'C', 'D'].forEach(l => assert.match(svg, new RegExp('>' + l + '<')));
   assert.doesNotMatch(svg, /NaN/);
-  assert.equal((svg.match(/tb-q-chart-quad-hi/g) || []).length, 1);
+  assert.equal((svg.match(/tb-q-chart-quad-hi/g) || []).length, 0, 'the answer panel is not highlighted before selection');
 });
 
 test('both tolerance-stack questions now share one tolerance data-table chart with the Part A/B/C values their own why field was already using to compute the answer', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const conventional = findQuestion(bank, 'Use the tolerance table below to answer this question and the next.');
-  const statistical = bank.find(q => q.stem.includes('statistical tolerance method') && q.stem.includes('same tolerance table'));
+  const conventional = set3Question(window, 540);
+  const statistical = set3Question(window, 541);
   assert.ok(conventional && statistical);
   assert.equal(conventional.chart.type, 'data-table');
   assert.deepEqual(conventional.chart, statistical.chart);
@@ -612,34 +605,39 @@ test('both tolerance-stack questions now share one tolerance data-table chart wi
   assert.equal(partRows['A'], '\u00b10.5');
   assert.equal(partRows['B'], '\u00b10.2');
   assert.equal(partRows['C'], '\u00b10.3');
-  assert.equal(conventional.options[conventional.answer], '1.0');
-  assert.equal(statistical.options[statistical.answer], '0.62');
+  assert.equal(conventional.options[conventional.answer], '±1.0');
+  assert.equal(statistical.options[statistical.answer], '±0.62');
+  assert.match(conventional.stem, /conventional ± tolerance \(half-width\)/);
+  assert.match(statistical.stem, /statistical ± tolerance \(half-width\)/);
 });
 
-test('both house-of-quality questions now render the 8-area diagram, each highlighting the area referenced in its own why field', async () => {
+test('all four house-of-quality questions carry the neutral nine-area source diagram and correct keys', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const targets = findQuestion(bank, 'Use the house of quality diagram below to answer this question and the next');
-  const customerReqs = findQuestion(bank, 'Using the same house of quality diagram');
-  assert.equal(targets.chart.highlight, '7');
+  const targets = set3Question(window, 254);
+  const customerReqs = set3Question(window, 255);
+  const relationshipMatrix = set3Question(window, 620);
+  const correlationRoof = set3Question(window, 621);
+  [targets, customerReqs, relationshipMatrix, correlationRoof].forEach(q => {
+    assert.equal(q.chart.type, 'house-of-quality');
+    assert.equal(q.chart.highlight, undefined, 'the correct area is not encoded as a pre-answer highlight');
+    assert.match(q.stem, /diagram below/);
+  });
   assert.equal(targets.options[targets.answer], 'Area 7');
-  assert.equal(customerReqs.chart.highlight, '1');
   assert.equal(customerReqs.options[customerReqs.answer], 'Area 1');
+  assert.equal(relationshipMatrix.options[relationshipMatrix.answer], 'Area 3');
+  assert.equal(correlationRoof.options[correlationRoof.answer], 'Area 9');
 });
 
-test('chartHouseOfQuality renders all 8 areas with no overlapping text bleeding outside a box (regression: areas 6/7/8 were too short for their labels)', async () => {
+test('chartHouseOfQuality renders all nine numbered source areas, including a triangular Area 9 roof, without answer labels or highlights', async () => {
   const { window } = await load();
   const svg = window.__TB.renderQuestionChart({ type: 'house-of-quality', highlight: '7' });
-  for (let i = 1; i <= 8; i += 1) assert.match(svg, new RegExp('>' + i + '<'));
+  for (let i = 1; i <= 9; i += 1) {
+    assert.match(svg, new RegExp('data-hoq-area="' + i + '"'));
+    assert.match(svg, new RegExp('>' + i + '<'));
+  }
+  assert.match(svg, /data-hoq-area="9"><polygon/, 'Area 9 is the triangular roof');
+  assert.equal((svg.match(/tb-q-chart-quad-hi/g) || []).length, 0);
   assert.doesNotMatch(svg, /NaN/);
-  // every text y-position must land within some rect's [y, y+height] band
-  const rects = Array.from(svg.matchAll(/<rect x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" height="([\d.]+)"/g))
-    .map(m => ({ x: +m[1], y: +m[2], w: +m[3], h: +m[4] }));
-  const texts = Array.from(svg.matchAll(/<text x="([\d.]+)" y="([\d.]+)"/g)).map(m => ({ x: +m[1], y: +m[2] }));
-  texts.forEach(t => {
-    const inSomeBox = rects.some(r => t.x >= r.x - 2 && t.x <= r.x + r.w + 2 && t.y >= r.y - 2 && t.y <= r.y + r.h + 2);
-    assert.ok(inSomeBox, 'text at y=' + t.y + ' falls within its box vertically, not spilling past the bottom edge');
-  });
 });
 
 test('the frequency table question now renders a real data table instead of a crammed, unreadable line of numbers', async () => {
@@ -759,10 +757,10 @@ test('the VSM symbol renders in a compact wrapper instead of the full-width char
   assert.match(html, /class="tb-q-chart-wrap tb-q-chart-wrap-compact"/);
 });
 
-test('the house-of-quality roof (area 2) is visually distinguished from the other areas via a dedicated CSS class', async () => {
+test('the house-of-quality roof (Area 9) is visually distinguished from the other areas via a dedicated CSS class', async () => {
   const { window } = await load();
   const svg = window.__TB.renderQuestionChart({ type: 'house-of-quality', highlight: '5' });
-  assert.match(svg, /tb-chart-box-roof/, 'the roof box carries a distinct class when it is not the highlighted area');
+  assert.match(svg, /data-hoq-area="9"><polygon[^>]*tb-chart-box-roof/, 'the triangular Area 9 roof carries its dedicated class');
 });
 
 test('the activity-network highlighted node renders with the same fill-based highlight class used by every other diagram type, for a consistent "you are here" treatment', async () => {
@@ -776,18 +774,24 @@ test('the activity-network highlighted node renders with the same fill-based hig
   assert.doesNotMatch(svg, /NaN/);
 });
 
-test('the normal-probability confidence band renders as a properly closed, non-self-intersecting fill path (regression: a naive string-token reversal once corrupted the closing path data)', async () => {
+test('the normal-probability renderer plots every supplied source value and draws two valid confidence-envelope boundaries plus a closed fill', async () => {
   const { window } = await load();
-  const svg = window.__TB.renderQuestionChart({ type: 'normal-prob', pattern: 'linear' });
-  const fillPathMatch = svg.match(/<path d="([^"]+)" fill="var\(--card\)"/);
+  const q = set3Question(window, 341);
+  const svg = window.__TB.renderQuestionChart(q.chart);
+  assert.equal((svg.match(/class="tb-chart-target-dot"/g) || []).length, q.chart.points.length, 'one diamond is plotted per ordered observation');
+  assert.match(svg, /data-normal-prob-n="29"/);
+  assert.match(svg, /data-normal-prob-visible="29"/);
+  assert.match(svg, /<clipPath id="tbNormalProbClip29Plot1">/);
+  assert.match(svg, /clip-path="url\(#tbNormalProbClip29Plot1\)"/);
+  assert.equal((svg.match(/class="tb-chart-band"/g) || []).length, 2, 'both pointwise confidence-envelope boundaries are drawn');
+  const fillPathMatch = svg.match(/<path d="([^"]+)" fill="var\(--(?:tint|card)\)"/);
   assert.ok(fillPathMatch, 'band fill path exists');
   const d = fillPathMatch[1];
-  assert.match(d, /^M[\d.]+ [\d.]+/, 'path starts with a valid M command');
+  assert.match(d, /^M-?[\d.]+ -?[\d.]+/, 'path starts with a valid M command');
   assert.match(d, /Z$/, 'path is explicitly closed');
-  // every coordinate pair must be a clean "number space number" -- a corrupted reversal
-  // would leave stray "L" letters glued to the wrong tokens, which this pattern rejects.
   const commands = d.slice(0, -1).trim().split(/(?=[ML])/).filter(Boolean);
-  commands.forEach(cmd => assert.match(cmd.trim(), /^[ML][\d.]+ [\d.]+$/, 'well-formed path command: ' + cmd));
+  commands.forEach(cmd => assert.match(cmd.trim(), /^[ML]-?[\d.]+ -?[\d.]+$/, 'well-formed path command: ' + cmd));
+  assert.doesNotMatch(svg, /NaN|Infinity/);
 });
 
 test('no chart type introduced or touched in this pass produces NaN in its output', async () => {
@@ -795,7 +799,7 @@ test('no chart type introduced or touched in this pass produces NaN in its outpu
   const cases = [
     { type: 'xbar-r', xbar: { ucl: 1, cl: 0, lcl: -1, data: [0.1, 0.2] }, r: { ucl: 1, cl: 0, lcl: -1, data: [0.1, 0.2] } },
     { type: 'boxplot', min: 0, q1: 1, median: 2, mean: 2.1, q3: 3, max: 4, outliers: [5] },
-    { type: 'normal-prob', pattern: 's-curve' },
+    { type: 'normal-prob', values: [0, 0.2, 0.8, 2, 7] },
     { type: 'precision-accuracy', highlight: 'B' },
     { type: 'bias-diagram' },
     { type: 'vsm-symbol' },
@@ -809,18 +813,20 @@ test('no chart type introduced or touched in this pass produces NaN in its outpu
 
 /* ---------- seventh pass: user-supplied source images cross-referenced against the bank ---------- */
 
-test('the FTA symbol questions render the fault tree diagram with the correct AND-gate symbols highlighted', async () => {
+test('the FTA questions each carry the complete neutral fault-tree visual and the correct keys', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const andGate = bank.find(q => q.stem.includes('indicates an AND gate?'));
-  const primaryEvent = bank.find(q => q.stem.includes('indicates the primary event?'));
+  const andGate = set3Question(window, 443);
+  const primaryEvent = set3Question(window, 444);
   assert.ok(andGate && primaryEvent);
-  assert.deepEqual(Array.from(andGate.chart.highlightSet), ['2', '6']);
-  assert.deepEqual(Array.from(primaryEvent.chart.highlightSet), ['1']);
+  assert.equal(andGate.chart.type, 'fta-diagram');
+  assert.equal(primaryEvent.chart.type, 'fta-diagram');
+  assert.equal(andGate.chart.highlightSet, undefined);
+  assert.equal(primaryEvent.chart.highlightSet, undefined);
   assert.equal(andGate.options[andGate.answer], '2 and 6');
+  assert.equal(primaryEvent.options[primaryEvent.answer], '1');
 });
 
-test('chartFtaDiagram renders all 10 numbered symbols with distinct AND-gate, OR-gate, rectangle, circle, and diamond shapes', async () => {
+test('chartFtaDiagram renders the exact ten-node source topology with neutral AND, OR, rectangle, circle, and diamond symbols', async () => {
   const { window } = await load();
   const svg = window.__TB.renderQuestionChart({ type: 'fta-diagram', highlightSet: ['2', '6'] });
   for (let i = 1; i <= 10; i += 1) assert.match(svg, new RegExp('>' + i + '<'));
@@ -828,51 +834,65 @@ test('chartFtaDiagram renders all 10 numbered symbols with distinct AND-gate, OR
   assert.match(svg, /<polygon/, 'the diamond (undeveloped event) uses a polygon');
   assert.match(svg, /<circle/, 'basic events use circles');
   assert.match(svg, /<rect/, 'the top and intermediate events use rectangles');
-  assert.equal((svg.match(/tb-q-chart-quad-hi/g) || []).length, 2, 'exactly the 2 highlighted AND-gate symbols get the highlight class');
+  const edges = Array.from(svg.matchAll(/data-fta-edge="([^"]+)"/g)).map(match => match[1]);
+  assert.deepEqual(edges, ['1-2', '2-3', '2-4', '3-5', '4-6', '5-7', '5-8', '6-9', '6-10']);
+  assert.equal((svg.match(/data-fta-kind="and"/g) || []).length, 2);
+  assert.equal((svg.match(/data-fta-kind="or"/g) || []).length, 1);
+  assert.equal((svg.match(/tb-q-chart-quad-hi/g) || []).length, 0, 'gate answers are not highlighted before selection');
   assert.doesNotMatch(svg, /NaN/);
 });
 
 test('the matrix diagram question renders the diagram consistent with what its own why field states', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const q = bank.find(q2 => q2.stem.includes('Based on the matrix diagram, what can be said about Part B?'));
+  const typeQuestion = set3Question(window, 272);
+  const q = set3Question(window, 273);
   assert.ok(q && q.chart);
+  assert.equal(typeQuestion.options[typeQuestion.answer], 'X-shaped matrix');
+  assert.match(typeQuestion.why, /X-shaped matrix/);
+  assert.deepEqual(typeQuestion.chart, q.chart, 'both independently worded questions carry the same complete diagram');
   const div2Row = q.chart.rowLabels.indexOf('Division 2');
   const cust2Row = q.chart.rowLabels.indexOf('Customer 2');
   const cust1Row = q.chart.rowLabels.indexOf('Customer 1');
-  // Division 2: ships via Shipper 1 only, produces Part B only (not Part A) -- matches the why field.
-  assert.deepEqual(Array.from(q.chart.cells[div2Row]), [true, false, false, true]);
-  // Customer 2 buys a large volume of Part B; Customer 1 does not.
-  assert.equal(q.chart.cells[cust2Row][3], true);
-  assert.equal(q.chart.cells[cust1Row][3], false);
+  assert.deepEqual(Array.from(q.chart.cells[div2Row]), ['large', 'blank', 'blank', 'large']);
+  assert.equal(q.chart.cells[cust2Row][3], 'large', 'Customer 2 buys a large volume of Part B');
+  assert.equal(q.chart.cells[cust1Row][3], 'blank', 'Customer 1 has no Part-B relationship');
+  assert.equal(q.options[q.answer], 'Customer 2 buys a large volume of Part B.');
 });
 
 test('chartMatrixDiagram renders a header row, a legend, and one dot per cell with no NaN', async () => {
   const { window } = await load();
   const svg = window.__TB.renderQuestionChart({
     type: 'matrix-diagram',
-    rowLabels: ['Row A', 'Row B'],
-    colGroups: [{ label: 'Group', cols: ['X', 'Y'] }],
-    cells: [[true, false], [false, true]]
+    rowLabels: ['Division 1', 'Division 2', 'Customer 1', 'Customer 2'],
+    colGroups: [{ label: 'Shipper', cols: ['1', '2'] }, { label: 'Part', cols: ['A', 'B'] }],
+    cells: [['blank', 'large', 'large', 'small'], ['large', 'blank', 'blank', 'large'], ['blank', 'large', 'large', 'blank'], ['large', 'small', 'small', 'large']]
   });
   assert.match(svg, /Large volume/);
   assert.match(svg, /Small volume/);
-  assert.match(svg, />Row A</);
-  assert.match(svg, />Row B</);
+  assert.match(svg, />Division 1</);
+  assert.match(svg, />Customer 2</);
+  assert.equal((svg.match(/data-matrix-state="large"/g) || []).length, 9);
+  assert.equal((svg.match(/data-matrix-state="small"/g) || []).length, 4);
+  assert.equal((svg.match(/data-matrix-state="blank"/g) || []).length, 5);
   assert.doesNotMatch(svg, /NaN/);
 });
 
 test('the interaction-plot question now carries the real three-factor DOE scenario and a 3-panel chart', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const q = bank.find(q2 => q2.stem.includes('two significant interaction effects'));
+  const q = set3Question(window, 450);
+  const followUp = set3Question(window, 451);
   assert.ok(q);
-  assert.match(q.stem, /three-factor full factorial experiment/);
+  assert.match(q.stem, /three-factor, two-level full-factorial experiment/);
   assert.equal(q.chart.type, 'interaction-plot-3');
   assert.equal(q.options[q.answer], 'AB and AC');
+  assert.match(followUp.stem, /Factor A is at its low level \(−1\)/);
+  assert.match(followUp.stem, /Factor C changes from low \(−1, solid circles\) to high \(\+1, dashed squares\)/);
+  assert.equal(followUp.options[followUp.answer], 'The response decreases.');
+  assert.equal(followUp.chart.type, 'interaction-plot-3', 'the randomized follow-up carries its own complete visual');
+  assert.doesNotMatch(followUp.stem, /same|previous|prior/i, 'the follow-up is independently worded');
 });
 
-test('chartInteractionPlot3 renders all 3 panels within its own viewBox with no clipping (regression: an earlier height formula cut the third panel off entirely)', async () => {
+test('chartInteractionPlot3 renders three neutral source panels within its viewBox, with exact endpoints and marker semantics', async () => {
   const { window } = await load();
   const svg = window.__TB.renderQuestionChart({ type: 'interaction-plot-3' });
   const viewBoxMatch = svg.match(/viewBox="0 0 (\d+) ([\d.]+)"/);
@@ -882,14 +902,25 @@ test('chartInteractionPlot3 renders all 3 panels within its own viewBox with no 
     .concat(Array.from(svg.matchAll(/cy="([\d.]+)"/g)).map(m => Number(m[1])));
   const maxY = Math.max.apply(null, allYs);
   assert.ok(maxY <= vbHeight, 'no element sits below the visible viewBox (' + maxY + ' vs height ' + vbHeight + ')');
-  assert.match(svg, /B \* C \(parallel = no interaction\)/, 'third panel title is present, not cut off');
+  ['A × B', 'A × C', 'B × C'].forEach(title => assert.match(svg, new RegExp('data-interaction-panel="' + title + '"')));
+  assert.doesNotMatch(svg, /no interaction|crossing/i, 'panel titles do not reveal the keyed interpretation');
+  const series = Array.from(svg.matchAll(/<polyline data-interaction-series="(low|high)" points="([^"]+)"/g)).map(match => ({ level: match[1], points: match[2] }));
+  assert.equal(series.length, 6, 'two series are drawn in each of three panels');
+  const recovered = series.map(item => item.points.split(/\s+/).map(pair => {
+    const y = Number(pair.split(',')[1]);
+    return Math.round((50 * (1 - (y - 34) / 145)) * 10) / 10;
+  }));
+  assert.deepEqual(recovered, [[24, 19], [45, 29], [45, 16], [24, 32], [23, 37], [20, 36]]);
+  assert.equal((svg.match(/data-interaction-marker="circle"/g) || []).length, 6, 'low levels use solid circles');
+  assert.equal((svg.match(/data-interaction-marker="square"/g) || []).length, 6, 'high levels use dashed-line squares');
+  assert.equal((svg.match(/stroke-dasharray="6 4"/g) || []).length, 3, 'each high-level series is dashed');
   assert.doesNotMatch(svg, /NaN/);
 });
 
 test('chartInteractionPlot3\u2019s polylines use valid comma-separated point syntax, not path "L" commands (regression: <polyline> points do not support path commands)', async () => {
   const { window } = await load();
   const svg = window.__TB.renderQuestionChart({ type: 'interaction-plot-3' });
-  const pointsAttrs = Array.from(svg.matchAll(/<polyline points="([^"]+)"/g)).map(m => m[1]);
+  const pointsAttrs = Array.from(svg.matchAll(/<polyline[^>]*points="([^"]+)"/g)).map(m => m[1]);
   assert.ok(pointsAttrs.length > 0);
   pointsAttrs.forEach(pts => {
     assert.doesNotMatch(pts, /[A-Za-z]/, 'points attribute contains only numbers, commas, spaces, and periods -- no path command letters: ' + pts);
@@ -898,8 +929,7 @@ test('chartInteractionPlot3\u2019s polylines use valid comma-separated point syn
 
 test('the NPS question now renders a clean data table instead of the crammed "Responses Count 9-10 23..." text dump', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const q = bank.find(q2 => q2.stem.includes('using a Likert scale in which 1 maps to not likely at all'));
+  const q = set3Question(window, 203);
   assert.ok(q && q.chart && q.chart.type === 'data-table');
   assert.doesNotMatch(q.stem, /Responses Count 9-10/, 'the raw crammed table is no longer dumped into the stem text');
   assert.equal(q.options[q.answer], '28.9%');
@@ -907,15 +937,14 @@ test('the NPS question now renders a clean data table instead of the crammed "Re
 
 test('the two regression pairs (Time/Strength and warehouse pallets) each carry their own full source data table, not just the first question of the pair', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const corr = bank.find(q => q.stem.includes('sample correlation coefficient'));
-  const slope = bank.find(q => q.stem.includes('estimated slope of the regression line predicting strength'));
-  const whEq = bank.find(q => q.stem.includes('equation of the estimated regression line'));
-  const whR2 = bank.find(q => q.stem.includes('coefficient of determination'));
+  const corr = set3Question(window, 408);
+  const slope = set3Question(window, 409);
+  const whEq = set3Question(window, 411);
+  const whR2 = set3Question(window, 412);
   [corr, slope, whEq, whR2].forEach(q => assert.ok(q && q.chart && q.chart.type === 'data-table', q ? q.stem.slice(0, 40) : 'missing'));
   assert.equal(corr.options[corr.answer], '0.88');
   assert.equal(slope.options[slope.answer], '4.39');
-  assert.equal(whEq.options[whEq.answer], 'y = -5.906 + 0.777x');
+  assert.equal(whEq.options[whEq.answer], 'ŷ = −5.906 + 0.777x');
   assert.equal(whR2.options[whR2.answer], '0.90');
   // both pairs share one table each -- confirm slope's chart actually matches correlation's, not a copy-paste of the wrong dataset.
   assert.deepEqual(Array.from(corr.chart.rows), Array.from(slope.chart.rows));
@@ -933,17 +962,19 @@ test('the ANOVA Factor-B question now shows only the real, partially-blank table
   assert.equal(errorRow[1], '75');
   assert.equal(errorRow[2], '', 'Error df is blank -- the student must derive it, not read it off the table');
   assert.equal(q.options[q.answer], '4.25');
-  assert.match(q.why, /SSB = SSTotal - SSA - SSAB - SSError/, 'the why field now shows the SSB derivation step that was previously missing');
+  assert.match(q.why, /SS\(B\) = SS\(total\) − SS\(A\) − SS\(A×B\) − SS\(error\)/, 'the why field now shows the SS(B) derivation step that was previously missing');
 });
 
 test('the ANOVA "which statements are correct" question shares the same real (partially blank) table as the Factor-B question', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const q = bank.find(q2 => q2.stem.includes('which of the following statements is correct'));
+  const q = set3Question(window, 418);
   assert.ok(q && q.chart);
   const factorBRow = q.chart.rows.find(r => r[0] === 'Factor B');
   assert.deepEqual(Array.from(factorBRow).slice(1), ['', '', '', '']);
-  assert.equal(q.options[q.answer], 'Factors A, B, and the AB interaction are significant at alpha = 0.05.');
+  assert.equal(q.options[q.answer], 'Factors A, B, and the AB interaction are significant.');
+  assert.match(q.stem, /critical F\(2, 15\) = 3\.68/);
+  assert.match(q.stem, /critical F\(4, 15\) = 3\.06/);
+  assert.match(q.stem, /critical F\(8, 15\) = 2\.64/);
 });
 
 test('the tolerance-stack question (Q18) now renders a clean LSL/USL table instead of the crammed "Part A Part B Part C LS L 0.750..." text', async () => {
@@ -957,17 +988,18 @@ test('the tolerance-stack question (Q18) now renders a clean LSL/USL table inste
 
 test('both precedence-table question groups (the D-erratum trio and the second ACF/BDF/EF trio) were upgraded from embedded prose to real table charts, with every sibling carrying its own copy', async () => {
   const { window } = await load();
-  const bank = cssbbBank(window);
-  const erratumCrit = bank.find(q => q.stem.includes('precedence table below') && q.stem.includes('critical path?') && q.options.includes('ACG'));
-  const erratumLate = bank.find(q => q.stem.startsWith('Using the same precedence table') && q.stem.includes('latest day that Activity D can begin'));
+  const erratumCrit = set3Question(window, 561);
+  const erratumLate = set3Question(window, 562);
   assert.ok(erratumCrit && erratumLate);
   assert.equal(erratumCrit.sub, 'def', 'project-management precedence question is classified under Define');
   assert.equal(erratumLate.sub, 'def', 'the paired precedence question keeps the same Define classification');
   assert.deepEqual(Array.from(erratumCrit.chart.rows), Array.from(erratumLate.chart.rows));
+  assert.doesNotMatch(erratumLate.stem, /same|previous|prior/i, 'the randomized companion is standalone');
 
-  const secondCrit = bank.find(q => q.stem.includes('precedence table below') && q.options.includes('EF'));
+  const secondCrit = set3Question(window, 276);
   assert.ok(secondCrit && secondCrit.chart);
   assert.doesNotMatch(secondCrit.stem, /Activity: A \(no predecessor/, 'the old embedded-prose description is gone, replaced by a real chart');
+  [276, 277, 278].forEach(number => assert.match(set3Question(window, number).stem, /precedence table below/, 'Q' + number + ' names its own attached table'));
 });
 
 test('CSSBB Set 3 question count is unchanged by this whole pass (694) -- no question was accidentally duplicated or dropped while rewriting 15 entries', async () => {
