@@ -36,6 +36,7 @@
   let syncPromise = null;
   let syncUserId = '';
   let queuedSyncReason = '';
+  let pendingWriteRevision = 0;
   /* A New-only draw needs a fetch which was explicitly requested by that
      draw, not merely a successful hydration that may be minutes old. The
      counter is intentionally in-memory: it represents this tab's completed
@@ -607,7 +608,10 @@
     const confirmed = state.events.filter(function (event) { return asArray(event.syncedFor).length > 0; })
       .sort(function (left, right) { return left.occurredAt - right.occurredAt || left.id.localeCompare(right.id); });
     const pending = state.events.filter(function (event) { return asArray(event.syncedFor).length === 0; });
-    state.events = confirmed.slice(-Math.max(0, MAX_LOCAL_EVENTS - pending.length)).concat(pending)
+    const confirmedCapacity = Math.max(0, MAX_LOCAL_EVENTS - pending.length);
+    /* Array#slice(-0) is Array#slice(0), which retains every confirmed item.
+       When pending records already consume the full cache, retain none. */
+    state.events = (confirmedCapacity ? confirmed.slice(-confirmedCapacity) : []).concat(pending)
       .sort(function (left, right) { return left.occurredAt - right.occurredAt || left.id.localeCompare(right.id); });
   }
 
@@ -773,11 +777,20 @@
     return session;
   }
 
+  function sessionBelongsToActiveUser(session) {
+    const user = activeUser();
+    /* Anonymous sessions are intentionally local-only until an explicit claim.
+       Signed-in sessions must never be continued by a different account on a
+       shared browser. */
+    return Boolean(session && (!session.ownerId || (user && session.ownerId === user.id)));
+  }
+
   function startSession(input) {
     input = record(input);
     const state = read();
     const sessionId = activeSessionId(input.examId, input.sessionId);
     const existing = record(state.sessions[sessionId]);
+    if (existing.id && !sessionBelongsToActiveUser(existing)) return input.returnResult ? { sessionId: sessionId, saved: false, rejected: true } : null;
     if (existing.status === 'active' || existing.status === 'completed' || existing.status === 'abandoned') {
       const saved = input.returnResult ? persist(state, 'session-start-retry') : lastWriteAheadSaved;
       if (input.returnResult) scheduleSync('session-start-retry');
@@ -790,6 +803,7 @@
       examId: safeId(input.examId, 'unknown'),
       mode: String(input.mode || 'practice'),
       timed: Boolean(input.timed),
+      ownerId: (activeUser() && activeUser().id) || null,
       startedAt: startedAt,
       questionIds: questions.map(function (question) { return questionId(input.examId, question); }),
       answerEvents: {},
@@ -869,6 +883,7 @@
     if (!question || !input.sessionId) return null;
     const state = read();
     const session = sessionFor(state, input);
+    if (!sessionBelongsToActiveUser(session)) return null;
     if (session.status === 'completed' || session.status === 'abandoned') return null;
     const id = questionId(input.examId || session.examId, question);
     const timestamp = Number(input.at || now());
@@ -877,11 +892,11 @@
     let event = existingId && findEvent(state, existingId);
     if (event) {
       const changed = event.payload.selected !== payload.selected || event.payload.status !== payload.status;
-      if (changed && asArray(event.syncedFor).length === 0) {
+      if (changed && asArray(event.syncedFor).length === 0 && asArray(event.uploadingFor).length === 0) {
         event.payload = payload;
         event.occurredAt = timestamp;
       }
-      if (changed && asArray(event.syncedFor).length > 0) {
+      if (changed && (asArray(event.syncedFor).length > 0 || asArray(event.uploadingFor).length > 0)) {
         /* The account ledger is append-only. A changed answer after an earlier
            upload becomes a later answer_recorded revision, so an abandoned
            session still retains the learner's final choice. */
@@ -1066,6 +1081,7 @@
     input = record(input);
     const state = read();
     const session = sessionFor(state, input);
+    if (!sessionBelongsToActiveUser(session)) return null;
     if (session.status === 'completed') {
       /* A caller may retry after a failed localStorage write. The immutable
          completion event is already in the in-memory outbox. Only a confirmed
@@ -1119,6 +1135,7 @@
     if (!input.sessionId) return null;
     const state = read();
     const session = sessionFor(state, input);
+    if (!sessionBelongsToActiveUser(session)) return null;
     if (session.status === 'completed' || session.status === 'abandoned') return null;
     const timestamp = Number(input.at || now());
     nextEvent(state, 'session_abandoned', {
@@ -1369,6 +1386,7 @@
       return syncPromise.catch(function () {}).then(function () { return sync(reason); });
     }
     const userId = user.id;
+    const writeRevisionAtStart = pendingWriteRevision;
     lastUserId = userId;
     syncUserId = userId;
     syncPromise = (async function () {
@@ -1389,6 +1407,7 @@
       for (let index = 0; index < pending.length; index += BATCH_SIZE) {
         if (!activeUser() || activeUser().id !== userId) throw new Error('Account changed while learning records were syncing');
         const batch = pending.slice(index, index + BATCH_SIZE);
+        batch.forEach(function (event) { event.uploadingFor = asArray(event.uploadingFor).concat([userId]); });
         const result = await client.from(TABLE).upsert(dbRows(batch, userId), {
           onConflict: 'user_id,event_id',
           ignoreDuplicates: true
@@ -1397,9 +1416,30 @@
         const ids = new Set(batch.map(function (event) { return event.id; }));
         state.events.forEach(function (event) {
           if (ids.has(event.id) && event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1) event.syncedFor = asArray(event.syncedFor).concat([userId]);
+          if (ids.has(event.id)) event.uploadingFor = asArray(event.uploadingFor).filter(function (id) { return id !== userId; });
         });
         markLegacyMigrationAcknowledged(state, userId);
         persist(state, 'sync-acknowledged');
+      }
+      /* Events written after the first pending snapshot must be uploaded by
+         this same call; callers awaiting sync must not need a second click or
+         navigation to make their answer durable. */
+      if (pendingWriteRevision > writeRevisionAtStart) {
+        const followUpPending = state.events.filter(function (event) {
+          return event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1;
+        });
+        for (let index = 0; index < followUpPending.length; index += BATCH_SIZE) {
+          const batch = followUpPending.slice(index, index + BATCH_SIZE);
+          batch.forEach(function (event) { event.uploadingFor = asArray(event.uploadingFor).concat([userId]); });
+          const result = await client.from(TABLE).upsert(dbRows(batch, userId), { onConflict: 'user_id,event_id', ignoreDuplicates: true });
+          if (result && result.error) throw result.error;
+          const ids = new Set(batch.map(function (event) { return event.id; }));
+          state.events.forEach(function (event) {
+            if (ids.has(event.id) && event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1) event.syncedFor = asArray(event.syncedFor).concat([userId]);
+            if (ids.has(event.id)) event.uploadingFor = asArray(event.uploadingFor).filter(function (id) { return id !== userId; });
+          });
+          persist(state, 'sync-follow-up-acknowledged');
+        }
       }
       if (!activeUser() || activeUser().id !== userId) throw new Error('Account changed before learning history could be refreshed');
       const remoteRows = await fetchRemoteRows(client, userId);
@@ -1615,6 +1655,10 @@
 
   function scheduleSync(reason) {
     if (retryTimer) { clearTimeout(retryTimer); retryTimer = 0; }
+    /* A write can happen after the current upload has snapshotted its pending
+       batch. The active sync compares this revision at completion and queues
+       one follow-up only for writes that truly occurred during that sync. */
+    pendingWriteRevision += 1;
     Promise.resolve().then(function () { return sync(reason); }).catch(function () {
       retryAttempts = Math.min(retryAttempts + 1, 6);
       const delay = Math.min(60000, 1000 * Math.pow(2, retryAttempts));
