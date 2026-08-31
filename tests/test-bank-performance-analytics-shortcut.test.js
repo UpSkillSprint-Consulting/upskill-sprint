@@ -264,6 +264,44 @@ test('repeated re-renders while analytics is open never duplicate the mount', as
   assert.equal(window.document.querySelectorAll('#tb-analytics-entry').length, 1);
 });
 
+test('learning updates refresh Missed-only controls and still allow a quiz to start while analytics is open', async () => {
+  const { window } = await load();
+  await installDurableLearning(window);
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  let missed = window.document.querySelector('[data-missed="quick"]');
+  assert.equal(missed.disabled, true, 'no missed evidence exists yet');
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'analytics starts open');
+
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  window.__TBAdaptiveMastery.recordResults([{
+    question,
+    selected: question.answer === 0 ? 1 : 0,
+    status: 'incorrect'
+  }], 'analytics-open-missed-filter');
+  window.document.dispatchEvent(new window.CustomEvent('tb:learning-updated', { detail: { reason: 'remote-reconciliation' } }));
+  await new Promise(resolve => window.setTimeout(resolve, 0));
+  await settle(window, 4);
+
+  missed = window.document.querySelector('[data-missed="quick"]');
+  assert.equal(missed.disabled, false, 'the practice card refreshes without requiring analytics to be hidden');
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'analytics remains mounted during the targeted card refresh');
+
+  click(window, missed);
+  await settle(window, 3);
+  const start = window.document.querySelector('[data-mode="quick"]');
+  assert.equal(start.disabled, false);
+  click(window, start);
+  await settle(window, 4);
+  assert.ok(window.document.querySelector('#tb-overview .tb-quiz'), 'the missed-question quiz starts while analytics had been open');
+});
+
 test('switching the Set selector while analytics is open restores it for the newly selected set', async () => {
   const { window } = await load();
   seedReturningDiagnostic(window);

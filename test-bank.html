@@ -3184,6 +3184,17 @@
     var status=learning.status();
     return !!(status&&status.signedIn&&status.hydrated===true);
   }
+  /* A signed-in learner must be able to start the freshness check even when
+     the first account-ledger hydration has not finished yet. Disabling the
+     toggle until hydrated became true created a dead control: the click that
+     calls ensureFreshHistory() could never happen. The quiz itself remains
+     fail-closed until that explicit refresh succeeds. */
+  function newOnlyCanRefresh(){
+    var learning=window.__TBLearning;
+    if(!learning||typeof learning.ensureFreshHistory!=='function'||typeof learning.status!=='function')return false;
+    var status=learning.status();
+    return !!(status&&status.signedIn);
+  }
   function newOnlyHydrated(){return newOnlyBaseHydrated()&&!newOnlyFreshGate.active&&!newOnlyFreshGate.error&&!newOnlyReservationGate.active;}
   function newOnlyUnavailableMessage(){
     var learning=window.__TBLearning,status=learning&&typeof learning.status==='function'?learning.status():null;
@@ -3223,7 +3234,7 @@
      but neither control is allowed to sample a question until it resolves. */
   function requireFreshNewOnly(reason,afterFresh){
     var learning=window.__TBLearning;
-    if(!learning||typeof learning.ensureFreshHistory!=='function'||!newOnlyBaseHydrated()){
+    if(!newOnlyCanRefresh()){
       newOnlyFreshGate.active=false;
       newOnlyFreshGate.error=newOnlyFreshFailure({reason:learning&&learning.status&&learning.status().signedIn?'history-not-ready':'not-signed-in'});
       renderMain();
@@ -3464,7 +3475,7 @@
   }
   function modesHTML(e){
     var live=hasBank(e);
-    var newOnlyBaseReady=live&&newOnlyBaseHydrated();
+    var newOnlyAvailable=live&&newOnlyCanRefresh();
     var newOnlyReady=live&&newOnlyHydrated();
     var full='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u25A4</span>'+
       '<div><h4>'+(live?(hasTwoSets(e)?setLabel():(e.setName||'Full Exam'))+' \u2014 Full Exam':'Full Exam')+'</h4><p>'+e.questions+' randomized questions across every available area.</p></div></div>'+
@@ -3495,7 +3506,7 @@
       '<div class="tb-mode-controls stacked" data-unseen-active="'+(!!mode.quickUnseen)+'" data-missed-active="'+(!!mode.quickMissed)+'">'+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Questions</span><div class="tb-fieldrow-value">'+counts('quick',mode.quickN)+'</div></div>'+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Timing</span><div class="tb-fieldrow-value">'+timingControlHTML('quick',mode.quickTimed,false)+'</div></div>'+
-        '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Filters</span><div class="tb-fieldrow-value">'+unseenToggleHTML('quick',mode.quickUnseen,!newOnlyBaseReady&&!mode.quickUnseen)+missedToggleHTML('quick',mode.quickMissed,quickMissedTotal===0&&!mode.quickMissed)+'</div></div>'+
+        '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Filters</span><div class="tb-fieldrow-value">'+unseenToggleHTML('quick',mode.quickUnseen,!newOnlyAvailable&&!mode.quickUnseen)+missedToggleHTML('quick',mode.quickMissed,quickMissedTotal===0&&!mode.quickMissed)+'</div></div>'+
       '</div>'+
       '<div class="tb-mode-foot"><span class="tb-mode-sum">'+quickSum+'</span>'+(live?liveStart('quick','Start quiz',(mode.quickUnseen&&(!newOnlyReady||quickAvail===0))||(mode.quickMissed&&quickMissedAvail===0)):startBtn())+'</div></div>';
 
@@ -3525,7 +3536,7 @@
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Area</span><div class="tb-fieldrow-value"><select class="tb-select" data-focusdom aria-label="Body of Knowledge area">'+opts+'</select></div></div>'+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Questions</span><div class="tb-fieldrow-value">'+counts('focus',mode.focusN)+'</div></div>'+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Timing</span><div class="tb-fieldrow-value">'+timingControlHTML('focus',mode.focusTimed,false)+'</div></div>'+
-        '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Filters</span><div class="tb-fieldrow-value">'+unseenToggleHTML('focus',mode.focusUnseen,!newOnlyBaseReady&&!mode.focusUnseen)+missedToggleHTML('focus',mode.focusMissed,focusMissedTotal===0&&!mode.focusMissed)+'</div></div>'+
+        '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Filters</span><div class="tb-fieldrow-value">'+unseenToggleHTML('focus',mode.focusUnseen,!newOnlyAvailable&&!mode.focusUnseen)+missedToggleHTML('focus',mode.focusMissed,focusMissedTotal===0&&!mode.focusMissed)+'</div></div>'+
       '</div>'+
       '<div class="tb-mode-foot"><span class="tb-mode-sum">'+focusSum+'</span>'+(live?liveStart('focus','Start quiz',(mode.focusUnseen&&(!newOnlyReady||focusAvail===0))||(mode.focusMissed&&focusMissedAvail===0)):startBtn())+'</div></div>';
     return full+quick+focus;
@@ -3551,13 +3562,8 @@
       '<div class="tb-diag-cta"><button type="button" class="btn btn-teal" data-diag>Start the '+n+'-question diagnostic &rarr;</button></div></div>';
   }
 
-  function wireOverview(){
-    var host=document.getElementById('tb-overview');
-    Array.prototype.forEach.call(host.querySelectorAll('[data-set]'),function(b){b.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();selectedSet=b.dataset.set;renderMain();});});
-    var diag=host.querySelector('[data-diag]');if(diag)diag.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();startDiagnostic();});
-    Array.prototype.forEach.call(host.querySelectorAll('[data-diagtimed]'),function(b){b.addEventListener('click',function(){diagTimed=b.dataset.diagtimed==='1';renderMain();});});
-    var prac=host.querySelector('[data-practice]');if(prac)prac.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();startPractice();});
-    var perf=host.querySelector('[data-perf-analytics]');if(perf)perf.addEventListener('click',function(){togglePerfAnalytics();});
+  function wirePracticeModes(host){
+    if(!host)return;
     Array.prototype.forEach.call(host.querySelectorAll('[data-timing-kind]'),function(b){b.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();setTiming(b.dataset.timingKind,b.dataset.timed==='1');renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-timing-group]'),wireTimingKeyboard);
     Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){b.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderMain();});});
@@ -3571,6 +3577,23 @@
     });});
     Array.prototype.forEach.call(host.querySelectorAll('[data-missed]'),function(b){b.addEventListener('click',function(){if(b.disabled)return;if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();if(b.dataset.missed==='quick'){mode.quickMissed=!mode.quickMissed;if(mode.quickMissed)mode.quickUnseen=false;}else{mode.focusMissed=!mode.focusMissed;if(mode.focusMissed)mode.focusUnseen=false;}renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-mode]'),function(b){b.addEventListener('click',function(){var m=b.dataset.mode;if(m==='full')startFull();else if(m==='quick')startQuick();else if(m==='focus')startFocused();});});
+  }
+  function refreshPracticeModes(){
+    if(view!=='browse')return false;
+    var host=document.querySelector('#tb-overview .tb-modes');
+    if(!host)return false;
+    host.innerHTML=modesHTML(EXAMS[current]);
+    wirePracticeModes(host);
+    return true;
+  }
+  function wireOverview(){
+    var host=document.getElementById('tb-overview');
+    Array.prototype.forEach.call(host.querySelectorAll('[data-set]'),function(b){b.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();selectedSet=b.dataset.set;renderMain();});});
+    var diag=host.querySelector('[data-diag]');if(diag)diag.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();startDiagnostic();});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-diagtimed]'),function(b){b.addEventListener('click',function(){diagTimed=b.dataset.diagtimed==='1';renderMain();});});
+    var prac=host.querySelector('[data-practice]');if(prac)prac.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();startPractice();});
+    var perf=host.querySelector('[data-perf-analytics]');if(perf)perf.addEventListener('click',function(){togglePerfAnalytics();});
+    wirePracticeModes(host.querySelector('.tb-modes'));
     /* The "Full analytics" open/close buttons are added dynamically by
        test-bank-analytics-dashboard.js after the mastery dashboard mounts, so they can't be
        wired directly above — delegation catches them whenever they appear. */
@@ -4111,13 +4134,15 @@
       window.setTimeout(function(){if(view==='browse'){
         /* Full analytics owns its live panel and already re-renders from these
            events. Repainting the entire browse view here used to destroy an
-           open radar just after it updated. */
+           open radar just after it updated. Refresh only the practice cards so
+           New-only/Missed-only availability and Start buttons cannot remain
+           stale while analytics or the notebook stays open. */
         var analytics=document.getElementById('tb-analytics-panel');
         var adaptive=document.getElementById('tb-adaptive-panel');
         var adaptiveOpen=adaptive&&!adaptive.hidden&&String(adaptive.textContent||'').trim();
         renderRail();
         if((!analytics||analytics.hidden)&&!adaptiveOpen)renderMain();
-        else renderAnonymousRecoveryPrompt();
+        else{refreshPracticeModes();renderAnonymousRecoveryPrompt();}
       }},0);
     });
   });

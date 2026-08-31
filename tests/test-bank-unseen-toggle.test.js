@@ -157,6 +157,41 @@ test('the toggle is off by default on both Quick Quiz and Focused Quiz, independ
   assert.deepEqual(errors, []);
 });
 
+test('a signed-in learner can use New questions only to start the initial history refresh', async () => {
+  const dom = new JSDOM(html, {
+    url: 'https://upskillsprint.com/test-bank',
+    runScripts: 'dangerously',
+    pretendToBeVisual: true
+  });
+  windows.push(dom.window);
+  await new Promise(resolve => dom.window.addEventListener('load', resolve));
+
+  let hydrated = false;
+  let refreshCalls = 0;
+  dom.window.__TBLearning = {
+    status() { return { signedIn: true, hydrated, online: true }; },
+    hasSeen() { return false; },
+    ensureFreshHistory() {
+      refreshCalls += 1;
+      hydrated = true;
+      return Promise.resolve({ ready: true, reason: 'fresh' });
+    }
+  };
+  dom.window.document.dispatchEvent(new dom.window.CustomEvent('tb:learning-sync-status'));
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
+  await settle(dom.window, 2);
+
+  let toggle = modeCard(dom.window, 1).querySelector('[data-unseen="quick"]');
+  assert.equal(toggle.disabled, false, 'the control can initiate hydration instead of waiting disabled for hydration');
+  click(dom.window, toggle);
+  await settle(dom.window, 4);
+
+  toggle = modeCard(dom.window, 1).querySelector('[data-unseen="quick"]');
+  assert.equal(refreshCalls, 1, 'the click performs the required account-ledger refresh');
+  assert.equal(toggle.getAttribute('aria-pressed'), 'true');
+  assert.equal(toggle.disabled, false);
+});
+
 test('turning on New questions only for Quick Quiz does not affect the Focused Quiz toggle', async () => {
   const { window } = await loadPage();
   click(window, modeCard(window, 1).querySelector('[data-unseen="quick"]'));
