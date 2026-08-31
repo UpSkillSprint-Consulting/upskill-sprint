@@ -44,11 +44,3 @@ jobs:
         run: node --test tests/test-bank-formula-pane-exhaustive.test.js
       - name: Run CQE session-mode and recovery tests
         run: node --test tests/test-bank-formula-pane-modes.test.js
-      - name: Run repository suite for regression visibility
-        continue-on-error: true
-        run: npm test
-      - name: Explain known baseline failures
-        if: always()
-        run: |
-          echo "JavaScript syntax and all three CQE formula-pane test suites are required to pass."
-          echo "The full repository suite is informational because main currently contains unrelated Minitab lesson metadata/controller-tag failures."

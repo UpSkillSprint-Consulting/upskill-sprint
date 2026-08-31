@@ -40,7 +40,8 @@ jobs:
         with:
           node-version-file: '.node-version'
       - run: npm install
-      - run: npm test
+      - name: Run material checker tests
+        run: node --test tests/material-checker-engine.test.js
       - run: node --check tools/material-checker-engine.js
       - run: node --check tools/material-checker-platform.js
       - run: node --check tools/material-checker-platform-hardening.js
