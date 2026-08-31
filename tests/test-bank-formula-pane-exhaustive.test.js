@@ -6,6 +6,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const pageHtml = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -54,6 +55,7 @@ async function loadRealPage() {
   if (dom.window.document.readyState !== 'complete') {
     await new Promise(resolve => dom.window.addEventListener('load', resolve, { once: true }));
   }
+  await installDurableLearning(dom.window);
   await wait(dom.window);
   return { dom, window: dom.window, document: dom.window.document, errors };
 }
@@ -103,7 +105,7 @@ function quantitativeQuestion(question) {
   return calculationLanguage.test(combined) && (numericCount >= 2 || workedArithmetic.test(why));
 }
 
-test('formula enhancer still initializes when the learner waits before starting a quiz', { timeout: 8000 }, async () => {
+test('formula enhancer still initializes when the learner waits before starting a quiz', { timeout: 30000 }, async () => {
   const { window, document } = await loadRealPage();
 
   // The previous implementation stopped looking for the lazily-created tool

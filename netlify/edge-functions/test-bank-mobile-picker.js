@@ -71,7 +71,34 @@ export default async function handler(_request, context) {
     return new Response(html, response);
   }
 
-  const updated = html.replace('</body>', `${MOBILE_PICKER_MARKUP}\n</body>`);
+  /* This is the edge function currently bound to /test-bank in netlify.toml.
+     Keep every test-bank enhancement here so production does not depend on an
+     unbound edge function file. Script tags are idempotent because the page is
+     inspected before injection. */
+  const enhancementSources = [
+    '/test-bank-question-registry.js',
+    '/test-bank-set-controls.js',
+    '/test-bank-feedback-loop.js',
+    '/test-bank-phase1-api.js',
+    '/test-bank-deep-feedback.js',
+    '/test-bank-deep-feedback-grounding.js',
+    '/test-bank-phase2-hardening.js',
+    '/test-bank-phase2-attempt-history.js',
+    '/test-bank-phase2-reporting.js',
+    '/test-bank-phase2-runtime-coordinator.js',
+    '/test-bank-phase2-quality-assurance.js',
+    '/test-bank-account-sync.js',
+    '/test-bank-adaptive-mastery.js',
+    '/test-bank-learning-events.js',
+    '/test-bank-adaptive-mastery-runtime.js',
+    '/test-bank-adaptive-mastery-hardening.js',
+    '/test-bank-analytics-dashboard.js',
+    '/test-bank-adaptive-mastery-completion-guard.js',
+    '/test-bank-phases-integration.js'
+  ];
+  const scripts = enhancementSources.filter((source) => !html.includes(`src="${source}"`))
+    .map((source) => `<script src="${source}" defer></script>`).join('');
+  const updated = html.replace('</body>', `${MOBILE_PICKER_MARKUP}\n${scripts}</body>`);
   const headers = new Headers(response.headers);
   headers.delete('content-length');
   return new Response(updated, {

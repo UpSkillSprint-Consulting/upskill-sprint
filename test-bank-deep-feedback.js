@@ -23,7 +23,7 @@
   let scheduled = false;
   let tracked = null;
   let mode = 'browse';
-  let timesByStem = Object.create(null);
+  let timesByQuestionId = Object.create(null);
   let similarState = null;
   let questionMap = Object.create(null);
 
@@ -31,6 +31,18 @@
     return String(value == null ? '' : value).replace(/[&<>\"]/g, function (character) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[character];
     });
+  }
+
+  /* This module observes the entire results subtree. Assigning the same text
+     is still a mutation, so the summary must not re-trigger its own observer. */
+  function setTextIfChanged(node, value) {
+    const next = String(value == null ? '' : value);
+    if (node && node.textContent !== next) node.textContent = next;
+  }
+
+  function setHtmlIfChanged(node, value) {
+    const next = String(value == null ? '' : value);
+    if (node && node.innerHTML !== next) node.innerHTML = next;
   }
 
   function stripHtml(value) {
@@ -59,12 +71,28 @@
     return exams ? exams[currentExamId()] : null;
   }
 
+  function registry() {
+    return window.__TBQuestionRegistry || null;
+  }
+
+  function questionId(question) {
+    const helper = registry();
+    if (helper && typeof helper.idFor === 'function') return helper.idFor(currentExamId(), question);
+    return question && question.questionId || question && question.qid || question && question.id || hashText(question && question.stem);
+  }
+
   function allQuestions(exam) {
+    const helper = registry();
+    if (helper && exam === currentExam() && typeof helper.questionsFor === 'function') {
+      return helper.questionsFor(currentExamId());
+    }
     const output = [];
     const seen = new Set();
     function add(question) {
-      if (!question || !question.stem || seen.has(question.stem)) return;
-      seen.add(question.stem);
+      if (!question || !question.stem) return;
+      const id = questionId(question);
+      if (seen.has(id)) return;
+      seen.add(id);
       output.push(question);
     }
     if (exam && exam.sets) {
@@ -76,9 +104,14 @@
     return output;
   }
 
-  function findQuestion(stem) {
+  function findQuestion(identity, legacyStem) {
+    const helper = registry();
+    if (helper && typeof helper.find === 'function' && identity) {
+      const found = helper.find(currentExamId(), identity);
+      if (found) return found;
+    }
     return allQuestions(currentExam()).find(function (question) {
-      return question.stem === stem;
+      return questionId(question) === identity || question.stem === legacyStem || question.stem === identity;
     }) || null;
   }
 
@@ -175,17 +208,37 @@
     }
   }
 
-  function saveClassification(stem, value) {
+  function identityFor(value) {
+    if (value && typeof value === 'object') return questionId(value);
+    const question = findQuestion(value, value);
+    if (question) return questionId(question);
+    return String(value || '');
+  }
+
+  function classificationKey(value) {
+    return currentExamId() + ':' + identityFor(value);
+  }
+
+  function legacyClassificationKey(value) {
+    const question = value && typeof value === 'object' ? value : findQuestion(value, value);
+    const stem = question ? question.stem : value;
+    return currentExamId() + ':' + hashText(stem);
+  }
+
+  function saveClassification(questionOrIdentity, value) {
     const data = readClassifications();
-    const key = currentExamId() + ':' + hashText(stem);
+    const key = classificationKey(questionOrIdentity);
+    const legacyKey = legacyClassificationKey(questionOrIdentity);
     if (value) data[key] = value;
     else delete data[key];
+    if (legacyKey !== key) delete data[legacyKey];
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (error) {}
     updateErrorSummary();
   }
 
-  function classificationValue(stem) {
-    return readClassifications()[currentExamId() + ':' + hashText(stem)] || '';
+  function classificationValue(questionOrIdentity) {
+    const data = readClassifications();
+    return data[classificationKey(questionOrIdentity)] || data[legacyClassificationKey(questionOrIdentity)] || '';
   }
 
   function formatDuration(milliseconds) {
@@ -197,15 +250,16 @@
     return minutes + ' min' + (remainder ? ' ' + remainder + ' sec' : '');
   }
 
-  function recordTime(stem, milliseconds) {
-    if (!stem || !Number.isFinite(milliseconds) || milliseconds <= 0) return;
-    timesByStem[stem] = (timesByStem[stem] || 0) + milliseconds;
+  function recordTime(questionOrIdentity, milliseconds) {
+    const id = identityFor(questionOrIdentity);
+    if (!id || !Number.isFinite(milliseconds) || milliseconds <= 0) return;
+    timesByQuestionId[id] = (timesByQuestionId[id] || 0) + milliseconds;
   }
 
   function commitTracked(force) {
     if (!tracked) return;
     const elapsed = Date.now() - tracked.startedAt;
-    if (force || elapsed >= MIN_TRACK_MS) recordTime(tracked.stem, elapsed);
+    if (force || elapsed >= MIN_TRACK_MS) recordTime(tracked.questionId || tracked.stem, elapsed);
     tracked = null;
   }
 
@@ -216,7 +270,9 @@
     const stem = quiz.querySelector('.tb-stem');
     const nav = quiz.querySelector('.tb-navcell.cur');
     if (!stem || !nav) return null;
-    return { stem: stem.textContent.trim(), index: Number(nav.dataset.goto) };
+    const text = stem.textContent.trim();
+    const question = findQuestion(quiz.dataset.questionId || stem.dataset.questionId || text, text);
+    return { stem: text, questionId: question ? questionId(question) : '', index: Number(nav.dataset.goto) };
   }
 
   function trackQuiz() {
@@ -226,13 +282,13 @@
 
     if (current) {
       if (mode !== 'quiz') {
-        timesByStem = Object.create(null);
+        timesByQuestionId = Object.create(null);
         tracked = null;
         mode = 'quiz';
       }
-      if (!tracked || tracked.stem !== current.stem || tracked.index !== current.index) {
+      if (!tracked || tracked.questionId !== current.questionId || tracked.stem !== current.stem || tracked.index !== current.index) {
         commitTracked(false);
-        tracked = { stem: current.stem, index: current.index, startedAt: Date.now() };
+        tracked = { stem: current.stem, questionId: current.questionId, index: current.index, startedAt: Date.now() };
       }
       return;
     }
@@ -286,14 +342,14 @@
 
   function missedControls(question, status) {
     if (status === 'correct') return '';
-    const selected = classificationValue(question.stem);
+    const selected = classificationValue(question);
     return '<div class="tb-error-diagnosis"><label><span>Why did you miss this question?</span>' +
-      '<select data-error-class data-question-key="' + hashText(question.stem) + '">' + classificationOptions(selected) + '</select></label>' +
+      '<select data-error-class data-question-key="' + esc(questionId(question)) + '">' + classificationOptions(selected) + '</select></label>' +
       '<p>Classifying the cause separates knowledge gaps from calculation, reading, and time-management errors.</p></div>';
   }
 
   function actionControls(question) {
-    const key = hashText(question.stem);
+    const key = questionId(question);
     questionMap[key] = question;
     return '<div class="tb-deep-actions"><button type="button" class="tb-ghost" data-practice-similar="' + key + '">Practice 5 similar questions</button>' +
       '<button type="button" class="tb-ghost" data-report-question="' + key + '">Report a question issue</button></div>' +
@@ -307,13 +363,14 @@
     if (card.hasAttribute('data-deep-enhanced')) return;
     const stemNode = card.querySelector('.tb-review-stem');
     if (!stemNode) return;
-    const question = findQuestion(stemNode.textContent.trim());
+    const question = findQuestion(card.dataset.questionId || stemNode.textContent.trim(), stemNode.textContent.trim());
     if (!question) return;
+    if (!card.dataset.questionId) card.dataset.questionId = questionId(question);
     card.setAttribute('data-deep-enhanced', 'true');
     const status = statusFromCard(card);
     const lesson = card.querySelector('.tb-review-lesson');
     const holder = document.createElement('div');
-    holder.innerHTML = deepBlocks(question, card, formatDuration(timesByStem[question.stem] || 0)) + missedControls(question, status) + actionControls(question);
+    holder.innerHTML = deepBlocks(question, card, formatDuration(timesByQuestionId[questionId(question)] || 0)) + missedControls(question, status) + actionControls(question);
     while (holder.firstChild) card.insertBefore(holder.firstChild, lesson || null);
   }
 
@@ -326,19 +383,19 @@
     const counts = {};
     values.forEach(function (value) { counts[value] = (counts[value] || 0) + 1; });
     if (!values.length) {
-      host.textContent = 'Classify missed questions during review to separate concept, calculation, reading, and time-management gaps.';
+      setTextIfChanged(host, 'Classify missed questions during review to separate concept, calculation, reading, and time-management gaps.');
       return;
     }
     const labels = Object.fromEntries(ERROR_CLASSES);
-    host.innerHTML = '<strong>' + values.length + ' mistake' + (values.length === 1 ? '' : 's') + ' classified:</strong> ' + Object.keys(counts).map(function (key) {
+    setHtmlIfChanged(host, '<strong>' + values.length + ' mistake' + (values.length === 1 ? '' : 's') + ' classified:</strong> ' + Object.keys(counts).map(function (key) {
       return esc(labels[key] || key) + ' (' + counts[key] + ')';
-    }).join(' · ');
+    }).join(' · '));
   }
 
   function augmentFeedbackHeader() {
     const feedback = document.getElementById(FEEDBACK_ID);
     if (!feedback || feedback.querySelector('.tb-phase2-intro')) return;
-    const times = Object.keys(timesByStem).map(function (stem) { return timesByStem[stem]; }).filter(function (value) { return value > 0; });
+    const times = Object.keys(timesByQuestionId).map(function (id) { return timesByQuestionId[id]; }).filter(function (value) { return value > 0; });
     const average = times.length ? times.reduce(function (sum, value) { return sum + value; }, 0) / times.length : 0;
     const intro = document.createElement('div');
     intro.className = 'tb-phase2-intro';
@@ -354,7 +411,7 @@
   function similarCandidates(question, count) {
     if (!question) return [];
     const candidates = allQuestions(currentExam()).filter(function (candidate) {
-      return candidate.sub === question.sub && candidate.stem !== question.stem;
+      return candidate.sub === question.sub && questionId(candidate) !== questionId(question);
     });
     for (let index = candidates.length - 1; index > 0; index -= 1) {
       const swap = Math.floor(Math.random() * (index + 1));
@@ -420,6 +477,7 @@
     const panel = ensurePracticePanel();
     if (!panel || !similarState) return;
     panel.hidden = false;
+    panel.dataset.questionId = similarState.index < similarState.items.length ? questionId(similarState.items[similarState.index]) : '';
     const review = document.getElementById('tb-answer-review');
     if (review) review.hidden = true;
     panel.innerHTML = similarState.index >= similarState.items.length ? similarSummaryHtml() : similarQuestionHtml();
@@ -546,7 +604,7 @@
       if (!select) return;
       const card = select.closest('.tb-review-card');
       const stem = card && card.querySelector('.tb-review-stem');
-      if (stem) saveClassification(stem.textContent.trim(), select.value);
+      if (stem) saveClassification(card.dataset.questionId || stem.textContent.trim(), select.value);
     });
     const overview = document.getElementById(OVERVIEW_ID);
     if (overview) new MutationObserver(schedule).observe(overview, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden'] });
@@ -558,8 +616,8 @@
     distractorReason,
     similarCandidates,
     formatDuration,
-    recordTimeForQuestion: function (stem, milliseconds) { recordTime(stem, milliseconds); schedule(); },
-    getTimes: function () { return Object.assign({}, timesByStem); },
+    recordTimeForQuestion: function (questionOrId, milliseconds) { recordTime(questionOrId, milliseconds); schedule(); },
+    getTimes: function () { return Object.assign({}, timesByQuestionId); },
     classificationValue
   };
 

@@ -21,21 +21,37 @@
     if (window.__TBDeepFeedback) window.__TBDeepFeedback.extractKeyPoint = literalKeyPoint;
   }
 
-  function currentExam() {
+  function currentExamId() {
     const active = document.querySelector('.tb-tile.active[data-exam]');
-    const examId = active ? active.dataset.exam : 'cssbb';
-    return window.__TB && window.__TB.EXAMS ? window.__TB.EXAMS[examId] : null;
+    return active ? active.dataset.exam : 'cssbb';
+  }
+
+  function currentExam() {
+    return window.__TB && window.__TB.EXAMS ? window.__TB.EXAMS[currentExamId()] : null;
+  }
+
+  function questionId(question) {
+    const registry = window.__TBQuestionRegistry;
+    if (registry && typeof registry.idFor === 'function') return registry.idFor(currentExamId(), question);
+    return question && question.questionId || question && question.qid || question && question.id || String(question && question.stem || '');
   }
 
   function questionMap() {
     const map = new Map();
     const exam = currentExam();
     function add(question) {
-      if (question && question.stem && !map.has(question.stem)) map.set(question.stem, question);
+      if (!question || !question.stem) return;
+      const id = questionId(question);
+      if (!map.has(id)) map.set(id, question);
+      if (!map.has('legacy:' + question.stem)) map.set('legacy:' + question.stem, question);
     }
     if (exam && exam.sets) Object.keys(exam.sets).forEach(function (key) { (exam.sets[key] || []).forEach(add); });
     if (exam && exam.bank) exam.bank.forEach(add);
     return map;
+  }
+
+  function lookupQuestion(questions, identity, stem) {
+    return questions.get(identity) || questions.get('legacy:' + (stem || identity || '')) || null;
   }
 
   function setTextIfChanged(node, value) {
@@ -47,7 +63,7 @@
       const stem = card.querySelector('.tb-review-stem');
       const point = card.querySelector('.tb-key-point');
       if (!stem || !point) return;
-      const question = questions.get(stem.textContent.trim());
+      const question = lookupQuestion(questions, card.dataset.questionId, stem.textContent.trim());
       if (question) setTextIfChanged(point, literalKeyPoint(question.why));
     });
   }
@@ -57,7 +73,7 @@
     if (!panel) return;
     const stem = panel.querySelector('.tb-review-stem');
     if (!stem) return;
-    const question = questions.get(stem.textContent.trim());
+    const question = lookupQuestion(questions, panel.dataset.questionId, stem.textContent.trim());
     if (!question) return;
 
     panel.querySelectorAll('.tb-deep-label').forEach(function (label) {

@@ -11,6 +11,7 @@
 
   let open = false;
   let activeTab = 'readiness';
+  let scheduled = false;
 
   function esc(value) {
     return String(value == null ? '' : value).replace(/[&<>\"]/g, function (character) {
@@ -27,6 +28,12 @@
     return (output >>> 0).toString(36);
   }
 
+  function registry() { return window.__TBQuestionRegistry || null; }
+  function questionId(question) {
+    const helper = registry();
+    return helper && typeof helper.idFor === 'function' ? helper.idFor(examId(), question) : hash(question && question.stem);
+  }
+
   function examId() {
     const active = document.querySelector('.tb-tile.active[data-exam]');
     return active ? active.dataset.exam : 'cssbb';
@@ -37,12 +44,15 @@
   }
 
   function allQuestions() {
+    const helper = registry();
+    if (helper && typeof helper.questionsFor === 'function') return helper.questionsFor(examId());
     const source = exam();
     const output = [];
     const seen = new Set();
     function add(question) {
-      if (!question || !question.stem || seen.has(question.stem)) return;
-      seen.add(question.stem);
+      const id = questionId(question);
+      if (!question || !question.stem || seen.has(id)) return;
+      seen.add(id);
       output.push(question);
     }
     if (source && source.sets) Object.keys(source.sets).forEach(function (key) { (source.sets[key] || []).forEach(add); });
@@ -65,7 +75,7 @@
   }
 
   function stateFor(question, data) {
-    return (data.questions || {})[hash(question.stem)] || null;
+    return (data.questions || {})[questionId(question)] || (data.questions || {})[hash(question.stem)] || null;
   }
 
   function hardening() {
@@ -98,7 +108,7 @@
     (source && source.bok ? source.bok : []).forEach(function (domain) {
       (domain.subs || []).forEach(function (sub) {
         if (!sub || typeof sub !== 'object') return;
-        output.push({ id: sub.id, name: sub.name || sub.id, weight: sub.w || 0, poolSize: pool[sub.id] || 0 });
+        output.push({ id: sub.id, name: sub.name || sub.id, weight: Number(sub.w || 0), poolSize: pool[sub.id] || 0 });
       });
     });
     return output;
@@ -112,21 +122,27 @@
     const meta = subtopicMeta();
     const totalWeight = meta.reduce(function (sum, item) { return sum + item.weight; }, 0) || 1;
     const groups = {};
-    Object.values(data.questions || {}).forEach(function (state) {
-      if (!state || !state.attempts) return;
-      const sub = state.sub || 'general';
+    allQuestions().forEach(function (question) {
+      const state = stateFor(question, data);
+      const sub = question.sub || 'general';
       groups[sub] = groups[sub] || { attempted: 0, masterySum: 0 };
+      if (!state || !state.attempts) return;
       groups[sub].attempted += 1;
       groups[sub].masterySum += effectiveMastery(state, timestamp);
     });
     return meta.map(function (item) {
       const group = groups[item.id];
       const attempted = group ? group.attempted : 0;
-      const avgMastery = group ? Math.round(group.masterySum / group.attempted) : 0;
+      const avgMastery = group && group.attempted ? Math.round(group.masterySum / group.attempted) : 0;
+      /* `question_exposed` is deliberately broader than an answer because it
+         protects New-only selection. Domain readiness must use answered
+         evidence only; otherwise opening a full test and answering one item
+         could produce 100% coverage for that domain. */
       const coverage = item.poolSize ? Math.round(attempted / item.poolSize * 100) : 0;
       return {
         id: item.id, name: item.name, weight: item.weight, weightPct: Math.round(item.weight / totalWeight * 100),
-        poolSize: item.poolSize, attempted: attempted, avgMastery: avgMastery, coverage: coverage
+        poolSize: item.poolSize, attempted: attempted, avgMastery: avgMastery, coverage: coverage,
+        domainReadiness: Math.round(avgMastery * coverage / 100)
       };
     });
   }
@@ -135,7 +151,7 @@
   // place to study next, not just the lowest raw score.
   function topLeverage(timestamp, limit) {
     return domainStats(timestamp).map(function (item) {
-      const gap = item.attempted ? 100 - item.avgMastery : 100;
+      const gap = 100 - item.domainReadiness;
       return Object.assign({ gap: gap, leverage: item.weight * gap }, item);
     }).sort(function (a, b) { return b.leverage - a.leverage; }).slice(0, limit || 3);
   }
@@ -148,10 +164,31 @@
     return { attemptedMastery: 0, coverage: 0, readiness: 0, attempted: 0, total: total, mastered: 0, due: 0 };
   }
 
+  function learningSummary(summary) {
+    const data = examData(readStore());
+    const learning = window.__TBLearning;
+    const fallback = {
+      uniqueSeen: Number(summary && summary.attempted || 0),
+      answeredEvents: Number(summary && summary.answers || summary && summary.attempted || 0),
+      completedSessions: 0,
+      pending: 0
+    };
+    if (!learning || typeof learning.summary !== 'function') return fallback;
+    const ledger = learning.summary(examId(), data.questions || {});
+    return {
+      uniqueSeen: Math.max(fallback.uniqueSeen, Number(ledger && ledger.uniqueSeen || 0)),
+      answeredEvents: Math.max(fallback.answeredEvents, Number(ledger && ledger.answeredEvents || 0)),
+      completedSessions: Number(ledger && ledger.completedSessions || 0),
+      pending: Number(ledger && ledger.pending || 0)
+    };
+  }
+
   // Last N practice/adaptive/exam sessions, in chronological order.
   function sessionTrend(limit) {
     const data = examData(readStore());
-    return (data.attempts || []).slice(-(limit || TREND_LIMIT)).map(function (entry) {
+    return (data.attempts || []).slice().sort(function (left, right) {
+      return Number(left.at || 0) - Number(right.at || 0) || String(left.id || '').localeCompare(String(right.id || ''));
+    }).slice(-(limit || TREND_LIMIT)).map(function (entry) {
       return {
         at: entry.at, source: entry.source, total: entry.total || 0, correct: entry.correct || 0,
         pct: entry.total ? Math.round(entry.correct / entry.total * 100) : 0,
@@ -167,7 +204,8 @@
     const byDay = {};
     (data.attempts || []).forEach(function (entry) {
       const key = new Date(entry.at).toISOString().slice(0, 10);
-      byDay[key] = (byDay[key] || 0) + (entry.total || 0);
+      const answered = entry.answered == null ? entry.total : entry.answered;
+      byDay[key] = (byDay[key] || 0) + Math.max(0, Number(answered || 0));
     });
     const days = weeks * 7;
     const today = new Date();
@@ -181,35 +219,131 @@
     return output;
   }
 
-  // Only the timed, full-length exam-simulation attempts (source === 'exam-attempt'),
-  // distinct from adaptive-practice or quiz-drill sessions.
+  // Only completed, timed, published-length full-exam simulations belong in
+  // the exam trend. A quick quiz can share the same question bank, but must
+  // never be represented as a full exam just because it used an old source
+  // label.
   function examAttemptSeries() {
     const data = examData(readStore());
-    const passLine = exam() && exam().pass != null ? exam().pass : 70;
-    return (data.attempts || []).filter(function (entry) { return entry.source === 'exam-attempt'; })
+    const source = exam();
+    const passLine = source && source.pass != null ? source.pass : 70;
+    const expectedTotal = Number(source && source.questions || 0);
+    return (data.attempts || []).filter(function (entry) {
+      return entry && entry.mode === 'exam' && entry.timed === true && entry.completed === true &&
+        (!expectedTotal || Number(entry.total) === expectedTotal);
+    })
       .sort(function (a, b) { return a.at - b.at; })
       .map(function (entry) {
         const pct = entry.total ? Math.round(entry.correct / entry.total * 100) : 0;
-        return { at: entry.at, total: entry.total, correct: entry.correct, pct: pct, margin: pct - passLine };
+        return { id: entry.id, at: entry.at, total: entry.total, correct: entry.correct, pct: pct, margin: pct - passLine };
       });
   }
 
-  // Per-domain score for the single most recent exam attempt only, reconstructed
-  // by matching each question's stored history entry to that attempt's timestamp
-  // (recordResults stamps every question answered in one session with the same
-  // "at" value, so this recovers the per-question breakdown of that one exam).
+  // Per-domain score for the single most recent completed timed full exam. The
+  // immutable session ID prevents timestamp collisions between rapid attempts.
+  function fullExamCompletion(sessionId) {
+    const learning = window.__TBLearning;
+    if (!learning || typeof learning.eventsForExam !== 'function') return null;
+    const expectedTotal = Number(exam() && exam().questions || 0);
+    const events = learning.eventsForExam(examId()) || [];
+    return events.filter(function (event) {
+      const payload = event && event.payload || {};
+      const total = Number(payload.total || (Array.isArray(payload.answers) ? payload.answers.length : 0));
+      return event && event.type === 'session_completed' && String(event.sessionId || '') === String(sessionId || '') &&
+        payload.mode === 'exam' && payload.timed === true && (!expectedTotal || total === expectedTotal);
+    }).sort(function (left, right) {
+      return Number(left.occurredAt || 0) - Number(right.occurredAt || 0) || String(left.id || '').localeCompare(String(right.id || ''));
+    }).pop() || null;
+  }
+
+  function completionDomainBreakdown(completion, meta) {
+    if (!completion || !Array.isArray(completion.payload && completion.payload.answers)) return [];
+    const events = window.__TBLearning && typeof window.__TBLearning.eventsForExam === 'function'
+      ? window.__TBLearning.eventsForExam(examId()) || []
+      : [];
+    const answerEvents = {};
+    events.forEach(function (event) {
+      if (!event || event.type !== 'answer_recorded' || String(event.sessionId || '') !== String(completion.sessionId || '')) return;
+      const id = String(event.questionId || '');
+      if (!id) return;
+      const previous = answerEvents[id];
+      if (!previous || Number(previous.occurredAt || 0) < Number(event.occurredAt || 0) ||
+        (Number(previous.occurredAt || 0) === Number(event.occurredAt || 0) && String(previous.id || '') < String(event.id || ''))) answerEvents[id] = event;
+    });
+
+    const totals = {};
+    const seen = {};
+    (completion.payload.answers || []).forEach(function (answer) {
+      const id = String(answer && answer.questionId || '');
+      if (!id) return;
+      /* A completion payload is definitive.  If a malformed legacy payload
+         repeats an ID, retain its last value without inflating the denominator. */
+      const answerEvent = answerEvents[id];
+      const payload = answerEvent && answerEvent.payload || {};
+      const snapshot = payload.snapshot || {};
+      const current = registry() && typeof registry().find === 'function' ? registry().find(examId(), id) : null;
+      const sub = String(answer && answer.sub || payload.sub || snapshot.sub || current && current.sub || 'general');
+      const prior = seen[id];
+      if (prior) {
+        prior.total -= 1;
+        if (prior.correct) prior.correct -= 1;
+      }
+      totals[sub] = totals[sub] || { total: 0, correct: 0 };
+      const correct = answer.status === 'correct';
+      totals[sub].total += 1;
+      if (correct) totals[sub].correct += 1;
+      seen[id] = { total: totals[sub], correct: correct };
+    });
+    return meta.filter(function (item) { return totals[item.id] && totals[item.id].total > 0; }).map(function (item) {
+      const total = totals[item.id];
+      return { id: item.id, name: item.name, total: total.total, correct: total.correct, pct: Math.round(total.correct / total.total * 100) };
+    });
+  }
+
+  function persistedAttemptDomainBreakdown(attempt, meta) {
+    const totals = {};
+    (attempt && Array.isArray(attempt.domainBreakdown) ? attempt.domainBreakdown : []).forEach(function (entry) {
+      const id = String(entry && (entry.id || entry.sub) || '');
+      const total = Math.max(0, Math.floor(Number(entry && entry.total) || 0));
+      const correct = Math.max(0, Math.min(total, Math.floor(Number(entry && entry.correct) || 0)));
+      if (!id || !total) return;
+      totals[id] = { total: total, correct: correct };
+    });
+    return meta.filter(function (item) { return totals[item.id]; }).map(function (item) {
+      const total = totals[item.id];
+      return { id: item.id, name: item.name, total: total.total, correct: total.correct, pct: Math.round(total.correct / total.total * 100) };
+    });
+  }
+
   function latestExamDomainBreakdown() {
     const series = examAttemptSeries();
     if (!series.length) return [];
-    const lastAt = series[series.length - 1].at;
+    const last = series[series.length - 1];
     const data = examData(readStore());
     const meta = subtopicMeta();
+    /* Full-exam domain scoring must use the canonical completion answer list.
+       Mastery history can omit unanswered records (or be compacted/rebuilt)
+       and would turn 1 correct plus 1 blank into a misleading 100%. */
+    const completion = fullExamCompletion(last.id);
+    const immutable = completionDomainBreakdown(completion, meta);
+    if (immutable.length) return immutable;
+
+    /* Local event compaction intentionally bounds the ledger cache. The
+       derived full-exam attempt keeps this same immutable breakdown, so it
+       remains accurate after its answer/completion events have been trimmed. */
+    const attempt = (data.attempts || []).find(function (entry) { return entry && String(entry.id || '') === String(last.id || ''); });
+    const persisted = persistedAttemptDomainBreakdown(attempt, meta);
+    if (persisted.length) return persisted;
+
+    /* Pre-ledger browser history has no immutable completion payload. Retain
+       this compatibility fallback for old attempts, but never prefer it over
+       a durable session_completed answer list. */
     const totals = {};
     Object.values(data.questions || {}).forEach(function (state) {
       if (!state) return;
       (state.history || []).forEach(function (entry) {
-        if (entry.source !== 'exam-attempt' || entry.at !== lastAt) return;
-        const sub = state.sub || 'general';
+        if (entry.source !== 'exam-attempt' || entry.attemptId !== last.id) return;
+        const sub = entry.snapshot && entry.snapshot.sub || state.sub || 'general';
         totals[sub] = totals[sub] || { total: 0, correct: 0 };
         totals[sub].total += 1;
         if (entry.status === 'correct') totals[sub].correct += 1;
@@ -267,39 +401,43 @@
     function ring(fraction) {
       return items.map(function (item, index) { const pt = point(index, fraction); return pt[0].toFixed(1) + ',' + pt[1].toFixed(1); }).join(' ');
     }
-    const maxWeightPct = Math.max.apply(null, items.map(function (x) { return x.weightPct; }).concat([1]));
-    const weightPoly = items.map(function (item, index) { const pt = point(index, item.weightPct / maxWeightPct); return pt[0].toFixed(1) + ',' + pt[1].toFixed(1); }).join(' ');
-    const masteryPoly = items.map(function (item, index) { const pt = point(index, item.avgMastery / 100); return pt[0].toFixed(1) + ',' + pt[1].toFixed(1); }).join(' ');
+    /* Both polygons are percentages on the same 0–100 scale. The old chart
+       normalized blueprint weight to its largest domain, which made a 12%
+       exam weight look as large as 30% and visually overstated weak areas. */
+    const weightPoly = items.map(function (item, index) { const pt = point(index, item.weightPct / 100); return pt[0].toFixed(1) + ',' + pt[1].toFixed(1); }).join(' ');
+    const readinessPoly = items.map(function (item, index) { const pt = point(index, item.domainReadiness / 100); return pt[0].toFixed(1) + ',' + pt[1].toFixed(1); }).join(' ');
     const labels = items.map(function (item, index) {
       const pt = point(index, 1.18);
       const fullName = esc(item.name);
-      return '<g class="tb-an-radar-axis" tabindex="0" role="img" aria-label="' + fullName + '" data-radar-name="' + fullName + '">' +
+      const detail = fullName + ' — ' + item.domainReadiness + '% readiness, ' + item.weightPct + '% of exam';
+      return '<g class="tb-an-radar-axis" tabindex="0" role="img" aria-label="' + detail + '" data-radar-name="' + fullName + '">' +
         '<circle cx="' + pt[0].toFixed(1) + '" cy="' + pt[1].toFixed(1) + '" r="13" class="tb-an-radar-hit"></circle>' +
         '<text x="' + pt[0].toFixed(1) + '" y="' + pt[1].toFixed(1) + '" font-size="8" fill="var(--muted)" text-anchor="middle">' + esc(item.id.toUpperCase()) + '</text>' +
         '<title>' + fullName + '</title>' +
       '</g>';
     }).join('');
-    return '<svg viewBox="0 0 ' + size + ' ' + size + '" class="tb-an-radar" role="img" aria-label="Mastery compared with exam blueprint weight, by domain">' +
+    return '<svg viewBox="0 0 ' + size + ' ' + size + '" class="tb-an-radar" role="img" aria-label="Coverage-adjusted readiness and exam blueprint weight, by domain">' +
       '<polygon points="' + ring(1) + '" class="tb-an-radar-grid"></polygon>' +
       '<polygon points="' + ring(0.66) + '" class="tb-an-radar-grid"></polygon>' +
       '<polygon points="' + ring(0.33) + '" class="tb-an-radar-grid"></polygon>' +
       '<polygon points="' + weightPoly + '" class="tb-an-radar-weight"></polygon>' +
-      '<polygon points="' + masteryPoly + '" class="tb-an-radar-mastery"></polygon>' +
+      '<polygon points="' + readinessPoly + '" class="tb-an-radar-mastery"></polygon>' +
       labels + '</svg>';
   }
 
   function readinessTab(timestamp) {
     const summary = readinessSummary(timestamp);
+    const ledger = learningSummary(summary);
     const domains = domainStats(timestamp);
     const leverage = topLeverage(timestamp, 3);
     const domainSection = domains.length ?
       '<div class="tb-an-two">' +
-        '<div><div class="tb-an-label">Mastery vs. exam blueprint weight</div>' + radarSvg(domains) +
+        '<div><div class="tb-an-label">Readiness vs. exam blueprint weight</div>' + radarSvg(domains) +
           '<p class="tb-an-radar-caption" data-radar-caption data-default="Hover, tap, or tab to a domain on the chart for its full name">Hover, tap, or tab to a domain on the chart for its full name</p>' +
-          '<div class="tb-an-legend"><span><i class="tb-an-swatch weight"></i>Exam weight</span><span><i class="tb-an-swatch mastery"></i>Your mastery</span></div></div>' +
-        '<div><div class="tb-an-label">Highest-leverage fixes</div><p class="tb-an-desc">Ranked by exam weight &times; mastery gap — where an hour of study moves your score the most.</p>' +
+          '<div class="tb-an-legend"><span><i class="tb-an-swatch weight"></i>Blueprint weight</span><span><i class="tb-an-swatch mastery"></i>Your readiness</span></div></div>' +
+        '<div><div class="tb-an-label">Highest-leverage fixes</div><p class="tb-an-desc">Ranked by blueprint weight &times; readiness gap — where an hour of study moves your score the most.</p>' +
           '<ul class="tb-an-leverage">' + (leverage.length ? leverage.map(function (item, index) {
-            return '<li><span class="tb-an-rank">' + (index + 1) + '</span><span class="tb-an-lev-name">' + esc(item.name) + '</span><span class="tb-pill ' + tone(item.avgMastery) + '">' + (item.attempted ? item.avgMastery + '% mastery' : 'not attempted') + '</span></li>';
+            return '<li><span class="tb-an-rank">' + (index + 1) + '</span><span class="tb-an-lev-name">' + esc(item.name) + '</span><span class="tb-pill ' + tone(item.domainReadiness) + '">' + (item.attempted ? item.domainReadiness + '% readiness' : 'not attempted') + '</span></li>';
           }).join('') : '<li class="tb-an-empty">Complete some questions to see ranked priorities.</li>') + '</ul></div>' +
       '</div>' :
       '<p class="tb-an-empty">Domain-level detail is not available for this exam yet.</p>';
@@ -307,10 +445,11 @@
       '<div class="tb-an-ring" style="--p:' + summary.readiness + '"><strong>' + summary.readiness + '%</strong><span>readiness</span></div>' +
       '<div class="tb-an-stat-row">' +
         '<div class="tb-an-stat"><b>' + summary.attemptedMastery + '%</b><span>mastery on attempted</span></div>' +
-        '<div class="tb-an-stat"><b>' + summary.coverage + '%</b><span>pool coverage</span></div>' +
-        '<div class="tb-an-stat"><b>' + summary.attempted + '/' + summary.total + '</b><span>questions seen</span></div>' +
+        '<div class="tb-an-stat"><b>' + summary.coverage + '%</b><span>answered-pool coverage</span></div>' +
+        '<div class="tb-an-stat"><b>' + ledger.answeredEvents + '</b><span>total answers</span></div>' +
+        '<div class="tb-an-stat"><b>' + ledger.uniqueSeen + '/' + summary.total + '</b><span>unique questions delivered</span></div>' +
       '</div></div>' +
-      '<p class="tb-an-desc">Readiness blends how well you do on questions you have attempted with how much of the full pool you have covered — a high score on 20 questions reads lower than the same score on 500.</p>' +
+      '<p class="tb-an-desc">Readiness is blueprint-weighted: each subtopic contributes its official exam weight × your effective mastery × the share of that subtopic you have answered. Delivered questions are shown separately and never raise readiness on their own, so a high score on 20 questions reads lower than the same score on 500.' + (ledger.pending ? ' ' + ledger.pending + ' record' + (ledger.pending === 1 ? ' is' : 's are') + ' waiting to sync.' : '') + '</p>' +
       domainSection;
   }
 
@@ -325,10 +464,10 @@
         return '<div class="tb-an-domain-row">' +
           '<div class="tb-an-domain-head"><span>' + esc(item.name) + ' <i>(' + item.weightPct + '% of exam)</i></span><b class="tb-pill ' + tone(item.avgMastery) + '">' + item.avgMastery + '%</b></div>' +
           '<div class="tb-an-bar-track"><div class="tb-an-bar-fill ' + tone(item.avgMastery) + '" style="width:' + item.avgMastery + '%"></div></div>' +
-          '<div class="tb-an-domain-sub"><span>Coverage ' + item.coverage + '%</span><span>' + item.attempted + ' / ' + item.poolSize + ' questions attempted</span></div>' +
+          '<div class="tb-an-domain-sub"><span>Answered coverage ' + item.coverage + '%</span><span>' + item.attempted + ' / ' + item.poolSize + ' questions attempted</span></div>' +
         '</div>';
       }).join('') + '</div>' +
-      '<div class="tb-an-stat-row"><div class="tb-an-stat"><b>' + totalAttempted + '</b><span>questions attempted, all domains</span></div><div class="tb-an-stat"><b>' + totalPool + '</b><span>questions in the full pool</span></div><div class="tb-an-stat"><b>' + (totalPool ? Math.round(totalAttempted / totalPool * 100) : 0) + '%</b><span>overall pool coverage</span></div></div>';
+      '<div class="tb-an-stat-row"><div class="tb-an-stat"><b>' + totalAttempted + '</b><span>questions attempted, all domains</span></div><div class="tb-an-stat"><b>' + totalPool + '</b><span>questions in the full pool</span></div><div class="tb-an-stat"><b>' + (totalPool ? Math.round(totalAttempted / totalPool * 100) : 0) + '%</b><span>overall answered-pool coverage</span></div></div>';
   }
 
   function trendTab() {
@@ -571,7 +710,10 @@
   }
 
   function schedule() {
+    if (scheduled) return;
+    scheduled = true;
     requestAnimationFrame(function () {
+      scheduled = false;
       ensureButton();
       const panel = document.getElementById('tb-analytics-panel');
       const masteryOwnedPanel = document.getElementById('tb-adaptive-panel');
@@ -593,7 +735,27 @@
     const overview = document.getElementById(OVERVIEW_ID);
     if (!overview) return;
     document.addEventListener('click', handleClick);
-    new MutationObserver(schedule).observe(overview, { childList: true, subtree: true });
+    /* Mutation observation alone misses a synced ledger update when the
+       dashboard DOM itself has not changed. These events make readiness,
+       counts, and the radar refresh immediately after a local save or a
+       phone/laptop reconciliation. */
+    ['tb:learning-updated', 'tb:learning-recorded', 'upskill-test-learning-synced', 'upskill-test-progress-synced', 'tb:exam-changed'].forEach(function (name) {
+      document.addEventListener(name, schedule);
+    });
+    window.addEventListener('storage', function (event) {
+      if (event.key === STORE_KEY || event.key === 'tb-learning-events-v2') schedule();
+    });
+    new MutationObserver(function (mutations) {
+      /* Rendering the panel changes its own children. Observing those changes
+         and then rendering again caused a permanent requestAnimationFrame
+         loop, which continually replaced the radar and made it appear stale
+         or untappable. Only outside changes should trigger a refresh. */
+      const panel = document.getElementById('tb-analytics-panel');
+      const external = mutations.some(function (mutation) {
+        return !(panel && (mutation.target === panel || panel.contains(mutation.target)));
+      });
+      if (external) schedule();
+    }).observe(overview, { childList: true, subtree: true });
     schedule();
   }
 
@@ -601,6 +763,7 @@
     domainStats: domainStats,
     topLeverage: topLeverage,
     readinessSummary: readinessSummary,
+    learningSummary: learningSummary,
     sessionTrend: sessionTrend,
     studyHeatmap: studyHeatmap,
     examAttemptSeries: examAttemptSeries,

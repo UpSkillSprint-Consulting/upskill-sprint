@@ -16,7 +16,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 1,
     "sourcePdfPage": 27,
-    "sourceGlobalQuestion": 1
+    "sourceGlobalQuestion": 1,
+    "qid": "cssgb:set-1:source-1:1suak2w"
   },
   {
     "sub": "cssgb-org",
@@ -33,7 +34,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 2,
     "sourcePdfPage": 27,
-    "sourceGlobalQuestion": 2
+    "sourceGlobalQuestion": 2,
+    "qid": "cssgb:set-1:source-2:1suak2w"
   },
   {
     "sub": "cssgb-org",
@@ -50,7 +52,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 3,
     "sourcePdfPage": 27,
-    "sourceGlobalQuestion": 3
+    "sourceGlobalQuestion": 3,
+    "qid": "cssgb:set-1:source-3:1suak2w"
   },
   {
     "sub": "cssgb-org",
@@ -67,7 +70,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 4,
     "sourcePdfPage": 27,
-    "sourceGlobalQuestion": 4
+    "sourceGlobalQuestion": 4,
+    "qid": "cssgb:set-1:source-4:1suak2w"
   },
   {
     "sub": "cssgb-org",
@@ -84,7 +88,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 5,
     "sourcePdfPage": 27,
-    "sourceGlobalQuestion": 5
+    "sourceGlobalQuestion": 5,
+    "qid": "cssgb:set-1:source-5:1suak2w"
   },
   {
     "sub": "cssgb-org",
@@ -101,7 +106,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 6,
     "sourcePdfPage": 27,
-    "sourceGlobalQuestion": 6
+    "sourceGlobalQuestion": 6,
+    "qid": "cssgb:set-1:source-6:1suak2w"
   },
   {
     "sub": "cssgb-org",
@@ -118,7 +124,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 7,
     "sourcePdfPage": 27,
-    "sourceGlobalQuestion": 7
+    "sourceGlobalQuestion": 7,
+    "qid": "cssgb:set-1:source-7:1suak2w"
   },
   {
     "sub": "cssgb-org",
@@ -135,7 +142,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 8,
     "sourcePdfPage": 28,
-    "sourceGlobalQuestion": 8
+    "sourceGlobalQuestion": 8,
+    "qid": "cssgb:set-1:source-8:1suak2w"
   },
   {
     "sub": "cssgb-org",
@@ -152,7 +160,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 9,
     "sourcePdfPage": 28,
-    "sourceGlobalQuestion": 9
+    "sourceGlobalQuestion": 9,
+    "qid": "cssgb:set-1:source-9:1suak2w"
   },
   {
     "sub": "cssgb-org",
@@ -169,7 +178,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 10,
     "sourcePdfPage": 28,
-    "sourceGlobalQuestion": 10
+    "sourceGlobalQuestion": 10,
+    "qid": "cssgb:set-1:source-10:1suak2w"
   },
   {
     "sub": "cssgb-org",
@@ -186,7 +196,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 11,
     "sourcePdfPage": 28,
-    "sourceGlobalQuestion": 11
+    "sourceGlobalQuestion": 11,
+    "qid": "cssgb:set-1:source-11:1suak2w"
   },
   {
     "sub": "cssgb-org",
@@ -203,7 +214,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 12,
     "sourcePdfPage": 28,
-    "sourceGlobalQuestion": 12
+    "sourceGlobalQuestion": 12,
+    "qid": "cssgb:set-1:source-12:1suak2w"
   },
   {
     "sub": "cssgb-org",
@@ -220,7 +232,8 @@
     "sourceSection": "Overview: Six Sigma and the Organization",
     "sourceQuestion": 13,
     "sourcePdfPage": 28,
-    "sourceGlobalQuestion": 13
+    "sourceGlobalQuestion": 13,
+    "qid": "cssgb:set-1:source-13:1suak2w"
   },
   {
     "sub": "cssgb-define",
@@ -237,7 +250,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 1,
     "sourcePdfPage": 44,
-    "sourceGlobalQuestion": 14
+    "sourceGlobalQuestion": 14,
+    "qid": "cssgb:set-1:source-14:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -254,7 +268,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 2,
     "sourcePdfPage": 44,
-    "sourceGlobalQuestion": 15
+    "sourceGlobalQuestion": 15,
+    "qid": "cssgb:set-1:source-15:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -271,7 +286,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 3,
     "sourcePdfPage": 44,
-    "sourceGlobalQuestion": 16
+    "sourceGlobalQuestion": 16,
+    "qid": "cssgb:set-1:source-16:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -288,7 +304,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 4,
     "sourcePdfPage": 44,
-    "sourceGlobalQuestion": 17
+    "sourceGlobalQuestion": 17,
+    "qid": "cssgb:set-1:source-17:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -305,7 +322,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 5,
     "sourcePdfPage": 44,
-    "sourceGlobalQuestion": 18
+    "sourceGlobalQuestion": 18,
+    "qid": "cssgb:set-1:source-18:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -322,7 +340,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 6,
     "sourcePdfPage": 44,
-    "sourceGlobalQuestion": 19
+    "sourceGlobalQuestion": 19,
+    "qid": "cssgb:set-1:source-19:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -339,7 +358,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 7,
     "sourcePdfPage": 44,
-    "sourceGlobalQuestion": 20
+    "sourceGlobalQuestion": 20,
+    "qid": "cssgb:set-1:source-20:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -356,7 +376,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 8,
     "sourcePdfPage": 45,
-    "sourceGlobalQuestion": 21
+    "sourceGlobalQuestion": 21,
+    "qid": "cssgb:set-1:source-21:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -373,7 +394,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 9,
     "sourcePdfPage": 45,
-    "sourceGlobalQuestion": 22
+    "sourceGlobalQuestion": 22,
+    "qid": "cssgb:set-1:source-22:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -390,7 +412,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 10,
     "sourcePdfPage": 45,
-    "sourceGlobalQuestion": 23
+    "sourceGlobalQuestion": 23,
+    "qid": "cssgb:set-1:source-23:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -407,7 +430,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 11,
     "sourcePdfPage": 45,
-    "sourceGlobalQuestion": 24
+    "sourceGlobalQuestion": 24,
+    "qid": "cssgb:set-1:source-24:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -424,7 +448,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 12,
     "sourcePdfPage": 45,
-    "sourceGlobalQuestion": 25
+    "sourceGlobalQuestion": 25,
+    "qid": "cssgb:set-1:source-25:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -441,7 +466,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 13,
     "sourcePdfPage": 45,
-    "sourceGlobalQuestion": 26
+    "sourceGlobalQuestion": 26,
+    "qid": "cssgb:set-1:source-26:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -458,7 +484,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 14,
     "sourcePdfPage": 45,
-    "sourceGlobalQuestion": 27
+    "sourceGlobalQuestion": 27,
+    "qid": "cssgb:set-1:source-27:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -475,7 +502,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 15,
     "sourcePdfPage": 46,
-    "sourceGlobalQuestion": 28
+    "sourceGlobalQuestion": 28,
+    "qid": "cssgb:set-1:source-28:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -492,7 +520,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 16,
     "sourcePdfPage": 46,
-    "sourceGlobalQuestion": 29
+    "sourceGlobalQuestion": 29,
+    "qid": "cssgb:set-1:source-29:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -509,7 +538,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 17,
     "sourcePdfPage": 46,
-    "sourceGlobalQuestion": 30
+    "sourceGlobalQuestion": 30,
+    "qid": "cssgb:set-1:source-30:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -526,7 +556,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 18,
     "sourcePdfPage": 46,
-    "sourceGlobalQuestion": 31
+    "sourceGlobalQuestion": 31,
+    "qid": "cssgb:set-1:source-31:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -543,7 +574,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 19,
     "sourcePdfPage": 46,
-    "sourceGlobalQuestion": 32
+    "sourceGlobalQuestion": 32,
+    "qid": "cssgb:set-1:source-32:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -560,7 +592,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 20,
     "sourcePdfPage": 46,
-    "sourceGlobalQuestion": 33
+    "sourceGlobalQuestion": 33,
+    "qid": "cssgb:set-1:source-33:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -577,7 +610,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 21,
     "sourcePdfPage": 46,
-    "sourceGlobalQuestion": 34
+    "sourceGlobalQuestion": 34,
+    "qid": "cssgb:set-1:source-34:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -594,7 +628,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 22,
     "sourcePdfPage": 47,
-    "sourceGlobalQuestion": 35
+    "sourceGlobalQuestion": 35,
+    "qid": "cssgb:set-1:source-35:zxz2al"
   },
   {
     "sub": "cssgb-define",
@@ -611,7 +646,8 @@
     "sourceSection": "Define Phase",
     "sourceQuestion": 23,
     "sourcePdfPage": 47,
-    "sourceGlobalQuestion": 36
+    "sourceGlobalQuestion": 36,
+    "qid": "cssgb:set-1:source-36:zxz2al"
   },
   {
     "sub": "cssgb-measure",
@@ -628,7 +664,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 1,
     "sourcePdfPage": 70,
-    "sourceGlobalQuestion": 37
+    "sourceGlobalQuestion": 37,
+    "qid": "cssgb:set-1:source-37:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -645,7 +682,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 2,
     "sourcePdfPage": 70,
-    "sourceGlobalQuestion": 38
+    "sourceGlobalQuestion": 38,
+    "qid": "cssgb:set-1:source-38:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -662,7 +700,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 3,
     "sourcePdfPage": 70,
-    "sourceGlobalQuestion": 39
+    "sourceGlobalQuestion": 39,
+    "qid": "cssgb:set-1:source-39:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -679,7 +718,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 4,
     "sourcePdfPage": 70,
-    "sourceGlobalQuestion": 40
+    "sourceGlobalQuestion": 40,
+    "qid": "cssgb:set-1:source-40:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -696,7 +736,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 5,
     "sourcePdfPage": 70,
-    "sourceGlobalQuestion": 41
+    "sourceGlobalQuestion": 41,
+    "qid": "cssgb:set-1:source-41:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -713,7 +754,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 6,
     "sourcePdfPage": 70,
-    "sourceGlobalQuestion": 42
+    "sourceGlobalQuestion": 42,
+    "qid": "cssgb:set-1:source-42:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -730,7 +772,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 7,
     "sourcePdfPage": 71,
-    "sourceGlobalQuestion": 43
+    "sourceGlobalQuestion": 43,
+    "qid": "cssgb:set-1:source-43:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -747,7 +790,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 8,
     "sourcePdfPage": 71,
-    "sourceGlobalQuestion": 44
+    "sourceGlobalQuestion": 44,
+    "qid": "cssgb:set-1:source-44:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -764,7 +808,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 9,
     "sourcePdfPage": 71,
-    "sourceGlobalQuestion": 45
+    "sourceGlobalQuestion": 45,
+    "qid": "cssgb:set-1:source-45:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -781,7 +826,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 10,
     "sourcePdfPage": 71,
-    "sourceGlobalQuestion": 46
+    "sourceGlobalQuestion": 46,
+    "qid": "cssgb:set-1:source-46:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -798,7 +844,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 11,
     "sourcePdfPage": 71,
-    "sourceGlobalQuestion": 47
+    "sourceGlobalQuestion": 47,
+    "qid": "cssgb:set-1:source-47:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -815,7 +862,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 12,
     "sourcePdfPage": 72,
-    "sourceGlobalQuestion": 48
+    "sourceGlobalQuestion": 48,
+    "qid": "cssgb:set-1:source-48:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -832,7 +880,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 13,
     "sourcePdfPage": 72,
-    "sourceGlobalQuestion": 49
+    "sourceGlobalQuestion": 49,
+    "qid": "cssgb:set-1:source-49:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -849,7 +898,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 14,
     "sourcePdfPage": 72,
-    "sourceGlobalQuestion": 50
+    "sourceGlobalQuestion": 50,
+    "qid": "cssgb:set-1:source-50:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -866,7 +916,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 15,
     "sourcePdfPage": 72,
-    "sourceGlobalQuestion": 51
+    "sourceGlobalQuestion": 51,
+    "qid": "cssgb:set-1:source-51:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -883,7 +934,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 16,
     "sourcePdfPage": 72,
-    "sourceGlobalQuestion": 52
+    "sourceGlobalQuestion": 52,
+    "qid": "cssgb:set-1:source-52:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -900,7 +952,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 17,
     "sourcePdfPage": 72,
-    "sourceGlobalQuestion": 53
+    "sourceGlobalQuestion": 53,
+    "qid": "cssgb:set-1:source-53:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -917,7 +970,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 18,
     "sourcePdfPage": 72,
-    "sourceGlobalQuestion": 54
+    "sourceGlobalQuestion": 54,
+    "qid": "cssgb:set-1:source-54:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -934,7 +988,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 19,
     "sourcePdfPage": 73,
-    "sourceGlobalQuestion": 55
+    "sourceGlobalQuestion": 55,
+    "qid": "cssgb:set-1:source-55:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -951,7 +1006,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 20,
     "sourcePdfPage": 73,
-    "sourceGlobalQuestion": 56
+    "sourceGlobalQuestion": 56,
+    "qid": "cssgb:set-1:source-56:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -968,7 +1024,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 21,
     "sourcePdfPage": 73,
-    "sourceGlobalQuestion": 57
+    "sourceGlobalQuestion": 57,
+    "qid": "cssgb:set-1:source-57:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -985,7 +1042,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 22,
     "sourcePdfPage": 73,
-    "sourceGlobalQuestion": 58
+    "sourceGlobalQuestion": 58,
+    "qid": "cssgb:set-1:source-58:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -1002,7 +1060,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 23,
     "sourcePdfPage": 73,
-    "sourceGlobalQuestion": 59
+    "sourceGlobalQuestion": 59,
+    "qid": "cssgb:set-1:source-59:1rpo8m8"
   },
   {
     "sub": "cssgb-measure",
@@ -1019,7 +1078,8 @@
     "sourceSection": "Measure Phase",
     "sourceQuestion": 24,
     "sourcePdfPage": 73,
-    "sourceGlobalQuestion": 60
+    "sourceGlobalQuestion": 60,
+    "qid": "cssgb:set-1:source-60:1rpo8m8"
   },
   {
     "sub": "cssgb-analyze",
@@ -1036,7 +1096,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 1,
     "sourcePdfPage": 89,
-    "sourceGlobalQuestion": 61
+    "sourceGlobalQuestion": 61,
+    "qid": "cssgb:set-1:source-61:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1053,7 +1114,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 2,
     "sourcePdfPage": 89,
-    "sourceGlobalQuestion": 62
+    "sourceGlobalQuestion": 62,
+    "qid": "cssgb:set-1:source-62:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1070,7 +1132,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 3,
     "sourcePdfPage": 89,
-    "sourceGlobalQuestion": 63
+    "sourceGlobalQuestion": 63,
+    "qid": "cssgb:set-1:source-63:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1087,7 +1150,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 4,
     "sourcePdfPage": 89,
-    "sourceGlobalQuestion": 64
+    "sourceGlobalQuestion": 64,
+    "qid": "cssgb:set-1:source-64:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1104,7 +1168,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 5,
     "sourcePdfPage": 89,
-    "sourceGlobalQuestion": 65
+    "sourceGlobalQuestion": 65,
+    "qid": "cssgb:set-1:source-65:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1121,7 +1186,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 6,
     "sourcePdfPage": 89,
-    "sourceGlobalQuestion": 66
+    "sourceGlobalQuestion": 66,
+    "qid": "cssgb:set-1:source-66:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1138,7 +1204,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 7,
     "sourcePdfPage": 90,
-    "sourceGlobalQuestion": 67
+    "sourceGlobalQuestion": 67,
+    "qid": "cssgb:set-1:source-67:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1155,7 +1222,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 8,
     "sourcePdfPage": 90,
-    "sourceGlobalQuestion": 68
+    "sourceGlobalQuestion": 68,
+    "qid": "cssgb:set-1:source-68:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1172,7 +1240,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 9,
     "sourcePdfPage": 90,
-    "sourceGlobalQuestion": 69
+    "sourceGlobalQuestion": 69,
+    "qid": "cssgb:set-1:source-69:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1189,7 +1258,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 10,
     "sourcePdfPage": 90,
-    "sourceGlobalQuestion": 70
+    "sourceGlobalQuestion": 70,
+    "qid": "cssgb:set-1:source-70:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1206,7 +1276,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 11,
     "sourcePdfPage": 90,
-    "sourceGlobalQuestion": 71
+    "sourceGlobalQuestion": 71,
+    "qid": "cssgb:set-1:source-71:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1223,7 +1294,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 12,
     "sourcePdfPage": 90,
-    "sourceGlobalQuestion": 72
+    "sourceGlobalQuestion": 72,
+    "qid": "cssgb:set-1:source-72:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1240,7 +1312,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 13,
     "sourcePdfPage": 91,
-    "sourceGlobalQuestion": 73
+    "sourceGlobalQuestion": 73,
+    "qid": "cssgb:set-1:source-73:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1257,7 +1330,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 14,
     "sourcePdfPage": 91,
-    "sourceGlobalQuestion": 74
+    "sourceGlobalQuestion": 74,
+    "qid": "cssgb:set-1:source-74:17vbncs"
   },
   {
     "sub": "cssgb-analyze",
@@ -1274,7 +1348,8 @@
     "sourceSection": "Analyze Phase",
     "sourceQuestion": 15,
     "sourcePdfPage": 91,
-    "sourceGlobalQuestion": 75
+    "sourceGlobalQuestion": 75,
+    "qid": "cssgb:set-1:source-75:17vbncs"
   },
   {
     "sub": "cssgb-improve",
@@ -1291,7 +1366,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 1,
     "sourcePdfPage": 102,
-    "sourceGlobalQuestion": 76
+    "sourceGlobalQuestion": 76,
+    "qid": "cssgb:set-1:source-76:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1308,7 +1384,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 2,
     "sourcePdfPage": 102,
-    "sourceGlobalQuestion": 77
+    "sourceGlobalQuestion": 77,
+    "qid": "cssgb:set-1:source-77:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1325,7 +1402,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 3,
     "sourcePdfPage": 102,
-    "sourceGlobalQuestion": 78
+    "sourceGlobalQuestion": 78,
+    "qid": "cssgb:set-1:source-78:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1342,7 +1420,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 4,
     "sourcePdfPage": 102,
-    "sourceGlobalQuestion": 79
+    "sourceGlobalQuestion": 79,
+    "qid": "cssgb:set-1:source-79:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1359,7 +1438,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 5,
     "sourcePdfPage": 102,
-    "sourceGlobalQuestion": 80
+    "sourceGlobalQuestion": 80,
+    "qid": "cssgb:set-1:source-80:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1376,7 +1456,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 6,
     "sourcePdfPage": 102,
-    "sourceGlobalQuestion": 81
+    "sourceGlobalQuestion": 81,
+    "qid": "cssgb:set-1:source-81:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1393,7 +1474,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 7,
     "sourcePdfPage": 103,
-    "sourceGlobalQuestion": 82
+    "sourceGlobalQuestion": 82,
+    "qid": "cssgb:set-1:source-82:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1410,7 +1492,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 8,
     "sourcePdfPage": 103,
-    "sourceGlobalQuestion": 83
+    "sourceGlobalQuestion": 83,
+    "qid": "cssgb:set-1:source-83:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1427,7 +1510,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 9,
     "sourcePdfPage": 103,
-    "sourceGlobalQuestion": 84
+    "sourceGlobalQuestion": 84,
+    "qid": "cssgb:set-1:source-84:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1444,7 +1528,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 10,
     "sourcePdfPage": 103,
-    "sourceGlobalQuestion": 85
+    "sourceGlobalQuestion": 85,
+    "qid": "cssgb:set-1:source-85:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1461,7 +1546,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 11,
     "sourcePdfPage": 103,
-    "sourceGlobalQuestion": 86
+    "sourceGlobalQuestion": 86,
+    "qid": "cssgb:set-1:source-86:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1478,7 +1564,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 12,
     "sourcePdfPage": 103,
-    "sourceGlobalQuestion": 87
+    "sourceGlobalQuestion": 87,
+    "qid": "cssgb:set-1:source-87:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1495,7 +1582,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 13,
     "sourcePdfPage": 103,
-    "sourceGlobalQuestion": 88
+    "sourceGlobalQuestion": 88,
+    "qid": "cssgb:set-1:source-88:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1512,7 +1600,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 14,
     "sourcePdfPage": 104,
-    "sourceGlobalQuestion": 89
+    "sourceGlobalQuestion": 89,
+    "qid": "cssgb:set-1:source-89:zolrr8"
   },
   {
     "sub": "cssgb-improve",
@@ -1529,7 +1618,8 @@
     "sourceSection": "Improve Phase",
     "sourceQuestion": 15,
     "sourcePdfPage": 104,
-    "sourceGlobalQuestion": 90
+    "sourceGlobalQuestion": 90,
+    "qid": "cssgb:set-1:source-90:zolrr8"
   },
   {
     "sub": "cssgb-control",
@@ -1546,7 +1636,8 @@
     "sourceSection": "Control Phase",
     "sourceQuestion": 1,
     "sourcePdfPage": 117,
-    "sourceGlobalQuestion": 91
+    "sourceGlobalQuestion": 91,
+    "qid": "cssgb:set-1:source-91:60nb8h"
   },
   {
     "sub": "cssgb-control",
@@ -1563,7 +1654,8 @@
     "sourceSection": "Control Phase",
     "sourceQuestion": 2,
     "sourcePdfPage": 117,
-    "sourceGlobalQuestion": 92
+    "sourceGlobalQuestion": 92,
+    "qid": "cssgb:set-1:source-92:60nb8h"
   },
   {
     "sub": "cssgb-control",
@@ -1580,7 +1672,8 @@
     "sourceSection": "Control Phase",
     "sourceQuestion": 3,
     "sourcePdfPage": 117,
-    "sourceGlobalQuestion": 93
+    "sourceGlobalQuestion": 93,
+    "qid": "cssgb:set-1:source-93:60nb8h"
   },
   {
     "sub": "cssgb-control",
@@ -1597,7 +1690,8 @@
     "sourceSection": "Control Phase",
     "sourceQuestion": 4,
     "sourcePdfPage": 117,
-    "sourceGlobalQuestion": 94
+    "sourceGlobalQuestion": 94,
+    "qid": "cssgb:set-1:source-94:60nb8h"
   },
   {
     "sub": "cssgb-control",
@@ -1614,7 +1708,8 @@
     "sourceSection": "Control Phase",
     "sourceQuestion": 5,
     "sourcePdfPage": 117,
-    "sourceGlobalQuestion": 95
+    "sourceGlobalQuestion": 95,
+    "qid": "cssgb:set-1:source-95:60nb8h"
   },
   {
     "sub": "cssgb-control",
@@ -1631,7 +1726,8 @@
     "sourceSection": "Control Phase",
     "sourceQuestion": 6,
     "sourcePdfPage": 117,
-    "sourceGlobalQuestion": 96
+    "sourceGlobalQuestion": 96,
+    "qid": "cssgb:set-1:source-96:60nb8h"
   },
   {
     "sub": "cssgb-control",
@@ -1648,7 +1744,8 @@
     "sourceSection": "Control Phase",
     "sourceQuestion": 7,
     "sourcePdfPage": 118,
-    "sourceGlobalQuestion": 97
+    "sourceGlobalQuestion": 97,
+    "qid": "cssgb:set-1:source-97:60nb8h"
   },
   {
     "sub": "cssgb-control",
@@ -1665,7 +1762,8 @@
     "sourceSection": "Control Phase",
     "sourceQuestion": 8,
     "sourcePdfPage": 118,
-    "sourceGlobalQuestion": 98
+    "sourceGlobalQuestion": 98,
+    "qid": "cssgb:set-1:source-98:60nb8h"
   },
   {
     "sub": "cssgb-control",
@@ -1682,7 +1780,8 @@
     "sourceSection": "Control Phase",
     "sourceQuestion": 9,
     "sourcePdfPage": 118,
-    "sourceGlobalQuestion": 99
+    "sourceGlobalQuestion": 99,
+    "qid": "cssgb:set-1:source-99:60nb8h"
   },
   {
     "sub": "cssgb-control",
@@ -1699,7 +1798,8 @@
     "sourceSection": "Control Phase",
     "sourceQuestion": 10,
     "sourcePdfPage": 118,
-    "sourceGlobalQuestion": 100
+    "sourceGlobalQuestion": 100,
+    "qid": "cssgb:set-1:source-100:60nb8h"
   },
   {
     "sub": "cssgb-control",
@@ -1716,7 +1816,8 @@
     "sourceSection": "Control Phase",
     "sourceQuestion": 11,
     "sourcePdfPage": 118,
-    "sourceGlobalQuestion": 101
+    "sourceGlobalQuestion": 101,
+    "qid": "cssgb:set-1:source-101:60nb8h"
   },
   {
     "sub": "cssgb-analyze",
@@ -1735,6 +1836,7 @@
     "sourceQuestion": null,
     "sourcePdfPage": null,
     "sourceGlobalQuestion": 102,
+    "qid": "cssgb:set-1:source-102:17vbncs",
     "bokReference": "IV.B.1"
   },
   {
@@ -1754,6 +1856,7 @@
     "sourceQuestion": null,
     "sourcePdfPage": null,
     "sourceGlobalQuestion": 103,
+    "qid": "cssgb:set-1:source-103:17vbncs",
     "bokReference": "IV.B.1"
   },
   {
@@ -1773,6 +1876,7 @@
     "sourceQuestion": null,
     "sourcePdfPage": null,
     "sourceGlobalQuestion": 104,
+    "qid": "cssgb:set-1:source-104:17vbncs",
     "bokReference": "IV.C.2"
   },
   {
@@ -1792,6 +1896,7 @@
     "sourceQuestion": null,
     "sourcePdfPage": null,
     "sourceGlobalQuestion": 105,
+    "qid": "cssgb:set-1:source-105:zolrr8",
     "bokReference": "V.A.2"
   },
   {
@@ -1811,6 +1916,7 @@
     "sourceQuestion": null,
     "sourcePdfPage": null,
     "sourceGlobalQuestion": 106,
+    "qid": "cssgb:set-1:source-106:zolrr8",
     "bokReference": "V.B"
   },
   {
@@ -1830,6 +1936,7 @@
     "sourceQuestion": null,
     "sourcePdfPage": null,
     "sourceGlobalQuestion": 107,
+    "qid": "cssgb:set-1:source-107:60nb8h",
     "bokReference": "VI.A.2"
   },
   {
@@ -1849,6 +1956,7 @@
     "sourceQuestion": null,
     "sourcePdfPage": null,
     "sourceGlobalQuestion": 108,
+    "qid": "cssgb:set-1:source-108:60nb8h",
     "bokReference": "VI.B.2"
   },
   {
@@ -1868,6 +1976,7 @@
     "sourceQuestion": null,
     "sourcePdfPage": null,
     "sourceGlobalQuestion": 109,
+    "qid": "cssgb:set-1:source-109:60nb8h",
     "bokReference": "VI.B.4"
   },
   {
@@ -1887,6 +1996,7 @@
     "sourceQuestion": null,
     "sourcePdfPage": null,
     "sourceGlobalQuestion": 110,
+    "qid": "cssgb:set-1:source-110:60nb8h",
     "bokReference": "VI.B.5"
   }
 ];

@@ -4,13 +4,14 @@ const test = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const cmqScript = fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set1.js'), 'utf8');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
   .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${cmqScript}</script>`);
 
-function loadPage() {
+async function loadPage() {
   const errors = [];
   const vc = new VirtualConsole();
   vc.on('jsdomError', error => errors.push(error.message));
@@ -20,7 +21,9 @@ function loadPage() {
     pretendToBeVisual: true,
     virtualConsole: vc
   });
-  return new Promise(resolve => dom.window.addEventListener('load', () => resolve({ dom, window: dom.window, errors })));
+  await new Promise(resolve => dom.window.addEventListener('load', resolve));
+  await installDurableLearning(dom.window);
+  return { dom, window: dom.window, errors };
 }
 
 test('CMQ/OE Set 1 contains all 166 source questions with stable source numbering', async () => {

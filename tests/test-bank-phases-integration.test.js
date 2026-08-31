@@ -6,6 +6,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -26,6 +27,7 @@ const sources = [
   'test-bank-adaptive-mastery-completion-guard.js',
   'test-bank-phases-integration.js'
 ].map(file => fs.readFileSync(path.join(ROOT, file), 'utf8'));
+const integrationSource = fs.readFileSync(path.join(ROOT, 'test-bank-phases-integration.js'), 'utf8');
 const edge = fs.readFileSync(path.join(ROOT, 'netlify/edge-functions/test-bank-set-controls.js'), 'utf8');
 const windows = [];
 afterEach(() => windows.splice(0).forEach(window => { try { window.close(); } catch (error) {} }));
@@ -50,9 +52,21 @@ async function load() {
   if (!dom.window.Element.prototype.scrollIntoView) dom.window.Element.prototype.scrollIntoView = function () {};
   if (!dom.window.URL.createObjectURL) dom.window.URL.createObjectURL = function () { return 'blob:test'; };
   if (!dom.window.URL.revokeObjectURL) dom.window.URL.revokeObjectURL = function () {};
+  await installDurableLearning(dom.window);
   sources.forEach(source => dom.window.eval(source));
   await settle(dom.window, 8);
   return { window: dom.window, errors };
+}
+
+async function loadIntegrationOnly() {
+  const dom = new JSDOM(html, { url: 'https://upskillsprint.com/test-bank', runScripts: 'dangerously', pretendToBeVisual: true });
+  windows.push(dom.window);
+  await new Promise(resolve => dom.window.addEventListener('load', resolve));
+  const overview = dom.window.document.getElementById('tb-overview');
+  overview.innerHTML = '<section id="tb-adaptive-mastery"><div class="tb-mastery-stats"><div><strong>0</strong></div><div><strong>0</strong></div><div><strong>0</strong></div><div><strong>0</strong></div></div></section>';
+  dom.window.eval(integrationSource);
+  await settle(dom.window, 6);
+  return { window: dom.window, overview };
 }
 
 function click(window, element) {
@@ -250,4 +264,15 @@ test('deduplication removes extra dashboards and live regions', async () => {
   window.__TBPhaseIntegration.refresh();
   assert.equal(overview.querySelectorAll('#tb-adaptive-mastery').length, 1);
   assert.equal(overview.querySelectorAll('#tb-feedback-live').length, 1);
+});
+
+test('phase integration leaves a stable mounted dashboard alone after synchronization', async () => {
+  const { window, overview } = await loadIntegrationOnly();
+  let mutations = 0;
+  const observer = new window.MutationObserver(records => { mutations += records.length; });
+  observer.observe(overview, { childList: true, subtree: true, characterData: true });
+  await settle(window, 8);
+  observer.disconnect();
+
+  assert.equal(mutations, 0, 'unchanged mastery counters do not restart the overview observer');
 });

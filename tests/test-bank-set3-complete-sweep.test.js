@@ -4,13 +4,14 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const vm = require('node:vm');
 const { JSDOM, VirtualConsole } = require('jsdom');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'test-bank.html'), 'utf8');
 const raw = html
   .match(/var SET3_BANK=(\[[\s\S]*?\n\s*\]);/)[1]
   .replace(/,\s*\]$/, ']');
-const bank = JSON.parse(raw);
+const bank = JSON.parse(JSON.stringify(vm.runInNewContext('(' + raw + ')')));
 const q = number => bank[number - 1];
 
 const domainRoman = {

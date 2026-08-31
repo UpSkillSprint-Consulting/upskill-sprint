@@ -2,7 +2,7 @@
 # Pretty URLs serve HTML pages without exposing the .html extension.
 
 [build]
-  command = "node --test tests/test-bank*.test.js && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs"
+  command = "node scripts/run-test-bank-deploy-checks.mjs && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs"
   publish = "."
   functions = "netlify/functions"
 
@@ -11,6 +11,10 @@
 
 [[edge_functions]]
   path = "/test-bank"
+  function = "test-bank-mobile-picker"
+
+[[edge_functions]]
+  path = "/test-bank/"
   function = "test-bank-mobile-picker"
 
 [[edge_functions]]

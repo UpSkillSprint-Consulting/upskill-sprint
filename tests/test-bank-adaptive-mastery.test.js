@@ -6,6 +6,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -51,6 +52,7 @@ function click(window, element) {
 }
 
 async function completeQuick(window) {
+  await installDurableLearning(window);
   const overview = window.document.getElementById('tb-overview');
   click(window, overview.querySelector('[data-mode="quick"]'));
   await settle(window, 3);
@@ -234,6 +236,51 @@ test('completed attempts create the adaptive dashboard, history, and mastery map
   assert.deepEqual(errors, []);
 });
 
+test('a completed timed full exam persists an immutable per-domain score including blanks', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const questions = window.__TB.EXAMS.cssbb.sets[1].filter(question => question.sub === 'mea').slice(0, 2);
+  assert.equal(questions.length, 2, 'fixture has two Measure questions');
+  const attempt = api.recordResults([
+    { question: questions[0], selected: questions[0].answer, status: 'correct' },
+    { question: questions[1], selected: null, status: 'unanswered' }
+  ], {
+    source: 'exam-attempt', mode: 'exam', timed: true, completed: true,
+    sessionId: 'full-domain-breakdown-1', total: window.__TB.EXAMS.cssbb.questions, correct: 1
+  });
+  const measure = attempt.domainBreakdown.find(item => item.id === 'mea');
+  assert.deepEqual(JSON.parse(JSON.stringify(measure)), {
+    id: 'mea', total: 2, correct: 1, incorrect: 0, unanswered: 1
+  });
+  const persisted = api.store().exams.cssbb.attempts.find(item => item.id === 'full-domain-breakdown-1');
+  assert.deepEqual(JSON.parse(JSON.stringify(persisted.domainBreakdown)), JSON.parse(JSON.stringify(attempt.domainBreakdown)));
+});
+
+test('a durable learning update refreshes existing mastery counters without tearing down an open panel', async () => {
+  const { window } = await load();
+  const overview = window.document.getElementById('tb-overview');
+  overview.innerHTML = '<div class="tb-reshead"></div><section id="tb-feedback-loop"><div id="tb-feedback-live"></div></section>';
+  await settle(window, 6);
+  const dashboard = window.document.getElementById('tb-adaptive-mastery');
+  assert.ok(dashboard, 'the existing mastery dashboard is mounted');
+  const panel = dashboard.querySelector('#tb-adaptive-panel');
+  panel.hidden = false;
+  panel.innerHTML = '<p data-open-panel-marker>Keep this panel open</p>';
+  const attempted = dashboard.querySelector('[data-mastery-metric="attempted"] strong');
+  assert.equal(attempted.textContent, '0');
+
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  window.__TBAdaptiveMastery.recordResults([
+    { question, selected: question.answer, status: 'correct' }
+  ], { source: 'remote-ledger', mode: 'quick', timed: false, sessionId: 'phone-session', completed: true });
+  await settle(window, 3);
+
+  assert.equal(window.document.getElementById('tb-adaptive-mastery'), dashboard, 'counters update in place instead of rebuilding the dashboard');
+  assert.equal(dashboard.querySelector('[data-mastery-metric="attempted"] strong').textContent, '1');
+  assert.equal(dashboard.querySelector('#tb-adaptive-panel'), panel, 'the existing open panel remains the same node');
+  assert.ok(panel.querySelector('[data-open-panel-marker]'), 'an open panel is preserved during background reconciliation');
+});
+
 test('adaptive practice updates repeated-question improvement and the mistake notebook', async () => {
   const { window } = await load();
   const api = window.__TBAdaptiveMastery;
@@ -248,6 +295,31 @@ test('adaptive practice updates repeated-question improvement and the mistake no
   const summary = api.summary();
   assert.equal(summary.attempted, 1);
   assert.ok(summary.notebook >= 1, 'item remains in notebook until sustained mastery is reached');
+});
+
+test('mastered status requires three answered retrievals at the current effective-mastery threshold', async () => {
+  const { window } = await load();
+  const api = window.__TBAdaptiveMastery;
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  const timestamp = Date.UTC(2026, 7, 20);
+  const state = {
+    id: 'mastery-threshold', questionId: 'mastery-threshold', stem: question.stem, sub: question.sub,
+    attempts: 2, correct: 2, incorrect: 0, unanswered: 0, streak: 2,
+    ease: 2.3, intervalDays: 3, dueAt: timestamp + 86400000, lastSeenAt: timestamp,
+    lastStatus: 'correct', mastery: 100, history: []
+  };
+  window.localStorage.setItem('tb-adaptive-mastery-v1', JSON.stringify({
+    version: 1, exams: { cssbb: { questions: { 'mastery-threshold': state }, attempts: [], sessions: [] } }
+  }));
+
+  assert.equal(api.summary(timestamp).mastered, 0, 'two answers never count as mastered, even if an old cached mastery field is high');
+  state.attempts = 3;
+  state.correct = 3;
+  state.streak = 3;
+  window.localStorage.setItem('tb-adaptive-mastery-v1', JSON.stringify({
+    version: 1, exams: { cssbb: { questions: { 'mastery-threshold': state }, attempts: [], sessions: [] } }
+  }));
+  assert.equal(api.summary(timestamp).mastered, 1, 'the third correct, current retrieval reaches the shared 80% effective-mastery rule');
 });
 
 test('improvement metrics use the balanced mastery ledger after notebook history trims old correct answers', async () => {

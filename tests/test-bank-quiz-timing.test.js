@@ -6,6 +6,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -17,6 +18,43 @@ afterEach(() => {
     try { window.close(); } catch (error) {}
   });
 });
+
+/* Starting a durable session writes one exposure event per candidate.  The
+   production CSSBB fixture has more than a thousand source questions, while
+   these tests verify timing controls rather than the full question corpus.
+   Keep a balanced 50-question representative of each selectable set so a
+   Quick, Focused, Full, or New-only path still has realistic room to draw. */
+function compactCssbbFixture(window) {
+  const exam = window.__TB.EXAMS.cssbb;
+  const representative = questions => {
+    const bySubtopic = new Map();
+    questions.forEach(question => {
+      const key = question && question.sub || 'general';
+      const bucket = bySubtopic.get(key) || [];
+      bucket.push(question);
+      bySubtopic.set(key, bucket);
+    });
+    const kept = [];
+    while (kept.length < 50) {
+      let added = false;
+      bySubtopic.forEach(bucket => {
+        if (kept.length < 50 && bucket.length) {
+          kept.push(bucket.shift());
+          added = true;
+        }
+      });
+      if (!added) break;
+    }
+    assert.equal(kept.length, 50, 'timing fixture needs 50 representative questions per set');
+    return kept;
+  };
+  exam.sets = {
+    1: representative(exam.sets[1]),
+    2: representative(exam.sets[2]),
+    3: representative(exam.sets[3])
+  };
+  exam.bank = exam.sets[1].slice();
+}
 
 async function loadPage(options = {}) {
   const errors = [];
@@ -42,6 +80,8 @@ async function loadPage(options = {}) {
   });
   windows.push(dom.window);
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
+  compactCssbbFixture(dom.window);
+  await installDurableLearning(dom.window);
 
   return {
     window: dom.window,
@@ -59,6 +99,14 @@ function click(window, element) {
 
 function keydown(window, element, key) {
   element.dispatchEvent(new window.KeyboardEvent('keydown', { key, bubbles: true }));
+}
+
+async function waitFor(window, predicate, tries = 30) {
+  for (let index = 0; index < tries; index += 1) {
+    if (predicate()) return true;
+    await new Promise(resolve => window.setTimeout(resolve, 0));
+  }
+  return predicate();
 }
 
 function modeCard(window, kind) {
@@ -154,7 +202,12 @@ test('Set, count, area, New-only, and Missed-only changes do not reset either ti
   area.dispatchEvent(new window.Event('change', { bubbles: true }));
   click(window, modeCard(window, 'focus').querySelector('[data-count="focus"][data-n="30"]'));
   click(window, modeCard(window, 'quick').querySelector('[data-unseen="quick"]'));
+  /* New-only refreshes history asynchronously. Turn it back off before
+     switching to Missed-only so the test deliberately cancels that request
+     instead of closing a JSDOM window while its stale continuation renders. */
+  click(window, modeCard(window, 'quick').querySelector('[data-unseen="quick"]'));
   click(window, modeCard(window, 'quick').querySelector('[data-missed="quick"]'));
+  click(window, modeCard(window, 'focus').querySelector('[data-unseen="focus"]'));
   click(window, modeCard(window, 'focus').querySelector('[data-unseen="focus"]'));
   click(window, modeCard(window, 'focus').querySelector('[data-missed="focus"]'));
 
@@ -216,7 +269,30 @@ test('timed quizzes use the existing expiration submission path while untimed qu
   assert.ok(untimed.window.document.querySelector('#tb-overview .tb-timer.untimed'));
 });
 
-test('New-only and Missed-only filters keep working in both timing modes', async () => {
+test('New-only filters retain the selected timing mode after the durable cross-device reservation', async () => {
+  const { window, intervals } = await loadPage();
+  click(window, modeCard(window, 'quick').querySelector('[data-count="quick"][data-n="10"]'));
+
+  click(window, modeCard(window, 'quick').querySelector('[data-unseen="quick"]'));
+  assert.equal(await waitFor(window, () => {
+    const start = modeCard(window, 'quick').querySelector('[data-mode="quick"]');
+    return Boolean(start && !start.disabled);
+  }), true, 'the fresh ledger check completed before starting New-only');
+  click(window, timingButton(window, 'quick', true));
+  click(window, modeCard(window, 'quick').querySelector('[data-mode="quick"]'));
+  assert.equal(await waitFor(window, () => Boolean(window.document.querySelector('#tb-overview #tb-timer'))), true, 'timed New-only quiz uses a countdown');
+  assert.ok(window.document.querySelectorAll('#tb-overview .tb-navcell').length > 0);
+  exitQuiz(window);
+
+  click(window, timingButton(window, 'quick', false));
+  click(window, modeCard(window, 'quick').querySelector('[data-mode="quick"]'));
+  assert.equal(await waitFor(window, () => Boolean(window.document.querySelector('#tb-overview .tb-timer.untimed'))), true, 'untimed New-only quiz stays untimed');
+  exitQuiz(window);
+
+  assert.equal(intervals.length, 1, 'only the timed New-only session created a countdown');
+});
+
+test('Missed-only filters keep working in both timing modes', async () => {
   const { window, intervals } = await loadPage();
   window.eval(mastery);
   const exam = window.__TB.EXAMS.cssbb;
@@ -232,19 +308,6 @@ test('New-only and Missed-only filters keep working in both timing modes', async
     selected: question.answer === 0 ? 1 : 0,
     status: 'incorrect'
   })), 'timing-filter-test');
-  click(window, modeCard(window, 'quick').querySelector('[data-count="quick"][data-n="10"]'));
-
-  click(window, modeCard(window, 'quick').querySelector('[data-unseen="quick"]'));
-  click(window, timingButton(window, 'quick', true));
-  click(window, modeCard(window, 'quick').querySelector('[data-mode="quick"]'));
-  assert.ok(window.document.querySelector('#tb-overview #tb-timer'), 'timed New-only quiz uses a countdown');
-  assert.ok(window.document.querySelectorAll('#tb-overview .tb-navcell').length > 0);
-  exitQuiz(window);
-
-  click(window, timingButton(window, 'quick', false));
-  click(window, modeCard(window, 'quick').querySelector('[data-mode="quick"]'));
-  assert.ok(window.document.querySelector('#tb-overview .tb-timer.untimed'), 'untimed New-only quiz stays untimed');
-  exitQuiz(window);
 
   click(window, modeCard(window, 'focus').querySelector('[data-missed="focus"]'));
   click(window, timingButton(window, 'focus', true));
@@ -255,7 +318,7 @@ test('New-only and Missed-only filters keep working in both timing modes', async
   click(window, timingButton(window, 'focus', false));
   click(window, modeCard(window, 'focus').querySelector('[data-mode="focus"]'));
   assert.ok(window.document.querySelector('#tb-overview .tb-timer.untimed'), 'untimed Missed-only focused quiz stays untimed');
-  assert.equal(intervals.length, 2, 'only the two timed filtered sessions created countdowns');
+  assert.equal(intervals.length, 1, 'only the timed filtered session created a countdown');
 });
 
 test('a reduced filtered pool recalculates both helper text and countdown from the questions actually served', async () => {

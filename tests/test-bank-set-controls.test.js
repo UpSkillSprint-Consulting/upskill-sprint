@@ -6,6 +6,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -42,6 +43,7 @@ async function loadEnhancedPage() {
   windows.push(dom.window);
 
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
+  await installDurableLearning(dom.window);
   dom.window.eval(enhancer);
   await settle(dom.window);
   return { window: dom.window, errors };
@@ -82,6 +84,17 @@ test('entity-containing area names do not create a perpetual summary mutation lo
   observer.disconnect();
 
   assert.equal(mutations, 0, 'the stable summary is not rewritten on every animation frame');
+});
+
+test('a durable-learning browse repaint is enhanced once without recursively observing its own controls', async () => {
+  const { window } = await loadEnhancedPage();
+  window.document.dispatchEvent(new window.CustomEvent('tb:learning-updated', { detail: { reason: 'test-repaint' } }));
+  await new Promise(resolve => window.setTimeout(resolve, 0));
+  await settle(window, 6);
+
+  const quick = modeCard(window, 1);
+  assert.equal(quick.querySelectorAll('[data-quiz-set="quick"]').length, 4, 'the replacement browse view is enhanced exactly once');
+  assert.match(quick.querySelector('.tb-mode-sum').textContent, /Set 1/);
 });
 
 test('selecting a Quick Quiz set routes the quiz directly to that question bank', async () => {

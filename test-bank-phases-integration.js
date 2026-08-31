@@ -31,13 +31,27 @@
     return window.__TB && window.__TB.EXAMS ? window.__TB.EXAMS[examId()] : null;
   }
 
+  function registry() {
+    return window.__TBQuestionRegistry || null;
+  }
+
+  function questionId(question) {
+    const helper = registry();
+    if (helper && typeof helper.idFor === 'function') return helper.idFor(examId(), question);
+    return question && question.questionId || question && question.qid || question && question.id || hash(question && question.stem);
+  }
+
   function questions() {
+    const helper = registry();
+    if (helper && typeof helper.questionsFor === 'function') return helper.questionsFor(examId());
     const source = exam();
     const output = [];
     const seen = new Set();
     function add(question) {
-      if (!question || !question.stem || seen.has(question.stem)) return;
-      seen.add(question.stem);
+      if (!question || !question.stem) return;
+      const id = questionId(question);
+      if (seen.has(id)) return;
+      seen.add(id);
       output.push(question);
     }
     if (source && source.sets) Object.keys(source.sets).forEach(function (key) { (source.sets[key] || []).forEach(add); });
@@ -60,7 +74,9 @@
   }
 
   function stateFor(question, data) {
-    return data.questions && data.questions[hash(question.stem)] ? data.questions[hash(question.stem)] : null;
+    if (!data.questions) return null;
+    const id = questionId(question);
+    return data.questions[id] || data.questions[hash(question.stem)] || null;
   }
 
   function effectiveMastery(state) {
@@ -119,7 +135,10 @@
     const values = [summary.due, summary.mastered, summary.notebook, summary.attempted.length];
     statBlocks.forEach(function (block, index) {
       const strong = block.querySelector('strong');
-      if (strong && values[index] != null) strong.textContent = values[index];
+      const next = values[index] == null ? null : String(values[index]);
+      /* updateDashboard runs from a MutationObserver. Replacing an identical
+         text node is still a mutation, which otherwise schedules it forever. */
+      if (strong && next != null && strong.textContent !== next) strong.textContent = next;
     });
 
     const groups = {};
@@ -144,8 +163,15 @@
 
   let notebookFilter = 'all';
 
-  function questionByStem(stem) {
-    return questions().find(function (question) { return question.stem === stem; }) || null;
+  function questionByIdentity(identity, legacyStem) {
+    const helper = registry();
+    if (helper && typeof helper.find === 'function' && identity) {
+      const found = helper.find(examId(), identity);
+      if (found) return found;
+    }
+    return questions().find(function (question) {
+      return questionId(question) === identity || question.stem === legacyStem || question.stem === identity;
+    }) || null;
   }
 
   /* Flattens every stored incorrect attempt, across every question, into a
@@ -156,11 +182,15 @@
     const rows = [];
     Object.keys(data.questions || {}).forEach(function (key) {
       const state = data.questions[key];
-      const question = questionByStem(state.stem);
-      if (!question) return;
+      if (!state || typeof state !== 'object') return;
       (state.history || []).forEach(function (entry) {
         if (entry.status !== 'incorrect') return;
-        rows.push({ question: question, sub: state.sub || question.sub, at: entry.at, selected: entry.selected, source: entry.source });
+        const snapshot = entry && entry.snapshot && typeof entry.snapshot === 'object' ? entry.snapshot : {};
+        const question = snapshot.stem && Array.isArray(snapshot.options) && snapshot.options.length
+          ? snapshot
+          : questionByIdentity(state.questionId || state.id || key, state.stem);
+        if (!question) return;
+        rows.push({ question: question, sub: snapshot.sub || state.sub || question.sub, at: entry.at, selected: entry.selected, source: entry.source });
       });
     });
     return rows.sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
@@ -204,7 +234,7 @@
   function mistakeCardMarkup(entry) {
     const question = entry.question;
     const lesson = lessonFor(entry.sub);
-    return '<article class="tb-mistake-card">' +
+    return '<article class="tb-mistake-card" data-question-id="' + esc(questionId(question)) + '">' +
       '<div class="tb-mistake-meta"><span class="tb-mistake-sub">' + esc(subtopicName(entry.sub)) + '</span><span class="tb-mistake-when">' + formatAttemptWhen(entry.at) + ' · ' + sourceLabel(entry.source) + '</span></div>' +
       chartHtml(question.chart) +
       '<div class="tb-mistake-stem">' + esc(question.stem) + '</div>' +

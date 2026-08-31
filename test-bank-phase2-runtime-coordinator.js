@@ -5,10 +5,36 @@
   const FEEDBACK_ID = 'tb-feedback-loop';
   const LEGACY_STORE = 'tb-attempt-feedback-v2';
   let mode = 'idle';
+  let sessionId = '';
   let stem = '';
   let startedAt = 0;
   let times = Object.create(null);
   let scheduled = false;
+
+  function currentExamId() {
+    const active = document.querySelector('.tb-tile.active[data-exam]');
+    return active ? active.dataset.exam : 'cssbb';
+  }
+
+  function legacyHash(value) {
+    let hash = 2166136261;
+    const text = String(value || '');
+    for (let index = 0; index < text.length; index += 1) {
+      hash ^= text.charCodeAt(index);
+      hash = Math.imul(hash, 16777619);
+    }
+    return (hash >>> 0).toString(36);
+  }
+
+  function questionIdForStem(value, suppliedId) {
+    if (suppliedId) return suppliedId;
+    const registry = window.__TBQuestionRegistry;
+    if (registry && typeof registry.questionsFor === 'function' && typeof registry.idFor === 'function') {
+      const question = registry.questionsFor(currentExamId()).find(function (item) { return item.stem === value; });
+      if (question) return registry.idFor(currentExamId(), question);
+    }
+    return legacyHash(value);
+  }
 
   function currentMode() {
     const overview = document.getElementById(OVERVIEW_ID);
@@ -25,7 +51,7 @@
     const quiz = overview && overview.querySelector('.tb-quiz');
     if (!quiz || quiz.closest('#' + FEEDBACK_ID)) return '';
     const node = quiz.querySelector('.tb-stem');
-    return node ? node.textContent.trim() : '';
+    return node ? questionIdForStem(node.textContent.trim(), quiz.dataset.questionId || node.dataset.questionId) : '';
   }
 
   function commit() {
@@ -68,16 +94,13 @@
       const card = select.closest('.tb-review-card');
       const stemNode = card && card.querySelector('.tb-review-stem');
       if (!stemNode || !data.attempts[latest]) return;
-      let hash = 2166136261;
       const value = stemNode.textContent.trim();
-      for (let index = 0; index < value.length; index += 1) {
-        hash ^= value.charCodeAt(index);
-        hash = Math.imul(hash, 16777619);
-      }
-      const key = (hash >>> 0).toString(36);
+      const key = questionIdForStem(value, card.dataset.questionId);
+      const legacy = legacyHash(value);
       data.attempts[latest].errors = data.attempts[latest].errors || {};
       if (select.value) data.attempts[latest].errors[key] = select.value;
       else delete data.attempts[latest].errors[key];
+      if (legacy !== key) delete data.attempts[latest].errors[legacy];
       data.attempts[latest].updatedAt = Date.now();
       localStorage.setItem(LEGACY_STORE, JSON.stringify(data));
     } catch (error) {}
@@ -90,7 +113,7 @@
       const stemNode = card.querySelector('.tb-review-stem');
       const timeNode = card.querySelector('.tb-deep-summary strong');
       if (stemNode && timeNode) {
-        const next = format(times[stemNode.textContent.trim()] || 0);
+        const next = format(times[questionIdForStem(stemNode.textContent.trim(), card.dataset.questionId)] || 0);
         if (timeNode.textContent !== next) timeNode.textContent = next;
       }
     });
@@ -133,6 +156,16 @@
   }
 
   function initialize() {
+    document.addEventListener('tb:learning-session-started', function (event) {
+      const nextSessionId = event && event.detail && String(event.detail.sessionId || '');
+      if (!nextSessionId || nextSessionId === sessionId) return;
+      sessionId = nextSessionId;
+      times = Object.create(null);
+      stem = '';
+      startedAt = 0;
+      resetLegacyErrors();
+      schedule();
+    });
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) commit();
       else if (stem) startedAt = Date.now();

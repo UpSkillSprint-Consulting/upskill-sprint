@@ -6,6 +6,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const pageHtml = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -42,6 +43,7 @@ async function loadPage() {
   if (dom.window.document.readyState !== 'complete') {
     await new Promise(resolve => dom.window.addEventListener('load', resolve, { once: true }));
   }
+  await installDurableLearning(dom.window);
   await wait(dom.window);
   return { window: dom.window, document: dom.window.document, errors };
 }
@@ -156,6 +158,7 @@ test('formula context resolves every CSSBB Set 3 domain within the active exam',
     const index = bank.findIndex(question => question.sub === sectionId);
     assert.ok(index >= 0, `Set 3 contains ${sectionId}`);
     document.querySelector('.tb-stem').textContent = bank[index].stem;
+    document.querySelector('.tb-stem').dataset.questionId = bank[index].qid;
     document.querySelector('.tb-qtag').textContent = bank[index].sub;
     const context = api.getContext();
     assert.equal(context.examId, 'cssbb', `${sectionId}: active exam`);
@@ -173,6 +176,7 @@ test('formula context never binds a CSSBB stem to a colliding CQE question', asy
   const question = window.__TB.EXAMS.cssbb.sets[1].find(item => item.stem.startsWith('An inspector draws 5 pipes'));
   assert.ok(question, 'shared-stem CSSBB fixture exists');
   document.querySelector('.tb-stem').textContent = question.stem;
+  document.querySelector('.tb-stem').dataset.questionId = question.qid;
   document.querySelector('.tb-qtag').textContent = 'Measure · V. Measure';
 
   const context = window.__TB_FORMULAS_TEST__.getContext();
@@ -188,6 +192,7 @@ test('formula context infers an unmatched CSSBB question from CSSBB section meta
   selectSet(window, document, '3');
   click(window, document.querySelector('[data-mode="quick"]'));
   document.querySelector('.tb-stem').textContent = 'Unmatched CSSBB routing fixture';
+  delete document.querySelector('.tb-stem').dataset.questionId;
   document.querySelector('.tb-qtag').textContent = 'Measure · V. Measure';
 
   const context = window.__TB_FORMULAS_TEST__.getContext();
@@ -230,6 +235,7 @@ test('representative first and last questions from every CQE set map to the corr
     const bank = window.__TB.EXAMS.cqe.sets[set];
     for (const index of [0, bank.length - 1]) {
       document.querySelector('.tb-stem').textContent = bank[index].stem;
+      document.querySelector('.tb-stem').dataset.questionId = bank[index].qid;
       document.querySelector('.tb-qtag').textContent = bank[index].sub;
       api.renderContextualPane('');
       const context = api.getContext();

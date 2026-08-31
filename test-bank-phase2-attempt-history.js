@@ -28,6 +28,18 @@
     return (output >>> 0).toString(36);
   }
 
+  /* summary() is reached from a MutationObserver. Replacing matching content
+     still emits a child-list mutation, so keep its display writes stable. */
+  function setTextIfChanged(node, value) {
+    const next = String(value == null ? '' : value);
+    if (node && node.textContent !== next) node.textContent = next;
+  }
+
+  function setHtmlIfChanged(node, value) {
+    const next = String(value == null ? '' : value);
+    if (node && node.innerHTML !== next) node.innerHTML = next;
+  }
+
   function examId() {
     const active = document.querySelector('.tb-tile.active[data-exam]');
     return active ? active.dataset.exam : 'cssbb';
@@ -96,19 +108,31 @@
     return stem ? stem.textContent.trim() : '';
   }
 
+  function questionKeysFor(select) {
+    const card = select.closest('.tb-review-card');
+    const stem = stemFor(select);
+    const registry = window.__TBQuestionRegistry;
+    let id = card && card.dataset.questionId;
+    if (!id && registry && typeof registry.questionsFor === 'function' && typeof registry.idFor === 'function') {
+      const question = registry.questionsFor(examId()).find(function (item) { return item.stem === stem; });
+      if (question) id = registry.idFor(examId(), question);
+    }
+    return { id: id || hash(stem), legacy: hash(stem) };
+  }
+
   function summary() {
     const host = document.getElementById('tb-error-summary');
     if (!host || !session) return;
     const values = Object.values(session.errors || {}).filter(Boolean);
     if (!values.length) {
-      host.textContent = 'Classify missed questions to separate knowledge, calculation, reading, and time-management causes for this attempt.';
+      setTextIfChanged(host, 'Classify missed questions to separate knowledge, calculation, reading, and time-management causes for this attempt.');
       return;
     }
     const counts = {};
     values.forEach(function (value) { counts[value] = (counts[value] || 0) + 1; });
-    host.innerHTML = '<strong>' + values.length + ' mistake' + (values.length === 1 ? '' : 's') + ' classified for this attempt:</strong> ' + Object.keys(counts).map(function (key) {
+    setHtmlIfChanged(host, '<strong>' + values.length + ' mistake' + (values.length === 1 ? '' : 's') + ' classified for this attempt:</strong> ' + Object.keys(counts).map(function (key) {
       return (LABELS[key] || key) + ' (' + counts[key] + ')';
-    }).join(' · ');
+    }).join(' · '));
   }
 
   function sync() {
@@ -117,9 +141,9 @@
     if (!feedback || !session) return;
     if (feedback.dataset.attemptId !== String(session.id)) feedback.dataset.attemptId = session.id;
     feedback.querySelectorAll('[data-error-class]').forEach(function (select) {
-      const stem = stemFor(select);
-      if (!stem) return;
-      const value = session.errors[hash(stem)] || '';
+      const keys = questionKeysFor(select);
+      if (!keys.id) return;
+      const value = session.errors[keys.id] || session.errors[keys.legacy] || '';
       if (select.value !== value) select.value = value;
     });
     summary();
@@ -139,11 +163,11 @@
       const select = event.target.closest('[data-error-class]');
       if (!select) return;
       if (!session) newSession();
-      const stem = stemFor(select);
-      if (!stem) return;
-      const key = hash(stem);
-      if (select.value) session.errors[key] = select.value;
-      else delete session.errors[key];
+      const keys = questionKeysFor(select);
+      if (!keys.id) return;
+      if (select.value) session.errors[keys.id] = select.value;
+      else delete session.errors[keys.id];
+      if (keys.legacy !== keys.id) delete session.errors[keys.legacy];
       saveSession();
       summary();
     }, true);

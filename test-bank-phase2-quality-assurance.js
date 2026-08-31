@@ -21,12 +21,22 @@
     return window.__TB && window.__TB.EXAMS ? window.__TB.EXAMS[currentExamId()] : null;
   }
 
+  function questionId(question) {
+    const registry = window.__TBQuestionRegistry;
+    if (registry && typeof registry.idFor === 'function') return registry.idFor(currentExamId(), question);
+    return question && question.questionId || question && question.qid || question && question.id || String(question && question.stem || '');
+  }
+
   function allQuestions(exam) {
+    const registry = window.__TBQuestionRegistry;
+    if (registry && exam === currentExam() && typeof registry.questionsFor === 'function') return registry.questionsFor(currentExamId());
     const output = [];
     const seen = new Set();
     function add(question) {
-      if (!question || !question.stem || seen.has(question.stem)) return;
-      seen.add(question.stem);
+      if (!question || !question.stem) return;
+      const id = questionId(question);
+      if (seen.has(id)) return;
+      seen.add(id);
       output.push(question);
     }
     if (exam && exam.sets) Object.keys(exam.sets).forEach(function (key) { (exam.sets[key] || []).forEach(add); });
@@ -34,8 +44,15 @@
     return output;
   }
 
-  function questionByStem(stem) {
-    return allQuestions(currentExam()).find(function (question) { return question.stem === stem; }) || null;
+  function questionByIdentity(identity, legacyStem) {
+    const registry = window.__TBQuestionRegistry;
+    if (registry && typeof registry.find === 'function' && identity) {
+      const found = registry.find(currentExamId(), identity);
+      if (found) return found;
+    }
+    return allQuestions(currentExam()).find(function (question) {
+      return questionId(question) === identity || question.stem === legacyStem || question.stem === identity;
+    }) || null;
   }
 
   function explicitDistractorCount(question) {
@@ -161,7 +178,7 @@
     if (card.querySelector('.tb-quality-badge')) return;
     const stemNode = card.querySelector('.tb-review-stem');
     if (!stemNode) return;
-    const question = questionByStem(stemNode.textContent.trim());
+    const question = questionByIdentity(card.dataset.questionId || stemNode.textContent.trim(), stemNode.textContent.trim());
     if (!question) return;
     const quality = qualityLevel(question);
     const header = card.querySelector('.tb-review-card-head');

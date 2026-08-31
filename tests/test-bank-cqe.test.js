@@ -5,16 +5,19 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'test-bank.html'), 'utf8');
 let _windows = [];
 afterEach(() => { _windows.splice(0).forEach(w => { try { w.close(); } catch (e) {} }); });
 
-function loadPage() {
+async function loadPage() {
   const vc = new VirtualConsole();
   const dom = new JSDOM(html, { url: 'https://upskillsprint.com/test-bank.html', runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole: vc });
   _windows.push(dom.window);
-  return new Promise(res => dom.window.addEventListener('load', () => res(dom.window)));
+  await new Promise(res => dom.window.addEventListener('load', res));
+  await installDurableLearning(dom.window);
+  return dom.window;
 }
 const click = (w, el) => el.dispatchEvent(new w.Event('click', { bubbles: true }));
 const ov = w => w.document.getElementById('tb-overview');

@@ -20,6 +20,7 @@
     "sourcePrintPage": 149,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 1,
+    "qid": "cssgb:set-2:source-1:10hzvwm",
     "bokReference": "I.A.1"
   },
   {
@@ -41,6 +42,7 @@
     "sourcePrintPage": 149,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 2,
+    "qid": "cssgb:set-2:source-2:1f5xhgp",
     "bokReference": "II.F.3"
   },
   {
@@ -62,6 +64,7 @@
     "sourcePrintPage": 149,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 3,
+    "qid": "cssgb:set-2:source-3:uwm1ss",
     "bokReference": "VI.C.2"
   },
   {
@@ -83,6 +86,7 @@
     "sourcePrintPage": 149,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 4,
+    "qid": "cssgb:set-2:source-4:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -104,6 +108,7 @@
     "sourcePrintPage": 150,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 5,
+    "qid": "cssgb:set-2:source-5:1f5xhgp",
     "bokReference": "II.F.2"
   },
   {
@@ -125,6 +130,7 @@
     "sourcePrintPage": 150,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 6,
+    "qid": "cssgb:set-2:source-6:1up69ca",
     "bokReference": "V.C.3"
   },
   {
@@ -146,6 +152,7 @@
     "sourcePrintPage": 150,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 7,
+    "qid": "cssgb:set-2:source-7:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -167,6 +174,7 @@
     "sourcePrintPage": 150,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 8,
+    "qid": "cssgb:set-2:source-8:5m2iwb",
     "bokReference": "III.D.2"
   },
   {
@@ -188,6 +196,7 @@
     "sourcePrintPage": 150,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 9,
+    "qid": "cssgb:set-2:source-9:1f5xhgp",
     "bokReference": "II.C.3"
   },
   {
@@ -209,6 +218,7 @@
     "sourcePrintPage": 150,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 10,
+    "qid": "cssgb:set-2:source-10:sebhe3",
     "bokReference": "IV.A.2"
   },
   {
@@ -230,6 +240,7 @@
     "sourcePrintPage": 151,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 11,
+    "qid": "cssgb:set-2:source-11:1f5xhgp",
     "bokReference": "II.E.1"
   },
   {
@@ -251,6 +262,7 @@
     "sourcePrintPage": 151,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 12,
+    "qid": "cssgb:set-2:source-12:10hzvwm",
     "bokReference": "I.C.3"
   },
   {
@@ -272,6 +284,7 @@
     "sourcePrintPage": 151,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 13,
+    "qid": "cssgb:set-2:source-13:10hzvwm",
     "bokReference": "I.B.2",
     "chart": {
       "type": "vsm-supermarket"
@@ -296,6 +309,7 @@
     "sourcePrintPage": 151,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 14,
+    "qid": "cssgb:set-2:source-14:1f5xhgp",
     "bokReference": "II.D"
   },
   {
@@ -317,6 +331,7 @@
     "sourcePrintPage": 152,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 15,
+    "qid": "cssgb:set-2:source-15:10hzvwm",
     "bokReference": "I.B.2"
   },
   {
@@ -338,6 +353,7 @@
     "sourcePrintPage": 152,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 16,
+    "qid": "cssgb:set-2:source-16:1up69ca",
     "bokReference": "V.A.2"
   },
   {
@@ -359,6 +375,7 @@
     "sourcePrintPage": 152,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 17,
+    "qid": "cssgb:set-2:source-17:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -380,6 +397,7 @@
     "sourcePrintPage": 152,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 18,
+    "qid": "cssgb:set-2:source-18:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -401,6 +419,7 @@
     "sourcePrintPage": 152,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 19,
+    "qid": "cssgb:set-2:source-19:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -422,6 +441,7 @@
     "sourcePrintPage": 153,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 20,
+    "qid": "cssgb:set-2:source-20:1f5xhgp",
     "bokReference": "II.F.1"
   },
   {
@@ -443,6 +463,7 @@
     "sourcePrintPage": 153,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 21,
+    "qid": "cssgb:set-2:source-21:1up69ca",
     "bokReference": "V.C.2"
   },
   {
@@ -464,6 +485,7 @@
     "sourcePrintPage": 153,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 22,
+    "qid": "cssgb:set-2:source-22:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -485,6 +507,7 @@
     "sourcePrintPage": 153,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 23,
+    "qid": "cssgb:set-2:source-23:5m2iwb",
     "bokReference": "III.D.4"
   },
   {
@@ -506,6 +529,7 @@
     "sourcePrintPage": 153,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 24,
+    "qid": "cssgb:set-2:source-24:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -550,6 +574,7 @@
     "sourcePrintPage": 154,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 25,
+    "qid": "cssgb:set-2:source-25:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -571,6 +596,7 @@
     "sourcePrintPage": 154,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 26,
+    "qid": "cssgb:set-2:source-26:10hzvwm",
     "bokReference": "I.A.2"
   },
   {
@@ -592,6 +618,7 @@
     "sourcePrintPage": 154,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 27,
+    "qid": "cssgb:set-2:source-27:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -613,6 +640,7 @@
     "sourcePrintPage": 154,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 28,
+    "qid": "cssgb:set-2:source-28:1f5xhgp",
     "bokReference": "II.C.6"
   },
   {
@@ -634,6 +662,7 @@
     "sourcePrintPage": 154,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 29,
+    "qid": "cssgb:set-2:source-29:10hzvwm",
     "bokReference": "I.C.2",
     "chart": {
       "type": "data-table",
@@ -690,6 +719,7 @@
     "sourcePrintPage": 155,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 30,
+    "qid": "cssgb:set-2:source-30:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -711,6 +741,7 @@
     "sourcePrintPage": 155,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 31,
+    "qid": "cssgb:set-2:source-31:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -732,6 +763,7 @@
     "sourcePrintPage": 155,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 32,
+    "qid": "cssgb:set-2:source-32:uwm1ss",
     "bokReference": "VI.B.3"
   },
   {
@@ -753,6 +785,7 @@
     "sourcePrintPage": 155,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 33,
+    "qid": "cssgb:set-2:source-33:sebhe3",
     "bokReference": "IV.A.1"
   },
   {
@@ -774,6 +807,7 @@
     "sourcePrintPage": 156,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 34,
+    "qid": "cssgb:set-2:source-34:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -795,6 +829,7 @@
     "sourcePrintPage": 156,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 35,
+    "qid": "cssgb:set-2:source-35:uwm1ss",
     "bokReference": "VI.C.2"
   },
   {
@@ -816,6 +851,7 @@
     "sourcePrintPage": 156,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 36,
+    "qid": "cssgb:set-2:source-36:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -870,6 +906,7 @@
     "sourcePrintPage": 156,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 37,
+    "qid": "cssgb:set-2:source-37:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -924,6 +961,7 @@
     "sourcePrintPage": 157,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 38,
+    "qid": "cssgb:set-2:source-38:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -945,6 +983,7 @@
     "sourcePrintPage": 157,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 39,
+    "qid": "cssgb:set-2:source-39:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -966,6 +1005,7 @@
     "sourcePrintPage": 157,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 40,
+    "qid": "cssgb:set-2:source-40:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -987,6 +1027,7 @@
     "sourcePrintPage": 157,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 41,
+    "qid": "cssgb:set-2:source-41:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -1008,6 +1049,7 @@
     "sourcePrintPage": 157,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 42,
+    "qid": "cssgb:set-2:source-42:1f5xhgp",
     "bokReference": "II.F.3"
   },
   {
@@ -1029,6 +1071,7 @@
     "sourcePrintPage": 158,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 43,
+    "qid": "cssgb:set-2:source-43:sebhe3",
     "bokReference": "IV.B1"
   },
   {
@@ -1050,6 +1093,7 @@
     "sourcePrintPage": 158,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 44,
+    "qid": "cssgb:set-2:source-44:1f5xhgp",
     "bokReference": "II.E.2"
   },
   {
@@ -1071,6 +1115,7 @@
     "sourcePrintPage": 158,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 45,
+    "qid": "cssgb:set-2:source-45:5m2iwb",
     "bokReference": "III.D.2"
   },
   {
@@ -1092,6 +1137,7 @@
     "sourcePrintPage": 158,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 46,
+    "qid": "cssgb:set-2:source-46:uwm1ss",
     "bokReference": "VI.B.1"
   },
   {
@@ -1113,6 +1159,7 @@
     "sourcePrintPage": 158,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 47,
+    "qid": "cssgb:set-2:source-47:10hzvwm",
     "bokReference": "I.B.1"
   },
   {
@@ -1134,6 +1181,7 @@
     "sourcePrintPage": 159,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 48,
+    "qid": "cssgb:set-2:source-48:1f5xhgp",
     "bokReference": "II.F.3"
   },
   {
@@ -1155,6 +1203,7 @@
     "sourcePrintPage": 159,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 49,
+    "qid": "cssgb:set-2:source-49:1f5xhgp",
     "bokReference": "II.E.1"
   },
   {
@@ -1176,6 +1225,7 @@
     "sourcePrintPage": 159,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 50,
+    "qid": "cssgb:set-2:source-50:sebhe3",
     "bokReference": "IV.B.1"
   },
   {
@@ -1197,6 +1247,7 @@
     "sourcePrintPage": 159,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 51,
+    "qid": "cssgb:set-2:source-51:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -1218,6 +1269,7 @@
     "sourcePrintPage": 160,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 52,
+    "qid": "cssgb:set-2:source-52:10hzvwm",
     "bokReference": "I.B.2"
   },
   {
@@ -1239,6 +1291,7 @@
     "sourcePrintPage": 160,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 53,
+    "qid": "cssgb:set-2:source-53:5m2iwb",
     "bokReference": "III.D.3"
   },
   {
@@ -1260,6 +1313,7 @@
     "sourcePrintPage": 160,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 54,
+    "qid": "cssgb:set-2:source-54:1f5xhgp",
     "bokReference": "II.B.1"
   },
   {
@@ -1281,6 +1335,7 @@
     "sourcePrintPage": 160,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 55,
+    "qid": "cssgb:set-2:source-55:1up69ca",
     "bokReference": "V.C.2"
   },
   {
@@ -1302,6 +1357,7 @@
     "sourcePrintPage": 160,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 56,
+    "qid": "cssgb:set-2:source-56:sebhe3",
     "bokReference": "IV.A.2"
   },
   {
@@ -1323,6 +1379,7 @@
     "sourcePrintPage": 161,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 57,
+    "qid": "cssgb:set-2:source-57:uwm1ss",
     "bokReference": "VI.A.1"
   },
   {
@@ -1344,6 +1401,7 @@
     "sourcePrintPage": 161,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 58,
+    "qid": "cssgb:set-2:source-58:sebhe3",
     "bokReference": "IV.A.2"
   },
   {
@@ -1365,6 +1423,7 @@
     "sourcePrintPage": 161,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 59,
+    "qid": "cssgb:set-2:source-59:1f5xhgp",
     "bokReference": "II.C.6"
   },
   {
@@ -1386,6 +1445,7 @@
     "sourcePrintPage": 161,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 60,
+    "qid": "cssgb:set-2:source-60:10hzvwm",
     "bokReference": "I.B.1"
   },
   {
@@ -1407,6 +1467,7 @@
     "sourcePrintPage": 162,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 61,
+    "qid": "cssgb:set-2:source-61:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -1428,6 +1489,7 @@
     "sourcePrintPage": 162,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 62,
+    "qid": "cssgb:set-2:source-62:uwm1ss",
     "bokReference": "VI.B"
   },
   {
@@ -1449,6 +1511,7 @@
     "sourcePrintPage": 162,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 63,
+    "qid": "cssgb:set-2:source-63:1f5xhgp",
     "bokReference": "II.C.6"
   },
   {
@@ -1470,6 +1533,7 @@
     "sourcePrintPage": 162,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 64,
+    "qid": "cssgb:set-2:source-64:5m2iwb",
     "bokReference": "III.F.3"
   },
   {
@@ -1491,6 +1555,7 @@
     "sourcePrintPage": 163,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 65,
+    "qid": "cssgb:set-2:source-65:1up69ca",
     "bokReference": "V.A.2",
     "chart": {
       "type": "main-effects-plot",
@@ -1528,6 +1593,7 @@
     "sourcePrintPage": 163,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 66,
+    "qid": "cssgb:set-2:source-66:1f5xhgp",
     "bokReference": "II.B.3"
   },
   {
@@ -1549,6 +1615,7 @@
     "sourcePrintPage": 163,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 67,
+    "qid": "cssgb:set-2:source-67:5m2iwb",
     "bokReference": "III.B.2"
   },
   {
@@ -1570,6 +1637,7 @@
     "sourcePrintPage": 164,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 68,
+    "qid": "cssgb:set-2:source-68:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -1591,6 +1659,7 @@
     "sourcePrintPage": 164,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 69,
+    "qid": "cssgb:set-2:source-69:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -1612,6 +1681,7 @@
     "sourcePrintPage": 164,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 70,
+    "qid": "cssgb:set-2:source-70:1f5xhgp",
     "bokReference": "II.B.1"
   },
   {
@@ -1633,6 +1703,7 @@
     "sourcePrintPage": 164,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 71,
+    "qid": "cssgb:set-2:source-71:1f5xhgp",
     "bokReference": "II.F.1"
   },
   {
@@ -1654,6 +1725,7 @@
     "sourcePrintPage": 164,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 72,
+    "qid": "cssgb:set-2:source-72:uwm1ss",
     "bokReference": "VI.B.2"
   },
   {
@@ -1675,6 +1747,7 @@
     "sourcePrintPage": 165,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 73,
+    "qid": "cssgb:set-2:source-73:5m2iwb",
     "bokReference": "III.D.1"
   },
   {
@@ -1696,6 +1769,7 @@
     "sourcePrintPage": 165,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 74,
+    "qid": "cssgb:set-2:source-74:1up69ca",
     "bokReference": "V.B"
   },
   {
@@ -1717,6 +1791,7 @@
     "sourcePrintPage": 165,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 75,
+    "qid": "cssgb:set-2:source-75:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -1738,6 +1813,7 @@
     "sourcePrintPage": 165,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 76,
+    "qid": "cssgb:set-2:source-76:uwm1ss",
     "bokReference": "VI.B"
   },
   {
@@ -1759,6 +1835,7 @@
     "sourcePrintPage": 165,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 77,
+    "qid": "cssgb:set-2:source-77:1f5xhgp",
     "bokReference": "II.C.4"
   },
   {
@@ -1780,6 +1857,7 @@
     "sourcePrintPage": 166,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 78,
+    "qid": "cssgb:set-2:source-78:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -1801,6 +1879,7 @@
     "sourcePrintPage": 166,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 79,
+    "qid": "cssgb:set-2:source-79:5m2iwb",
     "bokReference": "III.B.1"
   },
   {
@@ -1822,6 +1901,7 @@
     "sourcePrintPage": 166,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 80,
+    "qid": "cssgb:set-2:source-80:10hzvwm",
     "bokReference": "I.A.2"
   },
   {
@@ -1843,6 +1923,7 @@
     "sourcePrintPage": 166,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 81,
+    "qid": "cssgb:set-2:source-81:10hzvwm",
     "bokReference": "I.C.1"
   },
   {
@@ -1864,6 +1945,7 @@
     "sourcePrintPage": 166,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 82,
+    "qid": "cssgb:set-2:source-82:5m2iwb",
     "bokReference": "III.B"
   },
   {
@@ -1885,6 +1967,7 @@
     "sourcePrintPage": 167,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 83,
+    "qid": "cssgb:set-2:source-83:1f5xhgp",
     "bokReference": "II.A.5"
   },
   {
@@ -1906,6 +1989,7 @@
     "sourcePrintPage": 167,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 84,
+    "qid": "cssgb:set-2:source-84:1f5xhgp",
     "bokReference": "II.D"
   },
   {
@@ -1927,6 +2011,7 @@
     "sourcePrintPage": 167,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 85,
+    "qid": "cssgb:set-2:source-85:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -1948,6 +2033,7 @@
     "sourcePrintPage": 167,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 86,
+    "qid": "cssgb:set-2:source-86:sebhe3",
     "bokReference": "IV.B1"
   },
   {
@@ -1969,6 +2055,7 @@
     "sourcePrintPage": 167,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 87,
+    "qid": "cssgb:set-2:source-87:sebhe3",
     "bokReference": "IV.C"
   },
   {
@@ -1990,6 +2077,7 @@
     "sourcePrintPage": 168,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 88,
+    "qid": "cssgb:set-2:source-88:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -2011,6 +2099,7 @@
     "sourcePrintPage": 168,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 89,
+    "qid": "cssgb:set-2:source-89:uwm1ss",
     "bokReference": "VI.B.4"
   },
   {
@@ -2032,6 +2121,7 @@
     "sourcePrintPage": 168,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 90,
+    "qid": "cssgb:set-2:source-90:uwm1ss",
     "bokReference": "VI.B.1"
   },
   {
@@ -2053,6 +2143,7 @@
     "sourcePrintPage": 168,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 91,
+    "qid": "cssgb:set-2:source-91:5m2iwb",
     "bokReference": "III.B.1"
   },
   {
@@ -2074,6 +2165,7 @@
     "sourcePrintPage": 169,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 92,
+    "qid": "cssgb:set-2:source-92:1up69ca",
     "bokReference": "V.A.2",
     "chart": {
       "type": "two-level-interaction",
@@ -2110,6 +2202,7 @@
     "sourcePrintPage": 169,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 93,
+    "qid": "cssgb:set-2:source-93:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -2131,6 +2224,7 @@
     "sourcePrintPage": 169,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 94,
+    "qid": "cssgb:set-2:source-94:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -2152,6 +2246,7 @@
     "sourcePrintPage": 170,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 95,
+    "qid": "cssgb:set-2:source-95:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -2173,6 +2268,7 @@
     "sourcePrintPage": 170,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 96,
+    "qid": "cssgb:set-2:source-96:5m2iwb",
     "bokReference": "III.A"
   },
   {
@@ -2194,6 +2290,7 @@
     "sourcePrintPage": 170,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 97,
+    "qid": "cssgb:set-2:source-97:sebhe3",
     "bokReference": "IV.A.1"
   },
   {
@@ -2215,6 +2312,7 @@
     "sourcePrintPage": 170,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 98,
+    "qid": "cssgb:set-2:source-98:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -2236,6 +2334,7 @@
     "sourcePrintPage": 171,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 99,
+    "qid": "cssgb:set-2:source-99:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -2257,6 +2356,7 @@
     "sourcePrintPage": 171,
     "sourceEpubFile": "OEBPS/xhtml/part2.xhtml",
     "sourceGlobalQuestion": 100,
+    "qid": "cssgb:set-2:source-100:5m2iwb",
     "bokReference": "III.B.1"
   },
   {
@@ -2278,6 +2378,7 @@
     "sourcePrintPage": 4,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 101,
+    "qid": "cssgb:set-2:source-101:epnw8v",
     "bokReference": "I.A.1"
   },
   {
@@ -2299,6 +2400,7 @@
     "sourcePrintPage": 4,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 102,
+    "qid": "cssgb:set-2:source-102:epnw8v",
     "bokReference": "I.A.1"
   },
   {
@@ -2320,6 +2422,7 @@
     "sourcePrintPage": 4,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 103,
+    "qid": "cssgb:set-2:source-103:epnw8v",
     "bokReference": "I.A.1"
   },
   {
@@ -2341,6 +2444,7 @@
     "sourcePrintPage": 5,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 104,
+    "qid": "cssgb:set-2:source-104:epnw8v",
     "bokReference": "I.A.1"
   },
   {
@@ -2362,6 +2466,7 @@
     "sourcePrintPage": 5,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 105,
+    "qid": "cssgb:set-2:source-105:epnw8v",
     "bokReference": "I.A.1"
   },
   {
@@ -2383,6 +2488,7 @@
     "sourcePrintPage": 5,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 106,
+    "qid": "cssgb:set-2:source-106:epnw8v",
     "bokReference": "I.A.1"
   },
   {
@@ -2404,6 +2510,7 @@
     "sourcePrintPage": 5,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 107,
+    "qid": "cssgb:set-2:source-107:epnw8v",
     "bokReference": "I.A.1"
   },
   {
@@ -2425,6 +2532,7 @@
     "sourcePrintPage": 5,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 108,
+    "qid": "cssgb:set-2:source-108:epnw8v",
     "bokReference": "I.A.2"
   },
   {
@@ -2446,6 +2554,7 @@
     "sourcePrintPage": 6,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 109,
+    "qid": "cssgb:set-2:source-109:epnw8v",
     "bokReference": "I.A.2"
   },
   {
@@ -2467,6 +2576,7 @@
     "sourcePrintPage": 6,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 110,
+    "qid": "cssgb:set-2:source-110:epnw8v",
     "bokReference": "I.A.2"
   },
   {
@@ -2488,6 +2598,7 @@
     "sourcePrintPage": 6,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 111,
+    "qid": "cssgb:set-2:source-111:epnw8v",
     "bokReference": "I.A.3"
   },
   {
@@ -2509,6 +2620,7 @@
     "sourcePrintPage": 6,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 112,
+    "qid": "cssgb:set-2:source-112:epnw8v",
     "bokReference": "I.A.3"
   },
   {
@@ -2530,6 +2642,7 @@
     "sourcePrintPage": 6,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 113,
+    "qid": "cssgb:set-2:source-113:epnw8v",
     "bokReference": "I.A.3"
   },
   {
@@ -2551,6 +2664,7 @@
     "sourcePrintPage": 7,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 114,
+    "qid": "cssgb:set-2:source-114:epnw8v",
     "bokReference": "I.A.3"
   },
   {
@@ -2572,6 +2686,7 @@
     "sourcePrintPage": 7,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 115,
+    "qid": "cssgb:set-2:source-115:epnw8v",
     "bokReference": "I.A.3"
   },
   {
@@ -2593,6 +2708,7 @@
     "sourcePrintPage": 7,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 116,
+    "qid": "cssgb:set-2:source-116:epnw8v",
     "bokReference": "I.A.3"
   },
   {
@@ -2614,6 +2730,7 @@
     "sourcePrintPage": 7,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 117,
+    "qid": "cssgb:set-2:source-117:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -2635,6 +2752,7 @@
     "sourcePrintPage": 7,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 118,
+    "qid": "cssgb:set-2:source-118:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -2656,6 +2774,7 @@
     "sourcePrintPage": 8,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 119,
+    "qid": "cssgb:set-2:source-119:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -2677,6 +2796,7 @@
     "sourcePrintPage": 8,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 120,
+    "qid": "cssgb:set-2:source-120:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -2698,6 +2818,7 @@
     "sourcePrintPage": 8,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 121,
+    "qid": "cssgb:set-2:source-121:epnw8v",
     "bokReference": "I.B.2"
   },
   {
@@ -2719,6 +2840,7 @@
     "sourcePrintPage": 8,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 122,
+    "qid": "cssgb:set-2:source-122:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -2740,6 +2862,7 @@
     "sourcePrintPage": 8,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 123,
+    "qid": "cssgb:set-2:source-123:epnw8v",
     "bokReference": "I.B.2"
   },
   {
@@ -2761,6 +2884,7 @@
     "sourcePrintPage": 9,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 124,
+    "qid": "cssgb:set-2:source-124:epnw8v",
     "bokReference": "I.B.2"
   },
   {
@@ -2782,6 +2906,7 @@
     "sourcePrintPage": 9,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 125,
+    "qid": "cssgb:set-2:source-125:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -2803,6 +2928,7 @@
     "sourcePrintPage": 9,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 126,
+    "qid": "cssgb:set-2:source-126:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -2824,6 +2950,7 @@
     "sourcePrintPage": 9,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 127,
+    "qid": "cssgb:set-2:source-127:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -2845,6 +2972,7 @@
     "sourcePrintPage": 9,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 128,
+    "qid": "cssgb:set-2:source-128:epnw8v",
     "bokReference": "I.B.2"
   },
   {
@@ -2866,6 +2994,7 @@
     "sourcePrintPage": 10,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 129,
+    "qid": "cssgb:set-2:source-129:epnw8v",
     "bokReference": "I.B.2",
     "chart": {
       "type": "vsm-symbol"
@@ -2890,6 +3019,7 @@
     "sourcePrintPage": 10,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 130,
+    "qid": "cssgb:set-2:source-130:epnw8v",
     "bokReference": "I.B.2"
   },
   {
@@ -2911,6 +3041,7 @@
     "sourcePrintPage": 10,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 131,
+    "qid": "cssgb:set-2:source-131:epnw8v",
     "bokReference": "I.B.2"
   },
   {
@@ -2932,6 +3063,7 @@
     "sourcePrintPage": 10,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 132,
+    "qid": "cssgb:set-2:source-132:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -2953,6 +3085,7 @@
     "sourcePrintPage": 10,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 133,
+    "qid": "cssgb:set-2:source-133:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -2974,6 +3107,7 @@
     "sourcePrintPage": 11,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 134,
+    "qid": "cssgb:set-2:source-134:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -2995,6 +3129,7 @@
     "sourcePrintPage": 11,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 135,
+    "qid": "cssgb:set-2:source-135:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -3016,6 +3151,7 @@
     "sourcePrintPage": 11,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 136,
+    "qid": "cssgb:set-2:source-136:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -3037,6 +3173,7 @@
     "sourcePrintPage": 11,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 137,
+    "qid": "cssgb:set-2:source-137:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -3058,6 +3195,7 @@
     "sourcePrintPage": 11,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 138,
+    "qid": "cssgb:set-2:source-138:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -3079,6 +3217,7 @@
     "sourcePrintPage": 12,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 139,
+    "qid": "cssgb:set-2:source-139:epnw8v",
     "bokReference": "I.B.1"
   },
   {
@@ -3100,6 +3239,7 @@
     "sourcePrintPage": 12,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 140,
+    "qid": "cssgb:set-2:source-140:epnw8v",
     "bokReference": "I.C.1"
   },
   {
@@ -3121,6 +3261,7 @@
     "sourcePrintPage": 12,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 141,
+    "qid": "cssgb:set-2:source-141:epnw8v",
     "bokReference": "I.C.1"
   },
   {
@@ -3142,6 +3283,7 @@
     "sourcePrintPage": 12,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 142,
+    "qid": "cssgb:set-2:source-142:epnw8v",
     "bokReference": "I.C.1"
   },
   {
@@ -3163,6 +3305,7 @@
     "sourcePrintPage": 13,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 143,
+    "qid": "cssgb:set-2:source-143:epnw8v",
     "bokReference": "I.C.1"
   },
   {
@@ -3184,6 +3327,7 @@
     "sourcePrintPage": 13,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 144,
+    "qid": "cssgb:set-2:source-144:epnw8v",
     "bokReference": "I.C.2"
   },
   {
@@ -3205,6 +3349,7 @@
     "sourcePrintPage": 13,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 145,
+    "qid": "cssgb:set-2:source-145:epnw8v",
     "bokReference": "I.C.2"
   },
   {
@@ -3226,6 +3371,7 @@
     "sourcePrintPage": 13,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 146,
+    "qid": "cssgb:set-2:source-146:epnw8v",
     "bokReference": "I.C.2"
   },
   {
@@ -3247,6 +3393,7 @@
     "sourcePrintPage": 13,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 147,
+    "qid": "cssgb:set-2:source-147:epnw8v",
     "bokReference": "I.C.2"
   },
   {
@@ -3268,6 +3415,7 @@
     "sourcePrintPage": 14,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 148,
+    "qid": "cssgb:set-2:source-148:epnw8v",
     "bokReference": "I.C.2",
     "chart": {
       "type": "data-table",
@@ -3338,6 +3486,7 @@
     "sourcePrintPage": 14,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 149,
+    "qid": "cssgb:set-2:source-149:epnw8v",
     "bokReference": "I.C.2",
     "chart": {
       "type": "data-table",
@@ -3408,6 +3557,7 @@
     "sourcePrintPage": 14,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 150,
+    "qid": "cssgb:set-2:source-150:epnw8v",
     "bokReference": "I.C.2",
     "chart": {
       "type": "data-table",
@@ -3478,6 +3628,7 @@
     "sourcePrintPage": 14,
     "sourceEpubFile": "OEBPS/xhtml/chapter1.xhtml",
     "sourceGlobalQuestion": 151,
+    "qid": "cssgb:set-2:source-151:epnw8v",
     "bokReference": "I.C.3"
   },
   {
@@ -3499,6 +3650,7 @@
     "sourcePrintPage": 21,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 152,
+    "qid": "cssgb:set-2:source-152:1f5xhgp",
     "bokReference": "II.A.1"
   },
   {
@@ -3520,6 +3672,7 @@
     "sourcePrintPage": 22,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 153,
+    "qid": "cssgb:set-2:source-153:1f5xhgp",
     "bokReference": "II.A.1"
   },
   {
@@ -3541,6 +3694,7 @@
     "sourcePrintPage": 22,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 154,
+    "qid": "cssgb:set-2:source-154:1f5xhgp",
     "bokReference": "II.A.2"
   },
   {
@@ -3562,6 +3716,7 @@
     "sourcePrintPage": 22,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 155,
+    "qid": "cssgb:set-2:source-155:1f5xhgp",
     "bokReference": "II.A.2"
   },
   {
@@ -3583,6 +3738,7 @@
     "sourcePrintPage": 22,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 156,
+    "qid": "cssgb:set-2:source-156:1f5xhgp",
     "bokReference": "II.A.3"
   },
   {
@@ -3604,6 +3760,7 @@
     "sourcePrintPage": 22,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 157,
+    "qid": "cssgb:set-2:source-157:1f5xhgp",
     "bokReference": "II.A.3"
   },
   {
@@ -3625,6 +3782,7 @@
     "sourcePrintPage": 23,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 158,
+    "qid": "cssgb:set-2:source-158:1f5xhgp",
     "bokReference": "II.A.4"
   },
   {
@@ -3646,6 +3804,7 @@
     "sourcePrintPage": 23,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 159,
+    "qid": "cssgb:set-2:source-159:1f5xhgp",
     "bokReference": "II.A.5"
   },
   {
@@ -3667,6 +3826,7 @@
     "sourcePrintPage": 23,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 160,
+    "qid": "cssgb:set-2:source-160:1f5xhgp",
     "bokReference": "II.A.5"
   },
   {
@@ -3688,6 +3848,7 @@
     "sourcePrintPage": 23,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 161,
+    "qid": "cssgb:set-2:source-161:1f5xhgp",
     "bokReference": "II.B.1"
   },
   {
@@ -3709,6 +3870,7 @@
     "sourcePrintPage": 23,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 162,
+    "qid": "cssgb:set-2:source-162:1f5xhgp",
     "bokReference": "II.B.2"
   },
   {
@@ -3730,6 +3892,7 @@
     "sourcePrintPage": 24,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 163,
+    "qid": "cssgb:set-2:source-163:1f5xhgp",
     "bokReference": "II.B.2"
   },
   {
@@ -3751,6 +3914,7 @@
     "sourcePrintPage": 24,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 164,
+    "qid": "cssgb:set-2:source-164:1f5xhgp",
     "bokReference": "II.B.3"
   },
   {
@@ -3772,6 +3936,7 @@
     "sourcePrintPage": 24,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 165,
+    "qid": "cssgb:set-2:source-165:1f5xhgp",
     "bokReference": "II.B.3"
   },
   {
@@ -3793,6 +3958,7 @@
     "sourcePrintPage": 24,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 166,
+    "qid": "cssgb:set-2:source-166:1f5xhgp",
     "bokReference": "II.B.3"
   },
   {
@@ -3814,6 +3980,7 @@
     "sourcePrintPage": 24,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 167,
+    "qid": "cssgb:set-2:source-167:1f5xhgp",
     "bokReference": "II.B.3"
   },
   {
@@ -3835,6 +4002,7 @@
     "sourcePrintPage": 25,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 168,
+    "qid": "cssgb:set-2:source-168:1f5xhgp",
     "bokReference": "II.B.3"
   },
   {
@@ -3856,6 +4024,7 @@
     "sourcePrintPage": 25,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 169,
+    "qid": "cssgb:set-2:source-169:1f5xhgp",
     "bokReference": "II.B.3"
   },
   {
@@ -3877,6 +4046,7 @@
     "sourcePrintPage": 25,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 170,
+    "qid": "cssgb:set-2:source-170:1f5xhgp",
     "bokReference": "II.B.3"
   },
   {
@@ -3898,6 +4068,7 @@
     "sourcePrintPage": 25,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 171,
+    "qid": "cssgb:set-2:source-171:1f5xhgp",
     "bokReference": "II.C.1"
   },
   {
@@ -3919,6 +4090,7 @@
     "sourcePrintPage": 25,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 172,
+    "qid": "cssgb:set-2:source-172:1f5xhgp",
     "bokReference": "II.C.1"
   },
   {
@@ -3940,6 +4112,7 @@
     "sourcePrintPage": 26,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 173,
+    "qid": "cssgb:set-2:source-173:1f5xhgp",
     "bokReference": "II.C.1"
   },
   {
@@ -3961,6 +4134,7 @@
     "sourcePrintPage": 26,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 174,
+    "qid": "cssgb:set-2:source-174:1f5xhgp",
     "bokReference": "II.C.2"
   },
   {
@@ -3982,6 +4156,7 @@
     "sourcePrintPage": 26,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 175,
+    "qid": "cssgb:set-2:source-175:1f5xhgp",
     "bokReference": "II.C.3"
   },
   {
@@ -4003,6 +4178,7 @@
     "sourcePrintPage": 26,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 176,
+    "qid": "cssgb:set-2:source-176:1f5xhgp",
     "bokReference": "II.C.4"
   },
   {
@@ -4024,6 +4200,7 @@
     "sourcePrintPage": 26,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 177,
+    "qid": "cssgb:set-2:source-177:1f5xhgp",
     "bokReference": "II.C.5"
   },
   {
@@ -4045,6 +4222,7 @@
     "sourcePrintPage": 27,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 178,
+    "qid": "cssgb:set-2:source-178:1f5xhgp",
     "bokReference": "II.C.5",
     "chart": {
       "type": "wbs-diagram"
@@ -4069,6 +4247,7 @@
     "sourcePrintPage": 27,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 179,
+    "qid": "cssgb:set-2:source-179:1f5xhgp",
     "bokReference": "II.C.5"
   },
   {
@@ -4090,6 +4269,7 @@
     "sourcePrintPage": 27,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 180,
+    "qid": "cssgb:set-2:source-180:1f5xhgp",
     "bokReference": "II.C.5"
   },
   {
@@ -4111,6 +4291,7 @@
     "sourcePrintPage": 27,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 181,
+    "qid": "cssgb:set-2:source-181:1f5xhgp",
     "bokReference": "II.C.6"
   },
   {
@@ -4132,6 +4313,7 @@
     "sourcePrintPage": 28,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 182,
+    "qid": "cssgb:set-2:source-182:1f5xhgp",
     "bokReference": "II.C.6"
   },
   {
@@ -4153,6 +4335,7 @@
     "sourcePrintPage": 28,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 183,
+    "qid": "cssgb:set-2:source-183:1f5xhgp",
     "bokReference": "II.C.6"
   },
   {
@@ -4174,6 +4357,7 @@
     "sourcePrintPage": 28,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 184,
+    "qid": "cssgb:set-2:source-184:1f5xhgp",
     "bokReference": "II.C.7"
   },
   {
@@ -4195,6 +4379,7 @@
     "sourcePrintPage": 28,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 185,
+    "qid": "cssgb:set-2:source-185:1f5xhgp",
     "bokReference": "II.C.7"
   },
   {
@@ -4216,6 +4401,7 @@
     "sourcePrintPage": 29,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 186,
+    "qid": "cssgb:set-2:source-186:1f5xhgp",
     "bokReference": "II.C.7"
   },
   {
@@ -4237,6 +4423,7 @@
     "sourcePrintPage": 29,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 187,
+    "qid": "cssgb:set-2:source-187:1f5xhgp",
     "bokReference": "II.C.7"
   },
   {
@@ -4258,6 +4445,7 @@
     "sourcePrintPage": 29,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 188,
+    "qid": "cssgb:set-2:source-188:1f5xhgp",
     "bokReference": "II.C.8"
   },
   {
@@ -4279,6 +4467,7 @@
     "sourcePrintPage": 29,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 189,
+    "qid": "cssgb:set-2:source-189:1f5xhgp",
     "bokReference": "II.C.8"
   },
   {
@@ -4300,6 +4489,7 @@
     "sourcePrintPage": 29,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 190,
+    "qid": "cssgb:set-2:source-190:1f5xhgp",
     "bokReference": "II.D"
   },
   {
@@ -4321,6 +4511,7 @@
     "sourcePrintPage": 30,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 191,
+    "qid": "cssgb:set-2:source-191:1f5xhgp",
     "bokReference": "II.D"
   },
   {
@@ -4342,6 +4533,7 @@
     "sourcePrintPage": 30,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 192,
+    "qid": "cssgb:set-2:source-192:1f5xhgp",
     "bokReference": "II.D"
   },
   {
@@ -4363,6 +4555,7 @@
     "sourcePrintPage": 30,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 193,
+    "qid": "cssgb:set-2:source-193:1f5xhgp",
     "bokReference": "II.D"
   },
   {
@@ -4384,6 +4577,7 @@
     "sourcePrintPage": 30,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 194,
+    "qid": "cssgb:set-2:source-194:1f5xhgp",
     "bokReference": "II.D"
   },
   {
@@ -4405,6 +4599,7 @@
     "sourcePrintPage": 30,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 195,
+    "qid": "cssgb:set-2:source-195:1f5xhgp",
     "bokReference": "II.D"
   },
   {
@@ -4426,6 +4621,7 @@
     "sourcePrintPage": 31,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 196,
+    "qid": "cssgb:set-2:source-196:1f5xhgp",
     "bokReference": "II.D"
   },
   {
@@ -4447,6 +4643,7 @@
     "sourcePrintPage": 31,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 197,
+    "qid": "cssgb:set-2:source-197:1f5xhgp",
     "bokReference": "II.D"
   },
   {
@@ -4468,6 +4665,7 @@
     "sourcePrintPage": 31,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 198,
+    "qid": "cssgb:set-2:source-198:1f5xhgp",
     "bokReference": "II.D"
   },
   {
@@ -4489,6 +4687,7 @@
     "sourcePrintPage": 31,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 199,
+    "qid": "cssgb:set-2:source-199:1f5xhgp",
     "bokReference": "II.D"
   },
   {
@@ -4510,6 +4709,7 @@
     "sourcePrintPage": 31,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 200,
+    "qid": "cssgb:set-2:source-200:1f5xhgp",
     "bokReference": "II.E.1"
   },
   {
@@ -4531,6 +4731,7 @@
     "sourcePrintPage": 32,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 201,
+    "qid": "cssgb:set-2:source-201:1f5xhgp",
     "bokReference": "II.E.1"
   },
   {
@@ -4552,6 +4753,7 @@
     "sourcePrintPage": 32,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 202,
+    "qid": "cssgb:set-2:source-202:1f5xhgp",
     "bokReference": "II.E.1"
   },
   {
@@ -4573,6 +4775,7 @@
     "sourcePrintPage": 32,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 203,
+    "qid": "cssgb:set-2:source-203:1f5xhgp",
     "bokReference": "II.E.1"
   },
   {
@@ -4594,6 +4797,7 @@
     "sourcePrintPage": 32,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 204,
+    "qid": "cssgb:set-2:source-204:1f5xhgp",
     "bokReference": "II.E.1"
   },
   {
@@ -4615,6 +4819,7 @@
     "sourcePrintPage": 32,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 205,
+    "qid": "cssgb:set-2:source-205:1f5xhgp",
     "bokReference": "II.E.1"
   },
   {
@@ -4636,6 +4841,7 @@
     "sourcePrintPage": 33,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 206,
+    "qid": "cssgb:set-2:source-206:1f5xhgp",
     "bokReference": "II.E.1"
   },
   {
@@ -4657,6 +4863,7 @@
     "sourcePrintPage": 33,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 207,
+    "qid": "cssgb:set-2:source-207:1f5xhgp",
     "bokReference": "II.E.2"
   },
   {
@@ -4678,6 +4885,7 @@
     "sourcePrintPage": 33,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 208,
+    "qid": "cssgb:set-2:source-208:1f5xhgp",
     "bokReference": "II.E.2"
   },
   {
@@ -4699,6 +4907,7 @@
     "sourcePrintPage": 33,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 209,
+    "qid": "cssgb:set-2:source-209:1f5xhgp",
     "bokReference": "II.E.2"
   },
   {
@@ -4720,6 +4929,7 @@
     "sourcePrintPage": 33,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 210,
+    "qid": "cssgb:set-2:source-210:1f5xhgp",
     "bokReference": "II.F.1"
   },
   {
@@ -4741,6 +4951,7 @@
     "sourcePrintPage": 34,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 211,
+    "qid": "cssgb:set-2:source-211:1f5xhgp",
     "bokReference": "II.F.1"
   },
   {
@@ -4762,6 +4973,7 @@
     "sourcePrintPage": 34,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 212,
+    "qid": "cssgb:set-2:source-212:1f5xhgp",
     "bokReference": "II.F.1"
   },
   {
@@ -4783,6 +4995,7 @@
     "sourcePrintPage": 34,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 213,
+    "qid": "cssgb:set-2:source-213:1f5xhgp",
     "bokReference": "II.F.1"
   },
   {
@@ -4804,6 +5017,7 @@
     "sourcePrintPage": 34,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 214,
+    "qid": "cssgb:set-2:source-214:1f5xhgp",
     "bokReference": "II.F.1"
   },
   {
@@ -4825,6 +5039,7 @@
     "sourcePrintPage": 34,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 215,
+    "qid": "cssgb:set-2:source-215:1f5xhgp",
     "bokReference": "II.F.2"
   },
   {
@@ -4846,6 +5061,7 @@
     "sourcePrintPage": 35,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 216,
+    "qid": "cssgb:set-2:source-216:1f5xhgp",
     "bokReference": "II.F.2"
   },
   {
@@ -4867,6 +5083,7 @@
     "sourcePrintPage": 35,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 217,
+    "qid": "cssgb:set-2:source-217:1f5xhgp",
     "bokReference": "II.F.2"
   },
   {
@@ -4888,6 +5105,7 @@
     "sourcePrintPage": 35,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 218,
+    "qid": "cssgb:set-2:source-218:1f5xhgp",
     "bokReference": "II.F.2"
   },
   {
@@ -4909,6 +5127,7 @@
     "sourcePrintPage": 35,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 219,
+    "qid": "cssgb:set-2:source-219:1f5xhgp",
     "bokReference": "II.F.2"
   },
   {
@@ -4930,6 +5149,7 @@
     "sourcePrintPage": 35,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 220,
+    "qid": "cssgb:set-2:source-220:1f5xhgp",
     "bokReference": "II.F.2"
   },
   {
@@ -4951,6 +5171,7 @@
     "sourcePrintPage": 36,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 221,
+    "qid": "cssgb:set-2:source-221:1f5xhgp",
     "bokReference": "II.F.3"
   },
   {
@@ -4972,6 +5193,7 @@
     "sourcePrintPage": 36,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 222,
+    "qid": "cssgb:set-2:source-222:1f5xhgp",
     "bokReference": "II.F.3",
     "chart": {
       "type": "data-table",
@@ -5028,6 +5250,7 @@
     "sourcePrintPage": 36,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 223,
+    "qid": "cssgb:set-2:source-223:1f5xhgp",
     "bokReference": "II.F.3"
   },
   {
@@ -5049,6 +5272,7 @@
     "sourcePrintPage": 36,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 224,
+    "qid": "cssgb:set-2:source-224:1f5xhgp",
     "bokReference": "II.F.3"
   },
   {
@@ -5070,6 +5294,7 @@
     "sourcePrintPage": 37,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 225,
+    "qid": "cssgb:set-2:source-225:1f5xhgp",
     "bokReference": "II.F.3"
   },
   {
@@ -5091,6 +5316,7 @@
     "sourcePrintPage": 37,
     "sourceEpubFile": "OEBPS/xhtml/chapter2.xhtml",
     "sourceGlobalQuestion": 226,
+    "qid": "cssgb:set-2:source-226:1f5xhgp",
     "bokReference": "II.F.4"
   },
   {
@@ -5112,6 +5338,7 @@
     "sourcePrintPage": 45,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 227,
+    "qid": "cssgb:set-2:source-227:5m2iwb",
     "bokReference": "III.A"
   },
   {
@@ -5133,6 +5360,7 @@
     "sourcePrintPage": 47,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 228,
+    "qid": "cssgb:set-2:source-228:5m2iwb",
     "bokReference": "III.A"
   },
   {
@@ -5154,6 +5382,7 @@
     "sourcePrintPage": 47,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 229,
+    "qid": "cssgb:set-2:source-229:5m2iwb",
     "bokReference": "III.A"
   },
   {
@@ -5175,6 +5404,7 @@
     "sourcePrintPage": 47,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 230,
+    "qid": "cssgb:set-2:source-230:5m2iwb",
     "bokReference": "III.A"
   },
   {
@@ -5196,6 +5426,7 @@
     "sourcePrintPage": 47,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 231,
+    "qid": "cssgb:set-2:source-231:5m2iwb",
     "bokReference": "III.A"
   },
   {
@@ -5217,6 +5448,7 @@
     "sourcePrintPage": 47,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 232,
+    "qid": "cssgb:set-2:source-232:5m2iwb",
     "bokReference": "III.A"
   },
   {
@@ -5238,6 +5470,7 @@
     "sourcePrintPage": 48,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 233,
+    "qid": "cssgb:set-2:source-233:5m2iwb",
     "bokReference": "III.B.1"
   },
   {
@@ -5259,6 +5492,7 @@
     "sourcePrintPage": 48,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 234,
+    "qid": "cssgb:set-2:source-234:5m2iwb",
     "bokReference": "III.B.1"
   },
   {
@@ -5280,6 +5514,7 @@
     "sourcePrintPage": 48,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 235,
+    "qid": "cssgb:set-2:source-235:5m2iwb",
     "bokReference": "III.B.1"
   },
   {
@@ -5301,6 +5536,7 @@
     "sourcePrintPage": 48,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 236,
+    "qid": "cssgb:set-2:source-236:5m2iwb",
     "bokReference": "III.B.1"
   },
   {
@@ -5322,6 +5558,7 @@
     "sourcePrintPage": 48,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 237,
+    "qid": "cssgb:set-2:source-237:5m2iwb",
     "bokReference": "III.B.1"
   },
   {
@@ -5343,6 +5580,7 @@
     "sourcePrintPage": 49,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 238,
+    "qid": "cssgb:set-2:source-238:5m2iwb",
     "bokReference": "III.B.1",
     "chart": {
       "type": "data-table",
@@ -5393,6 +5631,7 @@
     "sourcePrintPage": 49,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 239,
+    "qid": "cssgb:set-2:source-239:5m2iwb",
     "bokReference": "III.B.1",
     "chart": {
       "type": "data-table",
@@ -5443,6 +5682,7 @@
     "sourcePrintPage": 49,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 240,
+    "qid": "cssgb:set-2:source-240:5m2iwb",
     "bokReference": "III.B.1",
     "chart": {
       "type": "data-table",
@@ -5493,6 +5733,7 @@
     "sourcePrintPage": 49,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 241,
+    "qid": "cssgb:set-2:source-241:5m2iwb",
     "bokReference": "III.B.1"
   },
   {
@@ -5514,6 +5755,7 @@
     "sourcePrintPage": 50,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 242,
+    "qid": "cssgb:set-2:source-242:5m2iwb",
     "bokReference": "III.B.1"
   },
   {
@@ -5535,6 +5777,7 @@
     "sourcePrintPage": 50,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 243,
+    "qid": "cssgb:set-2:source-243:5m2iwb",
     "bokReference": "III.B.2"
   },
   {
@@ -5556,6 +5799,7 @@
     "sourcePrintPage": 50,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 244,
+    "qid": "cssgb:set-2:source-244:5m2iwb",
     "bokReference": "III.B.2"
   },
   {
@@ -5577,6 +5821,7 @@
     "sourcePrintPage": 50,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 245,
+    "qid": "cssgb:set-2:source-245:5m2iwb",
     "bokReference": "III.B.2"
   },
   {
@@ -5598,6 +5843,7 @@
     "sourcePrintPage": 50,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 246,
+    "qid": "cssgb:set-2:source-246:5m2iwb",
     "bokReference": "III.B"
   },
   {
@@ -5619,6 +5865,7 @@
     "sourcePrintPage": 51,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 247,
+    "qid": "cssgb:set-2:source-247:5m2iwb",
     "bokReference": "III.B"
   },
   {
@@ -5640,6 +5887,7 @@
     "sourcePrintPage": 51,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 248,
+    "qid": "cssgb:set-2:source-248:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5661,6 +5909,7 @@
     "sourcePrintPage": 51,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 249,
+    "qid": "cssgb:set-2:source-249:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5682,6 +5931,7 @@
     "sourcePrintPage": 51,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 250,
+    "qid": "cssgb:set-2:source-250:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5703,6 +5953,7 @@
     "sourcePrintPage": 52,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 251,
+    "qid": "cssgb:set-2:source-251:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5724,6 +5975,7 @@
     "sourcePrintPage": 52,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 252,
+    "qid": "cssgb:set-2:source-252:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5745,6 +5997,7 @@
     "sourcePrintPage": 52,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 253,
+    "qid": "cssgb:set-2:source-253:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5766,6 +6019,7 @@
     "sourcePrintPage": 52,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 254,
+    "qid": "cssgb:set-2:source-254:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5787,6 +6041,7 @@
     "sourcePrintPage": 52,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 255,
+    "qid": "cssgb:set-2:source-255:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5808,6 +6063,7 @@
     "sourcePrintPage": 53,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 256,
+    "qid": "cssgb:set-2:source-256:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5829,6 +6085,7 @@
     "sourcePrintPage": 53,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 257,
+    "qid": "cssgb:set-2:source-257:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5850,6 +6107,7 @@
     "sourcePrintPage": 53,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 258,
+    "qid": "cssgb:set-2:source-258:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5871,6 +6129,7 @@
     "sourcePrintPage": 53,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 259,
+    "qid": "cssgb:set-2:source-259:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5892,6 +6151,7 @@
     "sourcePrintPage": 53,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 260,
+    "qid": "cssgb:set-2:source-260:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5913,6 +6173,7 @@
     "sourcePrintPage": 54,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 261,
+    "qid": "cssgb:set-2:source-261:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5934,6 +6195,7 @@
     "sourcePrintPage": 54,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 262,
+    "qid": "cssgb:set-2:source-262:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5955,6 +6217,7 @@
     "sourcePrintPage": 54,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 263,
+    "qid": "cssgb:set-2:source-263:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5976,6 +6239,7 @@
     "sourcePrintPage": 54,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 264,
+    "qid": "cssgb:set-2:source-264:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -5997,6 +6261,7 @@
     "sourcePrintPage": 54,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 265,
+    "qid": "cssgb:set-2:source-265:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -6018,6 +6283,7 @@
     "sourcePrintPage": 55,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 266,
+    "qid": "cssgb:set-2:source-266:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -6039,6 +6305,7 @@
     "sourcePrintPage": 55,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 267,
+    "qid": "cssgb:set-2:source-267:5m2iwb",
     "bokReference": "III.C"
   },
   {
@@ -6060,6 +6327,7 @@
     "sourcePrintPage": 55,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 268,
+    "qid": "cssgb:set-2:source-268:5m2iwb",
     "bokReference": "III.D.1"
   },
   {
@@ -6081,6 +6349,7 @@
     "sourcePrintPage": 55,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 269,
+    "qid": "cssgb:set-2:source-269:5m2iwb",
     "bokReference": "III.D.1"
   },
   {
@@ -6102,6 +6371,7 @@
     "sourcePrintPage": 55,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 270,
+    "qid": "cssgb:set-2:source-270:5m2iwb",
     "bokReference": "III.D.1"
   },
   {
@@ -6123,6 +6393,7 @@
     "sourcePrintPage": 56,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 271,
+    "qid": "cssgb:set-2:source-271:5m2iwb",
     "bokReference": "III.D.1"
   },
   {
@@ -6144,6 +6415,7 @@
     "sourcePrintPage": 56,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 272,
+    "qid": "cssgb:set-2:source-272:5m2iwb",
     "bokReference": "III.D.1"
   },
   {
@@ -6165,6 +6437,7 @@
     "sourcePrintPage": 56,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 273,
+    "qid": "cssgb:set-2:source-273:5m2iwb",
     "bokReference": "III.D.1"
   },
   {
@@ -6186,6 +6459,7 @@
     "sourcePrintPage": 56,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 274,
+    "qid": "cssgb:set-2:source-274:5m2iwb",
     "bokReference": "III.D.1"
   },
   {
@@ -6207,6 +6481,7 @@
     "sourcePrintPage": 56,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 275,
+    "qid": "cssgb:set-2:source-275:5m2iwb",
     "bokReference": "III.D.2"
   },
   {
@@ -6228,6 +6503,7 @@
     "sourcePrintPage": 57,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 276,
+    "qid": "cssgb:set-2:source-276:5m2iwb",
     "bokReference": "III.D.2"
   },
   {
@@ -6249,6 +6525,7 @@
     "sourcePrintPage": 57,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 277,
+    "qid": "cssgb:set-2:source-277:5m2iwb",
     "bokReference": "III.D.2"
   },
   {
@@ -6270,6 +6547,7 @@
     "sourcePrintPage": 57,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 278,
+    "qid": "cssgb:set-2:source-278:5m2iwb",
     "bokReference": "III.D.2"
   },
   {
@@ -6291,6 +6569,7 @@
     "sourcePrintPage": 57,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 279,
+    "qid": "cssgb:set-2:source-279:5m2iwb",
     "bokReference": "III.D.2"
   },
   {
@@ -6312,6 +6591,7 @@
     "sourcePrintPage": 57,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 280,
+    "qid": "cssgb:set-2:source-280:5m2iwb",
     "bokReference": "III.D.2"
   },
   {
@@ -6333,6 +6613,7 @@
     "sourcePrintPage": 58,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 281,
+    "qid": "cssgb:set-2:source-281:5m2iwb",
     "bokReference": "III.D.2"
   },
   {
@@ -6354,6 +6635,7 @@
     "sourcePrintPage": 58,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 282,
+    "qid": "cssgb:set-2:source-282:5m2iwb",
     "bokReference": "III.D.3"
   },
   {
@@ -6375,6 +6657,7 @@
     "sourcePrintPage": 58,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 283,
+    "qid": "cssgb:set-2:source-283:5m2iwb",
     "bokReference": "III.D.3"
   },
   {
@@ -6396,6 +6679,7 @@
     "sourcePrintPage": 58,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 284,
+    "qid": "cssgb:set-2:source-284:5m2iwb",
     "bokReference": "III.D.3"
   },
   {
@@ -6417,6 +6701,7 @@
     "sourcePrintPage": 58,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 285,
+    "qid": "cssgb:set-2:source-285:5m2iwb",
     "bokReference": "III.D.4"
   },
   {
@@ -6438,6 +6723,7 @@
     "sourcePrintPage": 59,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 286,
+    "qid": "cssgb:set-2:source-286:5m2iwb",
     "bokReference": "III.D.4",
     "chart": {
       "type": "normal-prob",
@@ -6463,6 +6749,7 @@
     "sourcePrintPage": 59,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 287,
+    "qid": "cssgb:set-2:source-287:5m2iwb",
     "bokReference": "III.D.4"
   },
   {
@@ -6484,6 +6771,7 @@
     "sourcePrintPage": 59,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 288,
+    "qid": "cssgb:set-2:source-288:5m2iwb",
     "bokReference": "III.D.4"
   },
   {
@@ -6505,6 +6793,7 @@
     "sourcePrintPage": 60,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 289,
+    "qid": "cssgb:set-2:source-289:5m2iwb",
     "bokReference": "III.D.4",
     "chart": {
       "type": "distribution-labels"
@@ -6529,6 +6818,7 @@
     "sourcePrintPage": 60,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 290,
+    "qid": "cssgb:set-2:source-290:5m2iwb",
     "bokReference": "III.D.4",
     "chart": {
       "type": "distribution-labels"
@@ -6553,6 +6843,7 @@
     "sourcePrintPage": 60,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 291,
+    "qid": "cssgb:set-2:source-291:5m2iwb",
     "bokReference": "III.D.4"
   },
   {
@@ -6574,6 +6865,7 @@
     "sourcePrintPage": 61,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 292,
+    "qid": "cssgb:set-2:source-292:5m2iwb",
     "bokReference": "III.D.4"
   },
   {
@@ -6595,6 +6887,7 @@
     "sourcePrintPage": 61,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 293,
+    "qid": "cssgb:set-2:source-293:5m2iwb",
     "bokReference": "III.D.4",
     "chart": {
       "type": "labeled-boxplot"
@@ -6619,6 +6912,7 @@
     "sourcePrintPage": 61,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 294,
+    "qid": "cssgb:set-2:source-294:5m2iwb",
     "bokReference": "III.D.4",
     "chart": {
       "type": "labeled-boxplot"
@@ -6643,6 +6937,7 @@
     "sourcePrintPage": 61,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 295,
+    "qid": "cssgb:set-2:source-295:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -6664,6 +6959,7 @@
     "sourcePrintPage": 62,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 296,
+    "qid": "cssgb:set-2:source-296:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -6685,6 +6981,7 @@
     "sourcePrintPage": 62,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 297,
+    "qid": "cssgb:set-2:source-297:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -6706,6 +7003,7 @@
     "sourcePrintPage": 62,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 298,
+    "qid": "cssgb:set-2:source-298:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -6727,6 +7025,7 @@
     "sourcePrintPage": 62,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 299,
+    "qid": "cssgb:set-2:source-299:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -6748,6 +7047,7 @@
     "sourcePrintPage": 62,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 300,
+    "qid": "cssgb:set-2:source-300:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -6769,6 +7069,7 @@
     "sourcePrintPage": 63,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 301,
+    "qid": "cssgb:set-2:source-301:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -6790,6 +7091,7 @@
     "sourcePrintPage": 63,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 302,
+    "qid": "cssgb:set-2:source-302:5m2iwb",
     "bokReference": "III.E",
     "chart": {
       "type": "data-table",
@@ -6848,6 +7150,7 @@
     "sourcePrintPage": 63,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 303,
+    "qid": "cssgb:set-2:source-303:5m2iwb",
     "bokReference": "III.E",
     "chart": {
       "type": "data-table",
@@ -6906,6 +7209,7 @@
     "sourcePrintPage": 63,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 304,
+    "qid": "cssgb:set-2:source-304:5m2iwb",
     "bokReference": "III.E",
     "chart": {
       "type": "data-table",
@@ -6964,6 +7268,7 @@
     "sourcePrintPage": 64,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 305,
+    "qid": "cssgb:set-2:source-305:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -6985,6 +7290,7 @@
     "sourcePrintPage": 64,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 306,
+    "qid": "cssgb:set-2:source-306:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -7006,6 +7312,7 @@
     "sourcePrintPage": 64,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 307,
+    "qid": "cssgb:set-2:source-307:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -7027,6 +7334,7 @@
     "sourcePrintPage": 64,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 308,
+    "qid": "cssgb:set-2:source-308:5m2iwb",
     "bokReference": "III.E",
     "chart": {
       "type": "bias-diagram"
@@ -7051,6 +7359,7 @@
     "sourcePrintPage": 65,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 309,
+    "qid": "cssgb:set-2:source-309:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -7072,6 +7381,7 @@
     "sourcePrintPage": 65,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 310,
+    "qid": "cssgb:set-2:source-310:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -7093,6 +7403,7 @@
     "sourcePrintPage": 65,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 311,
+    "qid": "cssgb:set-2:source-311:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -7114,6 +7425,7 @@
     "sourcePrintPage": 65,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 312,
+    "qid": "cssgb:set-2:source-312:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -7135,6 +7447,7 @@
     "sourcePrintPage": 65,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 313,
+    "qid": "cssgb:set-2:source-313:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -7156,6 +7469,7 @@
     "sourcePrintPage": 66,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 314,
+    "qid": "cssgb:set-2:source-314:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -7177,6 +7491,7 @@
     "sourcePrintPage": 66,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 315,
+    "qid": "cssgb:set-2:source-315:5m2iwb",
     "bokReference": "III.E"
   },
   {
@@ -7198,6 +7513,7 @@
     "sourcePrintPage": 66,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 316,
+    "qid": "cssgb:set-2:source-316:5m2iwb",
     "bokReference": "III.F.1"
   },
   {
@@ -7219,6 +7535,7 @@
     "sourcePrintPage": 66,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 317,
+    "qid": "cssgb:set-2:source-317:5m2iwb",
     "bokReference": "III.F.1"
   },
   {
@@ -7240,6 +7557,7 @@
     "sourcePrintPage": 66,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 318,
+    "qid": "cssgb:set-2:source-318:5m2iwb",
     "bokReference": "III.F"
   },
   {
@@ -7261,6 +7579,7 @@
     "sourcePrintPage": 67,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 319,
+    "qid": "cssgb:set-2:source-319:5m2iwb",
     "bokReference": "III.F"
   },
   {
@@ -7282,6 +7601,7 @@
     "sourcePrintPage": 67,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 320,
+    "qid": "cssgb:set-2:source-320:5m2iwb",
     "bokReference": "III.F.3"
   },
   {
@@ -7303,6 +7623,7 @@
     "sourcePrintPage": 67,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 321,
+    "qid": "cssgb:set-2:source-321:5m2iwb",
     "bokReference": "III.F.2"
   },
   {
@@ -7324,6 +7645,7 @@
     "sourcePrintPage": 67,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 322,
+    "qid": "cssgb:set-2:source-322:5m2iwb",
     "bokReference": "III.F.3"
   },
   {
@@ -7345,6 +7667,7 @@
     "sourcePrintPage": 67,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 323,
+    "qid": "cssgb:set-2:source-323:5m2iwb",
     "bokReference": "III.F.3",
     "chart": {
       "type": "data-table",
@@ -7415,6 +7738,7 @@
     "sourcePrintPage": 68,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 324,
+    "qid": "cssgb:set-2:source-324:5m2iwb",
     "bokReference": "III.F.3",
     "chart": {
       "type": "data-table",
@@ -7485,6 +7809,7 @@
     "sourcePrintPage": 68,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 325,
+    "qid": "cssgb:set-2:source-325:5m2iwb",
     "bokReference": "III.F.3",
     "chart": {
       "type": "data-table",
@@ -7555,6 +7880,7 @@
     "sourcePrintPage": 68,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 326,
+    "qid": "cssgb:set-2:source-326:5m2iwb",
     "bokReference": "III.F.3",
     "chart": {
       "type": "data-table",
@@ -7625,6 +7951,7 @@
     "sourcePrintPage": 68,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 327,
+    "qid": "cssgb:set-2:source-327:5m2iwb",
     "bokReference": "II.F.3"
   },
   {
@@ -7646,6 +7973,7 @@
     "sourcePrintPage": 68,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 328,
+    "qid": "cssgb:set-2:source-328:5m2iwb",
     "bokReference": "III.F.3"
   },
   {
@@ -7667,6 +7995,7 @@
     "sourcePrintPage": 69,
     "sourceEpubFile": "OEBPS/xhtml/chapter3.xhtml",
     "sourceGlobalQuestion": 329,
+    "qid": "cssgb:set-2:source-329:5m2iwb",
     "bokReference": "III.F.4"
   },
   {
@@ -7688,6 +8017,7 @@
     "sourcePrintPage": 82,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 330,
+    "qid": "cssgb:set-2:source-330:sebhe3",
     "bokReference": "IV.A.1"
   },
   {
@@ -7709,6 +8039,7 @@
     "sourcePrintPage": 82,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 331,
+    "qid": "cssgb:set-2:source-331:sebhe3",
     "bokReference": "IV.A.1"
   },
   {
@@ -7730,6 +8061,7 @@
     "sourcePrintPage": 82,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 332,
+    "qid": "cssgb:set-2:source-332:sebhe3",
     "bokReference": "IV.A.1"
   },
   {
@@ -7751,6 +8083,7 @@
     "sourcePrintPage": 83,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 333,
+    "qid": "cssgb:set-2:source-333:sebhe3",
     "bokReference": "IV.A.1",
     "chart": {
       "type": "multi-vari",
@@ -7800,6 +8133,7 @@
     "sourcePrintPage": 83,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 334,
+    "qid": "cssgb:set-2:source-334:sebhe3",
     "bokReference": "IV.A.1",
     "chart": {
       "type": "multi-vari",
@@ -7849,6 +8183,7 @@
     "sourcePrintPage": 83,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 335,
+    "qid": "cssgb:set-2:source-335:sebhe3",
     "bokReference": "IV.A.1",
     "chart": {
       "type": "multi-vari",
@@ -7898,6 +8233,7 @@
     "sourcePrintPage": 84,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 336,
+    "qid": "cssgb:set-2:source-336:sebhe3",
     "bokReference": "IV.A.1",
     "chart": {
       "type": "multi-vari",
@@ -7958,6 +8294,7 @@
     "sourcePrintPage": 84,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 337,
+    "qid": "cssgb:set-2:source-337:sebhe3",
     "bokReference": "IV.A.1",
     "chart": {
       "type": "multi-vari",
@@ -8018,6 +8355,7 @@
     "sourcePrintPage": 84,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 338,
+    "qid": "cssgb:set-2:source-338:sebhe3",
     "bokReference": "IV.A.1",
     "chart": {
       "type": "multi-vari",
@@ -8078,6 +8416,7 @@
     "sourcePrintPage": 84,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 339,
+    "qid": "cssgb:set-2:source-339:sebhe3",
     "bokReference": "IV.A.2"
   },
   {
@@ -8099,6 +8438,7 @@
     "sourcePrintPage": 84,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 340,
+    "qid": "cssgb:set-2:source-340:sebhe3",
     "bokReference": "IV.A.2"
   },
   {
@@ -8120,6 +8460,7 @@
     "sourcePrintPage": 85,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 341,
+    "qid": "cssgb:set-2:source-341:sebhe3",
     "bokReference": "IV.A.2",
     "chart": {
       "type": "scatter-quadrant"
@@ -8144,6 +8485,7 @@
     "sourcePrintPage": 85,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 342,
+    "qid": "cssgb:set-2:source-342:sebhe3",
     "bokReference": "IV.A.2",
     "chart": {
       "type": "scatter-quadrant"
@@ -8168,6 +8510,7 @@
     "sourcePrintPage": 86,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 343,
+    "qid": "cssgb:set-2:source-343:sebhe3",
     "bokReference": "IV.A.2",
     "chart": {
       "type": "data-table",
@@ -8224,6 +8567,7 @@
     "sourcePrintPage": 86,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 344,
+    "qid": "cssgb:set-2:source-344:sebhe3",
     "bokReference": "IV.A.2",
     "chart": {
       "type": "data-table",
@@ -8280,6 +8624,7 @@
     "sourcePrintPage": 86,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 345,
+    "qid": "cssgb:set-2:source-345:sebhe3",
     "bokReference": "IV.A.2",
     "chart": {
       "type": "data-table",
@@ -8336,6 +8681,7 @@
     "sourcePrintPage": 86,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 346,
+    "qid": "cssgb:set-2:source-346:sebhe3",
     "bokReference": "IV.A.2"
   },
   {
@@ -8357,6 +8703,7 @@
     "sourcePrintPage": 87,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 347,
+    "qid": "cssgb:set-2:source-347:sebhe3",
     "bokReference": "IV.A.2"
   },
   {
@@ -8378,6 +8725,7 @@
     "sourcePrintPage": 87,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 348,
+    "qid": "cssgb:set-2:source-348:sebhe3",
     "bokReference": "IV.A.2"
   },
   {
@@ -8399,6 +8747,7 @@
     "sourcePrintPage": 87,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 349,
+    "qid": "cssgb:set-2:source-349:sebhe3",
     "bokReference": "IV.A.2"
   },
   {
@@ -8420,6 +8769,7 @@
     "sourcePrintPage": 87,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 350,
+    "qid": "cssgb:set-2:source-350:sebhe3",
     "bokReference": "IV.B.1",
     "chart": {
       "type": "two-tail-test"
@@ -8444,6 +8794,7 @@
     "sourcePrintPage": 88,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 351,
+    "qid": "cssgb:set-2:source-351:sebhe3",
     "bokReference": "IV.B.1"
   },
   {
@@ -8465,6 +8816,7 @@
     "sourcePrintPage": 88,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 352,
+    "qid": "cssgb:set-2:source-352:sebhe3",
     "bokReference": "IV.B.1"
   },
   {
@@ -8486,6 +8838,7 @@
     "sourcePrintPage": 88,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 353,
+    "qid": "cssgb:set-2:source-353:sebhe3",
     "bokReference": "IV.B.1"
   },
   {
@@ -8507,6 +8860,7 @@
     "sourcePrintPage": 88,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 354,
+    "qid": "cssgb:set-2:source-354:sebhe3",
     "bokReference": "IV.B.1"
   },
   {
@@ -8528,6 +8882,7 @@
     "sourcePrintPage": 88,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 355,
+    "qid": "cssgb:set-2:source-355:sebhe3",
     "bokReference": "IV.B.1"
   },
   {
@@ -8549,6 +8904,7 @@
     "sourcePrintPage": 89,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 356,
+    "qid": "cssgb:set-2:source-356:sebhe3",
     "bokReference": "IV.B.1"
   },
   {
@@ -8570,6 +8926,7 @@
     "sourcePrintPage": 89,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 357,
+    "qid": "cssgb:set-2:source-357:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -8591,6 +8948,7 @@
     "sourcePrintPage": 89,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 358,
+    "qid": "cssgb:set-2:source-358:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -8612,6 +8970,7 @@
     "sourcePrintPage": 89,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 359,
+    "qid": "cssgb:set-2:source-359:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -8633,6 +8992,7 @@
     "sourcePrintPage": 89,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 360,
+    "qid": "cssgb:set-2:source-360:sebhe3",
     "bokReference": "IV.B.1"
   },
   {
@@ -8654,6 +9014,7 @@
     "sourcePrintPage": 90,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 361,
+    "qid": "cssgb:set-2:source-361:sebhe3",
     "bokReference": "IV.B.1"
   },
   {
@@ -8675,6 +9036,7 @@
     "sourcePrintPage": 90,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 362,
+    "qid": "cssgb:set-2:source-362:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -8696,6 +9058,7 @@
     "sourcePrintPage": 90,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 363,
+    "qid": "cssgb:set-2:source-363:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -8717,6 +9080,7 @@
     "sourcePrintPage": 90,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 364,
+    "qid": "cssgb:set-2:source-364:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -8738,6 +9102,7 @@
     "sourcePrintPage": 91,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 365,
+    "qid": "cssgb:set-2:source-365:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -8759,6 +9124,7 @@
     "sourcePrintPage": 91,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 366,
+    "qid": "cssgb:set-2:source-366:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -8780,6 +9146,7 @@
     "sourcePrintPage": 91,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 367,
+    "qid": "cssgb:set-2:source-367:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -8801,6 +9168,7 @@
     "sourcePrintPage": 91,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 368,
+    "qid": "cssgb:set-2:source-368:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -8842,6 +9210,7 @@
     "sourcePrintPage": 92,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 369,
+    "qid": "cssgb:set-2:source-369:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -8898,6 +9267,7 @@
     "sourcePrintPage": 92,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 370,
+    "qid": "cssgb:set-2:source-370:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -8954,6 +9324,7 @@
     "sourcePrintPage": 92,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 371,
+    "qid": "cssgb:set-2:source-371:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -9010,6 +9381,7 @@
     "sourcePrintPage": 93,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 372,
+    "qid": "cssgb:set-2:source-372:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -9064,6 +9436,7 @@
     "sourcePrintPage": 93,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 373,
+    "qid": "cssgb:set-2:source-373:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -9118,6 +9491,7 @@
     "sourcePrintPage": 93,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 374,
+    "qid": "cssgb:set-2:source-374:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -9172,6 +9546,7 @@
     "sourcePrintPage": 93,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 375,
+    "qid": "cssgb:set-2:source-375:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -9226,6 +9601,7 @@
     "sourcePrintPage": 94,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 376,
+    "qid": "cssgb:set-2:source-376:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -9288,6 +9664,7 @@
     "sourcePrintPage": 94,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 377,
+    "qid": "cssgb:set-2:source-377:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -9350,6 +9727,7 @@
     "sourcePrintPage": 94,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 378,
+    "qid": "cssgb:set-2:source-378:sebhe3",
     "bokReference": "IV.B.2",
     "chart": {
       "type": "data-table",
@@ -9412,6 +9790,7 @@
     "sourcePrintPage": 94,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 379,
+    "qid": "cssgb:set-2:source-379:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -9433,6 +9812,7 @@
     "sourcePrintPage": 94,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 380,
+    "qid": "cssgb:set-2:source-380:sebhe3",
     "bokReference": "IV.B.2"
   },
   {
@@ -9454,6 +9834,7 @@
     "sourcePrintPage": 94,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 381,
+    "qid": "cssgb:set-2:source-381:sebhe3",
     "bokReference": "IV.C.1"
   },
   {
@@ -9475,6 +9856,7 @@
     "sourcePrintPage": 95,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 382,
+    "qid": "cssgb:set-2:source-382:sebhe3",
     "bokReference": "IV.C.1"
   },
   {
@@ -9496,6 +9878,7 @@
     "sourcePrintPage": 95,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 383,
+    "qid": "cssgb:set-2:source-383:sebhe3",
     "bokReference": "IV.C.1"
   },
   {
@@ -9517,6 +9900,7 @@
     "sourcePrintPage": 95,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 384,
+    "qid": "cssgb:set-2:source-384:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9538,6 +9922,7 @@
     "sourcePrintPage": 95,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 385,
+    "qid": "cssgb:set-2:source-385:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9559,6 +9944,7 @@
     "sourcePrintPage": 96,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 386,
+    "qid": "cssgb:set-2:source-386:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9580,6 +9966,7 @@
     "sourcePrintPage": 96,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 387,
+    "qid": "cssgb:set-2:source-387:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9601,6 +9988,7 @@
     "sourcePrintPage": 96,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 388,
+    "qid": "cssgb:set-2:source-388:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9622,6 +10010,7 @@
     "sourcePrintPage": 96,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 389,
+    "qid": "cssgb:set-2:source-389:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9643,6 +10032,7 @@
     "sourcePrintPage": 96,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 390,
+    "qid": "cssgb:set-2:source-390:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9664,6 +10054,7 @@
     "sourcePrintPage": 97,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 391,
+    "qid": "cssgb:set-2:source-391:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9685,6 +10076,7 @@
     "sourcePrintPage": 97,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 392,
+    "qid": "cssgb:set-2:source-392:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9706,6 +10098,7 @@
     "sourcePrintPage": 97,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 393,
+    "qid": "cssgb:set-2:source-393:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9727,6 +10120,7 @@
     "sourcePrintPage": 97,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 394,
+    "qid": "cssgb:set-2:source-394:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9748,6 +10142,7 @@
     "sourcePrintPage": 97,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 395,
+    "qid": "cssgb:set-2:source-395:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9769,6 +10164,7 @@
     "sourcePrintPage": 98,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 396,
+    "qid": "cssgb:set-2:source-396:sebhe3",
     "bokReference": "IV.C.2"
   },
   {
@@ -9790,6 +10186,7 @@
     "sourcePrintPage": 98,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 397,
+    "qid": "cssgb:set-2:source-397:sebhe3",
     "bokReference": "IV.C.2",
     "chart": {
       "type": "fta-diagram",
@@ -9815,6 +10212,7 @@
     "sourcePrintPage": 98,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 398,
+    "qid": "cssgb:set-2:source-398:sebhe3",
     "bokReference": "IV.C.2",
     "chart": {
       "type": "fta-diagram",
@@ -9840,6 +10238,7 @@
     "sourcePrintPage": 99,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 399,
+    "qid": "cssgb:set-2:source-399:sebhe3",
     "bokReference": "IV.C.2",
     "chart": {
       "type": "fishbone-labels"
@@ -9864,6 +10263,7 @@
     "sourcePrintPage": 99,
     "sourceEpubFile": "OEBPS/xhtml/chapter4.xhtml",
     "sourceGlobalQuestion": 400,
+    "qid": "cssgb:set-2:source-400:sebhe3",
     "bokReference": "IV.C.2",
     "chart": {
       "type": "fishbone-labels"
@@ -9888,6 +10288,7 @@
     "sourcePrintPage": 110,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 401,
+    "qid": "cssgb:set-2:source-401:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -9909,6 +10310,7 @@
     "sourcePrintPage": 110,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 402,
+    "qid": "cssgb:set-2:source-402:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -9930,6 +10332,7 @@
     "sourcePrintPage": 110,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 403,
+    "qid": "cssgb:set-2:source-403:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -9951,6 +10354,7 @@
     "sourcePrintPage": 110,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 404,
+    "qid": "cssgb:set-2:source-404:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -9972,6 +10376,7 @@
     "sourcePrintPage": 110,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 405,
+    "qid": "cssgb:set-2:source-405:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -9993,6 +10398,7 @@
     "sourcePrintPage": 111,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 406,
+    "qid": "cssgb:set-2:source-406:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -10014,6 +10420,7 @@
     "sourcePrintPage": 111,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 407,
+    "qid": "cssgb:set-2:source-407:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -10035,6 +10442,7 @@
     "sourcePrintPage": 111,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 408,
+    "qid": "cssgb:set-2:source-408:1up69ca",
     "bokReference": "V.A.2"
   },
   {
@@ -10056,6 +10464,7 @@
     "sourcePrintPage": 111,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 409,
+    "qid": "cssgb:set-2:source-409:1up69ca",
     "bokReference": "V.A.2"
   },
   {
@@ -10077,6 +10486,7 @@
     "sourcePrintPage": 111,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 410,
+    "qid": "cssgb:set-2:source-410:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -10098,6 +10508,7 @@
     "sourcePrintPage": 112,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 411,
+    "qid": "cssgb:set-2:source-411:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -10119,6 +10530,7 @@
     "sourcePrintPage": 112,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 412,
+    "qid": "cssgb:set-2:source-412:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -10140,6 +10552,7 @@
     "sourcePrintPage": 112,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 413,
+    "qid": "cssgb:set-2:source-413:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -10161,6 +10574,7 @@
     "sourcePrintPage": 112,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 414,
+    "qid": "cssgb:set-2:source-414:1up69ca",
     "bokReference": "V.A.1"
   },
   {
@@ -10182,6 +10596,7 @@
     "sourcePrintPage": 113,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 415,
+    "qid": "cssgb:set-2:source-415:1up69ca",
     "bokReference": "V.A.1",
     "chart": {
       "type": "data-table",
@@ -10271,6 +10686,7 @@
     "sourcePrintPage": 113,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 416,
+    "qid": "cssgb:set-2:source-416:1up69ca",
     "bokReference": "V.A.2",
     "chart": {
       "type": "data-table",
@@ -10360,6 +10776,7 @@
     "sourcePrintPage": 113,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 417,
+    "qid": "cssgb:set-2:source-417:1up69ca",
     "bokReference": "V.A.2",
     "chart": {
       "type": "data-table",
@@ -10449,6 +10866,7 @@
     "sourcePrintPage": 113,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 418,
+    "qid": "cssgb:set-2:source-418:1up69ca",
     "bokReference": "V.A.2"
   },
   {
@@ -10470,6 +10888,7 @@
     "sourcePrintPage": 114,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 419,
+    "qid": "cssgb:set-2:source-419:1up69ca",
     "bokReference": "V.A.2",
     "chart": {
       "type": "interaction-plot-3",
@@ -10529,6 +10948,7 @@
     "sourcePrintPage": 114,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 420,
+    "qid": "cssgb:set-2:source-420:1up69ca",
     "bokReference": "V.A.2",
     "chart": {
       "type": "main-effects-plot",
@@ -10566,6 +10986,7 @@
     "sourcePrintPage": 115,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 421,
+    "qid": "cssgb:set-2:source-421:1up69ca",
     "bokReference": "V.A.2",
     "chart": {
       "type": "two-level-interaction",
@@ -10602,6 +11023,7 @@
     "sourcePrintPage": 115,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 422,
+    "qid": "cssgb:set-2:source-422:1up69ca",
     "bokReference": "V.B"
   },
   {
@@ -10623,6 +11045,7 @@
     "sourcePrintPage": 116,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 423,
+    "qid": "cssgb:set-2:source-423:1up69ca",
     "bokReference": "V.B"
   },
   {
@@ -10644,6 +11067,7 @@
     "sourcePrintPage": 116,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 424,
+    "qid": "cssgb:set-2:source-424:1up69ca",
     "bokReference": "V.B"
   },
   {
@@ -10665,6 +11089,7 @@
     "sourcePrintPage": 116,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 425,
+    "qid": "cssgb:set-2:source-425:1up69ca",
     "bokReference": "V.B"
   },
   {
@@ -10686,6 +11111,7 @@
     "sourcePrintPage": 116,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 426,
+    "qid": "cssgb:set-2:source-426:1up69ca",
     "bokReference": "V.B"
   },
   {
@@ -10707,6 +11133,7 @@
     "sourcePrintPage": 116,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 427,
+    "qid": "cssgb:set-2:source-427:1up69ca",
     "bokReference": "V.B"
   },
   {
@@ -10728,6 +11155,7 @@
     "sourcePrintPage": 117,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 428,
+    "qid": "cssgb:set-2:source-428:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -10749,6 +11177,7 @@
     "sourcePrintPage": 117,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 429,
+    "qid": "cssgb:set-2:source-429:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -10770,6 +11199,7 @@
     "sourcePrintPage": 117,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 430,
+    "qid": "cssgb:set-2:source-430:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -10791,6 +11221,7 @@
     "sourcePrintPage": 117,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 431,
+    "qid": "cssgb:set-2:source-431:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -10812,6 +11243,7 @@
     "sourcePrintPage": 117,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 432,
+    "qid": "cssgb:set-2:source-432:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -10833,6 +11265,7 @@
     "sourcePrintPage": 118,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 433,
+    "qid": "cssgb:set-2:source-433:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -10854,6 +11287,7 @@
     "sourcePrintPage": 118,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 434,
+    "qid": "cssgb:set-2:source-434:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -10875,6 +11309,7 @@
     "sourcePrintPage": 118,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 435,
+    "qid": "cssgb:set-2:source-435:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -10896,6 +11331,7 @@
     "sourcePrintPage": 118,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 436,
+    "qid": "cssgb:set-2:source-436:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -10917,6 +11353,7 @@
     "sourcePrintPage": 118,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 437,
+    "qid": "cssgb:set-2:source-437:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -10938,6 +11375,7 @@
     "sourcePrintPage": 119,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 438,
+    "qid": "cssgb:set-2:source-438:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -10959,6 +11397,7 @@
     "sourcePrintPage": 119,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 439,
+    "qid": "cssgb:set-2:source-439:1up69ca",
     "bokReference": "V.C.1"
   },
   {
@@ -10980,6 +11419,7 @@
     "sourcePrintPage": 119,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 440,
+    "qid": "cssgb:set-2:source-440:1up69ca",
     "bokReference": "V.C.2"
   },
   {
@@ -11001,6 +11441,7 @@
     "sourcePrintPage": 119,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 441,
+    "qid": "cssgb:set-2:source-441:1up69ca",
     "bokReference": "V.C.2"
   },
   {
@@ -11022,6 +11463,7 @@
     "sourcePrintPage": 119,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 442,
+    "qid": "cssgb:set-2:source-442:1up69ca",
     "bokReference": "V.C.2"
   },
   {
@@ -11043,6 +11485,7 @@
     "sourcePrintPage": 120,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 443,
+    "qid": "cssgb:set-2:source-443:1up69ca",
     "bokReference": "V.C.3"
   },
   {
@@ -11064,6 +11507,7 @@
     "sourcePrintPage": 120,
     "sourceEpubFile": "OEBPS/xhtml/chapter5.xhtml",
     "sourceGlobalQuestion": 444,
+    "qid": "cssgb:set-2:source-444:1up69ca",
     "bokReference": "V.C.3"
   },
   {
@@ -11085,6 +11529,7 @@
     "sourcePrintPage": 126,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 445,
+    "qid": "cssgb:set-2:source-445:uwm1ss",
     "bokReference": "VI.A.1"
   },
   {
@@ -11106,6 +11551,7 @@
     "sourcePrintPage": 126,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 446,
+    "qid": "cssgb:set-2:source-446:uwm1ss",
     "bokReference": "VI.A.1"
   },
   {
@@ -11127,6 +11573,7 @@
     "sourcePrintPage": 126,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 447,
+    "qid": "cssgb:set-2:source-447:uwm1ss",
     "bokReference": "VI.A.1"
   },
   {
@@ -11148,6 +11595,7 @@
     "sourcePrintPage": 126,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 448,
+    "qid": "cssgb:set-2:source-448:uwm1ss",
     "bokReference": "VI.A.1"
   },
   {
@@ -11169,6 +11617,7 @@
     "sourcePrintPage": 127,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 449,
+    "qid": "cssgb:set-2:source-449:uwm1ss",
     "bokReference": "VI.A.1"
   },
   {
@@ -11190,6 +11639,7 @@
     "sourcePrintPage": 127,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 450,
+    "qid": "cssgb:set-2:source-450:uwm1ss",
     "bokReference": "VI.A.1"
   },
   {
@@ -11211,6 +11661,7 @@
     "sourcePrintPage": 127,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 451,
+    "qid": "cssgb:set-2:source-451:uwm1ss",
     "bokReference": "VI.A.2"
   },
   {
@@ -11232,6 +11683,7 @@
     "sourcePrintPage": 127,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 452,
+    "qid": "cssgb:set-2:source-452:uwm1ss",
     "bokReference": "VI.A.2"
   },
   {
@@ -11253,6 +11705,7 @@
     "sourcePrintPage": 128,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 453,
+    "qid": "cssgb:set-2:source-453:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -11274,6 +11727,7 @@
     "sourcePrintPage": 128,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 454,
+    "qid": "cssgb:set-2:source-454:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -11295,6 +11749,7 @@
     "sourcePrintPage": 128,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 455,
+    "qid": "cssgb:set-2:source-455:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -11316,6 +11771,7 @@
     "sourcePrintPage": 128,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 456,
+    "qid": "cssgb:set-2:source-456:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -11337,6 +11793,7 @@
     "sourcePrintPage": 128,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 457,
+    "qid": "cssgb:set-2:source-457:uwm1ss",
     "bokReference": "VI.A.3",
     "chart": {
       "type": "data-table",
@@ -11383,6 +11840,7 @@
     "sourcePrintPage": 129,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 458,
+    "qid": "cssgb:set-2:source-458:uwm1ss",
     "bokReference": "VI.A.3",
     "chart": {
       "type": "data-table",
@@ -11437,6 +11895,7 @@
     "sourcePrintPage": 129,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 459,
+    "qid": "cssgb:set-2:source-459:uwm1ss",
     "bokReference": "VI.A.3",
     "chart": {
       "type": "data-table",
@@ -11491,6 +11950,7 @@
     "sourcePrintPage": 129,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 460,
+    "qid": "cssgb:set-2:source-460:uwm1ss",
     "bokReference": "VI.A.3",
     "chart": {
       "type": "data-table",
@@ -11549,6 +12009,7 @@
     "sourcePrintPage": 129,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 461,
+    "qid": "cssgb:set-2:source-461:uwm1ss",
     "bokReference": "VI.A.3",
     "chart": {
       "type": "data-table",
@@ -11607,6 +12068,7 @@
     "sourcePrintPage": 130,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 462,
+    "qid": "cssgb:set-2:source-462:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -11628,6 +12090,7 @@
     "sourcePrintPage": 130,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 463,
+    "qid": "cssgb:set-2:source-463:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -11649,6 +12112,7 @@
     "sourcePrintPage": 130,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 464,
+    "qid": "cssgb:set-2:source-464:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -11670,6 +12134,7 @@
     "sourcePrintPage": 130,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 465,
+    "qid": "cssgb:set-2:source-465:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -11691,6 +12156,7 @@
     "sourcePrintPage": 130,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 466,
+    "qid": "cssgb:set-2:source-466:uwm1ss",
     "bokReference": "VI.A.3"
   },
   {
@@ -11712,6 +12178,7 @@
     "sourcePrintPage": 131,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 467,
+    "qid": "cssgb:set-2:source-467:uwm1ss",
     "bokReference": "VI.A.3",
     "chart": {
       "type": "data-table",
@@ -11754,6 +12221,7 @@
     "sourcePrintPage": 131,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 468,
+    "qid": "cssgb:set-2:source-468:uwm1ss",
     "bokReference": "VI.A.3",
     "chart": {
       "type": "data-table",
@@ -11796,6 +12264,7 @@
     "sourcePrintPage": 131,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 469,
+    "qid": "cssgb:set-2:source-469:uwm1ss",
     "bokReference": "VI.A.3",
     "chart": {
       "type": "data-table",
@@ -11838,6 +12307,7 @@
     "sourcePrintPage": 131,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 470,
+    "qid": "cssgb:set-2:source-470:uwm1ss",
     "bokReference": "VI.A.3",
     "chart": {
       "type": "data-table",
@@ -11880,6 +12350,7 @@
     "sourcePrintPage": 132,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 471,
+    "qid": "cssgb:set-2:source-471:uwm1ss",
     "bokReference": "VI.A.3",
     "chart": {
       "type": "data-table",
@@ -11926,6 +12397,7 @@
     "sourcePrintPage": 132,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 472,
+    "qid": "cssgb:set-2:source-472:uwm1ss",
     "bokReference": "VI.A.3",
     "chart": {
       "type": "data-table",
@@ -11972,6 +12444,7 @@
     "sourcePrintPage": 132,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 473,
+    "qid": "cssgb:set-2:source-473:uwm1ss",
     "bokReference": "VI.B.1"
   },
   {
@@ -11993,6 +12466,7 @@
     "sourcePrintPage": 132,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 474,
+    "qid": "cssgb:set-2:source-474:uwm1ss",
     "bokReference": "VI.B.1"
   },
   {
@@ -12014,6 +12488,7 @@
     "sourcePrintPage": 132,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 475,
+    "qid": "cssgb:set-2:source-475:uwm1ss",
     "bokReference": "VI.B.1"
   },
   {
@@ -12035,6 +12510,7 @@
     "sourcePrintPage": 132,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 476,
+    "qid": "cssgb:set-2:source-476:uwm1ss",
     "bokReference": "VI.B.1"
   },
   {
@@ -12056,6 +12532,7 @@
     "sourcePrintPage": 133,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 477,
+    "qid": "cssgb:set-2:source-477:uwm1ss",
     "bokReference": "VI.B.1"
   },
   {
@@ -12077,6 +12554,7 @@
     "sourcePrintPage": 133,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 478,
+    "qid": "cssgb:set-2:source-478:uwm1ss",
     "bokReference": "VI.B.1"
   },
   {
@@ -12098,6 +12576,7 @@
     "sourcePrintPage": 133,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 479,
+    "qid": "cssgb:set-2:source-479:uwm1ss",
     "bokReference": "VI.B.1"
   },
   {
@@ -12119,6 +12598,7 @@
     "sourcePrintPage": 133,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 480,
+    "qid": "cssgb:set-2:source-480:uwm1ss",
     "bokReference": "VI.B.2"
   },
   {
@@ -12140,6 +12620,7 @@
     "sourcePrintPage": 133,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 481,
+    "qid": "cssgb:set-2:source-481:uwm1ss",
     "bokReference": "VI.B.2"
   },
   {
@@ -12161,6 +12642,7 @@
     "sourcePrintPage": 134,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 482,
+    "qid": "cssgb:set-2:source-482:uwm1ss",
     "bokReference": "VI.B.2"
   },
   {
@@ -12182,6 +12664,7 @@
     "sourcePrintPage": 134,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 483,
+    "qid": "cssgb:set-2:source-483:uwm1ss",
     "bokReference": "VI.B.3"
   },
   {
@@ -12203,6 +12686,7 @@
     "sourcePrintPage": 134,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 484,
+    "qid": "cssgb:set-2:source-484:uwm1ss",
     "bokReference": "VI.B.3"
   },
   {
@@ -12224,6 +12708,7 @@
     "sourcePrintPage": 134,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 485,
+    "qid": "cssgb:set-2:source-485:uwm1ss",
     "bokReference": "VI.B.3"
   },
   {
@@ -12245,6 +12730,7 @@
     "sourcePrintPage": 135,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 486,
+    "qid": "cssgb:set-2:source-486:uwm1ss",
     "bokReference": "VI.B.3"
   },
   {
@@ -12266,6 +12752,7 @@
     "sourcePrintPage": 135,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 487,
+    "qid": "cssgb:set-2:source-487:uwm1ss",
     "bokReference": "VI.B.3"
   },
   {
@@ -12287,6 +12774,7 @@
     "sourcePrintPage": 135,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 488,
+    "qid": "cssgb:set-2:source-488:uwm1ss",
     "bokReference": "VI.B.4"
   },
   {
@@ -12308,6 +12796,7 @@
     "sourcePrintPage": 135,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 489,
+    "qid": "cssgb:set-2:source-489:uwm1ss",
     "bokReference": "VI.B.4"
   },
   {
@@ -12329,6 +12818,7 @@
     "sourcePrintPage": 135,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 490,
+    "qid": "cssgb:set-2:source-490:uwm1ss",
     "bokReference": "VI.B.4"
   },
   {
@@ -12350,6 +12840,7 @@
     "sourcePrintPage": 136,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 491,
+    "qid": "cssgb:set-2:source-491:uwm1ss",
     "bokReference": "VI.B.4"
   },
   {
@@ -12371,6 +12862,7 @@
     "sourcePrintPage": 136,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 492,
+    "qid": "cssgb:set-2:source-492:uwm1ss",
     "bokReference": "VI.B.4"
   },
   {
@@ -12392,6 +12884,7 @@
     "sourcePrintPage": 136,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 493,
+    "qid": "cssgb:set-2:source-493:uwm1ss",
     "bokReference": "VI.B.4"
   },
   {
@@ -12413,6 +12906,7 @@
     "sourcePrintPage": 136,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 494,
+    "qid": "cssgb:set-2:source-494:uwm1ss",
     "bokReference": "VI.B.5"
   },
   {
@@ -12434,6 +12928,7 @@
     "sourcePrintPage": 137,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 495,
+    "qid": "cssgb:set-2:source-495:uwm1ss",
     "bokReference": "VI.B.5"
   },
   {
@@ -12455,6 +12950,7 @@
     "sourcePrintPage": 137,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 496,
+    "qid": "cssgb:set-2:source-496:uwm1ss",
     "bokReference": "VI.C.1"
   },
   {
@@ -12476,6 +12972,7 @@
     "sourcePrintPage": 137,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 497,
+    "qid": "cssgb:set-2:source-497:uwm1ss",
     "bokReference": "VI.C.1"
   },
   {
@@ -12497,6 +12994,7 @@
     "sourcePrintPage": 137,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 498,
+    "qid": "cssgb:set-2:source-498:uwm1ss",
     "bokReference": "VI.C.1"
   },
   {
@@ -12518,6 +13016,7 @@
     "sourcePrintPage": 137,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 499,
+    "qid": "cssgb:set-2:source-499:uwm1ss",
     "bokReference": "VI.C.1"
   },
   {
@@ -12539,6 +13038,7 @@
     "sourcePrintPage": 138,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 500,
+    "qid": "cssgb:set-2:source-500:uwm1ss",
     "bokReference": "VI.C.1"
   },
   {
@@ -12560,6 +13060,7 @@
     "sourcePrintPage": 138,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 501,
+    "qid": "cssgb:set-2:source-501:uwm1ss",
     "bokReference": "VI.C.1"
   },
   {
@@ -12581,6 +13082,7 @@
     "sourcePrintPage": 138,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 502,
+    "qid": "cssgb:set-2:source-502:uwm1ss",
     "bokReference": "VI.C.2"
   },
   {
@@ -12602,6 +13104,7 @@
     "sourcePrintPage": 138,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 503,
+    "qid": "cssgb:set-2:source-503:uwm1ss",
     "bokReference": "VI.C.2"
   },
   {
@@ -12623,6 +13126,7 @@
     "sourcePrintPage": 139,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 504,
+    "qid": "cssgb:set-2:source-504:uwm1ss",
     "bokReference": "VI.C.2"
   },
   {
@@ -12644,6 +13148,7 @@
     "sourcePrintPage": 139,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 505,
+    "qid": "cssgb:set-2:source-505:uwm1ss",
     "bokReference": "VI.C.2"
   },
   {
@@ -12665,6 +13170,7 @@
     "sourcePrintPage": 139,
     "sourceEpubFile": "OEBPS/xhtml/chapter6.xhtml",
     "sourceGlobalQuestion": 506,
+    "qid": "cssgb:set-2:source-506:uwm1ss",
     "bokReference": "VI.C.2"
   }
 ];

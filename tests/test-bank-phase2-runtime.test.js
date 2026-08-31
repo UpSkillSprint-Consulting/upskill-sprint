@@ -6,6 +6,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -33,6 +34,7 @@ async function load() {
   windows.push(dom.window);
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
   if (!dom.window.Element.prototype.scrollIntoView) dom.window.Element.prototype.scrollIntoView = function () {};
+  await installDurableLearning(dom.window);
   [phase1, phase2, grounding, hardening, history, runtime].forEach(source => dom.window.eval(source));
   await settle(dom.window);
   return dom.window;
@@ -62,7 +64,9 @@ test('runtime timing resets when a new quiz begins', async () => {
   click(window, overview.querySelector('[data-mode="quick"]'));
   await settle(window, 3);
   assertNoTrackedTimes(window);
-  overview.innerHTML = '<div class="tb-quiz"><div class="tb-stem">New attempt</div></div>';
+  click(window, overview.querySelector('[data-backsim]'));
+  await settle(window, 2);
+  click(window, overview.querySelector('[data-mode="quick"]'));
   await settle(window, 4);
   assertNoTrackedTimes(window);
 });

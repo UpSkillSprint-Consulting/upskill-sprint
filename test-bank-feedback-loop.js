@@ -26,13 +26,38 @@
     return exams ? exams[currentExamId()] : null;
   }
 
+  function registry() {
+    return window.__TBQuestionRegistry || null;
+  }
+
+  function legacyStemHash(value) {
+    let output = 2166136261;
+    String(value || '').split('').forEach(function (character) {
+      output ^= character.charCodeAt(0);
+      output = Math.imul(output, 16777619);
+    });
+    return (output >>> 0).toString(36);
+  }
+
+  function questionId(examId, question) {
+    const helper = registry();
+    if (helper && typeof helper.idFor === 'function') return helper.idFor(examId, question);
+    return question && question.questionId || question && question.qid || question && question.id || legacyStemHash(question && question.stem);
+  }
+
   function allQuestions(exam) {
+    const helper = registry();
+    if (helper && exam === currentExam() && typeof helper.questionsFor === 'function') {
+      return helper.questionsFor(currentExamId());
+    }
     const output = [];
     const seen = new Set();
 
     function add(question) {
-      if (!question || !question.stem || seen.has(question.stem)) return;
-      seen.add(question.stem);
+      if (!question || !question.stem) return;
+      const id = questionId(currentExamId(), question);
+      if (seen.has(id)) return;
+      seen.add(id);
       output.push(question);
     }
 
@@ -45,9 +70,14 @@
     return output;
   }
 
-  function findQuestion(exam, stem) {
+  function findQuestion(exam, identity) {
+    const helper = registry();
+    if (helper && exam === currentExam() && typeof helper.find === 'function') {
+      const found = helper.find(currentExamId(), identity);
+      if (found) return found;
+    }
     return allQuestions(exam).find(function (question) {
-      return question.stem === stem;
+      return questionId(currentExamId(), question) === identity || question.stem === identity;
     }) || null;
   }
 
@@ -111,13 +141,14 @@
     const index = Number(currentNav.dataset.goto);
     const stem = stemNode.textContent.trim();
     const exam = currentExam();
-    const question = findQuestion(exam, stem);
+    const question = findQuestion(exam, quiz.dataset.questionId || stem);
     const optionNodes = Array.from(quiz.querySelectorAll('.tb-opt'));
     const selected = optionNodes.find(function (node) { return node.classList.contains('sel'); });
     const selectedIndex = selected ? Number(selected.dataset.opt) : null;
 
     state.records[index] = {
       index,
+      questionId: question ? questionId(state.examId, question) : '',
       question: question || {
         stem,
         options: optionNodes.map(function (node) {
@@ -217,7 +248,7 @@
       return reviewOptionHtml(question, record, option, index);
     }).join('');
 
-    return '<article class="tb-review-card" data-review-status="' + status + '">' +
+    return '<article class="tb-review-card" data-review-status="' + status + '" data-question-id="' + esc(record.questionId || questionId(currentExamId(), question)) + '">' +
       '<div class="tb-review-card-head">' +
         '<div><span class="tb-review-qno">Question ' + (record.index + 1) + '</span>' +
         '<span class="tb-review-topic">' + esc(meta.domainName) + ' &rsaquo; ' + esc(meta.subName) + '</span></div>' +

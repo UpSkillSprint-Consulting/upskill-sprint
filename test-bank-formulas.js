@@ -640,18 +640,20 @@
     return match ? { current: Number(match[1]), total: Number(match[2]) } : { current: null, total: null };
   }
 
-  function findQuestionInBanks(examId, stem) {
+  function findQuestionInBanks(examId, identity, legacyStem) {
     var tb = window.__TB;
     var exam = tb && tb.EXAMS && tb.EXAMS[examId];
     var sets = exam && exam.sets;
-    var target = normalize(stem);
+    var registry = window.__TBQuestionRegistry;
+    var targetQuestion = registry && typeof registry.find === 'function' && identity ? registry.find(examId, identity) : null;
+    var target = normalize(legacyStem || identity);
     if (!sets || !target) return null;
     var setKeys = Object.keys(sets);
     for (var s = 0; s < setKeys.length; s += 1) {
       var setKey = setKeys[s];
       var bank = sets[setKey] || [];
       for (var i = 0; i < bank.length; i += 1) {
-        if (normalize(bank[i].stem) === target) {
+        if (bank[i] === targetQuestion || normalize(bank[i].stem) === target) {
           return { set: String(setKey), bank: bank, bankIndex: i, question: bank[i] };
         }
       }
@@ -687,7 +689,7 @@
     var stemNode = document.querySelector('.tb-stem');
     var stem = stemNode ? stemNode.textContent.trim() : '';
     var examId = activeExamId();
-    var located = findQuestionInBanks(examId, stem);
+    var located = findQuestionInBanks(examId, stemNode && stemNode.dataset.questionId || stem, stem);
     var progress = currentQuestionNumber();
     var inferredSection = inferSectionFromTag(examId);
     return {
