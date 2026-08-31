@@ -12,6 +12,7 @@ const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
 const registry = fs.readFileSync(path.join(ROOT, 'test-bank-question-registry.js'), 'utf8');
 const learning = fs.readFileSync(path.join(ROOT, 'test-bank-learning-events.js'), 'utf8');
 const migration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/20260831010000_add_test_bank_new_question_claims.sql'), 'utf8');
+const reservationFixMigration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/20260831224207_fix_test_bank_new_question_reservation.sql'), 'utf8');
 
 const windows = [];
 afterEach(() => {
@@ -159,8 +160,15 @@ test('the database migration locks New-only claims to auth.uid and exposes only 
   assert.match(migration, /revoke all on table public\.test_bank_new_question_claims from public, anon, authenticated/i);
   assert.match(migration, /security definer[\s\S]*set search_path = ''/i);
   assert.match(migration, /v_user_id uuid := auth\.uid\(\)/i);
-  assert.match(migration, /on conflict \(user_id, exam_id, question_id\) do nothing/i);
+  assert.match(migration, /on conflict on constraint test_bank_new_question_claims_pkey do nothing/i);
   assert.match(migration, /grant execute on function public\.reserve_test_bank_new_questions\(text, text\[\]\) to authenticated/i);
+});
+
+test('the corrective reservation migration avoids PL/pgSQL output-column ambiguity', () => {
+  assert.match(reservationFixMigration, /create or replace function public\.reserve_test_bank_new_questions/i);
+  assert.match(reservationFixMigration, /returns table \(question_id text\)/i);
+  assert.match(reservationFixMigration, /on conflict on constraint test_bank_new_question_claims_pkey do nothing/i);
+  assert.doesNotMatch(reservationFixMigration, /on conflict \(user_id, exam_id, question_id\)/i);
 });
 
 test('two ledger clients receive disjoint accepted IDs from concurrent account-owned claims', async () => {

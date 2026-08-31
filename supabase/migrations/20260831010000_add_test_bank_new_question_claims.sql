@@ -93,7 +93,7 @@ begin
     insert into public.test_bank_new_question_claims (user_id, exam_id, question_id)
     select v_user_id, v_exam_id, unique_ids.candidate_question_id
     from unique_ids
-    on conflict (user_id, exam_id, question_id) do nothing
+    on conflict on constraint test_bank_new_question_claims_pkey do nothing
     returning test_bank_new_question_claims.question_id as accepted_question_id
   )
   select inserted.accepted_question_id as question_id
