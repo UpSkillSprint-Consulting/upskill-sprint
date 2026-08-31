@@ -3858,7 +3858,7 @@
     if(!st||!st.attempts){perfAnalyticsOpen=false;return;}
     var node=mountPerfAnalytics();
     if(!node){perfAnalyticsOpen=false;return;}
-    if(perfAnalyticsFullOpen&&window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.open==='function')window.__TBAnalyticsDashboard.open();
+    if(perfAnalyticsFullOpen&&window.__TBAnalyticsDashboard&&typeof window.__TBAnalyticsDashboard.open==='function')window.__TBAnalyticsDashboard.open({focus:false});
     updatePerfAnalyticsButton();
   }
   function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}

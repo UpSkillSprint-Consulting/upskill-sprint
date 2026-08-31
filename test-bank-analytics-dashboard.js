@@ -593,7 +593,7 @@
     wireRadarTooltips(panel);
   }
 
-  function openPanel() {
+  function openPanel(options) {
     const panel = ensurePanel();
     const adaptivePanel = document.getElementById('tb-adaptive-panel');
     if (adaptivePanel) { adaptivePanel.hidden = true; adaptivePanel.innerHTML = ''; }
@@ -602,7 +602,12 @@
     panel.hidden = false;
     renderPanel();
     panel.tabIndex = -1;
-    panel.focus();
+    /* Move focus only for an explicit user request to open Full analytics.
+       The test-bank shell also calls open() while restoring an already-open
+       panel after unrelated controls re-render. Focusing during that restore
+       steals both keyboard focus and the viewport from the filter the learner
+       just clicked. */
+    if (!options || options.focus !== false) panel.focus();
   }
 
   function closePanel() {
