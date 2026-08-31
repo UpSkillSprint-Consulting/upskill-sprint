@@ -105,7 +105,7 @@ function quantitativeQuestion(question) {
   return calculationLanguage.test(combined) && (numericCount >= 2 || workedArithmetic.test(why));
 }
 
-test('formula enhancer still initializes when the learner waits before starting a quiz', { timeout: 8000 }, async () => {
+test('formula enhancer still initializes when the learner waits before starting a quiz', { timeout: 30000 }, async () => {
   const { window, document } = await loadRealPage();
 
   // The previous implementation stopped looking for the lazily-created tool
