@@ -176,6 +176,7 @@ test('formula context never binds a CSSBB stem to a colliding CQE question', asy
   const question = window.__TB.EXAMS.cssbb.sets[1].find(item => item.stem.startsWith('An inspector draws 5 pipes'));
   assert.ok(question, 'shared-stem CSSBB fixture exists');
   document.querySelector('.tb-stem').textContent = question.stem;
+  document.querySelector('.tb-stem').dataset.questionId = question.qid;
   document.querySelector('.tb-qtag').textContent = 'Measure · V. Measure';
 
   const context = window.__TB_FORMULAS_TEST__.getContext();
