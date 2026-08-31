@@ -162,6 +162,7 @@ test('a durable incorrect answer from an incomplete session still hydrates maste
     assert.equal(data.attempts.length, 0, 'an incomplete session is not promoted into a completed-test score');
 
     api.renderStandalone(window.document.getElementById('tb-overview'));
+    window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
     window.document.querySelector('[data-open-notebook]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
     const notebook = window.document.getElementById('tb-adaptive-panel').textContent;
     assert.match(notebook, /Mistake retained even though this session was not submitted\./);

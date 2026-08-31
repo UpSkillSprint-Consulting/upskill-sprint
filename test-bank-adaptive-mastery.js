@@ -834,7 +834,10 @@
   function reconcileLearningLedger(sourceEvents) {
     const resetAt = currentResetAt();
     let imported = 0;
-    completedLedgerSessions(sourceEvents).forEach(function (session) {
+    const completed = completedLedgerSessions(sourceEvents);
+    const completedIds = {};
+    completed.forEach(function (session) { completedIds[session.id] = true; });
+    completed.forEach(function (session) {
       if (!session.id || !session.records.length || (resetAt && session.at <= resetAt)) return;
       const store = readStore();
       const data = examStore(store);
@@ -853,6 +856,27 @@
         domainBreakdown: session.domainBreakdown
       });
       if (result) imported += 1;
+    });
+    /* An abandoned or interrupted session can still contain durable answer
+       evidence. Project each immutable answer once without manufacturing a
+       completed-attempt score. */
+    asArray(sourceEvents).map(normaliseLedgerEvent).forEach(function (event) {
+      if (event.examId !== examId() || event.type !== 'answer_recorded' || !event.questionId || completedIds[event.sessionId]) return;
+      if (resetAt && event.occurredAt <= resetAt) return;
+      const store = readStore();
+      const data = examStore(store);
+      const existing = asRecord(data.questions[event.questionId]);
+      if (asArray(existing.history).some(function (entry) { return entry.learningEventId === event.id; })) return;
+      const question = ledgerQuestion(event.questionId, event);
+      if (!question) return;
+      const payload = asRecord(event.payload);
+      const state = isRecord(data.questions[event.questionId]) ? data.questions[event.questionId] : initialQuestionState(question);
+      data.questions[event.questionId] = applyResult(state, question, ledgerAnswerStatus(payload, question), ledgerNumber(payload.selected), ledgerSource(payload.mode), event.occurredAt || now(), {
+        sessionId: event.sessionId,
+        learningEventId: event.id
+      });
+      writeStore(store);
+      imported += 1;
     });
     return imported;
   }
@@ -1170,7 +1194,7 @@
         const hasSnapshot = Boolean(snapshot.stem && asArray(snapshot.options).length);
         const question = hasSnapshot ? snapshot : questionByIdentity(state.questionId || state.id || key, state.stem);
         if (!question || !question.stem || !asArray(question.options).length) return;
-        rows.push({ question: question, sub: state.sub, at: entry.at, selected: entry.selected, source: entry.source });
+        rows.push({ question: question, sub: snapshot.sub || state.sub, at: entry.at, selected: entry.selected, source: entry.source });
       });
     });
     return rows.sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
@@ -1293,12 +1317,23 @@
   function refreshDashboardMetrics() {
     const current = document.getElementById('tb-adaptive-mastery');
     if (!current) return;
-    const summary = masterySummary(examStore(readStore()), now());
+    const data = examStore(readStore());
+    const summary = masterySummary(data, now());
     ['due', 'mastered', 'notebook', 'attempted'].forEach(function (key) {
       const node = current.querySelector('[data-mastery-metric="' + key + '"] strong');
       const value = String(summary[key] == null ? 0 : summary[key]);
       if (node && node.textContent !== value) node.textContent = value;
     });
+    const holder = document.createElement('div');
+    holder.innerHTML = dashboardMarkup(data);
+    const fresh = holder.firstElementChild;
+    ['.tb-weak-list', '.tb-improvement', '.tb-trend'].forEach(function (selector) {
+      const target = current.querySelector(selector);
+      const source = fresh && fresh.querySelector(selector);
+      if (target && source && target.innerHTML !== source.innerHTML) target.innerHTML = source.innerHTML;
+    });
+    const panel = document.getElementById('tb-adaptive-panel');
+    if (panel && !panel.hidden && panel.querySelector('.tb-mastery-explain')) panel.innerHTML = detailsMarkup(data);
   }
 
   function ensureStyles() {

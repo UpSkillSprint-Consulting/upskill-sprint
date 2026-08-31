@@ -186,7 +186,9 @@
   // Last N practice/adaptive/exam sessions, in chronological order.
   function sessionTrend(limit) {
     const data = examData(readStore());
-    return (data.attempts || []).slice(-(limit || TREND_LIMIT)).map(function (entry) {
+    return (data.attempts || []).slice().sort(function (left, right) {
+      return Number(left.at || 0) - Number(right.at || 0) || String(left.id || '').localeCompare(String(right.id || ''));
+    }).slice(-(limit || TREND_LIMIT)).map(function (entry) {
       return {
         at: entry.at, source: entry.source, total: entry.total || 0, correct: entry.correct || 0,
         pct: entry.total ? Math.round(entry.correct / entry.total * 100) : 0,
@@ -202,7 +204,8 @@
     const byDay = {};
     (data.attempts || []).forEach(function (entry) {
       const key = new Date(entry.at).toISOString().slice(0, 10);
-      byDay[key] = (byDay[key] || 0) + (entry.total || 0);
+      const answered = entry.answered == null ? entry.total : entry.answered;
+      byDay[key] = (byDay[key] || 0) + Math.max(0, Number(answered || 0));
     });
     const days = weeks * 7;
     const today = new Date();
@@ -340,7 +343,7 @@
       if (!state) return;
       (state.history || []).forEach(function (entry) {
         if (entry.source !== 'exam-attempt' || entry.attemptId !== last.id) return;
-        const sub = state.sub || 'general';
+        const sub = entry.snapshot && entry.snapshot.sub || state.sub || 'general';
         totals[sub] = totals[sub] || { total: 0, correct: 0 };
         totals[sub].total += 1;
         if (entry.status === 'correct') totals[sub].correct += 1;

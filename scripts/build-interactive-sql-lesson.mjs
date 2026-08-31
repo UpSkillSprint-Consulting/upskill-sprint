@@ -24,7 +24,9 @@ fs.writeFileSync(archivePath, Buffer.from(encoded, 'base64'));
 const lessonsDir = path.join(root, 'lessons');
 fs.mkdirSync(lessonsDir, { recursive: true });
 
-const extraction = spawnSync('tar', ['-xzf', archivePath, '-C', lessonsDir], {
+/* Build containers do not necessarily allow chown to the UID/GID recorded in
+   the source archive. The lesson files do not depend on archived ownership. */
+const extraction = spawnSync('tar', ['--no-same-owner', '-xzf', archivePath, '-C', lessonsDir], {
   cwd: root,
   encoding: 'utf8'
 });

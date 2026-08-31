@@ -235,9 +235,9 @@ test('sessionTrend selects the newest chronological attempts with a deterministi
   });
 
   const trend = window.__TBAnalyticsDashboard.sessionTrend(3);
-  assert.deepEqual(trend.map(entry => entry.pct), [50, 75, 100],
+  assert.deepEqual(Array.from(trend, entry => entry.pct), [50, 75, 100],
     'a late-arriving older attempt cannot displace the true newest three or draw the chart backwards');
-  assert.deepEqual(trend.map(entry => entry.at), [at + 3000, at + 3000, at + 4000]);
+  assert.deepEqual(Array.from(trend, entry => entry.at), [at + 3000, at + 3000, at + 4000]);
 });
 
 test('studyHeatmap counts submitted answers rather than planned blanks in an attempt', async () => {

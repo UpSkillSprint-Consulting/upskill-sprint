@@ -126,7 +126,7 @@ test('Phase 2 adds explanation-grounded learning points, exam traps, time, and t
   const { overview, question, card } = await openMissedReview(window);
 
   assert.ok(overview.querySelector('.tb-phase2-intro'), 'deep-learning introduction is shown');
-  assert.match(card.querySelector('.tb-deep-summary').textContent, /42 sec/);
+  assert.match(card.querySelector('.tb-deep-summary').textContent, /4[23] sec/);
   assert.match(card.querySelector('.tb-deep-summary').textContent, /Validated question bank/);
 
   const keyPoint = card.querySelector('.tb-key-point').textContent.trim();

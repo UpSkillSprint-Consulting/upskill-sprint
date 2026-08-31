@@ -158,6 +158,7 @@ test('formula context resolves every CSSBB Set 3 domain within the active exam',
     const index = bank.findIndex(question => question.sub === sectionId);
     assert.ok(index >= 0, `Set 3 contains ${sectionId}`);
     document.querySelector('.tb-stem').textContent = bank[index].stem;
+    document.querySelector('.tb-stem').dataset.questionId = bank[index].qid;
     document.querySelector('.tb-qtag').textContent = bank[index].sub;
     const context = api.getContext();
     assert.equal(context.examId, 'cssbb', `${sectionId}: active exam`);
@@ -190,6 +191,7 @@ test('formula context infers an unmatched CSSBB question from CSSBB section meta
   selectSet(window, document, '3');
   click(window, document.querySelector('[data-mode="quick"]'));
   document.querySelector('.tb-stem').textContent = 'Unmatched CSSBB routing fixture';
+  delete document.querySelector('.tb-stem').dataset.questionId;
   document.querySelector('.tb-qtag').textContent = 'Measure · V. Measure';
 
   const context = window.__TB_FORMULAS_TEST__.getContext();
@@ -232,6 +234,7 @@ test('representative first and last questions from every CQE set map to the corr
     const bank = window.__TB.EXAMS.cqe.sets[set];
     for (const index of [0, bank.length - 1]) {
       document.querySelector('.tb-stem').textContent = bank[index].stem;
+      document.querySelector('.tb-stem').dataset.questionId = bank[index].qid;
       document.querySelector('.tb-qtag').textContent = bank[index].sub;
       api.renderContextualPane('');
       const context = api.getContext();

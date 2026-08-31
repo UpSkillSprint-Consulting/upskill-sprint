@@ -183,11 +183,14 @@
     Object.keys(data.questions || {}).forEach(function (key) {
       const state = data.questions[key];
       if (!state || typeof state !== 'object') return;
-      const question = questionByIdentity(state.questionId || state.id || key, state.stem);
-      if (!question) return;
       (state.history || []).forEach(function (entry) {
         if (entry.status !== 'incorrect') return;
-        rows.push({ question: question, sub: state.sub || question.sub, at: entry.at, selected: entry.selected, source: entry.source });
+        const snapshot = entry && entry.snapshot && typeof entry.snapshot === 'object' ? entry.snapshot : {};
+        const question = snapshot.stem && Array.isArray(snapshot.options) && snapshot.options.length
+          ? snapshot
+          : questionByIdentity(state.questionId || state.id || key, state.stem);
+        if (!question) return;
+        rows.push({ question: question, sub: snapshot.sub || state.sub || question.sub, at: entry.at, selected: entry.selected, source: entry.source });
       });
     });
     return rows.sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
