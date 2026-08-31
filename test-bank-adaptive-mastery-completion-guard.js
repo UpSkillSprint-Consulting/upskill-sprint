@@ -11,25 +11,71 @@
     try { localStorage.removeItem(SESSION_KEY); } catch (error) {}
   }
 
-  function questionMap() {
+  function announce(message) {
+    const live = document.getElementById('tb-feedback-live');
+    if (live) live.textContent = message;
+  }
+
+  function writeAheadSaved(result) {
+    if (result && typeof result === 'object' && result.saved === false) return false;
+    const learning = window.__TBLearning;
+    const status = learning && typeof learning.status === 'function' ? learning.status() : null;
+    return !(status && status.writeAheadSaved === false);
+  }
+
+  function activeExamId() {
     const active = document.querySelector('.tb-tile.active[data-exam]');
-    const examId = active ? active.dataset.exam : 'cssbb';
+    return active ? active.dataset.exam : 'cssbb';
+  }
+
+  function questionIdentity(examId, question) {
+    const helper = window.__TBQuestionRegistry;
+    if (helper && typeof helper.idFor === 'function') return String(helper.idFor(examId, question) || '');
+    return String(question && (question.qid || question.questionId || question.id || question.stem) || '');
+  }
+
+  function questionMap(id) {
+    const examId = id || activeExamId();
     const exam = window.__TB && window.__TB.EXAMS ? window.__TB.EXAMS[examId] : null;
-    const map = new Map();
-    function add(question) { if (question && question.stem && !map.has(question.stem)) map.set(question.stem, question); }
+    const byId = new Map();
+    const byStem = new Map();
+    function add(question) {
+      if (!question || !question.stem) return;
+      const identity = questionIdentity(examId, question);
+      if (identity && !byId.has(identity)) byId.set(identity, question);
+      if (!byStem.has(question.stem)) byStem.set(question.stem, question);
+    }
     if (exam && exam.sets) Object.keys(exam.sets).forEach(function (key) { (exam.sets[key] || []).forEach(add); });
     if (exam && exam.bank) exam.bank.forEach(add);
-    return map;
+    return { byId: byId, byStem: byStem };
   }
 
   function complete(saved) {
-    const map = questionMap();
-    const items = (saved.stems || []).map(function (stem) { return map.get(stem); }).filter(Boolean);
-    const results = items.map(function (question, index) {
+    const savedExamId = String(saved && saved.examId || activeExamId());
+    const map = questionMap(savedExamId);
+    const ids = Array.isArray(saved && saved.questionIds) ? saved.questionIds : [];
+    const stems = Array.isArray(saved && saved.stems) ? saved.stems : [];
+    const total = Math.max(ids.length, stems.length);
+    const results = Array.from({ length: total }, function (_, index) {
+      const id = ids[index] == null ? '' : String(ids[index]);
+      /* Modern paused sessions retain canonical question IDs. Stem matching is
+         only a backwards-compatible fallback for pre-registry sessions, so a
+         wording correction cannot lose or shift completion evidence. */
+      const question = (id && map.byId.get(id)) || (stems[index] && map.byStem.get(stems[index])) || null;
+      if (!question) return null;
       const selected = saved.answers && saved.answers[index] != null ? Number(saved.answers[index]) : null;
       return { question: question, selected: selected, status: selected == null ? 'unanswered' : selected === question.answer ? 'correct' : 'incorrect' };
-    });
-    if (window.__TBAdaptiveMastery && results.length) window.__TBAdaptiveMastery.recordResults(results, 'adaptive-practice-v2');
+    }).filter(Boolean);
+    const learning = window.__TBLearning;
+    if (!learning || typeof learning.completeSession !== 'function' || !saved.learningSessionId || !results.length) {
+      announce('Your saved adaptive session cannot be completed until secure learning storage is available. Please refresh and try again.');
+      return false;
+    }
+    const completed = learning.completeSession({ examId: savedExamId, sessionId: saved.learningSessionId, mode: 'adaptive', timed: false, startedAt: saved.startedAt, records: results });
+    if (!completed || !writeAheadSaved(completed)) {
+      announce('Your completed adaptive session is still waiting for a safe local save. Please try finishing it again.');
+      return false;
+    }
     const correct = results.filter(function (result) { return result.status === 'correct'; }).length;
     const panel = document.getElementById('tb-adaptive-panel');
     if (panel) {
@@ -39,9 +85,9 @@
       panel.focus();
     }
     clearSession();
-    const live = document.getElementById('tb-feedback-live');
-    if (live) live.textContent = 'Adaptive session complete. ' + correct + ' of ' + results.length + ' correct.';
+    announce('Adaptive session complete. ' + correct + ' of ' + results.length + ' correct.');
     document.dispatchEvent(new CustomEvent('tb:adaptive-complete', { detail: { correct: correct, total: results.length } }));
+    return true;
   }
 
   window.addEventListener('click', function (event) {

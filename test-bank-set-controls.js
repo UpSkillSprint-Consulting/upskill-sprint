@@ -132,7 +132,11 @@
     if (!overview) return;
 
     const observer = new MutationObserver(scheduleEnhance);
-    observer.observe(overview, { childList: true, subtree: true });
+    /* Core browse renders replace the overview's direct children. Watching the
+       complete subtree also sees this enhancer's own inserted Set controls and
+       description text, which recursively schedules another enhancement frame
+       forever after a durable-learning repaint. */
+    observer.observe(overview, { childList: true });
   }
 
   if (document.readyState === 'loading') {

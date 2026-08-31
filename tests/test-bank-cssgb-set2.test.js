@@ -7,6 +7,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const set1Script = fs.readFileSync(path.join(ROOT, 'test-bank-cssgb-set1.js'), 'utf8');
@@ -27,7 +28,7 @@ const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
 let windows = [];
 afterEach(() => windows.splice(0).forEach(window => { try { window.close(); } catch (_) {} }));
 
-function loadPage() {
+async function loadPage() {
   const errors = [];
   const virtualConsole = new VirtualConsole();
   virtualConsole.on('jsdomError', error => errors.push(error.message));
@@ -38,7 +39,9 @@ function loadPage() {
     virtualConsole
   });
   windows.push(dom.window);
-  return new Promise(resolve => dom.window.addEventListener('load', () => resolve({ window: dom.window, errors })));
+  await new Promise(resolve => dom.window.addEventListener('load', resolve));
+  await installDurableLearning(dom.window);
+  return { window: dom.window, errors };
 }
 
 function click(window, element) {

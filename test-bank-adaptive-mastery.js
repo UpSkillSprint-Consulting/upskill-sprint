@@ -14,6 +14,7 @@
   const MASTERY_EVIDENCE_LIMIT = 500;
 
   let scheduled = false;
+  let ledgerReconciliationScheduled = false;
   let attempt = null;
   let adaptive = null;
   let notebookFilter = 'all';
@@ -32,6 +33,31 @@
     return (window.__TB && window.__TB.renderQuestionChart) ? window.__TB.renderQuestionChart(chart) : '';
   }
 
+  function announce(message) {
+    const live = document.getElementById('tb-feedback-live');
+    if (live) live.textContent = message;
+  }
+
+  function writeAheadSaved(result) {
+    if (result && typeof result === 'object' && result.saved === false) return false;
+    const learning = window.__TBLearning;
+    const status = learning && typeof learning.status === 'function' ? learning.status() : null;
+    return !(status && status.writeAheadSaved === false);
+  }
+
+  /* Adaptive practice is learning evidence, not a local-only convenience.
+     Never allow a session to begin, mutate, or finish unless its durable
+     write-ahead ledger is available.  Otherwise an asset/load failure would
+     quietly recreate the exact cross-device data loss this release fixes. */
+  function learningLedger(method) {
+    const learning = window.__TBLearning;
+    return learning && typeof learning[method] === 'function' ? learning : null;
+  }
+
+  function durableLearningUnavailable() {
+    announce('Adaptive practice is temporarily unavailable because secure learning storage has not loaded. Please refresh and try again.');
+  }
+
   function stripHtml(value) {
     const node = document.createElement('div');
     node.innerHTML = String(value == null ? '' : value);
@@ -45,6 +71,14 @@
       output = Math.imul(output, 16777619);
     });
     return (output >>> 0).toString(36);
+  }
+
+  function registry() { return window.__TBQuestionRegistry || null; }
+
+  function questionId(question) {
+    const helper = registry();
+    if (helper && typeof helper.idFor === 'function') return helper.idFor(examId(), question);
+    return hash(question && question.stem);
   }
 
   function now() { return Date.now(); }
@@ -78,12 +112,15 @@
   }
 
   function allQuestions() {
+    const helper = registry();
+    if (helper && typeof helper.questionsFor === 'function') return helper.questionsFor(examId());
     const source = exam();
     const output = [];
     const seen = new Set();
     function add(question) {
-      if (!question || !question.stem || seen.has(question.stem)) return;
-      seen.add(question.stem);
+      const id = questionId(question);
+      if (!question || !question.stem || seen.has(id)) return;
+      seen.add(id);
       output.push(question);
     }
     if (source && source.sets) Object.keys(source.sets).forEach(function (key) { asArray(source.sets[key]).forEach(add); });
@@ -91,8 +128,19 @@
     return output;
   }
 
+  function questionByIdentity(identity, legacyStem) {
+    const helper = registry();
+    if (helper && typeof helper.find === 'function' && identity) {
+      const found = helper.find(examId(), identity);
+      if (found) return found;
+    }
+    return allQuestions().find(function (question) {
+      return questionId(question) === identity || question.stem === legacyStem || question.stem === identity;
+    }) || null;
+  }
+
   function questionByStem(stem) {
-    return allQuestions().find(function (question) { return question.stem === stem; }) || null;
+    return questionByIdentity(stem, stem);
   }
 
   function readStore() {
@@ -123,7 +171,8 @@
 
   function initialQuestionState(question) {
     return {
-      id: hash(question.stem),
+      id: questionId(question),
+      questionId: questionId(question),
       stem: question.stem,
       sub: question.sub || 'general',
       attempts: 0,
@@ -373,6 +422,25 @@
     return { id: 'mastery-' + stream + '-' + sequence, deviceId: device, streamId: stream, resetAt: resetAt, sequence: sequence };
   }
 
+  /* A completed ledger answer has a durable, account-wide identity.  Reusing
+     that identity in the derived mastery store is important: a laptop can
+     derive the same completed phone session before the older snapshot sync
+     arrives, and the two copies must merge as one answer rather than double
+     the learner's evidence.  Each session/question pair is a small independent
+     stream so normal evidence compaction remains safe as the ledger grows. */
+  function learningEvidenceIdentity(metadata, questionIdentity) {
+    const eventId = metadata && metadata.learningEventId ? String(metadata.learningEventId) : '';
+    if (!eventId) return null;
+    const sessionId = metadata && metadata.sessionId ? String(metadata.sessionId) : 'session';
+    return {
+      id: 'ledger-' + eventId,
+      deviceId: '',
+      streamId: 'ledger:' + sessionId + ':' + String(questionIdentity || 'question'),
+      resetAt: currentResetAt(),
+      sequence: 1
+    };
+  }
+
   function rebuildMasteryState(state, timestamp) {
     const canonical = compactMasteryEvidence(state.masteryBaseline, state.masteryHistory);
     const baseline = canonical.baseline;
@@ -435,23 +503,36 @@
     state.dueAt = timestamp + state.intervalDays * DAY;
   }
 
-  /* Every incorrect attempt is retained without limit so the mistake notebook
-     can show a complete chronological record; correct/unanswered attempts are
-     capped to bound storage growth, and an overall ceiling guards worst case. */
+  /* Incorrect attempts are retained in full so the mistake notebook remains a
+     complete chronological record. Correct/unanswered evidence is capped to
+     bound storage growth without erasing historic mistakes. */
   function trimHistory(history) {
     const sorted = asArray(history).slice().sort(evidenceOrder);
     const incorrect = sorted.filter(function (entry) { return entry.status === 'incorrect'; });
     const other = sorted.filter(function (entry) { return entry.status !== 'incorrect'; }).slice(-40);
-    return incorrect.concat(other).sort(evidenceOrder).slice(-500);
+    return incorrect.concat(other).sort(evidenceOrder);
   }
 
-  function applyResult(state, question, status, selected, source, timestamp) {
+  function questionSnapshot(question) {
+    if (!question || typeof question !== 'object') return null;
+    return {
+      questionId: questionId(question),
+      stem: String(question.stem || ''),
+      options: asArray(question.options).map(String),
+      answer: Number(question.answer),
+      why: String(question.why || ''),
+      sub: String(question.sub || 'general'),
+      chart: question.chart || null
+    };
+  }
+
+  function applyResult(state, question, status, selected, source, timestamp, metadata) {
     const canonical = ensureMasteryEvidence(state);
     state.masteryBaseline = canonical.baseline;
     state.masteryHistory = canonical.history;
     rebuildMasteryState(state, timestamp);
     const priorAttempts = state.attempts;
-    const identity = nextEvidenceIdentity(state);
+    const identity = learningEvidenceIdentity(metadata, questionId(question)) || nextEvidenceIdentity(state);
     nextSchedule(state, status, timestamp);
     const entry = {
       id: identity.id,
@@ -463,6 +544,9 @@
       status: status,
       selected: selected,
       source: source,
+      attemptId: metadata && metadata.sessionId || null,
+      learningEventId: metadata && metadata.learningEventId || null,
+      snapshot: questionSnapshot(question),
       priorAttempts: priorAttempts,
       mastery: 0
     };
@@ -473,60 +557,330 @@
     return state;
   }
 
+  function boundedWhole(value) {
+    const number = Number(value);
+    return Number.isFinite(number) && number > 0 ? Math.floor(number) : 0;
+  }
+
+  /* A completed full exam has a distinct immutable score record.  Keep its
+     domain denominator separate from mastery evidence: unanswered questions
+     do not change mastery, but absolutely do count in the scored exam. */
+  function domainBreakdownFromRecords(records) {
+    const totals = {};
+    asArray(records).forEach(function (result) {
+      const question = result && result.question;
+      if (!question) return;
+      const sub = String(question.sub || 'general');
+      const status = result.status === 'correct' || result.status === 'incorrect' || result.status === 'unanswered'
+        ? result.status
+        : result.selected == null ? 'unanswered' : result.selected === Number(question.answer) ? 'correct' : 'incorrect';
+      totals[sub] = totals[sub] || { id: sub, total: 0, correct: 0, incorrect: 0, unanswered: 0 };
+      totals[sub].total += 1;
+      totals[sub][status] += 1;
+    });
+    return Object.keys(totals).sort().map(function (id) { return totals[id]; });
+  }
+
+  function normaliseDomainBreakdown(source) {
+    const raw = Array.isArray(source) ? source : [];
+    const totals = {};
+    raw.forEach(function (item) {
+      if (!isRecord(item)) return;
+      const id = String(item.id || item.sub || '');
+      if (!id) return;
+      const total = boundedWhole(item.total);
+      const correct = Math.min(total, boundedWhole(item.correct));
+      const unanswered = Math.min(Math.max(0, total - correct), boundedWhole(item.unanswered));
+      const suppliedIncorrect = boundedWhole(item.incorrect);
+      const incorrect = suppliedIncorrect
+        ? Math.min(Math.max(0, total - correct - unanswered), suppliedIncorrect)
+        : Math.max(0, total - correct - unanswered);
+      totals[id] = { id: id, total: total, correct: correct, incorrect: incorrect, unanswered: unanswered };
+    });
+    return Object.keys(totals).sort().map(function (id) { return totals[id]; }).filter(function (item) { return item.total > 0; });
+  }
+
+  function isCompletedFullTimedExam(metadata, total) {
+    if (!metadata || metadata.mode !== 'exam' || metadata.timed !== true || metadata.completed === false) return false;
+    const expected = Number(exam() && exam().questions || 0);
+    return !expected || Number(total) === expected;
+  }
+
   function recordResults(records, source) {
     records = asArray(records);
     if (!records.length) return null;
-    const timestamp = now();
+    const metadata = isRecord(source) ? source : { source: source };
+    const sourceLabel = metadata.source || 'practice';
+    const timestamp = Number(metadata.at || now());
     const store = readStore();
     const data = examStore(store);
-    const attemptId = examId() + '-' + timestamp.toString(36) + '-' + Math.random().toString(36).slice(2, 7);
-    const summary = { id: attemptId, at: timestamp, resetAt: currentResetAt(), source: source, total: records.length, correct: 0, repeated: 0, newQuestions: 0 };
+    const attemptId = metadata.sessionId || examId() + '-' + timestamp.toString(36) + '-' + Math.random().toString(36).slice(2, 7);
+    const existing = metadata.sessionId && asArray(data.attempts).find(function (entry) { return entry && entry.id === attemptId; });
+    /* A phone/laptop may both hydrate the same immutable completed session.
+       The session ID is the idempotency key for the derived mastery record. */
+    if (existing) return existing;
+    const declaredTotal = Number(metadata.total);
+    const declaredCorrect = Number(metadata.correct);
+    const summary = {
+      id: attemptId, at: timestamp, resetAt: currentResetAt(), source: sourceLabel,
+      mode: metadata.mode || null, timed: metadata.timed == null ? null : Boolean(metadata.timed),
+      completed: metadata.completed !== false,
+      total: Number.isFinite(declaredTotal) && declaredTotal >= records.length ? declaredTotal : records.length,
+      correct: 0, repeated: 0, newQuestions: 0
+    };
 
-    records.forEach(function (record) {
-      const question = record.question;
+    records.forEach(function (result, index) {
+      const question = result.question;
       if (!question) return;
-      const key = hash(question.stem);
-      const state = isRecord(data.questions[key]) ? data.questions[key] : initialQuestionState(question);
+      /* A test can be completed or timed out with some questions blank. Those
+         blanks belong in the immutable session score, but they are not answer
+         evidence: they must not inflate total-answer counts or depress mastery
+         as if the learner submitted an incorrect choice. */
+      if (result.status === 'unanswered') return;
+      const key = questionId(question);
+      const legacyKey = hash(question.stem);
+      let state = isRecord(data.questions[key]) ? data.questions[key] : (isRecord(data.questions[legacyKey]) ? data.questions[legacyKey] : initialQuestionState(question));
+      if (key !== legacyKey && data.questions[legacyKey] === state) delete data.questions[legacyKey];
+      state.id = key;
+      state.questionId = key;
       if (state.attempts) summary.repeated += 1;
       else summary.newQuestions += 1;
-      if (record.status === 'correct') summary.correct += 1;
-      data.questions[key] = applyResult(state, question, record.status, record.selected, source, timestamp);
+      if (result.status === 'correct') summary.correct += 1;
+      data.questions[key] = applyResult(state, question, result.status, result.selected, sourceLabel, timestamp, {
+        sessionId: attemptId,
+        learningEventId: asArray(metadata.eventIds)[index] || null
+      });
     });
 
-    data.attempts = asArray(data.attempts).concat([summary]).slice(-60);
+    /* A retired question can lack both a current registry entry and an older
+       snapshot. Its evidence cannot be reconstructed, but the immutable
+       completion score should still remain accurate in the exam history. */
+    if (Number.isFinite(declaredCorrect) && declaredCorrect >= 0 && declaredCorrect <= summary.total) {
+      summary.correct = Math.floor(declaredCorrect);
+    }
+
+    if (isCompletedFullTimedExam(metadata, summary.total)) {
+      const supplied = normaliseDomainBreakdown(metadata.domainBreakdown);
+      const derived = supplied.length ? supplied : domainBreakdownFromRecords(records);
+      if (derived.length) summary.domainBreakdown = derived;
+    }
+
+    data.attempts = asArray(data.attempts).concat([summary]).slice(-500);
     writeStore(store);
+    try { document.dispatchEvent(new CustomEvent('tb:learning-recorded', { detail: summary })); } catch (error) {}
     return summary;
   }
 
-  function captureCurrent() {
-    const overview = document.getElementById(OVERVIEW_ID);
-    const quiz = overview && overview.querySelector('.tb-quiz');
-    if (!quiz || quiz.closest('#' + FEEDBACK_ID)) return;
-    const nav = quiz.querySelector('.tb-navcell.cur');
-    const stemNode = quiz.querySelector('.tb-stem');
-    if (!nav || !stemNode) return;
-    const total = quiz.querySelectorAll('.tb-navcell').length;
-    if (!attempt || attempt.examId !== examId() || attempt.total !== total || !attempt.active) {
-      attempt = { examId: examId(), total: total, active: true, records: {}, startedAt: now() };
+  function ledgerSource(mode) {
+    if (mode === 'exam') return 'exam-attempt';
+    if (mode === 'quick') return 'quick-quiz';
+    if (mode === 'focus') return 'focused-quiz';
+    if (mode === 'diagnostic') return 'diagnostic';
+    if (mode === 'practice') return 'weak-area-practice';
+    return 'adaptive-practice';
+  }
+
+  function ledgerEventAfter(left, right) {
+    if (!left) return true;
+    const leftAt = Number(left.occurredAt || 0);
+    const rightAt = Number(right && right.occurredAt || 0);
+    return rightAt > leftAt || (rightAt === leftAt && String(right && right.id || '') > String(left.id || ''));
+  }
+
+  function ledgerNumber(value) {
+    if (value == null || value === '') return null;
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  function ledgerQuestion(identity, answerEvent) {
+    const helper = registry();
+    const snapshot = asRecord(asRecord(answerEvent && answerEvent.payload).snapshot);
+    if (snapshot.stem && asArray(snapshot.options).length) {
+      /* Prefer the immutable answer-time content over today's registry entry:
+         a wording or explanation correction must not rewrite a learner's
+         historic mistake notebook. */
+      return {
+        questionId: String(identity || ''),
+        stem: String(snapshot.stem || ''),
+        options: asArray(snapshot.options).map(String),
+        answer: Number(snapshot.answer),
+        why: String(snapshot.why || ''),
+        sub: String(snapshot.sub || 'general'),
+        chart: snapshot.chart || null
+      };
     }
-    const question = questionByStem(stemNode.textContent.trim());
-    if (!question) return;
-    const selectedNode = quiz.querySelector('.tb-opt.sel');
-    const selected = selectedNode ? Number(selectedNode.dataset.opt) : null;
-    const status = selected == null ? 'unanswered' : selected === question.answer ? 'correct' : 'incorrect';
-    attempt.records[Number(nav.dataset.goto)] = { question: question, selected: selected, status: status, flagged: nav.classList.contains('flag') };
+    return helper && typeof helper.find === 'function' ? helper.find(examId(), identity) : null;
+  }
+
+  function ledgerAnswerStatus(answer, question) {
+    const status = String(answer && answer.status || '');
+    if (status === 'correct' || status === 'incorrect' || status === 'unanswered') return status;
+    const selected = ledgerNumber(answer && answer.selected);
+    return selected == null ? 'unanswered' : selected === Number(question && question.answer) ? 'correct' : 'incorrect';
+  }
+
+  /* Convert immutable session-completed rows into the same record shape used
+     by a live quiz.  The completed payload is canonical when an answer was
+     revised after its first write-ahead upload; the answer event supplies the
+     immutable question snapshot for the mistake notebook. */
+  function normaliseLedgerEvent(event) {
+    const source = asRecord(event);
+    return {
+      id: String(source.id || source.event_id || ''),
+      type: String(source.type || source.event_type || ''),
+      examId: String(source.examId || source.exam_id || ''),
+      sessionId: String(source.sessionId || source.session_id || ''),
+      questionId: source.questionId || source.question_id ? String(source.questionId || source.question_id) : null,
+      occurredAt: Number(source.occurredAt || Date.parse(source.occurred_at || '') || 0),
+      payload: asRecord(source.payload)
+    };
+  }
+
+  function ledgerDomainBreakdown(answers, answersBySession, sessionId) {
+    const finalByQuestion = {};
+    asArray(answers).forEach(function (answer) {
+      const item = asRecord(answer);
+      const id = String(item.questionId || '');
+      if (id) finalByQuestion[id] = item;
+    });
+    const totals = {};
+    Object.keys(finalByQuestion).sort().forEach(function (id) {
+      const answer = finalByQuestion[id];
+      const answerEvent = answersBySession[String(sessionId) + '|' + id] || null;
+      const payload = asRecord(answerEvent && answerEvent.payload);
+      const snapshot = asRecord(payload.snapshot);
+      const question = ledgerQuestion(id, answerEvent);
+      const sub = String(answer.sub || payload.sub || snapshot.sub || question && question.sub || 'general');
+      const status = ledgerAnswerStatus(answer, question);
+      totals[sub] = totals[sub] || { id: sub, total: 0, correct: 0, incorrect: 0, unanswered: 0 };
+      totals[sub].total += 1;
+      totals[sub][status] += 1;
+    });
+    return Object.keys(totals).sort().map(function (id) { return totals[id]; });
+  }
+
+  function completedLedgerSessions(sourceEvents) {
+    const learning = window.__TBLearning;
+    const rawEvents = sourceEvents == null
+      ? (learning && typeof learning.eventsForExam === 'function' ? learning.eventsForExam(examId()) : [])
+      : sourceEvents;
+    const events = asArray(rawEvents).map(normaliseLedgerEvent).filter(function (event) {
+      return event.examId === examId();
+    }).sort(function (left, right) {
+      return Number(left && left.occurredAt || 0) - Number(right && right.occurredAt || 0) || String(left && left.id || '').localeCompare(String(right && right.id || ''));
+    });
+    const answersBySession = {};
+    const completed = [];
+    events.forEach(function (event) {
+      if (!event || !event.sessionId) return;
+      const sessionId = String(event.sessionId);
+      if (event.type === 'answer_recorded' && event.questionId) {
+        const key = sessionId + '|' + String(event.questionId);
+        if (ledgerEventAfter(answersBySession[key], event)) answersBySession[key] = event;
+      }
+      if (event.type === 'session_completed') completed.push(event);
+    });
+    return completed.map(function (event) {
+      const payload = asRecord(event.payload);
+      let answers = asArray(payload.answers).map(function (answer) { return asRecord(answer); });
+      if (!answers.length) {
+        answers = Object.keys(answersBySession).filter(function (key) {
+          return key.indexOf(String(event.sessionId) + '|') === 0;
+        }).map(function (key) {
+          const answerEvent = answersBySession[key];
+          const answerPayload = asRecord(answerEvent && answerEvent.payload);
+          return {
+            questionId: answerEvent.questionId,
+            selected: answerPayload.selected,
+            status: answerPayload.status,
+            sub: String(answerPayload.sub || asRecord(answerPayload.snapshot).sub || 'general')
+          };
+        });
+      }
+      const seen = {};
+      const records = [];
+      const eventIds = [];
+      const completionEventIds = asArray(payload.answerEventIds);
+      answers.forEach(function (answer, answerIndex) {
+        const identity = String(answer.questionId || '');
+        if (!identity || seen[identity]) return;
+        seen[identity] = true;
+        const answerEvent = answersBySession[String(event.sessionId) + '|' + identity] || null;
+        const question = ledgerQuestion(identity, answerEvent);
+        if (!question) return;
+        records.push({ question: question, selected: ledgerNumber(answer.selected), status: ledgerAnswerStatus(answer, question) });
+        eventIds.push(answerEvent && answerEvent.id || completionEventIds[answerIndex] || null);
+      });
+      return {
+        id: String(event.sessionId),
+        at: Number(event.occurredAt || 0),
+        mode: String(payload.mode || 'practice'),
+        timed: Boolean(payload.timed),
+        total: Number(payload.total || records.length),
+        correct: payload.correct,
+        records: records,
+        eventIds: eventIds,
+        domainBreakdown: ledgerDomainBreakdown(answers, answersBySession, event.sessionId)
+      };
+    });
+  }
+
+  /* The append-only account ledger is the cross-device source of truth.  Its
+     derived mastery record is idempotent by completed session ID, so this can
+     run after every phone/laptop hydration without waiting for the legacy
+     browser-snapshot merger.  Reset markers intentionally win over older
+     ledger sessions and prevent a reset from resurrecting prior evidence. */
+  function reconcileLearningLedger(sourceEvents) {
+    const resetAt = currentResetAt();
+    let imported = 0;
+    completedLedgerSessions(sourceEvents).forEach(function (session) {
+      if (!session.id || !session.records.length || (resetAt && session.at <= resetAt)) return;
+      const store = readStore();
+      const data = examStore(store);
+      const exists = asArray(data.attempts).some(function (entry) { return entry && entry.id === session.id; });
+      if (exists) return;
+      const result = recordResults(session.records, {
+        source: ledgerSource(session.mode),
+        mode: session.mode,
+        timed: session.timed,
+        sessionId: session.id,
+        at: session.at || now(),
+        completed: true,
+        total: session.total,
+        correct: session.correct,
+        eventIds: session.eventIds,
+        domainBreakdown: session.domainBreakdown
+      });
+      if (result) imported += 1;
+    });
+    return imported;
+  }
+
+  function scheduleLedgerReconciliation() {
+    if (ledgerReconciliationScheduled) return;
+    ledgerReconciliationScheduled = true;
+    window.setTimeout(function () {
+      ledgerReconciliationScheduled = false;
+      reconcileLearningLedger();
+    }, 0);
+  }
+
+  function captureCurrent() {
+    /* The core quiz itself now uses the ledger.  Do not retain this historical
+       DOM-scrape fallback: it could create local-only mastery evidence when
+       the ledger script failed to load. */
+    return;
   }
 
   function finalizeAttempt() {
-    if (!attempt || !attempt.active) return;
-    const records = Object.keys(attempt.records).sort(function (a, b) { return Number(a) - Number(b); }).map(function (key) { return attempt.records[key]; });
-    if (!records.length) return;
-    recordResults(records, 'exam-attempt');
-    attempt.active = false;
+    /* Completion is derived by the durable ledger after its write-ahead save;
+       never scrape the DOM into a local-only history as a fallback. */
+    return;
   }
 
   function stateFor(question, data) {
-    const state = data.questions[hash(question.stem)];
+    const state = data.questions[questionId(question)] || data.questions[hash(question.stem)];
     return isRecord(state) ? state : initialQuestionState(question);
   }
 
@@ -534,6 +888,7 @@
     const store = readStore();
     const data = examStore(store);
     return asArray(questions).filter(function (question) {
+      if (window.__TBLearning && typeof window.__TBLearning.hasSeen === 'function') return question && !window.__TBLearning.hasSeen(examId(), question);
       return question && stateFor(question, data).attempts === 0;
     });
   }
@@ -570,13 +925,18 @@
     const timestamp = now();
     const due = dueQuestions(data, timestamp);
     const weak = weakQuestions(data);
-    const unseen = allQuestions().filter(function (question) { return !stateFor(question, data).attempts; });
+    const unseen = allQuestions().filter(function (question) {
+      return window.__TBLearning && typeof window.__TBLearning.hasSeen === 'function'
+        ? !window.__TBLearning.hasSeen(examId(), question)
+        : !stateFor(question, data).attempts;
+    });
     const chosen = [];
     const seen = new Set();
 
     function add(question) {
-      if (!question || seen.has(question.stem) || chosen.length >= limit) return;
-      seen.add(question.stem);
+      const id = questionId(question);
+      if (!question || seen.has(id) || chosen.length >= limit) return;
+      seen.add(id);
       chosen.push(question);
     }
 
@@ -588,13 +948,17 @@
     return chosen.slice(0, limit);
   }
 
-  function masterySummary(data) {
+  function masterySummary(data, timestamp) {
+    timestamp = Number(timestamp || now());
     const states = Object.values(data.questions || {});
     const attempted = states.filter(function (state) { return state.attempts > 0; });
-    const overall = attempted.length ? Math.round(attempted.reduce(function (sum, state) { return sum + state.mastery; }, 0) / attempted.length) : 0;
-    const mastered = attempted.filter(function (state) { return state.mastery >= MASTERY_THRESHOLD && state.attempts >= 2; }).length;
-    const due = attempted.filter(function (state) { return state.dueAt <= now(); }).length;
-    const notebook = attempted.filter(function (state) { return state.lastStatus !== 'correct' || state.mastery < MASTERY_THRESHOLD; }).length;
+    /* Use the same time-aware estimate that drives readiness, rather than a
+       score frozen at the last answer. A question is mastered only after
+       three answered retrievals at 80%+ effective mastery. */
+    const overall = attempted.length ? Math.round(attempted.reduce(function (sum, state) { return sum + calculateMastery(state, timestamp); }, 0) / attempted.length) : 0;
+    const mastered = attempted.filter(function (state) { return state.attempts >= 3 && calculateMastery(state, timestamp) >= MASTERY_THRESHOLD; }).length;
+    const due = attempted.filter(function (state) { return state.dueAt <= timestamp; }).length;
+    const notebook = attempted.filter(function (state) { return state.lastStatus !== 'correct' || calculateMastery(state, timestamp) < MASTERY_THRESHOLD; }).length;
     return { overall: overall, mastered: mastered, due: due, attempted: attempted.length, notebook: notebook };
   }
 
@@ -679,7 +1043,7 @@
     return '<section id="tb-adaptive-mastery" class="tb-mastery" aria-labelledby="tb-mastery-title">' +
       '<div class="tb-mastery-head"><div><div class="tb-diag-kick">Phase 3 · Adaptive mastery</div><h2 id="tb-mastery-title">Turn every attempt into a targeted study plan.</h2><p>Mastery combines accuracy, repeated success, recency, and evidence volume. It is a learning estimate—not an exam guarantee.</p></div>' +
       '<div class="tb-mastery-ring" style="--p:' + summary.overall + '"><strong>' + summary.overall + '%</strong><span>estimated mastery</span></div></div>' +
-      '<div class="tb-mastery-stats"><div><strong>' + summary.due + '</strong><span>reviews due</span></div><div><strong>' + summary.mastered + '</strong><span>questions mastered</span></div><div><strong>' + summary.notebook + '</strong><span>notebook items</span></div><div><strong>' + summary.attempted + '</strong><span>questions attempted</span></div></div>' +
+      '<div class="tb-mastery-stats"><div data-mastery-metric="due"><strong>' + summary.due + '</strong><span>reviews due</span></div><div data-mastery-metric="mastered"><strong>' + summary.mastered + '</strong><span>questions mastered</span></div><div data-mastery-metric="notebook"><strong>' + summary.notebook + '</strong><span>notebook items</span></div><div data-mastery-metric="attempted"><strong>' + summary.attempted + '</strong><span>questions attempted</span></div></div>' +
       '<div class="tb-mastery-actions"><button type="button" class="btn btn-teal" data-start-adaptive>Start adaptive practice</button><button type="button" class="tb-ghost" data-open-notebook>Open mistake notebook</button><button type="button" class="tb-ghost" data-open-mastery-details>View mastery details</button></div>' +
       '<div class="tb-mastery-grid">' +
         '<section><div class="tb-sec">Weakest subtopics</div><div class="tb-weak-list">' + (weak.length ? weak.map(function (item) { return '<div><span>' + esc(subtopicName(item.sub)) + '</span><b>' + item.mastery + '%</b><i style="--p:' + item.mastery + '"></i></div>'; }).join('') : '<p>Complete an attempt to build your mastery map.</p>') + '</div></section>' +
@@ -754,7 +1118,15 @@
     const store = readStore();
     const data = examStore(store);
     const items = adaptiveCandidates(data, SESSION_SIZE);
-    adaptive = { items: items, index: 0, answers: {}, checked: {}, results: [], complete: false };
+    const learning = learningLedger('startSession');
+    if (!learning) { durableLearningUnavailable(); return; }
+    const started = learning.startSession({ examId: examId(), questions: items, mode: 'adaptive', timed: false, returnResult: true });
+    const sessionId = started && typeof started === 'object' ? started.sessionId : started;
+    if (!started || !writeAheadSaved(started)) {
+      announce('Adaptive practice could not be saved on this device. Check available browser storage, then try again.');
+      return;
+    }
+    adaptive = { id: sessionId, items: items, index: 0, answers: {}, checked: {}, results: [], complete: false };
     renderAdaptive();
   }
 
@@ -762,13 +1134,23 @@
     const question = adaptive.items[adaptive.index];
     const selected = adaptive.answers[adaptive.index];
     const status = selected == null ? 'unanswered' : selected === question.answer ? 'correct' : 'incorrect';
-    adaptive.results.push({ question: question, selected: selected, status: status });
+    /* Completion can deliberately remain on this final question when the
+       ledger's local write-ahead save fails. Keep the retry idempotent rather
+       than appending the same answer every time Finish is pressed. */
+    adaptive.results[adaptive.index] = { question: question, selected: selected, status: status };
   }
 
   function finishAdaptiveSession() {
-    recordResults(adaptive.results, 'adaptive-practice');
+    const learning = learningLedger('completeSession');
+    if (!learning || !adaptive.id) { durableLearningUnavailable(); return false; }
+    const completed = learning.completeSession({ examId: examId(), sessionId: adaptive.id, mode: 'adaptive', timed: false, records: adaptive.results });
+    if (!completed || !writeAheadSaved(completed)) {
+      announce('Your completed adaptive session is still waiting for a safe local save. Please try finishing it again.');
+      return false;
+    }
     adaptive.complete = true;
     renderAdaptive();
+    return true;
   }
 
   /* Flattens every stored incorrect attempt, across every question, into a
@@ -779,10 +1161,15 @@
     const rows = [];
     Object.keys(data.questions || {}).forEach(function (key) {
       const state = data.questions[key];
-      const question = questionByStem(state.stem);
-      if (!question) return;
       asArray(state.history).forEach(function (entry) {
         if (entry.status !== 'incorrect') return;
+        const snapshot = asRecord(entry && entry.snapshot);
+        /* An incorrect answer is a historical record. Prefer its immutable
+           answer-time snapshot whenever it has enough content to render; a
+           later edit to the live test bank must not rewrite the notebook. */
+        const hasSnapshot = Boolean(snapshot.stem && asArray(snapshot.options).length);
+        const question = hasSnapshot ? snapshot : questionByIdentity(state.questionId || state.id || key, state.stem);
+        if (!question || !question.stem || !asArray(question.options).length) return;
         rows.push({ question: question, sub: state.sub, at: entry.at, selected: entry.selected, source: entry.source });
       });
     });
@@ -805,8 +1192,12 @@
   }
 
   function sourceLabel(source) {
-    if (source === 'adaptive-practice') return 'Adaptive practice';
-    if (source === 'exam-attempt') return 'Test attempt';
+    if (source === 'adaptive-practice' || source === 'adaptive-practice-v2') return 'Adaptive practice';
+    if (source === 'exam-attempt') return 'Timed full exam';
+    if (source === 'quick-quiz') return 'Quick quiz';
+    if (source === 'focused-quiz') return 'Focused quiz';
+    if (source === 'diagnostic') return 'Placement diagnostic';
+    if (source === 'weak-area-practice') return 'Weak-area practice';
     return source ? esc(source) : 'Practice';
   }
 
@@ -849,7 +1240,7 @@
   function detailsMarkup(data) {
     const summary = masterySummary(data);
     return '<div class="tb-notebook-head"><div><div class="tb-diag-kick">Mastery model details</div><h3>How your estimate is calculated</h3></div><button type="button" class="tb-ghost" data-close-adaptive>Close</button></div>' +
-      '<div class="tb-mastery-explain"><p><strong>Accuracy (58%)</strong> measures the proportion answered correctly.</p><p><strong>Success streak (24%)</strong> rewards repeated correct retrieval rather than one lucky answer.</p><p><strong>Recency (18%)</strong> gradually lowers confidence when knowledge has not been retrieved recently.</p><p><strong>Evidence adjustment</strong> limits high mastery from only one or two observations. A question is counted as mastered only after at least two attempts and an estimate of ' + MASTERY_THRESHOLD + '% or higher.</p><p><strong>Current scope:</strong> ' + summary.attempted + ' questions attempted. This estimate supports study prioritization; it does not predict an official examination result.</p></div>';
+      '<div class="tb-mastery-explain"><p><strong>Accuracy (58%)</strong> measures the proportion answered correctly.</p><p><strong>Success streak (24%)</strong> rewards repeated correct retrieval rather than one lucky answer.</p><p><strong>Recency (18%)</strong> gradually lowers confidence when knowledge has not been retrieved recently.</p><p><strong>Evidence adjustment</strong> limits high mastery from a small sample. A question is counted as mastered only after at least three answered attempts and an effective estimate of ' + MASTERY_THRESHOLD + '% or higher.</p><p><strong>Current scope:</strong> ' + summary.attempted + ' questions attempted. This estimate supports study prioritization; it does not predict an official examination result.</p></div>';
   }
 
   function renderNotebook() {
@@ -895,6 +1286,21 @@
     parent.appendChild(holder.firstElementChild);
   }
 
+  /* A remote phone/laptop reconciliation can change the derived mastery store
+     while the analytics dashboard is already open. Update the four summary
+     counters in place: rebuilding the whole dashboard here would remove an
+     open radar/notebook and make live sync look broken. */
+  function refreshDashboardMetrics() {
+    const current = document.getElementById('tb-adaptive-mastery');
+    if (!current) return;
+    const summary = masterySummary(examStore(readStore()), now());
+    ['due', 'mastered', 'notebook', 'attempted'].forEach(function (key) {
+      const node = current.querySelector('[data-mastery-metric="' + key + '"] strong');
+      const value = String(summary[key] == null ? 0 : summary[key]);
+      if (node && node.textContent !== value) node.textContent = value;
+    });
+  }
+
   function ensureStyles() {
     if (document.getElementById(STYLE_ID)) return;
     const style = document.createElement('style');
@@ -909,9 +1315,27 @@
     if (target.hasAttribute('data-start-adaptive') || target.hasAttribute('data-restart-adaptive')) { startAdaptive(); return; }
     if (target.hasAttribute('data-open-notebook')) { openNotebook(); return; }
     if (target.hasAttribute('data-open-mastery-details')) { openDetails(); return; }
-    if (target.hasAttribute('data-close-adaptive')) { closePanel(); return; }
+    if (target.hasAttribute('data-close-adaptive')) {
+      if (adaptive && !adaptive.complete && window.__TBLearning && typeof window.__TBLearning.abandonSession === 'function') {
+        window.__TBLearning.abandonSession({ examId: examId(), sessionId: adaptive.id, mode: 'adaptive', reason: 'closed' });
+      }
+      closePanel(); return;
+    }
     if (target.dataset.adaptiveOpt != null && adaptive && !adaptive.checked[adaptive.index]) {
-      adaptive.answers[adaptive.index] = Number(target.dataset.adaptiveOpt);
+      const selected = Number(target.dataset.adaptiveOpt);
+      const question = adaptive.items[adaptive.index];
+      const learning = learningLedger('recordAnswer');
+      if (!learning || !adaptive.id) { durableLearningUnavailable(); return; }
+      const saved = learning.recordAnswer({
+        examId: examId(), sessionId: adaptive.id, mode: 'adaptive', timed: false,
+        index: adaptive.index, question: question, selected: selected,
+        status: selected === question.answer ? 'correct' : 'incorrect'
+      });
+      if (!saved || !writeAheadSaved(saved)) {
+        announce('That answer could not be saved on this device. Please try again after freeing browser storage.');
+        return;
+      }
+      adaptive.answers[adaptive.index] = selected;
       renderAdaptive();
       return;
     }
@@ -923,7 +1347,7 @@
     if (target.hasAttribute('data-adaptive-next') && adaptive) {
       finishAdaptiveQuestion();
       if (adaptive.index < adaptive.items.length - 1) { adaptive.index += 1; renderAdaptive(); }
-      else { finishAdaptiveSession(); refreshDashboard(); }
+      else if (finishAdaptiveSession()) refreshDashboard();
     }
   }
 
@@ -959,8 +1383,19 @@
       notebookFilter = select.value;
       renderNotebook();
     });
+    /* Remote ledger rows arrive independently of DOM mutations.  Rebuild the
+       derived store as soon as they do, so the notebook, readiness, and radar
+       are useful on a newly signed-in phone or laptop before snapshot sync
+       finishes. */
+    ['upskill-test-learning-synced', 'tb:learning-history-ready', 'tb:exam-changed'].forEach(function (name) {
+      document.addEventListener(name, scheduleLedgerReconciliation);
+    });
+    ['tb:learning-recorded', 'upskill-test-learning-synced', 'upskill-test-progress-synced'].forEach(function (name) {
+      document.addEventListener(name, refreshDashboardMetrics);
+    });
     new MutationObserver(schedule).observe(overview, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden'] });
     schedule();
+    scheduleLedgerReconciliation();
   }
 
   window.__TBAdaptiveMastery = {
@@ -968,12 +1403,16 @@
     nextSchedule: nextSchedule,
     applyResult: applyResult,
     adaptiveCandidates: function (limit) { const store = readStore(); return adaptiveCandidates(examStore(store), limit || SESSION_SIZE); },
-    summary: function () { const store = readStore(); return masterySummary(examStore(store)); },
+    summary: function (timestamp) { const store = readStore(); return masterySummary(examStore(store), timestamp || now()); },
     improvement: function () { const store = readStore(); return improvement(examStore(store)); },
     store: readStore,
     recordResults: recordResults,
+    questionId: questionId,
+    allQuestions: allQuestions,
     unattemptedFilter: unattemptedFilter,
     missedFilter: missedFilter,
+    reconcileLearningLedger: reconcileLearningLedger,
+    reconcileLearningEvents: reconcileLearningLedger,
     renderStandalone: renderStandalone
   };
 

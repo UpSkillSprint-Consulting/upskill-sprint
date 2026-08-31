@@ -6,6 +6,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const pageHtml = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -42,6 +43,7 @@ async function loadPage() {
   if (dom.window.document.readyState !== 'complete') {
     await new Promise(resolve => dom.window.addEventListener('load', resolve, { once: true }));
   }
+  await installDurableLearning(dom.window);
   await wait(dom.window);
   return { window: dom.window, document: dom.window.document, errors };
 }

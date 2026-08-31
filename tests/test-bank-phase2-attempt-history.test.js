@@ -6,6 +6,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -30,10 +31,20 @@ async function load() {
   windows.push(dom.window);
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
   if (!dom.window.Element.prototype.scrollIntoView) dom.window.Element.prototype.scrollIntoView = function () {};
+  await installDurableLearning(dom.window);
   dom.window.eval(phase1);
   dom.window.eval(phase2);
   dom.window.eval(history);
   await settle(dom.window);
+  return dom.window;
+}
+
+async function loadHistoryOnly() {
+  const dom = new JSDOM(html, { url: 'https://upskillsprint.com/test-bank', runScripts: 'dangerously', pretendToBeVisual: true });
+  windows.push(dom.window);
+  await new Promise(resolve => dom.window.addEventListener('load', resolve));
+  dom.window.eval(history);
+  await settle(dom.window, 3);
   return dom.window;
 }
 
@@ -83,4 +94,22 @@ test('error causes are stored under the current attempt rather than the question
   assert.ok(Object.values(current.errors).includes('calculation'));
   const store = window.__TBAttemptHistory.store();
   assert.ok(store.attempts.some(attempt => attempt.id === current.id));
+});
+
+test('attempt-history summary becomes quiescent after feedback is synchronized', async () => {
+  const window = await loadHistoryOnly();
+  const overview = window.document.getElementById('tb-overview');
+  // First create the session the history module will later summarize.
+  overview.innerHTML = '<div class="tb-quiz"><div class="tb-stem">Synthetic question</div></div>';
+  await settle(window, 4);
+  overview.innerHTML = '<section id="tb-feedback-loop"><p id="tb-error-summary"></p></section>';
+  await settle(window, 6);
+
+  let mutations = 0;
+  const observer = new window.MutationObserver(records => { mutations += records.length; });
+  observer.observe(overview, { childList: true, subtree: true, characterData: true });
+  await settle(window, 8);
+  observer.disconnect();
+
+  assert.equal(mutations, 0, 'unchanged summary text does not re-schedule the history observer');
 });

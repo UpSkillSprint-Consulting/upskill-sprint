@@ -5,6 +5,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const cmqScript = fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set1.js'), 'utf8');
@@ -20,7 +21,7 @@ const CERTS = ['CSSBB', 'CSSGB', 'CQE', 'CQA', 'CMQ', 'CRE'];
 let _windows = [];
 afterEach(() => { _windows.splice(0).forEach(w => { try { w.close(); } catch (e) {} }); });
 
-function loadPage() {
+async function loadPage() {
   const errors = [];
   const vc = new VirtualConsole();
   vc.on('jsdomError', e => errors.push(e.message));
@@ -29,7 +30,9 @@ function loadPage() {
     runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole: vc
   });
   _windows.push(dom.window);
-  return new Promise(res => dom.window.addEventListener('load', () => res({ window: dom.window, errors })));
+  await new Promise(res => dom.window.addEventListener('load', res));
+  await installDurableLearning(dom.window);
+  return { window: dom.window, errors };
 }
 
 /* ---------- site integration & contract ---------- */

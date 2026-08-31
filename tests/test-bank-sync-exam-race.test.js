@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'test-bank.html'), 'utf8');
@@ -55,7 +56,21 @@ test('a delayed sign-in merge cannot close an active exam', async t => {
   let authChange;
   const user = { id: 'user-1' };
   const client = {
-    from() {
+    from(table) {
+      if (table === 'test_bank_learning_events') {
+        return {
+          upsert() { return Promise.resolve({ error: null }); },
+          select() {
+            const query = {
+              eq() { return query; },
+              order() { return query; },
+              range() { return Promise.resolve({ data: [], error: null }); },
+              limit() { return Promise.resolve({ data: [], error: null }); }
+            };
+            return query;
+          }
+        };
+      }
       return {
         select() { return { order() { return selectResult.promise; } }; },
         upsert() { return Promise.resolve({ error: null }); }
@@ -67,6 +82,7 @@ test('a delayed sign-in merge cannot close an active exam', async t => {
     getUser: () => user,
     onChange(callback) { authChange = callback; }
   };
+  await installDurableLearning(dom.window, { user, client });
 
   const reloadCalls = syncSource.match(/location\.reload\(\)/g) || [];
   assert.equal(reloadCalls.length, 1, 'the reload probe must cover the production call');

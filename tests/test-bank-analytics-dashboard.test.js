@@ -6,9 +6,11 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
+const registry = fs.readFileSync(path.join(ROOT, 'test-bank-question-registry.js'), 'utf8');
 const mastery = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery.js'), 'utf8');
 const hardening = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery-hardening.js'), 'utf8');
 const analytics = fs.readFileSync(path.join(ROOT, 'test-bank-analytics-dashboard.js'), 'utf8');
@@ -34,6 +36,7 @@ async function load() {
   windows.push(dom.window);
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
   if (!dom.window.Element.prototype.scrollIntoView) dom.window.Element.prototype.scrollIntoView = function () {};
+  dom.window.eval(registry);
   dom.window.eval(mastery);
   dom.window.eval(hardening);
   dom.window.eval(analytics);
@@ -51,13 +54,7 @@ function hash(value) {
 }
 
 function questions(window) {
-  const exam = window.__TB.EXAMS.cssbb;
-  const seen = new Set();
-  return Object.values(exam.sets).flat().filter(question => {
-    if (!question || !question.stem || seen.has(question.stem)) return false;
-    seen.add(question.stem);
-    return true;
-  });
+  return window.__TBQuestionRegistry.questionsFor('cssbb');
 }
 
 function writeStore(window, examStore) {
@@ -66,11 +63,17 @@ function writeStore(window, examStore) {
 
 function seedQuestionState(question, timestamp, overrides) {
   const base = {
-    id: hash(question.stem), stem: question.stem, sub: question.sub, attempts: 5, correct: 4,
+    id: windowQuestionId(question), questionId: windowQuestionId(question), stem: question.stem, sub: question.sub, attempts: 5, correct: 4,
     incorrect: 1, unanswered: 0, streak: 4, ease: 2.3, intervalDays: 4, dueAt: timestamp - 86400000,
     lastSeenAt: timestamp - 86400000, lastStatus: 'correct', mastery: 82, history: []
   };
   return Object.assign(base, overrides || {});
+}
+
+function windowQuestionId(question) {
+  /* Fixtures should exercise the canonical identity path, not just the legacy
+     wording-hash fallback.  The registry has already stamped these objects. */
+  return question.__tbQuestionId || question.qid || question.questionId || hash(question.stem);
 }
 
 test('domainStats merges live pool size and blueprint weight with attempted mastery', async () => {
@@ -80,7 +83,7 @@ test('domainStats merges live pool size and blueprint weight with attempted mast
   const measureQuestions = bank.filter(q => q.sub === 'mea').slice(0, 4);
   const states = {};
   measureQuestions.forEach((question, index) => {
-    states[hash(question.stem)] = seedQuestionState(question, timestamp, { mastery: 60 + index });
+    states[windowQuestionId(question)] = seedQuestionState(question, timestamp, { mastery: 60 + index });
   });
   writeStore(window, { questions: states, attempts: [], sessions: [] });
 
@@ -103,7 +106,7 @@ test('topLeverage ranks unattempted, heavily-weighted domains above a weak but l
   const bank = questions(window);
   const teamMgmt = bank.filter(q => q.sub === 'tm').slice(0, 3);
   const states = {};
-  teamMgmt.forEach(question => { states[hash(question.stem)] = seedQuestionState(question, timestamp, { mastery: 50, correct: 2, incorrect: 3 }); });
+  teamMgmt.forEach(question => { states[windowQuestionId(question)] = seedQuestionState(question, timestamp, { mastery: 50, correct: 2, incorrect: 3 }); });
   writeStore(window, { questions: states, attempts: [], sessions: [] });
 
   const ranked = window.__TBAnalyticsDashboard.topLeverage(timestamp, 9);
@@ -118,7 +121,7 @@ test('readinessSummary delegates to the hardening module rather than recomputing
   const timestamp = Date.now();
   const bank = questions(window);
   const states = {};
-  bank.slice(0, 10).forEach(question => { states[hash(question.stem)] = seedQuestionState(question, timestamp); });
+  bank.slice(0, 10).forEach(question => { states[windowQuestionId(question)] = seedQuestionState(question, timestamp); });
   writeStore(window, { questions: states, attempts: [], sessions: [] });
 
   const fromAnalytics = window.__TBAnalyticsDashboard.readinessSummary(timestamp);
@@ -126,10 +129,73 @@ test('readinessSummary delegates to the hardening module rather than recomputing
   assert.deepEqual(fromAnalytics, fromHardening);
 });
 
+test('readiness is blueprint-weighted domain mastery times coverage, and keeps answer count distinct from unique questions', async () => {
+  const { window } = await load();
+  const timestamp = Date.now();
+  const bank = questions(window);
+  const question = bank.find(item => item.sub === 'mea');
+  const measurePool = bank.filter(item => item.sub === 'mea').length;
+  const meta = window.__TB.EXAMS.cssbb.bok.flatMap(domain => domain.subs);
+  const totalWeight = meta.reduce((sum, item) => sum + item.w, 0);
+  const measureWeight = meta.find(item => item.id === 'mea').w;
+  const states = {
+    [windowQuestionId(question)]: seedQuestionState(question, timestamp, {
+      attempts: 5, correct: 5, incorrect: 0, unanswered: 0, streak: 5, lastSeenAt: timestamp, dueAt: timestamp + 86400000
+    })
+  };
+  writeStore(window, { questions: states, attempts: [], sessions: [] });
+
+  const summary = window.__TBAnalyticsDashboard.readinessSummary(timestamp);
+  const expected = Math.round(measureWeight / totalWeight * (1 / measurePool) * 100);
+  assert.equal(summary.attemptedMastery, 100, 'mastery is based on the attempted question itself');
+  assert.equal(summary.coverage, expected, 'coverage applies the official blueprint weight to the actual pool coverage');
+  assert.equal(summary.readiness, expected, 'a 100% result on one Measure question cannot imply broad exam readiness');
+  assert.equal(summary.attempted, 1, 'unique attempted questions are shown separately');
+  assert.equal(summary.answers, 5, 'total answer events remain available and are not mislabeled as questions seen');
+});
+
+test('delivering a whole domain cannot inflate answered coverage or readiness before its questions are answered', async () => {
+  const { window } = await load();
+  const timestamp = Date.now();
+  const bank = questions(window);
+  const measureQuestions = bank.filter(item => item.sub === 'mea');
+  const answered = measureQuestions[0];
+  const states = {
+    [windowQuestionId(answered)]: seedQuestionState(answered, timestamp, {
+      attempts: 5, correct: 5, incorrect: 0, unanswered: 0, streak: 5, lastSeenAt: timestamp, dueAt: timestamp + 86400000
+    })
+  };
+  writeStore(window, { questions: states, attempts: [], sessions: [] });
+
+  /* A full practice/exam start deliberately emits exposure records for all
+     selected questions so New-only cannot serve them again. Those records are
+     delivery history, not answer evidence. */
+  window.__TBLearning = {
+    seenQuestionIds: () => measureQuestions.map(windowQuestionId),
+    eventsForExam: () => [],
+    summary: () => ({ uniqueSeen: measureQuestions.length, answeredEvents: 1, completedSessions: 0, pending: 0 })
+  };
+
+  const measure = window.__TBAnalyticsDashboard.domainStats(timestamp).find(item => item.id === 'mea');
+  assert.equal(measure.attempted, 1);
+  assert.equal(measure.coverage, Math.round(100 / measureQuestions.length), 'domain coverage is one answered item, not every delivered item');
+
+  const meta = window.__TB.EXAMS.cssbb.bok.flatMap(domain => domain.subs);
+  const totalWeight = meta.reduce((sum, item) => sum + item.w, 0);
+  const measureWeight = meta.find(item => item.id === 'mea').w;
+  const expected = Math.round(measureWeight / totalWeight * (1 / measureQuestions.length) * 100);
+  const summary = window.__TBAnalyticsDashboard.readinessSummary(timestamp);
+  assert.equal(summary.coverage, expected, 'readiness coverage remains based on unique answered questions');
+  assert.equal(summary.readiness, expected, 'a single answer cannot become domain-ready merely because a set was delivered');
+  assert.equal(window.__TBAnalyticsDashboard.learningSummary(summary).uniqueSeen, measureQuestions.length, 'delivered questions remain visible as a separate metric');
+});
+
 test('sessionTrend and studyHeatmap read real attempt history, not fabricated data', async () => {
   const { window } = await load();
   const day = 86400000;
-  const now = Date.now();
+  /* Keep fixture activity safely in the page's trailing window even if the
+     host and jsdom realms straddle midnight while this test is running. */
+  const now = Date.now() - 3 * day;
   const attempts = [
     { id: 'a1', at: now - 2 * day, source: 'adaptive-practice', total: 10, correct: 6, newQuestions: 3, repeated: 7 },
     { id: 'a2', at: now - day, source: 'quiz', total: 8, correct: 8, newQuestions: 8, repeated: 0 },
@@ -143,61 +209,221 @@ test('sessionTrend and studyHeatmap read real attempt history, not fabricated da
   assert.equal(trend[2].pct, 75);
   assert.equal(trend[2].source, 'exam-attempt');
 
-  const heat = window.__TBAnalyticsDashboard.studyHeatmap(1);
-  assert.equal(heat.length, 7);
+  /* Two weeks avoids a UTC-midnight boundary between the host test process and
+     the page realm while still exercising the trailing activity window. */
+  const heat = window.__TBAnalyticsDashboard.studyHeatmap(2);
+  assert.equal(heat.length, 14);
   const totalCounted = heat.reduce((sum, d) => sum + d.count, 0);
   assert.equal(totalCounted, 10 + 8 + 20, 'every attempted question across sources is represented in the streak heatmap');
 });
 
-test('examAttemptSeries only counts source === exam-attempt and computes margin against the real pass line', async () => {
+test('sessionTrend selects the newest chronological attempts with a deterministic same-time order', async () => {
+  const { window } = await load();
+  const at = Date.now();
+  /* Deliberately use remote arrival order, not chronological order. The two
+     equal-time rows have distinct percentages so the ID tie-breaker is
+     observable even though the public trend view only exposes chart values. */
+  writeStore(window, {
+    questions: {},
+    attempts: [
+      { id: 'late', at: at + 4000, source: 'quick-quiz', total: 4, correct: 4 },
+      { id: 'old', at: at + 1000, source: 'quick-quiz', total: 4, correct: 1 },
+      { id: 'same-b', at: at + 3000, source: 'quick-quiz', total: 4, correct: 3 },
+      { id: 'same-a', at: at + 3000, source: 'quick-quiz', total: 4, correct: 2 }
+    ],
+    sessions: []
+  });
+
+  const trend = window.__TBAnalyticsDashboard.sessionTrend(3);
+  assert.deepEqual(trend.map(entry => entry.pct), [50, 75, 100],
+    'a late-arriving older attempt cannot displace the true newest three or draw the chart backwards');
+  assert.deepEqual(trend.map(entry => entry.at), [at + 3000, at + 3000, at + 4000]);
+});
+
+test('studyHeatmap counts submitted answers rather than planned blanks in an attempt', async () => {
+  const { window } = await load();
+  const at = Date.now() - 3 * 86400000;
+  writeStore(window, {
+    questions: {},
+    attempts: [{ id: 'partial-session', at: at, source: 'exam-attempt', total: 10, answered: 2, correct: 1 }],
+    sessions: []
+  });
+
+  const day = window.__TBAnalyticsDashboard.studyHeatmap(2).find(entry => entry.count > 0);
+  assert.ok(day, 'the recent attempt day is represented in the rolling grid');
+  assert.equal(day.count, 2, 'eight unanswered planned items are not presented as study activity');
+});
+
+test('examAttemptSeries only counts completed, timed, full-length exam simulations and preserves their attempt IDs', async () => {
   const { window } = await load();
   const now = Date.now();
+  const fullLength = window.__TB.EXAMS.cssbb.questions;
   const attempts = [
-    { id: 'q1', at: now - 3000, source: 'adaptive-practice', total: 10, correct: 9 },
-    { id: 'e1', at: now - 2000, source: 'exam-attempt', total: 165, correct: 99 },
-    { id: 'e2', at: now - 1000, source: 'exam-attempt', total: 165, correct: 132 }
+    { id: 'adaptive', at: now - 7000, source: 'exam-attempt', mode: 'adaptive', timed: true, completed: true, total: fullLength, correct: fullLength },
+    { id: 'untimed', at: now - 6000, source: 'exam-attempt', mode: 'exam', timed: false, completed: true, total: fullLength, correct: fullLength },
+    { id: 'abandoned', at: now - 5000, source: 'exam-attempt', mode: 'exam', timed: true, completed: false, total: fullLength, correct: fullLength },
+    { id: 'short-quiz', at: now - 4000, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: 20, correct: 20 },
+    { id: 'e1', at: now - 2000, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: Math.round(fullLength * 0.6) },
+    { id: 'e2', at: now - 1000, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: Math.round(fullLength * 0.8) }
   ];
   writeStore(window, { questions: {}, attempts: attempts, sessions: [] });
 
   const series = window.__TBAnalyticsDashboard.examAttemptSeries();
-  assert.equal(series.length, 2, 'quiz/adaptive sessions are excluded from exam analytics');
+  assert.deepEqual(Array.from(series, entry => entry.id), ['e1', 'e2'], 'adaptive, untimed, abandoned, and short quiz sessions are excluded from exam analytics');
   assert.equal(series[0].pct, 60);
   assert.equal(series[0].margin, 60 - 70, 'margin is measured against the exam.pass threshold (70 for CSSBB)');
   assert.equal(series[1].pct, 80);
   assert.equal(series[1].margin, 10);
 });
 
-test('latestExamDomainBreakdown reconstructs per-domain results for only the most recent exam, by matching history timestamps', async () => {
+test('latestExamDomainBreakdown reconstructs only the most recent full exam by immutable attempt ID, even when timestamps collide', async () => {
   const { window } = await load();
-  const timestamp1 = Date.now() - 5000;
-  const timestamp2 = Date.now();
+  const timestamp = Date.now();
+  const fullLength = window.__TB.EXAMS.cssbb.questions;
   const bank = questions(window);
   const measureQ = bank.find(q => q.sub === 'mea');
   const analyzeQ = bank.find(q => q.sub === 'ana');
   const states = {
-    [hash(measureQ.stem)]: seedQuestionState(measureQ, timestamp2, {
+    [windowQuestionId(measureQ)]: seedQuestionState(measureQ, timestamp, {
       history: [
-        { at: timestamp1, status: 'incorrect', source: 'exam-attempt', priorAttempts: 0, mastery: 40 },
-        { at: timestamp2, status: 'correct', source: 'exam-attempt', priorAttempts: 1, mastery: 70 }
+        { at: timestamp, status: 'incorrect', source: 'exam-attempt', attemptId: 'e1', priorAttempts: 0, mastery: 40 },
+        { at: timestamp, status: 'correct', source: 'exam-attempt', attemptId: 'e2', priorAttempts: 1, mastery: 70 }
       ]
     }),
-    [hash(analyzeQ.stem)]: seedQuestionState(analyzeQ, timestamp2, {
-      history: [{ at: timestamp2, status: 'incorrect', source: 'exam-attempt', priorAttempts: 0, mastery: 30 }]
+    [windowQuestionId(analyzeQ)]: seedQuestionState(analyzeQ, timestamp, {
+      history: [{ at: timestamp, status: 'incorrect', source: 'exam-attempt', attemptId: 'e2', priorAttempts: 0, mastery: 30 }]
     })
   };
   const attempts = [
-    { id: 'e1', at: timestamp1, source: 'exam-attempt', total: 1, correct: 0 },
-    { id: 'e2', at: timestamp2, source: 'exam-attempt', total: 2, correct: 1 }
+    { id: 'e1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 0 },
+    { id: 'e2', at: timestamp + 1, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1 }
   ];
   writeStore(window, { questions: states, attempts: attempts, sessions: [] });
 
   const breakdown = window.__TBAnalyticsDashboard.latestExamDomainBreakdown();
   const measure = breakdown.find(item => item.id === 'mea');
   const analyze = breakdown.find(item => item.id === 'ana');
-  assert.equal(measure.total, 1, 'only the history entry matching the most recent exam timestamp counts, not the earlier one');
+  assert.equal(measure.total, 1, 'only the history entry carrying the most recent exam ID counts, not the earlier same-timestamp entry');
   assert.equal(measure.correct, 1);
   assert.equal(analyze.total, 1);
   assert.equal(analyze.correct, 0);
+});
+
+test('historic full-exam domains and notebook labels use the answer-time snapshot instead of a later reclassification', async () => {
+  const { window } = await load();
+  const timestamp = Date.now();
+  const fullLength = window.__TB.EXAMS.cssbb.questions;
+  const historic = questions(window).find(question => question.sub === 'mea');
+  const state = seedQuestionState(historic, timestamp, {
+    /* Simulate the live taxonomy moving the question after the learner sat
+       the exam. The historic answer must remain assigned to Measure. */
+    sub: 'ana',
+    history: [{
+      at: timestamp,
+      status: 'incorrect',
+      selected: historic.answer === 0 ? 1 : 0,
+      source: 'exam-attempt',
+      attemptId: 'historic-reclassified-full',
+      snapshot: {
+        questionId: windowQuestionId(historic), stem: 'Historic Measure wording.', options: historic.options,
+        answer: historic.answer, why: 'Historic Measure explanation.', sub: 'mea'
+      }
+    }]
+  });
+  writeStore(window, {
+    questions: { [windowQuestionId(historic)]: state },
+    attempts: [{
+      id: 'historic-reclassified-full', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true,
+      completed: true, total: fullLength, correct: 0
+    }],
+    sessions: []
+  });
+  window.__TBLearning = { eventsForExam: () => [] };
+
+  const breakdown = window.__TBAnalyticsDashboard.latestExamDomainBreakdown();
+  const measure = breakdown.find(item => item.id === 'mea');
+  assert.ok(measure, 'legacy full-exam fallback keeps the historic Measure denominator');
+  assert.equal(measure.total, 1);
+  assert.equal(breakdown.some(item => item.id === 'ana'), false, 'a later taxonomy move cannot rewrite the old score');
+
+  showDashboard(window);
+  await settle(window, 4);
+  window.document.querySelector('[data-open-notebook]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 1);
+  const card = window.document.querySelector('.tb-mistake-card');
+  assert.ok(card);
+  assert.match(card.textContent, /V\. Measure/, 'the notebook metadata follows the immutable snapshot subtopic too');
+  assert.doesNotMatch(card.textContent, /VI\. Analyze/);
+});
+
+test('latestExamDomainBreakdown counts an unanswered full-exam item from the immutable completion payload', async () => {
+  const { window } = await load();
+  const timestamp = Date.now();
+  const fullLength = window.__TB.EXAMS.cssbb.questions;
+  const bank = questions(window);
+  const answered = bank.find(q => q.sub === 'mea');
+  const blank = bank.filter(q => q.sub === 'mea').find(q => windowQuestionId(q) !== windowQuestionId(answered));
+  const states = {
+    /* This intentionally looks like the old derived history: only the one
+       answered item remains. If the dashboard reads mastery history instead
+       of the completion record, it will incorrectly report 1/1 (100%). */
+    [windowQuestionId(answered)]: seedQuestionState(answered, timestamp, {
+      history: [{ at: timestamp, status: 'correct', source: 'exam-attempt', attemptId: 'full-ledger-1', priorAttempts: 0, mastery: 70 }]
+    })
+  };
+  writeStore(window, {
+    questions: states,
+    attempts: [{ id: 'full-ledger-1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1 }],
+    sessions: []
+  });
+  window.__TBLearning = {
+    eventsForExam: () => [{
+      id: 'complete-ledger-1', type: 'session_completed', examId: 'cssbb', sessionId: 'full-ledger-1', occurredAt: timestamp,
+      payload: {
+        mode: 'exam', timed: true, total: fullLength, correct: 1,
+        answers: [
+          { questionId: windowQuestionId(answered), sub: 'mea', selected: answered.answer, status: 'correct' },
+          { questionId: windowQuestionId(blank), sub: 'mea', selected: null, status: 'unanswered' }
+        ]
+      }
+    }]
+  };
+
+  const measure = window.__TBAnalyticsDashboard.latestExamDomainBreakdown().find(item => item.id === 'mea');
+  assert.ok(measure);
+  assert.equal(measure.total, 2, 'the blank full-exam item remains in the domain denominator');
+  assert.equal(measure.correct, 1);
+  assert.equal(measure.pct, 50, '1 correct plus 1 unanswered is 50%, not 100%');
+});
+
+test('latestExamDomainBreakdown keeps the persisted immutable domain denominator after ledger event cache compaction', async () => {
+  const { window } = await load();
+  const timestamp = Date.now();
+  const fullLength = window.__TB.EXAMS.cssbb.questions;
+  const bank = questions(window);
+  const answered = bank.find(q => q.sub === 'mea');
+  const states = {
+    [windowQuestionId(answered)]: seedQuestionState(answered, timestamp, {
+      history: [{ at: timestamp, status: 'correct', source: 'exam-attempt', attemptId: 'trimmed-full-1', priorAttempts: 0, mastery: 70 }]
+    })
+  };
+  writeStore(window, {
+    questions: states,
+    attempts: [{
+      id: 'trimmed-full-1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1,
+      domainBreakdown: [{ id: 'mea', total: 2, correct: 1, incorrect: 0, unanswered: 1 }]
+    }],
+    sessions: []
+  });
+  /* This mimics the bounded local ledger cache after the immutable completion
+     event has already been reconciled into the persisted attempt. */
+  window.__TBLearning = { eventsForExam: () => [] };
+
+  const measure = window.__TBAnalyticsDashboard.latestExamDomainBreakdown().find(item => item.id === 'mea');
+  assert.ok(measure);
+  assert.equal(measure.total, 2);
+  assert.equal(measure.correct, 1);
+  assert.equal(measure.pct, 50, 'the compacted completion event cannot turn 1 correct + 1 blank into 100%');
 });
 
 test('scoreBuckets tallies exam scores into the correct histogram bucket', async () => {
@@ -224,6 +450,86 @@ test('the analytics button appears in the dashboard and opening it renders the r
   assert.ok(panel && !panel.hidden);
   assert.ok(panel.querySelector('.tb-an-ring'), 'readiness ring renders by default');
   assert.ok(panel.querySelector('.tb-an-radar'), 'domain radar renders on the readiness tab');
+});
+
+test('an open radar re-renders immediately when the learning ledger announces new evidence', async () => {
+  const { window } = await load();
+  showDashboard(window);
+  await settle(window, 6);
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+  const panel = window.document.getElementById('tb-analytics-panel');
+  const before = panel.querySelector('.tb-an-radar-mastery').getAttribute('points');
+  const timestamp = Date.now();
+  const measureQuestions = questions(window).filter(item => item.sub === 'mea').slice(0, 5);
+  const states = {};
+  measureQuestions.forEach(question => {
+    states[windowQuestionId(question)] = seedQuestionState(question, timestamp, {
+      attempts: 5, correct: 5, incorrect: 0, streak: 5, lastSeenAt: timestamp
+    });
+  });
+  writeStore(window, {
+    questions: states,
+    attempts: [], sessions: []
+  });
+  window.document.dispatchEvent(new window.CustomEvent('tb:learning-updated', { detail: { reason: 'test' } }));
+  await settle(window, 4);
+  const livePanel = window.document.getElementById('tb-analytics-panel');
+  assert.ok(livePanel && !livePanel.hidden, 'an open analytics panel stays open when durable learning data changes');
+  const after = livePanel.querySelector('.tb-an-radar-mastery').getAttribute('points');
+  assert.notEqual(after, before, 'the dashboard subscribes to durable-learning changes instead of waiting for an unrelated DOM mutation');
+});
+
+test('a durable reconciliation refreshes open mastery details, weak topics, improvement, and trend in place', async () => {
+  const { window } = await load();
+  showDashboard(window);
+  await settle(window, 6);
+  const dashboard = window.document.getElementById('tb-adaptive-mastery');
+  const panel = window.document.getElementById('tb-adaptive-panel');
+  window.document.querySelector('[data-open-mastery-details]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  assert.match(panel.textContent, /Current scope:\s*0 questions attempted/);
+  assert.match(dashboard.querySelector('.tb-weak-list').textContent, /Complete an attempt/);
+  assert.match(dashboard.querySelector('.tb-trend').textContent, /No attempt history yet/);
+
+  const timestamp = Date.now();
+  const question = questions(window).find(item => item.sub === 'mea');
+  writeStore(window, {
+    questions: {
+      [windowQuestionId(question)]: seedQuestionState(question, timestamp, {
+        attempts: 1, correct: 0, incorrect: 1, unanswered: 0, streak: 0, mastery: 35,
+        lastStatus: 'incorrect', lastSeenAt: timestamp, dueAt: timestamp - 1,
+        history: [{ at: timestamp, status: 'incorrect', selected: 1, priorAttempts: 0, source: 'quick-quiz' }]
+      })
+    },
+    attempts: [{ id: 'reconciled-remote-attempt', at: timestamp, source: 'quick-quiz', total: 1, correct: 0 }],
+    sessions: []
+  });
+  window.document.dispatchEvent(new window.CustomEvent('tb:learning-recorded', { detail: { reason: 'remote-reconciliation' } }));
+  await settle(window, 4);
+
+  assert.equal(window.document.getElementById('tb-adaptive-mastery'), dashboard, 'an open panel is preserved rather than rebuilt away');
+  assert.equal(window.document.getElementById('tb-adaptive-panel'), panel);
+  assert.match(panel.textContent, /Current scope:\s*1 questions attempted/, 'open details are live after remote evidence arrives');
+  assert.doesNotMatch(dashboard.querySelector('.tb-weak-list').textContent, /Complete an attempt/);
+  assert.match(dashboard.querySelector('.tb-weak-list').textContent, /Measure/);
+  assert.match(dashboard.querySelector('.tb-improvement').textContent, /1 answers/);
+  assert.equal(dashboard.querySelectorAll('.tb-trend i').length, 1, 'the visible trend gains the reconciled attempt without closing details');
+});
+
+test('an open dashboard does not replace its own radar forever through its mutation observer', async () => {
+  const { window } = await load();
+  showDashboard(window);
+  await settle(window, 6);
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 3);
+  const panel = window.document.getElementById('tb-analytics-panel');
+  const radar = panel.querySelector('.tb-an-radar');
+  assert.ok(radar, 'radar starts rendered');
+
+  /* The dashboard observes #tb-overview, which includes the panel it draws.
+     Its own innerHTML write must not schedule another render every frame. */
+  await settle(window, 12);
+  assert.equal(panel.querySelector('.tb-an-radar'), radar, 'the radar node stays stable when no learning data changes');
 });
 
 test('clicking a tab switches the rendered panel content', async () => {
@@ -277,6 +583,7 @@ test('edge injection includes the analytics script exactly once, after hardening
 
 test('starting adaptive practice while the analytics panel is open closes it, so the two panels never show at once', async () => {
   const { window } = await load();
+  await installDurableLearning(window);
   showDashboard(window);
   await settle(window, 6);
 
@@ -311,6 +618,7 @@ test('opening the mistake notebook or mastery details closes the analytics panel
 
 test('completing an adaptive practice session does not leave the analytics panel silently reopened after the dashboard is rebuilt', async () => {
   const { window } = await load();
+  await installDurableLearning(window);
   showDashboard(window);
   await settle(window, 6);
 

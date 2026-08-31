@@ -7,6 +7,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { jsPDF } = require('jspdf');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -122,10 +123,16 @@ test('paused adaptive sessions are restored at the saved question', async () => 
 test('completion guard records the final session without a runtime exception', async () => {
   const { window, errors } = await load();
   const bank = questions(window).slice(0, 2);
+  const learning = await installDurableLearning(window);
+  const started = learning.startSession({
+    examId: 'cssbb', sessionId: 'adaptive-completion-guard', questions: bank,
+    mode: 'adaptive', timed: false, startedAt: Date.now(), returnResult: true
+  });
   const overview = window.document.getElementById('tb-overview');
   overview.innerHTML = '<section id="tb-feedback-loop"><div id="tb-feedback-live"></div><section id="tb-adaptive-mastery"><div id="tb-adaptive-panel"><button type="button" data-v2-next>Finish session</button></div></section></section>';
   window.localStorage.setItem('tb-adaptive-session-v2', JSON.stringify({
-    version: 2, examId: 'cssbb', stems: bank.map(question => question.stem), index: 1,
+    version: 2, examId: 'cssbb', id: 'adaptive-completion-guard', learningSessionId: started.sessionId,
+    questionIds: bank.map(question => window.__TBQuestionRegistry.idFor('cssbb', question)), stems: bank.map(question => question.stem), index: 1,
     answers: { 0: bank[0].answer, 1: bank[1].answer }, checked: { 0: true, 1: true }, results: [], complete: false
   }));
   overview.querySelector('[data-v2-next]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));

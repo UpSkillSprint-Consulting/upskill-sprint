@@ -24,6 +24,16 @@ async function load() {
   return dom.window;
 }
 
+function settle(window, frames = 5) {
+  return new Promise(resolve => {
+    function next(count) {
+      if (!count) return resolve();
+      window.requestAnimationFrame(() => next(count - 1));
+    }
+    next(frames);
+  });
+}
+
 function questions(window) {
   const exam = window.__TB.EXAMS.cssbb;
   return Object.values(exam.sets).flat();
@@ -87,4 +97,22 @@ test('the report intake is a Netlify form with a traceable report identifier', (
   assert.match(reporting, /Report received/);
   assert.match(reporting, /Reference/);
   dom.window.close();
+});
+
+test('phase-two feedback stops mutating after its first normalization pass', async () => {
+  const window = await load();
+  const overview = window.document.getElementById('tb-overview');
+  overview.innerHTML = '<section id="tb-feedback-loop"><div class="tb-phase2-time"><strong>stale</strong></div></section>';
+
+  // Let the observer perform its initial normalization before measuring its
+  // steady state. The old unconditional text write scheduled another frame
+  // forever, even though the displayed time did not change.
+  await settle(window, 6);
+  let mutations = 0;
+  const observer = new window.MutationObserver(records => { mutations += records.length; });
+  observer.observe(overview, { childList: true, subtree: true, characterData: true });
+  await settle(window, 8);
+  observer.disconnect();
+
+  assert.equal(mutations, 0, 'the observer becomes quiescent once feedback text is current');
 });

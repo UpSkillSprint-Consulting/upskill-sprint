@@ -6,6 +6,7 @@ export default async function testBankSetControls(request, context) {
 
   const html = await response.text();
   const scripts = [
+    '<script src="/test-bank-question-registry.js" defer></script>',
     '<script src="/test-bank-set-controls.js" defer></script>',
     '<script src="/test-bank-feedback-loop.js" defer></script>',
     '<script src="/test-bank-phase1-api.js" defer></script>',
@@ -18,6 +19,7 @@ export default async function testBankSetControls(request, context) {
     '<script src="/test-bank-phase2-quality-assurance.js" defer></script>',
     '<script src="/test-bank-account-sync.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery.js" defer></script>',
+    '<script src="/test-bank-learning-events.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery-runtime.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery-hardening.js" defer></script>',
     '<script src="/test-bank-analytics-dashboard.js" defer></script>',

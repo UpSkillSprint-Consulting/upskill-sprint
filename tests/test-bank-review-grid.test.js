@@ -6,6 +6,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -38,6 +39,7 @@ async function loadEnhancedPage() {
   windows.push(dom.window);
 
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
+  await installDurableLearning(dom.window);
   dom.window.eval(enhancer);
   await settle(dom.window);
   return { window: dom.window, errors };

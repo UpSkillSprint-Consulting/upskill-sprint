@@ -6,6 +6,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -45,11 +46,25 @@ async function loadPage() {
   if (!dom.window.Element.prototype.scrollIntoView) {
     dom.window.Element.prototype.scrollIntoView = function () {};
   }
+  await installDurableLearning(dom.window);
   dom.window.eval(phase1);
   dom.window.eval(phase2);
   dom.window.eval(grounding);
   await settle(dom.window);
   return { window: dom.window, errors };
+}
+
+async function loadDeepFeedbackOnly() {
+  const dom = new JSDOM(html, {
+    url: 'https://upskillsprint.com/test-bank',
+    runScripts: 'dangerously',
+    pretendToBeVisual: true
+  });
+  windows.push(dom.window);
+  await new Promise(resolve => dom.window.addEventListener('load', resolve));
+  dom.window.eval(phase2);
+  await settle(dom.window, 3);
+  return dom.window;
 }
 
 function click(window, element) {
@@ -208,4 +223,21 @@ test('accuracy gate remains grounded across the complete live CSSBB bank', async
       assert.notEqual(candidate.stem, question.stem);
     });
   });
+});
+
+test('deep-feedback summary becomes quiescent after its first render', async () => {
+  const window = await loadDeepFeedbackOnly();
+  const overview = window.document.getElementById('tb-overview');
+  // The phase-two intro marker prevents unrelated header insertion; this
+  // isolates the summary write that previously kept its observer alive.
+  overview.innerHTML = '<section id="tb-feedback-loop"><div class="tb-phase2-intro"><p id="tb-error-summary"></p></div></section>';
+  await settle(window, 6);
+
+  let mutations = 0;
+  const observer = new window.MutationObserver(records => { mutations += records.length; });
+  observer.observe(overview, { childList: true, subtree: true, characterData: true });
+  await settle(window, 8);
+  observer.disconnect();
+
+  assert.equal(mutations, 0, 'matching summary text does not continually replace its text node');
 });

@@ -13,7 +13,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. Ask what the impact will be on the team if they don't adequately discuss issues.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 1.</span>",
     "set": 1,
-    "sourceQuestion": 1
+    "sourceQuestion": 1,
+    "qid": "cmq:set-1:source-1"
   },
   {
     "sub": "cmq-lead",
@@ -27,7 +28,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. Define, communicate, and demonstrate proactive quality behaviors.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 2.</span>",
     "set": 1,
-    "sourceQuestion": 2
+    "sourceQuestion": 2,
+    "qid": "cmq:set-1:source-2"
   },
   {
     "sub": "cmq-management",
@@ -41,7 +43,8 @@
     "answer": 1,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>B. Attend with a clear vision of the importance of the project.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 3.</span>",
     "set": 1,
-    "sourceQuestion": 3
+    "sourceQuestion": 3,
+    "qid": "cmq:set-1:source-3"
   },
   {
     "sub": "cmq-management",
@@ -55,7 +58,8 @@
     "answer": 0,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>A. Deliverables were completed on time, but project incurred a one percent cost overrun.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 4.</span>",
     "set": 1,
-    "sourceQuestion": 4
+    "sourceQuestion": 4,
+    "qid": "cmq:set-1:source-4"
   },
   {
     "sub": "cmq-lead",
@@ -69,7 +73,8 @@
     "answer": 1,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>B. Management should ensure that the TQM effort also taps intrinsic motivation.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 5.</span>",
     "set": 1,
-    "sourceQuestion": 5
+    "sourceQuestion": 5,
+    "qid": "cmq:set-1:source-5"
   },
   {
     "sub": "cmq-strategy",
@@ -83,7 +88,8 @@
     "answer": 0,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>A. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 6.</span>",
     "set": 1,
-    "sourceQuestion": 6
+    "sourceQuestion": 6,
+    "qid": "cmq:set-1:source-6"
   },
   {
     "sub": "cmq-strategy",
@@ -97,7 +103,8 @@
     "answer": 2,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>C. Attainment of the strategic objectives.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 7.</span>",
     "set": 1,
-    "sourceQuestion": 7
+    "sourceQuestion": 7,
+    "qid": "cmq:set-1:source-7"
   },
   {
     "sub": "cmq-strategy",
@@ -111,7 +118,8 @@
     "answer": 0,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>A. Normalize the data based on any significant differences in the customers being served (for example, economic strata).</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 8.</span>",
     "set": 1,
-    "sourceQuestion": 8
+    "sourceQuestion": 8,
+    "qid": "cmq:set-1:source-8"
   },
   {
     "sub": "cmq-strategy",
@@ -125,7 +133,8 @@
     "answer": 2,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>C. A seven-step problem-solving technique</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 9.</span>",
     "set": 1,
-    "sourceQuestion": 9
+    "sourceQuestion": 9,
+    "qid": "cmq:set-1:source-9"
   },
   {
     "sub": "cmq-strategy",
@@ -139,7 +148,8 @@
     "answer": 2,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>C. Stakeholders.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 10.</span>",
     "set": 1,
-    "sourceQuestion": 10
+    "sourceQuestion": 10,
+    "qid": "cmq:set-1:source-10"
   },
   {
     "sub": "cmq-strategy",
@@ -153,7 +163,8 @@
     "answer": 2,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>C. A vision statement.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 11.</span>",
     "set": 1,
-    "sourceQuestion": 11
+    "sourceQuestion": 11,
+    "qid": "cmq:set-1:source-11"
   },
   {
     "sub": "cmq-strategy",
@@ -167,7 +178,8 @@
     "answer": 3,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>D. SWOT analysis</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 12.</span>",
     "set": 1,
-    "sourceQuestion": 12
+    "sourceQuestion": 12,
+    "qid": "cmq:set-1:source-12"
   },
   {
     "sub": "cmq-strategy",
@@ -181,7 +193,8 @@
     "answer": 0,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>A. Institute and enforce a quality policy across all organizational functions.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 13.</span>",
     "set": 1,
-    "sourceQuestion": 13
+    "sourceQuestion": 13,
+    "qid": "cmq:set-1:source-13"
   },
   {
     "sub": "cmq-strategy",
@@ -195,7 +208,8 @@
     "answer": 2,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>C. I, II, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 14.</span>",
     "set": 1,
-    "sourceQuestion": 14
+    "sourceQuestion": 14,
+    "qid": "cmq:set-1:source-14"
   },
   {
     "sub": "cmq-strategy",
@@ -209,7 +223,8 @@
     "answer": 2,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>C. Envisioning several alternative strategic viewpoints.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 15.</span>",
     "set": 1,
-    "sourceQuestion": 15
+    "sourceQuestion": 15,
+    "qid": "cmq:set-1:source-15"
   },
   {
     "sub": "cmq-strategy",
@@ -223,7 +238,8 @@
     "answer": 0,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>A. Competitive analysis.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 16.</span>",
     "set": 1,
-    "sourceQuestion": 16
+    "sourceQuestion": 16,
+    "qid": "cmq:set-1:source-16"
   },
   {
     "sub": "cmq-strategy",
@@ -237,7 +253,8 @@
     "answer": 3,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>D. Delineate the outputs and outcomes needed by customers and regulatory agencies affecting the business.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 17.</span>",
     "set": 1,
-    "sourceQuestion": 17
+    "sourceQuestion": 17,
+    "qid": "cmq:set-1:source-17"
   },
   {
     "sub": "cmq-strategy",
@@ -251,7 +268,8 @@
     "answer": 3,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>D. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 18.</span>",
     "set": 1,
-    "sourceQuestion": 18
+    "sourceQuestion": 18,
+    "qid": "cmq:set-1:source-18"
   },
   {
     "sub": "cmq-strategy",
@@ -265,7 +283,8 @@
     "answer": 0,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>A. III, IV, V, and VI</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 19.</span>",
     "set": 1,
-    "sourceQuestion": 19
+    "sourceQuestion": 19,
+    "qid": "cmq:set-1:source-19"
   },
   {
     "sub": "cmq-strategy",
@@ -279,7 +298,8 @@
     "answer": 0,
     "why": "This response best aligns the decision with sound strategic planning, environmental analysis, deployment, and measurement. <b>A. Sufficient resources can be made available to carry out the plans.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 20.</span>",
     "set": 1,
-    "sourceQuestion": 20
+    "sourceQuestion": 20,
+    "qid": "cmq:set-1:source-20"
   },
   {
     "sub": "cmq-management",
@@ -293,7 +313,8 @@
     "answer": 2,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>C. I, III, IV, V, VI, and VII</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 21.</span>",
     "set": 1,
-    "sourceQuestion": 21
+    "sourceQuestion": 21,
+    "qid": "cmq:set-1:source-21"
   },
   {
     "sub": "cmq-management",
@@ -307,7 +328,8 @@
     "answer": 1,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>B. I, II, V, and VI</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 22.</span>",
     "set": 1,
-    "sourceQuestion": 22
+    "sourceQuestion": 22,
+    "qid": "cmq:set-1:source-22"
   },
   {
     "sub": "cmq-management",
@@ -321,7 +343,8 @@
     "answer": 0,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>A. DiSC and MBTI.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 23.</span>",
     "set": 1,
-    "sourceQuestion": 23
+    "sourceQuestion": 23,
+    "qid": "cmq:set-1:source-23"
   },
   {
     "sub": "cmq-management",
@@ -335,7 +358,8 @@
     "answer": 1,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>B. Finance and customer service</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 24.</span>",
     "set": 1,
-    "sourceQuestion": 24
+    "sourceQuestion": 24,
+    "qid": "cmq:set-1:source-24"
   },
   {
     "sub": "cmq-management",
@@ -349,7 +373,8 @@
     "answer": 2,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>C. Staffing and training.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 25.</span>",
     "set": 1,
-    "sourceQuestion": 25
+    "sourceQuestion": 25,
+    "qid": "cmq:set-1:source-25"
   },
   {
     "sub": "cmq-management",
@@ -363,7 +388,8 @@
     "answer": 1,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>B. I, II, IV, and V</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 26.</span>",
     "set": 1,
-    "sourceQuestion": 26
+    "sourceQuestion": 26,
+    "qid": "cmq:set-1:source-26"
   },
   {
     "sub": "cmq-management",
@@ -377,7 +403,8 @@
     "answer": 2,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>C. I, II, and III</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 27.</span>",
     "set": 1,
-    "sourceQuestion": 27
+    "sourceQuestion": 27,
+    "qid": "cmq:set-1:source-27"
   },
   {
     "sub": "cmq-management",
@@ -391,7 +418,8 @@
     "answer": 0,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>A. ROI is 3:1; RONA is 10:1</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 28.</span>",
     "set": 1,
-    "sourceQuestion": 28
+    "sourceQuestion": 28,
+    "qid": "cmq:set-1:source-28"
   },
   {
     "sub": "cmq-management",
@@ -405,7 +433,8 @@
     "answer": 2,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>C. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 29.</span>",
     "set": 1,
-    "sourceQuestion": 29
+    "sourceQuestion": 29,
+    "qid": "cmq:set-1:source-29"
   },
   {
     "sub": "cmq-management",
@@ -419,7 +448,8 @@
     "answer": 0,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>A. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 30.</span>",
     "set": 1,
-    "sourceQuestion": 30
+    "sourceQuestion": 30,
+    "qid": "cmq:set-1:source-30"
   },
   {
     "sub": "cmq-management",
@@ -433,7 +463,8 @@
     "answer": 0,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>A. Recording and storing all the tacit knowledge of all the employees.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 31.</span>",
     "set": 1,
-    "sourceQuestion": 31
+    "sourceQuestion": 31,
+    "qid": "cmq:set-1:source-31"
   },
   {
     "sub": "cmq-management",
@@ -447,7 +478,8 @@
     "answer": 2,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>C. Performance reviews.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 32.</span>",
     "set": 1,
-    "sourceQuestion": 32
+    "sourceQuestion": 32,
+    "qid": "cmq:set-1:source-32"
   },
   {
     "sub": "cmq-management",
@@ -461,7 +493,8 @@
     "answer": 3,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>D. Different functional departments communicate at a different pace.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 33.</span>",
     "set": 1,
-    "sourceQuestion": 33
+    "sourceQuestion": 33,
+    "qid": "cmq:set-1:source-33"
   },
   {
     "sub": "cmq-management",
@@ -475,7 +508,8 @@
     "answer": 2,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>C. Since the brain works much faster than speaking, use the time while another person is speaking to plan your next comment or question.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 34.</span>",
     "set": 1,
-    "sourceQuestion": 34
+    "sourceQuestion": 34,
+    "qid": "cmq:set-1:source-34"
   },
   {
     "sub": "cmq-management",
@@ -489,7 +523,8 @@
     "answer": 1,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>B. Plan an elaborate visual presentation that you will make shortly after arrival, and follow that by quickly striving to reach an agreement or make the sale.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 35.</span>",
     "set": 1,
-    "sourceQuestion": 35
+    "sourceQuestion": 35,
+    "qid": "cmq:set-1:source-35"
   },
   {
     "sub": "cmq-management",
@@ -503,7 +538,8 @@
     "answer": 1,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>B. I, II, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 36.</span>",
     "set": 1,
-    "sourceQuestion": 36
+    "sourceQuestion": 36,
+    "qid": "cmq:set-1:source-36"
   },
   {
     "sub": "cmq-management",
@@ -517,7 +553,8 @@
     "answer": 3,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>D. Provide field workers with portable devices for recording flower growth, quality factors, and yield - for downloading nightly to a program to compute productivity, quality status, and potential yield by type of crop and when it will be available for shipment.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 37.</span>",
     "set": 1,
-    "sourceQuestion": 37
+    "sourceQuestion": 37,
+    "qid": "cmq:set-1:source-37"
   },
   {
     "sub": "cmq-management",
@@ -531,7 +568,8 @@
     "answer": 3,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>D. I and II only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 38.</span>",
     "set": 1,
-    "sourceQuestion": 38
+    "sourceQuestion": 38,
+    "qid": "cmq:set-1:source-38"
   },
   {
     "sub": "cmq-management",
@@ -545,7 +583,8 @@
     "answer": 1,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>B. Regulatory requirements.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 39.</span>",
     "set": 1,
-    "sourceQuestion": 39
+    "sourceQuestion": 39,
+    "qid": "cmq:set-1:source-39"
   },
   {
     "sub": "cmq-management",
@@ -559,7 +598,8 @@
     "answer": 1,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>B. It is easier to accurately estimate costs than benefits.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 40.</span>",
     "set": 1,
-    "sourceQuestion": 40
+    "sourceQuestion": 40,
+    "qid": "cmq:set-1:source-40"
   },
   {
     "sub": "cmq-management",
@@ -573,7 +613,8 @@
     "answer": 3,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>D. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 41.</span>",
     "set": 1,
-    "sourceQuestion": 41
+    "sourceQuestion": 41,
+    "qid": "cmq:set-1:source-41"
   },
   {
     "sub": "cmq-management",
@@ -587,7 +628,8 @@
     "answer": 0,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>A. They generally address a specific issue.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 42.</span>",
     "set": 1,
-    "sourceQuestion": 42
+    "sourceQuestion": 42,
+    "qid": "cmq:set-1:source-42"
   },
   {
     "sub": "cmq-management",
@@ -601,7 +643,8 @@
     "answer": 2,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>C. Assess the feasibility of starting a new project relative to the resources being allocated to existing projects as well as assessing the strategic fit of the new project</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 43.</span>",
     "set": 1,
-    "sourceQuestion": 43
+    "sourceQuestion": 43,
+    "qid": "cmq:set-1:source-43"
   },
   {
     "sub": "cmq-management",
@@ -615,7 +658,8 @@
     "answer": 3,
     "why": "This response best applies the relevant management, communication, project, financial, or risk-management principle. <b>D. Gantt/milestone chart</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 44.</span>",
     "set": 1,
-    "sourceQuestion": 44
+    "sourceQuestion": 44,
+    "qid": "cmq:set-1:source-44"
   },
   {
     "sub": "cmq-tools",
@@ -629,7 +673,8 @@
     "answer": 2,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>C. Companywide and departmental activities that collectively result in product and/or service quality.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 45.</span>",
     "set": 1,
-    "sourceQuestion": 45
+    "sourceQuestion": 45,
+    "qid": "cmq:set-1:source-45"
   },
   {
     "sub": "cmq-tools",
@@ -643,7 +688,8 @@
     "answer": 2,
     "why": "A quality management system audit evaluates whether the system is implemented and effective, so it can identify a specific system-effectiveness problem. A process map shows workflow but does not by itself assess QMS effectiveness. <b>C. Quality management system audit</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 46; answer corrected for student use.</span>",
     "set": 1,
-    "sourceQuestion": 46
+    "sourceQuestion": 46,
+    "qid": "cmq:set-1:source-46"
   },
   {
     "sub": "cmq-tools",
@@ -657,7 +703,8 @@
     "answer": 2,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>C. II, III, and IV only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 47.</span>",
     "set": 1,
-    "sourceQuestion": 47
+    "sourceQuestion": 47,
+    "qid": "cmq:set-1:source-47"
   },
   {
     "sub": "cmq-tools",
@@ -671,7 +718,8 @@
     "answer": 0,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>A. I and II only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 48.</span>",
     "set": 1,
-    "sourceQuestion": 48
+    "sourceQuestion": 48,
+    "qid": "cmq:set-1:source-48"
   },
   {
     "sub": "cmq-tools",
@@ -685,7 +733,8 @@
     "answer": 0,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>A. Benchmarking should be an ongoing process contributing to continual improvement</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 49.</span>",
     "set": 1,
-    "sourceQuestion": 49
+    "sourceQuestion": 49,
+    "qid": "cmq:set-1:source-49"
   },
   {
     "sub": "cmq-tools",
@@ -699,7 +748,8 @@
     "answer": 2,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>C. Deming's \"Chain reaction\"</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 50.</span>",
     "set": 1,
-    "sourceQuestion": 50
+    "sourceQuestion": 50,
+    "qid": "cmq:set-1:source-50"
   },
   {
     "sub": "cmq-tools",
@@ -713,7 +763,8 @@
     "answer": 3,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>D. Nothing less than 100 percent inspection will suffice to ensure that good quality is produced.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 51.</span>",
     "set": 1,
-    "sourceQuestion": 51
+    "sourceQuestion": 51,
+    "qid": "cmq:set-1:source-51"
   },
   {
     "sub": "cmq-tools",
@@ -727,7 +778,8 @@
     "answer": 3,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>D. I, II, and IV only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 52.</span>",
     "set": 1,
-    "sourceQuestion": 52
+    "sourceQuestion": 52,
+    "qid": "cmq:set-1:source-52"
   },
   {
     "sub": "cmq-tools",
@@ -741,7 +793,8 @@
     "answer": 1,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>B. Gain consensus on how information and materials currently flow through the Organization.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 53.</span>",
     "set": 1,
-    "sourceQuestion": 53
+    "sourceQuestion": 53,
+    "qid": "cmq:set-1:source-53"
   },
   {
     "sub": "cmq-tools",
@@ -755,7 +808,8 @@
     "answer": 3,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>D. I, II, III, IV, V, VI, and VII</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 54.</span>",
     "set": 1,
-    "sourceQuestion": 54
+    "sourceQuestion": 54,
+    "qid": "cmq:set-1:source-54"
   },
   {
     "sub": "cmq-tools",
@@ -769,7 +823,8 @@
     "answer": 0,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>A. Priorities matrix</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 55.</span>",
     "set": 1,
-    "sourceQuestion": 55
+    "sourceQuestion": 55,
+    "qid": "cmq:set-1:source-55"
   },
   {
     "sub": "cmq-tools",
@@ -783,7 +838,8 @@
     "answer": 0,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>A. Generating new ideas.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 56.</span>",
     "set": 1,
-    "sourceQuestion": 56
+    "sourceQuestion": 56,
+    "qid": "cmq:set-1:source-56"
   },
   {
     "sub": "cmq-tools",
@@ -797,7 +853,8 @@
     "answer": 1,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>B. Scatter diagram</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 57.</span>",
     "set": 1,
-    "sourceQuestion": 57
+    "sourceQuestion": 57,
+    "qid": "cmq:set-1:source-57"
   },
   {
     "sub": "cmq-tools",
@@ -811,7 +868,8 @@
     "answer": 2,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>C. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 58.</span>",
     "set": 1,
-    "sourceQuestion": 58
+    "sourceQuestion": 58,
+    "qid": "cmq:set-1:source-58"
   },
   {
     "sub": "cmq-tools",
@@ -825,7 +883,8 @@
     "answer": 0,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>A. Control chart</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 59.</span>",
     "set": 1,
-    "sourceQuestion": 59
+    "sourceQuestion": 59,
+    "qid": "cmq:set-1:source-59"
   },
   {
     "sub": "cmq-tools",
@@ -839,7 +898,8 @@
     "answer": 2,
     "why": "Gauge calibration and acceptance sampling address measurement accuracy and lot acceptance; neither is a cause-analysis method for student tardiness. The other pairs can organize observations, generate causes, or investigate root causes. <b>C. Gauge calibration and acceptance sampling</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 60; defective choice repaired for student use.</span>",
     "set": 1,
-    "sourceQuestion": 60
+    "sourceQuestion": 60,
+    "qid": "cmq:set-1:source-60"
   },
   {
     "sub": "cmq-tools",
@@ -853,7 +913,8 @@
     "answer": 3,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>D. SIPOC</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 61.</span>",
     "set": 1,
-    "sourceQuestion": 61
+    "sourceQuestion": 61,
+    "qid": "cmq:set-1:source-61"
   },
   {
     "sub": "cmq-tools",
@@ -867,7 +928,8 @@
     "answer": 0,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>A. Failure mode and effects analysis</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 62.</span>",
     "set": 1,
-    "sourceQuestion": 62
+    "sourceQuestion": 62,
+    "qid": "cmq:set-1:source-62"
   },
   {
     "sub": "cmq-tools",
@@ -881,7 +943,8 @@
     "answer": 1,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>B. Activity-based costing</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 63.</span>",
     "set": 1,
-    "sourceQuestion": 63
+    "sourceQuestion": 63,
+    "qid": "cmq:set-1:source-63"
   },
   {
     "sub": "cmq-tools",
@@ -895,7 +958,8 @@
     "answer": 0,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>A. Attribute; variable</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 64.</span>",
     "set": 1,
-    "sourceQuestion": 64
+    "sourceQuestion": 64,
+    "qid": "cmq:set-1:source-64"
   },
   {
     "sub": "cmq-tools",
@@ -909,7 +973,8 @@
     "answer": 2,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>C. Mind map</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 65.</span>",
     "set": 1,
-    "sourceQuestion": 65
+    "sourceQuestion": 65,
+    "qid": "cmq:set-1:source-65"
   },
   {
     "sub": "cmq-tools",
@@ -923,7 +988,8 @@
     "answer": 1,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>B. Allocate efforts to effectively balance reduction of failures with detection of failures, as well as preventing failures.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 66.</span>",
     "set": 1,
-    "sourceQuestion": 66
+    "sourceQuestion": 66,
+    "qid": "cmq:set-1:source-66"
   },
   {
     "sub": "cmq-tools",
@@ -937,7 +1003,8 @@
     "answer": 3,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>D. Discipline any employee who fails to meet the service standards of the organization.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 67.</span>",
     "set": 1,
-    "sourceQuestion": 67
+    "sourceQuestion": 67,
+    "qid": "cmq:set-1:source-67"
   },
   {
     "sub": "cmq-tools",
@@ -951,7 +1018,8 @@
     "answer": 1,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>B. Form a cross-functional ad hoc team to map the existing process, then after analysis, map the process as it might appear after improvement.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 68.</span>",
     "set": 1,
-    "sourceQuestion": 68
+    "sourceQuestion": 68,
+    "qid": "cmq:set-1:source-68"
   },
   {
     "sub": "cmq-tools",
@@ -965,7 +1033,8 @@
     "answer": 0,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>A. Eliminating waste.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 69.</span>",
     "set": 1,
-    "sourceQuestion": 69
+    "sourceQuestion": 69,
+    "qid": "cmq:set-1:source-69"
   },
   {
     "sub": "cmq-tools",
@@ -979,7 +1048,8 @@
     "answer": 1,
     "why": "Takt time is available production time divided by customer demand, so it establishes the production pace needed to meet that demand. It is not cycle time or total processing time. <b>B. Sets the pace of production to coincide with customer demand.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 70.</span>",
     "set": 1,
-    "sourceQuestion": 70
+    "sourceQuestion": 70,
+    "qid": "cmq:set-1:source-70"
   },
   {
     "sub": "cmq-tools",
@@ -993,7 +1063,8 @@
     "answer": 0,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>A. I, II, and III only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 71.</span>",
     "set": 1,
-    "sourceQuestion": 71
+    "sourceQuestion": 71,
+    "qid": "cmq:set-1:source-71"
   },
   {
     "sub": "cmq-tools",
@@ -1007,7 +1078,8 @@
     "answer": 2,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>C. Follows the flow of money.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 72.</span>",
     "set": 1,
-    "sourceQuestion": 72
+    "sourceQuestion": 72,
+    "qid": "cmq:set-1:source-72"
   },
   {
     "sub": "cmq-tools",
@@ -1021,7 +1093,8 @@
     "answer": 0,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>A. 40, 35, 20</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 73.</span>",
     "set": 1,
-    "sourceQuestion": 73
+    "sourceQuestion": 73,
+    "qid": "cmq:set-1:source-73"
   },
   {
     "sub": "cmq-tools",
@@ -1035,7 +1108,8 @@
     "answer": 1,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>B. Attribute</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 74.</span>",
     "set": 1,
-    "sourceQuestion": 74
+    "sourceQuestion": 74,
+    "qid": "cmq:set-1:source-74"
   },
   {
     "sub": "cmq-tools",
@@ -1049,7 +1123,8 @@
     "answer": 0,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>A. Designate meaningful categories and assign each response to a category, then sum the number of responses in each category as the indication of the category's importance to the population responding.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 75.</span>",
     "set": 1,
-    "sourceQuestion": 75
+    "sourceQuestion": 75,
+    "qid": "cmq:set-1:source-75"
   },
   {
     "sub": "cmq-tools",
@@ -1063,7 +1138,8 @@
     "answer": 3,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>D. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 76.</span>",
     "set": 1,
-    "sourceQuestion": 76
+    "sourceQuestion": 76,
+    "qid": "cmq:set-1:source-76"
   },
   {
     "sub": "cmq-tools",
@@ -1077,7 +1153,8 @@
     "answer": 1,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>B. Management review</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 77.</span>",
     "set": 1,
-    "sourceQuestion": 77
+    "sourceQuestion": 77,
+    "qid": "cmq:set-1:source-77"
   },
   {
     "sub": "cmq-tools",
@@ -1091,7 +1168,8 @@
     "answer": 3,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>D. III, IV, I, II</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 78.</span>",
     "set": 1,
-    "sourceQuestion": 78
+    "sourceQuestion": 78,
+    "qid": "cmq:set-1:source-78"
   },
   {
     "sub": "cmq-tools",
@@ -1105,7 +1183,8 @@
     "answer": 2,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>C. I and II only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 79.</span>",
     "set": 1,
-    "sourceQuestion": 79
+    "sourceQuestion": 79,
+    "qid": "cmq:set-1:source-79"
   },
   {
     "sub": "cmq-tools",
@@ -1119,7 +1198,8 @@
     "answer": 2,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>C. Have the same respondents complete a survey at two different points in time.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 80.</span>",
     "set": 1,
-    "sourceQuestion": 80
+    "sourceQuestion": 80,
+    "qid": "cmq:set-1:source-80"
   },
   {
     "sub": "cmq-tools",
@@ -1133,7 +1213,8 @@
     "answer": 2,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>C. Establish an employee suggestion box system.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 81.</span>",
     "set": 1,
-    "sourceQuestion": 81
+    "sourceQuestion": 81,
+    "qid": "cmq:set-1:source-81"
   },
   {
     "sub": "cmq-tools",
@@ -1147,7 +1228,8 @@
     "answer": 3,
     "why": "This response selects or interprets the quality-management method that best fits the stated purpose and data. <b>D. Establish and support cross-functional process improvement teams to address processes where potential improvement is indicated.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 82.</span>",
     "set": 1,
-    "sourceQuestion": 82
+    "sourceQuestion": 82,
+    "qid": "cmq:set-1:source-82"
   },
   {
     "sub": "cmq-customer",
@@ -1161,7 +1243,8 @@
     "answer": 0,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>A. Students, parents, colleges, potential employers, town school board, and community volunteer agencies</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 83.</span>",
     "set": 1,
-    "sourceQuestion": 83
+    "sourceQuestion": 83,
+    "qid": "cmq:set-1:source-83"
   },
   {
     "sub": "cmq-customer",
@@ -1175,7 +1258,8 @@
     "answer": 3,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>D. II, III, and IV only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 84.</span>",
     "set": 1,
-    "sourceQuestion": 84
+    "sourceQuestion": 84,
+    "qid": "cmq:set-1:source-84"
   },
   {
     "sub": "cmq-customer",
@@ -1189,7 +1273,8 @@
     "answer": 3,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>D. I, II, and III only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 85.</span>",
     "set": 1,
-    "sourceQuestion": 85
+    "sourceQuestion": 85,
+    "qid": "cmq:set-1:source-85"
   },
   {
     "sub": "cmq-customer",
@@ -1203,7 +1288,8 @@
     "answer": 2,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>C. Competing products that would be dissimilar between clusters.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 86.</span>",
     "set": 1,
-    "sourceQuestion": 86
+    "sourceQuestion": 86,
+    "qid": "cmq:set-1:source-86"
   },
   {
     "sub": "cmq-customer",
@@ -1217,7 +1303,8 @@
     "answer": 0,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>A. Target key customers for relationship management.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 87.</span>",
     "set": 1,
-    "sourceQuestion": 87
+    "sourceQuestion": 87,
+    "qid": "cmq:set-1:source-87"
   },
   {
     "sub": "cmq-customer",
@@ -1231,7 +1318,8 @@
     "answer": 3,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>D. III and IV only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 88.</span>",
     "set": 1,
-    "sourceQuestion": 88
+    "sourceQuestion": 88,
+    "qid": "cmq:set-1:source-88"
   },
   {
     "sub": "cmq-customer",
@@ -1245,7 +1333,8 @@
     "answer": 2,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>C. IV, I, II, VI, V, III</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 89.</span>",
     "set": 1,
-    "sourceQuestion": 89
+    "sourceQuestion": 89,
+    "qid": "cmq:set-1:source-89"
   },
   {
     "sub": "cmq-customer",
@@ -1259,7 +1348,8 @@
     "answer": 2,
     "why": "Trade-off analysis directly measures the value customers assign to competing product or service attributes by requiring explicit preference choices. Interviews collect qualitative input but do not inherently quantify value trade-offs. <b>C. Trade-off analysis</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 90; answer corrected for student use.</span>",
     "set": 1,
-    "sourceQuestion": 90
+    "sourceQuestion": 90,
+    "qid": "cmq:set-1:source-90"
   },
   {
     "sub": "cmq-customer",
@@ -1273,7 +1363,8 @@
     "answer": 3,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>D. Customer service training requirements</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 91.</span>",
     "set": 1,
-    "sourceQuestion": 91
+    "sourceQuestion": 91,
+    "qid": "cmq:set-1:source-91"
   },
   {
     "sub": "cmq-customer",
@@ -1287,7 +1378,8 @@
     "answer": 2,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>C. I, II, and IV only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 92.</span>",
     "set": 1,
-    "sourceQuestion": 92
+    "sourceQuestion": 92,
+    "qid": "cmq:set-1:source-92"
   },
   {
     "sub": "cmq-customer",
@@ -1301,7 +1393,8 @@
     "answer": 2,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>C. Anonymous observation of customer service practices.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 93.</span>",
     "set": 1,
-    "sourceQuestion": 93
+    "sourceQuestion": 93,
+    "qid": "cmq:set-1:source-93"
   },
   {
     "sub": "cmq-customer",
@@ -1315,7 +1408,8 @@
     "answer": 3,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>D. Get management commitment to a focus on customers.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 94.</span>",
     "set": 1,
-    "sourceQuestion": 94
+    "sourceQuestion": 94,
+    "qid": "cmq:set-1:source-94"
   },
   {
     "sub": "cmq-customer",
@@ -1329,7 +1423,8 @@
     "answer": 3,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>D. Designated individual or group trained to listen carefully to customer comments, and record the comments in a process where the comments can be analyzed (trended) and actions taken to improve customer satisfaction.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 95.</span>",
     "set": 1,
-    "sourceQuestion": 95
+    "sourceQuestion": 95,
+    "qid": "cmq:set-1:source-95"
   },
   {
     "sub": "cmq-customer",
@@ -1343,7 +1438,8 @@
     "answer": 3,
     "why": "Complaints, focus-group satisfaction data, and warranty registrations all contain customer-facing evidence useful in designing a consumer survey. Pre-shipment defect counts are internal process data rather than direct consumer input. <b>D. I, II, and IV only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 96; answer corrected for student use.</span>",
     "set": 1,
-    "sourceQuestion": 96
+    "sourceQuestion": 96,
+    "qid": "cmq:set-1:source-96"
   },
   {
     "sub": "cmq-customer",
@@ -1357,7 +1453,8 @@
     "answer": 1,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>B. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 97.</span>",
     "set": 1,
-    "sourceQuestion": 97
+    "sourceQuestion": 97,
+    "qid": "cmq:set-1:source-97"
   },
   {
     "sub": "cmq-customer",
@@ -1371,7 +1468,8 @@
     "answer": 1,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>B. Compare lost-customer costs with costs to obtain new customers, and if the cost of obtaining new customers is greater, refocus efforts on customer retention.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 98.</span>",
     "set": 1,
-    "sourceQuestion": 98
+    "sourceQuestion": 98,
+    "qid": "cmq:set-1:source-98"
   },
   {
     "sub": "cmq-customer",
@@ -1385,7 +1483,8 @@
     "answer": 1,
     "why": "This response best applies customer identification, segmentation, listening, relationship, or satisfaction principles. <b>B. When dealing with a problem, thank the customer for bringing the problem to you and allowing you to help resolve the problem.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 99.</span>",
     "set": 1,
-    "sourceQuestion": 99
+    "sourceQuestion": 99,
+    "qid": "cmq:set-1:source-99"
   },
   {
     "sub": "cmq-customer",
@@ -1399,7 +1498,8 @@
     "answer": 1,
     "why": "Managing customer diversity means responding to differing customer needs and continuing to differentiate services as expectations evolve. Lean cycle-time work and publisher management may support operations, but they do not directly manage customer diversity. <b>B. II and III only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 100; answer corrected for student use.</span>",
     "set": 1,
-    "sourceQuestion": 100
+    "sourceQuestion": 100,
+    "qid": "cmq:set-1:source-100"
   },
   {
     "sub": "cmq-supply",
@@ -1413,7 +1513,8 @@
     "answer": 0,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>A. Quality award winner.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 101.</span>",
     "set": 1,
-    "sourceQuestion": 101
+    "sourceQuestion": 101,
+    "qid": "cmq:set-1:source-101"
   },
   {
     "sub": "cmq-supply",
@@ -1427,7 +1528,8 @@
     "answer": 3,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>D. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 102.</span>",
     "set": 1,
-    "sourceQuestion": 102
+    "sourceQuestion": 102,
+    "qid": "cmq:set-1:source-102"
   },
   {
     "sub": "cmq-supply",
@@ -1441,7 +1543,8 @@
     "answer": 3,
     "why": "Unit and lot traceability can support guarantees, warranty replacements, recalls, and analysis for process improvement because each action may require linking a product to its production and distribution history. <b>D. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 103; answer corrected for student use.</span>",
     "set": 1,
-    "sourceQuestion": 103
+    "sourceQuestion": 103,
+    "qid": "cmq:set-1:source-103"
   },
   {
     "sub": "cmq-supply",
@@ -1455,7 +1558,8 @@
     "answer": 0,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>A. Implement a system that ensures that customers' needs and the supplier's terms of sale are mutually understood and agreed to.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 104.</span>",
     "set": 1,
-    "sourceQuestion": 104
+    "sourceQuestion": 104,
+    "qid": "cmq:set-1:source-104"
   },
   {
     "sub": "cmq-supply",
@@ -1469,7 +1573,8 @@
     "answer": 0,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>A. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 105.</span>",
     "set": 1,
-    "sourceQuestion": 105
+    "sourceQuestion": 105,
+    "qid": "cmq:set-1:source-105"
   },
   {
     "sub": "cmq-supply",
@@ -1483,7 +1588,8 @@
     "answer": 1,
     "why": "Technical support, process capability, internally detected and reworked defects, and field reliability all reveal supplier performance that matters for safety-critical aircraft engines. Rework before shipment should not be excluded merely because the defect was contained. <b>B. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 106; answer corrected for student use.</span>",
     "set": 1,
-    "sourceQuestion": 106
+    "sourceQuestion": 106,
+    "qid": "cmq:set-1:source-106"
   },
   {
     "sub": "cmq-supply",
@@ -1497,7 +1603,8 @@
     "answer": 0,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>A. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 107.</span>",
     "set": 1,
-    "sourceQuestion": 107
+    "sourceQuestion": 107,
+    "qid": "cmq:set-1:source-107"
   },
   {
     "sub": "cmq-supply",
@@ -1511,7 +1618,8 @@
     "answer": 1,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>B. Eliminate legal risks</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 108.</span>",
     "set": 1,
-    "sourceQuestion": 108
+    "sourceQuestion": 108,
+    "qid": "cmq:set-1:source-108"
   },
   {
     "sub": "cmq-supply",
@@ -1525,7 +1633,8 @@
     "answer": 0,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>A. Ensure that the right product/service, in the right quantity, of the right quality, gets to the right customer at the right time.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 109.</span>",
     "set": 1,
-    "sourceQuestion": 109
+    "sourceQuestion": 109,
+    "qid": "cmq:set-1:source-109"
   },
   {
     "sub": "cmq-supply",
@@ -1539,7 +1648,8 @@
     "answer": 0,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>A. Buffer inventory</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 110.</span>",
     "set": 1,
-    "sourceQuestion": 110
+    "sourceQuestion": 110,
+    "qid": "cmq:set-1:source-110"
   },
   {
     "sub": "cmq-supply",
@@ -1553,7 +1663,8 @@
     "answer": 2,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>C. Shift costs of supplier management from appraisal to prevention.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 111.</span>",
     "set": 1,
-    "sourceQuestion": 111
+    "sourceQuestion": 111,
+    "qid": "cmq:set-1:source-111"
   },
   {
     "sub": "cmq-supply",
@@ -1567,7 +1678,8 @@
     "answer": 1,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>B. Using audits to gain leverage for change in supplier performance.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 112.</span>",
     "set": 1,
-    "sourceQuestion": 112
+    "sourceQuestion": 112,
+    "qid": "cmq:set-1:source-112"
   },
   {
     "sub": "cmq-supply",
@@ -1581,7 +1693,8 @@
     "answer": 0,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>A. Purchase goods that meet specified requirements.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 113.</span>",
     "set": 1,
-    "sourceQuestion": 113
+    "sourceQuestion": 113,
+    "qid": "cmq:set-1:source-113"
   },
   {
     "sub": "cmq-supply",
@@ -1595,7 +1708,8 @@
     "answer": 2,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>C. Prohibit less capable suppliers from entering the market.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 114.</span>",
     "set": 1,
-    "sourceQuestion": 114
+    "sourceQuestion": 114,
+    "qid": "cmq:set-1:source-114"
   },
   {
     "sub": "cmq-supply",
@@ -1609,7 +1723,8 @@
     "answer": 1,
     "why": "This response best supports effective supplier selection, performance, procurement, partnership, or logistics management. <b>B. Production schedules.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 115.</span>",
     "set": 1,
-    "sourceQuestion": 115
+    "sourceQuestion": 115,
+    "qid": "cmq:set-1:source-115"
   },
   {
     "sub": "cmq-training",
@@ -1623,7 +1738,8 @@
     "answer": 1,
     "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>B. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 116.</span>",
     "set": 1,
-    "sourceQuestion": 116
+    "sourceQuestion": 116,
+    "qid": "cmq:set-1:source-116"
   },
   {
     "sub": "cmq-training",
@@ -1637,7 +1753,8 @@
     "answer": 2,
     "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>C. I, II, and IV only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 117.</span>",
     "set": 1,
-    "sourceQuestion": 117
+    "sourceQuestion": 117,
+    "qid": "cmq:set-1:source-117"
   },
   {
     "sub": "cmq-training",
@@ -1651,7 +1768,8 @@
     "answer": 0,
     "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>A. Support is derived from the strategic plan and the personal commitment and involvement of top management.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 118.</span>",
     "set": 1,
-    "sourceQuestion": 118
+    "sourceQuestion": 118,
+    "qid": "cmq:set-1:source-118"
   },
   {
     "sub": "cmq-training",
@@ -1665,7 +1783,8 @@
     "answer": 2,
     "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>C. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 119.</span>",
     "set": 1,
-    "sourceQuestion": 119
+    "sourceQuestion": 119,
+    "qid": "cmq:set-1:source-119"
   },
   {
     "sub": "cmq-training",
@@ -1679,7 +1798,8 @@
     "answer": 3,
     "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>D. Improved operational results</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 120.</span>",
     "set": 1,
-    "sourceQuestion": 120
+    "sourceQuestion": 120,
+    "qid": "cmq:set-1:source-120"
   },
   {
     "sub": "cmq-training",
@@ -1693,7 +1813,8 @@
     "answer": 3,
     "why": "Training cannot correct a performance gap caused solely by unavailable equipment when employees already have the required knowledge and skills. The other situations introduce a legal, onboarding, or cross-training requirement. <b>D. A performance gap is caused solely by unavailable equipment, and employees already demonstrate the required skills</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 121; ambiguous choice repaired for student use.</span>",
     "set": 1,
-    "sourceQuestion": 121
+    "sourceQuestion": 121,
+    "qid": "cmq:set-1:source-121"
   },
   {
     "sub": "cmq-training",
@@ -1707,7 +1828,8 @@
     "answer": 2,
     "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>C. A gap analysis.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 122.</span>",
     "set": 1,
-    "sourceQuestion": 122
+    "sourceQuestion": 122,
+    "qid": "cmq:set-1:source-122"
   },
   {
     "sub": "cmq-training",
@@ -1721,7 +1843,8 @@
     "answer": 3,
     "why": "Critical incidents, focus groups, and task analysis can identify knowledge or skill gaps. Annual budget variance analysis is a financial-control technique, not a training-needs assessment method. <b>D. Annual budget variance analysis</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 123; ambiguous choice repaired for student use.</span>",
     "set": 1,
-    "sourceQuestion": 123
+    "sourceQuestion": 123,
+    "qid": "cmq:set-1:source-123"
   },
   {
     "sub": "cmq-training",
@@ -1735,7 +1858,8 @@
     "answer": 0,
     "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>A. Learner-controlled instruction</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 124.</span>",
     "set": 1,
-    "sourceQuestion": 124
+    "sourceQuestion": 124,
+    "qid": "cmq:set-1:source-124"
   },
   {
     "sub": "cmq-training",
@@ -1749,7 +1873,8 @@
     "answer": 0,
     "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>A. Training to be delivered via an in-house intranet is likely to be more costly to develop than classroom-type training.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 125.</span>",
     "set": 1,
-    "sourceQuestion": 125
+    "sourceQuestion": 125,
+    "qid": "cmq:set-1:source-125"
   },
   {
     "sub": "cmq-training",
@@ -1763,7 +1888,8 @@
     "answer": 0,
     "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>A. Adults have learned to do what they are told to do, and therefore learn what they are told to learn.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 126.</span>",
     "set": 1,
-    "sourceQuestion": 126
+    "sourceQuestion": 126,
+    "qid": "cmq:set-1:source-126"
   },
   {
     "sub": "cmq-training",
@@ -1777,7 +1903,8 @@
     "answer": 1,
     "why": "Self-directed learning is defined by the learner taking initiative and making choices about learning goals and activities. It may be self-paced or supported by an instructor, so delivery format alone does not define it. <b>B. The choice an individual has as to what he or she wishes to learn.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 127; answer corrected for student use.</span>",
     "set": 1,
-    "sourceQuestion": 127
+    "sourceQuestion": 127,
+    "qid": "cmq:set-1:source-127"
   },
   {
     "sub": "cmq-training",
@@ -1791,7 +1918,8 @@
     "answer": 3,
     "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>D. A signal light indicating that an error has occurred</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 128.</span>",
     "set": 1,
-    "sourceQuestion": 128
+    "sourceQuestion": 128,
+    "qid": "cmq:set-1:source-128"
   },
   {
     "sub": "cmq-training",
@@ -1805,7 +1933,8 @@
     "answer": 3,
     "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>D. IV, III, I, II</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 129.</span>",
     "set": 1,
-    "sourceQuestion": 129
+    "sourceQuestion": 129,
+    "qid": "cmq:set-1:source-129"
   },
   {
     "sub": "cmq-training",
@@ -1819,7 +1948,8 @@
     "answer": 1,
     "why": "This response best applies training-needs, adult-learning, delivery, or evaluation principles. <b>B. Employee turnover</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 130.</span>",
     "set": 1,
-    "sourceQuestion": 130
+    "sourceQuestion": 130,
+    "qid": "cmq:set-1:source-130"
   },
   {
     "sub": "cmq-lead",
@@ -1833,7 +1963,8 @@
     "answer": 0,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>A. Quality accounting</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 131.</span>",
     "set": 1,
-    "sourceQuestion": 131
+    "sourceQuestion": 131,
+    "qid": "cmq:set-1:source-131"
   },
   {
     "sub": "cmq-lead",
@@ -1847,7 +1978,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. All of these</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 132.</span>",
     "set": 1,
-    "sourceQuestion": 132
+    "sourceQuestion": 132,
+    "qid": "cmq:set-1:source-132"
   },
   {
     "sub": "cmq-lead",
@@ -1861,7 +1993,8 @@
     "answer": 0,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>A. Formalization, centralization and complexity</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 133.</span>",
     "set": 1,
-    "sourceQuestion": 133
+    "sourceQuestion": 133,
+    "qid": "cmq:set-1:source-133"
   },
   {
     "sub": "cmq-lead",
@@ -1875,7 +2008,8 @@
     "answer": 0,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>A. Amount of employees training and experience</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 134.</span>",
     "set": 1,
-    "sourceQuestion": 134
+    "sourceQuestion": 134,
+    "qid": "cmq:set-1:source-134"
   },
   {
     "sub": "cmq-lead",
@@ -1889,7 +2023,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. All of the above</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 135.</span>",
     "set": 1,
-    "sourceQuestion": 135
+    "sourceQuestion": 135,
+    "qid": "cmq:set-1:source-135"
   },
   {
     "sub": "cmq-lead",
@@ -1903,7 +2038,8 @@
     "answer": 0,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>A. Cause leader</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 136.</span>",
     "set": 1,
-    "sourceQuestion": 136
+    "sourceQuestion": 136,
+    "qid": "cmq:set-1:source-136"
   },
   {
     "sub": "cmq-lead",
@@ -1917,7 +2053,8 @@
     "answer": 1,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>B. Organization leader</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 137.</span>",
     "set": 1,
-    "sourceQuestion": 137
+    "sourceQuestion": 137,
+    "qid": "cmq:set-1:source-137"
   },
   {
     "sub": "cmq-lead",
@@ -1931,7 +2068,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. None of these</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 138.</span>",
     "set": 1,
-    "sourceQuestion": 138
+    "sourceQuestion": 138,
+    "qid": "cmq:set-1:source-138"
   },
   {
     "sub": "cmq-lead",
@@ -1945,7 +2083,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. A, B and C all are correct</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 139.</span>",
     "set": 1,
-    "sourceQuestion": 139
+    "sourceQuestion": 139,
+    "qid": "cmq:set-1:source-139"
   },
   {
     "sub": "cmq-lead",
@@ -1959,7 +2098,8 @@
     "answer": 1,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>B. High task; High relationship</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 140.</span>",
     "set": 1,
-    "sourceQuestion": 140
+    "sourceQuestion": 140,
+    "qid": "cmq:set-1:source-140"
   },
   {
     "sub": "cmq-lead",
@@ -1973,7 +2113,8 @@
     "answer": 1,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>B. Builds an enterprise structure that supports the strategic goals and objectives</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 141.</span>",
     "set": 1,
-    "sourceQuestion": 141
+    "sourceQuestion": 141,
+    "qid": "cmq:set-1:source-141"
   },
   {
     "sub": "cmq-lead",
@@ -1987,7 +2128,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. The task of managing within the dimension of budget</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 142.</span>",
     "set": 1,
-    "sourceQuestion": 142
+    "sourceQuestion": 142,
+    "qid": "cmq:set-1:source-142"
   },
   {
     "sub": "cmq-lead",
@@ -2001,7 +2143,8 @@
     "answer": 0,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>A. Change agent</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 143.</span>",
     "set": 1,
-    "sourceQuestion": 143
+    "sourceQuestion": 143,
+    "qid": "cmq:set-1:source-143"
   },
   {
     "sub": "cmq-lead",
@@ -2015,7 +2158,8 @@
     "answer": 0,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>A. To ensure the strategic and operational plans clearly indicate the priorities and strategies for the organization</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 144.</span>",
     "set": 1,
-    "sourceQuestion": 144
+    "sourceQuestion": 144,
+    "qid": "cmq:set-1:source-144"
   },
   {
     "sub": "cmq-lead",
@@ -2029,7 +2173,8 @@
     "answer": 2,
     "why": "Force-field analysis makes the intangible forces supporting and resisting a proposed change explicit so they can be evaluated and addressed. Gantt and PERT charts are scheduling tools. <b>C. A force-field analysis</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 145.</span>",
     "set": 1,
-    "sourceQuestion": 145
+    "sourceQuestion": 145,
+    "qid": "cmq:set-1:source-145"
   },
   {
     "sub": "cmq-lead",
@@ -2043,7 +2188,8 @@
     "answer": 1,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>B. Understand the impact of change to intellectual property</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 146.</span>",
     "set": 1,
-    "sourceQuestion": 146
+    "sourceQuestion": 146,
+    "qid": "cmq:set-1:source-146"
   },
   {
     "sub": "cmq-lead",
@@ -2057,7 +2203,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 147.</span>",
     "set": 1,
-    "sourceQuestion": 147
+    "sourceQuestion": 147,
+    "qid": "cmq:set-1:source-147"
   },
   {
     "sub": "cmq-lead",
@@ -2071,7 +2218,8 @@
     "answer": 2,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>C. Values, norms, and assumptions shared by the organization members</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 148.</span>",
     "set": 1,
-    "sourceQuestion": 148
+    "sourceQuestion": 148,
+    "qid": "cmq:set-1:source-148"
   },
   {
     "sub": "cmq-lead",
@@ -2085,7 +2233,8 @@
     "answer": 1,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>B. Acceptance of her or his direction by the followers</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 149.</span>",
     "set": 1,
-    "sourceQuestion": 149
+    "sourceQuestion": 149,
+    "qid": "cmq:set-1:source-149"
   },
   {
     "sub": "cmq-lead",
@@ -2099,7 +2248,8 @@
     "answer": 2,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>C. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 150.</span>",
     "set": 1,
-    "sourceQuestion": 150
+    "sourceQuestion": 150,
+    "qid": "cmq:set-1:source-150"
   },
   {
     "sub": "cmq-lead",
@@ -2113,7 +2263,8 @@
     "answer": 2,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>C. Determines the legality of a supplier-partnership agreement</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 151.</span>",
     "set": 1,
-    "sourceQuestion": 151
+    "sourceQuestion": 151,
+    "qid": "cmq:set-1:source-151"
   },
   {
     "sub": "cmq-lead",
@@ -2127,7 +2278,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. Create an awareness of the need for change and communicate a vision of what the change will accomplish</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 152.</span>",
     "set": 1,
-    "sourceQuestion": 152
+    "sourceQuestion": 152,
+    "qid": "cmq:set-1:source-152"
   },
   {
     "sub": "cmq-lead",
@@ -2141,7 +2293,8 @@
     "answer": 2,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>C. Gain greater support for change from a respected leader who understands the company's key business factors and the need for change.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 153.</span>",
     "set": 1,
-    "sourceQuestion": 153
+    "sourceQuestion": 153,
+    "qid": "cmq:set-1:source-153"
   },
   {
     "sub": "cmq-lead",
@@ -2155,7 +2308,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. Professionals working in each unit will be allowed to design their own unit's nonmonetary incentive/ reminder for participating in the stethoscope sterilization initiative.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 154.</span>",
     "set": 1,
-    "sourceQuestion": 154
+    "sourceQuestion": 154,
+    "qid": "cmq:set-1:source-154"
   },
   {
     "sub": "cmq-lead",
@@ -2169,7 +2323,8 @@
     "answer": 0,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>A. Strategic</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 155.</span>",
     "set": 1,
-    "sourceQuestion": 155
+    "sourceQuestion": 155,
+    "qid": "cmq:set-1:source-155"
   },
   {
     "sub": "cmq-lead",
@@ -2183,7 +2338,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. I, II, III, and IV</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 156.</span>",
     "set": 1,
-    "sourceQuestion": 156
+    "sourceQuestion": 156,
+    "qid": "cmq:set-1:source-156"
   },
   {
     "sub": "cmq-lead",
@@ -2197,7 +2353,8 @@
     "answer": 0,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>A. I and III only</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 157.</span>",
     "set": 1,
-    "sourceQuestion": 157
+    "sourceQuestion": 157,
+    "qid": "cmq:set-1:source-157"
   },
   {
     "sub": "cmq-lead",
@@ -2211,7 +2368,8 @@
     "answer": 1,
     "why": "A cross-functional team is commonly assembled temporarily around an issue or improvement effort, while a matrix is an ongoing organizational structure with dual functional and project authority. <b>B. Cross-functionals are often temporary, whereas matrices are permanent.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 158; answer corrected for student use.</span>",
     "set": 1,
-    "sourceQuestion": 158
+    "sourceQuestion": 158,
+    "qid": "cmq:set-1:source-158"
   },
   {
     "sub": "cmq-lead",
@@ -2225,7 +2383,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. Management relinquishes responsibility to employees.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 159.</span>",
     "set": 1,
-    "sourceQuestion": 159
+    "sourceQuestion": 159,
+    "qid": "cmq:set-1:source-159"
   },
   {
     "sub": "cmq-lead",
@@ -2239,7 +2398,8 @@
     "answer": 0,
     "why": "Receiving royalties creates a direct financial conflict of interest. Disclosure is necessary, but the strongest safeguard is to recuse yourself from the selection rather than remain the decision maker. <b>A. State that you cannot participate in the selection process because of your potential bias.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 160; answer corrected for student use.</span>",
     "set": 1,
-    "sourceQuestion": 160
+    "sourceQuestion": 160,
+    "qid": "cmq:set-1:source-160"
   },
   {
     "sub": "cmq-lead",
@@ -2253,7 +2413,8 @@
     "answer": 2,
     "why": "The team needs interpersonal ability, problem-solving skill, and product knowledge to diagnose a recurring customer problem. Negotiation skill is comparatively less important because the assignment is collaborative problem resolution, not bargaining. <b>C. Negotiation skills</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 161; answer corrected for student use.</span>",
     "set": 1,
-    "sourceQuestion": 161
+    "sourceQuestion": 161,
+    "qid": "cmq:set-1:source-161"
   },
   {
     "sub": "cmq-lead",
@@ -2267,7 +2428,8 @@
     "answer": 2,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>C. Write a procedure outlining how you believe the process should work.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 162.</span>",
     "set": 1,
-    "sourceQuestion": 162
+    "sourceQuestion": 162,
+    "qid": "cmq:set-1:source-162"
   },
   {
     "sub": "cmq-lead",
@@ -2281,7 +2443,8 @@
     "answer": 1,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>B. Evaluated against short-term results.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 163.</span>",
     "set": 1,
-    "sourceQuestion": 163
+    "sourceQuestion": 163,
+    "qid": "cmq:set-1:source-163"
   },
   {
     "sub": "cmq-lead",
@@ -2295,7 +2458,8 @@
     "answer": 3,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>D. Force-field analysis.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 164.</span>",
     "set": 1,
-    "sourceQuestion": 164
+    "sourceQuestion": 164,
+    "qid": "cmq:set-1:source-164"
   },
   {
     "sub": "cmq-lead",
@@ -2309,7 +2473,8 @@
     "answer": 2,
     "why": "This response best applies the leadership, organizational-culture, ethics, or change-management principle tested by the scenario. <b>C. Insist that the two employees negotiate with each other until they reach an agreement.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 165.</span>",
     "set": 1,
-    "sourceQuestion": 165
+    "sourceQuestion": 165,
+    "qid": "cmq:set-1:source-165"
   },
   {
     "sub": "cmq-lead",
@@ -2323,7 +2488,8 @@
     "answer": 2,
     "why": "The new membership has moved the team back into a conflict-heavy development stage. A neutral facilitator can help the whole team establish productive norms without excluding or blaming the new members. <b>C. Ask a facilitator to attend the next few meetings to help reduce conflict.</b> <span class=\"tb-source-ref\">Source: Pocket Study Guide CMQ-OE, Question 166; answer corrected for student use.</span>",
     "set": 1,
-    "sourceQuestion": 166
+    "sourceQuestion": 166,
+    "qid": "cmq:set-1:source-166"
   }
 ];
 })(window);

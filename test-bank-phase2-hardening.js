@@ -20,6 +20,18 @@
     });
   }
 
+  /* This module observes the result subtree. Assigning the same text still
+     creates a child-list mutation, so writes must be idempotent. */
+  function setTextIfChanged(node, value) {
+    const next = String(value == null ? '' : value);
+    if (node && node.textContent !== next) node.textContent = next;
+  }
+
+  function setHtmlIfChanged(node, value) {
+    const next = String(value == null ? '' : value);
+    if (node && node.innerHTML !== next) node.innerHTML = next;
+  }
+
   function stripHtml(value) {
     const node = document.createElement('div');
     node.innerHTML = String(value == null ? '' : value);
@@ -41,18 +53,45 @@
     return window.__TB && window.__TB.EXAMS ? window.__TB.EXAMS[examId()] : null;
   }
 
+  function registry() {
+    return window.__TBQuestionRegistry || null;
+  }
+
+  function questionId(question) {
+    const helper = registry();
+    if (helper && typeof helper.idFor === 'function') return helper.idFor(examId(), question);
+    return question && question.questionId || question && question.qid || question && question.id || hash(question && question.stem);
+  }
+
   function allQuestions() {
+    const helper = registry();
+    if (helper && typeof helper.questionsFor === 'function') return helper.questionsFor(examId());
     const e = exam();
     const seen = new Set();
     const out = [];
-    function add(q) { if (q && q.stem && !seen.has(q.stem)) { seen.add(q.stem); out.push(q); } }
+    function add(q) {
+      if (!q || !q.stem) return;
+      const id = questionId(q);
+      if (seen.has(id)) return;
+      seen.add(id);
+      out.push(q);
+    }
     if (e && e.sets) Object.keys(e.sets).forEach(function (key) { (e.sets[key] || []).forEach(add); });
     if (e && e.bank) e.bank.forEach(add);
     return out;
   }
 
+  function questionByIdentity(identity, legacyStem) {
+    const helper = registry();
+    if (helper && typeof helper.find === 'function' && identity) {
+      const found = helper.find(examId(), identity);
+      if (found) return found;
+    }
+    return allQuestions().find(function (q) { return questionId(q) === identity || q.stem === legacyStem || q.stem === identity; }) || null;
+  }
+
   function questionByStem(stem) {
-    return allQuestions().find(function (q) { return q.stem === stem; }) || null;
+    return questionByIdentity(stem, stem);
   }
 
   function readStore() {
@@ -107,10 +146,12 @@
     const quiz = overview && overview.querySelector('.tb-quiz');
     const stemNode = quiz && !quiz.closest('#' + FEEDBACK_ID) ? quiz.querySelector('.tb-stem') : null;
     const nextStem = stemNode ? stemNode.textContent.trim() : '';
-    if (nextStem && nextStem !== activeStem) {
+    const nextQuestion = nextStem ? questionByIdentity(quiz.dataset.questionId || stemNode.dataset.questionId || nextStem, nextStem) : null;
+    const nextId = nextQuestion ? questionId(nextQuestion) : nextStem;
+    if (nextId && nextId !== activeStem) {
       commitTime();
       ensureAttempt();
-      activeStem = nextStem;
+      activeStem = nextId;
       activeSince = Date.now();
     } else if (!nextStem && activeStem) {
       commitTime();
@@ -173,24 +214,25 @@
   function enhanceCard(card) {
     const stemNode = card.querySelector('.tb-review-stem');
     if (!stemNode) return;
-    const q = questionByStem(stemNode.textContent.trim());
+    const q = questionByIdentity(card.dataset.questionId || stemNode.textContent.trim(), stemNode.textContent.trim());
     if (!q) return;
+    if (!card.dataset.questionId) card.dataset.questionId = questionId(q);
 
     const point = card.querySelector('.tb-key-point');
-    if (point) point.textContent = keyPoint(q);
+    setTextIfChanged(point, keyPoint(q));
 
     const trap = card.querySelector('.tb-exam-trap');
     if (trap) {
       const check = testTakingCheck(q);
-      trap.textContent = check.text;
+      setTextIfChanged(trap, check.text);
       const label = trap.parentElement && trap.parentElement.querySelector('.tb-deep-label');
-      if (label) label.textContent = check.title;
+      setTextIfChanged(label, check.title);
     }
 
     const details = card.querySelector('.tb-distractor-analysis');
     if (details) {
       const summary = details.querySelector('summary');
-      if (summary) summary.textContent = 'Option-by-option evidence check';
+      setTextIfChanged(summary, 'Option-by-option evidence check');
       const rows = details.querySelectorAll('.tb-distractor-row');
       const wrongIndices = q.options.map(function (_, i) { return i; }).filter(function (i) { return i !== q.answer; });
       rows.forEach(function (row, rowIndex) {
@@ -198,19 +240,19 @@
         const reason = optionRationale(q, index, selectedIndex(card));
         const p = row.querySelector('p');
         const small = row.querySelector('small');
-        if (p) p.textContent = reason.text;
-        if (small) small.textContent = reason.reviewed ? 'Expert-reviewed option rationale' : 'Grounded evidence check; option-specific expert rationale pending';
+        setTextIfChanged(p, reason.text);
+        setTextIfChanged(small, reason.reviewed ? 'Expert-reviewed option rationale' : 'Grounded evidence check; option-specific expert rationale pending');
       });
       const note = details.querySelector('.tb-accuracy-note');
-      if (note) note.innerHTML = '<strong>Accuracy standard:</strong> the simulator distinguishes expert-reviewed option rationales from grounded evidence checks. It never presents a generic fallback as an expert-reviewed explanation.';
+      setHtmlIfChanged(note, '<strong>Accuracy standard:</strong> the simulator distinguishes expert-reviewed option rationales from grounded evidence checks. It never presents a generic fallback as an expert-reviewed explanation.');
     }
 
     const time = card.querySelector('.tb-deep-summary strong');
-    if (time) time.textContent = formatTime(frozenTimes[q.stem] || 0);
+    setTextIfChanged(time, formatTime(frozenTimes[questionId(q)] || 0));
 
     const practice = card.querySelector('[data-practice-similar]');
     if (practice) {
-      practice.textContent = q.conceptId || q.learningObjective ? 'Practice 5 similar questions' : 'Practice 5 questions from this subtopic';
+      setTextIfChanged(practice, q.conceptId || q.learningObjective ? 'Practice 5 similar questions' : 'Practice 5 questions from this subtopic');
       practice.dataset.conceptId = conceptId(q);
       practice.title = q.conceptId || q.learningObjective ? 'Matched by reviewed concept metadata' : 'Matched by Body of Knowledge subtopic because reviewed concept metadata is not available';
     }
@@ -226,22 +268,29 @@
     const record = currentAttempt();
     const errors = record && record.errors ? Object.values(record.errors) : [];
     if (!errors.length) {
-      host.textContent = 'Classify missed questions to separate knowledge, calculation, reading, and time-management causes for this attempt.';
+      setTextIfChanged(host, 'Classify missed questions to separate knowledge, calculation, reading, and time-management causes for this attempt.');
       return;
     }
     const counts = {};
     errors.forEach(function (value) { counts[value] = (counts[value] || 0) + 1; });
-    host.innerHTML = '<strong>' + errors.length + ' mistakes classified for this attempt:</strong> ' + Object.keys(counts).map(function (key) { return esc(key.replace(/-/g, ' ')) + ' (' + counts[key] + ')'; }).join(' · ');
+    setHtmlIfChanged(host, '<strong>' + errors.length + ' mistakes classified for this attempt:</strong> ' + Object.keys(counts).map(function (key) { return esc(key.replace(/-/g, ' ')) + ' (' + counts[key] + ')'; }).join(' · '));
+  }
+
+  function errorKeysForCard(card) {
+    const stem = card && card.querySelector('.tb-review-stem');
+    const text = stem ? stem.textContent.trim() : '';
+    const question = questionByIdentity(card && card.dataset.questionId || text, text);
+    return { id: question ? questionId(question) : (card && card.dataset.questionId || hash(text)), legacy: hash(text) };
   }
 
   function syncClassifications() {
     ensureAttempt();
     const record = currentAttempt();
     document.querySelectorAll('#' + FEEDBACK_ID + ' .tb-review-card').forEach(function (card) {
-      const stem = card.querySelector('.tb-review-stem');
       const select = card.querySelector('[data-error-class]');
-      if (!stem || !select) return;
-      const value = record && record.errors ? record.errors[hash(stem.textContent.trim())] : '';
+      if (!select) return;
+      const keys = errorKeysForCard(card);
+      const value = record && record.errors ? (record.errors[keys.id] || record.errors[keys.legacy]) : '';
       if (select.value !== (value || '')) select.value = value || '';
     });
     classificationSummary();
@@ -281,7 +330,8 @@
     const headerTime = feedback.querySelector('.tb-phase2-time strong');
     if (headerTime) {
       const values = Object.values(frozenTimes).filter(function (v) { return v >= 1000; });
-      headerTime.textContent = values.length ? formatTime(values.reduce(function (a, b) { return a + b; }, 0) / values.length) : 'Not reliably tracked';
+      const nextHeaderTime = values.length ? formatTime(values.reduce(function (a, b) { return a + b; }, 0) / values.length) : 'Not reliably tracked';
+      setTextIfChanged(headerTime, nextHeaderTime);
     }
   }
 
@@ -306,13 +356,13 @@
       const select = event.target.closest('[data-error-class]');
       if (!select) return;
       const card = select.closest('.tb-review-card');
-      const stem = card && card.querySelector('.tb-review-stem');
-      if (!stem) return;
+      if (!card) return;
       saveAttempt(function (record) {
         record.errors = record.errors || {};
-        const key = hash(stem.textContent.trim());
-        if (select.value) record.errors[key] = select.value;
-        else delete record.errors[key];
+        const keys = errorKeysForCard(card);
+        if (select.value) record.errors[keys.id] = select.value;
+        else delete record.errors[keys.id];
+        if (keys.legacy !== keys.id) delete record.errors[keys.legacy];
       });
       classificationSummary();
     }, true);

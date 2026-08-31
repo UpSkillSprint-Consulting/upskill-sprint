@@ -6,6 +6,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -346,6 +347,7 @@ test('retaking the diagnostic to completion restores analytics with the updated 
   await settle(window);
   assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'analytics opened');
 
+  await installDurableLearning(window);
   click(window, window.document.querySelector('[data-diag]'));
   await settle(window, 3);
   assert.equal(window.document.getElementById('tb-adaptive-mastery'), null, 'analytics correctly disappears while a live quiz is in progress');

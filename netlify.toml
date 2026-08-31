@@ -14,6 +14,10 @@
   function = "test-bank-mobile-picker"
 
 [[edge_functions]]
+  path = "/test-bank/"
+  function = "test-bank-mobile-picker"
+
+[[edge_functions]]
   path = "/test-bank.html"
   function = "test-bank-mobile-picker"
 
