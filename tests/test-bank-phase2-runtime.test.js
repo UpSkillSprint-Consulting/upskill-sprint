@@ -64,7 +64,9 @@ test('runtime timing resets when a new quiz begins', async () => {
   click(window, overview.querySelector('[data-mode="quick"]'));
   await settle(window, 3);
   assertNoTrackedTimes(window);
-  overview.innerHTML = '<div class="tb-quiz"><div class="tb-stem">New attempt</div></div>';
+  click(window, overview.querySelector('[data-backsim]'));
+  await settle(window, 2);
+  click(window, overview.querySelector('[data-mode="quick"]'));
   await settle(window, 4);
   assertNoTrackedTimes(window);
 });

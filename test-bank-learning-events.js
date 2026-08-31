@@ -45,6 +45,8 @@
   let remoteFetchRevision = 0;
   let freshHistoryPromise = null;
   let freshHistoryUserId = '';
+  let progressSnapshotPromise = null;
+  let progressSnapshotUserId = '';
   let retryTimer = 0;
   let retryAttempts = 0;
   let lastUserId = '';
@@ -389,7 +391,7 @@
       scan.durable = false;
       scan.progressScanRequired = true;
       scan.progressScanned = false;
-      return { changed: false, seeded: 0, complete: false, blocked: 'account-mismatch' };
+      return { changed: false, seeded: 0, complete: false, blocked: 'account-mismatch', progressScanRequired: true };
     }
     if (awaitProgress && !afterProgress && (!scan.progressScanned || sourceChanged)) {
       scan.progressScanRequired = true;
@@ -453,7 +455,14 @@
     scan.resolved = unresolved === 0;
     scan.complete = scan.resolved && !legacyMigrationPending(state, userId);
     scan.durable = scan.complete;
-    return { changed: seeded > 0, seeded: seeded, complete: scan.complete, durable: scan.durable, unresolved: unresolved };
+    return {
+      changed: seeded > 0,
+      seeded: seeded,
+      complete: scan.complete,
+      durable: scan.durable,
+      unresolved: unresolved,
+      progressScanRequired: Boolean(scan.progressScanRequired)
+    };
   }
 
   function markLegacyMigrationAcknowledged(state, userId) {
@@ -827,6 +836,7 @@
       });
     });
     const saved = persist(state, 'session-started');
+    if (saved) emit('tb:learning-session-started', { sessionId: sessionId, examId: input.examId, mode: String(input.mode || 'practice') });
     scheduleSync('session-started');
     return input.returnResult ? { sessionId: sessionId, saved: saved, retried: false } : sessionId;
   }
@@ -1346,18 +1356,29 @@
 
   function requestFreshProgressSnapshot(reason) {
     const account = window.__TBAccountSync;
-    if (!account || typeof account.sync !== 'function') return;
-    Promise.resolve(account.sync('learning-legacy-migration-' + (reason || 'automatic'))).then(function (result) {
+    const user = activeUser();
+    if (!user || !account || typeof account.sync !== 'function') return Promise.resolve({ skipped: true });
+    if (progressSnapshotPromise && progressSnapshotUserId === user.id) return progressSnapshotPromise;
+    progressSnapshotUserId = user.id;
+    progressSnapshotPromise = Promise.resolve(account.sync('learning-legacy-migration-' + (reason || 'automatic'))).then(function (result) {
       /* A skipped/error result cannot prove a fresh snapshot was merged; keep
          New-only locked until account sync subsequently emits its event. */
       if (result && (result.error || result.skipped || result.stale)) {
-        const user = activeUser();
-        if (user) syncStatus(read(), 'awaiting-progress-sync', user.id, result.error || null);
+        const current = activeUser();
+        if (current && current.id === user.id) syncStatus(read(), 'awaiting-progress-sync', user.id, result.error || null);
       }
+      return result;
     }).catch(function (error) {
-      const user = activeUser();
-      if (user) syncStatus(read(), 'awaiting-progress-sync', user.id, error);
+      const current = activeUser();
+      if (current && current.id === user.id) syncStatus(read(), 'awaiting-progress-sync', user.id, error);
+      return { error: error };
+    }).finally(function () {
+      if (progressSnapshotUserId === user.id) {
+        progressSnapshotPromise = null;
+        progressSnapshotUserId = '';
+      }
     });
+    return progressSnapshotPromise;
   }
 
   /* A normal caller that arrives while a sync is in progress can safely share
@@ -1464,9 +1485,11 @@
       emit('upskill-test-learning-synced', detail);
       if (hydrated) emit('tb:learning-history-ready', detail);
       syncStatus(state, hydrated ? 'synced' : 'awaiting-legacy-migration', userId);
-      /* Preserve existing historical snapshot behaviour while the append-only
-         ledger is adopted by every feature. */
-      if (awaitProgress) requestFreshProgressSnapshot(reason);
+      /* Ask the account snapshot merger exactly once for each migration scan.
+         Its progress event marks the scan complete and queues one final ledger
+         fetch. Permanently unresolved legacy IDs remain fail-closed without
+         recursively bouncing between the two synchronizers. */
+      if (awaitProgress && legacyMigration.progressScanRequired) requestFreshProgressSnapshot(reason);
       return { synced: pending.length, pending: pendingCount(state, userId), imported: remoteRows.length, hydrated: hydrated, legacySeeded: legacyMigration.seeded };
     }()).catch(function (error) {
       const state = read();

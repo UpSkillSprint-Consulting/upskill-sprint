@@ -50,7 +50,7 @@ test('quizHTML renders the question chart immediately before the stem, for every
   const idx = html.indexOf('function quizHTML()');
   assert.ok(idx > -1, 'quizHTML exists');
   const body = html.slice(idx, html.indexOf('function wireQuiz()', idx));
-  assert.match(body, /renderQuestionChart\(q\.chart\)\+'<div class="tb-stem">'/, 'chart renders directly before the stem div, driven by the current question\u2019s own chart field');
+  assert.match(body, /renderQuestionChart\(q\.chart\)\+'<div class="tb-stem"[^>]*>'/, 'chart renders directly before the stem div, driven by the current question\u2019s own chart field');
 });
 
 test('window.__TB exposes renderQuestionChart for the adaptive-practice companion scripts to reuse', async () => {
@@ -723,7 +723,7 @@ test('the Set 1 activity-network question (originally "the network above" with n
 });
 
 test('SET1.map now passes through an optional chart field, so hand-authored Set 1 questions can carry diagrams the same way OCR-extracted Set 3 questions do', () => {
-  assert.match(html, /var CSSBB_BANK=SET1\.map\(function\(x,ix\)\{var s=tbShuf4\(x\.o,x\.c,ix\);return \{sub:AREA2SUB\[x\.a\],stem:x\.q,options:s\.options,answer:s\.answer,why:x\.e,set:1,chart:x\.chart\};\}\);/);
+  assert.match(html, /var CSSBB_BANK=SET1\.map\(function\(x,ix\)\{var s=tbShuf4\(x\.o,x\.c,ix\);return \{qid:x\.qid,sub:AREA2SUB\[x\.a\],stem:x\.q,options:s\.options,answer:s\.answer,why:x\.e,set:1,chart:x\.chart\};\}\);/);
 });
 
 test('chartActivityNetwork renders labeled duration boxes connected by arrows with no NaN', async () => {

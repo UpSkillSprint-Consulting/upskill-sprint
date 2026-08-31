@@ -5,6 +5,7 @@
   const FEEDBACK_ID = 'tb-feedback-loop';
   const LEGACY_STORE = 'tb-attempt-feedback-v2';
   let mode = 'idle';
+  let sessionId = '';
   let stem = '';
   let startedAt = 0;
   let times = Object.create(null);
@@ -155,6 +156,16 @@
   }
 
   function initialize() {
+    document.addEventListener('tb:learning-session-started', function (event) {
+      const nextSessionId = event && event.detail && String(event.detail.sessionId || '');
+      if (!nextSessionId || nextSessionId === sessionId) return;
+      sessionId = nextSessionId;
+      times = Object.create(null);
+      stem = '';
+      startedAt = 0;
+      resetLegacyErrors();
+      schedule();
+    });
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) commit();
       else if (stem) startedAt = Date.now();

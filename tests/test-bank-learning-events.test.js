@@ -9,6 +9,17 @@ const { JSDOM } = require('jsdom');
 const ROOT = path.join(__dirname, '..');
 const registrySource = fs.readFileSync(path.join(ROOT, 'test-bank-question-registry.js'), 'utf8');
 const eventsSource = fs.readFileSync(path.join(ROOT, 'test-bank-learning-events.js'), 'utf8');
+const privilegeMigrationSource = fs.readFileSync(path.join(ROOT, 'supabase/migrations/20260831051512_restrict_test_bank_learning_events_authenticated_privileges.sql'), 'utf8');
+
+test('the corrective ledger migration removes inherited write privileges', () => {
+  assert.match(privilegeMigrationSource, /revoke all on table public\.test_bank_learning_events from public, anon, authenticated/i);
+  assert.match(privilegeMigrationSource, /grant select, insert on table public\.test_bank_learning_events to authenticated/i);
+  const executableSql = privilegeMigrationSource.replace(/--.*$/gm, '');
+  const grants = executableSql.match(/\bgrant[^;]+;/gi) || [];
+  assert.deepEqual(grants.map(statement => statement.replace(/\s+/g, ' ').trim().toLowerCase()), [
+    'grant select, insert on table public.test_bank_learning_events to authenticated;'
+  ]);
+});
 
 function plain(value) { return JSON.parse(JSON.stringify(value)); }
 
