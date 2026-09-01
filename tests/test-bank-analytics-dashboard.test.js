@@ -540,10 +540,38 @@ test('clicking a tab switches the rendered panel content', async () => {
   await settle(window, 2);
   const domainsTab = window.document.querySelector('[data-analytics-tab="domains"]');
   domainsTab.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  assert.equal(domainsTab.isConnected, true, 'the clicked tab stays mounted instead of being replaced under the pointer');
+  assert.equal(domainsTab.getAttribute('aria-selected'), 'true', 'the selected state updates immediately before the heavier body render');
   await settle(window, 2);
   const panel = window.document.getElementById('tb-analytics-panel');
+  assert.equal(panel.querySelector('[data-analytics-tab="domains"]'), domainsTab, 'the tab row keeps stable DOM nodes across views');
   assert.ok(panel.querySelector('.tb-an-domain-list'), 'domains tab content is rendered after clicking its tab');
   assert.equal(panel.querySelectorAll('.tb-an-domain-row').length, 9, 'all 9 ASQ BoK subtopics are listed');
+});
+
+test('the three secondary analytics tabs reuse the already-parsed study store', async () => {
+  const { window } = await load();
+  writeStore(window, { questions: {}, attempts: [], sessions: [] });
+  showDashboard(window);
+  await settle(window, 6);
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 2);
+
+  const originalParse = window.JSON.parse;
+  const trackedStore = window.localStorage.getItem('tb-adaptive-mastery-v1');
+  let storeParses = 0;
+  window.JSON.parse = function (value) {
+    if (value === trackedStore) storeParses += 1;
+    return originalParse.apply(this, arguments);
+  };
+  ['domains', 'trend', 'exam'].forEach(function (tab) {
+    window.document.querySelector('[data-analytics-tab="' + tab + '"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  });
+  await settle(window, 4);
+  window.JSON.parse = originalParse;
+
+  assert.ok(storeParses <= 1, 'unchanged history is parsed at most once instead of once per tab click');
+  assert.equal(window.document.querySelector('[data-analytics-tab="exam"]').getAttribute('aria-selected'), 'true');
 });
 
 test('the exam attempts tab shows an empty state until a timed exam has been completed', async () => {

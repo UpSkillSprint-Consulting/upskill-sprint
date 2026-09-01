@@ -12,6 +12,11 @@
   let open = false;
   let activeTab = 'readiness';
   let scheduled = false;
+  let tabRenderToken = 0;
+  let questionCache = null;
+  let storeCache = null;
+  let domainCache = null;
+  let readinessCache = null;
 
   function esc(value) {
     return String(value == null ? '' : value).replace(/[&<>\"]/g, function (character) {
@@ -45,8 +50,13 @@
 
   function allQuestions() {
     const helper = registry();
-    if (helper && typeof helper.questionsFor === 'function') return helper.questionsFor(examId());
+    const currentExamId = examId();
     const source = exam();
+    if (questionCache && questionCache.examId === currentExamId && questionCache.source === source && questionCache.registry === helper) return questionCache.questions;
+    if (helper && typeof helper.questionsFor === 'function') {
+      questionCache = { examId: currentExamId, source: source, registry: helper, questions: helper.questionsFor(currentExamId) };
+      return questionCache.questions;
+    }
     const output = [];
     const seen = new Set();
     function add(question) {
@@ -57,15 +67,22 @@
     }
     if (source && source.sets) Object.keys(source.sets).forEach(function (key) { (source.sets[key] || []).forEach(add); });
     if (source && source.bank) source.bank.forEach(add);
+    questionCache = { examId: currentExamId, source: source, registry: helper, questions: output };
     return output;
   }
 
   function readStore() {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (storeCache && storeCache.raw === raw) return storeCache.value;
     try {
-      const parsed = JSON.parse(localStorage.getItem(STORE_KEY));
-      return parsed && parsed.version === 1 ? parsed : { version: 1, exams: {} };
+      const parsed = JSON.parse(raw);
+      const value = parsed && parsed.version === 1 ? parsed : { version: 1, exams: {} };
+      storeCache = { raw: raw, value: value };
+      return value;
     } catch (error) {
-      return { version: 1, exams: {} };
+      const value = { version: 1, exams: {} };
+      storeCache = { raw: raw, value: value };
+      return value;
     }
   }
 
@@ -118,6 +135,9 @@
   // attempted count and effective mastery (from stored attempt history).
   function domainStats(timestamp) {
     const store = readStore();
+    const currentExamId = examId();
+    const timeBucket = Math.floor(Number(timestamp || Date.now()) / 60000);
+    if (domainCache && domainCache.examId === currentExamId && domainCache.store === store && domainCache.timeBucket === timeBucket) return domainCache.value;
     const data = examData(store);
     const meta = subtopicMeta();
     const totalWeight = meta.reduce(function (sum, item) { return sum + item.weight; }, 0) || 1;
@@ -130,7 +150,7 @@
       groups[sub].attempted += 1;
       groups[sub].masterySum += effectiveMastery(state, timestamp);
     });
-    return meta.map(function (item) {
+    const value = meta.map(function (item) {
       const group = groups[item.id];
       const attempted = group ? group.attempted : 0;
       const avgMastery = group && group.attempted ? Math.round(group.masterySum / group.attempted) : 0;
@@ -145,6 +165,8 @@
         domainReadiness: Math.round(avgMastery * coverage / 100)
       };
     });
+    domainCache = { examId: currentExamId, store: store, timeBucket: timeBucket, value: value };
+    return value;
   }
 
   // Ranks subtopics by (blueprint weight x mastery gap): the highest-leverage
@@ -157,11 +179,20 @@
   }
 
   function readinessSummary(timestamp) {
+    const store = readStore();
+    const currentExamId = examId();
+    const timeBucket = Math.floor(Number(timestamp || Date.now()) / 60000);
+    if (readinessCache && readinessCache.examId === currentExamId && readinessCache.store === store && readinessCache.timeBucket === timeBucket) return readinessCache.value;
     const api = hardening();
-    if (api && api.summary) return api.summary(timestamp);
-    const meta = subtopicMeta();
-    const total = meta.reduce(function (sum, item) { return sum + item.poolSize; }, 0);
-    return { attemptedMastery: 0, coverage: 0, readiness: 0, attempted: 0, total: total, mastered: 0, due: 0 };
+    let value;
+    if (api && api.summary) value = api.summary(timestamp);
+    else {
+      const meta = subtopicMeta();
+      const total = meta.reduce(function (sum, item) { return sum + item.poolSize; }, 0);
+      value = { attemptedMastery: 0, coverage: 0, readiness: 0, attempted: 0, total: total, mastered: 0, due: 0 };
+    }
+    readinessCache = { examId: currentExamId, store: store, timeBucket: timeBucket, value: value };
+    return value;
   }
 
   function learningSummary(summary) {
@@ -589,8 +620,44 @@
   function renderPanel() {
     const panel = ensurePanel();
     if (!panel) return;
-    panel.innerHTML = panelMarkup();
+    tabRenderToken += 1;
+    if (!panel.querySelector('[data-analytics-body]')) panel.innerHTML = panelMarkup();
+    else {
+      updateTabSelection(panel);
+      renderTabBody(panel);
+    }
     wireRadarTooltips(panel);
+  }
+
+  function updateTabSelection(panel) {
+    Array.prototype.forEach.call(panel.querySelectorAll('[data-analytics-tab]'), function (button) {
+      const selected = button.dataset.analyticsTab === activeTab;
+      button.classList.toggle('active', selected);
+      button.setAttribute('aria-selected', selected ? 'true' : 'false');
+    });
+  }
+
+  function renderTabBody(panel) {
+    const body = panel.querySelector('[data-analytics-body]');
+    if (!body) return;
+    body.innerHTML = tabMarkup(activeTab, Date.now());
+    body.removeAttribute('aria-busy');
+    wireRadarTooltips(panel);
+  }
+
+  /* Keep the tab buttons themselves stable and acknowledge the selection in
+     the current event turn. The heavier study-history render then runs in one
+     bounded follow-up task. Rapid clicks invalidate older queued work instead
+     of stacking several expensive renders behind the learner's latest click. */
+  function queueTabRender(panel) {
+    const token = ++tabRenderToken;
+    updateTabSelection(panel);
+    const body = panel.querySelector('[data-analytics-body]');
+    if (body) body.setAttribute('aria-busy', 'true');
+    window.setTimeout(function () {
+      if (token !== tabRenderToken || !open || !panel.isConnected || panel.hidden) return;
+      renderTabBody(panel);
+    }, 0);
   }
 
   function openPanel(options) {
@@ -613,6 +680,7 @@
   function closePanel() {
     const panel = document.getElementById('tb-analytics-panel');
     if (!panel) return;
+    tabRenderToken += 1;
     open = false;
     panel.hidden = true;
     panel.innerHTML = '';
@@ -637,7 +705,8 @@
     const tabBtn = event.target.closest('[data-analytics-tab]');
     if (tabBtn && open) {
       activeTab = tabBtn.dataset.analyticsTab;
-      renderPanel();
+      const panel = document.getElementById('tb-analytics-panel');
+      if (panel) queueTabRender(panel);
     }
   }
 
@@ -776,7 +845,12 @@
     scoreBuckets: scoreBuckets,
     open: openPanel,
     close: closePanel,
-    setTab: function (tab) { activeTab = tab; if (open) renderPanel(); }
+    setTab: function (tab) {
+      activeTab = tab;
+      if (!open) return;
+      const panel = document.getElementById('tb-analytics-panel');
+      if (panel) queueTabRender(panel);
+    }
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });
