@@ -485,7 +485,12 @@
     scan.seeded = Math.max(0, Number(scan.seeded || 0)) + seeded;
     scan.unresolved = unresolved;
     scan.resolved = unresolved === 0;
-    scan.complete = scan.resolved && !legacyMigrationPending(state, userId);
+    /* Retired questions and legacy aggregate-only snapshots have no canonical
+       current-bank ID to upload. Keep their count for diagnostics, but do not
+       permanently lock every current question after every resolvable exposure
+       has been durably acknowledged. Inventing an ID would be unsafe; treating
+       the whole current bank as unavailable is equally incorrect. */
+    scan.complete = !legacyMigrationPending(state, userId);
     scan.durable = scan.complete;
     return {
       changed: seeded > 0,
@@ -500,7 +505,7 @@
   function markLegacyMigrationAcknowledged(state, userId) {
     const migration = legacyMigration(state);
     const scan = legacyScan(migration, userId);
-    scan.complete = Boolean(scan.resolved && !legacyMigrationPending(state, userId));
+    scan.complete = Boolean(!scan.ownerMismatch && !legacyMigrationPending(state, userId));
     scan.durable = scan.complete;
     return scan.durable;
   }
@@ -1392,7 +1397,8 @@
     if (!user || !account || typeof account.sync !== 'function') return Promise.resolve({ skipped: true });
     if (progressSnapshotPromise && progressSnapshotUserId === user.id) return progressSnapshotPromise;
     progressSnapshotUserId = user.id;
-    progressSnapshotPromise = Promise.resolve(account.sync('learning-legacy-migration-' + (reason || 'automatic'))).then(function (result) {
+    const requestSync = typeof account.syncAfterCurrent === 'function' ? account.syncAfterCurrent : account.sync;
+    progressSnapshotPromise = Promise.resolve(requestSync.call(account, 'learning-legacy-migration-' + (reason || 'automatic'))).then(function (result) {
       /* A skipped/error result cannot prove a fresh snapshot was merged; keep
          New-only locked until account sync subsequently emits its event. */
       if (result && (result.error || result.skipped || result.stale)) {
@@ -1519,8 +1525,7 @@
       syncStatus(state, hydrated ? 'synced' : 'awaiting-legacy-migration', userId);
       /* Ask the account snapshot merger exactly once for each migration scan.
          Its progress event marks the scan complete and queues one final ledger
-         fetch. Permanently unresolved legacy IDs remain fail-closed without
-         recursively bouncing between the two synchronizers. */
+         fetch without recursively bouncing between the two synchronizers. */
       if (awaitProgress && legacyMigration.progressScanRequired) requestFreshProgressSnapshot(reason);
       return { synced: pending.length, pending: pendingCount(state, userId), imported: remoteRows.length, hydrated: hydrated, legacySeeded: legacyMigration.seeded };
     }()).catch(function (error) {
@@ -1573,8 +1578,28 @@
            before another device finished writing. Fetch once more after it
            settles, rather than using that potentially stale response. */
         if (syncWasInFlight) await sync('new-only-fresh-follow-up-' + (reason || 'selection'));
-        const current = activeUser();
-        const state = read();
+        let current = activeUser();
+        let state = read();
+        let scan = legacyScan(legacyMigration(state), userId);
+        if (current && current.id === userId && !historyReadyForUser(state, current)) {
+          /* The first ledger read may discover that the older account snapshot
+             still needs to be merged. Keep this same Start request alive until
+             that one bounded hand-off and its final ledger read finish. */
+          if (scan.progressScanRequired) {
+            const progressResult = await requestFreshProgressSnapshot('new-only-fresh-' + (reason || 'selection'));
+            if (progressResult && (progressResult.error || progressResult.skipped || progressResult.stale)) {
+              const progressError = progressResult.error;
+              if (progressError) throw progressError;
+            } else {
+              state = read();
+              scan = legacyScan(legacyMigration(state), userId);
+              if (scan.progressScanRequired) scanLegacyAfterProgressSync('fresh-progress-result');
+            }
+          }
+          await sync('new-only-fresh-after-progress-' + (reason || 'selection'));
+        }
+        current = activeUser();
+        state = read();
         const fetchedAt = Number(record(state.sync.ledgerFetchedFor)[userId] || 0);
         const ready = Boolean(
           current && current.id === userId &&
@@ -1592,7 +1617,7 @@
       } catch (error) {
         return {
           ready: false,
-          reason: error && error.code === 'TB_LEARNING_TIMEOUT' ? 'timeout' : 'sync-error',
+          reason: error && (error.code === 'TB_LEARNING_TIMEOUT' || error.code === 'TB_ACCOUNT_SYNC_TIMEOUT') ? 'timeout' : 'sync-error',
           userId: userId,
           error: String(error && error.message || error || 'Learning sync failed')
         };

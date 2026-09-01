@@ -11,9 +11,41 @@
   const MASTERY_EVIDENCE_LIMIT = 500;
   const LOCAL_WATCH_MS = 3000;
   const REMOTE_POLL_MS = 15000;
+  const REMOTE_REQUEST_TIMEOUT_MS = 12000;
   let syncing = false, lastDigest = '', timer = 0, nextRemoteAt = 0;
   let pendingReason = '', reloadForAccountSwitch = false;
+  let queuedSyncPromise = null, resolveQueuedSync = null;
   let pendingProgressRefresh = false, progressRefreshObserver = null;
+
+  function remoteTimeoutError(label) {
+    const error = new Error((label || 'Supabase request') + ' timed out');
+    error.code = 'TB_ACCOUNT_SYNC_TIMEOUT';
+    return error;
+  }
+
+  /* Keep account-history recovery bounded on mobile network transitions.
+     Supabase query builders support AbortSignal; the Promise timer also
+     protects older/fake clients that do not expose abortSignal(). */
+  function runRemoteRequest(request, label) {
+    let controller = null;
+    if (typeof AbortController === 'function' && request && typeof request.abortSignal === 'function') {
+      controller = new AbortController();
+      request = request.abortSignal(controller.signal);
+    }
+    return new Promise(function (resolve, reject) {
+      const timer = setTimeout(function () {
+        if (controller) controller.abort();
+        reject(remoteTimeoutError(label));
+      }, REMOTE_REQUEST_TIMEOUT_MS);
+      Promise.resolve(request).then(function (result) {
+        clearTimeout(timer);
+        resolve(result);
+      }, function (error) {
+        clearTimeout(timer);
+        reject(error);
+      });
+    });
+  }
 
   function clone(v) { return v == null ? v : JSON.parse(JSON.stringify(v)); }
   function setOwn(target, key, value) {
@@ -631,6 +663,17 @@
     localStorage.setItem(RESET_KEY, JSON.stringify(resets));
     return sync('adaptive-reset');
   }
+  /* A freshness gate must observe the follow-up request when a normal account
+     sync is already active. Ordinary background callers keep the lightweight
+     { queued: true } response; this path resolves only after that queued sync. */
+  function syncAfterCurrent(reason) {
+    if (!syncing) return sync(reason);
+    pendingReason = reason || 'queued-fresh-sync';
+    if (!queuedSyncPromise) {
+      queuedSyncPromise = new Promise(function (resolve) { resolveQueuedSync = resolve; });
+    }
+    return queuedSyncPromise;
+  }
   async function sync(reason) {
     const ctx = context(); if (!ctx.client || !ctx.user) return { skipped: true };
     prepareUser(ctx.user.id);
@@ -639,14 +682,20 @@
     syncing = true;
     try {
       const id = deviceId(), initialLocal = localPayload();
-      let result = await ctx.client.from(TABLE).select('device_id,payload,updated_at').order('updated_at', { ascending: true });
+      let result = await runRemoteRequest(
+        ctx.client.from(TABLE).select('device_id,payload,updated_at').order('updated_at', { ascending: true }),
+        'Account-history fetch'
+      );
       if (result.error) throw result.error;
       if (!currentUserIs(ctx.user.id)) return { stale: true };
       const merged = mergePayloads((result.data || []).map(row => row.payload).concat([initialLocal, localPayload()]));
       const changed = applyPayload(merged);
       const mergedDigest = stable(merged);
       if (!currentUserIs(ctx.user.id)) return { stale: true };
-      result = await ctx.client.from(TABLE).upsert({ user_id: ctx.user.id, device_id: id, payload: merged, updated_at: new Date().toISOString() }, { onConflict: 'user_id,device_id' });
+      result = await runRemoteRequest(
+        ctx.client.from(TABLE).upsert({ user_id: ctx.user.id, device_id: id, payload: merged, updated_at: new Date().toISOString() }, { onConflict: 'user_id,device_id' }),
+        'Account-history upload'
+      );
       if (result.error) throw result.error;
       if (!currentUserIs(ctx.user.id)) return { stale: true };
       localStorage.setItem(META_KEY, JSON.stringify({ lastSyncedAt: new Date().toISOString(), reason: reason || 'automatic', status: 'synced' }));
@@ -669,7 +718,18 @@
       syncing = false;
       if (pendingReason) {
         const nextReason = pendingReason; pendingReason = '';
-        Promise.resolve().then(() => sync(nextReason));
+        const finishQueuedSync = resolveQueuedSync;
+        queuedSyncPromise = null;
+        resolveQueuedSync = null;
+        Promise.resolve().then(function () {
+          /* If another microtask starts a sync first, queue behind that request
+             too; never resolve this freshness gate with { queued: true }. */
+          return syncing ? syncAfterCurrent(nextReason) : sync(nextReason);
+        }).then(function (result) {
+          if (finishQueuedSync) finishQueuedSync(result);
+        }, function (error) {
+          if (finishQueuedSync) finishQueuedSync({ error: error });
+        });
       }
     }
   }
@@ -693,12 +753,14 @@
       if (user) sync('sign-in').then(watch);
       else {
         clearInterval(timer); pendingReason = ''; reloadForAccountSwitch = false;
+        if (resolveQueuedSync) resolveQueuedSync({ stale: true });
+        queuedSyncPromise = null; resolveQueuedSync = null;
         pendingProgressRefresh = false; stopProgressRefreshObserver();
         if (localStorage.getItem(USER_KEY)) clearTrackedPayload();
       }
     });
     addEventListener('online', () => sync('online')); addEventListener('focus', () => sync('focus'));
   }
-  window.__TBAccountSync = { sync, mergePayloads, mergeMastery, localPayload, resetAdaptiveExam, REMOTE_POLL_MS };
+  window.__TBAccountSync = { sync, syncAfterCurrent, mergePayloads, mergeMastery, localPayload, resetAdaptiveExam, REMOTE_POLL_MS, REMOTE_REQUEST_TIMEOUT_MS };
   if (window.UpskillAuth) start(); else document.addEventListener('upskill-auth-ready', start, { once: true });
 }());

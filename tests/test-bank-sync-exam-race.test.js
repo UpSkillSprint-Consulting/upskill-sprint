@@ -115,7 +115,7 @@ test('a delayed sign-in merge cannot close an active exam', async t => {
   assert.equal(dom.window.__reloadCount, 1, 'one queued refresh runs after returning to the simulator');
 });
 
-test('an unresolved legacy migration performs one progress hand-off and then stops', async t => {
+test('an unmappable retired legacy question performs one progress hand-off without a retry loop', async t => {
   const dom = new JSDOM('<!doctype html><html><body></body></html>', {
     url: 'https://upskillsprint.com/test-bank.html',
     runScripts: 'dangerously',
@@ -173,5 +173,5 @@ test('an unresolved legacy migration performs one progress hand-off and then sto
   for (let count = 0; count < 10; count += 1) await flush();
 
   assert.equal(progressSyncCalls, 1, 'the ledger requests one fresh account snapshot without recursively retrying');
-  assert.equal(dom.window.__TBLearning.status().historyReady, false, 'unresolved history stays safely locked');
+  assert.equal(dom.window.__TBLearning.status().historyReady, true, 'a retired question does not permanently lock the current bank after the bounded hand-off');
 });
