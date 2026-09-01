@@ -529,7 +529,7 @@ test('polls for remote progress and permits every later remote refresh', () => {
   dom.window.close();
 });
 
-test('a stalled account-history request is aborted and a later recovery attempt can retry', async () => {
+test('a freshness request queued behind a stalled account read gets its own timeout budget', async () => {
   const dom = syncedDevice(fakeProgressService(), 'timeout-user', 'q1');
   const originalSetTimeout = dom.window.setTimeout.bind(dom.window);
   let reads = 0;
@@ -566,17 +566,61 @@ test('a stalled account-history request is aborted and a later recovery attempt 
     };
     dom.window.UpskillAuth = { getClient: () => client, getUser: () => ({ id: 'timeout-user' }) };
 
-    const first = await dom.window.__TBAccountSync.sync('stalled-history');
-    const second = await dom.window.__TBAccountSync.sync('retry-history');
+    const firstPromise = dom.window.__TBAccountSync.sync('stalled-history');
+    await Promise.resolve();
+    const secondPromise = dom.window.__TBAccountSync.syncAfterCurrent('retry-history');
+    const first = await firstPromise;
+    const second = await secondPromise;
 
     assert.equal(first.error.code, 'TB_ACCOUNT_SYNC_TIMEOUT');
     assert.equal(second.error, undefined, 'the retry completes normally');
-    assert.equal(reads, 2, 'the timed-out operation releases the shared lock so retry reaches Supabase');
+    assert.equal(reads, 2, 'the timed-out operation releases the lock and the awaited queued retry reaches Supabase');
     assert.equal(aborts, 1, 'the stalled PostgREST request is actively cancelled');
   } finally {
     dom.window.setTimeout = originalSetTimeout;
     dom.window.close();
   }
+});
+
+test('a queued freshness request resolves after its follow-up sync, not the active sync event', async () => {
+  const dom = syncedDevice(fakeProgressService(), 'queued-fresh-user', 'q1');
+  const firstRead = deferred();
+  const secondRead = deferred();
+  let reads = 0;
+  const client = {
+    from() {
+      return {
+        select() {
+          return {
+            order() {
+              reads += 1;
+              return reads === 1 ? firstRead.promise : secondRead.promise;
+            }
+          };
+        },
+        upsert() { return Promise.resolve({ error: null }); }
+      };
+    }
+  };
+  dom.window.UpskillAuth = { getClient: () => client, getUser: () => ({ id: 'queued-fresh-user' }) };
+
+  const active = dom.window.__TBAccountSync.sync('background-read');
+  await Promise.resolve();
+  let freshResolved = false;
+  const fresh = dom.window.__TBAccountSync.syncAfterCurrent('new-only-fresh');
+  fresh.then(() => { freshResolved = true; });
+
+  firstRead.resolve({ data: [], error: null });
+  await active;
+  for (let count = 0; count < 4 && reads < 2; count += 1) await Promise.resolve();
+  assert.equal(reads, 2, 'the queued follow-up starts after the active request');
+  assert.equal(freshResolved, false, 'the active request completion cannot release the freshness gate');
+
+  secondRead.resolve({ data: [], error: null });
+  const result = await fresh;
+  assert.equal(result.error, undefined);
+  assert.equal(freshResolved, true);
+  dom.window.close();
 });
 
 test('two devices converge without leaking another user progress', async () => {

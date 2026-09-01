@@ -631,7 +631,8 @@ test('one New-only freshness request waits for the account snapshot hand-off and
       exams: { cssbb: { questions: { [legacyKey]: { id: legacyKey, stem: bank[0].stem, attempts: 2, correct: 1, incorrect: 1 } } } }
     }));
     page.__TBAccountSync = {
-      sync() {
+      sync() { throw new Error('fresh history must use the correlated account-sync API'); },
+      syncAfterCurrent() {
         progressRequests += 1;
         return new Promise(resolve => {
           page.setTimeout(() => {

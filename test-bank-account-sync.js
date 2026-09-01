@@ -14,6 +14,7 @@
   const REMOTE_REQUEST_TIMEOUT_MS = 12000;
   let syncing = false, lastDigest = '', timer = 0, nextRemoteAt = 0;
   let pendingReason = '', reloadForAccountSwitch = false;
+  let queuedSyncPromise = null, resolveQueuedSync = null;
   let pendingProgressRefresh = false, progressRefreshObserver = null;
 
   function remoteTimeoutError(label) {
@@ -662,6 +663,17 @@
     localStorage.setItem(RESET_KEY, JSON.stringify(resets));
     return sync('adaptive-reset');
   }
+  /* A freshness gate must observe the follow-up request when a normal account
+     sync is already active. Ordinary background callers keep the lightweight
+     { queued: true } response; this path resolves only after that queued sync. */
+  function syncAfterCurrent(reason) {
+    if (!syncing) return sync(reason);
+    pendingReason = reason || 'queued-fresh-sync';
+    if (!queuedSyncPromise) {
+      queuedSyncPromise = new Promise(function (resolve) { resolveQueuedSync = resolve; });
+    }
+    return queuedSyncPromise;
+  }
   async function sync(reason) {
     const ctx = context(); if (!ctx.client || !ctx.user) return { skipped: true };
     prepareUser(ctx.user.id);
@@ -706,7 +718,18 @@
       syncing = false;
       if (pendingReason) {
         const nextReason = pendingReason; pendingReason = '';
-        Promise.resolve().then(() => sync(nextReason));
+        const finishQueuedSync = resolveQueuedSync;
+        queuedSyncPromise = null;
+        resolveQueuedSync = null;
+        Promise.resolve().then(function () {
+          /* If another microtask starts a sync first, queue behind that request
+             too; never resolve this freshness gate with { queued: true }. */
+          return syncing ? syncAfterCurrent(nextReason) : sync(nextReason);
+        }).then(function (result) {
+          if (finishQueuedSync) finishQueuedSync(result);
+        }, function (error) {
+          if (finishQueuedSync) finishQueuedSync({ error: error });
+        });
       }
     }
   }
@@ -730,12 +753,14 @@
       if (user) sync('sign-in').then(watch);
       else {
         clearInterval(timer); pendingReason = ''; reloadForAccountSwitch = false;
+        if (resolveQueuedSync) resolveQueuedSync({ stale: true });
+        queuedSyncPromise = null; resolveQueuedSync = null;
         pendingProgressRefresh = false; stopProgressRefreshObserver();
         if (localStorage.getItem(USER_KEY)) clearTrackedPayload();
       }
     });
     addEventListener('online', () => sync('online')); addEventListener('focus', () => sync('focus'));
   }
-  window.__TBAccountSync = { sync, mergePayloads, mergeMastery, localPayload, resetAdaptiveExam, REMOTE_POLL_MS, REMOTE_REQUEST_TIMEOUT_MS };
+  window.__TBAccountSync = { sync, syncAfterCurrent, mergePayloads, mergeMastery, localPayload, resetAdaptiveExam, REMOTE_POLL_MS, REMOTE_REQUEST_TIMEOUT_MS };
   if (window.UpskillAuth) start(); else document.addEventListener('upskill-auth-ready', start, { once: true });
 }());

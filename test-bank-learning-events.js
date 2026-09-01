@@ -1397,7 +1397,8 @@
     if (!user || !account || typeof account.sync !== 'function') return Promise.resolve({ skipped: true });
     if (progressSnapshotPromise && progressSnapshotUserId === user.id) return progressSnapshotPromise;
     progressSnapshotUserId = user.id;
-    progressSnapshotPromise = Promise.resolve(account.sync('learning-legacy-migration-' + (reason || 'automatic'))).then(function (result) {
+    const requestSync = typeof account.syncAfterCurrent === 'function' ? account.syncAfterCurrent : account.sync;
+    progressSnapshotPromise = Promise.resolve(requestSync.call(account, 'learning-legacy-migration-' + (reason || 'automatic'))).then(function (result) {
       /* A skipped/error result cannot prove a fresh snapshot was merged; keep
          New-only locked until account sync subsequently emits its event. */
       if (result && (result.error || result.skipped || result.stale)) {
@@ -1416,39 +1417,6 @@
       }
     });
     return progressSnapshotPromise;
-  }
-
-  function waitForProgressSnapshot(userId) {
-    let finished = false;
-    let seen = false;
-    let timer = 0;
-    let resolvePromise;
-    const promise = new Promise(function (resolve) { resolvePromise = resolve; });
-    function cleanup() {
-      document.removeEventListener('upskill-test-progress-synced', onProgress);
-      window.removeEventListener('upskill-test-progress-synced', onProgress);
-      clearTimeout(timer);
-    }
-    function finish(result) {
-      if (finished) return;
-      finished = true;
-      cleanup();
-      resolvePromise(result);
-    }
-    function onProgress() {
-      const current = activeUser();
-      if (!current || current.id !== userId) return;
-      seen = true;
-      finish({ synced: true });
-    }
-    document.addEventListener('upskill-test-progress-synced', onProgress);
-    window.addEventListener('upskill-test-progress-synced', onProgress);
-    timer = setTimeout(function () { finish({ error: remoteTimeoutError('Account-history recovery') }); }, REMOTE_REQUEST_TIMEOUT_MS);
-    return {
-      promise: promise,
-      seen: function () { return seen; },
-      cancel: function () { finish({ cancelled: true }); }
-    };
   }
 
   /* A normal caller that arrives while a sync is in progress can safely share
@@ -1618,22 +1586,14 @@
              still needs to be merged. Keep this same Start request alive until
              that one bounded hand-off and its final ledger read finish. */
           if (scan.progressScanRequired) {
-            const waiter = waitForProgressSnapshot(userId);
             const progressResult = await requestFreshProgressSnapshot('new-only-fresh-' + (reason || 'selection'));
             if (progressResult && (progressResult.error || progressResult.skipped || progressResult.stale)) {
-              waiter.cancel();
               const progressError = progressResult.error;
               if (progressError) throw progressError;
             } else {
               state = read();
               scan = legacyScan(legacyMigration(state), userId);
-              if (progressResult && progressResult.queued && scan.progressScanRequired) {
-                const signal = await waiter.promise;
-                if (signal && signal.error) throw signal.error;
-              } else {
-                if (!waiter.seen() && scan.progressScanRequired) scanLegacyAfterProgressSync('fresh-progress-result');
-                waiter.cancel();
-              }
+              if (scan.progressScanRequired) scanLegacyAfterProgressSync('fresh-progress-result');
             }
           }
           await sync('new-only-fresh-after-progress-' + (reason || 'selection'));
