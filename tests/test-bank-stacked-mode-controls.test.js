@@ -66,6 +66,15 @@ test('Focused Quiz renders one labeled row per control group, in order: Set, Are
   assert.deepEqual(fieldrowLabels(card), ['Set', 'Area', 'Questions', 'Timing', 'Filters']);
 });
 
+test('every mode Start action remains right-aligned when its summary wraps', async () => {
+  const { window } = await loadPage();
+  [0, 1, 2].forEach(index => {
+    const button = modeCard(window, index).querySelector('.tb-mstart');
+    assert.ok(button, 'mode ' + index + ' has a live Start button');
+    assert.equal(window.getComputedStyle(button).marginLeft, 'auto', 'mode ' + index + ' Start button is pushed to the right edge');
+  });
+});
+
 test('each fieldrow value cell contains exactly the controls that used to be inline, nothing missing', async () => {
   const { window } = await loadPage();
   const quick = modeCard(window, 1);

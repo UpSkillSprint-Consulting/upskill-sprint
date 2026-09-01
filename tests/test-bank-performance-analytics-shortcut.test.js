@@ -129,6 +129,7 @@ test('clicking Performance Analytics also opens the Full analytics panel in the 
   const panel = window.document.getElementById('tb-analytics-panel');
   assert.ok(panel, 'Full analytics panel is created');
   assert.ok(!panel.hidden, 'Full analytics panel is opened automatically, not left for a second click');
+  assert.equal(window.document.activeElement, panel, 'an intentional Analytics click still moves keyboard focus into the opened panel');
   assert.match(panel.textContent, /complete study picture/i);
 });
 
@@ -262,6 +263,83 @@ test('repeated re-renders while analytics is open never duplicate the mount', as
   assert.equal(window.document.querySelectorAll('#tb-adaptive-mastery').length, 1);
   assert.equal(window.document.querySelectorAll('#tb-analytics-panel').length, 1);
   assert.equal(window.document.querySelectorAll('#tb-analytics-entry').length, 1);
+});
+
+test('learning updates refresh Missed-only controls and still allow a quiz to start while analytics is open', async () => {
+  const { window } = await load();
+  await installDurableLearning(window);
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  let missed = window.document.querySelector('[data-missed="quick"]');
+  assert.equal(missed.disabled, true, 'no missed evidence exists yet');
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'analytics starts open');
+
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  window.__TBAdaptiveMastery.recordResults([{
+    question,
+    selected: question.answer === 0 ? 1 : 0,
+    status: 'incorrect'
+  }], 'analytics-open-missed-filter');
+  window.document.dispatchEvent(new window.CustomEvent('tb:learning-updated', { detail: { reason: 'remote-reconciliation' } }));
+  await new Promise(resolve => window.setTimeout(resolve, 0));
+  await settle(window, 4);
+
+  missed = window.document.querySelector('[data-missed="quick"]');
+  assert.equal(missed.disabled, false, 'the practice card refreshes without requiring analytics to be hidden');
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'analytics remains mounted during the targeted card refresh');
+
+  click(window, missed);
+  await settle(window, 3);
+  const start = window.document.querySelector('[data-mode="quick"]');
+  assert.equal(start.disabled, false);
+  click(window, start);
+  await settle(window, 4);
+  assert.ok(window.document.querySelector('#tb-overview .tb-quiz'), 'the missed-question quiz starts while analytics had been open');
+});
+
+test('New-only and Missed-only clicks do not return focus to an already-open analytics panel', async () => {
+  const { window } = await load();
+  await installDurableLearning(window);
+  seedReturningDiagnostic(window);
+  seedMasteryStore(window);
+  window.eval(mastery);
+  window.eval(analytics);
+  await settle(window);
+
+  click(window, window.document.querySelector('[data-perf-analytics]'));
+  await settle(window);
+
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  window.__TBAdaptiveMastery.recordResults([{
+    question,
+    selected: question.answer === 0 ? 1 : 0,
+    status: 'incorrect'
+  }], 'analytics-open-filter-focus');
+  window.document.dispatchEvent(new window.CustomEvent('tb:learning-updated', { detail: { reason: 'remote-reconciliation' } }));
+  await new Promise(resolve => window.setTimeout(resolve, 0));
+  await settle(window, 4);
+
+  let filter = window.document.querySelector('[data-missed="quick"]');
+  assert.equal(filter.disabled, false, 'Missed-only is available');
+  filter.focus();
+  click(window, filter);
+  await settle(window, 4);
+  assert.notEqual(window.document.activeElement.id, 'tb-analytics-panel', 'Missed-only does not move focus down to Analytics');
+
+  filter = window.document.querySelector('[data-unseen="quick"]');
+  assert.equal(filter.disabled, false, 'New-only is available');
+  filter.focus();
+  click(window, filter);
+  await new Promise(resolve => window.setTimeout(resolve, 0));
+  await settle(window, 6);
+  assert.notEqual(window.document.activeElement.id, 'tb-analytics-panel', 'New-only does not move focus down to Analytics');
+  assert.ok(window.document.getElementById('tb-adaptive-mastery'), 'Analytics remains open without taking focus');
 });
 
 test('switching the Set selector while analytics is open restores it for the newly selected set', async () => {
