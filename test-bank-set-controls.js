@@ -106,8 +106,7 @@
     // This enhancer only mirrors the page-level Set choice inside each quiz card.
   }
 
-  function enhance() {
-    scheduled = false;
+  function enhanceCards() {
     const overview = document.getElementById(OVERVIEW_ID);
     if (!overview || !overview.querySelector('.tb-setpick [data-set]')) return;
 
@@ -118,6 +117,11 @@
       if (name === 'Quick Quiz') enhanceCard(overview, card, 'quick');
       if (name === 'Focused Quiz') enhanceCard(overview, card, 'focus');
     });
+  }
+
+  function enhance() {
+    scheduled = false;
+    enhanceCards();
   }
 
   function scheduleEnhance() {
@@ -138,6 +142,13 @@
        forever after a durable-learning repaint. */
     observer.observe(overview, { childList: true });
   }
+
+  /* Core filter changes can replace only the nested modes container, which is
+     outside the observer's direct-child scope. This idempotent hook restores
+     Set controls synchronously before an incomplete card can be painted. */
+  window.__TBSetControls = Object.assign({}, window.__TBSetControls || {}, {
+    enhance: enhanceCards
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initialize, { once: true });
