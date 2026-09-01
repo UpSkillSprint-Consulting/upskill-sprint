@@ -192,6 +192,38 @@ test('a signed-in learner can use New questions only to start the initial histor
   assert.equal(toggle.disabled, false);
 });
 
+test('New questions only keeps Start actionable while its automatic history check is pending', async () => {
+  const { window } = await loadPage();
+  const learningApi = window.__TBLearning;
+  const originalEnsureFreshHistory = learningApi.ensureFreshHistory;
+  let finishFreshHistory;
+  let refreshCalls = 0;
+
+  learningApi.ensureFreshHistory = function () {
+    refreshCalls += 1;
+    return new Promise(resolve => { finishFreshHistory = resolve; });
+  };
+
+  click(window, modeCard(window, 1).querySelector('[data-unseen="quick"]'));
+  await settle(window, 2);
+
+  let start = modeCard(window, 1).querySelector('[data-mode="quick"]');
+  assert.equal(start.disabled, false, 'the learner can request the quiz without waiting for the automatic check to finish');
+
+  click(window, start);
+  await settle(window, 2);
+  start = modeCard(window, 1).querySelector('[data-mode="quick"]');
+  assert.equal(start.disabled, true, 'only the explicit start request is temporarily locked against duplicate clicks');
+  assert.equal(refreshCalls, 1, 'the start request shares the already-running freshness check');
+
+  finishFreshHistory({ ready: true, reason: 'fresh' });
+  await new Promise(resolve => window.setTimeout(resolve, 0));
+  await settle(window, 5);
+
+  assert.ok(window.document.querySelector('#tb-overview .tb-quiz'), 'the pending start continues automatically after history is fresh');
+  learningApi.ensureFreshHistory = originalEnsureFreshHistory;
+});
+
 test('turning on New questions only for Quick Quiz does not affect the Focused Quiz toggle', async () => {
   const { window } = await loadPage();
   click(window, modeCard(window, 1).querySelector('[data-unseen="quick"]'));
