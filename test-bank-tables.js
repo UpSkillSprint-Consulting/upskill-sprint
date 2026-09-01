@@ -261,16 +261,25 @@
         var z = parseFloat(params.z);
         if (isNaN(z)) return null;
         var rounded = Math.round(z * 100) / 100;
-        var base = Math.trunc(rounded * 10) / 10;
-        var off = Math.round((rounded - base) * 100) / 100;
-        if (off < 0) { off = Math.round((0.1 + off) * 100) / 100; base = Math.round((base - 0.1) * 10) / 10; }
+        var base, off;
+        if (rounded >= 0) {
+          // positive table: actual_z = row_z + offset, so round DOWN to the row
+          base = Math.floor(rounded * 10 + 1e-9) / 10;
+          off = Math.round((rounded - base) * 100) / 100;
+        } else {
+          // negative table: actual_z = row_z - offset (offset makes it MORE negative,
+          // keeping column headers 0.00-0.09 positive on both tables), so round UP
+          // toward zero to find the row
+          base = Math.ceil(rounded * 10 - 1e-9) / 10;
+          off = Math.round((base - rounded) * 100) / 100;
+        }
         var offKey = off.toFixed(2);
-        var rowKey = Math.sign(z) < 0 ? -Math.abs(base) : Math.abs(base);
-        var pool = z < 0 ? data.negative_z : data.positive_z;
-        var row = pool.filter(function (r) { return Math.abs(r.z - Math.abs(base)) < 1e-9; })[0];
+        var pool = rounded < 0 ? data.negative_z : data.positive_z;
+        var row = pool.filter(function (r) { return Math.abs(r.z - base) < 1e-9; })[0];
         if (!row) return null;
         var value = row.values[offKey];
-        return { rowKey: (z < 0 ? -Math.abs(row.z) : row.z), colKey: offKey, value: value, label: '\u03a6(' + z + ') \u2248 ' + value.toFixed(4) };
+        if (value == null) return null;
+        return { rowKey: row.z, colKey: offKey, value: value, label: '\u03a6(' + z + ') \u2248 ' + value.toFixed(4) };
       }
     },
 
@@ -321,7 +330,8 @@
         var t = getPath(data, entry.tablesPath)[alpha];
         if (!t) return null;
         var targetRow = parseInt(params[entry.rowField], 10);
-        var targetCol = String(parseInt(params[entry.colField], 10));
+        var targetColNum = parseInt(params[entry.colField], 10);
+        if (isNaN(targetRow) || isNaN(targetColNum)) return null;
         var rows = t.rows, best = null;
         for (var i = 0; i < rows.length; i++) {
           var rv = rows[i][entry.rowField] === 'inf' ? Infinity : rows[i][entry.rowField];
@@ -329,7 +339,12 @@
         }
         if (!best) best = rows[rows.length - 1];
         var cols = t[entry.colsPath] || t.k_columns || t.p_columns || t.v1_columns;
-        var colKey = cols.indexOf(targetCol) >= 0 ? targetCol : cols[cols.length - 1];
+        var colKey = null;
+        for (var j = 0; j < cols.length; j++) {
+          var cv = cols[j] === 'inf' ? Infinity : parseInt(cols[j], 10);
+          if (cv >= targetColNum || cv === Infinity) { colKey = cols[j]; break; }
+        }
+        if (colKey == null) colKey = cols[cols.length - 1];
         var value = best.values[colKey];
         return { rowKey: best[entry.rowField], colKey: colKey, value: value, label: entry.label + ' = ' + value + ' (df=' + best[entry.rowField] + ', ' + entry.colLabel + '=' + colKey + ')' };
       }
@@ -483,9 +498,11 @@
         var t = side.tables[params.gamma];
         if (!t) return null;
         var targetN = parseInt(params.n, 10);
+        if (isNaN(targetN)) return null;
         var rows = t.rows, best = null;
         for (var i = 0; i < rows.length; i++) { if (rows[i].n >= targetN) { best = rows[i]; break; } }
         if (!best) best = rows[rows.length - 1];
+        if (t.P_columns.indexOf(params.P) < 0) return null;
         var value = best.values[params.P];
         return { rowKey: best.n, colKey: params.P, value: value, label: 'n=' + best.n + ', P=' + params.P + ', \u03b3=' + params.gamma + ' \u2192 k=' + value };
       }
@@ -575,6 +592,7 @@
     if (!body) return;
     body.innerHTML = '<p class="tb-tbl-loading">Loading ' + esc(entry.label) + '\u2026</p>';
     loadTable(entry, function (data, err) {
+      if (state.activeId !== id) return; // student has since switched away -- this response is stale, discard it
       if (err || !data) { body.innerHTML = '<p class="tb-tbl-error">Could not load this table. Check your connection and try again.</p>'; return; }
       body.innerHTML = renderBody(entry, data);
       var findBtn = body.querySelector('[data-tbl-find]');
