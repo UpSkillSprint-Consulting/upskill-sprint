@@ -3592,10 +3592,10 @@
 
   function wirePracticeModes(host){
     if(!host)return;
-    Array.prototype.forEach.call(host.querySelectorAll('[data-timing-kind]'),function(b){b.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();setTiming(b.dataset.timingKind,b.dataset.timed==='1');renderMain();});});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-timing-kind]'),function(b){b.addEventListener('click',function(){if(newOnlyStartGate.active)cancelNewOnlyStartGate();if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();setTiming(b.dataset.timingKind,b.dataset.timed==='1');renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-timing-group]'),wireTimingKeyboard);
-    Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){b.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderMain();});});
-    var sel=host.querySelector('[data-focusdom]');if(sel)sel.addEventListener('change',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();mode.focusDom=sel.value;renderMain();});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){b.addEventListener('click',function(){if(newOnlyStartGate.active)cancelNewOnlyStartGate();if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderMain();});});
+    var sel=host.querySelector('[data-focusdom]');if(sel)sel.addEventListener('change',function(){if(newOnlyStartGate.active)cancelNewOnlyStartGate();if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();mode.focusDom=sel.value;renderMain();});
     Array.prototype.forEach.call(host.querySelectorAll('[data-unseen]'),function(b){b.addEventListener('click',function(){
       var quick=b.dataset.unseen==='quick',enabled=quick?!mode.quickUnseen:!mode.focusUnseen;
       practiceFilterFocusSelector='[data-unseen="'+(quick?'quick':'focus')+'"]';
