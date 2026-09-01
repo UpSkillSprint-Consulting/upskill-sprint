@@ -3176,6 +3176,7 @@
      gets a fresh remote ledger read at the moment a learner enables or starts
      the mode, so a laptop cannot rely on a stale phone/laptop snapshot. */
   var newOnlyFreshGate={active:false,error:'',promise:null,token:0};
+  var newOnlyStartGate={active:false,kind:'',promise:null,token:0};
   var practiceFilterFocusSelector='';
   /* Fresh ledger hydration excludes old history.  This second, short-lived
      gate covers the final cross-device race: the server atomically claims the
@@ -3199,6 +3200,7 @@
     return !!(status&&status.signedIn);
   }
   function newOnlyHydrated(){return newOnlyBaseHydrated()&&!newOnlyFreshGate.active&&!newOnlyFreshGate.error&&!newOnlyReservationGate.active;}
+  function newOnlyStartPending(kind){return newOnlyStartGate.active&&(!kind||newOnlyStartGate.kind===kind);}
   function newOnlyUnavailableMessage(){
     var learning=window.__TBLearning,status=learning&&typeof learning.status==='function'?learning.status():null;
     if(newOnlyFreshGate.active)return 'Checking your newest saved questions across devices…';
@@ -3207,17 +3209,30 @@
     if(!status||!status.signedIn)return 'Sign in to protect New questions only across your saved devices.';
     return 'Syncing your complete question history…';
   }
+  function newOnlyUnavailableGuidance(){
+    if(newOnlyFreshGate.active)return ' You can select Start quiz now; it will continue automatically when the check finishes.';
+    if(newOnlyFreshGate.error)return '';
+    return ' Select Start quiz to check your saved history and continue.';
+  }
   function newOnlyFreshFailure(result){
     if(result&&result.reason==='offline')return 'You’re offline, so New questions only is paused until your latest saved history can be checked.';
     if(result&&result.reason==='not-signed-in')return 'Sign in to protect New questions only across your saved devices.';
     if(result&&result.reason==='history-not-ready')return 'Your saved history is still being recovered. New questions only will stay paused until it is complete.';
-    return 'We couldn’t refresh your saved question history. Check your connection and try New questions only again.';
+    if(result&&result.reason==='timeout')return 'The saved-history check took too long. Select Start quiz to try again.';
+    return 'We couldn’t refresh your saved question history. Check your connection, then select Start quiz to try again.';
+  }
+  function cancelNewOnlyStartGate(){
+    newOnlyStartGate.token++;
+    newOnlyStartGate.active=false;
+    newOnlyStartGate.kind='';
+    newOnlyStartGate.promise=null;
   }
   function cancelNewOnlyFreshGate(){
     newOnlyFreshGate.token++;
     newOnlyFreshGate.active=false;
     newOnlyFreshGate.error='';
     newOnlyFreshGate.promise=null;
+    cancelNewOnlyStartGate();
     cancelNewOnlyReservationGate();
   }
   function cancelNewOnlyReservationGate(){
@@ -3231,6 +3246,7 @@
     if(result&&result.reason==='not-signed-in')return 'Sign in to reserve New questions only across your saved devices.';
     if(result&&result.reason==='history-not-ready')return 'Your saved question history is still being recovered. New questions only will stay paused until it is complete.';
     if(result&&result.reason==='account-changed')return 'Your account changed while New questions only was starting. Please try again.';
+    if(result&&result.reason==='timeout')return 'The question reservation took too long. No quiz was started; select Start quiz to try again.';
     return 'We couldn’t reserve new questions across your devices. No quiz was started; check your connection and try again.';
   }
   /* The same in-flight remote read can satisfy Quick and Focused controls,
@@ -3502,7 +3518,7 @@
     var quickEffN=mode.quickUnseen?Math.min(mode.quickN,quickAvail||0):mode.quickMissed?Math.min(mode.quickN,quickMissedAvail||0):mode.quickN;
     var quickSum=mode.quickUnseen
       ? (!newOnlyReady
-          ? newOnlyUnavailableMessage()+' New questions only stays unavailable until every saved record is checked.'
+          ? newOnlyUnavailableMessage()+newOnlyUnavailableGuidance()
           : quickAvail
           ? 'Random <b>'+quickEffN+'</b> new question'+(quickEffN===1?'':'s')+' from <b>Mixed (all sets)</b> across the whole Body of Knowledge, ignoring the Set selection above.'+(quickAvail<mode.quickN?' Only <b>'+quickAvail+'</b> unseen question'+(quickAvail===1?'':'s')+' remain.':'')
           : 'You\u2019ve attempted every question in Mixed (all sets). Turn off New questions only to review previously seen questions.')
@@ -3520,7 +3536,7 @@
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Timing</span><div class="tb-fieldrow-value">'+timingControlHTML('quick',mode.quickTimed,false)+'</div></div>'+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Filters</span><div class="tb-fieldrow-value">'+unseenToggleHTML('quick',mode.quickUnseen,!newOnlyAvailable&&!mode.quickUnseen)+missedToggleHTML('quick',mode.quickMissed,quickMissedTotal===0&&!mode.quickMissed)+'</div></div>'+
       '</div>'+
-      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+quickSum+'</span>'+(live?liveStart('quick','Start quiz',(mode.quickUnseen&&(!newOnlyReady||quickAvail===0))||(mode.quickMissed&&quickMissedAvail===0)):startBtn())+'</div></div>';
+      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+quickSum+'</span>'+(live?liveStart('quick',newOnlyStartPending('quick')?'Checking & starting…':'Start quiz',(mode.quickUnseen&&(!newOnlyCanRefresh()||newOnlyStartGate.active||newOnlyReservationGate.active||(newOnlyReady&&quickAvail===0)))||(mode.quickMissed&&quickMissedAvail===0)):startBtn())+'</div></div>';
 
     var opts=e.bok.map(function(x){return '<option value="'+x.domain+'"'+(x.domain===mode.focusDom?' selected':'')+'>'+esc(DM[x.domain].name)+'</option>';}).join('');
     var focusName=DM[mode.focusDom]?DM[mode.focusDom].name:'';
@@ -3531,7 +3547,7 @@
     var focusEffN=mode.focusUnseen?Math.min(mode.focusN,focusAvail||0):mode.focusMissed?Math.min(mode.focusN,focusMissedAvail||0):Math.min(mode.focusN,focusPoolTotal);
     var focusSum=mode.focusUnseen
       ? (!newOnlyReady
-          ? newOnlyUnavailableMessage()+' New questions only stays unavailable until every saved record is checked.'
+          ? newOnlyUnavailableMessage()+newOnlyUnavailableGuidance()
           : focusAvail
           ? 'Random <b>'+focusEffN+'</b> new question'+(focusEffN===1?'':'s')+' from <b>'+esc(focusName)+'</b> in <b>Mixed (all sets)</b>, ignoring the Set selection above.'+(focusAvail<mode.focusN?' Only <b>'+focusAvail+'</b> unseen question'+(focusAvail===1?'':'s')+' remain in this area.':'')
           : 'You\u2019ve attempted every question in <b>'+esc(focusName)+'</b> across Mixed (all sets). Turn off New questions only to review previously seen questions.')
@@ -3550,7 +3566,7 @@
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Timing</span><div class="tb-fieldrow-value">'+timingControlHTML('focus',mode.focusTimed,false)+'</div></div>'+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Filters</span><div class="tb-fieldrow-value">'+unseenToggleHTML('focus',mode.focusUnseen,!newOnlyAvailable&&!mode.focusUnseen)+missedToggleHTML('focus',mode.focusMissed,focusMissedTotal===0&&!mode.focusMissed)+'</div></div>'+
       '</div>'+
-      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+focusSum+'</span>'+(live?liveStart('focus','Start quiz',(mode.focusUnseen&&(!newOnlyReady||focusAvail===0))||(mode.focusMissed&&focusMissedAvail===0)):startBtn())+'</div></div>';
+      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+focusSum+'</span>'+(live?liveStart('focus',newOnlyStartPending('focus')?'Checking & starting…':'Start quiz',(mode.focusUnseen&&(!newOnlyCanRefresh()||newOnlyStartGate.active||newOnlyReservationGate.active||(newOnlyReady&&focusAvail===0)))||(mode.focusMissed&&focusMissedAvail===0)):startBtn())+'</div></div>';
     return full+quick+focus;
   }
 
@@ -3576,10 +3592,10 @@
 
   function wirePracticeModes(host){
     if(!host)return;
-    Array.prototype.forEach.call(host.querySelectorAll('[data-timing-kind]'),function(b){b.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();setTiming(b.dataset.timingKind,b.dataset.timed==='1');renderMain();});});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-timing-kind]'),function(b){b.addEventListener('click',function(){if(newOnlyStartGate.active)cancelNewOnlyStartGate();if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();setTiming(b.dataset.timingKind,b.dataset.timed==='1');renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-timing-group]'),wireTimingKeyboard);
-    Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){b.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderMain();});});
-    var sel=host.querySelector('[data-focusdom]');if(sel)sel.addEventListener('change',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();mode.focusDom=sel.value;renderMain();});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){b.addEventListener('click',function(){if(newOnlyStartGate.active)cancelNewOnlyStartGate();if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderMain();});});
+    var sel=host.querySelector('[data-focusdom]');if(sel)sel.addEventListener('change',function(){if(newOnlyStartGate.active)cancelNewOnlyStartGate();if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();mode.focusDom=sel.value;renderMain();});
     Array.prototype.forEach.call(host.querySelectorAll('[data-unseen]'),function(b){b.addEventListener('click',function(){
       var quick=b.dataset.unseen==='quick',enabled=quick?!mode.quickUnseen:!mode.focusUnseen;
       practiceFilterFocusSelector='[data-unseen="'+(quick?'quick':'focus')+'"]';
@@ -3588,7 +3604,7 @@
       if(enabled){requireFreshNewOnly(quick?'quick-toggle':'focus-toggle');}
       else{cancelNewOnlyFreshGate();renderPracticeFilterChange(practiceFilterFocusSelector);}
     });});
-    Array.prototype.forEach.call(host.querySelectorAll('[data-missed]'),function(b){b.addEventListener('click',function(){if(b.disabled)return;if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();practiceFilterFocusSelector='[data-missed="'+b.dataset.missed+'"]';if(b.dataset.missed==='quick'){mode.quickMissed=!mode.quickMissed;if(mode.quickMissed)mode.quickUnseen=false;}else{mode.focusMissed=!mode.focusMissed;if(mode.focusMissed)mode.focusUnseen=false;}renderPracticeFilterChange(practiceFilterFocusSelector);});});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-missed]'),function(b){b.addEventListener('click',function(){if(b.disabled)return;if(newOnlyFreshGate.active||newOnlyStartGate.active)cancelNewOnlyFreshGate();else if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();practiceFilterFocusSelector='[data-missed="'+b.dataset.missed+'"]';if(b.dataset.missed==='quick'){mode.quickMissed=!mode.quickMissed;if(mode.quickMissed)mode.quickUnseen=false;}else{mode.focusMissed=!mode.focusMissed;if(mode.focusMissed)mode.focusUnseen=false;}renderPracticeFilterChange(practiceFilterFocusSelector);});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-mode]'),function(b){b.addEventListener('click',function(){var m=b.dataset.mode;if(m==='full')startFull();else if(m==='quick')startQuick();else if(m==='focus')startFocused();});});
   }
   function focusPracticeFilter(host,selector){
@@ -3793,8 +3809,36 @@
     qs=qs.slice(0,Math.min(mode.quickN,qs.length));
     beginSession(e,qs,'quick',mode.quickTimed,quizDurationSeconds(e,qs.length));
   }
+  function requestNewOnlyStart(kind,afterFresh){
+    if(newOnlyStartGate.active)return newOnlyStartGate.promise||Promise.resolve({ready:false,reason:'start-pending'});
+    var token=++newOnlyStartGate.token,examId=current;
+    newOnlyStartGate.active=true;
+    newOnlyStartGate.kind=kind;
+    renderPracticeFilterChange('[data-mode="'+kind+'"]');
+    var pending=requireFreshNewOnly(kind+'-start').then(function(result){
+      if(token!==newOnlyStartGate.token)return {ready:false,reason:'cancelled'};
+      newOnlyStartGate.active=false;
+      newOnlyStartGate.kind='';
+      newOnlyStartGate.promise=null;
+      if(!result||!result.ready||view!=='browse'||current!==examId||(kind==='quick'?!mode.quickUnseen:!mode.focusUnseen)){
+        renderPracticeFilterChange('[data-mode="'+kind+'"]');
+        return result||{ready:false,reason:'history-not-ready'};
+      }
+      afterFresh();
+      return result;
+    }).catch(function(){
+      if(token!==newOnlyStartGate.token)return {ready:false,reason:'cancelled'};
+      newOnlyStartGate.active=false;
+      newOnlyStartGate.kind='';
+      newOnlyStartGate.promise=null;
+      renderPracticeFilterChange('[data-mode="'+kind+'"]');
+      return {ready:false,reason:'sync-error'};
+    });
+    newOnlyStartGate.promise=pending;
+    return pending;
+  }
   function startQuick(){
-    if(mode.quickUnseen){requireFreshNewOnly('quick-start',startQuickAfterFresh);return;}
+    if(mode.quickUnseen){requestNewOnlyStart('quick',startQuickAfterFresh);return;}
     startQuickAfterFresh();
   }
   function startFocusedAfterFresh(){
@@ -3808,7 +3852,7 @@
     beginSession(e,qs,'focus',mode.focusTimed,quizDurationSeconds(e,qs.length));
   }
   function startFocused(){
-    if(mode.focusUnseen){requireFreshNewOnly('focus-start',startFocusedAfterFresh);return;}
+    if(mode.focusUnseen){requestNewOnlyStart('focus',startFocusedAfterFresh);return;}
     startFocusedAfterFresh();
   }
   function startPractice(){

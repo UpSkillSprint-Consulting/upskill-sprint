@@ -464,6 +464,59 @@ test('a New-only freshness request follows an already-running remote read with a
   }
 });
 
+test('a stalled Supabase history request times out and a later New-only attempt can retry', async () => {
+  const { dom, window } = load();
+  const originalSetTimeout = window.setTimeout.bind(window);
+  let reads = 0;
+  let aborts = 0;
+  try {
+    window.setTimeout = function (callback, delay) {
+      const args = Array.prototype.slice.call(arguments, 2);
+      return originalSetTimeout.apply(window, [callback, delay >= 10000 ? 0 : delay].concat(args));
+    };
+    const user = { id: 'stalled-history-learner' };
+    const client = {
+      from() {
+        return {
+          upsert() { return Promise.resolve({ error: null }); },
+          select() {
+            let rejectRequest;
+            const request = new Promise((resolve, reject) => { rejectRequest = reject; });
+            const query = {
+              eq() { return query; },
+              order() { return query; },
+              range() { reads += 1; return query; },
+              limit() { reads += 1; return query; },
+              abortSignal(signal) {
+                signal.addEventListener('abort', function () {
+                  aborts += 1;
+                  rejectRequest(new Error('request aborted'));
+                }, { once: true });
+                return query;
+              },
+              then(resolve, reject) { return request.then(resolve, reject); }
+            };
+            return query;
+          }
+        };
+      }
+    };
+    window.UpskillAuth = { getUser: () => user, getClient: () => client };
+
+    const first = await window.__TBLearning.ensureFreshHistory('stalled-mobile-request');
+    const second = await window.__TBLearning.ensureFreshHistory('retry-after-timeout');
+
+    assert.equal(first.ready, false);
+    assert.equal(first.reason, 'timeout');
+    assert.equal(second.reason, 'timeout');
+    assert.equal(reads, 2, 'the timed-out shared promise is cleared so a second request reaches Supabase');
+    assert.equal(aborts, 2, 'each stalled PostgREST request is actively aborted');
+  } finally {
+    window.setTimeout = originalSetTimeout;
+    dom.window.close();
+  }
+});
+
 test('existing mastery history is migrated to durable canonical exposure before New-only selection on another device', async () => {
   const accountRows = [];
   const uploads = [];

@@ -192,6 +192,81 @@ test('a signed-in learner can use New questions only to start the initial histor
   assert.equal(toggle.disabled, false);
 });
 
+test('New questions only keeps Start actionable while its automatic history check is pending', async () => {
+  const { window } = await loadPage();
+  const learningApi = window.__TBLearning;
+  const originalEnsureFreshHistory = learningApi.ensureFreshHistory;
+  let finishFreshHistory;
+  let refreshCalls = 0;
+
+  learningApi.ensureFreshHistory = function () {
+    refreshCalls += 1;
+    return new Promise(resolve => { finishFreshHistory = resolve; });
+  };
+
+  click(window, modeCard(window, 1).querySelector('[data-unseen="quick"]'));
+  await settle(window, 2);
+
+  let start = modeCard(window, 1).querySelector('[data-mode="quick"]');
+  assert.equal(start.disabled, false, 'the learner can request the quiz without waiting for the automatic check to finish');
+
+  click(window, start);
+  await settle(window, 2);
+  start = modeCard(window, 1).querySelector('[data-mode="quick"]');
+  assert.equal(start.disabled, true, 'only the explicit start request is temporarily locked against duplicate clicks');
+  assert.equal(refreshCalls, 1, 'the start request shares the already-running freshness check');
+
+  finishFreshHistory({ ready: true, reason: 'fresh' });
+  await new Promise(resolve => window.setTimeout(resolve, 0));
+  await settle(window, 5);
+
+  assert.ok(window.document.querySelector('#tb-overview .tb-quiz'), 'the pending start continues automatically after history is fresh');
+  learningApi.ensureFreshHistory = originalEnsureFreshHistory;
+});
+
+test('changing quiz settings cancels a pending New-only start instead of silently starting different settings', async () => {
+  const scenarios = [
+    { name: 'Quick question count', kind: 'quick', control: '[data-count="quick"][data-n="10"]' },
+    { name: 'Quick timing', kind: 'quick', control: '[data-timing-kind="quick"][data-timed="1"]' },
+    { name: 'Focused question count', kind: 'focus', control: '[data-count="focus"][data-n="10"]' },
+    { name: 'Focused timing', kind: 'focus', control: '[data-timing-kind="focus"][data-timed="1"]' },
+    { name: 'Focused domain', kind: 'focus', domain: true }
+  ];
+
+  for (const scenario of scenarios) {
+    const { window } = await loadPage();
+    let finishFreshHistory;
+    window.__TBLearning.ensureFreshHistory = function () {
+      return new Promise(resolve => { finishFreshHistory = resolve; });
+    };
+
+    const cardIndex = scenario.kind === 'quick' ? 1 : 2;
+    click(window, modeCard(window, cardIndex).querySelector('[data-unseen="' + scenario.kind + '"]'));
+    await settle(window, 2);
+    click(window, modeCard(window, cardIndex).querySelector('[data-mode="' + scenario.kind + '"]'));
+    await settle(window, 2);
+
+    if (scenario.domain) {
+      const domain = modeCard(window, cardIndex).querySelector('[data-focusdom]');
+      domain.value = domain.options[1].value;
+      domain.dispatchEvent(new window.Event('change', { bubbles: true }));
+    } else {
+      click(window, modeCard(window, cardIndex).querySelector(scenario.control));
+    }
+    await settle(window, 2);
+
+    finishFreshHistory({ ready: true, reason: 'fresh' });
+    await new Promise(resolve => window.setTimeout(resolve, 0));
+    await settle(window, 5);
+
+    assert.equal(
+      window.document.querySelector('#tb-overview .tb-quiz'),
+      null,
+      scenario.name + ' change requires a new Start click'
+    );
+  }
+});
+
 test('turning on New questions only for Quick Quiz does not affect the Focused Quiz toggle', async () => {
   const { window } = await loadPage();
   click(window, modeCard(window, 1).querySelector('[data-unseen="quick"]'));

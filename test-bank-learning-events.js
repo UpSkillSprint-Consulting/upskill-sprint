@@ -21,6 +21,7 @@
   const MAX_LOCAL_EVENTS = 2500;
   const BATCH_SIZE = 100;
   const REMOTE_PAGE_SIZE = 500;
+  const REMOTE_REQUEST_TIMEOUT_MS = 12000;
   const MIRROR_DB = 'tb-learning-events-mirror-v1';
   const MIRROR_META_STORE = 'meta';
   const MIRROR_EVENTS_STORE = 'events';
@@ -54,6 +55,37 @@
   let lastWriteAheadAt = null;
   let authListenerAttached = false;
   let initialized = false;
+
+  function remoteTimeoutError(label) {
+    const error = new Error((label || 'Supabase request') + ' timed out');
+    error.code = 'TB_LEARNING_TIMEOUT';
+    return error;
+  }
+
+  /* A mobile radio transition can leave fetch pending without producing a
+     transport error. Supabase query builders support AbortSignal; retain a
+     Promise timeout fallback for older/fake clients so no learning operation
+     can own the UI indefinitely. */
+  function runRemoteRequest(request, label) {
+    let controller = null;
+    if (typeof AbortController === 'function' && request && typeof request.abortSignal === 'function') {
+      controller = new AbortController();
+      request = request.abortSignal(controller.signal);
+    }
+    return new Promise(function (resolve, reject) {
+      const timer = setTimeout(function () {
+        if (controller) controller.abort();
+        reject(remoteTimeoutError(label));
+      }, REMOTE_REQUEST_TIMEOUT_MS);
+      Promise.resolve(request).then(function (result) {
+        clearTimeout(timer);
+        resolve(result);
+      }, function (error) {
+        clearTimeout(timer);
+        reject(error);
+      });
+    });
+  }
 
   function asArray(value) { return Array.isArray(value) ? value : []; }
   function record(value) { return value && typeof value === 'object' && !Array.isArray(value) ? value : {}; }
@@ -1308,7 +1340,7 @@
         .eq('user_id', userId).order('occurred_at', { ascending: true }).order('event_id', { ascending: true });
       const supportsRange = typeof query.range === 'function';
       query = supportsRange ? query.range(offset, offset + REMOTE_PAGE_SIZE - 1) : query.limit(REMOTE_PAGE_SIZE);
-      const result = await query;
+      const result = await runRemoteRequest(query, 'Learning-history fetch');
       if (result && result.error) throw result.error;
       const page = asArray(result && result.data);
       rows.push.apply(rows, page);
@@ -1429,10 +1461,10 @@
         if (!activeUser() || activeUser().id !== userId) throw new Error('Account changed while learning records were syncing');
         const batch = pending.slice(index, index + BATCH_SIZE);
         batch.forEach(function (event) { event.uploadingFor = asArray(event.uploadingFor).concat([userId]); });
-        const result = await client.from(TABLE).upsert(dbRows(batch, userId), {
+        const result = await runRemoteRequest(client.from(TABLE).upsert(dbRows(batch, userId), {
           onConflict: 'user_id,event_id',
           ignoreDuplicates: true
-        });
+        }), 'Learning-history upload');
         if (result && result.error) throw result.error;
         const ids = new Set(batch.map(function (event) { return event.id; }));
         state.events.forEach(function (event) {
@@ -1452,7 +1484,7 @@
         for (let index = 0; index < followUpPending.length; index += BATCH_SIZE) {
           const batch = followUpPending.slice(index, index + BATCH_SIZE);
           batch.forEach(function (event) { event.uploadingFor = asArray(event.uploadingFor).concat([userId]); });
-          const result = await client.from(TABLE).upsert(dbRows(batch, userId), { onConflict: 'user_id,event_id', ignoreDuplicates: true });
+          const result = await runRemoteRequest(client.from(TABLE).upsert(dbRows(batch, userId), { onConflict: 'user_id,event_id', ignoreDuplicates: true }), 'Learning-history follow-up upload');
           if (result && result.error) throw result.error;
           const ids = new Set(batch.map(function (event) { return event.id; }));
           state.events.forEach(function (event) {
@@ -1560,7 +1592,7 @@
       } catch (error) {
         return {
           ready: false,
-          reason: 'sync-error',
+          reason: error && error.code === 'TB_LEARNING_TIMEOUT' ? 'timeout' : 'sync-error',
           userId: userId,
           error: String(error && error.message || error || 'Learning sync failed')
         };
@@ -1629,10 +1661,10 @@
       return Promise.resolve({ reserved: false, ready: false, reason: 'reservation-unavailable', acceptedIds: [], rejectedIds: ids, userId: user.id });
     }
 
-    return Promise.resolve(client.rpc(NEW_ONLY_RESERVATION_RPC, {
+    return runRemoteRequest(client.rpc(NEW_ONLY_RESERVATION_RPC, {
       p_exam_id: examId,
       p_question_ids: ids
-    })).then(function (result) {
+    }), 'New-only reservation').then(function (result) {
       if (result && result.error) throw result.error;
       const current = activeUser();
       if (!current || current.id !== user.id) {
@@ -1667,7 +1699,7 @@
       return {
         reserved: false,
         ready: false,
-        reason: 'rpc-error',
+        reason: error && error.code === 'TB_LEARNING_TIMEOUT' ? 'timeout' : 'rpc-error',
         acceptedIds: [],
         rejectedIds: ids,
         userId: user.id,
