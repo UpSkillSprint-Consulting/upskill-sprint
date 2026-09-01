@@ -3236,10 +3236,12 @@
      but neither control is allowed to sample a question until it resolves. */
   function requireFreshNewOnly(reason,afterFresh){
     var learning=window.__TBLearning;
+    var refreshKind=reason.indexOf('focus')===0?'focus':'quick';
+    var refreshSelector=reason.indexOf('start')>=0?'[data-mode="'+refreshKind+'"]':'[data-unseen="'+refreshKind+'"]';
     if(!newOnlyCanRefresh()){
       newOnlyFreshGate.active=false;
       newOnlyFreshGate.error=newOnlyFreshFailure({reason:learning&&learning.status&&learning.status().signedIn?'history-not-ready':'not-signed-in'});
-      renderMain();
+      renderPracticeFilterChange(refreshSelector);
       return Promise.resolve({ready:false,reason:'history-not-ready'});
     }
     if(newOnlyFreshGate.active&&newOnlyFreshGate.promise){
@@ -3254,27 +3256,33 @@
       newOnlyFreshGate.promise=null;
       if(!result||!result.ready||!newOnlyBaseHydrated()){
         newOnlyFreshGate.error=newOnlyFreshFailure(result);
-        renderMain();
+        renderPracticeFilterChange(refreshSelector);
         return Object.assign({ready:false,reason:'history-not-ready'},result||{});
       }
       newOnlyFreshGate.error='';
-      renderMain();
+      renderPracticeFilterChange(refreshSelector);
       return result;
     }).catch(function(){
       if(token!==newOnlyFreshGate.token)return {ready:false,reason:'cancelled'};
       newOnlyFreshGate.active=false;
       newOnlyFreshGate.promise=null;
       newOnlyFreshGate.error=newOnlyFreshFailure({reason:'sync-error'});
-      renderMain();
+      renderPracticeFilterChange(refreshSelector);
       return {ready:false,reason:'sync-error'};
     });
     newOnlyFreshGate.promise=pending;
-    renderMain();
+    renderPracticeFilterChange(refreshSelector);
     return pending.then(function(result){if(result&&result.ready&&typeof afterFresh==='function')afterFresh();return result;});
   }
   function unseenOnly(list){
     if(!newOnlyHydrated())return [];
-    return list.filter(function(question){return !window.__TBLearning.hasSeen(current,question);});
+    var learning=window.__TBLearning;
+    if(typeof learning.seenQuestionIds==='function'&&typeof learning.questionId==='function'){
+      var seen=Object.create(null);
+      learning.seenQuestionIds(current).forEach(function(id){seen[id]=true;});
+      return list.filter(function(question){return !seen[learning.questionId(current,question)];});
+    }
+    return list.filter(function(question){return !learning.hasSeen(current,question);});
   }
   /* filters to questions ever answered incorrectly, per the adaptive mastery store.
      unlike unseenOnly, falls back to an EMPTY list (not the unfiltered list) if that module
@@ -3575,18 +3583,35 @@
       if(quick){mode.quickUnseen=enabled;if(enabled)mode.quickMissed=false;}
       else{mode.focusUnseen=enabled;if(enabled)mode.focusMissed=false;}
       if(enabled){requireFreshNewOnly(quick?'quick-toggle':'focus-toggle');}
-      else{cancelNewOnlyFreshGate();renderMain();}
+      else{cancelNewOnlyFreshGate();renderPracticeFilterChange('[data-unseen="'+(quick?'quick':'focus')+'"]');}
     });});
-    Array.prototype.forEach.call(host.querySelectorAll('[data-missed]'),function(b){b.addEventListener('click',function(){if(b.disabled)return;if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();if(b.dataset.missed==='quick'){mode.quickMissed=!mode.quickMissed;if(mode.quickMissed)mode.quickUnseen=false;}else{mode.focusMissed=!mode.focusMissed;if(mode.focusMissed)mode.focusUnseen=false;}renderMain();});});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-missed]'),function(b){b.addEventListener('click',function(){if(b.disabled)return;if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();if(b.dataset.missed==='quick'){mode.quickMissed=!mode.quickMissed;if(mode.quickMissed)mode.quickUnseen=false;}else{mode.focusMissed=!mode.focusMissed;if(mode.focusMissed)mode.focusUnseen=false;}renderPracticeFilterChange('[data-missed="'+b.dataset.missed+'"]');});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-mode]'),function(b){b.addEventListener('click',function(){var m=b.dataset.mode;if(m==='full')startFull();else if(m==='quick')startQuick();else if(m==='focus')startFocused();});});
   }
-  function refreshPracticeModes(){
+  function focusPracticeFilter(host,selector){
+    if(!selector)return;
+    var replacement=host.querySelector(selector);
+    if(!replacement||typeof replacement.focus!=='function')return;
+    try{replacement.focus({preventScroll:true});}catch(error){replacement.focus();}
+  }
+  function refreshPracticeModes(focusSelector){
     if(view!=='browse')return false;
     var host=document.querySelector('#tb-overview .tb-modes');
     if(!host)return false;
     host.innerHTML=modesHTML(EXAMS[current]);
     wirePracticeModes(host);
+    if(window.__TBSetControls&&typeof window.__TBSetControls.enhance==='function')window.__TBSetControls.enhance();
+    focusPracticeFilter(host,focusSelector);
     return true;
+  }
+  function practicePanelOpen(){
+    var analytics=document.getElementById('tb-analytics-panel');
+    var adaptive=document.getElementById('tb-adaptive-panel');
+    return !!((analytics&&!analytics.hidden)||(adaptive&&!adaptive.hidden&&String(adaptive.textContent||'').trim()));
+  }
+  function renderPracticeFilterChange(focusSelector){
+    if(practicePanelOpen()&&refreshPracticeModes(focusSelector))return;
+    renderMain();
   }
   function wireOverview(){
     var host=document.getElementById('tb-overview');

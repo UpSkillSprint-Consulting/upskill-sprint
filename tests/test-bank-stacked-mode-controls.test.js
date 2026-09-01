@@ -149,6 +149,52 @@ test('switching exams re-renders the stacked layout correctly with a fresh Set r
   assert.deepEqual(errors, []);
 });
 
+test('mistake notebook stays mounted while rapid filter changes keep both Set rows anchored', async () => {
+  const { window, errors } = await loadPage();
+  const question = window.__TB.EXAMS.cssbb.sets[1][0];
+  window.__TBAdaptiveMastery.recordResults([{
+    question,
+    selected: question.answer === 0 ? 1 : 0,
+    status: 'incorrect'
+  }], 'notebook-filter-layout');
+  await settle(window);
+  window.__TBAdaptiveMastery.renderStandalone(window.document.getElementById('tb-overview'));
+
+  const openNotebook = window.document.querySelector('[data-open-notebook]');
+  assert.ok(openNotebook, 'the seeded mistake creates the notebook action');
+  openNotebook.dispatchEvent(new window.Event('click', { bubbles: true }));
+  await settle(window, 2);
+
+  const notebook = window.document.getElementById('tb-adaptive-panel');
+  assert.ok(notebook && !notebook.hidden, 'mistake notebook is open');
+
+  async function toggleAndAssert(selector, focusAttribute) {
+    const control = window.document.querySelector(selector);
+    assert.ok(control && !control.disabled, selector + ' is available');
+    control.focus();
+    control.dispatchEvent(new window.Event('click', { bubbles: true }));
+
+    assert.equal(window.document.getElementById('tb-adaptive-panel'), notebook, 'the open notebook panel is never rebuilt');
+    assert.ok(notebook.isConnected && !notebook.hidden, 'the notebook remains visible');
+    assert.deepEqual(fieldrowLabels(modeCard(window, 1)), ['Set', 'Questions', 'Timing', 'Filters']);
+    assert.deepEqual(fieldrowLabels(modeCard(window, 2)), ['Set', 'Area', 'Questions', 'Timing', 'Filters']);
+    assert.equal(modeCard(window, 1).querySelectorAll('[data-quiz-set="quick"]').length, 4, 'Quick Set controls never disappear between frames');
+    assert.equal(modeCard(window, 2).querySelectorAll('[data-quiz-set="focus"]').length, 4, 'Focused Set controls never disappear between frames');
+    assert.equal(window.document.activeElement.getAttribute(focusAttribute), 'quick', 'focus stays on the clicked filter without scrolling to the notebook');
+
+    await new Promise(resolve => window.setTimeout(resolve, 0));
+    await settle(window, 3);
+    assert.equal(window.document.getElementById('tb-adaptive-panel'), notebook, 'async history refresh also preserves the notebook');
+    assert.deepEqual(fieldrowLabels(modeCard(window, 1)), ['Set', 'Questions', 'Timing', 'Filters']);
+  }
+
+  await toggleAndAssert('[data-missed="quick"]', 'data-missed');
+  await toggleAndAssert('[data-unseen="quick"]', 'data-unseen');
+  await toggleAndAssert('[data-unseen="quick"]', 'data-unseen');
+  await toggleAndAssert('[data-missed="quick"]', 'data-missed');
+  assert.deepEqual(errors, []);
+});
+
 test('full production script stack (all 17 companion scripts) loads the new stacked layout with zero JS errors', async () => {
   const scriptFiles = [
     'test-bank-set-controls.js', 'test-bank-feedback-loop.js', 'test-bank-phase1-api.js',
