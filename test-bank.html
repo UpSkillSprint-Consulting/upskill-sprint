@@ -3176,6 +3176,7 @@
      gets a fresh remote ledger read at the moment a learner enables or starts
      the mode, so a laptop cannot rely on a stale phone/laptop snapshot. */
   var newOnlyFreshGate={active:false,error:'',promise:null,token:0};
+  var practiceFilterFocusSelector='';
   /* Fresh ledger hydration excludes old history.  This second, short-lived
      gate covers the final cross-device race: the server atomically claims the
      candidate IDs before a New-only quiz is allowed to open. */
@@ -3238,10 +3239,11 @@
     var learning=window.__TBLearning;
     var refreshKind=reason.indexOf('focus')===0?'focus':'quick';
     var refreshSelector=reason.indexOf('start')>=0?'[data-mode="'+refreshKind+'"]':'[data-unseen="'+refreshKind+'"]';
+    function currentRefreshSelector(){return reason.indexOf('start')>=0?refreshSelector:(practiceFilterFocusSelector||refreshSelector);}
     if(!newOnlyCanRefresh()){
       newOnlyFreshGate.active=false;
       newOnlyFreshGate.error=newOnlyFreshFailure({reason:learning&&learning.status&&learning.status().signedIn?'history-not-ready':'not-signed-in'});
-      renderPracticeFilterChange(refreshSelector);
+      renderPracticeFilterChange(currentRefreshSelector());
       return Promise.resolve({ready:false,reason:'history-not-ready'});
     }
     if(newOnlyFreshGate.active&&newOnlyFreshGate.promise){
@@ -3256,22 +3258,22 @@
       newOnlyFreshGate.promise=null;
       if(!result||!result.ready||!newOnlyBaseHydrated()){
         newOnlyFreshGate.error=newOnlyFreshFailure(result);
-        renderPracticeFilterChange(refreshSelector);
+        renderPracticeFilterChange(currentRefreshSelector());
         return Object.assign({ready:false,reason:'history-not-ready'},result||{});
       }
       newOnlyFreshGate.error='';
-      renderPracticeFilterChange(refreshSelector);
+      renderPracticeFilterChange(currentRefreshSelector());
       return result;
     }).catch(function(){
       if(token!==newOnlyFreshGate.token)return {ready:false,reason:'cancelled'};
       newOnlyFreshGate.active=false;
       newOnlyFreshGate.promise=null;
       newOnlyFreshGate.error=newOnlyFreshFailure({reason:'sync-error'});
-      renderPracticeFilterChange(refreshSelector);
+      renderPracticeFilterChange(currentRefreshSelector());
       return {ready:false,reason:'sync-error'};
     });
     newOnlyFreshGate.promise=pending;
-    renderPracticeFilterChange(refreshSelector);
+    renderPracticeFilterChange(currentRefreshSelector());
     return pending.then(function(result){if(result&&result.ready&&typeof afterFresh==='function')afterFresh();return result;});
   }
   function unseenOnly(list){
@@ -3580,12 +3582,13 @@
     var sel=host.querySelector('[data-focusdom]');if(sel)sel.addEventListener('change',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();mode.focusDom=sel.value;renderMain();});
     Array.prototype.forEach.call(host.querySelectorAll('[data-unseen]'),function(b){b.addEventListener('click',function(){
       var quick=b.dataset.unseen==='quick',enabled=quick?!mode.quickUnseen:!mode.focusUnseen;
+      practiceFilterFocusSelector='[data-unseen="'+(quick?'quick':'focus')+'"]';
       if(quick){mode.quickUnseen=enabled;if(enabled)mode.quickMissed=false;}
       else{mode.focusUnseen=enabled;if(enabled)mode.focusMissed=false;}
       if(enabled){requireFreshNewOnly(quick?'quick-toggle':'focus-toggle');}
-      else{cancelNewOnlyFreshGate();renderPracticeFilterChange('[data-unseen="'+(quick?'quick':'focus')+'"]');}
+      else{cancelNewOnlyFreshGate();renderPracticeFilterChange(practiceFilterFocusSelector);}
     });});
-    Array.prototype.forEach.call(host.querySelectorAll('[data-missed]'),function(b){b.addEventListener('click',function(){if(b.disabled)return;if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();if(b.dataset.missed==='quick'){mode.quickMissed=!mode.quickMissed;if(mode.quickMissed)mode.quickUnseen=false;}else{mode.focusMissed=!mode.focusMissed;if(mode.focusMissed)mode.focusUnseen=false;}renderPracticeFilterChange('[data-missed="'+b.dataset.missed+'"]');});});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-missed]'),function(b){b.addEventListener('click',function(){if(b.disabled)return;if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();practiceFilterFocusSelector='[data-missed="'+b.dataset.missed+'"]';if(b.dataset.missed==='quick'){mode.quickMissed=!mode.quickMissed;if(mode.quickMissed)mode.quickUnseen=false;}else{mode.focusMissed=!mode.focusMissed;if(mode.focusMissed)mode.focusUnseen=false;}renderPracticeFilterChange(practiceFilterFocusSelector);});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-mode]'),function(b){b.addEventListener('click',function(){var m=b.dataset.mode;if(m==='full')startFull();else if(m==='quick')startQuick();else if(m==='focus')startFocused();});});
   }
   function focusPracticeFilter(host,selector){

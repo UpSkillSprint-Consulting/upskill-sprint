@@ -168,6 +168,26 @@ test('mistake notebook stays mounted while rapid filter changes keep both Set ro
   const notebook = window.document.getElementById('tb-adaptive-panel');
   assert.ok(notebook && !notebook.hidden, 'mistake notebook is open');
 
+  let finishFreshHistory;
+  const originalEnsureFreshHistory = window.__TBLearning.ensureFreshHistory;
+  window.__TBLearning.ensureFreshHistory = function () {
+    return new Promise(resolve => { finishFreshHistory = resolve; });
+  };
+  let filter = window.document.querySelector('[data-unseen="quick"]');
+  filter.focus();
+  filter.dispatchEvent(new window.Event('click', { bubbles: true }));
+  filter = window.document.querySelector('[data-missed="quick"]');
+  filter.focus();
+  filter.dispatchEvent(new window.Event('click', { bubbles: true }));
+  assert.equal(window.document.activeElement.getAttribute('data-missed'), 'quick', 'the newest filter action owns focus while history is pending');
+  finishFreshHistory({ ready: true, reason: 'fresh' });
+  await new Promise(resolve => window.setTimeout(resolve, 0));
+  await settle(window, 3);
+  assert.equal(window.document.activeElement.getAttribute('data-missed'), 'quick', 'late New-only completion cannot steal focus from Missed-only');
+  assert.equal(window.document.getElementById('tb-adaptive-panel'), notebook, 'the rapid async switch preserves the notebook');
+  assert.deepEqual(fieldrowLabels(modeCard(window, 1)), ['Set', 'Questions', 'Timing', 'Filters']);
+  window.__TBLearning.ensureFreshHistory = originalEnsureFreshHistory;
+
   async function toggleAndAssert(selector, focusAttribute) {
     const control = window.document.querySelector(selector);
     assert.ok(control && !control.disabled, selector + ' is available');
