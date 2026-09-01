@@ -520,12 +520,63 @@ test('SQL migration enables RLS and scopes policies to auth.uid()', () => {
 test('polls for remote progress and permits every later remote refresh', () => {
   const dom = load();
   assert.equal(dom.window.__TBAccountSync.REMOTE_POLL_MS, 15000);
+  assert.equal(dom.window.__TBAccountSync.REMOTE_REQUEST_TIMEOUT_MS, 12000);
   assert.match(source, /sync\('remote-poll'\)/);
   assert.match(source, /if \(accountSwitched\) reloadPage\(\)/);
   assert.match(source, /else if \(changed\) requestProgressRefresh\(\)/);
   assert.match(source, /new MutationObserver\(flushProgressRefresh\)/);
   assert.doesNotMatch(source, /tb-account-sync-reloaded/);
   dom.window.close();
+});
+
+test('a stalled account-history request is aborted and a later recovery attempt can retry', async () => {
+  const dom = syncedDevice(fakeProgressService(), 'timeout-user', 'q1');
+  const originalSetTimeout = dom.window.setTimeout.bind(dom.window);
+  let reads = 0;
+  let aborts = 0;
+  try {
+    dom.window.setTimeout = function (callback, delay) {
+      const args = Array.prototype.slice.call(arguments, 2);
+      return originalSetTimeout.apply(dom.window, [callback, delay >= 10000 ? 0 : delay].concat(args));
+    };
+    const client = {
+      from() {
+        return {
+          select() {
+            reads += 1;
+            if (reads > 1) return { order() { return Promise.resolve({ data: [], error: null }); } };
+            let rejectRequest;
+            const request = new Promise((resolve, reject) => { rejectRequest = reject; });
+            const query = {
+              order() { return query; },
+              abortSignal(signal) {
+                signal.addEventListener('abort', function () {
+                  aborts += 1;
+                  rejectRequest(new Error('request aborted'));
+                }, { once: true });
+                return query;
+              },
+              then(resolve, reject) { return request.then(resolve, reject); }
+            };
+            return query;
+          },
+          upsert() { return Promise.resolve({ error: null }); }
+        };
+      }
+    };
+    dom.window.UpskillAuth = { getClient: () => client, getUser: () => ({ id: 'timeout-user' }) };
+
+    const first = await dom.window.__TBAccountSync.sync('stalled-history');
+    const second = await dom.window.__TBAccountSync.sync('retry-history');
+
+    assert.equal(first.error.code, 'TB_ACCOUNT_SYNC_TIMEOUT');
+    assert.equal(second.error, undefined, 'the retry completes normally');
+    assert.equal(reads, 2, 'the timed-out operation releases the shared lock so retry reaches Supabase');
+    assert.equal(aborts, 1, 'the stalled PostgREST request is actively cancelled');
+  } finally {
+    dom.window.setTimeout = originalSetTimeout;
+    dom.window.close();
+  }
 });
 
 test('two devices converge without leaking another user progress', async () => {

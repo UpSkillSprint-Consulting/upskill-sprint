@@ -11,9 +11,40 @@
   const MASTERY_EVIDENCE_LIMIT = 500;
   const LOCAL_WATCH_MS = 3000;
   const REMOTE_POLL_MS = 15000;
+  const REMOTE_REQUEST_TIMEOUT_MS = 12000;
   let syncing = false, lastDigest = '', timer = 0, nextRemoteAt = 0;
   let pendingReason = '', reloadForAccountSwitch = false;
   let pendingProgressRefresh = false, progressRefreshObserver = null;
+
+  function remoteTimeoutError(label) {
+    const error = new Error((label || 'Supabase request') + ' timed out');
+    error.code = 'TB_ACCOUNT_SYNC_TIMEOUT';
+    return error;
+  }
+
+  /* Keep account-history recovery bounded on mobile network transitions.
+     Supabase query builders support AbortSignal; the Promise timer also
+     protects older/fake clients that do not expose abortSignal(). */
+  function runRemoteRequest(request, label) {
+    let controller = null;
+    if (typeof AbortController === 'function' && request && typeof request.abortSignal === 'function') {
+      controller = new AbortController();
+      request = request.abortSignal(controller.signal);
+    }
+    return new Promise(function (resolve, reject) {
+      const timer = setTimeout(function () {
+        if (controller) controller.abort();
+        reject(remoteTimeoutError(label));
+      }, REMOTE_REQUEST_TIMEOUT_MS);
+      Promise.resolve(request).then(function (result) {
+        clearTimeout(timer);
+        resolve(result);
+      }, function (error) {
+        clearTimeout(timer);
+        reject(error);
+      });
+    });
+  }
 
   function clone(v) { return v == null ? v : JSON.parse(JSON.stringify(v)); }
   function setOwn(target, key, value) {
@@ -639,14 +670,20 @@
     syncing = true;
     try {
       const id = deviceId(), initialLocal = localPayload();
-      let result = await ctx.client.from(TABLE).select('device_id,payload,updated_at').order('updated_at', { ascending: true });
+      let result = await runRemoteRequest(
+        ctx.client.from(TABLE).select('device_id,payload,updated_at').order('updated_at', { ascending: true }),
+        'Account-history fetch'
+      );
       if (result.error) throw result.error;
       if (!currentUserIs(ctx.user.id)) return { stale: true };
       const merged = mergePayloads((result.data || []).map(row => row.payload).concat([initialLocal, localPayload()]));
       const changed = applyPayload(merged);
       const mergedDigest = stable(merged);
       if (!currentUserIs(ctx.user.id)) return { stale: true };
-      result = await ctx.client.from(TABLE).upsert({ user_id: ctx.user.id, device_id: id, payload: merged, updated_at: new Date().toISOString() }, { onConflict: 'user_id,device_id' });
+      result = await runRemoteRequest(
+        ctx.client.from(TABLE).upsert({ user_id: ctx.user.id, device_id: id, payload: merged, updated_at: new Date().toISOString() }, { onConflict: 'user_id,device_id' }),
+        'Account-history upload'
+      );
       if (result.error) throw result.error;
       if (!currentUserIs(ctx.user.id)) return { stale: true };
       localStorage.setItem(META_KEY, JSON.stringify({ lastSyncedAt: new Date().toISOString(), reason: reason || 'automatic', status: 'synced' }));
@@ -699,6 +736,6 @@
     });
     addEventListener('online', () => sync('online')); addEventListener('focus', () => sync('focus'));
   }
-  window.__TBAccountSync = { sync, mergePayloads, mergeMastery, localPayload, resetAdaptiveExam, REMOTE_POLL_MS };
+  window.__TBAccountSync = { sync, mergePayloads, mergeMastery, localPayload, resetAdaptiveExam, REMOTE_POLL_MS, REMOTE_REQUEST_TIMEOUT_MS };
   if (window.UpskillAuth) start(); else document.addEventListener('upskill-auth-ready', start, { once: true });
 }());

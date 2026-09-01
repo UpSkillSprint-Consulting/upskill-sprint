@@ -618,7 +618,45 @@ test('an account snapshot migration remains fail-closed until its fresh progress
   }
 });
 
-test('an unresolved legacy identity never unlocks New-only selection', async () => {
+test('one New-only freshness request waits for the account snapshot hand-off and final ledger read', async () => {
+  const accountRows = [];
+  const uploads = [];
+  const requests = [];
+  const user = { id: 'legacy-one-click-learner' };
+  let progressRequests = 0;
+  const { dom, window, questions } = load((page, bank) => {
+    const legacyKey = page.__TBQuestionRegistry.legacyStemHash(bank[0].stem);
+    page.localStorage.setItem('tb-adaptive-mastery-v1', JSON.stringify({
+      version: 1,
+      exams: { cssbb: { questions: { [legacyKey]: { id: legacyKey, stem: bank[0].stem, attempts: 2, correct: 1, incorrect: 1 } } } }
+    }));
+    page.__TBAccountSync = {
+      sync() {
+        progressRequests += 1;
+        return new Promise(resolve => {
+          page.setTimeout(() => {
+            page.document.dispatchEvent(new page.CustomEvent('upskill-test-progress-synced'));
+            resolve({ changed: false });
+          }, 0);
+        });
+      }
+    };
+    page.UpskillAuth = { getUser: () => user, getClient: () => fakeLearningService(accountRows, uploads, requests) };
+  });
+  try {
+    const result = await window.__TBLearning.ensureFreshHistory('one-click-start');
+
+    assert.equal(result.ready, true, 'the original Start request reaches ready instead of being discarded mid-recovery');
+    assert.equal(window.__TBLearning.status().hydrated, true);
+    assert.equal(window.__TBLearning.hasSeen('cssbb', questions[0]), true, 'the migrated question is excluded before the quiz can open');
+    assert.ok(progressRequests >= 1, 'the account snapshot hand-off ran');
+    assert.ok(requests.length >= 2, 'the ledger was fetched again after the progress snapshot was scanned');
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('an unresolved retired legacy identity does not invent an ID or permanently lock the current question bank', async () => {
   const accountRows = [];
   const uploads = [];
   const user = { id: 'legacy-unresolved-learner' };
@@ -637,9 +675,10 @@ test('an unresolved legacy identity never unlocks New-only selection', async () 
   });
   try {
     await window.__TBLearning.sync('unresolved-legacy');
-    assert.equal(window.__TBLearning.status().hydrated, false);
-    assert.equal(window.__TBLearning.hasSeen('cssbb', questions[0]), true, 'fail-closed means no question can be served as New while historic identity is unresolved');
+    assert.equal(window.__TBLearning.status().hydrated, true, 'a deleted question cannot keep every current question unavailable forever');
+    assert.equal(window.__TBLearning.hasSeen('cssbb', questions[0]), false, 'a valid current question remains eligible as New');
     assert.equal(uploads.some(row => row.question_id === questions[0].qid), false, 'the migration does not invent a canonical ID for ambiguous history');
+    assert.equal(uploads.some(row => row.question_id === 'no-longer-resolvable'), false, 'the obsolete legacy key is not uploaded as a canonical question ID');
   } finally {
     dom.window.close();
   }
