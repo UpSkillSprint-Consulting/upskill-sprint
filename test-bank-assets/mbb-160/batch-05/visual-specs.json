@@ -1,0 +1,520 @@
+{
+  "schemaVersion": 1,
+  "batch": 5,
+  "generatedBy": "scripts/build-mbb160-assets.mjs",
+  "questions": {
+    "mbb:set-2:original-101": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-101",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A deployment matrix lists three priorities. P1 and P2 have strong links to the retention objective. P3 owns the only 90-day retention measure but its relationship to the retention objective is blank.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-05/static-fallbacks.html#mbb-set-2-original-101",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Priority",
+        "Retention objective",
+        "Primary owner",
+        "Measure"
+      ],
+      "rows": 3,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-105": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-105",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A project table shows mandatory R needing three Belt-months, ready S needing five, T discovery needing one, and unready U needing four after T. The capacity control is set to nine Belt-months with eight committed.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "Adjust available Belt-months from seven through eleven and compare remaining capacity with project readiness and dependencies.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-05/static-fallbacks.html#mbb-set-2-original-105",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Project",
+        "Belt-months",
+        "Validated benefit",
+        "Readiness",
+        "Constraint"
+      ],
+      "rows": 4,
+      "calculations": [],
+      "interaction": {
+        "id": "mbb-q105-capacity",
+        "label": "Available Belt-months",
+        "min": 7,
+        "max": 11,
+        "step": 1,
+        "value": 9,
+        "unit": "Belt-months",
+        "committed": 8,
+        "committedLabel": "R plus S"
+      }
+    },
+    "mbb:set-2:original-106": {
+      "type": "multi-time-series",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-106",
+      "transformations": [],
+      "referenceLines": [
+        "Policy introduced at Week 5 at 5"
+      ],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A two-series weekly chart shows average handle time near eight minutes through Week 4 and falling below six after a Week 5 policy. Repeat contacts remain near twelve initially, then rise to twenty-four by Week 10.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "Focus or hover over the weekly points to compare the immediate handle-time change with the delayed repeat-contact response.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-05/static-fallbacks.html#mbb-set-2-original-106",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Week",
+        "Weekly index"
+      ],
+      "units": "behaviorally anchored score",
+      "axes": {
+        "xLevels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "yDomain": [
+          0,
+          26
+        ]
+      },
+      "series": [
+        {
+          "label": "Average handle time (minutes)",
+          "observations": 10,
+          "values": [
+            8.2,
+            8.1,
+            8.3,
+            8,
+            6.9,
+            6.3,
+            6.1,
+            6,
+            5.9,
+            5.8
+          ]
+        },
+        {
+          "label": "Repeat contacts per 100 cases",
+          "observations": 10,
+          "values": [
+            12,
+            12,
+            11,
+            12,
+            12,
+            14,
+            17,
+            20,
+            22,
+            24
+          ]
+        }
+      ],
+      "calculations": []
+    },
+    "mbb:set-2:original-110": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-110",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A dashboard table shows training completion and submitted benefits above target, while Finance-validated benefit, 90-day control-plan adherence, and process-owner acceptance are all substantially below target.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-05/static-fallbacks.html#mbb-set-2-original-110",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Metric",
+        "Target",
+        "Actual"
+      ],
+      "rows": 5,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-111": {
+      "type": "activity-network",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-111",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "An activity network shows A lasting two weeks, splitting to B for four weeks and C for five weeks. B leads to D for three weeks. C and D merge into E, which lasts three weeks.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-05/static-fallbacks.html#mbb-set-2-original-111",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "activity",
+        "duration",
+        "predecessor-successor relationship"
+      ],
+      "units": "working days",
+      "layout": {
+        "nodes": {
+          "A": {
+            "dur": 2,
+            "col": 0,
+            "row": 1
+          },
+          "B": {
+            "dur": 4,
+            "col": 1,
+            "row": 0
+          },
+          "C": {
+            "dur": 5,
+            "col": 1,
+            "row": 2
+          },
+          "D": {
+            "dur": 3,
+            "col": 2,
+            "row": 0
+          },
+          "E": {
+            "dur": 3,
+            "col": 3,
+            "row": 1
+          }
+        },
+        "edges": [
+          [
+            "A",
+            "B"
+          ],
+          [
+            "A",
+            "C"
+          ],
+          [
+            "B",
+            "D"
+          ],
+          [
+            "C",
+            "E"
+          ],
+          [
+            "D",
+            "E"
+          ]
+        ]
+      },
+      "calculations": [
+        "Path A-B-D-E = 2 + 4 + 3 + 3 = 12 weeks; path A-C-E = 2 + 5 + 3 = 10 weeks; total float = 2 weeks."
+      ]
+    },
+    "mbb:set-2:original-120": {
+      "type": "histogram",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-120",
+      "transformations": [],
+      "referenceLines": [
+        "USL = 18 h at 18"
+      ],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A histogram of service cycle time rises to a mode between nine and twelve hours and then tapers in a long right tail beyond the 18-hour upper specification.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-05/static-fallbacks.html#mbb-set-2-original-120",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Cycle time (hours)",
+        "Cases"
+      ],
+      "units": "Cycle time (hours)",
+      "axes": {
+        "xDomain": [
+          0,
+          30
+        ],
+        "yDomain": [
+          0,
+          31
+        ]
+      },
+      "bins": [
+        {
+          "lower": 0,
+          "upper": 3,
+          "count": 3
+        },
+        {
+          "lower": 3,
+          "upper": 6,
+          "count": 10
+        },
+        {
+          "lower": 6,
+          "upper": 9,
+          "count": 22
+        },
+        {
+          "lower": 9,
+          "upper": 12,
+          "count": 31
+        },
+        {
+          "lower": 12,
+          "upper": 15,
+          "count": 25
+        },
+        {
+          "lower": 15,
+          "upper": 18,
+          "count": 17
+        },
+        {
+          "lower": 18,
+          "upper": 21,
+          "count": 10
+        },
+        {
+          "lower": 21,
+          "upper": 24,
+          "count": 6
+        },
+        {
+          "lower": 24,
+          "upper": 27,
+          "count": 3
+        },
+        {
+          "lower": 27,
+          "upper": 30,
+          "count": 1
+        }
+      ],
+      "calculations": []
+    },
+    "mbb:set-2:original-121": {
+      "type": "regression-diagnostic",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-121",
+      "transformations": [],
+      "referenceLines": [
+        "Residual = 0"
+      ],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A residual-versus-fitted plot shows seven observations scattered near zero through fitted loss 108 thousand dollars and one isolated observation at fitted loss 190 with standardized residual negative 3.6.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "Focus or hover over each point to compare its fitted value and residual, especially the isolated high-fitted case.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-05/static-fallbacks.html#mbb-set-2-original-121",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Fitted loss ($000)",
+        "Standardized residual"
+      ],
+      "axes": {
+        "xTicks": [
+          0,
+          50,
+          100,
+          150,
+          200
+        ],
+        "yTicks": [
+          -4,
+          -2,
+          0,
+          2,
+          4
+        ]
+      },
+      "points": 8,
+      "calculations": []
+    },
+    "mbb:set-2:original-122": {
+      "type": "acf-plot",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-122",
+      "transformations": [],
+      "referenceLines": [
+        "Approximate 95% bounds = ±0.24",
+        "Autocorrelation = 0"
+      ],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A residual autocorrelation plot has approximate limits at plus or minus 0.24. Lag 1 is 0.52 and lag 2 is 0.31, while lags 3 through 8 remain within the limits.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-05/static-fallbacks.html#mbb-set-2-original-122",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Lag (months)",
+        "Residual ACF"
+      ],
+      "units": "lag and correlation",
+      "axes": {
+        "xDomain": [
+          1,
+          8
+        ],
+        "yDomain": [
+          -1,
+          1
+        ]
+      },
+      "observations": 8,
+      "calculations": []
+    },
+    "mbb:set-2:original-123": {
+      "type": "reliability-plot",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-123",
+      "transformations": [],
+      "referenceLines": [
+        "Mission time = 1200 hours"
+      ],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "Two survival curves begin at one and cross at 1,200 hours near 0.68. Design A is higher before the crossing, while Design B is higher afterward.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-05/static-fallbacks.html#mbb-set-2-original-123",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Operating time (hours)",
+        "Survival probability"
+      ],
+      "units": "hours and probability",
+      "axes": {
+        "xTicks": [
+          0,
+          400,
+          800,
+          1200,
+          1600,
+          2000
+        ],
+        "yDomain": [
+          0,
+          1
+        ]
+      },
+      "series": [
+        {
+          "label": "Design A",
+          "observations": 6
+        },
+        {
+          "label": "Design B",
+          "observations": 6
+        }
+      ],
+      "calculations": [
+        null
+      ]
+    },
+    "mbb:set-2:original-124": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-124",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A DOE table shows six furnace batches. Each batch holds either low or high temperature as a whole-plot setting and contains four independently randomized line-speed subplot settings.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-05/static-fallbacks.html#mbb-set-2-original-124",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Furnace batch",
+        "Whole-plot temperature",
+        "Randomized speed sequence"
+      ],
+      "rows": 6,
+      "calculations": [],
+      "interaction": null
+    }
+  }
+}
