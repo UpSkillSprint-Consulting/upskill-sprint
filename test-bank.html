@@ -60,7 +60,7 @@
   .tb-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
   .tb-disabled{border:1px solid var(--line);background:var(--tint);color:var(--muted);border-radius:8px;padding:12px 18px;font-weight:600;font-size:14px;cursor:not-allowed}
   /* right rail */
-  .tb-rail h2{font-family:"Source Serif 4",serif;font-size:18px;color:var(--ink);margin:0} 
+  .tb-rail h2{font-family:"Source Serif 4",serif;font-size:18px;color:var(--ink);margin:0}
   .tb-railhead{display:flex;align-items:baseline;justify-content:space-between;margin:2px 2px 12px}
   .tb-railhead span{font-size:12px;color:var(--muted)}
   .tb-group{margin-bottom:16px} .tb-group .gl{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0 4px 8px}
@@ -2471,7 +2471,7 @@
       bank:CSSBB_BANK,sets:{1:CSSBB_BANK,2:SET2_BANK,3:SET3_BANK}},
     mbb:{badge:'MBB',bc:'#7b4eaa',body:'ASQ Certified Master Black Belt',title:'Master Black Belt — Exam Simulation',setName:'Simulated Exam Set 1',questions:100,minutes:150,pass:70,sourceSimulation:true,
       formatNote:'This 100-question, 150-minute mode reproduces the supplied handbook simulation. It is not a replica of the current ASQ delivery format, which includes 110 multiple-choice items and a performance-based assessment.',
-      bank:MBB_SET1,sets:{1:MBB_SET1,2:MBB_SET2,3:MBB_SET3},setPlans:{2:{target:160,label:'Batch 1 complete'}},fullExamQuestionsBySet:{1:100,2:160,3:175,mix:100},
+      bank:MBB_SET1,sets:{1:MBB_SET1,2:MBB_SET2,3:MBB_SET3},setPlans:{2:{target:160,label:'Batch 4 complete'}},fullExamQuestionsBySet:{1:100,2:160,3:175,mix:100},
       bok:[d('mbbent',17,[s('mbb-enterprise','I. Enterprise-Wide Planning','/lessons/what-is-lean-six-sigma','What Is Lean Six Sigma',17)]),d('mbborg',16,[s('mbb-org','II. Organizational Competencies for Deployment','/lessons/7-management-planning-tools','7 Management & Planning Tools',16)]),d('mbbportfolio',13,[s('mbb-portfolio','III. Project Portfolio Management','/lessons/complete-14-quality-tools-project','The Complete Quality Toolbox',13)]),d('mbbtraining',8,[s('mbb-training','IV. Training Design and Delivery','/lessons.html','Browse lessons',8)]),d('mbbcoaching',9,[s('mbb-coaching','V. Coaching and Mentoring Responsibilities','/lessons.html','Browse lessons',9)]),d('mbbanalytics',37,[s('mbb-analytics','VI. Advanced Data Management and Analytic Methods','/lessons/introduction-to-design-of-experiment-doe','Design of Experiments',37)])]},
     cssgb:{badge:'CSSGB',bc:'#4f63c0',body:'ASQ Certified Six Sigma Green Belt',title:'Six Sigma Green Belt — Final Exam Simulation',setName:'Exam Set 1',questions:110,minutes:258,pass:70,
       bank:CSSGB_SET1,sets:{1:CSSGB_SET1,2:CSSGB_SET2},
@@ -3021,8 +3021,10 @@
     return svg+'</svg>';
   }
   function chartTwoLevelInteraction(spec){
-    var w=460,h=220,left=58,right=92,top=24,bottom=42,values=spec.lowLine.concat(spec.highLine);
-    var min=Math.min.apply(null,values)-1,max=Math.max.apply(null,values)+1;
+    var w=460,h=230,left=62,right=92,top=24,bottom=48,values=spec.lowLine.concat(spec.highLine);
+    var domain=spec.yDomain||[Math.min.apply(null,values)-1,Math.max.apply(null,values)+1];
+    var min=Number(domain[0]),max=Number(domain[1]);
+    var yTicks=spec.yTicks||[min,(3*min+max)/4,(min+max)/2,(min+3*max)/4,max];
     function py(v){return top+(max-v)/(max-min)*(h-top-bottom);}
     var x0=left,x1=w-right;
     function line(values,label,dashed){
@@ -3031,14 +3033,16 @@
       out+='<text x="'+(x1+12)+'" y="'+(py(values[1])+4)+'" font-size="10" fill="var(--ink)">'+esc(label)+'</text>';
       return out;
     }
-    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="Interaction plot for factors '+esc(spec.factorA)+' and '+esc(spec.factorB)+'">'+
+    var summary='Interaction plot for '+spec.factorA+' and '+spec.factorB+'. '+spec.lowLabel+': '+spec.lowLine[0]+' at low '+spec.factorA+', '+spec.lowLine[1]+' at high '+spec.factorA+'. '+spec.highLabel+': '+spec.highLine[0]+' at low '+spec.factorA+', '+spec.highLine[1]+' at high '+spec.factorA+'.';
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="'+esc(summary)+'">'+
       '<line x1="'+x0+'" y1="'+(h-bottom)+'" x2="'+x1+'" y2="'+(h-bottom)+'" class="tb-chart-grid"></line>'+
-      '<line x1="'+x0+'" y1="'+top+'" x2="'+x0+'" y2="'+(h-bottom)+'" class="tb-chart-grid"></line>'+
-      line(spec.lowLine,spec.lowLabel,false)+line(spec.highLine,spec.highLabel,true)+
-      '<text x="'+x0+'" y="'+(h-bottom+17)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.factorA)+' low</text>'+
-      '<text x="'+x1+'" y="'+(h-bottom+17)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.factorA)+' high</text>'+
-      '<text x="16" y="'+(h/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 16 '+(h/2)+')">Mean response</text>'+
-      '</svg>';
+      '<line x1="'+x0+'" y1="'+top+'" x2="'+x0+'" y2="'+(h-bottom)+'" class="tb-chart-grid"></line>';
+    yTicks.forEach(function(value){var y=py(value);svg+='<line x1="'+x0+'" y1="'+y.toFixed(1)+'" x2="'+x1+'" y2="'+y.toFixed(1)+'" class="tb-chart-grid"></line><text x="'+(x0-8)+'" y="'+(y+3).toFixed(1)+'" font-size="9" fill="var(--muted)" text-anchor="end">'+esc(value)+'</text>';});
+    svg+=line(spec.lowLine,spec.lowLabel,false)+line(spec.highLine,spec.highLabel,true)+
+      '<text x="'+x0+'" y="'+(h-bottom+17)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.xLowLabel||spec.factorA+' low')+'</text>'+
+      '<text x="'+x1+'" y="'+(h-bottom+17)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.xHighLabel||spec.factorA+' high')+'</text>'+
+      '<text x="'+((x0+x1)/2)+'" y="'+(h-7)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.factorA)+'</text>'+
+      '<text x="16" y="'+(h/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 16 '+(h/2)+')">'+esc(spec.yLabel||'Mean response')+'</text></svg>';
     return svg;
   }
   function chartFtaDiagram(spec){
@@ -3207,6 +3211,193 @@
       '<text x="17" y="'+((top+h-bottom)/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 17 '+((top+h-bottom)/2)+')">'+esc(spec.yLabel||'Value')+'</text></svg>';
     return svg;
   }
+  function chartMultiTimeSeries(spec){
+    var series=spec.series||[],labels=spec.labels||[];
+    var values=[];
+    series.forEach(function(item){(item.data||[]).forEach(function(value){values.push(Number(value));});});
+    if(!series.length||!labels.length||!values.length)return '';
+    var w=560,h=300,left=58,right=138,top=30,bottom=50;
+    var domain=spec.yDomain||[Math.min.apply(null,values),Math.max.apply(null,values)];
+    var min=Number(domain[0]),max=Number(domain[1]);
+    function px(i){return left+(labels.length===1?0:i/(labels.length-1))*(w-left-right);}
+    function py(value){return top+(max-Number(value))/(max-min)*(h-top-bottom);}
+    var summary=spec.altText||((spec.title||'Multi-series time plot')+'. '+series.map(function(item){return item.label+': '+item.data.map(function(value,index){return labels[index]+' '+value;}).join(', ');}).join('. ')+'.');
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="'+esc(summary)+'"><text x="'+left+'" y="16" font-size="11" font-weight="700" fill="var(--ink)">'+esc(spec.title||'Multi-series time plot')+'</text>';
+    for(var tick=0;tick<=5;tick++){
+      var value=min+(max-min)*tick/5,y=py(value);
+      svg+='<line x1="'+left+'" y1="'+y.toFixed(1)+'" x2="'+(w-right)+'" y2="'+y.toFixed(1)+'" class="tb-chart-grid"></line><text x="'+(left-8)+'" y="'+(y+3).toFixed(1)+'" font-size="9" fill="var(--muted)" text-anchor="end">'+value.toFixed(0)+'</text>';
+    }
+    if(Number.isFinite(Number(spec.referenceValue))){
+      var refY=py(spec.referenceValue);
+      svg+='<line x1="'+left+'" y1="'+refY.toFixed(1)+'" x2="'+(w-right)+'" y2="'+refY.toFixed(1)+'" class="tb-chart-cl" stroke-dasharray="5 4"></line><text x="'+(w-right-4)+'" y="'+(refY-6).toFixed(1)+'" font-size="8" fill="var(--muted)" text-anchor="end">'+esc(spec.referenceLabel||spec.referenceValue)+'</text>';
+    }
+    series.forEach(function(item,seriesIndex){
+      var data=(item.data||[]).map(Number);
+      var path=data.map(function(value,index){return (index?'L':'M')+px(index).toFixed(1)+' '+py(value).toFixed(1);}).join(' ');
+      svg+='<path d="'+path+'" fill="none" class="tb-chart-line"'+(seriesIndex?' stroke-dasharray="7 4"':'')+'></path>';
+      data.forEach(function(value,index){
+        var pointLabel=item.label+', Week '+labels[index]+', score '+value;
+        if(seriesIndex===0)svg+='<circle cx="'+px(index).toFixed(1)+'" cy="'+py(value).toFixed(1)+'" r="3.8" class="tb-chart-dot" tabindex="0" role="img" aria-label="'+esc(pointLabel)+'"><title>'+esc(pointLabel)+'</title></circle>';
+        else svg+='<rect x="'+(px(index)-3.5).toFixed(1)+'" y="'+(py(value)-3.5).toFixed(1)+'" width="7" height="7" class="tb-chart-target-dot" tabindex="0" role="img" aria-label="'+esc(pointLabel)+'"><title>'+esc(pointLabel)+'</title></rect>';
+      });
+      var legendY=top+28+seriesIndex*42;
+      svg+='<line x1="'+(w-right+10)+'" y1="'+legendY+'" x2="'+(w-right+34)+'" y2="'+legendY+'" class="tb-chart-line"'+(seriesIndex?' stroke-dasharray="7 4"':'')+'></line><text x="'+(w-right+40)+'" y="'+(legendY+3)+'" font-size="8.5" fill="var(--ink)">'+esc(item.label)+'</text>';
+    });
+    labels.forEach(function(label,index){svg+='<text x="'+px(index).toFixed(1)+'" y="'+(h-bottom+17)+'" font-size="9" fill="var(--muted)" text-anchor="middle">'+esc(label)+'</text>';});
+    svg+='<text x="'+((left+w-right)/2)+'" y="'+(h-6)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.xLabel||'Time')+'</text><text x="17" y="'+((top+h-bottom)/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 17 '+((top+h-bottom)/2)+')">'+esc(spec.yLabel||'Value')+'</text></svg>';
+    return svg;
+  }
+  function chartReliabilityGrowth(spec){
+    var points=spec.points||[],xTicks=spec.xTicks||[],yTicks=spec.yTicks||[];
+    if(!points.length||xTicks.length<2||yTicks.length<2)return '';
+    var w=560,h=310,left=64,right=34,top=34,bottom=54;
+    var xMin=Math.log(Math.min.apply(null,xTicks)),xMax=Math.log(Math.max.apply(null,xTicks));
+    var yMin=Math.log(Math.min.apply(null,yTicks)),yMax=Math.log(Math.max.apply(null,yTicks));
+    function px(value){return left+(Math.log(Number(value))-xMin)/(xMax-xMin)*(w-left-right);}
+    function py(value){return top+(yMax-Math.log(Number(value)))/(yMax-yMin)*(h-top-bottom);}
+    var event=spec.event||null;
+    var summary=(spec.title||'Reliability growth plot')+'. '+points.map(function(point){return point.time+' cumulative test hours, '+point.failures+' failures, cumulative MTBF '+point.mtbf+' hours';}).join('; ')+(event?'. Testing continued from '+event.time+' to '+event.resumeTime+' hours before the associated fix was incorporated.':'.');
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="'+esc(summary)+'"><text x="'+left+'" y="17" font-size="11" font-weight="700" fill="var(--ink)">'+esc(spec.title||'Reliability growth plot')+'</text>';
+    xTicks.forEach(function(value){var x=px(value);svg+='<line x1="'+x.toFixed(1)+'" y1="'+top+'" x2="'+x.toFixed(1)+'" y2="'+(h-bottom)+'" class="tb-chart-grid"></line><text x="'+x.toFixed(1)+'" y="'+(h-bottom+18)+'" font-size="9" fill="var(--muted)" text-anchor="middle">'+esc(value)+'</text>';});
+    yTicks.forEach(function(value){var y=py(value);svg+='<line x1="'+left+'" y1="'+y.toFixed(1)+'" x2="'+(w-right)+'" y2="'+y.toFixed(1)+'" class="tb-chart-grid"></line><text x="'+(left-8)+'" y="'+(y+3).toFixed(1)+'" font-size="9" fill="var(--muted)" text-anchor="end">'+esc(value)+'</text>';});
+    if(event){
+      var eventX=px(event.time),resumeX=px(event.resumeTime);
+      svg+='<rect x="'+eventX.toFixed(1)+'" y="'+top+'" width="'+Math.max(1,resumeX-eventX).toFixed(1)+'" height="'+(h-top-bottom)+'" fill="color-mix(in srgb,var(--teal) 12%,var(--card))"></rect><line x1="'+eventX.toFixed(1)+'" y1="'+top+'" x2="'+eventX.toFixed(1)+'" y2="'+(h-bottom)+'" class="tb-chart-cl" stroke-dasharray="5 4"></line><text x="'+((eventX+resumeX)/2).toFixed(1)+'" y="'+(top+13)+'" font-size="8" fill="var(--ink)" text-anchor="middle">'+esc(event.label||'Configuration interval')+'</text>';
+    }
+    var path=points.map(function(point,index){return (index?'L':'M')+px(point.time).toFixed(1)+' '+py(point.mtbf).toFixed(1);}).join(' ');
+    svg+='<path d="'+path+'" fill="none" class="tb-chart-line"></path>';
+    points.forEach(function(point){var label=point.time+' cumulative test hours, '+point.failures+' failures, cumulative MTBF '+point.mtbf+' hours';svg+='<circle cx="'+px(point.time).toFixed(1)+'" cy="'+py(point.mtbf).toFixed(1)+'" r="4" class="tb-chart-dot" tabindex="0" role="img" aria-label="'+esc(label)+'"><title>'+esc(label)+'</title></circle>';});
+    svg+='<text x="'+((left+w-right)/2)+'" y="'+(h-8)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.xLabel||'Cumulative test time')+'</text><text x="17" y="'+((top+h-bottom)/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 17 '+((top+h-bottom)/2)+')">'+esc(spec.yLabel||'Cumulative MTBF')+'</text></svg>';
+    return svg;
+  }
+  function chartMixtureSimplex(spec){
+    var w=560,h=330,top=34,left=92,right=468,bottom=278;
+    var vertices=[[280,top],[left,bottom],[right,bottom]],components=spec.components||['A','B','C'];
+    function point(mixture){return [mixture[0]*vertices[0][0]+mixture[1]*vertices[1][0]+mixture[2]*vertices[2][0],mixture[0]*vertices[0][1]+mixture[1]*vertices[1][1]+mixture[2]*vertices[2][1]];}
+    var lower=(spec.lowerBounds||[0,0,0]).map(Number),remaining=1-lower.reduce(function(sum,value){return sum+value;},0);
+    var feasible=[point([lower[0]+remaining,lower[1],lower[2]]),point([lower[0],lower[1]+remaining,lower[2]]),point([lower[0],lower[1],lower[2]+remaining])];
+    var candidate=point((spec.point||[1/3,1/3,1/3]).map(Number));
+    var summary=(spec.title||'Mixture simplex')+'. Full three-component simplex with lower bounds '+components.map(function(component,index){return component+' at least '+lower[index];}).join(', ')+'. '+(spec.pointLabel||'Candidate')+' '+components.map(function(component,index){return component+' '+spec.point[index];}).join(', ')+'.';
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="'+esc(summary)+'"><text x="'+left+'" y="17" font-size="11" font-weight="700" fill="var(--ink)">'+esc(spec.title||'Mixture simplex')+'</text>';
+    svg+='<polygon points="'+vertices.map(function(vertex){return vertex.join(',');}).join(' ')+'" fill="none" class="tb-chart-line"></polygon>';
+    [0.25,0.5,0.75].forEach(function(level){
+      var a1=point([level,0,1-level]),a2=point([level,1-level,0]);
+      var b1=point([0,level,1-level]),b2=point([1-level,level,0]);
+      var c1=point([0,1-level,level]),c2=point([1-level,0,level]);
+      [[a1,a2],[b1,b2],[c1,c2]].forEach(function(line){svg+='<line x1="'+line[0][0].toFixed(1)+'" y1="'+line[0][1].toFixed(1)+'" x2="'+line[1][0].toFixed(1)+'" y2="'+line[1][1].toFixed(1)+'" class="tb-chart-grid" stroke-dasharray="3 4"></line>';});
+    });
+    svg+='<polygon points="'+feasible.map(function(vertex){return vertex[0].toFixed(1)+','+vertex[1].toFixed(1);}).join(' ')+'" fill="color-mix(in srgb,var(--teal) 12%,var(--card))" class="tb-chart-line"></polygon>';
+    svg+='<circle cx="'+candidate[0].toFixed(1)+'" cy="'+candidate[1].toFixed(1)+'" r="5" class="tb-chart-dot" tabindex="0" role="img" aria-label="'+esc((spec.pointLabel||'Candidate')+': '+components.map(function(component,index){return component+' '+spec.point[index];}).join(', '))+'"><title>'+esc((spec.pointLabel||'Candidate')+': '+components.map(function(component,index){return component+' '+spec.point[index];}).join(', '))+'</title></circle>';
+    svg+='<text x="280" y="'+(top-8)+'" font-size="10" font-weight="700" fill="var(--ink)" text-anchor="middle">'+esc(components[0])+' = 1</text><text x="'+(left-10)+'" y="'+(bottom+18)+'" font-size="10" font-weight="700" fill="var(--ink)" text-anchor="middle">'+esc(components[1])+' = 1</text><text x="'+(right+10)+'" y="'+(bottom+18)+'" font-size="10" font-weight="700" fill="var(--ink)" text-anchor="middle">'+esc(components[2])+' = 1</text><text x="280" y="'+(bottom+42)+'" font-size="9" fill="var(--muted)" text-anchor="middle">Feasible region: sum = 1; lower bounds '+lower.join(', ')+'</text><text x="'+(candidate[0]+8).toFixed(1)+'" y="'+(candidate[1]-8).toFixed(1)+'" font-size="9" fill="var(--ink)">'+esc(spec.pointLabel||'Candidate')+'</text></svg>';
+    return svg;
+  }
+  function chartHistogram(spec){
+    var edges=(spec.binEdges||[]).map(Number),counts=(spec.counts||[]).map(Number);
+    if(edges.length!==counts.length+1||!counts.length)return '';
+    var w=560,h=290,left=60,right=28,top=30,bottom=58;
+    var xMin=edges[0],xMax=edges[edges.length-1],maxCount=Math.max.apply(null,counts);
+    var yMax=Math.max(1,Math.ceil(maxCount/10)*10);
+    function px(value){return left+(Number(value)-xMin)/(xMax-xMin)*(w-left-right);}
+    function py(value){return top+(yMax-Number(value))/yMax*(h-top-bottom);}
+    var summary=(spec.title||'Histogram')+'. Bin counts: '+counts.map(function(count,index){return edges[index]+' to '+edges[index+1]+': '+count;}).join(', ')+(Number.isFinite(Number(spec.referenceValue))?'. '+(spec.referenceLabel||'Reference')+' at '+spec.referenceValue:'.');
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="'+esc(summary)+'">'+
+      '<text x="'+left+'" y="16" font-size="11" font-weight="700" fill="var(--ink)">'+esc(spec.title||'Histogram')+'</text>';
+    for(var tick=0;tick<=4;tick++){
+      var count=yMax*tick/4,y=py(count);
+      svg+='<line x1="'+left+'" y1="'+y.toFixed(1)+'" x2="'+(w-right)+'" y2="'+y.toFixed(1)+'" class="tb-chart-grid"></line><text x="'+(left-8)+'" y="'+(y+3).toFixed(1)+'" font-size="9" fill="var(--muted)" text-anchor="end">'+count.toFixed(0)+'</text>';
+    }
+    counts.forEach(function(count,index){
+      var x0=px(edges[index]),x1=px(edges[index+1]),y=py(count);
+      svg+='<rect x="'+(x0+1).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+Math.max(1,x1-x0-2).toFixed(1)+'" height="'+(h-bottom-y).toFixed(1)+'" class="tb-chart-box"></rect>';
+    });
+    var labelStep=Math.max(1,Math.ceil(edges.length/8));
+    edges.forEach(function(value,index){if(index%labelStep===0||index===edges.length-1)svg+='<text x="'+px(value).toFixed(1)+'" y="'+(h-bottom+18)+'" font-size="9" fill="var(--muted)" text-anchor="middle">'+esc(value)+'</text>';});
+    if(Number.isFinite(Number(spec.referenceValue))){
+      var refX=px(spec.referenceValue);
+      svg+='<line x1="'+refX.toFixed(1)+'" y1="'+top+'" x2="'+refX.toFixed(1)+'" y2="'+(h-bottom)+'" class="tb-chart-cl" stroke-dasharray="5 4"></line><text x="'+(refX+5).toFixed(1)+'" y="'+(top+12)+'" font-size="9" fill="var(--ink)">'+esc(spec.referenceLabel||spec.referenceValue)+'</text>';
+    }
+    svg+='<text x="'+((left+w-right)/2)+'" y="'+(h-13)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.xLabel||'Value')+'</text><text x="17" y="'+((top+h-bottom)/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 17 '+((top+h-bottom)/2)+')">'+esc(spec.yLabel||'Frequency')+'</text></svg>';
+    return svg;
+  }
+  function chartAcfPlot(spec){
+    var lags=(spec.lags||[]).map(Number),values=(spec.values||[]).map(Number),confidence=Math.abs(Number(spec.confidence));
+    if(!lags.length||lags.length!==values.length||!Number.isFinite(confidence))return '';
+    var w=560,h=300,left=58,right=28,top=30,bottom=52;
+    var maxAbs=Math.max(confidence,Math.max.apply(null,values.map(function(value){return Math.abs(value);})),0.25)*1.15;
+    function px(index){return left+(index+0.5)/lags.length*(w-left-right);}
+    function py(value){return top+(maxAbs-Number(value))/(2*maxAbs)*(h-top-bottom);}
+    var barWidth=Math.max(8,(w-left-right)/lags.length*0.52);
+    var summary=(spec.title||'Autocorrelation function')+'. Approximate bounds plus or minus '+confidence+'. '+lags.map(function(lag,index){return 'lag '+lag+': '+values[index];}).join(', ')+'.';
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="'+esc(summary)+'"><text x="'+left+'" y="16" font-size="11" font-weight="700" fill="var(--ink)">'+esc(spec.title||'Autocorrelation function')+'</text>';
+    [-maxAbs,-confidence,0,confidence,maxAbs].forEach(function(value){
+      var y=py(value),isReference=Math.abs(Math.abs(value)-confidence)<1e-9;
+      svg+='<line x1="'+left+'" y1="'+y.toFixed(1)+'" x2="'+(w-right)+'" y2="'+y.toFixed(1)+'" class="'+(value===0?'tb-chart-cl':'tb-chart-grid')+'"'+(isReference?' stroke-dasharray="5 4"':'')+'></line><text x="'+(left-8)+'" y="'+(y+3).toFixed(1)+'" font-size="9" fill="var(--muted)" text-anchor="end">'+value.toFixed(2)+'</text>';
+    });
+    svg+='<text x="'+(w-right)+'" y="'+(top+12)+'" font-size="9" fill="var(--muted)" text-anchor="end">95% bounds ±'+confidence.toFixed(3)+'</text>';
+    values.forEach(function(value,index){
+      var zero=py(0),valueY=py(value),y=Math.min(zero,valueY),height=Math.max(1,Math.abs(valueY-zero));
+      var label='Lag '+lags[index]+', autocorrelation '+value.toFixed(3);
+      svg+='<rect x="'+(px(index)-barWidth/2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+barWidth.toFixed(1)+'" height="'+height.toFixed(1)+'" class="tb-chart-dot" tabindex="0" role="img" aria-label="'+esc(label)+'"><title>'+esc(label)+'</title></rect><text x="'+px(index).toFixed(1)+'" y="'+(h-bottom+17)+'" font-size="9" fill="var(--muted)" text-anchor="middle">'+lags[index]+'</text>';
+    });
+    svg+='<text x="'+((left+w-right)/2)+'" y="'+(h-8)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.xLabel||'Lag')+'</text><text x="17" y="'+((top+h-bottom)/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 17 '+((top+h-bottom)/2)+')">'+esc(spec.yLabel||'Autocorrelation')+'</text></svg>';
+    return svg;
+  }
+  function chartContourPlot(spec){
+    var w=560,h=310,left=58,right=74,top=30,bottom=56;
+    var xDomain=spec.xDomain||[-2.5,2.5],yDomain=spec.yDomain||[-2.5,2.5];
+    var xTicks=spec.xTicks||[-2,-1,0,1,2],yTicks=spec.yTicks||[-2,-1,0,1,2];
+    function px(v){return left+(Number(v)-xDomain[0])/(xDomain[1]-xDomain[0])*(w-left-right);}
+    function py(v){return top+(yDomain[1]-Number(v))/(yDomain[1]-yDomain[0])*(h-top-bottom);}
+    function rx(v){return Number(v)/(xDomain[1]-xDomain[0])*(w-left-right);}
+    function ry(v){return Number(v)/(yDomain[1]-yDomain[0])*(h-top-bottom);}
+    var contours=spec.contours||[],center=spec.center||[0,0],current=spec.current||null;
+    var summary=(spec.title||'Response surface contour plot')+'. Contours '+contours.map(function(c){return c.level;}).join(', ')+' centered at A '+center[0]+', B '+center[1]+(current?'. Current point '+current.x+', '+current.y+'.':'.');
+    var clipId='tb-contour-plot-area';
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="'+esc(summary)+'">'+
+      '<defs><clipPath id="'+clipId+'"><rect x="'+left+'" y="'+top+'" width="'+(w-left-right)+'" height="'+(h-top-bottom)+'"></rect></clipPath></defs>'+
+      '<text x="'+left+'" y="16" font-size="11" font-weight="700" fill="var(--ink)">'+esc(spec.title||'Fitted response contours')+'</text>';
+    xTicks.forEach(function(value){var x=px(value);svg+='<line x1="'+x.toFixed(1)+'" y1="'+top+'" x2="'+x.toFixed(1)+'" y2="'+(h-bottom)+'" class="tb-chart-grid"></line><text x="'+x.toFixed(1)+'" y="'+(h-bottom+18)+'" font-size="9" fill="var(--muted)" text-anchor="middle">'+esc(value)+'</text>';});
+    yTicks.forEach(function(value){var y=py(value);svg+='<line x1="'+left+'" y1="'+y.toFixed(1)+'" x2="'+(w-right)+'" y2="'+y.toFixed(1)+'" class="tb-chart-grid"></line><text x="'+(left-8)+'" y="'+(y+3).toFixed(1)+'" font-size="9" fill="var(--muted)" text-anchor="end">'+esc(value)+'</text>';});
+    svg+='<g clip-path="url(#'+clipId+')">';
+    contours.forEach(function(contour,index){
+      svg+='<ellipse cx="'+px(center[0]).toFixed(1)+'" cy="'+py(center[1]).toFixed(1)+'" rx="'+rx(contour.radiusX).toFixed(1)+'" ry="'+ry(contour.radiusY).toFixed(1)+'" fill="none" class="tb-chart-line"'+(index%2?' stroke-dasharray="7 4"':'')+'></ellipse>';
+    });
+    if(current){var currentLabel=(current.label||'Current')+': A '+current.x+', B '+current.y;svg+='<circle cx="'+px(current.x).toFixed(1)+'" cy="'+py(current.y).toFixed(1)+'" r="5" class="tb-chart-dot" tabindex="0" role="img" aria-label="'+esc(currentLabel)+'"><title>'+esc(currentLabel)+'</title></circle>';}
+    svg+='</g>';
+    contours.forEach(function(contour,index){
+      var lx=px(center[0]+contour.radiusX*0.70),ly=py(center[1]+contour.radiusY*0.70);
+      svg+='<text x="'+lx.toFixed(1)+'" y="'+(ly-4).toFixed(1)+'" font-size="9" font-weight="700" fill="var(--ink)">'+esc(contour.level)+'</text>';
+    });
+    if(current)svg+='<text x="'+(px(current.x)+8).toFixed(1)+'" y="'+(py(current.y)-8).toFixed(1)+'" font-size="9" fill="var(--ink)">'+esc(current.label||'Current')+'</text>';
+    svg+='<text x="'+((left+w-right)/2)+'" y="'+(h-18)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.xLabel||'Factor A')+'</text>'+
+      '<text x="16" y="'+((top+h-bottom)/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 16 '+((top+h-bottom)/2)+')">'+esc(spec.yLabel||'Factor B')+'</text>'+
+      '<text x="'+(w-right+12)+'" y="'+(top+12)+'" font-size="9" fill="var(--muted)">Response</text>'+
+      contours.map(function(contour,index){return '<text x="'+(w-right+12)+'" y="'+(top+28+index*16)+'" font-size="9" fill="var(--ink)">'+esc(contour.level)+'</text>';}).join('')+
+      '</svg>';
+    return svg;
+  }
+  function chartReliabilityPlot(spec){
+    var w=560,h=300,left=58,right=132,top=30,bottom=50;
+    var series=spec.series||[],xTicks=spec.xTicks||[0,500,1000,1500,2000];
+    var xMin=Math.min.apply(null,xTicks),xMax=Math.max.apply(null,xTicks);
+    function px(v){return left+(Number(v)-xMin)/(xMax-xMin)*(w-left-right);}
+    function py(v){return top+(1-Number(v))*(h-top-bottom);}
+    var summary=(spec.title||'Reliability plot')+'. '+series.map(function(item){return item.label+': '+item.points.map(function(point){return point[0]+' hours '+Number(point[1]).toFixed(4);}).join(', ');}).join('. ')+'.';
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="'+esc(summary)+'">'+
+      '<text x="'+left+'" y="16" font-size="11" font-weight="700" fill="var(--ink)">'+esc(spec.title||'Reliability plot')+'</text>';
+    [0,0.25,0.5,0.75,1].forEach(function(value){var y=py(value);svg+='<line x1="'+left+'" y1="'+y.toFixed(1)+'" x2="'+(w-right)+'" y2="'+y.toFixed(1)+'" class="tb-chart-grid"></line><text x="'+(left-8)+'" y="'+(y+3).toFixed(1)+'" font-size="9" fill="var(--muted)" text-anchor="end">'+value.toFixed(2)+'</text>';});
+    xTicks.forEach(function(value){var x=px(value);svg+='<line x1="'+x.toFixed(1)+'" y1="'+top+'" x2="'+x.toFixed(1)+'" y2="'+(h-bottom)+'" class="tb-chart-grid"></line><text x="'+x.toFixed(1)+'" y="'+(h-bottom+17)+'" font-size="9" fill="var(--muted)" text-anchor="middle">'+esc(value)+'</text>';});
+    if(Number.isFinite(Number(spec.missionTime))){var missionX=px(spec.missionTime);svg+='<line x1="'+missionX.toFixed(1)+'" y1="'+top+'" x2="'+missionX.toFixed(1)+'" y2="'+(h-bottom)+'" class="tb-chart-cl" stroke-dasharray="4 4"></line><text x="'+missionX.toFixed(1)+'" y="'+(top+12)+'" font-size="9" fill="var(--muted)" text-anchor="middle">Mission '+esc(spec.missionTime)+' h</text>';}
+    series.forEach(function(item,index){
+      var path=item.points.map(function(point,i){return (i?'L':'M')+px(point[0]).toFixed(1)+' '+py(point[1]).toFixed(1);}).join(' ');
+      svg+='<path d="'+path+'" fill="none" class="tb-chart-line"'+(index===0?' stroke-dasharray="7 4"':'')+'></path>';
+      item.points.forEach(function(point){var label=item.label+', '+point[0]+' hours, reliability '+Number(point[1]).toFixed(4);svg+='<circle cx="'+px(point[0]).toFixed(1)+'" cy="'+py(point[1]).toFixed(1)+'" r="3.8" class="tb-chart-dot" tabindex="0" role="img" aria-label="'+esc(label)+'"><title>'+esc(label)+'</title></circle>';});
+      svg+='<line x1="'+(w-right+10)+'" y1="'+(top+26+index*38)+'" x2="'+(w-right+34)+'" y2="'+(top+26+index*38)+'" class="tb-chart-line"'+(index===0?' stroke-dasharray="7 4"':'')+'></line><text x="'+(w-right+40)+'" y="'+(top+29+index*38)+'" font-size="8.5" fill="var(--ink)">'+esc(index===0?'Both required':'Either sufficient')+'</text>';
+    });
+    svg+='<text x="'+((left+w-right)/2)+'" y="'+(h-6)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.xLabel||'Mission time')+'</text>'+
+      '<text x="16" y="'+((top+h-bottom)/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 16 '+((top+h-bottom)/2)+')">'+esc(spec.yLabel||'Reliability')+'</text></svg>';
+    return svg;
+  }
   var CHART_EYEBROWS={
     'xbar-r':'Control chart', 'boxplot':'Box plot', 'bias-diagram':'Bias diagram',
     'normal-prob':'Normal probability plot', 'precision-accuracy':'Target diagram', 'vsm-symbol':'VSM symbol',
@@ -3219,7 +3410,10 @@
     'multi-vari':'Multi-vari chart', 'distribution-labels':'Distribution',
     'labeled-boxplot':'Box plot', 'two-tail-test':'Hypothesis test',
     'fishbone-labels':'Cause-and-effect diagram', 'regression-diagnostic':'Regression diagnostic',
-    'time-series':'Time-series plot'
+    'time-series':'Time-series plot', 'contour-plot':'Response-surface contour plot',
+    'reliability-plot':'Reliability and survival plot', 'histogram':'Histogram and capability plot',
+    'acf-plot':'Autocorrelation diagnostic', 'multi-time-series':'Leadership evidence plot',
+    'reliability-growth':'Reliability growth plot', 'mixture-simplex':'Mixture-design simplex'
   };
   var CHART_COMPACT={'vsm-symbol':1,'vsm-supermarket':1};
   function renderQuestionChart(chart){
@@ -3253,6 +3447,13 @@
     else if(chart.type==='interaction-plot-3')inner=chartInteractionPlot3(chart);
     else if(chart.type==='regression-diagnostic')inner=chartRegressionDiagnostic(chart);
     else if(chart.type==='time-series')inner=chartTimeSeries(chart);
+    else if(chart.type==='multi-time-series')inner=chartMultiTimeSeries(chart);
+    else if(chart.type==='histogram')inner=chartHistogram(chart);
+    else if(chart.type==='acf-plot')inner=chartAcfPlot(chart);
+    else if(chart.type==='contour-plot')inner=chartContourPlot(chart);
+    else if(chart.type==='reliability-plot')inner=chartReliabilityPlot(chart);
+    else if(chart.type==='reliability-growth')inner=chartReliabilityGrowth(chart);
+    else if(chart.type==='mixture-simplex')inner=chartMixtureSimplex(chart);
     else return '';
     var eyebrow=CHART_EYEBROWS[chart.type];
     var wrapClass='tb-q-chart-wrap'+(CHART_COMPACT[chart.type]?' tb-q-chart-wrap-compact':'');

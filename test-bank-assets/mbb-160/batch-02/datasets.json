@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 1,
+  "batch": 2,
+  "generatedBy": "scripts/build-mbb160-assets.mjs",
+  "questions": {
+    "mbb:set-2:original-026": {
+      "sha256": "2ee1446c83542d00be5fae3a8fbfc78acb01ddf0b098fad75660a60f2dcbb9f1",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Stakeholder",
+          "Project impact",
+          "Influence",
+          "Importance",
+          "Current attitude"
+        ],
+        "rows": [
+          [
+            "Safety regulator",
+            "High",
+            "High",
+            "High",
+            "Cautious"
+          ],
+          [
+            "Field crews",
+            "High",
+            "Low",
+            "High",
+            "Mixed"
+          ],
+          [
+            "Union stewards",
+            "Medium",
+            "High",
+            "Low",
+            "Opposed"
+          ],
+          [
+            "Software vendor",
+            "Low",
+            "Low",
+            "Low",
+            "Supportive"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-028": {
+      "sha256": "a1011172f4569b9d0984c59c6930a2121a04d2c5811318a9609da7c72fb7961a",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Perspective claimed",
+          "Measure",
+          "Direction this quarter",
+          "Timing characteristic"
+        ],
+        "rows": [
+          [
+            "Financial",
+            "Revenue growth",
+            "Down 1.8 points",
+            "Lagging outcome"
+          ],
+          [
+            "Financial",
+            "Operating margin",
+            "Up 0.4 points",
+            "Lagging outcome"
+          ],
+          [
+            "Customer",
+            "Complaint rate",
+            "Up 13%",
+            "Lagging outcome"
+          ],
+          [
+            "Customer",
+            "Recall rate",
+            "Unchanged",
+            "Lagging outcome"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-031": {
+      "sha256": "4794a0bf1802d299fc8b5fac4cb34a87bdda947a39c56ddac87486b4323c8574",
+      "chart": {
+        "type": "time-series",
+        "title": "Manual referral workarounds after rollout",
+        "xLabel": "Week after rollout",
+        "yLabel": "Workarounds per 100 referrals",
+        "units": "workarounds per 100 referrals",
+        "labels": [
+          "W1",
+          "W2",
+          "W3",
+          "W4",
+          "W5",
+          "W6",
+          "W7",
+          "W8",
+          "W9",
+          "W10",
+          "W11",
+          "W12"
+        ],
+        "data": [
+          3,
+          4,
+          5,
+          7,
+          9,
+          12,
+          16,
+          21,
+          26,
+          31,
+          35,
+          39
+        ],
+        "decimals": 0,
+        "altText": "A twelve-week time-series rises every week from 3 to 39 manual workarounds per 100 referrals after the standardized referral workflow was introduced."
+      }
+    },
+    "mbb:set-2:original-036": {
+      "sha256": "c88032a012a0a698735a94aa56f9902f628e29532688ff3362dbdb7e3bdd13f5",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Project",
+          "NPV if realized ($M)",
+          "Realization probability",
+          "FTE required",
+          "Constraint"
+        ],
+        "rows": [
+          [
+            "A - Regulatory traceability",
+            "0.80",
+            "0.95",
+            "4",
+            "Mandatory"
+          ],
+          [
+            "B - Claims automation",
+            "2.40",
+            "0.65",
+            "5",
+            "Requires C"
+          ],
+          [
+            "C - Data foundation",
+            "0.70",
+            "0.90",
+            "3",
+            "None"
+          ],
+          [
+            "D - Retention workflow",
+            "1.80",
+            "0.80",
+            "4",
+            "None"
+          ]
+        ],
+        "whatIf": {
+          "id": "mbb-q036-capacity",
+          "label": "Total available capacity",
+          "min": 8,
+          "max": 16,
+          "step": 1,
+          "value": 12,
+          "unit": "FTE",
+          "committed": 4,
+          "committedLabel": "mandatory Project A"
+        }
+      }
+    },
+    "mbb:set-2:original-038": {
+      "sha256": "ddd9a224386b62b49f537e180d05988cf8959a7ca6c0de52b2a8e0ac7b19f578",
+      "chart": {
+        "type": "risk-matrix",
+        "rowAxis": "Operational impact",
+        "colAxis": "Likelihood",
+        "rows": [
+          "Severe",
+          "Moderate",
+          "Low"
+        ],
+        "cols": [
+          "Rare",
+          "Possible",
+          "Likely"
+        ],
+        "cells": [
+          [
+            "medium",
+            "high",
+            "high"
+          ],
+          [
+            "low",
+            "medium",
+            "high"
+          ],
+          [
+            "low",
+            "low",
+            "medium"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-040": {
+      "sha256": "29726bb59bbd67e1eee0847b7af2fc2e00ef7460bfb215697217190f56ebdc84",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Skill",
+          "Sponsors target",
+          "Belts target",
+          "Metrology target"
+        ],
+        "rows": [
+          [
+            "Interpret MSA decisions",
+            "Beginner",
+            "Practitioner",
+            "Expert"
+          ],
+          [
+            "Coach study planning",
+            "—",
+            "Practitioner",
+            "Expert"
+          ],
+          [
+            "Administer diagnostic studies",
+            "—",
+            "Beginner",
+            "Expert"
+          ],
+          [
+            "Communicate business risk",
+            "Practitioner",
+            "Practitioner",
+            "Beginner"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-046": {
+      "sha256": "28161b1ac0b392db3b595a19ee155397b2323388f0d2dcd5568130b97ac7b647",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Inspector",
+          "Within-inspector agreement",
+          "Agreement with reference",
+          "Meets both 90% criteria?"
+        ],
+        "rows": [
+          [
+            "A",
+            "96%",
+            "82%",
+            "No"
+          ],
+          [
+            "B",
+            "94%",
+            "84%",
+            "No"
+          ],
+          [
+            "C",
+            "98%",
+            "98%",
+            "Yes"
+          ],
+          [
+            "Overall",
+            "96%",
+            "88%",
+            "—"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-048": {
+      "sha256": "b1059580f34566308caef9fdde7aae432bd00027d36794a4efdd69dbb1bf29e3",
+      "chart": {
+        "type": "contour-plot",
+        "title": "Fitted response contours",
+        "xLabel": "Factor A (coded units)",
+        "yLabel": "Factor B (coded units)",
+        "xTicks": [
+          -2,
+          -1,
+          0,
+          1,
+          2
+        ],
+        "yTicks": [
+          -2,
+          -1,
+          0,
+          1,
+          2
+        ],
+        "xDomain": [
+          -2.5,
+          2.5
+        ],
+        "yDomain": [
+          -2.5,
+          2.5
+        ],
+        "center": [
+          0.5,
+          -0.5
+        ],
+        "contours": [
+          {
+            "level": 75,
+            "radiusX": 1.5811,
+            "radiusY": 2.7386
+          },
+          {
+            "level": 80,
+            "radiusX": 1.291,
+            "radiusY": 2.2361
+          },
+          {
+            "level": 85,
+            "radiusX": 0.9129,
+            "radiusY": 1.5811
+          }
+        ],
+        "current": {
+          "x": -1,
+          "y": 1,
+          "label": "Current"
+        },
+        "model": "y-hat = 90 - 6(A - 0.5)^2 - 2(B + 0.5)^2"
+      }
+    },
+    "mbb:set-2:original-049": {
+      "sha256": "22ff48b2bc550b0cc428d7a64986696915124e31d13c18165c157a330b7f5df2",
+      "chart": {
+        "type": "reliability-plot",
+        "title": "Two-module system reliability",
+        "xLabel": "Mission time (hours)",
+        "yLabel": "System reliability",
+        "xTicks": [
+          0,
+          500,
+          1000,
+          1500,
+          2000
+        ],
+        "series": [
+          {
+            "label": "Both modules required (series)",
+            "points": [
+              [
+                0,
+                1
+              ],
+              [
+                500,
+                0.8362
+              ],
+              [
+                1000,
+                0.6029
+              ],
+              [
+                1500,
+                0.3947
+              ],
+              [
+                2000,
+                0.239
+              ]
+            ]
+          },
+          {
+            "label": "Either module sufficient (active parallel)",
+            "points": [
+              [
+                0,
+                1
+              ],
+              [
+                500,
+                0.9927
+              ],
+              [
+                1000,
+                0.95
+              ],
+              [
+                1500,
+                0.8618
+              ],
+              [
+                2000,
+                0.7388
+              ]
+            ]
+          }
+        ],
+        "missionTime": 1000
+      }
+    }
+  }
+}
