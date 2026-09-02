@@ -10,7 +10,7 @@ const ROOT = path.join(__dirname, '..');
 const registrySource = fs.readFileSync(path.join(ROOT, 'test-bank-question-registry.js'), 'utf8');
 
 function embedQuestionBanks(html) {
-  return ['test-bank-cmq-set1.js', 'test-bank-mbb-set1.js', 'test-bank-mbb-set2.js', 'test-bank-cssgb-set1.js', 'test-bank-cssgb-set2.js'].reduce((page, file) => {
+  return ['test-bank-cmq-set1.js', 'test-bank-mbb-set1.js', 'test-bank-mbb-set2.js', 'test-bank-mbb-set3.js', 'test-bank-cssgb-set1.js', 'test-bank-cssgb-set2.js'].reduce((page, file) => {
     const source = fs.readFileSync(path.join(ROOT, file), 'utf8');
     return page.replace('<script src="/' + file + '"></script>', '<script>' + source + '</script>');
   }, html);
@@ -44,7 +44,7 @@ test('every published question has a literal, unique ID that preserves the prior
   const { dom, window, errors } = await load();
   try {
     assert.deepEqual(errors, []);
-    const expectedTotals = { cssbb: 1024, mbb: 200, cssgb: 616, cqe: 933, cmq: 166 };
+    const expectedTotals = { cssbb: 1024, mbb: 400, cssgb: 616, cqe: 933, cmq: 166 };
     let total = 0;
 
     Object.entries(expectedTotals).forEach(([examId, expectedTotal]) => {
@@ -61,6 +61,9 @@ test('every published question has a literal, unique ID that preserves the prior
             expected = 'cssgb:set-' + setId + ':source-' + question.sourceGlobalQuestion + ':' + hash(String(question.sourceSection).toLowerCase());
           } else if (examId === 'mbb' && setId === '2') {
             expected = 'mbb:set-2:original-' + String(index + 1).padStart(3, '0');
+          } else if (examId === 'mbb' && setId === '3') {
+            assert.match(question.qid, /^mbb:set-3:d\d-\d+$/, examId + ' Set ' + setId + ' question ' + (index + 1) + ' retains its stable, descriptive ID');
+            return;
           } else if (examId === 'cmq' || examId === 'mbb') {
             expected = examId + ':set-' + setId + ':source-' + question.sourceQuestion;
           } else {
@@ -78,7 +81,7 @@ test('every published question has a literal, unique ID that preserves the prior
       total += expectedTotal;
     });
 
-    assert.equal(total, 2939, 'the complete live question inventory is explicitly identified');
+    assert.equal(total, 3139, 'the complete live question inventory is explicitly identified');
   } finally {
     dom.window.close();
   }
