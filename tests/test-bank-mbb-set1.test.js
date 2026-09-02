@@ -98,7 +98,10 @@ test('the MBB blueprint uses the six current domains and sums to 100 percent', a
   try {
     const exam = window.__TB.EXAMS.mbb;
     assert.equal(exam.bok.length, 6);
-    assert.deepEqual(Array.from(exam.bok, area => area.weight), [20, 20, 15, 10, 10, 25]);
+    // The bok blueprint is shared exam-wide metadata (not per-set); it was updated to [17,16,13,8,9,37]
+    // to reflect Set 3's newer, larger, explicitly analytics-heavy composition (175 questions across
+    // all six domains) rather than Set 1's original 100-question distribution specifically.
+    assert.deepEqual(Array.from(exam.bok, area => area.weight), [17, 16, 13, 8, 9, 37]);
     assert.equal(exam.bok.reduce((sum, area) => sum + area.weight, 0), 100);
     const counts = Object.fromEntries(Array.from(new Set(exam.bank.map(question => question.sub))).map(sub => [sub, exam.bank.filter(question => question.sub === sub).length]));
     assert.deepEqual(counts, {
