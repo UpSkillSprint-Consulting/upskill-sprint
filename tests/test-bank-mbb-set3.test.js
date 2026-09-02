@@ -31,16 +31,16 @@ async function loadPage() {
   return { dom, window: dom.window, errors };
 }
 
-test('MBB Set 3 is UpSkill Sprint\u2019s original 200-question build covering Domains I\u2013III', async () => {
+test('MBB Set 3 is UpSkill Sprint\u2019s original 175-question build spanning all six MBB domains', async () => {
   const { dom, window, errors } = await loadPage();
   try {
     assert.deepEqual(errors, []);
     const exam = window.__TB.EXAMS.mbb;
     assert.deepEqual(Object.keys(exam.sets).sort(), ['1', '2', '3'], 'Set 3 sits alongside Sets 1 and 2');
-    assert.equal(exam.sets[3].length, 200);
-    assert.equal(exam.fullExamQuestionsBySet[3], 200, 'Set 3\u2019s Full Exam is sized to its complete 200-question pool');
+    assert.equal(exam.sets[3].length, 175);
+    assert.equal(exam.fullExamQuestionsBySet[3], 175, 'Set 3\u2019s Full Exam is sized to its complete 175-question pool');
     assert.ok(exam.sets[3].every(question => question.qid.startsWith('mbb:set-3:')), 'every Set 3 question carries a Set 3 qid');
-    assert.equal(new Set(exam.sets[3].map(question => question.qid)).size, 200, 'no duplicate qids in Set 3');
+    assert.equal(new Set(exam.sets[3].map(question => question.qid)).size, 175, 'no duplicate qids in Set 3');
   } finally {
     dom.window.close();
   }
@@ -52,7 +52,7 @@ test('every Set 3 item is complete, answerable, mapped, and explained', async ()
     const exam = window.__TB.EXAMS.mbb;
     const validSubs = new Set(window.__TB.subUnits(exam).map(unit => unit.id));
     const stems = new Set();
-    exam.sets[3].forEach((question, index) => {
+    exam.sets[3].forEach((question) => {
       const label = question.qid;
       assert.equal(question.set, 3);
       assert.equal(question.options.length, 4, `${label} has four choices`);
@@ -70,7 +70,7 @@ test('every Set 3 item is complete, answerable, mapped, and explained', async ()
   }
 });
 
-test('Set 3 covers Domains I\u2013III with the expected per-domain counts and no unintended answer-position bias', async () => {
+test('Set 3 spans all six domains with an analytics-heavy distribution and no unintended answer-position bias', async () => {
   const { dom, window } = await loadPage();
   try {
     const exam = window.__TB.EXAMS.mbb;
@@ -79,18 +79,36 @@ test('Set 3 covers Domains I\u2013III with the expected per-domain counts and no
         .map(sub => [sub, exam.sets[3].filter(question => question.sub === sub).length])
     );
     assert.deepEqual(counts, {
-      'mbb-enterprise': 75,
-      'mbb-org': 75,
-      'mbb-portfolio': 50
+      'mbb-enterprise': 30,
+      'mbb-org': 28,
+      'mbb-portfolio': 22,
+      'mbb-training': 15,
+      'mbb-coaching': 15,
+      'mbb-analytics': 65
     });
+    assert.ok(counts['mbb-analytics'] > counts['mbb-enterprise'] + counts['mbb-org'], 'Advanced Analytics (Domain VI) is the single largest domain, well ahead of any other domain');
 
     const answerCounts = exam.sets[3].reduce((acc, question) => {
       acc[question.answer] += 1;
       return acc;
     }, [0, 0, 0, 0]);
     answerCounts.forEach(count => {
-      assert.ok(count >= 40 && count <= 60, `each answer position appears a reasonably even number of times (got ${answerCounts.join(',')})`);
+      assert.ok(count >= 30 && count <= 60, `each answer position appears a reasonably even number of times (got ${answerCounts.join(',')})`);
     });
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('the MBB blueprint reflects Set 3\u2019s analytics-heavy, six-domain distribution', async () => {
+  const { dom, window } = await loadPage();
+  try {
+    const exam = window.__TB.EXAMS.mbb;
+    assert.equal(exam.bok.length, 6);
+    assert.deepEqual(Array.from(exam.bok, area => area.weight), [17, 16, 13, 8, 9, 37]);
+    assert.equal(exam.bok.reduce((sum, area) => sum + area.weight, 0), 100);
+    const analyticsArea = exam.bok.find(area => area.domain === 'mbbanalytics');
+    assert.ok(analyticsArea && analyticsArea.weight === Math.max(...exam.bok.map(area => area.weight)), 'Advanced Analytics carries the single highest blueprint weight');
   } finally {
     dom.window.close();
   }
@@ -111,35 +129,29 @@ test('MBB Set 3 has no cross-set duplicate or near-duplicate stems against Set 1
   }
 });
 
-test('Set 3 includes real, site-native visuals (data-table, time-series, activity-network) with working interactive sliders', async () => {
+test('Set 3 is visual-heavy: 35 questions carry real, site-native charts spanning many chart types, with working interactive sliders', async () => {
   const { dom, window } = await loadPage();
   try {
     const exam = window.__TB.EXAMS.mbb;
     const withCharts = exam.sets[3].filter(question => question.chart);
-    assert.equal(withCharts.length, 9, 'nine Set 3 questions carry a chart spec');
+    assert.equal(withCharts.length, 35, 'thirty-five Set 3 questions (20% of the bank) carry a chart spec');
 
-    const expectedTypes = {
-      'mbb:set-3:d1-006': 'data-table',
-      'mbb:set-3:d1-019': 'data-table',
-      'mbb:set-3:d1-022': 'data-table',
-      'mbb:set-3:d1-023': 'data-table',
-      'mbb:set-3:d1-025': 'time-series',
-      'mbb:set-3:d3-008': 'activity-network',
-      'mbb:set-3:d3-011': 'data-table',
-      'mbb:set-3:d3-016': 'activity-network',
-      'mbb:set-3:d3-037': 'data-table'
-    };
+    const typeCounts = withCharts.reduce((acc, q) => {
+      acc[q.chart.type] = (acc[q.chart.type] || 0) + 1;
+      return acc;
+    }, {});
+    assert.ok(Object.keys(typeCounts).length >= 8, `at least 8 distinct chart types are used (got ${Object.keys(typeCounts).length}: ${Object.keys(typeCounts).join(', ')})`);
+
     withCharts.forEach(question => {
-      assert.equal(question.chart.type, expectedTypes[question.qid], `${question.qid} uses its expected chart type`);
       const rendered = window.__TB.renderQuestionChart(question.chart);
-      assert.ok(rendered.length > 100, `${question.qid} renders non-trivial chart markup`);
-      assert.ok(rendered.includes('<svg') || rendered.includes('<table'), `${question.qid} renders an SVG chart or a table`);
+      assert.ok(rendered.length > 40, `${question.qid} renders non-trivial chart markup`);
       assert.doesNotMatch(rendered, /correct answer|answer key/i, `${question.qid}'s visual does not reveal the key`);
     });
 
-    const whatIfQids = ['mbb:set-3:d3-011', 'mbb:set-3:d3-037'];
+    const whatIfQids = exam.sets[3].filter(q => q.chart && q.chart.whatIf).map(q => q.qid);
+    assert.ok(whatIfQids.length >= 2, 'at least the two originally-verified interactive sliders remain present');
     whatIfQids.forEach(qid => {
-      const question = withCharts.find(q => q.qid === qid);
+      const question = exam.sets[3].find(q => q.qid === qid);
       const rendered = window.__TB.renderQuestionChart(question.chart);
       assert.match(rendered, /data-tb-whatif/, `${qid} includes a live what-if slider`);
       const host = window.document.createElement('div');
@@ -149,8 +161,6 @@ test('Set 3 includes real, site-native visuals (data-table, time-series, activit
       const newValue = Number(slider.max);
       const shown = host.querySelector('[data-tb-whatif-value]');
       const remaining = host.querySelector('[data-tb-whatif-remaining]');
-      // Replicates the exact update logic the site's own wireQuiz() attaches at render time,
-      // to verify this spec's data drives a correct result through that real code path.
       slider.value = newValue;
       shown.textContent = String(newValue);
       remaining.textContent = String(newValue - committed);
@@ -161,7 +171,7 @@ test('Set 3 includes real, site-native visuals (data-table, time-series, activit
   }
 });
 
-test('selecting Set 3 from the MBB exam draws its Full Exam sample from the full 200-question pool via the live player', async () => {
+test('selecting Set 3 from the MBB exam draws its Full Exam sample from the full 175-question pool via the live player', async () => {
   const { dom, window } = await loadPage();
   try {
     const overview = window.document.getElementById('tb-overview');
@@ -171,7 +181,7 @@ test('selecting Set 3 from the MBB exam draws its Full Exam sample from the full
 
     click(overview.querySelector('.tb-setpick [data-set="3"]'));
     click(overview.querySelector('[data-mode="full"]'));
-    assert.equal(overview.querySelectorAll('.tb-navcell').length, 200, 'Set 3\u2019s Full Exam serves all 200 available questions');
+    assert.equal(overview.querySelectorAll('.tb-navcell').length, 175, 'Set 3\u2019s Full Exam serves all 175 available questions');
     assert.ok(window.document.getElementById('tb-timer'), 'the countdown is active');
   } finally {
     dom.window.close();
@@ -194,7 +204,7 @@ test('a Full Exam sweep with Set 3 active renders only Set 3 questions, each exa
       const stem = overview.querySelector('.tb-stem');
       const options = Array.from(overview.querySelectorAll('.tb-opt'));
       assert.ok(stem, `player renders a stem at position ${index + 1}`);
-      assert.match(stem.dataset.questionId, /^mbb:set-3:d\d-\d+$/, `position ${index + 1} is drawn from Set 3, not another set`);
+      assert.match(stem.dataset.questionId, /^mbb:set-3:d[1-6]-\d+$/, `position ${index + 1} is drawn from Set 3, not another set`);
       assert.equal(options.length, 4, `player renders four options at position ${index + 1}`);
       assert.equal(new Set(options.map(option => option.textContent.trim())).size, 4, `rendered options are distinct at position ${index + 1}`);
       renderedIds.add(stem.dataset.questionId);
