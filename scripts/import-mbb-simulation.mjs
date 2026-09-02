@@ -32,12 +32,12 @@ const answerKey = [
 ];
 
 const domainQuestions = {
-  'mbb-enterprise': [2,4,5,16,17,18,24,33,34,41,53,59,64,86],
-  'mbb-org': [9,11,12,13,14,19,20,22,23,25,27,28,31,32,36,43,44,45,71,73,78],
-  'mbb-portfolio': [3,7,8,21,30,35,37,38,40,42,47,48,49,51,52,65,81,84,90,95,98,99],
+  'mbb-enterprise': [2,3,4,5,24,33,34,53,55,59,86,95],
+  'mbb-org': [9,11,12,13,14,18,19,20,22,23,25,27,28,29,31,32,36,41,43,44,45,64,71,73,78],
+  'mbb-portfolio': [7,8,16,17,21,30,35,37,38,40,42,47,48,49,51,52,65,81,84,90,98,99],
   'mbb-training': [54,56,57,58,60,61,62,88,92],
-  'mbb-coaching': [29,63,66,67,68,69,70,100],
-  'mbb-analytics': [1,6,10,15,26,39,46,50,55,72,74,75,76,77,79,80,82,83,85,87,89,91,93,94,96,97]
+  'mbb-coaching': [63,66,67,68,69,70,100],
+  'mbb-analytics': [1,6,10,15,26,39,46,50,72,74,75,76,77,79,80,82,83,85,87,89,91,93,94,96,97]
 };
 
 const subByQuestion = new Map();
@@ -288,6 +288,7 @@ const repairs = {
       type: 'data-table',
       columns: ['Assumption', 'Tool 1', 'Tool 2'],
       rows: [
+        ['Units', 'Independent', 'Independent'],
         ['Classification scale', 'Nominal categories', 'Ordered, equally spaced ratings'],
         ['Category use', 'Some categories may occur more often', 'Ranges such as −2, −1, 0, 1, 2'],
         ['Raters', 'Classify independently', 'Classify independently'],
@@ -419,6 +420,300 @@ const repairs = {
   }
 };
 
+/* The handbook simulation predates the current ASQ blueprint and contains a
+   few stems whose keyed choice is technically imprecise, subjective without a
+   decision rule, or no longer defensible as written. Keep those corrections
+   explicit so source identity is preserved without publishing ambiguity. */
+Object.assign(repairs, {
+  10: {
+    stem: 'When is an additive decomposition model appropriate for a time series?',
+    options: [
+      'When seasonal fluctuations have roughly constant absolute magnitude as the series level changes',
+      'When seasonal fluctuations grow in direct proportion to the series level',
+      'Only when the series has no trend and no seasonality',
+      'Whenever the autocorrelation at lag 1 is exactly zero'
+    ],
+    answer: 0,
+    why: 'Additive decomposition is appropriate when seasonal effects are expressed in roughly constant units. When seasonal amplitude scales with the level, a multiplicative model is generally more appropriate.'
+  },
+  13: {
+    stem: 'In expectancy theory, what does valence mean?',
+    options: [
+      'The value or attractiveness an individual assigns to a possible outcome or reward',
+      'The perceived probability that effort will produce the required performance',
+      'The perceived probability that performance will lead to an outcome',
+      'The amount of authority delegated to a self-directed team'
+    ],
+    answer: 0,
+    why: 'Valence is the personal value attached to an outcome. Expectancy links effort to performance, while instrumentality links performance to the outcome.'
+  },
+  18: {
+    stem: 'Which set contains recognized techniques for capturing the voice of the customer at listening posts?',
+    options: [
+      'Direct observation, comment cards, and mystery shopping',
+      'Variance inflation factors, control limits, and residual plots',
+      'Project charters, risk registers, and tollgate reviews',
+      'Work breakdown structures, Gantt charts, and earned value'
+    ],
+    answer: 0,
+    why: 'Observation, comment cards, and mystery shopping are customer-listening techniques. The other sets are analytics or project-management tools rather than VOC listening posts.'
+  },
+  23: {
+    stem: 'Which author is best known for popularizing emotional intelligence as a set of leadership competencies?',
+    options: ['Daniel Goleman', 'Paul Hersey', 'Douglas McGregor', 'Robert Blake'],
+    answer: 0,
+    why: 'Daniel Goleman popularized emotional intelligence in leadership through competencies such as self-awareness, self-management, empathy, and relationship management.'
+  },
+  25: {
+    stem: 'Which combination of group dynamics can reinforce resistance during a culture-change effort when it is not actively managed?',
+    options: [
+      'Social loafing, group polarization, and strong local-group norms',
+      'Process capability, takt time, and measurement resolution',
+      'Randomization, replication, and blocking',
+      'Net present value, payback period, and internal rate of return'
+    ],
+    answer: 0,
+    why: 'Reduced individual effort, movement toward more extreme group positions, and entrenched local norms can all reinforce resistance. The other choices are technical tool sets, not group dynamics.'
+  },
+  33: {
+    stem: 'Before choosing a Lean Six Sigma deployment structure, which organizational context should leaders explicitly assess?',
+    options: [
+      'Where the deployment function will sit, the labor or union environment, and relevant cultures and subcultures',
+      'Only the preferred statistical software and slide template',
+      'Only the number of employees who already hold Belt certificates',
+      'The personal travel preferences of the steering committee'
+    ],
+    answer: 0,
+    why: 'Placement, labor relationships, and culture affect authority, participation, communication, and adoption, so they must shape deployment design.'
+  },
+  34: {
+    stem: 'A strategic objective is translated into named actions, owners, due dates, and resources for near-term execution. What type of plan is this?',
+    options: ['An operational action plan', 'A vision statement', 'A scenario narrative', 'A project benefit hypothesis'],
+    answer: 0,
+    why: 'An operational action plan converts strategy into executable work by defining actions, responsibility, timing, and resources.'
+  },
+  36: {
+    stem: 'Which set identifies people-related adoption issues an MBB should anticipate during a Lean Six Sigma deployment?',
+    options: [
+      'Fear of change, impatience for results, resistance to disciplined rigor, and unclear role structure',
+      'Aliasing, multicollinearity, autocorrelation, and heteroscedasticity',
+      'Inventory turns, takt time, cycle time, and throughput',
+      'Depreciation, working capital, discount rate, and tax basis'
+    ],
+    answer: 0,
+    why: 'Fear, unrealistic urgency, resistance to rigor, and role ambiguity are human adoption barriers that leadership and change-management actions must address.'
+  },
+  37: {
+    stem: 'Two projects draw on the same constrained resource, and Project B cannot start until Project A delivers an interface. What must the portfolio review explicitly analyze?',
+    options: [
+      'Predecessor-successor dependencies and cross-project resource conflicts',
+      'Only the certification level of each project leader',
+      'Only the gross savings estimate of Project B',
+      'The alphabetical order of the project titles'
+    ],
+    answer: 0,
+    why: 'The interface creates a predecessor-successor dependency, while the shared constrained resource creates a portfolio-level conflict that must be sequenced and managed.'
+  },
+  46: {
+    stem: 'What criterion defines a D-optimal experimental design for a specified regression model?',
+    options: [
+      "It maximizes det(X'X), thereby minimizing the generalized variance of the estimated coefficients",
+      'It forces every interaction contrast to equal zero',
+      'It guarantees orthogonality for any candidate set and model',
+      'It minimizes residual variance without using a model matrix'
+    ],
+    answer: 0,
+    why: "D-optimality maximizes the determinant of the information matrix X'X. Equivalently, it minimizes the determinant of the coefficient covariance matrix up to the error-variance multiplier."
+  },
+  47: {
+    stem: 'Which set provides the core controls for authorizing a project, assessing its uncertainty, and planning its execution?',
+    options: [
+      'Project charter, risk analysis, and project plan',
+      'Strategic plan, annual report, and organization chart',
+      'Control chart, histogram, and normal probability plot',
+      'Job description, training roster, and performance appraisal'
+    ],
+    answer: 0,
+    why: 'The charter authorizes and bounds the work, risk analysis addresses uncertainty, and the project plan coordinates execution.'
+  },
+  51: {
+    stem: 'Why are early cost and schedule estimates for a DMAIC project often uncertain?',
+    options: [
+      'The investigation has not yet established the causal path and final solution',
+      'DMAIC projects are exempt from budget control',
+      'Finance is not permitted to validate improvement benefits',
+      'A project charter prohibits estimate refinement'
+    ],
+    answer: 0,
+    why: 'DMAIC begins with an unsolved performance problem. Until causes and countermeasures are established, the work path, resources, and duration can only be progressively elaborated.'
+  },
+  54: {
+    stem: 'Before performing a training gap analysis for a target role, what baseline must be defined?',
+    options: [
+      'The required job performance, tasks, and competencies',
+      'The preferred vendor and classroom location',
+      'The learner satisfaction survey score',
+      'The number of slides in the current course'
+    ],
+    answer: 0,
+    why: 'A gap is the difference between required and current performance. The role requirements must therefore be defined before knowledge and skill gaps can be measured.'
+  },
+  57: {
+    stem: 'Which pair describes two common organizational funding models for training?',
+    options: [
+      'Charge the cost back to the receiving business unit, or fund it from a central overhead budget',
+      'Charge every learner personally, or record no cost',
+      'Use only capital funding, or defer all training indefinitely',
+      'Fund only external courses, or prohibit internal instruction'
+    ],
+    answer: 0,
+    why: 'Training is commonly funded through a chargeback to the receiving unit or through a centralized overhead budget. The choice affects incentives, demand, and accountability.'
+  },
+  60: {
+    stem: "Which labels belong to Linksman's historical learning-style terminology?",
+    options: [
+      'Kinesthetic, visual, tactile, and auditory',
+      'Logical, mathematical, verbal, and financial',
+      'Directive, supportive, delegating, and coaching',
+      'Concrete, statistical, strategic, and operational'
+    ],
+    answer: 0,
+    why: "Linksman's terminology uses kinesthetic, visual, tactile, and auditory labels. An MBB should recognize the source vocabulary without using learning-style labels to restrict instruction; accessible multimodal design and observed performance are stronger guides."
+  },
+  64: {
+    stem: 'Which governance mechanism best sustains an integrated voice-of-the-customer and voice-of-the-process system?',
+    options: [
+      'Regular senior-management review with visible ownership, accountability, and action follow-through',
+      'Collecting customer comments without linking them to process measures',
+      'Rotating marketing and operations managers regardless of business need',
+      'Reporting only favorable measures at the annual strategy meeting'
+    ],
+    answer: 0,
+    why: 'Regular executive review connects customer and process evidence to decisions, owners, and follow-through. Collection alone does not create an integrated management system.'
+  },
+  74: {
+    stem: 'Which set contains methods that can be appropriate for an attribute or discrete measurement-system study, depending on the scale and design?',
+    options: [
+      'Percent agreement, kappa, Kendall-type concordance, and intraclass correlation for ordered ratings',
+      'Cp, Cpk, and a variables gage R&R study only',
+      'A continuous-data control chart and process capability indices only',
+      'Ordinary least squares with no rater or item effects'
+    ],
+    answer: 0,
+    why: 'Current ASQ MBB guidance includes percent agreement, kappa, Kendall, and ICC among methods for discrete measurement systems. The scale, raters, items, and intended agreement definition determine the appropriate statistic.'
+  },
+  75: {
+    stem: 'A team classifies an attribute measurement system using this rule: accept as-is only if every category kappa is at least 0.80; reject and redesign if any category kappa is below 0.60; otherwise require application-specific review. With Koverall = 0.80 and category kappas 0.74, 0.78, and 0.86, what is the decision?',
+    options: [
+      'Accept as-is because the overall kappa equals 0.80',
+      'Require application-specific review because at least one category is between 0.60 and 0.80',
+      'Reject and redesign because at least one category is below 0.80',
+      'No decision can be made because category kappas must all equal the overall kappa'
+    ],
+    answer: 1,
+    why: 'The overall value does not override category performance. The lowest category kappa is 0.74: it is not below the rejection threshold, but it fails the all-categories acceptance threshold, so the stated rule requires application-specific review.'
+  },
+  77: {
+    stem: 'A team uses this screening rule for six ICC estimates: all values at or above 0.75 are acceptable; any value from 0.40 to below 0.75 requires investigation and improvement; a value below 0.40 is unacceptable. The ICCs are 0.51, 0.62, 0.49, 0.64, 0.55, and 0.60. What is the decision?',
+    options: [
+      'Investigate and improve the measurement system',
+      'Accept the measurement system without further review',
+      'Reject it as automatically unusable because every ICC is below 0.75',
+      'Average the ICCs and ignore the individual estimates'
+    ],
+    answer: 0,
+    why: 'Every reported ICC lies between 0.40 and 0.75, so the supplied decision rule places the system in the investigate-and-improve band. The rule—not an unstated universal threshold—determines the answer.'
+  },
+  78: {
+    stem: 'What is the primary purpose of an organizational maturity model in an improvement deployment?',
+    options: [
+      'Assess the current level of institutional capability and guide progression toward more mature, sustained practices',
+      'Calculate the short-term Cp and Cpk of one production characteristic',
+      'Replace strategy deployment with a certification count',
+      'Prove that every business unit must use the same intervention sequence'
+    ],
+    answer: 0,
+    why: 'A maturity model provides a staged view of institutional capability, helping leaders assess current state, identify gaps, and plan progression toward sustained transformation.'
+  },
+  82: {
+    stem: 'Which technique can make the underlying pattern in a noisy time series easier to see?',
+    options: ['A variance-stabilizing transformation only', 'Smoothing the series', 'Standardizing every value independently', 'Deleting every large residual'],
+    answer: 1,
+    why: 'Smoothing reduces short-term noise so level, trend, or seasonal structure is easier to see. It does not justify deleting special causes or outliers without investigation.'
+  },
+  97: {
+    stem: 'For a fixed-total mixture experiment with a continuous response modeled by least squares, which assumptions are appropriate?',
+    options: [
+      'Component proportions sum to a constant, the response depends on composition, and model errors are independent with suitable variance and distributional behavior',
+      'Component levels vary independently with no sum constraint',
+      'Only total batch volume can affect the response; proportions cannot',
+      'The response has no experimental or model error'
+    ],
+    answer: 0,
+    why: 'Mixture factors are proportions constrained to a fixed total, so changing one component changes at least one other. Standard least-squares inference also requires an adequate mean model and appropriate error behavior.'
+  },
+  98: {
+    stem: 'In the source deployment-finance taxonomy, which list contains the five portfolio benefit categories?',
+    options: [
+      'Efficiency, expense, intermediate, budget, and rollover',
+      'Budget-impacting, efficiency, revenue growth, cost take-out, and working capital/cash flow',
+      'Cost take-out, revenue growth, rollover, expense, and planned',
+      'Baseline, planned, working capital/cash flow, efficiency, and budget'
+    ],
+    answer: 1,
+    why: 'The source framework separates budget impact, efficiency, revenue growth, cost take-out, and working-capital or cash-flow effects. Organizations may use different labels, so the classification should be defined and reconciled with Finance.'
+  }
+});
+
+const rationaleByQuestion = {
+  2: 'Deployment sequence should account for urgency, competitive pressure, and actual process capability so the organization does not overextend resources or introduce changes in the wrong order.',
+  3: 'The cause-and-effect sizing concept starts from Y = f(X): the response or business outcome depends on causal input variables whose breadth and complexity influence project scope.',
+  4: 'Deployment governance is the full operating system of decision rights, processes, roles, responsibilities, rules, and review mechanisms—not a training package or a single tool.',
+  5: 'An executive steering committee supplies sponsorship, a quality council provides cross-enterprise governance, and the deployment team coordinates execution.',
+  6: 'Classical decomposition separates an observed time series into systematic components such as trend and seasonality plus residual variation.',
+  7: 'General project management is appropriate when the desired deliverable or solution path is sufficiently known; DMAIC is designed for performance problems whose causes and solution are not yet known.',
+  8: 'Risk arises from uncertain events or conditions—something may happen or fail to happen—and their consequences for objectives such as scope, time, cost, or resources.',
+  9: 'Systems thinking broadens the unit of analysis to include interactions, feedback, delays, and consequences across the larger system rather than optimizing one component in isolation.',
+  11: 'Technology limitations, human adoption barriers, and inadequate infrastructure can each prevent a deployment from being accepted, supported, or sustained.',
+  12: 'Pacing the change, aligning rewards, setting clear objectives, and communicating consistently are complementary controls in a practical change plan.',
+  14: 'Centralization and decentralization describe where decision authority resides: concentrated at higher levels or delegated closer to the work.',
+  16: 'Activity-based costing traces resource costs to activities using cost drivers, then assigns those activity costs according to how products, services, or customers consume them.',
+  17: 'IRR is the discount rate that makes the net present value of inflows and outflows equal to zero—equivalently, the present value of benefits equals the present value of costs.',
+  19: 'Organizational dynamics examines how leadership, culture, and change processes influence behavior and performance within the organization.',
+  20: 'Juran described a structured movement from awareness of the need for quality change through goals, organization, training, projects, reporting, recognition, and institutionalization.',
+  21: 'FMEA identifies potential failure modes, their effects and causes, and prioritizes risk-reduction actions; it is therefore directly suited to risk analysis.',
+  22: 'Ouchi’s Theory Z emphasizes long-term employment, consensual decisions, individual responsibility, relatively slow evaluation, and holistic concern for employees.',
+  24: 'Hoshin kanri aligns breakthrough priorities vertically through levels of management and horizontally across functions, linking strategy with coordinated execution.',
+  26: 'A split-plot design is used when at least one factor is hard or expensive to change, creating whole plots for that factor and subplots for easier-to-change factors.',
+  27: 'Principles establish the purpose, culture reinforces expected behavior, practices turn the principles into routines, and tools support those practices.',
+  28: 'Structural inertia causes organizations to preserve roles, reporting lines, and routines after the conditions that originally justified them have changed.',
+  29: 'Heron groups intervention styles into authoritative interventions, which direct or challenge, and facilitative interventions, which help the client discover and act.',
+  30: 'Once an identified risk event occurs, the preplanned contingency response should be invoked; ad hoc replanning is slower and may omit prepared controls.',
+  31: 'Principled negotiation separates the people from the problem, focuses on interests rather than positions, creates options for mutual gain, and uses objective criteria.',
+  35: 'A megaproject is defined by exceptional scale and complexity that challenge ordinary governance and coordination, not by a universal dollar or duration threshold.',
+  40: 'A work breakdown structure decomposes the total project scope hierarchically into deliverables and manageable work packages.',
+  41: 'Mail, telephone, and fax are communication media; observation, focus groups, and interviews are research methods that can be conducted through particular media.',
+  44: 'The bullwhip effect is amplification of demand variability upstream when downstream orders or schedules change, leading suppliers to react more strongly than end demand warrants.',
+  55: 'DMEDI, IDOV, DMADOV, and DMADV are established Design for Six Sigma roadmaps. DMAIC is primarily an improvement roadmap for existing processes.',
+  59: 'Hoshin kanri is commonly translated as policy deployment or management by policy; policy execution is not the conventional name used in this source framework.',
+  62: 'Mager’s formulation centers a learning objective on observable performance, the conditions under which it occurs, and the criterion for acceptable performance.',
+  65: 'Reliable plans and completion dates let portfolio leaders forecast resource demand, sequence dependencies, and compare progress across concurrent projects.',
+  66: 'A tollgate should confirm evidence, resources, stakeholder engagement, and conflicts before advancing. Broadening scope at the gate invites scope creep and should require explicit rechartering.',
+  69: 'Mentoring is a longer-term developmental relationship that shares judgment, guidance, and career perspective; coaching is typically more immediate and performance-specific.',
+  70: 'When team failure is imminent, the coach should intervene promptly to diagnose the failure mode, restore productive norms, and escalate only when the team cannot recover safely.',
+  71: 'A lower certification standard for executives undermines procedural fairness and leadership credibility, which can demoralize employees and weaken the entire deployment.',
+  72: 'Propagation of error quantifies how uncertainty in component dimensions or inputs combines to affect the variation or tolerance of the assembled output.',
+  79: 'MAD summarizes absolute errors, MSD summarizes squared errors, and MAPE expresses absolute error relative to actual values; all three assess fitted or forecast accuracy.',
+  80: 'Weak stationarity requires a constant mean and variance and an autocovariance structure that depends on lag rather than calendar time.',
+  84: 'The balanced project constraints are time, cost, quality, and scope; changing one commonly forces tradeoffs in one or more of the others.',
+  86: 'Traditional planning distinguishes strategic direction, tactical translation, and operational execution, with increasing specificity and shorter horizons.',
+  89: 'Simulation exposes interactions and permits controlled comparison of many configurations without disrupting the real system; credible conclusions normally require validation and repeated runs.',
+  90: 'ROI, IRR, NPV, and cost-benefit ratio all compare project economics. BAC and EAC are earned-value budget terms, not primary investment-selection measures.',
+  95: 'The source pipeline sequence identifies opportunities, qualifies their suitability, selects and prioritizes them, assigns ownership and resources, and formally closes completed or retired work.',
+  96: 'For independent parallel components, system reliability is 1 − (1 − 0.90)(1 − 0.92)(1 − 0.94) = 1 − 0.00048 = 0.99952.',
+  99: 'Closure is a formal decision that work is complete or no longer viable; reassignment, sponsor departure, or exhausted funds can occur without satisfying closure requirements.'
+};
+
 const sourceWithRepairs = fs.readFileSync(sourcePath, 'utf8')
   .replace(/\f/g, '\n')
   .replace(/Â�/g, '')
@@ -470,15 +765,6 @@ if (byNumber.size !== 100) {
   throw new Error(`Expected 100 simulated-exam questions; parsed ${byNumber.size}. Missing: ${missing.join(', ')}`);
 }
 
-const domainRationale = {
-  'mbb-enterprise': 'This choice matches the enterprise-planning, deployment, governance, customer, or financial principle tested by the item.',
-  'mbb-org': 'This choice matches the organizational-design, culture, change, leadership, or systems-thinking principle tested by the item.',
-  'mbb-portfolio': 'This choice matches the project-selection, portfolio, risk, governance, or project-management principle tested by the item.',
-  'mbb-training': 'This choice matches the training-needs, instructional-design, delivery, or evaluation principle tested by the item.',
-  'mbb-coaching': 'This choice matches the coaching, mentoring, feedback, tollgate, or team-development principle tested by the item.',
-  'mbb-analytics': 'This choice matches the advanced measurement, modeling, design-of-experiments, optimization, reliability, or time-series principle tested by the item.'
-};
-
 const clean = value => value
   .replace(/\s+/g, ' ')
   .replace(/\bmak-\s+ing\b/g, 'making')
@@ -500,6 +786,18 @@ const bank = Array.from({ length: 100 }, (_, index) => {
   if (repair) {
     ({ stem, options, answer, chart } = repair);
     rationale = repair.why;
+    /* Do not let the normalization repairs create an answer-position cue.
+       Preserve the source key position when it was already A-D; for source
+       combination answers, distribute deterministically across A-D. */
+    const sourceAnswerIndex = ['A','B','C','D'].indexOf(answerKey[index]);
+    const targetAnswer = sourceAnswerIndex >= 0 ? sourceAnswerIndex : number % 4;
+    if (answer !== targetAnswer) {
+      const correctOption = options[answer];
+      const distractors = options.filter((_, optionIndex) => optionIndex !== answer);
+      options = distractors.slice();
+      options.splice(targetAnswer, 0, correctOption);
+      answer = targetAnswer;
+    }
   } else {
     stem = clean(raw.stem);
     options = raw.options.filter(candidate => ['A','B','C','D'].includes(candidate.label)).map(candidate => clean(candidate.text));
@@ -508,7 +806,8 @@ const bank = Array.from({ length: 100 }, (_, index) => {
     if (options.length !== 4 || answer < 0) {
       throw new Error(`Question ${number} needs an explicit four-choice repair (source answer ${answerLabel})`);
     }
-    rationale = domainRationale[subByQuestion.get(number)];
+    rationale = rationaleByQuestion[number];
+    if (!rationale) throw new Error(`Question ${number} needs a specific rationale`);
   }
 
   const correctLabel = String.fromCharCode(65 + answer);
