@@ -380,7 +380,7 @@
       "Which methodology does the assigned Black Belt already know best?"
     ],
     "answer": 0,
-    "why": "This closing synthesis item distills the domain's repeated methodology-selection lesson (tested individually in D1-014, D1-015, D1-017, D1-029, D1-041, D1-054, D1-060, D1-066) into the single foundational diagnostic question that should precede all others: what is the actual nature of the problem (existing process vs. new design vs. narrow tactical fix vs. plateaued/architectural), since methodology should follow problem type. Source: [BOK] Domain I.D, Improvement Methodologies (cross-batch synthesis).",
+    "why": "This closing synthesis item distills the domain's repeated methodology-selection lesson (tested individually across scenarios spanning DMAIC-vs-DMADV problem framing, DFSS for regulated new products, Kaizen for narrow well-understood fixes, and BPR for plateaued incremental gains) into the single foundational diagnostic question that should precede all others: what is the actual nature of the problem (existing process vs. new design vs. narrow tactical fix vs. plateaued/architectural), since methodology should follow problem type. Source: [BOK] Domain I.D, Improvement Methodologies (cross-batch synthesis).",
     "set": 3,
     "qid": "mbb:set-3:d1-072"
   },
@@ -394,7 +394,7 @@
       "Explicitly interrogate the data source for each proposed opportunity: is the comparison/sample fairly constructed (not biased or non-comparable), does correlation-based evidence have a validated causal mechanism (or is it just a hypothesis to test further), and has the opportunity been checked against multiple legitimate input types (VOC, VOB, safety/risk, regulatory) rather than relying on a single, possibly incomplete data source"
     ],
     "answer": 3,
-    "why": "This synthesis item distills the domain's opportunity-identification pitfalls (D1-018 VOC/VOB balance, D1-020 benchmarking flaws, D1-036/061 COPQ sizing, D1-042 multi-source validation, D1-048 survivorship bias, D1-055 leading indicators, D1-067 correlation/causation) into a general validation discipline: scrutinize data quality/bias, distinguish correlation from established causation, and triangulate across multiple legitimate input types. Source: [BOK] Domain I.E, Opportunities for Improvement (cross-batch synthesis).",
+    "why": "This synthesis item distills the domain's opportunity-identification pitfalls (VOC/VOB balance, benchmarking flaws, COPQ sizing, multi-source validation, survivorship bias, leading indicators, and correlation/causation confusion, each tested elsewhere in this domain) into a general validation discipline: scrutinize data quality/bias, distinguish correlation from established causation, and triangulate across multiple legitimate input types. Source: [BOK] Domain I.E, Opportunities for Improvement (cross-batch synthesis).",
     "set": 3,
     "qid": "mbb:set-3:d1-073"
   },
@@ -408,7 +408,7 @@
       "Once a project enters the pipeline, it should never be paused, re-sequenced, or killed regardless of new information"
     ],
     "answer": 0,
-    "why": "This closing synthesis item distills the domain's pipeline scenarios (D1-023 capacity math, D1-024 stage-gate kill decision, D1-031 re-sequencing governance, D1-037 portfolio diversification, D1-049 cross-departmental scoring, D1-062 seasonal scheduling, D1-068 dependency cascades) into the unifying principle that real capacity constraints must be respected and explicitly traded off against via transparent governance, rather than papered over or ignored. Source: [BOK] Domain I.F, Pipeline Management (cross-batch synthesis).",
+    "why": "This closing synthesis item distills the domain's pipeline scenarios (capacity math, stage-gate kill decisions, re-sequencing governance, portfolio diversification, cross-departmental scoring, seasonal scheduling, and dependency cascades, each tested elsewhere in this domain) into the unifying principle that real capacity constraints must be respected and explicitly traded off against via transparent governance, rather than papered over or ignored. Source: [BOK] Domain I.F, Pipeline Management (cross-batch synthesis).",
     "set": 3,
     "qid": "mbb:set-3:d1-074"
   },
@@ -464,7 +464,7 @@
       "No concern \u2014 champion responsibilities can always be added to any role regardless of existing span of control"
     ],
     "answer": 1,
-    "why": "Adding a significant new responsibility (champion duties) onto an already wide span-of-control role without explicit role clarity and protected capacity is a predictable path to the same ceremonial-sponsorship failure diagnosed in D2-002 \u2014 an organizational design concern the MBB should proactively flag before the role assignment is finalized, not after champions become unavailable. Source: [BOK] Domain II.A, Organizational Design.",
+    "why": "Adding a significant new responsibility (champion duties) onto an already wide span-of-control role without explicit role clarity and protected capacity is a predictable path to the same kind of ceremonial-sponsorship failure that occurs when champion duties are added without protected time or role clarity \u2014 an organizational design concern the MBB should proactively flag before the role assignment is finalized, not after champions become unavailable. Source: [BOK] Domain II.A, Organizational Design.",
     "set": 3,
     "qid": "mbb:set-3:d2-007"
   },
@@ -493,7 +493,6 @@
     ],
     "answer": 3,
     "why": "A deployment function housed entirely within one division structurally limits its ability to drive genuinely cross-divisional work \u2014 this is a classic organizational-design flaw requiring a structural fix (enterprise-level placement or cross-divisional governance), not merely better communication within the existing structure. Source: [BOK] Domain II.A, Organizational Design; I.C, Infrastructure Elements (related).",
-    "chart": {"type": "risk-matrix", "rows": ["Untreated safety near-miss", "Compliance-scope process change", "Standard workflow tweak"], "cols": ["Low disruption", "High disruption"], "cells": [["medium", "high"], ["medium", "high"], ["low", "low"]], "rowAxis": "Change type", "colAxis": "Regulatory disruption"},
     "set": 3,
     "qid": "mbb:set-3:d2-013"
   },
@@ -507,7 +506,7 @@
       "Nothing is wrong; stated values and actual practices are always aligned by definition"
     ],
     "answer": 0,
-    "why": "A genuine values-behavior gap (stated culture contradicted by actual incentive/disciplinary practices) is a critical organizational-culture diagnostic an MBB must surface \u2014 deploying Six Sigma on top of contradictory incentive structures will produce exactly the kind of engagement failures tested elsewhere in this domain (D2-005, D2-009, D2-015). Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
+    "why": "A genuine values-behavior gap (stated culture contradicted by actual incentive/disciplinary practices) is a critical organizational-culture diagnostic an MBB must surface \u2014 deploying Six Sigma on top of contradictory incentive structures will produce exactly the kind of engagement failures (disengaged staff, suppressed reporting, resistance to genuine collaboration) that predictably follow when stated values and actual incentive structures diverge. Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
     "set": 3,
     "qid": "mbb:set-3:d2-016"
   },
@@ -563,7 +562,7 @@
       "Develop shared brand-level cultural messaging and training materials (e.g., a brief onboarding module on the brand's data-driven, continuous-improvement values) that franchisees can adopt as part of brand standards, similar to the toolkit approach used for infrastructure in the Domain I franchise scenario \u2014 providing consistent messaging while respecting franchisee operational autonomy"
     ],
     "answer": 3,
-    "why": "This mirrors the franchise infrastructure principle from Domain I (D1-059): a shared, brand-level toolkit/messaging approach reinforces consistent values while respecting the franchisee's independent ownership and operational autonomy, rather than either full mandate (A) or full abdication (B, D). Source: [BOK] Domain II.D, Organizational Culture and Values Framework; I.C (franchise infrastructure parallel, D1-059).",
+    "why": "This mirrors the general franchise infrastructure principle: a shared, brand-level toolkit/messaging approach reinforces consistent values while respecting the franchisee's independent ownership and operational autonomy, rather than either full mandate (A) or full abdication (B, D). Source: [BOK] Domain II.D, Organizational Culture and Values Framework; I.C (franchise infrastructure parallel,).",
     "set": 3,
     "qid": "mbb:set-3:d2-029"
   },
@@ -577,7 +576,7 @@
       "Build a full corporate Six Sigma office with dedicated MBB, multiple BBs, and a formal steering committee, mirroring a Fortune 500 deployment regardless of the chain's actual size"
     ],
     "answer": 0,
-    "why": "This reinforces the resource-scaling principle from Domain I (D1-040's non-profit scenario): organizational design should be scaled appropriately to organizational size and resources, not default to either an over-built large-enterprise model (A) or no structure at all (C). Source: [BOK] Domain II.A, Organizational Design; I.C (scaling principle, D1-040).",
+    "why": "This reinforces the general resource-scaling principle seen elsewhere in resource-constrained contexts: organizational design should be scaled appropriately to organizational size and resources, not default to either an over-built large-enterprise model (A) or no structure at all (C). Source: [BOK] Domain II.A, Organizational Design; I.C (scaling principle).",
     "set": 3,
     "qid": "mbb:set-3:d2-032"
   },
@@ -647,7 +646,7 @@
       "Continue the quarterly review cadence unchanged, since quarterly reporting is a standard business rhythm regardless of the underlying event-driven pattern"
     ],
     "answer": 0,
-    "why": "This is another cadence-mismatch diagnosis (paralleling D2-017's ride-share scenario) but with a nuanced fix: the underlying problem is event-driven rather than time-driven, so the solution is event-triggered rapid capture feeding into (not replacing) periodic strategic synthesis \u2014 combining both timescales appropriately rather than simply increasing a still poorly-matched calendar-based frequency (D). Source: [BOK] Domain II.E, Organizational Feedback; cadence-matching principle (parallel to D2-017).",
+    "why": "This is another cadence-mismatch diagnosis (paralleling similar ride-share and feedback-timing scenarios seen elsewhere in this domain) but with a nuanced fix: the underlying problem is event-driven rather than time-driven, so the solution is event-triggered rapid capture feeding into (not replacing) periodic strategic synthesis \u2014 combining both timescales appropriately rather than simply increasing a still poorly-matched calendar-based frequency (D). Source: [BOK] Domain II.E, Organizational Feedback; cadence-matching principle.",
     "set": 3,
     "qid": "mbb:set-3:d2-048"
   },
@@ -675,7 +674,7 @@
       "Avoid any improvement work anywhere in the distillery given the strength of the tradition-based culture"
     ],
     "answer": 2,
-    "why": "This is a values-sensitive framing approach: explicitly scoping and communicating that improvement work targets areas unrelated to the culturally-protected core (the traditional recipe/production methods) avoids unnecessarily triggering identity-based resistance, similar in spirit to the funeral-services reframing in D2-028. Source: [BOK] Domain II.D, Organizational Culture and Values Framework; parallel to D2-028.",
+    "why": "This is a values-sensitive framing approach: explicitly scoping and communicating that improvement work targets areas unrelated to the culturally-protected core (the traditional recipe/production methods) avoids unnecessarily triggering identity-based resistance, similar in spirit to other values-sensitive reframing approaches used when a legitimate cultural value is unnecessarily triggered by an unrelated process change. Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
     "set": 3,
     "qid": "mbb:set-3:d2-054"
   },
@@ -683,13 +682,13 @@
     "sub": "mbb-org",
     "stem": "A computer repair franchise brand has a mix of corporate-owned and independently-franchised locations. Which organizational design principle should govern how Six Sigma deployment differs (if at all) between the two location types?",
     "options": [
-      "Corporate-owned locations, being under direct corporate authority, can support a more prescriptive/mandatory deployment model (formal Belt assignments, mandatory project participation), while franchised locations should follow the voluntary/toolkit-based brand-standards approach appropriate to their independent ownership (as established for franchise contexts in D1-059 and D2-029) \u2014 the deployment design should differ by ownership/authority structure even within the same brand",
+      "Corporate-owned locations, being under direct corporate authority, can support a more prescriptive/mandatory deployment model (formal Belt assignments, mandatory project participation), while franchised locations should follow the voluntary/toolkit-based brand-standards approach appropriate to their independent ownership (as established for franchise contexts elsewhere in this domain) \u2014 the deployment design should differ by ownership/authority structure even within the same brand",
       "Only corporate-owned locations should be permitted to participate in Six Sigma deployment at all, excluding franchised locations entirely",
       "Franchised locations should have more mandatory requirements than corporate-owned locations, reversing the typical authority relationship",
       "Corporate-owned and franchised locations should have identical, mandatory deployment structures with no distinction, since brand consistency requires complete uniformity regardless of ownership structure"
     ],
     "answer": 0,
-    "why": "This synthesizes the franchise-design principle established across D1-059 and D2-029 with the reality of mixed ownership models \u2014 deployment design should appropriately differentiate by actual organizational authority/ownership structure, even within a single brand, rather than forcing uniform treatment (A) or an inverted authority relationship (C) or exclusion (D). Source: [BOK] Domain II.A, Organizational Design; parallel to D1-059, D2-029.",
+    "why": "This synthesizes the franchise-design principle established elsewhere in this domain with the reality of mixed ownership models \u2014 deployment design should appropriately differentiate by actual organizational authority/ownership structure, even within a single brand, rather than forcing uniform treatment (A) or an inverted authority relationship (C) or exclusion (D). Source: [BOK] Domain II.A, Organizational Design; parallel to D2-029.",
     "set": 3,
     "qid": "mbb:set-3:d2-057"
   },
@@ -703,7 +702,7 @@
       "Explicitly reframe the food-waste-reduction project's communication and metrics around its conservation/stewardship impact (waste diverted from landfill, resources conserved) as the primary framing, with cost savings presented as a secondary, supporting benefit rather than the leading narrative \u2014 aligning the project's public framing with the value staff most strongly identify with, since the underlying project already genuinely serves that value"
     ],
     "answer": 3,
-    "why": "Since the project's actual outcome (reduced food waste) genuinely and directly serves the conservation value staff care about, the correct fix is reframing the *communication* to foreground that authentic alignment rather than leading with efficiency/cost language that triggers unnecessary values-based resistance \u2014 a more complete version of the reframing principle tested in D2-028 and D2-054. Source: [BOK] Domain II.D, Organizational Culture and Values Framework; parallel to D2-028, D2-054.",
+    "why": "Since the project's actual outcome (reduced food waste) genuinely and directly serves the conservation value staff care about, the correct fix is reframing the *communication* to foreground that authentic alignment rather than leading with efficiency/cost language that triggers unnecessary values-based resistance \u2014 a more complete version of the reframing principle tested elsewhere in this domain, including D2-054. Source: [BOK] Domain II.D, Organizational Culture and Values Framework; parallel to D2-054.",
     "set": 3,
     "qid": "mbb:set-3:d2-060"
   },
