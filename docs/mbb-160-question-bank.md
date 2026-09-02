@@ -2,7 +2,7 @@
 
 ## Scope and release rule
 
-This bank is a new, original 160-question simulation built to the current ASQ Certified Master Black Belt Body of Knowledge. It is separate from the published 100-question source-backed simulation and from the excluded 100-question practice examination. Until all 160 questions pass review, `test-bank-mbb-set2.js` remains intentionally absent from `test-bank.html`; incomplete batches cannot appear in the learner set picker or any random draw.
+This bank is a new, original 160-question simulation built to the current ASQ Certified Master Black Belt Body of Knowledge. It is separate from the published 100-question source-backed simulation and from the excluded 100-question practice examination. Each fully validated batch is published incrementally in Set 2. The learner selector displays the exact available count against the 160-question target, and Full Exam serves all currently available Set 2 questions with the same 90-second-per-question pace as Set 1 until the bank reaches 160.
 
 The governing blueprint was frozen on 2026-09-02 from the [official ASQ CMBB Body of Knowledge](https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf). The six domain weights are 20%, 20%, 15%, 10%, 10%, and 25%. The [official ASQ CMBB exam page](https://www.asq.org/cert/master-black-belt) remains the delivery-format reference. The project source `SPEC DATA SCHEMA.md` is explicitly excluded from question content and evidence.
 
@@ -75,4 +75,4 @@ Questions 005, 020, and 023 provide the first interactive set: a capacity what-i
 - exact question-to-dataset hashes, construction records, responsive fallback linkage, neutral answer presentation, semantic HTML/SVG output, keyboard-focusable plot details, and capacity-slider bounds;
 - no duplicate or suspicious near-duplicate stems within Batch 1 or against the existing 100-question MBB simulation.
 
-The asset build is deterministic through `npm run build:mbb160-assets`. Batch 1 is also included in the deploy-preview test gate so later UI or renderer changes cannot silently invalidate it.
+The asset build is deterministic through `npm run build:mbb160-assets`. Batch 1 is also included in the deploy-preview test gate so later UI or renderer changes cannot silently invalidate it. The UI integration test verifies that Set 2 is visible as “25 of 160,” identifies Batch 1 as complete, uses a 37-minute 30-second proportional timer, and launches exactly the 25 available questions without presenting the bank as finished.

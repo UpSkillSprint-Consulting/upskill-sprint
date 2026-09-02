@@ -80,9 +80,13 @@
     const poolOverrideActive = unseenActive || missedActive;
 
     if (description) {
+      const names = availableSets(overview).map(function (item) { return item.name; });
+      const choices = names.length > 1
+        ? names.slice(0, -1).join(', ') + ', or ' + names[names.length - 1]
+        : names[0];
       const nextDescription = kind === 'quick'
-        ? 'Choose Set 1, Set 2, Set 3, or Mixed, then draw a randomized sample across the whole Body of Knowledge.'
-        : 'Choose Set 1, Set 2, Set 3, or Mixed, then drill one Body of Knowledge area.';
+        ? 'Choose ' + choices + ', then draw a randomized sample across the whole Body of Knowledge.'
+        : 'Choose ' + choices + ', then drill one Body of Knowledge area.';
       if (description.textContent !== nextDescription) description.textContent = nextDescription;
     }
 

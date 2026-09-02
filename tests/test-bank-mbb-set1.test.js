@@ -9,8 +9,10 @@ const { installDurableLearning } = require('./helpers/test-bank-durable-learning
 
 const ROOT = path.join(__dirname, '..');
 const mbbScript = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set1.js'), 'utf8');
+const mbbSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set2.js'), 'utf8');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
-  .replace('<script src="/test-bank-mbb-set1.js"></script>', `<script>${mbbScript}</script>`);
+  .replace('<script src="/test-bank-mbb-set1.js"></script>', `<script>${mbbScript}</script>`)
+  .replace('<script src="/test-bank-mbb-set2.js"></script>', `<script>${mbbSet2Script}</script>`);
 
 async function loadPage() {
   const errors = [];
@@ -37,7 +39,10 @@ test('MBB Set 1 contains only the 100-question supplied simulated examination', 
     assert.equal(exam.pass, 70);
     assert.equal(exam.bank.length, 100);
     assert.equal(exam.sets[1], exam.bank);
-    assert.deepEqual(Object.keys(exam.sets), ['1'], 'the separate practice examination was not added as a set');
+    assert.deepEqual(Object.keys(exam.sets), ['1', '2']);
+    assert.equal(exam.sets[2].length, 25, 'the first validated original batch is published separately as Set 2');
+    assert.ok(exam.sets[2].every(question => /^mbb:set-2:original-\d{3}$/.test(question.qid)));
+    assert.ok(exam.sets[2].every(question => !/practice examination/i.test(question.sourceAssessment || '')), 'the excluded practice examination was not added to Set 2');
     assert.deepEqual(Array.from(exam.bank, question => question.sourceQuestion), Array.from({ length: 100 }, (_, index) => index + 1));
     assert.ok(exam.bank.every(question => question.sourceAssessment === 'Simulated Examination Questions for Parts I–VI'));
     assert.ok(exam.bank.every(question => !/practice examination/i.test(question.sourceAssessment)));
