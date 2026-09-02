@@ -166,11 +166,13 @@
     const rank = { active: 1, abandoned: 2, completed: 3 };
     const status = Number(rank[right.status] || 0) > Number(rank[left.status] || 0) ? right.status : left.status;
     const answerEvents = Object.assign({}, record(right.answerEvents), record(left.answerEvents));
+    const firstExposureByQuestion = Object.assign({}, record(right.firstExposureByQuestion), record(left.firstExposureByQuestion));
     const questionIds = Array.from(new Set(asArray(right.questionIds).concat(asArray(left.questionIds))));
     const starts = [Number(left.startedAt || 0), Number(right.startedAt || 0)].filter(function (value) { return value > 0; });
     return Object.assign({}, right, left, {
       status: status,
       answerEvents: answerEvents,
+      firstExposureByQuestion: firstExposureByQuestion,
       questionIds: questionIds,
       startedAt: starts.length ? Math.min.apply(null, starts) : 0,
       completedAt: Math.max(Number(left.completedAt || 0), Number(right.completedAt || 0)) || null,
@@ -817,9 +819,11 @@
       startedAt: Number(input.startedAt || now()),
       questionIds: [],
       answerEvents: {},
+      firstExposureByQuestion: {},
       status: 'active'
     }, existing);
     session.answerEvents = record(session.answerEvents);
+    session.firstExposureByQuestion = record(session.firstExposureByQuestion);
     return session;
   }
 
@@ -844,22 +848,29 @@
     }
     const questions = asArray(input.questions);
     const startedAt = Number(input.startedAt || now());
+    const ids = questions.map(function (question) { return questionId(input.examId, question); });
+    const seenBefore = new Set(seenQuestionIds(String(input.examId)));
+    const firstExposureByQuestion = {};
+    ids.forEach(function (id) { if (id) firstExposureByQuestion[id] = !seenBefore.has(id); });
+    const filter = input.filter ? String(input.filter) : null;
     state.sessions[sessionId] = {
       id: sessionId,
       examId: safeId(input.examId, 'unknown'),
       mode: String(input.mode || 'practice'),
       timed: Boolean(input.timed),
+      filter: filter,
       ownerId: (activeUser() && activeUser().id) || null,
       startedAt: startedAt,
-      questionIds: questions.map(function (question) { return questionId(input.examId, question); }),
+      questionIds: ids,
       answerEvents: {},
+      firstExposureByQuestion: firstExposureByQuestion,
       status: 'active'
     };
     nextEvent(state, 'session_started', {
       examId: input.examId,
       sessionId: sessionId,
       at: startedAt,
-      payload: { mode: String(input.mode || 'practice'), timed: Boolean(input.timed), total: questions.length, limitSeconds: input.limitSeconds == null ? null : Number(input.limitSeconds) }
+      payload: { mode: String(input.mode || 'practice'), timed: Boolean(input.timed), filter: filter, total: questions.length, limitSeconds: input.limitSeconds == null ? null : Number(input.limitSeconds) }
     });
     /* Selecting a set counts as exposure. This makes “new questions only”
        conservative: an abandoned set is never silently served again. */
@@ -869,7 +880,14 @@
         sessionId: sessionId,
         questionId: questionId(input.examId, question),
         at: startedAt,
-        payload: { index: index, mode: String(input.mode || 'practice'), timed: Boolean(input.timed), sub: question && question.sub || 'general' }
+        payload: {
+          index: index,
+          mode: String(input.mode || 'practice'),
+          timed: Boolean(input.timed),
+          filter: filter,
+          firstExposure: firstExposureByQuestion[questionId(input.examId, question)] === true,
+          sub: question && question.sub || 'general'
+        }
       });
     });
     const saved = persist(state, 'session-started');
@@ -1023,7 +1041,8 @@
         questionId: id,
         selected: payload.selected,
         status: payload.status,
-        sub: String(payload.sub || payload.snapshot && payload.snapshot.sub || 'general')
+        sub: String(payload.sub || payload.snapshot && payload.snapshot.sub || 'general'),
+        firstExposure: typeof session.firstExposureByQuestion[id] === 'boolean' ? session.firstExposureByQuestion[id] : undefined
       });
     });
     return { ids: ids, canonical: canonical };
@@ -1104,6 +1123,11 @@
       return false;
     }
     const payload = record(completion && completion.payload);
+    const firstExposureByQuestion = Object.assign({}, record(current.firstExposureByQuestion));
+    asArray(payload.answers).forEach(function (answer) {
+      answer = record(answer);
+      if (answer.questionId && typeof answer.firstExposure === 'boolean') firstExposureByQuestion[String(answer.questionId)] = answer.firstExposure;
+    });
     current.masteryDeriving = true;
     state.sessions[current.id] = current;
     try {
@@ -1114,7 +1138,12 @@
         sessionId: current.id,
         at: Number(completion && completion.occurredAt || current.completedAt || now()),
         completed: true,
-        eventIds: asArray(payload.answerEventIds)
+        eventIds: asArray(payload.answerEventIds),
+        filter: payload.filter || current.filter || null,
+        firstExposureByQuestion: firstExposureByQuestion,
+        answered: payload.answered,
+        newQuestions: payload.newQuestions,
+        repeated: payload.repeated
       });
       current.masteryDerived = true;
       return true;
@@ -1146,13 +1175,21 @@
     const records = asArray(input.records);
     const finalised = finalAnswerEvents(state, input, session, records, timestamp);
     const correct = finalised.canonical.filter(function (answer) { return answer.status === 'correct'; }).length;
+    const scored = finalised.canonical.filter(function (answer) { return answer.status === 'correct' || answer.status === 'incorrect'; });
+    const noveltyKnown = scored.every(function (answer) { return typeof answer.firstExposure === 'boolean'; });
+    const novelty = noveltyKnown ? {
+      answered: scored.length,
+      newQuestions: scored.filter(function (answer) { return answer.firstExposure; }).length,
+      repeated: scored.filter(function (answer) { return !answer.firstExposure; }).length
+    } : {};
     nextEvent(state, 'session_completed', {
       examId: input.examId || session.examId,
       sessionId: session.id,
       at: timestamp,
-      payload: {
+      payload: Object.assign({
         mode: String(input.mode || session.mode || 'practice'),
         timed: Boolean(input.timed == null ? session.timed : input.timed),
+        filter: input.filter || session.filter || null,
         total: finalised.canonical.length,
         correct: correct,
         startedAt: Number(session.startedAt || input.startedAt || timestamp),
@@ -1161,7 +1198,7 @@
            after its write-ahead event was already uploaded. */
         answers: finalised.canonical,
         answerEventIds: finalised.ids
-      }
+      }, novelty)
     });
     const result = { total: finalised.canonical.length, correct: correct };
     state.sessions[session.id] = Object.assign({}, session, { status: 'completed', completedAt: timestamp, result: result, masteryDerived: false });
@@ -1247,30 +1284,53 @@
     return seenQuestionIds(String(examId)).indexOf(id) !== -1;
   }
 
-  function summary(examId, fallbackStates) {
+  function summary(examId, fallbackStates, currentQuestionIds) {
     const state = read();
     const allowed = localScopes();
     const seen = new Set();
+    const currentSeen = new Set();
+    const restrictToCurrentPool = Array.isArray(currentQuestionIds);
+    const currentIds = new Set(asArray(currentQuestionIds).map(String));
     let answeredEvents = 0;
+    let allAnsweredEvents = 0;
     let completedSessions = 0;
     let firstEventAt = null;
     let lastEventAt = null;
     allowed.forEach(function (scope) {
       const current = scopeIndex(state, scope, String(examId), false);
-      Object.keys(current.seen).forEach(function (id) { seen.add(id); });
-      answeredEvents += Number(current.totals.answers || 0);
+      Object.keys(current.seen).forEach(function (id) {
+        seen.add(id);
+        if (!restrictToCurrentPool || currentIds.has(id)) currentSeen.add(id);
+      });
+      const answerStates = record(current.totals.answerStates);
+      const scoredKeys = Object.keys(answerStates).filter(function (key) {
+        return answerStates[key].status === 'correct' || answerStates[key].status === 'incorrect';
+      });
+      allAnsweredEvents += scoredKeys.length;
+      answeredEvents += restrictToCurrentPool ? scoredKeys.filter(function (key) {
+        const separator = key.indexOf('|');
+        return separator !== -1 && currentIds.has(key.slice(separator + 1));
+      }).length : scoredKeys.length;
       completedSessions += Number(current.totals.completedSessions || 0);
       if (current.totals.firstEventAt != null) firstEventAt = firstEventAt == null ? Number(current.totals.firstEventAt) : Math.min(firstEventAt, Number(current.totals.firstEventAt));
       if (current.totals.lastEventAt != null) lastEventAt = lastEventAt == null ? Number(current.totals.lastEventAt) : Math.max(lastEventAt, Number(current.totals.lastEventAt));
     });
-    legacySeenIds(String(examId), activeUser()).forEach(function (id) { seen.add(id); });
+    legacySeenIds(String(examId), activeUser()).forEach(function (id) {
+      seen.add(id);
+      if (!restrictToCurrentPool || currentIds.has(id)) currentSeen.add(id);
+    });
     Object.keys(record(fallbackStates)).forEach(function (key) {
       const item = fallbackStates[key];
-      if (item && Number(item.attempts || 0) > 0) seen.add(String(item.questionId || item.id || key));
+      if (!item || Number(item.attempts || 0) <= 0) return;
+      const id = String(item.questionId || item.id || key);
+      seen.add(id);
+      if (!restrictToCurrentPool || currentIds.has(id)) currentSeen.add(id);
     });
     return {
-      uniqueSeen: seen.size,
+      uniqueSeen: restrictToCurrentPool ? currentSeen.size : seen.size,
+      historicalUniqueSeen: restrictToCurrentPool ? Math.max(0, seen.size - currentSeen.size) : 0,
       answeredEvents: answeredEvents,
+      historicalAnsweredEvents: restrictToCurrentPool ? Math.max(0, allAnsweredEvents - answeredEvents) : 0,
       completedSessions: completedSessions,
       pending: pendingCount(state),
       anonymousPending: anonymousPendingCount(state),

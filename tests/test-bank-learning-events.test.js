@@ -245,9 +245,9 @@ test('the learning ledger records every delivered and submitted question before 
     const completionEvents = store.events.filter(event => event.type === 'session_completed');
     assert.equal(completionEvents.length, 1);
     assert.deepEqual(plain(completionEvents[0].payload.answers), [
-      { questionId: 'cssbb:test-001', selected: 0, status: 'correct', sub: 'mea' },
-      { questionId: 'cssbb:test-002', selected: 0, status: 'incorrect', sub: 'ana' },
-      { questionId: 'cssbb:test-003', selected: null, status: 'unanswered', sub: 'imp' }
+      { questionId: 'cssbb:test-001', selected: 0, status: 'correct', sub: 'mea', firstExposure: true },
+      { questionId: 'cssbb:test-002', selected: 0, status: 'incorrect', sub: 'ana', firstExposure: true },
+      { questionId: 'cssbb:test-003', selected: null, status: 'unanswered', sub: 'imp', firstExposure: true }
     ], 'completion preserves each answer’s immutable subtopic, including a blank answer');
     assert.deepEqual(
       Array.from(store.events.filter(event => event.type === 'answer_recorded'), event => event.questionId),
@@ -260,7 +260,14 @@ test('the learning ledger records every delivered and submitted question before 
     assert.equal(captured[0].records.length, 3);
     assert.deepEqual(plain(captured[0].metadata), {
       source: 'exam-attempt', mode: 'exam', timed: true, sessionId: 'cssbb-session-001', at: startedAt + 60000,
-      completed: true, eventIds: Array.from(store.events.filter(event => event.type === 'answer_recorded'), event => event.id)
+      completed: true, eventIds: Array.from(store.events.filter(event => event.type === 'answer_recorded'), event => event.id),
+      filter: null,
+      firstExposureByQuestion: {
+        'cssbb:test-001': true,
+        'cssbb:test-002': true,
+        'cssbb:test-003': true
+      },
+      answered: 2, newQuestions: 2, repeated: 0
     });
 
     const eventCountBeforeRetry = store.events.length;
@@ -613,6 +620,36 @@ test('an account snapshot migration remains fail-closed until its fresh progress
     await api.sync('after-progress-event');
     assert.equal(api.status().hydrated, true, 'the post-progress scan and fresh ledger fetch release New-only');
     assert.equal(api.hasSeen('cssbb', questions[0]), true);
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('current-pool summaries exclude retired IDs while preserving them as historical audit totals', () => {
+  const { dom, window, questions } = load();
+  try {
+    const api = window.__TBLearning;
+    const retired = question('cssbb:retired-999', 'A retired question retained only in history.', 1, 'mea');
+    const sessionId = api.startSession({
+      examId: 'cssbb', sessionId: 'cssbb-current-pool-summary', questions: [questions[0], retired], mode: 'quick', timed: false
+    });
+    api.completeSession({
+      examId: 'cssbb', sessionId: sessionId, mode: 'quick', timed: false,
+      records: [
+        { question: questions[0], selected: questions[0].answer, status: 'correct' },
+        { question: retired, selected: 0, status: 'incorrect' }
+      ]
+    });
+
+    const allHistory = api.summary('cssbb');
+    assert.equal(allHistory.uniqueSeen, 2);
+    assert.equal(allHistory.answeredEvents, 2);
+
+    const currentBank = api.summary('cssbb', {}, ['cssbb:test-001']);
+    assert.equal(currentBank.uniqueSeen, 1, 'the numerator contains only canonical IDs from the current bank');
+    assert.equal(currentBank.historicalUniqueSeen, 1, 'retired IDs remain available as a separate audit count');
+    assert.equal(currentBank.answeredEvents, 1, 'current-bank answer totals exclude retired question records');
+    assert.equal(currentBank.historicalAnsweredEvents, 1);
   } finally {
     dom.window.close();
   }

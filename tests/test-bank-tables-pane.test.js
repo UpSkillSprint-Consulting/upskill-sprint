@@ -13,6 +13,16 @@ function wait(window, ms = 30) {
   return new Promise(resolve => window.setTimeout(resolve, ms));
 }
 
+async function waitForTableRender(dom, timeoutMs = 2000) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    const document = dom.window.document;
+    if (!document.querySelector('.tb-tbl-loading') && document.querySelector('.tb-tbl-table')) return;
+    await wait(dom.window, 10);
+  }
+  assert.fail(`reference table did not render within ${timeoutMs}ms`);
+}
+
 async function buildTablesDom() {
   const dom = new JSDOM(`<!doctype html><html><head></head><body>
     <div id="tb-toollayer">
@@ -75,7 +85,7 @@ test('registry exposes all 15 reference tables grouped into categories', async (
 test('Tables panel opens, defaults to Z table, and renders a sticky-header grid', async () => {
   const dom = await buildTablesDom();
   dom.window.__TBTables.onOpen();
-  await wait(dom.window);
+  await waitForTableRender(dom);
   const table = dom.window.document.querySelector('.tb-tbl-table');
   assert.ok(table, 'expected a rendered table on open');
   assert.match(table.querySelector('thead').textContent, /0\.00/);
@@ -84,7 +94,7 @@ test('Tables panel opens, defaults to Z table, and renders a sticky-header grid'
 test('Z table lookup: z=1.00 -> Phi(z)=0.8413 (matches the CSSBB Handbook appendix exactly)', async () => {
   const dom = await buildTablesDom();
   dom.window.__TBTables.onOpen();
-  await wait(dom.window);
+  await waitForTableRender(dom);
   setKey(dom, 'z', '1.00');
   clickFind(dom);
   assert.match(resultText(dom), /0\.8413/);
@@ -96,11 +106,11 @@ test('Z table lookup: z=1.00 -> Phi(z)=0.8413 (matches the CSSBB Handbook append
 test('t-distribution lookup: df=14, alpha=0.05 -> t=1.761 (matches the exam question in Design 2 mockup)', async () => {
   const dom = await buildTablesDom();
   dom.window.__TBTables.onOpen();
-  await wait(dom.window);
+  await waitForTableRender(dom);
   const chip = [...dom.window.document.querySelectorAll('[data-tbl-select]')].find(b => b.textContent === "Student's t");
   assert.ok(chip, 'expected a chip for Student\'s t');
   chip.dispatchEvent(new dom.window.Event('click', { bubbles: true }));
-  await wait(dom.window);
+  await waitForTableRender(dom);
   setKey(dom, 'df', '14');
   setKey(dom, 'alpha', '0.05');
   clickFind(dom);
@@ -110,10 +120,10 @@ test('t-distribution lookup: df=14, alpha=0.05 -> t=1.761 (matches the exam ques
 test('F-distribution lookup: alpha=0.05, v1=4, v2=20 -> F=2.87 (matches the ANOVA example in Design 3 mockup)', async () => {
   const dom = await buildTablesDom();
   dom.window.__TBTables.onOpen();
-  await wait(dom.window);
+  await waitForTableRender(dom);
   const chip = [...dom.window.document.querySelectorAll('[data-tbl-select]')].find(b => b.textContent === 'F Distribution');
   chip.dispatchEvent(new dom.window.Event('click', { bubbles: true }));
-  await wait(dom.window);
+  await waitForTableRender(dom);
   setKey(dom, 'alpha', '0.05');
   setKey(dom, 'v1', '4');
   setKey(dom, 'v2', '20');
@@ -126,10 +136,10 @@ test('F-distribution lookup: alpha=0.05, v1=4, v2=20 -> F=2.87 (matches the ANOV
 test('Control chart constants lookup: n=5 -> A2=0.577 (matches the SPC example in Design 4 mockup)', async () => {
   const dom = await buildTablesDom();
   dom.window.__TBTables.onOpen();
-  await wait(dom.window);
+  await waitForTableRender(dom);
   const chip = [...dom.window.document.querySelectorAll('[data-tbl-select]')].find(b => b.textContent === 'Control Chart Constants');
   chip.dispatchEvent(new dom.window.Event('click', { bubbles: true }));
-  await wait(dom.window);
+  await waitForTableRender(dom);
   setKey(dom, 'n', '5');
   clickFind(dom);
   // Displayed at the standard 3-decimal textbook precision (0.577), even though
@@ -140,10 +150,10 @@ test('Control chart constants lookup: n=5 -> A2=0.577 (matches the SPC example i
 test('Binomial PMF lookup: n=10, x=3, p=0.30 -> matches scipy-validated value', async () => {
   const dom = await buildTablesDom();
   dom.window.__TBTables.onOpen();
-  await wait(dom.window);
+  await waitForTableRender(dom);
   const chip = [...dom.window.document.querySelectorAll('[data-tbl-select]')].find(b => b.textContent === 'Binomial (PMF)');
   chip.dispatchEvent(new dom.window.Event('click', { bubbles: true }));
-  await wait(dom.window);
+  await waitForTableRender(dom);
   setKey(dom, 'n', '10');
   setKey(dom, 'x', '3');
   setKey(dom, 'p', '0.30');
@@ -155,13 +165,13 @@ test('Binomial PMF lookup: n=10, x=3, p=0.30 -> matches scipy-validated value', 
 test('switching categories does not leak highlight state from the previous table', async () => {
   const dom = await buildTablesDom();
   dom.window.__TBTables.onOpen();
-  await wait(dom.window);
+  await waitForTableRender(dom);
   setKey(dom, 'z', '1.00');
   clickFind(dom);
   assert.ok(dom.window.document.querySelector('.tbl-hit'));
 
   const chip = [...dom.window.document.querySelectorAll('[data-tbl-select]')].find(b => b.textContent === 'Chi-Square');
   chip.dispatchEvent(new dom.window.Event('click', { bubbles: true }));
-  await wait(dom.window);
+  await waitForTableRender(dom);
   assert.equal(dom.window.document.querySelectorAll('.tbl-hit').length, 0, 'new table should render with no stale highlight');
 });
