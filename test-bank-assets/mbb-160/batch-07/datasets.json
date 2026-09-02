@@ -1,0 +1,435 @@
+{
+  "schemaVersion": 1,
+  "batch": 7,
+  "generatedBy": "scripts/build-mbb160-assets.mjs",
+  "questions": {
+    "mbb:set-2:original-151": {
+      "sha256": "11d20a811806852632199e76877e3a092016de645b2ac132480d4e5728f6668e",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Strategic objective",
+          "Initiative",
+          "Leading measure",
+          "Outcome measure"
+        ],
+        "rows": [
+          [
+            "Improve delivery reliability",
+            "Risk-based maintenance",
+            "Blank",
+            "On-time delivery"
+          ],
+          [
+            "Reduce complaint recurrence",
+            "Closed-loop corrective action",
+            "Actions verified on time",
+            "Repeat complaints"
+          ],
+          [
+            "Increase digital adoption",
+            "Role-based workflow coaching",
+            "Active weekly users",
+            "Digital completion rate"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-155": {
+      "sha256": "f907d2c8cb600a4db5fc2e38e763595cdc526ca42883c4d2934c724fd516b385",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Project",
+          "Belt-months",
+          "Funding ($000)",
+          "Risk-adjusted value ($000)",
+          "Dependency"
+        ],
+        "rows": [
+          [
+            "A",
+            "5",
+            "150",
+            "300",
+            "None"
+          ],
+          [
+            "B",
+            "4",
+            "100",
+            "210",
+            "None"
+          ],
+          [
+            "C",
+            "5",
+            "120",
+            "200",
+            "None"
+          ],
+          [
+            "D",
+            "6",
+            "180",
+            "330",
+            "Requires B"
+          ]
+        ],
+        "whatIf": {
+          "id": "mbb-q155-capacity",
+          "label": "Available Belt-months",
+          "min": 8,
+          "max": 12,
+          "step": 1,
+          "value": 10,
+          "unit": "Belt-months",
+          "committed": 10,
+          "committedLabel": "candidate portfolio B plus D"
+        }
+      }
+    },
+    "mbb:set-2:original-158": {
+      "sha256": "3d75771864b05d803ea9e0d5c0c0edab0b30f1e5f75928a9336db6d07516744f",
+      "chart": {
+        "type": "multi-time-series",
+        "title": "Workflow adoption evidence",
+        "xLabel": "Week",
+        "yLabel": "Percent",
+        "labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        "yDomain": [
+          0,
+          100
+        ],
+        "series": [
+          {
+            "label": "Recorded compliance",
+            "data": [
+              42,
+              68,
+              88,
+              96,
+              97,
+              96,
+              97,
+              96
+            ]
+          },
+          {
+            "label": "Independent use",
+            "data": [
+              24,
+              39,
+              55,
+              66,
+              70,
+              72,
+              71,
+              73
+            ]
+          },
+          {
+            "label": "Correct exception resolution",
+            "data": [
+              20,
+              31,
+              44,
+              53,
+              57,
+              59,
+              58,
+              60
+            ]
+          }
+        ]
+      }
+    },
+    "mbb:set-2:original-161": {
+      "sha256": "e8c7c2ddf059741964b34c162ab50650cc84d52c68e4a9440b468f248dd35abf",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Earned-value measure",
+          "Amount ($000)"
+        ],
+        "rows": [
+          [
+            "Budget at completion (BAC)",
+            "1,200"
+          ],
+          [
+            "Planned value (PV)",
+            "600"
+          ],
+          [
+            "Earned value (EV)",
+            "480"
+          ],
+          [
+            "Actual cost (AC)",
+            "550"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-163": {
+      "sha256": "e7ce00e6dd394ab1c845319fbb7d942f68ce2edcad8cf33fff6d5655ad76b95d",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Role",
+          "Knowledge check",
+          "System access",
+          "Job aid usable",
+          "Observed correct use"
+        ],
+        "rows": [
+          [
+            "Operators",
+            "88%",
+            "54%",
+            "42%",
+            "49%"
+          ],
+          [
+            "Supervisors",
+            "81%",
+            "96%",
+            "91%",
+            "78%"
+          ],
+          [
+            "Analysts",
+            "94%",
+            "100%",
+            "95%",
+            "92%"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-168": {
+      "sha256": "0b6664fc032dd5d91d4a9690278909f010761ce5f0b8baf999fb9dd0a3ded4d4",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Variance source",
+          "Percent of total variance"
+        ],
+        "rows": [
+          [
+            "Part to part",
+            "76%"
+          ],
+          [
+            "Repeatability within nested specimens",
+            "18%"
+          ],
+          [
+            "Appraiser",
+            "6%"
+          ],
+          [
+            "Total",
+            "100%"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-170": {
+      "sha256": "7050a0c82fe20494cbf37d8b5f1876b302d376641be3cb1404080ca8224c8060",
+      "chart": {
+        "type": "regression-diagnostic",
+        "title": "Claim severity versus policy-risk score",
+        "xLabel": "Policy-risk score",
+        "yLabel": "Claim severity ($000)",
+        "xTicks": [
+          10,
+          30,
+          50,
+          70,
+          90,
+          110
+        ],
+        "yTicks": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "points": [
+          {
+            "fitted": 10,
+            "residual": 24
+          },
+          {
+            "fitted": 18,
+            "residual": 29
+          },
+          {
+            "fitted": 25,
+            "residual": 31
+          },
+          {
+            "fitted": 34,
+            "residual": 39
+          },
+          {
+            "fitted": 42,
+            "residual": 43
+          },
+          {
+            "fitted": 51,
+            "residual": 49
+          },
+          {
+            "fitted": 60,
+            "residual": 56
+          },
+          {
+            "fitted": 70,
+            "residual": 61
+          },
+          {
+            "fitted": 105,
+            "residual": 78
+          }
+        ]
+      }
+    },
+    "mbb:set-2:original-172": {
+      "sha256": "e8b175b9aa522e3c1671963bb386ebca70081cfa5515efec93287b31db4bb8e8",
+      "chart": {
+        "type": "reliability-plot",
+        "title": "Series-subsystem mission reliability",
+        "xLabel": "Mission fraction",
+        "yLabel": "Reliability",
+        "xTicks": [
+          0,
+          0.25,
+          0.5,
+          0.75,
+          1
+        ],
+        "series": [
+          {
+            "label": "Subsystem A",
+            "points": [
+              [
+                0,
+                1
+              ],
+              [
+                0.25,
+                0.995
+              ],
+              [
+                0.5,
+                0.99
+              ],
+              [
+                0.75,
+                0.985
+              ],
+              [
+                1,
+                0.98
+              ]
+            ]
+          },
+          {
+            "label": "Subsystem B",
+            "points": [
+              [
+                0,
+                1
+              ],
+              [
+                0.25,
+                0.987
+              ],
+              [
+                0.5,
+                0.975
+              ],
+              [
+                0.75,
+                0.962
+              ],
+              [
+                1,
+                0.95
+              ]
+            ]
+          },
+          {
+            "label": "Subsystem C",
+            "points": [
+              [
+                0,
+                1
+              ],
+              [
+                0.25,
+                0.992
+              ],
+              [
+                0.5,
+                0.985
+              ],
+              [
+                0.75,
+                0.978
+              ],
+              [
+                1,
+                0.97
+              ]
+            ]
+          }
+        ],
+        "missionTime": 1
+      }
+    },
+    "mbb:set-2:original-174": {
+      "sha256": "2af0684c4a609d833cc9b1dab9924be8cb22e1cf2a9833d67cdce43e16031d6c",
+      "chart": {
+        "type": "two-level-interaction",
+        "title": "Screening interaction contrast",
+        "factorA": "Factor A",
+        "factorB": "Factor B",
+        "xLowLabel": "A low",
+        "xHighLabel": "A high",
+        "lowLabel": "B low",
+        "highLabel": "B high",
+        "lowLine": [
+          62,
+          78
+        ],
+        "highLine": [
+          80,
+          66
+        ],
+        "yLabel": "Mean response",
+        "yDomain": [
+          55,
+          85
+        ],
+        "yTicks": [
+          60,
+          70,
+          80
+        ]
+      }
+    }
+  }
+}
