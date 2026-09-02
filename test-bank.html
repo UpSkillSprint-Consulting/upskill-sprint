@@ -3700,14 +3700,14 @@
     return shuffle(out.slice(0,count));
   }
   function diagCount(e){var b=activeBank(e);return Math.min(b.length,pickStratified(b,2).length);}
-  function beginSession(e,items,kind,timed,limitSeconds){
+  function beginSession(e,items,kind,timed,limitSeconds,filter){
     buildTools();
     var durationSeconds=timed?(limitSeconds==null?quizDurationSeconds(e,items.length):limitSeconds):null;
     var learning=learningWriter();if(!learning)return false;
-    var start=learning.startSession({examId:current,questions:items,mode:kind,timed:!!timed,limitSeconds:durationSeconds,returnResult:true});
+    var start=learning.startSession({examId:current,questions:items,mode:kind,timed:!!timed,filter:filter||null,limitSeconds:durationSeconds,returnResult:true});
     var learningSessionId=start&&start.sessionId;
     if(!learningSessionId||start.saved===false||!writeAheadConfirmed(learning))return false;
-    session={id:learningSessionId,kind:kind,items:items.map(function(q){return {q:q};}),answers:{},flags:{},i:0,timed:!!timed,limitSeconds:durationSeconds,endsAt:timed?Date.now()+durationSeconds*1000:null,completed:false};
+    session={id:learningSessionId,kind:kind,filter:filter||null,items:items.map(function(q){return {q:q};}),answers:{},flags:{},i:0,timed:!!timed,limitSeconds:durationSeconds,endsAt:timed?Date.now()+durationSeconds*1000:null,completed:false};
     view='quiz';renderMain();startTimer();
     return true;
   }
@@ -3780,7 +3780,7 @@
         return {reserved:false,reason:'all-candidates-claimed',acceptedIds:[]};
       }
       newOnlyReservationGate.error='';
-      if(!beginSession(e,accepted,kind,timed,quizDurationSeconds(e,accepted.length))){
+      if(!beginSession(e,accepted,kind,timed,quizDurationSeconds(e,accepted.length),'new-only')){
         /* A reservation without a write-ahead session is still conservative:
            it will never be served as New-only a second time. */
         newOnlyReservationGate.error='Your selected questions were reserved, but this device could not save the session yet. No quiz was started; restore storage access before trying again.';
@@ -3807,7 +3807,7 @@
     if(mode.quickUnseen){reserveNewOnlyQuestions(e,'quick',qs,mode.quickN,mode.quickTimed);return;}
     shuffle(qs);
     qs=qs.slice(0,Math.min(mode.quickN,qs.length));
-    beginSession(e,qs,'quick',mode.quickTimed,quizDurationSeconds(e,qs.length));
+    beginSession(e,qs,'quick',mode.quickTimed,quizDurationSeconds(e,qs.length),mode.quickMissed?'missed-only':null);
   }
   function requestNewOnlyStart(kind,afterFresh){
     if(newOnlyStartGate.active)return newOnlyStartGate.promise||Promise.resolve({ready:false,reason:'start-pending'});
@@ -3849,7 +3849,7 @@
     if(mode.focusUnseen){reserveNewOnlyQuestions(e,'focus',qs,mode.focusN,mode.focusTimed);return;}
     shuffle(qs);
     qs=qs.slice(0,Math.min(mode.focusN,qs.length));
-    beginSession(e,qs,'focus',mode.focusTimed,quizDurationSeconds(e,qs.length));
+    beginSession(e,qs,'focus',mode.focusTimed,quizDurationSeconds(e,qs.length),mode.focusMissed?'missed-only':null);
   }
   function startFocused(){
     if(mode.focusUnseen){requestNewOnlyStart('focus',startFocusedAfterFresh);return;}
@@ -4126,7 +4126,7 @@
     var learningRecords=session.items.map(function(it,index){var selected=session.answers[index];return {question:it.q,selected:selected==null?null:selected,status:selected==null?'unanswered':selected===it.q.answer?'correct':'incorrect'};});
     var learning=window.__TBLearning;
     if(!learning||typeof learning.completeSession!=='function'||!session.id){session.completed=false;showLearningStorageNotice('Your completed test could not be saved because study-record storage is unavailable. Please wait a moment and submit again.');return;}
-    var completion=learning.completeSession({examId:current,sessionId:session.id,mode:session.kind,timed:session.timed,startedAt:session.endsAt&&session.limitSeconds?session.endsAt-session.limitSeconds*1000:null,completedReason:completedReason||'submitted',records:learningRecords});
+    var completion=learning.completeSession({examId:current,sessionId:session.id,mode:session.kind,timed:session.timed,filter:session.filter||null,startedAt:session.endsAt&&session.limitSeconds?session.endsAt-session.limitSeconds*1000:null,completedReason:completedReason||'submitted',records:learningRecords});
     if(!completion||completion.saved===false||!writeAheadConfirmed(learning)){session.completed=false;return;}
     var agg=subAgg(session.items.map(function(it){return it.q;}),session.answers);
     var units=subUnits(e);

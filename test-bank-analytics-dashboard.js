@@ -198,19 +198,27 @@
   function learningSummary(summary) {
     const data = examData(readStore());
     const learning = window.__TBLearning;
+    const currentIds = allQuestions().map(questionId);
     const fallback = {
       uniqueSeen: Number(summary && summary.attempted || 0),
       answeredEvents: Number(summary && summary.answers || summary && summary.attempted || 0),
       completedSessions: 0,
-      pending: 0
+      pending: 0,
+      historicalUniqueSeen: 0,
+      historicalAnsweredEvents: 0
     };
     if (!learning || typeof learning.summary !== 'function') return fallback;
-    const ledger = learning.summary(examId(), data.questions || {});
+    /* Full Analytics is about the live bank. Historic IDs remain in the
+       durable ledger for audit/notebook purposes, but cannot be placed over
+       the current-bank denominator or the result can exceed 100%. */
+    const ledger = learning.summary(examId(), data.questions || {}, currentIds);
     return {
-      uniqueSeen: Math.max(fallback.uniqueSeen, Number(ledger && ledger.uniqueSeen || 0)),
+      uniqueSeen: Math.min(Number(summary && summary.total || currentIds.length || 0), Math.max(fallback.uniqueSeen, Number(ledger && ledger.uniqueSeen || 0))),
       answeredEvents: Math.max(fallback.answeredEvents, Number(ledger && ledger.answeredEvents || 0)),
       completedSessions: Number(ledger && ledger.completedSessions || 0),
-      pending: Number(ledger && ledger.pending || 0)
+      pending: Number(ledger && ledger.pending || 0),
+      historicalUniqueSeen: Number(ledger && ledger.historicalUniqueSeen || 0),
+      historicalAnsweredEvents: Number(ledger && ledger.historicalAnsweredEvents || 0)
     };
   }
 
@@ -476,11 +484,12 @@
       '<div class="tb-an-ring" style="--p:' + summary.readiness + '"><strong>' + summary.readiness + '%</strong><span>readiness</span></div>' +
       '<div class="tb-an-stat-row">' +
         '<div class="tb-an-stat"><b>' + summary.attemptedMastery + '%</b><span>mastery on attempted</span></div>' +
-        '<div class="tb-an-stat"><b>' + summary.coverage + '%</b><span>answered-pool coverage</span></div>' +
-        '<div class="tb-an-stat"><b>' + ledger.answeredEvents + '</b><span>total answers</span></div>' +
+        '<div class="tb-an-stat"><b>' + summary.coverage + '%</b><span>blueprint-weighted coverage</span></div>' +
+        '<div class="tb-an-stat"><b>' + ledger.answeredEvents + '</b><span>answers on current questions</span></div>' +
+        '<div class="tb-an-stat"><b>' + summary.attempted + '/' + summary.total + '</b><span>unique questions answered</span></div>' +
         '<div class="tb-an-stat"><b>' + ledger.uniqueSeen + '/' + summary.total + '</b><span>unique questions delivered</span></div>' +
       '</div></div>' +
-      '<p class="tb-an-desc">Readiness is blueprint-weighted: each subtopic contributes its official exam weight × your effective mastery × the share of that subtopic you have answered. Delivered questions are shown separately and never raise readiness on their own, so a high score on 20 questions reads lower than the same score on 500.' + (ledger.pending ? ' ' + ledger.pending + ' record' + (ledger.pending === 1 ? ' is' : 's are') + ' waiting to sync.' : '') + '</p>' +
+      '<p class="tb-an-desc">Readiness is blueprint-weighted: each subtopic contributes its official exam weight × your effective mastery × the share of that subtopic you have answered. All five counters above use the current question bank. Delivered questions are shown separately and never raise readiness on their own, so a high score on 20 questions reads lower than the same score on 500.' + (ledger.historicalUniqueSeen ? ' ' + ledger.historicalUniqueSeen + ' retired or legacy question ID' + (ledger.historicalUniqueSeen === 1 ? ' is' : 's are') + ' retained in history but excluded from these current-bank totals.' : '') + (ledger.pending ? ' ' + ledger.pending + ' record' + (ledger.pending === 1 ? ' is' : 's are') + ' waiting to sync.' : '') + '</p>' +
       domainSection;
   }
 

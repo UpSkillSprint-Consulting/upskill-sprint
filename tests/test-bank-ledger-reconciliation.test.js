@@ -116,7 +116,7 @@ test('remote completed ledger sessions hydrate mastery and the immutable mistake
     assert.equal(data.attempts.length, 1);
     assert.deepEqual(JSON.parse(JSON.stringify(data.attempts[0])), {
       id: 'phone-session-001', at, resetAt: 0, source: 'quick-quiz', mode: 'quick', timed: false,
-      completed: true, total: 2, correct: 1, repeated: 0, newQuestions: 2
+      completed: true, total: 2, correct: 1, answered: 2, repeated: 0, newQuestions: 2
     });
     const retired = data.questions['cssbb:retired-001'];
     assert.equal(retired.incorrect, 1);
@@ -132,6 +132,90 @@ test('remote completed ledger sessions hydrate mastery and the immutable mistake
     assert.match(notebook, /Retired wording retained by the notebook\./);
     assert.match(notebook, /The old explanation is retained\./);
     assert.doesNotMatch(notebook, /Current revised wording must not replace the historic mistake\./);
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('completion replaces provisional answer evidence and preserves New-only novelty through synchronization', () => {
+  const { dom, window } = load();
+  try {
+    const api = window.__TBAdaptiveMastery;
+    const at = Date.UTC(2026, 8, 1, 12, 0, 0);
+    const answer = {
+      id: 'new-only-answer-001', type: 'answer_recorded', examId: 'cssbb', sessionId: 'new-only-session-001',
+      questionId: 'cssbb:active-001', occurredAt: at + 1000,
+      payload: { selected: 1, status: 'correct' }
+    };
+    const events = [
+      {
+        id: 'new-only-exposure-001', type: 'question_exposed', examId: 'cssbb', sessionId: 'new-only-session-001',
+        questionId: 'cssbb:active-001', occurredAt: at,
+        payload: { mode: 'quick', filter: 'new-only', firstExposure: true }
+      },
+      answer,
+      {
+        id: 'new-only-complete-001', type: 'session_completed', examId: 'cssbb', sessionId: 'new-only-session-001',
+        occurredAt: at + 2000,
+        payload: {
+          mode: 'quick', timed: false, filter: 'new-only', total: 1, correct: 1,
+          answers: [{ questionId: 'cssbb:active-001', selected: 1, status: 'correct', firstExposure: true }],
+          answerEventIds: ['new-only-answer-001']
+        }
+      }
+    ];
+
+    assert.equal(api.reconcileLearningEvents([answer]), 1, 'an in-progress answer is projected immediately');
+    assert.equal(api.store().exams.cssbb.questions['cssbb:active-001'].attempts, 1);
+    assert.equal(api.reconcileLearningEvents(events), 1, 'the later completion creates one session summary');
+
+    let data = api.store().exams.cssbb;
+    assert.equal(data.questions['cssbb:active-001'].attempts, 1, 'completion replaces rather than duplicates provisional evidence');
+    assert.deepEqual(JSON.parse(JSON.stringify(data.attempts[0])), {
+      id: 'new-only-session-001', at: at + 2000, resetAt: 0, source: 'quick-quiz', mode: 'quick', timed: false,
+      completed: true, total: 1, correct: 1, answered: 1, repeated: 0, newQuestions: 1, filter: 'new-only'
+    });
+
+    const raw = api.store();
+    raw.exams.cssbb.attempts[0].newQuestions = 0;
+    raw.exams.cssbb.attempts[0].repeated = 1;
+    window.localStorage.setItem('tb-adaptive-mastery-v1', JSON.stringify(raw));
+    assert.equal(api.reconcileLearningEvents(events), 0, 'repairing an existing summary does not import a duplicate session');
+    data = api.store().exams.cssbb;
+    assert.equal(data.attempts[0].newQuestions, 1, 'full-ledger reconciliation repairs an older incorrect trend row');
+    assert.equal(data.attempts[0].repeated, 0);
+    assert.equal(data.questions['cssbb:active-001'].attempts, 1);
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('an incomplete session keeps only its latest immutable answer revision', () => {
+  const { dom, window } = load();
+  try {
+    const api = window.__TBAdaptiveMastery;
+    const at = Date.UTC(2026, 8, 1, 13, 0, 0);
+    const incorrect = {
+      id: 'revision-answer-old', type: 'answer_recorded', examId: 'cssbb', sessionId: 'revision-session',
+      questionId: 'cssbb:active-001', occurredAt: at,
+      payload: { selected: 0, status: 'incorrect' }
+    };
+    const corrected = {
+      id: 'revision-answer-new', type: 'answer_recorded', examId: 'cssbb', sessionId: 'revision-session',
+      questionId: 'cssbb:active-001', occurredAt: at + 1000,
+      payload: { selected: 1, status: 'correct' }
+    };
+
+    assert.equal(api.reconcileLearningEvents([incorrect]), 1);
+    assert.equal(api.reconcileLearningEvents([incorrect, corrected]), 1, 'the newer revision replaces the provisional choice');
+    const state = api.store().exams.cssbb.questions['cssbb:active-001'];
+    assert.equal(state.attempts, 1);
+    assert.equal(state.correct, 1);
+    assert.equal(state.incorrect, 0);
+    assert.equal(state.history.length, 1);
+    assert.equal(state.history[0].learningEventId, 'revision-answer-new');
+    assert.equal(api.reconcileLearningEvents([incorrect, corrected]), 0, 'replaying the full revision history is idempotent');
+    assert.equal(api.store().exams.cssbb.questions['cssbb:active-001'].attempts, 1);
   } finally {
     dom.window.close();
   }

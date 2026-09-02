@@ -626,8 +626,10 @@
       mode: metadata.mode || null, timed: metadata.timed == null ? null : Boolean(metadata.timed),
       completed: metadata.completed !== false,
       total: Number.isFinite(declaredTotal) && declaredTotal >= records.length ? declaredTotal : records.length,
-      correct: 0, repeated: 0, newQuestions: 0
+      correct: 0, answered: 0, repeated: 0, newQuestions: 0
     };
+    if (metadata.filter) summary.filter = String(metadata.filter);
+    const firstExposureByQuestion = asRecord(metadata.firstExposureByQuestion);
 
     records.forEach(function (result, index) {
       const question = result.question;
@@ -643,12 +645,32 @@
       if (key !== legacyKey && data.questions[legacyKey] === state) delete data.questions[legacyKey];
       state.id = key;
       state.questionId = key;
-      if (state.attempts) summary.repeated += 1;
+      const learningEventId = asArray(metadata.eventIds)[index] || null;
+      /* An answer can be projected while a session is still in progress and
+         then appear again in its immutable completion. Replace that session's
+         provisional evidence instead of counting the same answer twice. This
+         also makes a revised answer's final completion payload authoritative. */
+      if (learningEventId) {
+        const belongsToSession = function (entry) {
+          return entry && entry.learningEventId && String(entry.attemptId || '') === String(attemptId);
+        };
+        const hadProvisional = asArray(state.masteryHistory).some(belongsToSession) || asArray(state.history).some(belongsToSession);
+        if (hadProvisional) {
+          state.masteryHistory = asArray(state.masteryHistory).filter(function (entry) { return !belongsToSession(entry); });
+          state.history = asArray(state.history).filter(function (entry) { return !belongsToSession(entry); });
+          rebuildMasteryState(state, timestamp);
+        }
+      }
+      summary.answered += 1;
+      if (Object.prototype.hasOwnProperty.call(firstExposureByQuestion, key)) {
+        if (firstExposureByQuestion[key] === true) summary.newQuestions += 1;
+        else summary.repeated += 1;
+      } else if (state.attempts) summary.repeated += 1;
       else summary.newQuestions += 1;
       if (result.status === 'correct') summary.correct += 1;
       data.questions[key] = applyResult(state, question, result.status, result.selected, sourceLabel, timestamp, {
         sessionId: attemptId,
-        learningEventId: asArray(metadata.eventIds)[index] || null
+        learningEventId: learningEventId
       });
     });
 
@@ -657,6 +679,15 @@
        completion score should still remain accurate in the exam history. */
     if (Number.isFinite(declaredCorrect) && declaredCorrect >= 0 && declaredCorrect <= summary.total) {
       summary.correct = Math.floor(declaredCorrect);
+    }
+    const declaredAnswered = Number(metadata.answered);
+    const declaredNew = Number(metadata.newQuestions);
+    const declaredRepeated = Number(metadata.repeated);
+    if (Number.isFinite(declaredAnswered) && Number.isFinite(declaredNew) && Number.isFinite(declaredRepeated) &&
+        declaredAnswered >= 0 && declaredNew >= 0 && declaredRepeated >= 0 && declaredNew + declaredRepeated === declaredAnswered) {
+      summary.answered = Math.floor(declaredAnswered);
+      summary.newQuestions = Math.floor(declaredNew);
+      summary.repeated = Math.floor(declaredRepeated);
     }
 
     if (isCompletedFullTimedExam(metadata, summary.total)) {
@@ -771,10 +802,20 @@
       return Number(left && left.occurredAt || 0) - Number(right && right.occurredAt || 0) || String(left && left.id || '').localeCompare(String(right && right.id || ''));
     });
     const answersBySession = {};
+    const exposureNovelty = {};
+    const firstSessionByQuestion = {};
+    const historyComplete = sourceEvents != null;
     const completed = [];
     events.forEach(function (event) {
       if (!event || !event.sessionId) return;
       const sessionId = String(event.sessionId);
+      if (event.questionId && (event.type === 'question_exposed' || event.type === 'answer_recorded')) {
+        const identity = String(event.questionId);
+        if (!firstSessionByQuestion[identity]) firstSessionByQuestion[identity] = sessionId;
+        if (event.type === 'question_exposed' && typeof event.payload.firstExposure === 'boolean') {
+          exposureNovelty[sessionId + '|' + identity] = event.payload.firstExposure;
+        }
+      }
       if (event.type === 'answer_recorded' && event.questionId) {
         const key = sessionId + '|' + String(event.questionId);
         if (ledgerEventAfter(answersBySession[key], event)) answersBySession[key] = event;
@@ -801,29 +842,84 @@
       const seen = {};
       const records = [];
       const eventIds = [];
+      const firstExposureByQuestion = {};
+      const scoredQuestionIds = [];
       const completionEventIds = asArray(payload.answerEventIds);
       answers.forEach(function (answer, answerIndex) {
         const identity = String(answer.questionId || '');
         if (!identity || seen[identity]) return;
         seen[identity] = true;
+        if (answer.status === 'correct' || answer.status === 'incorrect') scoredQuestionIds.push(identity);
+        const exposureKey = String(event.sessionId) + '|' + identity;
+        if (typeof answer.firstExposure === 'boolean') firstExposureByQuestion[identity] = answer.firstExposure;
+        else if (typeof exposureNovelty[exposureKey] === 'boolean') firstExposureByQuestion[identity] = exposureNovelty[exposureKey];
+        else if (historyComplete && firstSessionByQuestion[identity]) firstExposureByQuestion[identity] = firstSessionByQuestion[identity] === String(event.sessionId);
         const answerEvent = answersBySession[String(event.sessionId) + '|' + identity] || null;
         const question = ledgerQuestion(identity, answerEvent);
         if (!question) return;
         records.push({ question: question, selected: ledgerNumber(answer.selected), status: ledgerAnswerStatus(answer, question) });
         eventIds.push(answerEvent && answerEvent.id || completionEventIds[answerIndex] || null);
       });
-      return {
+      const noveltyKnown = scoredQuestionIds.every(function (identity) {
+        return Object.prototype.hasOwnProperty.call(firstExposureByQuestion, identity);
+      });
+      const novelty = noveltyKnown ? {
+        answered: scoredQuestionIds.length,
+        newQuestions: scoredQuestionIds.filter(function (identity) { return firstExposureByQuestion[identity] === true; }).length,
+        repeated: scoredQuestionIds.filter(function (identity) { return firstExposureByQuestion[identity] !== true; }).length
+      } : {};
+      return Object.assign({
         id: String(event.sessionId),
         at: Number(event.occurredAt || 0),
         mode: String(payload.mode || 'practice'),
         timed: Boolean(payload.timed),
+        filter: payload.filter || null,
         total: Number(payload.total || records.length),
         correct: payload.correct,
         records: records,
         eventIds: eventIds,
+        firstExposureByQuestion: firstExposureByQuestion,
+        noveltyKnown: noveltyKnown,
         domainBreakdown: ledgerDomainBreakdown(answers, answersBySession, event.sessionId)
-      };
+      }, novelty);
     });
+  }
+
+  function dedupeLedgerAttemptEntries(entries) {
+    const output = [];
+    const positions = {};
+    let changed = false;
+    asArray(entries).slice().sort(evidenceOrder).forEach(function (entry) {
+      const attemptId = entry && entry.learningEventId && entry.attemptId ? String(entry.attemptId) : '';
+      if (!attemptId) { output.push(entry); return; }
+      if (!Object.prototype.hasOwnProperty.call(positions, attemptId)) {
+        positions[attemptId] = output.length;
+        output.push(entry);
+        return;
+      }
+      output[positions[attemptId]] = entry;
+      changed = true;
+    });
+    return { entries: output.sort(evidenceOrder), changed: changed };
+  }
+
+  function repairDuplicateLedgerEvidence() {
+    const store = readStore();
+    const data = examStore(store);
+    let changed = false;
+    Object.keys(data.questions).forEach(function (key) {
+      const state = asRecord(data.questions[key]);
+      const mastery = dedupeLedgerAttemptEntries(state.masteryHistory);
+      const history = dedupeLedgerAttemptEntries(state.history);
+      if (!mastery.changed && !history.changed) return;
+      state.masteryHistory = mastery.entries;
+      state.history = trimHistory(history.entries);
+      rebuildMasteryState(state, now());
+      data.questions[key] = state;
+      changed = true;
+    });
+    if (changed) writeStore(store);
+    return changed;
   }
 
   /* The append-only account ledger is the cross-device source of truth.  Its
@@ -834,6 +930,7 @@
   function reconcileLearningLedger(sourceEvents) {
     const resetAt = currentResetAt();
     let imported = 0;
+    repairDuplicateLedgerEvidence();
     const completed = completedLedgerSessions(sourceEvents);
     const completedIds = {};
     completed.forEach(function (session) { completedIds[session.id] = true; });
@@ -841,8 +938,24 @@
       if (!session.id || !session.records.length || (resetAt && session.at <= resetAt)) return;
       const store = readStore();
       const data = examStore(store);
-      const exists = asArray(data.attempts).some(function (entry) { return entry && entry.id === session.id; });
-      if (exists) return;
+      const existingIndex = asArray(data.attempts).findIndex(function (entry) { return entry && entry.id === session.id; });
+      if (existingIndex !== -1) {
+        if (session.noveltyKnown) {
+          const existing = data.attempts[existingIndex];
+          const repaired = Object.assign({}, existing, {
+            answered: session.answered,
+            newQuestions: session.newQuestions,
+            repeated: session.repeated
+          });
+          if (session.filter) repaired.filter = session.filter;
+          if (Number(existing.answered) !== Number(repaired.answered) || Number(existing.newQuestions) !== Number(repaired.newQuestions) ||
+              Number(existing.repeated) !== Number(repaired.repeated) || String(existing.filter || '') !== String(repaired.filter || '')) {
+            data.attempts[existingIndex] = repaired;
+            writeStore(store);
+          }
+        }
+        return;
+      }
       const result = recordResults(session.records, {
         source: ledgerSource(session.mode),
         mode: session.mode,
@@ -853,16 +966,28 @@
         total: session.total,
         correct: session.correct,
         eventIds: session.eventIds,
+        filter: session.filter,
+        firstExposureByQuestion: session.firstExposureByQuestion,
+        answered: session.answered,
+        newQuestions: session.newQuestions,
+        repeated: session.repeated,
         domainBreakdown: session.domainBreakdown
       });
       if (result) imported += 1;
     });
     /* An abandoned or interrupted session can still contain durable answer
-       evidence. Project each immutable answer once without manufacturing a
-       completed-attempt score. */
+       evidence. A changed choice produces immutable revisions, so project
+       only the latest revision for each session/question and replace any
+       provisional earlier choice instead of counting both. */
+    const latestIncompleteAnswers = {};
     asArray(sourceEvents).map(normaliseLedgerEvent).forEach(function (event) {
       if (event.examId !== examId() || event.type !== 'answer_recorded' || !event.questionId || completedIds[event.sessionId]) return;
       if (resetAt && event.occurredAt <= resetAt) return;
+      const answerKey = String(event.sessionId) + '|' + String(event.questionId);
+      if (ledgerEventAfter(latestIncompleteAnswers[answerKey], event)) latestIncompleteAnswers[answerKey] = event;
+    });
+    Object.keys(latestIncompleteAnswers).sort().forEach(function (answerKey) {
+      const event = latestIncompleteAnswers[answerKey];
       const store = readStore();
       const data = examStore(store);
       const existing = asRecord(data.questions[event.questionId]);
@@ -871,6 +996,14 @@
       if (!question) return;
       const payload = asRecord(event.payload);
       const state = isRecord(data.questions[event.questionId]) ? data.questions[event.questionId] : initialQuestionState(question);
+      const belongsToSession = function (entry) {
+        return entry && entry.learningEventId && String(entry.attemptId || '') === String(event.sessionId);
+      };
+      if (asArray(state.masteryHistory).some(belongsToSession) || asArray(state.history).some(belongsToSession)) {
+        state.masteryHistory = asArray(state.masteryHistory).filter(function (entry) { return !belongsToSession(entry); });
+        state.history = asArray(state.history).filter(function (entry) { return !belongsToSession(entry); });
+        rebuildMasteryState(state, event.occurredAt || now());
+      }
       data.questions[event.questionId] = applyResult(state, question, ledgerAnswerStatus(payload, question), ledgerNumber(payload.selected), ledgerSource(payload.mode), event.occurredAt || now(), {
         sessionId: event.sessionId,
         learningEventId: event.id

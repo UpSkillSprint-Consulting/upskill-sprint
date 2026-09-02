@@ -190,6 +190,49 @@ test('delivering a whole domain cannot inflate answered coverage or readiness be
   assert.equal(window.__TBAnalyticsDashboard.learningSummary(summary).uniqueSeen, measureQuestions.length, 'delivered questions remain visible as a separate metric');
 });
 
+test('Full Analytics caps delivered history to the canonical current bank and exposes answered and retired totals separately', async () => {
+  const { window } = await load();
+  const timestamp = Date.now();
+  const bank = questions(window);
+  const answered = bank.slice(0, 2);
+  const states = {};
+  answered.forEach(question => { states[windowQuestionId(question)] = seedQuestionState(question, timestamp, { attempts: 3 }); });
+  writeStore(window, { questions: states, attempts: [], sessions: [] });
+
+  let suppliedIds = [];
+  window.__TBLearning = {
+    summary(examId, fallbackStates, currentIds) {
+      assert.equal(examId, 'cssbb');
+      assert.equal(Object.keys(fallbackStates).length, 2);
+      suppliedIds = Array.from(currentIds);
+      return {
+        uniqueSeen: currentIds.length + 900,
+        answeredEvents: 6,
+        completedSessions: 2,
+        pending: 0,
+        historicalUniqueSeen: 900,
+        historicalAnsweredEvents: 1200
+      };
+    }
+  };
+
+  const summary = window.__TBAnalyticsDashboard.readinessSummary(timestamp);
+  const ledger = window.__TBAnalyticsDashboard.learningSummary(summary);
+  assert.equal(new Set(suppliedIds).size, summary.total, 'the ledger receives the exact canonical current-bank allowlist');
+  assert.equal(ledger.uniqueSeen, summary.total, 'even a corrupt/legacy oversized value cannot exceed the live denominator');
+  assert.equal(ledger.answeredEvents, summary.answers, 'current-bank mastery attempts remain the answer-count floor');
+  assert.equal(ledger.historicalUniqueSeen, 900, 'retired history is disclosed separately instead of contaminating the ratio');
+
+  showDashboard(window);
+  await settle(window, 6);
+  window.document.querySelector('[data-open-analytics]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await settle(window, 3);
+  const text = window.document.getElementById('tb-analytics-panel').textContent;
+  assert.match(text, /unique questions answered/i);
+  assert.match(text, /unique questions delivered/i);
+  assert.match(text, /retired or legacy question IDs are retained in history but excluded/i);
+});
+
 test('sessionTrend and studyHeatmap read real attempt history, not fabricated data', async () => {
   const { window } = await load();
   const day = 86400000;
