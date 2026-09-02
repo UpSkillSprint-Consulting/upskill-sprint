@@ -7,6 +7,7 @@ const path = require('node:path');
 const test = require('node:test');
 const vm = require('node:vm');
 const { JSDOM, VirtualConsole } = require('jsdom');
+const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const set1Script = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set1.js'), 'utf8');
@@ -60,7 +61,9 @@ async function loadPage() {
   const errors = [];
   const virtualConsole = new VirtualConsole();
   virtualConsole.on('jsdomError', error => errors.push(error.message));
-  const html = pageSource.replace('<script src="/test-bank-mbb-set1.js"></script>', `<script>${set1Script}</script>`);
+  const html = pageSource
+    .replace('<script src="/test-bank-mbb-set1.js"></script>', `<script>${set1Script}</script>`)
+    .replace('<script src="/test-bank-mbb-set2.js"></script>', `<script>${set2Script}</script>`);
   const dom = new JSDOM(html, {
     url: 'https://upskillsprint.com/test-bank.html',
     runScripts: 'dangerously',
@@ -68,10 +71,11 @@ async function loadPage() {
     virtualConsole
   });
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
+  await installDurableLearning(dom.window);
   return { dom, window: dom.window, errors };
 }
 
-test('MBB 160 Batch 1 has the approved 25-question allocation and remains unpublished', () => {
+test('MBB 160 Batch 1 has the approved 25-question allocation and is published as a clearly partial Set 2', () => {
   assert.equal(batch.length, 25);
   assert.deepEqual(batch.map(question => question.qid), Array.from({ length: 25 }, (_, index) => `mbb:set-2:original-${String(index + 1).padStart(3, '0')}`));
   assert.ok(batch.every(question => question.set === 2 && question.batch === 1));
@@ -83,8 +87,41 @@ test('MBB 160 Batch 1 has the approved 25-question allocation and remains unpubl
     'mbb-coaching': 2,
     'mbb-analytics': 7
   });
-  assert.doesNotMatch(pageSource, /test-bank-mbb-set2\.js/, 'an incomplete batch must not appear as a finished student exam');
-  assert.match(pageSource, /bank:MBB_SET1,sets:\{1:MBB_SET1\}/, 'the published MBB exam remains the validated source simulation only');
+  assert.match(pageSource, /<script src="\/test-bank-mbb-set2\.js"><\/script>/, 'the validated batch is loaded by the learner page');
+  assert.match(pageSource, /sets:\{1:MBB_SET1,2:MBB_SET2\}/, 'the validated batch is registered as MBB Set 2');
+});
+
+test('MBB Set 2 is visible, accurately labeled 25 of 160, and launches only the available batch', async () => {
+  const { dom, window, errors } = await loadPage();
+  try {
+    assert.deepEqual(errors, []);
+    const overview = window.document.getElementById('tb-overview');
+    const click = element => element.dispatchEvent(new window.Event('click', { bubbles: true }));
+    click(window.document.querySelector('.tb-tile[data-exam="mbb"]'));
+
+    const set2Button = overview.querySelector('.tb-setpick [data-set="2"]');
+    assert.ok(set2Button, 'Set 2 appears in the MBB set selector');
+    assert.match(set2Button.textContent, /25 of 160/i);
+    assert.match(set2Button.textContent, /Batch 1 complete/i);
+    assert.ok(overview.querySelector('.tb-setpick [data-set="mix"]'), 'Mixed remains available');
+
+    click(set2Button);
+    assert.match(overview.textContent, /Set 2 · live/i);
+    assert.match(overview.textContent, /contains 25 of the planned 160 original questions/i);
+    assert.match(overview.textContent, /current Full Exam serves all 25 available questions/i);
+    const fullCard = overview.querySelector('.tb-mode');
+    assert.match(fullCard.querySelector('h4').textContent, /Set 2 — Full Exam/i);
+    assert.match(fullCard.textContent, /25 randomized questions/i);
+    assert.match(fullCard.textContent, /Strict 37 min 30 sec limit/i);
+
+    click(overview.querySelector('[data-mode="full"]'));
+    assert.equal(overview.querySelectorAll('.tb-navcell').length, 25);
+    assert.match(overview.textContent, /Full Exam · timed/i);
+    assert.match(overview.querySelector('.tb-stem').dataset.questionId, /^mbb:set-2:original-\d{3}$/);
+    assert.ok(window.document.getElementById('tb-timer'), 'the proportional timed session is active');
+  } finally {
+    dom.window.close();
+  }
 });
 
 test('Batch 1 meets its exact answer, difficulty, cognition, visual, and interaction targets', () => {
