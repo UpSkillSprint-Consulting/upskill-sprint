@@ -18,6 +18,7 @@
   <script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
   <script defer src="/test-bank-formulas.js"></script>
+  <script defer src="/test-bank-tables.js"></script>
 <style>
   .tb-wrap{max-width:var(--maxw);margin:0 auto;padding:26px var(--pad) 80px}
   .tb-crumb{font-size:13px;color:var(--muted);margin-bottom:8px}
@@ -280,9 +281,38 @@
   .tb-calc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
   .tb-ck{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:11px 0;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
   .tb-ck:hover{border-color:var(--teal)} .tb-ck.eq{background:var(--teal);color:#fff;border-color:transparent} .tb-ck.clr{color:#c0453f}
+  /* Tables drawer: wider than the standard drawer to hold a data grid */
+  .tb-tables-drawer{width:640px;max-width:96vw}
+  .tb-tbl-chiprow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;flex-shrink:0}
+  .tb-tbl-chip{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:6px 12px;font:inherit;font-size:12px;cursor:pointer;white-space:nowrap}
+  .tb-tbl-chip:hover{border-color:var(--teal);color:var(--ink)}
+  .tb-tbl-chip.active{background:var(--tint);color:var(--teal);border-color:var(--teal);font-weight:700}
+  .tb-tbl-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;min-height:0}
+  .tb-tbl-formula{font-family:"IBM Plex Mono","Work Sans",monospace;font-size:12px;color:var(--muted);margin-bottom:10px}
+  .tb-tbl-lookupbar{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px;padding:12px;background:var(--card);border:1px solid var(--line);border-radius:9px;margin-bottom:12px}
+  .tb-tbl-field{display:flex;flex-direction:column;gap:4px}
+  .tb-tbl-field label{font-size:11px;color:var(--muted)}
+  .tb-tbl-field input,.tb-tbl-field select{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:7px;padding:7px 9px;font:inherit;font-size:13.5px;width:100px}
+  .tb-tbl-find{border:none;background:var(--teal);color:#fff;border-radius:7px;padding:8px 16px;font:inherit;font-weight:700;font-size:13px;cursor:pointer}
+  .tb-tbl-find:hover{opacity:.92}
+  .tb-tbl-result{font-size:13px;font-weight:600;color:var(--ink);margin-left:auto;align-self:center}
+  .tb-tbl-tablewrap{overflow:auto;border:1px solid var(--line);border-radius:9px;flex:1;min-height:180px;max-height:min(52vh,420px)}
+  .tb-tbl-table{border-collapse:collapse;width:100%;font-size:12.5px}
+  .tb-tbl-table th,.tb-tbl-table td{padding:6px 10px;text-align:center;white-space:nowrap;border-bottom:1px solid var(--line)}
+  .tb-tbl-table thead th{position:sticky;top:0;background:var(--card);color:var(--ink);font-weight:700;z-index:2}
+  .tb-tbl-table tbody th{position:sticky;left:0;background:var(--card);z-index:1;font-weight:700}
+  .tb-tbl-table .tbl-corner{position:sticky;left:0;top:0;z-index:3;background:var(--card)}
+  .tb-tbl-table tbody tr:nth-child(even){background:var(--tint)}
+  .tb-tbl-table .tbl-hit-row th{background:var(--teal);color:#fff}
+  .tb-tbl-table .tbl-hit{background:var(--teal);color:#fff;font-weight:800;box-shadow:inset 0 0 0 2px var(--ink)}
+  .tb-tbl-loading,.tb-tbl-error{font-size:13px;color:var(--muted);padding:20px 0;text-align:center}
+  .tb-tbl-error{color:#c0453f}
   @media(max-width:860px){
     .tb-drawer{width:100%;max-width:100vw}
+    .tb-tables-drawer{width:100%}
     .tb-calcw{left:12px;right:12px;width:auto;bottom:12px}
+    .tb-tbl-lookupbar{flex-direction:column;align-items:stretch}
+    .tb-tbl-result{margin-left:0}
   }
   @media(max-width:860px){
     .tb-shell{grid-template-columns:minmax(0,1fr)}
@@ -4046,6 +4076,10 @@
         '<input type="search" class="tb-refsearch" id="tb-refsearch" placeholder="Search formulas\u2026" aria-label="Search formulas">'+
         '<div class="tb-reflist" id="tb-reflist"></div>'+
         '<p class="tb-refnote">Open-book practice: several ASQ exams allow the official handbook. The skill is finding what you need fast \u2014 so practise the lookup under time.</p></aside>'+
+      '<aside class="tb-drawer tb-tables-drawer" id="tb-tables" hidden aria-label="Reference tables">'+
+        '<div class="tb-drawer-head"><h3>Reference tables</h3><button type="button" class="tb-x" data-close="tables" aria-label="Close">\u00d7</button></div>'+
+        '<div data-tbl-mount></div>'+
+        '<p class="tb-refnote">Enter the lookup keys (df, &alpha;, n, etc.) and press Find \u2014 the matching row and cell are highlighted so you can practise the same lookup skill the printed exam appendix requires.</p></aside>'+
       '<div class="tb-calcw" id="tb-calc" hidden aria-label="Calculator">'+
         '<div class="tb-calc-head"><span>Calculator</span><button type="button" class="tb-x" data-close="calc" aria-label="Close">\u00d7</button></div>'+
         '<div class="tb-calc-disp" id="tb-calcdisp">0</div>'+
@@ -4063,11 +4097,11 @@
       return '<div class="tb-refgroup"><h4>'+esc(g.group)+'</h4>'+items.map(function(it){return '<div class="tb-refitem"><div class="tb-refn">'+esc(it.n)+'</div><div class="tb-reff">'+esc(it.f)+'</div>'+(it.note?'<div class="tb-refnote2">'+esc(it.note)+'</div>':'')+'</div>';}).join('')+'</div>';}).join('');
     host.innerHTML=html||'<p class="tb-refempty">No formula matches \u201c'+esc(query)+'\u201d.</p>';}
   function wireTools(){var layer=document.getElementById('tb-toollayer');
-    Array.prototype.forEach.call(layer.querySelectorAll('[data-close]'),function(b){b.addEventListener('click',function(){var t=document.getElementById(b.dataset.close==='calc'?'tb-calc':'tb-formulas');if(t)t.hidden=true;});});
+    Array.prototype.forEach.call(layer.querySelectorAll('[data-close]'),function(b){b.addEventListener('click',function(){var id=b.dataset.close==='calc'?'tb-calc':(b.dataset.close==='tables'?'tb-tables':'tb-formulas');var t=document.getElementById(id);if(t)t.hidden=true;});});
     var srch=layer.querySelector('#tb-refsearch');if(srch)srch.addEventListener('input',function(){renderRefs(srch.value);});
     Array.prototype.forEach.call(layer.querySelectorAll('.tb-ck'),function(b){b.addEventListener('click',function(){calcPress(b);});});}
-  function toggleTool(name){var el=document.getElementById(name==='calc'?'tb-calc':'tb-formulas');if(!el)return;var show=el.hidden;el.hidden=!show;if(name==='formulas'&&show)renderRefs('');if(name==='calc'&&show){calcExpr='';setDisp('0');}}
-  function stopTools(){var c=document.getElementById('tb-calc'),f=document.getElementById('tb-formulas');if(c)c.hidden=true;if(f)f.hidden=true;}
+  function toggleTool(name){var id=name==='calc'?'tb-calc':(name==='tables'?'tb-tables':'tb-formulas');var el=document.getElementById(id);if(!el)return;var show=el.hidden;el.hidden=!show;if(name==='formulas'&&show)renderRefs('');if(name==='calc'&&show){calcExpr='';setDisp('0');}if(name==='tables'&&show&&window.__TBTables&&typeof window.__TBTables.onOpen==='function')window.__TBTables.onOpen();}
+  function stopTools(){var c=document.getElementById('tb-calc'),f=document.getElementById('tb-formulas'),tb=document.getElementById('tb-tables');if(c)c.hidden=true;if(f)f.hidden=true;if(tb)tb.hidden=true;}
 
 
   function quizHTML(){
@@ -4083,6 +4117,7 @@
     var toolbar='<div class="tb-toolbar">'+timer+
       '<button type="button" class="tb-tbtn'+(session.flags[session.i]?' on':'')+'" data-flag>\u2691 '+(session.flags[session.i]?'Flagged':'Flag')+'</button>'+
       '<button type="button" class="tb-tbtn" data-formulas>\u2630 Formulas</button>'+
+      '<button type="button" class="tb-tbtn" data-tables>\u25a4 Tables</button>'+
       '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>'+
       '<button type="button" class="tb-ghost" data-quit>Exit</button></div>';
     var sessionTitle=session.kind==='diagnostic'?'Sample diagnostic':session.kind==='exam'?'Full Exam':session.kind==='quick'?'Quick Quiz':session.kind==='focus'?'Focused Quiz':'Weak-area practice';
@@ -4112,6 +4147,7 @@
     var sb=host.querySelector('[data-submit]');if(sb)sb.addEventListener('click',function(){submitQuiz();});
     var fl=host.querySelector('[data-flag]');if(fl)fl.addEventListener('click',function(){session.flags[session.i]=!session.flags[session.i];renderMain();});
     var fm=host.querySelector('[data-formulas]');if(fm)fm.addEventListener('click',function(){toggleTool('formulas');});
+    var tbl=host.querySelector('[data-tables]');if(tbl)tbl.addEventListener('click',function(){toggleTool('tables');});
     var cc=host.querySelector('[data-calc]');if(cc)cc.addEventListener('click',function(){toggleTool('calc');});
     var qt=host.querySelector('[data-quit]');if(qt)qt.addEventListener('click',function(){if(window.__TBLearning&&typeof window.__TBLearning.abandonSession==='function'&&session)window.__TBLearning.abandonSession({examId:current,sessionId:session.id,mode:session.kind,reason:'exit'});stopTimer();stopTools();view='browse';session=null;renderMain();});
     var bs=host.querySelector('[data-backsim]');if(bs)bs.addEventListener('click',function(){if(window.__TBLearning&&typeof window.__TBLearning.abandonSession==='function'&&session)window.__TBLearning.abandonSession({examId:current,sessionId:session.id,mode:session.kind,reason:'back-to-simulator'});stopTimer();stopTools();view='browse';session=null;renderRail();renderMain();});

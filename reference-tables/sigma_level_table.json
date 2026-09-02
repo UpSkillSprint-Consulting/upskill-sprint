@@ -1,0 +1,788 @@
+{
+ "table": "Equivalent Sigma Levels, Percent Yield, Percent Defective, and PPM",
+ "formula_no_shift": "Percent defective = 2 * (1 - Phi(Z)) * 100  [two-sided, centered process]",
+ "formula_with_shift": "Percent defective = [(1 - Phi(Z - 1.5)) + Phi(-(Z + 1.5))] * 100  [two-sided, process mean shifted 1.5 sigma toward one spec limit]",
+ "rows": [
+  {
+   "sigma_level": 0.1,
+   "no_shift": {
+    "percent_in_spec": 7.9656,
+    "percent_defective": 92.0344,
+    "ppm": 920344.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 2.5957,
+    "percent_defective": 97.4043,
+    "ppm": 974042.6
+   }
+  },
+  {
+   "sigma_level": 0.2,
+   "no_shift": {
+    "percent_in_spec": 15.8519,
+    "percent_defective": 84.1481,
+    "ppm": 841481.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 5.2235,
+    "percent_defective": 94.7765,
+    "ppm": 947765.0
+   }
+  },
+  {
+   "sigma_level": 0.3,
+   "no_shift": {
+    "percent_in_spec": 23.5823,
+    "percent_defective": 76.4177,
+    "ppm": 764177.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 7.9139,
+    "percent_defective": 92.0861,
+    "ppm": 920860.6
+   }
+  },
+  {
+   "sigma_level": 0.4,
+   "no_shift": {
+    "percent_in_spec": 31.0843,
+    "percent_defective": 68.9157,
+    "ppm": 689157.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 10.695,
+    "percent_defective": 89.305,
+    "ppm": 893050.5
+   }
+  },
+  {
+   "sigma_level": 0.5,
+   "no_shift": {
+    "percent_in_spec": 38.2925,
+    "percent_defective": 61.7075,
+    "ppm": 617075.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 13.5905,
+    "percent_defective": 86.4095,
+    "ppm": 864094.9
+   }
+  },
+  {
+   "sigma_level": 0.6,
+   "no_shift": {
+    "percent_in_spec": 45.1494,
+    "percent_defective": 54.8506,
+    "ppm": 548506.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 16.6196,
+    "percent_defective": 83.3804,
+    "ppm": 833804.3
+   }
+  },
+  {
+   "sigma_level": 0.7,
+   "no_shift": {
+    "percent_in_spec": 51.6073,
+    "percent_defective": 48.3927,
+    "ppm": 483927.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 19.7952,
+    "percent_defective": 80.2048,
+    "ppm": 802048.0
+   }
+  },
+  {
+   "sigma_level": 0.8,
+   "no_shift": {
+    "percent_in_spec": 57.6289,
+    "percent_defective": 42.3711,
+    "ppm": 423711.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 23.124,
+    "percent_defective": 76.876,
+    "ppm": 768760.5
+   }
+  },
+  {
+   "sigma_level": 0.9,
+   "no_shift": {
+    "percent_in_spec": 63.188,
+    "percent_defective": 36.812,
+    "ppm": 368120.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 26.6056,
+    "percent_defective": 73.3944,
+    "ppm": 733944.4
+   }
+  },
+  {
+   "sigma_level": 1.0,
+   "no_shift": {
+    "percent_in_spec": 68.2689,
+    "percent_defective": 31.7311,
+    "ppm": 317311.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 30.2328,
+    "percent_defective": 69.7672,
+    "ppm": 697672.1
+   }
+  },
+  {
+   "sigma_level": 1.1,
+   "no_shift": {
+    "percent_in_spec": 72.8668,
+    "percent_defective": 27.1332,
+    "ppm": 271332.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 33.9917,
+    "percent_defective": 66.0083,
+    "ppm": 660082.9
+   }
+  },
+  {
+   "sigma_level": 1.2,
+   "no_shift": {
+    "percent_in_spec": 76.9861,
+    "percent_defective": 23.0139,
+    "ppm": 230139.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 37.8622,
+    "percent_defective": 62.1378,
+    "ppm": 621378.4
+   }
+  },
+  {
+   "sigma_level": 1.3,
+   "no_shift": {
+    "percent_in_spec": 80.6399,
+    "percent_defective": 19.3601,
+    "ppm": 193601.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 41.8185,
+    "percent_defective": 58.1815,
+    "ppm": 581814.8
+   }
+  },
+  {
+   "sigma_level": 1.4,
+   "no_shift": {
+    "percent_in_spec": 83.8487,
+    "percent_defective": 16.1513,
+    "ppm": 161513.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 45.8306,
+    "percent_defective": 54.1694,
+    "ppm": 541693.7
+   }
+  },
+  {
+   "sigma_level": 1.5,
+   "no_shift": {
+    "percent_in_spec": 86.6386,
+    "percent_defective": 13.3614,
+    "ppm": 133614.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 49.865,
+    "percent_defective": 50.135,
+    "ppm": 501349.9
+   }
+  },
+  {
+   "sigma_level": 1.6,
+   "no_shift": {
+    "percent_in_spec": 89.0401,
+    "percent_defective": 10.9599,
+    "ppm": 109599.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 53.886,
+    "percent_defective": 46.114,
+    "ppm": 461139.8
+   }
+  },
+  {
+   "sigma_level": 1.7,
+   "no_shift": {
+    "percent_in_spec": 91.0869,
+    "percent_defective": 8.9131,
+    "ppm": 89131.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 57.8573,
+    "percent_defective": 42.1427,
+    "ppm": 421427.4
+   }
+  },
+  {
+   "sigma_level": 1.8,
+   "no_shift": {
+    "percent_in_spec": 92.8139,
+    "percent_defective": 7.1861,
+    "ppm": 71861.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 61.7428,
+    "percent_defective": 38.2572,
+    "ppm": 382572.0
+   }
+  },
+  {
+   "sigma_level": 1.9,
+   "no_shift": {
+    "percent_in_spec": 94.2567,
+    "percent_defective": 5.7433,
+    "ppm": 57433.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 65.5085,
+    "percent_defective": 34.4915,
+    "ppm": 344915.2
+   }
+  },
+  {
+   "sigma_level": 2.0,
+   "no_shift": {
+    "percent_in_spec": 95.45,
+    "percent_defective": 4.55,
+    "ppm": 45500.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 69.123,
+    "percent_defective": 30.877,
+    "ppm": 308770.2
+   }
+  },
+  {
+   "sigma_level": 2.1,
+   "no_shift": {
+    "percent_in_spec": 96.4271,
+    "percent_defective": 3.5729,
+    "ppm": 35729.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 72.5588,
+    "percent_defective": 27.4412,
+    "ppm": 274412.2
+   }
+  },
+  {
+   "sigma_level": 2.2,
+   "no_shift": {
+    "percent_in_spec": 97.2193,
+    "percent_defective": 2.7807,
+    "ppm": 27807.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 75.7929,
+    "percent_defective": 24.2071,
+    "ppm": 242071.5
+   }
+  },
+  {
+   "sigma_level": 2.3,
+   "no_shift": {
+    "percent_in_spec": 97.8552,
+    "percent_defective": 2.1448,
+    "ppm": 21448.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 78.8072,
+    "percent_defective": 21.1928,
+    "ppm": 211927.7
+   }
+  },
+  {
+   "sigma_level": 2.4,
+   "no_shift": {
+    "percent_in_spec": 98.3605,
+    "percent_defective": 1.6395,
+    "ppm": 16395.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 81.5892,
+    "percent_defective": 18.4108,
+    "ppm": 184108.2
+   }
+  },
+  {
+   "sigma_level": 2.5,
+   "no_shift": {
+    "percent_in_spec": 98.7581,
+    "percent_defective": 1.2419,
+    "ppm": 12419.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 84.1313,
+    "percent_defective": 15.8687,
+    "ppm": 158686.9
+   }
+  },
+  {
+   "sigma_level": 2.6,
+   "no_shift": {
+    "percent_in_spec": 99.0678,
+    "percent_defective": 0.9322,
+    "ppm": 9322.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 86.4313,
+    "percent_defective": 13.5687,
+    "ppm": 135686.7
+   }
+  },
+  {
+   "sigma_level": 2.7,
+   "no_shift": {
+    "percent_in_spec": 99.3066,
+    "percent_defective": 0.6934,
+    "ppm": 6934.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 88.4917,
+    "percent_defective": 11.5083,
+    "ppm": 115083.0
+   }
+  },
+  {
+   "sigma_level": 2.8,
+   "no_shift": {
+    "percent_in_spec": 99.489,
+    "percent_defective": 0.511,
+    "ppm": 5110.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 90.3191,
+    "percent_defective": 9.6809,
+    "ppm": 96809.0
+   }
+  },
+  {
+   "sigma_level": 2.9,
+   "no_shift": {
+    "percent_in_spec": 99.6268,
+    "percent_defective": 0.3732,
+    "ppm": 3732.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 91.9238,
+    "percent_defective": 8.0762,
+    "ppm": 80762.1
+   }
+  },
+  {
+   "sigma_level": 3.0,
+   "no_shift": {
+    "percent_in_spec": 99.73,
+    "percent_defective": 0.27,
+    "ppm": 2700.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 93.3189,
+    "percent_defective": 6.6811,
+    "ppm": 66810.6
+   }
+  },
+  {
+   "sigma_level": 3.1,
+   "no_shift": {
+    "percent_in_spec": 99.8065,
+    "percent_defective": 0.1935,
+    "ppm": 1935.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 94.5199,
+    "percent_defective": 5.4801,
+    "ppm": 54801.4
+   }
+  },
+  {
+   "sigma_level": 3.2,
+   "no_shift": {
+    "percent_in_spec": 99.8626,
+    "percent_defective": 0.1374,
+    "ppm": 1374.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 95.5433,
+    "percent_defective": 4.4567,
+    "ppm": 44566.8
+   }
+  },
+  {
+   "sigma_level": 3.3,
+   "no_shift": {
+    "percent_in_spec": 99.9033,
+    "percent_defective": 0.0967,
+    "ppm": 967.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 96.4069,
+    "percent_defective": 3.5931,
+    "ppm": 35931.1
+   }
+  },
+  {
+   "sigma_level": 3.4,
+   "no_shift": {
+    "percent_in_spec": 99.9326,
+    "percent_defective": 0.0674,
+    "ppm": 674.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 97.1283,
+    "percent_defective": 2.8717,
+    "ppm": 28717.0
+   }
+  },
+  {
+   "sigma_level": 3.5,
+   "no_shift": {
+    "percent_in_spec": 99.9535,
+    "percent_defective": 0.0465,
+    "ppm": 465.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 97.725,
+    "percent_defective": 2.275,
+    "ppm": 22750.4
+   }
+  },
+  {
+   "sigma_level": 3.6,
+   "no_shift": {
+    "percent_in_spec": 99.9682,
+    "percent_defective": 0.0318,
+    "ppm": 318.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 98.2135,
+    "percent_defective": 1.7865,
+    "ppm": 17864.6
+   }
+  },
+  {
+   "sigma_level": 3.7,
+   "no_shift": {
+    "percent_in_spec": 99.9784,
+    "percent_defective": 0.0216,
+    "ppm": 216.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 98.6096,
+    "percent_defective": 1.3904,
+    "ppm": 13903.5
+   }
+  },
+  {
+   "sigma_level": 3.8,
+   "no_shift": {
+    "percent_in_spec": 99.9855,
+    "percent_defective": 0.0145,
+    "ppm": 145.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 98.9276,
+    "percent_defective": 1.0724,
+    "ppm": 10724.2
+   }
+  },
+  {
+   "sigma_level": 3.9,
+   "no_shift": {
+    "percent_in_spec": 99.9904,
+    "percent_defective": 0.0096,
+    "ppm": 96.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.1802,
+    "percent_defective": 0.8198,
+    "ppm": 8197.6
+   }
+  },
+  {
+   "sigma_level": 4.0,
+   "no_shift": {
+    "percent_in_spec": 99.9937,
+    "percent_defective": 0.0063,
+    "ppm": 63.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.379,
+    "percent_defective": 0.621,
+    "ppm": 6209.7
+   }
+  },
+  {
+   "sigma_level": 4.1,
+   "no_shift": {
+    "percent_in_spec": 99.9959,
+    "percent_defective": 0.0041,
+    "ppm": 41.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.5339,
+    "percent_defective": 0.4661,
+    "ppm": 4661.2
+   }
+  },
+  {
+   "sigma_level": 4.2,
+   "no_shift": {
+    "percent_in_spec": 99.9973,
+    "percent_defective": 0.0027,
+    "ppm": 27.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.6533,
+    "percent_defective": 0.3467,
+    "ppm": 3467.0
+   }
+  },
+  {
+   "sigma_level": 4.3,
+   "no_shift": {
+    "percent_in_spec": 99.9983,
+    "percent_defective": 0.0017,
+    "ppm": 17.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.7445,
+    "percent_defective": 0.2555,
+    "ppm": 2555.1
+   }
+  },
+  {
+   "sigma_level": 4.4,
+   "no_shift": {
+    "percent_in_spec": 99.9989,
+    "percent_defective": 0.0011,
+    "ppm": 11.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.8134,
+    "percent_defective": 0.1866,
+    "ppm": 1865.8
+   }
+  },
+  {
+   "sigma_level": 4.5,
+   "no_shift": {
+    "percent_in_spec": 99.9993,
+    "percent_defective": 0.0007,
+    "ppm": 7.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.865,
+    "percent_defective": 0.135,
+    "ppm": 1349.9
+   }
+  },
+  {
+   "sigma_level": 4.6,
+   "no_shift": {
+    "percent_in_spec": 99.9996,
+    "percent_defective": 0.0004,
+    "ppm": 4.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9032,
+    "percent_defective": 0.0968,
+    "ppm": 967.6
+   }
+  },
+  {
+   "sigma_level": 4.7,
+   "no_shift": {
+    "percent_in_spec": 99.9997,
+    "percent_defective": 0.0003,
+    "ppm": 3.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9313,
+    "percent_defective": 0.0687,
+    "ppm": 687.1
+   }
+  },
+  {
+   "sigma_level": 4.8,
+   "no_shift": {
+    "percent_in_spec": 99.9998,
+    "percent_defective": 0.0002,
+    "ppm": 2.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9517,
+    "percent_defective": 0.0483,
+    "ppm": 483.4
+   }
+  },
+  {
+   "sigma_level": 4.9,
+   "no_shift": {
+    "percent_in_spec": 99.9999,
+    "percent_defective": 0.0001,
+    "ppm": 1.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9663,
+    "percent_defective": 0.0337,
+    "ppm": 336.9
+   }
+  },
+  {
+   "sigma_level": 5.0,
+   "no_shift": {
+    "percent_in_spec": 99.9999,
+    "percent_defective": 0.0001,
+    "ppm": 1.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9767,
+    "percent_defective": 0.0233,
+    "ppm": 232.6
+   }
+  },
+  {
+   "sigma_level": 5.1,
+   "no_shift": {
+    "percent_in_spec": 100.0,
+    "percent_defective": 0.0,
+    "ppm": 0.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9841,
+    "percent_defective": 0.0159,
+    "ppm": 159.1
+   }
+  },
+  {
+   "sigma_level": 5.2,
+   "no_shift": {
+    "percent_in_spec": 100.0,
+    "percent_defective": 0.0,
+    "ppm": 0.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9892,
+    "percent_defective": 0.0108,
+    "ppm": 107.8
+   }
+  },
+  {
+   "sigma_level": 5.3,
+   "no_shift": {
+    "percent_in_spec": 100.0,
+    "percent_defective": 0.0,
+    "ppm": 0.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9928,
+    "percent_defective": 0.0072,
+    "ppm": 72.3
+   }
+  },
+  {
+   "sigma_level": 5.4,
+   "no_shift": {
+    "percent_in_spec": 100.0,
+    "percent_defective": 0.0,
+    "ppm": 0.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9952,
+    "percent_defective": 0.0048,
+    "ppm": 48.1
+   }
+  },
+  {
+   "sigma_level": 5.5,
+   "no_shift": {
+    "percent_in_spec": 100.0,
+    "percent_defective": 0.0,
+    "ppm": 0.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9968,
+    "percent_defective": 0.0032,
+    "ppm": 31.7
+   }
+  },
+  {
+   "sigma_level": 5.6,
+   "no_shift": {
+    "percent_in_spec": 100.0,
+    "percent_defective": 0.0,
+    "ppm": 0.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9979,
+    "percent_defective": 0.0021,
+    "ppm": 20.7
+   }
+  },
+  {
+   "sigma_level": 5.7,
+   "no_shift": {
+    "percent_in_spec": 100.0,
+    "percent_defective": 0.0,
+    "ppm": 0.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9987,
+    "percent_defective": 0.0013,
+    "ppm": 13.3
+   }
+  },
+  {
+   "sigma_level": 5.8,
+   "no_shift": {
+    "percent_in_spec": 100.0,
+    "percent_defective": 0.0,
+    "ppm": 0.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9991,
+    "percent_defective": 0.0009,
+    "ppm": 8.5
+   }
+  },
+  {
+   "sigma_level": 5.9,
+   "no_shift": {
+    "percent_in_spec": 100.0,
+    "percent_defective": 0.0,
+    "ppm": 0.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9995,
+    "percent_defective": 0.0005,
+    "ppm": 5.4
+   }
+  },
+  {
+   "sigma_level": 6.0,
+   "no_shift": {
+    "percent_in_spec": 100.0,
+    "percent_defective": 0.0,
+    "ppm": 0.0
+   },
+   "with_1_5_shift": {
+    "percent_in_spec": 99.9997,
+    "percent_defective": 0.0003,
+    "ppm": 3.4
+   }
+  }
+ ],
+ "source": "Computed exactly via scipy.stats.norm; layout matches CSSBB Handbook Appendix I. Verified against the classic published 1.5-sigma-shift DPMO table (1sigma=697,672 / 3sigma=66,807 / 6sigma=3.4 ppm) to within rounding once the two-sided (near-tail + far-tail) formula is used instead of the commonly-mis-cited one-sided 1-Phi(Z-1.5) shortcut."
+}
