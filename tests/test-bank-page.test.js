@@ -11,14 +11,12 @@ const ROOT = path.join(__dirname, '..');
 const cmqScript = fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set1.js'), 'utf8');
 const mbbScript = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set1.js'), 'utf8');
 const mbbSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set2.js'), 'utf8');
-const mbbSet3Script = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set3.js'), 'utf8');
 const cssgbScript = fs.readFileSync(path.join(ROOT, 'test-bank-cssgb-set1.js'), 'utf8');
 const cssgbSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-cssgb-set2.js'), 'utf8');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
   .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${cmqScript}</script>`)
   .replace('<script src="/test-bank-mbb-set1.js"></script>', `<script>${mbbScript}</script>`)
   .replace('<script src="/test-bank-mbb-set2.js"></script>', `<script>${mbbSet2Script}</script>`)
-  .replace('<script src="/test-bank-mbb-set3.js"></script>', `<script>${mbbSet3Script}</script>`)
   .replace('<script src="/test-bank-cssgb-set1.js"></script>', `<script>${cssgbScript}</script>`)
   .replace('<script src="/test-bank-cssgb-set2.js"></script>', `<script>${cssgbSet2Script}</script>`);
 
@@ -78,7 +76,7 @@ test('only CQA and CRE remain Coming soon; CSSBB, MBB, CSSGB, CQE, and CMQ are l
   const mbb = tiles.find(t => t.dataset.exam === 'mbb');
   assert.doesNotMatch(mbb.textContent, /Coming soon/, 'MBB is live now');
   assert.match(mbb.textContent, /100 questions/i, 'MBB tile advertises the complete simulated examination');
-  assert.match(mbb.textContent, /3 exam sets/i, 'MBB tile advertises the source simulation, the original Set 2 release, and the new Set 3');
+  assert.match(mbb.textContent, /2 exam sets/i, 'MBB tile advertises both the source simulation and the current original Set 2 release');
   const cqe = tiles.find(t => t.dataset.exam === 'cqe');
   assert.doesNotMatch(cqe.textContent, /Coming soon/, 'CQE is live now');
   assert.match(cqe.textContent, /3 exam sets/i, "CQE tile advertises the set count");

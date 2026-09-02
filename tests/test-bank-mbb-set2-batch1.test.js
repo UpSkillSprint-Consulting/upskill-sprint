@@ -88,7 +88,7 @@ test('MBB 160 Batch 1 has the approved 25-question allocation and is published a
     'mbb-analytics': 7
   });
   assert.match(pageSource, /<script src="\/test-bank-mbb-set2\.js"><\/script>/, 'the validated batch is loaded by the learner page');
-  assert.match(pageSource, /sets:\{1:MBB_SET1,2:MBB_SET2,3:MBB_SET3\}/, 'the validated batch is registered as MBB Set 2, alongside the newly-published Set 3');
+  assert.match(pageSource, /sets:\{1:MBB_SET1,2:MBB_SET2\}/, 'the validated batch is registered as MBB Set 2');
 });
 
 test('MBB Set 2 is visible, accurately labeled 25 of 160, and launches only the available batch', async () => {
