@@ -1,14 +1,14 @@
-# ASQ MBB 160-question bank
+# ASQ MBB 175-question bank
 
 ## Scope and release rule
 
-This bank is a new, original 160-question simulation built to the current ASQ Certified Master Black Belt Body of Knowledge. It is separate from the published 100-question source-backed simulation and from the excluded 100-question practice examination. Each fully validated batch is published incrementally in Set 2. The learner selector displays the exact available count against the 160-question target, and Full Exam serves all currently available Set 2 questions with the same 90-second-per-question pace as Set 1 until the bank reaches 160.
+This bank is a new, original 175-question simulation built to the current ASQ Certified Master Black Belt Body of Knowledge. It is separate from the published 100-question source-backed simulation and from the excluded 100-question practice examination. Each fully validated batch is published in Set 2. The learner selector displays the exact available count against the 175-question target, and Full Exam serves all 175 Set 2 questions with the same 90-second-per-question pace as Set 1.
 
 The governing blueprint was frozen on 2026-09-02 from the [official ASQ CMBB Body of Knowledge](https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf). The six domain weights are 20%, 20%, 15%, 10%, 10%, and 25%. The [official ASQ CMBB exam page](https://www.asq.org/cert/master-black-belt) remains the delivery-format reference. The project source `SPEC DATA SCHEMA.md` is explicitly excluded from question content and evidence.
 
 ## Batch plan
 
-The user-approved cadence is six 25-question batches followed by a final 10-question batch. The allocation below preserves the exact 160-question blueprint and an exactly balanced A-D answer key.
+The completed cadence is seven 25-question batches. The first six batches and the originally planned final ten preserve the original 160-question blueprint logic. For the expanded 175-question scope, largest-remainder apportionment of ASQ's 20% / 20% / 15% / 10% / 10% / 25% weights produces 35 / 35 / 26 / 18 / 17 / 44; the equal Training-Coaching remainder tie is assigned to Training. Because 175 is not divisible by four, the most balanced possible A-D key has a one-position spread: 44 / 44 / 43 / 44.
 
 | Batch | Enterprise | Organization | Portfolio | Training | Coaching | Analytics | Total | A / B / C / D | Visuals | Interactive |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -18,8 +18,8 @@ The user-approved cadence is six 25-question batches followed by a final 10-ques
 | 4 | 5 | 5 | 4 | 3 | 3 | 5 | 25 | 6 / 6 / 6 / 7 | 9 | 3 |
 | 5 | 5 | 5 | 4 | 2 | 2 | 7 | 25 | 7 / 6 / 6 / 6 | 10 | 3 |
 | 6 | 5 | 5 | 4 | 3 | 3 | 5 | 25 | 6 / 7 / 6 / 6 | 9 | 3 |
-| 7 | 2 | 2 | 0 | 1 | 1 | 4 | 10 | 2 / 2 / 3 / 3 | 3 | 2 |
-| **Total** | **32** | **32** | **24** | **16** | **16** | **40** | **160** | **40 / 40 / 40 / 40** | **60** | **20** |
+| 7 | 5 | 5 | 2 | 3 | 2 | 8 | 25 | 6 / 6 / 6 / 7 | 9 | 4 |
+| **Total** | **35** | **35** | **26** | **18** | **17** | **44** | **175** | **44 / 44 / 43 / 44** | **66** | **22** |
 
 ## Batch 1 inventory
 
@@ -213,6 +213,38 @@ Batch 6 adds Questions 126-150. Its exact blueprint allocation is 5 Enterprise, 
 | 149 | Analytics | Monte Carlo decision-risk governance | Expert | Evaluate | A | - | Kubiak 414-416 |
 | 150 | Analytics | Complementary APC and SPC roles | Very Hard | Understand | B | - | Kubiak 451-453 |
 
+## Batch 7 inventory
+
+Batch 7 adds Questions 151-175 and completes the expanded bank. Its allocation is 5 Enterprise, 5 Organization, 2 Portfolio, 3 Training, 2 Coaching, and 8 Analytics. The difficulty mix is 9 Hard, 11 Very Hard, and 5 Expert; the cognition mix is 3 Understand, 5 Apply, 7 Analyze, 6 Evaluate, and 4 Create. Its answer key contains 6 A, 6 B, 6 C, and 7 D positions.
+
+| Q | Domain | Topic | Difficulty | Cognition | Key | Visual | Source pages |
+|---:|---|---|---|---|:---:|---|---|
+| 151 | Enterprise | Strategy leading-indicator integrity | Very Hard | Analyze | D | Strategy scorecard | Kubiak 7-17 |
+| 152 | Enterprise | Scenario-triggered strategy adaptation | Hard | Evaluate | A | - | Kubiak 2-27 |
+| 153 | Enterprise | Federated governance with common standards | Expert | Understand | B | - | Kubiak 28-52 |
+| 154 | Enterprise | Innovation-funnel evidence gates | Very Hard | Apply | C | - | Kubiak 70-87 |
+| 155 | Enterprise | Capacity-constrained pipeline selection | Expert | Create | D | Portfolio table + what-if comparison | Kubiak 88-99 |
+| 156 | Organization | Systems archetype and local optimization | Hard | Understand | A | - | Kubiak 100-112 |
+| 157 | Organization | Sponsor ownership and MBB escalation | Very Hard | Evaluate | B | - | Kubiak 183-195 |
+| 158 | Organization | Adoption depth versus compliance | Very Hard | Analyze | C | Focusable adoption time series | Kubiak 119-125 |
+| 159 | Organization | Interest-based conflict and criteria | Hard | Apply | D | - | Kubiak 177-182 |
+| 160 | Organization | Metric gaming and balanced evidence | Expert | Create | C | - | Kubiak 126-146 |
+| 161 | Portfolio | Earned-value recovery diagnosis | Very Hard | Analyze | B | Earned-value table | Kubiak 202-218 |
+| 162 | Portfolio | Evidence-based project termination | Very Hard | Evaluate | A | - | Kubiak 211-224 |
+| 163 | Training | Performance-gap cause discrimination | Hard | Analyze | D | Needs-analysis matrix | Kubiak 236-244 |
+| 164 | Training | Deliberate practice for complex judgment | Very Hard | Apply | A | - | Kubiak 256-283 |
+| 165 | Training | Causal evaluation of training transfer | Hard | Create | B | - | Kubiak 285-292 |
+| 166 | Coaching | Champion decision quality at tollgates | Very Hard | Evaluate | C | - | Kubiak 294-305 |
+| 167 | Coaching | Coaching inquiry versus expert rescue | Hard | Apply | D | - | Kubiak 306-316 |
+| 168 | Analytics | Nested destructive gage R&R | Expert | Analyze | A | Variance-component table | Kubiak 318-346 |
+| 169 | Analytics | Transformation governance for capability | Hard | Evaluate | B | - | Kubiak 347-352 |
+| 170 | Analytics | Regression extrapolation and leverage | Very Hard | Analyze | C | Focusable regression plot | Kubiak 370-402 |
+| 171 | Analytics | Logistic interaction and conditional effects | Hard | Understand | D | - | Kubiak 384-402 |
+| 172 | Analytics | Reliability allocation for series subsystems | Expert | Apply | A | Reliability plot | Kubiak 423-428 |
+| 173 | Analytics | Monte Carlo input-dependence governance | Very Hard | Evaluate | B | - | Kubiak 414-416 |
+| 174 | Analytics | Aliasing and foldover augmentation | Very Hard | Analyze | C | Focusable interaction plot | Kubiak 429-450 |
+| 175 | Analytics | APC-SPC layered monitoring architecture | Hard | Create | D | - | Kubiak 451-453 |
+
 ## Visual evidence and accessibility
 
 Ten Batch 1 questions have retained, independently reviewable visual packages in `test-bank-assets/mbb-160/batch-01/`:
@@ -234,9 +266,11 @@ Ten Batch 5 questions have equivalent retained packages in `test-bank-assets/mbb
 
 Nine Batch 6 questions have equivalent retained packages in `test-bank-assets/mbb-160/batch-06/`. Questions 130, 134, and 147 are interactive: a capacity-constrained pipeline control, a focusable adoption-versus-compliance time plot, and a focusable residual ACF plot. Static evidence includes a strategy matrix, performance dashboard, activity network, benefit bridge, attribute-agreement table, and response-surface contour plot.
 
+Nine Batch 7 questions have equivalent retained packages in `test-bank-assets/mbb-160/batch-07/`. Questions 155, 158, 170, and 174 are interactive: a portfolio what-if comparison, a focusable adoption-depth time series, a focusable regression extrapolation plot, and a focusable aliased-interaction plot. Static evidence also includes a strategy scorecard, earned-value table, training-needs matrix, destructive-MSA variance table, and reliability plot. The `mbb-160` asset path is retained as a stable implementation identifier even though the governed bank target is now 175.
+
 ## Independent validation
 
-`tests/test-bank-mbb-set2-batch1.test.js` through `tests/test-bank-mbb-set2-batch6.test.js` enforce:
+`tests/test-bank-mbb-set2-batch1.test.js` through `tests/test-bank-mbb-set2-batch7.test.js` enforce:
 
 - exact batch, domain, answer, difficulty, cognition, visual, and interaction allocations;
 - stable identities, complete metadata, four distinct options, one valid key, specific rationales, locatable source evidence, and excluded-format checks;
@@ -245,4 +279,4 @@ Nine Batch 6 questions have equivalent retained packages in `test-bank-assets/mb
 - exact question-to-dataset hashes, construction records, responsive fallback linkage, neutral answer presentation, semantic HTML/SVG output, keyboard-focusable plot details, and capacity-slider bounds;
 - no duplicate or suspicious near-duplicate stems within or across the four original batches or against the existing 100-question MBB simulation.
 
-The asset build is deterministic through `npm run build:mbb160-assets`. All six batches are covered by the exhaustive bank audit. The UI integration test verifies that Set 2 is visible as “150 of 160,” identifies Batch 6 as complete, uses a 3-hour 45-minute proportional timer, and launches exactly the 150 available questions without presenting the bank as finished.
+The asset build is deterministic through `npm run build:mbb160-assets`. All seven batches are covered by the exhaustive bank audit. The UI integration test verifies that Set 2 is visible as “175 of 175,” identifies Batch 7 as complete, uses a 4-hour 22-minute 30-second proportional timer, and launches exactly all 175 questions.
