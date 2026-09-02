@@ -1,0 +1,398 @@
+{
+  "schemaVersion": 1,
+  "batch": 3,
+  "generatedBy": "scripts/build-mbb160-assets.mjs",
+  "questions": {
+    "mbb:set-2:original-051": {
+      "sha256": "a59726d4be11cc3f141f2e339e62a1196db7561819867892bd32a5c68186c1c6",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Verified fact",
+          "Planning classification"
+        ],
+        "rows": [
+          [
+            "Proprietary sensor accuracy exceeds competitors",
+            "Internal, favorable"
+          ],
+          [
+            "One specialist maintains the billing interface",
+            "Internal, unfavorable"
+          ],
+          [
+            "Regulator will require serialized temperature audits",
+            "External political/legal"
+          ],
+          [
+            "Regional population is aging toward home delivery",
+            "External social"
+          ],
+          [
+            "Competitor launched AI-based route scheduling",
+            "External technological"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-056": {
+      "sha256": "7514a0643670521f09739fbed254564cb6a55484dcd22588bb16855eb3daff47",
+      "chart": {
+        "type": "time-series",
+        "title": "First-contact resolution after speed target",
+        "xLabel": "Week after target launch",
+        "yLabel": "First-contact resolution (%)",
+        "units": "percent",
+        "decimals": 0,
+        "labels": [
+          "W0",
+          "W1",
+          "W2",
+          "W3",
+          "W4",
+          "W5",
+          "W6",
+          "W7"
+        ],
+        "data": [
+          82,
+          82,
+          80,
+          76,
+          71,
+          66,
+          61,
+          58
+        ]
+      }
+    },
+    "mbb:set-2:original-061": {
+      "sha256": "b3e93c3d0d270c43d4d8fc5e2d351100826fbb3c19f73977bdb61b354cb9337e",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Project",
+          "BB-months",
+          "Risk-adjusted NPV",
+          "Mandatory",
+          "Data ready"
+        ],
+        "rows": [
+          [
+            "R",
+            "4",
+            "$0.40M",
+            "Yes",
+            "Yes"
+          ],
+          [
+            "A",
+            "5",
+            "$1.80M",
+            "No",
+            "Yes"
+          ],
+          [
+            "B",
+            "4",
+            "$1.50M",
+            "No",
+            "Yes"
+          ],
+          [
+            "C",
+            "6",
+            "$2.20M",
+            "No",
+            "No"
+          ],
+          [
+            "D",
+            "3",
+            "$0.90M",
+            "No",
+            "Yes"
+          ]
+        ],
+        "whatIf": {
+          "id": "mbb-q061-capacity",
+          "label": "Available capacity",
+          "min": 8,
+          "max": 16,
+          "step": 1,
+          "value": 12,
+          "unit": "BB-months",
+          "committed": 4,
+          "committedLabel": "mandatory Project R"
+        }
+      }
+    },
+    "mbb:set-2:original-065": {
+      "sha256": "a545ec9a5c640ad2108fddbbe26c0627651ac5836fd414ecdcc2e9b2764b6b4e",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Role",
+          "Observed need",
+          "Task frequency",
+          "Impact",
+          "Likely primary cause"
+        ],
+        "rows": [
+          [
+            "Operators",
+            "Interpret SPC signals",
+            "Daily",
+            "High",
+            "Skill gap"
+          ],
+          [
+            "Supervisors",
+            "Escalate recurring signals",
+            "Weekly",
+            "High",
+            "Conflicting incentive"
+          ],
+          [
+            "Analysts",
+            "Design multivariable experiments",
+            "Rare now; planned next year",
+            "High strategic",
+            "Capability gap"
+          ],
+          [
+            "Process owners",
+            "Close control-plan actions",
+            "Monthly",
+            "High",
+            "Unclear ownership"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-069": {
+      "sha256": "f25f574eeac8c3e9240fc128d401aa5a10e58c3d74c6890acc14da6f84429964",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Variance source",
+          "Estimated SD (micrometers)",
+          "Treatment in study"
+        ],
+        "rows": [
+          [
+            "Repeatability",
+            "0.800",
+            "GR&R"
+          ],
+          [
+            "Appraiser",
+            "0.600",
+            "GR&R"
+          ],
+          [
+            "Part x appraiser",
+            "1.000",
+            "GR&R"
+          ],
+          [
+            "Part to part",
+            "4.500",
+            "Total study only"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-070": {
+      "sha256": "61b6116b385101a1bad4e706dcf956af311b3fee8aeaf3f53f8c2c6e02f57e85",
+      "chart": {
+        "type": "histogram",
+        "title": "Billing cycle-time distribution",
+        "xLabel": "Cycle time (days)",
+        "yLabel": "Invoices",
+        "binEdges": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "counts": [
+          24,
+          32,
+          34,
+          28,
+          23,
+          18,
+          14,
+          13,
+          8,
+          6
+        ],
+        "referenceValue": 8,
+        "referenceLabel": "USL = 8 days"
+      }
+    },
+    "mbb:set-2:original-071": {
+      "sha256": "b3ac6541945dd190371e82fd74ca0fe1d0ce8426a73114f0f5beb931015d02b7",
+      "chart": {
+        "type": "acf-plot",
+        "title": "Residual autocorrelation function",
+        "xLabel": "Lag",
+        "yLabel": "Autocorrelation",
+        "lags": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "values": [
+          0.61,
+          0.37,
+          0.2,
+          0.08,
+          -0.02,
+          -0.09,
+          -0.06,
+          0.04,
+          0.01,
+          -0.03
+        ],
+        "confidence": 0.196
+      }
+    },
+    "mbb:set-2:original-072": {
+      "sha256": "6cc08a828ce3904d301eefdd567e81093a6d854f11304ea69caaebacbb0f2d6a",
+      "chart": {
+        "type": "two-level-interaction",
+        "factorA": "Workload",
+        "factorB": "Training method",
+        "xLowLabel": "Low workload",
+        "xHighLabel": "High workload",
+        "yLabel": "First-contact resolution (%)",
+        "yDomain": [
+          40,
+          65
+        ],
+        "yTicks": [
+          40,
+          45,
+          50,
+          55,
+          60,
+          65
+        ],
+        "lowLabel": "Method A",
+        "highLabel": "Method B",
+        "lowLine": [
+          62,
+          58
+        ],
+        "highLine": [
+          60,
+          42
+        ]
+      }
+    },
+    "mbb:set-2:original-073": {
+      "sha256": "91513e0a853af537c7ef9e37ff3450556349f11c577e53a5593cc2c1bfd5540d",
+      "chart": {
+        "type": "histogram",
+        "title": "Simulated project NPV",
+        "xLabel": "NPV ($ millions)",
+        "yLabel": "Simulation trials",
+        "binEdges": [
+          -2,
+          -1.5,
+          -1,
+          -0.5,
+          0,
+          0.5,
+          1,
+          1.5,
+          2,
+          2.5,
+          3,
+          3.5,
+          4
+        ],
+        "counts": [
+          20,
+          35,
+          80,
+          175,
+          240,
+          300,
+          320,
+          290,
+          230,
+          170,
+          100,
+          40
+        ],
+        "referenceValue": 0,
+        "referenceLabel": "NPV = $0"
+      }
+    },
+    "mbb:set-2:original-074": {
+      "sha256": "f55ae8c30242a0d2f0e67f8c9ffdb5b66d8d1ec6fcf30041544f2cac2afebf06",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Formulation",
+          "Lot 1",
+          "Lot 2",
+          "Lot 3",
+          "Lot 4",
+          "Replications"
+        ],
+        "rows": [
+          [
+            "A",
+            "Test",
+            "Test",
+            "-",
+            "Test",
+            "3"
+          ],
+          [
+            "B",
+            "-",
+            "Test",
+            "Test",
+            "Test",
+            "3"
+          ],
+          [
+            "C",
+            "Test",
+            "Test",
+            "Test",
+            "-",
+            "3"
+          ],
+          [
+            "D",
+            "Test",
+            "-",
+            "Test",
+            "Test",
+            "3"
+          ]
+        ]
+      }
+    }
+  }
+}

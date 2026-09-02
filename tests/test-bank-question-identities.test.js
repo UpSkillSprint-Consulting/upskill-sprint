@@ -44,7 +44,7 @@ test('every published question has a literal, unique ID that preserves the prior
   const { dom, window, errors } = await load();
   try {
     assert.deepEqual(errors, []);
-    const expectedTotals = { cssbb: 1024, mbb: 150, cssgb: 616, cqe: 933, cmq: 166 };
+    const expectedTotals = { cssbb: 1024, mbb: 175, cssgb: 616, cqe: 933, cmq: 166 };
     let total = 0;
 
     Object.entries(expectedTotals).forEach(([examId, expectedTotal]) => {
@@ -78,7 +78,7 @@ test('every published question has a literal, unique ID that preserves the prior
       total += expectedTotal;
     });
 
-    assert.equal(total, 2889, 'the complete live question inventory is explicitly identified');
+    assert.equal(total, 2914, 'the complete live question inventory is explicitly identified');
   } finally {
     dom.window.close();
   }

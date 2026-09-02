@@ -1,0 +1,494 @@
+{
+  "schemaVersion": 1,
+  "batch": 3,
+  "generatedBy": "scripts/build-mbb160-assets.mjs",
+  "questions": {
+    "mbb:set-2:original-051": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-051",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A five-row strategy evidence table classifies a proprietary sensor advantage and a single-specialist dependency as internal facts, and a new audit rule, aging population, and competitor AI scheduling as external PEST facts.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-051",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Verified fact",
+        "Planning classification"
+      ],
+      "rows": 5,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-056": {
+      "type": "time-series",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-056",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A focusable weekly time-series plot shows first-contact resolution holding at 82 percent through week 1, then falling to 80, 76, 71, 66, 61, and 58 percent by week 7 after the call-speed target was launched.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "Hover or keyboard-focus each weekly point to inspect the delayed deterioration after the local speed target.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-056",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Week after target launch",
+        "First-contact resolution (%)"
+      ],
+      "units": "percent",
+      "observations": 8,
+      "order": "chronological",
+      "calculations": []
+    },
+    "mbb:set-2:original-061": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-061",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A five-project portfolio table lists Black-Belt-month demand, risk-adjusted NPV, mandatory status, and data readiness. At the default 12-month capacity, mandatory Project R consumes four months and eight remain.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "Move the capacity slider to determine how much discretionary capacity remains after mandatory Project R and compare feasible portfolios.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-061",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Project",
+        "BB-months",
+        "Risk-adjusted NPV",
+        "Mandatory",
+        "Data ready"
+      ],
+      "rows": 5,
+      "calculations": [
+        "Capacity after R = 12 - 4 = 8 months; value(R+A+D) = 0.40 + 1.80 + 0.90 = $3.10 million."
+      ],
+      "interaction": {
+        "id": "mbb-q061-capacity",
+        "label": "Available capacity",
+        "min": 8,
+        "max": 16,
+        "step": 1,
+        "value": 12,
+        "unit": "BB-months",
+        "committed": 4,
+        "committedLabel": "mandatory Project R"
+      }
+    },
+    "mbb:set-2:original-065": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-065",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A role-level training-needs table shows an operator SPC skill gap, a supervisor escalation problem linked to conflicting incentives, an analyst future DOE capability gap, and a process-owner closure problem linked to unclear ownership.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-065",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Role",
+        "Observed need",
+        "Task frequency",
+        "Impact",
+        "Likely primary cause"
+      ],
+      "rows": 4,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-069": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-069",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A variance-component table lists standard deviations of 0.800 micrometers for repeatability, 0.600 for appraiser, 1.000 for part-by-appraiser interaction, and 4.500 for part-to-part variation.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-069",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Variance source",
+        "Estimated SD (micrometers)",
+        "Treatment in study"
+      ],
+      "rows": 4,
+      "calculations": [
+        "GR&R SD = sqrt(0.8^2 + 0.6^2 + 1.0^2) = 1.414; total SD = sqrt(1.414^2 + 4.5^2) = 4.717; %GR&R = 29.98%."
+      ],
+      "interaction": null
+    },
+    "mbb:set-2:original-070": {
+      "type": "histogram",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-070",
+      "transformations": [],
+      "referenceLines": [
+        "USL = 8 days at 8"
+      ],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A right-skewed histogram of 200 billing cycle times uses ten one-day bins from 0 to 10 days. Counts are 24, 32, 34, 28, 23, 18, 14, 13, 8, and 6. A vertical reference line marks the USL at 8 days; 14 observations lie above it.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-070",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Cycle time (days)",
+        "Invoices"
+      ],
+      "units": "Cycle time (days)",
+      "axes": {
+        "xDomain": [
+          0,
+          10
+        ],
+        "yDomain": [
+          0,
+          34
+        ]
+      },
+      "bins": [
+        {
+          "lower": 0,
+          "upper": 1,
+          "count": 24
+        },
+        {
+          "lower": 1,
+          "upper": 2,
+          "count": 32
+        },
+        {
+          "lower": 2,
+          "upper": 3,
+          "count": 34
+        },
+        {
+          "lower": 3,
+          "upper": 4,
+          "count": 28
+        },
+        {
+          "lower": 4,
+          "upper": 5,
+          "count": 23
+        },
+        {
+          "lower": 5,
+          "upper": 6,
+          "count": 18
+        },
+        {
+          "lower": 6,
+          "upper": 7,
+          "count": 14
+        },
+        {
+          "lower": 7,
+          "upper": 8,
+          "count": 13
+        },
+        {
+          "lower": 8,
+          "upper": 9,
+          "count": 8
+        },
+        {
+          "lower": 9,
+          "upper": 10,
+          "count": 6
+        }
+      ],
+      "calculations": [
+        "P(T > 8) = exp[-(8/4)^1.4] = exp(-2.6390) = 0.0714."
+      ]
+    },
+    "mbb:set-2:original-071": {
+      "type": "acf-plot",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-071",
+      "transformations": [],
+      "referenceLines": [
+        "Approximate 95% bounds = ±0.196",
+        "Autocorrelation = 0"
+      ],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A residual autocorrelation plot for lags 1 through 10 has 95 percent reference bounds at plus and minus 0.196. The first three bars are 0.61, 0.37, and 0.20; later bars range from negative 0.09 to positive 0.08.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "Hover or keyboard-focus each lag bar to compare its autocorrelation with the stated 95 percent bounds.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-071",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Lag",
+        "Autocorrelation"
+      ],
+      "units": "lag and correlation",
+      "axes": {
+        "xDomain": [
+          1,
+          10
+        ],
+        "yDomain": [
+          -1,
+          1
+        ]
+      },
+      "observations": 10,
+      "calculations": [
+        "Approximate ACF bound = plus or minus 1.96/sqrt(100) = plus or minus 0.196."
+      ]
+    },
+    "mbb:set-2:original-072": {
+      "type": "two-level-interaction",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-072",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "An interaction plot shows workload on the horizontal axis and first-contact-resolution percentage on the vertical axis. Method A changes from 62 percent at low workload to 58 percent at high workload; Method B changes from 60 percent to 42 percent.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-072",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Workload",
+        "Training method",
+        "First-contact resolution (%)"
+      ],
+      "units": "factor levels and response percent",
+      "axes": {
+        "xLevels": [
+          "Low workload",
+          "High workload"
+        ],
+        "yDomain": [
+          40,
+          65
+        ],
+        "yTicks": [
+          40,
+          45,
+          50,
+          55,
+          60,
+          65
+        ]
+      },
+      "series": [
+        {
+          "label": "Method A",
+          "values": [
+            62,
+            58
+          ]
+        },
+        {
+          "label": "Method B",
+          "values": [
+            60,
+            42
+          ]
+        }
+      ],
+      "calculations": []
+    },
+    "mbb:set-2:original-073": {
+      "type": "histogram",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-073",
+      "transformations": [],
+      "referenceLines": [
+        "NPV = $0 at 0"
+      ],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A histogram of 2,000 simulated project NPVs uses half-million-dollar bins from negative 2 million to positive 4 million. The four negative bins contain 20, 35, 80, and 175 trials, totaling 310. A vertical line marks zero NPV.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-073",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "NPV ($ millions)",
+        "Simulation trials"
+      ],
+      "units": "NPV ($ millions)",
+      "axes": {
+        "xDomain": [
+          -2,
+          4
+        ],
+        "yDomain": [
+          0,
+          320
+        ]
+      },
+      "bins": [
+        {
+          "lower": -2,
+          "upper": -1.5,
+          "count": 20
+        },
+        {
+          "lower": -1.5,
+          "upper": -1,
+          "count": 35
+        },
+        {
+          "lower": -1,
+          "upper": -0.5,
+          "count": 80
+        },
+        {
+          "lower": -0.5,
+          "upper": 0,
+          "count": 175
+        },
+        {
+          "lower": 0,
+          "upper": 0.5,
+          "count": 240
+        },
+        {
+          "lower": 0.5,
+          "upper": 1,
+          "count": 300
+        },
+        {
+          "lower": 1,
+          "upper": 1.5,
+          "count": 320
+        },
+        {
+          "lower": 1.5,
+          "upper": 2,
+          "count": 290
+        },
+        {
+          "lower": 2,
+          "upper": 2.5,
+          "count": 230
+        },
+        {
+          "lower": 2.5,
+          "upper": 3,
+          "count": 170
+        },
+        {
+          "lower": 3,
+          "upper": 3.5,
+          "count": 100
+        },
+        {
+          "lower": 3.5,
+          "upper": 4,
+          "count": 40
+        }
+      ],
+      "calculations": [
+        "Estimated P(NPV < 0) = (20 + 35 + 80 + 175) / 2000 = 310 / 2000 = 15.5%."
+      ]
+    },
+    "mbb:set-2:original-074": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-074",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A four-by-four treatment incidence matrix shows Formulation A in Lots 1, 2, and 4; B in Lots 2, 3, and 4; C in Lots 1, 2, and 3; and D in Lots 1, 3, and 4. Each formulation appears three times and each pair appears together twice.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-074",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Formulation",
+        "Lot 1",
+        "Lot 2",
+        "Lot 3",
+        "Lot 4",
+        "Replications"
+      ],
+      "rows": 4,
+      "calculations": [
+        "BIBD checks: bk = vr = 4(3) = 4(3) = 12; lambda(v-1) = r(k-1) = 2(3) = 3(2) = 6."
+      ],
+      "interaction": null
+    }
+  }
+}
