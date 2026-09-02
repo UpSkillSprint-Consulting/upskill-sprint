@@ -8,6 +8,7 @@ import { spawnSync } from 'node:child_process';
 const checks = [
   [
     '--test',
+    'tests/test-bank-mbb-set1.test.js',
     'tests/test-bank-adaptive-mastery-hardening.test.js',
     'tests/test-bank-learning-events.test.js',
     'tests/test-bank-ledger-reconciliation.test.js',

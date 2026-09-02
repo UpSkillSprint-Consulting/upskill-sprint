@@ -9,14 +9,16 @@ const { installDurableLearning } = require('./helpers/test-bank-durable-learning
 
 const ROOT = path.join(__dirname, '..');
 const cmqScript = fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set1.js'), 'utf8');
+const mbbScript = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set1.js'), 'utf8');
 const cssgbScript = fs.readFileSync(path.join(ROOT, 'test-bank-cssgb-set1.js'), 'utf8');
 const cssgbSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-cssgb-set2.js'), 'utf8');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
   .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${cmqScript}</script>`)
+  .replace('<script src="/test-bank-mbb-set1.js"></script>', `<script>${mbbScript}</script>`)
   .replace('<script src="/test-bank-cssgb-set1.js"></script>', `<script>${cssgbScript}</script>`)
   .replace('<script src="/test-bank-cssgb-set2.js"></script>', `<script>${cssgbSet2Script}</script>`);
 
-const CERTS = ['CSSBB', 'CSSGB', 'CQE', 'CQA', 'CMQ', 'CRE'];
+const CERTS = ['CSSBB', 'MBB', 'CSSGB', 'CQE', 'CQA', 'CMQ', 'CRE'];
 
 let _windows = [];
 afterEach(() => { _windows.splice(0).forEach(w => { try { w.close(); } catch (e) {} }); });
@@ -53,15 +55,15 @@ test('uses the standard site shell (header, mobile nav, footer)', async () => {
 
 /* ---------- the certification picker (right rail) ---------- */
 
-test('the rail lists all six certifications', async () => {
+test('the rail lists all seven certifications', async () => {
   const { window } = await loadPage();
   const tiles = Array.from(window.document.querySelectorAll('.tb-tile'));
-  assert.equal(tiles.length, 6);
+  assert.equal(tiles.length, 7);
   const badges = tiles.map(t => t.querySelector('.tb-badge').textContent);
   CERTS.forEach(c => assert.ok(badges.includes(c), `rail includes ${c}`));
 });
 
-test('only CQA and CRE remain Coming soon; CSSBB, CSSGB, CQE, and CMQ are live', async () => {
+test('only CQA and CRE remain Coming soon; CSSBB, MBB, CSSGB, CQE, and CMQ are live', async () => {
   const { window } = await loadPage();
   const tiles = Array.from(window.document.querySelectorAll('.tb-tile'));
   const soon = tiles.filter(t => /Coming soon/.test(t.textContent));
@@ -69,6 +71,10 @@ test('only CQA and CRE remain Coming soon; CSSBB, CSSGB, CQE, and CMQ are live',
   const cssbb = tiles.find(t => t.dataset.exam === 'cssbb');
   assert.doesNotMatch(cssbb.textContent, /Coming soon/, 'CSSBB is live, not coming soon');
   assert.match(cssbb.textContent, /3 exam sets/i, "tile advertises the set count");
+  const mbb = tiles.find(t => t.dataset.exam === 'mbb');
+  assert.doesNotMatch(mbb.textContent, /Coming soon/, 'MBB is live now');
+  assert.match(mbb.textContent, /100 questions/i, 'MBB tile advertises the complete simulated examination');
+  assert.match(mbb.textContent, /Simulated Exam Set 1/i, 'MBB tile advertises only the included simulated-examination set');
   const cqe = tiles.find(t => t.dataset.exam === 'cqe');
   assert.doesNotMatch(cqe.textContent, /Coming soon/, 'CQE is live now');
   assert.match(cqe.textContent, /3 exam sets/i, "CQE tile advertises the set count");
