@@ -1,0 +1,349 @@
+{
+  "schemaVersion": 1,
+  "batch": 2,
+  "generatedBy": "scripts/build-mbb160-assets.mjs",
+  "questions": {
+    "mbb:set-2:original-026": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-026",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A stakeholder table lists four groups. The safety regulator is high influence and high importance; field crews are low influence and high importance; union stewards are high influence and low importance; and the software vendor is low on both dimensions.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-026",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Stakeholder",
+        "Project impact",
+        "Influence",
+        "Importance",
+        "Current attitude"
+      ],
+      "rows": 4,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-028": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-028",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A four-row executive scorecard contains only financial and customer measures. Revenue growth, operating margin, complaint rate, and recall rate are each explicitly identified as lagging outcomes; no internal-process or learning-and-growth measure is present.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-028",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Perspective claimed",
+        "Measure",
+        "Direction this quarter",
+        "Timing characteristic"
+      ],
+      "rows": 4,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-031": {
+      "type": "time-series",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-031",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A focusable time-series plot shows manual workarounds per 100 referrals increasing consecutively across twelve weeks: 3, 4, 5, 7, 9, 12, 16, 21, 26, 31, 35, and 39.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "Explore each weekly point by hover or keyboard focus to verify the persistence and acceleration of the adoption signal.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-031",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Week after rollout",
+        "Workarounds per 100 referrals"
+      ],
+      "units": "workarounds per 100 referrals",
+      "observations": 12,
+      "order": "chronological",
+      "calculations": []
+    },
+    "mbb:set-2:original-036": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-036",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A four-project portfolio table gives NPV, realization probability, FTE requirement, and constraints. Project A is mandatory at 4 FTE, Project B requires C, and the capacity slider ranges from 8 through 16 FTE with a default of 12.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "Move the capacity slider to 12 FTE, verify that 8 FTE remain after mandatory Project A, and compare feasible dependency-respecting portfolios.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-036",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Project",
+        "NPV if realized ($M)",
+        "Realization probability",
+        "FTE required",
+        "Constraint"
+      ],
+      "rows": 4,
+      "calculations": [
+        "Expected NPV = stated NPV × probability of realization; maximize the sum subject to 12 FTE, mandatory A, and B requiring C."
+      ],
+      "interaction": {
+        "id": "mbb-q036-capacity",
+        "label": "Total available capacity",
+        "min": 8,
+        "max": 16,
+        "step": 1,
+        "value": 12,
+        "unit": "FTE",
+        "committed": 4,
+        "committedLabel": "mandatory Project A"
+      }
+    },
+    "mbb:set-2:original-038": {
+      "type": "risk-matrix",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-038",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A three-by-three risk matrix has operational-impact rows Severe, Moderate, and Low and likelihood columns Rare, Possible, and Likely. The Severe and Possible cell is classified High.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-038",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation."
+    },
+    "mbb:set-2:original-040": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-040",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A mastery grid lists four skills and different target levels for sponsors, Belts, and metrology staff. Sponsors emphasize interpretation and business risk, Belts emphasize application and coaching, and metrology staff require expert diagnostic capability.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-040",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Skill",
+        "Sponsors target",
+        "Belts target",
+        "Metrology target"
+      ],
+      "rows": 4,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-046": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-046",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "An attribute agreement table shows Inspector A at 96 percent within-inspector agreement and 82 percent versus reference, B at 94 and 84 percent, C at 98 and 98 percent, and overall results of 96 and 88 percent.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-046",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Inspector",
+        "Within-inspector agreement",
+        "Agreement with reference",
+        "Meets both 90% criteria?"
+      ],
+      "rows": 4,
+      "calculations": [
+        "Within-inspector agreement is repeated self-agreement; agreement with reference is correct classifications divided by reference classifications."
+      ],
+      "interaction": null
+    },
+    "mbb:set-2:original-048": {
+      "type": "contour-plot",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-048",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "An accessible contour plot of the fitted response shows elliptical contours at responses 75, 80, and 85 centered at coded factor settings A 0.5 and B negative 0.5. The current point is A negative 1 and B positive 1.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-048",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Factor A (coded units)",
+        "Factor B (coded units)",
+        "fitted response"
+      ],
+      "units": "coded factor units and response units",
+      "axes": {
+        "xDomain": [
+          -2.5,
+          2.5
+        ],
+        "yDomain": [
+          -2.5,
+          2.5
+        ],
+        "xTicks": [
+          -2,
+          -1,
+          0,
+          1,
+          2
+        ],
+        "yTicks": [
+          -2,
+          -1,
+          0,
+          1,
+          2
+        ]
+      },
+      "model": "y-hat = 90 - 6(A - 0.5)^2 - 2(B + 0.5)^2",
+      "center": [
+        0.5,
+        -0.5
+      ],
+      "contours": [
+        {
+          "level": 75,
+          "radiusX": 1.5811,
+          "radiusY": 2.7386
+        },
+        {
+          "level": 80,
+          "radiusX": 1.291,
+          "radiusY": 2.2361
+        },
+        {
+          "level": 85,
+          "radiusX": 0.9129,
+          "radiusY": 1.5811
+        }
+      ],
+      "currentPoint": {
+        "x": -1,
+        "y": 1,
+        "label": "Current"
+      },
+      "calculations": [
+        "Gradient = [-12(A-0.5), -4(B+0.5)]; at (-1,1), gradient = [18,-6]."
+      ]
+    },
+    "mbb:set-2:original-049": {
+      "type": "reliability-plot",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-049",
+      "transformations": [],
+      "referenceLines": [
+        "Mission time = 1000 hours"
+      ],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A two-series reliability plot covers 0 to 2,000 hours. At 1,000 hours, the system requiring both modules has reliability about 0.603 and the active-parallel system requiring either module has reliability 0.9500.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "Hover or keyboard-focus the plotted mission-time points to compare the two system configurations at the same hours.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-049",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Mission time (hours)",
+        "System reliability"
+      ],
+      "units": "hours and probability",
+      "axes": {
+        "xTicks": [
+          0,
+          500,
+          1000,
+          1500,
+          2000
+        ],
+        "yDomain": [
+          0,
+          1
+        ]
+      },
+      "series": [
+        {
+          "label": "Both modules required (series)",
+          "observations": 5
+        },
+        {
+          "label": "Either module sufficient (active parallel)",
+          "observations": 5
+        }
+      ],
+      "calculations": [
+        "Rcomponent(1000)=exp[-(1000/2500)^1.5]=0.7765; Rseries=R²=0.6030; Rparallel=1-(1-R)²=0.9500."
+      ]
+    }
+  }
+}

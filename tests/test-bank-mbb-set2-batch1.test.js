@@ -23,7 +23,7 @@ function loadScript(source, variable) {
   return JSON.parse(JSON.stringify(sandbox[variable]));
 }
 
-const batch = loadScript(set2Script, 'MBB_SET2');
+const batch = loadScript(set2Script, 'MBB_SET2_BATCHES')['1'];
 const sourceSet = loadScript(set1Script, 'MBB_SET1');
 
 function stable(value) {
@@ -91,7 +91,7 @@ test('MBB 160 Batch 1 has the approved 25-question allocation and is published a
   assert.match(pageSource, /sets:\{1:MBB_SET1,2:MBB_SET2\}/, 'the validated batch is registered as MBB Set 2');
 });
 
-test('MBB Set 2 is visible, accurately labeled 25 of 160, and launches only the available batch', async () => {
+test('MBB Set 2 aggregates validated batches and launches only the currently available questions', async () => {
   const { dom, window, errors } = await loadPage();
   try {
     assert.deepEqual(errors, []);
@@ -101,21 +101,21 @@ test('MBB Set 2 is visible, accurately labeled 25 of 160, and launches only the 
 
     const set2Button = overview.querySelector('.tb-setpick [data-set="2"]');
     assert.ok(set2Button, 'Set 2 appears in the MBB set selector');
-    assert.match(set2Button.textContent, /25 of 160/i);
-    assert.match(set2Button.textContent, /Batch 1 complete/i);
+    assert.match(set2Button.textContent, /50 of 160/i);
+    assert.match(set2Button.textContent, /Batch 2 complete/i);
     assert.ok(overview.querySelector('.tb-setpick [data-set="mix"]'), 'Mixed remains available');
 
     click(set2Button);
     assert.match(overview.textContent, /Set 2 · live/i);
-    assert.match(overview.textContent, /contains 25 of the planned 160 original questions/i);
-    assert.match(overview.textContent, /current Full Exam serves all 25 available questions/i);
+    assert.match(overview.textContent, /contains 50 of the planned 160 original questions/i);
+    assert.match(overview.textContent, /current Full Exam serves all 50 available questions/i);
     const fullCard = overview.querySelector('.tb-mode');
     assert.match(fullCard.querySelector('h4').textContent, /Set 2 — Full Exam/i);
-    assert.match(fullCard.textContent, /25 randomized questions/i);
-    assert.match(fullCard.textContent, /Strict 37 min 30 sec limit/i);
+    assert.match(fullCard.textContent, /50 randomized questions/i);
+    assert.match(fullCard.textContent, /Strict 1 hr 15 min limit/i);
 
     click(overview.querySelector('[data-mode="full"]'));
-    assert.equal(overview.querySelectorAll('.tb-navcell').length, 25);
+    assert.equal(overview.querySelectorAll('.tb-navcell').length, 50);
     assert.match(overview.textContent, /Full Exam · timed/i);
     assert.match(overview.querySelector('.tb-stem').dataset.questionId, /^mbb:set-2:original-\d{3}$/);
     assert.ok(window.document.getElementById('tb-timer'), 'the proportional timed session is active');

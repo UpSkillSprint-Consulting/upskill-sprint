@@ -40,7 +40,7 @@ test('MBB Set 1 contains only the 100-question supplied simulated examination', 
     assert.equal(exam.bank.length, 100);
     assert.equal(exam.sets[1], exam.bank);
     assert.deepEqual(Object.keys(exam.sets), ['1', '2']);
-    assert.equal(exam.sets[2].length, 25, 'the first validated original batch is published separately as Set 2');
+    assert.equal(exam.sets[2].length, 50, 'the first two validated original batches are published separately as Set 2');
     assert.ok(exam.sets[2].every(question => /^mbb:set-2:original-\d{3}$/.test(question.qid)));
     assert.ok(exam.sets[2].every(question => !/practice examination/i.test(question.sourceAssessment || '')), 'the excluded practice examination was not added to Set 2');
     assert.deepEqual(Array.from(exam.bank, question => question.sourceQuestion), Array.from({ length: 100 }, (_, index) => index + 1));

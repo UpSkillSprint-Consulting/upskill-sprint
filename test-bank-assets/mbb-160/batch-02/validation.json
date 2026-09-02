@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "batch": 2,
+  "generatedBy": "scripts/build-mbb160-assets.mjs",
+  "questions": {
+    "mbb:set-2:original-026": {
+      "datasetSha256": "2ee1446c83542d00be5fae3a8fbfc78acb01ddf0b098fad75660a60f2dcbb9f1",
+      "datasetMatchesQuestionChart": true,
+      "rendererReturnedMarkup": true,
+      "readableLabels": true,
+      "scaleAndUnitsReviewed": true,
+      "answerCueAuditPassed": true,
+      "accessibleAlternativePresent": true,
+      "staticFallbackGenerated": true,
+      "breakpoints": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "validationStatus": "passed"
+    },
+    "mbb:set-2:original-028": {
+      "datasetSha256": "a1011172f4569b9d0984c59c6930a2121a04d2c5811318a9609da7c72fb7961a",
+      "datasetMatchesQuestionChart": true,
+      "rendererReturnedMarkup": true,
+      "readableLabels": true,
+      "scaleAndUnitsReviewed": true,
+      "answerCueAuditPassed": true,
+      "accessibleAlternativePresent": true,
+      "staticFallbackGenerated": true,
+      "breakpoints": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "validationStatus": "passed"
+    },
+    "mbb:set-2:original-031": {
+      "datasetSha256": "4794a0bf1802d299fc8b5fac4cb34a87bdda947a39c56ddac87486b4323c8574",
+      "datasetMatchesQuestionChart": true,
+      "rendererReturnedMarkup": true,
+      "readableLabels": true,
+      "scaleAndUnitsReviewed": true,
+      "answerCueAuditPassed": true,
+      "accessibleAlternativePresent": true,
+      "staticFallbackGenerated": true,
+      "breakpoints": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "validationStatus": "passed"
+    },
+    "mbb:set-2:original-036": {
+      "datasetSha256": "c88032a012a0a698735a94aa56f9902f628e29532688ff3362dbdb7e3bdd13f5",
+      "datasetMatchesQuestionChart": true,
+      "rendererReturnedMarkup": true,
+      "readableLabels": true,
+      "scaleAndUnitsReviewed": true,
+      "answerCueAuditPassed": true,
+      "accessibleAlternativePresent": true,
+      "staticFallbackGenerated": true,
+      "breakpoints": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "validationStatus": "passed"
+    },
+    "mbb:set-2:original-038": {
+      "datasetSha256": "ddd9a224386b62b49f537e180d05988cf8959a7ca6c0de52b2a8e0ac7b19f578",
+      "datasetMatchesQuestionChart": true,
+      "rendererReturnedMarkup": true,
+      "readableLabels": true,
+      "scaleAndUnitsReviewed": true,
+      "answerCueAuditPassed": true,
+      "accessibleAlternativePresent": true,
+      "staticFallbackGenerated": true,
+      "breakpoints": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "validationStatus": "passed"
+    },
+    "mbb:set-2:original-040": {
+      "datasetSha256": "29726bb59bbd67e1eee0847b7af2fc2e00ef7460bfb215697217190f56ebdc84",
+      "datasetMatchesQuestionChart": true,
+      "rendererReturnedMarkup": true,
+      "readableLabels": true,
+      "scaleAndUnitsReviewed": true,
+      "answerCueAuditPassed": true,
+      "accessibleAlternativePresent": true,
+      "staticFallbackGenerated": true,
+      "breakpoints": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "validationStatus": "passed"
+    },
+    "mbb:set-2:original-046": {
+      "datasetSha256": "28161b1ac0b392db3b595a19ee155397b2323388f0d2dcd5568130b97ac7b647",
+      "datasetMatchesQuestionChart": true,
+      "rendererReturnedMarkup": true,
+      "readableLabels": true,
+      "scaleAndUnitsReviewed": true,
+      "answerCueAuditPassed": true,
+      "accessibleAlternativePresent": true,
+      "staticFallbackGenerated": true,
+      "breakpoints": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "validationStatus": "passed"
+    },
+    "mbb:set-2:original-048": {
+      "datasetSha256": "b1059580f34566308caef9fdde7aae432bd00027d36794a4efdd69dbb1bf29e3",
+      "datasetMatchesQuestionChart": true,
+      "rendererReturnedMarkup": true,
+      "readableLabels": true,
+      "scaleAndUnitsReviewed": true,
+      "answerCueAuditPassed": true,
+      "accessibleAlternativePresent": true,
+      "staticFallbackGenerated": true,
+      "breakpoints": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "validationStatus": "passed"
+    },
+    "mbb:set-2:original-049": {
+      "datasetSha256": "22ff48b2bc550b0cc428d7a64986696915124e31d13c18165c157a330b7f5df2",
+      "datasetMatchesQuestionChart": true,
+      "rendererReturnedMarkup": true,
+      "readableLabels": true,
+      "scaleAndUnitsReviewed": true,
+      "answerCueAuditPassed": true,
+      "accessibleAlternativePresent": true,
+      "staticFallbackGenerated": true,
+      "breakpoints": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "validationStatus": "passed"
+    }
+  }
+}
