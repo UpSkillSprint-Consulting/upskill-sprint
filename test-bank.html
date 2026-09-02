@@ -193,6 +193,11 @@
   .tb-q-data-table tr:last-child td{border-bottom:none}
   .tb-q-data-table tr:nth-child(even) td{background:color-mix(in srgb,var(--tint) 55%,var(--card))}
   .tb-q-data-table td.tb-q-num{font-variant-numeric:tabular-nums}
+  .tb-chart-whatif{display:grid;grid-template-columns:minmax(150px,1fr) minmax(180px,2fr);gap:8px 14px;align-items:center;margin-top:13px;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);font-size:12px;color:var(--muted)}
+  .tb-chart-whatif label{font-weight:700;color:var(--ink)}
+  .tb-chart-whatif input{width:100%;accent-color:var(--teal)}
+  .tb-chart-whatif p{grid-column:1/-1;margin:0;line-height:1.4}
+  @media(max-width:560px){.tb-chart-whatif{grid-template-columns:1fr}.tb-chart-whatif p{grid-column:1}}
   .tb-chart-risk-low{fill:color-mix(in srgb,#1f9d6b 22%,var(--card));stroke:var(--line);stroke-width:1}
   .tb-chart-risk-medium{fill:color-mix(in srgb,#b8791b 26%,var(--card));stroke:var(--line);stroke-width:1}
   .tb-chart-risk-high{fill:color-mix(in srgb,#c0453f 26%,var(--card));stroke:var(--line);stroke-width:1}
@@ -2965,7 +2970,14 @@
     rows.forEach(function(r){
       html+='<tr>'+r.map(function(cell,i){return '<td'+(i===0?'':' class="tb-q-num"')+'>'+esc(cell)+'</td>';}).join('')+'</tr>';
     });
-    return html+'</tbody></table>';
+    html+='</tbody></table>';
+    if(spec.whatIf){
+      var wi=spec.whatIf,value=Number(wi.value),remaining=value-Number(wi.committed||0);
+      html+='<div class="tb-chart-whatif"><label for="'+esc(wi.id)+'">'+esc(wi.label)+': <output data-tb-whatif-value>'+esc(value)+'</output> '+esc(wi.unit||'')+'</label>'+
+        '<input id="'+esc(wi.id)+'" type="range" min="'+esc(wi.min)+'" max="'+esc(wi.max)+'" step="'+esc(wi.step||1)+'" value="'+esc(value)+'" data-tb-whatif data-committed="'+esc(wi.committed||0)+'" data-unit="'+esc(wi.unit||'')+'" aria-describedby="'+esc(wi.id)+'-result">'+
+        '<p id="'+esc(wi.id)+'-result" aria-live="polite"><span data-tb-whatif-remaining>'+esc(remaining)+'</span> '+esc(wi.unit||'')+' remain after '+esc(wi.committedLabel||'the committed work')+'.</p></div>';
+    }
+    return html;
   }
   function chartVsmSupermarket(){
     var w=300,h=160,left=86,top=22,shelfW=128,shelfH=34;
@@ -3146,6 +3158,51 @@
     svg+='<text x="13" y="'+(top+plotH/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 13 '+(top+plotH/2)+')">Mean response</text>';
     return svg+'</svg>';
   }
+  function chartRegressionDiagnostic(spec){
+    var points=spec.points||[],w=560,h=270,left=58,right=24,top=26,bottom=46;
+    var xs=points.map(function(p){return Number(p.fitted);});
+    var ys=points.map(function(p){return Number(p.residual);});
+    var xMin=Math.min.apply(null,xs),xMax=Math.max.apply(null,xs);
+    var maxAbs=Math.max.apply(null,ys.map(function(v){return Math.abs(v);}));
+    var xPad=Math.max((xMax-xMin)*0.06,1),yMax=Math.max(maxAbs*1.18,1);
+    xMin-=xPad;xMax+=xPad;
+    function px(v){return left+(v-xMin)/(xMax-xMin)*(w-left-right);}
+    function py(v){return top+(yMax-v)/(2*yMax)*(h-top-bottom);}
+    var xTicks=spec.xTicks||[Math.ceil(xMin),Math.round((xMin+xMax)/2),Math.floor(xMax)];
+    var yTicks=spec.yTicks||[-maxAbs,0,maxAbs];
+    var summary=spec.altText||((spec.title||'Residuals versus fitted values')+'. Points: '+points.map(function(p){return 'fitted '+p.fitted+', residual '+p.residual;}).join('; ')+'.');
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="'+esc(summary)+'">'+
+      '<text x="'+left+'" y="15" font-size="11" font-weight="700" fill="var(--ink)">'+esc(spec.title||'Residuals versus fitted values')+'</text>';
+    xTicks.forEach(function(v){svg+='<line x1="'+px(v).toFixed(1)+'" y1="'+top+'" x2="'+px(v).toFixed(1)+'" y2="'+(h-bottom)+'" class="tb-chart-grid"></line><text x="'+px(v).toFixed(1)+'" y="'+(h-bottom+17)+'" font-size="9" fill="var(--muted)" text-anchor="middle">'+esc(v)+'</text>';});
+    yTicks.forEach(function(v){svg+='<line x1="'+left+'" y1="'+py(v).toFixed(1)+'" x2="'+(w-right)+'" y2="'+py(v).toFixed(1)+'" class="'+(Number(v)===0?'tb-chart-cl':'tb-chart-grid')+'"></line><text x="'+(left-8)+'" y="'+(py(v)+3).toFixed(1)+'" font-size="9" fill="var(--muted)" text-anchor="end">'+esc(v)+'</text>';});
+    points.forEach(function(p){var label='Fitted '+p.fitted+', residual '+p.residual;svg+='<circle cx="'+px(Number(p.fitted)).toFixed(1)+'" cy="'+py(Number(p.residual)).toFixed(1)+'" r="4" class="tb-chart-dot" tabindex="0" role="img" aria-label="'+esc(label)+'"><title>'+esc(label)+'</title></circle>';});
+    svg+='<text x="'+((left+w-right)/2)+'" y="'+(h-6)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.xLabel||'Fitted value')+'</text>'+
+      '<text x="17" y="'+((top+h-bottom)/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 17 '+((top+h-bottom)/2)+')">'+esc(spec.yLabel||'Residual')+'</text></svg>';
+    return svg;
+  }
+  function chartTimeSeries(spec){
+    var data=(spec.data||[]).map(Number),labels=spec.labels||data.map(function(_,i){return String(i+1);});
+    var w=560,h=270,left=58,right=26,top=28,bottom=48;
+    var min=Math.min.apply(null,data),max=Math.max.apply(null,data),pad=Math.max((max-min)*0.12,0.5);
+    min-=pad;max+=pad;
+    function px(i){return left+(data.length===1?0:i/(data.length-1))*(w-left-right);}
+    function py(v){return top+(max-v)/(max-min)*(h-top-bottom);}
+    var summary=spec.altText||((spec.title||'Time-series plot')+'. '+data.map(function(v,i){return labels[i]+' '+v;}).join('; ')+'.');
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart" role="img" aria-label="'+esc(summary)+'">'+
+      '<text x="'+left+'" y="15" font-size="11" font-weight="700" fill="var(--ink)">'+esc(spec.title||'Time-series plot')+'</text>';
+    for(var t=0;t<=4;t++){
+      var value=min+(max-min)*t/4,y=py(value);
+      svg+='<line x1="'+left+'" y1="'+y.toFixed(1)+'" x2="'+(w-right)+'" y2="'+y.toFixed(1)+'" class="tb-chart-grid"></line><text x="'+(left-8)+'" y="'+(y+3).toFixed(1)+'" font-size="9" fill="var(--muted)" text-anchor="end">'+value.toFixed(spec.decimals==null?1:spec.decimals)+'</text>';
+    }
+    var path=data.map(function(v,i){return (i?'L':'M')+px(i).toFixed(1)+' '+py(v).toFixed(1);}).join(' ');
+    svg+='<path d="'+path+'" fill="none" class="tb-chart-line"></path>';
+    data.forEach(function(v,i){var label=labels[i]+': '+v;svg+='<circle cx="'+px(i).toFixed(1)+'" cy="'+py(v).toFixed(1)+'" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="'+esc(label)+'"><title>'+esc(label)+'</title></circle>';});
+    var step=Math.max(1,Math.ceil(labels.length/8));
+    labels.forEach(function(label,i){if(i%step===0||i===labels.length-1)svg+='<text x="'+px(i).toFixed(1)+'" y="'+(h-bottom+17)+'" font-size="9" fill="var(--muted)" text-anchor="middle">'+esc(label)+'</text>';});
+    svg+='<text x="'+((left+w-right)/2)+'" y="'+(h-6)+'" font-size="10" fill="var(--muted)" text-anchor="middle">'+esc(spec.xLabel||'Time order')+'</text>'+
+      '<text x="17" y="'+((top+h-bottom)/2)+'" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 17 '+((top+h-bottom)/2)+')">'+esc(spec.yLabel||'Value')+'</text></svg>';
+    return svg;
+  }
   var CHART_EYEBROWS={
     'xbar-r':'Control chart', 'boxplot':'Box plot', 'bias-diagram':'Bias diagram',
     'normal-prob':'Normal probability plot', 'precision-accuracy':'Target diagram', 'vsm-symbol':'VSM symbol',
@@ -3157,7 +3214,8 @@
     'two-level-interaction':'Interaction plot', 'wbs-diagram':'Work breakdown structure',
     'multi-vari':'Multi-vari chart', 'distribution-labels':'Distribution',
     'labeled-boxplot':'Box plot', 'two-tail-test':'Hypothesis test',
-    'fishbone-labels':'Cause-and-effect diagram'
+    'fishbone-labels':'Cause-and-effect diagram', 'regression-diagnostic':'Regression diagnostic',
+    'time-series':'Time-series plot'
   };
   var CHART_COMPACT={'vsm-symbol':1,'vsm-supermarket':1};
   function renderQuestionChart(chart){
@@ -3189,6 +3247,8 @@
     else if(chart.type==='fta-diagram')inner=chartFtaDiagram(chart);
     else if(chart.type==='matrix-diagram')inner=chartMatrixDiagram(chart);
     else if(chart.type==='interaction-plot-3')inner=chartInteractionPlot3(chart);
+    else if(chart.type==='regression-diagnostic')inner=chartRegressionDiagnostic(chart);
+    else if(chart.type==='time-series')inner=chartTimeSeries(chart);
     else return '';
     var eyebrow=CHART_EYEBROWS[chart.type];
     var wrapClass='tb-q-chart-wrap'+(CHART_COMPACT[chart.type]?' tb-q-chart-wrap-compact':'');
@@ -4167,6 +4227,10 @@
   }
   function wireQuiz(){
     var host=document.getElementById('tb-overview');
+    Array.prototype.forEach.call(host.querySelectorAll('[data-tb-whatif]'),function(slider){
+      var update=function(){var value=Number(slider.value),committed=Number(slider.dataset.committed||0),container=slider.closest('.tb-chart-whatif');if(!container)return;var shown=container.querySelector('[data-tb-whatif-value]'),remaining=container.querySelector('[data-tb-whatif-remaining]');if(shown)shown.textContent=String(value);if(remaining)remaining.textContent=String(value-committed);};
+      slider.addEventListener('input',update);update();
+    });
     Array.prototype.forEach.call(host.querySelectorAll('[data-opt]'),function(b){b.addEventListener('click',function(){
       var index=session.i,selected=+b.dataset.opt,question=session.items[index].q;
       /* Write the answer before repainting. A refresh, mobile process kill, or

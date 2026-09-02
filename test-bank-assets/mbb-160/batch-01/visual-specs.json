@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 1,
+  "batch": 1,
+  "generatedBy": "scripts/build-mbb160-assets.mjs",
+  "questions": {
+    "mbb:set-2:original-001": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-001",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A four-row deployment table shows corporate and functional targets, proposed means, and unresolved cross-functional constraints. East distribution and customer service require the same unconfirmed IT capacity, while West transport has a procurement conflict.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-01/static-fallbacks.html#mbb-set-2-original-001",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Level / function",
+        "Target",
+        "Proposed means",
+        "Unresolved constraint"
+      ],
+      "rows": 4,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-005": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-005",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A six-project portfolio table gives strategic-alignment ratings, finance-validated NPVs, Black-Belt-month demand, and readiness constraints. P1 is mandatory and needs three months. P2 is ready and needs four. P6 has the highest NPV but lacks its data foundation.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "Adjust the available Black-Belt-month capacity to compare which portfolio remains feasible and which prerequisite work becomes fundable.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-01/static-fallbacks.html#mbb-set-2-original-005",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Project",
+        "Strategic alignment (1-5)",
+        "Finance-validated NPV",
+        "BB-months",
+        "Readiness / constraint"
+      ],
+      "rows": 6,
+      "calculations": [],
+      "interaction": {
+        "id": "mbb-b01-q005-capacity",
+        "label": "Explore available capacity",
+        "min": 6,
+        "max": 12,
+        "step": 1,
+        "value": 8,
+        "unit": "BB-months",
+        "committed": 3,
+        "committedLabel": "mandatory P1"
+      }
+    },
+    "mbb:set-2:original-012": {
+      "type": "activity-network",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-012",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "An activity-on-node network shows A for 30 days splitting to B for 40 days and C for 35 days. B and C merge into D for 25 days, followed by E for 15 days.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-01/static-fallbacks.html#mbb-set-2-original-012",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "activity",
+        "duration",
+        "predecessor-successor relationship"
+      ],
+      "units": "working days",
+      "layout": {
+        "nodes": {
+          "A": {
+            "col": 0,
+            "row": 1,
+            "dur": 30
+          },
+          "B": {
+            "col": 1,
+            "row": 0,
+            "dur": 40
+          },
+          "C": {
+            "col": 1,
+            "row": 2,
+            "dur": 35
+          },
+          "D": {
+            "col": 2,
+            "row": 1,
+            "dur": 25
+          },
+          "E": {
+            "col": 3,
+            "row": 1,
+            "dur": 15
+          }
+        },
+        "edges": [
+          [
+            "A",
+            "B"
+          ],
+          [
+            "A",
+            "C"
+          ],
+          [
+            "B",
+            "D"
+          ],
+          [
+            "C",
+            "D"
+          ],
+          [
+            "D",
+            "E"
+          ]
+        ]
+      },
+      "calculations": [
+        "Earliest completion = A + max(B, C) + D + E = 30 + 40 + 25 + 15 = 110 working days."
+      ]
+    },
+    "mbb:set-2:original-015": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-015",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A role-by-skill table compares required and observed proficiency, learner population, and business impact. Green Belts have a two-level measurement-system gap across 60 learners; Champions have a two-level selection gap across 12; Black Belts have a one-level regression gap; Process Owners have no control-plan gap.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-01/static-fallbacks.html#mbb-set-2-original-015",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Target group / skill",
+        "Required proficiency",
+        "Observed proficiency",
+        "Learners",
+        "Business impact"
+      ],
+      "rows": 4,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-019": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-019",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A two-row measurement table lists outside diameter 508.00 millimetres with standard uncertainty 0.040 and sensitivity coefficient plus 0.5, and inside diameter 492.00 millimetres with standard uncertainty 0.060 and sensitivity coefficient minus 0.5.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-01/static-fallbacks.html#mbb-set-2-original-019",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Input",
+        "Measured value",
+        "Standard uncertainty",
+        "Sensitivity coefficient"
+      ],
+      "rows": 2,
+      "calculations": [
+        "u(t) = sqrt[(0.5uOD)^2 + (-0.5uID)^2] = 0.5 sqrt(0.04^2 + 0.06^2) = 0.0361 mm."
+      ],
+      "interaction": null
+    },
+    "mbb:set-2:original-020": {
+      "type": "regression-diagnostic",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-020",
+      "transformations": [],
+      "referenceLines": [
+        "Residual = 0"
+      ],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "Residuals versus fitted length of stay form a U shape: residuals are positive near fitted values 80 and 240 minutes, negative around 140 to 180 minutes, and near zero around 120 and 200 minutes.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "Hover or select a residual to inspect its fitted value and standardized residual, then compare the low, middle, and high fitted-value regions.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-01/static-fallbacks.html#mbb-set-2-original-020",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Fitted length of stay (minutes)",
+        "Standardized residual"
+      ],
+      "axes": {
+        "xTicks": [
+          80,
+          160,
+          240
+        ],
+        "yTicks": [
+          -2,
+          0,
+          2
+        ]
+      },
+      "points": 9,
+      "calculations": []
+    },
+    "mbb:set-2:original-022": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-022",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "An eight-run design matrix holds oven temperature low for runs one through four and high for runs five through eight. Coating formulations A through D are randomized within each four-run temperature group.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-01/static-fallbacks.html#mbb-set-2-original-022",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Run order",
+        "Temperature setting",
+        "Formulation"
+      ],
+      "rows": 8,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-023": {
+      "type": "time-series",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-023",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "Daily backlog across 18 days generally rises from 102 to 149 orders. Adjacent days tend to be similar, with only small reversals around days 3, 6, 9, 12, and 15.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "Toggle between the raw backlog series and model residuals, then inspect whether serial structure remains after modeling.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-01/static-fallbacks.html#mbb-set-2-original-023",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Day",
+        "Backlog (orders)"
+      ],
+      "units": "orders",
+      "observations": 18,
+      "order": "chronological",
+      "calculations": []
+    },
+    "mbb:set-2:original-024": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-024",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A logistic-regression table shows wait time coefficient 0.42, p below 0.001, odds ratio 1.52; new-agent coefficient 0.18, p 0.39, odds ratio 1.20; complex-case coefficient 1.10, p below 0.001, odds ratio 3.00.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-01/static-fallbacks.html#mbb-set-2-original-024",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Predictor",
+        "Coefficient",
+        "SE",
+        "p-value",
+        "Adjusted odds ratio"
+      ],
+      "rows": 3,
+      "calculations": [
+        "Odds ratio = exp(beta). For wait time, exp(0.42) = 1.52."
+      ],
+      "interaction": null
+    },
+    "mbb:set-2:original-025": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-025",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A variance-component table shows lot-to-lot variance 12, unit-within-lot variance 8, test-repeatability variance 2, and total variance 22. Their shares are 54.5, 36.4, 9.1, and 100 percent.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-01/static-fallbacks.html#mbb-set-2-original-025",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Variance source",
+        "Estimated variance",
+        "Share of total variance"
+      ],
+      "rows": 4,
+      "calculations": [
+        "sigma_total = sqrt(12 + 8 + 2) = sqrt(22); sigma_without repeatability = sqrt(20); reduction = 1 - sqrt(20/22) = 4.65%."
+      ],
+      "interaction": null
+    }
+  }
+}
