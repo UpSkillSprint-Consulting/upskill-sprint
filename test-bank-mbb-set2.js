@@ -584,7 +584,7 @@
       formula:null,assumptions:['The survey and operational data cover comparable customer populations and time periods.','Identity verification is not currently constrained by a mandated design.'],estimatedMinutes:3,
       keywords:['project identification','Voice of the Customer','Voice of the Process','listening posts','project qualification'],
       sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapters 5 and 10 - Opportunities for Improvement and Data Gathering',sourcePages:'70-78, 148-156',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 5 - Opportunities for Improvement',section:'Project Identification and Qualification',pages:'70-78'},{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 10 - Data Gathering',section:'Voice of the Customer and Voice of the Process',pages:'148-156'}]
+      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 5 - Opportunities for Improvement',section:'Project Identification and Qualification',pages:'70-78'},{id:'S2',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 10 - Data Gathering',section:'Voice of the Customer and Voice of the Process',pages:'148-156'}]
     },
     {
       qid:'mbb:set-2:original-028',set:2,batch:2,sub:'mbb-enterprise',
@@ -655,7 +655,7 @@
       formula:null,assumptions:['No proposal is legally mandatory.','The deployment office can establish enterprise portfolio governance.'],estimatedMinutes:4,
       keywords:['project pipeline','portfolio governance','capacity management','risk refresh','decision rights'],
       sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapters 6 and 15 - Pipeline and Portfolio Performance',sourcePages:'88-99, 222-224',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 6 - Risk Analysis of Projects and the Pipeline',section:'Risk Management; Pipeline Creation and Management',pages:'88-99'},{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 15 - Project Management Infrastructure',section:'Performance Measurement',pages:'222-224'}]
+      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 6 - Risk Analysis of Projects and the Pipeline',section:'Risk Management; Pipeline Creation and Management',pages:'88-99'},{id:'S2',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 15 - Project Management Infrastructure',section:'Performance Measurement',pages:'222-224'}]
     },
     {
       qid:'mbb:set-2:original-031',set:2,batch:2,sub:'mbb-org',
@@ -772,7 +772,7 @@
       formula:null,assumptions:['Regions face meaningfully different strategic priorities.','Enterprise Finance can support a common benefit-validation method.'],estimatedMinutes:4,
       keywords:['deployment action plan','decision rights','portfolio council','role clarity','global deployment'],
       sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapters 7 and 12 - Organizational Design and Leadership for Deployment',sourcePages:'100-112, 190-195',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 12 - Executive and Team Leadership Roles',section:'Leadership for Deployment',pages:'190-195'},{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 7 - Organizational Design',section:'Organizational Systems, Structure, Maturity, and Culture',pages:'100-112'}]
+      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 12 - Executive and Team Leadership Roles',section:'Leadership for Deployment',pages:'190-195'},{id:'S2',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 7 - Organizational Design',section:'Organizational Systems, Structure, Maturity, and Culture',pages:'100-112'}]
     },
     {
       qid:'mbb:set-2:original-036',set:2,batch:2,sub:'mbb-portfolio',
@@ -795,7 +795,7 @@
       formula:'Expected NPV = stated NPV × probability of realization; maximize the sum subject to 12 FTE, mandatory A, and B requiring C.',assumptions:['Project realization events are valued independently for this screening decision.','Partial funding produces no benefit.','FTE requirements are simultaneous peak requirements.'],estimatedMinutes:5,
       keywords:['portfolio optimization','expected NPV','capacity constraint','project dependency','prioritization'],
       sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapters 13 and 16 - Project Prioritization and Budgets and Forecasts',sourcePages:'196-201, 225-232',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 13 - Project Execution',section:'Cross-functional Project Assessment and Project Prioritization',pages:'196-201'},{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 16 - Project Financial Tools',section:'Budgets and Forecasts',pages:'225-232'}],
+      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 13 - Project Execution',section:'Cross-functional Project Assessment and Project Prioritization',pages:'196-201'},{id:'S2',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 16 - Project Financial Tools',section:'Budgets and Forecasts',pages:'225-232'}],
       chart:{type:'data-table',columns:['Project','NPV if realized ($M)','Realization probability','FTE required','Constraint'],rows:[['A - Regulatory traceability','0.80','0.95','4','Mandatory'],['B - Claims automation','2.40','0.65','5','Requires C'],['C - Data foundation','0.70','0.90','3','None'],['D - Retention workflow','1.80','0.80','4','None']],whatIf:{id:'mbb-q036-capacity',label:'Total available capacity',min:8,max:16,step:1,value:12,unit:'FTE',committed:4,committedLabel:'mandatory Project A'}},
       visual:visual2('mbb:set-2:original-036','data-table','A four-project portfolio table gives NPV, realization probability, FTE requirement, and constraints. Project A is mandatory at 4 FTE, Project B requires C, and the capacity slider ranges from 8 through 16 FTE with a default of 12.','Move the capacity slider to 12 FTE, verify that 8 FTE remain after mandatory Project A, and compare feasible dependency-respecting portfolios.')
     },
@@ -843,7 +843,7 @@
       formula:null,assumptions:['The matrix is the approved project risk-classification rule.','The production-like test is representative and does not itself create unacceptable risk.'],estimatedMinutes:3,
       keywords:['risk matrix','risk mitigation','contingency','residual risk','interface testing'],
       sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapters 6 and 14 - Risk Management and Project Oversight',sourcePages:'88-94, 202-211',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 6 - Risk Analysis of Projects and the Pipeline',section:'Risk Management',pages:'88-94'},{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 14 - Project Oversight and Management',section:'Project Management Principles',pages:'202-211'}],
+      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 6 - Risk Analysis of Projects and the Pipeline',section:'Risk Management',pages:'88-94'},{id:'S2',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 14 - Project Oversight and Management',section:'Project Management Principles',pages:'202-211'}],
       chart:{type:'risk-matrix',rowAxis:'Operational impact',colAxis:'Likelihood',rows:['Severe','Moderate','Low'],cols:['Rare','Possible','Likely'],cells:[['medium','high','high'],['low','medium','high'],['low','low','medium']]},
       visual:visual2('mbb:set-2:original-038','risk-matrix','A three-by-three risk matrix has operational-impact rows Severe, Moderate, and Low and likelihood columns Rare, Possible, and Likely. The Severe and Possible cell is classified High.','')
     },
@@ -868,7 +868,7 @@
       formula:null,assumptions:['No contractual obligation requires completion.','The negative forecast excludes sunk cost and reflects prospective cash flows.'],estimatedMinutes:3,
       keywords:['project closure','sunk cost','portfolio review','resource reallocation','strategic alignment'],
       sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapters 14 and 15 - Closing Process and Performance Measurement',sourcePages:'211-212, 222-224',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 14 - Project Oversight and Management',section:'Closing Process',pages:'211-212'},{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 15 - Project Management Infrastructure',section:'Performance Measurement',pages:'222-224'}]
+      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 14 - Project Oversight and Management',section:'Closing Process',pages:'211-212'},{id:'S2',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 15 - Project Management Infrastructure',section:'Performance Measurement',pages:'222-224'}]
     },
     {
       qid:'mbb:set-2:original-040',set:2,batch:2,sub:'mbb-training',
@@ -877,14 +877,14 @@
       stem:'The mastery grid shows required end-state competencies. All groups currently meet Entry. The training director proposes one identical five-day statistics course for everyone. Which redesign best closes the specified gaps without making the curriculum one-size-fits-all?',
       options:[
         'Keep the common course but add a harder final exam for Belts, because assessment difficulty alone differentiates the competency required by each role while preserving one administratively consistent path across every site',
-        'Create modular paths: awareness for sponsors, application and coaching practice for Belts, and administration plus diagnostic studies for metrology staff, each assessed at its target level',
+        'Use role paths: sponsors reach Practitioner in interpretation and risk communication; Belts reach Practitioner in application and coaching; metrology reaches Expert in diagnostics; assess each target.',
         'Train only metrology staff because they own the measurement system, then have them approve every analysis produced by sponsors and Belts and transfer the needed knowledge through mandatory sign-off meetings',
         'Move every group to Expert in every skill so future role changes require no additional development, all learners can attend the same advanced modules, and one proficiency target governs the organization'
       ],answer:1,
-      why:'The grid calls for different skills and proficiency levels by target group. A defensible plan maps modular content, practice, and assessment to each role’s gap: sponsor awareness, Belt application/coaching, and metrology administration/diagnostics. A common course or a common examination does not create the required role-specific proficiency. <b>B. Create modular paths: awareness for sponsors, application and coaching practice for Belts, and administration plus diagnostic studies for metrology staff, each assessed at its target level</b> <span class="tb-source-ref">Source: Kubiak, Chapter 18, Training Plans and Mastery Grids, pp. 245-251.</span>',
+      why:'The grid calls for different skills and proficiency levels by target group. A defensible plan maps modular content, practice, and assessment to every displayed gap: sponsors practice interpretation and business-risk communication through Practitioner; Belts practice application and coaching through Practitioner; and metrology staff build Expert diagnostic capability. A common course or a common examination does not create the required role-specific proficiency. <b>B. Use role paths: sponsors reach Practitioner in interpretation and risk communication; Belts reach Practitioner in application and coaching; metrology reaches Expert in diagnostics; assess each target.</b> <span class="tb-source-ref">Source: Kubiak, Chapter 18, Training Plans and Mastery Grids, pp. 245-251.</span>',
       optionRationales:[
         'A harder test does not supply different learning experiences or demonstrate role-specific applied capability.',
-        'Correct. It uses target-group gaps and multilevel competency requirements to design distinct, assessable paths.',
+        'Correct. It explicitly develops and assesses every target-group gap at the proficiency shown in the grid.',
         'Measurement ownership does not eliminate sponsor and Belt responsibilities for decisions and proper application.',
         'Universal expert training spends resources beyond the stated needs and still ignores role-specific application.'
       ],

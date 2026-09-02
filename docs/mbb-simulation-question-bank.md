@@ -4,7 +4,7 @@
 
 MBB Set 1 contains 100 questions sourced only from **“Simulated Examination Questions for Parts I–VI”** in the supplied copy of *The Certified Six Sigma Master Black Belt Handbook*. The separate 100-question **Practice Examination Questions for Parts I–VI** is intentionally excluded.
 
-An original 160-question Set 2 is being authored in validated 25-question batches. Completed batches are published incrementally with an exact progress label; Batch 1 is documented in `docs/mbb-160-question-bank.md` and appears as “25 of 160 — Batch 1 complete.” Until Set 2 reaches 160, its Full Exam serves all validated questions currently available and uses the same 90-second-per-question pace as Set 1.
+An original 160-question Set 2 is being authored in validated 25-question batches. Completed batches are published incrementally with an exact progress label; Batches 1 and 2 are documented in `docs/mbb-160-question-bank.md` and appear as “50 of 160 — Batch 2 complete.” Until Set 2 reaches 160, its Full Exam serves all validated questions currently available and uses the same 90-second-per-question pace as Set 1.
 
 The simulation uses the source assessment's 150-minute limit. Each published item has four distinct choices, one integer answer index, a rationale, a stable `qid`, its original source question number, and a current MBB Body of Knowledge mapping.
 

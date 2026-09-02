@@ -130,6 +130,7 @@ test('Every Batch 2 item is complete, independently answerable, and source trace
     assert.ok(Array.isArray(question.assumptions) && question.assumptions.length >= 1);
     assert.ok(question.sourceDocument && question.sourceSection && question.sourcePages);
     assert.ok(Array.isArray(question.sources) && question.sources.length >= 1);
+    assert.equal(new Set(question.sources.map(source => source.id)).size, question.sources.length, `${label} source IDs are distinct`);
     question.sources.forEach(source => {
       assert.match(source.id, /^S[0-3]$/);
       assert.ok(source.document && source.chapter && source.section && source.pages);
