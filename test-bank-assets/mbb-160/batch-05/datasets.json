@@ -1,0 +1,490 @@
+{
+  "schemaVersion": 1,
+  "batch": 5,
+  "generatedBy": "scripts/build-mbb160-assets.mjs",
+  "questions": {
+    "mbb:set-2:original-101": {
+      "sha256": "fde6091dd67199b730ed5de62888c56bf0b543b31f8706eab3a7843876a56a50",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Priority",
+          "Retention objective",
+          "Primary owner",
+          "Measure"
+        ],
+        "rows": [
+          [
+            "P1: reduce onboarding delay",
+            "Strong",
+            "Operations",
+            "Median activation days"
+          ],
+          [
+            "P2: prevent early service failures",
+            "Strong",
+            "Quality",
+            "30-day failure rate"
+          ],
+          [
+            "P3: recover at-risk accounts",
+            "Blank",
+            "Customer success",
+            "90-day retention"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-105": {
+      "sha256": "d5a92ad77e00a45ac810f76bae9acc8d07f22a8eca9865ebb00fe1ecc0942f5e",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Project",
+          "Belt-months",
+          "Validated benefit",
+          "Readiness",
+          "Constraint"
+        ],
+        "rows": [
+          [
+            "R",
+            "3",
+            "$0.55M",
+            "Ready",
+            "Mandatory"
+          ],
+          [
+            "S",
+            "5",
+            "$1.10M",
+            "Ready",
+            "None"
+          ],
+          [
+            "T discovery",
+            "1",
+            "$0.10M option value",
+            "Ready",
+            "Defines data foundation"
+          ],
+          [
+            "U",
+            "4",
+            "$1.40M",
+            "Not ready",
+            "Requires T gate"
+          ]
+        ],
+        "whatIf": {
+          "id": "mbb-q105-capacity",
+          "label": "Available Belt-months",
+          "min": 7,
+          "max": 11,
+          "step": 1,
+          "value": 9,
+          "unit": "Belt-months",
+          "committed": 8,
+          "committedLabel": "R plus S"
+        }
+      }
+    },
+    "mbb:set-2:original-106": {
+      "sha256": "7906eb458b307b054ec2dc1231808bee68e3abe6cad8f85801d2477cd5ef8912",
+      "chart": {
+        "type": "multi-time-series",
+        "title": "Policy change and service response",
+        "xLabel": "Week",
+        "yLabel": "Weekly index",
+        "labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "series": [
+          {
+            "label": "Average handle time (minutes)",
+            "data": [
+              8.2,
+              8.1,
+              8.3,
+              8,
+              6.9,
+              6.3,
+              6.1,
+              6,
+              5.9,
+              5.8
+            ]
+          },
+          {
+            "label": "Repeat contacts per 100 cases",
+            "data": [
+              12,
+              12,
+              11,
+              12,
+              12,
+              14,
+              17,
+              20,
+              22,
+              24
+            ]
+          }
+        ],
+        "yDomain": [
+          0,
+          26
+        ],
+        "referenceValue": 5,
+        "referenceLabel": "Policy introduced at Week 5"
+      }
+    },
+    "mbb:set-2:original-110": {
+      "sha256": "124c1512f91fef618855c65498b47fd6c12fe8152597ad9c136d3e1f93d1a1be",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Metric",
+          "Target",
+          "Actual"
+        ],
+        "rows": [
+          [
+            "Belts completing training",
+            "80",
+            "96"
+          ],
+          [
+            "Submitted annualized benefit",
+            "$4.0M",
+            "$5.2M"
+          ],
+          [
+            "Finance-validated benefit",
+            "$4.0M",
+            "$2.7M"
+          ],
+          [
+            "Control plans followed at 90 days",
+            "85%",
+            "54%"
+          ],
+          [
+            "Process-owner acceptance at closure",
+            "90%",
+            "61%"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-111": {
+      "sha256": "c4a0ef3a9e24c8d95c38db94a358b576f5a5cfbb61e01c78925c69c5b095937d",
+      "chart": {
+        "type": "activity-network",
+        "title": "Shared product-launch network",
+        "nodes": {
+          "A": {
+            "dur": 2,
+            "col": 0,
+            "row": 1
+          },
+          "B": {
+            "dur": 4,
+            "col": 1,
+            "row": 0
+          },
+          "C": {
+            "dur": 5,
+            "col": 1,
+            "row": 2
+          },
+          "D": {
+            "dur": 3,
+            "col": 2,
+            "row": 0
+          },
+          "E": {
+            "dur": 3,
+            "col": 3,
+            "row": 1
+          }
+        },
+        "edges": [
+          [
+            "A",
+            "B"
+          ],
+          [
+            "A",
+            "C"
+          ],
+          [
+            "B",
+            "D"
+          ],
+          [
+            "C",
+            "E"
+          ],
+          [
+            "D",
+            "E"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-120": {
+      "sha256": "826ce4fa04fdb5bf1b636b9106e598099470064d8d8202d13067b345ad7014f2",
+      "chart": {
+        "type": "histogram",
+        "title": "Service cycle-time distribution",
+        "xLabel": "Cycle time (hours)",
+        "yLabel": "Cases",
+        "binEdges": [
+          0,
+          3,
+          6,
+          9,
+          12,
+          15,
+          18,
+          21,
+          24,
+          27,
+          30
+        ],
+        "counts": [
+          3,
+          10,
+          22,
+          31,
+          25,
+          17,
+          10,
+          6,
+          3,
+          1
+        ],
+        "referenceValue": 18,
+        "referenceLabel": "USL = 18 h"
+      }
+    },
+    "mbb:set-2:original-121": {
+      "sha256": "34c35089abd2c20838ee4eb7be6ddab1304f0b1b3b4cc76ec658cf5d53241911",
+      "chart": {
+        "type": "regression-diagnostic",
+        "title": "Residuals versus fitted losses",
+        "xLabel": "Fitted loss ($000)",
+        "yLabel": "Standardized residual",
+        "xTicks": [
+          0,
+          50,
+          100,
+          150,
+          200
+        ],
+        "yTicks": [
+          -4,
+          -2,
+          0,
+          2,
+          4
+        ],
+        "points": [
+          {
+            "fitted": 18,
+            "residual": 0.4
+          },
+          {
+            "fitted": 31,
+            "residual": -0.3
+          },
+          {
+            "fitted": 45,
+            "residual": 0.6
+          },
+          {
+            "fitted": 62,
+            "residual": -0.5
+          },
+          {
+            "fitted": 78,
+            "residual": 0.2
+          },
+          {
+            "fitted": 91,
+            "residual": -0.2
+          },
+          {
+            "fitted": 108,
+            "residual": 0.5
+          },
+          {
+            "fitted": 190,
+            "residual": -3.6
+          }
+        ]
+      }
+    },
+    "mbb:set-2:original-122": {
+      "sha256": "e6a1ef78213faf3d8fbdf5f61029a4af9d525fddfd840441c64a4c18e2f9181c",
+      "chart": {
+        "type": "acf-plot",
+        "title": "Residual autocorrelation after segmented regression",
+        "xLabel": "Lag (months)",
+        "yLabel": "Residual ACF",
+        "lags": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "values": [
+          0.52,
+          0.31,
+          0.12,
+          -0.05,
+          -0.08,
+          0.04,
+          0.02,
+          -0.03
+        ],
+        "confidence": 0.24
+      }
+    },
+    "mbb:set-2:original-123": {
+      "sha256": "47621c53146c50599e6c0c854a738354500308dd3b3e4b9218cf471f36e1d7d8",
+      "chart": {
+        "type": "reliability-plot",
+        "title": "Design survival comparison",
+        "xLabel": "Operating time (hours)",
+        "yLabel": "Survival probability",
+        "xTicks": [
+          0,
+          400,
+          800,
+          1200,
+          1600,
+          2000
+        ],
+        "series": [
+          {
+            "label": "Design A",
+            "points": [
+              [
+                0,
+                1
+              ],
+              [
+                400,
+                0.94
+              ],
+              [
+                800,
+                0.83
+              ],
+              [
+                1200,
+                0.68
+              ],
+              [
+                1600,
+                0.49
+              ],
+              [
+                2000,
+                0.31
+              ]
+            ]
+          },
+          {
+            "label": "Design B",
+            "points": [
+              [
+                0,
+                1
+              ],
+              [
+                400,
+                0.88
+              ],
+              [
+                800,
+                0.77
+              ],
+              [
+                1200,
+                0.68
+              ],
+              [
+                1600,
+                0.58
+              ],
+              [
+                2000,
+                0.46
+              ]
+            ]
+          }
+        ],
+        "missionTime": 1200
+      }
+    },
+    "mbb:set-2:original-124": {
+      "sha256": "8f052507bb09e7d49a1569459ed8a09ef5f715ecbc0d4aaf3b029263cd03f73b",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Furnace batch",
+          "Whole-plot temperature",
+          "Randomized speed sequence"
+        ],
+        "rows": [
+          [
+            "1",
+            "Low",
+            "3, 1, 4, 2"
+          ],
+          [
+            "2",
+            "High",
+            "2, 4, 1, 3"
+          ],
+          [
+            "3",
+            "Low",
+            "1, 3, 2, 4"
+          ],
+          [
+            "4",
+            "High",
+            "4, 2, 3, 1"
+          ],
+          [
+            "5",
+            "Low",
+            "2, 1, 4, 3"
+          ],
+          [
+            "6",
+            "High",
+            "3, 4, 2, 1"
+          ]
+        ]
+      }
+    }
+  }
+}
