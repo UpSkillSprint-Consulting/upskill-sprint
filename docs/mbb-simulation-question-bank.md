@@ -4,6 +4,8 @@
 
 The initial MBB simulation contains one set of 100 questions. It is sourced only from **“Simulated Examination Questions for Parts I–VI”** in the supplied copy of *The Certified Six Sigma Master Black Belt Handbook*. The separate 100-question **Practice Examination Questions for Parts I–VI** is intentionally excluded.
 
+An original 160-question Set 2 is being authored in validated 25-question batches. Batch 1 is documented in `docs/mbb-160-question-bank.md` and remains deliberately isolated from the learner interface until the full set is complete.
+
 The simulation uses the source assessment's 150-minute limit. Each published item has four distinct choices, one integer answer index, a rationale, a stable `qid`, its original source question number, and a current MBB Body of Knowledge mapping.
 
 > **Format note:** this is a source-backed study simulation, not a replica of the current ASQ delivery format. As of September 2026, ASQ describes the CMBB assessment as 110 multiple-choice items (100 scored and 10 unscored) plus a performance-based assessment. The selected-exam screen states this distinction explicitly. See [ASQ's current CMBB exam details](https://www.asq.org/cert/master-black-belt).

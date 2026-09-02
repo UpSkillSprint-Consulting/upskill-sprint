@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ASQ MBB 160 - Batch 1 visual fallbacks</title><script src="/theme.js"></script><script src="/site-sections.js"></script><style>
+  .tb-wrap{max-width:var(--maxw);margin:0 auto;padding:26px var(--pad) 80px}
+  .tb-crumb{font-size:13px;color:var(--muted);margin-bottom:8px}
+  .tb-crumb a{color:var(--muted);font-weight:600} .tb-crumb b{color:var(--ink)}
+  .tb-hero h1{font-family:"Source Serif 4",serif;font-size:32px;margin:0 0 8px;color:var(--ink)}
+  .tb-hero p{font-size:15.5px;line-height:1.6;color:var(--muted);max-width:66ch;margin:0 0 26px}
+  .tb-hero.exam h1{font-size:26px;margin-bottom:4px}
+  .tb-hero.exam{margin-bottom:18px}
+  .tb-shell{display:grid;grid-template-columns:1fr 330px;gap:24px;align-items:start}
+  .tb-shell.exam-mode{grid-template-columns:1fr}
+  .tb-shell.exam-mode .tb-rail{display:none}
+  .tb-quizback{margin-top:20px;display:flex;justify-content:flex-start}
+  .tb-backsim{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--tint);color:var(--ink);font-family:"Work Sans",sans-serif;font-weight:600;font-size:13.5px;border-radius:9px;padding:10px 15px;cursor:pointer;transition:background-color .15s ease,border-color .15s ease}
+  .tb-backsim:hover{border-color:var(--teal);color:var(--teal)}
+  .tb-main{min-width:0}
+  /* overview card */
+  .tb-pane{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}
+  .tb-ovbadge{display:inline-flex;align-items:center;gap:10px;margin-bottom:14px}
+  .tb-badge{width:50px;height:50px;border-radius:11px;display:grid;place-items:center;font-family:"Source Serif 4",serif;font-weight:700;font-size:14px;color:#fff}
+  .tb-ovsub{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .tb-title{font-family:"Source Serif 4",serif;font-size:25px;line-height:1.15;color:var(--ink);margin:2px 0 8px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+  .tb-soon{display:inline-flex;align-items:center;gap:7px;font-family:"Work Sans",sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#3a2a06;background:linear-gradient(135deg,#f3c368,#dca63c);border-radius:999px;padding:6px 13px;box-shadow:0 0 0 0 #dca63c66;animation:tbGlow 2.4s ease-in-out infinite}
+  .tb-soon::before{content:"";width:7px;height:7px;border-radius:50%;background:#3a2a06}
+  @keyframes tbGlow{0%{box-shadow:0 0 0 0 #dca63c66}60%{box-shadow:0 0 0 9px #dca63c00}100%{box-shadow:0 0 0 0 #dca63c00}}
+  .tb-soonline{color:var(--amber,#b8791b);font-size:14px;font-weight:600;margin:0 0 18px}
+  html[data-theme="dark"] .tb-soonline{color:#f0c36a}
+  .tb-stats{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
+  .tb-stat{flex:1;min-width:120px;background:var(--tint);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+  .tb-stat .k{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .tb-stat .v{font-family:"Source Serif 4",serif;font-size:21px;font-weight:700;color:var(--ink);margin-top:3px}
+  .tb-stat .v small{font-size:12px;color:var(--muted);font-weight:500}
+  .tb-sec{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0 0 12px}
+  .tb-weightbar{display:flex;height:14px;border-radius:7px;overflow:hidden;border:1px solid var(--line);margin-bottom:14px}
+  .tb-weightbar span{min-width:0}
+  .tb-legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:9px 18px;margin-bottom:26px}
+  .tb-dl{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink)}
+  .tb-dl i{width:11px;height:11px;border-radius:3px;flex:none}
+  .tb-dl .sub{color:var(--muted);font-size:11.5px} .tb-dl .w{margin-left:auto;color:var(--muted);font-size:12.5px;font-weight:600}
+  .tb-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .tb-disabled{border:1px solid var(--line);background:var(--tint);color:var(--muted);border-radius:8px;padding:12px 18px;font-weight:600;font-size:14px;cursor:not-allowed}
+  /* right rail */
+  .tb-rail h2{font-family:"Source Serif 4",serif;font-size:18px;color:var(--ink);margin:0} 
+  .tb-railhead{display:flex;align-items:baseline;justify-content:space-between;margin:2px 2px 12px}
+  .tb-railhead span{font-size:12px;color:var(--muted)}
+  .tb-group{margin-bottom:16px} .tb-group .gl{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0 4px 8px}
+  .tb-tile{width:100%;text-align:left;display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 14px;margin-bottom:8px;color:var(--ink);cursor:pointer;transition:.14s;position:relative}
+  .tb-tile:hover{border-color:var(--teal)} .tb-tile.active{border-color:var(--teal);background:var(--tint)}
+  .tb-tile.active::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--teal)}
+  .tb-tile .tb-badge{width:44px;height:44px;font-size:12px;border-radius:9px;align-self:start}
+  .tb-tinfo{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0}
+  .tb-tn{font-weight:700;font-size:13.5px;line-height:1.3;color:var(--ink)}
+  .tb-tm{font-size:11.5px;color:var(--muted);line-height:1.3}
+  .tb-tag{display:inline-flex;align-items:center;gap:6px;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9a6a12;background:rgba(220,166,60,.14);border:1px solid rgba(220,166,60,.34);border-radius:99px;padding:3px 9px}
+  .tb-tag::before{content:"";width:5px;height:5px;border-radius:50%;background:#d99a2a}
+  html[data-theme="dark"] .tb-tag{color:#f0c36a}
+  .tb-modes{display:grid;gap:12px;margin-bottom:22px}
+  .tb-mode{border:1px solid var(--line);border-radius:11px;padding:16px 18px;background:var(--tint)}
+  .tb-mode-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+  .tb-mode-ic{width:38px;height:38px;flex:none;border-radius:9px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);color:var(--teal);font-size:16px}
+  .tb-mode-head h4{font-family:"Source Serif 4",serif;font-size:16px;color:var(--ink);margin:0 0 3px}
+  .tb-mode-head p{font-size:13px;color:var(--muted);margin:0;line-height:1.45}
+  .tb-mode-controls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:14px}
+  /* stacked variant: one labeled row per control group (Set / Area / Questions / Timing /
+     Filters), used by Quick Quiz and Focused Quiz where the flat single-row layout got too
+     crowded. Full Exam keeps the original flat layout -- it only ever has one row (Timing). */
+  .tb-mode-controls.stacked{display:flex;flex-direction:column;flex-wrap:nowrap;gap:0}
+  .tb-fieldrow{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tb-mode-controls.stacked .tb-fieldrow:first-child{padding-top:0}
+  .tb-mode-controls.stacked .tb-fieldrow:last-child{border-bottom:0;padding-bottom:0}
+  .tb-fieldrow-label{width:78px;flex:none;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .tb-fieldrow-value{display:flex;flex-wrap:wrap;gap:8px;align-items:center;flex:1;min-width:0}
+  .tb-ctl-label{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .tb-timing-choice{display:inline-flex;align-items:center;gap:10px;min-width:0}
+  .tb-seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
+  .tb-seg button{border:0;background:none;padding:8px 15px;font:inherit;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:.12s}
+  .tb-seg button:hover:not(.on){background:color-mix(in srgb,var(--teal) 8%,var(--card));color:var(--ink)}
+  .tb-seg button:focus-visible{outline:2px solid var(--teal);outline-offset:-3px;position:relative;z-index:1}
+  .tb-seg button.on{background:var(--teal);color:#fff;box-shadow:inset 0 0 0 1px color-mix(in srgb,#fff 38%,transparent)}
+  .tb-counts{display:inline-flex;gap:6px}
+  .tb-count{border:1px solid var(--line);background:var(--card);border-radius:7px;min-width:42px;padding:7px 10px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;transition:.12s}
+  .tb-count.on{border-color:var(--teal);background:var(--teal);color:#fff}
+  .tb-count[disabled]{opacity:.45;cursor:not-allowed}
+  .tb-select{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:8px 10px;font:inherit;font-size:13px}
+  .tb-unseen{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 12px 6px 8px;font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;transition:.12s}
+  .tb-unseen .sw{width:26px;height:15px;border-radius:99px;background:var(--line);position:relative;flex:none;transition:.15s}
+  .tb-unseen .sw::after{content:"";position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:#fff;transition:.15s}
+  .tb-unseen.on{border-color:var(--teal);color:var(--ink)}
+  .tb-unseen.on .sw{background:var(--teal)}
+  .tb-unseen.on .sw::after{left:13px}
+  .tb-unseen[disabled]{opacity:.45;cursor:not-allowed}
+  .tb-mstart[disabled]{opacity:.5;cursor:not-allowed}
+  .tb-mode-foot{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between}
+  .tb-mode-sum{font-size:12.5px;color:var(--muted);flex:1 1 320px}
+  .tb-mode-foot .tb-mstart,.tb-mode-foot .tb-start{margin-left:auto}
+  .tb-mode-sum b{color:var(--ink);font-weight:600}.tb-newonly-error{display:block;margin-top:5px;color:#b53e39;font-weight:600}
+  .tb-time-summary{display:inline}
+  .tb-start{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:8px;padding:9px 15px;font-weight:600;font-size:12.5px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;cursor:not-allowed}
+  .tb-start .dot{width:6px;height:6px;border-radius:50%;background:#d99a2a;flex:none}
+  .tb-requestlink{display:inline-block;font-weight:700;font-size:13.5px;color:var(--teal)}
+  /* adaptive: rail readiness tags */
+  .tb-tag.ready,.tb-tag.live{color:#0e7566;background:rgba(43,183,173,.14);border:1px solid rgba(43,183,173,.4)}
+  .tb-tag.ready::before,.tb-tag.live::before{display:none}
+  .tb-tag .d2{width:5px;height:5px;border-radius:50%;background:#2bb7ad}
+  html[data-theme="dark"] .tb-tag.ready,html[data-theme="dark"] .tb-tag.live{color:#67d4df}
+  /* diagnostic banner */
+  .tb-diag{border:1px solid var(--teal);border-radius:12px;padding:20px;margin-bottom:24px;background:linear-gradient(180deg,color-mix(in srgb,var(--teal) 8%,var(--card)),var(--card))}
+  .tb-diag-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:8px}
+  .tb-diag-kick{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:2px}
+  .tb-diag h4{font-family:"Source Serif 4",serif;font-size:21px;color:var(--ink);margin:0}
+  .tb-badge2{font-size:12px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:5px 12px;white-space:nowrap}
+  .tb-diag-sub{font-size:13.5px;line-height:1.55;color:var(--muted);margin:0 0 16px} .tb-diag-sub b{color:var(--ink)}
+  .tb-diag-cta{display:flex;flex-wrap:wrap;gap:10px}
+  .tb-ghost{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:8px;padding:10px 16px;font:inherit;font-weight:600;font-size:13px;cursor:pointer}
+  .tb-ghost:hover{border-color:var(--teal)}
+  @media(max-width:560px){
+    .tb-mode{padding:15px 14px}
+    .tb-mode-controls{gap:10px 12px}
+    .tb-timing-choice{max-width:100%}
+    .tb-select{max-width:100%}
+    .tb-diag-top{flex-wrap:wrap}
+    .tb-diag-cta>*{max-width:100%;white-space:normal}
+  }
+  @media(max-width:420px){
+    .tb-fieldrow{flex-direction:column;align-items:flex-start;gap:6px}
+    .tb-fieldrow-label{width:auto}
+  }
+  /* readiness ring */
+  .tb-ring{--p:0;width:64px;height:64px;flex:none;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--rc,var(--teal)) calc(var(--p)*1%),color-mix(in srgb,var(--line) 60%,transparent) 0)}
+  .tb-ring::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--card)}
+  .tb-ring span{position:relative;font-family:"Source Serif 4",serif;font-weight:700;font-size:16px;color:var(--ink)}
+  .tb-ring.big{width:118px;height:118px}.tb-ring.big::before{inset:9px}.tb-ring.big span{font-size:30px}.tb-ring.big span small{font-size:13px;color:var(--muted)}
+  /* quiz player */
+  .tb-quiztop{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px}
+  .tb-quizprog{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .tb-progress{height:6px;background:var(--tint);border:1px solid var(--line);border-radius:99px;overflow:hidden;margin-bottom:18px}
+  .tb-progress>span{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-dark))}
+  .tb-qtag{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:99px;margin-bottom:16px}
+  .tb-qtag i{width:8px;height:8px;border-radius:2px}
+  .tb-stem{font-size:17px;line-height:1.5;color:var(--ink);font-weight:600;margin-bottom:18px}
+  .tb-q-chart-wrap{margin-bottom:16px;padding:16px 18px;border:1px solid var(--line);border-radius:10px;background:var(--tint);overflow-x:auto}
+  @media(max-width:420px){.tb-q-chart-wrap{padding:12px 10px}}
+  .tb-q-chart-wrap-compact{max-width:220px;margin-left:auto;margin-right:auto}
+  .tb-q-chart-eyebrow{display:block;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);margin:0 0 10px}
+  .tb-q-chart{width:100%;min-width:280px;max-width:560px;display:block;margin:0 auto}
+  .tb-q-chart-symbol{max-width:130px;min-width:110px}
+  .tb-q-chart-quad{max-width:420px}
+  .tb-chart-limit{stroke:#c0453f;stroke-width:1.1;stroke-dasharray:4 3;opacity:.72}
+  .tb-chart-cl{stroke:var(--muted);stroke-width:1.1}
+  .tb-chart-line{stroke:#6656b5;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .tb-chart-dot{fill:#6656b5;stroke:var(--card);stroke-width:1.5}
+  .tb-chart-dot-out{fill:#c0453f;stroke:var(--card);stroke-width:1.5}
+  .tb-chart-grid{stroke:var(--line);stroke-width:1;opacity:.8}
+  .tb-chart-whisker{stroke:var(--ink);stroke-width:1.4;stroke-linecap:round}
+  .tb-chart-box{fill:color-mix(in srgb,#6656b5 15%,var(--card));stroke:var(--ink);stroke-width:1.4}
+  .tb-chart-box-roof{fill:color-mix(in srgb,var(--teal) 16%,var(--card));stroke:var(--teal)}
+  .tb-chart-median{stroke:var(--ink);stroke-width:2;stroke-linecap:round}
+  .tb-chart-mean{fill:#6656b5;font-weight:700}
+  .tb-chart-label-halo{paint-order:stroke;stroke:var(--tint);stroke-width:4px;stroke-linejoin:round}
+  .tb-chart-outlier{fill:none;stroke:#c0453f;stroke-width:1.8}
+  .tb-chart-band{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3;opacity:.65}
+  .tb-chart-ring{fill:none;stroke:var(--muted);stroke-width:1;opacity:.55}
+  .tb-chart-ring-inner{opacity:.9}
+  .tb-chart-target-dot{fill:var(--ink);stroke:var(--card);stroke-width:1.3}
+  .tb-q-chart-quad-hi .tb-chart-ring{stroke:#6656b5;opacity:.95}
+  .tb-q-chart-quad-hi .tb-chart-target-dot{fill:#6656b5}
+  .tb-q-chart-quad-hi .tb-chart-box{fill:color-mix(in srgb,#6656b5 28%,var(--card));stroke:#6656b5}
+  .tb-q-data-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+  .tb-q-data-table th{background:var(--card);color:var(--ink);font-weight:700;text-align:center;padding:9px 12px;border-bottom:2px solid var(--line);border-right:1px solid var(--line);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase}
+  .tb-q-data-table th:last-child{border-right:none}
+  .tb-q-data-table td{padding:8px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);color:var(--ink);text-align:center}
+  .tb-q-data-table td:last-child{border-right:none}
+  .tb-q-data-table tr:last-child td{border-bottom:none}
+  .tb-q-data-table tr:nth-child(even) td{background:color-mix(in srgb,var(--tint) 55%,var(--card))}
+  .tb-q-data-table td.tb-q-num{font-variant-numeric:tabular-nums}
+  .tb-chart-whatif{display:grid;grid-template-columns:minmax(150px,1fr) minmax(180px,2fr);gap:8px 14px;align-items:center;margin-top:13px;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);font-size:12px;color:var(--muted)}
+  .tb-chart-whatif label{font-weight:700;color:var(--ink)}
+  .tb-chart-whatif input{width:100%;accent-color:var(--teal)}
+  .tb-chart-whatif p{grid-column:1/-1;margin:0;line-height:1.4}
+  @media(max-width:560px){.tb-chart-whatif{grid-template-columns:1fr}.tb-chart-whatif p{grid-column:1}}
+  .tb-chart-risk-low{fill:color-mix(in srgb,#1f9d6b 22%,var(--card));stroke:var(--line);stroke-width:1}
+  .tb-chart-risk-medium{fill:color-mix(in srgb,#b8791b 26%,var(--card));stroke:var(--line);stroke-width:1}
+  .tb-chart-risk-high{fill:color-mix(in srgb,#c0453f 26%,var(--card));stroke:var(--line);stroke-width:1}
+  .tb-chart-risk-hi{stroke:var(--ink);stroke-width:2.4}
+  .tb-opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:var(--tint);border:1px solid var(--line);border-radius:11px;padding:14px 15px;margin-bottom:10px;color:var(--ink);font:inherit;font-size:15px;cursor:pointer;transition:.12s}
+  .tb-opt:hover{border-color:var(--teal)} .tb-opt.sel{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 12%,var(--card))}
+  .tb-opt .k{width:26px;height:26px;flex:none;border-radius:7px;border:1px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:13px;color:var(--muted)}
+  .tb-opt.sel .k{background:var(--teal);color:#fff;border-color:transparent}
+  .tb-quizfoot{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
+  .tb-nav{display:flex;flex-wrap:wrap;gap:6px}
+  .tb-navcell{width:32px;height:32px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--muted);font:inherit;font-size:12px;font-weight:600;cursor:pointer}
+  .tb-navcell.done{background:color-mix(in srgb,var(--teal) 14%,var(--card));color:var(--ink);border-color:var(--teal)}
+  .tb-navcell.cur{outline:2px solid var(--teal);outline-offset:1px}
+  /* results */
+  .tb-resbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+  .tb-restag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .tb-reshead{display:flex;gap:22px;align-items:center;padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:22px}
+  .tb-resverd h2{font-family:"Source Serif 4",serif;font-size:21px;color:var(--ink);margin:0 0 6px}
+  .tb-resverd p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.55}
+  .tb-delta{font-size:12px;font-weight:700;margin-left:6px} .tb-delta.up{color:#1f9d6b}.tb-delta.down{color:#c0453f}
+  .tb-plan{display:grid;gap:10px;margin-bottom:16px}
+  .tb-planrow{display:grid;grid-template-columns:auto 1fr;gap:13px;border:1px solid var(--line);border-radius:11px;padding:14px 16px;background:var(--tint)}
+  .tb-planrow.top{border-color:#c0453f55;background:color-mix(in srgb,#c0453f 7%,var(--card))}
+  .tb-planrank{width:26px;height:26px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:13px;color:var(--muted)}
+  .tb-planname{font-weight:700;font-size:14.5px;color:var(--ink);margin-bottom:3px}
+  .tb-planflag{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#c0453f;background:rgba(192,69,63,.13);border-radius:99px;padding:2px 8px;margin-left:4px}
+  .tb-planwhy{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:7px} .tb-planwhy b{color:var(--ink)}
+  .tb-planlink{font-size:12.5px;font-weight:700;color:var(--teal)}
+  .mut{color:var(--muted)}
+  .tb-planacts{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px}
+  .tb-breakdown{display:grid;gap:12px;margin-bottom:16px}
+  .tb-domblock{border:1px solid var(--line);border-radius:11px;padding:14px 16px;background:var(--tint)}
+  .tb-domhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .tb-domn{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14.5px;color:var(--ink)} .tb-domn i{width:11px;height:11px;border-radius:3px}
+  .tb-domp{font-weight:700;font-size:15px;color:var(--ink)}
+  .tb-sub{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+  .tb-subn{font-size:13px;color:var(--ink)} .tb-subp{font-size:12.5px;font-weight:700}
+  .tb-subbar{grid-column:1/-1;height:5px;background:var(--card);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+  .tb-subbar>span{display:block;height:100%}
+  .tb-srnote{font-size:12px;color:var(--muted);line-height:1.5;margin:14px 0 0}
+  .tb-modenote{font-size:12.5px;color:var(--muted);margin:-6px 0 12px}
+  .tb-setpick{border:1px solid var(--line);background:var(--tint);border-radius:12px;padding:14px 16px;margin:2px 0 20px}
+  .tb-setpick-lab{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:10px}
+  .tb-setseg{display:flex;gap:8px;flex-wrap:wrap}
+  .tb-setbtn{flex:1;min-width:100px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:9px;padding:9px 13px;cursor:pointer;font-family:"Work Sans",sans-serif;transition:border-color .15s ease,box-shadow .15s ease}
+  .tb-setbtn:hover{border-color:var(--teal)}
+  .tb-setbtn.on{border-color:var(--teal);box-shadow:inset 0 0 0 1px var(--teal)}
+  .tb-setl{font-weight:700;font-size:14px}
+  .tb-sets{font-size:11.5px;color:var(--muted)}
+  .tb-setbtn.on .tb-sets{color:var(--teal)}
+  .tb-setnote{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+  .tb-soon.sample{color:#0e7566;background:rgba(43,183,173,.16);box-shadow:none;animation:none}
+  .tb-soon.sample::before{background:#0e7566}
+  html[data-theme="dark"] .tb-soon.sample{color:#67d4df}
+  /* exam realism: toolbar, timer, flag */
+  .tb-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .tb-timer{font-family:"IBM Plex Mono","Work Sans",monospace;font-variant-numeric:tabular-nums;font-weight:700;font-size:16px;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 12px;background:var(--tint);min-width:78px;text-align:center}
+  .tb-timer.warn{color:#b8791b;border-color:#b8791b66}
+  .tb-timer.danger{color:#c0453f;border-color:#c0453f;animation:tbPulse 1s infinite}
+  .tb-timer.untimed{font-family:inherit;font-weight:600;font-size:12.5px;color:var(--muted)}
+  @keyframes tbPulse{0%,100%{opacity:1}50%{opacity:.55}}
+  .tb-tbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:7px 12px;font:inherit;font-weight:600;font-size:12.5px;cursor:pointer;white-space:nowrap}
+  .tb-tbtn:hover{border-color:var(--teal)} .tb-tbtn.on{background:#b8791b;color:#fff;border-color:transparent}
+  .tb-navcell.flag{border-color:#b8791b;box-shadow:inset 0 -3px 0 #b8791b}
+  .tb-timing{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  /* tool layer */
+  #tb-toollayer .tb-x{border:0;background:none;font-size:22px;line-height:1;color:var(--muted);cursor:pointer;padding:0 4px}
+  #tb-toollayer .tb-x:hover{color:var(--ink)}
+  .tb-drawer{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;background:var(--paper);border-left:1px solid var(--line);box-shadow:-16px 0 40px -24px rgba(0,0,0,.5);z-index:60;display:flex;flex-direction:column;padding:18px}
+  .tb-drawer[hidden]{display:none}
+  .tb-drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .tb-drawer-head h3{font-family:"Source Serif 4",serif;font-size:18px;color:var(--ink);margin:0}
+  .tb-refsearch{width:100%;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:10px 12px;font:inherit;font-size:14px;margin-bottom:12px}
+  .tb-reflist{overflow:auto;flex:1;-webkit-overflow-scrolling:touch}
+  .tb-refgroup{margin-bottom:16px}
+  .tb-refgroup h4{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);font-weight:700;margin:0 0 8px}
+  .tb-refitem{border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:8px;background:var(--card)}
+  .tb-refn{font-weight:700;font-size:13px;color:var(--ink);margin-bottom:3px}
+  .tb-reff{font-family:"IBM Plex Mono","Work Sans",monospace;font-size:13px;color:var(--ink);line-height:1.5}
+  .tb-refnote2{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.45}
+  .tb-refnote{font-size:11.5px;color:var(--muted);line-height:1.45;margin:10px 0 0}
+  .tb-refempty{font-size:13px;color:var(--muted)}
+  .tb-calcw{position:fixed;right:22px;bottom:22px;width:260px;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:0 20px 50px -20px rgba(0,0,0,.6);z-index:61;padding:12px}
+  .tb-calc-head{display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:13px;color:var(--ink);margin-bottom:8px}
+  .tb-calc-disp{background:var(--tint);border:1px solid var(--line);border-radius:8px;padding:10px 12px;text-align:right;font-family:"IBM Plex Mono","Work Sans",monospace;font-size:18px;color:var(--ink);min-height:42px;overflow:auto;white-space:nowrap;margin-bottom:8px}
+  .tb-calc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .tb-ck{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:11px 0;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+  .tb-ck:hover{border-color:var(--teal)} .tb-ck.eq{background:var(--teal);color:#fff;border-color:transparent} .tb-ck.clr{color:#c0453f}
+  /* Tables drawer: wider than the standard drawer to hold a data grid */
+  .tb-tables-drawer{width:640px;max-width:96vw}
+  .tb-tbl-chiprow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;flex-shrink:0}
+  .tb-tbl-chip{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:6px 12px;font:inherit;font-size:12px;cursor:pointer;white-space:nowrap}
+  .tb-tbl-chip:hover{border-color:var(--teal);color:var(--ink)}
+  .tb-tbl-chip.active{background:var(--tint);color:var(--teal);border-color:var(--teal);font-weight:700}
+  .tb-tbl-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;min-height:0}
+  .tb-tbl-formula{font-family:"IBM Plex Mono","Work Sans",monospace;font-size:12px;color:var(--muted);margin-bottom:10px}
+  .tb-tbl-lookupbar{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px;padding:12px;background:var(--card);border:1px solid var(--line);border-radius:9px;margin-bottom:12px}
+  .tb-tbl-field{display:flex;flex-direction:column;gap:4px}
+  .tb-tbl-field label{font-size:11px;color:var(--muted)}
+  .tb-tbl-field input,.tb-tbl-field select{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:7px;padding:7px 9px;font:inherit;font-size:13.5px;width:100px}
+  .tb-tbl-find{border:none;background:var(--teal);color:#fff;border-radius:7px;padding:8px 16px;font:inherit;font-weight:700;font-size:13px;cursor:pointer}
+  .tb-tbl-find:hover{opacity:.92}
+  .tb-tbl-result{font-size:13px;font-weight:600;color:var(--ink);margin-left:auto;align-self:center}
+  .tb-tbl-tablewrap{overflow:auto;border:1px solid var(--line);border-radius:9px;flex:1;min-height:180px;max-height:min(52vh,420px)}
+  .tb-tbl-table{border-collapse:collapse;width:100%;font-size:12.5px}
+  .tb-tbl-table th,.tb-tbl-table td{padding:6px 10px;text-align:center;white-space:nowrap;border-bottom:1px solid var(--line)}
+  .tb-tbl-table thead th{position:sticky;top:0;background:var(--card);color:var(--ink);font-weight:700;z-index:2}
+  .tb-tbl-table tbody th{position:sticky;left:0;background:var(--card);z-index:1;font-weight:700}
+  .tb-tbl-table .tbl-corner{position:sticky;left:0;top:0;z-index:3;background:var(--card)}
+  .tb-tbl-table tbody tr:nth-child(even){background:var(--tint)}
+  .tb-tbl-table .tbl-hit-row th{background:var(--teal);color:#fff}
+  .tb-tbl-table .tbl-hit{background:var(--teal);color:#fff;font-weight:800;box-shadow:inset 0 0 0 2px var(--ink)}
+  .tb-tbl-loading,.tb-tbl-error{font-size:13px;color:var(--muted);padding:20px 0;text-align:center}
+  .tb-tbl-error{color:#c0453f}
+  @media(max-width:860px){
+    .tb-drawer{width:100%;max-width:100vw}
+    .tb-tables-drawer{width:100%}
+    .tb-calcw{left:12px;right:12px;width:auto;bottom:12px}
+    .tb-tbl-lookupbar{flex-direction:column;align-items:stretch}
+    .tb-tbl-result{margin-left:0}
+  }
+  @media(max-width:860px){
+    .tb-shell{grid-template-columns:minmax(0,1fr)}
+    .tb-rail{order:-1;min-width:0;max-width:100%}
+    .tb-railhead{display:flex;margin-bottom:10px}
+    .tb-groups{display:flex;gap:8px;min-width:0;max-width:100%;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+    .tb-group{display:contents} .tb-group .gl{display:none}
+    .tb-tile{width:auto;flex:0 0 auto;grid-template-columns:auto auto;align-items:center;gap:9px;padding:9px 12px;margin-bottom:0}
+    .tb-tile .tb-badge{width:32px;height:32px;font-size:10px;align-self:center}
+    .tb-tile .tb-tm,.tb-tile .tb-tag{display:none}
+    .tb-tinfo{gap:0} .tb-tn{white-space:nowrap;font-size:13px}
+  }
+
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Work Sans",Arial,sans-serif}.fallback-shell{width:min(980px,calc(100% - 28px));margin:32px auto 60px}.fallback-shell>h1{font-family:"Source Serif 4",serif;font-size:clamp(1.65rem,5vw,2.45rem);margin:0 0 8px}.fallback-intro{color:var(--muted);line-height:1.55;margin:0 0 24px}.fallback-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(16px,4vw,28px);margin:0 0 22px;box-shadow:0 8px 24px rgba(21,44,54,.06)}.fallback-card header{display:flex;gap:14px;justify-content:space-between;align-items:flex-start;color:var(--muted);font-size:.78rem;margin-bottom:16px}.fallback-card header strong{font-family:"IBM Plex Mono",monospace;font-weight:600}.fallback-stem{font-size:1.03rem;line-height:1.55;font-weight:600}.fallback-options{list-style:none;padding:0;margin:16px 0}.fallback-options li{display:flex;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;margin:8px 0;line-height:1.4}.fallback-options li span{display:grid;place-items:center;align-self:flex-start;min-width:24px;height:24px;border:1px solid var(--line);border-radius:6px;font-weight:700;font-size:.78rem}.fallback-card details{color:var(--muted);font-size:.9rem}.fallback-card details p{line-height:1.5}@media(max-width:560px){.fallback-shell{width:min(100% - 18px,980px);margin-top:18px}.fallback-card{border-radius:11px}.fallback-card header{flex-direction:column;gap:4px}.tb-q-chart{min-width:280px}.fallback-options li{font-size:.94rem}}</style></head><body><main class="fallback-shell"><h1>ASQ Master Black Belt - Batch 1 visual fallbacks</h1><p class="fallback-intro">Ten neutral, source-traceable visual questions. These static versions preserve the evidence required to answer each item without revealing the key.</p><article class="fallback-card" id="mbb-set-2-original-001" data-question-id="mbb:set-2:original-001"><header><span>I. Enterprise-wide Planning</span><strong>mbb:set-2:original-001</strong></header><div class="tb-q-chart-wrap"><span class="tb-q-chart-eyebrow">Reference table</span><table class="tb-q-data-table"><thead><tr><th>Level / function</th><th>Target</th><th>Proposed means</th><th>Unresolved constraint</th></tr></thead><tbody><tr><td>Corporate</td><td class="tb-q-num">Reduce end-to-end lead-time variation 30%</td><td class="tb-q-num">Regional standard work</td><td class="tb-q-num">None recorded</td></tr><tr><td>East distribution</td><td class="tb-q-num">Reduce picking cycle 25%</td><td class="tb-q-num">Add a shift and automate picking</td><td class="tb-q-num">Shared IT capacity unknown</td></tr><tr><td>West transport</td><td class="tb-q-num">Reduce transport delay 20%</td><td class="tb-q-num">Consolidate carriers</td><td class="tb-q-num">Procurement contract conflict</td></tr><tr><td>Customer service</td><td class="tb-q-num">Reduce status calls 40%</td><td class="tb-q-num">Launch self-service portal</td><td class="tb-q-num">Same IT capacity required</td></tr></tbody></table></div><p class="fallback-stem">The target-and-means cascade shown below was issued top-down. Each function then developed its proposed means independently, and leaders plan to lock the annual plan tomorrow. Which action should the Master Black Belt recommend before the plan is finalized?</p><ol class="fallback-options"><li><span>A</span>Approve the cascade because every proposed means has a numeric target and functional owner, then review results at quarterly checkpoints</li><li><span>B</span>Replace the unresolved constraints with stretch targets owned by each function and let annual performance reviews resolve any conflicts</li><li><span>C</span>Run catchball across levels and functions to negotiate means, constraints, resources, and shared ownership</li><li><span>D</span>Convert every target into an independent DMAIC charter before discussing cross-functional conflicts</li></ol><details><summary>Accessible visual description</summary><p>A four-row deployment table shows corporate and functional targets, proposed means, and unresolved cross-functional constraints. East distribution and customer service require the same unconfirmed IT capacity, while West transport has a procurement conflict.</p></details></article>
+<article class="fallback-card" id="mbb-set-2-original-005" data-question-id="mbb:set-2:original-005"><header><span>I. Enterprise-wide Planning</span><strong>mbb:set-2:original-005</strong></header><div class="tb-q-chart-wrap"><span class="tb-q-chart-eyebrow">Reference table</span><table class="tb-q-data-table"><thead><tr><th>Project</th><th>Strategic alignment (1-5)</th><th>Finance-validated NPV</th><th>BB-months</th><th>Readiness / constraint</th></tr></thead><tbody><tr><td>P1 - Regulatory complaints</td><td class="tb-q-num">5</td><td class="tb-q-num">$0.4M</td><td class="tb-q-num">3</td><td class="tb-q-num">Mandatory; ready</td></tr><tr><td>P2 - Predictive maintenance</td><td class="tb-q-num">4</td><td class="tb-q-num">$1.5M</td><td class="tb-q-num">4</td><td class="tb-q-num">Ready; medium risk</td></tr><tr><td>P3 - Billing rework</td><td class="tb-q-num">2</td><td class="tb-q-num">$0.9M</td><td class="tb-q-num">3</td><td class="tb-q-num">Ready; low risk</td></tr><tr><td>P4 - Supplier digitization</td><td class="tb-q-num">4</td><td class="tb-q-num">$0.7M</td><td class="tb-q-num">2</td><td class="tb-q-num">Depends on P1 output</td></tr><tr><td>P5 - Warehouse space</td><td class="tb-q-num">3</td><td class="tb-q-num">$0.5M</td><td class="tb-q-num">2</td><td class="tb-q-num">Ready; low risk</td></tr><tr><td>P6 - Demand forecasting</td><td class="tb-q-num">5</td><td class="tb-q-num">$1.8M</td><td class="tb-q-num">5</td><td class="tb-q-num">Data foundation absent</td></tr></tbody></table><div class="tb-chart-whatif"><label for="mbb-b01-q005-capacity">Explore available capacity: <output data-tb-whatif-value>8</output> BB-months</label><input id="mbb-b01-q005-capacity" type="range" min="6" max="12" step="1" value="8" data-tb-whatif data-committed="3" data-unit="BB-months" aria-describedby="mbb-b01-q005-capacity-result"><p id="mbb-b01-q005-capacity-result" aria-live="polite"><span data-tb-whatif-remaining>5</span> BB-months remain after mandatory P1.</p></div></div><p class="fallback-stem">The enterprise has eight Black-Belt-months available for the next planning window. The portfolio snapshot is shown below. P1 is mandatory within the window; P6 cannot begin until an enterprise data foundation exists. Which pipeline decision best balances strategy, capacity, value, and risk?</p><ol class="fallback-options"><li><span>A</span>Authorize P1 and P2, use the remaining capacity to define P6&#39;s prerequisite, and re-evaluate the deferred projects at the next gate</li><li><span>B</span>Authorize P2 and P6 because their combined NPV is highest, then seek emergency resources for mandatory P1</li><li><span>C</span>Authorize P1, P3, and P5 because their combined demand fills capacity and diversifies the portfolio</li><li><span>D</span>Start every project at reduced staffing so none loses its sponsor or priority position during this window</li></ol><details><summary>Accessible visual description</summary><p>A six-project portfolio table gives strategic-alignment ratings, finance-validated NPVs, Black-Belt-month demand, and readiness constraints. P1 is mandatory and needs three months. P2 is ready and needs four. P6 has the highest NPV but lacks its data foundation.</p></details></article>
+<article class="fallback-card" id="mbb-set-2-original-012" data-question-id="mbb:set-2:original-012"><header><span>III. Project Portfolio Management</span><strong>mbb:set-2:original-012</strong></header><div class="tb-q-chart-wrap"><span class="tb-q-chart-eyebrow">Network diagram</span><svg viewBox="0 0 464 264" class="tb-q-chart" role="img" aria-label="Activity network. Activities and durations: A 30 days, B 40 days, C 35 days, D 25 days, E 15 days. Precedence links: A to B, A to C, B to D, C to D, D to E."><defs><marker id="tbArrow" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" class="tb-chart-target-dot"></path></marker></defs><line x1="84" y1="132" x2="138" y2="42" class="tb-chart-whisker" stroke-width="1.6" marker-end="url(#tbArrow)"></line><line x1="84" y1="132" x2="138" y2="222" class="tb-chart-whisker" stroke-width="1.6" marker-end="url(#tbArrow)"></line><line x1="204" y1="42" x2="258" y2="132" class="tb-chart-whisker" stroke-width="1.6" marker-end="url(#tbArrow)"></line><line x1="204" y1="222" x2="258" y2="132" class="tb-chart-whisker" stroke-width="1.6" marker-end="url(#tbArrow)"></line><line x1="324" y1="132" x2="378" y2="132" class="tb-chart-whisker" stroke-width="1.6" marker-end="url(#tbArrow)"></line><g><rect x="20" y="110" width="64" height="44" rx="6" class="tb-chart-box"></rect><text x="52" y="128" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">A</text><text x="52" y="144" font-size="10" fill="var(--muted)" text-anchor="middle">30 days</text></g><g><rect x="140" y="20" width="64" height="44" rx="6" class="tb-chart-box"></rect><text x="172" y="38" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">B</text><text x="172" y="54" font-size="10" fill="var(--muted)" text-anchor="middle">40 days</text></g><g><rect x="140" y="200" width="64" height="44" rx="6" class="tb-chart-box"></rect><text x="172" y="218" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">C</text><text x="172" y="234" font-size="10" fill="var(--muted)" text-anchor="middle">35 days</text></g><g><rect x="260" y="110" width="64" height="44" rx="6" class="tb-chart-box"></rect><text x="292" y="128" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">D</text><text x="292" y="144" font-size="10" fill="var(--muted)" text-anchor="middle">25 days</text></g><g><rect x="380" y="110" width="64" height="44" rx="6" class="tb-chart-box"></rect><text x="412" y="128" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">E</text><text x="412" y="144" font-size="10" fill="var(--muted)" text-anchor="middle">15 days</text></g></svg></div><p class="fallback-stem">Five projects share the precedence relationships shown. Durations are working days. A must finish before B and C; both B and C must finish before D; D must finish before E. Assuming unlimited nonshared resources and no lag, what is the earliest portfolio completion time, and what should the MBB correct in the current plan that starts all five projects on day 1?</p><ol class="fallback-options"><li><span>A</span>70 days; retain the parallel start because unlimited nonshared resources remove predecessor constraints from every activity in the portfolio</li><li><span>B</span>105 days; delay only E because independently resourced B and C can begin before A is complete</li><li><span>C</span>110 days; replace the independent schedules with a portfolio dependency plan that enforces A -&gt; B/C -&gt; D -&gt; E</li><li><span>D</span>145 days; schedule B and C sequentially because activities sharing predecessor A cannot run in parallel</li></ol><details><summary>Accessible visual description</summary><p>An activity-on-node network shows A for 30 days splitting to B for 40 days and C for 35 days. B and C merge into D for 25 days, followed by E for 15 days.</p></details></article>
+<article class="fallback-card" id="mbb-set-2-original-015" data-question-id="mbb:set-2:original-015"><header><span>IV. Training Design and Delivery</span><strong>mbb:set-2:original-015</strong></header><div class="tb-q-chart-wrap"><span class="tb-q-chart-eyebrow">Reference table</span><table class="tb-q-data-table"><thead><tr><th>Target group / skill</th><th>Required proficiency</th><th>Observed proficiency</th><th>Learners</th><th>Business impact</th></tr></thead><tbody><tr><td>Champions - project selection</td><td class="tb-q-num">4</td><td class="tb-q-num">2</td><td class="tb-q-num">12</td><td class="tb-q-num">High</td></tr><tr><td>Black Belts - regression diagnostics</td><td class="tb-q-num">4</td><td class="tb-q-num">3</td><td class="tb-q-num">24</td><td class="tb-q-num">Medium</td></tr><tr><td>Green Belts - measurement systems</td><td class="tb-q-num">3</td><td class="tb-q-num">1</td><td class="tb-q-num">60</td><td class="tb-q-num">High</td></tr><tr><td>Process Owners - control plans</td><td class="tb-q-num">3</td><td class="tb-q-num">3</td><td class="tb-q-num">18</td><td class="tb-q-num">High</td></tr></tbody></table></div><p class="fallback-stem">The training-needs matrix uses a 1-4 proficiency scale. The first release can support only 120 learner-hours. Which decision best follows a role-specific needs analysis rather than a one-size-fits-all curriculum?</p><ol class="fallback-options"><li><span>A</span>Give every group the same eight-hour statistics refresher, use one common assessment, and defer role-specific gaps until the next release because this format is easiest to administer</li><li><span>B</span>Prioritize Green Belt MSA and Champion selection skills, tailor delivery to each role, and use targeted remediation for the smaller Black Belt gap</li><li><span>C</span>Train Process Owners first because control-plan ownership has the highest operational consequence, even though their current proficiency already equals the required level</li><li><span>D</span>Train Black Belts only because advanced regression has the highest required proficiency rating, and use their post-course scores as a proxy for every other role</li></ol><details><summary>Accessible visual description</summary><p>A role-by-skill table compares required and observed proficiency, learner population, and business impact. Green Belts have a two-level measurement-system gap across 60 learners; Champions have a two-level selection gap across 12; Black Belts have a one-level regression gap; Process Owners have no control-plan gap.</p></details></article>
+<article class="fallback-card" id="mbb-set-2-original-019" data-question-id="mbb:set-2:original-019"><header><span>VI. Advanced Data Management and Analytic Methods</span><strong>mbb:set-2:original-019</strong></header><div class="tb-q-chart-wrap"><span class="tb-q-chart-eyebrow">Reference table</span><table class="tb-q-data-table"><thead><tr><th>Input</th><th>Measured value</th><th>Standard uncertainty</th><th>Sensitivity coefficient</th></tr></thead><tbody><tr><td>Outside diameter (OD)</td><td class="tb-q-num">508.00 mm</td><td class="tb-q-num">0.040 mm</td><td class="tb-q-num">+0.5</td></tr><tr><td>Inside diameter (ID)</td><td class="tb-q-num">492.00 mm</td><td class="tb-q-num">0.060 mm</td><td class="tb-q-num">-0.5</td></tr></tbody></table></div><p class="fallback-stem">Pipe wall thickness is calculated as t = (OD - ID)/2. The OD and ID errors are independent and unbiased, with standard uncertainties shown below. Ignoring model-form error, what is the standard uncertainty of the calculated thickness?</p><ol class="fallback-options"><li><span>A</span>0.010 mm</li><li><span>B</span>0.036 mm</li><li><span>C</span>0.050 mm</li><li><span>D</span>0.072 mm</li></ol><details><summary>Accessible visual description</summary><p>A two-row measurement table lists outside diameter 508.00 millimetres with standard uncertainty 0.040 and sensitivity coefficient plus 0.5, and inside diameter 492.00 millimetres with standard uncertainty 0.060 and sensitivity coefficient minus 0.5.</p></details></article>
+<article class="fallback-card" id="mbb-set-2-original-020" data-question-id="mbb:set-2:original-020"><header><span>VI. Advanced Data Management and Analytic Methods</span><strong>mbb:set-2:original-020</strong></header><div class="tb-q-chart-wrap"><span class="tb-q-chart-eyebrow">Regression diagnostic</span><svg viewBox="0 0 560 270" class="tb-q-chart" role="img" aria-label="Residuals versus fitted length of stay form a U shape: residuals are positive near fitted values 80 and 240 minutes, negative around 140 to 180 minutes, and near zero around 120 and 200 minutes."><text x="58" y="15" font-size="11" font-weight="700" fill="var(--ink)">Standardized residuals versus fitted length of stay</text><line x1="83.6" y1="26" x2="83.6" y2="224" class="tb-chart-grid"></line><text x="83.6" y="241" font-size="9" fill="var(--muted)" text-anchor="middle">80</text><line x1="297.0" y1="26" x2="297.0" y2="224" class="tb-chart-grid"></line><text x="297.0" y="241" font-size="9" fill="var(--muted)" text-anchor="middle">160</text><line x1="510.4" y1="26" x2="510.4" y2="224" class="tb-chart-grid"></line><text x="510.4" y="241" font-size="9" fill="var(--muted)" text-anchor="middle">240</text><line x1="58" y1="201.3" x2="536" y2="201.3" class="tb-chart-grid"></line><text x="50" y="204.3" font-size="9" fill="var(--muted)" text-anchor="end">-2</text><line x1="58" y1="125.0" x2="536" y2="125.0" class="tb-chart-cl"></line><text x="50" y="128.0" font-size="9" fill="var(--muted)" text-anchor="end">0</text><line x1="58" y1="48.7" x2="536" y2="48.7" class="tb-chart-grid"></line><text x="50" y="51.7" font-size="9" fill="var(--muted)" text-anchor="end">2</text><circle cx="83.6" cy="44.9" r="4" class="tb-chart-dot" tabindex="0" role="img" aria-label="Fitted 80, residual 2.1"><title>Fitted 80, residual 2.1</title></circle><circle cx="137.0" cy="79.2" r="4" class="tb-chart-dot" tabindex="0" role="img" aria-label="Fitted 100, residual 1.2"><title>Fitted 100, residual 1.2</title></circle><circle cx="190.3" cy="117.4" r="4" class="tb-chart-dot" tabindex="0" role="img" aria-label="Fitted 120, residual 0.2"><title>Fitted 120, residual 0.2</title></circle><circle cx="243.7" cy="155.5" r="4" class="tb-chart-dot" tabindex="0" role="img" aria-label="Fitted 140, residual -0.8"><title>Fitted 140, residual -0.8</title></circle><circle cx="297.0" cy="182.2" r="4" class="tb-chart-dot" tabindex="0" role="img" aria-label="Fitted 160, residual -1.5"><title>Fitted 160, residual -1.5</title></circle><circle cx="350.3" cy="159.3" r="4" class="tb-chart-dot" tabindex="0" role="img" aria-label="Fitted 180, residual -0.9"><title>Fitted 180, residual -0.9</title></circle><circle cx="403.7" cy="121.2" r="4" class="tb-chart-dot" tabindex="0" role="img" aria-label="Fitted 200, residual 0.1"><title>Fitted 200, residual 0.1</title></circle><circle cx="457.0" cy="83.1" r="4" class="tb-chart-dot" tabindex="0" role="img" aria-label="Fitted 220, residual 1.1"><title>Fitted 220, residual 1.1</title></circle><circle cx="510.4" cy="41.1" r="4" class="tb-chart-dot" tabindex="0" role="img" aria-label="Fitted 240, residual 2.2"><title>Fitted 240, residual 2.2</title></circle><text x="297" y="264" font-size="10" fill="var(--muted)" text-anchor="middle">Fitted length of stay (minutes)</text><text x="17" y="125" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 17 125)">Standardized residual</text></svg></div><p class="fallback-stem">A multiple-regression model predicts emergency-department length of stay. VIFs are below 2, the residual normal probability plot is acceptably linear, and the residuals-versus-fits plot is shown. No data-transcription errors are found. What should the MBB recommend next?</p><ol class="fallback-options"><li><span>A</span>Investigate missing curvature or an omitted nonlinear term before relying on predictions, while preserving model hierarchy</li><li><span>B</span>Remove the observations with the two largest positive residuals, retain the same predictors, and refit the unchanged linear model until the pattern disappears</li><li><span>C</span>Accept the model because low VIF and approximately normal residuals establish predictive adequacy</li><li><span>D</span>Replace regression with a two-sample t test because residuals are not centered at every fitted value</li></ol><details><summary>Accessible visual description</summary><p>Residuals versus fitted length of stay form a U shape: residuals are positive near fitted values 80 and 240 minutes, negative around 140 to 180 minutes, and near zero around 120 and 200 minutes.</p></details></article>
+<article class="fallback-card" id="mbb-set-2-original-022" data-question-id="mbb:set-2:original-022"><header><span>VI. Advanced Data Management and Analytic Methods</span><strong>mbb:set-2:original-022</strong></header><div class="tb-q-chart-wrap"><span class="tb-q-chart-eyebrow">Reference table</span><table class="tb-q-data-table"><thead><tr><th>Run order</th><th>Temperature setting</th><th>Formulation</th></tr></thead><tbody><tr><td>1</td><td class="tb-q-num">Low</td><td class="tb-q-num">B</td></tr><tr><td>2</td><td class="tb-q-num">Low</td><td class="tb-q-num">D</td></tr><tr><td>3</td><td class="tb-q-num">Low</td><td class="tb-q-num">A</td></tr><tr><td>4</td><td class="tb-q-num">Low</td><td class="tb-q-num">C</td></tr><tr><td>5</td><td class="tb-q-num">High</td><td class="tb-q-num">C</td></tr><tr><td>6</td><td class="tb-q-num">High</td><td class="tb-q-num">A</td></tr><tr><td>7</td><td class="tb-q-num">High</td><td class="tb-q-num">D</td></tr><tr><td>8</td><td class="tb-q-num">High</td><td class="tb-q-num">B</td></tr></tbody></table></div><p class="fallback-stem">Oven temperature is costly to change, so each temperature setting is held for four consecutive runs. Within each temperature block, coating formulation is randomized. The run matrix below is representative. Which design-and-analysis description is correct?</p><ol class="fallback-options"><li><span>A</span>A completely randomized factorial; ignore the restricted randomization, treat all runs as exchangeable, and test every effect against one pooled residual error</li><li><span>B</span>A split-plot design; temperature is the whole-plot factor and formulation is the subplot factor, so the analysis needs the corresponding error strata</li><li><span>C</span>A randomized complete block design; treat formulation as the blocking variable because it changes within temperature, and estimate temperature from within-block variation</li><li><span>D</span>An EVOP design; use the production order as the model, omit separate whole-plot and subplot errors, and avoid deliberate randomization within each temperature setting</li></ol><details><summary>Accessible visual description</summary><p>An eight-run design matrix holds oven temperature low for runs one through four and high for runs five through eight. Coating formulations A through D are randomized within each four-run temperature group.</p></details></article>
+<article class="fallback-card" id="mbb-set-2-original-023" data-question-id="mbb:set-2:original-023"><header><span>VI. Advanced Data Management and Analytic Methods</span><strong>mbb:set-2:original-023</strong></header><div class="tb-q-chart-wrap"><span class="tb-q-chart-eyebrow">Time-series plot</span><svg viewBox="0 0 560 270" class="tb-q-chart" role="img" aria-label="Daily backlog across 18 days generally rises from 102 to 149 orders. Adjacent days tend to be similar, with only small reversals around days 3, 6, 9, 12, and 15."><text x="58" y="15" font-size="11" font-weight="700" fill="var(--ink)">Daily distribution-center backlog</text><line x1="58" y1="222.0" x2="534" y2="222.0" class="tb-chart-grid"></line><text x="50" y="225.0" font-size="9" fill="var(--muted)" text-anchor="end">96</text><line x1="58" y1="173.5" x2="534" y2="173.5" class="tb-chart-grid"></line><text x="50" y="176.5" font-size="9" fill="var(--muted)" text-anchor="end">111</text><line x1="58" y1="125.0" x2="534" y2="125.0" class="tb-chart-grid"></line><text x="50" y="128.0" font-size="9" fill="var(--muted)" text-anchor="end">126</text><line x1="58" y1="76.5" x2="534" y2="76.5" class="tb-chart-grid"></line><text x="50" y="79.5" font-size="9" fill="var(--muted)" text-anchor="end">140</text><line x1="58" y1="28.0" x2="534" y2="28.0" class="tb-chart-grid"></line><text x="50" y="31.0" font-size="9" fill="var(--muted)" text-anchor="end">155</text><path d="M58.0 203.2 L86.0 193.2 L114.0 199.9 L142.0 183.3 L170.0 173.3 L198.0 176.6 L226.0 156.6 L254.0 146.6 L282.0 150.0 L310.0 130.0 L338.0 116.7 L366.0 123.3 L394.0 100.0 L422.0 86.7 L450.0 90.0 L478.0 70.1 L506.0 60.1 L534.0 46.8" fill="none" class="tb-chart-line"></path><circle cx="58.0" cy="203.2" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="1: 102"><title>1: 102</title></circle><circle cx="86.0" cy="193.2" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="2: 105"><title>2: 105</title></circle><circle cx="114.0" cy="199.9" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="3: 103"><title>3: 103</title></circle><circle cx="142.0" cy="183.3" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="4: 108"><title>4: 108</title></circle><circle cx="170.0" cy="173.3" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="5: 111"><title>5: 111</title></circle><circle cx="198.0" cy="176.6" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="6: 110"><title>6: 110</title></circle><circle cx="226.0" cy="156.6" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="7: 116"><title>7: 116</title></circle><circle cx="254.0" cy="146.6" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="8: 119"><title>8: 119</title></circle><circle cx="282.0" cy="150.0" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="9: 118"><title>9: 118</title></circle><circle cx="310.0" cy="130.0" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="10: 124"><title>10: 124</title></circle><circle cx="338.0" cy="116.7" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="11: 128"><title>11: 128</title></circle><circle cx="366.0" cy="123.3" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="12: 126"><title>12: 126</title></circle><circle cx="394.0" cy="100.0" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="13: 133"><title>13: 133</title></circle><circle cx="422.0" cy="86.7" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="14: 137"><title>14: 137</title></circle><circle cx="450.0" cy="90.0" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="15: 136"><title>15: 136</title></circle><circle cx="478.0" cy="70.1" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="16: 142"><title>16: 142</title></circle><circle cx="506.0" cy="60.1" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="17: 145"><title>17: 145</title></circle><circle cx="534.0" cy="46.8" r="3.5" class="tb-chart-dot" tabindex="0" role="img" aria-label="18: 149"><title>18: 149</title></circle><text x="58.0" y="239" font-size="9" fill="var(--muted)" text-anchor="middle">1</text><text x="142.0" y="239" font-size="9" fill="var(--muted)" text-anchor="middle">4</text><text x="226.0" y="239" font-size="9" fill="var(--muted)" text-anchor="middle">7</text><text x="310.0" y="239" font-size="9" fill="var(--muted)" text-anchor="middle">10</text><text x="394.0" y="239" font-size="9" fill="var(--muted)" text-anchor="middle">13</text><text x="478.0" y="239" font-size="9" fill="var(--muted)" text-anchor="middle">16</text><text x="534.0" y="239" font-size="9" fill="var(--muted)" text-anchor="middle">18</text><text x="296" y="264" font-size="10" fill="var(--muted)" text-anchor="middle">Day</text><text x="17" y="125" font-size="10" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 17 125)">Backlog (orders)</text></svg></div><p class="fallback-stem">Daily distribution-center backlog is plotted in time order. Lag-1 autocorrelation is 0.78, and the upward movement is operationally plausible rather than a data error. A manager proposes an Individuals chart using limits estimated directly from the raw series. What should the MBB recommend?</p><ol class="fallback-options"><li><span>A</span>Use the raw Individuals chart because moving ranges automatically remove serial correlation, then treat any limit violation as a special cause in the original backlog process</li><li><span>B</span>Randomly reorder the days before calculating limits, retain those limits for chronological monitoring, and assume the shuffle permanently restores independence</li><li><span>C</span>Widen the raw-chart limits until no point signals, preserve the raw serial dependence, and extrapolate the centerline as the operating forecast</li><li><span>D</span>Model the time dependence and trend, validate approximately white residuals, and monitor the residual process while forecasting with the time-series model</li></ol><details><summary>Accessible visual description</summary><p>Daily backlog across 18 days generally rises from 102 to 149 orders. Adjacent days tend to be similar, with only small reversals around days 3, 6, 9, 12, and 15.</p></details></article>
+<article class="fallback-card" id="mbb-set-2-original-024" data-question-id="mbb:set-2:original-024"><header><span>VI. Advanced Data Management and Analytic Methods</span><strong>mbb:set-2:original-024</strong></header><div class="tb-q-chart-wrap"><span class="tb-q-chart-eyebrow">Reference table</span><table class="tb-q-data-table"><thead><tr><th>Predictor</th><th>Coefficient</th><th>SE</th><th>p-value</th><th>Adjusted odds ratio</th></tr></thead><tbody><tr><td>Wait time (per 10 min)</td><td class="tb-q-num">0.42</td><td class="tb-q-num">0.11</td><td class="tb-q-num">&lt;0.001</td><td class="tb-q-num">1.52</td></tr><tr><td>New agent (yes vs no)</td><td class="tb-q-num">0.18</td><td class="tb-q-num">0.21</td><td class="tb-q-num">0.39</td><td class="tb-q-num">1.20</td></tr><tr><td>Complex case (yes vs no)</td><td class="tb-q-num">1.10</td><td class="tb-q-num">0.24</td><td class="tb-q-num">&lt;0.001</td><td class="tb-q-num">3.00</td></tr></tbody></table></div><p class="fallback-stem">A binary logistic model predicts whether a customer abandons a service request. The table reports adjusted coefficients and odds ratios. At alpha = 0.05, which interpretation is defensible?</p><ol class="fallback-options"><li><span>A</span>Holding the other predictors constant, each additional 10 minutes of wait increases abandonment odds by about 52%; the new-agent indicator is not statistically supported</li><li><span>B</span>Each additional 10 minutes increases abandonment probability by exactly 52 percentage points for every customer, regardless of baseline probability or other predictors</li><li><span>C</span>New agents cause 20% more abandonment because their odds ratio is above 1, and the estimated direction should be treated as conclusive regardless of its p-value</li><li><span>D</span>Case complexity is practically unimportant because logistic coefficients cannot be interpreted on a linear-probability scale or compared directly with ordinary slopes</li></ol><details><summary>Accessible visual description</summary><p>A logistic-regression table shows wait time coefficient 0.42, p below 0.001, odds ratio 1.52; new-agent coefficient 0.18, p 0.39, odds ratio 1.20; complex-case coefficient 1.10, p below 0.001, odds ratio 3.00.</p></details></article>
+<article class="fallback-card" id="mbb-set-2-original-025" data-question-id="mbb:set-2:original-025"><header><span>VI. Advanced Data Management and Analytic Methods</span><strong>mbb:set-2:original-025</strong></header><div class="tb-q-chart-wrap"><span class="tb-q-chart-eyebrow">Reference table</span><table class="tb-q-data-table"><thead><tr><th>Variance source</th><th>Estimated variance</th><th>Share of total variance</th></tr></thead><tbody><tr><td>Lot-to-lot</td><td class="tb-q-num">12</td><td class="tb-q-num">54.5%</td></tr><tr><td>Unit within lot</td><td class="tb-q-num">8</td><td class="tb-q-num">36.4%</td></tr><tr><td>Test repeatability</td><td class="tb-q-num">2</td><td class="tb-q-num">9.1%</td></tr><tr><td>Total</td><td class="tb-q-num">22</td><td class="tb-q-num">100.0%</td></tr></tbody></table></div><p class="fallback-stem">A balanced nested study decomposes observed variance as shown. Management asks whether replacing the test instrument alone could reduce the observed standard deviation by at least 20%, assuming the replacement eliminates repeatability variance completely and leaves other components unchanged. Which conclusion is correct?</p><ol class="fallback-options"><li><span>A</span>Yes; repeatability is 2 variance units, so removing it reduces observed standard deviation by 2 units</li><li><span>B</span>Yes; repeatability is 9.1% of variance, which exceeds the 4% variance reduction needed for a 20% standard-deviation reduction</li><li><span>C</span>No; eliminating repeatability changes standard deviation from sqrt(22) to sqrt(20), only about a 4.7% reduction</li><li><span>D</span>No; repeatability, appraiser, part, and lot variance components cannot be added when the study design is nested</li></ol><details><summary>Accessible visual description</summary><p>A variance-component table shows lot-to-lot variance 12, unit-within-lot variance 8, test-repeatability variance 2, and total variance 22. Their shares are 54.5, 36.4, 9.1, and 100 percent.</p></details></article></main></body></html>
