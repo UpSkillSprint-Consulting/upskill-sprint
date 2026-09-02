@@ -117,6 +117,38 @@ Batch 3 adds Questions 051-075. Its exact blueprint allocation is 5 Enterprise, 
 | 074 | Analytics | Balanced incomplete block design | Very Hard | Understand | D | DOE incidence matrix | Kubiak 434-438 |
 | 075 | Analytics | Closed-loop feedback integrity | Hard | Apply | B | — | Kubiak 451-453 |
 
+## Batch 4 inventory
+
+Batch 4 adds Questions 076-100. Its exact blueprint allocation is 5 Enterprise, 5 Organization, 4 Portfolio, 3 Training, 3 Coaching, and 5 Analytics. The difficulty mix is 9 Hard, 11 Very Hard, and 5 Expert; the cognition mix is 3 Understand, 5 Apply, 7 Analyze, 6 Evaluate, and 4 Create. Correct-option length ranks are balanced 6/6/6/7 from longest to shortest.
+
+| Q | Domain | Topic | Difficulty | Cognition | Key | Visual | Source pages |
+|---:|---|---|---|---|:---:|---|---|
+| 076 | Enterprise | Integrated strategic, tactical, and operational planning | Very Hard | Analyze | D | Strategy evidence table | Kubiak 13-17 |
+| 077 | Enterprise | Deployment readiness and maturity assessment | Hard | Evaluate | A | — | Kubiak 33-41 |
+| 078 | Enterprise | BPM life cycle and automation governance | Very Hard | Analyze | C | — | Kubiak 65-69 |
+| 079 | Enterprise | Creativity-to-innovation operating system | Expert | Create | B | — | Kubiak 83-87 |
+| 080 | Enterprise | Dynamic pipeline-risk reprioritization | Hard | Apply | D | — | Kubiak 88-99 |
+| 081 | Organization | Centralized-to-federated deployment structure | Hard | Create | A | — | Kubiak 115-119 |
+| 082 | Organization | Integrated VOC/VOP listening and action | Very Hard | Analyze | B | — | Kubiak 148-156 |
+| 083 | Organization | Herzberg hygiene factors and motivators | Hard | Understand | C | — | Kubiak 157-165 |
+| 084 | Organization | Situational leadership from competence and commitment | Very Hard | Evaluate | D | Focusable dual-series time plot | Kubiak 165-176 |
+| 085 | Organization | Interest-based conflict resolution | Very Hard | Apply | A | — | Kubiak 177-182 |
+| 086 | Portfolio | Cross-project dependencies and program governance | Expert | Create | C | Activity network | Kubiak 196-201 |
+| 087 | Portfolio | Earned-value diagnosis and EAC | Very Hard | Analyze | B | — | Kubiak 212-215 |
+| 088 | Portfolio | Decision-oriented project status communication | Hard | Evaluate | D | — | Kubiak 215-218 |
+| 089 | Portfolio | Hard savings, soft benefits, and cost avoidance | Hard | Understand | A | — | Kubiak 225-234 |
+| 090 | Training | Training-needs analysis and nontraining causes | Hard | Analyze | B | Training-needs evidence table | Kubiak 236-244 |
+| 091 | Training | Modular curriculum and coaching capacity | Very Hard | Apply | C | — | Kubiak 245-255 |
+| 092 | Training | Isolation of training effects | Very Hard | Evaluate | D | — | Kubiak 285-291 |
+| 093 | Coaching | Champion accountability at tollgates | Hard | Understand | A | — | Kubiak 294-298 |
+| 094 | Coaching | Team-stage backsliding and intervention | Very Hard | Evaluate | B | — | Kubiak 310-314 |
+| 095 | Coaching | Non-Belt awareness and credential integrity | Hard | Apply | C | — | Kubiak 315-316 |
+| 096 | Analytics | MSA bias and linearity | Expert | Analyze | D | Focusable bias plot | Kubiak 335-346 |
+| 097 | Analytics | Reliability growth and TAAF assumptions | Very Hard | Evaluate | A | Focusable log-log growth plot | Kubiak 427-428 |
+| 098 | Analytics | Lower-bound mixture pseudocomponents | Expert | Apply | B | Mixture simplex | Kubiak 446-448 |
+| 099 | Analytics | Constrained D-optimal design | Expert | Create | C | Candidate-design matrix | Kubiak 449-450 |
+| 100 | Analytics | Taguchi inner and outer arrays | Very Hard | Analyze | D | Robust-design evidence table | Kubiak 443-446 |
+
 ## Visual evidence and accessibility
 
 Ten Batch 1 questions have retained, independently reviewable visual packages in `test-bank-assets/mbb-160/batch-01/`:
@@ -132,15 +164,17 @@ Nine Batch 2 questions have equivalent retained packages in `test-bank-assets/mb
 
 Ten Batch 3 questions have equivalent retained packages in `test-bank-assets/mbb-160/batch-03/`. Questions 056, 061, and 071 are interactive: a focusable systems-response time series, a portfolio-capacity what-if control, and a focusable residual autocorrelation plot. The batch also includes independently constructed capability and simulation histograms, a GLM interaction plot, an MSA variance-component table, and a balanced incomplete-block incidence matrix.
 
+Nine Batch 4 questions have equivalent retained packages in `test-bank-assets/mbb-160/batch-04/`. Questions 084, 096, and 097 are interactive: a focusable competence-versus-commitment time plot, a focusable MSA bias-linearity plot, and a focusable log-log reliability-growth plot. The batch also includes a dependency network, a lower-bound mixture simplex, strategy and training-needs evidence tables, a D-optimal candidate matrix, and a Taguchi inner/outer-array result table.
+
 ## Independent validation
 
-`tests/test-bank-mbb-set2-batch1.test.js`, `tests/test-bank-mbb-set2-batch2.test.js`, and `tests/test-bank-mbb-set2-batch3.test.js` enforce:
+`tests/test-bank-mbb-set2-batch1.test.js`, `tests/test-bank-mbb-set2-batch2.test.js`, `tests/test-bank-mbb-set2-batch3.test.js`, and `tests/test-bank-mbb-set2-batch4.test.js` enforce:
 
 - exact batch, domain, answer, difficulty, cognition, visual, and interaction allocations;
 - stable identities, complete metadata, four distinct options, one valid key, specific rationales, locatable source evidence, and excluded-format checks;
 - balanced correct-option length ranks and bounded within-item option-length spread;
 - independent recomputation of the activity network, NPVs, expected portfolio values, earned-value indices, gage R&R components, nonnormal Weibull tail probability, ACF limits, simulation tail risk, BIBD balance, propagated uncertainty, logistic odds ratio, variance-component change, response-surface gradient and contours, and Weibull series/parallel reliability;
 - exact question-to-dataset hashes, construction records, responsive fallback linkage, neutral answer presentation, semantic HTML/SVG output, keyboard-focusable plot details, and capacity-slider bounds;
-- no duplicate or suspicious near-duplicate stems within or across the three original batches or against the existing 100-question MBB simulation.
+- no duplicate or suspicious near-duplicate stems within or across the four original batches or against the existing 100-question MBB simulation.
 
-The asset build is deterministic through `npm run build:mbb160-assets`. All three batches are included in the deploy-preview test gate so later UI or renderer changes cannot silently invalidate them. The UI integration test verifies that Set 2 is visible as “75 of 160,” identifies Batch 3 as complete, uses a 1-hour 52-minute 30-second proportional timer, and launches exactly the 75 available questions without presenting the bank as finished.
+The asset build is deterministic through `npm run build:mbb160-assets`. All four batches are included in the deploy-preview test gate so later UI or renderer changes cannot silently invalidate them. The UI integration test verifies that Set 2 is visible as “100 of 160,” identifies Batch 4 as complete, uses a 2-hour 30-minute proportional timer, and launches exactly the 100 available questions without presenting the bank as finished.
