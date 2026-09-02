@@ -1,0 +1,405 @@
+{
+  "schemaVersion": 1,
+  "batch": 4,
+  "generatedBy": "scripts/build-mbb160-assets.mjs",
+  "questions": {
+    "mbb:set-2:original-076": {
+      "sha256": "c77507efd183de4e5ac4df02e64b9ef05a8769af8188bf1549b9f51bb7c72112",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Plan layer / owner",
+          "Current measure",
+          "Timing",
+          "Resource or dependency record"
+        ],
+        "rows": [
+          [
+            "Corporate strategy",
+            "Warranty cost per installed unit",
+            "Annual result",
+            "Capital envelope only"
+          ],
+          [
+            "Service operations",
+            "Calls closed per agent-hour",
+            "Weekly",
+            "No diagnostic-training capacity"
+          ],
+          [
+            "Product engineering",
+            "Design changes released",
+            "Quarterly",
+            "Shared test lab not scheduled"
+          ],
+          [
+            "Digital platform",
+            "Portal launch date",
+            "Single milestone",
+            "Service-data interface unresolved"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-084": {
+      "sha256": "8579bed26ff58be6f1937bf45d8aaca1c9a838bfd04b97deecf7b9790cd382e1",
+      "chart": {
+        "type": "multi-time-series",
+        "title": "Team readiness evidence",
+        "xLabel": "Week",
+        "yLabel": "Behaviorally anchored score (1-10)",
+        "labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        "yDomain": [
+          0,
+          10
+        ],
+        "referenceValue": 8,
+        "referenceLabel": "Independent-performance threshold",
+        "series": [
+          {
+            "label": "Demonstrated competence",
+            "data": [
+              2,
+              3,
+              4.5,
+              5.5,
+              6.5,
+              7.5,
+              8.5,
+              9
+            ]
+          },
+          {
+            "label": "Observed commitment",
+            "data": [
+              8.5,
+              8,
+              7.8,
+              7.5,
+              7,
+              6,
+              4.5,
+              3.5
+            ]
+          }
+        ]
+      }
+    },
+    "mbb:set-2:original-086": {
+      "sha256": "b9ace18a236d9407c25c7ea8c7d6cba16d039d56bd871c37cd3bcdf25ee3974b",
+      "chart": {
+        "type": "activity-network",
+        "nodes": {
+          "P": {
+            "dur": 20,
+            "col": 0,
+            "row": 0
+          },
+          "Q": {
+            "dur": 30,
+            "col": 1,
+            "row": 0
+          },
+          "R": {
+            "dur": 15,
+            "col": 1,
+            "row": 1
+          },
+          "S": {
+            "dur": 25,
+            "col": 2,
+            "row": 0
+          },
+          "M": {
+            "dur": 0,
+            "col": 3,
+            "row": 0
+          }
+        },
+        "edges": [
+          [
+            "P",
+            "Q"
+          ],
+          [
+            "P",
+            "R"
+          ],
+          [
+            "Q",
+            "S"
+          ],
+          [
+            "R",
+            "S"
+          ],
+          [
+            "S",
+            "M"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-090": {
+      "sha256": "08a7c41fc75535b7e37a9bb35bc2571358913b06c8222be3bf830b2320684337",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Evidence source",
+          "Observation",
+          "Current limitation"
+        ],
+        "rows": [
+          [
+            "Supervisor interviews",
+            "Three supervisors request refresher training",
+            "Opinions; no task observation"
+          ],
+          [
+            "Error records",
+            "74% of recent errors occur on night shift",
+            "Cause not coded"
+          ],
+          [
+            "Document control",
+            "Job aid changed six weeks ago",
+            "No comprehension check"
+          ],
+          [
+            "System access log",
+            "Night-shift access fails on 18% of releases",
+            "Not a knowledge measure"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-096": {
+      "sha256": "6b120884f12721f05d3a924ea9b50ae1190559edf9faa880d96bb8ec7b1c2b0b",
+      "chart": {
+        "type": "regression-diagnostic",
+        "title": "Bias across certified reference values",
+        "xLabel": "Certified reference (mm)",
+        "yLabel": "Estimated bias (mm)",
+        "xTicks": [
+          20,
+          40,
+          60,
+          80,
+          100
+        ],
+        "yTicks": [
+          -2,
+          -1,
+          0,
+          1,
+          2
+        ],
+        "points": [
+          {
+            "fitted": 20,
+            "residual": 1.8
+          },
+          {
+            "fitted": 40,
+            "residual": 1
+          },
+          {
+            "fitted": 60,
+            "residual": 0.2
+          },
+          {
+            "fitted": 80,
+            "residual": -0.6
+          },
+          {
+            "fitted": 100,
+            "residual": -1.4
+          }
+        ],
+        "altText": "A bias-versus-reference plot shows five points on a descending straight line: 1.8 millimeters bias at reference 20, 1.0 at 40, 0.2 at 60, negative 0.6 at 80, and negative 1.4 at 100. A horizontal zero-bias line crosses between the third and fourth points."
+      }
+    },
+    "mbb:set-2:original-097": {
+      "sha256": "7bee1a51997565e8e24b5acd72a66fc67cbbca38e84430b9cdfb6ff761f96c4f",
+      "chart": {
+        "type": "reliability-growth",
+        "title": "Cumulative reliability-growth record",
+        "xLabel": "Cumulative unit test time (hours, log scale)",
+        "yLabel": "Cumulative MTBF (hours, log scale)",
+        "points": [
+          {
+            "time": 200,
+            "failures": 10,
+            "mtbf": 20
+          },
+          {
+            "time": 400,
+            "failures": 16,
+            "mtbf": 25
+          },
+          {
+            "time": 800,
+            "failures": 24,
+            "mtbf": 33.3
+          },
+          {
+            "time": 1200,
+            "failures": 30,
+            "mtbf": 40
+          },
+          {
+            "time": 1600,
+            "failures": 32,
+            "mtbf": 50
+          }
+        ],
+        "xTicks": [
+          200,
+          400,
+          800,
+          1600
+        ],
+        "yTicks": [
+          20,
+          25,
+          33.3,
+          40,
+          50
+        ],
+        "event": {
+          "time": 800,
+          "resumeTime": 1200,
+          "label": "Fix delayed while testing continued"
+        }
+      }
+    },
+    "mbb:set-2:original-098": {
+      "sha256": "7be98c8cbcf14b202471409199501f79f9b4c84a58f91ea6b85b9b1741269031",
+      "chart": {
+        "type": "mixture-simplex",
+        "title": "Three-component mixture with lower bounds",
+        "components": [
+          "A",
+          "B",
+          "C"
+        ],
+        "lowerBounds": [
+          0.3,
+          0.4,
+          0.1
+        ],
+        "point": [
+          0.4,
+          0.45,
+          0.15
+        ],
+        "pointLabel": "Candidate blend"
+      }
+    },
+    "mbb:set-2:original-099": {
+      "sha256": "d92177e5477756ca27e0d4cbd2d0469a1f53835d56fef0b1c287d2e6416764ad",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Candidate design",
+          "Runs",
+          "Rank of X",
+          "Lack-of-fit df",
+          "det(X-prime-X)"
+        ],
+        "rows": [
+          [
+            "P",
+            "8",
+            "6",
+            "0",
+            "7,200"
+          ],
+          [
+            "Q",
+            "10",
+            "6",
+            "2",
+            "4,800"
+          ],
+          [
+            "R",
+            "10",
+            "6",
+            "1",
+            "6,900"
+          ],
+          [
+            "S",
+            "10",
+            "5",
+            "2",
+            "0"
+          ]
+        ]
+      }
+    },
+    "mbb:set-2:original-100": {
+      "sha256": "44f7b633448088b36c7d357a3821508ce538027c657dd5fc5ce82b197a2b90f1",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Inner setting",
+          "Noise 1",
+          "Noise 2",
+          "Noise 3",
+          "Noise 4",
+          "Mean",
+          "Sample s"
+        ],
+        "rows": [
+          [
+            "I1",
+            "50",
+            "52",
+            "49",
+            "51",
+            "50.5",
+            "1.29"
+          ],
+          [
+            "I2",
+            "49",
+            "57",
+            "47",
+            "55",
+            "52.0",
+            "4.76"
+          ],
+          [
+            "I3",
+            "54",
+            "55",
+            "53",
+            "54",
+            "54.0",
+            "0.82"
+          ],
+          [
+            "I4",
+            "56",
+            "62",
+            "50",
+            "60",
+            "57.0",
+            "5.29"
+          ]
+        ]
+      }
+    }
+  }
+}
