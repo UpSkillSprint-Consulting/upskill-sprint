@@ -33,13 +33,13 @@
     "sub": "mbb-enterprise",
     "stem": "An enterprise project selection matrix weights strategic fit (40%), financial return (30%), risk (20%), and resource availability (10%). Project X scores 9/10 strategic fit, 4/10 financial return, 8/10 risk (10 = lowest risk), 3/10 resource availability. Project Y scores 5/10 strategic fit, 9/10 financial return, 6/10 risk, 9/10 resource availability. Using the weighted scores, which project should be selected, and what is the key caution for the MBB to raise regardless of the numeric outcome?",
     "options": [
-      "Project X wins numerically (7.0 vs. 6.6); the MBB should flag that Project X's low resource-availability score (3/10) may make it infeasible to actually execute despite its strategic strength",
+      "Project Y wins numerically, but only by a very narrow margin (6.8 vs. 6.7); the MBB should treat this near-tie as inconclusive rather than decisive \u2014 Project X's low resource-availability score (3/10) remains a real feasibility risk despite its strategic strength, and a 0.1-point difference is far too thin a margin to settle the decision on the weighted score alone",
       "Project Y wins numerically (7.0 vs. 6.6); no further caution is needed since the math is final",
-      "Both projects tie; the MBB should recommend a coin flip to avoid the appearance of bias",
-      "Project X wins numerically (6.6 vs. 7.0); the committee should override the weights to favor financial return"
+      "Both projects tie exactly at 6.75; the MBB should recommend a coin flip to avoid the appearance of bias",
+      "Project Y wins numerically (6.8 vs. 6.7), and since the weighting scheme was formally agreed upon in advance, the committee should proceed with Y with no further discussion needed"
     ],
     "answer": 0,
-    "why": "X = 0.4(9)+0.3(4)+0.2(8)+0.1(3) = 3.6+1.2+1.6+0.3 = 6.7 \u2192 (rounding check below). Y = 0.4(5)+0.3(9)+0.2(6)+0.1(9) = 2.0+2.7+1.2+0.9 = 6.8. Let me restate cleanly: X = 6.7, Y = 6.8 \u2014 closely matched, with X's resource constraint a real execution risk. The critical MBB judgment is that a weighted score is a decision *input*, not a decision-maker \u2014 a low resource-availability score signals a real feasibility risk that numbers alone can mask. Source: [BOK] Domain I.B, Strategic Plan Alignment; III.B, Project Portfolio Infrastructure.",
+    "why": "X = 0.4(9)+0.3(4)+0.2(8)+0.1(3) = 3.6+1.2+1.6+0.3 = 6.7. Y = 0.4(5)+0.3(9)+0.2(6)+0.1(9) = 2.0+2.7+1.2+0.9 = 6.8. Y wins numerically, but only by 0.1 points \u2014 closely matched, with X's resource constraint a real execution risk. The critical MBB judgment is that a weighted score is a decision input, not a decision-maker; a near-tie combined with a low resource-availability score should prompt further discussion rather than a mechanical selection of the higher number. Source: [BOK] Domain I.B, Strategic Plan Alignment; III.B, Project Portfolio Infrastructure.",
     "chart": {"type": "data-table", "columns": ["Criterion", "Weight", "Project X (raw /10)", "Project Y (raw /10)"], "rows": [["Strategic fit", "40%", "9", "5"], ["Financial return", "30%", "4", "9"], ["Risk (10=lowest risk)", "20%", "8", "6"], ["Resource availability", "10%", "3", "9"]]},
     "set": 3,
     "qid": "mbb:set-3:d1-006"
@@ -95,7 +95,7 @@
       "Prevention costs, because they are the smallest category and therefore the easiest problem to solve",
       "Appraisal costs, because inspection activities are inherently wasteful and should always be eliminated first"
     ],
-    "answer": 2,
+    "answer": 1,
     "why": "($1.2M+$3.8M+$0.6M+$0.2M)/$80M = $5.8M/$80M = 7.25% \u22487%. External failure is both the largest cost driver and reaches the customer \u2014 highest priority for opportunity sizing. The heavy skew toward failure costs vs. prevention (0.2M) is itself diagnostic: mature quality systems invest more heavily upstream in prevention relative to failure costs. Source: [CSSC] Ch. 8, The CoQ and the CoPQ.",
     "chart": {"type": "data-table", "columns": ["Category", "Amount", "% of revenue ($80M)"], "rows": [["Internal failure", "$1.2M", "1.5%"], ["External failure", "$3.8M", "4.75%"], ["Appraisal", "$0.6M", "0.75%"], ["Prevention", "$0.2M", "0.25%"]]},
     "set": 3,
@@ -170,7 +170,7 @@
       "Both teams optimized locally-relevant, efficiency-focused metrics that are not directly tied to the actual OTIF components (on-time and in-full), so local gains in speed/cost did not translate to the strategic outcome \u2014 and may have traded against it (e.g., faster picking causing more errors, cheaper routing causing later deliveries)"
     ],
     "answer": 3,
-    "why": "This is the same cascade-alignment failure pattern as Batch 1's call-center example (D1-008), applied to a different industry: locally efficient metrics that aren't causally tied to the strategic outcome metric can degrade the very thing the strategy intended to improve. Source: [BOK] Domain I.B, Strategic Plan Alignment.",
+    "why": "This is the same cascade-alignment failure pattern seen elsewhere with unpaired efficiency metrics (e.g., a call center rewarding fast handle time at the expense of resolution quality): locally efficient metrics that aren't causally tied to the strategic outcome metric can degrade the very thing the strategy intended to improve. Source: [BOK] Domain I.B, Strategic Plan Alignment.",
     "set": 3,
     "qid": "mbb:set-3:d1-027"
   },
@@ -324,7 +324,7 @@
       "Only the raw ROI ratio (8.5M / 1.2M \u2248 7:1), since that number alone is fully sufficient justification"
     ],
     "answer": 2,
-    "why": "A single year's raw ROI, while a strong data point, is an incomplete infrastructure-investment case \u2014 trend durability, built organizational capability, and re-\u5efa\u7acb (rebuilding) cost risk are all standard, necessary elements of a complete MBB-level infrastructure justification to executive leadership. Source: [BOK] Domain I.C, Infrastructure Elements; III.C, Project Portfolio Financial Tools.",
+    "why": "A single year's raw ROI, while a strong data point, is an incomplete infrastructure-investment case \u2014 trend durability, built organizational capability, and re-building deployment capability later is typically far more costly and slower than sustaining it are all standard, necessary elements of a complete MBB-level infrastructure justification to executive leadership. Source: [BOK] Domain I.C, Infrastructure Elements; III.C, Project Portfolio Financial Tools.",
     "set": 3,
     "qid": "mbb:set-3:d1-065"
   },
@@ -344,7 +344,7 @@
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "Across the call center (D1-008), logistics (D1-027), semiconductor fab (D1-052), and law firm (D1-058) scenarios in this domain, a common alignment failure pattern recurs in different forms. Which statement best captures the general principle an MBB should apply when reviewing any newly cascaded metric?",
+    "stem": "Several scenarios illustrate a recurring alignment failure pattern: a call center rewarding fast average handle time saw resolution quality fall; a logistics company's warehouse and transportation teams both hit their local efficiency metrics while on-time-in-full delivery declined; and a law firm's \"billable hours\" metric was never updated despite a new client-retention strategy. Which statement best captures the general principle an MBB should apply when reviewing any newly cascaded metric?",
     "options": [
       "Before approving any cascaded metric, explicitly test it against two questions: (1) can this metric be improved in a way that works against the actual strategic outcome it's meant to serve (an unpaired or gameable metric), and (2) does this metric actually change when the strategy itself changes, or is it a legacy holdover \u2014 both known, recurring alignment failure modes",
       "Cascaded metrics should always be identical to the top-level enterprise metric, with no local adaptation",
@@ -352,7 +352,7 @@
       "Only financial metrics should ever be cascaded, since non-financial metrics are too easily misaligned"
     ],
     "answer": 0,
-    "why": "This synthesis item asks the candidate to abstract a general diagnostic principle from four concrete scenarios distributed across the batch \u2014 a genuinely MBB-level (Evaluate/synthesis) task distinct from recognizing any single instance of the pattern. Source: [BOK] Domain I.B, Strategic Plan Alignment (cross-batch synthesis).",
+    "why": "This synthesis item asks the candidate to abstract a general diagnostic principle from several concrete failure patterns \u2014 a genuinely MBB-level (Evaluate/synthesis) task distinct from recognizing any single instance of the pattern. Source: [BOK] Domain I.B, Strategic Plan Alignment (cross-scenario synthesis).",
     "set": 3,
     "qid": "mbb:set-3:d1-070"
   },
