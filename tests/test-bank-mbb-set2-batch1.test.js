@@ -88,7 +88,7 @@ test('MBB 160 Batch 1 has the approved 25-question allocation and is published a
     'mbb-analytics': 7
   });
   assert.match(pageSource, /<script src="\/test-bank-mbb-set2\.js"><\/script>/, 'the validated batch is loaded by the learner page');
-  assert.match(pageSource, /sets:\{1:MBB_SET1,2:MBB_SET2,3:MBB_SET3\}/, 'the validated batch is registered as MBB Set 2, alongside the newly-published Set 3');
+  assert.match(pageSource, /sets:\{1:MBB_SET1,2:MBB_SET2,3:MBB_SET3\}/, 'the validated batch is registered as MBB Set 2 alongside Set 3');
 });
 
 test('MBB Set 2 aggregates validated batches and launches only the currently available questions', async () => {
@@ -101,21 +101,21 @@ test('MBB Set 2 aggregates validated batches and launches only the currently ava
 
     const set2Button = overview.querySelector('.tb-setpick [data-set="2"]');
     assert.ok(set2Button, 'Set 2 appears in the MBB set selector');
-    assert.match(set2Button.textContent, /100 of 160/i);
-    assert.match(set2Button.textContent, /Batch 4 complete/i);
+    assert.match(set2Button.textContent, /150 of 160/i);
+    assert.match(set2Button.textContent, /Batch 6 complete/i);
     assert.ok(overview.querySelector('.tb-setpick [data-set="mix"]'), 'Mixed remains available');
 
     click(set2Button);
     assert.match(overview.textContent, /Set 2 · live/i);
-    assert.match(overview.textContent, /contains 100 of the planned 160 original questions/i);
-    assert.match(overview.textContent, /current Full Exam serves all 100 available questions/i);
+    assert.match(overview.textContent, /contains 150 of the planned 160 original questions/i);
+    assert.match(overview.textContent, /current Full Exam serves all 150 available questions/i);
     const fullCard = overview.querySelector('.tb-mode');
     assert.match(fullCard.querySelector('h4').textContent, /Set 2 — Full Exam/i);
-    assert.match(fullCard.textContent, /100 randomized questions/i);
-    assert.match(fullCard.textContent, /Strict 2h 30m limit/i);
+    assert.match(fullCard.textContent, /150 randomized questions/i);
+    assert.match(fullCard.textContent, /Strict 3 hr 45 min limit/i);
 
     click(overview.querySelector('[data-mode="full"]'));
-    assert.equal(overview.querySelectorAll('.tb-navcell').length, 100);
+    assert.equal(overview.querySelectorAll('.tb-navcell').length, 150);
     assert.match(overview.textContent, /Full Exam · timed/i);
     assert.match(overview.querySelector('.tb-stem').dataset.questionId, /^mbb:set-2:original-\d{3}$/);
     assert.ok(window.document.getElementById('tb-timer'), 'the proportional timed session is active');

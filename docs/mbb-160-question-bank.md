@@ -149,6 +149,70 @@ Batch 4 adds Questions 076-100. Its exact blueprint allocation is 5 Enterprise, 
 | 099 | Analytics | Constrained D-optimal design | Expert | Create | C | Candidate-design matrix | Kubiak 449-450 |
 | 100 | Analytics | Taguchi inner and outer arrays | Very Hard | Analyze | D | Robust-design evidence table | Kubiak 443-446 |
 
+## Batch 5 inventory
+
+Batch 5 adds Questions 101-125. Its exact blueprint allocation is 5 Enterprise, 5 Organization, 4 Portfolio, 2 Training, 2 Coaching, and 7 Analytics. The difficulty mix is 9 Hard, 11 Very Hard, and 5 Expert; the cognition mix is 2 Understand, 5 Apply, 8 Analyze, 6 Evaluate, and 4 Create. Its answer key contains 7 A, 6 B, 6 C, and 6 D positions.
+
+| Q | Domain | Topic | Difficulty | Cognition | Key | Visual | Source pages |
+|---:|---|---|---|---|:---:|---|---|
+| 101 | Enterprise | X-matrix deployment traceability | Very Hard | Analyze | A | Deployment matrix | Kubiak 7-17 |
+| 102 | Enterprise | Scenario planning and strategic assumptions | Hard | Evaluate | B | - | Kubiak 2-17 |
+| 103 | Enterprise | Governance escalation and decision rights | Expert | Create | C | - | Kubiak 28-52 |
+| 104 | Enterprise | Method selection under unstable demand | Very Hard | Apply | D | - | Kubiak 53-69 |
+| 105 | Enterprise | Capacity-constrained pipeline replenishment | Expert | Create | A | Portfolio table + capacity control | Kubiak 88-99 |
+| 106 | Organization | Policy-induced failure demand | Very Hard | Analyze | B | Focusable dual-series time plot | Kubiak 100-112 |
+| 107 | Organization | Executive ownership of deployment barriers | Hard | Evaluate | C | - | Kubiak 183-195 |
+| 108 | Organization | Interest-based resource-conflict resolution | Very Hard | Apply | D | - | Kubiak 177-182 |
+| 109 | Organization | Change commitment and reinforcement | Expert | Evaluate | A | - | Kubiak 119-125 |
+| 110 | Organization | Balanced deployment-performance metrics | Hard | Analyze | B | Executive dashboard | Kubiak 126-146 |
+| 111 | Portfolio | Dependency and critical-path governance | Very Hard | Analyze | C | Activity network | Kubiak 196-201 |
+| 112 | Portfolio | Scarce-resource conflict across projects | Hard | Evaluate | D | - | Kubiak 202-218 |
+| 113 | Portfolio | Evidence-based project termination | Expert | Evaluate | A | - | Kubiak 211-224 |
+| 114 | Portfolio | Risk-adjusted net present value | Very Hard | Apply | B | - | Kubiak 225-232 |
+| 115 | Training | Performance-gap diagnosis before training | Hard | Analyze | C | - | Kubiak 236-244 |
+| 116 | Training | Evaluation of transfer and business impact | Very Hard | Create | D | - | Kubiak 285-292 |
+| 117 | Coaching | Champion coaching on scope and ownership | Hard | Apply | A | - | Kubiak 294-305 |
+| 118 | Coaching | Technically stalled Black Belt project | Very Hard | Analyze | B | - | Kubiak 306-314 |
+| 119 | Analytics | Destructive measurement-system analysis | Expert | Create | C | - | Kubiak 318-346 |
+| 120 | Analytics | Nonnormal capability and tail risk | Very Hard | Evaluate | D | Capability histogram | Kubiak 347-352 |
+| 121 | Analytics | Regression influence and decision sensitivity | Hard | Analyze | A | Focusable residual plot | Kubiak 370-402 |
+| 122 | Analytics | Interrupted time series with autocorrelated errors | Very Hard | Analyze | B | Residual ACF plot | Kubiak 353-373 |
+| 123 | Analytics | Reliability under nonproportional hazards | Hard | Understand | C | Crossing survival curves | Kubiak 423-428 |
+| 124 | Analytics | Split-plot design and correct error terms | Very Hard | Apply | D | Randomization matrix | Kubiak 449-450 |
+| 125 | Analytics | Overdispersed count regression | Hard | Understand | A | - | Kubiak 384-402 |
+
+## Batch 6 inventory
+
+Batch 6 adds Questions 126-150. Its exact blueprint allocation is 5 Enterprise, 5 Organization, 4 Portfolio, 3 Training, 3 Coaching, and 5 Analytics. The difficulty mix is 9 Hard, 11 Very Hard, and 5 Expert; the cognition mix is 3 Understand, 5 Apply, 7 Analyze, 6 Evaluate, and 4 Create. Its answer key contains 6 A, 7 B, 6 C, and 6 D positions.
+
+| Q | Domain | Topic | Difficulty | Cognition | Key | Visual | Source pages |
+|---:|---|---|---|---|:---:|---|---|
+| 126 | Enterprise | Strategy-deployment matrix coherence | Very Hard | Analyze | B | Strategy matrix | Kubiak 7-17 |
+| 127 | Enterprise | Cascading goals without local optimization | Hard | Apply | C | - | Kubiak 23-27 |
+| 128 | Enterprise | Deployment maturity and scale readiness | Very Hard | Evaluate | D | - | Kubiak 28-52 |
+| 129 | Enterprise | Project qualification and problem ownership | Hard | Apply | A | - | Kubiak 70-87 |
+| 130 | Enterprise | Risk-adjusted pipeline selection | Expert | Create | B | Portfolio table + capacity control | Kubiak 88-99 |
+| 131 | Organization | Federated deployment operating model | Very Hard | Analyze | C | - | Kubiak 100-119 |
+| 132 | Organization | Champion and MBB role boundaries | Hard | Understand | D | - | Kubiak 183-195 |
+| 133 | Organization | Informal-power influence strategy | Very Hard | Evaluate | A | - | Kubiak 157-176 |
+| 134 | Organization | Adoption versus compliance metrics | Very Hard | Analyze | B | Focusable dual-series time plot | Kubiak 119-125 |
+| 135 | Organization | Metric cascade and unintended behavior | Hard | Analyze | C | Performance dashboard | Kubiak 126-146 |
+| 136 | Portfolio | Program dependency and critical path | Very Hard | Analyze | D | Activity network | Kubiak 196-201 |
+| 137 | Portfolio | Corrective action under capacity loss | Hard | Evaluate | A | - | Kubiak 202-218 |
+| 138 | Portfolio | NPV and IRR conflict | Very Hard | Analyze | B | - | Kubiak 225-232 |
+| 139 | Portfolio | Benefit realization and attribution | Expert | Evaluate | C | Benefit bridge | Kubiak 225-234 |
+| 140 | Training | Role-specific competency diagnosis | Hard | Apply | D | - | Kubiak 236-244 |
+| 141 | Training | Scalable multi-level training architecture | Very Hard | Create | A | - | Kubiak 245-255 |
+| 142 | Training | Evaluation design for transfer | Hard | Evaluate | B | - | Kubiak 285-292 |
+| 143 | Coaching | Executive-review operating system | Expert | Create | C | - | Kubiak 294-305 |
+| 144 | Coaching | Recovery of a psychologically unsafe team | Very Hard | Create | D | - | Kubiak 306-314 |
+| 145 | Coaching | Mentoring boundaries and credential integrity | Hard | Understand | A | - | Kubiak 315-317 |
+| 146 | Analytics | Attribute agreement with prevalence effects | Hard | Apply | B | Agreement table | Kubiak 318-334 |
+| 147 | Analytics | ARIMA residual adequacy | Very Hard | Apply | C | Focusable residual ACF | Kubiak 353-373 |
+| 148 | Analytics | Response-surface stationary point | Expert | Analyze | D | Contour plot | Kubiak 439-442 |
+| 149 | Analytics | Monte Carlo decision-risk governance | Expert | Evaluate | A | - | Kubiak 414-416 |
+| 150 | Analytics | Complementary APC and SPC roles | Very Hard | Understand | B | - | Kubiak 451-453 |
+
 ## Visual evidence and accessibility
 
 Ten Batch 1 questions have retained, independently reviewable visual packages in `test-bank-assets/mbb-160/batch-01/`:
@@ -166,9 +230,13 @@ Ten Batch 3 questions have equivalent retained packages in `test-bank-assets/mbb
 
 Nine Batch 4 questions have equivalent retained packages in `test-bank-assets/mbb-160/batch-04/`. Questions 084, 096, and 097 are interactive: a focusable competence-versus-commitment time plot, a focusable MSA bias-linearity plot, and a focusable log-log reliability-growth plot. The batch also includes a dependency network, a lower-bound mixture simplex, strategy and training-needs evidence tables, a D-optimal candidate matrix, and a Taguchi inner/outer-array result table.
 
+Ten Batch 5 questions have equivalent retained packages in `test-bank-assets/mbb-160/batch-05/`. Questions 105, 106, and 121 are interactive: a capacity-constrained portfolio control, a focusable system-feedback time plot, and a focusable regression influence plot. The batch also includes an X-matrix audit, executive dashboard, activity network, nonnormal capability histogram, residual ACF plot, crossing survival curves, and split-plot randomization matrix.
+
+Nine Batch 6 questions have equivalent retained packages in `test-bank-assets/mbb-160/batch-06/`. Questions 130, 134, and 147 are interactive: a capacity-constrained pipeline control, a focusable adoption-versus-compliance time plot, and a focusable residual ACF plot. Static evidence includes a strategy matrix, performance dashboard, activity network, benefit bridge, attribute-agreement table, and response-surface contour plot.
+
 ## Independent validation
 
-`tests/test-bank-mbb-set2-batch1.test.js`, `tests/test-bank-mbb-set2-batch2.test.js`, `tests/test-bank-mbb-set2-batch3.test.js`, and `tests/test-bank-mbb-set2-batch4.test.js` enforce:
+`tests/test-bank-mbb-set2-batch1.test.js` through `tests/test-bank-mbb-set2-batch6.test.js` enforce:
 
 - exact batch, domain, answer, difficulty, cognition, visual, and interaction allocations;
 - stable identities, complete metadata, four distinct options, one valid key, specific rationales, locatable source evidence, and excluded-format checks;
@@ -177,4 +245,4 @@ Nine Batch 4 questions have equivalent retained packages in `test-bank-assets/mb
 - exact question-to-dataset hashes, construction records, responsive fallback linkage, neutral answer presentation, semantic HTML/SVG output, keyboard-focusable plot details, and capacity-slider bounds;
 - no duplicate or suspicious near-duplicate stems within or across the four original batches or against the existing 100-question MBB simulation.
 
-The asset build is deterministic through `npm run build:mbb160-assets`. All four batches are included in the deploy-preview test gate so later UI or renderer changes cannot silently invalidate them. The UI integration test verifies that Set 2 is visible as “100 of 160,” identifies Batch 4 as complete, uses a 2-hour 30-minute proportional timer, and launches exactly the 100 available questions without presenting the bank as finished.
+The asset build is deterministic through `npm run build:mbb160-assets`. All six batches are covered by the exhaustive bank audit. The UI integration test verifies that Set 2 is visible as “150 of 160,” identifies Batch 6 as complete, uses a 3-hour 45-minute proportional timer, and launches exactly the 150 available questions without presenting the bank as finished.
