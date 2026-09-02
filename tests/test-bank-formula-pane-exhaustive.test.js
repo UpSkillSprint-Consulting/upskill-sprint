@@ -188,12 +188,15 @@ test('current-question formulas are not duplicated in the remaining section refe
   // Start a real quiz then replace the displayed question with the selected
   // bank question so rendering and mapping use production DOM structures.
   startQuick(window, document);
-  document.querySelector('.tb-stem').textContent = question.stem;
+  const stem = document.querySelector('.tb-stem');
+  stem.textContent = question.stem;
+  stem.removeAttribute('data-question-id');
   document.querySelector('.tb-qtag').textContent = SECTION_NAMES[question.sub];
   const drawer = document.getElementById('tb-formulas');
   drawer.hidden = false;
   api.renderContextualPane('');
 
+  assert.equal(api.getContext().question, question, 'the substituted bank question owns the formula context');
   const currentCards = Array.from(document.querySelectorAll('.tb-currentgroup [data-formula-id]'));
   assert.ok(currentCards.length > 0, 'current formula cards are rendered');
   currentCards.forEach(card => {
