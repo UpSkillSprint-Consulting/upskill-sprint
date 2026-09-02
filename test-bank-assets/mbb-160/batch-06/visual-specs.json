@@ -1,0 +1,446 @@
+{
+  "schemaVersion": 1,
+  "batch": 6,
+  "generatedBy": "scripts/build-mbb160-assets.mjs",
+  "questions": {
+    "mbb:set-2:original-126": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-126",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A strategy evidence table lists four objective-initiative rows. The predictive-failure reliability initiative has a strong relationship and a 30 percent target, but its accountable-owner cell is blank.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-126",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Objective",
+        "Initiative",
+        "Relationship",
+        "Measure / target",
+        "Accountable owner"
+      ],
+      "rows": 4,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-130": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-130",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A portfolio table shows mandatory M requiring four Belt-months, ready A and B requiring five each, a one-month D discovery, and an unready four-month D full project. The capacity control is set to ten with nine committed.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "Adjust available Belt-months and compare residual capacity with readiness, mandatory work, and the D data-gate option.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-130",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Project",
+        "Belt-months",
+        "Risk-adjusted value",
+        "Readiness",
+        "Constraint"
+      ],
+      "rows": 5,
+      "calculations": [],
+      "interaction": {
+        "id": "mbb-q130-capacity",
+        "label": "Available Belt-months",
+        "min": 8,
+        "max": 13,
+        "step": 1,
+        "value": 10,
+        "unit": "Belt-months",
+        "committed": 9,
+        "committedLabel": "M plus B"
+      }
+    },
+    "mbb:set-2:original-134": {
+      "type": "multi-time-series",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-134",
+      "transformations": [],
+      "referenceLines": [
+        "Launch at Week 5 at 5"
+      ],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A weekly chart shows reported compliance rising from 42 to 95 percent, especially after Week 5. Independently verified correct use starts near 86 percent and falls to 61 percent after launch.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "Focus or hover over weekly points to compare reported compliance with independently verified correct use before and after launch.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-134",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Week",
+        "Percent"
+      ],
+      "units": "behaviorally anchored score",
+      "axes": {
+        "xLevels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "yDomain": [
+          35,
+          100
+        ]
+      },
+      "series": [
+        {
+          "label": "Reported compliance",
+          "observations": 10,
+          "values": [
+            42,
+            48,
+            51,
+            55,
+            73,
+            82,
+            88,
+            92,
+            94,
+            95
+          ]
+        },
+        {
+          "label": "Verified independent correct use",
+          "observations": 10,
+          "values": [
+            86,
+            85,
+            87,
+            84,
+            80,
+            75,
+            70,
+            66,
+            63,
+            61
+          ]
+        }
+      ],
+      "calculations": []
+    },
+    "mbb:set-2:original-135": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-135",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A before-and-after dashboard shows productivity increasing from 42 to 51 picks per labor hour, while mispicks, customer complaints, and overtime all increase despite having lower-is-better goals.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-135",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Metric",
+        "Before",
+        "After",
+        "Desired direction"
+      ],
+      "rows": 4,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-136": {
+      "type": "activity-network",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-136",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "An activity network shows A for three weeks splitting to B and C for four weeks each. B leads to D for two weeks. C and D merge into E for four weeks.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-136",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "activity",
+        "duration",
+        "predecessor-successor relationship"
+      ],
+      "units": "working days",
+      "layout": {
+        "nodes": {
+          "A": {
+            "dur": 3,
+            "col": 0,
+            "row": 1
+          },
+          "B": {
+            "dur": 4,
+            "col": 1,
+            "row": 0
+          },
+          "C": {
+            "dur": 4,
+            "col": 1,
+            "row": 2
+          },
+          "D": {
+            "dur": 2,
+            "col": 2,
+            "row": 0
+          },
+          "E": {
+            "dur": 4,
+            "col": 3,
+            "row": 1
+          }
+        },
+        "edges": [
+          [
+            "A",
+            "B"
+          ],
+          [
+            "A",
+            "C"
+          ],
+          [
+            "B",
+            "D"
+          ],
+          [
+            "C",
+            "E"
+          ],
+          [
+            "D",
+            "E"
+          ]
+        ]
+      },
+      "calculations": [
+        "A-B-D-E = 3+4+2+4 = 13 weeks; A-C-E = 3+4+4 = 11 weeks; float = 2 weeks."
+      ]
+    },
+    "mbb:set-2:original-139": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-139",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "A benefit bridge table totals 1.8 million dollars: 0.5 million from volume growth, 0.4 million from commodity prices, 0.6 million verified process reduction, and 0.3 million forecast avoidance.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-139",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Bridge component",
+        "Annual amount",
+        "Evidence status"
+      ],
+      "rows": 4,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-146": {
+      "type": "data-table",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-146",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": false
+      },
+      "accessibility": {
+        "altText": "An attribute agreement table shows 80 reference-positive cases and 1,920 reference-negative cases. Appraisers correctly call 27 positives and 1,893 negatives, producing 96 percent overall agreement but many positive misses.",
+        "semanticTable": true
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-146",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Reference / rating",
+        "Positive call",
+        "Negative call",
+        "Total"
+      ],
+      "rows": 3,
+      "calculations": [],
+      "interaction": null
+    },
+    "mbb:set-2:original-147": {
+      "type": "acf-plot",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-147",
+      "transformations": [],
+      "referenceLines": [
+        "Approximate 95% bounds = ±0.22",
+        "Autocorrelation = 0"
+      ],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A residual autocorrelation plot has approximate bounds plus or minus 0.22. Lag 1 is 0.34 and lag 12 is 0.41; all other lags remain within the bounds.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "Focus or hover over the bars to compare short-run lag 1 and seasonal lag 12 with the confidence bounds.",
+      "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-147",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "Lag",
+        "Autocorrelation"
+      ],
+      "units": "lag and correlation",
+      "axes": {
+        "xDomain": [
+          1,
+          12
+        ],
+        "yDomain": [
+          -1,
+          1
+        ]
+      },
+      "observations": 12,
+      "calculations": []
+    },
+    "mbb:set-2:original-148": {
+      "type": "contour-plot",
+      "renderer": "test-bank.html::__TB.renderQuestionChart",
+      "rendererVersion": "mbb-160-v1",
+      "sourceQuestionId": "mbb:set-2:original-148",
+      "transformations": [],
+      "referenceLines": [],
+      "responsive": {
+        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
+        "minimumWidthPx": 280,
+        "viewBoxDriven": true
+      },
+      "accessibility": {
+        "altText": "A response-surface contour plot shows nested closed contours centered near coded A equal to 0.8 and B equal to 0.6, with fitted response increasing toward the center.",
+        "semanticTable": false
+      },
+      "interactionPurpose": "",
+      "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-148",
+      "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "variables": [
+        "A: temperature (coded)",
+        "B: residence time (coded)",
+        "fitted response"
+      ],
+      "units": "coded factor units and response units",
+      "axes": {
+        "xDomain": [
+          -1.5,
+          1.5
+        ],
+        "yDomain": [
+          -1.5,
+          1.5
+        ],
+        "xTicks": [
+          -1.5,
+          -0.5,
+          0.5,
+          1.5
+        ],
+        "yTicks": [
+          -1.5,
+          -0.5,
+          0.5,
+          1.5
+        ]
+      },
+      "model": "82 + 6A + 4B - 3A² - 2B² - 2AB",
+      "center": [
+        0.8,
+        0.6
+      ],
+      "contours": [
+        {
+          "level": 70,
+          "radiusX": 1.35,
+          "radiusY": 1.1
+        },
+        {
+          "level": 76,
+          "radiusX": 1,
+          "radiusY": 0.8
+        },
+        {
+          "level": 81,
+          "radiusX": 0.62,
+          "radiusY": 0.48
+        },
+        {
+          "level": 84,
+          "radiusX": 0.28,
+          "radiusY": 0.21
+        }
+      ],
+      "currentPoint": {
+        "x": 0,
+        "y": 0,
+        "label": "Current setting"
+      },
+      "calculations": [
+        "Quadratic matrix Q=[[-3,-1],[-1,-2]] has eigenvalues (-5 ± sqrt(5))/2, both negative; stationary point solves [6,4] + 2Q[A,B]=0, giving A=0.8 and B=0.6."
+      ]
+    }
+  }
+}
