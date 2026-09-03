@@ -8,7 +8,19 @@ const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
 
 const ROOT = path.join(__dirname, '..');
-const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
+const rawHtml = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
+const bankFiles = [
+  'test-bank-cmq-set1.js',
+  'test-bank-mbb-set1.js',
+  'test-bank-mbb-set2.js',
+  'test-bank-mbb-set3.js',
+  'test-bank-cssgb-set1.js',
+  'test-bank-cssgb-set2.js'
+];
+const html = bankFiles.reduce((page, file) => page.replace(
+  '<script src="/' + file + '"></script>',
+  '<script>' + fs.readFileSync(path.join(ROOT, file), 'utf8') + '</script>'
+), rawHtml);
 const registry = fs.readFileSync(path.join(ROOT, 'test-bank-question-registry.js'), 'utf8');
 const mastery = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery.js'), 'utf8');
 const learning = fs.readFileSync(path.join(ROOT, 'test-bank-learning-events.js'), 'utf8');
@@ -78,7 +90,8 @@ async function loadPage(options) {
       if (typeof config.rpc === 'function') return Promise.resolve(config.rpc(name, args, learner, claimed));
       const accepted = (args && args.p_question_ids || []).filter(questionId => {
         const key = learner.id + ':' + args.p_exam_id + ':' + questionId;
-        if (claimed.has(key)) return false;
+        const alreadySeen = remoteRows.some(row => row.user_id === learner.id && row.exam_id === args.p_exam_id && row.question_id === questionId);
+        if (claimed.has(key) || alreadySeen) return false;
         claimed.add(key);
         return true;
       }).map(question_id => ({ question_id }));
@@ -129,6 +142,111 @@ function modeCard(window, index) {
   return window.document.querySelectorAll('#tb-overview .tb-mode')[index];
 }
 
+function allExamQuestions(exam) {
+  if (!exam.sets) return exam.bank || [];
+  const seen = new Set();
+  const questions = [];
+  Object.keys(exam.sets).forEach(setId => {
+    (exam.sets[setId] || []).forEach(question => {
+      const key = question.qid || question.stem;
+      if (seen.has(key)) return;
+      seen.add(key);
+      questions.push(question);
+    });
+  });
+  return questions;
+}
+
+async function verifyNewOnlyModeForExam(examId, kind) {
+  const rpcCalls = [];
+  let serverRejectedId = '';
+  const { window, errors } = await loadPage({
+    rpcCalls,
+    rpc(name, args) {
+      const ids = args && args.p_question_ids || [];
+      if (!serverRejectedId && ids.length) serverRejectedId = ids[0];
+      return {
+        data: ids.filter(questionId => questionId !== serverRejectedId).map(question_id => ({ question_id })),
+        error: null
+      };
+    }
+  });
+  if (examId !== 'cssbb') {
+    click(window, window.document.querySelector('[data-exam="' + examId + '"]'));
+    await settle(window, 3);
+  }
+
+  const exam = window.__TB.EXAMS[examId];
+  assert.ok(exam && exam.bank && exam.bank.length, examId + ' has a live question bank');
+  const allQuestions = allExamQuestions(exam);
+  const questionById = new Map(allQuestions.map(question => [window.__TBLearning.questionId(examId, question), question]));
+  const expectedIds = new Set(questionById.keys());
+  const cardIndex = kind === 'quick' ? 1 : 2;
+  const card = modeCard(window, cardIndex);
+  if (kind === 'focus') {
+    const domain = card.querySelector('[data-focusdom]');
+    assert.ok(domain && domain.value, examId + ' exposes a focused-practice domain');
+  }
+
+  let fullLedgerRefreshes = 0;
+  window.__TBLearning.ensureFreshHistory = function () {
+    fullLedgerRefreshes += 1;
+    return Promise.reject(new Error('New-only Start must not refresh the full ledger'));
+  };
+
+  click(window, card.querySelector('[data-unseen="' + kind + '"]'));
+  await settle(window, 2);
+  click(window, modeCard(window, cardIndex).querySelector('[data-mode="' + kind + '"]'));
+  await settle(window, 6);
+
+  assert.equal(fullLedgerRefreshes, 0, examId + ' ' + kind + ' Start does not invoke full-ledger freshness');
+  assert.ok(rpcCalls.length > 0, examId + ' ' + kind + ' Start calls the reservation RPC');
+  rpcCalls.forEach(call => {
+    assert.equal(call.name, 'reserve_test_bank_new_questions');
+    assert.equal(call.args.p_exam_id, examId, 'reservation is scoped to the selected certification');
+    assert.ok(call.args.p_question_ids.length > 0);
+    call.args.p_question_ids.forEach(questionId => {
+      assert.ok(expectedIds.has(questionId), questionId + ' belongs to ' + examId);
+    });
+  });
+  assert.ok(window.document.querySelector('#tb-overview .tb-quiz'), examId + ' ' + kind + ' New-only quiz starts');
+  assert.ok(window.document.querySelectorAll('#tb-overview .tb-navcell').length > 0, examId + ' serves reserved questions');
+  assert.ok(serverRejectedId, examId + ' exercised a server-rejected candidate');
+  assert.equal(window.__TBLearning.hasSeen(examId, questionById.get(serverRejectedId)), false, examId + ' never exposes the rejected candidate');
+  assert.deepEqual(errors, []);
+}
+
+[
+  ['cssbb', 'CSSBB'],
+  ['mbb', 'MBB'],
+  ['cssgb', 'CSSGB'],
+  ['cqe', 'CQE'],
+  ['cmq', 'CMQ/OE']
+].forEach(([examId, label]) => {
+  test(label + ' independently reserves and starts Quick and Focused New-only quizzes', async () => {
+    await verifyNewOnlyModeForExam(examId, 'quick');
+    await verifyNewOnlyModeForExam(examId, 'focus');
+  });
+});
+
+[
+  ['cqa', 'CQA'],
+  ['cre', 'CRE']
+].forEach(([examId, label]) => {
+  test(label + ' remains safely gated until its question bank goes live', async () => {
+    const rpcCalls = [];
+    const { window, errors } = await loadPage({ rpcCalls });
+    click(window, window.document.querySelector('[data-exam="' + examId + '"]'));
+    await settle(window, 3);
+
+    assert.equal(Boolean(window.__TB.EXAMS[examId].bank && window.__TB.EXAMS[examId].bank.length), false);
+    assert.equal(modeCard(window, 1).querySelector('[data-mode="quick"]'), null, label + ' has no active Quick Start');
+    assert.equal(modeCard(window, 2).querySelector('[data-mode="focus"]'), null, label + ' has no active Focused Start');
+    assert.equal(rpcCalls.length, 0, label + ' cannot reserve nonexistent questions');
+    assert.deepEqual(errors, []);
+  });
+});
+
 let fixtureSession = 0;
 async function markAllAttempted(window, questions) {
   fixtureSession += 1;
@@ -157,7 +275,7 @@ test('the toggle is off by default on both Quick Quiz and Focused Quiz, independ
   assert.deepEqual(errors, []);
 });
 
-test('a signed-in learner can use New questions only to start the initial history refresh', async () => {
+test('a signed-in learner can reserve New-only questions before initial history hydration', async () => {
   const dom = new JSDOM(html, {
     url: 'https://upskillsprint.com/test-bank',
     runScripts: 'dangerously',
@@ -166,65 +284,72 @@ test('a signed-in learner can use New questions only to start the initial histor
   windows.push(dom.window);
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
 
-  let hydrated = false;
-  let refreshCalls = 0;
+  let reservationCalls = 0;
   dom.window.__TBLearning = {
-    status() { return { signedIn: true, hydrated, online: true }; },
+    status() { return { signedIn: true, hydrated: false, online: true, writeAheadSaved: true }; },
     hasSeen() { return false; },
-    ensureFreshHistory() {
-      refreshCalls += 1;
-      hydrated = true;
-      return Promise.resolve({ ready: true, reason: 'fresh' });
-    }
+    reserveNewQuestions(input) {
+      reservationCalls += 1;
+      return Promise.resolve({ reserved: true, ready: true, acceptedIds: input.questionIds, rejectedIds: [] });
+    },
+    startSession() { return { sessionId: 'pre-hydration-session', saved: true }; }
   };
   dom.window.document.dispatchEvent(new dom.window.CustomEvent('tb:learning-sync-status'));
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   await settle(dom.window, 2);
 
   let toggle = modeCard(dom.window, 1).querySelector('[data-unseen="quick"]');
-  assert.equal(toggle.disabled, false, 'the control can initiate hydration instead of waiting disabled for hydration');
+  assert.equal(toggle.disabled, false, 'the control does not wait for ledger hydration');
   click(dom.window, toggle);
-  await settle(dom.window, 4);
+  await settle(dom.window, 2);
 
   toggle = modeCard(dom.window, 1).querySelector('[data-unseen="quick"]');
-  assert.equal(refreshCalls, 1, 'the click performs the required account-ledger refresh');
   assert.equal(toggle.getAttribute('aria-pressed'), 'true');
   assert.equal(toggle.disabled, false);
+  assert.equal(reservationCalls, 0, 'enabling the filter performs no remote history read or reservation');
+
+  click(dom.window, modeCard(dom.window, 1).querySelector('[data-mode="quick"]'));
+  await settle(dom.window, 4);
+  assert.equal(reservationCalls, 1, 'Start calls the authoritative reservation RPC immediately');
+  assert.ok(dom.window.document.querySelector('#tb-overview .tb-quiz'));
 });
 
-test('New questions only keeps Start actionable while its automatic history check is pending', async () => {
+test('New questions only locks duplicate Start clicks only while its reservation RPC is pending', async () => {
   const { window } = await loadPage();
   const learningApi = window.__TBLearning;
-  const originalEnsureFreshHistory = learningApi.ensureFreshHistory;
-  let finishFreshHistory;
-  let refreshCalls = 0;
+  const originalReserve = learningApi.reserveNewQuestions;
+  let finishReservation;
+  let reservationCalls = 0;
+  let requestedIds = [];
 
-  learningApi.ensureFreshHistory = function () {
-    refreshCalls += 1;
-    return new Promise(resolve => { finishFreshHistory = resolve; });
+  learningApi.reserveNewQuestions = function (input) {
+    reservationCalls += 1;
+    requestedIds = input.questionIds;
+    return new Promise(resolve => { finishReservation = resolve; });
   };
 
   click(window, modeCard(window, 1).querySelector('[data-unseen="quick"]'));
   await settle(window, 2);
 
   let start = modeCard(window, 1).querySelector('[data-mode="quick"]');
-  assert.equal(start.disabled, false, 'the learner can request the quiz without waiting for the automatic check to finish');
+  assert.equal(start.disabled, false);
+  assert.equal(reservationCalls, 0, 'the toggle does not fetch the ledger');
 
   click(window, start);
   await settle(window, 2);
   start = modeCard(window, 1).querySelector('[data-mode="quick"]');
-  assert.equal(start.disabled, true, 'only the explicit start request is temporarily locked against duplicate clicks');
-  assert.equal(refreshCalls, 1, 'the start request shares the already-running freshness check');
+  assert.equal(start.disabled, true, 'the explicit reservation is locked against duplicate clicks');
+  assert.equal(reservationCalls, 1);
 
-  finishFreshHistory({ ready: true, reason: 'fresh' });
+  finishReservation({ reserved: true, ready: true, reason: 'reserved', acceptedIds: requestedIds, rejectedIds: [] });
   await new Promise(resolve => window.setTimeout(resolve, 0));
   await settle(window, 5);
 
-  assert.ok(window.document.querySelector('#tb-overview .tb-quiz'), 'the pending start continues automatically after history is fresh');
-  learningApi.ensureFreshHistory = originalEnsureFreshHistory;
+  assert.ok(window.document.querySelector('#tb-overview .tb-quiz'), 'the quiz opens as soon as reservation completes');
+  learningApi.reserveNewQuestions = originalReserve;
 });
 
-test('changing quiz settings cancels a pending New-only start instead of silently starting different settings', async () => {
+test('changing quiz settings cancels a pending New-only reservation instead of silently starting different settings', async () => {
   const scenarios = [
     { name: 'Quick question count', kind: 'quick', control: '[data-count="quick"][data-n="10"]' },
     { name: 'Quick timing', kind: 'quick', control: '[data-timing-kind="quick"][data-timed="1"]' },
@@ -235,9 +360,11 @@ test('changing quiz settings cancels a pending New-only start instead of silentl
 
   for (const scenario of scenarios) {
     const { window } = await loadPage();
-    let finishFreshHistory;
-    window.__TBLearning.ensureFreshHistory = function () {
-      return new Promise(resolve => { finishFreshHistory = resolve; });
+    let finishReservation;
+    let requestedIds = [];
+    window.__TBLearning.reserveNewQuestions = function (input) {
+      requestedIds = input.questionIds;
+      return new Promise(resolve => { finishReservation = resolve; });
     };
 
     const cardIndex = scenario.kind === 'quick' ? 1 : 2;
@@ -255,7 +382,7 @@ test('changing quiz settings cancels a pending New-only start instead of silentl
     }
     await settle(window, 2);
 
-    finishFreshHistory({ ready: true, reason: 'fresh' });
+    finishReservation({ reserved: true, ready: true, reason: 'reserved', acceptedIds: requestedIds.slice(0, 1), rejectedIds: requestedIds.slice(1) });
     await new Promise(resolve => window.setTimeout(resolve, 0));
     await settle(window, 5);
 
@@ -399,10 +526,11 @@ test('when the unseen pool is fully exhausted, Start is disabled and no session 
   assert.equal(window.document.getElementById('tb-overview').querySelector('.tb-quiz'), null, 'no quiz session was started');
 });
 
-test('New-only refreshes the signed-in cross-device ledger immediately before starting, and fails closed when that refresh marks every question seen', async () => {
+test('New-only asks the authoritative RPC immediately and rejects questions seen on another device without a ledger refresh', async () => {
   const remoteRows = [];
   const remoteFetches = [];
-  const { window, learner } = await loadPage({ remoteRows, remoteFetches });
+  const rpcCalls = [];
+  const { window, learner } = await loadPage({ remoteRows, remoteFetches, rpcCalls });
   const e = window.__TB.EXAMS.cssbb;
 
   /* The learner turns the control on while the laptop's initially-hydrated
@@ -431,7 +559,8 @@ test('New-only refreshes the signed-in cross-device ledger immediately before st
   click(window, modeCard(window, 1).querySelector('[data-mode="quick"]'));
   await settle(window, 5);
 
-  assert.ok(remoteFetches.length > beforeStartFetches, 'the start click made a fresh remote ledger request instead of trusting the earlier hydration');
-  assert.equal(window.document.getElementById('tb-overview').querySelector('.tb-quiz'), null, 'the stale laptop view never starts a quiz containing phone-delivered questions');
-  assert.match(modeCard(window, 1).querySelector('.tb-mode-sum').textContent, /attempted every question/i);
+  assert.equal(remoteFetches.length, beforeStartFetches, 'Start does not download the learning ledger');
+  assert.ok(rpcCalls.length > 0, 'Start calls the reservation RPC directly');
+  assert.equal(window.document.getElementById('tb-overview').querySelector('.tb-quiz'), null, 'the server rejects every phone-delivered question');
+  assert.match(modeCard(window, 1).querySelector('.tb-mode-sum').textContent, /remaining new questions were just reserved|No quiz was started/i);
 });
