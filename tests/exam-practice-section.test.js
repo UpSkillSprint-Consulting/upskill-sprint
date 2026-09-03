@@ -32,18 +32,17 @@ test('the Exam Practice section sits between Data Analytics and Quality Engineer
   assert.ok(da < ex && ex < qe, 'order is Data Analytics → Exam Practice → Quality Engineering');
 });
 
-test('the section has the expected heading, a certification count, and cert previews', async () => {
+test('the section has the expected heading, a certification count, and all seven certification previews', async () => {
   const { window } = await loadPage();
   const sec = window.document.getElementById('exam-practice');
   assert.ok(sec, 'section present');
   assert.match(sec.querySelector('h2').textContent, /Simulated Exam Practice/);
-  const badge = sec.querySelector('.category-count').textContent;
+  const badge = sec.querySelector('.category-count').textContent.trim();
   assert.doesNotMatch(badge, /Coming soon/, 'the section itself is not marked coming soon');
-  assert.match(badge, /certifications/, 'shows a certification count instead');
   assert.ok(sec.hasAttribute('data-empty-category'), 'uses the empty-category pattern');
-  const certs = Array.from(sec.querySelectorAll('.chip')).map(c => c.textContent);
-  ['CSSBB', 'CQE', 'CRE', 'CQA', 'CMQ/OE', 'CSSGB'].forEach(c =>
-    assert.ok(certs.includes(c), `previews ${c}`));
+  const certs = Array.from(sec.querySelectorAll('.chip')).map(c => c.textContent.trim());
+  assert.deepEqual(certs, ['CSSBB', 'MBB', 'CQE', 'CRE', 'CQA', 'CMQ/OE', 'CSSGB']);
+  assert.equal(badge, `${certs.length} certifications`, 'the certification count matches the visible previews');
 });
 
 test('the section is enter-able — it links into the Test Bank', async () => {
