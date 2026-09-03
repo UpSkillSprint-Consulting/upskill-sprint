@@ -459,7 +459,7 @@
     "stem": "A waste management company's regional operations managers each directly supervise 25-30 route supervisors, who in turn supervise 15-20 drivers each. The company wants to embed Six Sigma champion responsibilities into the regional operations manager role. What organizational design concern should the MBB raise first?",
     "options": [
       "Champion responsibilities are irrelevant to organizational design and belong entirely to Domain V (Coaching and Mentoring)",
-      "The role clarity concern: whether champion duties (project sponsorship, resource clearing, cross-functional escalation) are explicitly defined and resourced (e.g., protected time) as distinct from the regional manager's existing operational span-of-control responsibilities, since simply adding champion duties on top of an already-wide span of control without clarifying priority and time allocation risks the champion role becoming ceremonial (as tested in D2-002) due to sheer capacity constraints",
+      "The role clarity concern: whether champion duties (project sponsorship, resource clearing, cross-functional escalation) are explicitly defined and resourced (e.g., protected time) as distinct from the regional manager's existing operational span-of-control responsibilities, since simply adding champion duties on top of an already-wide span of control without clarifying priority and time allocation risks the champion role becoming ceremonial due to sheer capacity constraints",
       "Route supervisors, not regional operations managers, should always hold champion responsibilities regardless of organizational level appropriateness",
       "No concern \u2014 champion responsibilities can always be added to any role regardless of existing span of control"
     ],
@@ -2140,7 +2140,7 @@
       "A cube plot provides no additional benefit beyond a table of means; both convey identical information equally well"
     ],
     "answer": 0,
-    "why": "This reflects the core rationale for visual/interactive question requirements generally: a cube plot makes spatial patterns (main effects, interactions, best/worst combinations) immediately visible in a way a numeric table requires more effort to extract, especially for less technical stakeholders reviewing DOE results.",
+    "why": "This reflects the core rationale for visual/interactive question requirements generally: a cube plot makes spatial patterns (main effects, interactions, best/worst combinations) immediately visible in a way a numeric table requires more effort to extract, especially for less technical stakeholders reviewing DOE results. Source: [BOK] Domain VI.C, Design of Experiments.",
     "chart": {"type": "data-table", "columns": ["A", "B", "C", "Mean etch rate"], "rows": [["Low", "Low", "Low", "42"], ["High", "Low", "Low", "51"], ["Low", "High", "Low", "58"], ["High", "High", "Low", "64"], ["Low", "Low", "High", "55"], ["High", "Low", "High", "67"], ["Low", "High", "High", "71"], ["High", "High", "High", "89"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-041"
@@ -2155,7 +2155,7 @@
       "Testing more levels per factor dramatically increases the number of runs required for a full factorial (5\u00b3 = 125 runs versus 2\u00b3 = 8), and for the purpose of detecting linear main effects and interactions, 2 levels are often sufficient; more levels are primarily valuable when curvature is specifically suspected and a response-surface-style investigation is warranted, not as a default choice"
     ],
     "answer": 3,
-    "why": "This tests understanding of the run-count cost of adding factor levels (5\u00b3 vs 2\u00b3) and the practical guidance that 2-level designs are usually the efficient default for detecting linear effects/interactions, reserving additional levels for when curvature is specifically suspected.",
+    "why": "This tests understanding of the run-count cost of adding factor levels (5\u00b3 vs 2\u00b3) and the practical guidance that 2-level designs are usually the efficient default for detecting linear effects/interactions, reserving additional levels for when curvature is specifically suspected. Source: [BOK] Domain VI.C, Design of Experiments.",
     "set": 3,
     "qid": "mbb:set-3:d6-042"
   },
@@ -2169,7 +2169,7 @@
       "Ignore the inconsistency, since averaging across different definitions produces a valid enterprise metric"
     ],
     "answer": 1,
-    "why": "Standardized data definitions (a shared data dictionary) are foundational to any credible enterprise-wide analytics effort \u2014 without them, aggregated metrics and cross-departmental comparisons are not meaningful, regardless of how sophisticated the downstream analysis is.",
+    "why": "Standardized data definitions (a shared data dictionary) are foundational to any credible enterprise-wide analytics effort \u2014 without them, aggregated metrics and cross-departmental comparisons are not meaningful, regardless of how sophisticated the downstream analysis is. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-043"
   },
@@ -2183,7 +2183,7 @@
       "A data reconciliation/validation process (e.g., checking for duplicate unique identifiers across source systems before combining them into a unified dataset) is a standard data management practice specifically designed to catch exactly this kind of cross-system duplication before it propagates into downstream analysis"
     ],
     "answer": 3,
-    "why": "Cross-system reconciliation and duplicate-detection checks are standard, necessary data management practices before combining data from multiple sources \u2014 skipping this step is exactly what allows silent data quality issues like this to propagate undetected.",
+    "why": "Cross-system reconciliation and duplicate-detection checks are standard, necessary data management practices before combining data from multiple sources \u2014 skipping this step is exactly what allows silent data quality issues like this to propagate undetected. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-044"
   },
@@ -2197,7 +2197,7 @@
       "No change is needed; a 24-hour refresh cycle is always sufficient regardless of the decision cadence it's meant to support"
     ],
     "answer": 0,
-    "why": "This is the same cadence-matching principle established elsewhere in this bank (organizational feedback, portfolio governance) applied to dashboard/data refresh design \u2014 refresh frequency should match the actual decision cadence, or staleness should at minimum be made visible.",
+    "why": "This is the same cadence-matching principle established elsewhere in this bank (organizational feedback, portfolio governance) applied to dashboard/data refresh design \u2014 refresh frequency should match the actual decision cadence, or staleness should at minimum be made visible. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-045"
   },
@@ -2211,7 +2211,7 @@
       "Inspect the 200 flagged pieces in a completely random order, since the binary flag alone provides sufficient prioritization information"
     ],
     "answer": 2,
-    "why": "A binary high/low flag discards the underlying continuous risk score's ranking information; when inspection capacity is constrained, prioritizing by the actual risk score (not just the binary threshold) makes better use of limited capacity.",
+    "why": "A binary high/low flag discards the underlying continuous risk score's ranking information; when inspection capacity is constrained, prioritizing by the actual risk score (not just the binary threshold) makes better use of limited capacity. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-046"
   },
@@ -2225,7 +2225,7 @@
       "A high-cardinality categorical variable with very sparse representation per category (400+ ZIP codes, most with only 1-2 observations) risks overfitting, since the model may effectively memorize individual customers rather than learning generalizable patterns; the team should consider aggregating ZIP codes into broader regions or using a different encoding approach that mitigates this sparsity"
     ],
     "answer": 3,
-    "why": "High-cardinality, sparsely-populated categorical variables are a well-known overfitting risk in predictive modeling; aggregation or alternative encoding approaches are standard remedies rather than either using the raw high-cardinality variable unchanged or discarding categorical data entirely.",
+    "why": "High-cardinality, sparsely-populated categorical variables are a well-known overfitting risk in predictive modeling; aggregation or alternative encoding approaches are standard remedies rather than either using the raw high-cardinality variable unchanged or discarding categorical data entirely. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-047"
   },
@@ -2239,7 +2239,7 @@
       "Data retention policy is solely an IT concern with no relevance to Six Sigma or MBB-level responsibilities"
     ],
     "answer": 1,
-    "why": "Data retention/lifecycle policy touches governance, privacy/compliance risk, and analytical data quality \u2014 not just storage cost \u2014 and is a legitimate MBB-level concern when architecting enterprise analytics capability.",
+    "why": "Data retention/lifecycle policy touches governance, privacy/compliance risk, and analytical data quality \u2014 not just storage cost \u2014 and is a legitimate MBB-level concern when architecting enterprise analytics capability. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-048"
   },
@@ -2253,7 +2253,7 @@
       "This repeats the stratification principle established elsewhere in this bank (e.g., seasonal control charts, blended-vs-stratified satisfaction reporting): blending fundamentally different product lines into one aggregate figure can mask which specific lines are actually driving strong or weak performance, and the dashboard should be redesigned to report stratified, line-level figures alongside (or instead of) the single blended number"
     ],
     "answer": 3,
-    "why": "This is a direct cross-domain application of the stratification principle (previously established for seasonal control charts and blended-vs-stratified satisfaction reporting) to dashboard/analytics design \u2014 aggregating fundamentally different groups obscures the line-level detail leadership actually needs to act on.",
+    "why": "This is a direct cross-domain application of the stratification principle (previously established for seasonal control charts and blended-vs-stratified satisfaction reporting) to dashboard/analytics design \u2014 aggregating fundamentally different groups obscures the line-level detail leadership actually needs to act on. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-049"
   },
@@ -2267,7 +2267,7 @@
       "This type of error can only be caught through manual, row-by-row visual inspection of the entire dataset"
     ],
     "answer": 1,
-    "why": "Row-count validation checks at each pipeline transformation step are a standard, practical data quality practice specifically designed to catch exactly this kind of silent duplication from a non-unique join key.",
+    "why": "Row-count validation checks at each pipeline transformation step are a standard, practical data quality practice specifically designed to catch exactly this kind of silent duplication from a non-unique join key. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-050"
   },
@@ -2281,7 +2281,7 @@
       "The correct fix is to eliminate the dashboards entirely, since they aren't producing action"
     ],
     "answer": 2,
-    "why": "Strong visualization/descriptive capability without a paired decision-and-accountability process is a well-documented analytics maturity gap \u2014 the fix is process design (ownership, triggers, follow-through tracking), not necessarily more visualization tooling or headcount.",
+    "why": "Strong visualization/descriptive capability without a paired decision-and-accountability process is a well-documented analytics maturity gap \u2014 the fix is process design (ownership, triggers, follow-through tracking), not necessarily more visualization tooling or headcount. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-051"
   },
@@ -2295,7 +2295,7 @@
       "Establish one canonical, enterprise-standard version of the metric for cross-departmental reporting and comparison, while allowing departments to maintain supplementary local variants for their own internal purposes \u2014 clearly labeled and distinguished from the canonical version to avoid the confusion documented in the original enterprise data-consistency scenario"
     ],
     "answer": 3,
-    "why": "A canonical enterprise version alongside clearly-labeled local variants balances legitimate departmental needs against the enterprise-consistency requirement established earlier in this domain \u2014 avoiding both forced uniformity that ignores real local needs and unlabeled variation that recreates the original inconsistency problem.",
+    "why": "A canonical enterprise version alongside clearly-labeled local variants balances legitimate departmental needs against the enterprise-consistency requirement established earlier in this domain \u2014 avoiding both forced uniformity that ignores real local needs and unlabeled variation that recreates the original inconsistency problem. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-052"
   },
@@ -2309,7 +2309,7 @@
       "No risk; the roof section is purely decorative and carries no analytical value"
     ],
     "answer": 0,
-    "why": "The QFD roof specifically surfaces technical trade-offs between specifications; skipping it risks discovering conflicting requirements late in design rather than proactively planning around them.",
+    "why": "The QFD roof specifically surfaces technical trade-offs between specifications; skipping it risks discovering conflicting requirements late in design rather than proactively planning around them. Source: [BOK] Domain VI.E, DFSS.",
     "chart": {"type": "house-of-quality"},
     "set": 3,
     "qid": "mbb:set-3:d6-053"
@@ -2324,7 +2324,7 @@
       "CTQ trees should never be used for financial services products, only for physical/manufactured products"
     ],
     "answer": 0,
-    "why": "A CTQ tree's value comes from decomposing broad customer needs into specific, measurable requirements that design and verification can actually be checked against \u2014 stopping at the broad-statement level defeats this purpose.",
+    "why": "A CTQ tree's value comes from decomposing broad customer needs into specific, measurable requirements that design and verification can actually be checked against \u2014 stopping at the broad-statement level defeats this purpose. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-054"
   },
@@ -2338,7 +2338,7 @@
       "Without a formal DVP linking specific tests to specific CTQs, the team risks either failing to verify some critical requirements at all, or verifying them inconsistently/incompletely \u2014 a DVP is the standard mechanism ensuring every CTQ has a defined, traceable verification method before the design is considered complete"
     ],
     "answer": 3,
-    "why": "A formal Design Verification Plan traceably links each CTQ to a specific verification method \u2014 without it, verification risks being incomplete or inconsistent, undermining confidence that the design actually meets its critical requirements.",
+    "why": "A formal Design Verification Plan traceably links each CTQ to a specific verification method \u2014 without it, verification risks being incomplete or inconsistent, undermining confidence that the design actually meets its critical requirements. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-055"
   },
@@ -2352,7 +2352,7 @@
       "Flag the safety-related criterion for specific scrutiny before finalizing the decision \u2014 a strong aggregate score can mask a concerning weakness on a single high-stakes criterion, and the team should evaluate whether Concept C's safety shortfall is acceptable or requires design modification before proceeding, rather than letting the aggregate score alone drive the decision"
     ],
     "answer": 3,
-    "why": "This is a direct parallel to the weighted-decision-matrix caution established elsewhere in this bank (Domain I): an aggregate score is a decision input, not a decision-maker, and a genuinely high-stakes individual criterion (like safety) deserves specific scrutiny even when the overall weighted score is favorable.",
+    "why": "This is a direct parallel to the weighted-decision-matrix caution established elsewhere in this bank (Domain I): an aggregate score is a decision input, not a decision-maker, and a genuinely high-stakes individual criterion (like safety) deserves specific scrutiny even when the overall weighted score is favorable. Source: [BOK] Domain VI.E, DFSS.",
     "chart": {"type": "data-table", "columns": ["Criterion (weight)", "Baseline", "Concept C"], "rows": [["Cost (25%)", "0", "+2"], ["Performance (30%)", "0", "+2"], ["Manufacturability (20%)", "0", "+1"], ["Safety (25%)", "0", "\u22121"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-056"
@@ -2367,7 +2367,7 @@
       "The decision should weigh the cost of a design failure or suboptimal robustness against the time cost of full optimization \u2014 for a high-consequence or high-volume product where failure costs are severe, DOE-based robust design investment is usually justified even under time pressure; for a low-stakes, low-volume product, a faster minimum-viable approach may be more appropriate"
     ],
     "answer": 3,
-    "why": "This mirrors the earlier prosthetics/regulatory-tolerance DFSS reasoning: the appropriate level of design rigor should scale with the failure-cost and volume profile of the product, not be a fixed default in either direction regardless of context.",
+    "why": "This mirrors the earlier prosthetics/regulatory-tolerance DFSS reasoning: the appropriate level of design rigor should scale with the failure-cost and volume profile of the product, not be a fixed default in either direction regardless of context. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-057"
   },
@@ -2381,7 +2381,7 @@
       "An AND gate indicates the two basic events are mutually exclusive and can never occur together"
     ],
     "answer": 2,
-    "why": "This tests basic FTA logic-gate literacy: an AND gate requires all input events to occur for the output to trigger, while an OR gate requires only one \u2014 a foundational distinction for correctly reading and constructing fault trees.",
+    "why": "This tests basic FTA logic-gate literacy: an AND gate requires all input events to occur for the output to trigger, while an OR gate requires only one \u2014 a foundational distinction for correctly reading and constructing fault trees. Source: [BOK] Domain VI.E, DFSS.",
     "chart": {"type": "data-table", "columns": ["Gate type", "Requirement for output event", "Example"], "rows": [["AND", "All input events must occur", "Backup power fails AND primary power fails"], ["OR", "Any one input event is sufficient", "Sensor A fails OR Sensor B fails"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-058"
@@ -2396,7 +2396,7 @@
       "Testing across noise factors is purely a regulatory formality with no actual design value"
     ],
     "answer": 0,
-    "why": "Robust design (a core DFSS/Taguchi concept) specifically targets performance consistency across real-world noise/variation, not just nominal-condition performance \u2014 the entire point is closing the gap between idealized lab testing and actual field reliability.",
+    "why": "Robust design (a core DFSS/Taguchi concept) specifically targets performance consistency across real-world noise/variation, not just nominal-condition performance \u2014 the entire point is closing the gap between idealized lab testing and actual field reliability. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-059"
   },
@@ -2410,7 +2410,7 @@
       "The only limitation of predicted Cpk is that it takes too long to calculate, not that its accuracy is inherently uncertain"
     ],
     "answer": 1,
-    "why": "Early predicted-Cpk analysis is valuable specifically because it's cheap to act on design issues before production commitment, but its accuracy is inherently bounded by the quality of the underlying tolerance/variation assumptions \u2014 a genuine trade-off, not a flaw to be dismissed or an infallible substitute for production data.",
+    "why": "Early predicted-Cpk analysis is valuable specifically because it's cheap to act on design issues before production commitment, but its accuracy is inherently bounded by the quality of the underlying tolerance/variation assumptions \u2014 a genuine trade-off, not a flaw to be dismissed or an infallible substitute for production data. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-060"
   },
@@ -2424,7 +2424,7 @@
       "Allocate tighter tolerance to the cheap-to-tighten component and looser tolerance to the more expensive-to-tighten components, using a cost-based (rather than equal-split) tolerance allocation approach, while still meeting the overall assembly tolerance requirement \u2014 minimizing total manufacturing cost for the required overall precision"
     ],
     "answer": 3,
-    "why": "Cost-based (rather than equal-split) tolerance allocation is the standard, more sophisticated approach in tolerance design \u2014 concentrating tighter tolerance where it's cheapest to achieve minimizes total cost while still meeting the overall assembly requirement.",
+    "why": "Cost-based (rather than equal-split) tolerance allocation is the standard, more sophisticated approach in tolerance design \u2014 concentrating tighter tolerance where it's cheapest to achieve minimizes total cost while still meeting the overall assembly requirement. Source: [BOK] Domain VI.E, DFSS.",
     "chart": {"type": "data-table", "columns": ["Component", "Cost to tighten tolerance", "Allocated tolerance"], "rows": [["1 (cheap)", "Low", "\u00b10.02 mm"], ["2", "Medium", "\u00b10.05 mm"], ["3", "High", "\u00b10.10 mm"], ["4", "High", "\u00b10.10 mm"], ["5", "Medium", "\u00b10.05 mm"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-061"
@@ -2439,7 +2439,7 @@
       "Recommend skipping reliability validation entirely for any product with a strong predicted figure"
     ],
     "answer": 2,
-    "why": "Component-level reliability predictions can miss assembly-level interactions and real-world stress combinations; validating the prediction against actual testing on the integrated product (e.g., accelerated life testing) is the standard practice before declaring a reliability target genuinely met.",
+    "why": "Component-level reliability predictions can miss assembly-level interactions and real-world stress combinations; validating the prediction against actual testing on the integrated product (e.g., accelerated life testing) is the standard practice before declaring a reliability target genuinely met. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-062"
   },
@@ -2453,7 +2453,7 @@
       "This vague goal statement is acceptable as long as the assigned engineer personally understands what 'better' means"
     ],
     "answer": 0,
-    "why": "This is a direct cross-domain application of the measurable-objective principle established for strategic plans (Domain I) to DFSS project chartering specifically \u2014 an unmeasurable goal cannot meaningfully drive the specific CTQ targets and trade-off decisions design work requires.",
+    "why": "This is a direct cross-domain application of the measurable-objective principle established for strategic plans (Domain I) to DFSS project chartering specifically \u2014 an unmeasurable goal cannot meaningfully drive the specific CTQ targets and trade-off decisions design work requires. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-063"
   },
@@ -2467,7 +2467,7 @@
       "Each DFSS tool operates in complete isolation with no meaningful connection to the others"
     ],
     "answer": 2,
-    "why": "This capstone item requires synthesizing the DFSS toolchain into a single coherent narrative: each tool serves a specific, sequential purpose in translating and verifying the connection from customer need through to a validated, robust design \u2014 genuinely MBB-level integrative understanding of the DFSS methodology as a whole.",
+    "why": "This capstone item requires synthesizing the DFSS toolchain into a single coherent narrative: each tool serves a specific, sequential purpose in translating and verifying the connection from customer need through to a validated, robust design \u2014 genuinely MBB-level integrative understanding of the DFSS methodology as a whole. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-064"
   },
@@ -2481,7 +2481,7 @@
       "Insist the team build a physical prototype first before any digital design work can begin"
     ],
     "answer": 2,
-    "why": "DFSS tools' core translation logic (customer need \u2192 measurable requirement \u2192 verified design) is methodology-general, not physical-product-specific \u2014 the same adaptation principle already established for DMAIC/service-industry contexts (D2-047) applies equally to DFSS tools in a software/digital context.",
+    "why": "DFSS tools' core translation logic (customer need \u2192 measurable requirement \u2192 verified design) is methodology-general, not physical-product-specific \u2014 the same adaptation principle already established for DMAIC/service-industry contexts applies equally to DFSS tools in a software/digital context. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-065"
   },
