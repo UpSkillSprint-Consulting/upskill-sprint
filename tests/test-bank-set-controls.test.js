@@ -72,6 +72,22 @@ test('Quick and Focused Quiz expose Set 1, Set 2, Set 3, and Mixed controls', as
   assert.deepEqual(errors, []);
 });
 
+test('completed set progress uses the standard question-count label while partial progress is preserved', async () => {
+  const { window, errors } = await loadEnhancedPage();
+  const summary = window.document.querySelector('#tb-overview .tb-setpick [data-set="2"] .tb-sets');
+  assert.ok(summary, 'Set 2 has a visible question-count summary');
+
+  summary.textContent = '175 of 175 · Batch 7 complete';
+  window.__TBSetControls.enhance();
+  assert.equal(summary.textContent.trim(), '175 questions');
+  assert.doesNotMatch(summary.textContent, /of 175|Batch 7 complete/i);
+
+  summary.textContent = '150 of 175 · Batch 6 complete';
+  window.__TBSetControls.enhance();
+  assert.equal(summary.textContent.trim(), '150 of 175 · Batch 6 complete');
+  assert.deepEqual(errors, []);
+});
+
 test('entity-containing area names do not create a perpetual summary mutation loop', async () => {
   const { window } = await loadEnhancedPage();
   const summary = modeCard(window, 2).querySelector('.tb-mode-sum');
