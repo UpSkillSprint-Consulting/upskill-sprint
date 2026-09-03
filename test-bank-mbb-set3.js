@@ -1423,7 +1423,7 @@
       "Facilitate a joint conversation between the two champions (and their common executive sponsor if needed) to resolve the resource conflict using shared criteria, coaching both on the expectation that competing resource claims go through governance rather than direct escalation to the MBB"
     ],
     "answer": 3,
-    "why": "This mirrors the cross-functional resource-conflict facilitation principle established elsewhere in this domain (organizational competencies) \u2014 the MBB's coaching role is facilitating resolution through proper channels, not personally arbitrating beyond their authority.",
+    "why": "This mirrors the cross-functional resource-conflict facilitation principle established elsewhere in this domain (organizational competencies) \u2014 the MBB's coaching role is facilitating resolution through proper channels, not personally arbitrating beyond their authority. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-006"
   },
@@ -1437,7 +1437,7 @@
       "Recommend the Black Belt stop working on any project this champion sponsors"
     ],
     "answer": 2,
-    "why": "This connects to the recognition/retention principle established elsewhere (organizational competencies) \u2014 invisible credit-taking is a real driver of Belt disengagement, and the MBB's coaching role includes raising this directly and constructively with the champion.",
+    "why": "This connects to the recognition/retention principle established elsewhere (organizational competencies) \u2014 invisible credit-taking is a real driver of Belt disengagement, and the MBB's coaching role includes raising this directly and constructively with the champion. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-007"
   },
@@ -1451,7 +1451,7 @@
       "Recommend the Black Belt work entirely alone with no team or stakeholder interaction going forward"
     ],
     "answer": 1,
-    "why": "Technical skill and interpersonal/facilitation skill are both necessary; coaching should address the specific gap (stakeholder engagement) rather than either ignoring it or overreacting to remove a technically strong Belt.",
+    "why": "Technical skill and interpersonal/facilitation skill are both necessary; coaching should address the specific gap (stakeholder engagement) rather than either ignoring it or overreacting to remove a technically strong Belt. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-008"
   },
@@ -1465,7 +1465,7 @@
       "Advise the Green Belt to report the root cause the champion wants regardless of what the data shows"
     ],
     "answer": 2,
-    "why": "This is a core coaching-for-integrity moment \u2014 the Green Belt needs both permission and a constructive method to report what the data actually shows, rather than either suppressing it or escalating unnecessarily before attempting direct, honest communication.",
+    "why": "This is a core coaching-for-integrity moment \u2014 the Green Belt needs both permission and a constructive method to report what the data actually shows, rather than either suppressing it or escalating unnecessarily before attempting direct, honest communication. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-009"
   },
@@ -1479,7 +1479,7 @@
       "Suggest a structured facilitation technique \u2014 e.g., a round-robin format where each member speaks in turn, or explicitly inviting the quieter member's input before opening discussion \u2014 to ensure the valuable expertise isn't lost to the dominant dynamic"
     ],
     "answer": 3,
-    "why": "This is the same team-dynamics coaching pattern established elsewhere (organizational competencies) \u2014 concrete facilitation techniques (round-robin, explicit invitation) are the practical coaching tool for exactly this dominant-voice/quiet-expert dynamic.",
+    "why": "This is the same team-dynamics coaching pattern established elsewhere (organizational competencies) \u2014 concrete facilitation techniques (round-robin, explicit invitation) are the practical coaching tool for exactly this dominant-voice/quiet-expert dynamic. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-010"
   },
@@ -1493,7 +1493,7 @@
       "Agree that they probably aren't ready and delay their advancement indefinitely based on their stated self-doubt alone"
     ],
     "answer": 1,
-    "why": "Effective individual coaching acknowledges the feeling while grounding the conversation in concrete, objective evidence of demonstrated competency \u2014 neither dismissing the person's experience nor letting self-doubt alone override documented performance.",
+    "why": "Effective individual coaching acknowledges the feeling while grounding the conversation in concrete, objective evidence of demonstrated competency \u2014 neither dismissing the person's experience nor letting self-doubt alone override documented performance. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-011"
   },
@@ -1507,7 +1507,7 @@
       "This violates the coach-not-doer principle \u2014 effective coaching builds the Black Belt's own capability by guiding them through the reasoning (asking questions, pointing to relevant resources, reviewing their draft) rather than solving the problem for them, which leaves the underlying skill gap unaddressed for next time"
     ],
     "answer": 3,
-    "why": "This is a classic coach-vs-doer distinction: solving the problem directly may be faster once, but it doesn't build the Black Belt's own capability, leaving them equally stuck next time a similar situation arises \u2014 guided reasoning is the correct coaching approach.",
+    "why": "This is a classic coach-vs-doer distinction: solving the problem directly may be faster once, but it doesn't build the Black Belt's own capability, leaving them equally stuck next time a similar situation arises \u2014 guided reasoning is the correct coaching approach. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-012"
   },
@@ -1521,7 +1521,7 @@
       "Dismiss the concern as unrelated to formal project work and take no action"
     ],
     "answer": 0,
-    "why": "This tests recognizing that informal, network-dependent processes can create real and unfair barriers; the appropriate MBB response is investigating and working toward more transparent, criteria-based processes, not dismissing the concern or mishandling the confidence.",
+    "why": "This tests recognizing that informal, network-dependent processes can create real and unfair barriers; the appropriate MBB response is investigating and working toward more transparent, criteria-based processes, not dismissing the concern or mishandling the confidence. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-013"
   },
@@ -1535,7 +1535,7 @@
       "Normalize the difficulty as a common part of the learning process, help them break the specific Analyze-phase obstacle into a smaller, more manageable next step, and offer concrete support (a working session, a relevant example) \u2014 addressing both the emotional moment and the specific technical obstacle"
     ],
     "answer": 3,
-    "why": "Effective in-the-moment coaching addresses both the emotional experience (normalizing difficulty, offering support) and the concrete technical obstacle (breaking it into a manageable next step) \u2014 neither purely clinical nor purely reassuring alone fully serves the person.",
+    "why": "Effective in-the-moment coaching addresses both the emotional experience (normalizing difficulty, offering support) and the concrete technical obstacle (breaking it into a manageable next step) \u2014 neither purely clinical nor purely reassuring alone fully serves the person. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-014"
   },
@@ -1549,7 +1549,7 @@
       "Continue as-is, since sharing past experience is the only valuable thing a mentor can offer"
     ],
     "answer": 2,
-    "why": "Effective mentoring centers the mentee's actual current needs (surfaced through open-ended questions) rather than leading with the mentor's own unprompted experience \u2014 a correctable coaching-of-the-coach adjustment, not grounds for removal.",
+    "why": "Effective mentoring centers the mentee's actual current needs (surfaced through open-ended questions) rather than leading with the mentor's own unprompted experience \u2014 a correctable coaching-of-the-coach adjustment, not grounds for removal. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-015"
   },
@@ -1577,22 +1577,22 @@
       "ndc estimates how many distinct groups of part values the measurement system can reliably distinguish; an ndc of 2 means the gauge can barely tell 'high' from 'low' and cannot meaningfully resolve finer part-to-part differences, a serious problem for process control even beyond the %Study Variation figure"
     ],
     "answer": 3,
-    "why": "ndc directly answers 'how many distinguishable groups can this gauge resolve' \u2014 a low ndc (commonly, below 5) signals the gauge cannot adequately discriminate between parts, a distinct and important piece of information beyond the %Study Variation figure alone.",
+    "why": "ndc directly answers 'how many distinguishable groups can this gauge resolve' \u2014 a low ndc (commonly, below 5) signals the gauge cannot adequately discriminate between parts, a distinct and important piece of information beyond the %Study Variation figure alone. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "set": 3,
     "qid": "mbb:set-3:d6-002"
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A Black Belt's MSA study for a discrete pass/fail visual inspection reports Cohen's kappa of 0.42 between two inspectors. How should this be interpreted, and what should the MBB recommend?",
+    "stem": "A Black Belt's MSA study for a discrete pass/fail visual inspection reports Cohen's kappa of 0.40 between two inspectors. How should this be interpreted, and what should the MBB recommend?",
     "options": [
-      "Kappa of 0.42 indicates excellent agreement; no action is needed",
+      "Kappa of 0.40 indicates excellent agreement; no action is needed",
       "A kappa below 1.0 always means the inspection system must be replaced with 100% automated inspection",
-      "Kappa of 0.42 indicates only moderate agreement at best (commonly, kappa below 0.6-0.7 is considered inadequate for a production inspection decision); the MBB should recommend clarifying inspection criteria, retraining inspectors on ambiguous cases, and re-running the study before relying on this inspection system",
+      "Kappa of 0.40 indicates only moderate agreement at best (commonly, kappa below 0.6-0.7 is considered inadequate for a production inspection decision); the MBB should recommend clarifying inspection criteria, retraining inspectors on ambiguous cases, and re-running the study before relying on this inspection system",
       "Kappa is only applicable to continuous data and cannot be computed for pass/fail inspection"
     ],
     "answer": 2,
-    "why": "Kappa quantifies agreement beyond chance for categorical/attribute data; a value of 0.42 reflects only moderate agreement, well short of the threshold typically required (often 0.6-0.75+) to trust a pass/fail inspection system for production decisions.",
-    "chart": {"type": "data-table", "columns": ["Inspector 2: Pass", "Inspector 2: Fail"], "rows": [["Inspector 1: Pass", "41", "6"], ["Inspector 1: Fail", "9", "44"]]},
+    "why": "Kappa quantifies agreement beyond chance for categorical/attribute data; a value of 0.40 reflects only moderate agreement, well short of the threshold typically required (often 0.6-0.75+) to trust a pass/fail inspection system for production decisions. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+    "chart": {"type": "data-table", "columns": ["Inspector 2: Pass", "Inspector 2: Fail"], "rows": [["Inspector 1: Pass", "30", "20"], ["Inspector 1: Fail", "10", "40"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-003"
   },
@@ -1606,7 +1606,7 @@
       "Cpk = 1.33; the process is well-centered and capable relative to the specification limits"
     ],
     "answer": 2,
-    "why": "Cpu = (62-51)/(3\u00d74) = 11/12 = 0.917; Cpl = (51-38)/(3\u00d74) = 13/12 = 1.083; Cpk = min(0.917, 1.083) = 0.92, indicating the process is closer to the upper limit and only marginally capable \u2014 below the common 1.33 benchmark for a well-controlled process.",
+    "why": "Cpu = (62-51)/(3\u00d74) = 11/12 = 0.917; Cpl = (51-38)/(3\u00d74) = 13/12 = 1.083; Cpk = min(0.917, 1.083) = 0.92, indicating the process is closer to the upper limit and only marginally capable \u2014 below the common 1.33 benchmark for a well-controlled process. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "set": 3,
     "qid": "mbb:set-3:d6-004"
   },
@@ -1620,7 +1620,7 @@
       "The R-chart should simply be discarded and only the X-bar chart used going forward"
     ],
     "answer": 2,
-    "why": "Because X-bar chart control limits are calculated from the average range, an out-of-control R-chart point can invalidate the X-bar limits derived from that data; the correct sequence is to always check the R-chart first, investigate/resolve special causes there, then trust the X-bar chart.",
+    "why": "Because X-bar chart control limits are calculated from the average range, an out-of-control R-chart point can invalidate the X-bar limits derived from that data; the correct sequence is to always check the R-chart first, investigate/resolve special causes there, then trust the X-bar chart. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "xbar-r", "xbar": {"ucl": 52.1, "cl": 50.0, "lcl": 47.9, "data": [50.2, 49.8, 50.5, 49.6, 50.1, 50.9, 49.7, 50.3]}, "r": {"ucl": 6.2, "cl": 2.9, "lcl": 0, "data": [2.5, 3.1, 2.8, 3.4, 2.6, 7.8, 2.9, 3.0]}},
     "set": 3,
     "qid": "mbb:set-3:d6-005"
@@ -1635,7 +1635,7 @@
       "Ignore the outliers entirely and report only the median, since boxplots are unaffected by outlier interpretation"
     ],
     "answer": 0,
-    "why": "Outliers on a boxplot should prompt investigation into their root cause before any decision to exclude them \u2014 they may represent genuine, actionable special-cause behavior (a specific complexity driver, system issue, etc.) rather than simply noise to be discarded.",
+    "why": "Outliers on a boxplot should prompt investigation into their root cause before any decision to exclude them \u2014 they may represent genuine, actionable special-cause behavior (a specific complexity driver, system issue, etc.) rather than simply noise to be discarded. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "boxplot", "min": 2.1, "q1": 3.4, "median": 4.2, "q3": 5.1, "max": 6.8, "mean": 4.5, "outliers": [9.2, 10.1, 11.4], "axisMin": 0, "axisMax": 12},
     "set": 3,
     "qid": "mbb:set-3:d6-006"
@@ -1650,7 +1650,7 @@
       "The entire dataset is non-normal and should be discarded"
     ],
     "answer": 2,
-    "why": "A normal probability plot where most points track the reference line but a few clear outliers deviate suggests investigating those specific points as a potential distinct subpopulation or special cause, rather than concluding the entire dataset is non-normal.",
+    "why": "A normal probability plot where most points track the reference line but a few clear outliers deviate suggests investigating those specific points as a potential distinct subpopulation or special cause, rather than concluding the entire dataset is non-normal. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "normal-prob", "values": [12.1, 12.3, 12.4, 12.5, 12.5, 12.6, 12.6, 12.7, 12.7, 12.7, 12.8, 12.8, 12.8, 12.9, 12.9, 13.0, 13.0, 13.1, 13.1, 13.2, 13.3, 13.4, 8.9, 9.1]},
     "set": 3,
     "qid": "mbb:set-3:d6-007"
@@ -1665,7 +1665,7 @@
       "A panel showing points scattered widely and also offset from the target"
     ],
     "answer": 2,
-    "why": "High precision means low variability (tight clustering); low accuracy means the measurements are biased away from the true value \u2014 the combination is tight clustering that is consistently off-center from the target, distinct from the other three quadrant combinations.",
+    "why": "High precision means low variability (tight clustering); low accuracy means the measurements are biased away from the true value \u2014 the combination is tight clustering that is consistently off-center from the target, distinct from the other three quadrant combinations. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "precision-accuracy"},
     "set": 3,
     "qid": "mbb:set-3:d6-008"
@@ -1680,7 +1680,7 @@
       "This indicates a linearity problem, since the gap changes across the range"
     ],
     "answer": 0,
-    "why": "A constant offset across the full range is a bias (calibration) issue, correctable with a fixed adjustment; a linearity problem is specifically when the size of the bias itself changes across the measurement range, requiring a different (often more involved) fix.",
+    "why": "A constant offset across the full range is a bias (calibration) issue, correctable with a fixed adjustment; a linearity problem is specifically when the size of the bias itself changes across the measurement range, requiring a different (often more involved) fix. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "bias-diagram"},
     "set": 3,
     "qid": "mbb:set-3:d6-009"
@@ -1695,7 +1695,7 @@
       "Trust the Cpk value as calculated, since Cpk calculations don't depend on the underlying distribution shape"
     ],
     "answer": 2,
-    "why": "Standard Cpk calculations assume normality; a clearly non-normal pattern (like a strong S-curve on a normal probability plot) means the reported Cpk may be misleading, and the MBB should verify/correct for the actual distribution before relying on it.",
+    "why": "Standard Cpk calculations assume normality; a clearly non-normal pattern (like a strong S-curve on a normal probability plot) means the reported Cpk may be misleading, and the MBB should verify/correct for the actual distribution before relying on it. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "set": 3,
     "qid": "mbb:set-3:d6-010"
   },
@@ -1709,7 +1709,7 @@
       "Nothing; since no individual point exceeds the control limits, the process remains fully in control with no signal present"
     ],
     "answer": 0,
-    "why": "Standard run rules (e.g., 8+ consecutive points on one side of the centerline) flag a likely process shift as a special cause signal even when no single point exceeds the 3-sigma control limits \u2014 a run-based signal, not a single-point signal.",
+    "why": "Standard run rules (e.g., 8+ consecutive points on one side of the centerline) flag a likely process shift as a special cause signal even when no single point exceeds the 3-sigma control limits \u2014 a run-based signal, not a single-point signal. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "control-single", "title": "Fill weight (g)", "unit": "g", "ucl": 505, "cl": 500, "lcl": 495, "data": [499, 501, 500, 498, 502, 501, 502, 503, 502, 504, 503, 502]},
     "set": 3,
     "qid": "mbb:set-3:d6-011"
@@ -1724,7 +1724,7 @@
       "Specification limits should always be set wider than control limits automatically, regardless of the actual process capability"
     ],
     "answer": 2,
-    "why": "This tests a foundational SPC distinction: control limits (based on actual process variation) and specification limits (based on customer requirements) serve different purposes and are calculated differently; conflating them produces either excessive false alarms or inadequate defect detection depending on the process's actual capability relative to spec.",
+    "why": "This tests a foundational SPC distinction: control limits (based on actual process variation) and specification limits (based on customer requirements) serve different purposes and are calculated differently; conflating them produces either excessive false alarms or inadequate defect detection depending on the process's actual capability relative to spec. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "set": 3,
     "qid": "mbb:set-3:d6-012"
   },
@@ -1738,7 +1738,7 @@
       "Plan A is worse at discriminating between good and bad lots than Plan B"
     ],
     "answer": 1,
-    "why": "A steeper OC curve indicates sharper discrimination between good and bad lots \u2014 probability of acceptance falls off more quickly as true defect levels rise, which is generally a desirable sampling-plan property, though it usually comes with trade-offs in sample size or cost.",
+    "why": "A steeper OC curve indicates sharper discrimination between good and bad lots \u2014 probability of acceptance falls off more quickly as true defect levels rise, which is generally a desirable sampling-plan property, though it usually comes with trade-offs in sample size or cost. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "oc-curve"},
     "set": 3,
     "qid": "mbb:set-3:d6-013"
@@ -1753,7 +1753,7 @@
       "Time-to-time variation is clearly the dominant source based on this chart alone"
     ],
     "answer": 0,
-    "why": "A multi-vari chart's core diagnostic value is separating variation sources; tight within-group spread with large between-group differences points to a machine-level (not part-level) root cause, directing the next investigation toward what differs between the machines themselves.",
+    "why": "A multi-vari chart's core diagnostic value is separating variation sources; tight within-group spread with large between-group differences points to a machine-level (not part-level) root cause, directing the next investigation toward what differs between the machines themselves. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "multi-vari", "groupLabel": "Machine", "groups": [{"label": "Machine 1", "values": [10.02, 10.01, 10.03, 10.02]}, {"label": "Machine 2", "values": [10.15, 10.14, 10.16, 10.15]}, {"label": "Machine 3", "values": [9.88, 9.87, 9.89, 9.88]}]},
     "set": 3,
     "qid": "mbb:set-3:d6-014"
@@ -1768,7 +1768,7 @@
       "Cp (typically calculated from short-term, within-subgroup variation) can substantially overstate real-world capability compared to Ppk (calculated from long-term, overall variation including shift-to-shift and time-to-time effects); a genuine '6 Sigma' claim requires examining long-term performance, not just a short-term snapshot"
     ],
     "answer": 3,
-    "why": "Cp/Cpk (short-term, within-subgroup variation) and Pp/Ppk (long-term, overall variation) can differ substantially in practice; the well-known '1.5 sigma shift' concept in Six Sigma literature exists precisely because short-term capability commonly overstates sustained, long-term performance.",
+    "why": "Cp/Cpk (short-term, within-subgroup variation) and Pp/Ppk (long-term, overall variation) can differ substantially in practice; the well-known '1.5 sigma shift' concept in Six Sigma literature exists precisely because short-term capability commonly overstates sustained, long-term performance. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "set": 3,
     "qid": "mbb:set-3:d6-015"
   },
