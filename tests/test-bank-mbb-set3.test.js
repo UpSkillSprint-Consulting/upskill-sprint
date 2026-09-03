@@ -134,7 +134,7 @@ test('Set 3 is visual-heavy: 35 questions carry real, site-native charts spannin
   try {
     const exam = window.__TB.EXAMS.mbb;
     const withCharts = exam.sets[3].filter(question => question.chart);
-    assert.equal(withCharts.length, 35, 'thirty-five Set 3 questions (20% of the bank) carry a chart spec');
+    assert.equal(withCharts.length, 34, 'thirty-four Set 3 questions carry a chart spec (one mismatched chart on d2-013 was removed during the Batch 2 audit)');
 
     const typeCounts = withCharts.reduce((acc, q) => {
       acc[q.chart.type] = (acc[q.chart.type] || 0) + 1;

@@ -33,13 +33,13 @@
     "sub": "mbb-enterprise",
     "stem": "An enterprise project selection matrix weights strategic fit (40%), financial return (30%), risk (20%), and resource availability (10%). Project X scores 9/10 strategic fit, 4/10 financial return, 8/10 risk (10 = lowest risk), 3/10 resource availability. Project Y scores 5/10 strategic fit, 9/10 financial return, 6/10 risk, 9/10 resource availability. Using the weighted scores, which project should be selected, and what is the key caution for the MBB to raise regardless of the numeric outcome?",
     "options": [
-      "Project X wins numerically (7.0 vs. 6.6); the MBB should flag that Project X's low resource-availability score (3/10) may make it infeasible to actually execute despite its strategic strength",
+      "Project Y wins numerically, but only by a very narrow margin (6.8 vs. 6.7); the MBB should treat this near-tie as inconclusive rather than decisive \u2014 Project X's low resource-availability score (3/10) remains a real feasibility risk despite its strategic strength, and a 0.1-point difference is far too thin a margin to settle the decision on the weighted score alone",
       "Project Y wins numerically (7.0 vs. 6.6); no further caution is needed since the math is final",
-      "Both projects tie; the MBB should recommend a coin flip to avoid the appearance of bias",
-      "Project X wins numerically (6.6 vs. 7.0); the committee should override the weights to favor financial return"
+      "Both projects tie exactly at 6.75; the MBB should recommend a coin flip to avoid the appearance of bias",
+      "Project Y wins numerically (6.8 vs. 6.7), and since the weighting scheme was formally agreed upon in advance, the committee should proceed with Y with no further discussion needed"
     ],
     "answer": 0,
-    "why": "X = 0.4(9)+0.3(4)+0.2(8)+0.1(3) = 3.6+1.2+1.6+0.3 = 6.7 \u2192 (rounding check below). Y = 0.4(5)+0.3(9)+0.2(6)+0.1(9) = 2.0+2.7+1.2+0.9 = 6.8. Let me restate cleanly: X = 6.7, Y = 6.8 \u2014 closely matched, with X's resource constraint a real execution risk. The critical MBB judgment is that a weighted score is a decision *input*, not a decision-maker \u2014 a low resource-availability score signals a real feasibility risk that numbers alone can mask. Source: [BOK] Domain I.B, Strategic Plan Alignment; III.B, Project Portfolio Infrastructure.",
+    "why": "X = 0.4(9)+0.3(4)+0.2(8)+0.1(3) = 3.6+1.2+1.6+0.3 = 6.7. Y = 0.4(5)+0.3(9)+0.2(6)+0.1(9) = 2.0+2.7+1.2+0.9 = 6.8. Y wins numerically, but only by 0.1 points \u2014 closely matched, with X's resource constraint a real execution risk. The critical MBB judgment is that a weighted score is a decision input, not a decision-maker; a near-tie combined with a low resource-availability score should prompt further discussion rather than a mechanical selection of the higher number. Source: [BOK] Domain I.B, Strategic Plan Alignment; III.B, Project Portfolio Infrastructure.",
     "chart": {"type": "data-table", "columns": ["Criterion", "Weight", "Project X (raw /10)", "Project Y (raw /10)"], "rows": [["Strategic fit", "40%", "9", "5"], ["Financial return", "30%", "4", "9"], ["Risk (10=lowest risk)", "20%", "8", "6"], ["Resource availability", "10%", "3", "9"]]},
     "set": 3,
     "qid": "mbb:set-3:d1-006"
@@ -95,7 +95,7 @@
       "Prevention costs, because they are the smallest category and therefore the easiest problem to solve",
       "Appraisal costs, because inspection activities are inherently wasteful and should always be eliminated first"
     ],
-    "answer": 2,
+    "answer": 1,
     "why": "($1.2M+$3.8M+$0.6M+$0.2M)/$80M = $5.8M/$80M = 7.25% \u22487%. External failure is both the largest cost driver and reaches the customer \u2014 highest priority for opportunity sizing. The heavy skew toward failure costs vs. prevention (0.2M) is itself diagnostic: mature quality systems invest more heavily upstream in prevention relative to failure costs. Source: [CSSC] Ch. 8, The CoQ and the CoPQ.",
     "chart": {"type": "data-table", "columns": ["Category", "Amount", "% of revenue ($80M)"], "rows": [["Internal failure", "$1.2M", "1.5%"], ["External failure", "$3.8M", "4.75%"], ["Appraisal", "$0.6M", "0.75%"], ["Prevention", "$0.2M", "0.25%"]]},
     "set": 3,
@@ -170,7 +170,7 @@
       "Both teams optimized locally-relevant, efficiency-focused metrics that are not directly tied to the actual OTIF components (on-time and in-full), so local gains in speed/cost did not translate to the strategic outcome \u2014 and may have traded against it (e.g., faster picking causing more errors, cheaper routing causing later deliveries)"
     ],
     "answer": 3,
-    "why": "This is the same cascade-alignment failure pattern as Batch 1's call-center example (D1-008), applied to a different industry: locally efficient metrics that aren't causally tied to the strategic outcome metric can degrade the very thing the strategy intended to improve. Source: [BOK] Domain I.B, Strategic Plan Alignment.",
+    "why": "This is the same cascade-alignment failure pattern seen elsewhere with unpaired efficiency metrics (e.g., a call center rewarding fast handle time at the expense of resolution quality): locally efficient metrics that aren't causally tied to the strategic outcome metric can degrade the very thing the strategy intended to improve. Source: [BOK] Domain I.B, Strategic Plan Alignment.",
     "set": 3,
     "qid": "mbb:set-3:d1-027"
   },
@@ -324,7 +324,7 @@
       "Only the raw ROI ratio (8.5M / 1.2M \u2248 7:1), since that number alone is fully sufficient justification"
     ],
     "answer": 2,
-    "why": "A single year's raw ROI, while a strong data point, is an incomplete infrastructure-investment case \u2014 trend durability, built organizational capability, and re-\u5efa\u7acb (rebuilding) cost risk are all standard, necessary elements of a complete MBB-level infrastructure justification to executive leadership. Source: [BOK] Domain I.C, Infrastructure Elements; III.C, Project Portfolio Financial Tools.",
+    "why": "A single year's raw ROI, while a strong data point, is an incomplete infrastructure-investment case \u2014 trend durability, built organizational capability, and re-building deployment capability later is typically far more costly and slower than sustaining it are all standard, necessary elements of a complete MBB-level infrastructure justification to executive leadership. Source: [BOK] Domain I.C, Infrastructure Elements; III.C, Project Portfolio Financial Tools.",
     "set": 3,
     "qid": "mbb:set-3:d1-065"
   },
@@ -344,7 +344,7 @@
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "Across the call center (D1-008), logistics (D1-027), semiconductor fab (D1-052), and law firm (D1-058) scenarios in this domain, a common alignment failure pattern recurs in different forms. Which statement best captures the general principle an MBB should apply when reviewing any newly cascaded metric?",
+    "stem": "Several scenarios illustrate a recurring alignment failure pattern: a call center rewarding fast average handle time saw resolution quality fall; a logistics company's warehouse and transportation teams both hit their local efficiency metrics while on-time-in-full delivery declined; and a law firm's \"billable hours\" metric was never updated despite a new client-retention strategy. Which statement best captures the general principle an MBB should apply when reviewing any newly cascaded metric?",
     "options": [
       "Before approving any cascaded metric, explicitly test it against two questions: (1) can this metric be improved in a way that works against the actual strategic outcome it's meant to serve (an unpaired or gameable metric), and (2) does this metric actually change when the strategy itself changes, or is it a legacy holdover \u2014 both known, recurring alignment failure modes",
       "Cascaded metrics should always be identical to the top-level enterprise metric, with no local adaptation",
@@ -352,7 +352,7 @@
       "Only financial metrics should ever be cascaded, since non-financial metrics are too easily misaligned"
     ],
     "answer": 0,
-    "why": "This synthesis item asks the candidate to abstract a general diagnostic principle from four concrete scenarios distributed across the batch \u2014 a genuinely MBB-level (Evaluate/synthesis) task distinct from recognizing any single instance of the pattern. Source: [BOK] Domain I.B, Strategic Plan Alignment (cross-batch synthesis).",
+    "why": "This synthesis item asks the candidate to abstract a general diagnostic principle from several concrete failure patterns \u2014 a genuinely MBB-level (Evaluate/synthesis) task distinct from recognizing any single instance of the pattern. Source: [BOK] Domain I.B, Strategic Plan Alignment (cross-scenario synthesis).",
     "set": 3,
     "qid": "mbb:set-3:d1-070"
   },
@@ -380,7 +380,7 @@
       "Which methodology does the assigned Black Belt already know best?"
     ],
     "answer": 0,
-    "why": "This closing synthesis item distills the domain's repeated methodology-selection lesson (tested individually in D1-014, D1-015, D1-017, D1-029, D1-041, D1-054, D1-060, D1-066) into the single foundational diagnostic question that should precede all others: what is the actual nature of the problem (existing process vs. new design vs. narrow tactical fix vs. plateaued/architectural), since methodology should follow problem type. Source: [BOK] Domain I.D, Improvement Methodologies (cross-batch synthesis).",
+    "why": "This closing synthesis item distills the domain's repeated methodology-selection lesson (tested individually across scenarios spanning DMAIC-vs-DMADV problem framing, DFSS for regulated new products, Kaizen for narrow well-understood fixes, and BPR for plateaued incremental gains) into the single foundational diagnostic question that should precede all others: what is the actual nature of the problem (existing process vs. new design vs. narrow tactical fix vs. plateaued/architectural), since methodology should follow problem type. Source: [BOK] Domain I.D, Improvement Methodologies (cross-batch synthesis).",
     "set": 3,
     "qid": "mbb:set-3:d1-072"
   },
@@ -394,7 +394,7 @@
       "Explicitly interrogate the data source for each proposed opportunity: is the comparison/sample fairly constructed (not biased or non-comparable), does correlation-based evidence have a validated causal mechanism (or is it just a hypothesis to test further), and has the opportunity been checked against multiple legitimate input types (VOC, VOB, safety/risk, regulatory) rather than relying on a single, possibly incomplete data source"
     ],
     "answer": 3,
-    "why": "This synthesis item distills the domain's opportunity-identification pitfalls (D1-018 VOC/VOB balance, D1-020 benchmarking flaws, D1-036/061 COPQ sizing, D1-042 multi-source validation, D1-048 survivorship bias, D1-055 leading indicators, D1-067 correlation/causation) into a general validation discipline: scrutinize data quality/bias, distinguish correlation from established causation, and triangulate across multiple legitimate input types. Source: [BOK] Domain I.E, Opportunities for Improvement (cross-batch synthesis).",
+    "why": "This synthesis item distills the domain's opportunity-identification pitfalls (VOC/VOB balance, benchmarking flaws, COPQ sizing, multi-source validation, survivorship bias, leading indicators, and correlation/causation confusion, each tested elsewhere in this domain) into a general validation discipline: scrutinize data quality/bias, distinguish correlation from established causation, and triangulate across multiple legitimate input types. Source: [BOK] Domain I.E, Opportunities for Improvement (cross-batch synthesis).",
     "set": 3,
     "qid": "mbb:set-3:d1-073"
   },
@@ -408,7 +408,7 @@
       "Once a project enters the pipeline, it should never be paused, re-sequenced, or killed regardless of new information"
     ],
     "answer": 0,
-    "why": "This closing synthesis item distills the domain's pipeline scenarios (D1-023 capacity math, D1-024 stage-gate kill decision, D1-031 re-sequencing governance, D1-037 portfolio diversification, D1-049 cross-departmental scoring, D1-062 seasonal scheduling, D1-068 dependency cascades) into the unifying principle that real capacity constraints must be respected and explicitly traded off against via transparent governance, rather than papered over or ignored. Source: [BOK] Domain I.F, Pipeline Management (cross-batch synthesis).",
+    "why": "This closing synthesis item distills the domain's pipeline scenarios (capacity math, stage-gate kill decisions, re-sequencing governance, portfolio diversification, cross-departmental scoring, seasonal scheduling, and dependency cascades, each tested elsewhere in this domain) into the unifying principle that real capacity constraints must be respected and explicitly traded off against via transparent governance, rather than papered over or ignored. Source: [BOK] Domain I.F, Pipeline Management (cross-batch synthesis).",
     "set": 3,
     "qid": "mbb:set-3:d1-074"
   },
@@ -459,12 +459,12 @@
     "stem": "A waste management company's regional operations managers each directly supervise 25-30 route supervisors, who in turn supervise 15-20 drivers each. The company wants to embed Six Sigma champion responsibilities into the regional operations manager role. What organizational design concern should the MBB raise first?",
     "options": [
       "Champion responsibilities are irrelevant to organizational design and belong entirely to Domain V (Coaching and Mentoring)",
-      "The role clarity concern: whether champion duties (project sponsorship, resource clearing, cross-functional escalation) are explicitly defined and resourced (e.g., protected time) as distinct from the regional manager's existing operational span-of-control responsibilities, since simply adding champion duties on top of an already-wide span of control without clarifying priority and time allocation risks the champion role becoming ceremonial (as tested in D2-002) due to sheer capacity constraints",
+      "The role clarity concern: whether champion duties (project sponsorship, resource clearing, cross-functional escalation) are explicitly defined and resourced (e.g., protected time) as distinct from the regional manager's existing operational span-of-control responsibilities, since simply adding champion duties on top of an already-wide span of control without clarifying priority and time allocation risks the champion role becoming ceremonial due to sheer capacity constraints",
       "Route supervisors, not regional operations managers, should always hold champion responsibilities regardless of organizational level appropriateness",
       "No concern \u2014 champion responsibilities can always be added to any role regardless of existing span of control"
     ],
     "answer": 1,
-    "why": "Adding a significant new responsibility (champion duties) onto an already wide span-of-control role without explicit role clarity and protected capacity is a predictable path to the same ceremonial-sponsorship failure diagnosed in D2-002 \u2014 an organizational design concern the MBB should proactively flag before the role assignment is finalized, not after champions become unavailable. Source: [BOK] Domain II.A, Organizational Design.",
+    "why": "Adding a significant new responsibility (champion duties) onto an already wide span-of-control role without explicit role clarity and protected capacity is a predictable path to the same kind of ceremonial-sponsorship failure that occurs when champion duties are added without protected time or role clarity \u2014 an organizational design concern the MBB should proactively flag before the role assignment is finalized, not after champions become unavailable. Source: [BOK] Domain II.A, Organizational Design.",
     "set": 3,
     "qid": "mbb:set-3:d2-007"
   },
@@ -493,7 +493,6 @@
     ],
     "answer": 3,
     "why": "A deployment function housed entirely within one division structurally limits its ability to drive genuinely cross-divisional work \u2014 this is a classic organizational-design flaw requiring a structural fix (enterprise-level placement or cross-divisional governance), not merely better communication within the existing structure. Source: [BOK] Domain II.A, Organizational Design; I.C, Infrastructure Elements (related).",
-    "chart": {"type": "risk-matrix", "rows": ["Untreated safety near-miss", "Compliance-scope process change", "Standard workflow tweak"], "cols": ["Low disruption", "High disruption"], "cells": [["medium", "high"], ["medium", "high"], ["low", "low"]], "rowAxis": "Change type", "colAxis": "Regulatory disruption"},
     "set": 3,
     "qid": "mbb:set-3:d2-013"
   },
@@ -507,7 +506,7 @@
       "Nothing is wrong; stated values and actual practices are always aligned by definition"
     ],
     "answer": 0,
-    "why": "A genuine values-behavior gap (stated culture contradicted by actual incentive/disciplinary practices) is a critical organizational-culture diagnostic an MBB must surface \u2014 deploying Six Sigma on top of contradictory incentive structures will produce exactly the kind of engagement failures tested elsewhere in this domain (D2-005, D2-009, D2-015). Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
+    "why": "A genuine values-behavior gap (stated culture contradicted by actual incentive/disciplinary practices) is a critical organizational-culture diagnostic an MBB must surface \u2014 deploying Six Sigma on top of contradictory incentive structures will produce exactly the kind of engagement failures (disengaged staff, suppressed reporting, resistance to genuine collaboration) that predictably follow when stated values and actual incentive structures diverge. Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
     "set": 3,
     "qid": "mbb:set-3:d2-016"
   },
@@ -563,7 +562,7 @@
       "Develop shared brand-level cultural messaging and training materials (e.g., a brief onboarding module on the brand's data-driven, continuous-improvement values) that franchisees can adopt as part of brand standards, similar to the toolkit approach used for infrastructure in the Domain I franchise scenario \u2014 providing consistent messaging while respecting franchisee operational autonomy"
     ],
     "answer": 3,
-    "why": "This mirrors the franchise infrastructure principle from Domain I (D1-059): a shared, brand-level toolkit/messaging approach reinforces consistent values while respecting the franchisee's independent ownership and operational autonomy, rather than either full mandate (A) or full abdication (B, D). Source: [BOK] Domain II.D, Organizational Culture and Values Framework; I.C (franchise infrastructure parallel, D1-059).",
+    "why": "This mirrors the general franchise infrastructure principle: a shared, brand-level toolkit/messaging approach reinforces consistent values while respecting the franchisee's independent ownership and operational autonomy, rather than either full mandate (A) or full abdication (B, D). Source: [BOK] Domain II.D, Organizational Culture and Values Framework; I.C (franchise infrastructure parallel,).",
     "set": 3,
     "qid": "mbb:set-3:d2-029"
   },
@@ -577,7 +576,7 @@
       "Build a full corporate Six Sigma office with dedicated MBB, multiple BBs, and a formal steering committee, mirroring a Fortune 500 deployment regardless of the chain's actual size"
     ],
     "answer": 0,
-    "why": "This reinforces the resource-scaling principle from Domain I (D1-040's non-profit scenario): organizational design should be scaled appropriately to organizational size and resources, not default to either an over-built large-enterprise model (A) or no structure at all (C). Source: [BOK] Domain II.A, Organizational Design; I.C (scaling principle, D1-040).",
+    "why": "This reinforces the general resource-scaling principle seen elsewhere in resource-constrained contexts: organizational design should be scaled appropriately to organizational size and resources, not default to either an over-built large-enterprise model (A) or no structure at all (C). Source: [BOK] Domain II.A, Organizational Design; I.C (scaling principle).",
     "set": 3,
     "qid": "mbb:set-3:d2-032"
   },
@@ -647,7 +646,7 @@
       "Continue the quarterly review cadence unchanged, since quarterly reporting is a standard business rhythm regardless of the underlying event-driven pattern"
     ],
     "answer": 0,
-    "why": "This is another cadence-mismatch diagnosis (paralleling D2-017's ride-share scenario) but with a nuanced fix: the underlying problem is event-driven rather than time-driven, so the solution is event-triggered rapid capture feeding into (not replacing) periodic strategic synthesis \u2014 combining both timescales appropriately rather than simply increasing a still poorly-matched calendar-based frequency (D). Source: [BOK] Domain II.E, Organizational Feedback; cadence-matching principle (parallel to D2-017).",
+    "why": "This is another cadence-mismatch diagnosis (paralleling similar ride-share and feedback-timing scenarios seen elsewhere in this domain) but with a nuanced fix: the underlying problem is event-driven rather than time-driven, so the solution is event-triggered rapid capture feeding into (not replacing) periodic strategic synthesis \u2014 combining both timescales appropriately rather than simply increasing a still poorly-matched calendar-based frequency (D). Source: [BOK] Domain II.E, Organizational Feedback; cadence-matching principle.",
     "set": 3,
     "qid": "mbb:set-3:d2-048"
   },
@@ -675,7 +674,7 @@
       "Avoid any improvement work anywhere in the distillery given the strength of the tradition-based culture"
     ],
     "answer": 2,
-    "why": "This is a values-sensitive framing approach: explicitly scoping and communicating that improvement work targets areas unrelated to the culturally-protected core (the traditional recipe/production methods) avoids unnecessarily triggering identity-based resistance, similar in spirit to the funeral-services reframing in D2-028. Source: [BOK] Domain II.D, Organizational Culture and Values Framework; parallel to D2-028.",
+    "why": "This is a values-sensitive framing approach: explicitly scoping and communicating that improvement work targets areas unrelated to the culturally-protected core (the traditional recipe/production methods) avoids unnecessarily triggering identity-based resistance, similar in spirit to other values-sensitive reframing approaches used when a legitimate cultural value is unnecessarily triggered by an unrelated process change. Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
     "set": 3,
     "qid": "mbb:set-3:d2-054"
   },
@@ -683,13 +682,13 @@
     "sub": "mbb-org",
     "stem": "A computer repair franchise brand has a mix of corporate-owned and independently-franchised locations. Which organizational design principle should govern how Six Sigma deployment differs (if at all) between the two location types?",
     "options": [
-      "Corporate-owned locations, being under direct corporate authority, can support a more prescriptive/mandatory deployment model (formal Belt assignments, mandatory project participation), while franchised locations should follow the voluntary/toolkit-based brand-standards approach appropriate to their independent ownership (as established for franchise contexts in D1-059 and D2-029) \u2014 the deployment design should differ by ownership/authority structure even within the same brand",
+      "Corporate-owned locations, being under direct corporate authority, can support a more prescriptive/mandatory deployment model (formal Belt assignments, mandatory project participation), while franchised locations should follow the voluntary/toolkit-based brand-standards approach appropriate to their independent ownership (as established for franchise contexts elsewhere in this domain) \u2014 the deployment design should differ by ownership/authority structure even within the same brand",
       "Only corporate-owned locations should be permitted to participate in Six Sigma deployment at all, excluding franchised locations entirely",
       "Franchised locations should have more mandatory requirements than corporate-owned locations, reversing the typical authority relationship",
       "Corporate-owned and franchised locations should have identical, mandatory deployment structures with no distinction, since brand consistency requires complete uniformity regardless of ownership structure"
     ],
     "answer": 0,
-    "why": "This synthesizes the franchise-design principle established across D1-059 and D2-029 with the reality of mixed ownership models \u2014 deployment design should appropriately differentiate by actual organizational authority/ownership structure, even within a single brand, rather than forcing uniform treatment (A) or an inverted authority relationship (C) or exclusion (D). Source: [BOK] Domain II.A, Organizational Design; parallel to D1-059, D2-029.",
+    "why": "This synthesizes the franchise-design principle established elsewhere in this domain with the reality of mixed ownership models \u2014 deployment design should appropriately differentiate by actual organizational authority/ownership structure, even within a single brand, rather than forcing uniform treatment (A) or an inverted authority relationship (C) or exclusion (D). Source: [BOK] Domain II.A, Organizational Design; parallel to D2-029.",
     "set": 3,
     "qid": "mbb:set-3:d2-057"
   },
@@ -703,7 +702,7 @@
       "Explicitly reframe the food-waste-reduction project's communication and metrics around its conservation/stewardship impact (waste diverted from landfill, resources conserved) as the primary framing, with cost savings presented as a secondary, supporting benefit rather than the leading narrative \u2014 aligning the project's public framing with the value staff most strongly identify with, since the underlying project already genuinely serves that value"
     ],
     "answer": 3,
-    "why": "Since the project's actual outcome (reduced food waste) genuinely and directly serves the conservation value staff care about, the correct fix is reframing the *communication* to foreground that authentic alignment rather than leading with efficiency/cost language that triggers unnecessary values-based resistance \u2014 a more complete version of the reframing principle tested in D2-028 and D2-054. Source: [BOK] Domain II.D, Organizational Culture and Values Framework; parallel to D2-028, D2-054.",
+    "why": "Since the project's actual outcome (reduced food waste) genuinely and directly serves the conservation value staff care about, the correct fix is reframing the *communication* to foreground that authentic alignment rather than leading with efficiency/cost language that triggers unnecessary values-based resistance \u2014 a more complete version of the reframing principle tested elsewhere in this domain, including D2-054. Source: [BOK] Domain II.D, Organizational Culture and Values Framework; parallel to D2-054.",
     "set": 3,
     "qid": "mbb:set-3:d2-060"
   },
@@ -726,12 +725,12 @@
     "stem": "A veterinary diagnostics lab staffed primarily by PhD-level scientists shows unexpectedly *high* resistance to Six Sigma statistical methods, despite (or perhaps because of) the staff's strong general statistical training. Investigation reveals staff view the DMAIC framework's statistical tools as \"oversimplified\" compared to the more rigorous methods used in their scientific research work. What cultural dynamic does this represent, and how should the MBB address it?",
     "options": [
       "Require all PhD scientists to abandon their own more advanced statistical methods in favor of only the standard Six Sigma toolset, regardless of appropriateness to the specific analytical question",
-      "This reflects a specific form of expertise-based resistance \u2014 technically sophisticated staff may perceive standard Six Sigma tools as insufficiently rigorous relative to their own field's methods, a different flavor of the \"outsider/expertise-devaluing\" resistance pattern tested in D2-015 (culinary) and D2-047 (craftsmanship), here rooted in genuine methodological sophistication rather than tenure/tradition; the MBB should engage this expertise directly \u2014 inviting staff input on where more rigorous methods are warranted, and using standard DMAIC tools primarily for their organizational/process-management value (structure, cross-functional communication, project management) rather than positioning them as replacing the staff's more advanced technical methods where those are genuinely more appropriate",
+      "This reflects a specific form of expertise-based resistance \u2014 technically sophisticated staff may perceive standard Six Sigma tools as insufficiently rigorous relative to their own field's methods, a different flavor of the \"outsider/expertise-devaluing\" resistance pattern seen elsewhere (e.g., culinary and craftsmanship contexts), here rooted in genuine methodological sophistication rather than tenure/tradition; the MBB should engage this expertise directly \u2014 inviting staff input on where more rigorous methods are warranted, and using standard DMAIC tools primarily for their organizational/process-management value (structure, cross-functional communication, project management) rather than positioning them as replacing the staff's more advanced technical methods where those are genuinely more appropriate",
       "This is unusual and cannot be explained; highly statistically trained staff should always readily embrace Six Sigma statistical methods with no resistance",
       "Simplify all statistical training materials further to make Six Sigma statistical concepts easier to understand, addressing a training gap"
     ],
     "answer": 1,
-    "why": "This tests recognizing a genuinely different variant of expertise-based resistance (rooted in real methodological sophistication, not just tenure or tradition) and correctly diagnosing that the appropriate response is engaging that expertise and appropriately scoping DMAIC's role (structural/organizational value) rather than either dismissing the concern or imposing standard tools where genuinely more rigorous methods are warranted. Source: [BOK] Domain II.D, Organizational Culture and Values Framework; parallel to D2-015, D2-047.",
+    "why": "This tests recognizing a genuinely different variant of expertise-based resistance (rooted in real methodological sophistication, not just tenure or tradition) and correctly diagnosing that the appropriate response is engaging that expertise and appropriately scoping DMAIC's role (structural/organizational value) rather than either dismissing the concern or imposing standard tools where genuinely more rigorous methods are warranted. Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
     "set": 3,
     "qid": "mbb:set-3:d2-066"
   },
@@ -784,10 +783,10 @@
       "Fifty separate feedback mechanisms, one for every conceivable customer segment and channel, with no coordination, prioritization, or resourcing plan for acting on any of them",
       "A single annual, English-only, identifiable online survey sent only to customers who placed a repeat order in the past year, with no formal process for responding to or acting on submitted feedback",
       "No formal feedback system at all, relying entirely on the ceramics manufacturer's own internal quality inspection data as a complete substitute for external customer feedback",
-      "A multi-channel system: guaranteed acknowledgment/response to every submission within a defined timeframe (closing the D2-005 loop), accessible in relevant local languages with awareness of cross-cultural response-style differences (per D2-061), including specific outreach to non-repeat/one-time customers (addressing the D2-042/D1-048 survivorship-bias risk) and to underrepresented channels, with feedback-collection frequency matched to how quickly the relevant conditions change (per D2-017/D2-048's cadence-matching principle) rather than a single fixed annual snapshot"
+      "A multi-channel system: guaranteed acknowledgment/response to every submission within a defined timeframe (closing the feedback loop), accessible in relevant local languages with awareness of cross-cultural response-style differences (given genuine cross-cultural response-style differences), including specific outreach to non-repeat/one-time customers (addressing the survivorship-bias risk demonstrated elsewhere (D1-048)) and to underrepresented channels, with feedback-collection frequency matched to how quickly the relevant conditions change (per the cadence-matching principle (D2-048)) rather than a single fixed annual snapshot"
     ],
     "answer": 3,
-    "why": "This capstone item requires synthesizing essentially every organizational feedback pitfall tested across the domain (D2-005 closed-loop, D2-030/D2-042/D1-048 representative population, D2-017/D2-048 cadence-matching, D2-061 cross-cultural response norms) into a single coherent, well-designed system \u2014 genuine Evaluate-level synthesis across the E subdomain. Source: [BOK] Domain II.E, Organizational Feedback (full-subdomain synthesis).",
+    "why": "This capstone item requires synthesizing essentially every organizational feedback pitfall tested across the domain (closed-loop follow-up, representative population per D1-048, cadence-matching per D2-048, and cross-cultural response norms) into a single coherent, well-designed system \u2014 genuine Evaluate-level synthesis across the E subdomain. Source: [BOK] Domain II.E, Organizational Feedback (full-subdomain synthesis).",
     "set": 3,
     "qid": "mbb:set-3:d2-073"
   },
@@ -796,8 +795,8 @@
     "stem": "A mobile phone repair chain is redesigning its store-level performance scorecard from scratch, wanting to avoid every metrics pitfall tested in this domain (vanity metrics, unpaired gaming-prone metrics, uncontrolled confounds, no assigned ownership, cadence mismatches, and metrics that lag behind an evolved business model). Which proposed scorecard design best reflects sound synthesis of these principles?",
     "options": [
       "Track \"repairs completed per day\" alone, unpaired, reported annually, with no owner and no adjustment for store-level confounds like foot traffic or repair complexity mix",
-      "Track all 60 metrics the point-of-sale system is technically capable of producing, with no prioritization or rationalization, mirroring the flaw identified in D2-024",
-      "A focused, owned scorecard: repairs-completed-per-day (efficiency) paired with repair-quality/callback-rate (quality counter-metric, preventing pure speed-gaming as in D2-012's rail example), benchmarked against store-level foot-traffic and typical-repair-complexity baselines (controlling for confounds as in D2-037's territory example), reviewed at a cadence matched to actual business rhythm (e.g., weekly operational review, monthly trend review) rather than a single annual snapshot, with a named store manager accountable for monitoring and acting on the metrics, and explicitly revisited whenever the store's service mix changes materially (per D2-068's business-model-evolution principle)",
+      "Track all 60 metrics the point-of-sale system is technically capable of producing, with no prioritization or rationalization, a flaw seen elsewhere when metrics proliferate without prioritization",
+      "A focused, owned scorecard: repairs-completed-per-day (efficiency) paired with repair-quality/callback-rate (quality counter-metric, preventing pure speed-gaming as in a rail-industry on-time-departure example), benchmarked against store-level foot-traffic and typical-repair-complexity baselines (controlling for confounds as in a territory-difficulty example), reviewed at a cadence matched to actual business rhythm (e.g., weekly operational review, monthly trend review) rather than a single annual snapshot, with a named store manager accountable for monitoring and acting on the metrics, and explicitly revisited whenever the store's service mix changes materially (per the business-model-evolution principle)",
       "Track only customer star ratings, discarding all internal efficiency and quality-process metrics entirely"
     ],
     "answer": 2,
@@ -911,13 +910,13 @@
     "sub": "mbb-portfolio",
     "stem": "An elevator maintenance company's portfolio prioritization criteria were formally established three years ago (weighted toward safety-incident reduction) but have never been revisited, even though the company's strategic focus has since shifted substantially toward predictive-maintenance technology adoption. Projects are still being scored and ranked against the original, now partially outdated criteria. What infrastructure principle is being violated?",
     "options": [
-      "Portfolio prioritization criteria are themselves a piece of infrastructure that requires periodic re-validation against current strategic priorities (directly paralleling the periodic re-validation principle established for strategic plans in D1-069 and organizational design in D2-069); using three-year-old criteria weighted toward a since-superseded strategic emphasis risks systematically mis-prioritizing the current portfolio against outdated rather than current organizational priorities",
+      "Portfolio prioritization criteria are themselves a piece of infrastructure that requires periodic re-validation against current strategic priorities (directly paralleling the periodic re-validation principle established for strategic plans (D1-069) and, similarly, for organizational design); using three-year-old criteria weighted toward a since-superseded strategic emphasis risks systematically mis-prioritizing the current portfolio against outdated rather than current organizational priorities",
       "Prioritization criteria are irrelevant to actual project selection outcomes and can be safely ignored regardless of their currency",
       "The company should immediately halt all portfolio prioritization activities until entirely new criteria can be developed from scratch, discarding the existing criteria's continued partial relevance (safety remains presumably still important) without review",
       "Prioritization criteria, once established, should remain permanently fixed regardless of any subsequent strategic changes, to preserve historical comparability across all scored projects"
     ],
     "answer": 0,
-    "why": "This extends the periodic re-validation principle (established for strategic plans and organizational design in Domains I and II) to portfolio prioritization criteria specifically \u2014 criteria are infrastructure that can drift out of alignment with current strategy exactly like a strategic plan or org design can, and require the same kind of periodic reassessment. Source: [BOK] Domain III.B, Project Portfolio Infrastructure and Management; direct cross-reference to D1-069, D2-069 (periodic re-validation principle).",
+    "why": "This extends the periodic re-validation principle (established for strategic plans and organizational design in Domains I and II) to portfolio prioritization criteria specifically \u2014 criteria are infrastructure that can drift out of alignment with current strategy exactly like a strategic plan or org design can, and require the same kind of periodic reassessment. Source: [BOK] Domain III.B, Project Portfolio Infrastructure and Management; direct cross-reference to D1-069 (periodic re-validation principle).",
     "set": 3,
     "qid": "mbb:set-3:d3-017"
   },
@@ -931,7 +930,7 @@
       "Lifecycle discipline requires treating each phase's exit criteria (data quality validation, formally-approved scope, sufficiently-validated root causes, and durable sustainment mechanisms) as genuine gates that must be substantively satisfied \u2014 not just procedurally checked off \u2014 before advancing, since shortcuts at any phase (as demonstrated across this batch's MSA, scope, Analyze, and Control examples) predictably undermine the value and validity of everything built on top of that phase afterward"
     ],
     "answer": 3,
-    "why": "This synthesis item distills the batch's four lifecycle-discipline scenarios (D3-001 MSA tollgate, D3-004 scope creep, D3-013 incomplete Analyze, D3-010 missing Control sustainment) into the general principle that phase-gate exit criteria must be substantively (not just procedurally) satisfied, since shortcuts predictably propagate and undermine everything built afterward \u2014 a genuinely MBB-level synthesis across the subdomain. Source: [BOK] Domain III.A, Project Management Principles and Lifecycle (subdomain synthesis).",
+    "why": "This synthesis item distills the batch's four lifecycle-discipline scenarios (D3-001 MSA tollgate, plus scope-creep, incomplete-Analyze, and missing-Control-sustainment scenarios tested elsewhere in this domain) into the general principle that phase-gate exit criteria must be substantively (not just procedurally) satisfied, since shortcuts predictably propagate and undermine everything built afterward \u2014 a genuinely MBB-level synthesis across the subdomain. Source: [BOK] Domain III.A, Project Management Principles and Lifecycle (subdomain synthesis).",
     "set": 3,
     "qid": "mbb:set-3:d3-022"
   },
@@ -970,10 +969,10 @@
       "The project should proceed without R&D involvement even now, since restructuring the team mid-project is never appropriate regardless of the discovered gap",
       "R&D should be excluded from all future projects permanently, given that their absence caused this specific issue",
       "No principle was violated; quality and operations personnel are always sufficient for any project touching product formulation, regardless of technical domain expertise gaps",
-      "The team composition omitted a critical technical-domain expert (R&D/formulation) whose specialized knowledge directly bears on the project's core technical question, a team-composition gap analogous to (though distinct from) the earlier culinary and craftsmanship expertise-engagement issues (D2-015, D2-047) \u2014 here the gap is about who is formally on the project team from the start, not just how existing team members' expertise is engaged; the MBB should require project chartering to include a technical-domain-fit review of proposed team composition before Analyze-phase work begins, specifically checking whether the project's core technical questions are covered by someone with direct relevant expertise"
+      "The team composition omitted a critical technical-domain expert (R&D/formulation) whose specialized knowledge directly bears on the project's core technical question, a team-composition gap analogous to (though distinct from) earlier culinary and craftsmanship expertise-engagement issues tested elsewhere in this domain \u2014 here the gap is about who is formally on the project team from the start, not just how existing team members' expertise is engaged; the MBB should require project chartering to include a technical-domain-fit review of proposed team composition before Analyze-phase work begins, specifically checking whether the project's core technical questions are covered by someone with direct relevant expertise"
     ],
     "answer": 3,
-    "why": "This is a team-composition/charter-review gap distinct from (though thematically related to) the engagement-style issues tested earlier \u2014 the fix is a formal technical-domain-fit check during chartering, ensuring core technical questions are covered by directly relevant expertise from project inception, not just an engagement-style adjustment with existing team members. Source: [BOK] Domain III.A, Project Management Principles and Lifecycle; parallel to D2-015, D2-047.",
+    "why": "This is a team-composition/charter-review gap distinct from (though thematically related to) the engagement-style issues tested earlier \u2014 the fix is a formal technical-domain-fit check during chartering, ensuring core technical questions are covered by directly relevant expertise from project inception, not just an engagement-style adjustment with existing team members. Source: [BOK] Domain III.A, Project Management Principles and Lifecycle; parallel to earlier expertise-engagement scenarios.",
     "set": 3,
     "qid": "mbb:set-3:d3-035"
   },
@@ -1002,7 +1001,7 @@
       "\"Are we on schedule?\" \u2014 since schedule adherence is the single most important consideration at every phase gate, more important than the substantive content of each phase's work"
     ],
     "answer": 2,
-    "why": "This is the batch's ultimate synthesis question, distilling every lifecycle failure demonstrated across 10+ items (D3-001, D3-004, D3-013, D3-010, D3-026, D3-029, D3-035, D3-038) into one universal diagnostic question applicable at any phase gate \u2014 forcing explicit, honest acknowledgment of any shortcuts rather than allowing them to pass silently, which is the common thread across every failure mode this domain has tested. Source: [BOK] Domain III.A, Project Management Principles and Lifecycle (full-subdomain synthesis, both batches).",
+    "why": "This is the batch's ultimate synthesis question, distilling every lifecycle failure demonstrated across ten-plus items in this domain, including D3-001, D3-026, and D3-035 into one universal diagnostic question applicable at any phase gate \u2014 forcing explicit, honest acknowledgment of any shortcuts rather than allowing them to pass silently, which is the common thread across every failure mode this domain has tested. Source: [BOK] Domain III.A, Project Management Principles and Lifecycle (full-subdomain synthesis, both batches).",
     "set": 3,
     "qid": "mbb:set-3:d3-041"
   },
@@ -1013,7 +1012,7 @@
       "The organization should be characterized as having no meaningful portfolio management infrastructure at all, despite the two elements already in place",
       "The organization has achieved full portfolio management maturity, since two of five infrastructure elements are in place",
       "All five infrastructure elements should be pursued with identical priority and urgency, since maturity models don't support differentiated sequencing",
-      "The organization has partial maturity \u2014 reporting/visibility infrastructure is reasonably established, but two significant gaps remain that pose active, compounding risk (no intake gate, meaning WIP overload risk per D3-014/D1-025, and no dependency register, meaning unmanaged cross-project risk exposure per D3-008), while the stale prioritization criteria (D3-017) represents a strategic-alignment risk that, while real, compounds more slowly; the MBB should prioritize closing the intake-gate and dependency-register gaps first (actively compounding risks), then address the prioritization criteria refresh"
+      "The organization has partial maturity \u2014 reporting/visibility infrastructure is reasonably established, but two significant gaps remain that pose active, compounding risk (no intake gate, meaning WIP overload risk per the pipeline-overload principle (D1-025), and no dependency register, meaning unmanaged cross-project risk exposure per D3-008), while the stale prioritization criteria (D3-017) represents a strategic-alignment risk that, while real, compounds more slowly; the MBB should prioritize closing the intake-gate and dependency-register gaps first (actively compounding risks), then address the prioritization criteria refresh"
     ],
     "answer": 3,
     "why": "This capstone item requires synthesizing the domain's infrastructure principles into a genuine maturity assessment with differentiated urgency: actively-compounding risks (unconstrained intake, unmanaged dependencies) warrant more urgent attention than a slower-compounding strategic-alignment gap (stale criteria) \u2014 a nuanced, Evaluate-level judgment rather than a binary \"mature/immature\" or undifferentiated-priority characterization. Source: [BOK] Domain III.B, Project Portfolio Infrastructure and Management (full-subdomain synthesis, both batches).",
@@ -1100,21 +1099,21 @@
       "No checklist is necessary; experienced Black Belts should be trusted to self-identify any lifecycle gaps without any structured audit tool"
     ],
     "answer": 1,
-    "why": "This final capstone item for Domain III requires synthesizing every specific lifecycle failure mode demonstrated across both batches (D3-001, D3-004, D3-010, D3-013, D3-026, D3-029, D3-032, D3-035, D3-038, D3-045) into a genuinely comprehensive, phase-specific audit tool design \u2014 each documented failure mode should map to a specific checklist question designed to catch it proactively, a true Create-level synthesis task closing out the domain's lifecycle subdomain. Source: [BOK] Domain III.A, Project Management Principles and Lifecycle (full-subdomain capstone).",
+    "why": "This final capstone item for Domain III requires synthesizing every specific lifecycle failure mode demonstrated across both batches, including D3-001, D3-026, D3-035, and D3-045 into a genuinely comprehensive, phase-specific audit tool design \u2014 each documented failure mode should map to a specific checklist question designed to catch it proactively, a true Create-level synthesis task closing out the domain's lifecycle subdomain. Source: [BOK] Domain III.A, Project Management Principles and Lifecycle (full-subdomain capstone).",
     "set": 3,
     "qid": "mbb:set-3:d3-048"
   },
   {
     "sub": "mbb-portfolio",
-    "stem": "A drone delivery startup's newly appointed MBB is designing portfolio management infrastructure from scratch for a rapidly scaling organization (similar to the meal-kit delivery scaling scenario in D2-069), wanting to avoid every infrastructure gap demonstrated across this domain (missing centralized visibility, mismatched review cadence, missing dependency/risk tracking, unconstrained intake, stale prioritization criteria, non-standardized reporting, undefined escalation thresholds, no centralized archive). Which single design principle should anchor the overall infrastructure architecture?",
+    "stem": "A drone delivery startup's newly appointed MBB is designing portfolio management infrastructure from scratch for a rapidly scaling organization (similar to other rapidly-scaling organizations discussed elsewhere in this bank), wanting to avoid every infrastructure gap demonstrated across this domain (missing centralized visibility, mismatched review cadence, missing dependency/risk tracking, unconstrained intake, stale prioritization criteria, non-standardized reporting, undefined escalation thresholds, no centralized archive). Which single design principle should anchor the overall infrastructure architecture?",
     "options": [
-      "Design infrastructure around a small number of core, complementary capabilities \u2014 centralized visibility, appropriately-paced governance cadence, dependency/risk aggregation, capacity-checking intake, periodically-revalidated prioritization criteria, standardized reporting with clear escalation thresholds, and a centralized knowledge archive \u2014 built initially in a lightweight, scalable form appropriate to current organizational size (per the resource-scaling principle from D1-040/D2-032), with an explicit plan to revisit and mature each capability as the organization grows (per the periodic re-validation principle from D1-069/D2-069/D3-017), rather than either under-building or over-building relative to current and near-future actual needs",
+      "Design infrastructure around a small number of core, complementary capabilities \u2014 centralized visibility, appropriately-paced governance cadence, dependency/risk aggregation, capacity-checking intake, periodically-revalidated prioritization criteria, standardized reporting with clear escalation thresholds, and a centralized knowledge archive \u2014 built initially in a lightweight, scalable form appropriate to current organizational size (per the resource-scaling principle (D2-032)), with an explicit plan to revisit and mature each capability as the organization grows (per the periodic re-validation principle (D1-069, D3-017)), rather than either under-building or over-building relative to current and near-future actual needs",
       "Skip infrastructure design entirely at this early stage, since a startup should prioritize speed over any governance structure regardless of the risks this has been shown to create elsewhere in this domain",
       "Build the most complex, feature-complete infrastructure possible immediately, regardless of the organization's current small scale and rapid rate of change, mirroring a much larger and more mature organization's infrastructure",
       "Copy another company's infrastructure exactly, regardless of differences in industry, scale, or organizational structure"
     ],
     "answer": 0,
-    "why": "This final capstone item for the infrastructure subdomain requires synthesizing not just this domain's infrastructure gaps but also the resource-scaling principle (D1-040, D2-032) and periodic re-validation principle (D1-069, D2-069, D3-017) established across the entire question bank into a single coherent design philosophy: build the necessary core capabilities in a scale-appropriate, initially lightweight form, with an explicit maturation plan \u2014 genuinely Create-level synthesis spanning multiple domains. Source: [BOK] Domain III.B, Project Portfolio Infrastructure and Management (full-subdomain capstone); cross-domain synthesis with D1-040, D1-069, D2-032, D2-069.",
+    "why": "This final capstone item for the infrastructure subdomain requires synthesizing not just this domain's infrastructure gaps but also the resource-scaling principle (D2-032) and periodic re-validation principle (D1-069, D3-017) established across the entire question bank into a single coherent design philosophy: build the necessary core capabilities in a scale-appropriate, initially lightweight form, with an explicit maturation plan \u2014 genuinely Create-level synthesis spanning multiple domains. Source: [BOK] Domain III.B, Project Portfolio Infrastructure and Management (full-subdomain capstone); cross-domain synthesis with D1-069 and D2-032.",
     "set": 3,
     "qid": "mbb:set-3:d3-049"
   },
@@ -1124,11 +1123,11 @@
     "options": [
       "Different, inconsistent templates for every individual project, tailored ad hoc by each Black Belt with no standardized elements at all",
       "A template requiring only a subjective \"high/medium/low\" value rating assigned by the project sponsor, with no supporting quantitative analysis of any kind",
-      "A structured template requiring: (1) total cost of ownership (not just purchase/implementation price, capturing all directly-associated costs per D3-047), (2) NPV and payback period calculated together (never either alone, given each metric's distinct limitations per D3-003/D3-006/D3-018), (3) explicit hard vs. soft savings classification (per D3-009/D3-015), (4) a sensitivity range rather than a single-point estimate for any benefit with meaningful uncertainty (per D3-034), (5) explicit confirmation that no sunk costs have influenced the forward-looking analysis (per D3-024), (6) a completeness check for commonly-omitted cost categories such as regulatory/certification triggers (per D3-031), and (7) a flag for any safety-critical dimension warranting evaluation beyond routine NPV alone (per D3-043) \u2014 with capital-rationing/combinatorial analysis (per D3-037) applied at the portfolio level once individual project templates are complete",
+      "A structured template requiring: (1) total cost of ownership (not just purchase/implementation price, capturing all directly-associated costs per D3-047), (2) NPV and payback period calculated together (never either alone, given each metric's distinct limitations given each metric's distinct limitations), (3) explicit hard vs. soft savings classification , (4) a sensitivity range rather than a single-point estimate for any benefit with meaningful uncertainty , (5) explicit confirmation that no sunk costs have influenced the forward-looking analysis , (6) a completeness check for commonly-omitted cost categories such as regulatory/certification triggers , and (7) a flag for any safety-critical dimension warranting evaluation beyond routine NPV alone (per D3-043) \u2014 with capital-rationing/combinatorial analysis (per D3-037) applied at the portfolio level once individual project templates are complete",
       "A single-line template requiring only \"estimated annual savings\" with no further detail, structure, or supporting analysis of any kind"
     ],
     "answer": 2,
-    "why": "This final capstone item for Domain III requires synthesizing all ten distinct financial-tools principles demonstrated across both batches (D3-003, D3-006, D3-009, D3-012, D3-015, D3-018, D3-024, D3-031, D3-034, D3-037, D3-043, D3-047) into a single, comprehensive, standardized evaluation template \u2014 the clearest possible demonstration of Create-level synthesis closing out Domain III's financial-tools subdomain and the domain as a whole. Source: [BOK] Domain III.C, Project Portfolio Financial Tools (full-subdomain and full-domain capstone).",
+    "why": "This final capstone item for Domain III requires synthesizing all ten distinct financial-tools principles demonstrated across both batches, including D3-012, D3-031, D3-037, D3-043, and D3-047 into a single, comprehensive, standardized evaluation template \u2014 the clearest possible demonstration of Create-level synthesis closing out Domain III's financial-tools subdomain and the domain as a whole. Source: [BOK] Domain III.C, Project Portfolio Financial Tools (full-subdomain and full-domain capstone).",
     "set": 3,
     "qid": "mbb:set-3:d3-050"
   },
@@ -1184,7 +1183,7 @@
       "The periodic re-validation principle (already established for strategic plans, organizational design, and portfolio prioritization criteria) applies equally to training needs analysis: a three-year-old assessment likely no longer reflects current capability gaps and should be refreshed"
     ],
     "answer": 3,
-    "why": "This connects the periodic re-validation principle (portfolio criteria, strategic plans) to training needs analysis specifically \u2014 a static assessment predictably drifts out of alignment with a changing organization.",
+    "why": "This connects the periodic re-validation principle (portfolio criteria, strategic plans) to training needs analysis specifically \u2014 a static assessment predictably drifts out of alignment with a changing organization. Source: [BOK] Domain IV.A, Training Needs Analysis.",
     "set": 3,
     "qid": "mbb:set-3:d4-004"
   },
@@ -1198,7 +1197,7 @@
       "The training plan should eliminate learning objectives entirely and rely only on the assessment"
     ],
     "answer": 1,
-    "why": "A defined competency assessment is a standard, necessary training plan element \u2014 without it, certification doesn't verify genuine capability, risking exactly the credibility and quality-of-Belt-pool concerns raised elsewhere in this domain (e.g., D2-034's advancement-pathway gap).",
+    "why": "A defined competency assessment is a standard, necessary training plan element \u2014 without it, certification doesn't verify genuine capability, risking exactly the credibility and quality-of-Belt-pool concerns raised elsewhere (e.g., an inconsistent, informal Belt-advancement pathway). Source: [BOK] Domain IV.B, Training Plan Elements.",
     "set": 3,
     "qid": "mbb:set-3:d4-005"
   },
@@ -1212,7 +1211,7 @@
       "Keep the allocation unchanged, since statistical tools are always the most important training content"
     ],
     "answer": 1,
-    "why": "Training plan content allocation should reflect the organization's actual, evidenced failure patterns \u2014 continuing to over-invest in technical content while under-investing in the documented root cause of failures is a misallocation the needs-analysis-to-plan linkage should catch.",
+    "why": "Training plan content allocation should reflect the organization's actual, evidenced failure patterns \u2014 continuing to over-invest in technical content while under-investing in the documented root cause of failures is a misallocation the needs-analysis-to-plan linkage should catch. Source: [BOK] Domain IV.B, Training Plan Elements.",
     "chart": {"type": "data-table", "columns": ["Content area", "Current allocation", "Project failure attribution"], "rows": [["Statistical tools", "90%", "15%"], ["Change mgmt / stakeholder engagement", "10%", "70%"], ["Other", "0%", "15%"]]},
     "set": 3,
     "qid": "mbb:set-3:d4-006"
@@ -1227,7 +1226,7 @@
       "The DFSS curriculum itself is flawed and should be discontinued"
     ],
     "answer": 0,
-    "why": "Defining prerequisites is a standard training plan element for advanced curricula \u2014 omitting this predictably produces the exact struggle described when trainees lack foundational context.",
+    "why": "Defining prerequisites is a standard training plan element for advanced curricula \u2014 omitting this predictably produces the exact struggle described when trainees lack foundational context. Source: [BOK] Domain IV.B, Training Plan Elements.",
     "set": 3,
     "qid": "mbb:set-3:d4-007"
   },
@@ -1241,7 +1240,7 @@
       "Training should be canceled entirely if logistics aren't planned a year in advance"
     ],
     "answer": 1,
-    "why": "Logistics planning is a standard, foundational training plan element precisely because ad hoc last-minute handling predictably produces disruption \u2014 proactive planning, not reactive scrambling, is the correct approach.",
+    "why": "Logistics planning is a standard, foundational training plan element precisely because ad hoc last-minute handling predictably produces disruption \u2014 proactive planning, not reactive scrambling, is the correct approach. Source: [BOK] Domain IV.B, Training Plan Elements.",
     "set": 3,
     "qid": "mbb:set-3:d4-008"
   },
@@ -1255,7 +1254,7 @@
       "Eliminate all technical terminology entirely, oversimplifying the statistical content to the point of losing rigor"
     ],
     "answer": 0,
-    "why": "Adapting delivery format (visual aids, translated glossaries) to the actual workforce composition is a standard, appropriate accommodation \u2014 distinct from either ignoring the need or inappropriately diluting technical rigor.",
+    "why": "Adapting delivery format (visual aids, translated glossaries) to the actual workforce composition is a standard, appropriate accommodation \u2014 distinct from either ignoring the need or inappropriately diluting technical rigor. Source: [BOK] Domain IV.C, Training Materials and Delivery.",
     "set": 3,
     "qid": "mbb:set-3:d4-009"
   },
@@ -1269,7 +1268,7 @@
       "Intensive single-session delivery is always the most effective training format regardless of retention outcomes"
     ],
     "answer": 0,
-    "why": "Spaced repetition and reinforcement are well-established learning-science principles; a single intensive session with no follow-up predictably underperforms a distributed model on long-term retention.",
+    "why": "Spaced repetition and reinforcement are well-established learning-science principles; a single intensive session with no follow-up predictably underperforms a distributed model on long-term retention. Source: [BOK] Domain IV.C, Training Materials and Delivery.",
     "set": 3,
     "qid": "mbb:set-3:d4-010"
   },
@@ -1283,7 +1282,7 @@
       "Eliminate all training content and rely solely on on-the-job learning with no formal instruction"
     ],
     "answer": 1,
-    "why": "Contextual relevance of training examples to trainees' actual work materially affects engagement and transfer of learning \u2014 generic, industry-mismatched examples predictably underperform customized ones.",
+    "why": "Contextual relevance of training examples to trainees' actual work materially affects engagement and transfer of learning \u2014 generic, industry-mismatched examples predictably underperform customized ones. Source: [BOK] Domain IV.C, Training Materials and Delivery.",
     "set": 3,
     "qid": "mbb:set-3:d4-011"
   },
@@ -1297,7 +1296,7 @@
       "A hybrid model: asynchronous self-paced modules for foundational content (accommodating schedule variability across time zones) paired with periodic synchronous sessions for discussion, Q&A, and applied practice \u2014 balancing flexibility with the relationship-building and real-time clarification synchronous delivery provides"
     ],
     "answer": 3,
-    "why": "A hybrid delivery model is the standard, defensible solution for genuinely dispersed, schedule-variable cohorts \u2014 balancing the flexibility asynchronous content provides against the real-time engagement value of periodic synchronous sessions.",
+    "why": "A hybrid delivery model is the standard, defensible solution for genuinely dispersed, schedule-variable cohorts \u2014 balancing the flexibility asynchronous content provides against the real-time engagement value of periodic synchronous sessions. Source: [BOK] Domain IV.C, Training Materials and Delivery.",
     "set": 3,
     "qid": "mbb:set-3:d4-012"
   },
@@ -1311,7 +1310,7 @@
       "Weak project outcomes prove satisfaction surveys are always misleading and should never be used"
     ],
     "answer": 1,
-    "why": "This tests recognizing the well-known training-evaluation-levels gap: reaction/satisfaction is the weakest evaluation signal and does not by itself indicate learning, behavior change, or business results \u2014 all of which should be measured for a complete effectiveness picture.",
+    "why": "This tests recognizing the well-known training-evaluation-levels gap: reaction/satisfaction is the weakest evaluation signal and does not by itself indicate learning, behavior change, or business results \u2014 all of which should be measured for a complete effectiveness picture. Source: [BOK] Domain IV.D, Training Program Effectiveness.",
     "chart": {"type": "data-table", "columns": ["Evaluation level", "What it measures", "This program's status"], "rows": [["1. Reaction", "Trainee satisfaction", "Measured (high)"], ["2. Learning", "Knowledge/skill gained", "Not measured"], ["3. Behavior", "On-the-job application", "Not measured"], ["4. Results", "Business outcomes", "Not measured"]]},
     "set": 3,
     "qid": "mbb:set-3:d4-013"
@@ -1326,7 +1325,7 @@
       "Track a cohort of certified Belts' subsequent project outcomes (completion rate, validated benefit realization, quality of DMAIC execution) against a baseline or comparison group, since exam performance measures knowledge acquisition, not downstream on-the-job project success"
     ],
     "answer": 3,
-    "why": "Exam pass rates measure knowledge acquisition (a Kirkpatrick Level 2 concern), not the actual downstream project-outcome results the organization ultimately cares about \u2014 direct outcome tracking against a baseline is the correct approach.",
+    "why": "Exam pass rates measure knowledge acquisition (a Kirkpatrick Level 2 concern), not the actual downstream project-outcome results the organization ultimately cares about \u2014 direct outcome tracking against a baseline is the correct approach. Source: [BOK] Domain IV.D, Training Program Effectiveness.",
     "set": 3,
     "qid": "mbb:set-3:d4-014"
   },
@@ -1340,7 +1339,7 @@
       "Green Belts should be required to launch a project within one week of certification regardless of organizational readiness"
     ],
     "answer": 0,
-    "why": "A gap between reported training confidence and actual application usually points to organizational/structural barriers (sponsorship, time, project pipeline access) rather than a training-content flaw \u2014 the MBB should investigate the surrounding support system before concluding the curriculum failed.",
+    "why": "A gap between reported training confidence and actual application usually points to organizational/structural barriers (sponsorship, time, project pipeline access) rather than a training-content flaw \u2014 the MBB should investigate the surrounding support system before concluding the curriculum failed. Source: [BOK] Domain IV.D, Training Program Effectiveness.",
     "set": 3,
     "qid": "mbb:set-3:d4-015"
   },
@@ -1354,7 +1353,7 @@
       "Recommend eliminating the champion role from the deployment entirely"
     ],
     "answer": 0,
-    "why": "This is a foundational coaching moment \u2014 clarifying the champion's genuinely active (if distinct from technical) role prevents exactly the ceremonial-sponsorship pattern documented elsewhere in this domain (organizational competencies, D2-002).",
+    "why": "This is a foundational coaching moment \u2014 clarifying the champion's genuinely active (if distinct from technical) role prevents exactly the ceremonial-sponsorship pattern documented elsewhere (organizational competencies). Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-001"
   },
@@ -1368,7 +1367,7 @@
       "Encourage the champion to continue attending every meeting and directing technical decisions, since more executive involvement is always better"
     ],
     "answer": 1,
-    "why": "Over-involvement at the technical level is a distinct champion-coaching challenge from under-involvement (ceremonial sponsorship) \u2014 both are miscalibrations of the champion's proper role, which is strategic/organizational, not routine technical direction.",
+    "why": "Over-involvement at the technical level is a distinct champion-coaching challenge from under-involvement (ceremonial sponsorship) \u2014 both are miscalibrations of the champion's proper role, which is strategic/organizational, not routine technical direction. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-002"
   },
@@ -1382,7 +1381,7 @@
       "Continue allowing the champion to approve charters without review, since verbal summaries are sufficient"
     ],
     "answer": 1,
-    "why": "Champion charter approval is meant to be a genuine governance checkpoint, not a formality \u2014 coaching should address the specific gap (not reading charters) directly rather than removing the role or misdirecting responsibility entirely to the Black Belt.",
+    "why": "Champion charter approval is meant to be a genuine governance checkpoint, not a formality \u2014 coaching should address the specific gap (not reading charters) directly rather than removing the role or misdirecting responsibility entirely to the Black Belt. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-003"
   },
@@ -1396,7 +1395,7 @@
       "Focus coaching on the specific, high-leverage things this executive needs to recognize \u2014 what a valid charter looks like, what tollgate questions to ask, and warning signs of a stalled project \u2014 rather than full methodology training, respecting the time constraint while still building genuine oversight capability"
     ],
     "answer": 3,
-    "why": "Executive coaching should be right-sized to what genuinely matters for their oversight role \u2014 not full methodology training, but not zero either; a handful of high-leverage recognition skills respects the time constraint while still building real oversight capability.",
+    "why": "Executive coaching should be right-sized to what genuinely matters for their oversight role \u2014 not full methodology training, but not zero either; a handful of high-leverage recognition skills respects the time constraint while still building real oversight capability. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-004"
   },
@@ -1410,7 +1409,7 @@
       "Recommend replacing the champion for raising the timeline concern at all"
     ],
     "answer": 0,
-    "why": "Legitimate stage-gate kill authority (as established elsewhere in this domain, e.g., the vendor-constraint kill decision) should still be exercised based on tollgate evidence, not schedule frustration alone \u2014 coaching should slow the decision down to incorporate the evidence, not simply defer to or override the champion's authority.",
+    "why": "Legitimate stage-gate kill authority (as established elsewhere in this domain, e.g., the vendor-constraint kill decision) should still be exercised based on tollgate evidence, not schedule frustration alone \u2014 coaching should slow the decision down to incorporate the evidence, not simply defer to or override the champion's authority. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-005"
   },
@@ -1424,7 +1423,7 @@
       "Facilitate a joint conversation between the two champions (and their common executive sponsor if needed) to resolve the resource conflict using shared criteria, coaching both on the expectation that competing resource claims go through governance rather than direct escalation to the MBB"
     ],
     "answer": 3,
-    "why": "This mirrors the cross-functional resource-conflict facilitation principle established elsewhere in this domain (organizational competencies) \u2014 the MBB's coaching role is facilitating resolution through proper channels, not personally arbitrating beyond their authority.",
+    "why": "This mirrors the cross-functional resource-conflict facilitation principle established elsewhere in this domain (organizational competencies) \u2014 the MBB's coaching role is facilitating resolution through proper channels, not personally arbitrating beyond their authority. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-006"
   },
@@ -1438,7 +1437,7 @@
       "Recommend the Black Belt stop working on any project this champion sponsors"
     ],
     "answer": 2,
-    "why": "This connects to the recognition/retention principle established elsewhere (organizational competencies) \u2014 invisible credit-taking is a real driver of Belt disengagement, and the MBB's coaching role includes raising this directly and constructively with the champion.",
+    "why": "This connects to the recognition/retention principle established elsewhere (organizational competencies) \u2014 invisible credit-taking is a real driver of Belt disengagement, and the MBB's coaching role includes raising this directly and constructively with the champion. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-007"
   },
@@ -1452,7 +1451,7 @@
       "Recommend the Black Belt work entirely alone with no team or stakeholder interaction going forward"
     ],
     "answer": 1,
-    "why": "Technical skill and interpersonal/facilitation skill are both necessary; coaching should address the specific gap (stakeholder engagement) rather than either ignoring it or overreacting to remove a technically strong Belt.",
+    "why": "Technical skill and interpersonal/facilitation skill are both necessary; coaching should address the specific gap (stakeholder engagement) rather than either ignoring it or overreacting to remove a technically strong Belt. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-008"
   },
@@ -1466,7 +1465,7 @@
       "Advise the Green Belt to report the root cause the champion wants regardless of what the data shows"
     ],
     "answer": 2,
-    "why": "This is a core coaching-for-integrity moment \u2014 the Green Belt needs both permission and a constructive method to report what the data actually shows, rather than either suppressing it or escalating unnecessarily before attempting direct, honest communication.",
+    "why": "This is a core coaching-for-integrity moment \u2014 the Green Belt needs both permission and a constructive method to report what the data actually shows, rather than either suppressing it or escalating unnecessarily before attempting direct, honest communication. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-009"
   },
@@ -1480,7 +1479,7 @@
       "Suggest a structured facilitation technique \u2014 e.g., a round-robin format where each member speaks in turn, or explicitly inviting the quieter member's input before opening discussion \u2014 to ensure the valuable expertise isn't lost to the dominant dynamic"
     ],
     "answer": 3,
-    "why": "This is the same team-dynamics coaching pattern established elsewhere (organizational competencies) \u2014 concrete facilitation techniques (round-robin, explicit invitation) are the practical coaching tool for exactly this dominant-voice/quiet-expert dynamic.",
+    "why": "This is the same team-dynamics coaching pattern established elsewhere (organizational competencies) \u2014 concrete facilitation techniques (round-robin, explicit invitation) are the practical coaching tool for exactly this dominant-voice/quiet-expert dynamic. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-010"
   },
@@ -1494,7 +1493,7 @@
       "Agree that they probably aren't ready and delay their advancement indefinitely based on their stated self-doubt alone"
     ],
     "answer": 1,
-    "why": "Effective individual coaching acknowledges the feeling while grounding the conversation in concrete, objective evidence of demonstrated competency \u2014 neither dismissing the person's experience nor letting self-doubt alone override documented performance.",
+    "why": "Effective individual coaching acknowledges the feeling while grounding the conversation in concrete, objective evidence of demonstrated competency \u2014 neither dismissing the person's experience nor letting self-doubt alone override documented performance. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-011"
   },
@@ -1508,7 +1507,7 @@
       "This violates the coach-not-doer principle \u2014 effective coaching builds the Black Belt's own capability by guiding them through the reasoning (asking questions, pointing to relevant resources, reviewing their draft) rather than solving the problem for them, which leaves the underlying skill gap unaddressed for next time"
     ],
     "answer": 3,
-    "why": "This is a classic coach-vs-doer distinction: solving the problem directly may be faster once, but it doesn't build the Black Belt's own capability, leaving them equally stuck next time a similar situation arises \u2014 guided reasoning is the correct coaching approach.",
+    "why": "This is a classic coach-vs-doer distinction: solving the problem directly may be faster once, but it doesn't build the Black Belt's own capability, leaving them equally stuck next time a similar situation arises \u2014 guided reasoning is the correct coaching approach. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-012"
   },
@@ -1522,7 +1521,7 @@
       "Dismiss the concern as unrelated to formal project work and take no action"
     ],
     "answer": 0,
-    "why": "This tests recognizing that informal, network-dependent processes can create real and unfair barriers; the appropriate MBB response is investigating and working toward more transparent, criteria-based processes, not dismissing the concern or mishandling the confidence.",
+    "why": "This tests recognizing that informal, network-dependent processes can create real and unfair barriers; the appropriate MBB response is investigating and working toward more transparent, criteria-based processes, not dismissing the concern or mishandling the confidence. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-013"
   },
@@ -1536,7 +1535,7 @@
       "Normalize the difficulty as a common part of the learning process, help them break the specific Analyze-phase obstacle into a smaller, more manageable next step, and offer concrete support (a working session, a relevant example) \u2014 addressing both the emotional moment and the specific technical obstacle"
     ],
     "answer": 3,
-    "why": "Effective in-the-moment coaching addresses both the emotional experience (normalizing difficulty, offering support) and the concrete technical obstacle (breaking it into a manageable next step) \u2014 neither purely clinical nor purely reassuring alone fully serves the person.",
+    "why": "Effective in-the-moment coaching addresses both the emotional experience (normalizing difficulty, offering support) and the concrete technical obstacle (breaking it into a manageable next step) \u2014 neither purely clinical nor purely reassuring alone fully serves the person. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-014"
   },
@@ -1550,7 +1549,7 @@
       "Continue as-is, since sharing past experience is the only valuable thing a mentor can offer"
     ],
     "answer": 2,
-    "why": "Effective mentoring centers the mentee's actual current needs (surfaced through open-ended questions) rather than leading with the mentor's own unprompted experience \u2014 a correctable coaching-of-the-coach adjustment, not grounds for removal.",
+    "why": "Effective mentoring centers the mentee's actual current needs (surfaced through open-ended questions) rather than leading with the mentor's own unprompted experience \u2014 a correctable coaching-of-the-coach adjustment, not grounds for removal. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
     "set": 3,
     "qid": "mbb:set-3:d5-015"
   },
@@ -1578,22 +1577,22 @@
       "ndc estimates how many distinct groups of part values the measurement system can reliably distinguish; an ndc of 2 means the gauge can barely tell 'high' from 'low' and cannot meaningfully resolve finer part-to-part differences, a serious problem for process control even beyond the %Study Variation figure"
     ],
     "answer": 3,
-    "why": "ndc directly answers 'how many distinguishable groups can this gauge resolve' \u2014 a low ndc (commonly, below 5) signals the gauge cannot adequately discriminate between parts, a distinct and important piece of information beyond the %Study Variation figure alone.",
+    "why": "ndc directly answers 'how many distinguishable groups can this gauge resolve' \u2014 a low ndc (commonly, below 5) signals the gauge cannot adequately discriminate between parts, a distinct and important piece of information beyond the %Study Variation figure alone. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "set": 3,
     "qid": "mbb:set-3:d6-002"
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A Black Belt's MSA study for a discrete pass/fail visual inspection reports Cohen's kappa of 0.42 between two inspectors. How should this be interpreted, and what should the MBB recommend?",
+    "stem": "A Black Belt's MSA study for a discrete pass/fail visual inspection reports Cohen's kappa of 0.40 between two inspectors. How should this be interpreted, and what should the MBB recommend?",
     "options": [
-      "Kappa of 0.42 indicates excellent agreement; no action is needed",
+      "Kappa of 0.40 indicates excellent agreement; no action is needed",
       "A kappa below 1.0 always means the inspection system must be replaced with 100% automated inspection",
-      "Kappa of 0.42 indicates only moderate agreement at best (commonly, kappa below 0.6-0.7 is considered inadequate for a production inspection decision); the MBB should recommend clarifying inspection criteria, retraining inspectors on ambiguous cases, and re-running the study before relying on this inspection system",
+      "Kappa of 0.40 indicates only moderate agreement at best (commonly, kappa below 0.6-0.7 is considered inadequate for a production inspection decision); the MBB should recommend clarifying inspection criteria, retraining inspectors on ambiguous cases, and re-running the study before relying on this inspection system",
       "Kappa is only applicable to continuous data and cannot be computed for pass/fail inspection"
     ],
     "answer": 2,
-    "why": "Kappa quantifies agreement beyond chance for categorical/attribute data; a value of 0.42 reflects only moderate agreement, well short of the threshold typically required (often 0.6-0.75+) to trust a pass/fail inspection system for production decisions.",
-    "chart": {"type": "data-table", "columns": ["Inspector 2: Pass", "Inspector 2: Fail"], "rows": [["Inspector 1: Pass", "41", "6"], ["Inspector 1: Fail", "9", "44"]]},
+    "why": "Kappa quantifies agreement beyond chance for categorical/attribute data; a value of 0.40 reflects only moderate agreement, well short of the threshold typically required (often 0.6-0.75+) to trust a pass/fail inspection system for production decisions. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+    "chart": {"type": "data-table", "columns": ["Inspector 2: Pass", "Inspector 2: Fail"], "rows": [["Inspector 1: Pass", "30", "20"], ["Inspector 1: Fail", "10", "40"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-003"
   },
@@ -1607,7 +1606,7 @@
       "Cpk = 1.33; the process is well-centered and capable relative to the specification limits"
     ],
     "answer": 2,
-    "why": "Cpu = (62-51)/(3\u00d74) = 11/12 = 0.917; Cpl = (51-38)/(3\u00d74) = 13/12 = 1.083; Cpk = min(0.917, 1.083) = 0.92, indicating the process is closer to the upper limit and only marginally capable \u2014 below the common 1.33 benchmark for a well-controlled process.",
+    "why": "Cpu = (62-51)/(3\u00d74) = 11/12 = 0.917; Cpl = (51-38)/(3\u00d74) = 13/12 = 1.083; Cpk = min(0.917, 1.083) = 0.92, indicating the process is closer to the upper limit and only marginally capable \u2014 below the common 1.33 benchmark for a well-controlled process. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "set": 3,
     "qid": "mbb:set-3:d6-004"
   },
@@ -1621,7 +1620,7 @@
       "The R-chart should simply be discarded and only the X-bar chart used going forward"
     ],
     "answer": 2,
-    "why": "Because X-bar chart control limits are calculated from the average range, an out-of-control R-chart point can invalidate the X-bar limits derived from that data; the correct sequence is to always check the R-chart first, investigate/resolve special causes there, then trust the X-bar chart.",
+    "why": "Because X-bar chart control limits are calculated from the average range, an out-of-control R-chart point can invalidate the X-bar limits derived from that data; the correct sequence is to always check the R-chart first, investigate/resolve special causes there, then trust the X-bar chart. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "xbar-r", "xbar": {"ucl": 52.1, "cl": 50.0, "lcl": 47.9, "data": [50.2, 49.8, 50.5, 49.6, 50.1, 50.9, 49.7, 50.3]}, "r": {"ucl": 6.2, "cl": 2.9, "lcl": 0, "data": [2.5, 3.1, 2.8, 3.4, 2.6, 7.8, 2.9, 3.0]}},
     "set": 3,
     "qid": "mbb:set-3:d6-005"
@@ -1636,7 +1635,7 @@
       "Ignore the outliers entirely and report only the median, since boxplots are unaffected by outlier interpretation"
     ],
     "answer": 0,
-    "why": "Outliers on a boxplot should prompt investigation into their root cause before any decision to exclude them \u2014 they may represent genuine, actionable special-cause behavior (a specific complexity driver, system issue, etc.) rather than simply noise to be discarded.",
+    "why": "Outliers on a boxplot should prompt investigation into their root cause before any decision to exclude them \u2014 they may represent genuine, actionable special-cause behavior (a specific complexity driver, system issue, etc.) rather than simply noise to be discarded. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "boxplot", "min": 2.1, "q1": 3.4, "median": 4.2, "q3": 5.1, "max": 6.8, "mean": 4.5, "outliers": [9.2, 10.1, 11.4], "axisMin": 0, "axisMax": 12},
     "set": 3,
     "qid": "mbb:set-3:d6-006"
@@ -1651,7 +1650,7 @@
       "The entire dataset is non-normal and should be discarded"
     ],
     "answer": 2,
-    "why": "A normal probability plot where most points track the reference line but a few clear outliers deviate suggests investigating those specific points as a potential distinct subpopulation or special cause, rather than concluding the entire dataset is non-normal.",
+    "why": "A normal probability plot where most points track the reference line but a few clear outliers deviate suggests investigating those specific points as a potential distinct subpopulation or special cause, rather than concluding the entire dataset is non-normal. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "normal-prob", "values": [12.1, 12.3, 12.4, 12.5, 12.5, 12.6, 12.6, 12.7, 12.7, 12.7, 12.8, 12.8, 12.8, 12.9, 12.9, 13.0, 13.0, 13.1, 13.1, 13.2, 13.3, 13.4, 8.9, 9.1]},
     "set": 3,
     "qid": "mbb:set-3:d6-007"
@@ -1666,7 +1665,7 @@
       "A panel showing points scattered widely and also offset from the target"
     ],
     "answer": 2,
-    "why": "High precision means low variability (tight clustering); low accuracy means the measurements are biased away from the true value \u2014 the combination is tight clustering that is consistently off-center from the target, distinct from the other three quadrant combinations.",
+    "why": "High precision means low variability (tight clustering); low accuracy means the measurements are biased away from the true value \u2014 the combination is tight clustering that is consistently off-center from the target, distinct from the other three quadrant combinations. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "precision-accuracy"},
     "set": 3,
     "qid": "mbb:set-3:d6-008"
@@ -1681,7 +1680,7 @@
       "This indicates a linearity problem, since the gap changes across the range"
     ],
     "answer": 0,
-    "why": "A constant offset across the full range is a bias (calibration) issue, correctable with a fixed adjustment; a linearity problem is specifically when the size of the bias itself changes across the measurement range, requiring a different (often more involved) fix.",
+    "why": "A constant offset across the full range is a bias (calibration) issue, correctable with a fixed adjustment; a linearity problem is specifically when the size of the bias itself changes across the measurement range, requiring a different (often more involved) fix. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "bias-diagram"},
     "set": 3,
     "qid": "mbb:set-3:d6-009"
@@ -1696,7 +1695,7 @@
       "Trust the Cpk value as calculated, since Cpk calculations don't depend on the underlying distribution shape"
     ],
     "answer": 2,
-    "why": "Standard Cpk calculations assume normality; a clearly non-normal pattern (like a strong S-curve on a normal probability plot) means the reported Cpk may be misleading, and the MBB should verify/correct for the actual distribution before relying on it.",
+    "why": "Standard Cpk calculations assume normality; a clearly non-normal pattern (like a strong S-curve on a normal probability plot) means the reported Cpk may be misleading, and the MBB should verify/correct for the actual distribution before relying on it. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "set": 3,
     "qid": "mbb:set-3:d6-010"
   },
@@ -1710,7 +1709,7 @@
       "Nothing; since no individual point exceeds the control limits, the process remains fully in control with no signal present"
     ],
     "answer": 0,
-    "why": "Standard run rules (e.g., 8+ consecutive points on one side of the centerline) flag a likely process shift as a special cause signal even when no single point exceeds the 3-sigma control limits \u2014 a run-based signal, not a single-point signal.",
+    "why": "Standard run rules (e.g., 8+ consecutive points on one side of the centerline) flag a likely process shift as a special cause signal even when no single point exceeds the 3-sigma control limits \u2014 a run-based signal, not a single-point signal. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "control-single", "title": "Fill weight (g)", "unit": "g", "ucl": 505, "cl": 500, "lcl": 495, "data": [499, 501, 500, 498, 502, 501, 502, 503, 502, 504, 503, 502]},
     "set": 3,
     "qid": "mbb:set-3:d6-011"
@@ -1725,7 +1724,7 @@
       "Specification limits should always be set wider than control limits automatically, regardless of the actual process capability"
     ],
     "answer": 2,
-    "why": "This tests a foundational SPC distinction: control limits (based on actual process variation) and specification limits (based on customer requirements) serve different purposes and are calculated differently; conflating them produces either excessive false alarms or inadequate defect detection depending on the process's actual capability relative to spec.",
+    "why": "This tests a foundational SPC distinction: control limits (based on actual process variation) and specification limits (based on customer requirements) serve different purposes and are calculated differently; conflating them produces either excessive false alarms or inadequate defect detection depending on the process's actual capability relative to spec. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "set": 3,
     "qid": "mbb:set-3:d6-012"
   },
@@ -1739,7 +1738,7 @@
       "Plan A is worse at discriminating between good and bad lots than Plan B"
     ],
     "answer": 1,
-    "why": "A steeper OC curve indicates sharper discrimination between good and bad lots \u2014 probability of acceptance falls off more quickly as true defect levels rise, which is generally a desirable sampling-plan property, though it usually comes with trade-offs in sample size or cost.",
+    "why": "A steeper OC curve indicates sharper discrimination between good and bad lots \u2014 probability of acceptance falls off more quickly as true defect levels rise, which is generally a desirable sampling-plan property, though it usually comes with trade-offs in sample size or cost. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "oc-curve"},
     "set": 3,
     "qid": "mbb:set-3:d6-013"
@@ -1754,7 +1753,7 @@
       "Time-to-time variation is clearly the dominant source based on this chart alone"
     ],
     "answer": 0,
-    "why": "A multi-vari chart's core diagnostic value is separating variation sources; tight within-group spread with large between-group differences points to a machine-level (not part-level) root cause, directing the next investigation toward what differs between the machines themselves.",
+    "why": "A multi-vari chart's core diagnostic value is separating variation sources; tight within-group spread with large between-group differences points to a machine-level (not part-level) root cause, directing the next investigation toward what differs between the machines themselves. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "chart": {"type": "multi-vari", "groupLabel": "Machine", "groups": [{"label": "Machine 1", "values": [10.02, 10.01, 10.03, 10.02]}, {"label": "Machine 2", "values": [10.15, 10.14, 10.16, 10.15]}, {"label": "Machine 3", "values": [9.88, 9.87, 9.89, 9.88]}]},
     "set": 3,
     "qid": "mbb:set-3:d6-014"
@@ -1769,7 +1768,7 @@
       "Cp (typically calculated from short-term, within-subgroup variation) can substantially overstate real-world capability compared to Ppk (calculated from long-term, overall variation including shift-to-shift and time-to-time effects); a genuine '6 Sigma' claim requires examining long-term performance, not just a short-term snapshot"
     ],
     "answer": 3,
-    "why": "Cp/Cpk (short-term, within-subgroup variation) and Pp/Ppk (long-term, overall variation) can differ substantially in practice; the well-known '1.5 sigma shift' concept in Six Sigma literature exists precisely because short-term capability commonly overstates sustained, long-term performance.",
+    "why": "Cp/Cpk (short-term, within-subgroup variation) and Pp/Ppk (long-term, overall variation) can differ substantially in practice; the well-known '1.5 sigma shift' concept in Six Sigma literature exists precisely because short-term capability commonly overstates sustained, long-term performance. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
     "set": 3,
     "qid": "mbb:set-3:d6-015"
   },
@@ -1783,7 +1782,7 @@
       "The model should be discarded entirely since R\u00b2 is never a meaningful statistic"
     ],
     "answer": 2,
-    "why": "This is a direct application of the correlation-is-not-causation principle to regression specifically: a high R\u00b2 reflects strong statistical association within the data, not proof of a causal mechanism \u2014 confounding and other explanations must be ruled out separately.",
+    "why": "This is a direct application of the correlation-is-not-causation principle to regression specifically: a high R\u00b2 reflects strong statistical association within the data, not proof of a causal mechanism \u2014 confounding and other explanations must be ruled out separately. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
     "set": 3,
     "qid": "mbb:set-3:d6-016"
   },
@@ -1797,7 +1796,7 @@
       "This violates the linearity assumption; the consequence is a completely useless model requiring immediate discard"
     ],
     "answer": 0,
-    "why": "A funnel-shaped residual pattern is the classic signature of heteroscedasticity (non-constant variance), which specifically undermines standard-error-based inference (hypothesis tests, confidence intervals) even though the coefficient point estimates themselves may remain reasonably unbiased.",
+    "why": "A funnel-shaped residual pattern is the classic signature of heteroscedasticity (non-constant variance), which specifically undermines standard-error-based inference (hypothesis tests, confidence intervals) even though the coefficient point estimates themselves may remain reasonably unbiased. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
     "chart": {"type": "regression-diagnostic", "points": [[10, 0.2], [15, -0.3], [20, 0.8], [25, -1.1], [30, 1.6], [35, -2.0], [40, 2.8], [45, -3.2], [50, 3.9]], "xLabel": "Fitted yield (%)", "yLabel": "Standardized residual", "title": "Residuals vs. fitted values"},
     "set": 3,
     "qid": "mbb:set-3:d6-017"
@@ -1812,7 +1811,7 @@
       "The coefficient sign instability proves the underlying relationship is nonlinear and no diagnostic is needed"
     ],
     "answer": 1,
-    "why": "Unstable, flip-flopping coefficient signs when correlated predictors are added/removed is a classic multicollinearity signature; VIF is the standard diagnostic (VIF = 1/(1-R\u00b2) for that predictor regressed on the others) to confirm and quantify the collinearity.",
+    "why": "Unstable, flip-flopping coefficient signs when correlated predictors are added/removed is a classic multicollinearity signature; VIF is the standard diagnostic (VIF = 1/(1-R\u00b2) for that predictor regressed on the others) to confirm and quantify the collinearity. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
     "chart": {"type": "data-table", "columns": ["Predictor", "VIF"], "rows": [["Machine age (years)", "14.2"], ["Operating hours", "13.8"], ["Ambient temperature", "1.3"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-018"
@@ -1827,7 +1826,7 @@
       "A one-unit increase in the maintenance interval is associated with the failure probability being exactly 2.3 percentage points higher"
     ],
     "answer": 0,
-    "why": "This tests a common misinterpretation: an odds ratio describes a multiplicative change in odds, not a direct percentage-point or proportional probability change \u2014 conflating the two is a frequent and consequential misreading of logistic regression output.",
+    "why": "This tests a common misinterpretation: an odds ratio describes a multiplicative change in odds, not a direct percentage-point or proportional probability change \u2014 conflating the two is a frequent and consequential misreading of logistic regression output. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
     "chart": {"type": "data-table", "columns": ["Maintenance interval group", "Failures", "No failures"], "rows": [["Short interval", "18", "82"], ["Long interval", "34", "66"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-019"
@@ -1842,7 +1841,7 @@
       "The model likely suffers from overfitting to the specific historical dataset (capturing noise or dataset-specific quirks rather than a generalizable relationship), or the underlying process has genuinely shifted since the training period; the model should be validated on truly held-out data before being trusted for ongoing predictions"
     ],
     "answer": 3,
-    "why": "Strong in-sample fit with poor out-of-sample performance is the classic overfitting signature (or a genuine process shift); proper model validation on genuinely held-out data is the standard practice to catch this before deploying a model operationally.",
+    "why": "Strong in-sample fit with poor out-of-sample performance is the classic overfitting signature (or a genuine process shift); proper model validation on genuinely held-out data is the standard practice to catch this before deploying a model operationally. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
     "set": 3,
     "qid": "mbb:set-3:d6-020"
   },
@@ -1856,7 +1855,7 @@
       "This pattern can only occur if the underlying model is a first-order (linear) fit, never a quadratic response surface model"
     ],
     "answer": 0,
-    "why": "Concentric elliptical contours around a stationary point are the visual signature of a true maximum or minimum (the response consistently curves one direction), as distinct from the characteristic hyperbolic/saddle-shaped contours that indicate a saddle point requiring further exploration.",
+    "why": "Concentric elliptical contours around a stationary point are the visual signature of a true maximum or minimum (the response consistently curves one direction), as distinct from the characteristic hyperbolic/saddle-shaped contours that indicate a saddle point requiring further exploration. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
     "set": 3,
     "qid": "mbb:set-3:d6-021"
   },
@@ -1870,7 +1869,7 @@
       "The correct fix is to simply collect more predictor variables to further increase the ratio"
     ],
     "answer": 1,
-    "why": "A high ratio of predictors to observations (here, nearly 1 predictor for every 2 observations) is a well-known overfitting risk factor; dimension reduction and proper out-of-sample validation are the standard remedies before trusting such a model.",
+    "why": "A high ratio of predictors to observations (here, nearly 1 predictor for every 2 observations) is a well-known overfitting risk factor; dimension reduction and proper out-of-sample validation are the standard remedies before trusting such a model. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
     "set": 3,
     "qid": "mbb:set-3:d6-022"
   },
@@ -1884,7 +1883,7 @@
       "This reported VIF value is mathematically impossible \u2014 VIF is calculated as 1/(1-R\u00b2) for that predictor regressed on the others, and since R\u00b2 is bounded between 0 and 1, VIF can never be below 1; a reported value of 0.6 indicates a calculation or reporting error that should be corrected before the analysis is trusted"
     ],
     "answer": 3,
-    "why": "VIF = 1/(1-R\u00b2), and since R\u00b2 is bounded in [0,1), VIF is bounded below by 1 \u2014 a reported VIF below 1 is mathematically impossible and signals a calculation or reporting error requiring correction.",
+    "why": "VIF = 1/(1-R\u00b2), and since R\u00b2 is bounded in [0,1), VIF is bounded below by 1 \u2014 a reported VIF below 1 is mathematically impossible and signals a calculation or reporting error requiring correction. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
     "set": 3,
     "qid": "mbb:set-3:d6-023"
   },
@@ -1898,7 +1897,7 @@
       "A low Durbin-Watson value indicates the model has too many predictor variables"
     ],
     "answer": 1,
-    "why": "Durbin-Watson values range roughly 0-4, with values near 2 indicating no autocorrelation; a value of 0.45 signals strong positive autocorrelation, a common issue in time-series regression that violates the independence assumption and typically requires a time-series-appropriate modeling approach.",
+    "why": "Durbin-Watson values range roughly 0-4, with values near 2 indicating no autocorrelation; a value of 0.45 signals strong positive autocorrelation, a common issue in time-series regression that violates the independence assumption and typically requires a time-series-appropriate modeling approach. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
     "chart": {"type": "time-series", "title": "Daily call volume (14 days)", "labels": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"], "data": [210, 225, 240, 255, 248, 260, 275, 268, 280, 295, 288, 300, 315, 308], "xLabel": "Day", "yLabel": "Calls"},
     "set": 3,
     "qid": "mbb:set-3:d6-024"
@@ -1913,7 +1912,7 @@
       "Both variables are simply irrelevant to cost overruns and should be discarded entirely"
     ],
     "answer": 2,
-    "why": "When two individually-significant predictors both become non-significant together, shared explanatory overlap (multicollinearity) between them is the most likely explanation \u2014 not that either variable is truly unrelated to the outcome.",
+    "why": "When two individually-significant predictors both become non-significant together, shared explanatory overlap (multicollinearity) between them is the most likely explanation \u2014 not that either variable is truly unrelated to the outcome. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
     "set": 3,
     "qid": "mbb:set-3:d6-025"
   },
@@ -1927,7 +1926,7 @@
       "Always select the simpler model regardless of the R\u00b2 difference, no matter how large"
     ],
     "answer": 1,
-    "why": "Model selection should weigh parsimony, interpretability, and generalization risk (overfitting) alongside raw fit statistics \u2014 a large jump in R\u00b2 from a much more complex model warrants scrutiny for overfitting rather than automatic preference.",
+    "why": "Model selection should weigh parsimony, interpretability, and generalization risk (overfitting) alongside raw fit statistics \u2014 a large jump in R\u00b2 from a much more complex model warrants scrutiny for overfitting rather than automatic preference. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
     "set": 3,
     "qid": "mbb:set-3:d6-026"
   },
@@ -1941,7 +1940,7 @@
       "A p-value of 0.03 indicates the finding is not statistically significant and should be ignored entirely"
     ],
     "answer": 0,
-    "why": "This is a direct application of the statistical-versus-practical-significance distinction explicitly required by the original assignment's statistical rigor standards \u2014 a statistically significant but practically trivial effect should not be treated as an important business driver.",
+    "why": "This is a direct application of the statistical-versus-practical-significance distinction explicitly required by the original assignment's statistical rigor standards \u2014 a statistically significant but practically trivial effect should not be treated as an important business driver. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
     "set": 3,
     "qid": "mbb:set-3:d6-027"
   },
@@ -1955,7 +1954,7 @@
       "Both factors have identical effects on the response, since both were tested at the same two levels"
     ],
     "answer": 0,
-    "why": "Slope steepness on a main effects plot directly reflects effect magnitude; a steep line for A and flat line for B indicates A has the larger apparent main effect \u2014 though a full DOE analysis should still check for interactions before completely dismissing Factor B's role.",
+    "why": "Slope steepness on a main effects plot directly reflects effect magnitude; a steep line for A and flat line for B indicates A has the larger apparent main effect \u2014 though a full DOE analysis should still check for interactions before completely dismissing Factor B's role. Source: [BOK] Domain VI.C, Design of Experiments.",
     "chart": {"type": "main-effects-plot", "panels": [{"factor": "A", "low": 42, "high": 68}, {"factor": "B", "low": 54, "high": 56}], "overall": 55},
     "set": 3,
     "qid": "mbb:set-3:d6-028"
@@ -1970,7 +1969,7 @@
       "Non-parallel lines (especially with a reversal in direction) indicate a significant interaction effect between A and B \u2014 this means the effect of one factor genuinely depends on the level of the other, and interpreting either factor's main effect in isolation (without accounting for this interaction) would be misleading or incomplete"
     ],
     "answer": 3,
-    "why": "Non-parallel interaction-plot lines (especially with a directional reversal, a strong/'crossover' interaction) are the classic visual signature of a significant interaction \u2014 exactly the case where interpreting main effects alone, without the interaction, would mislead.",
+    "why": "Non-parallel interaction-plot lines (especially with a directional reversal, a strong/'crossover' interaction) are the classic visual signature of a significant interaction \u2014 exactly the case where interpreting main effects alone, without the interaction, would mislead. Source: [BOK] Domain VI.C, Design of Experiments.",
     "chart": {"type": "interaction-plot", "parallel": false},
     "set": 3,
     "qid": "mbb:set-3:d6-029"
@@ -1985,7 +1984,7 @@
       "A half-fraction design confounds (aliases) certain effects with each other \u2014 typically higher-order interactions with main effects or lower-order interactions \u2014 meaning some effects can no longer be estimated independently; the team should review the specific alias structure to confirm the confounded effects are ones they're willing to assume are negligible"
     ],
     "answer": 3,
-    "why": "Fractional factorial designs achieve run reduction by deliberately confounding certain effects (per the design's specific alias structure); the team must review which effects are aliased and confirm an acceptable assumption (e.g., higher-order interactions are negligible) before adopting the reduced design.",
+    "why": "Fractional factorial designs achieve run reduction by deliberately confounding certain effects (per the design's specific alias structure); the team must review which effects are aliased and confirm an acceptable assumption (e.g., higher-order interactions are negligible) before adopting the reduced design. Source: [BOK] Domain VI.C, Design of Experiments.",
     "set": 3,
     "qid": "mbb:set-3:d6-030"
   },
@@ -1999,7 +1998,7 @@
       "The observed effect could be due to Factor D's main effect, the ABC three-way interaction, or some combination of both \u2014 since they are aliased (confounded) in this design, the data alone cannot distinguish between them; follow-up experimentation (e.g., a foldover design) would be needed to de-alias and determine the true source"
     ],
     "answer": 3,
-    "why": "When effects are aliased in a fractional factorial design, the observed data cannot statistically distinguish between them; correctly interpreting the result requires acknowledging both are plausible explanations, with follow-up experimentation needed to resolve the ambiguity, rather than assuming one attribution over the other without justification.",
+    "why": "When effects are aliased in a fractional factorial design, the observed data cannot statistically distinguish between them; correctly interpreting the result requires acknowledging both are plausible explanations, with follow-up experimentation needed to resolve the ambiguity, rather than assuming one attribution over the other without justification. Source: [BOK] Domain VI.C, Design of Experiments.",
     "set": 3,
     "qid": "mbb:set-3:d6-031"
   },
@@ -2013,7 +2012,7 @@
       "The resolution number refers only to the number of factors that can be included, unrelated to confounding"
     ],
     "answer": 1,
-    "why": "Resolution III is specifically defined by main effects being confounded with two-factor interactions \u2014 a critical limitation for screening designs that the MBB must communicate, since real two-factor interactions (if present) would distort the apparent main effect estimates.",
+    "why": "Resolution III is specifically defined by main effects being confounded with two-factor interactions \u2014 a critical limitation for screening designs that the MBB must communicate, since real two-factor interactions (if present) would distort the apparent main effect estimates. Source: [BOK] Domain VI.C, Design of Experiments.",
     "chart": {"type": "data-table", "columns": ["Effect", "Confounded with"], "rows": [["A", "BC + DE"], ["B", "AC + DF"], ["C", "AB + EF"], ["D", "AE + BF"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-032"
@@ -2028,7 +2027,7 @@
       "The team should have used more factor levels rather than adding center points"
     ],
     "answer": 1,
-    "why": "A basic 2-level factorial design is fundamentally unable to detect curvature (it only estimates linear effects); center points or a full RSM design (e.g., central composite) are specifically needed to detect and characterize nonlinear/quadratic response behavior.",
+    "why": "A basic 2-level factorial design is fundamentally unable to detect curvature (it only estimates linear effects); center points or a full RSM design (e.g., central composite) are specifically needed to detect and characterize nonlinear/quadratic response behavior. Source: [BOK] Domain VI.C, Design of Experiments.",
     "set": 3,
     "qid": "mbb:set-3:d6-033"
   },
@@ -2042,7 +2041,7 @@
       "This cube plot pattern can only occur if all three factors have zero effect on the response"
     ],
     "answer": 1,
-    "why": "A clean corner-to-corner pattern (highest response at all-factors-high, lowest at all-factors-low) is consistent with all three factors having positive main effects and no strong interactions disrupting that simple, additive pattern.",
+    "why": "A clean corner-to-corner pattern (highest response at all-factors-high, lowest at all-factors-low) is consistent with all three factors having positive main effects and no strong interactions disrupting that simple, additive pattern. Source: [BOK] Domain VI.C, Design of Experiments.",
     "chart": {"type": "activity-network", "nodes": {"Low-Low-Low": {"col": 0, "row": 0, "dur": 42}, "High-Low-Low": {"col": 1, "row": 0, "dur": 51}, "Low-High-Low": {"col": 0, "row": 1, "dur": 58}, "High-High-High": {"col": 1, "row": 1, "dur": 89}}, "edges": [["Low-Low-Low", "High-Low-Low"], ["Low-Low-Low", "Low-High-Low"], ["High-Low-Low", "High-High-High"], ["Low-High-Low", "High-High-High"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-034"
@@ -2057,7 +2056,7 @@
       "A 2\u2075\u207b\u00b9 half-fraction design (16 runs), which fits the budget while still providing reasonable resolution for estimating main effects and typically most two-factor interactions, depending on the specific fraction's alias structure \u2014 an appropriate trade-off between information and run-count constraints"
     ],
     "answer": 3,
-    "why": "Given a firm budget constraint, a half-fraction design matching that run count is the standard, defensible DOE choice \u2014 far superior to one-factor-at-a-time (which cannot detect interactions) or arbitrarily dropping factors without justification.",
+    "why": "Given a firm budget constraint, a half-fraction design matching that run count is the standard, defensible DOE choice \u2014 far superior to one-factor-at-a-time (which cannot detect interactions) or arbitrarily dropping factors without justification. Source: [BOK] Domain VI.C, Design of Experiments.",
     "set": 3,
     "qid": "mbb:set-3:d6-035"
   },
@@ -2071,7 +2070,7 @@
       "Setting factor levels too close together (within the normal noise band) risks the experiment failing to detect a real effect even if one exists, since the signal from the deliberately small level change may be indistinguishable from ordinary process noise \u2014 levels should be spaced widely enough to produce a detectable signal while remaining within a practical, safe operating range"
     ],
     "answer": 3,
-    "why": "Factor levels set within the existing noise band risk a real effect being masked by ordinary process variation, reducing the experiment's power to detect it \u2014 level spacing should be wide enough (within practical/safety bounds) to produce a signal distinguishable from noise.",
+    "why": "Factor levels set within the existing noise band risk a real effect being masked by ordinary process variation, reducing the experiment's power to detect it \u2014 level spacing should be wide enough (within practical/safety bounds) to produce a signal distinguishable from noise. Source: [BOK] Domain VI.C, Design of Experiments.",
     "set": 3,
     "qid": "mbb:set-3:d6-036"
   },
@@ -2085,7 +2084,7 @@
       "A significant higher-order interaction without significant lower-order effects, while less common, is a valid and interpretable result \u2014 it means the combined effect of all three factors together matters, even though no single factor or two-factor combination shows a detectable effect on its own; the team should use interaction plots stratified by the third factor to interpret and communicate this pattern"
     ],
     "answer": 3,
-    "why": "While hierarchical models (where interactions imply their component main effects) are common practice, a significant higher-order interaction without significant lower-order terms is a valid, if less common, DOE result requiring careful visualization (e.g., stratified interaction plots) to interpret and communicate clearly.",
+    "why": "While hierarchical models (where interactions imply their component main effects) are common practice, a significant higher-order interaction without significant lower-order terms is a valid, if less common, DOE result requiring careful visualization (e.g., stratified interaction plots) to interpret and communicate clearly. Source: [BOK] Domain VI.C, Design of Experiments.",
     "set": 3,
     "qid": "mbb:set-3:d6-037"
   },
@@ -2099,7 +2098,7 @@
       "This only matters if temperature is not the primary factor of interest in the study"
     ],
     "answer": 1,
-    "why": "Randomizing run order is a foundational DOE principle specifically to prevent confounding a factor's effect with uncontrolled time-based variation (material lot changes, ambient conditions, equipment drift) \u2014 blocking by day without randomization, as described here, creates exactly that confound.",
+    "why": "Randomizing run order is a foundational DOE principle specifically to prevent confounding a factor's effect with uncontrolled time-based variation (material lot changes, ambient conditions, equipment drift) \u2014 blocking by day without randomization, as described here, creates exactly that confound. Source: [BOK] Domain VI.C, Design of Experiments.",
     "set": 3,
     "qid": "mbb:set-3:d6-038"
   },
@@ -2113,7 +2112,7 @@
       "Blocking eliminates operator-to-operator variation from existing in the process at all"
     ],
     "answer": 1,
-    "why": "Blocking is a design technique for controlling a known nuisance variable (like operator) by structuring it into the design, increasing sensitivity to the factors of real interest \u2014 distinct from simply ignoring the variable and absorbing its variation as uncontrolled noise.",
+    "why": "Blocking is a design technique for controlling a known nuisance variable (like operator) by structuring it into the design, increasing sensitivity to the factors of real interest \u2014 distinct from simply ignoring the variable and absorbing its variation as uncontrolled noise. Source: [BOK] Domain VI.C, Design of Experiments.",
     "set": 3,
     "qid": "mbb:set-3:d6-039"
   },
@@ -2127,7 +2126,7 @@
       "DSDs always require more runs than an equivalent fractional factorial, making them strictly worse"
     ],
     "answer": 0,
-    "why": "Definitive screening designs are specifically constructed to avoid confounding main effects with two-factor interactions (the key resolution III limitation) while also allowing some curvature detection \u2014 a meaningful efficiency and reliability advantage for screening purposes.",
+    "why": "Definitive screening designs are specifically constructed to avoid confounding main effects with two-factor interactions (the key resolution III limitation) while also allowing some curvature detection \u2014 a meaningful efficiency and reliability advantage for screening purposes. Source: [BOK] Domain VI.C, Design of Experiments.",
     "set": 3,
     "qid": "mbb:set-3:d6-040"
   },
@@ -2141,7 +2140,7 @@
       "A cube plot provides no additional benefit beyond a table of means; both convey identical information equally well"
     ],
     "answer": 0,
-    "why": "This reflects the core rationale for visual/interactive question requirements generally: a cube plot makes spatial patterns (main effects, interactions, best/worst combinations) immediately visible in a way a numeric table requires more effort to extract, especially for less technical stakeholders reviewing DOE results.",
+    "why": "This reflects the core rationale for visual/interactive question requirements generally: a cube plot makes spatial patterns (main effects, interactions, best/worst combinations) immediately visible in a way a numeric table requires more effort to extract, especially for less technical stakeholders reviewing DOE results. Source: [BOK] Domain VI.C, Design of Experiments.",
     "chart": {"type": "data-table", "columns": ["A", "B", "C", "Mean etch rate"], "rows": [["Low", "Low", "Low", "42"], ["High", "Low", "Low", "51"], ["Low", "High", "Low", "58"], ["High", "High", "Low", "64"], ["Low", "Low", "High", "55"], ["High", "Low", "High", "67"], ["Low", "High", "High", "71"], ["High", "High", "High", "89"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-041"
@@ -2156,7 +2155,7 @@
       "Testing more levels per factor dramatically increases the number of runs required for a full factorial (5\u00b3 = 125 runs versus 2\u00b3 = 8), and for the purpose of detecting linear main effects and interactions, 2 levels are often sufficient; more levels are primarily valuable when curvature is specifically suspected and a response-surface-style investigation is warranted, not as a default choice"
     ],
     "answer": 3,
-    "why": "This tests understanding of the run-count cost of adding factor levels (5\u00b3 vs 2\u00b3) and the practical guidance that 2-level designs are usually the efficient default for detecting linear effects/interactions, reserving additional levels for when curvature is specifically suspected.",
+    "why": "This tests understanding of the run-count cost of adding factor levels (5\u00b3 vs 2\u00b3) and the practical guidance that 2-level designs are usually the efficient default for detecting linear effects/interactions, reserving additional levels for when curvature is specifically suspected. Source: [BOK] Domain VI.C, Design of Experiments.",
     "set": 3,
     "qid": "mbb:set-3:d6-042"
   },
@@ -2170,7 +2169,7 @@
       "Ignore the inconsistency, since averaging across different definitions produces a valid enterprise metric"
     ],
     "answer": 1,
-    "why": "Standardized data definitions (a shared data dictionary) are foundational to any credible enterprise-wide analytics effort \u2014 without them, aggregated metrics and cross-departmental comparisons are not meaningful, regardless of how sophisticated the downstream analysis is.",
+    "why": "Standardized data definitions (a shared data dictionary) are foundational to any credible enterprise-wide analytics effort \u2014 without them, aggregated metrics and cross-departmental comparisons are not meaningful, regardless of how sophisticated the downstream analysis is. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-043"
   },
@@ -2184,7 +2183,7 @@
       "A data reconciliation/validation process (e.g., checking for duplicate unique identifiers across source systems before combining them into a unified dataset) is a standard data management practice specifically designed to catch exactly this kind of cross-system duplication before it propagates into downstream analysis"
     ],
     "answer": 3,
-    "why": "Cross-system reconciliation and duplicate-detection checks are standard, necessary data management practices before combining data from multiple sources \u2014 skipping this step is exactly what allows silent data quality issues like this to propagate undetected.",
+    "why": "Cross-system reconciliation and duplicate-detection checks are standard, necessary data management practices before combining data from multiple sources \u2014 skipping this step is exactly what allows silent data quality issues like this to propagate undetected. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-044"
   },
@@ -2198,7 +2197,7 @@
       "No change is needed; a 24-hour refresh cycle is always sufficient regardless of the decision cadence it's meant to support"
     ],
     "answer": 0,
-    "why": "This is the same cadence-matching principle established elsewhere in this bank (organizational feedback, portfolio governance) applied to dashboard/data refresh design \u2014 refresh frequency should match the actual decision cadence, or staleness should at minimum be made visible.",
+    "why": "This is the same cadence-matching principle established elsewhere in this bank (organizational feedback, portfolio governance) applied to dashboard/data refresh design \u2014 refresh frequency should match the actual decision cadence, or staleness should at minimum be made visible. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-045"
   },
@@ -2212,7 +2211,7 @@
       "Inspect the 200 flagged pieces in a completely random order, since the binary flag alone provides sufficient prioritization information"
     ],
     "answer": 2,
-    "why": "A binary high/low flag discards the underlying continuous risk score's ranking information; when inspection capacity is constrained, prioritizing by the actual risk score (not just the binary threshold) makes better use of limited capacity.",
+    "why": "A binary high/low flag discards the underlying continuous risk score's ranking information; when inspection capacity is constrained, prioritizing by the actual risk score (not just the binary threshold) makes better use of limited capacity. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-046"
   },
@@ -2226,7 +2225,7 @@
       "A high-cardinality categorical variable with very sparse representation per category (400+ ZIP codes, most with only 1-2 observations) risks overfitting, since the model may effectively memorize individual customers rather than learning generalizable patterns; the team should consider aggregating ZIP codes into broader regions or using a different encoding approach that mitigates this sparsity"
     ],
     "answer": 3,
-    "why": "High-cardinality, sparsely-populated categorical variables are a well-known overfitting risk in predictive modeling; aggregation or alternative encoding approaches are standard remedies rather than either using the raw high-cardinality variable unchanged or discarding categorical data entirely.",
+    "why": "High-cardinality, sparsely-populated categorical variables are a well-known overfitting risk in predictive modeling; aggregation or alternative encoding approaches are standard remedies rather than either using the raw high-cardinality variable unchanged or discarding categorical data entirely. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-047"
   },
@@ -2240,7 +2239,7 @@
       "Data retention policy is solely an IT concern with no relevance to Six Sigma or MBB-level responsibilities"
     ],
     "answer": 1,
-    "why": "Data retention/lifecycle policy touches governance, privacy/compliance risk, and analytical data quality \u2014 not just storage cost \u2014 and is a legitimate MBB-level concern when architecting enterprise analytics capability.",
+    "why": "Data retention/lifecycle policy touches governance, privacy/compliance risk, and analytical data quality \u2014 not just storage cost \u2014 and is a legitimate MBB-level concern when architecting enterprise analytics capability. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-048"
   },
@@ -2254,7 +2253,7 @@
       "This repeats the stratification principle established elsewhere in this bank (e.g., seasonal control charts, blended-vs-stratified satisfaction reporting): blending fundamentally different product lines into one aggregate figure can mask which specific lines are actually driving strong or weak performance, and the dashboard should be redesigned to report stratified, line-level figures alongside (or instead of) the single blended number"
     ],
     "answer": 3,
-    "why": "This is a direct cross-domain application of the stratification principle (previously established for seasonal control charts and blended-vs-stratified satisfaction reporting) to dashboard/analytics design \u2014 aggregating fundamentally different groups obscures the line-level detail leadership actually needs to act on.",
+    "why": "This is a direct cross-domain application of the stratification principle (previously established for seasonal control charts and blended-vs-stratified satisfaction reporting) to dashboard/analytics design \u2014 aggregating fundamentally different groups obscures the line-level detail leadership actually needs to act on. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-049"
   },
@@ -2268,7 +2267,7 @@
       "This type of error can only be caught through manual, row-by-row visual inspection of the entire dataset"
     ],
     "answer": 1,
-    "why": "Row-count validation checks at each pipeline transformation step are a standard, practical data quality practice specifically designed to catch exactly this kind of silent duplication from a non-unique join key.",
+    "why": "Row-count validation checks at each pipeline transformation step are a standard, practical data quality practice specifically designed to catch exactly this kind of silent duplication from a non-unique join key. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-050"
   },
@@ -2282,7 +2281,7 @@
       "The correct fix is to eliminate the dashboards entirely, since they aren't producing action"
     ],
     "answer": 2,
-    "why": "Strong visualization/descriptive capability without a paired decision-and-accountability process is a well-documented analytics maturity gap \u2014 the fix is process design (ownership, triggers, follow-through tracking), not necessarily more visualization tooling or headcount.",
+    "why": "Strong visualization/descriptive capability without a paired decision-and-accountability process is a well-documented analytics maturity gap \u2014 the fix is process design (ownership, triggers, follow-through tracking), not necessarily more visualization tooling or headcount. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-051"
   },
@@ -2296,7 +2295,7 @@
       "Establish one canonical, enterprise-standard version of the metric for cross-departmental reporting and comparison, while allowing departments to maintain supplementary local variants for their own internal purposes \u2014 clearly labeled and distinguished from the canonical version to avoid the confusion documented in the original enterprise data-consistency scenario"
     ],
     "answer": 3,
-    "why": "A canonical enterprise version alongside clearly-labeled local variants balances legitimate departmental needs against the enterprise-consistency requirement established earlier in this domain \u2014 avoiding both forced uniformity that ignores real local needs and unlabeled variation that recreates the original inconsistency problem.",
+    "why": "A canonical enterprise version alongside clearly-labeled local variants balances legitimate departmental needs against the enterprise-consistency requirement established earlier in this domain \u2014 avoiding both forced uniformity that ignores real local needs and unlabeled variation that recreates the original inconsistency problem. Source: [BOK] Domain VI.D, Data Management and Analytics.",
     "set": 3,
     "qid": "mbb:set-3:d6-052"
   },
@@ -2310,7 +2309,7 @@
       "No risk; the roof section is purely decorative and carries no analytical value"
     ],
     "answer": 0,
-    "why": "The QFD roof specifically surfaces technical trade-offs between specifications; skipping it risks discovering conflicting requirements late in design rather than proactively planning around them.",
+    "why": "The QFD roof specifically surfaces technical trade-offs between specifications; skipping it risks discovering conflicting requirements late in design rather than proactively planning around them. Source: [BOK] Domain VI.E, DFSS.",
     "chart": {"type": "house-of-quality"},
     "set": 3,
     "qid": "mbb:set-3:d6-053"
@@ -2325,7 +2324,7 @@
       "CTQ trees should never be used for financial services products, only for physical/manufactured products"
     ],
     "answer": 0,
-    "why": "A CTQ tree's value comes from decomposing broad customer needs into specific, measurable requirements that design and verification can actually be checked against \u2014 stopping at the broad-statement level defeats this purpose.",
+    "why": "A CTQ tree's value comes from decomposing broad customer needs into specific, measurable requirements that design and verification can actually be checked against \u2014 stopping at the broad-statement level defeats this purpose. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-054"
   },
@@ -2339,7 +2338,7 @@
       "Without a formal DVP linking specific tests to specific CTQs, the team risks either failing to verify some critical requirements at all, or verifying them inconsistently/incompletely \u2014 a DVP is the standard mechanism ensuring every CTQ has a defined, traceable verification method before the design is considered complete"
     ],
     "answer": 3,
-    "why": "A formal Design Verification Plan traceably links each CTQ to a specific verification method \u2014 without it, verification risks being incomplete or inconsistent, undermining confidence that the design actually meets its critical requirements.",
+    "why": "A formal Design Verification Plan traceably links each CTQ to a specific verification method \u2014 without it, verification risks being incomplete or inconsistent, undermining confidence that the design actually meets its critical requirements. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-055"
   },
@@ -2353,7 +2352,7 @@
       "Flag the safety-related criterion for specific scrutiny before finalizing the decision \u2014 a strong aggregate score can mask a concerning weakness on a single high-stakes criterion, and the team should evaluate whether Concept C's safety shortfall is acceptable or requires design modification before proceeding, rather than letting the aggregate score alone drive the decision"
     ],
     "answer": 3,
-    "why": "This is a direct parallel to the weighted-decision-matrix caution established elsewhere in this bank (Domain I): an aggregate score is a decision input, not a decision-maker, and a genuinely high-stakes individual criterion (like safety) deserves specific scrutiny even when the overall weighted score is favorable.",
+    "why": "This is a direct parallel to the weighted-decision-matrix caution established elsewhere in this bank (Domain I): an aggregate score is a decision input, not a decision-maker, and a genuinely high-stakes individual criterion (like safety) deserves specific scrutiny even when the overall weighted score is favorable. Source: [BOK] Domain VI.E, DFSS.",
     "chart": {"type": "data-table", "columns": ["Criterion (weight)", "Baseline", "Concept C"], "rows": [["Cost (25%)", "0", "+2"], ["Performance (30%)", "0", "+2"], ["Manufacturability (20%)", "0", "+1"], ["Safety (25%)", "0", "\u22121"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-056"
@@ -2368,7 +2367,7 @@
       "The decision should weigh the cost of a design failure or suboptimal robustness against the time cost of full optimization \u2014 for a high-consequence or high-volume product where failure costs are severe, DOE-based robust design investment is usually justified even under time pressure; for a low-stakes, low-volume product, a faster minimum-viable approach may be more appropriate"
     ],
     "answer": 3,
-    "why": "This mirrors the earlier prosthetics/regulatory-tolerance DFSS reasoning: the appropriate level of design rigor should scale with the failure-cost and volume profile of the product, not be a fixed default in either direction regardless of context.",
+    "why": "This mirrors the earlier prosthetics/regulatory-tolerance DFSS reasoning: the appropriate level of design rigor should scale with the failure-cost and volume profile of the product, not be a fixed default in either direction regardless of context. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-057"
   },
@@ -2382,7 +2381,7 @@
       "An AND gate indicates the two basic events are mutually exclusive and can never occur together"
     ],
     "answer": 2,
-    "why": "This tests basic FTA logic-gate literacy: an AND gate requires all input events to occur for the output to trigger, while an OR gate requires only one \u2014 a foundational distinction for correctly reading and constructing fault trees.",
+    "why": "This tests basic FTA logic-gate literacy: an AND gate requires all input events to occur for the output to trigger, while an OR gate requires only one \u2014 a foundational distinction for correctly reading and constructing fault trees. Source: [BOK] Domain VI.E, DFSS.",
     "chart": {"type": "data-table", "columns": ["Gate type", "Requirement for output event", "Example"], "rows": [["AND", "All input events must occur", "Backup power fails AND primary power fails"], ["OR", "Any one input event is sufficient", "Sensor A fails OR Sensor B fails"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-058"
@@ -2397,7 +2396,7 @@
       "Testing across noise factors is purely a regulatory formality with no actual design value"
     ],
     "answer": 0,
-    "why": "Robust design (a core DFSS/Taguchi concept) specifically targets performance consistency across real-world noise/variation, not just nominal-condition performance \u2014 the entire point is closing the gap between idealized lab testing and actual field reliability.",
+    "why": "Robust design (a core DFSS/Taguchi concept) specifically targets performance consistency across real-world noise/variation, not just nominal-condition performance \u2014 the entire point is closing the gap between idealized lab testing and actual field reliability. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-059"
   },
@@ -2411,7 +2410,7 @@
       "The only limitation of predicted Cpk is that it takes too long to calculate, not that its accuracy is inherently uncertain"
     ],
     "answer": 1,
-    "why": "Early predicted-Cpk analysis is valuable specifically because it's cheap to act on design issues before production commitment, but its accuracy is inherently bounded by the quality of the underlying tolerance/variation assumptions \u2014 a genuine trade-off, not a flaw to be dismissed or an infallible substitute for production data.",
+    "why": "Early predicted-Cpk analysis is valuable specifically because it's cheap to act on design issues before production commitment, but its accuracy is inherently bounded by the quality of the underlying tolerance/variation assumptions \u2014 a genuine trade-off, not a flaw to be dismissed or an infallible substitute for production data. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-060"
   },
@@ -2425,7 +2424,7 @@
       "Allocate tighter tolerance to the cheap-to-tighten component and looser tolerance to the more expensive-to-tighten components, using a cost-based (rather than equal-split) tolerance allocation approach, while still meeting the overall assembly tolerance requirement \u2014 minimizing total manufacturing cost for the required overall precision"
     ],
     "answer": 3,
-    "why": "Cost-based (rather than equal-split) tolerance allocation is the standard, more sophisticated approach in tolerance design \u2014 concentrating tighter tolerance where it's cheapest to achieve minimizes total cost while still meeting the overall assembly requirement.",
+    "why": "Cost-based (rather than equal-split) tolerance allocation is the standard, more sophisticated approach in tolerance design \u2014 concentrating tighter tolerance where it's cheapest to achieve minimizes total cost while still meeting the overall assembly requirement. Source: [BOK] Domain VI.E, DFSS.",
     "chart": {"type": "data-table", "columns": ["Component", "Cost to tighten tolerance", "Allocated tolerance"], "rows": [["1 (cheap)", "Low", "\u00b10.02 mm"], ["2", "Medium", "\u00b10.05 mm"], ["3", "High", "\u00b10.10 mm"], ["4", "High", "\u00b10.10 mm"], ["5", "Medium", "\u00b10.05 mm"]]},
     "set": 3,
     "qid": "mbb:set-3:d6-061"
@@ -2440,7 +2439,7 @@
       "Recommend skipping reliability validation entirely for any product with a strong predicted figure"
     ],
     "answer": 2,
-    "why": "Component-level reliability predictions can miss assembly-level interactions and real-world stress combinations; validating the prediction against actual testing on the integrated product (e.g., accelerated life testing) is the standard practice before declaring a reliability target genuinely met.",
+    "why": "Component-level reliability predictions can miss assembly-level interactions and real-world stress combinations; validating the prediction against actual testing on the integrated product (e.g., accelerated life testing) is the standard practice before declaring a reliability target genuinely met. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-062"
   },
@@ -2454,7 +2453,7 @@
       "This vague goal statement is acceptable as long as the assigned engineer personally understands what 'better' means"
     ],
     "answer": 0,
-    "why": "This is a direct cross-domain application of the measurable-objective principle established for strategic plans (Domain I) to DFSS project chartering specifically \u2014 an unmeasurable goal cannot meaningfully drive the specific CTQ targets and trade-off decisions design work requires.",
+    "why": "This is a direct cross-domain application of the measurable-objective principle established for strategic plans (Domain I) to DFSS project chartering specifically \u2014 an unmeasurable goal cannot meaningfully drive the specific CTQ targets and trade-off decisions design work requires. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-063"
   },
@@ -2468,7 +2467,7 @@
       "Each DFSS tool operates in complete isolation with no meaningful connection to the others"
     ],
     "answer": 2,
-    "why": "This capstone item requires synthesizing the DFSS toolchain into a single coherent narrative: each tool serves a specific, sequential purpose in translating and verifying the connection from customer need through to a validated, robust design \u2014 genuinely MBB-level integrative understanding of the DFSS methodology as a whole.",
+    "why": "This capstone item requires synthesizing the DFSS toolchain into a single coherent narrative: each tool serves a specific, sequential purpose in translating and verifying the connection from customer need through to a validated, robust design \u2014 genuinely MBB-level integrative understanding of the DFSS methodology as a whole. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-064"
   },
@@ -2482,7 +2481,7 @@
       "Insist the team build a physical prototype first before any digital design work can begin"
     ],
     "answer": 2,
-    "why": "DFSS tools' core translation logic (customer need \u2192 measurable requirement \u2192 verified design) is methodology-general, not physical-product-specific \u2014 the same adaptation principle already established for DMAIC/service-industry contexts (D2-047) applies equally to DFSS tools in a software/digital context.",
+    "why": "DFSS tools' core translation logic (customer need \u2192 measurable requirement \u2192 verified design) is methodology-general, not physical-product-specific \u2014 the same adaptation principle already established for DMAIC/service-industry contexts applies equally to DFSS tools in a software/digital context. Source: [BOK] Domain VI.E, DFSS.",
     "set": 3,
     "qid": "mbb:set-3:d6-065"
   },
