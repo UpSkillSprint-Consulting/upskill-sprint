@@ -117,7 +117,7 @@
       sessions: {},
       migration: {},
       index: { revision: 3, seen: {}, totals: {}, knownEventIds: {} },
-      sync: { remoteLoadedFor: {}, ledgerFetchedFor: {}, lastSuccessAt: null, lastError: null, lastErrorAt: null }
+      sync: { remoteLoadedFor: {}, ledgerFetchedFor: {}, ledgerCursorFor: {}, lastSuccessAt: null, lastError: null, lastErrorAt: null }
     };
   }
 
@@ -148,6 +148,7 @@
     state.sync = Object.assign(freshState().sync, record(state.sync));
     state.sync.remoteLoadedFor = record(state.sync.remoteLoadedFor);
     state.sync.ledgerFetchedFor = record(state.sync.ledgerFetchedFor);
+    state.sync.ledgerCursorFor = record(state.sync.ledgerCursorFor);
     state.events.forEach(function (event) { indexEvent(state, event, true); });
     return state;
   }
@@ -201,6 +202,7 @@
     state.sync = Object.assign({}, record(stored.sync), record(state.sync));
     state.sync.remoteLoadedFor = Object.assign({}, record(record(stored.sync).remoteLoadedFor), record(record(state.sync).remoteLoadedFor));
     state.sync.ledgerFetchedFor = Object.assign({}, record(record(stored.sync).ledgerFetchedFor), record(record(state.sync).ledgerFetchedFor));
+    state.sync.ledgerCursorFor = Object.assign({}, record(record(stored.sync).ledgerCursorFor), record(record(state.sync).ledgerCursorFor));
     return state;
   }
 
@@ -1397,12 +1399,17 @@
     return changed;
   }
 
-  async function fetchRemoteRows(client, userId) {
+  async function fetchRemoteRows(client, userId, cursor) {
     const rows = [];
     let offset = 0;
     while (true) {
-      let query = client.from(TABLE).select('event_id,device_id,event_type,exam_id,session_id,question_id,occurred_at,payload')
-        .eq('user_id', userId).order('occurred_at', { ascending: true }).order('event_id', { ascending: true });
+      let query = client.from(TABLE).select('event_id,device_id,event_type,exam_id,session_id,question_id,occurred_at,received_at,payload')
+        .eq('user_id', userId);
+      /* Re-read the cursor timestamp itself so events created in the same
+         millisecond remain visible. Stable event IDs make that overlap safe
+         to merge, while every later sync transfers only the incremental tail. */
+      if (cursor && typeof query.gte === 'function') query = query.gte('received_at', cursor);
+      query = query.order('received_at', { ascending: true }).order('event_id', { ascending: true });
       const supportsRange = typeof query.range === 'function';
       query = supportsRange ? query.range(offset, offset + REMOTE_PAGE_SIZE - 1) : query.limit(REMOTE_PAGE_SIZE);
       const result = await runRemoteRequest(query, 'Learning-history fetch');
@@ -1561,15 +1568,19 @@
         }
       }
       if (!activeUser() || activeUser().id !== userId) throw new Error('Account changed before learning history could be refreshed');
-      const remoteRows = await fetchRemoteRows(client, userId);
+      const remoteRows = await fetchRemoteRows(client, userId, record(state.sync.ledgerCursorFor)[userId]);
       if (!activeUser() || activeUser().id !== userId) throw new Error('Account changed while learning history was being refreshed');
       remoteFetchRevision += 1;
       mergeRemoteRows(state, remoteRows, userId);
       const remoteEvents = remoteRows.filter(function (row) { return row && row.event_id; }).map(function (row) { return eventFromRemoteRow(row, userId); });
-      /* Reconcile full remote history before the local cache is compacted. */
+      /* Reconcile the newly fetched tail before the local cache is compacted. */
       reconcileRemoteEvents(remoteEvents);
       markLegacyMigrationAcknowledged(state, userId);
       state.sync.ledgerFetchedFor[userId] = now();
+      if (remoteRows.length) {
+        const latestRow = remoteRows[remoteRows.length - 1];
+        if (latestRow && latestRow.received_at) state.sync.ledgerCursorFor[userId] = String(latestRow.received_at);
+      }
       const legacyReady = legacyMigrationReadyForUser(state, user);
       if (legacyReady) state.sync.remoteLoadedFor[userId] = true;
       else delete state.sync.remoteLoadedFor[userId];
@@ -1736,12 +1747,9 @@
     if (!examId || !ids.length || ids.length > 100) {
       return Promise.resolve({ reserved: false, ready: false, reason: 'invalid-candidates', acceptedIds: [], rejectedIds: ids, userId: user.id });
     }
-    /* The server key protects the final race; local hydration protects the
-       earlier one by keeping already-recorded account history out of the
-       candidate list before it reaches the RPC. */
-    if (!historyReadyForUser(state, user)) {
-      return Promise.resolve({ reserved: false, ready: false, reason: 'history-not-ready', acceptedIds: [], rejectedIds: ids, userId: user.id });
-    }
+    /* The RPC is the authoritative history gate. It rejects IDs already in
+       either the account claim table or durable learning-event ledger, so a
+       New-only Start never waits for a full client-side ledger hydration. */
     if (typeof client.rpc !== 'function') {
       return Promise.resolve({ reserved: false, ready: false, reason: 'reservation-unavailable', acceptedIds: [], rejectedIds: ids, userId: user.id });
     }

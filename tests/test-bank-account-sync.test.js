@@ -26,16 +26,24 @@ function fakeProgressService() {
               return Promise.resolve({ error: null });
             },
             select() {
-              return {
+              let updatedSince = '';
+              const query = {
+                gte(column, value) {
+                  assert.equal(column, 'updated_at');
+                  updatedSince = String(value || '');
+                  return query;
+                },
                 order() {
                   return Promise.resolve({
                     error: null,
                     data: Array.from(rows.values())
                       .filter(row => row.user_id === userId)
+                      .filter(row => !updatedSince || String(row.updated_at) >= updatedSince)
                       .sort((a, b) => String(a.updated_at).localeCompare(String(b.updated_at)))
                   });
                 }
               };
+              return query;
             }
           };
         }
@@ -517,15 +525,52 @@ test('SQL migration enables RLS and scopes policies to auth.uid()', () => {
   assert.doesNotMatch(sql, /service_role/i);
 });
 
-test('polls for remote progress and permits every later remote refresh', () => {
+test('polls incrementally without reloading for ordinary remote progress', () => {
   const dom = load();
-  assert.equal(dom.window.__TBAccountSync.REMOTE_POLL_MS, 15000);
+  assert.equal(dom.window.__TBAccountSync.REMOTE_POLL_MS, 60000);
   assert.equal(dom.window.__TBAccountSync.REMOTE_REQUEST_TIMEOUT_MS, 12000);
   assert.match(source, /sync\('remote-poll'\)/);
+  assert.match(source, /remoteQuery\.gte\('updated_at', remoteCursor\)/);
   assert.match(source, /if \(accountSwitched\) reloadPage\(\)/);
-  assert.match(source, /else if \(changed\) requestProgressRefresh\(\)/);
-  assert.match(source, /new MutationObserver\(flushProgressRefresh\)/);
-  assert.doesNotMatch(source, /tb-account-sync-reloaded/);
+  assert.doesNotMatch(source, /requestProgressRefresh|flushProgressRefresh|new MutationObserver/);
+  dom.window.close();
+});
+
+test('a stable incremental poll neither downloads old snapshots nor rewrites the device row', async () => {
+  const dom = load();
+  const rows = [];
+  const filters = [];
+  let uploads = 0;
+  const client = {
+    from() {
+      return {
+        select() {
+          let updatedSince = '';
+          const query = {
+            gte(column, value) { assert.equal(column, 'updated_at'); updatedSince = value; filters.push(value); return query; },
+            order() { return Promise.resolve({ data: rows.filter(row => !updatedSince || row.updated_at >= updatedSince), error: null }); }
+          };
+          return query;
+        },
+        upsert(row) { uploads += 1; rows.splice(0, rows.length, JSON.parse(JSON.stringify(row))); return Promise.resolve({ error: null }); }
+      };
+    }
+  };
+  dom.window.UpskillAuth = { getClient: () => client, getUser: () => ({ id: 'incremental-user' }) };
+
+  const first = await dom.window.__TBAccountSync.sync('initial');
+  const second = await dom.window.__TBAccountSync.sync('remote-poll');
+  const third = await dom.window.__TBAccountSync.sync('remote-poll');
+
+  assert.equal(first.incremental, false);
+  assert.equal(first.uploaded, true);
+  assert.equal(second.incremental, false, 'the first post-upload read establishes a safe server-observed cursor');
+  assert.equal(second.uploaded, false);
+  assert.equal(third.incremental, true);
+  assert.equal(third.uploaded, false, 'an unchanged snapshot is not written back during polling');
+  assert.equal(uploads, 1);
+  assert.equal(filters.length, 1);
+  assert.ok(filters[0], 'the second read carries the persisted updated_at cursor');
   dom.window.close();
 });
 

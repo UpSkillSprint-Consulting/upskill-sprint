@@ -42,7 +42,7 @@ function remoteMastery(questionId) {
   };
 }
 
-test('a delayed sign-in merge cannot close an active exam', async t => {
+test('a delayed sign-in merge never reloads or closes the active page', async t => {
   const selectResult = deferred();
   const virtualConsole = new VirtualConsole();
   const dom = new JSDOM(html, {
@@ -107,12 +107,12 @@ test('a delayed sign-in merge cannot close an active exam', async t => {
   await flush();
   await flush();
 
-  assert.equal(dom.window.__reloadCount, 0, 'remote progress refresh waits while the exam is active');
+  assert.equal(dom.window.__reloadCount, 0, 'remote progress never reloads an active exam');
   assert.ok(overview().querySelector('[data-opt]'), 'the active question remains on screen');
 
   overview().querySelector('[data-backsim]').click();
   await flush();
-  assert.equal(dom.window.__reloadCount, 1, 'one queued refresh runs after returning to the simulator');
+  assert.equal(dom.window.__reloadCount, 0, 'returning to the simulator does not release a queued background reload');
 });
 
 test('an unmappable retired legacy question performs one progress hand-off without a retry loop', async t => {

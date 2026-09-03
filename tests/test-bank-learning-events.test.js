@@ -69,6 +69,7 @@ function remoteRow(event) {
       session_id: event.session_id,
       question_id: event.question_id,
       occurred_at: event.occurred_at,
+      received_at: event.received_at || event.occurred_at,
       payload: event.payload
     };
   }
@@ -80,6 +81,7 @@ function remoteRow(event) {
     session_id: event.sessionId,
     question_id: event.questionId,
     occurred_at: new Date(event.occurredAt).toISOString(),
+    received_at: event.receivedAt ? new Date(event.receivedAt).toISOString() : new Date(event.occurredAt).toISOString(),
     payload: event.payload
   };
 }
@@ -94,7 +96,7 @@ function fakeLearningService(rows, uploads, requests) {
           assert.equal(options.ignoreDuplicates, true);
           batch.forEach(row => {
             uploads.push(row);
-            if (!rows.some(existing => existing.event_id === row.event_id && existing.user_id === row.user_id)) rows.push(Object.assign({}, row));
+            if (!rows.some(existing => existing.event_id === row.event_id && existing.user_id === row.user_id)) rows.push(Object.assign({ received_at: new Date().toISOString() }, row));
           });
           return Promise.resolve({ error: null });
         },
@@ -107,13 +109,18 @@ function fakeLearningService(rows, uploads, requests) {
               return query;
             },
             order() { return query; },
+            gte(column, value) {
+              assert.equal(column, 'received_at');
+              query.cursor = String(value || '');
+              return query;
+            },
             limit() {
-              return Promise.resolve({ data: rows.filter(row => row.user_id === query.userId).map(remoteRow), error: null });
+              return Promise.resolve({ data: rows.filter(row => row.user_id === query.userId).map(remoteRow).filter(row => !query.cursor || row.received_at >= query.cursor), error: null });
             },
             range(from, to) {
-              if (requests) requests.push({ from: from, to: to });
+              if (requests) requests.push(Object.assign({ from: from, to: to }, query.cursor ? { cursor: query.cursor } : {}));
               return Promise.resolve({
-                data: rows.filter(row => row.user_id === query.userId).slice(from, to + 1).map(remoteRow),
+                data: rows.filter(row => row.user_id === query.userId).map(remoteRow).filter(row => !query.cursor || row.received_at >= query.cursor).slice(from, to + 1),
                 error: null
               });
             }
@@ -395,6 +402,7 @@ test('known-user offline events upload once after reconnect, then remote-device 
       session_id: 'cssbb-phone-session',
       question_id: 'cssbb:test-004',
       occurred_at: new Date(Date.UTC(2026, 7, 30, 14, 0, 0)).toISOString(),
+      received_at: new Date().toISOString(),
       payload: { mode: 'practice', timed: false }
     });
     await api.sync('phone-hydration');
@@ -748,6 +756,40 @@ test('remote ledger hydration paginates past 500 rows so every device receives t
     assert.deepEqual(requests, [{ from: 0, to: 499 }, { from: 500, to: 999 }]);
     assert.equal(window.__TBLearning.hasSeen('cssbb', questions[3]), true, 'the 501st remote event is not silently dropped after the first page');
     assert.equal(window.__TBLearning.status().hydrated, true);
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('later ledger syncs use the persisted received_at cursor instead of rereading full history', async () => {
+  const accountRows = [];
+  const uploads = [];
+  const requests = [];
+  const user = { id: 'incremental-ledger-learner' };
+  const { dom, window, questions } = load((page) => {
+    page.UpskillAuth = { getUser: () => user, getClient: () => fakeLearningService(accountRows, uploads, requests) };
+  });
+  const firstAt = new Date(Date.UTC(2026, 7, 30, 15, 0, 0)).toISOString();
+  const firstReceivedAt = new Date(Date.UTC(2026, 8, 3, 13, 0, 0)).toISOString();
+  try {
+    accountRows.push({
+      user_id: user.id, event_id: 'incremental-first', device_id: 'phone-device', event_type: 'question_exposed',
+      exam_id: 'cssbb', session_id: 'phone-session-1', question_id: questions[0].qid, occurred_at: firstAt, received_at: firstReceivedAt, payload: {}
+    });
+    await window.__TBLearning.sync('initial-hydration');
+    requests.splice(0);
+    accountRows.push({
+      user_id: user.id, event_id: 'incremental-second', device_id: 'phone-device', event_type: 'question_exposed',
+      exam_id: 'cssbb', session_id: 'phone-session-2', question_id: questions[1].qid,
+      occurred_at: new Date(Date.UTC(2026, 7, 30, 14, 0, 0)).toISOString(),
+      received_at: new Date(Date.UTC(2026, 8, 3, 13, 1, 0)).toISOString(), payload: {}
+    });
+
+    await window.__TBLearning.sync('background-increment');
+
+    assert.equal(requests.length, 1);
+    assert.equal(requests[0].cursor, firstReceivedAt, 'the next request starts at the database-assigned event version, not the device clock');
+    assert.equal(window.__TBLearning.hasSeen('cssbb', questions[1]), true);
   } finally {
     dom.window.close();
   }

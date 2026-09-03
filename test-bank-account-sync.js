@@ -10,12 +10,11 @@
   const MASTERY_RESET_PREFIX = 'mastery-exam:';
   const MASTERY_EVIDENCE_LIMIT = 500;
   const LOCAL_WATCH_MS = 3000;
-  const REMOTE_POLL_MS = 15000;
+  const REMOTE_POLL_MS = 60000;
   const REMOTE_REQUEST_TIMEOUT_MS = 12000;
   let syncing = false, lastDigest = '', timer = 0, nextRemoteAt = 0;
   let pendingReason = '', reloadForAccountSwitch = false;
   let queuedSyncPromise = null, resolveQueuedSync = null;
-  let pendingProgressRefresh = false, progressRefreshObserver = null;
 
   function remoteTimeoutError(label) {
     const error = new Error((label || 'Supabase request') + ' timed out');
@@ -607,34 +606,7 @@
     return changed;
   }
   function context() { const auth = window.UpskillAuth; return { client: auth && auth.getClient ? auth.getClient() : null, user: auth && auth.getUser ? auth.getUser() : null }; }
-  function examModeActive() {
-    const shell = document.querySelector('.tb-shell');
-    return Boolean(shell && shell.classList.contains('exam-mode'));
-  }
-  function stopProgressRefreshObserver() {
-    if (progressRefreshObserver) progressRefreshObserver.disconnect();
-    progressRefreshObserver = null;
-  }
   function reloadPage() { location.reload(); }
-  function flushProgressRefresh() {
-    if (!pendingProgressRefresh || examModeActive()) return false;
-    pendingProgressRefresh = false;
-    stopProgressRefreshObserver();
-    reloadPage();
-    return true;
-  }
-  function requestProgressRefresh() {
-    if (!examModeActive()) { reloadPage(); return true; }
-    pendingProgressRefresh = true;
-    if (!progressRefreshObserver && typeof MutationObserver === 'function') {
-      const shell = document.querySelector('.tb-shell');
-      if (shell) {
-        progressRefreshObserver = new MutationObserver(flushProgressRefresh);
-        progressRefreshObserver.observe(shell, { attributes: true, attributeFilter: ['class'] });
-      }
-    }
-    return false;
-  }
   function clearTrackedPayload() {
     const keys = [];
     for (let i = 0; i < localStorage.length; i += 1) { const key = localStorage.key(i); if (trackedKey(key)) keys.push(key); }
@@ -680,10 +652,19 @@
     if (!navigator.onLine) return { skipped: true };
     if (syncing) { pendingReason = reason || 'queued'; return { queued: true }; }
     syncing = true;
+    const previousMeta = parse(localStorage.getItem(META_KEY), {});
     try {
       const id = deviceId(), initialLocal = localPayload();
+      const remoteCursor = previousMeta && previousMeta.userId === ctx.user.id ? String(previousMeta.remoteCursor || '') : '';
+      let remoteQuery = ctx.client.from(TABLE).select('device_id,payload,updated_at');
+      /* Each row is a versioned device snapshot. After the first hydration,
+         fetch only snapshots at or beyond the last observed version. The
+         inclusive cursor avoids missing two devices that wrote in the same
+         millisecond; deterministic merging makes the small overlap harmless. */
+      if (remoteCursor && typeof remoteQuery.gte === 'function') remoteQuery = remoteQuery.gte('updated_at', remoteCursor);
+      remoteQuery = remoteQuery.order('updated_at', { ascending: true });
       let result = await runRemoteRequest(
-        ctx.client.from(TABLE).select('device_id,payload,updated_at').order('updated_at', { ascending: true }),
+        remoteQuery,
         'Account-history fetch'
       );
       if (result.error) throw result.error;
@@ -692,27 +673,41 @@
       const changed = applyPayload(merged);
       const mergedDigest = stable(merged);
       if (!currentUserIs(ctx.user.id)) return { stale: true };
-      result = await runRemoteRequest(
-        ctx.client.from(TABLE).upsert({ user_id: ctx.user.id, device_id: id, payload: merged, updated_at: new Date().toISOString() }, { onConflict: 'user_id,device_id' }),
-        'Account-history upload'
-      );
-      if (result.error) throw result.error;
+      const fetchedRows = result.data || [];
+      let nextCursor = remoteCursor;
+      fetchedRows.forEach(function (row) {
+        if (String(row && row.updated_at || '') > nextCursor) nextCursor = String(row.updated_at);
+      });
+      const shouldUpload = !previousMeta || previousMeta.userId !== ctx.user.id || previousMeta.uploadedDigest !== mergedDigest;
+      if (shouldUpload) {
+        const uploadedAt = new Date().toISOString();
+        result = await runRemoteRequest(
+          ctx.client.from(TABLE).upsert({ user_id: ctx.user.id, device_id: id, payload: merged, updated_at: uploadedAt }, { onConflict: 'user_id,device_id' }),
+          'Account-history upload'
+        );
+        if (result.error) throw result.error;
+      }
       if (!currentUserIs(ctx.user.id)) return { stale: true };
-      localStorage.setItem(META_KEY, JSON.stringify({ lastSyncedAt: new Date().toISOString(), reason: reason || 'automatic', status: 'synced' }));
+      localStorage.setItem(META_KEY, JSON.stringify({
+        userId: ctx.user.id,
+        lastSyncedAt: new Date().toISOString(),
+        reason: reason || 'automatic',
+        status: 'synced',
+        remoteCursor: nextCursor,
+        uploadedDigest: mergedDigest
+      }));
       lastDigest = mergedDigest;
       nextRemoteAt = Date.now() + REMOTE_POLL_MS;
       document.dispatchEvent(new CustomEvent('upskill-test-progress-synced', { detail: { changed } }));
-      /* Test-bank metrics are calculated during page initialization. A genuine
-         account switch still reloads immediately to discard the old account's
-         in-memory session. Ordinary progress merges wait until quiz/results mode
-         ends so a delayed sign-in response cannot close an active exam. */
+      /* A genuine account switch still reloads to discard the previous
+         account's in-memory session. Background merges are delivered through
+         the progress event above and never reload or interrupt the page. */
       const accountSwitched = reloadForAccountSwitch;
       reloadForAccountSwitch = false;
       if (accountSwitched) reloadPage();
-      else if (changed) requestProgressRefresh();
-      return { changed };
+      return { changed, incremental: Boolean(remoteCursor), fetched: fetchedRows.length, uploaded: shouldUpload };
     } catch (error) {
-      if (currentUserIs(ctx.user.id)) localStorage.setItem(META_KEY, JSON.stringify({ lastAttemptAt: new Date().toISOString(), reason: reason || 'automatic', status: 'error', message: String(error && error.message || error) }));
+      if (currentUserIs(ctx.user.id)) localStorage.setItem(META_KEY, JSON.stringify(Object.assign({}, previousMeta, { userId: ctx.user.id, lastAttemptAt: new Date().toISOString(), reason: reason || 'automatic', status: 'error', message: String(error && error.message || error) })));
       return { error };
     } finally {
       syncing = false;
@@ -755,7 +750,6 @@
         clearInterval(timer); pendingReason = ''; reloadForAccountSwitch = false;
         if (resolveQueuedSync) resolveQueuedSync({ stale: true });
         queuedSyncPromise = null; resolveQueuedSync = null;
-        pendingProgressRefresh = false; stopProgressRefreshObserver();
         if (localStorage.getItem(USER_KEY)) clearTrackedPayload();
       }
     });

@@ -13,6 +13,7 @@ const registry = fs.readFileSync(path.join(ROOT, 'test-bank-question-registry.js
 const learning = fs.readFileSync(path.join(ROOT, 'test-bank-learning-events.js'), 'utf8');
 const migration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/20260831010000_add_test_bank_new_question_claims.sql'), 'utf8');
 const reservationFixMigration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/20260831224207_fix_test_bank_new_question_reservation.sql'), 'utf8');
+const authoritativeReservationMigration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/20260903133841_make_new_only_reservation_authoritative.sql'), 'utf8');
 
 const windows = [];
 afterEach(() => {
@@ -86,7 +87,7 @@ async function loadLedger(options) {
   dom.window.UpskillAuth = { getUser: () => user, getClient: () => config.client };
   dom.window.eval(registry);
   dom.window.eval(learning);
-  await dom.window.__TBLearning.sync('reservation-test-hydrate');
+  if (!config.skipSync) await dom.window.__TBLearning.sync('reservation-test-hydrate');
   return { window: dom.window, api: dom.window.__TBLearning };
 }
 
@@ -169,6 +170,38 @@ test('the corrective reservation migration avoids PL/pgSQL output-column ambigui
   assert.match(reservationFixMigration, /returns table \(question_id text\)/i);
   assert.match(reservationFixMigration, /on conflict on constraint test_bank_new_question_claims_pkey do nothing/i);
   assert.doesNotMatch(reservationFixMigration, /on conflict \(user_id, exam_id, question_id\)/i);
+});
+
+test('the authoritative reservation migration excludes durable ledger history in the database', () => {
+  assert.match(authoritativeReservationMigration, /test_bank_learning_events_user_exam_question_idx/i);
+  assert.match(authoritativeReservationMigration, /test_bank_learning_events_user_received_event_idx/i);
+  assert.match(authoritativeReservationMigration, /new\.updated_at := clock_timestamp\(\)/i);
+  assert.match(authoritativeReservationMigration, /before insert or update on public\.test_bank_progress_devices/i);
+  assert.match(authoritativeReservationMigration, /revoke all on function public\.touch_test_bank_progress_device_updated_at\(\) from public, anon, authenticated/i);
+  assert.match(authoritativeReservationMigration, /where learning_event\.user_id = v_user_id/i);
+  assert.match(authoritativeReservationMigration, /learning_event\.exam_id = v_exam_id/i);
+  assert.match(authoritativeReservationMigration, /learning_event\.question_id = unique_ids\.candidate_question_id/i);
+  assert.match(authoritativeReservationMigration, /security definer[\s\S]*set search_path = ''[\s\S]*set statement_timeout = '5s'/i);
+  assert.match(authoritativeReservationMigration, /revoke all on function public\.reserve_test_bank_new_questions\(text, text\[\]\) from public, anon, authenticated/i);
+  assert.match(authoritativeReservationMigration, /grant execute on function public\.reserve_test_bank_new_questions\(text, text\[\]\) to authenticated/i);
+});
+
+test('a New-only reservation calls the RPC before client ledger hydration completes', async () => {
+  const claims = new Set();
+  const calls = [];
+  const userId = 'immediate-reservation-test';
+  const page = await loadLedger({
+    userId,
+    skipSync: true,
+    client: createAtomicClient(claims, calls, { userId })
+  });
+  const ids = ['cssbb:set-1:legacy-301', 'cssbb:set-1:legacy-302'];
+
+  const result = await page.api.reserveNewQuestions({ examId: 'cssbb', questionIds: ids });
+
+  assert.equal(result.reserved, true);
+  assert.deepEqual(Array.from(result.acceptedIds), ids);
+  assert.equal(calls.length, 1, 'the reservation RPC is not preceded by a full ledger refresh');
 });
 
 test('two ledger clients receive disjoint accepted IDs from concurrent account-owned claims', async () => {

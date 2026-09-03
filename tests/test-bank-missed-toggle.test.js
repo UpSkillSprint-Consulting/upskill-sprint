@@ -141,7 +141,7 @@ test('turning on Missed disables New questions only for the same card, and vice 
   assert.ok(!modeCard(window, 1).querySelector('[data-missed="quick"]').classList.contains('on'), 'missed was turned back off by turning unseen on');
 });
 
-test('switching from a recovering New-only filter to Missed-only opens the quiz with the same Start click', async () => {
+test('switching from New-only to Missed-only opens the quiz with the same Start click', async () => {
   const { window, errors } = await loadPage();
   const e = window.__TB.EXAMS.cssbb;
   const missedPool = e.sets[2].slice(0, 4);
@@ -149,13 +149,8 @@ test('switching from a recovering New-only filter to Missed-only opens the quiz 
   click(window, modeCard(window, 1).querySelector('[data-count="quick"][data-n="10"]'));
   await settle(window);
 
-  let finishFreshHistory;
-  window.__TBLearning.ensureFreshHistory = function () {
-    return new Promise(resolve => { finishFreshHistory = resolve; });
-  };
   click(window, modeCard(window, 1).querySelector('[data-unseen="quick"]'));
   await settle(window, 2);
-  assert.equal(typeof finishFreshHistory, 'function', 'New-only recovery is in progress');
 
   click(window, modeCard(window, 1).querySelector('[data-missed="quick"]'));
   await settle(window, 2);
@@ -163,15 +158,10 @@ test('switching from a recovering New-only filter to Missed-only opens the quiz 
   assert.ok(!modeCard(window, 1).querySelector('[data-unseen="quick"]').classList.contains('on'));
 
   const start = modeCard(window, 1).querySelector('[data-mode="quick"]');
-  assert.equal(start.disabled, false, 'the cancelled New-only recovery cannot disable Missed-only Start');
+  assert.equal(start.disabled, false, 'New-only cannot disable Missed-only Start');
   click(window, start);
   await settle(window, 4);
   assert.equal(window.document.querySelectorAll('#tb-overview .tb-navcell').length, 4, 'the missed-question quiz opens immediately');
-
-  finishFreshHistory({ ready: false, reason: 'history-not-ready' });
-  await new Promise(resolve => window.setTimeout(resolve, 0));
-  await settle(window, 3);
-  assert.ok(window.document.querySelector('#tb-overview .tb-quiz'), 'the cancelled recovery response cannot close the active quiz');
   assert.deepEqual(errors, []);
 });
 
