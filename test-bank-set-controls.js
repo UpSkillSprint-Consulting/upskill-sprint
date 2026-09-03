@@ -28,6 +28,16 @@
     if (source) source.click();
   }
 
+  function normalizeCompletedSetProgress(overview) {
+    Array.from(overview.querySelectorAll('.tb-setpick [data-set] .tb-sets')).forEach(function (summary) {
+      const match = summary.textContent.trim().match(/^(\d+)\s+of\s+(\d+)(?:\s*·.*)?$/i);
+      if (!match || match[1] !== match[2]) return;
+
+      const text = match[1] + ' questions';
+      if (summary.textContent !== text) summary.textContent = text;
+    });
+  }
+
   function createSetControls(overview, kind) {
     const current = activeSetValue(overview);
 
@@ -113,6 +123,8 @@
   function enhanceCards() {
     const overview = document.getElementById(OVERVIEW_ID);
     if (!overview || !overview.querySelector('.tb-setpick [data-set]')) return;
+
+    normalizeCompletedSetProgress(overview);
 
     Array.from(overview.querySelectorAll('.tb-mode')).forEach(function (card) {
       const title = card.querySelector('h4');
