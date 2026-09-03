@@ -1099,21 +1099,21 @@
       "No checklist is necessary; experienced Black Belts should be trusted to self-identify any lifecycle gaps without any structured audit tool"
     ],
     "answer": 1,
-    "why": "This final capstone item for Domain III requires synthesizing every specific lifecycle failure mode demonstrated across both batches (D3-001, D3-004, D3-010, D3-013, D3-026, D3-029, D3-032, D3-035, D3-038, D3-045) into a genuinely comprehensive, phase-specific audit tool design \u2014 each documented failure mode should map to a specific checklist question designed to catch it proactively, a true Create-level synthesis task closing out the domain's lifecycle subdomain. Source: [BOK] Domain III.A, Project Management Principles and Lifecycle (full-subdomain capstone).",
+    "why": "This final capstone item for Domain III requires synthesizing every specific lifecycle failure mode demonstrated across both batches, including D3-001, D3-026, D3-035, and D3-045 into a genuinely comprehensive, phase-specific audit tool design \u2014 each documented failure mode should map to a specific checklist question designed to catch it proactively, a true Create-level synthesis task closing out the domain's lifecycle subdomain. Source: [BOK] Domain III.A, Project Management Principles and Lifecycle (full-subdomain capstone).",
     "set": 3,
     "qid": "mbb:set-3:d3-048"
   },
   {
     "sub": "mbb-portfolio",
-    "stem": "A drone delivery startup's newly appointed MBB is designing portfolio management infrastructure from scratch for a rapidly scaling organization (similar to the meal-kit delivery scaling scenario in D2-069), wanting to avoid every infrastructure gap demonstrated across this domain (missing centralized visibility, mismatched review cadence, missing dependency/risk tracking, unconstrained intake, stale prioritization criteria, non-standardized reporting, undefined escalation thresholds, no centralized archive). Which single design principle should anchor the overall infrastructure architecture?",
+    "stem": "A drone delivery startup's newly appointed MBB is designing portfolio management infrastructure from scratch for a rapidly scaling organization (similar to other rapidly-scaling organizations discussed elsewhere in this bank), wanting to avoid every infrastructure gap demonstrated across this domain (missing centralized visibility, mismatched review cadence, missing dependency/risk tracking, unconstrained intake, stale prioritization criteria, non-standardized reporting, undefined escalation thresholds, no centralized archive). Which single design principle should anchor the overall infrastructure architecture?",
     "options": [
-      "Design infrastructure around a small number of core, complementary capabilities \u2014 centralized visibility, appropriately-paced governance cadence, dependency/risk aggregation, capacity-checking intake, periodically-revalidated prioritization criteria, standardized reporting with clear escalation thresholds, and a centralized knowledge archive \u2014 built initially in a lightweight, scalable form appropriate to current organizational size (per the resource-scaling principle from D1-040/D2-032), with an explicit plan to revisit and mature each capability as the organization grows (per the periodic re-validation principle from D1-069/D2-069/D3-017), rather than either under-building or over-building relative to current and near-future actual needs",
+      "Design infrastructure around a small number of core, complementary capabilities \u2014 centralized visibility, appropriately-paced governance cadence, dependency/risk aggregation, capacity-checking intake, periodically-revalidated prioritization criteria, standardized reporting with clear escalation thresholds, and a centralized knowledge archive \u2014 built initially in a lightweight, scalable form appropriate to current organizational size (per the resource-scaling principle (D2-032)), with an explicit plan to revisit and mature each capability as the organization grows (per the periodic re-validation principle (D1-069, D3-017)), rather than either under-building or over-building relative to current and near-future actual needs",
       "Skip infrastructure design entirely at this early stage, since a startup should prioritize speed over any governance structure regardless of the risks this has been shown to create elsewhere in this domain",
       "Build the most complex, feature-complete infrastructure possible immediately, regardless of the organization's current small scale and rapid rate of change, mirroring a much larger and more mature organization's infrastructure",
       "Copy another company's infrastructure exactly, regardless of differences in industry, scale, or organizational structure"
     ],
     "answer": 0,
-    "why": "This final capstone item for the infrastructure subdomain requires synthesizing not just this domain's infrastructure gaps but also the resource-scaling principle (D1-040, D2-032) and periodic re-validation principle (D1-069, D2-069, D3-017) established across the entire question bank into a single coherent design philosophy: build the necessary core capabilities in a scale-appropriate, initially lightweight form, with an explicit maturation plan \u2014 genuinely Create-level synthesis spanning multiple domains. Source: [BOK] Domain III.B, Project Portfolio Infrastructure and Management (full-subdomain capstone); cross-domain synthesis with D1-040, D1-069, D2-032, D2-069.",
+    "why": "This final capstone item for the infrastructure subdomain requires synthesizing not just this domain's infrastructure gaps but also the resource-scaling principle (D2-032) and periodic re-validation principle (D1-069, D3-017) established across the entire question bank into a single coherent design philosophy: build the necessary core capabilities in a scale-appropriate, initially lightweight form, with an explicit maturation plan \u2014 genuinely Create-level synthesis spanning multiple domains. Source: [BOK] Domain III.B, Project Portfolio Infrastructure and Management (full-subdomain capstone); cross-domain synthesis with D1-069 and D2-032.",
     "set": 3,
     "qid": "mbb:set-3:d3-049"
   },
@@ -1123,11 +1123,11 @@
     "options": [
       "Different, inconsistent templates for every individual project, tailored ad hoc by each Black Belt with no standardized elements at all",
       "A template requiring only a subjective \"high/medium/low\" value rating assigned by the project sponsor, with no supporting quantitative analysis of any kind",
-      "A structured template requiring: (1) total cost of ownership (not just purchase/implementation price, capturing all directly-associated costs per D3-047), (2) NPV and payback period calculated together (never either alone, given each metric's distinct limitations per D3-003/D3-006/D3-018), (3) explicit hard vs. soft savings classification (per D3-009/D3-015), (4) a sensitivity range rather than a single-point estimate for any benefit with meaningful uncertainty (per D3-034), (5) explicit confirmation that no sunk costs have influenced the forward-looking analysis (per D3-024), (6) a completeness check for commonly-omitted cost categories such as regulatory/certification triggers (per D3-031), and (7) a flag for any safety-critical dimension warranting evaluation beyond routine NPV alone (per D3-043) \u2014 with capital-rationing/combinatorial analysis (per D3-037) applied at the portfolio level once individual project templates are complete",
+      "A structured template requiring: (1) total cost of ownership (not just purchase/implementation price, capturing all directly-associated costs per D3-047), (2) NPV and payback period calculated together (never either alone, given each metric's distinct limitations given each metric's distinct limitations), (3) explicit hard vs. soft savings classification , (4) a sensitivity range rather than a single-point estimate for any benefit with meaningful uncertainty , (5) explicit confirmation that no sunk costs have influenced the forward-looking analysis , (6) a completeness check for commonly-omitted cost categories such as regulatory/certification triggers , and (7) a flag for any safety-critical dimension warranting evaluation beyond routine NPV alone (per D3-043) \u2014 with capital-rationing/combinatorial analysis (per D3-037) applied at the portfolio level once individual project templates are complete",
       "A single-line template requiring only \"estimated annual savings\" with no further detail, structure, or supporting analysis of any kind"
     ],
     "answer": 2,
-    "why": "This final capstone item for Domain III requires synthesizing all ten distinct financial-tools principles demonstrated across both batches (D3-003, D3-006, D3-009, D3-012, D3-015, D3-018, D3-024, D3-031, D3-034, D3-037, D3-043, D3-047) into a single, comprehensive, standardized evaluation template \u2014 the clearest possible demonstration of Create-level synthesis closing out Domain III's financial-tools subdomain and the domain as a whole. Source: [BOK] Domain III.C, Project Portfolio Financial Tools (full-subdomain and full-domain capstone).",
+    "why": "This final capstone item for Domain III requires synthesizing all ten distinct financial-tools principles demonstrated across both batches, including D3-012, D3-031, D3-037, D3-043, and D3-047 into a single, comprehensive, standardized evaluation template \u2014 the clearest possible demonstration of Create-level synthesis closing out Domain III's financial-tools subdomain and the domain as a whole. Source: [BOK] Domain III.C, Project Portfolio Financial Tools (full-subdomain and full-domain capstone).",
     "set": 3,
     "qid": "mbb:set-3:d3-050"
   },
@@ -1183,7 +1183,7 @@
       "The periodic re-validation principle (already established for strategic plans, organizational design, and portfolio prioritization criteria) applies equally to training needs analysis: a three-year-old assessment likely no longer reflects current capability gaps and should be refreshed"
     ],
     "answer": 3,
-    "why": "This connects the periodic re-validation principle (portfolio criteria, strategic plans) to training needs analysis specifically \u2014 a static assessment predictably drifts out of alignment with a changing organization.",
+    "why": "This connects the periodic re-validation principle (portfolio criteria, strategic plans) to training needs analysis specifically \u2014 a static assessment predictably drifts out of alignment with a changing organization. Source: [BOK] Domain IV.A, Training Needs Analysis.",
     "set": 3,
     "qid": "mbb:set-3:d4-004"
   },
@@ -1197,7 +1197,7 @@
       "The training plan should eliminate learning objectives entirely and rely only on the assessment"
     ],
     "answer": 1,
-    "why": "A defined competency assessment is a standard, necessary training plan element \u2014 without it, certification doesn't verify genuine capability, risking exactly the credibility and quality-of-Belt-pool concerns raised elsewhere in this domain (e.g., D2-034's advancement-pathway gap).",
+    "why": "A defined competency assessment is a standard, necessary training plan element \u2014 without it, certification doesn't verify genuine capability, risking exactly the credibility and quality-of-Belt-pool concerns raised elsewhere (e.g., an inconsistent, informal Belt-advancement pathway). Source: [BOK] Domain IV.B, Training Plan Elements.",
     "set": 3,
     "qid": "mbb:set-3:d4-005"
   },
@@ -1211,7 +1211,7 @@
       "Keep the allocation unchanged, since statistical tools are always the most important training content"
     ],
     "answer": 1,
-    "why": "Training plan content allocation should reflect the organization's actual, evidenced failure patterns \u2014 continuing to over-invest in technical content while under-investing in the documented root cause of failures is a misallocation the needs-analysis-to-plan linkage should catch.",
+    "why": "Training plan content allocation should reflect the organization's actual, evidenced failure patterns \u2014 continuing to over-invest in technical content while under-investing in the documented root cause of failures is a misallocation the needs-analysis-to-plan linkage should catch. Source: [BOK] Domain IV.B, Training Plan Elements.",
     "chart": {"type": "data-table", "columns": ["Content area", "Current allocation", "Project failure attribution"], "rows": [["Statistical tools", "90%", "15%"], ["Change mgmt / stakeholder engagement", "10%", "70%"], ["Other", "0%", "15%"]]},
     "set": 3,
     "qid": "mbb:set-3:d4-006"
@@ -1226,7 +1226,7 @@
       "The DFSS curriculum itself is flawed and should be discontinued"
     ],
     "answer": 0,
-    "why": "Defining prerequisites is a standard training plan element for advanced curricula \u2014 omitting this predictably produces the exact struggle described when trainees lack foundational context.",
+    "why": "Defining prerequisites is a standard training plan element for advanced curricula \u2014 omitting this predictably produces the exact struggle described when trainees lack foundational context. Source: [BOK] Domain IV.B, Training Plan Elements.",
     "set": 3,
     "qid": "mbb:set-3:d4-007"
   },
@@ -1240,7 +1240,7 @@
       "Training should be canceled entirely if logistics aren't planned a year in advance"
     ],
     "answer": 1,
-    "why": "Logistics planning is a standard, foundational training plan element precisely because ad hoc last-minute handling predictably produces disruption \u2014 proactive planning, not reactive scrambling, is the correct approach.",
+    "why": "Logistics planning is a standard, foundational training plan element precisely because ad hoc last-minute handling predictably produces disruption \u2014 proactive planning, not reactive scrambling, is the correct approach. Source: [BOK] Domain IV.B, Training Plan Elements.",
     "set": 3,
     "qid": "mbb:set-3:d4-008"
   },
@@ -1254,7 +1254,7 @@
       "Eliminate all technical terminology entirely, oversimplifying the statistical content to the point of losing rigor"
     ],
     "answer": 0,
-    "why": "Adapting delivery format (visual aids, translated glossaries) to the actual workforce composition is a standard, appropriate accommodation \u2014 distinct from either ignoring the need or inappropriately diluting technical rigor.",
+    "why": "Adapting delivery format (visual aids, translated glossaries) to the actual workforce composition is a standard, appropriate accommodation \u2014 distinct from either ignoring the need or inappropriately diluting technical rigor. Source: [BOK] Domain IV.C, Training Materials and Delivery.",
     "set": 3,
     "qid": "mbb:set-3:d4-009"
   },
@@ -1268,7 +1268,7 @@
       "Intensive single-session delivery is always the most effective training format regardless of retention outcomes"
     ],
     "answer": 0,
-    "why": "Spaced repetition and reinforcement are well-established learning-science principles; a single intensive session with no follow-up predictably underperforms a distributed model on long-term retention.",
+    "why": "Spaced repetition and reinforcement are well-established learning-science principles; a single intensive session with no follow-up predictably underperforms a distributed model on long-term retention. Source: [BOK] Domain IV.C, Training Materials and Delivery.",
     "set": 3,
     "qid": "mbb:set-3:d4-010"
   },
@@ -1282,7 +1282,7 @@
       "Eliminate all training content and rely solely on on-the-job learning with no formal instruction"
     ],
     "answer": 1,
-    "why": "Contextual relevance of training examples to trainees' actual work materially affects engagement and transfer of learning \u2014 generic, industry-mismatched examples predictably underperform customized ones.",
+    "why": "Contextual relevance of training examples to trainees' actual work materially affects engagement and transfer of learning \u2014 generic, industry-mismatched examples predictably underperform customized ones. Source: [BOK] Domain IV.C, Training Materials and Delivery.",
     "set": 3,
     "qid": "mbb:set-3:d4-011"
   },
@@ -1296,7 +1296,7 @@
       "A hybrid model: asynchronous self-paced modules for foundational content (accommodating schedule variability across time zones) paired with periodic synchronous sessions for discussion, Q&A, and applied practice \u2014 balancing flexibility with the relationship-building and real-time clarification synchronous delivery provides"
     ],
     "answer": 3,
-    "why": "A hybrid delivery model is the standard, defensible solution for genuinely dispersed, schedule-variable cohorts \u2014 balancing the flexibility asynchronous content provides against the real-time engagement value of periodic synchronous sessions.",
+    "why": "A hybrid delivery model is the standard, defensible solution for genuinely dispersed, schedule-variable cohorts \u2014 balancing the flexibility asynchronous content provides against the real-time engagement value of periodic synchronous sessions. Source: [BOK] Domain IV.C, Training Materials and Delivery.",
     "set": 3,
     "qid": "mbb:set-3:d4-012"
   },
@@ -1310,7 +1310,7 @@
       "Weak project outcomes prove satisfaction surveys are always misleading and should never be used"
     ],
     "answer": 1,
-    "why": "This tests recognizing the well-known training-evaluation-levels gap: reaction/satisfaction is the weakest evaluation signal and does not by itself indicate learning, behavior change, or business results \u2014 all of which should be measured for a complete effectiveness picture.",
+    "why": "This tests recognizing the well-known training-evaluation-levels gap: reaction/satisfaction is the weakest evaluation signal and does not by itself indicate learning, behavior change, or business results \u2014 all of which should be measured for a complete effectiveness picture. Source: [BOK] Domain IV.D, Training Program Effectiveness.",
     "chart": {"type": "data-table", "columns": ["Evaluation level", "What it measures", "This program's status"], "rows": [["1. Reaction", "Trainee satisfaction", "Measured (high)"], ["2. Learning", "Knowledge/skill gained", "Not measured"], ["3. Behavior", "On-the-job application", "Not measured"], ["4. Results", "Business outcomes", "Not measured"]]},
     "set": 3,
     "qid": "mbb:set-3:d4-013"
@@ -1325,7 +1325,7 @@
       "Track a cohort of certified Belts' subsequent project outcomes (completion rate, validated benefit realization, quality of DMAIC execution) against a baseline or comparison group, since exam performance measures knowledge acquisition, not downstream on-the-job project success"
     ],
     "answer": 3,
-    "why": "Exam pass rates measure knowledge acquisition (a Kirkpatrick Level 2 concern), not the actual downstream project-outcome results the organization ultimately cares about \u2014 direct outcome tracking against a baseline is the correct approach.",
+    "why": "Exam pass rates measure knowledge acquisition (a Kirkpatrick Level 2 concern), not the actual downstream project-outcome results the organization ultimately cares about \u2014 direct outcome tracking against a baseline is the correct approach. Source: [BOK] Domain IV.D, Training Program Effectiveness.",
     "set": 3,
     "qid": "mbb:set-3:d4-014"
   },
@@ -1339,7 +1339,7 @@
       "Green Belts should be required to launch a project within one week of certification regardless of organizational readiness"
     ],
     "answer": 0,
-    "why": "A gap between reported training confidence and actual application usually points to organizational/structural barriers (sponsorship, time, project pipeline access) rather than a training-content flaw \u2014 the MBB should investigate the surrounding support system before concluding the curriculum failed.",
+    "why": "A gap between reported training confidence and actual application usually points to organizational/structural barriers (sponsorship, time, project pipeline access) rather than a training-content flaw \u2014 the MBB should investigate the surrounding support system before concluding the curriculum failed. Source: [BOK] Domain IV.D, Training Program Effectiveness.",
     "set": 3,
     "qid": "mbb:set-3:d4-015"
   },
@@ -1353,7 +1353,7 @@
       "Recommend eliminating the champion role from the deployment entirely"
     ],
     "answer": 0,
-    "why": "This is a foundational coaching moment \u2014 clarifying the champion's genuinely active (if distinct from technical) role prevents exactly the ceremonial-sponsorship pattern documented elsewhere in this domain (organizational competencies, D2-002).",
+    "why": "This is a foundational coaching moment \u2014 clarifying the champion's genuinely active (if distinct from technical) role prevents exactly the ceremonial-sponsorship pattern documented elsewhere (organizational competencies). Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-001"
   },
@@ -1367,7 +1367,7 @@
       "Encourage the champion to continue attending every meeting and directing technical decisions, since more executive involvement is always better"
     ],
     "answer": 1,
-    "why": "Over-involvement at the technical level is a distinct champion-coaching challenge from under-involvement (ceremonial sponsorship) \u2014 both are miscalibrations of the champion's proper role, which is strategic/organizational, not routine technical direction.",
+    "why": "Over-involvement at the technical level is a distinct champion-coaching challenge from under-involvement (ceremonial sponsorship) \u2014 both are miscalibrations of the champion's proper role, which is strategic/organizational, not routine technical direction. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-002"
   },
@@ -1381,7 +1381,7 @@
       "Continue allowing the champion to approve charters without review, since verbal summaries are sufficient"
     ],
     "answer": 1,
-    "why": "Champion charter approval is meant to be a genuine governance checkpoint, not a formality \u2014 coaching should address the specific gap (not reading charters) directly rather than removing the role or misdirecting responsibility entirely to the Black Belt.",
+    "why": "Champion charter approval is meant to be a genuine governance checkpoint, not a formality \u2014 coaching should address the specific gap (not reading charters) directly rather than removing the role or misdirecting responsibility entirely to the Black Belt. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-003"
   },
@@ -1395,7 +1395,7 @@
       "Focus coaching on the specific, high-leverage things this executive needs to recognize \u2014 what a valid charter looks like, what tollgate questions to ask, and warning signs of a stalled project \u2014 rather than full methodology training, respecting the time constraint while still building genuine oversight capability"
     ],
     "answer": 3,
-    "why": "Executive coaching should be right-sized to what genuinely matters for their oversight role \u2014 not full methodology training, but not zero either; a handful of high-leverage recognition skills respects the time constraint while still building real oversight capability.",
+    "why": "Executive coaching should be right-sized to what genuinely matters for their oversight role \u2014 not full methodology training, but not zero either; a handful of high-leverage recognition skills respects the time constraint while still building real oversight capability. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-004"
   },
@@ -1409,7 +1409,7 @@
       "Recommend replacing the champion for raising the timeline concern at all"
     ],
     "answer": 0,
-    "why": "Legitimate stage-gate kill authority (as established elsewhere in this domain, e.g., the vendor-constraint kill decision) should still be exercised based on tollgate evidence, not schedule frustration alone \u2014 coaching should slow the decision down to incorporate the evidence, not simply defer to or override the champion's authority.",
+    "why": "Legitimate stage-gate kill authority (as established elsewhere in this domain, e.g., the vendor-constraint kill decision) should still be exercised based on tollgate evidence, not schedule frustration alone \u2014 coaching should slow the decision down to incorporate the evidence, not simply defer to or override the champion's authority. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
     "set": 3,
     "qid": "mbb:set-3:d5-005"
   },
