@@ -338,3 +338,39 @@ test('Retake fails closed when the saved filtered pool is no longer available', 
   assert.equal(window.__TBRetakeConfiguration.current().sessionId, first.sessionId, 'completed recipe remains the current recipe after the blocked retake');
   assert.deepEqual(errors, []);
 });
+
+test('Retake never starts a shorter New-only quiz when the remaining pool shrinks', async () => {
+  const { window, errors } = await loadPage();
+  await selectExam(window, 'cssbb');
+  await selectSet(window, '1');
+  await selectCount(window, 'quick', 10);
+  await toggleFilter(window, 'quick', 'new-only');
+
+  const first = await startQuiz(window, 'quick');
+  const firstSession = sessionState(window, first.sessionId);
+  const firstIds = new Set(firstSession.questionIds);
+  const exam = window.__TB.EXAMS.cssbb;
+  const original = Object.values(exam.sets).flat();
+  const previouslySeen = original.filter(question => firstIds.has(window.__TBQuestionRegistry.idFor('cssbb', question)));
+  const sevenRemaining = original.filter(question => !firstIds.has(window.__TBQuestionRegistry.idFor('cssbb', question))).slice(0, 7);
+  assert.equal(previouslySeen.length, 10);
+  assert.equal(sevenRemaining.length, 7);
+
+  await submitQuiz(window);
+  const sessionCountBefore = Object.keys(window.__TBLearning.store().sessions).length;
+  /* Model a content/eligibility change after completion: exactly seven unseen
+     questions remain across the current bank. The retake must not silently
+     downgrade the completed ten-question recipe. */
+  exam.sets = { 1: previouslySeen.concat(sevenRemaining), 2: [], 3: [] };
+  exam.bank = exam.sets[1];
+
+  click(window, overview(window).querySelector('[data-retake]'));
+  const error = await waitFor(window, () => overview(window).querySelector('[data-retake-error]'), 'the exact-count guard did not block the shorter retake');
+
+  assert.match(error.textContent, /needs 10 questions, but only 7 new questions are available/i);
+  assert.match(error.textContent, /No shorter or unfiltered Quick Quiz was started/i);
+  assert.equal(overview(window).querySelector('.tb-quiz'), null);
+  assert.equal(Object.keys(window.__TBLearning.store().sessions).length, sessionCountBefore, 'no shorter attempt is written to the durable ledger');
+  assert.equal(window.__TBRetakeConfiguration.current().sessionId, first.sessionId);
+  assert.deepEqual(errors, []);
+});
