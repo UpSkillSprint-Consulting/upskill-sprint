@@ -3,6 +3,9 @@
 
   const OVERVIEW_ID = 'tb-overview';
   const ENHANCED_ATTR = 'data-upskill-set-controls';
+  const LEARNING_STORE_KEY = 'tb-learning-events-v2';
+  const RECOVERY_KEEP_CONFIRMED_EVENTS = 200;
+  const RECOVERY_KEEP_FINISHED_SESSIONS = 50;
   const SETS = [
     { value: '1', label: '1', name: 'Set 1' },
     { value: '2', label: '2', name: 'Set 2' },
@@ -11,6 +14,115 @@
   ];
 
   let scheduled = false;
+
+  function asArray(value) { return Array.isArray(value) ? value : []; }
+  function asRecord(value) { return value && typeof value === 'object' && !Array.isArray(value) ? value : {}; }
+
+  function compactLearningStateForQuotaRecovery(state) {
+    if (!state || typeof state !== 'object') return false;
+
+    const events = asArray(state.events);
+    const pending = [];
+    const confirmed = [];
+    events.forEach(function (event) {
+      if (asArray(event && event.syncedFor).length) confirmed.push(event);
+      else pending.push(event);
+    });
+
+    confirmed.sort(function (left, right) {
+      return Number(left && left.occurredAt || 0) - Number(right && right.occurredAt || 0) ||
+        String(left && left.id || '').localeCompare(String(right && right.id || ''));
+    });
+
+    const retainedConfirmed = confirmed.slice(-RECOVERY_KEEP_CONFIRMED_EVENTS).map(function (event) {
+      if (!event || !event.payload || !event.payload.snapshot) return event;
+      const compacted = Object.assign({}, event, { payload: Object.assign({}, event.payload) });
+      delete compacted.payload.snapshot;
+      return compacted;
+    });
+    state.events = retainedConfirmed.concat(pending).sort(function (left, right) {
+      return Number(left && left.occurredAt || 0) - Number(right && right.occurredAt || 0) ||
+        String(left && left.id || '').localeCompare(String(right && right.id || ''));
+    });
+
+    const pendingSessions = new Set(pending.map(function (event) { return String(event && event.sessionId || ''); }).filter(Boolean));
+    const sessions = asRecord(state.sessions);
+    const active = [];
+    const finished = [];
+    Object.keys(sessions).forEach(function (id) {
+      const session = sessions[id];
+      if (!session || session.status === 'active' || pendingSessions.has(String(id))) active.push([id, session]);
+      else finished.push([id, session]);
+    });
+    finished.sort(function (left, right) {
+      const a = Number(left[1] && (left[1].completedAt || left[1].abandonedAt || left[1].startedAt) || 0);
+      const b = Number(right[1] && (right[1].completedAt || right[1].abandonedAt || right[1].startedAt) || 0);
+      return a - b;
+    });
+    state.sessions = {};
+    active.concat(finished.slice(-RECOVERY_KEEP_FINISHED_SESSIONS)).forEach(function (entry) {
+      state.sessions[entry[0]] = entry[1];
+    });
+
+    /* seen/totals are the compact durable projection used by New-only and
+       analytics. knownEventIds is only a dedupe cache; keeping IDs for the
+       retained local events is sufficient because incremental Supabase sync
+       uses its received_at cursor for older rows. */
+    if (state.index && typeof state.index === 'object') {
+      const known = {};
+      state.events.forEach(function (event) {
+        if (event && event.id) known[event.id] = Number(event.occurredAt || Date.now());
+      });
+      state.index.knownEventIds = known;
+    }
+
+    try {
+      localStorage.setItem(LEARNING_STORE_KEY, JSON.stringify(state));
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function installLearningStorageRecovery() {
+    const learning = window.__TBLearning;
+    if (!learning || learning.__mobileQuotaRecoveryInstalled) return;
+    if (typeof learning.store !== 'function') return;
+
+    function retryAfterCompaction(method, input, failedResult) {
+      if (!failedResult || failedResult.saved !== false) return failedResult;
+      const state = learning.store();
+      if (!compactLearningStateForQuotaRecovery(state)) return failedResult;
+      const retryInput = Object.assign({}, input || {});
+      if (failedResult.sessionId && !retryInput.sessionId) retryInput.sessionId = failedResult.sessionId;
+      if (method === 'startSession') retryInput.returnResult = true;
+      return originals[method](retryInput);
+    }
+
+    const originals = {
+      startSession: typeof learning.startSession === 'function' ? learning.startSession.bind(learning) : null,
+      recordAnswer: typeof learning.recordAnswer === 'function' ? learning.recordAnswer.bind(learning) : null,
+      completeSession: typeof learning.completeSession === 'function' ? learning.completeSession.bind(learning) : null
+    };
+
+    if (originals.startSession) {
+      learning.startSession = function (input) {
+        return retryAfterCompaction('startSession', input, originals.startSession(input));
+      };
+    }
+    if (originals.recordAnswer) {
+      learning.recordAnswer = function (input) {
+        return retryAfterCompaction('recordAnswer', input, originals.recordAnswer(input));
+      };
+    }
+    if (originals.completeSession) {
+      learning.completeSession = function (input) {
+        return retryAfterCompaction('completeSession', input, originals.completeSession(input));
+      };
+    }
+
+    learning.__mobileQuotaRecoveryInstalled = true;
+  }
 
   function activeSetValue(overview) {
     const active = overview.querySelector('.tb-setpick [data-set].on');
@@ -106,9 +218,9 @@
     }
 
     const setButtonTitle = unseenActive
-      ? 'Ignored while New questions only is on \u2014 that always draws from Mixed.'
+      ? 'Ignored while New questions only is on — that always draws from Mixed.'
       : missedActive
-        ? 'Ignored while Missed questions only is on \u2014 that always draws from Mixed.'
+        ? 'Ignored while Missed questions only is on — that always draws from Mixed.'
         : '';
     Array.prototype.forEach.call(controls.querySelectorAll('[data-quiz-set="' + kind + '"]'), function (button) {
       button.disabled = poolOverrideActive;
@@ -137,6 +249,7 @@
 
   function enhance() {
     scheduled = false;
+    installLearningStorageRecovery();
     enhanceCards();
   }
 
@@ -147,6 +260,7 @@
   }
 
   function initialize() {
+    installLearningStorageRecovery();
     scheduleEnhance();
     const overview = document.getElementById(OVERVIEW_ID);
     if (!overview) return;
