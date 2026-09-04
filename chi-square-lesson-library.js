@@ -255,6 +255,18 @@
       description: 'Select, calculate, and interpret short-run SPC charts using a clickable decision flowchart, product-family checks, and steel-mill examples.'
     },
     {
+      marker: 'data-signal-or-noise-arl-nelson-rules',
+      sectionId: 'lean-six-sigma',
+      path: '/lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design',
+      topic: 'lean-six-sigma',
+      level: 'advanced',
+      interactive: 'true',
+      search: 'average run length arl nelson rules nelson tests western electric rules control limits 2 sigma vs 3 sigma cusum shewhart chart spc statistical process control type i error type ii error zone tests lean six sigma advanced interactive',
+      meta: '<span>Advanced</span><span>Interactive</span><span>65 min</span><span>Excel + Minitab</span>',
+      title: 'Signal or Noise: ARL, Nelson Rules & Control Limits',
+      description: 'Derive ARL from first principles, work through all eight Nelson tests, run a live 2σ vs 3σ simulation, and race CUSUM against Shewhart on identical data.'
+    },
+    {
       marker: 'data-understanding-dot-notation',
       sectionId: 'statistics',
       path: '/lessons/statistics/understanding-dot-notation',
