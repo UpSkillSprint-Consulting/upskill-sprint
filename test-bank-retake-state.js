@@ -38,6 +38,30 @@
     return Boolean(control && (control.classList.contains('on') || control.getAttribute('aria-pressed') === 'true'));
   }
 
+  function clearTransientBlock() {
+    const host = overview();
+    if (!host) return;
+    host.querySelectorAll('[data-retake-count-block]').forEach(function (node) { node.remove(); });
+  }
+
+  function showTransientBlock(message, kind) {
+    Promise.resolve().then(function () {
+      const host = overview();
+      if (!host) return;
+      clearTransientBlock();
+      let error = host.querySelector('.tb-newonly-error:not([data-retake-error])');
+      if (!error) {
+        error = document.createElement('p');
+        error.className = 'tb-newonly-error';
+        const card = modeCard(kind);
+        (card || host).appendChild(error);
+      }
+      error.dataset.retakeCountBlock = 'true';
+      error.setAttribute('role', 'alert');
+      error.textContent = message;
+    });
+  }
+
   function normalizeRecipe(value) {
     if (!value || typeof value !== 'object' || Number(value.version) !== VERSION) return null;
     const kind = value.kind === 'quick' || value.kind === 'focus' ? value.kind : '';
@@ -114,6 +138,29 @@
       let recipe = pendingRecipe;
       if (kind && (!recipe || recipe.kind !== kind || recipe.examId !== String(details.examId || ''))) recipe = captureRecipe(kind);
       if (!kind) pendingRecipe = null;
+      const delivered = Array.isArray(details.questions) ? details.questions.length : null;
+      if (kind && recipe && recipe.retakeOfSessionId && delivered != null && delivered !== recipe.questionCount) {
+        const label = kind === 'focus' ? 'Focused Quiz' : 'Quick Quiz';
+        const pool = recipe.newOnly ? 'new' : recipe.missedOnly ? 'previously missed' : 'eligible';
+        const message = 'This retake needs ' + recipe.questionCount + ' questions, but only ' + delivered + ' ' + pool +
+          ' question' + (delivered === 1 ? ' is' : 's are') + ' available. No shorter or unfiltered ' + label +
+          ' was started. Adjust the setup to an available count.';
+        pendingRecipe = null;
+        showTransientBlock(message, kind);
+        emit('tb:retake-start-blocked', {
+          block: { reason: 'count-shortfall', requested: recipe.questionCount, available: delivered, message: message },
+          recipe: clone(recipe)
+        });
+        return details.returnResult ? {
+          sessionId: null,
+          saved: false,
+          retakeBlocked: true,
+          reason: 'count-shortfall',
+          requested: recipe.questionCount,
+          available: delivered
+        } : null;
+      }
+      clearTransientBlock();
       const result = original.apply(this, arguments);
       const sessionId = typeof result === 'string' ? result : result && result.sessionId;
       const saved = typeof result === 'string' || Boolean(result && result.saved !== false);
@@ -160,4 +207,7 @@
     setPending: function (value) { pendingRecipe = normalizeRecipe(value); return pendingRecipe; },
     clearPending: function () { pendingRecipe = null; }
   };
+
+  document.addEventListener('tb:retake-error', clearTransientBlock);
+  document.addEventListener('tb:retake-started', clearTransientBlock);
 }());
