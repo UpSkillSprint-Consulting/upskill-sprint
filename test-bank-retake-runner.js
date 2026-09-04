@@ -4,6 +4,8 @@
   const state = window.__TBRetakeState;
   if (!state || window.__TBRetakeConfiguration) return;
   const WAIT_MS = 4000;
+  const EXACT_NEW_ONLY_RPC = 'reserve_test_bank_new_questions_exact';
+  const EXACT_RESERVATION_TIMEOUT_MS = 10000;
   let retakeBusy = false;
   let listenerInstalled = false;
 
@@ -37,7 +39,16 @@
     return waitFor(getter, message);
   }
 
+  function accountMessage() {
+    return 'The completed quiz belongs to a different signed-in account. No retake or replacement quiz was started.';
+  }
+
+  function assertOwner(recipe) {
+    if (!state.ownerMatches(recipe)) throw new Error(accountMessage());
+  }
+
   async function restoreExam(recipe) {
+    assertOwner(recipe);
     const active = document.querySelector('.tb-tile.active[data-exam]');
     if (active && active.dataset.exam === recipe.examId) return;
     await clickAndWait(
@@ -48,9 +59,11 @@
       },
       'The certification used by this quiz is unavailable. No replacement quiz was started.'
     );
+    assertOwner(recipe);
   }
 
   async function restoreSet(recipe) {
+    assertOwner(recipe);
     const host = await waitFor(setupReady, 'The quiz setup screen is unavailable. No replacement quiz was started.');
     const picker = host.querySelector('.tb-setpick');
     if (!picker) {
@@ -65,9 +78,11 @@
       const replacement = state.overview().querySelector('.tb-setpick ' + selector);
       return replacement && replacement.classList.contains('on');
     }, 'The saved question set could not be restored. No replacement quiz was started.');
+    assertOwner(recipe);
   }
 
   async function restoreFocus(recipe) {
+    assertOwner(recipe);
     if (recipe.kind !== 'focus') return;
     const select = await waitFor(function () { return state.overview().querySelector('[data-focusdom]'); }, 'The Focused Quiz area control is unavailable. No replacement quiz was started.');
     if (!Array.from(select.options).some(function (option) { return option.value === recipe.focusDomain; })) {
@@ -80,14 +95,17 @@
       const replacement = state.overview().querySelector('[data-focusdom]');
       return replacement && replacement.value === recipe.focusDomain;
     }, 'The saved Body of Knowledge area could not be restored. No replacement quiz was started.');
+    assertOwner(recipe);
   }
 
   async function restoreTiming(recipe) {
+    assertOwner(recipe);
     const selector = '[data-timing-kind="' + recipe.kind + '"][data-timed="' + (recipe.timed ? '1' : '0') + '"]';
     const target = state.overview().querySelector(selector);
     if (!target) throw new Error('The saved timing option is unavailable. No replacement quiz was started.');
     if (state.pressed(target)) return;
     await clickAndWait(target, function () { return state.pressed(state.overview().querySelector(selector)); }, 'The saved timing option could not be restored. No replacement quiz was started.');
+    assertOwner(recipe);
   }
 
   function filterMessage(recipe) {
@@ -97,6 +115,7 @@
   }
 
   async function restoreToggle(recipe, filter, desired) {
+    assertOwner(recipe);
     const attribute = filter === 'new-only' ? 'data-unseen' : 'data-missed';
     const selector = '[' + attribute + '="' + recipe.kind + '"]';
     let target = state.overview().querySelector(selector);
@@ -114,6 +133,7 @@
     }
     target.click();
     await waitFor(function () { return state.pressed(state.overview().querySelector(selector)) === desired; }, filterMessage(recipe));
+    assertOwner(recipe);
   }
 
   function markCustomCount(kind, count) {
@@ -139,11 +159,13 @@
   }
 
   async function restoreCount(recipe) {
+    assertOwner(recipe);
     const selector = '[data-count="' + recipe.kind + '"][data-n="' + recipe.questionCount + '"]';
     const exact = state.overview().querySelector(selector);
     if (exact) {
       if (state.pressed(exact)) return;
       await clickAndWait(exact, function () { return state.pressed(state.overview().querySelector(selector)); }, 'The saved question count could not be restored. No replacement quiz was started.');
+      assertOwner(recipe);
       return;
     }
     const card = state.modeCard(recipe.kind);
@@ -157,9 +179,11 @@
     if (!state.pressed(markCustomCount(recipe.kind, recipe.questionCount))) {
       throw new Error('The saved question count could not be restored. No replacement quiz was started.');
     }
+    assertOwner(recipe);
   }
 
   async function restoreRecipe(recipe) {
+    assertOwner(recipe);
     await restoreExam(recipe);
     await waitFor(setupReady, 'The quiz setup screen is unavailable. No replacement quiz was started.');
     await restoreSet(recipe);
@@ -170,7 +194,8 @@
     /* Count is last because each earlier control re-renders the cards. */
     await restoreCount(recipe);
     const restored = state.captureRecipe(recipe.kind);
-    if (!restored || restored.examId !== recipe.examId || restored.setId !== recipe.setId ||
+    if (!restored || !state.ownerMatches(restored) || restored.ownerId !== recipe.ownerId ||
+        restored.examId !== recipe.examId || restored.setId !== recipe.setId ||
         restored.questionCount !== recipe.questionCount || restored.timed !== recipe.timed ||
         restored.focusDomain !== recipe.focusDomain || restored.filter !== recipe.filter) {
       throw new Error('The completed quiz settings could not be verified. No replacement quiz was started.');
@@ -246,6 +271,12 @@
   }
 
   function shortfallMessage(recipe, available) {
+    if (recipe.missedOnly && available === 0) {
+      return 'No missed questions remain for this configuration. No unfiltered quiz was started.';
+    }
+    if (recipe.newOnly && available === 0) {
+      return 'No new questions remain for this configuration. No shorter or unfiltered quiz was started.';
+    }
     const label = recipe.kind === 'focus' ? 'Focused Quiz' : 'Quick Quiz';
     const pool = recipe.newOnly ? 'new' : recipe.missedOnly ? 'previously missed' : 'eligible';
     return 'This retake needs ' + recipe.questionCount + ' questions, but only ' + available + ' ' + pool +
@@ -267,38 +298,193 @@
     return parts.join(' · ');
   }
 
+  function validRecipe(recipe, button) {
+    return Boolean(recipe && state.ownerMatches(recipe) && recipe.kind === resultKind(button) && recipe.examId === state.activeExamId());
+  }
+
   function decorateRetake() {
     const host = state.overview();
     const button = host && host.querySelector('[data-retake]');
     if (!button) return;
     const recipe = state.currentRecipe();
-    const valid = Boolean(recipe && recipe.kind === resultKind(button) && recipe.examId === state.activeExamId());
+    const valid = validRecipe(recipe, button);
     button.dataset.retakeConfigured = String(valid);
     button.title = valid
       ? 'Start a fresh attempt with the same settings: ' + recipeSummary(recipe) + '.'
-      : 'The original quiz settings are unavailable; no generic retake will be substituted.';
+      : 'The original quiz settings are unavailable for the signed-in account; no generic retake will be substituted.';
+  }
+
+  function reservationIds(input) {
+    const values = input && Array.isArray(input.questionIds) ? input.questionIds : [];
+    const seen = new Set();
+    const ids = [];
+    values.forEach(function (value) {
+      const id = String(value || '').trim();
+      if (!id || seen.has(id)) return;
+      seen.add(id);
+      ids.push(id);
+    });
+    return ids;
+  }
+
+  function reservationFailure(recipe, ids, reason, message) {
+    return {
+      reserved: false,
+      ready: false,
+      reason: reason,
+      examId: recipe.examId,
+      userId: state.activeUserId(),
+      acceptedIds: [],
+      rejectedIds: ids,
+      error: message
+    };
+  }
+
+  function promiseWithTimeout(value, timeout) {
+    return new Promise(function (resolve, reject) {
+      let settled = false;
+      const timer = setTimeout(function () {
+        if (settled) return;
+        settled = true;
+        const error = new Error('Exact New-only retake reservation timed out.');
+        error.code = 'TB_RETAKE_RESERVATION_TIMEOUT';
+        reject(error);
+      }, timeout);
+      Promise.resolve(value).then(function (result) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        resolve(result);
+      }, function (error) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        reject(error);
+      });
+    });
+  }
+
+  function reserveExactNewOnly(recipe, input) {
+    const ids = reservationIds(input);
+    if (!state.ownerMatches(recipe)) {
+      return Promise.resolve(reservationFailure(recipe, ids, 'account-changed', accountMessage()));
+    }
+    if (ids.length < recipe.questionCount) {
+      return Promise.resolve(reservationFailure(recipe, ids, 'count-shortfall', shortfallMessage(recipe, ids.length)));
+    }
+    const auth = window.UpskillAuth;
+    const client = auth && typeof auth.getClient === 'function' ? auth.getClient() : null;
+    if (!client || typeof client.rpc !== 'function') {
+      return Promise.resolve(reservationFailure(
+        recipe,
+        ids,
+        'reservation-unavailable',
+        'Exact New-only retake reservation is unavailable. No quiz was started.'
+      ));
+    }
+    return promiseWithTimeout(client.rpc(EXACT_NEW_ONLY_RPC, {
+      p_exam_id: recipe.examId,
+      p_question_ids: ids,
+      p_required_count: recipe.questionCount
+    }), EXACT_RESERVATION_TIMEOUT_MS).then(function (result) {
+      if (result && result.error) throw result.error;
+      if (!state.ownerMatches(recipe)) {
+        return reservationFailure(recipe, ids, 'account-changed', accountMessage());
+      }
+      const rows = result && result.data;
+      if (!Array.isArray(rows)) {
+        return reservationFailure(recipe, ids, 'invalid-response', 'The exact reservation returned an invalid response. No quiz was started.');
+      }
+      const requested = new Set(ids);
+      const accepted = [];
+      const acceptedSet = new Set();
+      rows.forEach(function (row) {
+        const id = typeof row === 'string' ? row : row && row.question_id;
+        if (!requested.has(id) || acceptedSet.has(id)) return;
+        acceptedSet.add(id);
+        accepted.push(id);
+      });
+      if (accepted.length !== recipe.questionCount) {
+        return reservationFailure(recipe, ids, 'count-shortfall', shortfallMessage(recipe, accepted.length));
+      }
+      return {
+        reserved: true,
+        ready: true,
+        reason: 'reserved-exact',
+        examId: recipe.examId,
+        userId: state.activeUserId(),
+        acceptedIds: accepted,
+        rejectedIds: ids.filter(function (id) { return !acceptedSet.has(id); })
+      };
+    }).catch(function (error) {
+      const message = String(error && error.message || error || 'Exact New-only retake reservation failed.');
+      return reservationFailure(
+        recipe,
+        ids,
+        error && (error.code === 'P0001' || error.code === 'TB_RETAKE_RESERVATION_TIMEOUT') ? 'count-shortfall' : 'rpc-error',
+        message
+      );
+    });
+  }
+
+  function installExactNewOnlyReservation(recipe) {
+    if (!recipe.newOnly) return function () {};
+    const learning = window.__TBLearning;
+    if (!learning || typeof learning.reserveNewQuestions !== 'function') {
+      throw new Error('Exact New-only retake reservation is unavailable. No quiz was started.');
+    }
+    const original = learning.reserveNewQuestions;
+    let restored = false;
+    let inFlight = null;
+    function restore() {
+      if (restored) return;
+      restored = true;
+      if (learning.reserveNewQuestions === wrapped) learning.reserveNewQuestions = original;
+    }
+    function wrapped(input) {
+      if (!inFlight) {
+        inFlight = reserveExactNewOnly(recipe, input).then(function (result) {
+          restore();
+          return result;
+        }, function (error) {
+          restore();
+          throw error;
+        });
+      }
+      return inFlight;
+    }
+    wrapped.__tbRetakeExactReservation = true;
+    wrapped.__tbRetakeOriginal = original;
+    learning.reserveNewQuestions = wrapped;
+    return restore;
   }
 
   async function runRetake(recipe, button) {
     if (retakeBusy) return false;
     retakeBusy = true;
+    let releaseExactReservation = function () {};
     const originalText = button.textContent;
     button.disabled = true;
     button.setAttribute('aria-busy', 'true');
     button.textContent = 'Preparing retake…';
     clearErrors();
     try {
+      assertOwner(recipe);
       state.hookLearningStart();
       const back = state.overview().querySelector('[data-back]');
       if (!back) throw new Error('The completed result is no longer active. No replacement quiz was started.');
       back.click();
       await waitFor(setupReady, 'The quiz setup screen is unavailable. No replacement quiz was started.');
+      assertOwner(recipe);
       const restored = await restoreRecipe(recipe);
       const available = eligibleCount(restored);
       if (available != null && available < restored.questionCount) throw new Error(shortfallMessage(restored, available));
       const start = state.overview().querySelector('[data-mode="' + recipe.kind + '"]');
       if (!start || start.disabled) throw new Error(filterMessage(recipe));
-      state.setPending(Object.assign({}, restored, { retakeOfSessionId: recipe.sessionId || null }));
+      const pending = state.setPending(Object.assign({}, restored, { retakeOfSessionId: recipe.sessionId || null }));
+      if (!pending) throw new Error(accountMessage());
+      releaseExactReservation = installExactNewOnlyReservation(pending);
+      assertOwner(pending);
       start.click();
       const outcome = await waitFor(function () {
         const quiz = state.overview().querySelector('.tb-quiz');
@@ -308,10 +494,13 @@
       }, 'The replacement quiz did not start in time. No different quiz was substituted.', 15000);
       if (outcome.error) throw new Error(outcome.error + ' No different quiz was substituted.');
       const started = state.currentRecipe();
+      if (!started || !state.ownerMatches(started) || started.retakeOfSessionId !== recipe.sessionId) {
+        throw new Error('The retake session could not be verified. No different quiz was substituted.');
+      }
       state.emit('tb:retake-started', {
         previousSessionId: recipe.sessionId || null,
-        sessionId: started && started.sessionId || null,
-        recipe: state.clone(started || restored)
+        sessionId: started.sessionId || null,
+        recipe: state.clone(started)
       });
       return true;
     } catch (error) {
@@ -321,6 +510,7 @@
       state.emit('tb:retake-error', { error: message, recipe: state.clone(recipe) });
       return false;
     } finally {
+      releaseExactReservation();
       retakeBusy = false;
       if (button.isConnected) {
         button.disabled = false;
@@ -339,8 +529,8 @@
       event.stopPropagation();
       event.stopImmediatePropagation();
       const recipe = state.currentRecipe();
-      if (!recipe || recipe.kind !== resultKind(retake) || recipe.examId !== state.activeExamId()) {
-        showError('The completed quiz settings are unavailable, so no generic replacement was started.', null);
+      if (!validRecipe(recipe, retake)) {
+        showError('The completed quiz settings are unavailable for the signed-in account, so no generic replacement was started.', null);
       } else {
         void runRetake(recipe, retake);
       }
@@ -376,6 +566,9 @@
       ['tb:learning-storage-ready', 'tb:learning-sync-status', 'upskill-auth-ready'].forEach(function (name) {
         document.addEventListener(name, state.hookLearningStart);
       });
+      ['tb:retake-owner-changed', 'upskill-auth-ready'].forEach(function (name) {
+        document.addEventListener(name, scheduleDecorate);
+      });
     }
     new MutationObserver(scheduleDecorate).observe(host, { childList: true });
   }
@@ -390,13 +583,15 @@
     retake: function () {
       const button = state.overview() && state.overview().querySelector('[data-retake]');
       const recipe = state.currentRecipe();
-      return button && recipe ? runRetake(recipe, button) : Promise.resolve(false);
+      return button && validRecipe(recipe, button) ? runRetake(recipe, button) : Promise.resolve(false);
     },
     status: function () {
+      const recipe = state.currentRecipe();
       return {
         hooked: state.hookLearningStart(),
         inProgress: retakeBusy,
-        hasRecipe: Boolean(state.currentRecipe()),
+        hasRecipe: Boolean(recipe),
+        ownerMatches: Boolean(recipe && state.ownerMatches(recipe)),
         pending: Boolean(state.getPending())
       };
     }
