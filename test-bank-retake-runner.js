@@ -298,16 +298,24 @@
     return parts.join(' · ');
   }
 
-  function validRecipe(recipe, button) {
-    return Boolean(recipe && state.ownerMatches(recipe) && recipe.kind === resultKind(button) && recipe.examId === state.activeExamId());
+  function retakeKind(button) {
+    const stored = button && button.dataset ? button.dataset.retakeKind : '';
+    return stored === 'quick' || stored === 'focus' ? stored : resultKind(button);
+  }
+
+  function validRecipe(recipe, button, kind) {
+    const expectedKind = kind || retakeKind(button);
+    return Boolean(recipe && state.ownerMatches(recipe) && recipe.kind === expectedKind && recipe.examId === state.activeExamId());
   }
 
   function decorateRetake() {
     const host = state.overview();
     const button = host && host.querySelector('[data-retake]');
     if (!button) return;
+    const kind = resultKind(button) || retakeKind(button);
+    if (kind === 'quick' || kind === 'focus') button.dataset.retakeKind = kind;
     const recipe = state.currentRecipe();
-    const valid = validRecipe(recipe, button);
+    const valid = validRecipe(recipe, button, kind);
     button.dataset.retakeConfigured = String(valid);
     button.title = valid
       ? 'Start a fresh attempt with the same settings: ' + recipeSummary(recipe) + '.'
@@ -382,11 +390,22 @@
         'Exact New-only retake reservation is unavailable. No quiz was started.'
       ));
     }
-    return promiseWithTimeout(client.rpc(EXACT_NEW_ONLY_RPC, {
-      p_exam_id: recipe.examId,
-      p_question_ids: ids,
-      p_required_count: recipe.questionCount
-    }), EXACT_RESERVATION_TIMEOUT_MS).then(function (result) {
+    let request;
+    try {
+      request = client.rpc(EXACT_NEW_ONLY_RPC, {
+        p_exam_id: recipe.examId,
+        p_question_ids: ids,
+        p_required_count: recipe.questionCount
+      });
+    } catch (error) {
+      return Promise.resolve(reservationFailure(
+        recipe,
+        ids,
+        'rpc-error',
+        String(error && error.message || error || 'Exact New-only retake reservation failed.')
+      ));
+    }
+    return promiseWithTimeout(request, EXACT_RESERVATION_TIMEOUT_MS).then(function (result) {
       if (result && result.error) throw result.error;
       if (!state.ownerMatches(recipe)) {
         return reservationFailure(recipe, ids, 'account-changed', accountMessage());
@@ -418,12 +437,10 @@
       };
     }).catch(function (error) {
       const message = String(error && error.message || error || 'Exact New-only retake reservation failed.');
-      return reservationFailure(
-        recipe,
-        ids,
-        error && (error.code === 'P0001' || error.code === 'TB_RETAKE_RESERVATION_TIMEOUT') ? 'count-shortfall' : 'rpc-error',
-        message
-      );
+      const reason = error && error.code === 'P0001'
+        ? 'count-shortfall'
+        : error && error.code === 'TB_RETAKE_RESERVATION_TIMEOUT' ? 'timeout' : 'rpc-error';
+      return reservationFailure(recipe, ids, reason, message);
     });
   }
 
@@ -442,15 +459,10 @@
       if (learning.reserveNewQuestions === wrapped) learning.reserveNewQuestions = original;
     }
     function wrapped(input) {
-      if (!inFlight) {
-        inFlight = reserveExactNewOnly(recipe, input).then(function (result) {
-          restore();
-          return result;
-        }, function (error) {
-          restore();
-          throw error;
-        });
-      }
+      /* Keep the guard installed until runRetake settles. If the core retries a
+         rejected reservation, it must never fall back to the normal partial
+         reservation RPC during the same exact-count retake. */
+      if (!inFlight) inFlight = reserveExactNewOnly(recipe, input);
       return inFlight;
     }
     wrapped.__tbRetakeExactReservation = true;
@@ -524,12 +536,14 @@
     const target = event.target && event.target.closest ? event.target : null;
     if (!target) return;
     const retake = target.closest('[data-retake]');
-    if (retake && resultKind(retake)) {
+    const kind = retake && retakeKind(retake);
+    if (retake && (kind === 'quick' || kind === 'focus')) {
       event.preventDefault();
       event.stopPropagation();
       event.stopImmediatePropagation();
+      if (retakeBusy) return;
       const recipe = state.currentRecipe();
-      if (!validRecipe(recipe, retake)) {
+      if (!validRecipe(recipe, retake, kind)) {
         showError('The completed quiz settings are unavailable for the signed-in account, so no generic replacement was started.', null);
       } else {
         void runRetake(recipe, retake);
