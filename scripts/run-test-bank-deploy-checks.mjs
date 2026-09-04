@@ -13,7 +13,8 @@ const checks = [
     'tests/test-bank-adaptive-mastery-hardening.test.js',
     'tests/test-bank-learning-events.test.js',
     'tests/test-bank-ledger-reconciliation.test.js',
-    'tests/test-bank-new-only-reservations.test.js'
+    'tests/test-bank-new-only-reservations.test.js',
+    'tests/test-bank-retake-configuration.test.js'
   ],
   [
     '--test',
