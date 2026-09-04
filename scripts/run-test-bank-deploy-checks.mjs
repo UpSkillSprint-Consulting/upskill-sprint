@@ -18,6 +18,11 @@ const checks = [
   ],
   [
     '--test',
+    '--test-name-pattern=a burst of 25 Retake clicks|a different signed-in user|cross-device New-only shortfall|exact New-only retake migration',
+    'tests/test-bank-retake-dummy-user-stress.test.js'
+  ],
+  [
+    '--test',
     '--test-name-pattern=New-only refreshes the signed-in cross-device ledger',
     'tests/test-bank-unseen-toggle.test.js'
   ],
