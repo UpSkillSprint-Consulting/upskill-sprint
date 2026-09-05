@@ -15,7 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-  <script src="/theme.js"></script>
+  <script src="/test-bank-mbb-batch2-ui.js"></script>
+<script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
   <script defer src="/test-bank-formulas.js"></script>
   <script defer src="/test-bank-tables.js"></script>
@@ -3417,6 +3418,7 @@
   };
   var CHART_COMPACT={'vsm-symbol':1,'vsm-supermarket':1};
   function renderQuestionChart(chart){
+    if(chart && chart.auditBatch===2 && window.__MBBBatch2UI) return window.__MBBBatch2UI.render(chart);
     if(!chart)return '';
     var inner='';
     if(chart.type==='xbar-r')inner=chartXbarR(chart);
@@ -4324,7 +4326,7 @@
       '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered'+(flagged?' &middot; '+flagged+' flagged':'')+'</div></div>'+toolbar+'</div>'+
       '<div class="tb-progress"><span style="width:'+(answered/n*100)+'%"></span></div>'+
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(subName)+'</div>'+
-      renderQuestionChart(q.chart)+'<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+opts+
+      (window.__MBBBatch2UI && window.__MBBBatch2UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch2UI.conditions(q)+renderQuestionChart(q.chart) : renderQuestionChart(q.chart)+'<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>')+opts+
       '<div class="tb-quizfoot"><div class="tb-nav">'+nav+'</div>'+
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';

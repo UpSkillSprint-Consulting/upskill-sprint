@@ -1,0 +1,78 @@
+{
+  "set": 2,
+  "batch": 2,
+  "range": [
+    26,
+    50
+  ],
+  "date_utc": "2026-09-05",
+  "baseline_main": "01ca49f58ac6405e2f9f46f6e18caa3ea4fe06eb",
+  "candidate_status": "Passed after corrections (offline candidate; human review and production smoke test remain)",
+  "automated_tests": {
+    "command": "node --test --test-concurrency=1 tests/*mbb*.test.js tests/*feedback*.test.js",
+    "tests": 119,
+    "passed": 119,
+    "failed": 0,
+    "new_independent_tests": 40,
+    "scope": "MBB question-bank suites and feedback suites, not the entire repository test suite"
+  },
+  "browser": {
+    "engine": "Chromium",
+    "mode": "actual quiz and feedback source with explicit offline authentication and memory-storage fixtures",
+    "viewports": {
+      "desktop": [
+        1440,
+        1000
+      ],
+      "tablet": [
+        768,
+        1024
+      ],
+      "mobile": [
+        390,
+        844
+      ]
+    },
+    "assertions": 1278,
+    "passed_assertions": 1278,
+    "question_layout_records": 159,
+    "exam_records": 75,
+    "review_records": 75,
+    "retry_records": 9,
+    "javascript_errors": [],
+    "checks": [
+      "Every Q26–50 opens, four options select, flags toggle and independent solution scores correctly",
+      "25/25 correct in each layout; stored answers survive navigation",
+      "All assumptions visible; no page-level horizontal overflow",
+      "SVG labels at least 12px (14px render); table cells at least 14px",
+      "Wide evidence is keyboard/horizontally scrollable without shrinking labels",
+      "All 25 post-submit review cards include all four rationales and required evidence",
+      "All three interactive types reopen in missed-question retry; rationales appear only after checking",
+      "Calculator and formulas open; observation controls and capacity reset are functional"
+    ],
+    "capture_only_adjustment": "The sticky global site header is hidden only while exporting cropped question-card screenshots, to prevent full-page capture artifacts. Interaction tests use the actual header. No quiz/review evidence, options or controls are hidden.",
+    "result_json_sha256": "e13ccf91548b9271dba2416b8ada997a7d50b9504b0a3b1de59682d79a5bcf6b"
+  },
+  "static_fallback": {
+    "records": 27,
+    "passed": true,
+    "scope": "Every one of 9 static visual questions at all 3 layouts; four options and conditions; no dead JS-only controls; no page overflow; evidence scroll reachable",
+    "result_json_sha256": "b16b583991362fb7605a47463a1f5520a3a90122dd0d07986a908913f10d98dd"
+  },
+  "candidate_source_sha256": {
+    "test-bank.html": "83913b51ba19be1cdf1e931eddc466eefe0e724f19af7a804bd1b8c6fe2e520d",
+    "test-bank-mbb-set2.js": "30a4e37c7996aaa2a443651227677b79c913444053cca705044ad95c6a06e41c",
+    "test-bank-mbb-batch2-ui.js": "1ccc8c139346bb4ecc856def5af106689768b57400dcce2bd601e2a710e0d67e",
+    "test-bank-feedback-loop.js": "378b249c061216e4c9b033c6a6c3ca639480750b8ee074e30e4e1efd12ed35fc",
+    "scripts/build-mbb160-assets.mjs": "b5adf94081a04b5aceaa0465019ba90e47f9d5333f1071de7671232c1a08da3c",
+    "tests/browser/mbb-batch02-render.py": "c62865b69e25912ccf63a59a54c35c6b118f2d3599b5a57e0f78948d3157f285",
+    "tests/test-bank-mbb-batch02-audit.test.js": "5fc2e6a75678629fb6812c239ac6dba406c09710d8dfea25e42161d84a938e48",
+    "tests/test-bank-mbb-set2-batch2.test.js": "956f47a8e44f18bfdc83418d83e3f188a1b60365f82e86c2c785da2b9aeaecd2"
+  },
+  "limitations": [
+    "No live authentication, durable cloud persistence, cross-device sync, or real iPhone Safari hardware assertion",
+    "No empirical item difficulty, discrimination, distractor response rates, DIF, or exam reliability inferred from editorial review",
+    "Batch 1 remains separate and unapproved; Q51–175 are not substantively audited here",
+    "Textbook topic references are distinguished from directly inspected passages and original synthetic scenarios in the tracker"
+  ]
+}

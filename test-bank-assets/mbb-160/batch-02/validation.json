@@ -4,11 +4,11 @@
   "generatedBy": "scripts/build-mbb160-assets.mjs",
   "questions": {
     "mbb:set-2:original-026": {
-      "datasetSha256": "2ee1446c83542d00be5fae3a8fbfc78acb01ddf0b098fad75660a60f2dcbb9f1",
+      "datasetSha256": "6c6e97f208373b74dcf48c5d9204ff23e498fcc8de83ab38c4df3b5546d99dbd",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires browser evidence",
+      "scaleAndUnitsReviewed": "see question-level audit tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
@@ -17,14 +17,15 @@
         "tablet",
         "mobile"
       ],
+      "validationScope": "Data hashes and generated markup only; see docs/audits/mbb-set2-batch02/browser-summary.json for measured layout and interaction results",
       "validationStatus": "passed"
     },
     "mbb:set-2:original-028": {
-      "datasetSha256": "a1011172f4569b9d0984c59c6930a2121a04d2c5811318a9609da7c72fb7961a",
+      "datasetSha256": "25c73f462f01e290d4aab4426a5c9da171ecf93fc69cabab5455d0ad2d689a4f",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires browser evidence",
+      "scaleAndUnitsReviewed": "see question-level audit tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
@@ -33,14 +34,15 @@
         "tablet",
         "mobile"
       ],
+      "validationScope": "Data hashes and generated markup only; see docs/audits/mbb-set2-batch02/browser-summary.json for measured layout and interaction results",
       "validationStatus": "passed"
     },
     "mbb:set-2:original-031": {
-      "datasetSha256": "4794a0bf1802d299fc8b5fac4cb34a87bdda947a39c56ddac87486b4323c8574",
+      "datasetSha256": "c6387dc4cd5ab086d654de9e62a459e75c935092964865dacd6a512a26910887",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires browser evidence",
+      "scaleAndUnitsReviewed": "see question-level audit tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
@@ -49,14 +51,15 @@
         "tablet",
         "mobile"
       ],
+      "validationScope": "Data hashes and generated markup only; see docs/audits/mbb-set2-batch02/browser-summary.json for measured layout and interaction results",
       "validationStatus": "passed"
     },
     "mbb:set-2:original-036": {
-      "datasetSha256": "c88032a012a0a698735a94aa56f9902f628e29532688ff3362dbdb7e3bdd13f5",
+      "datasetSha256": "51f9c6c25a6ed56f2a341178109193fdc7bb6c3651c6d204ab1ad73be56329bd",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires browser evidence",
+      "scaleAndUnitsReviewed": "see question-level audit tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
@@ -65,14 +68,15 @@
         "tablet",
         "mobile"
       ],
+      "validationScope": "Data hashes and generated markup only; see docs/audits/mbb-set2-batch02/browser-summary.json for measured layout and interaction results",
       "validationStatus": "passed"
     },
     "mbb:set-2:original-038": {
-      "datasetSha256": "ddd9a224386b62b49f537e180d05988cf8959a7ca6c0de52b2a8e0ac7b19f578",
+      "datasetSha256": "fc5c43207cf505876285414e930d3a50db4fc76c1f3793abce05d13026090366",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires browser evidence",
+      "scaleAndUnitsReviewed": "see question-level audit tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
@@ -81,14 +85,15 @@
         "tablet",
         "mobile"
       ],
+      "validationScope": "Data hashes and generated markup only; see docs/audits/mbb-set2-batch02/browser-summary.json for measured layout and interaction results",
       "validationStatus": "passed"
     },
     "mbb:set-2:original-040": {
-      "datasetSha256": "29726bb59bbd67e1eee0847b7af2fc2e00ef7460bfb215697217190f56ebdc84",
+      "datasetSha256": "5a9cd635590b117cf96d86be922de8b534d8969fb0f9fa61eed2746acf16c176",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires browser evidence",
+      "scaleAndUnitsReviewed": "see question-level audit tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
@@ -97,14 +102,15 @@
         "tablet",
         "mobile"
       ],
+      "validationScope": "Data hashes and generated markup only; see docs/audits/mbb-set2-batch02/browser-summary.json for measured layout and interaction results",
       "validationStatus": "passed"
     },
     "mbb:set-2:original-046": {
-      "datasetSha256": "28161b1ac0b392db3b595a19ee155397b2323388f0d2dcd5568130b97ac7b647",
+      "datasetSha256": "01c52773cfe10bf37624028373fae732808dab31dd17f33f4dc3c215c608a719",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires browser evidence",
+      "scaleAndUnitsReviewed": "see question-level audit tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
@@ -113,14 +119,15 @@
         "tablet",
         "mobile"
       ],
+      "validationScope": "Data hashes and generated markup only; see docs/audits/mbb-set2-batch02/browser-summary.json for measured layout and interaction results",
       "validationStatus": "passed"
     },
     "mbb:set-2:original-048": {
-      "datasetSha256": "b1059580f34566308caef9fdde7aae432bd00027d36794a4efdd69dbb1bf29e3",
+      "datasetSha256": "96f002d91030ad23573f846fae67516040cc8c4572bc39224de939edfd84a715",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires browser evidence",
+      "scaleAndUnitsReviewed": "see question-level audit tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
@@ -129,14 +136,15 @@
         "tablet",
         "mobile"
       ],
+      "validationScope": "Data hashes and generated markup only; see docs/audits/mbb-set2-batch02/browser-summary.json for measured layout and interaction results",
       "validationStatus": "passed"
     },
     "mbb:set-2:original-049": {
-      "datasetSha256": "22ff48b2bc550b0cc428d7a64986696915124e31d13c18165c157a330b7f5df2",
+      "datasetSha256": "590b9e5111688e8954cbf65b5650037a8b59799da3b9363ba9fc623468989b31",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires browser evidence",
+      "scaleAndUnitsReviewed": "see question-level audit tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
@@ -145,6 +153,7 @@
         "tablet",
         "mobile"
       ],
+      "validationScope": "Data hashes and generated markup only; see docs/audits/mbb-set2-batch02/browser-summary.json for measured layout and interaction results",
       "validationStatus": "passed"
     }
   }

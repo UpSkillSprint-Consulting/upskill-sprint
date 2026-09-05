@@ -1221,600 +1221,2013 @@
   ];
 
   var batch2=[
-    {
-      qid:'mbb:set-2:original-026',set:2,batch:2,sub:'mbb-enterprise',
-      bok:{domain:'I. Enterprise-wide Planning',subdomain:'E. Opportunities for Improvement',topic:'Stakeholder engagement and action planning'},
-      difficulty:'Hard',cognitive:'Apply',questionType:'Visual evidence interpretation, non-statistical',industry:'Public infrastructure and utilities',quantitative:false,
-      stem:'A regional water utility is preparing to standardize emergency-repair dispatch. The stakeholder analysis below is complete. Which engagement plan best uses both influence and importance while protecting the deployment from avoidable resistance?',
-      options:[
-        'Ask the regulator to approve the finished design, invite union stewards to monthly status briefings, and survey residents after rollout',
-        'Collaborate early with the regulator, give field crews a protected design voice, actively involve union stewards, and monitor the vendor through implementation',
-        'Delegate the design to field crews because they have the highest importance, then obtain regulator and union acceptance at the final tollgate',
-        'Concentrate resources on the software vendor because technical implementation is the immediate constraint and communicate broadly to all others'
-      ],answer:1,
-      why:'Stakeholder strategy must reflect both a stakeholder’s ability to affect the work and the importance of the outcome to that stakeholder. The regulator is high on both dimensions and should be engaged collaboratively; field crews are high-importance primary stakeholders who need a meaningful voice; union stewards have high influence and should be actively involved before opposition hardens. The low-low vendor can be monitored. <b>B. Collaborate early with the regulator, give field crews a protected design voice, actively involve union stewards, and monitor the vendor through implementation</b> <span class="tb-source-ref">Source: Kubiak, Chapter 5, Stakeholder Engagement, pp. 78-82.</span>',
-      optionRationales:[
-        'Late regulator involvement and passive union briefings ignore high-influence stakeholders during design.',
-        'Correct. The actions follow the collaborate, protect-and-defend, actively involve, and monitor logic of the matrix.',
-        'Importance gives field crews a voice but does not remove the regulator’s authority or the union’s influence.',
-        'A technical constraint does not justify spending most engagement effort on a low-influence, low-importance stakeholder.'
-      ],
-      formula:null,assumptions:['The influence and importance ratings reflect the proposed dispatch change, not general organizational status.','No stakeholder has an undisclosed legal veto.'],estimatedMinutes:3,
-      keywords:['stakeholder analysis','influence','importance','engagement plan','resistance'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 5 - Stakeholder Engagement',sourcePages:'78-82',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 5 - Opportunities for Improvement',section:'Stakeholder Engagement',pages:'78-82'}],
-      chart:{type:'data-table',columns:['Stakeholder','Project impact','Influence','Importance','Current attitude'],rows:[['Safety regulator','High','High','High','Cautious'],['Field crews','High','Low','High','Mixed'],['Union stewards','Medium','High','Low','Opposed'],['Software vendor','Low','Low','Low','Supportive']]},
-      visual:visual2('mbb:set-2:original-026','data-table','A stakeholder table lists four groups. The safety regulator is high influence and high importance; field crews are low influence and high importance; union stewards are high influence and low importance; and the software vendor is low on both dimensions.','')
+  {
+    "qid": "mbb:set-2:original-026",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-enterprise",
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "E. Opportunities for Improvement",
+      "topic": "Stakeholder engagement and action planning"
     },
-    {
-      qid:'mbb:set-2:original-027',set:2,batch:2,sub:'mbb-enterprise',
-      bok:{domain:'I. Enterprise-wide Planning',subdomain:'E. Opportunities for Improvement',topic:'Project identification from integrated customer and process evidence'},
-      difficulty:'Very Hard',cognitive:'Analyze',questionType:'Leadership, deployment, and best-next-action scenario',industry:'Digital banking',quantitative:false,
-      stem:'Executives want to charter a mobile-app redesign because an annual relationship survey rates the app 4.4 out of 5. During the same period, authenticated-session abandonment rose from 8% to 19%; complaint coding shows that 62% of abandonments occur at identity verification; and call listening reveals repeated confusion at that step. What should the Master Black Belt recommend?',
-      options:[
-        'Preserve the executive charter because the relationship survey is the broadest listening post and therefore dominates event-level process evidence',
-        'Launch a customer-delight design project covering the entire app, using the 4.4 rating as the baseline outcome and complaints as anecdotal context',
-        'Delay action until a new representative survey and a second independent operational dataset reproduce the abandonment finding, because behavioral measures are not Voice of the Customer',
-        'Qualify a focused verification-flow opportunity by reconciling survey scope with behavioral, complaint, and process data before setting the charter boundary'
-      ],answer:3,
-      why:'The evidence is not truly contradictory: a broad relationship score can remain high while a specific transaction fails. Project identification should integrate listening posts and Voice of the Process evidence, clarify the affected customer segment and CTQs, and then qualify a tractable opportunity. Jumping to an app-wide redesign would obscure the concentrated failure mechanism. <b>D. Qualify a focused verification-flow opportunity by reconciling survey scope with behavioral, complaint, and process data before setting the charter boundary</b> <span class="tb-source-ref">Source: Kubiak, Chapter 5, Opportunities for Improvement, pp. 70-78; Chapter 10, Data Gathering, pp. 148-156.</span>',
-      optionRationales:[
-        'A broad survey measures a different experience level and should not override convergent transaction evidence.',
-        'An app-wide scope is premature when several sources localize the opportunity to one verification step.',
-        'Behavioral and process observations can corroborate customer evidence; waiting discards actionable convergence.',
-        'Correct. It reconciles the measurement scopes and qualifies the opportunity before committing resources.'
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, non-statistical",
+    "industry": "Public infrastructure and utilities",
+    "quantitative": false,
+    "stem": "A regional water utility is preparing to standardize emergency-repair dispatch. The stakeholder analysis below is complete. Which engagement plan best uses both influence and importance while protecting the deployment from avoidable resistance? Here, influence means ability to affect the project; importance means the priority the project must give to that stakeholder’s needs.",
+    "options": [
+      "Ask the regulator to approve the finished design, invite union stewards to monthly status briefings, and survey residents after rollout",
+      "Collaborate early with the regulator, give field crews a protected design voice, actively involve union stewards, and monitor the vendor through implementation",
+      "Delegate the design to field crews because they have the highest importance, then obtain regulator and union acceptance at the final tollgate",
+      "Concentrate resources on the software vendor because technical implementation is the immediate constraint and communicate broadly to all others"
+    ],
+    "answer": 1,
+    "why": "Stakeholder strategy distinguishes influence over the project from the priority of stakeholder needs. The regulator is high on both dimensions and warrants early collaboration. Field crews have high-priority needs despite low formal influence and need a protected design voice. Union stewards have high influence and should be involved before opposition hardens. The low-influence, low-importance vendor can be monitored. These ratings do not grant any group authority to bypass safety or legal requirements. <b>B. Collaborate early with the regulator, give field crews a protected design voice, actively involve union stewards, and monitor the vendor through implementation</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 5, Stakeholder Engagement, pp. 78-82.</span>",
+    "optionRationales": [
+      "Late regulator involvement and passive union briefings ignore high-influence stakeholders during design.",
+      "Correct. The actions follow the collaborate, protect-and-defend, actively involve, and monitor logic of the matrix.",
+      "Importance gives field crews a voice but does not remove the regulator’s authority or the union’s influence.",
+      "A technical constraint does not justify spending most engagement effort on a low-influence, low-importance stakeholder."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The influence and importance ratings reflect the proposed dispatch change, not general organizational status.",
+      "No stakeholder has an undisclosed legal veto."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "stakeholder analysis",
+      "influence",
+      "importance",
+      "engagement plan",
+      "resistance"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 5 - Stakeholder Engagement",
+    "sourcePages": "78-82",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 5 - Opportunities for Improvement",
+        "section": "Stakeholder Engagement",
+        "pages": "78-82"
+      }
+    ],
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Stakeholder",
+        "Project impact",
+        "Influence",
+        "Importance",
+        "Current attitude"
       ],
-      formula:null,assumptions:['The survey and operational data cover comparable customer populations and time periods.','Identity verification is not currently constrained by a mandated design.'],estimatedMinutes:3,
-      keywords:['project identification','Voice of the Customer','Voice of the Process','listening posts','project qualification'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapters 5 and 10 - Opportunities for Improvement and Data Gathering',sourcePages:'70-78, 148-156',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 5 - Opportunities for Improvement',section:'Project Identification and Qualification',pages:'70-78'},{id:'S2',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 10 - Data Gathering',section:'Voice of the Customer and Voice of the Process',pages:'148-156'}]
+      "rows": [
+        [
+          "Safety regulator",
+          "High",
+          "High",
+          "High",
+          "Cautious"
+        ],
+        [
+          "Field crews",
+          "High",
+          "Low",
+          "High",
+          "Mixed"
+        ],
+        [
+          "Union stewards",
+          "Medium",
+          "High",
+          "Low",
+          "Opposed"
+        ],
+        [
+          "Software vendor",
+          "Low",
+          "Low",
+          "Low",
+          "Supportive"
+        ]
+      ],
+      "auditBatch": 2,
+      "auditId": "mbb:set-2:original-026",
+      "altText": "A stakeholder table lists four groups. The safety regulator is high influence and high importance; field crews are low influence and high importance; union stewards are high influence and low importance; and the software vendor is low on both dimensions.",
+      "title": "Dispatch stakeholder evidence"
     },
-    {
-      qid:'mbb:set-2:original-028',set:2,batch:2,sub:'mbb-enterprise',
-      bok:{domain:'I. Enterprise-wide Planning',subdomain:'I. Organizational Finance and Business Performance Metrics',topic:'Balanced scorecard and linked leading and lagging measures'},
-      difficulty:'Very Hard',cognitive:'Analyze',questionType:'Visual evidence interpretation, non-statistical',industry:'Medical-device manufacturing',quantitative:false,
-      stem:'The executive team claims its deployment scorecard is balanced and causally useful. Which assessment of the displayed measures is most defensible?',
-      options:[
-        'The scorecard is incomplete because it overweights lagging outcomes and lacks learning-capability and process-leading measures that could explain future customer and financial results',
-        'The scorecard is balanced because revenue, margin, complaints, and recalls span the financial and customer perspectives, which are the only externally material perspectives needed for strategic deployment decisions',
-        'The scorecard should replace complaint and recall rates with project counts so every measure can be influenced directly by the Lean Six Sigma deployment office',
-        'The scorecard should retain the measures but combine them into one weighted index calibrated to shareholder value, because separate perspectives prevent executives from evaluating enterprise performance consistently over time'
-      ],answer:0,
-      why:'A balanced scorecard links financial, customer, internal-process, and learning-and-growth perspectives. The displayed measures are largely lagging outcomes; they do not show whether process capability, corrective-action cycle time, workforce skills, or information-system capability are improving. Those leading measures create the line of sight needed to manage future results. <b>A. The scorecard is incomplete because it overweights lagging outcomes and lacks learning-capability and process-leading measures that could explain future customer and financial results</b> <span class="tb-source-ref">Source: Kubiak, Chapter 9, Business Performance Measures, pp. 137-143.</span>',
-      optionRationales:[
-        'Correct. Two perspectives and mostly lagging results do not provide a balanced or diagnostic management system.',
-        'Financial and customer outcomes are important but do not replace internal-process and learning-and-growth perspectives.',
-        'Project counts measure activity and can invite gaming; they do not explain capability or customer outcomes.',
-        'A composite index can hide tradeoffs and causal relationships that the separate perspectives are intended to expose.'
+    "visual": {
+      "type": "data-table",
+      "datasetRef": "test-bank-assets/mbb-160/batch-02/datasets.json#mbb:set-2:original-026",
+      "specRef": "test-bank-assets/mbb-160/batch-02/visual-specs.json#mbb:set-2:original-026",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-026",
+      "altText": "A stakeholder table lists four groups. The safety regulator is high influence and high importance; field crews are low influence and high importance; union stewards are high influence and low importance; and the software vendor is low on both dimensions.",
+      "interactionPurpose": "",
+      "validationRef": "test-bank-assets/mbb-160/batch-02/validation.json#mbb:set-2:original-026",
+      "breakpointsValidated": [
+        "desktop",
+        "tablet",
+        "mobile"
       ],
-      formula:null,assumptions:['The table contains the complete executive scorecard.','All four measures are reported accurately and at a useful cadence.'],estimatedMinutes:3,
-      keywords:['balanced scorecard','leading indicator','lagging indicator','KPI','business performance'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 9 - Business Performance Measures',sourcePages:'137-143',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 9 - Organizational Finance and Business Performance Metrics',section:'Balanced Scorecard and Key Performance Indicators',pages:'137-143'}],
-      chart:{type:'data-table',columns:['Perspective claimed','Measure','Direction this quarter','Timing characteristic'],rows:[['Financial','Revenue growth','Down 1.8 points','Lagging outcome'],['Financial','Operating margin','Up 0.4 points','Lagging outcome'],['Customer','Complaint rate','Up 13%','Lagging outcome'],['Customer','Recall rate','Unchanged','Lagging outcome']]},
-      visual:visual2('mbb:set-2:original-028','data-table','A four-row executive scorecard contains only financial and customer measures. Revenue growth, operating margin, complaint rate, and recall rate are each explicitly identified as lagging outcomes; no internal-process or learning-and-growth measure is present.','')
-    },
-    {
-      qid:'mbb:set-2:original-029',set:2,batch:2,sub:'mbb-enterprise',
-      bok:{domain:'I. Enterprise-wide Planning',subdomain:'I. Organizational Finance and Business Performance Metrics',topic:'Sarbanes-Oxley financial control responsibilities'},
-      difficulty:'Hard',cognitive:'Understand',questionType:'Advanced conceptual/method-selection',industry:'Publicly listed technology services',quantitative:false,
-      stem:'A benefits dashboard for a publicly listed company lets each project leader edit the realized-savings field after Finance approval. The edit history is retained, but the dashboard immediately republishes the revised enterprise total without renewed review. What control concern should the Master Black Belt recognize?',
-      options:[
-        'The retained history makes the process adequate because traceability alone establishes management responsibility and authorization for every later change to enterprise totals',
-        'The issue is limited to project governance because improvement benefits are operational estimates that remain outside every financial-reporting control boundary',
-        'Post-approval edits can bypass authorization and change reported totals, so access, approval, and change controls must be redesigned with Finance',
-        'The dashboard should permit edits only during quarter close because timing restrictions eliminate the need for segregated authorization responsibilities'
-      ],answer:2,
-      why:'An audit trail records what happened but does not prevent or authorize a change. When improvement benefits feed management or external financial reporting, the control design must address access, authorization, review, and accountability. The MBB should partner with Finance rather than declare the estimates outside financial control. <b>C. Post-approval edits can bypass authorization and change reported totals, so access, approval, and change controls must be redesigned with Finance</b> <span class="tb-source-ref">Source: Kubiak, Chapter 9, Sarbanes-Oxley Act, pp. 143-146.</span>',
-      optionRationales:[
-        'Traceability is detective evidence; it does not provide preventive authorization or independent approval.',
-        'Operational estimates can enter financial reporting and therefore cannot be categorically excluded from control scope.',
-        'Correct. The design permits an unauthorized value to alter a controlled aggregate after approval.',
-        'A close-period restriction does not replace appropriate access, segregation, and approval controls.'
-      ],
-      formula:null,assumptions:['The enterprise total is used in management financial reporting.','Project leaders are not delegated final financial-approval authority.'],estimatedMinutes:2,
-      keywords:['Sarbanes-Oxley','financial controls','authorization','audit trail','benefit validation'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 9 - Sarbanes-Oxley Act',sourcePages:'143-146',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 9 - Organizational Finance and Business Performance Metrics',section:'Sarbanes-Oxley Act',pages:'143-146'}]
-    },
-    {
-      qid:'mbb:set-2:original-030',set:2,batch:2,sub:'mbb-enterprise',
-      bok:{domain:'I. Enterprise-wide Planning',subdomain:'F. Risk Analysis of Projects and the Pipeline',topic:'Risk-based pipeline governance and replenishment'},
-      difficulty:'Expert',cognitive:'Create',questionType:'Leadership, deployment, and best-next-action scenario',industry:'Multi-site industrial services',quantitative:false,
-      stem:'A deployment office reviews only active projects. New charters are approved whenever a Belt becomes free; postponed projects retain their original scores indefinitely; and business units can reserve Belt capacity before Finance validates benefits. Which redesigned governance rule set would most improve the pipeline as a portfolio system?',
-      options:[
-        'Let business units retain reserved capacity, but require a quarterly report of active-project cycle time and the number of unassigned ideas',
-        'Maintain one visible active-and-inactive pipeline; periodically refresh value, risk, alignment, and capacity data; and use explicit decision rights to start, defer, support, or close work',
-        'Give Finance sole authority to rank all ideas by validated hard savings, then assign every available Belt to the highest-ranked proposal regardless of strategic balance, readiness, dependencies, or concentration of risk',
-        'Freeze prioritization criteria for the fiscal year, remove postponed work after ninety days, and measure deployment success by keeping every trained Belt utilized'
-      ],answer:1,
-      why:'A healthy pipeline includes active, inactive, postponed, and proposed work and treats their economics and risks as time-sensitive. Regular reappraisal, capacity visibility, and explicit authority for start/defer/support/cancel decisions prevent stale priorities and local reservations from controlling the portfolio. Hard savings alone also miss strategy and dependencies. <b>B. Maintain one visible active-and-inactive pipeline; periodically refresh value, risk, alignment, and capacity data; and use explicit decision rights to start, defer, support, or close work</b> <span class="tb-source-ref">Source: Kubiak, Chapter 6, Risk Analysis of Projects and the Pipeline, pp. 88-99; Chapter 15, Performance Measurement, pp. 222-224.</span>',
-      optionRationales:[
-        'Reporting activity does not remove capacity reservations, stale economics, or incomplete portfolio decision rights.',
-        'Correct. It creates a governed, refreshable system for both pipeline and active work.',
-        'Finance validation is necessary, but a savings-only rank can violate strategy, capacity, and dependency constraints.',
-        'Utilization and arbitrary aging rules can encourage excess work in process and discard still-relevant opportunities.'
-      ],
-      formula:null,assumptions:['No proposal is legally mandatory.','The deployment office can establish enterprise portfolio governance.'],estimatedMinutes:4,
-      keywords:['project pipeline','portfolio governance','capacity management','risk refresh','decision rights'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapters 6 and 15 - Pipeline and Portfolio Performance',sourcePages:'88-99, 222-224',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 6 - Risk Analysis of Projects and the Pipeline',section:'Risk Management; Pipeline Creation and Management',pages:'88-99'},{id:'S2',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 15 - Project Management Infrastructure',section:'Performance Measurement',pages:'222-224'}]
-    },
-    {
-      qid:'mbb:set-2:original-031',set:2,batch:2,sub:'mbb-org',
-      bok:{domain:'II. Cross-functional Competencies',subdomain:'B. Internal Organizational Challenges',topic:'Change management and adoption barriers'},
-      difficulty:'Hard',cognitive:'Analyze',questionType:'Interactive visual evidence interpretation',industry:'Healthcare administration',quantitative:false,
-      stem:'After a health system replaced local referral workflows with one standardized process, formal training completion reached 96%. The plotted weekly rate of manual workarounds then rose steadily. Leaders propose disciplinary notices for noncompliance. What should the Master Black Belt recommend first?',
-      options:[
-        'Treat the trend as adoption evidence, engage affected users and informal leaders to identify uncertainty and workflow barriers, then correct the change plan and monitor the rate',
-        'Issue disciplinary notices immediately because training completion establishes that remaining workarounds reflect individual resistance rather than usability, workload, communication, or process conditions',
-        'Return permanently to local workflows because the upward trend proves that standardization is incompatible with the organization’s culture',
-        'Wait for the workaround rate to stabilize across another quarter before investigating, because change-management action during a developing trend would confound the process baseline and prevent objective diagnosis'
-      ],answer:0,
-      why:'Training completion measures exposure, not internalization of a changed way of working. The sustained rise in workarounds is an early adoption signal that warrants open inquiry into fear, uncertainty, informal influence, and process barriers. Change agents should communicate, listen, engage informal leaders, remove obstacles, and continue measuring progress before choosing consequences. <b>A. Treat the trend as adoption evidence, engage affected users and informal leaders to identify uncertainty and workflow barriers, then correct the change plan and monitor the rate</b> <span class="tb-source-ref">Source: Kubiak, Chapter 8, Change Management, pp. 123-125.</span>',
-      optionRationales:[
-        'Correct. It uses the observed behavior to diagnose and manage adoption rather than equating attendance with acceptance.',
-        'Completion data do not establish motivation or rule out usability, workload, communication, and local-system barriers.',
-        'The trend shows a problem to investigate, not that enterprise standardization is inherently impossible.',
-        'Waiting would allow resistance or process failure to become entrenched; the trend is already actionable evidence.'
-      ],
-      formula:'Weekly workaround rate = manually routed referrals / total referrals × 100.',assumptions:['The denominator and workaround definition remained constant across weeks.','No policy change independently increased manual routing.'],estimatedMinutes:3,
-      keywords:['change management','adoption','informal leaders','resistance','leading indicator'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 8 - Change Management',sourcePages:'123-125',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 8 - Organizational Commitment',section:'Change Management',pages:'123-125'}],
-      chart:{type:'time-series',title:'Manual referral workarounds after rollout',xLabel:'Week after rollout',yLabel:'Workarounds per 100 referrals',units:'workarounds per 100 referrals',labels:['W1','W2','W3','W4','W5','W6','W7','W8','W9','W10','W11','W12'],data:[3,4,5,7,9,12,16,21,26,31,35,39],decimals:0,altText:'A twelve-week time-series rises every week from 3 to 39 manual workarounds per 100 referrals after the standardized referral workflow was introduced.'},
-      visual:visual2('mbb:set-2:original-031','time-series','A focusable time-series plot shows manual workarounds per 100 referrals increasing consecutively across twelve weeks: 3, 4, 5, 7, 9, 12, 16, 21, 26, 31, 35, and 39.','Explore each weekly point by hover or keyboard focus to verify the persistence and acceleration of the adoption signal.')
-    },
-    {
-      qid:'mbb:set-2:original-032',set:2,batch:2,sub:'mbb-org',
-      bok:{domain:'II. Cross-functional Competencies',subdomain:'B. Internal Organizational Challenges',topic:'Situational use of leadership styles'},
-      difficulty:'Very Hard',cognitive:'Apply',questionType:'Advanced conceptual/method-selection',industry:'Aerospace engineering',quantitative:false,
-      stem:'A highly competent, motivated engineering team has two weeks to reproduce a validated analysis for a regulatory response. The method and acceptance criteria are fixed, but execution speed has slipped because members are over-deliberating minor formatting choices. Which leadership response is most appropriate?',
-      options:[
-        'Use a commanding style for the entire assignment and suppress discussion or escalation, because any fixed regulatory deadline converts the work into a continuing emergency that warrants total control',
-        'Use a coaching style to rebuild the team’s technical competence through detailed instruction and remedial practice, even though the validated method and criteria have already been mastered',
-        'Use a time-bounded pace-setting intervention with clear standards and frequent checks, while preserving escalation for evidence that threatens validity',
-        'Use an affiliative style alone and remove performance checkpoints and explicit deadlines, because harmony and autonomy are the principal requirements for every competent and motivated technical team'
-      ],answer:2,
-      why:'Leadership style should fit competence, commitment, and context. A competent, motivated team doing a known task can respond to a carefully bounded pace-setting intervention that raises execution tempo and clarifies standards. It should not silence validity concerns or become the permanent climate, because pace-setting can have negative effects when overused. <b>C. Use a time-bounded pace-setting intervention with clear standards and frequent checks, while preserving escalation for evidence that threatens validity</b> <span class="tb-source-ref">Source: Kubiak, Chapter 11, Leadership Styles, pp. 168-172.</span>',
-      optionRationales:[
-        'A short deadline is not automatically a crisis, and sustained commanding behavior can damage the organizational climate.',
-        'Coaching develops capability; the stated gap is execution focus rather than technical competence.',
-        'Correct. The intervention fits a capable, motivated team and includes safeguards against misuse of pace-setting.',
-        'Affiliation may support relationships but does not directly address the missed tempo or need for clear standards.'
-      ],
-      formula:null,assumptions:['The analysis method is already validated.','The team has authority to escalate substantive evidence concerns.'],estimatedMinutes:3,
-      keywords:['situational leadership','pace-setting','leadership style','team competence','organizational climate'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 11 - Leadership Styles',sourcePages:'168-172',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 11 - Internal Organizational Challenges',section:'Leadership Styles and Goleman Leadership Model',pages:'168-172'}]
-    },
-    {
-      qid:'mbb:set-2:original-033',set:2,batch:2,sub:'mbb-org',
-      bok:{domain:'II. Cross-functional Competencies',subdomain:'B. Internal Organizational Challenges',topic:'Interdepartmental conflict and interest-based bargaining'},
-      difficulty:'Very Hard',cognitive:'Evaluate',questionType:'Leadership, deployment, and best-next-action scenario',industry:'Omnichannel retail',quantitative:false,
-      stem:'E-commerce wants same-day order release; Fraud wants every high-value order held for manual review. Both directors defend their positions publicly, but their underlying interests are rapid customer confirmation, bounded fraud loss, and regulatory evidence. Which intervention is most defensible?',
-      options:[
-        'Escalate both positions to the executive sponsor for a majority vote, then require the losing function to document compliance with the selected position',
-        'Average the proposed hold times and pilot that compromise, because splitting the difference is the most neutral way to preserve both relationships',
-        'Separate the directors and have each optimize its own metric until enough data exist to determine which department creates more enterprise value',
-        'Reframe the conflict around shared interests and objective criteria, generate options such as risk-tiered review, and jointly test effects on speed, loss, and evidence'
-      ],answer:3,
-      why:'Positions appear mutually exclusive, while the underlying interests are not. Interest-based bargaining separates people from the problem, clarifies interests, creates options for mutual gain, and uses objective criteria. A risk-tiered design can be tested against all three interests instead of forcing a political winner or an unprincipled midpoint. <b>D. Reframe the conflict around shared interests and objective criteria, generate options such as risk-tiered review, and jointly test effects on speed, loss, and evidence</b> <span class="tb-source-ref">Source: Kubiak, Chapter 11, Interdepartmental Conflicts, pp. 177-182.</span>',
-      optionRationales:[
-        'Authority can end debate without resolving the interests, evidence, or future working relationship.',
-        'A midpoint is a positional compromise and may satisfy none of the operational or regulatory criteria.',
-        'Local optimization prolongs the conflict and can damage the enterprise outcome both functions serve.',
-        'Correct. It converts positions into testable options judged against shared, objective interests.'
-      ],
-      formula:null,assumptions:['Risk-tier rules are legally permissible if their performance is validated.','Both functions can participate in a controlled pilot.'],estimatedMinutes:3,
-      keywords:['interdepartmental conflict','interest-based bargaining','objective criteria','shared interests','local optimization'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 11 - Interdepartmental Conflicts',sourcePages:'177-182',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 11 - Internal Organizational Challenges',section:'Interdepartmental Conflicts',pages:'177-182'}]
-    },
-    {
-      qid:'mbb:set-2:original-034',set:2,batch:2,sub:'mbb-org',
-      bok:{domain:'II. Cross-functional Competencies',subdomain:'C. Executive and Team Leadership Roles',topic:'Executive leadership responsibilities in deployment'},
-      difficulty:'Hard',cognitive:'Analyze',questionType:'Leadership, deployment, and best-next-action scenario',industry:'Regional transportation',quantitative:false,
-      stem:'A chief operating officer attends launch events and praises completed projects, but allows functional managers to withdraw team members without replacement, delegates all barrier removal to the deployment office, and never reviews whether projects remain strategically relevant. Which diagnosis is strongest?',
-      options:[
-        'The executive role is adequate because visible recognition is the primary leadership control once certified Belts and a deployment office are in place',
-        'The executive is communicating support but is not fulfilling governance duties for resources, barriers, strategic alignment, and accountability',
-        'Give the deployment office authority over functional managers so executives can focus on communication and recognition',
-        'Train more Belts because resource withdrawals show teams lack technical self-sufficiency overall'
-      ],answer:1,
-      why:'Visible support is useful but not sufficient. Executive leaders must provide and protect resources, remove organizational barriers, maintain strategic alignment, manage change, and hold the deployment system accountable. A deployment office normally cannot substitute for executive authority across functions. <b>B. The executive is communicating support but is not fulfilling governance duties for resources, barriers, strategic alignment, and accountability</b> <span class="tb-source-ref">Source: Kubiak, Chapter 12, Executive Leadership Roles, pp. 183-190.</span>',
-      optionRationales:[
-        'Recognition supports culture but does not discharge resource, alignment, barrier-removal, and accountability duties.',
-        'Correct. The observed behaviors distinguish symbolic support from active executive deployment leadership.',
-        'Giving staff authority does not replace the executive’s obligation to govern cross-functional commitments.',
-        'Technical training does not correct managerial withdrawal of resources or absence of governance.'
-      ],
-      formula:null,assumptions:['Resource withdrawals materially threaten approved projects.','The chief operating officer is the accountable executive sponsor.'],estimatedMinutes:2,
-      keywords:['executive leadership','deployment governance','resources','barrier removal','accountability'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 12 - Executive Leadership Roles',sourcePages:'183-190',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 12 - Executive and Team Leadership Roles',section:'Executive Leadership Roles',pages:'183-190'}]
-    },
-    {
-      qid:'mbb:set-2:original-035',set:2,batch:2,sub:'mbb-org',
-      bok:{domain:'II. Cross-functional Competencies',subdomain:'C. Executive and Team Leadership Roles',topic:'Leadership action plans for deployment roles and capability'},
-      difficulty:'Expert',cognitive:'Evaluate',questionType:'Integrated governance scenario',industry:'Global food production',quantitative:false,
-      stem:'A global company must choose a deployment operating model. Country A proposes central experts who own every project; Country B proposes part-time Belts selected locally with no common reviews; Country C proposes enterprise standards, regional portfolio councils, named champions and process owners, protected Belt capacity, role-based development, and common benefit validation. Which recommendation is most defensible?',
-      options:[
-        'Adopt Country C, while defining decision rights and feedback loops that preserve enterprise consistency and allow regional portfolios to respond to local strategy',
-        'Adopt Country A because central ownership eliminates the need for local process owners, regional governance, adaptation of projects to operating context, and formal feedback from the regions into enterprise deployment decisions',
-        'Adopt Country B because local selection and part-time staffing maximize ownership even when training, review standards, benefit definitions, and strategic prioritization differ substantially across operating regions',
-        'Combine central project ownership from A with voluntary review standards from B, because formal champions and protected capacity would slow deployment'
-      ],answer:0,
-      why:'Country C contains the interacting elements of a deployable leadership system: standards, portfolio governance, explicit roles, resources, development, and comparable benefit controls. Adding clear decision rights and feedback loops avoids both rigid centralization and fragmented local optimization. The other models omit process ownership or common governance. <b>A. Adopt Country C, while defining decision rights and feedback loops that preserve enterprise consistency and allow regional portfolios to respond to local strategy</b> <span class="tb-source-ref">Source: Kubiak, Chapter 12, Leadership for Deployment, pp. 190-195; Chapter 7, Organizational Design, pp. 100-112.</span>',
-      optionRationales:[
-        'Correct. It joins enterprise controls with regional strategy, ownership, capability, and learning.',
-        'Central experts cannot sustainably replace the process owners who control day-to-day operating systems.',
-        'Local ownership without common capability and governance makes portfolio and benefit comparisons unreliable.',
-        'Voluntary controls and unprotected capacity recreate the principal weaknesses of the rejected models.'
-      ],
-      formula:null,assumptions:['Regions face meaningfully different strategic priorities.','Enterprise Finance can support a common benefit-validation method.'],estimatedMinutes:4,
-      keywords:['deployment action plan','decision rights','portfolio council','role clarity','global deployment'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapters 7 and 12 - Organizational Design and Leadership for Deployment',sourcePages:'100-112, 190-195',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 12 - Executive and Team Leadership Roles',section:'Leadership for Deployment',pages:'190-195'},{id:'S2',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 7 - Organizational Design',section:'Organizational Systems, Structure, Maturity, and Culture',pages:'100-112'}]
-    },
-    {
-      qid:'mbb:set-2:original-036',set:2,batch:2,sub:'mbb-portfolio',
-      bok:{domain:'III. Project Management',subdomain:'A. Project Execution',topic:'Risk-adjusted project prioritization under capacity and dependency constraints'},
-      difficulty:'Expert',cognitive:'Evaluate',questionType:'Interactive quantitative portfolio decision',industry:'Property and casualty insurance',quantitative:true,
-      stem:'Use the capacity control to set total available capacity to 12 FTE. Project A is mandatory and already committed. Optional projects are indivisible, and every stated dependency must be funded in the same portfolio. Using probability-adjusted NPV as the decision value, which feasible portfolio has the greatest total expected NPV?',
-      options:[
-        'Fund A and D; this uses only 8 FTE and produces an expected portfolio NPV of $2.20 million while deliberately preserving four FTE for later work',
-        'Fund A and B; this uses 9 FTE and produces an expected portfolio NPV of $2.32 million without consuming any capacity for enabling Project C',
-        'Fund A, C, and D; this uses 11 FTE and produces an expected portfolio NPV of $2.83 million while leaving one FTE available for support',
-        'Fund A, C, and B; this uses all 12 FTE and produces an expected portfolio NPV of $2.95 million while satisfying B’s dependency'
-      ],answer:3,
-      why:'At 12 FTE, mandatory A consumes 4 and leaves 8. B cannot be funded without C. Probability-adjusted NPVs are A = 0.80×0.95 = 0.76, B = 2.40×0.65 = 1.56, C = 0.70×0.90 = 0.63, and D = 1.80×0.80 = 1.44 million. A+C+B uses 12 FTE and totals $2.95 million, exceeding A+C+D at $2.83 million. <b>D. Fund A, C, and B; this uses all 12 FTE and produces an expected portfolio NPV of $2.95 million while satisfying B’s dependency</b> <span class="tb-source-ref">Source: Kubiak, Chapter 13, Project Prioritization, pp. 196-201; Chapter 16, Budgets and Forecasts, pp. 225-232.</span>',
-      optionRationales:[
-        'A plus D is feasible, but it leaves value and capacity unused relative to other feasible combinations.',
-        'B without enabling project C violates the stated dependency and is therefore not a feasible portfolio.',
-        'A plus C plus D is feasible, but its adjusted value of $2.83 million is lower than the best feasible set.',
-        'Correct. It satisfies capacity, mandatory-work, and dependency constraints and maximizes adjusted NPV.'
-      ],
-      formula:'Expected NPV = stated NPV × probability of realization; maximize the sum subject to 12 FTE, mandatory A, and B requiring C.',assumptions:['Project realization events are valued independently for this screening decision.','Partial funding produces no benefit.','FTE requirements are simultaneous peak requirements.'],estimatedMinutes:5,
-      keywords:['portfolio optimization','expected NPV','capacity constraint','project dependency','prioritization'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapters 13 and 16 - Project Prioritization and Budgets and Forecasts',sourcePages:'196-201, 225-232',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 13 - Project Execution',section:'Cross-functional Project Assessment and Project Prioritization',pages:'196-201'},{id:'S2',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 16 - Project Financial Tools',section:'Budgets and Forecasts',pages:'225-232'}],
-      chart:{type:'data-table',columns:['Project','NPV if realized ($M)','Realization probability','FTE required','Constraint'],rows:[['A - Regulatory traceability','0.80','0.95','4','Mandatory'],['B - Claims automation','2.40','0.65','5','Requires C'],['C - Data foundation','0.70','0.90','3','None'],['D - Retention workflow','1.80','0.80','4','None']],whatIf:{id:'mbb-q036-capacity',label:'Total available capacity',min:8,max:16,step:1,value:12,unit:'FTE',committed:4,committedLabel:'mandatory Project A'}},
-      visual:visual2('mbb:set-2:original-036','data-table','A four-project portfolio table gives NPV, realization probability, FTE requirement, and constraints. Project A is mandatory at 4 FTE, Project B requires C, and the capacity slider ranges from 8 through 16 FTE with a default of 12.','Move the capacity slider to 12 FTE, verify that 8 FTE remain after mandatory Project A, and compare feasible dependency-respecting portfolios.')
-    },
-    {
-      qid:'mbb:set-2:original-037',set:2,batch:2,sub:'mbb-portfolio',
-      bok:{domain:'III. Project Management',subdomain:'B. Project Oversight and Management',topic:'Earned-value measurement and corrective action'},
-      difficulty:'Very Hard',cognitive:'Analyze',questionType:'Multi-step quantitative',industry:'Pharmaceutical operations',quantitative:true,
-      stem:'At a validation-program review, planned value is $600,000, earned value is $480,000, and actual cost is $540,000. The remaining work has not been re-estimated. Which interpretation and next governance action are most defensible?',
-      options:[
-        'SPI = 1.25 and CPI = 1.13; the program is ahead and under budget, so the remaining baseline should be released as management reserve',
-        'SPI = 0.80 and CPI = 0.89; the program is behind and over cost for work performed, so causes and a defensible estimate at completion should be reviewed',
-        'Schedule variance is negative $60,000 and cost variance is negative $120,000; cost is therefore the larger issue',
-        'Percent complete is 80% because earned value is 80% of planned value; therefore only 20% of the total authorized work remains'
-      ],answer:1,
-      why:'SPI = EV/PV = 480/600 = 0.80, indicating less work was earned than planned. CPI = EV/AC = 480/540 = 0.889, indicating the work performed cost more than its budgeted value. These indices diagnose current performance but do not by themselves establish the remaining estimate, so management should investigate causes and produce a supportable forecast. <b>B. SPI = 0.80 and CPI = 0.89; the program is behind and over cost for work performed, so causes and a defensible estimate at completion should be reviewed</b> <span class="tb-source-ref">Source: Kubiak, Chapter 14, Project Measurement and Monitoring, pp. 211-216.</span>',
-      optionRationales:[
-        'The ratios are inverted; EV divided by PV and AC gives values below one.',
-        'Correct. It calculates both indices properly and avoids inventing a completion forecast.',
-        'Schedule variance is EV minus PV, or negative $120,000; cost variance is EV minus AC, or negative $60,000.',
-        'EV divided by current PV is a schedule index, not percent of the total budgeted scope completed.'
-      ],
-      formula:'SPI = EV/PV = 480/600 = 0.80; CPI = EV/AC = 480/540 = 0.889; SV = EV-PV = -120; CV = EV-AC = -60 ($000).',assumptions:['Earned-value rules and the performance baseline are valid.','No approved scope change is awaiting baseline incorporation.'],estimatedMinutes:4,
-      keywords:['earned value','schedule performance index','cost performance index','forecast','project monitoring'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 14 - Measurement and Monitoring',sourcePages:'211-216',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 14 - Project Oversight and Management',section:'Measurement; Monitoring',pages:'211-216'}]
-    },
-    {
-      qid:'mbb:set-2:original-038',set:2,batch:2,sub:'mbb-portfolio',
-      bok:{domain:'III. Project Management',subdomain:'B. Project Oversight and Management',topic:'Risk assessment and response planning'},
-      difficulty:'Hard',cognitive:'Apply',questionType:'Visual evidence interpretation, non-statistical',industry:'Supply chain technology',quantitative:false,
-      stem:'A warehouse-control project identifies a possible interface failure with severe operational impact. The reference matrix classifies that combination as high risk. The vendor can provide a production-like interface test during the next sprint for a modest cost. Which response is most appropriate?',
-      options:[
-        'Accept the possible risk, record its owner, and reserve interface testing for the final deployment rehearsal',
-        'Transfer the risk by adding a warranty clause, because contractual recovery prevents operational disruption if the interface fails',
-        'Mitigate early through the production-like interface test, define acceptance and contingency criteria, and monitor the residual risk',
-        'Avoid the risk by removing every external interface from scope, even if the resulting warehouse system cannot deliver the chartered outcome'
-      ],answer:2,
-      why:'The matrix makes a possible/severe event high risk, and a feasible early test can reduce uncertainty or probability before deployment. Mitigation should include explicit acceptance, contingency, ownership, and residual-risk monitoring. A warranty transfers some financial consequence but not the warehouse disruption; scope removal would defeat the business objective. <b>C. Mitigate early through the production-like interface test, define acceptance and contingency criteria, and monitor the residual risk</b> <span class="tb-source-ref">Source: Kubiak, Chapter 6, Risk Management, pp. 88-94; Chapter 14, Project Management Principles, pp. 202-211.</span>',
-      optionRationales:[
-        'Possible likelihood combined with severe impact is high, and late testing wastes a practical mitigation opportunity.',
-        'A warranty may shift cost but does not transfer operational continuity or customer consequences.',
-        'Correct. Early testing directly reduces uncertainty and supports planned residual-risk decisions.',
-        'Risk avoidance is not defensible when it removes the capability that justifies the project.'
-      ],
-      formula:null,assumptions:['The matrix is the approved project risk-classification rule.','The production-like test is representative and does not itself create unacceptable risk.'],estimatedMinutes:3,
-      keywords:['risk matrix','risk mitigation','contingency','residual risk','interface testing'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapters 6 and 14 - Risk Management and Project Oversight',sourcePages:'88-94, 202-211',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 6 - Risk Analysis of Projects and the Pipeline',section:'Risk Management',pages:'88-94'},{id:'S2',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 14 - Project Oversight and Management',section:'Project Management Principles',pages:'202-211'}],
-      chart:{type:'risk-matrix',rowAxis:'Operational impact',colAxis:'Likelihood',rows:['Severe','Moderate','Low'],cols:['Rare','Possible','Likely'],cells:[['medium','high','high'],['low','medium','high'],['low','low','medium']]},
-      visual:visual2('mbb:set-2:original-038','risk-matrix','A three-by-three risk matrix has operational-impact rows Severe, Moderate, and Low and likelihood columns Rare, Possible, and Likely. The Severe and Possible cell is classified High.','')
-    },
-    {
-      qid:'mbb:set-2:original-039',set:2,batch:2,sub:'mbb-portfolio',
-      bok:{domain:'III. Project Management',subdomain:'C. Project Management Infrastructure',topic:'Portfolio review, project closure, and resource reallocation'},
-      difficulty:'Very Hard',cognitive:'Evaluate',questionType:'Integrated governance scenario',industry:'Telecommunications',quantitative:false,
-      stem:'A network-optimization project has spent 70% of its budget. A strategy refresh eliminates the target service, the benefits forecast is now negative, and the specialized analysts are blocking two higher-priority regulatory projects. The sponsor argues that stopping would waste the sunk cost. What should the portfolio council do?',
-      options:[
-        'Close the project through the formal process, document results and lessons, update the portfolio record, and reallocate analysts based on current strategy and value',
-        'Continue through at least two more tollgates because passing a budget-consumption threshold creates an obligation to recover the original business case before scarce resources can move to newer regulatory priorities',
-        'Suspend the project without formal closure until the target service returns, while leaving its original priority, benefit estimate, governance status, and analyst reservations unchanged in the enterprise pipeline',
-        'Reduce quality requirements enough to complete within the remaining budget, because a delivered output is preferable to a strategically obsolete cancellation'
-      ],answer:0,
-      why:'Sunk cost is not a reason to fund negative future value. Regular portfolio governance must refresh strategic alignment, economics, and resource constraints and may cancel active projects. Formal closure preserves results, approvals, accounts, and lessons learned before scarce analysts are reassigned. <b>A. Close the project through the formal process, document results and lessons, update the portfolio record, and reallocate analysts based on current strategy and value</b> <span class="tb-source-ref">Source: Kubiak, Chapter 14, Closing Process, pp. 211-212; Chapter 15, Performance Measurement, pp. 222-224.</span>',
-      optionRationales:[
-        'Correct. It applies current portfolio criteria and preserves organizational learning through controlled closure.',
-        'Budget already spent is sunk; it does not restore strategic relevance or positive prospective value.',
-        'Indefinite suspension retains stale priority and capacity claims while avoiding the required governance decision.',
-        'Lowering quality cannot create strategic value and may add operational or compliance exposure.'
-      ],
-      formula:null,assumptions:['No contractual obligation requires completion.','The negative forecast excludes sunk cost and reflects prospective cash flows.'],estimatedMinutes:3,
-      keywords:['project closure','sunk cost','portfolio review','resource reallocation','strategic alignment'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapters 14 and 15 - Closing Process and Performance Measurement',sourcePages:'211-212, 222-224',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 14 - Project Oversight and Management',section:'Closing Process',pages:'211-212'},{id:'S2',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 15 - Project Management Infrastructure',section:'Performance Measurement',pages:'222-224'}]
-    },
-    {
-      qid:'mbb:set-2:original-040',set:2,batch:2,sub:'mbb-training',
-      bok:{domain:'IV. Training Design and Delivery',subdomain:'B. Training Plans',topic:'Multilevel competency planning by target group'},
-      difficulty:'Very Hard',cognitive:'Create',questionType:'Visual evidence interpretation, non-statistical',industry:'Precision manufacturing',quantitative:false,
-      stem:'The mastery grid shows required end-state competencies. All groups currently meet Entry. The training director proposes one identical five-day statistics course for everyone. Which redesign best closes the specified gaps without making the curriculum one-size-fits-all?',
-      options:[
-        'Keep the common course but add a harder final exam for Belts, because assessment difficulty alone differentiates the competency required by each role while preserving one administratively consistent path across every site',
-        'Use role paths: sponsors reach Practitioner in interpretation and risk communication; Belts reach Practitioner in application and coaching; metrology reaches Expert in diagnostics; assess each target.',
-        'Train only metrology staff because they own the measurement system, then have them approve every analysis produced by sponsors and Belts and transfer the needed knowledge through mandatory sign-off meetings',
-        'Move every group to Expert in every skill so future role changes require no additional development, all learners can attend the same advanced modules, and one proficiency target governs the organization'
-      ],answer:1,
-      why:'The grid calls for different skills and proficiency levels by target group. A defensible plan maps modular content, practice, and assessment to every displayed gap: sponsors practice interpretation and business-risk communication through Practitioner; Belts practice application and coaching through Practitioner; and metrology staff build Expert diagnostic capability. A common course or a common examination does not create the required role-specific proficiency. <b>B. Use role paths: sponsors reach Practitioner in interpretation and risk communication; Belts reach Practitioner in application and coaching; metrology reaches Expert in diagnostics; assess each target.</b> <span class="tb-source-ref">Source: Kubiak, Chapter 18, Training Plans and Mastery Grids, pp. 245-251.</span>',
-      optionRationales:[
-        'A harder test does not supply different learning experiences or demonstrate role-specific applied capability.',
-        'Correct. It explicitly develops and assesses every target-group gap at the proficiency shown in the grid.',
-        'Measurement ownership does not eliminate sponsor and Belt responsibilities for decisions and proper application.',
-        'Universal expert training spends resources beyond the stated needs and still ignores role-specific application.'
-      ],
-      formula:null,assumptions:['Entry is the verified current level for each listed group and skill.','Blank cells mean the skill is not required for that group.'],estimatedMinutes:4,
-      keywords:['training plan','mastery grid','target group','multilevel competency','modular curriculum'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 18 - Training Plans',sourcePages:'245-251',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 18 - Training Plans',section:'Components and Application of the Training Plan',pages:'245-251'}],
-      chart:{type:'data-table',columns:['Skill','Sponsors target','Belts target','Metrology target'],rows:[['Interpret MSA decisions','Beginner','Practitioner','Expert'],['Coach study planning','—','Practitioner','Expert'],['Administer diagnostic studies','—','Beginner','Expert'],['Communicate business risk','Practitioner','Practitioner','Beginner']]},
-      visual:visual2('mbb:set-2:original-040','data-table','A mastery grid lists four skills and different target levels for sponsors, Belts, and metrology staff. Sponsors emphasize interpretation and business risk, Belts emphasize application and coaching, and metrology staff require expert diagnostic capability.','')
-    },
-    {
-      qid:'mbb:set-2:original-041',set:2,batch:2,sub:'mbb-training',
-      bok:{domain:'IV. Training Design and Delivery',subdomain:'C. Training Materials and Curriculum Development',topic:'Adult-learning-aligned material and delivery selection'},
-      difficulty:'Hard',cognitive:'Analyze',questionType:'Advanced conceptual/method-selection',industry:'Business-to-business services',quantitative:false,
-      stem:'Experienced account managers must learn to translate customer narratives into measurable CTQs. A vendor offers four designs with the same content coverage. Which design is most consistent with adult learning and transfer to the job?',
-      options:[
-        'A lecture that defines every term in taxonomy order, followed by a closed-book recall test one month later and no workplace application',
-        'A self-paced glossary with optional reading, because experienced adults learn best when the instructor avoids feedback and structured practice',
-        'A generic simulation from an unrelated industry, scored only on participation so prior experience cannot affect the assessment outcome',
-        'A brief concept model followed by authentic customer cases, learner choice among cases, coached practice, feedback, reflection, and a near-term workplace assignment'
-      ],answer:3,
-      why:'Adult learners bring relevant experience, value practical and problem-centered work, benefit from participation and self-direction, and need prompt opportunities to apply and receive feedback. The authentic-case design uses those characteristics while retaining structure and evidence of transfer. Recall-only or participation-only designs do not demonstrate performance. <b>D. A brief concept model followed by authentic customer cases, learner choice among cases, coached practice, feedback, reflection, and a near-term workplace assignment</b> <span class="tb-source-ref">Source: Kubiak, Chapter 19, Adult Learning Theory and Training Delivery, pp. 256-283.</span>',
-      optionRationales:[
-        'Taxonomy-order lecture and delayed recall underuse experience and provide weak evidence of workplace transfer.',
-        'Self-direction does not mean absence of guided practice, feedback, standards, or assessment.',
-        'An unrelated exercise and participation score weaken relevance and cannot verify CTQ translation skill.',
-        'Correct. It combines relevance, experience, choice, practice, feedback, reflection, and immediate application.'
-      ],
-      formula:null,assumptions:['The account managers already know their customer domains.','The workplace assignment can be reviewed without exposing confidential customer data.'],estimatedMinutes:3,
-      keywords:['adult learning','experiential learning','transfer','authentic practice','feedback'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 19 - Adult Learning Theory and Training Delivery',sourcePages:'256-283',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 19 - Training Materials and Curriculum Development',section:'Adult Learning Theory; Training Delivery',pages:'256-283'}]
-    },
-    {
-      qid:'mbb:set-2:original-042',set:2,batch:2,sub:'mbb-training',
-      bok:{domain:'IV. Training Design and Delivery',subdomain:'D. Training Effectiveness Evaluation',topic:'Multilevel evaluation and validation of training effects'},
-      difficulty:'Expert',cognitive:'Create',questionType:'Integrated governance scenario',industry:'Hospital laboratory network',quantitative:false,
-      stem:'A laboratory network is training supervisors to coach specimen-handling standard work. Leaders want credible evidence that the program improves performance rather than merely generating favorable class ratings. Which evaluation design is strongest?',
-      options:[
-        'Collect anonymous reaction ratings after class and treat an average above 4.5 as proof that coaching behavior and specimen quality improved in subsequent workplace practice',
-        'Administer a difficult final knowledge test and compare sites by pass rate, without measuring baseline skill, workplace behavior, or operational outcomes',
-        'Predefine objectives; measure reaction and pre/post learning; audit coached behavior after transfer; track specimen defects; and use phased rollout or comparison evidence to address rival causes',
-        'Track specimen defects for one quarter after training and attribute the full observed change to training because operational results automatically subsume reaction, learning, behavior, baseline differences, secular trends, and every concurrent improvement'
-      ],answer:2,
-      why:'A credible evaluation is built from predefined objectives and tests multiple links in the causal chain: reaction, acquired learning, transferred behavior, and organizational results. Baselines and phased or comparison evidence help distinguish training effects from concurrent operational changes. No single level proves all others. <b>C. Predefine objectives; measure reaction and pre/post learning; audit coached behavior after transfer; track specimen defects; and use phased rollout or comparison evidence to address rival causes</b> <span class="tb-source-ref">Source: Kubiak, Chapter 20, Training Effectiveness Evaluation, pp. 285-292.</span>',
-      optionRationales:[
-        'Reaction indicates learner perception and cannot establish learning, behavior change, or quality results.',
-        'Post-only knowledge scores omit the baseline, transfer behavior, and organizational performance.',
-        'Correct. It links objectives to multiple evaluation levels and strengthens attribution with comparative evidence.',
-        'Outcome movement may reflect staffing, workload, materials, or policy changes and does not verify the learning pathway.'
-      ],
-      formula:null,assumptions:['A phased rollout or comparable untreated period is operationally and ethically feasible.','Specimen-defect definitions remain stable during evaluation.'],estimatedMinutes:4,
-      keywords:['Kirkpatrick','training evaluation','learning transfer','behavior','results attribution'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 20 - Training Effectiveness Evaluation',sourcePages:'285-292',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 20 - Training Effectiveness Evaluation',section:'Validation and Evaluation Models; Kirkpatrick Model',pages:'285-292'}]
-    },
-    {
-      qid:'mbb:set-2:original-043',set:2,batch:2,sub:'mbb-coaching',
-      bok:{domain:'V. Mentoring Responsibilities',subdomain:'A. Mentoring Champions, Change Agents, and Executives',topic:'Champion and MBB responsibilities during tollgate reviews'},
-      difficulty:'Hard',cognitive:'Understand',questionType:'Advanced conceptual/method-selection',industry:'Consumer lending',quantitative:false,
-      stem:'At an Analyze tollgate, the champion asks the team to decide whether the project still supports the current enterprise strategy and asks the MBB to remove a policy barrier owned by another executive. Which role correction is most appropriate?',
-      options:[
-        'The team should make both decisions because tollgates transfer strategic and organizational authority to the people closest to the analysis and implementation evidence',
-        'The champion should own the strategic-alignment judgment and barrier escalation, while the MBB coaches an objective review of evidence and readiness',
-        'The MBB should make both decisions because technical coaching authority includes final control over enterprise strategy, executive resources, cross-functional policy, and sponsor accountability',
-        'Finance should decide alignment and remove the barrier because every Analyze tollgate requires Finance to replace the champion as decision maker'
-      ],answer:1,
-      why:'The team supplies evidence, but the champion is positioned to determine whether the project remains strategically aligned and to remove organizational barriers. The MBB supports the tollgate’s quality by coaching preparation, testing evidence, and advising on readiness without appropriating executive accountability. <b>B. The champion should own the strategic-alignment judgment and barrier escalation, while the MBB coaches an objective review of evidence and readiness</b> <span class="tb-source-ref">Source: Kubiak, Chapter 21, Tollgate Reviews, pp. 294-298.</span>',
-      optionRationales:[
-        'Proximity to analysis does not give the team authority over enterprise strategy or executive policy.',
-        'Correct. It preserves champion accountability and the MBB’s evidence-focused coaching role.',
-        'Technical authority and facilitation do not confer ownership of strategy or executive resource barriers.',
-        'Finance may validate benefits at selected gates but does not categorically replace the champion.'
-      ],
-      formula:null,assumptions:['The champion has access to the current strategy and relevant executives.','The MBB has no delegated policy authority.'],estimatedMinutes:2,
-      keywords:['tollgate review','champion','strategic alignment','barrier removal','MBB coaching'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 21 - Tollgate Reviews',sourcePages:'294-298',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 21 - Mentoring Champions, Change Agents, and Executives',section:'Tollgate Reviews',pages:'294-298'}]
-    },
-    {
-      qid:'mbb:set-2:original-044',set:2,batch:2,sub:'mbb-coaching',
-      bok:{domain:'V. Mentoring Responsibilities',subdomain:'B. Mentoring Black Belts and Green Belts',topic:'Distinguishing project coaching from career mentoring'},
-      difficulty:'Very Hard',cognitive:'Evaluate',questionType:'Leadership, deployment, and best-next-action scenario',industry:'Energy generation',quantitative:false,
-      stem:'A Black Belt needs immediate help selecting a valid sampling plan for an active project and also wants confidential guidance about moving into an operations-leadership role next year. The assigned MBB knows the project but participates in the promotion panel. What arrangement is most defensible?',
-      options:[
-        'Have the MBB coach the project decision, disclose and manage the promotion conflict, and arrange an independent career mentor for the longer-term discussion',
-        'Have the MBB provide both services privately because detailed knowledge of the project makes the MBB the most informed person to evaluate readiness, career options, and the confidential promotion path',
-        'Transfer all technical coaching to the line manager and let the MBB mentor the career decision confidentially, because technical coaching must never be provided by a senior Belt who sits on any review panel',
-        'Defer both discussions until the project closes and the promotion panel finishes its work, so technical performance, sampling decisions, career planning, and advancement cannot influence one another in any way'
-      ],answer:0,
-      why:'Coaching focuses on applied Belt performance and project progress, while mentoring addresses broader career navigation. The MBB can coach the sampling decision, but participation in the promotion panel creates a conflict for confidential career mentoring. Disclosure and an independent mentor preserve both functions without withholding timely project support. <b>A. Have the MBB coach the project decision, disclose and manage the promotion conflict, and arrange an independent career mentor for the longer-term discussion</b> <span class="tb-source-ref">Source: Kubiak, Chapter 22, Coaching and Mentoring, pp. 306-310.</span>',
-      optionRationales:[
-        'Correct. It separates immediate role coaching from conflicted career mentoring while maintaining needed support.',
-        'Project knowledge does not neutralize the promotion-panel conflict or protect confidential career exploration.',
-        'Senior Belts are expected to coach technical application; the line manager is not automatically the proper substitute.',
-        'Deferral unnecessarily exposes the active project and denies timely career support that can be arranged independently.'
-      ],
-      formula:null,assumptions:['An independent qualified mentor is available.','The promotion process permits disclosure and recusal where appropriate.'],estimatedMinutes:3,
-      keywords:['coaching','mentoring','conflict of interest','career development','technical guidance'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 22 - Coaching and Mentoring',sourcePages:'306-310',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 22 - Mentoring Black Belts and Green Belts',section:'Individuals; Coaching; Mentoring',pages:'306-310'}]
-    },
-    {
-      qid:'mbb:set-2:original-045',set:2,batch:2,sub:'mbb-coaching',
-      bok:{domain:'V. Mentoring Responsibilities',subdomain:'C. Mentoring Non-belt Employees',topic:'Development pathway for non-belt participants'},
-      difficulty:'Very Hard',cognitive:'Create',questionType:'Leadership, deployment, and best-next-action scenario',industry:'Municipal government',quantitative:false,
-      stem:'A city wants to replenish its Green Belt pipeline from non-belt employees who have served on improvement teams. Current outreach is a generic intranet page; selection criteria are unpublished; and executives receive shortened training with no project requirement. Which development pathway should the MBB create?',
-      options:[
-        'Keep the intranet page as the sole channel and nominate candidates privately, because publishing criteria could discourage employees who lack statistical backgrounds',
-        'Offer every employee the full Green Belt course immediately and award status on attendance, then use later project results to identify who was actually qualified',
-        'Publish role and selection expectations, add active awareness and targeted outreach, provide staged skill-building and project exposure, and apply equivalent qualification standards to leaders',
-        'Recruit only prior team leaders and exempt executives from project work, because visible leadership credentials are more important than consistent development requirements'
-      ],answer:2,
-      why:'A sustainable pipeline needs accessible information, active outreach, transparent expectations, staged development, and authentic project experience. Applying weaker requirements to executives damages constancy of purpose and signals that the standards are symbolic. The pathway should help non-belts build evidence of readiness before formal Belt selection. <b>C. Publish role and selection expectations, add active awareness and targeted outreach, provide staged skill-building and project exposure, and apply equivalent qualification standards to leaders</b> <span class="tb-source-ref">Source: Kubiak, Chapter 23, Mentoring Non-belt Employees, pp. 315-316.</span>',
-      optionRationales:[
-        'Passive information and hidden criteria limit access, succession, trust, and self-directed preparation.',
-        'Attendance-based credentials dilute qualification and place unprepared candidates into costly formal training.',
-        'Correct. It combines transparent information, active recruitment, development, experience, and consistent standards.',
-        'Prior leadership is not the only source of Belt potential, and executive exemptions undermine credibility.'
-      ],
-      formula:null,assumptions:['The city can provide supervised project participation before formal Belt assignment.','Published criteria comply with employment policy.'],estimatedMinutes:3,
-      keywords:['non-belt development','Green Belt pipeline','recruitment','qualification standards','awareness'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 23 - Mentoring Non-belt Employees',sourcePages:'315-316',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 23 - Mentoring Non-belt Employees',section:'Awareness, Information, Recruitment, and Executive Development',pages:'315-316'}]
-    },
-    {
-      qid:'mbb:set-2:original-046',set:2,batch:2,sub:'mbb-analytics',
-      bok:{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'A. Measurement Systems Analysis',topic:'Attribute agreement analysis and corrective action'},
-      difficulty:'Very Hard',cognitive:'Evaluate',questionType:'Visual statistical-output interpretation',industry:'Food safety inspection',quantitative:false,
-      stem:'Three inspectors independently classified the same randomized reference images twice as Accept or Reject. The study summary is shown. The organization requires at least 90% repeatability and at least 90% agreement with the reference for each inspector. Which action is most defensible?',
-      options:[
-        'Approve all inspectors because overall repeatability exceeds 90%, then increase the number and diversity of reference images to improve individual accuracy without changing operational definitions or calibration',
-        'Replace Inspector C because a stronger agreement with the reference indicates that C applied a different decision rule from the other inspectors',
-        'Average the three reference-agreement rates and approve the system because the resulting 88% is close enough to the 90% requirement',
-        'Do not approve the system; calibrate A and B to operational definitions with reference examples, then repeat a blinded agreement study for all inspectors'
-      ],answer:3,
-      why:'The acceptance rule applies to each inspector. A and B are sufficiently self-consistent but disagree with the known reference too often, indicating reproducible use of an inaccurate interpretation. C meets both thresholds. Operational-definition calibration with reference examples addresses the observed failure; a new blinded study verifies the system rather than assuming the training worked. <b>D. Do not approve the system; calibrate A and B to operational definitions with reference examples, then repeat a blinded agreement study for all inspectors</b> <span class="tb-source-ref">Source: Kubiak, Chapter 24, Attribute Measurement Systems, pp. 320-334.</span>',
-      optionRationales:[
-        'An overall average can conceal inspector-specific failures, and a larger sample does not correct systematic interpretation error.',
-        'C is the only inspector meeting both stated criteria; superior reference agreement is not evidence of an invalid rule.',
-        'The requirement is not an average threshold, and 88% would remain below 90% even if averaging were permitted.',
-        'Correct. It targets the low reference accuracy while requiring independent verification after correction.'
-      ],
-      formula:'Within-inspector agreement is repeated self-agreement; agreement with reference is correct classifications divided by reference classifications.',assumptions:['Reference classifications are valid and mutually exclusive.','Images were independently and blindly rated in randomized order.'],estimatedMinutes:4,
-      keywords:['attribute agreement','repeatability','reference accuracy','operational definition','measurement system'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 24 - Attribute Measurement Systems',sourcePages:'320-334',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 24 - Measurement Systems Analysis',section:'Attribute (Discrete) Measurement Systems',pages:'320-334'}],
-      chart:{type:'data-table',columns:['Inspector','Within-inspector agreement','Agreement with reference','Meets both 90% criteria?'],rows:[['A','96%','82%','No'],['B','94%','84%','No'],['C','98%','98%','Yes'],['Overall','96%','88%','—']]},
-      visual:visual2('mbb:set-2:original-046','data-table','An attribute agreement table shows Inspector A at 96 percent within-inspector agreement and 82 percent versus reference, B at 94 and 84 percent, C at 98 and 98 percent, and overall results of 96 and 88 percent.','')
-    },
-    {
-      qid:'mbb:set-2:original-047',set:2,batch:2,sub:'mbb-analytics',
-      bok:{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'B. Measuring and Modeling Relationships',topic:'Multiple regression and variance inflation factors'},
-      difficulty:'Hard',cognitive:'Apply',questionType:'Statistical-output interpretation',industry:'Chemical processing',quantitative:false,
-      stem:'A yield model has R-squared 91% and adjusted R-squared 89%. Temperature has VIF 12.8 and p = 0.41; pressure has VIF 11.9 and p = 0.36; line speed has VIF 1.7 and p < 0.001. Temperature and pressure are strongly correlated by the operating recipe. What should the analyst conclude?',
-      options:[
-        'The high R-squared proves all three coefficients are stable and causal, so temperature and pressure should remain separately interpreted despite their p-values, inflated uncertainty, and recipe-driven correlation structure',
-        'Temperature and pressure coefficients are unstable for separate interpretation; use process knowledge to redesign, combine, or select terms while validating prediction and residual behavior',
-        'Line speed must be removed first because its low VIF shows that it contributes too little shared information to a multiple-regression model',
-        'The model is unusable for prediction and must be discarded without further validation because any VIF above 10 necessarily makes fitted values, residual diagnostics, and all future predictions mathematically invalid'
-      ],answer:1,
-      why:'Large VIFs indicate that temperature and pressure carry overlapping predictor information, inflating coefficient uncertainty and making their individual effects difficult to interpret. Multicollinearity does not automatically destroy prediction. The response should follow the model purpose and process physics: redesign the data region, combine terms, or select a defensible representation, then validate predictions and residuals. <b>B. Temperature and pressure coefficients are unstable for separate interpretation; use process knowledge to redesign, combine, or select terms while validating prediction and residual behavior</b> <span class="tb-source-ref">Source: Kubiak, Chapter 25, Multiple Regression and Multicollinearity, pp. 374-383.</span>',
-      optionRationales:[
-        'Overall fit does not establish causal or stable individual coefficients when predictors are highly collinear.',
-        'Correct. It distinguishes coefficient interpretation from prediction and proposes purpose-driven remediation.',
-        'A low VIF is not a reason to remove a significant predictor; it indicates little variance inflation.',
-        'Multicollinearity can impair coefficient interpretation without necessarily invalidating fitted values or predictions.'
-      ],
-      formula:'VIF_j = 1 / (1 - R_j²); large VIF indicates inflated variance for coefficient j.',assumptions:['The stated recipe correlation is representative of the fitted data.','Other regression assumptions still require separate verification.'],estimatedMinutes:3,
-      keywords:['multiple regression','VIF','multicollinearity','coefficient interpretation','prediction'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 25 - Multiple Regression Analysis',sourcePages:'374-383',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 25 - Measuring and Modeling Relationships Between Variables',section:'Multiple Regression Analysis; Multicollinearity',pages:'374-383'}]
-    },
-    {
-      qid:'mbb:set-2:original-048',set:2,batch:2,sub:'mbb-analytics',
-      bok:{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'C. Design of Experiments',topic:'Response surface methodology and steepest ascent'},
-      difficulty:'Expert',cognitive:'Analyze',questionType:'Visual multi-step quantitative',industry:'Advanced materials development',quantitative:true,
-      stem:'The fitted coded-factor response is y-hat = 90 - 6(A - 0.5)^2 - 2(B + 0.5)^2. The contour plot marks the current setting at A = -1, B = 1. Based on the local gradient, which first search direction follows steepest ascent?',
-      options:[
-        'Increase A and decrease B, using relative coded steps near 3 to 1 because the local gradient is proportional to positive 18 and negative 6',
-        'Decrease A and increase B, using relative coded steps near 3 to 1 because movement toward successively lower fitted-response contours maximizes the response most efficiently',
-        'Increase A and increase B in equal coded increments because steepest ascent must follow the long axis of the nearest elliptical contour toward its most distant boundary',
-        'Hold A constant and decrease B in progressively larger coded steps because the contour center demonstrates that only factor B has a nonzero local derivative at the current setting'
-      ],answer:0,
-      why:'For the fitted surface, partial y/partial A = -12(A-0.5) and partial y/partial B = -4(B+0.5). At (-1,1), the gradient is (18,-6), so the locally steepest increase raises A and lowers B with a coded-step ratio of about 3:1. The direction is normal to, not along, a contour. <b>A. Increase A and decrease B, using relative coded steps near 3 to 1 because the local gradient is proportional to positive 18 and negative 6</b> <span class="tb-source-ref">Source: Kubiak, Chapter 26, Response Surface Methodology and Steepest Ascent, pp. 439-442.</span>',
-      optionRationales:[
-        'Correct. The signs and relative magnitudes match the gradient evaluated at the current setting.',
-        'That is the direction of local descent, opposite the positive gradient.',
-        'Travel along a contour produces approximately constant response rather than the steepest local increase.',
-        'Both partial derivatives are nonzero at the current point; A has the larger local effect.'
-      ],
-      formula:'Gradient = [-12(A-0.5), -4(B+0.5)]; at (-1,1), gradient = [18,-6].',assumptions:['The quadratic model is adequate locally.','Both factors use comparable coded units and the first move remains within the experimental region.'],estimatedMinutes:4,
-      keywords:['response surface methodology','contour plot','steepest ascent','gradient','coded factors'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 26 - Response Surface Methodology',sourcePages:'439-442',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 26 - Design of Experiments',section:'Response Surface Methodology; Steepest Ascent and Descent Experiments',pages:'439-442'}],
-      chart:{type:'contour-plot',title:'Fitted response contours',xLabel:'Factor A (coded units)',yLabel:'Factor B (coded units)',xTicks:[-2,-1,0,1,2],yTicks:[-2,-1,0,1,2],xDomain:[-2.5,2.5],yDomain:[-2.5,2.5],center:[0.5,-0.5],contours:[{level:75,radiusX:1.5811,radiusY:2.7386},{level:80,radiusX:1.2910,radiusY:2.2361},{level:85,radiusX:0.9129,radiusY:1.5811}],current:{x:-1,y:1,label:'Current'},model:'y-hat = 90 - 6(A - 0.5)^2 - 2(B + 0.5)^2'},
-      visual:visual2('mbb:set-2:original-048','contour-plot','An accessible contour plot of the fitted response shows elliptical contours at responses 75, 80, and 85 centered at coded factor settings A 0.5 and B negative 0.5. The current point is A negative 1 and B positive 1.','')
-    },
-    {
-      qid:'mbb:set-2:original-049',set:2,batch:2,sub:'mbb-analytics',
-      bok:{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'B. Measuring and Modeling Relationships',topic:'Reliability modeling for series and parallel systems'},
-      difficulty:'Very Hard',cognitive:'Apply',questionType:'Interactive visual multi-step quantitative',industry:'Renewable-energy equipment',quantitative:true,
-      stem:'Each of two identical, independent inverter modules has Weibull reliability R(t) = exp[-(t/2500)^1.5]. Compare a system requiring both modules to operate with a system requiring either module to operate. At 1,000 hours, which conclusion is correct?',
-      options:[
-        'Component reliability is about 0.603; therefore series reliability is 0.364 and active-parallel reliability is 0.842 at 1,000 hours',
-        'Both system reliabilities equal the component reliability of about 0.777 because identical independent modules have no configuration effect when they share the same Weibull scale and shape parameters',
-        'Component reliability is about 0.777; series reliability is about 0.603 and active-parallel reliability is about 0.950, assuming independent failures',
-        'Series reliability is about 0.950 and active-parallel reliability is about 0.603 because parallel paths multiply successful component probabilities'
-      ],answer:2,
-      why:'At 1,000 hours, the component reliability is exp[-(0.4)^1.5] = 0.7765. Two independent components in series require both to work, so Rseries = R² = 0.6030. Two active-parallel components fail only if both fail, so Rparallel = 1-(1-R)² = 0.9500. Independence is essential to the calculation. <b>C. Component reliability is about 0.777; series reliability is about 0.603 and active-parallel reliability is about 0.950, assuming independent failures</b> <span class="tb-source-ref">Source: Kubiak, Chapter 25, Reliability Modeling, pp. 423-427.</span>',
-      optionRationales:[
-        'It incorrectly treats the series-system value as component reliability and propagates that error.',
-        'Configuration changes system success logic even when component distributions are identical.',
-        'Correct. It applies the Weibull component model and the independent series and parallel formulas.',
-        'The formulas are reversed: series multiplies successes, while parallel complements joint failures.'
-      ],
-      formula:'Rcomponent(1000)=exp[-(1000/2500)^1.5]=0.7765; Rseries=R²=0.6030; Rparallel=1-(1-R)²=0.9500.',assumptions:['The two modules are statistically independent.','Either active-parallel module can carry the required load without switching failure.'],estimatedMinutes:4,
-      keywords:['Weibull reliability','series system','parallel system','mission time','independence'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 25 - Reliability Modeling',sourcePages:'423-427',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 25 - Measuring and Modeling Relationships Between Variables',section:'Reliability Modeling; Series and Parallel Systems',pages:'423-427'}],
-      chart:{type:'reliability-plot',title:'Two-module system reliability',xLabel:'Mission time (hours)',yLabel:'System reliability',xTicks:[0,500,1000,1500,2000],series:[{label:'Both modules required (series)',points:[[0,1],[500,0.8362],[1000,0.6029],[1500,0.3947],[2000,0.2390]]},{label:'Either module sufficient (active parallel)',points:[[0,1],[500,0.9927],[1000,0.9500],[1500,0.8618],[2000,0.7388]]}],missionTime:1000},
-      visual:visual2('mbb:set-2:original-049','reliability-plot','A two-series reliability plot covers 0 to 2,000 hours. At 1,000 hours, the system requiring both modules has reliability about 0.603 and the active-parallel system requiring either module has reliability 0.9500.','Hover or keyboard-focus the plotted mission-time points to compare the two system configurations at the same hours.')
-    },
-    {
-      qid:'mbb:set-2:original-050',set:2,batch:2,sub:'mbb-analytics',
-      bok:{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'B. Measuring and Modeling Relationships',topic:'Linear programming constraints and slack'},
-      difficulty:'Hard',cognitive:'Understand',questionType:'Advanced conceptual/method-selection',industry:'Distribution planning',quantitative:false,
-      stem:'A solved linear-programming model maximizes contribution under labor and dock-hour constraints. At the optimum, labor slack is 0 hours and dock slack is 18 hours. The sensitivity report is unavailable. Which interpretation is justified by this output alone?',
-      options:[
-        'Both constraints are binding because every constraint participates in the model even when its slack is positive at the reported solution',
-        'The dock constraint is binding and labor is nonbinding because unused dock hours represent demand that the labor constraint cannot absorb',
-        'Adding one labor hour must increase contribution by exactly the current contribution per labor hour because zero slack defines the shadow price',
-        'Labor is binding and dock capacity has 18 unused hours; the value of more labor cannot be quantified without sensitivity or re-optimization evidence'
-      ],answer:3,
-      why:'Zero slack means the labor constraint is active at the reported optimum. Positive dock slack means 18 dock hours remain unused, so dock capacity is not binding there. Slack alone does not reveal a shadow price or its allowable range; quantifying the objective gain from another labor hour requires sensitivity information or resolving the model. <b>D. Labor is binding and dock capacity has 18 unused hours; the value of more labor cannot be quantified without sensitivity or re-optimization evidence</b> <span class="tb-source-ref">Source: Kubiak, Chapter 25, Linear Programming, pp. 417-422.</span>',
-      optionRationales:[
-        'Participation in a model does not make a constraint binding; positive slack demonstrates unused capacity.',
-        'The interpretation is reversed: labor has zero slack, while dock capacity has 18 unused hours.',
-        'Zero slack identifies a binding constraint but does not numerically identify its marginal value.',
-        'Correct. It extracts exactly what slack establishes and avoids an unsupported sensitivity claim.'
-      ],
-      formula:'Slack = available resource - resource used; zero slack identifies an active constraint at the reported solution.',assumptions:['The reported solution is feasible and optimal.','Constraint units are hours and no integer restriction changes the meaning of reported slack.'],estimatedMinutes:3,
-      keywords:['linear programming','slack variable','binding constraint','sensitivity analysis','optimization'],
-      sourceDocument:'The Certified Six Sigma Master Black Belt Handbook',sourceSection:'Chapter 25 - Linear Programming',sourcePages:'417-422',
-      sources:[{id:'S1',document:'The Certified Six Sigma Master Black Belt Handbook',chapter:'Chapter 25 - Measuring and Modeling Relationships Between Variables',section:'Linear Programming',pages:'417-422'}]
+      "answerCueAudit": true
     }
-  ];
+  },
+  {
+    "qid": "mbb:set-2:original-027",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-enterprise",
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "E. Opportunities for Improvement",
+      "topic": "Project identification from integrated customer and process evidence"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Analyze",
+    "questionType": "Leadership, deployment, and best-next-action scenario",
+    "industry": "Digital banking",
+    "quantitative": false,
+    "stem": "Executives want to charter a mobile-app redesign because an annual relationship survey rates the app 4.4 out of 5. During the same period, app-session abandonment rose from 8% to 19%; session-event records locate 62% of recorded abandoned attempts at identity verification; and call listening reveals repeated confusion at that step. What should the Master Black Belt recommend?",
+    "options": [
+      "Preserve the executive charter because the relationship survey is the broadest listening post and therefore dominates event-level process evidence",
+      "Launch a customer-delight design project covering the entire app, using the 4.4 rating as the baseline outcome and complaints as anecdotal context",
+      "Delay action until a new representative survey and a second independent operational dataset reproduce the abandonment finding, because behavioral measures are not Voice of the Customer",
+      "Qualify a focused verification-flow opportunity by reconciling survey scope with behavioral, complaint, and process data before setting the charter boundary"
+    ],
+    "answer": 3,
+    "why": "The evidence need not be contradictory: a broad relationship score can remain high while a particular transaction fails. Session-event records, rather than a self-selected complaint sample, establish the stated concentration of recorded abandoned attempts. The MBB should reconcile listening posts, customer segments, CTQs, and process evidence before qualifying a focused opportunity. This identifies where to investigate; it does not prove a root cause or justify an app-wide redesign. <b>D. Qualify a focused verification-flow opportunity by reconciling survey scope with behavioral, complaint, and process data before setting the charter boundary</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 5, Opportunities for Improvement, pp. 70-78; Chapter 10, Data Gathering, pp. 148-156.</span>",
+    "optionRationales": [
+      "A broad survey measures a different experience level and should not override convergent transaction evidence.",
+      "An app-wide scope is premature when several sources localize the opportunity to one verification step.",
+      "Behavioral and process observations can corroborate customer evidence; waiting discards actionable convergence.",
+      "Correct. It reconciles the measurement scopes and qualifies the opportunity before committing resources."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The survey and operational data cover comparable customer populations and time periods.",
+      "Identity verification is not currently constrained by a mandated design."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "project identification",
+      "Voice of the Customer",
+      "Voice of the Process",
+      "listening posts",
+      "project qualification"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapters 5 and 10 - Opportunities for Improvement and Data Gathering",
+    "sourcePages": "70-78, 148-156",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 5 - Opportunities for Improvement",
+        "section": "Project Identification and Qualification",
+        "pages": "70-78"
+      },
+      {
+        "id": "S2",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 10 - Data Gathering",
+        "section": "Voice of the Customer and Voice of the Process",
+        "pages": "148-156"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-028",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-enterprise",
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "I. Organizational Finance and Business Performance Metrics",
+      "topic": "Balanced scorecard and linked leading and lagging measures"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, non-statistical",
+    "industry": "Medical-device manufacturing",
+    "quantitative": false,
+    "stem": "The executive team claims its deployment scorecard is balanced and causally useful. Which assessment of the displayed measures is most defensible?",
+    "options": [
+      "The scorecard is incomplete because it overweights lagging outcomes and lacks learning-capability and process-leading measures that could explain future customer and financial results",
+      "The scorecard is balanced because revenue, margin, complaints, and recalls span the financial and customer perspectives, which are the only externally material perspectives needed for strategic deployment decisions",
+      "The scorecard should replace complaint and recall rates with project counts so every measure can be influenced directly by the Lean Six Sigma deployment office",
+      "The scorecard should retain the measures but combine them into one weighted index calibrated to shareholder value, because separate perspectives prevent executives from evaluating enterprise performance consistently over time"
+    ],
+    "answer": 0,
+    "why": "A balanced scorecard covers financial, customer, internal-process, and learning-and-growth perspectives. This scorecard omits process performance and the development of people and systems. Its listed measures report achieved outcomes rather than the upstream capabilities intended to drive future results. Complementary leading measures create testable links between improvement work and outcomes; including them does not by itself establish causality. Percentage-point changes and relative percentage changes are different quantities. <b>A. The scorecard is incomplete because it overweights lagging outcomes and lacks learning-capability and process-leading measures that could explain future customer and financial results</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 9, Business Performance Measures, pp. 137-143.</span>",
+    "optionRationales": [
+      "Correct. Two perspectives and mostly lagging results do not provide a balanced or diagnostic management system.",
+      "Financial and customer outcomes are important but do not replace internal-process and learning-and-growth perspectives.",
+      "Project counts measure activity and can invite gaming; they do not explain capability or customer outcomes.",
+      "A composite index can hide tradeoffs and causal relationships that the separate perspectives are intended to expose."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The table contains the complete executive scorecard.",
+      "All four measures are reported accurately and at a useful cadence."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "balanced scorecard",
+      "leading indicator",
+      "lagging indicator",
+      "KPI",
+      "business performance"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 9 - Business Performance Measures",
+    "sourcePages": "137-143",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 9 - Organizational Finance and Business Performance Metrics",
+        "section": "Balanced Scorecard and Key Performance Indicators",
+        "pages": "137-143"
+      }
+    ],
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Perspective claimed",
+        "Measure",
+        "Direction this quarter"
+      ],
+      "rows": [
+        [
+          "Financial",
+          "Revenue growth",
+          "Down 1.8 percentage points"
+        ],
+        [
+          "Financial",
+          "Operating margin",
+          "Up 0.4 percentage points"
+        ],
+        [
+          "Customer",
+          "Complaint rate",
+          "Up 13% relative to prior quarter"
+        ],
+        [
+          "Customer",
+          "Recall rate",
+          "Unchanged"
+        ]
+      ],
+      "auditBatch": 2,
+      "auditId": "mbb:set-2:original-028",
+      "altText": "The executive scorecard lists revenue growth down 1.8 percentage points, operating margin up 0.4 percentage points, complaint rate up 13% relative to the prior quarter, and recall rate unchanged. Financial and customer are its two reported perspectives.",
+      "title": "Quarterly executive scorecard"
+    },
+    "visual": {
+      "type": "data-table",
+      "datasetRef": "test-bank-assets/mbb-160/batch-02/datasets.json#mbb:set-2:original-028",
+      "specRef": "test-bank-assets/mbb-160/batch-02/visual-specs.json#mbb:set-2:original-028",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-028",
+      "altText": "The executive scorecard lists revenue growth down 1.8 percentage points, operating margin up 0.4 percentage points, complaint rate up 13% relative to the prior quarter, and recall rate unchanged. Financial and customer are its two reported perspectives.",
+      "interactionPurpose": "",
+      "validationRef": "test-bank-assets/mbb-160/batch-02/validation.json#mbb:set-2:original-028",
+      "breakpointsValidated": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "answerCueAudit": true
+    }
+  },
+  {
+    "qid": "mbb:set-2:original-029",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-enterprise",
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "I. Organizational Finance and Business Performance Metrics",
+      "topic": "Sarbanes-Oxley financial control responsibilities"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Understand",
+    "questionType": "Advanced conceptual/method-selection",
+    "industry": "Publicly listed technology services",
+    "quantitative": false,
+    "stem": "A benefits dashboard for a US-listed company lets each project leader edit the realized-savings field after Finance approval. The totals feed financial reporting. The edit history is retained, but the dashboard immediately republishes the revised enterprise total without renewed review. What control concern should the Master Black Belt recognize?",
+    "options": [
+      "The retained history makes the process adequate because traceability alone establishes management responsibility and authorization for every later change to enterprise totals",
+      "The issue is limited to project governance because improvement benefits are operational estimates that remain outside every financial-reporting control boundary",
+      "Post-approval edits can bypass authorization and change reported totals, so access, approval, and change controls must be redesigned with Finance",
+      "The dashboard should permit edits only during quarter close because timing restrictions eliminate the need for segregated authorization responsibilities"
+    ],
+    "answer": 2,
+    "why": "An audit trail records what happened but does not prevent or authorize a change. When improvement benefits feed management or external financial reporting, the control design must address access, authorization, review, and accountability. The MBB should partner with Finance rather than declare the estimates outside financial control. <b>C. Post-approval edits can bypass authorization and change reported totals, so access, approval, and change controls must be redesigned with Finance</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 9, Sarbanes-Oxley Act, pp. 143-146.</span>",
+    "optionRationales": [
+      "Traceability is detective evidence; it does not provide preventive authorization or independent approval.",
+      "Operational estimates can enter financial reporting and therefore cannot be categorically excluded from control scope.",
+      "Correct. The design permits an unauthorized value to alter a controlled aggregate after approval.",
+      "A close-period restriction does not replace appropriate access, segregation, and approval controls."
+    ],
+    "formula": null,
+    "assumptions": [
+      "Finance has confirmed that the dashboard lies within the company’s financial-reporting control boundary.",
+      "Project leaders are not delegated final financial-approval authority."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "Sarbanes-Oxley",
+      "financial controls",
+      "authorization",
+      "audit trail",
+      "benefit validation"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 9 - Sarbanes-Oxley Act",
+    "sourcePages": "143-146",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 9 - Organizational Finance and Business Performance Metrics",
+        "section": "Sarbanes-Oxley Act",
+        "pages": "143-146"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-030",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-enterprise",
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "F. Risk Analysis of Projects and the Pipeline",
+      "topic": "Risk-based pipeline governance and replenishment"
+    },
+    "difficulty": "Expert",
+    "cognitive": "Create",
+    "questionType": "Leadership, deployment, and best-next-action scenario",
+    "industry": "Multi-site industrial services",
+    "quantitative": false,
+    "stem": "A deployment office reviews only active projects. New charters are approved whenever a Belt becomes free; postponed projects retain their original scores indefinitely; and business units can reserve Belt capacity before Finance validates benefits. Which redesigned governance rule set would most improve the pipeline as a portfolio system?",
+    "options": [
+      "Let business units retain reserved capacity, but require a quarterly report of active-project cycle time and the number of unassigned ideas",
+      "Maintain one visible active-and-inactive pipeline; periodically refresh value, risk, alignment, and capacity data; and use explicit decision rights to start, defer, support, or close work",
+      "Give Finance sole authority to rank all ideas by validated hard savings, then assign every available Belt to the highest-ranked proposal regardless of strategic balance, readiness, dependencies, or concentration of risk",
+      "Freeze prioritization criteria for the fiscal year, remove postponed work after ninety days, and measure deployment success by keeping every trained Belt utilized"
+    ],
+    "answer": 1,
+    "why": "A healthy pipeline includes active, inactive, postponed, and proposed work and treats their economics and risks as time-sensitive. Regular reappraisal, capacity visibility, and explicit authority for start/defer/support/cancel decisions prevent stale priorities and local reservations from controlling the portfolio. Hard savings alone also miss strategy and dependencies. <b>B. Maintain one visible active-and-inactive pipeline; periodically refresh value, risk, alignment, and capacity data; and use explicit decision rights to start, defer, support, or close work</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 6, Risk Analysis of Projects and the Pipeline, pp. 88-99; Chapter 15, Performance Measurement, pp. 222-224.</span>",
+    "optionRationales": [
+      "Reporting activity does not remove capacity reservations, stale economics, or incomplete portfolio decision rights.",
+      "Correct. It creates a governed, refreshable system for both pipeline and active work.",
+      "Finance validation is necessary, but a savings-only rank can violate strategy, capacity, and dependency constraints.",
+      "Utilization and arbitrary aging rules can encourage excess work in process and discard still-relevant opportunities."
+    ],
+    "formula": null,
+    "assumptions": [
+      "No proposal is legally mandatory.",
+      "The deployment office can establish enterprise portfolio governance."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "project pipeline",
+      "portfolio governance",
+      "capacity management",
+      "risk refresh",
+      "decision rights"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapters 6 and 15 - Pipeline and Portfolio Performance",
+    "sourcePages": "88-99, 222-224",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 6 - Risk Analysis of Projects and the Pipeline",
+        "section": "Risk Management; Pipeline Creation and Management",
+        "pages": "88-99"
+      },
+      {
+        "id": "S2",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 15 - Project Management Infrastructure",
+        "section": "Performance Measurement",
+        "pages": "222-224"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-031",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-org",
+    "bok": {
+      "domain": "II. Cross-functional Competencies",
+      "subdomain": "B. Internal Organizational Challenges",
+      "topic": "Change management and adoption barriers"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Interactive visual evidence interpretation",
+    "industry": "Healthcare administration",
+    "quantitative": false,
+    "stem": "After a health system replaced local referral workflows with one standardized process, formal training completion reached 96%. The plotted weekly rate of manual workarounds is shown below. Leaders propose disciplinary notices for noncompliance. What should the Master Black Belt recommend first?",
+    "options": [
+      "Treat the trend as adoption evidence, engage affected users and informal leaders to identify uncertainty and workflow barriers, then correct the change plan and monitor the rate",
+      "Issue disciplinary notices immediately because training completion establishes that remaining workarounds reflect individual resistance rather than usability, workload, communication, or process conditions",
+      "Return permanently to local workflows because the upward trend proves that standardization is incompatible with the organization’s culture",
+      "Wait for the workaround rate to stabilize across another quarter before investigating, because change-management action during a developing trend would confound the process baseline and prevent objective diagnosis"
+    ],
+    "answer": 0,
+    "why": "Training completion measures exposure, not internalization of a changed way of working. The sustained rise in workarounds is an early adoption signal that warrants open inquiry into fear, uncertainty, informal influence, and process barriers. Change agents should communicate, listen, engage informal leaders, remove obstacles, and continue measuring progress before choosing consequences. <b>A. Treat the trend as adoption evidence, engage affected users and informal leaders to identify uncertainty and workflow barriers, then correct the change plan and monitor the rate</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 8, Change Management, pp. 123-125.</span>",
+    "optionRationales": [
+      "Correct. It uses the observed behavior to diagnose and manage adoption rather than equating attendance with acceptance.",
+      "Completion data do not establish motivation or rule out usability, workload, communication, and local-system barriers.",
+      "The trend shows a problem to investigate, not that enterprise standardization is inherently impossible.",
+      "Waiting would allow resistance or process failure to become entrenched; the trend is already actionable evidence."
+    ],
+    "formula": "Weekly workaround rate = manually routed referrals / total referrals × 100.",
+    "assumptions": [
+      "The denominator and workaround definition remained constant across weeks.",
+      "No policy change independently increased manual routing."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "change management",
+      "adoption",
+      "informal leaders",
+      "resistance",
+      "leading indicator"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 8 - Change Management",
+    "sourcePages": "123-125",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 8 - Organizational Commitment",
+        "section": "Change Management",
+        "pages": "123-125"
+      }
+    ],
+    "chart": {
+      "type": "time-series",
+      "title": "Manual referral workarounds after rollout",
+      "xLabel": "Week after rollout",
+      "yLabel": "Workarounds per 100 referrals",
+      "units": "workarounds per 100 referrals",
+      "labels": [
+        "W1",
+        "W2",
+        "W3",
+        "W4",
+        "W5",
+        "W6",
+        "W7",
+        "W8",
+        "W9",
+        "W10",
+        "W11",
+        "W12"
+      ],
+      "data": [
+        3,
+        4,
+        5,
+        7,
+        9,
+        12,
+        16,
+        21,
+        26,
+        31,
+        35,
+        39
+      ],
+      "decimals": 0,
+      "altText": "Weekly manual-referral rates per 100 referrals for weeks 1 through 12 are 3, 4, 5, 7, 9, 12, 16, 21, 26, 31, 35, and 39. The horizontal axis is time after rollout; the vertical axis is the stated rate.",
+      "auditBatch": 2,
+      "auditId": "mbb:set-2:original-031"
+    },
+    "visual": {
+      "type": "time-series",
+      "datasetRef": "test-bank-assets/mbb-160/batch-02/datasets.json#mbb:set-2:original-031",
+      "specRef": "test-bank-assets/mbb-160/batch-02/visual-specs.json#mbb:set-2:original-031",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-031",
+      "altText": "Weekly manual-referral rates per 100 referrals for weeks 1 through 12 are 3, 4, 5, 7, 9, 12, 16, 21, 26, 31, 35, and 39. The horizontal axis is time after rollout; the vertical axis is the stated rate.",
+      "interactionPurpose": "Inspect each weekly value using pointer, keyboard focus, or the observation selector; the data table supplies the same evidence without interaction.",
+      "validationRef": "test-bank-assets/mbb-160/batch-02/validation.json#mbb:set-2:original-031",
+      "breakpointsValidated": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "answerCueAudit": true
+    }
+  },
+  {
+    "qid": "mbb:set-2:original-032",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-org",
+    "bok": {
+      "domain": "II. Cross-functional Competencies",
+      "subdomain": "B. Internal Organizational Challenges",
+      "topic": "Situational use of leadership styles"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Advanced conceptual/method-selection",
+    "industry": "Aerospace engineering",
+    "quantitative": false,
+    "stem": "A highly competent, motivated engineering team has two weeks to reproduce a validated analysis for a regulatory response. The method and acceptance criteria are fixed, but execution speed has slipped because members are over-deliberating minor formatting choices. Which leadership response is most appropriate?",
+    "options": [
+      "Use a commanding style for the entire assignment and suppress discussion or escalation, because any fixed regulatory deadline converts the work into a continuing emergency that warrants total control",
+      "Use a coaching style to rebuild the team’s technical competence through detailed instruction and remedial practice, even though the validated method and criteria have already been mastered",
+      "Use a time-bounded pace-setting intervention with clear standards and frequent checks, while preserving escalation for evidence that threatens validity",
+      "Use an affiliative style alone and remove performance checkpoints and explicit deadlines, because harmony and autonomy are the principal requirements for every competent and motivated technical team"
+    ],
+    "answer": 2,
+    "why": "Leadership style should fit competence, commitment, and context. A competent, motivated team doing a known task can respond to a carefully bounded pace-setting intervention that raises execution tempo and clarifies standards. It should not silence validity concerns or become the permanent climate, because pace-setting can have negative effects when overused. <b>C. Use a time-bounded pace-setting intervention with clear standards and frequent checks, while preserving escalation for evidence that threatens validity</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 11, Leadership Styles, pp. 168-172.</span>",
+    "optionRationales": [
+      "A short deadline is not automatically a crisis, and sustained commanding behavior can damage the organizational climate.",
+      "Coaching develops capability; the stated gap is execution focus rather than technical competence.",
+      "Correct. The intervention fits a capable, motivated team and includes safeguards against misuse of pace-setting.",
+      "Affiliation may support relationships but does not directly address the missed tempo or need for clear standards."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The analysis method is already validated.",
+      "The team has authority to escalate substantive evidence concerns."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "situational leadership",
+      "pace-setting",
+      "leadership style",
+      "team competence",
+      "organizational climate"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 11 - Leadership Styles",
+    "sourcePages": "168-172",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 11 - Internal Organizational Challenges",
+        "section": "Leadership Styles and Goleman Leadership Model",
+        "pages": "168-172"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-033",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-org",
+    "bok": {
+      "domain": "II. Cross-functional Competencies",
+      "subdomain": "B. Internal Organizational Challenges",
+      "topic": "Interdepartmental conflict and interest-based bargaining"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Leadership, deployment, and best-next-action scenario",
+    "industry": "Omnichannel retail",
+    "quantitative": false,
+    "stem": "E-commerce wants same-day order release; Fraud wants every high-value order held for manual review. Both directors defend their positions publicly, but their underlying interests are rapid customer confirmation, bounded fraud loss, and regulatory evidence. Which intervention is most defensible?",
+    "options": [
+      "Escalate both positions to the executive sponsor for a majority vote, then require the losing function to document compliance with the selected position",
+      "Average the proposed hold times and pilot that compromise, because splitting the difference is the most neutral way to preserve both relationships",
+      "Separate the directors and have each optimize its own metric until enough data exist to determine which department creates more enterprise value",
+      "Reframe the conflict around shared interests and objective criteria, generate options such as risk-tiered review, and jointly test effects on speed, loss, and evidence"
+    ],
+    "answer": 3,
+    "why": "Positions appear mutually exclusive, while the underlying interests are not. Interest-based bargaining separates people from the problem, clarifies interests, creates options for mutual gain, and uses objective criteria. A risk-tiered design can be tested against all three interests instead of forcing a political winner or an unprincipled midpoint. <b>D. Reframe the conflict around shared interests and objective criteria, generate options such as risk-tiered review, and jointly test effects on speed, loss, and evidence</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 11, Interdepartmental Conflicts, pp. 177-182.</span>",
+    "optionRationales": [
+      "Authority can end debate without resolving the interests, evidence, or future working relationship.",
+      "A midpoint is a positional compromise and may satisfy none of the operational or regulatory criteria.",
+      "Local optimization prolongs the conflict and can damage the enterprise outcome both functions serve.",
+      "Correct. It converts positions into testable options judged against shared, objective interests."
+    ],
+    "formula": null,
+    "assumptions": [
+      "Risk-tier rules are legally permissible if their performance is validated.",
+      "Both functions can participate in a controlled pilot."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "interdepartmental conflict",
+      "interest-based bargaining",
+      "objective criteria",
+      "shared interests",
+      "local optimization"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 11 - Interdepartmental Conflicts",
+    "sourcePages": "177-182",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 11 - Internal Organizational Challenges",
+        "section": "Interdepartmental Conflicts",
+        "pages": "177-182"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-034",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-org",
+    "bok": {
+      "domain": "II. Cross-functional Competencies",
+      "subdomain": "C. Executive and Team Leadership Roles",
+      "topic": "Executive decision rights and compliant cross-region resource allocation"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Leadership, deployment, and best-next-action scenario",
+    "industry": "Regional transportation",
+    "quantitative": false,
+    "stem": "Three regions share one validation laboratory. Regional champions may sequence routine work, but the deployment council retains decisions that move capital across regions or affect a mandatory regulatory deadline. A proposed portfolio reshuffle increases expected NPV but would miss Region A’s mandatory deadline. The MBB has validated the capacity model and prepared an external-capacity alternative that preserves the deadline. What should executive leadership do next?",
+    "options": [
+      "Delegate approval to the regional champions because they own the projects; use their majority preference to settle the deadline and capital implications before recording the decision",
+      "Have the council assess the compliant alternatives against enterprise priorities, authorize the cross-region resource decision, and assign accountable owners while preserving the mandatory deadline",
+      "Authorize the MBB to implement the highest-NPV reshuffle because the capacity model is validated; ask the council to ratify the missed deadline at its next portfolio review",
+      "Require each region to keep its original schedule and divide laboratory time equally; defer the external-capacity decision until the regions demonstrate that they can agree"
+    ],
+    "answer": 1,
+    "why": "Technical review and executive authorization are different responsibilities. The model establishes capacity consequences; the council must decide among compliant, feasible alternatives using enterprise priorities and its reserved capital authority. Maximizing NPV does not permit missing a mandatory regulatory deadline. Protected compliance, explicit decision rights, authorized resources, and named owners distinguish the defensible response from a vote, retrospective ratification, or arbitrary equal allocation. <b>B. Have the council assess the compliant alternatives against enterprise priorities, authorize the cross-region resource decision, and assign accountable owners while preserving the mandatory deadline</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 12, Executive Leadership Roles, pp. 183-190.</span>",
+    "optionRationales": [
+      "A regional majority cannot override the council’s reserved authority or a mandatory regulatory obligation.",
+      "Correct. Executive governance evaluates feasible alternatives, protects mandatory obligations, authorizes resources, and assigns accountability.",
+      "A validated model informs the decision but cannot authorize noncompliance or transfer executive decision rights to the analyst.",
+      "Equal allocation is not an evidence-based resolution of the constrained schedule and delays an available authorized decision."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The regulatory deadline is mandatory and no approved extension exists.",
+      "The council holds the stated capital and portfolio authority; technical model validation does not delegate it to the MBB.",
+      "The external-capacity alternative is feasible, compliant, and within the council’s authority to evaluate."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "executive decision rights",
+      "regulatory deadline",
+      "portfolio governance",
+      "resource allocation",
+      "delegation",
+      "enterprise priorities"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 12 - Executive Leadership Roles",
+    "sourcePages": "183-190",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 12 - Executive and Team Leadership Roles",
+        "section": "Executive Leadership Roles",
+        "pages": "183-190"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-035",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-org",
+    "bok": {
+      "domain": "II. Cross-functional Competencies",
+      "subdomain": "C. Executive and Team Leadership Roles",
+      "topic": "Leadership action plans for deployment roles and capability"
+    },
+    "difficulty": "Expert",
+    "cognitive": "Evaluate",
+    "questionType": "Integrated governance scenario",
+    "industry": "Global food production",
+    "quantitative": false,
+    "stem": "A global company must choose a deployment operating model. Country A proposes central experts who own every project; Country B proposes part-time Belts selected locally with no common reviews; Country C proposes enterprise standards, regional portfolio councils, named champions and process owners, protected Belt capacity, role-based development, and common benefit validation. Which recommendation is most defensible?",
+    "options": [
+      "Adopt Country C, while defining decision rights and feedback loops that preserve enterprise consistency and allow regional portfolios to respond to local strategy",
+      "Adopt Country A because central ownership eliminates the need for local process owners, regional governance, adaptation of projects to operating context, and formal feedback from the regions into enterprise deployment decisions",
+      "Adopt Country B because local selection and part-time staffing maximize ownership even when training, review standards, benefit definitions, and strategic prioritization differ substantially across operating regions",
+      "Combine central project ownership from A with voluntary review standards from B, because formal champions and protected capacity would slow deployment"
+    ],
+    "answer": 0,
+    "why": "Country C contains the interacting elements of a deployable leadership system: standards, portfolio governance, explicit roles, resources, development, and comparable benefit controls. Adding clear decision rights and feedback loops avoids both rigid centralization and fragmented local optimization. The other models omit process ownership or common governance. <b>A. Adopt Country C, while defining decision rights and feedback loops that preserve enterprise consistency and allow regional portfolios to respond to local strategy</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 12, Leadership for Deployment, pp. 190-195; Chapter 7, Organizational Design, pp. 100-112.</span>",
+    "optionRationales": [
+      "Correct. It joins enterprise controls with regional strategy, ownership, capability, and learning.",
+      "Central experts cannot sustainably replace the process owners who control day-to-day operating systems.",
+      "Local ownership without common capability and governance makes portfolio and benefit comparisons unreliable.",
+      "Voluntary controls and unprotected capacity recreate the principal weaknesses of the rejected models."
+    ],
+    "formula": null,
+    "assumptions": [
+      "Regions face meaningfully different strategic priorities.",
+      "Enterprise Finance can support a common benefit-validation method."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "deployment action plan",
+      "decision rights",
+      "portfolio council",
+      "role clarity",
+      "global deployment"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapters 7 and 12 - Organizational Design and Leadership for Deployment",
+    "sourcePages": "100-112, 190-195",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 12 - Executive and Team Leadership Roles",
+        "section": "Leadership for Deployment",
+        "pages": "190-195"
+      },
+      {
+        "id": "S2",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 7 - Organizational Design",
+        "section": "Organizational Systems, Structure, Maturity, and Culture",
+        "pages": "100-112"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-036",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-portfolio",
+    "bok": {
+      "domain": "III. Project Management",
+      "subdomain": "A. Project Execution",
+      "topic": "Risk-adjusted project prioritization under capacity and dependency constraints"
+    },
+    "difficulty": "Expert",
+    "cognitive": "Evaluate",
+    "questionType": "Interactive quantitative portfolio decision",
+    "industry": "Property and casualty insurance",
+    "quantitative": true,
+    "stem": "For the scored decision, total available capacity is fixed at 12 FTE. Project A is mandatory and already committed. Optional projects are indivisible, and every stated dependency must be funded in the same portfolio. Under the screening assumptions shown below, which feasible portfolio has the greatest total expected net present value (NPV)? The capacity slider explores other scenarios; it does not change the scored 12-FTE case.",
+    "options": [
+      "Fund A and D; this uses only 8 FTE and produces an expected portfolio NPV of $2.20 million while deliberately preserving four FTE for later work",
+      "Fund A and B; this uses 9 FTE and produces an expected portfolio NPV of $2.32 million without consuming any capacity for enabling Project C",
+      "Fund A, C, and D; this uses 11 FTE and produces an expected portfolio NPV of $2.83 million while leaving one FTE available for support",
+      "Fund A, C, and B; this uses all 12 FTE and produces an expected portfolio NPV of $2.95 million while satisfying B’s dependency"
+    ],
+    "answer": 3,
+    "why": "At the fixed 12-FTE capacity, A consumes 4 FTE. The stated two-outcome model gives expected NPVs of A = 0.80×0.95 = 0.76, B = 2.40×0.65 = 1.56, C = 0.70×0.90 = 0.63, and D = 1.80×0.80 = 1.44 million. Feasible portfolios containing A are A (0.76), A+C (1.39), A+D (2.20), A+C+D (2.83), and A+C+B (2.95). B alone with A violates its dependency; funding all four needs 16 FTE. A+C+B is the unique optimum. Linearity of expectation, not independence of project outcomes, justifies the additive expected values under the stated assumptions. <b>D. Fund A, C, and B; this uses all 12 FTE and produces an expected portfolio NPV of $2.95 million while satisfying B’s dependency</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 13, Project Prioritization, pp. 196-201; Chapter 16, Budgets and Forecasts, pp. 225-232.</span>",
+    "optionRationales": [
+      "A plus D is feasible, but it leaves value and capacity unused relative to other feasible combinations.",
+      "B without enabling project C violates the stated dependency and is therefore not a feasible portfolio.",
+      "A plus C plus D is feasible, but its adjusted value of $2.83 million is lower than the best feasible set.",
+      "Correct. It satisfies capacity, mandatory-work, and dependency constraints and maximizes adjusted NPV."
+    ],
+    "formula": "E[NPV_i] = p_i × NPV_i + (1−p_i) × 0; sum expected NPVs subject to capacity 12 FTE, mandatory A, and B requiring C.",
+    "assumptions": [
+      "This simplified two-outcome screening model assigns each project the stated net NPV if realized and zero net NPV otherwise; all project costs are already included.",
+      "Each probability is the marginal realization probability when that project and its stated prerequisites are funded. Do not multiply B’s probability by C’s again.",
+      "NPVs share a valuation date and are additive without overlapping benefits. Independence of realization events is not required to add expected NPVs.",
+      "Partial funding produces no benefit. FTE demands are simultaneous peak requirements. Every funded prerequisite is included in capacity and value totals."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "portfolio optimization",
+      "expected NPV",
+      "capacity constraint",
+      "project dependency",
+      "prioritization"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapters 13 and 16 - Project Prioritization and Budgets and Forecasts",
+    "sourcePages": "196-201, 225-232",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapters 13 and 16",
+        "section": "Project Prioritization; Budgets and Forecasts",
+        "pages": "196-201, 225-232"
+      }
+    ],
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Project",
+        "NPV if realized ($M)",
+        "Realization probability",
+        "FTE required",
+        "Constraint"
+      ],
+      "rows": [
+        [
+          "A - Regulatory traceability",
+          "0.80",
+          "0.95",
+          "4",
+          "Mandatory"
+        ],
+        [
+          "B - Claims automation",
+          "2.40",
+          "0.65",
+          "5",
+          "Requires C"
+        ],
+        [
+          "C - Data foundation",
+          "0.70",
+          "0.90",
+          "3",
+          "None"
+        ],
+        [
+          "D - Retention workflow",
+          "1.80",
+          "0.80",
+          "4",
+          "None"
+        ]
+      ],
+      "whatIf": {
+        "id": "mbb-q036-capacity",
+        "label": "Total available capacity",
+        "min": 8,
+        "max": 16,
+        "step": 1,
+        "value": 12,
+        "unit": "FTE",
+        "committed": 4,
+        "committedLabel": "mandatory Project A"
+      },
+      "auditBatch": 2,
+      "auditId": "mbb:set-2:original-036",
+      "altText": "A four-project portfolio table gives NPV, realization probability, FTE requirement, and constraints. Project A is mandatory at 4 FTE, Project B requires C, and the capacity slider ranges from 8 through 16 FTE with a default of 12.",
+      "title": "Portfolio candidates — scored capacity: 12 FTE"
+    },
+    "visual": {
+      "type": "data-table",
+      "datasetRef": "test-bank-assets/mbb-160/batch-02/datasets.json#mbb:set-2:original-036",
+      "specRef": "test-bank-assets/mbb-160/batch-02/visual-specs.json#mbb:set-2:original-036",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-036",
+      "altText": "A four-project portfolio table gives NPV, realization probability, FTE requirement, and constraints. Project A is mandatory at 4 FTE, Project B requires C, and the capacity slider ranges from 8 through 16 FTE with a default of 12.",
+      "interactionPurpose": "Move the capacity slider to 12 FTE, verify that 8 FTE remain after mandatory Project A, and compare feasible dependency-respecting portfolios.",
+      "validationRef": "test-bank-assets/mbb-160/batch-02/validation.json#mbb:set-2:original-036",
+      "breakpointsValidated": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "answerCueAudit": true
+    }
+  },
+  {
+    "qid": "mbb:set-2:original-037",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-portfolio",
+    "bok": {
+      "domain": "III. Project Management",
+      "subdomain": "B. Project Oversight and Management",
+      "topic": "Earned-value measurement and corrective action"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Analyze",
+    "questionType": "Multi-step quantitative",
+    "industry": "Pharmaceutical operations",
+    "quantitative": true,
+    "stem": "At a validation-program review, planned value is $600,000, earned value is $480,000, and actual cost is $540,000. The remaining work has not been re-estimated. Which interpretation and next governance action are most defensible?",
+    "options": [
+      "SPI = 1.25 and CPI = 1.13; the program is ahead and under budget, so the remaining baseline should be released as management reserve",
+      "SPI = 0.80 and CPI = 0.89; the program is behind and over cost for work performed, so causes and a defensible estimate at completion should be reviewed",
+      "Schedule variance is negative $60,000 and cost variance is negative $120,000; cost is therefore the larger issue",
+      "Percent complete is 80% because earned value is 80% of planned value; therefore only 20% of the total authorized work remains"
+    ],
+    "answer": 1,
+    "why": "SPI = EV/PV = 480/600 = 0.80, indicating less work was earned than planned. CPI = EV/AC = 480/540 = 0.889, indicating the work performed cost more than its budgeted value. These indices diagnose current performance but do not by themselves establish the remaining estimate, so management should investigate causes and produce a supportable forecast. <b>B. SPI = 0.80 and CPI = 0.89; the program is behind and over cost for work performed, so causes and a defensible estimate at completion should be reviewed</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 14, Project Measurement and Monitoring, pp. 211-216.</span>",
+    "optionRationales": [
+      "The ratios are inverted; EV divided by PV and AC gives values below one.",
+      "Correct. It calculates both indices properly and avoids inventing a completion forecast.",
+      "Schedule variance is EV minus PV, or negative $120,000; cost variance is EV minus AC, or negative $60,000.",
+      "EV divided by current PV is a schedule index, not percent of the total budgeted scope completed."
+    ],
+    "formula": "SPI = EV/PV = 480/600 = 0.80; CPI = EV/AC = 480/540 = 0.889; SV = EV-PV = -120; CV = EV-AC = -60 ($000).",
+    "assumptions": [
+      "Earned-value rules and the performance baseline are valid.",
+      "No approved scope change is awaiting baseline incorporation."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "earned value",
+      "schedule performance index",
+      "cost performance index",
+      "forecast",
+      "project monitoring"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 14 - Measurement and Monitoring",
+    "sourcePages": "211-216",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 14 - Project Oversight and Management",
+        "section": "Measurement; Monitoring",
+        "pages": "211-216"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-038",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-portfolio",
+    "bok": {
+      "domain": "III. Project Management",
+      "subdomain": "B. Project Oversight and Management",
+      "topic": "Risk assessment and response planning"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, non-statistical",
+    "industry": "Supply chain technology",
+    "quantitative": false,
+    "stem": "A warehouse-control project identifies a possible interface failure with severe operational impact. The reference matrix classifies that combination as high risk. The vendor can provide a production-like interface test during the next sprint for a modest cost. Which response is most appropriate?",
+    "options": [
+      "Accept the possible risk, record its owner, and reserve interface testing for the final deployment rehearsal",
+      "Transfer the risk by adding a warranty clause, because contractual recovery prevents operational disruption if the interface fails",
+      "Classify as High; test early under production-like conditions, remediate failures, verify acceptance criteria, and retain a contingency with an owner",
+      "Avoid the risk by removing every external interface from scope, even if the resulting warehouse system cannot deliver the chartered outcome"
+    ],
+    "answer": 2,
+    "why": "The Severe-impact/Possible-likelihood intersection is High under this organization’s matrix. The comparatively modest cost of early production-like testing supports action before deployment. Testing alone does not repair a defect or guarantee lower operational risk: failures must be remediated, acceptance criteria verified, and residual exposure governed by a contingency and accountable owner. Low purchase cost does not turn a severe operational consequence into low risk. <b>C. Classify as High; test early under production-like conditions, remediate failures, verify acceptance criteria, and retain a contingency with an owner</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 6, Risk Management, pp. 88-94; Chapter 14, Project Management Principles, pp. 202-211.</span>",
+    "optionRationales": [
+      "Possible likelihood combined with severe impact is high, and late testing wastes a practical mitigation opportunity.",
+      "A warranty may shift cost but does not transfer operational continuity or customer consequences.",
+      "Correct. The matrix locates a High risk; testing informs remediation, while verified acceptance and an owned contingency address residual exposure.",
+      "Risk avoidance is not defensible when it removes the capability that justifies the project."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The matrix is the approved project risk-classification rule.",
+      "The production-like test is representative and does not itself create unacceptable risk."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "risk matrix",
+      "risk mitigation",
+      "contingency",
+      "residual risk",
+      "interface testing"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapters 6 and 14 - Risk Management and Project Oversight",
+    "sourcePages": "88-94, 202-211",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 6 - Risk Analysis of Projects and the Pipeline",
+        "section": "Risk Management",
+        "pages": "88-94"
+      },
+      {
+        "id": "S2",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 14 - Project Oversight and Management",
+        "section": "Project Management Principles",
+        "pages": "202-211"
+      }
+    ],
+    "chart": {
+      "type": "risk-matrix",
+      "rowAxis": "Operational impact",
+      "colAxis": "Likelihood",
+      "rows": [
+        "Severe",
+        "Moderate",
+        "Low"
+      ],
+      "cols": [
+        "Rare",
+        "Possible",
+        "Likely"
+      ],
+      "cells": [
+        [
+          "medium",
+          "high",
+          "high"
+        ],
+        [
+          "low",
+          "medium",
+          "high"
+        ],
+        [
+          "low",
+          "low",
+          "medium"
+        ]
+      ],
+      "auditBatch": 2,
+      "auditId": "mbb:set-2:original-038",
+      "altText": "A three-by-three risk matrix has impact rows Severe, Moderate, and Low and likelihood columns Rare, Possible, and Likely. Row entries are Medium/High/High, Low/Medium/High, and Low/Low/Medium, respectively. No cell is singled out."
+    },
+    "visual": {
+      "type": "risk-matrix",
+      "datasetRef": "test-bank-assets/mbb-160/batch-02/datasets.json#mbb:set-2:original-038",
+      "specRef": "test-bank-assets/mbb-160/batch-02/visual-specs.json#mbb:set-2:original-038",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-038",
+      "altText": "A three-by-three risk matrix has impact rows Severe, Moderate, and Low and likelihood columns Rare, Possible, and Likely. Row entries are Medium/High/High, Low/Medium/High, and Low/Low/Medium, respectively. No cell is singled out.",
+      "interactionPurpose": "",
+      "validationRef": "test-bank-assets/mbb-160/batch-02/validation.json#mbb:set-2:original-038",
+      "breakpointsValidated": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "answerCueAudit": true
+    }
+  },
+  {
+    "qid": "mbb:set-2:original-039",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-portfolio",
+    "bok": {
+      "domain": "III. Project Management",
+      "subdomain": "C. Project Management Infrastructure",
+      "topic": "Portfolio review, project closure, and resource reallocation"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Integrated governance scenario",
+    "industry": "Telecommunications",
+    "quantitative": false,
+    "stem": "A network-optimization project has spent 70% of its budget. A strategy refresh eliminates the target service, the benefits forecast is now negative, and the specialized analysts are blocking two higher-priority regulatory projects. The sponsor argues that stopping would waste the sunk cost. What should the portfolio council do?",
+    "options": [
+      "Close the project through the formal process, document results and lessons, update the portfolio record, and reallocate analysts based on current strategy and value",
+      "Continue through at least two more tollgates because passing a budget-consumption threshold creates an obligation to recover the original business case before scarce resources can move to newer regulatory priorities",
+      "Suspend the project without formal closure until the target service returns, while leaving its original priority, benefit estimate, governance status, and analyst reservations unchanged in the enterprise pipeline",
+      "Reduce quality requirements enough to complete within the remaining budget, because a delivered output is preferable to a strategically obsolete cancellation"
+    ],
+    "answer": 0,
+    "why": "Sunk cost is not a reason to fund negative future value. Regular portfolio governance must refresh strategic alignment, economics, and resource constraints and may cancel active projects. Formal closure preserves results, approvals, accounts, and lessons learned before scarce analysts are reassigned. <b>A. Close the project through the formal process, document results and lessons, update the portfolio record, and reallocate analysts based on current strategy and value</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 14, Closing Process, pp. 211-212; Chapter 15, Performance Measurement, pp. 222-224.</span>",
+    "optionRationales": [
+      "Correct. It applies current portfolio criteria and preserves organizational learning through controlled closure.",
+      "Budget already spent is sunk; it does not restore strategic relevance or positive prospective value.",
+      "Indefinite suspension retains stale priority and capacity claims while avoiding the required governance decision.",
+      "Lowering quality cannot create strategic value and may add operational or compliance exposure."
+    ],
+    "formula": null,
+    "assumptions": [
+      "No contractual obligation requires completion.",
+      "The negative forecast excludes sunk cost and reflects prospective cash flows."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "project closure",
+      "sunk cost",
+      "portfolio review",
+      "resource reallocation",
+      "strategic alignment"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapters 14 and 15 - Closing Process and Performance Measurement",
+    "sourcePages": "211-212, 222-224",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 14 - Project Oversight and Management",
+        "section": "Closing Process",
+        "pages": "211-212"
+      },
+      {
+        "id": "S2",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 15 - Project Management Infrastructure",
+        "section": "Performance Measurement",
+        "pages": "222-224"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-040",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-training",
+    "bok": {
+      "domain": "IV. Training Design and Delivery",
+      "subdomain": "B. Training Plans",
+      "topic": "Multilevel competency planning by target group"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Create",
+    "questionType": "Visual evidence interpretation, non-statistical",
+    "industry": "Precision manufacturing",
+    "quantitative": false,
+    "stem": "The mastery grid shows required end-state competencies. All groups currently meet Entry. The training director proposes one identical five-day statistics course for everyone. Which redesign best closes the specified gaps without making the curriculum one-size-fits-all?",
+    "options": [
+      "Keep the common course but add a harder final exam for Belts, because assessment difficulty alone differentiates the competency required by each role while preserving one administratively consistent path across every site",
+      "Map each required grid cell to role-specific modules, practice, and assessment at its stated level; omit unrequired cells and retain distinct sponsor, Belt, and metrology pathways",
+      "Train only metrology staff because they own the measurement system, then have them approve every analysis produced by sponsors and Belts and transfer the needed knowledge through mandatory sign-off meetings",
+      "Move every group to Expert in every skill so future role changes require no additional development, all learners can attend the same advanced modules, and one proficiency target governs the organization"
+    ],
+    "answer": 1,
+    "why": "The grid, not a common course or a desired answer, defines the requirements. Sponsors need Beginner interpretation and Practitioner risk communication. Belts need Practitioner interpretation, planning coaching, and risk communication, but Beginner administration of diagnostic studies. Metrology needs Expert interpretation, planning coaching, and diagnostic administration, but Beginner risk communication. A valid plan develops and assesses all ten required cells at those exact levels. Entry is the starting level; unrequired cells are not training gaps. <b>B. Map each required grid cell to role-specific modules, practice, and assessment at its stated level; omit unrequired cells and retain distinct sponsor, Belt, and metrology pathways</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 18, Training Plans and Mastery Grids, pp. 245-251.</span>",
+    "optionRationales": [
+      "A harder test does not supply different learning experiences or demonstrate role-specific applied capability.",
+      "Correct. It explicitly develops and assesses every target-group gap at the proficiency shown in the grid.",
+      "Measurement ownership does not eliminate sponsor and Belt responsibilities for decisions and proper application.",
+      "Universal expert training spends resources beyond the stated needs and still ignores role-specific application."
+    ],
+    "formula": null,
+    "assumptions": [
+      "Entry is the verified current level for every listed group and skill.",
+      "Entry, Beginner, Practitioner, and Expert are ordered proficiency categories, not equally spaced numerical scores.",
+      "An em dash (—) means no target is required for that group and skill."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "training plan",
+      "mastery grid",
+      "target group",
+      "multilevel competency",
+      "modular curriculum"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 18 - Training Plans",
+    "sourcePages": "245-251",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 18 - Training Plans",
+        "section": "Components and Application of the Training Plan",
+        "pages": "245-251"
+      }
+    ],
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Skill",
+        "Sponsors target",
+        "Belts target",
+        "Metrology target"
+      ],
+      "rows": [
+        [
+          "Interpret MSA decisions",
+          "Beginner",
+          "Practitioner",
+          "Expert"
+        ],
+        [
+          "Coach study planning",
+          "—",
+          "Practitioner",
+          "Expert"
+        ],
+        [
+          "Administer diagnostic studies",
+          "—",
+          "Beginner",
+          "Expert"
+        ],
+        [
+          "Communicate business risk",
+          "Practitioner",
+          "Practitioner",
+          "Beginner"
+        ]
+      ],
+      "auditBatch": 2,
+      "auditId": "mbb:set-2:original-040",
+      "altText": "A four-skill mastery grid gives separate target levels for sponsors, Belts, and metrology. Cells contain Beginner, Practitioner, Expert, or an em dash for no requirement. The full semantic table preserves all ten required role-skill targets.",
+      "title": "Required end-state competency by role"
+    },
+    "visual": {
+      "type": "data-table",
+      "datasetRef": "test-bank-assets/mbb-160/batch-02/datasets.json#mbb:set-2:original-040",
+      "specRef": "test-bank-assets/mbb-160/batch-02/visual-specs.json#mbb:set-2:original-040",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-040",
+      "altText": "A four-skill mastery grid gives separate target levels for sponsors, Belts, and metrology. Cells contain Beginner, Practitioner, Expert, or an em dash for no requirement. The full semantic table preserves all ten required role-skill targets.",
+      "interactionPurpose": "",
+      "validationRef": "test-bank-assets/mbb-160/batch-02/validation.json#mbb:set-2:original-040",
+      "breakpointsValidated": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "answerCueAudit": true
+    }
+  },
+  {
+    "qid": "mbb:set-2:original-041",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-training",
+    "bok": {
+      "domain": "IV. Training Design and Delivery",
+      "subdomain": "C. Training Materials and Curriculum Development",
+      "topic": "Adult-learning-aligned material and delivery selection"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Advanced conceptual/method-selection",
+    "industry": "Business-to-business services",
+    "quantitative": false,
+    "stem": "Experienced account managers must learn to translate customer narratives into measurable CTQs. A vendor offers four designs with the same content coverage. Which design is most consistent with adult learning and transfer to the job?",
+    "options": [
+      "A lecture that defines every term in taxonomy order, followed by a closed-book recall test one month later and no workplace application",
+      "A self-paced glossary with optional reading, because experienced adults learn best when the instructor avoids feedback and structured practice",
+      "A generic simulation from an unrelated industry, scored only on participation so prior experience cannot affect the assessment outcome",
+      "A brief concept model followed by authentic customer cases, learner choice among cases, coached practice, feedback, reflection, and a near-term workplace assignment"
+    ],
+    "answer": 3,
+    "why": "Adult learners bring relevant experience, value practical and problem-centered work, benefit from participation and self-direction, and need prompt opportunities to apply and receive feedback. The authentic-case design uses those characteristics while retaining structure and evidence of transfer. Recall-only or participation-only designs do not demonstrate performance. <b>D. A brief concept model followed by authentic customer cases, learner choice among cases, coached practice, feedback, reflection, and a near-term workplace assignment</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 19, Adult Learning Theory and Training Delivery, pp. 256-283.</span>",
+    "optionRationales": [
+      "Taxonomy-order lecture and delayed recall underuse experience and provide weak evidence of workplace transfer.",
+      "Self-direction does not mean absence of guided practice, feedback, standards, or assessment.",
+      "An unrelated exercise and participation score weaken relevance and cannot verify CTQ translation skill.",
+      "Correct. It combines relevance, experience, choice, practice, feedback, reflection, and immediate application."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The account managers already know their customer domains.",
+      "The workplace assignment can be reviewed without exposing confidential customer data."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "adult learning",
+      "experiential learning",
+      "transfer",
+      "authentic practice",
+      "feedback"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 19 - Adult Learning Theory and Training Delivery",
+    "sourcePages": "256-283",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 19 - Training Materials and Curriculum Development",
+        "section": "Adult Learning Theory; Training Delivery",
+        "pages": "256-283"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-042",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-training",
+    "bok": {
+      "domain": "IV. Training Design and Delivery",
+      "subdomain": "D. Training Effectiveness Evaluation",
+      "topic": "Multilevel evaluation and validation of training effects"
+    },
+    "difficulty": "Expert",
+    "cognitive": "Create",
+    "questionType": "Integrated governance scenario",
+    "industry": "Hospital laboratory network",
+    "quantitative": false,
+    "stem": "A laboratory network is training supervisors to coach specimen-handling standard work. Leaders want credible evidence that the program improves performance rather than merely generating favorable class ratings. Which evaluation design is strongest?",
+    "options": [
+      "Collect anonymous reaction ratings after class and treat an average above 4.5 as proof that coaching behavior and specimen quality improved in subsequent workplace practice",
+      "Administer a difficult final knowledge test and compare sites by pass rate, without measuring baseline skill, workplace behavior, or operational outcomes",
+      "Predefine objectives; measure reaction and pre/post learning; audit coached behavior after transfer; track specimen defects; and use phased rollout or comparison evidence to address rival causes",
+      "Track specimen defects for one quarter after training and attribute the full observed change to training because operational results automatically subsume reaction, learning, behavior, baseline differences, secular trends, and every concurrent improvement"
+    ],
+    "answer": 2,
+    "why": "A credible evaluation is built from predefined objectives and tests multiple links in the causal chain: reaction, acquired learning, transferred behavior, and organizational results. Baselines and phased or comparison evidence help distinguish training effects from concurrent operational changes. No single level proves all others. <b>C. Predefine objectives; measure reaction and pre/post learning; audit coached behavior after transfer; track specimen defects; and use phased rollout or comparison evidence to address rival causes</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 20, Training Effectiveness Evaluation, pp. 285-292.</span>",
+    "optionRationales": [
+      "Reaction indicates learner perception and cannot establish learning, behavior change, or quality results.",
+      "Post-only knowledge scores omit the baseline, transfer behavior, and organizational performance.",
+      "Correct. It links objectives to multiple evaluation levels and strengthens attribution with comparative evidence.",
+      "Outcome movement may reflect staffing, workload, materials, or policy changes and does not verify the learning pathway."
+    ],
+    "formula": null,
+    "assumptions": [
+      "A phased rollout or comparable untreated period is operationally and ethically feasible.",
+      "Specimen-defect definitions remain stable during evaluation."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "Kirkpatrick",
+      "training evaluation",
+      "learning transfer",
+      "behavior",
+      "results attribution"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 20 - Training Effectiveness Evaluation",
+    "sourcePages": "285-292",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 20 - Training Effectiveness Evaluation",
+        "section": "Validation and Evaluation Models; Kirkpatrick Model",
+        "pages": "285-292"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-043",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-coaching",
+    "bok": {
+      "domain": "V. Mentoring Responsibilities",
+      "subdomain": "A. Mentoring Champions, Change Agents, and Executives",
+      "topic": "Champion and MBB responsibilities during tollgate reviews"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Understand",
+    "questionType": "Advanced conceptual/method-selection",
+    "industry": "Consumer lending",
+    "quantitative": false,
+    "stem": "At an Analyze tollgate, the champion asks the team to decide whether the project still supports the current enterprise strategy and asks the MBB to remove a policy barrier owned by another executive. Which role correction is most appropriate?",
+    "options": [
+      "The team should make both decisions because tollgates transfer strategic and organizational authority to the people closest to the analysis and implementation evidence",
+      "The champion should own the strategic-alignment judgment and barrier escalation, while the MBB coaches an objective review of evidence and readiness",
+      "The MBB should make both decisions because technical coaching authority includes final control over enterprise strategy, executive resources, cross-functional policy, and sponsor accountability",
+      "Finance should decide alignment and remove the barrier because every Analyze tollgate requires Finance to replace the champion as decision maker"
+    ],
+    "answer": 1,
+    "why": "The team supplies evidence, but the champion is positioned to determine whether the project remains strategically aligned and to remove organizational barriers. The MBB supports the tollgate’s quality by coaching preparation, testing evidence, and advising on readiness without appropriating executive accountability. <b>B. The champion should own the strategic-alignment judgment and barrier escalation, while the MBB coaches an objective review of evidence and readiness</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 21, Tollgate Reviews, pp. 294-298.</span>",
+    "optionRationales": [
+      "Proximity to analysis does not give the team authority over enterprise strategy or executive policy.",
+      "Correct. It preserves champion accountability and the MBB’s evidence-focused coaching role.",
+      "Technical authority and facilitation do not confer ownership of strategy or executive resource barriers.",
+      "Finance may validate benefits at selected gates but does not categorically replace the champion."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The champion has access to the current strategy and relevant executives.",
+      "The MBB has no delegated policy authority."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "tollgate review",
+      "champion",
+      "strategic alignment",
+      "barrier removal",
+      "MBB coaching"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 21 - Tollgate Reviews",
+    "sourcePages": "294-298",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 21 - Mentoring Champions, Change Agents, and Executives",
+        "section": "Tollgate Reviews",
+        "pages": "294-298"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-044",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-coaching",
+    "bok": {
+      "domain": "V. Mentoring Responsibilities",
+      "subdomain": "B. Mentoring Black Belts and Green Belts",
+      "topic": "Distinguishing project coaching from career mentoring"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Leadership, deployment, and best-next-action scenario",
+    "industry": "Energy generation",
+    "quantitative": false,
+    "stem": "A Black Belt needs immediate help selecting a valid sampling plan for an active project and also wants confidential guidance about moving into an operations-leadership role next year. The assigned MBB knows the project but participates in the promotion panel. What arrangement is most defensible?",
+    "options": [
+      "Have the MBB coach the project decision, disclose and manage the promotion conflict, and arrange an independent career mentor for the longer-term discussion",
+      "Have the MBB provide both services privately because detailed knowledge of the project makes the MBB the most informed person to evaluate readiness, career options, and the confidential promotion path",
+      "Transfer all technical coaching to the line manager and let the MBB mentor the career decision confidentially, because technical coaching must never be provided by a senior Belt who sits on any review panel",
+      "Defer both discussions until the project closes and the promotion panel finishes its work, so technical performance, sampling decisions, career planning, and advancement cannot influence one another in any way"
+    ],
+    "answer": 0,
+    "why": "Coaching focuses on applied Belt performance and project progress, while mentoring addresses broader career navigation. The MBB can coach the sampling decision, but participation in the promotion panel creates a conflict for confidential career mentoring. Disclosure and an independent mentor preserve both functions without withholding timely project support. <b>A. Have the MBB coach the project decision, disclose and manage the promotion conflict, and arrange an independent career mentor for the longer-term discussion</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 22, Coaching and Mentoring, pp. 306-310.</span> <span class=\"tb-source-ref\">Additional authority for disclosure and independence: ASQ, Code of Ethics, conflicts-of-interest provision (online; https://asq.org/about-asq/conferences-events-policies/code-of-ethics).</span>",
+    "optionRationales": [
+      "Correct. It separates immediate role coaching from conflicted career mentoring while maintaining needed support.",
+      "Project knowledge does not neutralize the promotion-panel conflict or protect confidential career exploration.",
+      "Senior Belts are expected to coach technical application; the line manager is not automatically the proper substitute.",
+      "Deferral unnecessarily exposes the active project and denies timely career support that can be arranged independently."
+    ],
+    "formula": null,
+    "assumptions": [
+      "An independent qualified mentor is available.",
+      "The promotion process permits disclosure and recusal where appropriate."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "coaching",
+      "mentoring",
+      "conflict of interest",
+      "career development",
+      "technical guidance"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 22 - Coaching and Mentoring",
+    "sourcePages": "306-310",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 22 - Mentoring Black Belts and Green Belts",
+        "section": "Individuals; Coaching; Mentoring",
+        "pages": "306-310"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-045",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-coaching",
+    "bok": {
+      "domain": "V. Mentoring Responsibilities",
+      "subdomain": "C. Mentoring Non-belt Employees",
+      "topic": "Development pathway for non-belt participants"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Leadership, deployment, and best-next-action scenario",
+    "industry": "Municipal government",
+    "quantitative": false,
+    "stem": "A city wants to replenish its Green Belt pipeline from non-belt employees who have served on improvement teams. Current outreach is a generic intranet page; selection criteria are unpublished; and executives seeking Green Belt qualification receive shortened training with no project requirement. Which proposed development pathway should the MBB select?",
+    "options": [
+      "Keep the intranet page as the sole channel and nominate candidates privately, because publishing criteria could discourage employees who lack statistical backgrounds",
+      "Offer every employee the full Green Belt course immediately and award status on attendance, then use later project results to identify who was actually qualified",
+      "Publish role and selection expectations, add active awareness and targeted outreach, provide staged skill-building and project exposure, and apply equivalent qualification standards to leaders",
+      "Recruit only prior team leaders and exempt executives from project work, because visible leadership credentials are more important than consistent development requirements"
+    ],
+    "answer": 2,
+    "why": "A sustainable Belt pipeline needs accessible information, active outreach, transparent expectations, staged development, and authentic project experience. Equivalent qualification standards apply to executives who seek Green Belt status. Sponsor-awareness training serves a different role and need not include Belt qualification requirements. Lowering the qualification standard for executives seeking the same credential undermines its credibility. The selected pathway develops evidence of readiness before formal Belt selection. <b>C. Publish role and selection expectations, add active awareness and targeted outreach, provide staged skill-building and project exposure, and apply equivalent qualification standards to leaders</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 23, Mentoring Non-belt Employees, pp. 315-316.</span>",
+    "optionRationales": [
+      "Passive information and hidden criteria limit access, succession, trust, and self-directed preparation.",
+      "Attendance-based credentials dilute qualification and place unprepared candidates into costly formal training.",
+      "Correct. It combines transparent information, active recruitment, development, experience, and consistent standards.",
+      "Prior leadership is not the only source of Belt potential, and executive exemptions undermine credibility."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The city can provide supervised project participation before formal Belt assignment.",
+      "Published criteria comply with employment policy."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "non-belt development",
+      "Green Belt pipeline",
+      "recruitment",
+      "qualification standards",
+      "awareness"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 23 - Mentoring Non-belt Employees",
+    "sourcePages": "315-316",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 23 - Mentoring Non-belt Employees",
+        "section": "Awareness, Information, Recruitment, and Executive Development",
+        "pages": "315-316"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-046",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "A. Measurement Systems Analysis",
+      "topic": "Attribute agreement analysis and corrective action"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual statistical-output interpretation",
+    "industry": "Food safety inspection",
+    "quantitative": false,
+    "stem": "Three inspectors classified the same 50 reference images twice as Accept or Reject, in separately randomized, blinded trials. Within-inspector agreement is the number of images given the same label in both trials divided by 50. Reference agreement is the number of correct individual ratings across both trials divided by 100. The organization’s screening rule requires each inspector’s point estimates to be at least 90% on both measures. Which action is most defensible?",
+    "options": [
+      "Approve all inspectors because overall repeatability exceeds 90%, then increase the number and diversity of reference images to improve individual accuracy without changing operational definitions or calibration",
+      "Replace Inspector C because a stronger agreement with the reference indicates that C applied a different decision rule from the other inspectors",
+      "Pool the three reference-agreement rates and approve the system because the resulting 87.3% is close enough to the 90% requirement",
+      "Do not approve the system; calibrate A and B to operational definitions with reference examples, then repeat a blinded agreement study for all inspectors"
+    ],
+    "answer": 3,
+    "why": "The rule is inspector-specific, not a pooled-average allowance. All three inspectors exceed 90% within-inspector agreement. A and B miss the reference threshold at 82% and 83%; C passes at 97%. Their disagreements warrant investigation of operational definitions, calibration, image conditions, and coding; the summary alone does not prove a single cause. Calibrate with reference examples and repeat a blinded study for everyone rather than assuming remediation worked. The pooled reference rate is 262/300 = 87.3%, but even a passing pooled rate could not override an individual failure. These are the stipulated point-estimate screening decisions, not confidence-bound acceptance decisions. <b>D. Do not approve the system; calibrate A and B to operational definitions with reference examples, then repeat a blinded agreement study for all inspectors</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 24, Attribute Measurement Systems, pp. 320-334.</span>",
+    "optionRationales": [
+      "An overall average can conceal inspector-specific failures, and a larger sample does not correct systematic interpretation error.",
+      "C is the only inspector meeting both stated criteria; superior reference agreement is not evidence of an invalid rule.",
+      "The requirement is not an average threshold, and 88% would remain below 90% even if averaging were permitted.",
+      "Correct. It targets the low reference accuracy while requiring independent verification after correction."
+    ],
+    "formula": "Within-inspector agreement is repeated self-agreement; agreement with reference is correct classifications divided by reference classifications.",
+    "assumptions": [
+      "Reference classifications are valid and mutually exclusive; ratings were blinded and randomized separately for each trial.",
+      "The stated screening rule uses point estimates, not confidence bounds. Passing it is not proof that population agreement exceeds 90%."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "attribute agreement",
+      "repeatability",
+      "reference accuracy",
+      "operational definition",
+      "measurement system"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 24 - Attribute Measurement Systems",
+    "sourcePages": "320-334",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 24 - Measurement Systems Analysis",
+        "section": "Attribute (Discrete) Measurement Systems",
+        "pages": "320-334"
+      }
+    ],
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Inspector",
+        "Within-inspector agreement",
+        "Agreement with reference"
+      ],
+      "rows": [
+        [
+          "A",
+          "48/50 = 96%",
+          "82/100 = 82%"
+        ],
+        [
+          "B",
+          "47/50 = 94%",
+          "83/100 = 83%"
+        ],
+        [
+          "C",
+          "49/50 = 98%",
+          "97/100 = 97%"
+        ],
+        [
+          "Overall",
+          "144/150 = 96%",
+          "262/300 ≈ 87.3%"
+        ]
+      ],
+      "studyCounts": [
+        {
+          "inspector": "A",
+          "bothCorrect": 40,
+          "bothWrong": 8,
+          "disagree": 2
+        },
+        {
+          "inspector": "B",
+          "bothCorrect": 40,
+          "bothWrong": 7,
+          "disagree": 3
+        },
+        {
+          "inspector": "C",
+          "bothCorrect": 48,
+          "bothWrong": 1,
+          "disagree": 1
+        }
+      ],
+      "auditBatch": 2,
+      "auditId": "mbb:set-2:original-046",
+      "altText": "For inspectors A, B, and C, within-inspector agreement is 48 of 50, 47 of 50, and 49 of 50 image pairs. Reference agreement across 100 individual ratings per inspector is 82, 83, and 97 correct ratings. The table contains counts and rates, not pass/fail labels.",
+      "title": "Blinded attribute-agreement study"
+    },
+    "visual": {
+      "type": "data-table",
+      "datasetRef": "test-bank-assets/mbb-160/batch-02/datasets.json#mbb:set-2:original-046",
+      "specRef": "test-bank-assets/mbb-160/batch-02/visual-specs.json#mbb:set-2:original-046",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-046",
+      "altText": "For inspectors A, B, and C, within-inspector agreement is 48 of 50, 47 of 50, and 49 of 50 image pairs. Reference agreement across 100 individual ratings per inspector is 82, 83, and 97 correct ratings. The table contains counts and rates, not pass/fail labels.",
+      "interactionPurpose": "",
+      "validationRef": "test-bank-assets/mbb-160/batch-02/validation.json#mbb:set-2:original-046",
+      "breakpointsValidated": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "answerCueAudit": true
+    }
+  },
+  {
+    "qid": "mbb:set-2:original-047",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "B. Measuring and Modeling Relationships",
+      "topic": "Multiple regression and variance inflation factors"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Statistical-output interpretation",
+    "industry": "Chemical processing",
+    "quantitative": false,
+    "stem": "A yield model has R-squared 91% and adjusted R-squared 89%. Temperature has VIF 12.8 and p = 0.41; pressure has VIF 11.9 and p = 0.36; line speed has VIF 1.7 and p < 0.001. Temperature and pressure are strongly correlated by the operating recipe. What should the analyst conclude?",
+    "options": [
+      "The high R-squared proves all three coefficients are stable and causal, so temperature and pressure should remain separately interpreted despite their p-values, inflated uncertainty, and recipe-driven correlation structure",
+      "Temperature and pressure coefficients are unstable for separate interpretation; use process knowledge to redesign, combine, or select terms while validating prediction and residual behavior",
+      "Line speed must be removed first because its low VIF shows that it contributes too little shared information to a multiple-regression model",
+      "The model is unusable for prediction and must be discarded without further validation because any VIF above 10 necessarily makes fitted values, residual diagnostics, and all future predictions mathematically invalid"
+    ],
+    "answer": 1,
+    "why": "Large VIFs indicate that temperature and pressure carry overlapping predictor information, inflating coefficient uncertainty and making their individual effects difficult to interpret. Multicollinearity does not automatically destroy prediction. The response should follow the model purpose and process physics: redesign the data region, combine terms, or select a defensible representation, then validate predictions and residuals. <b>B. Temperature and pressure coefficients are unstable for separate interpretation; use process knowledge to redesign, combine, or select terms while validating prediction and residual behavior</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 25, Multiple Regression and Multicollinearity, pp. 374-383.</span>",
+    "optionRationales": [
+      "Overall fit does not establish causal or stable individual coefficients when predictors are highly collinear.",
+      "Correct. It distinguishes coefficient interpretation from prediction and proposes purpose-driven remediation.",
+      "A low VIF is not a reason to remove a significant predictor; it indicates little variance inflation.",
+      "Multicollinearity can impair coefficient interpretation without necessarily invalidating fitted values or predictions."
+    ],
+    "formula": "VIF_j = 1 / (1 - R_j²); large VIF indicates inflated variance for coefficient j.",
+    "assumptions": [
+      "The stated recipe correlation is representative of the fitted data.",
+      "Other regression assumptions still require separate verification."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "multiple regression",
+      "VIF",
+      "multicollinearity",
+      "coefficient interpretation",
+      "prediction"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 25 - Multiple Regression Analysis",
+    "sourcePages": "374-383",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 25 - Measuring and Modeling Relationships Between Variables",
+        "section": "Multiple Regression Analysis; Multicollinearity",
+        "pages": "374-383"
+      }
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-048",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "C. Design of Experiments",
+      "topic": "Response surface methodology and steepest ascent"
+    },
+    "difficulty": "Expert",
+    "cognitive": "Analyze",
+    "questionType": "Visual multi-step quantitative",
+    "industry": "Advanced materials development",
+    "quantitative": true,
+    "stem": "The fitted coded-factor response is y-hat = 90 - 6(A - 0.5)^2 - 2(B + 0.5)^2. The contour plot marks the current setting at A = -1, B = 1. Based on the local gradient, which first search direction follows steepest ascent?",
+    "options": [
+      "Increase A and decrease B, using relative coded steps near 3 to 1 because the local gradient is proportional to positive 18 and negative 6",
+      "Decrease A and increase B, using relative coded steps near 3 to 1 because movement toward successively lower fitted-response contours maximizes the response most efficiently",
+      "Increase A and increase B in equal coded increments because steepest ascent must follow the long axis of the nearest elliptical contour toward its most distant boundary",
+      "Hold A constant and decrease B in progressively larger coded steps because the contour center demonstrates that only factor B has a nonzero local derivative at the current setting"
+    ],
+    "answer": 0,
+    "why": "For the fitted surface, partial y/partial A = -12(A-0.5) and partial y/partial B = -4(B+0.5). At (-1,1), the gradient is (18,-6), so the locally steepest increase raises A and lowers B with a coded-step ratio of about 3:1. The direction is normal to, not along, a contour. <b>A. Increase A and decrease B, using relative coded steps near 3 to 1 because the local gradient is proportional to positive 18 and negative 6</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 26, Response Surface Methodology and Steepest Ascent, pp. 439-442.</span>",
+    "optionRationales": [
+      "Correct. The signs and relative magnitudes match the gradient evaluated at the current setting.",
+      "That is the direction of local descent, opposite the positive gradient.",
+      "Travel along a contour produces approximately constant response rather than the steepest local increase.",
+      "Both partial derivatives are nonzero at the current point; A has the larger local effect."
+    ],
+    "formula": "Gradient = [-12(A-0.5), -4(B+0.5)]; at (-1,1), gradient = [18,-6].",
+    "assumptions": [
+      "The quadratic model is adequate locally.",
+      "Both factors use comparable coded units and the first move remains within the experimental region."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "response surface methodology",
+      "contour plot",
+      "steepest ascent",
+      "gradient",
+      "coded factors"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 26 - Response Surface Methodology",
+    "sourcePages": "439-442",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 26 - Design of Experiments",
+        "section": "Response Surface Methodology; Steepest Ascent and Descent Experiments",
+        "pages": "439-442"
+      }
+    ],
+    "chart": {
+      "type": "contour-plot",
+      "title": "Fitted response contours",
+      "xLabel": "Factor A (coded units)",
+      "yLabel": "Factor B (coded units)",
+      "xTicks": [
+        -2,
+        -1,
+        0,
+        1,
+        2
+      ],
+      "yTicks": [
+        -2,
+        -1,
+        0,
+        1,
+        2
+      ],
+      "xDomain": [
+        -2.5,
+        2.5
+      ],
+      "yDomain": [
+        -2.5,
+        2.5
+      ],
+      "center": [
+        0.5,
+        -0.5
+      ],
+      "contours": [
+        {
+          "level": 75,
+          "radiusX": 1.5811388300841898,
+          "radiusY": 2.7386127875258306
+        },
+        {
+          "level": 80,
+          "radiusX": 1.2909944487358056,
+          "radiusY": 2.23606797749979
+        },
+        {
+          "level": 85,
+          "radiusX": 0.9128709291752769,
+          "radiusY": 1.5811388300841898
+        }
+      ],
+      "current": {
+        "x": -1,
+        "y": 1,
+        "label": "Current"
+      },
+      "model": "y-hat = 90 - 6(A - 0.5)^2 - 2(B + 0.5)^2",
+      "auditBatch": 2,
+      "auditId": "mbb:set-2:original-048",
+      "altText": "An accessible contour plot of the fitted response shows elliptical contours at responses 75, 80, and 85 centered at coded factor settings A 0.5 and B negative 0.5. The current point is A negative 1 and B positive 1."
+    },
+    "visual": {
+      "type": "contour-plot",
+      "datasetRef": "test-bank-assets/mbb-160/batch-02/datasets.json#mbb:set-2:original-048",
+      "specRef": "test-bank-assets/mbb-160/batch-02/visual-specs.json#mbb:set-2:original-048",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-048",
+      "altText": "An accessible contour plot of the fitted response shows elliptical contours at responses 75, 80, and 85 centered at coded factor settings A 0.5 and B negative 0.5. The current point is A negative 1 and B positive 1.",
+      "interactionPurpose": "",
+      "validationRef": "test-bank-assets/mbb-160/batch-02/validation.json#mbb:set-2:original-048",
+      "breakpointsValidated": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "answerCueAudit": true
+    }
+  },
+  {
+    "qid": "mbb:set-2:original-049",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "B. Measuring and Modeling Relationships",
+      "topic": "Reliability modeling for series and parallel systems"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Interactive visual multi-step quantitative",
+    "industry": "Renewable-energy equipment",
+    "quantitative": true,
+    "stem": "Each of two identical, independent inverter modules has Weibull reliability R(t) = exp[-(t/2500)^1.5], with t and the scale 2500 in hours. Compare a system requiring both modules to operate with a system requiring either module to operate. At 1,000 hours, which conclusion is correct, rounding each final probability directly to three decimal places?",
+    "options": [
+      "Component reliability is about 0.603; therefore series reliability is 0.364 and active-parallel reliability is 0.842 at 1,000 hours",
+      "Both system reliabilities equal the component reliability of about 0.776 because identical independent modules have no configuration effect when they share the same Weibull scale and shape parameters",
+      "Component reliability is about 0.776; series reliability is about 0.603 and active-parallel reliability is about 0.950, assuming independent failures",
+      "Series reliability is about 0.950 and active-parallel reliability is about 0.603 because parallel paths multiply successful component probabilities"
+    ],
+    "answer": 2,
+    "why": "At 1,000 hours, component reliability is exp[−(1000/2500)^1.5] = 0.7764816931. Both-required reliability is R² = 0.6029238198. Either-sufficient reliability is 1−(1−R)² = 0.9500395665. Rounding directly from these unrounded values gives 0.776, 0.603, and 0.950. Rounding the component first to 0.7765 and then to three places would incorrectly produce 0.777. Independence and sufficient full-load capacity are essential to applying the active-parallel formula. <b>C. Component reliability is about 0.776; series reliability is about 0.603 and active-parallel reliability is about 0.950, assuming independent failures</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 25, Reliability Modeling, pp. 423-427.</span>",
+    "optionRationales": [
+      "It incorrectly treats the series-system value as component reliability and propagates that error.",
+      "Configuration changes system success logic even when component distributions are identical.",
+      "Correct. It applies the Weibull component model and the independent series and parallel formulas.",
+      "The formulas are reversed: series multiplies successes, while parallel complements joint failures."
+    ],
+    "formula": "R = exp[−(1000/2500)^1.5] = 0.7764816931; R_series = R² = 0.6029238198; R_parallel = 1−(1−R)² = 0.9500395665. Round only final results.",
+    "assumptions": [
+      "The nonrepairable modules have independent mission failures. There are no common-cause, connection, or switching failures.",
+      "Either active-parallel module can carry the full required load; the stated Weibull model remains valid after the other fails."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "Weibull reliability",
+      "series system",
+      "parallel system",
+      "mission time",
+      "independence"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 25 - Reliability Modeling",
+    "sourcePages": "423-427",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 25 - Measuring and Modeling Relationships Between Variables",
+        "section": "Reliability Modeling; Series and Parallel Systems",
+        "pages": "423-427"
+      }
+    ],
+    "chart": {
+      "type": "reliability-plot",
+      "title": "Two-module system reliability",
+      "xLabel": "Mission time (hours)",
+      "yLabel": "System reliability",
+      "xTicks": [
+        0,
+        500,
+        1000,
+        1500,
+        2000
+      ],
+      "series": [
+        {
+          "label": "Both modules required (series)",
+          "points": [
+            [
+              0,
+              1
+            ],
+            [
+              500,
+              0.8362
+            ],
+            [
+              1000,
+              0.6029
+            ],
+            [
+              1500,
+              0.3947
+            ],
+            [
+              2000,
+              0.239
+            ]
+          ]
+        },
+        {
+          "label": "Either module sufficient (active parallel)",
+          "points": [
+            [
+              0,
+              1
+            ],
+            [
+              500,
+              0.9927
+            ],
+            [
+              1000,
+              0.95
+            ],
+            [
+              1500,
+              0.8618
+            ],
+            [
+              2000,
+              0.7388
+            ]
+          ]
+        }
+      ],
+      "missionTime": 1000,
+      "auditBatch": 2,
+      "auditId": "mbb:set-2:original-049",
+      "altText": "A two-series reliability plot covers 0 to 2,000 hours. At 1,000 hours, the system requiring both modules has reliability about 0.603 and the active-parallel system requiring either module has reliability 0.9500.",
+      "weibullModel": {
+        "scaleHours": 2500,
+        "shape": 1.5
+      }
+    },
+    "visual": {
+      "type": "reliability-plot",
+      "datasetRef": "test-bank-assets/mbb-160/batch-02/datasets.json#mbb:set-2:original-049",
+      "specRef": "test-bank-assets/mbb-160/batch-02/visual-specs.json#mbb:set-2:original-049",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-049",
+      "altText": "A two-series reliability plot covers 0 to 2,000 hours. At 1,000 hours, the system requiring both modules has reliability about 0.603 and the active-parallel system requiring either module has reliability 0.9500.",
+      "interactionPurpose": "Inspect each system/time value through pointer, keyboard focus, or a native observation selector; a semantic data table provides the same evidence.",
+      "validationRef": "test-bank-assets/mbb-160/batch-02/validation.json#mbb:set-2:original-049",
+      "breakpointsValidated": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "answerCueAudit": true
+    }
+  },
+  {
+    "qid": "mbb:set-2:original-050",
+    "set": 2,
+    "batch": 2,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "B. Measuring and Modeling Relationships",
+      "topic": "Linear programming constraints and slack"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Understand",
+    "questionType": "Advanced conceptual/method-selection",
+    "industry": "Distribution planning",
+    "quantitative": false,
+    "stem": "A solved linear-programming model maximizes contribution under labor and dock-hour constraints. At the optimum, labor slack is 0 hours and dock slack is 18 hours. The sensitivity report is unavailable. Which interpretation is justified by this output alone?",
+    "options": [
+      "Both constraints are binding because every constraint participates in the model even when its slack is positive at the reported solution",
+      "The dock constraint is binding and labor is nonbinding because unused dock hours represent demand that the labor constraint cannot absorb",
+      "Adding one labor hour must increase contribution by exactly the current contribution per labor hour because zero slack defines the shadow price",
+      "Labor is binding and dock capacity has 18 unused hours; the value of more labor cannot be quantified without sensitivity or re-optimization evidence"
+    ],
+    "answer": 3,
+    "why": "Zero slack means the labor constraint is active at the reported optimum. Positive dock slack means 18 dock hours remain unused, so dock capacity is not binding there. Slack alone does not reveal a shadow price or its allowable range; quantifying the objective gain from another labor hour requires sensitivity information or resolving the model. <b>D. Labor is binding and dock capacity has 18 unused hours; the value of more labor cannot be quantified without sensitivity or re-optimization evidence</b> <span class=\"tb-source-ref\">Source: Kubiak, Chapter 25, Linear Programming, pp. 417-422.</span>",
+    "optionRationales": [
+      "Participation in a model does not make a constraint binding; positive slack demonstrates unused capacity.",
+      "The interpretation is reversed: labor has zero slack, while dock capacity has 18 unused hours.",
+      "Zero slack identifies a binding constraint but does not numerically identify its marginal value.",
+      "Correct. It extracts exactly what slack establishes and avoids an unsupported sensitivity claim."
+    ],
+    "formula": "Slack = available resource - resource used; zero slack identifies an active constraint at the reported solution.",
+    "assumptions": [
+      "The reported solution is feasible and optimal.",
+      "Constraint units are hours and no integer restriction changes the meaning of reported slack."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "linear programming",
+      "slack variable",
+      "binding constraint",
+      "sensitivity analysis",
+      "optimization"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook",
+    "sourceSection": "Chapter 25 - Linear Programming",
+    "sourcePages": "417-422",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook",
+        "chapter": "Chapter 25 - Measuring and Modeling Relationships Between Variables",
+        "section": "Linear Programming",
+        "pages": "417-422"
+      }
+    ]
+  }
+];
 
   var batch3=[
     {

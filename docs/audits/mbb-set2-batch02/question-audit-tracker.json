@@ -1,0 +1,604 @@
+{
+  "set": 2,
+  "batch": 2,
+  "range": [
+    26,
+    50
+  ],
+  "baseline_main": "01ca49f58ac6405e2f9f46f6e18caa3ea4fe06eb",
+  "question_records": [
+    {
+      "question": 26,
+      "qid": "mbb:set-2:original-026",
+      "correct_letter": "B",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "chart",
+        "stem",
+        "why"
+      ],
+      "finding": "Stakeholder importance/influence conflation",
+      "correction": "Define importance as priority of stakeholder needs, not personal interest; preserve regulator, crew, union, and vendor distinctions.",
+      "independent_solution": "Collaborate with the high-influence/high-importance regulator, protect crews’ high-priority needs, engage union stewards and monitor the vendor.",
+      "source_alignment": "Kubiak 2012, printed pp. 78–79: stakeholder engagement; body passage inspected.",
+      "four_options_adjudicated": true,
+      "chart": "data-table",
+      "render_evidence": {
+        "desktop": "desktop-26.png",
+        "tablet": "tablet-26.png",
+        "mobile": "mobile-26.png",
+        "review": "{device}-review-26.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 27,
+      "qid": "mbb:set-2:original-027",
+      "correct_letter": "D",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "stem",
+        "why"
+      ],
+      "finding": "Unsupported denominator and causal inference",
+      "correction": "Replace a self-selected complaint-sample denominator with explicitly stipulated session-event evidence. Separate the concentration of abandoned attempts from a proven cause.",
+      "independent_solution": "Reconcile customer segments, listening posts and process evidence to qualify a focused identity-verification investigation, not a wholesale redesign.",
+      "source_alignment": "Kubiak 2012, project identification/qualification pp. 70–78 and VOC/VOP pp. 148–156; current ASQ BoK I.E provides topic alignment. Numerical scenario is original, not a textbook observation.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-27.png",
+        "tablet": "tablet-27.png",
+        "mobile": "mobile-27.png",
+        "review": "{device}-review-27.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 28,
+      "qid": "mbb:set-2:original-028",
+      "correct_letter": "A",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "chart",
+        "visual",
+        "why"
+      ],
+      "finding": "Answer-cue column; percentage versus percentage-point ambiguity",
+      "correction": "Remove the Timing characteristic/Lagging outcome column; specify percentage points for rate changes and relative percent for complaint change. Keep neutral alternative text.",
+      "independent_solution": "Financial and customer outcomes alone omit internal-process and learning/capability perspectives; adding leading measures creates hypotheses, not causal proof.",
+      "source_alignment": "Kubiak 2012, printed pp. 137–138: four balanced-scorecard perspectives and KPIs; body passage inspected.",
+      "four_options_adjudicated": true,
+      "chart": "data-table",
+      "render_evidence": {
+        "desktop": "desktop-28.png",
+        "tablet": "tablet-28.png",
+        "mobile": "mobile-28.png",
+        "review": "{device}-review-28.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 29,
+      "qid": "mbb:set-2:original-029",
+      "correct_letter": "C",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "assumptions",
+        "stem"
+      ],
+      "finding": "Financial-control jurisdiction/scope unstated",
+      "correction": "Specify a US-listed company, use in financial reporting and Finance-confirmed control boundary.",
+      "independent_solution": "Retain edit history and add authorized changes, independent approval and reconciliation; audit history alone does not control who can alter reported savings.",
+      "source_alignment": "Kubiak 2012, SOX discussion pp. 143–146; SEC 2003 final rule on management’s ICFR report. The scenario stipulates scope; no claim about a particular company’s legal compliance.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-29.png",
+        "tablet": "tablet-29.png",
+        "mobile": "mobile-29.png",
+        "review": "{device}-review-29.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 30,
+      "qid": "mbb:set-2:original-030",
+      "correct_letter": "B",
+      "stored_answer_index_changed": false,
+      "item_record_changed": false,
+      "changed_fields": [],
+      "finding": "None in item record",
+      "correction": "No item-record change.",
+      "independent_solution": "Manage active and inactive pipeline candidates with refreshed value, risk, capacity and explicit decision authority rather than a static ranked list.",
+      "source_alignment": "Kubiak 2012, printed pp. 223–224: recurring portfolio/pipeline review and governance; body passage inspected.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-30.png",
+        "tablet": "tablet-30.png",
+        "mobile": "mobile-30.png",
+        "review": "{device}-review-30.png"
+      },
+      "status": "Passed (unchanged item record; shared interface enhanced)"
+    },
+    {
+      "question": 31,
+      "qid": "mbb:set-2:original-031",
+      "correct_letter": "A",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "chart",
+        "stem",
+        "visual"
+      ],
+      "finding": "Interpretation given away in wording/alternative text; mouse-dependent evidence",
+      "correction": "Use neutral chronological values; add native observation selection, focus readout and equivalent data table.",
+      "independent_solution": "Training attendance is not behavior adoption. Investigate manual workarounds with users and informal leaders; the series cannot identify the causal mechanism by itself.",
+      "source_alignment": "Kubiak 2012, printed pp. 124–125: change agents, informal leaders and barriers; body passage inspected.",
+      "four_options_adjudicated": true,
+      "chart": "time-series",
+      "render_evidence": {
+        "desktop": "desktop-31.png",
+        "tablet": "tablet-31.png",
+        "mobile": "mobile-31.png",
+        "review": "{device}-review-31.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 32,
+      "qid": "mbb:set-2:original-032",
+      "correct_letter": "C",
+      "stored_answer_index_changed": false,
+      "item_record_changed": false,
+      "changed_fields": [],
+      "finding": "None in item record",
+      "correction": "No item-record change.",
+      "independent_solution": "Use a bounded pace-setting intervention with the competent, motivated team, retaining validity criteria and escalation routes.",
+      "source_alignment": "Kubiak 2012, Table 11.3, printed p. 171: pace-setting for competent, motivated teams; parsed table passage inspected.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-32.png",
+        "tablet": "tablet-32.png",
+        "mobile": "mobile-32.png",
+        "review": "{device}-review-32.png"
+      },
+      "status": "Passed (unchanged item record; shared interface enhanced)"
+    },
+    {
+      "question": 33,
+      "qid": "mbb:set-2:original-033",
+      "correct_letter": "D",
+      "stored_answer_index_changed": false,
+      "item_record_changed": false,
+      "changed_fields": [],
+      "finding": "None in item record",
+      "correction": "No item-record change.",
+      "independent_solution": "Resolve underlying speed and fraud-control interests with objective criteria and a bounded pilot within compliance requirements; splitting positional demands does not optimize risk.",
+      "source_alignment": "Kubiak 2012, printed pp. 178–179: interest-based bargaining; body passage inspected.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-33.png",
+        "tablet": "tablet-33.png",
+        "mobile": "mobile-33.png",
+        "review": "{device}-review-33.png"
+      },
+      "status": "Passed (unchanged item record; shared interface enhanced)"
+    },
+    {
+      "question": 34,
+      "qid": "mbb:set-2:original-034",
+      "correct_letter": "B",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "assumptions",
+        "bok",
+        "keywords",
+        "optionRationales",
+        "options",
+        "stem",
+        "why"
+      ],
+      "finding": "Conceptual near-duplicate of Batch 1 Q7",
+      "correction": "Replace symbolic-sponsorship failure vignette with a reserved decision-rights case involving cross-region capital, a mandatory deadline and a feasible compliant alternative. Update all options, rationales, conditions and topic keywords.",
+      "independent_solution": "A validated capacity model informs but does not authorize the decision. The council evaluates compliant alternatives, preserves the mandatory date, authorizes resources and assigns accountability.",
+      "source_alignment": "Kubiak 2012, executive leadership pp. 183–190; current ASQ BoK II.B executive/deployment leadership. Deadline and authority are original stipulated facts, not claims about external regulation.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-34.png",
+        "tablet": "tablet-34.png",
+        "mobile": "mobile-34.png",
+        "review": "{device}-review-34.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 35,
+      "qid": "mbb:set-2:original-035",
+      "correct_letter": "A",
+      "stored_answer_index_changed": false,
+      "item_record_changed": false,
+      "changed_fields": [],
+      "finding": "None in item record",
+      "correction": "No item-record change.",
+      "independent_solution": "Select the integrated Country C model with common standards and benefit validation, protected capacity, local feedback and explicit enterprise/regional decision rights.",
+      "source_alignment": "Kubiak 2012, organizational deployment/leadership sections pp. 100–112 and 190–195; current ASQ BoK II.A–B alignment. No claim that every page in these ranges was re-read.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-35.png",
+        "tablet": "tablet-35.png",
+        "mobile": "mobile-35.png",
+        "review": "{device}-review-35.png"
+      },
+      "status": "Passed (unchanged item record; shared interface enhanced)"
+    },
+    {
+      "question": 36,
+      "qid": "mbb:set-2:original-036",
+      "correct_letter": "D",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "assumptions",
+        "chart",
+        "formula",
+        "sources",
+        "stem",
+        "why"
+      ],
+      "finding": "Expected-NPV model and dependency/capacity interpretation ambiguous",
+      "correction": "State two net-value outcomes, prerequisite-conditional marginal probabilities, additive non-overlapping NPVs and simultaneous indivisible resource demands. Score remains fixed at 12 FTE regardless of the hypothetical slider.",
+      "independent_solution": "Exhaustive feasible portfolios containing A: A=0.76, AC=1.39, AD=2.20, ACD=2.83, ABC=2.95 million. ABC needs 12 FTE and is uniquely optimal; AB violates dependency and ABCD needs 16 FTE.",
+      "source_alignment": "Kubiak 2012, project prioritization and financial tools pp. 196–201 and 225–232; independent enumeration validates original synthetic values. Expected-value assumptions are explicitly supplied, not attributed to the book.",
+      "four_options_adjudicated": true,
+      "chart": "data-table",
+      "render_evidence": {
+        "desktop": "desktop-36.png",
+        "tablet": "tablet-36.png",
+        "mobile": "mobile-36.png",
+        "review": "{device}-review-36.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 37,
+      "qid": "mbb:set-2:original-037",
+      "correct_letter": "B",
+      "stored_answer_index_changed": false,
+      "item_record_changed": false,
+      "changed_fields": [],
+      "finding": "None in item record",
+      "correction": "No item-record change.",
+      "independent_solution": "SPI=480/600=0.80; CPI=480/540=0.8888889→0.89; SV=−120,000 and CV=−60,000. Under-spending against planned value does not mean efficient delivery of completed work.",
+      "source_alignment": "Kubiak 2012, printed pp. 213–215: EV/PV/AC, SPI and CPI; body passage inspected.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-37.png",
+        "tablet": "tablet-37.png",
+        "mobile": "mobile-37.png",
+        "review": "{device}-review-37.png"
+      },
+      "status": "Passed (unchanged item record; shared interface enhanced)"
+    },
+    {
+      "question": 38,
+      "qid": "mbb:set-2:original-038",
+      "correct_letter": "C",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "chart",
+        "optionRationales",
+        "options",
+        "visual",
+        "why"
+      ],
+      "finding": "Testing treated as sufficient mitigation",
+      "correction": "Require early realistic testing, remediation, acceptance verification and owned residual-risk contingency; neutralize the risk-matrix description.",
+      "independent_solution": "Severe impact/Possible likelihood is High in the supplied matrix. Testing identifies defects; remediation and verified controls address exposure.",
+      "source_alignment": "Kubiak 2012, risk management pp. 88–94 and project management pp. 202–211; classification comes from the question’s own matrix, not a universal risk rule.",
+      "four_options_adjudicated": true,
+      "chart": "risk-matrix",
+      "render_evidence": {
+        "desktop": "desktop-38.png",
+        "tablet": "tablet-38.png",
+        "mobile": "mobile-38.png",
+        "review": "{device}-review-38.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 39,
+      "qid": "mbb:set-2:original-039",
+      "correct_letter": "A",
+      "stored_answer_index_changed": false,
+      "item_record_changed": false,
+      "changed_fields": [],
+      "finding": "None in item record",
+      "correction": "No item-record change.",
+      "independent_solution": "Formally close the obsolete project and reallocate scarce resources: sunk spending does not rescue a negative prospective business case. Preserve closure controls and learning.",
+      "source_alignment": "Kubiak 2012, printed pp. 223–224: canceling active projects triggers closure and reallocates resources; body passage inspected.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-39.png",
+        "tablet": "tablet-39.png",
+        "mobile": "mobile-39.png",
+        "review": "{device}-review-39.png"
+      },
+      "status": "Passed (unchanged item record; shared interface enhanced)"
+    },
+    {
+      "question": 40,
+      "qid": "mbb:set-2:original-040",
+      "correct_letter": "B",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "assumptions",
+        "chart",
+        "options",
+        "visual",
+        "why"
+      ],
+      "finding": "Keyed curriculum contradicts displayed grid; incomplete role-level coverage",
+      "correction": "Correct keyed wording and explanation to match all ten required cells, including sponsors’ Beginner interpretation, Belts’ Beginner study administration and metrology’s Beginner risk communication. Define ordinal levels and unrequired cells. Do not alter the grid to fit the key.",
+      "independent_solution": "Match every role-skill target exactly, assess demonstrated proficiency, and avoid a one-size-fits-all course. The former B text was not fully correct despite its stored key index.",
+      "source_alignment": "Kubiak 2012, printed pp. 249–250: mastery grid and ordinal competency levels; body passage inspected.",
+      "four_options_adjudicated": true,
+      "chart": "data-table",
+      "render_evidence": {
+        "desktop": "desktop-40.png",
+        "tablet": "tablet-40.png",
+        "mobile": "mobile-40.png",
+        "review": "{device}-review-40.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 41,
+      "qid": "mbb:set-2:original-041",
+      "correct_letter": "D",
+      "stored_answer_index_changed": false,
+      "item_record_changed": false,
+      "changed_fields": [],
+      "finding": "None in item record",
+      "correction": "No item-record change.",
+      "independent_solution": "Use relevant customer cases, learner choice, guided practice, feedback, reflection and a workplace assignment to support transfer. Attendance and glossary memorization do not establish performance.",
+      "source_alignment": "Kubiak 2012, printed p. 268: adult need-to-know, experience and self-direction; body passage inspected; application follows the original training scenario.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-41.png",
+        "tablet": "tablet-41.png",
+        "mobile": "mobile-41.png",
+        "review": "{device}-review-41.png"
+      },
+      "status": "Passed (unchanged item record; shared interface enhanced)"
+    },
+    {
+      "question": 42,
+      "qid": "mbb:set-2:original-042",
+      "correct_letter": "C",
+      "stored_answer_index_changed": false,
+      "item_record_changed": false,
+      "changed_fields": [],
+      "finding": "None in item record",
+      "correction": "No item-record change.",
+      "independent_solution": "Predefine objectives across reaction, learning, workplace behavior and results; use comparison/phased rollout evidence and consider rival causes before attributing gains to training.",
+      "source_alignment": "Kubiak 2012, printed pp. 285–288 and 291: evaluation levels, objectives and isolating training effects; body passages inspected.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-42.png",
+        "tablet": "tablet-42.png",
+        "mobile": "mobile-42.png",
+        "review": "{device}-review-42.png"
+      },
+      "status": "Passed (unchanged item record; shared interface enhanced)"
+    },
+    {
+      "question": 43,
+      "qid": "mbb:set-2:original-043",
+      "correct_letter": "B",
+      "stored_answer_index_changed": false,
+      "item_record_changed": false,
+      "changed_fields": [],
+      "finding": "None in item record",
+      "correction": "No item-record change.",
+      "independent_solution": "Champion owns strategic alignment and business escalation; MBB owns methodological review and readiness. Technical authority does not replace the champion’s organizational authority.",
+      "source_alignment": "Kubiak 2012, printed pp. 294–295: champion-led tollgate go/no-go and engagement; body passage inspected.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-43.png",
+        "tablet": "tablet-43.png",
+        "mobile": "mobile-43.png",
+        "review": "{device}-review-43.png"
+      },
+      "status": "Passed (unchanged item record; shared interface enhanced)"
+    },
+    {
+      "question": 44,
+      "qid": "mbb:set-2:original-044",
+      "correct_letter": "A",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "why"
+      ],
+      "finding": "Ethics element lacked explicit supporting source",
+      "correction": "Add the ASQ Code of Ethics as the source for disclosing/avoiding actual or apparent conflicts; retain the career-development book reference.",
+      "independent_solution": "Disclose the promotion-panel conflict and use an independent career mentor while providing bounded immediate project coaching with appropriate limits.",
+      "source_alignment": "Kubiak 2012, printed p. 306: career progression; ASQ Code of Ethics: actual/apparent conflict disclosure and avoidance. Both inspected; no invented textbook page for the ethics extension.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-44.png",
+        "tablet": "tablet-44.png",
+        "mobile": "mobile-44.png",
+        "review": "{device}-review-44.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 45,
+      "qid": "mbb:set-2:original-045",
+      "correct_letter": "C",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "cognitive",
+        "stem",
+        "why"
+      ],
+      "finding": "Executive qualification conflated with sponsor awareness; overstated Create label",
+      "correction": "Specify executives seeking Green Belt qualification; distinguish that from awareness training. Revise cognitive label to Evaluate because the candidate selects an existing pathway.",
+      "independent_solution": "Use accessible outreach, transparent selection, staged learning and real project evidence; preserve equivalent credential standards rather than privilege based on title.",
+      "source_alignment": "Kubiak 2012, printed pp. 315–316: non-Belt outreach and consistent executive Belt requirements; body passage inspected; current ASQ BoK non-Belt development at Evaluate.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-45.png",
+        "tablet": "tablet-45.png",
+        "mobile": "mobile-45.png",
+        "review": "{device}-review-45.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 46,
+      "qid": "mbb:set-2:original-046",
+      "correct_letter": "D",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "assumptions",
+        "chart",
+        "options",
+        "stem",
+        "visual",
+        "why"
+      ],
+      "finding": "Undefined agreement denominator, visible pass/fail conclusions and ambiguous percentages",
+      "correction": "Define image-pair repeatability/50 and reference-correct ratings/100. Replace undefined original percentages with internally consistent synthetic integer outcomes. Remove conclusion column. State point-estimate, inspector-specific screening criterion.",
+      "independent_solution": "Within agreement A/B/C=96/94/98%; reference agreement=82/83/97%; pooled=262/300=87.3%. A and B fail reference screening; C passes both. Calibrate and retest all inspectors; high repeatability is not accuracy.",
+      "source_alignment": "Kubiak 2012, printed p. 329 and pp. 337–338: self/other/reference agreement; body passages inspected. Revised synthetic study counts are authored evidence, not recovered original raw observations.",
+      "four_options_adjudicated": true,
+      "chart": "data-table",
+      "render_evidence": {
+        "desktop": "desktop-46.png",
+        "tablet": "tablet-46.png",
+        "mobile": "mobile-46.png",
+        "review": "{device}-review-46.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 47,
+      "qid": "mbb:set-2:original-047",
+      "correct_letter": "B",
+      "stored_answer_index_changed": false,
+      "item_record_changed": false,
+      "changed_fields": [],
+      "finding": "None in item record",
+      "correction": "No item-record change.",
+      "independent_solution": "High VIF and uncertain individual coefficients warrant investigating collinearity before a predictor-specific intervention; overall prediction can remain useful in the observed design space.",
+      "source_alignment": "Kubiak 2012, printed pp. 374–375: VIF and individual-coefficient interpretation; body passage inspected.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-47.png",
+        "tablet": "tablet-47.png",
+        "mobile": "mobile-47.png",
+        "review": "{device}-review-47.png"
+      },
+      "status": "Passed (unchanged item record; shared interface enhanced)"
+    },
+    {
+      "question": 48,
+      "qid": "mbb:set-2:original-048",
+      "correct_letter": "A",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "chart"
+      ],
+      "finding": "Geometric precision, unequal display scales and plot-label collision",
+      "correction": "Construct exact contour radii, use equal coded-axis scales and move the current-setting label away from the contours; preserve neutral level annotations.",
+      "independent_solution": "At (−1,1), fitted response=72; gradient=(18,−6). The local ascent direction increases A and decreases B in a 3:−1 ratio in coded units. Numerical finite differences and contour intercepts independently checked.",
+      "source_alignment": "Kubiak 2012 RSM pp. 439–442; NIST steepest-ascent primary reference inspected. Original model and geometry independently recalculated, not quoted from a textbook example.",
+      "four_options_adjudicated": true,
+      "chart": "contour-plot",
+      "render_evidence": {
+        "desktop": "desktop-48.png",
+        "tablet": "tablet-48.png",
+        "mobile": "mobile-48.png",
+        "review": "{device}-review-48.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 49,
+      "qid": "mbb:set-2:original-049",
+      "correct_letter": "C",
+      "stored_answer_index_changed": false,
+      "item_record_changed": true,
+      "changed_fields": [
+        "assumptions",
+        "chart",
+        "formula",
+        "options",
+        "stem",
+        "visual",
+        "why"
+      ],
+      "finding": "Incorrect final rounding in keyed option; incomplete active-parallel assumptions; mouse-only plot",
+      "correction": "Correct component probability .777→.776 in keyed/distractor wording; round only final values. State hours, independence, nonrepairability and each parallel unit’s full-load capability. Render model-based curves with observation selector/table.",
+      "independent_solution": "R=0.7764816931, series=R²=0.6029238198, parallel=1−(1−R)²=0.9500395665. Correct three-place values are .776/.603/.950. Stored index C stays, keyed text changes.",
+      "source_alignment": "Kubiak 2012 reliability pp. 423–427; NIST Weibull/series/parallel primary references inspected; original numerical example independently recomputed.",
+      "four_options_adjudicated": true,
+      "chart": "reliability-plot",
+      "render_evidence": {
+        "desktop": "desktop-49.png",
+        "tablet": "tablet-49.png",
+        "mobile": "mobile-49.png",
+        "review": "{device}-review-49.png"
+      },
+      "status": "Passed after corrections"
+    },
+    {
+      "question": 50,
+      "qid": "mbb:set-2:original-050",
+      "correct_letter": "D",
+      "stored_answer_index_changed": false,
+      "item_record_changed": false,
+      "changed_fields": [],
+      "finding": "None in item record",
+      "correction": "No item-record change.",
+      "independent_solution": "Labor binds and dock has 18 unused hours; marginal value needs sensitivity/reoptimization evidence. A redundant binding constraint can have zero marginal value, so zero slack is not a known shadow price.",
+      "source_alignment": "Kubiak 2012, printed pp. 417–418: constrained linear programming and slack; body passage inspected; independent counterexample verifies inference limit.",
+      "four_options_adjudicated": true,
+      "chart": null,
+      "render_evidence": {
+        "desktop": "desktop-50.png",
+        "tablet": "tablet-50.png",
+        "mobile": "mobile-50.png",
+        "review": "{device}-review-50.png"
+      },
+      "status": "Passed (unchanged item record; shared interface enhanced)"
+    }
+  ]
+}

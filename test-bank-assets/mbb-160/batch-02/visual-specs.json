@@ -6,14 +6,14 @@
     "mbb:set-2:original-026": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch02-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-026",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scroll; unscaled readable evidence",
+        "minimumWidthPx": 640,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
         "altText": "A stakeholder table lists four groups. The safety regulator is high influence and high importance; field crews are low influence and high importance; union stewards are high influence and low importance; and the software vendor is low on both dimensions.",
@@ -36,17 +36,17 @@
     "mbb:set-2:original-028": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch02-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-028",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scroll; unscaled readable evidence",
+        "minimumWidthPx": 640,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "A four-row executive scorecard contains only financial and customer measures. Revenue growth, operating margin, complaint rate, and recall rate are each explicitly identified as lagging outcomes; no internal-process or learning-and-growth measure is present.",
+        "altText": "The executive scorecard lists revenue growth down 1.8 percentage points, operating margin up 0.4 percentage points, complaint rate up 13% relative to the prior quarter, and recall rate unchanged. Financial and customer are its two reported perspectives.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -55,8 +55,7 @@
       "variables": [
         "Perspective claimed",
         "Measure",
-        "Direction this quarter",
-        "Timing characteristic"
+        "Direction this quarter"
       ],
       "rows": 4,
       "calculations": [],
@@ -65,20 +64,20 @@
     "mbb:set-2:original-031": {
       "type": "time-series",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch02-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-031",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scroll; unscaled readable evidence",
+        "minimumWidthPx": 640,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "A focusable time-series plot shows manual workarounds per 100 referrals increasing consecutively across twelve weeks: 3, 4, 5, 7, 9, 12, 16, 21, 26, 31, 35, and 39.",
+        "altText": "Weekly manual-referral rates per 100 referrals for weeks 1 through 12 are 3, 4, 5, 7, 9, 12, 16, 21, 26, 31, 35, and 39. The horizontal axis is time after rollout; the vertical axis is the stated rate.",
         "semanticTable": false
       },
-      "interactionPurpose": "Explore each weekly point by hover or keyboard focus to verify the persistence and acceleration of the adoption signal.",
+      "interactionPurpose": "Inspect each weekly value using pointer, keyboard focus, or the observation selector; the data table supplies the same evidence without interaction.",
       "staticFallback": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-031",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
@@ -93,14 +92,14 @@
     "mbb:set-2:original-036": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch02-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-036",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scroll; unscaled readable evidence",
+        "minimumWidthPx": 640,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
         "altText": "A four-project portfolio table gives NPV, realization probability, FTE requirement, and constraints. Project A is mandatory at 4 FTE, Project B requires C, and the capacity slider ranges from 8 through 16 FTE with a default of 12.",
@@ -118,7 +117,7 @@
       ],
       "rows": 4,
       "calculations": [
-        "Expected NPV = stated NPV × probability of realization; maximize the sum subject to 12 FTE, mandatory A, and B requiring C."
+        "E[NPV_i] = p_i × NPV_i + (1−p_i) × 0; sum expected NPVs subject to capacity 12 FTE, mandatory A, and B requiring C."
       ],
       "interaction": {
         "id": "mbb-q036-capacity",
@@ -135,17 +134,17 @@
     "mbb:set-2:original-038": {
       "type": "risk-matrix",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch02-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-038",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scroll; unscaled readable evidence",
+        "minimumWidthPx": 640,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "A three-by-three risk matrix has operational-impact rows Severe, Moderate, and Low and likelihood columns Rare, Possible, and Likely. The Severe and Possible cell is classified High.",
+        "altText": "A three-by-three risk matrix has impact rows Severe, Moderate, and Low and likelihood columns Rare, Possible, and Likely. Row entries are Medium/High/High, Low/Medium/High, and Low/Low/Medium, respectively. No cell is singled out.",
         "semanticTable": false
       },
       "interactionPurpose": "",
@@ -155,17 +154,17 @@
     "mbb:set-2:original-040": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch02-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-040",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scroll; unscaled readable evidence",
+        "minimumWidthPx": 640,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "A mastery grid lists four skills and different target levels for sponsors, Belts, and metrology staff. Sponsors emphasize interpretation and business risk, Belts emphasize application and coaching, and metrology staff require expert diagnostic capability.",
+        "altText": "A four-skill mastery grid gives separate target levels for sponsors, Belts, and metrology. Cells contain Beginner, Practitioner, Expert, or an em dash for no requirement. The full semantic table preserves all ten required role-skill targets.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -184,17 +183,17 @@
     "mbb:set-2:original-046": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch02-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-046",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scroll; unscaled readable evidence",
+        "minimumWidthPx": 640,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "An attribute agreement table shows Inspector A at 96 percent within-inspector agreement and 82 percent versus reference, B at 94 and 84 percent, C at 98 and 98 percent, and overall results of 96 and 88 percent.",
+        "altText": "For inspectors A, B, and C, within-inspector agreement is 48 of 50, 47 of 50, and 49 of 50 image pairs. Reference agreement across 100 individual ratings per inspector is 82, 83, and 97 correct ratings. The table contains counts and rates, not pass/fail labels.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -203,8 +202,7 @@
       "variables": [
         "Inspector",
         "Within-inspector agreement",
-        "Agreement with reference",
-        "Meets both 90% criteria?"
+        "Agreement with reference"
       ],
       "rows": 4,
       "calculations": [
@@ -215,14 +213,14 @@
     "mbb:set-2:original-048": {
       "type": "contour-plot",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch02-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-048",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scroll; unscaled readable evidence",
+        "minimumWidthPx": 640,
+        "equalCodedAxisScales": true
       },
       "accessibility": {
         "altText": "An accessible contour plot of the fitted response shows elliptical contours at responses 75, 80, and 85 centered at coded factor settings A 0.5 and B negative 0.5. The current point is A negative 1 and B positive 1.",
@@ -269,18 +267,18 @@
       "contours": [
         {
           "level": 75,
-          "radiusX": 1.5811,
-          "radiusY": 2.7386
+          "radiusX": 1.5811388300841898,
+          "radiusY": 2.7386127875258306
         },
         {
           "level": 80,
-          "radiusX": 1.291,
-          "radiusY": 2.2361
+          "radiusX": 1.2909944487358056,
+          "radiusY": 2.23606797749979
         },
         {
           "level": 85,
-          "radiusX": 0.9129,
-          "radiusY": 1.5811
+          "radiusX": 0.9128709291752769,
+          "radiusY": 1.5811388300841898
         }
       ],
       "currentPoint": {
@@ -295,22 +293,22 @@
     "mbb:set-2:original-049": {
       "type": "reliability-plot",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch02-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-049",
       "transformations": [],
       "referenceLines": [
         "Mission time = 1000 hours"
       ],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scroll; unscaled readable evidence",
+        "minimumWidthPx": 640,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
         "altText": "A two-series reliability plot covers 0 to 2,000 hours. At 1,000 hours, the system requiring both modules has reliability about 0.603 and the active-parallel system requiring either module has reliability 0.9500.",
         "semanticTable": false
       },
-      "interactionPurpose": "Hover or keyboard-focus the plotted mission-time points to compare the two system configurations at the same hours.",
+      "interactionPurpose": "Inspect each system/time value through pointer, keyboard focus, or a native observation selector; a semantic data table provides the same evidence.",
       "staticFallback": "test-bank-assets/mbb-160/batch-02/static-fallbacks.html#mbb-set-2-original-049",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
@@ -342,7 +340,7 @@
         }
       ],
       "calculations": [
-        "Rcomponent(1000)=exp[-(1000/2500)^1.5]=0.7765; Rseries=R²=0.6030; Rparallel=1-(1-R)²=0.9500."
+        "R = exp[−(1000/2500)^1.5] = 0.7764816931; R_series = R² = 0.6029238198; R_parallel = 1−(1−R)² = 0.9500395665. Round only final results."
       ]
     }
   }
