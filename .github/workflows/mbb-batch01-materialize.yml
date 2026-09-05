@@ -55,6 +55,7 @@ jobs:
           subprocess.run(['git', 'apply', str(patch)], check=True)
           print('Verified and applied all non-generated changes against the exact baseline.')
           PY
+      - run: npm ci
       - name: Reproduce corrected bank and Batch 1 assets
         run: |
           node scripts/audit-mbb-set2-batch1.mjs
@@ -69,7 +70,6 @@ jobs:
               print('MATCH', name, actual)
           (temp / 'hash-verification.txt').write_text('All 21 files match the locally reviewed and browser-tested package.\n')
           PY
-      - run: npm ci
       - name: Run MBB and feedback regressions
         shell: bash
         run: |
