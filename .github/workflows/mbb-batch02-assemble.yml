@@ -1,0 +1,104 @@
+name: Assemble verified MBB Batch 2 audit
+on:
+  push:
+    branches: ['audit/mbb-set2-batch02']
+    paths: ['.github/workflows/mbb-batch02-assemble.yml']
+permissions:
+  contents: write
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - name: Verify transport and apply tested changes
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import os, pathlib, base64, hashlib, lzma, json, subprocess
+          assert os.environ['GITHUB_REF'] == 'refs/heads/audit/mbb-set2-batch02'
+          root=pathlib.Path('.')
+          parts=sorted(root.glob('.github/mbb2-transport/part-*.b64'))
+          assert len(parts)==8, len(parts)
+          for p in parts:
+              print(p.name, len(p.read_text()), hashlib.sha256(p.read_bytes()).hexdigest(), flush=True)
+          packed=base64.b64decode(''.join(p.read_text().strip() for p in parts),validate=True)
+          assert hashlib.sha256(packed).hexdigest()=='5e1ee8f5fe6895e1d19823122aad0fe716488502f36c4592e13c77254df8e6a1', 'Transport SHA256 mismatch; refusing to apply'
+          raw=lzma.decompress(packed)
+          assert hashlib.sha256(raw).hexdigest()=='6938ec23a5bf13d41516a062a0f7f32c4c7121794b9d681a5af736aaa79aa097'
+          payload=json.loads(raw)
+          temp=pathlib.Path(os.environ['RUNNER_TEMP'])
+          (temp/'mbb2-payload.json').write_bytes(raw)
+          patch=temp/'mbb2.patch'; patch.write_text(payload['patch'])
+          subprocess.run(['git','apply','--unidiff-zero','--check',str(patch)],check=True)
+          subprocess.run(['git','apply','--unidiff-zero',str(patch)],check=True)
+          code="const fs=require('fs'),vm=require('vm');let c={};c.window=c;vm.createContext(c);vm.runInContext(fs.readFileSync('test-bank-mbb-set2.js','utf8'),c);console.log(JSON.stringify(c.MBB_SET2_BATCHES[2]));"
+          batch=json.loads(subprocess.check_output(['node','-e',code],text=True))
+          assert len(batch)==25
+          allowed={'mbb:set-2:original-'+str(n).zfill(3) for n in range(26,51)}
+          assert set(payload['deltas']) <= allowed
+          keys=[q['answer'] for q in batch]
+          for q in batch:
+              for k,v in payload['deltas'].get(q['qid'],{}).items(): q[k]=v
+          assert [q['answer'] for q in batch]==keys
+          bank=pathlib.Path('test-bank-mbb-set2.js'); s=bank.read_text()
+          start=s.index('  var batch2=['); end=s.index('  var batch3=[',start)
+          chunk=s[start:end]; close=chunk.rfind('  ];'); assert close>=0
+          bank.write_text(s[:start]+'  var batch2='+json.dumps(batch,ensure_ascii=False,indent=2)+';'+chunk[close+4:]+s[end:])
+          print('Applied 14 question deltas and scoped source/test/documentation changes.')
+          PY
+      - name: Regenerate Batch 2 visual assets only
+        run: node scripts/build-mbb160-assets.mjs --batch=2
+      - name: Verify every final file matches the tested candidate
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib, json, os, hashlib
+          temp=pathlib.Path(os.environ['RUNNER_TEMP'])
+          payload=json.loads((temp/'mbb2-payload.json').read_text())
+          results={}
+          assert len(payload['sha256'])==16
+          for name,expected in payload['sha256'].items():
+              actual=hashlib.sha256(pathlib.Path(name).read_bytes()).hexdigest()
+              print(name, actual, 'MATCH' if actual==expected else 'MISMATCH', flush=True)
+              assert actual==expected, name
+              results[name]=actual
+          (temp/'mbb2-verified-files.json').write_text(json.dumps(results,indent=2))
+          PY
+      - name: Run all MBB and feedback regression tests
+        shell: bash
+        run: |
+          set -o pipefail
+          node --test --test-concurrency=1 tests/*mbb*.test.js tests/*feedback*.test.js | tee "$RUNNER_TEMP/mbb2-regression.log"
+      - name: Commit tested source changes to review branch only
+        shell: bash
+        run: |
+          test "$GITHUB_REF" = 'refs/heads/audit/mbb-set2-batch02'
+          python3 - <<'PY'
+          import pathlib, shutil, json, os, subprocess
+          payload=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'mbb2-payload.json').read_text())
+          shutil.rmtree('.github/mbb2-transport')
+          pathlib.Path('.github/workflows/mbb-batch02-assemble.yml').unlink()
+          subprocess.run(['git','add','--',*payload['sha256'].keys(),'.github/mbb2-transport','.github/workflows/mbb-batch02-assemble.yml'],check=True)
+          PY
+          git config user.name upskillsprint-agent
+          git config user.email skillsprintconsulting@gmail.com
+          git commit -m 'fix: audit MBB Set 2 questions 26–50 and accessible review'
+          git push origin HEAD:audit/mbb-set2-batch02
+          git rev-parse HEAD > "$RUNNER_TEMP/mbb2-commit.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-batch02-verified-evidence
+          path: |
+            ${{ runner.temp }}/mbb2-verified-files.json
+            ${{ runner.temp }}/mbb2-regression.log
+            ${{ runner.temp }}/mbb2-commit.txt
+          retention-days: 14
