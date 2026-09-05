@@ -28,12 +28,17 @@ function emptyClient() {
         }
       };
     },
-    /* Default browser fixtures do not model another device.  Accepting the
-       requested IDs mirrors an uncontended account-owned reservation so tests
-       exercising New-only UI paths still use the production RPC contract. */
-    rpc(_name, args) {
+    /* Default browser fixtures do not model another device. Accepting the
+       requested IDs mirrors an uncontended account-owned reservation. Exact
+       retake reservations return only the required count, matching the
+       all-or-nothing RPC contract. */
+    rpc(name, args) {
+      const ids = args && args.p_question_ids || [];
+      const required = name === 'reserve_test_bank_new_questions_exact'
+        ? Math.max(0, Number(args && args.p_required_count || 0))
+        : ids.length;
       return Promise.resolve({
-        data: (args && args.p_question_ids || []).map(question_id => ({ question_id })),
+        data: ids.slice(0, required).map(question_id => ({ question_id })),
         error: null
       });
     }

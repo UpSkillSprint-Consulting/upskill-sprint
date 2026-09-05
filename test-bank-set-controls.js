@@ -3,6 +3,8 @@
 
   const OVERVIEW_ID = 'tb-overview';
   const ENHANCED_ATTR = 'data-upskill-set-controls';
+  const RETAKE_STATE_SCRIPT = '/test-bank-retake-state.js';
+  const RETAKE_RUNNER_SCRIPT = '/test-bank-retake-runner.js';
   const LEARNING_STORE_KEY = 'tb-learning-events-v2';
   const RECOVERY_KEEP_CONFIRMED_EVENTS = 200;
   const RECOVERY_KEEP_FINISHED_SESSIONS = 50;
@@ -14,6 +16,33 @@
   ];
 
   let scheduled = false;
+
+  function appendScript(path, marker, onload) {
+    const existing = document.querySelector('script[src="' + path + '"]');
+    if (existing) {
+      if (onload && existing.dataset.loaded === 'true') onload();
+      else if (onload) existing.addEventListener('load', onload, { once: true });
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = path;
+    script.async = false;
+    script.setAttribute(marker, 'true');
+    script.addEventListener('load', function () {
+      script.dataset.loaded = 'true';
+      if (onload) onload();
+    }, { once: true });
+    document.head.appendChild(script);
+  }
+
+  function loadRetakeConfiguration() {
+    if (window.__TBRetakeConfiguration) return;
+    const loadRunner = function () {
+      appendScript(RETAKE_RUNNER_SCRIPT, 'data-upskill-retake-runner');
+    };
+    if (window.__TBRetakeState) loadRunner();
+    else appendScript(RETAKE_STATE_SCRIPT, 'data-upskill-retake-state', loadRunner);
+  }
 
   function asArray(value) { return Array.isArray(value) ? value : []; }
   function asRecord(value) { return value && typeof value === 'object' && !Array.isArray(value) ? value : {}; }
@@ -144,7 +173,6 @@
     Array.from(overview.querySelectorAll('.tb-setpick [data-set] .tb-sets')).forEach(function (summary) {
       const match = summary.textContent.trim().match(/^(\d+)\s+of\s+(\d+)(?:\s*·.*)?$/i);
       if (!match || match[1] !== match[2]) return;
-
       const text = match[1] + ' questions';
       if (summary.textContent !== text) summary.textContent = text;
     });
@@ -152,18 +180,14 @@
 
   function createSetControls(overview, kind) {
     const current = activeSetValue(overview);
-
     const row = document.createElement('div');
     row.className = 'tb-fieldrow';
-
     const label = document.createElement('span');
     label.className = 'tb-fieldrow-label';
     label.textContent = 'Set';
     row.appendChild(label);
-
     const value = document.createElement('div');
     value.className = 'tb-fieldrow-value';
-
     const group = document.createElement('span');
     group.className = 'tb-counts';
     group.setAttribute('role', 'group');
@@ -179,9 +203,7 @@
       button.setAttribute('aria-pressed', String(selected));
       button.textContent = item.label;
       if (item.value === 'mix') button.style.minWidth = '68px';
-      button.addEventListener('click', function () {
-        selectSet(overview, item.value);
-      });
+      button.addEventListener('click', function () { selectSet(overview, item.value); });
       group.appendChild(button);
     });
 
@@ -194,9 +216,6 @@
     const description = card.querySelector('.tb-mode-head p');
     const controls = card.querySelector('.tb-mode-controls');
     if (!controls) return;
-
-    // "New questions only" and "Missed questions only" both always draw from the pooled
-    // Mixed bank, independent of this Set picker, so the Set choice is moot while either is on.
     const unseenActive = controls.getAttribute('data-unseen-active') === 'true';
     const missedActive = controls.getAttribute('data-missed-active') === 'true';
     const poolOverrideActive = unseenActive || missedActive;
@@ -227,17 +246,12 @@
       button.setAttribute('aria-disabled', String(poolOverrideActive));
       button.title = setButtonTitle;
     });
-
-    // The core simulator owns the summary, including Set, filtered counts, and timed duration.
-    // This enhancer only mirrors the page-level Set choice inside each quiz card.
   }
 
   function enhanceCards() {
     const overview = document.getElementById(OVERVIEW_ID);
     if (!overview || !overview.querySelector('.tb-setpick [data-set]')) return;
-
     normalizeCompletedSetProgress(overview);
-
     Array.from(overview.querySelectorAll('.tb-mode')).forEach(function (card) {
       const title = card.querySelector('h4');
       if (!title) return;
@@ -261,24 +275,16 @@
 
   function initialize() {
     installLearningStorageRecovery();
+    loadRetakeConfiguration();
     scheduleEnhance();
     const overview = document.getElementById(OVERVIEW_ID);
     if (!overview) return;
-
     const observer = new MutationObserver(scheduleEnhance);
-    /* Core browse renders replace the overview's direct children. Watching the
-       complete subtree also sees this enhancer's own inserted Set controls and
-       description text, which recursively schedules another enhancement frame
-       forever after a durable-learning repaint. */
     observer.observe(overview, { childList: true });
   }
 
-  /* Core filter changes can replace only the nested modes container, which is
-     outside the observer's direct-child scope. This idempotent hook restores
-     Set controls synchronously before an incomplete card can be painted. */
-  window.__TBSetControls = Object.assign({}, window.__TBSetControls || {}, {
-    enhance: enhanceCards
-  });
+  window.__TBSetControls = Object.assign({}, window.__TBSetControls || {}, { enhance: enhanceCards });
+  loadRetakeConfiguration();
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initialize, { once: true });
