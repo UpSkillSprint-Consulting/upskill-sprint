@@ -1,0 +1,22 @@
+{
+  "docs/audits/mbb-set2-batch1-calculations.json": "0c3f9bcc60ac65afe5d74571513104983430676cd44064824c1e8b0265d0e362",
+  "docs/audits/mbb-set2-batch1-duplicate-check.json": "d2fdf4e095e93c675ecdec51af4d89c23e05086cf4cf2376379616fb9ae0b26e",
+  "docs/audits/mbb-set2-batch1-solutions.md": "63e73556f41b139087017bad19f28b6bc67c2ab8d01a8bdec43a2f5b4b1f43d4",
+  "docs/audits/mbb-set2-batch1-tracker.csv": "a3a02ae400e7a9b2f345fa9a0bfd143e25d6a298c63d05182db60effd72a13be",
+  "docs/audits/mbb-set2-batch1-tracker.json": "007d36b334683eeccd5ecefd96be2f22244c094a17e94e364ea1b9c55c21e3fb",
+  "docs/audits/mbb-set2-batch1.md": "462a7215457846bbd2400e8f6423905babd924ab147ae0d0fbda908dad11e4c1",
+  "scripts/audit-mbb-set2-batch1.mjs": "ea2b8bf515e7afab88b621ea4cdc58803b435e620973f2778730ce72f7380979",
+  "scripts/build-mbb160-assets.mjs": "449d4506314b1c70a7899731a698c65e1ffdc3452ca8256db22b7c46d215f9e2",
+  "test-bank-assets/mbb-160/batch-01/datasets.json": "abb5876005e779938bad60a27112a39a6a7c9e45fc8158181eacd35a21ebbfee",
+  "test-bank-assets/mbb-160/batch-01/static-fallbacks.html": "47e4afdbdc1d90f66748dfe5069558046289e6dd452d2b79f1dcd225f40109e5",
+  "test-bank-assets/mbb-160/batch-01/validation.json": "0e8a7e0970ffa80857eb39954d4455126267cb1fb32f7bea6bed812ffae4b41c",
+  "test-bank-assets/mbb-160/batch-01/visual-specs.json": "776775bdbde0f2d132bc871f76f8b386debd33a19f669f8b7c09cadda37cf42e",
+  "test-bank-deep-feedback.js": "c46f55f18a425551803dc2054dd9cd625dddfb4e19a6b7ad36bb653fac6a80b7",
+  "test-bank-feedback-loop.js": "3996a8413ab2b6e5662678d84e2e2404a62ba4a0e0a02b1cd5e64e84b07c5db2",
+  "test-bank-mbb-batch1-review.css": "3d56a36dec945536c1ab65f34bc3de2c07061370c3af08d393663296797024c9",
+  "test-bank-mbb-batch1-review.js": "672b8ac32981d1db1226a944d940246c59ff46f067d90c984def5cd5545f8f73",
+  "test-bank-mbb-set2.js": "456c9aaf4b9832971376bbab1143d77d0bc7cde41adeabefbf43423124b54747",
+  "test-bank.html": "9e028cb9460033dd517df7c4a2678c3e1cc1de55cda8e61638b4584525b8f7cb",
+  "tests/test-bank-mbb-set2-batch1-audit.test.js": "e1218c90bb6844301ac861a6cd855ddb7132533421e98a9fa6b90a6cb75102fe",
+  "tests/test-bank-mbb-set2-batch1.test.js": "83eb41a747e77f2f1c39c1fe09bd2ceb1783ec282c05a2fd35ac903c69fed543"
+}
