@@ -1,0 +1,77 @@
+{
+  "scope": "Set 2, Q76\u2013100 only; offline actual player, both feedback modules and the live grounding guard",
+  "baseline": "6895f6a2a8c5643ef275b94c325ee4556efef2c1",
+  "targeted_tests": {
+    "total": 179,
+    "passed": 179,
+    "failed": 0,
+    "new_audit_tests": 46
+  },
+  "main_browser": {
+    "assertions": 1383,
+    "question_layout_records": 159,
+    "passed": true,
+    "javascript_errors": [],
+    "viewports": [
+      [
+        1440,
+        1000
+      ],
+      [
+        768,
+        1024
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "exam_records": 75,
+    "review_records": 75,
+    "retry_records": 9
+  },
+  "secondary": {
+    "assertions": 942,
+    "question_layout_records": 154,
+    "passed": true,
+    "javascript_errors": [],
+    "fallback_records": 54,
+    "dark_mobile_exam_review": 50,
+    "narrow_320px_exam_review": 50
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/*mbb*.test.js tests/*feedback*.test.js",
+    "python tests/browser/mbb-batch04-render.py --out /tmp/mbb4-main",
+    "python tests/browser/mbb-batch04-secondary.py --out /tmp/mbb4-secondary"
+  ],
+  "limitations": [
+    "Offline authentication and memory storage fixtures, not live account/cloud durability checks",
+    "Chromium device emulation, not physical iPhone Safari",
+    "External web fonts unavailable; local system fonts used",
+    "Screenshot capture hides the unrelated sticky site header; interactions retain it",
+    "No empirical student-response psychometric calibration",
+    "The full repository test suite is not represented by the targeted 179-test count"
+  ],
+  "source_sha256": {
+    "scripts/build-mbb160-assets.mjs": "e25399ba47533765fc415549b1880290b9f369b63e3d7eac8a351b6d1cf4d42b",
+    "test-bank-assets/mbb-160/batch-04/datasets.json": "6438429c69481b5dd618a03d9ca2910361ea0f8a41def869375358eee9546722",
+    "test-bank-assets/mbb-160/batch-04/static-fallbacks.html": "af64cbfa26ba800aa75773f46793887f2a4a69cb4936696213bd301063b172c1",
+    "test-bank-assets/mbb-160/batch-04/validation.json": "8f1e47c392ddba6a37a13ec7324d89c8c23456434d352bed71ab66d70155d66f",
+    "test-bank-assets/mbb-160/batch-04/visual-specs.json": "1d8e11ae6437bf64642534b6fa62642920dbd1a4811cdb4ba0a088e4eba746d4",
+    "test-bank-deep-feedback-grounding.js": "fbdbb808c807082e71990eeb24cb019180aec643514d8eab8015b40e0f8bc434",
+    "test-bank-deep-feedback.js": "bde9a8498944d3d37441e1a767d5a92a79d1bf634668737fdd627a292f64431a",
+    "test-bank-feedback-loop.js": "511c728b903f354d49820a1b950d787aab34a494e3ef70181a4ccef90f1f842c",
+    "test-bank-mbb-batch4-ui.js": "02bd2d38aadc3561dc1a894fbffd558c73dc63ad1cac76dda8e447554846fa87",
+    "test-bank-mbb-set2.js": "048ca76d183ddd5165f8ed6d45bfd90c38d816b2aed172fb16e3db8ed429802d",
+    "test-bank.html": "3534b47f8acf4a3d3797932537e3605e219154011b0f231f9bce147e864b748a",
+    "tests/browser/mbb-batch04-render.py": "128870534c22cf4c0f51b9066467f8c2e34ffbee697bb2810fd75f552a2dcef2",
+    "tests/browser/mbb-batch04-secondary.py": "0217dfb5ba0d4e40072c71e603c5b79265ffe1fdd80087426b1c6095abbf2490",
+    "tests/test-bank-mbb-batch04-audit.test.js": "1aa43545a85d59e448b92e06128d2613b4b7bafa5f954737c7a7056fc6c91917",
+    "tests/test-bank-mbb-set2-batch4.test.js": "8f39e9f78802856be4abf3af13d6b580a62e47b432b0a17fef33b0a001c29100"
+  },
+  "evidence_file_sha256": {
+    "b4-certified-browser/browser-results.json": "49489ef8a4215352df9a517a0aa59f18425e9011c064ed5b9cbbf314aff63ae7",
+    "b4-certified-secondary/secondary-results.json": "db261410b8d6c75d2b3529e7ab5cee7209adc19a498d6786d3da75aef8eaeac5"
+  },
+  "full_evidence_index": "The downloadable audit evidence package retains all screenshot and text hashes in evidence-hashes.json."
+}

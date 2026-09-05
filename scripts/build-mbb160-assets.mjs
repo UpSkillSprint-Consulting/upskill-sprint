@@ -43,11 +43,11 @@ function constructionSpec(question){
   const common={
     type:chart.type,
     renderer:'test-bank.html::__TB.renderQuestionChart',
-    rendererVersion:question.batch===2?'mbb-batch02-audit-v1':'mbb-160-v1',
+    rendererVersion:question.batch===4?'mbb-batch04-audit-v1':question.batch===2?'mbb-batch02-audit-v1':'mbb-160-v1',
     sourceQuestionId:question.qid,
     transformations:[],
     referenceLines:[],
-    responsive:question.batch===1?{container:'horizontal overflow for wide tables and SVGs; preserve legible labels',minimumChartWidthPx:560,viewBoxDriven:chart.type!=='data-table'}:question.batch===2?{container:'bounded horizontal scroll; unscaled readable evidence',minimumWidthPx:640,equalCodedAxisScales:chart.type==='contour-plot'}:{container:'horizontal overflow for wide tables; scalable SVG otherwise',minimumWidthPx:280,viewBoxDriven:chart.type!=='data-table'},
+    responsive:question.batch===4?{container:'bounded horizontal overflow, unscaled SVGs and semantic tables',minimumChartWidthPx:720,minimumTableWidthPx:700}:question.batch===1?{container:'horizontal overflow for wide tables and SVGs; preserve legible labels',minimumChartWidthPx:560,viewBoxDriven:chart.type!=='data-table'}:question.batch===2?{container:'bounded horizontal scroll; unscaled readable evidence',minimumWidthPx:640,equalCodedAxisScales:chart.type==='contour-plot'}:{container:'horizontal overflow for wide tables; scalable SVG otherwise',minimumWidthPx:280,viewBoxDriven:chart.type!=='data-table'},
     accessibility:{altText:question.visual.altText,semanticTable:chart.type==='data-table'},
     interactionPurpose:question.visual.interactionPurpose,
     staticFallback:question.visual.staticAssetRef,
@@ -55,7 +55,7 @@ function constructionSpec(question){
   };
   if(chart.type==='data-table')return {...common,variables:chart.columns,rows:chart.rows.length,calculations:question.formula?[question.formula]:[],interaction:chart.whatIf||null};
   if(chart.type==='activity-network')return {...common,variables:['activity','duration','predecessor-successor relationship'],units:'working days',layout:{nodes:chart.nodes,edges:chart.edges},calculations:[question.formula]};
-  if(chart.type==='regression-diagnostic')return {...common,variables:[chart.xLabel,chart.yLabel],axes:{xTicks:chart.xTicks,yTicks:chart.yTicks},points:chart.points.length,referenceLines:['Residual = 0'],calculations:[]};
+  if(chart.type==='regression-diagnostic')return {...common,variables:[chart.xLabel,chart.yLabel],axes:{xTicks:chart.xTicks,yTicks:chart.yTicks},points:chart.points.length,referenceLines:[question.batch===4?'Bias = 0':'Residual = 0'],calculations:[]};
   if(chart.type==='time-series')return {...common,variables:[chart.xLabel,chart.yLabel],units:chart.units||'orders',observations:chart.data.length,order:'chronological',calculations:[]};
   if(chart.type==='multi-time-series')return {...common,variables:[chart.xLabel,chart.yLabel],units:'behaviorally anchored score',axes:{xLevels:chart.labels,yDomain:chart.yDomain},series:chart.series.map(item=>({label:item.label,observations:item.data.length,values:item.data})),referenceLines:Number.isFinite(Number(chart.referenceValue))?[`${chart.referenceLabel||'Reference'} at ${chart.referenceValue}`]:[],calculations:[]};
   if(chart.type==='histogram')return {...common,variables:[chart.xLabel,chart.yLabel],units:chart.xLabel,axes:{xDomain:[chart.binEdges[0],chart.binEdges.at(-1)],yDomain:[0,Math.max(...chart.counts)]},bins:chart.counts.map((count,index)=>({lower:chart.binEdges[index],upper:chart.binEdges[index+1],count})),referenceLines:Number.isFinite(Number(chart.referenceValue))?[`${chart.referenceLabel||'Reference'} at ${chart.referenceValue}`]:[],calculations:question.formula?[question.formula]:[]};
@@ -73,12 +73,15 @@ if(onlyBatch && !/^[1-7]$/.test(onlyBatch)) throw new Error('--batch must be an 
 const batches=loadBank();
 const dom=createRenderer();
 const styles=[...dom.window.document.querySelectorAll('style')].map(style=>style.textContent).join('\n');
+// Keep legacy fallback packages byte-stable; Batch 2 CSS is not evidence for other batches.
+const legacyStyles=[...dom.window.document.querySelectorAll('style')].filter(style=>style.id!=='mbb2-evidence-style').map(style=>style.textContent).join('\n');
 
 for(const [batchKey,questions] of Object.entries(batches).sort(([left],[right])=>Number(left)-Number(right))){
   const batchNumber=Number(batchKey);
   if(onlyBatch && batchKey!==onlyBatch) continue;
   if(batchNumber===1)dom.window.eval(fs.readFileSync(path.join(ROOT,'test-bank-mbb-batch1-review.js'),'utf8'));
-  const batchStyles=styles+(batchNumber===1?fs.readFileSync(path.join(ROOT,'test-bank-mbb-batch1-review.css'),'utf8'):'');
+  if(batchNumber===4)dom.window.eval(fs.readFileSync(path.join(ROOT,'test-bank-mbb-batch4-ui.js'),'utf8'));
+  const batchStyles=([1,2,4].includes(batchNumber)?styles:legacyStyles)+(batchNumber===4?':root{--ink:#16343e;--card:#fff;--paper:#f3f6f7;--line:#bcc9ce;--muted:#49616b;--teal:#137c83}html.dark,html[data-theme=dark]{--ink:#e7eef2;--card:#16262e;--paper:#20333e;--line:#566d79;--muted:#b9cbd4;--teal:#71d6d4}body{background:var(--paper);color:var(--ink)}.fallback-card{background:var(--card)!important;color:var(--ink);border-color:var(--line)!important}.fallback-options li{background:var(--paper)!important;color:var(--ink);border-color:var(--line)!important}'+dom.window.__MBBBatch4UI.css:'')+(batchNumber===1?fs.readFileSync(path.join(ROOT,'test-bank-mbb-batch1-review.css'),'utf8'):'');
   const visualQuestions=questions.filter(question=>question.visual);
   const outDir=path.join(ROOT,'test-bank-assets','mbb-160',`batch-${String(batchNumber).padStart(2,'0')}`);
   const datasets={schemaVersion:1,batch:batchNumber,generatedBy:'scripts/build-mbb160-assets.mjs',questions:{}};
@@ -101,20 +104,21 @@ for(const [batchKey,questions] of Object.entries(batches).sort(([left],[right])=
       datasetSha256:hash,
       datasetMatchesQuestionChart:true,
       rendererReturnedMarkup:true,
-      readableLabels:question.batch===1?null:question.batch===2?'requires browser evidence':true,
-      scaleAndUnitsReviewed:question.batch===1?null:question.batch===2?'see question-level audit tracker':true,
+      readableLabels:question.batch===4?'requires measured browser evidence':question.batch===1?null:question.batch===2?'requires browser evidence':true,
+      scaleAndUnitsReviewed:question.batch===4?'see independent calculations and item tracker':question.batch===1?null:question.batch===2?'see question-level audit tracker':true,
       answerCueAuditPassed:true,
       accessibleAlternativePresent:Boolean(question.visual.altText),
       staticFallbackGenerated:true,
-      breakpoints:batchNumber===1?[]:['desktop','tablet','mobile'],
+      breakpoints:[1,4].includes(batchNumber)?[]:['desktop','tablet','mobile'],
       ...(question.batch===2?{validationScope:'Data hashes and generated markup only; see docs/audits/mbb-set2-batch02/browser-summary.json for measured layout and interaction results'}:{}),
       ...(batchNumber===1?{renderedEvidence:'docs/audits/mbb-set2-batch1.md',scope:'This generator checks data and markup only; it does not verify responsive layouts.'}:{}),
-      validationStatus:batchNumber===1?'semantic-checks-passed':'passed'
+      ...(batchNumber===4?{validationScope:'Generated data/markup checks only, not proof of visual or interactive correctness; measured results in docs/audits/mbb-set2-batch04/browser-summary.json'}:{}),
+      validationStatus:[1,4].includes(batchNumber)?'semantic-checks-passed':'passed'
     };
     const anchor=question.qid.replace(/:/g,'-');
     const choices=question.options.map((option,index)=>`<li><span>${String.fromCharCode(65+index)}</span>${escapeHtml(option)}</li>`).join('');
     const batch1Prompt=batchNumber===1?dom.window.__TBMbbBatch1Review.render(question,dom.window.__TB.renderQuestionChart,escapeHtml).replace(/<input[^>]*type="range"[^>]*>/g,''):null;
-    cards.push(`<article class="fallback-card${batchNumber===1?' tb-mbb-batch1':''}" id="${anchor}" data-question-id="${escapeHtml(question.qid)}"><header><span>${escapeHtml(question.bok.domain)}</span><strong>${escapeHtml(question.qid)}</strong></header>${batchNumber===1?batch1Prompt:question.batch===2?`<p class="fallback-stem">${escapeHtml(question.stem)}</p>${dom.window.__MBBBatch2UI.conditions(question)}${dom.window.__MBBBatch2UI.render(question.chart,true)}`:`${rendered}<p class="fallback-stem">${escapeHtml(question.stem)}</p>`}<ol class="fallback-options">${choices}</ol><details><summary>Accessible visual description</summary><p>${escapeHtml(question.visual.altText)}</p></details></article>`);
+    cards.push(`<article class="fallback-card${batchNumber===1?' tb-mbb-batch1':''}" id="${anchor}" data-question-id="${escapeHtml(question.qid)}"><header><span>${escapeHtml(question.bok.domain)}</span><strong>${escapeHtml(question.qid)}</strong></header>${batchNumber===4?`<p class="fallback-stem">${escapeHtml(question.stem)}</p>${dom.window.__MBBBatch4UI.conditions(question)}${dom.window.__MBBBatch4UI.render(question.chart,true)}`:batchNumber===1?batch1Prompt:question.batch===2?`<p class="fallback-stem">${escapeHtml(question.stem)}</p>${dom.window.__MBBBatch2UI.conditions(question)}${dom.window.__MBBBatch2UI.render(question.chart,true)}`:`${rendered}<p class="fallback-stem">${escapeHtml(question.stem)}</p>`}<ol class="fallback-options">${choices}</ol><details><summary>Accessible visual description</summary><p>${escapeHtml(question.visual.altText)}</p></details></article>`);
   }
 
   fs.mkdirSync(outDir,{recursive:true});

@@ -13,7 +13,8 @@
   function literalKeyPoint(explanation) {
     const text = stripHtml(explanation);
     if (!text) return 'A stored learning point is not available for this question yet.';
-    const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+    // A period inside a decimal is not a sentence boundary.
+    const sentences = text.match(/[\s\S]+?(?:[.!?](?=\s|$)|$)/g) || [text];
     return sentences[0].trim();
   }
 

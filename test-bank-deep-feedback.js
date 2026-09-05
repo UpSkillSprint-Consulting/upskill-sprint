@@ -144,13 +144,17 @@
   function extractKeyPoint(explanation) {
     const text = stripHtml(explanation);
     if (!text) return 'A validated learning point is not available for this question yet.';
-    const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+    const sentences = text.match(/[\s\S]+?(?:[.!?](?=\s|$)|$)/g) || [text];
     let point = '';
     for (let index = 0; index < sentences.length && index < 2; index += 1) {
       point += (point ? ' ' : '') + sentences[index].trim();
       if (point.length >= 85) break;
     }
-    return point.length > 280 ? point.slice(0, 277).trimEnd() + '…' : point;
+    // Truncate at a word boundary; never turn a decimal into a different number.
+    if (point.length <= 280) return point;
+    const prefix = point.slice(0, 277);
+    const boundary = prefix.lastIndexOf(' ');
+    return (boundary > 0 ? prefix.slice(0, boundary) : '') + '…';
   }
 
   function trapText(question) {
