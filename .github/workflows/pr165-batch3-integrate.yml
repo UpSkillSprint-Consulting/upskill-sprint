@@ -1,0 +1,142 @@
+name: Verify PR165 Batch 3 integration
+on:
+  push:
+    branches: ['audit/pr165-batch3-integration']
+    paths: ['.github/workflows/pr165-batch3-integrate.yml']
+permissions:
+  contents: write
+concurrency:
+  group: pr165-batch3-integration
+  cancel-in-progress: false
+jobs:
+  integrate:
+    if: github.ref == 'refs/heads/audit/pr165-batch3-integration'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - name: Verify exact payload and apply to the pinned PR baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/pr165-b3"
+          python3 - <<'PY'
+          import base64, hashlib, json, lzma, os, pathlib, subprocess
+          assert os.environ['GITHUB_REF'] == 'refs/heads/audit/pr165-batch3-integration'
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / 'pr165-b3'
+          parts = [pathlib.Path(f'.github/pr165-b3/part-{i:02}.b64').read_text().strip() for i in range(1, 12)]
+          assert [len(x) for x in parts] == [6000] * 10 + [5744]
+          packed = base64.b64decode(''.join(parts), validate=True)
+          assert hashlib.sha256(packed).hexdigest() == '0157b7dff39d34475e656b9c09ea2b13c1a336be93f16027e58a0a691f49c32d', 'Transport hash mismatch'
+          raw = lzma.decompress(packed)
+          assert hashlib.sha256(raw).hexdigest() == '315f4cc742437766a2c67dc3a2838cb8b00455872dc815705a938975e8e615dd'
+          payload = json.loads(raw)
+          (out / 'payload.json').write_bytes(raw)
+          baseline = '8bb8a4818a1f9f8d49d26ead5f04dc3f53c05185'
+          assert payload['baseline'] == baseline
+          assert len(payload['manifest']) == 19
+          assert len(payload['deltas']) == 17
+          allowed = {f'mbb:set-2:original-{n:03}' for n in range(51, 76)}
+          assert set(payload['deltas']) <= allowed
+          for name in payload['manifest']:
+              path = pathlib.PurePosixPath(name)
+              assert not path.is_absolute() and '..' not in path.parts and not name.startswith('.github/')
+          # Apply to the exact PR head, not the helper branch. Thus temporary
+          # payload and workflow commits never enter the final application diff.
+          subprocess.run(['git', 'checkout', '--detach', baseline], check=True)
+          for name, expected in payload['manifest'].items():
+              path = pathlib.Path(name)
+              actual = hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() else None
+              assert actual == expected['before'], f'Baseline mismatch: {name}'
+          patch = out / 'integration.patch'
+          patch.write_text(payload['patch'], newline='')
+          subprocess.run(['git', 'apply', '--check', str(patch)], check=True)
+          subprocess.run(['git', 'apply', str(patch)], check=True)
+          code = "const fs=require('fs'),vm=require('vm');let c={};c.window=c;vm.createContext(c);vm.runInContext(fs.readFileSync('test-bank-mbb-set2.js','utf8'),c);console.log(JSON.stringify(c.MBB_SET2_BATCHES[3]));"
+          batch = json.loads(subprocess.check_output(['node', '-e', code], text=True))
+          assert len(batch) == 25 and {q['qid'] for q in batch} == allowed
+          answers = [q['answer'] for q in batch]
+          for q in batch:
+              for key, value in payload['deltas'].get(q['qid'], {}).items():
+                  q[key] = value
+          assert [q['answer'] for q in batch] == answers
+          bank = pathlib.Path('test-bank-mbb-set2.js')
+          text = bank.read_text()
+          start = text.index('  var batch3=[')
+          end = text.index('  function q5(', start)
+          chunk = text[start:end]
+          close = chunk.rfind('  ];')
+          assert close >= 0
+          bank.write_text(text[:start] + '  var batch3=' + json.dumps(batch, ensure_ascii=False, indent=2) + ';' + chunk[close + 4:] + text[end:])
+          assert hashlib.sha256(bank.read_bytes()).hexdigest() == payload['manifest'][str(bank)]['after']
+          print('Applied 17 Batch 3 record corrections and scoped integration changes.')
+          PY
+      - name: Install locked dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci | tee "$RUNNER_TEMP/pr165-b3/dependencies.log"
+      - name: Regenerate assets and verify all final files
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/build-mbb160-assets.mjs | tee "$RUNNER_TEMP/pr165-b3/regeneration.log"
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, subprocess
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / 'pr165-b3'
+          payload = json.loads((out / 'payload.json').read_text())
+          checked = {}
+          for name, expected in payload['manifest'].items():
+              actual = hashlib.sha256(pathlib.Path(name).read_bytes()).hexdigest()
+              assert actual == expected['after'], f'Final hash mismatch: {name}'
+              checked[name] = actual
+              print('MATCH', name, actual)
+          (out / 'verified-files.json').write_text(json.dumps(checked, indent=2))
+          changed = subprocess.check_output(['git', 'diff', '--name-only'], text=True).splitlines()
+          assert set(changed) <= set(payload['manifest']), changed
+          PY
+      - name: Run combined MBB and feedback regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test --test-concurrency=1 tests/*mbb*.test.js tests/*feedback*.test.js | tee "$RUNNER_TEMP/pr165-b3/regression.log"
+      - name: Commit only verified paths to a review candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = 'refs/heads/audit/pr165-batch3-integration'
+          test "$(git rev-parse HEAD)" = '8bb8a4818a1f9f8d49d26ead5f04dc3f53c05185'
+          python3 - <<'PY'
+          import json, os, pathlib, subprocess
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / 'pr165-b3'
+          paths = list(json.loads((out / 'payload.json').read_text())['manifest'])
+          subprocess.run(['git', 'add', '--', *paths], check=True)
+          staged = subprocess.check_output(['git', 'diff', '--cached', '--name-only'], text=True).splitlines()
+          assert set(staged) == set(paths), staged
+          log = (out / 'regression.log').read_text()
+          assert '# tests 216' in log and '# pass 216' in log and '# fail 0' in log
+          assert '# cancelled 0' in log and '# skipped 0' in log
+          PY
+          git config user.name 'upskillsprint-agent'
+          git config user.email 'skillsprintconsulting@gmail.com'
+          git commit -m 'fix: restore MBB Set 2 Batch 3 and integrate Questions 1-100 audit'
+          git push origin HEAD:refs/heads/audit/pr165-batch3-candidate
+          git rev-parse HEAD > "$RUNNER_TEMP/pr165-b3/commit.txt"
+      - name: Preserve verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr165-batch3-integration-verification
+          path: |
+            ${{ runner.temp }}/pr165-b3/verified-files.json
+            ${{ runner.temp }}/pr165-b3/regression.log
+            ${{ runner.temp }}/pr165-b3/regeneration.log
+            ${{ runner.temp }}/pr165-b3/dependencies.log
+            ${{ runner.temp }}/pr165-b3/commit.txt
+          retention-days: 14
