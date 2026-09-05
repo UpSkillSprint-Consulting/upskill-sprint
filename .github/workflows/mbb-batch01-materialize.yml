@@ -29,8 +29,6 @@ jobs:
           import base64, gzip, hashlib, json, os, pathlib, subprocess
           root = pathlib.Path('.')
           parts = [(root / f'.github/mbb-batch01-payload-{i:02}.b64').read_text().strip() for i in range(1, 6)]
-          # Repair transport-only copy duplication. The complete compressed SHA256
-          # below must match the locally audited package before any code is applied.
           assert len(parts[0]) == 10113
           parts[0] = parts[0][:109] + parts[0][222:]
           parts[4] = parts[4][:2572] + ''.join((root / f'.github/mbb-batch01-tail-{i:02}.b64').read_text().strip() for i in range(1, 4))
@@ -53,9 +51,18 @@ jobs:
           patch.write_text(payload['patch'], newline='')
           subprocess.run(['git', 'apply', '--check', str(patch)], check=True)
           subprocess.run(['git', 'apply', str(patch)], check=True)
+          # JSON patch transport normalized text line endings. Restore the
+          # original CSV CRLF record endings, then require the exact audited hash.
+          csv = pathlib.Path('docs/audits/mbb-set2-batch1-tracker.csv')
+          csv.write_bytes(csv.read_bytes().replace(b'\r\n', b'\n').replace(b'\n', b'\r\n'))
+          assert hashlib.sha256(csv.read_bytes()).hexdigest() == manifest[str(csv)]['after']
           print('Verified and applied all non-generated changes against the exact baseline.')
           PY
-      - run: npm ci
+      - name: Install locked dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci | tee "$RUNNER_TEMP/mbb-build/dependencies.log"
       - name: Reproduce corrected bank and Batch 1 assets
         run: |
           node scripts/audit-mbb-set2-batch1.mjs
