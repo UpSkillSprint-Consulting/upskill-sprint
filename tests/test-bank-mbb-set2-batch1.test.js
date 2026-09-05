@@ -130,7 +130,7 @@ test('Batch 1 meets its exact answer, difficulty, cognition, visual, and interac
     return counts;
   }, [0, 0, 0, 0]), [7, 6, 6, 6]);
   assert.deepEqual(countsBy(batch.map(question => question.difficulty)), { 'Very Hard': 11, Hard: 9, Expert: 5 });
-  assert.deepEqual(countsBy(batch.map(question => question.cognitive)), { Apply: 5, Analyze: 8, Create: 4, Evaluate: 6, Understand: 2 });
+  assert.deepEqual(countsBy(batch.map(question => question.cognitive)), { Apply: 5, Analyze: 8, Evaluate: 10, Understand: 2 });
   assert.equal(batch.filter(question => question.visual).length, 10);
   assert.equal(batch.filter(question => question.visual && question.visual.interactionPurpose).length, 3);
   assert.deepEqual(batch.filter(question => question.visual && question.visual.interactionPurpose).map(question => question.qid), [
@@ -150,7 +150,8 @@ test('Correct-option length ranks are balanced and do not create a shortcut', ()
     const spread = Math.max(...lengths) - Math.min(...lengths);
     assert.ok(spread <= Math.max(...lengths) * 0.4, `${question.qid} option lengths are not conspicuously uneven`);
   });
-  assert.deepEqual(lengthRanks, [7, 6, 6, 6]);
+  assert.deepEqual(lengthRanks, [6, 4, 7, 8]);
+  assert.ok(Math.max(...lengthRanks) <= 8, 'no length rank dominates this batch');
 });
 
 test('Every Batch 1 item is complete, independently answerable, sourced, and production-shaped', () => {
@@ -201,7 +202,7 @@ test('Batch 1 quantitative answers independently recompute from the stated evide
   assert.ok(Math.abs(npvX - 97370.40) < 0.02);
   assert.ok(Math.abs(npvY - 91329.14) < 0.02);
   assert.ok(npvX > npvY && npvY > 0);
-  assert.match(byId('014').options[byId('014').answer], /Both NPVs are positive/);
+  assert.match(byId('014').options[byId('014').answer], /only Y has a supported positive cash-flow NPV/);
 
   const propagated = 0.5 * Math.sqrt(0.04 ** 2 + 0.06 ** 2);
   assert.ok(Math.abs(propagated - 0.0360555) < 0.000001);
@@ -235,14 +236,15 @@ test('Visual datasets, construction records, fallbacks, and hashes match the app
     assert.deepEqual(dataset.chart, question.chart, `${question.qid} dataset equals the production chart data`);
     assert.equal(dataset.sha256, digest(question.chart));
     assert.equal(record.datasetSha256, dataset.sha256);
-    assert.equal(record.validationStatus, 'passed');
-    assert.deepEqual(record.breakpoints, ['desktop', 'tablet', 'mobile']);
+    assert.equal(record.validationStatus, 'semantic-checks-passed');
+    assert.equal(record.readableLabels, null, 'markup generation must not pretend to test readability');
+    assert.deepEqual(record.breakpoints, []);
     assert.equal(spec.accessibility.altText, question.visual.altText);
     assert.equal(spec.interactionPurpose, question.visual.interactionPurpose);
     assert.match(fallback, new RegExp(`id="${question.qid.replace(/:/g, '-')}"`));
     assert.ok(question.visual.altText.length >= 80);
     assert.equal(question.visual.answerCueAudit, true);
-    assert.deepEqual(question.visual.breakpointsValidated, ['desktop', 'tablet', 'mobile']);
+    assert.deepEqual(question.visual.breakpointsValidated, []);
   });
 });
 

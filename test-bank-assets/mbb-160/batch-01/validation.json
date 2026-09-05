@@ -7,161 +7,141 @@
       "datasetSha256": "e005ddfbe234e763afcc0ec884817df7f1981d3ecc4a25124d484ffe2a06aa2e",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": null,
+      "scaleAndUnitsReviewed": null,
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "renderedEvidence": "docs/audits/mbb-set2-batch1.md",
+      "scope": "This generator checks data and markup only; it does not verify responsive layouts.",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-005": {
-      "datasetSha256": "4c1c694109c81544ee739ab78397ed482ddbef5cd1456e6e72802c9be51e1036",
+      "datasetSha256": "7a7f4dac57f345405165270962544e08fee79e025dcc013469ad6e0fd8422c93",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": null,
+      "scaleAndUnitsReviewed": null,
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "renderedEvidence": "docs/audits/mbb-set2-batch1.md",
+      "scope": "This generator checks data and markup only; it does not verify responsive layouts.",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-012": {
       "datasetSha256": "9db3ddf65241ecf79ebeef3e22137f41482ac5937085067801d4bda2af9fcc77",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": null,
+      "scaleAndUnitsReviewed": null,
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "renderedEvidence": "docs/audits/mbb-set2-batch1.md",
+      "scope": "This generator checks data and markup only; it does not verify responsive layouts.",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-015": {
       "datasetSha256": "e03d4fae44a1bc9397c4289a62c6aa6660e96890b88e4e239e785339bc8c0d85",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": null,
+      "scaleAndUnitsReviewed": null,
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "renderedEvidence": "docs/audits/mbb-set2-batch1.md",
+      "scope": "This generator checks data and markup only; it does not verify responsive layouts.",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-019": {
       "datasetSha256": "5fe6864f45f5eba1b07027d710b674e6629457152f28174d65d01b62c8db2b6e",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": null,
+      "scaleAndUnitsReviewed": null,
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "renderedEvidence": "docs/audits/mbb-set2-batch1.md",
+      "scope": "This generator checks data and markup only; it does not verify responsive layouts.",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-020": {
       "datasetSha256": "b0c733185c28a9a63d9800edab32d7572c79bccd11b0fa0b72ae2d53dadff9c1",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": null,
+      "scaleAndUnitsReviewed": null,
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "renderedEvidence": "docs/audits/mbb-set2-batch1.md",
+      "scope": "This generator checks data and markup only; it does not verify responsive layouts.",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-022": {
-      "datasetSha256": "26b86574127a1b6732d609a878ae1da590f8a95b92c2592dae7ce7bdec9f322b",
+      "datasetSha256": "fcea28899036ad2ccf0ea86bd831202143997a510ead2f111e12b321cf624b58",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": null,
+      "scaleAndUnitsReviewed": null,
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "renderedEvidence": "docs/audits/mbb-set2-batch1.md",
+      "scope": "This generator checks data and markup only; it does not verify responsive layouts.",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-023": {
       "datasetSha256": "8f79472685e3d26bfb69fe60ec210d9b8754484676b2932c0ff8e12c3a76eac6",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": null,
+      "scaleAndUnitsReviewed": null,
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "renderedEvidence": "docs/audits/mbb-set2-batch1.md",
+      "scope": "This generator checks data and markup only; it does not verify responsive layouts.",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-024": {
       "datasetSha256": "13ffa179cee80b8f90e3a3ea74b7be27f89af595d1bc0fe04429bc5bb59c7cc2",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": null,
+      "scaleAndUnitsReviewed": null,
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "renderedEvidence": "docs/audits/mbb-set2-batch1.md",
+      "scope": "This generator checks data and markup only; it does not verify responsive layouts.",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-025": {
-      "datasetSha256": "6ce20eda11cebe1e513963527398e4cfd3227a851bdf728447b3835282c03a8a",
+      "datasetSha256": "c526b620e47e0e67f36d9b475fab4abad9888d83ab4d36786a98081dd9bae7ab",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": null,
+      "scaleAndUnitsReviewed": null,
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "renderedEvidence": "docs/audits/mbb-set2-batch1.md",
+      "scope": "This generator checks data and markup only; it does not verify responsive layouts.",
+      "validationStatus": "semantic-checks-passed"
     }
   }
 }

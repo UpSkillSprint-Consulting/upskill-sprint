@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="test-bank-mbb-batch1-review.css">
   <script src="/test-bank-mbb-batch2-ui.js"></script>
 <script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
@@ -440,6 +441,7 @@
 <script src="/test-bank-cmq-set1.js"></script>
 <script src="/test-bank-mbb-set1.js"></script>
 <script src="/test-bank-mbb-set2.js"></script>
+<script src="/test-bank-mbb-batch1-review.js"></script>
 <script src="/test-bank-mbb-set3.js"></script>
 <script src="/test-bank-cssgb-set1.js"></script>
 <script src="/test-bank-cssgb-set2.js"></script>
@@ -4322,17 +4324,18 @@
       '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>'+
       '<button type="button" class="tb-ghost" data-quit>Exit</button></div>';
     var sessionTitle=session.kind==='diagnostic'?'Sample diagnostic':session.kind==='exam'?'Full Exam':session.kind==='quick'?'Quick Quiz':session.kind==='focus'?'Focused Quiz':'Weak-area practice';
-    return '<div class="tb-quiz" data-question-id="'+esc(questionId)+'"><div class="tb-quiztop"><div><div class="tb-diag-kick">'+sessionTitle+(session.kind==='practice'?'':session.timed?' \u00b7 timed':' \u00b7 untimed')+'</div>'+
+    return '<div class="tb-quiz'+(window.__TBMbbBatch1Review&&window.__TBMbbBatch1Review.applies(q)?' tb-mbb-batch1':'')+'" data-question-id="'+esc(questionId)+'"><div class="tb-quiztop"><div><div class="tb-diag-kick">'+sessionTitle+(session.kind==='practice'?'':session.timed?' \u00b7 timed':' \u00b7 untimed')+'</div>'+
       '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered'+(flagged?' &middot; '+flagged+' flagged':'')+'</div></div>'+toolbar+'</div>'+
       '<div class="tb-progress"><span style="width:'+(answered/n*100)+'%"></span></div>'+
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(subName)+'</div>'+
-      (window.__MBBBatch2UI && window.__MBBBatch2UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch2UI.conditions(q)+renderQuestionChart(q.chart) : renderQuestionChart(q.chart)+'<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>')+opts+
+      (window.__TBMbbBatch1Review && window.__TBMbbBatch1Review.applies(q) ? window.__TBMbbBatch1Review.render(q,renderQuestionChart,esc) : window.__MBBBatch2UI && window.__MBBBatch2UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch2UI.conditions(q)+renderQuestionChart(q.chart) : renderQuestionChart(q.chart)+'<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>')+opts+
       '<div class="tb-quizfoot"><div class="tb-nav">'+nav+'</div>'+
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';
   }
   function wireQuiz(){
     var host=document.getElementById('tb-overview');
+    if(window.__TBMbbBatch1Review)window.__TBMbbBatch1Review.wire(host);
     Array.prototype.forEach.call(host.querySelectorAll('[data-tb-whatif]'),function(slider){
       var update=function(){var value=Number(slider.value),committed=Number(slider.dataset.committed||0),container=slider.closest('.tb-chart-whatif');if(!container)return;var shown=container.querySelector('[data-tb-whatif-value]'),remaining=container.querySelector('[data-tb-whatif-remaining]');if(shown)shown.textContent=String(value);if(remaining)remaining.textContent=String(value-committed);};
       slider.addEventListener('input',update);update();

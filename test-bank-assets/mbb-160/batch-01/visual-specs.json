@@ -11,8 +11,8 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
+        "container": "horizontal overflow for wide tables and SVGs; preserve legible labels",
+        "minimumChartWidthPx": 560,
         "viewBoxDriven": false
       },
       "accessibility": {
@@ -40,8 +40,8 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
+        "container": "horizontal overflow for wide tables and SVGs; preserve legible labels",
+        "minimumChartWidthPx": 560,
         "viewBoxDriven": false
       },
       "accessibility": {
@@ -62,7 +62,7 @@
       "calculations": [],
       "interaction": {
         "id": "mbb-b01-q005-capacity",
-        "label": "Explore available capacity",
+        "label": "Explore capacity (answer using 8)",
         "min": 6,
         "max": 12,
         "step": 1,
@@ -80,8 +80,8 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
+        "container": "horizontal overflow for wide tables and SVGs; preserve legible labels",
+        "minimumChartWidthPx": 560,
         "viewBoxDriven": true
       },
       "accessibility": {
@@ -160,8 +160,8 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
+        "container": "horizontal overflow for wide tables and SVGs; preserve legible labels",
+        "minimumChartWidthPx": 560,
         "viewBoxDriven": false
       },
       "accessibility": {
@@ -190,8 +190,8 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
+        "container": "horizontal overflow for wide tables and SVGs; preserve legible labels",
+        "minimumChartWidthPx": 560,
         "viewBoxDriven": false
       },
       "accessibility": {
@@ -223,8 +223,8 @@
         "Residual = 0"
       ],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
+        "container": "horizontal overflow for wide tables and SVGs; preserve legible labels",
+        "minimumChartWidthPx": 560,
         "viewBoxDriven": true
       },
       "accessibility": {
@@ -261,12 +261,12 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
+        "container": "horizontal overflow for wide tables and SVGs; preserve legible labels",
+        "minimumChartWidthPx": 560,
         "viewBoxDriven": false
       },
       "accessibility": {
-        "altText": "An eight-run design matrix holds oven temperature low for runs one through four and high for runs five through eight. Coating formulations A through D are randomized within each four-run temperature group.",
+        "altText": "A complete 16-run split-plot matrix has four independently established whole plots. WP1 and WP4 use Low temperature; WP2 and WP3 use High. Each whole plot contains formulations A, B, C, and D once, in independently randomized specimen order. Whole-plot identifiers distinguish the two consecutive High batches.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -274,10 +274,11 @@
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
         "Run order",
+        "Whole plot",
         "Temperature setting",
         "Formulation"
       ],
-      "rows": 8,
+      "rows": 16,
       "calculations": [],
       "interaction": null
     },
@@ -289,8 +290,8 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
+        "container": "horizontal overflow for wide tables and SVGs; preserve legible labels",
+        "minimumChartWidthPx": 560,
         "viewBoxDriven": true
       },
       "accessibility": {
@@ -317,8 +318,8 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
+        "container": "horizontal overflow for wide tables and SVGs; preserve legible labels",
+        "minimumChartWidthPx": 560,
         "viewBoxDriven": false
       },
       "accessibility": {
@@ -349,12 +350,12 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
+        "container": "horizontal overflow for wide tables and SVGs; preserve legible labels",
+        "minimumChartWidthPx": 560,
         "viewBoxDriven": false
       },
       "accessibility": {
-        "altText": "A variance-component table shows lot-to-lot variance 12, unit-within-lot variance 8, test-repeatability variance 2, and total variance 22. Their shares are 54.5, 36.4, 9.1, and 100 percent.",
+        "altText": "A variance-component table in MPa squared lists lot-to-lot variance 12 (54.5%), unit-within-lot variance 8 (36.4%), and test-repeatability variance 2 (9.1%). The total variance is 22 MPa squared. The listed percentages are rounded independently to one decimal place.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -362,7 +363,7 @@
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
         "Variance source",
-        "Estimated variance",
+        "Estimated variance (MPa²)",
         "Share of total variance"
       ],
       "rows": 4,
