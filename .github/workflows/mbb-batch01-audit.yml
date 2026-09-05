@@ -1,0 +1,34 @@
+name: MBB Set 2 Batch 1 audit
+
+on:
+  push:
+    branches: ['audit/mbb-set2-batch01']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mbb-batch01-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - name: Package reproducible audit workspace (public source and dependencies only)
+        run: |
+          tar --exclude='.git' -czf "$RUNNER_TEMP/mbb-audit-workspace.tar.gz" .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mbb-batch01-workspace
+          path: ${{ runner.temp }}/mbb-audit-workspace.tar.gz
+          retention-days: 3
+      - name: Baseline MBB regression tests
+        run: node --test --test-concurrency=1 tests/*mbb*.test.js
