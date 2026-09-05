@@ -1,0 +1,81 @@
+{
+  "Q5": {
+    "P1_P2_months": 7,
+    "P1_P2_NPV": 1900000,
+    "P1_P3_P5_months": 8,
+    "P1_P3_P5_NPV": 1800000
+  },
+  "Q12": {
+    "critical_path_days": 110,
+    "alternate_path_days": 105
+  },
+  "Q13": {
+    "peak_shortfall_FTE": 4
+  },
+  "Q14": {
+    "annuity_factor": 3.1698654463492923,
+    "X_conditional_capacity_value": 97370.39819684427,
+    "Y_supported_cash_NPV": 91329.14418414031,
+    "X_no_supported_inflows": -600000
+  },
+  "Q16": {
+    "knowledge_change_pp": 30,
+    "descriptive_difference_in_differences_pp": 0
+  },
+  "Q19": {
+    "standard_uncertainty_mm": 0.03605551275463989
+  },
+  "Q22": {
+    "wholeplots": 4,
+    "wholeplot_replicates_per_temperature": 2,
+    "subplot_runs": 16,
+    "ANOVA_df": [
+      1,
+      2,
+      3,
+      3,
+      6
+    ]
+  },
+  "Q24": {
+    "wait_odds_ratio": 1.5219615556186337,
+    "wait_Wald_p": 0.00013443883233944925,
+    "new_agent_odds_ratio": 1.1972173631218102,
+    "new_agent_Wald_p": 0.39136593830755206,
+    "complex_odds_ratio": 3.0041660239464334,
+    "complex_Wald_p": 4.576216573916244e-06
+  },
+  "Q25": {
+    "SD_before_MPa": 4.69041575982343,
+    "SD_after_MPa": 4.47213595499958,
+    "SD_reduction_percent": 4.653741075440765,
+    "variance_drop_needed_for_20pct_SD": 35.999999999999986
+  },
+  "Q23": {
+    "n": 18,
+    "values": [
+      102,
+      105,
+      103,
+      108,
+      111,
+      110,
+      116,
+      119,
+      118,
+      124,
+      128,
+      126,
+      133,
+      137,
+      136,
+      142,
+      145,
+      149
+    ],
+    "mean": 122.88888888888889,
+    "numerator": 3116.2098765432097,
+    "denominator": 3813.777777777778,
+    "lag1_ACF": 0.8170926724416993
+  }
+}

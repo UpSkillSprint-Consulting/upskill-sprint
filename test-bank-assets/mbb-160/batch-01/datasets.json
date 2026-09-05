@@ -42,7 +42,7 @@
       }
     },
     "mbb:set-2:original-005": {
-      "sha256": "4c1c694109c81544ee739ab78397ed482ddbef5cd1456e6e72802c9be51e1036",
+      "sha256": "7a7f4dac57f345405165270962544e08fee79e025dcc013469ad6e0fd8422c93",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -79,7 +79,7 @@
             "4",
             "$0.7M",
             "2",
-            "Depends on P1 output"
+            "P1 output available next window"
           ],
           [
             "P5 - Warehouse space",
@@ -98,7 +98,7 @@
         ],
         "whatIf": {
           "id": "mbb-b01-q005-capacity",
-          "label": "Explore available capacity",
+          "label": "Explore capacity (answer using 8)",
           "min": 6,
           "max": 12,
           "step": 1,
@@ -292,54 +292,111 @@
       }
     },
     "mbb:set-2:original-022": {
-      "sha256": "26b86574127a1b6732d609a878ae1da590f8a95b92c2592dae7ce7bdec9f322b",
+      "sha256": "fcea28899036ad2ccf0ea86bd831202143997a510ead2f111e12b321cf624b58",
       "chart": {
         "type": "data-table",
         "columns": [
           "Run order",
+          "Whole plot",
           "Temperature setting",
           "Formulation"
         ],
         "rows": [
           [
             "1",
+            "WP1",
             "Low",
             "B"
           ],
           [
             "2",
+            "WP1",
             "Low",
             "D"
           ],
           [
             "3",
+            "WP1",
             "Low",
             "A"
           ],
           [
             "4",
+            "WP1",
             "Low",
             "C"
           ],
           [
             "5",
+            "WP2",
             "High",
             "C"
           ],
           [
             "6",
+            "WP2",
             "High",
             "A"
           ],
           [
             "7",
+            "WP2",
             "High",
             "D"
           ],
           [
             "8",
+            "WP2",
             "High",
             "B"
+          ],
+          [
+            "9",
+            "WP3",
+            "High",
+            "A"
+          ],
+          [
+            "10",
+            "WP3",
+            "High",
+            "C"
+          ],
+          [
+            "11",
+            "WP3",
+            "High",
+            "B"
+          ],
+          [
+            "12",
+            "WP3",
+            "High",
+            "D"
+          ],
+          [
+            "13",
+            "WP4",
+            "Low",
+            "D"
+          ],
+          [
+            "14",
+            "WP4",
+            "Low",
+            "B"
+          ],
+          [
+            "15",
+            "WP4",
+            "Low",
+            "C"
+          ],
+          [
+            "16",
+            "WP4",
+            "Low",
+            "A"
           ]
         ]
       }
@@ -432,12 +489,12 @@
       }
     },
     "mbb:set-2:original-025": {
-      "sha256": "6ce20eda11cebe1e513963527398e4cfd3227a851bdf728447b3835282c03a8a",
+      "sha256": "c526b620e47e0e67f36d9b475fab4abad9888d83ab4d36786a98081dd9bae7ab",
       "chart": {
         "type": "data-table",
         "columns": [
           "Variance source",
-          "Estimated variance",
+          "Estimated variance (MPa²)",
           "Share of total variance"
         ],
         "rows": [

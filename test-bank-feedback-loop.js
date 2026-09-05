@@ -248,7 +248,7 @@
       return reviewOptionHtml(question, record, option, index);
     }).join('');
 
-    return '<article class="tb-review-card" data-review-status="' + status + '" data-question-id="' + esc(record.questionId || questionId(currentExamId(), question)) + '">' +
+    return '<article class="tb-review-card' + (window.__TBMbbBatch1Review && window.__TBMbbBatch1Review.applies(question) ? ' tb-mbb-batch1-card' : '') + '" data-review-status="' + status + '" data-question-id="' + esc(record.questionId || questionId(currentExamId(), question)) + '">' +
       '<div class="tb-review-card-head">' +
         '<div><span class="tb-review-qno">Question ' + (record.index + 1) + '</span>' +
         '<span class="tb-review-topic">' + esc(meta.domainName) + ' &rsaquo; ' + esc(meta.subName) + '</span></div>' +
@@ -257,7 +257,7 @@
         '<span class="tb-review-status ' + status + '">' + statusLabel + '</span>' +
         (record.flagged ? '<span class="tb-review-status flagged">Flagged</span>' : '') + '</div>' +
       '</div>' +
-      '<div class="tb-review-stem">' + esc(question.stem) + '</div>' +
+      (window.__TBMbbBatch1Review && window.__TBMbbBatch1Review.applies(question) ? window.__TBMbbBatch1Review.review(question) : '<div class="tb-review-stem">' + esc(question.stem) + '</div>') +
       '<div class="tb-review-options">' + options + '</div>' +
       '<div class="tb-answer-compare"><div><span>Your answer</span><strong>' + esc(answerText(question, record.selected)) + '</strong></div>' +
       '<div><span>Correct answer</span><strong>' + esc(answerText(question, question.answer)) + '</strong></div></div>' +
@@ -369,7 +369,7 @@
     return '<div class="tb-retry-head"><div><div class="tb-diag-kick">Correction quiz</div><h3>Retry missed questions</h3></div>' +
       '<span class="tb-badge2">' + (index + 1) + ' of ' + total + '</span></div>' +
       '<div class="tb-retry-topic">' + esc(meta.domainName) + ' &rsaquo; ' + esc(meta.subName) + '</div>' +
-      '<div class="tb-review-stem">' + esc(question.stem) + '</div>' +
+      (window.__TBMbbBatch1Review && window.__TBMbbBatch1Review.applies(question) ? window.__TBMbbBatch1Review.review(question) : '<div class="tb-review-stem">' + esc(question.stem) + '</div>') +
       '<div class="tb-retry-options">' + options + '</div>' + feedback +
       '<div class="tb-retry-actions">' +
         (checked

@@ -169,10 +169,13 @@
   }
 
   function explicitDistractor(question, index) {
-    if (!question || question.distractors == null) return '';
-    if (Array.isArray(question.distractors)) return String(question.distractors[index] || '').trim();
-    if (typeof question.distractors === 'object') {
-      return String(question.distractors[index] || question.distractors[String(index)] || '').trim();
+    if (!question) return '';
+    const reviewed = /^mbb:set-2:original-(00[1-9]|01\d|02[0-5])$/.test(question.qid || '');
+    const rationales = question.distractors == null && reviewed ? question.optionRationales : question.distractors;
+    if (rationales == null) return '';
+    if (Array.isArray(rationales)) return String(rationales[index] || '').trim();
+    if (typeof rationales === 'object') {
+      return String(rationales[index] || rationales[String(index)] || '').trim();
     }
     return '';
   }
@@ -462,7 +465,7 @@
     }).join('');
     const feedback = similarState.checked ? '<div class="tb-similar-feedback"><strong>' + (similarState.selected === question.answer ? 'Correct.' : 'Not quite. The correct answer is ' + esc(answerText(question, question.answer)) + '.') + '</strong><p>' + (question.why || 'A validated explanation is not available yet.') + '</p><div class="tb-deep-label">Key learning point</div><p>' + esc(extractKeyPoint(question.why)) + '</p><a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a></div>' : '';
     return '<div class="tb-retry-head"><div><div class="tb-diag-kick">Same-subtopic practice</div><h3>Practise similar questions</h3></div><span class="tb-badge2">' + (similarState.index + 1) + ' of ' + similarState.items.length + '</span></div>' +
-      '<div class="tb-retry-topic">' + esc(meta.domainName) + ' &rsaquo; ' + esc(meta.subName) + '</div><div class="tb-review-stem">' + esc(question.stem) + '</div><div class="tb-similar-options">' + options + '</div>' + feedback +
+      '<div class="tb-retry-topic">' + esc(meta.domainName) + ' &rsaquo; ' + esc(meta.subName) + '</div>' + (window.__TBMbbBatch1Review && window.__TBMbbBatch1Review.applies(question) ? window.__TBMbbBatch1Review.review(question) : '<div class="tb-review-stem">' + esc(question.stem) + '</div>') + '<div class="tb-similar-options">' + options + '</div>' + feedback +
       '<div class="tb-retry-actions">' + (similarState.checked ? '<button type="button" class="btn btn-teal" data-similar-next>' + (similarState.index === similarState.items.length - 1 ? 'See practice results' : 'Next question') + '</button>' : '<button type="button" class="btn btn-teal" data-similar-check' + (similarState.selected == null ? ' disabled' : '') + '>Check answer</button>') + '<button type="button" class="tb-ghost" data-close-similar>Return to review</button></div>';
   }
 
