@@ -308,10 +308,27 @@
     return Boolean(recipe && state.ownerMatches(recipe) && recipe.kind === expectedKind && recipe.examId === state.activeExamId());
   }
 
+  function disownLegacyRetakeButton(button) {
+    /* The core simulator's own wireResults() binds a click listener straight to
+       this button (reading its module-level `session` variable). That listener
+       still fires on target dispatch even after the button is detached from the
+       document later in a retake (e.g. once our own back.click() navigation
+       clears `session` back to null), which document-level delegation below
+       cannot intercept because a detached node no longer propagates to
+       document. Cloning the node discards that legacy listener outright so a
+       stray/duplicate click on a stale reference is inert instead of throwing. */
+    if (!button || button.dataset.upskillRetakeOwned === 'true') return button;
+    const clone = button.cloneNode(true);
+    clone.dataset.upskillRetakeOwned = 'true';
+    button.parentNode.replaceChild(clone, button);
+    return clone;
+  }
+
   function decorateRetake() {
     const host = state.overview();
-    const button = host && host.querySelector('[data-retake]');
+    let button = host && host.querySelector('[data-retake]');
     if (!button) return;
+    button = disownLegacyRetakeButton(button);
     const kind = resultKind(button) || retakeKind(button);
     if (kind === 'quick' || kind === 'focus') button.dataset.retakeKind = kind;
     const recipe = state.currentRecipe();
