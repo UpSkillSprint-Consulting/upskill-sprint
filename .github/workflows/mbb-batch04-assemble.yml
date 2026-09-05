@@ -1,0 +1,129 @@
+name: Verify MBB Set 2 Batch 4 audit
+on:
+  push:
+    branches: ['audit/mbb-set2-batch04']
+    paths: ['.github/workflows/mbb-batch04-assemble.yml']
+permissions:
+  contents: write
+concurrency:
+  group: mbb-batch04-assembly
+  cancel-in-progress: true
+jobs:
+  assemble:
+    if: github.ref == 'refs/heads/audit/mbb-set2-batch04'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - name: Verify exact transport, baseline and question scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/mbb4-proof"
+          python3 - <<'PY'
+          import os, pathlib, base64, hashlib, lzma, json, subprocess
+          assert os.environ['GITHUB_REF'] == 'refs/heads/audit/mbb-set2-batch04'
+          temp=pathlib.Path(os.environ['RUNNER_TEMP'])/'mbb4-proof'
+          parts=sorted(pathlib.Path('.github/mbb4-transport').glob('part-*.b64'))
+          assert len(parts)==13
+          texts=[p.read_text().strip() for p in parts]
+          assert [len(s) for s in texts]==[6000]*12+[1648]
+          packed=base64.b64decode(''.join(texts),validate=True)
+          digest=hashlib.sha256(packed).hexdigest()
+          print('Transport SHA256:',digest,flush=True)
+          assert digest=='845ef68fe5214592dce9b14594ead448ad5048d234fe64a1725bcf8a2870b829', 'Transport mismatch; application changes prohibited'
+          payload=json.loads(lzma.decompress(packed))
+          assert payload['baseline']=='6895f6a2a8c5643ef275b94c325ee4556efef2c1'
+          subprocess.run(['git','merge-base','--is-ancestor',payload['baseline'],'HEAD'],check=True)
+          manifest=payload['manifest']; assert len(manifest)==20
+          for name,hashes in manifest.items():
+              p=pathlib.Path(name)
+              assert not p.is_absolute() and '..' not in p.parts and p.parts[0]!='.github'
+              actual=hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None
+              assert actual==hashes['before'], f'Baseline changed: {name}'
+          (temp/'manifest.json').write_text(json.dumps(manifest,indent=2))
+          (temp/'transport-sha256.txt').write_text(digest+'\n')
+          patch=temp/'changes.patch'; patch.write_text(payload['patch'])
+          subprocess.run(['git','apply','--unidiff-zero','--check',str(patch)],check=True)
+          subprocess.run(['git','apply','--unidiff-zero',str(patch)],check=True)
+          code="const fs=require('fs'),vm=require('vm');let c={};c.window=c;vm.createContext(c);vm.runInContext(fs.readFileSync('test-bank-mbb-set2.js','utf8'),c);console.log(JSON.stringify(c.MBB_SET2_BATCHES[4]));"
+          batch=json.loads(subprocess.check_output(['node','-e',code],text=True))
+          assert len(batch)==25
+          allowed={'mbb:set-2:original-'+str(n).zfill(3) for n in range(76,101)}
+          assert set(payload['deltas'])==allowed
+          original_ids=[q['qid'] for q in batch]; original_keys=[q['answer'] for q in batch]
+          for q in batch:q.update(payload['deltas'][q['qid']])
+          assert [q['qid'] for q in batch]==original_ids
+          assert [q['answer'] for q in batch]==original_keys
+          bank=pathlib.Path('test-bank-mbb-set2.js');s=bank.read_text()
+          start=s.index('  var batch4=[');end=s.index('  var batch2=[',start)
+          chunk=s[start:end];close=chunk.rfind('  ];');assert close>=0
+          bank.write_text(s[:start]+'  var batch4='+json.dumps(batch,ensure_ascii=False,indent=2)+';'+chunk[close+4:]+s[end:])
+          print('Applied scoped Q76-100 deltas; preserved IDs and key positions.',flush=True)
+          PY
+      - name: Install locked dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci | tee "$RUNNER_TEMP/mbb4-proof/dependencies.log"
+      - name: Rebuild Batch 4 and compare exact tested file hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/build-mbb160-assets.mjs --batch=4
+          python3 - <<'PY'
+          import pathlib,json,os,hashlib
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'mbb4-proof'
+          manifest=json.loads((out/'manifest.json').read_text()); verified={}
+          for name,expected in manifest.items():
+              actual=hashlib.sha256(pathlib.Path(name).read_bytes()).hexdigest()
+              print(name,actual,'MATCH' if actual==expected['after'] else 'MISMATCH',flush=True)
+              assert actual==expected['after'], name
+              verified[name]=actual
+          (out/'verified-files.json').write_text(json.dumps(verified,indent=2))
+          PY
+      - name: Run combined MBB and feedback regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test --test-concurrency=1 tests/*mbb*.test.js tests/*feedback*.test.js | tee "$RUNNER_TEMP/mbb4-proof/regression.log"
+          python3 - <<'PY'
+          import pathlib,os,re
+          log=(pathlib.Path(os.environ['RUNNER_TEMP'])/'mbb4-proof/regression.log').read_text()
+          for label,value in [('tests',179),('pass',179),('fail',0),('cancelled',0),('skipped',0)]:
+              assert re.search(r'^# '+label+r' '+str(value)+r'$',log,re.M), (label,value)
+          PY
+      - name: Commit tested source to audit branch only; remove temporary files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = 'refs/heads/audit/mbb-set2-batch04'
+          python3 - <<'PY'
+          import pathlib,json,os,subprocess,shutil
+          manifest=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'mbb4-proof/manifest.json').read_text())
+          temporary=[str(p) for p in pathlib.Path('.github/mbb4-transport').glob('part-*.b64')]+['.github/workflows/mbb-batch04-assemble.yml']
+          assert len(temporary)==14
+          shutil.rmtree('.github/mbb4-transport')
+          pathlib.Path('.github/workflows/mbb-batch04-assemble.yml').unlink()
+          subprocess.run(['git','add','--',*manifest.keys(),*temporary],check=True)
+          staged=subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines()
+          assert set(staged)==set(manifest)|set(temporary),staged
+          PY
+          git config user.name upskillsprint-agent
+          git config user.email skillsprintconsulting@gmail.com
+          git commit -m 'fix: audit MBB Set 2 Q76-100, accessible evidence and decimal-safe feedback'
+          git push origin HEAD:refs/heads/audit/mbb-set2-batch04
+          git rev-parse HEAD > "$RUNNER_TEMP/mbb4-proof/commit.txt"
+      - name: Preserve verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mbb-batch04-verified-evidence
+          path: ${{ runner.temp }}/mbb4-proof/
+          retention-days: 14
