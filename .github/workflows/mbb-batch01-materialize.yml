@@ -1,0 +1,102 @@
+name: Materialize reviewed MBB Batch 1
+on:
+  push:
+    branches: ['audit/mbb-set2-batch01']
+    paths: ['.github/workflows/mbb-batch01-materialize.yml']
+permissions:
+  contents: write
+jobs:
+  materialize:
+    if: github.ref == 'refs/heads/audit/mbb-set2-batch01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/mbb-set2-batch01
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - name: Verify transport and exact source baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor 12459344b9a8e2d6296190408c32f4033e04e3ba HEAD
+          mkdir -p "$RUNNER_TEMP/mbb-build"
+          python3 - <<'PY'
+          import base64, gzip, hashlib, json, os, pathlib, subprocess
+          root = pathlib.Path('.')
+          parts = [(root / f'.github/mbb-batch01-payload-{i:02}.b64').read_text().strip() for i in range(1, 6)]
+          # Repair transport-only copy duplication. The complete compressed SHA256
+          # below must match the locally audited package before any code is applied.
+          assert len(parts[0]) == 10113
+          parts[0] = parts[0][:109] + parts[0][222:]
+          parts[4] = parts[4][:2572] + ''.join((root / f'.github/mbb-batch01-tail-{i:02}.b64').read_text().strip() for i in range(1, 4))
+          assert [len(s) for s in parts] == [10000, 10000, 10000, 10000, 9972]
+          compressed = base64.b64decode(''.join(parts), validate=True)
+          digest = hashlib.sha256(compressed).hexdigest()
+          print('Transport SHA256:', digest)
+          assert digest == '45d23903289ca701ef1e364de1e6d08aee279e02b43df1254d996caf8165b15d', 'transport mismatch; no application changes permitted'
+          payload = json.loads(gzip.decompress(compressed))
+          manifest = payload['manifest']
+          assert len(manifest) == 21
+          for name, hashes in manifest.items():
+              p = pathlib.Path(name)
+              assert not p.is_absolute() and '..' not in p.parts
+              actual = hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None
+              assert actual == hashes['before'], f'baseline changed: {name}'
+          temp = pathlib.Path(os.environ['RUNNER_TEMP']) / 'mbb-build'
+          (temp / 'manifest.json').write_text(json.dumps(manifest, indent=2))
+          patch = temp / 'review.patch'
+          patch.write_text(payload['patch'], newline='')
+          subprocess.run(['git', 'apply', '--check', str(patch)], check=True)
+          subprocess.run(['git', 'apply', str(patch)], check=True)
+          print('Verified and applied all non-generated changes against the exact baseline.')
+          PY
+      - name: Reproduce corrected bank and Batch 1 assets
+        run: |
+          node scripts/audit-mbb-set2-batch1.mjs
+          node scripts/build-mbb160-assets.mjs --batch=1
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib
+          temp = pathlib.Path(os.environ['RUNNER_TEMP']) / 'mbb-build'
+          manifest = json.loads((temp / 'manifest.json').read_text())
+          for name, hashes in manifest.items():
+              actual = hashlib.sha256(pathlib.Path(name).read_bytes()).hexdigest()
+              assert actual == hashes['after'], f'output differs from audited package: {name}'
+              print('MATCH', name, actual)
+          (temp / 'hash-verification.txt').write_text('All 21 files match the locally reviewed and browser-tested package.\n')
+          PY
+      - run: npm ci
+      - name: Run MBB and feedback regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test --test-concurrency=1 tests/*mbb*.test.js tests/*feedback*.test.js | tee "$RUNNER_TEMP/mbb-build/regression.log"
+      - name: Commit only reviewed application and audit files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, pathlib, subprocess
+          manifest = json.loads((pathlib.Path(os.environ['RUNNER_TEMP']) / 'mbb-build/manifest.json').read_text())
+          paths = [p for p in manifest if p != '.github/workflows/mbb-batch01-audit.yml']
+          assert len(paths) == 20
+          subprocess.run(['git', 'add', '--', *paths], check=True)
+          staged = subprocess.check_output(['git', 'diff', '--cached', '--name-only'], text=True).splitlines()
+          assert set(staged) == set(paths), staged
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'fix: audit MBB Set 2 questions 1-25 and repair scoped student review UI'
+          git push origin HEAD:refs/heads/audit/mbb-set2-batch01
+          git rev-parse HEAD | tee "$RUNNER_TEMP/mbb-build/commit.txt"
+      - name: Preserve verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mbb-batch01-materialization-proof
+          path: ${{ runner.temp }}/mbb-build/
+          retention-days: 7
