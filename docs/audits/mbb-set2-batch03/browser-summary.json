@@ -1,0 +1,79 @@
+{
+  "baselinePRHead": "8bb8a4818a1f9f8d49d26ead5f04dc3f53c05185",
+  "targetPR": 165,
+  "scope": "Batch3 restoration plus Batches1–4 integration, not live-service acceptance",
+  "currentResults": {
+    "batch3_player": {
+      "passed": true,
+      "assertions": 1395,
+      "questionLayoutRecords": 159,
+      "javascriptErrors": [],
+      "recordModes": {
+        "attempt": 75,
+        "review": 75,
+        "retry": 9
+      },
+      "rawResultSha256": "93ee5e68c5a6b26c1904043c60ef00577422d57144813c4f574b150f77f23110"
+    },
+    "batch3_secondary": {
+      "passed": true,
+      "assertions": 978,
+      "questionLayoutRecords": 160,
+      "javascriptErrors": [],
+      "recordModes": {
+        "fallback": 60,
+        "attempt": 50,
+        "review": 50
+      },
+      "rawResultSha256": "5fc23cab9d6b2ceaf46bb0c3c5409264022cf05c2d5f2d845c1819ce461d6775"
+    },
+    "combined100": {
+      "passed": true,
+      "assertions": 2325,
+      "questionLayoutRecords": 612,
+      "javascriptErrors": [],
+      "recordModes": {
+        "attempt": 300,
+        "review": 300,
+        "retry": 12
+      },
+      "rawResultSha256": "bc6647e36d93dbdb1414b96f9bd2fe482ff5efc869dda74dd4655d85471a0fe9"
+    }
+  },
+  "targetedNodeTests": {
+    "tests": 216,
+    "passed": 216,
+    "failed": 0,
+    "skipped": 0,
+    "logSha256": "84e78ad8c3bcbb3426b5adc9d438719746cf052a3b90d2c6aba536ecbd26a301"
+  },
+  "sourceSha256": {
+    "test-bank-mbb-set2.js": "3f226c3c8bd0eb009ac82885fdc2b15f8334d136cc37be01c5eb8bc28f6e444a",
+    "test-bank-mbb-batch3-ui.js": "986650f72bd9b4cffffbd3580760b3478ff6734289b31db3912ac4f33aa3f9a3",
+    "test-bank-mbb-batch2-ui.js": "1ccc8c139346bb4ecc856def5af106689768b57400dcce2bd601e2a710e0d67e",
+    "test-bank-mbb-batch4-ui.js": "02bd2d38aadc3561dc1a894fbffd558c73dc63ad1cac76dda8e447554846fa87",
+    "test-bank-mbb-batch1-review.js": "672b8ac32981d1db1226a944d940246c59ff46f067d90c984def5cd5545f8f73",
+    "test-bank-mbb-batch1-review.css": "3d56a36dec945536c1ab65f34bc3de2c07061370c3af08d393663296797024c9",
+    "test-bank.html": "1f0952c1b896d82f4d6c9ed0f71a8aea111be1d472221d11984bd8a1f2e40dda",
+    "test-bank-feedback-loop.js": "9a25a7a6b75162a4e7298e6268285f2714552434f7877cdd535be08cb8f669f0",
+    "test-bank-deep-feedback.js": "bde9a8498944d3d37441e1a767d5a92a79d1bf634668737fdd627a292f64431a",
+    "test-bank-deep-feedback-grounding.js": "fbdbb808c807082e71990eeb24cb019180aec643514d8eab8015b40e0f8bc434",
+    "scripts/build-mbb160-assets.mjs": "bd2fd88f5f0cc53c2f561da0e02402f6f74e45960b472498b0484b56170ebe5d",
+    "tests/browser/mbb-batch03-render.py": "cf966c3571ab330bbac1a1cae2ec8f7cbf74e897525993b877c2c33696c704aa",
+    "tests/browser/mbb-batch03-secondary.py": "360b47c1767d24fb1dbfd06a84bdb215b7dfda4306a31cf5a8071641dec066be",
+    "tests/browser/mbb-pr165-batches1-4-smoke.py": "be3bd54bb6c0aeac98bb665a9a7f2b4038874f1d703404c9583463de51df8cad"
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/*mbb*.test.js tests/*feedback*.test.js",
+    "python tests/browser/mbb-batch03-render.py --out /tmp/b3-player",
+    "python tests/browser/mbb-batch03-secondary.py --out /tmp/b3-secondary",
+    "python tests/browser/mbb-pr165-batches1-4-smoke.py --out /tmp/combined100"
+  ],
+  "limitations": [
+    "Actual application source with explicit offline authentication and in-memory storage; no live-account, durable-cloud, cross-device or physical Safari verification.",
+    "100-question integration uses recorded audit answers from Batches1,2,4 plus newly adjudicated Batch3 recovery; it is not an additional textbook/source-page audit.",
+    "Question-layout records are traversed states, not necessarily screenshots. Combined smoke captures selected integration states; Batch3 runs capture all 25 question and review views.",
+    "External web fonts fall back to installed fonts. Sticky unrelated site header hidden only during screenshot capture.",
+    "Old lost Batch3 test counts are not reused as evidence for this reconstructed source."
+  ]
+}
