@@ -1,0 +1,88 @@
+name: Validate combined MBB audits for PR165
+on:
+  push:
+    branches: ['audit/mbb-combine-pr165']
+    paths: ['.github/workflows/mbb-pr165-combine.yml']
+permissions:
+  contents: write
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - name: Combine only the reviewed application and audit paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/mbb-combined-proof"
+          cp scripts/combine-mbb-pr165.py "$RUNNER_TEMP/combine-mbb.py"
+          cp .github/mbb-pr165-expected.json "$RUNNER_TEMP/mbb-combined-proof/expected.json"
+          git checkout --detach dc4e1588900647aab46d694c0caa17f2165e9efb
+          MBB_ROOT="$PWD" python3 "$RUNNER_TEMP/combine-mbb.py"
+          node - <<'JS'
+          const fs=require('fs'),vm=require('vm'),cp=require('child_process'),assert=require('assert/strict');
+          const load=s=>{const w={};w.window=w;vm.runInNewContext(s,w);return JSON.parse(JSON.stringify(w.MBB_SET2_BATCHES));};
+          const a=load(cp.execFileSync('git',['show','e88f28d29b3c8d16f53420cf23703761e275da9a:test-bank-mbb-set2.js'],{encoding:'utf8'}));
+          const b=load(cp.execFileSync('git',['show','dc4e1588900647aab46d694c0caa17f2165e9efb:test-bank-mbb-set2.js'],{encoding:'utf8'}));
+          const current=load(fs.readFileSync('test-bank-mbb-set2.js','utf8'));
+          assert.deepStrictEqual(current[1],a[1]);
+          for(let k=2;k<=7;k++)assert.deepStrictEqual(current[k],b[k]);
+          assert.equal(Object.values(current).flat().length,175);
+          fs.writeFileSync(process.env.RUNNER_TEMP+'/mbb-combined-proof/record-preservation.json',JSON.stringify({batch1Source:'e88f28d29b3c8d16f53420cf23703761e275da9a',batch2Source:'dc4e1588900647aab46d694c0caa17f2165e9efb',batch1RecordsPreserved:25,remainingRecordsPreserved:150,totalRecords:175,passed:true},null,2));
+          JS
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Rebuild and verify both visual packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/build-mbb160-assets.mjs --batch=1
+          node scripts/build-mbb160-assets.mjs --batch=2
+          python3 - <<'PY'
+          import pathlib,hashlib,json,os,subprocess
+          proof=pathlib.Path(os.environ['RUNNER_TEMP'])/'mbb-combined-proof'
+          expected=json.loads((proof/'expected.json').read_text())
+          for name,digest in expected.items():
+              assert hashlib.sha256(pathlib.Path(name).read_bytes()).hexdigest()==digest, name
+          changed=set(subprocess.check_output(['git','diff','--name-only'],text=True).splitlines())
+          changed.update(subprocess.check_output(['git','ls-files','--others','--exclude-standard'],text=True).splitlines())
+          assert changed==set(expected), (changed-set(expected),set(expected)-changed)
+          assert not any(p.startswith('.github/') for p in changed)
+          (proof/'verified-files.json').write_text(json.dumps(expected,indent=2))
+          print('All 20 files exactly match the locally tested candidate. Batch 2 assets remain byte-identical.')
+          PY
+      - name: Run combined targeted MBB and feedback suites
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test --test-concurrency=1 tests/*mbb*.test.js tests/*feedback*.test.js | tee "$RUNNER_TEMP/mbb-combined-proof/regression.log"
+      - name: Preserve candidate on review branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,os,pathlib,subprocess
+          expected=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'mbb-combined-proof/expected.json').read_text())
+          subprocess.run(['git','add','--',*expected],check=True)
+          assert set(subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines())==set(expected)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'fix: include Batch 1 audit corrections alongside Batch 2 in PR 165'
+          git push origin HEAD:refs/heads/audit/mbb-combined-candidate-pr165
+          git rev-parse HEAD > "$RUNNER_TEMP/mbb-combined-proof/commit.txt"
+          git diff --stat HEAD^ HEAD > "$RUNNER_TEMP/mbb-combined-proof/diff-stat.txt"
+      - name: Preserve integration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mbb-pr165-combined-verification
+          path: ${{ runner.temp }}/mbb-combined-proof/
+          retention-days: 7
