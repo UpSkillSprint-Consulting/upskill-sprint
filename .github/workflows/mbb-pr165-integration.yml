@@ -1,0 +1,36 @@
+name: MBB PR165 integration evidence
+on:
+  push:
+    branches: ['audit/mbb-combine-pr165']
+permissions:
+  contents: read
+jobs:
+  snapshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Export exact existing source differences without writes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/mbb-integration"
+          base=01ca49f58ac6405e2f9f46f6e18caa3ea4fe06eb
+          b1=e88f28d29b3c8d16f53420cf23703761e275da9a
+          b2=dc4e1588900647aab46d694c0caa17f2165e9efb
+          git diff --binary "$base" "$b1" > "$RUNNER_TEMP/mbb-integration/batch1.patch"
+          git diff --binary "$base" "$b2" > "$RUNNER_TEMP/mbb-integration/batch2.patch"
+          git ls-tree -r "$base" > "$RUNNER_TEMP/mbb-integration/base-tree.txt"
+          git ls-tree -r "$b1" > "$RUNNER_TEMP/mbb-integration/batch1-tree.txt"
+          git ls-tree -r "$b2" > "$RUNNER_TEMP/mbb-integration/batch2-tree.txt"
+          git log -1 --format='%H %s' "$b1" > "$RUNNER_TEMP/mbb-integration/batch1-commit.txt"
+          git log -1 --format='%H %s' "$b2" > "$RUNNER_TEMP/mbb-integration/batch2-commit.txt"
+          sha256sum "$RUNNER_TEMP/mbb-integration/"* > "$RUNNER_TEMP/mbb-integration/hashes.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mbb-pr165-exact-snapshots
+          path: ${{ runner.temp }}/mbb-integration/
+          retention-days: 7
