@@ -4,44 +4,47 @@
   "generatedBy": "scripts/build-mbb160-assets.mjs",
   "questions": {
     "mbb:set-2:original-051": {
-      "sha256": "a59726d4be11cc3f141f2e339e62a1196db7561819867892bd32a5c68186c1c6",
+      "sha256": "d37e46f11dea817555cbf351a62fd521883af020847da78357dc3cf813b65856",
       "chart": {
         "type": "data-table",
         "columns": [
-          "Verified fact",
-          "Planning classification"
+          "Fact",
+          "Observation"
         ],
         "rows": [
           [
-            "Proprietary sensor accuracy exceeds competitors",
-            "Internal, favorable"
+            "1",
+            "Proprietary sensor accuracy exceeds competitors"
           ],
           [
-            "One specialist maintains the billing interface",
-            "Internal, unfavorable"
+            "2",
+            "One specialist maintains the billing interface"
           ],
           [
-            "Regulator will require serialized temperature audits",
-            "External political/legal"
+            "3",
+            "Regulator will require serialized temperature audits"
           ],
           [
-            "Regional population is aging toward home delivery",
-            "External social"
+            "4",
+            "Regional population is aging toward home delivery"
           ],
           [
-            "Competitor launched AI-based route scheduling",
-            "External technological"
+            "5",
+            "Competitor launched AI-based route scheduling"
           ]
-        ]
+        ],
+        "auditBatch": 3,
+        "auditId": "mbb:set-2:original-051",
+        "altText": "Five observations: proprietary sensor accuracy, a single billing specialist, an audit rule, demographic change and competitor scheduling technology."
       }
     },
     "mbb:set-2:original-056": {
-      "sha256": "7514a0643670521f09739fbed254564cb6a55484dcd22588bb16855eb3daff47",
+      "sha256": "4acf9b3b8f3f7fbf7de63c5770820c2623536838d00a049f1ac01b29b4cc1bef",
       "chart": {
         "type": "time-series",
-        "title": "First-contact resolution after speed target",
-        "xLabel": "Week after target launch",
-        "yLabel": "First-contact resolution (%)",
+        "title": "Spare-parts first-request fill rate",
+        "xLabel": "Week after inventory-policy change",
+        "yLabel": "First-request fill rate (%)",
         "units": "percent",
         "decimals": 0,
         "labels": [
@@ -63,11 +66,14 @@
           66,
           61,
           58
-        ]
+        ],
+        "auditBatch": 3,
+        "auditId": "mbb:set-2:original-056",
+        "altText": "Weekly first-request fill rate, percent for observations W0–W7: 82, 82, 80, 76, 71, 66, 61, 58."
       }
     },
     "mbb:set-2:original-061": {
-      "sha256": "b3e93c3d0d270c43d4d8fc5e2d351100826fbb3c19f73977bdb61b354cb9337e",
+      "sha256": "5ff05d359c543c6c4d27d3b5a9c603c16026b5f04982ee2ef5c95e582b867f5c",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -116,19 +122,23 @@
         ],
         "whatIf": {
           "id": "mbb-q061-capacity",
-          "label": "Available capacity",
+          "label": "Hypothetical total capacity",
           "min": 8,
           "max": 16,
           "step": 1,
           "value": 12,
           "unit": "BB-months",
           "committed": 4,
-          "committedLabel": "mandatory Project R"
-        }
+          "committedLabel": "mandatory Project R",
+          "baseline": 12
+        },
+        "auditBatch": 3,
+        "auditId": "mbb:set-2:original-061",
+        "altText": "Project resource, risk-adjusted NPV, mandatory status and data-readiness table; R requires 4 BB-months."
       }
     },
     "mbb:set-2:original-065": {
-      "sha256": "a545ec9a5c640ad2108fddbbe26c0627651ac5836fd414ecdcc2e9b2764b6b4e",
+      "sha256": "ee4e10da5da56d2eecb8eb0785bb2c66e36ea1acaaa794b42e532c2067826cbc",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -136,7 +146,7 @@
           "Observed need",
           "Task frequency",
           "Impact",
-          "Likely primary cause"
+          "Assessment observation"
         ],
         "rows": [
           [
@@ -144,67 +154,68 @@
             "Interpret SPC signals",
             "Daily",
             "High",
-            "Skill gap"
+            "Fail standard signal-interpretation tasks in an observed assessment"
           ],
           [
             "Supervisors",
             "Escalate recurring signals",
             "Weekly",
             "High",
-            "Conflicting incentive"
+            "Explain the response correctly, but bonuses penalize signal escalation"
           ],
           [
             "Analysts",
             "Design multivariable experiments",
             "Rare now; planned next year",
             "High strategic",
-            "Capability gap"
+            "Have not yet learned the DOE methods required by planned assignments"
           ],
           [
             "Process owners",
             "Close control-plan actions",
             "Monthly",
             "High",
-            "Unclear ownership"
+            "Current responsibility documents assign contradictory decision rights"
           ]
-        ]
+        ],
+        "auditBatch": 3,
+        "auditId": "mbb:set-2:original-065",
+        "altText": "Role-level observations list required tasks, their frequency, business impact and observed assessment evidence."
       }
     },
     "mbb:set-2:original-069": {
-      "sha256": "f25f574eeac8c3e9240fc128d401aa5a10e58c3d74c6890acc14da6f84429964",
+      "sha256": "5e5cd7dd6a6272d61c9ac57349f3626a00d149a1daada65f87c0ab198f8f1449",
       "chart": {
         "type": "data-table",
         "columns": [
           "Variance source",
-          "Estimated SD (micrometers)",
-          "Treatment in study"
+          "Estimated SD (micrometers)"
         ],
         "rows": [
           [
             "Repeatability",
-            "0.800",
-            "GR&R"
+            "0.800"
           ],
           [
             "Appraiser",
-            "0.600",
-            "GR&R"
+            "0.600"
           ],
           [
             "Part x appraiser",
-            "1.000",
-            "GR&R"
+            "1.000"
           ],
           [
             "Part to part",
-            "4.500",
-            "Total study only"
+            "4.500"
           ]
-        ]
+        ],
+        "auditBatch": 3,
+        "auditId": "mbb:set-2:original-069",
+        "altText": "Standard deviations in micrometers: repeatability 0.800; appraiser 0.600; part-by-appraiser 1.000; part-to-part 4.500."
       }
     },
     "mbb:set-2:original-070": {
-      "sha256": "61b6116b385101a1bad4e706dcf956af311b3fee8aeaf3f53f8c2c6e02f57e85",
+      "sha256": "219d735d37fb98ed2fd18c3e69f2714797bbcd82769c6acc6c3811dbffe9b9e1",
       "chart": {
         "type": "histogram",
         "title": "Billing cycle-time distribution",
@@ -236,11 +247,14 @@
           6
         ],
         "referenceValue": 8,
-        "referenceLabel": "USL = 8 days"
+        "referenceLabel": "USL = 8 days",
+        "auditBatch": 3,
+        "auditId": "mbb:set-2:original-070",
+        "altText": "Cycle-time counts in successive one-day bins (0,1] through (9,10]: 24, 32, 34, 28, 23, 18, 14, 13, 8, 6. USL: 8 days."
       }
     },
     "mbb:set-2:original-071": {
-      "sha256": "b3ac6541945dd190371e82fd74ca0fe1d0ce8426a73114f0f5beb931015d02b7",
+      "sha256": "ff1289abdf21fbd23b519c5547be565ed09020d1227dfabd45b06febda1e1304",
       "chart": {
         "type": "acf-plot",
         "title": "Residual autocorrelation function",
@@ -270,11 +284,14 @@
           0.01,
           -0.03
         ],
-        "confidence": 0.196
+        "confidence": 0.196,
+        "auditBatch": 3,
+        "auditId": "mbb:set-2:original-071",
+        "altText": "Residual ACF for lags 1–10: 0.61, 0.37, 0.20, 0.08, −0.02, −0.09, −0.06, 0.04, 0.01, −0.03. Approximate pointwise references: ±0.196."
       }
     },
     "mbb:set-2:original-072": {
-      "sha256": "6cc08a828ce3904d301eefdd567e81093a6d854f11304ea69caaebacbb0f2d6a",
+      "sha256": "a5d7ede516abba8ebef38060c996d4896993350569ba2e7bb259dcc80d8760ac",
       "chart": {
         "type": "two-level-interaction",
         "factorA": "Workload",
@@ -283,16 +300,16 @@
         "xHighLabel": "High workload",
         "yLabel": "First-contact resolution (%)",
         "yDomain": [
-          40,
-          65
+          0,
+          100
         ],
         "yTicks": [
+          0,
+          20,
           40,
-          45,
-          50,
-          55,
           60,
-          65
+          80,
+          100
         ],
         "lowLabel": "Method A",
         "highLabel": "Method B",
@@ -303,11 +320,57 @@
         "highLine": [
           60,
           42
-        ]
+        ],
+        "title": "First-contact resolution by method and workload",
+        "anova": {
+          "columns": [
+            "Source",
+            "Sum of squares (pp²)",
+            "df",
+            "F",
+            "p"
+          ],
+          "rows": [
+            [
+              "Method",
+              810,
+              1,
+              "16.5306",
+              "0.000249"
+            ],
+            [
+              "Workload",
+              1210,
+              1,
+              "24.6939",
+              "0.000017"
+            ],
+            [
+              "Method × workload",
+              490,
+              1,
+              "10.0000",
+              "0.003173"
+            ],
+            [
+              "Error",
+              1764,
+              36,
+              "—",
+              "—"
+            ]
+          ],
+          "replicatesPerCell": 10,
+          "meanSquareError": 49,
+          "errorDegreesOfFreedom": 36
+        },
+        "auditBatch": 3,
+        "auditId": "mbb:set-2:original-072",
+        "altText": "Team mean resolution: Method A 62% and 58%; Method B 60% and 42%, at low and high workload respectively. See the supplied ANOVA table."
       }
     },
     "mbb:set-2:original-073": {
-      "sha256": "91513e0a853af537c7ef9e37ff3450556349f11c577e53a5593cc2c1bfd5540d",
+      "sha256": "23f8a321fd80200dba5c1937ac750308688d0e475dfedd832c14fc0687cf43ab",
       "chart": {
         "type": "histogram",
         "title": "Simulated project NPV",
@@ -343,11 +406,14 @@
           40
         ],
         "referenceValue": 0,
-        "referenceLabel": "NPV = $0"
+        "referenceLabel": "NPV = $0",
+        "auditBatch": 3,
+        "auditId": "mbb:set-2:original-073",
+        "altText": "Simulated NPV counts from −2 to 4 million dollars in half-million bins: 20, 35, 80, 175, 240, 300, 320, 290, 230, 170, 100, 40."
       }
     },
     "mbb:set-2:original-074": {
-      "sha256": "f55ae8c30242a0d2f0e67f8c9ffdb5b66d8d1ec6fcf30041544f2cac2afebf06",
+      "sha256": "7daf1f9be7a4610ca4c34504db6811c3a66ef2c79d0be8fee1b5b0053997e1f3",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -355,8 +421,7 @@
           "Lot 1",
           "Lot 2",
           "Lot 3",
-          "Lot 4",
-          "Replications"
+          "Lot 4"
         ],
         "rows": [
           [
@@ -364,34 +429,33 @@
             "Test",
             "Test",
             "-",
-            "Test",
-            "3"
+            "Test"
           ],
           [
             "B",
             "-",
             "Test",
             "Test",
-            "Test",
-            "3"
+            "Test"
           ],
           [
             "C",
             "Test",
             "Test",
             "Test",
-            "-",
-            "3"
+            "-"
           ],
           [
             "D",
             "Test",
             "-",
             "Test",
-            "Test",
-            "3"
+            "Test"
           ]
-        ]
+        ],
+        "auditBatch": 3,
+        "auditId": "mbb:set-2:original-074",
+        "altText": "The formulation-by-lot incidence matrix places A in Lots 1, 2, 4; B in 2, 3, 4; C in 1, 2, 3; D in 1, 3, 4."
       }
     }
   }

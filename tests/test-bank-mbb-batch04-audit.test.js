@@ -135,12 +135,16 @@ test('The live grounding guard preserves decimal values in the final public API'
  assert.equal(f('<b>0.776</b> is the rounded probability.'),'0.776 is the rounded probability.');
  }finally{d.window.close();}
 });
-test('All 150 out-of-scope question records and 24 other-batch visual assets remain intact',()=>{
+test('Prior Batch 4 preservation plus explicitly integrated Batch 3 hashes remain intact',()=>{
  const manifest=JSON.parse(read('docs/audits/mbb-set2-batch04/preservation.json'));
+ // Batch 3 is now intentionally included in PR165; validate its explicit new
+ // hashes rather than incorrectly requiring its pre-audit records. All other
+ // Batch 4 preservation expectations remain unchanged.
+ const restored=JSON.parse(read('docs/audits/mbb-set2-batch03/restored-hashes.json'));
  const digest=value=>crypto.createHash('sha256').update(value).digest('hex');
  const all=Object.values(c.MBB_SET2_BATCHES).flat();
  assert.equal(all.length,175);assert.equal(Object.keys(manifest.question_sha256).length,150);
- for(const [qid,sha] of Object.entries(manifest.question_sha256))assert.equal(digest(JSON.stringify(all.find(q=>q.qid===qid))),sha,qid);
+ for(const [qid,sha] of Object.entries(manifest.question_sha256))assert.equal(digest(JSON.stringify(all.find(q=>q.qid===qid))),restored.question_sha256[qid] || sha,qid);
  assert.equal(Object.keys(manifest.asset_sha256).length,24);
- for(const [p,sha] of Object.entries(manifest.asset_sha256))assert.equal(digest(fs.readFileSync(path.join(root,p))),sha,p);
+ for(const [p,sha] of Object.entries(manifest.asset_sha256))assert.equal(digest(fs.readFileSync(path.join(root,p))),restored.asset_sha256[p] || sha,p);
 });

@@ -6,25 +6,25 @@
     "mbb:set-2:original-051": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch03-recovered-v1",
       "sourceQuestionId": "mbb:set-2:original-051",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic data tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A five-row strategy evidence table classifies a proprietary sensor advantage and a single-specialist dependency as internal facts, and a new audit rule, aging population, and competitor AI scheduling as external PEST facts.",
+        "altText": "Five observations: proprietary sensor accuracy, a single billing specialist, an audit rule, demographic change and competitor scheduling technology.",
         "semanticTable": true
       },
       "interactionPurpose": "",
       "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-051",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
-        "Verified fact",
-        "Planning classification"
+        "Fact",
+        "Observation"
       ],
       "rows": 5,
       "calculations": [],
@@ -33,25 +33,25 @@
     "mbb:set-2:original-056": {
       "type": "time-series",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch03-recovered-v1",
       "sourceQuestionId": "mbb:set-2:original-056",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic data tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A focusable weekly time-series plot shows first-contact resolution holding at 82 percent through week 1, then falling to 80, 76, 71, 66, 61, and 58 percent by week 7 after the call-speed target was launched.",
+        "altText": "Weekly first-request fill rate, percent for observations W0–W7: 82, 82, 80, 76, 71, 66, 61, 58.",
         "semanticTable": false
       },
-      "interactionPurpose": "Hover or keyboard-focus each weekly point to inspect the delayed deterioration after the local speed target.",
+      "interactionPurpose": "Inspect the same chronological observation values using a native selector, keyboard focus or touch; an equivalent data table is provided.",
       "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-056",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
-        "Week after target launch",
-        "First-contact resolution (%)"
+        "Week after inventory-policy change",
+        "First-request fill rate (%)"
       ],
       "units": "percent",
       "observations": 8,
@@ -61,20 +61,20 @@
     "mbb:set-2:original-061": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch03-recovered-v1",
       "sourceQuestionId": "mbb:set-2:original-061",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic data tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A five-project portfolio table lists Black-Belt-month demand, risk-adjusted NPV, mandatory status, and data readiness. At the default 12-month capacity, mandatory Project R consumes four months and eight remain.",
+        "altText": "Project resource, risk-adjusted NPV, mandatory status and data-readiness table; R requires 4 BB-months.",
         "semanticTable": true
       },
-      "interactionPurpose": "Move the capacity slider to determine how much discretionary capacity remains after mandatory Project R and compare feasible portfolios.",
+      "interactionPurpose": "Explore hypothetical capacity with an explicit reset; the scored 12-BB-month case remains unchanged.",
       "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-061",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
@@ -90,30 +90,31 @@
       ],
       "interaction": {
         "id": "mbb-q061-capacity",
-        "label": "Available capacity",
+        "label": "Hypothetical total capacity",
         "min": 8,
         "max": 16,
         "step": 1,
         "value": 12,
         "unit": "BB-months",
         "committed": 4,
-        "committedLabel": "mandatory Project R"
+        "committedLabel": "mandatory Project R",
+        "baseline": 12
       }
     },
     "mbb:set-2:original-065": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch03-recovered-v1",
       "sourceQuestionId": "mbb:set-2:original-065",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic data tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A role-level training-needs table shows an operator SPC skill gap, a supervisor escalation problem linked to conflicting incentives, an analyst future DOE capability gap, and a process-owner closure problem linked to unclear ownership.",
+        "altText": "Role-level observations list required tasks, their frequency, business impact and observed assessment evidence.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -124,7 +125,7 @@
         "Observed need",
         "Task frequency",
         "Impact",
-        "Likely primary cause"
+        "Assessment observation"
       ],
       "rows": 4,
       "calculations": [],
@@ -133,17 +134,17 @@
     "mbb:set-2:original-069": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch03-recovered-v1",
       "sourceQuestionId": "mbb:set-2:original-069",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic data tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A variance-component table lists standard deviations of 0.800 micrometers for repeatability, 0.600 for appraiser, 1.000 for part-by-appraiser interaction, and 4.500 for part-to-part variation.",
+        "altText": "Standard deviations in micrometers: repeatability 0.800; appraiser 0.600; part-by-appraiser 1.000; part-to-part 4.500.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -151,31 +152,30 @@
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
         "Variance source",
-        "Estimated SD (micrometers)",
-        "Treatment in study"
+        "Estimated SD (micrometers)"
       ],
       "rows": 4,
       "calculations": [
-        "GR&R SD = sqrt(0.8^2 + 0.6^2 + 1.0^2) = 1.414; total SD = sqrt(1.414^2 + 4.5^2) = 4.717; %GR&R = 29.98%."
+        "GR&R variance = 0.8² + 0.6² + 1.0² = 2.00 µm²; total variance = 2.00 + 4.5² = 22.25 µm²; %Study Variation = 100√(2/22.25) = 29.981267%. %Variance Contribution = 100(2/22.25) = 8.988764%."
       ],
       "interaction": null
     },
     "mbb:set-2:original-070": {
       "type": "histogram",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch03-recovered-v1",
       "sourceQuestionId": "mbb:set-2:original-070",
       "transformations": [],
       "referenceLines": [
         "USL = 8 days at 8"
       ],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic data tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A right-skewed histogram of 200 billing cycle times uses ten one-day bins from 0 to 10 days. Counts are 24, 32, 34, 28, 23, 18, 14, 13, 8, and 6. A vertical reference line marks the USL at 8 days; 14 observations lie above it.",
+        "altText": "Cycle-time counts in successive one-day bins (0,1] through (9,10]: 24, 32, 34, 28, 23, 18, 14, 13, 8, 6. USL: 8 days.",
         "semanticTable": false
       },
       "interactionPurpose": "",
@@ -255,7 +255,7 @@
     "mbb:set-2:original-071": {
       "type": "acf-plot",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch03-recovered-v1",
       "sourceQuestionId": "mbb:set-2:original-071",
       "transformations": [],
       "referenceLines": [
@@ -263,15 +263,15 @@
         "Autocorrelation = 0"
       ],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic data tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A residual autocorrelation plot for lags 1 through 10 has 95 percent reference bounds at plus and minus 0.196. The first three bars are 0.61, 0.37, and 0.20; later bars range from negative 0.09 to positive 0.08.",
+        "altText": "Residual ACF for lags 1–10: 0.61, 0.37, 0.20, 0.08, −0.02, −0.09, −0.06, 0.04, 0.01, −0.03. Approximate pointwise references: ±0.196.",
         "semanticTable": false
       },
-      "interactionPurpose": "Hover or keyboard-focus each lag bar to compare its autocorrelation with the stated 95 percent bounds.",
+      "interactionPurpose": "Inspect the same chronological observation values using a native selector, keyboard focus or touch; an equivalent data table is provided.",
       "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-071",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
@@ -297,22 +297,64 @@
     "mbb:set-2:original-072": {
       "type": "two-level-interaction",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch03-recovered-v1",
       "sourceQuestionId": "mbb:set-2:original-072",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic data tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "An interaction plot shows workload on the horizontal axis and first-contact-resolution percentage on the vertical axis. Method A changes from 62 percent at low workload to 58 percent at high workload; Method B changes from 60 percent to 42 percent.",
+        "altText": "Team mean resolution: Method A 62% and 58%; Method B 60% and 42%, at low and high workload respectively. See the supplied ANOVA table.",
         "semanticTable": false
       },
       "interactionPurpose": "",
       "staticFallback": "test-bank-assets/mbb-160/batch-03/static-fallbacks.html#mbb-set-2-original-072",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
+      "anova": {
+        "columns": [
+          "Source",
+          "Sum of squares (pp²)",
+          "df",
+          "F",
+          "p"
+        ],
+        "rows": [
+          [
+            "Method",
+            810,
+            1,
+            "16.5306",
+            "0.000249"
+          ],
+          [
+            "Workload",
+            1210,
+            1,
+            "24.6939",
+            "0.000017"
+          ],
+          [
+            "Method × workload",
+            490,
+            1,
+            "10.0000",
+            "0.003173"
+          ],
+          [
+            "Error",
+            1764,
+            36,
+            "—",
+            "—"
+          ]
+        ],
+        "replicatesPerCell": 10,
+        "meanSquareError": 49,
+        "errorDegreesOfFreedom": 36
+      },
       "variables": [
         "Workload",
         "Training method",
@@ -325,16 +367,16 @@
           "High workload"
         ],
         "yDomain": [
-          40,
-          65
+          0,
+          100
         ],
         "yTicks": [
+          0,
+          20,
           40,
-          45,
-          50,
-          55,
           60,
-          65
+          80,
+          100
         ]
       },
       "series": [
@@ -353,24 +395,26 @@
           ]
         }
       ],
-      "calculations": []
+      "calculations": [
+        "Method SS=810, workload SS=1210, interaction SS=490; MSE=49 pp²; F(1,36)=16.530612, 24.693878, 10.000000. Error SS=49×36=1764. Method simple effects A−B: 2 pp (low), 16 pp (high)."
+      ]
     },
     "mbb:set-2:original-073": {
       "type": "histogram",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch03-recovered-v1",
       "sourceQuestionId": "mbb:set-2:original-073",
       "transformations": [],
       "referenceLines": [
         "NPV = $0 at 0"
       ],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic data tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A histogram of 2,000 simulated project NPVs uses half-million-dollar bins from negative 2 million to positive 4 million. The four negative bins contain 20, 35, 80, and 175 trials, totaling 310. A vertical line marks zero NPV.",
+        "altText": "Simulated NPV counts from −2 to 4 million dollars in half-million bins: 20, 35, 80, 175, 240, 300, 320, 290, 230, 170, 100, 40.",
         "semanticTable": false
       },
       "interactionPurpose": "",
@@ -460,17 +504,17 @@
     "mbb:set-2:original-074": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch03-recovered-v1",
       "sourceQuestionId": "mbb:set-2:original-074",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic data tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A four-by-four treatment incidence matrix shows Formulation A in Lots 1, 2, and 4; B in Lots 2, 3, and 4; C in Lots 1, 2, and 3; and D in Lots 1, 3, and 4. Each formulation appears three times and each pair appears together twice.",
+        "altText": "The formulation-by-lot incidence matrix places A in Lots 1, 2, 4; B in 2, 3, 4; C in 1, 2, 3; D in 1, 3, 4.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -481,8 +525,7 @@
         "Lot 1",
         "Lot 2",
         "Lot 3",
-        "Lot 4",
-        "Replications"
+        "Lot 4"
       ],
       "rows": 4,
       "calculations": [
