@@ -104,7 +104,7 @@
     }
 
     async function gunzip(bytes) {
-      if ('DecompressionStream' in window) {
+      if (typeof window.DecompressionStream === 'function') {
         const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
         return new Response(stream).text();
       }
@@ -113,138 +113,9 @@
       return fflate.strFromU8(fflate.gunzipSync(bytes));
     }
 
-    function siteHeaderMarkup() {
-      return `
-        <header class="site upskill-lesson-sitebar">
-          <div class="upskill-sitebar-inner">
-            <a class="upskill-sitebar-brand" href="/" aria-label="UpSkill Sprint Consulting home">
-              <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo" width="36" height="36">
-              <span>UpSkill Sprint Consulting</span>
-            </a>
-            <nav class="upskill-sitebar-actions" aria-label="Lesson navigation">
-              <a class="upskill-sitebar-link" href="/lessons#lean-six-sigma">Back to Lean Six Sigma</a>
-            </nav>
-          </div>
-        </header>`;
-    }
-
-    function siteHeaderStyles() {
-      return `
-        <style id="upskill-lesson-site-header">
-          .upskill-lesson-sitebar {
-            position: sticky !important;
-            top: 0 !important;
-            z-index: 5000 !important;
-            display: flex !important;
-            align-items: center !important;
-            width: 100% !important;
-            min-height: 72px !important;
-            margin: 0 !important;
-            padding: 0 clamp(18px, 4vw, 40px) !important;
-            border: 0 !important;
-            border-bottom: 1px solid rgba(148, 163, 184, .24) !important;
-            background: rgba(7, 17, 31, .97) !important;
-            box-shadow: 0 8px 24px rgba(2, 8, 23, .14) !important;
-            backdrop-filter: blur(14px);
-          }
-          .upskill-sitebar-inner {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            gap: 24px !important;
-            width: min(100%, 1320px) !important;
-            min-height: 72px !important;
-            margin: 0 auto !important;
-          }
-          .upskill-sitebar-brand {
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 11px !important;
-            flex: 0 1 auto !important;
-            color: #f8fafc !important;
-            font: 700 15px/1.2 "Work Sans", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-            text-decoration: none !important;
-            white-space: nowrap !important;
-          }
-          .upskill-sitebar-brand:hover,
-          .upskill-sitebar-brand:focus,
-          .upskill-sitebar-brand:visited {
-            color: #f8fafc !important;
-            text-decoration: none !important;
-          }
-          .upskill-sitebar-brand img {
-            display: block !important;
-            width: 36px !important;
-            height: 36px !important;
-            flex: 0 0 36px !important;
-            object-fit: contain !important;
-          }
-          .upskill-sitebar-actions {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: flex-end !important;
-            gap: 9px !important;
-            margin: 0 !important;
-          }
-          .upskill-sitebar-link {
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            min-height: 40px !important;
-            padding: 9px 13px !important;
-            border: 1px solid rgba(148, 163, 184, .34) !important;
-            border-radius: 8px !important;
-            background: rgba(255, 255, 255, .04) !important;
-            color: #e8eef6 !important;
-            font: 650 13px/1.2 "Work Sans", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-            text-decoration: none !important;
-            white-space: nowrap !important;
-            transition: background-color .18s ease, border-color .18s ease, color .18s ease !important;
-          }
-          .upskill-sitebar-link:hover,
-          .upskill-sitebar-link:focus {
-            border-color: rgba(45, 212, 191, .72) !important;
-            background: rgba(45, 212, 191, .12) !important;
-            color: #ffffff !important;
-            text-decoration: none !important;
-            outline: none !important;
-          }
-          @media (max-width: 760px) {
-            .upskill-lesson-sitebar {
-              min-height: 64px !important;
-              padding: 0 14px !important;
-            }
-            .upskill-sitebar-inner {
-              min-height: 64px !important;
-              gap: 12px !important;
-            }
-            .upskill-sitebar-brand span {
-              display: none !important;
-            }
-            .upskill-sitebar-actions {
-              gap: 6px !important;
-            }
-            .upskill-sitebar-link {
-              min-height: 38px !important;
-              padding: 8px 10px !important;
-              font-size: 12px !important;
-            }
-          }
-          @media (max-width: 480px) {
-            .upskill-sitebar-link {
-              white-space: normal !important;
-              text-align: center !important;
-            }
-          }
-          @media print {
-            .upskill-lesson-sitebar { display: none !important; }
-          }
-        </style>`;
-    }
-
     try {
       const responses = await Promise.all(partNames.map(async function (partName) {
-        const response = await fetch(assetRoot + partName, { cache: 'force-cache' });
+        const response = await fetch(assetRoot + partName + '?v=pr166-v2', { cache: 'no-cache' });
         if (!response.ok) {
           throw new Error('Unable to load ' + partName + ' (' + response.status + ')');
         }
@@ -253,23 +124,27 @@
 
       let lessonHTML = await gunzip(decodeBase64(responses.join('')));
 
-      lessonHTML = lessonHTML
-        .replace(
-          '<title>ASQ DMAIC Formula Encyclopedia — CSSBB, CQE and CMBB</title>',
-          '<title>DMAIC Formula Encyclopedia | UpSkill Sprint Consulting</title>'
-        )
-        .replace(
-          '</head>',
-          siteHeaderStyles() + '</head>'
-        )
-        .replace(
-          '<body>',
-          '<body>'
-        )
-        .replace(
-          '</body>',
-          '<script src="/dmaic-encyclopedia-fixes.js">' + '<' + '/script></body>'
-        );
+      const lesson = new DOMParser().parseFromString(lessonHTML, 'text/html');
+      const dataScript = Array.from(lesson.scripts).find(script =>
+        !script.src && script.textContent.includes('const formulas = ['));
+      const applicationMarker = 'const root = document.getElementById("formulaRoot");';
+      const applicationStart = dataScript && dataScript.textContent.indexOf(applicationMarker);
+      if (!dataScript || applicationStart < 0) {
+        throw new Error('The formula data package has an unsupported structure.');
+      }
+      // Retain the complete, authoritative data array; replace the legacy renderer.
+      // Its render-on-every-keystroke handlers and independent theme must not run.
+      dataScript.textContent = dataScript.textContent.slice(0, applicationStart);
+      lesson.querySelectorAll('script[src*="mathjax"]').forEach(script => script.remove());
+      lesson.title = 'DMAIC Formula Encyclopedia | UpSkill Sprint Consulting';
+      lesson.body.classList.add('dmaic-encyclopedia-page');
+      const styles = lesson.createElement('link');
+      styles.rel = 'stylesheet'; styles.href = '/dmaic-encyclopedia-fixes.css?v=2';
+      lesson.head.append(styles);
+      const controller = lesson.createElement('script');
+      controller.src = '/dmaic-encyclopedia-fixes.js?v=2';
+      lesson.body.append(controller);
+      lessonHTML = '<!DOCTYPE html>\n' + lesson.documentElement.outerHTML;
 
       document.open();
       document.write(lessonHTML);
