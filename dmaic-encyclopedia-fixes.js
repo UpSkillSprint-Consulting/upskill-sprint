@@ -98,7 +98,8 @@
         border-bottom: 1.5px solid currentColor !important;
       }
       .upskill-fraction > span:last-child { padding: 3px 7px 0 !important; }
-      html[data-theme="dark"] .upskill-finance-formulas { color: #f4f7fb !important; }
+      html[data-theme="dark"] .upskill-finance-formulas,
+      body.dark .upskill-finance-formulas { color: #f4f7fb !important; }
 
       @media (max-width: 620px) {
         .upskill-formula-row {
