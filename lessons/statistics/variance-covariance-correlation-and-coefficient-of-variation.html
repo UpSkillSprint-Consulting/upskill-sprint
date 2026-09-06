@@ -18,8 +18,8 @@
 -->
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Spread Lab: Variance, Covariance, Correlation & Coefficient of Variation | UpSkill Sprint Consulting</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Spread Lab: Variance, Covariance, Correlation & Coefficient of Variation</title>
 <meta name="description" content="An interactive lesson tying variance, standard deviation, coefficient of variation and its cousins, covariance, and correlation together with live widgets, a fully worked dataset comparison, and Excel/Minitab guidance.">
 <link rel="canonical" href="https://upskillsprint.com/lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation">
 <meta property="og:type" content="article">
@@ -32,59 +32,60 @@
 <link rel="stylesheet" href="/lessons-theme.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script src="/theme.js"></script>
 <script src="/site-sections.js"></script>
 <style>
-  :root{
+  #lesson-content {
     color-scheme: light dark;
-    --sl-paper:#EEF3F1;
-    --sl-paper-line: rgba(20,80,86,0.09);
-    --sl-card:#FCFDFB;
-    --sl-ink:#142B2E;
-    --sl-ink-soft:#4B6469;
-    --sl-ink-faint:#597073;
-    --sl-accent:#E08E2B;
-    --sl-accent-ink:#7A4A0F;
-    --sl-teal:#1B6B72;
-    --sl-teal-deep:#0F4A50;
-    --sl-teal-soft:#DCEFEF;
-    --sl-brick:#96432F;
-    --sl-brick-soft:#F5E1DB;
-    --sl-border: rgba(20,60,64,0.16);
-    --sl-shadow: 0 1px 0 rgba(20,60,64,0.06);
-    --sl-radius: 14px;
-    --sl-serif: 'Fraunces', Georgia, serif;
-    --sl-sans: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --sl-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+    --lesson-sl-paper:#EEF3F1;
+    --lesson-sl-paper-line: rgba(20,80,86,0.09);
+    --lesson-sl-card:#FCFDFB;
+    --lesson-sl-ink:#142B2E;
+    --lesson-sl-ink-soft:#4B6469;
+    --lesson-sl-ink-faint:#597073;
+    --lesson-sl-accent:#A95C00;
+    --lesson-sl-control-border:#708589;
+    --lesson-sl-accent-ink:#7A4A0F;
+    --lesson-sl-teal:#1B6B72;
+    --lesson-sl-teal-deep:#0F4A50;
+    --lesson-sl-teal-soft:#DCEFEF;
+    --lesson-sl-brick:#96432F;
+    --lesson-sl-brick-soft:#F5E1DB;
+    --lesson-sl-border: rgba(20,60,64,0.16);
+    --lesson-sl-shadow: 0 1px 0 rgba(20,60,64,0.06);
+    --lesson-sl-radius: 14px;
+    --lesson-sl-serif: "Fraunces", Georgia, serif;
+    --lesson-sl-sans: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --lesson-sl-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
   }
 
-  *{ box-sizing: border-box; }
+  #lesson-content * { box-sizing: border-box; }
 
-  html{ scroll-behavior: smooth; }
+  #lesson-content { scroll-behavior: smooth; }
 
-  body{
+  #lesson-content {
     margin:0;
-    font-family: var(--sl-sans);
-    color: var(--sl-ink);
+    font-family: var(--lesson-sl-sans);
+    color: var(--lesson-sl-ink);
     background:
-      linear-gradient(var(--sl-paper-line) 1px, transparent 1px) 0 0 / 100% 28px,
-      linear-gradient(90deg, var(--sl-paper-line) 1px, transparent 1px) 0 0 / 28px 100%,
-      var(--sl-paper);
+      linear-gradient(var(--lesson-sl-paper-line) 1px, transparent 1px) 0 0 / 100% 28px,
+      linear-gradient(90deg, var(--lesson-sl-paper-line) 1px, transparent 1px) 0 0 / 28px 100%,
+      var(--lesson-sl-paper);
     line-height: 1.6;
   }
 
   @media (prefers-reduced-motion: reduce){
-    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+    #lesson-content * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
   }
 
-  .wrap{ max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  #lesson-content .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
 
   /* ---------- Spiral binding decoration ---------- */
-  .spine{
-    position: fixed;
+  #lesson-content .spine {
+    position: absolute;
     left: 0; top:0; bottom:0;
     width: 34px;
     display:flex; flex-direction:column; align-items:center;
@@ -94,218 +95,219 @@
     pointer-events:none;
     z-index: 5;
   }
-  .spine span{
+  #lesson-content .spine span {
     width: 16px; height:16px; border-radius:50%;
-    background: var(--sl-card);
-    border: 2.5px solid var(--sl-ink-faint);
-    box-shadow: inset 0 0 0 3px var(--sl-paper);
-  }
-  @media (max-width: 700px){ .spine{ display:none; } }
+    background: var(--lesson-sl-card);
+    border: 2.5px solid var(--lesson-sl-ink-faint);
+    box-shadow: inset 0 0 0 3px var(--lesson-sl-paper);
+   color: var(--lesson-sl-ink); }
+  @media (max-width: 700px){ #lesson-content .spine { display:none; } }
 
   /* ---------- Top progress + nav ---------- */
-  .progress-rail{
-    position: sticky; top:0; z-index: 20;
-    background: rgba(238,243,241,0.88);
+  #lesson-content .progress-rail {
+    position: sticky; top:var(--lesson-sl-sitebar-height, 73px); z-index: 10;
+    background: var(--lesson-sl-paper);
+    color: var(--lesson-sl-ink);
     backdrop-filter: blur(6px);
-    border-bottom: 1px solid var(--sl-border);
+    border-bottom: 1px solid var(--lesson-sl-border);
   }
-  .progress-bar{ height: 3px; background: var(--sl-accent); width: 0%; transition: width .1s linear; }
-  .nav-dots{
+  #lesson-content .progress-bar { height: 3px; background: var(--lesson-sl-accent); width: 0%; transition: width .1s linear;  color: var(--lesson-sl-ink); }
+  #lesson-content .nav-dots {
     display:flex; gap: 18px; align-items:center;
     padding: 10px 24px; max-width: 880px; margin: 0 auto;
-    font-family: var(--sl-mono); font-size: 12px; overflow-x:auto;
+    font-family: var(--lesson-sl-mono); font-size: 12px; overflow-x:auto;
   }
-  .nav-dots a{
-    color: var(--sl-ink-soft); text-decoration:none; white-space:nowrap;
+  #lesson-content .nav-dots a {
+    color: var(--lesson-sl-ink-soft); text-decoration:none; white-space:nowrap;
     padding: 4px 0; border-bottom: 2px solid transparent;
   }
-  .nav-dots a.active{ color: var(--sl-teal-deep); border-color: var(--sl-accent); }
+  #lesson-content .nav-dots a.active { color: var(--lesson-sl-teal-deep); border-color: var(--lesson-sl-accent); }
 
   /* ---------- Hero ---------- */
-  .hero{ padding: 64px 0 40px; margin-left: 34px; }
-  @media (max-width: 700px){ .hero{ margin-left:0; } }
-  .kicker{
-    font-family: var(--sl-mono); font-size: 13px; letter-spacing: 0.02em;
-    color: var(--sl-teal-deep); margin: 0 0 14px;
+  #lesson-content .hero { padding: 64px 0 40px; margin-left: 34px; }
+  @media (max-width: 700px){ #lesson-content .hero { margin-left:0; } }
+  #lesson-content .kicker {
+    font-family: var(--lesson-sl-mono); font-size: 13px; letter-spacing: 0.02em;
+    color: var(--lesson-sl-teal-deep); margin: 0 0 14px;
   }
-  h1.title{
-    font-family: var(--sl-serif); font-weight: 700;
+  #lesson-content h1.title {
+    font-family: var(--lesson-sl-serif); font-weight: 700;
     font-size: clamp(2.2rem, 5vw, 3.4rem);
     line-height: 1.05; margin: 0 0 20px; max-width: 14ch;
   }
-  h1.title em{ font-style: italic; font-weight: 500; color: var(--sl-teal-deep); }
-  .hero-tagline{ font-family: var(--sl-serif); font-style: italic; font-weight: 500; font-size: 1.3rem; color: var(--sl-teal-deep); margin: 4px 0 16px; }
-  .lede{ font-size: 1.14rem; color: var(--sl-ink-soft); max-width: 56ch; margin: 0 0 30px; }
+  #lesson-content h1.title em { font-style: italic; font-weight: 500; color: var(--lesson-sl-teal-deep); }
+  #lesson-content .hero-tagline { font-family: var(--lesson-sl-serif); font-style: italic; font-weight: 500; font-size: 1.3rem; color: var(--lesson-sl-teal-deep); margin: 4px 0 16px; }
+  #lesson-content .lede { font-size: 1.14rem; color: var(--lesson-sl-ink-soft); max-width: 56ch; margin: 0 0 30px; }
 
-  .hero-demo{
-    border: 1px solid var(--sl-border); border-radius: var(--sl-radius);
-    background: var(--sl-card); box-shadow: var(--sl-shadow);
+  #lesson-content .hero-demo {
+    border: 1px solid var(--lesson-sl-border); border-radius: var(--lesson-sl-radius);
+    background: var(--lesson-sl-card); box-shadow: var(--lesson-sl-shadow);
     padding: 18px; display:flex; gap: 22px; align-items:center; flex-wrap: wrap;
-  }
-  .hero-demo svg{ flex-shrink:0; }
-  .hero-demo .readout{ font-family: var(--sl-mono); font-size: 14px; color: var(--sl-ink-soft); }
-  .hero-demo .readout b{ color: var(--sl-teal-deep); font-size: 15px; }
-  .hero-demo .readout .r-val{ font-size: 22px; font-weight: 600; color: var(--sl-accent-ink); }
+   color: var(--lesson-sl-ink); }
+  #lesson-content .hero-demo svg { flex-shrink:0; }
+  #lesson-content .hero-demo .readout { font-family: var(--lesson-sl-mono); font-size: 14px; color: var(--lesson-sl-ink-soft); }
+  #lesson-content .hero-demo .readout b { color: var(--lesson-sl-teal-deep); font-size: 15px; }
+  #lesson-content .hero-demo .readout .r-val { font-size: 22px; font-weight: 600; color: var(--lesson-sl-accent-ink); }
 
   /* ---------- Sections ---------- */
-  section.page{
+  #lesson-content section.page {
     margin-left: 34px;
     padding: 56px 0;
-    border-top: 1px dashed var(--sl-border);
+    border-top: 1px dashed var(--lesson-sl-border);
   }
-  @media (max-width: 700px){ section.page{ margin-left: 0; } }
+  @media (max-width: 700px){ #lesson-content section.page { margin-left: 0; } }
 
-  .eyebrow-tag{
+  #lesson-content .eyebrow-tag {
     display:inline-flex; align-items:center; gap:8px;
-    font-family: var(--sl-mono); font-size: 12.5px; color: var(--sl-teal-deep);
-    background: var(--sl-teal-soft); border-radius: 999px; padding: 5px 12px;
+    font-family: var(--lesson-sl-mono); font-size: 12.5px; color: var(--lesson-sl-teal-deep);
+    background: var(--lesson-sl-teal-soft); border-radius: 999px; padding: 5px 12px;
     margin-bottom: 18px;
   }
-  .eyebrow-tag .dot{ width:6px; height:6px; border-radius:50%; background: var(--sl-teal); }
+  #lesson-content .eyebrow-tag .dot { width:6px; height:6px; border-radius:50%; background: var(--lesson-sl-teal);  color: var(--lesson-sl-ink); }
 
-  h2.section-title{
-    font-family: var(--sl-serif); font-weight: 600; font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+  #lesson-content h2.section-title {
+    font-family: var(--lesson-sl-serif); font-weight: 600; font-size: clamp(1.6rem, 3.4vw, 2.2rem);
     margin: 0 0 14px; line-height: 1.15;
   }
-  p.section-intro{ color: var(--sl-ink-soft); max-width: 62ch; font-size: 1.04rem; margin: 0 0 30px; }
-  p.section-intro strong{ color: var(--sl-ink); }
+  #lesson-content p.section-intro { color: var(--lesson-sl-ink-soft); max-width: 62ch; font-size: 1.04rem; margin: 0 0 30px; }
+  #lesson-content p.section-intro strong { color: var(--lesson-sl-ink); }
 
-  .formula-card{
-    background: var(--sl-card); border: 1px solid var(--sl-border); border-radius: var(--sl-radius);
-    padding: 18px 22px; margin: 0 0 28px; box-shadow: var(--sl-shadow);
-    font-family: var(--sl-mono); font-size: 15px; color: var(--sl-teal-deep);
+  #lesson-content .formula-card {
+    background: var(--lesson-sl-card); border: 1px solid var(--lesson-sl-border); border-radius: var(--lesson-sl-radius);
+    padding: 18px 22px; margin: 0 0 28px; box-shadow: var(--lesson-sl-shadow);
+    font-family: var(--lesson-sl-mono); font-size: 15px; color: var(--lesson-sl-teal-deep);
     overflow-x:auto;
   }
-  .formula-card .label{ display:block; font-family: var(--sl-sans); font-size: 12.5px; color: var(--sl-ink-faint); margin-bottom: 6px; }
-  .katex-box{ overflow-x:auto; overflow-y:hidden; padding: 4px 0; max-width: 100%; }
-  .katex-box + .katex-box{ margin-top: 14px; }
-  .katex-box .katex{ font-size: 1.15em; color: var(--sl-teal-deep); }
-  @media (max-width:480px){ .katex-box .katex{ font-size: 0.95em; } }
-  .katex-box .katex-display{ margin: 0; }
-  .formula-card .tex-note{ font-family: var(--sl-sans); font-size: 12.5px; color: var(--sl-ink-faint); margin-top: 10px; }
+  #lesson-content .formula-card .label { display:block; font-family: var(--lesson-sl-sans); font-size: 12.5px; color: var(--lesson-sl-ink-faint); margin-bottom: 6px; }
+  #lesson-content .katex-box { overflow-x:auto; overflow-y:hidden; padding: 4px 0; max-width: 100%; }
+  #lesson-content .katex-box + .katex-box { margin-top: 14px; }
+  #lesson-content .katex-box .katex { font-size: 1.15em; color: var(--lesson-sl-teal-deep); }
+  @media (max-width:480px){ #lesson-content .katex-box .katex { font-size: 0.95em; } }
+  #lesson-content .katex-box .katex-display { margin: 0; }
+  #lesson-content .formula-card .tex-note { font-family: var(--lesson-sl-sans); font-size: 12.5px; color: var(--lesson-sl-ink-faint); margin-top: 10px; }
 
   /* ---------- Widget shell ---------- */
-  .widget{
-    background: var(--sl-card); border: 1px solid var(--sl-border); border-radius: var(--sl-radius);
-    box-shadow: var(--sl-shadow); padding: 24px; margin: 0 0 22px;
-  }
-  .widget h3{ font-family: var(--sl-serif); font-size: 1.2rem; margin: 0 0 6px; font-weight: 600; }
-  .widget .widget-note{ color: var(--sl-ink-faint); font-size: 13.5px; margin: 0 0 18px; }
+  #lesson-content .widget {
+    background: var(--lesson-sl-card); border: 1px solid var(--lesson-sl-border); border-radius: var(--lesson-sl-radius);
+    box-shadow: var(--lesson-sl-shadow); padding: 24px; margin: 0 0 22px;
+   color: var(--lesson-sl-ink); }
+  #lesson-content .widget h3 { font-family: var(--lesson-sl-serif); font-size: 1.2rem; margin: 0 0 6px; font-weight: 600; }
+  #lesson-content .widget .widget-note { color: var(--lesson-sl-ink-faint); font-size: 13.5px; margin: 0 0 18px; }
 
-  .control-row{ display:flex; align-items:center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
-  .control-row label{ font-size: 13.5px; color: var(--sl-ink-soft); font-weight: 500; min-width: fit-content; }
-  input[type=range]{
+  #lesson-content .control-row { display:flex; align-items:center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+  #lesson-content .control-row label { font-size: 13.5px; color: var(--lesson-sl-ink-soft); font-weight: 500; min-width: fit-content; }
+  #lesson-content input[type=range] {
     -webkit-appearance:none; appearance:none; height: 5px; border-radius: 3px;
-    background: linear-gradient(90deg, var(--sl-teal), var(--sl-accent));
+    background: linear-gradient(90deg, var(--lesson-sl-teal), var(--lesson-sl-accent));
     flex: 1; min-width: 140px; cursor:pointer;
-  }
-  input[type=range]::-webkit-slider-thumb{
+   color: var(--lesson-sl-ink); }
+  #lesson-content input[type=range]::-webkit-slider-thumb {
     -webkit-appearance:none; width: 18px; height: 18px; border-radius:50%;
-    background: var(--sl-card); border: 3px solid var(--sl-teal-deep); cursor:pointer;
-  }
-  input[type=range]::-moz-range-thumb{
+    background: var(--lesson-sl-card); border: 3px solid var(--lesson-sl-teal-deep); cursor:pointer;
+   color: var(--lesson-sl-ink); }
+  #lesson-content input[type=range]::-moz-range-thumb {
     width: 18px; height: 18px; border-radius:50%;
-    background: var(--sl-card); border: 3px solid var(--sl-teal-deep); cursor:pointer;
-  }
-  .btn{
-    font-family: var(--sl-sans); font-weight: 600; font-size: 13.5px;
-    border: 1.5px solid var(--sl-teal-deep); color: var(--sl-teal-deep); background: transparent;
+    background: var(--lesson-sl-card); border: 3px solid var(--lesson-sl-teal-deep); cursor:pointer;
+   color: var(--lesson-sl-ink); }
+  #lesson-content .btn {
+    font-family: var(--lesson-sl-sans); font-weight: 600; font-size: 13.5px;
+    border: 1.5px solid var(--lesson-sl-teal-deep); color: var(--lesson-sl-teal-deep); background: transparent;
     border-radius: 999px; padding: 8px 18px; cursor:pointer; transition: background .15s, color .15s;
   }
-  .btn:hover{ background: var(--sl-teal-deep); color: #fff; }
-  .btn.ghost{ border-color: var(--sl-border); color: var(--sl-ink-soft); }
-  .btn.ghost:hover{ background: var(--sl-ink-soft); color:#fff; }
+  #lesson-content .btn:hover { background: var(--lesson-sl-teal-deep); color: #fff; }
+  #lesson-content .btn.ghost { border-color: var(--lesson-sl-border); color: var(--lesson-sl-ink-soft); }
+  #lesson-content .btn.ghost:hover { background: var(--lesson-sl-ink-soft); color:#fff; }
 
-  .readout-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 14px; margin-top: 18px; }
-  .readout{
-    background: var(--sl-paper); border: 1px solid var(--sl-border); border-radius: 10px;
+  #lesson-content .readout-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 14px; margin-top: 18px; }
+  #lesson-content .readout {
+    background: var(--lesson-sl-paper); border: 1px solid var(--lesson-sl-border); border-radius: 10px;
     padding: 12px 14px;
-  }
-  .readout .rk{ font-size: 11.5px; text-transform: none; color: var(--sl-ink-faint); font-family: var(--sl-mono); display:block; margin-bottom: 4px; }
-  .readout .rv{ font-family: var(--sl-mono); font-size: 20px; font-weight: 600; color: var(--sl-teal-deep); }
-  .readout .rv small{ font-size: 12px; color: var(--sl-ink-faint); font-weight: 400; }
+   color: var(--lesson-sl-ink); }
+  #lesson-content .readout .rk { font-size: 11.5px; text-transform: none; color: var(--lesson-sl-ink-faint); font-family: var(--lesson-sl-mono); display:block; margin-bottom: 4px; }
+  #lesson-content .readout .rv { font-family: var(--lesson-sl-mono); font-size: 20px; font-weight: 600; color: var(--lesson-sl-teal-deep); }
+  #lesson-content .readout .rv small { font-size: 12px; color: var(--lesson-sl-ink-faint); font-weight: 400; }
 
   /* number line track */
-  .track-wrap{ margin: 26px 0 6px; }
-  .track-label{ font-size: 12.5px; color: var(--sl-ink-faint); font-family: var(--sl-mono); margin-bottom: 10px; }
-  .track{ position: relative; height: 74px; }
-  .track .axis{ position:absolute; left:0; right:0; top: 46px; height: 2px; background: var(--sl-border); }
-  .track .band{ position:absolute; top: 34px; height: 26px; background: var(--sl-teal-soft); border-radius: 6px; opacity: .8; }
-  .track .mean-line{ position:absolute; top: 20px; bottom: 20px; width: 2px; background: var(--sl-accent); }
-  .track .mean-tag{ position:absolute; top: 0; transform: translateX(-50%); font-family: var(--sl-mono); font-size: 11px; color: var(--sl-accent-ink); font-weight:600; white-space:nowrap; }
-  .track .dot{
+  #lesson-content .track-wrap { margin: 26px 0 6px; }
+  #lesson-content .track-label { font-size: 12.5px; color: var(--lesson-sl-ink-faint); font-family: var(--lesson-sl-mono); margin-bottom: 10px; }
+  #lesson-content .track { position: relative; height: 74px; }
+  #lesson-content .track .axis { position:absolute; left:0; right:0; top: 46px; height: 2px; background: var(--lesson-sl-border);  color: var(--lesson-sl-ink); }
+  #lesson-content .track .band { position:absolute; top: 34px; height: 26px; background: var(--lesson-sl-teal-soft); border-radius: 6px; opacity: .8;  color: var(--lesson-sl-ink); }
+  #lesson-content .track .mean-line { position:absolute; top: 20px; bottom: 20px; width: 2px; background: var(--lesson-sl-accent);  color: var(--lesson-sl-ink); }
+  #lesson-content .track .mean-tag { position:absolute; top: 0; transform: translateX(-50%); font-family: var(--lesson-sl-mono); font-size: 11px; color: var(--lesson-sl-accent-ink); font-weight:600; white-space:nowrap; }
+  #lesson-content .track .dot {
     position:absolute; top: 38px; width: 14px; height:14px; border-radius:50%;
-    background: var(--sl-teal); border: 2px solid var(--sl-card); transform: translateX(-50%);
+    background: var(--lesson-sl-teal); border: 2px solid var(--lesson-sl-card); transform: translateX(-50%);
     box-shadow: 0 1px 3px rgba(20,60,64,0.3);
-  }
-  .track .tick{ position:absolute; top: 50px; font-family: var(--sl-mono); font-size: 10.5px; color: var(--sl-ink-faint); transform: translateX(-50%); }
+   color: var(--lesson-sl-ink); }
+  #lesson-content .track .tick { position:absolute; top: 50px; font-family: var(--lesson-sl-mono); font-size: 10.5px; color: var(--lesson-sl-ink-faint); transform: translateX(-50%); }
 
   /* scatter */
-  .scatter-layout{ display:flex; gap: 26px; flex-wrap: wrap; align-items: flex-start; }
-  .scatter-layout svg{ background: var(--sl-paper); border-radius: 10px; border: 1px solid var(--sl-border); flex-shrink:0; max-width: 100%; height:auto; }
-  .scatter-side{ flex: 1; min-width: 200px; }
-  .quad-key{ display:flex; flex-direction:column; gap:8px; margin-top: 14px; font-size: 12.5px; color: var(--sl-ink-soft); }
-  .quad-key span.sw{ display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:7px; vertical-align:-1px; }
+  #lesson-content .scatter-layout { display:flex; gap: 26px; flex-wrap: wrap; align-items: flex-start; }
+  #lesson-content .scatter-layout svg { background: var(--lesson-sl-paper); border-radius: 10px; border: 1px solid var(--lesson-sl-border); flex-shrink:0; max-width: 100%; height:auto;  color: var(--lesson-sl-ink); }
+  #lesson-content .scatter-side { flex: 1; min-width: 200px; }
+  #lesson-content .quad-key { display:flex; flex-direction:column; gap:8px; margin-top: 14px; font-size: 12.5px; color: var(--lesson-sl-ink-soft); }
+  #lesson-content .quad-key span.sw { display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:7px; vertical-align:-1px; }
 
   /* CV two-track comparison */
-  .cv-track{ border: 1px solid var(--sl-border); border-radius: 10px; padding: 16px; background: var(--sl-paper); margin-bottom: 14px; }
-  .cv-track h4{ margin: 0 0 2px; font-family: var(--sl-serif); font-size: 1.02rem; font-weight:600; }
-  .cv-track .unit{ font-size: 12.5px; color: var(--sl-ink-faint); margin-bottom: 12px; }
-  .cv-badge{ display:inline-block; font-family: var(--sl-mono); font-size: 11px; padding: 3px 9px; border-radius: 999px; margin-left: 8px; }
-  .cv-badge.win{ background: var(--sl-teal-soft); color: var(--sl-teal-deep); }
-  .cv-badge.lose{ background: var(--sl-brick-soft); color: var(--sl-brick); }
+  #lesson-content .cv-track { border: 1px solid var(--lesson-sl-border); border-radius: 10px; padding: 16px; background: var(--lesson-sl-paper); margin-bottom: 14px;  color: var(--lesson-sl-ink); }
+  #lesson-content .cv-track h4 { margin: 0 0 2px; font-family: var(--lesson-sl-serif); font-size: 1.02rem; font-weight:600; }
+  #lesson-content .cv-track .unit { font-size: 12.5px; color: var(--lesson-sl-ink-faint); margin-bottom: 12px; }
+  #lesson-content .cv-badge { display:inline-block; font-family: var(--lesson-sl-mono); font-size: 11px; padding: 3px 9px; border-radius: 999px; margin-left: 8px; }
+  #lesson-content .cv-badge.win { background: var(--lesson-sl-teal-soft); color: var(--lesson-sl-teal-deep); }
+  #lesson-content .cv-badge.lose { background: var(--lesson-sl-brick-soft); color: var(--lesson-sl-brick); }
 
   /* Tie-together diagram */
-  .diagram-wrap{ overflow-x:auto; }
-  .diagram-wrap svg{ min-width: 560px; }
-  .diagram-node{
+  #lesson-content .diagram-wrap { overflow-x:auto; }
+  #lesson-content .diagram-wrap svg { min-width: 560px; }
+  #lesson-content .diagram-node {
     position:absolute; border-radius:12px; border:1px solid rgba(20,43,46,0.16);
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; padding: 6px 10px; box-sizing:border-box;
   }
-  .diagram-node .n-title{ font-family: var(--sl-serif); font-weight:600; font-size: 14.5px; color: var(--sl-ink); margin-bottom: 4px; }
-  .diagram-node .n-formula .katex{ font-size: 0.95em; color: var(--sl-teal-deep); }
-  .diagram-node text.n-title{ font-family: var(--sl-serif); font-weight:600; }
-  .diagram-node text.n-formula{ font-family: var(--sl-mono); }
+  #lesson-content .diagram-node .n-title { font-family: var(--lesson-sl-serif); font-weight:600; font-size: 14.5px; color: var(--lesson-sl-ink); margin-bottom: 4px; }
+  #lesson-content .diagram-node .n-formula .katex { font-size: 0.95em; color: var(--lesson-sl-teal-deep); }
+  #lesson-content .diagram-node text.n-title { font-family: var(--lesson-sl-serif); font-weight:600; }
+  #lesson-content .diagram-node text.n-formula { font-family: var(--lesson-sl-mono); }
 
   /* Stats implementation tables */
-  table.impl{ width:100%; border-collapse: collapse; font-size: 13.5px; margin: 0 0 26px; }
-  table.impl caption{ text-align:left; font-family: var(--sl-mono); font-size: 12.5px; color: var(--sl-ink-faint); margin-bottom: 8px; caption-side: top; }
-  table.impl th{ text-align:left; font-family: var(--sl-sans); font-weight:600; color: var(--sl-teal-deep); border-bottom: 2px solid var(--sl-border); padding: 9px 10px; }
-  table.impl td{ padding: 9px 10px; border-bottom: 1px solid var(--sl-border); vertical-align: top; }
-  table.impl td.fn{ font-family: var(--sl-mono); color: var(--sl-accent-ink); white-space:nowrap; }
-  .impl-scroll{ overflow-x:auto; }
+  #lesson-content table.impl { width:100%; border-collapse: collapse; font-size: 13.5px; margin: 0 0 26px; }
+  #lesson-content table.impl caption { text-align:left; font-family: var(--lesson-sl-mono); font-size: 12.5px; color: var(--lesson-sl-ink-faint); margin-bottom: 8px; caption-side: top; }
+  #lesson-content table.impl th { text-align:left; font-family: var(--lesson-sl-sans); font-weight:600; color: var(--lesson-sl-teal-deep); border-bottom: 2px solid var(--lesson-sl-border); padding: 9px 10px; }
+  #lesson-content table.impl td { padding: 9px 10px; border-bottom: 1px solid var(--lesson-sl-border); vertical-align: top; }
+  #lesson-content table.impl td.fn { font-family: var(--lesson-sl-mono); color: var(--lesson-sl-accent-ink); white-space:nowrap; }
+  #lesson-content .impl-scroll { overflow-x:auto; }
 
-  .path-block{
-    background: var(--sl-paper); border-left: 3px solid var(--sl-teal); border-radius: 0 8px 8px 0;
+  #lesson-content .path-block {
+    background: var(--lesson-sl-paper); border-left: 3px solid var(--lesson-sl-teal); border-radius: 0 8px 8px 0;
     padding: 12px 16px; margin-bottom: 14px; font-size: 13.5px;
-  }
-  .path-block .p-route{ font-family: var(--sl-mono); color: var(--sl-teal-deep); font-size: 13px; }
+   color: var(--lesson-sl-ink); }
+  #lesson-content .path-block .p-route { font-family: var(--lesson-sl-mono); color: var(--lesson-sl-teal-deep); font-size: 13px; }
 
-  .exam-tip{
-    background: var(--sl-brick-soft); border-radius: 10px; padding: 14px 18px; margin-bottom: 12px;
-    font-size: 13.8px; border-left: 3px solid var(--sl-brick);
-  }
-  .exam-tip b{ color: var(--sl-brick); }
+  #lesson-content .exam-tip {
+    background: var(--lesson-sl-brick-soft); border-radius: 10px; padding: 14px 18px; margin-bottom: 12px;
+    font-size: 13.8px; border-left: 3px solid var(--lesson-sl-brick);
+   color: var(--lesson-sl-ink); }
+  #lesson-content .exam-tip b { color: var(--lesson-sl-brick); }
 
   /* Guided practice section */
-  .practice-two-col{ display:grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-  .practice-two-col > .practice-col{ min-width: 0; }
-  @media (max-width:700px){ .practice-two-col{ grid-template-columns: 1fr; } }
-  .practice-col h4{ font-family: var(--sl-serif); font-size: 1.05rem; margin: 0 0 10px; }
-  .practice-col .dataset-list{ font-family: var(--sl-mono); font-size: 12.5px; color: var(--sl-ink-soft); margin: 8px 0 16px; }
-  .big-stat{ font-family: var(--sl-mono); font-size: 26px; font-weight:600; color: var(--sl-teal-deep); }
-  .big-stat small{ font-size: 13px; color: var(--sl-ink-faint); font-weight: 400; display:block; margin-top:2px; }
-  .vs-divider{ display:flex; align-items:center; justify-content:center; font-family: var(--sl-mono); color: var(--sl-ink-faint); font-size: 13px; margin: 10px 0; }
-  .predict-row{ display:flex; gap: 12px; justify-content:center; flex-wrap:wrap; margin: 18px 0; }
-  .reveal-panel{ border-top: 1px dashed var(--sl-border); margin-top: 20px; padding-top: 20px; }
-  table.compare{ width:100%; border-collapse: collapse; font-size: 13.5px; margin: 18px 0 8px; }
-  table.compare th{ text-align:left; font-family: var(--sl-sans); font-weight:600; color: var(--sl-ink-soft); border-bottom: 2px solid var(--sl-border); padding: 8px 10px; }
-  table.compare td{ padding: 8px 10px; border-bottom: 1px solid var(--sl-border); font-family: var(--sl-mono); }
-  table.compare td.measure-name{ font-family: var(--sl-sans); font-weight: 500; color: var(--sl-ink); }
-  table.compare td.bigger{ font-weight:700; }
-  table.compare td.bigger.raw-win{ color: var(--sl-teal-deep); }
-  table.compare td.bigger.rel-win{ color: var(--sl-brick); }
+  #lesson-content .practice-two-col { display:grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  #lesson-content .practice-two-col > .practice-col { min-width: 0; }
+  @media (max-width:700px){ #lesson-content .practice-two-col { grid-template-columns: 1fr; } }
+  #lesson-content .practice-col h4 { font-family: var(--lesson-sl-serif); font-size: 1.05rem; margin: 0 0 10px; }
+  #lesson-content .practice-col .dataset-list { font-family: var(--lesson-sl-mono); font-size: 12.5px; color: var(--lesson-sl-ink-soft); margin: 8px 0 16px; }
+  #lesson-content .big-stat { font-family: var(--lesson-sl-mono); font-size: 26px; font-weight:600; color: var(--lesson-sl-teal-deep); }
+  #lesson-content .big-stat small { font-size: 13px; color: var(--lesson-sl-ink-faint); font-weight: 400; display:block; margin-top:2px; }
+  #lesson-content .vs-divider { display:flex; align-items:center; justify-content:center; font-family: var(--lesson-sl-mono); color: var(--lesson-sl-ink-faint); font-size: 13px; margin: 10px 0; }
+  #lesson-content .predict-row { display:flex; gap: 12px; justify-content:center; flex-wrap:wrap; margin: 18px 0; }
+  #lesson-content .reveal-panel { border-top: 1px dashed var(--lesson-sl-border); margin-top: 20px; padding-top: 20px; }
+  #lesson-content table.compare { width:100%; border-collapse: collapse; font-size: 13.5px; margin: 18px 0 8px; }
+  #lesson-content table.compare th { text-align:left; font-family: var(--lesson-sl-sans); font-weight:600; color: var(--lesson-sl-ink-soft); border-bottom: 2px solid var(--lesson-sl-border); padding: 8px 10px; }
+  #lesson-content table.compare td { padding: 8px 10px; border-bottom: 1px solid var(--lesson-sl-border); font-family: var(--lesson-sl-mono); }
+  #lesson-content table.compare td.measure-name { font-family: var(--lesson-sl-sans); font-weight: 500; color: var(--lesson-sl-ink); }
+  #lesson-content table.compare td.bigger { font-weight:700; }
+  #lesson-content table.compare td.bigger.raw-win { color: var(--lesson-sl-teal-deep); }
+  #lesson-content table.compare td.bigger.rel-win { color: var(--lesson-sl-brick); }
 </style>
 <style id="uss-quiz-style">
 .quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
@@ -377,11 +379,11 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     <p class="lede">Variance, standard deviation, coefficient of variation and its cousins, covariance, and correlation are usually taught as separate formulas to memorize. They're really one idea, asked several different ways: <strong>how far do things drift from where we expect them, and do two things drift together?</strong> Drag the slider below to feel it before we name it.</p>
 
     <div class="hero-demo">
-      <svg id="heroSvg" width="220" height="150" viewBox="0 0 220 150"></svg>
+      <svg id="heroSvg" role="img" aria-label="Correlation scatter plot" width="220" height="150" viewBox="0 0 220 150"></svg>
       <div class="readout">
         <div>relationship strength: <span class="r-val" id="heroRVal">0.70</span></div>
         <div style="margin-top:6px;">as you drag, watch the dots snap from a <b>cloud</b> to a <b>line</b> — that snapping-into-a-line is what <b>correlation</b> measures.</div>
-        <div style="margin-top:12px;"><input type="range" id="heroSlider" min="-100" max="100" value="70" style="width:200px;"></div>
+        <div style="margin-top:12px;"><input type="range" id="heroSlider" aria-label="Relationship strength" min="-100" max="100" value="70" style="width:200px;"></div>
       </div>
     </div>
   </div>
@@ -438,7 +440,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <div class="control-row">
         <label for="cvSlider">Shared std dev</label>
         <input type="range" id="cvSlider" min="1" max="12" value="4" step="0.5">
-        <span class="rv" id="cvSliderVal" style="font-family:var(--sl-mono);color:var(--sl-teal-deep);">4.0</span>
+        <span class="rv" id="cvSliderVal" style="font-family:var(--lesson-sl-mono);color:var(--lesson-sl-teal-deep);">4.0</span>
       </div>
 
       <div class="cv-track">
@@ -561,14 +563,14 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <button class="btn ghost" id="covShuffle">New sample</button>
       </div>
       <div class="scatter-layout">
-        <svg id="covSvg" width="360" height="300" viewBox="0 0 360 300"></svg>
+        <svg id="covSvg" role="img" aria-label="Covariance: four-quadrant scatter plot" width="360" height="300" viewBox="0 0 360 300"></svg>
         <div class="scatter-side">
           <div class="readout-grid" style="grid-template-columns:1fr;">
             <div class="readout"><span class="rk">covariance</span><span class="rv" id="covVal">—</span></div>
           </div>
           <div class="quad-key">
-            <div><span class="sw" style="background:var(--sl-teal-soft);"></span>both deviations agree → pushes covariance <b>up</b></div>
-            <div><span class="sw" style="background:var(--sl-brick-soft);"></span>deviations disagree → pushes covariance <b>down</b></div>
+            <div><span class="sw" style="background:var(--lesson-sl-teal-soft);"></span>both deviations agree → pushes covariance <b>up</b></div>
+            <div><span class="sw" style="background:var(--lesson-sl-brick-soft);"></span>deviations disagree → pushes covariance <b>down</b></div>
           </div>
         </div>
       </div>
@@ -595,7 +597,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <button class="btn ghost" id="corrShuffle">New sample</button>
       </div>
       <div class="scatter-layout">
-        <svg id="corrSvg" width="360" height="300" viewBox="0 0 360 300"></svg>
+        <svg id="corrSvg" role="img" aria-label="Pearson correlation scatter plot" width="360" height="300" viewBox="0 0 360 300"></svg>
         <div class="scatter-side">
           <div class="readout-grid" style="grid-template-columns:1fr;">
             <div class="readout"><span class="rk">correlation (r)</span><span class="rv" id="corrVal">—</span></div>
@@ -616,9 +618,9 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     <h2 class="section-title">One family tree, five names — plus the cousins</h2>
     <p class="section-intro">These five share one direct bloodline: each is a variation on "average deviation from expected," widened to two variables or rescaled for comparison. Coefficient of range, quartile coefficient of dispersion, and coefficient of mean deviation from the last section are cousins, not children — same goal, different raw materials (range, quartiles, and absolute distance instead of squared distance).</p>
 
-    <div class="widget diagram-wrap">
+    <div class="widget diagram-wrap" tabindex="0" role="region" aria-label="Scrollable variance family tree">
       <div id="diagramCanvas" style="position:relative; width:620px; height:340px;">
-        <svg id="diagramSvg" width="620" height="340" viewBox="0 0 620 340" style="position:absolute; left:0; top:0;"></svg>
+        <svg id="diagramSvg" role="img" aria-label="Variance family tree: square root; divide by mean; extend to 2 variables; divide by both standard deviations" width="620" height="340" viewBox="0 0 620 340" style="position:absolute; left:0; top:0;"></svg>
       </div>
     </div>
   </section>
@@ -644,7 +646,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       </div>
     </div>
 
-    <h3 style="font-family:var(--sl-serif);font-size:1.15rem;margin:34px 0 4px;">Step 1 — the mean</h3>
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.15rem;margin:34px 0 4px;">Step 1 — the mean</h3>
     <div class="widget">
       <div class="practice-two-col">
         <div class="practice-col">
@@ -658,7 +660,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       </div>
     </div>
 
-    <h3 style="font-family:var(--sl-serif);font-size:1.15rem;margin:30px 0 4px;">Step 2 — variance and standard deviation</h3>
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.15rem;margin:30px 0 4px;">Step 2 — variance and standard deviation</h3>
     <div class="widget">
       <div class="practice-two-col">
         <div class="practice-col">
@@ -675,19 +677,19 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     </div>
 
     <div class="widget" style="text-align:center;">
-      <p style="font-family:var(--sl-mono); font-size:12.5px; color:var(--sl-ink-faint); margin:0 0 16px; letter-spacing:0.02em;">BEFORE YOU SCROLL FURTHER</p>
+      <p style="font-family:var(--lesson-sl-mono); font-size:12.5px; color:var(--lesson-sl-ink-faint); margin:0 0 16px; letter-spacing:0.02em;">BEFORE YOU SCROLL FURTHER</p>
       <div class="practice-two-col" style="margin-bottom:6px;">
         <div class="big-stat">30.21<small>kg — pallets std dev</small></div>
         <div class="big-stat">0.346<small>mm — pins std dev</small></div>
       </div>
       <p style="font-size:1.05rem; margin:20px 0 0;">Judging only by those two numbers — <strong>which process is more variable?</strong></p>
       <div class="predict-row">
-        <button class="btn" id="guessPallets">The pallets — 30.21 dwarfs 0.346</button>
-        <button class="btn ghost" id="guessPins">The pins — that comparison feels unfair</button>
+        <button class="btn" id="guessPallets" aria-controls="guessReveal" aria-expanded="false">The pallets — 30.21 dwarfs 0.346</button>
+        <button class="btn ghost" id="guessPins" aria-controls="guessReveal" aria-expanded="false">The pins — that comparison feels unfair</button>
       </div>
       <div class="reveal-panel" id="guessReveal" style="display:none; text-align:left;">
-        <p id="guessResponse" style="font-weight:600;"></p>
-        <h3 style="font-family:var(--sl-serif);font-size:1.1rem;margin:18px 0 4px;">Step 3 — coefficient of variation</h3>
+        <p id="guessResponse" aria-live="polite" style="font-weight:600;"></p>
+        <h3 style="font-family:var(--lesson-sl-serif);font-size:1.1rem;margin:18px 0 4px;">Step 3 — coefficient of variation</h3>
         <div class="practice-two-col">
           <div class="practice-col"><div class="katex-box" id="tex-p-cv-a"></div></div>
           <div class="practice-col"><div class="katex-box" id="tex-p-cv-b"></div></div>
@@ -698,7 +700,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 
     <p class="section-intro">That reversal isn't a one-off trick of this example — the same thing happens with every relative measure from this lesson, because they all divide out scale in the same way. Let's run the rest.</p>
 
-    <h3 style="font-family:var(--sl-serif);font-size:1.15rem;margin:30px 0 4px;">Step 4 — range and coefficient of range</h3>
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.15rem;margin:30px 0 4px;">Step 4 — range and coefficient of range</h3>
     <div class="widget">
       <div class="practice-two-col">
         <div class="practice-col">
@@ -712,7 +714,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       </div>
     </div>
 
-    <h3 style="font-family:var(--sl-serif);font-size:1.15rem;margin:30px 0 4px;">Step 5 — quartiles and quartile coefficient of dispersion</h3>
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.15rem;margin:30px 0 4px;">Step 5 — quartiles and quartile coefficient of dispersion</h3>
     <div class="widget">
       <div class="practice-two-col">
         <div class="practice-col">
@@ -726,7 +728,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       </div>
     </div>
 
-    <h3 style="font-family:var(--sl-serif);font-size:1.15rem;margin:30px 0 4px;">Step 6 — mean deviation and coefficient of mean deviation</h3>
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.15rem;margin:30px 0 4px;">Step 6 — mean deviation and coefficient of mean deviation</h3>
     <div class="widget">
       <div class="practice-two-col">
         <div class="practice-col">
@@ -743,9 +745,9 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <p class="widget-note" style="margin-top:16px;">RSD isn't shown as a separate step — it's exactly the CV values from Step 3, just relabeled as a percentage, since RSD and CV are the same statistic.</p>
     </div>
 
-    <h3 style="font-family:var(--sl-serif);font-size:1.15rem;margin:30px 0 4px;">Every measure, side by side</h3>
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.15rem;margin:30px 0 4px;">Every measure, side by side</h3>
     <div class="widget">
-      <div style="overflow-x:auto">
+      <div style="overflow-x:auto" tabindex="0" role="region" aria-label="Pallets and pins comparison table">
       <table class="compare">
         <thead><tr><th>Measure</th><th>Pallets (raw)</th><th>Pins (raw)</th><th>Pallets (relative)</th><th>Pins (relative)</th></tr></thead>
         <tbody>
@@ -753,7 +755,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
           <tr><td class="measure-name">Range / Coef. of range</td><td class="bigger raw-win">100 kg</td><td>1.1 mm</td><td>6.17%</td><td class="bigger rel-win">10.89%</td></tr>
           <tr><td class="measure-name">IQR / QCD</td><td class="bigger raw-win">37.5 kg</td><td>0.475 mm</td><td>2.31%</td><td class="bigger rel-win">4.74%</td></tr>
           <tr><td class="measure-name">Mean dev. / CoMD</td><td class="bigger raw-win">25 kg</td><td>0.3 mm</td><td>3.09%</td><td class="bigger rel-win">5.97%</td></tr>
-          <tr><td class="measure-name">RSD</td><td colspan="2" style="color:var(--sl-ink-faint);">— (same as CV, just ×100%)</td><td>3.73%</td><td class="bigger rel-win">6.88%</td></tr>
+          <tr><td class="measure-name">RSD</td><td colspan="2" style="color:var(--lesson-sl-ink-faint);">— (same as CV, just ×100%)</td><td>3.73%</td><td class="bigger rel-win">6.88%</td></tr>
         </tbody>
       </table>
       </div>
@@ -771,7 +773,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     <h2 class="section-title">Running these in Excel and Minitab</h2>
     <p class="section-intro">The formulas above are what's happening under the hood. In practice, on the exam and on the floor, you'll pull these from software — and the sample/population distinction below is the single most common place people lose points.</p>
 
-    <div class="impl-scroll">
+    <div class="impl-scroll" tabindex="0" role="region" aria-label="Excel functions table">
     <table class="impl">
       <caption>Excel functions</caption>
       <thead><tr><th>Function</th><th>Syntax</th><th>Purpose</th><th>When to use</th></tr></thead>
@@ -791,7 +793,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     </table>
     </div>
 
-    <h3 style="font-family:var(--sl-serif);font-size:1.05rem;margin:0 0 12px;">Excel use cases</h3>
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.05rem;margin:0 0 12px;">Excel use cases</h3>
     <div class="path-block"><span class="p-route">=STDEV.S(B2:B50)/AVERAGE(B2:B50)</span> — the everyday CV formula, since Excel has no built-in CV function. Format the cell as a percentage.</div>
     <div class="path-block"><span class="p-route">=(STDEV.S(B2:B50)/AVERAGE(B2:B50))*100</span> — the same calculation reported as RSD, the convention you'll see in analytical chemistry and lab COAs (certificates of analysis).</div>
     <div class="path-block"><span class="p-route">=(MAX(B2:B50)-MIN(B2:B50))/(MAX(B2:B50)+MIN(B2:B50))</span> — coefficient of range: fast, but only as trustworthy as your two most extreme readings.</div>
@@ -800,13 +802,13 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     <div class="path-block"><span class="p-route">=CORREL(B2:B50,C2:C50)</span> — quick check for whether two process inputs (e.g. oven temperature and cure time) are moving together before you build a regression.</div>
     <div class="path-block"><span class="p-route">=COVARIANCE.S(B2:B50,C2:C50)</span> — feeds directly into hand-calculating r if you already have both standard deviations, and matters on its own in portfolio-style variance calculations (Var(X+Y) = Var(X)+Var(Y)+2·Cov(X,Y)).</div>
 
-    <h3 style="font-family:var(--sl-serif);font-size:1.05rem;margin:24px 0 12px;">Minitab navigation</h3>
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.05rem;margin:24px 0 12px;">Minitab navigation</h3>
     <div class="path-block"><span class="p-route">Stat → Basic Statistics → Display Descriptive Statistics</span> — gives mean, StDev, and variance together; check "Statistics…" to add CoefVar (Minitab computes CV for you, unlike Excel). Q1 and Q3 are available in the same dialog for building the quartile coefficient of dispersion by hand.</div>
     <div class="path-block"><span class="p-route">Stat → Basic Statistics → Covariance</span> — direct covariance matrix for two or more columns.</div>
     <div class="path-block"><span class="p-route">Stat → Basic Statistics → Correlation</span> — correlation matrix with an option to display p-values; use this over hand-calculating r whenever you have more than two variables to compare pairwise.</div>
     <p class="widget-note">Which option to use and why: Descriptive Statistics is the right first stop for any single-variable spread question (variance, StDev, CV, and quartiles all live there together). None of coefficient of range, quartile coefficient of dispersion, or coefficient of mean deviation have a dedicated Minitab menu — you build them from the descriptive-statistics output, same as in Excel. Reach for Covariance only when you specifically need the unscaled joint measure — most of the time, on the exam and at work, Correlation is what you actually want, since it's directly interpretable without knowing the units.</p>
 
-    <h3 style="font-family:var(--sl-serif);font-size:1.05rem;margin:24px 0 12px;">Exam tips (CSSBB / CQE)</h3>
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.05rem;margin:24px 0 12px;">Exam tips (CSSBB / CQE)</h3>
     <div class="exam-tip"><b>Sample vs. population:</b> if the question describes measuring "all units produced" or a defined finite lot, use population formulas (n divisor). If it describes a sample pulled for inspection — the overwhelming majority of exam scenarios — use sample formulas (n−1 divisor). Using n instead of n−1 is the single most common calculation trap.</div>
     <div class="exam-tip"><b>Correlation ≠ causation:</b> a classic distractor answer treats a high r as proof that X causes Y. The exam will reward "there is a strong linear association" over "X causes Y" unless the question describes a controlled experiment.</div>
     <div class="exam-tip"><b>CV shows up in Measurement Systems Analysis and reliability questions</b> as a way to compare variability across different gauges or different-scaled processes — if a question compares consistency across two different units of measure, CV (not raw StDev) is almost always the intended tool.</div>
@@ -1009,7 +1011,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     pts.forEach(([x,y])=>{
       const px = pad + (x-minX)/(maxX-minX||1)*(w-2*pad);
       const py = h-pad - (y-minY)/(maxY-minY||1)*(h-2*pad);
-      svg += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4" style="fill:var(--sl-teal)" opacity="0.75"/>`;
+      svg += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4" style="fill:var(--lesson-sl-teal)" opacity="0.75"/>`;
     });
     heroSvg.innerHTML = svg;
     heroRVal.textContent = fmt(correlation(xs,ys),2);
@@ -1113,7 +1115,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       for(let t=10;t<=14;t+=1){ html += `<div class="tick" style="left:${pos(t)}%;">${t}</div>`; }
       data.forEach(d => {
         const isOutlier = withOutlier && d === OUTLIER;
-        html += `<div class="dot" style="left:${pos(d)}%;${isOutlier?'background:var(--sl-brick);width:16px;height:16px;top:37px;':''}"></div>`;
+        html += `<div class="dot" style="left:${pos(d)}%;${isOutlier?'background:var(--lesson-sl-brick);width:16px;height:16px;top:37px;':''}"></div>`;
       });
       trackEl.innerHTML = html;
 
@@ -1154,24 +1156,24 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 
     let svg = '';
     if(opts.quadrants){
-      svg += `<rect x="${pad}" y="${pad}" width="${cx-pad}" height="${cy-pad}" style="fill:var(--sl-brick-soft)"/>`; // top-left (x<mean,y>mean) => negative
-      svg += `<rect x="${cx}" y="${pad}" width="${W-pad-cx}" height="${cy-pad}" style="fill:var(--sl-teal-soft)"/>`; // top-right positive
-      svg += `<rect x="${pad}" y="${cy}" width="${cx-pad}" height="${H-pad-cy}" style="fill:var(--sl-teal-soft)"/>`; // bottom-left positive
-      svg += `<rect x="${cx}" y="${cy}" width="${W-pad-cx}" height="${H-pad-cy}" style="fill:var(--sl-brick-soft)"/>`; // bottom-right negative
+      svg += `<rect x="${pad}" y="${pad}" width="${cx-pad}" height="${cy-pad}" style="fill:var(--lesson-sl-brick-soft)"/>`; // top-left (x<mean,y>mean) => negative
+      svg += `<rect x="${cx}" y="${pad}" width="${W-pad-cx}" height="${cy-pad}" style="fill:var(--lesson-sl-teal-soft)"/>`; // top-right positive
+      svg += `<rect x="${pad}" y="${cy}" width="${cx-pad}" height="${H-pad-cy}" style="fill:var(--lesson-sl-teal-soft)"/>`; // bottom-left positive
+      svg += `<rect x="${cx}" y="${cy}" width="${W-pad-cx}" height="${H-pad-cy}" style="fill:var(--lesson-sl-brick-soft)"/>`; // bottom-right negative
     }
-    svg += `<line x1="${cx}" y1="${pad}" x2="${cx}" y2="${H-pad}" style="stroke:var(--sl-accent)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
-    svg += `<line x1="${pad}" y1="${cy}" x2="${W-pad}" y2="${cy}" style="stroke:var(--sl-accent)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+    svg += `<line x1="${cx}" y1="${pad}" x2="${cx}" y2="${H-pad}" style="stroke:var(--lesson-sl-accent)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+    svg += `<line x1="${pad}" y1="${cy}" x2="${W-pad}" y2="${cy}" style="stroke:var(--lesson-sl-accent)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
 
     if(opts.trendline){
       const cov = covariance(xs,ys), varX = variance(xs);
       if(varX>0){
         const slope = cov/varX, intercept = mY - slope*mX;
         const x1d = minX, x2d = maxX;
-        svg += `<line x1="${px(x1d)}" y1="${py(slope*x1d+intercept)}" x2="${px(x2d)}" y2="${py(slope*x2d+intercept)}" style="stroke:var(--sl-teal-deep)" stroke-width="2" opacity="0.55"/>`;
+        svg += `<line x1="${px(x1d)}" y1="${py(slope*x1d+intercept)}" x2="${px(x2d)}" y2="${py(slope*x2d+intercept)}" style="stroke:var(--lesson-sl-teal-deep)" stroke-width="2" opacity="0.55"/>`;
       }
     }
 
-    xs.forEach((x,i)=>{ svg += `<circle cx="${px(x).toFixed(1)}" cy="${py(ys[i]).toFixed(1)}" r="5" style="fill:var(--sl-teal);stroke:var(--sl-card)" fill-opacity="0.82" stroke-width="1"/>`; });
+    xs.forEach((x,i)=>{ svg += `<circle cx="${px(x).toFixed(1)}" cy="${py(ys[i]).toFixed(1)}" r="5" style="fill:var(--lesson-sl-teal);stroke:var(--lesson-sl-card)" fill-opacity="0.82" stroke-width="1"/>`; });
 
     svgEl.innerHTML = svg;
     return {xs, ys};
@@ -1216,11 +1218,11 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     const svg = document.getElementById('diagramSvg');
     const canvas = document.getElementById('diagramCanvas');
     const nodes = [
-      {id:'var', x:20,  y:150, w:150, h:70, title:'Variance', tex:'\\dfrac{\\sum(x-\\bar{x})^2}{n}', fill:'var(--sl-teal-soft)'},
-      {id:'std', x:230, y:50,  w:150, h:70, title:'Std Deviation', tex:'\\sqrt{\\text{Variance}}', fill:'var(--sl-card)'},
-      {id:'cv',  x:440, y:50,  w:160, h:70, title:'Coeff. of Variation', tex:'\\dfrac{\\sigma}{\\bar{x}}', fill:'var(--sl-card)'},
-      {id:'cov', x:230, y:250, w:150, h:70, title:'Covariance', tex:'\\dfrac{\\sum(x-\\bar{x})(y-\\bar{y})}{n}', fill:'var(--sl-teal-soft)'},
-      {id:'corr',x:440, y:250, w:160, h:70, title:'Correlation (r)', tex:'\\dfrac{\\text{Cov}}{\\sigma_x \\sigma_y}', fill:'var(--sl-card)'}
+      {id:'var', x:20,  y:150, w:150, h:70, title:'Variance', tex:'\\dfrac{\\sum(x-\\bar{x})^2}{n}', fill:'var(--lesson-sl-teal-soft)'},
+      {id:'std', x:230, y:50,  w:150, h:70, title:'Std Deviation', tex:'\\sqrt{\\text{Variance}}', fill:'var(--lesson-sl-card)'},
+      {id:'cv',  x:440, y:50,  w:160, h:70, title:'Coeff. of Variation', tex:'\\dfrac{\\sigma}{\\bar{x}}', fill:'var(--lesson-sl-card)'},
+      {id:'cov', x:230, y:250, w:150, h:70, title:'Covariance', tex:'\\dfrac{\\sum(x-\\bar{x})(y-\\bar{y})}{n}', fill:'var(--lesson-sl-teal-soft)'},
+      {id:'corr',x:440, y:250, w:160, h:70, title:'Correlation (r)', tex:'\\dfrac{\\text{Cov}}{\\sigma_x \\sigma_y}', fill:'var(--lesson-sl-card)'}
     ];
     const edges = [
       ['var','std','square root'],
@@ -1234,10 +1236,10 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       const A=byId[a], B=byId[b];
       const x1=A.x+A.w, y1=A.y+A.h/2, x2=B.x, y2=B.y+B.h/2;
       const mx=(x1+x2)/2;
-      s += `<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" style="stroke:var(--sl-ink-faint)" stroke-width="1.6" marker-end="url(#arrow)"/>`;
-      s += `<text x="${mx}" y="${(y1+y2)/2-8}" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" style="fill:var(--sl-ink-soft)">${label}</text>`;
+      s += `<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" style="stroke:var(--lesson-sl-ink-faint)" stroke-width="1.6" marker-end="url(#arrow)"/>`;
+      s += `<text x="${mx}" y="${(y1+y2)/2-8}" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" style="fill:var(--lesson-sl-ink-soft)">${label}</text>`;
     });
-    s = `<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" style="fill:var(--sl-ink-faint)"/></marker></defs>` + s;
+    s = `<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" style="fill:var(--lesson-sl-ink-faint)"/></marker></defs>` + s;
     svg.innerHTML = s;
 
     nodes.forEach(n=>{
@@ -1313,28 +1315,106 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   });
 })();
 </script>
+<script id="sl-presentation-controls">
+(function () {
+  'use strict';
+  const main = document.getElementById('lesson-content');
+  const header = document.querySelector('header.site');
+  if (!main || !header) return;
+  function syncLayout() {
+    const height = Math.ceil(header.getBoundingClientRect().height) + 'px';
+    if (main.style.getPropertyValue('--lesson-sl-sitebar-height') !== height) {
+      main.style.setProperty('--lesson-sl-sitebar-height', height);
+    }
+    main.querySelectorAll('.katex-box').forEach(function (box) {
+      if (box.scrollWidth > box.clientWidth + 1) {
+        box.setAttribute('tabindex', '0');
+        box.setAttribute('role', 'region');
+        box.setAttribute('aria-label', 'Scrollable formula');
+      } else {
+        box.removeAttribute('tabindex');
+        box.removeAttribute('role');
+        box.removeAttribute('aria-label');
+      }
+    });
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    const observer = new ResizeObserver(syncLayout);
+    observer.observe(header);
+    observer.observe(main);
+  }
+  window.addEventListener('resize', syncLayout, { passive: true });
+  window.addEventListener('load', syncLayout);
+  document.addEventListener('DOMContentLoaded', syncLayout);
+  ['guessPallets', 'guessPins'].forEach(function (id) {
+    document.getElementById(id).addEventListener('click', function () {
+      document.getElementById('guessPallets').setAttribute('aria-expanded', 'true');
+      document.getElementById('guessPins').setAttribute('aria-expanded', 'true');
+      syncLayout();
+    });
+  });
+  syncLayout();
+})();
+</script>
 <style id="sl-dark-overrides">
-html[data-theme="dark"]{
-  --sl-paper:#0E1B1D;
-  --sl-paper-line: rgba(180,220,220,0.07);
-  --sl-card:#16272A;
-  --sl-ink:#EAF3F2;
-  --sl-ink-soft:#A9C4C2;
-  --sl-ink-faint:#8AA6A4;
-  --sl-accent:#F0A94A;
-  --sl-accent-ink:#FFCB80;
-  --sl-teal:#4FB8C0;
-  --sl-teal-deep:#8FDCE0;
-  --sl-teal-soft:#163B3E;
-  --sl-brick:#E8917C;
-  --sl-brick-soft:#3C2620;
-  --sl-border: rgba(180,220,220,0.20);
-  --sl-shadow: 0 1px 0 rgba(0,0,0,0.4);
+html[data-theme="dark"] #lesson-content{
+  --lesson-sl-paper:#0E1B1D;
+  --lesson-sl-paper-line: rgba(180,220,220,0.07);
+  --lesson-sl-card:#16272A;
+  --lesson-sl-ink:#EAF3F2;
+  --lesson-sl-ink-soft:#A9C4C2;
+  --lesson-sl-ink-faint:#8AA6A4;
+  --lesson-sl-accent:#F0A94A;
+  --lesson-sl-accent-ink:#FFCB80;
+  --lesson-sl-teal:#4FB8C0;
+  --lesson-sl-teal-deep:#8FDCE0;
+  --lesson-sl-teal-soft:#163B3E;
+  --lesson-sl-brick:#E8917C;
+  --lesson-sl-brick-soft:#3C2620;
+  --lesson-sl-border: rgba(180,220,220,0.20);
+  --lesson-sl-control-border:#708C91;
+  --lesson-sl-shadow: 0 1px 0 rgba(0,0,0,0.4);
   color-scheme: dark;
 }
 html[data-theme="dark"] #sl-back-link{ color: #7DD3FC !important; }
-html[data-theme="dark"] table.compare td.bigger.raw-win{ color: var(--sl-teal-deep) !important; }
-html[data-theme="dark"] table.compare td.bigger.rel-win{ color: var(--sl-brick) !important; }
+html[data-theme="dark"] #lesson-content table.compare td.bigger.raw-win{ color: var(--lesson-sl-teal-deep) !important; }
+html[data-theme="dark"] #lesson-content table.compare td.bigger.rel-win{ color: var(--lesson-sl-brick) !important; }
+/* Presentation-only safeguards. Shared header/footer/progress styling stays untouched. */
+#lesson-content{position:relative;min-width:0;max-width:none;padding:0 0 24px}
+#lesson-content .wrap{min-width:0}
+#lesson-content .hero{min-width:0}
+#lesson-content h1.title{max-width:24ch;overflow-wrap:anywhere}
+#lesson-content section.page{scroll-margin-top:calc(var(--lesson-sl-sitebar-height, 73px) + 80px)}
+#lesson-content .hero-demo>*{min-width:0;max-width:100%}
+#lesson-content .hero-demo svg{height:auto}
+#lesson-content .path-block{overflow-wrap:anywhere}
+#lesson-content .scatter-side{min-width:min(200px,100%)}
+#lesson-content .btn{white-space:normal;max-width:100%;min-height:44px}
+#lesson-content .btn.ghost{border-color:var(--lesson-sl-control-border)}
+#lesson-content input[type="range"]{min-height:24px;height:24px;padding:9.5px 0;max-width:100%;background-clip:content-box}
+#lesson-content .control-row input[type="range"]{min-width:min(140px,100%)}
+#lesson-content .track .axis{background:var(--lesson-sl-control-border)}
+#lesson-content .diagram-node{border-color:var(--lesson-sl-control-border);color:var(--lesson-sl-ink)}
+#lesson-content :is(button,input,a,[tabindex="0"]):focus-visible{outline:3px solid var(--lesson-sl-teal-deep);outline-offset:3px}
+#quiz .quiz-question{min-inline-size:0}
+#quiz .quiz,#quiz .quiz-question,#quiz .quiz-feedback,#quiz .quiz-result{color:#172033}
+#quiz .quiz-option{overflow-wrap:anywhere}
+html[data-theme="light"] #lesson-content{color-scheme:light}
+html[data-theme="dark"] #lesson-content .btn:hover,
+html[data-theme="dark"] #lesson-content .btn.ghost:hover{color:var(--lesson-sl-paper)}
+html[data-theme="dark"] #lesson-content input[type="range"]{background:linear-gradient(90deg,var(--lesson-sl-teal),var(--lesson-sl-accent)) content-box !important;color:var(--lesson-sl-ink)}
+html[data-theme="dark"] #quiz .lesson-kicker{color:#67D4DF}
+html[data-theme="dark"] #quiz .quiz,
+html[data-theme="dark"] #quiz .quiz-question,
+html[data-theme="dark"] #quiz .quiz-feedback,
+html[data-theme="dark"] #quiz .quiz-result{color:#E7EEF4}
+@media (max-width:480px){
+  #lesson-content .wrap{padding-left:16px;padding-right:16px}
+  #lesson-content .widget{padding:18px}
+  #lesson-content .formula-card{padding:16px}
+  #lesson-content .hero{padding-top:36px}
+  #lesson-content .nav-dots{padding-left:16px;padding-right:16px;gap:14px}
+}
 </style>
 </body>
 </html>
