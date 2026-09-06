@@ -49,7 +49,7 @@
     --lesson-arl-line:#d7e0e8;
     --lesson-arl-ink:#101828;
     --lesson-arl-ink-dim:#475569;
-    --lesson-arl-cyan:#0e7c86;
+    --lesson-arl-cyan:#0b737c;
     --lesson-arl-cyan-dim:#d7edef;
     --lesson-arl-amber:#8a5a10;
     --lesson-arl-red:#a3301f;
@@ -611,7 +611,7 @@
 
   <div class="card">
     <p class="tight" style="margin:0;"><strong>Zone reference probabilities</strong> (one side, standard normal) — every derivation below is built from these four numbers.</p>
-    <div style="overflow-x:auto"><table style="margin-top:10px;">
+    <div class="table-scroll" style="overflow-x:auto" tabindex="0" role="region" aria-label="Zone reference probabilities; scroll horizontally"><table style="margin-top:10px;">
       <tr><th>Region</th><th>P (one side)</th><th>P (both sides)</th></tr>
       <tr><td>Beyond 3σ (past Zone A)</td><td class="num">0.00135</td><td class="num">0.0027</td></tr>
       <tr><td>Beyond 2σ (Zone A or worse)</td><td class="num">0.02275</td><td class="num">0.0455</td></tr>
@@ -1336,10 +1336,10 @@ function drawCusumChart(shift){
   cCusumCtx.fillStyle = '#081527'; cCusumCtx.fillRect(0,0,w,h);
 
   const N = C_N_PRE + C_N_POST;
-  const marginX = 46, marginTop = 16, marginBottom = 26;
+  const marginX = 46, marginTop = 42, marginBottom = 26;
   const plotW = w - marginX*2, plotH = h - marginTop - marginBottom;
   const baseY = h - marginBottom;
-  const yRange = Math.max(CUSUM_H*1.3, shift*8 + CUSUM_H);
+  let yRange = Math.max(CUSUM_H*1.3, shift*8 + CUSUM_H);
   const yToPx = v => baseY - (v/yRange)*plotH;
 
   // compute C+ / C- series from the SAME underlying shocks as the Shewhart chart
@@ -1353,6 +1353,9 @@ function drawCusumChart(shift){
     CpArr.push(Cp); CmArr.push(Cm);
     if((Cp > CUSUM_H || Cm > CUSUM_H) && i >= C_N_PRE && firstAlarmIdx === -1) firstAlarmIdx = i;
   }
+
+  // Fit every unchanged CUSUM value inside the plot; do not clip accumulated evidence.
+  yRange = Math.max(yRange, 1.1*Math.max(...CpArr, ...CmArr));
 
   // decision interval H
   cCusumCtx.strokeStyle = '#5fbf8f'; cCusumCtx.lineWidth = 1;
@@ -1399,7 +1402,7 @@ function drawCusumChart(shift){
 
 function updateCusumPair(){
   const shift = parseFloat(cusumShiftSlider.value);
-  cusumShiftVal.textContent = shift.toFixed(1)+'σ';
+  cusumShiftVal.textContent = Number(shift.toFixed(2))+'σ';
   const shewhartAlarm = drawCusumShewhart(shift);
   const cusumAlarm = drawCusumChart(shift);
 
@@ -1539,16 +1542,17 @@ function baseSpark(ctx,w,h){
   ctx.beginPath(); ctx.moveTo(0,h/2); ctx.lineTo(w,h/2); ctx.stroke();
 }
 function plotLine(ctx,pts,w,h,color){
+  const pad = 6, scale = (h/2-pad)/Math.max(1.25,...pts.map(Math.abs));
   ctx.strokeStyle=color; ctx.lineWidth=2; ctx.beginPath();
   pts.forEach((p,i)=>{
-    const x = (i/(pts.length-1))*w;
-    const y = h/2 - p*(h*0.4);
+    const x = pad+(i/(pts.length-1))*(w-2*pad);
+    const y = h/2 - p*scale;
     if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
     ctx.fillStyle=color;
   });
   ctx.stroke();
   pts.forEach((p,i)=>{
-    const x=(i/(pts.length-1))*w; const y=h/2-p*(h*0.4);
+    const x=pad+(i/(pts.length-1))*(w-2*pad); const y=h/2-p*scale;
     ctx.beginPath(); ctx.arc(x,y,2.5,0,7); ctx.fill();
   });
 }

@@ -28,6 +28,20 @@ const server = http.createServer((req,res)=>{
 async function open(browser,width,theme,url){
  const context=await browser.newContext({viewport:{width,height:1000},colorScheme:theme,reducedMotion:'reduce'});
  await context.addInitScript(t=>{localStorage.setItem('upskill-theme',t);let seed=42;Math.random=()=>((seed=(1664525*seed+1013904223)>>>0)/4294967296);window.quizEvents=[];document.addEventListener('upskill-quiz-result',e=>window.quizEvents.push(e.detail));},theme);
+ await context.addInitScript(()=>{
+   window.lessonDrawingBounds={};
+   for(const method of ['clearRect','moveTo','lineTo','arc']){
+     const original=CanvasRenderingContext2D.prototype[method];
+     CanvasRenderingContext2D.prototype[method]=function(...args){
+       const id=this.canvas.id;
+       if(id==='cusumCanvas'||id.startsWith('spark-')){
+         if(method==='clearRect')window.lessonDrawingBounds[id]={minX:Infinity,minY:Infinity,maxX:-Infinity,maxY:-Infinity,width:this.canvas.width,height:this.canvas.height};
+         else {const r=method==='arc'?args[2]:0,b=window.lessonDrawingBounds[id];if(b){b.minX=Math.min(b.minX,args[0]-r);b.minY=Math.min(b.minY,args[1]-r);b.maxX=Math.max(b.maxX,args[0]+r);b.maxY=Math.max(b.maxY,args[1]+r);}}
+       }
+       return original.apply(this,args);
+     };
+   }
+ });
  const page=await context.newPage(), errors=[];page.setDefaultTimeout(12000);page.on('pageerror',e=>errors.push(e.message));
  await page.goto(url,{waitUntil:'load',timeout:60000});await page.waitForSelector('#lesson-progress-widget',{timeout:30000});await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(150);
  return {context,page,errors};
@@ -55,6 +69,7 @@ async function axe(page,name){const r=await new AxeBuilder({page}).include('#les
 async function range(page,id,value){await page.locator('#'+id).fill(String(value));await page.locator('#'+id).dispatchEvent('input');}
 async function part(page,id){await page.locator('nav.toc button[data-target="'+id+'"]').click();await page.waitForTimeout(80);assert.equal(await page.locator('section.part.active').getAttribute('id'),id);}
 async function snapshot(page){return page.evaluate(()=>({headings:[...document.querySelectorAll('#lesson-content h1,#lesson-content h2,#lesson-content h3,#lesson-content h4,#quiz h2,#quiz h3')].map(e=>e.textContent),main:document.querySelector('#lesson-content').textContent,quiz:document.querySelector('#quiz').textContent,formulas:[...document.querySelectorAll('#lesson-content .math')].map(e=>e.textContent),rules:document.querySelectorAll('#testCards .test-card').length,selfChecks:document.querySelectorAll('#selfCheckQuiz .quiz-item').length}));}
+async function drawingBounds(page){return page.evaluate(()=>Object.entries(window.lessonDrawingBounds).filter(([id,b])=>b.minX < -1 || b.minY < -1 || b.maxX > b.width+1 || b.maxY > b.height+1));}
 async function commonInputs(page){await page.evaluate(()=>{document.getElementById('shiftSlider').value='1.5';document.getElementById('limitSelect').value='3';document.getElementById('cusumShiftSlider').value='0.5';updateBoth();updateCusumPair();});}
 const injected=/<div data-netlify-deploy-id="[a-f0-9]{24}" data-netlify-site-id="82c1a97f-bb8d-4e7b-8367-fe93d7ce1657" data-vcs="github" style="position:fixed">\s*<script async src="\/\.netlify\/scripts\/cdp"><\/script>\s*<\/div>\n(?=<\/body>)/g;
 (async()=>{
@@ -74,15 +89,23 @@ const injected=/<div data-netlify-deploy-id="[a-f0-9]{24}" data-netlify-site-id=
      await part(page,id);
      await check(tag+' '+id+' layout, focus and sticky clearance',async()=>{const r=await layout(page);report.matrix.push(r);assert.equal(r.overflow,false);assert.deepEqual(r.outside,[]);assert(r.headingTop>=r.navBottom-1,'Heading hidden under navigation');assert(r.navTop>=r.headerBottom-1,'Lesson nav covers site header');assert.equal(r.headers,1);assert.equal(r.footers,1);assert.equal(r.progress,1);assert.equal(await page.locator('nav.toc [aria-current="step"]').getAttribute('data-target'),id);});
      await check(tag+' '+id+' text contrast and accessibility',async()=>{assert.deepEqual(await contrasts(page),[]);await axe(page,tag+'-'+id);});
-     if(width===390||width===1440)await page.screenshot({path:path.join(OUT,tag+'-'+id+'-full.png'),fullPage:true});
+     if(width===390||width===1440){await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(OUT,tag+'-'+id+'-full.png'),fullPage:true});}
     }
-    await check(tag+' calculator, both limits and random resampling',async()=>{await part(page,'p1');for(const lim of ['2','3']){await page.locator('#limitSelect').selectOption(lim);for(const shift of [0,1.5,4]){await range(page,'shiftSlider',shift);assert.equal(parseFloat(await page.locator('#shiftVal').innerText()),shift);assert.match(await page.locator('#arlMath').innerText(),/ARL₁ =/);}}const before=await page.locator('#runCanvas').evaluate(e=>e.toDataURL());await page.locator('#resampleRun').click();assert.notEqual(await page.locator('#runCanvas').evaluate(e=>e.toDataURL()),before);const deriv=page.locator('#p1 .derive-toggle');await deriv.click();assert.equal(await deriv.getAttribute('aria-expanded'),'true');await deriv.click();assert.equal(await deriv.getAttribute('aria-expanded'),'false');});
+    await check(tag+' calculator, both limits and random resampling',async()=>{await part(page,'p1');for(const lim of ['2','3']){await page.locator('#limitSelect').selectOption(lim);for(const shift of [0,1.5,4]){await range(page,'shiftSlider',shift);assert.equal(parseFloat(await page.locator('#shiftVal').innerText()),shift);assert.match(await page.locator('#arlMath').innerText(),/ARL₁ =/);}}const before=await page.locator('#runCanvas').evaluate(e=>e.toDataURL());await page.locator('#resampleRun').click();assert.notEqual(await page.locator('#runCanvas').evaluate(e=>e.toDataURL()),before);});
     await check(tag+' eight Nelson derivations',async()=>{await part(page,'p2');const buttons=page.locator('#testCards .derive-toggle');assert.equal(await buttons.count(),8);for(const b of await buttons.all()){await b.click();assert.equal(await b.getAttribute('aria-expanded'),'true');await b.click();assert.equal(await b.getAttribute('aria-expanded'),'false');}});
     await check(tag+' simulation endpoints and clear',async()=>{await part(page,'p3');for(const n of [50,1000]){await range(page,'nPoints',n);await page.locator('#runSim').click();const a=Number(await page.locator('#stat2').innerText()),b=Number(await page.locator('#stat3').innerText());assert(a>=b&&a<=n&&b>=0);}await page.locator('#clearSim').click();assert.equal(await page.locator('#stat3').innerText(),'0');assert.equal(await page.locator('#stat2').innerText(),'0');assert.equal(await page.locator('#statRatio').innerText(),'—');});
-    await check(tag+' CUSUM endpoints and resampling',async()=>{await part(page,'p4');for(const x of [0,0.75,3]){await range(page,'cusumShiftSlider',x);assert.equal(parseFloat(await page.locator('#cusumShiftVal').innerText()),x);}const before=await page.locator('#cusumCanvas').evaluate(e=>e.toDataURL());await page.locator('#resampleCusum').click();assert.notEqual(await page.locator('#cusumCanvas').evaluate(e=>e.toDataURL()),before);});
+    await check(tag+' CUSUM endpoints and resampling',async()=>{await part(page,'p4');for(const x of [0,0.75,3]){await range(page,'cusumShiftSlider',x);assert.equal(parseFloat(await page.locator('#cusumShiftVal').innerText()),x);assert.deepEqual(await drawingBounds(page),[]);}const before=await page.locator('#cusumCanvas').evaluate(e=>e.toDataURL());await page.locator('#resampleCusum').click();assert.notEqual(await page.locator('#cusumCanvas').evaluate(e=>e.toDataURL()),before);});
     await check(tag+' five self-check disclosures',async()=>{await part(page,'p5');const buttons=page.locator('#selfCheckQuiz .quiz-q');assert.equal(await buttons.count(),5);for(const b of await buttons.all()){await b.click();assert.equal(await b.getAttribute('aria-expanded'),'true');await b.click();assert.equal(await b.getAttribute('aria-expanded'),'false');}});
     await check(tag+' quiz unanswered, correct and incorrect feedback',async()=>{await page.locator('#quiz-submit').click();assert.equal(await page.locator('#quiz .quiz-feedback.warn').count(),6);for(const correct of [true,false]){await page.evaluate(c=>document.querySelectorAll('#quiz .quiz-question').forEach(q=>{const inputs=[...q.querySelectorAll('input')];inputs.find(i=>(i.value===q.dataset.answer)===c).checked=true;}),correct);await page.locator('#quiz-submit').click();assert.match(await page.locator('#quiz-result').innerText(),correct?/Score: 6 \/ 6/:/Score: 0 \/ 6/);assert.deepEqual(await page.evaluate(()=>window.quizEvents.at(-1)),{score:correct?6:0,total:6});await axe(page,tag+'-quiz-'+correct);}if(width===390||width===1440)await page.locator('#quiz').screenshot({path:path.join(OUT,tag+'-quiz.png')});});
     await check(tag+' keyboard access and theme switch',async()=>{await part(page,'p1');const slider=page.locator('#shiftSlider');await slider.focus();await page.keyboard.press('ArrowLeft');assert(await slider.evaluate(e=>getComputedStyle(e).outlineStyle!=='none'&&parseFloat(getComputedStyle(e).outlineWidth)>=2));await page.locator('[data-theme-toggle]').click();assert.equal(await page.locator('html').getAttribute('data-theme'),theme==='dark'?'light':'dark');await page.locator('[data-theme-toggle]').click();assert.equal(await page.locator('html').getAttribute('data-theme'),theme);});
+    await check(tag+' diagram containment, deep links and section buttons',async()=>{
+      await part(page,'p2');assert.deepEqual(await drawingBounds(page),[]);
+      if(width===390||width===1440)await page.locator('#testCards .test-card').first().screenshot({path:path.join(OUT,tag+'-outlier-detail.png')});
+      await part(page,'p4');for(const shift of [0,0.75,1.5,3]){await range(page,'cusumShiftSlider',shift);for(let i=0;i<8;i++){await page.locator('#resampleCusum').click();assert.deepEqual(await drawingBounds(page),[]);}}
+      if(width===390||width===1440)await page.locator('#p4 .card').screenshot({path:path.join(OUT,tag+'-cusum-shift3.png')});
+      await page.locator('#p4 .nav-btns button').last().click();assert.equal(await page.locator('section.part.active').getAttribute('id'),'p5');
+      await page.evaluate(()=>{location.hash='p6';});await page.waitForTimeout(100);assert.equal(await page.locator('section.part.active').getAttribute('id'),'p6');
+    });
     await check(tag+' no JavaScript errors',async()=>assert.deepEqual(errors,[]));
    }finally{await context.close();}
   }
@@ -90,7 +113,7 @@ const injected=/<div data-netlify-deploy-id="[a-f0-9]{24}" data-netlify-site-id=
   if(preview)await check('Actual Netlify preview source and desktop/mobile themes',async()=>{
    let response,body;for(let i=0;i<24;i++){try{response=await fetch(preview+ROUTE,{signal:AbortSignal.timeout(15000)});body=await response.text();if(response.ok&&body.replace(injected,'')===html)break;}catch(e){report.preview={error:e.message};}await new Promise(r=>setTimeout(r,10000));}
    assert(response?.ok,'Preview did not respond successfully');fs.writeFileSync(path.join(OUT,'preview-response.html'),body);assert.equal(hash(body.replace(injected,'')),hash(html),'Preview does not match the reviewed source');report.preview={url:preview+ROUTE,sourceMatches:true};
-   for(const theme of ['light','dark'])for(const width of [390,1440]){const {context,page,errors}=await open(browser,width,theme,preview+ROUTE);try{await part(page,'p2');assert.deepEqual((await layout(page)).outside,[]);await part(page,'p4');await page.locator('#resampleCusum').click();await part(page,'p1');await page.screenshot({path:path.join(OUT,'preview-'+theme+'-'+width+'.png'),fullPage:true});assert.deepEqual(errors,[]);}finally{await context.close();}}
+   for(const theme of ['light','dark'])for(const width of [390,1440]){const {context,page,errors}=await open(browser,width,theme,preview+ROUTE);try{await part(page,'p2');assert.deepEqual((await layout(page)).outside,[]);await part(page,'p4');await page.locator('#resampleCusum').click();await part(page,'p1');await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(OUT,'preview-'+theme+'-'+width+'.png'),fullPage:true});assert.deepEqual(errors,[]);}finally{await context.close();}}
   });
  }finally{await browser.close();server.close();save();}
  if(report.failures.length)process.exitCode=1;

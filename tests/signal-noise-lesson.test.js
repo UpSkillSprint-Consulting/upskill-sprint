@@ -24,7 +24,14 @@ test('Signal or Noise preserves every teaching text node and heading in order', 
 test('Signal or Noise preserves all original calculations, datasets, rule derivations and self-check answers', () => {
   const engine = html.slice(html.indexOf('/* ================= NORMAL DIST HELPERS ================= */')).split('</script>')[0]
     .replaceAll('--lesson-arl-', '--arl-').replaceAll("'#607897'", "'#1c3153'").replaceAll("'#8fa5c2'", "'#3a4f6e'")
-    .replace("zc.fillText('mean',cx-16,h-12)", "zc.fillText('mean',cx-16,h-30)");
+    .replace("zc.fillText('mean',cx-16,h-12)", "zc.fillText('mean',cx-16,h-30)")
+    .replace("    const x=pad+(i/(pts.length-1))*(w-2*pad); const y=h/2-p*scale;", "    const x=(i/(pts.length-1))*w; const y=h/2-p*(h*0.4);")
+    .replace("    const x = pad+(i/(pts.length-1))*(w-2*pad);\n    const y = h/2 - p*scale;", "    const x = (i/(pts.length-1))*w;\n    const y = h/2 - p*(h*0.4);")
+    .replace("function plotLine(ctx,pts,w,h,color){\n  const pad = 6, scale = (h/2-pad)/Math.max(1.25,...pts.map(Math.abs));\n  ctx.strokeStyle", "function plotLine(ctx,pts,w,h,color){\n  ctx.strokeStyle")
+    .replace("  const marginX = 46, marginTop = 42, marginBottom = 26;\n  const plotW = w - marginX*2, plotH = h - marginTop - marginBottom;\n  const baseY = h - marginBottom;", "  const marginX = 46, marginTop = 16, marginBottom = 26;\n  const plotW = w - marginX*2, plotH = h - marginTop - marginBottom;\n  const baseY = h - marginBottom;")
+    .replace("\n  // Fit every unchanged CUSUM value inside the plot; do not clip accumulated evidence.\n  yRange = Math.max(yRange, 1.1*Math.max(...CpArr, ...CmArr));\n\n  // decision interval H\n", "\n  // decision interval H\n")
+    .replace("  let yRange = Math.max(CUSUM_H*1.3, shift*8 + CUSUM_H);", "  const yRange = Math.max(CUSUM_H*1.3, shift*8 + CUSUM_H);")
+    .replace("cusumShiftVal.textContent = Number(shift.toFixed(2))+'σ';", "cusumShiftVal.textContent = shift.toFixed(1)+'σ';");
   assert.equal(sha(engine), '77ca9f2c6a508b43623f589cf5fb1c2659c373a9cf147713f28eafc0dff777b3');
 });
 test('Signal or Noise retains six graded questions and the exact canonical quiz grader/styles', () => {
@@ -100,4 +107,15 @@ test('Signal or Noise retains the four Statistics Implementation parts and catal
   assert.equal(catalog.split("path: '/" + LESSON.replace(/\.html$/, '') + "'").length - 1, 1);
   assert(catalog.includes("marker: 'data-beyond-the-bell',"));
   assert.equal(doc.querySelector('[aria-label="Return to lesson category"] a').getAttribute('href'), '/lessons#lean-six-sigma');
+});
+
+test('Signal or Noise keeps all original sparkline points inside their canvases', () => {
+  const vm = require('node:vm');
+  const source = html.slice(html.indexOf('function plotLine('), html.indexOf('function sparkOutlier('));
+  const points = [0.1,-0.2,0.05,-0.1,0.2,3.1,0.0,-0.15];
+  const arcs = [], ctx = {beginPath(){},moveTo(){},lineTo(){},stroke(){},fill(){},arc(x,y,r){arcs.push({x,y,r});}};
+  vm.runInNewContext(source+';plotLine(ctx,points,200,120,"#fff");',{ctx,points});
+  assert.equal(arcs.length,points.length);
+  assert(arcs.every(p => p.x-p.r>=0 && p.x+p.r<=200 && p.y-p.r>=0 && p.y+p.r<=120));
+  assert.match(html, /yRange = Math.max\(yRange, 1.1\*Math.max\(\.\.\.CpArr, \.\.\.CmArr\)\)/);
 });
