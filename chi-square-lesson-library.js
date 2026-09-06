@@ -159,6 +159,18 @@
       description: 'Compare linear, monotonic, and rank-based association with a live relationship explorer, a concordant/discordant pairs demo, a paste-your-own-data calculator, and Excel + Minitab guidance.'
     },
     {
+      marker: 'data-variance-covariance-correlation-cv',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation',
+      topic: 'statistics',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'variance standard deviation coefficient of variation covariance correlation coefficient of range quartile coefficient of dispersion coefficient of mean deviation relative standard deviation measures of dispersion excel minitab statistics intermediate interactive',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>60 min</span><span>Excel + Minitab</span>',
+      title: 'Variance, Covariance, Correlation & CV',
+      description: 'Build intuition for variance, standard deviation, coefficient of variation and its cousins, covariance, and correlation with live interactive widgets, a fully worked dataset comparison, and Excel + Minitab guidance.'
+    },
+    {
       marker: 'data-beyond-the-bell',
       sectionId: 'statistics',
       path: '/lessons/statistics/beyond-the-bell-the-normal-distribution-and-its-relatives',
