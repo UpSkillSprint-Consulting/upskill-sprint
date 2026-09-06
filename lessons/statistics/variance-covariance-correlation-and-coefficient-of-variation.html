@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "The Spread Lab: Variance, Covariance, Correlation & Coefficient of Variation",
+  "slug": "variance-covariance-correlation-and-coefficient-of-variation",
+  "category": "Statistics",
+  "category_slug": "statistics",
+  "level": "Intermediate",
+  "lesson_type": "General",
+  "estimated_minutes": 60,
+  "interactive": true,
+  "card_title": "Variance, Covariance, Correlation & CV",
+  "card_description": "Build intuition for variance, standard deviation, coefficient of variation and its cousins, covariance, and correlation with live interactive widgets, a fully worked dataset comparison, and Excel + Minitab guidance.",
+  "search_keywords": ["variance","standard deviation","coefficient of variation","covariance","correlation","coefficient of range","quartile coefficient of dispersion","coefficient of mean deviation","relative standard deviation","measures of dispersion","statistics intermediate"],
+  "suggested_github_path": "lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation.html"
+}
+-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Spread Lab: Variance, Covariance, Correlation & Coefficient of Variation</title>
+<meta name="description" content="An interactive lesson tying variance, standard deviation, coefficient of variation and its cousins, covariance, and correlation together with live widgets, a fully worked dataset comparison, and Excel/Minitab guidance.">
+<link rel="canonical" href="https://upskillsprint.com/lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Spread Lab: Variance, Covariance, Correlation & CV | UpSkill Sprint Consulting">
+<meta property="og:description" content="Build intuition for variance, standard deviation, CV and its cousins, covariance, and correlation with live interactive widgets and a fully worked dataset comparison.">
+<meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+<meta property="og:url" content="https://upskillsprint.com/lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
+<style>
+  #lesson-content {
+    color-scheme: light dark;
+    --lesson-sl-paper:#EEF3F1;
+    --lesson-sl-paper-line: rgba(20,80,86,0.09);
+    --lesson-sl-card:#FCFDFB;
+    --lesson-sl-ink:#142B2E;
+    --lesson-sl-ink-soft:#4B6469;
+    --lesson-sl-ink-faint:#597073;
+    --lesson-sl-accent:#A95C00;
+    --lesson-sl-control-border:#708589;
+    --lesson-sl-accent-ink:#7A4A0F;
+    --lesson-sl-teal:#1B6B72;
+    --lesson-sl-teal-deep:#0F4A50;
+    --lesson-sl-teal-soft:#DCEFEF;
+    --lesson-sl-brick:#96432F;
+    --lesson-sl-brick-soft:#F5E1DB;
+    --lesson-sl-border: rgba(20,60,64,0.16);
+    --lesson-sl-shadow: 0 1px 0 rgba(20,60,64,0.06);
+    --lesson-sl-radius: 14px;
+    --lesson-sl-serif: "Fraunces", Georgia, serif;
+    --lesson-sl-sans: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --lesson-sl-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  }
+
+  #lesson-content * { box-sizing: border-box; }
+
+  #lesson-content { scroll-behavior: smooth; }
+
+  #lesson-content {
+    margin:0;
+    font-family: var(--lesson-sl-sans);
+    color: var(--lesson-sl-ink);
+    background:
+      linear-gradient(var(--lesson-sl-paper-line) 1px, transparent 1px) 0 0 / 100% 28px,
+      linear-gradient(90deg, var(--lesson-sl-paper-line) 1px, transparent 1px) 0 0 / 28px 100%,
+      var(--lesson-sl-paper);
+    line-height: 1.6;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    #lesson-content * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+
+  #lesson-content .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Spiral binding decoration ---------- */
+  #lesson-content .spine {
+    position: absolute;
+    left: 0; top:0; bottom:0;
+    width: 34px;
+    display:flex; flex-direction:column; align-items:center;
+    justify-content: flex-start;
+    gap: 34px;
+    padding-top: 90px;
+    pointer-events:none;
+    z-index: 5;
+  }
+  #lesson-content .spine span {
+    width: 16px; height:16px; border-radius:50%;
+    background: var(--lesson-sl-card);
+    border: 2.5px solid var(--lesson-sl-ink-faint);
+    box-shadow: inset 0 0 0 3px var(--lesson-sl-paper);
+   color: var(--lesson-sl-ink); }
+  @media (max-width: 700px){ #lesson-content .spine { display:none; } }
+
+  /* ---------- Top progress + nav ---------- */
+  #lesson-content .progress-rail {
+    position: sticky; top:var(--lesson-sl-sitebar-height, 73px); z-index: 10;
+    background: var(--lesson-sl-paper);
+    color: var(--lesson-sl-ink);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--lesson-sl-border);
+  }
+  #lesson-content .progress-bar { height: 3px; background: var(--lesson-sl-accent); width: 0%; transition: width .1s linear;  color: var(--lesson-sl-ink); }
+  #lesson-content .nav-dots {
+    display:flex; gap: 18px; align-items:center;
+    padding: 10px 24px; max-width: 880px; margin: 0 auto;
+    font-family: var(--lesson-sl-mono); font-size: 12px; overflow-x:auto;
+  }
+  #lesson-content .nav-dots a {
+    color: var(--lesson-sl-ink-soft); text-decoration:none; white-space:nowrap;
+    padding: 4px 0; border-bottom: 2px solid transparent;
+  }
+  #lesson-content .nav-dots a.active { color: var(--lesson-sl-teal-deep); border-color: var(--lesson-sl-accent); }
+
+  /* ---------- Hero ---------- */
+  #lesson-content .hero { padding: 64px 0 40px; margin-left: 34px; }
+  @media (max-width: 700px){ #lesson-content .hero { margin-left:0; } }
+  #lesson-content .kicker {
+    font-family: var(--lesson-sl-mono); font-size: 13px; letter-spacing: 0.02em;
+    color: var(--lesson-sl-teal-deep); margin: 0 0 14px;
+  }
+  #lesson-content h1.title {
+    font-family: var(--lesson-sl-serif); font-weight: 700;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 1.05; margin: 0 0 20px; max-width: 14ch;
+  }
+  #lesson-content h1.title em { font-style: italic; font-weight: 500; color: var(--lesson-sl-teal-deep); }
+  #lesson-content .hero-tagline { font-family: var(--lesson-sl-serif); font-style: italic; font-weight: 500; font-size: 1.3rem; color: var(--lesson-sl-teal-deep); margin: 4px 0 16px; }
+  #lesson-content .lede { font-size: 1.14rem; color: var(--lesson-sl-ink-soft); max-width: 56ch; margin: 0 0 30px; }
+
+  #lesson-content .hero-demo {
+    border: 1px solid var(--lesson-sl-border); border-radius: var(--lesson-sl-radius);
+    background: var(--lesson-sl-card); box-shadow: var(--lesson-sl-shadow);
+    padding: 18px; display:flex; gap: 22px; align-items:center; flex-wrap: wrap;
+   color: var(--lesson-sl-ink); }
+  #lesson-content .hero-demo svg { flex-shrink:0; }
+  #lesson-content .hero-demo .readout { font-family: var(--lesson-sl-mono); font-size: 14px; color: var(--lesson-sl-ink-soft); }
+  #lesson-content .hero-demo .readout b { color: var(--lesson-sl-teal-deep); font-size: 15px; }
+  #lesson-content .hero-demo .readout .r-val { font-size: 22px; font-weight: 600; color: var(--lesson-sl-accent-ink); }
+
+  /* ---------- Sections ---------- */
+  #lesson-content section.page {
+    margin-left: 34px;
+    padding: 56px 0;
+    border-top: 1px dashed var(--lesson-sl-border);
+  }
+  @media (max-width: 700px){ #lesson-content section.page { margin-left: 0; } }
+
+  #lesson-content .eyebrow-tag {
+    display:inline-flex; align-items:center; gap:8px;
+    font-family: var(--lesson-sl-mono); font-size: 12.5px; color: var(--lesson-sl-teal-deep);
+    background: var(--lesson-sl-teal-soft); border-radius: 999px; padding: 5px 12px;
+    margin-bottom: 18px;
+  }
+  #lesson-content .eyebrow-tag .dot { width:6px; height:6px; border-radius:50%; background: var(--lesson-sl-teal);  color: var(--lesson-sl-ink); }
+
+  #lesson-content h2.section-title {
+    font-family: var(--lesson-sl-serif); font-weight: 600; font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+    margin: 0 0 14px; line-height: 1.15;
+  }
+  #lesson-content p.section-intro { color: var(--lesson-sl-ink-soft); max-width: 62ch; font-size: 1.04rem; margin: 0 0 30px; }
+  #lesson-content p.section-intro strong { color: var(--lesson-sl-ink); }
+
+  #lesson-content .formula-card {
+    background: var(--lesson-sl-card); border: 1px solid var(--lesson-sl-border); border-radius: var(--lesson-sl-radius);
+    padding: 18px 22px; margin: 0 0 28px; box-shadow: var(--lesson-sl-shadow);
+    font-family: var(--lesson-sl-mono); font-size: 15px; color: var(--lesson-sl-teal-deep);
+    overflow-x:auto;
+  }
+  #lesson-content .formula-card .label { display:block; font-family: var(--lesson-sl-sans); font-size: 12.5px; color: var(--lesson-sl-ink-faint); margin-bottom: 6px; }
+  #lesson-content .katex-box { overflow-x:auto; overflow-y:hidden; padding: 4px 0; max-width: 100%; }
+  #lesson-content .katex-box + .katex-box { margin-top: 14px; }
+  #lesson-content .katex-box .katex { font-size: 1.15em; color: var(--lesson-sl-teal-deep); }
+  @media (max-width:480px){ #lesson-content .katex-box .katex { font-size: 0.95em; } }
+  #lesson-content .katex-box .katex-display { margin: 0; }
+  #lesson-content .formula-card .tex-note { font-family: var(--lesson-sl-sans); font-size: 12.5px; color: var(--lesson-sl-ink-faint); margin-top: 10px; }
+
+  /* ---------- Widget shell ---------- */
+  #lesson-content .widget {
+    background: var(--lesson-sl-card); border: 1px solid var(--lesson-sl-border); border-radius: var(--lesson-sl-radius);
+    box-shadow: var(--lesson-sl-shadow); padding: 24px; margin: 0 0 22px;
+   color: var(--lesson-sl-ink); }
+  #lesson-content .widget h3 { font-family: var(--lesson-sl-serif); font-size: 1.2rem; margin: 0 0 6px; font-weight: 600; }
+  #lesson-content .widget .widget-note { color: var(--lesson-sl-ink-faint); font-size: 13.5px; margin: 0 0 18px; }
+
+  #lesson-content .control-row { display:flex; align-items:center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+  #lesson-content .control-row label { font-size: 13.5px; color: var(--lesson-sl-ink-soft); font-weight: 500; min-width: fit-content; }
+  #lesson-content input[type=range] {
+    -webkit-appearance:none; appearance:none; height: 5px; border-radius: 3px;
+    background: linear-gradient(90deg, var(--lesson-sl-teal), var(--lesson-sl-accent));
+    flex: 1; min-width: 140px; cursor:pointer;
+   color: var(--lesson-sl-ink); }
+  #lesson-content input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance:none; width: 18px; height: 18px; border-radius:50%;
+    background: var(--lesson-sl-card); border: 3px solid var(--lesson-sl-teal-deep); cursor:pointer;
+   color: var(--lesson-sl-ink); }
+  #lesson-content input[type=range]::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius:50%;
+    background: var(--lesson-sl-card); border: 3px solid var(--lesson-sl-teal-deep); cursor:pointer;
+   color: var(--lesson-sl-ink); }
+  #lesson-content .btn {
+    font-family: var(--lesson-sl-sans); font-weight: 600; font-size: 13.5px;
+    border: 1.5px solid var(--lesson-sl-teal-deep); color: var(--lesson-sl-teal-deep); background: transparent;
+    border-radius: 999px; padding: 8px 18px; cursor:pointer; transition: background .15s, color .15s;
+  }
+  #lesson-content .btn:hover { background: var(--lesson-sl-teal-deep); color: #fff; }
+  #lesson-content .btn.ghost { border-color: var(--lesson-sl-border); color: var(--lesson-sl-ink-soft); }
+  #lesson-content .btn.ghost:hover { background: var(--lesson-sl-ink-soft); color:#fff; }
+
+  #lesson-content .readout-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 14px; margin-top: 18px; }
+  #lesson-content .readout {
+    background: var(--lesson-sl-paper); border: 1px solid var(--lesson-sl-border); border-radius: 10px;
+    padding: 12px 14px;
+   color: var(--lesson-sl-ink); }
+  #lesson-content .readout .rk { font-size: 11.5px; text-transform: none; color: var(--lesson-sl-ink-faint); font-family: var(--lesson-sl-mono); display:block; margin-bottom: 4px; }
+  #lesson-content .readout .rv { font-family: var(--lesson-sl-mono); font-size: 20px; font-weight: 600; color: var(--lesson-sl-teal-deep); }
+  #lesson-content .readout .rv small { font-size: 12px; color: var(--lesson-sl-ink-faint); font-weight: 400; }
+
+  /* number line track */
+  #lesson-content .track-wrap { margin: 26px 0 6px; }
+  #lesson-content .track-label { font-size: 12.5px; color: var(--lesson-sl-ink-faint); font-family: var(--lesson-sl-mono); margin-bottom: 10px; }
+  #lesson-content .track { position: relative; height: 74px; }
+  #lesson-content .track .axis { position:absolute; left:0; right:0; top: 46px; height: 2px; background: var(--lesson-sl-border);  color: var(--lesson-sl-ink); }
+  #lesson-content .track .band { position:absolute; top: 34px; height: 26px; background: var(--lesson-sl-teal-soft); border-radius: 6px; opacity: .8;  color: var(--lesson-sl-ink); }
+  #lesson-content .track .mean-line { position:absolute; top: 20px; bottom: 20px; width: 2px; background: var(--lesson-sl-accent);  color: var(--lesson-sl-ink); }
+  #lesson-content .track .mean-tag { position:absolute; top: 0; transform: translateX(-50%); font-family: var(--lesson-sl-mono); font-size: 11px; color: var(--lesson-sl-accent-ink); font-weight:600; white-space:nowrap; }
+  #lesson-content .track .dot {
+    position:absolute; top: 38px; width: 14px; height:14px; border-radius:50%;
+    background: var(--lesson-sl-teal); border: 2px solid var(--lesson-sl-card); transform: translateX(-50%);
+    box-shadow: 0 1px 3px rgba(20,60,64,0.3);
+   color: var(--lesson-sl-ink); }
+  #lesson-content .track .tick { position:absolute; top: 50px; font-family: var(--lesson-sl-mono); font-size: 10.5px; color: var(--lesson-sl-ink-faint); transform: translateX(-50%); }
+
+  /* scatter */
+  #lesson-content .scatter-layout { display:flex; gap: 26px; flex-wrap: wrap; align-items: flex-start; }
+  #lesson-content .scatter-layout svg { background: var(--lesson-sl-paper); border-radius: 10px; border: 1px solid var(--lesson-sl-border); flex-shrink:0; max-width: 100%; height:auto;  color: var(--lesson-sl-ink); }
+  #lesson-content .scatter-side { flex: 1; min-width: 200px; }
+  #lesson-content .quad-key { display:flex; flex-direction:column; gap:8px; margin-top: 14px; font-size: 12.5px; color: var(--lesson-sl-ink-soft); }
+  #lesson-content .quad-key span.sw { display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:7px; vertical-align:-1px; }
+
+  /* CV two-track comparison */
+  #lesson-content .cv-track { border: 1px solid var(--lesson-sl-border); border-radius: 10px; padding: 16px; background: var(--lesson-sl-paper); margin-bottom: 14px;  color: var(--lesson-sl-ink); }
+  #lesson-content .cv-track h4 { margin: 0 0 2px; font-family: var(--lesson-sl-serif); font-size: 1.02rem; font-weight:600; }
+  #lesson-content .cv-track .unit { font-size: 12.5px; color: var(--lesson-sl-ink-faint); margin-bottom: 12px; }
+  #lesson-content .cv-badge { display:inline-block; font-family: var(--lesson-sl-mono); font-size: 11px; padding: 3px 9px; border-radius: 999px; margin-left: 8px; }
+  #lesson-content .cv-badge.win { background: var(--lesson-sl-teal-soft); color: var(--lesson-sl-teal-deep); }
+  #lesson-content .cv-badge.lose { background: var(--lesson-sl-brick-soft); color: var(--lesson-sl-brick); }
+
+  /* Tie-together diagram */
+  #lesson-content .diagram-wrap { overflow-x:auto; }
+  #lesson-content .diagram-wrap svg { min-width: 560px; }
+  #lesson-content .diagram-node {
+    position:absolute; border-radius:12px; border:1px solid rgba(20,43,46,0.16);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding: 6px 10px; box-sizing:border-box;
+  }
+  #lesson-content .diagram-node .n-title { font-family: var(--lesson-sl-serif); font-weight:600; font-size: 14.5px; color: var(--lesson-sl-ink); margin-bottom: 4px; }
+  #lesson-content .diagram-node .n-formula .katex { font-size: 0.95em; color: var(--lesson-sl-teal-deep); }
+  #lesson-content .diagram-node text.n-title { font-family: var(--lesson-sl-serif); font-weight:600; }
+  #lesson-content .diagram-node text.n-formula { font-family: var(--lesson-sl-mono); }
+
+  /* Stats implementation tables */
+  #lesson-content table.impl { width:100%; border-collapse: collapse; font-size: 13.5px; margin: 0 0 26px; }
+  #lesson-content table.impl caption { text-align:left; font-family: var(--lesson-sl-mono); font-size: 12.5px; color: var(--lesson-sl-ink-faint); margin-bottom: 8px; caption-side: top; }
+  #lesson-content table.impl th { text-align:left; font-family: var(--lesson-sl-sans); font-weight:600; color: var(--lesson-sl-teal-deep); border-bottom: 2px solid var(--lesson-sl-border); padding: 9px 10px; }
+  #lesson-content table.impl td { padding: 9px 10px; border-bottom: 1px solid var(--lesson-sl-border); vertical-align: top; }
+  #lesson-content table.impl td.fn { font-family: var(--lesson-sl-mono); color: var(--lesson-sl-accent-ink); white-space:nowrap; }
+  #lesson-content .impl-scroll { overflow-x:auto; }
+
+  #lesson-content .path-block {
+    background: var(--lesson-sl-paper); border-left: 3px solid var(--lesson-sl-teal); border-radius: 0 8px 8px 0;
+    padding: 12px 16px; margin-bottom: 14px; font-size: 13.5px;
+   color: var(--lesson-sl-ink); }
+  #lesson-content .path-block .p-route { font-family: var(--lesson-sl-mono); color: var(--lesson-sl-teal-deep); font-size: 13px; }
+
+  #lesson-content .exam-tip {
+    background: var(--lesson-sl-brick-soft); border-radius: 10px; padding: 14px 18px; margin-bottom: 12px;
+    font-size: 13.8px; border-left: 3px solid var(--lesson-sl-brick);
+   color: var(--lesson-sl-ink); }
+  #lesson-content .exam-tip b { color: var(--lesson-sl-brick); }
+
+  /* Guided practice section */
+  #lesson-content .practice-two-col { display:grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  #lesson-content .practice-two-col > .practice-col { min-width: 0; }
+  @media (max-width:700px){ #lesson-content .practice-two-col { grid-template-columns: 1fr; } }
+  #lesson-content .practice-col h4 { font-family: var(--lesson-sl-serif); font-size: 1.05rem; margin: 0 0 10px; }
+  #lesson-content .practice-col .dataset-list { font-family: var(--lesson-sl-mono); font-size: 12.5px; color: var(--lesson-sl-ink-soft); margin: 8px 0 16px; }
+  #lesson-content .big-stat { font-family: var(--lesson-sl-mono); font-size: 26px; font-weight:600; color: var(--lesson-sl-teal-deep); }
+  #lesson-content .big-stat small { font-size: 13px; color: var(--lesson-sl-ink-faint); font-weight: 400; display:block; margin-top:2px; }
+  #lesson-content .vs-divider { display:flex; align-items:center; justify-content:center; font-family: var(--lesson-sl-mono); color: var(--lesson-sl-ink-faint); font-size: 13px; margin: 10px 0; }
+  #lesson-content .predict-row { display:flex; gap: 12px; justify-content:center; flex-wrap:wrap; margin: 18px 0; }
+  #lesson-content .reveal-panel { border-top: 1px dashed var(--lesson-sl-border); margin-top: 20px; padding-top: 20px; }
+  #lesson-content table.compare { width:100%; border-collapse: collapse; font-size: 13.5px; margin: 18px 0 8px; }
+  #lesson-content table.compare th { text-align:left; font-family: var(--lesson-sl-sans); font-weight:600; color: var(--lesson-sl-ink-soft); border-bottom: 2px solid var(--lesson-sl-border); padding: 8px 10px; }
+  #lesson-content table.compare td { padding: 8px 10px; border-bottom: 1px solid var(--lesson-sl-border); font-family: var(--lesson-sl-mono); }
+  #lesson-content table.compare td.measure-name { font-family: var(--lesson-sl-sans); font-weight: 500; color: var(--lesson-sl-ink); }
+  #lesson-content table.compare td.bigger { font-weight:700; }
+  #lesson-content table.compare td.bigger.raw-win { color: var(--lesson-sl-teal-deep); }
+  #lesson-content table.compare td.bigger.rel-win { color: var(--lesson-sl-brick); }
+</style>
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+</head>
+<body data-lesson-page="true" data-category="statistics" data-level="intermediate" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<main id="lesson-content">
+
+<div class="spine" aria-hidden="true">
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<div class="progress-rail">
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="nav-dots" id="navDots">
+    <a href="#variance">variance</a>
+    <a href="#cv">std dev &amp; CV</a>
+    <a href="#dispersion">relative spread</a>
+    <a href="#covariance">covariance</a>
+    <a href="#correlation">correlation</a>
+    <a href="#together">tie it together</a>
+    <a href="#practice">try it yourself</a>
+    <a href="#implementation">Excel &amp; Minitab</a>
+    <a href="#quiz-heading">quiz</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <p class="kicker">THE SPREAD LAB — an interactive notebook</p>
+    <h1 class="title" id="lesson-title">The Spread Lab: Variance, Covariance, Correlation &amp; Coefficient of Variation</h1>
+    <p class="hero-tagline">Every process <em>wobbles</em>. Here's how to measure it.</p>
+    <p class="lede">Variance, standard deviation, coefficient of variation and its cousins, covariance, and correlation are usually taught as separate formulas to memorize. They're really one idea, asked several different ways: <strong>how far do things drift from where we expect them, and do two things drift together?</strong> Drag the slider below to feel it before we name it.</p>
+
+    <div class="hero-demo">
+      <svg id="heroSvg" role="img" aria-label="Correlation scatter plot" width="220" height="150" viewBox="0 0 220 150"></svg>
+      <div class="readout">
+        <div>relationship strength: <span class="r-val" id="heroRVal">0.70</span></div>
+        <div style="margin-top:6px;">as you drag, watch the dots snap from a <b>cloud</b> to a <b>line</b> — that snapping-into-a-line is what <b>correlation</b> measures.</div>
+        <div style="margin-top:12px;"><input type="range" id="heroSlider" aria-label="Relationship strength" min="-100" max="100" value="70" style="width:200px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VARIANCE ============ -->
+  <section class="page" id="variance">
+    <span class="eyebrow-tag"><span class="dot"></span>Part 1 of 6</span>
+    <h2 class="section-title">Variance — the average squared distance from the mean</h2>
+    <p class="section-intro">Imagine a machine cutting bolts to a target length of <strong>50&nbsp;mm</strong>. No machine is perfect — every bolt lands a little off target. Variance asks: on average, how far off, once you square each miss (so a miss to the left and a miss to the right don't cancel out)?</p>
+
+    <div class="formula-card">
+      <span class="label">population variance</span>
+      <div class="katex-box" id="tex-variance"></div>
+    </div>
+
+    <div class="widget">
+      <h3>Run the bolt line</h3>
+      <p class="widget-note">Slide "consistency" and hit shuffle — every bolt is a dot on the line. Watch variance explode as the process gets sloppier.</p>
+      <div class="control-row">
+        <label for="varSlider">Consistency</label>
+        <input type="range" id="varSlider" min="1" max="10" value="7">
+        <button class="btn" id="varShuffle">Shuffle the line</button>
+      </div>
+      <div class="track-wrap">
+        <div class="track-label">bolt length (mm) — target 50mm</div>
+        <div class="track" id="varTrack"></div>
+      </div>
+      <div class="readout-grid">
+        <div class="readout"><span class="rk">mean</span><span class="rv" id="varMean">—</span></div>
+        <div class="readout"><span class="rk">variance</span><span class="rv" id="varVar">—</span></div>
+        <div class="readout"><span class="rk">std dev (√variance)</span><span class="rv" id="varStd">—</span></div>
+      </div>
+    </div>
+
+    <p class="section-intro" style="margin-top:10px;">Notice the units on variance: <strong>mm²</strong>. Squared millimeters aren't something you can picture holding a caliper up to — that awkwardness is the whole reason the next quantity exists.</p>
+  </section>
+
+  <!-- ============ STD DEV + CV ============ -->
+  <section class="page" id="cv">
+    <span class="eyebrow-tag"><span class="dot"></span>Part 2 of 6</span>
+    <h2 class="section-title">Standard deviation undoes the squaring. CV undoes the units.</h2>
+    <p class="section-intro">Take the square root of variance and you're back in millimeters — that's <strong>standard deviation</strong>, the "typical distance from the mean" in plain units. But a std dev of 2mg and a std dev of 2kg are not equally impressive. <strong>Coefficient of variation</strong> asks the fairer question: how big is that spread <em>relative to the average</em>?</p>
+
+    <div class="formula-card">
+      <span class="label">standard deviation, then coefficient of variation</span>
+      <div class="katex-box" id="tex-std"></div>
+      <div class="katex-box" id="tex-cv"></div>
+      <p class="tex-note">CV is often multiplied by 100 and reported as a percentage.</p>
+    </div>
+
+    <div class="widget">
+      <h3>Same absolute wobble, two different products</h3>
+      <p class="widget-note">One slider sets the <em>same numeric standard deviation</em> for both lines below. Watch which one that spread actually threatens.</p>
+      <div class="control-row">
+        <label for="cvSlider">Shared std dev</label>
+        <input type="range" id="cvSlider" min="1" max="12" value="4" step="0.5">
+        <span class="rv" id="cvSliderVal" style="font-family:var(--lesson-sl-mono);color:var(--lesson-sl-teal-deep);">4.0</span>
+      </div>
+
+      <div class="cv-track">
+        <h4>Tablet coating weight <span id="cvBadgeA"></span></h4>
+        <div class="unit">mean = 8&nbsp;mg per tablet</div>
+        <div class="track" id="cvTrackA" style="height:60px;"></div>
+        <div class="readout-grid">
+          <div class="readout"><span class="rk">std dev</span><span class="rv" id="cvStdA">—</span></div>
+          <div class="readout"><span class="rk">CV</span><span class="rv" id="cvValA">—</span></div>
+        </div>
+      </div>
+
+      <div class="cv-track">
+        <h4>Truck shipment weight <span id="cvBadgeB"></span></h4>
+        <div class="unit">mean = 800&nbsp;kg per truck</div>
+        <div class="track" id="cvTrackB" style="height:60px;"></div>
+        <div class="readout-grid">
+          <div class="readout"><span class="rk">std dev</span><span class="rv" id="cvStdB">—</span></div>
+          <div class="readout"><span class="rk">CV</span><span class="rv" id="cvValB">—</span></div>
+        </div>
+      </div>
+      <p class="widget-note" style="margin-top:4px;">Same std dev, wildly different CV — because 4&nbsp;mg is enormous relative to an 8&nbsp;mg tablet, and nothing relative to an 800&nbsp;kg truck.</p>
+    </div>
+  </section>
+
+  <!-- ============ RELATIVE DISPERSION FAMILY ============ -->
+  <section class="page" id="dispersion">
+    <span class="eyebrow-tag"><span class="dot"></span>Part 3 of 6</span>
+    <h2 class="section-title">CV has cousins — and each one trusts the data differently</h2>
+    <p class="section-intro">CV isn't the only way to express spread "relative to something." Four more live in the same family, each built from a different raw material — the full range, just the middle 50%, average distance instead of squared distance, or CV itself renamed for a lab bench. Where they disagree is <strong>how much a single wild reading can shake them</strong>.</p>
+
+    <div class="formula-card">
+      <span class="label">coefficient of range — spread relative to the total scale</span>
+      <div class="katex-box" id="tex-range"></div>
+    </div>
+    <div class="formula-card">
+      <span class="label">quartile coefficient of dispersion — spread of just the middle 50%, ignores the tails</span>
+      <div class="katex-box" id="tex-qcd"></div>
+    </div>
+    <div class="formula-card">
+      <span class="label">coefficient of mean deviation — average distance, not squared distance, relative to the average</span>
+      <div class="katex-box" id="tex-comd"></div>
+      <div class="katex-box" id="tex-meandev"></div>
+    </div>
+    <div class="formula-card">
+      <span class="label">relative standard deviation — CV, renamed for the lab bench</span>
+      <div class="katex-box" id="tex-rsd"></div>
+      <p class="tex-note">Identical math to CV — just always expressed as a percentage.</p>
+    </div>
+
+    <div class="widget">
+      <h3>The clogged nozzle</h3>
+      <p class="widget-note">Twelve syringes off Fill Line 7, target 10.00&nbsp;mL. Then the nozzle catches for one cycle and overfills a single syringe to 13.80&nbsp;mL. Toggle it in and out and watch which numbers flinch.</p>
+      <div class="control-row">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" id="outlierToggle" style="width:16px;height:16px;cursor:pointer;">
+          Include the clogged-nozzle syringe (13.80&nbsp;mL)
+        </label>
+      </div>
+      <div class="track-wrap">
+        <div class="track-label">fill volume (mL)</div>
+        <div class="track" id="dispTrack"></div>
+      </div>
+      <div class="readout-grid">
+        <div class="readout"><span class="rk">min / max</span><span class="rv" id="dispMinMax" style="font-size:15px;">—</span></div>
+        <div class="readout"><span class="rk">Q1 / Q3</span><span class="rv" id="dispQ" style="font-size:15px;">—</span></div>
+        <div class="readout"><span class="rk">mean</span><span class="rv" id="dispMean">—</span></div>
+        <div class="readout"><span class="rk">mean deviation</span><span class="rv" id="dispMD">—</span></div>
+      </div>
+
+      <div class="readout-grid" style="margin-top:22px;">
+        <div class="readout">
+          <span class="rk">coefficient of range</span>
+          <span class="rv" id="dispRange">—</span>
+          <span class="cv-badge lose" id="dispRangeTag" style="margin-left:0;margin-top:6px;display:inline-block;">sensitive</span>
+        </div>
+        <div class="readout">
+          <span class="rk">quartile coeff. of dispersion</span>
+          <span class="rv" id="dispQCD">—</span>
+          <span class="cv-badge win" id="dispQCDTag" style="margin-left:0;margin-top:6px;display:inline-block;">robust</span>
+        </div>
+        <div class="readout">
+          <span class="rk">coefficient of mean deviation</span>
+          <span class="rv" id="dispCoMD">—</span>
+          <span class="cv-badge lose" id="dispCoMDTag" style="margin-left:0;margin-top:6px;display:inline-block;">moderate</span>
+        </div>
+        <div class="readout">
+          <span class="rk">RSD</span>
+          <span class="rv" id="dispRSD">—</span>
+          <span class="cv-badge lose" id="dispRSDTag" style="margin-left:0;margin-top:6px;display:inline-block;">sensitive</span>
+        </div>
+      </div>
+      <p class="widget-note" id="dispReading" style="margin-top:18px;"></p>
+    </div>
+
+    <p class="section-intro">That ordering isn't a coincidence. <strong>Quartile coefficient of dispersion</strong> only looks at Q1 and Q3 — the middle 50% of the data — so one extreme syringe usually doesn't even change which readings sit at those positions. <strong>Coefficient of mean deviation</strong> averages every distance once, so the outlier counts, but only once. <strong>Coefficient of range and RSD</strong> both key off the single most extreme reading (or its squared distance, for RSD) — exactly the reading that just broke.</p>
+
+    <div class="exam-tip">
+      <b>When to reach for which:</b> use the quartile coefficient of dispersion when you know the data has (or might have) outliers and you don't want one bad reading to dominate the story — audits of skewed cycle-time or cost data are a classic case. Reach for RSD/CV when the data is reasonably well-behaved and you want the standard, widely-recognized metric. Coefficient of range is quick and intuitive but inherits the raw range's weakness: it only ever looks at two points.
+    </div>
+  </section>
+
+  <!-- ============ COVARIANCE ============ -->
+  <section class="page" id="covariance">
+    <span class="eyebrow-tag"><span class="dot"></span>Part 4 of 6</span>
+    <h2 class="section-title">Covariance — variance's formula, aimed at two variables</h2>
+    <p class="section-intro">Variance multiplies each deviation by <em>itself</em>. Covariance multiplies the deviation of <strong>X</strong> by the deviation of a second variable, <strong>Y</strong>, at the same moment. If they tend to be above their means together (or below together), the products are positive. If one's up while the other's down, the products are negative.</p>
+
+    <div class="formula-card">
+      <span class="label">covariance — and variance is just this with Y = X</span>
+      <div class="katex-box" id="tex-cov"></div>
+    </div>
+
+    <div class="widget">
+      <h3>The four quadrants of a relationship</h3>
+      <p class="widget-note">Dashed cross-hairs mark the mean of each axis. Teal quadrants push covariance <em>up</em> (both deviations agree in sign); brick quadrants push it <em>down</em>. Drag the slider and watch where the dots choose to live.</p>
+      <div class="control-row">
+        <label for="covSlider">Relationship strength</label>
+        <input type="range" id="covSlider" min="-100" max="100" value="65">
+        <button class="btn ghost" id="covShuffle">New sample</button>
+      </div>
+      <div class="scatter-layout">
+        <svg id="covSvg" role="img" aria-label="Covariance: four-quadrant scatter plot" width="360" height="300" viewBox="0 0 360 300"></svg>
+        <div class="scatter-side">
+          <div class="readout-grid" style="grid-template-columns:1fr;">
+            <div class="readout"><span class="rk">covariance</span><span class="rv" id="covVal">—</span></div>
+          </div>
+          <div class="quad-key">
+            <div><span class="sw" style="background:var(--lesson-sl-teal-soft);"></span>both deviations agree → pushes covariance <b>up</b></div>
+            <div><span class="sw" style="background:var(--lesson-sl-brick-soft);"></span>deviations disagree → pushes covariance <b>down</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CORRELATION ============ -->
+  <section class="page" id="correlation">
+    <span class="eyebrow-tag"><span class="dot"></span>Part 5 of 6</span>
+    <h2 class="section-title">Correlation — covariance, rescaled to −1…+1</h2>
+    <p class="section-intro">Covariance has the same scale problem variance had: its size depends on the units of X and Y, so a covariance of 4,000 might describe a weaker relationship than a covariance of 0.02, if the units are different enough. Divide covariance by both standard deviations and the units cancel out completely.</p>
+
+    <div class="formula-card">
+      <span class="label">correlation coefficient (Pearson's r)</span>
+      <div class="katex-box" id="tex-corr"></div>
+    </div>
+
+    <div class="widget">
+      <h3>Drive the relationship yourself</h3>
+      <p class="widget-note">This is the same scatter engine as above, wired to a −1…+1 dial instead. Notice r never runs away in scale the way covariance could.</p>
+      <div class="control-row">
+        <label for="corrSlider">r target</label>
+        <input type="range" id="corrSlider" min="-100" max="100" value="0">
+        <button class="btn ghost" id="corrShuffle">New sample</button>
+      </div>
+      <div class="scatter-layout">
+        <svg id="corrSvg" role="img" aria-label="Pearson correlation scatter plot" width="360" height="300" viewBox="0 0 360 300"></svg>
+        <div class="scatter-side">
+          <div class="readout-grid" style="grid-template-columns:1fr;">
+            <div class="readout"><span class="rk">correlation (r)</span><span class="rv" id="corrVal">—</span></div>
+          </div>
+          <p class="widget-note" id="corrReading" style="margin-top:14px;"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-tip">
+      <b>Watch for this:</b> correlation only detects <em>linear</em> relationships. A perfect U-shaped curve can score r ≈ 0 while being a completely predictable, strong relationship — just not a straight-line one.
+    </div>
+  </section>
+
+  <!-- ============ TIE TOGETHER ============ -->
+  <section class="page" id="together">
+    <span class="eyebrow-tag"><span class="dot"></span>Part 6 of 6</span>
+    <h2 class="section-title">One family tree, five names — plus the cousins</h2>
+    <p class="section-intro">These five share one direct bloodline: each is a variation on "average deviation from expected," widened to two variables or rescaled for comparison. Coefficient of range, quartile coefficient of dispersion, and coefficient of mean deviation from the last section are cousins, not children — same goal, different raw materials (range, quartiles, and absolute distance instead of squared distance).</p>
+
+    <div class="widget diagram-wrap" tabindex="0" role="region" aria-label="Scrollable variance family tree">
+      <div id="diagramCanvas" style="position:relative; width:620px; height:340px;">
+        <svg id="diagramSvg" role="img" aria-label="Variance family tree: square root; divide by mean; extend to 2 variables; divide by both standard deviations" width="620" height="340" viewBox="0 0 620 340" style="position:absolute; left:0; top:0;"></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GUIDED PRACTICE ============ -->
+  <section class="page" id="practice">
+    <span class="eyebrow-tag"><span class="dot"></span>Guided Practice</span>
+    <h2 class="section-title">Try it on a new dataset — pallets vs. pins</h2>
+    <p class="section-intro">Two brand-new, fictitious datasets. We'll compute every measure from this lesson on both, by hand, so nothing is hidden inside a slider. The goal isn't just practice — it's to expose something the raw numbers actively hide from you.</p>
+
+    <div class="practice-two-col">
+      <div class="practice-col">
+        <h4>Dataset A — pallet shipping weights</h4>
+        <p class="widget-note">A warehouse weighs 8 outbound pallets, in kilograms.</p>
+        <div class="dataset-list">760, 780, 795, 805, 815, 825, 840, 860 kg</div>
+        <div class="track" id="practicePalletsTrack"></div>
+      </div>
+      <div class="practice-col">
+        <h4>Dataset B — precision pin diameters</h4>
+        <p class="widget-note">A gauge measures 8 machined pins, in millimeters.</p>
+        <div class="dataset-list">4.5, 4.7, 4.8, 4.9, 5.1, 5.2, 5.4, 5.6 mm</div>
+        <div class="track" id="practicePinsTrack"></div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.15rem;margin:34px 0 4px;">Step 1 — the mean</h3>
+    <div class="widget">
+      <div class="practice-two-col">
+        <div class="practice-col">
+          <div class="katex-box" id="tex-p-mean-a"></div>
+          <div class="katex-box" id="tex-p-mean-a-r"></div>
+        </div>
+        <div class="practice-col">
+          <div class="katex-box" id="tex-p-mean-b"></div>
+          <div class="katex-box" id="tex-p-mean-b-r"></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.15rem;margin:30px 0 4px;">Step 2 — variance and standard deviation</h3>
+    <div class="widget">
+      <div class="practice-two-col">
+        <div class="practice-col">
+          <div class="katex-box" id="tex-p-var-a"></div>
+          <div class="katex-box" id="tex-p-var-a-r"></div>
+          <div class="katex-box" id="tex-p-std-a"></div>
+        </div>
+        <div class="practice-col">
+          <div class="katex-box" id="tex-p-var-b"></div>
+          <div class="katex-box" id="tex-p-var-b-r"></div>
+          <div class="katex-box" id="tex-p-std-b"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="widget" style="text-align:center;">
+      <p style="font-family:var(--lesson-sl-mono); font-size:12.5px; color:var(--lesson-sl-ink-faint); margin:0 0 16px; letter-spacing:0.02em;">BEFORE YOU SCROLL FURTHER</p>
+      <div class="practice-two-col" style="margin-bottom:6px;">
+        <div class="big-stat">30.21<small>kg — pallets std dev</small></div>
+        <div class="big-stat">0.346<small>mm — pins std dev</small></div>
+      </div>
+      <p style="font-size:1.05rem; margin:20px 0 0;">Judging only by those two numbers — <strong>which process is more variable?</strong></p>
+      <div class="predict-row">
+        <button class="btn" id="guessPallets" aria-controls="guessReveal" aria-expanded="false">The pallets — 30.21 dwarfs 0.346</button>
+        <button class="btn ghost" id="guessPins" aria-controls="guessReveal" aria-expanded="false">The pins — that comparison feels unfair</button>
+      </div>
+      <div class="reveal-panel" id="guessReveal" style="display:none; text-align:left;">
+        <p id="guessResponse" aria-live="polite" style="font-weight:600;"></p>
+        <h3 style="font-family:var(--lesson-sl-serif);font-size:1.1rem;margin:18px 0 4px;">Step 3 — coefficient of variation</h3>
+        <div class="practice-two-col">
+          <div class="practice-col"><div class="katex-box" id="tex-p-cv-a"></div></div>
+          <div class="practice-col"><div class="katex-box" id="tex-p-cv-b"></div></div>
+        </div>
+        <p class="section-intro" style="margin-top:16px;">The pallet line's absolute wobble is nearly 100&times; larger in raw numbers — but relative to its own scale, it's the <strong>pins</strong> that wobble more. A pallet swinging ±30&nbsp;kg on an 810&nbsp;kg target is barely noticeable; a pin swinging ±0.35&nbsp;mm on a 5&nbsp;mm target is a real problem. Kilograms and millimeters were never comparable numbers to begin with — CV is what makes the comparison honest.</p>
+      </div>
+    </div>
+
+    <p class="section-intro">That reversal isn't a one-off trick of this example — the same thing happens with every relative measure from this lesson, because they all divide out scale in the same way. Let's run the rest.</p>
+
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.15rem;margin:30px 0 4px;">Step 4 — range and coefficient of range</h3>
+    <div class="widget">
+      <div class="practice-two-col">
+        <div class="practice-col">
+          <div class="katex-box" id="tex-p-range-a"></div>
+          <div class="katex-box" id="tex-p-cor-a"></div>
+        </div>
+        <div class="practice-col">
+          <div class="katex-box" id="tex-p-range-b"></div>
+          <div class="katex-box" id="tex-p-cor-b"></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.15rem;margin:30px 0 4px;">Step 5 — quartiles and quartile coefficient of dispersion</h3>
+    <div class="widget">
+      <div class="practice-two-col">
+        <div class="practice-col">
+          <div class="katex-box" id="tex-p-iqr-a"></div>
+          <div class="katex-box" id="tex-p-qcd-a"></div>
+        </div>
+        <div class="practice-col">
+          <div class="katex-box" id="tex-p-iqr-b"></div>
+          <div class="katex-box" id="tex-p-qcd-b"></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.15rem;margin:30px 0 4px;">Step 6 — mean deviation and coefficient of mean deviation</h3>
+    <div class="widget">
+      <div class="practice-two-col">
+        <div class="practice-col">
+          <div class="katex-box" id="tex-p-md-a"></div>
+          <div class="katex-box" id="tex-p-md-a-r"></div>
+          <div class="katex-box" id="tex-p-comd-a"></div>
+        </div>
+        <div class="practice-col">
+          <div class="katex-box" id="tex-p-md-b"></div>
+          <div class="katex-box" id="tex-p-md-b-r"></div>
+          <div class="katex-box" id="tex-p-comd-b"></div>
+        </div>
+      </div>
+      <p class="widget-note" style="margin-top:16px;">RSD isn't shown as a separate step — it's exactly the CV values from Step 3, just relabeled as a percentage, since RSD and CV are the same statistic.</p>
+    </div>
+
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.15rem;margin:30px 0 4px;">Every measure, side by side</h3>
+    <div class="widget">
+      <div style="overflow-x:auto" tabindex="0" role="region" aria-label="Pallets and pins comparison table">
+      <table class="compare">
+        <thead><tr><th>Measure</th><th>Pallets (raw)</th><th>Pins (raw)</th><th>Pallets (relative)</th><th>Pins (relative)</th></tr></thead>
+        <tbody>
+          <tr><td class="measure-name">Std dev / CV</td><td class="bigger raw-win">30.21 kg</td><td>0.346 mm</td><td>3.73%</td><td class="bigger rel-win">6.88%</td></tr>
+          <tr><td class="measure-name">Range / Coef. of range</td><td class="bigger raw-win">100 kg</td><td>1.1 mm</td><td>6.17%</td><td class="bigger rel-win">10.89%</td></tr>
+          <tr><td class="measure-name">IQR / QCD</td><td class="bigger raw-win">37.5 kg</td><td>0.475 mm</td><td>2.31%</td><td class="bigger rel-win">4.74%</td></tr>
+          <tr><td class="measure-name">Mean dev. / CoMD</td><td class="bigger raw-win">25 kg</td><td>0.3 mm</td><td>3.09%</td><td class="bigger rel-win">5.97%</td></tr>
+          <tr><td class="measure-name">RSD</td><td colspan="2" style="color:var(--lesson-sl-ink-faint);">— (same as CV, just ×100%)</td><td>3.73%</td><td class="bigger rel-win">6.88%</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="widget-note">Every single raw measure says "pallets." Every single relative measure says "pins." Both are computed correctly — they're just answering different questions.</p>
+    </div>
+
+    <div class="exam-tip">
+      <b>The general rule:</b> a raw spread measure (variance, standard deviation, range, IQR, mean deviation) is only comparable between two datasets that share the same units <em>and</em> a similar scale. The instant you're comparing across different units, different scales, or even the same units at very different magnitudes, switch to the relative version — CV, coefficient of range, quartile coefficient of dispersion, or coefficient of mean deviation. That's the entire reason this family of measures exists.
+    </div>
+  </section>
+
+  <!-- ============ IMPLEMENTATION ============ -->
+  <section class="page" id="implementation">
+    <span class="eyebrow-tag"><span class="dot"></span>Statistics Implementation</span>
+    <h2 class="section-title">Running these in Excel and Minitab</h2>
+    <p class="section-intro">The formulas above are what's happening under the hood. In practice, on the exam and on the floor, you'll pull these from software — and the sample/population distinction below is the single most common place people lose points.</p>
+
+    <div class="impl-scroll" tabindex="0" role="region" aria-label="Excel functions table">
+    <table class="impl">
+      <caption>Excel functions</caption>
+      <thead><tr><th>Function</th><th>Syntax</th><th>Purpose</th><th>When to use</th></tr></thead>
+      <tbody>
+        <tr><td class="fn">VAR.S</td><td class="fn">=VAR.S(range)</td><td>Sample variance</td><td>Your data is a sample of a larger population (the usual case)</td></tr>
+        <tr><td class="fn">VAR.P</td><td class="fn">=VAR.P(range)</td><td>Population variance</td><td>Your data <em>is</em> the entire population — no estimation involved</td></tr>
+        <tr><td class="fn">STDEV.S</td><td class="fn">=STDEV.S(range)</td><td>Sample standard deviation</td><td>Square root of VAR.S; the default for process/quality data</td></tr>
+        <tr><td class="fn">STDEV.P</td><td class="fn">=STDEV.P(range)</td><td>Population standard deviation</td><td>Square root of VAR.P</td></tr>
+        <tr><td class="fn">AVERAGE</td><td class="fn">=AVERAGE(range)</td><td>Mean</td><td>Needed alongside STDEV to build CV yourself — Excel has no native CV function</td></tr>
+        <tr><td class="fn">COVARIANCE.S</td><td class="fn">=COVARIANCE.S(range1,range2)</td><td>Sample covariance</td><td>Two paired samples (e.g. two process measurements taken together)</td></tr>
+        <tr><td class="fn">COVARIANCE.P</td><td class="fn">=COVARIANCE.P(range1,range2)</td><td>Population covariance</td><td>Both variables' complete populations are known</td></tr>
+        <tr><td class="fn">CORREL</td><td class="fn">=CORREL(range1,range2)</td><td>Pearson correlation (r)</td><td>Same result whether you treat the data as sample or population — r is scale-free either way</td></tr>
+        <tr><td class="fn">MAX, MIN</td><td class="fn">=MAX(range), =MIN(range)</td><td>Extremes</td><td>Build the coefficient of range yourself — no native function</td></tr>
+        <tr><td class="fn">QUARTILE.INC</td><td class="fn">=QUARTILE.INC(range,1) / (range,3)</td><td>Q1 / Q3</td><td>Feeds the quartile coefficient of dispersion — again, no native function combines them for you</td></tr>
+        <tr><td class="fn">AVEDEV</td><td class="fn">=AVEDEV(range)</td><td>Mean absolute deviation</td><td>The numerator for coefficient of mean deviation — one of Excel's more obscure built-ins</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.05rem;margin:0 0 12px;">Excel use cases</h3>
+    <div class="path-block"><span class="p-route">=STDEV.S(B2:B50)/AVERAGE(B2:B50)</span> — the everyday CV formula, since Excel has no built-in CV function. Format the cell as a percentage.</div>
+    <div class="path-block"><span class="p-route">=(STDEV.S(B2:B50)/AVERAGE(B2:B50))*100</span> — the same calculation reported as RSD, the convention you'll see in analytical chemistry and lab COAs (certificates of analysis).</div>
+    <div class="path-block"><span class="p-route">=(MAX(B2:B50)-MIN(B2:B50))/(MAX(B2:B50)+MIN(B2:B50))</span> — coefficient of range: fast, but only as trustworthy as your two most extreme readings.</div>
+    <div class="path-block"><span class="p-route">=(QUARTILE.INC(B2:B50,3)-QUARTILE.INC(B2:B50,1))/(QUARTILE.INC(B2:B50,3)+QUARTILE.INC(B2:B50,1))</span> — quartile coefficient of dispersion, the one to reach for when you suspect outliers.</div>
+    <div class="path-block"><span class="p-route">=AVEDEV(B2:B50)/AVERAGE(B2:B50)</span> — coefficient of mean deviation, in one line since Excel already has AVEDEV built in.</div>
+    <div class="path-block"><span class="p-route">=CORREL(B2:B50,C2:C50)</span> — quick check for whether two process inputs (e.g. oven temperature and cure time) are moving together before you build a regression.</div>
+    <div class="path-block"><span class="p-route">=COVARIANCE.S(B2:B50,C2:C50)</span> — feeds directly into hand-calculating r if you already have both standard deviations, and matters on its own in portfolio-style variance calculations (Var(X+Y) = Var(X)+Var(Y)+2·Cov(X,Y)).</div>
+
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.05rem;margin:24px 0 12px;">Minitab navigation</h3>
+    <div class="path-block"><span class="p-route">Stat → Basic Statistics → Display Descriptive Statistics</span> — gives mean, StDev, and variance together; check "Statistics…" to add CoefVar (Minitab computes CV for you, unlike Excel). Q1 and Q3 are available in the same dialog for building the quartile coefficient of dispersion by hand.</div>
+    <div class="path-block"><span class="p-route">Stat → Basic Statistics → Covariance</span> — direct covariance matrix for two or more columns.</div>
+    <div class="path-block"><span class="p-route">Stat → Basic Statistics → Correlation</span> — correlation matrix with an option to display p-values; use this over hand-calculating r whenever you have more than two variables to compare pairwise.</div>
+    <p class="widget-note">Which option to use and why: Descriptive Statistics is the right first stop for any single-variable spread question (variance, StDev, CV, and quartiles all live there together). None of coefficient of range, quartile coefficient of dispersion, or coefficient of mean deviation have a dedicated Minitab menu — you build them from the descriptive-statistics output, same as in Excel. Reach for Covariance only when you specifically need the unscaled joint measure — most of the time, on the exam and at work, Correlation is what you actually want, since it's directly interpretable without knowing the units.</p>
+
+    <h3 style="font-family:var(--lesson-sl-serif);font-size:1.05rem;margin:24px 0 12px;">Exam tips (CSSBB / CQE)</h3>
+    <div class="exam-tip"><b>Sample vs. population:</b> if the question describes measuring "all units produced" or a defined finite lot, use population formulas (n divisor). If it describes a sample pulled for inspection — the overwhelming majority of exam scenarios — use sample formulas (n−1 divisor). Using n instead of n−1 is the single most common calculation trap.</div>
+    <div class="exam-tip"><b>Correlation ≠ causation:</b> a classic distractor answer treats a high r as proof that X causes Y. The exam will reward "there is a strong linear association" over "X causes Y" unless the question describes a controlled experiment.</div>
+    <div class="exam-tip"><b>CV shows up in Measurement Systems Analysis and reliability questions</b> as a way to compare variability across different gauges or different-scaled processes — if a question compares consistency across two different units of measure, CV (not raw StDev) is almost always the intended tool.</div>
+  </section>
+
+</div>
+</main>
+
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Raw deviations always sum to zero by definition of the mean. Squaring makes every deviation positive before averaging, so the spread doesn't just cancel itself out.">
+        <legend>1. Why does variance square each deviation from the mean instead of just averaging the raw deviations?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> To make the numbers look bigger for reports</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> So deviations above and below the mean don't cancel out to zero</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> Because Excel requires it</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="d"> To convert the units into percentages</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="CV = σ / mean. Without the mean, 3 minutes of spread could be huge (mean = 4 minutes) or trivial (mean = 400 minutes).">
+        <legend>2. A process has a standard deviation of 3 minutes. What can you say about its coefficient of variation without more information?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> CV is also 3%</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> CV must be less than 3</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> You can't compute CV without also knowing the mean</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> CV and standard deviation are always equal</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="A negative covariance means the two variables tend to move in opposite directions relative to their own means — an inverse relationship.">
+        <legend>3. Two variables have a covariance of −850. What does the negative sign tell you?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> The calculation has an error — covariance can't be negative</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> As one variable rises above its mean, the other tends to fall below its mean</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> The variables are unrelated</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="d"> The variance of one variable is negative</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Dividing by both standard deviations cancels the units out entirely, which is exactly why correlation values from completely different studies can be compared directly.">
+        <legend>4. Why divide covariance by σx · σy to get correlation?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> To make the number bigger and easier to see</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> It's a legal requirement for reporting statistics</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> To remove the original units, giving a scale-free number always between −1 and +1</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> Because covariance is always too small otherwise</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Correlation only measures linear relationships. A symmetric U-shape has essentially zero net linear trend, so r can sit near 0 despite a perfectly predictable curved relationship.">
+        <legend>5. A scatter plot shows a perfect, tight U-shape (like a parabola). What will Pearson's correlation coefficient likely show?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> r close to +1</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> r close to −1</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> r close to 0, even though the relationship is very strong and predictable</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="d"> r is undefined for curved data</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Q1 and Q3 are order statistics from the middle of the distribution. One extreme value can become the new max or min without ever touching Q1 or Q3, so the quartile coefficient of dispersion stays nearly unchanged — that's what 'resistant to outliers' means in practice.">
+        <legend>6. A dataset has one extreme outlier. Which measure of relative spread is built to barely notice it?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> Coefficient of range, because it uses the full spread of the data</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> Relative standard deviation, because it's the industry standard</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> Quartile coefficient of dispersion, because it only depends on Q1 and Q3 — the middle 50% of the data</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="d"> Coefficient of mean deviation, because it uses absolute value instead of squaring</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#statistics" id="sl-back-link" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Statistics lessons</a>
+</section>
+
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+
+
+<script>
+(function(){
+  "use strict";
+
+  // ---------- stats helpers ----------
+  function mean(a){ return a.reduce((s,v)=>s+v,0)/a.length; }
+  function variance(a){ const m=mean(a); return a.reduce((s,v)=>s+(v-m)*(v-m),0)/a.length; }
+  function std(a){ return Math.sqrt(variance(a)); }
+  function covariance(x,y){
+    const mx=mean(x), my=mean(y);
+    let s=0; for(let i=0;i<x.length;i++) s += (x[i]-mx)*(y[i]-my);
+    return s/x.length;
+  }
+  function correlation(x,y){
+    const sx=std(x), sy=std(y);
+    if(sx===0||sy===0) return 0;
+    return covariance(x,y)/(sx*sy);
+  }
+  function randn(){
+    let u=1-Math.random(), v=Math.random();
+    return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+  }
+  function fmt(n, d){ return Number(n).toFixed(d===undefined?2:d); }
+
+  // ---------- KaTeX rendering ----------
+  // katex.min.js is loaded with `defer`, but `defer`/`async` have NO EFFECT on
+  // inline scripts like this one (spec-defined) - this script always runs
+  // synchronously as the parser reaches it, which is before any deferred
+  // script executes. So we do NOT call katex.render() directly here. Instead
+  // we wait for DOMContentLoaded, which by spec cannot fire until every
+  // deferred script (including katex.min.js) has already finished running -
+  // that ordering guarantee is exactly what we need, with no polling.
+  function renderAllMath(){
+    if (typeof katex === 'undefined') return; // guards a double-call from the window.load fallback below
+    const texMap = {
+      'tex-variance': '\\text{Var}(X) = \\dfrac{1}{n}\\sum_{i=1}^{n}(x_i-\\bar{x})^2',
+      'tex-std':      '\\sigma = \\sqrt{\\text{Var}(X)}',
+      'tex-cv':       '\\text{CV} = \\dfrac{\\sigma}{\\bar{x}}',
+      'tex-range':    '\\text{Coefficient of Range} = \\dfrac{\\text{Max} - \\text{Min}}{\\text{Max} + \\text{Min}}',
+      'tex-qcd':      '\\text{QCD} = \\dfrac{Q_3 - Q_1}{Q_3 + Q_1}',
+      'tex-comd':     '\\text{CoMD} = \\dfrac{\\text{Mean Deviation}}{\\text{Mean}}',
+      'tex-meandev':  '\\text{Mean Deviation} = \\dfrac{1}{n}\\sum_{i=1}^{n}\\left|x_i-\\bar{x}\\right|',
+      'tex-rsd':      '\\text{RSD} = \\left(\\dfrac{s}{\\bar{x}}\\right)\\times 100\\%',
+      'tex-cov':      '\\text{Cov}(X,Y) = \\dfrac{1}{n}\\sum_{i=1}^{n}(x_i-\\bar{x})(y_i-\\bar{y})',
+      'tex-corr':     'r = \\dfrac{\\text{Cov}(X,Y)}{\\sigma_x \\sigma_y}',
+      'tex-node-var': '\\dfrac{\\sum(x-\\bar{x})^2}{n}',
+      'tex-node-std': '\\sqrt{\\text{Variance}}',
+      'tex-node-cv':  '\\dfrac{\\sigma}{\\bar{x}}',
+      'tex-node-cov': '\\dfrac{\\sum(x-\\bar{x})(y-\\bar{y})}{n}',
+      'tex-node-corr':'\\dfrac{\\text{Cov}}{\\sigma_x \\sigma_y}',
+
+      'tex-p-mean-a': '\\bar{x} = \\dfrac{760+780+\\cdots+860}{8}',
+      'tex-p-mean-a-r': '= \\dfrac{6480}{8} = 810\\text{ kg}',
+      'tex-p-mean-b': '\\bar{x} = \\dfrac{4.5+4.7+\\cdots+5.6}{8}',
+      'tex-p-mean-b-r': '= \\dfrac{40.2}{8} = 5.025\\text{ mm}',
+      'tex-p-var-a':  's^2 = \\dfrac{(-50)^2+(-30)^2+\\cdots+50^2}{8}',
+      'tex-p-var-a-r':'= \\dfrac{7300}{8} = 912.5\\text{ kg}^2',
+      'tex-p-std-a':  's = \\sqrt{912.5} \\approx 30.21\\text{ kg}',
+      'tex-p-var-b':  's^2 = \\dfrac{(-0.525)^2+\\cdots+0.575^2}{8}',
+      'tex-p-var-b-r':'= \\dfrac{0.955}{8} \\approx 0.1194\\text{ mm}^2',
+      'tex-p-std-b':  's = \\sqrt{0.1194} \\approx 0.346\\text{ mm}',
+      'tex-p-cv-a':   '\\text{CV} = \\dfrac{30.21}{810} \\approx 0.0373 = 3.73\\%',
+      'tex-p-cv-b':   '\\text{CV} = \\dfrac{0.346}{5.025} \\approx 0.0688 = 6.88\\%',
+      'tex-p-range-a':'\\text{Range} = 860-760 = 100\\text{ kg}',
+      'tex-p-cor-a':  '\\text{Coef. of Range} = \\dfrac{860-760}{860+760} = \\dfrac{100}{1620} \\approx 6.17\\%',
+      'tex-p-range-b':'\\text{Range} = 5.6-4.5 = 1.1\\text{ mm}',
+      'tex-p-cor-b':  '\\text{Coef. of Range} = \\dfrac{5.6-4.5}{5.6+4.5} = \\dfrac{1.1}{10.1} \\approx 10.89\\%',
+      'tex-p-iqr-a':  'Q_1=791.25,\\ Q_3=828.75\\Rightarrow\\text{IQR}=37.5\\text{ kg}',
+      'tex-p-qcd-a':  '\\text{QCD} = \\dfrac{828.75-791.25}{828.75+791.25} = \\dfrac{37.5}{1620} \\approx 2.31\\%',
+      'tex-p-iqr-b':  'Q_1=4.775,\\ \\ Q_3=5.25\\ \\Rightarrow\\ \\text{IQR}=0.475\\text{ mm}',
+      'tex-p-qcd-b':  '\\text{QCD} = \\dfrac{5.25-4.775}{5.25+4.775} = \\dfrac{0.475}{10.025} \\approx 4.74\\%',
+      'tex-p-md-a':   '\\text{Mean Deviation} = \\dfrac{50+30+\\cdots+50}{8}',
+      'tex-p-md-a-r': '= \\dfrac{200}{8} = 25\\text{ kg}',
+      'tex-p-comd-a': '\\text{CoMD} = \\dfrac{25}{810} \\approx 3.09\\%',
+      'tex-p-md-b':   '\\text{Mean Deviation} = \\dfrac{0.525+\\cdots+0.575}{8}',
+      'tex-p-md-b-r': '= \\dfrac{2.4}{8} = 0.3\\text{ mm}',
+      'tex-p-comd-b': '\\text{CoMD} = \\dfrac{0.3}{5.025} \\approx 5.97\\%'
+    };
+    Object.keys(texMap).forEach(id => {
+      const el = document.getElementById(id);
+      if (!el || el.dataset.rendered) return;
+      try {
+        katex.render(texMap[id], el, { throwOnError: false, displayMode: true });
+        el.dataset.rendered = 'true';
+      } catch (e) {
+        el.textContent = texMap[id];
+        console.error('KaTeX render failed for #' + id, e);
+      }
+    });
+  }
+  document.addEventListener('DOMContentLoaded', renderAllMath);
+  window.addEventListener('load', renderAllMath); // safety net if DOMContentLoaded already fired somehow
+
+  // ---------- scroll progress + nav highlight ----------
+  const progressBar = document.getElementById('progressBar');
+  const sections = Array.from(document.querySelectorAll('section.page'));
+  const navLinks = Array.from(document.querySelectorAll('#navDots a'));
+  function onScroll(){
+    const h = document.documentElement;
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progressBar.style.width = Math.min(100, Math.max(0,pct)) + '%';
+    let current = sections[0];
+    for(const s of sections){ if (s.getBoundingClientRect().top < 140) current = s; }
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+current.id));
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // ================= HERO MINI DEMO =================
+  const heroSvg = document.getElementById('heroSvg');
+  const heroSlider = document.getElementById('heroSlider');
+  const heroRVal = document.getElementById('heroRVal');
+  function drawHero(){
+    const r = heroSlider.value/100;
+    const pts = [];
+    for(let i=0;i<22;i++){
+      const x = randn();
+      const y = r*x + Math.sqrt(Math.max(0,1-r*r))*randn();
+      pts.push([x,y]);
+    }
+    const xs = pts.map(p=>p[0]), ys = pts.map(p=>p[1]);
+    const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
+    const pad=18, w=220, h=150;
+    let svg = '';
+    pts.forEach(([x,y])=>{
+      const px = pad + (x-minX)/(maxX-minX||1)*(w-2*pad);
+      const py = h-pad - (y-minY)/(maxY-minY||1)*(h-2*pad);
+      svg += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4" style="fill:var(--lesson-sl-teal)" opacity="0.75"/>`;
+    });
+    heroSvg.innerHTML = svg;
+    heroRVal.textContent = fmt(correlation(xs,ys),2);
+  }
+  heroSlider.addEventListener('input', drawHero);
+  drawHero();
+
+  // ================= VARIANCE TRACK =================
+  const varTrack = document.getElementById('varTrack');
+  const varSlider = document.getElementById('varSlider');
+  const AXIS_MIN=44, AXIS_MAX=56;
+  function pctPos(v){ return (v-AXIS_MIN)/(AXIS_MAX-AXIS_MIN)*100; }
+  function renderVar(){
+    const spreadLevel = (11-varSlider.value)*0.35; // higher slider = tighter
+    const data = Array.from({length:16}, () => 50 + randn()*spreadLevel);
+    const m = mean(data), v = variance(data), s = std(data);
+    document.getElementById('varMean').textContent = fmt(m,2)+' mm';
+    document.getElementById('varVar').textContent = fmt(v,2)+' mm²';
+    document.getElementById('varStd').textContent = fmt(s,2)+' mm';
+
+    let html = '<div class="axis"></div>';
+    const bandLeft = Math.max(0,pctPos(m-s)), bandRight = Math.min(100,pctPos(m+s));
+    html += `<div class="band" style="left:${bandLeft}%;width:${bandRight-bandLeft}%;"></div>`;
+    html += `<div class="mean-line" style="left:${pctPos(m)}%;"></div>`;
+    html += `<div class="mean-tag" style="left:${pctPos(m)}%;">mean</div>`;
+    for(let t=AXIS_MIN;t<=AXIS_MAX;t+=2){ html += `<div class="tick" style="left:${pctPos(t)}%;">${t}</div>`; }
+    data.forEach(d => { html += `<div class="dot" style="left:${Math.min(100,Math.max(0,pctPos(d)))}%;"></div>`; });
+    varTrack.innerHTML = html;
+  }
+  varSlider.addEventListener('input', renderVar);
+  document.getElementById('varShuffle').addEventListener('click', renderVar);
+  renderVar();
+
+  // ================= CV TRACKS =================
+  const cvSlider = document.getElementById('cvSlider');
+  const cvSliderVal = document.getElementById('cvSliderVal');
+  function renderCVTrack(el, meanVal, sd, axisMin, axisMax){
+    const data = Array.from({length:14}, () => meanVal + randn()*sd);
+    const m = mean(data), s = std(data);
+    const pos = v => (v-axisMin)/(axisMax-axisMin)*100;
+    let html = '<div class="axis"></div>';
+    html += `<div class="mean-line" style="left:${pos(m)}%;top:8px;bottom:8px;"></div>`;
+    data.forEach(d => { html += `<div class="dot" style="left:${Math.min(100,Math.max(0,pos(d)))}%;top:24px;"></div>`; });
+    el.innerHTML = html;
+    return {m, s};
+  }
+  function renderCV(){
+    const sd = parseFloat(cvSlider.value);
+    cvSliderVal.textContent = fmt(sd,1);
+    const a = renderCVTrack(document.getElementById('cvTrackA'), 8, sd, -6, 22);
+    const b = renderCVTrack(document.getElementById('cvTrackB'), 800, sd, 786, 814);
+    const cvA = Math.abs(a.s/a.m)*100, cvB = Math.abs(b.s/b.m)*100;
+    document.getElementById('cvStdA').textContent = fmt(a.s,2)+' mg';
+    document.getElementById('cvValA').innerHTML = fmt(cvA,1)+'<small>%</small>';
+    document.getElementById('cvStdB').textContent = fmt(b.s,2)+' kg';
+    document.getElementById('cvValB').innerHTML = fmt(cvB,2)+'<small>%</small>';
+    document.getElementById('cvBadgeA').innerHTML = cvA<cvB ? '<span class="cv-badge win">more consistent</span>' : '<span class="cv-badge lose">less consistent</span>';
+    document.getElementById('cvBadgeB').innerHTML = cvB<cvA ? '<span class="cv-badge win">more consistent</span>' : '<span class="cv-badge lose">less consistent</span>';
+  }
+  cvSlider.addEventListener('input', renderCV);
+  renderCV();
+
+  // ================= RELATIVE DISPERSION FAMILY (clogged nozzle) =================
+  (function(){
+    const cleanBatch = [9.97, 10.02, 9.95, 10.04, 9.99, 10.01, 9.96, 10.03, 9.98, 10.00, 9.94, 10.05];
+    const OUTLIER = 13.80;
+    const toggle = document.getElementById('outlierToggle');
+    const trackEl = document.getElementById('dispTrack');
+    const AXIS_MIN = 9.5, AXIS_MAX = 14.5;
+    const pos = v => (v-AXIS_MIN)/(AXIS_MAX-AXIS_MIN)*100;
+
+    function quartile(sorted, q){
+      const p = (sorted.length-1)*q;
+      const base = Math.floor(p), rest = p-base;
+      return sorted[base+1]!==undefined ? sorted[base] + rest*(sorted[base+1]-sorted[base]) : sorted[base];
+    }
+    function meanAbsDev(a){
+      const m = mean(a);
+      return mean(a.map(v => Math.abs(v-m)));
+    }
+
+    function render(){
+      const withOutlier = toggle.checked;
+      const data = withOutlier ? cleanBatch.concat([OUTLIER]) : cleanBatch.slice();
+      const sorted = data.slice().sort((a,b)=>a-b);
+      const m = mean(data);
+      const mn = sorted[0], mx = sorted[sorted.length-1];
+      const q1 = quartile(sorted, 0.25), q3 = quartile(sorted, 0.75);
+      const md = meanAbsDev(data);
+      const sd = std(data);
+
+      const coefRange = (mx-mn)/(mx+mn);
+      const qcd = (q3-q1)/(q3+q1);
+      const coMD = md/m;
+      const rsd = (sd/m)*100;
+
+      // track
+      let html = '<div class="axis"></div>';
+      html += `<div class="mean-line" style="left:${pos(m)}%;top:20px;bottom:20px;"></div>`;
+      html += `<div class="mean-tag" style="left:${pos(m)}%;">mean</div>`;
+      for(let t=10;t<=14;t+=1){ html += `<div class="tick" style="left:${pos(t)}%;">${t}</div>`; }
+      data.forEach(d => {
+        const isOutlier = withOutlier && d === OUTLIER;
+        html += `<div class="dot" style="left:${pos(d)}%;${isOutlier?'background:var(--lesson-sl-brick);width:16px;height:16px;top:37px;':''}"></div>`;
+      });
+      trackEl.innerHTML = html;
+
+      document.getElementById('dispMinMax').textContent = fmt(mn,2)+' / '+fmt(mx,2);
+      document.getElementById('dispQ').textContent = fmt(q1,2)+' / '+fmt(q3,2);
+      document.getElementById('dispMean').textContent = fmt(m,2)+' mL';
+      document.getElementById('dispMD').textContent = fmt(md,3)+' mL';
+
+      document.getElementById('dispRange').textContent = fmt(coefRange*100,2)+'%';
+      document.getElementById('dispQCD').textContent = fmt(qcd*100,2)+'%';
+      document.getElementById('dispCoMD').textContent = fmt(coMD*100,2)+'%';
+      document.getElementById('dispRSD').textContent = fmt(rsd,2)+'%';
+
+      document.getElementById('dispReading').textContent = withOutlier
+        ? "One bad syringe out of thirteen just moved the coefficient of range and RSD dramatically — but the quartile coefficient of dispersion barely blinked, because Q1 and Q3 still sit inside the well-behaved cluster."
+        : "This is the clean baseline. Flip the switch above to add the clogged-nozzle syringe and watch each number react — or not.";
+    }
+    toggle.addEventListener('change', render);
+    render();
+  })();
+
+  // ================= SCATTER ENGINE (shared by covariance + correlation) =================
+  function buildScatter(svgEl, r, opts){
+    opts = opts || {};
+    const W=360,H=300,pad=36;
+    const n=28;
+    const xs=[],ys=[];
+    for(let i=0;i<n;i++){
+      const x = randn();
+      const y = r*x + Math.sqrt(Math.max(0,1-r*r))*randn();
+      xs.push(x); ys.push(y);
+    }
+    const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
+    const mX = mean(xs), mY = mean(ys);
+    const px = v => pad + (v-minX)/((maxX-minX)||1)*(W-2*pad);
+    const py = v => H-pad - (v-minY)/((maxY-minY)||1)*(H-2*pad);
+    const cx = px(mX), cy = py(mY);
+
+    let svg = '';
+    if(opts.quadrants){
+      svg += `<rect x="${pad}" y="${pad}" width="${cx-pad}" height="${cy-pad}" style="fill:var(--lesson-sl-brick-soft)"/>`; // top-left (x<mean,y>mean) => negative
+      svg += `<rect x="${cx}" y="${pad}" width="${W-pad-cx}" height="${cy-pad}" style="fill:var(--lesson-sl-teal-soft)"/>`; // top-right positive
+      svg += `<rect x="${pad}" y="${cy}" width="${cx-pad}" height="${H-pad-cy}" style="fill:var(--lesson-sl-teal-soft)"/>`; // bottom-left positive
+      svg += `<rect x="${cx}" y="${cy}" width="${W-pad-cx}" height="${H-pad-cy}" style="fill:var(--lesson-sl-brick-soft)"/>`; // bottom-right negative
+    }
+    svg += `<line x1="${cx}" y1="${pad}" x2="${cx}" y2="${H-pad}" style="stroke:var(--lesson-sl-accent)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+    svg += `<line x1="${pad}" y1="${cy}" x2="${W-pad}" y2="${cy}" style="stroke:var(--lesson-sl-accent)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+
+    if(opts.trendline){
+      const cov = covariance(xs,ys), varX = variance(xs);
+      if(varX>0){
+        const slope = cov/varX, intercept = mY - slope*mX;
+        const x1d = minX, x2d = maxX;
+        svg += `<line x1="${px(x1d)}" y1="${py(slope*x1d+intercept)}" x2="${px(x2d)}" y2="${py(slope*x2d+intercept)}" style="stroke:var(--lesson-sl-teal-deep)" stroke-width="2" opacity="0.55"/>`;
+      }
+    }
+
+    xs.forEach((x,i)=>{ svg += `<circle cx="${px(x).toFixed(1)}" cy="${py(ys[i]).toFixed(1)}" r="5" style="fill:var(--lesson-sl-teal);stroke:var(--lesson-sl-card)" fill-opacity="0.82" stroke-width="1"/>`; });
+
+    svgEl.innerHTML = svg;
+    return {xs, ys};
+  }
+
+  // covariance widget
+  const covSvg = document.getElementById('covSvg');
+  const covSlider = document.getElementById('covSlider');
+  function renderCov(){
+    const r = covSlider.value/100;
+    const {xs,ys} = buildScatter(covSvg, r, {quadrants:true, trendline:false});
+    document.getElementById('covVal').textContent = fmt(covariance(xs,ys),3);
+  }
+  covSlider.addEventListener('input', renderCov);
+  document.getElementById('covShuffle').addEventListener('click', renderCov);
+  renderCov();
+
+  // correlation widget
+  const corrSvg = document.getElementById('corrSvg');
+  const corrSlider = document.getElementById('corrSlider');
+  function readingFor(r){
+    const a = Math.abs(r);
+    if(a<0.1) return "Essentially no linear relationship.";
+    if(a<0.4) return (r>0?"Weak positive":"Weak negative") + " linear relationship.";
+    if(a<0.7) return (r>0?"Moderate positive":"Moderate negative") + " linear relationship.";
+    if(a<0.9) return (r>0?"Strong positive":"Strong negative") + " linear relationship.";
+    return (r>0?"Very strong positive":"Very strong negative") + " — nearly a straight line.";
+  }
+  function renderCorr(){
+    const rTarget = corrSlider.value/100;
+    const {xs,ys} = buildScatter(corrSvg, rTarget, {quadrants:false, trendline:true});
+    const rActual = correlation(xs,ys);
+    document.getElementById('corrVal').textContent = fmt(rActual,3);
+    document.getElementById('corrReading').textContent = readingFor(rActual) + " (target was " + fmt(rTarget,2) + " — real samples wobble around the target, which is normal.)";
+  }
+  corrSlider.addEventListener('input', renderCorr);
+  document.getElementById('corrShuffle').addEventListener('click', renderCorr);
+  renderCorr();
+
+  // ================= TIE-TOGETHER DIAGRAM =================
+  (function(){
+    const svg = document.getElementById('diagramSvg');
+    const canvas = document.getElementById('diagramCanvas');
+    const nodes = [
+      {id:'var', x:20,  y:150, w:150, h:70, title:'Variance', tex:'\\dfrac{\\sum(x-\\bar{x})^2}{n}', fill:'var(--lesson-sl-teal-soft)'},
+      {id:'std', x:230, y:50,  w:150, h:70, title:'Std Deviation', tex:'\\sqrt{\\text{Variance}}', fill:'var(--lesson-sl-card)'},
+      {id:'cv',  x:440, y:50,  w:160, h:70, title:'Coeff. of Variation', tex:'\\dfrac{\\sigma}{\\bar{x}}', fill:'var(--lesson-sl-card)'},
+      {id:'cov', x:230, y:250, w:150, h:70, title:'Covariance', tex:'\\dfrac{\\sum(x-\\bar{x})(y-\\bar{y})}{n}', fill:'var(--lesson-sl-teal-soft)'},
+      {id:'corr',x:440, y:250, w:160, h:70, title:'Correlation (r)', tex:'\\dfrac{\\text{Cov}}{\\sigma_x \\sigma_y}', fill:'var(--lesson-sl-card)'}
+    ];
+    const edges = [
+      ['var','std','square root'],
+      ['std','cv','÷ mean'],
+      ['var','cov','extend to 2 variables'],
+      ['cov','corr','÷ σx · σy']
+    ];
+    const byId = Object.fromEntries(nodes.map(n=>[n.id,n]));
+    let s = '';
+    edges.forEach(([a,b,label])=>{
+      const A=byId[a], B=byId[b];
+      const x1=A.x+A.w, y1=A.y+A.h/2, x2=B.x, y2=B.y+B.h/2;
+      const mx=(x1+x2)/2;
+      s += `<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" style="stroke:var(--lesson-sl-ink-faint)" stroke-width="1.6" marker-end="url(#arrow)"/>`;
+      s += `<text x="${mx}" y="${(y1+y2)/2-8}" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" style="fill:var(--lesson-sl-ink-soft)">${label}</text>`;
+    });
+    s = `<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" style="fill:var(--lesson-sl-ink-faint)"/></marker></defs>` + s;
+    svg.innerHTML = s;
+
+    nodes.forEach(n=>{
+      const div = document.createElement('div');
+      div.className = 'diagram-node';
+      div.style.left = n.x+'px'; div.style.top = n.y+'px';
+      div.style.width = n.w+'px'; div.style.height = n.h+'px';
+      div.style.background = n.fill;
+      div.innerHTML = `<div class="n-title">${n.title}</div><div class="n-formula" id="tex-node-${n.id}"></div>`;
+      canvas.appendChild(div);
+    });
+  })();
+
+  // ================= GUIDED PRACTICE (pallets vs pins) =================
+  (function(){
+    function renderStaticTrack(elId, data, axisMin, axisMax, tickStep){
+      const el = document.getElementById(elId);
+      if (!el) return;
+      const m = mean(data);
+      const pos = v => (v-axisMin)/(axisMax-axisMin)*100;
+      let html = '<div class="axis"></div>';
+      html += `<div class="mean-line" style="left:${pos(m)}%;"></div>`;
+      html += `<div class="mean-tag" style="left:${pos(m)}%;">mean</div>`;
+      for(let t=axisMin; t<=axisMax+1e-9; t+=tickStep){
+        html += `<div class="tick" style="left:${pos(t)}%;">${Number(t.toFixed(2))}</div>`;
+      }
+      data.forEach(d => { html += `<div class="dot" style="left:${pos(d)}%;"></div>`; });
+      el.innerHTML = html;
+    }
+    renderStaticTrack('practicePalletsTrack', [760,780,795,805,815,825,840,860], 740, 880, 20);
+    renderStaticTrack('practicePinsTrack', [4.5,4.7,4.8,4.9,5.1,5.2,5.4,5.6], 4.3, 5.8, 0.3);
+
+    const guessPallets = document.getElementById('guessPallets');
+    const guessPins = document.getElementById('guessPins');
+    const revealPanel = document.getElementById('guessReveal');
+    const responseEl = document.getElementById('guessResponse');
+    function reveal(choseCorrect){
+      responseEl.textContent = choseCorrect
+        ? "Good instinct — and here's the proof that it holds up:"
+        : "Reasonable guess if you only look at the raw numbers — but here's what actually happens once we account for scale:";
+      revealPanel.style.display = 'block';
+      revealPanel.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+    if (guessPallets) guessPallets.addEventListener('click', () => reveal(false));
+    if (guessPins) guessPins.addEventListener('click', () => reveal(true));
+  })();
+
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<script id="sl-presentation-controls">
+(function () {
+  'use strict';
+  const main = document.getElementById('lesson-content');
+  const header = document.querySelector('header.site');
+  if (!main || !header) return;
+  function syncLayout() {
+    const height = Math.ceil(header.getBoundingClientRect().height) + 'px';
+    if (main.style.getPropertyValue('--lesson-sl-sitebar-height') !== height) {
+      main.style.setProperty('--lesson-sl-sitebar-height', height);
+    }
+    document.getElementById('quiz').style.setProperty('--lesson-sl-sitebar-height', height);
+    main.querySelectorAll('.katex-box').forEach(function (box) {
+      if (box.scrollWidth > box.clientWidth + 1) {
+        box.setAttribute('tabindex', '0');
+        box.setAttribute('role', 'region');
+        box.setAttribute('aria-label', 'Scrollable formula');
+      } else {
+        box.removeAttribute('tabindex');
+        box.removeAttribute('role');
+        box.removeAttribute('aria-label');
+      }
+    });
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    const observer = new ResizeObserver(syncLayout);
+    observer.observe(header);
+    observer.observe(main);
+  }
+  window.addEventListener('resize', syncLayout, { passive: true });
+  window.addEventListener('load', syncLayout);
+  document.addEventListener('DOMContentLoaded', syncLayout);
+  ['guessPallets', 'guessPins'].forEach(function (id) {
+    document.getElementById(id).addEventListener('click', function () {
+      document.getElementById('guessPallets').setAttribute('aria-expanded', 'true');
+      document.getElementById('guessPins').setAttribute('aria-expanded', 'true');
+      syncLayout();
+    });
+  });
+  syncLayout();
+})();
+</script>
+<style id="sl-dark-overrides">
+html[data-theme="dark"] #lesson-content{
+  --lesson-sl-paper:#0E1B1D;
+  --lesson-sl-paper-line: rgba(180,220,220,0.07);
+  --lesson-sl-card:#16272A;
+  --lesson-sl-ink:#EAF3F2;
+  --lesson-sl-ink-soft:#A9C4C2;
+  --lesson-sl-ink-faint:#8AA6A4;
+  --lesson-sl-accent:#F0A94A;
+  --lesson-sl-accent-ink:#FFCB80;
+  --lesson-sl-teal:#4FB8C0;
+  --lesson-sl-teal-deep:#8FDCE0;
+  --lesson-sl-teal-soft:#163B3E;
+  --lesson-sl-brick:#E8917C;
+  --lesson-sl-brick-soft:#3C2620;
+  --lesson-sl-border: rgba(180,220,220,0.20);
+  --lesson-sl-control-border:#708C91;
+  --lesson-sl-shadow: 0 1px 0 rgba(0,0,0,0.4);
+  color-scheme: dark;
+}
+html[data-theme="dark"] #sl-back-link{ color: #7DD3FC !important; }
+html[data-theme="dark"] #lesson-content table.compare td.bigger.raw-win{ color: var(--lesson-sl-teal-deep) !important; }
+html[data-theme="dark"] #lesson-content table.compare td.bigger.rel-win{ color: var(--lesson-sl-brick) !important; }
+/* Presentation-only safeguards. Shared header/footer/progress styling stays untouched. */
+#lesson-content{position:relative;min-width:0;max-width:none;padding:0 0 24px}
+#lesson-content .wrap{min-width:0}
+#lesson-content .hero{min-width:0}
+#lesson-content h1.title{max-width:24ch;overflow-wrap:anywhere}
+#lesson-content section.page{scroll-margin-top:calc(var(--lesson-sl-sitebar-height, 73px) + 80px)}
+#lesson-content .hero-demo>*{min-width:0;max-width:100%}
+#lesson-content .hero-demo svg{height:auto}
+#lesson-content .path-block{overflow-wrap:anywhere}
+#lesson-content .scatter-side{min-width:min(200px,100%)}
+#lesson-content .btn{white-space:normal;max-width:100%;min-height:44px}
+#lesson-content .btn.ghost{border-color:var(--lesson-sl-control-border)}
+#lesson-content input[type="range"]{min-height:24px;height:24px;padding:9.5px 0;max-width:100%;background-clip:content-box}
+#lesson-content .control-row input[type="range"]{min-width:min(140px,100%)}
+#lesson-content .track .axis{background:var(--lesson-sl-control-border)}
+#lesson-content .diagram-node{border-color:var(--lesson-sl-control-border);color:var(--lesson-sl-ink)}
+#lesson-content :is(button,input,a,[tabindex="0"]):focus-visible{outline:3px solid var(--lesson-sl-teal-deep);outline-offset:3px}
+#quiz .quiz-question{min-inline-size:0}
+#quiz .quiz,#quiz .quiz-question,#quiz .quiz-feedback,#quiz .quiz-result{color:#172033}
+#quiz .quiz-option{overflow-wrap:anywhere}
+html[data-theme="light"] #lesson-content{color-scheme:light}
+html[data-theme="dark"] #lesson-content .btn:hover,
+html[data-theme="dark"] #lesson-content .btn.ghost:hover{color:var(--lesson-sl-paper)}
+html[data-theme="dark"] #lesson-content input[type="range"]{background:linear-gradient(90deg,var(--lesson-sl-teal),var(--lesson-sl-accent)) content-box !important;color:var(--lesson-sl-ink)}
+html[data-theme="dark"] #quiz .lesson-kicker{color:#67D4DF}
+html[data-theme="dark"] #quiz .quiz,
+html[data-theme="dark"] #quiz .quiz-question,
+html[data-theme="dark"] #quiz .quiz-feedback,
+html[data-theme="dark"] #quiz .quiz-result{color:#E7EEF4}
+@media (max-width:480px){
+  #lesson-content .wrap{padding-left:16px;padding-right:16px}
+  #lesson-content .widget{padding:18px}
+  #lesson-content .formula-card{padding:16px}
+  #lesson-content .hero{padding-top:36px}
+  #lesson-content .nav-dots{padding-left:16px;padding-right:16px;gap:14px}
+}
+/* Keep every diagram label and formula inside its own readable area. */
+#lesson-content .diagram-node .katex-display{margin:0}
+#lesson-content .diagram-node .n-title{line-height:1.2}
+#lesson-content .diagram-node .n-formula .katex{font-size:.9em}
+#lesson-content #diagramSvg text:nth-of-type(odd){transform:translateY(12px);paint-order:stroke;stroke:var(--lesson-sl-card);stroke-width:4px;stroke-linejoin:round}
+#lesson-content #diagramSvg text:nth-of-type(even){transform:translateY(-33px)}
+#quiz-heading{scroll-margin-top:calc(var(--lesson-sl-sitebar-height,73px) + 80px)}
+</style>
+</body>
+</html>

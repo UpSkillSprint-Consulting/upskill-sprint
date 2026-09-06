@@ -1,0 +1,89 @@
+name: Spread Lab lesson validation
+
+on:
+  pull_request:
+    paths:
+      - 'lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation.html'
+      - 'scripts/validate-spread-lab.cjs'
+      - 'tests/spread-lab-lesson.test.js'
+      - 'chi-square-lesson-library.js'
+      - 'style.css'
+      - 'lessons-theme.css'
+      - 'theme.js'
+      - 'site-sections.js'
+      - 'progress.js'
+      - 'docs/LESSON_CREATION_GUIDE.md'
+      - '.github/workflows/spread-lab-validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: spread-lab-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  browser-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Verify content preservation and guide regressions
+        shell: bash
+        run: |
+          mkdir -p artifacts/spread-lab
+          node --test tests/spread-lab-lesson.test.js | tee artifacts/spread-lab/content-tests.txt
+      - name: Install pinned browser validation dependencies
+        run: npm install --no-save --package-lock=false playwright@1.58.2 @axe-core/playwright@4.11.1 katex@0.16.9
+      - run: npx playwright install --with-deps chromium
+      - name: Validate both themes, four viewport widths, all controls and deploy preview
+        env:
+          SPREAD_LAB_PREVIEW_URL: https://deploy-preview-${{ github.event.pull_request.number }}--upskillsprint.netlify.app
+        run: node scripts/validate-spread-lab.cjs
+      - name: Capture exact reviewed source and revision
+        if: always()
+        run: |
+          mkdir -p artifacts/spread-lab/source
+          cp lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation.html artifacts/spread-lab/source/
+          cp tests/spread-lab-lesson.test.js scripts/validate-spread-lab.cjs artifacts/spread-lab/source/
+          git rev-parse HEAD > artifacts/spread-lab/source/commit.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: spread-lab-browser-validation
+          path: artifacts/spread-lab
+          if-no-files-found: error
+          retention-days: 14
+
+  # The existing full-test-suite.yml runs every test without exclusions.
+  # Keep the production build independent rather than repeating that entire suite serially.
+  production-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Exact production build command
+        shell: bash
+        run: |
+          mkdir -p artifacts/spread-lab-build
+          (node --test tests/test-bank*.test.js && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs) 2>&1 | tee artifacts/spread-lab-build/build.txt
+          git rev-parse HEAD > artifacts/spread-lab-build/commit.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: spread-lab-production-build
+          path: artifacts/spread-lab-build
+          if-no-files-found: error
+          retention-days: 14
