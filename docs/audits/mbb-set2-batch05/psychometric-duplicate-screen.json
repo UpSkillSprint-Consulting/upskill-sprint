@@ -1,0 +1,133 @@
+{
+  "baseline": {
+    "rankShortToLong": [
+      1,
+      0,
+      3,
+      21
+    ],
+    "strictlyLongestCorrectCount": 21,
+    "strictlyLongestCorrectIDs": [
+      "mbb:set-2:original-101",
+      "mbb:set-2:original-102",
+      "mbb:set-2:original-103",
+      "mbb:set-2:original-104",
+      "mbb:set-2:original-106",
+      "mbb:set-2:original-107",
+      "mbb:set-2:original-108",
+      "mbb:set-2:original-109",
+      "mbb:set-2:original-110",
+      "mbb:set-2:original-111",
+      "mbb:set-2:original-112",
+      "mbb:set-2:original-113",
+      "mbb:set-2:original-115",
+      "mbb:set-2:original-116",
+      "mbb:set-2:original-117",
+      "mbb:set-2:original-118",
+      "mbb:set-2:original-119",
+      "mbb:set-2:original-121",
+      "mbb:set-2:original-122",
+      "mbb:set-2:original-123",
+      "mbb:set-2:original-125"
+    ],
+    "method": "Character length of the complete stored choice text; rank is the count of options strictly shorter than the keyed choice. Ties are not counted as strictly longest."
+  },
+  "candidate": {
+    "rankShortToLong": [
+      5,
+      8,
+      6,
+      6
+    ],
+    "strictlyLongestCorrectCount": 6,
+    "strictlyLongestCorrectIDs": [
+      "mbb:set-2:original-111",
+      "mbb:set-2:original-117",
+      "mbb:set-2:original-119",
+      "mbb:set-2:original-122",
+      "mbb:set-2:original-123",
+      "mbb:set-2:original-124"
+    ],
+    "method": "Character length of the complete stored choice text; rank is the count of options strictly shorter than the keyed choice. Ties are not counted as strictly longest."
+  },
+  "exactCrossBatchStemMatches": [],
+  "highestLexicalTokenJaccardPairs": [
+    {
+      "similarity": 0.382353,
+      "qid1": "mbb:set-2:original-111",
+      "qid2": "mbb:set-2:original-136"
+    },
+    {
+      "similarity": 0.333333,
+      "qid1": "mbb:set-2:original-113",
+      "qid2": "mbb:set-2:original-162"
+    },
+    {
+      "similarity": 0.3125,
+      "qid1": "mbb:set-2:original-102",
+      "qid2": "mbb:set-2:original-152"
+    },
+    {
+      "similarity": 0.297297,
+      "qid1": "mbb:set-2:original-122",
+      "qid2": "mbb:set-2:original-147"
+    },
+    {
+      "similarity": 0.263158,
+      "qid1": "mbb:set-2:original-105",
+      "qid2": "mbb:set-2:original-130"
+    },
+    {
+      "similarity": 0.253968,
+      "qid1": "mbb:set-2:original-113",
+      "qid2": "mbb:set-2:original-039"
+    },
+    {
+      "similarity": 0.241379,
+      "qid1": "mbb:set-2:original-110",
+      "qid2": "mbb:set-2:original-028"
+    },
+    {
+      "similarity": 0.240741,
+      "qid1": "mbb:set-2:original-108",
+      "qid2": "mbb:set-2:original-063"
+    },
+    {
+      "similarity": 0.229167,
+      "qid1": "mbb:set-2:original-107",
+      "qid2": "mbb:set-2:original-157"
+    },
+    {
+      "similarity": 0.227273,
+      "qid1": "mbb:set-2:original-105",
+      "qid2": "mbb:set-2:original-005"
+    }
+  ],
+  "semanticDecisions": [
+    {
+      "question": 106,
+      "relatedQuestion": 6,
+      "decision": "Replaced repeated call-center incentive/feedback vignette with authored demand/order amplification evidence; the assessed systems principle remains appropriate."
+    },
+    {
+      "question": 116,
+      "relatedQuestion": 92,
+      "decision": "Replaced generic concurrent-change training design with explicit team randomization and cluster-level uncertainty; distinct from mere staged rollout."
+    },
+    {
+      "question": 124,
+      "relatedQuestion": 22,
+      "decision": "Retained split-plot topic but changed task from generic model identification to two error-stratum degrees of freedom under a complete balanced allocation."
+    },
+    {
+      "question": 125,
+      "decision": "Replaced misaligned generalized count-model question with authored continuous-response ANCOVA interaction interpretation, preserving the assigned current-BoK general-linear-model topic."
+    }
+  ],
+  "limitations": [
+    "Lexical similarity is a screen, not proof of semantic uniqueness or psychometric local independence.",
+    "Shared governance, mandatory-constraint, capability and DOE themes remain intentionally represented; context changes alone do not establish independent latent constructs.",
+    "No response data were supplied; difficulty, discrimination, distractor functioning, DIF, and exam reliability remain uncalibrated.",
+    "Question-order randomization exists in the production player. Browser audit fixtures intentionally impose canonical order; no learner-history IDs or stored answer indices were renumbered."
+  ]
+}

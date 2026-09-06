@@ -19,6 +19,7 @@
   <script src="/test-bank-mbb-batch2-ui.js"></script>
 <script src="/test-bank-mbb-batch3-ui.js"></script>
 <script src="/test-bank-mbb-batch4-ui.js"></script>
+<script src="/test-bank-mbb-batch5-ui.js"></script>
 <script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
   <script defer src="/test-bank-formulas.js"></script>
@@ -3422,6 +3423,7 @@
   };
   var CHART_COMPACT={'vsm-symbol':1,'vsm-supermarket':1};
   function renderQuestionChart(chart){
+    if(chart && chart.auditBatch===5 && window.__MBBBatch5UI) return window.__MBBBatch5UI.render(chart);
     if(chart && chart.auditBatch===3 && window.__MBBBatch3UI) return window.__MBBBatch3UI.render(chart);
     if(chart && chart.auditBatch===4 && window.__MBBBatch4UI) return window.__MBBBatch4UI.render(chart);
     if(chart && chart.auditBatch===2 && window.__MBBBatch2UI) return window.__MBBBatch2UI.render(chart);
@@ -4332,7 +4334,7 @@
       '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered'+(flagged?' &middot; '+flagged+' flagged':'')+'</div></div>'+toolbar+'</div>'+
       '<div class="tb-progress"><span style="width:'+(answered/n*100)+'%"></span></div>'+
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(subName)+'</div>'+
-      (window.__TBMbbBatch1Review && window.__TBMbbBatch1Review.applies(q) ? window.__TBMbbBatch1Review.render(q,renderQuestionChart,esc) : window.__MBBBatch2UI && window.__MBBBatch2UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch2UI.conditions(q)+renderQuestionChart(q.chart) : window.__MBBBatch4UI && window.__MBBBatch4UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch4UI.conditions(q)+renderQuestionChart(q.chart) : window.__MBBBatch3UI && window.__MBBBatch3UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch3UI.conditions(q)+renderQuestionChart(q.chart) : renderQuestionChart(q.chart)+'<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>')+opts+
+      (window.__TBMbbBatch1Review && window.__TBMbbBatch1Review.applies(q) ? window.__TBMbbBatch1Review.render(q,renderQuestionChart,esc) : window.__MBBBatch2UI && window.__MBBBatch2UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch2UI.conditions(q)+renderQuestionChart(q.chart) : window.__MBBBatch4UI && window.__MBBBatch4UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch4UI.conditions(q)+renderQuestionChart(q.chart) : window.__MBBBatch3UI && window.__MBBBatch3UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch3UI.conditions(q)+renderQuestionChart(q.chart) : window.__MBBBatch5UI && window.__MBBBatch5UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch5UI.conditions(q)+renderQuestionChart(q.chart) : renderQuestionChart(q.chart)+'<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>')+opts+
       '<div class="tb-quizfoot"><div class="tb-nav">'+nav+'</div>'+
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';

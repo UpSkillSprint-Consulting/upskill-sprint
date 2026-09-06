@@ -4,7 +4,7 @@
   "generatedBy": "scripts/build-mbb160-assets.mjs",
   "questions": {
     "mbb:set-2:original-101": {
-      "sha256": "fde6091dd67199b730ed5de62888c56bf0b543b31f8706eab3a7843876a56a50",
+      "sha256": "84fc484a26eb183eabb97d7925f483e7e77dad69bf7f7d4753d7c796e9e4d34d",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -32,70 +32,75 @@
             "Customer success",
             "90-day retention"
           ]
-        ]
+        ],
+        "auditBatch": 5,
+        "auditId": "mbb:set-2:original-101",
+        "altText": "Three priorities, their reviewed relationship ratings, owners and operational measures. A blank is defined as unreviewed."
       }
     },
     "mbb:set-2:original-105": {
-      "sha256": "d5a92ad77e00a45ac810f76bae9acc8d07f22a8eca9865ebb00fe1ecc0942f5e",
+      "sha256": "e4fc3b2cb443102b8b3f1d85b97175d8ccbd833ef45445bedc256de389733b56",
       "chart": {
         "type": "data-table",
         "columns": [
-          "Project",
-          "Belt-months",
-          "Validated benefit",
+          "Work package",
+          "Effort (Belt-months)",
+          "Benefit estimate",
           "Readiness",
-          "Constraint"
+          "Condition"
         ],
         "rows": [
           [
             "R",
             "3",
-            "$0.55M",
+            "$0.55M validated",
             "Ready",
             "Mandatory"
           ],
           [
             "S",
             "5",
-            "$1.10M",
+            "$1.10M validated",
             "Ready",
             "None"
           ],
           [
             "T discovery",
             "1",
-            "$0.10M option value",
+            "Not valued in this decision",
             "Ready",
-            "Defines data foundation"
+            "Defines, but does not build, foundation"
           ],
           [
             "U",
             "4",
-            "$1.40M",
+            "$1.40M indicative",
             "Not ready",
-            "Requires T gate"
+            "Requires built foundation and passed gate"
           ]
         ],
         "whatIf": {
           "id": "mbb-q105-capacity",
-          "label": "Available Belt-months",
+          "label": "Hypothetical available Belt-months",
           "min": 7,
           "max": 11,
           "step": 1,
           "value": 9,
-          "unit": "Belt-months",
-          "committed": 8,
-          "committedLabel": "R plus S"
-        }
+          "unit": "Belt-months"
+        },
+        "auditBatch": 5,
+        "auditId": "mbb:set-2:original-105",
+        "altText": "Four proposed work packages with effort, benefit basis, readiness and prerequisites. The scored capacity is nine Belt-months."
       }
     },
     "mbb:set-2:original-106": {
-      "sha256": "7906eb458b307b054ec2dc1231808bee68e3abe6cad8f85801d2477cd5ef8912",
+      "sha256": "3aed01a01947f0b642647848b48b9dbf7442baca8f3789317a9fbdd48c526f4d",
       "chart": {
         "type": "multi-time-series",
-        "title": "Policy change and service response",
+        "title": "Customer demand and replenishment orders",
         "xLabel": "Week",
-        "yLabel": "Weekly index",
+        "yLabel": "Units per week",
+        "units": "units per week",
         "labels": [
           "1",
           "2",
@@ -110,71 +115,75 @@
         ],
         "series": [
           {
-            "label": "Average handle time (minutes)",
+            "label": "Customer demand",
             "data": [
-              8.2,
-              8.1,
-              8.3,
-              8,
-              6.9,
-              6.3,
-              6.1,
-              6,
-              5.9,
-              5.8
+              100,
+              102,
+              98,
+              100,
+              101,
+              99,
+              102,
+              98,
+              100,
+              100
             ]
           },
           {
-            "label": "Repeat contacts per 100 cases",
+            "label": "Replenishment orders",
             "data": [
-              12,
-              12,
-              11,
-              12,
-              12,
-              14,
-              17,
-              20,
-              22,
-              24
+              100,
+              102,
+              98,
+              100,
+              60,
+              140,
+              50,
+              150,
+              40,
+              160
             ]
           }
         ],
         "yDomain": [
           0,
-          26
+          180
         ],
         "referenceValue": 5,
-        "referenceLabel": "Policy introduced at Week 5"
+        "referenceLabel": "Ordering rule changes at start of Week 5",
+        "referenceOrientation": "vertical",
+        "auditBatch": 5,
+        "auditId": "mbb:set-2:original-106",
+        "altText": "Two weekly series: customer demand and replenishment orders in units per week. A vertical marker identifies the ordering-rule change at the start of Week 5."
       }
     },
     "mbb:set-2:original-110": {
-      "sha256": "124c1512f91fef618855c65498b47fd6c12fe8152597ad9c136d3e1f93d1a1be",
+      "sha256": "4ebefc07bd8d4fbc454355231d8c7b46a091836e9f4d870449186f2d767cc302",
       "chart": {
         "type": "data-table",
         "columns": [
-          "Metric",
+          "Portfolio measure",
           "Target",
-          "Actual"
+          "Observed evidence"
         ],
         "rows": [
           [
-            "Belts completing training",
+            "People completing training (count)",
             "80",
             "96"
           ],
           [
-            "Submitted annualized benefit",
+            "Submitted annualized benefit estimates",
             "$4.0M",
             "$5.2M"
           ],
           [
-            "Finance-validated benefit",
+            "Finance-validated annualized benefit estimates",
             "$4.0M",
             "$2.7M"
           ],
           [
-            "Control plans followed at 90 days",
+            "Eligible projects following control plans at 90 days",
             "85%",
             "54%"
           ],
@@ -183,11 +192,14 @@
             "90%",
             "61%"
           ]
-        ]
+        ],
+        "auditBatch": 5,
+        "auditId": "mbb:set-2:original-110",
+        "altText": "Five portfolio measures with separate targets and observed counts, financial estimates, 90-day controls and owner-acceptance percentages."
       }
     },
     "mbb:set-2:original-111": {
-      "sha256": "c4a0ef3a9e24c8d95c38db94a358b576f5a5cfbb61e01c78925c69c5b095937d",
+      "sha256": "d9014b112c52ae9ee67dcc1fbdfe1868841f4050e791db746f4a78c2766fd1fd",
       "chart": {
         "type": "activity-network",
         "title": "Shared product-launch network",
@@ -239,11 +251,15 @@
             "D",
             "E"
           ]
-        ]
+        ],
+        "durationUnit": "working weeks",
+        "auditBatch": 5,
+        "auditId": "mbb:set-2:original-111",
+        "altText": "Directed activity network with durations in working weeks. A precedes B and C; B precedes D; both C and D precede E."
       }
     },
     "mbb:set-2:original-120": {
-      "sha256": "826ce4fa04fdb5bf1b636b9106e598099470064d8d8202d13067b345ad7014f2",
+      "sha256": "a1d7e27174ccbc051aa40fec4330a57f070dabf4594c2891da3148e7465b951c",
       "chart": {
         "type": "histogram",
         "title": "Service cycle-time distribution",
@@ -275,11 +291,16 @@
           1
         ],
         "referenceValue": 18,
-        "referenceLabel": "USL = 18 h"
+        "referenceLabel": "USL = 18 h",
+        "sampleSize": 128,
+        "binConvention": "(lower, upper]",
+        "auditBatch": 5,
+        "auditId": "mbb:set-2:original-120",
+        "altText": "Histogram of 128 cycle times in hours with ten right-closed intervals of width three hours and an upper specification at 18 hours."
       }
     },
     "mbb:set-2:original-121": {
-      "sha256": "34c35089abd2c20838ee4eb7be6ddab1304f0b1b3b4cc76ec658cf5d53241911",
+      "sha256": "e12c161108db3c5f2b167a679a338745c2a43624c98f9f7ea054a6231b206f41",
       "chart": {
         "type": "regression-diagnostic",
         "title": "Residuals versus fitted losses",
@@ -332,11 +353,14 @@
             "fitted": 190,
             "residual": -3.6
           }
-        ]
+        ],
+        "auditBatch": 5,
+        "auditId": "mbb:set-2:original-121",
+        "altText": "Eight selected fitted losses in thousands of dollars and standardized residuals from a larger model. Full predictor records are needed for leverage calculations."
       }
     },
     "mbb:set-2:original-122": {
-      "sha256": "e6a1ef78213faf3d8fbdf5f61029a4af9d525fddfd840441c64a4c18e2f9181c",
+      "sha256": "c712fb706c5112a6baaad784237fd5e05c1ed933d033294616599293852b83b5",
       "chart": {
         "type": "acf-plot",
         "title": "Residual autocorrelation after segmented regression",
@@ -362,11 +386,15 @@
           0.02,
           -0.03
         ],
-        "confidence": 0.24
+        "confidence": 0.24,
+        "sampleSize": 68,
+        "auditBatch": 5,
+        "auditId": "mbb:set-2:original-122",
+        "altText": "Residual autocorrelation estimates at monthly lags one through eight; approximate pointwise white-noise bounds at plus/minus0.24."
       }
     },
     "mbb:set-2:original-123": {
-      "sha256": "47621c53146c50599e6c0c854a738354500308dd3b3e4b9218cf471f36e1d7d8",
+      "sha256": "ea85967afbb4bcb1212f487b7e804b617068bb57aac5948be49cfeda0116c6d3",
       "chart": {
         "type": "reliability-plot",
         "title": "Design survival comparison",
@@ -440,11 +468,15 @@
             ]
           }
         ],
-        "missionTime": 1200
+        "missionTime": 1200,
+        "referenceLabel": "Reported crossing: 1,200 hours",
+        "auditBatch": 5,
+        "auditId": "mbb:set-2:original-123",
+        "altText": "Reported Design A and Design B survival estimates at six times from zero to 2,000 hours. A vertical marker identifies the reported crossing at 1,200 hours."
       }
     },
     "mbb:set-2:original-124": {
-      "sha256": "8f052507bb09e7d49a1569459ed8a09ef5f715ecbc0d4aaf3b029263cd03f73b",
+      "sha256": "82984c53a32ffb1e840a67294b45d98a82dd205f233618025dcf20948aed8eb8",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -483,7 +515,10 @@
             "High",
             "3, 4, 2, 1"
           ]
-        ]
+        ],
+        "auditBatch": 5,
+        "auditId": "mbb:set-2:original-124",
+        "altText": "Six independently allocated furnace-batch labels, their temperatures, and each within-batch random speed sequence."
       }
     }
   }

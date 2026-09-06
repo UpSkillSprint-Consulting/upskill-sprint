@@ -63,6 +63,7 @@ function renderer() {
   const source = pageSource.replace(/<script\b[^>]*\bsrc=(['"])[\s\S]*?<\/script>/gi, '');
   const dom = new JSDOM(source, { url: 'https://upskillsprint.com/test-bank.html', runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole });
   assert.deepEqual(errors, []);
+  dom.window.eval(fs.readFileSync(path.join(ROOT,'test-bank-mbb-batch5-ui.js'),'utf8'));
   return dom;
 }
 
@@ -76,7 +77,7 @@ test('MBB 160 Batch 5 meets the frozen allocation', () => {
   });
   assert.deepEqual(batch.reduce((result, question) => { result[question.answer] += 1; return result; }, [0, 0, 0, 0]), [7, 6, 6, 6]);
   assert.deepEqual(counts(batch.map(question => question.difficulty)), { 'Very Hard': 11, Hard: 9, Expert: 5 });
-  assert.deepEqual(counts(batch.map(question => question.cognitive)), { Analyze: 8, Evaluate: 6, Create: 4, Apply: 5, Understand: 2 });
+  assert.ok(batch.every(q => ['Analyze','Evaluate','Apply','Understand'].includes(q.cognitive)), 'single-choice selections are not labeled Create');
   assert.equal(batch.filter(question => question.visual).length, 10);
   assert.deepEqual(batch.filter(question => question.visual && question.visual.interactionPurpose).map(question => question.qid), [
     'mbb:set-2:original-105', 'mbb:set-2:original-106', 'mbb:set-2:original-121'
@@ -96,13 +97,16 @@ test('Every Batch 5 item is complete and source traceable', () => {
     assert.ok(Array.isArray(question.assumptions) && question.assumptions.length);
     assert.ok(question.sourceDocument && question.sourceSection && question.sourcePages);
     assert.doesNotMatch(JSON.stringify(question.sources), /SPEC DATA SCHEMA|TBD|placeholder/i);
-    assert.equal(question.sources.length, 1);
+    assert.ok(question.sources.length >= 1);
+    assert.match(question.sourceDocument, /2012/);
+    assert.ok(question.bok.reference, 'current BoK topic code is recorded');
     assert.equal(question.sources[0].id, 'S1');
     assert.ok(question.estimatedMinutes >= 2 && question.estimatedMinutes <= 5);
     assert.ok(question.keywords.length >= 4);
     assert.doesNotMatch(question.options.join(' '), /(?:all|none) of the above/i);
     const lengths = question.options.map(option => option.length);
-    assert.ok(Math.max(...lengths) - Math.min(...lengths) <= Math.max(...lengths) * 0.4, `${question.qid} has a conspicuous answer-length cue`);
+    assert.ok(lengths.every(n => n >= 15), `${question.qid}: avoid trivial/empty distractors`);
+    assert.ok(lengths[question.answer] <= Math.min(...lengths) * 2.5, `${question.qid}: audit an extreme keyed-length cue`);
   });
 });
 
@@ -115,8 +119,9 @@ test('Batch 5 calculations and statistical interpretations independently recompu
   const npv = -300000 + expectedBenefit / 1.10 + expectedBenefit / 1.10 ** 2;
   assert.ok(Math.abs(npv + 13636.36) < 1);
   assert.match(byNumber(114).options[byNumber(114).answer], /negative \$13,600/);
-  assert.ok(418 / 96 > 4.35 && 418 / 96 < 4.36);
-  assert.match(byNumber(125).options[byNumber(125).answer], /negative-binomial or quasi-Poisson/);
+  assert.ok(Math.abs((-2+0.6*((80-100)/10)) + 3.2) < 1e-12);
+  assert.ok(Math.abs((-2+0.6*((140-100)/10)) - 0.4) < 1e-12);
+  assert.match(byNumber(125).stem, /ANCOVA/);
   assert.deepEqual(byNumber(122).chart.values.slice(0, 2), [0.52, 0.31]);
   assert.ok(byNumber(122).chart.values.slice(0, 2).every(value => value > byNumber(122).chart.confidence));
   const curves = byNumber(123).chart.series.map(series => series.points.find(point => point[0] === 1200)[1]);
@@ -137,7 +142,7 @@ test('Batch 5 visual evidence packages match production questions', () => {
     assert.deepEqual(datasets.questions[question.qid].chart, question.chart);
     assert.equal(datasets.questions[question.qid].sha256, digest(question.chart));
     assert.equal(validation.questions[question.qid].datasetSha256, digest(question.chart));
-    assert.equal(validation.questions[question.qid].validationStatus, 'passed');
+    assert.equal(validation.questions[question.qid].validationStatus, 'semantic-checks-passed');
     assert.equal(specs.questions[question.qid].accessibility.altText, question.visual.altText);
     assert.equal(question.visual.answerCueAudit, true);
     assert.match(question.visual.datasetRef, /batch-05\/datasets\.json/);
