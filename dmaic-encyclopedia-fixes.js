@@ -192,9 +192,7 @@
       try {
         window.MathJax = {
           startup: { typeset: false },
-          // Text-mode escapes (e.g. percent labels) are not autoloaded in MathJax 3.
-          loader: { load: ['[tex]/textmacros'] },
-          tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']], processEscapes: true, tags: 'none', packages: { '[+]': ['textmacros'] } },
+          tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']], processEscapes: true, tags: 'none' },
           svg: { fontCache: 'local', scale: 1 },
           options: { enableMenu: false }
         };
@@ -205,7 +203,15 @@
           script.onerror = () => { script.remove(); reject(new Error('Equation renderer could not be loaded.')); };
           document.head.append(script);
         });
-        await window.MathJax.startup.promise;
+        // startup.promise has previously hung indefinitely (observed with an
+        // unsupported package config, but the underlying library is a moving
+        // target we don't control) - race it against a timeout so a stuck
+        // engine still falls through to the next source, rather than
+        // wedging the whole page's math status at "loading" forever.
+        await Promise.race([
+          window.MathJax.startup.promise,
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Equation renderer did not become ready in time.')), 15000))
+        ]);
         if (typeof window.MathJax.tex2svgPromise !== 'function') throw new Error('Equation renderer did not initialize.');
         return window.MathJax;
       } catch (error) {
