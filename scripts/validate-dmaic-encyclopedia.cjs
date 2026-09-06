@@ -86,6 +86,7 @@ async function audit(page) {
       return { id: card.dataset.formulaId, math: box.querySelectorAll('mjx-container').length, state: box.dataset.mathState,
         parseErrors: box.querySelectorAll('[data-mjx-error],[data-mml-node="merror"],mjx-merror').length,
         rawText: [...box.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()),
+        unparsedTextCommands: [...box.querySelectorAll('mjx-assistive-mml mtext')].filter(n => n.textContent.includes(String.fromCharCode(92))).map(n => n.textContent),
         assistiveMath: assistive.length,
         visibleAssistiveMath: assistive.filter(m => { const c = getComputedStyle(m); return c.position !== 'absolute' || c.clip !== 'rect(1px, 1px, 1px, 1px)'; }).length,
         inaccessibleAssistiveMath: assistive.filter(m => { const c = getComputedStyle(m); return !m.querySelector('math') || c.display === 'none' || c.visibility === 'hidden' || m.hidden || m.closest('[aria-hidden="true"]'); }).length,
@@ -104,6 +105,7 @@ function assertAssistiveMath(c) {
   assert.equal(c.assistiveMath, 1, c.id + ' must retain semantic MathML');
   assert.equal(c.visibleAssistiveMath, 0, c.id + ' duplicates the equation with visible assistive MathML');
   assert.equal(c.inaccessibleAssistiveMath, 0, c.id + ' hides semantic math from screen readers');
+  assert.deepEqual(c.unparsedTextCommands, [], c.id + ' contains unparsed text-mode TeX commands');
 }
 function assertAudit(result) {
   assert.equal(result.cards.length, 111);
@@ -153,6 +155,13 @@ async function oracle(page, label) {
         await page.evaluate(() => { document.getElementById('MJX-SVG-styles').sheet.disabled = false; });
       }
       await page.evaluate(() => new Promise(requestAnimationFrame)); assertAudit(await audit(page));
+    });
+    await run('all five P01 percentage labels render symbols rather than raw TeX escapes', async () => {
+      const semantic = (await page.locator('[data-formula-id="P01"] mjx-assistive-mml').textContent()).replace(/\s+/g, ' ');
+      for (const label of ['Revenue Growth %', 'Market Share %', 'Gross Margin %', 'Operating Margin %', 'Net Margin %']) {
+        assert.ok(semantic.includes(label), 'missing correctly rendered label: ' + label);
+      }
+      assert.equal(semantic.includes(String.fromCharCode(92)), false, 'literal TeX escape in P01');
     });
     for (const theme of ['light', 'dark']) {
       await page.evaluate(t => { document.documentElement.dataset.theme = t; }, theme);
