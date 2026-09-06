@@ -6,6 +6,7 @@ on:
       - 'lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation.html'
       - 'scripts/validate-spread-lab.cjs'
       - 'tests/spread-lab-lesson.test.js'
+      - 'chi-square-lesson-library.js'
       - 'style.css'
       - 'lessons-theme.css'
       - 'theme.js'
@@ -35,7 +36,10 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Verify content preservation and guide regressions
-        run: node --test tests/spread-lab-lesson.test.js
+        shell: bash
+        run: |
+          mkdir -p artifacts/spread-lab
+          node --test tests/spread-lab-lesson.test.js | tee artifacts/spread-lab/content-tests.txt
       - name: Install pinned browser validation dependencies
         run: npm install --no-save --package-lock=false playwright@1.58.2 @axe-core/playwright@4.11.1 katex@0.16.9
       - run: npx playwright install --with-deps chromium
@@ -58,9 +62,11 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-  full-suite-and-build:
+  # The existing full-test-suite.yml runs every test without exclusions.
+  # Keep the production build independent rather than repeating that entire suite serially.
+  production-build:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -68,7 +74,16 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Full unit suite without exclusions
-        run: node --test --test-concurrency=1 tests/*.test.js
       - name: Exact production build command
-        run: node --test tests/test-bank*.test.js && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs
+        shell: bash
+        run: |
+          mkdir -p artifacts/spread-lab-build
+          (node --test tests/test-bank*.test.js && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs) 2>&1 | tee artifacts/spread-lab-build/build.txt
+          git rev-parse HEAD > artifacts/spread-lab-build/commit.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: spread-lab-production-build
+          path: artifacts/spread-lab-build
+          if-no-files-found: error
+          retention-days: 14
