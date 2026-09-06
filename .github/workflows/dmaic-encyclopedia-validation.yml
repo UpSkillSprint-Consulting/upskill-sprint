@@ -1,0 +1,61 @@
+name: DMAIC encyclopedia validation
+
+on:
+  pull_request:
+    paths:
+      - 'assets/lessons/dmaic-formula-encyclopedia/**'
+      - 'lessons/lean-six-sigma/dmaic-formula-encyclopedia.html'
+      - 'dmaic-encyclopedia-*.js'
+      - 'dmaic-encyclopedia-*.css'
+      - 'theme.js'
+      - 'style.css'
+      - 'contrast-fix.js'
+      - 'site-sections.js'
+      - 'scripts/validate-dmaic-encyclopedia.cjs'
+      - 'tests/dmaic-encyclopedia*.test.js'
+      - '.github/workflows/dmaic-encyclopedia-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dmaic-encyclopedia-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Capture exact lesson inputs for reproducible review
+        run: |
+          mkdir -p /tmp/dmaic-audit-inputs/assets/lessons/dmaic-formula-encyclopedia /tmp/dmaic-audit-inputs/lessons/lean-six-sigma
+          cp assets/lessons/dmaic-formula-encyclopedia/* /tmp/dmaic-audit-inputs/assets/lessons/dmaic-formula-encyclopedia/
+          cp lessons/lean-six-sigma/dmaic-formula-encyclopedia.html /tmp/dmaic-audit-inputs/lessons/lean-six-sigma/
+          cp ./*.js ./*.css package.json package-lock.json /tmp/dmaic-audit-inputs/
+          node -e "const fs=require('fs'),z=require('zlib'); const b=[1,2,3,4].map(i=>fs.readFileSync('assets/lessons/dmaic-formula-encyclopedia/part-'+i+'.txt','utf8')).join('').replace(/\s/g,''); fs.writeFileSync('/tmp/dmaic-audit-inputs/decoded-lesson.html',z.gunzipSync(Buffer.from(b,'base64')));"
+          git rev-parse HEAD > /tmp/dmaic-audit-inputs/commit.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dmaic-validation-inputs
+          path: /tmp/dmaic-audit-inputs
+          retention-days: 7
+      - run: npm ci
+      - name: Install pinned browser audit dependencies without changing the lockfile
+        run: npm install --no-save --package-lock=false playwright@1.58.2 mathjax-full@3.2.2 @axe-core/playwright@4.11.1
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Validate all formula cards, themes, filters, and failure recovery
+        run: node scripts/validate-dmaic-encyclopedia.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dmaic-browser-validation
+          path: artifacts/dmaic-encyclopedia
+          if-no-files-found: ignore
+          retention-days: 14
