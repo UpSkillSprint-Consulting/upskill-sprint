@@ -24,6 +24,10 @@ test('Signal or Noise preserves every teaching text node and heading in order', 
 });
 test('Signal or Noise preserves all original calculations, datasets, rule derivations and self-check answers', () => {
   const engine = html.slice(html.indexOf('/* ================= NORMAL DIST HELPERS ================= */')).split('</script>')[0]
+    // Authorized slider fix: reverse only the exact event-wiring additions; rendering/statistics remain pinned.
+    .replace("// Coalesce rapid pointer/touch/keyboard input into one redraw per animation frame.\n// Run remains an explicit fresh draw; Clear must cancel queued work.\nlet simulationFrame = null;\nfunction cancelSimulationRedraw(){\n  if(simulationFrame !== null){\n    cancelAnimationFrame(simulationFrame);\n    simulationFrame = null;\n  }\n}\nnPointsSlider.addEventListener('input', ()=>{\n  nPointsVal.textContent = nPointsSlider.value;\n  if(simulationFrame !== null) return;\n  simulationFrame = requestAnimationFrame(()=>{\n    simulationFrame = null;\n    runSimulation();\n  });\n});", "nPointsSlider.addEventListener('input', ()=>{ nPointsVal.textContent = nPointsSlider.value; });")
+    .replace("document.getElementById('runSim').addEventListener('click', ()=>{\n  cancelSimulationRedraw();\n  runSimulation();\n});", "document.getElementById('runSim').addEventListener('click', runSimulation);")
+    .replace("document.getElementById('clearSim').addEventListener('click', ()=>{\n  cancelSimulationRedraw();", "document.getElementById('clearSim').addEventListener('click', ()=>{")
     .replaceAll('--lesson-arl-', '--arl-').replaceAll("'#607897'", "'#1c3153'").replaceAll("'#8fa5c2'", "'#3a4f6e'")
     .replace("zc.fillText('mean',cx-16,h-12)", "zc.fillText('mean',cx-16,h-30)")
     .replace("    const x=pad+(i/(pts.length-1))*(w-2*pad); const y=h/2-p*scale;", "    const x=(i/(pts.length-1))*w; const y=h/2-p*(h*0.4);")

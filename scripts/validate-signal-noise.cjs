@@ -25,15 +25,20 @@ const server = http.createServer((req,res)=>{
  const types={'.html':'text/html','.css':'text/css','.js':'text/javascript','.png':'image/png','.svg':'image/svg+xml','.json':'application/json','.woff2':'font/woff2'};
  res.setHeader('Content-Type',types[path.extname(file)]||'application/octet-stream');res.end(body);
 });
-async function open(browser,width,theme,url){
- const context=await browser.newContext({viewport:{width,height:1000},colorScheme:theme,reducedMotion:'reduce'});
+async function open(browser,width,theme,url,inputOptions={}){
+ const context=await browser.newContext({...inputOptions,viewport:{width,height:1000},colorScheme:theme,reducedMotion:'reduce'});
  await context.addInitScript(t=>{localStorage.setItem('upskill-theme',t);let seed=42;Math.random=()=>((seed=(1664525*seed+1013904223)>>>0)/4294967296);window.quizEvents=[];document.addEventListener('upskill-quiz-result',e=>window.quizEvents.push(e.detail));},theme);
  await context.addInitScript(()=>{
    window.lessonDrawingBounds={};
+   window.simulationDrawing={renders:0,points:[]};
    for(const method of ['clearRect','moveTo','lineTo','arc']){
      const original=CanvasRenderingContext2D.prototype[method];
      CanvasRenderingContext2D.prototype[method]=function(...args){
        const id=this.canvas.id;
+       if(id==='simCanvas'){
+         if(method==='clearRect'){window.simulationDrawing.renders++;window.simulationDrawing.points=[];}
+         if(method==='arc')window.simulationDrawing.points.push({x:args[0],y:args[1],radius:args[2],color:this.fillStyle});
+       }
        if(id==='cusumCanvas'||id.startsWith('spark-')){
          if(method==='clearRect')window.lessonDrawingBounds[id]={minX:Infinity,minY:Infinity,maxX:-Infinity,maxY:-Infinity,width:this.canvas.width,height:this.canvas.height};
          else {const r=method==='arc'?args[2]:0,b=window.lessonDrawingBounds[id];if(b){b.minX=Math.min(b.minX,args[0]-r);b.minY=Math.min(b.minY,args[1]-r);b.maxX=Math.max(b.maxX,args[0]+r);b.maxY=Math.max(b.maxY,args[1]+r);}}
@@ -76,6 +81,20 @@ async function contrasts(page){return page.evaluate(()=>{
 });}
 async function axe(page,name){const r=await new AxeBuilder({page}).include('#lesson-content').include('#quiz').include('#signal-noise-return').withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();fs.writeFileSync(path.join(OUT,name+'-axe.json'),JSON.stringify(r.violations,null,2));assert.deepEqual(r.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>n.target)})),[]);}
 async function range(page,id,value){await page.locator('#'+id).fill(String(value));await page.locator('#'+id).dispatchEvent('input');}
+// Inspect actual draw operations, not merely the slider label or a nonempty canvas.
+async function assertSimulation(page,n){
+ await page.waitForFunction(n=>window.simulationDrawing.points.length===n&&Number(document.getElementById('nPointsVal').textContent)===n,n);
+ const result=await page.evaluate(()=>{
+   const points=window.simulationDrawing.points;
+   const alarms3=points.filter(p=>p.color==='#e0665c').length;
+   const alarms2=points.filter(p=>p.color==='#e0a952'||p.color==='#e0665c').length;
+   return {selected:Number(document.getElementById('nPoints').value),count:points.length,
+     actual:['stat2','stat3','statRatio'].map(id=>document.getElementById(id).textContent),
+     expected:[String(alarms2),String(alarms3),alarms3>0?(alarms2/alarms3).toFixed(1)+'×':alarms2>0?'∞':'—']};
+ });
+ assert.equal(result.selected,n);assert.equal(result.count,n);assert.deepEqual(result.actual,result.expected);
+}
+async function settleSimulation(page){await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));}
 async function part(page,id){await page.locator('nav.toc a[data-target="'+id+'"]').click();await page.waitForFunction(id=>document.querySelector('nav.toc [aria-current="location"]')?.dataset.target===id,id);await page.waitForTimeout(80);await continuous(page);}
 async function snapshot(page){return page.evaluate(()=>{const content=document.querySelector('#lesson-content').cloneNode(true);const label=content.querySelector('header.hero .kicker');if(label&&label.textContent==='UPSKILLSPRINT · SPC REFERENCE MODULE')label.textContent='';return {headings:[...document.querySelectorAll('#lesson-content h1,#lesson-content h2,#lesson-content h3,#lesson-content h4,#quiz h2,#quiz h3')].map(e=>e.textContent),main:content.textContent,quiz:document.querySelector('#quiz').textContent,formulas:[...document.querySelectorAll('#lesson-content .math')].map(e=>e.textContent),rules:document.querySelectorAll('#testCards .test-card').length,selfChecks:document.querySelectorAll('#selfCheckQuiz .quiz-item').length};});}
 async function continuous(page){
@@ -118,7 +137,42 @@ const injected=/<div data-netlify-deploy-id="[a-f0-9]{24}" data-netlify-site-id=
     }
     await check(tag+' calculator, both limits and random resampling',async()=>{await part(page,'p1');for(const lim of ['2','3']){await page.locator('#limitSelect').selectOption(lim);for(const shift of [0,1.5,4]){await range(page,'shiftSlider',shift);assert.equal(parseFloat(await page.locator('#shiftVal').innerText()),shift);assert.match(await page.locator('#arlMath').innerText(),/ARL₁ =/);}}const before=await page.locator('#runCanvas').evaluate(e=>e.toDataURL());await page.locator('#resampleRun').click();assert.notEqual(await page.locator('#runCanvas').evaluate(e=>e.toDataURL()),before);});
     await check(tag+' eight Nelson derivations',async()=>{await part(page,'p2');const buttons=page.locator('#testCards .derive-toggle');assert.equal(await buttons.count(),8);for(const b of await buttons.all()){await b.click();assert.equal(await b.getAttribute('aria-expanded'),'true');await b.click();assert.equal(await b.getAttribute('aria-expanded'),'false');}});
-    await check(tag+' simulation endpoints and clear',async()=>{await part(page,'p3');for(const n of [50,1000]){await range(page,'nPoints',n);await page.locator('#runSim').click();const a=Number(await page.locator('#stat2').innerText()),b=Number(await page.locator('#stat3').innerText());assert(a>=b&&a<=n&&b>=0);}await page.locator('#clearSim').click();assert.equal(await page.locator('#stat3').innerText(),'0');assert.equal(await page.locator('#stat2').innerText(),'0');assert.equal(await page.locator('#statRatio').innerText(),'—');});
+    await check(tag+' slider alone redraws exact point counts and alarm results',async()=>{
+     await part(page,'p3');
+     for(const n of [50,510,1000,370]){
+       const before=await page.locator('#simCanvas').evaluate(e=>e.toDataURL());
+       await page.locator('#nPoints').fill(String(n));await assertSimulation(page,n);
+       assert.notEqual(await page.locator('#simCanvas').evaluate(e=>e.toDataURL()),before);
+     }
+     await page.locator('#clearSim').click();await settleSimulation(page);
+     assert.equal(await page.evaluate(()=>window.simulationDrawing.points.length),0);
+     assert.equal(await page.locator('#stat3').innerText(),'0');assert.equal(await page.locator('#stat2').innerText(),'0');assert.equal(await page.locator('#statRatio').innerText(),'—');
+    });
+    await check(tag+' rapid input uses the latest value with one redraw',async()=>{
+     const before=await page.evaluate(()=>{const before=window.simulationDrawing.renders;const slider=document.getElementById('nPoints');for(let n=50;n<=1000;n+=10){slider.value=String(n);slider.dispatchEvent(new Event('input',{bubbles:true}));}return before;});
+     await assertSimulation(page,1000);await settleSimulation(page);
+     assert.equal(await page.evaluate(()=>window.simulationDrawing.renders),before+1);
+    });
+    await check(tag+' Clear and Run cancel queued slider work without stale redraws',async()=>{
+     await page.evaluate(()=>{const s=document.getElementById('nPoints');s.value='510';s.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('clearSim').click();});
+     await settleSimulation(page);assert.equal(await page.evaluate(()=>window.simulationDrawing.points.length),0);
+     assert.equal(await page.locator('#stat3').innerText(),'0');assert.equal(await page.locator('#stat2').innerText(),'0');
+     const before=await page.evaluate(()=>{const before=window.simulationDrawing.renders;const s=document.getElementById('nPoints');s.value='520';s.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('runSim').click();return before;});
+     await assertSimulation(page,520);await settleSimulation(page);
+     assert.equal(await page.evaluate(()=>window.simulationDrawing.renders),before+1);
+     const image=await page.locator('#simCanvas').evaluate(e=>e.toDataURL());await page.locator('#runSim').click();await assertSimulation(page,520);
+     assert.notEqual(await page.locator('#simCanvas').evaluate(e=>e.toDataURL()),image);
+     await page.locator('#clearSim').click();await page.locator('#nPoints').fill('530');await assertSimulation(page,530);
+    });
+    await check(tag+' keyboard and pointer movement update the simulation without Run',async()=>{
+     const slider=page.locator('#nPoints');await slider.focus();
+     for(const [key,n] of [['Home',50],['ArrowRight',60],['End',1000]]){await page.keyboard.press(key);await assertSimulation(page,n);}
+     await slider.evaluate(e=>e.scrollIntoView({block:'center',behavior:'instant'}));
+     const box=await slider.boundingBox();assert(box);
+     await page.mouse.move(box.x+box.width-12,box.y+box.height/2);await page.mouse.down();
+     await page.mouse.move(box.x+box.width*0.45,box.y+box.height/2,{steps:12});await page.mouse.up();
+     const n=Number(await slider.inputValue());assert(n>50&&n<1000);await assertSimulation(page,n);
+    });
     await check(tag+' CUSUM endpoints and resampling',async()=>{await part(page,'p4');for(const x of [0,0.75,3]){await range(page,'cusumShiftSlider',x);assert.equal(parseFloat(await page.locator('#cusumShiftVal').innerText()),x);assert.deepEqual(await drawingBounds(page),[]);}const before=await page.locator('#cusumCanvas').evaluate(e=>e.toDataURL());await page.locator('#resampleCusum').click();assert.notEqual(await page.locator('#cusumCanvas').evaluate(e=>e.toDataURL()),before);});
     await check(tag+' five self-check disclosures',async()=>{await part(page,'p5');const buttons=page.locator('#selfCheckQuiz .quiz-q');assert.equal(await buttons.count(),5);for(const b of await buttons.all()){await b.click();assert.equal(await b.getAttribute('aria-expanded'),'true');await b.click();assert.equal(await b.getAttribute('aria-expanded'),'false');}});
     await check(tag+' quiz unanswered, correct and incorrect feedback',async()=>{await page.locator('#quiz-submit').click();assert.equal(await page.locator('#quiz .quiz-feedback.warn').count(),6);for(const correct of [true,false]){await page.evaluate(c=>document.querySelectorAll('#quiz .quiz-question').forEach(q=>{const inputs=[...q.querySelectorAll('input')];inputs.find(i=>(i.value===q.dataset.answer)===c).checked=true;}),correct);await page.locator('#quiz-submit').click();assert.match(await page.locator('#quiz-result').innerText(),correct?/Score: 6 \/ 6/:/Score: 0 \/ 6/);assert.deepEqual(await page.evaluate(()=>window.quizEvents.at(-1)),{score:correct?6:0,total:6});await axe(page,tag+'-quiz-'+correct);}if(width===390||width===1440)await page.locator('#quiz').screenshot({path:path.join(OUT,tag+'-quiz.png')});});
@@ -137,6 +191,10 @@ const injected=/<div data-netlify-deploy-id="[a-f0-9]{24}" data-netlify-site-id=
     await check(tag+' no JavaScript errors',async()=>assert.deepEqual(errors,[]));
    }finally{await context.close();}
   }
+  for(const theme of ['light','dark'])await check('Touch slider: '+theme+' mobile live input',async()=>{
+   const t=await open(browser,390,theme,base+ROUTE,{isMobile:true,hasTouch:true});
+   try{await part(t.page,'p3');const slider=t.page.locator('#nPoints');await slider.evaluate(e=>e.scrollIntoView({block:'center',behavior:'instant'}));const box=await slider.boundingBox();assert(box);await t.page.touchscreen.tap(box.x+box.width*0.8,box.y+box.height/2);const n=Number(await slider.inputValue());assert.notEqual(n,370);await assertSimulation(t.page,n);assert.deepEqual(t.errors,[]);}finally{await t.context.close();}
+  });
   for(const theme of ['light','dark'])for(const width of [390,1440])await check('No JavaScript: '+theme+' '+width+' continuous content and native jump links',async()=>{
    const context=await browser.newContext({javaScriptEnabled:false,viewport:{width,height:1000},colorScheme:theme});const page=await context.newPage();
    try{await page.goto(base+ROUTE,{waitUntil:'load'});await page.locator('html').evaluate((e,t)=>e.dataset.theme=t,theme);await continuous(page);await page.locator('.syllabus-item[href="#p6"]').click();assert.equal(new URL(page.url()).hash,'#p6');await continuous(page);}finally{await context.close();}
@@ -145,7 +203,7 @@ const injected=/<div data-netlify-deploy-id="[a-f0-9]{24}" data-netlify-site-id=
   if(preview)await check('Actual Netlify preview source and desktop/mobile themes',async()=>{
    let response,body;for(let i=0;i<24;i++){try{response=await fetch(preview+ROUTE,{signal:AbortSignal.timeout(15000)});body=await response.text();if(response.ok&&body.replace(injected,'')===html)break;}catch(e){report.preview={error:e.message};}await new Promise(r=>setTimeout(r,10000));}
    assert(response?.ok,'Preview did not respond successfully');fs.writeFileSync(path.join(OUT,'preview-response.html'),body);assert.equal(hash(body.replace(injected,'')),hash(html),'Preview does not match the reviewed source');report.preview={url:preview+ROUTE,sourceMatches:true};
-   for(const theme of ['light','dark'])for(const width of [390,1440]){const {context,page,errors}=await open(browser,width,theme,preview+ROUTE);try{await continuous(page);await part(page,'p2');assert.deepEqual((await layout(page)).outside,[]);await part(page,'p4');await page.locator('#resampleCusum').click();await part(page,'p1');await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(OUT,'preview-'+theme+'-'+width+'.png'),fullPage:true});assert.deepEqual(errors,[]);}finally{await context.close();}}
+   for(const theme of ['light','dark'])for(const width of [390,1440]){const {context,page,errors}=await open(browser,width,theme,preview+ROUTE);try{await continuous(page);await part(page,'p3');await page.locator('#nPoints').fill('510');await assertSimulation(page,510);await page.locator('#p3 .card').screenshot({path:path.join(OUT,'preview-simulation-'+theme+'-'+width+'.png')});await part(page,'p2');assert.deepEqual((await layout(page)).outside,[]);await part(page,'p4');await page.locator('#resampleCusum').click();await part(page,'p1');await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(OUT,'preview-'+theme+'-'+width+'.png'),fullPage:true});assert.deepEqual(errors,[]);}finally{await context.close();}}
   });
  }finally{await browser.close();server.close();save();}
  if(report.failures.length)process.exitCode=1;

@@ -1589,7 +1589,23 @@ const simCanvas = document.getElementById('simCanvas');
 const sctx = simCanvas.getContext('2d');
 const nPointsSlider = document.getElementById('nPoints');
 const nPointsVal = document.getElementById('nPointsVal');
-nPointsSlider.addEventListener('input', ()=>{ nPointsVal.textContent = nPointsSlider.value; });
+// Coalesce rapid pointer/touch/keyboard input into one redraw per animation frame.
+// Run remains an explicit fresh draw; Clear must cancel queued work.
+let simulationFrame = null;
+function cancelSimulationRedraw(){
+  if(simulationFrame !== null){
+    cancelAnimationFrame(simulationFrame);
+    simulationFrame = null;
+  }
+}
+nPointsSlider.addEventListener('input', ()=>{
+  nPointsVal.textContent = nPointsSlider.value;
+  if(simulationFrame !== null) return;
+  simulationFrame = requestAnimationFrame(()=>{
+    simulationFrame = null;
+    runSimulation();
+  });
+});
 
 function runSimulation(){
   const n = parseInt(nPointsSlider.value);
@@ -1642,8 +1658,12 @@ function runSimulation(){
   const rate3 = alarms3/n, rate2 = alarms2/n;
   document.getElementById('statRatio').textContent = rate3>0 ? (rate2/rate3).toFixed(1)+'×' : (alarms2>0?'∞':'—');
 }
-document.getElementById('runSim').addEventListener('click', runSimulation);
+document.getElementById('runSim').addEventListener('click', ()=>{
+  cancelSimulationRedraw();
+  runSimulation();
+});
 document.getElementById('clearSim').addEventListener('click', ()=>{
+  cancelSimulationRedraw();
   sctx.clearRect(0,0,simCanvas.width,simCanvas.height);
   sctx.fillStyle='#081527'; sctx.fillRect(0,0,simCanvas.width,simCanvas.height);
   document.getElementById('stat3').textContent='0';
