@@ -1,0 +1,72 @@
+/* Paired, scoped control colours; loaded after the shared lesson stylesheet. */
+[data-dmaic-encyclopedia] {
+  --control-border: #68788f; --control-selected: #e0f2fe; --control-scheme: light;
+}
+html[data-theme="dark"] [data-dmaic-encyclopedia] {
+  --control-border: #7c90aa; --control-selected: #254562; --control-scheme: dark;
+}
+[data-dmaic-encyclopedia] .toolbar { --border: var(--control-border); }
+/* Own both sides of control contrast. The shared repair script can leave an
+   !important on-light/on-dark colour from a previous theme. Keep these rules
+   scoped to this lesson and switch foreground/background together (no tween). */
+html[data-theme] [data-dmaic-encyclopedia] .btn,
+html[data-theme] [data-dmaic-encyclopedia] .phase-link,
+html[data-theme] [data-dmaic-encyclopedia] .upskill-format-request,
+html[data-theme] [data-dmaic-encyclopedia] .toolbar input,
+html[data-theme] [data-dmaic-encyclopedia] .toolbar select {
+  color: var(--text) !important;
+  -webkit-text-fill-color: currentColor !important;
+  background: var(--panel-2) !important;
+  border-color: var(--control-border) !important;
+  color-scheme: var(--control-scheme);
+  opacity: 1;
+  text-shadow: none !important;
+  transition: box-shadow .15s ease;
+}
+[data-dmaic-encyclopedia] .btn { min-height: 44px; padding: 10px 14px; border: 1px solid var(--control-border); white-space: normal; }
+html[data-theme] [data-dmaic-encyclopedia] .btn.primary {
+  color: #fff !important;
+  background: #0369a1 !important;
+  border-color: #0369a1 !important;
+}
+html[data-theme] [data-dmaic-encyclopedia] .btn:hover,
+html[data-theme] [data-dmaic-encyclopedia] .phase-link:hover,
+html[data-theme] [data-dmaic-encyclopedia] .toolbar input:hover,
+html[data-theme] [data-dmaic-encyclopedia] .toolbar select:hover {
+  border-color: var(--primary) !important;
+  transform: none;
+}
+html[data-theme] [data-dmaic-encyclopedia] .btn[aria-pressed="true"] {
+  color: var(--text) !important;
+  background: var(--control-selected) !important;
+  border: 2px solid var(--primary) !important;
+}
+html[data-theme] [data-dmaic-encyclopedia] .toolbar input,
+html[data-theme] [data-dmaic-encyclopedia] .toolbar select,
+html[data-theme] [data-dmaic-encyclopedia] .toolbar select option {
+  color: var(--text) !important;
+  -webkit-text-fill-color: currentColor !important;
+  background: var(--panel) !important;
+  caret-color: var(--text);
+}
+html[data-theme] [data-dmaic-encyclopedia] .toolbar input::placeholder {
+  color: var(--muted) !important;
+  -webkit-text-fill-color: var(--muted) !important;
+  opacity: 1;
+}
+html[data-theme] [data-dmaic-encyclopedia] .btn:focus-visible,
+html[data-theme] [data-dmaic-encyclopedia] .phase-link:focus-visible,
+html[data-theme] [data-dmaic-encyclopedia] .toolbar input:focus,
+html[data-theme] [data-dmaic-encyclopedia] .toolbar select:focus,
+html[data-theme] [data-dmaic-encyclopedia] .upskill-format-request:focus-visible {
+  outline: 3px solid var(--primary) !important;
+  outline-offset: 2px;
+}
+[data-dmaic-encyclopedia] .upskill-format-request { display: inline-flex; align-items: center; padding: 10px 14px; min-height: 44px; border: 1px solid var(--primary); border-radius: 9px; font-weight: 700; }
+html[data-theme] [data-dmaic-encyclopedia] .upskill-format-request,
+html[data-theme] [data-dmaic-encyclopedia] .upskill-format-request:visited {
+  color: var(--primary) !important;
+  background: var(--panel) !important;
+  border-color: var(--primary) !important;
+}
+html[data-theme] [data-dmaic-encyclopedia] .upskill-format-request:hover { text-decoration: underline; }
