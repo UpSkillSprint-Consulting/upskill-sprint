@@ -110,14 +110,6 @@
     margin-bottom:8px;
   }
 
-#lesson-content header.hero .kicker{
-    font-family:var(--lesson-arl-mono);
-    font-size:13px;
-    color:var(--lesson-arl-cyan);
-    letter-spacing:.02em;
-    margin-bottom:14px;
-  }
-
 #lesson-content header.hero h1{
     font-family:var(--lesson-arl-cond);
     font-weight:600;
@@ -178,6 +170,7 @@
 #lesson-content .syllabus-grid{display:flex; flex-direction:column; gap:1px; background:var(--lesson-arl-line); border:1px solid var(--lesson-arl-line);}
 
 #lesson-content .syllabus-item{
+    text-decoration:none;
     display:grid; grid-template-columns:40px 200px 1fr; align-items:baseline; gap:16px;
     background:var(--lesson-arl-panel); border:none; text-align:left; padding:14px 18px;
     cursor:pointer; width:100%; font-family:var(--lesson-arl-body);
@@ -216,30 +209,29 @@
 
 #lesson-content nav.toc .shell-inner{display:flex;gap:4px;max-width:980px;margin:0 auto;width:100%;}
 
-#lesson-content nav.toc button{
+#lesson-content nav.toc a{
+    text-decoration:none;
     background:none;border:1px solid transparent;color:var(--lesson-arl-console-dim);
     font-family:var(--lesson-arl-mono); font-size:12.5px; padding:7px 12px;
     white-space:nowrap; cursor:pointer; border-radius:3px;
     display:flex; align-items:center; gap:7px;
   }
 
-#lesson-content nav.toc button:hover{color:var(--lesson-arl-console-ink); border-color:var(--lesson-arl-console-line);}
+#lesson-content nav.toc a:hover{color:var(--lesson-arl-console-ink); border-color:var(--lesson-arl-console-line);}
 
-#lesson-content nav.toc button.active{color:#071120; background:var(--lesson-arl-console-cyan); border-color:var(--lesson-arl-console-cyan);}
+#lesson-content nav.toc a.active{color:#071120; background:var(--lesson-arl-console-cyan); border-color:var(--lesson-arl-console-cyan);}
 
-#lesson-content nav.toc button .dot{width:5px;height:5px;border-radius:50%;background:var(--lesson-arl-console-line);flex:none;}
+#lesson-content nav.toc a .dot{width:5px;height:5px;border-radius:50%;background:var(--lesson-arl-console-line);flex:none;}
 
-#lesson-content nav.toc button.visited .dot{background:var(--lesson-arl-console-green);}
+#lesson-content nav.toc a.visited .dot{background:var(--lesson-arl-console-green);}
 
-#lesson-content nav.toc button.active .dot{background:#071120;}
+#lesson-content nav.toc a.active .dot{background:#071120;}
 /* ---------- accessibility: focus states ---------- */
 #lesson-content a:focus-visible, #lesson-content button:focus-visible, #lesson-content input:focus-visible, #lesson-content select:focus-visible{
     outline:2px solid var(--lesson-arl-cyan); outline-offset:2px; border-radius:2px;
   }
 /* ---------- sections ---------- */
-#lesson-content section.part{padding:56px 24px 20px; border-bottom:1px solid var(--lesson-arl-line); display:none;}
-
-#lesson-content section.part.active{display:block;}
+#lesson-content section.part{padding:56px 24px 20px; border-bottom:1px solid var(--lesson-arl-line); display:block;}
 
 #lesson-content section.part h2{
     font-family:var(--lesson-arl-cond); font-weight:600; font-size:34px; color:var(--lesson-arl-ink); margin:0 0 6px;
@@ -315,16 +307,17 @@
 
 #lesson-content .readout{font-family:var(--lesson-arl-mono); color:var(--lesson-arl-cyan); font-size:15px; min-width:64px; text-align:right;}
 
-#lesson-content button.btn{
+#lesson-content .btn{
+    display:inline-flex; align-items:center; justify-content:center; text-decoration:none;
     font-family:var(--lesson-arl-mono); font-size:12.5px; color:var(--lesson-arl-bg); background:var(--lesson-arl-cyan);
     border:none; border-radius:3px; padding:9px 16px; cursor:pointer; font-weight:600;
   }
 
-#lesson-content button.btn:hover{background:#5cc9e6;}
+#lesson-content .btn:hover{background:#5cc9e6;}
 
-#lesson-content button.btn.ghost{background:none; color:var(--lesson-arl-cyan); border:1px solid var(--lesson-arl-cyan-dim);}
+#lesson-content .btn.ghost{background:none; color:var(--lesson-arl-cyan); border:1px solid var(--lesson-arl-cyan-dim);}
 
-#lesson-content button.btn.ghost:hover{background:var(--lesson-arl-cyan-dim);}
+#lesson-content .btn.ghost:hover{background:var(--lesson-arl-cyan-dim);}
 /* ---------- Nelson test cards ---------- */
 #lesson-content .test-card{
     background:var(--lesson-arl-panel); border:1px solid var(--lesson-arl-line); border-radius:6px;
@@ -428,9 +421,9 @@
 #lesson-content .progress-fill { color:var(--lesson-arl-bg); }
 #lesson-content nav.toc { top:calc(var(--lesson-arl-site-header-height) + 3px); z-index:18; background:#071120; color:var(--lesson-arl-console-ink); padding:10px 20px; }
 #lesson-content nav.toc .shell-inner { min-width:max-content; }
-#lesson-content nav.toc button { min-height:44px; flex-shrink:0; }
-#lesson-content nav.toc button:focus-visible { outline-color:var(--lesson-arl-console-cyan); outline-offset:-3px; }
-#lesson-content nav.toc button.active:focus-visible { outline-color:#071120; }
+#lesson-content nav.toc a { min-height:44px; flex-shrink:0; }
+#lesson-content nav.toc a:focus-visible { outline-color:var(--lesson-arl-console-cyan); outline-offset:-3px; }
+#lesson-content nav.toc a.active:focus-visible { outline-color:#071120; }
 #lesson-content .hero-strip, #lesson-content .syllabus-grid, #lesson-content .takeaways { color:var(--lesson-arl-ink); }
 #lesson-content .hero-strip > div, #lesson-content .syllabus-item, #lesson-content .card, #lesson-content .callout, #lesson-content .test-card, #lesson-content .takeaway, #lesson-content .quiz-item { color:var(--lesson-arl-ink); min-width:0; }
 #lesson-content .card:hover { transform:none; box-shadow:none; }
@@ -456,10 +449,10 @@
 #lesson-content input[type=range]:focus-visible { outline:2px solid var(--lesson-arl-cyan); outline-offset:5px; }
 #lesson-content select { min-height:44px; max-width:100%; background:var(--lesson-arl-panel); color:var(--lesson-arl-ink); border:1px solid #63778b; border-radius:4px; padding:8px; }
 #lesson-content .btn, #lesson-content .derive-toggle { min-height:44px; white-space:normal; overflow-wrap:anywhere; border:1px solid var(--lesson-arl-cyan); }
-#lesson-content button.btn:not(.ghost) { background:#0e7c86; color:#ffffff; }
-#lesson-content button.btn:not(.ghost):hover { background:#095b63; color:#ffffff; }
-#lesson-content button.btn.ghost:hover, #lesson-content .derive-toggle:hover { background:var(--lesson-arl-cyan-dim); color:var(--lesson-arl-ink); }
-#lesson-content button.btn.ghost, #lesson-content .derive-toggle { border-color:var(--lesson-arl-cyan); }
+#lesson-content .btn:not(.ghost) { background:#0e7c86; color:#ffffff; }
+#lesson-content .btn:not(.ghost):hover { background:#095b63; color:#ffffff; }
+#lesson-content .btn.ghost:hover, #lesson-content .derive-toggle:hover { background:var(--lesson-arl-cyan-dim); color:var(--lesson-arl-ink); }
+#lesson-content .btn.ghost, #lesson-content .derive-toggle { border-color:var(--lesson-arl-cyan); }
 #lesson-content code { overflow-wrap:anywhere; word-break:break-word; white-space:normal; }
 #lesson-content .nav-btns { flex-wrap:wrap; gap:12px; }
 #lesson-content .quiz-q { min-height:44px; }
@@ -490,7 +483,7 @@
 <main id="lesson-content">
 <header class="hero">
   <div class="shell">
-    <span class="kicker">UPSKILLSPRINT · SPC REFERENCE MODULE</span>
+    <!-- Module label removed; lesson title retained. -->
     <h1 id="lesson-title">Signal or Noise &mdash; ARL, Nelson Rules &amp; Control Limit Design</h1>
     <p class="lede">ARL, α and β, the eight Nelson tests, why 3-sigma won out, and why CUSUM beats it at catching small shifts — with every probability derived and simulated, not asserted.</p>
     <div class="hero-strip">
@@ -502,12 +495,12 @@
     <div class="syllabus">
       <span class="syllabus-label">In this lesson</span>
       <div class="syllabus-grid">
-        <button class="syllabus-item" data-target="p1"><span class="si-n">01</span><span class="si-t">ARL &amp; error rates</span><span class="si-d">Derive 1/α and 1/(1−β) from first principles, with a live power calculator.</span></button>
-        <button class="syllabus-item" data-target="p2"><span class="si-n">02</span><span class="si-t">The 8 Nelson tests</span><span class="si-d">Every rule's probability worked out step by step, with pattern sparklines.</span></button>
-        <button class="syllabus-item" data-target="p3"><span class="si-n">03</span><span class="si-t">2σ vs 3σ</span><span class="si-d">Run a real Monte Carlo simulation to see the false-alarm trade-off yourself.</span></button>
-        <button class="syllabus-item" data-target="p4"><span class="si-n">04</span><span class="si-t">CUSUM vs Shewhart</span><span class="si-d">Watch a matched CUSUM chart out-detect a 3σ chart on identical data.</span></button>
-        <button class="syllabus-item" data-target="p5"><span class="si-n">05</span><span class="si-t">Summary &amp; self-check</span><span class="si-d">One reference table, key takeaways, and a short quiz to test retention.</span></button>
-        <button class="syllabus-item" data-target="p6"><span class="si-n">06</span><span class="si-t">Statistics Implementation</span><span class="si-d">Excel functions, Minitab menu paths, and exam tips for everything above.</span></button>
+        <a href="#p1" class="syllabus-item" data-target="p1"><span class="si-n">01</span><span class="si-t">ARL &amp; error rates</span><span class="si-d">Derive 1/α and 1/(1−β) from first principles, with a live power calculator.</span></a>
+        <a href="#p2" class="syllabus-item" data-target="p2"><span class="si-n">02</span><span class="si-t">The 8 Nelson tests</span><span class="si-d">Every rule's probability worked out step by step, with pattern sparklines.</span></a>
+        <a href="#p3" class="syllabus-item" data-target="p3"><span class="si-n">03</span><span class="si-t">2σ vs 3σ</span><span class="si-d">Run a real Monte Carlo simulation to see the false-alarm trade-off yourself.</span></a>
+        <a href="#p4" class="syllabus-item" data-target="p4"><span class="si-n">04</span><span class="si-t">CUSUM vs Shewhart</span><span class="si-d">Watch a matched CUSUM chart out-detect a 3σ chart on identical data.</span></a>
+        <a href="#p5" class="syllabus-item" data-target="p5"><span class="si-n">05</span><span class="si-t">Summary &amp; self-check</span><span class="si-d">One reference table, key takeaways, and a short quiz to test retention.</span></a>
+        <a href="#p6" class="syllabus-item" data-target="p6"><span class="si-n">06</span><span class="si-t">Statistics Implementation</span><span class="si-d">Excel functions, Minitab menu paths, and exam tips for everything above.</span></a>
       </div>
     </div>
   </div>
@@ -517,12 +510,12 @@
 
 <nav class="toc" aria-label="Lesson sections">
   <div class="shell-inner">
-    <button data-target="p1" class="active"><span class="dot"></span>1 · ARL &amp; error rates</button>
-    <button data-target="p2"><span class="dot"></span>2 · The 8 Nelson tests</button>
-    <button data-target="p3"><span class="dot"></span>3 · 2σ vs 3σ</button>
-    <button data-target="p4"><span class="dot"></span>4 · CUSUM vs Shewhart</button>
-    <button data-target="p5"><span class="dot"></span>5 · Summary table</button>
-    <button data-target="p6"><span class="dot"></span>6 · Stats Implementation</button>
+    <a href="#p1" data-target="p1" class="active" aria-current="location"><span class="dot"></span>1 · ARL &amp; error rates</a>
+    <a href="#p2" data-target="p2"><span class="dot"></span>2 · The 8 Nelson tests</a>
+    <a href="#p3" data-target="p3"><span class="dot"></span>3 · 2σ vs 3σ</a>
+    <a href="#p4" data-target="p4"><span class="dot"></span>4 · CUSUM vs Shewhart</a>
+    <a href="#p5" data-target="p5"><span class="dot"></span>5 · Summary table</a>
+    <a href="#p6" data-target="p6"><span class="dot"></span>6 · Stats Implementation</a>
   </div>
 </nav>
 
@@ -530,9 +523,9 @@
 <div class="shell">
 
 <!-- ============================================================ PART 1 ============================================================ -->
-<section class="part active" id="p1">
+<section class="part" id="p1" tabindex="-1" aria-labelledby="p1-heading">
   <span class="sub">PART 1</span>
-  <h2>ARL, 1/α, and 1/(1−β)</h2>
+  <h2 id="p1-heading">ARL, 1/α, and 1/(1−β)</h2>
   <p>Every control chart rule you'll ever use is a bet against a stable, random process. <strong>Average Run Length (ARL)</strong> is how you keep score: how many points, on average, before the chart signals — under a given process condition.</p>
 
   <h3>In-control: ARL₀ = 1/α</h3>
@@ -598,13 +591,13 @@
     <p style="margin-top:8px;">Sliding the "catches the shift" boundary from the control limit to the crossing point would badly overstate power — a real 0.5σ drift is only caught ~0.6% of the time at the true 3σ limit, but would look like ~60% if you measured from the crossing point instead. The crossing point is the boundary you'd use <em>if</em> you already knew the exact shift size ahead of time (a Neyman–Pearson-style optimal test); a real control chart can't do that because it has to watch for shifts of every possible size with one fixed rule. That constraint is exactly why the Nelson zone tests exist as a workaround, rather than the chart adapting its limit.</p>
   </div>
 
-  <div class="nav-btns"><span></span><button class="btn ghost" onclick="goTo('p2')">Next: The 8 Nelson tests →</button></div>
+  <div class="nav-btns"><span></span><a class="btn ghost" href="#p2" data-target="p2">Next: The 8 Nelson tests →</a></div>
 </section>
 
 <!-- ============================================================ PART 2 ============================================================ -->
-<section class="part" id="p2">
+<section class="part" id="p2" tabindex="-1" aria-labelledby="p2-heading">
   <span class="sub">PART 2</span>
-  <h2>The 8 Nelson tests</h2>
+  <h2 id="p2-heading">The 8 Nelson tests</h2>
   <p>Every Shewhart chart splits each side into three bands. All eight tests are just different questions asked about which band points land in, and how many in a row.</p>
 
   <div class="zone-diagram">
@@ -625,13 +618,13 @@
   <!-- TEST CARDS injected by JS for consistency -->
   <div id="testCards"></div>
 
-  <div class="nav-btns"><button class="btn ghost" onclick="goTo('p1')">← Back</button><button class="btn ghost" onclick="goTo('p3')">Next: 2σ vs 3σ →</button></div>
+  <div class="nav-btns"><a class="btn ghost" href="#p1" data-target="p1">← Back</a><a class="btn ghost" href="#p3" data-target="p3">Next: 2σ vs 3σ →</a></div>
 </section>
 
 <!-- ============================================================ PART 3 ============================================================ -->
-<section class="part" id="p3">
+<section class="part" id="p3" tabindex="-1" aria-labelledby="p3-heading">
   <span class="sub">PART 3</span>
-  <h2>2σ vs 3σ — run the simulation yourself</h2>
+  <h2 id="p3-heading">2σ vs 3σ — run the simulation yourself</h2>
   <p>Don't take α ≈ 0.0455 vs 0.0027 on faith. Generate a genuinely stable, in-control process below and watch how often each limit width cries wolf.</p>
 
   <div class="card">
@@ -667,13 +660,13 @@
     <p>The 8 tests are calibrated individually, but they run <strong>simultaneously</strong> on every point and aren't independent of each other. Treating them as roughly independent, the combined chance that at least one test fires on a stable point is noticeably higher than any single test's α — summing the both-sides probabilities above gives roughly 2.2% per point with all 8 active (a union-bound upper estimate, since overlapping tests can't simply be added) — dragging combined ARL₀ down toward the 45–70 range. That's the real reason most production charts run a curated subset (often 1, 2, 3, 5) rather than all eight blindly.</p>
   </div>
 
-  <div class="nav-btns"><button class="btn ghost" onclick="goTo('p2')">← Back</button><button class="btn ghost" onclick="goTo('p4')">Next: CUSUM vs Shewhart →</button></div>
+  <div class="nav-btns"><a class="btn ghost" href="#p2" data-target="p2">← Back</a><a class="btn ghost" href="#p4" data-target="p4">Next: CUSUM vs Shewhart →</a></div>
 </section>
 
 <!-- ============================================================ PART 4: CUSUM ============================================================ -->
-<section class="part" id="p4">
+<section class="part" id="p4" tabindex="-1" aria-labelledby="p4-heading">
   <span class="sub">PART 4</span>
-  <h2>CUSUM — catching small shifts faster</h2>
+  <h2 id="p4-heading">CUSUM — catching small shifts faster</h2>
   <p>Every rule so far — 3σ, the Nelson zone tests — looks at a handful of recent points and forgets everything before them. A <strong>CUSUM chart</strong> (Cumulative Sum) never forgets: it adds up every deviation from target, forever, so even a shift too small to trip any single-point rule eventually accumulates into an unmistakable signal.</p>
 
   <h3>How it works</h3>
@@ -733,13 +726,13 @@
     <p>Notice the last row. For a huge, sudden jump (3σ or more), Shewhart is actually just as fast or slightly faster — a single point that extreme trips the 3σ rule almost immediately, while CUSUM still has to accumulate at least a little evidence. CUSUM's advantage is specifically for <strong>small and moderate</strong> sustained shifts — exactly the range where a Shewhart chart is weakest and the Nelson zone tests were invented to compensate. CUSUM is a different, often better, way to solve the same problem those zone tests target.</p>
   </div>
 
-  <div class="nav-btns"><button class="btn ghost" onclick="goTo('p3')">← Back</button><button class="btn ghost" onclick="goTo('p5')">Next: Summary table →</button></div>
+  <div class="nav-btns"><a class="btn ghost" href="#p3" data-target="p3">← Back</a><a class="btn ghost" href="#p5" data-target="p5">Next: Summary table →</a></div>
 </section>
 
 <!-- ============================================================ PART 5 ============================================================ -->
-<section class="part" id="p5">
+<section class="part" id="p5" tabindex="-1" aria-labelledby="p5-heading">
   <span class="sub">PART 5</span>
-  <h2>Summary reference</h2>
+  <h2 id="p5-heading">Summary reference</h2>
   <p>One table, all eight tests, the math behind each probability.</p>
 
   <div class="table-scroll" style="overflow-x:auto" tabindex="0" role="region" aria-label="Lesson reference table; scroll horizontally"><table>
@@ -776,13 +769,13 @@ df.groupby(['sample_no','heat_no','test_orientation_code']).first().unstack('tes
 
   <div id="selfCheckQuiz"></div>
 
-  <div class="nav-btns"><button class="btn ghost" onclick="goTo('p4')">← Back to CUSUM</button><button class="btn ghost" onclick="goTo('p6')">Next: Statistics Implementation →</button></div>
+  <div class="nav-btns"><a class="btn ghost" href="#p4" data-target="p4">← Back to CUSUM</a><a class="btn ghost" href="#p6" data-target="p6">Next: Statistics Implementation →</a></div>
 </section>
 
 <!-- ============================================================ PART 6: STATISTICS IMPLEMENTATION ============================================================ -->
-<section class="part" id="p6">
+<section class="part" id="p6" tabindex="-1" aria-labelledby="p6-heading">
   <span class="sub">PART 6</span>
-  <h2>Statistics Implementation</h2>
+  <h2 id="p6-heading">Statistics Implementation</h2>
   <p>Every number in this lesson &mdash; α, β, ARL, the eight Nelson-test probabilities, CUSUM's k and H &mdash; can be reproduced in Excel or navigated to directly in Minitab. This section is the "how do I actually build this" reference.</p>
 
   <h3>Excel Functions</h3>
@@ -845,7 +838,7 @@ df.groupby(['sample_no','heat_no','test_orientation_code']).first().unstack('tes
     <div class="takeaway"><span class="tk-n">5</span><p><strong>Combined false-alarm rate is a favorite "gotcha."</strong> If a question implies all 8 Nelson tests run simultaneously, the effective ARL&#8320; is well below 370 &mdash; don't answer with the single-rule 0.27% α unless the question specifies only the primary 3&sigma; rule is active.</p></div>
   </div>
 
-  <div class="nav-btns"><button class="btn ghost" onclick="goTo('p5')">← Back to Summary</button><span></span></div>
+  <div class="nav-btns"><a class="btn ghost" href="#p5" data-target="p5">← Back to Summary</a><span></span></div>
 </section>
 
 </div>
@@ -942,65 +935,84 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 <footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
 <script>
 /* ================= NAV ================= */
-// Navigation is presentation-only; the calculation and simulation code below is unchanged.
+// Every part stays in document flow. Links only move the reader; they never hide content.
 const lessonRoot = document.getElementById('lesson-content');
 const lessonNav = lessonRoot.querySelector('nav.toc');
+const lessonParts = Array.from(lessonRoot.querySelectorAll('section.part'));
+const lessonNavLinks = Array.from(lessonNav.querySelectorAll('a[data-target]'));
+const progressFill = document.getElementById('progressFill');
+let readingFrame = 0;
+
 function measureLessonChrome(){
   const header = document.querySelector('header.site');
   const headerHeight = Math.ceil(header ? header.getBoundingClientRect().height : 0);
   lessonRoot.style.setProperty('--lesson-arl-site-header-height', headerHeight+'px');
   lessonRoot.style.setProperty('--lesson-arl-toc-height', Math.ceil(lessonNav.getBoundingClientRect().height)+'px');
   document.getElementById('quiz').style.setProperty('--lesson-arl-site-header-height', headerHeight+'px');
+  scheduleReadingPosition();
 }
-measureLessonChrome();
-if(window.ResizeObserver){
-  const observer = new ResizeObserver(measureLessonChrome);
-  observer.observe(document.querySelector('header.site'));
-  observer.observe(lessonNav);
-}
-window.addEventListener('resize', measureLessonChrome, {passive:true});
-function goTo(id, pushHash){
-  const target = lessonRoot.querySelector('section.part[id="'+id.replace(/[^a-z0-9-]/gi,'')+'"]');
-  if(!target) return;
-  lessonRoot.querySelectorAll('section.part').forEach(s=>s.classList.toggle('active',s===target));
-  lessonRoot.querySelectorAll('nav.toc button').forEach(b=>{
-    const active=b.dataset.target===id;
-    b.classList.toggle('active',active);
-    if(active){b.classList.add('visited');b.setAttribute('aria-current','step');}
-    else b.removeAttribute('aria-current');
+function markCurrentPart(id){
+  lessonNavLinks.forEach(link=>{
+    const current = link.dataset.target === id;
+    link.classList.toggle('active', current);
+    if(current){
+      link.classList.add('visited');
+      link.setAttribute('aria-current', 'location');
+    }else link.removeAttribute('aria-current');
   });
+}
+function updateProgress(){
+  const h = document.documentElement, max = h.scrollHeight-h.clientHeight;
+  progressFill.style.width = (max>0 ? Math.max(0, Math.min(100, h.scrollTop/max*100)) : 0)+'%';
+  // Track natural scrolling too, without changing the URL or creating history entries.
+  const readingLine = lessonNav.getBoundingClientRect().bottom+24;
+  let current = lessonParts[0];
+  lessonParts.forEach(part=>{ if(part.getBoundingClientRect().top<=readingLine) current=part; });
+  markCurrentPart(current.id);
+}
+function scheduleReadingPosition(){
+  if(readingFrame) return;
+  readingFrame = requestAnimationFrame(()=>{ readingFrame=0; updateProgress(); });
+}
+function goTo(id, pushHash=true, smooth=true){
+  const target = lessonParts.find(part=>part.id===id);
+  if(!target) return;
   measureLessonChrome();
-  if(pushHash!==false && history.replaceState){
-    try{history.replaceState(null,'','#'+id);}catch(e){/* Restricted embedded context. */}
+  if(pushHash && location.hash!=='#'+id){
+    try{ history.pushState(null, '', '#'+id); }
+    catch(e){ location.hash=id; return; }
   }
   requestAnimationFrame(()=>{
     target.focus({preventScroll:true});
-    target.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
-    updateProgress();
+    target.scrollIntoView({block:'start',behavior:smooth && !window.matchMedia('(prefers-reduced-motion: reduce)').matches?'smooth':'auto'});
+    scheduleReadingPosition();
   });
 }
-lessonRoot.querySelectorAll('nav.toc button, .syllabus-item').forEach(b=>{
-  b.setAttribute('aria-controls',b.dataset.target);
-  b.addEventListener('click',()=>goTo(b.dataset.target));
+lessonRoot.querySelectorAll('a[data-target]').forEach(link=>{
+  link.addEventListener('click',event=>{
+    // Preserve native modified-click, copy-link, new-tab and no-JavaScript behavior.
+    if(event.defaultPrevented || event.button!==0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    goTo(link.dataset.target);
+  });
 });
-lessonRoot.querySelectorAll('section.part').forEach(s=>{
-  s.tabIndex=-1;
-  const heading=s.querySelector('h2');
-  heading.id=s.id+'-heading';
-  s.setAttribute('aria-labelledby',heading.id);
-});
-window.addEventListener('hashchange',()=>goTo(location.hash.slice(1),false));
-// Preserve the initial overview; a supplied part deep link opens that part directly.
-if(/^#p[1-6]$/.test(location.hash)) goTo(location.hash.slice(1),false);
-else lessonRoot.querySelector('nav.toc button[data-target="p1"]').setAttribute('aria-current','step');
-lessonRoot.querySelector('nav.toc button[data-target="p1"]').classList.add('visited');
-const progressFill = document.getElementById('progressFill');
-function updateProgress(){
-  const h=document.documentElement, max=h.scrollHeight-h.clientHeight;
-  progressFill.style.width=(max>0?h.scrollTop/max*100:0)+'%';
+window.addEventListener('hashchange',()=>goTo(location.hash.slice(1),false,false));
+window.addEventListener('scroll',scheduleReadingPosition,{passive:true});
+window.addEventListener('resize',measureLessonChrome,{passive:true});
+if(window.ResizeObserver){
+  const observer = new ResizeObserver(measureLessonChrome);
+  const header = document.querySelector('header.site');
+  if(header) observer.observe(header);
+  observer.observe(lessonNav);
+  // Disclosures can change the reading position without a scroll event.
+  observer.observe(lessonRoot);
 }
-window.addEventListener('scroll',updateProgress,{passive:true});
-updateProgress();
+measureLessonChrome();
+// Wait for charts, generated rule cards and fonts before resolving an initial deep link.
+window.addEventListener('load',()=>{
+  measureLessonChrome();
+  if(/^#p[1-6]$/.test(location.hash)) goTo(location.hash.slice(1),false,false);
+},{once:true});
 
 /* ================= NORMAL DIST HELPERS ================= */
 function erf(x){
@@ -1768,8 +1780,8 @@ html[data-theme="dark"] #lesson-content{
 #quiz .quiz-question legend, #quiz .quiz-option { overflow-wrap:anywhere; }
 #quiz .quiz-actions button { min-height:44px; }
 #quiz .quiz-actions button:hover { background:#09515d; color:#ffffff; }
-html[data-theme="dark"] #lesson-content button.btn:not(.ghost) { background:#3fb6d8; color:#071120; }
-html[data-theme="dark"] #lesson-content button.btn:not(.ghost):hover { background:#5cc9e6; color:#071120; }
+html[data-theme="dark"] #lesson-content .btn:not(.ghost) { background:#3fb6d8; color:#071120; }
+html[data-theme="dark"] #lesson-content .btn:not(.ghost):hover { background:#5cc9e6; color:#071120; }
 html[data-theme="dark"] #lesson-content input[type="range"] { background:#738ca8 !important; }
 html[data-theme="dark"] #lesson-content select { border-color:#738ca8 !important; }
 html[data-theme="dark"] #quiz .lesson-kicker { color:#67d4df; }

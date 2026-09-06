@@ -14,8 +14,9 @@ const text = x => x.replace(/<!--[\s\S]*?-->/g, '').replace(/<[^>]*>/g, '');
 const dom = new JSDOM(html); // Parse only: never execute lesson scripts in a unit test.
 const doc = dom.window.document;
 // Original source: ddad4f1900392b2d250d0df8b8902dcb543f208d, blob 25179b4cfd2fa987038294d6fd96109cf49fe0af.
+// Authorized exception: remove only the 36-character hero label; all teaching text is unchanged.
 test('Signal or Noise preserves every teaching text node and heading in order', () => {
-  assert.equal(sha(text(main)), 'a5b17f403b3869c8ef625b294aad7e535aeef250f161dbbea7ec233393c37e2e');
+  assert.equal(sha(text(main)), 'e9082a30bb6a97e9ce8901726b18bfd74ce2f8ac7ad9019f1016de068dacaa93');
   assert.equal(sha(text(quiz)), '1c33db5b44f744c76a4238e4303f46f5aca31993ae79dad4741c1ccac83dddb8');
   const headings = [...(main + quiz).matchAll(/<h[1-4][^>]*>([\s\S]*?)<\/h[1-4]>/g)].map(m => m[1]);
   assert.equal(headings.length, 25);
@@ -118,4 +119,44 @@ test('Signal or Noise keeps all original sparkline points inside their canvases'
   assert.equal(arcs.length,points.length);
   assert(arcs.every(p => p.x-p.r>=0 && p.x+p.r<=200 && p.y-p.r>=0 && p.y+p.r<=120));
   assert.match(html, /yRange = Math.max\(yRange, 1.1\*Math.max\(\.\.\.CpArr, \.\.\.CmArr\)\)/);
+});
+
+
+test('Signal or Noise removes only the requested module label, not the lesson title', () => {
+  assert(!doc.querySelector('header.hero .kicker'));
+  assert(!main.includes('UPSKILLSPRINT · SPC REFERENCE MODULE'));
+  assert.equal(doc.querySelectorAll('#lesson-content h1').length, 1);
+  assert.equal(doc.querySelector('#lesson-content h1').textContent, 'Signal or Noise — ARL, Nelson Rules & Control Limit Design');
+});
+test('Signal or Noise keeps all six parts in continuous document flow without JavaScript', () => {
+  const parts = [...doc.querySelectorAll('#lesson-content section.part')];
+  assert.deepEqual(parts.map(p => p.id), ['p1','p2','p3','p4','p5','p6']);
+  for (const part of parts) {
+    assert(!part.hasAttribute('hidden') && !part.hasAttribute('inert'));
+    assert(!part.classList.contains('active'));
+    assert.notEqual(part.getAttribute('aria-hidden'), 'true');
+    assert.equal(part.tabIndex, -1);
+    assert.equal(part.getAttribute('aria-labelledby'), part.querySelector('h2').id);
+  }
+  const css = doc.querySelector('#signal-noise-style').textContent;
+  assert.match(css, /#lesson-content section\.part\{[^}]*display:block/);
+  assert.doesNotMatch(css, /section\.part\.active/);
+  const navigation = html.split('/* ================= NAV ================= */')[1].split('/* ================= NORMAL DIST HELPERS ================= */')[0];
+  assert.doesNotMatch(navigation, /classList\.toggle\('active',s===target\)/);
+  assert.match(navigation, /window\.addEventListener\('scroll',scheduleReadingPosition/);
+  assert.match(navigation, /history\.pushState/);
+});
+test('Signal or Noise navigation uses real jump links instead of section toggles', () => {
+  const links = [...doc.querySelectorAll('#lesson-content [data-target]')];
+  assert.equal(links.length, 22);
+  assert.equal(doc.querySelectorAll('nav.toc a').length, 6);
+  assert.equal(doc.querySelectorAll('.syllabus-item[href]').length, 6);
+  assert.equal(doc.querySelectorAll('.nav-btns a').length, 10);
+  for (const link of links) {
+    assert.equal(link.tagName, 'A');
+    assert.equal(link.getAttribute('href'), '#' + link.dataset.target);
+    assert(doc.getElementById(link.dataset.target));
+    assert(!link.hasAttribute('onclick') && !link.hasAttribute('aria-controls'));
+  }
+  assert(!doc.querySelector('nav.toc [role="tab"], section.part[role="tabpanel"]'));
 });
