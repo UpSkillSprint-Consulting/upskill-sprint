@@ -31,7 +31,9 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Content preservation and guide regression tests
+        shell: bash
         run: |
+          set -o pipefail
           mkdir -p artifacts/signal-noise
           node --test tests/signal-noise-lesson.test.js | tee artifacts/signal-noise/content-tests.txt
       - name: Confirm regressions reject the original presentation
@@ -46,6 +48,7 @@ jobs:
           fi
           grep -q 'not ok.*isolates CSS' artifacts/signal-noise/original-regression-results.txt
           grep -q 'not ok.*off-step defaults' artifacts/signal-noise/original-regression-results.txt
+          grep -q 'not ok.*sparkline points' artifacts/signal-noise/original-regression-results.txt
       - name: Install browser audit dependencies
         run: npm install --no-save --package-lock=false playwright@1.58.2 @axe-core/playwright@4.11.1
       - run: npx playwright install --with-deps chromium
