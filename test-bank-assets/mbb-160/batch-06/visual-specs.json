@@ -6,17 +6,17 @@
     "mbb:set-2:original-126": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "final-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-126",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "minimumChartWidthPx": 740,
+        "minimumTableWidthPx": 700,
+        "boundedScrolling": true
       },
       "accessibility": {
-        "altText": "A strategy evidence table lists four objective-initiative rows. The predictive-failure reliability initiative has a strong relationship and a 30 percent target, but its accountable-owner cell is blank.",
+        "altText": "Reported strategy deployment matrix coherence evidence; all values also appear in the adjacent table.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -31,22 +31,23 @@
       ],
       "rows": 4,
       "calculations": [],
-      "interaction": null
+      "interaction": null,
+      "units": "as labelled"
     },
     "mbb:set-2:original-130": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "final-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-130",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "minimumChartWidthPx": 740,
+        "minimumTableWidthPx": 700,
+        "boundedScrolling": true
       },
       "accessibility": {
-        "altText": "A portfolio table shows mandatory M requiring four Belt-months, ready A and B requiring five each, a one-month D discovery, and an unready four-month D full project. The capacity control is set to ten with nine committed.",
+        "altText": "Reported risk-adjusted portfolio selection with capacity evidence; all values also appear in the adjacent table.",
         "semanticTable": true
       },
       "interactionPurpose": "Adjust available Belt-months and compare residual capacity with readiness, mandatory work, and the D data-gate option.",
@@ -70,26 +71,28 @@
         "value": 10,
         "unit": "Belt-months",
         "committed": 9,
-        "committedLabel": "M plus B"
-      }
+        "committedLabel": "M plus B",
+        "baseline": 10
+      },
+      "units": "as labelled"
     },
     "mbb:set-2:original-134": {
       "type": "multi-time-series",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "final-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-134",
       "transformations": [],
       "referenceLines": [
         "Launch at Week 5 at 5"
       ],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "minimumChartWidthPx": 740,
+        "minimumTableWidthPx": 700,
+        "boundedScrolling": true
       },
       "accessibility": {
-        "altText": "A weekly chart shows reported compliance rising from 42 to 95 percent, especially after Week 5. Independently verified correct use starts near 86 percent and falls to 61 percent after launch.",
-        "semanticTable": false
+        "altText": "Reported adoption versus compliance metrics evidence; all values also appear in the adjacent table.",
+        "semanticTable": true
       },
       "interactionPurpose": "Focus or hover over weekly points to compare reported compliance with independently verified correct use before and after launch.",
       "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-134",
@@ -98,7 +101,7 @@
         "Week",
         "Percent"
       ],
-      "units": "behaviorally anchored score",
+      "units": "percent",
       "axes": {
         "xLevels": [
           "1",
@@ -156,17 +159,17 @@
     "mbb:set-2:original-135": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "final-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-135",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "minimumChartWidthPx": 740,
+        "minimumTableWidthPx": 700,
+        "boundedScrolling": true
       },
       "accessibility": {
-        "altText": "A before-and-after dashboard shows productivity increasing from 42 to 51 picks per labor hour, while mispicks, customer complaints, and overtime all increase despite having lower-is-better goals.",
+        "altText": "Reported metric cascade and unintended behavior evidence; all values also appear in the adjacent table.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -180,23 +183,24 @@
       ],
       "rows": 4,
       "calculations": [],
-      "interaction": null
+      "interaction": null,
+      "units": "as labelled"
     },
     "mbb:set-2:original-136": {
       "type": "activity-network",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "final-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-136",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "minimumChartWidthPx": 740,
+        "minimumTableWidthPx": 700,
+        "boundedScrolling": true
       },
       "accessibility": {
-        "altText": "An activity network shows A for three weeks splitting to B and C for four weeks each. B leads to D for two weeks. C and D merge into E for four weeks.",
-        "semanticTable": false
+        "altText": "Reported program dependency and critical path evidence; all values also appear in the adjacent table.",
+        "semanticTable": true
       },
       "interactionPurpose": "",
       "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-136",
@@ -206,7 +210,7 @@
         "duration",
         "predecessor-successor relationship"
       ],
-      "units": "working days",
+      "units": "working weeks",
       "layout": {
         "nodes": {
           "A": {
@@ -265,17 +269,17 @@
     "mbb:set-2:original-139": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "final-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-139",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "minimumChartWidthPx": 740,
+        "minimumTableWidthPx": 700,
+        "boundedScrolling": true
       },
       "accessibility": {
-        "altText": "A benefit bridge table totals 1.8 million dollars: 0.5 million from volume growth, 0.4 million from commodity prices, 0.6 million verified process reduction, and 0.3 million forecast avoidance.",
+        "altText": "Reported benefit realization and attribution evidence; all values also appear in the adjacent table.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -283,27 +287,28 @@
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
         "Bridge component",
-        "Annual amount",
+        "Amount ($M; basis stated)",
         "Evidence status"
       ],
       "rows": 4,
       "calculations": [],
-      "interaction": null
+      "interaction": null,
+      "units": "as labelled"
     },
     "mbb:set-2:original-146": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "final-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-146",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "minimumChartWidthPx": 740,
+        "minimumTableWidthPx": 700,
+        "boundedScrolling": true
       },
       "accessibility": {
-        "altText": "An attribute agreement table shows 80 reference-positive cases and 1,920 reference-negative cases. Appraisers correctly call 27 positives and 1,893 negatives, producing 96 percent overall agreement but many positive misses.",
+        "altText": "Reported attribute agreement with prevalence effects evidence; all values also appear in the adjacent table.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -317,12 +322,13 @@
       ],
       "rows": 3,
       "calculations": [],
-      "interaction": null
+      "interaction": null,
+      "units": "as labelled"
     },
     "mbb:set-2:original-147": {
       "type": "acf-plot",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "final-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-147",
       "transformations": [],
       "referenceLines": [
@@ -330,13 +336,13 @@
         "Autocorrelation = 0"
       ],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "minimumChartWidthPx": 740,
+        "minimumTableWidthPx": 700,
+        "boundedScrolling": true
       },
       "accessibility": {
-        "altText": "A residual autocorrelation plot has approximate bounds plus or minus 0.22. Lag 1 is 0.34 and lag 12 is 0.41; all other lags remain within the bounds.",
-        "semanticTable": false
+        "altText": "Reported arima residual adequacy evidence; all values also appear in the adjacent table.",
+        "semanticTable": true
       },
       "interactionPurpose": "Focus or hover over the bars to compare short-run lag 1 and seasonal lag 12 with the confidence bounds.",
       "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-147",
@@ -345,7 +351,7 @@
         "Lag",
         "Autocorrelation"
       ],
-      "units": "lag and correlation",
+      "units": "Autocorrelation",
       "axes": {
         "xDomain": [
           1,
@@ -362,18 +368,18 @@
     "mbb:set-2:original-148": {
       "type": "contour-plot",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "final-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-148",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "minimumChartWidthPx": 740,
+        "minimumTableWidthPx": 700,
+        "boundedScrolling": true
       },
       "accessibility": {
-        "altText": "A response-surface contour plot shows nested closed contours centered near coded A equal to 0.8 and B equal to 0.6, with fitted response increasing toward the center.",
-        "semanticTable": false
+        "altText": "Reported response-surface stationary point diagnosis evidence; all values also appear in the adjacent table.",
+        "semanticTable": true
       },
       "interactionPurpose": "",
       "staticFallback": "test-bank-assets/mbb-160/batch-06/static-fallbacks.html#mbb-set-2-original-148",
@@ -383,7 +389,7 @@
         "B: residence time (coded)",
         "fitted response"
       ],
-      "units": "coded factor units and response units",
+      "units": "percent yield",
       "axes": {
         "xDomain": [
           -1.5,
@@ -413,24 +419,16 @@
       ],
       "contours": [
         {
-          "level": 70,
-          "radiusX": 1.35,
-          "radiusY": 1.1
+          "level": 70
         },
         {
-          "level": 76,
-          "radiusX": 1,
-          "radiusY": 0.8
+          "level": 76
         },
         {
-          "level": 81,
-          "radiusX": 0.62,
-          "radiusY": 0.48
+          "level": 81
         },
         {
-          "level": 84,
-          "radiusX": 0.28,
-          "radiusY": 0.21
+          "level": 84
         }
       ],
       "currentPoint": {

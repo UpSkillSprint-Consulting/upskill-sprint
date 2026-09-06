@@ -4,7 +4,7 @@
   "generatedBy": "scripts/build-mbb160-assets.mjs",
   "questions": {
     "mbb:set-2:original-126": {
-      "sha256": "d7c8a0cf6f22d4535b3bcf8aa47f4238ab5cba5874fd1634526e18ae53f1f9d6",
+      "sha256": "2425daa171fffa3c971f4b8dd7ec40dab7fe8fb9eb82d26b4bff6367b051a6c1",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -43,11 +43,14 @@
             "Median delay under 8 h",
             "Service VP"
           ]
-        ]
+        ],
+        "auditBatch": 6,
+        "auditId": "mbb:set-2:original-126",
+        "altText": "Reported strategy deployment matrix coherence evidence; all values also appear in the adjacent table."
       }
     },
     "mbb:set-2:original-130": {
-      "sha256": "8c95f31f1e091ad320465328d75a42e36ad11224fc6a9c03146505fb070853a2",
+      "sha256": "3527958a708e442138846ac7e2593d9836b76b93b31f5d948596758f48e203c1",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -82,7 +85,7 @@
           [
             "D discovery",
             "1",
-            "$0.2M option value",
+            "Not monetized",
             "Ready",
             "Tests data gate"
           ],
@@ -103,12 +106,16 @@
           "value": 10,
           "unit": "Belt-months",
           "committed": 9,
-          "committedLabel": "M plus B"
-        }
+          "committedLabel": "M plus B",
+          "baseline": 10
+        },
+        "auditBatch": 6,
+        "auditId": "mbb:set-2:original-130",
+        "altText": "Reported risk-adjusted portfolio selection with capacity evidence; all values also appear in the adjacent table."
       }
     },
     "mbb:set-2:original-134": {
-      "sha256": "cd7089d7b70e923c9aeccc755cbd8d4bc5702e22f9016fb415305431b0684355",
+      "sha256": "3440e6aae85b81cbe8a9c94cfa47b68aa49c5f71e078cfd8058e273982308016",
       "chart": {
         "type": "multi-time-series",
         "title": "Reported compliance and verified adoption",
@@ -163,11 +170,16 @@
           100
         ],
         "referenceValue": 5,
-        "referenceLabel": "Launch at Week 5"
+        "referenceLabel": "Launch at Week 5",
+        "referenceOrientation": "vertical",
+        "units": "percent",
+        "auditBatch": 6,
+        "auditId": "mbb:set-2:original-134",
+        "altText": "Reported adoption versus compliance metrics evidence; all values also appear in the adjacent table."
       }
     },
     "mbb:set-2:original-135": {
-      "sha256": "7749c7a896cdcf717ec91fd5a080084dabc24c803f02af4b76a1a542efda26f4",
+      "sha256": "b136cffd7c19e5fc80334fd64c73cec0e802c63d42671cbadb86e18e4f6a4583",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -201,11 +213,14 @@
             "109",
             "Lower"
           ]
-        ]
+        ],
+        "auditBatch": 6,
+        "auditId": "mbb:set-2:original-135",
+        "altText": "Reported metric cascade and unintended behavior evidence; all values also appear in the adjacent table."
       }
     },
     "mbb:set-2:original-136": {
-      "sha256": "dfdefd592641b0a3d1e14e8c927cdfbf6ab5e49e0f49960b290bd4399e0b96fc",
+      "sha256": "924a21d8d85860987981cf57553fbe02714ab6627b3cae4920d4f4376b80c063",
       "chart": {
         "type": "activity-network",
         "title": "Program dependency network",
@@ -257,16 +272,20 @@
             "D",
             "E"
           ]
-        ]
+        ],
+        "durationUnit": "working weeks",
+        "auditBatch": 6,
+        "auditId": "mbb:set-2:original-136",
+        "altText": "Reported program dependency and critical path evidence; all values also appear in the adjacent table."
       }
     },
     "mbb:set-2:original-139": {
-      "sha256": "23c0d54f4e762f583822840efcf65c239bc7c2299c2b7e096a56c410ec9f31a6",
+      "sha256": "345641122d981341f2e92e0d17c58be0836530983e33b3e5617c8eabe76ff7bb",
       "chart": {
         "type": "data-table",
         "columns": [
           "Bridge component",
-          "Annual amount",
+          "Amount ($M; basis stated)",
           "Evidence status"
         ],
         "rows": [
@@ -283,18 +302,21 @@
           [
             "Process-cost reduction",
             "$0.6M",
-            "Finance verified"
+            "Net actual expense reduction verified by Finance"
           ],
           [
             "Forecast cost avoidance",
             "$0.3M",
             "Condition not yet realized"
           ]
-        ]
+        ],
+        "auditBatch": 6,
+        "auditId": "mbb:set-2:original-139",
+        "altText": "Reported benefit realization and attribution evidence; all values also appear in the adjacent table."
       }
     },
     "mbb:set-2:original-146": {
-      "sha256": "8088c8d8bebbb6ae0eb22ac894fba428571c4119cb2c248ce68495af78d40832",
+      "sha256": "e1e34ce957024291e9069a19af110bc96d337e769dc44a1b5f52ae89163a9508",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -322,11 +344,14 @@
             "1,946",
             "2,000"
           ]
-        ]
+        ],
+        "auditBatch": 6,
+        "auditId": "mbb:set-2:original-146",
+        "altText": "Reported attribute agreement with prevalence effects evidence; all values also appear in the adjacent table."
       }
     },
     "mbb:set-2:original-147": {
-      "sha256": "dcddd6ef59ab78059804a83987d5604d7ee5e68a6711a50bab79dc2ac94d142f",
+      "sha256": "dce403fbb6972bbb98db049af4961f824d96cb290e978d7977742fdd49c75f2c",
       "chart": {
         "type": "acf-plot",
         "title": "Forecast-model residual ACF",
@@ -360,11 +385,14 @@
           0.12,
           0.41
         ],
-        "confidence": 0.22
+        "confidence": 0.22,
+        "auditBatch": 6,
+        "auditId": "mbb:set-2:original-147",
+        "altText": "Reported arima residual adequacy evidence; all values also appear in the adjacent table."
       }
     },
     "mbb:set-2:original-148": {
-      "sha256": "648199846bcb86ed89d19b033800ef0bd5923d1f015d978014f0e08c42c109e3",
+      "sha256": "e9ab0f9e44ec85ef643e6daa0af0ec6f16afe507fb588be9f7fdeecd1349fa0f",
       "chart": {
         "type": "contour-plot",
         "title": "Fitted yield response surface",
@@ -397,31 +425,35 @@
         ],
         "contours": [
           {
-            "level": 70,
-            "radiusX": 1.35,
-            "radiusY": 1.1
+            "level": 70
           },
           {
-            "level": 76,
-            "radiusX": 1,
-            "radiusY": 0.8
+            "level": 76
           },
           {
-            "level": 81,
-            "radiusX": 0.62,
-            "radiusY": 0.48
+            "level": 81
           },
           {
-            "level": 84,
-            "radiusX": 0.28,
-            "radiusY": 0.21
+            "level": 84
           }
         ],
         "current": {
           "x": 0,
           "y": 0,
           "label": "Current setting"
-        }
+        },
+        "responseUnit": "percent yield",
+        "auditModel": [
+          82,
+          6,
+          4,
+          -3,
+          -2,
+          -2
+        ],
+        "auditBatch": 6,
+        "auditId": "mbb:set-2:original-148",
+        "altText": "Reported response-surface stationary point diagnosis evidence; all values also appear in the adjacent table."
       }
     }
   }

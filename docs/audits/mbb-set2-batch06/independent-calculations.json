@@ -1,0 +1,95 @@
+{
+  "basis": "Recomputed for reconstructed candidate; supplied summaries are not recovered raw observations.",
+  "Q130": [
+    {
+      "projects": [
+        "M"
+      ],
+      "BeltMonths": 4,
+      "NPV_millions": 0.7,
+      "feasible": true
+    },
+    {
+      "projects": [
+        "M",
+        "B"
+      ],
+      "BeltMonths": 9,
+      "NPV_millions": 1.9,
+      "feasible": true
+    },
+    {
+      "projects": [
+        "M",
+        "A"
+      ],
+      "BeltMonths": 9,
+      "NPV_millions": 1.6,
+      "feasible": true
+    },
+    {
+      "projects": [
+        "M",
+        "A",
+        "B"
+      ],
+      "BeltMonths": 14,
+      "NPV_millions": 2.8,
+      "feasible": false
+    }
+  ],
+  "Q136": {
+    "ABDE": 13,
+    "ACE": 11,
+    "unit": "working weeks",
+    "floatC": 2
+  },
+  "Q138": {
+    "NPV_Y_minus_X": 90000,
+    "limitation": "NPVs/IRRs supplied, not independently derivable without cash flows."
+  },
+  "Q139": {
+    "total": 1.8,
+    "totalWithoutAvoidance": 1.5,
+    "eligibleRealizedHardSavings": 0.6,
+    "unit": "million currency units"
+  },
+  "Q146": {
+    "observedAgreement": 0.96,
+    "chanceAgreement": 0.93516,
+    "kappa": 0.38309685379395386,
+    "sensitivity": 0.3375,
+    "specificity": 0.9859375,
+    "repeatabilityIdentified": false
+  },
+  "Q147": {
+    "n": 80,
+    "pointwiseBound": 0.21913466179497937,
+    "scope": "ACF values supplied; no joint p-value reconstructed."
+  },
+  "Q148": {
+    "stationaryPoint": [
+      0.7999999999999999,
+      0.6
+    ],
+    "predictedYield": 85.60000000000001,
+    "quadraticEigenvalues": [
+      -3.618033988749895,
+      -1.381966011250105
+    ],
+    "HessianEigenvalues": [
+      -7.23606797749979,
+      -2.76393202250021
+    ],
+    "classification": "Fitted maximum, not confirmed operation"
+  },
+  "Q149": {
+    "lossProbabilityIdentified": false,
+    "reason": "Mean and two percentiles do not determine the distribution."
+  },
+  "Q150": {
+    "oldKey": "B",
+    "correctedKey": "D",
+    "reason": "Feedback compensation can hide process drift in the controlled response."
+  }
+}

@@ -142,6 +142,7 @@ test('Prior Batch 4 preservation plus explicitly integrated Batch 3 hashes remai
  // Batch 4 preservation expectations remain unchanged.
  const restored=JSON.parse(read('docs/audits/mbb-set2-batch03/restored-hashes.json'));
  const batch5Updated=JSON.parse(read('docs/audits/mbb-set2-batch05/updated-hashes.json'));
+ const later=JSON.parse(read('docs/audits/mbb-set2-batch06/updated-hashes.json')); Object.assign(batch5Updated.question_sha256,later.question_sha256); Object.assign(batch5Updated.asset_sha256,later.asset_sha256);
  const digest=value=>crypto.createHash('sha256').update(value).digest('hex');
  const all=Object.values(c.MBB_SET2_BATCHES).flat();
  assert.equal(all.length,175);assert.equal(Object.keys(manifest.question_sha256).length,150);

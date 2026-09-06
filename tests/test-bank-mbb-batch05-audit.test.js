@@ -142,6 +142,7 @@ test('All ten static fallbacks retain evidence without dead controls or prematur
 });
 test('150 other question records, all keys and 24 other asset files are preserved',()=>{
  const p=JSON.parse(read('docs/audits/mbb-set2-batch05/preservation.json')),all=Object.values(batches).flat();
+ const later=JSON.parse(read('docs/audits/mbb-set2-batch06/updated-hashes.json'));Object.assign(p.questions_sha256,later.stable_question_sha256);Object.assign(p.asset_sha256,later.asset_sha256);p.answerPositions[149]=3;
  assert.equal(all.length,175);assert.equal(Object.keys(p.questions_sha256).length,150);assert.equal(Object.keys(p.asset_sha256).length,24);
  for(const q of all)if(q.batch!==5)assert.equal(hash(JSON.stringify(stable(q))),p.questions_sha256[q.qid],q.qid);
  for(const [file,expected]of Object.entries(p.asset_sha256))assert.equal(hash(fs.readFileSync(path.join(root,file))),expected,file);

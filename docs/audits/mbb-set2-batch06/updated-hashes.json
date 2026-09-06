@@ -1,0 +1,68 @@
+{
+  "question_sha256": {
+    "mbb:set-2:original-126": "1b686a62d30ac755296ad0a109bcb24b6a51a547b48e62966352541c9bf2e218",
+    "mbb:set-2:original-127": "5c18c8229e5873f180baf02de86485615a4f4860e1a34e2ea157ab51a767185e",
+    "mbb:set-2:original-128": "616ec03bc6193ef50a655f9dc63024351637cba1219d21bffb673590dc1eb659",
+    "mbb:set-2:original-129": "47a8bbb27563509af409130a1c40ad805fa338b2c8207836a4e455bafab4f70a",
+    "mbb:set-2:original-130": "2abdd0b7ac4c6128316405c7b69290d485ba356b8090db5f132d55163344dcbf",
+    "mbb:set-2:original-131": "cf2f8976ed68300242b374722c929d4e98d36aaf1faf6568e9f1e59299d5ca6a",
+    "mbb:set-2:original-132": "9b31309d7703dad2840505b74fb05525a61d87c2964686fb5fea3233af31e371",
+    "mbb:set-2:original-133": "1795d97d308138072eff0b9545bd75479bfb04ff155b07eaff4a55aeb02d8274",
+    "mbb:set-2:original-134": "0cb5895d579d988276ae6ccd1974b5de46411fe4de9b43c8acaf872d9275f5e0",
+    "mbb:set-2:original-135": "db4a995158022b54874388446023dcd587cfd38d0159bef00433bd706b04f54b",
+    "mbb:set-2:original-136": "0deb7700ba413d4916ef9d690b9bf1b84ca0201141cbb1d2ac7f7b5980afcd65",
+    "mbb:set-2:original-137": "7144ea818305c9957595428397e057c5f32df5fb54bfca374155b2b24b3f874b",
+    "mbb:set-2:original-138": "b24e44a957e9b9fe1bde156c5b086991132aea423a14dabc41b949595bc2f0cf",
+    "mbb:set-2:original-139": "9060662432c9c438fba3ce8be1b9ba3ad75f5e6995435837b130a14225e12e2c",
+    "mbb:set-2:original-140": "ef41fa419fe06e32d491cc5afb6f1c37bd579cff0a1a54c5a90a1daa30b0e4b8",
+    "mbb:set-2:original-141": "5d795ee1acca02ae54fa69487ae272a5542586dec06d7d3ecab48497058b754c",
+    "mbb:set-2:original-142": "3b24ec30b69f3d6748b4b66ed5fa22baa82c72792a63b8b08e4818fd4f508eff",
+    "mbb:set-2:original-143": "232ca53286a4a8dc3ca148738570600e3fde11606a4052d092eb18dd28cfe3be",
+    "mbb:set-2:original-144": "251012adb1e1eeeaf279ef02126eb9aed44b184fa21c870bd15c499d5c7fc405",
+    "mbb:set-2:original-145": "6e5946a3ef9f9b8cd52ec144c4b2e5ca4f662a97eafe4097e37fef475679e3e1",
+    "mbb:set-2:original-146": "482ab0ea786afd9a00bfb776168736e0f51de045adaf04152353b1177da0b7c1",
+    "mbb:set-2:original-147": "0e1037dcdd02f4fd1696b3288abdd5f7fae85c7a17797687cd20994dc795df6e",
+    "mbb:set-2:original-148": "1e5a939d188faa0184dabd9e62668ac0212164cd84e8f321b945ed73b46040a8",
+    "mbb:set-2:original-149": "ad61c2094dd8a29a5156f4aefbc82ab84339c4b5d28b01fe2ceddc09d7ac0d64",
+    "mbb:set-2:original-150": "7e9a9791175f00071e70f005c146d4bebede1f3d41988ab3e04edc0d5efde496"
+  },
+  "stable_question_sha256": {
+    "mbb:set-2:original-126": "d5f49a9d9479d3b1d69bb67644a9850cd116c48537846a07a86f138de3321f56",
+    "mbb:set-2:original-127": "cd63143ebaff853196401200ccaab7ea6a01fc6caae57b210bd73cdb6e9f4fbd",
+    "mbb:set-2:original-128": "cf891231fb64cdfc5caba03f3d305abf8af9369138b9cbba94d9132421a4ccd3",
+    "mbb:set-2:original-129": "b4a1b5ea92a627d7228dd3731028733af95553990438ef65720564c96d6d67fe",
+    "mbb:set-2:original-130": "18532c7fb9ac78f0fe0d0085d2e5bd72eca1e6459133d19ae988720570b1717e",
+    "mbb:set-2:original-131": "11e79bb5c8207fdc8d0a8ee257e82d89cd156eddb95de147a5f43705f26462d2",
+    "mbb:set-2:original-132": "77839580f2e9aa398e13dd77f946911e739f819c69b822cd32cf18653cdc0362",
+    "mbb:set-2:original-133": "547c8003e3c3119f3d1e11d3e7c1d90dee0a5ddea0fb74ecb1f5f337d0e624b0",
+    "mbb:set-2:original-134": "f133ceb2184f4998f000d83fe1ea88625329d39a0847d56cc8a0c4df1f05c4db",
+    "mbb:set-2:original-135": "84167bbe4dae5c3e0b0decc2eb2c1433782d15283872dd83cea9927bc84f5b63",
+    "mbb:set-2:original-136": "41e8b831e84547a9b8b9a98a960afa97276b0cd93ca3563ea6e1807739016e88",
+    "mbb:set-2:original-137": "92a80be1171500365cd9d6238b0e04964566c12436aa9ffa92586b66ea461cba",
+    "mbb:set-2:original-138": "f3b31a05ab535b26afa2976e2f559d950eabc2418cc19111b23cfd2a5dd3c442",
+    "mbb:set-2:original-139": "2f12d29cfb5be126b560a07f2aa5dd22309a23eceafd1fafaf14db86e909a2f9",
+    "mbb:set-2:original-140": "260a3973176c624104238eddde08d9b182b3b55a3edd9940b12878641f6689f6",
+    "mbb:set-2:original-141": "5340a84089b188fc921a33c39ff0999a4348942968d733d0c1780e6ef42e4adb",
+    "mbb:set-2:original-142": "1fb977cdfbf42005848d1c3c4dc044630b2266af1ea5cf91d8078b25ea323434",
+    "mbb:set-2:original-143": "42fd222be4e5778180bdf8b78fa010d5694b41a1064dfef0cfab8dc3c893f576",
+    "mbb:set-2:original-144": "5612625352b0b7323de603ea801e77e72f199962863903d50bca49717927343b",
+    "mbb:set-2:original-145": "cb3bb2282bbf2b050c5565e4757eb24d3e325516202039935a844d8610731eb2",
+    "mbb:set-2:original-146": "9afab9a4d8929fee415a1049e20c257b0578c97316c3402018143e66afb099e3",
+    "mbb:set-2:original-147": "c50442b527ae78a44f3c258e6ea3032d3bc95f38747527fbc557d4809b48ca84",
+    "mbb:set-2:original-148": "a958b70876dcd4b117d05a7d768c0b311e126f4c2b82fa9025a022a82108d14f",
+    "mbb:set-2:original-149": "f2b43159ce0f791ce5b5d9f7b6f3308497a885bb9fc11b2b04d777b861bf335d",
+    "mbb:set-2:original-150": "d04a162947af33f005b61a2d5f5fec04f3a9cd7344175c5168699a43e27fc23d"
+  },
+  "asset_sha256": {
+    "test-bank-assets/mbb-160/batch-06/datasets.json": "1c7fedf24b3efd86e8927c66e4fb56a430cd3cc2ab1257d0fdebec9cf4c03d19",
+    "test-bank-assets/mbb-160/batch-06/static-fallbacks.html": "182ebc53f4a9bfb5ade179f48ead0a60ba17849185d7ac43900205e8d1145e14",
+    "test-bank-assets/mbb-160/batch-06/validation.json": "cbcabf484d6ad36c2fc05fef0e0a5d77c8245a99876ebfa7657d626e52e62fb7",
+    "test-bank-assets/mbb-160/batch-06/visual-specs.json": "72852e6f9dd20151e1e503d9ff81e0aaa9e6519ea2cdbecbfd436db9554e86f6"
+  },
+  "expectedRekeys": {
+    "mbb:set-2:original-150": {
+      "from": 1,
+      "to": 3
+    }
+  }
+}

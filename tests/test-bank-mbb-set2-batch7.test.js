@@ -78,7 +78,7 @@ test('MBB 175 Batch 7 meets the expanded allocation', () => {
   assert.deepEqual(batch.filter(question => question.visual && question.visual.interactionPurpose).map(question => question.qid), [
     'mbb:set-2:original-155', 'mbb:set-2:original-158', 'mbb:set-2:original-170', 'mbb:set-2:original-174'
   ]);
-  assert.deepEqual(prior.concat(batch).reduce((result, question) => { result[question.answer] += 1; return result; }, [0, 0, 0, 0]), [44, 44, 43, 44]);
+  assert.deepEqual(prior.concat(batch).reduce((result, question) => { result[question.answer] += 1; return result; }, [0, 0, 0, 0]), [44, 43, 43, 45]);
 });
 
 test('Every Batch 7 item is complete, balanced, and source traceable', () => {

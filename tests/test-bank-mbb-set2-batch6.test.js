@@ -59,6 +59,7 @@ function renderer() {
   virtualConsole.on('jsdomError', error => errors.push(error.message));
   const source = pageSource.replace(/<script\b[^>]*\bsrc=(['"])[\s\S]*?<\/script>/gi, '');
   const dom = new JSDOM(source, { url: 'https://upskillsprint.com/test-bank.html', runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole });
+  dom.window.eval(fs.readFileSync(path.join(ROOT,'test-bank-mbb-final-audit-ui.js'),'utf8'));
   assert.deepEqual(errors, []);
   return dom;
 }
@@ -71,7 +72,7 @@ test('MBB 160 Batch 6 meets the frozen allocation', () => {
     'mbb-enterprise': 5, 'mbb-org': 5, 'mbb-portfolio': 4,
     'mbb-training': 3, 'mbb-coaching': 3, 'mbb-analytics': 5
   });
-  assert.deepEqual(batch.reduce((result, question) => { result[question.answer] += 1; return result; }, [0, 0, 0, 0]), [6, 7, 6, 6]);
+  assert.deepEqual(batch.reduce((result, question) => { result[question.answer] += 1; return result; }, [0, 0, 0, 0]), [6, 6, 6, 7]);
   assert.deepEqual(counts(batch.map(question => question.difficulty)), { 'Very Hard': 11, Hard: 9, Expert: 5 });
   assert.deepEqual(counts(batch.map(question => question.cognitive)), { Analyze: 7, Apply: 5, Evaluate: 6, Create: 4, Understand: 3 });
   assert.equal(batch.filter(question => question.visual).length, 9);
@@ -112,7 +113,7 @@ test('Batch 6 numerical and statistical keys independently recompute', () => {
   const kappa = (observed - expected) / (1 - expected);
   assert.equal(observed, 0.96);
   assert.ok(Math.abs(kappa - 0.383) < 0.002);
-  assert.match(question(146).options[question(146).answer], /dominant negative class/);
+  assert.match(question(146).options[question(146).answer], /dominated by negatives/);
   assert.ok(question(147).chart.values[0] > question(147).chart.confidence);
   assert.ok(question(147).chart.values[11] > question(147).chart.confidence);
   const root = Math.sqrt(5);
@@ -134,7 +135,7 @@ test('Batch 6 visual evidence packages match production data', () => {
     assert.deepEqual(datasets.questions[question.qid].chart, question.chart);
     assert.equal(datasets.questions[question.qid].sha256, digest(question.chart));
     assert.equal(validation.questions[question.qid].datasetSha256, digest(question.chart));
-    assert.equal(validation.questions[question.qid].validationStatus, 'passed');
+    assert.equal(validation.questions[question.qid].validationStatus, 'semantic-checks-passed');
     assert.equal(specs.questions[question.qid].accessibility.altText, question.visual.altText);
     assert.equal(question.visual.answerCueAudit, true);
     assert.match(question.visual.datasetRef, /batch-06\/datasets\.json/);

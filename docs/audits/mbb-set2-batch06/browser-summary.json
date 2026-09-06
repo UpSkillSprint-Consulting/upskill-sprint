@@ -1,0 +1,48 @@
+{
+  "baseline": "25d47ccfd57b6b4ae49c322650148fac5008caad",
+  "newlyRun": true,
+  "targetedTests": {
+    "tests": 302,
+    "passed": 302,
+    "failed": 0
+  },
+  "browser": {
+    "player": {
+      "assertions": 1236,
+      "states": 162,
+      "errors": [],
+      "rawSha256": "843691c5257ce0f3f4757742471e85161dba30298b8169f0075e1a653720804a",
+      "sourceHashes": {
+        "test-bank.html": "068d046692ab4f087cf49a8d83ab4997d2c5fd3bbcbd3218715f9bfd0a7b00b3",
+        "test-bank-mbb-set2.js": "f7a528e4ec20078e9e447ce1006dba9fd6551cade9a8f6c7e78bd853b5aaf9d7",
+        "test-bank-mbb-final-audit-ui.js": "b813fe30ba70bf35fdf416d364fa2c24de3f712a1ce55ffca9ee7ca82f43a497",
+        "test-bank-feedback-loop.js": "54a1379461b491ed731d9c2e12b15805e554bd5efc957ceaf126f28cf1c232cc"
+      }
+    },
+    "secondary": {
+      "assertions": 644,
+      "states": 154,
+      "errors": [],
+      "rawSha256": "f02093512d25f36fb97f391c0bedae8b3851bbf39b4ac40160b804f5c9ed2713",
+      "sourceHashes": {
+        "test-bank.html": "068d046692ab4f087cf49a8d83ab4997d2c5fd3bbcbd3218715f9bfd0a7b00b3",
+        "test-bank-mbb-set2.js": "f7a528e4ec20078e9e447ce1006dba9fd6551cade9a8f6c7e78bd853b5aaf9d7",
+        "test-bank-mbb-final-audit-ui.js": "b813fe30ba70bf35fdf416d364fa2c24de3f712a1ce55ffca9ee7ca82f43a497",
+        "test-bank-feedback-loop.js": "54a1379461b491ed731d9c2e12b15805e554bd5efc957ceaf126f28cf1c232cc"
+      }
+    },
+    "panels": {
+      "assertions": 4,
+      "states": 0,
+      "errors": [],
+      "rawSha256": "243fdc3e2106f72787219b40b58e00c5702eaa4b3c9c461bef67aacea4f56765",
+      "sourceHashes": {
+        "test-bank.html": "068d046692ab4f087cf49a8d83ab4997d2c5fd3bbcbd3218715f9bfd0a7b00b3",
+        "test-bank-mbb-set2.js": "f7a528e4ec20078e9e447ce1006dba9fd6551cade9a8f6c7e78bd853b5aaf9d7",
+        "test-bank-mbb-final-audit-ui.js": "b813fe30ba70bf35fdf416d364fa2c24de3f712a1ce55ffca9ee7ca82f43a497",
+        "test-bank-feedback-loop.js": "54a1379461b491ed731d9c2e12b15805e554bd5efc957ceaf126f28cf1c232cc"
+      }
+    }
+  },
+  "scope": "Reconstructed Batch 6, offline actual application; no cloud, live sign-in or physical Safari validation."
+}
