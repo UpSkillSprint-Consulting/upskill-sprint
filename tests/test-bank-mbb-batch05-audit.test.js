@@ -142,10 +142,11 @@ test('All ten static fallbacks retain evidence without dead controls or prematur
 });
 test('Batch 5 preservation with exact authorized Batch 6 hashes and Q150 rekey',()=>{
  const batch6Updated=JSON.parse(read('docs/audits/mbb-set2-batch06/updated-hashes.json'));
+const batch7Updated=JSON.parse(fs.readFileSync(path.join(root,'docs/audits/mbb-set2-batch07/updated-hashes.json'),'utf8'));
  const p=JSON.parse(read('docs/audits/mbb-set2-batch05/preservation.json')),all=Object.values(batches).flat();
  assert.equal(all.length,175);assert.equal(Object.keys(p.questions_sha256).length,150);assert.equal(Object.keys(p.asset_sha256).length,24);
- for(const q of all)if(q.batch!==5)assert.equal(hash(JSON.stringify(stable(q))),batch6Updated.stable_question_sha256[q.qid] || p.questions_sha256[q.qid],q.qid);
- for(const [file,expected]of Object.entries(p.asset_sha256))assert.equal(hash(fs.readFileSync(path.join(root,file))),batch6Updated.asset_sha256[file] || expected,file);
+ for(const q of all)if(q.batch!==5)assert.equal(hash(JSON.stringify(stable(q))),batch7Updated.stable_question_sha256[q.qid] || batch6Updated.stable_question_sha256[q.qid] || p.questions_sha256[q.qid],q.qid);
+ for(const [file,expected]of Object.entries(p.asset_sha256))assert.equal(hash(fs.readFileSync(path.join(root,file))),batch7Updated.asset_sha256[file] || batch6Updated.asset_sha256[file] || expected,file);
  assert.equal(p.answerPositions[149],1);assert.deepEqual(all.map(q=>q.answer),p.answerPositions.map((a,i)=>i===149?3:a));
 });
 test('Fresh Batch 5 hashes agree with both historical-test reconciliation formats',()=>{

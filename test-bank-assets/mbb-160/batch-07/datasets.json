@@ -4,7 +4,7 @@
   "generatedBy": "scripts/build-mbb160-assets.mjs",
   "questions": {
     "mbb:set-2:original-151": {
-      "sha256": "11d20a811806852632199e76877e3a092016de645b2ac132480d4e5728f6668e",
+      "sha256": "74319aabbff326d17cd03b9f294f026500f052d8cfe690006bb5ecd9307e14b4",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -32,11 +32,14 @@
             "Active weekly users",
             "Digital completion rate"
           ]
-        ]
+        ],
+        "auditBatch": 7,
+        "auditId": "mbb:set-2:original-151",
+        "altText": "A three-row strategy scorecard shows leading and outcome measures. The maintenance initiative has a blank leading-measure cell while the other initiatives have both types."
       }
     },
     "mbb:set-2:original-155": {
-      "sha256": "f907d2c8cb600a4db5fc2e38e763595cdc526ca42883c4d2934c724fd516b385",
+      "sha256": "2dc6759989a9c127e5959606cfb10e8c0bf084c3fc3e539eca4056961be645de",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -78,19 +81,20 @@
         ],
         "whatIf": {
           "id": "mbb-q155-capacity",
-          "label": "Available Belt-months",
+          "label": "Hypothetical available Belt-months",
           "min": 8,
           "max": 12,
           "step": 1,
           "value": 10,
-          "unit": "Belt-months",
-          "committed": 10,
-          "committedLabel": "candidate portfolio B plus D"
-        }
+          "unit": "Belt-months"
+        },
+        "auditBatch": 7,
+        "auditId": "mbb:set-2:original-155",
+        "altText": "Four projects with Belt-months, funding, risk-adjusted value and dependency columns. The scored capacity is 10 Belt-months."
       }
     },
     "mbb:set-2:original-158": {
-      "sha256": "3d75771864b05d803ea9e0d5c0c0edab0b30f1e5f75928a9336db6d07516744f",
+      "sha256": "706476a60916c11fcf924a8f062a6b884c2447b7b548e7b8827616710f3a674b",
       "chart": {
         "type": "multi-time-series",
         "title": "Workflow adoption evidence",
@@ -112,7 +116,7 @@
         ],
         "series": [
           {
-            "label": "Recorded compliance",
+            "label": "Recorded checklist completion",
             "data": [
               42,
               68,
@@ -150,11 +154,15 @@
               60
             ]
           }
-        ]
+        ],
+        "units": "percent",
+        "auditBatch": 7,
+        "auditId": "mbb:set-2:original-158",
+        "altText": "Eight weekly percentages for recorded checklist completion, independent use and correct exception resolution. Exact values are available in the data table."
       }
     },
     "mbb:set-2:original-161": {
-      "sha256": "e8c7c2ddf059741964b34c162ab50650cc84d52c68e4a9440b468f248dd35abf",
+      "sha256": "6e4df6c502a2a94883a6090cc043bb2e9f54c898871670abb07310e8f1211294",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -178,11 +186,14 @@
             "Actual cost (AC)",
             "550"
           ]
-        ]
+        ],
+        "auditBatch": 7,
+        "auditId": "mbb:set-2:original-161",
+        "altText": "An earned-value table shows BAC 1.2 million dollars, PV 600 thousand, EV 480 thousand, and AC 550 thousand."
       }
     },
     "mbb:set-2:original-163": {
-      "sha256": "e7ce00e6dd394ab1c845319fbb7d942f68ce2edcad8cf33fff6d5655ad76b95d",
+      "sha256": "95de5b08594f1f33ff93736eac5a92816bee0fcee5141ccb218d8cc239701fe2",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -214,11 +225,14 @@
             "95%",
             "92%"
           ]
-        ]
+        ],
+        "auditBatch": 7,
+        "auditId": "mbb:set-2:original-163",
+        "altText": "A role-based needs table shows operators with 88 percent knowledge but only 54 percent system access, 42 percent job-aid usability, and 49 percent correct use."
       }
     },
     "mbb:set-2:original-168": {
-      "sha256": "0b6664fc032dd5d91d4a9690278909f010761ce5f0b8baf999fb9dd0a3ded4d4",
+      "sha256": "d6d1c7ac051f050e16ad4e4a4f779332279889efe519aaa29a83c461d86d1a75",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -227,11 +241,11 @@
         ],
         "rows": [
           [
-            "Part to part",
+            "Batch within appraiser",
             "76%"
           ],
           [
-            "Repeatability within nested specimens",
+            "Residual within batch",
             "18%"
           ],
           [
@@ -242,14 +256,17 @@
             "Total",
             "100%"
           ]
-        ]
+        ],
+        "auditBatch": 7,
+        "auditId": "mbb:set-2:original-168",
+        "altText": "Nested-model variance contributions: batch within appraiser 76%, residual within batch 18%, appraiser 6%, total 100%."
       }
     },
     "mbb:set-2:original-170": {
-      "sha256": "7050a0c82fe20494cbf37d8b5f1876b302d376641be3cb1404080ca8224c8060",
+      "sha256": "b84ea40fc8064501dcf490b50db1d939c3d465d6e904987da22d08a0f7d4450d",
       "chart": {
         "type": "regression-diagnostic",
-        "title": "Claim severity versus policy-risk score",
+        "title": "Observed cases and proposed policy score",
         "xLabel": "Policy-risk score",
         "yLabel": "Claim severity ($000)",
         "xTicks": [
@@ -264,144 +281,99 @@
           20,
           40,
           60,
-          80
+          80,
+          100
         ],
         "points": [
           {
-            "fitted": 10,
-            "residual": 24
+            "x": 10,
+            "y": 24
           },
           {
-            "fitted": 18,
-            "residual": 29
+            "x": 18,
+            "y": 29
           },
           {
-            "fitted": 25,
-            "residual": 31
+            "x": 25,
+            "y": 31
           },
           {
-            "fitted": 34,
-            "residual": 39
+            "x": 34,
+            "y": 39
           },
           {
-            "fitted": 42,
-            "residual": 43
+            "x": 42,
+            "y": 43
           },
           {
-            "fitted": 51,
-            "residual": 49
+            "x": 51,
+            "y": 49
           },
           {
-            "fitted": 60,
-            "residual": 56
+            "x": 60,
+            "y": 56
           },
           {
-            "fitted": 70,
-            "residual": 61
-          },
-          {
-            "fitted": 105,
-            "residual": 78
+            "x": 70,
+            "y": 61
           }
-        ]
+        ],
+        "model": {
+          "intercept": 17.001635322976274,
+          "slope": 0.63221586263287,
+          "n": 8,
+          "df": 6,
+          "mse": 0.9877895884437159,
+          "tCritical": 2.4469118511449786
+        },
+        "proposal": {
+          "x": 105,
+          "mean": 83.38430089942763,
+          "meanCI": [
+            80.34633146424565,
+            86.4222703346096
+          ],
+          "predictionInterval": [
+            79.4928323396618,
+            87.27576945919346
+          ],
+          "confidenceLevel": 0.95,
+          "newPointLeverage": 1.5605069501226492
+        },
+        "auditBatch": 7,
+        "auditId": "mbb:set-2:original-170",
+        "altText": "Eight observed claim-severity pairs at scores 10 through 70, a fitted line, and a distinct unobserved proposal at score 105 with its calculated 95% mean-response interval."
       }
     },
     "mbb:set-2:original-172": {
-      "sha256": "e8b175b9aa522e3c1671963bb386ebca70081cfa5515efec93287b31db4bb8e8",
+      "sha256": "f57cc7c283cc08fef3cd24802afbab8d8faaf9c12b524b120d769abbf08d88de",
       "chart": {
         "type": "reliability-plot",
-        "title": "Series-subsystem mission reliability",
-        "xLabel": "Mission fraction",
-        "yLabel": "Reliability",
-        "xTicks": [
-          0,
-          0.25,
-          0.5,
-          0.75,
-          1
-        ],
-        "series": [
+        "plotMode": "mission-endpoints",
+        "title": "Reliability at the fixed mission endpoint",
+        "xLabel": "Mission reliability (probability)",
+        "yLabel": "Subsystem",
+        "components": [
           {
             "label": "Subsystem A",
-            "points": [
-              [
-                0,
-                1
-              ],
-              [
-                0.25,
-                0.995
-              ],
-              [
-                0.5,
-                0.99
-              ],
-              [
-                0.75,
-                0.985
-              ],
-              [
-                1,
-                0.98
-              ]
-            ]
+            "reliability": 0.98
           },
           {
             "label": "Subsystem B",
-            "points": [
-              [
-                0,
-                1
-              ],
-              [
-                0.25,
-                0.987
-              ],
-              [
-                0.5,
-                0.975
-              ],
-              [
-                0.75,
-                0.962
-              ],
-              [
-                1,
-                0.95
-              ]
-            ]
+            "reliability": 0.95
           },
           {
             "label": "Subsystem C",
-            "points": [
-              [
-                0,
-                1
-              ],
-              [
-                0.25,
-                0.992
-              ],
-              [
-                0.5,
-                0.985
-              ],
-              [
-                0.75,
-                0.978
-              ],
-              [
-                1,
-                0.97
-              ]
-            ]
+            "reliability": 0.97
           }
         ],
-        "missionTime": 1
+        "auditBatch": 7,
+        "auditId": "mbb:set-2:original-172",
+        "altText": "At the same fixed mission endpoint: subsystem A reliability 0.98, B 0.95 and C 0.97. No intermediate-time curve is supplied."
       }
     },
     "mbb:set-2:original-174": {
-      "sha256": "2af0684c4a609d833cc9b1dab9924be8cb22e1cf2a9833d67cdce43e16031d6c",
+      "sha256": "8ba6d3baa60e63dc2af2236b9da6967d9cef19ab64203c1a703991b8c3cd3c4c",
       "chart": {
         "type": "two-level-interaction",
         "title": "Screening interaction contrast",
@@ -419,7 +391,7 @@
           80,
           66
         ],
-        "yLabel": "Mean response",
+        "yLabel": "Mean response (response units)",
         "yDomain": [
           55,
           85
@@ -428,7 +400,60 @@
           60,
           70,
           80
-        ]
+        ],
+        "designRows": [
+          [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          [
+            -1,
+            -1,
+            1,
+            1
+          ],
+          [
+            -1,
+            1,
+            -1,
+            1
+          ],
+          [
+            -1,
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            -1,
+            -1,
+            1
+          ],
+          [
+            1,
+            -1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1,
+            -1
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "auditBatch": 7,
+        "auditId": "mbb:set-2:original-174",
+        "altText": "B-low means are 62 and 78 at A low/high; B-high means are 80 and 66. Original coded factor settings and the four means are available as tables."
       }
     }
   }

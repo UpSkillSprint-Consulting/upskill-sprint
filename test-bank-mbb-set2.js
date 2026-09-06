@@ -12393,181 +12393,2191 @@
   }
 
   var batch7=[
-    q7(151,'mbb-enterprise',{domain:'I. Enterprise-wide Planning',subdomain:'A. Strategic Plan Development',topic:'Strategy deployment leading-indicator integrity'},'Very Hard','Analyze','Visual evidence interpretation, non-statistical','Manufacturing',
-      'An executive team proposes the strategy-deployment scorecard below. Which revision would most improve its ability to guide execution before year-end results are known?',
-      ['Replace the customer outcome with monthly revenue because financial measures are always more actionable','Remove the process measure because operational indicators should remain outside strategic governance','Average every metric into one index so leaders cannot overreact to individual signals','Add a verified leading measure for the maintenance initiative and define its causal link to reliability'],3,
-      'A deployment scorecard should connect strategic outcomes to the controllable means expected to create them. The maintenance row has a lagging reliability outcome but no measure of whether the critical preventive work is being executed effectively. A verified leading measure, such as risk-based work completed on time, gives leaders earlier evidence while retaining the outcome needed to validate the assumed causal relationship. Collapsing unlike measures or excluding operational drivers would weaken diagnosis.',
-      ['Revenue is another lagging outcome and would not expose whether the initiative is being executed.','Strategic review requires the few operational drivers that test the deployment theory.','A composite index can conceal offsetting failures and destroys useful diagnostic information.','Correct. A causally linked leading measure permits timely action and later validation against reliability.'],'Chapter 1 - Strategic Plan Development','7-17',
-      {chart:{type:'data-table',columns:['Strategic objective','Initiative','Leading measure','Outcome measure'],rows:[['Improve delivery reliability','Risk-based maintenance','Blank','On-time delivery'],['Reduce complaint recurrence','Closed-loop corrective action','Actions verified on time','Repeat complaints'],['Increase digital adoption','Role-based workflow coaching','Active weekly users','Digital completion rate']]},altText:'A three-row strategy scorecard shows leading and outcome measures. The maintenance initiative has a blank leading-measure cell while the other initiatives have both types.',keywords:['strategy deployment','leading indicator','lagging indicator','causal linkage','scorecard']}),
-
-    q7(152,'mbb-enterprise',{domain:'I. Enterprise-wide Planning',subdomain:'B. Strategic Plan Alignment',topic:'Scenario-triggered strategy adaptation'},'Hard','Evaluate','Leadership, deployment, and best-next-action scenario','Supply chain, logistics, and distribution',
-      'A distribution network approved a two-year automation roadmap assuming stable order mix. Three months later, low-volume customized orders double and invalidate the capacity model. What should the MBB recommend first?',
-      ['Reopen the explicit planning assumptions, quantify the trigger breach, and test revised scenarios before changing the portfolio','Continue the roadmap until annual planning because changing assumptions between cycles undermines leadership discipline','Cancel every automation project because the original business case no longer represents the observed order mix','Raise all project benefit targets enough to offset the modeled loss without changing scope or resource demand'],0,
-      'Strategic plans are hypotheses built on assumptions about customers, demand, technology, regulation, and capability. When a predefined trigger or material environmental shift invalidates an assumption, disciplined adaptation begins by making the breach visible and evaluating coherent scenarios. That evidence may support continuation, redesign, resequencing, or termination. Automatic cancellation and artificial benefit inflation bypass governance, while waiting for the calendar preserves a plan whose decision basis is already obsolete.',
-      ['Correct. It converts the changed environment into governed evidence before irreversible portfolio action.','Planning discipline includes controlled adaptation when critical assumptions fail, not blind calendar compliance.','Some initiatives may remain valuable after redesign, so universal cancellation is premature.','Changing benefit targets without changing causal means creates an unsupported financial promise.'],'Chapter 1 - Strategic Planning and Alignment','2-27',
-      {keywords:['scenario planning','strategic assumptions','trigger','portfolio adaptation','environmental scan']}),
-
-    q7(153,'mbb-enterprise',{domain:'I. Enterprise-wide Planning',subdomain:'C. Infrastructure Elements of Improvement Systems',topic:'Federated governance with common standards'},'Expert','Understand','Leadership, deployment, and best-next-action scenario','Cross-industry enterprise/deployment case',
-      'A global deployment has mature local improvement teams but inconsistent project definitions, financial validation, and certification decisions. Which operating model best preserves local responsiveness and enterprise comparability?',
-      ['Centralize every improvement decision and require corporate approval for all local experiments and team meetings','Establish enterprise minimum standards, shared data and finance controls, and federated local execution with exception escalation','Allow each site to define savings and certification independently, then normalize the reported totals at year end','Replace local teams with a rotating corporate task force that owns all projects until deployment maturity is uniform'],1,
-      'A mature deployment needs a stable enterprise backbone without suppressing local knowledge. Common charter criteria, data definitions, financial validation, competency standards, and escalation rules make performance comparable and protect credential integrity. Federated execution lets sites tailor methods and pace to their context within those guardrails. Full centralization becomes a bottleneck; complete autonomy institutionalizes incomparable evidence; a traveling task force does not build durable local capability.',
-      ['Universal corporate approval would slow learning and move decisions away from process knowledge.','Correct. Common governance controls coexist with locally responsive execution and ownership.','Year-end normalization cannot repair inconsistent definitions or unvalidated decisions retrospectively.','A temporary central team creates dependence rather than a scalable improvement infrastructure.'],'Chapter 3 - Six Sigma Improvement Methodologies and Deployment Models','28-52',
-      {keywords:['deployment infrastructure','federated governance','standards','local ownership','escalation']}),
-
-    q7(154,'mbb-enterprise',{domain:'I. Enterprise-wide Planning',subdomain:'E. Opportunities for Improvement',topic:'Innovation funnel evidence gates'},'Very Hard','Apply','Advanced conceptual/method-selection','Product development and engineering',
-      'An innovation workshop produces 140 concepts, and executives want to charter the ten most popular ideas immediately. What should the MBB insert before project authorization?',
-      ['A vote by senior leaders that ranks ideas solely by perceived strategic importance and visibility','A requirement that every idea begin as DMAIC because existing evidence is always sufficient to define defects','Evidence gates for customer need, strategic fit, feasibility, risk, value, and ownership before selecting the proper method','A rule that only ideas with immediate hard savings may proceed, regardless of learning or strategic option value'],2,
-      'Divergent ideation should be followed by disciplined convergence. Popularity is not evidence that a concept addresses a validated customer or business need, is feasible, or has an accountable owner. Screening through explicit gates reduces advocacy bias and distinguishes an improvement opportunity from a design challenge, experiment, or exploratory learning option. The method should follow the problem and knowledge state; it should not be imposed before qualification.',
-      ['Executive judgment matters, but an unstructured popularity vote amplifies status and advocacy bias.','DMAIC assumes an existing process and measurable problem, conditions not established for every concept.','Correct. Evidence gates qualify the opportunity and support defensible method selection.','Hard savings alone would reject regulatory, customer, capability, and strategic-option value.'],'Chapter 5 - Creativity and Innovation Tools','70-87',
-      {keywords:['innovation funnel','evidence gate','project qualification','method selection','concept screening']}),
-
-    q7(155,'mbb-enterprise',{domain:'I. Enterprise-wide Planning',subdomain:'F. Pipeline Management',topic:'Capacity-constrained pipeline selection'},'Expert','Create','Portfolio, finance, and risk scenario','Healthcare',
-      'The portfolio table shows the only indivisible candidate projects. At most 10 Belt-months and $300,000 may be committed, and Project D may start only if Project B is selected. Which feasible portfolio has the highest total risk-adjusted value?',
-      ['Projects A and C, using 10 Belt-months and $270,000 for $500,000 risk-adjusted value','Projects B and C, using 8 Belt-months and $210,000 for $430,000 risk-adjusted value','Projects A and B, using 9 Belt-months and $250,000 for $510,000 risk-adjusted value','Projects B and D, using 10 Belt-months and $280,000 for $540,000 risk-adjusted value'],3,
-      'Feasible portfolio selection must honor resource, funding, and dependency constraints simultaneously before comparing value. A plus C is feasible and yields 500; A plus B yields 510; B plus C yields 430; and B plus D satisfies D’s dependency while yielding 540. Other combinations either exceed a constraint or violate the stated dependency. The correct decision is therefore based on the best feasible system of projects, not the highest individual project value or unused capacity alone.',
-      ['This combination is feasible, but its risk-adjusted value is 40 thousand dollars lower.','This combination leaves capacity unused and produces the lowest listed feasible value.','This combination is feasible, but it produces 30 thousand dollars less risk-adjusted value.','This is the highest feasible value and it satisfies the stated dependency and both resource limits.'],'Chapter 6 - Project Pipeline Management','88-99',
-      {quantitative:true,formula:'Compare feasible sums subject to Belt-months <= 10, funding <= $300k, and D implies B: AC=500, BD=540, AB=510, BC=430 ($000).',assumptions:['Projects are indivisible and all benefits use the same risk-adjusted basis.','No unlisted dependency or capacity constraint applies.'],estimatedMinutes:5,chart:{type:'data-table',columns:['Project','Belt-months','Funding ($000)','Risk-adjusted value ($000)','Dependency'],rows:[['A','5','150','300','None'],['B','4','100','210','None'],['C','5','120','200','None'],['D','6','180','330','Requires B']],whatIf:{id:'mbb-q155-capacity',label:'Available Belt-months',min:8,max:12,step:1,value:10,unit:'Belt-months',committed:10,committedLabel:'candidate portfolio B plus D'}},altText:'A candidate-project table lists Belt-months, funding, risk-adjusted value, and dependencies for four projects. A capacity control is set to 10 Belt-months, the amount needed by candidate portfolio B plus D.',interactionPurpose:'Adjust available Belt-months and compare the B-plus-D candidate with capacity, funding, dependency, and competing feasible portfolios.',keywords:['pipeline optimization','capacity constraint','dependency','risk-adjusted value','portfolio selection']}),
-
-    q7(156,'mbb-org',{domain:'II. Organizational Competencies for Deployment',subdomain:'A. Organizational Design',topic:'Systems archetype and local optimization'},'Hard','Understand','Organizational-dynamics intervention scenario','Service and transactional operations',
-      'A call center rewards agents for short calls. Calls become shorter, repeat contacts rise, queues grow, and managers respond by tightening the call-time target. Which diagnosis should guide the MBB?',
-      ['The reinforcing policy creates failure demand, so redesign measures around end-to-end resolution and test the feedback loop','The agents need refresher training because repeat contacts prove they do not understand the call script','The target should be reduced further because stronger pressure will eventually eliminate variation in handling time','The repeat contacts are external noise and should be removed from the scorecard before evaluating agent performance'],0,
-      'The pattern is a system response, not merely an individual skill gap. A narrow local metric rewards transferring work into the future: shorter initial contacts generate unresolved issues, repeat demand, and larger queues, which then provoke more pressure on call time. The MBB should make the feedback structure visible and balance efficiency with end-to-end resolution, customer outcome, and demand created by failure. Training without changing reinforcement leaves the causal policy intact.',
-      ['Correct. It addresses the policy-generated feedback loop and the system outcome rather than blaming agents.','A script course cannot offset incentives that reward ending calls before durable resolution.','More pressure strengthens the same loop and is likely to increase failure demand.','Removing repeat demand conceals a critical consequence of the operating policy.'],'Chapter 7 - Systems Thinking','100-112',
-      {keywords:['systems thinking','failure demand','local optimization','feedback loop','metric design']}),
-
-    q7(157,'mbb-org',{domain:'II. Organizational Competencies for Deployment',subdomain:'B. Executive and Team Leadership Roles',topic:'Sponsor ownership and MBB escalation'},'Very Hard','Evaluate','Leadership, deployment, and best-next-action scenario','Finance and insurance',
-      'A cross-functional project repeatedly misses milestones because two vice presidents will not release subject-matter experts. The sponsor asks the Black Belt to negotiate indefinitely. What is the MBB’s best response?',
-      ['Take permanent ownership of staffing decisions so the sponsor can remain neutral during the project','Escalate the unresolved resource decision through the agreed governance path and coach the sponsor to exercise accountability','Tell the Black Belt to remove both functions from scope so the project can report schedule recovery','Suspend all analysis and certify the project complete because the delay is outside the team’s direct control'],1,
-      'The Black Belt can facilitate and surface evidence, but cannot resolve an enterprise priority conflict that requires executive authority. The sponsor or champion is accountable for securing resources and removing organizational barriers. The MBB should coach that role, document impact and alternatives, and use the established escalation mechanism when the decision remains blocked. Quietly shrinking scope or assuming executive authority would obscure governance failure and threaten benefit realization.',
-      ['An MBB supports governance but should not silently absorb executive decision rights.','Correct. It restores sponsor accountability while using transparent evidence and escalation.','Deleting affected functions may destroy the charter outcome and rewards resource withholding.','An external barrier is a reason for governance action, not unsupported project certification.'],'Chapter 14 - Executive and Team Leadership Roles','183-195',
-      {keywords:['sponsor','champion','resource escalation','governance','role accountability']}),
-
-    q7(158,'mbb-org',{domain:'II. Organizational Competencies for Deployment',subdomain:'D. Organizational Change Management',topic:'Adoption depth versus compliance'},'Very Hard','Analyze','Statistical-output interpretation','Public sector, nonprofit, and regulated operations',
-      'A new case-management workflow reaches 96% recorded compliance after week 4, but independent use and exception-resolution performance follow the trends shown. What conclusion is most defensible?',
-      ['The change is institutionalized because recorded compliance exceeds the customary 95% threshold','The trend proves the workflow itself is defective and should be removed without further diagnosis','Recorded compliance overstates adoption; diagnose workarounds and capability barriers before declaring sustainment','The organization should stop reinforcement because continued coaching creates dependence by definition'],2,
-      'Institutionalization requires evidence that people can and do use the new process effectively under normal and exceptional conditions. The display separates a documentation-oriented compliance measure from independent use and correct exception handling, both of which plateau materially lower. That gap is consistent with workarounds, access barriers, weak confidence, or inadequate process design. The MBB should investigate those mechanisms and strengthen reinforcement rather than treating a high reporting rate as proof of embedded behavior.',
-      ['A compliance threshold cannot substitute for behavior and outcome evidence across realistic conditions.','The evidence identifies an adoption gap but does not isolate the workflow as its cause.','Correct. Multiple behavioral measures show that nominal compliance is not equivalent to durable adoption.','Targeted reinforcement can build independence when based on diagnosed barriers and fading support.'],'Chapter 9 - Organizational Change Management','119-125',
-      {chart:{type:'multi-time-series',title:'Workflow adoption evidence',xLabel:'Week',yLabel:'Percent',labels:['1','2','3','4','5','6','7','8'],yDomain:[0,100],series:[{label:'Recorded compliance',data:[42,68,88,96,97,96,97,96]},{label:'Independent use',data:[24,39,55,66,70,72,71,73]},{label:'Correct exception resolution',data:[20,31,44,53,57,59,58,60]}]},altText:'An eight-week chart shows recorded compliance rising to about 96 percent, while independent use levels near 73 percent and correct exception resolution near 60 percent.',interactionPurpose:'Focus or hover over weekly points to compare reported compliance with independent behavior and exception-handling performance.',keywords:['change adoption','compliance','independent use','workaround','sustainment']}),
-
-    q7(159,'mbb-org',{domain:'II. Organizational Competencies for Deployment',subdomain:'C. Organizational Challenges',topic:'Interest-based conflict and decision criteria'},'Hard','Apply','Organizational-dynamics intervention scenario','Healthcare',
-      'Operations and clinical leaders argue over a standardization proposal. Both repeat fixed positions, while their underlying concerns are flow stability and patient-specific judgment. What should the MBB do next?',
-      ['Ask the more senior leader to decide immediately so the team can avoid further relationship conflict','Delay the decision until one group voluntarily withdraws its position after reviewing the same presentation','Split the available process steps equally between the two proposals even if neither meets the charter need','Separate positions from interests, establish shared decision criteria, and test options that protect both concerns'],3,
-      'Position-based bargaining encourages advocacy and compromise disconnected from the problem. The MBB should surface the legitimate interests beneath each position, convert them into transparent criteria such as safety, variation, flow, and exception conditions, and facilitate evidence-based option generation. A standard with explicit clinical exception logic may satisfy both interests. Authority, arbitrary splitting, and passive delay can end a meeting but do not create a durable, fact-based agreement.',
-      ['Authority may be needed later, but premature escalation suppresses information and joint problem solving.','Passive delay preserves the same positional conflict and provides no decision process.','Equal division is procedurally simple but may fail both safety and performance objectives.','Correct. Interests and shared criteria enable options that address the real system requirements.'],'Chapter 13 - Conflict Management','177-182',
-      {keywords:['conflict management','positions','interests','decision criteria','facilitation']}),
-
-    q7(160,'mbb-org',{domain:'II. Organizational Competencies for Deployment',subdomain:'F. Organizational Performance Metrics',topic:'Metric gaming and balanced evidence'},'Expert','Create','Leadership, deployment, and best-next-action scenario','Supply chain, logistics, and distribution',
-      'A warehouse bonus is based only on orders shipped per labor hour. Productivity rises, but expedited freight, picking errors, and employee turnover also rise. Which redesign is strongest?',
-      ['Retain the productivity target and exclude the other outcomes because they are owned by separate departments','Replace productivity with turnover alone so employees no longer experience pressure to meet customer demand','Use a balanced metric family with productivity, quality, service, workforce, and cost guardrails plus review of gaming signals','Average all available measures without weights or thresholds so no single metric can influence local behavior'],2,
-      'Measures shape behavior, especially when tied to incentives. A single throughput ratio encourages shifting cost and risk into quality, service, freight, and people outcomes. A balanced family should include the strategic result, controllable leading drivers, and explicit guardrails that prevent apparent gains from degrading the wider system. Governance must also examine definitions and gaming behavior. Replacing one narrow metric with another or averaging unlike measures without decision rules does not solve the design problem.',
-      ['Department ownership does not remove enterprise consequences or the incentive to transfer harm.','Turnover alone is another incomplete outcome and would conceal customer and cost performance.','Correct. A balanced family protects system performance while retaining accountable productivity evidence.','An unstructured average can hide a severe guardrail breach behind improvement elsewhere.'],'Chapter 10 - Organizational Performance Metrics','126-146',
-      {keywords:['balanced metrics','gaming','guardrail','incentive design','system performance']}),
-
-    q7(161,'mbb-portfolio',{domain:'III. Project Portfolio Management',subdomain:'B. Project Portfolio Infrastructure and Management',topic:'Earned-value recovery diagnosis'},'Very Hard','Analyze','Multi-step quantitative','Product development and engineering',
-      'A program has BAC=$1.20M, PV=$600k, EV=$480k, and AC=$550k. If current cost efficiency continues, which diagnosis and estimate are most defensible?',
-      ['CPI=1.15 and SPI=1.25; forecast completion below $1.05M because value exceeds both plans','CPI=0.87 and SPI=0.80; forecast about $1.38M and require recovery analysis before rebaselining','CPI=0.80 and SPI=0.87; forecast exactly $1.50M because schedule variance determines final cost','CPI=0.92 and SPI=1.09; retain the baseline because both indices remain within ten percent of one'],1,
-      'Cost performance index is EV divided by AC, or 480/550=0.873. Schedule performance index is EV divided by PV, or 480/600=0.800. Both indicate adverse performance. Under the explicitly stated assumption that current cost efficiency continues, EAC=BAC/CPI=1.20/0.873, approximately $1.375M. The indices diagnose deviation; they do not authorize an automatic baseline reset. Governance should evaluate causes, remaining risk, dependencies, and credible corrective actions first.',
-      ['Both ratios are inverted, which would incorrectly portray adverse performance as favorable.','Correct. The indices and forecast follow the stated formulas and preserve baseline integrity.','The labels are reversed and SPI alone does not mechanically determine the cost forecast.','None of these ratios matches the displayed earned-value inputs.'],'Chapter 16 - Project Portfolio Management','202-218',
-      {quantitative:true,formula:'CPI=EV/AC=480/550=0.873; SPI=EV/PV=480/600=0.800; EAC=BAC/CPI=1.20/0.873=$1.375M.',assumptions:['Current cost efficiency continues for the remaining work.','BAC, PV, EV, and AC use the same status date and approved baseline.'],estimatedMinutes:5,chart:{type:'data-table',columns:['Earned-value measure','Amount ($000)'],rows:[['Budget at completion (BAC)','1,200'],['Planned value (PV)','600'],['Earned value (EV)','480'],['Actual cost (AC)','550']]},altText:'An earned-value table shows BAC 1.2 million dollars, PV 600 thousand, EV 480 thousand, and AC 550 thousand.',keywords:['earned value','CPI','SPI','EAC','baseline integrity']}),
-
-    q7(162,'mbb-portfolio',{domain:'III. Project Portfolio Management',subdomain:'B. Project Portfolio Infrastructure and Management',topic:'Evidence-based project termination'},'Very Hard','Evaluate','Portfolio, finance, and risk scenario','Finance and insurance',
-      'A project has spent 70% of its budget. New regulatory evidence eliminates most expected benefit, but the sponsor argues that stopping would waste the investment. What should govern the portfolio decision?',
-      ['Compare remaining incremental value, cost, risk, strategic fit, and opportunity cost; treat prior spending as sunk','Continue because projects beyond the midpoint should be protected from changes in external assumptions','Suspend the project but reserve all assigned specialists so restart remains possible without remobilization','Complete the original scope, then classify the unrealized benefit as cost avoidance in the financial report'],0,
-      'Money already spent cannot be recovered by continuing and therefore should not dominate the forward decision. Portfolio governance should compare the expected incremental benefits of remaining work with remaining cost, risk, strategic fit, regulatory feasibility, and the value of alternative uses for scarce resources. Termination may be correct even late in execution, but it should be evidence based and include orderly closure, learning capture, stakeholder communication, and resource reallocation.',
-      ['Correct. Forward incremental economics and opportunity cost avoid the sunk-cost fallacy.','Stage or percent complete does not override a material change in the project value proposition.','Holding scarce resources without a justified option value preserves the portfolio constraint.','Relabeling an eliminated benefit would misrepresent financial performance and governance evidence.'],'Chapter 16 - Project Portfolio Management','211-224',
-      {keywords:['project termination','sunk cost','opportunity cost','incremental value','portfolio governance']}),
-
-    q7(163,'mbb-training',{domain:'IV. Training Design and Delivery',subdomain:'A. Training Needs Analysis',topic:'Performance-gap cause discrimination'},'Hard','Analyze','Visual evidence interpretation, non-statistical','Manufacturing',
-      'The needs-analysis evidence is shown below. Which intervention should be prioritized for the largest performance gap?',
-      ['Deliver the same statistical refresher to all roles because common content simplifies evaluation','Coach supervisors on motivation because low confidence is the only plausible cause of missed steps','Rewrite the analyst curriculum because analysts have the lowest observed compliance in the table','Repair operator system access and job-aid usability before assigning knowledge-based training'],3,
-      'Training is appropriate when a meaningful gap is caused by missing knowledge or skill and the learner has a fair opportunity to perform. Operators show adequate knowledge but poor access and an unusable job aid, while their observed performance is lowest. Those environmental barriers would prevent transfer even after instruction. The MBB should correct them first and then reassess the residual skill gap. A uniform course wastes capacity and can falsely attribute system defects to learners.',
-      ['Uniform delivery ignores different role requirements and distinct causes of the measured gaps.','The evidence does not identify supervisor motivation as the primary constraint.','Analyst performance is comparatively strong and does not represent the largest gap.','Correct. Opportunity-to-perform barriers must be removed before training is prescribed.'],'Chapter 18 - Training Needs Analysis','236-244',
-      {chart:{type:'data-table',columns:['Role','Knowledge check','System access','Job aid usable','Observed correct use'],rows:[['Operators','88%','54%','42%','49%'],['Supervisors','81%','96%','91%','78%'],['Analysts','94%','100%','95%','92%']]},altText:'A role-based needs table shows operators with 88 percent knowledge but only 54 percent system access, 42 percent job-aid usability, and 49 percent correct use.',keywords:['training needs analysis','performance gap','opportunity to perform','job aid','system access']}),
-
-    q7(164,'mbb-training',{domain:'IV. Training Design and Delivery',subdomain:'C. Training Methods and Adult Learning',topic:'Deliberate practice for complex judgment'},'Very Hard','Apply','Coaching, training, and failing-project diagnosis','Healthcare',
-      'Experienced clinicians must learn to distinguish common-cause variation from clinically meaningful signals in noisy dashboards. Which learning design is strongest?',
-      ['Use sequenced authentic cases with decisions, immediate explanatory feedback, reflection, and gradually reduced scaffolding','Provide a single expert lecture followed by a satisfaction survey because the learners already have domain experience','Assign the handbook for independent reading and certify anyone who completes every chapter by the deadline','Demonstrate one ideal dashboard and require learners to reproduce the instructor’s verbal explanation exactly'],0,
-      'Complex pattern recognition and judgment improve through active retrieval, varied authentic examples, feedback, and reflection rather than passive exposure alone. Sequencing cases from supported to independent performance manages cognitive load while allowing learners to discriminate similar patterns and explain their decisions. Experienced adults also need relevance and the opportunity to connect new analytical concepts to prior clinical knowledge. Attendance, completion, or imitation does not demonstrate transferable judgment.',
-      ['Correct. Authentic deliberate practice with fading support develops and tests transfer of judgment.','A lecture may introduce concepts, but satisfaction cannot establish accurate application in noisy cases.','Completion is exposure evidence and provides no observation of decision quality or transfer.','Exact imitation of one example encourages surface recall rather than discrimination across conditions.'],'Chapter 20 - Training Methods and Adult Learning','256-283',
-      {keywords:['adult learning','deliberate practice','feedback','scaffolding','transfer']}),
-
-    q7(165,'mbb-training',{domain:'IV. Training Design and Delivery',subdomain:'D. Training Program Effectiveness',topic:'Causal evaluation of training transfer'},'Hard','Create','Coaching, training, and failing-project diagnosis','Service and transactional operations',
-      'A new problem-solving course is rolled out while software and incentive changes occur simultaneously. Leaders want to claim the subsequent defect reduction as training impact. What evaluation design should the MBB propose?',
-      ['Compare post-course defects with the historical maximum and attribute any improvement below that value to training','Define behavior and result measures, use a credible comparison or staggered rollout, check baseline trends, and document co-interventions','Survey managers on whether graduates seem more analytical and convert the favorable ratings into estimated savings','Measure knowledge immediately after class and assume that the same percentage gain transfers to operational defects'],1,
-      'A defensible evaluation distinguishes learning, workplace behavior, and business results while addressing alternative explanations. A comparison group or phased rollout, pre-intervention trend evidence, implementation fidelity, and explicit tracking of software and incentive changes strengthen attribution. No observational design guarantees perfect causality, so uncertainty should be reported. Historical extremes, perceptions, and immediate knowledge scores cannot isolate the contribution of training to later process performance.',
-      ['A historical maximum is a biased reference and does not control trend or concurrent changes.','Correct. The design triangulates transfer and outcomes while making causal limitations visible.','Manager impressions can complement evidence but cannot support quantified causal savings alone.','Learning is necessary but does not guarantee opportunity, behavior, or operational results.'],'Chapter 22 - Training Program Effectiveness','285-292',
-      {keywords:['training evaluation','comparison group','staggered rollout','transfer','causal attribution']}),
-
-    q7(166,'mbb-coaching',{domain:'V. Coaching and Mentoring Responsibilities',subdomain:'A. Executives and Champions',topic:'Champion decision quality at tollgates'},'Very Hard','Evaluate','Leadership, deployment, and best-next-action scenario','Cross-industry enterprise/deployment case',
-      'A champion routinely approves tollgates after viewing only projected savings and asks the MBB to handle scope, risk, and stakeholder issues offline. What coaching intervention is strongest?',
-      ['Provide a private technical tutorial on every statistical tool so the champion can recompute all analyses personally','Accept the approvals but add the omitted evidence to project files after the meeting for audit completeness','Redesign reviews around explicit decision criteria, require owner-present risk and benefit evidence, and coach the champion using observed decisions','Transfer tollgate authority permanently to the finance partner because savings are the champion’s only required concern'],2,
-      'A tollgate is a governance decision, not a ceremonial presentation or a statistics examination. The champion should test continuing strategic fit, scope, risks, barriers, resources, stakeholder alignment, and benefit assumptions. The MBB can define a decision-focused agenda, model effective inquiry, observe the champion’s choices, and give specific feedback. Quiet documentation does not repair weak decisions, while transferring accountability prevents the leader from developing the required role.',
-      ['The champion needs decision competence and appropriate inquiry, not mastery of every technical calculation.','Retrospective filing does not improve the quality or transparency of the approval decision.','Correct. Behaviorally anchored review criteria create practice, evidence, and accountable feedback.','Finance validates value but does not replace champion ownership of the overall business decision.'],'Chapter 23 - Executives and Champions','294-305',
-      {keywords:['champion coaching','tollgate','decision criteria','feedback','governance']}),
-
-    q7(167,'mbb-coaching',{domain:'V. Coaching and Mentoring Responsibilities',subdomain:'B. Teams and Individuals',topic:'Coaching inquiry versus expert rescue'},'Hard','Apply','Coaching, training, and failing-project diagnosis','Product development and engineering',
-      'A capable Black Belt brings every ambiguous analysis choice to the MBB and waits for a direct answer. Quality is acceptable, but independent judgment is not developing. What should the MBB do?',
-      ['Continue prescribing each answer because technical consistency is more important than developing judgment','Stop meeting with the Belt until the project is complete so dependence disappears through necessity','Take over the analysis and let the Belt observe an expert solution without participating in decisions','Use graded questions, require the Belt’s recommendation and evidence first, then give targeted feedback and fade support'],3,
-      'Effective coaching builds the learner’s capacity to frame decisions, evaluate evidence, and recognize limits. Requiring a provisional recommendation exposes reasoning that the MBB can probe and correct. Support can begin with structured prompts and examples, then fade as competence and confidence grow, with escalation retained for high-risk decisions. Repeated expert rescue rewards dependence; abrupt withdrawal creates unmanaged project risk; passive observation does not provide accountable practice.',
-      ['Prescriptive rescue may protect one decision while reinforcing long-term dependence on the MBB.','Abrupt withdrawal withholds feedback and may expose the project to avoidable analytical risk.','Observation can help, but the Belt must practice making and defending decisions to develop judgment.','Correct. Graded inquiry and fading support balance project assurance with capability development.'],'Chapter 24 - Teams and Individuals','306-316',
-      {keywords:['coaching','inquiry','fading support','independent judgment','feedback']}),
-
-    q7(168,'mbb-analytics',{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'A. MSA, Process Capability, and Control',topic:'Nested destructive gage R&R interpretation'},'Expert','Analyze','Statistical-output interpretation','Manufacturing',
-      'A destructive measurement study nests specimens within parts because no specimen can be measured twice. The variance components below were estimated. Which conclusion is most defensible?',
-      ['Measurement variation is 24% of total variance, but repeatability and reproducibility require a design that respects destructive nesting','The measurement system contributes only 6% because appraiser variance is the sole measurement component','Part-to-part variation is 76% of study variation, proving the measurement system is acceptable for every intended use','The nested design permits ordinary crossed repeatability estimates because different specimens are functionally identical'],0,
-      'For destructive testing, repeat measurements on the same physical specimen are impossible, so a nested or specially structured study is required and interpretation depends on specimen homogeneity assumptions. The displayed measurement components sum to 18+6=24% of total study variance. That magnitude may be inadequate for some decisions, but acceptability also depends on discrimination, tolerance, process variation, and intended use. Large part-to-part variation does not by itself validate the measurement system.',
-      ['Correct. The total and the destructive-design limitation are both represented without overclaiming acceptability.','Repeatability is also measurement variation and cannot be discarded from the total contribution.','A study-variation percentage alone cannot establish suitability for every classification or control decision.','Different specimens cannot be treated as repeated observations without a defensible homogeneity structure.'],'Chapter 23 - Measurement Systems Analysis','318-346',
-      {quantitative:true,formula:'Measurement contribution = repeatability 18% + appraiser 6% = 24% of total variance.',assumptions:['Variance components are nonnegative and estimated from the stated nested design.','Specimens within each part are intended to be sufficiently homogeneous for the study purpose.'],chart:{type:'data-table',columns:['Variance source','Percent of total variance'],rows:[['Part to part','76%'],['Repeatability within nested specimens','18%'],['Appraiser','6%'],['Total','100%']]},altText:'A nested destructive measurement-study table attributes 76 percent of variance to parts, 18 percent to repeatability within nested specimens, and 6 percent to appraisers.',keywords:['destructive MSA','nested gage R&R','variance components','repeatability','reproducibility']}),
-
-    q7(169,'mbb-analytics',{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'A. MSA, Process Capability, and Control',topic:'Transformation governance for capability'},'Hard','Evaluate','Advanced conceptual/method-selection','Manufacturing',
-      'Cycle-time data are strongly right-skewed. A Box-Cox transformation yields approximately normal residuals, but specifications and customer risk are defined in seconds. What should the MBB require?',
-      ['Report only transformed Cp and Cpk because normality on the modeled scale makes original units irrelevant','Validate the transformation and stability, compute tail risk consistently on that scale, and communicate results back in seconds','Discard the data because a nonnormal observed distribution cannot support any capability assessment','Move the specification limits until they are symmetric on the transformed scale, then use ordinary capability indices'],1,
-      'A transformation can support modeling when its assumptions and stability are validated, but it does not change the engineering meaning of the specifications or customer experience. Limits must be transformed consistently, probabilities calculated on the modeled scale, and interpretations back-transformed into original units. The MBB should also consider a suitable nonnormal distribution and investigate physical sources of skew. Reporting only transformed indices can conceal practical tail risk and confuse decision makers.',
-      ['A statistically convenient scale does not replace customer-facing units or interpretation.','Correct. It preserves mathematical consistency and communicates risk in meaningful engineering units.','Nonnormal data can be modeled through transformations or justified distributional methods.','Specifications represent requirements and cannot be changed merely to simplify statistical analysis.'],'Chapter 24 - Measuring Process Performance','347-352',
-      {keywords:['Box-Cox','nonnormal capability','back transformation','tail risk','specification limits']}),
-
-    q7(170,'mbb-analytics',{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'B. Measuring and Modeling Relationships',topic:'Regression extrapolation and leverage'},'Very Hard','Analyze','Statistical-output interpretation','Finance and insurance',
-      'A model predicting claim severity is supported by predictor values from 10 to 70. One proposed policy uses x=105, where the chart shows a narrow software-generated confidence interval. What is the strongest interpretation?',
-      ['The narrow interval proves prediction at x=105 is safer than prediction near the center of the observed data','The point is valid because linear regression imposes a straight line beyond the observed predictor range','The estimate is an extrapolation with high leverage; the interval depends heavily on model form and should not be treated as empirical support','The observation should be added three times to the dataset so the fitted range includes the proposed policy value'],2,
-      'Regression precision statements are conditional on the fitted model being correctly specified. At x=105 there is no nearby observed support, so the estimate is extrapolation and highly sensitive to curvature, omitted variables, or structural change outside the studied range. A displayed interval may look precise because it reflects assumed form, not evidence that the relationship remains linear there. The MBB should obtain relevant data, constrain the decision range, or conduct sensitivity analysis before relying on the prediction.',
-      ['Graphical narrowness cannot overcome the absence of data supporting the assumed relationship.','A fitted equation can calculate an extrapolation but cannot validate its structural assumption.','Correct. High leverage and extrapolation make model-form uncertainty central to the decision.','Duplicating one unsupported observation would corrupt weighting and would not create independent evidence.'],'Chapter 25 - Multiple Regression and Model Diagnostics','370-402',
-      {chart:{type:'regression-diagnostic',title:'Claim severity versus policy-risk score',xLabel:'Policy-risk score',yLabel:'Claim severity ($000)',xTicks:[10,30,50,70,90,110],yTicks:[20,40,60,80],points:[{fitted:10,residual:24},{fitted:18,residual:29},{fitted:25,residual:31},{fitted:34,residual:39},{fitted:42,residual:43},{fitted:51,residual:49},{fitted:60,residual:56},{fitted:70,residual:61},{fitted:105,residual:78}]},altText:'A scatterplot contains eight observed predictor values between 10 and 70 and one proposed point at 105, separated by a large unsupported gap.',interactionPurpose:'Focus or hover over points to compare the observed predictor range with the isolated proposed value at 105.',keywords:['regression','extrapolation','leverage','model uncertainty','prediction interval']}),
-
-    q7(171,'mbb-analytics',{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'B. Measuring and Modeling Relationships',topic:'Logistic interaction and conditional effects'},'Hard','Understand','Advanced conceptual/method-selection','Healthcare',
-      'A logistic model contains treatment, severity, and treatment-by-severity terms, and the interaction is statistically and practically important. What does this imply?',
-      ['The treatment odds ratio is constant because logistic models always estimate one multiplicative effect','The severity coefficient must be removed because interactions make main effects mathematically redundant','The outcome should be converted to a continuous variable so the interaction can be assessed by ordinary regression','The treatment effect should be interpreted at specified severity values rather than as one universal odds ratio'],3,
-      'An interaction means the association between treatment and the log odds of the outcome changes with severity. The treatment coefficient alone describes the effect only at the reference value of severity, which may or may not be meaningful. The MBB should estimate contrasts or predicted probabilities at relevant severity values, include uncertainty, and assess practical importance. Interactions do not automatically require removing main effects or abandoning the binary-outcome model.',
-      ['The interaction explicitly allows the treatment odds ratio to vary with severity.','Hierarchical interpretation ordinarily retains relevant lower-order terms with the interaction.','A binary outcome is appropriately modeled by logistic regression and need not be recoded continuously.','Correct. Conditional contrasts translate the model into decisions at meaningful severity levels.'],'Chapter 25 - Logistic and Generalized Models','384-402',
-      {keywords:['logistic regression','interaction','conditional effect','odds ratio','predicted probability']}),
-
-    q7(172,'mbb-analytics',{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'B. Measuring and Modeling Relationships',topic:'Reliability allocation for series subsystems'},'Expert','Apply','Multi-step quantitative','Product development and engineering',
-      'A system has three independent series subsystems with mission reliabilities 0.98, 0.95, and 0.97. Which result and improvement priority are correct if comparable engineering effort can raise only one subsystem by 0.01?',
-      ['System reliability is about 0.903; improving the 0.95 subsystem gives the largest absolute system gain','System reliability is about 0.950; improving the 0.98 subsystem gives the largest relative system gain','System reliability is about 0.995; improving any subsystem reduces overall reliability because it is a series system','System reliability is about 0.903; every 0.01 subsystem improvement gives exactly the same absolute gain'],0,
-      'For independent series elements, system reliability is the product: 0.98×0.95×0.97=0.90307. Raising one component by 0.01 increases the product by 0.01 times the product of the other two. The gains are 0.009215 for improving 0.98, 0.009506 for improving 0.95, and 0.00931 for improving 0.97. Thus the weakest subsystem gives the largest absolute gain under equal increments and comparable effort, although real allocation should also consider feasibility and cost.',
-      ['Correct. The product is about 0.903 and the weakest element has the largest equal-increment leverage.','The series reliability cannot exceed its weakest component and the priority calculation is reversed.','Multiplication of three values below one cannot produce 0.995, and improvement cannot reduce reliability.','Absolute gains differ because each increment is multiplied by the reliabilities of the other subsystems.'],'Chapter 25 - Reliability Engineering','423-428',
-      {quantitative:true,formula:'Rs=0.98(0.95)(0.97)=0.90307; gains for +0.01 are 0.009215, 0.009506, and 0.00931 respectively.',assumptions:['Subsystem failures are independent during the mission.','Each candidate improvement is exactly 0.01 and has comparable cost and feasibility.'],estimatedMinutes:5,chart:{type:'reliability-plot',title:'Series-subsystem mission reliability',xLabel:'Mission fraction',yLabel:'Reliability',xTicks:[0,0.25,0.5,0.75,1],series:[{label:'Subsystem A',points:[[0,1],[0.25,0.995],[0.5,0.99],[0.75,0.985],[1,0.98]]},{label:'Subsystem B',points:[[0,1],[0.25,0.987],[0.5,0.975],[0.75,0.962],[1,0.95]]},{label:'Subsystem C',points:[[0,1],[0.25,0.992],[0.5,0.985],[0.75,0.978],[1,0.97]]}],missionTime:1},altText:'Three reliability curves end at mission reliabilities 0.98, 0.95, and 0.97. Subsystem B is lowest at the mission endpoint.',keywords:['series reliability','reliability allocation','mission reliability','independence','improvement priority']}),
-
-    q7(173,'mbb-analytics',{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'B. Measuring and Modeling Relationships',topic:'Monte Carlo input-dependence governance'},'Very Hard','Evaluate','Multi-step quantitative','Supply chain, logistics, and distribution',
-      'Demand and replenishment lead time historically rise together during disruptions. A Monte Carlo inventory model samples them independently and reports only a 3% stockout probability. What should the MBB require?',
-      ['Accept the result because independent sampling is conservative whenever both inputs have right-skewed distributions','Model and validate their dependence, test disruption regimes, and report sensitivity of tail risk to plausible correlation','Add more simulation trials because a sufficiently large sample automatically corrects a misspecified dependence structure','Replace both distributions with their means so the model cannot generate improbable combinations of input values'],1,
-      'Simulation reproduces the assumptions supplied to it; more trials reduce Monte Carlo sampling error but do not repair structural misspecification. When high demand coincides with long lead time, independent sampling underrepresents the joint tail that drives stockouts. The MBB should examine dependence using suitable historical and causal evidence, represent disruption regimes or correlated sampling, and disclose sensitivity. A single precise probability from an invalid joint model creates false confidence.',
-      ['Independence can materially understate joint extremes even when each marginal distribution is modeled well.','Correct. Joint-tail validation and sensitivity connect the simulation to the actual risk mechanism.','Additional trials converge more precisely to the wrong model when dependence remains misspecified.','Replacing distributions with means removes the uncertainty the simulation is intended to quantify.'],'Chapter 25 - Monte Carlo Simulation','414-416',
-      {keywords:['Monte Carlo','correlation','joint tail','stockout risk','model validation']}),
-
-    q7(174,'mbb-analytics',{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'C. Design of Experiments',topic:'Aliasing and foldover design augmentation'},'Very Hard','Analyze','DOE/optimization design and diagnosis','Manufacturing',
-      'A 2^(4-1) screening design uses defining relation I=ABCD. The interaction plot suggests AB may be active. Which statement should drive the next experiment?',
-      ['AB is clear of every two-factor interaction because a resolution IV design estimates all two-factor effects independently','AB is aliased only with the mean, so repeating the same eight runs will uniquely estimate it','AB is aliased with CD; use a purposeful foldover or other augmentation to separate the competing effects','AB is identical to factor C, so dropping factor D removes the alias without collecting additional evidence'],2,
-      'From I=ABCD, multiplying both sides by AB gives AB=CD. The resolution IV fraction keeps main effects clear of two-factor interactions, but pairs two-factor interactions with one another. Therefore the observed contrast cannot identify whether AB, CD, or both are responsible. A chosen foldover or targeted augmentation can break the relevant alias while preserving efficiency. Merely replicating the same fraction improves pure-error estimation but leaves the alias structure unchanged.',
-      ['Resolution IV protects main effects from two-factor aliases but does not separate all two-factor interactions.','Replication repeats the same contrast and cannot distinguish members of the alias set.','Correct. AB equals CD in the defining relation, so augmentation must break that alias.','AB is not aliased with the main effect C under this resolution IV defining relation.'],'Chapter 26 - Fractional Factorial Designs','429-450',
-      {quantitative:true,formula:'I=ABCD; multiply by AB to obtain AB=CD. Likewise AC=BD and AD=BC.',assumptions:['The design is the regular one-half fraction defined by I=ABCD.','The proposed augmentation can be chosen before additional runs are collected.'],estimatedMinutes:4,chart:{type:'two-level-interaction',title:'Screening interaction contrast',factorA:'Factor A',factorB:'Factor B',xLowLabel:'A low',xHighLabel:'A high',lowLabel:'B low',highLabel:'B high',lowLine:[62,78],highLine:[80,66],yLabel:'Mean response',yDomain:[55,85],yTicks:[60,70,80]},altText:'A two-level interaction plot has crossing B-low and B-high lines across the low and high levels of factor A, indicating an interaction contrast without identifying its aliased source.',interactionPurpose:'Focus or hover over the plotted factor-level means to inspect the crossing contrast before considering the AB equals CD alias.',keywords:['fractional factorial','defining relation','alias','resolution IV','foldover']}),
-
-    q7(175,'mbb-analytics',{domain:'VI. Advanced Data Management and Analytic Methods',subdomain:'A. MSA, Process Capability, and Control',topic:'APC-SPC layered monitoring architecture'},'Hard','Create','Advanced conceptual/method-selection','Manufacturing',
-      'A reactor controller holds product temperature near target, while feed composition and valve demand drift. Which monitoring architecture best supports early detection without confusing feedback action with statistical evidence?',
-      ['Chart only product temperature because a controlled output contains all information about process deterioration','Disable feedback during sampling periods so conventional control-chart independence assumptions are restored','Apply one control chart to every raw tag using identical limits and investigate any signal as a separate root cause','Monitor controlled output, controller error and demand, and key disturbances with time-aware models and an integrated response plan'],3,
-      'Feedback can suppress visible movement in the controlled output while manipulated demand rises to compensate for fouling, feed change, or actuator wear. A layered architecture observes the outcome, residual or error, controller effort, and important disturbances, using methods appropriate for autocorrelated data. Signals must feed a coordinated diagnostic plan because the variables are causally linked. Disabling control creates operational risk, while isolated chart proliferation produces false alarms and fragmented investigation.',
-      ['A stable controlled output can coexist with substantial hidden drift and increasing controller effort.','Turning off necessary control to simplify statistics may create unsafe or off-target operation.','Identical independent charts ignore time dependence, multiplicity, and the causal control structure.','Correct. Layered, time-aware evidence reveals compensation and guides coordinated diagnosis.'],'Chapter 27 - Automated Process Control and SPC','451-453',
-      {keywords:['APC','SPC','controller demand','disturbance monitoring','autocorrelation','diagnostic plan']})
-  ];
+  {
+    "qid": "mbb:set-2:original-151",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-enterprise",
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "A. Strategic Plan Development",
+      "topic": "Strategy deployment leading-indicator integrity",
+      "code": "I.A"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, non-statistical",
+    "industry": "Manufacturing",
+    "quantitative": false,
+    "stem": "The proposed strategy-deployment scorecard is shown below. \"Blank\" means no leading indicator has been selected. Which revision would best support action before year-end outcomes are known?",
+    "options": [
+      "Replace the delivery outcome with revenue alone to simplify the strategic scorecard",
+      "Remove operational indicators and retain only year-end business outcomes",
+      "Average the measures into a single index without preserving component signals",
+      "Add a verified maintenance leading measure and test its link to reliability"
+    ],
+    "answer": 3,
+    "why": "D fills the missing maintenance-execution indicator while retaining the outcome needed to test its usefulness. Define the measure, verify its data and assign an owner. A plausible relationship to delivery reliability is a hypothesis, not demonstrated causation. Removing operational evidence or collapsing unlike measures into an opaque index would weaken diagnosis. <b>D. Add a verified maintenance leading measure and test its link to reliability</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 1 - Strategic Planning, pp. 16.</span>",
+    "optionRationales": [
+      "Revenue alone does not supply the missing operational evidence for the delivery objective.",
+      "Leading operational evidence is needed to guide action before lagging outcomes are known.",
+      "An unqualified composite can hide conflicting signals and does not validate their relationships.",
+      "Correct. It adds actionable evidence while retaining an outcome against which to test the proposed link."
+    ],
+    "formula": null,
+    "assumptions": [
+      "Targets, baselines and owners are documented separately; Blank specifically means an unselected indicator.",
+      "The table is a proposed measurement design, not a causal study."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "strategy deployment",
+      "leading indicator",
+      "lagging indicator",
+      "causal linkage",
+      "scorecard"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 1 - Strategic Planning",
+    "sourcePages": "16",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 1 - Strategic Planning",
+        "section": "Strategy deployment leading-indicator integrity",
+        "pages": "16",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Strategic objective",
+        "Initiative",
+        "Leading measure",
+        "Outcome measure"
+      ],
+      "rows": [
+        [
+          "Improve delivery reliability",
+          "Risk-based maintenance",
+          "Blank",
+          "On-time delivery"
+        ],
+        [
+          "Reduce complaint recurrence",
+          "Closed-loop corrective action",
+          "Actions verified on time",
+          "Repeat complaints"
+        ],
+        [
+          "Increase digital adoption",
+          "Role-based workflow coaching",
+          "Active weekly users",
+          "Digital completion rate"
+        ]
+      ],
+      "auditBatch": 7,
+      "auditId": "mbb:set-2:original-151",
+      "altText": "A three-row strategy scorecard shows leading and outcome measures. The maintenance initiative has a blank leading-measure cell while the other initiatives have both types."
+    },
+    "visual": {
+      "type": "data-table",
+      "datasetRef": "test-bank-assets/mbb-160/batch-07/datasets.json#mbb:set-2:original-151",
+      "specRef": "test-bank-assets/mbb-160/batch-07/visual-specs.json#mbb:set-2:original-151",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-151",
+      "altText": "A three-row strategy scorecard shows leading and outcome measures. The maintenance initiative has a blank leading-measure cell while the other initiatives have both types.",
+      "interactionPurpose": "",
+      "validationRef": "test-bank-assets/mbb-160/batch-07/validation.json#mbb:set-2:original-151",
+      "breakpointsValidated": [],
+      "answerCueAudit": true
+    },
+    "trap": "Do not treat a plausible leading indicator as proof of a causal relationship; retain the outcome needed to test it.",
+    "distractors": [
+      "Revenue alone does not supply the missing operational evidence for the delivery objective.",
+      "Leading operational evidence is needed to guide action before lagging outcomes are known.",
+      "An unqualified composite can hide conflicting signals and does not validate their relationships.",
+      "Correct. It adds actionable evidence while retaining an outcome against which to test the proposed link."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-152",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-enterprise",
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "B. Strategic Plan Alignment",
+      "topic": "Scenario-triggered strategy adaptation",
+      "code": "I.B.2"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Leadership, deployment, and best-next-action scenario",
+    "industry": "Supply chain, logistics, and distribution",
+    "quantitative": false,
+    "stem": "A distribution network approved a two-year automation roadmap assuming stable order mix. Three months later, low-volume customized orders double and invalidate the capacity model. What should the MBB recommend first?",
+    "options": [
+      "Reassess the changed assumption and test revised scenarios before reprioritizing",
+      "Continue unchanged until annual planning because the roadmap is already approved",
+      "Cancel every automation project without evaluating its revised business case",
+      "Increase benefit targets to offset the loss without changing scope or resources"
+    ],
+    "answer": 0,
+    "why": "A updates the evidence behind the roadmap before portfolio decisions are changed. Quantify the order-mix effect on capacity, benefits and resources, then compare coherent revised scenarios. The stem supplies a material assumption failure, not a numerical predefined trigger. Neither automatic cancellation nor unsupported target inflation follows from that evidence. <b>A. Reassess the changed assumption and test revised scenarios before reprioritizing</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 15 - Project Management Infrastructure, pp. 223–224.</span>",
+    "optionRationales": [
+      "Correct. It supports controlled adaptation without presuming that all projects should continue or stop.",
+      "The planning calendar does not justify ignoring a material failure of a planning assumption.",
+      "Some projects may retain value after redesign; blanket cancellation skips that assessment.",
+      "Raising a target is not evidence that the lost capacity or benefits can actually be recovered."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The changed order mix materially invalidates the stated capacity model.",
+      "No emergency or mandatory deadline requires a separate immediate action."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "scenario planning",
+      "strategic assumptions",
+      "trigger",
+      "portfolio adaptation",
+      "environmental scan"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 15 - Project Management Infrastructure",
+    "sourcePages": "223–224",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 15 - Project Management Infrastructure",
+        "section": "Scenario-triggered strategy adaptation",
+        "pages": "223–224",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "Neither an approved roadmap nor a changed assumption alone decides which projects should continue; reassess the evidence.",
+    "distractors": [
+      "Correct. It supports controlled adaptation without presuming that all projects should continue or stop.",
+      "The planning calendar does not justify ignoring a material failure of a planning assumption.",
+      "Some projects may retain value after redesign; blanket cancellation skips that assessment.",
+      "Raising a target is not evidence that the lost capacity or benefits can actually be recovered."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-153",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-enterprise",
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "C. Infrastructure Elements of Improvement Systems",
+      "topic": "Federated governance with common standards",
+      "code": "I.C.1"
+    },
+    "difficulty": "Expert",
+    "cognitive": "Apply",
+    "questionType": "Leadership, deployment, and best-next-action scenario",
+    "industry": "Cross-industry enterprise/deployment case",
+    "quantitative": false,
+    "stem": "In an established federated deployment, regions assess the same Belt competencies using different rubrics. Pass rates are equal, but financial-evidence requirements and assessor judgments differ. Before treating credentials as comparable, what should the MBB implement?",
+    "options": [
+      "Accept equal pass rates as sufficient evidence of equivalent regional assessments",
+      "Set common competency criteria, calibrate assessors and moderate local evidence",
+      "Normalize regional score means without reviewing the underlying assessment criteria",
+      "Require corporate approval of every local meeting while retaining the different rubrics"
+    ],
+    "answer": 1,
+    "why": "B addresses the meaning and consistency of the competency judgments. Common minimum criteria, assessor calibration and evidence moderation can coexist with locally relevant cases. Equal pass rates or equal score means do not establish comparable competence. Corporate control of unrelated meetings would not repair the assessment process. <b>B. Set common competency criteria, calibrate assessors and moderate local evidence</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 3 - Deployment of Six Sigma Systems; Chapter 20 - Training Effectiveness Evaluation, pp. 28–29; 289–290. Scenario authored for this audit; not a reproduced textbook example.</span>",
+    "optionRationales": [
+      "Different criteria can produce equal pass rates, so those rates do not establish equivalent competence.",
+      "Correct. Shared criteria and moderated evidence address comparability without eliminating local relevance.",
+      "Matching score means can conceal differences in standards rather than resolve them.",
+      "Approval of meetings does not change the criteria or reliability of assessment judgments."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The regions assess the same internal credential and competency requirements.",
+      "This is an internal governance scenario, not a statement about ASQ certification procedures."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "deployment infrastructure",
+      "federated governance",
+      "standards",
+      "local ownership",
+      "escalation"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 3 - Deployment of Six Sigma Systems; Chapter 20 - Training Effectiveness Evaluation",
+    "sourcePages": "28–29; 289–290",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 3 - Deployment of Six Sigma Systems; Chapter 20 - Training Effectiveness Evaluation",
+        "section": "Federated governance with common standards",
+        "pages": "28–29; 289–290",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "Equal pass rates can arise under different assessment standards; they do not demonstrate equivalent competence.",
+    "distractors": [
+      "Different criteria can produce equal pass rates, so those rates do not establish equivalent competence.",
+      "Correct. Shared criteria and moderated evidence address comparability without eliminating local relevance.",
+      "Matching score means can conceal differences in standards rather than resolve them.",
+      "Approval of meetings does not change the criteria or reliability of assessment judgments."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-154",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-enterprise",
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "E. Opportunities for Improvement",
+      "topic": "Innovation funnel evidence gates",
+      "code": "I.E.2"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Advanced conceptual/method-selection",
+    "industry": "Product development and engineering",
+    "quantitative": false,
+    "stem": "An innovation workshop produces 140 concepts, and executives want to charter the ten most popular ideas immediately. What should the MBB insert before project authorization?",
+    "options": [
+      "Authorize the concepts with the most senior-leader votes, without further qualification",
+      "Require every concept to enter DMAIC regardless of its process or knowledge state",
+      "Screen need, fit, feasibility, risk, value and ownership before selecting an approach",
+      "Require immediate hard savings, excluding customer, learning and strategic value"
+    ],
+    "answer": 2,
+    "why": "C places transparent qualification between ideation and resource commitment. The depth of evidence should match the proposed next step: bounded discovery may be authorized to resolve uncertainty, whereas implementation needs stronger justification. Method selection should follow the problem and available knowledge, not popularity or a universal DMAIC rule. <b>C. Screen need, fit, feasibility, risk, value and ownership before selecting an approach</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 5 - Opportunities for Improvement, pp. 70–87.</span>",
+    "optionRationales": [
+      "Popularity can reflect advocacy or status rather than an adequately defined opportunity.",
+      "DMAIC is not automatically appropriate for a new design or an unresolved discovery question.",
+      "Correct. Proportionate evidence gates support qualification and defensible method selection.",
+      "Hard savings alone exclude legitimate customer, mandatory, learning and strategic opportunities."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The immediate decision concerns project authorization, not whether ideas may be explored at all.",
+      "Evidence requirements should be proportionate to discovery, experimentation or implementation."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "innovation funnel",
+      "evidence gate",
+      "project qualification",
+      "method selection",
+      "concept screening"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 5 - Opportunities for Improvement",
+    "sourcePages": "70–87",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 5 - Opportunities for Improvement",
+        "section": "Innovation funnel evidence gates",
+        "pages": "70–87",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "Popularity does not qualify an implementation project, but uncertainty need not prevent a bounded discovery step.",
+    "distractors": [
+      "Popularity can reflect advocacy or status rather than an adequately defined opportunity.",
+      "DMAIC is not automatically appropriate for a new design or an unresolved discovery question.",
+      "Correct. Proportionate evidence gates support qualification and defensible method selection.",
+      "Hard savings alone exclude legitimate customer, mandatory, learning and strategic opportunities."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-155",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-enterprise",
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "F. Pipeline Management",
+      "topic": "Capacity-constrained pipeline selection",
+      "code": "I.F.2"
+    },
+    "difficulty": "Expert",
+    "cognitive": "Evaluate",
+    "questionType": "Portfolio, finance, and risk scenario",
+    "industry": "Healthcare",
+    "quantitative": true,
+    "stem": "The portfolio table shows the only indivisible candidate projects. At most 10 Belt-months and $300,000 may be committed, and Project D may start only if Project B is selected. Which feasible portfolio has the highest total risk-adjusted value?",
+    "options": [
+      "Projects A and C: 10 Belt-months, $270,000 funding, $500,000 risk-adjusted value",
+      "Projects B and C: 9 Belt-months, $220,000 funding, $410,000 risk-adjusted value",
+      "Projects A and B: 9 Belt-months, $250,000 funding, $510,000 risk-adjusted value",
+      "Projects B and D: 10 Belt-months, $280,000 funding, $540,000 risk-adjusted value"
+    ],
+    "answer": 3,
+    "why": "Enumerating all feasible subsets gives AC: 10 months/$270,000/$500,000; BC: 9 months/$220,000/$410,000; AB: 9 months/$250,000/$510,000; and BD: 10 months/$280,000/$540,000. BD includes B as required by D and has the highest value. Feasible single projects and the empty set also exist, but none improves on BD. Feasibility alone does not make AC or AB optimal. <b>D. Projects B and D: 10 Belt-months, $280,000 funding, $540,000 risk-adjusted value</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 6 - Pipeline Management, pp. 88–99.</span>",
+    "optionRationales": [
+      "Feasible, but its value is $40,000 below the best feasible portfolio.",
+      "The corrected total is $410,000, which is $130,000 below the optimum.",
+      "Feasible, but its value is $30,000 below the best feasible portfolio.",
+      "Correct. It satisfies both resource limits and the dependency and maximizes value."
+    ],
+    "formula": "Maximize the sum of risk-adjusted values subject to funding ≤ $300,000, capacity ≤ 10 Belt-months, indivisibility and selection of D implying selection of B.",
+    "assumptions": [
+      "Projects are indivisible; values are additive, net, non-overlapping and on the same risk-adjusted financial horizon.",
+      "D requires selection of B; no additional timing, sequencing or resource constraint applies.",
+      "The scored case is fixed at 10 Belt-months and $300,000; the slider only explores hypothetical capacity."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "pipeline optimization",
+      "capacity constraint",
+      "dependency",
+      "risk-adjusted value",
+      "portfolio selection"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 6 - Pipeline Management",
+    "sourcePages": "88–99",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 6 - Pipeline Management",
+        "section": "Capacity-constrained pipeline selection",
+        "pages": "88–99",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Project",
+        "Belt-months",
+        "Funding ($000)",
+        "Risk-adjusted value ($000)",
+        "Dependency"
+      ],
+      "rows": [
+        [
+          "A",
+          "5",
+          "150",
+          "300",
+          "None"
+        ],
+        [
+          "B",
+          "4",
+          "100",
+          "210",
+          "None"
+        ],
+        [
+          "C",
+          "5",
+          "120",
+          "200",
+          "None"
+        ],
+        [
+          "D",
+          "6",
+          "180",
+          "330",
+          "Requires B"
+        ]
+      ],
+      "whatIf": {
+        "id": "mbb-q155-capacity",
+        "label": "Hypothetical available Belt-months",
+        "min": 8,
+        "max": 12,
+        "step": 1,
+        "value": 10,
+        "unit": "Belt-months"
+      },
+      "auditBatch": 7,
+      "auditId": "mbb:set-2:original-155",
+      "altText": "Four projects with Belt-months, funding, risk-adjusted value and dependency columns. The scored capacity is 10 Belt-months."
+    },
+    "visual": {
+      "type": "data-table",
+      "datasetRef": "test-bank-assets/mbb-160/batch-07/datasets.json#mbb:set-2:original-155",
+      "specRef": "test-bank-assets/mbb-160/batch-07/visual-specs.json#mbb:set-2:original-155",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-155",
+      "altText": "Four projects with Belt-months, funding, risk-adjusted value and dependency columns. The scored capacity is 10 Belt-months.",
+      "interactionPurpose": "Explore hypothetical capacity and reset to the fixed scored case without changing the question or answer.",
+      "validationRef": "test-bank-assets/mbb-160/batch-07/validation.json#mbb:set-2:original-155",
+      "breakpointsValidated": [],
+      "answerCueAudit": true
+    },
+    "trap": "Check every resource total and the dependency before ranking value; a feasible portfolio need not be optimal.",
+    "distractors": [
+      "Feasible, but its value is $40,000 below the best feasible portfolio.",
+      "The corrected total is $410,000, which is $130,000 below the optimum.",
+      "Feasible, but its value is $30,000 below the best feasible portfolio.",
+      "Correct. It satisfies both resource limits and the dependency and maximizes value."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-156",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-org",
+    "bok": {
+      "domain": "II. Organizational Competencies for Deployment",
+      "subdomain": "A. Organizational Design",
+      "topic": "Systems archetype and local optimization",
+      "code": "II.A.1"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Organizational-dynamics intervention scenario",
+    "industry": "Service and transactional operations",
+    "quantitative": false,
+    "stem": "A service manager reviews backlog weekly. Contractor capacity takes four weeks to arrive, but new requests ignore capacity already ordered. Repeated requests are followed by excess capacity after backlog falls; cancellations are then followed by renewed shortages. Which diagnosis should guide the next investigation?",
+    "options": [
+      "Test delayed adjustment and uncounted pipeline capacity as causes of overshoot",
+      "Treat each shortage as an independent employee-effort problem and intensify individual targets",
+      "Increase adjustment frequency while continuing to use only the current backlog",
+      "Exclude pending contractor requests from the model because they are not yet producing output"
+    ],
+    "answer": 0,
+    "why": "A accounts for the capacity already in the pipeline and the delay between a decision and its effect. Repeated adjustment using current backlog alone can overshoot, followed by overcorrection. The described pattern supports investigating that feedback mechanism, not a claim that it is the sole cause. Faster reactions to the same incomplete information need not stabilize the system. <b>A. Test delayed adjustment and uncounted pipeline capacity as causes of overshoot</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 7 - Organizational Design; Systems Thinking, pp. 100–103. Scenario authored for this audit; not a reproduced textbook example.</span>",
+    "optionRationales": [
+      "Correct. It investigates delayed feedback and pending capacity before changing the policy.",
+      "The pattern does not establish that individual effort caused the time-lagged shortages.",
+      "Faster adjustment with the same missing information can intensify overshoot.",
+      "Pending capacity affects future supply and should not be omitted merely because it is not active."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The four-week delay and request policy are supplied properties of this educational scenario.",
+      "Demand changes and other potential causes still require investigation."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "systems thinking",
+      "failure demand",
+      "local optimization",
+      "feedback loop",
+      "metric design"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 7 - Organizational Design; Systems Thinking",
+    "sourcePages": "100–103",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 7 - Organizational Design; Systems Thinking",
+        "section": "Systems archetype and local optimization",
+        "pages": "100–103",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "More frequent reactions can worsen delayed feedback when capacity already in the pipeline is ignored.",
+    "distractors": [
+      "Correct. It investigates delayed feedback and pending capacity before changing the policy.",
+      "The pattern does not establish that individual effort caused the time-lagged shortages.",
+      "Faster adjustment with the same missing information can intensify overshoot.",
+      "Pending capacity affects future supply and should not be omitted merely because it is not active."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-157",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-org",
+    "bok": {
+      "domain": "II. Organizational Competencies for Deployment",
+      "subdomain": "B. Executive and Team Leadership Roles",
+      "topic": "Sponsor ownership and MBB escalation",
+      "code": "II.B.2"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Leadership, deployment, and best-next-action scenario",
+    "industry": "Finance and insurance",
+    "quantitative": false,
+    "stem": "A cross-functional project repeatedly misses milestones because two vice presidents will not release subject-matter experts. The sponsor asks the Black Belt to negotiate indefinitely. What is the MBB’s best response?",
+    "options": [
+      "Take permanent ownership of executive staffing decisions to keep the sponsor neutral",
+      "Use the agreed escalation route and coach the sponsor to resolve the resource decision",
+      "Remove both functions from scope without approval to restore the reported schedule",
+      "Certify the project complete because its resource barrier is outside the Belt's authority"
+    ],
+    "answer": 1,
+    "why": "B restores the sponsor role rather than asking the Belt to negotiate indefinitely without the necessary authority. Document the conflict, consequences and feasible alternatives, coach the sponsor and use the agreed escalation route. Silently taking executive authority, removing necessary scope or certifying unfinished work does not resolve the governance failure. <b>B. Use the agreed escalation route and coach the sponsor to resolve the resource decision</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 12 - Executive and Team Leadership Roles, pp. 185–186.</span>",
+    "optionRationales": [
+      "The MBB should not silently replace the executive authority assigned in the governance plan.",
+      "Correct. Sponsor coaching and transparent escalation support the required resource decision.",
+      "Unapproved removal of necessary functions can destroy the charter outcome.",
+      "An unresolved external barrier does not justify certifying incomplete work as complete."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The governance plan assigns resource-priority resolution to the sponsor or designated executive body.",
+      "Neither the Belt nor the MBB has unilateral authority to change the charter or staffing priorities."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "sponsor",
+      "champion",
+      "resource escalation",
+      "governance",
+      "role accountability"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 12 - Executive and Team Leadership Roles",
+    "sourcePages": "185–186",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 12 - Executive and Team Leadership Roles",
+        "section": "Sponsor ownership and MBB escalation",
+        "pages": "185–186",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "Facilitating a staffing discussion does not give a Belt authority to resolve an executive resource-priority conflict.",
+    "distractors": [
+      "The MBB should not silently replace the executive authority assigned in the governance plan.",
+      "Correct. Sponsor coaching and transparent escalation support the required resource decision.",
+      "Unapproved removal of necessary functions can destroy the charter outcome.",
+      "An unresolved external barrier does not justify certifying incomplete work as complete."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-158",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-org",
+    "bok": {
+      "domain": "II. Organizational Competencies for Deployment",
+      "subdomain": "D. Organizational Change Management",
+      "topic": "Adoption depth versus compliance",
+      "code": "II.D.3"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Statistical-output interpretation",
+    "industry": "Public sector, nonprofit, and regulated operations",
+    "quantitative": false,
+    "stem": "A new case-management workflow records at least 96% checklist completion from Week 4. Independent use and correct exception resolution follow the trends shown. What conclusion is most defensible before claiming sustained proficient adoption?",
+    "options": [
+      "Recorded completion above 95% establishes proficiency under a universal adoption standard",
+      "The gap proves the workflow is defective, so remove it without further investigation",
+      "Completion alone is insufficient; investigate observed-use gaps before claiming sustainment",
+      "Stop reinforcement because continued coaching necessarily prevents independent performance"
+    ],
+    "answer": 2,
+    "why": "C distinguishes recorded completion from independent performance and correct handling of exceptions. The latter percentages remain lower in the supplied observations. These constructs have different denominators, so their gaps are not proof that records are false or that one cause explains the result. Investigate skills, usable support and workflow barriers, then assess sustainment using defined criteria. <b>C. Completion alone is insufficient; investigate observed-use gaps before claiming sustainment</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 8 - Organizational Commitment; Change Management, pp. 119–125.</span>",
+    "optionRationales": [
+      "No universal 95% proficiency rule is supplied; checklist completion is not a complete adoption measure.",
+      "The observations do not isolate workflow design as the cause of the performance gaps.",
+      "Correct. Multiple behavioral measures are needed before declaring sustained proficiency.",
+      "Targeted reinforcement can develop independence; dependence is not an inevitable result of coaching."
+    ],
+    "formula": null,
+    "assumptions": [
+      "Completion uses eligible case checklists; independent use uses observed normal-workflow opportunities; exception resolution uses assessed exception cases.",
+      "Each series uses comparable definitions and sampling over time. Raw counts are not supplied, so no causal or significance test is claimed."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "change adoption",
+      "compliance",
+      "independent use",
+      "workaround",
+      "sustainment"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 8 - Organizational Commitment; Change Management",
+    "sourcePages": "119–125",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 8 - Organizational Commitment; Change Management",
+        "section": "Adoption depth versus compliance",
+        "pages": "119–125",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "chart": {
+      "type": "multi-time-series",
+      "title": "Workflow adoption evidence",
+      "xLabel": "Week",
+      "yLabel": "Percent",
+      "labels": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "yDomain": [
+        0,
+        100
+      ],
+      "series": [
+        {
+          "label": "Recorded checklist completion",
+          "data": [
+            42,
+            68,
+            88,
+            96,
+            97,
+            96,
+            97,
+            96
+          ]
+        },
+        {
+          "label": "Independent use",
+          "data": [
+            24,
+            39,
+            55,
+            66,
+            70,
+            72,
+            71,
+            73
+          ]
+        },
+        {
+          "label": "Correct exception resolution",
+          "data": [
+            20,
+            31,
+            44,
+            53,
+            57,
+            59,
+            58,
+            60
+          ]
+        }
+      ],
+      "units": "percent",
+      "auditBatch": 7,
+      "auditId": "mbb:set-2:original-158",
+      "altText": "Eight weekly percentages for recorded checklist completion, independent use and correct exception resolution. Exact values are available in the data table."
+    },
+    "visual": {
+      "type": "multi-time-series",
+      "datasetRef": "test-bank-assets/mbb-160/batch-07/datasets.json#mbb:set-2:original-158",
+      "specRef": "test-bank-assets/mbb-160/batch-07/visual-specs.json#mbb:set-2:original-158",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-158",
+      "altText": "Eight weekly percentages for recorded checklist completion, independent use and correct exception resolution. Exact values are available in the data table.",
+      "interactionPurpose": "Focus or hover over weekly points to compare reported compliance with independent behavior and exception-handling performance.",
+      "validationRef": "test-bank-assets/mbb-160/batch-07/validation.json#mbb:set-2:original-158",
+      "breakpointsValidated": [],
+      "answerCueAudit": true
+    },
+    "trap": "Checklist completion, independent use and exception handling measure different constructs; no one percentage proves sustained proficiency.",
+    "distractors": [
+      "No universal 95% proficiency rule is supplied; checklist completion is not a complete adoption measure.",
+      "The observations do not isolate workflow design as the cause of the performance gaps.",
+      "Correct. Multiple behavioral measures are needed before declaring sustained proficiency.",
+      "Targeted reinforcement can develop independence; dependence is not an inevitable result of coaching."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-159",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-org",
+    "bok": {
+      "domain": "II. Organizational Competencies for Deployment",
+      "subdomain": "C. Organizational Challenges",
+      "topic": "Interest-based conflict and decision criteria",
+      "code": "II.C.3"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Organizational-dynamics intervention scenario",
+    "industry": "Healthcare",
+    "quantitative": false,
+    "stem": "Operations and clinical leaders argue over a standardization proposal. Both repeat fixed positions, while their underlying concerns are flow stability and patient-specific judgment. What should the MBB do next?",
+    "options": [
+      "Ask the more senior leader to decide immediately without exploring the competing concerns",
+      "Wait for one group to withdraw its position after seeing the same presentation again",
+      "Divide the steps equally between proposals regardless of safety and charter requirements",
+      "Surface interests, agree decision criteria and test options that protect both concerns"
+    ],
+    "answer": 3,
+    "why": "D turns fixed positions into explicit interests and criteria, including safety, flow and legitimate exception conditions. Evaluate alternatives against those criteria rather than assuming equal division is useful. Authority may be needed if the decision remains blocked, but the stated nonemergency situation permits joint problem solving first. No agreed option may waive a mandatory safety requirement. <b>D. Surface interests, agree decision criteria and test options that protect both concerns</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 11 - Internal Organizational Challenges; Conflict Resolution, pp. 177–182.</span>",
+    "optionRationales": [
+      "Premature use of hierarchy can suppress relevant information before joint options are explored.",
+      "Passive delay supplies no new evidence or process for resolving the disagreement.",
+      "An arbitrary split may fail both groups' requirements and does not protect mandatory constraints.",
+      "Correct. Interests and transparent criteria support a defensible option rather than positional compromise."
+    ],
+    "formula": null,
+    "assumptions": [
+      "There is no immediate patient hazard requiring a separate urgent response.",
+      "Safety and applicable mandatory requirements are constraints, not negotiable trade-offs."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "conflict management",
+      "positions",
+      "interests",
+      "decision criteria",
+      "facilitation"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 11 - Internal Organizational Challenges; Conflict Resolution",
+    "sourcePages": "177–182",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 11 - Internal Organizational Challenges; Conflict Resolution",
+        "section": "Interest-based conflict and decision criteria",
+        "pages": "177–182",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "An arbitrary compromise can fail both interests; shared criteria must retain mandatory safety requirements.",
+    "distractors": [
+      "Premature use of hierarchy can suppress relevant information before joint options are explored.",
+      "Passive delay supplies no new evidence or process for resolving the disagreement.",
+      "An arbitrary split may fail both groups' requirements and does not protect mandatory constraints.",
+      "Correct. Interests and transparent criteria support a defensible option rather than positional compromise."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-160",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-org",
+    "bok": {
+      "domain": "II. Organizational Competencies for Deployment",
+      "subdomain": "F. Organizational Performance Metrics",
+      "topic": "Metric gaming and balanced evidence",
+      "code": "II.F.2"
+    },
+    "difficulty": "Expert",
+    "cognitive": "Analyze",
+    "questionType": "Leadership, deployment, and best-next-action scenario",
+    "industry": "Supply chain, logistics, and distribution",
+    "quantitative": false,
+    "stem": "A warehouse bonus is based only on orders shipped per labor hour. Productivity rises, but expedited freight, picking errors, and employee turnover also rise. Which redesign is strongest?",
+    "options": [
+      "Retain productivity alone and exclude outcomes assigned to other departments",
+      "Replace productivity with turnover alone, dropping customer and cost evidence",
+      "Use balanced performance guardrails and investigate possible metric gaming",
+      "Average all measures without thresholds so adverse outcomes can offset favorable ones"
+    ],
+    "answer": 2,
+    "why": "C retains productivity evidence while preventing local gains from concealing wider quality, service, workforce or cost deterioration. Definitions, guardrails and a response process are needed; a simple unweighted composite can hide a serious breach. The observed trends justify examining incentive and operating mechanisms, but do not prove intentional gaming or isolate the bonus as the cause. <b>C. Use balanced performance guardrails and investigate possible metric gaming</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 9 - Organizational Finance and Business Performance Metrics, pp. 137–140.</span>",
+    "optionRationales": [
+      "Organizational consequences do not disappear because another department owns their metric.",
+      "Turnover alone is another narrow outcome that leaves customer and cost performance unassessed.",
+      "Correct. A governed family of measures protects the wider system while retaining productivity accountability.",
+      "Offsetting an important guardrail breach with an unrelated gain can conceal rather than resolve risk."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The trends are supplied observations, not a randomized evaluation of the bonus policy.",
+      "Guardrails and response thresholds require explicit business justification."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "balanced metrics",
+      "gaming",
+      "guardrail",
+      "incentive design",
+      "system performance"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 9 - Organizational Finance and Business Performance Metrics",
+    "sourcePages": "137–140",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 9 - Organizational Finance and Business Performance Metrics",
+        "section": "Metric gaming and balanced evidence",
+        "pages": "137–140",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "A rise in one productivity ratio does not establish an enterprise benefit, and correlated adverse outcomes do not prove intentional gaming.",
+    "distractors": [
+      "Organizational consequences do not disappear because another department owns their metric.",
+      "Turnover alone is another narrow outcome that leaves customer and cost performance unassessed.",
+      "Correct. A governed family of measures protects the wider system while retaining productivity accountability.",
+      "Offsetting an important guardrail breach with an unrelated gain can conceal rather than resolve risk."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-161",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-portfolio",
+    "bok": {
+      "domain": "III. Project Portfolio Management",
+      "subdomain": "B. Project Portfolio Infrastructure and Management",
+      "topic": "Earned-value recovery diagnosis",
+      "code": "III.B.6"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Analyze",
+    "questionType": "Multi-step quantitative",
+    "industry": "Product development and engineering",
+    "quantitative": true,
+    "stem": "A program has BAC=$1.20M, PV=$600k, EV=$480k and AC=$550k. Assuming current cost efficiency continues for the remaining scope, which diagnosis and estimate are most defensible? Round indices to two decimals and EAC to the nearest $0.01M only at the end.",
+    "options": [
+      "CPI=1.15 and SPI=1.25; forecast completion below $1.05M because value exceeds both plans",
+      "CPI=0.87 and SPI=0.80; forecast about $1.38M and require recovery analysis before rebaselining",
+      "CPI=0.80 and SPI=0.87; forecast exactly $1.50M because schedule variance determines final cost",
+      "CPI=0.92 and SPI=1.09; retain the baseline because both indices remain within ten percent of one"
+    ],
+    "answer": 1,
+    "why": "CPI=EV/AC=480/550=0.872727… and SPI=EV/PV=480/600=0.80. Using the unrounded CPI, EAC=BAC/CPI=$1.20M×550/480=$1.375M, or $1.38M at the requested precision. Cost variance is −$70,000 and schedule variance is −$120,000 in earned-value units. Update the forecast and investigate recovery options; an adverse forecast is not authority to erase the approved baseline. <b>B. CPI=0.87 and SPI=0.80; forecast about $1.38M and require recovery analysis before rebaselining</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 14 - Project Oversight, pp. 217–218.</span>",
+    "optionRationales": [
+      "The indices are inverted, incorrectly portraying adverse cost and schedule performance as favorable.",
+      "Correct. Both indices and EAC follow the stated assumption, without an unauthorized baseline reset.",
+      "The index labels are reversed; SPI alone does not determine the forecast final cost.",
+      "These ratios do not match the supplied inputs, and a ten-percent rule was not specified."
+    ],
+    "formula": "CPI=EV/AC=480/550=0.873; SPI=EV/PV=480/600=0.800; EAC=BAC/CPI=1.20/0.873=$1.375M.",
+    "assumptions": [
+      "All four amounts use the same currency, status date, scope and approved performance baseline.",
+      "The estimate assumes current cost efficiency continues; other EAC assumptions would produce different forecasts."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "earned value",
+      "CPI",
+      "SPI",
+      "EAC",
+      "baseline integrity"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 14 - Project Oversight",
+    "sourcePages": "217–218",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 14 - Project Oversight",
+        "section": "Earned-value recovery diagnosis",
+        "pages": "217–218",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Earned-value measure",
+        "Amount ($000)"
+      ],
+      "rows": [
+        [
+          "Budget at completion (BAC)",
+          "1,200"
+        ],
+        [
+          "Planned value (PV)",
+          "600"
+        ],
+        [
+          "Earned value (EV)",
+          "480"
+        ],
+        [
+          "Actual cost (AC)",
+          "550"
+        ]
+      ],
+      "auditBatch": 7,
+      "auditId": "mbb:set-2:original-161",
+      "altText": "An earned-value table shows BAC 1.2 million dollars, PV 600 thousand, EV 480 thousand, and AC 550 thousand."
+    },
+    "visual": {
+      "type": "data-table",
+      "datasetRef": "test-bank-assets/mbb-160/batch-07/datasets.json#mbb:set-2:original-161",
+      "specRef": "test-bank-assets/mbb-160/batch-07/visual-specs.json#mbb:set-2:original-161",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-161",
+      "altText": "An earned-value table shows BAC 1.2 million dollars, PV 600 thousand, EV 480 thousand, and AC 550 thousand.",
+      "interactionPurpose": "",
+      "validationRef": "test-bank-assets/mbb-160/batch-07/validation.json#mbb:set-2:original-161",
+      "breakpointsValidated": [],
+      "answerCueAudit": true
+    },
+    "trap": "Do not swap CPI and SPI or round CPI before forecasting. A revised forecast is not automatic permission to reset the baseline.",
+    "distractors": [
+      "The indices are inverted, incorrectly portraying adverse cost and schedule performance as favorable.",
+      "Correct. Both indices and EAC follow the stated assumption, without an unauthorized baseline reset.",
+      "The index labels are reversed; SPI alone does not determine the forecast final cost.",
+      "These ratios do not match the supplied inputs, and a ten-percent rule was not specified."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-162",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-portfolio",
+    "bok": {
+      "domain": "III. Project Portfolio Management",
+      "subdomain": "B. Project Portfolio Infrastructure and Management",
+      "topic": "Evidence-based project termination",
+      "code": "III.B.4"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Portfolio, finance, and risk scenario",
+    "industry": "Finance and insurance",
+    "quantitative": false,
+    "stem": "A project has spent 70% of its budget on irrecoverable work. A stipulated regulatory change eliminates most expected benefit, but the sponsor says stopping would waste the investment. What should govern the decision?",
+    "options": [
+      "Compare future incremental value, costs, risks and opportunity costs, including closure obligations",
+      "Continue because passing the budget midpoint protects a project from new evidence",
+      "Suspend indefinitely while reserving all specialists without valuing that option",
+      "Finish the old scope and relabel eliminated benefits as realized cost avoidance"
+    ],
+    "answer": 0,
+    "why": "A uses the consequences that differ between continuing, modifying and stopping. The already spent, explicitly irrecoverable amount is sunk. Future termination costs, contractual obligations, recoveries and alternative uses of resources still belong in the comparison. The question does not supply enough future economics to declare termination automatically correct; it identifies the appropriate decision basis. <b>A. Compare future incremental value, costs, risks and opportunity costs, including closure obligations</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 15 - Project Management Infrastructure, pp. 223–224.</span>",
+    "optionRationales": [
+      "Correct. Forward consequences determine the choice while irrecoverable historical spending is excluded.",
+      "Percent spent does not override a material change in the future value of the project.",
+      "Holding scarce resources indefinitely needs a justified option value rather than an assumption.",
+      "Relabeling eliminated benefits does not create an actual financial result."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The 70% already spent cannot be recovered by continuing or stopping.",
+      "The regulatory change is a supplied scenario condition, not legal advice about a real jurisdiction."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "project termination",
+      "sunk cost",
+      "opportunity cost",
+      "incremental value",
+      "portfolio governance"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 15 - Project Management Infrastructure",
+    "sourcePages": "223–224",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 15 - Project Management Infrastructure",
+        "section": "Evidence-based project termination",
+        "pages": "223–224",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "Irrecoverable past spending is sunk, but future shutdown costs, recoveries and obligations still matter.",
+    "distractors": [
+      "Correct. Forward consequences determine the choice while irrecoverable historical spending is excluded.",
+      "Percent spent does not override a material change in the future value of the project.",
+      "Holding scarce resources indefinitely needs a justified option value rather than an assumption.",
+      "Relabeling eliminated benefits does not create an actual financial result."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-163",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-training",
+    "bok": {
+      "domain": "IV. Training Design and Delivery",
+      "subdomain": "A. Training Needs Analysis",
+      "topic": "Performance-gap cause discrimination",
+      "code": "IV.A"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, non-statistical",
+    "industry": "Manufacturing",
+    "quantitative": false,
+    "stem": "The role-based needs assessment below shows the lowest observed correct-use percentage for operators. Which initial intervention is best supported, without assuming the table identifies every cause?",
+    "options": [
+      "Deliver the same statistical refresher to every role without assessing its specific needs",
+      "Treat supervisor motivation as the sole cause of the missed operating steps",
+      "Rewrite the analyst curriculum because analysts supposedly have the lowest correct use",
+      "Repair operator access and job aids while checking any remaining hands-on skill gaps"
+    ],
+    "answer": 3,
+    "why": "D addresses the supplied barriers to performing the operator workflow while retaining assessment of skills and other causes. A knowledge score alone does not establish practical competence, and group percentages do not prove individual-level causation. The table supports targeted investigation and remediation, not a uniform statistical course or an unsupported motivation diagnosis. <b>D. Repair operator access and job aids while checking any remaining hands-on skill gaps</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 17 - Training Needs Analysis, pp. 243–244.</span>",
+    "optionRationales": [
+      "A common refresher ignores role-specific barriers and lacks evidence that statistics knowledge is the constraint.",
+      "The table does not identify supervisor motivation as the sole or primary cause.",
+      "Analysts have 92% observed correct use, not the lowest percentage.",
+      "Correct. It addresses documented opportunity barriers without assuming adequate knowledge proves complete skill."
+    ],
+    "formula": null,
+    "assumptions": [
+      "Knowledge check is the mean role-specific test score; access and job-aid usability are percentages of assessed staff meeting their respective criteria.",
+      "Correct use is the percentage of eligible observed workflow opportunities performed correctly. Measures are descriptive; no individual causal linkage is supplied."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "training needs analysis",
+      "performance gap",
+      "opportunity to perform",
+      "job aid",
+      "system access"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 17 - Training Needs Analysis",
+    "sourcePages": "243–244",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 17 - Training Needs Analysis",
+        "section": "Performance-gap cause discrimination",
+        "pages": "243–244",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Role",
+        "Knowledge check",
+        "System access",
+        "Job aid usable",
+        "Observed correct use"
+      ],
+      "rows": [
+        [
+          "Operators",
+          "88%",
+          "54%",
+          "42%",
+          "49%"
+        ],
+        [
+          "Supervisors",
+          "81%",
+          "96%",
+          "91%",
+          "78%"
+        ],
+        [
+          "Analysts",
+          "94%",
+          "100%",
+          "95%",
+          "92%"
+        ]
+      ],
+      "auditBatch": 7,
+      "auditId": "mbb:set-2:original-163",
+      "altText": "A role-based needs table shows operators with 88 percent knowledge but only 54 percent system access, 42 percent job-aid usability, and 49 percent correct use."
+    },
+    "visual": {
+      "type": "data-table",
+      "datasetRef": "test-bank-assets/mbb-160/batch-07/datasets.json#mbb:set-2:original-163",
+      "specRef": "test-bank-assets/mbb-160/batch-07/visual-specs.json#mbb:set-2:original-163",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-163",
+      "altText": "A role-based needs table shows operators with 88 percent knowledge but only 54 percent system access, 42 percent job-aid usability, and 49 percent correct use.",
+      "interactionPurpose": "",
+      "validationRef": "test-bank-assets/mbb-160/batch-07/validation.json#mbb:set-2:original-163",
+      "breakpointsValidated": [],
+      "answerCueAudit": true
+    },
+    "trap": "A high average knowledge score does not prove every worker is competent or that all performance gaps are motivational.",
+    "distractors": [
+      "A common refresher ignores role-specific barriers and lacks evidence that statistics knowledge is the constraint.",
+      "The table does not identify supervisor motivation as the sole or primary cause.",
+      "Analysts have 92% observed correct use, not the lowest percentage.",
+      "Correct. It addresses documented opportunity barriers without assuming adequate knowledge proves complete skill."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-164",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-training",
+    "bok": {
+      "domain": "IV. Training Design and Delivery",
+      "subdomain": "C. Training Materials and Curriculum Development",
+      "topic": "Deliberate practice for complex judgment",
+      "code": "IV.C.2"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Analyze",
+    "questionType": "Coaching, training, and failing-project diagnosis",
+    "industry": "Healthcare",
+    "quantitative": false,
+    "stem": "Experienced clinicians must learn to distinguish statistical special-cause signals from common-cause variation and separately assess practical importance in noisy dashboards. Which learning design best develops that judgment in simulated cases?",
+    "options": [
+      "Use varied cases, explanatory feedback and reflection, then fade instructional support",
+      "Use one expert lecture and a satisfaction survey as the only evidence of mastery",
+      "Assign handbook reading and qualify everyone who completes it by the deadline",
+      "Use one ideal dashboard and require exact repetition of the instructor's explanation"
+    ],
+    "answer": 0,
+    "why": "A requires learners to make and defend decisions across varied cases, learn from explanatory feedback and move toward independent performance. It separates statistical evidence of process change from the practical importance of an outcome. Domain experience does not replace this analytical practice. Satisfaction, completion and imitation alone do not demonstrate transferable judgment. <b>A. Use varied cases, explanatory feedback and reflection, then fade instructional support</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 19 - Training Materials and Curriculum Development, pp. 256–283.</span>",
+    "optionRationales": [
+      "Correct. Varied decision practice and fading support develop and reveal independent reasoning.",
+      "Satisfaction measures reaction, not accurate interpretation and transfer across noisy cases.",
+      "Reading completion is exposure evidence, not demonstrated performance.",
+      "Repeating a single example can reward recall rather than discrimination between different conditions."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The cases are simulated and do not direct care for actual patients.",
+      "Statistical signals and practical importance are separate learning objectives."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "adult learning",
+      "deliberate practice",
+      "feedback",
+      "scaffolding",
+      "transfer"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 19 - Training Materials and Curriculum Development",
+    "sourcePages": "256–283",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 19 - Training Materials and Curriculum Development",
+        "section": "Deliberate practice for complex judgment",
+        "pages": "256–283",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "Detecting a statistical signal and judging its practical importance are separate skills; course satisfaction proves neither.",
+    "distractors": [
+      "Correct. Varied decision practice and fading support develop and reveal independent reasoning.",
+      "Satisfaction measures reaction, not accurate interpretation and transfer across noisy cases.",
+      "Reading completion is exposure evidence, not demonstrated performance.",
+      "Repeating a single example can reward recall rather than discrimination between different conditions."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-165",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-training",
+    "bok": {
+      "domain": "IV. Training Design and Delivery",
+      "subdomain": "D. Training Program Effectiveness",
+      "topic": "Causal evaluation of training transfer",
+      "code": "IV.D"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Coaching, training, and failing-project diagnosis",
+    "industry": "Service and transactional operations",
+    "quantitative": false,
+    "stem": "A course, software upgrade and incentive change were introduced to every team on the same date. Available records contain no variation that separates those changes. Defects then declined. Which evaluation response is most defensible now and for the next rollout?",
+    "options": [
+      "Attribute all reduction below the historical maximum to the course alone",
+      "Report the combined change; independently vary training in a future controlled rollout",
+      "Enter three identical start-date indicators in a regression to identify three separate causal effects",
+      "Convert the immediate knowledge-score gain into the same percentage defect reduction"
+    ],
+    "answer": 1,
+    "why": "B recognizes that the current records do not isolate the training contribution. Three perfectly coincident intervention indicators are collinear; a regression cannot recover separate effects from them. Report the observed combined change with its limitations. A future comparison should create defensible independent variation in training while holding the other changes common, with appropriate randomization, outcome definitions and fidelity checks where feasible. <b>B. Report the combined change; independently vary training in a future controlled rollout</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 20 - Training Effectiveness Evaluation, pp. 285–290.</span>",
+    "optionRationales": [
+      "A historical extreme is a biased comparison and does not separate the simultaneous interventions.",
+      "Correct. It limits the current attribution and proposes variation that can address the confounding in a future study.",
+      "Identical intervention columns do not identify separate effects, regardless of the regression software.",
+      "Knowledge and operational defect measures are different constructs and do not share an automatic effect size."
+    ],
+    "formula": null,
+    "assumptions": [
+      "No valid external comparison or independently staggered intervention is available in the current records.",
+      "A future staggered training comparison is feasible and does not withhold mandatory or safety-critical instruction."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "training evaluation",
+      "comparison group",
+      "staggered rollout",
+      "transfer",
+      "causal attribution"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 20 - Training Effectiveness Evaluation",
+    "sourcePages": "285–290",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 20 - Training Effectiveness Evaluation",
+        "section": "Causal evaluation of training transfer",
+        "pages": "285–290",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "Perfectly coincident changes cannot be separated by merely adding collinear indicators to a regression.",
+    "distractors": [
+      "A historical extreme is a biased comparison and does not separate the simultaneous interventions.",
+      "Correct. It limits the current attribution and proposes variation that can address the confounding in a future study.",
+      "Identical intervention columns do not identify separate effects, regardless of the regression software.",
+      "Knowledge and operational defect measures are different constructs and do not share an automatic effect size."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-166",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-coaching",
+    "bok": {
+      "domain": "V. Coaching and Mentoring Responsibilities",
+      "subdomain": "A. Executives and Champions",
+      "topic": "Champion decision quality at tollgates",
+      "code": "V.A.2"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Leadership, deployment, and best-next-action scenario",
+    "industry": "Cross-industry enterprise/deployment case",
+    "quantitative": false,
+    "stem": "A champion routinely approves tollgates after viewing only projected savings and asks the MBB to handle scope, risk, and stakeholder issues offline. What coaching intervention is strongest?",
+    "options": [
+      "Train the champion to recompute every statistical analysis personally before each gate",
+      "Accept the approvals and file omitted risk evidence after the decision has been made",
+      "Coach criteria-led gate decisions with owner-present evidence and targeted feedback",
+      "Transfer all gate authority to Finance because projected savings are the only concern"
+    ],
+    "answer": 2,
+    "why": "C makes the review a decision about continuing fit, scope, risk, resources and benefits, with accountable evidence at the time of approval. The MBB can model useful questions, observe decisions and provide targeted feedback. Technical literacy is valuable, but personal recomputation of every analysis is not the champion role. Filing evidence later or delegating the whole business decision to Finance does not repair weak governance. <b>C. Coach criteria-led gate decisions with owner-present evidence and targeted feedback</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 21 - Mentoring Champions, Change Agents, and Executives, pp. 294–305.</span>",
+    "optionRationales": [
+      "The champion needs informed decision making, not personal mastery of every detailed calculation.",
+      "Retrospective filing cannot change the evidence used for an already completed approval.",
+      "Correct. Explicit criteria and observed-decision feedback build accountable review behavior.",
+      "Finance validates financial evidence but does not replace ownership of the overall business decision."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The organization assigns tollgate decisions to the champion using approved scope, risk, resource and benefit criteria."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "champion coaching",
+      "tollgate",
+      "decision criteria",
+      "feedback",
+      "governance"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 21 - Mentoring Champions, Change Agents, and Executives",
+    "sourcePages": "294–305",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 21 - Mentoring Champions, Change Agents, and Executives",
+        "section": "Champion decision quality at tollgates",
+        "pages": "294–305",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "A tollgate is a business decision, not a savings presentation, a filing exercise or a personal statistics examination for the Champion.",
+    "distractors": [
+      "The champion needs informed decision making, not personal mastery of every detailed calculation.",
+      "Retrospective filing cannot change the evidence used for an already completed approval.",
+      "Correct. Explicit criteria and observed-decision feedback build accountable review behavior.",
+      "Finance validates financial evidence but does not replace ownership of the overall business decision."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-167",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-coaching",
+    "bok": {
+      "domain": "V. Coaching and Mentoring Responsibilities",
+      "subdomain": "B. Teams and Individuals",
+      "topic": "Coaching inquiry versus expert rescue",
+      "code": "V.B.1"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Coaching, training, and failing-project diagnosis",
+    "industry": "Product development and engineering",
+    "quantitative": false,
+    "stem": "A capable Black Belt brings every ambiguous analysis choice to the MBB and waits for a direct answer. Quality is acceptable, but independent judgment is not developing. What should the MBB do?",
+    "options": [
+      "Keep prescribing each answer to maximize consistency and avoid independent judgment",
+      "Stop all meetings until completion so the Belt must develop judgment without feedback",
+      "Take over the analysis and let the Belt observe without making or defending decisions",
+      "Probe the Belt’s own recommendation and evidence, then progressively fade support"
+    ],
+    "answer": 3,
+    "why": "D creates practice in framing, recommending and defending a decision. The MBB can identify gaps through questions and targeted feedback, then reduce scaffolding as competence grows. Retain escalation for high-risk or unfamiliar decisions. Repeated expert rescue can reinforce dependence, whereas abrupt withdrawal creates unmanaged risk and passive observation does not demonstrate independent judgment. <b>D. Probe the Belt’s own recommendation and evidence, then progressively fade support</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 22 - Mentoring Black Belts and Green Belts, pp. 306–310.</span>",
+    "optionRationales": [
+      "Repeated prescription rewards dependence rather than developing the capability that is missing.",
+      "Withdrawing all support removes feedback and may expose the project to avoidable risk.",
+      "Observation alone does not provide practice in owning and defending analytical decisions.",
+      "Correct. Evidence-led inquiry and gradually reduced support balance assurance with development."
+    ],
+    "formula": null,
+    "assumptions": [
+      "There is no immediate hazard requiring the MBB to take direct control.",
+      "The Belt may escalate decisions beyond demonstrated competence or delegated authority."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "coaching",
+      "inquiry",
+      "fading support",
+      "independent judgment",
+      "feedback"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 22 - Mentoring Black Belts and Green Belts",
+    "sourcePages": "306–310",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 22 - Mentoring Black Belts and Green Belts",
+        "section": "Coaching inquiry versus expert rescue",
+        "pages": "306–310",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "Repeated expert answers reinforce dependence; abrupt withdrawal is not the same as gradually fading support.",
+    "distractors": [
+      "Repeated prescription rewards dependence rather than developing the capability that is missing.",
+      "Withdrawing all support removes feedback and may expose the project to avoidable risk.",
+      "Observation alone does not provide practice in owning and defending analytical decisions.",
+      "Correct. Evidence-led inquiry and gradually reduced support balance assurance with development."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-168",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "A. MSA, Process Capability, and Control",
+      "topic": "Nested destructive gage R&R interpretation",
+      "code": "VI.A.4"
+    },
+    "difficulty": "Expert",
+    "cognitive": "Analyze",
+    "questionType": "Statistical-output interpretation",
+    "industry": "Manufacturing",
+    "quantitative": true,
+    "stem": "In a destructive study, three appraisers each test two distinct coupons from each of five production batches assigned only to that appraiser. No coupon is tested twice. A nested random-effects model reports the variance percentages below. Coupon homogeneity within batches is intended but not demonstrated. Which conclusion is most defensible?",
+    "options": [
+      "Residual plus appraiser terms contribute 24% of modeled variance, not necessarily pure measurement variance",
+      "Measurement contributes only 6% because the residual term can be excluded from all measurement concerns",
+      "The 76% batch contribution proves that the gage is acceptable for every classification and control use",
+      "Destruction permits ordinary same-specimen repeatability estimates because different coupons are interchangeable"
+    ],
+    "answer": 0,
+    "why": "A adds the two reported terms, 18%+6%=24%, without mislabeling them. In this design, the residual can contain within-batch coupon heterogeneity as well as measurement variation. The homogeneity assumption must be justified before treating that residual as repeatability. Under an adequate pure-measurement interpretation, 24% variance would correspond to sqrt(0.24)=48.99% of total standard deviation, not 24% study variation. No universal suitability conclusion follows from the table. <b>A. Residual plus appraiser terms contribute 24% of modeled variance, not necessarily pure measurement variance</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 24 - Measurement Systems Analysis, pp. 335–346.</span>",
+    "optionRationales": [
+      "Correct. It reports the modeled sum while preserving the unresolved specimen-homogeneity limitation.",
+      "The residual cannot simply be ignored; it includes variation relevant to interpreting the destructive study.",
+      "The table gives variance contributions, not universal acceptability or a 76% standard-deviation fraction.",
+      "Distinct destroyed coupons are not repeat measurements of the same specimen without a justified grouping assumption."
+    ],
+    "formula": "Measurement contribution = repeatability 18% + appraiser 6% = 24% of total variance.",
+    "assumptions": [
+      "Batches are nested within appraisers and represent comparable, randomly allocated process material. The model has appraiser, batch-within-appraiser and residual terms.",
+      "The supplied model estimates are nonnegative; raw readings are unavailable for refitting. No appraiser-by-common-batch interaction is estimable in this allocation.",
+      "This explicit allocation is audit-authored to resolve the original ambiguous study description."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "destructive MSA",
+      "nested gage R&R",
+      "variance components",
+      "repeatability",
+      "reproducibility"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 24 - Measurement Systems Analysis",
+    "sourcePages": "335–346",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 24 - Measurement Systems Analysis",
+        "section": "Nested destructive gage R&R interpretation",
+        "pages": "335–346",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      },
+      {
+        "id": "S2",
+        "document": "Minitab: Gage studies with destructive testing",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/supporting-topics/gage-r-r-and-wheeler-s-emp-studies/gage-studies-with-destructive-testing/",
+        "verificationScope": "Destructive crossed/nested designs and the batch-homogeneity requirement."
+      }
+    ],
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Variance source",
+        "Percent of total variance"
+      ],
+      "rows": [
+        [
+          "Batch within appraiser",
+          "76%"
+        ],
+        [
+          "Residual within batch",
+          "18%"
+        ],
+        [
+          "Appraiser",
+          "6%"
+        ],
+        [
+          "Total",
+          "100%"
+        ]
+      ],
+      "auditBatch": 7,
+      "auditId": "mbb:set-2:original-168",
+      "altText": "Nested-model variance contributions: batch within appraiser 76%, residual within batch 18%, appraiser 6%, total 100%."
+    },
+    "visual": {
+      "type": "data-table",
+      "datasetRef": "test-bank-assets/mbb-160/batch-07/datasets.json#mbb:set-2:original-168",
+      "specRef": "test-bank-assets/mbb-160/batch-07/visual-specs.json#mbb:set-2:original-168",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-168",
+      "altText": "Nested-model variance contributions: batch within appraiser 76%, residual within batch 18%, appraiser 6%, total 100%.",
+      "interactionPurpose": "",
+      "validationRef": "test-bank-assets/mbb-160/batch-07/validation.json#mbb:set-2:original-168",
+      "breakpointsValidated": [],
+      "answerCueAudit": true
+    },
+    "trap": "Twenty-four percent of modeled variance is not twenty-four percent of standard deviation, nor necessarily pure measurement error.",
+    "distractors": [
+      "Correct. It reports the modeled sum while preserving the unresolved specimen-homogeneity limitation.",
+      "The residual cannot simply be ignored; it includes variation relevant to interpreting the destructive study.",
+      "The table gives variance contributions, not universal acceptability or a 76% standard-deviation fraction.",
+      "Distinct destroyed coupons are not repeat measurements of the same specimen without a justified grouping assumption."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-169",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "A. MSA, Process Capability, and Control",
+      "topic": "Transformation governance for capability",
+      "code": "VI.A.5"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Advanced conceptual/method-selection",
+    "industry": "Manufacturing",
+    "quantitative": false,
+    "stem": "Positive cycle-time observations are strongly right-skewed. A preliminary Box–Cox fit makes the transformed observations approximately normal, while engineering limits remain fixed in seconds. What must the MBB require before reporting capability?",
+    "options": [
+      "Report transformed indices alone because a convenient distribution makes engineering units irrelevant",
+      "Validate stability and fit, transform fixed limits consistently, and report risk with original-unit limits",
+      "Discard the observations because nonnormal data cannot support any capability assessment",
+      "Move the engineering limits until they become symmetric on the transformed scale"
+    ],
+    "answer": 1,
+    "why": "B requires a stable, adequately modeled process and consistent treatment of the original engineering limits. The same monotone transformation must be applied to the observations and applicable limits. Tail probabilities and capability indices are dimensionless: do not back-transform them into seconds. Communicate engineering limits or modeled quantiles in seconds and probabilities as probabilities. Approximate normality alone does not establish process stability or suitability of the model. <b>B. Validate stability and fit, transform fixed limits consistently, and report risk with original-unit limits</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 24 - Measurement Systems Analysis; Process Capability, pp. 347–352.</span>",
+    "optionRationales": [
+      "Indices alone omit model assumptions and original-unit engineering meaning.",
+      "Correct. It preserves fixed requirements, consistent modeling and the distinction between units and probabilities.",
+      "Appropriate nonnormal models or justified transformations can support capability analysis.",
+      "Specifications express requirements; they cannot be moved to make a model look more convenient."
+    ],
+    "formula": null,
+    "assumptions": [
+      "All cycle times are positive and the selected Box–Cox transformation is fixed and monotone over the relevant domain.",
+      "The question supplies no fitted parameters or process data for a numerical capability calculation."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "Box-Cox",
+      "nonnormal capability",
+      "back transformation",
+      "tail risk",
+      "specification limits"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 24 - Measurement Systems Analysis; Process Capability",
+    "sourcePages": "347–352",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 24 - Measurement Systems Analysis; Process Capability",
+        "section": "Transformation governance for capability",
+        "pages": "347–352",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      },
+      {
+        "id": "S2",
+        "document": "NIST: What is process capability?",
+        "url": "https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm",
+        "verificationScope": "Dimensionless capability indices and process stability."
+      }
+    ],
+    "trap": "Normal transformed observations do not establish process stability. Capability indices and probabilities are dimensionless.",
+    "distractors": [
+      "Indices alone omit model assumptions and original-unit engineering meaning.",
+      "Correct. It preserves fixed requirements, consistent modeling and the distinction between units and probabilities.",
+      "Appropriate nonnormal models or justified transformations can support capability analysis.",
+      "Specifications express requirements; they cannot be moved to make a model look more convenient."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-170",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "B. Measuring and Modeling Relationships",
+      "topic": "Regression extrapolation and leverage",
+      "code": "VI.B.5"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Statistical-output interpretation",
+    "industry": "Finance and insurance",
+    "quantitative": true,
+    "stem": "An intercept-plus-linear-predictor model is fitted to the eight observed claim cases shown. At the proposed policy-risk score x=105, the plot displays a 95% confidence interval for the mean response. No case at x=105 was observed. What is the strongest interpretation?",
+    "options": [
+      "The displayed interval proves the proposed policy is supported as well as the observed range",
+      "A straight-line equation validates predictions beyond the observed predictor range",
+      "The mean is extrapolated; its interval does not validate model form beyond the observed data",
+      "Adding the proposed fitted value three times as observations would create independent support"
+    ],
+    "answer": 2,
+    "why": "C identifies extrapolation beyond the observed x range 10–70. OLS from the eight retained cases gives intercept 17.00163532, slope 0.63221586 and residual df=6. At x=105, the fitted mean is 83.3843 ($000) and the conditional 95% mean-response interval is [80.3463, 86.4223] ($000). New-point leverage is 1.560507; unlike an observed hat-matrix diagonal, it can exceed one. The interval covers sampling uncertainty under the assumed linear model, not whether that form remains valid outside the data. An individual prediction interval is wider; neither interval supplies missing empirical support. <b>C. The mean is extrapolated; its interval does not validate model form beyond the observed data</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 25 - Measuring and Modeling Relationships Between Variables; Regression, pp. 370–402.</span>",
+    "optionRationales": [
+      "An interval calculated under a model does not validate that model outside the observed range.",
+      "The ability to calculate an extrapolation does not establish that its structural assumptions hold.",
+      "Correct. The proposed predictor is unsupported by nearby observations and is sensitive to model-form error.",
+      "A model output is not an observed case; duplicating it would create false information and inappropriate weighting."
+    ],
+    "formula": null,
+    "assumptions": [
+      "For the displayed conditional interval, assume independent normal errors with common variance and a linear conditional mean. These assumptions are not evidence of validity outside 10–70.",
+      "Claim severity is in thousands of dollars. The eight observed pairs are the complete fitting data; the proposal is excluded from fitting."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "regression",
+      "extrapolation",
+      "leverage",
+      "model uncertainty",
+      "prediction interval"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Regression",
+    "sourcePages": "370–402",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Regression",
+        "section": "Regression extrapolation and leverage",
+        "pages": "370–402",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      },
+      {
+        "id": "S2",
+        "document": "NIST: Least Squares",
+        "url": "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd431.htm",
+        "verificationScope": "OLS fitting and model-dependent interpretation."
+      }
+    ],
+    "chart": {
+      "type": "regression-diagnostic",
+      "title": "Observed cases and proposed policy score",
+      "xLabel": "Policy-risk score",
+      "yLabel": "Claim severity ($000)",
+      "xTicks": [
+        10,
+        30,
+        50,
+        70,
+        90,
+        110
+      ],
+      "yTicks": [
+        20,
+        40,
+        60,
+        80,
+        100
+      ],
+      "points": [
+        {
+          "x": 10,
+          "y": 24
+        },
+        {
+          "x": 18,
+          "y": 29
+        },
+        {
+          "x": 25,
+          "y": 31
+        },
+        {
+          "x": 34,
+          "y": 39
+        },
+        {
+          "x": 42,
+          "y": 43
+        },
+        {
+          "x": 51,
+          "y": 49
+        },
+        {
+          "x": 60,
+          "y": 56
+        },
+        {
+          "x": 70,
+          "y": 61
+        }
+      ],
+      "model": {
+        "intercept": 17.001635322976274,
+        "slope": 0.63221586263287,
+        "n": 8,
+        "df": 6,
+        "mse": 0.9877895884437159,
+        "tCritical": 2.4469118511449786
+      },
+      "proposal": {
+        "x": 105,
+        "mean": 83.38430089942763,
+        "meanCI": [
+          80.34633146424565,
+          86.4222703346096
+        ],
+        "predictionInterval": [
+          79.4928323396618,
+          87.27576945919346
+        ],
+        "confidenceLevel": 0.95,
+        "newPointLeverage": 1.5605069501226492
+      },
+      "auditBatch": 7,
+      "auditId": "mbb:set-2:original-170",
+      "altText": "Eight observed claim-severity pairs at scores 10 through 70, a fitted line, and a distinct unobserved proposal at score 105 with its calculated 95% mean-response interval."
+    },
+    "visual": {
+      "type": "regression-diagnostic",
+      "datasetRef": "test-bank-assets/mbb-160/batch-07/datasets.json#mbb:set-2:original-170",
+      "specRef": "test-bank-assets/mbb-160/batch-07/visual-specs.json#mbb:set-2:original-170",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-170",
+      "altText": "Eight observed claim-severity pairs at scores 10 through 70, a fitted line, and a distinct unobserved proposal at score 105 with its calculated 95% mean-response interval.",
+      "interactionPurpose": "Inspect observed values and the unobserved proposal separately, with keyboard/touch selection and a matching data table.",
+      "validationRef": "test-bank-assets/mbb-160/batch-07/validation.json#mbb:set-2:original-170",
+      "breakpointsValidated": [],
+      "answerCueAudit": true
+    },
+    "trap": "A conditional confidence interval for a mean neither validates extrapolated model form nor covers an individual claim at the same level.",
+    "distractors": [
+      "An interval calculated under a model does not validate that model outside the observed range.",
+      "The ability to calculate an extrapolation does not establish that its structural assumptions hold.",
+      "Correct. The proposed predictor is unsupported by nearby observations and is sensitive to model-form error.",
+      "A model output is not an observed case; duplicating it would create false information and inappropriate weighting."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-171",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "B. Measuring and Modeling Relationships",
+      "topic": "Logistic interaction and conditional effects",
+      "code": "VI.B.3"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Understand",
+    "questionType": "Advanced conceptual/method-selection",
+    "industry": "Healthcare",
+    "quantitative": false,
+    "stem": "A binary logistic model for an adverse event (Y=1) includes treatment (0/1), centered severity and their interaction. The interaction is stipulated to be statistically and practically important. How should the treatment association be reported?",
+    "options": [
+      "As one constant odds ratio, because all logistic treatment effects are universal multipliers",
+      "After deleting severity, because interaction terms make lower-order effects redundant",
+      "After recoding the event as continuous, because a binary model cannot contain interactions",
+      "As conditional odds ratios or predicted probabilities at specified severity values"
+    ],
+    "answer": 3,
+    "why": "D recognizes that the treatment contrast on the log-odds scale is beta_T + beta_TS*s at centered severity s. The corresponding conditional odds ratio is exp(beta_T + beta_TS*s). The treatment coefficient alone refers to severity zero on the centered scale. Retain appropriate lower-order terms, report uncertainty and distinguish odds ratios from probability changes. No causal effect follows solely from including the interaction in a fitted model. <b>D. As conditional odds ratios or predicted probabilities at specified severity values</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 25 - Measuring and Modeling Relationships Between Variables; Logistic Regression, pp. 384–402.</span>",
+    "optionRationales": [
+      "The interaction explicitly permits the conditional odds ratio to change with severity.",
+      "Lower-order terms ordinarily remain for coherent hierarchical interpretation of the interaction.",
+      "Binary logistic regression can include interactions; artificial continuous recoding is not required.",
+      "Correct. Conditional contrasts and probabilities translate the interaction into relevant severity-specific statements."
+    ],
+    "formula": null,
+    "assumptions": [
+      "Treatment is coded 0/1 and severity is centered at a stated clinically meaningful reference in the fitted model.",
+      "Importance of the interaction is given; coefficients and raw data are not supplied for recomputing a p-value."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "logistic regression",
+      "interaction",
+      "conditional effect",
+      "odds ratio",
+      "predicted probability"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Logistic Regression",
+    "sourcePages": "384–402",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Logistic Regression",
+        "section": "Logistic interaction and conditional effects",
+        "pages": "384–402",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "With an interaction, the treatment coefficient alone describes the contrast only at the reference severity; odds are not probabilities.",
+    "distractors": [
+      "The interaction explicitly permits the conditional odds ratio to change with severity.",
+      "Lower-order terms ordinarily remain for coherent hierarchical interpretation of the interaction.",
+      "Binary logistic regression can include interactions; artificial continuous recoding is not required.",
+      "Correct. Conditional contrasts and probabilities translate the interaction into relevant severity-specific statements."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-172",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "B. Measuring and Modeling Relationships",
+      "topic": "Reliability allocation for series subsystems",
+      "code": "VI.B.9"
+    },
+    "difficulty": "Expert",
+    "cognitive": "Apply",
+    "questionType": "Multi-step quantitative",
+    "industry": "Product development and engineering",
+    "quantitative": true,
+    "stem": "Three independent, nonrepairable series subsystems have reliabilities 0.98, 0.95 and 0.97 at the same fixed mission endpoint. Comparable engineering effort can raise exactly one by an absolute 0.01. Which system result and improvement priority are correct?",
+    "options": [
+      "System reliability is about 0.903; improving the 0.95 subsystem gives the largest absolute system gain",
+      "System reliability is about 0.950; improving the 0.98 subsystem gives the largest relative system gain",
+      "System reliability is about 0.995; improving any subsystem reduces overall reliability because it is a series system",
+      "System reliability is about 0.903; every 0.01 subsystem improvement gives exactly the same absolute gain"
+    ],
+    "answer": 0,
+    "why": "For a series system that needs all three independent subsystems, reliability is 0.98×0.95×0.97=0.90307. Improving A, B or C by an absolute 0.01 gives system gains 0.009215, 0.009506 or 0.009310 respectively. B, the 0.95 subsystem, therefore gives the greatest gain under the stated equal-increment assumptions. The three resulting system reliabilities are 0.912285, 0.912576 and 0.912380. Real allocation still requires cost, feasibility and dependence checks. <b>A. System reliability is about 0.903; improving the 0.95 subsystem gives the largest absolute system gain</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 25 - Measuring and Modeling Relationships Between Variables; Reliability, pp. 423–428.</span>",
+    "optionRationales": [
+      "Correct. The product is approximately 0.903, and the 0.95 subsystem gives the largest specified equal-increment gain.",
+      "The product is 0.90307, not 0.950, and the largest equal-increment gain is obtained from the 0.95 subsystem.",
+      "Increasing a subsystem reliability cannot reduce this independent series product.",
+      "Each increment is multiplied by a different product of the two unchanged subsystem reliabilities."
+    ],
+    "formula": "Rs=0.98(0.95)(0.97)=0.90307; gains for +0.01 are 0.009215, 0.009506, and 0.00931 respectively.",
+    "assumptions": [
+      "All three subsystems must work throughout the same mission; failure probabilities are independent.",
+      "Other reliabilities and dependence do not change after the specified improvement. No additional common-mode failure is introduced.",
+      "The supplied endpoint probabilities are not lifetime curves; no distribution of failure time is assumed."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "series reliability",
+      "reliability allocation",
+      "mission reliability",
+      "independence",
+      "improvement priority"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Reliability",
+    "sourcePages": "423–428",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Reliability",
+        "section": "Reliability allocation for series subsystems",
+        "pages": "423–428",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      },
+      {
+        "id": "S2",
+        "document": "NIST: Series model",
+        "url": "https://www.itl.nist.gov/div898/handbook/apr/section1/apr182.htm",
+        "verificationScope": "Independent series reliability product."
+      }
+    ],
+    "chart": {
+      "type": "reliability-plot",
+      "plotMode": "mission-endpoints",
+      "title": "Reliability at the fixed mission endpoint",
+      "xLabel": "Mission reliability (probability)",
+      "yLabel": "Subsystem",
+      "components": [
+        {
+          "label": "Subsystem A",
+          "reliability": 0.98
+        },
+        {
+          "label": "Subsystem B",
+          "reliability": 0.95
+        },
+        {
+          "label": "Subsystem C",
+          "reliability": 0.97
+        }
+      ],
+      "auditBatch": 7,
+      "auditId": "mbb:set-2:original-172",
+      "altText": "At the same fixed mission endpoint: subsystem A reliability 0.98, B 0.95 and C 0.97. No intermediate-time curve is supplied."
+    },
+    "visual": {
+      "type": "reliability-plot",
+      "datasetRef": "test-bank-assets/mbb-160/batch-07/datasets.json#mbb:set-2:original-172",
+      "specRef": "test-bank-assets/mbb-160/batch-07/visual-specs.json#mbb:set-2:original-172",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-172",
+      "altText": "At the same fixed mission endpoint: subsystem A reliability 0.98, B 0.95 and C 0.97. No intermediate-time curve is supplied.",
+      "interactionPurpose": "",
+      "validationRef": "test-bank-assets/mbb-160/batch-07/validation.json#mbb:set-2:original-172",
+      "breakpointsValidated": [],
+      "answerCueAudit": true
+    },
+    "trap": "Equal absolute component improvements give different series-system gains because each is multiplied by the other component reliabilities.",
+    "distractors": [
+      "Correct. The product is approximately 0.903, and the 0.95 subsystem gives the largest specified equal-increment gain.",
+      "The product is 0.90307, not 0.950, and the largest equal-increment gain is obtained from the 0.95 subsystem.",
+      "Increasing a subsystem reliability cannot reduce this independent series product.",
+      "Each increment is multiplied by a different product of the two unchanged subsystem reliabilities."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-173",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "B. Measuring and Modeling Relationships",
+      "topic": "Monte Carlo input-dependence governance",
+      "code": "VI.B.7"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Multi-step quantitative",
+    "industry": "Supply chain, logistics, and distribution",
+    "quantitative": false,
+    "stem": "Demand and replenishment lead time historically rise together during disruptions. A Monte Carlo inventory model samples them independently and reports only a 3% stockout probability. What should the MBB require?",
+    "options": [
+      "Accept the estimate because independence is always conservative for right-skewed inputs",
+      "Validate dependence and disruption regimes, including sensitivity of joint-tail risk",
+      "Increase trial count until it automatically repairs the missing dependence structure",
+      "Replace uncertain inputs with their means to eliminate unusual input combinations"
+    ],
+    "answer": 1,
+    "why": "B evaluates whether the joint input model represents the disruption mechanism. Independence can distort simultaneous high-demand/long-lead-time events, and marginal distributions or a single correlation coefficient do not uniquely determine joint-tail behavior. More trials reduce Monte Carlo sampling error but not this structural error. The supplied information does not determine the true stockout probability or prove that every dependent alternative must exceed 3%. <b>B. Validate dependence and disruption regimes, including sensitivity of joint-tail risk</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 25 - Measuring and Modeling Relationships Between Variables; Monte Carlo Simulation, pp. 414–416.</span>",
+    "optionRationales": [
+      "Independence is not universally conservative; the result depends on the joint model and inventory decision rule.",
+      "Correct. Joint-model validation and sensitivity address the risk mechanism rather than simulation precision alone.",
+      "More trials converge to the assumptions already programmed; they do not repair a misspecified joint distribution.",
+      "Replacing inputs with means removes the variability needed to assess tail events."
+    ],
+    "formula": null,
+    "assumptions": [
+      "The reported 3% is an output of the current model, not an independently established stockout rate.",
+      "Raw joint data and the stockout function are not supplied, so no replacement probability can be calculated."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "Monte Carlo",
+      "correlation",
+      "joint tail",
+      "stockout risk",
+      "model validation"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Monte Carlo Simulation",
+    "sourcePages": "414–416",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Monte Carlo Simulation",
+        "section": "Monte Carlo input-dependence governance",
+        "pages": "414–416",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "More simulation trials cannot repair the wrong joint-input model; one correlation coefficient does not identify all joint-tail behavior.",
+    "distractors": [
+      "Independence is not universally conservative; the result depends on the joint model and inventory decision rule.",
+      "Correct. Joint-model validation and sensitivity address the risk mechanism rather than simulation precision alone.",
+      "More trials converge to the assumptions already programmed; they do not repair a misspecified joint distribution.",
+      "Replacing inputs with means removes the variability needed to assess tail events."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-174",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "C. Design of Experiments",
+      "topic": "Aliasing and foldover design augmentation",
+      "code": "VI.C.3"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Understand",
+    "questionType": "DOE/optimization design and diagnosis",
+    "industry": "Manufacturing",
+    "quantitative": true,
+    "stem": "A regular 2^(4−1) screening fraction uses I=ABCD (D=ABC). The plotted means summarize its four A-by-B cells. To investigate the two-factor contrast, which follow-up is justified?",
+    "options": [
+      "AB is independently estimable; retain the fraction and replicate the original eight runs",
+      "AB is aliased with CD; reverse all four factor signs in eight added runs to separate them",
+      "AB is aliased with CD; reverse D alone in the eight added runs to separate them",
+      "AB is aliased with C; omit D from the model to identify AB using the existing runs"
+    ],
+    "answer": 2,
+    "why": "Multiplying I=ABCD by AB gives AB=CD for the original fraction: the columns share a contrast, not necessarily the same physical effect. Reversing D alone gives the complementary fraction I=−ABCD; adding its eight runs separates the two-factor effects. Reversing all four signs leaves the even product ABCD unchanged and reproduces the original fraction, so it does not break this alias. The plotted factorial contrast is −15 response units, but the plot does not identify how much is AB versus CD or establish significance without error information. <b>C. AB is aliased with CD; reverse D alone in the eight added runs to separate them</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 26 - Design of Experiments; Screening Designs, pp. 429–450.</span>",
+    "optionRationales": [
+      "Resolution IV protects main effects from two-factor aliases, not all two-factor effects from each other.",
+      "Reversing four signs preserves ABCD=+1; the added settings repeat the same fraction and its alias.",
+      "Correct. A D-only foldover generates the complementary fraction and breaks the AB/CD alias.",
+      "AB is aliased with CD, not C; removing a fitted term cannot supply the missing experimental contrast."
+    ],
+    "formula": "I=ABCD implies AB=CD, AC=BD and AD=BC in the original fraction. Compare the defining-product sign before and after the proposed augmentation.",
+    "assumptions": [
+      "Factors are coded −1/+1; the original fraction has all eight combinations of A, B and C with D=ABC.",
+      "Each displayed A-by-B mean averages two original runs. Raw response replicates and an error estimate are not supplied.",
+      "Both stages can be randomized and run under comparable conditions, or their stage effects must be appropriately modeled."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "fractional factorial",
+      "defining relation",
+      "alias",
+      "resolution IV",
+      "foldover"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 26 - Design of Experiments; Screening Designs",
+    "sourcePages": "429–450",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 26 - Design of Experiments; Screening Designs",
+        "section": "Aliasing and foldover design augmentation",
+        "pages": "429–450",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      },
+      {
+        "id": "S2",
+        "document": "Stat-Ease: Foldover",
+        "url": "https://www.statease.com/docs/v22.0/contents/advanced-topics/foldover/",
+        "verificationScope": "Resolution IV single-factor foldover versus all-factor mirroring."
+      }
+    ],
+    "chart": {
+      "type": "two-level-interaction",
+      "title": "Screening interaction contrast",
+      "factorA": "Factor A",
+      "factorB": "Factor B",
+      "xLowLabel": "A low",
+      "xHighLabel": "A high",
+      "lowLabel": "B low",
+      "highLabel": "B high",
+      "lowLine": [
+        62,
+        78
+      ],
+      "highLine": [
+        80,
+        66
+      ],
+      "yLabel": "Mean response (response units)",
+      "yDomain": [
+        55,
+        85
+      ],
+      "yTicks": [
+        60,
+        70,
+        80
+      ],
+      "designRows": [
+        [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        [
+          -1,
+          -1,
+          1,
+          1
+        ],
+        [
+          -1,
+          1,
+          -1,
+          1
+        ],
+        [
+          -1,
+          1,
+          1,
+          -1
+        ],
+        [
+          1,
+          -1,
+          -1,
+          1
+        ],
+        [
+          1,
+          -1,
+          1,
+          -1
+        ],
+        [
+          1,
+          1,
+          -1,
+          -1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "auditBatch": 7,
+      "auditId": "mbb:set-2:original-174",
+      "altText": "B-low means are 62 and 78 at A low/high; B-high means are 80 and 66. Original coded factor settings and the four means are available as tables."
+    },
+    "visual": {
+      "type": "two-level-interaction",
+      "datasetRef": "test-bank-assets/mbb-160/batch-07/datasets.json#mbb:set-2:original-174",
+      "specRef": "test-bank-assets/mbb-160/batch-07/visual-specs.json#mbb:set-2:original-174",
+      "staticAssetRef": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-174",
+      "altText": "B-low means are 62 and 78 at A low/high; B-high means are 80 and 66. Original coded factor settings and the four means are available as tables.",
+      "interactionPurpose": "Inspect the four displayed cell means with keyboard or touch; view the original factor coding without a precomputed alias label.",
+      "validationRef": "test-bank-assets/mbb-160/batch-07/validation.json#mbb:set-2:original-174",
+      "breakpointsValidated": [],
+      "answerCueAudit": true
+    },
+    "trap": "Reversing all four signs preserves ABCD in this even-order fraction. Reverse one factor to obtain the complementary fraction.",
+    "distractors": [
+      "Resolution IV protects main effects from two-factor aliases, not all two-factor effects from each other.",
+      "Reversing four signs preserves ABCD=+1; the added settings repeat the same fraction and its alias.",
+      "Correct. A D-only foldover generates the complementary fraction and breaks the AB/CD alias.",
+      "AB is aliased with CD, not C; removing a fitted term cannot supply the missing experimental contrast."
+    ]
+  },
+  {
+    "qid": "mbb:set-2:original-175",
+    "set": 2,
+    "batch": 7,
+    "sub": "mbb-analytics",
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "A. MSA, Process Capability, and Control",
+      "topic": "APC-SPC layered monitoring architecture",
+      "code": "VI.A.6"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Understand",
+    "questionType": "Advanced conceptual/method-selection",
+    "industry": "Manufacturing",
+    "quantitative": false,
+    "stem": "A reactor controller must remain active during production. Planned product-grade changes require different temperature setpoints, and a pooled chart signals at nearly every change. Which monitoring architecture best distinguishes expected regime changes from deterioration?",
+    "options": [
+      "Treat every planned grade-transition signal as a separate unknown root cause",
+      "Disable required feedback while sampling to guarantee independent observations",
+      "Widen the same raw-temperature limits until all grade-transition signals disappear",
+      "Use regime-adjusted, time-aware monitoring and a coordinated response plan"
+    ],
+    "answer": 3,
+    "why": "D uses the known operating regime rather than treating all setpoints as one unchanged process. Suitable models can separate expected grade transitions from unexplained within-regime changes and account for feedback dynamics and time dependence. Controller effort and disturbances can reveal changes masked in the controlled output. Signals guide a coordinated investigation; they are not themselves proof of a specific cause. Disabling required control or widening limits without justification does not solve the statistical problem. <b>D. Use regime-adjusted, time-aware monitoring and a coordinated response plan</b> <span class=\"tb-source-ref\">Concept reference: Kubiak (2012), Chapter 27 - Automated Process Control and SPC, pp. 451–453.</span>",
+    "optionRationales": [
+      "Known planned transitions are not automatically separate unknown root causes requiring unrelated investigations.",
+      "Turning off required control can be unsafe and does not guarantee that serial dependence disappears.",
+      "Arbitrarily widening pooled limits can conceal deterioration rather than model the expected operating regimes.",
+      "Correct. Regime-aware, time-aware evidence and a shared response plan complement necessary feedback control."
+    ],
+    "formula": null,
+    "assumptions": [
+      "Grade-dependent setpoints and transition conditions are authorized engineering requirements.",
+      "The scenario concerns monitoring design, not changing the safety-critical control system."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "APC",
+      "SPC",
+      "controller demand",
+      "disturbance monitoring",
+      "autocorrelation",
+      "diagnostic plan"
+    ],
+    "sourceDocument": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+    "sourceSection": "Chapter 27 - Automated Process Control and SPC",
+    "sourcePages": "451–453",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 27 - Automated Process Control and SPC",
+        "section": "APC-SPC layered monitoring architecture",
+        "pages": "451–453",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "trap": "Expected grade/setpoint changes require regime-aware monitoring, not disabling required feedback or widening limits until alarms disappear.",
+    "distractors": [
+      "Known planned transitions are not automatically separate unknown root causes requiring unrelated investigations.",
+      "Turning off required control can be unsafe and does not guarantee that serial dependence disappears.",
+      "Arbitrarily widening pooled limits can conceal deterioration rather than model the expected operating regimes.",
+      "Correct. Regime-aware, time-aware evidence and a shared response plan complement necessary feedback control."
+    ]
+  }
+];
 
   global.MBB_SET2_BATCHES=global.MBB_SET2_BATCHES||{};
   global.MBB_SET2_BATCHES[1]=batch1;

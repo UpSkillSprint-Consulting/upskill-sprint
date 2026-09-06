@@ -142,11 +142,12 @@ test('Prior Batch 4 preservation plus explicitly integrated Batch 3 hashes remai
  // Batch 4 preservation expectations remain unchanged.
  const restored=JSON.parse(read('docs/audits/mbb-set2-batch03/restored-hashes.json'));
  const batch6Updated=JSON.parse(read('docs/audits/mbb-set2-batch06/updated-hashes.json'));
+const batch7Updated=JSON.parse(fs.readFileSync(path.join(root,'docs/audits/mbb-set2-batch07/updated-hashes.json'),'utf8'));
  const batch5Updated=JSON.parse(read('docs/audits/mbb-set2-batch05/updated-hashes.json'));
  const digest=value=>crypto.createHash('sha256').update(value).digest('hex');
  const all=Object.values(c.MBB_SET2_BATCHES).flat();
  assert.equal(all.length,175);assert.equal(Object.keys(manifest.question_sha256).length,150);
- for(const [qid,sha] of Object.entries(manifest.question_sha256))assert.equal(digest(JSON.stringify(all.find(q=>q.qid===qid))),batch6Updated.question_sha256[qid] || batch5Updated.question_sha256[qid] || restored.question_sha256[qid] || sha,qid);
+ for(const [qid,sha] of Object.entries(manifest.question_sha256))assert.equal(digest(JSON.stringify(all.find(q=>q.qid===qid))),batch7Updated.question_sha256[qid] || batch6Updated.question_sha256[qid] || batch5Updated.question_sha256[qid] || restored.question_sha256[qid] || sha,qid);
  assert.equal(Object.keys(manifest.asset_sha256).length,24);
- for(const [p,sha] of Object.entries(manifest.asset_sha256))assert.equal(digest(fs.readFileSync(path.join(root,p))),batch6Updated.asset_sha256[p] || batch5Updated.asset_sha256[p] || restored.asset_sha256[p] || sha,p);
+ for(const [p,sha] of Object.entries(manifest.asset_sha256))assert.equal(digest(fs.readFileSync(path.join(root,p))),batch7Updated.asset_sha256[p] || batch6Updated.asset_sha256[p] || batch5Updated.asset_sha256[p] || restored.asset_sha256[p] || sha,p);
 });
