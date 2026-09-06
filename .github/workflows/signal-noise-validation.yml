@@ -4,6 +4,7 @@ on:
     paths:
       - 'lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html'
       - 'tests/signal-noise-lesson.test.js'
+      - 'tests/signal-noise-simulation.test.js'
       - 'scripts/validate-signal-noise.cjs'
       - '.github/workflows/signal-noise-validation.yml'
       - 'docs/LESSON_CREATION_GUIDE.md'
@@ -35,7 +36,7 @@ jobs:
         run: |
           set -o pipefail
           mkdir -p artifacts/signal-noise
-          node --test tests/signal-noise-lesson.test.js | tee artifacts/signal-noise/content-tests.txt
+          node --test tests/signal-noise-lesson.test.js tests/signal-noise-simulation.test.js | tee artifacts/signal-noise/content-tests.txt
       - name: Confirm regressions reject the original presentation
         shell: bash
         run: |
@@ -49,6 +50,18 @@ jobs:
           grep -q 'not ok.*isolates CSS' artifacts/signal-noise/original-regression-results.txt
           grep -q 'not ok.*off-step defaults' artifacts/signal-noise/original-regression-results.txt
           grep -q 'not ok.*sparkline points' artifacts/signal-noise/original-regression-results.txt
+      - name: Confirm live-slider tests reject the previous PR revision
+        shell: bash
+        run: |
+          lesson=lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html
+          cp "$lesson" /tmp/reviewed-signal-noise.html
+          trap 'cp /tmp/reviewed-signal-noise.html "$lesson"' EXIT
+          git show 6760457637daf7aeacf300ec13f9b5f4764fe65b:"$lesson" > "$lesson"
+          if node --test tests/signal-noise-simulation.test.js > artifacts/signal-noise/pre-slider-regression-results.txt 2>&1; then
+            echo 'Previous slider implementation unexpectedly passed'; exit 1
+          fi
+          grep -q 'not ok.*Points slider redraws' artifacts/signal-noise/pre-slider-regression-results.txt
+          grep -q 'not ok.*Rapid dragging' artifacts/signal-noise/pre-slider-regression-results.txt
       - name: Install browser audit dependencies
         run: npm install --no-save --package-lock=false playwright@1.58.2 @axe-core/playwright@4.11.1
       - run: npx playwright install --with-deps chromium
@@ -60,7 +73,7 @@ jobs:
         if: always()
         run: |
           mkdir -p artifacts/signal-noise/source
-          cp lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html tests/signal-noise-lesson.test.js scripts/validate-signal-noise.cjs artifacts/signal-noise/source/
+          cp lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html tests/signal-noise-lesson.test.js tests/signal-noise-simulation.test.js scripts/validate-signal-noise.cjs artifacts/signal-noise/source/
           git rev-parse HEAD > artifacts/signal-noise/source/commit.txt
       - uses: actions/upload-artifact@v4
         if: always()
