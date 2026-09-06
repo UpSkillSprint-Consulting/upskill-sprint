@@ -1,0 +1,91 @@
+name: Signal or Noise lesson validation
+on:
+  pull_request:
+    paths:
+      - 'lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html'
+      - 'tests/signal-noise-lesson.test.js'
+      - 'scripts/validate-signal-noise.cjs'
+      - '.github/workflows/signal-noise-validation.yml'
+      - 'docs/LESSON_CREATION_GUIDE.md'
+      - 'style.css'
+      - 'lessons-theme.css'
+      - 'theme.js'
+      - 'site-sections.js'
+      - 'progress.js'
+permissions:
+  contents: read
+concurrency:
+  group: signal-noise-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  browser-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Content preservation and guide regression tests
+        run: |
+          mkdir -p artifacts/signal-noise
+          node --test tests/signal-noise-lesson.test.js | tee artifacts/signal-noise/content-tests.txt
+      - name: Confirm regressions reject the original presentation
+        shell: bash
+        run: |
+          lesson=lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html
+          cp "$lesson" /tmp/reviewed-signal-noise.html
+          trap 'cp /tmp/reviewed-signal-noise.html "$lesson"' EXIT
+          git show ddad4f1900392b2d250d0df8b8902dcb543f208d:"$lesson" > "$lesson"
+          if node --test tests/signal-noise-lesson.test.js > artifacts/signal-noise/original-regression-results.txt 2>&1; then
+            echo 'Original presentation unexpectedly passed the new regression tests'; exit 1
+          fi
+          grep -q 'not ok.*isolates CSS' artifacts/signal-noise/original-regression-results.txt
+          grep -q 'not ok.*off-step defaults' artifacts/signal-noise/original-regression-results.txt
+      - name: Install browser audit dependencies
+        run: npm install --no-save --package-lock=false playwright@1.58.2 @axe-core/playwright@4.11.1
+      - run: npx playwright install --with-deps chromium
+      - name: Browser, content, accessibility and actual deploy-preview checks
+        env:
+          SIGNAL_NOISE_PREVIEW_URL: https://deploy-preview-${{ github.event.pull_request.number }}--upskillsprint.netlify.app
+        run: node scripts/validate-signal-noise.cjs
+      - name: Capture exact reviewed source
+        if: always()
+        run: |
+          mkdir -p artifacts/signal-noise/source
+          cp lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html tests/signal-noise-lesson.test.js scripts/validate-signal-noise.cjs artifacts/signal-noise/source/
+          git rev-parse HEAD > artifacts/signal-noise/source/commit.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: signal-noise-browser-validation
+          path: artifacts/signal-noise
+          retention-days: 14
+          if-no-files-found: error
+  production-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Exact documented production build
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/signal-noise-build
+          (node --test tests/test-bank*.test.js && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs) 2>&1 | tee artifacts/signal-noise-build/build.log
+          git rev-parse HEAD > artifacts/signal-noise-build/commit.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: signal-noise-production-build
+          path: artifacts/signal-noise-build
+          retention-days: 14
