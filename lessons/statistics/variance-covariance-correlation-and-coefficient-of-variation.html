@@ -1326,6 +1326,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     if (main.style.getPropertyValue('--lesson-sl-sitebar-height') !== height) {
       main.style.setProperty('--lesson-sl-sitebar-height', height);
     }
+    document.getElementById('quiz').style.setProperty('--lesson-sl-sitebar-height', height);
     main.querySelectorAll('.katex-box').forEach(function (box) {
       if (box.scrollWidth > box.clientWidth + 1) {
         box.setAttribute('tabindex', '0');
@@ -1415,6 +1416,13 @@ html[data-theme="dark"] #quiz .quiz-result{color:#E7EEF4}
   #lesson-content .hero{padding-top:36px}
   #lesson-content .nav-dots{padding-left:16px;padding-right:16px;gap:14px}
 }
+/* Keep every diagram label and formula inside its own readable area. */
+#lesson-content .diagram-node .katex-display{margin:0}
+#lesson-content .diagram-node .n-title{line-height:1.2}
+#lesson-content .diagram-node .n-formula .katex{font-size:.9em}
+#lesson-content #diagramSvg text:nth-of-type(odd){transform:translateY(12px);paint-order:stroke;stroke:var(--lesson-sl-card);stroke-width:4px;stroke-linejoin:round}
+#lesson-content #diagramSvg text:nth-of-type(even){transform:translateY(-33px)}
+#quiz-heading{scroll-margin-top:calc(var(--lesson-sl-sitebar-height,73px) + 80px)}
 </style>
 </body>
 </html>
