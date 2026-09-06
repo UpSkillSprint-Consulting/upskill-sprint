@@ -226,6 +226,11 @@
         attemptedMath = true;
         engine = reusable ? window.MathJax : await loadMathJax();
         await engine.startup.promise;
+        // Direct conversion with startup.typeset=false does not install output CSS.
+        // Install MathJax's own stylesheet before inserting any equations; it keeps
+        // assistive MathML available to screen readers but visually clipped, rather
+        // than showing a second browser-native copy beneath every SVG equation.
+        engine.startup.document.updateDocument();
         let failures = 0;
         // Convert directly from the authoritative strings, not browser-parsed HTML.
         // Per-card conversion isolates a malformed formula and never rebuilds the grid.
