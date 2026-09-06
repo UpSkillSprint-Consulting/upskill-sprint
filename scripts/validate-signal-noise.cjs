@@ -63,7 +63,16 @@ async function contrasts(page){return page.evaluate(()=>{
  const ratio=(a,b)=>{const v=[lum(a),lum(b)].sort((a,b)=>a-b);return(v[1]+.05)/(v[0]+.05);};
  function bg(e){const a=[];for(let n=e;n;n=n.parentElement){const c=rgb(getComputedStyle(n).backgroundColor);a.push(c);if(c[3]===1)break;}return a.reverse().reduce((b,c)=>c.slice(0,3).map((v,i)=>v*c[3]+b[i]*(1-c[3])),[255,255,255]);}
  const selectors='#lesson-content button,#lesson-content select,#lesson-content .math span,#lesson-content .readout,#lesson-content .tag,#quiz .lesson-kicker,#quiz .quiz-actions button,#signal-noise-return a';
- return [...document.querySelectorAll(selectors)].filter(e=>e.getClientRects().length&&e.textContent.trim()).map(e=>({id:e.id,cls:e.className,text:e.textContent.slice(0,60),ratio:ratio(rgb(getComputedStyle(e).color),bg(e))})).filter(x=>x.ratio<4.49);
+ const failures=[...document.querySelectorAll(selectors)].filter(e=>e.getClientRects().length&&e.textContent.trim()).map(e=>({id:e.id,cls:e.className,text:e.textContent.slice(0,60),ratio:ratio(rgb(getComputedStyle(e).color),bg(e))})).filter(x=>x.ratio<4.49);
+ for(const e of document.querySelectorAll('#lesson-content input[type=range],#lesson-content select')){
+   if(!e.getClientRects().length)continue;
+   const c=getComputedStyle(e),border=e.tagName==='SELECT';
+   const control=rgb(border?c.borderTopColor:c.backgroundColor);
+   const contrast=ratio(control,bg(e.parentElement));
+   if(contrast<2.99)failures.push({id:e.id,type:'control-boundary',ratio:contrast});
+   if(border){const inner=ratio(control,bg(e));if(inner<2.99)failures.push({id:e.id,type:'inner-control-boundary',ratio:inner});}
+ }
+ return failures;
 });}
 async function axe(page,name){const r=await new AxeBuilder({page}).include('#lesson-content').include('#quiz').include('#signal-noise-return').withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();fs.writeFileSync(path.join(OUT,name+'-axe.json'),JSON.stringify(r.violations,null,2));assert.deepEqual(r.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>n.target)})),[]);}
 async function range(page,id,value){await page.locator('#'+id).fill(String(value));await page.locator('#'+id).dispatchEvent('input');}
