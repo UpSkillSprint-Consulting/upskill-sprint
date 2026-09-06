@@ -1,0 +1,53 @@
+name: Apply audited PR 168 alignment
+
+on:
+  push:
+    branches: ['feat/variance-covariance-correlation-cv-lesson']
+    paths: ['.github/workflows/apply-spread-lab-alignment.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  apply-reviewed-patch:
+    if: github.repository == 'UpSkillSprint-Consulting/upskill-sprint' && github.ref == 'refs/heads/feat/variance-covariance-correlation-cv-lesson'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Record regression failures against the unmodified lesson
+        run: |
+          mkdir -p /tmp/spread-lab-alignment
+          node --test tests/spread-lab-lesson.test.js > /tmp/spread-lab-alignment/baseline-tests.txt 2>&1 && exit 1 || true
+      - run: python -m pip install beautifulsoup4==4.14.3 tinycss2==1.5.1
+      - name: Apply exact audited patch and prove content preservation
+        run: |
+          python scripts/apply-spread-lab-alignment.py | tee /tmp/spread-lab-alignment/preservation.json
+          git diff --check
+          git diff > /tmp/spread-lab-alignment/presentation.patch
+          test "$(git hash-object lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation.html)" = '774b8a5e62051ea0cc6cd0a67f640f45678e84ea'
+      - name: Record fixed regression results
+        run: node --test tests/spread-lab-lesson.test.js | tee /tmp/spread-lab-alignment/fixed-tests.txt
+      - name: Commit only the verified lesson on the existing PR branch
+        run: |
+          set -eu
+          git config user.name 'BigErnie'
+          git config user.email 'BigErnie@users.noreply.github.com'
+          git add -- lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation.html
+          test "$(git diff --cached --name-only)" = 'lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation.html'
+          git commit -m 'Standardize Spread Lab presentation while preserving all teaching content'
+          git push origin HEAD:refs/heads/feat/variance-covariance-correlation-cv-lesson
+          git rev-parse HEAD > /tmp/spread-lab-alignment/commit.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: spread-lab-alignment-proof
+          path: /tmp/spread-lab-alignment
+          retention-days: 14
