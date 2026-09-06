@@ -3695,7 +3695,52 @@
   }
   function fmtClock(sec){sec=Math.max(0,Math.floor(sec));var h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s2=sec%60;var mm=(h?String(m).padStart(2,'0'):String(m)),ss=String(s2).padStart(2,'0');return (h?h+':':'')+mm+':'+ss;}
 
-  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart};
+  // One contract for every question route and every feedback consumer.
+  function feedbackText(value){
+    var node=document.createElement('div');
+    node.innerHTML=String(value==null?'':value);
+    return (node.textContent||'').replace(/\s+/g,' ').trim();
+  }
+  function firstFeedbackSentence(value){
+    var text=feedbackText(value);
+    if(!text)return 'A stored learning point is not available for this question yet.';
+    // Decimal punctuation is not a sentence boundary; never cut numeric tokens.
+    var match=text.match(/[\s\S]+?(?:[.!?](?=\s|$)|$)/);
+    return (match?match[0]:text).trim();
+  }
+  function feedbackKeyPoint(question){
+    var explicit=feedbackText(question&&question.keyPoint);
+    return explicit||firstFeedbackSentence(question&&question.why);
+  }
+  function explicitOptionRationale(question,index){
+    if(!question||!Number.isInteger(index)||index<0)return '';
+    // Both schema names occur in the audited bank. Fall back per option,
+    // rather than discarding the whole legacy field if a newer one is sparse.
+    var sources=[question.optionRationales,question.distractors];
+    for(var i=0;i<sources.length;i++){
+      var source=sources[i];
+      if(source&&typeof source==='object'){
+        var text=feedbackText(source[index]);
+        if(text)return text;
+      }
+    }
+    return '';
+  }
+  function renderQuestionContent(q,review){
+    if(!q)return '';
+    var b1=window.__TBMbbBatch1Review;
+    if(b1&&b1.applies(q))return review?b1.review(q):b1.render(q,renderQuestionChart,esc);
+    var ui=null;
+    for(var n=2;n<=7;n++){
+      var candidate=window['__MBBBatch'+n+'UI'];
+      if(candidate&&candidate.isQuestion(q)){ui=candidate;break;}
+    }
+    var questionId=window.__TBQuestionRegistry&&typeof window.__TBQuestionRegistry.idFor==='function'?window.__TBQuestionRegistry.idFor(current,q):(q.qid||q.questionId||q.id||'');
+    var stem='<div class="'+(review?'tb-review-stem':'tb-stem')+'" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>';
+    return ui?stem+ui.conditions(q)+renderQuestionChart(q.chart):renderQuestionChart(q.chart)+stem;
+  }
+
+  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale};
 
   /* ---------- rail ---------- */
   function renderRail(){
@@ -4338,7 +4383,7 @@
       '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered'+(flagged?' &middot; '+flagged+' flagged':'')+'</div></div>'+toolbar+'</div>'+
       '<div class="tb-progress"><span style="width:'+(answered/n*100)+'%"></span></div>'+
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(subName)+'</div>'+
-      (window.__TBMbbBatch1Review && window.__TBMbbBatch1Review.applies(q) ? window.__TBMbbBatch1Review.render(q,renderQuestionChart,esc) : window.__MBBBatch2UI && window.__MBBBatch2UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch2UI.conditions(q)+renderQuestionChart(q.chart) : window.__MBBBatch4UI && window.__MBBBatch4UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch4UI.conditions(q)+renderQuestionChart(q.chart) : window.__MBBBatch3UI && window.__MBBBatch3UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch3UI.conditions(q)+renderQuestionChart(q.chart) : window.__MBBBatch5UI && window.__MBBBatch5UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch5UI.conditions(q)+renderQuestionChart(q.chart) : window.__MBBBatch6UI && window.__MBBBatch6UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch6UI.conditions(q)+renderQuestionChart(q.chart) : window.__MBBBatch7UI && window.__MBBBatch7UI.isQuestion(q) ? '<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+window.__MBBBatch7UI.conditions(q)+renderQuestionChart(q.chart) : renderQuestionChart(q.chart)+'<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>')+opts+
+      renderQuestionContent(q,false)+opts+
       '<div class="tb-quizfoot"><div class="tb-nav">'+nav+'</div>'+
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';

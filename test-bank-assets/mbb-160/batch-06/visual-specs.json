@@ -212,7 +212,7 @@
         "duration",
         "predecessor-successor relationship"
       ],
-      "units": "working days",
+      "units": "working weeks",
       "layout": {
         "nodes": {
           "A": {

@@ -1,4 +1,5 @@
 'use strict';
+const withFinalMetadata = require('./helpers/mbb-final-metadata-fingerprints');
 // Independent numerical and integration regressions for the Q76–100 audit.
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto');
 const {JSDOM}=require('jsdom');
@@ -136,14 +137,14 @@ test('The live grounding guard preserves decimal values in the final public API'
  }finally{d.window.close();}
 });
 test('Prior Batch 4 preservation plus explicitly integrated Batch 3 hashes remain intact',()=>{
- const manifest=JSON.parse(read('docs/audits/mbb-set2-batch04/preservation.json'));
+ const manifest=withFinalMetadata(JSON.parse(read('docs/audits/mbb-set2-batch04/preservation.json')));
  // Batch 3 is now intentionally included in PR165; validate its explicit new
  // hashes rather than incorrectly requiring its pre-audit records. All other
  // Batch 4 preservation expectations remain unchanged.
- const restored=JSON.parse(read('docs/audits/mbb-set2-batch03/restored-hashes.json'));
- const batch6Updated=JSON.parse(read('docs/audits/mbb-set2-batch06/updated-hashes.json'));
-const batch7Updated=JSON.parse(fs.readFileSync(path.join(root,'docs/audits/mbb-set2-batch07/updated-hashes.json'),'utf8'));
- const batch5Updated=JSON.parse(read('docs/audits/mbb-set2-batch05/updated-hashes.json'));
+ const restored=withFinalMetadata(JSON.parse(read('docs/audits/mbb-set2-batch03/restored-hashes.json')));
+ const batch6Updated=withFinalMetadata(JSON.parse(read('docs/audits/mbb-set2-batch06/updated-hashes.json')));
+const batch7Updated=withFinalMetadata(JSON.parse(fs.readFileSync(path.join(root,'docs/audits/mbb-set2-batch07/updated-hashes.json'),'utf8')));
+ const batch5Updated=withFinalMetadata(JSON.parse(read('docs/audits/mbb-set2-batch05/updated-hashes.json')));
  const digest=value=>crypto.createHash('sha256').update(value).digest('hex');
  const all=Object.values(c.MBB_SET2_BATCHES).flat();
  assert.equal(all.length,175);assert.equal(Object.keys(manifest.question_sha256).length,150);

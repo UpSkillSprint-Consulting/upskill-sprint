@@ -46,11 +46,23 @@ function set3Question(window, number) {
 
 /* ---------- wiring: renderQuestionChart is called in the live quiz render path ---------- */
 
-test('quizHTML renders the question chart immediately before the stem, for every quiz view', () => {
+test('quizHTML delegates to the shared question body while generic chart-before-stem rendering is preserved', async () => {
   const idx = html.indexOf('function quizHTML()');
   assert.ok(idx > -1, 'quizHTML exists');
   const body = html.slice(idx, html.indexOf('function wireQuiz()', idx));
-  assert.match(body, /renderQuestionChart\(q\.chart\)\+'<div class="tb-stem"[^>]*>'/, 'chart renders directly before the stem div, driven by the current question\u2019s own chart field');
+  assert.match(body, /renderQuestionContent\(q,false\)\+opts/, 'all quiz modes use the common evidence-aware body');
+  const { window } = await load();
+  const q = set3Question(window, 639);
+  for (const review of [false, true]) {
+    const markup = window.__TB.renderQuestionContent(q, review);
+    const host = window.document.createElement('div'); host.innerHTML = markup;
+    const chart = host.querySelector('.tb-q-chart-wrap');
+    const stem = host.querySelector(review ? '.tb-review-stem' : '.tb-stem');
+    assert.ok(chart && stem, 'the generic chart and stem are both rendered');
+    assert.equal(chart.nextElementSibling, stem, 'the generic chart remains immediately before its stem');
+    assert.equal(stem.textContent, q.stem);
+    assert.ok(chart.querySelector('svg'), 'the attached question chart is rendered, not a placeholder');
+  }
 });
 
 test('window.__TB exposes renderQuestionChart for the adaptive-practice companion scripts to reuse', async () => {

@@ -83,7 +83,8 @@ test('rendered prompts: all 25 contain the complete case; no explanation or solv
 });
 test('review exposes all 75 actual stored distractor explanations, not generic fallback',async()=>{
  const dom=await domPage(),w=dom.window;try{batch.forEach(v=>v.options.forEach((_,i)=>{if(i===v.answer)return;const result=w.__TBDeepFeedback.distractorReason(v,i,null);assert.equal(result.validated,true);assert.equal(result.text,v.optionRationales[i]);}));
- const other={...q(1),qid:'mbb:set-2:original-026'};assert.equal(w.__TBDeepFeedback.distractorReason(other,0,null).validated,false);
+ const other={...q(1),qid:'mbb:set-2:original-026'};assert.equal(w.__TBDeepFeedback.distractorReason(other,0,null).validated,true);
+ delete other.optionRationales;assert.equal(w.__TBDeepFeedback.distractorReason(other,0,null).validated,false);
  }finally{w.close();}
 });
 test('generated metadata no longer asserts browser/viewport evidence that the asset builder cannot produce',()=>{

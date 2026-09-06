@@ -13257,7 +13257,7 @@
       "The index labels are reversed; SPI alone does not determine the forecast final cost.",
       "These ratios do not match the supplied inputs, and a ten-percent rule was not specified."
     ],
-    "formula": "CPI=EV/AC=480/550=0.873; SPI=EV/PV=480/600=0.800; EAC=BAC/CPI=1.20/0.873=$1.375M.",
+    "formula": "CPI=EV/AC=480/550=0.872727…; SPI=EV/PV=480/600=0.80; EAC=BAC/(EV/AC)=$1.20M*550/480=$1.375M, rounded to $1.38M only at the end.",
     "assumptions": [
       "All four amounts use the same currency, status date, scope and approved performance baseline.",
       "The estimate assumes current cost efficiency continues; other EAC assumptions would produce different forecasts."
@@ -13797,7 +13797,7 @@
       "The table gives variance contributions, not universal acceptability or a 76% standard-deviation fraction.",
       "Distinct destroyed coupons are not repeat measurements of the same specimen without a justified grouping assumption."
     ],
-    "formula": "Measurement contribution = repeatability 18% + appraiser 6% = 24% of total variance.",
+    "formula": "Residual 18% + appraiser 6% = 24% of modeled variance; this is not necessarily pure measurement variance. If a pure-measurement interpretation is justified, sqrt(0.24)*100 = 48.99% study variation.",
     "assumptions": [
       "Batches are nested within appraisers and represent comparable, randomly allocated process material. The model has appraiser, batch-within-appraiser and residual terms.",
       "The supplied model estimates are nonnegative; raw readings are unavailable for refitting. No appraiser-by-common-batch interaction is estimable in this allocation.",

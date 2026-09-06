@@ -239,10 +239,9 @@
       '</div>';
   }
 
-  // Retain all required evidence in reviewed and retried Batch 2 questions.
-  function auditedEvidence(question) {
-    const ui = window.__MBBBatch7UI && window.__MBBBatch7UI.isQuestion(question) ? window.__MBBBatch7UI : window.__MBBBatch6UI && window.__MBBBatch6UI.isQuestion(question) ? window.__MBBBatch6UI : window.__MBBBatch5UI && window.__MBBBatch5UI.isQuestion(question) ? window.__MBBBatch5UI : window.__MBBBatch3UI && window.__MBBBatch3UI.isQuestion(question) ? window.__MBBBatch3UI : window.__MBBBatch4UI && window.__MBBBatch4UI.isQuestion(question) ? window.__MBBBatch4UI : window.__MBBBatch2UI;
-    return ui && ui.isQuestion(question) ? ui.conditions(question) + (question.chart ? ui.render(question.chart) : '') : '';
+  function reviewQuestionContent(question) {
+    if (window.__TB && window.__TB.renderQuestionContent) return window.__TB.renderQuestionContent(question, true);
+    return '<div class="tb-review-stem">' + esc(question.stem) + '</div>';
   }
   function auditedRationales(question) {
     return window.__MBBBatch7UI && window.__MBBBatch7UI.isQuestion(question) ? window.__MBBBatch7UI.rationales(question) : window.__MBBBatch6UI && window.__MBBBatch6UI.isQuestion(question) ? window.__MBBBatch6UI.rationales(question) : window.__MBBBatch5UI && window.__MBBBatch5UI.isQuestion(question) ? window.__MBBBatch5UI.rationales(question) : window.__MBBBatch3UI && window.__MBBBatch3UI.isQuestion(question) ? window.__MBBBatch3UI.rationales(question) : window.__MBBBatch4UI && window.__MBBBatch4UI.isQuestion(question) ? window.__MBBBatch4UI.rationales(question) : window.__MBBBatch2UI ? window.__MBBBatch2UI.rationales(question) : '';
@@ -266,7 +265,7 @@
         '<span class="tb-review-status ' + status + '">' + statusLabel + '</span>' +
         (record.flagged ? '<span class="tb-review-status flagged">Flagged</span>' : '') + '</div>' +
       '</div>' +
-      (window.__TBMbbBatch1Review && window.__TBMbbBatch1Review.applies(question) ? window.__TBMbbBatch1Review.review(question) : '<div class="tb-review-stem">' + esc(question.stem) + '</div>') + auditedEvidence(question) +
+      reviewQuestionContent(question) +
       '<div class="tb-review-options">' + options + '</div>' +
       '<div class="tb-answer-compare"><div><span>Your answer</span><strong>' + esc(answerText(question, record.selected)) + '</strong></div>' +
       '<div><span>Correct answer</span><strong>' + esc(answerText(question, question.answer)) + '</strong></div></div>' +
@@ -378,7 +377,7 @@
     return '<div class="tb-retry-head"><div><div class="tb-diag-kick">Correction quiz</div><h3>Retry missed questions</h3></div>' +
       '<span class="tb-badge2">' + (index + 1) + ' of ' + total + '</span></div>' +
       '<div class="tb-retry-topic">' + esc(meta.domainName) + ' &rsaquo; ' + esc(meta.subName) + '</div>' +
-      (window.__TBMbbBatch1Review && window.__TBMbbBatch1Review.applies(question) ? window.__TBMbbBatch1Review.review(question) : '<div class="tb-review-stem">' + esc(question.stem) + '</div>') + auditedEvidence(question) +
+      reviewQuestionContent(question) +
       '<div class="tb-retry-options">' + options + '</div>' + feedback +
       '<div class="tb-retry-actions">' +
         (checked

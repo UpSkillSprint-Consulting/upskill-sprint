@@ -183,7 +183,7 @@
       ],
       "rows": 4,
       "calculations": [
-        "CPI=EV/AC=480/550=0.873; SPI=EV/PV=480/600=0.800; EAC=BAC/CPI=1.20/0.873=$1.375M."
+        "CPI=EV/AC=480/550=0.872727…; SPI=EV/PV=480/600=0.80; EAC=BAC/(EV/AC)=$1.20M*550/480=$1.375M, rounded to $1.38M only at the end."
       ],
       "interaction": null
     },
@@ -242,7 +242,7 @@
       ],
       "rows": 4,
       "calculations": [
-        "Measurement contribution = repeatability 18% + appraiser 6% = 24% of total variance."
+        "Residual 18% + appraiser 6% = 24% of modeled variance; this is not necessarily pure measurement variance. If a pure-measurement interpretation is justified, sqrt(0.24)*100 = 48.99% study variation."
       ],
       "interaction": null
     },

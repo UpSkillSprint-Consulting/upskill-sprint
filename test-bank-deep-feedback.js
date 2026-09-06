@@ -142,19 +142,16 @@
   }
 
   function extractKeyPoint(explanation) {
-    const text = stripHtml(explanation);
-    if (!text) return 'A validated learning point is not available for this question yet.';
-    const sentences = text.match(/[\s\S]+?(?:[.!?](?=\s|$)|$)/g) || [text];
-    let point = '';
-    for (let index = 0; index < sentences.length && index < 2; index += 1) {
-      point += (point ? ' ' : '') + sentences[index].trim();
-      if (point.length >= 85) break;
-    }
-    // Truncate at a word boundary; never turn a decimal into a different number.
-    if (point.length <= 280) return point;
-    const prefix = point.slice(0, 277);
-    const boundary = prefix.lastIndexOf(' ');
-    return (boundary > 0 ? prefix.slice(0, boundary) : '') + '…';
+    if (window.__TB && window.__TB.firstFeedbackSentence) return window.__TB.firstFeedbackSentence(explanation);
+    return stripHtml(explanation) || 'A stored learning point is not available for this question yet.';
+  }
+  function questionKeyPoint(question) {
+    if (window.__TB && window.__TB.feedbackKeyPoint) return window.__TB.feedbackKeyPoint(question);
+    return stripHtml(question && question.keyPoint) || extractKeyPoint(question && question.why);
+  }
+  function reviewQuestionContent(question) {
+    if (window.__TB && window.__TB.renderQuestionContent) return window.__TB.renderQuestionContent(question, true);
+    return '<div class="tb-review-stem">' + esc(question.stem) + '</div>';
   }
 
   function trapText(question) {
@@ -173,13 +170,10 @@
   }
 
   function explicitDistractor(question, index) {
+    if (window.__TB && window.__TB.explicitOptionRationale) return window.__TB.explicitOptionRationale(question, index);
     if (!question) return '';
-    const reviewed = /^mbb:set-2:original-(00[1-9]|01\d|02[0-5])$/.test(question.qid || '');
-    const rationales = question.distractors == null && reviewed ? question.optionRationales : question.distractors;
-    if (rationales == null) return '';
-    if (Array.isArray(rationales)) return String(rationales[index] || '').trim();
-    if (typeof rationales === 'object') {
-      return String(rationales[index] || rationales[String(index)] || '').trim();
+    for (const source of [question.optionRationales, question.distractors]) {
+      if (source && typeof source === 'object' && stripHtml(source[index])) return stripHtml(source[index]);
     }
     return '';
   }
@@ -328,7 +322,7 @@
 
   function deepBlocks(question, card, timeText) {
     const selectedIndex = selectedIndexFromCard(card);
-    const keyPoint = extractKeyPoint(question.why);
+    const keyPoint = questionKeyPoint(question);
     const trap = trapText(question);
     const distractors = (question.options || []).map(function (option, index) {
       if (index === question.answer) return '';
@@ -382,6 +376,12 @@
   }
 
   function updateErrorSummary() {
+    // The hardening module owns attempt-scoped classifications when loaded.
+    // Do not alternate its summary with this legacy cross-attempt fallback.
+    if (window.__TBPhase2Hardening && window.__TBPhase2Hardening.refreshClassificationSummary) {
+      window.__TBPhase2Hardening.refreshClassificationSummary();
+      return;
+    }
     const host = document.getElementById('tb-error-summary');
     if (!host) return;
     const values = Array.from(document.querySelectorAll('#' + FEEDBACK_ID + ' [data-error-class]'))
@@ -467,9 +467,9 @@
       if (similarState.checked && similarState.selected === index && index !== question.answer) classes.push('wrong');
       return '<button type="button" class="' + classes.join(' ') + '" data-similar-opt="' + index + '"' + (similarState.checked ? ' disabled' : '') + '><span>' + String.fromCharCode(65 + index) + '</span>' + esc(option) + '</button>';
     }).join('');
-    const feedback = similarState.checked ? '<div class="tb-similar-feedback"><strong>' + (similarState.selected === question.answer ? 'Correct.' : 'Not quite. The correct answer is ' + esc(answerText(question, question.answer)) + '.') + '</strong><p>' + (question.why || 'A validated explanation is not available yet.') + '</p><div class="tb-deep-label">Key learning point</div><p>' + esc(extractKeyPoint(question.why)) + '</p><a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a></div>' : '';
+    const feedback = similarState.checked ? '<div class="tb-similar-feedback"><strong>' + (similarState.selected === question.answer ? 'Correct.' : 'Not quite. The correct answer is ' + esc(answerText(question, question.answer)) + '.') + '</strong><p>' + (question.why || 'A validated explanation is not available yet.') + '</p><div class="tb-deep-label">Key learning point</div><p>' + esc(questionKeyPoint(question)) + '</p><a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a></div>' : '';
     return '<div class="tb-retry-head"><div><div class="tb-diag-kick">Same-subtopic practice</div><h3>Practise similar questions</h3></div><span class="tb-badge2">' + (similarState.index + 1) + ' of ' + similarState.items.length + '</span></div>' +
-      '<div class="tb-retry-topic">' + esc(meta.domainName) + ' &rsaquo; ' + esc(meta.subName) + '</div>' + (window.__TBMbbBatch1Review && window.__TBMbbBatch1Review.applies(question) ? window.__TBMbbBatch1Review.review(question) : '<div class="tb-review-stem">' + esc(question.stem) + '</div>') + '<div class="tb-similar-options">' + options + '</div>' + feedback +
+      '<div class="tb-retry-topic">' + esc(meta.domainName) + ' &rsaquo; ' + esc(meta.subName) + '</div>' + reviewQuestionContent(question) + '<div class="tb-similar-options">' + options + '</div>' + feedback +
       '<div class="tb-retry-actions">' + (similarState.checked ? '<button type="button" class="btn btn-teal" data-similar-next>' + (similarState.index === similarState.items.length - 1 ? 'See practice results' : 'Next question') + '</button>' : '<button type="button" class="btn btn-teal" data-similar-check' + (similarState.selected == null ? ' disabled' : '') + '>Check answer</button>') + '<button type="button" class="tb-ghost" data-close-similar>Return to review</button></div>';
   }
 

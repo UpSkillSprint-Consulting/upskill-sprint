@@ -1,16 +1,17 @@
 'use strict';
+const withFinalMetadata = require('./helpers/mbb-final-metadata-fingerprints');
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto');
 const {JSDOM}=require('jsdom');const root=path.join(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
 const w={};w.window=w;vm.createContext(w);vm.runInContext(read('test-bank-mbb-set2.js'),w);const batches=JSON.parse(JSON.stringify(w.MBB_SET2_BATCHES)),b=batches[3],Q=n=>b[n-51];
 const keys=[2,0,3,1,2,0,3,1,2,0,3,1,2,0,2,3,1,2,0,3,1,2,0,3,1];
 const sort=o=>Array.isArray(o)?o.map(sort):o&&typeof o==='object'?Object.fromEntries(Object.keys(o).sort().map(k=>[k,sort(o[k])])):o;
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
-const preserved=JSON.parse(read('docs/audits/mbb-set2-batch03/preservation.json'));
+const preserved=withFinalMetadata(JSON.parse(read('docs/audits/mbb-set2-batch03/preservation.json')));
 // Intentional later Batch 5 audit: enforce its recorded new hashes instead of silently skipping it.
 // Intentional Batch 6 audit: pin its exact new hashes and the single Q150 B→D rekey.
-const batch6Updated=JSON.parse(read('docs/audits/mbb-set2-batch06/updated-hashes.json'));
-const batch7Updated=JSON.parse(fs.readFileSync(path.join(root,'docs/audits/mbb-set2-batch07/updated-hashes.json'),'utf8'));
-const batch5Updated=JSON.parse(read('docs/audits/mbb-set2-batch05/updated-hashes.json'));
+const batch6Updated=withFinalMetadata(JSON.parse(read('docs/audits/mbb-set2-batch06/updated-hashes.json')));
+const batch7Updated=withFinalMetadata(JSON.parse(fs.readFileSync(path.join(root,'docs/audits/mbb-set2-batch07/updated-hashes.json'),'utf8')));
+const batch5Updated=withFinalMetadata(JSON.parse(read('docs/audits/mbb-set2-batch05/updated-hashes.json')));
 for(let i=0;i<25;i++)test(`Restored Q${i+51}: adjudicated key ${'ABCD'[keys[i]]} and rationale agree`,()=>{const q=b[i];assert.equal(q.answer,keys[i]);assert.ok(q.why.includes('<b>'+'ABCD'[keys[i]]+'. '+q.options[keys[i]]+'</b>'));assert.equal(new Set(q.options).size,4);assert.equal(q.optionRationales.length,4);});
 test('All 150 non-Batch-3 records and all keys except the authorized Q150 repair are preserved',()=>{let count=0;for(const [id,qs] of Object.entries(batches)){if(id==='3')continue;for(const q of qs){assert.equal(sha(JSON.stringify(sort(q))),batch7Updated.stable_question_sha256[q.qid] || batch6Updated.stable_question_sha256[q.qid] || batch5Updated.stable_question_sha256[q.qid] || preserved.unmodifiedQuestionSha256[q.qid],q.qid);count++;}}assert.equal(count,150);assert.deepEqual(Object.keys(batches).sort((a,b)=>a-b).flatMap(k=>batches[k].map(q=>q.answer)),preserved.answerPositions.map((a,i)=>i===149?3:a));assert.deepEqual(batch6Updated.authorizedKeyChange,{qid:'mbb:set-2:original-150',from:1,to:3,reason:'Stored B contradicts the semantic solution, option wording and existing explanation.'});});
 test('All 24 other asset files, including Batches 1, 2 and 4, are byte-identical',()=>{assert.equal(Object.keys(preserved.unmodifiedAssetsSha256).length,24);for(const [file,expected] of Object.entries(preserved.unmodifiedAssetsSha256))assert.equal(sha(fs.readFileSync(path.join(root,file))),batch7Updated.asset_sha256[file] || batch6Updated.asset_sha256[file] || batch5Updated.asset_sha256[file] || expected,file);});

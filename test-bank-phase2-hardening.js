@@ -169,11 +169,8 @@
   }
 
   function keyPoint(question) {
-    if (question && question.keyPoint) return stripHtml(question.keyPoint);
-    const text = stripHtml(question && question.why);
-    if (!text) return 'A reviewed learning point is not available for this question.';
-    const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
-    return sentences[0].trim();
+    if (window.__TB && window.__TB.feedbackKeyPoint) return window.__TB.feedbackKeyPoint(question);
+    return stripHtml(question && (question.keyPoint || question.why)) || 'A stored learning point is not available for this question yet.';
   }
 
   function conceptId(question) {
@@ -195,7 +192,9 @@
   }
 
   function optionRationale(question, index, selectedIndex) {
-    const explicit = question && question.distractors && (Array.isArray(question.distractors) ? question.distractors[index] : question.distractors[index] || question.distractors[String(index)]);
+    const explicit = window.__TB && window.__TB.explicitOptionRationale
+      ? window.__TB.explicitOptionRationale(question, index)
+      : question && ((question.optionRationales && question.optionRationales[index]) || (question.distractors && question.distractors[index]));
     if (explicit) return { text: stripHtml(explicit), reviewed: true };
     const correct = question.options[question.answer];
     const evidence = keyPoint(question);
@@ -380,6 +379,6 @@
     schedule();
   }
 
-  window.__TBPhase2Hardening = { keyPoint: keyPoint, testTakingCheck: testTakingCheck, optionRationale: optionRationale, conceptId: conceptId, formatTime: formatTime };
+  window.__TBPhase2Hardening = { keyPoint: keyPoint, testTakingCheck: testTakingCheck, optionRationale: optionRationale, conceptId: conceptId, formatTime: formatTime, refreshClassificationSummary: classificationSummary };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true }); else initialize();
 }());

@@ -6,6 +6,7 @@ from pathlib import Path
 loader=Path(__file__).with_name('mbb-batch05-render.py')
 exec(compile(loader.read_text().split('with sync_playwright() as p:')[0],str(loader),'exec'))
 raw=raw.replace('</head>','<style>'+read('test-bank-mbb-batch1-review.css')+'</style></head>')
+raw += '<script>'+read('test-bank-phase2-hardening.js').replace('</script','<\\/script')+'</script>'
 b1=json.loads(read('docs/audits/mbb-set2-batch1-tracker.json'))
 b2=json.loads(read('docs/audits/mbb-set2-batch02/question-audit-tracker.json'))['question_records']
 b4=json.loads(read('docs/audits/mbb-set2-batch04/question-audit-tracker.json'))
@@ -16,7 +17,7 @@ assert len(keys)==175
 results={'environment':'Actual source; offline Chromium auth/memory fixtures; 175-question integration using programmatic navigation/answer events; actionability tested separately; not a new source-page audit','assertions':[],'screens':[],'errors':[]}
 visuals={1,5,12,13,14,15,20,22,23,24,26,28,31,36,38,40,46,48,49,51,56,61,65,69,70,71,72,73,74,76,84,86,90,96,97,98,99,100}
 import hashlib
-results['source_sha256']={name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in ['test-bank.html', 'test-bank-mbb-set2.js', 'test-bank-feedback-loop.js', 'test-bank-deep-feedback.js', 'test-bank-deep-feedback-grounding.js', 'test-bank-mbb-batch1-review.js', 'test-bank-mbb-batch1-review.css', 'test-bank-mbb-batch2-ui.js', 'test-bank-mbb-batch3-ui.js', 'test-bank-mbb-batch4-ui.js', 'test-bank-mbb-batch5-ui.js', 'test-bank-mbb-batch6-ui.js', 'test-bank-mbb-batch7-ui.js']}
+results['source_sha256']={name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in ['test-bank.html', 'test-bank-mbb-set2.js', 'test-bank-feedback-loop.js', 'test-bank-deep-feedback.js', 'test-bank-deep-feedback-grounding.js', 'test-bank-phase2-hardening.js', 'test-bank-mbb-batch1-review.js', 'test-bank-mbb-batch1-review.css', 'test-bank-mbb-batch2-ui.js', 'test-bank-mbb-batch3-ui.js', 'test-bank-mbb-batch4-ui.js', 'test-bank-mbb-batch5-ui.js', 'test-bank-mbb-batch6-ui.js', 'test-bank-mbb-batch7-ui.js']}
 
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox'])
