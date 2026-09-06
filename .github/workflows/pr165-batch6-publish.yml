@@ -1,0 +1,150 @@
+name: Verify PR165 Batch 6 candidate
+on:
+  push:
+    branches: ['audit/pr165-batch6-publish']
+    paths: ['.github/workflows/pr165-batch6-publish.yml']
+permissions:
+  contents: write
+concurrency:
+  group: pr165-batch6-publication
+  cancel-in-progress: false
+jobs:
+  verify:
+    if: github.ref == 'refs/heads/audit/pr165-batch6-publish'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - name: Verify exact payload and apply only to the pinned PR baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/pr165-b6"
+          python3 - <<'PY'
+          import base64, hashlib, json, lzma, os, pathlib, subprocess
+          assert os.environ['GITHUB_REF'] == 'refs/heads/audit/pr165-batch6-publish'
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / 'pr165-b6'
+          parts = [pathlib.Path(f'.github/pr165-b6/part-{i:02}.b64').read_text().strip() for i in range(1, 18)]
+          assert [len(x) for x in parts] == [6000] * 16 + [5384], 'Transport length mismatch'
+          packed = base64.b64decode(''.join(parts), validate=True)
+          assert hashlib.sha256(packed).hexdigest() == '3f740c156154658e5e4f138087c3ecd63684cfd0ecdf5d2b4a8da9b70151c483', 'Transport hash mismatch'
+          raw = lzma.decompress(packed)
+          assert hashlib.sha256(raw).hexdigest() == '083eca8daaa676894a79908559a6a14e364caacc85295f53c2cee3f47a188478', 'Decoded hash mismatch'
+          payload = json.loads(raw)
+          (out / 'payload.json').write_bytes(raw)
+          baseline = '25d47ccfd57b6b4ae49c322650148fac5008caad'
+          assert payload['baseline'] == baseline and len(payload['manifest']) == 26
+          allowed = {f'mbb:set-2:original-{n:03}' for n in range(126, 151)}
+          assert set(payload['changedQuestionIds']) == allowed
+          assert payload['expectedKeyChange'] == {'qid':'mbb:set-2:original-150','before':1,'after':3}
+          for name in payload['manifest']:
+              path = pathlib.PurePosixPath(name)
+              assert not path.is_absolute() and '..' not in path.parts and not name.startswith('.github/')
+          # Detach at the PR's exact prior head. The transport commits are not
+          # ancestors of the application candidate and never enter its diff.
+          subprocess.run(['git', 'checkout', '--detach', baseline], check=True)
+          for name, expected in payload['manifest'].items():
+              path = pathlib.Path(name)
+              actual = hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() else None
+              assert actual == expected['before'], f'Baseline mismatch: {name}'
+          code = "const fs=require('fs'),vm=require('vm');let c={};c.window=c;vm.createContext(c);vm.runInContext(fs.readFileSync('test-bank-mbb-set2.js','utf8'),c);console.log(JSON.stringify(c.MBB_SET2));"
+          before = json.loads(subprocess.check_output(['node', '-e', code], text=True))
+          assert len(before) == 175
+          (out / 'questions-before.json').write_text(json.dumps(before))
+          patch = out / 'candidate.patch'
+          patch.write_text(payload['patch'], newline='')
+          subprocess.run(['git', 'apply', '--check', str(patch)], check=True)
+          subprocess.run(['git', 'apply', str(patch)], check=True)
+          bank = pathlib.Path('test-bank-mbb-set2.js')
+          text = bank.read_text()
+          start = text.index('  var batch6=[')
+          end = text.index('  function q7(', start)
+          block = payload['batch6Block']
+          assert block.startswith('  var batch6=[') and block.endswith('];\n\n')
+          bank.write_text(text[:start] + block + text[end:])
+          assert hashlib.sha256(bank.read_bytes()).hexdigest() == payload['manifest'][str(bank)]['after']
+          print('Applied the verified Batch 6 candidate to the exact PR baseline.')
+          PY
+      - name: Install locked dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci | tee "$RUNNER_TEMP/pr165-b6/dependencies.log"
+      - name: Regenerate all visual packages and verify exact files and question scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/build-mbb160-assets.mjs | tee "$RUNNER_TEMP/pr165-b6/regeneration.log"
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, subprocess
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / 'pr165-b6'
+          payload = json.loads((out / 'payload.json').read_text())
+          verified = {}
+          for name, expected in payload['manifest'].items():
+              actual = hashlib.sha256(pathlib.Path(name).read_bytes()).hexdigest()
+              assert actual == expected['after'], f'Final hash mismatch: {name}'
+              verified[name] = actual
+              print('MATCH', name, actual)
+          (out / 'verified-files.json').write_text(json.dumps(verified, indent=2))
+          code = "const fs=require('fs'),vm=require('vm');let c={};c.window=c;vm.createContext(c);vm.runInContext(fs.readFileSync('test-bank-mbb-set2.js','utf8'),c);console.log(JSON.stringify(c.MBB_SET2));"
+          before = json.loads((out / 'questions-before.json').read_text())
+          after = json.loads(subprocess.check_output(['node', '-e', code], text=True))
+          assert len(after) == 175
+          assert [q['qid'] for q in before] == [q['qid'] for q in after]
+          changed = [a['qid'] for b,a in zip(before,after) if b != a]
+          keys = [{'qid':a['qid'],'before':b['answer'],'after':a['answer']} for b,a in zip(before,after) if b['answer'] != a['answer']]
+          assert changed == payload['changedQuestionIds'], changed
+          assert keys == [payload['expectedKeyChange']], keys
+          scope = {'totalQuestions':175,'changedQuestions':changed,'unchangedQuestions':150,'answerKeyChanges':keys}
+          (out / 'question-scope.json').write_text(json.dumps(scope, indent=2))
+          modified = subprocess.check_output(['git','diff','--name-only'], text=True).splitlines()
+          assert set(modified) <= set(payload['manifest']), modified
+          subprocess.run(['git','diff','--check'], check=True)
+          PY
+      - name: Run all targeted MBB and feedback regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test --test-concurrency=1 tests/*mbb*.test.js tests/*feedback*.test.js | tee "$RUNNER_TEMP/pr165-b6/regression.log"
+      - name: Commit only verified files to a review candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = 'refs/heads/audit/pr165-batch6-publish'
+          test "$(git rev-parse HEAD)" = '25d47ccfd57b6b4ae49c322650148fac5008caad'
+          python3 - <<'PY'
+          import json, os, pathlib, subprocess
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / 'pr165-b6'
+          paths = list(json.loads((out / 'payload.json').read_text())['manifest'])
+          subprocess.run(['git','add','--',*paths], check=True)
+          staged = subprocess.check_output(['git','diff','--cached','--name-only'], text=True).splitlines()
+          assert set(staged) == set(paths), staged
+          log = (out / 'regression.log').read_text()
+          for line in ['# tests 317','# pass 317','# fail 0','# cancelled 0','# skipped 0']:
+              assert line in log, line
+          subprocess.run(['git','diff','--cached','--check'], check=True)
+          PY
+          git config user.name 'upskillsprint-agent'
+          git config user.email 'skillsprintconsulting@gmail.com'
+          git commit -m 'fix: audit MBB Set 2 Batch 6 and correct Q150 answer key'
+          git push origin HEAD:refs/heads/audit/pr165-batch6-candidate
+          git rev-parse HEAD > "$RUNNER_TEMP/pr165-b6/commit.txt"
+      - name: Preserve verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr165-batch6-publication-verification
+          path: |
+            ${{ runner.temp }}/pr165-b6/verified-files.json
+            ${{ runner.temp }}/pr165-b6/question-scope.json
+            ${{ runner.temp }}/pr165-b6/regression.log
+            ${{ runner.temp }}/pr165-b6/regeneration.log
+            ${{ runner.temp }}/pr165-b6/dependencies.log
+            ${{ runner.temp }}/pr165-b6/commit.txt
+          retention-days: 14
