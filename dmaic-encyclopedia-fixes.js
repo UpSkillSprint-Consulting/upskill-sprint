@@ -192,7 +192,9 @@
       try {
         window.MathJax = {
           startup: { typeset: false },
-          tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']], processEscapes: true, tags: 'none' },
+          // Text-mode escapes (e.g. percent labels) are not autoloaded in MathJax 3.
+          loader: { load: ['[tex]/textmacros'] },
+          tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']], processEscapes: true, tags: 'none', packages: { '[+]': ['textmacros'] } },
           svg: { fontCache: 'local', scale: 1 },
           options: { enableMenu: false }
         };
