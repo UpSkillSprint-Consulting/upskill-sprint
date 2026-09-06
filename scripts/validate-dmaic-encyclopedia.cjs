@@ -53,11 +53,22 @@ async function newPage(browser, options = {}) {
   });
   // No third-party tracking/fonts are required to validate the lesson itself.
   await page.route(/https:\/\/(?:fonts\.googleapis\.com|fonts\.gstatic\.com)\/.*/, r => r.fulfill({ body: '', contentType: 'text/css' }));
+  if (options.lessonDelay) {
+    await page.route('**/assets/lessons/dmaic-formula-encyclopedia/part-*.txt*', async route => {
+      await new Promise(r => setTimeout(r, options.lessonDelay));
+      await route.continue();
+    });
+  }
   if (options.noDecompression) await page.addInitScript(() => { window.DecompressionStream = undefined; });
   return { context, page, network, pageErrors };
 }
 async function open(page) { await page.goto(base + '/lessons/lean-six-sigma/dmaic-formula-encyclopedia', { waitUntil: 'domcontentloaded' }); }
-async function ready(page) { await page.waitForFunction(() => document.querySelector('[data-dmaic-encyclopedia]')?.dataset.mathStatus === 'ready', null, { timeout: 45000 }); }
+async function waitForMathStatus(page, status) {
+  // document.open/write replaces the loader asynchronously. The lesson main can
+  // legitimately be absent for a polling tick; keep waiting rather than throw.
+  await page.waitForFunction(expected => document.querySelector('[data-dmaic-encyclopedia]')?.dataset.mathStatus === expected, status, { timeout: 45000 });
+}
+async function ready(page) { await waitForMathStatus(page, 'ready'); }
 async function audit(page) {
   return page.evaluate(() => {
     function rgb(s) { const a = s.match(/[\d.]+/g)?.map(Number) || [0, 0, 0]; return [a[0], a[1], a[2], a.length > 3 ? a[3] : 1]; }
@@ -181,20 +192,49 @@ async function oracle(page, label) {
       await page.reload(); await ready(page);
       assert.equal(await page.evaluate(() => localStorage.getItem('upskill-theme') === document.documentElement.dataset.theme), true);
     });
-    await run('print rendering remains readable from dark mode', async () => {
-      await page.evaluate(() => { document.documentElement.dataset.theme = 'dark'; }); await page.emulateMedia({ media: 'print' });
-      await page.waitForTimeout(250); const a = await audit(page);
-      assert.equal(a.cards.length, 111); assert.ok(a.cards.every(c => c.math === 1 && !c.parseErrors && c.contrast >= 4.49));
-      await page.emulateMedia({ media: 'screen' });
-    });
+    for (const theme of ['light', 'dark']) {
+      await run('print rendering remains readable from ' + theme + ' mode', async () => {
+        await page.evaluate(t => { document.documentElement.dataset.theme = t; }, theme);
+        await page.emulateMedia({ media: 'print' });
+        try {
+          await page.waitForTimeout(250);
+          const a = await audit(page); report.audits['print-' + theme] = a;
+          assert.equal(a.cards.length, 111);
+          for (const c of a.cards) {
+            assert.equal(c.state, 'ready', c.id); assert.equal(c.math, 1, c.id);
+            assert.equal(c.parseErrors, 0, c.id); assert.equal(c.rawText, false, c.id);
+            assert.ok(c.width > 0 && c.height > 0, c.id);
+            assert.ok(c.contrast >= 4.49, c.id + ' print contrast: ' + JSON.stringify(c.badContrast));
+          }
+          const palette = await page.evaluate(() => ({
+            paper: getComputedStyle(document.body).backgroundColor,
+            badges: [...document.querySelectorAll('[data-dmaic-encyclopedia] .formula-id, [data-dmaic-encyclopedia] .phase-icon')].map(e => ({
+              id: e.textContent, color: getComputedStyle(e).color, background: getComputedStyle(e).backgroundColor
+            }))
+          }));
+          assert.equal(palette.paper, 'rgb(255, 255, 255)', 'print paper must be white even in dark mode');
+          assert.equal(palette.badges.length, 117);
+          for (const badge of palette.badges) {
+            assert.equal(badge.color, 'rgb(0, 0, 0)', badge.id + ' print text');
+            assert.equal(badge.background, 'rgb(255, 255, 255)', badge.id + ' print background');
+          }
+          for (const id of ['P01', 'M18', 'I14']) await page.locator('[data-formula-id="' + id + '"]').screenshot({ path: path.join(out, 'print-' + theme + '-' + id + '.png') });
+        } finally {
+          await page.emulateMedia({ media: 'screen' });
+        }
+        await page.waitForTimeout(250); assertAudit(await audit(page));
+      });
+    }
     assert.deepEqual(fixture.pageErrors, []); await fixture.context.close();
     for (const [name, options] of [['7-second delayed MathJax', { network: { delay: 7000 } }], ['primary CDN failure with fallback', { network: { primaryFails: true } }], ['decompression fallback', { noDecompression: true }]]) {
       await run(name, async () => { const f = await newPage(browser, options); try { await open(f.page); await ready(f.page); assertAudit(await audit(f.page)); assert.deepEqual(f.pageErrors, []); } finally { await f.context.close(); } });
     }
     await run('both CDNs blocked: visible error, retained filters, retry recovers all 111', async () => {
-      const f = await newPage(browser, { network: { bothFail: true } });
+      const f = await newPage(browser, { network: { bothFail: true }, lessonDelay: 250 });
       try {
-        await open(f.page); await f.page.waitForFunction(() => document.querySelector('main').dataset.mathStatus === 'error');
+        await open(f.page); await waitForMathStatus(f.page, 'error');
+        assert.ok(f.network.mathRequests.some(url => url.includes('jsdelivr')));
+        assert.ok(f.network.mathRequests.some(url => url.includes('cdnjs')));
         await f.page.fill('#searchInput', 'I14'); await oracle(f.page, 'offline search');
         assert.equal(await f.page.locator('.math-status button').isVisible(), true);
         f.network.bothFail = false; await f.page.click('.math-status button'); await ready(f.page); await oracle(f.page, 'recovered search');
