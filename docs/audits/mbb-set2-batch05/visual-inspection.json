@@ -1,0 +1,1395 @@
+{
+  "scope": "All 25 items, manually inspected before/corrected desktop-mobile question pairs and corrected answer-review pairs; final-source browser captures retained separately.",
+  "last_runtime_change": "A Batch 5 dark-mode topic-badge foreground override, after the full manual light-mode sweeps. No question content or geometry changed afterward.",
+  "final_dark_retest": {
+    "manual_capture": "evidence/secondary/dark-mobile-attempt-123.png",
+    "sha256": "9e962a65fb56a7632d8a71ddab88ddb4d7f4f404f0191b56603a0ec171d53b1c",
+    "result": "Reopened visually after the contrast repair; readable white topic text. All 25 dark-mobile labels also passed final computed-style foreground checks."
+  },
+  "additional_final_manual_reopen": [
+    "evidence/player/desktop-111.png",
+    "evidence/player/desktop-review-125.png"
+  ],
+  "limits": [
+    "A screenshot is not a live-account or physical-device acceptance test.",
+    "Wide evidence intentionally uses bounded horizontal scrolling; automated reachability tests open all equivalent data tables.",
+    "The correction rationale and every displayed value were reviewed independently; screenshots alone do not prove statistical correctness."
+  ],
+  "items": [
+    {
+      "question": 101,
+      "qid": "mbb:set-2:original-101",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q101.jpg",
+        "sha256": "09eb5358b00b39efdcc8089fce0625ab95374d091091748dfaa583ca50f9fc7c"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-101.jpg",
+        "sha256": "365ab2a1fcfac46532a67af39cfe37a8c2f14a18994f40055ed3df60ee48fe7c"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-101.jpg",
+        "sha256": "1c0c38bec9090fee54de0f8836b7b12e3f240557a364d317dff338fa9c28eaf3"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-101.png",
+          "sha256": "81c19367956cbaae95ebb54eb29763a04974f162309ce32f884d6abdc1c60c61"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-101.png",
+          "sha256": "da055d688651ec7e540ccc9d0460e85f7c693610087f3f4647728b943f9354f7"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-101.png",
+          "sha256": "c3b1374ca7040f7369fd020a7d466855a24b07f1748b2942ff0d4d6cdfd647e1"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-101.png",
+          "sha256": "a61aaf80e97b27b33cdf61f208dd84311bdf908774bec07c487bb7936992d22f"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-101.png",
+          "sha256": "dd9c271887121fc9f3219c8951d7edb6c0cad5b3ead66a6561b524c7ddb0ba97"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-101.png",
+          "sha256": "56c2de7e1b7c6b01d849b196b45e8ae06df674a3d58906cee5967ce1d3377d13"
+        }
+      ]
+    },
+    {
+      "question": 102,
+      "qid": "mbb:set-2:original-102",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q102.jpg",
+        "sha256": "e23bf503c5211c3b6e7a4507ab8fe9a351af5265fd583581f1455c43b88421c2"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-102.jpg",
+        "sha256": "0f1214e0a70e250aa921e8db464069d1b80f80818fc0943dfecf4472998ca5dc"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-102.jpg",
+        "sha256": "7b01e5da21e2409e8b3b85a023c4aa74eb90e210f8fae50657716e856f1834eb"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-102.png",
+          "sha256": "c34efcda0346542faf570ee65f481aa42d58aeb2521dca6d8b1457ef3bef4a0a"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-102.png",
+          "sha256": "6302dab8bbfc999c1f8929447cc211b5424cec29eab266a93c1e85eb1af8008b"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-102.png",
+          "sha256": "1afaf121efe056106cab84017bda44792d497cf87d90e42e285dcfd21e652fcf"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-102.png",
+          "sha256": "ad06ad6160ef098cb836175b3e7eba6904c65158f8d21c8fb9e6d3925b171009"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-102.png",
+          "sha256": "94d3455e6e1702aaa37fbc303d28f1bf0209b4b9013260a8ef1fbe556831e573"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-102.png",
+          "sha256": "47a415ed7ce3f60d3164c043aeb9c5d7a155ca104881890d1d8b83385ed23583"
+        }
+      ]
+    },
+    {
+      "question": 103,
+      "qid": "mbb:set-2:original-103",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q103.jpg",
+        "sha256": "9d8d63fcdfe4640a13dc5d03976d73b7a4708f9a54e582041a503565bb4f830f"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-103.jpg",
+        "sha256": "0950864a331b732481d9cf782674bbb67098a9463020b2dd317b658332e62bde"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-103.jpg",
+        "sha256": "95d7e4ac0b45ed13631dfa16430fbe2b8b3c817c0857629c54c1a29f2f7a854c"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-103.png",
+          "sha256": "49ec4eb7175681d9c68825c3a14c967088d30a248cbea3ffa99ec11d8b7c819a"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-103.png",
+          "sha256": "c9a1cbbcc529a3021716ea5fb4727cf17aaa8fe818c42887213c8d81739236af"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-103.png",
+          "sha256": "e11e9b045198bbbb68a94d3d25dedac378913701eb64049432c39fd54dc560cc"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-103.png",
+          "sha256": "6ea449618c293ab3387224c00436cb0f9dd185e3f0a1f17486450f7696694df3"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-103.png",
+          "sha256": "4c10cc5b10a2d5d6b0736de3ef0d0995932a6611230b74764a3eb69b467cba1c"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-103.png",
+          "sha256": "34fffa89e14c23469e32fe9f1f1272085ab4f50b27a1da269dca734228e065c8"
+        }
+      ]
+    },
+    {
+      "question": 104,
+      "qid": "mbb:set-2:original-104",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q104.jpg",
+        "sha256": "e21b07828d9147536eafa5da1355728cb6875faaaab1c24cf58c09dd76f9ff94"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-104.jpg",
+        "sha256": "17468c959fe231848518bc87e5af3cb36453412465518c5bb50effe72286aeb3"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-104.jpg",
+        "sha256": "14e4c84f2d1713badcaeb16cc8048838ea54c9243ab4ab9879f3fc3b586f5b75"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-104.png",
+          "sha256": "d335980c87daa0a6148bbd9a932fb9c99b5d00b3e44c43a969e7679cfeca6842"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-104.png",
+          "sha256": "fc6940a3d55baa2a2bb5320d97b197dc46ae104f333f48c60638afbfb57a6059"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-104.png",
+          "sha256": "8356d28c58a9821e373fff0436ae31b2de5b1e226409feee1f82d6f75031e91c"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-104.png",
+          "sha256": "42a9786ac7527acb954219dcaf6215d227af9bb041cbbf0b6a6e7405d170c501"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-104.png",
+          "sha256": "891bc64b7db589370b3187188e1514dbd8bce62a75b0662edec5ffa8944e737f"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-104.png",
+          "sha256": "ab67be4cf814e86e3840e0a9e4fde1258fbc7270bd7ac5d63cad5a20ed91ae9c"
+        }
+      ]
+    },
+    {
+      "question": 105,
+      "qid": "mbb:set-2:original-105",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q105.jpg",
+        "sha256": "0c26cf7d0b6663d9ff3918514651f0fc07028bb0671ea096215554e76f51c2ad"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-105.jpg",
+        "sha256": "5b317d54e48239a2d4f688593db003b675970b637e616beda9e973f03a2571b2"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-105.jpg",
+        "sha256": "bfe903fbda0ee31260b50fd34ddbe180550638b1c61000ce9d862d09ca6f8b5e"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-105.png",
+          "sha256": "66352bd2359611115b9771a5d6e6dc84f79e3ab00f8a26c2354efb9c7b109966"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-105.png",
+          "sha256": "89eee81a9ea28597c3f1b4af0fbe521912c9c604d7364b1dae63517587ab6298"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-105.png",
+          "sha256": "f01beb31edb34a0ea138e9a09997d79faa724bf92f525f238e6ff9bdb92ceab9"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-105.png",
+          "sha256": "000bda0da55c249a3e29902c5857f1ff2d57621798a0be3e60b9a19cd9770111"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-105.png",
+          "sha256": "aee2bed0da1bf7e78aa70d86f22836df01a9fadddca65e1d1dd28b6c0b6dbe95"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-105.png",
+          "sha256": "7284dcacbc42a1aa11fa5f8437c3ff53938eaa237e06e030f06aa33544859508"
+        }
+      ]
+    },
+    {
+      "question": 106,
+      "qid": "mbb:set-2:original-106",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q106.jpg",
+        "sha256": "379ffad3640db51531faf432cd52a6f933a8acbbb4ba5ade796cc7468034515f"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-106.jpg",
+        "sha256": "2f66c28c2c0ee6a2a4e1801a6d5009eae3c2683f83388fdee4618e1f12f0dd7c"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-106.jpg",
+        "sha256": "913ed753dd94e284e31a22e696610fb213704045a59847819ef4f0fd420d4d1c"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-106.png",
+          "sha256": "a1af1b1c985a318963088e8611d97f988d502fb31ca4f7cb84e07dd746e0968a"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-106.png",
+          "sha256": "1b33f1b364839595bca48c43da78a615237fd01bc7638f789359e763f1dee7a3"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-106.png",
+          "sha256": "19dc6ccce9002ab8682ab923e042a34e69a389aa1c475411991b8241c3776cdc"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-106.png",
+          "sha256": "793efb06200a32ea66966cf935d872b63b5d6aa8bf57aff216e2e9312f55cbb5"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-106.png",
+          "sha256": "682a41f2f65be54fdffe90f85153d01f376f67d1f685f2b5daa4c84a3b80c305"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-106.png",
+          "sha256": "4af52c82e3eb439237019eabbb310d1fa81af93586fd31b32e524ccd135baf7e"
+        }
+      ]
+    },
+    {
+      "question": 107,
+      "qid": "mbb:set-2:original-107",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q107.jpg",
+        "sha256": "8ba8bc222cf1795a6f2c26d94b5a0ebdbdccb5f9e42afbf590aa51a0aaf162da"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-107.jpg",
+        "sha256": "fba7cdabce08e50d86351407bc2d1f44184c51419abca6ce9fdd12ce1d9a29c6"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-107.jpg",
+        "sha256": "793bb7daa62a3193aeed4b58119885f46073e23563ab375db596e109724799da"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-107.png",
+          "sha256": "9e720144979f73641249f25c0ba60cee73977cd3459623baf8f5616eb81c081f"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-107.png",
+          "sha256": "e6b3758c3399b100b4c4ec4042a2bdfa4c395e2d68e029d30132bfc3b228e939"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-107.png",
+          "sha256": "88d253baab01af744909b18a8406501385f5d03275e7b3f883ba62d0b49ae7b0"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-107.png",
+          "sha256": "0bf1bdbdb87ea947029f6eab575287e93c895b25c2a12072fc892b0babd0b964"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-107.png",
+          "sha256": "9188a90dd72f573a5e9249af1626642a33a432e572e1ca2660834bdd7e307412"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-107.png",
+          "sha256": "d525d9ec153db838d5beca4114db3199642c7c4bc61ae56b0860e553f8d5b6bf"
+        }
+      ]
+    },
+    {
+      "question": 108,
+      "qid": "mbb:set-2:original-108",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q108.jpg",
+        "sha256": "66d576486aa40b6ee4d132075b136563411c1a18860054a1e3d6854bbb169aec"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-108.jpg",
+        "sha256": "5986bdc1e168aa9dcd20cb8b3f66d4c8e66e7f74835208c63e990bfbfd02d5fa"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-108.jpg",
+        "sha256": "a6e670b0dbef4f3047d4f138bff4c2853bbb905396a2477516b644ee68116f3b"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-108.png",
+          "sha256": "a49bcf58c38d3d0cb1a9e05125cf3fbc74e1be5d712b40fb611ab4983c9d023a"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-108.png",
+          "sha256": "95fb923e2b410c0d9888ffda0747b7445a3111c2186037de778b2749d5322597"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-108.png",
+          "sha256": "5131912975983d385fc672cb50a4b61aed0f8c2425f4d98ed8fa8ad51613df89"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-108.png",
+          "sha256": "531d62a9bac75e4570b7aad1985ccd147d177859b01bdf5b34617dc4c875a382"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-108.png",
+          "sha256": "2a72ef58a470f2733a8815aed111086f630a79c8209e453ead1415e87638e547"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-108.png",
+          "sha256": "298a039e9acdcf1b61896c98ab6e4c8ed110dac2eda10ab6983241357603a292"
+        }
+      ]
+    },
+    {
+      "question": 109,
+      "qid": "mbb:set-2:original-109",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q109.jpg",
+        "sha256": "0d174fa9e4c5049d0cc8e03f75aca66bbee9881064522504d40ae5b3cde911a6"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-109.jpg",
+        "sha256": "4ad58927be9442c1ed7fd81a84e621a2d705acc3bcb8d131a4f996370941027c"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-109.jpg",
+        "sha256": "15f9d82263f3b895ea1aae9adf8a9876e2c787705b17ff18365409e33dbb50dc"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-109.png",
+          "sha256": "edfb076158aacf1c4e13f00a12c6ea0b903e5c357c9380329f4bbecdf668f465"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-109.png",
+          "sha256": "7d91dd40f4e57897c9a9256dbb8b3d1c449f54876b7b5b69b19d163668a0550c"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-109.png",
+          "sha256": "b17563ad9c24f7b66a7b44c3246b9ebeda622f2aeda29a577619b38b458dcf83"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-109.png",
+          "sha256": "1ea1a3b97002ced86c9ab869e558aeac082b4faf3fc20fb79caffa1f1678ba98"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-109.png",
+          "sha256": "249a289cae2a426f63e1f5ea720e676fae5df524c6c2e5321adff3b50be40e6b"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-109.png",
+          "sha256": "cf26e5f7b59e7cb82276edc0d20a2c15bb6bd4f90d469786b087bea57f18416f"
+        }
+      ]
+    },
+    {
+      "question": 110,
+      "qid": "mbb:set-2:original-110",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q110.jpg",
+        "sha256": "9c734f1b2d3baa1cd14ecf71458dd928584410b5915d7935193d6ddc65bebd6f"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-110.jpg",
+        "sha256": "cf178f34801ac27eaba6632798b675bd4bbd121d72849a2cdb6b2d3de941eac3"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-110.jpg",
+        "sha256": "4089793d1602e62ad4cf370b3ff7fd8b7a8af3278e4b4d7f92ff0101e02ba048"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-110.png",
+          "sha256": "83537c5dfc72072b9abe7a6216db22ae4b4c6a72c1d1a1392e3083dabb3d4442"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-110.png",
+          "sha256": "cec1abf8224fb4359e7743e98626bef7a2c3251d09389848661b4a5af6e6d834"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-110.png",
+          "sha256": "01c3ef36b775e33d04ab3b1189d4560b59f3c9ddfea6ff96860fb031bd361073"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-110.png",
+          "sha256": "20bb76291ea7524769aee53a7fb57cfb51c0e4aacd8655a146d6b53d7860bcd7"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-110.png",
+          "sha256": "3ed0dfd076c7333342db79c30507a7b3291c2a589927e1924eb29309c765b0f8"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-110.png",
+          "sha256": "55ee4c87f543dd1b6429620b86b8836c2d269513992637ca2c4d18ee2ae38dc2"
+        }
+      ]
+    },
+    {
+      "question": 111,
+      "qid": "mbb:set-2:original-111",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q111.jpg",
+        "sha256": "6ce936d5e3617e7a484ddf5282f3a3cb456dd4e783ec9b6131944b437503c46a"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-111.jpg",
+        "sha256": "4c2ffcbc5082793f39d3673c136ed07765f7e26a22c46e431629642042059a3a"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-111.jpg",
+        "sha256": "ecb09c3fb38fdb23bfd7be8b792c929c1fa233b810b4344c33ffafe95921645d"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-111.png",
+          "sha256": "3733ef4d3aad3ee837bdc9a1c76c4bcf7eae70c0279e972dbc95ff8a7960624c"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-111.png",
+          "sha256": "509a7da7cdc11267d216b4b082c8b45f0a1305c48fc2b42a26894758e4abba75"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-111.png",
+          "sha256": "a088f88d9f18ff1462f2f66946414980aec4b00d429ffda7b91e73eaecd9ee7f"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-111.png",
+          "sha256": "0cf2b1cc65356ab87bdb4e03454b8fd5672aec42b5ba388390b8de7f8dae85ed"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-111.png",
+          "sha256": "11f4943856feaebc24f33750e632da0a006ae33a53a1b6b77ac49bdf68945599"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-111.png",
+          "sha256": "027a9f6575ffff5735e8eebf9628afeb02cad63e76d2d98bcb78dace18e88ac7"
+        }
+      ]
+    },
+    {
+      "question": 112,
+      "qid": "mbb:set-2:original-112",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q112.jpg",
+        "sha256": "8bccc57a7b2b2bbdc94a91118fe2b1cddf19f78952b684b73e0b3e129066e08e"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-112.jpg",
+        "sha256": "3092adab82c4941aa18d23450c0dd41db55ebd186e84fcaa4df19257fcd986c6"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-112.jpg",
+        "sha256": "fd53510a12217280f1781012f9585e4cd19a4183a1243d12eb524658e9d2354f"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-112.png",
+          "sha256": "f0bb4167a2b563a627ef35ea1d1a95d60395611091c939b79022112902c76147"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-112.png",
+          "sha256": "86913dee08c166d5355868eb1f4cc615741a556ec092b5ca84e11ef9ac69f6e3"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-112.png",
+          "sha256": "c91835c12b5668cfe9acb98114fadfa1c7a0ca1a87152ade7709abaf152f0700"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-112.png",
+          "sha256": "ea0d76392017360045c09c6d7bde256a81cce1f6fc96b790187b7ca80f0ae947"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-112.png",
+          "sha256": "a12859496030f0f3868cd476eb6f35656851722413c39d45f10e037840cc8f80"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-112.png",
+          "sha256": "2ee62db99da38785534ed55d23f3c5267a5b15db211cb616ae322eedccea587d"
+        }
+      ]
+    },
+    {
+      "question": 113,
+      "qid": "mbb:set-2:original-113",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q113.jpg",
+        "sha256": "dc11ce1e55da80613734cc55e2aba955b2a744d14226ec9b0d192558888ccd65"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-113.jpg",
+        "sha256": "7a97bbab2e01c5ebd2fbc55c5bfe14796ddd5320a036094ebe01cb5cff7fee54"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-113.jpg",
+        "sha256": "0d9931a844f1d124695376a47d8fd681e96e1fb3caa7a60e3480f46730e939ac"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-113.png",
+          "sha256": "bb115ed52de23d5c5ac4b6d700e280a0408cc45489dc89f326fbc01b2a7ea094"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-113.png",
+          "sha256": "d0be9dcdd55c928d49d17b965e57656a57284b60cf85c6f7df7418b690047bfa"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-113.png",
+          "sha256": "6e3dce9dbf76c73597e481db31ad3682ed2aa728be8efaf8251b32bdf71b6048"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-113.png",
+          "sha256": "88e34da1595ee98bed76ad9a92682ac06d79048acb864221fe63254f4bfe6032"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-113.png",
+          "sha256": "4821d6c6c25878d29da6c35da6574f408a9c578296faece7e80a6714c5738ff3"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-113.png",
+          "sha256": "79b0517ec13bc9369e9db641f1649b9a9c7062dba84889976cff167b548bb081"
+        }
+      ]
+    },
+    {
+      "question": 114,
+      "qid": "mbb:set-2:original-114",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q114.jpg",
+        "sha256": "d8c8dfdf4ff28ad920abe04920fa74670cce55ac35853e6c2c4d62aa63b63f67"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-114.jpg",
+        "sha256": "ead5ad4570d33f70e8d3effe0ebcd1f2af69a1656546cdd84b7fe936e8344b5d"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-114.jpg",
+        "sha256": "7e03ef43ef911c260213e4a25bf401657f84d80dbb9248163807ab3b441f88b0"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-114.png",
+          "sha256": "bdf940606c1f19ee9303690b803f48abe504a0ba53bc3179a54caf032109b3d9"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-114.png",
+          "sha256": "7d42324cbc068f3684655ebbc38d0294a14f44bb1ed6d4aa80b66db9bbaea798"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-114.png",
+          "sha256": "d28749b970e6bcce0bfed7d21c6942e0bad3edec0853f779303c1a1cc95da4bc"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-114.png",
+          "sha256": "c66cac2b56c9073a3cf57750fd67d32f899fff423259c3bb149a896aeb5497f1"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-114.png",
+          "sha256": "a51f04a108739ad2213b51ba701caac2a5af85679740e42797966788f0570ed0"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-114.png",
+          "sha256": "0fad05a0004eac290d030e8585e53738b1294e164f983e01b50061394c6e8de2"
+        }
+      ]
+    },
+    {
+      "question": 115,
+      "qid": "mbb:set-2:original-115",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q115.jpg",
+        "sha256": "85f522a404a097b37fb59547fb454a17e878eb71b64e6682f9b19b428b93015f"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-115.jpg",
+        "sha256": "49337351fee7cdfd56957fbd0d687d56b9b994e5a9a8ec71509af935b9c5f069"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-115.jpg",
+        "sha256": "4d80e89ad8718aeca0acf8f1adfd9f7adb5abe4f9c13ee4edd851283bd4f1e5a"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-115.png",
+          "sha256": "8d658fa416fcf82e90fc8c239231654aa106ffd787d5905efdd2dc396b709a09"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-115.png",
+          "sha256": "b6882f105a9d0d4d0307eda4767be13b7b2da24324623890ba9e6d6c6a943d19"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-115.png",
+          "sha256": "1f2c9ed726d3cb1bb6ce19abf70b210cf9388cba634b1d32a8dfb53078751d88"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-115.png",
+          "sha256": "fb26b9d4713be39b06199c2a3c79204dd31fabeea8c9fddbe1d474a82eeed5a3"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-115.png",
+          "sha256": "00b4996c617ab5c65c809a7a857300885d9bd87680fb06479c7034e9dec84123"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-115.png",
+          "sha256": "53bdd1b20e7889e00db1049cfcebefcac8a9fd5cf65a9b25f4dc5fced9efaadd"
+        }
+      ]
+    },
+    {
+      "question": 116,
+      "qid": "mbb:set-2:original-116",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q116.jpg",
+        "sha256": "7706550a91eb6c70c519171e32851be2d080dfa33799b882d42557c1349a56c7"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-116.jpg",
+        "sha256": "004d1ee95677dc3c9cd90a75b71bfea789a422237f1316a10bbbb2f2cf004e51"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-116.jpg",
+        "sha256": "333b229d3e0022b6d5acb34c5d2de3d9556ec58252c13da8e8bc91ac73484bd2"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-116.png",
+          "sha256": "33ca5c6498fd2daf8c44445bcb832449116d954174a13640551a17166cd5b672"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-116.png",
+          "sha256": "52d6705c09fe2af1cb5c26390342fa20561adfc8b750ae7b7713a99fd57fe42a"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-116.png",
+          "sha256": "7ff9793af36f4f3198c117229eb6e4e791e7db9b5a4355dbc2fc44fea55cd3e4"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-116.png",
+          "sha256": "1ed4f1ad56b807438627b3c0f3de00bf97662f1d7eed1aa9ba019be4e64f1fe0"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-116.png",
+          "sha256": "732e139992117bdb5a21dabb471f53384a28081bd967cd7e318e43674adc605d"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-116.png",
+          "sha256": "1474b65af06ca611bc7e8ed532785a4910ebbb240a587fc54a6dc9911d6bc6d7"
+        }
+      ]
+    },
+    {
+      "question": 117,
+      "qid": "mbb:set-2:original-117",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q117.jpg",
+        "sha256": "57aba3512af080ee7d0e71b260fbf319791825b4f332e1765361af87230834b1"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-117.jpg",
+        "sha256": "07b2952176b4e63bd6fd5f7c51d9f889c5c717a0ebbcd6bd28617567f273eb34"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-117.jpg",
+        "sha256": "37608afb4ea99dd7ccfb5485aa425ddfcb0e0debf9b425eae343f56ad3ebc206"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-117.png",
+          "sha256": "ef73a9938c59b00bedc8d0d1fbad82966e1eb01dcd8b7f8c493f0f474453be35"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-117.png",
+          "sha256": "60847b8c8472ffa8f354647f3426993796b4f4ab80d98c7900c8506ea0edd335"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-117.png",
+          "sha256": "ca3dbb11c8304a545128bb506b28bfd70496091c0df96066ab8dc33475e58b72"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-117.png",
+          "sha256": "2dd915987b745853122224d09552077904dbe9f6fdf607725d885dbb0a428a44"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-117.png",
+          "sha256": "4b481f8caa5c1acbb7db00e0d96edab3299d90655d6a6a9d1a61bd935e4aa203"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-117.png",
+          "sha256": "0a31b6777362ad591356189a41ca7541ad402bf275a4417695a80825e2e4f552"
+        }
+      ]
+    },
+    {
+      "question": 118,
+      "qid": "mbb:set-2:original-118",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q118.jpg",
+        "sha256": "2e92327ddbe6a680520017d47dc38d6ce6af76a2ac0fb1cdfd01b6d76625167e"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-118.jpg",
+        "sha256": "02fabfbabe793d5128c33a91cdbc544f9a81e7f34d06a61e82e094e6e0e44149"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-118.jpg",
+        "sha256": "a47312409281038cfde388ff7fe3f99f72fb6eb0fed2e9a33431027ebf96f044"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-118.png",
+          "sha256": "72bb14821d74504d4b1300ee3f547c2feb768e10bce335e179e5a01c7fa5a7e3"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-118.png",
+          "sha256": "d5d0b3c28908e79e2ed4dd7520c64e283209b981b8a6209ee6504bdd564ce05a"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-118.png",
+          "sha256": "ced46b9483b07361c16c39dae6ee53b48c765faa7de19ae7d7574940f4ccd2aa"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-118.png",
+          "sha256": "be5b8f643980e95c4dbf3a09d963568f2a1e236b1f3405fe56ecbd9d82d87c48"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-118.png",
+          "sha256": "52d7d9e7387eb908c0b9980ad5d48644863e0966668ff5738c1b2e01ad52b063"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-118.png",
+          "sha256": "9c152e7f813f093d89228cd9a8aa577a1a3519901573efeae80d72db32cb3380"
+        }
+      ]
+    },
+    {
+      "question": 119,
+      "qid": "mbb:set-2:original-119",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q119.jpg",
+        "sha256": "7c180aa2098360ac13f713aea29990963a2a8255465b045838b525f63daeca52"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-119.jpg",
+        "sha256": "94713a8bbd3f045a20e963056ed5bb5a2d3ad910ec67863e6123faf398457a75"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-119.jpg",
+        "sha256": "d91da92b75b1bf1149253f20975cd7f8f37caba8669498d97d4913770ca5b358"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-119.png",
+          "sha256": "0be5c3e7e06a13be228b37a5ea83da50185fe7287922375d8a7f526fe995ccf7"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-119.png",
+          "sha256": "b6e833f7a497a0ecfae53902fc1b8f71a09a5e8b7ce1aa5e312eafac5fc2f973"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-119.png",
+          "sha256": "5d3dac41cecf3ea0b14391c98a1c6a5064e64bfa41c35f581611dc24459bdd15"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-119.png",
+          "sha256": "e01f3c1b04c1c658f65b61bac08dd8e820c21775e571aa2e1809126504b57f0c"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-119.png",
+          "sha256": "c7be3e95bee4369a120430922de6642096bffd806f7beabed4e8bc148129b277"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-119.png",
+          "sha256": "d7c7bc5bcad6a53f4320aea30bd7f4712b5647deedfa06af4fd04802d151770e"
+        }
+      ]
+    },
+    {
+      "question": 120,
+      "qid": "mbb:set-2:original-120",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q120.jpg",
+        "sha256": "bd809cde17afb309f14edc964cbc51ed89be4a2ff74b538fe636c2b783d796ed"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-120.jpg",
+        "sha256": "2770cd5d913dabfe1106a32e646336fabb95aeecadaa1dd58a19c25f7a080659"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-120.jpg",
+        "sha256": "8d0b2c32e230ae117bd0f076435674d118bf70e61ef9e6b715f5d10b3ffd007a"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-120.png",
+          "sha256": "4c2d6aeb7e4a7db7e318b931a886b4870388f9cbe5706157465c19f12438e849"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-120.png",
+          "sha256": "79a11a8d41fcb9a11921070b7f3d9b1d0957c31e59954cfb6f92500529451de9"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-120.png",
+          "sha256": "1e49771b7c30bddc19d17d9fd5d521935af4f62f642c928f8f58d562e3a5adaf"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-120.png",
+          "sha256": "4eac8b7d7d99cfbc5d9b8b89a2ae40eeada9d325ffc46ff121c7b8ac0efe5f8a"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-120.png",
+          "sha256": "30e3b1ef42e04ac1271bcef1393055b7a4ba31c8963433b478cc05e7e9ea8759"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-120.png",
+          "sha256": "9688f0449c7c25bf4519a8cc14fdef6f5a8f0e7cdbee2c76659718eb1959ac04"
+        }
+      ]
+    },
+    {
+      "question": 121,
+      "qid": "mbb:set-2:original-121",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q121.jpg",
+        "sha256": "04e144a983e01c31f51656c4b46223964c0ff356d91cd1a1ceff1d0f11f34fe7"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-121.jpg",
+        "sha256": "9d9bc86c106b230e72b55191a26564c297dad119811928f554fa81abd80ffbe2"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-121.jpg",
+        "sha256": "bcef33a9e8288dbc345a1d3386401b6a8332a9ba149476e34aa44932eb318fa2"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-121.png",
+          "sha256": "80c087689161a44628dcf3b14f13123f59e12d206a742fd419d03420db71fc0c"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-121.png",
+          "sha256": "fc85f4560feb1f8801958e4f1001615f2f931e3e88a747e916fa24d33224e713"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-121.png",
+          "sha256": "c26821b4f79d7ea6d7ce6af7dde367a84f97cea52a46302982aa33df717d8c7a"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-121.png",
+          "sha256": "70a5c199d9d1d3baa30427e39a2738854ef7f17df0f514ea19a831a8654bb01a"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-121.png",
+          "sha256": "de2ecf73c6a550375972025ad41cbbac83e94b65c6df049d264e0feb002e9cb6"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-121.png",
+          "sha256": "6ac7825104d755ecb2c8bc3915d7f3e3d60e3fdfb6365fe31aba507177577ec6"
+        }
+      ]
+    },
+    {
+      "question": 122,
+      "qid": "mbb:set-2:original-122",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q122.jpg",
+        "sha256": "00937b6accbaa49f99107ff27e32e0c4b5ee615c2f128e5615f0befff50df648"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-122.jpg",
+        "sha256": "d32d6203d18fd2a456ba2ab2a08eb85bfbe908659b5a67d5e1f90458e260c41f"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-122.jpg",
+        "sha256": "7eb0b537244b4dd4cee1f793756068b93ae49e2202e502d0791c2ad58e9154f2"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-122.png",
+          "sha256": "80928d253b697e9191110cfb529f948fc2ed06fc7ea38d70fced8ec1223afdfc"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-122.png",
+          "sha256": "aee8e0e30849804554751969db55a36274641d04cd17e580647157723869c6b9"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-122.png",
+          "sha256": "9dfc9c6023fe9e3c20c4fc397d6e95d02bce0994fa03c97d561f39baa0128ace"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-122.png",
+          "sha256": "906a5a287542da7cb6fc3202c75b45196ff313d269edd68eb0ef2f7e91b03bc1"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-122.png",
+          "sha256": "e0c22bd5a9c8e04ebbcb6bf57f35685ab6b04deaa95bf4f7da3f82d704e2118e"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-122.png",
+          "sha256": "bc7f0d3b3750eb9f0d1f6e5e6d451cf3d030c3d41df5c094f1e7decfdac82593"
+        }
+      ]
+    },
+    {
+      "question": 123,
+      "qid": "mbb:set-2:original-123",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q123.jpg",
+        "sha256": "23d18d0a86629db371d897462351a07e599ffc016952ddb4085fd98fe44b4547"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-123.jpg",
+        "sha256": "7bfaee552ec0b2eca4f2da9bc1884c8183f91458904a6b8316ade85970c0abc0"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-123.jpg",
+        "sha256": "e8fc5eecf5a82a5c72bd2dacc904fffe72741b756bba3e0fd69648b1d300979b"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-123.png",
+          "sha256": "6ee8a78db0c4039cec36cf14a8b627258298fd54987b2dd029c79288b99672b3"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-123.png",
+          "sha256": "5ba4f09ae11edc0100f3c1603c4f975fc708ec0cdc976b94790a1c69cd0652cd"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-123.png",
+          "sha256": "3bb0f9187a94b8e8b2ab6cd82d89713942218b4dc68e131aab801d5de3e5d638"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-123.png",
+          "sha256": "9e62f1d94bfbce0276e2483a2c167d6b95a172d608d89abf644ceec34254e3b0"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-123.png",
+          "sha256": "9db61a65abe809dc6344e09c0887c7b994213ee003a1928f331eb6a610f280b8"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-123.png",
+          "sha256": "f1c69711c1f7e388791f1aa0e3327bf45ceac305da874d50bb454ef851e168c9"
+        }
+      ]
+    },
+    {
+      "question": 124,
+      "qid": "mbb:set-2:original-124",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q124.jpg",
+        "sha256": "9cd75b62b7033645d876f4177b37b41e7d09ed14414981caf0f0b9faeb261338"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-124.jpg",
+        "sha256": "46d301b5e05d78ab14d1b9fe884b42d922814042536adae07d4a96c152d73689"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-124.jpg",
+        "sha256": "02d34066ed924e59bdcd1158b07c11a66c35a5215ce5c505f7bb8b7b7243e8ff"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-124.png",
+          "sha256": "76b9949b63c3a16c3503d16cd49b5fe95811597dfc66f2b830b463573c0e633d"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-124.png",
+          "sha256": "d6b6a8c2666173f074a1d7611d8646e2eadc456d04afee82df8d284605909e53"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-124.png",
+          "sha256": "d6f77266170a30b7249cf62f724e1f3c743374d0c1f8acde0a98ad7f3b305a21"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-124.png",
+          "sha256": "0306546365a0a15c65749b2a28ba24e5ce3e4b8d1f4a71aceaeafd736891f2dc"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-124.png",
+          "sha256": "1634f8fff266d39837a0ddc1924d41e999cad801d686ea133a3c385467e66a19"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-124.png",
+          "sha256": "514a85d9cceab53a60c9c30db6fa61abb8b222cafa448293f7b1f096634ce43a"
+        }
+      ]
+    },
+    {
+      "question": 125,
+      "qid": "mbb:set-2:original-125",
+      "manual_before_question_pair": {
+        "path": "evidence/manual-before/q125.jpg",
+        "sha256": "00a9a7090f2bfde90583dd749e143c708dae1b882e76f2b5c4911fed174da456"
+      },
+      "manual_corrected_question_pair": {
+        "path": "evidence/manual-after/attempt-125.jpg",
+        "sha256": "677b913b0be9285cc03670024a1022df152c28fc6134c115b161bd5fe9ef39d4"
+      },
+      "manual_corrected_review_pair": {
+        "path": "evidence/manual-after/review-125.jpg",
+        "sha256": "757f8651c62c342f76d56a6a66182d7b29885d66b3a628ac0c2913b73c5c263c"
+      },
+      "inspection": "Each pair individually examined for content completeness, readable labels, table/diagram organization and lack of overlapping question content. Both desktop and mobile are shown.",
+      "final_source_captures": [
+        {
+          "device": "desktop",
+          "mode": "attempt",
+          "path": "evidence/player/desktop-125.png",
+          "sha256": "c2e0fe14fac976568981bb3a5a4b2c9a0373ca9b8bd1817438c01c1a1eb35175"
+        },
+        {
+          "device": "desktop",
+          "mode": "review",
+          "path": "evidence/player/desktop-review-125.png",
+          "sha256": "5564ec851514aab2b75e279d28df2906ad16f3bf7ba41616d9aca8ea196ed36b"
+        },
+        {
+          "device": "tablet",
+          "mode": "attempt",
+          "path": "evidence/player/tablet-125.png",
+          "sha256": "87e6ccafd5e2762a2a1c0eb29449987e36018eca011c4d0a9d516e9fa32e406b"
+        },
+        {
+          "device": "tablet",
+          "mode": "review",
+          "path": "evidence/player/tablet-review-125.png",
+          "sha256": "252a220f78f7d350c145e4e466172976a2db102f574173c787b33da2e75c0df5"
+        },
+        {
+          "device": "mobile",
+          "mode": "attempt",
+          "path": "evidence/player/mobile-125.png",
+          "sha256": "d98cc9bc01b5737affccf0ad457586e61341fefd69582ad4776aaa2587818e51"
+        },
+        {
+          "device": "mobile",
+          "mode": "review",
+          "path": "evidence/player/mobile-review-125.png",
+          "sha256": "c9fb38498cd0dd87d9f0232840f0d60dc57f8fce4b73a05a028122a641b3ce9b"
+        }
+      ]
+    }
+  ]
+}

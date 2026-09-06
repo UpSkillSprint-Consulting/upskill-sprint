@@ -15,7 +15,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-  <script src="/theme.js"></script>
+<link rel="stylesheet" href="test-bank-mbb-batch1-review.css">
+  <script src="/test-bank-mbb-batch2-ui.js"></script>
+<script src="/test-bank-mbb-batch3-ui.js"></script>
+<script src="/test-bank-mbb-batch4-ui.js"></script>
+<script src="/test-bank-mbb-batch5-ui.js"></script>
+<script src="/test-bank-mbb-batch6-ui.js"></script>
+<script src="/test-bank-mbb-batch7-ui.js"></script>
+<script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
   <script defer src="/test-bank-formulas.js"></script>
   <script defer src="/test-bank-tables.js"></script>
@@ -439,6 +446,7 @@
 <script src="/test-bank-cmq-set1.js"></script>
 <script src="/test-bank-mbb-set1.js"></script>
 <script src="/test-bank-mbb-set2.js"></script>
+<script src="/test-bank-mbb-batch1-review.js"></script>
 <script src="/test-bank-mbb-set3.js"></script>
 <script src="/test-bank-cssgb-set1.js"></script>
 <script src="/test-bank-cssgb-set2.js"></script>
@@ -3417,6 +3425,12 @@
   };
   var CHART_COMPACT={'vsm-symbol':1,'vsm-supermarket':1};
   function renderQuestionChart(chart){
+    if(chart && chart.auditBatch===7 && window.__MBBBatch7UI) return window.__MBBBatch7UI.render(chart);
+    if(chart && chart.auditBatch===6 && window.__MBBBatch6UI) return window.__MBBBatch6UI.render(chart);
+    if(chart && chart.auditBatch===5 && window.__MBBBatch5UI) return window.__MBBBatch5UI.render(chart);
+    if(chart && chart.auditBatch===3 && window.__MBBBatch3UI) return window.__MBBBatch3UI.render(chart);
+    if(chart && chart.auditBatch===4 && window.__MBBBatch4UI) return window.__MBBBatch4UI.render(chart);
+    if(chart && chart.auditBatch===2 && window.__MBBBatch2UI) return window.__MBBBatch2UI.render(chart);
     if(!chart)return '';
     var inner='';
     if(chart.type==='xbar-r')inner=chartXbarR(chart);
@@ -3681,7 +3695,52 @@
   }
   function fmtClock(sec){sec=Math.max(0,Math.floor(sec));var h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s2=sec%60;var mm=(h?String(m).padStart(2,'0'):String(m)),ss=String(s2).padStart(2,'0');return (h?h+':':'')+mm+':'+ss;}
 
-  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart};
+  // One contract for every question route and every feedback consumer.
+  function feedbackText(value){
+    var node=document.createElement('div');
+    node.innerHTML=String(value==null?'':value);
+    return (node.textContent||'').replace(/\s+/g,' ').trim();
+  }
+  function firstFeedbackSentence(value){
+    var text=feedbackText(value);
+    if(!text)return 'A stored learning point is not available for this question yet.';
+    // Decimal punctuation is not a sentence boundary; never cut numeric tokens.
+    var match=text.match(/[\s\S]+?(?:[.!?](?=\s|$)|$)/);
+    return (match?match[0]:text).trim();
+  }
+  function feedbackKeyPoint(question){
+    var explicit=feedbackText(question&&question.keyPoint);
+    return explicit||firstFeedbackSentence(question&&question.why);
+  }
+  function explicitOptionRationale(question,index){
+    if(!question||!Number.isInteger(index)||index<0)return '';
+    // Both schema names occur in the audited bank. Fall back per option,
+    // rather than discarding the whole legacy field if a newer one is sparse.
+    var sources=[question.optionRationales,question.distractors];
+    for(var i=0;i<sources.length;i++){
+      var source=sources[i];
+      if(source&&typeof source==='object'){
+        var text=feedbackText(source[index]);
+        if(text)return text;
+      }
+    }
+    return '';
+  }
+  function renderQuestionContent(q,review){
+    if(!q)return '';
+    var b1=window.__TBMbbBatch1Review;
+    if(b1&&b1.applies(q))return review?b1.review(q):b1.render(q,renderQuestionChart,esc);
+    var ui=null;
+    for(var n=2;n<=7;n++){
+      var candidate=window['__MBBBatch'+n+'UI'];
+      if(candidate&&candidate.isQuestion(q)){ui=candidate;break;}
+    }
+    var questionId=window.__TBQuestionRegistry&&typeof window.__TBQuestionRegistry.idFor==='function'?window.__TBQuestionRegistry.idFor(current,q):(q.qid||q.questionId||q.id||'');
+    var stem='<div class="'+(review?'tb-review-stem':'tb-stem')+'" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>';
+    return ui?stem+ui.conditions(q)+renderQuestionChart(q.chart):renderQuestionChart(q.chart)+stem;
+  }
+
+  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale};
 
   /* ---------- rail ---------- */
   function renderRail(){
@@ -4320,17 +4379,18 @@
       '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>'+
       '<button type="button" class="tb-ghost" data-quit>Exit</button></div>';
     var sessionTitle=session.kind==='diagnostic'?'Sample diagnostic':session.kind==='exam'?'Full Exam':session.kind==='quick'?'Quick Quiz':session.kind==='focus'?'Focused Quiz':'Weak-area practice';
-    return '<div class="tb-quiz" data-question-id="'+esc(questionId)+'"><div class="tb-quiztop"><div><div class="tb-diag-kick">'+sessionTitle+(session.kind==='practice'?'':session.timed?' \u00b7 timed':' \u00b7 untimed')+'</div>'+
+    return '<div class="tb-quiz'+(window.__TBMbbBatch1Review&&window.__TBMbbBatch1Review.applies(q)?' tb-mbb-batch1':'')+'" data-question-id="'+esc(questionId)+'"><div class="tb-quiztop"><div><div class="tb-diag-kick">'+sessionTitle+(session.kind==='practice'?'':session.timed?' \u00b7 timed':' \u00b7 untimed')+'</div>'+
       '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered'+(flagged?' &middot; '+flagged+' flagged':'')+'</div></div>'+toolbar+'</div>'+
       '<div class="tb-progress"><span style="width:'+(answered/n*100)+'%"></span></div>'+
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(subName)+'</div>'+
-      renderQuestionChart(q.chart)+'<div class="tb-stem" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>'+opts+
+      renderQuestionContent(q,false)+opts+
       '<div class="tb-quizfoot"><div class="tb-nav">'+nav+'</div>'+
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';
   }
   function wireQuiz(){
     var host=document.getElementById('tb-overview');
+    if(window.__TBMbbBatch1Review)window.__TBMbbBatch1Review.wire(host);
     Array.prototype.forEach.call(host.querySelectorAll('[data-tb-whatif]'),function(slider){
       var update=function(){var value=Number(slider.value),committed=Number(slider.dataset.committed||0),container=slider.closest('.tb-chart-whatif');if(!container)return;var shown=container.querySelector('[data-tb-whatif-value]'),remaining=container.querySelector('[data-tb-whatif-remaining]');if(shown)shown.textContent=String(value);if(remaining)remaining.textContent=String(value-committed);};
       slider.addEventListener('input',update);update();

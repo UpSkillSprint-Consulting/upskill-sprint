@@ -1,0 +1,131 @@
+{
+  "baseline": "65dc141c42e7208542a704c6eddf29c4ce2cf08e",
+  "scope": "Set 2 Batch 7 Q151\u2013175; integration of all175 items",
+  "runs": {
+    "player": {
+      "passed": true,
+      "assertions": 1494,
+      "traversedStates": 162,
+      "javascriptErrors": [],
+      "rawResultSHA256": "66991f4c93b3df054f87d5c65fc0af17d62c25dc21f801617f03ac3d8f602d05",
+      "sourceSHA256": {
+        "test-bank.html": "a1ca17046218f4f00916aaea5b715d6c4637f81b66108b816e228522fea3b4cb",
+        "test-bank-mbb-set2.js": "4fe9b676855a71581651be7f9ecb9eab52fc58e4e929f4ceb140c8df165f0d16",
+        "test-bank-feedback-loop.js": "5445a0b460de5a22920a1f55957468138ebc2016b743f9025fc1148f7217efae",
+        "test-bank-deep-feedback.js": "bde9a8498944d3d37441e1a767d5a92a79d1bf634668737fdd627a292f64431a",
+        "test-bank-deep-feedback-grounding.js": "fbdbb808c807082e71990eeb24cb019180aec643514d8eab8015b40e0f8bc434",
+        "test-bank-mbb-batch1-review.js": "672b8ac32981d1db1226a944d940246c59ff46f067d90c984def5cd5545f8f73",
+        "test-bank-mbb-batch1-review.css": "3d56a36dec945536c1ab65f34bc3de2c07061370c3af08d393663296797024c9",
+        "test-bank-mbb-batch2-ui.js": "1ccc8c139346bb4ecc856def5af106689768b57400dcce2bd601e2a710e0d67e",
+        "test-bank-mbb-batch3-ui.js": "986650f72bd9b4cffffbd3580760b3478ff6734289b31db3912ac4f33aa3f9a3",
+        "test-bank-mbb-batch4-ui.js": "02bd2d38aadc3561dc1a894fbffd558c73dc63ad1cac76dda8e447554846fa87",
+        "test-bank-mbb-batch5-ui.js": "63b58d5ab59b2ef33a45bd7f2797c9009836174a000c34880b0e319b19a9bf1f",
+        "test-bank-mbb-batch6-ui.js": "12c185e5f4e7161409cc90fec2a52f78621ff6d80e47d3557e43b9c42876fb03",
+        "test-bank-mbb-batch7-ui.js": "aeb0e8d8fd569dff2f4ca9c0e931881c273a436fb069a85ef063cabf061bfd2c"
+      },
+      "stateModes": {
+        "attempt": 75,
+        "retry": 12,
+        "review": 75
+      }
+    },
+    "secondary": {
+      "passed": true,
+      "assertions": 957,
+      "traversedStates": 154,
+      "javascriptErrors": [],
+      "rawResultSHA256": "60fe67e095382aa416163f6ffd12266f6adfe3da7233b444db5bd2a852036553",
+      "sourceSHA256": {
+        "test-bank.html": "a1ca17046218f4f00916aaea5b715d6c4637f81b66108b816e228522fea3b4cb",
+        "test-bank-mbb-set2.js": "4fe9b676855a71581651be7f9ecb9eab52fc58e4e929f4ceb140c8df165f0d16",
+        "test-bank-feedback-loop.js": "5445a0b460de5a22920a1f55957468138ebc2016b743f9025fc1148f7217efae",
+        "test-bank-deep-feedback.js": "bde9a8498944d3d37441e1a767d5a92a79d1bf634668737fdd627a292f64431a",
+        "test-bank-deep-feedback-grounding.js": "fbdbb808c807082e71990eeb24cb019180aec643514d8eab8015b40e0f8bc434",
+        "test-bank-mbb-batch1-review.js": "672b8ac32981d1db1226a944d940246c59ff46f067d90c984def5cd5545f8f73",
+        "test-bank-mbb-batch1-review.css": "3d56a36dec945536c1ab65f34bc3de2c07061370c3af08d393663296797024c9",
+        "test-bank-mbb-batch2-ui.js": "1ccc8c139346bb4ecc856def5af106689768b57400dcce2bd601e2a710e0d67e",
+        "test-bank-mbb-batch3-ui.js": "986650f72bd9b4cffffbd3580760b3478ff6734289b31db3912ac4f33aa3f9a3",
+        "test-bank-mbb-batch4-ui.js": "02bd2d38aadc3561dc1a894fbffd558c73dc63ad1cac76dda8e447554846fa87",
+        "test-bank-mbb-batch5-ui.js": "63b58d5ab59b2ef33a45bd7f2797c9009836174a000c34880b0e319b19a9bf1f",
+        "test-bank-mbb-batch6-ui.js": "12c185e5f4e7161409cc90fec2a52f78621ff6d80e47d3557e43b9c42876fb03",
+        "test-bank-mbb-batch7-ui.js": "aeb0e8d8fd569dff2f4ca9c0e931881c273a436fb069a85ef063cabf061bfd2c"
+      },
+      "stateModes": {
+        "attempt": 50,
+        "fallback": 54,
+        "review": 50
+      }
+    },
+    "combined175": {
+      "passed": true,
+      "assertions": 4254,
+      "traversedStates": 1071,
+      "javascriptErrors": [],
+      "rawResultSHA256": "b896d9f3187215c12f886044c542bbabedb7d13361354d0b21bb1cd60308e7e5",
+      "sourceSHA256": {
+        "test-bank.html": "a1ca17046218f4f00916aaea5b715d6c4637f81b66108b816e228522fea3b4cb",
+        "test-bank-mbb-set2.js": "4fe9b676855a71581651be7f9ecb9eab52fc58e4e929f4ceb140c8df165f0d16",
+        "test-bank-feedback-loop.js": "5445a0b460de5a22920a1f55957468138ebc2016b743f9025fc1148f7217efae",
+        "test-bank-deep-feedback.js": "bde9a8498944d3d37441e1a767d5a92a79d1bf634668737fdd627a292f64431a",
+        "test-bank-deep-feedback-grounding.js": "fbdbb808c807082e71990eeb24cb019180aec643514d8eab8015b40e0f8bc434",
+        "test-bank-mbb-batch1-review.js": "672b8ac32981d1db1226a944d940246c59ff46f067d90c984def5cd5545f8f73",
+        "test-bank-mbb-batch1-review.css": "3d56a36dec945536c1ab65f34bc3de2c07061370c3af08d393663296797024c9",
+        "test-bank-mbb-batch2-ui.js": "1ccc8c139346bb4ecc856def5af106689768b57400dcce2bd601e2a710e0d67e",
+        "test-bank-mbb-batch3-ui.js": "986650f72bd9b4cffffbd3580760b3478ff6734289b31db3912ac4f33aa3f9a3",
+        "test-bank-mbb-batch4-ui.js": "02bd2d38aadc3561dc1a894fbffd558c73dc63ad1cac76dda8e447554846fa87",
+        "test-bank-mbb-batch5-ui.js": "63b58d5ab59b2ef33a45bd7f2797c9009836174a000c34880b0e319b19a9bf1f",
+        "test-bank-mbb-batch6-ui.js": "12c185e5f4e7161409cc90fec2a52f78621ff6d80e47d3557e43b9c42876fb03",
+        "test-bank-mbb-batch7-ui.js": "aeb0e8d8fd569dff2f4ca9c0e931881c273a436fb069a85ef063cabf061bfd2c"
+      },
+      "stateModes": {
+        "attempt": 525,
+        "retry": 21,
+        "review": 525
+      }
+    },
+    "expandedEvidence": {
+      "passed": true,
+      "assertions": 12,
+      "traversedStates": 8,
+      "javascriptErrors": [],
+      "rawResultSHA256": "52372d59b2739670d7fe2c5770c78e9d04a6b5a29b6c20d06c15826d4191cd2b",
+      "sourceSHA256": {
+        "test-bank.html": "a1ca17046218f4f00916aaea5b715d6c4637f81b66108b816e228522fea3b4cb",
+        "test-bank-mbb-set2.js": "4fe9b676855a71581651be7f9ecb9eab52fc58e4e929f4ceb140c8df165f0d16",
+        "test-bank-feedback-loop.js": "5445a0b460de5a22920a1f55957468138ebc2016b743f9025fc1148f7217efae",
+        "test-bank-deep-feedback.js": "bde9a8498944d3d37441e1a767d5a92a79d1bf634668737fdd627a292f64431a",
+        "test-bank-deep-feedback-grounding.js": "fbdbb808c807082e71990eeb24cb019180aec643514d8eab8015b40e0f8bc434",
+        "test-bank-mbb-batch1-review.js": "672b8ac32981d1db1226a944d940246c59ff46f067d90c984def5cd5545f8f73",
+        "test-bank-mbb-batch1-review.css": "3d56a36dec945536c1ab65f34bc3de2c07061370c3af08d393663296797024c9",
+        "test-bank-mbb-batch2-ui.js": "1ccc8c139346bb4ecc856def5af106689768b57400dcce2bd601e2a710e0d67e",
+        "test-bank-mbb-batch3-ui.js": "986650f72bd9b4cffffbd3580760b3478ff6734289b31db3912ac4f33aa3f9a3",
+        "test-bank-mbb-batch4-ui.js": "02bd2d38aadc3561dc1a894fbffd558c73dc63ad1cac76dda8e447554846fa87",
+        "test-bank-mbb-batch5-ui.js": "63b58d5ab59b2ef33a45bd7f2797c9009836174a000c34880b0e319b19a9bf1f",
+        "test-bank-mbb-batch6-ui.js": "12c185e5f4e7161409cc90fec2a52f78621ff6d80e47d3557e43b9c42876fb03",
+        "test-bank-mbb-batch7-ui.js": "aeb0e8d8fd569dff2f4ca9c0e931881c273a436fb069a85ef063cabf061bfd2c"
+      },
+      "stateModes": {
+        "expanded-left": 4,
+        "expanded-right": 4
+      }
+    }
+  },
+  "targetedTests": {
+    "tests": 366,
+    "passed": 366,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "logSHA256": "e3785f9204fcfca709a4eaf1cee849cc0a99169e34161a04fbd0562ba2ac82bd"
+  },
+  "publication": "Recorded separately after remote commit verification.",
+  "limitations": [
+    "Actual player/review/retry code with explicit offline authentication and in-memory storage fixtures, not live account/cloud/cross-device acceptance.",
+    "Combined175 uses programmatic navigation/answer dispatch to exercise actual handlers; separate Batch7 player run uses real pointer and keyboard actions.",
+    "Traversed-state counts are not counts of individual manually inspected screenshots or independent psychometric observations.",
+    "Earlier phases of the audit inspected all25 question views individually. After the final question-specific review-feedback addition, all25 desktop reviews were individually reopened and inspected; final browser tests revisit every question/layout.",
+    "Textbook ranges are concept locators unless a narrower inspected passage is identified; no assertion that every page of every inherited range was reread.",
+    "No empirical item difficulty, discrimination, DIF or exam-reliability calibration without learner response data.",
+    "Historical learner responses/scores are not rewritten or re-equated. Q150 legacy-score remediation remains a separate reviewed policy."
+  ]
+}

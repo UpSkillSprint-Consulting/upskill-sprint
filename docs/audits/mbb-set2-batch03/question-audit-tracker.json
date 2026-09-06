@@ -1,0 +1,540 @@
+[
+  {
+    "question": 51,
+    "qid": "mbb:set-2:original-051",
+    "key": "C",
+    "changedFields": [
+      "chart",
+      "stem",
+      "visual"
+    ],
+    "recoveryNote": "Remove pre-classified SWOT/PEST answers from the evidence table.",
+    "independentAdjudication": "SWOT separates internal strengths and weaknesses from external opportunities and threats, while PEST structures the external political, economic, social, and technological scan. The proprietary sensor and single-expert dependency are internal; regulation, demographics, and competitor technology are external. Strategy should combine these facts rather than turn each observation automatically into a project.  C. Keep internal strengths and weaknesses distinct from external PEST conditions, then test strategies that leverage the sensor capability while mitigating key-person, regulatory, and technology exposure",
+    "distractorAdjudications": [
+      "External threats are not internal weaknesses, and environmental observations require strategic synthesis before project chartering.",
+      "Favorable internal capabilities are strengths, not opportunities, and a single financial rank does not constitute a strategy.",
+      "Correct. It preserves the internal-external distinction and converts the combined scan into testable strategic choices.",
+      "Social trends are legitimate PEST evidence even when the organization must respond indirectly through its strategy."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "72747777908d9b3c145670eab58f50e16ab3c1e575fb8eb7110c4cd8aa4c8f3b",
+    "afterQuestionSha256": "8fe8f5c9c595d3479b63e0f787437f24f54b841055381028abed2c32b8a9a2e4",
+    "savedFinalScreenshotSha256": "e6f480efce43361ff27796a1cad50214105e349b0c28505fbda0619993ba88b2"
+  },
+  {
+    "question": 52,
+    "qid": "mbb:set-2:original-052",
+    "key": "A",
+    "changedFields": [
+      "options"
+    ],
+    "recoveryNote": "Remove padded distractor wording while retaining the incompatible-local-target error.",
+    "independentAdjudication": "The local measures are producing predictable suboptimization: utilization can reduce maintenance opportunity, downtime avoidance can defer needed work, and short calls can drive repeats. Strategic alignment requires vertical and horizontal negotiation of targets and means, with a balanced architecture connecting shared outcomes to controllable drivers and explicit tradeoffs.  A. Use catchball to redesign the goal cascade around shared outcome and driver measures, reconcile functional tradeoffs, and assign joint accountability for end-to-end passenger reliability",
+    "distractorAdjudications": [
+      "Correct. It repairs the measurement system and governance relationships that are causing local optimization.",
+      "Increasing incompatible thresholds can intensify the same cross-functional conflict rather than align the operating system.",
+      "One lagging outcome cannot diagnose or manage the controllable drivers needed by different functions.",
+      "Customer evidence is essential, but Customer Service cannot own vehicle reliability and maintenance tradeoffs alone."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "a9b2198edc56501b1e36c9a645ee71ffddbdd05e060219533630668a7184c30c",
+    "afterQuestionSha256": "ee7b26f9a111d7d37497c265b8bc6baefe030ae5cc88bc980860b9a60c3512d6",
+    "savedFinalScreenshotSha256": "47bcd04dc1000f3b05bdd8fde7351358b125f58a237db1df0b04ea67a17be1e1"
+  },
+  {
+    "question": 53,
+    "qid": "mbb:set-2:original-053",
+    "key": "D",
+    "changedFields": [
+      "assumptions",
+      "cognitive",
+      "options"
+    ],
+    "recoveryNote": "Add the unfunded-backfill gate; shorten padded distractors; classify selection as Evaluate.",
+    "independentAdjudication": "Resource development must be driven by organizational need and supported by training, coaching, continuing education, real assignments, and career planning. Training 120 people against 38 projects and 16 coaching slots creates excess work in process and predictable failure. A gated, time-phased model makes the capacity constraints and replenishment logic explicit.  D. Build a time-phased supply-demand model linking qualified projects, selection criteria, backfill, coaching capacity, attrition, assignments, and career paths; release cohorts only at supported gates",
+    "distractorAdjudications": [
+      "Hypothetical projects cannot replace verified business assignments, sponsorship, and coaching capacity in a deployment system.",
+      "External hiring may be one input, but attrition alone does not justify abandoning internal capability development.",
+      "Withholding coaching from less experienced Belts increases project and learning risk rather than resolving capacity.",
+      "Correct. It integrates the linked demand, development, support, retention, and assignment decisions over time."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "b4dcee8408badf98bfafe826e13d37baf4ea517423b25bbc48c6a222dfc8bf22",
+    "afterQuestionSha256": "8b6fc8e7f6e276833c1d5a19a97ee737da49621457c931551f23b4ca1bd601b1",
+    "savedFinalScreenshotSha256": "afca2614287f0f1032d3df7132a573a44b5129affd8af633bbd40802d0f68f59"
+  },
+  {
+    "question": 54,
+    "qid": "mbb:set-2:original-054",
+    "key": "B",
+    "changedFields": [],
+    "recoveryNote": "Saved final screen agrees with the existing substantive record; retained unchanged.",
+    "independentAdjudication": "The organization has both an existing-process performance problem and a possible design-capability gap. DMAIC can establish what the current system can achieve after correctable causes are addressed; an explicit evidence gate prevents endless improvement of an architecture that cannot meet the new CTQ and supports transition to DMADV under common requirements and governance.  B. Use DMAIC to quantify and remove correctable process causes while defining an evidence gate that transitions the architectural gap to DMADV if the existing design cannot meet the CTQ",
+    "distractorAdjudications": [
+      "Legacy data remain valuable for requirements, failure modes, and transition risk even when redesign becomes necessary.",
+      "Correct. The roadmap separates correctable execution loss from a verified design limitation without fragmenting CTQs.",
+      "A governed evidence gate can legitimately change the roadmap before resources are consumed by an incapable design.",
+      "Different CTQ definitions would prevent a valid comparison and invite conflicting local optimization."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "f937fcf6fe9082a3696bbbfb208223683d3ae37e6e0502e4776f6a0989a0a4b5",
+    "afterQuestionSha256": "f937fcf6fe9082a3696bbbfb208223683d3ae37e6e0502e4776f6a0989a0a4b5",
+    "savedFinalScreenshotSha256": "b18276c1d917d557d5cf06530c8bcd3e8a4c20450ae5a4064ba58fb0a14f79a5"
+  },
+  {
+    "question": 55,
+    "qid": "mbb:set-2:original-055",
+    "key": "C",
+    "changedFields": [],
+    "recoveryNote": "Saved final screen agrees with the existing substantive record; retained unchanged.",
+    "independentAdjudication": "Creativity tools expand the solution or opportunity space; they do not qualify projects. Before work enters the pipeline, the organization needs evidence that the opportunity is real, aligned, measurable, sponsored, feasible, and worth its risk and resource demand. Early qualification prevents weak ideas from consuming scarce Belt and governance capacity.  C. Screen each candidate for a verified problem or opportunity, strategic alignment, sponsor and customer relevance, measurable benefit, feasible scope, data access, and material risk",
+    "distractorAdjudications": [
+      "A fair ideation process improves participation but does not establish business need, feasibility, or benefit.",
+      "Launching weak projects transfers screening cost to Belts and overloads the deployment pipeline.",
+      "Correct. These qualification dimensions distinguish promising ideas from executable improvement projects.",
+      "Hard-dollar impact is important but does not exhaust legitimate strategic, compliance, customer, or capability value."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "a84801b672f83ec473663e92a6b8bd207a32eefc1b1fc5f5de97611f73d16c46",
+    "afterQuestionSha256": "a84801b672f83ec473663e92a6b8bd207a32eefc1b1fc5f5de97611f73d16c46",
+    "savedFinalScreenshotSha256": "3dc958675fd87d225fe6376e4066ad668fb157659822fbe33b7919804f067ec6"
+  },
+  {
+    "question": 56,
+    "qid": "mbb:set-2:original-056",
+    "key": "A",
+    "changedFields": [
+      "assumptions",
+      "chart",
+      "industry",
+      "keywords",
+      "optionRationales",
+      "options",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "recoveryNote": "Restore the saved fleet-inventory scenario, stable fill-rate denominator and bounded causal inference; eliminate another call-target vignette.",
+    "independentAdjudication": "A local inventory target can shift cost and service consequences outside Purchasing. The delayed fill-rate decline and increases in downtime and freight justify investigating replenishment timing, stock depletion and downstream effects; the time series alone does not prove which mechanism caused the change. With immediate safety exposure contained, a measured pilot and balanced service/cost measures test a system-level response rather than assuming the old inventory or individual competence is optimal.  A. Pilot revised replenishment rules after mapping stock depletion, reorder delays and downtime; balance inventory cost against service availability and total operating cost.",
+    "distractorAdjudications": [
+      "Correct. Map plausible mechanisms and test revised replenishment while considering service and total system cost.",
+      "The prior inventory level is not established as optimal, and a single inventory-value measure omits service and downstream costs.",
+      "Moving emergency costs to another department rewards local optimization and does not improve total system performance.",
+      "The displayed aggregate pattern does not establish a buyer competence problem; replacing staff before examining the system is unsupported."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "2f34510193ab7ee8d9896581937072d8511954b221c5c39f6a8371c2e8acfb43",
+    "afterQuestionSha256": "d3ce3a2d49f0990b125fb794d028a05fe92aa3a8ebb39b3c109a3a43738aa880",
+    "savedFinalScreenshotSha256": "32e37b349fd753f2c01aecd8034f8ac85499ebf16cd07dd7a4c6df11113a09b0"
+  },
+  {
+    "question": 57,
+    "qid": "mbb:set-2:original-057",
+    "key": "D",
+    "changedFields": [],
+    "recoveryNote": "Saved final screen agrees with the existing substantive record; retained unchanged.",
+    "independentAdjudication": "Organizational maturity and culture affect the sequence and support required for adoption. A common deployment architecture is still needed for role clarity, benefit integrity, and comparability, but local readiness evidence should determine pacing and intervention. Uniform timing ignores real system differences; unrestricted local designs fragment governance.  D. Assess readiness by site, preserve common governance and benefit standards, and tailor sequencing, sponsorship, communication, and interventions to each local constraint",
+    "distractorAdjudications": [
+      "Identical implementation confuses standard governance with identical change conditions and can magnify site-specific barriers.",
+      "A phased start may be appropriate, but permanent exclusion abandons capability-building without testing targeted interventions.",
+      "Local adaptation should not redefine the controls required for enterprise accountability and comparable benefit validation.",
+      "Correct. It combines enterprise standards with evidence-based adaptation to local maturity and cultural conditions."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "0fc8b190413416cf7ff1bebcec6c16f0be91bf68c218e27e2d300c7925ea5f79",
+    "afterQuestionSha256": "0fc8b190413416cf7ff1bebcec6c16f0be91bf68c218e27e2d300c7925ea5f79",
+    "savedFinalScreenshotSha256": "9fbaac35201ff968a4d59b0b84557089b3b3f40fe41cb9d8ed9599a76407e14c"
+  },
+  {
+    "question": 58,
+    "qid": "mbb:set-2:original-058",
+    "key": "B",
+    "changedFields": [],
+    "recoveryNote": "Saved final screen agrees with the existing substantive record; retained unchanged.",
+    "independentAdjudication": "Management communication should be concise but must preserve decision-relevant uncertainty, criteria, dependencies, and consequences. A color without its basis can conceal material exposure, while a data dump transfers synthesis responsibility to the committee. The MBB should make the decision and ownership explicit and recommend a supportable response.  B. Lead with the decision required, show the status criteria, evidence range, assumptions, dependency, and consequences of each recovery option, then state the recommended action and owner",
+    "distractorAdjudications": [
+      "Reducing the display to a color may hide uncertainty that materially changes the executive decision.",
+      "Correct. It is concise, evidence-based, decision-oriented, and explicit about risk, action, and accountability.",
+      "Executives need traceable evidence, but the MBB remains responsible for synthesis and a defensible recommendation.",
+      "Expected benefit alone does not neutralize a critical dependency or a credible schedule risk."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "e2677d86e4733517825180c72ed2981542acf166d1fcdfb6f6bdd5acc7473813",
+    "afterQuestionSha256": "e2677d86e4733517825180c72ed2981542acf166d1fcdfb6f6bdd5acc7473813",
+    "savedFinalScreenshotSha256": "2704513b1ec46e80bd4e8ac7854652ee1b89ead294576c426d7114cd83726980"
+  },
+  {
+    "question": 59,
+    "qid": "mbb:set-2:original-059",
+    "key": "C",
+    "changedFields": [
+      "assumptions"
+    ],
+    "recoveryNote": "Make emergency/deadline exceptions to collaboration-first explicit.",
+    "independentAdjudication": "The visible behavior suggests a conflict between public commitment and perceived functional risk. Before using formal escalation, the MBB should diagnose the organizational dynamics and select an intervention that surfaces interests, protects legitimate concerns, and clarifies access and decision rights. A pre-agreed escalation path preserves accountability if collaboration fails.  C. Diagnose the interests, power, and perceived exposure behind the delay; use a collaborative intervention to agree safeguards, access, and decision rights, with a defined escalation path if unresolved",
+    "distractorAdjudications": [
+      "Immediate labeling and escalation may harden defensiveness before the underlying interests and safeguards are understood.",
+      "Removing necessary data protects hierarchy at the cost of analytical validity and does not resolve the conflict.",
+      "Correct. It matches the intervention to the power and interest dynamics while retaining an accountable escalation route.",
+      "Developing political skill matters, but the MBB should not leave a Belt unsupported in a senior-level access conflict."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "6d9bacc746f19856757596d08dace7ff354c5a8d4c5cd322cac53bcfe22f3c24",
+    "afterQuestionSha256": "9e49138a9ea66081272f6f994910abb7cd63024061db099e0832cc2e2acaa563",
+    "savedFinalScreenshotSha256": "25489fc003be165c10db531e21e3f38b5e5d2e25862d4b14ef8159c1d64cd66e"
+  },
+  {
+    "question": 60,
+    "qid": "mbb:set-2:original-060",
+    "key": "A",
+    "changedFields": [
+      "cognitive",
+      "options"
+    ],
+    "recoveryNote": "Restore role accountability with concise wording and Evaluate classification.",
+    "independentAdjudication": "A deployment system needs distinct but connected accountabilities. Executives set direction, champions sponsor and remove barriers, Finance protects benefit integrity, process owners own sustained performance, and the MBB provides technical leadership, coaching, standards, and portfolio evidence. Concentrating enterprise and operational ownership in the MBB weakens governance.  A. Let the executive council own strategic priorities, champions own sponsorship and barrier removal, Finance validate benefits, process owners sustain controls, and the MBB govern methods, coaching, and portfolio evidence",
+    "distractorAdjudications": [
+      "Correct. It distributes authority to the roles that can legitimately make, validate, sponsor, and sustain each decision.",
+      "Advisory participation does not correct the excessive concentration of decision rights in one technical role.",
+      "Project teams cannot independently validate their own benefits or own enterprise barriers and post-project processes.",
+      "Executives and process owners retain responsibilities that cannot be delegated permanently to the improvement organization."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "a652b38ded8abe268711b64a1c8e0370f46b95fa4c9a12063132bc31632496ce",
+    "afterQuestionSha256": "782f6c8fe7954b8de04a870609f6c48cfdae97171f91ff6559eaf3713a5b8cd4",
+    "savedFinalScreenshotSha256": "ff88e9e11451166e9dfee2d74c98952ac2e9be2399986c2bbbd9bc027ae1f0a0"
+  },
+  {
+    "question": 61,
+    "qid": "mbb:set-2:original-061",
+    "key": "D",
+    "changedFields": [
+      "assumptions",
+      "chart",
+      "cognitive",
+      "optionRationales",
+      "options",
+      "visual"
+    ],
+    "recoveryNote": "Correct the false three-discretionary-project rationale, state additive comparable NPVs and fixed scored capacity; add working reset.",
+    "independentAdjudication": "After mandatory R consumes 4 months, 8 remain. Among ready projects, A plus D uses exactly 8 months and adds $2.70 million, so the full portfolio R+A+D uses 12 and returns $3.10 million. B+D uses 7 discretionary months and adds $2.40 million; C has a larger single value but is not data-ready.  D. Authorize R, A, and D for all 12 Black-Belt-months and $3.10 million risk-adjusted NPV; hold C until its data-readiness gate is passed",
+    "distractorAdjudications": [
+      "C is explicitly blocked at the data-readiness gate, so its apparent portfolio value is not currently executable.",
+      "R is mandatory, not discretionary. R+B+D is feasible at 11 months and $2.80 million, but R+A+D is feasible and has the larger $3.10 million value.",
+      "D also fits with A, uses the remaining capacity exactly, and increases risk-adjusted NPV by $0.90 million.",
+      "Correct. It satisfies the mandatory, readiness, indivisibility, and capacity constraints while maximizing stated value."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "60018553c3a352d63df8546830f794b272bf8afc3b93729c15cf67941c918d77",
+    "afterQuestionSha256": "a74f369dd66a763593e505bf9c8fd7b6cb49623d5cd629735724c490cef449a8",
+    "savedFinalScreenshotSha256": "306aea9aa3a9153ef9b62baf9f97aaea175051d1def0fcac04d8be398e42a672"
+  },
+  {
+    "question": 62,
+    "qid": "mbb:set-2:original-062",
+    "key": "B",
+    "changedFields": [],
+    "recoveryNote": "Saved final screen agrees with the existing substantive record; retained unchanged.",
+    "independentAdjudication": "Variance has meaning only against an authorized baseline. Moving unapproved work into a later period can manufacture a zero schedule variance without recovering the original commitment. The team must preserve the original performance record, evaluate the scope decision, and establish a revised baseline only through authorized change control.  B. The reported recovery is not valid until performance is reconciled to the approved baseline and the added scope is separately authorized, time-phased, and incorporated through change control",
+    "distractorAdjudications": [
+      "Sponsor interest does not replace the approved change-control and baseline-governance process.",
+      "Correct. It protects historical performance integrity while allowing authorized scope and baseline revision.",
+      "Added work may or may not change the critical path, so lateness cannot be inferred without schedule analysis.",
+      "Unauthorized rebasing affects schedule transparency and governance even when no immediate budget is added."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "d71f342c79ecb8e08fda808c2319b17c60ba2486d68679f236c821b3ebb4ed38",
+    "afterQuestionSha256": "d71f342c79ecb8e08fda808c2319b17c60ba2486d68679f236c821b3ebb4ed38",
+    "savedFinalScreenshotSha256": "6707d1779682172b5bffa80d39ba84d3cb0ff969698cc39f5f10719bb2042606"
+  },
+  {
+    "question": 63,
+    "qid": "mbb:set-2:original-063",
+    "key": "C",
+    "changedFields": [],
+    "recoveryNote": "Saved final screen agrees with the existing substantive record; retained unchanged.",
+    "independentAdjudication": "Corrective action begins by containing the problem, understanding its cause and schedule effect, and developing feasible responses. When no option preserves every constraint, the project leader must make tradeoffs visible and obtain an informed stakeholder decision rather than silently reducing validation, scope, or accountability.  C. Contain immediate customer exposure, verify the root cause and critical-path impact, then present stakeholders with explicit scope, schedule, and risk recovery alternatives and a recommendation",
+    "distractorAdjudications": [
+      "Reducing validation without an informed risk decision transfers schedule pressure into customer exposure.",
+      "A project leader cannot silently remove an approved requirement to preserve a historical baseline.",
+      "Correct. It follows containment and diagnosis with transparent, stakeholder-owned recovery tradeoffs.",
+      "Resource scarcity limits options but does not eliminate analysis, containment, resequencing, or governance decisions."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "42bb2d14f03b0776d41232559d718a19ed860a751b115d694f3a0060508297d9",
+    "afterQuestionSha256": "42bb2d14f03b0776d41232559d718a19ed860a751b115d694f3a0060508297d9",
+    "savedFinalScreenshotSha256": "7e963ba7f2e7a7638b2e7f3eec23b3e2e96c6c377782a2e6542be9090e377f34"
+  },
+  {
+    "question": 64,
+    "qid": "mbb:set-2:original-064",
+    "key": "A",
+    "changedFields": [
+      "assumptions",
+      "optionRationales",
+      "options",
+      "stem"
+    ],
+    "recoveryNote": "Clarify annual avoided workload, cash basis and rounding of the unsupported combined NPV.",
+    "independentAdjudication": "The present value of validated hard savings is $420,000(3.1699) = $1,331,358. Subtracting the $1.20 million investment gives an NPV of about $131,358. The unbudgeted workload is cost avoidance, not automatically a bottom-line cash flow, so it should be disclosed and governed separately.  A. Hard-dollar NPV is approximately positive $131,000; report the $250,000 cost avoidance separately and retain its assumptions rather than adding it automatically to cash flow",
+    "distractorAdjudications": [
+      "Correct. It discounts the verified cash savings and preserves the hard-dollar versus cost-avoidance distinction.",
+      "The supplied four-period cash-flow assumption should be evaluated, not arbitrarily reduced to one period.",
+      "Including the unsubstantiated $250,000 per year produces $923,833, rounding to $924,000, but it improperly treats unbudgeted workload avoidance as verified cash savings.",
+      "Recurring savings are discounted future cash flows; they are not merely a nominal reduction of initial cost."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "a06bb8ba4b06a0c8e2b02d9a89ccc5302ed20d4a52e86014e904c8fb146399e2",
+    "afterQuestionSha256": "93ed6d61d484c8bc7ddec3e7242116479a8525daa5015e345254c56cdc6eded4",
+    "savedFinalScreenshotSha256": "df66ee9979d85d51756e71695274ec63bb1850df7807848d4937ba8b34c5bdb4"
+  },
+  {
+    "question": 65,
+    "qid": "mbb:set-2:original-065",
+    "key": "C",
+    "changedFields": [
+      "chart",
+      "visual"
+    ],
+    "recoveryNote": "Replace causal conclusion labels with assessment observations.",
+    "independentAdjudication": "A training needs analysis links strategy to actual job requirements, performance gaps, affected populations, frequency, and causes. Skill gaps can justify training; incentive, ownership, or system barriers require different interventions. Analysts may need targeted DOE capability for the approved strategy, but blanket training would not address the other evidence.  C. Match training to verified job and task gaps, preserve targeted DOE development for analysts, and address incentive, ownership, or system causes with nontraining interventions",
+    "distractorAdjudications": [
+      "Strategic relevance supports planned capability, but not identical content for roles without the task or application.",
+      "High impact establishes priority, not whether the root cause is a knowledge or skill deficiency.",
+      "Correct. It separates trainable gaps from organizational causes and aligns future training with role demand.",
+      "Frequency is one input; risk, impact, strategic need, and causal evidence also shape the plan."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "fd614fa5f12f157e159af3ea0ff9879f2d128a58531d2e8bedd7ef6ea5c0abf2",
+    "afterQuestionSha256": "26faa1079229241152da0910dd12fbd60b95dd6923ea9f2983645f6df9d5dfbb",
+    "savedFinalScreenshotSha256": "d8668eead5d77e631dc9a2c183305a1eb490764cbb600bbebff8755e3962658f"
+  },
+  {
+    "question": 66,
+    "qid": "mbb:set-2:original-066",
+    "key": "D",
+    "changedFields": [
+      "cognitive"
+    ],
+    "recoveryNote": "Classify selection of an existing evaluation design as Evaluate, not Create.",
+    "independentAdjudication": "Mager's principle requires observable performance, the conditions under which it occurs, and criteria for acceptable performance. Satisfaction measures reaction, not demonstrated competence or transfer. A strong evaluation aligns the learning assessment with the objective and extends to workplace application and business impact while addressing attribution.  D. Write observable performance, conditions, and criteria; align the assessment and later transfer and impact measures with stated attribution controls",
+    "distractorAdjudications": [
+      "A test can assess learning, but a score alone does not establish workplace application or a well-formed objective.",
+      "Know is not directly observable, and satisfaction does not demonstrate diagnostic performance.",
+      "Attendance and business results cannot by themselves locate learning, transfer, or competing causes.",
+      "Correct. It creates an assessable objective and connects learning, application, impact, and attribution evidence."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "88f9cc1ba3a0d7689d0f198581f610c424cbb016c31473e260bc1a1998c744e0",
+    "afterQuestionSha256": "fc0b3858afb016d7c1c1dd63e0168a5cb32ac9b45b9997bf92a544faa0696ce0",
+    "savedFinalScreenshotSha256": "087e32fccb3e129856ee06af10a2423a477c9e861419d35c7ba9e6e97042daeb"
+  },
+  {
+    "question": 67,
+    "qid": "mbb:set-2:original-067",
+    "key": "B",
+    "changedFields": [],
+    "recoveryNote": "Saved final screen agrees with the existing substantive record; retained unchanged.",
+    "independentAdjudication": "The original charter is too broad to be executable. Project sizing should use evidence and explicit dimensions to define both in-scope and out-of-scope boundaries, while avoiding a boundary so narrow that plausible root causes are excluded. The MBB coaches the decision process rather than prescribing an untested solution.  B. Use Pareto and process evidence to bound the process, product, customer, geography, systems, and relationships; state what is out of scope and verify the boundary still permits root-cause discovery",
+    "distractorAdjudications": [
+      "A costly category can guide scope, but prescribing a cause or solution before analysis biases the project.",
+      "Correct. It uses the dimensional method and explicit exclusions without cutting off causal investigation.",
+      "Enterprise relevance does not make an unbounded project executable within finite team resources.",
+      "Country projects may be appropriate later, but an automatic split can duplicate work and hide common causes."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "ec0b74aa871b5a23b7b6223a024845dd607b0c136469313404ba9aba9b4d6d0c",
+    "afterQuestionSha256": "ec0b74aa871b5a23b7b6223a024845dd607b0c136469313404ba9aba9b4d6d0c",
+    "savedFinalScreenshotSha256": "e4937ddd145a01fb83a511bd3800b8f9f448ca4f1f055dd7d10d81944f6ed3df"
+  },
+  {
+    "question": 68,
+    "qid": "mbb:set-2:original-068",
+    "key": "C",
+    "changedFields": [
+      "assumptions",
+      "options",
+      "stem"
+    ],
+    "recoveryNote": "State alpha and causal claim; make supplied p-value scope explicit.",
+    "independentAdjudication": "A p-value is conditional on the data and model being valid. The method change threatens comparability, missing provenance prevents traceability, and ordered residuals challenge independence. A technical review should identify these decision-critical gaps and coach a timely correction rather than approve unsupported causality or terminate without investigation.  C. Pause the causal conclusion, coach the Belt to reconcile provenance and measurement comparability, diagnose residual dependence and model assumptions, then return with evidence proportionate to the tollgate decision",
+    "distractorAdjudications": [
+      "Statistical significance does not repair invalid measurement comparability, dependence, or missing traceability.",
+      "The observations may be reconciled, stratified, recalibrated, or partially reused after an evidence-based review.",
+      "Correct. It protects the decision while using the review as focused technical coaching rather than punishment.",
+      "Nonparametric methods do not automatically correct temporal dependence or a discontinuous measurement system."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "032942b5bcf9a28500720b3c072b0f1137c5bc52eae2f48389c204000b07ab66",
+    "afterQuestionSha256": "5b0c53063da9b7c1da979abf7af57b39266125f81918110083169f967cd6105d",
+    "savedFinalScreenshotSha256": "4232aa6ee9fa51f1072d94b6af5ae3b98aa10820438a0fd695bb913f966509c4"
+  },
+  {
+    "question": 69,
+    "qid": "mbb:set-2:original-069",
+    "key": "A",
+    "changedFields": [
+      "assumptions",
+      "chart",
+      "formula",
+      "optionRationales",
+      "options",
+      "visual",
+      "why"
+    ],
+    "recoveryNote": "Distinguish SDs from variance components, variance contribution from study variation and unrounded acceptance rule; remove solution column.",
+    "independentAdjudication": "Add variances, not the displayed standard deviations: GR&R variance is 0.8²+0.6²+1.0²=2.00 µm², giving SD √2=1.414214 µm. Including part-to-part gives total variance 22.25 µm² and total SD 4.716991 µm. Thus %Study Variation is 100√(2/22.25)=29.981267%, within the stipulated 10–30% application-justification band. Its rounded display is 30.0%, but the decision uses the unrounded value. The variance contribution is only 8.988764%; it is a different ratio and must not be compared to an SD-based rule.  A. Total gage R&R SD is about 1.41 micrometers and its share of total study variation is about 30.0%; the unrounded result requires application-specific justification",
+    "distractorAdjudications": [
+      "Correct. Squaring and summing the SD components gives the proper GR&R and total SDs, and the unrounded SD ratio invokes the explicitly stated organizational criterion.",
+      "Standard deviations cannot be added directly when the independent components are combined into total variance.",
+      "The specified part-by-appraiser interaction is measurement-system variation and cannot be discarded from GR&R.",
+      "The total-study denominator includes measurement and part-to-part variation, not part variation alone."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "696a1023620aae2499680159729f3235a5682f9461cfea4836737908139d1b99",
+    "afterQuestionSha256": "f82c5f233eeb9fdf99d459282d19609fcbc3f65c4d3b2d95b9bc107577fdc4ce",
+    "savedFinalScreenshotSha256": "576f3500b230efb46919564bc3fa377cf76c2e9affdc644605a8a05f21dfc961"
+  },
+  {
+    "question": 70,
+    "qid": "mbb:set-2:original-070",
+    "key": "D",
+    "changedFields": [
+      "assumptions",
+      "chart",
+      "optionRationales",
+      "options",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "recoveryNote": "Remove unverifiable goodness-of-fit p-values and stipulate adequate Weibull model with exact bin conventions.",
+    "independentAdjudication": "Using the stipulated Weibull survival model, P(T>8)=exp[-(8/4)^1.4]=0.0714315364, or about 7.1%. The boundary issue is resolved by the stated (a,b] bins: the last two bins contain 14 observations strictly above 8 days, giving a sample fraction of 14/200=7.0%, not an exact long-term probability. Model validity, stability and representative independent observations remain conditions; no goodness-of-fit test or fitted parameters can be independently recovered from this grouped histogram alone.  D. Using the stipulated Weibull model, estimate P(T > 8) = exp[-(8/4)^1.4] about 0.071; report roughly 7.1% above the USL with model-fit and stability qualifications",
+    "distractorAdjudications": [
+      "A sample size of 200 does not itself justify a normal population model; use the explicitly stipulated adequate model rather than assuming a normal Cpk interpretation.",
+      "A transformation must be selected and validated, and specifications must be transformed consistently before interpretation.",
+      "The empirical fraction is a sample estimate with uncertainty, not an exact long-term process probability.",
+      "Correct. It applies the stated adequate nonnormal model and keeps its modeling and stability qualifications."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "c79e7c90d7971b9dd6d58c1862f43fafa75dd29a9ca684344558975b9de15ee6",
+    "afterQuestionSha256": "667d3c35ad24d185d2e83032d74efa0a3d4995824d390060849f9f9a36ba638c",
+    "savedFinalScreenshotSha256": "982aac4c2bac3b8c33fa235b62e25788a17c6f3e406b44f483cfe55252f6090a"
+  },
+  {
+    "question": 71,
+    "qid": "mbb:set-2:original-071",
+    "key": "B",
+    "changedFields": [
+      "assumptions",
+      "chart",
+      "optionRationales",
+      "options",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "recoveryNote": "Identify pointwise diagnostic scope; avoid uniquely prescribing an AR model from ACF alone.",
+    "independentAdjudication": "Lags 1 and 2 have large positive residual correlations (0.61 and 0.37); lag 3 is 0.20, only slightly above the approximate 0.196 pointwise reference. This pattern warrants further model investigation rather than accepting residual independence. It does not uniquely identify an autoregressive order, establish 12-period seasonality, or replace residual diagnostics and forecast validation. The pointwise screen is not a simultaneous confidence envelope across all lags.  B. The early-lag pattern indicates residual dependence; investigate time-series structure, compare suitable candidates and require residual diagnostics and forecast validation before release",
+    "distractorAdjudications": [
+      "Decay does not establish independence when bars exceed the significance bounds at multiple lags.",
+      "Correct. The displayed early-lag dependence calls for comparing plausible models and validating residual and forecasting performance without claiming the ACF alone identifies one unique model.",
+      "A lag-1 maximum is not evidence of a 12-period seasonal effect, and seasonal differencing cannot be selected from this claim.",
+      "Equally spaced observations do not remove serial correlation or make ordinary-regression errors independent."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "b0c1fa3c66b2de547529ec1605988400e034d316314dd3ba45f7583db12c9dd4",
+    "afterQuestionSha256": "239d9c0eeafb593b4b7ddfa16bbd4a270c4304d1105fafb2695cfe0e68dede98",
+    "savedFinalScreenshotSha256": "cccb6beaca36e6014d5e75ed7ea1f28772c49bf41222c2e8e88a7edf52ef9320"
+  },
+  {
+    "question": 72,
+    "qid": "mbb:set-2:original-072",
+    "key": "C",
+    "changedFields": [
+      "assumptions",
+      "chart",
+      "formula",
+      "optionRationales",
+      "options",
+      "quantitative",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "recoveryNote": "Reconstruct saved balanced ten-team-per-cell synthetic study and ANOVA; recalculate p-values and distinguish interaction from equivalence.",
+    "independentAdjudication": "The method means average 60% for A and 51% for B, but their 9-point marginal difference does not apply uniformly. A−B is 2 percentage points under low workload and 16 points under high workload. In the balanced ten-team-per-cell design, method, workload and interaction SS are 810, 1210 and 490; division by the stipulated MSE 49 gives F(1,36) values 16.530612, 24.693878 and 10, with p≈0.000249, 0.0000165 and 0.003173. Interpret this interaction using conditional effects and uncertainty, not a universal 9-point benefit. A small observed difference is not a test of equivalence, and nonparallel means are not a residual-variance diagnostic.  C. The method difference depends on workload: compare the 2-point and 16-point simple effects with uncertainty and operating conditions rather than relying on the marginal mean alone.",
+    "distractorAdjudications": [
+      "Nine points is the marginal average, not the method difference under each workload; the simple effects are 2 and 16 points.",
+      "Observed closeness is not equivalence evidence, and the high-workload difference directly contradicts interchangeability across both conditions.",
+      "Correct. The interaction means method differences are conditional; examine simple effects, their uncertainty and operational relevance.",
+      "An interaction plot describes conditional means. It cannot establish unequal residual variances; those require separate residual evidence."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "fcc8afa7e688ec3714ba70345c197bfd813dc1995685d1942f6e4977774ed7f2",
+    "afterQuestionSha256": "26a51ceb04933131fafa26efd7a86504d378d30dd535cb49ab09b4866f946dd0",
+    "savedFinalScreenshotSha256": "ccc554f7361097d90174f2cdc00b0f04e4abd30b41d5b63feca9be741a092d76"
+  },
+  {
+    "question": 73,
+    "qid": "mbb:set-2:original-073",
+    "key": "A",
+    "changedFields": [
+      "assumptions",
+      "chart",
+      "visual"
+    ],
+    "recoveryNote": "State exact bin endpoint convention and remove answer-total clues in alternative text.",
+    "independentAdjudication": "The four bins below zero contain 20+35+80+175 = 310 trials. Dividing by 2,000 gives 0.155, or 15.5%, which exceeds the stated 10% limit even though the midpoint-weighted mean is positive. The correct response is to examine sensitivity and mitigation, then rerun the already verified model with justified changes.  A. Do not approve under current policy: 310 of 2,000 trials are below zero (15.5%), above the 10% limit; mitigate key risks and rerun the verified model",
+    "distractorAdjudications": [
+      "Correct. It applies the explicit tail-risk policy and uses simulation to guide targeted risk reduction.",
+      "A positive mean and a tail-probability constraint answer different governance questions; both must be respected.",
+      "A 15.5% negative rate exceeds, rather than satisfies, the maximum 10% loss-probability policy.",
+      "Negative outcomes can be legitimate consequences of uncertain feasible inputs and do not alone invalidate a model."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "77e10ae3b0b92aa172e1e3309be039ec598ed8abb3ae93d2b8bce5bd0470721e",
+    "afterQuestionSha256": "b0d635508e21c0bf3b6b6d9ccf035bc6f769028e951a5840b83c7483d5708cfe",
+    "savedFinalScreenshotSha256": "5d65d3d90e1c4eeab038559c3cd517a55b433b924452d6f00fa42d0ef3a8c334"
+  },
+  {
+    "question": 74,
+    "qid": "mbb:set-2:original-074",
+    "key": "D",
+    "changedFields": [
+      "assumptions",
+      "chart",
+      "visual"
+    ],
+    "recoveryNote": "Remove redundant replication answers and clarify distinct units/dashes.",
+    "independentAdjudication": "Every block is incomplete because lot capacity k=3 is smaller than v=4 treatments. The design is balanced: each treatment appears r=3 times, and each of the six treatment pairs appears together in exactly lambda=2 blocks. This permits treatment comparisons despite the physical block limit.  D. It is a balanced incomplete block design: each lot contains three formulations, each formulation occurs in three lots, and every formulation pair occurs together twice",
+    "distractorAdjudications": [
+      "A complete block must contain every treatment within each block; each lot here omits one formulation.",
+      "A Latin square requires two blocking dimensions with each treatment appearing once per row and column.",
+      "Incomplete blocks can be pairwise balanced, as the equal pair concurrence in this matrix demonstrates.",
+      "Correct. The incidence counts satisfy v=4, b=4, k=3, r=3, and lambda=2."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "a0ddd9c4f94765fcd852e87c70c725d2459392896392352b874763b55d5ee01e",
+    "afterQuestionSha256": "eb993b89d3260211dc7c41629dfe63444f59f257ade7381e43a88721c76f7171",
+    "savedFinalScreenshotSha256": "e883ae3859f0dce1b8b34d7a4ba94ef8b6a602079dd1435c6d43e4e610440e34"
+  },
+  {
+    "question": 75,
+    "qid": "mbb:set-2:original-075",
+    "key": "B",
+    "changedFields": [],
+    "recoveryNote": "Saved final screen agrees with the existing substantive record; retained unchanged.",
+    "independentAdjudication": "A closed feedback loop requires measurement, decision, and action in a causal path where the action returns to affect the next measurement. Here the sensor is upstream of the manipulated valve, so retuning cannot repair the broken loop and may amplify oscillation. The architecture and dynamics must be corrected before tuning or SPC interpretation.  B. Correct the control architecture so the manipulated steam variable can affect the measured downstream moisture, verify sensor and actuator dynamics, then tune and monitor the closed loop",
+    "distractorAdjudications": [
+      "Controller gain cannot create a missing causal path from the final control element back to the sensor.",
+      "Correct. It restores the required measurement-decision-action feedback relationship before optimization.",
+      "Transport delay complicates tuning but does not require replacing a valid continuous measurement with attributes.",
+      "SPC limits can monitor data but cannot make an upstream measurement respond to a downstream action."
+    ],
+    "sourceScope": "Original source locators retained, not newly page-verified in this integration. Visible corrections restored from saved final screenshots; hidden rationales and renderer reimplemented and checked.",
+    "beforeQuestionSha256": "2cfdaeb511590dc1a7f4ed5e949010463c7d1970878230ff82728ba9eedf2fde",
+    "afterQuestionSha256": "2cfdaeb511590dc1a7f4ed5e949010463c7d1970878230ff82728ba9eedf2fde",
+    "savedFinalScreenshotSha256": "93114dde5d11b0fd49229cb835716ecfcd916c84d1727c3af298b3bd4281bc1b"
+  }
+]

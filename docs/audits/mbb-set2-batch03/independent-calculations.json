@@ -1,0 +1,132 @@
+{
+  "Q61": {
+    "feasible": [
+      {
+        "projects": [
+          "R"
+        ],
+        "months": 4,
+        "valueMillion": 0.4
+      },
+      {
+        "projects": [
+          "R",
+          "A"
+        ],
+        "months": 9,
+        "valueMillion": 2.2
+      },
+      {
+        "projects": [
+          "R",
+          "B"
+        ],
+        "months": 8,
+        "valueMillion": 1.9
+      },
+      {
+        "projects": [
+          "R",
+          "D"
+        ],
+        "months": 7,
+        "valueMillion": 1.3
+      },
+      {
+        "projects": [
+          "R",
+          "A",
+          "D"
+        ],
+        "months": 12,
+        "valueMillion": 3.1
+      },
+      {
+        "projects": [
+          "R",
+          "B",
+          "D"
+        ],
+        "months": 11,
+        "valueMillion": 2.8
+      }
+    ],
+    "best": {
+      "projects": [
+        "R",
+        "A",
+        "D"
+      ],
+      "months": 12,
+      "valueMillion": 3.1
+    }
+  },
+  "Q64": {
+    "npvCash": 131358.0,
+    "unsupportedCombined": 923833.0
+  },
+  "Q69": {
+    "grrVariance": 2,
+    "totalVariance": 22.25,
+    "grrSD": 1.4142135623730951,
+    "totalSD": 4.716990566028302,
+    "studyPercent": 29.981267559834457,
+    "varianceContributionPercent": 8.98876404494382
+  },
+  "Q70": {
+    "modelTail": 0.07143153635221014,
+    "empiricalAbove": 14,
+    "sampleN": 200
+  },
+  "Q71": {
+    "pointwiseReference": 0.196
+  },
+  "Q72": {
+    "meanMatrix": [
+      [
+        62,
+        58
+      ],
+      [
+        60,
+        42
+      ]
+    ],
+    "nPerCell": 10,
+    "mse": 49,
+    "errorDF": 36,
+    "SS": [
+      810,
+      1210,
+      490,
+      1764
+    ],
+    "F": [
+      16.53061224489796,
+      24.693877551020407,
+      10.0
+    ],
+    "p": [
+      0.000248702916847334,
+      1.6501410584566888e-05,
+      0.003173017903115857
+    ],
+    "simpleEffects": [
+      2,
+      16
+    ]
+  },
+  "Q73": {
+    "totalTrials": 2000,
+    "negativeTrials": 310,
+    "lossProbability": 0.155,
+    "midpointMean": 1.235
+  },
+  "Q74": {
+    "v": 4,
+    "b": 4,
+    "k": 3,
+    "r": 3,
+    "lambda": 2
+  }
+}

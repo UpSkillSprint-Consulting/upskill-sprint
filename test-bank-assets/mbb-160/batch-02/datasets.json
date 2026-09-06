@@ -4,7 +4,7 @@
   "generatedBy": "scripts/build-mbb160-assets.mjs",
   "questions": {
     "mbb:set-2:original-026": {
-      "sha256": "2ee1446c83542d00be5fae3a8fbfc78acb01ddf0b098fad75660a60f2dcbb9f1",
+      "sha256": "6c6e97f208373b74dcf48c5d9204ff23e498fcc8de83ab38c4df3b5546d99dbd",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -43,49 +43,52 @@
             "Low",
             "Supportive"
           ]
-        ]
+        ],
+        "auditBatch": 2,
+        "auditId": "mbb:set-2:original-026",
+        "altText": "A stakeholder table lists four groups. The safety regulator is high influence and high importance; field crews are low influence and high importance; union stewards are high influence and low importance; and the software vendor is low on both dimensions.",
+        "title": "Dispatch stakeholder evidence"
       }
     },
     "mbb:set-2:original-028": {
-      "sha256": "a1011172f4569b9d0984c59c6930a2121a04d2c5811318a9609da7c72fb7961a",
+      "sha256": "25c73f462f01e290d4aab4426a5c9da171ecf93fc69cabab5455d0ad2d689a4f",
       "chart": {
         "type": "data-table",
         "columns": [
           "Perspective claimed",
           "Measure",
-          "Direction this quarter",
-          "Timing characteristic"
+          "Direction this quarter"
         ],
         "rows": [
           [
             "Financial",
             "Revenue growth",
-            "Down 1.8 points",
-            "Lagging outcome"
+            "Down 1.8 percentage points"
           ],
           [
             "Financial",
             "Operating margin",
-            "Up 0.4 points",
-            "Lagging outcome"
+            "Up 0.4 percentage points"
           ],
           [
             "Customer",
             "Complaint rate",
-            "Up 13%",
-            "Lagging outcome"
+            "Up 13% relative to prior quarter"
           ],
           [
             "Customer",
             "Recall rate",
-            "Unchanged",
-            "Lagging outcome"
+            "Unchanged"
           ]
-        ]
+        ],
+        "auditBatch": 2,
+        "auditId": "mbb:set-2:original-028",
+        "altText": "The executive scorecard lists revenue growth down 1.8 percentage points, operating margin up 0.4 percentage points, complaint rate up 13% relative to the prior quarter, and recall rate unchanged. Financial and customer are its two reported perspectives.",
+        "title": "Quarterly executive scorecard"
       }
     },
     "mbb:set-2:original-031": {
-      "sha256": "4794a0bf1802d299fc8b5fac4cb34a87bdda947a39c56ddac87486b4323c8574",
+      "sha256": "c6387dc4cd5ab086d654de9e62a459e75c935092964865dacd6a512a26910887",
       "chart": {
         "type": "time-series",
         "title": "Manual referral workarounds after rollout",
@@ -121,11 +124,13 @@
           39
         ],
         "decimals": 0,
-        "altText": "A twelve-week time-series rises every week from 3 to 39 manual workarounds per 100 referrals after the standardized referral workflow was introduced."
+        "altText": "Weekly manual-referral rates per 100 referrals for weeks 1 through 12 are 3, 4, 5, 7, 9, 12, 16, 21, 26, 31, 35, and 39. The horizontal axis is time after rollout; the vertical axis is the stated rate.",
+        "auditBatch": 2,
+        "auditId": "mbb:set-2:original-031"
       }
     },
     "mbb:set-2:original-036": {
-      "sha256": "c88032a012a0a698735a94aa56f9902f628e29532688ff3362dbdb7e3bdd13f5",
+      "sha256": "51f9c6c25a6ed56f2a341178109193fdc7bb6c3651c6d204ab1ad73be56329bd",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -175,11 +180,15 @@
           "unit": "FTE",
           "committed": 4,
           "committedLabel": "mandatory Project A"
-        }
+        },
+        "auditBatch": 2,
+        "auditId": "mbb:set-2:original-036",
+        "altText": "A four-project portfolio table gives NPV, realization probability, FTE requirement, and constraints. Project A is mandatory at 4 FTE, Project B requires C, and the capacity slider ranges from 8 through 16 FTE with a default of 12.",
+        "title": "Portfolio candidates — scored capacity: 12 FTE"
       }
     },
     "mbb:set-2:original-038": {
-      "sha256": "ddd9a224386b62b49f537e180d05988cf8959a7ca6c0de52b2a8e0ac7b19f578",
+      "sha256": "fc5c43207cf505876285414e930d3a50db4fc76c1f3793abce05d13026090366",
       "chart": {
         "type": "risk-matrix",
         "rowAxis": "Operational impact",
@@ -210,11 +219,14 @@
             "low",
             "medium"
           ]
-        ]
+        ],
+        "auditBatch": 2,
+        "auditId": "mbb:set-2:original-038",
+        "altText": "A three-by-three risk matrix has impact rows Severe, Moderate, and Low and likelihood columns Rare, Possible, and Likely. Row entries are Medium/High/High, Low/Medium/High, and Low/Low/Medium, respectively. No cell is singled out."
       }
     },
     "mbb:set-2:original-040": {
-      "sha256": "29726bb59bbd67e1eee0847b7af2fc2e00ef7460bfb215697217190f56ebdc84",
+      "sha256": "5a9cd635590b117cf96d86be922de8b534d8969fb0f9fa61eed2746acf16c176",
       "chart": {
         "type": "data-table",
         "columns": [
@@ -248,49 +260,72 @@
             "Practitioner",
             "Beginner"
           ]
-        ]
+        ],
+        "auditBatch": 2,
+        "auditId": "mbb:set-2:original-040",
+        "altText": "A four-skill mastery grid gives separate target levels for sponsors, Belts, and metrology. Cells contain Beginner, Practitioner, Expert, or an em dash for no requirement. The full semantic table preserves all ten required role-skill targets.",
+        "title": "Required end-state competency by role"
       }
     },
     "mbb:set-2:original-046": {
-      "sha256": "28161b1ac0b392db3b595a19ee155397b2323388f0d2dcd5568130b97ac7b647",
+      "sha256": "01c52773cfe10bf37624028373fae732808dab31dd17f33f4dc3c215c608a719",
       "chart": {
         "type": "data-table",
         "columns": [
           "Inspector",
           "Within-inspector agreement",
-          "Agreement with reference",
-          "Meets both 90% criteria?"
+          "Agreement with reference"
         ],
         "rows": [
           [
             "A",
-            "96%",
-            "82%",
-            "No"
+            "48/50 = 96%",
+            "82/100 = 82%"
           ],
           [
             "B",
-            "94%",
-            "84%",
-            "No"
+            "47/50 = 94%",
+            "83/100 = 83%"
           ],
           [
             "C",
-            "98%",
-            "98%",
-            "Yes"
+            "49/50 = 98%",
+            "97/100 = 97%"
           ],
           [
             "Overall",
-            "96%",
-            "88%",
-            "—"
+            "144/150 = 96%",
+            "262/300 ≈ 87.3%"
           ]
-        ]
+        ],
+        "studyCounts": [
+          {
+            "inspector": "A",
+            "bothCorrect": 40,
+            "bothWrong": 8,
+            "disagree": 2
+          },
+          {
+            "inspector": "B",
+            "bothCorrect": 40,
+            "bothWrong": 7,
+            "disagree": 3
+          },
+          {
+            "inspector": "C",
+            "bothCorrect": 48,
+            "bothWrong": 1,
+            "disagree": 1
+          }
+        ],
+        "auditBatch": 2,
+        "auditId": "mbb:set-2:original-046",
+        "altText": "For inspectors A, B, and C, within-inspector agreement is 48 of 50, 47 of 50, and 49 of 50 image pairs. Reference agreement across 100 individual ratings per inspector is 82, 83, and 97 correct ratings. The table contains counts and rates, not pass/fail labels.",
+        "title": "Blinded attribute-agreement study"
       }
     },
     "mbb:set-2:original-048": {
-      "sha256": "b1059580f34566308caef9fdde7aae432bd00027d36794a4efdd69dbb1bf29e3",
+      "sha256": "96f002d91030ad23573f846fae67516040cc8c4572bc39224de939edfd84a715",
       "chart": {
         "type": "contour-plot",
         "title": "Fitted response contours",
@@ -325,18 +360,18 @@
         "contours": [
           {
             "level": 75,
-            "radiusX": 1.5811,
-            "radiusY": 2.7386
+            "radiusX": 1.5811388300841898,
+            "radiusY": 2.7386127875258306
           },
           {
             "level": 80,
-            "radiusX": 1.291,
-            "radiusY": 2.2361
+            "radiusX": 1.2909944487358056,
+            "radiusY": 2.23606797749979
           },
           {
             "level": 85,
-            "radiusX": 0.9129,
-            "radiusY": 1.5811
+            "radiusX": 0.9128709291752769,
+            "radiusY": 1.5811388300841898
           }
         ],
         "current": {
@@ -344,11 +379,14 @@
           "y": 1,
           "label": "Current"
         },
-        "model": "y-hat = 90 - 6(A - 0.5)^2 - 2(B + 0.5)^2"
+        "model": "y-hat = 90 - 6(A - 0.5)^2 - 2(B + 0.5)^2",
+        "auditBatch": 2,
+        "auditId": "mbb:set-2:original-048",
+        "altText": "An accessible contour plot of the fitted response shows elliptical contours at responses 75, 80, and 85 centered at coded factor settings A 0.5 and B negative 0.5. The current point is A negative 1 and B positive 1."
       }
     },
     "mbb:set-2:original-049": {
-      "sha256": "22ff48b2bc550b0cc428d7a64986696915124e31d13c18165c157a330b7f5df2",
+      "sha256": "590b9e5111688e8954cbf65b5650037a8b59799da3b9363ba9fc623468989b31",
       "chart": {
         "type": "reliability-plot",
         "title": "Two-module system reliability",
@@ -413,7 +451,14 @@
             ]
           }
         ],
-        "missionTime": 1000
+        "missionTime": 1000,
+        "auditBatch": 2,
+        "auditId": "mbb:set-2:original-049",
+        "altText": "A two-series reliability plot covers 0 to 2,000 hours. At 1,000 hours, the system requiring both modules has reliability about 0.603 and the active-parallel system requiring either module has reliability 0.9500.",
+        "weibullModel": {
+          "scaleHours": 2500,
+          "shape": 1.5
+        }
       }
     }
   }

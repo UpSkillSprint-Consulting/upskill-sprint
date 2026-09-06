@@ -1,0 +1,110 @@
+{
+  "q36": [
+    {
+      "portfolio": [
+        "A"
+      ],
+      "FTE": 4,
+      "expected_NPV_millions": 0.76
+    },
+    {
+      "portfolio": [
+        "A",
+        "C"
+      ],
+      "FTE": 7,
+      "expected_NPV_millions": 1.3900000000000001
+    },
+    {
+      "portfolio": [
+        "A",
+        "B",
+        "C"
+      ],
+      "FTE": 12,
+      "expected_NPV_millions": 2.95
+    },
+    {
+      "portfolio": [
+        "A",
+        "D"
+      ],
+      "FTE": 8,
+      "expected_NPV_millions": 2.2
+    },
+    {
+      "portfolio": [
+        "A",
+        "C",
+        "D"
+      ],
+      "FTE": 11,
+      "expected_NPV_millions": 2.83
+    }
+  ],
+  "q37": {
+    "SPI": 0.8,
+    "CPI": 0.8888888888888888,
+    "SV_dollars": -120000,
+    "CV_dollars": -60000
+  },
+  "q46": {
+    "synthetic_study_counts": [
+      {
+        "inspector": "A",
+        "bothCorrect": 40,
+        "bothWrong": 8,
+        "disagree": 2
+      },
+      {
+        "inspector": "B",
+        "bothCorrect": 40,
+        "bothWrong": 7,
+        "disagree": 3
+      },
+      {
+        "inspector": "C",
+        "bothCorrect": 48,
+        "bothWrong": 1,
+        "disagree": 1
+      }
+    ],
+    "pooled_reference_numerator": 262,
+    "pooled_reference_denominator": 300,
+    "pooled_reference_percent": 87.33333333333333
+  },
+  "q48": {
+    "f_current": 72,
+    "gradient": [
+      18,
+      -6
+    ],
+    "contours": [
+      {
+        "level": 75,
+        "radiusX": 1.5811388300841898,
+        "radiusY": 2.7386127875258306
+      },
+      {
+        "level": 80,
+        "radiusX": 1.2909944487358056,
+        "radiusY": 2.23606797749979
+      },
+      {
+        "level": 85,
+        "radiusX": 0.9128709291752769,
+        "radiusY": 1.5811388300841898
+      }
+    ]
+  },
+  "q49": {
+    "component": 0.7764816931256178,
+    "series": 0.602923819759226,
+    "active_parallel": 0.9500395664920095,
+    "round_to_three_places": [
+      "0.776",
+      "0.603",
+      "0.950"
+    ]
+  }
+}

@@ -6,14 +6,14 @@
     "mbb:set-2:original-151": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch07-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-151",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 480
       },
       "accessibility": {
         "altText": "A three-row strategy scorecard shows leading and outcome measures. The maintenance initiative has a blank leading-measure cell while the other initiatives have both types.",
@@ -35,20 +35,20 @@
     "mbb:set-2:original-155": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch07-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-155",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 480
       },
       "accessibility": {
-        "altText": "A candidate-project table lists Belt-months, funding, risk-adjusted value, and dependencies for four projects. A capacity control is set to 10 Belt-months, the amount needed by candidate portfolio B plus D.",
+        "altText": "Four projects with Belt-months, funding, risk-adjusted value and dependency columns. The scored capacity is 10 Belt-months.",
         "semanticTable": true
       },
-      "interactionPurpose": "Adjust available Belt-months and compare the B-plus-D candidate with capacity, funding, dependency, and competing feasible portfolios.",
+      "interactionPurpose": "Explore hypothetical capacity and reset to the fixed scored case without changing the question or answer.",
       "staticFallback": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-155",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
@@ -60,34 +60,32 @@
       ],
       "rows": 4,
       "calculations": [
-        "Compare feasible sums subject to Belt-months <= 10, funding <= $300k, and D implies B: AC=500, BD=540, AB=510, BC=430 ($000)."
+        "Maximize the sum of risk-adjusted values subject to funding ≤ $300,000, capacity ≤ 10 Belt-months, indivisibility and selection of D implying selection of B."
       ],
       "interaction": {
         "id": "mbb-q155-capacity",
-        "label": "Available Belt-months",
+        "label": "Hypothetical available Belt-months",
         "min": 8,
         "max": 12,
         "step": 1,
         "value": 10,
-        "unit": "Belt-months",
-        "committed": 10,
-        "committedLabel": "candidate portfolio B plus D"
+        "unit": "Belt-months"
       }
     },
     "mbb:set-2:original-158": {
       "type": "multi-time-series",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch07-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-158",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 480
       },
       "accessibility": {
-        "altText": "An eight-week chart shows recorded compliance rising to about 96 percent, while independent use levels near 73 percent and correct exception resolution near 60 percent.",
+        "altText": "Eight weekly percentages for recorded checklist completion, independent use and correct exception resolution. Exact values are available in the data table.",
         "semanticTable": false
       },
       "interactionPurpose": "Focus or hover over weekly points to compare reported compliance with independent behavior and exception-handling performance.",
@@ -97,7 +95,7 @@
         "Week",
         "Percent"
       ],
-      "units": "behaviorally anchored score",
+      "units": "percent",
       "axes": {
         "xLevels": [
           "1",
@@ -116,7 +114,7 @@
       },
       "series": [
         {
-          "label": "Recorded compliance",
+          "label": "Recorded checklist completion",
           "observations": 8,
           "values": [
             42,
@@ -163,14 +161,14 @@
     "mbb:set-2:original-161": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch07-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-161",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 480
       },
       "accessibility": {
         "altText": "An earned-value table shows BAC 1.2 million dollars, PV 600 thousand, EV 480 thousand, and AC 550 thousand.",
@@ -185,21 +183,21 @@
       ],
       "rows": 4,
       "calculations": [
-        "CPI=EV/AC=480/550=0.873; SPI=EV/PV=480/600=0.800; EAC=BAC/CPI=1.20/0.873=$1.375M."
+        "CPI=EV/AC=480/550=0.872727…; SPI=EV/PV=480/600=0.80; EAC=BAC/(EV/AC)=$1.20M*550/480=$1.375M, rounded to $1.38M only at the end."
       ],
       "interaction": null
     },
     "mbb:set-2:original-163": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch07-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-163",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 480
       },
       "accessibility": {
         "altText": "A role-based needs table shows operators with 88 percent knowledge but only 54 percent system access, 42 percent job-aid usability, and 49 percent correct use.",
@@ -222,17 +220,17 @@
     "mbb:set-2:original-168": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch07-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-168",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 480
       },
       "accessibility": {
-        "altText": "A nested destructive measurement-study table attributes 76 percent of variance to parts, 18 percent to repeatability within nested specimens, and 6 percent to appraisers.",
+        "altText": "Nested-model variance contributions: batch within appraiser 76%, residual within batch 18%, appraiser 6%, total 100%.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -244,151 +242,157 @@
       ],
       "rows": 4,
       "calculations": [
-        "Measurement contribution = repeatability 18% + appraiser 6% = 24% of total variance."
+        "Residual 18% + appraiser 6% = 24% of modeled variance; this is not necessarily pure measurement variance. If a pure-measurement interpretation is justified, sqrt(0.24)*100 = 48.99% study variation."
       ],
       "interaction": null
     },
     "mbb:set-2:original-170": {
       "type": "regression-diagnostic",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch07-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-170",
       "transformations": [],
-      "referenceLines": [
-        "Residual = 0"
-      ],
+      "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 480
       },
       "accessibility": {
-        "altText": "A scatterplot contains eight observed predictor values between 10 and 70 and one proposed point at 105, separated by a large unsupported gap.",
+        "altText": "Eight observed claim-severity pairs at scores 10 through 70, a fitted line, and a distinct unobserved proposal at score 105 with its calculated 95% mean-response interval.",
         "semanticTable": false
       },
-      "interactionPurpose": "Focus or hover over points to compare the observed predictor range with the isolated proposed value at 105.",
+      "interactionPurpose": "Inspect observed values and the unobserved proposal separately, with keyboard/touch selection and a matching data table.",
       "staticFallback": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-170",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
         "Policy-risk score",
         "Claim severity ($000)"
       ],
-      "axes": {
-        "xTicks": [
-          10,
-          30,
-          50,
-          70,
-          90,
-          110
-        ],
-        "yTicks": [
-          20,
-          40,
-          60,
-          80
-        ]
+      "observedPoints": [
+        {
+          "x": 10,
+          "y": 24
+        },
+        {
+          "x": 18,
+          "y": 29
+        },
+        {
+          "x": 25,
+          "y": 31
+        },
+        {
+          "x": 34,
+          "y": 39
+        },
+        {
+          "x": 42,
+          "y": 43
+        },
+        {
+          "x": 51,
+          "y": 49
+        },
+        {
+          "x": 60,
+          "y": 56
+        },
+        {
+          "x": 70,
+          "y": 61
+        }
+      ],
+      "model": {
+        "intercept": 17.001635322976274,
+        "slope": 0.63221586263287,
+        "n": 8,
+        "df": 6,
+        "mse": 0.9877895884437159,
+        "tCritical": 2.4469118511449786
       },
-      "points": 9,
-      "calculations": []
+      "proposal": {
+        "x": 105,
+        "mean": 83.38430089942763,
+        "meanCI": [
+          80.34633146424565,
+          86.4222703346096
+        ],
+        "predictionInterval": [
+          79.4928323396618,
+          87.27576945919346
+        ],
+        "confidenceLevel": 0.95,
+        "newPointLeverage": 1.5605069501226492
+      },
+      "units": "policy-risk score and thousands of dollars",
+      "interval": "95% conditional mean-response confidence interval; individual prediction interval separately tabulated"
     },
     "mbb:set-2:original-172": {
       "type": "reliability-plot",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch07-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-172",
       "transformations": [],
-      "referenceLines": [
-        "Mission time = 1 hours"
-      ],
+      "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 480
       },
       "accessibility": {
-        "altText": "Three reliability curves end at mission reliabilities 0.98, 0.95, and 0.97. Subsystem B is lowest at the mission endpoint.",
+        "altText": "At the same fixed mission endpoint: subsystem A reliability 0.98, B 0.95 and C 0.97. No intermediate-time curve is supplied.",
         "semanticTable": false
       },
       "interactionPurpose": "",
       "staticFallback": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-172",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
-        "Mission fraction",
-        "Reliability"
+        "subsystem",
+        "mission reliability"
       ],
-      "units": "hours and probability",
-      "axes": {
-        "xTicks": [
-          0,
-          0.25,
-          0.5,
-          0.75,
-          1
-        ],
-        "yDomain": [
-          0,
-          1
-        ]
-      },
-      "series": [
+      "units": "probability at a fixed common mission endpoint",
+      "components": [
         {
           "label": "Subsystem A",
-          "observations": 5
+          "reliability": 0.98
         },
         {
           "label": "Subsystem B",
-          "observations": 5
+          "reliability": 0.95
         },
         {
           "label": "Subsystem C",
-          "observations": 5
+          "reliability": 0.97
         }
       ],
-      "calculations": [
-        "Rs=0.98(0.95)(0.97)=0.90307; gains for +0.01 are 0.009215, 0.009506, and 0.00931 respectively."
-      ]
+      "lifetimeDistributionAssumed": false
     },
     "mbb:set-2:original-174": {
       "type": "two-level-interaction",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch07-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-174",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 480
       },
       "accessibility": {
-        "altText": "A two-level interaction plot has crossing B-low and B-high lines across the low and high levels of factor A, indicating an interaction contrast without identifying its aliased source.",
+        "altText": "B-low means are 62 and 78 at A low/high; B-high means are 80 and 66. Original coded factor settings and the four means are available as tables.",
         "semanticTable": false
       },
-      "interactionPurpose": "Focus or hover over the plotted factor-level means to inspect the crossing contrast before considering the AB equals CD alias.",
+      "interactionPurpose": "Inspect the four displayed cell means with keyboard or touch; view the original factor coding without a precomputed alias label.",
       "staticFallback": "test-bank-assets/mbb-160/batch-07/static-fallbacks.html#mbb-set-2-original-174",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
         "Factor A",
         "Factor B",
-        "Mean response"
+        "Mean response (response units)"
       ],
-      "units": "factor levels and response percent",
-      "axes": {
-        "xLevels": [
-          "A low",
-          "A high"
-        ],
-        "yDomain": [
-          55,
-          85
-        ],
-        "yTicks": [
-          60,
-          70,
-          80
-        ]
-      },
+      "units": "coded factor levels and response units",
       "series": [
         {
           "label": "B low",
@@ -405,9 +409,57 @@
           ]
         }
       ],
-      "calculations": [
-        "I=ABCD; multiply by AB to obtain AB=CD. Likewise AC=BD and AD=BC."
-      ]
+      "designRows": [
+        [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        [
+          -1,
+          -1,
+          1,
+          1
+        ],
+        [
+          -1,
+          1,
+          -1,
+          1
+        ],
+        [
+          -1,
+          1,
+          1,
+          -1
+        ],
+        [
+          1,
+          -1,
+          -1,
+          1
+        ],
+        [
+          1,
+          -1,
+          1,
+          -1
+        ],
+        [
+          1,
+          1,
+          -1,
+          -1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "rawResponseReplicatesAvailable": false
     }
   }
 }

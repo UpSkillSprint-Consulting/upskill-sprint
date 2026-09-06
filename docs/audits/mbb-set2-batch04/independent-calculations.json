@@ -1,0 +1,362 @@
+{
+  "basis": "Independent Python/SymPy recomputation from the corrected published evidence; original scenarios, not estimates from student data.",
+  "Q86": {
+    "path_durations_days": {
+      "P-Q-S-M": 75,
+      "P-R-S-M": 60
+    },
+    "critical_path": "P-Q-S-M",
+    "project_R_float_days": 15
+  },
+  "Q87": {
+    "unit": "million dollars",
+    "CPI": 0.8,
+    "SPI": 0.8,
+    "EAC": 2.9999999999999996,
+    "ETC": 1.7999999999999996,
+    "CV": -0.24,
+    "SV": -0.24
+  },
+  "Q89": {
+    "released_hours": 10000.0,
+    "verified_hard_savings": "Not supported by the stated expense and output evidence"
+  },
+  "Q96": {
+    "slope_bias_mm_per_reference_mm": -0.04000000000000001,
+    "intercept_mm": 2.600000000000001,
+    "mean_bias_mm": 0.2,
+    "bias_range_mm": 3.2
+  },
+  "Q97": {
+    "cumulative_ratios": [
+      {
+        "test_hours": 200,
+        "failures": 10,
+        "cumulative_MTBF_hours": 20.0
+      },
+      {
+        "test_hours": 400,
+        "failures": 16,
+        "cumulative_MTBF_hours": 25.0
+      },
+      {
+        "test_hours": 800,
+        "failures": 24,
+        "cumulative_MTBF_hours": 33.333333333333336
+      },
+      {
+        "test_hours": 1200,
+        "failures": 30,
+        "cumulative_MTBF_hours": 40.0
+      },
+      {
+        "test_hours": 1600,
+        "failures": 32,
+        "cumulative_MTBF_hours": 50.0
+      }
+    ],
+    "delayed_fix_interval_hours": [
+      800,
+      1200
+    ],
+    "current_MTBF": "Not calculated from cumulative ratios alone."
+  },
+  "Q98": {
+    "remaining_fraction": 0.20000000000000007,
+    "pseudocomponents": [
+      0.5,
+      0.24999999999999986,
+      0.24999999999999986
+    ],
+    "feasible_vertices": [
+      [
+        0.5,
+        0.4,
+        0.1
+      ],
+      [
+        0.3,
+        0.6000000000000001,
+        0.1
+      ],
+      [
+        0.3,
+        0.4,
+        0.30000000000000004
+      ]
+    ],
+    "inverse": [
+      0.4,
+      0.45000000000000007,
+      0.15000000000000002
+    ]
+  },
+  "Q99": {
+    "model_columns": [
+      "1",
+      "A",
+      "B",
+      "A²",
+      "AB",
+      "B²"
+    ],
+    "candidate_basis": "Explicit audit-authored synthetic matrices, not recovered textbook designs",
+    "candidates": {
+      "P": {
+        "n": 10,
+        "distinct_settings": 6,
+        "rank": 6,
+        "LOF_df": 0,
+        "pure_error_df": 4,
+        "determinant_exact": "2187/4",
+        "determinant": 546.75,
+        "runs": [
+          [
+            -1,
+            1
+          ],
+          [
+            1,
+            -1
+          ],
+          [
+            -1,
+            -1
+          ],
+          [
+            0.5,
+            -0.5
+          ],
+          [
+            -1,
+            -0.5
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            -1,
+            -1
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            1,
+            0.5
+          ]
+        ]
+      },
+      "Q": {
+        "n": 10,
+        "distinct_settings": 8,
+        "rank": 6,
+        "LOF_df": 2,
+        "pure_error_df": 2,
+        "determinant_exact": "611/64",
+        "determinant": 9.546875,
+        "runs": [
+          [
+            1,
+            -1
+          ],
+          [
+            0.5,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0.5
+          ],
+          [
+            -1,
+            0.5
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            -0.5,
+            0
+          ],
+          [
+            -0.5,
+            0
+          ],
+          [
+            0.5,
+            0
+          ]
+        ]
+      },
+      "R": {
+        "n": 10,
+        "distinct_settings": 7,
+        "rank": 6,
+        "LOF_df": 1,
+        "pure_error_df": 3,
+        "determinant_exact": "130365/512",
+        "determinant": 254.619140625,
+        "runs": [
+          [
+            0,
+            0.5
+          ],
+          [
+            0.5,
+            1
+          ],
+          [
+            -0.5,
+            0.5
+          ],
+          [
+            0.5,
+            -1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            -1
+          ],
+          [
+            -1,
+            -0.5
+          ],
+          [
+            0.5,
+            1
+          ],
+          [
+            0.5,
+            -1
+          ],
+          [
+            -1,
+            -0.5
+          ]
+        ]
+      },
+      "S": {
+        "n": 10,
+        "distinct_settings": 7,
+        "rank": 5,
+        "LOF_df": 2,
+        "pure_error_df": 3,
+        "determinant_exact": "0",
+        "determinant": 0.0,
+        "runs": [
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            -0.5
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0.5
+          ],
+          [
+            1,
+            -1
+          ],
+          [
+            1,
+            -0.5
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            -1
+          ],
+          [
+            0,
+            -0.5
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    "selected": "R"
+  },
+  "Q100": [
+    {
+      "setting": "I1",
+      "responses_mm": [
+        50.0,
+        52.0,
+        49.0,
+        51.0
+      ],
+      "mean_mm": 50.5,
+      "sample_SD_mm": 1.2909944487358056,
+      "mean_squared_deviation_from_target_mm2": 13.5
+    },
+    {
+      "setting": "I2",
+      "responses_mm": [
+        49.0,
+        57.0,
+        47.0,
+        55.0
+      ],
+      "mean_mm": 52.0,
+      "sample_SD_mm": 4.760952285695233,
+      "mean_squared_deviation_from_target_mm2": 21.0
+    },
+    {
+      "setting": "I3",
+      "responses_mm": [
+        54.0,
+        55.0,
+        53.0,
+        54.0
+      ],
+      "mean_mm": 54.0,
+      "sample_SD_mm": 0.816496580927726,
+      "mean_squared_deviation_from_target_mm2": 0.5
+    },
+    {
+      "setting": "I4",
+      "responses_mm": [
+        56.0,
+        62.0,
+        50.0,
+        60.0
+      ],
+      "mean_mm": 57.0,
+      "sample_SD_mm": 5.291502622129181,
+      "mean_squared_deviation_from_target_mm2": 30.0
+    }
+  ]
+}

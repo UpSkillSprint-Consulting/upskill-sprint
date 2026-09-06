@@ -239,6 +239,14 @@
       '</div>';
   }
 
+  function reviewQuestionContent(question) {
+    if (window.__TB && window.__TB.renderQuestionContent) return window.__TB.renderQuestionContent(question, true);
+    return '<div class="tb-review-stem">' + esc(question.stem) + '</div>';
+  }
+  function auditedRationales(question) {
+    return window.__MBBBatch7UI && window.__MBBBatch7UI.isQuestion(question) ? window.__MBBBatch7UI.rationales(question) : window.__MBBBatch6UI && window.__MBBBatch6UI.isQuestion(question) ? window.__MBBBatch6UI.rationales(question) : window.__MBBBatch5UI && window.__MBBBatch5UI.isQuestion(question) ? window.__MBBBatch5UI.rationales(question) : window.__MBBBatch3UI && window.__MBBBatch3UI.isQuestion(question) ? window.__MBBBatch3UI.rationales(question) : window.__MBBBatch4UI && window.__MBBBatch4UI.isQuestion(question) ? window.__MBBBatch4UI.rationales(question) : window.__MBBBatch2UI ? window.__MBBBatch2UI.rationales(question) : '';
+  }
+
   function reviewCardHtml(record) {
     const question = record.question;
     const status = statusOf(record);
@@ -248,7 +256,7 @@
       return reviewOptionHtml(question, record, option, index);
     }).join('');
 
-    return '<article class="tb-review-card" data-review-status="' + status + '" data-question-id="' + esc(record.questionId || questionId(currentExamId(), question)) + '">' +
+    return '<article class="tb-review-card' + (window.__TBMbbBatch1Review && window.__TBMbbBatch1Review.applies(question) ? ' tb-mbb-batch1-card' : '') + '" data-review-status="' + status + '" data-question-id="' + esc(record.questionId || questionId(currentExamId(), question)) + '">' +
       '<div class="tb-review-card-head">' +
         '<div><span class="tb-review-qno">Question ' + (record.index + 1) + '</span>' +
         '<span class="tb-review-topic">' + esc(meta.domainName) + ' &rsaquo; ' + esc(meta.subName) + '</span></div>' +
@@ -257,11 +265,11 @@
         '<span class="tb-review-status ' + status + '">' + statusLabel + '</span>' +
         (record.flagged ? '<span class="tb-review-status flagged">Flagged</span>' : '') + '</div>' +
       '</div>' +
-      '<div class="tb-review-stem">' + esc(question.stem) + '</div>' +
+      reviewQuestionContent(question) +
       '<div class="tb-review-options">' + options + '</div>' +
       '<div class="tb-answer-compare"><div><span>Your answer</span><strong>' + esc(answerText(question, record.selected)) + '</strong></div>' +
       '<div><span>Correct answer</span><strong>' + esc(answerText(question, question.answer)) + '</strong></div></div>' +
-      '<div class="tb-explanation"><div class="tb-explanation-title">Why this is correct</div><div class="tb-explanation-copy">' + (question.why || 'An explanation is not available for this question yet.') + '</div></div>' +
+      '<div class="tb-explanation"><div class="tb-explanation-title">Why this is correct</div><div class="tb-explanation-copy">' + (question.why || 'An explanation is not available for this question yet.') + '</div>' + auditedRationales(question) + '</div>' +
       '<a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a>' +
       '</article>';
   }
@@ -362,14 +370,14 @@
     const feedback = checked
       ? '<div class="tb-retry-feedback ' + (correct ? 'correct' : 'wrong') + '"><strong>' + (correct ? 'Correct.' : 'Not quite.') + '</strong> ' +
         (correct ? 'You have corrected this question.' : 'The correct answer is ' + esc(answerText(question, question.answer)) + '.') +
-        '<div class="tb-explanation-copy">' + (question.why || 'An explanation is not available for this question yet.') + '</div>' +
+        '<div class="tb-explanation-copy">' + (question.why || 'An explanation is not available for this question yet.') + '</div>' + auditedRationales(question) +
         '<a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a></div>'
       : '';
 
     return '<div class="tb-retry-head"><div><div class="tb-diag-kick">Correction quiz</div><h3>Retry missed questions</h3></div>' +
       '<span class="tb-badge2">' + (index + 1) + ' of ' + total + '</span></div>' +
       '<div class="tb-retry-topic">' + esc(meta.domainName) + ' &rsaquo; ' + esc(meta.subName) + '</div>' +
-      '<div class="tb-review-stem">' + esc(question.stem) + '</div>' +
+      reviewQuestionContent(question) +
       '<div class="tb-retry-options">' + options + '</div>' + feedback +
       '<div class="tb-retry-actions">' +
         (checked

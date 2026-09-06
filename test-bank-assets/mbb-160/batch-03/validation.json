@@ -4,164 +4,134 @@
   "generatedBy": "scripts/build-mbb160-assets.mjs",
   "questions": {
     "mbb:set-2:original-051": {
-      "datasetSha256": "a59726d4be11cc3f141f2e339e62a1196db7561819867892bd32a5c68186c1c6",
+      "datasetSha256": "d37e46f11dea817555cbf351a62fd521883af020847da78357dc3cf813b65856",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires measured browser evidence",
+      "scaleAndUnitsReviewed": "see reconstructed calculations and integration tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "validationScope": "Generated data and markup only; see docs/audits/mbb-set2-batch03/integration.md for independently rerun layout and numerical checks",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-056": {
-      "datasetSha256": "7514a0643670521f09739fbed254564cb6a55484dcd22588bb16855eb3daff47",
+      "datasetSha256": "4acf9b3b8f3f7fbf7de63c5770820c2623536838d00a049f1ac01b29b4cc1bef",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires measured browser evidence",
+      "scaleAndUnitsReviewed": "see reconstructed calculations and integration tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "validationScope": "Generated data and markup only; see docs/audits/mbb-set2-batch03/integration.md for independently rerun layout and numerical checks",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-061": {
-      "datasetSha256": "b3e93c3d0d270c43d4d8fc5e2d351100826fbb3c19f73977bdb61b354cb9337e",
+      "datasetSha256": "5ff05d359c543c6c4d27d3b5a9c603c16026b5f04982ee2ef5c95e582b867f5c",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires measured browser evidence",
+      "scaleAndUnitsReviewed": "see reconstructed calculations and integration tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "validationScope": "Generated data and markup only; see docs/audits/mbb-set2-batch03/integration.md for independently rerun layout and numerical checks",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-065": {
-      "datasetSha256": "a545ec9a5c640ad2108fddbbe26c0627651ac5836fd414ecdcc2e9b2764b6b4e",
+      "datasetSha256": "ee4e10da5da56d2eecb8eb0785bb2c66e36ea1acaaa794b42e532c2067826cbc",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires measured browser evidence",
+      "scaleAndUnitsReviewed": "see reconstructed calculations and integration tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "validationScope": "Generated data and markup only; see docs/audits/mbb-set2-batch03/integration.md for independently rerun layout and numerical checks",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-069": {
-      "datasetSha256": "f25f574eeac8c3e9240fc128d401aa5a10e58c3d74c6890acc14da6f84429964",
+      "datasetSha256": "5e5cd7dd6a6272d61c9ac57349f3626a00d149a1daada65f87c0ab198f8f1449",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires measured browser evidence",
+      "scaleAndUnitsReviewed": "see reconstructed calculations and integration tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "validationScope": "Generated data and markup only; see docs/audits/mbb-set2-batch03/integration.md for independently rerun layout and numerical checks",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-070": {
-      "datasetSha256": "61b6116b385101a1bad4e706dcf956af311b3fee8aeaf3f53f8c2c6e02f57e85",
+      "datasetSha256": "219d735d37fb98ed2fd18c3e69f2714797bbcd82769c6acc6c3811dbffe9b9e1",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires measured browser evidence",
+      "scaleAndUnitsReviewed": "see reconstructed calculations and integration tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "validationScope": "Generated data and markup only; see docs/audits/mbb-set2-batch03/integration.md for independently rerun layout and numerical checks",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-071": {
-      "datasetSha256": "b3ac6541945dd190371e82fd74ca0fe1d0ce8426a73114f0f5beb931015d02b7",
+      "datasetSha256": "ff1289abdf21fbd23b519c5547be565ed09020d1227dfabd45b06febda1e1304",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires measured browser evidence",
+      "scaleAndUnitsReviewed": "see reconstructed calculations and integration tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "validationScope": "Generated data and markup only; see docs/audits/mbb-set2-batch03/integration.md for independently rerun layout and numerical checks",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-072": {
-      "datasetSha256": "6cc08a828ce3904d301eefdd567e81093a6d854f11304ea69caaebacbb0f2d6a",
+      "datasetSha256": "a5d7ede516abba8ebef38060c996d4896993350569ba2e7bb259dcc80d8760ac",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires measured browser evidence",
+      "scaleAndUnitsReviewed": "see reconstructed calculations and integration tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "validationScope": "Generated data and markup only; see docs/audits/mbb-set2-batch03/integration.md for independently rerun layout and numerical checks",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-073": {
-      "datasetSha256": "91513e0a853af537c7ef9e37ff3450556349f11c577e53a5593cc2c1bfd5540d",
+      "datasetSha256": "23f8a321fd80200dba5c1937ac750308688d0e475dfedd832c14fc0687cf43ab",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires measured browser evidence",
+      "scaleAndUnitsReviewed": "see reconstructed calculations and integration tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "validationScope": "Generated data and markup only; see docs/audits/mbb-set2-batch03/integration.md for independently rerun layout and numerical checks",
+      "validationStatus": "semantic-checks-passed"
     },
     "mbb:set-2:original-074": {
-      "datasetSha256": "f55ae8c30242a0d2f0e67f8c9ffdb5b66d8d1ec6fcf30041544f2cac2afebf06",
+      "datasetSha256": "7daf1f9be7a4610ca4c34504db6811c3a66ef2c79d0be8fee1b5b0053997e1f3",
       "datasetMatchesQuestionChart": true,
       "rendererReturnedMarkup": true,
-      "readableLabels": true,
-      "scaleAndUnitsReviewed": true,
+      "readableLabels": "requires measured browser evidence",
+      "scaleAndUnitsReviewed": "see reconstructed calculations and integration tracker",
       "answerCueAuditPassed": true,
       "accessibleAlternativePresent": true,
       "staticFallbackGenerated": true,
-      "breakpoints": [
-        "desktop",
-        "tablet",
-        "mobile"
-      ],
-      "validationStatus": "passed"
+      "breakpoints": [],
+      "validationScope": "Generated data and markup only; see docs/audits/mbb-set2-batch03/integration.md for independently rerun layout and numerical checks",
+      "validationStatus": "semantic-checks-passed"
     }
   }
 }

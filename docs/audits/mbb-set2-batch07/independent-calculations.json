@@ -1,0 +1,318 @@
+{
+  "provenance": "Derived from supplied question data and explicitly stated model assumptions; no unavailable raw measurement or event records invented.",
+  "Q155": {
+    "allSubsets": [
+      {
+        "selected": "",
+        "months": 0,
+        "fundingThousands": 0,
+        "valueThousands": 0,
+        "feasible": true
+      },
+      {
+        "selected": "D",
+        "months": 6,
+        "fundingThousands": 180,
+        "valueThousands": 330,
+        "feasible": false
+      },
+      {
+        "selected": "C",
+        "months": 5,
+        "fundingThousands": 120,
+        "valueThousands": 200,
+        "feasible": true
+      },
+      {
+        "selected": "CD",
+        "months": 11,
+        "fundingThousands": 300,
+        "valueThousands": 530,
+        "feasible": false
+      },
+      {
+        "selected": "B",
+        "months": 4,
+        "fundingThousands": 100,
+        "valueThousands": 210,
+        "feasible": true
+      },
+      {
+        "selected": "BD",
+        "months": 10,
+        "fundingThousands": 280,
+        "valueThousands": 540,
+        "feasible": true
+      },
+      {
+        "selected": "BC",
+        "months": 9,
+        "fundingThousands": 220,
+        "valueThousands": 410,
+        "feasible": true
+      },
+      {
+        "selected": "BCD",
+        "months": 15,
+        "fundingThousands": 400,
+        "valueThousands": 740,
+        "feasible": false
+      },
+      {
+        "selected": "A",
+        "months": 5,
+        "fundingThousands": 150,
+        "valueThousands": 300,
+        "feasible": true
+      },
+      {
+        "selected": "AD",
+        "months": 11,
+        "fundingThousands": 330,
+        "valueThousands": 630,
+        "feasible": false
+      },
+      {
+        "selected": "AC",
+        "months": 10,
+        "fundingThousands": 270,
+        "valueThousands": 500,
+        "feasible": true
+      },
+      {
+        "selected": "ACD",
+        "months": 16,
+        "fundingThousands": 450,
+        "valueThousands": 830,
+        "feasible": false
+      },
+      {
+        "selected": "AB",
+        "months": 9,
+        "fundingThousands": 250,
+        "valueThousands": 510,
+        "feasible": true
+      },
+      {
+        "selected": "ABD",
+        "months": 15,
+        "fundingThousands": 430,
+        "valueThousands": 840,
+        "feasible": false
+      },
+      {
+        "selected": "ABC",
+        "months": 14,
+        "fundingThousands": 370,
+        "valueThousands": 710,
+        "feasible": false
+      },
+      {
+        "selected": "ABCD",
+        "months": 20,
+        "fundingThousands": 550,
+        "valueThousands": 1040,
+        "feasible": false
+      }
+    ],
+    "optimum": {
+      "selected": "BD",
+      "months": 10,
+      "fundingThousands": 280,
+      "valueThousands": 540,
+      "feasible": true
+    }
+  },
+  "Q161": {
+    "CPI": 0.8727272727272727,
+    "SPI": 0.8,
+    "EAC_millions": 1.375,
+    "costVariance": -70000,
+    "scheduleVariance": -120000
+  },
+  "Q165": {
+    "identicalInterventionColumns": 3,
+    "rankOfThreeIdenticalNonzeroColumns": 1,
+    "interpretation": "Individual intervention effects are not identified by perfectly coincident indicators."
+  },
+  "Q168": {
+    "couponsDestroyed": 30,
+    "reportedResidualPlusAppraiserVariancePercent": 24,
+    "conditionalStudyVariationPercent": 48.98979485566356,
+    "homogeneityEstablished": false
+  },
+  "Q170": {
+    "observedPairs": [
+      [
+        10.0,
+        24.0
+      ],
+      [
+        18.0,
+        29.0
+      ],
+      [
+        25.0,
+        31.0
+      ],
+      [
+        34.0,
+        39.0
+      ],
+      [
+        42.0,
+        43.0
+      ],
+      [
+        51.0,
+        49.0
+      ],
+      [
+        60.0,
+        56.0
+      ],
+      [
+        70.0,
+        61.0
+      ]
+    ],
+    "intercept": 17.001635322976274,
+    "slope": 0.63221586263287,
+    "n": 8,
+    "df": 6,
+    "SSE": 5.926737530662296,
+    "MSE": 0.9877895884437159,
+    "tCritical": 2.4469118511449786,
+    "newX": 105,
+    "newPointLeverage": 1.5605069501226492,
+    "mean": 83.38430089942763,
+    "meanCI95": [
+      80.34633146424565,
+      86.4222703346096
+    ],
+    "predictionInterval95": [
+      79.4928323396618,
+      87.27576945919346
+    ]
+  },
+  "Q171": {
+    "conditionalOR": "exp(beta_T + beta_TS * centeredSeverity)",
+    "pValueRecomputed": false
+  },
+  "Q172": {
+    "systemReliability": 0.9030699999999999,
+    "gains": [
+      0.009215,
+      0.009505999999999999,
+      0.009309999999999999
+    ],
+    "bestSubsystem": "B"
+  },
+  "Q174": {
+    "originalFraction": [
+      [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      [
+        -1,
+        -1,
+        1,
+        1
+      ],
+      [
+        -1,
+        1,
+        -1,
+        1
+      ],
+      [
+        -1,
+        1,
+        1,
+        -1
+      ],
+      [
+        1,
+        -1,
+        -1,
+        1
+      ],
+      [
+        1,
+        -1,
+        1,
+        -1
+      ],
+      [
+        1,
+        1,
+        -1,
+        -1
+      ],
+      [
+        1,
+        1,
+        1,
+        1
+      ]
+    ],
+    "DOnlyFoldover": [
+      [
+        -1,
+        -1,
+        -1,
+        1
+      ],
+      [
+        -1,
+        -1,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        -1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        1,
+        1
+      ],
+      [
+        1,
+        -1,
+        -1,
+        -1
+      ],
+      [
+        1,
+        -1,
+        1,
+        1
+      ],
+      [
+        1,
+        1,
+        -1,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        -1
+      ]
+    ],
+    "originalRank": 8,
+    "augmentedRank": 11,
+    "allFactorMirrorRepeatsSameFraction": true,
+    "AB_equals_CD": true,
+    "observedAliasedContrast": -15.0
+  }
+}

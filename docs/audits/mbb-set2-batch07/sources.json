@@ -1,0 +1,52 @@
+{
+  "edition": "Kubiak (2012) handbook concept references, distinguished from the current ASQ Body of Knowledge",
+  "officialBodyOfKnowledge": {
+    "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+    "verification": "Retrieved via web text and inspected page screenshots including the enterprise, deployment, training, coaching and analytics sections; item codes reviewed. Q170 mapped to VI.B.5 (general linear models including regression) rather than multiple regression."
+  },
+  "primaryReferences": [
+    {
+      "title": "NIST: Series model",
+      "url": "https://www.itl.nist.gov/div898/handbook/apr/section1/apr182.htm",
+      "supports": "Q172 independent nonrepairable series product and mission assumptions"
+    },
+    {
+      "title": "Minitab: Gage studies with destructive testing",
+      "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/supporting-topics/gage-r-r-and-wheeler-s-emp-studies/gage-studies-with-destructive-testing/",
+      "supports": "Q168 within-batch homogeneity and crossed-versus-nested allocation; heterogeneity confounded with residual measurement variation"
+    },
+    {
+      "title": "NIST: Least Squares",
+      "url": "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd431.htm",
+      "supports": "Q170 least-squares model fitting and model-dependent uncertainty; interval numerical results are independently derived, not copied from a source table"
+    },
+    {
+      "title": "NIST: More on Prediction",
+      "url": "https://www.itl.nist.gov/div898/handbook/pmd/section5/pmd522.htm",
+      "supports": "Q170 mean-response confidence intervals versus wider individual prediction intervals"
+    },
+    {
+      "title": "NIST: Process capability",
+      "url": "https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm",
+      "supports": "Q169 stability, distributional assumptions and dimensionless indices"
+    },
+    {
+      "title": "Stat-Ease: Foldover",
+      "url": "https://www.statease.com/docs/v22.0/contents/advanced-topics/foldover/",
+      "supports": "Q174 a resolution-IV single-factor foldover; independent column/rank checks demonstrate the failure of reversing all four signs"
+    }
+  ],
+  "handbookVerification": [
+    "Retrieved table of contents confirms chapter titles/numbers: Strategic Planning1; Deployment3; Opportunities5; Pipeline6; Organizational Design7; Commitment/Change8; OrganizationalFinance/Performance9; Challenges11; Executive/TeamRoles12; ProjectOversight14; ProjectManagementInfrastructure15; TrainingNeeds17; TrainingMaterials/Curriculum19; TrainingEffectiveness20; MentoringExecutives21; BeltMentoring22; MSA24; Measuring/ModelingRelationships25; DOE26; APC27.",
+    "Retrieved passages include training-gap diagnosis pp.243\u2013244; organizational systems pp.100\u2013103; leadership responsibilities pp.185\u2013186 and MSA destructive-study discussion pp.334\u2013346.",
+    "Broad inherited ranges (for example370\u2013402 and429\u2013450) remain topic locators, not assertions that every page or a verbatim textbook question was independently verified. Primary statistical sources and explicit algebra resolve the technical decisions."
+  ],
+  "authoredEvidence": [
+    "Q153 assessment comparability and Q156 delayed capacity are explicitly authored replacements, not recovered textbook cases.",
+    "Q168 makes the nested allocation explicit; variance fractions remain supplied model output, not a refit to invented raw measurements.",
+    "Q170 preserves the eight original observed data pairs; removes the unsupported proposed response78 and independently calculates the fitted mean/CI/PI at105.",
+    "Q172 retains only the three supplied mission-endpoint reliabilities; no unsupported lifetime curve is claimed.",
+    "Q174 derives coded design rows from I=ABCD and preserves the four supplied cell means; no invented raw responses or p-values."
+  ],
+  "remainingSourceLimits": "Earlier source-closure issues, notably Batch1Q25, and Batch3 reconstruction provenance are not closed by this audit."
+}

@@ -1,0 +1,2228 @@
+[
+  {
+    "number": 151,
+    "qid": "mbb:set-2:original-151",
+    "originalKey": "D",
+    "independentKey": "D",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Defined Blank and separated a hypothesized leading relationship from proven causation.",
+      "Repaired table semantics and evidence order.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "D fills the missing maintenance-execution indicator while retaining the outcome needed to test its usefulness. Define the measure, verify its data and assign an owner. A plausible relationship to delivery reliability is a hypothesis, not demonstrated causation. Removing operational evidence or collapsing unlike measures into an opaque index would weaken diagnosis.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "Revenue alone does not supply the missing operational evidence for the delivery objective.",
+        "option": "Replace the delivery outcome with revenue alone to simplify the strategic scorecard"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "Leading operational evidence is needed to guide action before lagging outcomes are known.",
+        "option": "Remove operational indicators and retain only year-end business outcomes"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "An unqualified composite can hide conflicting signals and does not validate their relationships.",
+        "option": "Average the measures into a single index without preserving component signals"
+      },
+      {
+        "choice": "D",
+        "correct": true,
+        "judgment": "Correct. It adds actionable evidence while retaining an outcome against which to test the proposed link.",
+        "option": "Add a verified maintenance leading measure and test its link to reliability"
+      }
+    ],
+    "assumptions": [
+      "Targets, baselines and owners are documented separately; Blank specifically means an unselected indicator.",
+      "The table is a proposed measurement design, not a causal study."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "chart",
+      "visual",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 1 - Strategic Planning",
+        "section": "Strategy deployment leading-indicator integrity",
+        "pages": "16",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "A. Strategic Plan Development",
+      "topic": "Strategy deployment leading-indicator integrity",
+      "code": "I.A"
+    },
+    "authoredReplacement": false,
+    "visual": true,
+    "interactive": false,
+    "beforeHash": "68e69ce73a95210b0f3ce663f0b5d58c5d10869a46e0a195c938980ad6e44cd7",
+    "afterHash": "2f1fa6006a59883a57bbf05771f0ebac92f387e6556469fbeef4fa758e20fa2f",
+    "examTrap": "Do not treat a plausible leading indicator as proof of a causal relationship; retain the outcome needed to test it.",
+    "questionSHA256": "86a06b45e41c2dce008a976071f1a353bec74124bec6037b0f50b2d8653b8fd9",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#151",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 152,
+    "qid": "mbb:set-2:original-152",
+    "originalKey": "A",
+    "independentKey": "A",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Removed the implication that a quantified predefined trigger was supplied.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "A updates the evidence behind the roadmap before portfolio decisions are changed. Quantify the order-mix effect on capacity, benefits and resources, then compare coherent revised scenarios. The stem supplies a material assumption failure, not a numerical predefined trigger. Neither automatic cancellation nor unsupported target inflation follows from that evidence.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": true,
+        "judgment": "Correct. It supports controlled adaptation without presuming that all projects should continue or stop.",
+        "option": "Reassess the changed assumption and test revised scenarios before reprioritizing"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "The planning calendar does not justify ignoring a material failure of a planning assumption.",
+        "option": "Continue unchanged until annual planning because the roadmap is already approved"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Some projects may retain value after redesign; blanket cancellation skips that assessment.",
+        "option": "Cancel every automation project without evaluating its revised business case"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Raising a target is not evidence that the lost capacity or benefits can actually be recovered.",
+        "option": "Increase benefit targets to offset the loss without changing scope or resources"
+      }
+    ],
+    "assumptions": [
+      "The changed order mix materially invalidates the stated capacity model.",
+      "No emergency or mandatory deadline requires a separate immediate action."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 15 - Project Management Infrastructure",
+        "section": "Scenario-triggered strategy adaptation",
+        "pages": "223\u2013224",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "B. Strategic Plan Alignment",
+      "topic": "Scenario-triggered strategy adaptation",
+      "code": "I.B.2"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "9d17eb88fb3904bedbc69ba9ba3a2f3a3ddc7e099472000c443985595aea0be8",
+    "afterHash": "ab245877338eb854b1ddca64e146f1ce140ce98d84cdb5f31952e592120dfcb0",
+    "examTrap": "Neither an approved roadmap nor a changed assumption alone decides which projects should continue; reassess the evidence.",
+    "questionSHA256": "be9b2bd8075044c5f39474b09a43670515c16100cb4996315c07a93cb39dd16e",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#152",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 153,
+    "qid": "mbb:set-2:original-153",
+    "originalKey": "B",
+    "independentKey": "B",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Replaced a near-repeat of federated-model selection with assessment comparability inside that model.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "B addresses the meaning and consistency of the competency judgments. Common minimum criteria, assessor calibration and evidence moderation can coexist with locally relevant cases. Equal pass rates or equal score means do not establish comparable competence. Corporate control of unrelated meetings would not repair the assessment process.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "Different criteria can produce equal pass rates, so those rates do not establish equivalent competence.",
+        "option": "Accept equal pass rates as sufficient evidence of equivalent regional assessments"
+      },
+      {
+        "choice": "B",
+        "correct": true,
+        "judgment": "Correct. Shared criteria and moderated evidence address comparability without eliminating local relevance.",
+        "option": "Set common competency criteria, calibrate assessors and moderate local evidence"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Matching score means can conceal differences in standards rather than resolve them.",
+        "option": "Normalize regional score means without reviewing the underlying assessment criteria"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Approval of meetings does not change the criteria or reliability of assessment judgments.",
+        "option": "Require corporate approval of every local meeting while retaining the different rubrics"
+      }
+    ],
+    "assumptions": [
+      "The regions assess the same internal credential and competency requirements.",
+      "This is an internal governance scenario, not a statement about ASQ certification procedures."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 3 - Deployment of Six Sigma Systems; Chapter 20 - Training Effectiveness Evaluation",
+        "section": "Federated governance with common standards",
+        "pages": "28\u201329; 289\u2013290",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "C. Infrastructure Elements of Improvement Systems",
+      "topic": "Federated governance with common standards",
+      "code": "I.C.1"
+    },
+    "authoredReplacement": true,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "d9d05bd9445377ce7d99648d4eb219cefa2c7c25af8974900d724afb9864fc7d",
+    "afterHash": "490277d69d52ca9051d88506354358da2cebd8ca53e604fdd795b2a5e37064e1",
+    "examTrap": "Equal pass rates can arise under different assessment standards; they do not demonstrate equivalent competence.",
+    "questionSHA256": "12b3073bce2b71b607f103c06d55d85f24aaa80fc4d9d8ae0ffe1cf1856cc050",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#153",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 154,
+    "qid": "mbb:set-2:original-154",
+    "originalKey": "C",
+    "independentKey": "C",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Clarified discovery versus implementation evidence and corrected the chapter title.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "C places transparent qualification between ideation and resource commitment. The depth of evidence should match the proposed next step: bounded discovery may be authorized to resolve uncertainty, whereas implementation needs stronger justification. Method selection should follow the problem and available knowledge, not popularity or a universal DMAIC rule.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "Popularity can reflect advocacy or status rather than an adequately defined opportunity.",
+        "option": "Authorize the concepts with the most senior-leader votes, without further qualification"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "DMAIC is not automatically appropriate for a new design or an unresolved discovery question.",
+        "option": "Require every concept to enter DMAIC regardless of its process or knowledge state"
+      },
+      {
+        "choice": "C",
+        "correct": true,
+        "judgment": "Correct. Proportionate evidence gates support qualification and defensible method selection.",
+        "option": "Screen need, fit, feasibility, risk, value and ownership before selecting an approach"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Hard savings alone exclude legitimate customer, mandatory, learning and strategic opportunities.",
+        "option": "Require immediate hard savings, excluding customer, learning and strategic value"
+      }
+    ],
+    "assumptions": [
+      "The immediate decision concerns project authorization, not whether ideas may be explored at all.",
+      "Evidence requirements should be proportionate to discovery, experimentation or implementation."
+    ],
+    "changedFields": [
+      "bok",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 5 - Opportunities for Improvement",
+        "section": "Innovation funnel evidence gates",
+        "pages": "70\u201387",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "E. Opportunities for Improvement",
+      "topic": "Innovation funnel evidence gates",
+      "code": "I.E.2"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "a31be5c7b2640c5b75bd08158ff9ecf3b3f1201c583527d2d2daf67ca3980ecb",
+    "afterHash": "f2de1c96c5ee6962c845a8d5a165641cd442fb5883640768e40580588f7e04bd",
+    "examTrap": "Popularity does not qualify an implementation project, but uncertainty need not prevent a bounded discovery step.",
+    "questionSHA256": "a31e7b1e4bc641986d6d72c3860b4ce489728b371f8d56332668f0c9025045c8",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#154",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 155,
+    "qid": "mbb:set-2:original-155",
+    "originalKey": "D",
+    "independentKey": "D",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Corrected B+C from 8 months/$210k/$430k to 9 months/$220k/$410k.",
+      "Removed the false implication that every unlisted subset is infeasible.",
+      "Removed keyed-portfolio leakage from the slider and alternative text.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "Enumerating all feasible subsets gives AC: 10 months/$270,000/$500,000; BC: 9 months/$220,000/$410,000; AB: 9 months/$250,000/$510,000; and BD: 10 months/$280,000/$540,000. BD includes B as required by D and has the highest value. Feasible single projects and the empty set also exist, but none improves on BD. Feasibility alone does not make AC or AB optimal.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "Feasible, but its value is $40,000 below the best feasible portfolio.",
+        "option": "Projects A and C: 10 Belt-months, $270,000 funding, $500,000 risk-adjusted value"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "The corrected total is $410,000, which is $130,000 below the optimum.",
+        "option": "Projects B and C: 9 Belt-months, $220,000 funding, $410,000 risk-adjusted value"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Feasible, but its value is $30,000 below the best feasible portfolio.",
+        "option": "Projects A and B: 9 Belt-months, $250,000 funding, $510,000 risk-adjusted value"
+      },
+      {
+        "choice": "D",
+        "correct": true,
+        "judgment": "Correct. It satisfies both resource limits and the dependency and maximizes value.",
+        "option": "Projects B and D: 10 Belt-months, $280,000 funding, $540,000 risk-adjusted value"
+      }
+    ],
+    "assumptions": [
+      "Projects are indivisible; values are additive, net, non-overlapping and on the same risk-adjusted financial horizon.",
+      "D requires selection of B; no additional timing, sequencing or resource constraint applies.",
+      "The scored case is fixed at 10 Belt-months and $300,000; the slider only explores hypothetical capacity."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "options",
+      "why",
+      "optionRationales",
+      "formula",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "chart",
+      "visual",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 6 - Pipeline Management",
+        "section": "Capacity-constrained pipeline selection",
+        "pages": "88\u201399",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "I. Enterprise-wide Planning",
+      "subdomain": "F. Pipeline Management",
+      "topic": "Capacity-constrained pipeline selection",
+      "code": "I.F.2"
+    },
+    "authoredReplacement": false,
+    "visual": true,
+    "interactive": true,
+    "beforeHash": "16bb15f6f2600ed861ceed58f16e4faf79061db4a73e71995c0c606cb1387aa7",
+    "afterHash": "8af7be357d9747e5ccd33c5a31ab090f3fab3e4fad550b981819fdd90da05137",
+    "examTrap": "Check every resource total and the dependency before ranking value; a feasible portfolio need not be optimal.",
+    "questionSHA256": "dc6ccad1b8a8da1e4e60b0128231fcc049569eb34f5b68842a78346e33b45844",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#155",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 156,
+    "qid": "mbb:set-2:original-156",
+    "originalKey": "A",
+    "independentKey": "A",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Replaced the repeated call-center incentive scenario with delayed capacity feedback.",
+      "Bounded the proposed mechanism as a hypothesis, not proven sole causation.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "A accounts for the capacity already in the pipeline and the delay between a decision and its effect. Repeated adjustment using current backlog alone can overshoot, followed by overcorrection. The described pattern supports investigating that feedback mechanism, not a claim that it is the sole cause. Faster reactions to the same incomplete information need not stabilize the system.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": true,
+        "judgment": "Correct. It investigates delayed feedback and pending capacity before changing the policy.",
+        "option": "Test delayed adjustment and uncounted pipeline capacity as causes of overshoot"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "The pattern does not establish that individual effort caused the time-lagged shortages.",
+        "option": "Treat each shortage as an independent employee-effort problem and intensify individual targets"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Faster adjustment with the same missing information can intensify overshoot.",
+        "option": "Increase adjustment frequency while continuing to use only the current backlog"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Pending capacity affects future supply and should not be omitted merely because it is not active.",
+        "option": "Exclude pending contractor requests from the model because they are not yet producing output"
+      }
+    ],
+    "assumptions": [
+      "The four-week delay and request policy are supplied properties of this educational scenario.",
+      "Demand changes and other potential causes still require investigation."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 7 - Organizational Design; Systems Thinking",
+        "section": "Systems archetype and local optimization",
+        "pages": "100\u2013103",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "II. Organizational Competencies for Deployment",
+      "subdomain": "A. Organizational Design",
+      "topic": "Systems archetype and local optimization",
+      "code": "II.A.1"
+    },
+    "authoredReplacement": true,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "85d64b8ea3c64f0708985d7cd7083726de2e3fb3dfc80a028eecf70556814bcc",
+    "afterHash": "40ac18291f549eda9d2df88379d316b86a1373ade9d12a42dbbbff6de5c21c01",
+    "examTrap": "More frequent reactions can worsen delayed feedback when capacity already in the pipeline is ignored.",
+    "questionSHA256": "76b9f48afae474ec88c286e8169fd567a8c42f67aca7309c29f68849abc237e5",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#156",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 157,
+    "qid": "mbb:set-2:original-157",
+    "originalKey": "B",
+    "independentKey": "B",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Corrected the chapter number and stated the scenario-specific decision-rights boundary.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "B restores the sponsor role rather than asking the Belt to negotiate indefinitely without the necessary authority. Document the conflict, consequences and feasible alternatives, coach the sponsor and use the agreed escalation route. Silently taking executive authority, removing necessary scope or certifying unfinished work does not resolve the governance failure.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "The MBB should not silently replace the executive authority assigned in the governance plan.",
+        "option": "Take permanent ownership of executive staffing decisions to keep the sponsor neutral"
+      },
+      {
+        "choice": "B",
+        "correct": true,
+        "judgment": "Correct. Sponsor coaching and transparent escalation support the required resource decision.",
+        "option": "Use the agreed escalation route and coach the sponsor to resolve the resource decision"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Unapproved removal of necessary functions can destroy the charter outcome.",
+        "option": "Remove both functions from scope without approval to restore the reported schedule"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "An unresolved external barrier does not justify certifying incomplete work as complete.",
+        "option": "Certify the project complete because its resource barrier is outside the Belt's authority"
+      }
+    ],
+    "assumptions": [
+      "The governance plan assigns resource-priority resolution to the sponsor or designated executive body.",
+      "Neither the Belt nor the MBB has unilateral authority to change the charter or staffing priorities."
+    ],
+    "changedFields": [
+      "bok",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 12 - Executive and Team Leadership Roles",
+        "section": "Sponsor ownership and MBB escalation",
+        "pages": "185\u2013186",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "II. Organizational Competencies for Deployment",
+      "subdomain": "B. Executive and Team Leadership Roles",
+      "topic": "Sponsor ownership and MBB escalation",
+      "code": "II.B.2"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "c6679d68666b44167fd1c175f5ba2bc975d2be3137c51edc7f676b30727641a5",
+    "afterHash": "b7b7fbb4dcc79aab9608330c79af3881bd073ebfdc8a3e1f01d5413c8b45fa91",
+    "examTrap": "Facilitating a staffing discussion does not give a Belt authority to resolve an executive resource-priority conflict.",
+    "questionSHA256": "0cb8ee1a89e57518a471add9924bf5592c89f185ae2ac3652f8f1ca19342bb6b",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#157",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 158,
+    "qid": "mbb:set-2:original-158",
+    "originalKey": "C",
+    "independentKey": "C",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Separated checklist completion from demonstrated proficiency and defined the three denominators.",
+      "Removed unsupported causal/falsification conclusions and a supposed universal threshold.",
+      "Rebuilt readable three-series evidence and keyboard/touch inspection.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "C distinguishes recorded completion from independent performance and correct handling of exceptions. The latter percentages remain lower in the supplied observations. These constructs have different denominators, so their gaps are not proof that records are false or that one cause explains the result. Investigate skills, usable support and workflow barriers, then assess sustainment using defined criteria.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "No universal 95% proficiency rule is supplied; checklist completion is not a complete adoption measure.",
+        "option": "Recorded completion above 95% establishes proficiency under a universal adoption standard"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "The observations do not isolate workflow design as the cause of the performance gaps.",
+        "option": "The gap proves the workflow is defective, so remove it without further investigation"
+      },
+      {
+        "choice": "C",
+        "correct": true,
+        "judgment": "Correct. Multiple behavioral measures are needed before declaring sustained proficiency.",
+        "option": "Completion alone is insufficient; investigate observed-use gaps before claiming sustainment"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Targeted reinforcement can develop independence; dependence is not an inevitable result of coaching.",
+        "option": "Stop reinforcement because continued coaching necessarily prevents independent performance"
+      }
+    ],
+    "assumptions": [
+      "Completion uses eligible case checklists; independent use uses observed normal-workflow opportunities; exception resolution uses assessed exception cases.",
+      "Each series uses comparable definitions and sampling over time. Raw counts are not supplied, so no causal or significance test is claimed."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "chart",
+      "visual",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 8 - Organizational Commitment; Change Management",
+        "section": "Adoption depth versus compliance",
+        "pages": "119\u2013125",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "II. Organizational Competencies for Deployment",
+      "subdomain": "D. Organizational Change Management",
+      "topic": "Adoption depth versus compliance",
+      "code": "II.D.3"
+    },
+    "authoredReplacement": false,
+    "visual": true,
+    "interactive": true,
+    "beforeHash": "d8c56c0bd04e7984673c9789a12a7c33c085c743399a2c280f7fb312eac4f857",
+    "afterHash": "86dcc1e3a6dca2360a3182730b1e05df07484b0cd81bdb2fec438e89c876d9a8",
+    "examTrap": "Checklist completion, independent use and exception handling measure different constructs; no one percentage proves sustained proficiency.",
+    "questionSHA256": "a19d95642db9239227dcc174f1007142a45c8e459e8f6a90ede41f972a63a8cd",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#158",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 159,
+    "qid": "mbb:set-2:original-159",
+    "originalKey": "D",
+    "independentKey": "D",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Made the nonemergency boundary and non-negotiable safety constraints explicit; corrected the chapter.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "D turns fixed positions into explicit interests and criteria, including safety, flow and legitimate exception conditions. Evaluate alternatives against those criteria rather than assuming equal division is useful. Authority may be needed if the decision remains blocked, but the stated nonemergency situation permits joint problem solving first. No agreed option may waive a mandatory safety requirement.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "Premature use of hierarchy can suppress relevant information before joint options are explored.",
+        "option": "Ask the more senior leader to decide immediately without exploring the competing concerns"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "Passive delay supplies no new evidence or process for resolving the disagreement.",
+        "option": "Wait for one group to withdraw its position after seeing the same presentation again"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "An arbitrary split may fail both groups' requirements and does not protect mandatory constraints.",
+        "option": "Divide the steps equally between proposals regardless of safety and charter requirements"
+      },
+      {
+        "choice": "D",
+        "correct": true,
+        "judgment": "Correct. Interests and transparent criteria support a defensible option rather than positional compromise.",
+        "option": "Surface interests, agree decision criteria and test options that protect both concerns"
+      }
+    ],
+    "assumptions": [
+      "There is no immediate patient hazard requiring a separate urgent response.",
+      "Safety and applicable mandatory requirements are constraints, not negotiable trade-offs."
+    ],
+    "changedFields": [
+      "bok",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 11 - Internal Organizational Challenges; Conflict Resolution",
+        "section": "Interest-based conflict and decision criteria",
+        "pages": "177\u2013182",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "II. Organizational Competencies for Deployment",
+      "subdomain": "C. Organizational Challenges",
+      "topic": "Interest-based conflict and decision criteria",
+      "code": "II.C.3"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "60cc25ebfba6b9c22f40850d77cb9c298ec99bd71a0466852c8255df735b733a",
+    "afterHash": "551e143d238df754d75bb7508db9707db20644fc5bb217a4d834010728127246",
+    "examTrap": "An arbitrary compromise can fail both interests; shared criteria must retain mandatory safety requirements.",
+    "questionSHA256": "ea68bceca6dc88fb2dcd7182223b394dc9e8d091f1855b20d1b15ea158338254",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#159",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 160,
+    "qid": "mbb:set-2:original-160",
+    "originalKey": "C",
+    "independentKey": "C",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Removed unsupported incentive-causation and intentional-gaming claims.",
+      "Changed selecting an existing metric architecture from Create to Analyze.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "C retains productivity evidence while preventing local gains from concealing wider quality, service, workforce or cost deterioration. Definitions, guardrails and a response process are needed; a simple unweighted composite can hide a serious breach. The observed trends justify examining incentive and operating mechanisms, but do not prove intentional gaming or isolate the bonus as the cause.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "Organizational consequences do not disappear because another department owns their metric.",
+        "option": "Retain productivity alone and exclude outcomes assigned to other departments"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "Turnover alone is another narrow outcome that leaves customer and cost performance unassessed.",
+        "option": "Replace productivity with turnover alone, dropping customer and cost evidence"
+      },
+      {
+        "choice": "C",
+        "correct": true,
+        "judgment": "Correct. A governed family of measures protects the wider system while retaining productivity accountability.",
+        "option": "Use balanced performance guardrails and investigate possible metric gaming"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Offsetting an important guardrail breach with an unrelated gain can conceal rather than resolve risk.",
+        "option": "Average all measures without thresholds so adverse outcomes can offset favorable ones"
+      }
+    ],
+    "assumptions": [
+      "The trends are supplied observations, not a randomized evaluation of the bonus policy.",
+      "Guardrails and response thresholds require explicit business justification."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 9 - Organizational Finance and Business Performance Metrics",
+        "section": "Metric gaming and balanced evidence",
+        "pages": "137\u2013140",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "II. Organizational Competencies for Deployment",
+      "subdomain": "F. Organizational Performance Metrics",
+      "topic": "Metric gaming and balanced evidence",
+      "code": "II.F.2"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "8a12cbb85a33a08574cddfa57583b7c58f440352138ef979d5ed58723e414975",
+    "afterHash": "075ae44b446f57ef7f1d741ce9947ac8f3da4f430dc335fabfb3482adc801d3c",
+    "examTrap": "A rise in one productivity ratio does not establish an enterprise benefit, and correlated adverse outcomes do not prove intentional gaming.",
+    "questionSHA256": "9316903789675f1652e21c8330ff7d273cb0641034c20b7996c2d8943d1fd502",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#160",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 161,
+    "qid": "mbb:set-2:original-161",
+    "originalKey": "B",
+    "independentKey": "B",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Eliminated intermediate rounding in the EAC derivation and distinguished forecast updates from baseline changes.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "CPI=EV/AC=480/550=0.872727\u2026 and SPI=EV/PV=480/600=0.80. Using the unrounded CPI, EAC=BAC/CPI=$1.20M\u00d7550/480=$1.375M, or $1.38M at the requested precision. Cost variance is \u2212$70,000 and schedule variance is \u2212$120,000 in earned-value units. Update the forecast and investigate recovery options; an adverse forecast is not authority to erase the approved baseline.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "The indices are inverted, incorrectly portraying adverse cost and schedule performance as favorable.",
+        "option": "CPI=1.15 and SPI=1.25; forecast completion below $1.05M because value exceeds both plans"
+      },
+      {
+        "choice": "B",
+        "correct": true,
+        "judgment": "Correct. Both indices and EAC follow the stated assumption, without an unauthorized baseline reset.",
+        "option": "CPI=0.87 and SPI=0.80; forecast about $1.38M and require recovery analysis before rebaselining"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "The index labels are reversed; SPI alone does not determine the forecast final cost.",
+        "option": "CPI=0.80 and SPI=0.87; forecast exactly $1.50M because schedule variance determines final cost"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "These ratios do not match the supplied inputs, and a ten-percent rule was not specified.",
+        "option": "CPI=0.92 and SPI=1.09; retain the baseline because both indices remain within ten percent of one"
+      }
+    ],
+    "assumptions": [
+      "All four amounts use the same currency, status date, scope and approved performance baseline.",
+      "The estimate assumes current cost efficiency continues; other EAC assumptions would produce different forecasts."
+    ],
+    "changedFields": [
+      "bok",
+      "stem",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "chart",
+      "visual",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 14 - Project Oversight",
+        "section": "Earned-value recovery diagnosis",
+        "pages": "217\u2013218",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "III. Project Portfolio Management",
+      "subdomain": "B. Project Portfolio Infrastructure and Management",
+      "topic": "Earned-value recovery diagnosis",
+      "code": "III.B.6"
+    },
+    "authoredReplacement": false,
+    "visual": true,
+    "interactive": false,
+    "beforeHash": "c135110f90c0ab97fd9d54777b3722ca8da960b303a23be76244a70a906038ba",
+    "afterHash": "0cb8668d59dfd9a9be6bf876c7261b769e81abf83bc0a117fb151401e96961e4",
+    "examTrap": "Do not swap CPI and SPI or round CPI before forecasting. A revised forecast is not automatic permission to reset the baseline.",
+    "questionSHA256": "8d61a44b20b837411963afdfcc2109def531cf8049574de8ca64edf924cc17a7",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#161",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 162,
+    "qid": "mbb:set-2:original-162",
+    "originalKey": "A",
+    "independentKey": "A",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Stated irrecoverability and retained future closure costs, obligations and recoveries in the decision.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "A uses the consequences that differ between continuing, modifying and stopping. The already spent, explicitly irrecoverable amount is sunk. Future termination costs, contractual obligations, recoveries and alternative uses of resources still belong in the comparison. The question does not supply enough future economics to declare termination automatically correct; it identifies the appropriate decision basis.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": true,
+        "judgment": "Correct. Forward consequences determine the choice while irrecoverable historical spending is excluded.",
+        "option": "Compare future incremental value, costs, risks and opportunity costs, including closure obligations"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "Percent spent does not override a material change in the future value of the project.",
+        "option": "Continue because passing the budget midpoint protects a project from new evidence"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Holding scarce resources indefinitely needs a justified option value rather than an assumption.",
+        "option": "Suspend indefinitely while reserving all specialists without valuing that option"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Relabeling eliminated benefits does not create an actual financial result.",
+        "option": "Finish the old scope and relabel eliminated benefits as realized cost avoidance"
+      }
+    ],
+    "assumptions": [
+      "The 70% already spent cannot be recovered by continuing or stopping.",
+      "The regulatory change is a supplied scenario condition, not legal advice about a real jurisdiction."
+    ],
+    "changedFields": [
+      "bok",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 15 - Project Management Infrastructure",
+        "section": "Evidence-based project termination",
+        "pages": "223\u2013224",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "III. Project Portfolio Management",
+      "subdomain": "B. Project Portfolio Infrastructure and Management",
+      "topic": "Evidence-based project termination",
+      "code": "III.B.4"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "9fad103fc37824f98dbd49a6861d81699c3689dbe8a805ea6eec0db036255ca9",
+    "afterHash": "8bc3cd637c81294c0ff23b7cf81ac0ae5b474b07419db4a3220fe894d485dbd8",
+    "examTrap": "Irrecoverable past spending is sunk, but future shutdown costs, recoveries and obligations still matter.",
+    "questionSHA256": "8eaa7a31e44360e87b6c9b518eeb71878d36973aedf5901de2b423e342cb55b5",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#162",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 163,
+    "qid": "mbb:set-2:original-163",
+    "originalKey": "D",
+    "independentKey": "D",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Corrected the false equivalence between knowledge and skill and the recommendation to defer all skill assessment.",
+      "Defined denominators and avoided treating unlike role measures as causal evidence.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "D addresses the supplied barriers to performing the operator workflow while retaining assessment of skills and other causes. A knowledge score alone does not establish practical competence, and group percentages do not prove individual-level causation. The table supports targeted investigation and remediation, not a uniform statistical course or an unsupported motivation diagnosis.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "A common refresher ignores role-specific barriers and lacks evidence that statistics knowledge is the constraint.",
+        "option": "Deliver the same statistical refresher to every role without assessing its specific needs"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "The table does not identify supervisor motivation as the sole or primary cause.",
+        "option": "Treat supervisor motivation as the sole cause of the missed operating steps"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Analysts have 92% observed correct use, not the lowest percentage.",
+        "option": "Rewrite the analyst curriculum because analysts supposedly have the lowest correct use"
+      },
+      {
+        "choice": "D",
+        "correct": true,
+        "judgment": "Correct. It addresses documented opportunity barriers without assuming adequate knowledge proves complete skill.",
+        "option": "Repair operator access and job aids while checking any remaining hands-on skill gaps"
+      }
+    ],
+    "assumptions": [
+      "Knowledge check is the mean role-specific test score; access and job-aid usability are percentages of assessed staff meeting their respective criteria.",
+      "Correct use is the percentage of eligible observed workflow opportunities performed correctly. Measures are descriptive; no individual causal linkage is supplied."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "chart",
+      "visual",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 17 - Training Needs Analysis",
+        "section": "Performance-gap cause discrimination",
+        "pages": "243\u2013244",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "IV. Training Design and Delivery",
+      "subdomain": "A. Training Needs Analysis",
+      "topic": "Performance-gap cause discrimination",
+      "code": "IV.A"
+    },
+    "authoredReplacement": false,
+    "visual": true,
+    "interactive": false,
+    "beforeHash": "99e81175c2585c1bdf4bd6ad8f36cadb981a979e80d36b729980975665b0a57b",
+    "afterHash": "1147ad765e9ec7c183afd03fe5360f735752ed89874a9ded7582b8fe3ad8417d",
+    "examTrap": "A high average knowledge score does not prove every worker is competent or that all performance gaps are motivational.",
+    "questionSHA256": "c7ce673b326ef7966ed351358dbb23668fb3a8765ada8708a5d7eff70037817d",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#163",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 164,
+    "qid": "mbb:set-2:original-164",
+    "originalKey": "A",
+    "independentKey": "A",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Separated statistical special cause from clinical/practical importance and corrected the adult-learning chapter.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "A requires learners to make and defend decisions across varied cases, learn from explanatory feedback and move toward independent performance. It separates statistical evidence of process change from the practical importance of an outcome. Domain experience does not replace this analytical practice. Satisfaction, completion and imitation alone do not demonstrate transferable judgment.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": true,
+        "judgment": "Correct. Varied decision practice and fading support develop and reveal independent reasoning.",
+        "option": "Use varied cases, explanatory feedback and reflection, then fade instructional support"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "Satisfaction measures reaction, not accurate interpretation and transfer across noisy cases.",
+        "option": "Use one expert lecture and a satisfaction survey as the only evidence of mastery"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Reading completion is exposure evidence, not demonstrated performance.",
+        "option": "Assign handbook reading and qualify everyone who completes it by the deadline"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Repeating a single example can reward recall rather than discrimination between different conditions.",
+        "option": "Use one ideal dashboard and require exact repetition of the instructor's explanation"
+      }
+    ],
+    "assumptions": [
+      "The cases are simulated and do not direct care for actual patients.",
+      "Statistical signals and practical importance are separate learning objectives."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 19 - Training Materials and Curriculum Development",
+        "section": "Deliberate practice for complex judgment",
+        "pages": "256\u2013283",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "IV. Training Design and Delivery",
+      "subdomain": "C. Training Materials and Curriculum Development",
+      "topic": "Deliberate practice for complex judgment",
+      "code": "IV.C.2"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "5ef5f85fdb9e4aee61aa170e09e5d8f3f73a332f47cbf47e1ec24adae90a92ca",
+    "afterHash": "ab513f5d1fdee5f0e8d4448b27383fd66d65cc510fa6d28dac81647e51b15462",
+    "examTrap": "Detecting a statistical signal and judging its practical importance are separate skills; course satisfaction proves neither.",
+    "questionSHA256": "c3939ec5ae2fba8019c2b3601c6230331f84200a637dc2040454e8ccc322df45",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#164",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 165,
+    "qid": "mbb:set-2:original-165",
+    "originalKey": "B",
+    "independentKey": "B",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Corrected the implication that documenting simultaneous co-interventions alone can isolate training.",
+      "Added explicit non-identifiability and a feasible future design rather than retrospective causal overclaiming.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "B recognizes that the current records do not isolate the training contribution. Three perfectly coincident intervention indicators are collinear; a regression cannot recover separate effects from them. Report the observed combined change with its limitations. A future comparison should create defensible independent variation in training while holding the other changes common, with appropriate randomization, outcome definitions and fidelity checks where feasible.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "A historical extreme is a biased comparison and does not separate the simultaneous interventions.",
+        "option": "Attribute all reduction below the historical maximum to the course alone"
+      },
+      {
+        "choice": "B",
+        "correct": true,
+        "judgment": "Correct. It limits the current attribution and proposes variation that can address the confounding in a future study.",
+        "option": "Report the combined change; independently vary training in a future controlled rollout"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Identical intervention columns do not identify separate effects, regardless of the regression software.",
+        "option": "Enter three identical start-date indicators in a regression to identify three separate causal effects"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Knowledge and operational defect measures are different constructs and do not share an automatic effect size.",
+        "option": "Convert the immediate knowledge-score gain into the same percentage defect reduction"
+      }
+    ],
+    "assumptions": [
+      "No valid external comparison or independently staggered intervention is available in the current records.",
+      "A future staggered training comparison is feasible and does not withhold mandatory or safety-critical instruction."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 20 - Training Effectiveness Evaluation",
+        "section": "Causal evaluation of training transfer",
+        "pages": "285\u2013290",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "IV. Training Design and Delivery",
+      "subdomain": "D. Training Program Effectiveness",
+      "topic": "Causal evaluation of training transfer",
+      "code": "IV.D"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "e78a7c477e46b8e8a418fac603d2a81cd4ec593d6c4cbd9be1abdf694c3b3424",
+    "afterHash": "df6f5e2b3f79696075687e53eaf27fbc2ac3737f1c9023b4924c07810979a3e3",
+    "examTrap": "Perfectly coincident changes cannot be separated by merely adding collinear indicators to a regression.",
+    "questionSHA256": "6db8d41b903064a43bb0c5e448ecbca9af21142d056234d6ade8e06da6318342",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#165",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 166,
+    "qid": "mbb:set-2:original-166",
+    "originalKey": "C",
+    "independentKey": "C",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Corrected the source chapter and shortened the keyed coaching plan while preserving accountability.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "C makes the review a decision about continuing fit, scope, risk, resources and benefits, with accountable evidence at the time of approval. The MBB can model useful questions, observe decisions and provide targeted feedback. Technical literacy is valuable, but personal recomputation of every analysis is not the champion role. Filing evidence later or delegating the whole business decision to Finance does not repair weak governance.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "The champion needs informed decision making, not personal mastery of every detailed calculation.",
+        "option": "Train the champion to recompute every statistical analysis personally before each gate"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "Retrospective filing cannot change the evidence used for an already completed approval.",
+        "option": "Accept the approvals and file omitted risk evidence after the decision has been made"
+      },
+      {
+        "choice": "C",
+        "correct": true,
+        "judgment": "Correct. Explicit criteria and observed-decision feedback build accountable review behavior.",
+        "option": "Coach criteria-led gate decisions with owner-present evidence and targeted feedback"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Finance validates financial evidence but does not replace ownership of the overall business decision.",
+        "option": "Transfer all gate authority to Finance because projected savings are the only concern"
+      }
+    ],
+    "assumptions": [
+      "The organization assigns tollgate decisions to the champion using approved scope, risk, resource and benefit criteria."
+    ],
+    "changedFields": [
+      "bok",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 21 - Mentoring Champions, Change Agents, and Executives",
+        "section": "Champion decision quality at tollgates",
+        "pages": "294\u2013305",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "V. Coaching and Mentoring Responsibilities",
+      "subdomain": "A. Executives and Champions",
+      "topic": "Champion decision quality at tollgates",
+      "code": "V.A.2"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "0a9ab93ca9c3fff57b7fbfd3ea6007e8165633bfd293e1905afbd36a0a05e118",
+    "afterHash": "a1c10cb9263de0fa05b4c27808b549d2a185c9a4a96033670a52098b74d7b0bd",
+    "examTrap": "A tollgate is a business decision, not a savings presentation, a filing exercise or a personal statistics examination for the Champion.",
+    "questionSHA256": "0b68b192bc966a2936fd567d08502696eda45cd93d622010d75cdf67c8a4729d",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#166",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 167,
+    "qid": "mbb:set-2:original-167",
+    "originalKey": "D",
+    "independentKey": "D",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Added bounded escalation while developing independence and corrected the Belt-mentoring chapter.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "D creates practice in framing, recommending and defending a decision. The MBB can identify gaps through questions and targeted feedback, then reduce scaffolding as competence grows. Retain escalation for high-risk or unfamiliar decisions. Repeated expert rescue can reinforce dependence, whereas abrupt withdrawal creates unmanaged risk and passive observation does not demonstrate independent judgment.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "Repeated prescription rewards dependence rather than developing the capability that is missing.",
+        "option": "Keep prescribing each answer to maximize consistency and avoid independent judgment"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "Withdrawing all support removes feedback and may expose the project to avoidable risk.",
+        "option": "Stop all meetings until completion so the Belt must develop judgment without feedback"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Observation alone does not provide practice in owning and defending analytical decisions.",
+        "option": "Take over the analysis and let the Belt observe without making or defending decisions"
+      },
+      {
+        "choice": "D",
+        "correct": true,
+        "judgment": "Correct. Evidence-led inquiry and gradually reduced support balance assurance with development.",
+        "option": "Probe the Belt\u2019s own recommendation and evidence, then progressively fade support"
+      }
+    ],
+    "assumptions": [
+      "There is no immediate hazard requiring the MBB to take direct control.",
+      "The Belt may escalate decisions beyond demonstrated competence or delegated authority."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 22 - Mentoring Black Belts and Green Belts",
+        "section": "Coaching inquiry versus expert rescue",
+        "pages": "306\u2013310",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "V. Coaching and Mentoring Responsibilities",
+      "subdomain": "B. Teams and Individuals",
+      "topic": "Coaching inquiry versus expert rescue",
+      "code": "V.B.1"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "c1df7f5d0f7204d63b61d49807c47219ad3ef3c870363b2b23eab5102405004c",
+    "afterHash": "fe496aba855a215352f37bef5f7fb0f6cd241aea34eede35eb0edd55b82183ea",
+    "examTrap": "Repeated expert answers reinforce dependence; abrupt withdrawal is not the same as gradually fading support.",
+    "questionSHA256": "8c1765ac3d765b35b5caf1acaee94d238f50850fc923a0eaa2ec70c0ffe44d2e",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#167",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 168,
+    "qid": "mbb:set-2:original-168",
+    "originalKey": "A",
+    "independentKey": "A",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Resolved the nested destructive allocation and relabeled the residual rather than claiming pure repeatability.",
+      "Distinguished 24% variance from 48.99% standard-deviation fraction; no acceptance threshold was invented.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "A adds the two reported terms, 18%+6%=24%, without mislabeling them. In this design, the residual can contain within-batch coupon heterogeneity as well as measurement variation. The homogeneity assumption must be justified before treating that residual as repeatability. Under an adequate pure-measurement interpretation, 24% variance would correspond to sqrt(0.24)=48.99% of total standard deviation, not 24% study variation. No universal suitability conclusion follows from the table.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": true,
+        "judgment": "Correct. It reports the modeled sum while preserving the unresolved specimen-homogeneity limitation.",
+        "option": "Residual plus appraiser terms contribute 24% of modeled variance, not necessarily pure measurement variance"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "The residual cannot simply be ignored; it includes variation relevant to interpreting the destructive study.",
+        "option": "Measurement contributes only 6% because the residual term can be excluded from all measurement concerns"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "The table gives variance contributions, not universal acceptability or a 76% standard-deviation fraction.",
+        "option": "The 76% batch contribution proves that the gage is acceptable for every classification and control use"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Distinct destroyed coupons are not repeat measurements of the same specimen without a justified grouping assumption.",
+        "option": "Destruction permits ordinary same-specimen repeatability estimates because different coupons are interchangeable"
+      }
+    ],
+    "assumptions": [
+      "Batches are nested within appraisers and represent comparable, randomly allocated process material. The model has appraiser, batch-within-appraiser and residual terms.",
+      "The supplied model estimates are nonnegative; raw readings are unavailable for refitting. No appraiser-by-common-batch interaction is estimable in this allocation.",
+      "This explicit allocation is audit-authored to resolve the original ambiguous study description."
+    ],
+    "changedFields": [
+      "bok",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "chart",
+      "visual",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 24 - Measurement Systems Analysis",
+        "section": "Nested destructive gage R&R interpretation",
+        "pages": "335\u2013346",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      },
+      {
+        "id": "S2",
+        "document": "Minitab: Gage studies with destructive testing",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/supporting-topics/gage-r-r-and-wheeler-s-emp-studies/gage-studies-with-destructive-testing/",
+        "verificationScope": "Destructive crossed/nested designs and the batch-homogeneity requirement."
+      }
+    ],
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "A. MSA, Process Capability, and Control",
+      "topic": "Nested destructive gage R&R interpretation",
+      "code": "VI.A.4"
+    },
+    "authoredReplacement": false,
+    "visual": true,
+    "interactive": false,
+    "beforeHash": "4dfc06468f342a45efd25abeefc30085fecfe99760ca0718513b3bbfc36702f6",
+    "afterHash": "5a05ea0c0727c27f5ea5eb961c889bc65e64f9e9f3dc5788b3d2dda9619fc88a",
+    "examTrap": "Twenty-four percent of modeled variance is not twenty-four percent of standard deviation, nor necessarily pure measurement error.",
+    "questionSHA256": "489530cfd1f7c0a6606044c058e9caed399636761e3fb1392159aa72f2cd4c39",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#168",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 169,
+    "qid": "mbb:set-2:original-169",
+    "originalKey": "B",
+    "independentKey": "B",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Changed normal residuals to transformed observations and separated stability from distribution fit.",
+      "Prevented back-transforming dimensionless probabilities or indices as if they had seconds units.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "B requires a stable, adequately modeled process and consistent treatment of the original engineering limits. The same monotone transformation must be applied to the observations and applicable limits. Tail probabilities and capability indices are dimensionless: do not back-transform them into seconds. Communicate engineering limits or modeled quantiles in seconds and probabilities as probabilities. Approximate normality alone does not establish process stability or suitability of the model.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "Indices alone omit model assumptions and original-unit engineering meaning.",
+        "option": "Report transformed indices alone because a convenient distribution makes engineering units irrelevant"
+      },
+      {
+        "choice": "B",
+        "correct": true,
+        "judgment": "Correct. It preserves fixed requirements, consistent modeling and the distinction between units and probabilities.",
+        "option": "Validate stability and fit, transform fixed limits consistently, and report risk with original-unit limits"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Appropriate nonnormal models or justified transformations can support capability analysis.",
+        "option": "Discard the observations because nonnormal data cannot support any capability assessment"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Specifications express requirements; they cannot be moved to make a model look more convenient.",
+        "option": "Move the engineering limits until they become symmetric on the transformed scale"
+      }
+    ],
+    "assumptions": [
+      "All cycle times are positive and the selected Box\u2013Cox transformation is fixed and monotone over the relevant domain.",
+      "The question supplies no fitted parameters or process data for a numerical capability calculation."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 24 - Measurement Systems Analysis; Process Capability",
+        "section": "Transformation governance for capability",
+        "pages": "347\u2013352",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      },
+      {
+        "id": "S2",
+        "document": "NIST: What is process capability?",
+        "url": "https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm",
+        "verificationScope": "Dimensionless capability indices and process stability."
+      }
+    ],
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "A. MSA, Process Capability, and Control",
+      "topic": "Transformation governance for capability",
+      "code": "VI.A.5"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "1f675b6e15ae52cda3b79b7519458221bd370dec4837c8ea4579b144c713bceb",
+    "afterHash": "68af2c59fa5a6482f9b0b000548ad00c7df524ade8c15033fab7e5989d759255",
+    "examTrap": "Normal transformed observations do not establish process stability. Capability indices and probabilities are dimensionless.",
+    "questionSHA256": "1d04416eda3da442db7e237e87634f05e76319fbf13c07cdfadf953f463dc9f4",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#169",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 170,
+    "qid": "mbb:set-2:original-170",
+    "originalKey": "C",
+    "independentKey": "C",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Removed the unsupported proposed response 78 from the observed-data markers.",
+      "Recomputed OLS and supplied the confidence interval that the original stem claimed but omitted.",
+      "Separated mean confidence from individual prediction and clarified new-point leverage.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "C identifies extrapolation beyond the observed x range 10\u201370. OLS from the eight retained cases gives intercept 17.00163532, slope 0.63221586 and residual df=6. At x=105, the fitted mean is 83.3843 ($000) and the conditional 95% mean-response interval is [80.3463, 86.4223] ($000). New-point leverage is 1.560507; unlike an observed hat-matrix diagonal, it can exceed one. The interval covers sampling uncertainty under the assumed linear model, not whether that form remains valid outside the data. An individual prediction interval is wider; neither interval supplies missing empirical support.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "An interval calculated under a model does not validate that model outside the observed range.",
+        "option": "The displayed interval proves the proposed policy is supported as well as the observed range"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "The ability to calculate an extrapolation does not establish that its structural assumptions hold.",
+        "option": "A straight-line equation validates predictions beyond the observed predictor range"
+      },
+      {
+        "choice": "C",
+        "correct": true,
+        "judgment": "Correct. The proposed predictor is unsupported by nearby observations and is sensitive to model-form error.",
+        "option": "The mean is extrapolated; its interval does not validate model form beyond the observed data"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "A model output is not an observed case; duplicating it would create false information and inappropriate weighting.",
+        "option": "Adding the proposed fitted value three times as observations would create independent support"
+      }
+    ],
+    "assumptions": [
+      "For the displayed conditional interval, assume independent normal errors with common variance and a linear conditional mean. These assumptions are not evidence of validity outside 10\u201370.",
+      "Claim severity is in thousands of dollars. The eight observed pairs are the complete fitting data; the proposal is excluded from fitting."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "quantitative",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "chart",
+      "visual",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Regression",
+        "section": "Regression extrapolation and leverage",
+        "pages": "370\u2013402",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      },
+      {
+        "id": "S2",
+        "document": "NIST: Least Squares",
+        "url": "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd431.htm",
+        "verificationScope": "OLS fitting and model-dependent interpretation."
+      }
+    ],
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "B. Measuring and Modeling Relationships",
+      "topic": "Regression extrapolation and leverage",
+      "code": "VI.B.5"
+    },
+    "authoredReplacement": false,
+    "visual": true,
+    "interactive": true,
+    "beforeHash": "e8ad7c1558705bb1e58586265a6a218080f0562e185e4283cbcc946800cef9ff",
+    "afterHash": "431dc2a062ee7db4cefee62397f891a475fa1d25db031bb0879ad8f4c8078394",
+    "examTrap": "A conditional confidence interval for a mean neither validates extrapolated model form nor covers an individual claim at the same level.",
+    "questionSHA256": "6e3bd04d274b31914a34246ae625899e611c01d4903a2bcdb53f1cf1ebc93ab3",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#170",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 171,
+    "qid": "mbb:set-2:original-171",
+    "originalKey": "D",
+    "independentKey": "D",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Defined outcome/treatment coding and conditional associations rather than implying a universal causal odds ratio.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "D recognizes that the treatment contrast on the log-odds scale is beta_T + beta_TS*s at centered severity s. The corresponding conditional odds ratio is exp(beta_T + beta_TS*s). The treatment coefficient alone refers to severity zero on the centered scale. Retain appropriate lower-order terms, report uncertainty and distinguish odds ratios from probability changes. No causal effect follows solely from including the interaction in a fitted model.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "The interaction explicitly permits the conditional odds ratio to change with severity.",
+        "option": "As one constant odds ratio, because all logistic treatment effects are universal multipliers"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "Lower-order terms ordinarily remain for coherent hierarchical interpretation of the interaction.",
+        "option": "After deleting severity, because interaction terms make lower-order effects redundant"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Binary logistic regression can include interactions; artificial continuous recoding is not required.",
+        "option": "After recoding the event as continuous, because a binary model cannot contain interactions"
+      },
+      {
+        "choice": "D",
+        "correct": true,
+        "judgment": "Correct. Conditional contrasts and probabilities translate the interaction into relevant severity-specific statements.",
+        "option": "As conditional odds ratios or predicted probabilities at specified severity values"
+      }
+    ],
+    "assumptions": [
+      "Treatment is coded 0/1 and severity is centered at a stated clinically meaningful reference in the fitted model.",
+      "Importance of the interaction is given; coefficients and raw data are not supplied for recomputing a p-value."
+    ],
+    "changedFields": [
+      "bok",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Logistic Regression",
+        "section": "Logistic interaction and conditional effects",
+        "pages": "384\u2013402",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "B. Measuring and Modeling Relationships",
+      "topic": "Logistic interaction and conditional effects",
+      "code": "VI.B.3"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "729dc8ddd00a27522de4789a01f5f4add7839043f4940f9c4bdd6132fe925ef8",
+    "afterHash": "ab59025b36d48e13db7ef1abdccdee30aa41a1bb882ef500be87169add34041a",
+    "examTrap": "With an interaction, the treatment coefficient alone describes the contrast only at the reference severity; odds are not probabilities.",
+    "questionSHA256": "6a988e7a91cb20a14a02478e022e7771b0cc0ab9422e8c015cb069fd13260beb",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#171",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 172,
+    "qid": "mbb:set-2:original-172",
+    "originalKey": "A",
+    "independentKey": "A",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Removed invented intermediate mission-time curve points and replaced them with endpoint evidence only.",
+      "Independently verified the product and all three equal-increment gains.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "For a series system that needs all three independent subsystems, reliability is 0.98\u00d70.95\u00d70.97=0.90307. Improving A, B or C by an absolute 0.01 gives system gains 0.009215, 0.009506 or 0.009310 respectively. B, the 0.95 subsystem, therefore gives the greatest gain under the stated equal-increment assumptions. The three resulting system reliabilities are 0.912285, 0.912576 and 0.912380. Real allocation still requires cost, feasibility and dependence checks.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": true,
+        "judgment": "Correct. The product is approximately 0.903, and the 0.95 subsystem gives the largest specified equal-increment gain.",
+        "option": "System reliability is about 0.903; improving the 0.95 subsystem gives the largest absolute system gain"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "The product is 0.90307, not 0.950, and the largest equal-increment gain is obtained from the 0.95 subsystem.",
+        "option": "System reliability is about 0.950; improving the 0.98 subsystem gives the largest relative system gain"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Increasing a subsystem reliability cannot reduce this independent series product.",
+        "option": "System reliability is about 0.995; improving any subsystem reduces overall reliability because it is a series system"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Each increment is multiplied by a different product of the two unchanged subsystem reliabilities.",
+        "option": "System reliability is about 0.903; every 0.01 subsystem improvement gives exactly the same absolute gain"
+      }
+    ],
+    "assumptions": [
+      "All three subsystems must work throughout the same mission; failure probabilities are independent.",
+      "Other reliabilities and dependence do not change after the specified improvement. No additional common-mode failure is introduced.",
+      "The supplied endpoint probabilities are not lifetime curves; no distribution of failure time is assumed."
+    ],
+    "changedFields": [
+      "bok",
+      "stem",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "chart",
+      "visual",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Reliability",
+        "section": "Reliability allocation for series subsystems",
+        "pages": "423\u2013428",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      },
+      {
+        "id": "S2",
+        "document": "NIST: Series model",
+        "url": "https://www.itl.nist.gov/div898/handbook/apr/section1/apr182.htm",
+        "verificationScope": "Independent series reliability product."
+      }
+    ],
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "B. Measuring and Modeling Relationships",
+      "topic": "Reliability allocation for series subsystems",
+      "code": "VI.B.9"
+    },
+    "authoredReplacement": false,
+    "visual": true,
+    "interactive": false,
+    "beforeHash": "98f774222069b31caeb03155e8ac65f9b105504e03039f484707e437e6f3b3f1",
+    "afterHash": "f115e3c4bc4767851802de27a2115fe4dbd8d050e0a0fd9fc2d7c7b321162bf4",
+    "examTrap": "Equal absolute component improvements give different series-system gains because each is multiplied by the other component reliabilities.",
+    "questionSHA256": "a52276531dd613d6799f0657e4d3c2afeed159f214d0868429cc2ebe5e8e7e24",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#172",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 173,
+    "qid": "mbb:set-2:original-173",
+    "originalKey": "B",
+    "independentKey": "B",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Removed the universal assertion that independence must understate this tail probability.",
+      "Distinguished correlation, full joint-tail dependence, model error and Monte Carlo error.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "B evaluates whether the joint input model represents the disruption mechanism. Independence can distort simultaneous high-demand/long-lead-time events, and marginal distributions or a single correlation coefficient do not uniquely determine joint-tail behavior. More trials reduce Monte Carlo sampling error but not this structural error. The supplied information does not determine the true stockout probability or prove that every dependent alternative must exceed 3%.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "Independence is not universally conservative; the result depends on the joint model and inventory decision rule.",
+        "option": "Accept the estimate because independence is always conservative for right-skewed inputs"
+      },
+      {
+        "choice": "B",
+        "correct": true,
+        "judgment": "Correct. Joint-model validation and sensitivity address the risk mechanism rather than simulation precision alone.",
+        "option": "Validate dependence and disruption regimes, including sensitivity of joint-tail risk"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "More trials converge to the assumptions already programmed; they do not repair a misspecified joint distribution.",
+        "option": "Increase trial count until it automatically repairs the missing dependence structure"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "Replacing inputs with means removes the variability needed to assess tail events.",
+        "option": "Replace uncertain inputs with their means to eliminate unusual input combinations"
+      }
+    ],
+    "assumptions": [
+      "The reported 3% is an output of the current model, not an independently established stockout rate.",
+      "Raw joint data and the stockout function are not supplied, so no replacement probability can be calculated."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Monte Carlo Simulation",
+        "section": "Monte Carlo input-dependence governance",
+        "pages": "414\u2013416",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "B. Measuring and Modeling Relationships",
+      "topic": "Monte Carlo input-dependence governance",
+      "code": "VI.B.7"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "83433f2c76ef4b40915341985befd198bd3ec6741941bc063204d1a71b437c8d",
+    "afterHash": "36f405e0c6f41fea502b4abefad47722d62b983b855ccb06029fbc71befa74b9",
+    "examTrap": "More simulation trials cannot repair the wrong joint-input model; one correlation coefficient does not identify all joint-tail behavior.",
+    "questionSHA256": "d57d64d3776e3728fa28575e44db9ea7e82d264dee118ab31ff6d2feef8352db",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#173",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 174,
+    "qid": "mbb:set-2:original-174",
+    "originalKey": "C",
+    "independentKey": "C",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Made the required single-factor foldover explicit; all-factor reversal does not de-alias this resolution IV fraction.",
+      "Removed the correct alias from pre-answer alternative text and retained neutral numerical evidence.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback.",
+      "Corrected the plotted 55\u201385 response-axis mapping and gave distinct labels to the cell-mean and coded-design disclosures."
+    ],
+    "independentSolution": "Multiplying I=ABCD by AB gives AB=CD for the original fraction: the columns share a contrast, not necessarily the same physical effect. Reversing D alone gives the complementary fraction I=\u2212ABCD; adding its eight runs separates the two-factor effects. Reversing all four signs leaves the even product ABCD unchanged and reproduces the original fraction, so it does not break this alias. The plotted factorial contrast is \u221215 response units, but the plot does not identify how much is AB versus CD or establish significance without error information.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "Resolution IV protects main effects from two-factor aliases, not all two-factor effects from each other.",
+        "option": "AB is independently estimable; retain the fraction and replicate the original eight runs"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "Reversing four signs preserves ABCD=+1; the added settings repeat the same fraction and its alias.",
+        "option": "AB is aliased with CD; reverse all four factor signs in eight added runs to separate them"
+      },
+      {
+        "choice": "C",
+        "correct": true,
+        "judgment": "Correct. A D-only foldover generates the complementary fraction and breaks the AB/CD alias.",
+        "option": "AB is aliased with CD; reverse D alone in the eight added runs to separate them"
+      },
+      {
+        "choice": "D",
+        "correct": false,
+        "judgment": "AB is aliased with CD, not C; removing a fitted term cannot supply the missing experimental contrast.",
+        "option": "AB is aliased with C; omit D from the model to identify AB using the existing runs"
+      }
+    ],
+    "assumptions": [
+      "Factors are coded \u22121/+1; the original fraction has all eight combinations of A, B and C with D=ABC.",
+      "Each displayed A-by-B mean averages two original runs. Raw response replicates and an error estimate are not supplied.",
+      "Both stages can be randomized and run under comparable conditions, or their stage effects must be appropriately modeled."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "formula",
+      "assumptions",
+      "sourceDocument",
+      "sourceSection",
+      "sourcePages",
+      "sources",
+      "chart",
+      "visual",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 26 - Design of Experiments; Screening Designs",
+        "section": "Aliasing and foldover design augmentation",
+        "pages": "429\u2013450",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      },
+      {
+        "id": "S2",
+        "document": "Stat-Ease: Foldover",
+        "url": "https://www.statease.com/docs/v22.0/contents/advanced-topics/foldover/",
+        "verificationScope": "Resolution IV single-factor foldover versus all-factor mirroring."
+      }
+    ],
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "C. Design of Experiments",
+      "topic": "Aliasing and foldover design augmentation",
+      "code": "VI.C.3"
+    },
+    "authoredReplacement": false,
+    "visual": true,
+    "interactive": true,
+    "beforeHash": "72ba58da04b051cfe38ac47255e53b62b1738be3c1b8f61b71c30497c895dc8e",
+    "afterHash": "021248ae5827de615e062835cb3e94443e8fd53080896d3761d23c374d519c57",
+    "examTrap": "Reversing all four signs preserves ABCD in this even-order fraction. Reverse one factor to obtain the complementary fraction.",
+    "questionSHA256": "a9f357194f794af534c6ea060e8a72bab36fb1a04f73f720747424a52e4d6fc7",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#174",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  },
+  {
+    "number": 175,
+    "qid": "mbb:set-2:original-175",
+    "originalKey": "D",
+    "independentKey": "D",
+    "status": "Passed after corrections for the recorded offline candidate",
+    "findings": [
+      "Distinguished planned operating-regime changes from the hidden-drift question already assessed in Q150.",
+      "Removed a Create label from a method-recognition item.",
+      "Replaced generic automatic exam-trap advice and generic distractor summaries with explicit question-specific feedback."
+    ],
+    "independentSolution": "D uses the known operating regime rather than treating all setpoints as one unchanged process. Suitable models can separate expected grade transitions from unexplained within-regime changes and account for feedback dynamics and time dependence. Controller effort and disturbances can reveal changes masked in the controlled output. Signals guide a coordinated investigation; they are not themselves proof of a specific cause. Disabling required control or widening limits without justification does not solve the statistical problem.",
+    "optionJudgments": [
+      {
+        "choice": "A",
+        "correct": false,
+        "judgment": "Known planned transitions are not automatically separate unknown root causes requiring unrelated investigations.",
+        "option": "Treat every planned grade-transition signal as a separate unknown root cause"
+      },
+      {
+        "choice": "B",
+        "correct": false,
+        "judgment": "Turning off required control can be unsafe and does not guarantee that serial dependence disappears.",
+        "option": "Disable required feedback while sampling to guarantee independent observations"
+      },
+      {
+        "choice": "C",
+        "correct": false,
+        "judgment": "Arbitrarily widening pooled limits can conceal deterioration rather than model the expected operating regimes.",
+        "option": "Widen the same raw-temperature limits until all grade-transition signals disappear"
+      },
+      {
+        "choice": "D",
+        "correct": true,
+        "judgment": "Correct. Regime-aware, time-aware evidence and a shared response plan complement necessary feedback control.",
+        "option": "Use regime-adjusted, time-aware monitoring and a coordinated response plan"
+      }
+    ],
+    "assumptions": [
+      "Grade-dependent setpoints and transition conditions are authorized engineering requirements.",
+      "The scenario concerns monitoring design, not changing the safety-critical control system."
+    ],
+    "changedFields": [
+      "bok",
+      "cognitive",
+      "stem",
+      "options",
+      "why",
+      "optionRationales",
+      "assumptions",
+      "sourceDocument",
+      "sourcePages",
+      "sources",
+      "trap",
+      "distractors"
+    ],
+    "sourceVerification": [
+      {
+        "id": "S1",
+        "document": "The Certified Six Sigma Master Black Belt Handbook (Kubiak, 2012)",
+        "chapter": "Chapter 27 - Automated Process Control and SPC",
+        "section": "APC-SPC layered monitoring architecture",
+        "pages": "451\u2013453",
+        "verificationScope": "Concept/topic locator. Case-specific reasoning is audit analysis; not every page of an inherited range has been independently verified."
+      }
+    ],
+    "bok": {
+      "domain": "VI. Advanced Data Management and Analytic Methods",
+      "subdomain": "A. MSA, Process Capability, and Control",
+      "topic": "APC-SPC layered monitoring architecture",
+      "code": "VI.A.6"
+    },
+    "authoredReplacement": false,
+    "visual": false,
+    "interactive": false,
+    "beforeHash": "538183fd5cebc496f9108230eb19275b13ab5010c0b25c0261c7694507e810d9",
+    "afterHash": "97c72e49705488079453e99008329671eb0fee50906a2a4c7c807bbb4be93d81",
+    "examTrap": "Expected grade/setpoint changes require regime-aware monitoring, not disabling required feedback or widening limits until alarms disappear.",
+    "questionSHA256": "98f45f6e87980f69860a09e88d7bb142634a2ea79a935284741e0c5008d2942d",
+    "independentKeyProvenance": "Individually adjudicated decision and explicit test-key vector; checked against the stored answer, not accepted solely from it.",
+    "renderedVerification": {
+      "player": "browser-summary.json#runs.player",
+      "secondary": "browser-summary.json#runs.secondary",
+      "individualInspection": "visual-inspection.json#175",
+      "reviewFeedback": "Explicit item-level trap and distractor strings; final rendered assertions pass."
+    }
+  }
+]

@@ -1,0 +1,748 @@
+{
+  "method": "Individual student-perspective visual inspection by the assistant of each listed image; final automated reopening in all layouts is separately recorded. Prior inspected prompt/evidence images predate only the final post-answer feedback addition; Q174 was reinspected after its geometric correction.",
+  "questions": [
+    {
+      "question": 151,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-151.png",
+          "sha256": "9a5ffa807029028b6fe9b70d6067aa42924e9eca93e9c07eb34cead4b4ac977d"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-151.png",
+          "sha256": "107a7ade5fd04480cf77d94867d4c824b4e0bbab34017405985d44043213be30"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-151.png",
+          "sha256": "f444bb70a6d341cfc7fde051b3becdb0d4ab1d5c77b1378b20bdc12f2222d9b7"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 152,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-152.png",
+          "sha256": "8abdc98b80a0d4a42c94a44deeed1f685cc520842757153e754f5a6babf6796b"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-152.png",
+          "sha256": "dee47d25ca4a485e353cc7646e5663e6a541d826f983c984b91cff4bf5890b62"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-152.png",
+          "sha256": "c55724313a918443810406110cbae4e1832dd997647dc6a2a36013ac470fcefb"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 153,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-153.png",
+          "sha256": "723fa92cb617db0efa64fd6e31f8827cd96b71120b9a18803f62bd1e4b5e4391"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-153.png",
+          "sha256": "51cbe0bd42a46f9772aaee338ada5017b151b48e4ed1601205b337bd6c55c9ef"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-153.png",
+          "sha256": "16128ebc8bbd44290004ebeaac46a056d6c236851eaa7c5d400a3d1cd475a3af"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 154,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-154.png",
+          "sha256": "073d902563bdfaba5a29bee32c76e903978202e0b17043b28ac23886b1e5ec43"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-154.png",
+          "sha256": "d55043b0a9275884e58db6853a9f26b9a0124ac753259f7ad44dd4ae8d176a36"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-154.png",
+          "sha256": "3f55077697b5ddc9ca4e2c9b2802847b26e0b5b4b50f5dfd5ce9837b52bc78a2"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 155,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-155.png",
+          "sha256": "8b1abb9c2979bb716f10eb11d72e8961a777e39fd5d84a1adfb3c37d683ba465"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-155.png",
+          "sha256": "27ac63fef8a9c94dbd9d3693e96ca721cd4110196cad35a6ecca95bd0e248503"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-155.png",
+          "sha256": "2a101f971d099411901c5bfe995064215954a36a5cad7c677983726de50bc876"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 156,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-156.png",
+          "sha256": "98f43aceac4c52476d859794b7c216c87279e3b74f0b2fe71251dbc42f73d13a"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-156.png",
+          "sha256": "6ffbe4e88a6e5ef387d0e1bcfabe2f64b1f0ae41c6f9e7ea43a7a39dbadd8e76"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-156.png",
+          "sha256": "4ba439d8554a90349ba60e29c59d292daf87a4a517ca2c5fef6f9e3253a3fd57"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 157,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-157.png",
+          "sha256": "544be5b9f69c141dca73ed15ce01b82c3b5f11437ced684c3e9f43ccdf703bec"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-157.png",
+          "sha256": "0c6e64e8bee20378c6738dc3439fcadd1da41cc64b348ce61abda1f394b05929"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-157.png",
+          "sha256": "d01af614a7bbd07557ef9725eff28656bbf3af2b50e140e2a4672cf31fdd24c2"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 158,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-158.png",
+          "sha256": "e07411cc4f96a431605fb0b247fe21fe8e3cd5ef8b17a5cda0eed0458218e45c"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-158.png",
+          "sha256": "5d400d81002081159d2c1a4c21cf914825ccc5292ac0f38b4bce4d21097ad750"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-158.png",
+          "sha256": "760bf075ec5a6530484ec87ef68be21acce20ceff39b28a1b5beedd524d15f9d"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 159,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-159.png",
+          "sha256": "aa929b1ff08202e630060dce6867a469a173e8309b877c30f7a4e68ce05c2208"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-159.png",
+          "sha256": "f4d437f34eb0bf91921253af3321a791893e6f1d54ac6477a9ada11e97dd09a2"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-159.png",
+          "sha256": "8b5c9427a33939722c9976a15aa7b6beb54241d1fb472393efc2012065141264"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 160,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-160.png",
+          "sha256": "23fd0da9800cea76e44130169c674b892bbf9432e96ec7ab232e36fb34af1c25"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-160.png",
+          "sha256": "2fb25c00453f7c847f5a00d5764dc97eddb329204d4377d0c968bd3feda8b402"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-160.png",
+          "sha256": "9987cbfdb1b13cdcdefaabfc364789a79fbbc29e94f3be3f85d92d91e20a243d"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 161,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-161.png",
+          "sha256": "cdca5c52a4514b46d669e4dd60f391b6a2abf95e6224182e9ad76dfa416c649d"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-161.png",
+          "sha256": "3ac1885569ad12c2cf11aa4322cf0270d1d4bbbd3945e5f242ca651aac2d1aec"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-161.png",
+          "sha256": "e9de06cf3684d1c1a0e7c42adb9a87078188a627fdb2e7f7c6d17bc58b20b4b1"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 162,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-162.png",
+          "sha256": "c0562a10fc87e2288a82ea020e67fbf320156b30801a6d7869dc8c187a653757"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-162.png",
+          "sha256": "d8eea59ed5f9c6d7fdc9668b694857a965f6f52ba9a7ab93f4de638f03710021"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-162.png",
+          "sha256": "afb9b38c83acebf14e44985539bb81651cdedd9d1cc66b64472d7a6ed40619ca"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 163,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-163.png",
+          "sha256": "51e1182143a40ad6cf5de2bc9fb2bdea61f57a8852c9e391ef550a913986e709"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-163.png",
+          "sha256": "14d0cd61ed7940db681fcf8d165c85bfb6030a4e47726ec9233ef32af7a13a98"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-163.png",
+          "sha256": "7d82663f024b1d66d095bb80984c719650cb2c02307ea2aef60d8fdf57109d8d"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 164,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-164.png",
+          "sha256": "7e03604f2c7dbb120ca317e5778f2f1f5c292309d7aeca39413322f992fb5bea"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-164.png",
+          "sha256": "76ef4448507500af59be0c877716bbaa2acaf6fd895d5fa6323a9791d4a00436"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-164.png",
+          "sha256": "efc767ab722265a955873ee806b9ba78d70ea83bddb58d4c029d51cf2793fd35"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 165,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-165.png",
+          "sha256": "7ec5e0b99bc5a04b731282d963282cfabf3b7376d6850d29160917c5c1ac14f3"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-165.png",
+          "sha256": "fc4626ac8e4def83b6dbe3ff00f309f6430c179c0d0bfe7f00a007f7303e5476"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-165.png",
+          "sha256": "6325e9f3a2c6a9beef66cbe17088fbf89799cbae4371a5e6e873dc074e0760eb"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 166,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-166.png",
+          "sha256": "2ba489161703fcfa78c1ee189be00e4a08bb7bf0d9bd091087cc9b1a3130b7ec"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-166.png",
+          "sha256": "7f1c62f226776487571f5390bfdc3f2fe0c6afa40ab9eca5573242ad5c3ec1ff"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-166.png",
+          "sha256": "67cb74ecbc004be24c2c65ed238ede9ed4add842f870f50f151ab862aa535649"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 167,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-167.png",
+          "sha256": "9a6825faec217661d7589f2325fc3aedd3a2c9edd3c09f32e0b7ce98f4c39f62"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-167.png",
+          "sha256": "11e79870fa38d3b1fd68cb15ff5297d4263bdd1a63ff95e3e59049129e6f175f"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-167.png",
+          "sha256": "42c87150718e750754548abb4e83ccc8efbc0214e7f4bcb77678bf6c0ffb8269"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 168,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-168.png",
+          "sha256": "17d18bc04df6eec2d43f58fb8a14fd21f3ef716d015ae93d0f0e936a4432ad59"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-168.png",
+          "sha256": "05888ecb5b6a1713be650732122dcaa171995e5bf73c76203f44cd14ddf7d671"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-168.png",
+          "sha256": "c6e6d3bb448a57491386dfb2ba7e816ec19c38492c5de442580bf049787e55ca"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 169,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-169.png",
+          "sha256": "a725802b27b410ffd844d52211dd2614d8f67c0146450999059f223b357772c8"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-169.png",
+          "sha256": "153af94c583a37d4a59439cbede00901d8cfb50ba5a5453460216657e730c845"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-169.png",
+          "sha256": "c4e8dcd84b0569221885770a3184f5716692361be85e1ccfad25a6d5faad3d76"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 170,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-170.png",
+          "sha256": "d7c5e6f58521f2bdc2c6473f2d6d70f41e03877253f7ea6318883c53b47c76d1"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-170.png",
+          "sha256": "59d5357bd7f926303e7cf727f85e4eca36a8b8ecdb96eb6aa60cf29b61157473"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-170.png",
+          "sha256": "3d6367377982c80381dcc49ca5bc665fd988334414b771880a35151dd6f3255f"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 171,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-171.png",
+          "sha256": "0ccd7f7171a7da32262fc9ed85f544bfe40e1ec4e42f3e958da482fbe5d5e4ab"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-171.png",
+          "sha256": "bb4e7fd5ac1ac73753442cbb0b3e860e689df27aeaa0385c488b0041b8d383ca"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-171.png",
+          "sha256": "1785db5a62e835e9347a1ff627ab0d2375d64830c1da8200be6d4907b01c745c"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 172,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-172.png",
+          "sha256": "a69827e9106712bc38c88c069b43f37d7a0f16e20ba9f1fe51e1d6ef41f7632a"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-172.png",
+          "sha256": "9af3e7c61eb3aac95852858910dddfae05b6380fb98100f0db55f57a1d13d6c0"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-172.png",
+          "sha256": "3b1567bc92f94339a5ea8d49317650bcf793435c918ee62a1b9b3fa03bc30e36"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 173,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-173.png",
+          "sha256": "290b803a71915c68486183b96a328416f4ae702f917e74b7bbd502fbb80b1717"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-173.png",
+          "sha256": "cd525e82c1b590cb30755b8289e0477cae847893e7fe1d46dea5cef0c4986493"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-173.png",
+          "sha256": "43926d27e4491a01aa9a91895b6040c62669c20306e9ca4a95f26b1efbf5f6e5"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 174,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-final-details/desktop-expanded-174-left.png",
+          "sha256": "245f1b70db9cdb5700c7099d766798d3841b687a039d9f4b4f6de3df33224cd4"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-final-details/mobile-expanded-174-right.png",
+          "sha256": "e3393eb98e55dccc9874cd417d6c5adf083b7d6884e86c2ae02acee0677f9475"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-174.png",
+          "sha256": "519564e058929f5cc2ab246992242d8d3a69d04ad0855af787b49acdec887131"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    },
+    {
+      "question": 175,
+      "individualInspections": [
+        {
+          "role": "desktop question evidence",
+          "file": "b7-current-player/desktop-175.png",
+          "sha256": "397a698eea46eb23443984d26c82e7c67297e729d0f99cf57821818ad70b9f0c"
+        },
+        {
+          "role": "mobile question evidence",
+          "file": "b7-verified-player/mobile-175.png",
+          "sha256": "2e35bf8aca04a68460b801c546b098906022a87d2dc6561042e3944392d3b525"
+        },
+        {
+          "role": "final desktop answer review with specific trap/distractor guidance",
+          "file": "b7-final-player/desktop-review-175.png",
+          "sha256": "5d3605faad7ebb68f812cccbea6fe5d3203e169bebcc66db4673660fc6c59820"
+        }
+      ],
+      "finalPlayerReopenedAndPassed": [
+        "desktop attempt",
+        "tablet attempt",
+        "mobile attempt",
+        "desktop review",
+        "tablet review",
+        "mobile review"
+      ],
+      "findingsResolved": true
+    }
+  ],
+  "expandedDetails": [
+    {
+      "file": "desktop-expanded-170-left.png",
+      "sha256": "f6c3f346023dbf0641a2b5416076b37434c75abba1fe086394c11eb5433cf6ce"
+    },
+    {
+      "file": "mobile-expanded-170-right.png",
+      "sha256": "de4a0bfbf3f8989fc7e35c9fa7ddc7991f6ddf82ac42afc96a38277640b1bdcf"
+    },
+    {
+      "file": "desktop-expanded-174-left.png",
+      "sha256": "245f1b70db9cdb5700c7099d766798d3841b687a039d9f4b4f6de3df33224cd4"
+    },
+    {
+      "file": "mobile-expanded-174-right.png",
+      "sha256": "e3393eb98e55dccc9874cd417d6c5adf083b7d6884e86c2ae02acee0677f9475"
+    }
+  ]
+}

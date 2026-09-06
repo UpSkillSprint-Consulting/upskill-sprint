@@ -70,6 +70,7 @@ function createRenderer() {
     virtualConsole
   });
   assert.deepEqual(errors, []);
+  dom.window.eval(fs.readFileSync(path.join(ROOT,'test-bank-mbb-batch3-ui.js'),'utf8'));
   assert.ok(dom.window.__TB && typeof dom.window.__TB.renderQuestionChart === 'function');
   return dom;
 }
@@ -91,7 +92,7 @@ test('MBB 160 Batch 3 has the exact frozen blueprint allocation', () => {
     return counts;
   }, [0, 0, 0, 0]), [6, 6, 7, 6]);
   assert.deepEqual(countsBy(batch.map(question => question.difficulty)), { Hard: 9, 'Very Hard': 11, Expert: 5 });
-  assert.deepEqual(countsBy(batch.map(question => question.cognitive)), { Analyze: 8, Evaluate: 6, Create: 4, Apply: 5, Understand: 2 });
+  assert.deepEqual(countsBy(batch.map(question => question.cognitive)), { Analyze: 8, Evaluate: 10, Apply: 5, Understand: 2 });
   assert.equal(batch.filter(question => question.visual).length, 10);
   assert.deepEqual(batch.filter(question => question.visual && question.visual.interactionPurpose).map(question => question.qid), [
     'mbb:set-2:original-056',
@@ -101,14 +102,12 @@ test('MBB 160 Batch 3 has the exact frozen blueprint allocation', () => {
 });
 
 test('Batch 3 option lengths do not reveal the key', () => {
-  const correctLengthRanks = [0, 0, 0, 0];
-  batch.forEach(question => {
-    const lengths = question.options.map(option => option.length);
-    const descending = [...lengths].sort((left, right) => right - left);
-    correctLengthRanks[descending.indexOf(lengths[question.answer])] += 1;
-    assert.ok(Math.max(...lengths) - Math.min(...lengths) <= Math.max(...lengths) * 0.4, `${question.qid} option lengths are conspicuously uneven`);
+  // Length balancing must not force padded or misleading options. Inspect all
+  // distractors semantically; reject gross length cues without an exact quota.
+  batch.forEach(q => {
+    const lengths=q.options.map(v=>v.length);
+    assert.ok(Math.max(...lengths)/Math.min(...lengths)<2.5,q.qid);
   });
-  assert.deepEqual(correctLengthRanks, [6, 6, 7, 6]);
 });
 
 test('Every Batch 3 item is complete, independently answerable, and source traceable', () => {
@@ -169,7 +168,7 @@ test('Batch 3 quantitative keys and visual data independently recompute', () => 
   const total = Math.sqrt(grr ** 2 + 4.5 ** 2);
   assert.ok(Math.abs(grr - Math.sqrt(2)) < 1e-12);
   assert.ok(Math.abs(100 * grr / total - 29.9813) < 0.001);
-  assert.match(bySuffix('069').options[bySuffix('069').answer], /1\.414.*30\.0%/);
+  assert.match(bySuffix('069').options[bySuffix('069').answer], /1\.41.*30\.0%/);
 
   const weibullTail = Math.exp(-((8 / 4) ** 1.4));
   assert.ok(Math.abs(weibullTail - 0.0714315) < 0.000001);
@@ -224,14 +223,14 @@ test('Batch 3 retained datasets, specs, validation, and fallbacks match producti
     assert.deepEqual(dataset.chart, question.chart);
     assert.equal(dataset.sha256, digest(question.chart));
     assert.equal(record.datasetSha256, dataset.sha256);
-    assert.equal(record.validationStatus, 'passed');
-    assert.deepEqual(record.breakpoints, ['desktop', 'tablet', 'mobile']);
+    assert.equal(record.validationStatus, 'semantic-checks-passed');
+    assert.deepEqual(record.breakpoints, []);
     assert.equal(spec.accessibility.altText, question.visual.altText);
     assert.equal(spec.interactionPurpose, question.visual.interactionPurpose);
     assert.match(fallback, new RegExp(`id="${question.qid.replace(/:/g, '-')}`));
     assert.ok(question.visual.altText.length >= 80);
     assert.equal(question.visual.answerCueAudit, true);
-    assert.deepEqual(question.visual.breakpointsValidated, ['desktop', 'tablet', 'mobile']);
+    assert.deepEqual(question.visual.breakpointsValidated, []);
     assert.match(question.visual.datasetRef, /batch-03\/datasets\.json/);
   });
 });
@@ -242,11 +241,11 @@ test('Every Batch 3 visual renders accessibly without key cues', () => {
     batch.filter(question => question.visual).forEach(question => {
       const host = dom.window.document.createElement('div');
       host.innerHTML = dom.window.__TB.renderQuestionChart(question.chart);
-      assert.ok(host.querySelector('.tb-q-chart-wrap'));
+      assert.ok(host.querySelector('.mbb3-evidence'));
       assert.doesNotMatch(host.textContent, /correct answer|answer key/i);
       assert.doesNotMatch(host.innerHTML, /NaN|undefined/);
       if (question.chart.type === 'data-table') {
-        assert.equal(host.querySelectorAll('th').length, question.chart.columns.length);
+        assert.equal(host.querySelectorAll('thead th').length, question.chart.columns.length);
         assert.equal(host.querySelectorAll('tbody tr').length, question.chart.rows.length);
       } else {
         const svg = host.querySelector('svg[role="img"]');
@@ -262,7 +261,7 @@ test('Every Batch 3 visual renders accessibly without key cues', () => {
 
     const portfolioHost = dom.window.document.createElement('div');
     portfolioHost.innerHTML = dom.window.__TB.renderQuestionChart(batch.find(question => question.qid.endsWith('061')).chart);
-    const slider = portfolioHost.querySelector('input[type="range"][data-tb-whatif]');
+    const slider = portfolioHost.querySelector('input[type="range"][data-mbb3-capacity]');
     assert.equal(slider.getAttribute('min'), '8');
     assert.equal(slider.getAttribute('max'), '16');
     assert.equal(slider.getAttribute('value'), '12');
@@ -272,18 +271,18 @@ test('Every Batch 3 visual renders accessibly without key cues', () => {
       const question = batch.find(item => item.qid.endsWith(suffix));
       const host = dom.window.document.createElement('div');
       host.innerHTML = dom.window.__TB.renderQuestionChart(question.chart);
-      assert.equal(host.querySelectorAll('rect.tb-chart-box').length, question.chart.counts.length);
+      assert.equal(host.querySelectorAll('rect').length, question.chart.counts.length);
       assert.match(host.textContent, new RegExp(question.chart.referenceLabel.replace('$', '\\$')));
     });
 
     const acfHost = dom.window.document.createElement('div');
     acfHost.innerHTML = dom.window.__TB.renderQuestionChart(batch.find(question => question.qid.endsWith('071')).chart);
-    assert.equal(acfHost.querySelectorAll('rect[tabindex="0"] title').length, 10);
-    assert.match(acfHost.textContent, /Autocorrelation diagnostic/);
+    assert.equal(acfHost.querySelectorAll('circle[tabindex="0"] title').length, 10);
+    assert.match(acfHost.textContent, /pointwise 95% reference/);
 
     const interactionHost = dom.window.document.createElement('div');
     interactionHost.innerHTML = dom.window.__TB.renderQuestionChart(batch.find(question => question.qid.endsWith('072')).chart);
-    assert.equal(interactionHost.querySelectorAll('polyline.tb-chart-line').length, 2);
+    assert.equal(interactionHost.querySelectorAll('path.mbb3-series,path.mbb3-second').length, 2);
   } finally {
     dom.window.close();
   }

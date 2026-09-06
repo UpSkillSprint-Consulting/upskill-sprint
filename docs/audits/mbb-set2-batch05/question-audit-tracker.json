@@ -1,0 +1,1586 @@
+[
+  {
+    "question": 101,
+    "qid": "mbb:set-2:original-101",
+    "independent_answer": "A",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "The blank cell was treated as proof of a broken causal relationship.",
+      "Replaced implausible structural distractors and neutralized alternative text."
+    ],
+    "independent_solution": "Review the proposed P3 contribution to retention, validate the planning link, and align its owner and operational measures. An unreviewed cell is missing planning evidence, not proof that no relationship exists. Only A addresses that gap without deleting or relabeling the priority.",
+    "distractor_adjudication": {
+      "A": "Correct. The review establishes the missing planning link without assuming that a blank cell proves or disproves causation.",
+      "B": "One common lagging measure would remove useful leading/process evidence without resolving the missing strategic link.",
+      "C": "An unreviewed relationship is not evidence that the priority cannot contribute to the objective.",
+      "D": "Functional centralization neither validates P3’s contribution nor eliminates operational dependencies."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 1; Hoshin planning and strategic traceability, pp. 7–17",
+      "direct_excerpt_scope": "Hoshin target/means and horizontal coordination, printed 9–10; traditional-planning failure modes, printed 16.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "I.B.2",
+      "official_cognitive_ceiling": "Analyze"
+    },
+    "visual": {
+      "present": true,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 102,
+    "qid": "mbb:set-2:original-102",
+    "independent_answer": "B",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Added the decision timing needed to distinguish prudent option preservation from delaying mandatory compliance.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "The regulation is proposed rather than binding, and immediate irreversible commitment is unnecessary. B preserves options while checking scenario sensitivity and defining review triggers. Cancellation, an unchanged annual plan, or cosmetic charter edits do not perform that reassessment.",
+    "distractor_adjudication": {
+      "A": "Immediate cancellation discards potentially robust projects before sensitivity is assessed.",
+      "B": "Correct. It updates assumptions and stages commitments around a consequential uncertainty.",
+      "C": "Governance discipline includes defined reassessment when material assumptions change.",
+      "D": "Changing charter language alone does not update economics, dependencies, or capacity."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 1; Strategic planning review and environmental assumptions, pp. 2–17",
+      "direct_excerpt_scope": "Planning/measurement review loop, printed 9–10 and 16; this scenario’s regulatory timing is authored, not a source fact.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "I.F.4",
+      "official_cognitive_ceiling": "Evaluate"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 103,
+    "qid": "mbb:set-2:original-103",
+    "independent_answer": "C",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Replaced the absolute claim that an early gate prevents all invalid economics.",
+      "Clarified pre-authorization validation, financial versus technical authority, and change control."
+    ],
+    "independent_solution": "Finance must validate definitions and baselines before project authorization, with financial, technical and portfolio decision rights documented separately. C fixes the late review and ambiguous authority; neither a signature nor a currency conversion establishes baseline validity.",
+    "distractor_adjudication": {
+      "A": "Finance validates financial evidence, but assigning it every technical and selection decision does not establish appropriate shared governance.",
+      "B": "Currency conversion cannot reconcile incompatible definitions, counterfactuals or benefit baselines.",
+      "C": "Correct. Early validation, clear authority and controlled exceptions address the observed failure at the point of commitment.",
+      "D": "A signature records approval but does not make invalid calculations correct or remove the need to review changed assumptions."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 3 - Deployment of Six Sigma Systems; Governance, coordination and decision accountability, pp. 28–32",
+      "direct_excerpt_scope": "Governance responsibilities and RACI discussion, printed 31–32; the proposed Finance gate is scenario-specific audit design.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "I.C.1",
+      "official_cognitive_ceiling": "Apply"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 104,
+    "qid": "mbb:set-2:original-104",
+    "independent_answer": "D",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Added safety/authorization boundary and removed conflation of variable arrivals with demonstrated statistical instability.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "Use authorized, reversible constraint-relief pilots alongside DMAIC analysis of arrivals, service and diagnostic variation. D addresses the known bottleneck without ignoring uncertainty or bypassing clinical safety. Variable arrivals alone do not demonstrate statistical instability.",
+    "distractor_adjudication": {
+      "A": "A known improvable constraint does not establish that full redesign is required before any pilot.",
+      "B": "Stochastic variability and resource utilization can create queues; a Lean event alone does not establish the demand/service model.",
+      "C": "Delaying all safe, authorized pilots ignores an actionable constraint and confuses disciplined testing with uncontrolled change.",
+      "D": "Correct. The coordinated approach addresses the known flow issue and the uncertain variation mechanisms without bypassing safety."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 4; Six Sigma methodologies and coordinated improvement, pp. 53–69",
+      "direct_excerpt_scope": "Inherited methodology locator retained; the complete range was not re-read. Current ASQ I.D supports method selection; the safety and service-system qualifications are audit analysis.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "I.D",
+      "official_cognitive_ceiling": "Apply"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 105,
+    "qid": "mbb:set-2:original-105",
+    "independent_answer": "A",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "cognitive",
+      "formula",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Unclear discovery-versus-built dependency and unsupported discovery option-value figure.",
+      "Removed key-revealing committed-project slider text and added fixed scored baseline/reset.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "R is mandatory and consumes three Belt-months. Ready S needs five and ready T discovery needs one, totaling nine. T discovery defines but does not implement the foundation, so U remains gated. A is the only offered authorization that respects readiness, mandatory work and indivisible capacity.",
+    "distractor_adjudication": {
+      "A": "Correct. The allocation respects the mandate and nine-month budget while obtaining information for a later prerequisite decision.",
+      "B": "S and U would omit mandatory R, and U has not passed the prerequisite implementation gate.",
+      "C": "Starting T discovery is not completing the data foundation; concurrent starts do not remove U’s dependency.",
+      "D": "Splitting allocations cannot make the 13 Belt-month total fit nine months or make an unready project eligible."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 6 - Risk Analysis of Projects and the Pipeline; Qualification, selection and prioritization, pp. 97–99",
+      "direct_excerpt_scope": "Printed 98–99 distinguish qualification, selection and dynamic prioritization; resource/prerequisite arithmetic is independently computed.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "I.F.2",
+      "official_cognitive_ceiling": "Create"
+    },
+    "visual": {
+      "present": true,
+      "interactive": true
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 106,
+    "qid": "mbb:set-2:original-106",
+    "independent_answer": "B",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "industry",
+      "keywords",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Original call-center feedback case substantially repeated Q6. Replaced it with an explicitly authored upstream-demand-amplification case.",
+      "Original chart mixed minutes and contacts under one index label and plotted a horizontal line for a week-based intervention. New chart uses common units and a vertical intervention marker.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "Both ten-week series average 100 units per week, but the issued-order series becomes substantially more variable from Week 5 while customer demand remains comparatively steady. B investigates system feedback, batching and delays; the plot alone does not prove sole causation or supplier noncompliance.",
+    "distractor_adjudication": {
+      "A": "The series describe the center’s orders, not supplier delivery compliance; the inference attributes a failure to the wrong process.",
+      "B": "Correct. It treats amplification as a system-level signal and investigates plausible feedback mechanisms without assuming a proven cause.",
+      "C": "The displayed customer-demand observations do not exhibit swings comparable to the replenishment-order series.",
+      "D": "The before/after timing does not isolate the policy from other changes or justify an untested permanent reversal."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 7 - Organizational Design; Systems thinking and feedback, pp. 100–103",
+      "direct_excerpt_scope": "Printed 101–103 discuss subsystem integration and unintended consequences; upstream-order dataset is newly authored.",
+      "external_primary_sources": [
+        {
+          "title": "MIT / Croson et al., Order stability in supply chains",
+          "url": "https://web.mit.edu/~jsterman/www/Order_stability.html"
+        }
+      ],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "II.A.1",
+      "official_cognitive_ceiling": "Analyze"
+    },
+    "visual": {
+      "present": true,
+      "interactive": true
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 107,
+    "qid": "mbb:set-2:original-107",
+    "independent_answer": "C",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "bok",
+      "cognitive",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Substantive content passed; source title, edition and authority locator standardized.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "Production-access rules and competing executive priorities belong with the manager. C retains that accountability while the MBB provides evidence and coaching. Permanently substituting for the manager, private Belt negotiations or waiting for voluntary change leaves the system-level barrier unresolved.",
+    "distractor_adjudication": {
+      "A": "Permanent substitution weakens sponsor accountability and makes the MBB an operational gatekeeper.",
+      "B": "Belts lack the authority to resolve a conflict created by competing executive measures.",
+      "C": "Correct. Leadership owns the barrier while the MBB enables an evidence-based solution.",
+      "D": "Waiting for voluntary change leaves the misaligned management system untouched."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 12 - Executive and Team Leadership Roles; Executive authority, resources and barriers, pp. 183–185",
+      "direct_excerpt_scope": "Printed 183–185 identify executive and champion responsibilities.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "II.B.1",
+      "official_cognitive_ceiling": "Analyze"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 108,
+    "qid": "mbb:set-2:original-108",
+    "independent_answer": "D",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Added boundary conditions for interest-based negotiation; standardized source.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "Elicit the legitimate interests in design learning, schedule protection and risk control, agree shared criteria, then allocate decision rights and escalation. D is the appropriate first response under the stated absence of an emergency. Positional victory, Quality ownership or mutual veto does not resolve those interests.",
+    "distractor_adjudication": {
+      "A": "Financial ranking alone does not resolve legitimate technical, schedule, and safety interests.",
+      "B": "Neutral facilitation can help, but transferring accountability to Quality is inappropriate.",
+      "C": "Mutual veto creates deadlock and hides the criteria required for a sound decision.",
+      "D": "Correct. It converts positional conflict into explicit interests, safeguards, and authority."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 11 - Internal Organizational Challenges; Interdepartmental conflict and negotiation, pp. 177–182",
+      "direct_excerpt_scope": "Printed 181–182 discuss interests, shared objectives, negotiation and documented agreements.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "II.C.3",
+      "official_cognitive_ceiling": "Apply"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 109,
+    "qid": "mbb:set-2:original-109",
+    "independent_answer": "A",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Separated course completion from demonstrated competence and avoided assigning causal contributions to workflow/incentive barriers.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "Completion is attendance/activity evidence, not proof of competence or sustained adoption. A repairs the observed workflow and incentive barriers with clinical participation while checking capability and patient outcomes. More attendance or punishment does not itself correct those barriers.",
+    "distractor_adjudication": {
+      "A": "Correct. It addresses ability, reinforcement, participation, and outcome feedback together.",
+      "B": "Punishment before correcting workflow and reward conflicts risks compliance theater and concealment.",
+      "C": "Waiting for perfection prevents iterative learning and leaves patient risk unmanaged.",
+      "D": "Training repetition treats a motivation and system-design problem as a knowledge deficit."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 8 - Organizational Commitment; Change management and reinforcement, pp. 113–125",
+      "direct_excerpt_scope": "Chapter title/section locations checked in contents; direct training-needs excerpt at printed 243–244 supports nontraining barriers. Wider Chapter 8 range not fully re-read.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "II.D.3",
+      "official_cognitive_ceiling": "Apply"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 110,
+    "qid": "mbb:set-2:original-110",
+    "independent_answer": "B",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Clarified training-count and benefit denominators; removed conflation of validated estimates with realized cash.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "Training and submitted estimates exceed their targets, but Finance-validated estimates are $1.3 million below target, control-plan adherence is 31 percentage points short, and owner acceptance is 29 points short. B investigates those separate gaps without claiming demonstrated realized cash loss.",
+    "distractor_adjudication": {
+      "A": "High activity and submitted claims do not establish realized or sustained enterprise value.",
+      "B": "Correct. The dashboard exposes weak conversion from activity to validated, owned results.",
+      "C": "This option incorrectly treats sponsor claims as a substitute for independent validation.",
+      "D": "The evidence does not isolate training volume as the cause of the realization gap."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 9 - Organizational Finance and Business Performance Metrics; Financial and business performance measures, pp. 126–142",
+      "direct_excerpt_scope": "Chapter and section locations checked in contents; printed 134–135 supports distinguishing direct and indirect benefit types. Dashboard interpretation is independent audit analysis.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "II.F",
+      "official_cognitive_ceiling": "Analyze"
+    },
+    "visual": {
+      "present": true,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 111,
+    "qid": "mbb:set-2:original-111",
+    "independent_answer": "C",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "formula",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Confirmed rendered node labels said days while the stem specified weeks. Fixed diagram, units and construction metadata.",
+      "Made merge dependencies and zero-lag/resource assumptions explicit."
+    ],
+    "independent_solution": "A-B-D-E requires 2+4+3+3 = 12 working weeks; A-C-E requires 2+5+3 = 10. E cannot begin until both branches finish, and C has two weeks of float. C protects the controlling path and monitors the alternate branch. Summing all activities gives 17 but incorrectly serializes parallel work.",
+    "distractor_adjudication": {
+      "A": "A-C-E is ten weeks and is not the controlling path.",
+      "B": "B matters through D, but expediting one activity without path evidence may not protect finish.",
+      "C": "Correct. The critical path is twelve weeks and the alternate path has two weeks of float.",
+      "D": "Parallel branches are not added as though they execute sequentially."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 14 - Project Oversight and Management; Project management principles and scheduling, pp. 202–212",
+      "direct_excerpt_scope": "Chapter/section location checked in contents; network durations and critical path independently recomputed, not source raw data.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "III.A.1",
+      "official_cognitive_ceiling": "Evaluate"
+    },
+    "visual": {
+      "present": true,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 112,
+    "qid": "mbb:set-2:original-112",
+    "independent_answer": "D",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "bok",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Substantive content passed; source chapter/edition corrected to Project Oversight and Management.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "The regulatory deadline is binding and the other project has documented six-week scheduling flexibility without benefit loss. D prioritizes the deadline, transparently rebaselines the deferred work and reconfirms its benefits. Equal splitting and financial ranking alone disregard the actual constraint.",
+    "distractor_adjudication": {
+      "A": "Equal fractional allocation can cause both projects to miss the outcome that justified approval.",
+      "B": "Private negotiation bypasses accountable portfolio decisions and leaves misleading baselines.",
+      "C": "NPV is important but does not erase mandatory constraints or timing flexibility.",
+      "D": "Correct. It respects the binding deadline and updates the affected baseline openly."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 14 - Project Oversight and Management; Supply/demand management and resource allocation, pp. 217–218",
+      "direct_excerpt_scope": "Section location checked in contents; printed 184–185 independently supports executive/champion resource decisions. Full 217–218 passage not newly certified.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "III.B.4",
+      "official_cognitive_ceiling": "Evaluate"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 113,
+    "qid": "mbb:set-2:original-113",
+    "independent_answer": "A",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Clarified the irrecoverable-cost assumption and included termination liabilities/recoveries in the forward decision.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "The irrecoverable 70% is sunk. A compares future benefits, remaining avoidable cost, cancellation consequences, recoveries and alternative capacity use; stop only when no current obligation or defensible forward business case remains. Prior spending or reassignment cannot restore strategic value.",
+    "distractor_adjudication": {
+      "A": "Correct. Forward-looking value and opportunity cost govern the continue-or-stop decision.",
+      "B": "Relabeling expenditure does not create learning value or restore strategic relevance.",
+      "C": "Continuing only to justify sunk spending deepens loss without restoring strategic value.",
+      "D": "New ownership cannot recreate a missing enterprise benefit mechanism."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 12 - Executive and Team Leadership Roles; Termination of projects no longer strategically aligned, pp. 184–185",
+      "direct_excerpt_scope": "Printed 185 explicitly includes terminating unaligned projects. Prospective cost/termination analysis is the audit’s economic qualification.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "III.B.4",
+      "official_cognitive_ceiling": "Evaluate"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 114,
+    "qid": "mbb:set-2:original-114",
+    "independent_answer": "B",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "formula",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Corrected false requirement that probability weighting must precede discounting.",
+      "Added explicit cash-flow basis/rounding and replaced arbitrary numerical distractors with identifiable calculation errors."
+    ],
+    "independent_solution": "Expected annual net inflow is 0.70×$210,000 + 0.30×$60,000 = $165,000. Expected NPV is −$300,000 + $165,000/1.10 + $165,000/1.10² = −$13,636.36, or −$13,600 to the nearest $100. B is correct. Weighting discounted scenario NPVs gives the same result.",
+    "distractor_adjudication": {
+      "A": "This subtracts the initial cost from two undiscounted expected inflows, ignoring their timing.",
+      "B": "Correct. Discounting the expected annual cash flows or weighting the discounted scenario NPVs gives the same result.",
+      "C": "This uses the high-inflow scenario alone and ignores the 0.30 probability of the lower outcome.",
+      "D": "This includes only the first year’s expected discounted cash inflow and omits year two."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 9 - Organizational Finance and Business Performance Metrics; Net present value, pp. 130",
+      "direct_excerpt_scope": "Printed 130 states discounting and summing cash flows. Scenario expectations and commutation proof are independently calculated; textbook example arithmetic is not copied.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "III.C.1",
+      "official_cognitive_ceiling": "Evaluate"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 115,
+    "qid": "mbb:set-2:original-115",
+    "independent_answer": "C",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Original explanation referenced a nonexistent table and implied waiting to assess an already observed technique gap.",
+      "Added parallel targeted assessment and distinct-denominator/point-estimate limits."
+    ],
+    "independent_solution": "Printer availability is 18 percentage points below criterion, interface matching 11.5 points below, and observed technique one point below; knowledge exceeds its separate criterion by seven points. C addresses infrastructure and assesses the smaller technique gap in parallel. These percentages cannot be added as causal contributions.",
+    "distractor_adjudication": {
+      "A": "An undifferentiated refresher does not repair unreliable printers or an order-interface defect.",
+      "B": "High volume is not evidence that a particular group’s skill caused the problem; exposure and error mechanisms differ.",
+      "C": "Correct. It addresses the observed system defects without ignoring the separately observed technique gap.",
+      "D": "Unstructured impressions cannot replace measurable performance requirements and documented competence checks."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 17 - Training Needs Analysis; Nontraining barriers and recommendations, pp. 243–244",
+      "direct_excerpt_scope": "Printed 243–244 explicitly recognizes policy, process, system, reward and job-fit barriers beyond training.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "IV.A",
+      "official_cognitive_ceiling": "Evaluate"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 116,
+    "qid": "mbb:set-2:original-116",
+    "independent_answer": "D",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "formula",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Generic phased-training evaluation repeated earlier cases; revised to test cluster assignment and pseudoreplication.",
+      "Added safe wait-list, common exposure, contamination and uncertainty conditions.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "Randomize the 16 teams, eight per arm, and account for clustering in the analysis. There are 320 observed workers but only 16 randomized units. D matches delivery and inference under the stated safety and comparability conditions. Worker-level independence and manager-selected allocation are not valid substitutes.",
+    "distractor_adjudication": {
+      "A": "The proposed sharing of procedures makes worker-level allocation vulnerable to contamination within a team.",
+      "B": "Team randomization is appropriate, but treating correlated workers as independent assignments can understate uncertainty.",
+      "C": "Balancing group sizes does not make manager-selected allocation random or remove selection bias.",
+      "D": "Correct. Team allocation matches delivery, and cluster-aware inference respects the true randomized-unit structure."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 20 - Training Effectiveness Evaluation; Isolating effects of training, pp. 291",
+      "direct_excerpt_scope": "Printed 291 supports contemporaneous comparable controls. Cluster randomization/inference details are checked against the supplemental NIH Collaboratory primary guidance.",
+      "external_primary_sources": [
+        {
+          "title": "NIH Collaboratory: Intraclass Correlation",
+          "url": "https://rethinkingclinicaltrials.org/chapters/design/analysis-plan-top/intraclass-correlation/"
+        }
+      ],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "IV.D",
+      "official_cognitive_ceiling": "Create"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 117,
+    "qid": "mbb:set-2:original-117",
+    "independent_answer": "A",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Removed answer-length padding and clarified champion ownership and exceptions when resetting scope."
+    ],
+    "independent_solution": "The Champion remains accountable for scope, while the MBB coaches an evidence-based boundary and routes other opportunities through the portfolio pipeline. A controls scope without suppressing legitimate future work. Private rewriting, limitless expansion or immediate closure is unsupported.",
+    "distractor_adjudication": {
+      "A": "Correct. It restores champion accountability while protecting a governed opportunity pipeline.",
+      "B": "Private correction would weaken ownership and leave the sponsor unable to defend the boundary.",
+      "C": "Sponsor authority does not remove the need to manage capacity, risk, and independent deliverables.",
+      "D": "Scope growth is recoverable and does not by itself prove the project should be terminated."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 21 - Mentoring Champions, Change Agents, and Executives; Project sizing and constructive feedback, pp. 299–305",
+      "direct_excerpt_scope": "Project-sizing location 299 confirmed in contents; printed 304–305 directly supports tactful feedback and mentoring. Full sizing range not re-read.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "V.A.1",
+      "official_cognitive_ceiling": "Evaluate"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 118,
+    "qid": "mbb:set-2:original-118",
+    "independent_answer": "B",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Distinguished prediction from causal inference and removed implication that model-search choices can be preregistered retroactively.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "The objective is prediction. B discloses the exploratory model search, examines data lineage and residual problems, prespecifies the next analysis, and validates it using genuinely untouched data. A selected p-value is not predictive validation; later planning cannot retroactively make the earlier search prespecified.",
+    "distractor_adjudication": {
+      "A": "A selected p-value does not measure future predictive error and is particularly unreliable after undisclosed repeated searching.",
+      "B": "Correct. It addresses the data/model problems, reports exploration honestly, and protects an independent next validation.",
+      "C": "A training-data fit statistic and a stopping rule are not a substitute for independent validation.",
+      "D": "Algorithm flexibility does not eliminate dependence, leakage, distribution shift or the need for external validation."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 22 - Mentoring Black Belts and Green Belts; Technical review and coaching, pp. 306–314",
+      "direct_excerpt_scope": "Printed 306 describes coaching infrastructure; full technical-review range not re-read. Statistical transparency and validation qualifications are external primary-source/audit analysis.",
+      "external_primary_sources": [
+        {
+          "title": "ASA Statement on Statistical Significance and P-Values (2016)",
+          "url": "https://doi.org/10.1080/00031305.2016.1154108"
+        }
+      ],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "V.B.2",
+      "official_cognitive_ceiling": "Create"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 119,
+    "qid": "mbb:set-2:original-119",
+    "independent_answer": "C",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "formula",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Original generic nested-or-crossed recommendation was underspecified for the chosen allocation.",
+      "Explicitly separated crossed panel/appraiser effects from residual coupon-plus-measurement variation."
+    ],
+    "independent_solution": "All three appraisers test two distinct coupons from every one of ten panels, so panel and appraiser are crossed: 10×3×2 = 60 destructive tests. C includes the interaction and retains the residual limitation. Measurement repeatability and any remaining within-panel coupon variation cannot be separately identified from that residual alone.",
+    "distractor_adjudication": {
+      "A": "The second coupon is a different physical item; treating it as the same specimen hides within-panel variability.",
+      "B": "With one unique panel per appraiser, panel and appraiser are confounded rather than cleanly separated.",
+      "C": "Correct. Crossing matches the allocation, and the residual limitation is explicit despite the supported homogeneity assumption.",
+      "D": "One appraiser cannot estimate between-appraiser reproducibility, and between-panel material differences are not gage repeatability."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 24 - Measurement Systems Analysis; Variables measurement systems; destructive-study limitations, pp. 335–346",
+      "direct_excerpt_scope": "Printed 337–338 describes repeatability, reproducibility and GRR. The destructive/crossed allocation and homogeneity limitation are directly supported by Minitab guidance, not asserted as a passage in this range.",
+      "external_primary_sources": [
+        {
+          "title": "Minitab: Gage studies with destructive testing",
+          "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/supporting-topics/gage-r-r-and-wheeler-s-emp-studies/gage-studies-with-destructive-testing/"
+        }
+      ],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "VI.A.4",
+      "official_cognitive_ceiling": "Analyze"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 120,
+    "qid": "mbb:set-2:original-120",
+    "independent_answer": "D",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "cognitive",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Original distractor/rationale implied a Cpk index had units requiring back-transformation.",
+      "Added exact bin boundaries, sample size and separation of supplied fit adequacy from missing stability evidence.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "D uses the stipulated supported lognormal model or a clearly defined percentile index with appropriate stability and uncertainty checks. The displayed empirical exceedance is 20/128 = 15.625%, but no fitted parameters are supplied for a numerical model tail. Cpk is dimensionless, and transformed measurements must not be compared with an untransformed limit.",
+    "distractor_adjudication": {
+      "A": "Removing the slowest cases changes the population represented and understates its nonconformance.",
+      "B": "Skewness alone does not determine whether a process meets a requirement.",
+      "C": "Comparing transformed observations with an untransformed limit mixes scales and describes the wrong event.",
+      "D": "Correct. This uses the supported distribution while retaining uncertainty, meaningful specification units and a separate stability assessment."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 24 - Measurement Systems Analysis; Process capability for nonnormal data, pp. 347–352",
+      "direct_excerpt_scope": "Section and pages confirmed in contents; the complete passage was not newly inspected. Scale, tail-event and stability qualifications are technical audit reasoning.",
+      "external_primary_sources": [
+        {
+          "title": "NIST/SEMATECH: What is Process Capability?",
+          "url": "https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm"
+        }
+      ],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "VI.A.5",
+      "official_cognitive_ceiling": "Apply"
+    },
+    "visual": {
+      "present": true,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 121,
+    "qid": "mbb:set-2:original-121",
+    "independent_answer": "A",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Added excerpt and full-predictor availability; distinguished high fitted value from demonstrated leverage/influence.",
+      "Corrected rationale that previously described ranking predictors although the distractor ranks fitted values.",
+      "Shortened an overlong keyed option and/or clarified plausible distractors after answer-length review; retained all required conditions."
+    ],
+    "independent_solution": "An isolated high-fitted, large-residual observation prompts data verification and predictor-space leverage/influence assessment using the full design matrix. A also checks decision sensitivity. The displayed excerpt does not establish leverage, and neither automatic retention nor automatic deletion is justified.",
+    "distractor_adjudication": {
+      "A": "Correct. It combines provenance, statistical influence, and decision sensitivity.",
+      "B": "Automatic retention is no more defensible than automatic deletion when influence may dominate a decision.",
+      "C": "Automatic deletion discards information before its provenance and influence are understood.",
+      "D": "Ranking changes the model and can conceal rather than explain a consequential observation."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Multiple regression and diagnostic interpretation, pp. 370–383",
+      "direct_excerpt_scope": "Multiple-regression location confirmed in contents; general residual-diagnostic discussion at printed 399–400 inspected. Leverage/sensitivity distinctions are technical audit analysis.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "VI.B.2",
+      "official_cognitive_ceiling": "Analyze"
+    },
+    "visual": {
+      "present": true,
+      "interactive": true
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 122,
+    "qid": "mbb:set-2:original-122",
+    "independent_answer": "B",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Clarified sample size, pointwise ACF bounds and limits of causal reassessment."
+    ],
+    "independent_solution": "For the supplied 68-observation residual ACF, 1.96/√68 = 0.237685, approximately 0.24. Lags one and two exceed the stated pointwise bounds. B reexamines the error model and intervention estimate, while retaining trend, seasonality and confounding cautions; a lower postintervention mean does not prove causation.",
+    "distractor_adjudication": {
+      "A": "A visual mean shift does not establish uncertainty correctly when observations are serially dependent.",
+      "B": "Correct. The model must account for residual dependence before inference on the intervention.",
+      "C": "Differencing should be selected from the data-generating structure, not forced to erase an effect.",
+      "D": "A t test treats months as independent and ignores trend and serial correlation."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Autocorrelation and forecasting, pp. 353–369",
+      "direct_excerpt_scope": "Section boundaries confirmed in contents; residual independence assumptions at printed 399–400 inspected. Pointwise-bound calculation is independent.",
+      "external_primary_sources": [],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "VI.B.1",
+      "official_cognitive_ceiling": "Analyze"
+    },
+    "visual": {
+      "present": true,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 123,
+    "qid": "mbb:set-2:original-123",
+    "independent_answer": "C",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "cognitive",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Confirmed shared renderer supplied incorrect series names Both required/Either sufficient. Fixed Design A/Design B legend.",
+      "Distinguished crossing estimated curves from a proven population violation of proportional hazards."
+    ],
+    "independent_solution": "The reported survival estimates are equal at 1,200 hours (0.68 each), with A higher early and B later. C calls for checking proportional-hazards adequacy and mission-specific reliability with uncertainty. Crossing estimates alone are not a formal population test, and the plotted crossing is not the specified operating mission.",
+    "distractor_adjudication": {
+      "A": "Early superiority does not imply superiority over every mission or at later times.",
+      "B": "A higher late survival probability does not establish a uniformly smaller instantaneous hazard.",
+      "C": "Correct. It treats crossing estimates as a diagnostic concern and ties selection to the mission and uncertainty.",
+      "D": "An unweighted average across arbitrarily chosen times has no stated reliability requirement or decision basis."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Reliability modeling, pp. 423–428",
+      "direct_excerpt_scope": "Inherited reliability topic locator retained, not newly certified in full. Proportional-hazards definition checked against NIST primary reference; estimated-curve uncertainty caution is audit analysis.",
+      "external_primary_sources": [
+        {
+          "title": "NIST: Proportional hazards model",
+          "url": "https://www.itl.nist.gov/div898/handbook/apr/section1/apr167.htm"
+        }
+      ],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "VI.B.9",
+      "official_cognitive_ceiling": "Apply"
+    },
+    "visual": {
+      "present": true,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 124,
+    "qid": "mbb:set-2:original-124",
+    "independent_answer": "D",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "formula",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Repeated generic split-plot identification strengthened to independent error-stratum/df reasoning.",
+      "Stated full model, independent allocation, unit labels and complete balanced observations."
+    ],
+    "independent_solution": "There are six independent whole plots and two temperature levels, leaving 6−2 = 4 whole-plot error degrees of freedom. With four speeds per batch, the within-batch error is (6−2)(4−1) = 12 after speed and interaction are fitted. D uses the correct strata; total df is 1+4+3+3+12 = 23.",
+    "distractor_adjudication": {
+      "A": "The two error strata represent different variance structures and cannot be indiscriminately pooled for every F test.",
+      "B": "The four speed runs share a batch temperature assignment and are not independent whole-plot temperature replications.",
+      "C": "Speed is randomized within batches, so its error stratum is not the four-degree-of-freedom whole-plot term.",
+      "D": "Correct. The whole-plot and subplot denominators follow the actual randomization and balanced model decomposition."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 26 - Design of Experiments; Split-plot randomization and error strata, pp. 449–450",
+      "direct_excerpt_scope": "Inherited split-plot topic locator retained, not newly certified in full. Randomization/error strata checked against NIST; balanced degrees of freedom independently derived.",
+      "external_primary_sources": [
+        {
+          "title": "NIST: Split plot designs",
+          "url": "https://www.itl.nist.gov/div898/handbook/pri/section5/pri55.htm"
+        }
+      ],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "VI.B.5",
+      "official_cognitive_ceiling": "Apply"
+    },
+    "visual": {
+      "present": true,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  },
+  {
+    "question": 125,
+    "qid": "mbb:set-2:original-125",
+    "independent_answer": "A",
+    "record_status": "Corrected",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "formula",
+      "industry",
+      "keywords",
+      "optionRationales",
+      "options",
+      "questionType",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Original question tested a generalized Poisson count model under the general linear-model BoK topic and a nonexistent Logistic and Generalized Models source chapter.",
+      "Replaced with explicitly authored continuous-response ANCOVA interaction interpretation aligned to the actual topic."
+    ],
+    "independent_solution": "At a fixed backlog, the new-minus-standard contrast is −2+0.6x; the common 12+0.4x terms cancel. Backlogs 80 and 140 give x = −2 and 4, hence −3.2 and +0.4 minutes. A is correct. These are fitted conditional differences, not causal effects, significance tests or equivalence conclusions.",
+    "distractor_adjudication": {
+      "A": "Correct. It uses the coded covariate and computes new minus standard at each stated backlog.",
+      "B": "The main workflow coefficient is conditional on x = 0; ignoring interaction incorrectly forces a constant difference.",
+      "C": "This omits division by 10 in the covariate coding and inflates the interaction contribution tenfold.",
+      "D": "These are the reverse standard-minus-new contrasts, not the requested new-minus-standard differences."
+    },
+    "source_verification": {
+      "edition": "Kubiak (2012); not silently relabeled as the current BoK",
+      "retained_locator": "Chapter 25 - Measuring and Modeling Relationships Between Variables; General Linear Models (GLMs); ANCOVA, pp. 399–400",
+      "direct_excerpt_scope": "Printed 399–400 identifies general linear models, ANCOVA and continuous responses. The new coded-interaction example is authored and independently solved.",
+      "external_primary_sources": [
+        {
+          "title": "Minitab: What is a general linear model?",
+          "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/anova/supporting-topics/basics/what-is-a-general-linear-model/"
+        }
+      ],
+      "current_bok": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "limitation": "Only the identified retrieved excerpts/official primary pages were inspected. A broader inherited page range is a topic locator, not certification that every page was reread. Added case conditions and independent calculations are audit analysis or authored educational scenarios.",
+      "official_bok_code": "VI.B.5",
+      "official_cognitive_ceiling": "Apply"
+    },
+    "visual": {
+      "present": false,
+      "interactive": false
+    },
+    "render_validation": "Passed on final local source: Batch 5 player 1,404 assertions/159 states; supplemental 1,005/160; combined Q1–125 integration 2,943/765. See browser-summary.json for scope and source/result hashes.",
+    "answer_index_changed": false,
+    "individual_visual_inspection": {
+      "before_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_question_views": [
+        "desktop",
+        "mobile"
+      ],
+      "corrected_post_submission_review_views": [
+        "desktop",
+        "mobile"
+      ],
+      "result": "Every item inspected individually. No overlapping or truncated question content found in corrected views; wide evidence intentionally scrolls within bounded containers. The later scoped dark-topic-ink correction has a separate final screenshot and all-25 computed-style checks."
+    },
+    "publication_status": "Not committed to PR165; current connector has no write action."
+  }
+]

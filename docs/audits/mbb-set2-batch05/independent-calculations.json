@@ -1,0 +1,507 @@
+{
+  "Q105": {
+    "scoredCapacity": 9,
+    "authorizedEffort": 9,
+    "allProposalsEffort": 13,
+    "dependency": "Discovery does not implement the foundation; U remains ineligible regardless of simultaneous-start sum."
+  },
+  "Q106": {
+    "purpose": "New synthetic ordering feedback example, not recovered source raw data",
+    "customerMean": 100.0,
+    "orderMean": 100.0,
+    "customerSampleSD": 1.4142135623730951,
+    "orderSampleSD": 41.376321731154405
+  },
+  "Q110": {
+    "peopleCount": 96,
+    "submittedAnnualizedEstimate": 5200000,
+    "validatedAnnualizedEstimate": 2700000,
+    "targetAnnualized": 4000000,
+    "validatedShortfall": 1300000,
+    "controlAdherenceTargetPct": 85,
+    "observedControlAdherencePct": 54,
+    "ownerAcceptanceTargetPct": 90,
+    "observedOwnerAcceptancePct": 61,
+    "interpretation": "Estimate-validation and sustainability gaps, not established realized cash loss."
+  },
+  "Q111": {
+    "durationUnit": "working weeks",
+    "earliestStart": {
+      "A": 0,
+      "B": 2,
+      "C": 2,
+      "D": 6,
+      "E": 9
+    },
+    "earliestFinish": {
+      "A": 2,
+      "B": 6,
+      "C": 7,
+      "D": 9,
+      "E": 12
+    },
+    "latestStart": {
+      "E": 9,
+      "D": 6,
+      "B": 2,
+      "C": 4,
+      "A": 0
+    },
+    "totalFloat": {
+      "A": 0,
+      "B": 0,
+      "C": 2,
+      "D": 0,
+      "E": 0
+    },
+    "programFinish": 12,
+    "criticalActivities": [
+      "A",
+      "B",
+      "D",
+      "E"
+    ]
+  },
+  "Q114": {
+    "expectedAnnualInflow": 165000.0,
+    "NPVOfExpectedFlows": -13636.363636363647,
+    "highScenarioNPV": 64462.809917355306,
+    "lowScenarioNPV": -195867.76859504136,
+    "expectedScenarioNPVs": -13636.36363636369,
+    "roundToNearest100": -13600,
+    "distractors": {
+      "A_omitDiscount": 30000.0,
+      "C_highScenarioOnly": 64500,
+      "D_omitYear2": -150000.0
+    },
+    "reason": "Linearity commutes with fixed deterministic discount factors and dates."
+  },
+  "Q115": {
+    "knowledgeAboveCriterionPP": 7,
+    "printerGapPP": 18,
+    "interfaceGapPP": 11.5,
+    "techniqueGapPP": 1,
+    "limitation": "Different constructs/opportunity denominators; not causal percentage contributions."
+  },
+  "Q116": {
+    "randomizedTeams": 16,
+    "teamsPerArm": 8,
+    "workersPerTeam": 20,
+    "workersObserved": 320,
+    "independentAssignments": 16,
+    "limitation": "Within-team observations may be correlated; no ICC or power is fabricated."
+  },
+  "Q119": {
+    "panels": 10,
+    "appraisers": 3,
+    "couponsPerCell": 2,
+    "destroyedCoupons": 60,
+    "crossing": "All appraisers test each panel",
+    "residualCounterexample": {
+      "measurementVariance": 0.04,
+      "couponVariance": 0.01,
+      "observedResidualVariance": 0.05,
+      "alternativeMeasurementVariance": 0.03,
+      "alternativeCouponVariance": 0.02,
+      "provenance": "Arbitrary illustrative variance units for an identifiability counterexample only; not observations or estimates from this question or its textbook."
+    },
+    "limitation": "Residual alone cannot distinguish these decompositions; practical panel homogeneity must be justified."
+  },
+  "Q120": {
+    "histogramN": 128,
+    "binConvention": "(lower, upper]",
+    "USLHours": 18,
+    "empiricalAboveUSL": 20,
+    "empiricalFractionAboveUSL": 0.15625,
+    "modelTail": null,
+    "modelTailReason": "No lognormal parameters supplied; the item asks method selection, not numerical model tail estimation."
+  },
+  "Q122": {
+    "months": 68,
+    "pointwiseApproximation": 0.2376849125356063,
+    "displayBound": 0.24,
+    "lagsExceedingDisplayedBounds": [
+      1,
+      2
+    ],
+    "limitation": "Supplied ACF estimates; not independently recoverable from an absent residual series. Screening bounds are pointwise, not simultaneous."
+  },
+  "Q123": {
+    "reportedCrossingHours": 1200,
+    "DesignA": 0.68,
+    "DesignB": 0.68,
+    "underlyingRecordsAvailable": false,
+    "formalPHTest": null,
+    "limitation": "Crossing estimates prompt model/mission review; uncertainty is not supplied for a formal population conclusion."
+  },
+  "Q124": {
+    "independentBatches": 6,
+    "temperatureLevels": 2,
+    "speedLevels": 4,
+    "responses": 24,
+    "WPErrorDF": 4,
+    "speedDF": 3,
+    "interactionDF": 3,
+    "fullBatchSpeedInteractionDesignRank": 12,
+    "SPErrorDF": 12,
+    "totalDF": 23,
+    "designMatrix": [
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1
+      ]
+    ]
+  },
+  "Q125": {
+    "model": "yhat = 12 - 2G + 0.4x + 0.6Gx; x=(backlog-100)/10",
+    "comparisons": [
+      {
+        "backlog": 80,
+        "x": -2.0,
+        "standard": 11.2,
+        "new": 8.0,
+        "newMinusStandard": -3.2
+      },
+      {
+        "backlog": 140,
+        "x": 4.0,
+        "standard": 13.6,
+        "new": 14.0,
+        "newMinusStandard": 0.3999999999999999
+      }
+    ],
+    "limitation": "Fitted conditional differences, not significance/equivalence/causal effects."
+  }
+}

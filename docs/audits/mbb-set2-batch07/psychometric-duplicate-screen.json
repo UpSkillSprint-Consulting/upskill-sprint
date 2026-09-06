@@ -1,0 +1,76 @@
+{
+  "method": "Editorial token-overlap and independent conceptual review; not psychometric calibration",
+  "correctStrictlyLongestBefore": 18,
+  "correctStrictlyLongestAfter": 4,
+  "exactDuplicates": [],
+  "topLexicalPairs": [
+    {
+      "a": "mbb:set-2:original-152",
+      "b": "mbb:set-2:original-102",
+      "similarity": 0.2972972972972973
+    },
+    {
+      "a": "mbb:set-2:original-162",
+      "b": "mbb:set-2:original-039",
+      "similarity": 0.2222222222222222
+    },
+    {
+      "a": "mbb:set-2:original-155",
+      "b": "mbb:set-2:original-061",
+      "similarity": 0.21052631578947367
+    },
+    {
+      "a": "mbb:set-2:original-168",
+      "b": "mbb:set-2:original-119",
+      "similarity": 0.2
+    },
+    {
+      "a": "mbb:set-2:original-162",
+      "b": "mbb:set-2:original-113",
+      "similarity": 0.1891891891891892
+    },
+    {
+      "a": "mbb:set-2:original-154",
+      "b": "mbb:set-2:original-055",
+      "similarity": 0.17647058823529413
+    },
+    {
+      "a": "mbb:set-2:original-151",
+      "b": "mbb:set-2:original-101",
+      "similarity": 0.1590909090909091
+    },
+    {
+      "a": "mbb:set-2:original-161",
+      "b": "mbb:set-2:original-087",
+      "similarity": 0.15789473684210525
+    },
+    {
+      "a": "mbb:set-2:original-161",
+      "b": "mbb:set-2:original-037",
+      "similarity": 0.15217391304347827
+    },
+    {
+      "a": "mbb:set-2:original-169",
+      "b": "mbb:set-2:original-120",
+      "similarity": 0.15217391304347827
+    }
+  ],
+  "conceptualRevisions": [
+    {
+      "qid": 153,
+      "reason": "Federated-model selection -> assessment comparability inside an existing federation"
+    },
+    {
+      "qid": 156,
+      "reason": "Call-center failure demand -> delayed capacity and pipeline feedback"
+    },
+    {
+      "qid": 165,
+      "reason": "Generic evaluation -> non-identifiability of perfectly coincident interventions"
+    },
+    {
+      "qid": 175,
+      "reason": "Masked drift -> grade/setpoint-aware monitoring"
+    }
+  ]
+}

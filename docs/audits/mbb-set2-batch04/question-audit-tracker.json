@@ -1,0 +1,1449 @@
+[
+  {
+    "question": 76,
+    "qid": "mbb:set-2:original-076",
+    "independent_answer": "D",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "chart",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Clarified unlinked activity measures versus strategy-linked leading indicators; corrected the chapter title and removed interpretive visual cues."
+    ],
+    "independent_solution": "D: connect corporate warranty objectives to tactical and operational objectives, owned resources, dependencies, leading measures and review cycles. Activity frequency alone does not establish strategic alignment.",
+    "distractor_adjudication": {
+      "A": "A rigid plan prevents justified adaptation and does not create the missing tactical and operational links.",
+      "B": "A single lagging financial result would remove early evidence about the processes that create warranty cost.",
+      "C": "Delayed reconciliation preserves local optimization and makes recovery dependent on an already missed outcome.",
+      "D": "Correct. The recommendation connects strategy to executable work, resources, leading evidence, and adaptive governance."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 1 - Strategic Plan Deployment; Traditional strategic planning, pp. 14-17",
+      "direct_passages": "14–15; supporting strategic alignment 25–27",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "I. Enterprise-wide Planning",
+        "subdomain": "A. Strategic Plan Development",
+        "topic": "Integrated strategic, tactical, and operational planning"
+      }
+    },
+    "visual": {
+      "present": true,
+      "interactive": false,
+      "checks": "Question and review reopened in the actual rendered player; all visual values, labels, data alternatives and controls checked. Bounded horizontal scrolling preserves readable mobile evidence."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-76.png",
+        "desktop-review-76.png",
+        "mobile-76.png",
+        "mobile-review-76.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q76: D"
+    }
+  },
+  {
+    "question": 77,
+    "qid": "mbb:set-2:original-077",
+    "independent_answer": "A",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Source annotation only",
+    "changed_fields": [
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Corrected/standardized the 2012 handbook chapter and source annotation; the substantive answer and reasoning did not require a change."
+    ],
+    "independent_solution": "A: use behaviorally anchored assessments across the deployment dimensions and site/level groups, triangulated with observable evidence. A larger one-item opinion survey cannot repair missing construct coverage.",
+    "distractor_adjudication": {
+      "A": "Correct. It creates a repeatable baseline across the readiness dimensions and reduces single-source bias.",
+      "B": "Sample size cannot repair a construct that is represented by one vague perception question.",
+      "C": "Credential and project counts omit leadership behavior, process maturity, technology, and cultural conditions.",
+      "D": "Sponsor commitment matters, but one perspective cannot represent a distributed deployment system."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 3 - Deployment of Six Sigma Systems; Assessment; cultural and operations assessment, pp. 33-41",
+      "direct_passages": "40",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "I. Enterprise-wide Planning",
+        "subdomain": "C. Infrastructure Elements of Improvement Systems",
+        "topic": "Deployment readiness and organizational maturity assessment"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-77.png",
+        "desktop-review-77.png",
+        "mobile-77.png",
+        "mobile-review-77.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q77: A"
+    }
+  },
+  {
+    "question": 78,
+    "qid": "mbb:set-2:original-078",
+    "independent_answer": "C",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Source annotation only",
+    "changed_fields": [
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Corrected/standardized the 2012 handbook chapter and source annotation; the substantive answer and reasoning did not require a change."
+    ],
+    "independent_solution": "C: retain end-to-end process ownership, model and measure the redesigned process, and verify readiness before automating it. Automation alone can preserve the original rework path.",
+    "distractor_adjudication": {
+      "A": "Post-launch logs are useful, but using customers to discover known design requirements creates avoidable failure demand.",
+      "B": "Digitizing every variant preserves undocumented complexity instead of designing an intentional end-to-end process.",
+      "C": "Correct. It follows the BPM life cycle and prevents automation from institutionalizing an unstable poor process.",
+      "D": "BPM is a means to improve instability; spontaneous stability is not an entry requirement."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 4 - Six Sigma Methodologies; Business systems and process management, pp. 65-69",
+      "direct_passages": "65–67",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "I. Enterprise-wide Planning",
+        "subdomain": "D. Improvement Methodologies",
+        "topic": "Business process management life cycle and automation governance"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-78.png",
+        "desktop-review-78.png",
+        "mobile-78.png",
+        "mobile-review-78.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q78: C"
+    }
+  },
+  {
+    "question": 79,
+    "qid": "mbb:set-2:original-079",
+    "independent_answer": "B",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "bok",
+      "cognitive",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Corrected obsolete BoK locator and the cognitive classification of selecting, rather than creating, a proposed approach."
+    ],
+    "independent_solution": "B: separate judgment-free idea generation from later criteria-based selection, ownership, resourcing and experiments. Immediate rejection and undirected idea counts obstruct the stated innovation objective.",
+    "distractor_adjudication": {
+      "A": "Immediate expert judgment suppresses divergent thinking and confuses generation with evaluation.",
+      "B": "Correct. It connects opportunity framing and protected creativity to disciplined selection and implementation.",
+      "C": "Submission frequency is not evidence of customer value, feasibility, or successful implementation.",
+      "D": "Idea-volume rewards create raw material but leave the organization without an innovation pathway."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 5 - Opportunities for Improvement; Creativity and innovation tools, pp. 83-87",
+      "direct_passages": "83–84",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "I. Enterprise-wide Planning",
+        "subdomain": "E. Opportunities for Improvement",
+        "topic": "Creativity-to-innovation operating system"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-79.png",
+        "desktop-review-79.png",
+        "mobile-79.png",
+        "mobile-review-79.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q79: B"
+    }
+  },
+  {
+    "question": 80,
+    "qid": "mbb:set-2:original-080",
+    "independent_answer": "D",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Made the mandatory regulatory deadline a portfolio constraint, rather than an optional high-value project."
+    ],
+    "independent_solution": "D: update value, risk, dependency and resource information. The regulatory deadline is a mandatory feasibility condition, not a discretionary return score.",
+    "distractor_adjudication": {
+      "A": "Adding work without a capacity decision hides overload and treats an old ranking as an entitlement.",
+      "B": "A unilateral budget transfer ignores comparative value, dependency effects, and the new regulatory demand.",
+      "C": "Annual-only review is too slow for material risk changes and undermines active pipeline management.",
+      "D": "Correct. Mandatory compliance is protected while governance transparently reassesses the discretionary portfolio and any resource shortfall."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 6 - Risk Analysis of Projects and the Pipeline; Project prioritization; pipeline management, pp. 98-99",
+      "direct_passages": "98–99",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "I. Enterprise-wide Planning",
+        "subdomain": "F. Pipeline Management",
+        "topic": "Dynamic portfolio risk monitoring and reprioritization"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-80.png",
+        "desktop-review-80.png",
+        "mobile-80.png",
+        "mobile-review-80.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q80: D"
+    }
+  },
+  {
+    "question": 81,
+    "qid": "mbb:set-2:original-081",
+    "independent_answer": "A",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "bok",
+      "cognitive",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Corrected the current BoK subdomain and classified choosing the proposed operating model as evaluation."
+    ],
+    "independent_solution": "A: retain enterprise standards and reporting while delegating bounded operating decisions according to regional readiness. Fragmented independent systems and permanent central micromanagement are not the proposed balance.",
+    "distractor_adjudication": {
+      "A": "Correct. It combines early deployment control with explicit adaptation and a maturity-based transition path.",
+      "B": "Immediate full autonomy risks incompatible methods, credentials, benefit definitions, and governance.",
+      "C": "Permanent headquarters control prevents useful local capability and context-sensitive execution.",
+      "D": "Training is one deployment component and lacks the authority needed for enterprise governance."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 8 - Organizational Commitment; Necessary organizational structure for deployment, pp. 115-119",
+      "direct_passages": "116",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "II. Organizational Competencies for Deployment",
+        "subdomain": "D. Organizational Change Management",
+        "topic": "Centralized-to-federated deployment structure"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-81.png",
+        "desktop-review-81.png",
+        "mobile-81.png",
+        "mobile-review-81.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q81: A"
+    }
+  },
+  {
+    "question": 82,
+    "qid": "mbb:set-2:original-082",
+    "independent_answer": "B",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "bok",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Distinguished multiple feedback channels from statistically independent observations; added duplicate-event linkage and retained source-specific evidence."
+    ],
+    "independent_solution": "B: integrate listening posts with common definitions, accountable action triggers and linkage of repeated reports of the same event. Channels are not automatically independent statistical observations.",
+    "distractor_adjudication": {
+      "A": "Structured surveys can contain sampling and timing blind spots and should not automatically override other signals.",
+      "B": "Correct. It preserves source-specific signals, avoids duplicate-event inflation, and supplies the ownership and triggers needed for action.",
+      "C": "Averaging unlike signals can conceal the specific contradiction that requires investigation.",
+      "D": "Local stability can coexist with end-to-end failure and should not delay cross-functional ownership."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 10 - Data Gathering; Voice of the customer and voice of the process; listening posts, pp. 148-156",
+      "direct_passages": "149–151",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "II. Organizational Competencies for Deployment",
+        "subdomain": "E. Organizational Feedback",
+        "topic": "Integrated listening posts and closed-loop action"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-82.png",
+        "desktop-review-82.png",
+        "mobile-82.png",
+        "mobile-review-82.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q82: B"
+    }
+  },
+  {
+    "question": 83,
+    "qid": "mbb:set-2:original-083",
+    "independent_answer": "C",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "bok",
+      "cognitive",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Strengthened a recall-only item into an application decision and bounded the inference to Herzberg’s framework."
+    ],
+    "independent_solution": "C: in Herzberg’s framework, adequate pay and conditions remove dissatisfiers; pilot meaningful responsibility, recognition and growth rather than assuming another hygiene change ensures commitment.",
+    "distractor_adjudication": {
+      "A": "The hygiene deficiencies were already addressed; repeating that intervention alone ignores the reported absence of meaningful responsibility and recognition.",
+      "B": "Fewer complaints do not establish full motivation, and quotas do not address the satisfiers missing from the reported work environment.",
+      "C": "Correct. The pilot targets the missing satisfiers within the stated framework and checks its effect rather than assuming success.",
+      "D": "This reverses the framework: responsibility and achievement are satisfiers, not hygiene factors to remove."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 11 - Internal Organizational Challenges; Herzberg's motivational factors, pp. 163-164",
+      "direct_passages": "163–164",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "II. Organizational Competencies for Deployment",
+        "subdomain": "C. Organizational Challenges",
+        "topic": "Herzberg hygiene factors and motivators"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-83.png",
+        "desktop-review-83.png",
+        "mobile-83.png",
+        "mobile-review-83.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q83: C"
+    }
+  },
+  {
+    "question": 84,
+    "qid": "mbb:set-2:original-084",
+    "independent_answer": "D",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Restricted the competence threshold to its intended series, stated ordinal-scale interpretation, and corrected causal overstatement in the explanation."
+    ],
+    "independent_solution": "D: competence reaches 9 against its 8 threshold while commitment is 3.5. Use low direction and high support and investigate why decisions are reversed. The plot does not establish the cause.",
+    "distractor_adjudication": {
+      "A": "The performance evidence shows competence increased; more direction would misdiagnose the commitment problem.",
+      "B": "Competence alone does not justify withdrawal when commitment has fallen and organizational barriers remain.",
+      "C": "Technical retraining does not address unexplained decision reversals and may further reduce commitment.",
+      "D": "Correct. High support and lower direction fit capable people whose commitment needs restoration."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 11 - Internal Organizational Challenges; Leadership styles; situational leadership and intervention styles, pp. 165-176",
+      "direct_passages": "169",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "II. Organizational Competencies for Deployment",
+        "subdomain": "C. Organizational Challenges",
+        "topic": "Situational leadership using competence and commitment"
+      }
+    },
+    "visual": {
+      "present": true,
+      "interactive": true,
+      "checks": "Question and review reopened in the actual rendered player; all visual values, labels, data alternatives and controls checked. Bounded horizontal scrolling preserves readable mobile evidence."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-84.png",
+        "desktop-review-84.png",
+        "mobile-84.png",
+        "mobile-review-84.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q84: D"
+    }
+  },
+  {
+    "question": 85,
+    "qid": "mbb:set-2:original-085",
+    "independent_answer": "A",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Removed an incorrect eight-day midpoint and made mandatory safety requirements non-negotiable."
+    ],
+    "independent_solution": "A: investigate interests and constraints and jointly test feasible alternatives. Mandatory safety requirements are not negotiated away by a numerical compromise.",
+    "distractor_adjudication": {
+      "A": "Correct. It follows the interest-based sequence and uses criteria tied to both parties’ legitimate concerns.",
+      "B": "A numerical midpoint treats positions as facts and may be unsafe, infeasible, or unnecessarily costly.",
+      "C": "Premature escalation bypasses joint problem solving and conceals the interests needed to design options.",
+      "D": "Technical risk matters, but automatic priority prevents evaluation of alternatives that may satisfy both interests."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 11 - Internal Organizational Challenges; Interdepartmental conflicts; negotiation, pp. 177-182",
+      "direct_passages": "180–182",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "II. Organizational Competencies for Deployment",
+        "subdomain": "C. Organizational Challenges",
+        "topic": "Interest-based conflict resolution"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-85.png",
+        "desktop-review-85.png",
+        "mobile-85.png",
+        "mobile-review-85.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q85: A"
+    }
+  },
+  {
+    "question": 86,
+    "qid": "mbb:set-2:original-086",
+    "independent_answer": "C",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "cognitive",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Added working-day duration units and finish-to-start precedence; corrected the program-management source locator and selection cognitive label."
+    ],
+    "independent_solution": "C: use coordinated program governance for the shared migration outcome and dependencies while retaining individual project charters and accountable owners. The critical path is P-Q-S-M = 20+30+25+0 = 75 working days.",
+    "distractor_adjudication": {
+      "A": "A megacharter can obscure ownership and benefit realization even when program coordination is necessary.",
+      "B": "Local reporting after failure does not govern the upstream dependencies shown in the network.",
+      "C": "Correct. Program coordination integrates dependencies without eliminating bounded project accountability.",
+      "D": "Activity duration alone ignores precedence, shared outputs, benefit timing, and resource constraints."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 14 - Project Oversight and Management; Project and program management; project management principles, pp. 202-204",
+      "direct_passages": "204",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "III. Project Portfolio Management",
+        "subdomain": "B. Project Portfolio Infrastructure and Management",
+        "topic": "Cross-project dependencies and program governance"
+      }
+    },
+    "visual": {
+      "present": true,
+      "interactive": false,
+      "checks": "Question and review reopened in the actual rendered player; all visual values, labels, data alternatives and controls checked. Bounded horizontal scrolling preserves readable mobile evidence."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-86.png",
+        "desktop-review-86.png",
+        "mobile-86.png",
+        "mobile-review-86.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q86: C"
+    }
+  },
+  {
+    "question": 87,
+    "qid": "mbb:set-2:original-087",
+    "independent_answer": "B",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Source annotation only",
+    "changed_fields": [
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Corrected/standardized the 2012 handbook chapter and source annotation; the substantive answer and reasoning did not require a change."
+    ],
+    "independent_solution": "B: CPI=0.96/1.20=0.80, SPI=0.96/1.20=0.80 and EAC=2.40/0.80=$3.00 million under continued cost efficiency. Cost and schedule variances are each -$0.24 million.",
+    "distractor_adjudication": {
+      "A": "This reverses the CPI ratio and therefore understates the forecast cost.",
+      "B": "Correct. Both performance indices equal 0.80 and BAC divided by CPI gives $3.00 million.",
+      "C": "SPI uses EV divided by PV, not PV divided by EV, and the stated EAC is unsupported.",
+      "D": "Actual cost equals planned value, but cost performance is evaluated against earned value."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 14 - Project Oversight and Management; Measurement; earned value analysis, pp. 212-215",
+      "direct_passages": "213–214",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "III. Project Portfolio Management",
+        "subdomain": "B. Project Portfolio Infrastructure and Management",
+        "topic": "Earned-value performance and forecast"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-87.png",
+        "desktop-review-87.png",
+        "mobile-87.png",
+        "mobile-review-87.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q87: B"
+    }
+  },
+  {
+    "question": 88,
+    "qid": "mbb:set-2:original-088",
+    "independent_answer": "D",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "optionRationales",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Corrected the rationale for distractor C: that choice already gives impact and alternatives, but lacks recommended action and a sponsor decision."
+    ],
+    "independent_solution": "D: report the permit’s milestone effect, accountable owner, recommended action, decision needed and deadline. C already includes impact and alternatives, but omits the recommendation and decision request.",
+    "distractor_adjudication": {
+      "A": "Waiting for a missed milestone converts a forecastable risk into a preventable failure.",
+      "B": "An activity dump shifts synthesis to executives and leaves ownership and decision needs ambiguous.",
+      "C": "The option includes schedule impact and alternatives, but omits an accountable recovery owner, recommended action and the specific sponsor decision needed now.",
+      "D": "Correct. It turns status evidence into accountable recovery and an explicit governance decision."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 14 - Project Oversight and Management; Project status communication; corrective action, pp. 215-218",
+      "direct_passages": "216–217",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "III. Project Portfolio Management",
+        "subdomain": "B. Project Portfolio Infrastructure and Management",
+        "topic": "Decision-oriented project status communication"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-88.png",
+        "desktop-review-88.png",
+        "mobile-88.png",
+        "mobile-review-88.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q88: D"
+    }
+  },
+  {
+    "question": 89,
+    "qid": "mbb:set-2:original-089",
+    "independent_answer": "A",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "bok",
+      "cognitive",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Corrected Chapter 15 to Chapter 16 and separated released capacity from verified cash/budget effects."
+    ],
+    "independent_solution": "A: 60,000 cases times 10 minutes releases 10,000 analyst hours. With unchanged expenses and no verified new output, this is capacity/soft value, not a booked cash saving.",
+    "distractor_adjudication": {
+      "A": "Correct. The improvement is operationally useful, but a hard financial effect has not yet occurred.",
+      "B": "Multiplying unrecoverable time slices by a labor rate can create false savings without cash impact.",
+      "C": "Unused theoretical capacity is not revenue; an accepted and billed workload would need separate evidence.",
+      "D": "Dual classification overstates the same benefit and obscures whether any budget consequence exists."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 16 - Project Financial Tools; Costing concepts; defining hard versus soft dollars, pp. 226-228",
+      "direct_passages": "226–227",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "III. Project Portfolio Management",
+        "subdomain": "C. Project Portfolio Financial Tools",
+        "topic": "Hard savings, soft savings, and cost avoidance"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-89.png",
+        "desktop-review-89.png",
+        "mobile-89.png",
+        "mobile-review-89.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q89: A"
+    }
+  },
+  {
+    "question": 90,
+    "qid": "mbb:set-2:original-090",
+    "independent_answer": "B",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Corrected Chapter 16 to Chapter 17, removed the table’s interpretive limitation column, and distinguished share of errors from an error rate."
+    ],
+    "independent_solution": "B: diagnose actual performance and causes by role/shift before prescribing training. Seventy-four percent of all errors is not a shift error rate without exposure counts; access barriers may need nontraining remedies.",
+    "distractor_adjudication": {
+      "A": "Interviews can generate hypotheses, but opinions alone are not a quantitative diagnosis of training need.",
+      "B": "Correct. It distinguishes trainable gaps from job-aid, access, process, and management causes.",
+      "C": "Universal retraining spends capacity without establishing who lacks which required competency.",
+      "D": "Waiting for a lagging audit result ignores current release errors and available diagnostic evidence."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 17 - Training Needs Analysis; Performance and quantitative analysis; identifying actual training needs, pp. 236-244",
+      "direct_passages": "241–242",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "IV. Training Design and Delivery",
+        "subdomain": "A. Training Needs Analysis",
+        "topic": "Training-needs analysis and nontraining causes"
+      }
+    },
+    "visual": {
+      "present": true,
+      "interactive": false,
+      "checks": "Question and review reopened in the actual rendered player; all visual values, labels, data alternatives and controls checked. Bounded horizontal scrolling preserves readable mobile evidence."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-90.png",
+        "desktop-review-90.png",
+        "mobile-90.png",
+        "mobile-review-90.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q90: B"
+    }
+  },
+  {
+    "question": 91,
+    "qid": "mbb:set-2:original-091",
+    "independent_answer": "C",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Removed the unsupported guarantee that six coaches can qualify 120 learners in six months; require quantified capacity and escalation of infeasibility."
+    ],
+    "independent_solution": "C: build role-appropriate modules, estimate training/project/coaching demand and available capacity, then schedule feasible cohorts or renegotiate resources/time. Six coaches alone cannot establish the six-month throughput.",
+    "distractor_adjudication": {
+      "A": "Approving the cohort before calculating demand defers rather than resolves the coaching and project bottleneck.",
+      "B": "Uncoordinated qualification criteria and shared-resource schedules undermine consistency and cannot establish feasible throughput.",
+      "C": "Correct. It makes feasibility conditional on an explicit demand/capacity model while preserving qualification standards and transfer evaluation.",
+      "D": "Reducing practice changes the qualification standard and cannot support the original promise of 120 competent Green Belts."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 18 - Training Plans; Components of an effective training plan; applying training plans, pp. 248-251",
+      "direct_passages": "248–251",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "IV. Training Design and Delivery",
+        "subdomain": "B. Training Plan Elements",
+        "topic": "Modular multilevel curriculum and delivery capacity"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-91.png",
+        "desktop-review-91.png",
+        "mobile-91.png",
+        "mobile-review-91.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q91: C"
+    }
+  },
+  {
+    "question": 92,
+    "qid": "mbb:set-2:original-092",
+    "independent_answer": "D",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Specified comparable nontraining changes and randomized training timing where feasible, so the comparison does not estimate the whole intervention bundle."
+    ],
+    "independent_solution": "D: keep nontraining changes comparable, vary training timing safely (randomize where feasible), compare contemporaneous pre/post outcomes, and document fidelity, case mix and spillover. Otherwise a bundle effect can be misattributed to training.",
+    "distractor_adjudication": {
+      "A": "Satisfaction is a reaction measure and the uncontrolled outcome also reflects staffing, software, policy and time effects.",
+      "B": "A learning score is useful but cannot by itself demonstrate transfer or isolate an operational causal effect.",
+      "C": "The contrast estimates the effect of the whole bundle, not the additional effect of training.",
+      "D": "Correct. The design isolates training exposure as far as feasible and records the implementation and comparability threats to inference."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 20 - Training Effectiveness Evaluation; Isolating the effects of training, pp. 291",
+      "direct_passages": "291",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "IV. Training Design and Delivery",
+        "subdomain": "D. Training Program Effectiveness",
+        "topic": "Isolation of training effects using operational outcomes"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-92.png",
+        "desktop-review-92.png",
+        "mobile-92.png",
+        "mobile-review-92.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q92: D"
+    }
+  },
+  {
+    "question": 93,
+    "qid": "mbb:set-2:original-093",
+    "independent_answer": "A",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "cognitive",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Distinguished legitimate Belt explanation from an inappropriate transfer of executive decision authority."
+    ],
+    "independent_solution": "A: the Champion retains executive alignment/resource/barrier decisions; the Belt and team supply analysis and recommendations. Explaining project evidence is legitimate but is not delegated executive authority.",
+    "distractor_adjudication": {
+      "A": "Correct. It preserves executive sponsorship while keeping evidence creation with the project team.",
+      "B": "A Belt leads project work but does not possess executive authority for resources and barrier removal.",
+      "C": "Coaching and escalation support do not transfer the Champion’s organizational accountability to the MBB.",
+      "D": "Finance validates financial claims; it does not own the project’s full strategic and resource mandate."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 21 - Mentoring Champions, Change Agents, and Executives; Project reviews; tollgate reviews, pp. 294-298",
+      "direct_passages": "294–295",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "V. Coaching and Mentoring Responsibilities",
+        "subdomain": "A. Executives and Champions",
+        "topic": "Champion accountability at tollgate reviews"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-93.png",
+        "desktop-review-93.png",
+        "mobile-93.png",
+        "mobile-review-93.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q93: A"
+    }
+  },
+  {
+    "question": 94,
+    "qid": "mbb:set-2:original-094",
+    "independent_answer": "B",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Source annotation only",
+    "changed_fields": [
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "findings": [
+      "Corrected/standardized the 2012 handbook chapter and source annotation; the substantive answer and reasoning did not require a change."
+    ],
+    "independent_solution": "B: facilitate renewed goals, roles, norms, decisions and conflict handling after team-stage backsliding, then monitor owned actions. A membership change does not prove the new specialists must be removed.",
+    "distractor_adjudication": {
+      "A": "Backsliding after a membership change is predictable and is not sufficient evidence for immediate removal.",
+      "B": "Correct. It addresses the changed team system and establishes observable follow-through before personnel judgment.",
+      "C": "Nonintervention allows exclusion, repeated decisions, and unowned actions to harden into team norms.",
+      "D": "A private inner group institutionalizes exclusion and prevents the added expertise from contributing."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 22 - Mentoring Black Belts and Green Belts; Team facilitation and meeting management, pp. 310-314",
+      "direct_passages": "311–312",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "V. Coaching and Mentoring Responsibilities",
+        "subdomain": "B. Teams and Individuals",
+        "topic": "Team-stage backsliding and intervention"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-94.png",
+        "desktop-review-94.png",
+        "mobile-94.png",
+        "mobile-review-94.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q94: B"
+    }
+  },
+  {
+    "question": 95,
+    "qid": "mbb:set-2:original-095",
+    "independent_answer": "C",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "keywords",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "findings": [
+      "Replaced a near-duplicate of Q45 with a non-Belt recruitment/progression case; corrected Chapter 22 to Chapter 23 and the current BoK locator."
+    ],
+    "independent_solution": "C: address uncertain eligibility and project expectations through targeted information, mentored exposure and matching ready candidates to sponsored projects, while retaining qualification standards.",
+    "distractor_adjudication": {
+      "A": "Awareness attendance is not demonstrated Belt competence; changing the label does not develop a sustainable qualified pipeline.",
+      "B": "Passive information has not resolved the observed eligibility and project-role uncertainty; this repeats the ineffective approach.",
+      "C": "Correct. Active outreach, realistic project exposure and mentoring address the stated barriers while preserving qualification meaning.",
+      "D": "A uniform advanced curriculum ignores assessed needs and prerequisites and may waste both learner and coaching resources."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 23 - Mentoring Non-belt Employees; Awareness, recruitment and progression to Belt roles, pp. 315-316",
+      "direct_passages": "315–316",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "V. Coaching and Mentoring Responsibilities",
+        "subdomain": "B. Teams and Individuals",
+        "topic": "Non-belt coaching and mentoring; active recruitment and progression"
+      }
+    },
+    "visual": {
+      "present": false,
+      "interactive": false,
+      "checks": "No chart/table required; stem, conditions and all choices inspected on desktop and mobile."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-95.png",
+        "desktop-review-95.png",
+        "mobile-95.png",
+        "mobile-review-95.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q95: C"
+    }
+  },
+  {
+    "question": 96,
+    "qid": "mbb:set-2:original-096",
+    "independent_answer": "D",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Retained the verified bias slope but removed an unconditional recalibration/acceptability claim unsupported by tolerances or confidence intervals."
+    ],
+    "independent_solution": "D: the fitted bias is 2.6 - 0.04x mm. The mean 0.2 mm hides a 3.2 mm range change. These summaries do not establish repeatability, temporal stability or acceptability without appropriate tolerance/uncertainty evidence.",
+    "distractor_adjudication": {
+      "A": "Opposing systematic errors can cancel in the mean while remaining unacceptable at operating-range endpoints.",
+      "B": "Changing bias concerns accuracy and linearity; it does not by itself estimate short-term repeatability.",
+      "C": "A straight bias-reference relation indicates systematic linearity error, while stability requires time-ordered master measurements.",
+      "D": "Correct. The slope diagnoses range-dependent bias while explicitly separating that diagnosis from an unsupported tolerance-based acceptance decision."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 24 - Measurement Systems Analysis (MSA); Variables measurement systems; bias and linearity, pp. 335-337",
+      "direct_passages": "336–337",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "VI. Advanced Data Management and Analytic Methods",
+        "subdomain": "A. Measurement Systems Analysis (MSA), Process Capability, and Control",
+        "topic": "Bias and linearity across the operating range"
+      }
+    },
+    "visual": {
+      "present": true,
+      "interactive": true,
+      "checks": "Question and review reopened in the actual rendered player; all visual values, labels, data alternatives and controls checked. Bounded horizontal scrolling preserves readable mobile evidence."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-96.png",
+        "desktop-review-96.png",
+        "mobile-96.png",
+        "mobile-review-96.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q96: D"
+    }
+  },
+  {
+    "question": 97,
+    "qid": "mbb:set-2:original-097",
+    "independent_answer": "A",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "assumptions",
+      "chart",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Bounded the immediate-fix requirement to the stated handbook/protocol, retained delayed exposure and configuration history, and distinguished cumulative from current MTBF."
+    ],
+    "independent_solution": "A: the stated immediate-change protocol is contradicted by the 800-to-1,200-hour delay. Preserve failures, exposure and configuration history, then assess a justified phased/delayed-fix analysis. Cumulative T/r is not the current configuration’s instantaneous MTBF.",
+    "distractor_adjudication": {
+      "A": "Correct. It identifies the protocol mismatch and preserves the evidence needed for a justified alternative analysis rather than discarding affected observations.",
+      "B": "Both models require more than visual linearity, including prompt incorporation of design changes before resumed testing.",
+      "C": "Deleting an observed failure corrupts the cumulative record and overstates reliability performance.",
+      "D": "Weibull life modeling answers a different question and does not repair the configuration-history violation."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Reliability growth models; Table 25.19 immediate-change assumptions, pp. 427-428",
+      "direct_passages": "428 (Table 25.19)",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "VI. Advanced Data Management and Analytic Methods",
+        "subdomain": "B. Measuring and Modeling Relationships Between Variables",
+        "topic": "Reliability growth and TAAF model assumptions"
+      }
+    },
+    "visual": {
+      "present": true,
+      "interactive": true,
+      "checks": "Question and review reopened in the actual rendered player; all visual values, labels, data alternatives and controls checked. Bounded horizontal scrolling preserves readable mobile evidence."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-97.png",
+        "desktop-review-97.png",
+        "mobile-97.png",
+        "mobile-review-97.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q97: A"
+    }
+  },
+  {
+    "question": 98,
+    "qid": "mbb:set-2:original-098",
+    "independent_answer": "B",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "assumptions",
+      "chart",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Specified a common mass-fraction basis and retained the independently verified lower-bound simplex transform."
+    ],
+    "independent_solution": "B: remaining proportion is 1-(0.30+0.40+0.10)=0.20. Subtract each lower bound and divide by 0.20: (0.50,0.25,0.25), summing to 1; the inverse gives (0.40,0.45,0.15).",
+    "distractor_adjudication": {
+      "A": "Original proportions locate the actual blend, but they do not remove and rescale the lower-bound region.",
+      "B": "Correct. Bound subtraction followed by division by 0.20 maps the feasible region to a unit simplex.",
+      "C": "The excesses sum to 0.20 and therefore are not yet normalized pseudocomponents.",
+      "D": "Dividing the original proportions ignores the required subtraction of each component’s lower bound."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 26 - Design of Experiments; Mixture experiments; lower-bound pseudocomponents, pp. 446-448",
+      "direct_passages": "448",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "VI. Advanced Data Management and Analytic Methods",
+        "subdomain": "C. Design of Experiments",
+        "topic": "Mixture designs with lower bounds and pseudocomponents"
+      }
+    },
+    "visual": {
+      "present": true,
+      "interactive": false,
+      "checks": "Question and review reopened in the actual rendered player; all visual values, labels, data alternatives and controls checked. Bounded horizontal scrolling preserves readable mobile evidence."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-98.png",
+        "desktop-review-98.png",
+        "mobile-98.png",
+        "mobile-review-98.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q98: B"
+    }
+  },
+  {
+    "question": 99,
+    "qid": "mbb:set-2:original-099",
+    "independent_answer": "C",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "assumptions",
+      "chart",
+      "cognitive",
+      "formula",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Rebuilt unsupported design diagnostics from explicitly authored candidate matrices; supplied model, equal run budget, feasibility and pure-error constraints; limited the selection to the listed alternatives."
+    ],
+    "independent_solution": "C: among the four supplied candidates, Q and R meet rank 6 and both error-df requirements. R has the larger information determinant. P lacks lack-of-fit df, and S cannot estimate the six-coefficient model. This is not a claim of global D-optimality.",
+    "distractor_adjudication": {
+      "A": "P has the largest determinant but violates the explicitly required lack-of-fit degree of freedom; full rank alone is insufficient.",
+      "B": "Q is eligible, but the selection criterion is the information determinant after meeting the error-degree requirements, not maximizing lack-of-fit df.",
+      "C": "Correct. R estimates all six coefficients with one lack-of-fit and three pure-error degrees of freedom and has the larger eligible determinant.",
+      "D": "S has rank 5, so dropping a coefficient changes the specified model rather than satisfying its estimability requirement."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 26 - Design of Experiments; D-optimal designs, pp. 449-450",
+      "direct_passages": "449–450",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "VI. Advanced Data Management and Analytic Methods",
+        "subdomain": "C. Design of Experiments",
+        "topic": "D-optimal design under run and feasibility constraints"
+      }
+    },
+    "visual": {
+      "present": true,
+      "interactive": false,
+      "checks": "Question and review reopened in the actual rendered player; all visual values, labels, data alternatives and controls checked. Bounded horizontal scrolling preserves readable mobile evidence."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-99.png",
+        "desktop-review-99.png",
+        "mobile-99.png",
+        "mobile-review-99.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q99: C"
+    }
+  },
+  {
+    "question": 100,
+    "qid": "mbb:set-2:original-100",
+    "independent_answer": "D",
+    "answer_index_changed": false,
+    "record_status": "Corrected",
+    "change_class": "Content, technical context, explanation, classification or visual correction",
+    "changed_fields": [
+      "assumptions",
+      "chart",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "findings": [
+      "Supplied millimeter units, removed a factually incorrect distractor premise, and distinguished descriptive noise spread from replicated error estimation."
+    ],
+    "independent_solution": "D: I3 has mean 54.0 mm and sample s=0.8164966 mm, the smallest noise-response spread and target mean-squared error (0.5 mm²). Carry it forward as-is for confirmation, not as a proven production capability result.",
+    "distractor_adjudication": {
+      "A": "I1 is farther from target and more variable than I3; an untested later adjustment cannot displace the better tested setting in an as-is comparison.",
+      "B": "Straddling the target can still produce large variability, as the I2 results demonstrate.",
+      "C": "A high mean is undesirable for a nominal-is-best target and does not establish noise insensitivity.",
+      "D": "Correct. I3 is on target and has the smallest descriptive noise-condition spread; confirmation is still required before deployment."
+    },
+    "source_verification": {
+      "book": "T. M. Kubiak, The Certified Six Sigma Master Black Belt Handbook (2012)",
+      "retained_locator": "Chapter 26 - Design of Experiments; Taguchi designs; inner and outer arrays, pp. 443-446",
+      "direct_passages": "445–446",
+      "scope": "Directly inspected retrieved passages support the topic/decision stated here. The wider retained chapter/page range is a topic locator, not a claim that every page was reread. Scenario-specific values and added assumptions are original or audit-authored, not quotations from the handbook.",
+      "current_ASQ_BoK": {
+        "domain": "VI. Advanced Data Management and Analytic Methods",
+        "subdomain": "C. Design of Experiments",
+        "topic": "Taguchi inner and outer arrays for robust parameter design"
+      }
+    },
+    "visual": {
+      "present": true,
+      "interactive": false,
+      "checks": "Question and review reopened in the actual rendered player; all visual values, labels, data alternatives and controls checked. Bounded horizontal scrolling preserves readable mobile evidence."
+    },
+    "test_evidence": {
+      "exam_and_review": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "screens": [
+        "desktop-100.png",
+        "desktop-review-100.png",
+        "mobile-100.png",
+        "mobile-review-100.png"
+      ],
+      "independent_key_regression": "Batch 4 independently adjudicated Q100: D"
+    }
+  }
+]

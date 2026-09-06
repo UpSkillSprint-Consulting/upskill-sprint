@@ -1,0 +1,46 @@
+{
+  "exact_duplicate_stems": 0,
+  "top_similarity_pairs": [
+    {
+      "a": "mbb:set-2:original-019",
+      "b": "mbb:set-2:original-020",
+      "jaccard": 0.2037037037037037
+    },
+    {
+      "a": "mbb:set-2:original-005",
+      "b": "mbb:set-2:original-018",
+      "jaccard": 0.18072289156626506
+    },
+    {
+      "a": "mbb:set-2:original-002",
+      "b": "mbb:set-2:original-007",
+      "jaccard": 0.1566265060240964
+    },
+    {
+      "a": "mbb:set-2:original-013",
+      "b": "mbb:set-2:original-018",
+      "jaccard": 0.15625
+    },
+    {
+      "a": "mbb:set-2:original-001",
+      "b": "mbb:set-2:original-018",
+      "jaccard": 0.15254237288135594
+    },
+    {
+      "a": "mbb:set-2:original-007",
+      "b": "mbb:set-2:original-017",
+      "jaccard": 0.15151515151515152
+    },
+    {
+      "a": "mbb:set-2:original-002",
+      "b": "mbb:set-2:original-018",
+      "jaccard": 0.14864864864864866
+    },
+    {
+      "a": "mbb:set-2:original-009",
+      "b": "mbb:set-2:original-021",
+      "jaccard": 0.14285714285714285
+    }
+  ],
+  "manual_judgment": "No confirmed duplicate/near-duplicate assessment item in Q1\u201325. Q6/Q9 share a call-center incentive theme but test systems-feedback diagnosis versus reinforcement alignment. Q5/Q13 distinguish NPV/readiness selection from peak capacity planning. Whole-bank cross-batch semantic duplication awaits later batches."
+}

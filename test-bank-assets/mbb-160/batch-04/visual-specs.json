@@ -6,17 +6,17 @@
     "mbb:set-2:original-076": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch04-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-076",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal overflow, unscaled SVGs and semantic tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A four-row strategy table shows one annual corporate warranty-cost outcome and three disconnected functional measures. Service lacks training capacity, engineering has not scheduled the shared test lab, and the digital platform has an unresolved service-data interface.",
+        "altText": "Deployment record: corporate warranty cost is annual; service calls per agent-hour are weekly; engineering changes are quarterly; the portal has a launch milestone. The table states resources and dependencies for each layer.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -35,22 +35,22 @@
     "mbb:set-2:original-084": {
       "type": "multi-time-series",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch04-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-084",
       "transformations": [],
       "referenceLines": [
-        "Independent-performance threshold at 8"
+        "Competence threshold: 8 at 8"
       ],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal overflow, unscaled SVGs and semantic tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A two-series time plot covers Weeks 1 through 8 on a 1-to-10 behaviorally anchored scale. Demonstrated competence rises from 2.0 to 9.0 and crosses the independent-performance threshold of 8. Observed commitment falls from 8.5 to 3.5, with the steepest decline after Week 5.",
+        "altText": "Weekly competence scores: 2, 3, 4.5, 5.5, 6.5, 7.5, 8.5, 9. Weekly commitment scores: 8.5, 8, 7.8, 7.5, 7, 6, 4.5, 3.5. The competence threshold is 8.",
         "semanticTable": false
       },
-      "interactionPurpose": "Focus or hover over each plotted observation to compare the team’s competence and commitment trajectories before selecting a leadership response.",
+      "interactionPurpose": "Inspect source observations with keyboard, touch or native selection; the same values are available in a table. No interaction changes the scored case.",
       "staticFallback": "test-bank-assets/mbb-160/batch-04/static-fallbacks.html#mbb-set-2-original-084",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
@@ -109,17 +109,17 @@
     "mbb:set-2:original-086": {
       "type": "activity-network",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch04-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-086",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal overflow, unscaled SVGs and semantic tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "An activity network shows Project P feeding both Projects Q and R. Q and R must both finish before Project S begins, and S feeds the customer-migration milestone M. Durations are P 20 days, Q 30, R 15, S 25, and milestone M zero days.",
+        "altText": "P takes 20 working days and precedes Q (30) and R (15). Both Q and R precede S (25), which precedes the zero-duration migration milestone M.",
         "semanticTable": false
       },
       "interactionPurpose": "",
@@ -189,17 +189,17 @@
     "mbb:set-2:original-090": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch04-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-090",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal overflow, unscaled SVGs and semantic tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A four-row training-needs evidence table shows supervisor requests, concentration of errors on the night shift, a recently changed job aid without a comprehension check, and system-access failures on 18 percent of night-shift releases. Each row also identifies a limitation of the evidence.",
+        "altText": "Supervisor requests, error records, a job-aid revision and system-access logs are displayed with their observations and available denominators.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -207,8 +207,7 @@
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
         "Evidence source",
-        "Observation",
-        "Current limitation"
+        "Recorded observation"
       ],
       "rows": 4,
       "calculations": [],
@@ -217,22 +216,22 @@
     "mbb:set-2:original-096": {
       "type": "regression-diagnostic",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch04-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-096",
       "transformations": [],
       "referenceLines": [
-        "Residual = 0"
+        "Bias = 0"
       ],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal overflow, unscaled SVGs and semantic tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A bias-versus-reference plot shows five points on a descending straight line: 1.8 millimeters bias at reference 20, 1.0 at 40, 0.2 at 60, negative 0.6 at 80, and negative 1.4 at 100. A horizontal zero-bias line crosses between the third and fourth points.",
+        "altText": "Reference values 20, 40, 60, 80 and 100 mm have estimated biases 1.8, 1.0, 0.2, −0.6 and −1.4 mm, respectively. The horizontal reference line marks zero bias.",
         "semanticTable": false
       },
-      "interactionPurpose": "Focus or hover over each plotted reference to inspect its exact bias and determine whether the overall mean represents performance across the range.",
+      "interactionPurpose": "Inspect source observations with keyboard, touch or native selection; the same values are available in a table. No interaction changes the scored case.",
       "staticFallback": "test-bank-assets/mbb-160/batch-04/static-fallbacks.html#mbb-set-2-original-096",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
@@ -261,20 +260,20 @@
     "mbb:set-2:original-097": {
       "type": "reliability-growth",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch04-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-097",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal overflow, unscaled SVGs and semantic tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A log-log reliability-growth plot shows cumulative MTBF increasing from 20 hours at 200 cumulative test hours to 50 hours at 1,600 hours. A shaded interval from 800 through 1,200 test hours identifies continued testing before the design fix associated with the 800-hour failure was installed.",
+        "altText": "At 200, 400, 800, 1,200 and 1,600 test hours, cumulative failures are 10, 16, 24, 30 and 32. Cumulative MTBF is the corresponding time divided by failures. The failure and correction times are 800 and 1,200 hours.",
         "semanticTable": false
       },
-      "interactionPurpose": "Focus or hover over each reliability-growth point to inspect cumulative time, failures, and MTBF, and compare the fitted trend with the marked configuration-change interval.",
+      "interactionPurpose": "Inspect source observations with keyboard, touch or native selection; the same values are available in a table. No interaction changes the scored case.",
       "staticFallback": "test-bank-assets/mbb-160/batch-04/static-fallbacks.html#mbb-set-2-original-097",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
@@ -295,7 +294,6 @@
         "yTicks": [
           20,
           25,
-          33.3,
           40,
           50
         ]
@@ -304,7 +302,7 @@
       "configurationEvent": {
         "time": 800,
         "resumeTime": 1200,
-        "label": "Fix delayed while testing continued"
+        "label": "Failure: 800 h; correction: 1,200 h"
       },
       "calculations": [
         "Cumulative MTBF = total cumulative unit test time / cumulative failures. Displayed values: 200/10 = 20.0; 400/16 = 25.0; 800/24 = 33.3; 1200/30 = 40.0; 1600/32 = 50.0 hours."
@@ -313,17 +311,17 @@
     "mbb:set-2:original-098": {
       "type": "mixture-simplex",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch04-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-098",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal overflow, unscaled SVGs and semantic tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A triangular three-component mixture plot shows the full simplex and a smaller feasible triangle created by lower bounds A at least 0.30, B at least 0.40, and C at least 0.10. The candidate blend A 0.40, B 0.45, C 0.15 appears inside the feasible region.",
+        "altText": "The mixture triangle has pure A, B and C vertices. The lower bounds are 0.30, 0.40 and 0.10; the candidate point has mass fractions 0.40, 0.45 and 0.15.",
         "semanticTable": false
       },
       "interactionPurpose": "",
@@ -354,49 +352,51 @@
     "mbb:set-2:original-099": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch04-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-099",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal overflow, unscaled SVGs and semantic tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A four-row candidate-design table lists runs, model-matrix rank, lack-of-fit degrees of freedom, and determinant of X-prime-X. P has rank 6, zero lack-of-fit degrees, and determinant 7,200; Q has rank 6, two degrees, and 4,800; R has rank 6, one degree, and 6,900; S has rank 5, two degrees, and determinant zero.",
+        "altText": "Four ten-run designs have ranks 6, 6, 6 and 5. Lack-of-fit degrees of freedom are 0, 2, 1 and 2; determinants are 546.75, 9.546875, 254.619140625 and 0. Pure-error degrees of freedom are 4, 2, 3 and 3.",
         "semanticTable": true
       },
       "interactionPurpose": "",
       "staticFallback": "test-bank-assets/mbb-160/batch-04/static-fallbacks.html#mbb-set-2-original-099",
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
-        "Candidate design",
-        "Runs",
-        "Rank of X",
+        "Design",
+        "Runs n",
+        "Rank X",
         "Lack-of-fit df",
-        "det(X-prime-X)"
+        "det(XᵀX)",
+        "Distinct settings m",
+        "Pure-error df"
       ],
       "rows": 4,
       "calculations": [
-        "Eligible set = designs with rank 6 and lack-of-fit df >= 1 = {Q,R}; max det(X-prime-X) = max(4,800, 6,900) = 6,900 for R."
+        "X = [1, A, B, A², AB, B²]; choose max det(XᵀX) subject to rank(X)=6, m−rank(X)≥1, n−m≥1"
       ],
       "interaction": null
     },
     "mbb:set-2:original-100": {
       "type": "data-table",
       "renderer": "test-bank.html::__TB.renderQuestionChart",
-      "rendererVersion": "mbb-160-v1",
+      "rendererVersion": "mbb-batch04-audit-v1",
       "sourceQuestionId": "mbb:set-2:original-100",
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal overflow, unscaled SVGs and semantic tables",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700
       },
       "accessibility": {
-        "altText": "A robust-design table compares four controllable inner settings across four combinations of hardness and temperature noise. I1 has mean 50.5 and sample standard deviation 1.29; I2 has 52.0 and 4.76; I3 has 54.0 and 0.82; I4 has 57.0 and 5.29. The nominal target is 54.0.",
+        "altText": "Each inner setting has four measured diameters in millimeters. I1: 50, 52, 49, 51. I2: 49, 57, 47, 55. I3: 54, 55, 53, 54. I4: 56, 62, 50, 60. Target diameter: 54.0 mm.",
         "semanticTable": true
       },
       "interactionPurpose": "",

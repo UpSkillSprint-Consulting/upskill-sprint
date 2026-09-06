@@ -11,10 +11,14 @@
   }
 
   function literalKeyPoint(explanation) {
+    if (window.__TB && window.__TB.firstFeedbackSentence) return window.__TB.firstFeedbackSentence(explanation);
     const text = stripHtml(explanation);
     if (!text) return 'A stored learning point is not available for this question yet.';
-    const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
-    return sentences[0].trim();
+    return (text.match(/[\s\S]+?(?:[.!?](?=\s|$)|$)/) || [text])[0].trim();
+  }
+  function questionKeyPoint(question) {
+    if (window.__TB && window.__TB.feedbackKeyPoint) return window.__TB.feedbackKeyPoint(question);
+    return stripHtml(question && question.keyPoint) || literalKeyPoint(question && question.why);
   }
 
   function installApiGuard() {
@@ -64,7 +68,7 @@
       const point = card.querySelector('.tb-key-point');
       if (!stem || !point) return;
       const question = lookupQuestion(questions, card.dataset.questionId, stem.textContent.trim());
-      if (question) setTextIfChanged(point, literalKeyPoint(question.why));
+      if (question) setTextIfChanged(point, questionKeyPoint(question));
     });
   }
 
@@ -78,7 +82,7 @@
 
     panel.querySelectorAll('.tb-deep-label').forEach(function (label) {
       if (label.textContent.trim() !== 'Key learning point') return;
-      setTextIfChanged(label.nextElementSibling, literalKeyPoint(question.why));
+      setTextIfChanged(label.nextElementSibling, questionKeyPoint(question));
     });
   }
 

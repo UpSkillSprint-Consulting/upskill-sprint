@@ -1,0 +1,82 @@
+{
+  "method": "Token-set Jaccard within Batch6 and earlier audited Set2 items. Editorial screen, not psychometric independence.",
+  "highest_lexical_pairs": [
+    {
+      "question": "mbb:set-2:original-136",
+      "other": "mbb:set-2:original-111",
+      "jaccard": 0.21739130434782608
+    },
+    {
+      "question": "mbb:set-2:original-137",
+      "other": "mbb:set-2:original-013",
+      "jaccard": 0.17647058823529413
+    },
+    {
+      "question": "mbb:set-2:original-130",
+      "other": "mbb:set-2:original-061",
+      "jaccard": 0.15789473684210525
+    },
+    {
+      "question": "mbb:set-2:original-147",
+      "other": "mbb:set-2:original-071",
+      "jaccard": 0.14634146341463414
+    },
+    {
+      "question": "mbb:set-2:original-144",
+      "other": "mbb:set-2:original-017",
+      "jaccard": 0.14285714285714285
+    },
+    {
+      "question": "mbb:set-2:original-130",
+      "other": "mbb:set-2:original-105",
+      "jaccard": 0.13953488372093023
+    },
+    {
+      "question": "mbb:set-2:original-138",
+      "other": "mbb:set-2:original-114",
+      "jaccard": 0.13725490196078433
+    },
+    {
+      "question": "mbb:set-2:original-131",
+      "other": "mbb:set-2:original-003",
+      "jaccard": 0.12903225806451613
+    },
+    {
+      "question": "mbb:set-2:original-126",
+      "other": "mbb:set-2:original-065",
+      "jaccard": 0.125
+    },
+    {
+      "question": "mbb:set-2:original-141",
+      "other": "mbb:set-2:original-035",
+      "jaccard": 0.12
+    }
+  ],
+  "exact_duplicate_stems": 0,
+  "conceptual_replacements": [
+    {
+      "question": 131,
+      "prior_overlap": "Q81 federated deployment selection",
+      "new_competency": "Controlled exception under a stated identifiable-data constraint within an existing structure."
+    },
+    {
+      "question": 142,
+      "prior_overlap": "Generic reaction/transfer training-evaluation repeats",
+      "new_competency": "Validity and inter-rater consistency of the evaluation system."
+    }
+  ],
+  "answer_length_rank_counts_before": [
+    1,
+    0,
+    2,
+    22
+  ],
+  "answer_length_rank_counts_after": [
+    10,
+    1,
+    3,
+    11
+  ],
+  "length_ranking_order": "number of distractors strictly shorter: 0..3",
+  "notes": "Original key was strictly longest in22/25; now11/25. Choices were not padded to force equal length. Cognitive labels are editorial; no learner data for difficulty/discrimination/DIF/reliability."
+}
