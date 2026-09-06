@@ -40,11 +40,14 @@ html[data-theme="dark"] [data-dmaic-encyclopedia] {
 [data-dmaic-encyclopedia] .card-title-wrap { min-width: 0; overflow-wrap: anywhere; }
 [data-dmaic-encyclopedia] .formula-id,
 [data-dmaic-encyclopedia] .phase-icon { color: #fff; text-shadow: 0 1px 2px #0008; }
-/* Orange/cyan IDs need a darker fill to meet normal-text contrast. */
-[data-dmaic-encyclopedia] .formula-card[data-formula-id^="I"] .formula-id { background: #b83b05 !important; }
-[data-dmaic-encyclopedia] .formula-card[data-formula-id^="M"] .formula-id { background: #086a83 !important; }
-[data-dmaic-encyclopedia] #phase-improve .phase-icon { background: #b83b05 !important; }
-[data-dmaic-encyclopedia] #phase-measure .phase-icon { background: #086a83 !important; }
+/* Keep these high-specificity badge fills on screen only. In print, their
+   !important declarations must not beat the neutral black-on-white palette. */
+@media screen {
+  [data-dmaic-encyclopedia] .formula-card[data-formula-id^="I"] .formula-id { background: #b83b05 !important; }
+  [data-dmaic-encyclopedia] .formula-card[data-formula-id^="M"] .formula-id { background: #086a83 !important; }
+  [data-dmaic-encyclopedia] #phase-improve .phase-icon { background: #b83b05 !important; }
+  [data-dmaic-encyclopedia] #phase-measure .phase-icon { background: #086a83 !important; }
+}
 [data-dmaic-encyclopedia] .formula-box { min-width: 0; max-width: 100%; overflow-x: auto; overflow-y: hidden; background: var(--math-panel); color: var(--text); padding: 18px 16px; scrollbar-width: auto; }
 [data-dmaic-encyclopedia] .formula-box mjx-container { display: block !important; width: max-content; min-width: 100%; color: inherit; text-align: center; }
 [data-dmaic-encyclopedia] .formula-box mjx-container > svg { max-width: none !important; overflow: visible; }
@@ -71,6 +74,7 @@ html[data-theme="dark"] [data-dmaic-encyclopedia] {
   .dmaic-encyclopedia-page, .dmaic-encyclopedia-page * { scroll-behavior: auto !important; transition: none !important; }
 }
 @media print {
+  html[data-theme] body.dmaic-encyclopedia-page { color-scheme: light; background: #fff !important; color: #000 !important; }
   html[data-theme] [data-dmaic-encyclopedia] { --panel: #fff; --panel-2: #fff; --text: #000; --muted: #000; --primary: #000; --math-panel: #fff; --trap-panel: #fff; }
   .dmaic-encyclopedia-page header.site,
   .dmaic-encyclopedia-page footer.site,
