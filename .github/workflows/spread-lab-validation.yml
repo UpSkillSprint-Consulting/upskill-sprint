@@ -1,0 +1,77 @@
+name: Spread Lab lesson validation
+
+on:
+  push:
+    branches: ['feat/variance-covariance-correlation-cv-lesson']
+    paths:
+      - 'lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation.html'
+      - 'scripts/validate-spread-lab.cjs'
+      - 'tests/spread-lab-lesson.test.js'
+      - '.github/workflows/spread-lab-validation.yml'
+  pull_request:
+    paths:
+      - 'lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation.html'
+      - 'scripts/validate-spread-lab.cjs'
+      - 'tests/spread-lab-lesson.test.js'
+      - 'style.css'
+      - 'lessons-theme.css'
+      - 'theme.js'
+      - '.github/workflows/spread-lab-validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: spread-lab-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Capture exact repository inputs for independent review
+        run: |
+          mkdir -p /tmp/spread-lab-inputs
+          git archive HEAD | tar -x -C /tmp/spread-lab-inputs
+          git rev-parse HEAD > /tmp/spread-lab-inputs/REVIEW_COMMIT.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spread-lab-review-inputs
+          path: /tmp/spread-lab-inputs
+          retention-days: 7
+      - run: npm ci
+      - name: Run full unit suite without exclusions
+        run: node --test --test-concurrency=1 tests/*.test.js
+      - name: Run production build command
+        run: node --test tests/test-bank*.test.js && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs
+      - name: Install pinned browser validation dependencies
+        run: npm install --no-save --package-lock=false playwright@1.58.2 @axe-core/playwright@4.11.1 katex@0.16.9
+      - run: npx playwright install --with-deps chromium
+      - name: Capture local math renderer for independent offline browser review
+        run: |
+          mkdir -p /tmp/spread-lab-browser-inputs
+          cp -R node_modules/katex/dist /tmp/spread-lab-browser-inputs/katex
+          cp node_modules/axe-core/axe.min.js /tmp/spread-lab-browser-inputs/axe.min.js
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spread-lab-browser-inputs
+          path: /tmp/spread-lab-browser-inputs
+          retention-days: 7
+      - name: Run lesson browser validation when present
+        run: |
+          if test -f scripts/validate-spread-lab.cjs; then
+            node scripts/validate-spread-lab.cjs
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: spread-lab-browser-validation
+          path: artifacts/spread-lab
+          if-no-files-found: ignore
+          retention-days: 14
