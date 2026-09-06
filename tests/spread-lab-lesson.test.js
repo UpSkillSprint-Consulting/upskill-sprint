@@ -12,10 +12,11 @@ const doc = new JSDOM(html).window.document;
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 const meta = JSON.parse(html.match(/<!-- UPSKILLSPRINT_LESSON_META\s*([\s\S]*?)-->/)[1]);
 
-// These fingerprints were captured from the original PR 168 lesson, before styling edits.
+// Browser DOM textContent fingerprints of the original PR 168 lesson, including formatting whitespace.
+// Source blob: 8f6f24e03c4be2fa2ba29aebae9b314f6b0d7287. Both original and fixed DOMs match.
 test('Spread Lab preserves every character of teaching text and all 30 headings', () => {
-  assert.equal(hash(doc.querySelector('#lesson-content').textContent), '665f157baf9a8ce836a54dd3e9a64613865acb8bdde451bbaeb76e332bee5ab2');
-  assert.equal(hash(doc.querySelector('#quiz').textContent), '1c122acd66562f5c6d9652daa57f2916b67ba228ba7f313e6a85948da75482a6');
+  assert.equal(hash(doc.querySelector('#lesson-content').textContent), '229270599ac66652fd9d6957ea9d9413bd17925a0b8eae5135f7965f4955f662');
+  assert.equal(hash(doc.querySelector('#quiz').textContent), 'b255dce5bf101aca285c65077115b3aeb8452b916f13af0ae594d8236eade21c');
   assert.equal(doc.querySelectorAll('#lesson-content :is(h1,h2,h3,h4), #quiz :is(h1,h2,h3,h4)').length, 30);
 });
 
