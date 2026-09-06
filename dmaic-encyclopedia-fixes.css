@@ -33,6 +33,59 @@ html[data-theme="dark"] [data-dmaic-encyclopedia] {
 [data-dmaic-encyclopedia] .btn[aria-pressed="true"] { border: 2px solid var(--primary); }
 [data-dmaic-encyclopedia] .toolbar input::placeholder { color: var(--muted) !important; opacity: 1; }
 [data-dmaic-encyclopedia] .upskill-format-request { display: inline-flex; align-items: center; padding: 10px 14px; min-height: 44px; border: 1px solid var(--primary); border-radius: 9px; color: var(--primary); background: var(--panel); font-weight: 700; }
+
+/* The global site stylesheet also owns generic .btn/form-control rules.  Force the
+   encyclopedia toolbar to remain self-contained when the shared site theme is
+   dark, including Safari's independent form text fill. */
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar input,
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar select {
+  background: var(--panel) !important;
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
+  border-color: var(--border) !important;
+  color-scheme: dark;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar input::placeholder {
+  color: var(--muted) !important;
+  -webkit-text-fill-color: var(--muted) !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar select option {
+  background: var(--panel) !important;
+  color: var(--text) !important;
+}
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar .btn:not(.primary),
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar .upskill-format-request {
+  background: var(--panel-2) !important;
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
+  border-color: var(--border) !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar .btn:not(.primary):hover,
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar .btn:not(.primary):focus-visible,
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar .btn[aria-pressed="true"],
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar .upskill-format-request:hover,
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar .upskill-format-request:focus-visible {
+  background: var(--panel) !important;
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
+  border-color: var(--primary) !important;
+}
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar .btn.primary {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar button:disabled,
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar input:disabled,
+html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar select:disabled {
+  color: var(--muted) !important;
+  -webkit-text-fill-color: var(--muted) !important;
+  opacity: .72 !important;
+}
+
 [data-dmaic-encyclopedia] .phase-section { scroll-margin-top: calc(var(--sitebar-height) + 210px); }
 [data-dmaic-encyclopedia] .phase-heading > div:last-child { min-width: 0; }
 [data-dmaic-encyclopedia] .cards { align-items: start; }
