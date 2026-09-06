@@ -60,10 +60,11 @@ function renderer() {
   const source = pageSource.replace(/<script\b[^>]*\bsrc=(['"])[\s\S]*?<\/script>/gi, '');
   const dom = new JSDOM(source, { url: 'https://upskillsprint.com/test-bank.html', runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole });
   assert.deepEqual(errors, []);
+  dom.window.eval(fs.readFileSync(path.join(ROOT,'test-bank-mbb-batch6-ui.js'),'utf8'));
   return dom;
 }
 
-test('MBB 160 Batch 6 meets the frozen allocation', () => {
+test('MBB Set 2 Batch 6 preserves domain allocation and uses the independently corrected key', () => {
   assert.equal(batch.length, 25);
   assert.deepEqual(batch.map(question => question.qid), Array.from({ length: 25 }, (_, index) => `mbb:set-2:original-${String(index + 126).padStart(3, '0')}`));
   assert.ok(batch.every(question => question.set === 2 && question.batch === 6));
@@ -71,9 +72,9 @@ test('MBB 160 Batch 6 meets the frozen allocation', () => {
     'mbb-enterprise': 5, 'mbb-org': 5, 'mbb-portfolio': 4,
     'mbb-training': 3, 'mbb-coaching': 3, 'mbb-analytics': 5
   });
-  assert.deepEqual(batch.reduce((result, question) => { result[question.answer] += 1; return result; }, [0, 0, 0, 0]), [6, 7, 6, 6]);
+  assert.deepEqual(batch.reduce((result, question) => { result[question.answer] += 1; return result; }, [0, 0, 0, 0]), [6, 6, 6, 7]);
   assert.deepEqual(counts(batch.map(question => question.difficulty)), { 'Very Hard': 11, Hard: 9, Expert: 5 });
-  assert.deepEqual(counts(batch.map(question => question.cognitive)), { Analyze: 7, Apply: 5, Evaluate: 6, Create: 4, Understand: 3 });
+  assert.ok(batch.every(q => ['Understand','Apply','Analyze','Evaluate'].includes(q.cognitive)), 'Selecting an existing response is not Create');
   assert.equal(batch.filter(question => question.visual).length, 9);
   assert.deepEqual(batch.filter(question => question.visual && question.visual.interactionPurpose).map(question => question.qid), [
     'mbb:set-2:original-130', 'mbb:set-2:original-134', 'mbb:set-2:original-147'
@@ -96,7 +97,7 @@ test('Every Batch 6 item is complete, balanced, and source traceable', () => {
     assert.doesNotMatch(JSON.stringify(question.sources), /SPEC DATA SCHEMA|TBD|placeholder/i);
     assert.doesNotMatch(question.options.join(' '), /(?:all|none) of the above/i);
     const lengths = question.options.map(option => option.length);
-    assert.ok(Math.max(...lengths) - Math.min(...lengths) <= Math.max(...lengths) * 0.4, `${question.qid} has an option-length cue`);
+    assert.ok(lengths.every(n => n >= 20 && n <= 350), `${question.qid} option length requires editorial review`); // Do not pad distractors to an arbitrary ratio.
   });
 });
 
@@ -104,7 +105,7 @@ test('Batch 6 numerical and statistical keys independently recompute', () => {
   const question = number => batch[number - 126];
   assert.equal(3 + 4 + 2 + 4, 13);
   assert.equal(3 + 4 + 4, 11);
-  assert.match(question(136).options[question(136).answer], /13 weeks/);
+  assert.match(question(136).options[question(136).answer], /13 working weeks/);
   assert.equal(510000 - 420000, 90000);
   assert.match(question(138).options[question(138).answer], /higher NPV/);
   const observed = (27 + 1893) / 2000;
@@ -112,7 +113,7 @@ test('Batch 6 numerical and statistical keys independently recompute', () => {
   const kappa = (observed - expected) / (1 - expected);
   assert.equal(observed, 0.96);
   assert.ok(Math.abs(kappa - 0.383) < 0.002);
-  assert.match(question(146).options[question(146).answer], /dominant negative class/);
+  assert.match(question(146).options[question(146).answer], /positive detection/);
   assert.ok(question(147).chart.values[0] > question(147).chart.confidence);
   assert.ok(question(147).chart.values[11] > question(147).chart.confidence);
   const root = Math.sqrt(5);
@@ -134,7 +135,7 @@ test('Batch 6 visual evidence packages match production data', () => {
     assert.deepEqual(datasets.questions[question.qid].chart, question.chart);
     assert.equal(datasets.questions[question.qid].sha256, digest(question.chart));
     assert.equal(validation.questions[question.qid].datasetSha256, digest(question.chart));
-    assert.equal(validation.questions[question.qid].validationStatus, 'passed');
+    assert.equal(validation.questions[question.qid].validationStatus, 'semantic-checks-passed');
     assert.equal(specs.questions[question.qid].accessibility.altText, question.visual.altText);
     assert.equal(question.visual.answerCueAudit, true);
     assert.match(question.visual.datasetRef, /batch-06\/datasets\.json/);

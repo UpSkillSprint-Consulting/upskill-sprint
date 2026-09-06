@@ -241,11 +241,11 @@
 
   // Retain all required evidence in reviewed and retried Batch 2 questions.
   function auditedEvidence(question) {
-    const ui = window.__MBBBatch5UI && window.__MBBBatch5UI.isQuestion(question) ? window.__MBBBatch5UI : window.__MBBBatch3UI && window.__MBBBatch3UI.isQuestion(question) ? window.__MBBBatch3UI : window.__MBBBatch4UI && window.__MBBBatch4UI.isQuestion(question) ? window.__MBBBatch4UI : window.__MBBBatch2UI;
+    const ui = window.__MBBBatch6UI && window.__MBBBatch6UI.isQuestion(question) ? window.__MBBBatch6UI : window.__MBBBatch5UI && window.__MBBBatch5UI.isQuestion(question) ? window.__MBBBatch5UI : window.__MBBBatch3UI && window.__MBBBatch3UI.isQuestion(question) ? window.__MBBBatch3UI : window.__MBBBatch4UI && window.__MBBBatch4UI.isQuestion(question) ? window.__MBBBatch4UI : window.__MBBBatch2UI;
     return ui && ui.isQuestion(question) ? ui.conditions(question) + (question.chart ? ui.render(question.chart) : '') : '';
   }
   function auditedRationales(question) {
-    return window.__MBBBatch5UI && window.__MBBBatch5UI.isQuestion(question) ? window.__MBBBatch5UI.rationales(question) : window.__MBBBatch3UI && window.__MBBBatch3UI.isQuestion(question) ? window.__MBBBatch3UI.rationales(question) : window.__MBBBatch4UI && window.__MBBBatch4UI.isQuestion(question) ? window.__MBBBatch4UI.rationales(question) : window.__MBBBatch2UI ? window.__MBBBatch2UI.rationales(question) : '';
+    return window.__MBBBatch6UI && window.__MBBBatch6UI.isQuestion(question) ? window.__MBBBatch6UI.rationales(question) : window.__MBBBatch5UI && window.__MBBBatch5UI.isQuestion(question) ? window.__MBBBatch5UI.rationales(question) : window.__MBBBatch3UI && window.__MBBBatch3UI.isQuestion(question) ? window.__MBBBatch3UI.rationales(question) : window.__MBBBatch4UI && window.__MBBBatch4UI.isQuestion(question) ? window.__MBBBatch4UI.rationales(question) : window.__MBBBatch2UI ? window.__MBBBatch2UI.rationales(question) : '';
   }
 
   function reviewCardHtml(record) {

@@ -1,0 +1,217 @@
+{
+  "basis": "Independent audit calculations from displayed case inputs; not historical textbook raw data.",
+  "keyCorrection": {
+    "question": 150,
+    "oldAnswer": "B",
+    "verifiedAnswer": "D",
+    "historicalResponsesRewritten": false
+  },
+  "Q130": {
+    "readyPortfolios": [
+      {
+        "projects": [
+          "M"
+        ],
+        "BeltMonths": 4,
+        "NPV_millions": 0.7,
+        "feasible": true
+      },
+      {
+        "projects": [
+          "M",
+          "A"
+        ],
+        "BeltMonths": 9,
+        "NPV_millions": 1.6,
+        "feasible": true
+      },
+      {
+        "projects": [
+          "M",
+          "B"
+        ],
+        "BeltMonths": 9,
+        "NPV_millions": 1.9,
+        "feasible": true
+      },
+      {
+        "projects": [
+          "M",
+          "A",
+          "B"
+        ],
+        "BeltMonths": 14,
+        "NPV_millions": 2.8,
+        "feasible": false
+      }
+    ],
+    "mandatoryConstraint": "M included",
+    "fullD": "Ineligible until later gate",
+    "selected": "M+B plus one-month discovery under stated secondary policy",
+    "MAunused": 1,
+    "MBunused": 1
+  },
+  "Q134": {
+    "campaignBeginsWeek": 5,
+    "descriptiveOnly": true,
+    "meanChanges": {
+      "Reported compliance": {
+        "weeks1to4": 49.0,
+        "weeks5to10": 87.33333333333333,
+        "percentagePointChange": 38.33333333333333
+      },
+      "Verified independent correct use": {
+        "weeks1to4": 85.5,
+        "weeks5to10": 69.16666666666667,
+        "percentagePointChange": -16.33333333333333
+      }
+    }
+  },
+  "Q136": {
+    "paths": [
+      {
+        "path": "A-B-D-E",
+        "workingWeeks": 13
+      },
+      {
+        "path": "A-C-E",
+        "workingWeeks": 11
+      }
+    ],
+    "earliestFinishWeeks": 13,
+    "CtotalFloatWeeks": 2
+  },
+  "Q138": {
+    "NPV_X": 420000,
+    "NPV_Y": 510000,
+    "incrementalNPV": 90000,
+    "limitation": "Values are supplied. Missing cash flows do not support recomputing IRRs or discounted cash flows."
+  },
+  "Q139": {
+    "bridgeTotal_millions": 1.8,
+    "excludingAvoidance_millions": 1.5,
+    "eligibleHardSavings_millions": 0.6,
+    "basis": "Actual net attributable expense reduction in completed 12-month period under explicit Finance policy."
+  },
+  "Q146": {
+    "table": [
+      [
+        27,
+        53,
+        80
+      ],
+      [
+        27,
+        1893,
+        1920
+      ],
+      [
+        54,
+        1946,
+        2000
+      ]
+    ],
+    "observedAgreement": 0.96,
+    "chanceAgreement": 0.93516,
+    "kappaExact": "621/1621",
+    "kappa": 0.38309685379395436,
+    "kappaRounded6": 0.383097,
+    "sensitivity": 0.3375,
+    "specificity": 0.9859375,
+    "allNegativeAgreement": 0.96,
+    "limitation": "One pass, one appraiser vs valid references: does not estimate repeatability or between-appraiser reproducibility."
+  },
+  "Q147": {
+    "n": 80,
+    "pointwiseBound": 0.21913466179497937,
+    "roundedDisplay": 0.22,
+    "ACFvalues": [
+      0.34,
+      0.11,
+      -0.08,
+      0.04,
+      0.02,
+      -0.06,
+      0.07,
+      0.03,
+      -0.05,
+      0.09,
+      0.12,
+      0.41
+    ],
+    "limitation": "ACF values supplied; raw residuals absent. Joint residual tests and model adequacy cannot be reconstructed."
+  },
+  "Q148": {
+    "quadraticMatrix": [
+      [
+        -3.0,
+        -1.0
+      ],
+      [
+        -1.0,
+        -2.0
+      ]
+    ],
+    "Hessian": [
+      [
+        -6.0,
+        -2.0
+      ],
+      [
+        -2.0,
+        -4.0
+      ]
+    ],
+    "stationaryPoint": [
+      0.7999999999999999,
+      0.6
+    ],
+    "predictedPercentYield": 85.60000000000001,
+    "quadraticEigenvalues": [
+      -3.618033988749895,
+      -1.381966011250105
+    ],
+    "HessianEigenvalues": [
+      -7.23606797749979,
+      -2.76393202250021
+    ],
+    "contours": [
+      {
+        "level": 70,
+        "radiusX": 2.0764715156005216,
+        "radiusY": 3.3598014889126513,
+        "angleDegrees": 31.717474411461005
+      },
+      {
+        "level": 76,
+        "radiusX": 1.6289182734564065,
+        "radiusY": 2.6356451313482614,
+        "angleDegrees": 31.717474411461005
+      },
+      {
+        "level": 81,
+        "radiusX": 1.1275676167530244,
+        "radiusY": 1.8244427285201088,
+        "angleDegrees": 31.717474411461005
+      },
+      {
+        "level": 84,
+        "radiusX": 0.6650031004439243,
+        "radiusY": 1.07599761914233,
+        "angleDegrees": 31.717474411461005
+      }
+    ],
+    "classification": "Fitted model maximum",
+    "independentContourSampleCount": 5764,
+    "maximumEquationResidual": 2.842170943040401e-14,
+    "confirmation": "Fit/feasibility stipulated; predicted optimum is not a demonstrated operating result."
+  },
+  "Q149": {
+    "mean": 0.9,
+    "quantile05": -0.8,
+    "quantile95": 3.4,
+    "unit": "million currency units",
+    "lossProbabilityIdentified": false,
+    "reason": "Three summaries do not specify the distribution or its mass below zero. Request simulation draws or a justified model; do not invent a tail probability."
+  }
+}

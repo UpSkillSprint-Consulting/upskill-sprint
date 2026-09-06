@@ -11,12 +11,13 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic data alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "A strategy evidence table lists four objective-initiative rows. The predictive-failure reliability initiative has a strong relationship and a 30 percent target, but its accountable-owner cell is blank.",
+        "altText": "Four objectives/initiatives with planned relationships, targets and assigned owners.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -41,12 +42,13 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic data alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "A portfolio table shows mandatory M requiring four Belt-months, ready A and B requiring five each, a one-month D discovery, and an unready four-month D full project. The capacity control is set to ten with nine committed.",
+        "altText": "Five candidate work packages with resource needs, financial evidence, readiness and constraints.",
         "semanticTable": true
       },
       "interactionPurpose": "Adjust available Belt-months and compare residual capacity with readiness, mandatory work, and the D data-gate option.",
@@ -55,12 +57,14 @@
       "variables": [
         "Project",
         "Belt-months",
-        "Risk-adjusted value",
+        "Risk-adjusted net NPV",
         "Readiness",
         "Constraint"
       ],
       "rows": 5,
-      "calculations": [],
+      "calculations": [
+        "Ready portfolios: M=4 months/$0.7M; M+A=9/$1.6M; M+B=9/$1.9M; M+A+B=14 (infeasible). Discovery uses the remaining month under the stated policy."
+      ],
       "interaction": {
         "id": "mbb-q130-capacity",
         "label": "Available Belt-months",
@@ -69,8 +73,7 @@
         "step": 1,
         "value": 10,
         "unit": "Belt-months",
-        "committed": 9,
-        "committedLabel": "M plus B"
+        "baseline": 10
       }
     },
     "mbb:set-2:original-134": {
@@ -80,15 +83,16 @@
       "sourceQuestionId": "mbb:set-2:original-134",
       "transformations": [],
       "referenceLines": [
-        "Launch at Week 5 at 5"
+        "Campaign begins: Week 5 at 5"
       ],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic data alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "A weekly chart shows reported compliance rising from 42 to 95 percent, especially after Week 5. Independently verified correct use starts near 86 percent and falls to 61 percent after launch.",
+        "altText": "Two percentage series over Weeks 1–10; the campaign begins in Week 5.",
         "semanticTable": false
       },
       "interactionPurpose": "Focus or hover over weekly points to compare reported compliance with independently verified correct use before and after launch.",
@@ -113,7 +117,7 @@
           "10"
         ],
         "yDomain": [
-          35,
+          0,
           100
         ]
       },
@@ -161,12 +165,13 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic data alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "A before-and-after dashboard shows productivity increasing from 42 to 51 picks per labor hour, while mispicks, customer complaints, and overtime all increase despite having lower-is-better goals.",
+        "altText": "Before and after values for productivity, mispicks, complaints and overtime.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -190,12 +195,13 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic data alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "An activity network shows A for three weeks splitting to B and C for four weeks each. B leads to D for two weeks. C and D merge into E for four weeks.",
+        "altText": "Activities A–E with durations in working weeks and directed prerequisite edges.",
         "semanticTable": false
       },
       "interactionPurpose": "",
@@ -270,12 +276,13 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic data alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "A benefit bridge table totals 1.8 million dollars: 0.5 million from volume growth, 0.4 million from commodity prices, 0.6 million verified process reduction, and 0.3 million forecast avoidance.",
+        "altText": "Four components of a reported financial benefit bridge and their evidence status.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -283,7 +290,7 @@
       "answerCuePolicy": "Neutral series, point, cell, and option styling; no key-dependent annotation.",
       "variables": [
         "Bridge component",
-        "Annual amount",
+        "Bridge amount ($M)",
         "Evidence status"
       ],
       "rows": 4,
@@ -298,12 +305,13 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": false
+        "container": "bounded horizontal scrolling with readable labels and semantic data alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "An attribute agreement table shows 80 reference-positive cases and 1,920 reference-negative cases. Appraisers correctly call 27 positives and 1,893 negatives, producing 96 percent overall agreement but many positive misses.",
+        "altText": "Reference classifications cross-tabulated against one appraiser’s ratings for 2,000 cases.",
         "semanticTable": true
       },
       "interactionPurpose": "",
@@ -316,7 +324,9 @@
         "Total"
       ],
       "rows": 3,
-      "calculations": [],
+      "calculations": [
+        "Po=1920/2000=.96; Pe=(80×54+1920×1946)/2000²=.93516; kappa=(Po−Pe)/(1−Pe)=.383097; sensitivity=27/80=.3375; specificity=1893/1920=.9859375."
+      ],
       "interaction": null
     },
     "mbb:set-2:original-147": {
@@ -326,16 +336,17 @@
       "sourceQuestionId": "mbb:set-2:original-147",
       "transformations": [],
       "referenceLines": [
-        "Approximate 95% bounds = ±0.22",
+        "Approximate 95% bounds = ±0.21913466179497937",
         "Autocorrelation = 0"
       ],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic data alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700,
+        "equalCodedAxisScales": false
       },
       "accessibility": {
-        "altText": "A residual autocorrelation plot has approximate bounds plus or minus 0.22. Lag 1 is 0.34 and lag 12 is 0.41; all other lags remain within the bounds.",
+        "altText": "Twelve supplied residual autocorrelations with approximate pointwise reference bands.",
         "semanticTable": false
       },
       "interactionPurpose": "Focus or hover over the bars to compare short-run lag 1 and seasonal lag 12 with the confidence bounds.",
@@ -367,12 +378,13 @@
       "transformations": [],
       "referenceLines": [],
       "responsive": {
-        "container": "horizontal overflow for wide tables; scalable SVG otherwise",
-        "minimumWidthPx": 280,
-        "viewBoxDriven": true
+        "container": "bounded horizontal scrolling with readable labels and semantic data alternatives",
+        "minimumChartWidthPx": 720,
+        "minimumTableWidthPx": 700,
+        "equalCodedAxisScales": true
       },
       "accessibility": {
-        "altText": "A response-surface contour plot shows nested closed contours centered near coded A equal to 0.8 and B equal to 0.6, with fitted response increasing toward the center.",
+        "altText": "Contours calculated from the displayed quadratic yield model, with equal coded-axis scales and the current setting at the origin.",
         "semanticTable": false
       },
       "interactionPurpose": "",
@@ -395,14 +407,20 @@
         ],
         "xTicks": [
           -1.5,
+          -1,
           -0.5,
+          0,
           0.5,
+          1,
           1.5
         ],
         "yTicks": [
           -1.5,
+          -1,
           -0.5,
+          0,
           0.5,
+          1,
           1.5
         ]
       },
@@ -414,23 +432,27 @@
       "contours": [
         {
           "level": 70,
-          "radiusX": 1.35,
-          "radiusY": 1.1
+          "radiusX": 2.0764715156005216,
+          "radiusY": 3.3598014889126513,
+          "angleDegrees": 31.717474411461005
         },
         {
           "level": 76,
-          "radiusX": 1,
-          "radiusY": 0.8
+          "radiusX": 1.6289182734564065,
+          "radiusY": 2.6356451313482614,
+          "angleDegrees": 31.717474411461005
         },
         {
           "level": 81,
-          "radiusX": 0.62,
-          "radiusY": 0.48
+          "radiusX": 1.1275676167530244,
+          "radiusY": 1.8244427285201088,
+          "angleDegrees": 31.717474411461005
         },
         {
           "level": 84,
-          "radiusX": 0.28,
-          "radiusY": 0.21
+          "radiusX": 0.6650031004439243,
+          "radiusY": 1.07599761914233,
+          "angleDegrees": 31.717474411461005
         }
       ],
       "currentPoint": {

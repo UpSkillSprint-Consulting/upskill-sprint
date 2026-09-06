@@ -1,0 +1,280 @@
+{
+  "method": "Direct visual inspection of each of25 corrected question pairs and each final desktop review; no OCR. Automated per-item evidence and theme/width checks are separately recorded.",
+  "records": [
+    {
+      "question": 126,
+      "qid": "mbb:set-2:original-126",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": true,
+      "reviewPanelSha256": "52b4baf3556e3c4fb5f8528aecff0fcc7e944d12d4409e6ece39b82551b3d241",
+      "finalQuestionPairSha256": "00fb7047eb2a42afc21fd74a298393cffe93750523c24b992af72e802710dd87",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 127,
+      "qid": "mbb:set-2:original-127",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "ce710d2d25cae94f0571b877a1231ac5a2c35056fab8ae257d6b83a8900dc76e",
+      "finalQuestionPairSha256": "c2766c678ae4cdcda619fae78575620ba53ad0527c73314df5b755c5f0a1fda6",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 128,
+      "qid": "mbb:set-2:original-128",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "fc672f52fb692da5a7dcd71eed983b002ec4be76e772f32b7871506f36c43c2f",
+      "finalQuestionPairSha256": "f8cf41d95c0addff9b4a36773a09b8e538cd3c1f797a3cbd0e390f39ff297d48",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 129,
+      "qid": "mbb:set-2:original-129",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "2e9b9e0b1b21d3c7c83d270da01e2182671b28812979836a0da50e10001fb6a5",
+      "finalQuestionPairSha256": "654655a20ff68f6654da1a156a13108e5a35c7d557bb413f14216cdd24d792aa",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 130,
+      "qid": "mbb:set-2:original-130",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": true,
+      "reviewPanelSha256": "d461160cfb0ed6290a79c42ff36833ff6547468ad6fa8e20bb0d2d74317794d3",
+      "finalQuestionPairSha256": "0a12a2f084ccb79f344880439e74ff17ed332d31f3d77002579f8843176b8edc",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 131,
+      "qid": "mbb:set-2:original-131",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "73b757829e421dbc118366f937c65c560c8393bd47690f995267c9d03f710bf7",
+      "finalQuestionPairSha256": "59d7ab2cea470c18447aab277c7231b04cc41d38ba5166e16baafcf13624bbb0",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 132,
+      "qid": "mbb:set-2:original-132",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "2dff93a068f4f334899aba4b333c977278f0966803efb6643f1314472d3c04f5",
+      "finalQuestionPairSha256": "010b8b1b2e476c7d2cbd8ccc3f5ecfa6179437c2de148289f26cb2b662f8c419",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 133,
+      "qid": "mbb:set-2:original-133",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "0852f4d8b37120a805bd62e8d478a26901b7a25d30e7f7229eb5392ec1e08080",
+      "finalQuestionPairSha256": "7dd42db0abb92b2f87de5b0d93cd3ddf1c3f9e99e850dfa44041eacfca5d7c36",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 134,
+      "qid": "mbb:set-2:original-134",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": true,
+      "reviewPanelSha256": "ccccde3d1c028a543a64f3882005330f4a61a2f8aec329a4eef8ba155382f8d0",
+      "finalQuestionPairSha256": "88de32abd52073046a418d64381e1e1962197c8d6fdd907dd2f3371357a9a201",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 135,
+      "qid": "mbb:set-2:original-135",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": true,
+      "reviewPanelSha256": "3e7cec23fd904f8eac9fd41b97475dc5631c41fc3346ae27e7351d1f49e53b84",
+      "finalQuestionPairSha256": "4e8ccffaeeb6ed7489f8216b1a5916cd221953f0db0ac29f1b45d3144dca7ac9",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 136,
+      "qid": "mbb:set-2:original-136",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": true,
+      "reviewPanelSha256": "eb13d472472594777b7eb506b802b1b5c2dd13f98aae6364a1524e1adb24a67b",
+      "finalQuestionPairSha256": "669d819cb594ffc860bd7b4894e1ab67ad088b4feca1898e71e472918e80bb67",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 137,
+      "qid": "mbb:set-2:original-137",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "0a87b74dbb702e9c2fdb62c2bac1c8bfa4b711b560639b28fab86c57b209874d",
+      "finalQuestionPairSha256": "438b16657daea1ef688ba3a64739ae15cd8cc33310348c898a75e2c5afe7751b",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 138,
+      "qid": "mbb:set-2:original-138",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "ee1872146ab43d2526111dc05217504946a841f44cf94bbaa6afbd9cb7e7cea7",
+      "finalQuestionPairSha256": "22dbc60d10f26def24903bfa01fddb46fd59fccca47637d5ccfc11056d5bde07",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 139,
+      "qid": "mbb:set-2:original-139",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": true,
+      "reviewPanelSha256": "361de6a9aa27cc915867023b4530c8ea04368b5bfe2471b82b684376bf6f3e8a",
+      "finalQuestionPairSha256": "17c337f4017a37d299eeeeadf036c6914357a4e79947344c30e95a287a386675",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 140,
+      "qid": "mbb:set-2:original-140",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "e99e0c06c57bd8fe9df5c98cd4652be6461f2abe27e1af933907c545fca43874",
+      "finalQuestionPairSha256": "0e10c4ccb277a29987d1719073d8b1926175b539e363a7a2d8191818fb7c11cb",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 141,
+      "qid": "mbb:set-2:original-141",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "f668b6e4bc25649207a2e9687cd249c85b9c372d4d624adb94b6d1370f7f8e71",
+      "finalQuestionPairSha256": "42a6cd2b1a3f237cdfcaabba97dba7b950eb6582f58cc883ddb40f39f41ca847",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 142,
+      "qid": "mbb:set-2:original-142",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "06fd1b3fc63f8d721dc6fd762df51d85d7f4f02d58ee8b634e0382215dad75e8",
+      "finalQuestionPairSha256": "8ad1213a98f28acf71b12d63a7e78a49c6535ff703765a46efa8bc6a9b2461a2",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 143,
+      "qid": "mbb:set-2:original-143",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "1665c803a094f2e4de1da08643d48566c2087960e672bb2b91ca74a46548eedc",
+      "finalQuestionPairSha256": "82830b2171ea22c2133b4c4324c9a916957a8edf28b156b834055bf966c500aa",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 144,
+      "qid": "mbb:set-2:original-144",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "fbb7c08336235cf1123f3eeff269766b828517ced51078ac9830a292b955e53b",
+      "finalQuestionPairSha256": "c607e03e05b04994c2cd5155ae92616f7887e547b7a434333af0479b7bba1588",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 145,
+      "qid": "mbb:set-2:original-145",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "d26b7344faba32b572f6693a15b3e08c9b94c827dc89d70f1bcce32ef123a096",
+      "finalQuestionPairSha256": "5f29335c501ddffc5b1f648a0b1e207fbebb88595f2915fbc7acc40300ee0d23",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 146,
+      "qid": "mbb:set-2:original-146",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": true,
+      "reviewPanelSha256": "e8413eaba766a37f004d89fd39c8dc93a3ee9f137e3adeb5fd4bf9ff6e852129",
+      "finalQuestionPairSha256": "271e38d2852e2310b5f658e93d10bd7059cb0c6e0fc059b6f13340c0cf9341ac",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 147,
+      "qid": "mbb:set-2:original-147",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": true,
+      "reviewPanelSha256": "d977bcfb39642644c7d74b6d6ab92e3524c332287c89e76143f28a05a3196372",
+      "finalQuestionPairSha256": "9652d7f3e2face2b2f7e538aa79a3b4fba3556bde14d6a9a16f220ded32ac3f4",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 148,
+      "qid": "mbb:set-2:original-148",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": true,
+      "reviewPanelSha256": "2d65935cfda58306ac448f7d28e20c0a69182a49c23fd044c9a741e5d59c2c19",
+      "finalQuestionPairSha256": "55b3668a3af2afc71dc451cf279a80d31a5903e1a4c9db3374a14388472c237a",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 149,
+      "qid": "mbb:set-2:original-149",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "681f1dd31829c531586e27acd56fcb5a498488a73ee186634309b3dc5c61bc1c",
+      "finalQuestionPairSha256": "1eae3c92b625e0f1f2e5ecc4411151fff1abdcbe991ea357e855fa2cfd9658eb",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    },
+    {
+      "question": 150,
+      "qid": "mbb:set-2:original-150",
+      "examDesktopMobileIndividuallyInspected": true,
+      "desktopPostSubmissionReviewIndividuallyInspected": true,
+      "mobileNarrowDarkReviewReopenedByBrowser": true,
+      "visual": false,
+      "reviewPanelSha256": "62a59111f90d630c13c932bcb3b5df0524f3a5206ed3d6cfdaadc58c623f5a33",
+      "finalQuestionPairSha256": "77eb62c054d5fa725ac6df3f505387704dc624f8a9719ab4769bf9bba69254b2",
+      "finding": "Readable content in inspected views; no clipping/overlap within evidence bounds. Horizontal evidence scrolling is intentional."
+    }
+  ]
+}

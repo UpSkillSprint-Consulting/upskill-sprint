@@ -1,0 +1,1881 @@
+[
+  {
+    "question": 126,
+    "qid": "mbb:set-2:original-126",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "B",
+    "independent_answer": "B",
+    "rekeyed": false,
+    "independent_solution": "Missing accountability for the reliability initiative prevents clear decision/escalation ownership. Multiple aligned initiatives and mixed financial/customer measures are not defects by themselves.",
+    "corrections": [
+      "Clarified Blank as an unassigned owner, not missing documentation; retained target baselines outside this matrix.",
+      "Corrected strategic-planning chapter title and cognitive level; neutral table descriptions."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "cognitive",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "visual",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Multiple initiatives may support one objective when interfaces and accountability are explicit.",
+      "B": "Correct. A target without accountable ownership cannot be governed or escalated reliably.",
+      "C": "A customer access measure can remain operational while its strategic contribution is validated.",
+      "D": "Balanced strategies normally combine customer, process, people, and financial outcomes."
+    },
+    "assumptions": [
+      "The table is an ownership extract; Blank means no accountable owner has been assigned.",
+      "Target baselines and deadlines are already documented. Relationship strength is a planning judgment, not a measured causal effect."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "I. Enterprise-wide Planning",
+        "subdomain": "A. Strategic Plan Development",
+        "topic": "Strategy deployment matrix coherence",
+        "code": "I.A"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 1 - Strategic Plan Deployment, pp.7-17",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": true,
+      "type": "data-table",
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-126.png": "c6f613dff17dc857f69682a805d85dd255a658c559e374dc9e49332f2e3b0db0",
+        "player-final/mobile-126.png": "fdbb9945c318b1ba7aaf09915fe9d84e2ce95c3b112afd4b8052730a27a06c44",
+        "player-final/desktop-review-126.png": "2f4b0c1917f26f6d7b0c114be258ad79d3466181b3bda210c8256598259da223",
+        "player-final/mobile-review-126.png": "97e0897117b46739b55159c313d5d5261ad6fab6b4b0d35ead44f7f37adb4eef",
+        "secondary-final/dark-mobile-review-126.png": "79c860776b11286a92648d84dd70daddf67b5728077702fc0295cf45c626d108",
+        "secondary-final/narrow-mobile-review-126.png": "3bea69316da745d200633a4bbbd408a957cdc93d59a08a3df7a48854b4530337"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "693008697bc580be1584d5cd6812c694a2c0f8579cb3a5e6b3d2c4bdad260745"
+  },
+  {
+    "question": 127,
+    "qid": "mbb:set-2:original-127",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "C",
+    "independent_answer": "C",
+    "rekeyed": false,
+    "independent_solution": "The unit target moves harm downstream under the supplied case facts. Shared pathway responsibility and balancing outcomes address that local optimization.",
+    "corrections": [
+      "Bounded the stated downstream effect to the scenario, not a general claim about discharge policy.",
+      "Shortened the keyed choice without changing the substantive decision."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "options",
+      "sourceDocument",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Stronger local incentives amplify the behavior that transfers cost and risk downstream.",
+      "B": "Separate charters do not replace an integrated measure and decision architecture.",
+      "C": "Correct. Balancing measures and shared ownership protect the total patient pathway.",
+      "D": "Hiding enterprise outcomes prevents learning and weakens strategic line of sight."
+    },
+    "assumptions": [
+      "The stated downstream readmission effect is established for this scenario; this is not clinical discharge advice."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "I. Enterprise-wide Planning",
+        "subdomain": "B. Strategic Plan Alignment",
+        "topic": "Cascading goals without local optimization",
+        "code": "I.B.3"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 2 - Strategic Plan Alignment, pp.23-27",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-127.png": "616d706d8c17d69cf9127cc5c0fc0d2f2e06d882156d48e9e925ff66214193c6",
+        "player-final/mobile-127.png": "a917f130ecb89eab2b435641f4c5086fc8db86ba82fb48ba039cee3d910ae7f7",
+        "player-final/desktop-review-127.png": "c0044736bacc5ac843f0656f927a9a0987ec3a9cc9c55db821c495f1d7b1bc1c",
+        "player-final/mobile-review-127.png": "051e8bcc9b06f18a35833123f0714e73ac0820132b80f455705d2f07060eb905",
+        "secondary-final/dark-mobile-review-127.png": "200926c2ecb9b845e96ad96a5d521073f77abc72a58f0ca9ff3bdf4d05d9243e",
+        "secondary-final/narrow-mobile-review-127.png": "f3ae19989c52102149e0231708cd6ff5079f8d77b5e87aea211457339802bc1a"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "9e5ab3dea4bdb7828d1ecd6543493ab405dd9f4c5bc713a86272de713f13a635"
+  },
+  {
+    "question": 128,
+    "qid": "mbb:set-2:original-128",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "D",
+    "independent_answer": "D",
+    "rekeyed": false,
+    "independent_solution": "Inconsistent benefit definitions, sponsor practices and knowledge retention are gaps in repeatable governance. Successful pilots do not demonstrate enterprise readiness.",
+    "corrections": [
+      "Pilot success does not demonstrate repeatable enterprise governance; removed statistical-stability implications.",
+      "Shortened the correct choice and bounded the recommendation to controlled expansion."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Project success alone does not demonstrate a reliable enterprise operating system.",
+      "B": "Additional trained staff would increase demands on inconsistent governance without resolving its weaknesses.",
+      "C": "Statistical templates do not resolve sponsorship, benefit validation, or organizational learning.",
+      "D": "Correct. It makes the deployment system repeatable before expanding its load."
+    },
+    "assumptions": [
+      "The pilots establish potential benefits; a repeatable enterprise governance system has not yet been demonstrated."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "I. Enterprise-wide Planning",
+        "subdomain": "C. Infrastructure Elements of Improvement Systems",
+        "topic": "Deployment maturity and scale readiness",
+        "code": "I.C.2"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 3 - Deployment of Six Sigma Systems, pp.28-52",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-128.png": "c018b6b43d0667c7a775988513015fb71b3cc66d6b7bc9f82ae2fb91e0d24359",
+        "player-final/mobile-128.png": "084646d0101103b58a16293b4a1d98e86414763b806bbf4aaefc81825aa4dcd3",
+        "player-final/desktop-review-128.png": "0f4d8f8f731cfa8c8978483132d1bdcdefdc2784e55af7cc366bb0395f57a246",
+        "player-final/mobile-review-128.png": "d0c4b6ece0991be848c086f97b6ad7f74ce79e34aa57dec8faffaab29d3d5c22",
+        "secondary-final/dark-mobile-review-128.png": "fb3b2bc3367adaced3f104a7660f58782422e81d6fffbec683a7234e77294471",
+        "secondary-final/narrow-mobile-review-128.png": "3c81decd6b3bd6d3b82b5032878fa76e4fd1fb722c2c92743ba45ba53f32905e"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "8be0413540db59bf1908c51dbf1569c7845af230e2ae4a8edcf604ecdbab77e3"
+  },
+  {
+    "question": 129,
+    "qid": "mbb:set-2:original-129",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "A",
+    "independent_answer": "A",
+    "rekeyed": false,
+    "independent_solution": "The proposal names a solution before a qualified problem. Bounded discovery can establish the baseline, CTQ, ownership and scope; full implementation is not yet justified.",
+    "corrections": [
+      "Removed the incorrect implication that Black Belts must never perform discovery.",
+      "Distinguished bounded problem discovery from premature authorization of implementation."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Correct. It turns solution enthusiasm into a testable, owned business opportunity.",
+      "B": "A prototype without a decision question or baseline can create sunk-cost commitment.",
+      "C": "Belts may support bounded discovery, but that does not justify committing full implementation capacity before ownership and qualification.",
+      "D": "Solution-first wording is a warning, not evidence that the technology can never be useful."
+    },
+    "assumptions": [
+      "Implementation is not authorized; a time-bounded discovery can be sponsored if qualification evidence is missing."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "I. Enterprise-wide Planning",
+        "subdomain": "E. Opportunities for Improvement",
+        "topic": "Project qualification and problem ownership",
+        "code": "I.E.2"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 5 - Opportunities for Improvement, pp.73-75",
+      "verified_scope": "Printed pp.74–75: qualified charters, baseline/problem/customer and secondary balancing measures.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-129.png": "1589052b9091e7df9b23431c221c94d70f056cbbc5a1bdfa036b82ab45192aba",
+        "player-final/mobile-129.png": "fa5fb758e8c62f4584f1d3894c94645ac0d811f13b95425a44d7a05000458d27",
+        "player-final/desktop-review-129.png": "e80b21a3590647899cbb6e955e2068607eb00d6ae3f5070d223eab19b7a506d2",
+        "player-final/mobile-review-129.png": "dd5bb128efce8c490f74db838fff3e243f6fdb2a1daf1474d81888cec4448298",
+        "secondary-final/dark-mobile-review-129.png": "243fa1183d03987c9d1cfbc82853f00f91e1447b297ffe0b6f70a3c65640d2b8",
+        "secondary-final/narrow-mobile-review-129.png": "7cad60c7130078cb55da804e55460fa55d7c1a1d01663324a453e44afd025854"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "71350731025501c496f71f98ece34f6ebfe9ad46a6e4506ebc17e404b040fc85"
+  },
+  {
+    "question": 130,
+    "qid": "mbb:set-2:original-130",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "B",
+    "independent_answer": "B",
+    "rekeyed": false,
+    "independent_solution": "M is mandatory. Of ready indivisible portfolios within ten months of Belt capacity, M+B has $1.9M versus $1.6M for M+A. One spare month supports approved discovery under the explicitly supplied secondary policy.",
+    "corrections": [
+      "Corrected A: M+A leaves one month, not three; the old wording overstated unused capacity by two.",
+      "Removed unsupported $0.2M option value; defined the ready-project optimization and separate discovery policy.",
+      "Separated fixed scored capacity from exploratory slider and removed solution-revealing readout."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "cognitive",
+      "formula",
+      "optionRationales",
+      "options",
+      "quantitative",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "M+A uses nine months, leaving one. Its $1.6M ready-project NPV is below the feasible $1.9M from M+B.",
+      "B": "Correct. M+B is the highest-value feasible ready portfolio; the remaining month funds separately authorized discovery.",
+      "C": "It omits a mandatory commitment and starts D full before eligibility; hoped-for emergency capacity is not available capacity.",
+      "D": "M+A+B needs fourteen Belt-months. Fractional staffing cannot fit that work into the ten-Belt-month capacity without changing the commitments."
+    },
+    "assumptions": [
+      "M, A and B are indivisible ready projects with comparable, additive, non-overlapping risk-adjusted net NPVs on a common financial basis. Cash budgets are sufficient; Belt-month capacity is the binding resource.",
+      "Include mandatory M, then maximize ready-project NPV. After that selection, use spare capacity for the separately approved one-month discovery rather than leaving it idle.",
+      "Discovery is budgeted information gathering, not an implemented prerequisite or a booked project benefit. It cannot make D full eligible within this period.",
+      "The scored case always uses 10 Belt-months; changing the what-if slider does not change the answer."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "I. Enterprise-wide Planning",
+        "subdomain": "F. Pipeline Management",
+        "topic": "Risk-adjusted portfolio selection with capacity",
+        "code": "I.F.2"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 6 - Risk Analysis of Projects and the Pipeline, pp.88-99",
+      "verified_scope": "Chapter/contents locator and topic alignment; full inherited pp.88–99 not reread.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": true,
+      "type": "data-table",
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-130.png": "0a4e075b5c4fbdf80b5a685fd29958c54fda88a66e7e097353108b9bc5c12ecf",
+        "player-final/mobile-130.png": "cc1b3d4e37354c218316830045872c6ffedadd7efa9df09d3b0e7cd11f72013f",
+        "player-final/desktop-review-130.png": "90c86ef2cbbfa304fae4236c1ec28faf9a0a3e826983d534a889db9f48d0962c",
+        "player-final/mobile-review-130.png": "dde82e141d1662bc4de9b8d9407bca4ad585de652bea9afa7eb16f0bd0583af6",
+        "secondary-final/dark-mobile-review-130.png": "e0a427e13c6e8a092ed07560681c02214666cee56ba45e393c254e7e1b6d56f1",
+        "secondary-final/narrow-mobile-review-130.png": "7c6762bc3328c927b44d2c3022c06407aa9824f6788bc1474bfe67f46dc69c97"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "777a85a648a076025dfd3ee92a6818b9339fb2b47b9aa91d09ddf2df5f8e61dc"
+  },
+  {
+    "question": 131,
+    "qid": "mbb:set-2:original-131",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "C",
+    "independent_answer": "C",
+    "rekeyed": false,
+    "independent_solution": "The binding restriction concerns identifiable data export, not the common benefit definitions. Local processing with auditable approved aggregates preserves both requirements.",
+    "corrections": [
+      "Replaced a near-repeat of Q81 federated-model selection with a controlled-exception decision within an existing federated model.",
+      "Explicit scenario-only legal constraint; no assertion about a real jurisdiction."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "keywords",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Different definitions defeat comparability and eliminate the technical assurance that the charter still requires.",
+      "B": "The scenario explicitly makes the data restriction binding; internal standardization cannot authorize prohibited disclosure.",
+      "C": "Correct. It adapts the data-handling mechanism while retaining comparable definitions, evidence and accountable assurance.",
+      "D": "Permitted local processing and aggregate evidence provide a compliant route, so an indefinite blanket suspension is unnecessary."
+    },
+    "assumptions": [
+      "The restriction and permitted aggregate route are stipulated educational case facts, not a description of a named jurisdiction.",
+      "Privacy/legal reviewers confirm the allowable outputs; the exception is documented and periodically reviewed."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "II. Organizational Competencies for Deployment",
+        "subdomain": "D. Organizational Change Management",
+        "topic": "Controlled exceptions within federated deployment",
+        "code": "II.D.4"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 8 - Organizational Commitment; Necessary Organizational Structure for Deployment, pp.115-118",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [],
+      "case_provenance": "Audit-authored replacement scenario; not textbook or historical data.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-131.png": "9b2d3e14a52eeaa7f176ec0f9e509878c9037c5b508de962369c5dc8490d6c14",
+        "player-final/mobile-131.png": "5f733b7a872486e124390351a028b67ddeef4ac4d6b849b9798f8ad4828515bc",
+        "player-final/desktop-review-131.png": "973271d731478d7b56e19b47e99c257ae598ff94865c3e929fa0740c8d455152",
+        "player-final/mobile-review-131.png": "ba1cc457fad6a298c43975ed0cff759319e0fab66833e54155c14daa12b18f01",
+        "secondary-final/dark-mobile-review-131.png": "5fddf8f5b044055eb176cf2795d6114ca6e8ed4e1e623f93d281626e5c14ed5d",
+        "secondary-final/narrow-mobile-review-131.png": "f6c6c85d067c2f85a580cfa80fc8547d32c3d599703b6ad88a55e013c85f0861"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "89f10875ca09a31a684cd0c92b0d4fa30bb94d78edaab7e9bd4cdda607784aeb"
+  },
+  {
+    "question": 132,
+    "qid": "mbb:set-2:original-132",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "D",
+    "independent_answer": "D",
+    "rekeyed": false,
+    "independent_solution": "The written charter reserves funding to the council. Independent technical assurance informs the decision but does not transfer funding authority to the MBB or Finance.",
+    "corrections": [
+      "Stated reserved funding authority rather than assuming a universal governance rule.",
+      "Corrected the Executive and Team Leadership Roles chapter number."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "A Black Belt leads project work but normally does not control portfolio funding.",
+      "B": "Finance validates economics but does not replace accountable sponsorship automatically.",
+      "C": "Technical authority does not inherently confer enterprise capital-allocation authority.",
+      "D": "Correct. Business accountability and technical assurance remain distinct but coordinated."
+    },
+    "assumptions": [
+      "The written allocation of authority in the stem governs this case; no emergency delegation or conflicting charter applies."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "II. Organizational Competencies for Deployment",
+        "subdomain": "B. Executive and Team Leadership Roles",
+        "topic": "Champion and MBB role boundaries",
+        "code": "II.B.1"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 12 - Executive and Team Leadership Roles, pp.183-195",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-132.png": "8fe798c32b4452c9eaeaf8d8f9e05a2f49f38c3b770f44976041f5b144f74a58",
+        "player-final/mobile-132.png": "8f4a50fc3c9c91130c7953af02f8afde1afce754f0e2d839a4d8414ff15c4fa5",
+        "player-final/desktop-review-132.png": "00e49d1e0409a94418ade692f3ea35f360d2f0e96e740d231955fd9a50da43c9",
+        "player-final/mobile-review-132.png": "c2b4945718dbf79df9b9957833649e94a904fddad4f6d2b392b5e6261c361089",
+        "secondary-final/dark-mobile-review-132.png": "c3815928b605b09edb23564b9bc6c8a908e998b90254026eafac299f916c259b",
+        "secondary-final/narrow-mobile-review-132.png": "74ffea21b583673b752393c6718b4239174203cf344547da5052f4b7afcb34fd"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "b85f55ad3804fa43bdd6ab0294e3cd0a8d3f4ea229dc32b65b2415cc2efc95b7"
+  },
+  {
+    "question": 133,
+    "qid": "mbb:set-2:original-133",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "A",
+    "independent_answer": "A",
+    "rekeyed": false,
+    "independent_solution": "Ignoring informal influence risks adoption; influence does not confer an unlimited veto. Bounded participation with safety escalation fits the specified nonemergency case.",
+    "corrections": [
+      "Bounded engagement-first to the stated nonemergency situation; retained explicit safety escalation.",
+      "Corrected organizational dynamics source chapter."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Correct. It acknowledges informal power while preserving explicit evidence and decision boundaries.",
+      "B": "Formal exclusion does not remove peer influence and can intensify covert resistance.",
+      "C": "Credibility earns involvement, not unlimited authority over enterprise decisions.",
+      "D": "Passive waiting avoids the leadership and engagement work required for change."
+    },
+    "assumptions": [
+      "No unresolved immediate patient-safety hazard requires emergency action. Any safety concern raised during review goes to the designated safety authority.",
+      "Peer influence does not create an unlimited veto; participation and escalation follow agreed decision rights."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "II. Organizational Competencies for Deployment",
+        "subdomain": "C. Organizational Challenges",
+        "topic": "Influence strategy under informal power",
+        "code": "II.C.2"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 11 - Internal Organizational Challenges, pp.157-177",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-133.png": "237402df92a39223d52386b8159c8458cac6f0172cb8e532299d89a418f83e4c",
+        "player-final/mobile-133.png": "fd7790e9ecb04beff37d51982757b0324d461885012bd9b619cf269e51dc63da",
+        "player-final/desktop-review-133.png": "cad454b43dc1470725daab2ebf7086cf87cf29caee875bc94b8ec84014b60a00",
+        "player-final/mobile-review-133.png": "55f510831bef491faa07b0c4f2fe4d76f4b3aabd16b0dd6359d35398ef255f0e",
+        "secondary-final/dark-mobile-review-133.png": "458c5a4e237d56ffd7ce3f66413bfbaf74aaff7eab38141dcbb8ccfd65bb03f6",
+        "secondary-final/narrow-mobile-review-133.png": "2294c3bf12940bfca5af4ce005c204028c4e11170c926284b5ce5fbb4285d6dc"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "8781fb86e9c78b82a6af48b7a92ecd616bfee06ddc25d2ba730002b71991d06f"
+  },
+  {
+    "question": 134,
+    "qid": "mbb:set-2:original-134",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "B",
+    "independent_answer": "B",
+    "rekeyed": false,
+    "independent_solution": "Across the supplied weeks, reported compliance rises and verified use falls. Investigate both measurement and work design; the aggregates cannot establish individual deception or campaign causation.",
+    "corrections": [
+      "Made the prelaunch correct-use measure coherent by launching a campaign for an existing standard.",
+      "Corrected a horizontal Week-5 reference line to a vertical intervention marker.",
+      "Removed insinuation of intentional falsification and separated descriptive change from causal/significance claims."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "cognitive",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "A reporting measure cannot establish implementation when independent behavioral evidence points in another direction.",
+      "B": "Correct. The descriptive divergence warrants investigation without treating temporal association as proven causation or misconduct.",
+      "C": "Under the stated definition, less correct use is deterioration; the series does not measure unnecessary discretion.",
+      "D": "Aggregate percentages neither identify individuals nor establish intent; disciplined investigation is required."
+    },
+    "assumptions": [
+      "Both series apply the same existing standard throughout Weeks 1–10; their respective opportunity definitions and case mix remain comparable over time.",
+      "Verified use comes from independent audits; weekly percentages are descriptive summaries. Sample counts and sampling uncertainty are not supplied, so no formal significance or causal test is implied."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "II. Organizational Competencies for Deployment",
+        "subdomain": "D. Organizational Change Management",
+        "topic": "Adoption versus compliance metrics",
+        "code": "II.D.3"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 8 - Organizational Commitment; Change Management, pp.119-125",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": true,
+      "type": "multi-time-series",
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-134.png": "228ccba3e8c4eb4d79ed90d4a10d99af71a9d5b25f2685f66c50c90f6d122790",
+        "player-final/mobile-134.png": "ba85232f63c7cdbf355a623fdeb3ab7e09d4b081e7f086b26d4183fd97b026fc",
+        "player-final/desktop-review-134.png": "0035e2d7473053836902115b29a5bb93d7b3fddf1e4c1bf015eea25c7bba2b55",
+        "player-final/mobile-review-134.png": "6a15115aebe34074015c89a5837dd2428c34de43010ef7af3fa9ad4df624002c",
+        "secondary-final/dark-mobile-review-134.png": "b5ea90d1c8e3afd577cb71b769311f151e31ea58ea5a9fe930e8b71aa4729e23",
+        "secondary-final/narrow-mobile-review-134.png": "8bf5942903dd445376d209559822a7c42c7a32ed7d1f2dfe616999311acd315a"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "054437784e61bf5db99b07793827a03b525145c4c2a42d47dfbaedc8640d0079"
+  },
+  {
+    "question": 135,
+    "qid": "mbb:set-2:original-135",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "C",
+    "independent_answer": "C",
+    "rekeyed": false,
+    "independent_solution": "Productivity improves but mispicks, complaints and overtime worsen. Investigate balancing outcomes and the incentive system without claiming the incentive is the only cause.",
+    "corrections": [
+      "Removed an unsupported causal diagnosis from a before/after dashboard.",
+      "Stated comparable exposure for the two weekly-count metrics; preserved all original observations."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "visual",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "A single favorable productivity rate does not override deteriorating quality, customer and labor measures.",
+      "B": "Mispicks and complaints also deteriorate; the premise that only overtime worsened is false.",
+      "C": "Correct. It responds to the system-level warning while requiring evidence before attributing all changes to the incentive.",
+      "D": "Balanced dashboards legitimately combine units; definitions, exposure and desired directions must be explicit."
+    },
+    "assumptions": [
+      "The before/after periods have comparable workload, case mix and duration for interpreting weekly complaint and overtime counts.",
+      "The comparison is observational; other changes may explain some or all of the movement."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "II. Organizational Competencies for Deployment",
+        "subdomain": "F. Organizational Performance Metrics",
+        "topic": "Metric cascade and unintended behavior",
+        "code": "II.F.2"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 9 - Organizational Finance and Business Performance Metrics, pp.137-140",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": true,
+      "type": "data-table",
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-135.png": "e04a4c65f24be858232b047bf8c14a07da6510a8578dd110f9e2d7d624d992b3",
+        "player-final/mobile-135.png": "7577b323b30a66e98f00c2c1f80bf6af90741221f7bee8884ead8da2dda78c5e",
+        "player-final/desktop-review-135.png": "88a563a344b352b03cef0e00547b4d5e9483deeaaa09f13b73de58668936a3ca",
+        "player-final/mobile-review-135.png": "9f5854477b72e10cbeac444d2da01e652ed59fe9f1d19067add27b5f0f16b835",
+        "secondary-final/dark-mobile-review-135.png": "a1fe253e152e2209b76a9c0bddd428fabfeadf78464e9c9df854340654b21bd0",
+        "secondary-final/narrow-mobile-review-135.png": "938534433087850009be9aa20a9a03119563c7db80d84d5a8e44a45855a083de"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "a4e4ae78097587267ae5192caca20bfc03571fbe5cd2e42763a457f4eb3f3ae9"
+  },
+  {
+    "question": 136,
+    "qid": "mbb:set-2:original-136",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "D",
+    "independent_answer": "D",
+    "rekeyed": false,
+    "independent_solution": "A-B-D-E takes 3+4+2+4=13 working weeks. A-C-E takes 11; the merge waits for D and C has two weeks of total float.",
+    "corrections": [
+      "Corrected duration labeling to working weeks; stated finish-to-start, zero-lag dependencies.",
+      "Removed distractor claims about a uniquely longest C and added precise critical-path/float reasoning.",
+      "Corrected network-method source from Chapter 13 to Chapter 14."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "visual",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "A–C–E totals eleven weeks but E must also wait for the longer A–B–D branch.",
+      "B": "A–B–D–E totals 3+4+2+4=13; ignoring one week understates the controlling duration.",
+      "C": "The seventeen-week sum wrongly sequences B, C and D; C runs in parallel with the B–D branch.",
+      "D": "Correct. The controlling path is thirteen weeks and the alternate branch has two weeks of float."
+    },
+    "assumptions": [
+      "Durations are deterministic working weeks on the same calendar; sufficient resources permit the shown parallel branches.",
+      "Each edge is a finish-to-start dependency with zero lag. E waits for both C and D; there are no other constraints."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "III. Project Portfolio Management",
+        "subdomain": "A. Project Management Principles and Life Cycle",
+        "topic": "Program dependency and critical path",
+        "code": "III.A.1"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 14 - Project Oversight and Management, pp.202-218",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": true,
+      "type": "activity-network",
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-136.png": "c664da70684e9d10d7fb074f920e1ef001339db7ba340e45de9e3a231a1ec043",
+        "player-final/mobile-136.png": "10f15ef0a801c2a85bac8e027a6cf09d7e2309366f71bfb4b37f7d8ec6a63aa3",
+        "player-final/desktop-review-136.png": "ed6719419ea42415e14d59a2e2cf05713d06038a1bfdce6437907df0c0aff369",
+        "player-final/mobile-review-136.png": "0b401e88a5384670cd818aa90a3bafb288bdf346a2c15177e991b8c9e0526c42",
+        "secondary-final/dark-mobile-review-136.png": "9d6b624155479de8df8c051df0665b648421e31a97d0306ea3b664db48278f48",
+        "secondary-final/narrow-mobile-review-136.png": "008a1b5112ee1522264109a48bd72a84d240391cc69b35cabb163cbd3f7ac4ce"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "ee9acc3075823f19951bfb2863db388d6c61357bca98ff6dd6d25af3f123cb13"
+  },
+  {
+    "question": 137,
+    "qid": "mbb:set-2:original-137",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "A",
+    "independent_answer": "A",
+    "rekeyed": false,
+    "independent_solution": "An unavailable specialist changes feasible forecasts. Reprioritization and any baseline revision need the reserved approval, while original baselines remain auditable.",
+    "corrections": [
+      "Distinguished preserving the approved baseline from updating the forecast.",
+      "Rebaselining requires authorized change control and retention of the original comparison."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Correct. It updates decision information, respects qualified capacity and retains governed baseline/change records.",
+      "B": "Equal delay is not implied by the eight-week absence and may damage critical or mandatory commitments.",
+      "C": "Retaining the approved baseline is appropriate, but knowingly stale forecasts and no corrective assessment are not.",
+      "D": "Availability is not proof of competence; unqualified substitution can create safety, quality and delivery risks."
+    },
+    "assumptions": [
+      "The council controls portfolio priority and formal baseline changes. Original baseline versions remain available for audit."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "III. Project Portfolio Management",
+        "subdomain": "B. Project Portfolio Infrastructure and Management",
+        "topic": "Portfolio corrective action under capacity loss",
+        "code": "III.B.9"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 14 - Project Oversight and Management, pp.212-218",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-137.png": "4f5efadd0e487b0580b9c8207602965ec46f5d9f3b322ee325a16f50032db7e2",
+        "player-final/mobile-137.png": "c10e33c55786f9e983f4b899e0d6b41b466d8b1260902a3cbfe77be67b551d22",
+        "player-final/desktop-review-137.png": "9f718a25a20e9ecf1af3a44836b96b7b718d09b817f67a8739d524b40d20f917",
+        "player-final/mobile-review-137.png": "fa7c45732b5e45f7a87439f0ce6b8b3c4f12d6e37c5dbabdc7136b7323741b92",
+        "secondary-final/dark-mobile-review-137.png": "5324fcf6a9cf9e498dbe74307419bbdb04c090ac09a24b0004cf62b2be75d657",
+        "secondary-final/narrow-mobile-review-137.png": "2ea47a2b1d2f2be5369e0dc556a18720be290e16a88aa4d10736ddf26db10c2e"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "bd6102a92d9cd2836510ed4daff4c976e6711746772234f4e2f1295d5abf8590"
+  },
+  {
+    "question": 138,
+    "qid": "mbb:set-2:original-138",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "B",
+    "independent_answer": "B",
+    "rekeyed": false,
+    "independent_solution": "With the supplied common-horizon feasible alternatives, Y adds $510,000 present value versus $420,000 for X: $90,000 more. A higher IRR does not override that value criterion.",
+    "corrections": [
+      "Clarified common financial horizon and complete feasibility so NPV ranking is unambiguous.",
+      "The $90,000 difference is recomputable; NPV/IRR values remain supplied outputs, not invented cash-flow reconstructions."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "A higher percentage return can correspond to less total value on a smaller or differently timed investment.",
+      "B": "Correct. Y produces the larger present-value contribution under the stated assumptions.",
+      "C": "Mutual exclusivity means the platform cannot support both projects simultaneously.",
+      "D": "Equal payback is neither required nor superior to risk-adjusted value maximization."
+    },
+    "assumptions": [
+      "Both project NPVs include all incremental net cash flows on the same decision horizon at the appropriate common 12% hurdle rate.",
+      "Both alternatives are fully feasible; the platform is mutually exclusive and no other binding resource constraint changes the comparison."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "III. Project Portfolio Management",
+        "subdomain": "C. Project Portfolio Financial Tools",
+        "topic": "NPV and IRR conflict for mutually exclusive projects",
+        "code": "III.C.1"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 9 - Organizational Finance and Business Performance Metrics; Net Present Value, pp.130-132",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-138.png": "6c573a32b6cc914f33842da3e0d44d3b5280f13e0a83d20b1697cb60b6fa757a",
+        "player-final/mobile-138.png": "07e413f4f10a7b789a2fe1da3ccc1788e0532d300a3a80e19e6039ca36d084a7",
+        "player-final/desktop-review-138.png": "075a59f6da4fe31c7342ffdf8afb4c6b214c4885476652fd66eb13ac2aa07668",
+        "player-final/mobile-review-138.png": "8f621d656da06f74e9d02ced2a4da16c03f36f1fa6b4212347d86f2c080a094e",
+        "secondary-final/dark-mobile-review-138.png": "a489cdf11d4e616d8788773ee67c0cff0494a0a860fb39f0d73873f1d9310d28",
+        "secondary-final/narrow-mobile-review-138.png": "efb7c200ba54f2c787272d7332ead187770362fc6b51725099106c0d0fd79a02"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "1daf16877c62e2d821495c697125ea1b40c409377892e6ad8f1f40ced1a5f971"
+  },
+  {
+    "question": 139,
+    "qid": "mbb:set-2:original-139",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "C",
+    "independent_answer": "C",
+    "rekeyed": false,
+    "independent_solution": "The stated hard-savings policy recognizes the actual net $0.6M expense reduction; external volume/market gains and unrealized avoidance are not current project hard savings. Excluding $0.3M from $1.8M gives $1.5M, not $1.3M.",
+    "corrections": [
+      "Corrected distractor B arithmetic: excluding $0.3M from $1.8M leaves $1.5M, not $1.3M.",
+      "Made actual attributable hard savings distinct from annualized estimates and forecast avoidance."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "cognitive",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Timing after launch does not establish causal attribution to the improvement.",
+      "B": "Excluding avoidance alone still credits unrelated volume and market effects.",
+      "C": "Correct. It recognizes realized attributable savings and keeps other categories transparent.",
+      "D": "Avoided future cost is not automatically equivalent to realized cash reduction."
+    },
+    "assumptions": [
+      "The benefit policy recognizes realized, attributable reductions from an approved spending baseline as hard savings.",
+      "The volume and commodity-price effects are independently identified external effects. The $0.3M avoidance condition has not occurred; the bridge does not double count components."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "III. Project Portfolio Management",
+        "subdomain": "C. Project Portfolio Financial Tools",
+        "topic": "Benefit realization and attribution",
+        "code": "III.C.2"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 16 - Project Financial Tools; Costing Concepts, pp.226-228",
+      "verified_scope": "Printed pp.226–227: hard-dollar impact and Finance-approved baselines.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": true,
+      "type": "data-table",
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-139.png": "41d235623581f3fc8d50af3b82084a5cf93340ee8313742328ccabc5f43b131a",
+        "player-final/mobile-139.png": "47e6af01e5e757caba5a10c528f2863d0a2e6343e164a138852a3c5214cb53f3",
+        "player-final/desktop-review-139.png": "953c9ae459b68497f8c44fb4a52825ed8017748e778b28e6d9f8d541fab07938",
+        "player-final/mobile-review-139.png": "cf95585b72c88c447eea1dcd2cdd20683301e3f8195f23a20f16730dcdd2837c",
+        "secondary-final/dark-mobile-review-139.png": "5eb1260d7fc69e7e6d48edfd6c5879fcf9fa52dfc5d93cee98b64a67784e9389",
+        "secondary-final/narrow-mobile-review-139.png": "ee24430ed3efa8a2be1976c6792a6e145957c625b5aed422d1615cc03f4b9afa"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "7d6a95fb3f1aa1ace0310acf0f7301813e56af989958c2b2315c4eb7fb7ae390"
+  },
+  {
+    "question": 140,
+    "qid": "mbb:set-2:original-140",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "D",
+    "independent_answer": "D",
+    "rekeyed": false,
+    "independent_solution": "Buried alerts and workload are operational barriers; knowledge alone is not complete performance competence. Remedy barriers and assess the remaining skill/judgment gap together.",
+    "corrections": [
+      "Avoided delaying assessment of a possible skill/judgment gap until every operational barrier is fixed.",
+      "Knowledge evidence does not establish either full competence or a motivation problem."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Knowledge of the rule does not identify motivation as the cause, and the operational barriers are explicit.",
+      "B": "A universal refresher does not repair alert visibility or workload conditions and should not delay those remedies.",
+      "C": "Skills and judgment still matter; system findings do not invalidate an appropriate competency assessment.",
+      "D": "Correct. It addresses the observed nontraining barriers without postponing a targeted assessment of remaining capability needs."
+    },
+    "assumptions": [
+      "Immediate clinical risks are managed through existing safety procedures; the question concerns longer-term capability and work-design diagnosis."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "IV. Training Design and Delivery",
+        "subdomain": "A. Training Needs Analysis",
+        "topic": "Role-specific competency diagnosis",
+        "code": "IV.A"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 17 - Training Needs Analysis, pp.243-244",
+      "verified_scope": "Printed pp.243–244: valid TNA evidence and nontraining barriers.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-140.png": "5a4b1e08faca63733d69a468a90961004e29c6a51f9687c95fd834812a907ca6",
+        "player-final/mobile-140.png": "8be6d9c8a59f1493b254136e1609bdffb905216f976defb719b70adb9b222c12",
+        "player-final/desktop-review-140.png": "037986fc21fe68f37f8542194bb53fa3117fff6fa29a1c72feaada9a97a03525",
+        "player-final/mobile-review-140.png": "c22f229096834ae0bcb92fa6040f5e2f92e476a5fd04f9b45b395abce3af15c7",
+        "secondary-final/dark-mobile-review-140.png": "f487ca70405d9f9d29c3e7bce2e64c1d99844cd98f9e8066d541fcc57281f18c",
+        "secondary-final/narrow-mobile-review-140.png": "3281e642e2d062f33e6598ee4fd29b5d390deab30091aa3a2ea9a893f035e8f0"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "b6f052f31c8910ec11214ce03d98c0b5ce86e42fdcedfa64477608b041931e89"
+  },
+  {
+    "question": 141,
+    "qid": "mbb:set-2:original-141",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "A",
+    "independent_answer": "A",
+    "rekeyed": false,
+    "independent_solution": "Common role outcomes and calibrated delivery with role-appropriate demonstration preserve accountability. It does not prove a feasible budget/cohort schedule or require every executive to obtain Belt certification.",
+    "corrections": [
+      "Avoided requiring Belt certification from executives/owners whose roles do not require it.",
+      "Classified selection of an architecture as Evaluate; capacity and affordability still require a costed plan."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Correct. It supports contextual delivery while retaining common role standards and appropriate performance evidence.",
+      "B": "Identical Black Belt depth ignores role needs and can consume time without improving the required decisions.",
+      "C": "Unrelated definitions and credentials destroy enterprise comparability and dilute accountability.",
+      "D": "Completion records show participation, not necessarily applied competence or workplace transfer."
+    },
+    "assumptions": [
+      "Role responsibilities and common competence criteria are approved. Budget, faculty availability and cohort schedules require a subsequent feasibility plan."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "IV. Training Design and Delivery",
+        "subdomain": "B. Training Plan Elements",
+        "topic": "Scalable multi-level training architecture",
+        "code": "IV.B"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 18 - Training Plans, pp.245-255",
+      "verified_scope": "Printed pp.245–247: training plans and role/need alignment.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-141.png": "febda2a5c701cce216f3de6ccbc50c314b7a575beb37f5f5eaaa0ac44812d83e",
+        "player-final/mobile-141.png": "75239ce6cdcebc967d059954bf823adf03deac486ef150db831bfaa51d10d288",
+        "player-final/desktop-review-141.png": "5c8de4758f28cdea14006f92a38ff1007b3de35353f73914b5c23556b277d724",
+        "player-final/mobile-review-141.png": "faa285d9b96ce87e333b4e90c68210d8d3e63244d8af06accc6f246db26356ad",
+        "secondary-final/dark-mobile-review-141.png": "1de0cce7701affa95358fd0a758b4c212931c8eaebcbc47e2f2f60313f826e08",
+        "secondary-final/narrow-mobile-review-141.png": "d300823de786d75ea7d26d97dcad7efa0c85d34fdfcfd51fb20d514bbdbd2cb7"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "3971e5cc0e23f7ec34cc1efd78f19699c5f995e80198343e109982cbb89f6678"
+  },
+  {
+    "question": 142,
+    "qid": "mbb:set-2:original-142",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "B",
+    "independent_answer": "B",
+    "rekeyed": false,
+    "independent_solution": "The same recorded performance is judged using incompatible constructs. Use job-aligned criteria, calibrated raters and demonstrated agreement before comparing training effectiveness.",
+    "corrections": [
+      "Replaced repeated reaction-versus-transfer vignette with an evaluation measurement-system problem.",
+      "Required reliable role-relevant scoring before comparing training effectiveness; source 289–290 directly discusses validity/reliability."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "keywords",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Averaging incompatible scoring constructs hides the disagreement instead of making the measure valid or reliable.",
+      "B": "Correct. It repairs the job-performance construct and checks consistent application before interpreting regional outcomes.",
+      "C": "Satisfaction is a different construct and cannot substitute for valid evidence of demonstrated escalation performance.",
+      "D": "Selecting generous ratings biases the conclusion and rewards the measurement defect rather than resolving it."
+    },
+    "assumptions": [
+      "The recordings are complete and comparable. No changed learner performance can explain different ratings of the same recording.",
+      "This is an authored educational assessment case; reliable scoring is a prerequisite, not proof of a causal training effect."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "IV. Training Design and Delivery",
+        "subdomain": "D. Training Program Effectiveness",
+        "topic": "Validity and reliability of training evaluation",
+        "code": "IV.D"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 20 - Training Effectiveness Evaluation; Measurement Issues, pp.289-290",
+      "verified_scope": "Printed pp.289–290: validity, reliability and measurement issues in training evaluation.",
+      "primary_references": [],
+      "case_provenance": "Audit-authored replacement scenario; not textbook or historical data.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-142.png": "ce31da58d12c4f9ed3588ac3a0c0eea2ac807c78a2fd862f6ac74d108bc637ab",
+        "player-final/mobile-142.png": "68b37dfac2a580fa164571ff714582f3e20227437ff5e81ad7778e0d841475e0",
+        "player-final/desktop-review-142.png": "0b6e7b6507acdb33e05af55253ee3692fffd1f223f6c4a41c9e0dc87ff141898",
+        "player-final/mobile-review-142.png": "f8d00745aed2f1ab37c572396a907229b773eeb7f596095bda12ba74b827674b",
+        "secondary-final/dark-mobile-review-142.png": "71641748603a4d130cd85fedd3c3a7547ca22ded0908bd8e004b9f86fb7429b9",
+        "secondary-final/narrow-mobile-review-142.png": "1602587f215b3126f04c421b2f1460b450f4f0199a5d8d4a7edb6b89fc635d57"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "6b2a9c7231090b234d46cf0e69909f80730b2bd770b965854ea017cbcbd2af20"
+  },
+  {
+    "question": 143,
+    "qid": "mbb:set-2:original-143",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "C",
+    "independent_answer": "C",
+    "rekeyed": false,
+    "independent_solution": "The reviews lack decision structure and benefit reconciliation. Gate-specific pre-reads, accountable decisions and recorded follow-up address those defects; shorter slides or isolated email do not.",
+    "corrections": [
+      "Changed an absolute promise that Finance pre-validation prevents disputes into a governed reconciliation process.",
+      "Corrected source title and selecting-a-plan cognitive label."
+    ],
+    "changed_fields": [
+      "bok",
+      "cognitive",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Time limits may help, but they do not repair missing criteria, ownership, or preparation.",
+      "B": "Asynchronous review alone can fragment decisions and obscure cross-project dependencies.",
+      "C": "Correct. It turns the review into a repeatable governance and decision mechanism.",
+      "D": "Project variation does not remove the need for consistent evidence and accountable decisions."
+    },
+    "assumptions": [
+      "The scenario provides the material evidence needed for the decision."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "V. Coaching and Mentoring Responsibilities",
+        "subdomain": "A. Executives and Champions",
+        "topic": "Executive review operating system",
+        "code": "V.A.2"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 21 - Mentoring Champions, Change Agents, and Executives, pp.294-305",
+      "verified_scope": "Printed pp.295–296 and304–305: Champion gates, communication and executive feedback.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-143.png": "bd0c01b59df9f7946c9fcbbaf5c0afec990712081399941d94a993f088b7d490",
+        "player-final/mobile-143.png": "1259c3656c4e752bdcb9ef2297147bc64414800279f09369ed9ea383f143d8d9",
+        "player-final/desktop-review-143.png": "daccbc4669432932518c5fd644eafe2df9ceba89a9909e6cc53ef2d16e153a4b",
+        "player-final/mobile-review-143.png": "53fda9ff82edcf87a037d9d5a778693ef5804b5f876ea41de1334a7e6dcacab1",
+        "secondary-final/dark-mobile-review-143.png": "6305251e45ba4069514a07e06b5c4eac0d3626dc687307832353cce23d6e1ea7",
+        "secondary-final/narrow-mobile-review-143.png": "56c71a478d0676e125258636a38da42f0be8c4c253fbaf01bf9581e325551c8e"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "8a61cb68178ecc096fa9eefb32515337e2baf6c51b3d2d261f34393220814770"
+  },
+  {
+    "question": 144,
+    "qid": "mbb:set-2:original-144",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "D",
+    "independent_answer": "D",
+    "rekeyed": false,
+    "independent_solution": "The Belt suppresses contrary evidence and participation. Coaching, structured disconfirmation and sponsor-supported recovery address the mechanism without abandoning safety or formal escalation.",
+    "corrections": [
+      "Bounded coaching-first to the absence of an immediate hazard or misconduct requiring formal handling.",
+      "Shortened the keyed response and corrected mentoring-source title and cognitive classification."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Immediate wholesale replacement discards knowledge before a structured recovery attempt.",
+      "B": "Telling low-power members to push harder leaves the unsafe facilitation system intact.",
+      "C": "Permanent takeover prevents the Belt and team from developing the required capability.",
+      "D": "Correct. It addresses behavior, evidence integrity, coaching, facilitation, and accountability together."
+    },
+    "assumptions": [
+      "No immediate hazard or misconduct requiring separate formal action has been identified; any such issue is escalated under policy.",
+      "The sponsor retains project accountability; the MBB can intervene and escalate further if recovery fails."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "V. Coaching and Mentoring Responsibilities",
+        "subdomain": "B. Teams and Individuals",
+        "topic": "Recovery of a psychologically unsafe team",
+        "code": "V.B.3"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 22 - Mentoring Black Belts and Green Belts, pp.306-314",
+      "verified_scope": "Chapter22 locator and mentoring-role passage at printed p.306; entire range306–314 not reread.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-144.png": "b0eab6c51d2dcba3d9768ec9ba5fb7989bb4d0de7781298af3f22b6afd4d5c91",
+        "player-final/mobile-144.png": "f47763bfb0d0e0630dbaa046121236070a958ffb29a52b648a893a5be24c5c93",
+        "player-final/desktop-review-144.png": "5c5ba42a952d53422599e9e06a4ef10ce138004b51acf16a9d6df86220ef6f62",
+        "player-final/mobile-review-144.png": "75d1ba54a8fab003c51e0aa13db9cd49b891ba64a02a9f758e579a1f9f26ac2f",
+        "secondary-final/dark-mobile-review-144.png": "9d579e2ab3ffe5c4ce47e221b9f4e387a0b31997ddb55dc8f36835d8a89fb53d",
+        "secondary-final/narrow-mobile-review-144.png": "673827ecca2981a7b52e9132b3152f25dacb955712d1b708adaccff35a7d91a3"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "d62d65bb11eef56e52a60ead9c2c4e6458fe15acbd728aa5c4ee7c9f572844d6"
+  },
+  {
+    "question": 145,
+    "qid": "mbb:set-2:original-145",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "A",
+    "independent_answer": "A",
+    "rekeyed": false,
+    "independent_solution": "The stated assessment requires the mentee’s own demonstration. Coaching and a transparent extension support learning; providing all or a critical part of the solution substitutes for competence.",
+    "corrections": [
+      "Made independent demonstration an explicit assessment rule; corrected source to Belt mentoring, not non-Belt development.",
+      "Retained support/extension rather than substituting for competence."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Correct. It supports development while keeping performance evidence authentic.",
+      "B": "Rewording a supplied analysis does not demonstrate independent analytical competence.",
+      "C": "Substituting on the hardest section still corrupts the evidence used for certification.",
+      "D": "Effort matters developmentally but cannot replace required demonstrated competence."
+    },
+    "assumptions": [
+      "The internal certification policy requires the mentee to independently demonstrate the assessed analysis. Coaching and practice are permitted, but submitting someone else’s solution is not."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "V. Coaching and Mentoring Responsibilities",
+        "subdomain": "B. Teams and Individuals",
+        "topic": "Mentoring boundaries and credential integrity",
+        "code": "V.B.1"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 22 - Mentoring Black Belts and Green Belts, pp.306-310",
+      "verified_scope": "Chapter22 locator and mentoring-role passage at printed p.306; whole range306–310 not reread.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-145.png": "0b98082322e137a8dcf1b296a366e35e7abbaf59b2b12278fa81fe8eb2898779",
+        "player-final/mobile-145.png": "98359276915a6e918ade4e14e8c0b07b4982c4de5a527db1a1261ac3442233c9",
+        "player-final/desktop-review-145.png": "ef681e86ede32e381fae7e6dcb23d1d6b7fa445ba3f659000990d78a233571c7",
+        "player-final/mobile-review-145.png": "fd5148ff70bc5b2f0b2500405338415c3ccdcfe56d5bbf7ba799503860f254b0",
+        "secondary-final/dark-mobile-review-145.png": "00731c18da0e11e5b98f753cb05da6438e441b0a8ff78f82928dd978a9268c6a",
+        "secondary-final/narrow-mobile-review-145.png": "f46e2299e78368d6bd96fb137c8114448cde98377558f0a9e90ad430e5e53902"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "95f0c371c13adae0c83b0936442cada6f1961d74737a5cd318385f24f0df690a"
+  },
+  {
+    "question": 146,
+    "qid": "mbb:set-2:original-146",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "B",
+    "independent_answer": "B",
+    "rekeyed": false,
+    "independent_solution": "Po=.96, Pe=.93516, kappa=621/1621=.383096854. Sensitivity is 27/80=.3375 and specificity is1893/1920=.9859375. Overall agreement equals the always-negative benchmark, so class errors and consequences must be evaluated.",
+    "corrections": [
+      "Specified one appraiser versus validated references, not an unspecified multi-rater repeatability study.",
+      "Independently verified all counts, kappa, class-specific rates and all-negative benchmark.",
+      "Removed unsupported clinical harm magnitude and automatic acceptance from a summary statistic."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "formula",
+      "optionRationales",
+      "options",
+      "quantitative",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "The negative class dominates the sample; high pooled agreement conceals fifty-three missed reference-positive cases.",
+      "B": "Correct. The confusion matrix and task consequences expose limitations that raw agreement alone misses.",
+      "C": "Kappa corrects for agreement expected from the margins; it need not equal raw agreement even with valid references.",
+      "D": "More negative cases do not address positive-case detection or provide repeat measurements and additional appraisers."
+    },
+    "assumptions": [
+      "Reference labels are accepted as valid for this educational case; categories are mutually exclusive and each case is counted once.",
+      "No universal acceptance threshold or error-cost model is assumed. Population prevalence and intended use must be considered before generalizing."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "VI. Advanced Data Management and Analytic Methods",
+        "subdomain": "A. MSA, Process Capability, and Control",
+        "topic": "Attribute agreement with prevalence effects",
+        "code": "VI.A.2"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 24 - Measurement Systems Analysis (MSA); Attribute Measurement Systems, pp.320-334",
+      "verified_scope": "Printed pp.320 and322: categorical agreement assumptions and kappa; primary Minitab formula cross-check.",
+      "primary_references": [
+        "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/how-to/attribute-agreement-analysis/attribute-agreement-analysis/methods-and-formulas/kappa-statistics/"
+      ],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": true,
+      "type": "data-table",
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-146.png": "b70ae1912e85acd074dc86a4ab25b51a7bf2fcde2a6545cd8882a494b97670ff",
+        "player-final/mobile-146.png": "507075c38828af9c492546bfd75ed31e24aff4214b5b25f0a5a017d44628fcb1",
+        "player-final/desktop-review-146.png": "47b65833783e43df55e38bde4aa1adef38b4f8df55fdc035aec857491f3345b5",
+        "player-final/mobile-review-146.png": "4a693a2618d5d8784f3887b09eaa75870adb62c575ffa49700e4c10eb09a8b09",
+        "secondary-final/dark-mobile-review-146.png": "18103ec066508e6acf13f6ff245219198355ede8e4c20eeaa6445039e459566c",
+        "secondary-final/narrow-mobile-review-146.png": "c7de1d0fe456704ec8dcff6c0182b238174c8344cd327b297c09297390f2b89d"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "f24399c33c63e50837ec86242898d91092ef15793fe3dcfd2c79bb924e1a005b"
+  },
+  {
+    "question": 147,
+    "qid": "mbb:set-2:original-147",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "C",
+    "independent_answer": "C",
+    "rekeyed": false,
+    "independent_solution": "At n=80, the approximate pointwise bound is .219134662. Lags 1 and12 flag short-run/seasonal residual dependence; reassess the model, diagnostics and held-out forecasts rather than force arbitrary in-sample whiteness.",
+    "corrections": [
+      "Specified n=80 and pointwise approximate ACF bands; exceedances are diagnostic flags, not a simultaneous test.",
+      "Supplied ACF values are not represented as recomputed without the unavailable raw residuals."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "cognitive",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourcePages",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "A zero residual mean does not establish lack of serial dependence or calibrated forecast intervals.",
+      "B": "Chasing every in-sample bar with arbitrary predictors risks overfitting and lacks a defensible model-selection strategy.",
+      "C": "Correct. It treats the spikes as diagnostic evidence and validates the revised model on both residual and future-performance criteria.",
+      "D": "Indiscriminate differencing can overtransform the series; seasonal and nonseasonal structure need justified choices."
+    },
+    "assumptions": [
+      "The twelve displayed ACF values are supplied diagnostic summaries; the raw residuals needed to reconstruct them are not provided.",
+      "The approximate ±1.96/√80 bands are pointwise white-noise reference bands, not simultaneous bounds or a formal fitted-model portmanteau test."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "VI. Advanced Data Management and Analytic Methods",
+        "subdomain": "B. Measuring and Modeling Relationships",
+        "topic": "ARIMA residual adequacy",
+        "code": "VI.B.1"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Autocorrelation and Forecasting, pp.353-369",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [
+        "https://www.itl.nist.gov/div898/handbook/eda/section3/eda35c.htm",
+        "https://www.itl.nist.gov/div898/handbook/eda/section3/autocopl.htm"
+      ],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": true,
+      "type": "acf-plot",
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-147.png": "0f593e9142199b3f949b8e45ec7e7fcd543182ae0d913d3d43c6c4c97fb6e1a1",
+        "player-final/mobile-147.png": "d6f72cdaeb39d9ffa0c4b97b898fbf5421a9ed08b517536430fdb9074f1d863e",
+        "player-final/desktop-review-147.png": "67c445ef2f33558b0faea243a85b99ce39ad37de61a0b56f4a0c9f226a554c2d",
+        "player-final/mobile-review-147.png": "e401b6489517e633f91bab46099ae44870979c1e41a4853002f9d657012c0f4a",
+        "secondary-final/dark-mobile-review-147.png": "76aa631b6f1333d8305b88cd790263ce8f2b07b6574d8a25fdbf4b04198b2490",
+        "secondary-final/narrow-mobile-review-147.png": "de261ff3fef6c6bdcba34b9987e72dae9d3f6c701f22031ed90f81fe2bbd09b4"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "205fd1830f5042e76d6c41325293f7d2d00079e037e6348452ee996437c0cff1"
+  },
+  {
+    "question": 148,
+    "qid": "mbb:set-2:original-148",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "D",
+    "independent_answer": "D",
+    "rekeyed": false,
+    "independent_solution": "Solving [6,4]+2[[-3,-1],[-1,-2]]x=0 gives (.8,.6). Both quadratic eigenvalues are negative and the predicted height is85.6%, so the fitted stationary point is a maximum requiring confirmation.",
+    "corrections": [
+      "Reconstructed contours from the quadratic form instead of arbitrary unrotated radii; equal coded-axis scales.",
+      "Removed stem language that supplies the stationary coordinates; independent solution computes point/eigenvalues/height.",
+      "Classified interpretation at the current BoK Understand level; canonical computations retained as solution verification."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "chart",
+      "cognitive",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "stem",
+      "visual",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "The eigenvalue signs, not the mere presence of AB, determine whether a stationary point is a saddle.",
+      "B": "Linear coefficients set slope at the origin; they do not determine curvature at the stationary point.",
+      "C": "Coding changes coordinates and units but does not eliminate the squared terms or the interaction.",
+      "D": "Correct. Negative quadratic eigenvalues identify the model maximum; prediction alone is not a verified operating outcome."
+    },
+    "assumptions": [
+      "A and B have comparable coded scales. The shown region contains the stationary point and represents the feasible experimental region.",
+      "Residual and lack-of-fit diagnostics are stipulated acceptable for this case. Percent yield is a model prediction, not a claimed observed validation result."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "VI. Advanced Data Management and Analytic Methods",
+        "subdomain": "C. Design of Experiments",
+        "topic": "Response-surface stationary point diagnosis",
+        "code": "VI.C.3"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 26 - Design of Experiments (DOE); Response Surface Methodology, pp.439-442",
+      "verified_scope": "Retrieved printed p.439 response-surface discussion and p.441 steepest-ascent prose (not every figure/table in the range); independent linear algebra and NIST canonical method.",
+      "primary_references": [
+        "https://www.itl.nist.gov/div898/handbook/pri/section5/pri5514.htm"
+      ],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": true,
+      "type": "contour-plot",
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-148.png": "59b6b26677a9ed5db932415296ab5f50a53bffc9aaf8ace44865cf4349fd251d",
+        "player-final/mobile-148.png": "0554bacfbe69b70cb143a9f324dba97e1020718b963c8fd007c1558e84885048",
+        "player-final/desktop-review-148.png": "b2a4383563f97e4697120028544844a7cae4d127214619a1c27369f4ac3e3faf",
+        "player-final/mobile-review-148.png": "285f620f5484946bf437d3a387add98c171e62ecb1b315c088247f84a1b58765",
+        "secondary-final/dark-mobile-review-148.png": "5a5c0c0fcf86170a0e16eedc9911db1e561277ea3a695e583fa014c5b9deb55e",
+        "secondary-final/narrow-mobile-review-148.png": "1eb8a47936c13513e8eb8653f10145cc23c91234613a388c85f39e7312645a31"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "8fdef51a018d4647b231cb0d9aaae6f49e3fd4c7b6d9ae58f5d8907f63c1e22f"
+  },
+  {
+    "question": 149,
+    "qid": "mbb:set-2:original-149",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "A",
+    "independent_answer": "A",
+    "rekeyed": false,
+    "independent_solution": "A mean and two percentiles do not identify loss probability, tails, dependencies or liquidity needs. Evaluate the full distribution and model against risk appetite; neither a positive mean nor one negative percentile is an automatic decision.",
+    "corrections": [
+      "Corrected quantitative classification: supplied summary statistics do not determine the probability of loss.",
+      "No invented simulation draws, dependence structure or exact tail probabilities."
+    ],
+    "changed_fields": [
+      "assumptions",
+      "bok",
+      "cognitive",
+      "options",
+      "quantitative",
+      "questionType",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "Correct. It turns a selective mean into a governed risk-and-value decision profile.",
+      "B": "A positive mean can coexist with unacceptable downside or liquidity exposure.",
+      "C": "A deterministic best case removes rather than communicates uncertainty.",
+      "D": "Tail loss requires evaluation against risk appetite, not an automatic universal rule."
+    },
+    "assumptions": [
+      "The supplied mean and percentiles describe the same simulation. No draws or fitted distribution are supplied, so exact probability of loss cannot be computed from these summaries alone."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "VI. Advanced Data Management and Analytic Methods",
+        "subdomain": "B. Measuring and Modeling Relationships",
+        "topic": "Monte Carlo decision risk and model governance",
+        "code": "VI.B.7"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 25 - Measuring and Modeling Relationships Between Variables; Simulation, pp.414-416",
+      "verified_scope": "Chapter/title/edition and current BoK topic alignment. Not every page of the broader inherited locator was reverified.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-149.png": "da6330b0b4f7f579ade7b80686c59b2ba4b9bfc826f77dedafaf27a32c7aecd7",
+        "player-final/mobile-149.png": "9293b295ded401103582af8293b27e19be099a6d6396f69478372bcfaf6c51d4",
+        "player-final/desktop-review-149.png": "57becde97b3ef571e5c9f56c82c51ef12c73505dda3c8e91b09005f5cbe31914",
+        "player-final/mobile-review-149.png": "cad3790719cd7700c11a82bc293d4bd8759bc3d278eb97b7c4dc9c0475836eb8",
+        "secondary-final/dark-mobile-review-149.png": "52683a10d0891b2d2e6bb0c8a911db60dc4dbc49c88947c1bbc48475ccd9d38d",
+        "secondary-final/narrow-mobile-review-149.png": "659cbc03c6c9519580180079e1ed53bd31eb18a93be6681cac7267c396ec2a75"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "d2641318cccd3197053e3047f720e54a5e3fb256620b459cde82467c25e99ab4"
+  },
+  {
+    "question": 150,
+    "qid": "mbb:set-2:original-150",
+    "status": "Passed after corrections for tested offline candidate",
+    "original_key": "B",
+    "independent_answer": "D",
+    "rekeyed": true,
+    "independent_solution": "APC can offset a hidden change while temperature remains near set point. Statistical monitoring of suitably modeled controller output may reveal compensation. Stable temperature does not prove absence of assignable causes; D, not B, is correct.",
+    "corrections": [
+      "Confirmed wrong key: stored B contradicts the options and explanation; rekeyed to D.",
+      "Corrected swapped B/D distractor rationales and the appended wrong-answer text.",
+      "Stated comparable operating conditions and limits on identifying a specific cause from output drift.",
+      "Historical learner responses and stored attempt scores are not rewritten or automatically re-equated."
+    ],
+    "changed_fields": [
+      "answer",
+      "assumptions",
+      "bok",
+      "optionRationales",
+      "options",
+      "sourceDocument",
+      "sourceSection",
+      "sources",
+      "why"
+    ],
+    "distractor_adjudications": {
+      "A": "SPC monitoring is not the continuous feedback control law and does not replace the regulating controller.",
+      "B": "Near-set-point temperature can be maintained by compensation; it does not establish absence of underlying process changes.",
+      "C": "Controller output in this case is continuous; it can be monitored with a strategy appropriate to its dynamics.",
+      "D": "Correct. Monitoring compensating output can reveal changes masked in temperature while preserving the distinct APC role."
+    },
+    "assumptions": [
+      "Set point, production load and other known operating conditions are comparable, and output is a continuous manipulated-variable signal.",
+      "Use a stable reference and account for feedback dynamics/autocorrelation; an SPC signal motivates diagnosis rather than proving a maintenance cause."
+    ],
+    "source_alignment": {
+      "current_ASQ_topic": {
+        "domain": "VI. Advanced Data Management and Analytic Methods",
+        "subdomain": "A. MSA, Process Capability, and Control",
+        "topic": "APC and SPC complementary roles",
+        "code": "VI.A.6"
+      },
+      "handbookEdition": "2012",
+      "retained_topic_locator": "Chapter 27 - Automated Process Control (APC) and Statistical Process Control (SPC), pp.451-453",
+      "verified_scope": "Printed pp.451–453: APC regulation versus SPC and feedback-system components.",
+      "primary_references": [],
+      "case_provenance": "Existing educational scenario with explicitly authored clarifications; not represented as an exact textbook example.",
+      "remaining": "Broader source-range verification is not inferred from topic alignment."
+    },
+    "visual": {
+      "required": false,
+      "type": null,
+      "manual_final_desktop_mobile_exam_pair_inspected": true,
+      "review_reopened_in_actual_player": true,
+      "narrow_dark_review_verified": true,
+      "screenshots_sha256": {
+        "player-final/desktop-150.png": "6e68f8e6c8810c63691e26957907e6382dce018fd886fefc85d060774c1dca3e",
+        "player-final/mobile-150.png": "5281cca5fa9fb4276ebd01b013ca641b41535bc884a5c81ae95b4e3b3f5d730b",
+        "player-final/desktop-review-150.png": "3200148d604d592e461eae1aeac87a3544826b36bfc53759a92ed8a6b59db3a3",
+        "player-final/mobile-review-150.png": "35fe0e02dcdf016ea9e506f8203a74ea40d1a1af42dd11a09b24d96d6e9c540b",
+        "secondary-final/dark-mobile-review-150.png": "87093423fd70f6d5b3a2e0a9c88dcf95d335ecdb1a4dfccf88b4e989fbce95ce",
+        "secondary-final/narrow-mobile-review-150.png": "a7b063d93de254311f8b494f911be8679564db63286d6613776542af87cd2e90"
+      },
+      "layout_judgment": "Every final desktop/mobile exam view and final desktop answer review individually inspected. No overlapping or clipped question/evidence text in the inspected regions. Mobile, dark and 320px review states also reopened and checked automatically; wide evidence intentionally scrolls inside bounded containers.",
+      "manual_final_desktop_review_inspected": true
+    },
+    "student_checks": {
+      "standalone_answerable_under_stated_conditions": true,
+      "one_defensible_key": true,
+      "all_four_choices_adjudicated": true,
+      "choices_distinct": true,
+      "no_other_question_required": true,
+      "empirical_difficulty_calibrated": false
+    },
+    "content_sha256": "fde876f7b5e87ac5b6c32f8eb08fe3f5382648e48557bf0c03e4a6eb3b4c59d3"
+  }
+]

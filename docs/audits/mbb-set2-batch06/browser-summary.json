@@ -1,0 +1,81 @@
+{
+  "baselinePRHead": "25d47ccfd57b6b4ae49c322650148fac5008caad",
+  "auditDate": "2026-09-05 America/Regina",
+  "scope": "Set2 Questions126–150 plus Q1–150 integration; no Batch7 audit",
+  "runs": {
+    "batch6_player": {
+      "passed": true,
+      "assertions": 1395,
+      "questionLayoutStates": 162,
+      "javascriptErrors": 0,
+      "modes": {
+        "attempt": 75,
+        "review": 75,
+        "retry": 9,
+        "rekey-retry": 3
+      },
+      "rawResultSha256": "2201d9db28518ebdbe36aeec5682029a018240ef1c2ee7cf3dd4c069df0e52cb",
+      "evidencePath": "player-final/browser-results.json"
+    },
+    "batch6_secondary": {
+      "passed": true,
+      "assertions": 939,
+      "questionLayoutStates": 154,
+      "javascriptErrors": 0,
+      "modes": {
+        "fallback": 54,
+        "attempt": 50,
+        "review": 50
+      },
+      "rawResultSha256": "17dec6110c53aeead2b0e3d66371426fba0337c8247b9a3e27b6a4a0acd97cac",
+      "evidencePath": "secondary-final/secondary-results.json"
+    },
+    "combined150": {
+      "passed": true,
+      "assertions": 3561,
+      "questionLayoutStates": 918,
+      "javascriptErrors": 0,
+      "modes": {
+        "attempt": 450,
+        "review": 450,
+        "retry": 18
+      },
+      "rawResultSha256": "4628fc40da3e53ba3737565b703e4f202c08fa30b59c399b8748026431ae60be",
+      "evidencePath": "combined150/browser-results.json"
+    }
+  },
+  "targetedTests": {
+    "tests": 317,
+    "passed": 317,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "newBatch6Tests": 49,
+    "logSha256": "886eaa885a6b8d658a1ee36d2d40b157f21faa03c3336bb830a400ca40fc3661"
+  },
+  "sourceSha256": {
+    "test-bank-mbb-set2.js": "c2a7939d13931ce1ad3c1e7b72cc0dc1fc4a734270e69a3d4057216fa4f38212",
+    "test-bank-mbb-batch6-ui.js": "12c185e5f4e7161409cc90fec2a52f78621ff6d80e47d3557e43b9c42876fb03",
+    "test-bank.html": "6f389b40bc9429a7d3b84d28c27ade35105d3015465da9ed06d69de12e5a09a5",
+    "test-bank-feedback-loop.js": "4905af23d7262f26d9c5e3dc718a687aeb2870d697fa2f291cb32a7012a405e1",
+    "scripts/build-mbb160-assets.mjs": "3b6cf431001d42f2c8a50ee624d780f41fb92e84231ce6018fba378e6ed3dff8",
+    "tests/test-bank-mbb-batch06-audit.test.js": "f45a92465c6322698f1b0c0cc2a31cfb96ae9e62e1f5785389bc14396a9bfa3e",
+    "tests/browser/mbb-batch06-render.py": "8f68433981ffd57cba938a767de2242a59a54bb3adce536722b19574b7bec494",
+    "tests/browser/mbb-batch06-secondary.py": "e0309eed0049a88ecdcf6b86a19888c148703c19f1f86a6dc8b4a2cdd1d9fa5f",
+    "tests/browser/mbb-pr165-batches1-6-smoke.py": "3dbce82385cddd14089a4a0e94b802427ecbf639d2c39c10e4580566cc5dcb7e"
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/*mbb*.test.js tests/*feedback*.test.js",
+    "python tests/browser/mbb-batch06-render.py --out /tmp/b6-player",
+    "python tests/browser/mbb-batch06-secondary.py --out /tmp/b6-secondary",
+    "python tests/browser/mbb-pr165-batches1-6-smoke.py --out /tmp/combined150"
+  ],
+  "limitations": [
+    "Actual player/feedback source with explicit offline authentication and in-memory storage. No live-login, durable-cloud, cross-device or physical iPhone Safari clearance.",
+    "Combined150 is an integration traversal using the previous batches’ recorded audit keys and newly adjudicated Batch6 keys, not a second substantive source audit.",
+    "State counts are traversed views, not a claim of that many individual screenshots.",
+    "Unrelated sticky header hidden only during screenshot capture; interaction runs retain it. External fonts use available system fallbacks.",
+    "Targeted tests are not a full-repository CI result."
+  ],
+  "assetRegenerationNote": "Final regeneration corrected a six-decimal kappa value in the non-rendered visual construction specification (.383095 to .383097). All browser-loaded JavaScript/HTML and static fallback HTML remain byte-identical to the completed browser runs. Preservation hashes were refreshed and all317 targeted tests rerun on the regenerated candidate."
+}

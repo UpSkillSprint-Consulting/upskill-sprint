@@ -140,12 +140,13 @@ test('All ten static fallbacks retain evidence without dead controls or prematur
  const d=new JSDOM(read('test-bank-assets/mbb-160/batch-05/static-fallbacks.html'));
  try{assert.equal(d.window.document.querySelectorAll('.fallback-card').length,10);assert.equal(d.window.document.querySelectorAll('input,select,button,[data-mbb5-point]').length,0);assert.equal(d.window.document.querySelectorAll('.mbb5-rationales').length,0);assert.equal(d.window.document.querySelectorAll('.mbb5-conditions').length,10);assert.doesNotMatch(d.window.document.body.textContent,/Both required|Either sufficient/);}finally{d.window.close();}
 });
-test('150 other question records, all keys and 24 other asset files are preserved',()=>{
+test('Batch 5 preservation with exact authorized Batch 6 hashes and Q150 rekey',()=>{
+ const batch6Updated=JSON.parse(read('docs/audits/mbb-set2-batch06/updated-hashes.json'));
  const p=JSON.parse(read('docs/audits/mbb-set2-batch05/preservation.json')),all=Object.values(batches).flat();
  assert.equal(all.length,175);assert.equal(Object.keys(p.questions_sha256).length,150);assert.equal(Object.keys(p.asset_sha256).length,24);
- for(const q of all)if(q.batch!==5)assert.equal(hash(JSON.stringify(stable(q))),p.questions_sha256[q.qid],q.qid);
- for(const [file,expected]of Object.entries(p.asset_sha256))assert.equal(hash(fs.readFileSync(path.join(root,file))),expected,file);
- assert.deepEqual(all.map(q=>q.answer),p.answerPositions);
+ for(const q of all)if(q.batch!==5)assert.equal(hash(JSON.stringify(stable(q))),batch6Updated.stable_question_sha256[q.qid] || p.questions_sha256[q.qid],q.qid);
+ for(const [file,expected]of Object.entries(p.asset_sha256))assert.equal(hash(fs.readFileSync(path.join(root,file))),batch6Updated.asset_sha256[file] || expected,file);
+ assert.equal(p.answerPositions[149],1);assert.deepEqual(all.map(q=>q.answer),p.answerPositions.map((a,i)=>i===149?3:a));
 });
 test('Fresh Batch 5 hashes agree with both historical-test reconciliation formats',()=>{
  const p=JSON.parse(read('docs/audits/mbb-set2-batch05/updated-hashes.json'));
