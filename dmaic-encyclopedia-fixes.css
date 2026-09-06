@@ -1,0 +1,85 @@
+/* Scoped theme tokens: the site header and lesson use the same data-theme state. */
+body.dmaic-encyclopedia-page { background: var(--paper); color: var(--ink); }
+[data-dmaic-encyclopedia] {
+  --bg: #f4f7fb; --panel: #ffffff; --panel-2: #f1f5f9; --text: #182230;
+  --muted: #536174; --border: #cbd5e1; --primary: #075985; --primary-2: #0c4a6e;
+  --accent: #a34b00; --success: #15803d; --danger: #b91c1c;
+  --math-panel: #edf7fc; --trap-panel: #fdf0f0;
+  color: var(--text); min-width: 0; --sitebar-height: 86px;
+}
+html[data-theme="dark"] [data-dmaic-encyclopedia] {
+  --bg: #0b1220; --panel: #111c2d; --panel-2: #18273b; --text: #f1f5f9;
+  --muted: #b7c6d8; --border: #435770; --primary: #7dd3fc; --primary-2: #bae6fd;
+  --accent: #fbbf24; --success: #4ade80; --danger: #fca5a5;
+  --math-panel: #10273a; --trap-panel: #35212a;
+}
+[data-dmaic-encyclopedia] [hidden] { display: none !important; }
+[data-dmaic-encyclopedia] .encyclopedia-title { font-size: clamp(1.8rem, 3vw, 2.7rem); margin: 0 0 24px; color: var(--text); }
+[data-dmaic-encyclopedia] .validation-panel,
+[data-dmaic-encyclopedia] .formula-card,
+[data-dmaic-encyclopedia] .toolbar { color: var(--text); background: var(--panel); }
+[data-dmaic-encyclopedia] .validation-panel h2,
+[data-dmaic-encyclopedia] .phase-heading h2,
+[data-dmaic-encyclopedia] .card-title { color: var(--text); }
+[data-dmaic-encyclopedia] .card-family,
+[data-dmaic-encyclopedia] .source,
+[data-dmaic-encyclopedia] .phase-heading p { color: var(--muted); }
+[data-dmaic-encyclopedia] .toolbar { top: calc(var(--sitebar-height) + 8px); z-index: 20; }
+[data-dmaic-encyclopedia] .toolbar-grid > * { min-width: 0; }
+[data-dmaic-encyclopedia] .btn { min-height: 44px; padding: 10px 14px; border: 1px solid var(--border); white-space: normal; }
+[data-dmaic-encyclopedia] .btn:not(.primary) { color: var(--text); background: var(--panel-2); }
+[data-dmaic-encyclopedia] .btn.primary { color: #fff; background: #0369a1; border-color: #0369a1; }
+[data-dmaic-encyclopedia] .btn:hover { transform: none; }
+[data-dmaic-encyclopedia] .btn[aria-pressed="true"] { border: 2px solid var(--primary); }
+[data-dmaic-encyclopedia] .toolbar input::placeholder { color: var(--muted) !important; opacity: 1; }
+[data-dmaic-encyclopedia] .upskill-format-request { display: inline-flex; align-items: center; padding: 10px 14px; min-height: 44px; border: 1px solid var(--primary); border-radius: 9px; color: var(--primary); background: var(--panel); font-weight: 700; }
+[data-dmaic-encyclopedia] .phase-section { scroll-margin-top: calc(var(--sitebar-height) + 210px); }
+[data-dmaic-encyclopedia] .phase-heading > div:last-child { min-width: 0; }
+[data-dmaic-encyclopedia] .cards { align-items: start; }
+[data-dmaic-encyclopedia] .formula-card { min-width: 0; }
+[data-dmaic-encyclopedia] .card-title-wrap { min-width: 0; overflow-wrap: anywhere; }
+[data-dmaic-encyclopedia] .formula-id,
+[data-dmaic-encyclopedia] .phase-icon { color: #fff; text-shadow: 0 1px 2px #0008; }
+/* Orange/cyan IDs need a darker fill to meet normal-text contrast. */
+[data-dmaic-encyclopedia] .formula-card[data-formula-id^="I"] .formula-id { background: #b83b05 !important; }
+[data-dmaic-encyclopedia] .formula-card[data-formula-id^="M"] .formula-id { background: #086a83 !important; }
+[data-dmaic-encyclopedia] #phase-improve .phase-icon { background: #b83b05 !important; }
+[data-dmaic-encyclopedia] #phase-measure .phase-icon { background: #086a83 !important; }
+[data-dmaic-encyclopedia] .formula-box { min-width: 0; max-width: 100%; overflow-x: auto; overflow-y: hidden; background: var(--math-panel); color: var(--text); padding: 18px 16px; scrollbar-width: auto; }
+[data-dmaic-encyclopedia] .formula-box mjx-container { display: block !important; width: max-content; min-width: 100%; color: inherit; text-align: center; }
+[data-dmaic-encyclopedia] .formula-box mjx-container > svg { max-width: none !important; overflow: visible; }
+[data-dmaic-encyclopedia] .formula-box.has-overflow { box-shadow: inset -4px 0 var(--border); }
+[data-dmaic-encyclopedia] .formula-box:focus-visible { outline: 3px solid var(--primary); outline-offset: -3px; }
+[data-dmaic-encyclopedia] .math-placeholder { color: var(--muted); text-align: left; margin: 0; }
+[data-dmaic-encyclopedia] .math-status { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; color: var(--muted); margin-bottom: 18px; font-size: .9rem; }
+[data-dmaic-encyclopedia][data-math-status="error"] .math-status { color: var(--danger); }
+[data-dmaic-encyclopedia] .trap { color: var(--text); background: var(--trap-panel); }
+[data-dmaic-encyclopedia] .tag { color: var(--text); background: var(--panel-2); }
+.dmaic-encyclopedia-page .lesson-backlink a { color: var(--teal-dark) !important; }
+.dmaic-encyclopedia-page .skip-link:not(:focus) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.dmaic-encyclopedia-page .skip-link:focus { display: block; padding: 12px; background: var(--paper); color: var(--ink); }
+@media (max-width: 980px), (max-height: 600px) {
+  [data-dmaic-encyclopedia] .toolbar { position: static; }
+  [data-dmaic-encyclopedia] .phase-section { scroll-margin-top: calc(var(--sitebar-height) + 16px); }
+}
+@media (max-width: 620px) {
+  [data-dmaic-encyclopedia] .button-row > * { flex: 1 1 140px; justify-content: center; text-align: center; }
+  [data-dmaic-encyclopedia] .formula-box { padding: 16px 12px; }
+  [data-dmaic-encyclopedia] .card-head { gap: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dmaic-encyclopedia-page, .dmaic-encyclopedia-page * { scroll-behavior: auto !important; transition: none !important; }
+}
+@media print {
+  html[data-theme] [data-dmaic-encyclopedia] { --panel: #fff; --panel-2: #fff; --text: #000; --muted: #000; --primary: #000; --math-panel: #fff; --trap-panel: #fff; }
+  .dmaic-encyclopedia-page header.site,
+  .dmaic-encyclopedia-page footer.site,
+  [data-dmaic-encyclopedia] .toolbar,
+  [data-dmaic-encyclopedia] .math-status,
+  [data-dmaic-encyclopedia] .phase-nav { display: none !important; }
+  [data-dmaic-encyclopedia] .formula-box { overflow: visible; }
+  [data-dmaic-encyclopedia] .formula-box mjx-container { width: auto; min-width: 0; }
+  [data-dmaic-encyclopedia] .formula-box mjx-container > svg { max-width: 100% !important; height: auto; }
+  html[data-theme] [data-dmaic-encyclopedia] .formula-id,
+  html[data-theme] [data-dmaic-encyclopedia] .phase-icon { color: #000 !important; background: #fff !important; border: 1px solid #000; text-shadow: none; }
+}
