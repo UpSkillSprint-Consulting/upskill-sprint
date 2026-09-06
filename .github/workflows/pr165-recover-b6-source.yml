@@ -1,0 +1,35 @@
+name: PR165 audit recovery source
+on:
+  push:
+    branches: ['audit/pr165-batch6-publish']
+    paths: ['.github/workflows/pr165-recover-b6-source.yml']
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - name: Export exact source and recover partial transfer without applying it
+        run: |
+          python3 - <<'PY'
+          import base64,lzma,pathlib
+          parts=sorted(pathlib.Path('.github/pr165-b6').glob('part-*.b64'))
+          raw=base64.b64decode(''.join(p.read_text().strip() for p in parts))
+          dec=lzma.LZMADecompressor()
+          text=dec.decompress(raw)
+          pathlib.Path('recovered-partial-b6.txt').write_bytes(text)
+          print('Parts:',len(parts),'Decoded bytes:',len(text),'Complete stream:',dec.eof)
+          PY
+          tar --exclude='.git' -czf "$RUNNER_TEMP/pr165-source.tgz" .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr165-recovery-source
+          path: ${{ runner.temp }}/pr165-source.tgz
+          retention-days: 7
