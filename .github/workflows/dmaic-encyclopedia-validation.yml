@@ -1,0 +1,82 @@
+name: DMAIC encyclopedia validation
+
+on:
+  pull_request:
+    paths:
+      - 'assets/lessons/dmaic-formula-encyclopedia/**'
+      - 'lessons/lean-six-sigma/dmaic-formula-encyclopedia.html'
+      - 'dmaic-encyclopedia-*.js'
+      - 'dmaic-encyclopedia-*.css'
+      - 'theme.js'
+      - 'style.css'
+      - 'lessons-theme.css'
+      - 'contrast-fix.js'
+      - 'site-sections.js'
+      - 'scripts/validate-dmaic-encyclopedia.cjs'
+      - 'tests/dmaic-encyclopedia*.test.js'
+      - '.github/workflows/dmaic-encyclopedia-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: dmaic-encyclopedia-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Capture exact lesson inputs for reproducible review
+        run: |
+          mkdir -p /tmp/dmaic-audit-inputs/assets/lessons/dmaic-formula-encyclopedia /tmp/dmaic-audit-inputs/lessons/lean-six-sigma
+          cp assets/lessons/dmaic-formula-encyclopedia/* /tmp/dmaic-audit-inputs/assets/lessons/dmaic-formula-encyclopedia/
+          cp lessons/lean-six-sigma/dmaic-formula-encyclopedia.html /tmp/dmaic-audit-inputs/lessons/lean-six-sigma/
+          cp ./*.js ./*.css package.json package-lock.json /tmp/dmaic-audit-inputs/
+          node -e "const fs=require('fs'),z=require('zlib'); const b=[1,2,3,4].map(i=>fs.readFileSync('assets/lessons/dmaic-formula-encyclopedia/part-'+i+'.txt','utf8')).join('').replace(/\s/g,''); fs.writeFileSync('/tmp/dmaic-audit-inputs/decoded-lesson.html',z.gunzipSync(Buffer.from(b,'base64')));"
+          git rev-parse HEAD > /tmp/dmaic-audit-inputs/commit.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dmaic-validation-inputs
+          path: /tmp/dmaic-audit-inputs
+          retention-days: 7
+      - run: npm ci
+      - name: Install pinned browser audit dependencies without changing the lockfile
+        run: npm install --no-save --package-lock=false playwright@1.58.2 mathjax-full@3.2.2 @axe-core/playwright@4.11.1 fflate@0.8.2
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Validate all formula cards, themes, filters, and failure recovery
+        run: node scripts/validate-dmaic-encyclopedia.cjs
+      - name: Post failure summary as a PR comment
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body = '### DMAIC encyclopedia validation failed (' + context.sha.slice(0, 7) + ')\n\n';
+            try {
+              const summary = fs.readFileSync('artifacts/dmaic-encyclopedia/SUMMARY.md', 'utf8');
+              body += '```\n' + summary.slice(0, 55000) + '\n```';
+            } catch (e) {
+              body += 'No SUMMARY.md was produced - the failure likely happened during setup/install, before the validation script ran, or the script crashed before its `finally` block wrote output.';
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body,
+            });
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dmaic-browser-validation
+          path: artifacts/dmaic-encyclopedia
+          if-no-files-found: ignore
+          retention-days: 14

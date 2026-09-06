@@ -1,454 +1,278 @@
+/* Controller for the legacy, compressed DMAIC formula data. No formula is HTML. */
 (function () {
   'use strict';
+  const main = document.querySelector('main');
+  const root = document.getElementById('formulaRoot');
+  if (!main || !root || main.dataset.dmaicEncyclopedia) return;
+  if (typeof formulas === 'undefined' || typeof phaseMeta === 'undefined') return;
+  main.id = 'lesson-content';
+  main.tabIndex = -1;
+  main.dataset.dmaicEncyclopedia = 'true';
+  const byId = new Map(formulas.map(f => [f.id, f]));
+  const controls = Object.fromEntries(['searchInput', 'phaseFilter', 'examFilter', 'familyFilter',
+    'resetBtn', 'highYieldBtn', 'expandBtn', 'collapseBtn', 'themeBtn', 'resultCount', 'phaseNav']
+    .map(id => [id, document.getElementById(id)]));
+  const cards = new Map();
+  const sections = new Map();
+  const links = new Map();
+  const indexes = new Map();
+  const MATH_SOURCES = [
+    'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js'
+  ];
+  let highOnly = false;
+  let inputFrame = 0;
+  let mathRun = null;
+  let mathComplete = false;
+  let attemptedMath = false;
 
-  const REQUEST_URL = '/request-topic?topic=DMAIC%20Formula%20Encyclopedia&format=HTML%2FPDF';
-  const REMOVED_HERO_BADGES = new Set([
-    'mathjax stacked equations',
-    'searchable',
-    'print-ready'
-  ]);
-  let searchTimer = null;
-  let searchFrame = null;
-  let searchInstalled = false;
-
-  function normalize(value) {
-    return String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
+  function element(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
   }
+  function slug(value) { return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
 
-  function addStyles() {
-    if (document.getElementById('upskill-dmaic-fixes')) return;
-
-    const style = document.createElement('style');
-    style.id = 'upskill-dmaic-fixes';
-    style.textContent = `
-      [data-upskill-hidden="true"],
-      .formula-card[hidden],
-      .phase-section[hidden],
-      .phase-link[hidden] { display: none !important; }
-
-      #searchInput {
-        transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
-      }
-      #searchInput.upskill-search-pending {
-        border-color: var(--primary) !important;
-        box-shadow: 0 0 0 3px rgba(14, 165, 233, .12) !important;
-      }
-      #searchInput.upskill-search-running { cursor: progress !important; }
-
-      .upskill-format-request {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        min-height: 42px !important;
-        padding: 10px 15px !important;
-        border: 1px solid #f59e0b !important;
-        border-radius: 9px !important;
-        background: #fff7ed !important;
-        color: #9a3412 !important;
-        font-weight: 750 !important;
-        text-decoration: none !important;
-        white-space: nowrap !important;
-      }
-      .upskill-format-request:hover,
-      .upskill-format-request:focus {
-        background: #ffedd5 !important;
-        color: #7c2d12 !important;
-        text-decoration: none !important;
-        outline: 3px solid rgba(245, 158, 11, .18) !important;
-        outline-offset: 2px !important;
-      }
-
-      .upskill-scope-summary { padding: 22px 24px !important; }
-      .upskill-scope-summary h2,
-      .upskill-scope-summary h3 { margin: 0 0 9px !important; }
-      .upskill-scope-summary p {
-        margin: 0 !important;
-        max-width: 1120px !important;
-      }
-
-      .upskill-finance-formulas {
-        display: grid !important;
-        gap: 16px !important;
-        width: 100% !important;
-        padding: 26px clamp(14px, 4vw, 34px) !important;
-        color: #172033 !important;
-        font-family: Georgia, "Times New Roman", serif !important;
-        font-size: clamp(17px, 2vw, 22px) !important;
-        line-height: 1.3 !important;
-      }
-      .upskill-formula-row {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-        text-align: center !important;
-      }
-      .upskill-formula-label { white-space: nowrap !important; }
-      .upskill-fraction {
-        display: inline-grid !important;
-        grid-template-rows: auto auto !important;
-        align-items: center !important;
-        min-width: 150px !important;
-        text-align: center !important;
-        vertical-align: middle !important;
-      }
-      .upskill-fraction > span:first-child {
-        padding: 0 7px 3px !important;
-        border-bottom: 1.5px solid currentColor !important;
-      }
-      .upskill-fraction > span:last-child { padding: 3px 7px 0 !important; }
-      html[data-theme="dark"] .upskill-finance-formulas { color: #f4f7fb !important; }
-
-      @media (max-width: 620px) {
-        .upskill-formula-row {
-          flex-direction: column !important;
-          gap: 5px !important;
-        }
-        .upskill-fraction { min-width: min(100%, 250px) !important; }
-      }
-      @media print {
-        .upskill-format-request { display: none !important; }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  function removeUnwantedNavigationAndBadges() {
-    document.querySelectorAll('.upskill-lesson-sitebar a, .upskill-lesson-sitebar button').forEach(function (element) {
-      if (normalize(element.textContent) === 'back to home') element.remove();
-    });
-
-    document.querySelectorAll('.header-badge, .chip, .badge, .pill, a, button, [role="button"], li, span').forEach(function (element) {
-      if (!REMOVED_HERO_BADGES.has(normalize(element.textContent))) return;
-      const removable = element.closest('.header-badge, a, button, [role="button"], li') || element;
-      removable.remove();
-    });
-  }
-
-  function replaceDownloadControls() {
-    const controls = Array.from(document.querySelectorAll('a, button, [role="button"]'));
-    const targets = controls.filter(function (element) {
-      const text = normalize(element.textContent);
-      return text === 'print / pdf' || text === 'print/pdf' ||
-        text === 'download this html' || text === 'download html';
-    });
-
-    if (!targets.length) return;
-
-    const first = targets[0];
-    const request = document.createElement('a');
-    request.href = REQUEST_URL;
-    request.className = 'upskill-format-request';
-    request.textContent = 'Ask for HTML/PDF format';
-    request.setAttribute('aria-label', 'Request the DMAIC Formula Encyclopedia in HTML or PDF format');
-
-    first.replaceWith(request);
-    targets.slice(1).forEach(function (element) { element.remove(); });
-  }
-
-  function replaceScopeSection() {
-    const heading = Array.from(document.querySelectorAll('h1, h2, h3, h4')).find(function (element) {
-      return normalize(element.textContent) === 'validation statement and scope';
-    });
-    if (!heading) return;
-
-    let panel = heading.parentElement;
-    while (panel && panel !== document.body) {
-      const text = normalize(panel.textContent);
-      if (text.includes('formula coverage') && text.includes('excluded duplication')) break;
-      panel = panel.parentElement;
+  function preparePage() {
+    const title = element('h1', 'encyclopedia-title', 'DMAIC Formula Encyclopedia');
+    main.prepend(title);
+    const scope = main.querySelector('.validation-panel');
+    if (scope) {
+      scope.replaceChildren(element('h2', '', 'Scope summary'), element('p', '',
+        'This encyclopedia summarizes formula families used for CSSBB, CQE, and CMBB study across Pre-DMAIC and the Define, Measure, Analyze, Improve, and Control phases. Coverage includes business measures, statistics, measurement systems, capability, hypothesis testing, regression, design of experiments, reliability, optimization, and process control.'));
     }
-    if (!panel || panel === document.body) panel = heading.parentElement;
-    if (!panel || panel.dataset.upskillScopeFixed === 'true') return;
-
-    panel.dataset.upskillScopeFixed = 'true';
-    panel.classList.add('upskill-scope-summary');
-    panel.innerHTML = `
-      <h2>Scope summary</h2>
-      <p>This encyclopedia summarizes formula families used for CSSBB, CQE, and CMBB study across Pre-DMAIC and the Define, Measure, Analyze, Improve, and Control phases. Coverage includes business measures, statistics, measurement systems, capability, hypothesis testing, regression, design of experiments, reliability, optimization, and process control.</p>`;
-  }
-
-  function financeFormulaMarkup() {
-    return `
-      <div class="upskill-finance-formulas" role="group" aria-label="Revenue growth, market share, and profit margin formulas">
-        <div class="upskill-formula-row">
-          <span class="upskill-formula-label">Revenue Growth (%)</span><span>=</span>
-          <span class="upskill-fraction"><span>R<sub>t</sub> − R<sub>t−1</sub></span><span>R<sub>t−1</sub></span></span>
-          <span>× 100</span>
-        </div>
-        <div class="upskill-formula-row">
-          <span class="upskill-formula-label">Market Share (%)</span><span>=</span>
-          <span class="upskill-fraction"><span>Organization Sales</span><span>Total Market Sales</span></span>
-          <span>× 100</span>
-        </div>
-        <div class="upskill-formula-row">
-          <span class="upskill-formula-label">Gross Margin (%)</span><span>=</span>
-          <span class="upskill-fraction"><span>Revenue − COGS</span><span>Revenue</span></span>
-          <span>× 100</span>
-        </div>
-        <div class="upskill-formula-row">
-          <span class="upskill-formula-label">Operating Margin (%)</span><span>=</span>
-          <span class="upskill-fraction"><span>Operating Income</span><span>Revenue</span></span>
-          <span>× 100</span>
-        </div>
-        <div class="upskill-formula-row">
-          <span class="upskill-formula-label">Net Margin (%)</span><span>=</span>
-          <span class="upskill-fraction"><span>Net Income</span><span>Revenue</span></span>
-          <span>× 100</span>
-        </div>
-      </div>`;
-  }
-
-  function replaceFinanceFormulas() {
-    const title = Array.from(document.querySelectorAll('h1, h2, h3, h4, strong')).find(function (element) {
-      return normalize(element.textContent) === 'revenue growth, market share and profit margins';
+    const row = main.querySelector('.button-row');
+    row.querySelectorAll('button').forEach(button => {
+      if (button.id === 'downloadBtn' || button.hasAttribute('onclick')) button.remove();
     });
-    if (!title) return;
-
-    let card = title.parentElement;
-    while (card && card !== document.body) {
-      const text = normalize(card.textContent);
-      if (text.includes('gross margin') && text.includes('operating margin') && text.includes('exam trap')) break;
-      card = card.parentElement;
-    }
-    if (!card || card === document.body || card.dataset.upskillFinanceFixed === 'true') return;
-
-    const mathNodes = Array.from(card.querySelectorAll('mjx-container'));
-    let host = null;
-
-    if (mathNodes.length) {
-      host = mathNodes[0];
-      while (host && host !== card && !mathNodes.every(function (node) { return host.contains(node); })) {
-        host = host.parentElement;
-      }
-    }
-
-    if (!host || host === card) {
-      const candidates = Array.from(card.querySelectorAll('div, section, p')).filter(function (element) {
-        const text = normalize(element.textContent);
-        return text.includes('revenue growth') && text.includes('market share') &&
-          text.includes('gross margin') && text.includes('operating margin') && text.includes('net margin');
-      });
-      candidates.sort(function (a, b) {
-        return a.querySelectorAll('*').length - b.querySelectorAll('*').length;
-      });
-      host = candidates[0] || null;
-    }
-
-    if (!host || host === card) return;
-    host.outerHTML = financeFormulaMarkup();
-    card.dataset.upskillFinanceFixed = 'true';
+    const request = element('a', 'upskill-format-request', 'Ask for HTML/PDF format');
+    request.href = '/request-topic?topic=DMAIC%20Formula%20Encyclopedia&format=HTML%2FPDF';
+    row.append(request);
+    controls.resultCount.setAttribute('role', 'status');
+    controls.resultCount.setAttribute('aria-live', 'polite');
+    controls.highYieldBtn.setAttribute('aria-pressed', 'false');
+    // The existing site theme controller owns both switches and persistence.
+    controls.themeBtn.setAttribute('data-theme-toggle', 'true');
+    controls.themeBtn.setAttribute('role', 'switch');
+    document.body.classList.remove('dark');
   }
 
-  function installFastSearch() {
-    if (searchInstalled) return;
+  const status = element('div', 'math-status');
+  status.setAttribute('role', 'status');
+  status.setAttribute('aria-live', 'polite');
+  const statusText = element('span', '', 'Loading the equation renderer…');
+  const retry = element('button', 'btn', 'Retry equations');
+  retry.type = 'button';
+  retry.hidden = true;
+  status.append(statusText, retry);
 
-    const input = document.getElementById('searchInput');
-    const root = document.getElementById('formulaRoot');
-    const count = document.getElementById('resultCount');
-    const phaseNav = document.getElementById('phaseNav');
-    if (!input || !root || !count || !phaseNav) return;
+  function buildCards() {
+    root.replaceChildren();
+    controls.phaseNav.replaceChildren();
+    for (const [phase, meta] of Object.entries(phaseMeta)) {
+      const option = element('option', '', phase); option.value = phase; controls.phaseFilter.append(option);
+      const section = element('section', 'phase-section'); section.id = 'phase-' + slug(phase);
+      const heading = element('div', 'phase-heading');
+      const icon = element('div', 'phase-icon', meta.code); icon.style.backgroundColor = meta.color;
+      const headingText = element('div');
+      headingText.append(element('h2', '', phase), element('p', '', meta.description));
+      heading.append(icon, headingText);
+      const grid = element('div', 'cards'); section.append(heading, grid); root.append(section);
+      const link = element('a', 'phase-link', phase); link.href = '#' + section.id;
+      controls.phaseNav.append(link); sections.set(phase, { section, grid, description: headingText.lastChild, meta }); links.set(phase, link);
+    }
+    for (const family of [...new Set(formulas.map(f => f.family))].sort((a, b) => a.localeCompare(b))) {
+      const option = element('option', '', family); option.value = family; controls.familyFilter.append(option);
+    }
+    for (const f of formulas) {
+      const card = element('article', 'formula-card' + (f.high ? ' high-yield' : ''));
+      card.dataset.formulaId = f.id;
+      const head = element('div', 'card-head');
+      const id = element('div', 'formula-id', f.id); id.style.backgroundColor = phaseMeta[f.phase].color;
+      const titles = element('div', 'card-title-wrap');
+      const title = element('h3', 'card-title', f.title); title.id = 'formula-title-' + f.id;
+      card.setAttribute('aria-labelledby', title.id);
+      titles.append(title, element('div', 'card-family', f.family + ' · ' + f.phase)); head.append(id, titles);
+      if (f.high) { const star = element('span', 'star', '★'); star.setAttribute('aria-hidden', 'true'); head.append(star); }
+      const tags = element('div', 'tags');
+      [...f.exams, ...(f.high ? ['High yield'] : [])].forEach(tag => tags.append(element('span', 'tag', tag)));
+      const box = element('div', 'formula-box');
+      box.dataset.mathState = 'loading';
+      box.setAttribute('aria-label', f.id + ': ' + f.title + '. Equation region; scroll horizontally when needed.');
+      box.setAttribute('role', 'region');
+      box.append(element('p', 'math-placeholder', 'Preparing equation…'));
+      const body = element('div', 'card-body');
+      for (const [label, text, klass] of [['Use:', f.use, ''], ['Exam trap:', f.trap, 'trap']]) {
+        const p = element('p', klass); p.append(element('span', 'label', label), document.createTextNode(' ' + text)); body.append(p);
+      }
+      const details = element('details'); details.append(element('summary', '', 'Source alignment'), element('p', 'source', f.source)); body.append(details);
+      card.append(head, tags, box, body); sections.get(f.phase).grid.append(card); cards.set(f.id, card);
+      indexes.set(f.id, [f.id, f.phase, f.family, f.title, ...f.exams, f.eq, f.use, f.trap, f.source].join(' ').toLowerCase());
+    }
+    const empty = element('p', 'empty', 'No formulas match the selected filters.');
+    empty.id = 'formula-empty'; empty.hidden = true; root.prepend(empty);
+    controls.resultCount.closest('.result-summary').before(status);
+  }
 
-    const searchIndex = new Map();
-    try {
-      formulas.forEach(function (formula) {
-        const text = [
-          formula.id,
-          formula.phase,
-          formula.family,
-          formula.title,
-          formula.exams.join(' '),
-          formula.eq,
-          formula.use,
-          formula.trap,
-          formula.source
-        ].join(' ').toLowerCase();
-        formula.__upskillSearchText = text;
-        searchIndex.set(formula.id, text);
-      });
+  function applyFilters() {
+    if (inputFrame) { cancelAnimationFrame(inputFrame); inputFrame = 0; }
+    const query = controls.searchInput.value.trim().toLowerCase();
+    const phase = controls.phaseFilter.value, exam = controls.examFilter.value, family = controls.familyFilter.value;
+    const counts = new Map(Object.keys(phaseMeta).map(p => [p, 0]));
+    let count = 0;
+    for (const f of formulas) {
+      const visible = (!query || indexes.get(f.id).includes(query)) && (!phase || f.phase === phase) &&
+        (!exam || f.exams.includes(exam)) && (!family || f.family === family) && (!highOnly || f.high);
+      cards.get(f.id).hidden = !visible;
+      if (visible) { count++; counts.set(f.phase, counts.get(f.phase) + 1); }
+    }
+    for (const [phase, { section, description, meta }] of sections) {
+      const n = counts.get(phase); section.hidden = !n; links.get(phase).hidden = !n;
+      description.textContent = meta.description + ' ' + n + ' formula ' + (n === 1 ? 'family.' : 'families.');
+    }
+    document.getElementById('formula-empty').hidden = count !== 0;
+    controls.resultCount.textContent = count + ' formula families shown of ' + formulas.length;
+    controls.searchInput.removeAttribute('aria-busy');
+    requestAnimationFrame(updateOverflow);
+  }
 
-      filteredFormulas = function fastFilteredFormulas() {
-        const query = input.value.trim().toLowerCase();
-        const phase = document.getElementById('phaseFilter').value;
-        const exam = document.getElementById('examFilter').value;
-        const family = document.getElementById('familyFilter').value;
+  function updateOverflow() {
+    for (const card of cards.values()) {
+      if (card.hidden || card.closest('.phase-section').hidden) continue;
+      const box = card.querySelector('.formula-box');
+      const overflows = box.scrollWidth > box.clientWidth + 2;
+      box.classList.toggle('has-overflow', overflows);
+      if (overflows) box.tabIndex = 0; else box.removeAttribute('tabindex');
+    }
+  }
+  function syncTheme() {
+    const dark = document.documentElement.dataset.theme === 'dark';
+    document.body.classList.remove('dark');
+    controls.themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    controls.themeBtn.setAttribute('aria-checked', String(dark));
+    controls.themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  function bindControls() {
+    controls.searchInput.addEventListener('input', () => {
+      controls.searchInput.setAttribute('aria-busy', 'true');
+      if (inputFrame) cancelAnimationFrame(inputFrame);
+      inputFrame = requestAnimationFrame(applyFilters);
+    });
+    controls.searchInput.addEventListener('search', applyFilters);
+    controls.searchInput.addEventListener('keydown', event => {
+      if (event.key === 'Escape') { event.preventDefault(); controls.searchInput.value = ''; applyFilters(); }
+      if (event.key === 'Enter') { event.preventDefault(); applyFilters(); }
+    });
+    ['phaseFilter', 'examFilter', 'familyFilter'].forEach(id => controls[id].addEventListener('change', applyFilters));
+    controls.resetBtn.addEventListener('click', () => {
+      ['searchInput', 'phaseFilter', 'examFilter', 'familyFilter'].forEach(id => { controls[id].value = ''; });
+      highOnly = false; controls.highYieldBtn.textContent = 'High-yield only'; controls.highYieldBtn.setAttribute('aria-pressed', 'false'); applyFilters();
+    });
+    controls.highYieldBtn.addEventListener('click', () => {
+      highOnly = !highOnly; controls.highYieldBtn.textContent = highOnly ? 'Show all formulas' : 'High-yield only';
+      controls.highYieldBtn.setAttribute('aria-pressed', String(highOnly)); applyFilters();
+    });
+    controls.expandBtn.addEventListener('click', () => root.querySelectorAll('details').forEach(d => { d.open = true; }));
+    controls.collapseBtn.addEventListener('click', () => root.querySelectorAll('details').forEach(d => { d.open = false; }));
+    window.addEventListener('upskill:themechange', syncTheme);
+    new MutationObserver(syncTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    window.addEventListener('resize', updateOverflow);
+    // A small-screen toolbar must not cover the entire reading viewport.
+    const header = document.querySelector('header.site');
+    if (header && window.ResizeObserver) {
+      new ResizeObserver(() => main.style.setProperty('--sitebar-height', Math.ceil(header.getBoundingClientRect().height) + 'px')).observe(header);
+    }
+    syncTheme();
+  }
 
-        return formulas.filter(function (formula) {
-          return (
-            (!query || formula.__upskillSearchText.includes(query)) &&
-            (!phase || formula.phase === phase) &&
-            (!exam || formula.exams.includes(exam)) &&
-            (!family || formula.family === family) &&
-            (!highYieldOnly || formula.high)
-          );
+  async function loadMathJax() {
+    // Each attempt has one script and one startup promise. No concurrent typesetting.
+    for (const src of MATH_SOURCES) {
+      try {
+        window.MathJax = {
+          startup: { typeset: false },
+          tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']], processEscapes: true, tags: 'none' },
+          svg: { fontCache: 'local', scale: 1 },
+          options: { enableMenu: false }
+        };
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script'); script.src = src; script.async = true;
+          script.dataset.dmaicMathjax = 'true';
+          script.onload = resolve;
+          script.onerror = () => { script.remove(); reject(new Error('Equation renderer could not be loaded.')); };
+          document.head.append(script);
         });
-      };
-    } catch (error) {
-      console.warn('Search index optimization was not applied.', error);
-    }
-
-    let lastQuery = input.value.trim().toLowerCase();
-
-    function finishSearch() {
-      input.classList.remove('upskill-search-pending', 'upskill-search-running');
-      input.removeAttribute('aria-busy');
-    }
-
-    function updatePhaseNavigation() {
-      phaseNav.querySelectorAll('.phase-link').forEach(function (link) {
-        const selector = link.getAttribute('href');
-        const section = selector && selector.startsWith('#') ? document.querySelector(selector) : null;
-        link.hidden = !section || section.hidden;
-      });
-    }
-
-    function fastFilterExistingCards(query) {
-      const cards = Array.from(root.querySelectorAll('.formula-card'));
-      if (!cards.length) return false;
-
-      let visibleCount = 0;
-      cards.forEach(function (card) {
-        const id = card.querySelector('.formula-id')?.textContent.trim();
-        const text = searchIndex.get(id) || normalize(card.textContent);
-        const matches = !query || text.includes(query);
-        card.hidden = !matches;
-        if (matches) visibleCount += 1;
-      });
-
-      root.querySelectorAll('.phase-section').forEach(function (section) {
-        const visibleCards = Array.from(section.querySelectorAll('.formula-card')).filter(function (card) {
-          return !card.hidden;
-        });
-        section.hidden = visibleCards.length === 0;
-      });
-
-      root.querySelector('.upskill-fast-search-empty')?.remove();
-      if (!visibleCount) {
-        const empty = document.createElement('div');
-        empty.className = 'empty upskill-fast-search-empty';
-        empty.textContent = 'No formulas match the selected filters.';
-        root.prepend(empty);
+        // startup.promise has previously hung indefinitely (observed with an
+        // unsupported package config, but the underlying library is a moving
+        // target we don't control) - race it against a timeout so a stuck
+        // engine still falls through to the next source, rather than
+        // wedging the whole page's math status at "loading" forever.
+        await Promise.race([
+          window.MathJax.startup.promise,
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Equation renderer did not become ready in time.')), 15000))
+        ]);
+        if (typeof window.MathJax.tex2svgPromise !== 'function') throw new Error('Equation renderer did not initialize.');
+        return window.MathJax;
+      } catch (error) {
+        document.querySelectorAll('script[data-dmaic-mathjax]').forEach(script => script.remove());
       }
-
-      count.textContent = `${visibleCount} formula families shown of ${formulas.length}`;
-      updatePhaseNavigation();
-      return true;
     }
+    throw new Error('Both equation-renderer sources were unavailable.');
+  }
 
-    function fullRender() {
-      window.clearTimeout(searchTimer);
-      input.classList.remove('upskill-search-pending');
-      input.classList.add('upskill-search-running');
-      input.setAttribute('aria-busy', 'true');
-
-      window.requestAnimationFrame(function () {
-        try {
-          render();
-          lastQuery = input.value.trim().toLowerCase();
-        } finally {
-          window.setTimeout(function () {
-            replaceFinanceFormulas();
-            finishSearch();
-          }, 0);
-        }
-      });
-    }
-
-    function handleSearch(event) {
-      event.stopImmediatePropagation();
-      window.clearTimeout(searchTimer);
-      if (searchFrame) window.cancelAnimationFrame(searchFrame);
-
-      const query = input.value.trim().toLowerCase();
-      const canNarrowExistingResults = query.startsWith(lastQuery) && query.length >= lastQuery.length;
-
-      input.classList.add('upskill-search-pending');
-      input.setAttribute('aria-busy', 'true');
-
-      if (canNarrowExistingResults) {
-        searchFrame = window.requestAnimationFrame(function () {
-          searchFrame = null;
-          if (!fastFilterExistingCards(query)) {
-            fullRender();
-            return;
+  function startMath() {
+    if (mathRun) return mathRun;
+    mathRun = (async () => {
+      mathComplete = false;
+      retry.hidden = true; status.hidden = false; statusText.textContent = 'Loading the equation renderer…';
+      main.dataset.mathStatus = 'loading';
+      const slow = setTimeout(() => { if (!mathComplete) statusText.textContent = 'Equations are still loading. Search and filters remain available; please check your connection.'; }, 8000);
+      let engine;
+      try {
+        const reusable = !attemptedMath && window.MathJax?.tex2svgPromise;
+        attemptedMath = true;
+        engine = reusable ? window.MathJax : await loadMathJax();
+        await engine.startup.promise;
+        // Direct conversion with startup.typeset=false does not install output CSS.
+        // Install MathJax's own stylesheet before inserting any equations; it keeps
+        // assistive MathML available to screen readers but visually clipped, rather
+        // than showing a second browser-native copy beneath every SVG equation.
+        engine.startup.document.updateDocument();
+        let failures = 0;
+        // Convert directly from the authoritative strings, not browser-parsed HTML.
+        // Per-card conversion isolates a malformed formula and never rebuilds the grid.
+        for (const [id, card] of cards) {
+          const box = card.querySelector('.formula-box');
+          try {
+            const rendered = await engine.tex2svgPromise(byId.get(id).eq, { display: true });
+            if (rendered.querySelector('[data-mjx-error], [data-mml-node="merror"], mjx-merror')) throw new Error('Invalid equation: ' + id);
+            box.replaceChildren(rendered); box.dataset.mathState = 'ready';
+          } catch (error) {
+            failures++;
+            box.replaceChildren(element('p', 'math-placeholder', 'This equation could not be displayed. Use Retry equations below the filters.'));
+            box.dataset.mathState = 'error';
+            console.error('DMAIC equation ' + id + ' could not be rendered.', error);
           }
-          lastQuery = query;
-          finishSearch();
-        });
-        return;
-      }
-
-      searchTimer = window.setTimeout(fullRender, query ? 90 : 0);
-    }
-
-    input.addEventListener('input', handleSearch, true);
-    input.addEventListener('search', handleSearch, true);
-    input.addEventListener('keydown', function (event) {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        fullRender();
-      }
-      if (event.key === 'Escape' && input.value) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        input.value = '';
-        fullRender();
-      }
-    }, true);
-
-    searchInstalled = true;
+        }
+        if (failures) throw new Error(failures + ' equations need another rendering attempt.');
+        mathComplete = true; main.dataset.mathStatus = 'ready';
+        statusText.textContent = 'All ' + formulas.length + ' formula families are ready. Wide equations scroll horizontally.';
+        updateOverflow();
+      } catch (error) {
+        main.dataset.mathStatus = 'error';
+        statusText.textContent = 'Some equations could not be loaded. Check your connection, then retry. Your filters have been kept.';
+        retry.hidden = false;
+        for (const card of cards.values()) {
+          const box = card.querySelector('.formula-box');
+          if (box.dataset.mathState === 'loading') { box.dataset.mathState = 'error'; box.firstChild.textContent = 'Equation unavailable until the renderer loads.'; }
+        }
+      } finally { clearTimeout(slow); }
+    })().finally(() => { mathRun = null; });
+    return mathRun;
   }
 
-  function observeFormulaRoot() {
-    const root = document.getElementById('formulaRoot');
-    if (!root || root.dataset.upskillObserved === 'true') return;
-
-    root.dataset.upskillObserved = 'true';
-    const observer = new MutationObserver(function (mutations) {
-      if (!mutations.some(function (mutation) { return mutation.addedNodes.length || mutation.removedNodes.length; })) return;
-      window.requestAnimationFrame(replaceFinanceFormulas);
-    });
-    observer.observe(root, { childList: true, subtree: false });
-  }
-
-  function blockLegacyDownloads(event) {
-    const target = event.target instanceof Element ? event.target.closest('a, button, [role="button"]') : null;
-    if (!target) return;
-
-    const text = normalize(target.textContent);
-    const isLegacyDownload = text === 'print / pdf' || text === 'print/pdf' ||
-      text === 'download this html' || text === 'download html';
-
-    if (isLegacyDownload) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }
-  }
-
-  function applyStaticFixes() {
-    addStyles();
-    removeUnwantedNavigationAndBadges();
-    replaceDownloadControls();
-    replaceScopeSection();
-    replaceFinanceFormulas();
-    installFastSearch();
-    observeFormulaRoot();
-  }
-
-  function initialize() {
-    document.addEventListener('click', blockLegacyDownloads, true);
-    applyStaticFixes();
-
-    [200, 600, 1200, 2500].forEach(function (delay) {
-      window.setTimeout(applyStaticFixes, delay);
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initialize, { once: true });
-  } else {
-    initialize();
-  }
+  preparePage(); buildCards(); bindControls(); applyFilters();
+  retry.addEventListener('click', startMath);
+  startMath();
 }());
