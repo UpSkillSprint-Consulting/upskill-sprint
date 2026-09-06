@@ -70,3 +70,12 @@ html[data-theme] [data-dmaic-encyclopedia] .upskill-format-request:visited {
   border-color: var(--primary) !important;
 }
 html[data-theme] [data-dmaic-encyclopedia] .upskill-format-request:hover { text-decoration: underline; }
+/* Printing can begin in the middle of a site-wide theme transition. Commit the
+   print palette immediately rather than capturing an intermediate grey page. */
+@media print {
+  html[data-theme] body.dmaic-encyclopedia-page,
+  html[data-theme] body.dmaic-encyclopedia-page * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
