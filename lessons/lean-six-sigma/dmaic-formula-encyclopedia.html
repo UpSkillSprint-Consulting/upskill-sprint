@@ -139,8 +139,11 @@
       lesson.title = 'DMAIC Formula Encyclopedia | UpSkill Sprint Consulting';
       lesson.body.classList.add('dmaic-encyclopedia-page');
       const styles = lesson.createElement('link');
-      styles.rel = 'stylesheet'; styles.href = '/dmaic-encyclopedia-fixes.css?v=2';
+      styles.rel = 'stylesheet'; styles.href = '/dmaic-encyclopedia-fixes.css?v=3';
       lesson.head.append(styles);
+      const controlStyles = lesson.createElement('link');
+      controlStyles.rel = 'stylesheet'; controlStyles.href = '/dmaic-encyclopedia-controls.css?v=1';
+      lesson.head.append(controlStyles);
       const controller = lesson.createElement('script');
       controller.src = '/dmaic-encyclopedia-fixes.js?v=2';
       lesson.body.append(controller);
