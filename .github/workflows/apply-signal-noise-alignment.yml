@@ -1,0 +1,37 @@
+name: Apply audited Signal or Noise presentation
+on:
+  push:
+    branches: ['fix/signal-noise-lesson-guide-alignment']
+    paths: ['.github/workflows/apply-signal-noise-alignment.yml']
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/signal-noise-lesson-guide-alignment
+          fetch-depth: 0
+      - name: Apply source-locked migration
+        run: |
+          python scripts/apply-signal-noise-alignment.py
+          git diff --check
+          git config user.name BigErnie
+          git config user.email BigErnie@users.noreply.github.com
+          git add lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html
+          git rm scripts/apply-signal-noise-alignment.py .github/workflows/apply-signal-noise-alignment.yml
+          git commit -m "Align Signal or Noise presentation with lesson guide without rewriting content"
+          git push origin HEAD:fix/signal-noise-lesson-guide-alignment
+      - name: Capture review source
+        run: |
+          mkdir -p artifacts/source
+          cp lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html artifacts/source/
+          git rev-parse HEAD > artifacts/source/commit.txt
+          git show ddad4f1900392b2d250d0df8b8902dcb543f208d:lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html > artifacts/source/original.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: signal-noise-source-review
+          path: artifacts/source
+          retention-days: 14
