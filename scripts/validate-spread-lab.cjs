@@ -16,6 +16,10 @@ fs.mkdirSync(OUT, { recursive: true });
 const html = fs.readFileSync(LESSON, 'utf8');
 let baseline;
 try { baseline = cp.execFileSync('git', ['show', '0aeded7ce7739838bbb1ed370f68f2f2089ae6df:' + LESSON], { encoding: 'utf8' }); } catch (_) { baseline = null; }
+// Netlify adds this verified deployment-only block immediately before </body>.
+// Nothing inside the lesson, its styles, or its scripts is normalized or ignored.
+const NETLIFY_DEPLOYMENT_BLOCK = /<div data-netlify-deploy-id="[a-f0-9]{24}" data-netlify-site-id="82c1a97f-bb8d-4e7b-8367-fe93d7ce1657" data-vcs="github" style="position:fixed">\s*<script async src="\/\.netlify\/scripts\/cdp"><\/script>\s*<\/div>\n(?=<\/body>)/g;
+const reviewedSource = body => body.replace(NETLIFY_DEPLOYMENT_BLOCK, '');
 const report = { cases: [], baseline: [], matrix: [], preview: null, failures: [] };
 function save() {
   fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(report, null, 2));
@@ -206,6 +210,30 @@ async function interactions(page) {
             fs.writeFileSync(path.join(OUT,name+'-axe.json'),JSON.stringify(results.violations,null,2));
             assert.deepEqual(results.violations.filter(v=>['serious','critical'].includes(v.impact)).map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})),[]);
           });
+          await check(name+' diagram labels and formulas do not overlap borders or nodes',async()=>{
+            const defects=await page.evaluate(()=>{
+              const nodes=[...document.querySelectorAll('.diagram-node')], bad=[];
+              for(const node of nodes){
+                const box=node.getBoundingClientRect();
+                for(const child of node.querySelectorAll('.n-title,.katex-html')){
+                  const r=child.getBoundingClientRect();
+                  if(r.left<box.left+1 || r.right>box.right-1 || r.top<box.top+1 || r.bottom>box.bottom-1)bad.push({text:child.textContent,kind:'outside node'});
+                }
+              }
+              for(const label of document.querySelectorAll('#diagramSvg text')){
+                const a=label.getBoundingClientRect();
+                for(const node of nodes){const b=node.getBoundingClientRect();if(a.left<b.right && a.right>b.left && a.top<b.bottom && a.bottom>b.top)bad.push({text:label.textContent,kind:'edge label overlaps node'});}
+              }
+              return bad;
+            });
+            assert.deepEqual(defects,[]);
+          });
+          await check(name+' lesson and quiz anchor headings clear both sticky bars',async()=>{
+            for(const id of ['variance','quiz-heading']){
+              await page.locator('#navDots a[href="#'+id+'"]').click();
+              await page.waitForFunction(id=>{const y=document.getElementById(id).getBoundingClientRect().top,b=document.querySelector('.progress-rail').getBoundingClientRect().bottom;return y>=b-1 && y<=b+100;},id);
+            }
+          });
           await check(name+' buttons remain readable on hover and have keyboard focus',async()=>{
             for(const selector of ['#guessPallets','#guessPins']) {
               const contrast=await hoverContrast(page,selector);assert.ok(contrast.ratio>=4.49,selector+' '+JSON.stringify(contrast));
@@ -221,7 +249,7 @@ async function interactions(page) {
           });
           await page.evaluate(()=>scrollTo(0,0));
           await page.screenshot({path:path.join(OUT,name+'-full.png'),fullPage:true});
-          if(width===390||width===1440){for(const section of ['variance','together','implementation','quiz'])await page.locator('#'+section).screenshot({path:path.join(OUT,name+'-'+section+'.png')});}
+          if(width===390||width===1440){for(const section of ['variance','together','implementation','quiz'])await page.locator('#'+section).screenshot({path:path.join(OUT,name+'-'+section+'.png'),style:'header.site,.progress-rail{visibility:hidden !important}'});}
         }finally{await session.context.close();}
       }
     }
@@ -230,9 +258,10 @@ async function interactions(page) {
     if(preview){
       await check('Netlify deploy preview contains the exact reviewed lesson',async()=>{
         let body='';
-        for(let i=0;i<12;i++){const response=await fetch(preview+ROUTE);body=await response.text();if(body===html)break;await new Promise(r=>setTimeout(r,5000));}
-        assert.equal(body,html,'Preview is missing, transformed, or not yet at the reviewed revision');
-        report.preview={url:preview+ROUTE,sourceMatches:true,matrix:[]};
+        for(let i=0;i<12;i++){const response=await fetch(preview+ROUTE);body=await response.text();if(reviewedSource(body)===html)break;await new Promise(r=>setTimeout(r,5000));}
+        fs.writeFileSync(path.join(OUT,'preview-response.html'),body);
+        assert.equal(reviewedSource(body)===html,true,'Preview differs from the exact reviewed lesson after removing only the verified Netlify deployment block');
+        report.preview={url:preview+ROUTE,sourceMatches:true,netlifyDeploymentBlockIgnored:body!==html,matrix:[]};
       });
       if(report.preview?.sourceMatches){for(const width of [390,1440])for(const theme of ['light','dark']){
         await check('Netlify '+theme+'-'+width+' rendered smoke test',async()=>{
