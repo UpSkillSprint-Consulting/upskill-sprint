@@ -82,9 +82,13 @@ async function audit(page) {
       const box = card.querySelector('.formula-box'), svg = box.querySelector('svg'), rect = card.getBoundingClientRect();
       const b = box.getBoundingClientRect(), s = svg?.getBoundingClientRect();
       const text = [...card.querySelectorAll('.card-title,.card-family,.tag,.label,.card-body p,.source,summary,.formula-id')].filter(e => e.getClientRects().length);
+      const assistive = [...box.querySelectorAll('mjx-assistive-mml')];
       return { id: card.dataset.formulaId, math: box.querySelectorAll('mjx-container').length, state: box.dataset.mathState,
         parseErrors: box.querySelectorAll('[data-mjx-error],[data-mml-node="merror"],mjx-merror').length,
         rawText: [...box.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()),
+        assistiveMath: assistive.length,
+        visibleAssistiveMath: assistive.filter(m => { const c = getComputedStyle(m); return c.position !== 'absolute' || c.clip !== 'rect(1px, 1px, 1px, 1px)'; }).length,
+        inaccessibleAssistiveMath: assistive.filter(m => { const c = getComputedStyle(m); return !m.querySelector('math') || c.display === 'none' || c.visibility === 'hidden' || m.hidden || m.closest('[aria-hidden="true"]'); }).length,
         width: s?.width, height: s?.height, offPage: rect.left < -1 || rect.right > innerWidth + 1,
         verticalClip: !!s && (s.top < b.top - 2 || s.bottom > b.bottom + 2),
         overflow: box.scrollWidth > box.clientWidth + 2, keyboardScroll: box.tabIndex === 0,
@@ -96,11 +100,17 @@ async function audit(page) {
       toolbarPosition: getComputedStyle(document.querySelector('.toolbar')).position };
   });
 }
+function assertAssistiveMath(c) {
+  assert.equal(c.assistiveMath, 1, c.id + ' must retain semantic MathML');
+  assert.equal(c.visibleAssistiveMath, 0, c.id + ' duplicates the equation with visible assistive MathML');
+  assert.equal(c.inaccessibleAssistiveMath, 0, c.id + ' hides semantic math from screen readers');
+}
 function assertAudit(result) {
   assert.equal(result.cards.length, 111);
   for (const c of result.cards) {
     assert.equal(c.state, 'ready', c.id); assert.equal(c.math, 1, c.id); assert.equal(c.parseErrors, 0, c.id);
     assert.equal(c.rawText, false, c.id); assert.ok(c.width > 0 && c.height > 0, c.id);
+    assertAssistiveMath(c);
     assert.equal(c.offPage, false, c.id + ' escapes viewport'); assert.equal(c.verticalClip, false, c.id + ' vertically clipped');
     assert.ok(c.contrast >= 4.49, c.id + ' contrast ' + JSON.stringify(c.badContrast));
     if (c.overflow) assert.equal(c.keyboardScroll, true, c.id + ' has inaccessible horizontal overflow');
@@ -131,6 +141,18 @@ async function oracle(page, label) {
     await run('authoritative data are unchanged in the browser', async () => {
       assert.deepEqual(JSON.parse(await page.evaluate(() => JSON.stringify(formulas))), formulas);
       assert.equal(await page.evaluate(() => typeof render), 'undefined', 'legacy renderer must not be installed');
+    });
+    await run('assistive-math guard detects a missing stylesheet without removing accessible equations', async () => {
+      assertAudit(await audit(page));
+      await page.evaluate(() => { document.getElementById('MJX-SVG-styles').sheet.disabled = true; });
+      try {
+        const withoutStyles = await audit(page);
+        assert.equal(withoutStyles.cards.filter(c => c.visibleAssistiveMath > 0).length, 111, 'guard must detect every duplicate if output styles are missing');
+        assert.ok(withoutStyles.cards.every(c => c.assistiveMath === 1 && c.inaccessibleAssistiveMath === 0));
+      } finally {
+        await page.evaluate(() => { document.getElementById('MJX-SVG-styles').sheet.disabled = false; });
+      }
+      await page.evaluate(() => new Promise(requestAnimationFrame)); assertAudit(await audit(page));
     });
     for (const theme of ['light', 'dark']) {
       await page.evaluate(t => { document.documentElement.dataset.theme = t; }, theme);
@@ -203,7 +225,7 @@ async function oracle(page, label) {
           for (const c of a.cards) {
             assert.equal(c.state, 'ready', c.id); assert.equal(c.math, 1, c.id);
             assert.equal(c.parseErrors, 0, c.id); assert.equal(c.rawText, false, c.id);
-            assert.ok(c.width > 0 && c.height > 0, c.id);
+            assert.ok(c.width > 0 && c.height > 0, c.id); assertAssistiveMath(c);
             assert.ok(c.contrast >= 4.49, c.id + ' print contrast: ' + JSON.stringify(c.badContrast));
           }
           const palette = await page.evaluate(() => ({
