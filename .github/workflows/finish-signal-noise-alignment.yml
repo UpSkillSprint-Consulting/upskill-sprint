@@ -13,30 +13,34 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: fix/signal-noise-lesson-guide-alignment
-          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Apply exact reviewed source patch only
+      - name: Finish reviewed mobile table layout
         shell: bash
         run: |
           python - <<'PY'
-          import base64,zlib,hashlib,subprocess,re
-          # Immutable, already reviewed patch. This changes three source/test files only.
-          prior=subprocess.check_output(['git','show','6ca0ba23e868b3d8e59ced5a4eb7c3c440f660ac:.github/workflows/finish-signal-noise-alignment.yml'],text=True)
-          encoded=re.search(r"encoded='([^']+)'",prior).group(1)
-          patch=zlib.decompress(base64.b64decode(encoded))
-          assert hashlib.sha256(patch).hexdigest()=='d4114d1acc61fc37e3a99807947db50d695f2856d4c434293cc268c8514c97e5'
-          subprocess.run(['git','apply','--check','-'],input=patch,check=True)
-          subprocess.run(['git','apply','-'],input=patch,check=True)
+          from pathlib import Path
+          p=Path('lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html')
+          s=p.read_text()
+          old='#lesson-content table { min-width:560px; }'
+          new=old+'\n#lesson-content #p6 table { min-width:800px; table-layout:fixed; }\n#lesson-content #p6 th, #lesson-content #p6 td { vertical-align:top; overflow-wrap:anywhere; }'
+          assert s.count(old)==1
+          p.write_text(s.replace(old,new))
+          p=Path('scripts/validate-signal-noise.cjs')
+          s=p.read_text()
+          old="assert.equal(r.progress,1);assert.equal(await page.locator('nav.toc [aria-current=\"step\"]').getAttribute('data-target'),id);"
+          new="assert.equal(r.progress,1);if(id==='p6'){const heights=await page.locator('#p6 tr').evaluateAll(rows=>rows.map(e=>e.getBoundingClientRect().height));assert(heights.every(h=>h<260),'Software table rows are excessively tall: '+heights.join(','));}assert.equal(await page.locator('nav.toc [aria-current=\"step\"]').getAttribute('data-target'),id);"
+          assert s.count(old)==1
+          p.write_text(s.replace(old,new))
           PY
           node --test tests/signal-noise-lesson.test.js
           node --check scripts/validate-signal-noise.cjs
           git diff --check
           git config user.name BigErnie
           git config user.email BigErnie@users.noreply.github.com
-          git add lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html tests/signal-noise-lesson.test.js scripts/validate-signal-noise.cjs
-          git commit -m "Fix audited contrast, chart clipping, readout precision and keyboard table access"
+          git add lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design.html scripts/validate-signal-noise.cjs
+          git commit -m "Keep software-reference columns readable on narrow lesson screens"
           git push origin HEAD:fix/signal-noise-lesson-guide-alignment
