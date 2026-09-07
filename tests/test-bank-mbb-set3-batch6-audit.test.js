@@ -11,9 +11,9 @@ for(const [i,q] of batch.entries())test(`Batch 6 Q${i+126}: reviewed identity, k
  assert.equal(q.optionRationales.filter(s=>s.startsWith('Correct.')).length,1);assert.ok(q.optionRationales[q.answer].startsWith('Correct.'));assert.ok(q.optionRationales.every(s=>s.length>40));assert.ok(q.stem.length>150&&q.why.length>250&&q.trap.length>80);assert.ok(q.auditSources.every(s=>s.title&&s.url&&s.locator));
  assert.doesNotMatch(q.stem+' '+q.why,/original assignment|elsewhere in this bank|D[1-6]-[0-9]/);
 });
-test('Batch 6 byte-preserves Q1–125, Q151–175 and all stable IDs/answer positions',()=>{
+test('Batch 6 byte-preserves Q1–125, final JavaScript trailer and all stable IDs/answer positions',()=>{
  const p=JSON.parse(read('docs/audits/mbb-set3-batch06/preservation.json')),starts=[...source.matchAll(/^  \{$/gm)].map(m=>m.index);assert.equal(starts.length,175);
- assert.equal(sha(source.slice(0,starts[125])),'f022ebd5a43e01f81ea10e9ebe5a7f0f98f16b46bf1ef294e959d8f7c572ba5c');assert.equal(sha(source.slice(starts[150])),'fdbb6f31fbeae47aafea3f47e2ea5d1452d5b5dae00cbfec2e8a32489d9e10d3');assert.deepEqual(bank.map(q=>q.qid),p.ids);assert.deepEqual(bank.map(q=>q.answer),p.keys);
+ assert.equal(sha(source.slice(0,starts[125])),'f022ebd5a43e01f81ea10e9ebe5a7f0f98f16b46bf1ef294e959d8f7c572ba5c');assert.equal(sha(source.slice(source.lastIndexOf('  ];'))),'2d06d874c33463730929799a11508fd6c3bf9402321145fd3cbb09cb2d813f46');assert.deepEqual(bank.map(q=>q.qid),p.ids);assert.deepEqual(bank.map(q=>q.answer),p.keys);
 });
 test('Q128 derives auxiliary R-squared and standard-error inflation from actual VIF table',()=>{
  const v=Number(batch[2].chart.rows[0][1]);near(1-1/v,.9295774647887324);near(Math.sqrt(v),3.7682887362833544);

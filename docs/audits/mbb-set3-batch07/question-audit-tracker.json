@@ -1,0 +1,235 @@
+{
+  "batch": 7,
+  "range": [
+    151,
+    175
+  ],
+  "status": "Content corrected; rendered validation pending",
+  "items": [
+    {
+      "number": 151,
+      "qid": "mbb:set-3:d6-041",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 152,
+      "qid": "mbb:set-3:d6-042",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 153,
+      "qid": "mbb:set-3:d6-043",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 154,
+      "qid": "mbb:set-3:d6-044",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 155,
+      "qid": "mbb:set-3:d6-045",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 156,
+      "qid": "mbb:set-3:d6-046",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 157,
+      "qid": "mbb:set-3:d6-047",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 158,
+      "qid": "mbb:set-3:d6-048",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 159,
+      "qid": "mbb:set-3:d6-049",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 160,
+      "qid": "mbb:set-3:d6-050",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 161,
+      "qid": "mbb:set-3:d6-051",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 162,
+      "qid": "mbb:set-3:d6-052",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 163,
+      "qid": "mbb:set-3:d6-053",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 164,
+      "qid": "mbb:set-3:d6-054",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 165,
+      "qid": "mbb:set-3:d6-055",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 166,
+      "qid": "mbb:set-3:d6-056",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 167,
+      "qid": "mbb:set-3:d6-057",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 168,
+      "qid": "mbb:set-3:d6-058",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 169,
+      "qid": "mbb:set-3:d6-059",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 170,
+      "qid": "mbb:set-3:d6-060",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 171,
+      "qid": "mbb:set-3:d6-061",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 172,
+      "qid": "mbb:set-3:d6-062",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 173,
+      "qid": "mbb:set-3:d6-063",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 174,
+      "qid": "mbb:set-3:d6-064",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    },
+    {
+      "number": 175,
+      "qid": "mbb:set-3:d6-065",
+      "contentReview": "Complete",
+      "independentAnswer": "Complete",
+      "sourceAlignment": "Reviewed with explicit source limits",
+      "renderReview": "Pending",
+      "status": "Pending rendered validation"
+    }
+  ]
+}

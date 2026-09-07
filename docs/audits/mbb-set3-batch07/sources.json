@@ -1,0 +1,76 @@
+{
+  "verifiedOn": "2026-09-07",
+  "bodyOfKnowledge": {
+    "title": "ASQ Certified Master Black Belt Body of Knowledge",
+    "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+    "locator": "VI.C–E; topic alignment, not authorship or endorsement"
+  },
+  "references": {
+    "doe": {
+      "title": "NIST: Two-level full factorial designs",
+      "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3331.htm",
+      "locator": "5.3.3.3.1"
+    },
+    "data": {
+      "title": "UK Government Data Quality Framework: guidance",
+      "url": "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework-guidance",
+      "locator": "Data quality dimensions: completeness, uniqueness, consistency and timeliness"
+    },
+    "sql": {
+      "title": "PostgreSQL: Table Expressions",
+      "url": "https://www.postgresql.org/docs/current/queries-table-expressions.html",
+      "locator": "7.2.1.1 Joined Tables; inner/outer join multiplicity"
+    },
+    "encoding": {
+      "title": "scikit-learn: Target Encoder internal cross fitting",
+      "url": "https://scikit-learn.org/stable/auto_examples/preprocessing/plot_target_encoder_cross_val.html",
+      "locator": "Cross fitting and high-cardinality overfitting example"
+    },
+    "qfd": {
+      "title": "ASQ: Quality Function Deployment",
+      "url": "https://asq.org/quality-resources/qfd-quality-function-deployment",
+      "locator": "House of Quality and customer-driven product/service requirements"
+    },
+    "hoq": {
+      "title": "ASQ: House of Quality",
+      "url": "https://asq.org/quality-resources/house-of-quality",
+      "locator": "House of Quality framework and technical benchmarking"
+    },
+    "verify": {
+      "title": "NASA Systems Engineering Handbook: Product Realization",
+      "url": "https://www.nasa.gov/reference/5-0-product-realization/",
+      "locator": "5.3 Product Verification and 5.4 Product Validation; tailored methods and configuration evidence"
+    },
+    "matrix": {
+      "title": "NASA Systems Engineering Handbook: Requirements Verification Matrix",
+      "url": "https://www.nasa.gov/reference/appendix-d-requirements-verification-matrix/",
+      "locator": "Appendix D: unique requirements, source and verification approach"
+    },
+    "robust": {
+      "title": "NIST: What are Taguchi designs?",
+      "url": "https://www.itl.nist.gov/div898/handbook/pri/section5/pri56.htm",
+      "locator": "5.5.6 Parameter Design; selection of tolerances by sensitivity and cost"
+    },
+    "capability": {
+      "title": "NIST: What is Process Capability?",
+      "url": "https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm",
+      "locator": "6.1.6; stable process and distribution/variation basis"
+    },
+    "reliability": {
+      "title": "NIST: Accelerated life tests",
+      "url": "https://www.itl.nist.gov/div898/handbook/apr/section3/apr314.htm",
+      "locator": "8.3.1.4; acceleration models, stress cells and projection to use conditions"
+    },
+    "fta": {
+      "title": "NRC: Fault Tree Handbook, NUREG-0492",
+      "url": "https://www.nrc.gov/reading-rm/doc-collections/nuregs/staff/sr0492/index",
+      "locator": "Publication identity and fault-tree methodology; probability calculation independently derived, no unverified page locator"
+    }
+  },
+  "limits": [
+    "Sources establish principles, not ASQ authorship or endorsement.",
+    "ASQ VI.E explicitly names QFD and other concept-generation tools; additional DFSS applications are cross-mapped rather than invented as named subtopics.",
+    "NUREG landing page verifies publication identity only; event-probability results are independent derivations. No unverified textbook page is cited.",
+    "Added mission probabilities, acceptance limits and decision conditions are original illustrative assumptions disclosed in the questions."
+  ]
+}
