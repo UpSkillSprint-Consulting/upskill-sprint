@@ -3,358 +3,845 @@
   global.MBB_SET3=[
   {
     "sub": "mbb-enterprise",
-    "stem": "A hospital network's executive team completes a SWOT analysis identifying \"aging clinical IT infrastructure\" as a top weakness and \"value-based care reimbursement shift\" as a top external threat. The Master Black Belt is asked to translate this into the improvement pipeline. Three candidate projects surface: (1) reduce emergency department boarding time, (2) reduce clinical documentation errors linked to the legacy EHR, (3) reduce cafeteria food waste. Which project should the MBB prioritize as the *strategic* pipeline entry, and why?",
+    "stem": "A hospital network identifies aging clinical IT as a strategic weakness and value-based reimbursement as an external threat. Its finance and quality teams have verified that errors in the legacy electronic health record cause missed documentation-dependent reimbursement. Three feasible projects address emergency-department boarding, these documentation errors, and cafeteria food waste. None is a mandatory safety or compliance intervention. Which project has the strongest direct alignment with the two named strategic findings?",
     "options": [
-      "Project 2, because it directly addresses both the identified weakness (IT infrastructure) and the threat (reimbursement tied to documentation-driven quality metrics)",
-      "Project 1, because ED boarding time has the largest visible patient-satisfaction impact",
-      "Project 3, because it has the fastest payback and lowest implementation risk",
-      "All three should be launched simultaneously to maximize portfolio throughput given limited SWOT specificity"
+      "Prioritize documentation errors, because the verified mechanism links the IT weakness to reimbursement exposure; validate the business case before authorizing implementation.",
+      "Prioritize emergency-department boarding, because a visible patient-experience improvement establishes a stronger connection to the two findings than the documented reimbursement mechanism.",
+      "Prioritize cafeteria food waste, because a shorter payback would establish stronger strategic alignment even without addressing either of the two named findings.",
+      "Give all three projects equal strategic-alignment scores, because feasibility is sufficient to show an equivalent contribution to the two named findings."
     ],
     "answer": 0,
-    "why": "Strategic plan development requires tracing a candidate project's line of sight back to specific SWOT findings, not just picking the largest or fastest win. Project 2 sits at the intersection of the named weakness and threat, giving it the clearest strategic-alignment case. Source: [CSSC] Ch. 9, Selecting the Right Projects \u2014 Enterprise-Level Selection Process.",
+    "why": "The stated evidence connects the IT weakness to a reimbursement consequence through documentation errors. This makes the documentation project the strongest direct strategic fit among these choices, not an automatic implementation approval. Feasibility, financial return, patient experience, and mandatory obligations still belong in the wider selection process. Source alignment: ASQ CMBB Body of Knowledge, I.A; I.B.2; I.E.2. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-001"
+    "qid": "mbb:set-3:d1-001",
+    "optionRationales": [
+      "Correct. It uses the verified weakness-to-threat mechanism and separates strategic fit from final authorization.",
+      "Boarding may be important, but no connection from boarding to the two specific strategic findings is supplied.",
+      "Payback and strategic alignment are different criteria; a fast return does not establish the missing linkage.",
+      "Feasibility does not demonstrate equal strategic contribution. The documented mechanism distinguishes the projects."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.A; I.B.2; I.E.2"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "A consumer electronics manufacturer faces high uncertainty from volatile tariff policy and rapidly shifting component availability. The MBB is asked to recommend a strategic planning tool to inform the next 18-month improvement pipeline. Which is the most defensible recommendation?",
+    "stem": "A consumer-electronics manufacturer must select an 18-month improvement pipeline while tariff policy and component availability remain materially uncertain. Reliable probabilities for the alternative futures are unavailable. The portfolio committee wants projects that remain useful across plausible conditions and explicit triggers for revisiting contingent investments. Which planning approach best meets this need?",
     "options": [
-      "Skip formal planning tools and rely on executive intuition given how quickly conditions are changing",
-      "A single SWOT analysis, since it is the fastest and most widely understood tool",
-      "Scenario planning with 2\u20133 plausible futures, each stress-tested against candidate projects, supplementing (not replacing) SWOT",
-      "A single-point financial forecast used to rank projects by NPV only"
+      "Rank projects using a probability-weighted forecast with equal probabilities for every scenario, treating the resulting expected value as an established risk estimate.",
+      "Use one current-state SWOT assessment and freeze the resulting ranking for 18 months, so later external changes do not disrupt consistent portfolio governance.",
+      "Supplement SWOT with distinct plausible scenarios, test project robustness across them, and define monitoring indicators and decision triggers for contingent investments.",
+      "Choose the project mix optimal under the single most favorable scenario, then use delivery milestones rather than external indicators to decide when to replan."
     ],
     "answer": 2,
-    "why": "Under high external volatility, a single static SWOT or point forecast risks being invalidated quickly. Scenario planning explicitly tests strategic robustness across multiple plausible futures \u2014 the appropriate response to genuine uncertainty, not a replacement for foundational tools like SWOT but a supplement to it. Source: [BOK] Domain I.A, Strategic Plan Development; general strategic-management practice.",
+    "why": "Scenario analysis makes assumptions about uncertain external conditions visible and tests which investments remain useful across them. It also supports contingent decisions and review triggers. Without defensible probabilities, an equally weighted scenario average is a modeling assumption, not an established expected-value estimate. SWOT remains useful but does not replace the cross-scenario assessment. Source alignment: ASQ CMBB Body of Knowledge, I.A; I.F.4. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-004"
+    "qid": "mbb:set-3:d1-004",
+    "optionRationales": [
+      "Unsupported equal probabilities create false precision; scenario plausibility alone does not establish likelihood.",
+      "A fixed ranking ignores the very external uncertainty the committee needs to manage.",
+      "Correct. It evaluates robustness and defines how new evidence will change contingent decisions.",
+      "Optimizing for a favorable future does not establish robustness, and delivery milestones do not monitor external assumptions."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.A; I.F.4"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "An enterprise project selection matrix weights strategic fit (40%), financial return (30%), risk (20%), and resource availability (10%). Project X scores 9/10 strategic fit, 4/10 financial return, 8/10 risk (10 = lowest risk), 3/10 resource availability. Project Y scores 5/10 strategic fit, 9/10 financial return, 6/10 risk, 9/10 resource availability. Using the weighted scores, which project should be selected, and what is the key caution for the MBB to raise regardless of the numeric outcome?",
+    "stem": "The agreed selection matrix uses the weights and 0–10 ratings below; higher ratings are better on every criterion. X and Y both pass the mandatory eligibility screen, but X has a low resource-availability rating. Ratings are judgment-based and have not undergone sensitivity analysis. Which recommendation correctly uses the numerical results without overstating their precision?",
     "options": [
-      "Project Y wins numerically, but only by a very narrow margin (6.8 vs. 6.7); the MBB should treat this near-tie as inconclusive rather than decisive \u2014 Project X's low resource-availability score (3/10) remains a real feasibility risk despite its strategic strength, and a 0.1-point difference is far too thin a margin to settle the decision on the weighted score alone",
-      "Project Y wins numerically (7.0 vs. 6.6); no further caution is needed since the math is final",
-      "Both projects tie exactly at 6.75; the MBB should recommend a coin flip to avoid the appearance of bias",
-      "Project Y wins numerically (6.8 vs. 6.7), and since the weighting scheme was formally agreed upon in advance, the committee should proceed with Y with no further discussion needed"
+      "Y scores 6.8 versus X at 6.7; provisionally favor Y, then assess rating sensitivity and resource feasibility before making the final selection.",
+      "Y scores 7.0 versus X at 6.6; favor Y, then confirm that both projects can obtain resources before making the final selection.",
+      "Both score 6.75 after weighting; treat the projects as numerically tied, then use the agreed strategic-fit rating to select X.",
+      "Y scores 6.8 versus X at 6.7; treat that difference as conclusive because formally agreed weights eliminate uncertainty in the judgment-based ratings."
     ],
     "answer": 0,
-    "why": "X = 0.4(9)+0.3(4)+0.2(8)+0.1(3) = 3.6+1.2+1.6+0.3 = 6.7. Y = 0.4(5)+0.3(9)+0.2(6)+0.1(9) = 2.0+2.7+1.2+0.9 = 6.8. Y wins numerically, but only by 0.1 points \u2014 closely matched, with X's resource constraint a real execution risk. The critical MBB judgment is that a weighted score is a decision input, not a decision-maker; a near-tie combined with a low resource-availability score should prompt further discussion rather than a mechanical selection of the higher number. Source: [BOK] Domain I.B, Strategic Plan Alignment; III.B, Project Portfolio Infrastructure.",
-    "chart": {"type": "data-table", "columns": ["Criterion", "Weight", "Project X (raw /10)", "Project Y (raw /10)"], "rows": [["Strategic fit", "40%", "9", "5"], ["Financial return", "30%", "4", "9"], ["Risk (10=lowest risk)", "20%", "8", "6"], ["Resource availability", "10%", "3", "9"]]},
+    "why": "X = 0.40(9) + 0.30(4) + 0.20(8) + 0.10(3) = 6.7. Y = 0.40(5) + 0.30(9) + 0.20(6) + 0.10(9) = 6.8. The 0.1-point lead is a nominal ranking, not a statistical significance result or an automatically inconclusive decision. For example, changing X's financial-return rating from 4 to 5 adds 0.3 points and reverses the ranking. Validate the relevant rating uncertainty and resource constraints. Source alignment: ASQ CMBB Body of Knowledge, I.B.2–3; I.F.4. The scenario-specific conclusion is derived from the stated case.",
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Criterion",
+        "Weight",
+        "Project X (raw /10)",
+        "Project Y (raw /10)"
+      ],
+      "rows": [
+        [
+          "Strategic fit",
+          "40%",
+          "9",
+          "5"
+        ],
+        [
+          "Financial return",
+          "30%",
+          "4",
+          "9"
+        ],
+        [
+          "Risk (10=lowest risk)",
+          "20%",
+          "8",
+          "6"
+        ],
+        [
+          "Resource availability",
+          "10%",
+          "3",
+          "9"
+        ]
+      ],
+      "title": "Agreed project selection matrix",
+      "altText": "Weights and ratings for strategic fit, financial return, risk and resource availability. All ratings use a 0–10 scale with higher values better."
+    },
     "set": 3,
-    "qid": "mbb:set-3:d1-006"
+    "qid": "mbb:set-3:d1-006",
+    "optionRationales": [
+      "Correct. The arithmetic favors Y, while the small lead and judgment-based inputs warrant sensitivity and feasibility checks.",
+      "The weighted totals are 6.8 and 6.7, not 7.0 and 6.6; the proposed feasibility check does not repair the arithmetic.",
+      "Averaging the two totals gives 6.75, but does not make either project's own weighted score 6.75.",
+      "Agreed weights specify preferences; they do not remove uncertainty in the underlying ratings."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.B.2–3; I.F.4"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "Six months into a Black Belt's project to reduce order-entry cycle time, the enterprise pivots strategy toward a new market segment that makes the original process largely obsolete within 12 months. The BB has already achieved a 20% cycle-time improvement and wants to continue to full completion. As the coaching MBB, what is the best next action?",
+    "stem": "Six months into a cycle-time project, enterprise strategy changes and the affected process is expected to become largely obsolete within 12 months. The Black Belt has achieved a 20% improvement. Remaining implementation would consume scarce capacity, and its future benefits have not been reassessed. Which action should the coaching MBB recommend before approving the remaining work?",
     "options": [
-      "Reassess the project against current strategic priorities with the BB and sponsor; if the underlying process will be materially obsolete before the ROI horizon closes, formally re-scope or close the project, document interim gains, and redirect the BB's remaining capacity to a project aligned with the new strategy",
-      "Cancel the project immediately without discussion to avoid any further resource drain",
-      "Escalate to the executive team to reverse the strategic pivot so the project can continue as planned",
-      "Let the project continue unchanged since sunk effort and partial gains should not be abandoned"
+      "Review remaining incremental benefits, costs and strategic fit with the Belt and sponsor; then continue, rescope or close the project through the agreed gate.",
+      "Complete the existing charter before reviewing strategic fit, because the achieved improvement and work already invested demonstrate that the remaining implementation is worthwhile.",
+      "Close the project automatically when the strategy changes, because potential residual benefits cannot justify work on a process expected to become obsolete.",
+      "Pause strategic reassessment until all achieved gains have been monetized, because remaining work cannot be evaluated while any historical benefit remains uncertain."
     ],
     "answer": 0,
-    "why": "Portfolio and alignment discipline (Domain I/III/V overlap) requires periodic re-validation of in-flight projects against current strategy \u2014 not blind continuation (sunk cost fallacy) nor unilateral cancellation without sponsor/BB input, nor attempting to reverse legitimate strategic decisions to protect a single project. Source: [BOK] Domain I.B and V.A, Coaching Executives and Champions.",
+    "why": "The decision concerns future incremental value and opportunity cost under current strategy. Past effort is a sunk cost, and a 20% intermediate improvement alone does not establish the value of the remaining work. Nor does expected obsolescence prove there are no worthwhile residual benefits. The sponsor and Belt should review the alternatives, preserve validated gains and use formal change governance. Source alignment: ASQ CMBB Body of Knowledge, I.B.2–3; I.F.2. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-009"
+    "qid": "mbb:set-3:d1-009",
+    "optionRationales": [
+      "Correct. It reassesses the future decision jointly and allows the evidence to support continuation, rescoping or closure.",
+      "Historical effort and achieved gains do not establish that further spending is justified under the changed strategy.",
+      "Automatic cancellation skips the comparison of remaining costs, residual benefits and alternative uses of capacity.",
+      "Uncertainty about past benefit realization should be tracked, but does not justify postponing assessment of remaining work."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.B.2–3; I.F.2"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "An organization has: (a) an executive-sponsored steering committee, (b) certified Belts at all levels, (c) a documented project selection process, but (d) no standardized way to track realized financial benefits after project closure, and no repository of lessons learned across projects. Which maturity gap should the MBB flag as the highest priority to close next?",
+    "stem": "An organization has an executive steering committee, trained Belts and a documented selection process. It records forecast project savings, but has no finance-validated post-closure benefit checks, named sustainment owners or searchable lessons-learned repository. The next investment must address the gap preventing evidence-based assessment of deployment performance. Which package should the MBB prioritize?",
     "options": [
-      "None \u2014 the deployment is already fully mature given (a)\u2013(c)",
-      "The organization should immediately decertify all existing Belts and restart training",
-      "The benefits-tracking and lessons-learned gap, because without post-closure benefit validation and knowledge capture, the organization cannot demonstrate ROI to sustain executive sponsorship or avoid repeating past mistakes across projects",
-      "The steering committee should be dissolved since project selection is already documented"
+      "Expand Belt certification volumes and report training completions as the principal evidence of deployment performance, while leaving financial follow-up with individual project leaders.",
+      "Increase the number of selection-gate reviews and publish forecast savings more frequently, while keeping post-closure checks outside the common governance process.",
+      "Establish benefit baselines, finance validation, sustainment ownership and reusable lessons; then use that evidence in deployment reviews and future project selection.",
+      "Create a lessons repository and rank projects by submitted forecasts, while treating sponsor sign-off at closure as sufficient evidence that savings have persisted."
     ],
     "answer": 2,
-    "why": "Governance and training infrastructure without benefit realization tracking and knowledge management is a well-known maturity gap \u2014 it threatens long-term sponsorship (execs can't see proven ROI) and repeats avoidable errors. This is a higher-leverage fix than anything else listed. Source: [BOK] Domain I.C, Infrastructure Elements; II.E, Organizational Feedback.",
+    "why": "The missing controls concern realized and sustained outcomes and organizational learning, not the mere existence of governance or training. Baselines and realization rules support credible benefit measurement; named owners support sustainment; reusable lessons improve future decisions. No single infrastructure feature proves that the whole deployment is mature. Source alignment: ASQ CMBB Body of Knowledge, I.C.2–6; I.F.2. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-012"
+    "qid": "mbb:set-3:d1-012",
+    "optionRationales": [
+      "Training volume is an input and capability indicator, not a substitute for demonstrated sustained outcomes.",
+      "More selection reviews and forecasts do not provide the missing post-closure evidence.",
+      "Correct. It closes the measurement, ownership and learning gaps identified in the case.",
+      "Knowledge capture helps, but closure sign-off alone does not demonstrate later financial realization or sustainment."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.C.2–6; I.F.2"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "An IT department wants to integrate Scrum with an ongoing Six Sigma initiative. Which statement correctly characterizes an appropriate integration?",
+    "stem": "A DMAIC team has validated that defects in an existing IT service arise from software behavior. It is ready to develop and test a solution, and the delivery team proposes Scrum. Which integration best preserves both iterative delivery and the improvement project's evidence requirements?",
     "options": [
-      "Scrum's short, iterative sprints can be used within the Improve/Design phase to develop and test technical solutions (e.g., software changes) identified by DMAIC/DMADV analysis, while DMAIC/DMADV continues to provide the overall data-driven problem definition and control structure",
-      "Scrum and Six Sigma are fundamentally incompatible and should never be used on the same initiative",
-      "Scrum eliminates the need for a control plan since sprints are inherently self-correcting",
-      "Scrum should replace DMAIC entirely for all IT-related improvement work"
+      "Use Scrum to deliver testable increments against the validated requirements, while retaining outcome verification, change controls and the DMAIC sustainment plan.",
+      "Treat completion of the Sprint backlog as evidence that the original defect causes have been removed, and use Sprint velocity as the sustained quality measure.",
+      "Freeze the detailed software design before the first Sprint, and use Scrum only to assign tasks without adapting the solution to evidence from testing.",
+      "Replace the process-outcome baseline with the Definition of Done, because an accepted increment establishes the same evidence as a sustained reduction in defects."
     ],
     "answer": 0,
-    "why": "This reflects real MBB-level integration judgment \u2014 Scrum is a delivery mechanism well-suited to the technical build-out within a phase, not a replacement for the overall analytical/control framework Six Sigma provides. Source: [CSSC] Ch. 3, Scrum.",
+    "why": "Scrum supports inspection and adaptation while producing usable increments; DMAIC supplies the case's improvement logic and evaluation of process outcomes. Integrating them does not make velocity, backlog completion or the Definition of Done a substitute for evidence that the CTQ improved and remained controlled. This is an appropriate integration for the stated case, not a claim that Scrum is restricted to one DMAIC phase. Source alignment: ASQ CMBB Body of Knowledge, I.D.1; I.D.5–6. The scenario-specific conclusion is derived from the stated case. Technical reference: The Scrum Guide (2020), Scrum Theory; Increment; Definition of Done (https://scrumguides.org/scrum-guide.html).",
     "set": 3,
-    "qid": "mbb:set-3:d1-016"
+    "qid": "mbb:set-3:d1-016",
+    "optionRationales": [
+      "Correct. It combines iterative delivery with verification of the improvement and its sustainment.",
+      "Completed work and delivery velocity do not establish a reduction in the targeted process defects.",
+      "A fixed solution and task-assignment-only use remove the inspection and adaptation central to Scrum.",
+      "The Definition of Done supports increment quality; it is not the same as sustained process-outcome evidence."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.D.1; I.D.5–6"
+      },
+      {
+        "title": "The Scrum Guide (2020), Scrum Theory; Increment; Definition of Done",
+        "url": "https://scrumguides.org/scrum-guide.html",
+        "locator": "Scrum Theory; Increment; Definition of Done"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "A manufacturing plant reports the following annual Cost of Poor Quality (COPQ) by category: internal failure $1.2M, external failure $3.8M, appraisal $0.6M, prevention $0.2M. Total revenue is $80M. Using COPQ as a screening tool for pipeline opportunity sizing, which category should receive the *first* investigative look, and what does the overall COPQ-to-revenue ratio (7%) suggest about deployment maturity?",
+    "stem": "A plant reports annual quality costs as shown below, on the same accounting basis, with revenue of $80 million. Use the prevention–appraisal–failure model: cost of poor quality (COPQ) includes internal and external failure costs; total cost of quality (COQ) also includes prevention and appraisal. No unresolved safety or compliance emergency changes the cost-screening priority. Which financial interpretation and next step are defensible?",
     "options": [
-      "The ratio cannot be interpreted without knowing the industry's exact benchmark COPQ percentage, so no prioritization is possible",
-      "External failure costs, because at $3.8M it is both the largest single category and the costliest form of failure (defects reaching the customer); a COPQ/revenue ratio of ~7% is on the higher end for a maturing Six Sigma deployment, suggesting real opportunity remains and that current prevention investment ($0.2M, only 3% of total COPQ) is likely under-resourced relative to failure costs",
-      "Prevention costs, because they are the smallest category and therefore the easiest problem to solve",
-      "Appraisal costs, because inspection activities are inherently wasteful and should always be eliminated first"
+      "COPQ is 7.25% of revenue; investigate external failures first, and use the ratio to classify the deployment as immature without further evidence.",
+      "COPQ is 6.25% of revenue; investigate external failures first, but assess causes and economics before inferring maturity or changing prevention spending.",
+      "COPQ is 4.75% of revenue; investigate external failures first, and exclude internal failures because the defects did not reach paying customers.",
+      "COPQ is 6.25% of revenue; cut appraisal first, because its $0.6 million cost establishes that inspection is the largest avoidable failure category."
     ],
     "answer": 1,
-    "why": "($1.2M+$3.8M+$0.6M+$0.2M)/$80M = $5.8M/$80M = 7.25% \u22487%. External failure is both the largest cost driver and reaches the customer \u2014 highest priority for opportunity sizing. The heavy skew toward failure costs vs. prevention (0.2M) is itself diagnostic: mature quality systems invest more heavily upstream in prevention relative to failure costs. Source: [CSSC] Ch. 8, The CoQ and the CoPQ.",
-    "chart": {"type": "data-table", "columns": ["Category", "Amount", "% of revenue ($80M)"], "rows": [["Internal failure", "$1.2M", "1.5%"], ["External failure", "$3.8M", "4.75%"], ["Appraisal", "$0.6M", "0.75%"], ["Prevention", "$0.2M", "0.25%"]]},
+    "why": "COPQ = $1.2M + $3.8M = $5.0M; $5.0M/$80M = 6.25%. Total COQ = $5.8M, or 7.25%. External failure is the largest listed cost category, making it a reasonable initial investigation target under the stated screening rule. The figures alone do not establish deployment maturity, the avoidable fraction of costs or the economically optimal prevention/appraisal allocation. Internal failures remain part of COPQ even when customers do not receive the defects. Source alignment: ASQ CMBB Body of Knowledge, I.E.1–2; I.F.4. The scenario-specific conclusion is derived from the stated case. Technical reference: ASQ Cost of Quality: prevention, appraisal and COPQ (https://asq.org/quality-resources/cost-of-quality).",
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Category",
+        "Amount",
+        "% of revenue ($80M)"
+      ],
+      "rows": [
+        [
+          "Internal failure",
+          "$1.2M",
+          "1.5%"
+        ],
+        [
+          "External failure",
+          "$3.8M",
+          "4.75%"
+        ],
+        [
+          "Appraisal",
+          "$0.6M",
+          "0.75%"
+        ],
+        [
+          "Prevention",
+          "$0.2M",
+          "0.25%"
+        ]
+      ],
+      "title": "Annual quality costs and revenue basis",
+      "altText": "Internal failure $1.2 million; external failure $3.8 million; appraisal $0.6 million; prevention $0.2 million. Annual revenue is $80 million."
+    },
     "set": 3,
-    "qid": "mbb:set-3:d1-019"
+    "qid": "mbb:set-3:d1-019",
+    "optionRationales": [
+      "7.25% is total COQ, not COPQ, and no validated maturity threshold is supplied.",
+      "Correct. It uses the failure-cost definition and distinguishes an investigation priority from a proven intervention or maturity rating.",
+      "4.75% includes external failures only; COPQ also includes the $1.2M internal failure cost.",
+      "Appraisal is not a failure category, is smaller than either failure category, and cannot be removed solely from its cost."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.E.1–2; I.F.4"
+      },
+      {
+        "title": "ASQ Cost of Quality: prevention, appraisal and COPQ",
+        "url": "https://asq.org/quality-resources/cost-of-quality",
+        "locator": "What is Cost of Poor Quality (COPQ)?"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "A CFO benchmarks the company's customer complaint rate (2.1 per 1,000 transactions) against a published industry average (3.5 per 1,000) and concludes \"we have no quality problem worth pursuing.\" What is the analytical flaw in this conclusion?",
+    "stem": "A CFO compares the company's customer complaint rate of 2.1 per 1,000 transactions with an industry average of 3.5 per 1,000 and concludes that no quality project is justified. Comparable transaction definitions, reporting practices and customer segments have not been verified, and no trend or consequence analysis is presented. Which response is best supported?",
     "options": [
-      "The complaint rate should have been converted to DPMO before any comparison could be valid",
-      "There is no flaw \u2014 being better than the industry average means there is no opportunity",
-      "Benchmarking against industry averages is never a legitimate practice in Six Sigma",
-      "The comparison ignores whether the benchmark is apples-to-apples (same transaction definition, industry segment, and measurement system), ignores internal trend direction (the rate could be worsening even while below the external benchmark), and ignores whether \"average\" is an appropriate improvement target rather than best-in-class or the company's own historical best"
+      "Convert both rates to complaints per million and retain the conclusion, because matching the numerical scale resolves the missing comparability and consequence information.",
+      "Retain the conclusion provisionally because a lower point estimate establishes that the company's remaining complaints are not economically important enough to investigate.",
+      "Reject the external benchmark as unusable in principle, and select projects only from internal historical averages regardless of customer requirements or complaint severity.",
+      "Validate comparability, internal trends and customer consequences; a lower point estimate alone does not establish statistical superiority or absence of worthwhile improvement opportunities."
     ],
     "answer": 3,
-    "why": "This tests the ability to identify multiple compounding flaws in a superficially reasonable conclusion \u2014 comparability, trend blindness, and target-setting logic (average vs. best-in-class) are all standard MBB-level critiques of naive benchmarking. Source: [BOK] Domain I.E, Opportunities for Improvement.",
+    "why": "The numerical difference is 1.4 complaints per 1,000 transactions, but denominators and uncertainty are not supplied for an inferential comparison. Comparability must also be checked. Even a credible lower complaint rate would not demonstrate that residual problems lack customer, safety, compliance or economic importance. Changing the rate scale does not repair these omissions. Source alignment: ASQ CMBB Body of Knowledge, I.E.1–2; I.B.3. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-020"
+    "qid": "mbb:set-3:d1-020",
+    "optionRationales": [
+      "Multiplying both rates by the same conversion factor does not make the underlying definitions or populations comparable.",
+      "A favorable point estimate does not establish economic irrelevance or a statistically supported performance difference.",
+      "External benchmarks can be useful when appropriately comparable; internal averages are not automatically suitable targets.",
+      "Correct. It identifies the missing measurement, inference and decision context without rejecting benchmarking itself."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.E.1–2; I.B.3"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "Four candidate projects have the following (estimated annual benefit, probability of success, implementation risk score 1\u20135 where 5 = highest risk): P1 ($500K, 80%, risk 2); P2 ($900K, 50%, risk 4); P3 ($300K, 95%, risk 1); P4 ($700K, 65%, risk 3). Using risk-adjusted expected value (benefit \u00d7 probability of success) as a first screen, rank the projects, and explain why risk score should still be reviewed even after this calculation.",
+    "stem": "For the first financial screen, use the table's annual benefit conditional on project success, assume zero benefit on failure, and calculate expected gross annual benefit as benefit × success probability. Implementation costs have not yet been included. The separate 1–5 risk rating summarizes safety, compliance and delivery exposure not already included in the success probability; higher is worse. Which conclusion is correct?",
     "options": [
-      "Expected values: P1=$400K, P2=$450K, P3=$285K, P4=$455K \u2192 ranking P4 > P2 > P1 > P3; however, P2 and P4 carry meaningfully higher implementation risk (4 and 3) than P1 (2), so the pipeline decision should weigh the risk-adjusted value against the organization's current risk appetite and delivery capacity, not select purely on the expected-value ranking",
-      "All four projects should be pursued simultaneously since none has negative expected value",
-      "P3 should always be selected first because it has the lowest risk score regardless of benefit",
-      "P2 > P4 > P1 > P3 by raw benefit alone; risk score is irrelevant once expected value is known"
+      "P4 > P2 > P1 > P3 by expected gross benefit; review costs, capacity and the separate risk exposures before making a funding decision.",
+      "P2 > P4 > P1 > P3 by expected gross benefit; review costs, capacity and the separate risk exposures before making a funding decision.",
+      "P3 > P1 > P4 > P2 by expected gross benefit; review costs, capacity and the separate risk exposures before making a funding decision.",
+      "P4 > P2 > P1 > P3 by expected gross benefit; divide each amount by its ordinal risk rating to obtain a validated risk-adjusted net value."
     ],
     "answer": 0,
-    "why": "P1: 500\u00d70.8=400; P2: 900\u00d70.5=450; P3: 300\u00d70.95=285; P4: 700\u00d70.65=455. Correct EV ranking: P4 ($455K) > P2 ($450K) > P1 ($400K) > P3 ($285K). But P4 and P2's higher risk scores mean the near-tie at the top between P4/P2 should trigger a qualitative risk-appetite conversation, not a mechanical selection of the top EV number \u2014 a nuance an MBB must bring to portfolio governance. Source: [BOK] Domain I.F, Pipeline Management; III.C, Project Portfolio Financial Tools.",
-    "chart": {"type": "data-table", "columns": ["Project", "Annual benefit", "Probability of success", "Risk (1=low,5=high)"], "rows": [["P1", "$500,000", "80%", "2"], ["P2", "$900,000", "50%", "4"], ["P3", "$300,000", "95%", "1"], ["P4", "$700,000", "65%", "3"]]},
+    "why": "Expected gross annual benefits are P1: $500K×0.80=$400K; P2: $900K×0.50=$450K; P3: $300K×0.95=$285K; P4: $700K×0.65=$455K. Thus P4 > P2 > P1 > P3, with only $5K between the first two. These are expected gross benefits, not NPVs or net returns. Review the explicitly separate risk exposures and costs without applying the same uncertainty twice. An ordinal risk score is not a validated divisor for a monetary value. Source alignment: ASQ CMBB Body of Knowledge, I.F.1; I.F.4. The scenario-specific conclusion is derived from the stated case.",
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Project",
+        "Benefit if successful",
+        "Success probability",
+        "Separate risk (1–5)"
+      ],
+      "rows": [
+        [
+          "P1",
+          "$500,000",
+          "80%",
+          "2"
+        ],
+        [
+          "P2",
+          "$900,000",
+          "50%",
+          "4"
+        ],
+        [
+          "P3",
+          "$300,000",
+          "95%",
+          "1"
+        ],
+        [
+          "P4",
+          "$700,000",
+          "65%",
+          "3"
+        ]
+      ],
+      "title": "Inputs for the expected gross-benefit screen"
+    },
     "set": 3,
-    "qid": "mbb:set-3:d1-022"
+    "qid": "mbb:set-3:d1-022",
+    "optionRationales": [
+      "Correct. The ranking is numerical, while final selection still needs the missing costs, constraints and separate risk assessment.",
+      "This is the raw-benefit ranking; incorporating success probabilities puts P4 above P2.",
+      "This is the success-probability ranking, not the expected-benefit ranking.",
+      "The ranking is correct, but division by an ordinal risk rating does not produce a validated net monetary measure."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.F.1; I.F.4"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "An enterprise has 6 active Black Belts, each capable of running one project at a time with an average project duration of 4 months. The validated pipeline contains 24 approved projects. Leadership wants \"all 24 projects done as fast as possible.\" Design the most defensible approach to sequencing this pipeline.",
+    "stem": "For a baseline planning model, 24 independent projects are ready now. Six fully available Black Belts can each lead one project at a time, and every project requires four months. Assume no leave, setup delays, dependencies or shared-resource bottlenecks. None is mandatory and the committee will prioritize strategic contribution and acceptable risk. Which plan correctly separates modeled capacity from a delivery commitment?",
     "options": [
-      "Assign all 24 projects simultaneously across the 6 BBs (4 each) to maximize parallelism regardless of impact",
-      "With fixed capacity (6 BBs \u00d7 ~3 projects/year each \u2248 18 project-completions/year), the realistic throughput is roughly 16 months to clear 24 projects if run near-continuously; rather than force unrealistic parallelism, rank the 24 by strategic impact and risk-adjusted value (Domain I.F/III.C) and sequence the top-ranked projects first, while communicating the realistic ~16-month full-pipeline timeline to leadership rather than overloading BBs to hit an unrealistic \"all at once\" expectation",
-      "Sequence in strict order of submission date to ensure fairness",
-      "Hire no additional Belts and simply tell leadership all 24 will be done within 4 months since that's one project's duration"
+      "Release all 24 projects now and retain a four-month completion target; review milestone slippage later to decide whether the six Belts need additional support.",
+      "Model four sequential waves and 16 months overall; prioritize within each wave and add evidence-based delivery allowances before committing to an operational completion date.",
+      "Model three sequential waves and 12 months overall; prioritize within each wave and add evidence-based delivery allowances before committing to an operational completion date.",
+      "Model four sequential waves and 16 months overall; promise that completion date without qualification because the capacity calculation already includes disruption and project-duration variability."
     ],
     "answer": 1,
-    "why": "This is a Create-level capacity-planning synthesis: 6 BBs \u00d7 (12 months/4-month projects) = 18 completions/year; 24 projects \u00f7 18/year \u2248 16 months at full utilization. The defensible MBB response combines realistic throughput math, impact-based sequencing, and transparent expectation-setting with leadership \u2014 not blind parallelism, arbitrary fairness rules, or an impossible promise. Source: [BOK] Domain I.F, Pipeline Management; I.C, Infrastructure Elements (capacity).",
-    "chart": {"type": "data-table", "columns": ["Black Belts", "Completions/year (4-mo. avg.)", "Months to clear 24 projects"], "rows": [["4", "12", "24.0"], ["6", "18", "16.0"], ["8", "24", "12.0"], ["12", "36", "8.0"]]},
+    "why": "With six projects per four-month wave, 24/6=4 waves and 4×4=16 months in the deterministic model. The corresponding modeled throughput is 6×12/4=18 projects per year. This is not a guarantee under actual variability, leave or resource conflicts. Rank ready work under the stated policy, limit active work to supported capacity, and establish a realistic delivery allowance before making a commitment. Source alignment: ASQ CMBB Body of Knowledge, I.C.3; I.F.1–2. The scenario-specific conclusion is derived from the stated case.",
+    "chart": {
+      "type": "data-table",
+      "title": "Baseline capacity-model inputs",
+      "columns": [
+        "Planning input",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Ready projects",
+          "24"
+        ],
+        [
+          "Available Black Belts",
+          "6"
+        ],
+        [
+          "Concurrent projects per Belt",
+          "1"
+        ],
+        [
+          "Duration of each project",
+          "4 months"
+        ]
+      ],
+      "altText": "24 ready projects; six fully available Black Belts; one project at a time per Belt; four months per project."
+    },
     "set": 3,
-    "qid": "mbb:set-3:d1-023"
+    "qid": "mbb:set-3:d1-023",
+    "optionRationales": [
+      "Giving each Belt four concurrent projects does not multiply the stated capacity or remove the total work requirement.",
+      "Correct. It calculates the baseline and distinguishes the simplified model from an operational promise.",
+      "Three waves complete only 18 projects; 24 require four waves at six projects per wave.",
+      "The arithmetic excludes disruptions and variability by assumption; it cannot be claimed to have allowed for them."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.C.3; I.F.1–2"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "Over the last four quarters, the enterprise pipeline shows: projects initiated per quarter holding steady at 8, but projects completed per quarter dropping from 7 to 4, while the number of projects \"in progress\" (WIP) has grown from 12 to 28. What does this pattern most likely indicate, and what is the appropriate diagnostic next step?",
+    "stem": "The pipeline begins Q1 with 12 projects in progress. In each of Q1–Q4, eight projects start; completions are 7, 6, 5 and 4 respectively. No projects are cancelled, reclassified or reopened. The plot shows reconciled quarter-end WIP. Which interpretation and next step are defensible?",
     "options": [
-      "The organization is becoming more ambitious and successful, since more projects are always better",
-      "The pattern is unrelated to capacity and is likely just random quarter-to-quarter variation requiring no action",
-      "The solution is to initiate even more projects to compensate for the completion slowdown",
-      "Growing WIP with declining completion rate despite steady intake is a classic sign of pipeline overload \u2014 too much work-in-process relative to available Belt/resource capacity, causing multitasking, delays, and falling throughput; the appropriate next step is to apply Little's Law-style analysis (WIP, throughput, and cycle time relationships) to identify whether intake should be throttled or capacity increased before adding any new projects"
+      "The pattern proves that Belt multitasking caused the slowdown; reduce the Belt count first and use the next quarter's completions to confirm that diagnosis.",
+      "The latest 22 projects divided by four completions establishes a steady-state mean lead time of 5.5 quarters, so no further flow history is needed.",
+      "The increasing WIP establishes improved pipeline productivity; maintain eight starts per quarter and use the larger active-project count as the principal success measure.",
+      "Intake exceeds completions and WIP accumulates; investigate age, blocked work, resources and scope changes before choosing an intake limit or targeted capacity intervention."
     ],
     "answer": 3,
-    "why": "Rising WIP + falling completions + steady intake is the signature of a capacity-constrained pipeline (directly analogous to Little's Law: cycle time increases as WIP grows relative to fixed throughput capacity) \u2014 a core Lean/flow-management concept an MBB must apply to portfolio management, not just shop-floor processes. Source: [BOK] Domain I.F, Pipeline Management; Lean flow principles (Little's Law), general Lean Six Sigma practice.",
-    "chart": {"type": "time-series", "title": "Work-in-progress by quarter", "labels": ["Q1", "Q2", "Q3", "Q4"], "data": [12, 17, 22, 28], "xLabel": "Quarter", "yLabel": "Projects in progress (WIP)", "decimals": 0, "altText": "Work-in-progress rises steadily across four quarters: 12, 17, 22, then 28 projects in progress, while completions per quarter fall from 7 to 4 over the same period."},
+    "why": "The quarter-end balances are 12+8−7=13, 13+8−6=15, 15+8−5=18 and 18+8−4=22. This verifies accumulation, not its root cause. Capacity constraints, blocked dependencies, changing scope or project mix could contribute. Little's Law relates compatible long-run averages; dividing a growing system's latest WIP snapshot by one quarter's completions is not an established steady-state mean lead time. Source alignment: ASQ CMBB Body of Knowledge, I.F.2; I.F.4. The scenario-specific conclusion is derived from the stated case.",
+    "chart": {
+      "type": "time-series",
+      "title": "Reconciled projects in progress at quarter-end",
+      "labels": [
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4"
+      ],
+      "data": [
+        13,
+        15,
+        18,
+        22
+      ],
+      "xLabel": "Quarter",
+      "yLabel": "Projects in progress",
+      "decimals": 0,
+      "altText": "Quarter-end WIP is 13 in Q1, 15 in Q2, 18 in Q3 and 22 in Q4. Opening Q1 WIP is 12; eight projects start each quarter and completions are 7, 6, 5 and 4."
+    },
     "set": 3,
-    "qid": "mbb:set-3:d1-025"
+    "qid": "mbb:set-3:d1-025",
+    "optionRationales": [
+      "Multitasking is a hypothesis, not a proven cause, and reducing capacity is not supported by the observed aggregates.",
+      "The ratio is 5.5 quarters, but its inputs are a snapshot and one interval from a changing system, not compatible stable averages.",
+      "WIP is unfinished inventory, not output; increasing WIP with falling completions does not demonstrate productivity improvement.",
+      "Correct. It distinguishes the reconciled flow pattern from a causal diagnosis and gathers evidence for an appropriate intervention."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.F.2; I.F.4"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "A logistics company's enterprise strategy targets improving On-Time-In-Full (OTIF) delivery. The warehouse team's cascaded metric is \"orders picked per hour\" and the transportation team's cascaded metric is \"cost per mile.\" After a quarter, picking productivity and cost-per-mile both improved, but OTIF declined. What is the most likely alignment failure?",
+    "stem": "A logistics company targets on-time-in-full delivery (OTIF). The warehouse improves orders picked per hour and transportation improves cost per mile, but OTIF declines. The available data do not isolate causes. Which MBB response best addresses the suspected metric-alignment failure without assuming it has already been proven?",
     "options": [
-      "OTIF is not a valid strategic metric for a logistics company",
-      "OTIF should have been measured before the fiscal year began",
-      "The warehouse and transportation teams should be merged into a single department",
-      "Both teams optimized locally-relevant, efficiency-focused metrics that are not directly tied to the actual OTIF components (on-time and in-full), so local gains in speed/cost did not translate to the strategic outcome \u2014 and may have traded against it (e.g., faster picking causing more errors, cheaper routing causing later deliveries)"
+      "Tighten both local efficiency targets first, because improving their individual performance establishes that they must ultimately improve the enterprise service measure.",
+      "Replace both local measures with OTIF alone, because diagnostic efficiency measures cannot contribute to an aligned performance-management system.",
+      "Merge the warehouse and transportation teams before analyzing failure modes, because the existence of two departments establishes the source of the OTIF decline.",
+      "Test whether local gains shift errors or delays downstream; pair efficiency measures with relevant quality and delivery guardrails and evaluate the end-to-end effect."
     ],
     "answer": 3,
-    "why": "This is the same cascade-alignment failure pattern seen elsewhere with unpaired efficiency metrics (e.g., a call center rewarding fast handle time at the expense of resolution quality): locally efficient metrics that aren't causally tied to the strategic outcome metric can degrade the very thing the strategy intended to improve. Source: [BOK] Domain I.B, Strategic Plan Alignment.",
+    "why": "The pattern is consistent with local optimization at the system's expense, but does not establish that the local targets caused the OTIF decline. Examine the actual failure modes, incentives and handoffs, as well as alternative explanations. Balanced guardrails can preserve useful efficiency information while preventing its pursuit from undermining the enterprise outcome. Source alignment: ASQ CMBB Body of Knowledge, I.B.1–3. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-027"
+    "qid": "mbb:set-3:d1-027",
+    "optionRationales": [
+      "A local improvement is not evidence of a favorable end-to-end effect; tighter targets could worsen an untested tradeoff.",
+      "Replacing every diagnostic measure with the top-level outcome sacrifices information; complementary measures can be aligned.",
+      "Organizational structure alone does not identify the failure mechanism or justify a merger.",
+      "Correct. It tests the mechanism and balances local efficiency against the intended enterprise outcome."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.B.1–3"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "A bank's VOC data shows customers are largely satisfied with loan processing times. Separately, a new federal regulation will require enhanced disclosure documentation within 12 months, and the bank's current process cannot produce the required documentation without significant redesign. How should the MBB advise on pipeline prioritization?",
+    "stem": "A bank's customers are satisfied with loan-processing speed. Its compliance team has confirmed a binding disclosure requirement taking effect in 12 months, and the current process cannot meet it without redesign. Management has not yet reserved implementation capacity. Which pipeline decision is most defensible?",
     "options": [
-      "Regulatory projects should never be run using Six Sigma methodology since they are compliance-driven, not customer-driven",
-      "The regulatory requirement should be deprioritized in favor of any project with stronger VOC support",
-      "The regulatory-compliance redesign should enter the pipeline as a high-priority (likely mandatory-timeline) opportunity despite the absence of a customer complaint signal, because regulatory non-compliance carries legal/financial risk that VOC data cannot be expected to surface \u2014 VOC and compliance-driven opportunities are evaluated on different bases (customer satisfaction vs. legal risk and deadline), not against each other",
-      "Since VOC shows satisfaction, no changes are needed"
+      "Rank the redesign only by customer-satisfaction survey results, because a process change without expressed customer dissatisfaction has no validated improvement justification.",
+      "Leave the redesign in the discretionary queue until it outperforms every service project financially, because one ranking rule should govern all project categories.",
+      "Treat the confirmed requirement and deadline as mandatory constraints, reserve a feasible compliance path, and then optimize discretionary projects within the remaining capacity.",
+      "Begin the redesign after the requirement takes effect, because the implementation capacity cannot be justified until the first noncompliance event has been observed."
     ],
     "answer": 2,
-    "why": "Not every legitimate pipeline entry originates from VOC \u2014 regulatory/compliance mandates are a distinct opportunity category with their own (often externally-fixed) urgency and consequence profile, and an MBB must recognize this rather than forcing every opportunity through a customer-satisfaction lens. Source: [BOK] Domain I.E, Opportunities for Improvement.",
+    "why": "A confirmed mandatory requirement is not simply another discretionary benefit score. The portfolio must provide a feasible path to timely compliance, including dependencies and capacity, while prioritizing the remaining work. Customer satisfaction with speed does not show that the disclosure obligation is met. The regulatory facts here are stipulated by the case, not a claim about a particular jurisdiction's current law. Source alignment: ASQ CMBB Body of Knowledge, I.F.3; I.E.2. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-030"
+    "qid": "mbb:set-3:d1-030",
+    "optionRationales": [
+      "VOC data do not supersede an independently confirmed obligation.",
+      "Treating mandatory compliance as freely exchangeable for discretionary benefits can produce an infeasible or noncompliant portfolio.",
+      "Correct. It protects the confirmed deadline and then makes the constrained discretionary allocation.",
+      "Waiting until the effective date or an observed failure risks knowingly missing the required implementation window."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.F.3; I.E.2"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "An aerospace manufacturer's Six Sigma deployment infrastructure currently has no formal process for Green Belts to advance to Black Belt certification beyond \"manager's discretion.\" What infrastructure gap does this represent, and what is the risk?",
+    "stem": "An aerospace company awards its own internal Belt qualifications. Green Belt advancement to Black Belt currently depends only on each manager's discretion, so similarly performing candidates receive different decisions across departments. Which infrastructure change best addresses consistency without treating the company's pathway as an ASQ certification requirement?",
     "options": [
-      "The gap is irrelevant since Green Belts should never advance to Black Belt",
-      "This is a talent-pipeline infrastructure gap: without standardized advancement criteria (e.g., minimum completed projects, validated benefit realization, competency assessment), Belt quality and enterprise-wide credibility of the certification become inconsistent across managers/departments, undermining both the training infrastructure and downstream project quality",
-      "No gap exists; manager discretion is an acceptable substitute for a formal advancement pathway",
-      "The solution is to eliminate the Green Belt level entirely"
+      "Set one mandatory calendar tenure for every candidate and retain individual managers' uncalibrated judgments as the only assessment of demonstrated project competence.",
+      "Define common competency and project-evidence criteria, calibrate assessors and document review decisions, while allowing a transparent process for justified exceptions.",
+      "Replace all project evidence with course attendance, because uniform training hours establish equivalent applied Black Belt competence across the departments.",
+      "Permit departments to keep separate undocumented advancement criteria, and use a single corporate certificate design to communicate consistent qualification standards."
     ],
     "answer": 1,
-    "why": "Standardized advancement criteria are a recognized infrastructure element \u2014 informal, manager-dependent promotion criteria create inconsistent Belt quality and credibility problems across the organization, a real and common deployment maturity gap. Source: [BOK] Domain I.C, Infrastructure Elements; IV, Training Design and Delivery (related domain).",
+    "why": "The gap is inconsistent internal qualification evidence and decisions. Common criteria, calibrated assessment and transparent review improve comparability while preserving a documented exception mechanism. Attendance, tenure or a common certificate do not establish equivalent demonstrated competence. This internal pathway is not a statement of ASQ eligibility rules. Source alignment: ASQ CMBB Body of Knowledge, I.C.3–4. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-034"
+    "qid": "mbb:set-3:d1-034",
+    "optionRationales": [
+      "Uniform tenure does not resolve differences in assessed competence or uncalibrated decision standards.",
+      "Correct. It standardizes the evidence and review process without inventing external certification requirements.",
+      "Attendance is evidence of participation, not sufficient evidence of applied project and technical competence.",
+      "A common certificate design does not make undocumented department-specific criteria equivalent."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.C.3–4"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "An airline's improvement pipeline for the year consists of 14 projects, all targeting on-time departure performance, with zero projects addressing baggage handling, customer service, or maintenance turnaround. On-time departure is indeed the top strategic KPI. What portfolio-level concern should the MBB raise?",
+    "stem": "An airline allocates all 14 improvement projects to on-time departure, its top strategic KPI. Portfolio review has not established whether the projects share benefit streams or whether uncovered baggage, service and maintenance risks require intervention. There is no evidence yet that equal allocation across these areas is warranted. What should the MBB recommend before accepting the concentration?",
     "options": [
-      "Portfolio balance is a Green Belt-level concern, not something an MBB needs to weigh in on",
-      "The airline should abandon the on-time departure focus entirely in favor of equal weighting across all four areas",
-      "None \u2014 since on-time departure is the top KPI, 100% pipeline concentration on it is optimal",
-      "Even with one dominant strategic KPI, a portfolio concentrated entirely in a single opportunity area risks diminishing returns (the same overlapping root causes revisited repeatedly), ignores other legitimate strategic and risk exposures (safety-adjacent maintenance turnaround, customer retention via service/baggage), and creates single-point organizational risk if that KPI's improvement levers are exhausted \u2014 some portfolio diversification, even under one dominant priority, is generally defensible"
+      "Accept the concentration solely because departure performance is the top KPI; treat overlapping benefits and uncovered risks as matters for individual project closure reviews.",
+      "Divide capacity equally among the four areas immediately, because equal project counts establish an economically and strategically balanced improvement portfolio.",
+      "Cancel every departure project with a shared process step, because shared process scope establishes that their incremental benefits must be identical.",
+      "Assess marginal benefits, overlapping claims and uncovered material risks; retain or adjust the concentration according to that evidence and the approved strategic constraints."
     ],
     "answer": 3,
-    "why": "Even legitimate single-KPI dominance in strategy doesn't justify total pipeline concentration \u2014 diminishing returns, unaddressed risk exposure in adjacent areas (especially anything safety-adjacent like maintenance), and the failure to build organizational Six Sigma capability broadly are all real portfolio-level risks an MBB should surface, even while affirming the top KPI's priority. Source: [BOK] Domain I.F, Pipeline Management; III.B, Project Portfolio Infrastructure and Management.",
+    "why": "A concentrated portfolio can be defensible, but the top KPI alone does not prove that every additional project adds value or that other material exposures are covered. Assess incremental contribution, interactions and risk constraints. Neither automatic equal diversification nor blanket cancellation of projects with shared steps follows from the case. Source alignment: ASQ CMBB Body of Knowledge, I.F.1–4. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-037"
+    "qid": "mbb:set-3:d1-037",
+    "optionRationales": [
+      "The top priority does not eliminate the need for portfolio-level benefit and risk analysis before committing resources.",
+      "Equal counts are not a demonstrated optimum and can disregard strategic value and project size.",
+      "Shared scope creates a need to investigate interactions; it does not prove identical benefits.",
+      "Correct. It tests whether concentration remains justified instead of assuming either concentration or diversification is inherently optimal."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.F.1–4"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "A bank's fraud-detection false-positive rate (legitimate transactions incorrectly flagged) has crept up over 18 months, but no one knows why \u2014 multiple systems, rules, and vendor updates have changed over that period. Which is the most appropriate methodology to recommend?",
+    "stem": "A bank's false-positive rate in fraud detection has increased over 18 months, inconveniencing legitimate customers. Multiple rules and vendor updates changed during that period; no cause has been validated. The existing process may still be capable of meeting requirements. Which approach best combines method selection with protection against reducing detection of actual fraud?",
     "options": [
-      "DMADV, since a new fraud detection system should be built from scratch",
-      "Lean 5S, since the primary issue is workplace organization",
-      "Immediately roll back all vendor updates from the past 18 months without further analysis",
-      "DMAIC, because an existing process is degrading and the root cause is unknown \u2014 the Measure and Analyze phases are specifically designed to systematically investigate an unclear root cause in an operating process using the accumulated data (rule changes, vendor updates, false-positive trends) before jumping to a redesign"
+      "Commit to replacing the entire platform through DMADV before validating the present process's limitations, using architecture novelty as evidence that the redesign will be superior.",
+      "Run a rapid threshold-reduction exercise and use fewer customer complaints as sufficient success evidence, without evaluating missed fraud or changes in the underlying transaction mix.",
+      "Roll back every vendor update and attribute any resulting reduction in false positives to the rollback, without separating the concurrent changes or checking fraud losses.",
+      "Use DMAIC to validate definitions, segment the changes and test causes, while treating fraud detection and losses as guardrails when evaluating any reduction in false positives."
     ],
     "answer": 3,
-    "why": "This is the classic DMAIC use case: an existing process with a known symptom (rising false positives) and an unknown root cause \u2014 systematic Measure/Analyze work (not a redesign, not a workplace-organization tool, and not a guess-and-rollback) is the appropriate path. Source: [CSSC] Ch. 11, Introduction to DMAIC and DMADV; Ch. 14, Analyze.",
+    "why": "An existing process with an unexplained deterioration supports DMAIC before committing to a replacement. Verify measurement definitions, denominators and relevant transaction mix, then investigate the candidate causes. Fewer false positives can be achieved simply by flagging fewer transactions; that is not a satisfactory improvement if missed fraud or losses increase. Redesign remains an option if analysis establishes that the existing process cannot meet requirements. Source alignment: ASQ CMBB Body of Knowledge, I.D.1–2; I.B.3. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-041"
+    "qid": "mbb:set-3:d1-041",
+    "optionRationales": [
+      "The case has not established the need for a new design or the inadequacy of the existing process.",
+      "Complaint reduction alone cannot establish that the fraud-detection tradeoff is acceptable.",
+      "A wholesale rollback confounds changes and can introduce other adverse outcomes; timing alone does not identify causes.",
+      "Correct. It selects a suitable investigation framework and protects the intended detection outcome."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.D.1–2; I.B.3"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "A retail chain's CFO states, \"our strategic plan is simply to hit this year's budget targets across every store.\" The MBB is asked to build the improvement pipeline directly from store-level budget variances. What is the flaw in using the budget alone as the strategic plan?",
+    "stem": "A retailer proposes selecting its improvement pipeline solely from store-level annual budget variances. Leadership also has approved objectives for customer retention, digital capability and positioning over three years, but these are absent from the selection criteria. Which correction most directly addresses the planning gap?",
     "options": [
-      "Budgets should never be used in any part of strategic planning",
-      "There is no flaw \u2014 budget targets are always an adequate substitute for strategic planning",
-      "An annual budget is a financial control and resource-allocation tool reflecting short-term targets; it typically doesn't capture longer-term competitive positioning, customer experience direction, or capability-building goals that a genuine strategic plan addresses \u2014 building the pipeline from budget variance alone risks a purely reactive, short-term-focused portfolio disconnected from durable competitive strategy",
-      "The CFO should be removed from the strategic planning process entirely"
+      "Exclude budget and cost information from project selection, because financial control measures cannot contribute to a forward-looking strategic improvement portfolio.",
+      "Use the largest unfavorable budget variances as the complete project ranking, because short-term financial gaps necessarily capture the approved longer-term objectives.",
+      "Keep budget performance as one input and add explicit alignment to the approved customer, capability and positioning objectives, subject to resource and risk constraints.",
+      "Replace all operational measures with three-year revenue forecasts, because using a longer financial horizon alone makes a project portfolio strategically complete."
     ],
     "answer": 2,
-    "why": "This tests the MBB's ability to recognize when a legitimate but narrower tool (annual budget) is being mistaken for a comprehensive strategic plan \u2014 a common flaw, especially in finance-driven organizations, that produces a reactive rather than forward-looking pipeline. Source: [BOK] Domain I.A, Strategic Plan Development.",
+    "why": "Budget variance is relevant evidence, but in this case it omits approved strategic objectives. The remedy is to connect project selection to those objectives while retaining financial discipline and feasibility. Neither deleting financial measures nor merely extending the financial forecast horizon supplies the missing alignment. Source alignment: ASQ CMBB Body of Knowledge, I.A; I.B.2–3. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-044"
+    "qid": "mbb:set-3:d1-044",
+    "optionRationales": [
+      "Financial performance remains relevant; the flaw is exclusive reliance on it, not its inclusion.",
+      "The case explicitly states strategic objectives that are not represented by the budget-only selection rule.",
+      "Correct. It integrates the omitted strategic dimensions without abandoning financial discipline.",
+      "A longer forecast is still incomplete unless the stated nonfinancial objectives and constraints are represented."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.A; I.B.2–3"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "A food bank analyzes feedback only from recipients who returned for a second visit, concluding \"our distribution process has no significant pain points\" since satisfaction scores are high. What analytical flaw undermines this conclusion as a basis for identifying (or ruling out) improvement opportunities?",
+    "stem": "A food bank surveys only recipients who returned for a second visit. Satisfaction is high, and management concludes that the distribution process has no important access or service problems for all first-time recipients. The experiences and reasons for non-return are unknown. Which critique and follow-up are most defensible?",
     "options": [
-      "The flaw is that the food bank should not survey recipients at all",
-      "The sample size is the only issue; a larger sample of returning recipients would resolve the flaw",
-      "There is no flaw; returning recipients are a representative sample of all recipients",
-      "This is a survivorship-bias flaw: recipients who found the process too difficult, confusing, or unpleasant may simply not return, so the sampled population systematically excludes the very people most likely to reveal significant pain points \u2014 high satisfaction among returners says little about the experience of non-returners"
+      "Increase the number of returning recipients surveyed, because a larger sample drawn from the same returner-only frame will remove the exclusion of non-returners.",
+      "Assign low satisfaction to every non-returner, because absence of a repeat visit demonstrates that an access or service failure caused the person not to return.",
+      "Generalize the results to all first-time recipients, because choosing to return demonstrates that the sampling frame is representative of the population of interest.",
+      "Treat the returner-only frame as a selection limitation; seek feasible, respectful feedback from first-time recipients and non-returners without assuming why they did not return."
     ],
     "answer": 3,
-    "why": "Classic survivorship bias \u2014 measuring satisfaction only among those who \"survived\" (returned) systematically excludes exactly the population whose negative experience would reveal the opportunity, a critical flaw for opportunity-identification data. Source: [BOK] Domain I.E, Opportunities for Improvement; general statistical sampling principles.",
+    "why": "The sampling frame excludes non-returners, so the returners' satisfaction cannot by itself characterize all first-time recipients. Some people might not return because of barriers, while others might no longer need the service; the case does not identify the direction or size of bias. Expanding a sample within the same restricted frame does not resolve the coverage limitation. Source alignment: ASQ CMBB Body of Knowledge, I.E.1–2. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-048"
+    "qid": "mbb:set-3:d1-048",
+    "optionRationales": [
+      "Larger sample size can improve precision within returners but does not include the excluded population.",
+      "Non-return does not establish dissatisfaction or a service failure; the reasons must be investigated.",
+      "Return behavior is the selection mechanism, not evidence of representativeness for all recipients.",
+      "Correct. It identifies the coverage/selection issue and gathers missing evidence without imputing negative experiences."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.E.1–2"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "An automotive supplier's 5-year strategic plan was built assuming continued internal-combustion-engine part demand. Eighteen months in, a major OEM customer announces an accelerated EV transition that will eliminate 40% of the supplier's current part demand within 3 years. What should the MBB recommend regarding the existing improvement pipeline?",
+    "stem": "An automotive supplier's five-year strategy assumes stable demand for its present component mix. Six months later, credible customer forecasts indicate that a technology transition could remove 40% of that demand within three years. Several pipeline projects concern product families unaffected by the transition. Which governance action is best?",
     "options": [
-      "Trigger a formal strategic plan review with executive leadership given the scale of the disruption; re-segment the pipeline into projects still valid under the new demand outlook (e.g., EV-relevant part lines) versus those tied to declining ICE-only demand, and re-prioritize/re-scope accordingly rather than treating the plan as fixed",
-      "Wait until the full 5-year plan cycle ends before making any adjustments",
-      "Continue the pipeline unchanged since strategic plans should not be revised mid-cycle",
-      "Cancel the entire pipeline immediately without further analysis"
+      "Trigger an executive review of the changed demand assumptions, segment affected and unaffected projects, and reauthorize, rescope or stop investments using their revised strategic contribution.",
+      "Wait for the next five-year planning cycle before revisiting the pipeline, because changing an approved strategy earlier would invalidate the original governance process.",
+      "Keep all existing project rankings unchanged until the forecast decline becomes realized, because prospective evidence cannot justify changing the current allocation of improvement resources.",
+      "Cancel the entire improvement pipeline immediately, because a 40% demand threat establishes that every existing project must now have negative strategic or financial value."
     ],
     "answer": 0,
-    "why": "A disruption of this magnitude (40% demand elimination within 3 years) is exactly the kind of material change that should trigger formal strategic re-planning and pipeline re-segmentation \u2014 treating the plan as immutable (A, D) or overreacting with wholesale cancellation without analysis (B) are both poor MBB judgment. Source: [BOK] Domain I.A, Strategic Plan Development.",
+    "why": "The material change challenges a core planning assumption and warrants formal review before the demand loss is realized. The case also identifies unaffected product families, so blanket cancellation is unsupported. Review the evidence, dependencies and future incremental value of each project segment, then use the agreed approval process to update allocations. Source alignment: ASQ CMBB Body of Knowledge, I.A; I.F.2. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-051"
+    "qid": "mbb:set-3:d1-051",
+    "optionRationales": [
+      "Correct. It responds to material new evidence through formal review while distinguishing affected from unaffected work.",
+      "A planning horizon does not prohibit trigger-based reassessment of assumptions during that horizon.",
+      "Credible prospective evidence is relevant to future investment decisions; waiting for realized loss can waste capacity.",
+      "A threat to part of demand does not establish negative value for every project, particularly those in unaffected families."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.A; I.F.2"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "A mining operation's VOB data shows the highest-cost quality issue is ore-grade variability, while safety incident data (near-misses) has been quietly rising for two quarters with no corresponding cost yet realized. Leadership wants to prioritize the ore-grade project given its clear cost case. How should the MBB advise?",
+    "stem": "A mine's highest recorded quality cost is ore-grade variability. Near-miss reports have also risen for two quarters, but exposure, reporting participation and potential severity have not been analyzed; no injury cost has yet been recorded. Which MBB recommendation best supports responsible pipeline decisions?",
     "options": [
-      "Ignore the near-miss trend entirely since \"near-miss\" means nothing actually happened",
-      "Recommend a safety-focused opportunity enter the pipeline as at least a co-priority alongside (not necessarily above) ore-grade variability, because rising near-miss trends are a well-established leading indicator of future incidents; safety risk exposure should not be deprioritized simply because it hasn't yet converted into a realized cost \u2014 the \"cost case\" for safety often only appears after a serious event, by which point the opportunity to prevent it is gone",
-      "Prioritize ore-grade variability exclusively, since it has a demonstrated cost impact and safety near-misses haven't yet resulted in an actual incident",
-      "Defer any safety-related work until an actual injury occurs, to avoid resourcing an unproven risk"
+      "Infer that hazard frequency has necessarily increased and give every reported near miss the same priority, without checking exposure, reporting changes or potential consequence.",
+      "Initiate competent safety review and prompt control of identified hazards; assess exposure, severity and reporting changes, then integrate necessary safety actions with the improvement portfolio.",
+      "Fund only the ore-grade project until an injury creates a monetary loss, because an unrealized safety consequence cannot form a valid basis for resource allocation.",
+      "Assume the reports reflect improved reporting culture and defer hazard review, because a rise in near-miss reporting is sufficient evidence that underlying risk has decreased."
     ],
     "answer": 1,
-    "why": "This tests a critical MBB-level judgment: not all legitimate strategic opportunities have equally mature cost data at the point they need action \u2014 leading indicators (like rising near-misses) warrant proactive prioritization precisely because waiting for a realized cost (an actual injury) means the prevention opportunity has already been lost. Source: [BOK] Domain I.E, Opportunities for Improvement; general safety/quality leading-indicator practice.",
+    "why": "Near-miss reports warrant timely investigation, but a count increase alone does not distinguish greater exposure, more hazards or improved reporting. Evaluate potential severity, controls, exposure and reporting practice with competent safety personnel. Do not wait for an injury cost; required or urgent hazard controls should not wait for a discretionary project-ranking exercise. The analysis determines whether longer-term safety work takes priority over or accompanies the ore-grade project. Source alignment: ASQ CMBB Body of Knowledge, I.E.1; I.F.4. The scenario-specific conclusion is derived from the stated case. Technical reference: OSHA Recommended Practices: Program Evaluation and Improvement (https://www.osha.gov/safety-management/program-evaluation).",
     "set": 3,
-    "qid": "mbb:set-3:d1-055"
+    "qid": "mbb:set-3:d1-055",
+    "optionRationales": [
+      "Counts alone do not establish the mechanism, and identical treatment ignores different potential consequences and urgency.",
+      "Correct. It protects workers promptly and uses appropriate evidence rather than a simplistic ranking of reported counts or realized costs.",
+      "Absence of a realized injury cost does not establish absence of serious risk or remove the need for preventive action.",
+      "Improved reporting is one possible explanation, not proof that hazards are controlled or risk has fallen."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.E.1; I.F.4"
+      },
+      {
+        "title": "OSHA Recommended Practices: Program Evaluation and Improvement",
+        "url": "https://www.osha.gov/safety-management/program-evaluation",
+        "locator": "Action items 1–3; leading and lagging indicators"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "A law firm's enterprise strategy targets \"improve client retention through service quality.\" The associates' cascaded performance metric remains \"billable hours,\" unchanged from before the new strategy. What alignment problem does this represent?",
+    "stem": "A law firm adopts a strategy of improving client retention through service quality. Associates are still evaluated solely on billable hours. No service-quality or retention-related expectations have been assigned to them, and no review has tested how their incentives support the new strategy. What is the most precise diagnosis?",
     "options": [
-      "Client retention cannot be measured in a law firm, so no cascade is possible",
-      "Billable hours and client retention are always perfectly aligned, so no problem exists",
-      "The cascaded metric (billable hours) was never updated to reflect the new strategic emphasis on service quality, so associates continue to be incentivized exactly as before the strategy changed \u2014 a failure to actually cascade the new strategy into any measurable behavior change at the associate level",
-      "The firm should eliminate billable hours tracking entirely and pay associates a flat salary"
+      "Billable hours must be abandoned as an operational measure, because an existing efficiency or revenue measure cannot coexist with a new client-retention objective.",
+      "No alignment gap exists until retention actually declines, because the absence of a measured adverse result proves that the current evaluation system supports the strategy.",
+      "The evaluation system lacks a demonstrated service-quality linkage; retain useful financial measures but add and validate role-appropriate expectations and balanced incentives.",
+      "Every existing metric must receive a new name and numerical target, because any metric retained after a strategy change is necessarily evidence of failed deployment."
     ],
     "answer": 2,
-    "why": "This variation tests recognizing a *failure to cascade at all* (an unchanged legacy metric) as distinct from the earlier examples' problem of a cascaded-but-unbalanced metric \u2014 a subtler but equally real alignment failure: strategy changed, but no operational metric changed to reflect it. Source: [BOK] Domain I.B, Strategic Plan Alignment.",
+    "why": "The gap is the missing linkage and incentive balance, not the age of the billable-hours measure. An existing measure can remain useful when its role is justified and it is balanced with the new objectives. Clarify what associates can influence, add suitable expectations, and assess whether the incentive system supports service quality and retention. Source alignment: ASQ CMBB Body of Knowledge, I.B.1–3. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-058"
+    "qid": "mbb:set-3:d1-058",
+    "optionRationales": [
+      "An old measure can retain diagnostic or financial value when balanced with the strategic objective.",
+      "A governance and incentive gap can be identified before a downstream adverse outcome is observed.",
+      "Correct. It addresses the missing role-level linkage without requiring arbitrary replacement of every existing measure.",
+      "Renaming or changing a target does not by itself establish alignment, and retaining a valid measure is not necessarily a failure."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.B.1–3"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "An agribusiness's pipeline includes several projects requiring field-data collection that can only occur during the growing season (roughly 5 months per year), but Belt project assignments are made on a standard, non-seasonal quarterly cycle. Belts assigned in the \"wrong\" quarter routinely stall for months waiting for the growing season to begin. What pipeline management fix addresses this directly?",
+    "stem": "An agribusiness can collect required field data only during a five-month growing season. Scope definition, measurement-system preparation and staff training can occur beforehand. Assigning full-time Belts on a season-blind quarterly cycle leaves them waiting for field data. Which sequencing policy best uses capacity without substituting estimates for required observations?",
     "options": [
-      "Assign Belts to growing-season-dependent projects only during quarters that align with the actual data-collection window, explicitly building the biological/seasonal constraint into project sequencing and Belt assignment timing, rather than treating all projects as interchangeable on a generic quarterly cycle",
-      "Assign Belts to growing-season projects at the standard time regardless of season, and simply extend their project deadlines indefinitely until data becomes available",
-      "Require growing-season projects to collect data during the off-season using estimated or substituted data instead of real field data",
-      "Discontinue all growing-season-dependent projects since the seasonal constraint is too inconvenient for standard pipeline scheduling"
+      "Plan backward from the field-data window, complete valid preparatory work beforehand, and time intensive collection and Belt assignments to readiness, season and competing portfolio needs.",
+      "Delay every project activity until the growing season starts, because scope definition and measurement preparation must wait for the same field observations as the analysis.",
+      "Keep full-time assignments unchanged through the off-season and extend deadlines, because waiting time does not consume capacity that could support other ready projects.",
+      "Use estimated off-season observations as replacements for required field measurements, because maintaining a standard quarterly cycle is more important than the specified evidence requirements."
     ],
     "answer": 0,
-    "why": "This is a direct pipeline-scheduling fix: a known, structural timing constraint (seasonal data availability) should be explicitly built into assignment/sequencing logic, rather than forcing a generic, season-blind quarterly cycle onto a fundamentally seasonal data-generating process. Source: [BOK] Domain I.F, Pipeline Management.",
+    "why": "The seasonal window constrains field collection, not necessarily all project work. Work backward from that window, complete legitimate preparation in advance, and allocate scarce Belt capacity across ready tasks and other projects. Do not fabricate or substitute data simply to preserve an administrative schedule. Avoid assigning full-time capacity to known blocked work when useful alternatives exist. Source alignment: ASQ CMBB Body of Knowledge, I.C.3; I.F.1–2. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-062"
+    "qid": "mbb:set-3:d1-062",
+    "optionRationales": [
+      "Correct. It recognizes the real constraint while separating preparatory tasks from season-dependent work.",
+      "The case explicitly states preparatory tasks that can occur earlier; delaying them wastes the available window.",
+      "A full-time assignment to blocked work can displace productive work and does not eliminate the underlying wait.",
+      "Estimated substitutes do not meet the stipulated field-evidence requirement and can undermine the analysis."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.C.3; I.F.1–2"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "A consumer packaged goods company's executive board questions whether to continue funding the enterprise Six Sigma office ($1.2M annual infrastructure cost: MBB/BB salaries, training, software) given documented project savings of $8.5M over the same year. What should the MBB present as the most complete justification, beyond the raw ROI ratio?",
+    "stem": "A Six Sigma office reports $8.5 million in finance-validated gross annual cash benefits before its $1.2 million annual deployment cost. For this comparison, the cost is complete, benefits are attributable and non-duplicated, and both cover the same year; ignore taxes and discounting. Define benefit–cost ratio as benefits/cost and simple net ROI as (benefits−cost)/cost. Which board presentation is most defensible?",
     "options": [
-      "No further justification should be presented since raising the question at all indicates the board has already decided to cut funding",
-      "Immediately agree to cut the budget by half regardless of the ROI evidence, to preempt any further scrutiny",
-      "A complete picture including: the raw ROI ratio, the trend over multiple years (not just one strong year), the qualitative capability built (trained Belts, institutional problem-solving capacity that persists beyond any single project), and the risk of infrastructure loss (re-building deployment capability later is typically far more costly and slower than sustaining it) \u2014 since a single year's ROI, however strong, doesn't capture the durability or full value of the infrastructure investment",
-      "Only the raw ROI ratio (8.5M / 1.2M \u2248 7:1), since that number alone is fully sufficient justification"
+      "Report a 6.08:1 benefit–cost ratio and 708.3% net ROI, then discuss benefit durability, organizational capability and forward-looking costs before deciding next year's funding.",
+      "Report a 7.08:1 benefit–cost ratio and 608.3% net ROI, then treat one positive year as sufficient evidence to approve the same funding indefinitely.",
+      "Report a 7.08:1 benefit–cost ratio and 608.3% net ROI, then discuss benefit durability, organizational capability and forward-looking costs before deciding next year's funding.",
+      "Report a 7.08:1 benefit–cost ratio and 708.3% net ROI, then discuss benefit durability, organizational capability and forward-looking costs before deciding next year's funding."
     ],
     "answer": 2,
-    "why": "A single year's raw ROI, while a strong data point, is an incomplete infrastructure-investment case \u2014 trend durability, built organizational capability, and re-building deployment capability later is typically far more costly and slower than sustaining it are all standard, necessary elements of a complete MBB-level infrastructure justification to executive leadership. Source: [BOK] Domain I.C, Infrastructure Elements; III.C, Project Portfolio Financial Tools.",
+    "why": "Benefit–cost ratio = 8.5/1.2 = 7.0833:1. Net benefit = $7.3M and simple net ROI = 7.3/1.2 = 6.0833, or 608.3%. The gross benefit/cost ratio is not itself net ROI. These stipulated one-year figures support historical performance but do not determine future incremental value. Review persistence of benefits, upcoming opportunities, capability needs and alternative uses of funds; quantify rebuilding costs only when evidence supports them. Source alignment: ASQ CMBB Body of Knowledge, I.C.3; I.C.6. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-065"
+    "qid": "mbb:set-3:d1-065",
+    "optionRationales": [
+      "The two measures are confused: 6.0833 is net benefit/cost, while 708.3% expresses gross benefits as a percentage of cost.",
+      "The arithmetic is correct, but historical one-year returns do not establish that the same future funding is always justified.",
+      "Correct. It separates the two financial measures and combines historical evidence with a forward-looking funding assessment.",
+      "708.3% is gross benefit/cost expressed as a percentage, not the defined net ROI after subtracting cost."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.C.3; I.C.6"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "Drawing on the principles tested throughout this domain (measurable objectives, SWOT/environmental linkage, cascade-ready structure, stakeholder synthesis, and pipeline-readiness), which single criterion, if missing, would most undermine an otherwise well-constructed strategic plan's usefulness for driving the improvement pipeline?",
+    "stem": "An enterprise has measurable three-year objectives, named owners, aligned measures and a qualified pipeline. Its environment is changing rapidly. The steering committee meets quarterly but has no rule for revisiting the assumptions that justified project funding between meetings. Which additional control best closes this specific governance gap?",
     "options": [
-      "The plan does not explicitly name every individual project to be undertaken over its full multi-year horizon",
-      "The plan is written in formal business language reviewed by legal counsel",
-      "The plan lacks any mechanism for periodic re-validation against changing conditions (i.e., it is treated as a static, one-time document rather than something revisited at defined intervals or trigger events), meaning even a well-constructed plan will progressively drift out of alignment with reality exactly as illustrated in the automotive (D1-051) and BB-project-pivot (D1-009) scenarios",
-      "The plan's length exceeds 20 pages"
+      "Require all projects to meet their original financial forecasts regardless of changed assumptions, so accountability remains consistent throughout the three-year strategic horizon.",
+      "Let each project leader revise scope and benefits privately when conditions change, so adaptation remains fast without using a common approval or audit process.",
+      "Define material-change triggers, accountable reviewers and documented reauthorization rules, including whether work continues, pauses, changes or closes while the review is completed.",
+      "Schedule more frequent status presentations without revisiting funding assumptions, because improved reporting frequency provides the same control as formal strategic reauthorization."
     ],
     "answer": 2,
-    "why": "This closing synthesis item ties together the batch's recurring theme (strategic plans and their alignment must be periodically re-validated, not treated as static) into a single \"most critical missing element\" judgment \u2014 even a well-built plan becomes a liability if there's no defined mechanism to revisit it as conditions change. Source: [BOK] Domain I.A, Strategic Plan Development (synthesis across Batches 1-3).",
+    "why": "The missing control is a trigger-to-decision mechanism for material changes between scheduled reviews. Specify what triggers reassessment, who is accountable, what evidence is reviewed and how interim work and reauthorization are handled. More reporting alone does not provide this decision mechanism, while undocumented unilateral revisions weaken control. The case is complete without relying on any other exam question. Source alignment: ASQ CMBB Body of Knowledge, I.A; I.F.2. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-069"
+    "qid": "mbb:set-3:d1-069",
+    "optionRationales": [
+      "Holding teams to obsolete assumptions can preserve a plan that no longer produces the intended value.",
+      "Private revisions bypass the common decision and audit controls needed for portfolio-level tradeoffs.",
+      "Correct. It establishes a usable response to material changes rather than merely increasing reporting.",
+      "Status frequency does not determine how changed strategic assumptions alter authorization or allocation."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.A; I.F.2"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "Several scenarios illustrate a recurring alignment failure pattern: a call center rewarding fast average handle time saw resolution quality fall; a logistics company's warehouse and transportation teams both hit their local efficiency metrics while on-time-in-full delivery declined; and a law firm's \"billable hours\" metric was never updated despite a new client-retention strategy. Which statement best captures the general principle an MBB should apply when reviewing any newly cascaded metric?",
+    "stem": "After an enterprise changes strategy, an MBB reviews a proposed local performance metric. Its owner has explained the calculation, but not how the metric supports the new outcome or what undesirable behavior its incentive might create. The metric existed before the strategy change. Which review rule best determines whether to retain, modify or replace it?",
     "options": [
-      "Before approving any cascaded metric, explicitly test it against two questions: (1) can this metric be improved in a way that works against the actual strategic outcome it's meant to serve (an unpaired or gameable metric), and (2) does this metric actually change when the strategy itself changes, or is it a legacy holdover \u2014 both known, recurring alignment failure modes",
-      "Cascaded metrics should always be identical to the top-level enterprise metric, with no local adaptation",
-      "Cascaded metrics are inherently unreliable and should be replaced with purely qualitative executive judgment",
-      "Only financial metrics should ever be cascaded, since non-financial metrics are too easily misaligned"
+      "Require a credible outcome linkage, assess gaming and end-to-end tradeoffs, and add guardrails where needed; retain an existing metric when its continuing role is justified.",
+      "Require every local metric to be numerically identical to the enterprise outcome, because any adapted local measure necessarily weakens the strategic link.",
+      "Approve any metric that changed its target after the strategy announcement, because a new target demonstrates both outcome alignment and absence of adverse incentive effects.",
+      "Replace every pre-existing metric even when its contribution remains valid, because metric age is a sufficient test of whether the new strategy was deployed."
     ],
     "answer": 0,
-    "why": "This synthesis item asks the candidate to abstract a general diagnostic principle from several concrete failure patterns \u2014 a genuinely MBB-level (Evaluate/synthesis) task distinct from recognizing any single instance of the pattern. Source: [BOK] Domain I.B, Strategic Plan Alignment (cross-scenario synthesis).",
+    "why": "Alignment depends on a defensible contribution to the strategic outcome and an incentive system that does not undermine it. Examine operational definitions, what the role can influence, gaming and downstream effects; use complementary guardrails where appropriate. A valid existing measure may be retained, and a renamed or retargeted measure may still be misaligned. This prospective approval rule differs from diagnosing an observed outcome decline. Source alignment: ASQ CMBB Body of Knowledge, I.B.1–3. The scenario-specific conclusion is derived from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-070"
+    "qid": "mbb:set-3:d1-070",
+    "optionRationales": [
+      "Correct. It assesses the mechanism and tradeoffs rather than treating novelty or uniformity as evidence of alignment.",
+      "Role-appropriate local measures can support an enterprise outcome without being identical to it.",
+      "A changed target does not demonstrate either a valid causal contribution or protection against unintended behavior.",
+      "Age is not a validity criterion; a retained measure can remain appropriate under the new strategy."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.B.1–3"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
