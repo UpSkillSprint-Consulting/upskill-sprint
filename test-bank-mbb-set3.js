@@ -1021,353 +1021,868 @@
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "Reflecting on the infrastructure scenarios in this domain (steering committees, hybrid/centralized/decentralized models, maturity gaps, franchise models, data-access agreements), which general prioritization principle should guide an MBB deciding which infrastructure element to build or fix first in a given organization?",
+    "stem": "An enterprise has active sponsors, trained Belts, a prioritized pipeline and reliable operational measures. However, completed projects have no named benefits owner or post-closure verification, so reported savings cannot be reconciled with Finance. Only one infrastructure initiative can be funded this quarter. Which proposal most directly addresses the documented deployment constraint?",
     "options": [
-      "Always invest in training infrastructure first, since Belt certification is the most visible infrastructure element",
-      "Always build governance structures (steering committees) first in every organization, regardless of context",
-      "Infrastructure investment order does not matter as long as all elements are eventually built",
-      "Diagnose the organization's specific bottleneck (e.g., missing measurement standardization, an untracked benefits-realization gap, a structural cross-functional access barrier) and prioritize the infrastructure investment that removes the constraint currently most limiting deployment effectiveness \u2014 since the \"right\" infrastructure priority is context-dependent, not a fixed universal sequence"
+      "Expand Belt training to increase project capacity, and continue using estimated savings at closure until the next annual finance review.",
+      "Add another steering committee to approve new projects, and keep post-closure verification with individual project leaders on an informal basis.",
+      "Purchase a portfolio dashboard to consolidate existing savings estimates, and defer assigning benefits owners until reporting has been fully automated.",
+      "Establish benefits ownership and Finance-approved verification after closure, and use reconciliation results to improve the deployment's benefit-measurement process."
     ],
     "answer": 3,
-    "why": "This closing item synthesizes the batch's infrastructure scenarios (each showing a different specific bottleneck \u2014 measurement standardization, benefits tracking, data access, certification pathways, franchise structure) into the general principle that infrastructure prioritization should be diagnostic and context-specific, not a fixed universal checklist order. Source: [BOK] Domain I.C, Infrastructure Elements (cross-batch synthesis).",
+    "why": "The documented constraint is unverified benefit realization, not a shortage of training, prioritization or operational data. A benefits owner, agreed measurement basis, verification cadence and reconciliation with Finance directly address it. A dashboard can support that process but cannot establish ownership or validate estimates by itself. The appropriate first investment depends on the diagnosed constraint; this case does not establish a universal infrastructure sequence. Source alignment: ASQ CMBB Body of Knowledge, I.C.2; I.C.6. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-071"
+    "qid": "mbb:set-3:d1-071",
+    "optionRationales": [
+      "Additional training does not resolve the missing ownership and verification of benefits from already completed projects.",
+      "Another approval forum duplicates existing governance without creating a reliable post-closure measurement process.",
+      "Consolidating estimates improves visibility, but automation does not make unverified benefits valid or accountable.",
+      "Correct. Ownership and agreed verification directly address the specific constraint established by the scenario."
+    ],
+    "distractors": [
+      "Additional training does not resolve the missing ownership and verification of benefits from already completed projects.",
+      "Another approval forum duplicates existing governance without creating a reliable post-closure measurement process.",
+      "Consolidating estimates improves visibility, but automation does not make unverified benefits valid or accountable.",
+      "Correct. Ownership and agreed verification directly address the specific constraint established by the scenario."
+    ],
+    "trap": "Choose the intervention that addresses the documented constraint, not the most visible infrastructure investment. More training, committees or software cannot substitute for benefit ownership and verification.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.C.2; I.C.6"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "Synthesizing the methodology-selection scenarios in this domain (DMAIC vs. DMADV, DFSS for regulated new products, Kaizen for narrow well-understood problems, short-run SPC for unique-unit production, BPR for plateaued incremental gains), what is the single most important question an MBB should ask *before* any other consideration when selecting an improvement methodology?",
+    "stem": "An existing order-fulfillment process has worsening delivery variation. Several interacting causes are plausible, but none has been verified, and there is no evidence that the process architecture cannot meet requirements. Leadership favors replacing the system because two recent improvement attempts failed. Which initial methodology recommendation is most defensible?",
     "options": [
-      "Does an existing, operating process already exist to be measured and improved, or is this fundamentally a new-process/new-product design problem, a narrowly-scoped well-understood tactical fix, or a case requiring architectural redesign due to plateaued returns \u2014 since methodology selection should follow from the actual nature and history of the problem, not from convenience, familiarity, or trend",
-      "What is the cheapest methodology available regardless of fit to the problem?",
-      "Which methodology is currently most fashionable in the industry?",
-      "Which methodology does the assigned Black Belt already know best?"
+      "Use DMAIC to validate measurement, establish the baseline and investigate causes, then reconsider redesign if evidence demonstrates that incremental improvement cannot meet requirements.",
+      "Use DMADV to replace the process immediately, treating the failure of two prior improvement attempts as sufficient evidence that the existing architecture is incapable.",
+      "Use a Kaizen implementation event to standardize the team's preferred solution, treating agreement among experienced staff as sufficient verification of the interacting causes.",
+      "Use a control-chart monitoring program without further diagnosis, treating visibility of future signals as a substitute for investigating the current performance deterioration."
     ],
     "answer": 0,
-    "why": "This closing synthesis item distills the domain's repeated methodology-selection lesson (tested individually across scenarios spanning DMAIC-vs-DMADV problem framing, DFSS for regulated new products, Kaizen for narrow well-understood fixes, and BPR for plateaued incremental gains) into the single foundational diagnostic question that should precede all others: what is the actual nature of the problem (existing process vs. new design vs. narrow tactical fix vs. plateaued/architectural), since methodology should follow problem type. Source: [BOK] Domain I.D, Improvement Methodologies (cross-batch synthesis).",
+    "why": "The process exists, the problem is measurable and the causes remain uncertain. DMAIC provides a structured investigation before selecting a solution. Failed attempts alone do not demonstrate an architectural limit. DMADV becomes defensible when a new design or substantial redesign is justified. Kaizen can be used within DMAIC, but the proposed solution-first event bypasses the unresolved diagnosis. Monitoring alone does not correct the problem. Source alignment: ASQ CMBB Body of Knowledge, I.D.1; I.D.2; I.D.3. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-072"
+    "qid": "mbb:set-3:d1-072",
+    "optionRationales": [
+      "Correct. It matches an existing process with unverified causes and leaves redesign available when supported by evidence.",
+      "Two unsuccessful attempts may reflect poor diagnosis or execution; they do not by themselves establish a design limitation.",
+      "The defect is implementing an unverified solution, not the use of Kaizen itself; experienced consensus is not causal validation.",
+      "Control charts support monitoring and diagnosis, but monitoring without investigation does not address the existing deterioration."
+    ],
+    "distractors": [
+      "Correct. It matches an existing process with unverified causes and leaves redesign available when supported by evidence.",
+      "Two unsuccessful attempts may reflect poor diagnosis or execution; they do not by themselves establish a design limitation.",
+      "The defect is implementing an unverified solution, not the use of Kaizen itself; experienced consensus is not causal validation.",
+      "Control charts support monitoring and diagnosis, but monitoring without investigation does not address the existing deterioration."
+    ],
+    "trap": "Match the method to the problem and available evidence. Do not infer architectural incapability from failed attempts, and do not confuse rapid implementation or monitoring with a validated diagnosis.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.D.1; I.D.2; I.D.3"
+      },
+      {
+        "title": "ASQ: DMAIC",
+        "url": "https://asq.org/quality-resources/dmaic",
+        "locator": "When to use DMAIC; DMAIC vs. DMADV"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "Synthesizing the opportunity-identification pitfalls tested in this domain (naive benchmarking, survivorship bias, correlation/causation confusion, VOC/VOB imbalance, safety leading-indicator neglect), what common thread should an MBB apply as a validation checklist before accepting any proposed \"opportunity\" as pipeline-ready?",
+    "stem": "A proposed scrap-reduction project is supported by an association between overtime and scrap in day-shift records. Night-shift records are missing, product mix changed, and the estimated benefit assumes overtime causes scrap. The business impact appears material. What should the MBB require before authorizing the proposed solution and its claimed benefit?",
     "options": [
-      "Accept any opportunity that has any supporting data at all, regardless of the data's source or limitations",
-      "Reject any opportunity that cannot be immediately quantified in exact dollar terms",
-      "Opportunities identified through quantitative data are always more valid than those identified through qualitative or risk-based reasoning",
-      "Explicitly interrogate the data source for each proposed opportunity: is the comparison/sample fairly constructed (not biased or non-comparable), does correlation-based evidence have a validated causal mechanism (or is it just a hypothesis to test further), and has the opportunity been checked against multiple legitimate input types (VOC, VOB, safety/risk, regulatory) rather than relying on a single, possibly incomplete data source"
+      "Approve the overtime-reduction solution and savings estimate because the observed association identifies a controllable input and the potential business impact is material.",
+      "Reject the opportunity until a causal relationship is conclusively established, because a project charter cannot legitimately include an unresolved root-cause investigation.",
+      "Collect more day-shift records using the same selection method, then approve the proposed solution if the overtime–scrap association remains statistically significant.",
+      "Qualify a diagnostic project with a representative baseline and benefit-validation plan, treating overtime as a hypothesis and separating opportunity size from proven savings."
     ],
     "answer": 3,
-    "why": "This synthesis item distills the domain's opportunity-identification pitfalls (VOC/VOB balance, benchmarking flaws, COPQ sizing, multi-source validation, survivorship bias, leading indicators, and correlation/causation confusion, each tested elsewhere in this domain) into a general validation discipline: scrutinize data quality/bias, distinguish correlation from established causation, and triangulate across multiple legitimate input types. Source: [BOK] Domain I.E, Opportunities for Improvement (cross-batch synthesis).",
+    "why": "The evidence supports investigation of a potentially material opportunity, but it does not establish overtime as the cause or validate solution benefits. Missing shifts and changing product mix threaten representativeness and interpretation. A diagnostic charter can explicitly address those gaps. More observations from the same biased frame or statistical significance alone would not establish causation. Qualification of an investigation and authorization of a proven solution are different decisions. Source alignment: ASQ CMBB Body of Knowledge, I.E.2; II.E.1. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-073"
+    "qid": "mbb:set-3:d1-073",
+    "optionRationales": [
+      "A controllable variable associated with scrap is not necessarily its cause, so the solution and savings claim are premature.",
+      "Unknown causes are a legitimate reason to charter an investigation; causal proof is not a prerequisite to every improvement project.",
+      "Increasing the same selectively sampled data does not repair missing-shift coverage or establish a causal effect of overtime.",
+      "Correct. It retains the opportunity while making the evidence gaps and benefit-validation requirements explicit."
+    ],
+    "distractors": [
+      "A controllable variable associated with scrap is not necessarily its cause, so the solution and savings claim are premature.",
+      "Unknown causes are a legitimate reason to charter an investigation; causal proof is not a prerequisite to every improvement project.",
+      "Increasing the same selectively sampled data does not repair missing-shift coverage or establish a causal effect of overtime.",
+      "Correct. It retains the opportunity while making the evidence gaps and benefit-validation requirements explicit."
+    ],
+    "trap": "A promising opportunity can be ready for a diagnostic charter without its proposed cause or solution being proven. Larger samples and smaller p-values do not automatically remove selection bias or confounding.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.E.2; II.E.1"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "Synthesizing the pipeline management scenarios in this domain (Belt capacity constraints, stage-gate kill decisions, cross-departmental competition, dependency cascades, seasonal scheduling constraints, and WIP/throughput diagnosis), which general principle should govern all pipeline management decisions, regardless of the specific triggering situation?",
+    "stem": "Six Black Belts are each fully committed to one active project. A seventh, mandatory project must start this month to meet a fixed deadline. Additional qualified capacity cannot be obtained in time, and the sponsor confirms that one lower-priority project's scope or schedule can be changed without creating a safety or compliance breach. Which pipeline action is most defensible?",
     "options": [
-      "Pipeline management decisions should be grounded in the organization's actual, current resource capacity (Belt availability, dependencies, seasonal/structural constraints) and transparent, criteria-based governance \u2014 treating capacity as a hard constraint to plan around and trade off against explicitly, rather than as an assumption that can be indefinitely stretched to accommodate every request",
-      "Pipeline decisions should always be made by whichever department or individual raises the loudest or most urgent-sounding concern",
-      "More active projects in the pipeline is always better, since it demonstrates organizational ambition",
-      "Once a project enters the pipeline, it should never be paused, re-sequenced, or killed regardless of new information"
+      "Use the governance process to rescope or defer lower-priority work, release the required capacity, and document the resulting benefit and schedule tradeoffs.",
+      "Assign the mandatory project in addition to the six existing commitments, and retain all original schedules because mandatory work has the highest priority.",
+      "Keep all six original commitments unchanged, and place the mandatory project next in the queue because changing approved priorities would undermine governance consistency.",
+      "Increase the mandatory project's weighted score, and leave resource assignments unchanged because an explicit ranking resolves the conflict between competing portfolio demands."
     ],
     "answer": 0,
-    "why": "This closing synthesis item distills the domain's pipeline scenarios (capacity math, stage-gate kill decisions, re-sequencing governance, portfolio diversification, cross-departmental scoring, seasonal scheduling, and dependency cascades, each tested elsewhere in this domain) into the unifying principle that real capacity constraints must be respected and explicitly traded off against via transparent governance, rather than papered over or ignored. Source: [BOK] Domain I.F, Pipeline Management (cross-batch synthesis).",
+    "why": "There are six available project-lead assignments and seven demands. The stated deadline rules out waiting, and additional capacity is unavailable. An authorized change to lower-priority work is therefore needed to create a feasible plan. Raising a score does not release capacity. Governance should make the displaced benefits, dependencies and revised commitments visible rather than assuming that priority alone expands available resources. Source alignment: ASQ CMBB Body of Knowledge, I.F.2; I.F.3; III.B.8. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-074"
+    "qid": "mbb:set-3:d1-074",
+    "optionRationales": [
+      "Correct. It creates actual capacity while preserving accountable decisions and visibility of the displaced work.",
+      "Adding a seventh full commitment to six fully committed Belts does not create the missing capacity or validate the original schedules.",
+      "The question establishes that the mandatory project cannot wait and that a safe, authorized tradeoff is available.",
+      "Ranking communicates relative priority but does not change the resource allocation that currently makes the plan infeasible."
+    ],
+    "distractors": [
+      "Correct. It creates actual capacity while preserving accountable decisions and visibility of the displaced work.",
+      "Adding a seventh full commitment to six fully committed Belts does not create the missing capacity or validate the original schedules.",
+      "The question establishes that the mandatory project cannot wait and that a safe, authorized tradeoff is available.",
+      "Ranking communicates relative priority but does not change the resource allocation that currently makes the plan infeasible."
+    ],
+    "trap": "Priority is not capacity. A mandatory start requires an executable resource tradeoff when the current assignments are full; changing a score or retaining incompatible promises does not solve the scheduling constraint.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.F.2; I.F.3; III.B.8"
+      }
+    ]
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "A newly appointed MBB inherits an organization with: (1) a strategic plan of vague aspirational statements with no measurable targets, (2) cascaded metrics unchanged from three strategic cycles ago, (3) governance infrastructure limited to an inactive steering committee, (4) a pipeline of 30 projects with no prioritization criteria applied, (5) six Belts at or beyond capacity, and (6) no benefits-tracking process. Which sequence of first actions best reflects sound MBB judgment, given everything tested in this domain?",
+    "stem": "A new MBB finds vague strategic objectives, outdated cascaded metrics, an inactive steering committee, 30 unranked projects, six overloaded Belts and no benefit-verification process. No single cause has been established. Which initial recovery plan best combines immediate workload control with a sound basis for subsequent deployment decisions?",
     "options": [
-      "Decertify the existing steering committee and cancel all 30 projects on day one without further diagnosis",
-      "Focus exclusively on hiring more Belts to increase capacity, since that is the most concrete and immediately actionable gap",
-      "Start by revising the strategic plan into specific, measurable objectives (the foundational gap underlying nearly every other symptom \u2014 vague strategy causes unfocused metrics, ungoverned pipelines, and unmeasurable benefits), then re-establish steering committee governance and cascaded metrics tied to the revised plan, then re-prioritize the 30-project pipeline against the new criteria and Belt capacity (likely deferring/killing a substantial fraction), and only then formalize benefits-tracking going forward \u2014 addressing the root strategic-clarity gap before layering governance, prioritization, and measurement fixes on top of it",
-      "Immediately launch all 30 pipeline projects simultaneously to demonstrate rapid impact to new leadership"
+      "Complete a comprehensive strategic-plan rewrite before changing workload, restarting governance or collecting benefit baselines, so all corrective work follows a single finalized plan.",
+      "Hire additional Belts using the existing project list, continue accepting new starts, and postpone changes to selection criteria until the added capacity is operational.",
+      "Triage mandatory commitments and restrain discretionary starts; convene accountable sponsors to clarify objectives, reconcile capacity and establish baseline benefit measures while reprioritizing the portfolio.",
+      "Close the projects with the lowest currently claimed savings, then rewrite strategy and validate the remaining benefits after reducing the portfolio to six projects."
     ],
     "answer": 2,
-    "why": "This capstone item requires synthesizing the entire domain's teachings into a prioritized action sequence: recognizing that a vague strategic plan is the root cause underlying nearly every other symptom listed (unfocused cascaded metrics, an ungoverned pipeline, absent benefits tracking), and that fixing foundational strategic clarity first, then governance, then pipeline prioritization against real capacity, then measurement, is the logically sound and evidence-based sequence \u2014 genuinely Create-level synthesis, not recall of any single fact. Source: [BOK] Domain I, full domain synthesis (A\u2013F).",
+    "why": "The MBB needs coordinated diagnosis and containment, not a presumed single root cause or a rigid sequence that leaves overload unchecked. Protect mandatory work, control discretionary intake and restore accountable decisions. Clarify objectives and resource limits while establishing baseline measures and Finance-supported benefit validation. Those activities inform prioritization together. Unverified savings should not determine blanket cancellation, and hiring alone would not correct the governance and measurement gaps. Source alignment: ASQ CMBB Body of Knowledge, I.A; I.C.1; I.C.3; I.C.6; I.F.2. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d1-075"
+    "qid": "mbb:set-3:d1-075",
+    "optionRationales": [
+      "Waiting for a complete strategy rewrite leaves the immediate capacity problem unmanaged and delays evidence needed to evaluate the portfolio.",
+      "Extra capacity may eventually help, but accepting more work under obsolete criteria perpetuates the selection and accountability defects.",
+      "Correct. It manages immediate commitments while developing strategy, capacity and measurement evidence together rather than assuming one root cause.",
+      "The reported benefits have not been verified, and a fixed project-count target ignores differing workloads, obligations and strategic value."
+    ],
+    "distractors": [
+      "Waiting for a complete strategy rewrite leaves the immediate capacity problem unmanaged and delays evidence needed to evaluate the portfolio.",
+      "Extra capacity may eventually help, but accepting more work under obsolete criteria perpetuates the selection and accountability defects.",
+      "Correct. It manages immediate commitments while developing strategy, capacity and measurement evidence together rather than assuming one root cause.",
+      "The reported benefits have not been verified, and a fixed project-count target ignores differing workloads, obligations and strategic value."
+    ],
+    "trap": "Multiple deployment gaps do not prove that vague strategy caused them all. Stabilize commitments and build the evidence for prioritization together; benefits baselines should not wait until after the major decisions.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.A; I.C.1; I.C.3; I.C.6; I.F.2"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "An e-commerce fulfillment company is deciding how Black Belts should report organizationally: as dedicated headcount within a central Six Sigma office (functional), or embedded within business units with a dotted-line to the Six Sigma office (matrix). The company runs lean, cross-functional fulfillment centers where speed of local decision-making is highly valued. Which structure is generally more defensible here, and why?",
+    "stem": "An e-commerce business requires rapid local fulfillment decisions and consistent improvement methods across centers. Central approval of routine local decisions currently takes three weeks. Belts need local operating access, while the central Six Sigma office must retain technical oversight. Which proposed organizational arrangement best addresses both requirements?",
     "options": [
-      "A matrix structure, because embedding Belts within business units preserves the fast, local decision-making the company values while the dotted-line relationship still provides methodology consistency, cross-project learning, and career-pathing support from the central office",
-      "Belts should report to no one and operate as fully independent contractors within each fulfillment center",
-      "A purely functional structure, because centralizing all Belts guarantees perfect consistency regardless of business unit needs",
-      "Neither structure matters; organizational design has no real effect on deployment effectiveness"
+      "Embed Belts in the centers with central technical oversight, documented local decision rights, jointly agreed priorities and a defined route for resolving competing demands.",
+      "Centralize Belts and retain central approval of routine local decisions, using a common technical review calendar to ensure consistency across all fulfillment centers.",
+      "Embed Belts under local managers with independent technical standards, using each center's delivery-speed target as the principal measure of whether its methods are adequate.",
+      "Assign Belts to both local and central managers without explicit decision rights, allowing each manager to set priorities independently as operational and technical needs arise."
     ],
     "answer": 0,
-    "why": "Given the stated value on fast local decision-making, a matrix structure balances local embeddedness/responsiveness with the methodology consistency and career development that a central function still needs to provide \u2014 a standard MBB-level organizational design trade-off. Source: [BOK] Domain II.A, Organizational Design.",
+    "why": "The proposed matrix arrangement combines local access and delegated operating decisions with central technical oversight. Its effectiveness depends on explicit authority, capacity agreements and conflict resolution; a dotted line alone guarantees none of these. Retaining the stated central approval delay fails the speed requirement, while fully independent methods fail consistency. Dual reporting without arbitration introduces avoidable priority conflict. Source alignment: ASQ CMBB Body of Knowledge, II.D.4; II.C.3. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-001"
+    "qid": "mbb:set-3:d2-001",
+    "optionRationales": [
+      "Correct. It addresses local responsiveness and central consistency while controlling the main dual-reporting risk.",
+      "Common review calendars do not remove the explicitly retained three-week approval bottleneck for routine decisions.",
+      "Independent technical standards do not satisfy the stated requirement for consistent improvement methods across centers.",
+      "Two independent priority setters without decision rules leave the Belt exposed to unresolved competing demands."
+    ],
+    "distractors": [
+      "Correct. It addresses local responsiveness and central consistency while controlling the main dual-reporting risk.",
+      "Common review calendars do not remove the explicitly retained three-week approval bottleneck for routine decisions.",
+      "Independent technical standards do not satisfy the stated requirement for consistent improvement methods across centers.",
+      "Two independent priority setters without decision rules leave the Belt exposed to unresolved competing demands."
+    ],
+    "trap": "An organizational label does not guarantee performance. Evaluate the actual decision rights, technical oversight and arbitration mechanism against the local-speed and enterprise-consistency requirements.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.D.4; II.C.3"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A cruise line wants crew members to report near-miss safety incidents more readily, but incident reports have been declining even as anecdotal evidence suggests near-misses are occurring at a steady or increasing rate. What cultural/values framework element most likely explains this pattern?",
+    "stem": "A cruise line's near-miss reports have declined, while informal accounts describe continuing incidents. Exposure levels, reporting access and reporting behavior have not yet been checked. Leadership wants to label the decline a safety improvement. Which MBB response best separates changes in underlying safety from changes in measurement and reporting?",
     "options": [
-      "Declining reports always indicate genuine safety improvement and should be celebrated without further investigation",
-      "A lack of psychological safety: if crew members fear blame, discipline, or negative career consequences for reporting, they will under-report even as actual near-miss frequency stays the same or rises \u2014 declining reports in this context is a red flag for reporting culture, not necessarily improving safety",
-      "The reporting form is likely too long, and this is purely a process-design issue unrelated to culture",
-      "Crew members are becoming more skilled and therefore experiencing fewer near-misses in reality"
+      "Accept the report decline as evidence of safer operations, and use the next recognition cycle to reward crews submitting the fewest near-miss reports.",
+      "Triangulate incident and exposure evidence, test reporting access and explore fear of repercussions confidentially before interpreting the report decline as a safety improvement.",
+      "Conclude that fear of blame caused the decline, and replace disciplinary policies immediately without assessing exposure, reporting access or alternative explanations for the pattern.",
+      "Lengthen the reporting form to require supporting evidence for each near miss, and compare future report totals with the current quarter before investigating reporting behavior."
     ],
     "answer": 1,
-    "why": "Declining self-reported incident rates alongside steady/rising anecdotal evidence is a classic signature of a psychological-safety deficit \u2014 a core organizational culture/values framework concept the MBB must recognize rather than taking the declining numbers at face value. Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
+    "why": "Observed reports depend on event occurrence, exposure and the probability of reporting. The conflicting evidence warrants investigation but does not identify a unique cause. Confidential staff input can test a fear-of-blame hypothesis alongside access, definitions and exposure changes. Incentives for low report counts can suppress reporting. A reporting increase after a culture intervention would likewise not automatically mean safety worsened. Source alignment: ASQ CMBB Body of Knowledge, II.A.2; II.D.6; II.E.1. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-004"
+    "qid": "mbb:set-3:d2-004",
+    "optionRationales": [
+      "Lower report totals are not a direct measure of lower incident risk, and rewarding low counts can discourage useful reporting.",
+      "Correct. It tests competing explanations and the measurement process instead of inferring safety or a unique cultural cause from counts alone.",
+      "Fear of blame is plausible, but the stated evidence does not distinguish it from exposure changes or barriers in the reporting process.",
+      "Additional documentation can create reporting burden, while comparison of raw totals still leaves exposure and reporting behavior unresolved."
+    ],
+    "distractors": [
+      "Lower report totals are not a direct measure of lower incident risk, and rewarding low counts can discourage useful reporting.",
+      "Correct. It tests competing explanations and the measurement process instead of inferring safety or a unique cultural cause from counts alone.",
+      "Fear of blame is plausible, but the stated evidence does not distinguish it from exposure changes or barriers in the reporting process.",
+      "Additional documentation can create reporting burden, while comparison of raw totals still leaves exposure and reporting behavior unresolved."
+    ],
+    "trap": "Incident reports are not the same as incident incidence. Both fewer reports and more reports can reflect changes in willingness or ability to report; investigate exposure and the reporting process before drawing conclusions.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.A.2; II.D.6; II.E.1"
+      },
+      {
+        "title": "AHRQ PSNet: Culture of Safety",
+        "url": "https://psnet.ahrq.gov/primer/culture-safety",
+        "locator": "Measuring and Achieving a Culture of Safety"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A waste management company's regional operations managers each directly supervise 25-30 route supervisors, who in turn supervise 15-20 drivers each. The company wants to embed Six Sigma champion responsibilities into the regional operations manager role. What organizational design concern should the MBB raise first?",
+    "stem": "Regional operations managers in a waste-management business each supervise 25–30 route supervisors. Leadership proposes adding champion duties for cross-functional improvement projects without changing their current responsibilities. No workload assessment or champion decision rights have been defined. What should the MBB request before confirming the assignments?",
     "options": [
-      "Champion responsibilities are irrelevant to organizational design and belong entirely to Domain V (Coaching and Mentoring)",
-      "The role clarity concern: whether champion duties (project sponsorship, resource clearing, cross-functional escalation) are explicitly defined and resourced (e.g., protected time) as distinct from the regional manager's existing operational span-of-control responsibilities, since simply adding champion duties on top of an already-wide span of control without clarifying priority and time allocation risks the champion role becoming ceremonial due to sheer capacity constraints",
-      "Route supervisors, not regional operations managers, should always hold champion responsibilities regardless of organizational level appropriateness",
-      "No concern \u2014 champion responsibilities can always be added to any role regardless of existing span of control"
+      "Apply a uniform maximum of ten direct reports to every regional manager, and assign champion duties once all reporting lines meet that numerical rule.",
+      "Assess workload and sponsorship demands, define champion authority and escalation duties, and secure protected capacity before agreeing the number and scope of assignments.",
+      "Give every manager the same project sponsorship quota, and use attendance at monthly project presentations to determine whether the additional duties are adequately resourced.",
+      "Delegate project reporting to administrative staff, and treat the resulting reduction in paperwork as sufficient preparation for the managers' resource and escalation responsibilities."
     ],
     "answer": 1,
-    "why": "Adding a significant new responsibility (champion duties) onto an already wide span-of-control role without explicit role clarity and protected capacity is a predictable path to the same kind of ceremonial-sponsorship failure that occurs when champion duties are added without protected time or role clarity \u2014 an organizational design concern the MBB should proactively flag before the role assignment is finalized, not after champions become unavailable. Source: [BOK] Domain II.A, Organizational Design.",
+    "why": "A wide span of control signals a possible capacity risk but does not establish a universal acceptable span or prove overload. The required assessment concerns actual workload, project demands and authority to remove barriers. Protected time, clear duties and realistic assignments make sponsorship executable. Reporting assistance is useful but does not replace the champion's decisions or cross-functional authority. Source alignment: ASQ CMBB Body of Knowledge, II.B.1; II.B.2; I.C.3. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-007"
+    "qid": "mbb:set-3:d2-007",
+    "optionRationales": [
+      "No universal ten-report threshold is established; workload and task complexity matter more than an arbitrary numerical rule.",
+      "Correct. It tests available capacity and defines the authority and duties necessary for meaningful sponsorship.",
+      "Equal quotas ignore differing workloads and project demands, and meeting attendance alone does not demonstrate effective sponsorship.",
+      "Administrative support does not establish decision rights or the manager's capacity to resolve resource and cross-functional barriers."
+    ],
+    "distractors": [
+      "No universal ten-report threshold is established; workload and task complexity matter more than an arbitrary numerical rule.",
+      "Correct. It tests available capacity and defines the authority and duties necessary for meaningful sponsorship.",
+      "Equal quotas ignore differing workloads and project demands, and meeting attendance alone does not demonstrate effective sponsorship.",
+      "Administrative support does not establish decision rights or the manager's capacity to resolve resource and cross-functional barriers."
+    ],
+    "trap": "Treat span of control as a diagnostic signal, not a universal threshold. Champion effectiveness depends on actual workload, protected time and decision authority rather than the title or meeting attendance.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.B.1; II.B.2; I.C.3"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A publishing company wants to design a recognition structure to reinforce a new \"customer-first\" cultural value tied to its Six Sigma deployment. Which recognition approach is most defensible?",
+    "stem": "A publishing company wants recognition to reinforce its customer-first improvement strategy. Projects differ in size, customer complaints contain confidential information, and staff preferences for public recognition vary. Which recognition design best supports the intended behavior without relying on project volume or suppressing useful feedback?",
     "options": [
-      "Purely financial bonuses with no public acknowledgment component, since money is the only meaningful form of recognition",
-      "A single, large annual \"Employee of the Year\" award chosen entirely by senior executives based on subjective impression",
-      "No formal recognition structure; values should be self-motivating and require no reinforcement",
-      "Recognition explicitly tied to demonstrated customer-first behaviors and outcomes (e.g., documented process improvements traceable to VOC data, team-based project completions with quantified customer impact), delivered with reasonable frequency (not just once annually) and through multiple channels (public acknowledgment, career-pathing credit, team-level as well as individual recognition) so the reinforcement is timely, criteria-based, and visible enough to shape ongoing behavior"
+      "Reward teams reporting the fewest customer complaints each quarter, using raw complaint totals to make recognition consistent across different project sizes and customer groups.",
+      "Reward the employees completing the greatest number of projects each year, using completion counts as a practical substitute for validating each project's customer impact.",
+      "Recognize only the largest verified financial saving annually, using a single public award to communicate that customer-first behavior is whatever maximizes immediate financial return.",
+      "Recognize verified customer benefits and collaborative behaviors promptly, using transparent criteria, appropriate team and individual credit, and channels that respect confidentiality and employee preferences."
     ],
     "answer": 3,
-    "why": "Effective culture/values reinforcement requires recognition that is criteria-based (tied to the specific value/behavior), timely (not just annual), and visible (multiple channels, not solely private) \u2014 a well-established organizational behavior principle relevant to Domain II.D. Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
+    "why": "Recognition should reinforce the actual desired behaviors and customer outcomes. Verification and transparent criteria reduce gaming; appropriate attribution recognizes collaboration as well as individual contributions. Timeliness helps connect recognition to behavior. Public disclosure is not inherently required and must respect confidentiality and preferences. Complaint counts, project counts and immediate financial savings alone are incomplete proxies for customer-first performance. Source alignment: ASQ CMBB Body of Knowledge, II.D.6; II.F.2. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-010"
+    "qid": "mbb:set-3:d2-010",
+    "optionRationales": [
+      "Raw complaint totals differ with exposure and reporting behavior; rewarding low counts can suppress information needed for improvement.",
+      "Completion counts reward volume rather than the verified customer benefit or collaboration the strategy seeks.",
+      "Financial return can matter, but it does not by itself establish customer benefit, and one public format ignores the stated constraints.",
+      "Correct. It connects recognition to verified outcomes and behaviors while accounting for attribution, privacy and employee preferences."
+    ],
+    "distractors": [
+      "Raw complaint totals differ with exposure and reporting behavior; rewarding low counts can suppress information needed for improvement.",
+      "Completion counts reward volume rather than the verified customer benefit or collaboration the strategy seeks.",
+      "Financial return can matter, but it does not by itself establish customer benefit, and one public format ignores the stated constraints.",
+      "Correct. It connects recognition to verified outcomes and behaviors while accounting for attribution, privacy and employee preferences."
+    ],
+    "trap": "Reward the intended behavior and validated outcome, not an easily counted proxy. Recognition need not be public to be effective, and customer confidentiality remains a constraint on how success is communicated.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.D.6; II.F.2"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A wind energy company's Six Sigma deployment sits entirely within the Engineering division, with no formal linkage to Operations, Finance, or HR. Projects addressing cross-divisional issues (e.g., turbine maintenance scheduling that touches both Engineering and Operations) frequently stall due to Operations' unfamiliarity with and limited buy-in to the methodology. What organizational design flaw does this reflect?",
+    "stem": "A wind-energy company's Six Sigma office is housed in Engineering. A maintenance-scheduling project also requires Operations resources, but no shared sponsor, decision rights or resource commitments exist. Additional methodology briefings have not resolved the stalled work. Which change most directly addresses the demonstrated governance gap?",
     "options": [
-      "The company should abandon cross-divisional projects entirely and only pursue Engineering-only improvement work",
-      "Engineering should never be involved in Six Sigma deployment at all",
-      "Operations should be required to adopt Engineering's exact terminology and tools regardless of any legitimate differences in their work context",
-      "The deployment's organizational placement (siloed entirely within one division) limits its authority and credibility to drive genuinely cross-divisional projects; the design should be revised to give the Six Sigma function either an enterprise-level (not single-division) reporting structure, or formal cross-divisional governance representation, so cross-functional projects have legitimate standing outside Engineering alone"
+      "Move the Six Sigma office's administrative reporting to Finance, while leaving Operations participation and project resource commitments to the same informal arrangements.",
+      "Increase the frequency of methodology briefings for Operations, while retaining Engineering-only sponsorship and treating improved terminology familiarity as sufficient authority to proceed.",
+      "Retain Engineering-only project approval and invite Operations to observe reviews, while leaving each division free to disregard the other's resource and implementation decisions.",
+      "Create joint sponsorship and cross-divisional decision rights with committed resources, while separately assessing whether the Six Sigma office's administrative reporting line needs to change."
     ],
     "answer": 3,
-    "why": "A deployment function housed entirely within one division structurally limits its ability to drive genuinely cross-divisional work \u2014 this is a classic organizational-design flaw requiring a structural fix (enterprise-level placement or cross-divisional governance), not merely better communication within the existing structure. Source: [BOK] Domain II.A, Organizational Design; I.C, Infrastructure Elements (related).",
+    "why": "The demonstrated defect is absent cross-divisional authority and resource commitment. Joint sponsorship and agreed decisions address it directly. An office can be administratively located within one division and still work effectively across divisions if its mandate and governance support that work. Relocation alone or more terminology training does not establish those arrangements. The question does not assume organizational placement itself causes failure. Source alignment: ASQ CMBB Body of Knowledge, II.D.4; II.C.3; I.C.1. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-013"
+    "qid": "mbb:set-3:d2-013",
+    "optionRationales": [
+      "Changing an administrative reporting line without changing the missing cross-divisional commitments leaves the demonstrated barrier intact.",
+      "The case already shows that briefings have not resolved the absence of shared authority and resource commitments.",
+      "Observer status does not establish joint accountability or resolve competing resource and implementation decisions.",
+      "Correct. It repairs the specific authority and commitment gap without assuming an organizational relocation is necessarily required."
+    ],
+    "distractors": [
+      "Changing an administrative reporting line without changing the missing cross-divisional commitments leaves the demonstrated barrier intact.",
+      "The case already shows that briefings have not resolved the absence of shared authority and resource commitments.",
+      "Observer status does not establish joint accountability or resolve competing resource and implementation decisions.",
+      "Correct. It repairs the specific authority and commitment gap without assuming an organizational relocation is necessarily required."
+    ],
+    "trap": "Separate where an improvement office reports from the authority it has to lead cross-functional work. A reporting-line change is not a substitute for a legitimate mandate, joint sponsorship and committed resources.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.D.4; II.C.3; I.C.1"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A correctional facility management company's stated values include \"continuous improvement\" and \"staff empowerment,\" but its actual promotion and disciplinary practices heavily penalize any deviation from existing procedures, even well-documented, data-supported process improvement suggestions from line staff. What does this reveal, and what should the MBB flag to leadership?",
+    "stem": "A correctional-facility operator states that it values continuous improvement. Line staff who submit documented improvement suggestions through the approved channel receive negative performance comments even when they have followed every current procedure. Safety-critical changes still require formal approval. Which response best closes the demonstrated values–practice gap?",
     "options": [
-      "There is a values-behavior gap: the stated cultural values (continuous improvement, empowerment) are contradicted by the actual reinforcement mechanisms (promotion/discipline practices), which will undermine the credibility of any Six Sigma deployment built on those stated values until the practical incentive structures are brought into alignment with the stated culture",
-      "The company should remove \"continuous improvement\" and \"staff empowerment\" from its stated values since they are aspirational and therefore inappropriate",
-      "This is purely an HR policy issue with no relevance to Six Sigma deployment",
-      "Nothing is wrong; stated values and actual practices are always aligned by definition"
+      "Align performance practices with good-faith suggestions, provide a fair review and feedback process, and retain formal authorization before changing safety-critical operating procedures.",
+      "Restate the empowerment policy in staff communications, but retain negative performance comments for suggestions until the submitting employees can prove their proposed benefits.",
+      "Permit staff to implement data-supported changes before formal approval, and evaluate compliance only if the resulting change produces an incident or measurable loss.",
+      "Remove all improvement suggestions from performance discussions and route them anonymously, while leaving the existing negative-response practice and management expectations otherwise unchanged."
     ],
     "answer": 0,
-    "why": "A genuine values-behavior gap (stated culture contradicted by actual incentive/disciplinary practices) is a critical organizational-culture diagnostic an MBB must surface \u2014 deploying Six Sigma on top of contradictory incentive structures will produce exactly the kind of engagement failures (disengaged staff, suppressed reporting, resistance to genuine collaboration) that predictably follow when stated values and actual incentive structures diverge. Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
+    "why": "The case concerns penalties for authorized suggestions, not discipline for unsafe conduct. Management should align its evaluation and response practices with the stated improvement values and provide reliable feedback. Controlled change approval must remain in place. Communications or anonymity may help but do not by themselves resolve contradictory management behavior. Encouraging improvement does not authorize unilateral changes to safety-critical procedures. Source alignment: ASQ CMBB Body of Knowledge, II.A.2; II.D.6. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-016"
+    "qid": "mbb:set-3:d2-016",
+    "optionRationales": [
+      "Correct. It protects legitimate improvement participation while preserving the separate requirement for controlled procedure changes.",
+      "Good-faith suggestions may need investigation; requiring proven benefits before respectful review discourages legitimate problem identification.",
+      "Supporting data does not remove the explicit approval requirement for safety-critical changes or make outcome-based compliance acceptable.",
+      "Anonymity can support reporting, but leaving the negative management practice unchanged does not align actual behavior with stated values."
+    ],
+    "distractors": [
+      "Correct. It protects legitimate improvement participation while preserving the separate requirement for controlled procedure changes.",
+      "Good-faith suggestions may need investigation; requiring proven benefits before respectful review discourages legitimate problem identification.",
+      "Supporting data does not remove the explicit approval requirement for safety-critical changes or make outcome-based compliance acceptable.",
+      "Anonymity can support reporting, but leaving the negative management practice unchanged does not align actual behavior with stated values."
+    ],
+    "trap": "Distinguish proposing a change through an authorized channel from making an unauthorized operational change. Empowerment and psychological safety can coexist with strict approval controls for safety-critical work.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.A.2; II.D.6"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "An agri-genetics research company implements a matrix structure where Black Belts report both to a functional Six Sigma office and to the R&D project lead they're embedded with, and the two supervisors disagree on the Belt's top priority for the quarter. What organizational design element should have been established in advance to prevent this conflict from stalling the Belt's work?",
+    "stem": "A Black Belt at an agri-genetics company reports to a Six Sigma functional manager and an R&D project lead. Each assigns work that consumes the Belt's full available capacity for the same quarter. The Belt lacks authority to change either commitment. Which design control would most directly prevent this conflict from stalling delivery?",
     "options": [
-      "The Black Belt should independently decide which supervisor to prioritize without any organizational guidance",
-      "A predefined escalation and priority-arbitration protocol (e.g., a joint quarterly priority-setting session between the functional and project-line supervisors, with a defined tiebreaker authority) established at the time the matrix structure was designed, so that when priority conflicts arise (as they predictably will in any matrix), there is already an agreed mechanism to resolve them rather than leaving the Belt caught between two unaligned supervisors",
-      "Nothing could have prevented this; matrix conflicts are always unresolvable and matrix structures should never be used",
-      "Matrix structures should include no functional-office involvement at all, only project-line reporting"
+      "Allow the Belt to choose the assignment with the larger estimated benefit, and ask the other manager to accept the decision at quarter-end.",
+      "Require joint capacity and priority agreements, with a named arbitration authority and timely escalation when the two managers cannot resolve competing commitments.",
+      "Alternate the Belt's work between the two managers weekly, and retain both original full-capacity commitments so that each manager receives visibly equal attention.",
+      "Require two separate weekly status reports, and defer priority arbitration until either manager's delivery milestone is missed and the conflict becomes measurable."
     ],
     "answer": 1,
-    "why": "Matrix structures predictably generate dual-reporting priority conflicts \u2014 sound organizational design anticipates this and establishes an escalation/arbitration mechanism in advance, rather than leaving individual Belts to navigate unresolved supervisor conflicts on their own each time they arise. Source: [BOK] Domain II.A, Organizational Design.",
+    "why": "The Belt faces incompatible commitments and has no authority to trade them off. Joint planning and a defined escalation route put that decision with accountable managers. The control does not guarantee conflict-free operation; it makes resolution possible before missed milestones. Unilateral choice, equal time slicing and reporting alone do not authorize changes to the total committed workload. Source alignment: ASQ CMBB Body of Knowledge, II.C.3; II.D.4. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-019"
+    "qid": "mbb:set-3:d2-019",
+    "optionRationales": [
+      "The Belt has no authority to change the commitments, and estimated benefit alone does not resolve strategic or resource dependencies.",
+      "Correct. It combines feasible joint planning with an authorized, timely decision when competing priorities remain unresolved.",
+      "Equal attention does not make two full-capacity commitments fit within one person's available capacity or preserve the original schedules.",
+      "Status reports reveal progress but do not assign authority to resolve an already known conflict before milestones are missed."
+    ],
+    "distractors": [
+      "The Belt has no authority to change the commitments, and estimated benefit alone does not resolve strategic or resource dependencies.",
+      "Correct. It combines feasible joint planning with an authorized, timely decision when competing priorities remain unresolved.",
+      "Equal attention does not make two full-capacity commitments fit within one person's available capacity or preserve the original schedules.",
+      "Status reports reveal progress but do not assign authority to resolve an already known conflict before milestones are missed."
+    ],
+    "trap": "A matrix needs a decision mechanism, not just two reporting channels. Transparent status and equal time allocation do not resolve commitments that exceed available capacity without an authorized tradeoff.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.C.3; II.D.4"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A home healthcare provider wants to assess its current organizational culture before launching a Six Sigma deployment, to identify likely areas of resistance versus receptivity. Which type of tool is most appropriate for this assessment?",
+    "stem": "Before a Six Sigma launch, a home-healthcare provider wants to assess readiness across managers, office staff and dispersed clinicians. Leaders expect staff may hesitate to criticize current practices. Which assessment design is most defensible for identifying cultural barriers rather than merely documenting management's intended culture?",
     "options": [
-      "A validated organizational culture assessment survey/instrument (e.g., measuring dimensions like openness to change, psychological safety, hierarchy/power distance, and data-driven decision-making orientation) administered before deployment to establish a baseline understanding of cultural readiness and likely friction points",
-      "A review of the company's marketing materials and public brand messaging",
-      "An analysis of competitor market share, since culture is best inferred from competitive position",
-      "A financial audit of the past year's budget variances"
+      "Use confidential, fit-for-purpose survey measures and interviews across staff groups, checking response coverage and whether the measures are valid for the intended population and constructs.",
+      "Use a validated survey completed only by senior managers, treating its published validation as sufficient evidence that their answers represent all employee groups in this organization.",
+      "Rewrite survey items around the launch campaign's preferred messages, and compare the resulting scores directly with benchmarks collected using the original instrument and administration method.",
+      "Use a high-response mandatory survey with individually identified answers reviewed by supervisors, treating response rate alone as evidence that concerns about current practices are fully captured."
     ],
     "answer": 0,
-    "why": "A validated culture assessment instrument is the appropriate, purpose-built tool for understanding organizational readiness dimensions (change openness, psychological safety, hierarchy, data orientation) relevant to deployment planning \u2014 the other options measure unrelated dimensions entirely. Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
+    "why": "Readiness assessment must capture staff experience across relevant groups and reduce barriers to candid input. A measure's validity is specific to its constructs, population and use; it does not guarantee representative responses. Interviews and coverage checks help interpret survey findings, while confidentiality requires an actual protection plan, especially for small groups. Modifying an instrument can undermine direct comparability with its original benchmarks. Source alignment: ASQ CMBB Body of Knowledge, II.A.2; II.D.6; II.E.1. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-022"
+    "qid": "mbb:set-3:d2-022",
+    "optionRationales": [
+      "Correct. It addresses candor, population coverage and appropriate measurement rather than assuming that a survey label guarantees validity.",
+      "Published validation does not make a managers-only sample representative of office staff or dispersed clinicians.",
+      "Changing item wording or administration can change what is measured and invalidate an unqualified benchmark comparison.",
+      "A high response rate does not eliminate fear-driven response distortion when employees expect identifiable criticism to reach supervisors."
+    ],
+    "distractors": [
+      "Correct. It addresses candor, population coverage and appropriate measurement rather than assuming that a survey label guarantees validity.",
+      "Published validation does not make a managers-only sample representative of office staff or dispersed clinicians.",
+      "Changing item wording or administration can change what is measured and invalidate an unqualified benchmark comparison.",
+      "A high response rate does not eliminate fear-driven response distortion when employees expect identifiable criticism to reach supervisors."
+    ],
+    "trap": "Distinguish instrument validity, sample coverage and response candor. A validated questionnaire cannot repair an unrepresentative sample or guarantee honest answers under an identifiable, supervisor-reviewed process.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.A.2; II.D.6; II.E.1"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A telecom tower maintenance company has field technicians dispersed across a wide rural service territory, rarely co-located, with a single Black Belt expected to run in-person Kaizen-style events. After a year, project completion rates are far below the company's other, more centralized divisions. What organizational design issue is most likely limiting effectiveness, and what adaptation should the MBB recommend?",
+    "stem": "A telecom-tower maintenance company uses one Black Belt to support dispersed rural technicians. Project records show repeated cancellation of centralized workshops because travel would leave service coverage inadequate. Technicians can submit data between jobs, but connectivity varies. Which adaptation should the MBB pilot to address the demonstrated participation barrier?",
     "options": [
-      "The deployment model itself was designed around in-person, co-located engagement assumptions that don't fit a geographically dispersed workforce; the MBB should recommend adapting the engagement model (e.g., virtual/asynchronous data collection, remote facilitation tools, regional cluster events instead of single large in-person sessions) to fit the actual organizational/geographic structure rather than continuing to apply a co-located deployment design to a dispersed workforce",
-      "Technicians simply lack the aptitude for process improvement work",
-      "The company should discontinue Six Sigma deployment for all field-based roles",
-      "The Black Belt is underperforming and should be replaced with a more experienced hire"
+      "Combine low-bandwidth asynchronous input, remote facilitation and regional sessions where needed, with protected participation time and explicit checks on service coverage and engagement.",
+      "Increase centralized workshop frequency while retaining the same travel and staffing assumptions, using more available dates as the primary remedy for the documented cancellations.",
+      "Replace centralized workshops with mandatory live video meetings for every task, using attendance as the only measure of whether the dispersed-workforce barrier has been removed.",
+      "Assign all diagnosis and solution design to the Belt using historical reports, reserving technician participation for rollout to minimize disruption during project development."
     ],
     "answer": 0,
-    "why": "This tests recognizing that deployment engagement models must be organizationally fit-for-purpose \u2014 a design built around in-person co-location will predictably underperform in a genuinely dispersed workforce, and the fix is adapting the engagement mechanism, not blaming the Belt or the technicians. Source: [BOK] Domain II.A, Organizational Design.",
+    "why": "The records identify travel-related coverage as a barrier, while variable connectivity limits an all-live-video solution. A blended pilot should preserve field input and operational coverage, then assess participation and project progress. These facts support testing an engagement redesign; they do not prove that all completion differences are caused by geography or that the Belt or technicians lack competence. Source alignment: ASQ CMBB Body of Knowledge, II.D.3; II.D.4; II.B.2. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-026"
+    "qid": "mbb:set-3:d2-026",
+    "optionRationales": [
+      "Correct. It addresses the observed travel and connectivity constraints while retaining protected field participation and measurable pilot checks.",
+      "More dates do not necessarily make travel feasible when the limiting condition is service coverage under unchanged staffing.",
+      "An exclusively synchronous video model ignores variable connectivity, and attendance alone does not establish effective participation.",
+      "Removing field input from diagnosis risks solutions based on incomplete understanding of the work, even if meeting disruption declines."
+    ],
+    "distractors": [
+      "Correct. It addresses the observed travel and connectivity constraints while retaining protected field participation and measurable pilot checks.",
+      "More dates do not necessarily make travel feasible when the limiting condition is service coverage under unchanged staffing.",
+      "An exclusively synchronous video model ignores variable connectivity, and attendance alone does not establish effective participation.",
+      "Removing field input from diagnosis risks solutions based on incomplete understanding of the work, even if meeting disruption declines."
+    ],
+    "trap": "Address the demonstrated access barrier rather than blaming people or assuming a new technology removes every constraint. Pilot the engagement design and test both participation and operational coverage.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.D.3; II.D.4; II.B.2"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A pet grooming franchise brand wants Six Sigma-supportive cultural values (data-driven decisions, continuous improvement) to be consistently understood across 150 independently owned locations. Given the franchise ownership structure (as discussed in Domain I's infrastructure context), what is the most appropriate cultural reinforcement mechanism?",
+    "stem": "A pet-grooming brand has 150 independently owned locations. Its agreements require common service outcomes and quality records, but leave staffing and daily meeting routines to franchisees. The MBB is asked to reinforce data-driven improvement values across the network. Which implementation approach best respects these stated decision rights?",
     "options": [
-      "Cultural values cannot be meaningfully reinforced across independently owned franchise locations, so no attempt should be made",
-      "Mandate identical daily staff meeting scripts at every location with no franchisee input",
-      "Rely entirely on each franchisee's personal values with no brand-level guidance or shared materials at all",
-      "Develop shared brand-level cultural messaging and training materials (e.g., a brief onboarding module on the brand's data-driven, continuous-improvement values) that franchisees can adopt as part of brand standards, similar to the toolkit approach used for infrastructure in the Domain I franchise scenario \u2014 providing consistent messaging while respecting franchisee operational autonomy"
+      "Require an identical daily meeting script and staffing pattern in every location, treating the shared brand identity as sufficient authority over all local operating routines.",
+      "Allow every location to define its own quality outcomes and records, treating independent ownership as an exemption from the common requirements in the existing agreements.",
+      "Distribute brand posters and record acknowledgments from owners, treating awareness of the value statements as sufficient evidence that the required improvement behaviors are established.",
+      "Co-develop shared training and evidence standards around the required outcomes, allow local delivery methods, and review adoption with franchisees through agreed governance arrangements."
     ],
     "answer": 3,
-    "why": "This mirrors the general franchise infrastructure principle: a shared, brand-level toolkit/messaging approach reinforces consistent values while respecting the franchisee's independent ownership and operational autonomy, rather than either full mandate (A) or full abdication (B, D). Source: [BOK] Domain II.D, Organizational Culture and Values Framework; I.C (franchise infrastructure parallel,).",
+    "why": "The case explicitly distinguishes required outcomes and records from locally controlled operating methods. Shared training, examples and evidence standards can reinforce consistent values within those boundaries. Brand identity alone does not establish additional decision rights, and independence does not erase agreed obligations. Acknowledging a message is not evidence that the associated behaviors are practiced. This is a case-specific governance decision, not a general statement of franchise law. Source alignment: ASQ CMBB Body of Knowledge, II.D.4; II.D.6; I.E.3. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-029"
+    "qid": "mbb:set-3:d2-029",
+    "optionRationales": [
+      "The stated agreements leave staffing and daily routines to franchisees, so brand identity does not justify these additional requirements.",
+      "Independent ownership does not cancel the outcome and record obligations explicitly stipulated in the scenario.",
+      "Acknowledgment demonstrates receipt or awareness, not routine application of data-driven improvement behaviors.",
+      "Correct. It standardizes the required outcomes and supporting evidence while adapting implementation within the stated authority boundaries."
+    ],
+    "distractors": [
+      "The stated agreements leave staffing and daily routines to franchisees, so brand identity does not justify these additional requirements.",
+      "Independent ownership does not cancel the outcome and record obligations explicitly stipulated in the scenario.",
+      "Acknowledgment demonstrates receipt or awareness, not routine application of data-driven improvement behaviors.",
+      "Correct. It standardizes the required outcomes and supporting evidence while adapting implementation within the stated authority boundaries."
+    ],
+    "trap": "Distinguish common obligations from local implementation choices. Neither independent ownership nor a shared brand name determines all decision rights; use the specific agreements and governance stated in the case.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.D.4; II.D.6; I.E.3"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A regional dry cleaning chain with 12 locations and no dedicated Six Sigma office wants to begin a lightweight deployment. Which organizational design approach is most appropriate for this scale?",
+    "stem": "A dry-cleaning chain with 12 locations has no dedicated Six Sigma office and can fund a limited pilot, not a full enterprise deployment. Ownership will sponsor the work, and an operations manager can receive protected time. Which initial organizational design provides proportionate capability and accountability?",
     "options": [
-      "A lightweight design: designate one or two existing operations managers as part-time internal champions/facilitators (with some protected time and basic training), reporting informally to ownership/senior management, scaled appropriately to the organization's size rather than replicating large-enterprise infrastructure",
-      "No organizational design changes are needed; deployment can succeed with zero defined roles, structure, or accountability",
-      "Outsource 100% of process improvement work permanently to external consultants with no internal capability building at all",
-      "Build a full corporate Six Sigma office with dedicated MBB, multiple BBs, and a formal steering committee, mirroring a Fortune 500 deployment regardless of the chain's actual size"
+      "Name an accountable sponsor and trained pilot coordinator, define capacity and review gates, and obtain specialist coaching and benefit verification appropriate to the pilot's risks.",
+      "Appoint an operations manager as coordinator without protected capacity, and rely on voluntary after-hours effort to keep the pilot inexpensive while leaving operating responsibilities unchanged.",
+      "Establish a permanent central office with multiple full-time Belt positions before selecting the pilot, using a large-enterprise staffing model to demonstrate commitment to the methodology.",
+      "Give an external consultant sole ownership of pilot methods and decisions, and postpone internal process ownership and knowledge transfer until any subsequent rollout is funded."
     ],
     "answer": 0,
-    "why": "This reinforces the general resource-scaling principle seen elsewhere in resource-constrained contexts: organizational design should be scaled appropriately to organizational size and resources, not default to either an over-built large-enterprise model (A) or no structure at all (C). Source: [BOK] Domain II.A, Organizational Design; I.C (scaling principle).",
+    "why": "A limited deployment still needs explicit ownership, capacity, appropriate technical support and outcome review. Those controls can be scaled to a pilot without reproducing a large-enterprise office. The company size alone does not prescribe exact staffing or make informal accountability sufficient. External expertise can support the effort, but internal ownership and learning should not be absent until rollout. Source alignment: ASQ CMBB Body of Knowledge, I.C.1; I.C.3; I.C.4; II.D.4. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-032"
+    "qid": "mbb:set-3:d2-032",
+    "optionRationales": [
+      "Correct. It makes the limited pilot accountable and technically supported without requiring a disproportionate permanent infrastructure.",
+      "A title without usable capacity does not create an executable pilot, especially when existing operating responsibilities remain unchanged.",
+      "The stated funding supports a limited pilot, and no evidence justifies building a large permanent office before learning from it.",
+      "Consultant support does not replace the internal process ownership and knowledge transfer needed to sustain or evaluate the pilot."
+    ],
+    "distractors": [
+      "Correct. It makes the limited pilot accountable and technically supported without requiring a disproportionate permanent infrastructure.",
+      "A title without usable capacity does not create an executable pilot, especially when existing operating responsibilities remain unchanged.",
+      "The stated funding supports a limited pilot, and no evidence justifies building a large permanent office before learning from it.",
+      "Consultant support does not replace the internal process ownership and knowledge transfer needed to sustain or evaluate the pilot."
+    ],
+    "trap": "Lightweight does not mean unaccountable. Scale roles and support to risk and resources, but retain a named sponsor, protected capacity, appropriate expertise and a credible way to verify results.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "I.C.1; I.C.3; I.C.4; II.D.4"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A grocery chain's standard practice after any inventory shrinkage incident is to identify and discipline the individual employee deemed responsible. Six Sigma root-cause analysis on a shrinkage-reduction project keeps hitting a wall: employees are reluctant to fully describe what happened during incidents, fearing it will be used against them personally. What cultural framework shift should the MBB recommend?",
+    "stem": "A grocery chain disciplines an employee after every shrinkage incident, largely according to the financial loss. Employees now withhold details during root-cause investigations. The MBB must improve learning without removing individual accountability. Which investigation policy best reflects a just-culture approach?",
     "options": [
-      "Continue individual blame but simply promise employees, without any structural change, that \"this time will be different\"",
-      "Continue the existing individual-blame discipline practice unchanged, since accountability is important, and simply ask employees to be more forthcoming despite the risk to them",
-      "Eliminate all forms of individual accountability entirely, regardless of any genuine misconduct",
-      "Shift toward a \"just culture\" or systems-focused investigation approach (common in high-reliability industries) that distinguishes genuine root-cause/system contributors from individual culpable misconduct, reserving discipline for the latter while treating most incidents as learning opportunities to fix systemic and process gaps \u2014 this is necessary to get the honest, detailed incident information root-cause analysis actually requires"
+      "Retain loss-based discipline and add a confidential suggestion channel, so employees can discuss process improvements without changing how responsibility for reported incidents is determined.",
+      "Apply the same disciplinary response to every procedural deviation, so slips, risk-taking shortcuts and reckless conduct receive consistent treatment regardless of their different circumstances.",
+      "Guarantee freedom from all consequences whenever an employee reports an incident, so voluntary disclosure takes precedence over investigating reckless conduct or deliberate misconduct.",
+      "Use a fair, behavior-based review of system factors, human error, at-risk behavior and reckless conduct, with proportionate responses rather than automatic loss-based punishment."
     ],
     "answer": 3,
-    "why": "This is a direct application of the \"just culture\" framework \u2014 a well-established organizational culture principle distinguishing systemic/human-error contributors (treated as learning opportunities) from genuine misconduct (still appropriately addressed) \u2014 necessary here because a pure blame culture is actively preventing the honest data collection root-cause analysis requires. Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
+    "why": "Just culture combines system learning with fair behavioral accountability. Human error, at-risk behavior and reckless conduct require different consideration; the monetary outcome alone should not determine the response. System redesign, support and coaching can be appropriate, while reckless conduct or deliberate misconduct can require accountability under applicable policy and due process. Neither automatic blame nor unconditional immunity satisfies both objectives. Source alignment: ASQ CMBB Body of Knowledge, II.A.2; II.D.6. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-035"
+    "qid": "mbb:set-3:d2-035",
+    "optionRationales": [
+      "A separate suggestion channel does not repair the punitive incident-review rule that is causing staff to withhold investigation details.",
+      "Identical treatment of materially different behaviors is not the behavior-sensitive accountability required by a just-culture approach.",
+      "Unconditional immunity removes the accountability component rather than balancing it with learning and reporting.",
+      "Correct. It distinguishes conduct and system contributors and avoids deciding blame solely from the severity of the financial outcome."
+    ],
+    "distractors": [
+      "A separate suggestion channel does not repair the punitive incident-review rule that is causing staff to withhold investigation details.",
+      "Identical treatment of materially different behaviors is not the behavior-sensitive accountability required by a just-culture approach.",
+      "Unconditional immunity removes the accountability component rather than balancing it with learning and reporting.",
+      "Correct. It distinguishes conduct and system contributors and avoids deciding blame solely from the severity of the financial outcome."
+    ],
+    "trap": "Just culture is not no accountability. Evaluate system conditions and behavior, not only the outcome; a low-loss reckless act and a high-loss inadvertent error should not be judged solely by their financial consequences.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.A.2; II.D.6"
+      },
+      {
+        "title": "AHRQ PSNet: Culture of Safety",
+        "url": "https://psnet.ahrq.gov/primer/culture-safety",
+        "locator": "Measuring and Achieving a Culture of Safety"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A moving/relocation services company hires large numbers of seasonal temporary workers during its peak summer months (60% of total workforce during peak), making sustained Belt/champion relationships with this segment difficult. What organizational design adaptation is most appropriate?",
+    "stem": "Temporary workers constitute 60% of a relocation company's peak-season workforce and usually stay only a few months. Permanent staff can lead sustained improvement projects, but peak-season process conditions differ from the off-season. Which deployment design best combines proportionate training with valid understanding of peak operations?",
     "options": [
-      "Require every seasonal worker to complete full Green Belt certification before starting work, regardless of the short employment duration",
-      "Exclude seasonal workers from any process improvement involvement entirely, focusing solely on the 40% permanent workforce",
-      "Design a lightweight, rapid-onboarding engagement model specifically for the seasonal segment (e.g., simple standardized checklists/visual aids co-developed with permanent staff, quick feedback capture mechanisms usable within a single shift, and concentrating deeper Belt-level project work in the permanent-staff-led off-season planning period) rather than either excluding the majority of peak-season labor or over-investing training time that exceeds the realistic employment relationship",
-      "Treat seasonal and permanent workers identically in all respects, ignoring the differences in tenure, training investment feasibility, and role in process improvement"
+      "Require full Green Belt certification for every temporary worker before allowing operational feedback, and use completion of that certification as the main measure of engagement.",
+      "Build projects from permanent staff's off-season observations alone, and exclude temporary-worker feedback because the short employment relationship makes their participation difficult to sustain.",
+      "Provide task-relevant onboarding and rapid feedback for temporary staff, with permanent project ownership and direct peak-season observation and data capture to inform sustained improvement.",
+      "Use an identical long-term project assignment for temporary and permanent staff, and transfer unfinished work at departure without a designated owner for continuity or follow-up."
     ],
     "answer": 2,
-    "why": "This tests organizational design judgment for a workforce segment with structurally different tenure/training economics \u2014 excluding a 60% majority (A) or over-investing training relative to the employment relationship (B) are both poor fits; a right-sized engagement model matched to actual tenure and role is the defensible middle path. Source: [BOK] Domain II.A, Organizational Design.",
+    "why": "Training and involvement should match role, tenure and operational risk. Temporary workers are most of the peak workforce and must have usable channels to contribute. Permanent ownership supports continuity, while direct peak-season data prevent off-season conditions from being mistaken for peak performance. The 60% share implies 40% permanent staff; it does not imply that every temporary employee needs Belt certification or that their input is dispensable. Source alignment: ASQ CMBB Body of Knowledge, II.B.2; II.D.4; IV.A. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-038"
+    "qid": "mbb:set-3:d2-038",
+    "optionRationales": [
+      "Full certification is disproportionate as a prerequisite for ordinary operational feedback and may consume much of the short employment period.",
+      "Excluding 60% of the peak workforce and observing only off-season work risks a systematically incomplete understanding of peak operations.",
+      "Correct. It combines proportionate participation with accountable continuity and evidence from the operating conditions actually being improved.",
+      "Uniform long-term assignments ignore the stated tenure difference, and unspecified ownership weakens continuity when temporary staff leave."
+    ],
+    "distractors": [
+      "Full certification is disproportionate as a prerequisite for ordinary operational feedback and may consume much of the short employment period.",
+      "Excluding 60% of the peak workforce and observing only off-season work risks a systematically incomplete understanding of peak operations.",
+      "Correct. It combines proportionate participation with accountable continuity and evidence from the operating conditions actually being improved.",
+      "Uniform long-term assignments ignore the stated tenure difference, and unspecified ownership weakens continuity when temporary staff leave."
+    ],
+    "trap": "Match participation to role and tenure without excluding the workforce that performs the peak process. Off-season planning is useful, but it cannot replace observation and data from peak operating conditions.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.B.2; II.D.4; IV.A"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A multi-location orthodontics practice pays individual orthodontists a bonus based solely on their own patient throughput, but wants to cultivate a \"collaborative continuous improvement\" culture where orthodontists share best practices and jointly solve cross-location scheduling bottlenecks. Adoption of shared best practices has been minimal. What cultural/incentive misalignment does this illustrate?",
+    "stem": "An orthodontics group pays individual bonuses solely for patient throughput. Clinicians report that cross-location scheduling improvement consumes time that reduces their bonus, and participation remains low despite repeated collaboration messages. Leadership wants to retain productivity incentives while protecting care quality. Which change should the MBB pilot first?",
     "options": [
-      "Orthodontists are simply uninterested in collaboration as a personality trait across the profession",
-      "The solution is to eliminate individual bonuses entirely and pay all orthodontists an identical flat salary with no performance component",
-      "The individual, throughput-only incentive structure directly rewards behavior that can conflict with the time investment collaboration requires (sharing knowledge, jointly troubleshooting bottlenecks that may not directly boost one's own throughput), so the stated desire for a \"collaborative\" culture is undermined by an incentive structure that doesn't reward or may even penalize the time spent on collaborative activities",
-      "Collaborative culture is simply impossible in any healthcare practice regardless of incentive design"
+      "Increase collaboration messaging and retain the throughput-only bonus, using clinicians' attendance at optional improvement meetings as the main evidence that the incentive conflict has ended.",
+      "Replace individual throughput rewards with a group throughput-only bonus, treating total patient volume as sufficient evidence that collaboration and care quality have both improved.",
+      "Pilot protected improvement time and a balanced mix of individual and team measures, including care-quality safeguards, then assess participation and unintended performance effects.",
+      "Add a fixed bonus for each submitted improvement suggestion while retaining all throughput expectations, and evaluate success by counting submissions without validating implementation or customer impact."
     ],
     "answer": 2,
-    "why": "This is a direct incentive-structure/values-alignment diagnosis (paralleling D2-016's values-behavior gap) \u2014 a purely individual, throughput-based incentive structure works against the time investment collaborative behavior requires, undermining the stated cultural goal regardless of how genuinely the organization wants collaboration. Source: [BOK] Domain II.D, Organizational Culture and Values Framework; II.F, Organizational Performance Metrics (incentive-metric link).",
+    "why": "The staff accounts identify a credible conflict between collaboration time and individual rewards. A balanced pilot can test whether protected time and aligned measures improve participation without weakening productivity or care quality. This evidence does not prove incentives are the only cause of low participation. Team throughput alone or suggestion counts can create new proxy-metric problems; monitoring unintended effects remains necessary. Source alignment: ASQ CMBB Body of Knowledge, II.D.6; II.F.2. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-041"
+    "qid": "mbb:set-3:d2-041",
+    "optionRationales": [
+      "Messaging does not remove the stated financial penalty for time spent on shared improvement work.",
+      "A group throughput-only measure still omits care quality and can reward volume without establishing effective collaboration.",
+      "Correct. It tests a targeted incentive and capacity change with both productivity and quality safeguards.",
+      "Suggestion counts can reward unvalidated volume and do not remove the stated time conflict or demonstrate useful implemented improvements."
+    ],
+    "distractors": [
+      "Messaging does not remove the stated financial penalty for time spent on shared improvement work.",
+      "A group throughput-only measure still omits care quality and can reward volume without establishing effective collaboration.",
+      "Correct. It tests a targeted incentive and capacity change with both productivity and quality safeguards.",
+      "Suggestion counts can reward unvalidated volume and do not remove the stated time conflict or demonstrate useful implemented improvements."
+    ],
+    "trap": "Changing individual rewards to team rewards is not enough when the measure remains incomplete. Test incentives, protected time and balancing measures together, and do not assume one plausible barrier is the only cause.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.D.6; II.F.2"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A bakery chain has centralized production at one facility supplying 40 retail storefronts. Quality issues at the storefront level (e.g., improper display case temperature affecting product freshness) are increasingly common, but all Six Sigma deployment focus and Belt resources have historically been placed at the central production facility only. What organizational design gap does this reveal?",
+    "stem": "A bakery's central plant supplies 40 storefronts. Investigation has verified recurring display-temperature control failures at several stores, while the Six Sigma team's remit and resources cover only the central plant. Immediate product-safety concerns are being handled under existing response procedures. Which deployment change best addresses the longer-term coverage gap?",
     "options": [
-      "The deployment's organizational design has concentrated entirely on one node (central production) of a multi-node value chain, leaving the distributed retail-storefront segment \u2014 where the emerging quality issues are actually occurring \u2014 without dedicated deployment attention or resources; the design should be extended to include storefront-level engagement (even lightweight, given the scale of 40 locations) rather than remaining concentrated solely at the original production-focused starting point",
-      "The retail storefronts should be closed and all sales shifted to the central facility to eliminate the distributed quality-control challenge entirely",
-      "No gap exists; central production is inherently the only place quality issues can meaningfully originate in a bakery chain",
-      "Central production should be blamed for all storefront-level issues regardless of where the actual root cause resides"
+      "Extend ownership and improvement coverage across the plant-to-store process, involve storefront staff, and prioritize technical support by documented risk and recurring failures.",
+      "Allocate one full-time Black Belt to every store before further diagnosis, using equal staffing as the principal guarantee of consistent quality performance throughout the network.",
+      "Keep the improvement remit at the plant and increase final production inspection, using central release results as the principal assurance that store display conditions are controlled.",
+      "Transfer all quality responsibility to the storefronts and remove plant participation, using the verified local failures as evidence that upstream interfaces no longer require review."
     ],
     "answer": 0,
-    "why": "This tests recognizing that deployment focus can become historically anchored to its original starting point (central production) even as the actual value chain and emerging problem areas (retail storefronts) evolve \u2014 sound organizational design should extend coverage to where the evidence indicates issues are occurring. Source: [BOK] Domain II.A, Organizational Design.",
+    "why": "The verified failures lie outside the team's current remit. End-to-end ownership and frontline involvement close that boundary gap, while risk-based allocation avoids assuming that all 40 stores need identical Belt staffing. Central release inspection does not control later display conditions. Store-level failures do not eliminate upstream interfaces. Immediate containment is explicitly separate from the longer-term improvement design. Source alignment: ASQ CMBB Body of Knowledge, II.A.1; II.D.4; III.B.4. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-044"
+    "qid": "mbb:set-3:d2-044",
+    "optionRationales": [
+      "Correct. It extends accountable coverage to the actual failure locations while keeping resource allocation proportional to evidence and risk.",
+      "The number of storefronts does not establish a need for 40 full-time Belts or justify equal staffing regardless of local conditions.",
+      "Plant inspection cannot establish control of conditions that occur later in storefront display operations.",
+      "Local failures do not justify removing upstream partners or abandoning end-to-end interface review and shared learning."
+    ],
+    "distractors": [
+      "Correct. It extends accountable coverage to the actual failure locations while keeping resource allocation proportional to evidence and risk.",
+      "The number of storefronts does not establish a need for 40 full-time Belts or justify equal staffing regardless of local conditions.",
+      "Plant inspection cannot establish control of conditions that occur later in storefront display operations.",
+      "Local failures do not justify removing upstream partners or abandoning end-to-end interface review and shared learning."
+    ],
+    "trap": "Do not equate organizational boundaries with the boundaries of the customer-facing process. Address verified downstream failures through end-to-end ownership, while keeping immediate containment distinct from long-term project design.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.A.1; II.D.4; III.B.4"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A parking management company collects customer complaint data quarterly and reviews it in a quarterly operations meeting, but most complaints spike sharply during specific high-demand events (e.g., major sports games, concerts) that occur throughout the quarter. By the time quarterly review happens, the specific operational conditions that caused event-day complaints (staffing levels, signage, payment system load) are no longer fresh enough to reconstruct in detail. What should the MBB recommend?",
+    "stem": "A parking operator reviews complaints quarterly, although problems cluster around games and concerts. Staffing, signage and payment-load details are often lost before the review, and attendance differs greatly between events. Which feedback design best preserves diagnostic evidence and supports meaningful comparison across events?",
     "options": [
-      "Implement event-triggered (not just calendar-triggered) feedback review: for high-demand events, conduct a brief post-event debrief capturing complaint themes and operational conditions while still fresh, feeding a running log that the quarterly review can then draw on for pattern analysis \u2014 combining rapid event-level capture with periodic strategic-level synthesis, rather than relying solely on a calendar cadence poorly matched to the actual event-driven nature of the problem",
-      "Increase the frequency of full quarterly-style comprehensive reviews to monthly, without addressing the event-specific timing mismatch",
-      "Eliminate the quarterly review entirely in favor of only event-level debriefs, discarding any periodic strategic-level synthesis",
-      "Continue the quarterly review cadence unchanged, since quarterly reporting is a standard business rhythm regardless of the underlying event-driven pattern"
+      "Capture standardized post-event feedback, operating conditions and exposure promptly, assign follow-up owners, and retain periodic reviews to compare patterns and verify corrective actions.",
+      "Change the quarterly review to monthly but retain the same delayed reconstruction of event conditions, using calendar frequency as the main remedy for lost diagnostic evidence.",
+      "Rank events by total complaint counts without attendance or transaction denominators, using the highest raw count to identify the event with the worst underlying service performance.",
+      "Conduct brief event debriefs without common definitions or a retained action log, and discontinue periodic synthesis because local recollection is sufficient for organization-wide learning."
     ],
     "answer": 0,
-    "why": "This is another cadence-mismatch diagnosis (paralleling similar ride-share and feedback-timing scenarios seen elsewhere in this domain) but with a nuanced fix: the underlying problem is event-driven rather than time-driven, so the solution is event-triggered rapid capture feeding into (not replacing) periodic strategic synthesis \u2014 combining both timescales appropriately rather than simply increasing a still poorly-matched calendar-based frequency (D). Source: [BOK] Domain II.E, Organizational Feedback; cadence-matching principle.",
+    "why": "Event-triggered capture preserves conditions while they can still be reconstructed. Common definitions, suitable exposure measures and follow-up ownership make the evidence usable beyond the debrief. Periodic synthesis remains useful for trends and action effectiveness. Even exposure-adjusted complaint rates require interpretation because event mix and reporting behavior can differ; raw counts alone do not rank underlying service risk. Source alignment: ASQ CMBB Body of Knowledge, II.E.1; II.E.2. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-048"
+    "qid": "mbb:set-3:d2-048",
+    "optionRationales": [
+      "Correct. It combines timely event evidence, consistent measurement, accountable follow-up and cross-event learning.",
+      "More frequent calendar review can help, but retaining delayed reconstruction does not directly address event-specific evidence loss.",
+      "Large events may have more complaints because of greater exposure; raw counts alone do not establish a worse underlying rate.",
+      "Without shared definitions and a retained action record, local debriefs do not support reliable comparison or sustained follow-up."
+    ],
+    "distractors": [
+      "Correct. It combines timely event evidence, consistent measurement, accountable follow-up and cross-event learning.",
+      "More frequent calendar review can help, but retaining delayed reconstruction does not directly address event-specific evidence loss.",
+      "Large events may have more complaints because of greater exposure; raw counts alone do not establish a worse underlying rate.",
+      "Without shared definitions and a retained action record, local debriefs do not support reliable comparison or sustained follow-up."
+    ],
+    "trap": "Match evidence capture to when the process changes, not only to the reporting calendar. Retain denominators and context, since more complaints at a larger event do not automatically imply a worse service rate.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.E.1; II.E.2"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "An airport ground services company operates three rotating shifts around the clock, but Six Sigma champion coverage and Belt project engagement have historically existed only during the day shift, since that's when the (day-shift-only) Six Sigma office staff are present. Night and overnight shift issues are systematically underrepresented in the project pipeline. What organizational design fix should the MBB recommend?",
+    "stem": "An airport ground-services company operates three rotating shifts. The improvement office holds every project meeting during the day shift and solicits ideas only from those attendees. Night-shift issues are absent from the pipeline despite unresolved concerns recorded in handover logs. Which design best closes the participation gap while preserving operational coverage?",
     "options": [
-      "Require all night-shift employees to attend day-shift meetings on their own time, uncompensated, to participate in the deployment",
-      "Deliberately extend deployment design to include night/overnight shift representation \u2014 e.g., designating a night-shift champion, scheduling at least some project touchpoints (interviews, data reviews) during or adjacent to night-shift hours, and ensuring the opportunity-identification process actively solicits input from all shifts, not just the shift the Six Sigma office happens to staff during",
-      "Continue day-shift-only coverage, since overnight shift issues are inherently less important than day-shift issues",
-      "Eliminate the night shift's ability to submit improvement ideas altogether, since operational coverage make participation impractical"
+      "Ask day-shift champions to summarize all night-shift concerns without direct night-worker input, using their existing attendance to represent the entire operating cycle.",
+      "Provide accountable representation and protected participation across shifts, combine appropriate timed and asynchronous input, and route all shifts' evidence into the same prioritization process.",
+      "Require each shift to submit exactly the same number of project proposals monthly, using equal proposal counts as proof that their operating concerns are equally well represented.",
+      "Move all improvement meetings to a single overnight time, keeping one compulsory meeting schedule and relying on daytime staff to adapt without protected participation arrangements."
     ],
     "answer": 1,
-    "why": "This is a structural coverage-gap issue directly analogous to the geographic-dispersion problem in D2-026: deployment design that implicitly assumes a single shift's schedule systematically underrepresents legitimate opportunities and voices from other shifts, and the fix is extending the design (dedicated shift representation, adapted engagement timing), not deprioritizing or excluding that population. Source: [BOK] Domain II.A, Organizational Design; parallel to D2-026 (dispersed workforce).",
+    "why": "The documented gap is systematic exclusion from the opportunity process, not evidence that night workers lack ideas. Representation, usable participation arrangements and a common evidence-based pipeline address it. Equal proposal quotas do not establish fair coverage and may ignore differing exposures or risks. Merely moving a single schedule can shift the exclusion to another group. Specific meeting times should be designed around actual coverage needs. Source alignment: ASQ CMBB Body of Knowledge, II.B.2; II.D.4; II.E.1. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-051"
+    "qid": "mbb:set-3:d2-051",
+    "optionRationales": [
+      "Second-hand representation alone can reproduce the selection bias and omit direct operational knowledge from night-shift staff.",
+      "Correct. It makes participation feasible across shifts and evaluates their evidence through a common governance process.",
+      "Equal counts measure compliance with a quota, not whether relevant concerns and risks have been fairly identified.",
+      "Changing the single privileged meeting time does not solve access for all shifts or provide protected participation capacity."
+    ],
+    "distractors": [
+      "Second-hand representation alone can reproduce the selection bias and omit direct operational knowledge from night-shift staff.",
+      "Correct. It makes participation feasible across shifts and evaluates their evidence through a common governance process.",
+      "Equal counts measure compliance with a quota, not whether relevant concerns and risks have been fairly identified.",
+      "Changing the single privileged meeting time does not solve access for all shifts or provide protected participation capacity."
+    ],
+    "trap": "Representative participation is not the same as equal proposal counts or one meeting everyone is told to attend. Design access around the operating cycle and evaluate evidence through a common prioritization process.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.B.2; II.D.4; II.E.1"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A craft distillery's culture strongly emphasizes \"traditional methods passed down for generations,\" creating implicit resistance to any process change, even ones that don't affect the recipe or flavor profile (e.g., warehouse inventory tracking improvements). How should the MBB frame improvement work to fit this cultural context?",
+    "stem": "A craft distillery values traditional recipes and production methods. Staff resist a proposed warehouse inventory-tracking project because they fear it will change those methods. The proposed scope excludes recipes, but inventory handling can still affect product condition. Which approach best creates credible cultural alignment rather than merely reassuring staff?",
     "options": [
-      "Explicitly frame all improvement work as \"modernizing outdated traditional methods,\" directly challenging the tradition-based identity",
-      "Secretly implement changes without any communication about them, hoping no one notices",
-      "Explicitly distinguish and communicate which processes are being improved (e.g., inventory tracking, administrative workflows) as clearly separate from and non-threatening to the traditional recipe/production methods the culture values most, so the cultural attachment to tradition is respected rather than triggered by process improvements in unrelated operational areas",
-      "Avoid any improvement work anywhere in the distillery given the strength of the tradition-based culture"
+      "Describe the project as modernization of outdated traditions, and use management endorsement to proceed before discussing which production practices employees want preserved.",
+      "Promise that a warehouse project cannot affect product condition, and treat its administrative classification as sufficient evidence that no product-quality safeguards are needed.",
+      "Co-define the scope with staff, preserve approved recipe boundaries, and pilot inventory changes with agreed product-condition safeguards while communicating the verified logistics benefits.",
+      "Remove all productivity and inventory measures from the project charter, and rely on tradition-focused messaging as the principal evidence that the changes are acceptable."
     ],
     "answer": 2,
-    "why": "This is a values-sensitive framing approach: explicitly scoping and communicating that improvement work targets areas unrelated to the culturally-protected core (the traditional recipe/production methods) avoids unnecessarily triggering identity-based resistance, similar in spirit to other values-sensitive reframing approaches used when a legitimate cultural value is unnecessarily triggered by an unrelated process change. Source: [BOK] Domain II.D, Organizational Culture and Values Framework.",
+    "why": "Credibility requires a defined boundary and tested safeguards, not an unsupported promise of zero interaction. Involving staff respects the valued methods while allowing logistics improvements that do not compromise product condition. The pilot should measure both intended benefits and relevant risks. Values-sensitive communication complements evidence; it does not replace measurement or demonstrate that all warehouse changes are harmless. Source alignment: ASQ CMBB Body of Knowledge, II.C.1; II.C.2; II.D.6. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-054"
+    "qid": "mbb:set-3:d2-054",
+    "optionRationales": [
+      "Calling the valued traditions outdated directly triggers the identity concern rather than distinguishing the proposed logistics scope.",
+      "The case states that inventory handling can affect condition, so the administrative label does not justify a zero-risk assurance.",
+      "Correct. It combines respectful scope design with evidence that the proposed changes preserve the valued product characteristics.",
+      "Removing measurement prevents verification of both logistics benefits and safeguards; favorable messaging alone does not validate the change."
+    ],
+    "distractors": [
+      "Calling the valued traditions outdated directly triggers the identity concern rather than distinguishing the proposed logistics scope.",
+      "The case states that inventory handling can affect condition, so the administrative label does not justify a zero-risk assurance.",
+      "Correct. It combines respectful scope design with evidence that the proposed changes preserve the valued product characteristics.",
+      "Removing measurement prevents verification of both logistics benefits and safeguards; favorable messaging alone does not validate the change."
+    ],
+    "trap": "Cultural alignment must be credible in the actual process. Define what remains protected, test relevant interfaces and safeguards, and avoid promising that an administrative improvement has no possible operational effects.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.C.1; II.C.2; II.D.6"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A computer repair franchise brand has a mix of corporate-owned and independently-franchised locations. Which organizational design principle should govern how Six Sigma deployment differs (if at all) between the two location types?",
+    "stem": "A computer-repair brand owns some locations and franchises others. In this scenario, corporate managers may assign staff at owned sites. Franchise agreements require common service-quality outcomes and records but give franchisees control over staffing and participation methods. What deployment proposal correctly distinguishes those rights?",
     "options": [
-      "Corporate-owned locations, being under direct corporate authority, can support a more prescriptive/mandatory deployment model (formal Belt assignments, mandatory project participation), while franchised locations should follow the voluntary/toolkit-based brand-standards approach appropriate to their independent ownership (as established for franchise contexts elsewhere in this domain) \u2014 the deployment design should differ by ownership/authority structure even within the same brand",
-      "Only corporate-owned locations should be permitted to participate in Six Sigma deployment at all, excluding franchised locations entirely",
-      "Franchised locations should have more mandatory requirements than corporate-owned locations, reversing the typical authority relationship",
-      "Corporate-owned and franchised locations should have identical, mandatory deployment structures with no distinction, since brand consistency requires complete uniformity regardless of ownership structure"
+      "Use corporate staffing authority at owned sites and agreement-based outcome and record requirements at franchises, negotiating participation methods where corporate assignment authority is absent.",
+      "Make service-quality records optional at franchised sites, while requiring them at owned sites, because independent ownership takes precedence over the stated common-record obligations.",
+      "Assign named franchise employees to mandatory Belt projects using corporate staffing procedures, while treating the common service-quality requirement as authority to direct individual personnel.",
+      "Require franchises to copy every owned-site participation method before their improvement results can be accepted, using identical internal staffing arrangements as the test of quality compliance."
     ],
     "answer": 0,
-    "why": "This synthesizes the franchise-design principle established elsewhere in this domain with the reality of mixed ownership models \u2014 deployment design should appropriately differentiate by actual organizational authority/ownership structure, even within a single brand, rather than forcing uniform treatment (A) or an inverted authority relationship (C) or exclusion (D). Source: [BOK] Domain II.A, Organizational Design; parallel to D2-029.",
+    "why": "The answer follows the rights expressly stipulated in the case. Common outcome and record obligations apply to both types of location, but direct staffing authority differs. Independent ownership does not make agreed requirements voluntary, and outcome requirements do not automatically authorize control over specific employees or local methods. Actual decisions would depend on the applicable agreements and law; no broader legal rule is asserted here. Source alignment: ASQ CMBB Body of Knowledge, II.D.4; I.E.3. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-057"
+    "qid": "mbb:set-3:d2-057",
+    "optionRationales": [
+      "Correct. It preserves common obligations while distinguishing direct staffing authority from agreement-based governance.",
+      "The scenario expressly requires common records at franchises; independent ownership does not erase that stated obligation.",
+      "A service-quality obligation is not the same as authority to assign franchise personnel under the rights defined in the case.",
+      "Identical internal methods are not required by the stated outcome and record obligations and conflict with the franchisees' specified control."
+    ],
+    "distractors": [
+      "Correct. It preserves common obligations while distinguishing direct staffing authority from agreement-based governance.",
+      "The scenario expressly requires common records at franchises; independent ownership does not erase that stated obligation.",
+      "A service-quality obligation is not the same as authority to assign franchise personnel under the rights defined in the case.",
+      "Identical internal methods are not required by the stated outcome and record obligations and conflict with the franchisees' specified control."
+    ],
+    "trap": "Do not turn ownership into a blanket rule about what is mandatory or voluntary. Separate required outcomes and records from authority over staffing and implementation, using the rights explicitly given in the scenario.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.D.4; I.E.3"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
-    "stem": "A national park concessions operator (running park lodges, gift shops, and food service under a government contract) has staff who strongly identify with a conservation/stewardship mission, and view any \"efficiency\" or \"cost reduction\" framing of Six Sigma projects as conflicting with that mission, even when a proposed project (reducing food waste in park lodge kitchens) directly supports conservation goals. What cultural framing adjustment should the MBB recommend?",
+    "stem": "A national-park concessions operator proposes reducing avoidable kitchen food waste. Staff value conservation but distrust a cost-cutting narrative, fearing poorer meals. Guest volumes vary seasonally. Which project framing and measurement plan best connects the genuine conservation benefit to a credible operating decision?",
     "options": [
-      "Reject the project entirely since any connection to cost or efficiency conflicts irreparably with the conservation mission",
-      "Require staff to set aside their conservation values entirely and adopt a purely commercial mindset for the duration of the project",
-      "Avoid any mention of efficiency or cost savings, but otherwise keep the project framing and communication completely unchanged",
-      "Explicitly reframe the food-waste-reduction project's communication and metrics around its conservation/stewardship impact (waste diverted from landfill, resources conserved) as the primary framing, with cost savings presented as a secondary, supporting benefit rather than the leading narrative \u2014 aligning the project's public framing with the value staff most strongly identify with, since the underlying project already genuinely serves that value"
+      "Lead with conservation language and compare total discarded kilograms between seasons, treating any lower total as evidence of improvement without adjusting for meals served.",
+      "Retain cost saving as the sole success measure, and use conservation-themed communications to gain participation without measuring food waste or the effect on meal quality.",
+      "Report only favorable conservation outcomes and omit the cost and service tradeoffs, treating mission alignment as sufficient reason to avoid discussing competing operational objectives.",
+      "Lead with avoidable waste per meal and conservation outcomes, retain food-safety and service safeguards, and report validated cost savings and tradeoffs transparently as supporting evidence."
     ],
     "answer": 3,
-    "why": "Since the project's actual outcome (reduced food waste) genuinely and directly serves the conservation value staff care about, the correct fix is reframing the *communication* to foreground that authentic alignment rather than leading with efficiency/cost language that triggers unnecessary values-based resistance \u2014 a more complete version of the reframing principle tested elsewhere in this domain, including D2-054. Source: [BOK] Domain II.D, Organizational Culture and Values Framework; parallel to D2-054.",
+    "why": "The project can authentically support conservation, but that alignment needs credible measures and safeguards. Waste per meal addresses changing volume better than raw totals, although meal mix and other context may still matter. Food safety and service quality remain constraints. Cost benefits need not be hidden; they can be reported as supporting evidence alongside tradeoffs. Reframing is substantive only when the actual goals and measurements reflect the stated value. Source alignment: ASQ CMBB Body of Knowledge, II.C.1; II.D.6; II.F.2. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
-    "qid": "mbb:set-3:d2-060"
+    "qid": "mbb:set-3:d2-060",
+    "optionRationales": [
+      "Lower total waste can simply reflect fewer meals; the seasonal volume change prevents an unqualified performance conclusion from totals alone.",
+      "A conservation message without an associated outcome measure or service safeguards does not address the staff's substantive concern.",
+      "Mission alignment does not justify selective reporting or hiding cost and service tradeoffs from stakeholders.",
+      "Correct. It connects the valued outcome to a volume-aware measure, operational safeguards and transparent benefit reporting."
+    ],
+    "distractors": [
+      "Lower total waste can simply reflect fewer meals; the seasonal volume change prevents an unqualified performance conclusion from totals alone.",
+      "A conservation message without an associated outcome measure or service safeguards does not address the staff's substantive concern.",
+      "Mission alignment does not justify selective reporting or hiding cost and service tradeoffs from stakeholders.",
+      "Correct. It connects the valued outcome to a volume-aware measure, operational safeguards and transparent benefit reporting."
+    ],
+    "trap": "A values-based message should match the charter and measures. Separate waste prevention from reduced demand, retain safety and service safeguards, and do not hide financial benefits or unfavorable tradeoffs.",
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "II.C.1; II.D.6; II.F.2"
+      }
+    ]
   },
   {
     "sub": "mbb-org",
