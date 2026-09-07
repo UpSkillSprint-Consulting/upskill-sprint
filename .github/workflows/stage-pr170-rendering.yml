@@ -1,0 +1,53 @@
+name: Stage scoped PR170 rendering repairs
+on:
+  push:
+    branches: ['repair/pr170-print-keyboard']
+    paths: ['audit-staging/pr170-rendering-fix.py', '.github/workflows/stage-pr170-rendering.yml']
+permissions:
+  contents: read
+jobs:
+  prepare:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 audit-staging/pr170-rendering-fix.py
+      - id: commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dmaic-encyclopedia-fixes.css test-bank-mbb-set3-batch6-ui.js test-bank-feedback-loop.js
+          git commit -m 'fix: atomic print palettes and keyboard-accessible exam evidence'
+          git push origin HEAD:repair/pr170-print-keyboard
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+  rendering:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright@1.58.2
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - run: node --test tests/dmaic-encyclopedia-print-transition.test.js tests/test-bank-mbb-set3-scroll-keys.test.js
+      - run: node scripts/validate-pr170-rendering.cjs
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr170-staged-rendering-${{ matrix.engine }}
+          path: artifacts/pr170-rendering
+          retention-days: 14

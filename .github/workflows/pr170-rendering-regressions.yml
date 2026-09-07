@@ -1,0 +1,45 @@
+name: Print and exam keyboard regressions
+on:
+  pull_request:
+    paths:
+      - 'dmaic-encyclopedia-fixes.css'
+      - 'test-bank-feedback-loop.js'
+      - 'test-bank-mbb-set3-batch6-ui.js'
+      - 'test-bank.html'
+      - 'style.css'
+      - 'scripts/validate-pr170-rendering.cjs'
+      - 'tests/dmaic-encyclopedia-print-transition.test.js'
+      - 'tests/test-bank-mbb-set3-scroll-keys.test.js'
+      - '.github/workflows/pr170-rendering-regressions.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pr170-rendering-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  rendering:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright@1.58.2
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - run: node --test tests/dmaic-encyclopedia-print-transition.test.js tests/test-bank-mbb-set3-scroll-keys.test.js
+      - run: node scripts/validate-pr170-rendering.cjs
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr170-rendering-${{ matrix.engine }}
+          path: artifacts/pr170-rendering
+          retention-days: 14
