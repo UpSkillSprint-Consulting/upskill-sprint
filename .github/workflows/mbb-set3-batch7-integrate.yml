@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: mbb-set3-batch7-integration
+  group: mbb-set3-batch7-finalize
   cancel-in-progress: true
 jobs:
   integrate:
@@ -21,55 +21,56 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Preserve and precompile reviewed staging
-        run: |
-          cp -R audit-staging /tmp/mbb7-staging
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path('/tmp/mbb7-staging/batch7-content.py')
-          s=p.read_text()
-          old="'altText':'Proposed component bounds"
-          assert s.count(old)==1
-          p.write_text(s.replace(old,"altText='Proposed component bounds"))
-          PY
-          python3 -m py_compile /tmp/mbb7-staging/batch7-content.py /tmp/mbb7-staging/batch7-build.py
-      - name: Apply only to the unchanged authorized PR170 head
+      - name: Finalize only the unchanged authorized PR170 application
         run: |
           git fetch origin audit/mbb-set3-batch1-q001-q025
-          test "$(git rev-parse FETCH_HEAD)" = '3d4ea284e1493ef200c167eb926670073d325637'
+          test "$(git rev-parse FETCH_HEAD)" = '4cc3deda9b95d8eda821fc13c1b0a98c52c29c47'
           git checkout --detach FETCH_HEAD
           python3 - <<'PY'
           from pathlib import Path
-          ns={}
-          for name in ['batch7-content.py','batch7-build.py']:
-              p=Path('/tmp/mbb7-staging')/name
-              exec(compile(p.read_text(),str(p),'exec'),ns)
+          import json,re,subprocess
+          root=Path.cwd();p=root/'test-bank-mbb-set3.js';s=p.read_text()
+          bank=json.loads(subprocess.check_output(['node','-e',"const c={window:{}};require('vm').runInNewContext(require('fs').readFileSync('test-bank-mbb-set3.js','utf8'),c);console.log(JSON.stringify(c.window.MBB_SET3))"],text=True))
+          starts=[m.start() for m in re.finditer(r'^  \{$',s,re.M)];assert len(starts)==175
+          q=bank[167]
+          q['stem']='A simplified fault tree defines total power loss at a specified mission demand as A AND B. A and B denote primary and backup supply unavailability at that same demand. No other path is included. The table gives P(A), P(B) and P(B given A); the events are not independent. What is the modeled top-event probability and correct timing interpretation?'
+          q['chart']['title']='Probability inputs at the specified mission demand'
+          q['chart']['altText']='All probabilities apply to unavailability at the same specified mission demand: primary 0.02, backup 0.03, backup conditional on primary 0.10.'
+          q['why']=q['why'].replace('Both defined unavailability states must be present;','Both unavailability states must be present at the specified demand;')
+          q=bank[169];old=q['auditSources'][0]['locator'];q['auditSources'][0]['locator']='VI.A.1; VI.A.5; I.D.2, with related VI.E design-quality application';q['why']=q['why'].replace(old,q['auditSources'][0]['locator'])
+          updated=s[:starts[150]]+''.join('  '+json.dumps(q,ensure_ascii=False,indent=2).replace('\n','\n  ')+',\n' for q in bank[150:])+s[s.rfind('  ];'):]
+          assert updated[:starts[150]]==s[:starts[150]];p.write_text(updated)
+          D=root/'docs/audits/mbb-set3-batch07';r=json.loads((D/'revisions.json').read_text())
+          for row in r:row['corrected']=bank[row['number']-1]
+          r[17]['findings'].append('Final review fixes the common demand instant so temporally separate unavailability periods are not confused with coincident states.')
+          r[17]['independentSolution']=bank[167]['why'].split(' Source alignment:')[0]
+          (D/'revisions.json').write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\n')
+          p=root/'tests/test-bank-mbb-set3-batch7-audit.test.js';t=p.read_text();t+="\ntest('Q168 explicitly evaluates both unavailable states at the same demand rather than at different mission times',()=>{assert.match(batch[17].stem,/at that same demand/);assert.match(batch[17].chart.altText,/same specified mission demand/);});\n";p.write_text(t)
+          p=root/'scripts/audit-mbb-set3-batch7.mjs';t=p.read_text();old="page.on('pageerror',e=>report.pageErrors.push({engine,layout,message:e.message}));";assert old in t;t=t.replace(old,old+"page.on('crash',()=>{report.failures.push({engine,layout,error:'Browser page crashed during the audit'});save();});");p.write_text(t)
           PY
           node --check test-bank-mbb-set3.js
-          node --check test-bank-mbb-set3-batch7-ui.js
           node --check scripts/audit-mbb-set3-batch7.mjs
           node --check tests/test-bank-mbb-set3-batch7-audit.test.js
       - run: npm ci
-      - name: Independent calculations, all-choice grading and graphical fallback
+      - name: Validate corrected timing, all answers and both graphical paths
         run: node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch7*.test.js
-      - name: Push reviewed application and evidence only to PR170
+      - name: Push final corrections to PR170 without merge or deployment
         id: commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add test-bank-mbb-set3.js test-bank-mbb-set3-batch7-ui.js test-bank.html test-bank-feedback-loop.js tests/test-bank-mbb-set3-batch*-audit.test.js tests/test-bank-mbb-set3-batch7-fallback.test.js scripts/audit-mbb-set3-batch7.mjs docs/audits/mbb-set3-batch07
+          git add test-bank-mbb-set3.js docs/audits/mbb-set3-batch07/revisions.json tests/test-bank-mbb-set3-batch7-audit.test.js scripts/audit-mbb-set3-batch7.mjs
           git diff --cached --check
-          git commit -m 'audit: correct Set 3 final Batch 7 Q151–175 content, numerical evidence, visuals and tests'
+          git commit -m 'fix: define concurrent fault-tree demand and retain explicit Batch 7 source and crash evidence'
           git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      - name: Export exact workspace including failure evidence
+      - name: Export exact workspace
         if: always()
         run: |
           mkdir -p /tmp/mbb7-workspace
           git rev-parse HEAD > /tmp/mbb7-workspace/commit.txt
           git diff HEAD > /tmp/mbb7-workspace/uncommitted.patch
           tar --exclude=.git --exclude=node_modules -czf /tmp/mbb7-workspace/repository.tar.gz .
-          cp -R /tmp/mbb7-staging /tmp/mbb7-workspace/staging
       - uses: actions/upload-artifact@v4
         if: always()
         with:
