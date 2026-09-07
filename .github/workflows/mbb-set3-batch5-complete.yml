@@ -1,0 +1,136 @@
+name: Complete MBB Set 3 Batch 5 audit records
+on:
+  push:
+    branches: ['automation/mbb-set3-batch5']
+    paths: ['.github/workflows/mbb-set3-batch5-complete.yml']
+permissions:
+  contents: write
+jobs:
+  complete:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/mbb-set3-batch1-q001-q025
+          fetch-depth: 0
+      - name: Guard review head and complete documentation only
+        run: |
+          test "$(git rev-parse HEAD)" = '755ab0e482f852caa4ddf57db49610b998b3ea22'
+          python3 - <<'PY'
+          import json, pathlib, subprocess
+          D=pathlib.Path('docs/audits/mbb-set3-batch05')
+          rows=json.loads((D/'question-audit-tracker.json').read_text())
+          assert isinstance(rows,list) and len(rows)==25
+          assert [q['number'] for q in rows]==list(range(101,126))
+          revisions=json.loads((D/'revisions.json').read_text())
+          assert len(revisions)==25
+          for q in rows:
+              q.update(status='Passed after corrections — tested review build', browserRetest='Passed: 16 rendered cases across Chromium/WebKit, desktop/mobile, light/dark and question/review', manualVisualReview='Completed: 8 primary views, desktop/mobile, light/dark, question/expanded-review', testedApplication='7597164f6c1ee1ef3a1f605bd9041286b7594661', evidenceRun=34092148192)
+          (D/'question-audit-tracker.json').write_text(json.dumps(rows,ensure_ascii=False,indent=2)+'\n')
+          manifest={'testedApplication':'7597164f6c1ee1ef3a1f605bd9041286b7594661','laterCiOnlyCommit':'755ab0e482f852caa4ddf57db49610b998b3ea22','acceptedRun':34092148192,'batchTestsPassed':47,'existingSet3TestsPassed':8,'combinedTargetedPassed':55,'fullRepositoryPassed':1645,'fullRepositoryFailed':0,'fullRepositorySkipped':0,'optionGradingOutcomes':100,'renderedCases':400,'sessionRecords':4,'visualSequences':72,'pageErrors':0,'failedCases':0,'detectedClippingOrOverflow':0,'svgTextBoundsFailures':0,'labelPointCollisions':0,'scopedAxeViolations':0,'regressionArtifactId':10007470515,'workspaceArtifactId':10007209747,'contexts':[{'name':'chromium-desktop','cases':100,'visualSequences':18,'artifactId':10007330913,'archiveSHA256':'d7ebd18ea598cc3459df468eda6f50eec31a30dd2670781e8ffa7f0885f6123f','reportSHA256':'b723ad9b6579c42c84f682a5022bbaed4e048354f0525bdfad500e218d54a1db'},{'name':'chromium-mobile','cases':100,'visualSequences':18,'artifactId':10007338795,'archiveSHA256':'d542ceafb0d9a7273546b0f22f81ba6b2a23f4f61b51b0ddb02ceb8252bea848','reportSHA256':'42a0350d9739df0e580cb70fa38c14430c3a8d8ebceefed0a6e4ad54b68fa71a'},{'name':'webkit-desktop','cases':100,'visualSequences':18,'artifactId':10007349678,'archiveSHA256':'0457c058da1e25d5382b6fd1ab97b91ae783af257f272fbbbdd2cf17962b8ff4','reportSHA256':'79f7f318b9417d4f4dc3156bb9c31712d48cbd05c7a8a9d3ff8ffa8b83ebb2c1'},{'name':'webkit-mobile','cases':100,'visualSequences':18,'artifactId':10007349856,'archiveSHA256':'fa94d0d4d9bf07f537c73fd80bc8e0a80cd7fd07f7dec5e23f6a84107e93c962','reportSHA256':'7b059ec877e408f347d14dc4414c3cde03a795aac62d7556b0844e23399624f6'}],'failureHistory':{'supersededRun':34091264983,'fullSuiteFailures':11,'defect':'Legacy/public chart entry points did not understand the new evidence structure, notably Q115.','repair':'7597164 delegates to the audited renderer when available and supplies complete accessible numerical evidence otherwise. Existing failing tests were retained and two explicit compatibility tests added.'},'limits':'Authentication and persistence are isolated fixtures. Browser emulation is not physical-device testing. No release, security or empirical-psychometric clearance; Q126–175 are not audited.'}
+          (D/'browser-summary.json').write_text(json.dumps(manifest,indent=2)+'\n')
+          visual={'canonicalRange':[101,125],'individuallyInspectedQuestions':25,'primaryViews':200,'matrix':'25 × desktop/mobile × light/dark × question/expanded-review','primaryCaptureHead':'2d4307bbb248363ca3313b1db0d93cc12bb887f5','finalApplication':'7597164f6c1ee1ef3a1f605bd9041286b7594661','identityCheck':'Primary complete captures have question-bank, scoped-UI and feedback-loop code verified byte-identical to the final application. The final 400-case matrix reopened every item on the compatibility-repaired source.','method':'Every question inspected individually. Mobile composites use complete sequential native-width strips with overlap; no OCR.','finalSupplementalInspection':{'engine':'WebKit','layout':'mobile','visualQuestions':[113,115,116,117,118,119,121,123,124],'rightEdgeRegions':18},'correctedDefects':['Q113 malformed contingency headers','Q115 inconsistent/underspecified limits and labels overlapping observations','Q116 fence/whisker/maximum ambiguity','Q117 actual Filliben positions and full data','Q118 neutral panels and visible reference marks','Q119 explicit bias evidence','Q121 observation indexing and run convention','Q123 genuine binomial OC curves','Q124 explicit grouped values and units'],'captureLimits':'Complete companion desktop/WebKit views verify captions and footers where isolated long captures show unpainted tails or fixed controls. Gray composite padding is not a missing page section. Capture-only header hiding does not change interactions or geometry checks.','unresolvedConfirmedBatch5VisualDefects':0,'limits':'No slider exists in this batch. Not a certification of physical phones or all assistive technologies.'}
+          (D/'visual-inspection.json').write_text(json.dumps(visual,ensure_ascii=False,indent=2)+'\n')
+          numeric={'testedSource':'7597164f6c1ee1ef3a1f605bd9041286b7594661','binomialProbabilities':402,'binomialMaxAbsoluteDifference':6.5503158452884236e-15,'normalQuantiles':24,'normalQuantileMaxAbsoluteDifference':4.440892098500626e-16,'referenceMethods':'Independently executed scipy.stats.binom.cdf and scipy.stats.norm.ppf versus combinatorial binomial CDF and statistics.NormalDist. Repository tests also use independent JavaScript binomial recursion.','plottingPositions':'Filliben, not Blom','derivations':'independent-calculations.json','limits':'Numeric reproduction does not establish empirical validity of invented scenarios or psychometric calibration.'}
+          (D/'independent-verification.json').write_text(json.dumps(numeric,indent=2)+'\n')
+          screen={'scope':[101,125],'comparisonQuestions':450,'exactNormalizedStemDuplicatesInvolvingBatch':0,'originalCorrectUniquelyLongest':25,'correctedCorrectUniquelyLongest':5,'originalMedianCorrectToMedianDistractorWordRatio':3.0714285714285716,'correctedMedianCorrectToMedianDistractorWordRatio':0.9,'retainedKeyPositions':{'A':5,'B':4,'C':10,'D':6},'relatedTasksDifferentiated':['Q111 conversion versus Q112 report reconciliation','Q115 dispersion signal versus Q121 run signal','Q120 distributional interpretation versus Q125 centering and representative coverage','Q119 constant bias versus Set2 changing bias','Q113 interrater agreement versus reference-based accuracy'],'limits':'No candidate-response dataset analyzed. Difficulty, discrimination, reliability and DIF remain uncalibrated; lexical and word-count screens do not establish independence or equivalent difficulty.'}
+          (D/'psychometric-duplicate-screen.json').write_text(json.dumps(screen,indent=2)+'\n')
+          report='''# ASQ Master Black Belt Simulation Exam — Set 3
+          ## Batch 5: canonical Questions 101–125
+          **Final batch status: Passed after corrections — tested review build.**
+          All 25 questions were individually reviewed, independently answered, corrected and reopened. These records complete Batch 5 on PR170; human review and merge remain required. No merge or production deployment was performed. Stop at Q125: Batch 6 has not been started.
+          
+          ## Scope and provenance
+          Baseline: `3194498cc4ce96765aef172afe09056a282ab458`. Final tested application: `7597164f6c1ee1ef3a1f605bd9041286b7594661`. Subsequent `755ab0e482f852caa4ddf57db49610b998b3ea22` changes only the Batch5 workflow. This completion changes documentation only. Accepted exact-source validation: https://github.com/UpSkillSprint-Consulting/upskill-sprint/actions/runs/34092148192 . Every test job checked out the stated application commit. Artifact identifiers, archive/report hashes and failure history are in `browser-summary.json`.
+          Question numbers refer to canonical MBB_SET3 order, not a shuffled player session. Q1–100 and Q126–175 remain byte-preserved; all175 IDs and answer positions are unchanged. Prefix SHA256: `0d34eb6ab6236e9c923aee02177a7d99e04fb428081b23962d85f54d54a26e26`; suffix: `7c27818031175f62f0e580fb4160760925a681a3f079751cb0f5aadd5f2475dd`.
+          
+          ## Required findings record
+          | Category | Verified result |
+          |---|---|
+          | Independently reviewed, answered and retested | 25/25: Q101–125 |
+          | Passed unchanged | 0 |
+          | Corrected | 25 |
+          | Stored answer positions changed | 0; retaining a position does not certify the original keyed content |
+          | Numerical/reporting defects | Q112's study-variation/ndc inconsistency; Q115's control-limit assumptions and consistency |
+          | Technical/keyed-content corrections | Variance versus SD, acceptance criteria, agreement versus accuracy, capability versus stability, graphical inference, bias, sampling-risk and performance overclaims |
+          | Wrong original option-letter references | None found |
+          | Explicit cross-question references removed | 3: Q101, Q102, Q105 |
+          | Individual option rationales | 100 |
+          | Exact duplicate stems involving the batch | 0 against450 MBB stems |
+          | Related decision tasks differentiated | Conversion/reconciliation, range/run signals, distribution/coverage, constant/changing bias, agreement/reference accuracy |
+          | Visual items preserved and corrected | 9: Q113, Q115–119, Q121, Q123, Q124 |
+          | Sliders | None in this batch; no slider testing claimed |
+          | Functional defect | Legacy/public chart-renderer compatibility; corrected and regression-tested |
+          
+          ## Question-by-question disposition
+          Every row passed after corrections. Full original/corrected content, all100 rationales, source locators and detailed findings remain in `revisions.json`; no original assumptions are falsely presented as authoritative external facts.
+          | Q | Stable ID | Key | Independently validated decision and correction |
+          |---|---|---|---|
+          '''
+          for q in rows:
+              decision=q.get('independentDecision','See the complete corrected explanation and findings in revisions.json.')
+              report+='| '+str(q['number'])+' | `'+q['qid']+'` | '+q['key']+' | '+decision.replace('|','/').replace('\n',' ')+' |\n'
+          report+='''
+          ## Numerical and source validation
+          **Q111:** 22% variance contribution implies 100√0.22 = **46.9042% study variation**, not22%SD. The adopted acceptance threshold and component-model assumptions are explicit.
+          **Q112:** Using the same nonnegative component decomposition, gage/totalSD=.28 and part/totalSD=√(1−.28²)=.96. Thus ndc=floor(1.41×.96/.28)=floor(4.8342857)=**4, not2**, still below the site's target5. The relationship is not asserted for reports using unrelated historical standard deviations.
+          **Q113:** Counts30/20/10/40 total100. Observed agreement=.70; marginal expected agreement=.50; kappa=(.70−.50)/(1−.50)=**.40**. Agreement is not accuracy without reference truth; the screening criterion is local, not universal.
+          **Q114:** Specs38/62mm, mean51mm, withinSD4mm give Cp=**1.00**, Cpu=11/12, Cpl=13/12, Cpk=**.9167≈.92**, below the explicit1.33target despite stipulated stability.
+          **Q115:** Historical mean50g, Rbar2.9g and n5 with A2=.577,D3=0,D4=2.115 give Xbarlimits**48.3267/51.6733g** and Rlimits**0/6.1335g**. Subgroup6 range**7.8g** signals. These are validated historic PhaseII limits, not limits estimated from the new eight observations. Investigate without automatically deleting observations or recalculating the baseline.
+          **Q116:** IQR=1.7days, fences**.85/7.65days**; upperwhisker6.8 is not maximum11.4. Values9.2/10.1/11.4 are flags, not proven errors or SPC special causes.
+          **Q117:** All24 original measurements retained, with units and actual inverse-normal **Filliben** positions and a defined quartile reference. No proof of normality or unique cause is inferred from22 apparently aligned points.
+          **Q118–119:** Neutral equal-scale deterministic targetpanels distinguish tight clustering from offset; C is centered around(4,3). Reference10/50/90mm versus means12/52/92mm gives **+2mm bias** throughout; an offset correction needs validation and three means do not prove absent linearity error.
+          **Q121–122:** The preselected WesternElectric **eight-point** rule uses displayed observations37–48; the last8 are strictly aboveCL. Control limits for subgroupmeans and specifications for individualunits differ in purpose/scale even if their numbers coincide.
+          **Q123:** Binomial plans A:n200,c10; B:n50,c2. At1%defective, Pa=**.9999931182/.9861827292**; at10%, Pa=**.0080712500/.1117287563**. A has lower designated producer/consumer risks with fourtimes the sample. Slope alone would not establish this comparison. All402probabilities checked against independent SciPyCDF and JavaScriptrecursion.
+          **Q124–125:** Machine means**10.02/10.15/9.88mm**, each group range**.02mm**, meanrange**.27mm**: descriptive differences, not an isolated machine causal effect. Cp2 omits centering and representative sustained coverage; no universal1.5-sigma shift is applied.
+          Independent external checks of402binomial probabilities and24normal quantiles have maximum absolute differences **6.5503158452884236e-15** and **4.440892098500626e-16**, respectively. Derivations are in `independent-calculations.json` and `independent-verification.json`. No inferential p-values, confidence intervals, DOE aliases or reliability calculations are present; nonexistent calculations are not counted as passed.
+          Primary references retained in `sources.json` and `auditSources` include ASQCMBBBOK, ICFcompetencies, officialMinitab guidance and NISTstatistical handbook. BOK alignment is not ASQauthorship or endorsement. Illustrative datasets/sitecriteria are explicit; no textbook page citation was fabricated.
+          
+          ## Visual and functional correction
+          All9visuals retained: contingencytable, Xbar/R, boxplot, normalprobability, targetpanels, bias evidence, runexcerpt, binomialOC and groupedmeasurements. Captions, units, numerical alternatives, headers, light/dark readability and horizontal access were checked. Q113's malformedheaders were repaired. Q115 reference labels now occupy a separate band clear of observations; automated collision checks protect this. Targetrings/centers are visible and theRaxis starts atzero. Explanatory mathematical glyphs/arithmetic do not require LaTeX rendering.
+          All25questions were individually inspected across desktop/mobile, light/dark and question/expandedreview: **200primary views**. Sequential native-width mobile strips include the complete content. Primarybank/scopedUI/feedback code is byte-identical to final7597164; the final400-case matrix reopened allitems after compatibility repair. All9visuals additionally had18final WebKitmobile right-edge regions inspected. Capturelimitations and exactboundaries are recorded in `visual-inspection.json`.
+          The first full suite found **11 real compatibility failures**, notablyQ115: older chartentrypaths could not read the newevidenceschema. Final7597164 delegates to the auditedmodule when available and supplies the complete accessible evidencetable otherwise. The usual student interface retains fullSVGvisuals. Existing failingtests were retained and two explicit compatibilitytests added. This failure is not hidden or labeled merely a testfixture issue.
+          
+          ## Tests and retests
+          | Check | Final result |
+          |---|---|
+          | Dedicated Batch5tests | **47/47passed** |
+          | Existing Set3traversal/integration targetedtests | **8/8passed** |
+          | Combined targetedcommand | **55/55passed** |
+          | Alloptions graded in actualplayer | **100/100correct outcomes** |
+          | Complete repositorysuite | **1645/1645passed**, zero failures/cancellations/skips |
+          | Chromiumdesktop, both themes/question-review | **100/100passed** |
+          | Chromiummobile, both themes/question-review | **100/100passed** |
+          | WebKitdesktop, both themes/question-review | **100/100passed** |
+          | WebKitmobile, both themes/question-review | **100/100passed** |
+          | Visualcontent/accesssequences | **72/72passed** |
+          | Final pageerrors, detectedclipping/overflow, SVGtextbounds, labelcollisions, scopedaxeviolations | **0** |
+          Keyboard/pointer selection, eachoption, reopen/flag state, timer, calculator/formula/statisticaltable drawers, submission, reviewfiltering and expandedrationales were exercised. Issueform preparation sent no message. Answering only the audited25items deliberately yields25/175 with150unanswered; this is not a semantic audit of175questions. Desktop1440×1000; mobile390×844emulation. Fullregression artifacts are identified in `browser-summary.json`.
+          
+          ## Wording and duplication
+          Originalcorrectchoice uniquelylongest:25/25; revised:5/25. Median correct/median-distractor wordratio3.0714→.9000. Keys remain A5/B4/C10/D6, not rebalanced. No identical normalizedstem involvingBatch5 against450MBBquestions; relatedtasks independently differentiated. These screens are not empiricalpsychometrics.
+          
+          ## Files changed
+          Application: `test-bank-mbb-set3.js`, `test-bank-mbb-set3-batch5-ui.js`, `test-bank.html`, `test-bank-feedback-loop.js`. Validation: Batch5content/rendering/compatibility tests, browserdriver and workflow; earlierBatch1–4suffix guards now beginQ126, with the newindependentprefix guard protecting everybyteQ1–100. Auditrecords include fullrevisions, completedtracker, preservation, sources, calculations, externalverification, browsermanifest, visualinspection, word/duplicatescreen and thisreport. Exact paths are listed below. Package manifests/versions are unchanged; automationstaging is outsidePR170.
+          
+          ## Remaining concerns
+          No confirmed Q101–125content or renderedcard defect remains. Productionauthentication, durable serverstorage and cross-devicesync used isolatedfixtures and are not certified; no physicalphone test. Existing dependencyadvisories require separate maintenance. No candidateresponses were analyzed, so difficulty, discrimination, reliability andDIF remain uncalibrated. Earlierbatch intermittent browserchecks are recorded separately inPRdiscussion, not substituted for acceptedBatch5evidence. Q126–175remain unaudited. Humanreview/merge required; no deployment or merge performed.
+          **Disposition: Passed after corrections in the tested review build. Stop atQ125.**
+          '''
+          # Normalize presentation spacing without altering findings or code.
+          report=report.replace('All175','All 175').replace('all175','all 175')
+          (D/'report.md').write_text(report,encoding='utf-8')
+          subprocess.run(['git','add',str(D)],check=True)
+          files=subprocess.check_output(['git','diff','--name-only','3194498cc4ce96765aef172afe09056a282ab458'],text=True).splitlines()
+          with (D/'report.md').open('a') as f:
+              f.write('\n### Exact Batch 5 changed paths ('+str(len(files))+')\n\n')
+              f.write('\n'.join('- `'+x+'`' for x in files)+'\n')
+          subprocess.run(['git','add',str(D)],check=True)
+          staged=subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines()
+          assert staged and all(x.startswith(str(D)+'/') for x in staged)
+          PY
+          git diff --cached --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'docs: complete MBB Set 3 Batch 5 Q101–125 audit and verified evidence'
+          git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
