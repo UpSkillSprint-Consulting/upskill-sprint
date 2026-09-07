@@ -24,7 +24,7 @@ jobs:
       - name: Prepare and precompile reviewed staging
         run: |
           cp -R audit-staging /tmp/mbb6-staging
-          python3 -m py_compile /tmp/mbb6-staging/batch6-content.py /tmp/mbb6-staging/batch6-build.py
+          python3 -m py_compile /tmp/mbb6-staging/batch6-content.py /tmp/mbb6-staging/batch6-polish.py /tmp/mbb6-staging/batch6-build.py
       - name: Apply only to the unchanged authorized PR170 head
         run: |
           git fetch origin audit/mbb-set3-batch1-q001-q025
@@ -33,7 +33,7 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           ns={}
-          for name in ['batch6-content.py','batch6-build.py']:
+          for name in ['batch6-content.py','batch6-polish.py','batch6-build.py']:
               p=Path('/tmp/mbb6-staging')/name
               exec(compile(p.read_text(),str(p),'exec'),ns)
           p=Path('.github/workflows/mbb-set3-batch5-audit.yml')
