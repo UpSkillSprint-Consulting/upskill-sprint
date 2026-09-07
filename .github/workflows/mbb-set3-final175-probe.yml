@@ -6,7 +6,49 @@ on:
 permissions:
   contents: read
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify and apply exact locally tested patch
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64,gzip,hashlib,subprocess
+          p=Path('audit-staging/final175.patch.b64')
+          text=p.read_text().replace('ixLdxB1pw','ixLdxBpw')
+          data=gzip.decompress(base64.b64decode(text))
+          assert hashlib.sha256(data).hexdigest()=='e06241de7d83e437ad70b7328b1550284219bc9dcc611ad1e2f0aada0e8ba79a'
+          Path('/tmp/final175.patch').write_bytes(data)
+          subprocess.run(['git','apply','--check','--unidiff-zero','/tmp/final175.patch'],check=True)
+          subprocess.run(['git','apply','--unidiff-zero','/tmp/final175.patch'],check=True)
+          PY
+          node --check scripts/stress-mbb-set3-final175.mjs
+          node --check test-bank-feedback-loop.js
+          node --check test-bank-deep-feedback.js
+          node --check test-bank-phase2-quality-assurance.js
+      - run: npm ci
+      - run: node --test --test-concurrency=1 tests/test-bank-mbb-set3-final-student.test.js
+      - name: Commit only on isolated review-test branch
+        id: commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add scripts/stress-mbb-set3-final175.mjs test-bank.html test-bank-feedback-loop.js test-bank-deep-feedback.js test-bank-phase2-quality-assurance.js test-bank-mbb-set3.js tests/test-bank-mbb-set3-*-audit.test.js tests/test-bank-mbb-set3-final-student.test.js
+          git diff --cached --check
+          git commit -m 'fix: preserve complete timeout review and synchronously enhance replacement feedback'
+          git push origin HEAD:refs/heads/automation/mbb-set3-final175
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
   browsers:
+    needs: prepare
     runs-on: ubuntu-latest
     timeout-minutes: 45
     strategy:
@@ -16,17 +58,19 @@ jobs:
         layout: [desktop, mobile]
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - run: npm ci
       - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
       - run: npx playwright install --with-deps ${{ matrix.engine }}
-      - name: Full student session, every question and every review
+      - name: Full uninterrupted student session, every question and review in both themes
         env:
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: ${{ matrix.layout }}
-          AUDIT_SOURCE: a826d62780928256df12f905501a76a372e803d5
+          AUDIT_SOURCE: ${{ needs.prepare.outputs.sha }}
         run: |
           mkdir -p audit-results-final175
           git rev-parse HEAD > audit-results-final175/tested-commit.txt
@@ -37,21 +81,93 @@ jobs:
           name: final175-${{ matrix.engine }}-${{ matrix.layout }}
           path: audit-results-final175
           retention-days: 14
-  workspace:
+  mixed:
+    needs: prepare
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Mixed 59 correct, 58 incorrect and 58 skipped items at narrow phone width
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: mobile
+          AUDIT_WIDTH: 320
+          AUDIT_MIXED: '1'
+          AUDIT_SOURCE: ${{ needs.prepare.outputs.sha }}
+        run: |
+          mkdir -p audit-results-final175
+          git rev-parse HEAD > audit-results-final175/tested-commit.txt
+          node scripts/stress-mbb-set3-final175.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final175-mixed-${{ matrix.engine }}
+          path: audit-results-final175
+          retention-days: 14
+  prior-gates:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - batch: 3
+            layout: desktop
+          - batch: 4
+            layout: mobile
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps webkit
+      - env:
+          AUDIT_ENGINE: webkit
+          AUDIT_LAYOUT: ${{ matrix.layout }}
+        run: node scripts/audit-mbb-set3-batch${{ matrix.batch }}.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final175-prior-batch${{ matrix.batch }}-webkit-${{ matrix.layout }}
+          path: audit-results-batch${{ matrix.batch }}
+          retention-days: 14
+  regression:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - run: npm ci
       - run: |
-          mkdir -p /tmp/final175-workspace
-          tar --exclude=.git -czf /tmp/final175-workspace/repository-with-dependencies.tar.gz .
-          git rev-parse HEAD > /tmp/final175-workspace/commit.txt
+          mkdir -p audit-results-final175-regression
+          git rev-parse HEAD > audit-results-final175-regression/tested-commit.txt
+          node --test --test-concurrency=1 tests/test-bank-mbb-set3-final-student.test.js 2>&1 | tee audit-results-final175-regression/targeted.log
+      - run: node --test --test-concurrency=1 tests/*.test.js 2>&1 | tee audit-results-final175-regression/full.log
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: final175-workspace
-          path: /tmp/final175-workspace
+          name: final175-regression
+          path: audit-results-final175-regression
           retention-days: 14
