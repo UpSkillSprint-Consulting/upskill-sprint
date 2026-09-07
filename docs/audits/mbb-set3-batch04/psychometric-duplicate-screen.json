@@ -1,0 +1,14 @@
+{
+  "population":450,"scope":[76,100],"exactNormalizedDuplicatePairsInvolvingBatch":[],
+  "originalCorrectOptionUniquelyLongest":25,"revisedCorrectOptionUniquelyLongest":11,
+  "revisedLongestQuestions":[76,79,81,83,84,86,90,93,95,98,100],
+  "originalMedianCorrectToMedianDistractorWordRatio":3.0,"revisedMedianCorrectToMedianDistractorWordRatio":1.0434782608695652,
+  "batchKeyCounts":{"A":8,"B":9,"C":1,"D":7},"wholeSetKeyCounts":{"A":49,"B":40,"C":35,"D":51},"keyPositionsPreserved":true,
+  "constructReview":[
+    {"items":["Q93","Q94","Q95"],"distinction":"Evaluation coverage, randomized causal attribution, and diagnosis of application barriers are distinct decisions."},
+    {"items":["Q88","Q92"],"distinction":"Delivery-readiness ownership versus modality suited to an explicit live-performance objective and feasible repeated sessions."},
+    {"items":["Set3 Q94","Set2 original-042"],"distinction":"The revised Set3 case specifies assignment/offer effect, randomized team rollout and all-assigned analysis rather than a generic multilevel evaluation plan."},
+    {"items":["Set3 Q98","Set2 original-166"],"distinction":"Set3 requires current scope/commitment repair and reauthorization where needed, followed by coached review behavior; shared champion competency is intentional."}
+  ],
+  "limits":"Word-count and exact-stem screens do not establish empirical difficulty, discrimination, reliability, DIF or item independence. No candidate-response data were analyzed. Key positions were preserved, not rebalanced; future full-exam psychometric review remains needed."
+}
