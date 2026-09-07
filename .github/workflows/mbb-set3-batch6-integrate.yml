@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: mbb-set3-batch6-integration
+  group: mbb-set3-batch6-refinement
   cancel-in-progress: false
 jobs:
   integrate:
@@ -21,78 +21,60 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Prepare and precompile reviewed staging
+      - name: Finalize only the authorized unchanged Batch 6 review head
         run: |
-          cp -R audit-staging /tmp/mbb6-staging
-          python3 -m py_compile /tmp/mbb6-staging/batch6-content.py /tmp/mbb6-staging/batch6-polish.py /tmp/mbb6-staging/batch6-build.py
-      - name: Apply only to the unchanged authorized PR170 head
-        run: |
+          cp audit-staging/batch6-content.py /tmp/b6-draft.py
           git fetch origin audit/mbb-set3-batch1-q001-q025
-          test "$(git rev-parse FETCH_HEAD)" = '11fa54352c3f8148576fb87c816e1bf36dae96ba'
+          test "$(git rev-parse FETCH_HEAD)" = '7576b905681a40567b619127acbeec06688654f8'
           git checkout --detach FETCH_HEAD
           python3 - <<'PY'
+          import json,re,subprocess
           from pathlib import Path
-          ns={}
-          for name in ['batch6-content.py','batch6-polish.py','batch6-build.py']:
-              p=Path('/tmp/mbb6-staging')/name
-              exec(compile(p.read_text(),str(p),'exec'),ns)
-          p=Path('tests/test-bank-mbb-set3-batch6-audit.test.js')
-          p.write_text(p.read_text().rstrip()+'\n')
-          p=Path('test-bank-mbb-set3-batch6-ui.js');s=p.read_text()
-          old="b+=text(X(p),Y(p)+24,'('+[p.a,p.b,p.c].map(v=>v<0?'−':'+').join(',')+'): '+num(p.value),'middle');"
-          new="""let lx=X(p),ly=Y(p)+24,anchor='middle';
-              if(p.c>0&&p.b>0){lx+=14;anchor='start';}
-              else if(p.c>0&&p.b<0){lx+=p.a<0?-14:14;ly=Y(p)+4;anchor=p.a<0?'end':'start';}
-              else if(p.b>0){lx+=p.a<0?-14:14;ly=Y(p)+(p.a<0?4:24);anchor=p.a<0?'end':'start';}
-              b+=text(lx,ly,'('+[p.a,p.b,p.c].map(v=>v<0?'−':'+').join(',')+'): '+num(p.value),anchor).replace('<text ','<text data-cube-label="true" ');"""
-          assert old in s;p.write_text(s.replace(old,new))
-          p=Path('scripts/audit-mbb-set3-batch6.mjs');s=p.read_text()
-          old=' return {pageOverflow:document.documentElement.scrollWidth>innerWidth+2,labelCollisions,clipped,svgText,'
-          new=""" const cubeEdgeCollisions=[...host.querySelectorAll('text[data-cube-label]')].flatMap(t=>{
-            const r=t.getBoundingClientRect(),svg=t.closest('svg'),m=svg.getScreenCTM();
-            return [...svg.querySelectorAll('line')].filter(l=>{
-             const pt=(x,y)=>({x:m.a*x+m.c*y+m.e,y:m.b*x+m.d*y+m.f});
-             const a=pt(+l.getAttribute('x1'),+l.getAttribute('y1')),b=pt(+l.getAttribute('x2'),+l.getAttribute('y2'));
-             let lo=0,hi=1;
-             for(const [x,d,min,max] of [[a.x,b.x-a.x,r.left,r.right],[a.y,b.y-a.y,r.top+1,r.bottom-1]]){
-              if(Math.abs(d)<1e-9){if(x<min||x>max)return false;}else{let u=(min-x)/d,v=(max-x)/d;if(u>v)[u,v]=[v,u];lo=Math.max(lo,u);hi=Math.min(hi,v);if(lo>hi)return false;}
-             }return true;
-            }).map(()=>t.textContent);
-           });
-           return {pageOverflow:document.documentElement.scrollWidth>innerWidth+2,cubeEdgeCollisions,labelCollisions,clipped,svgText,"""
-          assert old in s;s=s.replace(old,new).replace('c.geometry.labelCollisions.length||!c.geometry.selectedAnnounced','c.geometry.labelCollisions.length||c.geometry.cubeEdgeCollisions.length||!c.geometry.selectedAnnounced');p.write_text(s)
-          p=Path('tests/test-bank-mbb-set3-batch6-audit.test.js');s=p.read_text();s+='''
-          test('Cube-label edge clearance is explicit and included in rendered failure checks',()=>{
-           assert.match(read('test-bank-mbb-set3-batch6-ui.js'),/data-cube-label/);
-           assert.ok(read('scripts/audit-mbb-set3-batch6.mjs').includes('c.geometry.cubeEdgeCollisions.length'));
-          });
-          ''';p.write_text(s.rstrip()+'\n')
+          ns={};exec(compile(Path('/tmp/b6-draft.py').read_text(),'/tmp/b6-draft.py','exec'),ns)
+          drafts={p['number']:p for p in ns['P']};D=Path('docs/audits/mbb-set3-batch06')
+          p=Path('test-bank-mbb-set3.js');s=p.read_text();starts=[m.start() for m in re.finditer(r'^  \{$',s,re.M)]
+          bank=json.loads(subprocess.check_output(['node','-e',"let c={window:{}};require('vm').runInNewContext(require('fs').readFileSync('test-bank-mbb-set3.js','utf8'),c);console.log(JSON.stringify(c.window.MBB_SET3))"],text=True))
+          # Keep a natural length distribution rather than making every key the shorter choice.
+          for number in [127,131,133,136,138,142,149]:
+              q=bank[number-1];q['options'][q['answer']]=drafts[number]['options'][q['answer']]
+          additions={
+          'blocks':dict(title='NIST: Randomized block designs',url='https://www.itl.nist.gov/div898/handbook/pri/section3/pri332.htm',locator='5.3.3.2; balanced coverage, within-block comparisons and additive block model'),
+          'splitplot':dict(title='Minitab: Create 2-Level Split-Plot Design — All statistics',url='https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/doe/how-to/factorial/create-factorial-design/create-2-level-split-plot/examine-the-design/all-statistics/',locator='Whole plots, hard-to-change factors, whole-plot replicates and blocks'),
+          'dsd-runs':dict(title='Minitab: Available definitive screening designs',url='https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/doe/supporting-topics/factorial-and-screening-designs/available-definitive-screening-designs/',locator='Single replicate, all continuous factors: 7–8 factors, 17 runs')}
+          for number,key in [(148,'splitplot'),(149,'blocks'),(150,'dsd-runs')]:bank[number-1]['auditSources'].append(additions[key])
+          rev=json.loads((D/'revisions.json').read_text())
+          for row in rev:row['corrected']=bank[row['number']-1]
+          (D/'revisions.json').write_text(json.dumps(rev,ensure_ascii=False,indent=2)+'\n')
+          src=json.loads((D/'sources.json').read_text());src['sources'].update(additions);(D/'sources.json').write_text(json.dumps(src,ensure_ascii=False,indent=2)+'\n')
+          replacement=''.join('  '+json.dumps(q,ensure_ascii=False,indent=2).replace('\n','\n  ')+',\n' for q in bank[125:150])
+          updated=s[:starts[125]]+replacement+s[starts[150]:];st=[m.start() for m in re.finditer(r'^  \{$',updated,re.M)]
+          assert updated[:st[125]]==s[:starts[125]] and updated[st[150]:]==s[starts[150]:]
+          p.write_text(updated)
+          test=Path('tests/test-bank-mbb-set3-batch5-fallback.test.js').read_text().replace('Batch 5','Batch 6').replace('Batch5','Batch6').replace('batch5','batch6').replace('mbbs3b5','mbbs3b6').replace('.slice(100,125)','.slice(125,150)').replace('items.length,8','items.length,5').replace('all eight graphical','all five graphical')
+          Path('tests/test-bank-mbb-set3-batch6-fallback.test.js').write_text(test)
+          p=Path('tests/test-bank-mbb-set3-batch6-audit.test.js');s=p.read_text().replace('assert.ok(longest.length<20)','assert.ok(longest.length>=3 && longest.length<=10)');p.write_text(s)
           PY
           node --check test-bank-mbb-set3.js
-          node --check test-bank-mbb-set3-batch6-ui.js
-          node --check scripts/audit-mbb-set3-batch6.mjs
-          node --check tests/test-bank-mbb-set3-batch6-audit.test.js
+          node --check tests/test-bank-mbb-set3-batch6-fallback.test.js
       - run: npm ci
-      - name: Validate every revised item and every answer before pushing
-        run: node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch6-audit.test.js
-      - name: Commit only application, tests and audit evidence to review branch
+      - name: Recheck revised choices, calculations and both graphical paths
+        run: node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch6*.test.js
+      - name: Push only reviewed corrections to PR170; no merge or deployment
         id: commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add test-bank-mbb-set3.js test-bank-mbb-set3-batch6-ui.js test-bank.html test-bank-feedback-loop.js tests/test-bank-mbb-set3-batch*-audit.test.js scripts/audit-mbb-set3-batch6.mjs docs/audits/mbb-set3-batch06
+          git add test-bank-mbb-set3.js tests/test-bank-mbb-set3-batch6*.test.js docs/audits/mbb-set3-batch06/revisions.json docs/audits/mbb-set3-batch06/sources.json
           git diff --cached --check
-          git commit -m 'audit: correct Set 3 Batch 6 Q126–150 regression and DOE content, visuals and tests'
+          git commit -m 'audit: complete Batch 6 choice balancing, source alignment and degraded-rendering checks'
           git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      - name: Export immutable workspace and staging for independent inspection
+      - name: Export exact workspace
         if: always()
         run: |
           mkdir -p /tmp/mbb6-workspace
           git rev-parse HEAD > /tmp/mbb6-workspace/commit.txt
-          git diff > /tmp/mbb6-workspace/uncommitted.patch
           tar --exclude=.git --exclude=node_modules -czf /tmp/mbb6-workspace/repository.tar.gz .
-          cp -R /tmp/mbb6-staging /tmp/mbb6-workspace/staging
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -112,7 +94,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Independent calculations, all-option grading and full Set 3 traversal
+      - name: Independent calculations, all-option grading, fallback and full Set 3 traversal
         run: |
           mkdir -p audit-results-batch6
           git rev-parse HEAD > audit-results-batch6/tested-commit.txt
