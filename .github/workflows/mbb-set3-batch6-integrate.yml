@@ -1,0 +1,134 @@
+name: Integrate and validate MBB Set 3 Batch 6
+on:
+  push:
+    branches: ['automation/mbb-set3-batch6']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mbb-set3-batch6-integration
+  cancel-in-progress: false
+jobs:
+  integrate:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare and precompile reviewed staging
+        run: |
+          cp -R audit-staging /tmp/mbb6-staging
+          python3 -m py_compile /tmp/mbb6-staging/batch6-content.py /tmp/mbb6-staging/batch6-build.py
+      - name: Apply only to the unchanged authorized PR170 head
+        run: |
+          git fetch origin audit/mbb-set3-batch1-q001-q025
+          test "$(git rev-parse FETCH_HEAD)" = '11fa54352c3f8148576fb87c816e1bf36dae96ba'
+          git checkout --detach FETCH_HEAD
+          python3 - <<'PY'
+          from pathlib import Path
+          ns={}
+          for name in ['batch6-content.py','batch6-build.py']:
+              p=Path('/tmp/mbb6-staging')/name
+              exec(compile(p.read_text(),str(p),'exec'),ns)
+          p=Path('.github/workflows/mbb-set3-batch5-audit.yml')
+          text=p.read_text().replace('Batch 5','Batch 6').replace('batch5','batch6').replace('all nine statistical visuals','all eight regression and DOE visuals')
+          Path('.github/workflows/mbb-set3-batch6-audit.yml').write_text(text)
+          PY
+          node --check test-bank-mbb-set3.js
+          node --check test-bank-mbb-set3-batch6-ui.js
+          node --check scripts/audit-mbb-set3-batch6.mjs
+          node --check tests/test-bank-mbb-set3-batch6-audit.test.js
+      - run: npm ci
+      - name: Validate every revised item and every answer before pushing
+        run: node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch6-audit.test.js
+      - name: Commit only application, tests and audit evidence to review branch
+        id: commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add test-bank-mbb-set3.js test-bank-mbb-set3-batch6-ui.js test-bank.html test-bank-feedback-loop.js tests/test-bank-mbb-set3-batch*-audit.test.js scripts/audit-mbb-set3-batch6.mjs .github/workflows/mbb-set3-batch6-audit.yml docs/audits/mbb-set3-batch06
+          git diff --cached --check
+          git commit -m 'audit: correct Set 3 Batch 6 Q126–150 regression and DOE content, visuals and tests'
+          git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Export immutable workspace and staging for independent inspection
+        if: always()
+        run: |
+          mkdir -p /tmp/mbb6-workspace
+          git rev-parse HEAD > /tmp/mbb6-workspace/commit.txt
+          git diff > /tmp/mbb6-workspace/uncommitted.patch
+          tar --exclude=.git --exclude=node_modules -czf /tmp/mbb6-workspace/repository.tar.gz .
+          cp -R /tmp/mbb6-staging /tmp/mbb6-workspace/staging
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch6-workspace
+          path: /tmp/mbb6-workspace
+          retention-days: 14
+  regression:
+    needs: integrate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.integrate.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Independent calculations, all-option grading and full Set 3 traversal
+        run: |
+          mkdir -p audit-results-batch6
+          git rev-parse HEAD > audit-results-batch6/tested-commit.txt
+          set -o pipefail
+          node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch6*.test.js tests/test-bank-mbb-set3.test.js | tee audit-results-batch6/batch6-tests.txt
+      - name: Complete repository regression
+        run: timeout 900 node --test --test-concurrency=2 tests/*.test.js > audit-results-batch6/full-regression.txt 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch6-regression
+          path: audit-results-batch6
+          retention-days: 14
+  browsers:
+    needs: integrate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+        layout: [desktop, mobile]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.integrate.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Answer, reopen and inspect each item and all eight visual questions
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: ${{ matrix.layout }}
+        run: |
+          mkdir -p audit-results-batch6
+          git rev-parse HEAD > audit-results-batch6/tested-commit.txt
+          node scripts/audit-mbb-set3-batch6.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch6-${{ matrix.engine }}-${{ matrix.layout }}
+          path: audit-results-batch6
+          retention-days: 14
