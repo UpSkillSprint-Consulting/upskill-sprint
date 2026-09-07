@@ -18,6 +18,14 @@ const save=()=>fs.writeFileSync(path.join(out,'browser-report.json'),JSON.string
 const server=http.createServer((req,res)=>{let p=decodeURIComponent(new URL(req.url,'http://localhost').pathname);if(!path.extname(p))p+='.html';const f=path.resolve(root,'.'+p);if(!f.startsWith(root+path.sep)||!fs.existsSync(f)||!fs.statSync(f).isFile()){res.writeHead(404);res.end();return;}res.setHeader('Content-Type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png'})[path.extname(f)]||'application/octet-stream');res.end(fs.readFileSync(f));});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
 const auth=`(()=>{const user={id:'audit-set3-isolated',email:'audit@example.invalid'};const c=(${emptyClient.toString()})();const from=c.from.bind(c);c.from=function(table){const t=from(table),select=t.select.bind(t);t.select=function(...args){const q=select(...args);q.maybeSingle=q.single=()=>Promise.resolve({data:table==='profiles'?{user_id:user.id,display_name:'Isolated audit',timezone:'America/Regina',onboarding_completed:true}:null,error:null});return q;};return t;};window.UpskillAuth={isConfigured:()=>true,onChange:cb=>{queueMicrotask(()=>cb(user));return ()=>{};},getUser:()=>user,getClient:()=>c};})();`;
+// Bring the intended control into view, then click normally. This avoids racing
+// Playwright auto-scroll against the player's smooth review navigation in WebKit.
+// No force click, DOM click dispatch, or application event handler is bypassed.
+async function stableClick(locator){
+  await locator.evaluate(el=>el.scrollIntoView({behavior:'instant',block:'center',inline:'nearest'}));
+  await new Promise(resolve=>setTimeout(resolve,180));
+  await locator.click();
+}
 async function geometry(page,selector){return page.locator(selector).evaluate(host=>{
  const clipped=[...host.querySelectorAll('.tb-stem,.tb-review-stem,.tb-opt,.tb-answer-copy,.tb-explanation-copy,th,td,dd')].filter(e=>e.clientWidth&&e.scrollWidth>e.clientWidth+2).map(e=>({tag:e.tagName,text:e.textContent.slice(0,90),scroll:e.scrollWidth,width:e.clientWidth}));
  const svgText=[...host.querySelectorAll('svg text')].map(t=>{const a=t.getBoundingClientRect(),s=t.closest('svg').getBoundingClientRect();return {text:t.textContent,outside:a.left<s.left-2||a.right>s.right+2||a.top<s.top-2||a.bottom>s.bottom+2};}).filter(x=>x.outside);
@@ -72,15 +80,15 @@ for(const engine of engines){
     const card=page.locator('.tb-review-card');assert.equal(await card.getAttribute('data-question-id'),q.qid);assert.equal(await card.getAttribute('data-review-status'),'correct');
     assert.equal((await card.locator('.tb-explanation-copy').innerText()).trim(),q.why);
     assert.equal((await card.locator('.tb-exam-trap').innerText()).trim(),q.trap);
-    const details=card.locator('.tb-distractor-analysis');await details.locator('summary').click();assert.ok(await details.getAttribute('open')!==null);
+    const details=card.locator('.tb-distractor-analysis');await stableClick(details.locator('summary'));assert.ok(await details.getAttribute('open')!==null);
     const wrong=q.options.map((_,j)=>j).filter(j=>j!==q.answer);const rows=details.locator('.tb-distractor-row');assert.equal(await rows.count(),3);
     for(let j=0;j<3;j++)assert.equal((await rows.nth(j).locator('p').innerText()).trim(),q.optionRationales[wrong[j]]);
-    await card.locator('.tb-quality-details summary').click();assert.ok((await card.locator('.tb-quality-details').innerText()).includes('All distractor rationales'));
+    await stableClick(card.locator('.tb-quality-details summary'));assert.ok((await card.locator('.tb-quality-details').innerText()).includes('All distractor rationales'));
     const box=card.locator('.tb-report-box');assert.equal(await box.isVisible(),false);
-    await card.locator('[data-report-question]').click();assert.equal(await box.isVisible(),true);
+    await stableClick(card.locator('[data-report-question]'));assert.equal(await box.isVisible(),true);
     await box.locator('[data-report-type]').selectOption({label:'Other'});await box.locator('[data-report-note]').fill('Isolated audit check; no message is sent.');
-    await box.locator('[data-prepare-report]').click();const mail=await box.locator('[data-report-link]').getAttribute('href');assert.ok(mail.startsWith('mailto:'));assert.ok(decodeURIComponent(mail).includes(q.stem));
-    await card.locator('[data-report-question]').click();assert.equal(await box.isVisible(),false);
+    await stableClick(box.locator('[data-prepare-report]'));const mail=await box.locator('[data-report-link]').getAttribute('href');assert.ok(mail.startsWith('mailto:'));assert.ok(decodeURIComponent(mail).includes(q.stem));
+    await stableClick(card.locator('[data-report-question]'));assert.equal(await box.isVisible(),false);
     const copy=await card.innerText();const rationales=q.optionRationales.map(r=>copy.includes(r));
     for(const theme of ['light','dark']){
      await page.evaluate(t=>{document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;},theme);
