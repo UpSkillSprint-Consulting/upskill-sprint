@@ -1,0 +1,60 @@
+name: Exam reliability contracts
+
+on:
+  pull_request:
+    paths:
+      - 'docs/exam-reliability/**'
+      - 'tests/test-bank-segment02-*.test.js'
+      - 'tests/helpers/segment02-*.cjs'
+      - '.github/workflows/exam-reliability-contracts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: exam-contracts-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - name: Preserve Segment 01 baseline
+        shell: bash
+        run: |
+          set -o pipefail
+          node --test --test-concurrency=1 tests/test-bank-segment01-*.test.js | tee segment02-baseline.log
+      - name: Temporary offline inspection workspace
+        run: |
+          git rev-parse HEAD > segment02-checkout.txt
+          git archive --format=tar HEAD | gzip > segment02-source.tgz
+          tar -czf segment02-dependencies.tgz node_modules
+      - name: Record current dependency advisory snapshot
+        shell: bash
+        run: |
+          set +e
+          npm audit --json > segment02-npm-audit.json
+          status=$?
+          set -e
+          if [ "$status" -gt 1 ]; then exit "$status"; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: segment02-inspection-${{ github.run_id }}
+          path: |
+            segment02-checkout.txt
+            segment02-baseline.log
+            segment02-npm-audit.json
+            segment02-source.tgz
+            segment02-dependencies.tgz
+          retention-days: 1
