@@ -24,3 +24,11 @@ test('browser audit checks reviewed hints, expanded feedback and non-sending iss
  assert.ok(s.includes('header.site{visibility:hidden!important}'));
  assert.ok(!s.includes('header.site{position:relative!important'));
 });
+test('Set 3 presentation cannot reuse the existing Set 2 batch 3 CSS namespace',()=>{
+ const current=fs.readFileSync(path.join(root,'test-bank-mbb-set3-batch1-ui.js'),'utf8');
+ const legacy=fs.readFileSync(path.join(root,'test-bank-mbb-batch3-ui.js'),'utf8');
+ assert.ok(legacy.includes('.mbb3-table'));
+ assert.ok(current.includes('.mbbs3b1-table'));
+ assert.ok(!current.includes('mbb3-'));
+ assert.ok(!legacy.includes('mbbs3b1-'));
+});
