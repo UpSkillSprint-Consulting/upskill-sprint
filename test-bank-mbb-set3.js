@@ -3037,7 +3037,7 @@
       "$465,000 and $405,000: exclude the maintenance amount from both first-year measures because recurring costs belong only in later years of the evaluation."
     ],
     "answer": 1,
-    "why": "Cash outlays total $350,000+$40,000+$15,000+$20,000=$425,000. Adding the $60,000 forgone contribution once gives $485,000 of first-year economic cost relative to continuing the existing process. The opportunity cost affects the economic cash-flow comparison but is not an additional payment to fund. These are first-year figures, not lifetime total cost of ownership or NPV. Later cash flows and their timing would be needed for a full life-cycle appraisal, and the same lost contribution must not also be subtracted from forecast benefits. Source alignment: ASQ CMBB Body of Knowledge, III.C.1–2; II.F.1. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+    "why": "Cash outlays total $350,000 + $40,000 + $15,000 + $20,000 = $425,000. Adding the $60,000 forgone contribution once gives $485,000 of first-year economic cost relative to continuing the existing process. The opportunity cost affects the economic cash-flow comparison but is not an additional payment to fund. These are first-year figures, not lifetime total cost of ownership or NPV. Later cash flows and their timing would be needed for a full life-cycle appraisal, and the same lost contribution must not also be subtracted from forecast benefits. Source alignment: ASQ CMBB Body of Knowledge, III.C.1–2; II.F.1. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
     "set": 3,
     "qid": "mbb:set-3:d3-047",
     "optionRationales": [

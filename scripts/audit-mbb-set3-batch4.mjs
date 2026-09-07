@@ -36,13 +36,13 @@ async function checkVisual(page,q,host,phase,label){
  assert.equal(await host.locator('.mbbs3b4-table tbody th[scope="row"]').count(),c.rows.length);
  const area=host.locator('.mbbs3b4-scroll');await area.focus();await page.keyboard.press('ArrowRight');
  const keyboardScroll=await area.evaluate(e=>({needed:e.scrollWidth>e.clientWidth+2,moved:e.scrollLeft>0}));
- if(keyboardScroll.needed){await page.waitForTimeout(150);assert.ok(await area.evaluate(e=>e.scrollLeft>0));}
+ if(keyboardScroll.needed){await page.waitForTimeout(150);keyboardScroll.moved=await area.evaluate(e=>e.scrollLeft>0);assert.ok(keyboardScroll.moved);}
  await area.evaluate(e=>e.scrollLeft=e.scrollWidth);const right=await area.evaluate(e=>({needed:e.scrollWidth>e.clientWidth+2,moved:e.scrollLeft>0}));assert.ok(!right.needed||right.moved);
  await area.screenshot({path:path.join(out,label+'-'+phase+'-table-right.png')});await area.evaluate(e=>e.scrollLeft=0);
  report.interactions.push({qid:q.qid,phase,tableCellsVerified:true,captionVerified:true,columnAndRowHeaders:true,keyboardScroll,rightEdgeScroll:right});save();
 }
 async function geometry(page,selector){return page.locator(selector).evaluate(host=>{
- const clipped=[...host.querySelectorAll('.tb-stem,.tb-review-stem,.tb-opt,.tb-answer-copy,.tb-explanation-copy,th,td,dd')].filter(e=>e.clientWidth&&e.scrollWidth>e.clientWidth+2).map(e=>({tag:e.tagName,text:e.textContent.slice(0,90),scroll:e.scrollWidth,width:e.clientWidth}));
+ const clipped=[...host.querySelectorAll('.tb-stem,.tb-review-stem,.tb-opt,.tb-answer-copy,.tb-explanation-copy,.tb-key-point,.tb-exam-trap,.tb-deep-label,.tb-accuracy-note,th,td,dd')].filter(e=>e.clientWidth&&e.scrollWidth>e.clientWidth+2).map(e=>({tag:e.tagName,text:e.textContent.slice(0,90),scroll:e.scrollWidth,width:e.clientWidth}));
  const svgText=[...host.querySelectorAll('svg text')].map(t=>{const a=t.getBoundingClientRect(),s=t.closest('svg').getBoundingClientRect();return {text:t.textContent,outside:a.left<s.left-2||a.right>s.right+2||a.top<s.top-2||a.bottom>s.bottom+2};}).filter(x=>x.outside);
  return {pageOverflow:document.documentElement.scrollWidth>innerWidth+2,clipped,svgText,questionTop:host.getBoundingClientRect().top,selectedAnnounced:[...host.querySelectorAll('.tb-opt')].every(b=>b.hasAttribute('aria-pressed')||b.hasAttribute('aria-checked'))};
 });}

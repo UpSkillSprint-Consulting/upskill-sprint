@@ -24,6 +24,7 @@
 @media(max-width:560px){.tb-feedback-loop:has(.mbbs3b4-question){padding:12px}.tb-review-card:has(.mbbs3b4-question){padding:12px}.tb-review-card:has(.mbbs3b4-question) .tb-review-stem{font-size:15px;line-height:1.6}}
 
 .mbbs3b4-table{min-width:560px}.mbbs3b4-scroll-hint{font-size:13px;line-height:1.6;color:var(--ink)!important;margin:8px 0}.mbbs3b4-table th,.mbbs3b4-table td{overflow-wrap:break-word}
+.tb-review-card:has(.mbbs3b4-question) .tb-key-point,.tb-review-card:has(.mbbs3b4-question) .tb-exam-trap{overflow-wrap:anywhere;min-width:0}
 `;document.head.appendChild(style);
   document.addEventListener('click',e=>{const b=e.target.closest?.('[data-opt],[data-flag]'),q=b?.closest('.tb-quiz');if(!b||!q||!ids.has(q.dataset.questionId))return;const attr=b.hasAttribute('data-opt')?'data-opt':'data-flag',value=b.getAttribute(attr);setTimeout(()=>{const now=document.querySelector('.tb-quiz');if(now?.dataset.questionId===q.dataset.questionId)now.querySelector('['+attr+'="'+value+'"]')?.focus({preventScroll:true});},0);},true);
  }
