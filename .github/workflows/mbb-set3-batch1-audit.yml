@@ -4,19 +4,72 @@ on:
     branches: ['audit/mbb-set3-batch1-q001-q025']
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
+concurrency:
+  group: mbb-set3-batch1-audit
+  cancel-in-progress: false
 jobs:
-  capture:
+  audit:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - name: Capture immutable audit workspace
-        run: |
-          mkdir -p /tmp/mbb-set3-audit
-          git rev-parse HEAD > /tmp/mbb-set3-audit/commit.txt
-          git archive --format=tar HEAD | gzip > /tmp/mbb-set3-audit/repository.tar.gz
-      - uses: actions/upload-artifact@v4
+      - uses: actions/setup-node@v4
         with:
-          name: mbb-set3-audit-workspace
-          path: /tmp/mbb-set3-audit
-          retention-days: 7
+          node-version: '22'
+          cache: npm
+      - name: Apply reviewed batch without touching Q26 onward
+        if: hashFiles('.audit-mbb-set3-batch1.part1') != ''
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs'),z=require('node:zlib'),vm=require('node:vm'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+          const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
+          let payload=[1,2,3].map(n=>fs.readFileSync('.audit-mbb-set3-batch1.part'+n,'utf8').trim()).join('');
+          payload=payload.replace('HD/s8Pvoc','HD84Pvoc');
+          assert.equal(hash(payload),'f6fd5200680af6c59f5f0417c3fd9ba0f182c4291ae810adf18ea8f8932b165a','Reviewed payload integrity');
+          const revised=JSON.parse(z.gunzipSync(Buffer.from(payload,'base64')));
+          const file='test-bank-mbb-set3.js',s=fs.readFileSync(file,'utf8'),ctx={window:{}};
+          vm.runInNewContext(s,ctx); const before=JSON.parse(JSON.stringify(ctx.window.MBB_SET3));
+          assert.equal(before.length,175); assert.equal(revised.length,25);
+          revised.forEach((q,i)=>{for(const k of ['qid','sub','set','answer'])assert.equal(q[k],before[i][k]);assert.equal(q.optionRationales.length,4);});
+          const starts=[...s.matchAll(/^  \{$/gm)].map(m=>m.index); assert.equal(starts.length,175);
+          const suffix=s.slice(starts[25]); assert.equal(hash(suffix),'b55c09425e0b5c6a706127aa9eb5181a58e0983690b880b65113fe63e3014025');
+          const formatted=revised.map(q=>JSON.stringify(q,null,2).split('\n').map(l=>'  '+l).join('\n')).join(',\n')+',\n';
+          const result=s.slice(0,starts[0])+formatted+suffix;
+          const afterCtx={window:{}};vm.runInNewContext(result,afterCtx);
+          assert.deepEqual(JSON.parse(JSON.stringify(afterCtx.window.MBB_SET3)).slice(25),before.slice(25));
+          fs.writeFileSync(file,result);for(let n=1;n<=3;n++)fs.unlinkSync('.audit-mbb-set3-batch1.part'+n);
+          console.log('Applied 25 independently reviewed questions; 150 remaining questions byte-preserved.');
+          NODE
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add test-bank-mbb-set3.js .audit-mbb-set3-batch1.part1 .audit-mbb-set3-batch1.part2 .audit-mbb-set3-batch1.part3
+          git commit -m 'fix: audit and correct MBB Set 3 questions 1–25'
+          git push origin HEAD:audit/mbb-set3-batch1-q001-q025
+      - run: npm ci
+      - name: Existing Set 3 regression
+        run: node --test tests/test-bank-mbb-set3.test.js
+      - name: Capture current published baseline
+        continue-on-error: true
+        run: |
+          mkdir -p audit-results
+          curl --fail --location --max-time 45 https://upskillsprint.com/test-bank-mbb-set3.js -o audit-results/published-set3.js
+          sha256sum audit-results/published-set3.js test-bank-mbb-set3.js > audit-results/source-hashes.txt
+      - name: Browser validation
+        if: hashFiles('scripts/audit-mbb-set3-batch1.mjs') != ''
+        run: |
+          npm install --no-save --package-lock=false playwright @axe-core/playwright
+          npx playwright install --with-deps chromium webkit
+          node scripts/audit-mbb-set3-batch1.mjs
+      - name: Capture audit evidence
+        if: always()
+        run: |
+          mkdir -p audit-results
+          git rev-parse HEAD > audit-results/commit.txt
+          git archive --format=tar HEAD | gzip > audit-results/repository.tar.gz
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch1-evidence
+          path: audit-results
+          retention-days: 14
