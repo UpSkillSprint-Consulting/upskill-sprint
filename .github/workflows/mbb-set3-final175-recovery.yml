@@ -1,4 +1,4 @@
-name: Final175 recovery and acceptance
+name: Final175 acceptance and guarded PR integration
 on:
   push:
     branches: ['automation/mbb-set3-final175']
@@ -19,16 +19,16 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version: 22}
       - run: |
-          python3 audit-staging/final175-save-recovery.py
+          python3 audit-staging/final175-contrast.py
           npm ci
           node --test --test-concurrency=1 tests/test-bank-mbb-set3-final-student.test.js
       - id: commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add test-bank.html tests/test-bank-mbb-set3-final-student.test.js
+          git add test-bank-deep-feedback.js tests/test-bank-mbb-set3-final-student.test.js
           git diff --cached --check
-          git commit -m 'fix: announce failed completion and prevent changes to expired exam answers'
+          git commit -m 'fix: improve contrast of missed-question diagnostic guidance'
           git push origin HEAD:refs/heads/automation/mbb-set3-final175
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           mkdir -p /tmp/final175-source
@@ -115,3 +115,60 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with: {name: 'final175-edges-${{ matrix.engine }}', path: audit-results-final175-edges, retention-days: 14}
+  earlier-browser-gates:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {batch: '3', layout: desktop}
+          - {batch: '4', layout: mobile}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ needs.prepare.outputs.sha }}'}
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: |
+          npm ci
+          npm install --no-save --package-lock=false playwright @axe-core/playwright
+          npx playwright install --with-deps webkit
+      - env:
+          AUDIT_ENGINE: webkit
+          AUDIT_LAYOUT: ${{ matrix.layout }}
+        run: node scripts/audit-mbb-set3-batch${{ matrix.batch }}.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final175-earlier-batch${{ matrix.batch }}
+          path: audit-results-batch${{ matrix.batch }}
+          retention-days: 14
+  publish-review:
+    needs: [prepare, regression, browsers, edges, earlier-browser-gates]
+    permissions: {contents: write}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ needs.prepare.outputs.sha }}', fetch-depth: 0}
+      - name: Apply only the validated delta to the unchanged human-review branch
+        env:
+          SOURCE: ${{ needs.prepare.outputs.sha }}
+        run: |
+          git fetch origin audit/mbb-set3-batch1-q001-q025
+          test "$(git rev-parse FETCH_HEAD)" = a826d62780928256df12f905501a76a372e803d5
+          git diff a826d62780928256df12f905501a76a372e803d5 "$SOURCE" -- test-bank-mbb-set3.js test-bank.html test-bank-feedback-loop.js test-bank-deep-feedback.js test-bank-phase2-quality-assurance.js test-bank-retake-runner.js tests scripts/stress-mbb-set3-final175.mjs scripts/stress-mbb-set3-edge-cases.mjs > /tmp/final175.patch
+          git checkout --detach FETCH_HEAD
+          git apply --index /tmp/final175.patch
+          git diff --cached --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'fix: complete all175 student review, full-exam retakes, expiry and saved-result integrity'
+          git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
+          mkdir -p /tmp/final175-integration
+          git rev-parse HEAD > /tmp/final175-integration/pr-commit.txt
+          printf '%s\n' "$SOURCE" > /tmp/final175-integration/tested-source.txt
+          git diff --stat HEAD^ HEAD > /tmp/final175-integration/changed-files.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: final175-pr-integration, path: /tmp/final175-integration, retention-days: 14}
