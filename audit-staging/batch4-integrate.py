@@ -2,7 +2,7 @@ import pathlib,json,re,hashlib,subprocess,statistics
 root=pathlib.Path.cwd()
 source=(root/'test-bank-mbb-set3.js').read_text()
 assert subprocess.check_output(['git','hash-object','test-bank-mbb-set3.js'],text=True).strip()=='a68a4b1acbd7b7d068759a6fffd9942ea4613396','Question bank changed; rebase/review before writing'
-bank=json.JSONDecoder().raw_decode(source[source.index('global.MBB_SET3=')+len('global.MBB_SET3='):])[0]
+bank=json.loads(subprocess.check_output(['node','-e',"const fs=require('fs'),vm=require('vm'),c={window:{}};vm.runInNewContext(fs.readFileSync('test-bank-mbb-set3.js','utf8'),c);console.log(JSON.stringify(c.window.MBB_SET3));"],text=True))
 assert len(bank)==175 and [p['number'] for p in P]==list(range(76,101))
 starts=[m.start() for m in re.finditer(r'^  \{$',source,re.M)]
 assert len(starts)==175
