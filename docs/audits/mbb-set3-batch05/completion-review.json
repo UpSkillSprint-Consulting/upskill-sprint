@@ -1,0 +1,40 @@
+{
+  "batch": 5,
+  "range": [101,125],
+  "batchStatus": "Passed after corrections — tested review build",
+  "completionRecordsPreserved": "5807e0d58c9ee75b3a85fefeb46aea7f17e48fd5",
+  "testedApplication": "7597164f6c1ee1ef3a1f605bd9041286b7594661",
+  "testedCIHead": "755ab0e482f852caa4ddf57db49610b998b3ea22",
+  "testedPRMerge": "18549f6ee9127ee781c2d4142eb847bedf6cf677",
+  "acceptedExactSourceRun": 34092148192,
+  "successfulBatch5PRMergeRun": 34093155235,
+  "verifiedCounts": {"dedicatedBatch5Tests":45,"fallbackCompatibilityTests":2,"existingSet3IntegrationTests":8,"combinedTargetedTests":55,"fullRepositoryTests":1645,"renderCases":400,"visualAccessSequences":72,"actualPlayerOptionGradingOutcomes":100},
+  "contentClarification": "Q111's original rejection classification was already correct. The revision explicitly converts 22% variance contribution to 46.9042% study variation and specifies the applicable site guideline. It should not be reported as an original arithmetic or answer-index error.",
+  "sourceVerification": {
+    "verifiedOn":"2026-09-07",
+    "method":"Primary ASQ, NIST, Minitab and ICF materials read; ASQ PDF pages containing V and VI visually inspected.",
+    "references":"sources.json and the corrected objects' auditSources in revisions.json",
+    "clarifications":["ICF competencies support listening, learning, agreements and growth; its separate ethics material supports confidentiality/disclosure boundaries. These are complementary principles, not ASQ credential rules.","The NIST component-model subsection is Continuous Linear Model. It is not an empirical finding about these machines. The causal limitation follows from the scenario's uncontrolled factors.","Acceptance sampling is a related statistical application, not asserted to be a separately named CMBB subtopic."],
+    "limits":"References support principles and topic alignment, not ASQ authorship or endorsement of original cases. Newly supplied scenario assumptions are explicit. No textbook page citation was fabricated."
+  },
+  "visualInspectionSupplement": {"primaryViews":200,"WebKitDesktopFooterViews":100,"mobileRightEdgeCaptures":68,"visualQuestionNumbers":[113,115,116,117,118,119,121,123,124],"captureLimits":"Some Chromium captures have unpainted tails; companion WebKit footers were complete. Long supplemental region captures can include the normal sticky header; primary captures and exact-header checks also verify captions. Actual interactions and geometry run on the normal page."},
+  "prWideReadiness": "NOT APPROVED: separate Batch 3 WebKit-desktop check remains unsuccessful after an unchanged retry.",
+  "outstandingCheck": {
+    "batch":3,"run":34093155182,"originalJob":101650775303,"originalRecords":50,
+    "retryJob":101654352086,"retryRecords":82,"retryConclusion":"failure",
+    "error":"Timed out waiting for the option-analysis summary to become stable for clicking.",
+    "retryArtifact":10008096611,
+    "retryArtifactSHA256":"5af6e4359d40a23d5b3984e17b4b8a8b7627d6a09e73877795898f1cb7dfa873",
+    "underlyingCause":"Not established. It is not proven to be only a test-environment issue.",
+    "disposition":"Outstanding; not counted as a Batch 5 pass or a whole-PR release clearance. No additional retry was used to label it passed."
+  },
+  "otherEarlierBatchRetests":[
+    {"batch":3,"context":"chromium-desktop","failedJob":101650775326,"retryJob":101654351896,"retry":"Passed unchanged"},
+    {"batch":3,"context":"webkit-mobile","failedJob":101650775457,"retryJob":101654352108,"retry":"Passed unchanged"},
+    {"batch":4,"context":"webkit-mobile","failedJob":101650775542,"retryJob":101654384682,"retry":"Passed unchanged"}
+  ],
+  "releaseLimits":["Authentication and remote persistence are isolated fixtures; production sign-in, durable storage and cross-device synchronization were not certified.","Mobile testing is browser emulation, not physical-phone validation.","Existing dependency advisories remain separate maintenance work.","Candidate-response difficulty, discrimination, reliability and DIF remain uncalibrated."],
+  "nextBatchStarted":false,
+  "merged":false,
+  "deployed":false
+}

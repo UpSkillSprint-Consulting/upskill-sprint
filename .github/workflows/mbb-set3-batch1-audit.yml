@@ -1,0 +1,74 @@
+name: MBB Set 3 Batch 1 audit
+on:
+  push:
+    branches: ['audit/mbb-set3-batch1-q001-q025']
+    paths-ignore: ['docs/**']
+  pull_request:
+    paths: ['test-bank-mbb-set3*', 'test-bank.html', 'test-bank-feedback-loop.js', 'tests/test-bank-mbb-set3*', 'scripts/audit-mbb-set3-batch1.mjs', '.github/workflows/mbb-set3-batch1-audit.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mbb-set3-batch1-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Independent batch checks and existing Set 3 regression
+        run: |
+          mkdir -p audit-results
+          set -o pipefail
+          node --test tests/test-bank-mbb-set3.test.js tests/test-bank-mbb-set3-batch1-audit.test.js | tee audit-results/set3-tests.txt
+      - name: Complete repository regression
+        run: |
+          timeout 600 node --test --test-concurrency=2 tests/*.test.js > audit-results/full-regression.txt 2>&1
+      - name: Published baseline and immutable workspace
+        if: always()
+        run: |
+          mkdir -p audit-results
+          curl --fail --location --max-time 45 https://upskillsprint.com/test-bank-mbb-set3.js -o audit-results/published-set3.js
+          sha256sum audit-results/published-set3.js test-bank-mbb-set3.js > audit-results/source-hashes.txt
+          git rev-parse HEAD > audit-results/commit.txt
+          git archive --format=tar HEAD | gzip > audit-results/repository.tar.gz
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch1-regression
+          path: audit-results
+          retention-days: 14
+  browsers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+        layout: [desktop, mobile]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Render, answer, reopen and review each question
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: ${{ matrix.layout }}
+        run: node scripts/audit-mbb-set3-batch1.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch1-${{ matrix.engine }}-${{ matrix.layout }}
+          path: audit-results
+          retention-days: 14

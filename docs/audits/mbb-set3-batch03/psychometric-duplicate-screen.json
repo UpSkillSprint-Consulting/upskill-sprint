@@ -1,0 +1,15 @@
+{
+  "scope":"Q51–75 against 450 MBB stems across Sets 1–3",
+  "exactNormalizedStemDuplicates":0,
+  "method":"Normalized exact-match stem screening; lexical candidates were screened separately from manual construct review. No semantic pass is inferred from a low lexical score.",
+  "nearDuplicateTasksResolved":[
+    {"question":55,"comparison":"Earlier Q42 just-culture taxonomy","resolution":"Operational debrief/reporting/action-closure design, not repeated behavior taxonomy."},
+    {"questions":[66,71],"resolution":"Q66 now tests changed-scope authorization; Q71 tests evidence-based Control handoff."}
+  ],
+  "wordLengthHeuristic":{
+    "before":{"correctOptionUniquelyLongest":25,"medianCorrectToMedianDistractorWordRatio":3.590909090909091,"maxCorrectToMedianDistractorWordRatio":8.066666666666666},
+    "after":{"correctOptionUniquelyLongest":9,"questionNumbers":[56,59,60,61,62,67,68,70,74],"medianCorrectToMedianDistractorWordRatio":1.0833333333333333,"maxCorrectToMedianDistractorWordRatio":1.2857142857142858}
+  },
+  "keyDistribution":{"A":6,"B":6,"C":5,"D":8},
+  "limits":"No candidate-response data. Item difficulty, discrimination, reliability and DIF are not empirically calibrated. Similar subject matter is not itself a duplicate."
+}

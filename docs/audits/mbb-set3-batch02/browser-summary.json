@@ -1,0 +1,21 @@
+{
+  "status": "Passed after corrections",
+  "scope": "Canonical Set 3 Q26–50",
+  "testedSource": "e2786ac606f3b881b84a8a324be97a3f5d625d01",
+  "triggerCommit": "ca6b8210568b23c36b9d20a3f2d811c0c7198647",
+  "workflowRun": 34079179076,
+  "workflowUrl": "https://github.com/UpSkillSprint-Consulting/upskill-sprint/actions/runs/34079179076",
+  "renderedChecks": 400,
+  "caseRecords": 404,
+  "contexts": [
+    {"context":"chromium-desktop","viewport":"1440x1000","caseRecords":101,"questionRenders":50,"reviewRenders":50,"failures":0,"pageErrors":0,"axeViolations":0,"pageOverflow":0,"textClipping":0,"rawReportSha256":"32abd1ba77569abeccb7b4c2dc3f9e6e3f867ec0399ab99c377de93998faba0a","artifactId":10003176726,"artifactSha256":"7a5b8dc1c9c90f43d7fe1c125d23e1781e8e2ad6c90ebf86b7edbfa3928bb834"},
+    {"context":"chromium-mobile","viewport":"390x844","caseRecords":101,"questionRenders":50,"reviewRenders":50,"failures":0,"pageErrors":0,"axeViolations":0,"pageOverflow":0,"textClipping":0,"rawReportSha256":"f22cf22593f4387a9819a693e57f7bb302646bcf1b73dc9a1e65ecd2ffc72e4c","artifactId":10003179337,"artifactSha256":"030facc496fc4f5cfa28147aead6cb758ddb40763804e5518df0bcd5b80ec200"},
+    {"context":"webkit-desktop","viewport":"1440x1000","caseRecords":101,"questionRenders":50,"reviewRenders":50,"failures":0,"pageErrors":0,"axeViolations":0,"pageOverflow":0,"textClipping":0,"rawReportSha256":"c1416f8d3a7b01915dcfef9721b5038354e6c987b0de38e7f7194a47ae5183d2","artifactId":10003454483,"artifactSha256":"09d47d5411c8f4e6d3eb7755a4a1189195b4201a390aaa45d9b8679091e012a0","acceptedJobId":101613314163},
+    {"context":"webkit-mobile","viewport":"390x844","caseRecords":101,"questionRenders":50,"reviewRenders":50,"failures":0,"pageErrors":0,"axeViolations":0,"pageOverflow":0,"textClipping":0,"rawReportSha256":"112575f14cdb52af35ce78804c3bbd240f910aac40c0b3e2d627ad5e7a9af2c7","artifactId":10003211022,"artifactSha256":"e0f8d204c2e4f1d6810d2f366ae1aed6bc7465688b9cf1d6e9b855c18115eb7e"}
+  ],
+  "tests": {"batchTests":33,"batchPassed":33,"fullRepositoryTests":1519,"fullRepositoryPassed":1519,"failures":0,"skipped":0,"gradingOutcomes":100,"correctGradeOutcomes":25,"incorrectGradeOutcomes":75,"regressionArtifactId":10003260545,"regressionArtifactSha256":"b53694cf975e785eac3bce9af4908bf06bb434ef6ae2f9761e3360bdb031b96b","batchLogSha256":"6f2e4f7f2a4a2a8aa59bbfe286019577337cb35790e445b760cbae0af024c368","fullLogSha256":"7c182d39451ff7449199bf396125cda5932294476875c6dd06dab513ea563ce9"},
+  "studentWorkflows": ["MBB tile, Set 3 selection and full-exam start","175-question shuffled session mapped by canonical qid","four choices selected on each audited item","Space-key selection","selected answer retained after navigating away and reopening","flag retained","countdown progresses","calculator, formulas and tables drawers open and close","submission and score reconciliation","correct-answer review filter and per-question review navigation","exact explanations and reviewed tips","all four option rationales, including expanded distractor feedback","quality-details expansion","issue form opens and closes; mailto draft prepared but never sent"],
+  "scoreNote": "Browser sessions intentionally answered only the 25 audited questions. The expected result was 25/175 with 150 untouched unanswered questions, not a claim of a completed 175-question semantic audit.",
+  "testRunNotes": ["Initial JSDOM fixture callbacks ran after window.close. The fixture now tracks and disconnects observers before teardown; runtime assertions remain active.","Review-tab navigation uses scroll-into-view and a short stabilization wait before a normal click. No force click or application handler bypass is used.","WebKit desktop first reached 98 records and timed out opening Q50 feedback. The same source and driver passed all 101 records on rerun job 101613314163. Accepted artifact 10003454483 replaces incomplete artifact 10003199718 for sign-off. This isolated timeout remains recorded as a test-reproducibility concern."],
+  "limits": ["Authentication and remote persistence are isolated fixtures, not production sign-in or cross-device synchronization tests.","Mobile browser emulation is not physical-device testing.","Axe checks cover each active question/review card, not the entire website.","No empirical psychometric calibration was performed."]
+}

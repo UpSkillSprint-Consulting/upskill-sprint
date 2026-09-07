@@ -450,7 +450,8 @@
     if (!items.length) {
       panel.hidden = false;
       panel.innerHTML = '<div class="tb-review-empty">No additional validated questions are available for this subtopic yet.</div><button type="button" class="tb-ghost" data-close-similar>Return to review</button>';
-      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (window.__TBFeedbackPresentation) window.__TBFeedbackPresentation.scrollTo(panel);
+      else panel.scrollIntoView({behavior:'instant',block:'start'});
       return;
     }
     similarState = { source: question, items: items, index: 0, selected: null, checked: false, answers: [] };
@@ -467,7 +468,7 @@
       if (similarState.checked && similarState.selected === index && index !== question.answer) classes.push('wrong');
       return '<button type="button" class="' + classes.join(' ') + '" data-similar-opt="' + index + '"' + (similarState.checked ? ' disabled' : '') + '><span>' + String.fromCharCode(65 + index) + '</span>' + esc(option) + '</button>';
     }).join('');
-    const feedback = similarState.checked ? '<div class="tb-similar-feedback"><strong>' + (similarState.selected === question.answer ? 'Correct.' : 'Not quite. The correct answer is ' + esc(answerText(question, question.answer)) + '.') + '</strong><p>' + (question.why || 'A validated explanation is not available yet.') + '</p><div class="tb-deep-label">Key learning point</div><p>' + esc(questionKeyPoint(question)) + '</p><a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a></div>' : '';
+    const feedback = similarState.checked ? '<div class="tb-similar-feedback"><strong>' + (similarState.selected === question.answer ? 'Correct.' : 'Not quite. The correct answer is ' + esc(answerText(question, question.answer)) + '.') + '</strong><p>' + (question.why || 'A validated explanation is not available yet.') + '</p><div class="tb-deep-label">Key learning point</div><p>' + esc(questionKeyPoint(question)) + '</p>'+ (window.__TBFeedbackPresentation ? window.__TBFeedbackPresentation.referenceHtml(question, meta) : '<a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a>') + '</div>' : '';
     return '<div class="tb-retry-head"><div><div class="tb-diag-kick">Same-subtopic practice</div><h3>Practise similar questions</h3></div><span class="tb-badge2">' + (similarState.index + 1) + ' of ' + similarState.items.length + '</span></div>' +
       '<div class="tb-retry-topic">' + esc(meta.domainName) + ' &rsaquo; ' + esc(meta.subName) + '</div>' + reviewQuestionContent(question) + '<div class="tb-similar-options">' + options + '</div>' + feedback +
       '<div class="tb-retry-actions">' + (similarState.checked ? '<button type="button" class="btn btn-teal" data-similar-next>' + (similarState.index === similarState.items.length - 1 ? 'See practice results' : 'Next question') + '</button>' : '<button type="button" class="btn btn-teal" data-similar-check' + (similarState.selected == null ? ' disabled' : '') + '>Check answer</button>') + '<button type="button" class="tb-ghost" data-close-similar>Return to review</button></div>';
@@ -488,7 +489,8 @@
     const review = document.getElementById('tb-answer-review');
     if (review) review.hidden = true;
     panel.innerHTML = similarState.index >= similarState.items.length ? similarSummaryHtml() : similarQuestionHtml();
-    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (window.__TBFeedbackPresentation) window.__TBFeedbackPresentation.scrollTo(panel);
+      else panel.scrollIntoView({behavior:'instant',block:'start'});
   }
 
   function closeSimilar() {
@@ -497,7 +499,8 @@
     const review = document.getElementById('tb-answer-review');
     if (review) {
       review.hidden = false;
-      review.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (window.__TBFeedbackPresentation) window.__TBFeedbackPresentation.scrollTo(review);
+      else review.scrollIntoView({behavior:'instant',block:'start'});
     }
   }
 
@@ -533,7 +536,7 @@
       .tb-phase2-intro h3{font-family:"Source Serif 4",serif;color:var(--ink);font-size:19px;margin:2px 0 5px}.tb-phase2-intro p{color:var(--muted);font-size:12.5px;line-height:1.5;margin:0}.tb-phase2-time{min-width:160px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--card)}.tb-phase2-time span,.tb-deep-summary span{display:block;color:var(--muted);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}.tb-phase2-time strong,.tb-deep-summary strong{display:block;color:var(--ink);font-size:13px;margin-top:3px}.tb-error-summary{grid-column:1/-1!important}
       .tb-deep-learning{margin:12px 0}.tb-deep-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:9px}.tb-deep-summary>div{padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--tint)}.tb-learning-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.tb-learning-grid section{padding:12px 13px;border:1px solid var(--line);border-radius:9px;background:var(--tint)}.tb-deep-label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--teal);margin-bottom:5px}.tb-learning-grid p,.tb-similar-feedback p{color:var(--ink-soft,var(--muted));font-size:13px;line-height:1.55;margin:0}
       .tb-distractor-analysis{margin-top:9px;border:1px solid var(--line);border-radius:9px;background:var(--card)}.tb-distractor-analysis summary{padding:11px 13px;color:var(--ink);font-size:12.5px;font-weight:700;cursor:pointer}.tb-distractor-list{display:grid;gap:8px;padding:0 13px 12px}.tb-distractor-row{padding:10px 11px;border:1px solid var(--line);border-radius:8px;background:var(--tint)}.tb-distractor-title{display:flex;align-items:flex-start;gap:8px;color:var(--ink);font-size:12.5px;font-weight:700}.tb-distractor-title span{display:grid;place-items:center;width:22px;height:22px;border:1px solid var(--line);border-radius:6px;flex:none}.tb-distractor-row p{margin:5px 0 2px;color:var(--muted);font-size:12.5px;line-height:1.5}.tb-distractor-row small{color:var(--muted);font-size:10.5px}.tb-accuracy-note{margin:0;padding:0 13px 12px;color:var(--muted);font-size:11.5px;line-height:1.45}
-      .tb-error-diagnosis{margin:10px 0;padding:12px 13px;border-left:3px solid #b8791b;border-radius:8px;background:color-mix(in srgb,#b8791b 7%,var(--tint))}.tb-error-diagnosis label{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,320px);align-items:center;gap:12px;color:var(--ink);font-size:12.5px;font-weight:700}.tb-error-diagnosis select,.tb-report-box select,.tb-report-box textarea{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit;font-size:12.5px;padding:8px 10px}.tb-error-diagnosis p{margin:7px 0 0;color:var(--muted);font-size:11.5px}.tb-deep-actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.tb-report-box{display:grid;gap:9px;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--tint)}.tb-report-box label{display:grid;gap:5px;color:var(--ink);font-size:11.5px;font-weight:700}.tb-report-box [data-report-link]{color:var(--teal);font-size:12.5px;font-weight:700}
+      .tb-error-diagnosis{margin:10px 0;padding:12px 13px;border-left:3px solid #b8791b;border-radius:8px;background:color-mix(in srgb,#b8791b 7%,var(--tint))}.tb-error-diagnosis label{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,320px);align-items:center;gap:12px;color:var(--ink);font-size:12.5px;font-weight:700}.tb-error-diagnosis select,.tb-report-box select,.tb-report-box textarea{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit;font-size:12.5px;padding:8px 10px}.tb-error-diagnosis p{margin:7px 0 0;color:var(--ink);font-size:11.5px}.tb-deep-actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.tb-report-box{display:grid;gap:9px;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--tint)}.tb-report-box label{display:grid;gap:5px;color:var(--ink);font-size:11.5px;font-weight:700}.tb-report-box [data-report-link]{color:var(--teal);font-size:12.5px;font-weight:700}
       .tb-similar-practice{margin-top:20px;padding-top:20px;border-top:1px solid var(--line);scroll-margin-top:18px}.tb-similar-options{display:grid;gap:9px}.tb-similar-option{display:flex;align-items:flex-start;gap:10px;width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:9px;background:var(--tint);color:var(--ink);font:inherit;font-size:13.5px;text-align:left;cursor:pointer}.tb-similar-option span{display:grid;place-items:center;width:24px;height:24px;border:1px solid var(--line);border-radius:6px;flex:none;font-weight:700}.tb-similar-option.selected{border-color:var(--teal)}.tb-similar-option.correct{border-color:#1f9d6b;background:color-mix(in srgb,#1f9d6b 9%,var(--card))}.tb-similar-option.wrong{border-color:#c0453f;background:color-mix(in srgb,#c0453f 8%,var(--card))}.tb-similar-feedback{margin-top:11px;padding:12px 13px;border:1px solid var(--line);border-radius:9px;background:var(--card)}.tb-similar-feedback>p{margin:6px 0 10px}.tb-similar-feedback .tb-deep-label{margin-top:8px}
       html[data-theme="dark"] .tb-error-diagnosis{border-left-color:#f0c36a}
       @media(max-width:760px){.tb-phase2-intro,.tb-learning-grid,.tb-deep-summary{grid-template-columns:1fr}.tb-error-diagnosis label{grid-template-columns:1fr}.tb-phase2-time{min-width:0}}
@@ -605,6 +608,9 @@
   function initialize() {
     ensureStyles();
     schedule();
+    // The player publishes fresh review markup synchronously; the observer remains
+    // a compatibility path for legacy callers and delayed optional modules.
+    document.addEventListener('tb:review-rendered', enhanceDeepFeedback);
     document.addEventListener('click', handleClick, true);
     document.addEventListener('change', function (event) {
       const select = event.target.closest('[data-error-class]');

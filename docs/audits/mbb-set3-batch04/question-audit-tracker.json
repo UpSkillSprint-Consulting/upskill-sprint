@@ -1,0 +1,43 @@
+{
+  "scope": "Canonical Set 3 Q76–100; stable qids, not shuffled positions",
+  "status": "Passed after corrections — tested review build",
+  "reviewType": "AI-assisted technical and student-interface audit; human approval pending",
+  "evidence": {
+    "head": "e727a5d473236e71c0ed7486a718b42d79021f4c",
+    "testedMerge": "2c4a39631ecc286126b9e592ee55990e1e6905c3",
+    "run": 34087196151,
+    "allRows": "Each was independently answered, checked against all four choices and rationales, visually examined on desktop/mobile in both themes in question and expanded-review form, corrected and reopened. Every option was graded through the actual player.",
+    "fullFindingsAndSources": "revisions.json retains original/corrected objects, item-specific issues, full independent rationale and source locators by qid. report.md gives the question-by-question disposition.",
+    "perQuestionFinalRenderCases": 16,
+    "perQuestionActualPlayerOptionOutcomes": 4,
+    "browserManifest": "browser-summary.json",
+    "manualInspection": "visual-inspection.json"
+  },
+  "questions": [
+    {"number":76,"qid":"mbb:set-3:d3-046","key":"D","status":"Passed after corrections","changed":true,"decision":"Indexed organizational custody, reusable context and controlled access at records transfer; backup alone is insufficient.","visual":"none"},
+    {"number":77,"qid":"mbb:set-3:d3-047","key":"B","status":"Passed after corrections","changed":true,"decision":"$425,000 first-year cash outlays plus $60,000 lost contribution once equals $485,000 economic cost; not lifetime TCO/NPV. Mobile key-point arithmetic wrapping repaired and rechecked.","visual":"Arithmetic in feedback"},
+    {"number":78,"qid":"mbb:set-3:d3-048","key":"B","status":"Passed after corrections","changed":true,"decision":"Evidence-based phase criteria, accountable exceptions and risk-based tailoring; document counts cannot guarantee validity or detection of every failure.","visual":"none"},
+    {"number":79,"qid":"mbb:set-3:d3-049","key":"A","status":"Passed after corrections","changed":true,"decision":"Shared definitions, capacity/dependencies and actionable decision rights are essential even in a lightweight portfolio system.","visual":"none"},
+    {"number":80,"qid":"mbb:set-3:d3-050","key":"C","status":"Passed after corrections","changed":true,"decision":"Standardize incremental cash flows, horizon, uncertainty and realization; separate mandatory constraints and choose appropriate measures rather than a universal metric rule.","visual":"none"},
+    {"number":81,"qid":"mbb:set-3:d4-001","key":"A","status":"Passed after corrections","changed":true,"decision":"Compare required and demonstrated capability and application opportunities; determine whether training addresses the gap before allocating places.","visual":"none"},
+    {"number":82,"qid":"mbb:set-3:d4-002","key":"D","status":"Passed after corrections","changed":true,"decision":"Target inferential selection/interpretation with prerequisite support, practice and aligned checks; nonsignificance does not prove no meaningful effect.","visual":"none"},
+    {"number":83,"qid":"mbb:set-3:d4-003","key":"D","status":"Passed after corrections","changed":true,"decision":"Triangulate aligned performance and calibrated review; discrepancy does not prove overconfidence or make managerial opinion inherently objective.","visual":"none"},
+    {"number":84,"qid":"mbb:set-3:d4-004","key":"D","status":"Passed after corrections","changed":true,"decision":"Assign scheduled and material-change review ownership; preserve valid prior findings while updating changed requirements.","visual":"none"},
+    {"number":85,"qid":"mbb:set-3:d4-005","key":"B","status":"Passed after corrections","changed":true,"decision":"Align the internal credential's competence claim with appropriate evidence, criteria, calibration, feedback and reassessment; no ASQ credential rule asserted.","visual":"none"},
+    {"number":86,"qid":"mbb:set-3:d4-006","key":"B","status":"Passed after corrections","changed":true,"decision":"Retrospective failure shares and instructional time have different denominators; no causal or optimal-weight inference. Validate gaps and pilot a targeted response.","visual":"Data table: all cells, captions, row/column headers and mobile scroll verified"},
+    {"number":87,"qid":"mbb:set-3:d4-007","key":"A","status":"Passed after corrections","changed":true,"decision":"Verify DFSS entry competencies, accept equivalent evidence and bridge gaps rather than impose a universal prior credential requirement.","visual":"none"},
+    {"number":88,"qid":"mbb:set-3:d4-008","key":"B","status":"Passed after corrections","changed":true,"decision":"Assign readiness ownership for release, facilities, access, materials, software and contingencies across shifts.","visual":"none"},
+    {"number":89,"qid":"mbb:set-3:d4-009","key":"A","status":"Passed after corrections","changed":true,"decision":"Improve the demonstrated language-access barrier with technically checked materials and comprehension evidence while preserving rigor.","visual":"none"},
+    {"number":90,"qid":"mbb:set-3:d4-010","key":"A","status":"Passed after corrections","changed":true,"decision":"Pilot spaced retrieval/applied reinforcement and evaluate delayed performance; one cohort does not isolate a unique retention cause.","visual":"none"},
+    {"number":91,"qid":"mbb:set-3:d4-011","key":"B","status":"Passed after corrections","changed":true,"decision":"Retain valid principles, add relevant machining tasks and assess unfamiliar transfer, not merely cosmetic example renaming.","visual":"none"},
+    {"number":92,"qid":"mbb:set-3:d4-012","key":"D","status":"Passed after corrections","changed":true,"decision":"Use asynchronous work and feasible repeated live slots to obtain equivalent observed facilitation evidence under the stated constraints.","visual":"none"},
+    {"number":93,"qid":"mbb:set-3:d4-013","key":"B","status":"Passed after corrections","changed":true,"decision":"Use distinct reaction, learning, behavior and results evidence; evaluation coverage is not a causal ladder and anecdote is not standardized outcome tracking.","visual":"Data table: all cells, captions, row/column headers and mobile scroll verified"},
+    {"number":94,"qid":"mbb:set-3:d4-014","key":"D","status":"Passed after corrections","changed":true,"decision":"Feasible randomized team rollout, predefined success, common follow-up and all-assigned analysis support the offer/assignment effect, not a graduates-only causal claim.","visual":"none"},
+    {"number":95,"qid":"mbb:set-3:d4-015","key":"A","status":"Passed after corrections","changed":true,"decision":"Investigate demonstrated capability and eligible application opportunities/support together; confidence and a low launch fraction do not identify the cause.","visual":"none"},
+    {"number":96,"qid":"mbb:set-3:d5-001","key":"A","status":"Passed after corrections","changed":true,"decision":"Agree concrete champion resource/business/escalation commitments and follow up while retaining Belt/MBB technical responsibilities.","visual":"none"},
+    {"number":97,"qid":"mbb:set-3:d5-002","key":"B","status":"Passed after corrections","changed":true,"decision":"Coach unsupported analytical direction and decision boundaries; attendance and evidence-based questions are not themselves interference.","visual":"none"},
+    {"number":98,"qid":"mbb:set-3:d5-003","key":"B","status":"Passed after corrections","changed":true,"decision":"Review and correct current scope commitments/authorization as needed, then coach and verify substantive charter review.","visual":"none"},
+    {"number":99,"qid":"mbb:set-3:d5-004","key":"D","status":"Passed after corrections","changed":true,"decision":"Use actual evidence, rehearsal and understanding/application checks to develop right-sized accountable sponsor oversight.","visual":"none"},
+    {"number":100,"qid":"mbb:set-3:d5-005","key":"A","status":"Passed after corrections","changed":true,"decision":"Review future value, remaining cost, solution risk and alternatives under the stated authority; validated cause, sunk cost or delay alone does not dictate continuation.","visual":"none"}
+  ]
+}

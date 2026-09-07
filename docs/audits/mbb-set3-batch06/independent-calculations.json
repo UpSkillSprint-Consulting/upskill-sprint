@@ -1,0 +1,165 @@
+{
+  "Q128": {
+    "ageAuxR2": 0.9295774647887324,
+    "ageSEMultiplier": 3.7682887362833544
+  },
+  "Q129": {
+    "oddsRatio": 2.346801346801347,
+    "riskRatio": 1.8888888888888888,
+    "riskDifference": 0.16000000000000003,
+    "logOddsRatio": 0.8530532719578243
+  },
+  "Q131": {
+    "stationary": [
+      0,
+      0
+    ],
+    "hessianEigenvalues": [
+      -4,
+      -10
+    ],
+    "prediction": 80
+  },
+  "Q132": {
+    "candidateCoefficients": 41,
+    "observations": 85,
+    "events": 12
+  },
+  "Q133": {
+    "tolerance": 0.6,
+    "VIF": 1.6666666666666667,
+    "auxR2": 0.4
+  },
+  "Q134": {
+    "DW": 0.45,
+    "residualSum": -8.021361352916756e-15,
+    "residualFittedDot": 1.0089706847793423e-12,
+    "construction": "Explicit illustrative fit; no source case data are claimed. See generator comments and exact chart values."
+  },
+  "Q137": {
+    "contrastDays": 1.0,
+    "thresholdDays": 0.5,
+    "pValueGiven": 0.03,
+    "alpha": 0.05,
+    "pValueRecalculated": false,
+    "reason": "Interpretation of a supplied test summary; raw regression data/df were not supplied."
+  },
+  "Q138": {
+    "effects": [
+      26,
+      2
+    ],
+    "coefficients": [
+      13,
+      1
+    ]
+  },
+  "Q139": {
+    "simpleA": [
+      30,
+      -15
+    ],
+    "differenceOfDifferences": -45,
+    "factorialAB": -22.5,
+    "codedAB": -11.25
+  },
+  "Q140": {
+    "relation": "I=ABC",
+    "aliases": [
+      "A=BC",
+      "B=AC",
+      "C=AB"
+    ],
+    "residualDF": 0
+  },
+  "Q141": {
+    "original": "I=ABCD",
+    "DOnlyFoldover": "I=-ABCD",
+    "allSignFoldover": "I=ABCD",
+    "combinedUniqueRuns": 16
+  },
+  "Q142": {
+    "generators": [
+      "D=AB",
+      "E=AC",
+      "F=BC",
+      "G=ABC"
+    ],
+    "twoFactorAliases": {
+      "A": [
+        "BD",
+        "CE",
+        "FG"
+      ],
+      "B": [
+        "AD",
+        "CF",
+        "EG"
+      ],
+      "C": [
+        "AE",
+        "BF",
+        "DG"
+      ],
+      "D": [
+        "AB",
+        "CG",
+        "EF"
+      ],
+      "E": [
+        "AC",
+        "BG",
+        "DF"
+      ],
+      "F": [
+        "AG",
+        "BC",
+        "DE"
+      ],
+      "G": [
+        "AF",
+        "BE",
+        "CD"
+      ]
+    },
+    "residualDF": 0
+  },
+  "Q143": {
+    "cornerPureQuadraticRank": 1,
+    "withCenterPureQuadraticRank": 2,
+    "columns": "intercept,x1^2,x2^2; three columns but rank only two with centers"
+  },
+  "Q144": {
+    "mainEffects": [
+      9,
+      16,
+      22
+    ],
+    "diagonalContrast": 47,
+    "predictedCorners": [
+      42,
+      51,
+      58,
+      67,
+      64,
+      73,
+      80,
+      89
+    ]
+  },
+  "Q145": {
+    "resolution": 5,
+    "parameters": 16,
+    "observations": 16,
+    "residualDF": 0
+  },
+  "Q146": {
+    "expectedMPa": 1,
+    "contrastSE": 4.242640687119285,
+    "signalToSE": 0.23570226039551587
+  },
+  "Q150": {
+    "runs": 17,
+    "fullQuadraticCoefficients": 45
+  }
+}

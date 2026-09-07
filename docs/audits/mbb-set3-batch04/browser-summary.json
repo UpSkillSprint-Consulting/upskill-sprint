@@ -1,0 +1,18 @@
+{
+  "scope":"Set 3 canonical Q76–100 only",
+  "head":"e727a5d473236e71c0ed7486a718b42d79021f4c",
+  "testedMerge":"2c4a39631ecc286126b9e592ee55990e1e6905c3",
+  "base":"e15578514c6c2ebbd022c17f6ee9befad20f9dc6",
+  "run":34087196151,
+  "renderedCases":400,"sessionRecords":4,"tableInteractionSequences":16,
+  "pageErrors":0,"detectedClipping":0,"pageOverflow":0,"scopedAxeViolations":0,
+  "artifacts":[
+    {"context":"chromium-desktop","id":10005674252,"job":101633388450,"zipSHA256":"88e8e3b6b724f9164cdeb6f14b1e32c3807c4eb0f443a802206ffbd9ad5780dd","reportSHA256":"f2287837caea684b4171b9d8abfbdc2c08a3110576d91e362b44640203dc5623","renderedCases":100,"tableSequences":4},
+    {"context":"chromium-mobile","id":10005679375,"job":101633388651,"zipSHA256":"6e2129d4bb910c25dcaac3afaff60809a90bb5f94b6ed6ebf998e946aeb8da23","reportSHA256":"a16525c26a8312abfaa8bc2157382defb2d02f0db1852793b05252bcc0e288ff","renderedCases":100,"tableSequences":4},
+    {"context":"webkit-desktop","id":10005704433,"job":101633388477,"zipSHA256":"f337b7cddf3cda43a17ee370689993f14f575ab910150698c86a2935d3a287b7","reportSHA256":"d399605b222fde6d95f174755b6f72b15abd7d473c00abb5970b5cb7283a1b6e","renderedCases":100,"tableSequences":4},
+    {"context":"webkit-mobile","id":10005708129,"job":101633388426,"zipSHA256":"5c6bfb5c1ce58dfb700119dcc309bb33d48015dedf686c8d2d3533f80f6416c3","reportSHA256":"07af77dc0dadb78ad15da3c3a35ae878753b0cc86159375a89530c7cfd82249c","renderedCases":100,"tableSequences":4}
+  ],
+  "regression":{"artifact":10005769172,"job":101633388336,"zipSHA256":"33c90bff43c7736a5ba6908798c76d819d5eda1706ddc0a5adebad8ab4ad0df5","dedicated":{"passed":35,"failed":0,"skipped":0,"logSHA256":"1db7cd5b2e1a3ddd15bf8989dd9adb7e6d0642e572def64e55d1bb27d9277b12"},"fullSuite":{"passed":1598,"failed":0,"cancelled":0,"skipped":0,"logSHA256":"8b660b4bc4bb63f65b44bcb82e8ba985ae2419ba620dfe4113dc2f736d037888"},"additionalAffordanceTestsIncludedInFullSuite":3,"actualPlayerOptionOutcomes":100},
+  "limits":["Authentication and remote persistence isolated fixtures","Mobile emulation, not physical-device certification","Scoped axe/geometry checks, not an all-site accessibility audit","No empirical psychometrics or security clearance"],
+  "earlierBatchException":{"batch":1,"run":34087196113,"job":101633388037,"artifact":10005699428,"zipSHA256":"a5891596e45af4a1a6adc9858330b3b7e3d35742b705c0522657d9fa93ddac82","completedRecords":72,"pageErrors":0,"failure":"WebKit mobile timed out after 20 seconds waiting for the expanded-review option-analysis summary to be stable","disposition":"Unchanged job retried; final status recorded in PR discussion. Excluded from Batch4 passing evidence; underlying cause unestablished."}
+}

@@ -1,0 +1,122 @@
+{
+  "Q151": {
+    "observations": [
+      42,
+      51,
+      58,
+      64,
+      55,
+      67,
+      71,
+      89
+    ],
+    "factorialEffects": {
+      "A": 11.25,
+      "B": 16.75,
+      "C": 16.75,
+      "AB": 0.75,
+      "AC": 3.75,
+      "BC": 2.25,
+      "ABC": 2.25
+    },
+    "largestObservedMean": 89,
+    "notAnInferredGlobalOptimum": true
+  },
+  "Q152": {
+    "twoLevel": 8,
+    "fiveLevel": 125,
+    "ratio": 15.625,
+    "extraSettings": 117
+  },
+  "Q154": {
+    "extraRowFraction": 0.08,
+    "relativeOverstatementIfOnlyDuplicates": 0.08695652173913043
+  },
+  "Q160": {
+    "inputEvents": [
+      "E1",
+      "E2",
+      "E3"
+    ],
+    "outputEvents": [
+      "E1",
+      "E1",
+      "E3"
+    ],
+    "inputAmount": 600,
+    "outputAmount": 500,
+    "inputRows": 3,
+    "outputRows": 3
+  },
+  "Q166": {
+    "weights": [
+      0.25,
+      0.3,
+      0.2,
+      0.25
+    ],
+    "scores": [
+      2,
+      2,
+      1,
+      -1
+    ],
+    "weightedScore": 1.05
+  },
+  "Q168": {
+    "A": 0.02,
+    "B": 0.03,
+    "BgivenA": 0.1,
+    "joint": 0.002,
+    "union": 0.048,
+    "independentProductNotApplicable": 0.0006
+  },
+  "Q171": {
+    "bounds": [
+      0.02,
+      0.05,
+      0.1,
+      0.1,
+      0.05
+    ],
+    "all32ExtremeSums": [
+      -0.32,
+      -0.22,
+      -0.12000000000000001,
+      -0.02,
+      -0.12000000000000001,
+      -0.02,
+      0.08,
+      0.18000000000000002,
+      -0.22,
+      -0.12000000000000001,
+      -0.02,
+      0.08,
+      -0.02,
+      0.08,
+      0.18000000000000002,
+      0.28,
+      -0.28,
+      -0.18000000000000002,
+      -0.08,
+      0.02,
+      -0.08,
+      0.02,
+      0.12000000000000001,
+      0.22,
+      -0.18000000000000002,
+      -0.08,
+      0.02,
+      0.12000000000000001,
+      0.02,
+      0.12000000000000001,
+      0.22,
+      0.32
+    ],
+    "worstCase": 0.32,
+    "assemblyLimit": 0.25,
+    "gap": 0.07,
+    "withoutComponent1": 0.30000000000000004,
+    "rssNotHardBound": 0.1593737745050923
+  }
+}

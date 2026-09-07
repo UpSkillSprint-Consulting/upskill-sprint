@@ -1,0 +1,72 @@
+name: MBB Set 3 Batch 4 audit
+on:
+  pull_request:
+    paths:
+      - 'test-bank*.js'
+      - 'test-bank.html'
+      - 'tests/test-bank-mbb-set3-batch4*'
+      - 'tests/helpers/test-bank-durable-learning.js'
+      - 'scripts/audit-mbb-set3-batch4.mjs'
+      - '.github/workflows/mbb-set3-batch4-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mbb-set3-batch4-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Content, financial, preservation and actual-player grading
+        run: |
+          mkdir -p audit-results-batch4
+          git rev-parse HEAD > audit-results-batch4/tested-commit.txt
+          set -o pipefail
+          node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch4-audit.test.js | tee audit-results-batch4/batch4-tests.txt
+      - name: Complete repository regression
+        run: timeout 900 node --test --test-concurrency=2 tests/*.test.js > audit-results-batch4/full-regression.txt 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch4-regression
+          path: audit-results-batch4
+          retention-days: 14
+  browsers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+        layout: [desktop, mobile]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Open, answer, reopen and review every item; verify both tables
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: ${{ matrix.layout }}
+        run: |
+          mkdir -p audit-results-batch4
+          git rev-parse HEAD > audit-results-batch4/tested-commit.txt
+          node scripts/audit-mbb-set3-batch4.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch4-${{ matrix.engine }}-${{ matrix.layout }}
+          path: audit-results-batch4
+          retention-days: 14

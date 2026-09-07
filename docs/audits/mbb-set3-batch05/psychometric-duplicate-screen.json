@@ -1,0 +1,26 @@
+{
+  "scope": [
+    101,
+    125
+  ],
+  "comparisonQuestions": 450,
+  "exactNormalizedStemDuplicatesInvolvingBatch": 0,
+  "originalCorrectUniquelyLongest": 25,
+  "correctedCorrectUniquelyLongest": 5,
+  "originalMedianCorrectToMedianDistractorWordRatio": 3.0714285714285716,
+  "correctedMedianCorrectToMedianDistractorWordRatio": 0.9,
+  "retainedKeyPositions": {
+    "A": 5,
+    "B": 4,
+    "C": 10,
+    "D": 6
+  },
+  "relatedTasksDifferentiated": [
+    "Q111 conversion versus Q112 report reconciliation",
+    "Q115 dispersion signal versus Q121 run signal",
+    "Q120 distributional interpretation versus Q125 centering and representative coverage",
+    "Q119 constant bias versus Set2 changing bias",
+    "Q113 interrater agreement versus reference-based accuracy"
+  ],
+  "limits": "No candidate-response dataset analyzed. Difficulty, discrimination, reliability and DIF remain uncalibrated; lexical and word-count screens do not establish independence or equivalent difficulty."
+}

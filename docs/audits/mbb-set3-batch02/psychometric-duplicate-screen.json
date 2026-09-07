@@ -1,0 +1,22 @@
+{
+  "scope": "Batch 2 Q26–50 screened against 450 MBB stems across Sets 1–3; other questions were not semantically audited as new batches.",
+  "testedSource": "e2786ac606f3b881b84a8a324be97a3f5d625d01",
+  "exactDuplicatePairs": 0,
+  "lexicalMethod": "Word TF-IDF, unigrams/bigrams, English stop words, sublinear TF, cosine similarity. Case/whitespace-normalized exact-match screening. No lexical score proves semantic uniqueness.",
+  "maximumFinalNearestStemCosine": 0.1168,
+  "manualNearDuplicateResolutions": [
+    {"pair":["mbb:set-3:d1-071","mbb:set-3:d1-012"],"finding":"The initial Q26 benefits-verification decision repeated the core task in Batch 1 Q5.","resolution":"Q26 now tests cross-divisional measurement comparability. Q5 remains byte-preserved."},
+    {"pair":["mbb:set-3:d2-029","mbb:set-3:d2-057"],"finding":"The initial Q40 franchise staffing-rights decision repeated the core task in Q49.","resolution":"Q40 now tests translation of values into observable service behavior; Q49 tests explicitly stipulated staffing and record obligations."}
+  ],
+  "relatedButDistinctTasks": [
+    {"numbers":[36,44],"distinction":"Penalties for approved suggestions versus incentive and protected-time design."},
+    {"numbers":[39,47],"distinction":"Dispersed travel/connectivity participation pilot versus all-shift representation and opportunity selection."},
+    {"numbers":[48,50],"distinction":"Product-preservation scope safeguards versus volume-aware conservation measures and transparent reporting."}
+  ],
+  "lengthCueScreen": {"originalUniquelyLongestCorrectChoice":25,"revisedUniquelyLongestCorrectChoice":2,"originalMedianCorrectToMedianDistractorWordRatio":3.3571,"revisedMedianRatio":0.96,"revisedMaximumRatio":1.0952,"interpretation":"A wording-cue screen, not a measure of item difficulty or discrimination. Comparable lengths do not alone establish distractor quality."},
+  "answerPositions": {"A":10,"B":4,"C":4,"D":7},
+  "answerPositionChanges": 0,
+  "empiricalPsychometrics": "No candidate-response data analyzed. Item difficulty, discrimination, reliability and differential item functioning have not been estimated. Expert content review and lexical/length heuristics are not empirical calibration.",
+  "detailedRevisions": "revisions.json",
+  "duplicateChangeRecord": "duplicate-resolution.json"
+}

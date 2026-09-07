@@ -1,0 +1,2014 @@
+[
+  {
+    "number": 151,
+    "qid": "mbb:set-3:d6-041",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A quality engineer analyzing a completed 2³ factorial DOE reports the results using only a table of means for each of the 8 corner combinations, with no visual representation. An MBB reviewing the report suggests adding a cube plot. What specific benefit does the cube plot add beyond the table of means?",
+      "options": [
+        "A cube plot visually represents the response pattern across all 8 factor-level combinations simultaneously, making patterns like main effects, two-way interactions, and the overall best/worst corner combinations immediately apparent in a way that scanning a numeric table does not as readily reveal, especially to a non-technical audience reviewing the results",
+        "A cube plot is only appropriate for designs with more than three factors",
+        "A cube plot replaces the need for any statistical significance testing on the DOE results",
+        "A cube plot provides no additional benefit beyond a table of means; both convey identical information equally well"
+      ],
+      "answer": 0,
+      "why": "This reflects the core rationale for visual/interactive question requirements generally: a cube plot makes spatial patterns (main effects, interactions, best/worst combinations) immediately visible in a way a numeric table requires more effort to extract, especially for less technical stakeholders reviewing DOE results. Source: [BOK] Domain VI.C, Design of Experiments.",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "A",
+          "B",
+          "C",
+          "Mean etch rate"
+        ],
+        "rows": [
+          [
+            "Low",
+            "Low",
+            "Low",
+            "42"
+          ],
+          [
+            "High",
+            "Low",
+            "Low",
+            "51"
+          ],
+          [
+            "Low",
+            "High",
+            "Low",
+            "58"
+          ],
+          [
+            "High",
+            "High",
+            "Low",
+            "64"
+          ],
+          [
+            "Low",
+            "Low",
+            "High",
+            "55"
+          ],
+          [
+            "High",
+            "Low",
+            "High",
+            "67"
+          ],
+          [
+            "Low",
+            "High",
+            "High",
+            "71"
+          ],
+          [
+            "High",
+            "High",
+            "High",
+            "89"
+          ]
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-041"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A completed balanced 2³ etching DOE has the eight observed corner means below, in nm/min. The sponsor wants a spatial display of the same results; replicate variability and uncertainty intervals are not supplied in this excerpt. Which use of a cube plot adds value without claiming information the table does not contain?",
+      "options": [
+        "Place each mean at its factor combination to compare conditional patterns; retain the table and obtain uncertainty evidence before drawing inferential conclusions.",
+        "Connect the corner means and use unequal edge differences as proof of statistically significant interactions, without needing replicate variability or uncertainty intervals.",
+        "Replace observed corner values with values predicted by an additive model so that the cube reveals the experiment’s original interaction pattern more clearly.",
+        "Identify the largest observed corner and certify it as the global optimum, including untested intermediate settings, because the design includes all eight corners."
+      ],
+      "answer": 0,
+      "why": "A cube reorganizes the same eight means; it adds a spatial view, not independent measurements or an error estimate. For example, raising A changes the mean by 9 nm/min at low B and C, but by 18 nm/min at high B and C. That difference is a descriptive conditional pattern, not a significance result. The largest observed mean is 89 nm/min at the all-high corner; the excerpt does not identify the best untested interior setting or establish robustness. Source alignment: ASQ CMBB VI.C.3. Case conclusions follow from the stated assumptions.",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "A",
+          "B",
+          "C",
+          "Mean etch rate (nm/min)"
+        ],
+        "rows": [
+          [
+            "Low",
+            "Low",
+            "Low",
+            "42"
+          ],
+          [
+            "High",
+            "Low",
+            "Low",
+            "51"
+          ],
+          [
+            "Low",
+            "High",
+            "Low",
+            "58"
+          ],
+          [
+            "High",
+            "High",
+            "Low",
+            "64"
+          ],
+          [
+            "Low",
+            "Low",
+            "High",
+            "55"
+          ],
+          [
+            "High",
+            "Low",
+            "High",
+            "67"
+          ],
+          [
+            "Low",
+            "High",
+            "High",
+            "71"
+          ],
+          [
+            "High",
+            "High",
+            "High",
+            "89"
+          ]
+        ],
+        "title": "Observed corner means — balanced 2³ etching DOE",
+        "altText": "Eight observed mean etch rates in nm/min; no replicate variability is provided."
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-041",
+      "optionRationales": [
+        "Correct. Spatial organization supports comparisons while preserving the actual evidence and its uncertainty limits.",
+        "Unequal edge differences show estimated patterns, but significance requires a defensible error model and information on variability.",
+        "An additive fit can remove the very interaction pattern being reviewed; replacing observations is not a faithful display of the data.",
+        "A maximum among the eight observed means does not establish a global optimum, practical desirability or reliable out-of-sample performance."
+      ],
+      "distractors": [
+        "Correct. Spatial organization supports comparisons while preserving the actual evidence and its uncertainty limits.",
+        "Unequal edge differences show estimated patterns, but significance requires a defensible error model and information on variability.",
+        "An additive fit can remove the very interaction pattern being reviewed; replacing observations is not a faithful display of the data.",
+        "A maximum among the eight observed means does not establish a global optimum, practical desirability or reliable out-of-sample performance."
+      ],
+      "trap": "A different display is not a new experiment. Distinguish the best observed corner and descriptive effects from significance, robustness and an untested optimum.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.C.3"
+        },
+        {
+          "title": "NIST: Two-level full factorial designs",
+          "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3331.htm",
+          "locator": "5.3.3.3.1"
+        }
+      ]
+    },
+    "findings": [
+      "Authoring-rationale leakage removed.",
+      "Qualified claims of immediate interaction recognition and supplied units/uncertainty context.",
+      "Replaced implausible distractors with inference and data-provenance errors.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson.",
+      "Final mobile right-edge inspection found that left-aligned numeric values could move off-screen at maximum scroll in the narrow review card. Numeric columns now align consistently to the right, with actual text-range visibility assertions and fresh captures."
+    ],
+    "independentSolution": "A cube reorganizes the same eight means; it adds a spatial view, not independent measurements or an error estimate. For example, raising A changes the mean by 9 nm/min at low B and C, but by 18 nm/min at high B and C. That difference is a descriptive conditional pattern, not a significance result. The largest observed mean is 89 nm/min at the all-high corner; the excerpt does not identify the best untested interior setting or establish robustness.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 152,
+    "qid": "mbb:set-3:d6-042",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DOE team wants to study the effect of 3 continuous factors on a response but decides to test each factor at 5 levels rather than the conventional 2, reasoning 'more levels means more information.' What is the main trade-off the MBB should raise?",
+      "options": [
+        "Testing more levels always reduces the total number of runs needed compared to a 2-level design",
+        "The number of levels per factor has no bearing on total run count in a factorial design",
+        "There is no trade-off; more levels per factor always provides strictly more information at no cost",
+        "Testing more levels per factor dramatically increases the number of runs required for a full factorial (5³ = 125 runs versus 2³ = 8), and for the purpose of detecting linear main effects and interactions, 2 levels are often sufficient; more levels are primarily valuable when curvature is specifically suspected and a response-surface-style investigation is warranted, not as a default choice"
+      ],
+      "answer": 3,
+      "why": "This tests understanding of the run-count cost of adding factor levels (5³ vs 2³) and the practical guidance that 2-level designs are usually the efficient default for detecting linear effects/interactions, reserving additional levels for when curvature is specifically suspected. Source: [BOK] Domain VI.C, Design of Experiments.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-042"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A team can run 30 independent trials to investigate three continuous factors. It proposes an unreplicated full factorial with five levels per factor instead of two, arguing that more levels are automatically preferable. Curvature is plausible, and confirmation is required. Which recommendation correctly addresses the run budget and information needs?",
+      "options": [
+        "Use the five-level full factorial, because 3 × 5 = 15 settings leaves another 15 trials for replication and independent confirmation.",
+        "Use eight two-level corners and claim they identify all three pure-quadratic coefficients, leaving the remaining trials solely for confirmation.",
+        "Use the eight two-level corners and repeat one corner until the budget is exhausted, because more replication supplies the missing intermediate factor levels.",
+        "Reject the 125-setting full factorial; plan a budgeted sequential or response-surface design that addresses curvature, error estimation and confirmation."
+      ],
+      "answer": 3,
+      "why": "The full factorial requires 5³ = 125 settings versus 2³ = 8, before any replication or extra confirmation. The ratio is 15.625 and the difference is 117 settings. A 30-trial budget therefore cannot accommodate the proposed 125-setting design. Extra levels can characterize nonlinear behavior, but the design should be chosen for its model and precision requirements. Two-level corners alone do not separate pure-quadratic terms, and replication at an existing corner adds precision rather than a new factor level. No uniquely optimal 30-run plan follows from the information given. Source alignment: ASQ CMBB VI.C.3. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-042",
+      "optionRationales": [
+        "Multiplying the number of factors by levels is not the full-factorial count; all combinations are required.",
+        "At two levels, each squared coded factor is constant, so separate pure-quadratic coefficients are not identified by the corners.",
+        "Replication can estimate variability but does not create the intermediate settings needed to resolve curvature.",
+        "Correct. It recognizes the actual run count and calls for an estimable, adequately validated design within the budget."
+      ],
+      "distractors": [
+        "Multiplying the number of factors by levels is not the full-factorial count; all combinations are required.",
+        "At two levels, each squared coded factor is constant, so separate pure-quadratic coefficients are not identified by the corners.",
+        "Replication can estimate variability but does not create the intermediate settings needed to resolve curvature.",
+        "Correct. It recognizes the actual run count and calls for an estimable, adequately validated design within the budget."
+      ],
+      "trap": "Count combinations before allocating replication. Additional levels, replicated observations and confirmation runs supply different kinds of information.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.C.3"
+        },
+        {
+          "title": "NIST: Two-level full factorial designs",
+          "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3331.htm",
+          "locator": "5.3.3.3.1"
+        },
+        {
+          "title": "NIST: What are Taguchi designs?",
+          "url": "https://www.itl.nist.gov/div898/handbook/pri/section5/pri56.htm",
+          "locator": "5.5.6 Parameter Design; selection of tolerances by sensitivity and cost"
+        }
+      ]
+    },
+    "findings": [
+      "Qualified a universal two-level default.",
+      "Specified budget and curvature needs; independently checked 125 versus 8.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "The full factorial requires 5³ = 125 settings versus 2³ = 8, before any replication or extra confirmation. The ratio is 15.625 and the difference is 117 settings. A 30-trial budget therefore cannot accommodate the proposed 125-setting design. Extra levels can characterize nonlinear behavior, but the design should be chosen for its model and precision requirements. Two-level corners alone do not separate pure-quadratic terms, and replication at an existing corner adds precision rather than a new factor level. No uniquely optimal 30-run plan follows from the information given.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 153,
+    "qid": "mbb:set-3:d6-043",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A data governance review finds that three departments each maintain their own definition of 'on-time delivery' (some measuring from order date, others from ship date), producing inconsistent enterprise-wide reporting. What data management principle should the MBB apply first?",
+      "options": [
+        "Immediately terminate all three departments' existing reporting systems without a transition plan",
+        "Establish a single, enterprise-wide standardized data definition (a common data dictionary entry for 'on-time delivery' with agreed measurement points) before attempting any cross-departmental analysis or reporting, since inconsistent definitions make aggregated metrics meaningless",
+        "Allow each department to continue using its own definition, since local context always outweighs enterprise consistency",
+        "Ignore the inconsistency, since averaging across different definitions produces a valid enterprise metric"
+      ],
+      "answer": 1,
+      "why": "Standardized data definitions (a shared data dictionary) are foundational to any credible enterprise-wide analytics effort — without them, aggregated metrics and cross-departmental comparisons are not meaningful, regardless of how sophisticated the downstream analysis is. Source: [BOK] Domain VI.D, Data Management and Analytics.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-043"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "Three departments publish an on-time-delivery percentage. One tests delivery against the original customer promise, another against a revised promise, and a third measures dispatch timeliness. Leadership needs a comparable enterprise measure but must retain legitimate local metrics. What should the MBB establish first?",
+      "options": [
+        "Rename all three fields “on-time delivery” and average their percentages, leaving the original promise and event definitions unchanged.",
+        "Agree a versioned enterprise definition, eligible population, promise rule, event timestamp and ownership; map local variants before combining comparable records.",
+        "Adopt the department with the highest percentage as the standard, then treat its historical percentages as equivalent to the other two series.",
+        "Require immediate deletion of all local metrics and histories before defining the enterprise reporting purpose or examining available source timestamps."
+      ],
+      "answer": 1,
+      "why": "A common label is not a common operational definition. The reporting purpose must determine the promised-date convention, unit of analysis, eligible denominator, event, exclusions and handling of revised commitments. Named ownership and versioning support consistent implementation. Local variants may remain useful if clearly labeled and reconciled. Some historical records may not contain the fields needed to restate them; mark that limitation rather than fabricate comparability. The issue prevents the intended enterprise comparison, not every possible local analysis. Source alignment: ASQ CMBB VI.D.1–2. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-043",
+      "optionRationales": [
+        "Averaging incompatible percentages does not align their events, populations or promise-date rules.",
+        "Correct. It establishes the semantic and accountability foundation while retaining legitimate, labeled local uses.",
+        "A favorable result is not a defensible definition-selection criterion, and it cannot retroactively align unlike histories.",
+        "Destroying valid local history is unnecessary and can eliminate the very evidence needed for mapping and transition."
+      ],
+      "distractors": [
+        "Averaging incompatible percentages does not align their events, populations or promise-date rules.",
+        "Correct. It establishes the semantic and accountability foundation while retaining legitimate, labeled local uses.",
+        "A favorable result is not a defensible definition-selection criterion, and it cannot retroactively align unlike histories.",
+        "Destroying valid local history is unnecessary and can eliminate the very evidence needed for mapping and transition."
+      ],
+      "trap": "Define the event, denominator and promise-date rule—not merely the metric name. A local metric can be valid while unsuitable for direct enterprise aggregation.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.D.1–2"
+        },
+        {
+          "title": "UK Government Data Quality Framework: guidance",
+          "url": "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework-guidance",
+          "locator": "Data quality dimensions: completeness, uniqueness, consistency and timeliness"
+        }
+      ]
+    },
+    "findings": [
+      "Removed absolute claim that all reporting must stop.",
+      "Added denominator, promise-date, lineage and historical-restatement limitations.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "A common label is not a common operational definition. The reporting purpose must determine the promised-date convention, unit of analysis, eligible denominator, event, exclusions and handling of revised commitments. Named ownership and versioning support consistent implementation. Local variants may remain useful if clearly labeled and reconciled. Some historical records may not contain the fields needed to restate them; mark that limitation rather than fabricate comparability. The issue prevents the intended enterprise comparison, not every possible local analysis.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 154,
+    "qid": "mbb:set-3:d6-044",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "An analytics team building a defect-prediction dashboard pulls data from three source systems with no reconciliation process, and later discovers 8% of records are duplicated across systems, inflating apparent defect counts. What data management practice would have caught this issue earlier?",
+      "options": [
+        "Reconciliation is unnecessary as long as each individual source system's own internal data is accurate",
+        "No practice could have caught this; duplicate records are an unavoidable and undetectable data quality issue",
+        "The correct practice is to always trust the source system with the largest total record count",
+        "A data reconciliation/validation process (e.g., checking for duplicate unique identifiers across source systems before combining them into a unified dataset) is a standard data management practice specifically designed to catch exactly this kind of cross-system duplication before it propagates into downstream analysis"
+      ],
+      "answer": 3,
+      "why": "Cross-system reconciliation and duplicate-detection checks are standard, necessary data management practices before combining data from multiple sources — skipping this step is exactly what allows silent data quality issues like this to propagate undetected. Source: [BOK] Domain VI.D, Data Management and Analytics.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-044"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A defect dashboard unions records from three source systems. Review confirms that 8% of the combined rows are extra representations of defect events already represented elsewhere; repeated defects on the same asset are legitimate separate events. Source-local IDs are not globally unique. Which control best prevents inflated event counts?",
+      "options": [
+        "Deduplicate by asset ID and retain only one lifetime defect record per asset, because every repeated asset ID represents the same event.",
+        "Apply DISTINCT to the full combined rows and accept the result, even when the same event has different timestamps or descriptions in different systems.",
+        "Trust the largest source and discard all events found only in smaller sources, because the most populated system must have complete coverage.",
+        "Define event identity and cross-system mappings, reconcile counts and attributes, and quarantine ambiguous matches before publishing corrected event totals."
+      ],
+      "answer": 3,
+      "why": "The required grain is one defect event, not one asset or one source row. Cross-system identity needs a business event key or a documented matching process; source-local ID collisions and differing representations both require attention. Reconciliation should preserve provenance, distinguish repeat events from replicated representations and resolve uncertain matches. The stated 8% uses combined rows as its denominator; it is not automatically the percentage overstatement relative to the corrected unique count. With only duplicate removal and complete coverage, that relative overstatement would be 0.08/0.92, about 8.70%. Source alignment: ASQ CMBB VI.D.1–2. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-044",
+      "optionRationales": [
+        "One asset can have multiple genuine defects, so this rule discards valid events and biases the total downward.",
+        "DISTINCT detects identical rows, not all differently represented copies of the same business event.",
+        "Source size alone establishes neither completeness nor authority and may discard legitimate source-only events.",
+        "Correct. It validates event-level identity and reconciles the integrated result without silently deleting uncertain cases."
+      ],
+      "distractors": [
+        "One asset can have multiple genuine defects, so this rule discards valid events and biases the total downward.",
+        "DISTINCT detects identical rows, not all differently represented copies of the same business event.",
+        "Source size alone establishes neither completeness nor authority and may discard legitimate source-only events.",
+        "Correct. It validates event-level identity and reconciles the integrated result without silently deleting uncertain cases."
+      ],
+      "trap": "Differentiate entity identity, event identity and row identity. The duplicate share of imported rows and overstatement of the corrected total use different denominators.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.D.1–2"
+        },
+        {
+          "title": "UK Government Data Quality Framework: guidance",
+          "url": "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework-guidance",
+          "locator": "Data quality dimensions: completeness, uniqueness, consistency and timeliness"
+        },
+        {
+          "title": "PostgreSQL: Table Expressions",
+          "url": "https://www.postgresql.org/docs/current/queries-table-expressions.html",
+          "locator": "7.2.1.1 Joined Tables; inner/outer join multiplicity"
+        }
+      ]
+    },
+    "findings": [
+      "Specified duplicate denominator and business grain.",
+      "Removed assumption that source-local unique IDs identify cross-system events.",
+      "Added ambiguous-match handling and explicit reconciliation.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "The required grain is one defect event, not one asset or one source row. Cross-system identity needs a business event key or a documented matching process; source-local ID collisions and differing representations both require attention. Reconciliation should preserve provenance, distinguish repeat events from replicated representations and resolve uncertain matches. The stated 8% uses combined rows as its denominator; it is not automatically the percentage overstatement relative to the corrected unique count. With only duplicate removal and complete coverage, that relative overstatement would be 0.08/0.92, about 8.70%.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 155,
+    "qid": "mbb:set-3:d6-045",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A dashboard displaying real-time production metrics refreshes only once every 24 hours, but operators are making shift-level decisions based on it throughout the day, unaware the data may be up to a full day stale. What should the MBB recommend?",
+      "options": [
+        "Either increase the refresh frequency to match the actual decision cadence (shift-level, in this case) or, if faster refresh isn't feasible, prominently display the data's actual timestamp/staleness so operators can appropriately weight decisions made against it — the refresh cadence should be matched to how the data is actually being used",
+        "Increase the refresh frequency to once per second regardless of the actual decision-making cadence or system cost",
+        "Eliminate the dashboard entirely, since any data staleness makes a dashboard worthless",
+        "No change is needed; a 24-hour refresh cycle is always sufficient regardless of the decision cadence it's meant to support"
+      ],
+      "answer": 0,
+      "why": "This is the same cadence-matching principle established elsewhere in this bank (organizational feedback, portfolio governance) applied to dashboard/data refresh design — refresh frequency should match the actual decision cadence, or staleness should at minimum be made visible. Source: [BOK] Domain VI.D, Data Management and Analytics.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-045"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A dashboard labeled “real time” refreshes every 24 hours, but operators use it for within-shift decisions. Neither source-event time nor coverage is shown. Some upstream feeds also arrive late. What recommendation addresses both immediate misuse and a durable decision-support requirement?",
+      "options": [
+        "Show actual event coverage and freshness, restrict decisions unsupported by stale data, and agree end-to-end latency and failure alerts with process owners.",
+        "Show the current browser-refresh time prominently but leave source coverage hidden, because a fresh screen timestamp establishes current production information.",
+        "Refresh at each shift boundary and permit all within-shift decisions, because shift-level use means changes inside a shift cannot affect the decision.",
+        "Retain the daily feed with a small staleness note and continue all operational uses, because disclosure alone makes old data fit for any decision."
+      ],
+      "answer": 0,
+      "why": "A display refresh does not establish that source events are current or complete. The immediate control is to remove misleading real-time claims, show coverage and age, and prevent unsupported decisions or provide an approved current alternative. The durable design specifies the maximum acceptable end-to-end age for each decision, feed-latency monitoring, visible failure states and accountable response. Updating once per shift may still be inadequate for a decision made within the shift. Disclosure informs use; it does not repair unsuitable evidence. Source alignment: ASQ CMBB VI.D.1–2. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-045",
+      "optionRationales": [
+        "Correct. It controls current misuse and sets a decision-specific requirement for timely, complete information.",
+        "The browser timestamp says when the screen rendered, not the latest event included or completeness of the source feeds.",
+        "The timing requirement depends on the particular decision and could be much shorter than a whole shift.",
+        "A note cannot make stale information adequate for a decision that requires current conditions; use must also be controlled."
+      ],
+      "distractors": [
+        "Correct. It controls current misuse and sets a decision-specific requirement for timely, complete information.",
+        "The browser timestamp says when the screen rendered, not the latest event included or completeness of the source feeds.",
+        "The timing requirement depends on the particular decision and could be much shorter than a whole shift.",
+        "A note cannot make stale information adequate for a decision that requires current conditions; use must also be controlled."
+      ],
+      "trap": "Trace freshness from source event to decision, not just from dashboard refresh to screen. Transparent staleness is necessary but may not be sufficient.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.D.1–2"
+        },
+        {
+          "title": "UK Government Data Quality Framework: guidance",
+          "url": "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework-guidance",
+          "locator": "Data quality dimensions: completeness, uniqueness, consistency and timeliness"
+        }
+      ]
+    },
+    "findings": [
+      "Removed cross-bank reference.",
+      "Corrected implication that a timestamp alone fixes operational fitness.",
+      "Distinguished upstream coverage from display-refresh time.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "A display refresh does not establish that source events are current or complete. The immediate control is to remove misleading real-time claims, show coverage and age, and prevent unsupported decisions or provide an approved current alternative. The durable design specifies the maximum acceptable end-to-end age for each decision, feed-latency monitoring, visible failure states and accountable response. Updating once per shift may still be inadequate for a decision made within the shift. Disclosure informs use; it does not repair unsuitable evidence.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 156,
+    "qid": "mbb:set-3:d6-046",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A predictive analytics model flags 200 pieces of equipment as 'high failure risk' out of 10,000 total, but maintenance capacity only allows inspecting 50 per week. What data-driven prioritization approach should the MBB recommend beyond the binary flag?",
+      "options": [
+        "Wait until all 200 flagged items can be inspected simultaneously before inspecting any of them",
+        "Inspect equipment in alphabetical order by asset ID, ignoring the model's output entirely",
+        "Use the model's underlying risk scores (not just the binary high/low flag) to rank the 200 flagged items by relative risk severity, prioritizing inspection capacity toward the highest-risk items first — a binary flag alone discards valuable ranking information the underlying model likely already produces",
+        "Inspect the 200 flagged pieces in a completely random order, since the binary flag alone provides sufficient prioritization information"
+      ],
+      "answer": 2,
+      "why": "A binary high/low flag discards the underlying continuous risk score's ranking information; when inspection capacity is constrained, prioritizing by the actual risk score (not just the binary threshold) makes better use of limited capacity. Source: [BOK] Domain VI.D, Data Management and Analytics.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-046"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A model flags 200 of 10,000 assets, while the team can inspect 50 this week. For these 200 assets, calibrated failure probabilities refer to the same next-week horizon; inspection effort is equal, but consequences and the fraction of loss preventable by follow-up differ. Mandatory safety actions are handled separately. Assume benefits from the inspections are additive and do not interact. Which ranking best supports the remaining discretionary allocation?",
+      "options": [
+        "Rank by failure probability alone, treating a likely low-consequence failure as more important than any less-likely high-consequence failure.",
+        "Rank by total asset replacement value alone, treating every failure as a total loss and every inspection as equally effective prevention.",
+        "Rank by expected preventable loss over the common horizon, accounting for probability, consequence and feasible follow-up; review uncertainty and constraints.",
+        "Inspect all 200 before acting on any finding, spreading the inspections over four weeks without revisiting the next-week risk predictions."
+      ],
+      "answer": 2,
+      "why": "A binary flag loses ranking information, but a calibrated failure probability is still not consequence severity or intervention benefit. Under the stipulated equal inspection effort and additive, separable benefits, probability × loss conditional on failure × fraction preventable by the feasible action supports an expected-benefit ranking. Mandatory constraints remain outside this discretionary comparison. Uncertain consequences, calibration, dependencies, changing horizons and action capacity require review; the largest raw score is not a universal optimum. Four weekly batches would use different risk horizons and must be reassessed. Source alignment: ASQ CMBB VI.D.2; VI.B.8–9 as related allocation/reliability concepts. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-046",
+      "optionRationales": [
+        "Probability-only ranking ignores the explicitly different consequences and the ability to prevent the losses.",
+        "Replacement value is not necessarily the loss if failure occurs, and the question states that intervention effectiveness differs.",
+        "Correct. It uses the information needed for the stated allocation objective, while retaining operational and uncertainty checks.",
+        "Deferring all follow-up can forfeit preventable benefit, and a one-week prediction cannot be frozen across a four-week queue."
+      ],
+      "distractors": [
+        "Probability-only ranking ignores the explicitly different consequences and the ability to prevent the losses.",
+        "Replacement value is not necessarily the loss if failure occurs, and the question states that intervention effectiveness differs.",
+        "Correct. It uses the information needed for the stated allocation objective, while retaining operational and uncertainty checks.",
+        "Deferring all follow-up can forfeit preventable benefit, and a one-week prediction cannot be frozen across a four-week queue."
+      ],
+      "trap": "Risk probability, failure consequence and preventable loss are different. A capacity ranking needs a common horizon, feasible actions and explicit mandatory constraints.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.D.2; VI.B.8–9 as related allocation/reliability concepts"
+        },
+        {
+          "title": "UK Government Data Quality Framework: guidance",
+          "url": "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework-guidance",
+          "locator": "Data quality dimensions: completeness, uniqueness, consistency and timeliness"
+        }
+      ]
+    },
+    "findings": [
+      "Corrected conflation of probability score with severity.",
+      "Added horizon, calibration, consequence, effort and action-feasibility assumptions.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "A binary flag loses ranking information, but a calibrated failure probability is still not consequence severity or intervention benefit. Under the stipulated equal inspection effort and additive, separable benefits, probability × loss conditional on failure × fraction preventable by the feasible action supports an expected-benefit ranking. Mandatory constraints remain outside this discretionary comparison. Uncertain consequences, calibration, dependencies, changing horizons and action capacity require review; the largest raw score is not a universal optimum. Four weekly batches would use different risk horizons and must be reassessed.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 157,
+    "qid": "mbb:set-3:d6-047",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A data analytics team building a customer-attrition model includes ZIP code as a raw categorical predictor with over 400 distinct values, most represented by only 1-2 customers each. What data management/modeling concern does this raise?",
+      "options": [
+        "No concern; more granular categorical detail always improves model performance without any downside",
+        "The correct fix is to remove all categorical variables from the model entirely, using only continuous predictors",
+        "ZIP code should never be used as a predictor variable under any circumstances",
+        "A high-cardinality categorical variable with very sparse representation per category (400+ ZIP codes, most with only 1-2 observations) risks overfitting, since the model may effectively memorize individual customers rather than learning generalizable patterns; the team should consider aggregating ZIP codes into broader regions or using a different encoding approach that mitigates this sparsity"
+      ],
+      "answer": 3,
+      "why": "High-cardinality, sparsely-populated categorical variables are a well-known overfitting risk in predictive modeling; aggregation or alternative encoding approaches are standard remedies rather than either using the raw high-cardinality variable unchanged or discarding categorical data entirely. Source: [BOK] Domain VI.D, Data Management and Analytics.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-047"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "An attrition model uses more than 400 ZIP-code categories, most represented by one or two customers. The team proposes replacing each ZIP code with its observed attrition rate before splitting the dataset for validation. How should the MBB evaluate this remedy?",
+      "options": [
+        "Approve full-dataset target means because compressing 400 categories into one numeric column eliminates all information leakage and overfitting.",
+        "Encode ZIP codes as consecutive integers and interpret their numerical distances as geographic proximity without checking what those labels mean.",
+        "Remove every categorical predictor, including well-supported ones, because a sparse ZIP-code field establishes that categorical data cannot generalize.",
+        "Reject outcome encoding before the split; validate regularized or grouped alternatives within training folds, handle unseen categories and assess subgroup performance."
+      ],
+      "answer": 3,
+      "why": "Sparse high-cardinality categories can support unstable memorization. Encoding them using outcomes from validation cases leaks those outcomes into their features. Any learned preprocessing must be fit within the development split and cross-validation procedure; outcome-based encoders need suitable out-of-fold construction for training examples as well. Grouping or regularization are candidates, not guaranteed cures, and unseen regions need defined handling. Geography may also act as a proxy for sensitive attributes, so assess relevant subgroup performance and permitted use rather than assuming universal exclusion or universal acceptability. Source alignment: ASQ CMBB VI.D.1–2. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-047",
+      "optionRationales": [
+        "A single column can still leak validation outcomes and memorize nearly unique categories; dimensionality reduction alone is not protection.",
+        "Arbitrary numeric codes impose an unsupported ordering and distance structure rather than resolving sparsity.",
+        "A defect in one sparse feature does not show that all categorical predictors are unsuitable.",
+        "Correct. It prevents validation leakage and evaluates alternatives under the intended deployment conditions rather than assuming a remedy works."
+      ],
+      "distractors": [
+        "A single column can still leak validation outcomes and memorize nearly unique categories; dimensionality reduction alone is not protection.",
+        "Arbitrary numeric codes impose an unsupported ordering and distance structure rather than resolving sparsity.",
+        "A defect in one sparse feature does not show that all categorical predictors are unsuitable.",
+        "Correct. It prevents validation leakage and evaluates alternatives under the intended deployment conditions rather than assuming a remedy works."
+      ],
+      "trap": "A supervised encoding is part of model training. Split first, prevent each training row from encoding its own outcome, and keep validation outcomes out of all fitted preprocessing.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.D.1–2"
+        },
+        {
+          "title": "scikit-learn: Target Encoder internal cross fitting",
+          "url": "https://scikit-learn.org/stable/auto_examples/preprocessing/plot_target_encoder_cross_val.html",
+          "locator": "Cross fitting and high-cardinality overfitting example"
+        }
+      ]
+    },
+    "findings": [
+      "Upgraded recall to a specific leakage diagnosis.",
+      "Added unseen-category and subgroup checks without claiming ZIP code is always prohibited.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "Sparse high-cardinality categories can support unstable memorization. Encoding them using outcomes from validation cases leaks those outcomes into their features. Any learned preprocessing must be fit within the development split and cross-validation procedure; outcome-based encoders need suitable out-of-fold construction for training examples as well. Grouping or regularization are candidates, not guaranteed cures, and unseen regions need defined handling. Geography may also act as a proxy for sensitive attributes, so assess relevant subgroup performance and permitted use rather than assuming universal exclusion or universal acceptability.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 158,
+    "qid": "mbb:set-3:d6-048",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "An MBB is asked to build an enterprise-wide analytics data lake but discovers no data retention or archival policy exists — all historical data is kept indefinitely with no lifecycle management. What should the MBB flag as a risk beyond storage cost alone?",
+      "options": [
+        "There is no risk beyond storage cost; keeping all data indefinitely is always the safest data management approach",
+        "Beyond storage cost, indefinite retention without a lifecycle policy raises data governance, privacy/compliance risk (e.g., retaining personal data longer than legally required or intended), and can degrade analytics performance and data quality as increasingly outdated, potentially irrelevant historical data accumulates without curation",
+        "The correct fix is to delete all historical data immediately regardless of any ongoing analytical or compliance need for it",
+        "Data retention policy is solely an IT concern with no relevance to Six Sigma or MBB-level responsibilities"
+      ],
+      "answer": 1,
+      "why": "Data retention/lifecycle policy touches governance, privacy/compliance risk, and analytical data quality — not just storage cost — and is a legitimate MBB-level concern when architecting enterprise analytics capability. Source: [BOK] Domain VI.D, Data Management and Analytics.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-048"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "An enterprise data lake retains every personal and operational record indefinitely. There is no documented purpose-based retention schedule, access review or disposal process. No jurisdiction-specific retention periods have yet been established. Which MBB recommendation addresses the governance gap without inventing a legal deadline?",
+      "options": [
+        "Set a universal 12-month deletion rule immediately, including records subject to preservation requirements, because shorter retention is always compliant.",
+        "Work with data owners and privacy, security and records specialists to set justified retention, access, preservation and disposal rules by data class.",
+        "Keep all records indefinitely but improve search indexes, because faster retrieval removes privacy exposure and establishes an appropriate lifecycle.",
+        "Archive all records permanently and treat archive status as anonymization, even though identifiers and broad user access remain unchanged."
+      ],
+      "answer": 1,
+      "why": "Indefinite uncontrolled retention increases exposure and can undermine purpose, access and lineage controls. It is not automatically unlawful in every setting, and old records are not automatically inaccurate or analytically irrelevant. Relevant obligations, preservation needs and defensible business purposes must determine schedules and access. Archiving changes storage or access arrangements; it does not necessarily anonymize data or resolve retention obligations. No specific legal period can be derived from the scenario, so qualified organizational review is required before implementing deletion rules. Source alignment: ASQ CMBB VI.D.1: data life-cycle management, privacy, security and metadata. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-048",
+      "optionRationales": [
+        "The question supplies no legal basis for 12 months, and preservation requirements can override routine disposal.",
+        "Correct. It assigns the lifecycle decision to relevant accountable roles and requires a justified, documented policy instead of an invented deadline.",
+        "Search performance does not control data-purpose, exposure, access or retention requirements.",
+        "An archive can still contain identifiable data with unchanged access; it is not inherently anonymized or compliant."
+      ],
+      "distractors": [
+        "The question supplies no legal basis for 12 months, and preservation requirements can override routine disposal.",
+        "Correct. It assigns the lifecycle decision to relevant accountable roles and requires a justified, documented policy instead of an invented deadline.",
+        "Search performance does not control data-purpose, exposure, access or retention requirements.",
+        "An archive can still contain identifiable data with unchanged access; it is not inherently anonymized or compliant."
+      ],
+      "trap": "Retention is not a choice between keeping everything and deleting everything. Specify purpose, ownership and preservation exceptions before applying a lifecycle schedule.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.D.1: data life-cycle management, privacy, security and metadata"
+        },
+        {
+          "title": "UK Government Data Quality Framework: guidance",
+          "url": "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework-guidance",
+          "locator": "Data quality dimensions: completeness, uniqueness, consistency and timeliness"
+        }
+      ]
+    },
+    "findings": [
+      "Removed unsupported legal implication and age-equals-poor-quality claim.",
+      "Distinguished archival status, anonymization, retention and access.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "Indefinite uncontrolled retention increases exposure and can undermine purpose, access and lineage controls. It is not automatically unlawful in every setting, and old records are not automatically inaccurate or analytically irrelevant. Relevant obligations, preservation needs and defensible business purposes must determine schedules and access. Archiving changes storage or access arrangements; it does not necessarily anonymize data or resolve retention obligations. No specific legal period can be derived from the scenario, so qualified organizational review is required before implementing deletion rules.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 159,
+    "qid": "mbb:set-3:d6-049",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A quality dashboard reports a single blended 'first pass yield' figure across five product lines with very different baseline complexity and volume. Leadership uses this single figure to evaluate all five lines equally. What data analytics principle from elsewhere in this domain applies directly here?",
+      "options": [
+        "The blended figure should be replaced with a single number representing only the best-performing line",
+        "Stratification is only relevant to statistical process control charts, not to dashboard design generally",
+        "Blending diverse groups into a single aggregate figure is always the most useful and complete way to report performance",
+        "This repeats the stratification principle established elsewhere in this bank (e.g., seasonal control charts, blended-vs-stratified satisfaction reporting): blending fundamentally different product lines into one aggregate figure can mask which specific lines are actually driving strong or weak performance, and the dashboard should be redesigned to report stratified, line-level figures alongside (or instead of) the single blended number"
+      ],
+      "answer": 3,
+      "why": "This is a direct cross-domain application of the stratification principle (previously established for seasonal control charts and blended-vs-stratified satisfaction reporting) to dashboard/analytics design — aggregating fundamentally different groups obscures the line-level detail leadership actually needs to act on. Source: [BOK] Domain VI.D, Data Management and Analytics.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-049"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "Five product lines have different volumes and complexity. Their dashboard uses one common definition of first-pass yield: units passing the specified first inspection without rework divided by units first inspected. Leadership uses only the pooled percentage to compare lines and to judge month-to-month improvement despite changing product mix. What redesign is most defensible?",
+      "options": [
+        "Report only the highest line yield, because the best process represents what the pooled operation could achieve without any mix adjustment.",
+        "Take the unweighted average of the five percentages and label it the pooled unit yield, regardless of differences in the denominators.",
+        "Rank the lines solely by their raw yields and attribute every difference to management performance, ignoring the stated product-complexity differences.",
+        "Show each line’s counts and yield with a valid pooled ratio; distinguish within-line changes from mix changes and qualify performance comparisons."
+      ],
+      "answer": 3,
+      "why": "The pooled unit yield is total first-pass units divided by total first-inspected units, not usually the unweighted average of line percentages. It remains useful for its stated aggregate purpose, but can hide opposing within-line trends or change because product mix changes. Stratified numerators, denominators and uncertainty support diagnosis. Complexity adjustment or common-mix comparisons may be appropriate when supported; stratification alone does not make managerial comparisons causally fair. This metric is not automatically rolled-throughput yield across several process stages. Source alignment: ASQ CMBB VI.D.1–2. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-049",
+      "optionRationales": [
+        "The best line is not representative of all units and does not provide the organization’s pooled yield.",
+        "Equal weighting estimates an average-line quantity, not pooled unit yield when denominators differ.",
+        "Raw line differences do not isolate management effects from complexity, measurement or operating conditions.",
+        "Correct. It retains a valid aggregate and adds the detail needed to separate mix from within-line performance."
+      ],
+      "distractors": [
+        "The best line is not representative of all units and does not provide the organization’s pooled yield.",
+        "Equal weighting estimates an average-line quantity, not pooled unit yield when denominators differ.",
+        "Raw line differences do not isolate management effects from complexity, measurement or operating conditions.",
+        "Correct. It retains a valid aggregate and adds the detail needed to separate mix from within-line performance."
+      ],
+      "trap": "Keep the numerator, denominator and aggregation target explicit. Pooled unit yield, average-line yield and within-line improvement are different quantities.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.D.1–2"
+        },
+        {
+          "title": "UK Government Data Quality Framework: guidance",
+          "url": "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework-guidance",
+          "locator": "Data quality dimensions: completeness, uniqueness, consistency and timeliness"
+        }
+      ]
+    },
+    "findings": [
+      "Removed cross-question references.",
+      "Added pooled-denominator and mix effects, while retaining legitimate aggregate reporting.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "The pooled unit yield is total first-pass units divided by total first-inspected units, not usually the unweighted average of line percentages. It remains useful for its stated aggregate purpose, but can hide opposing within-line trends or change because product mix changes. Stratified numerators, denominators and uncertainty support diagnosis. Complexity adjustment or common-mix comparisons may be appropriate when supported; stratification alone does not make managerial comparisons causally fair. This metric is not automatically rolled-throughput yield across several process stages.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 160,
+    "qid": "mbb:set-3:d6-050",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "An MBB reviewing a data analytics team's SQL-based reporting pipeline discovers a join between two tables uses a non-unique key, silently creating duplicate rows in the output whenever a match isn't perfectly one-to-one. What data quality practice would have caught this before it affected downstream reports?",
+      "options": [
+        "The correct practice is to never use SQL joins in any analytics pipeline",
+        "A row-count validation check (comparing expected versus actual row counts before and after each join/transformation step in the pipeline) is a standard data quality practice that would have flagged the unexpected row-count inflation from the non-unique key join before it silently propagated into downstream reports",
+        "No practice could catch this type of error; duplicate-generating joins are undetectable in principle",
+        "This type of error can only be caught through manual, row-by-row visual inspection of the entire dataset"
+      ],
+      "answer": 1,
+      "why": "Row-count validation checks at each pipeline transformation step are a standard, practical data quality practice specifically designed to catch exactly this kind of silent duplication from a non-unique join key. Source: [BOK] Domain VI.D, Data Management and Analytics.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-050"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A reporting table should retain one row per defect event after an INNER JOIN to a classification lookup. The lookup has two rows for event E1’s key, no row for E2’s key, and one row for E3’s key. The three input events have amounts 100, 200 and 300 respectively. The joined output still has three rows. Which validation best detects the problem?",
+      "options": [
+        "Accept the join because unchanged total row count proves both event coverage and one-to-one enrichment were preserved.",
+        "Check lookup-key uniqueness, unmatched events, per-event match counts and amount reconciliation; total row count alone can hide offsetting losses and duplication.",
+        "Apply DISTINCT only to the three selected numeric amounts and assume that doing so recovers every missing event and its classification.",
+        "Replace the INNER JOIN with a LEFT JOIN and omit all other checks, because a LEFT JOIN cannot duplicate left-side events."
+      ],
+      "answer": 1,
+      "why": "The output contains E1 twice, E3 once and no E2. Its amount total is 100 + 100 + 300 = 500 rather than the original 600, even though both row counts are three. An inner join can drop unmatched events while another key multiplies rows. Validate the intended grain, key uniqueness, match multiplicity, unmatched coverage and business totals. A LEFT JOIN preserves unmatched left rows but still multiplies them when several right-side matches exist. Non-unique joins are not inherently wrong; they are wrong here because they violate the specified one-event grain. Source alignment: ASQ CMBB VI.D.1–2. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-050",
+      "optionRationales": [
+        "The extra E1 and missing E2 offset in the total row count, so this check falsely passes the corrupt result.",
+        "Correct. These complementary checks identify multiplicity, missing coverage and distorted measures at the intended grain.",
+        "DISTINCT on amounts is not event reconciliation and cannot restore E2 or its absent lookup match.",
+        "LEFT JOIN prevents loss of unmatched left rows but does not prevent multiple matches for E1."
+      ],
+      "distractors": [
+        "The extra E1 and missing E2 offset in the total row count, so this check falsely passes the corrupt result.",
+        "Correct. These complementary checks identify multiplicity, missing coverage and distorted measures at the intended grain.",
+        "DISTINCT on amounts is not event reconciliation and cannot restore E2 or its absent lookup match.",
+        "LEFT JOIN prevents loss of unmatched left rows but does not prevent multiple matches for E1."
+      ],
+      "trap": "Unchanged row count is necessary for some transformations, not sufficient evidence of correctness. Test identity and measures as well as volume.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.D.1–2"
+        },
+        {
+          "title": "PostgreSQL: Table Expressions",
+          "url": "https://www.postgresql.org/docs/current/queries-table-expressions.html",
+          "locator": "7.2.1.1 Joined Tables; inner/outer join multiplicity"
+        },
+        {
+          "title": "UK Government Data Quality Framework: guidance",
+          "url": "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework-guidance",
+          "locator": "Data quality dimensions: completeness, uniqueness, consistency and timeliness"
+        }
+      ]
+    },
+    "findings": [
+      "Corrected claim that row-count validation alone would catch the defect.",
+      "Specified intended grain and a concrete cancellation counterexample.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "The output contains E1 twice, E3 once and no E2. Its amount total is 100 + 100 + 300 = 500 rather than the original 600, even though both row counts are three. An inner join can drop unmatched events while another key multiplies rows. Validate the intended grain, key uniqueness, match multiplicity, unmatched coverage and business totals. A LEFT JOIN preserves unmatched left rows but still multiplies them when several right-side matches exist. Non-unique joins are not inherently wrong; they are wrong here because they violate the specified one-event grain.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 161,
+    "qid": "mbb:set-3:d6-051",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A company's enterprise analytics maturity assessment finds strong data visualization capability but no defined process for acting on dashboard insights — dashboards are viewed but rarely drive documented decisions or follow-up actions. What analytics maturity gap does this reflect?",
+      "options": [
+        "No gap exists; a strong dashboard alone constitutes complete analytics maturity",
+        "This gap can only be addressed by hiring more data scientists, regardless of the actual root cause",
+        "This reflects a gap between descriptive analytics capability (visualizing what happened) and an actionable decision-and-accountability process (who reviews the dashboard, what triggers action, and how follow-through is tracked) — visualization sophistication alone doesn't guarantee the insights actually drive organizational action",
+        "The correct fix is to eliminate the dashboards entirely, since they aren't producing action"
+      ],
+      "answer": 2,
+      "why": "Strong visualization/descriptive capability without a paired decision-and-accountability process is a well-documented analytics maturity gap — the fix is process design (ownership, triggers, follow-through tracking), not necessarily more visualization tooling or headcount. Source: [BOK] Domain VI.D, Data Management and Analytics.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-051"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "An enterprise has trusted dashboards and trained analysts, but reviews end without named decision owners, action thresholds, due dates or later outcome checks. The sponsor asks whether buying a prescriptive analytics package is the necessary next step. What should the MBB recommend?",
+      "options": [
+        "Purchase optimization software first and treat a generated recommendation as an authorized operational decision even when no accountable owner is named.",
+        "Redesign colors and chart types while preserving the same review process, because visual sophistication alone resolves missing decision accountability.",
+        "Define decision rights, escalation criteria, action ownership and outcome follow-up; then assess which additional analytical tools those decisions actually require.",
+        "Assign an automatic improvement action to every dashboard fluctuation, regardless of uncertainty, thresholds or the process owner’s decision authority."
+      ],
+      "answer": 2,
+      "why": "The demonstrated gap is between evidence and governed action, not proof of a missing software class or a formally scored maturity level. A decision process needs accountable roles, appropriate triggers, explicit decisions—including justified no-action decisions—and verification of follow-through. Uncertainty and practical consequences should inform triggers. Once the process is defined, optimization or other tools may help where they meet a real need. A recommendation is not automatically an authorized decision, and every fluctuation need not provoke adjustment. Source alignment: ASQ CMBB VI.D.1–2; I.C deployment governance as a related application. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-051",
+      "optionRationales": [
+        "Software recommendations cannot supply missing authority, ownership and accountability by themselves.",
+        "Visual refinements may help communication but do not create the missing decision and follow-up process.",
+        "Correct. It addresses the demonstrated process gap before prescribing a tool or claiming a formal maturity classification.",
+        "Automatic action on every fluctuation can induce overreaction and bypasses the needed uncertainty and authority checks."
+      ],
+      "distractors": [
+        "Software recommendations cannot supply missing authority, ownership and accountability by themselves.",
+        "Visual refinements may help communication but do not create the missing decision and follow-up process.",
+        "Correct. It addresses the demonstrated process gap before prescribing a tool or claiming a formal maturity classification.",
+        "Automatic action on every fluctuation can induce overreaction and bypasses the needed uncertainty and authority checks."
+      ],
+      "trap": "Differentiate a dashboard, an analytical recommendation and an authorized decision. A documented decision to monitor rather than intervene can also be appropriate.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.D.1–2; I.C deployment governance as a related application"
+        },
+        {
+          "title": "UK Government Data Quality Framework: guidance",
+          "url": "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework-guidance",
+          "locator": "Data quality dimensions: completeness, uniqueness, consistency and timeliness"
+        }
+      ]
+    },
+    "findings": [
+      "Removed unsupported formal maturity framing.",
+      "Added no-action decisions, authority and outcome follow-up rather than tool purchasing.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "The demonstrated gap is between evidence and governed action, not proof of a missing software class or a formally scored maturity level. A decision process needs accountable roles, appropriate triggers, explicit decisions—including justified no-action decisions—and verification of follow-through. Uncertainty and practical consequences should inform triggers. Once the process is defined, optimization or other tools may help where they meet a real need. A recommendation is not automatically an authorized decision, and every fluctuation need not provoke adjustment.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 162,
+    "qid": "mbb:set-3:d6-052",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "An MBB is designing a metric-ownership framework for a new analytics platform and must decide how to handle a metric that several departments both need but calculate slightly differently for their own purposes. What is the most defensible approach?",
+      "options": [
+        "Allow unlimited, unlabeled local variation with no canonical version at all, recreating the exact problem being solved",
+        "Assign the decision randomly to whichever department requests it first, regardless of actual enterprise reporting needs",
+        "Force every department to abandon their own calculation entirely, adopting a single method with no accommodation for legitimate local needs",
+        "Establish one canonical, enterprise-standard version of the metric for cross-departmental reporting and comparison, while allowing departments to maintain supplementary local variants for their own internal purposes — clearly labeled and distinguished from the canonical version to avoid the confusion documented in the original enterprise data-consistency scenario"
+      ],
+      "answer": 3,
+      "why": "A canonical enterprise version alongside clearly-labeled local variants balances legitimate departmental needs against the enterprise-consistency requirement established earlier in this domain — avoiding both forced uniformity that ignores real local needs and unlabeled variation that recreates the original inconsistency problem. Source: [BOK] Domain VI.D, Data Management and Analytics.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-052"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "An enterprise metric has an approved canonical definition and owner. Two departments also need distinct local variants for legitimate operational uses. A proposed variant changes the eligible denominator but would retain the canonical metric’s name and identifier. Which ownership rule best prevents renewed confusion?",
+      "options": [
+        "Approve the variant under the canonical identifier and let each consuming report infer its meaning from the department that produced it.",
+        "Give the first requesting department sole authority to change the enterprise denominator without consulting affected downstream report owners.",
+        "Prohibit all local variants, even when they answer different documented questions and never enter the enterprise comparison.",
+        "Give variants distinct labels and identifiers, document lineage and denominator differences, and route canonical changes through the accountable owner and impact review."
+      ],
+      "answer": 3,
+      "why": "Canonical reporting and local analysis can coexist when their semantic identities, purposes and ownership are clear. A changed denominator changes the quantity measured; retaining the same identifier creates silent ambiguity. Versioned definitions, lineage, explicit permissions and downstream impact review make changes auditable. A canonical change may require historical restatement or a marked break in series; neither is implied automatically. This item concerns change control after a definition exists, not repeating the initial definition exercise. Source alignment: ASQ CMBB VI.D.1–2. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-052",
+      "optionRationales": [
+        "Consumers should not have to infer undocumented semantics; the shared identifier would conceal different denominators.",
+        "Local demand does not establish authority to redefine a cross-enterprise measure or remove the need for impact review.",
+        "Legitimate separately identified local measures need not be prohibited to preserve canonical consistency.",
+        "Correct. It protects semantic identity, accountability and traceability while permitting justified local uses."
+      ],
+      "distractors": [
+        "Consumers should not have to infer undocumented semantics; the shared identifier would conceal different denominators.",
+        "Local demand does not establish authority to redefine a cross-enterprise measure or remove the need for impact review.",
+        "Legitimate separately identified local measures need not be prohibited to preserve canonical consistency.",
+        "Correct. It protects semantic identity, accountability and traceability while permitting justified local uses."
+      ],
+      "trap": "A denominator change is a metric change. Protect identifiers, ownership and version history rather than forcing every legitimate question into one number.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.D.1–2"
+        },
+        {
+          "title": "UK Government Data Quality Framework: guidance",
+          "url": "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework-guidance",
+          "locator": "Data quality dimensions: completeness, uniqueness, consistency and timeliness"
+        }
+      ]
+    },
+    "findings": [
+      "Removed reference to another enterprise scenario.",
+      "Differentiated this task from Q153 by testing versioning and change authority.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "Canonical reporting and local analysis can coexist when their semantic identities, purposes and ownership are clear. A changed denominator changes the quantity measured; retaining the same identifier creates silent ambiguity. Versioned definitions, lineage, explicit permissions and downstream impact review make changes auditable. A canonical change may require historical restatement or a marked break in series; neither is implied automatically. This item concerns change control after a definition exists, not repeating the initial definition exercise.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 163,
+    "qid": "mbb:set-3:d6-053",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS team building a house of quality (QFD) for a new medical device translates customer requirements into technical specifications, but skips the 'roof' (technical correlation) section entirely to save time. What risk does this shortcut introduce?",
+      "options": [
+        "The roof section identifies correlations (positive or negative trade-offs) between technical specifications; skipping it risks the team later discovering an unaddressed trade-off (e.g., improving one spec inadvertently worsens another) only after design decisions are already locked in, rather than proactively identifying and managing that trade-off during planning",
+        "Skipping the roof section makes the entire house of quality analysis invalid and unusable",
+        "The roof section is only relevant for software products, never for physical medical devices",
+        "No risk; the roof section is purely decorative and carries no analytical value"
+      ],
+      "answer": 0,
+      "why": "The QFD roof specifically surfaces technical trade-offs between specifications; skipping it risks discovering conflicting requirements late in design rather than proactively planning around them. Source: [BOK] Domain VI.E, DFSS.",
+      "chart": {
+        "type": "house-of-quality"
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-053"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS team developing a portable medical sensor has translated customer needs into technical characteristics. Its house-of-quality review sketch below shows the technical-correlation roof as “not assessed”; the team has no equivalent analysis elsewhere. Which review action most directly addresses the missing information?",
+      "options": [
+        "Assess reinforcing and conflicting technical relationships and their rationale, then resolve important trade-offs; retain valid work in the rest of the matrix.",
+        "Treat the roof’s blank state as proof that all technical characteristics are independent, and release the design on the existing customer-priority ranking.",
+        "Discard every customer need and requirement already recorded, because an unfinished roof establishes that the entire voice-of-customer analysis is invalid.",
+        "Replace technical relationships with customer-importance weights, because both describe the same pairs of characteristics and therefore contain identical information."
+      ],
+      "answer": 0,
+      "why": "The roof addresses relationships among technical characteristics, whereas the body links customer needs to technical characteristics. Missing roof analysis can leave design conflicts or synergies unexamined. The omission does not prove independence or invalidate every other entry. Such roof assessments may initially be engineering judgments: they are not automatically measured Pearson correlations or experimentally established causal effects. Record the rationale, uncertainty and follow-up evidence for material trade-offs. The visual is a review-status sketch, not measured clinical performance or a complete safety assessment. Source alignment: ASQ CMBB VI.E; related design-quality application. Case conclusions follow from the stated assumptions.",
+      "chart": {
+        "type": "house-of-quality",
+        "title": "House of quality — review-status sketch",
+        "altText": "Triangular technical-correlation roof: not assessed. Below are technical characteristics and the customer-to-technical review body. This is a simplified status sketch, not measured performance.",
+        "evidence": {
+          "type": "data-table",
+          "title": "House-of-quality review status",
+          "altText": "The roof has not been assessed; the other named sections are recorded.",
+          "columns": [
+            "Section",
+            "Recorded content",
+            "Review status"
+          ],
+          "rows": [
+            [
+              "Technical-correlation roof",
+              "Pairs of technical characteristics",
+              "Not assessed"
+            ],
+            [
+              "Technical characteristics",
+              "Battery capacity; housing thickness; mass",
+              "Recorded"
+            ],
+            [
+              "Customer needs",
+              "Operating duration; durability; portability",
+              "Recorded"
+            ],
+            [
+              "Customer-to-technical body",
+              "Need-to-characteristic relationships",
+              "Recorded"
+            ]
+          ]
+        }
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-053",
+      "optionRationales": [
+        "Correct. It supplies the missing technical-relationship review without throwing away unrelated valid work or treating judgment as measured proof.",
+        "An empty analysis is missing evidence, not evidence of independence or suitability for release.",
+        "The missing technical review does not logically invalidate all customer needs and requirements already established.",
+        "Customer importance ranks needs; it does not identify interactions between pairs of technical characteristics."
+      ],
+      "distractors": [
+        "Correct. It supplies the missing technical-relationship review without throwing away unrelated valid work or treating judgment as measured proof.",
+        "An empty analysis is missing evidence, not evidence of independence or suitability for release.",
+        "The missing technical review does not logically invalidate all customer needs and requirements already established.",
+        "Customer importance ranks needs; it does not identify interactions between pairs of technical characteristics."
+      ],
+      "trap": "The roof relates technical characteristics to each other; the body relates needs to characteristics. Missing entries are not zero correlations.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.E; related design-quality application"
+        },
+        {
+          "title": "ASQ: Quality Function Deployment",
+          "url": "https://asq.org/quality-resources/qfd-quality-function-deployment",
+          "locator": "House of Quality and customer-driven product/service requirements"
+        },
+        {
+          "title": "ASQ: House of Quality",
+          "url": "https://asq.org/quality-resources/house-of-quality",
+          "locator": "House of Quality framework and technical benchmarking"
+        }
+      ]
+    },
+    "findings": [
+      "Replaced the unparameterized generic diagram with an explicit incomplete review-status sketch.",
+      "Distinguished technical judgments from measured correlations and preserved valid partial work.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "The roof addresses relationships among technical characteristics, whereas the body links customer needs to technical characteristics. Missing roof analysis can leave design conflicts or synergies unexamined. The omission does not prove independence or invalidate every other entry. Such roof assessments may initially be engineering judgments: they are not automatically measured Pearson correlations or experimentally established causal effects. Record the rationale, uncertainty and follow-up evidence for material trade-offs. The visual is a review-status sketch, not measured clinical performance or a complete safety assessment.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 164,
+    "qid": "mbb:set-3:d6-054",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS team develops a critical-to-quality (CTQ) tree for a new financial services product, but stops after the first level, translating only broad customer needs ('fast service') without decomposing further into measurable, specific requirements. What is the consequence of stopping at this level?",
+      "options": [
+        "Stopping at broad, unmeasurable statements like 'fast service' leaves the design team without the specific, measurable targets (e.g., 'account opening completed within 90 seconds') needed to actually design, verify, and validate against; the CTQ tree should be decomposed further into specific, measurable requirements before design work proceeds",
+        "The correct fix is to skip CTQ tree development entirely and rely solely on engineering judgment",
+        "No consequence; broad customer needs are always sufficient for driving detailed design specifications",
+        "CTQ trees should never be used for financial services products, only for physical/manufactured products"
+      ],
+      "answer": 0,
+      "why": "A CTQ tree's value comes from decomposing broad customer needs into specific, measurable requirements that design and verification can actually be checked against — stopping at the broad-statement level defeats this purpose. Source: [BOK] Domain VI.E, DFSS.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-054"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A financial-services DFSS team has recorded the need “fast account opening” but no measurable CTQ. It proposes an average completion time under 90 seconds, measured only for successful applications, even though users complain about long waits and timeouts. Which next step best develops a defensible requirement?",
+      "options": [
+        "Agree a customer-supported tail-time target, start/end events, eligible cases and treatment of timeouts, with acceptance criteria and a verification method.",
+        "Approve the proposed average and exclude timeouts permanently, because successful cases alone establish the experience of all eligible applicants.",
+        "Adopt 90 seconds as a universal requirement for financial services without customer or operational validation, because a numeric target is sufficient.",
+        "Select a faster database immediately and treat the architecture choice as the completed CTQ, without defining the customer-facing performance measure."
+      ],
+      "answer": 0,
+      "why": "A CTQ must translate the need into a verifiable requirement with an appropriate population, statistic, boundary and criterion. An average among successful cases can hide poor tail performance and excludes the failure experience. A percentile or time-based success target may be suitable, but its value must be agreed from customer and operational evidence rather than invented by the auditor. Define timeouts and excluded cases explicitly and retain other needs such as accuracy and accessibility. Exploratory design can continue, but requirements cannot be claimed complete without this definition. Source alignment: ASQ CMBB VI.E; related design-quality application. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-054",
+      "optionRationales": [
+        "Correct. It operationalizes the customer concern and avoids a biased successful-cases-only measure.",
+        "Conditioning only on successful completions can conceal timeouts and severe delays experienced by the eligible population.",
+        "A number is not customer evidence; the scenario does not justify a universal 90-second threshold.",
+        "An implementation choice is a proposed solution, not the measurable customer-facing CTQ needed to assess it."
+      ],
+      "distractors": [
+        "Correct. It operationalizes the customer concern and avoids a biased successful-cases-only measure.",
+        "Conditioning only on successful completions can conceal timeouts and severe delays experienced by the eligible population.",
+        "A number is not customer evidence; the scenario does not justify a universal 90-second threshold.",
+        "An implementation choice is a proposed solution, not the measurable customer-facing CTQ needed to assess it."
+      ],
+      "trap": "Measurable is more than numeric. Define the event boundaries, eligible population, tail behavior and failure handling before accepting a service-speed CTQ.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.E; related design-quality application"
+        },
+        {
+          "title": "NASA Systems Engineering Handbook: Requirements Verification Matrix",
+          "url": "https://www.nasa.gov/reference/appendix-d-requirements-verification-matrix/",
+          "locator": "Appendix D: unique requirements, source and verification approach"
+        },
+        {
+          "title": "NASA Systems Engineering Handbook: Product Realization",
+          "url": "https://www.nasa.gov/reference/5-0-product-realization/",
+          "locator": "5.3 Product Verification and 5.4 Product Validation; tailored methods and configuration evidence"
+        }
+      ]
+    },
+    "findings": [
+      "Qualified invented target and verification/validation terminology.",
+      "Added tail metric and timeout/denominator ambiguity for an MBB-level decision.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "A CTQ must translate the need into a verifiable requirement with an appropriate population, statistic, boundary and criterion. An average among successful cases can hide poor tail performance and excludes the failure experience. A percentile or time-based success target may be suitable, but its value must be agreed from customer and operational evidence rather than invented by the auditor. Define timeouts and excluded cases explicitly and retain other needs such as accuracy and accessibility. Exploratory design can continue, but requirements cannot be claimed complete without this definition.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 165,
+    "qid": "mbb:set-3:d6-055",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS project for a new consumer product completes the Design phase but has no formal Design Verification Plan (DVP) specifying which tests confirm which CTQs before moving to the Verify phase. What risk does this create?",
+      "options": [
+        "No risk; verification can always be figured out informally once the product is built",
+        "The correct fix is to verify only the CTQs that are easiest to test, regardless of their importance",
+        "A DVP is only required for DFSS projects in regulated industries, never for consumer products",
+        "Without a formal DVP linking specific tests to specific CTQs, the team risks either failing to verify some critical requirements at all, or verifying them inconsistently/incompletely — a DVP is the standard mechanism ensuring every CTQ has a defined, traceable verification method before the design is considered complete"
+      ],
+      "answer": 3,
+      "why": "A formal Design Verification Plan traceably links each CTQ to a specific verification method — without it, verification risks being incomplete or inconsistent, undermining confidence that the design actually meets its critical requirements. Source: [BOK] Domain VI.E, DFSS.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-055"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A consumer-product DFSS team has approved CTQs but plans to enter design verification with an informal list of convenient tests. There is no mapping to requirement IDs, operating conditions, acceptance criteria or the exact design configuration. No particular document title is mandated. What should the MBB require before claiming verification readiness?",
+      "options": [
+        "Rename the existing list “DVP” and approve it without checking coverage, because the formal title itself establishes requirement traceability.",
+        "Test only the easiest CTQs and use the average pass rate to claim that all critical requirements were verified.",
+        "Require physical testing for every requirement, rejecting suitable analysis, inspection or demonstration regardless of the requirement and evidence quality.",
+        "Create a controlled requirement-to-method plan with conditions, criteria, configuration, ownership and evidence records, and separately plan intended-use validation."
+      ],
+      "answer": 3,
+      "why": "A design verification plan or equivalent controlled record should show how each applicable requirement will be checked and how results support the claimed configuration. The need is traceable evidence, not a specific title or paperwork volume. Verification methods can include test, analysis, inspection or demonstration where suitable; sampling and uncertainty must fit the claim. Validation asks whether the product serves intended users and use conditions, not merely whether written specifications were met. Missing coverage and acceptance criteria should be resolved before readiness is claimed. Source alignment: ASQ CMBB VI.E; related design-quality application. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-055",
+      "optionRationales": [
+        "Changing a document name does not repair missing traceability, coverage or acceptance criteria.",
+        "An aggregate pass rate cannot substitute for evidence on an untested critical requirement.",
+        "Appropriate verification can use several methods; requiring physical tests universally is neither stated nor technically necessary.",
+        "Correct. It closes the actual planning gaps and keeps verification of requirements distinct from validation of intended use."
+      ],
+      "distractors": [
+        "Changing a document name does not repair missing traceability, coverage or acceptance criteria.",
+        "An aggregate pass rate cannot substitute for evidence on an untested critical requirement.",
+        "Appropriate verification can use several methods; requiring physical tests universally is neither stated nor technically necessary.",
+        "Correct. It closes the actual planning gaps and keeps verification of requirements distinct from validation of intended use."
+      ],
+      "trap": "A DVP is not evidence because of its title. Look for requirement coverage, decision criteria, configuration traceability and suitable methods.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.E; related design-quality application"
+        },
+        {
+          "title": "NASA Systems Engineering Handbook: Requirements Verification Matrix",
+          "url": "https://www.nasa.gov/reference/appendix-d-requirements-verification-matrix/",
+          "locator": "Appendix D: unique requirements, source and verification approach"
+        },
+        {
+          "title": "NASA Systems Engineering Handbook: Product Realization",
+          "url": "https://www.nasa.gov/reference/5-0-product-realization/",
+          "locator": "5.3 Product Verification and 5.4 Product Validation; tailored methods and configuration evidence"
+        }
+      ]
+    },
+    "findings": [
+      "Removed universal named-document claim.",
+      "Added method tailoring, configuration control and verification versus validation distinction.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "A design verification plan or equivalent controlled record should show how each applicable requirement will be checked and how results support the claimed configuration. The need is traceable evidence, not a specific title or paperwork volume. Verification methods can include test, analysis, inspection or demonstration where suitable; sampling and uncertainty must fit the claim. Validation asks whether the product serves intended users and use conditions, not merely whether written specifications were met. Missing coverage and acceptance criteria should be resolved before readiness is claimed.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 166,
+    "qid": "mbb:set-3:d6-056",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS team uses Pugh matrix analysis to compare four candidate design concepts against a baseline, using weighted criteria. Concept C scores highest overall but performs worse than baseline on one safety-related criterion. What should the MBB advise regarding this result?",
+      "options": [
+        "Automatically reject Concept C regardless of its otherwise strong performance across all other criteria",
+        "Automatically select Concept C since it has the highest overall weighted score, regardless of the individual criterion pattern",
+        "Ignore the Pugh matrix results entirely and select a design based on cost alone",
+        "Flag the safety-related criterion for specific scrutiny before finalizing the decision — a strong aggregate score can mask a concerning weakness on a single high-stakes criterion, and the team should evaluate whether Concept C's safety shortfall is acceptable or requires design modification before proceeding, rather than letting the aggregate score alone drive the decision"
+      ],
+      "answer": 3,
+      "why": "This is a direct parallel to the weighted-decision-matrix caution established elsewhere in this bank (Domain I): an aggregate score is a decision input, not a decision-maker, and a genuinely high-stakes individual criterion (like safety) deserves specific scrutiny even when the overall weighted score is favorable. Source: [BOK] Domain VI.E, DFSS.",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Criterion (weight)",
+          "Baseline",
+          "Concept C"
+        ],
+        "rows": [
+          [
+            "Cost (25%)",
+            "0",
+            "+2"
+          ],
+          [
+            "Performance (30%)",
+            "0",
+            "+2"
+          ],
+          [
+            "Manufacturability (20%)",
+            "0",
+            "+1"
+          ],
+          [
+            "Safety (25%)",
+            "0",
+            "−1"
+          ]
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-056"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS team shortlists Concept C using the weighted concept-scoring adaptation shown below. Scores range from −2 to +2 relative to a zero baseline; higher is better. This is not the classical plus/same/minus-only Pugh scale. Every released design must also meet a separate absolute safety acceptance criterion, which has not yet been evaluated for C. Which conclusion is justified?",
+      "options": [
+        "Reject C solely because safety scores −1; any performance below the baseline necessarily proves failure of the separate absolute safety criterion.",
+        "Release C because its weighted score is positive; favorable cost and performance scores compensate for an unverified mandatory safety requirement.",
+        "Treat the weighted score as a 105% probability that C meets all requirements, because percentage weights convert judgment scores into probabilities.",
+        "C scores +1.05, but remains provisional; evaluate the absolute safety gate and design trade-offs before selection or release."
+      ],
+      "answer": 3,
+      "why": "The weighted score is 0.25(2) + 0.30(2) + 0.20(1) + 0.25(−1) = 1.05. It is a judgment-based comparative index, not a probability or a verified safety result. A safety score below baseline does not itself prove failure of an absolute limit, but an unverified mandatory requirement cannot be offset by favorable scores elsewhere. Evaluate the safety evidence and resolve any failing requirement before release. No other concepts’ scores are supplied, so the table does not independently establish that C is the best of four. Source alignment: ASQ CMBB VI.E; related design-quality application. Case conclusions follow from the stated assumptions.",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Criterion (weight)",
+          "Baseline score",
+          "Concept C score"
+        ],
+        "rows": [
+          [
+            "Cost (25%)",
+            "0",
+            "+2"
+          ],
+          [
+            "Performance (30%)",
+            "0",
+            "+2"
+          ],
+          [
+            "Manufacturability (20%)",
+            "0",
+            "+1"
+          ],
+          [
+            "Safety (25%)",
+            "0",
+            "−1"
+          ]
+        ],
+        "title": "Weighted concept-scoring adaptation — Concept C",
+        "altText": "Judgment scores on a −2 to +2 scale; these are comparative scores, not absolute safety verification."
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-056",
+      "optionRationales": [
+        "A comparative decrement and failure of an absolute threshold are different; the necessary absolute evidence is not supplied.",
+        "An aggregate preference score cannot waive or verify a mandatory safety condition.",
+        "A weighted sum of ordinal judgment scores is not a probability, and 1.05 here has no percent-success interpretation.",
+        "Correct. The arithmetic is right and the interpretation separates comparative preference from the mandatory safety decision."
+      ],
+      "distractors": [
+        "A comparative decrement and failure of an absolute threshold are different; the necessary absolute evidence is not supplied.",
+        "An aggregate preference score cannot waive or verify a mandatory safety condition.",
+        "A weighted sum of ordinal judgment scores is not a probability, and 1.05 here has no percent-success interpretation.",
+        "Correct. The arithmetic is right and the interpretation separates comparative preference from the mandatory safety decision."
+      ],
+      "trap": "Calculate the score, then apply the gate. Relative performance versus a baseline neither establishes absolute compliance nor allows a mandatory requirement to be traded away.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.E; related design-quality application"
+        },
+        {
+          "title": "NASA Systems Engineering Handbook: Product Realization",
+          "url": "https://www.nasa.gov/reference/5-0-product-realization/",
+          "locator": "5.3 Product Verification and 5.4 Product Validation; tailored methods and configuration evidence"
+        }
+      ]
+    },
+    "findings": [
+      "Corrected Pugh scale terminology.",
+      "Removed unsupported ranking across absent alternatives.",
+      "Added absolute safety gate and independently verified +1.05.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "The weighted score is 0.25(2) + 0.30(2) + 0.20(1) + 0.25(−1) = 1.05. It is a judgment-based comparative index, not a probability or a verified safety result. A safety score below baseline does not itself prove failure of an absolute limit, but an unverified mandatory requirement cannot be offset by favorable scores elsewhere. Evaluate the safety evidence and resolve any failing requirement before release. No other concepts’ scores are supplied, so the table does not independently establish that C is the best of four.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 167,
+    "qid": "mbb:set-3:d6-057",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS team is deciding whether a new product's design should undergo full Design of Experiments optimization or simply meet minimum requirements with a single, un-optimized design point, given a tight development timeline. What consideration should drive this decision?",
+      "options": [
+        "The decision should be based solely on which approach the assigned engineer personally prefers",
+        "Full DOE optimization should always be skipped regardless of the product's failure-cost profile, purely to save time",
+        "Full DOE optimization should always be performed regardless of the product's risk profile or timeline constraints",
+        "The decision should weigh the cost of a design failure or suboptimal robustness against the time cost of full optimization — for a high-consequence or high-volume product where failure costs are severe, DOE-based robust design investment is usually justified even under time pressure; for a low-stakes, low-volume product, a faster minimum-viable approach may be more appropriate"
+      ],
+      "answer": 3,
+      "why": "This mirrors the earlier prosthetics/regulatory-tolerance DFSS reasoning: the appropriate level of design rigor should scale with the failure-cost and volume profile of the product, not be a fixed default in either direction regardless of context. Source: [BOK] Domain VI.E, DFSS.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-057"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS team faces a fixed development deadline. One candidate meets nominal CTQ targets, but performance under expected environmental and manufacturing variation has not been established. It is debating a large optimization DOE versus immediate release. Which MBB recommendation best addresses the decision?",
+      "options": [
+        "Release the nominal design if expected sales volume is low, treating low volume as a waiver of mandatory safety and performance requirements.",
+        "Require a full factorial covering every proposed setting before any decision, regardless of existing evidence, model needs or a smaller informative design.",
+        "Choose whichever concept has the best nominal mean, because passing one point proves robustness throughout the operating envelope.",
+        "Identify the consequential evidence gaps and use a feasible risk-based verification and design study; release only when applicable acceptance criteria are supported."
+      ],
+      "answer": 3,
+      "why": "The choice is not necessarily exhaustive optimization versus unsupported release. Use failure consequences, uncertainty, existing evidence, feasible designs and schedule to determine the additional work required. A targeted sequential DOE, focused robustness study or other suitable evidence may resolve key gaps more efficiently. High consequence does not prescribe one particular design, and low sales volume does not waive mandatory requirements. Optimize only where the expected information and design benefit justify it, while retaining necessary verification and validation before release. Source alignment: ASQ CMBB VI.E; related design-quality application. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-057",
+      "optionRationales": [
+        "Volume affects economic exposure but cannot, by itself, waive applicable mandatory acceptance requirements.",
+        "A large full factorial is not universally necessary or efficient; the design must fit the information needs.",
+        "Nominal success does not establish the response under environmental or manufacturing variation.",
+        "Correct. It avoids the false binary choice and preserves non-negotiable release evidence while tailoring the study."
+      ],
+      "distractors": [
+        "Volume affects economic exposure but cannot, by itself, waive applicable mandatory acceptance requirements.",
+        "A large full factorial is not universally necessary or efficient; the design must fit the information needs.",
+        "Nominal success does not establish the response under environmental or manufacturing variation.",
+        "Correct. It avoids the false binary choice and preserves non-negotiable release evidence while tailoring the study."
+      ],
+      "trap": "Separate optimization from required verification. Time pressure changes how evidence is obtained, not whether unsupported performance can be declared proven.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.E; related design-quality application"
+        },
+        {
+          "title": "NASA Systems Engineering Handbook: Product Realization",
+          "url": "https://www.nasa.gov/reference/5-0-product-realization/",
+          "locator": "5.3 Product Verification and 5.4 Product Validation; tailored methods and configuration evidence"
+        },
+        {
+          "title": "NIST: What are Taguchi designs?",
+          "url": "https://www.itl.nist.gov/div898/handbook/pri/section5/pri56.htm",
+          "locator": "5.5.6 Parameter Design; selection of tolerances by sensitivity and cost"
+        }
+      ]
+    },
+    "findings": [
+      "Removed cross-bank prosthetics reference and false binary framing.",
+      "Qualified risk/volume trade-off and preserved mandatory requirements.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "The choice is not necessarily exhaustive optimization versus unsupported release. Use failure consequences, uncertainty, existing evidence, feasible designs and schedule to determine the additional work required. A targeted sequential DOE, focused robustness study or other suitable evidence may resolve key gaps more efficiently. High consequence does not prescribe one particular design, and low sales volume does not waive mandatory requirements. Optimize only where the expected information and design benefit justify it, while retaining necessary verification and validation before release.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 168,
+    "qid": "mbb:set-3:d6-058",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS team building a fault tree analysis (FTA) for a new aircraft component identifies a top-level failure event connected to two contributing basic events through an AND gate. What does the AND gate indicate about how these two basic events combine to cause the top event?",
+      "options": [
+        "AND and OR gates are functionally identical in fault tree analysis with no meaningful difference",
+        "Either basic event alone is sufficient to cause the top-level failure",
+        "Both basic events must occur simultaneously for the top-level failure to occur — an AND gate requires all its input events to be present, as distinct from an OR gate, which requires only one of its inputs to trigger the output event",
+        "An AND gate indicates the two basic events are mutually exclusive and can never occur together"
+      ],
+      "answer": 2,
+      "why": "This tests basic FTA logic-gate literacy: an AND gate requires all input events to occur for the output to trigger, while an OR gate requires only one — a foundational distinction for correctly reading and constructing fault trees. Source: [BOK] Domain VI.E, DFSS.",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Gate type",
+          "Requirement for output event",
+          "Example"
+        ],
+        "rows": [
+          [
+            "AND",
+            "All input events must occur",
+            "Backup power fails AND primary power fails"
+          ],
+          [
+            "OR",
+            "Any one input event is sufficient",
+            "Sensor A fails OR Sensor B fails"
+          ]
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-058"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A simplified fault tree defines total power loss at a specified mission demand as A AND B. A and B denote primary and backup supply unavailability at that same demand. No other path is included. The table gives P(A), P(B) and P(B given A); the events are not independent. What is the modeled top-event probability and correct timing interpretation?",
+      "options": [
+        "0.0006; multiplying the two marginal probabilities is valid because an AND gate itself guarantees independent failure events.",
+        "0.0500; add the marginal probabilities because either unavailable supply alone meets the stated AND condition.",
+        "0.0020; use the conditional joint probability, and require both unavailability states—not failures beginning at the identical instant.",
+        "0.0480; subtract the joint term from the sum, because that union probability represents the stated AND output."
+      ],
+      "answer": 2,
+      "why": "An AND output is the intersection of its input events. Here P(A and B) = P(A) × P(B given A) = 0.02 × 0.10 = 0.0020, or 0.20%. Multiplying the marginals would give 0.0006, but independence is explicitly contradicted by P(B given A) = 0.10 versus P(B) = 0.03. The union probability would be 0.02 + 0.03 − 0.002 = 0.048. Both unavailability states must be present at the specified demand; a static AND gate does not require identical failure onset times or specify sequence. The simplified tree is not a complete aircraft safety assessment. Source alignment: ASQ CMBB VI.B.9: reliability modeling; related DFSS risk analysis. Case conclusions follow from the stated assumptions.",
+      "chart": {
+        "type": "data-table",
+        "title": "Probability inputs at the specified mission demand",
+        "altText": "All probabilities apply to unavailability at the same specified mission demand: primary 0.02, backup 0.03, backup conditional on primary 0.10.",
+        "columns": [
+          "Input event or condition",
+          "Probability"
+        ],
+        "rows": [
+          [
+            "A: primary supply unavailable",
+            "0.02"
+          ],
+          [
+            "B: backup supply unavailable",
+            "0.03"
+          ],
+          [
+            "B given A: backup unavailable when primary unavailable",
+            "0.10"
+          ]
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-058",
+      "optionRationales": [
+        "An AND gate specifies logical intersection, not statistical independence; the supplied conditional probability rules out this product.",
+        "Adding marginals corresponds to a union approximation and does not implement the stated AND condition.",
+        "Correct. It uses the supplied dependence information and distinguishes concurrent event states from simultaneous failure onset.",
+        "0.048 is the union probability; it would concern A OR B, not the defined top event."
+      ],
+      "distractors": [
+        "An AND gate specifies logical intersection, not statistical independence; the supplied conditional probability rules out this product.",
+        "Adding marginals corresponds to a union approximation and does not implement the stated AND condition.",
+        "Correct. It uses the supplied dependence information and distinguishes concurrent event states from simultaneous failure onset.",
+        "0.048 is the union probability; it would concern A OR B, not the defined top event."
+      ],
+      "trap": "Gate logic and probabilistic dependence are separate. Use the event definitions and conditional probability; “both unavailable” does not mean “failed at the same instant.”",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.B.9: reliability modeling; related DFSS risk analysis"
+        },
+        {
+          "title": "NRC: Fault Tree Handbook, NUREG-0492",
+          "url": "https://www.nrc.gov/reading-rm/doc-collections/nuregs/staff/sr0492/index",
+          "locator": "Publication identity and fault-tree methodology; probability calculation independently derived, no unverified page locator"
+        }
+      ]
+    },
+    "findings": [
+      "Corrected simultaneous-onset implication.",
+      "Removed answer-revealing gate-definition table and replaced it with scenario probability evidence.",
+      "Added dependence and independently calculated joint probability.",
+      "Final review fixes the common demand instant so temporally separate unavailability periods are not confused with coincident states.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "An AND output is the intersection of its input events. Here P(A and B) = P(A) × P(B given A) = 0.02 × 0.10 = 0.0020, or 0.20%. Multiplying the marginals would give 0.0006, but independence is explicitly contradicted by P(B given A) = 0.10 versus P(B) = 0.03. The union probability would be 0.02 + 0.03 − 0.002 = 0.048. Both unavailability states must be present at the specified demand; a static AND gate does not require identical failure onset times or specify sequence. The simplified tree is not a complete aircraft safety assessment.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 169,
+    "qid": "mbb:set-3:d6-059",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS team's robust design study for a new sensor housing tests performance across a range of expected environmental noise factors (temperature, humidity, vibration) rather than only at nominal conditions. What is the core purpose of this approach, distinct from simply testing at nominal conditions?",
+      "options": [
+        "Robust design specifically aims to identify a design/parameter setting that performs consistently well across the expected range of real-world noise/variation, rather than one that only performs well under ideal, nominal laboratory conditions — directly addressing the gap between lab performance and real-world reliability",
+        "Robust design and nominal-condition testing always produce identical results regardless of the noise factors involved",
+        "Testing across noise factors always produces worse results than testing at nominal conditions and should be avoided",
+        "Testing across noise factors is purely a regulatory formality with no actual design value"
+      ],
+      "answer": 0,
+      "why": "Robust design (a core DFSS/Taguchi concept) specifically targets performance consistency across real-world noise/variation, not just nominal-condition performance — the entire point is closing the gap between idealized lab testing and actual field reliability. Source: [BOK] Domain VI.E, DFSS.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-059"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A sensor-housing team has identified feasible design settings and representative laboratory levels of temperature, humidity and vibration that vary in service. It has not yet compared settings across those noise conditions. Which study most directly supports robust parameter selection rather than merely documenting nominal performance?",
+      "options": [
+        "Cross candidate settings with representative noise conditions, assess both target performance and sensitivity, and confirm the chosen setting under intended use.",
+        "Test only the current setting across noise conditions and claim this alone identifies the best alternative setting, without testing or modeling those alternatives.",
+        "Choose the setting with the smallest spread regardless of whether its mean meets the functional target or any mandatory operating limit.",
+        "Choose the best nominal result and assume averaging later field measurements will remove design sensitivity to temperature, humidity and vibration."
+      ],
+      "answer": 0,
+      "why": "Robust parameter design seeks controllable settings that perform acceptably despite relevant noise, not simply settings with the best nominal mean. A planned control-by-noise comparison can expose sensitivity and important interactions while evaluating the target level and constraints. Testing only one configuration may assess it, but cannot by itself identify the best untested alternative. Laboratory coverage, replication and confirmation must support the intended-use claim; no finite set of noise levels proves performance under every possible field condition. Source alignment: ASQ CMBB VI.C.3; VI.E as related robust design application. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-059",
+      "optionRationales": [
+        "Correct. It compares controllable choices under the relevant variation and evaluates target performance together with sensitivity.",
+        "This can characterize the current design but does not supply a comparison of the untested alternatives.",
+        "Low variability is not useful if the mean or another requirement is unacceptable.",
+        "Averaging observations does not remove an underlying design response to environmental variation."
+      ],
+      "distractors": [
+        "Correct. It compares controllable choices under the relevant variation and evaluates target performance together with sensitivity.",
+        "This can characterize the current design but does not supply a comparison of the untested alternatives.",
+        "Low variability is not useful if the mean or another requirement is unacceptable.",
+        "Averaging observations does not remove an underlying design response to environmental variation."
+      ],
+      "trap": "Noise testing characterizes a design; control-by-noise comparison helps select a robust design. Low spread must still accompany acceptable target performance.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.C.3; VI.E as related robust design application"
+        },
+        {
+          "title": "NIST: What are Taguchi designs?",
+          "url": "https://www.itl.nist.gov/div898/handbook/pri/section5/pri56.htm",
+          "locator": "5.5.6 Parameter Design; selection of tolerances by sensitivity and cost"
+        }
+      ]
+    },
+    "findings": [
+      "Distinguished robustness assessment from robust parameter selection.",
+      "Added control/noise comparison, mean-target trade-off and coverage limits.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "Robust parameter design seeks controllable settings that perform acceptably despite relevant noise, not simply settings with the best nominal mean. A planned control-by-noise comparison can expose sensitivity and important interactions while evaluating the target level and constraints. Testing only one configuration may assess it, but cannot by itself identify the best untested alternative. Laboratory coverage, replication and confirmation must support the intended-use claim; no finite set of noise levels proves performance under every possible field condition.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 170,
+    "qid": "mbb:set-3:d6-060",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS scorecard for a new product tracks predicted Cpk for each CTQ based on early design-stage tolerance analysis, before any physical prototypes exist. What is the primary value and primary limitation of this predicted-Cpk approach?",
+      "options": [
+        "Predicted Cpk from tolerance analysis is always exactly as reliable as Cpk measured from actual production data, with no meaningful limitation",
+        "The value is identifying likely capability problems early, when design changes are still cheap to make, rather than after tooling and production are already committed; the limitation is that predicted Cpk depends on the accuracy of the underlying tolerance/variation assumptions, which may not fully reflect real-world manufacturing variation once production begins",
+        "Predicted Cpk has no value at all and should never be calculated before physical prototypes exist",
+        "The only limitation of predicted Cpk is that it takes too long to calculate, not that its accuracy is inherently uncertain"
+      ],
+      "answer": 1,
+      "why": "Early predicted-Cpk analysis is valuable specifically because it's cheap to act on design issues before production commitment, but its accuracy is inherently bounded by the quality of the underlying tolerance/variation assumptions — a genuine trade-off, not a flaw to be dismissed or an infallible substitute for production data. Source: [BOK] Domain VI.E, DFSS.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-060"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "Before prototypes exist, a DFSS scorecard reports predicted Cpk from engineering tolerance widths alone. The analyst has not specified component distributions, centering, correlations or how tolerance limits relate to manufacturing standard deviations. What is the most defensible review conclusion?",
+      "options": [
+        "Treat each drawing half-tolerance as exactly three standard deviations and certify production capability without documenting or validating that assumption.",
+        "Use capability prediction only as a conditional design model after specifying the variation basis and sensitivity; validate it later with representative measured performance.",
+        "Discard all early tolerance analysis, because a model can never provide useful information before a physical prototype has been manufactured.",
+        "Treat any positive predicted Cpk as proof of process stability and the exact defect rate, regardless of the assumed manufacturing distribution."
+      ],
+      "answer": 1,
+      "why": "Specification or tolerance limits constrain allowed geometry; they do not uniquely determine a manufacturing distribution or its standard deviation. A model-based capability forecast needs a justified mean, variation and dependence model, with explicit uncertainty and intended conditions. It can guide early design choices and sensitivity analysis, but is not an observed production-capability result. Empirical evidence is needed to validate the model and assess stable, representative operation. Even a numerically defined Cpk does not by itself establish a distribution-based tail probability or future stability. Source alignment: ASQ CMBB VI.A.1; VI.A.5; I.D.2, with related VI.E design-quality application. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-060",
+      "optionRationales": [
+        "Tolerance equals three standard deviations only under an extra modeling assumption; it is not guaranteed by the drawing.",
+        "Correct. It preserves the value of early analysis while making its assumptions, sensitivity and later validation explicit.",
+        "Conditional modeling can help compare designs and expose risks; the absence of prototypes does not make all analysis worthless.",
+        "Cpk alone proves neither stability nor a distribution-free exact defect rate."
+      ],
+      "distractors": [
+        "Tolerance equals three standard deviations only under an extra modeling assumption; it is not guaranteed by the drawing.",
+        "Correct. It preserves the value of early analysis while making its assumptions, sensitivity and later validation explicit.",
+        "Conditional modeling can help compare designs and expose risks; the absence of prototypes does not make all analysis worthless.",
+        "Cpk alone proves neither stability nor a distribution-free exact defect rate."
+      ],
+      "trap": "A tolerance width is not a measured standard deviation. A predicted capability index must identify its variation model and remain distinguishable from observed capability.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A.1; VI.A.5; I.D.2, with related VI.E design-quality application"
+        },
+        {
+          "title": "NIST: What is Process Capability?",
+          "url": "https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm",
+          "locator": "6.1.6; stable process and distribution/variation basis"
+        },
+        {
+          "title": "NIST: What are Taguchi designs?",
+          "url": "https://www.itl.nist.gov/div898/handbook/pri/section5/pri56.htm",
+          "locator": "5.5.6 Parameter Design; selection of tolerances by sensitivity and cost"
+        }
+      ]
+    },
+    "findings": [
+      "Corrected tolerance-to-SD assumption gap.",
+      "Separated conditional predicted index, stability, empirical capability and tail probability.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "Specification or tolerance limits constrain allowed geometry; they do not uniquely determine a manufacturing distribution or its standard deviation. A model-based capability forecast needs a justified mean, variation and dependence model, with explicit uncertainty and intended conditions. It can guide early design choices and sensitivity analysis, but is not an observed production-capability result. Empirical evidence is needed to validate the model and assess stable, representative operation. Even a numerically defined Cpk does not by itself establish a distribution-based tail probability or future stability.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 171,
+    "qid": "mbb:set-3:d6-061",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS team is deciding how to allocate tolerance budgets across five components that together determine a critical assembly dimension. One component is far cheaper to manufacture to tight tolerance than the others. What tolerance allocation approach makes the best use of this asymmetry?",
+      "options": [
+        "Tolerance allocation should be based solely on which component was designed first, regardless of manufacturing cost",
+        "Allocate all tolerance budget to the single cheapest component, ignoring the other four components' contribution to the assembly dimension entirely",
+        "Allocate equal tolerance to all five components regardless of their differing manufacturing cost structures",
+        "Allocate tighter tolerance to the cheap-to-tighten component and looser tolerance to the more expensive-to-tighten components, using a cost-based (rather than equal-split) tolerance allocation approach, while still meeting the overall assembly tolerance requirement — minimizing total manufacturing cost for the required overall precision"
+      ],
+      "answer": 3,
+      "why": "Cost-based (rather than equal-split) tolerance allocation is the standard, more sophisticated approach in tolerance design — concentrating tighter tolerance where it's cheapest to achieve minimizes total cost while still meeting the overall assembly requirement. Source: [BOK] Domain VI.E, DFSS.",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Component",
+          "Cost to tighten tolerance",
+          "Allocated tolerance"
+        ],
+        "rows": [
+          [
+            "1 (cheap)",
+            "Low",
+            "±0.02 mm"
+          ],
+          [
+            "2",
+            "Medium",
+            "±0.05 mm"
+          ],
+          [
+            "3",
+            "High",
+            "±0.10 mm"
+          ],
+          [
+            "4",
+            "High",
+            "±0.10 mm"
+          ],
+          [
+            "5",
+            "Medium",
+            "±0.05 mm"
+          ]
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-061"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "Five component deviations add directly with sensitivity +1 to an assembly dimension. Each listed symmetric half-tolerance is a hard allowable bound. The customer requires the assembly within ±0.25 mm for every permitted combination; no statistical tolerance alternative is authorized. Component 1 is cheapest to tighten, but marginal cost curves are unavailable. How should the MBB assess the proposed allocation?",
+      "options": [
+        "Approve the allocation because its root-sum-square half-width is about 0.1594 mm, which guarantees all permitted combinations remain inside ±0.25 mm.",
+        "Approve the allocation because the average component half-tolerance is 0.064 mm, so that average is the worst-case assembly deviation.",
+        "Tighten component 1 to zero half-tolerance and approve the other four unchanged, because eliminating the cheapest contribution meets the assembly requirement.",
+        "The worst-case half-width is 0.32 mm and fails; optimize the contributions jointly, since tightening component 1 alone cannot meet ±0.25 mm."
+      ],
+      "answer": 3,
+      "why": "For the stated additive geometry and hard-bound guarantee, the worst-case half-width is 0.02 + 0.05 + 0.10 + 0.10 + 0.05 = 0.32 mm, exceeding 0.25 mm by 0.07 mm. Even eliminating component 1’s entire 0.02 mm contribution leaves 0.30 mm. Root-sum-square gives about 0.1594 mm but is not an all-combinations guarantee; statistical interpretations would need a permitted probabilistic criterion and justified distributions and dependencies. Optimize using sensitivities, feasible manufacturing capability and marginal costs. Qualitative cost labels alone do not prove a unique cost optimum. Source alignment: ASQ CMBB VI.A.1: propagation; VI.E as related tolerance-design application. Case conclusions follow from the stated assumptions.",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Component",
+          "Relative tightening cost",
+          "Proposed hard bound"
+        ],
+        "rows": [
+          [
+            "1",
+            "Low",
+            "±0.02 mm"
+          ],
+          [
+            "2",
+            "Medium",
+            "±0.05 mm"
+          ],
+          [
+            "3",
+            "High",
+            "±0.10 mm"
+          ],
+          [
+            "4",
+            "High",
+            "±0.10 mm"
+          ],
+          [
+            "5",
+            "Medium",
+            "±0.05 mm"
+          ]
+        ],
+        "title": "Proposed hard-bound allocation — additive assembly",
+        "altText": "Proposed component bounds, not an approved allocation. Assembly requirement is a ±0.25 mm hard bound."
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-061",
+      "optionRationales": [
+        "Root-sum-square does not bound all permitted combinations when every component can reach its same-direction tolerance limit.",
+        "Averaging component limits is not propagation through an additive assembly dimension.",
+        "Removing 0.02 mm leaves 0.30 mm, which still exceeds the required 0.25 mm half-width.",
+        "Correct. It checks feasibility before cost allocation and identifies why the cheapest component alone cannot close the gap."
+      ],
+      "distractors": [
+        "Root-sum-square does not bound all permitted combinations when every component can reach its same-direction tolerance limit.",
+        "Averaging component limits is not propagation through an additive assembly dimension.",
+        "Removing 0.02 mm leaves 0.30 mm, which still exceeds the required 0.25 mm half-width.",
+        "Correct. It checks feasibility before cost allocation and identifies why the cheapest component alone cannot close the gap."
+      ],
+      "trap": "Choose the tolerance model from the requirement. A worst-case guarantee and a statistical yield target are not interchangeable; low tightening cost does not prove adequate contribution.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A.1: propagation; VI.E as related tolerance-design application"
+        },
+        {
+          "title": "NIST: What are Taguchi designs?",
+          "url": "https://www.itl.nist.gov/div898/handbook/pri/section5/pri56.htm",
+          "locator": "5.5.6 Parameter Design; selection of tolerances by sensitivity and cost"
+        }
+      ]
+    },
+    "findings": [
+      "Supplied missing assembly equation and acceptance limit.",
+      "Corrected implied feasibility and cost-optimality of the original illustrative allocation.",
+      "Retained original component tolerances and independently checked all 32 extreme combinations.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "For the stated additive geometry and hard-bound guarantee, the worst-case half-width is 0.02 + 0.05 + 0.10 + 0.10 + 0.05 = 0.32 mm, exceeding 0.25 mm by 0.07 mm. Even eliminating component 1’s entire 0.02 mm contribution leaves 0.30 mm. Root-sum-square gives about 0.1594 mm but is not an all-combinations guarantee; statistical interpretations would need a permitted probabilistic criterion and justified distributions and dependencies. Optimize using sensitivities, feasible manufacturing capability and marginal costs. Qualitative cost labels alone do not prove a unique cost optimum.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 172,
+    "qid": "mbb:set-3:d6-062",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS scorecard shows a product's predicted reliability (based on component-level failure rate data) exceeds the target, but the team has not validated this prediction against any accelerated life testing of the actual assembled product. What should the MBB recommend before the team declares the reliability target met?",
+      "options": [
+        "Reject the reliability prediction entirely without any further testing, regardless of its methodology",
+        "Accept the predicted reliability figure as final, since component-level failure rate data is always sufficient on its own",
+        "Recommend accelerated life testing (or another validation method) on the actual assembled product before declaring the target met, since component-level predictions may not capture assembly-level interactions, unanticipated failure modes, or real-world stress combinations that only emerge in an integrated, tested product",
+        "Recommend skipping reliability validation entirely for any product with a strong predicted figure"
+      ],
+      "answer": 2,
+      "why": "Component-level reliability predictions can miss assembly-level interactions and real-world stress combinations; validating the prediction against actual testing on the integrated product (e.g., accelerated life testing) is the standard practice before declaring a reliability target genuinely met. Source: [BOK] Domain VI.E, DFSS.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-062"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS reliability model based on component data predicts that the assembled product meets its specified mission target. No integrated-product evidence yet supports the assumed environmental stresses, interfaces or common-cause behavior. The team proposes a single high-stress test with no justified acceleration model. What should the MBB recommend?",
+      "options": [
+        "Accept the component prediction as the release demonstration, because favorable component failure rates exclude assembly interactions and common causes.",
+        "Convert high-stress hours directly into use-condition hours using an arbitrary fixed multiplier, then claim the mission target from that equivalent exposure.",
+        "Plan mission- and failure-mode-relevant integrated evidence with acceptance criteria and uncertainty; use acceleration only where its model and mechanisms are justified.",
+        "Reject every component-level prediction and prohibit its use in test planning, even if it contains relevant verified information about individual failure mechanisms."
+      ],
+      "answer": 2,
+      "why": "A component model is useful evidence but does not resolve unsupported assembly interactions, environments and dependence. The verification strategy should define the mission, configuration, relevant failure modes, confidence or other uncertainty treatment and acceptance criteria. Integrated tests or justified combinations of evidence must address the actual gaps. Accelerated testing requires a defensible stress-life relationship and should not introduce unrelated mechanisms; a single arbitrary high-stress exposure is not automatically a use-life demonstration. No universal accelerated-test requirement or multiplier can be inferred from this case. Source alignment: ASQ CMBB VI.B.9; VI.E as related reliability-design application. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-062",
+      "optionRationales": [
+        "Component-level rates do not exclude interactions, shared stresses or common-cause failures at the assembled-product level.",
+        "The scenario provides no basis for a conversion factor; unsupported equivalent hours create false precision.",
+        "Correct. It targets the missing system evidence and requires a defensible extrapolation model instead of equating stress with proof.",
+        "Relevant component information can guide both the model and an efficient validation plan; it need not be discarded."
+      ],
+      "distractors": [
+        "Component-level rates do not exclude interactions, shared stresses or common-cause failures at the assembled-product level.",
+        "The scenario provides no basis for a conversion factor; unsupported equivalent hours create false precision.",
+        "Correct. It targets the missing system evidence and requires a defensible extrapolation model instead of equating stress with proof.",
+        "Relevant component information can guide both the model and an efficient validation plan; it need not be discarded."
+      ],
+      "trap": "Accelerated exposure is not automatically equivalent use life. Match failure mechanisms, mission conditions, configuration and uncertainty to the reliability claim.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.B.9; VI.E as related reliability-design application"
+        },
+        {
+          "title": "NIST: Accelerated life tests",
+          "url": "https://www.itl.nist.gov/div898/handbook/apr/section3/apr314.htm",
+          "locator": "8.3.1.4; acceleration models, stress cells and projection to use conditions"
+        },
+        {
+          "title": "NASA Systems Engineering Handbook: Product Realization",
+          "url": "https://www.nasa.gov/reference/5-0-product-realization/",
+          "locator": "5.3 Product Verification and 5.4 Product Validation; tailored methods and configuration evidence"
+        }
+      ]
+    },
+    "findings": [
+      "Removed implication that accelerated testing is universally required or sufficient.",
+      "Added mission, dependence, failure-mechanism and uncertainty requirements.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "A component model is useful evidence but does not resolve unsupported assembly interactions, environments and dependence. The verification strategy should define the mission, configuration, relevant failure modes, confidence or other uncertainty treatment and acceptance criteria. Integrated tests or justified combinations of evidence must address the actual gaps. Accelerated testing requires a defensible stress-life relationship and should not introduce unrelated mechanisms; a single arbitrary high-stress exposure is not automatically a use-life demonstration. No universal accelerated-test requirement or multiplier can be inferred from this case.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 173,
+    "qid": "mbb:set-3:d6-063",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS project charter for a next-generation product states the goal as 'make the product better than the current one,' with no specific, measurable target. What DFSS principle from elsewhere in this bank does this violate?",
+      "options": [
+        "This repeats the vague-strategic-objective problem established elsewhere (Domain I): an unmeasurable goal statement cannot meaningfully drive specific CTQ targets, design trade-off decisions, or verification criteria — the charter should be revised to state specific, measurable targets (e.g., '20% weight reduction while maintaining current strength rating') before design work proceeds",
+        "DFSS project charters should never include any goal statement at all, only a list of CTQs",
+        "No principle is violated; a general directional goal is always sufficient for DFSS project charters",
+        "This vague goal statement is acceptable as long as the assigned engineer personally understands what 'better' means"
+      ],
+      "answer": 0,
+      "why": "This is a direct cross-domain application of the measurable-objective principle established for strategic plans (Domain I) to DFSS project chartering specifically — an unmeasurable goal cannot meaningfully drive the specific CTQ targets and trade-off decisions design work requires. Source: [BOK] Domain VI.E, DFSS.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-063"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A next-generation product charter says only “better than the current model.” The sponsor now requests authorization for design freeze, but customer needs, baseline comparisons, measurable targets and non-negotiable constraints have not been agreed. What should the MBB recommend?",
+      "options": [
+        "Agree customer-linked measurable objectives, comparison conditions, constraints and acceptance criteria before design freeze; continue only suitably bounded discovery meanwhile.",
+        "Freeze the design once engineers privately agree it is better, leaving the sponsor to define measurable acceptance after seeing the finished product.",
+        "Choose a convenient 20% weight reduction without customer evidence and use it as the only requirement, regardless of strength, cost or operating conditions.",
+        "Ban all exploratory research until every requirement is final, because an initial directional goal can never support any legitimate discovery work."
+      ],
+      "answer": 0,
+      "why": "A directional aspiration can initiate discovery but cannot support a claim that a frozen design satisfies agreed needs. The team and sponsor should operationalize objectives, baselines, measurement conditions, constraints and acceptance evidence. Targets should follow from customer and business evidence rather than arbitrary percentages, and competing requirements must remain visible. This does not require pretending every uncertainty is resolved before exploratory work; it requires matching authorization and claims to the maturity of the requirements. Source alignment: ASQ CMBB VI.E; related design-quality application. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-063",
+      "optionRationales": [
+        "Correct. It makes the freeze decision evidence-based while permitting explicitly bounded discovery appropriate to unresolved requirements.",
+        "Private engineering agreement does not supply shared customer-linked objectives or a fair prospective acceptance standard.",
+        "A convenient target is not established by the scenario and may sacrifice other critical requirements.",
+        "An initial aspiration can legitimately guide discovery; the problem is unsupported design freeze, not all exploratory work."
+      ],
+      "distractors": [
+        "Correct. It makes the freeze decision evidence-based while permitting explicitly bounded discovery appropriate to unresolved requirements.",
+        "Private engineering agreement does not supply shared customer-linked objectives or a fair prospective acceptance standard.",
+        "A convenient target is not established by the scenario and may sacrifice other critical requirements.",
+        "An initial aspiration can legitimately guide discovery; the problem is unsupported design freeze, not all exploratory work."
+      ],
+      "trap": "Match the decision to requirement maturity. A direction can support exploration, but acceptance targets should not be invented after the design is frozen.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.E; related design-quality application"
+        },
+        {
+          "title": "NASA Systems Engineering Handbook: Requirements Verification Matrix",
+          "url": "https://www.nasa.gov/reference/appendix-d-requirements-verification-matrix/",
+          "locator": "Appendix D: unique requirements, source and verification approach"
+        },
+        {
+          "title": "NASA Systems Engineering Handbook: Product Realization",
+          "url": "https://www.nasa.gov/reference/5-0-product-realization/",
+          "locator": "5.3 Product Verification and 5.4 Product Validation; tailored methods and configuration evidence"
+        }
+      ]
+    },
+    "findings": [
+      "Removed explicit cross-bank dependence.",
+      "Qualified blanket prohibition on all design work before measurable goals.",
+      "Distinguished discovery from design freeze.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "A directional aspiration can initiate discovery but cannot support a claim that a frozen design satisfies agreed needs. The team and sponsor should operationalize objectives, baselines, measurement conditions, constraints and acceptance evidence. Targets should follow from customer and business evidence rather than arbitrary percentages, and competing requirements must remain visible. This does not require pretending every uncertainty is resolved before exploratory work; it requires matching authorization and claims to the maturity of the requirements.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 174,
+    "qid": "mbb:set-3:d6-064",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "An MBB is coaching a DFSS team through their final design review, synthesizing lessons from house of quality, CTQ trees, Pugh matrix selection, tolerance design, and reliability validation. What single principle should the MBB emphasize as the thread connecting all these DFSS tools?",
+      "options": [
+        "Only the final reliability validation step matters; all earlier tools are optional formalities",
+        "The tools should be applied in a random order depending on team preference, since sequence has no bearing on outcome",
+        "Each tool progressively translates and verifies the connection from customer need to final, validated design — the house of quality translates needs into specs, the CTQ tree decomposes specs into measurable targets, Pugh matrix selects among design concepts against those targets, tolerance design allocates precision to meet them cost-effectively, and reliability validation confirms the design actually delivers on them under real-world conditions — a design robustness chain from customer need through validated delivery",
+        "Each DFSS tool operates in complete isolation with no meaningful connection to the others"
+      ],
+      "answer": 2,
+      "why": "This capstone item requires synthesizing the DFSS toolchain into a single coherent narrative: each tool serves a specific, sequential purpose in translating and verifying the connection from customer need through to a validated, robust design — genuinely MBB-level integrative understanding of the DFSS methodology as a whole. Source: [BOK] Domain VI.E, DFSS.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-064"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "At final DFSS review, a customer requirement has changed after concept selection. The QFD, CTQ definitions, tolerance analysis and test reports each appear complete but reference different requirement and design versions. Which MBB action best reconnects the tools to a defensible release decision?",
+      "options": [
+        "Count completed templates and approve release if every named DFSS tool appears at least once, regardless of version consistency or supporting evidence.",
+        "Repeat every DFSS tool in a universal fixed sequence, even where an impact assessment would show that valid results are unaffected by the change.",
+        "Trace the changed need through requirements, design decisions and evidence; reconcile versions, reassess affected work and close gaps before release.",
+        "Update only the final scorecard label to the latest requirement, assuming older calculations and tests remain valid without examining what changed."
+      ],
+      "answer": 2,
+      "why": "The connecting principle is traceability from intended needs through measurable requirements and design decisions to relevant verification and validation evidence. DFSS tools do not impose one universal linear sequence, and a CTQ tree does not necessarily start from specifications already generated by QFD. A change-impact review should identify which assumptions, analyses and tests remain valid and which must be revised or repeated. Completed documents from inconsistent versions are not a coherent evidence package. Updating labels without reassessment would conceal the missing support. Source alignment: ASQ CMBB VI.E; related design-quality application. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-064",
+      "optionRationales": [
+        "Template completion is activity evidence, not proof that the current configuration meets the current requirements.",
+        "A rigid universal sequence is not established and can waste valid work; affected evidence should be identified through impact analysis.",
+        "Correct. It restores configuration and requirement traceability, preserves unaffected valid work and resolves real evidence gaps.",
+        "Relabeling a scorecard does not validate calculations or tests performed against different requirements or configurations."
+      ],
+      "distractors": [
+        "Template completion is activity evidence, not proof that the current configuration meets the current requirements.",
+        "A rigid universal sequence is not established and can waste valid work; affected evidence should be identified through impact analysis.",
+        "Correct. It restores configuration and requirement traceability, preserves unaffected valid work and resolves real evidence gaps.",
+        "Relabeling a scorecard does not validate calculations or tests performed against different requirements or configurations."
+      ],
+      "trap": "Trace evidence, not paperwork. A completed tool is useful only when its assumptions and configuration support the actual release claim.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.E; related design-quality application"
+        },
+        {
+          "title": "NASA Systems Engineering Handbook: Requirements Verification Matrix",
+          "url": "https://www.nasa.gov/reference/appendix-d-requirements-verification-matrix/",
+          "locator": "Appendix D: unique requirements, source and verification approach"
+        },
+        {
+          "title": "NASA Systems Engineering Handbook: Product Realization",
+          "url": "https://www.nasa.gov/reference/5-0-product-realization/",
+          "locator": "5.3 Product Verification and 5.4 Product Validation; tailored methods and configuration evidence"
+        },
+        {
+          "title": "ASQ: Quality Function Deployment",
+          "url": "https://asq.org/quality-resources/qfd-quality-function-deployment",
+          "locator": "House of Quality and customer-driven product/service requirements"
+        }
+      ]
+    },
+    "findings": [
+      "Corrected rigid sequential toolchain and CTQ-tree ordering overclaims.",
+      "Removed author-level capstone commentary.",
+      "Differentiated from verification-plan recall by testing change impact and configuration evidence.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "The connecting principle is traceability from intended needs through measurable requirements and design decisions to relevant verification and validation evidence. DFSS tools do not impose one universal linear sequence, and a CTQ tree does not necessarily start from specifications already generated by QFD. A change-impact review should identify which assumptions, analyses and tests remain valid and which must be revised or repeated. Completed documents from inconsistent versions are not a coherent evidence package. Updating labels without reassessment would conceal the missing support.",
+    "keyIndexChanged": false
+  },
+  {
+    "number": 175,
+    "qid": "mbb:set-3:d6-065",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A DFSS team building a new software-based diagnostic tool adapts the traditional house of quality and CTQ tree tools (originally developed for physical products) to a digital service context. A skeptical engineer argues 'these tools only work for hardware.' How should the MBB respond?",
+      "options": [
+        "Agree completely; DFSS tools are exclusively applicable to physical, manufactured products",
+        "Recommend abandoning DFSS entirely for this project in favor of an entirely ad hoc design approach",
+        "Explain that the underlying logic of these tools (translating customer needs into measurable, verifiable requirements) applies equally to software/digital products, with adapted specifics (e.g., CTQs might include response time or error rate rather than physical dimensions) — the tools' core value is methodological, not tied to physical manufacturing specifically",
+        "Insist the team build a physical prototype first before any digital design work can begin"
+      ],
+      "answer": 2,
+      "why": "DFSS tools' core translation logic (customer need → measurable requirement → verified design) is methodology-general, not physical-product-specific — the same adaptation principle already established for DMAIC/service-industry contexts applies equally to DFSS tools in a software/digital context. Source: [BOK] Domain VI.E, DFSS.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-065"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A team adapts QFD and CTQ trees to a software diagnostic service. Users need timely, dependable results, while engineering proposes “average response under one second” as the only CTQ. Load varies sharply and some requests return errors. Which coaching response best applies the tools beyond hardware?",
+      "options": [
+        "Require a physical prototype before documenting any digital-service requirements, because QFD relationships must be expressed as material dimensions.",
+        "Accept the average response time alone and exclude errored requests, because speed establishes both dependable diagnostic output and complete user experience.",
+        "Translate needs into measurable service and output-quality requirements, defining load, eligible requests, failure handling and validation conditions rather than hardware-only measures.",
+        "Use software test coverage percentage as the customer CTQ and treat full line coverage as proof that output quality and response-time requirements are met."
+      ],
+      "answer": 2,
+      "why": "QFD’s customer-to-technical translation applies to products and services; the measurable characteristics must fit the context. Tail response times, availability and output correctness may matter, but the team must agree values, populations, references and conditions rather than assume a universal target. Average latency among successes can conceal overload and failed requests. Test coverage describes exercised code, not proof of requirement satisfaction or intended-use performance. This is a requirements-method question, not a claim that the tool’s diagnostic accuracy or clinical suitability has been established. Source alignment: ASQ CMBB VI.E; related design-quality application. Case conclusions follow from the stated assumptions.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-065",
+      "optionRationales": [
+        "A physical artifact is not a prerequisite for translating software users’ needs into measurable requirements.",
+        "Average speed among successful requests neither captures failure experience nor establishes output dependability.",
+        "Correct. It retains customer traceability and adapts measurement and validation to the actual digital-service context.",
+        "Code coverage does not prove correctness, timing performance or suitability for intended users and conditions."
+      ],
+      "distractors": [
+        "A physical artifact is not a prerequisite for translating software users’ needs into measurable requirements.",
+        "Average speed among successful requests neither captures failure experience nor establishes output dependability.",
+        "Correct. It retains customer traceability and adapts measurement and validation to the actual digital-service context.",
+        "Code coverage does not prove correctness, timing performance or suitability for intended users and conditions."
+      ],
+      "trap": "Adapt the measured characteristics, not the evidence standard. A fast response can still be wrong or inaccessible, and successful-case averages can hide failures.",
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.E; related design-quality application"
+        },
+        {
+          "title": "ASQ: Quality Function Deployment",
+          "url": "https://asq.org/quality-resources/qfd-quality-function-deployment",
+          "locator": "House of Quality and customer-driven product/service requirements"
+        },
+        {
+          "title": "NASA Systems Engineering Handbook: Product Realization",
+          "url": "https://www.nasa.gov/reference/5-0-product-realization/",
+          "locator": "5.3 Product Verification and 5.4 Product Validation; tailored methods and configuration evidence"
+        }
+      ]
+    },
+    "findings": [
+      "Replaced hardware-versus-software recall with specific operationalization and denominator checks.",
+      "Qualified diagnostic accuracy and avoided unverified universal thresholds.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+    ],
+    "independentSolution": "QFD’s customer-to-technical translation applies to products and services; the measurable characteristics must fit the context. Tail response times, availability and output correctness may matter, but the team must agree values, populations, references and conditions rather than assume a universal target. Average latency among successes can conceal overload and failed requests. Test coverage describes exercised code, not proof of requirement satisfaction or intended-use performance. This is a requirements-method question, not a claim that the tool’s diagnostic accuracy or clinical suitability has been established.",
+    "keyIndexChanged": false
+  }
+]

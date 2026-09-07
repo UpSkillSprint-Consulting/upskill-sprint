@@ -1,0 +1,56 @@
+{
+  "verifiedOn": "2026-09-07",
+  "sources": {
+    "bok": {
+      "title": "ASQ Certified Master Black Belt Body of Knowledge",
+      "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "locator": "III–V; printed pages 9–11"
+    },
+    "cdc-needs": {
+      "title": "CDC: Assess Training Needs — Conducting Needs Analysis",
+      "url": "https://www.cdc.gov/training-development/php/about/assess-training-needs-conducting-needs-analysis.html",
+      "locator": "Needs assessment and training needs analysis"
+    },
+    "cdc-qts": {
+      "title": "CDC Quality Training Standards",
+      "url": "https://www.cdc.gov/training-development/php/qts/index.html",
+      "locator": "Standards 1–8; use only the principles relevant to each original scenario"
+    },
+    "cdc-eval": {
+      "title": "CDC: Evaluate Training — Measuring Effectiveness",
+      "url": "https://www.cdc.gov/training-development/php/about/evaluate-training-measuring-effectiveness.html",
+      "locator": "What to evaluate; before and after training; delayed evaluation"
+    },
+    "cdc-framework": {
+      "title": "CDC Program Evaluation Framework, 2024",
+      "url": "https://www.cdc.gov/mmwr/volumes/73/rr/rr7306a1.htm",
+      "locator": "Focus evaluation questions and design; experimental, quasi-experimental and observational designs"
+    },
+    "kirkpatrick": {
+      "title": "Kirkpatrick Partners: The Kirkpatrick Model",
+      "url": "https://www.kirkpatrickpartners.com/the-kirkpatrick-model/",
+      "locator": "Reaction, Learning, Behavior and Results; interpretation of the four-level framework"
+    },
+    "spacing-study": {
+      "title": "Butowska-Buczynska et al. (2024): The role of variable retrieval in effective learning",
+      "url": "https://doi.org/10.1073/pnas.2413511121",
+      "locator": "Experiments on retrieval practice and spacing; principle supports a pilot, not a guarantee for Black Belt trainees"
+    },
+    "relevant-cash": {
+      "title": "The Open University: Relevant cash flows and sunk costs",
+      "url": "https://www.open.edu/openlearn/money-business/challenges-advanced-management-accounting/content-section-3.1",
+      "locator": "Incremental future cash flows and sunk-cost exclusion"
+    },
+    "finance-metrics": {
+      "title": "OpenStax Principles of Finance",
+      "url": "https://openstax.org/books/principles-finance/pages/16-3-internal-rate-of-return-irr-method",
+      "locator": "IRR limitations, scale and mutually exclusive comparisons"
+    },
+    "finance-terms": {
+      "title": "OpenStax Principles of Finance: Chapter 16 Key Terms",
+      "url": "https://openstax.org/books/principles-finance/pages/16-key-terms",
+      "locator": "NPV, payback and mutually exclusive projects"
+    }
+  },
+  "limits": "Primary sources verify principles and BOK topic locators. No source supplies these original company cases or implies universal curricula or causal proof."
+}

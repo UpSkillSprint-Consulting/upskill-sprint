@@ -1,0 +1,13 @@
+{
+  "testedSource": "e2786ac606f3b881b84a8a324be97a3f5d625d01",
+  "status": "All 25 questions individually visually inspected after correction",
+  "method": "Inspected each individual Chromium desktop/mobile question and expanded-review screenshot in both light and dark themes. Individual review sheets retain every segment of the mobile capture. No audited question was sampled out. WebKit was additionally tested automatically for all 25 items in both layouts/themes, with targeted visual confirmation of Q27's complete footer and Q50's expanded dark review.",
+  "primaryManualScreenshots": 200,
+  "manualCanonicalQuestions": [26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+  "screenshotsPerQuestion": ["chromium-desktop-q{number}-light.png","chromium-desktop-q{number}-dark.png","chromium-mobile-q{number}-light.png","chromium-mobile-q{number}-dark.png","chromium-desktop-q{number}-review-light.png","chromium-desktop-q{number}-review-dark.png","chromium-mobile-q{number}-review-light.png","chromium-mobile-q{number}-review-dark.png"],
+  "individualInspectionSheets": ["inspection/q{number}-question.jpg","inspection/q{number}-review.jpg"],
+  "checks": ["complete stem and four distinct choices","readable light/dark selected states","mobile wrapping and spacing","complete explanation and four answer-choice rationales","correct/selected labels and expanded feedback","no observed text collisions"],
+  "itemVisualInventory": {"charts":0,"tables":0,"equations":0,"images":0,"interactiveVisuals":0,"note":"This is a text-only batch; visual-item calculations and slider tests are not applicable."},
+  "captureLimitations": ["The sticky site header is hidden only during element screenshots while preserving layout. Interaction and geometry checks run on the normal page.","Some Chromium desktop element captures contain an unpainted bottom tail. The companion WebKit Q27 capture shows the complete Next and Back footer. This screenshot limitation is not treated as a demonstrated student-content defect.","The WebKit desktop first-run Q50 timeout is documented in browser-summary.json; the accepted rerun's expanded Q50 review was visually checked."],
+  "evidenceManifest": "browser-summary.json"
+}

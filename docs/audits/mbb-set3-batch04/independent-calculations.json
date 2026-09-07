@@ -1,0 +1,36 @@
+{
+  "Q77": {
+    "cashAmounts": [
+      350000,
+      40000,
+      15000,
+      20000
+    ],
+    "cashOutlay": 425000,
+    "opportunityCost": 60000,
+    "economicCost": 485000,
+    "lifetimeTCO": "not determined",
+    "NPV": "not determined"
+  },
+  "Q86": {
+    "courseTime": [
+      90,
+      10,
+      0
+    ],
+    "retrospectiveFailureShares": [
+      15,
+      70,
+      15
+    ],
+    "timeSum": 100,
+    "failureShareSum": 100,
+    "optimalCurriculum": "not derivable from these percentages",
+    "causalEffect": "not determined"
+  },
+  "Q95": {
+    "launchProportion": "less than 20%",
+    "complement": "more than 80% have not launched",
+    "eligibleOpportunityDenominator": "not supplied in original; must be investigated"
+  }
+}

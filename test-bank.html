@@ -448,6 +448,13 @@
 <script src="/test-bank-mbb-set2.js"></script>
 <script src="/test-bank-mbb-batch1-review.js"></script>
 <script src="/test-bank-mbb-set3.js"></script>
+<script src="/test-bank-mbb-set3-batch1-ui.js"></script>
+<script src="/test-bank-mbb-set3-batch2-ui.js"></script>
+<script src="/test-bank-mbb-set3-batch3-ui.js"></script>
+<script src="/test-bank-mbb-set3-batch4-ui.js"></script>
+<script src="/test-bank-mbb-set3-batch5-ui.js"></script>
+<script src="/test-bank-mbb-set3-batch6-ui.js"></script>
+<script src="/test-bank-mbb-set3-batch7-ui.js"></script>
 <script src="/test-bank-cssgb-set1.js"></script>
 <script src="/test-bank-cssgb-set2.js"></script>
 <script>
@@ -3432,6 +3439,20 @@
     if(chart && chart.auditBatch===4 && window.__MBBBatch4UI) return window.__MBBBatch4UI.render(chart);
     if(chart && chart.auditBatch===2 && window.__MBBBatch2UI) return window.__MBBBatch2UI.render(chart);
     if(!chart)return '';
+    // Rich chart schemas retain an exact numerical alternative. Legacy-only
+    // consumers must not reinterpret them as an older chart schema or invent
+    // placeholder curves. The full player uses its scoped graphical renderer.
+    if(chart.evidence && Array.isArray(chart.evidence.columns) && Array.isArray(chart.evidence.rows)){
+      var ev=chart.evidence, title=ev.title||chart.title||'Chart data';
+      return '<div class="tb-chart-evidence-fallback"><p>'+esc(chart.altText||'')+'</p>'+
+        '<p>Numerical chart evidence. Scroll horizontally when needed.</p>'+
+        '<div role="region" tabindex="0" aria-label="'+esc(title)+'" style="max-width:100%;overflow-x:auto">'+
+        '<table class="tb-q-data-table"><caption>'+esc(title)+'</caption><thead><tr>'+
+        ev.columns.map(function(c){return '<th scope="col">'+esc(c)+'</th>';}).join('')+
+        '</tr></thead><tbody>'+ev.rows.map(function(row){return '<tr>'+row.map(function(cell,i){
+          return i===0?'<th scope="row">'+esc(cell)+'</th>':'<td>'+esc(cell)+'</td>';
+        }).join('')+'</tr>';}).join('')+'</tbody></table></div></div>';
+    }
     var inner='';
     if(chart.type==='xbar-r')inner=chartXbarR(chart);
     else if(chart.type==='boxplot')inner=chartBoxplot(chart);
@@ -3553,6 +3574,7 @@
   function fullExamCount(e){return Math.min(activeBank(e).length,fullExamTarget(e));}
   function formatNoteFor(e){
     var plan=setPlan(e,selectedSet),available=activeBank(e).length;
+    if(current==='mbb'&&selectedSet==='3')return 'Set 3 contains '+available+' original practice questions. Its Full Exam uses all '+available+' items at a practice pace of 90 seconds per question. This analytics-heavy practice bank is not a replica of the official ASQ examination format or domain weighting.';
     if(plan)return 'Set 2 currently contains '+available+' of the planned '+plan.target+' original questions ('+plan.label+'). Every completed, validated batch will be added here. The current Full Exam serves all '+available+' available questions.';
     if(current==='mbb'&&selectedSet==='mix')return 'Mixed practice combines the 100-question supplied simulation with '+e.sets[2].length+' validated original Set 2 questions. The Mixed Full Exam remains a 100-question sitting at the same per-question pace.';
     return e.formatNote||'';
@@ -3728,6 +3750,13 @@
   }
   function renderQuestionContent(q,review){
     if(!q)return '';
+    if(window.__MBBSet3Batch3UI&&window.__MBBSet3Batch3UI.isQuestion(q))return window.__MBBSet3Batch3UI.render(q,review);
+    if(window.__MBBSet3Batch4UI&&window.__MBBSet3Batch4UI.isQuestion(q))return window.__MBBSet3Batch4UI.render(q,review);
+    if(window.__MBBSet3Batch5UI&&window.__MBBSet3Batch5UI.isQuestion(q))return window.__MBBSet3Batch5UI.render(q,review);
+    if(window.__MBBSet3Batch6UI&&window.__MBBSet3Batch6UI.isQuestion(q))return window.__MBBSet3Batch6UI.render(q,review);
+if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return window.__MBBSet3Batch7UI.render(q,review);
+    if(window.__MBBSet3Batch2UI&&window.__MBBSet3Batch2UI.isQuestion(q))return window.__MBBSet3Batch2UI.render(q,review);
+    if(window.__MBBSet3Batch1UI&&window.__MBBSet3Batch1UI.isQuestion(q))return window.__MBBSet3Batch1UI.render(q,review);
     var b1=window.__TBMbbBatch1Review;
     if(b1&&b1.applies(q))return review?b1.review(q):b1.render(q,renderQuestionChart,esc);
     var ui=null;
@@ -3740,7 +3769,7 @@
     return ui?stem+ui.conditions(q)+renderQuestionChart(q.chart):renderQuestionChart(q.chart)+stem;
   }
 
-  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale};
+  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale,getFeedbackSnapshot:getFeedbackSnapshot};
 
   /* ---------- rail ---------- */
   function renderRail(){
@@ -4390,12 +4419,22 @@
   }
   function wireQuiz(){
     var host=document.getElementById('tb-overview');
+    if(window.__MBBSet3Batch1UI)window.__MBBSet3Batch1UI.wire(host);
+    if(window.__MBBSet3Batch2UI)window.__MBBSet3Batch2UI.wire(host);
+    if(window.__MBBSet3Batch3UI)window.__MBBSet3Batch3UI.wire(host);
+    if(window.__MBBSet3Batch4UI)window.__MBBSet3Batch4UI.wire(host);
+    if(window.__MBBSet3Batch5UI)window.__MBBSet3Batch5UI.wire(host);
+    if(window.__MBBSet3Batch6UI)window.__MBBSet3Batch6UI.wire(host);
+if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     if(window.__TBMbbBatch1Review)window.__TBMbbBatch1Review.wire(host);
     Array.prototype.forEach.call(host.querySelectorAll('[data-tb-whatif]'),function(slider){
       var update=function(){var value=Number(slider.value),committed=Number(slider.dataset.committed||0),container=slider.closest('.tb-chart-whatif');if(!container)return;var shown=container.querySelector('[data-tb-whatif-value]'),remaining=container.querySelector('[data-tb-whatif-remaining]');if(shown)shown.textContent=String(value);if(remaining)remaining.textContent=String(value-committed);};
       slider.addEventListener('input',update);update();
     });
     Array.prototype.forEach.call(host.querySelectorAll('[data-opt]'),function(b){b.addEventListener('click',function(){
+      if(session.completed)return;
+      // A failed timeout save must not let a learner revise expired answers.
+      if(session.timed&&session.endsAt<=Date.now()){submitQuiz('timed-out');return;}
       var index=session.i,selected=+b.dataset.opt,question=session.items[index].q;
       /* Write the answer before repainting. A refresh, mobile process kill, or
          exit after this click still leaves a durable ledger record. */
@@ -4417,8 +4456,17 @@
   }
 
   /* ---------- results ---------- */
+  // The session, not the rendered navigation history, owns the completed review.
+  // Copy the answer/flag records so feedback cannot mutate scoring or persistence.
+  function getFeedbackSnapshot(){
+    if(!session||!Array.isArray(session.items))return null;
+    return {sessionId:session.id,examId:current,completed:!!session.completed,
+      records:session.items.map(function(it,index){return {index:index,question:it.q,
+        selected:session.answers[index]==null?null:session.answers[index],flagged:!!session.flags[index]};})};
+  }
   function submitQuiz(completedReason){
     if(!session||session.completed)return;
+    if(session.timed&&session.endsAt<=Date.now())completedReason='timed-out';
     session.completed=true;
     stopTimer();stopTools();
     var e=EXAMS[current];
@@ -4426,13 +4474,21 @@
     var learning=window.__TBLearning;
     if(!learning||typeof learning.completeSession!=='function'||!session.id){session.completed=false;showLearningStorageNotice('Your completed test could not be saved because study-record storage is unavailable. Please wait a moment and submit again.');return;}
     var completion=learning.completeSession({examId:current,sessionId:session.id,mode:session.kind,timed:session.timed,filter:session.filter||null,startedAt:session.endsAt&&session.limitSeconds?session.endsAt-session.limitSeconds*1000:null,completedReason:completedReason||'submitted',records:learningRecords});
-    if(!completion||completion.saved===false||!writeAheadConfirmed(learning)){session.completed=false;return;}
+    if(!completion||completion.saved===false||!writeAheadConfirmed(learning)){
+      session.completed=false;
+      showLearningStorageNotice('Your completed test could not be safely saved. Your answers remain on this page. Keep it open and select See my results to retry; no completed result has been recorded.');
+      // Preserve the original deadline rather than silently pausing a live exam.
+      if(session.timed&&session.endsAt>Date.now())startTimer();
+      return;
+    }
     var agg=subAgg(session.items.map(function(it){return it.q;}),session.answers);
     var units=subUnits(e);
     var rec=recordAttempt(current,units,agg,e.pass);
     rec.readiness=canonicalReadiness(rec.readiness);
     var cum=cumAggFrom(rec.state.subState);
     session.result={agg:agg,cum:cum,units:units,readiness:rec.readiness,plan:studyPlan(units,cum),state:rec.state};
+    // Timed expiry and manual submission publish the same complete saved attempt.
+    document.dispatchEvent(new CustomEvent('tb:attempt-completed',{detail:getFeedbackSnapshot()}));
     view='results';renderMain();
   }
   function resultsHTML(){

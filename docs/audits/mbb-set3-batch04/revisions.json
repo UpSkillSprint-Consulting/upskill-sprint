@@ -1,0 +1,1680 @@
+[
+  {
+    "number": 76,
+    "qid": "mbb:set-3:d3-046",
+    "original": {
+      "sub": "mbb-portfolio",
+      "stem": "A vending machine operator's completed Six Sigma projects are closed out with no centralized archive — final reports exist only on individual Black Belts' personal drives, and when a Black Belt leaves the company, their completed project documentation is often lost entirely. What portfolio infrastructure element is missing, and why does it matter?",
+      "options": [
+        "Only currently-employed Black Belts' projects need archiving; departed Black Belts' historical work can be safely discarded entirely",
+        "Archiving should be each individual Black Belt's personal responsibility to maintain indefinitely on their own personal devices, with no organizational-level backup or centralization",
+        "Nothing is missing; completed projects no longer have any organizational relevance once closed, so their documentation's fate afterward is unimportant",
+        "A centralized project archive/knowledge repository is missing — without one, valuable institutional knowledge (root causes found, solutions that worked or didn't, control plans, lessons learned) is lost when individual Black Belts depart, forcing future teams to potentially re-discover the same root causes or repeat past mistakes on similar problems; the MBB should establish a standard, centralized archiving requirement as part of formal project closure"
+      ],
+      "answer": 3,
+      "why": "This is a specific and consequential infrastructure gap — completed project knowledge has ongoing organizational value (preventing re-discovery of known root causes, informing similar future projects), and relying on individual personal storage with no centralized archive predictably loses this value when personnel turn over. Source: [BOK] Domain III.B, Project Portfolio Infrastructure and Management.",
+      "set": 3,
+      "qid": "mbb:set-3:d3-046"
+    },
+    "corrected": {
+      "sub": "mbb-portfolio",
+      "stem": "A vending operator loses completed-project reports when Black Belts leave because the reports are stored only on personal drives. Some reports contain restricted customer data. The closure process already verifies benefit claims and assigns ongoing control-plan owners; it has no records-transfer requirement. Which additional closure control best preserves reusable knowledge without making restricted data generally accessible?",
+      "options": [
+        "Back up each Belt's personal folder centrally and retain its existing file names, leaving retrieval, access decisions and interpretation to whoever requests the material later.",
+        "Upload all project files to a company-wide folder with unrestricted access, so any future team can reuse the original customer data without seeking permission.",
+        "Store only approved financial summaries in a searchable repository and discard the supporting methods, control plans and failed trials once benefit verification is complete.",
+        "Require an indexed organizational archive with a named custodian, versioned evidence and reusable lessons, plus risk-appropriate access and retention rules verified before records transfer is accepted."
+      ],
+      "answer": 3,
+      "why": "The missing control is organizational custody and usable retrieval of project knowledge, not another benefit-approval gate. An indexed archive should retain the evidence and context needed for reuse, with ownership, access and retention controls appropriate to the information. A backup alone does not ensure findability or interpretability. Restricting sensitive records while sharing suitable lessons preserves both confidentiality and learning; indefinite unrestricted retention is not required. Source alignment: ASQ CMBB Body of Knowledge, III.A.2; III.B.1. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d3-046",
+      "optionRationales": [
+        "A backup reduces loss risk but leaves the stated retrieval, access and knowledge-transfer controls unresolved.",
+        "Unrestricted access conflicts with the explicit confidentiality constraint; reusability does not require disclosing restricted customer records.",
+        "Financial summaries do not preserve the methods, unsuccessful approaches and control-plan context needed by later teams.",
+        "Correct. This establishes organizational custody, usable knowledge transfer and proportionate information controls at closure."
+      ],
+      "trap": "Distinguish backup from a governed knowledge archive: custody, indexing, context and controlled access must survive the original project leader's departure.",
+      "distractors": [
+        "A backup reduces loss risk but leaves the stated retrieval, access and knowledge-transfer controls unresolved.",
+        "Unrestricted access conflicts with the explicit confidentiality constraint; reusability does not require disclosing restricted customer records.",
+        "Financial summaries do not preserve the methods, unsuccessful approaches and control-plan context needed by later teams.",
+        "Correct. This establishes organizational custody, usable knowledge transfer and proportionate information controls at closure."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.A.2; III.B.1"
+        }
+      ]
+    },
+    "issues": [
+      "Recall-level item and implausible distractors",
+      "Missing custody, retrieval and confidentiality constraints",
+      "Correct-option length cue"
+    ]
+  },
+  {
+    "number": 77,
+    "qid": "mbb:set-3:d3-047",
+    "original": {
+      "sub": "mbb-portfolio",
+      "stem": "A mattress manufacturer's project financial case for new automated stitching equipment lists a $350,000 purchase price as the full \"project cost,\" but omits installation, operator retraining, a 6-week production ramp-down during changeover (with associated lost-production cost), and ongoing annual maintenance contracts. If installation ($40,000), retraining ($15,000), ramp-down lost production ($60,000), and Year 1 maintenance ($20,000) are properly included, what is the corrected total Year 1 cost, and what principle does this correction illustrate?",
+      "options": [
+        "Total cost of ownership calculations are unnecessary as long as the purchase price is accurately stated",
+        "Corrected total Year 1 cost = $350,000 + $40,000 + $15,000 + $60,000 + $20,000 = $485,000; this illustrates the total cost of ownership (TCO) principle — the full cost of a capital investment includes not just the purchase price but all directly-associated implementation, transition, and ongoing costs, and omitting these (as the original case did) can significantly understate the true investment required, distorting NPV, payback, and other financial comparisons against other portfolio candidates",
+        "The corrected cost is still $350,000, since only the purchase price is relevant to portfolio financial comparison",
+        "The corrected cost is $425,000, since ramp-down lost production should never be counted as a real cost"
+      ],
+      "answer": 1,
+      "why": "$350,000 + $40,000 + $15,000 + $60,000 + $20,000 = $485,000. This tests both correct arithmetic and the total cost of ownership (TCO) principle — purchase price alone frequently and significantly understates a capital investment's true cost, directly paralleling the incomplete cost-benefit analysis flaw tested in D3-031 but applied to the cost side of a capital equipment case specifically. Source: [BOK] Domain III.C, Project Portfolio Financial Tools; cross-reference to D3-031 (incomplete cost-benefit analysis).",
+      "set": 3,
+      "qid": "mbb:set-3:d3-047"
+    },
+    "corrected": {
+      "sub": "mbb-portfolio",
+      "stem": "A mattress manufacturer is comparing automated stitching equipment with continuing its current process. Year 1 incremental amounts are purchase $350,000, installation $40,000, retraining $15,000 and maintenance $20,000, all cash outflows. A six-week changeover also causes $60,000 of unrecoverable lost contribution margin after avoided variable costs; it is not an additional cash payment and is not counted elsewhere. All amounts fall within the defined first-year horizon. Ignore tax and discounting. What are the total first-year economic cost and the incremental cash-outlay budget, respectively?",
+      "options": [
+        "$425,000 and $425,000: exclude the lost contribution from both measures because there is no separate invoice or additional payment for it.",
+        "$485,000 and $425,000: include lost contribution once as an opportunity cost in the economic comparison, but not as an additional cash payment.",
+        "$485,000 and $485,000: include lost contribution in both measures because every economic cost must also appear as a separate cash-outlay requirement.",
+        "$465,000 and $405,000: exclude the maintenance amount from both first-year measures because recurring costs belong only in later years of the evaluation."
+      ],
+      "answer": 1,
+      "why": "Cash outlays total $350,000 + $40,000 + $15,000 + $20,000 = $425,000. Adding the $60,000 forgone contribution once gives $485,000 of first-year economic cost relative to continuing the existing process. The opportunity cost affects the economic cash-flow comparison but is not an additional payment to fund. These are first-year figures, not lifetime total cost of ownership or NPV. Later cash flows and their timing would be needed for a full life-cycle appraisal, and the same lost contribution must not also be subtracted from forecast benefits. Source alignment: ASQ CMBB Body of Knowledge, III.C.1–2; II.F.1. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d3-047",
+      "optionRationales": [
+        "Forgone contribution is relevant to choosing between alternatives even though it is not an additional invoice or payment.",
+        "Correct. Cash outlays are $425,000; the distinct $60,000 opportunity cost raises the economic total to $485,000 without double counting.",
+        "This mistakes reduced cash inflow for an additional cash payment. The cash-outlay budget remains $425,000.",
+        "The stated maintenance payment occurs in Year 1. Recurrence does not justify removing that year's $20,000 from the defined horizon."
+      ],
+      "trap": "Use incremental amounts and a common horizon. Lost revenue is not automatically lost contribution, opportunity cost is not another invoice, and a first-year total is not lifetime TCO.",
+      "distractors": [
+        "Forgone contribution is relevant to choosing between alternatives even though it is not an additional invoice or payment.",
+        "Correct. Cash outlays are $425,000; the distinct $60,000 opportunity cost raises the economic total to $485,000 without double counting.",
+        "This mistakes reduced cash inflow for an additional cash payment. The cash-outlay budget remains $425,000.",
+        "The stated maintenance payment occurs in Year 1. Recurrence does not justify removing that year's $20,000 from the defined horizon."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.C.1–2; II.F.1"
+        },
+        {
+          "title": "The Open University: Relevant cash flows and sunk costs",
+          "url": "https://www.open.edu/openlearn/money-business/challenges-advanced-management-accounting/content-section-3.1",
+          "locator": "Incremental future cash flows and sunk-cost exclusion"
+        }
+      ]
+    },
+    "issues": [
+      "Ambiguous lost-production valuation and double-counting risk",
+      "First-year cost mislabeled as full lifetime TCO",
+      "Economic cost confused with investment funding",
+      "Cross-question reference in explanation",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 78,
+    "qid": "mbb:set-3:d3-048",
+    "original": {
+      "sub": "mbb-portfolio",
+      "stem": "A hearing aid manufacturer's newly appointed MBB wants to design a single, comprehensive phase-gate audit checklist covering the full range of lifecycle failure modes demonstrated across this entire domain (Define sign-off/stakeholder completeness/communication planning/team composition/timeline feasibility; Measure MSA adequacy; Analyze root-cause sufficiency; Improve solution validation; Control sustainment). Which checklist design principle should govern how this audit tool is structured?",
+      "options": [
+        "A single yes/no question per phase (\"Is this phase done?\"), since simplicity is always preferable to comprehensiveness in audit tool design regardless of what the audit needs to actually catch",
+        "A phase-specific set of substantive exit-criteria questions for each DMAIC phase (e.g., for Define: charter sign-off obtained? all affected stakeholder groups, including frontline execution staff, represented? communication plan defined? team composition technically appropriate to the problem? timeline feasibility honestly assessed? — and analogous substantive questions for Measure's MSA adequacy, Analyze's root-cause sufficiency, Improve's solution validation, and Control's sustainment mechanisms), explicitly designed so that each specific failure mode demonstrated across this domain has a corresponding checklist question that would have caught it before the project proceeded",
+        "A single checklist item covering only budget and schedule status, since financial and timeline tracking are the only aspects of lifecycle management genuinely worth auditing",
+        "No checklist is necessary; experienced Black Belts should be trusted to self-identify any lifecycle gaps without any structured audit tool"
+      ],
+      "answer": 1,
+      "why": "This final capstone item for Domain III requires synthesizing every specific lifecycle failure mode demonstrated across both batches, including D3-001, D3-026, D3-035, and D3-045 into a genuinely comprehensive, phase-specific audit tool design — each documented failure mode should map to a specific checklist question designed to catch it proactively, a true Create-level synthesis task closing out the domain's lifecycle subdomain. Source: [BOK] Domain III.A, Project Management Principles and Lifecycle (full-subdomain capstone).",
+      "set": 3,
+      "qid": "mbb:set-3:d3-048"
+    },
+    "corrected": {
+      "sub": "mbb-portfolio",
+      "stem": "A hearing aid manufacturer has found projects passing DMAIC gates on schedule despite missing evidence: unsigned scope changes, unverified measurement adequacy and untested sustainment arrangements. The MBB must replace a generic 'phase complete' checklist. Projects differ in regulatory exposure and complexity. Which audit design best makes gate decisions evidence-based while allowing justified tailoring?",
+      "options": [
+        "Use the same number of mandatory documents for every project and approve a gate when all boxes are checked, even when the submitted evidence does not support the decision.",
+        "Map phase-specific exit criteria to evidence, reviewers and decision rules; scale depth to risk, document approved exceptions and corrective actions, and check whether the gate process detects recurring omissions.",
+        "Keep substantive criteria advisory and let each project leader waive unmet requirements privately, provided the reported schedule and budget remain within the original authorization.",
+        "Apply a detailed financial and schedule review at each gate, then defer measurement, cause-validation and sustainment evidence until final closure to avoid interrupting project momentum."
+      ],
+      "answer": 1,
+      "why": "The observed failure is approval without the evidence needed for that phase, not a shortage of checkboxes. Gate criteria should identify the decision, required evidence, accountable reviewer and treatment of gaps. Risk-based tailoring can be appropriate when the authority and rationale are documented; it is not an undocumented waiver. Review how well the checklist detects failures and update it when experience warrants. No checklist guarantees that every possible failure will be caught. Source alignment: ASQ CMBB Body of Knowledge, III.A.1–2. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d3-048",
+      "optionRationales": [
+        "Document counts can be satisfied without adequate technical evidence and impose the same burden regardless of project risk.",
+        "Correct. It connects each gate decision to substantive evidence and accountable handling of gaps, with controlled tailoring and improvement.",
+        "Private waivers remove the oversight needed to distinguish justified exceptions from unaddressed risks.",
+        "Delaying technical and sustainment checks until closure allows unsupported downstream decisions to proceed."
+      ],
+      "trap": "A gate verifies decision-relevant evidence, not document volume. Tailoring needs explicit authority and a rationale; checklist completion is not a guarantee of project validity.",
+      "distractors": [
+        "Document counts can be satisfied without adequate technical evidence and impose the same burden regardless of project risk.",
+        "Correct. It connects each gate decision to substantive evidence and accountable handling of gaps, with controlled tailoring and improvement.",
+        "Private waivers remove the oversight needed to distinguish justified exceptions from unaddressed risks.",
+        "Delaying technical and sustainment checks until closure allows unsupported downstream decisions to proceed."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.A.1–2"
+        }
+      ]
+    },
+    "issues": [
+      "Cross-question and whole-domain dependence",
+      "Unsupported claim checklist would catch every failure",
+      "MC selection mislabeled as demonstrated Create-level production",
+      "Length-cued distractors"
+    ]
+  },
+  {
+    "number": 79,
+    "qid": "mbb:set-3:d3-049",
+    "original": {
+      "sub": "mbb-portfolio",
+      "stem": "A drone delivery startup's newly appointed MBB is designing portfolio management infrastructure from scratch for a rapidly scaling organization (similar to other rapidly-scaling organizations discussed elsewhere in this bank), wanting to avoid every infrastructure gap demonstrated across this domain (missing centralized visibility, mismatched review cadence, missing dependency/risk tracking, unconstrained intake, stale prioritization criteria, non-standardized reporting, undefined escalation thresholds, no centralized archive). Which single design principle should anchor the overall infrastructure architecture?",
+      "options": [
+        "Design infrastructure around a small number of core, complementary capabilities — centralized visibility, appropriately-paced governance cadence, dependency/risk aggregation, capacity-checking intake, periodically-revalidated prioritization criteria, standardized reporting with clear escalation thresholds, and a centralized knowledge archive — built initially in a lightweight, scalable form appropriate to current organizational size (per the resource-scaling principle (D2-032)), with an explicit plan to revisit and mature each capability as the organization grows (per the periodic re-validation principle (D1-069, D3-017)), rather than either under-building or over-building relative to current and near-future actual needs",
+        "Skip infrastructure design entirely at this early stage, since a startup should prioritize speed over any governance structure regardless of the risks this has been shown to create elsewhere in this domain",
+        "Build the most complex, feature-complete infrastructure possible immediately, regardless of the organization's current small scale and rapid rate of change, mirroring a much larger and more mature organization's infrastructure",
+        "Copy another company's infrastructure exactly, regardless of differences in industry, scale, or organizational structure"
+      ],
+      "answer": 0,
+      "why": "This final capstone item for the infrastructure subdomain requires synthesizing not just this domain's infrastructure gaps but also the resource-scaling principle (D2-032) and periodic re-validation principle (D1-069, D3-017) established across the entire question bank into a single coherent design philosophy: build the necessary core capabilities in a scale-appropriate, initially lightweight form, with an explicit maturation plan — genuinely Create-level synthesis spanning multiple domains. Source: [BOK] Domain III.B, Project Portfolio Infrastructure and Management (full-subdomain capstone); cross-domain synthesis with D1-069 and D2-032.",
+      "set": 3,
+      "qid": "mbb:set-3:d3-049"
+    },
+    "corrected": {
+      "sub": "mbb-portfolio",
+      "stem": "A rapidly growing drone-delivery startup has local project lists but no cross-team view of shared specialists, dependencies or release commitments. It can initially support only a lightweight portfolio system. Management requires that new commitments be checked against available capacity and that material risks reach an authorized decision maker. Which initial architecture best meets those requirements and remains scalable?",
+      "options": [
+        "Establish a common project register, shared definitions, dependency and capacity checks, and named escalation owners; use proportionate tools and review triggers to expand the system as its needs change.",
+        "Buy a comprehensive portfolio platform first and let its default workflow define approval authority, capacity measures and escalation thresholds after local teams begin entering commitments.",
+        "Combine local lists into a central dashboard but leave intake and escalation entirely local, using the dashboard to explain conflicting commitments after release dates have been promised.",
+        "Apply fixed project-count limits uniformly to all teams and revisit the system annually, without considering differences in specialist effort, dependencies or material changes between reviews."
+      ],
+      "answer": 0,
+      "why": "A lightweight implementation still needs the capabilities that address the stated risks: shared information, comparable measures, capacity-aware intake and timely decision authority. Software can support these controls but cannot define the organization's decision rights by itself. Project counts are not interchangeable units of effort. Establish change triggers and ownership so the system can mature as scale and dependencies evolve, without assuming that either maximum complexity or no governance is appropriate. Source alignment: ASQ CMBB Body of Knowledge, III.B.1; III.B.4–5; III.B.8. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d3-049",
+      "optionRationales": [
+        "Correct. It installs the required information and decision controls first, with tools and expansion proportionate to actual needs.",
+        "Default software settings cannot substitute for deliberately assigned authority and locally meaningful capacity measures.",
+        "Visibility after commitments are made does not provide the required intake check or timely escalation.",
+        "Uniform counts ignore unequal workload, while annual-only review misses material changes between scheduled assessments."
+      ],
+      "trap": "Scale the implementation, not away the essential controls. A shared dashboard is insufficient unless common definitions, intake decisions and escalation responsibilities are usable.",
+      "distractors": [
+        "Correct. It installs the required information and decision controls first, with tools and expansion proportionate to actual needs.",
+        "Default software settings cannot substitute for deliberately assigned authority and locally meaningful capacity measures.",
+        "Visibility after commitments are made does not provide the required intake check or timely escalation.",
+        "Uniform counts ignore unequal workload, while annual-only review misses material changes between scheduled assessments."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.B.1; III.B.4–5; III.B.8"
+        }
+      ]
+    },
+    "issues": [
+      "Cross-domain question references",
+      "Universal architecture claim without decision constraints",
+      "Length-cued and implausible distractors"
+    ]
+  },
+  {
+    "number": 80,
+    "qid": "mbb:set-3:d3-050",
+    "original": {
+      "sub": "mbb-portfolio",
+      "stem": "A funeral casket manufacturer's MBB is asked to design a standard financial evaluation template to be used for every future portfolio candidate project, synthesizing every financial-tools principle demonstrated across this domain (payback period limitations, NPV/discount-rate sensitivity, hard vs. soft savings distinction, cost-benefit completeness including omitted/hidden costs, NPV vs. IRR ranking conflicts, sunk cost exclusion, sensitivity analysis for uncertain estimates, capital rationing under budget constraints, safety-critical project special consideration, and total cost of ownership). Which template design best reflects synthesis of all these principles?",
+      "options": [
+        "Different, inconsistent templates for every individual project, tailored ad hoc by each Black Belt with no standardized elements at all",
+        "A template requiring only a subjective \"high/medium/low\" value rating assigned by the project sponsor, with no supporting quantitative analysis of any kind",
+        "A structured template requiring: (1) total cost of ownership (not just purchase/implementation price, capturing all directly-associated costs per D3-047), (2) NPV and payback period calculated together (never either alone, given each metric's distinct limitations given each metric's distinct limitations), (3) explicit hard vs. soft savings classification , (4) a sensitivity range rather than a single-point estimate for any benefit with meaningful uncertainty , (5) explicit confirmation that no sunk costs have influenced the forward-looking analysis , (6) a completeness check for commonly-omitted cost categories such as regulatory/certification triggers , and (7) a flag for any safety-critical dimension warranting evaluation beyond routine NPV alone (per D3-043) — with capital-rationing/combinatorial analysis (per D3-037) applied at the portfolio level once individual project templates are complete",
+        "A single-line template requiring only \"estimated annual savings\" with no further detail, structure, or supporting analysis of any kind"
+      ],
+      "answer": 2,
+      "why": "This final capstone item for Domain III requires synthesizing all ten distinct financial-tools principles demonstrated across both batches, including D3-012, D3-031, D3-037, D3-043, and D3-047 into a single, comprehensive, standardized evaluation template — the clearest possible demonstration of Create-level synthesis closing out Domain III's financial-tools subdomain and the domain as a whole. Source: [BOK] Domain III.C, Project Portfolio Financial Tools (full-subdomain and full-domain capstone).",
+      "set": 3,
+      "qid": "mbb:set-3:d3-050"
+    },
+    "corrected": {
+      "sub": "mbb-portfolio",
+      "stem": "A casket manufacturer's portfolio includes optional equipment investments and mandatory safety upgrades, with different lives, cash-flow timing and uncertain benefits. Finance wants a common evaluation template without forcing a misleading single ranking across all candidates. Which design best supports comparable, forward-looking decisions?",
+      "options": [
+        "Use a common horizon and record benefit uncertainty, but allocate historical sunk costs to candidates and rank all projects by payback so previously invested resources remain visible in selection.",
+        "Model incremental cash flows and risk-adjusted NPV, but convert released staff capacity into cash savings at salary rates even when no payment is avoided and no additional output is realizable.",
+        "Document incremental cash flows, timing, horizon, relevant life-cycle costs and benefit types; assess uncertainty, exclude sunk costs, separate mandatory constraints and compare feasible portfolios using decision-appropriate financial measures.",
+        "Document incremental cash flows and mandatory constraints, but treat the highest individual IRR as the best choice for mutually exclusive projects and ignore conflicts with total NPV."
+      ],
+      "answer": 2,
+      "why": "Comparable appraisal requires explicit horizons, timing, relevant incremental costs and credible benefit realization, not identical use of every metric on every decision. Sunk costs do not change with the current choice. Released capacity is not automatically a cash saving. NPV, payback and IRR answer different questions, and ranking conflicts or portfolio constraints require appropriate analysis. Mandatory safety obligations belong in eligibility and compliance decisions rather than being overridden by a purely discretionary financial ranking. Source alignment: ASQ CMBB Body of Knowledge, III.C.1–2; II.F.1. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d3-050",
+      "optionRationales": [
+        "Sunk costs are not incremental to the current decision, and payback alone omits later cash flows and generally the time value of money.",
+        "Released time is not a cash saving unless the stated realization conditions support avoided outlays or additional economic benefit.",
+        "Correct. This specifies the common evidence while allowing the decision model to reflect timing, uncertainty, obligations and portfolio constraints.",
+        "Individual IRR ranking can conflict with value maximization for mutually exclusive projects; the conflict cannot be dismissed."
+      ],
+      "trap": "Standardize financial evidence and assumptions, not a universal metric rule. Distinguish cash realization, incremental value, mandatory obligations and feasible portfolio choices.",
+      "distractors": [
+        "Sunk costs are not incremental to the current decision, and payback alone omits later cash flows and generally the time value of money.",
+        "Released time is not a cash saving unless the stated realization conditions support avoided outlays or additional economic benefit.",
+        "Correct. This specifies the common evidence while allowing the decision model to reflect timing, uncertainty, obligations and portfolio constraints.",
+        "Individual IRR ranking can conflict with value maximization for mutually exclusive projects; the conflict cannot be dismissed."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.C.1–2; II.F.1"
+        },
+        {
+          "title": "The Open University: Relevant cash flows and sunk costs",
+          "url": "https://www.open.edu/openlearn/money-business/challenges-advanced-management-accounting/content-section-3.1",
+          "locator": "Incremental future cash flows and sunk-cost exclusion"
+        },
+        {
+          "title": "OpenStax Principles of Finance",
+          "url": "https://openstax.org/books/principles-finance/pages/16-3-internal-rate-of-return-irr-method",
+          "locator": "IRR limitations, scale and mutually exclusive comparisons"
+        },
+        {
+          "title": "OpenStax Principles of Finance: Chapter 16 Key Terms",
+          "url": "https://openstax.org/books/principles-finance/pages/16-key-terms",
+          "locator": "NPV, payback and mutually exclusive projects"
+        }
+      ]
+    },
+    "issues": [
+      "Universal requirement to use both NPV and payback",
+      "Repeated wording in keyed option",
+      "Whole-domain and numbered-question references",
+      "Vague savings realization and financial-comparison assumptions",
+      "Implausible distractors"
+    ]
+  },
+  {
+    "number": 81,
+    "qid": "mbb:set-3:d4-001",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "A hospital system wants to roll out Green Belt training but hasn't formally assessed which departments have the most improvement-ready staff or the biggest capability gaps. The training office proposes training 50 employees selected by seniority alone. What should the MBB recommend first?",
+      "options": [
+        "Conduct a formal training needs analysis (capability gaps by department, leadership sponsorship readiness, and linkage to actual pipeline opportunities) before selecting candidates, since seniority alone doesn't indicate improvement aptitude or organizational need",
+        "Train all employees simultaneously regardless of department or readiness",
+        "Proceed with the seniority-based list, since tenure correlates with readiness",
+        "Skip needs analysis and let each department self-select who to send"
+      ],
+      "answer": 0,
+      "why": "Training needs analysis should precede candidate selection, linking training investment to actual capability gaps and pipeline needs rather than an arbitrary proxy like seniority. Source: [BOK] Domain IV.A, Training Needs Analysis.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-001"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "A hospital has funding for 50 Green Belt training places. The proposed list uses seniority alone, while departments differ in performance gaps, existing skills and opportunities to apply learning. No assessment has determined whether the gaps require training or changes to the work system. Which first step best supports a defensible allocation of these places?",
+      "options": [
+        "Compare required and demonstrated competencies, distinguish skill gaps from work-system barriers, and assess sponsorship and application opportunities before using transparent criteria to select the initial cohort.",
+        "Select the 50 longest-serving staff first, then use their course evaluations to infer which departments had the greatest unmet capability needs before training began.",
+        "Rank departments only by their recent defect totals and assign places proportionally, without checking differences in exposure, existing competence or opportunities to apply the training.",
+        "Accept each manager's preferred nominees and use a common post-course examination, treating the examination as a substitute for assessing needs before allocating the training places."
+      ],
+      "answer": 0,
+      "why": "The allocation should follow a comparison of needed and demonstrated capability and an assessment of whether training can address the gap. Work-system barriers may require a non-training intervention. Sponsorship and realistic application opportunities affect how an initial cohort can use new skills. Seniority, raw defect totals and nominations can provide context but are not sufficient selection evidence. A later examination does not retrospectively validate the original allocation decision. Source alignment: ASQ CMBB Body of Knowledge, IV.A. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-001",
+      "optionRationales": [
+        "Correct. It links selection to actual capability requirements, the nature of the gap and conditions for applying learning.",
+        "Course reactions from a seniority-selected group cannot establish the original distribution of unmet training needs.",
+        "Unadjusted defect totals may reflect workload or system conditions rather than a trainable skill gap.",
+        "A common examination assesses later performance; it does not determine who most needed the initial investment."
+      ],
+      "trap": "Needs assessment asks whether training is the right response as well as who needs it. Nomination, tenure and performance totals are inputs, not stand-alone selection criteria.",
+      "distractors": [
+        "Correct. It links selection to actual capability requirements, the nature of the gap and conditions for applying learning.",
+        "Course reactions from a seniority-selected group cannot establish the original distribution of unmet training needs.",
+        "Unadjusted defect totals may reflect workload or system conditions rather than a trainable skill gap.",
+        "A common examination assesses later performance; it does not determine who most needed the initial investment."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.A"
+        },
+        {
+          "title": "CDC: Assess Training Needs — Conducting Needs Analysis",
+          "url": "https://www.cdc.gov/training-development/php/about/assess-training-needs-conducting-needs-analysis.html",
+          "locator": "Needs assessment and training needs analysis"
+        }
+      ]
+    },
+    "issues": [
+      "Recall-level item",
+      "Training assumed to be the solution",
+      "Missing transparent selection and application constraints",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 82,
+    "qid": "mbb:set-3:d4-002",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "An MBB conducting a training needs analysis at a logistics company finds that dispatch supervisors have strong process-mapping skills but consistently struggle with basic hypothesis testing. What should this finding drive?",
+      "options": [
+        "Assigning supervisors to Black Belt-level DOE training immediately, skipping foundational statistics entirely",
+        "Cancellation of all training for dispatch supervisors, since the gap suggests they aren't suited for improvement work",
+        "A generic, one-size-fits-all Green Belt curriculum for all supervisors regardless of the specific gap identified",
+        "A targeted curriculum emphasizing statistical inference modules for this group, since the needs analysis identified a specific, addressable skill gap rather than a general training need"
+      ],
+      "answer": 3,
+      "why": "A well-executed needs analysis should produce targeted curriculum adjustments addressing the specific gap identified, not a generic program or an overreaction. Source: [BOK] Domain IV.A, Training Needs Analysis.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-002"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "A logistics company's observed-work assessment confirms that dispatch supervisors can map processes but often choose the wrong hypothesis test and interpret a nonsignificant result as proof of no effect. Their roles require using test results in improvement decisions. Training time is limited, and prerequisite numeracy varies. Which curriculum response most directly addresses the demonstrated gap?",
+      "options": [
+        "Move directly to an advanced DOE module using statistical software defaults, with a final attendance check to confirm that each supervisor has received the same technical exposure.",
+        "Repeat the process-mapping module for the whole cohort and add a brief glossary of statistical terms, using self-rated confidence to determine whether further instruction is needed.",
+        "Give every supervisor the unchanged full curriculum and assess only aggregate course scores, allowing strength in process mapping to compensate for incorrect inferential decisions.",
+        "Check prerequisite skills, provide targeted bridges, and practice test selection, assumptions and interpretation on dispatch cases, with feedback and objective checks of the required decisions."
+      ],
+      "answer": 3,
+      "why": "The demonstrated deficit concerns selecting and interpreting inferential procedures, not process mapping or attendance. Prerequisite checks allow targeted support without assuming that everyone needs identical remediation. Job-relevant decisions, practice and feedback should be aligned with the required competence. A nonsignificant result alone does not establish absence of an effect; uncertainty, power and practical relevance still matter. Assessment should verify the specific inference skills rather than letting unrelated strengths hide them. Source alignment: ASQ CMBB Body of Knowledge, IV.A; IV.B. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-002",
+      "optionRationales": [
+        "Advanced software exposure without prerequisites or decision checks does not correct the demonstrated selection and interpretation errors.",
+        "Repeating an already demonstrated strength and measuring confidence does not verify improvement in inferential decisions.",
+        "Aggregate scores can conceal failure on the very competency the needs assessment identified as essential.",
+        "Correct. It targets the demonstrated skill gap with appropriate foundations, relevant practice, feedback and aligned assessment."
+      ],
+      "trap": "Map a demonstrated gap to a specific objective, practice task and assessment. Failure to reject a null hypothesis is not proof that there is no meaningful effect.",
+      "distractors": [
+        "Advanced software exposure without prerequisites or decision checks does not correct the demonstrated selection and interpretation errors.",
+        "Repeating an already demonstrated strength and measuring confidence does not verify improvement in inferential decisions.",
+        "Aggregate scores can conceal failure on the very competency the needs assessment identified as essential.",
+        "Correct. It targets the demonstrated skill gap with appropriate foundations, relevant practice, feedback and aligned assessment."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.A; IV.B"
+        },
+        {
+          "title": "CDC Quality Training Standards",
+          "url": "https://www.cdc.gov/training-development/php/qts/index.html",
+          "locator": "Standards 1–8; use only the principles relevant to each original scenario"
+        }
+      ]
+    },
+    "issues": [
+      "Simple targeted-training recall",
+      "Missing prerequisite and competency-assessment detail",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 83,
+    "qid": "mbb:set-3:d4-003",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "A retail chain's training needs analysis relies solely on a self-assessment survey where employees rate their own statistical skills. Scores are uniformly high, but subsequent Green Belt cohort performance is poor. What flaw does this illustrate?",
+      "options": [
+        "Needs analysis should be abandoned in favor of universal, unscreened enrollment",
+        "The Green Belt cohort's poor performance proves the curriculum itself is flawed",
+        "Self-assessment surveys are always fully reliable for skills gap identification",
+        "Self-assessed skill data is prone to overconfidence bias and should be triangulated with objective measures (e.g., a validated pre-assessment quiz, manager evaluation, or review of past project work) rather than relied on alone"
+      ],
+      "answer": 3,
+      "why": "Self-report skills data is a well-documented source of overconfidence bias; triangulating with objective measures produces a more reliable needs analysis. Source: [BOK] Domain IV.A, Training Needs Analysis.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-003"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "A retail chain selected a Green Belt cohort using only self-rated statistical proficiency. Ratings were high, but performance on course exercises was poor. The survey and exercise requirements have not yet been compared, and delivery conditions were not evaluated. Which revision to the next needs assessment is most defensible?",
+      "options": [
+        "Retain self-ratings as the sole skill measure but ask employees to explain their confidence, treating longer explanations as evidence of stronger statistical competence.",
+        "Replace self-ratings with managers' unaided ratings, treating those judgments as objective measurements that need no common criteria or comparison with direct performance.",
+        "Conclude that overconfidence caused the poor results and lower all self-ratings by the same amount, without checking the assessment alignment or training-delivery conditions.",
+        "Triangulate self-ratings with role-aligned performance tasks and rubric-based work review, and examine assessment and delivery fit before attributing the discrepancy to a particular cause."
+      ],
+      "answer": 3,
+      "why": "The discrepancy shows that self-ratings alone did not provide an adequate basis for this selection decision. It does not establish overconfidence as the unique cause: construct mismatch, prerequisites or delivery conditions are alternatives. Direct role-aligned performance and calibrated work review provide complementary evidence. Manager opinion is another judgment source, not automatically an objective test. Retain useful self-report information while checking what each measure actually assesses. Source alignment: ASQ CMBB Body of Knowledge, IV.A. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-003",
+      "optionRationales": [
+        "The length of a confidence explanation does not verify the statistical decisions the role requires.",
+        "Unstructured managerial ratings can introduce different biases and do not become objective merely by changing the rater.",
+        "A uniform correction assumes an unverified cause and magnitude rather than investigating the discrepancy.",
+        "Correct. It adds direct, aligned evidence and checks alternative explanations without treating one source as infallible."
+      ],
+      "trap": "A disagreement between confidence and performance is evidence to investigate, not proof of a single bias. Manager ratings also need criteria and calibration.",
+      "distractors": [
+        "The length of a confidence explanation does not verify the statistical decisions the role requires.",
+        "Unstructured managerial ratings can introduce different biases and do not become objective merely by changing the rater.",
+        "A uniform correction assumes an unverified cause and magnitude rather than investigating the discrepancy.",
+        "Correct. It adds direct, aligned evidence and checks alternative explanations without treating one source as infallible."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.A"
+        },
+        {
+          "title": "CDC: Assess Training Needs — Conducting Needs Analysis",
+          "url": "https://www.cdc.gov/training-development/php/about/assess-training-needs-conducting-needs-analysis.html",
+          "locator": "Needs assessment and training needs analysis"
+        }
+      ]
+    },
+    "issues": [
+      "Overconfidence asserted as proven cause",
+      "Manager evaluation incorrectly grouped as inherently objective",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 84,
+    "qid": "mbb:set-3:d4-004",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "A manufacturer's training needs analysis is conducted once, at deployment launch, and never revisited despite three years of organizational change (new product lines, revised processes, staff turnover). What principle from elsewhere in MBB practice applies directly here?",
+      "options": [
+        "Training needs analysis is a one-time compliance exercise with no ongoing relevance",
+        "Training needs analysis, once completed, remains valid indefinitely regardless of organizational change",
+        "The training program should be discontinued entirely given the passage of time",
+        "The periodic re-validation principle (already established for strategic plans, organizational design, and portfolio prioritization criteria) applies equally to training needs analysis: a three-year-old assessment likely no longer reflects current capability gaps and should be refreshed"
+      ],
+      "answer": 3,
+      "why": "This connects the periodic re-validation principle (portfolio criteria, strategic plans) to training needs analysis specifically — a static assessment predictably drifts out of alignment with a changing organization. Source: [BOK] Domain IV.A, Training Needs Analysis.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-004"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "A manufacturer still uses the training-needs assessment from its deployment launch three years ago. New product lines, revised processes and staff turnover have changed several roles. Some capabilities remain relevant, but no owner checks whether assessed requirements still match current work. Which maintenance process best closes this gap?",
+      "options": [
+        "Repeat the original survey on a fixed annual date using unchanged role requirements, so year-to-year comparisons remain consistent despite changes in the work.",
+        "Replace the entire curriculum immediately because the assessment is three years old, without checking which competencies or existing evidence are still applicable.",
+        "Reassess needs only when examination pass rates fall, because stable pass rates are sufficient evidence that the curriculum covers all current role requirements.",
+        "Assign an owner to scheduled and material-change reviews of role requirements and capability evidence, retaining valid findings and updating priorities when work or workforce needs change."
+      ],
+      "answer": 3,
+      "why": "The issue is uncontrolled relevance, not age alone. Review triggers should include material role, process or workforce changes, alongside a proportionate review schedule. Compare current requirements with current evidence, preserve what remains valid and document changed priorities. An examination can remain easy to pass while measuring obsolete requirements. Repeating an unchanged instrument or discarding the entire curriculum would not provide a reasoned assessment of the changed needs. Source alignment: ASQ CMBB Body of Knowledge, IV.A; IV.B. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-004",
+      "optionRationales": [
+        "A consistent questionnaire can repeatedly measure the wrong requirements if it is not updated for changed roles.",
+        "Elapsed time alone does not establish that every part of the curriculum or assessment is invalid.",
+        "Pass rates only address what the examination tests; they do not verify coverage of newly required competencies.",
+        "Correct. It provides accountable, change-sensitive maintenance while preserving evidence that remains applicable."
+      ],
+      "trap": "Refresh the requirement-to-capability comparison when material conditions change. Assessment age is a review signal, not proof that every previous finding is obsolete.",
+      "distractors": [
+        "A consistent questionnaire can repeatedly measure the wrong requirements if it is not updated for changed roles.",
+        "Elapsed time alone does not establish that every part of the curriculum or assessment is invalid.",
+        "Pass rates only address what the examination tests; they do not verify coverage of newly required competencies.",
+        "Correct. It provides accountable, change-sensitive maintenance while preserving evidence that remains applicable."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.A; IV.B"
+        },
+        {
+          "title": "CDC: Assess Training Needs — Conducting Needs Analysis",
+          "url": "https://www.cdc.gov/training-development/php/about/assess-training-needs-conducting-needs-analysis.html",
+          "locator": "Needs assessment and training needs analysis"
+        }
+      ]
+    },
+    "issues": [
+      "Cross-question principle dependence",
+      "Age treated as automatic invalidity",
+      "Missing review accountability and triggers",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 85,
+    "qid": "mbb:set-3:d4-005",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "A Black Belt training plan lists learning objectives and a course schedule but has no defined method for assessing whether trainees actually achieved competency before certification. What training plan element is missing, and why does it matter?",
+      "options": [
+        "Nothing is missing; a schedule and objectives are sufficient for a complete training plan",
+        "A competency assessment method (e.g., a capstone project, written exam, or supervised project review) is missing; without one, certification risks becoming a participation credential rather than a genuine competency signal, undermining the credibility of the certification and the quality of subsequently assigned Belts",
+        "Training plans should never include a fixed schedule, since flexibility is more important than assessment",
+        "The training plan should eliminate learning objectives entirely and rely only on the assessment"
+      ],
+      "answer": 1,
+      "why": "A defined competency assessment is a standard, necessary training plan element — without it, certification doesn't verify genuine capability, risking exactly the credibility and quality-of-Belt-pool concerns raised elsewhere (e.g., an inconsistent, informal Belt-advancement pathway). Source: [BOK] Domain IV.B, Training Plan Elements.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-005"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "An employer's internal Black Belt program specifies objectives for interpreting analyses and leading an improvement project. Its certificate is intended to attest to those competencies, but the plan contains only content, attendance rules and dates. Before delivery, which assessment design best supports that intended claim?",
+      "options": [
+        "Award the competency certificate for attendance and a satisfaction survey, then leave later supervisors to decide informally whether the employee can perform the stated tasks.",
+        "Map objectives to aligned knowledge and performance evidence, set defensible criteria and calibrated reviews, and provide feedback and reassessment before making the internal competency-certification decision.",
+        "Use a difficult multiple-choice test as the sole evidence for both statistical interpretation and observed project leadership, without checking its coverage of the stated performance objectives.",
+        "Let each instructor choose a passing threshold after viewing cohort scores and certify a fixed percentage of participants, regardless of whether they meet the required competencies."
+      ],
+      "answer": 1,
+      "why": "Assessment should support the specific claim the employer intends to make. Interpretation can be assessed through suitable problems, while demonstrated leadership requires appropriate performance evidence. Criteria, coverage and reviewer consistency should be planned before the decision, with feedback and an appropriate reassessment route. Attendance, satisfaction or a post hoc pass quota do not establish competence. This case concerns an employer's internal credential, not ASQ certification requirements. Source alignment: ASQ CMBB Body of Knowledge, IV.B; IV.D. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-005",
+      "optionRationales": [
+        "Attendance and satisfaction do not establish the statistical and leadership capabilities claimed by the certificate.",
+        "Correct. It aligns evidence and criteria to the intended competency claim and addresses consistency and remediation.",
+        "A difficult test is not necessarily a valid measure of every objective, particularly observed leadership performance.",
+        "Post hoc thresholds and pass quotas are not criterion-based evidence that individuals meet the required standard."
+      ],
+      "trap": "Specify what the credential claims, then align assessments and standards to that claim. Course completion, proficiency and demonstrated change in learning are different conclusions.",
+      "distractors": [
+        "Attendance and satisfaction do not establish the statistical and leadership capabilities claimed by the certificate.",
+        "Correct. It aligns evidence and criteria to the intended competency claim and addresses consistency and remediation.",
+        "A difficult test is not necessarily a valid measure of every objective, particularly observed leadership performance.",
+        "Post hoc thresholds and pass quotas are not criterion-based evidence that individuals meet the required standard."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.B; IV.D"
+        },
+        {
+          "title": "CDC Quality Training Standards",
+          "url": "https://www.cdc.gov/training-development/php/qts/index.html",
+          "locator": "Standards 1–8; use only the principles relevant to each original scenario"
+        },
+        {
+          "title": "CDC: Evaluate Training — Measuring Effectiveness",
+          "url": "https://www.cdc.gov/training-development/php/about/evaluate-training-measuring-effectiveness.html",
+          "locator": "What to evaluate; before and after training; delayed evaluation"
+        }
+      ]
+    },
+    "issues": [
+      "Internal credential confused with general certification",
+      "Assessment presence treated as sufficient without validity or criteria",
+      "Cross-question explanation reference",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 86,
+    "qid": "mbb:set-3:d4-006",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "An insurance company's training plan for new Green Belts allocates 90% of instructional time to statistical tools and 10% to change management and stakeholder engagement, despite most project failures at this company being attributed to poor stakeholder buy-in rather than technical error. What should the MBB recommend?",
+      "options": [
+        "Eliminate statistical tools training entirely in favor of only soft skills",
+        "Rebalance the training plan's time allocation to better reflect the organization's actual failure patterns, giving proportionally more instructional time to change management and stakeholder engagement given the documented root cause of most project failures",
+        "The training plan is irrelevant to project failure rates, which are determined solely by individual Belt aptitude",
+        "Keep the allocation unchanged, since statistical tools are always the most important training content"
+      ],
+      "answer": 1,
+      "why": "Training plan content allocation should reflect the organization's actual, evidenced failure patterns — continuing to over-invest in technical content while under-investing in the documented root cause of failures is a misallocation the needs-analysis-to-plan linkage should catch. Source: [BOK] Domain IV.B, Training Plan Elements.",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Content area",
+          "Current allocation",
+          "Project failure attribution"
+        ],
+        "rows": [
+          [
+            "Statistical tools",
+            "90%",
+            "15%"
+          ],
+          [
+            "Change mgmt / stakeholder engagement",
+            "10%",
+            "70%"
+          ],
+          [
+            "Other",
+            "0%",
+            "15%"
+          ]
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d4-006"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "An insurance company's review of unsuccessful improvement projects assigns each project one primary failure category, as shown in the table. These retrospective classifications are not experimental proof of cause. The current Green Belt course allocates 90% of time to statistical tools and 10% to stakeholder work. Technical minimum competencies must still be met. Which response to this evidence is most defensible?",
+      "options": [
+        "Set the next course's instructional percentages equal to the failure-category percentages, treating the retrospective distribution as the optimal allocation without checking gaps or learning outcomes.",
+        "Validate the attributed skill and work-system gaps, then pilot more applied stakeholder practice while preserving technical competencies; assess learning, transfer and project outcomes before broader reallocation.",
+        "Retain the 90/10 allocation and lower the technical passing standard, so more participants finish training even though the identified stakeholder-performance concern remains unaddressed.",
+        "Remove all statistical instruction and move its time to stakeholder engagement, assuming the largest failure category makes the other required competencies unnecessary for future projects."
+      ],
+      "answer": 1,
+      "why": "The table is a prioritization signal for further needs analysis and a targeted pilot, not a causal estimate or an instructional optimization model. Failure categories can reflect organizational barriers as well as trainable skills. Validate the interpretation, preserve required technical competence and evaluate a revised approach using aligned learning and workplace measures. The 70% attribution does not imply that 70% of teaching time is optimal, and the categories do not establish a universal curriculum split. Source alignment: ASQ CMBB Body of Knowledge, IV.A; IV.B; IV.D. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "chart": {
+        "type": "data-table",
+        "title": "Current course allocation and retrospective failure classification",
+        "altText": "Current teaching time shares and primary categories assigned in a retrospective review of unsuccessful projects. The two percentage columns have different denominators and are not causal estimates.",
+        "columns": [
+          "Content area",
+          "Share of course time",
+          "Share of unsuccessful projects assigned this primary category"
+        ],
+        "rows": [
+          [
+            "Statistical tools",
+            "90%",
+            "15%"
+          ],
+          [
+            "Change management / stakeholder engagement",
+            "10%",
+            "70%"
+          ],
+          [
+            "Other",
+            "0%",
+            "15%"
+          ]
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d4-006",
+      "optionRationales": [
+        "Failure attribution shares and optimal instructional time are different quantities; directly copying the percentages lacks a justified model.",
+        "Correct. It investigates the signal and tests a targeted change without sacrificing required technical competence or asserting causation.",
+        "Lowering a passing standard neither addresses the stakeholder gap nor preserves the defined technical requirement.",
+        "The largest retrospective category does not eliminate the need for statistical competence or prove that training alone resolves the failures."
+      ],
+      "trap": "Do not convert retrospective failure percentages directly into curriculum weights. Verify the gap and pilot the response while preserving required competencies.",
+      "distractors": [
+        "Failure attribution shares and optimal instructional time are different quantities; directly copying the percentages lacks a justified model.",
+        "Correct. It investigates the signal and tests a targeted change without sacrificing required technical competence or asserting causation.",
+        "Lowering a passing standard neither addresses the stakeholder gap nor preserves the defined technical requirement.",
+        "The largest retrospective category does not eliminate the need for statistical competence or prove that training alone resolves the failures."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.A; IV.B; IV.D"
+        },
+        {
+          "title": "CDC Quality Training Standards",
+          "url": "https://www.cdc.gov/training-development/php/qts/index.html",
+          "locator": "Standards 1–8; use only the principles relevant to each original scenario"
+        }
+      ]
+    },
+    "issues": [
+      "Failure attribution treated as established root cause",
+      "Percentages lack a defined denominator and decision limits",
+      "No protection for required technical competencies",
+      "Table readability and caption missing",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 87,
+    "qid": "mbb:set-3:d4-007",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "A training plan for a new DFSS curriculum includes technical content on QFD and robust design but has no defined prerequisite (e.g., completed Green Belt or equivalent DMAIC experience). Trainees with no prior process-improvement exposure struggle badly. What training plan element was missing?",
+      "options": [
+        "A defined prerequisite requirement is missing; DFSS builds on foundational process-improvement concepts, and admitting trainees without that foundation predictably produces poor learning outcomes — prerequisites should be an explicit training plan element for any advanced curriculum",
+        "Nothing was missing; DFSS training should always be open to any employee regardless of background",
+        "Trainees who struggle should simply be removed from the workforce",
+        "The DFSS curriculum itself is flawed and should be discontinued"
+      ],
+      "answer": 0,
+      "why": "Defining prerequisites is a standard training plan element for advanced curricula — omitting this predictably produces the exact struggle described when trainees lack foundational context. Source: [BOK] Domain IV.B, Training Plan Elements.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-007"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "A DFSS course on QFD and robust design assumes that learners can interpret variation, use basic statistical reasoning and describe customer requirements. Several new entrants struggle with those tasks; no prerequisite skills or bridging route were specified. Employees may have acquired the skills through different credentials or work experience. Which admission-and-support policy best addresses the gap?",
+      "options": [
+        "Define and assess the entry competencies, accept credible equivalent evidence, and offer targeted bridging before advanced work rather than using one credential as the only route.",
+        "Require an existing Green Belt certificate as the sole entry condition and waive prerequisite assessment, because the certificate necessarily establishes every skill assumed by this particular course.",
+        "Keep admission unrestricted and slow every advanced session to repeat all foundations, without checking who needs support or whether the advanced learning objectives can still be met.",
+        "Admit only employees with prior DFSS job titles and treat that experience label as sufficient evidence, even when they cannot perform the specified prerequisite tasks."
+      ],
+      "answer": 0,
+      "why": "The missing element is an explicit match between the course's assumed competencies and entrants' demonstrated readiness, together with a way to close gaps. Relevant experience or another credential can provide equivalent evidence, but neither a title nor a Green Belt certificate automatically covers every prerequisite of this course. DFSS does not universally require a particular DMAIC credential. Targeted bridges preserve access and rigor without automatically abandoning the advanced objectives. Source alignment: ASQ CMBB Body of Knowledge, IV.B; IV.C.2. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-007",
+      "optionRationales": [
+        "Correct. It verifies the actual prerequisite skills and offers an equitable route to acquire missing foundations.",
+        "The stated course prerequisites must be verified; one certificate is not automatically sufficient or the only valid evidence.",
+        "Unassessed repetition can consume the advanced course without efficiently addressing individual prerequisite gaps.",
+        "A job title does not override direct evidence that the required entry competencies have not been demonstrated."
+      ],
+      "trap": "Prerequisites should describe what learners must be able to do. Accept equivalent evidence and support missing foundations rather than imposing an unsupported universal credential rule.",
+      "distractors": [
+        "Correct. It verifies the actual prerequisite skills and offers an equitable route to acquire missing foundations.",
+        "The stated course prerequisites must be verified; one certificate is not automatically sufficient or the only valid evidence.",
+        "Unassessed repetition can consume the advanced course without efficiently addressing individual prerequisite gaps.",
+        "A job title does not override direct evidence that the required entry competencies have not been demonstrated."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.B; IV.C.2"
+        },
+        {
+          "title": "CDC Quality Training Standards",
+          "url": "https://www.cdc.gov/training-development/php/qts/index.html",
+          "locator": "Standards 1–8; use only the principles relevant to each original scenario"
+        }
+      ]
+    },
+    "issues": [
+      "DFSS implied to universally require DMAIC/Green Belt background",
+      "Missing competency-based alternatives and support",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 88,
+    "qid": "mbb:set-3:d4-008",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "A training plan specifies course content and duration but leaves logistics (venue, materials procurement, scheduling around production shifts) to be figured out ad hoc by whoever happens to be available closer to the date. What risk does this create?",
+      "options": [
+        "No risk; logistics are unimportant compared to instructional content",
+        "Leaving logistics unplanned risks last-minute scrambling, scheduling conflicts with production needs, and inconsistent delivery quality — logistics planning is a standard training plan element specifically to prevent exactly this kind of avoidable, foreseeable disruption",
+        "Logistics should always be handled by the most senior available executive regardless of their actual availability or expertise",
+        "Training should be canceled entirely if logistics aren't planned a year in advance"
+      ],
+      "answer": 1,
+      "why": "Logistics planning is a standard, foundational training plan element precisely because ad hoc last-minute handling predictably produces disruption — proactive planning, not reactive scrambling, is the correct approach. Source: [BOK] Domain IV.B, Training Plan Elements.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-008"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "A plant's Green Belt course has approved content and dates, but no owner has confirmed shift coverage, an accessible venue, materials or software access. Delivery starts in four weeks, and production managers cannot release all shifts simultaneously. Which action best protects delivery without changing the learning objectives?",
+      "options": [
+        "Send the approved dates to participants and treat their acceptance as confirmation of release time, equipment access and coverage, leaving unresolved logistics to individual learners.",
+        "Assign a logistics owner and a readiness plan covering release agreements, accessible facilities, materials, software and contingency options, with deadlines and escalation before each delivery session.",
+        "Book the largest venue and order printed manuals first, then require every shift to attend the same session even though the stated release constraint remains unresolved.",
+        "Move the course online and mark logistics complete, assuming remote delivery removes the need to confirm shift coverage, technology access, materials and learner accommodations."
+      ],
+      "answer": 1,
+      "why": "The course needs accountable coordination of the resources that make participation possible. An owner, readiness milestones, release agreements and contingency arrangements turn known dependencies into manageable actions. A venue booking or a modality change addresses only part of the problem. Online delivery still requires time, technology and accessibility planning. The four-week lead time calls for a feasible plan and escalation of gaps, not automatic cancellation or a universal lead-time rule. Source alignment: ASQ CMBB Body of Knowledge, IV.B; IV.C.4. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-008",
+      "optionRationales": [
+        "An invitation acceptance does not establish management release, suitable access or production coverage.",
+        "Correct. It assigns accountability and verifies the interdependent arrangements before they can disrupt instruction.",
+        "A large room does not resolve the explicit inability to release all shifts together.",
+        "Remote delivery changes logistical requirements but does not eliminate them or verify learner access."
+      ],
+      "trap": "Logistics are learning-enablement dependencies: ownership, release time, access and readiness need verification regardless of whether delivery is physical or online.",
+      "distractors": [
+        "An invitation acceptance does not establish management release, suitable access or production coverage.",
+        "Correct. It assigns accountability and verifies the interdependent arrangements before they can disrupt instruction.",
+        "A large room does not resolve the explicit inability to release all shifts together.",
+        "Remote delivery changes logistical requirements but does not eliminate them or verify learner access."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.B; IV.C.4"
+        },
+        {
+          "title": "CDC Quality Training Standards",
+          "url": "https://www.cdc.gov/training-development/php/qts/index.html",
+          "locator": "Standards 1–8; use only the principles relevant to each original scenario"
+        }
+      ]
+    },
+    "issues": [
+      "Recall-only risk identification",
+      "Unspecified logistical ownership and feasibility",
+      "Implausible distractors"
+    ]
+  },
+  {
+    "number": 89,
+    "qid": "mbb:set-3:d4-009",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "An MBB is designing Black Belt training materials for a workforce that is 60% non-native English speakers. The existing materials are text-heavy with no visual aids or translated glossaries. What delivery adaptation should the MBB prioritize?",
+      "options": [
+        "Incorporate visual aids, diagrams, and a translated technical glossary alongside the existing materials, since heavily text-based delivery disproportionately disadvantages non-native speakers on technical content where precise terminology matters",
+        "No adaptation is needed; all employees should be expected to have equivalent English proficiency regardless of background",
+        "Deliver training exclusively in a single non-English language regardless of the full workforce's actual composition",
+        "Eliminate all technical terminology entirely, oversimplifying the statistical content to the point of losing rigor"
+      ],
+      "answer": 0,
+      "why": "Adapting delivery format (visual aids, translated glossaries) to the actual workforce composition is a standard, appropriate accommodation — distinct from either ignoring the need or inappropriately diluting technical rigor. Source: [BOK] Domain IV.C, Training Materials and Delivery.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-009"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "An MBB is adapting Black Belt materials for a workforce in which 60% learned English as an additional language. A pilot with representative learners found confusion about technical terms and dense instructions, but did not identify a gap in the required statistical reasoning. Learners use several first languages and proficiency varies. Which adaptation best addresses the demonstrated access barrier while preserving rigor?",
+      "options": [
+        "Use plain-language instructions, labeled visuals with text alternatives and technically checked multilingual glossaries where needed; test comprehension with representative learners while retaining the statistical objectives.",
+        "Translate the existing dense text into the most common first language and deliver only that version, assuming everyone in the 60% group has the same language and proficiency needs.",
+        "Replace technical definitions with everyday approximations and reduce the assessment's statistical demands, so terminology barriers no longer affect scores even if the competency claim changes.",
+        "Add decorative images and retain the original instructions unchanged, treating the presence of visuals as sufficient evidence that all identified comprehension barriers have been removed."
+      ],
+      "answer": 0,
+      "why": "The pilot identifies a terminology and instructional-access issue, not lower statistical capability. Adapt the language and representation, check technical equivalence and verify comprehension with the actual audience. Language background alone does not determine proficiency or a preferred learning style. Visuals should carry relevant information and have usable text alternatives; a glossary needs technical review. Keep the intended reasoning demand and the competency standard rather than concealing the barrier by lowering them. Source alignment: ASQ CMBB Body of Knowledge, IV.C.2; IV.C.4. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-009",
+      "optionRationales": [
+        "Correct. It addresses the observed barrier, validates the adaptation and preserves the intended technical competence.",
+        "The workforce has multiple languages and variable proficiency; a single exclusive translation does not meet those needs.",
+        "Changing the assessed competence avoids rather than solves the access problem and weakens the credential's intended meaning.",
+        "Decorative images do not explain difficult terminology or demonstrate that instructions have become comprehensible."
+      ],
+      "trap": "Assess actual access needs rather than inferring ability from language background. Improve instructional access and validate technical equivalence without lowering the reasoning standard.",
+      "distractors": [
+        "Correct. It addresses the observed barrier, validates the adaptation and preserves the intended technical competence.",
+        "The workforce has multiple languages and variable proficiency; a single exclusive translation does not meet those needs.",
+        "Changing the assessed competence avoids rather than solves the access problem and weakens the credential's intended meaning.",
+        "Decorative images do not explain difficult terminology or demonstrate that instructions have become comprehensible."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.C.2; IV.C.4"
+        },
+        {
+          "title": "CDC Quality Training Standards",
+          "url": "https://www.cdc.gov/training-development/php/qts/index.html",
+          "locator": "Standards 1–8; use only the principles relevant to each original scenario"
+        }
+      ]
+    },
+    "issues": [
+      "Language background treated as uniform proficiency",
+      "No validation of translation or actual access barrier",
+      "Missing visual accessibility and technical-equivalence safeguards",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 90,
+    "qid": "mbb:set-3:d4-010",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "A Black Belt training program delivers all content via a single 5-day intensive workshop with no follow-up reinforcement, and post-training retention (measured 3 months later) is poor. What delivery principle does this violate?",
+      "options": [
+        "This violates the spaced-repetition/reinforcement principle — a single intensive session without follow-up reinforcement (refresher sessions, applied practice, coaching check-ins) predictably produces poor long-term retention compared to a distributed delivery model with built-in reinforcement",
+        "The training content itself must be reduced in rigor to improve retention",
+        "Poor retention proves the trainees are simply not capable of learning statistical content",
+        "Intensive single-session delivery is always the most effective training format regardless of retention outcomes"
+      ],
+      "answer": 0,
+      "why": "Spaced repetition and reinforcement are well-established learning-science principles; a single intensive session with no follow-up predictably underperforms a distributed model on long-term retention. Source: [BOK] Domain IV.C, Training Materials and Delivery.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-010"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "A Black Belt course uses one five-day workshop with no planned practice afterward. A role-aligned assessment three months later finds poor retention, but there was no comparison group and workplace practice opportunities varied. The MBB can redesign reinforcement without lowering the competency standard. Which response best uses learning evidence without overstating the cause of the observed result?",
+      "options": [
+        "Pilot spaced retrieval and applied practice with feedback and coaching after the workshop; compare aligned immediate and delayed performance while checking participation and workplace support.",
+        "Repeat the same five-day workshop once more with no follow-up, then infer long-term retention from satisfaction and attendance collected on its final day.",
+        "Conclude that workshop concentration is the proven sole cause and guarantee that a distributed timetable will eliminate retention problems, without evaluating the revised design.",
+        "Provide an optional recording library and treat each recorded view as evidence of retained competence, without asking learners to retrieve or apply the material."
+      ],
+      "answer": 0,
+      "why": "Distributed retrieval and applied practice are defensible reinforcement strategies, but the observed cohort does not isolate the cause of its poor retention. Practice opportunity, participation and other conditions may also matter. Pilot reinforcement with feedback and assess the target skills after appropriate delays. Immediate scores, views and satisfaction are not equivalent to retained performance. The intervention is evidence-informed, not a guarantee of a particular outcome for every learner or a universal ban on intensive workshops. Source alignment: ASQ CMBB Body of Knowledge, IV.C.2; IV.D. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-010",
+      "optionRationales": [
+        "Correct. It adds a plausible evidence-informed mechanism and evaluates retention while examining alternative influences.",
+        "Another massed exposure and end-of-course reactions do not verify durable recall or application.",
+        "Without a suitable comparison, the original result cannot establish a unique cause or justify a guarantee.",
+        "Watching a recording is exposure, not direct evidence that the learner can later retrieve and apply the skill."
+      ],
+      "trap": "A plausible learning principle supports a testable redesign, not a causal diagnosis of one cohort. Measure delayed performance and the conditions that support practice.",
+      "distractors": [
+        "Correct. It adds a plausible evidence-informed mechanism and evaluates retention while examining alternative influences.",
+        "Another massed exposure and end-of-course reactions do not verify durable recall or application.",
+        "Without a suitable comparison, the original result cannot establish a unique cause or justify a guarantee.",
+        "Watching a recording is exposure, not direct evidence that the learner can later retrieve and apply the skill."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.C.2; IV.D"
+        },
+        {
+          "title": "Butowska-Buczynska et al. (2024): The role of variable retrieval in effective learning",
+          "url": "https://doi.org/10.1073/pnas.2413511121",
+          "locator": "Experiments on retrieval practice and spacing; principle supports a pilot, not a guarantee for Black Belt trainees"
+        },
+        {
+          "title": "CDC: Evaluate Training — Measuring Effectiveness",
+          "url": "https://www.cdc.gov/training-development/php/about/evaluate-training-measuring-effectiveness.html",
+          "locator": "What to evaluate; before and after training; delayed evaluation"
+        }
+      ]
+    },
+    "issues": [
+      "Single-cohort retention result treated as causal proof",
+      "Universal prediction for intensive instruction",
+      "No objective reinforcement-evaluation plan",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 91,
+    "qid": "mbb:set-3:d4-011",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "A manufacturer delivers Green Belt training entirely through generic, off-the-shelf e-learning modules using examples from unrelated industries (e.g., call-center scenarios for a machining shop workforce). Engagement and completion rates are poor. What should the MBB recommend?",
+      "options": [
+        "Continue using the generic modules unchanged, since statistical concepts are the same regardless of industry examples",
+        "Customize or supplement the generic materials with examples and case studies drawn from the actual machining-shop context, since relevance of examples to trainees' actual work meaningfully affects engagement and the ability to transfer learning to real projects",
+        "Switch to a completely different statistical topic unrelated to either industry",
+        "Eliminate all training content and rely solely on on-the-job learning with no formal instruction"
+      ],
+      "answer": 1,
+      "why": "Contextual relevance of training examples to trainees' actual work materially affects engagement and transfer of learning — generic, industry-mismatched examples predictably underperform customized ones. Source: [BOK] Domain IV.C, Training Materials and Delivery.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-011"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "A machining workforce uses technically accurate off-the-shelf Green Belt modules illustrated with call-center cases. Completion is low, and interviews plus observed exercises show that learners struggle to translate the cases into machining decisions. Access and release-time arrangements are functioning. Budget does not permit replacing the entire course. Which response best targets the demonstrated transfer problem?",
+      "options": [
+        "Keep every example unchanged and increase reminder emails, using completion as the sole outcome without checking whether learners can apply the concepts to machining decisions.",
+        "Retain valid core content and pilot machining-specific examples and application tasks, checking both local transfer and use of the same principles in an unfamiliar context.",
+        "Replace only company names in the call-center examples with machine names, while keeping the original service assumptions and tasks even where they do not fit machining work.",
+        "Remove the general principles and teach only the shop's current procedures, using accurate procedural repetition as sufficient evidence of transferable Green Belt reasoning."
+      ],
+      "answer": 1,
+      "why": "The available evidence identifies difficulty applying otherwise valid content to work decisions. A targeted supplement can address that gap within the budget. Contextual adaptation must preserve the underlying statistical and improvement principles, and an unfamiliar application helps check transfer beyond memorized examples. Reminder emails, cosmetic relabeling and replacing concepts with fixed procedures do not resolve that requirement. This case supports a pilot; it does not prove that unrelated-industry examples are always ineffective. Source alignment: ASQ CMBB Body of Knowledge, IV.C.2–3; IV.D. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-011",
+      "optionRationales": [
+        "Reminders may improve participation but do not directly address the observed difficulty translating concepts into work decisions.",
+        "Correct. It targets the evidenced gap while preserving reusable core content and checking broader transfer.",
+        "Cosmetic terminology changes can leave the actual task and assumptions inappropriate to the learner's work.",
+        "Repeating current procedures does not demonstrate transferable reasoning or the ability to improve a different process."
+      ],
+      "trap": "Contextualize the task and assumptions, not just the labels. Preserve general principles and test transfer beyond the specific examples practiced.",
+      "distractors": [
+        "Reminders may improve participation but do not directly address the observed difficulty translating concepts into work decisions.",
+        "Correct. It targets the evidenced gap while preserving reusable core content and checking broader transfer.",
+        "Cosmetic terminology changes can leave the actual task and assumptions inappropriate to the learner's work.",
+        "Repeating current procedures does not demonstrate transferable reasoning or the ability to improve a different process."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.C.2–3; IV.D"
+        },
+        {
+          "title": "CDC Quality Training Standards",
+          "url": "https://www.cdc.gov/training-development/php/qts/index.html",
+          "locator": "Standards 1–8; use only the principles relevant to each original scenario"
+        }
+      ]
+    },
+    "issues": [
+      "Generic examples assumed universally inferior",
+      "No assessment of competing completion barriers",
+      "Missing transfer verification",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 92,
+    "qid": "mbb:set-3:d4-012",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "An MBB is deciding between synchronous live instruction and self-paced asynchronous e-learning for a Black Belt cohort spread across five time zones with highly variable daily schedules. Which delivery format, and why, best fits this constraint?",
+      "options": [
+        "Asynchronous only, with no synchronous component of any kind",
+        "Cancel the cross-time-zone cohort and only train employees in a single time zone going forward",
+        "Synchronous live instruction only, requiring all five time zones to align on a single fixed schedule regardless of the burden this creates",
+        "A hybrid model: asynchronous self-paced modules for foundational content (accommodating schedule variability across time zones) paired with periodic synchronous sessions for discussion, Q&A, and applied practice — balancing flexibility with the relationship-building and real-time clarification synchronous delivery provides"
+      ],
+      "answer": 3,
+      "why": "A hybrid delivery model is the standard, defensible solution for genuinely dispersed, schedule-variable cohorts — balancing the flexibility asynchronous content provides against the real-time engagement value of periodic synchronous sessions. Source: [BOK] Domain IV.C, Training Materials and Delivery.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-012"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "A Black Belt cohort spans five time zones with variable shifts. Course objectives include independent analysis and observed live facilitation of a team discussion. Managers can protect short practice sessions in several repeated time slots, but cannot align everyone for one fixed weekly meeting. Which delivery design best meets both the access constraint and the facilitation objective?",
+      "options": [
+        "Use self-paced modules alone and assess facilitation through a multiple-choice quiz, treating knowledge about facilitation as equivalent to observing the required live performance.",
+        "Deliver one fixed weekly live session for everyone and provide a recording to absentees, counting recording completion as the same evidence as participating in assessed facilitation.",
+        "Make all live practice optional and award completion for asynchronous analysis modules, allowing learners to omit the stated facilitation objective when scheduling is inconvenient.",
+        "Use asynchronous foundations and analysis tasks with feedback, plus repeated small-group live practice slots with equivalent assessment criteria and tracked completion of the facilitation objective."
+      ],
+      "answer": 3,
+      "why": "The design must satisfy both the stated performance objective and feasible access. Asynchronous work provides scheduling flexibility, while the protected repeated sessions allow direct assessment of live facilitation. Equivalent criteria and completion tracking reduce unequal evidence across time slots. A hybrid format is justified by these particular conditions, not by time-zone dispersion alone. A quiz or recording may support learning but cannot substitute for the explicitly required observed performance. Source alignment: ASQ CMBB Body of Knowledge, IV.B; IV.C.4. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-012",
+      "optionRationales": [
+        "Knowing facilitation principles is not the same evidence as demonstrating the specified live facilitation skill.",
+        "A single fixed time conflicts with the constraint, and viewing a recording does not supply the missing performance evidence.",
+        "Optional participation would permit completion without meeting a required learning objective.",
+        "Correct. It combines feasible access with equivalent evidence of both independent analysis and live facilitation."
+      ],
+      "trap": "Choose modality from the required performance and real constraints. Hybrid delivery is not automatically best; here repeated live opportunities are feasible and necessary for the stated objective.",
+      "distractors": [
+        "Knowing facilitation principles is not the same evidence as demonstrating the specified live facilitation skill.",
+        "A single fixed time conflicts with the constraint, and viewing a recording does not supply the missing performance evidence.",
+        "Optional participation would permit completion without meeting a required learning objective.",
+        "Correct. It combines feasible access with equivalent evidence of both independent analysis and live facilitation."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.B; IV.C.4"
+        },
+        {
+          "title": "CDC Quality Training Standards",
+          "url": "https://www.cdc.gov/training-development/php/qts/index.html",
+          "locator": "Standards 1–8; use only the principles relevant to each original scenario"
+        }
+      ]
+    },
+    "issues": [
+      "Hybrid presented as universal answer without feasibility",
+      "No objective requiring synchronous practice",
+      "Missing equitable time-slot and assessment conditions",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 93,
+    "qid": "mbb:set-3:d4-013",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "A Six Sigma training program tracks only trainee satisfaction scores ('Did you enjoy the course?') as its measure of program effectiveness. Satisfaction scores are consistently high, but certified Belts show weak project outcomes. What evaluation-level gap does this reflect?",
+      "options": [
+        "Satisfaction scores should be discontinued entirely since they provide no value at all",
+        "This reflects a classic training-evaluation gap (paralleling the Kirkpatrick model's levels): satisfaction (reaction) is only the first, weakest evaluation level and doesn't measure learning, behavior change, or actual results; the MBB should add assessment of knowledge/skill gained, on-the-job application, and downstream project outcomes as evaluation measures",
+        "No gap exists; satisfaction is the only meaningful measure of training effectiveness",
+        "Weak project outcomes prove satisfaction surveys are always misleading and should never be used"
+      ],
+      "answer": 1,
+      "why": "This tests recognizing the well-known training-evaluation-levels gap: reaction/satisfaction is the weakest evaluation signal and does not by itself indicate learning, behavior change, or business results — all of which should be measured for a complete effectiveness picture. Source: [BOK] Domain IV.D, Training Program Effectiveness.",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Evaluation level",
+          "What it measures",
+          "This program's status"
+        ],
+        "rows": [
+          [
+            "1. Reaction",
+            "Trainee satisfaction",
+            "Measured (high)"
+          ],
+          [
+            "2. Learning",
+            "Knowledge/skill gained",
+            "Not measured"
+          ],
+          [
+            "3. Behavior",
+            "On-the-job application",
+            "Not measured"
+          ],
+          [
+            "4. Results",
+            "Business outcomes",
+            "Not measured"
+          ]
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d4-013"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "A Six Sigma program reports high trainee satisfaction, but its evaluation register has no direct evidence of knowledge gain, workplace application or verified project results. Managers describe weak projects anecdotally. The table shows the current coverage. Leadership wants to identify where learning or transfer is failing, not merely produce a larger dashboard. Which evaluation plan best supports that decision?",
+      "options": [
+        "Keep reaction surveys and add more satisfaction questions, then use their combined average to represent learning, application and results because it is collected consistently from learners.",
+        "Retain useful reaction feedback, add aligned pre/post skill evidence and follow-up workplace measures, and examine project results with context and comparison evidence rather than treating the levels as causal proof.",
+        "Drop reaction and learning measures and track only project benefits, attributing any subsequent financial change to training without considering project difficulty, staffing or other concurrent changes.",
+        "Record all four evaluation levels but assume strong scores at an earlier level establish improvement at later levels, so no direct workplace or project-outcome follow-up is necessary."
+      ],
+      "answer": 1,
+      "why": "Reaction, learning, workplace behavior and organizational results answer different evaluation questions. Satisfaction can help improve delivery but does not establish skill gain or transfer. Aligned pre/post evidence assesses change in learning; delayed observation and project measures examine application and outcomes. Context and credible comparisons are needed for attribution. The four-level framework organizes evidence; it does not itself prove a causal sequence, and describing reaction as universally worthless or simply the weakest measure misses its distinct purpose. Source alignment: ASQ CMBB Body of Knowledge, IV.D. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "chart": {
+        "type": "data-table",
+        "title": "Current training evaluation coverage",
+        "altText": "Reaction is measured as high satisfaction. Direct evidence of learning, workplace behavior and standardized project results is not collected.",
+        "columns": [
+          "Evaluation level",
+          "Evidence sought",
+          "Current coverage"
+        ],
+        "rows": [
+          [
+            "1. Reaction",
+            "Course satisfaction and relevance",
+            "Satisfaction measured: high"
+          ],
+          [
+            "2. Learning",
+            "Knowledge and skill acquisition",
+            "Direct pre/post assessment absent"
+          ],
+          [
+            "3. Behavior",
+            "Application in the workplace",
+            "Not systematically measured"
+          ],
+          [
+            "4. Results",
+            "Targeted organizational outcomes",
+            "No standardized tracking; weak outcomes reported anecdotally"
+          ]
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d4-013",
+      "optionRationales": [
+        "Additional satisfaction items still measure reaction; aggregation does not transform them into performance or outcome evidence.",
+        "Correct. It uses complementary evidence to locate the gap and distinguishes outcome tracking from causal attribution.",
+        "Results alone cannot locate the learning or transfer gap and can change for reasons unrelated to training.",
+        "Earlier-level scores do not establish later-level performance without direct evidence of the relevant outcomes."
+      ],
+      "trap": "Evaluation levels are different questions, not a causal ladder. Retain useful reaction evidence, verify learning and transfer directly, and qualify attribution of business results.",
+      "distractors": [
+        "Additional satisfaction items still measure reaction; aggregation does not transform them into performance or outcome evidence.",
+        "Correct. It uses complementary evidence to locate the gap and distinguishes outcome tracking from causal attribution.",
+        "Results alone cannot locate the learning or transfer gap and can change for reasons unrelated to training.",
+        "Earlier-level scores do not establish later-level performance without direct evidence of the relevant outcomes."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.D"
+        },
+        {
+          "title": "Kirkpatrick Partners: The Kirkpatrick Model",
+          "url": "https://www.kirkpatrickpartners.com/the-kirkpatrick-model/",
+          "locator": "Reaction, Learning, Behavior and Results; interpretation of the four-level framework"
+        },
+        {
+          "title": "CDC: Evaluate Training — Measuring Effectiveness",
+          "url": "https://www.cdc.gov/training-development/php/about/evaluate-training-measuring-effectiveness.html",
+          "locator": "What to evaluate; before and after training; delayed evaluation"
+        }
+      ]
+    },
+    "issues": [
+      "Reaction called universally weakest rather than distinct-purpose evidence",
+      "Answer-revealing recognition task",
+      "Missing learning-change and causal-attribution limits",
+      "Table lacks caption and consistent outcome context",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 94,
+    "qid": "mbb:set-3:d4-014",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "An MBB wants to measure whether Black Belt training actually improved project success rates, not just whether trainees passed a certification exam. What evaluation approach most directly answers this question?",
+      "options": [
+        "Rely solely on certification exam pass rates, since passing the exam is equivalent to producing successful projects",
+        "Survey trainees about how confident they feel in their abilities, treating self-reported confidence as equivalent to actual project success",
+        "Training effectiveness cannot be measured at all and should not be attempted",
+        "Track a cohort of certified Belts' subsequent project outcomes (completion rate, validated benefit realization, quality of DMAIC execution) against a baseline or comparison group, since exam performance measures knowledge acquisition, not downstream on-the-job project success"
+      ],
+      "answer": 3,
+      "why": "Exam pass rates measure knowledge acquisition (a Kirkpatrick Level 2 concern), not the actual downstream project-outcome results the organization ultimately cares about — direct outcome tracking against a baseline is the correct approach. Source: [BOK] Domain IV.D, Training Program Effectiveness.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-014"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "An MBB wants to estimate whether offering a new Black Belt training program improves project success, rather than merely whether participants pass its exam. Comparable eligible teams can be randomly assigned to immediate or delayed training; ordinary project support remains available to both, and all will eventually receive training. Which evaluation plan gives the strongest causal evidence under these conditions?",
+      "options": [
+        "Compare only certified graduates with all untrained staff, omit trainees who did not complete the program, and attribute the difference to training without accounting for selection or project opportunities.",
+        "Compare this year's trained teams with last year's entire portfolio using different success definitions, treating any improvement as the program effect without assessing concurrent organizational changes.",
+        "Use certification pass rates and post-course confidence as the primary outcomes, assuming both are direct measures of successful project execution and realized benefits.",
+        "Randomize eligible teams to rollout timing, predefine project-success measures and a common follow-up window, and compare all assigned teams while recording baseline differences, missing outcomes and other interventions."
+      ],
+      "answer": 3,
+      "why": "Random assignment to feasible rollout timing strengthens causal comparison by reducing systematic selection differences in expectation. Follow all assigned teams, not only successful graduates, with consistent outcome definitions and comparable observation windows. This estimates the effect of the offer or assignment under the observed implementation; it is not automatically the effect of completing certification. Account for team-level assignment, uncertainty, missing outcomes and spillover. Randomization does not guarantee exact baseline equality or eliminate every implementation threat. Source alignment: ASQ CMBB Body of Knowledge, IV.D. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-014",
+      "optionRationales": [
+        "Restricting analysis to graduates creates selection bias and does not preserve the assigned comparison.",
+        "Changing definitions and calendar conditions confounds the comparison; a historical increase alone does not isolate training's effect.",
+        "Exam performance and confidence do not directly measure subsequent project success or realized benefits.",
+        "Correct. It uses the feasible randomized comparison, consistent outcomes and follow-up of all assigned teams."
+      ],
+      "trap": "Separate proficiency from improvement and outcome association from causal evidence. Preserve randomized assignment in the analysis, including non-completers and missing-outcome investigation.",
+      "distractors": [
+        "Restricting analysis to graduates creates selection bias and does not preserve the assigned comparison.",
+        "Changing definitions and calendar conditions confounds the comparison; a historical increase alone does not isolate training's effect.",
+        "Exam performance and confidence do not directly measure subsequent project success or realized benefits.",
+        "Correct. It uses the feasible randomized comparison, consistent outcomes and follow-up of all assigned teams."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.D"
+        },
+        {
+          "title": "CDC: Evaluate Training — Measuring Effectiveness",
+          "url": "https://www.cdc.gov/training-development/php/about/evaluate-training-measuring-effectiveness.html",
+          "locator": "What to evaluate; before and after training; delayed evaluation"
+        },
+        {
+          "title": "CDC Program Evaluation Framework, 2024",
+          "url": "https://www.cdc.gov/mmwr/volumes/73/rr/rr7306a1.htm",
+          "locator": "Focus evaluation questions and design; experimental, quasi-experimental and observational designs"
+        }
+      ]
+    },
+    "issues": [
+      "Baseline comparison overstated as evidence training caused improvement",
+      "Posttest pass interpreted as knowledge acquisition without baseline",
+      "No control of selection, follow-up or outcome definitions",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 95,
+    "qid": "mbb:set-3:d4-015",
+    "original": {
+      "sub": "mbb-training",
+      "stem": "A training program's post-course survey shows most Green Belts report feeling confident applying DMAIC, but six months later, fewer than 20% have actually launched a project. What does this pattern most likely indicate, and what should the MBB investigate?",
+      "options": [
+        "Confidence and knowledge don't guarantee application — the gap likely reflects organizational barriers (lack of manager sponsorship, no protected time, unclear project-selection process) rather than a training-content problem; the MBB should investigate the post-training organizational support structure before concluding the curriculum itself is at fault",
+        "The training itself must be fundamentally flawed and should be scrapped immediately without further investigation",
+        "The 20% launch rate is a fully acceptable and expected outcome requiring no further investigation",
+        "Green Belts should be required to launch a project within one week of certification regardless of organizational readiness"
+      ],
+      "answer": 0,
+      "why": "A gap between reported training confidence and actual application usually points to organizational/structural barriers (sponsorship, time, project pipeline access) rather than a training-content flaw — the MBB should investigate the surrounding support system before concluding the curriculum failed. Source: [BOK] Domain IV.D, Training Program Effectiveness.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-015"
+    },
+    "corrected": {
+      "sub": "mbb-training",
+      "stem": "After Green Belt training, most learners report confidence in applying DMAIC, but fewer than 20% have launched a project six months later. The office has not measured demonstrated skills, eligible project opportunities, protected time or manager support. Which conclusion and follow-up are best supported by the available evidence?",
+      "options": [
+        "Treat this as a confidence-to-application gap; assess demonstrated competence and opportunity/support barriers together, then target the supported causes rather than presuming either the curriculum or the work system is responsible.",
+        "Conclude that the curriculum is effective because confidence is high and investigate only management support, excluding skill assessment from the follow-up to avoid retesting certified learners.",
+        "Conclude that the curriculum has failed because launches are below 20% and replace it immediately, without checking whether learners had suitable projects or time to apply the skills.",
+        "Classify every non-launching learner as incapable and mandate an immediate project, using launch counts alone as proof of competence regardless of project eligibility, risk or sponsorship."
+      ],
+      "answer": 0,
+      "why": "Confidence is self-report, not demonstrated knowledge or skill. A low launch proportion can reflect competence, opportunity, sponsorship, workload, eligibility or several factors. The evidence does not establish which cause dominates, nor does it define a universal acceptable launch threshold. Collect aligned performance and application-context evidence, including who had an appropriate opportunity to launch. Then choose an intervention tied to the supported gap rather than assuming either training or management must be at fault. Source alignment: ASQ CMBB Body of Knowledge, IV.D. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d4-015",
+      "optionRationales": [
+        "Correct. It investigates both capability and application conditions without making a causal claim unsupported by the available evidence.",
+        "High confidence does not establish curriculum effectiveness, so excluding competence assessment would prejudge a plausible explanation.",
+        "The launch percentage alone does not separate a learning problem from a lack of suitable application opportunities.",
+        "Launch counts neither establish competence nor justify unsafe or unsupported project selection."
+      ],
+      "trap": "Do not treat confidence as measured knowledge or a low launch rate as a diagnosis. Check capability, eligible opportunities and support before selecting the intervention.",
+      "distractors": [
+        "Correct. It investigates both capability and application conditions without making a causal claim unsupported by the available evidence.",
+        "High confidence does not establish curriculum effectiveness, so excluding competence assessment would prejudge a plausible explanation.",
+        "The launch percentage alone does not separate a learning problem from a lack of suitable application opportunities.",
+        "Launch counts neither establish competence nor justify unsafe or unsupported project selection."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "IV.D"
+        },
+        {
+          "title": "CDC: Evaluate Training — Measuring Effectiveness",
+          "url": "https://www.cdc.gov/training-development/php/about/evaluate-training-measuring-effectiveness.html",
+          "locator": "What to evaluate; before and after training; delayed evaluation"
+        }
+      ]
+    },
+    "issues": [
+      "Organizational barriers asserted more likely than curriculum without evidence",
+      "Confidence implicitly treated as demonstrated knowledge",
+      "Missing eligible-opportunity denominator",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 96,
+    "qid": "mbb:set-3:d5-001",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "A newly appointed champion at a beverage distributor asks the MBB, 'What exactly is my job here — I thought the Black Belt does all the actual work?' What should the MBB's coaching response establish first?",
+      "options": [
+        "Clarify the champion's specific responsibilities: securing resources, removing organizational barriers the Black Belt cannot clear alone, maintaining visible executive-level support, and holding the team accountable to the business case — a genuinely active role distinct from (not a duplicate of) the Black Belt's technical execution",
+        "Tell the champion to take over all technical DMAIC work themselves",
+        "Confirm the champion's assumption — champions have no meaningful role once a Black Belt is assigned",
+        "Recommend eliminating the champion role from the deployment entirely"
+      ],
+      "answer": 0,
+      "why": "This is a foundational coaching moment — clarifying the champion's genuinely active (if distinct from technical) role prevents exactly the ceremonial-sponsorship pattern documented elsewhere (organizational competencies). Source: [BOK] Domain V.A, Coaching Executives and Champions.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-001"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "A new champion at a beverage distributor assumes that assigning a Black Belt ends the champion's involvement. The Belt can lead technical work but cannot secure cross-department release time or resolve competing business priorities. No role agreement defines those decisions. Which initial coaching intervention best establishes an active, appropriately bounded champion role?",
+      "options": [
+        "Agree on the business decisions, resource commitments and escalations the champion owns, define how the Belt and MBB supply technical evidence, and schedule follow-up on those commitments.",
+        "Ask the champion to approve only the final savings figure and let the Belt negotiate all cross-department priorities without a defined escalation route or resource authority.",
+        "Give the champion approval of every analytical step and require the team to wait for personal direction, using technical sign-offs as the main evidence of executive support.",
+        "Send a standard role description and assume responsibilities are accepted, without discussing the current resource barrier, checking understanding or agreeing how commitments will be reviewed."
+      ],
+      "answer": 0,
+      "why": "The immediate problem is a gap between the project's needs and the champion's understood decision responsibilities. A concrete agreement should identify resource and priority decisions, escalation expectations and the technical contributions of the Belt and MBB. Follow-up verifies an active commitment rather than ceremonial support. The champion need not perform every analysis or be absent from technical discussion; the purpose is clear, usable accountability appropriate to the project's governance. Source alignment: ASQ CMBB Body of Knowledge, V.A.1; V.A.3–4. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-001",
+      "optionRationales": [
+        "Correct. It connects the role to current organizational barriers, preserves technical responsibilities and verifies commitments.",
+        "Final financial approval does not supply the missing authority needed to secure resources and resolve current priority conflicts.",
+        "Requiring executive direction for every analytical step creates a bottleneck and confuses business governance with routine technical execution.",
+        "A document alone does not establish shared understanding or resolve the live resource and escalation gap."
+      ],
+      "trap": "Coach to observable commitments and decision rights, not just a role label. Sponsorship should remove barriers without absorbing the Belt's routine technical responsibility.",
+      "distractors": [
+        "Correct. It connects the role to current organizational barriers, preserves technical responsibilities and verifies commitments.",
+        "Final financial approval does not supply the missing authority needed to secure resources and resolve current priority conflicts.",
+        "Requiring executive direction for every analytical step creates a bottleneck and confuses business governance with routine technical execution.",
+        "A document alone does not establish shared understanding or resolve the live resource and escalation gap."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.A.1; V.A.3–4"
+        }
+      ]
+    },
+    "issues": [
+      "Recall-level role list",
+      "Cross-domain framing dependence",
+      "Missing verification of coaching commitments",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 97,
+    "qid": "mbb:set-3:d5-002",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "An MBB is coaching a VP-level champion who wants to personally attend every working-level team meeting, frequently redirecting technical analysis decisions. What coaching guidance is most appropriate?",
+      "options": [
+        "Suggest the Black Belt should simply do whatever the champion directs regardless of what the data shows",
+        "Coach the champion toward a more strategic level of involvement — clearing organizational barriers, providing resources, and reviewing at tollgates — rather than routine technical direction, which risks undermining the Black Belt's authority and substituting executive intuition for the team's own data-driven analysis",
+        "Recommend the champion withdraw from the project entirely and have no further involvement",
+        "Encourage the champion to continue attending every meeting and directing technical decisions, since more executive involvement is always better"
+      ],
+      "answer": 1,
+      "why": "Over-involvement at the technical level is a distinct champion-coaching challenge from under-involvement (ceremonial sponsorship) — both are miscalibrations of the champion's proper role, which is strategic/organizational, not routine technical direction. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-002"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "A VP-level champion attends every working meeting and directs analysts to change methods based on personal preference without discussing the data. The Belt is accountable for technical execution. The champion legitimately owns business constraints and resource decisions, and the team still needs that support. Which coaching response best corrects the behavior while preserving useful engagement?",
+      "options": [
+        "Let the Belt privately reverse executive instructions after each meeting, maintaining apparent agreement rather than openly clarifying decision rights and the evidence needed for analytical changes.",
+        "Give private, specific feedback; agree boundaries for business and technical decisions, invite evidence-based challenge, and use targeted reviews and escalation rather than routine unsupported analytical direction.",
+        "Exclude the champion from every working discussion and withhold technical uncertainties until the final gate, treating any executive question about analysis as inappropriate interference.",
+        "Require the MBB to approve all champion-team communication in advance, replacing the existing bottleneck with another approval layer without addressing the observed decision behavior."
+      ],
+      "answer": 1,
+      "why": "The issue is unsupported direction that bypasses accountable technical reasoning, not attendance itself. Coaching should describe the behavior and its effects, clarify decision rights and establish constructive ways to challenge evidence or raise business constraints. Targeted involvement and escalation preserve the champion's support while avoiding routine micromanagement. Secretly reversing instructions, excluding all engagement or routing every exchange through the MBB does not create a clear shared operating agreement. Source alignment: ASQ CMBB Body of Knowledge, V.A.2; V.A.4. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-002",
+      "optionRationales": [
+        "Private reversal preserves conflicting instructions and avoids the necessary agreement about how decisions are made.",
+        "Correct. It addresses the specific behavior, respects both authority domains and retains constructive executive engagement.",
+        "Attendance and questions are not inherently improper; blanket exclusion can remove useful support and conceal important uncertainty.",
+        "An extra communication gate adds dependency on the MBB without necessarily changing unsupported direction or clarifying accountability."
+      ],
+      "trap": "Separate useful executive challenge from unsupported technical direction. Coach the observable behavior and agree decision boundaries; attendance alone is not the defect.",
+      "distractors": [
+        "Private reversal preserves conflicting instructions and avoids the necessary agreement about how decisions are made.",
+        "Correct. It addresses the specific behavior, respects both authority domains and retains constructive executive engagement.",
+        "Attendance and questions are not inherently improper; blanket exclusion can remove useful support and conceal important uncertainty.",
+        "An extra communication gate adds dependency on the MBB without necessarily changing unsupported direction or clarifying accountability."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.A.2; V.A.4"
+        }
+      ]
+    },
+    "issues": [
+      "Executive attendance implicitly equated with interference",
+      "Insufficient distinction between business constraints and method direction",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 98,
+    "qid": "mbb:set-3:d5-003",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "A champion at a food processing company consistently approves project charters without reading them, based entirely on the Black Belt's verbal summary. A charter with a significant scope error goes unnoticed for two months. What coaching intervention should the MBB make?",
+      "options": [
+        "Remove charter approval authority from champions entirely, assigning it only to the MBB",
+        "Coach the champion on the specific, concrete review responsibilities charter approval entails (confirming problem statement, scope, and resource commitments align with actual business priorities) and why a rubber-stamp approval defeats the purpose of that governance checkpoint",
+        "Blame the Black Belt entirely for not catching the error, with no coaching directed at the champion's own approval practice",
+        "Continue allowing the champion to approve charters without review, since verbal summaries are sufficient"
+      ],
+      "answer": 1,
+      "why": "Champion charter approval is meant to be a genuine governance checkpoint, not a formality — coaching should address the specific gap (not reading charters) directly rather than removing the role or misdirecting responsibility entirely to the Black Belt. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-003"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "A food-processing champion routinely approves charters from a brief verbal summary without checking scope or resource commitments. A significant scope error remained unnoticed for two months. There is no identified immediate safety emergency, but affected commitments may need revision. Which coaching intervention best addresses both the present problem and the approval practice?",
+      "options": [
+        "Send the champion a charter template and continue under the current approval, considering the issue resolved once future documents contain all required headings.",
+        "Review the current scope error and affected commitments with the champion and Belt, arrange any needed reauthorization, and rehearse an evidence-based approval checklist with follow-up on later charters.",
+        "Transfer all charter approvals permanently to the MBB without reviewing the current error, assuming technical expertise alone supplies the business authority and resources needed by each project.",
+        "Require longer verbal summaries but leave scope and resource confirmation unassigned, treating presentation length as sufficient evidence that the champion has performed the approval review."
+      ],
+      "answer": 1,
+      "why": "The current scope error needs assessment and, where required, correction and reauthorization; future coaching alone does not remedy it. Use the actual case to practice checking the problem, scope, expected value, resource commitments and decision authority, then verify the changed practice. Verbal briefing can support a review, but approval still needs sufficient evidence and accountable confirmation. A longer presentation or a template is not a substitute for that decision process. Source alignment: ASQ CMBB Body of Knowledge, V.A.2; V.A.4. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-003",
+      "optionRationales": [
+        "A template does not correct existing commitments or demonstrate that the champion evaluates substantive evidence.",
+        "Correct. It remedies the present governance gap and builds a specific review behavior with later verification.",
+        "Technical expertise does not automatically replace business approval authority, and the current scope error would remain unaddressed.",
+        "Presentation length is not evidence that scope and resource implications were understood and accepted."
+      ],
+      "trap": "Correct the current decision as well as the future habit. Use the real charter to practice substantive review, document required reauthorization and verify follow-through.",
+      "distractors": [
+        "A template does not correct existing commitments or demonstrate that the champion evaluates substantive evidence.",
+        "Correct. It remedies the present governance gap and builds a specific review behavior with later verification.",
+        "Technical expertise does not automatically replace business approval authority, and the current scope error would remain unaddressed.",
+        "Presentation length is not evidence that scope and resource implications were understood and accepted."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.A.2; V.A.4"
+        }
+      ]
+    },
+    "issues": [
+      "Future coaching does not address current scope error",
+      "Reading a document treated as sufficient rather than substantive review",
+      "Weak distractors"
+    ]
+  },
+  {
+    "number": 99,
+    "qid": "mbb:set-3:d5-004",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "An executive sponsor tells the MBB, 'I don't have time to learn Six Sigma methodology — just tell me what to sign.' How should the MBB frame ongoing coaching for this executive?",
+      "options": [
+        "Accept this framing permanently and never attempt to build the executive's methodology understanding",
+        "Insist the executive complete a full Black Belt certification before signing anything",
+        "Escalate the executive's attitude to their own supervisor as a performance issue",
+        "Focus coaching on the specific, high-leverage things this executive needs to recognize — what a valid charter looks like, what tollgate questions to ask, and warning signs of a stalled project — rather than full methodology training, respecting the time constraint while still building genuine oversight capability"
+      ],
+      "answer": 3,
+      "why": "Executive coaching should be right-sized to what genuinely matters for their oversight role — not full methodology training, but not zero either; a handful of high-leverage recognition skills respects the time constraint while still building real oversight capability. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-004"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "An executive sponsor has limited time and asks the MBB to supply documents to sign without explaining the methodology. The sponsor remains responsible for scope, resource and continuation decisions. The MBB can provide short coaching sessions tied to upcoming reviews. Which plan best develops usable oversight capability within that constraint?",
+      "options": [
+        "Provide a prepared question script and measure success by how many questions the sponsor reads aloud, without checking understanding of evidence or decisions.",
+        "Require full Black Belt training before the sponsor makes any decision, regardless of the actual oversight tasks or the timing of the upcoming reviews.",
+        "Have the MBB make every scope and funding decision and request the sponsor's signature afterward, preserving speed by removing the need to build the sponsor's own judgment.",
+        "Use brief sessions on actual charter and gate evidence, rehearse the sponsor's decision questions, check understanding through explanation and application, and follow up during subsequent reviews."
+      ],
+      "answer": 3,
+      "why": "Coaching should be proportional to the decisions the sponsor owns, not reduced to signatures or expanded into unnecessary full technical certification. Real review material, rehearsal and an understanding check make the skill observable. Follow-up can show whether the sponsor recognizes evidence gaps and acts on resource or continuation issues. The MBB can support technical interpretation but should not silently assume business authority that remains with the sponsor. Source alignment: ASQ CMBB Body of Knowledge, V.A.2; V.A.4. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-004",
+      "optionRationales": [
+        "Reading scripted questions does not establish that the sponsor can interpret answers or make the required decisions.",
+        "Full technical certification is not established as necessary for the stated oversight tasks and ignores the feasible targeted-coaching route.",
+        "Substituting the MBB's judgment defeats the objective of developing the sponsor's own accountable oversight capability.",
+        "Correct. It targets the actual oversight decisions, checks usable understanding and verifies application within the time constraint."
+      ],
+      "trap": "Right-sized coaching still needs evidence of learning and application. A signature, a script or attendance at a briefing does not establish oversight competence.",
+      "distractors": [
+        "Reading scripted questions does not establish that the sponsor can interpret answers or make the required decisions.",
+        "Full technical certification is not established as necessary for the stated oversight tasks and ignores the feasible targeted-coaching route.",
+        "Substituting the MBB's judgment defeats the objective of developing the sponsor's own accountable oversight capability.",
+        "Correct. It targets the actual oversight decisions, checks usable understanding and verifies application within the time constraint."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.A.2; V.A.4"
+        }
+      ]
+    },
+    "issues": [
+      "Right-sized information not linked to demonstrated oversight skill",
+      "Weak distractors and no follow-up verification"
+    ]
+  },
+  {
+    "number": 100,
+    "qid": "mbb:set-3:d5-005",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "A champion wants to unilaterally kill a project at the Analyze tollgate because 'it's taking too long,' despite the team having just validated a promising root cause. What should the MBB coach the champion to do before making this call?",
+      "options": [
+        "Coach the champion to review the tollgate evidence directly (the validated root cause finding) with the Black Belt and MBB before deciding, since 'taking too long' alone — without weighing the value of a just-validated finding — risks discarding real, near-term progress based on schedule frustration alone",
+        "Support the immediate kill decision without further discussion, since champions have unilateral authority over project continuation",
+        "Tell the champion they have no authority to ever kill a project regardless of circumstances",
+        "Recommend replacing the champion for raising the timeline concern at all"
+      ],
+      "answer": 0,
+      "why": "Legitimate stage-gate kill authority (as established elsewhere in this domain, e.g., the vendor-constraint kill decision) should still be exercised based on tollgate evidence, not schedule frustration alone — coaching should slow the decision down to incorporate the evidence, not simply defer to or override the champion's authority. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-005"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "At an Analyze gate, a champion proposes stopping a delayed food-processing project solely because it has taken longer than expected. The team has validated a root cause, but has not yet validated a solution or updated remaining costs and benefits. The champion has continuation authority under the charter; no immediate safety deadline forces a decision today. What should the MBB coach the champion to do before deciding?",
+      "options": [
+        "Review the validated finding together with remaining cost, likely benefit, solution risk, timing and alternatives; make and document a forward-looking continue, re-scope, pause or stop decision using the applicable authority.",
+        "Continue automatically because a validated root cause guarantees worthwhile benefits, treating the next phases as routine execution that no longer requires a revised business case.",
+        "Stop immediately because the original date has been exceeded, treating schedule variance as sufficient proof that remaining investment cannot produce value.",
+        "Continue until the original spending has been recovered, regardless of remaining value or opportunity cost, so the resources already used do not become a recorded loss."
+      ],
+      "answer": 0,
+      "why": "Neither schedule frustration nor a validated root cause alone determines the value of further work. Review the evidence, remaining investment, uncertain solution benefits, risks and alternative uses of resources. Past spending is sunk to this decision; it does not require continuation. The champion's stated authority remains intact, but a sound decision should be forward-looking and documented. Analysis progress is relevant information, not a guarantee of solution effectiveness or positive incremental value. Source alignment: ASQ CMBB Body of Knowledge, V.A.2; III.C.1. This original scenario is evaluated from its stated assumptions; BOK alignment is not ASQ authorship or endorsement.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-005",
+      "optionRationales": [
+        "Correct. It supports an authorized decision with both technical evidence and a forward-looking comparison of feasible options.",
+        "A validated cause is not a validated solution and does not guarantee positive benefits from further investment.",
+        "Delay can matter, but schedule variance alone does not establish that future costs exceed future benefits.",
+        "Recovering past spending is not a valid reason to continue work whose remaining value does not justify its cost and alternatives."
+      ],
+      "trap": "At a continuation gate, use future incremental value and risk, not sunk cost, frustration or optimism from one technical milestone. Preserve the stated decision authority.",
+      "distractors": [
+        "Correct. It supports an authorized decision with both technical evidence and a forward-looking comparison of feasible options.",
+        "A validated cause is not a validated solution and does not guarantee positive benefits from further investment.",
+        "Delay can matter, but schedule variance alone does not establish that future costs exceed future benefits.",
+        "Recovering past spending is not a valid reason to continue work whose remaining value does not justify its cost and alternatives."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.A.2; III.C.1"
+        },
+        {
+          "title": "The Open University: Relevant cash flows and sunk costs",
+          "url": "https://www.open.edu/openlearn/money-business/challenges-advanced-management-accounting/content-section-3.1",
+          "locator": "Incremental future cash flows and sunk-cost exclusion"
+        }
+      ]
+    },
+    "issues": [
+      "Validated root cause treated as sufficient near-term continuation evidence",
+      "Missing remaining-value, risk and authority context",
+      "Cross-question reference in explanation",
+      "Weak distractors"
+    ]
+  }
+]

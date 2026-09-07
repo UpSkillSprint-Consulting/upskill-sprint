@@ -1,0 +1,116 @@
+name: MBB Set 3 final student stress test
+on:
+  pull_request:
+    paths:
+      - 'test-bank*.js'
+      - 'test-bank.html'
+      - 'contrast-fix.js'
+      - 'tests/contrast-theme-race.test.js'
+      - 'tests/test-bank-mbb-set3-final-student.test.js'
+      - 'scripts/stress-mbb-set3-*.mjs'
+      - '.github/workflows/mbb-set3-final-student.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mbb-set3-final-student-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - name: Contrast races and complete saved-session feedback
+        shell: bash
+        run: |
+          mkdir -p final-student-regression
+          git rev-parse HEAD > final-student-regression/tested-commit.txt
+          set -o pipefail
+          node --test --test-concurrency=1 tests/contrast-theme-race.test.js tests/test-bank-mbb-set3-final-student.test.js | tee final-student-regression/tests.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-student-regression
+          path: final-student-regression
+          retention-days: 14
+  browsers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {engine: chromium, layout: desktop, width: 1440, mixed: '0', label: chromium-desktop}
+          - {engine: webkit, layout: desktop, width: 1440, mixed: '0', label: webkit-desktop}
+          - {engine: chromium, layout: mobile, width: 390, mixed: '0', label: chromium-mobile}
+          - {engine: webkit, layout: mobile, width: 390, mixed: '0', label: webkit-mobile}
+          - {engine: chromium, layout: mobile, width: 320, mixed: '1', label: chromium-narrow-mixed}
+          - {engine: webkit, layout: mobile, width: 320, mixed: '1', label: webkit-narrow-mixed}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: All 175 questions and reviews, both themes, actual controls and accessibility
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: ${{ matrix.layout }}
+          AUDIT_WIDTH: ${{ matrix.width }}
+          AUDIT_MIXED: ${{ matrix.mixed }}
+          AUDIT_AXE: '1'
+          AUDIT_SOURCE: ${{ github.sha }}
+        run: node scripts/stress-mbb-set3-final175.mjs
+      - name: Collect compact exact-source result
+        if: always()
+        run: |
+          mkdir -p final-student-summary
+          git rev-parse HEAD > final-student-summary/tested-commit.txt
+          test ! -f audit-results-final175/report.json || cp audit-results-final175/report.json final-student-summary/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-student-summary-${{ matrix.label }}
+          path: final-student-summary
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-student-screens-${{ matrix.label }}
+          path: audit-results-final175
+          retention-days: 14
+  edge-cases:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Timeout, failed save, retake, correction quiz and rapid review at 320px
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: mobile
+          AUDIT_WIDTH: 320
+          AUDIT_SOURCE: ${{ github.sha }}
+        run: node scripts/stress-mbb-set3-edge-cases.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-student-edges-${{ matrix.engine }}
+          path: audit-results-final175-edges
+          retention-days: 14

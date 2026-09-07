@@ -1,0 +1,19 @@
+{
+  "scope":[51,75],"status":"All 25 individually visually reviewed after correction",
+  "manualCoverage":{
+    "allQuestions":"Chromium desktop/mobile, light/dark, question and expanded review; minimum 200 views across initial and final captures. All later changed visual regions reopened in final captures.",
+    "finalVisualQuestions":[57,61,62,64,70],
+    "finalVisualChecks":"Captions, wrapping, data, diagram edges/durations, last columns/end nodes via mobile scroll, alternative network tables, light/dark review states.",
+    "sliderExtremes":"Q62/Q70 Home and End in question/review; desktop plus WebKit mobile; exact bar widths and threshold positions independently checked in browser tests.",
+    "automatedFullMatrix":"400 final cases; no clipping, page overflow, out-of-SVG text, scoped axe violations or page errors."
+  },
+  "confirmedCorrections":[
+    "Q57 misleading/answer-revealing scorecard replaced with stated current evidence.",
+    "Q61/Q64 duration units, activity/milestone distinction, edges and accessible alternative table.",
+    "Q62 explicit time-based demand and changing capacity visualization.",
+    "Q70 corrected PI data, explicit budget baseline and all-candidate demand comparison.",
+    "Visible mobile scroll/swipe hints; readable minimum table width; theme-aware slider contrast."
+  ],
+  "captureLimits":"Sticky header hidden only for full-card screenshot capture, not actual interactions or geometry checks. Some separate mobile right-edge captures include the sticky header over their top edge; full-card captures and DOM/SVG checks were used to inspect that content. Horizontal overflow is confined to focusable labeled evidence regions.",
+  "evidence":"Accepted final artifact IDs and hashes are in browser-summary.json; individual question numbering follows qids, not shuffled session numbers."
+}

@@ -1,0 +1,35 @@
+{
+  "verifiedDuringAudit": true,
+  "bok": {
+    "title": "ASQ Certified Master Black Belt Body of Knowledge",
+    "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf"
+  },
+  "primaryReferences": {
+    "dmaic": {
+      "title": "ASQ: DMAIC",
+      "url": "https://asq.org/quality-resources/dmaic",
+      "locator": "What are the DMAIC phases?"
+    },
+    "msa": {
+      "title": "NIST: Metrological Traceability FAQ",
+      "url": "https://www.nist.gov/metrology/metrological-traceability",
+      "locator": "5.1.4: Are traceable measurement results fit for purpose?"
+    },
+    "safety": {
+      "title": "AHRQ PSNet: Culture of Safety",
+      "url": "https://psnet.ahrq.gov/primer/culture-safety",
+      "locator": "Measuring and Achieving a Culture of Safety: just culture"
+    },
+    "cpm": {
+      "title": "PMI: Schedule Risk Analysis Simplified",
+      "url": "https://www.pmi.org/learning/library/schedule-risk-analysis-simplified-10573",
+      "locator": "CPM, merge points and float"
+    },
+    "finance": {
+      "title": "OpenStax: Principles of Accounting, Volume 2: Managerial Accounting",
+      "url": "https://openstax.org/books/principles-managerial-accounting/pages/11-4-use-discounted-cash-flow-models-to-make-capital-investment-decisions",
+      "locator": "11.4: profitability index"
+    }
+  },
+  "limits": "BOK locators establish topic alignment, not source authorship or endorsement of original scenarios. Case assumptions added for clarity are stated in revised stems; no textbook pages are asserted."
+}

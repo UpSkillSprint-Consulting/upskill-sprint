@@ -1,0 +1,10 @@
+{
+  "status": "Open repository-level follow-up; no dependency upgrade made in the question-bank audit",
+  "testedSource": "e2786ac606f3b881b84a8a324be97a3f5d625d01",
+  "artifactId": 10003260545,
+  "allDependencies": {"command":"npm audit --json","affectedPackageEntries":11,"moderate":6,"high":4,"critical":1,"reportSha256":"09e92b1550ea1c55934aa6d88a65ca3c8a90ebf5ca2cc56d09ce80c2b59f3e00"},
+  "productionDependencyGraph": {"command":"npm audit --omit=dev --json","affectedPackageEntries":8,"moderate":5,"high":3,"critical":0,"reportSha256":"d1ef56383fd5d890df0786039247965620ddabad5e8deb5e2eda9b5677f4e4f5"},
+  "packages": {"criticalDevelopmentEntry":"jspdf","highProductionEntries":["@netlify/blobs","@netlify/dev-utils","image-size"]},
+  "interpretation": "Counts are npm affected-package entries, which can include direct and transitive representations of the same underlying advisory; they are not 11 or 8 proven independent exploitable defects. package.json and package-lock.json are unchanged from the pre-Batch-2 baseline. Production runtime reachability and exploitability were not established by this scan.",
+  "followUp": "Review the Netlify dependency chain and development PDF dependencies in a separately tested maintenance change. Do not treat the passing question-bank tests as a security clearance."
+}

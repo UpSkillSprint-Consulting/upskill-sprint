@@ -1,0 +1,13 @@
+{
+  "baseline":"f137be91f2f0f57bddfe27e6e649b0c81666d86c",
+  "finalHead":"e727a5d473236e71c0ed7486a718b42d79021f4c",
+  "testedMerge":"2c4a39631ecc286126b9e592ee55990e1e6905c3",
+  "baselineSourceSHA256":"feef796dccd422cc4f95b85de055b88a18e9168dbc848da2551347974d1beb82",
+  "correctedSourceSHA256":"8da19375e8130a982251c4d992c8587a81dff3c72008df6ec8b1cfd39781a298",
+  "questionBankBlobSHA":"a3ab9042974070d64df106c59ad04d1931768b1a",
+  "prefixBytes":259893,"suffixBytes":108828,"prefixUnchanged":true,"suffixUnchanged":true,
+  "all175IdsUnchanged":true,"all175AnswerPositionsUnchanged":true,
+  "changedCanonicalQuestions":[76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],
+  "cashOutlay":425000,"economicCost":485000,
+  "method":"Local raw-source comparison against the prior mounted GitHub workspace, Node-VM object comparison, independent decimal arithmetic, and CI preservation/actual-player regression checks. Final SHA includes Q77 operator spacing."
+}

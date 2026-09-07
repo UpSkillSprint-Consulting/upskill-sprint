@@ -1,0 +1,19 @@
+{
+  "baseline": "f137be91f2f0f57bddfe27e6e649b0c81666d86c",
+  "range": [
+    76,
+    100
+  ],
+  "previousRange": [
+    1,
+    75
+  ],
+  "laterRange": [
+    101,
+    175
+  ],
+  "prefixSHA256": "8eba5c0654013cbc23f17a532cef4553de701fe0b07d02a73247cfbdb05225a0",
+  "suffixSHA256": "5cb7bbdfb92e4d9e2f482356dc64c60371380e9f66d42093ad7f6827b9f63750",
+  "idsUnchanged": true,
+  "answerPositionsUnchanged": true
+}

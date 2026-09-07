@@ -1,0 +1,22 @@
+{
+  "batch":6,"range":[126,150],"acceptedRun":34120698342,
+  "workflowHead":"faf4f21906d61ef4d276fb94a683d3e0769fee74",
+  "testedApplication":"7384e94d823a0cf9ef36ca4b2be2d0e327a58148",
+  "laterCIOnlyHead":"62e818279b7b5821d8de76c6d73c00e949017218",
+  "testCommitFilesVerified":true,
+  "counts":{"dedicatedAuditTests":52,"fallbackTests":2,"existingSet3Tests":8,"combinedTargetedTests":62,"repositoryTests":1699,"actualPlayerOptionOutcomes":100,"renderCases":400,"visualAccessSequences":64},
+  "acceptedDefects":{"pageErrors":0,"pageOverflow":0,"textClipping":0,"svgTextBounds":0,"labelPointCollisions":0,"cubeLabelEdgeCollisions":0,"scopedAxeViolations":0},
+  "artifacts":[
+    {"context":"workspace","artifact":10018071374,"job":101737788671,"sha256":"9e98de68a1fa1864cd3546b061727022f73a602cf838d1dd113721a84f7dfedb"},
+    {"context":"regression","artifact":10018409957,"job":101737858011,"sha256":"d1ca9e807d4d537b028b94a13b6ff606e5a8573916c3f364cc2ba4c6bdabaab1","targetedPassed":62,"fullPassed":1699,"failures":0,"cancelled":0,"skipped":0},
+    {"context":"chromium-desktop","artifact":10018204978,"job":101737861989,"sha256":"345a1cbf4e45389853010feba725f8d6bd2bb7bdea4fd30431f093d5f0274b84","renderCases":100,"visualSequences":16},
+    {"context":"chromium-mobile","artifact":10018231677,"job":101737858314,"sha256":"52d51b61639d206c9dd0559c7a2046c823735527ee9c41610fb77caaf100177e","renderCases":100,"visualSequences":16},
+    {"context":"webkit-desktop","artifact":10018288611,"job":101737858130,"sha256":"4b33fd3e58a4d632bf9b35c1eb09f80a4f9ec2a9c83a31df78515bf941b0e4f5","renderCases":100,"visualSequences":16},
+    {"context":"webkit-mobile","artifact":10018223692,"job":101737860048,"sha256":"105bf4d7785cbaf0fe64356352401b9e01f0bd5f66b60d098b3e5515d38b11b8","renderCases":100,"visualSequences":16}
+  ],
+  "additionalPRMergeRun":{"run":34120943721,"head":"62e818279b7b5821d8de76c6d73c00e949017218","testedMerge":"f6ecb42cd9608966f4a0e5241a48e6bd1b0ece48","base":"e15578514c6c2ebbd022c17f6ee9befad20f9dc6","latestAttemptAllFiveJobs":"success","initialFailure":{"job":101738565575,"context":"webkit-mobile","artifact":10018251440,"sha256":"8cb03c6f30ed22b79375ebf92d1fa6a7ed80f9b7434dbe26ef34c44387d4e9bf","reportRecords":52,"pageErrors":0,"error":"locator.click timed out opening option-analysis summary; underlying cause not established","countedAsPass":false},"unchangedRetry":{"job":101744530628,"artifact":10019023211,"sha256":"1b555618d8073a8fa5e74a41ade321af7a296239ddab392d545de42a9dc2a98e","testedCommitFileVerified":true,"renderCases":100,"reportRecordsIncludingIssueForm":101,"failures":0,"pageErrors":0,"conclusion":"success"}},
+  "supersededDevelopment":{"wordingGate":"Initial staging check found a remaining longest-correct-choice pattern; corrected before accepted integration.","whitespaceGate":"A trailing-blank-line check stopped a staging push; fixed before integration.","cubePolish":"Label placement corrected and label/edge collision checks added before accepted source.","countsPolicy":"Development failures and repeated runs are not added to accepted passing counts."},
+  "outstandingPRGate":{"batch":3,"run":34120943610,"job":101738565039,"context":"webkit-desktop","status":"failure at tested CI head","rootCause":"Not established by Batch 6","wholePRMergeApproved":false},
+  "limits":["Authentication and remote persistence use isolated fixtures.","Mobile is 390x844 browser emulation, not a physical handset.","Desktop viewport is 1440x1000.","Scoped accessibility checks are not a whole-site accessibility certification.","A successful retry does not prove intermittent failures impossible."],
+  "merged":false,"deployed":false
+}

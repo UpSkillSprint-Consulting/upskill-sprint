@@ -1,0 +1,1130 @@
+{
+  "baselineHead": "6345a9e568b1c97d5bf53dffabc2ce6dab1b61a7",
+  "questions": [
+    {
+      "number": 51,
+      "qid": "mbb:set-3:d2-063",
+      "answer": 1,
+      "stem": "A B2B laundry service assigns account teams responsibility for hospital and hotel service agreements, but all accounts share the same washing process. Account teams can change delivery arrangements; a central process owner controls washing standards and equipment. How should the MBB assign improvement ownership without creating conflicting process changes?",
+      "options": [
+        "Assign every project to the central washing owner and let account teams advise after solutions are selected, because shared equipment makes customer-specific delivery authority unnecessary.",
+        "Let account teams own customer-specific improvements and the central process owner own shared-process changes, with explicit interface decisions, common standards and coordinated priorities.",
+        "Give each account team independent authority to change shared washing standards and equipment, while using quarterly reporting to reconcile conflicting local changes after implementation.",
+        "Allocate Belts to accounts in proportion to revenue and let the highest-revenue account approve all shared-process changes, regardless of obligations to the other accounts."
+      ],
+      "why": "The account and process owners have different, explicitly stated authority. Account-level ownership should preserve customer responsiveness, while changes to the common washing process require shared standards and coordinated approval. A hybrid arrangement is defensible because it connects these rights rather than assuming that either complete centralization or independent local control will fit every decision.",
+      "optionRationales": [
+        "This removes account teams from decisions within their own delivery authority and delays customer input.",
+        "Correct. It preserves account accountability while preventing incompatible changes to the common process.",
+        "Independent changes to shared equipment can conflict; retrospective reporting is not prior coordination.",
+        "Revenue ranking does not grant authority to override other accounts' requirements or process controls."
+      ],
+      "trap": "Align ownership with the decision being made. Customer-account accountability and shared-process authority must both be explicit; the organization chart alone does not settle their interfaces.",
+      "bok": "II.A.1; II.D.4",
+      "findings": [
+        "Cross-question references",
+        "Length-cued distractors",
+        "Unspecified interface authority"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "II.A.1; II.D.4"
+        }
+      ]
+    },
+    {
+      "number": 52,
+      "qid": "mbb:set-3:d2-066",
+      "answer": 1,
+      "stem": "Scientists at a veterinary diagnostics laboratory object to an MBB's proposal to replace their validated analytical models with a standard introductory Six Sigma toolkit. They support reducing specimen turnaround time but question whether the proposed methods address the laboratory's data structure. What response best combines technical rigor with deployment leadership?",
+      "options": [
+        "Adopt the introductory toolkit for every analysis to ensure standardization, permitting specialist models only after the first project has been completed and compared with a second project.",
+        "Jointly evaluate the data, assumptions and decision needs; retain validated specialist methods where fit for purpose, and use DMAIC to structure the improvement work and its controls.",
+        "Exempt the scientists from common problem definition, validation and control requirements because their qualifications make a shared improvement structure unnecessary for laboratory projects.",
+        "Resolve the objection through an executive mandate before discussing method fit, treating the disagreement as a commitment problem rather than a potentially legitimate technical concern."
+      ],
+      "why": "The objection concerns a specific mismatch between proposed methods and the data, not a demonstrated lack of statistical knowledge. DMAIC does not require replacing a suitable validated model with an elementary technique. Joint assessment should determine fitness for purpose while retaining shared objectives, evidence review and sustainment controls. Advanced methods are not automatically superior merely because they are more complex.",
+      "optionRationales": [
+        "Uniformity does not justify using a method with unsuitable assumptions for the current decision.",
+        "Correct. It tests method suitability and uses the scientists' expertise within a common improvement process.",
+        "Technical qualifications do not remove the need for shared goals, validation or sustainment controls.",
+        "Mandating acceptance before addressing a substantive technical concern confuses compliance with method validity."
+      ],
+      "trap": "Evaluate the actual methodological objection rather than attributing resistance to a professional group. Use the simplest adequate method, not automatically the simplest or most complex available method.",
+      "bok": "II.C.1; II.C.2; II.D.3",
+      "findings": [
+        "Cross-question framing",
+        "Incorrect II.D title",
+        "Expertise stereotype and method-fit overclaim",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "II.C.1; II.C.2; II.D.3"
+        },
+        {
+          "title": "ASQ: DMAIC",
+          "url": "https://asq.org/quality-resources/dmaic",
+          "locator": "What are the DMAIC phases?"
+        }
+      ]
+    },
+    {
+      "number": 53,
+      "qid": "mbb:set-3:d2-070",
+      "answer": 2,
+      "stem": "An urgent-care patient-flow project requires clinical protocol decisions from a clinical director and scheduling-system decisions from an operations director. Neither can authorize the other's changes, and no available single sponsor has authority over both. Both directors support the objective, but their priorities can conflict. Which sponsorship arrangement best closes the authority gap?",
+      "options": [
+        "Appoint only the operations director as sponsor and classify clinical protocol decisions as project-team recommendations, so one reporting line replaces the need for clinical approval.",
+        "Appoint both directors as sponsors but leave approval boundaries and disagreements informal, assuming shared support for patient flow will prevent conflicting instructions during implementation.",
+        "Use both directors as sponsors with documented approval boundaries, a named coordinating lead and an agreed escalation route, so cross-domain decisions have authority and clear accountability.",
+        "Assign the Black Belt final approval over both domains and ask the directors to provide technical advice, treating responsibility for project delivery as sufficient authority over their resources."
+      ],
+      "why": "Co-sponsorship addresses the two separate authority domains in this stated case, but only with explicit responsibilities and a way to resolve disputes. It is not a universal rule that cross-functional projects require two sponsors: a sufficiently empowered single sponsor could work in another case. The Black Belt's delivery role does not confer clinical or operational approval authority.",
+      "optionRationales": [
+        "An operations reporting line cannot remove the clinical approval right explicitly required by the case.",
+        "Shared objectives do not resolve conflicting priorities without decision boundaries and escalation.",
+        "Correct. The arrangement covers both authority domains and prevents ambiguous joint accountability.",
+        "Responsibility for analysis and delivery does not automatically grant authority over either director's domain."
+      ],
+      "trap": "Choose governance that covers actual decision rights. Multiple sponsors need clear accountability and arbitration; they are not inherently better than one adequately empowered sponsor.",
+      "bok": "II.B.1; II.B.2; II.C.3",
+      "findings": [
+        "Co-sponsorship overgeneralization",
+        "Missing accountability and conflict resolution",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "II.B.1; II.B.2; II.C.3"
+        }
+      ]
+    },
+    {
+      "number": 54,
+      "qid": "mbb:set-3:d2-071",
+      "answer": 3,
+      "stem": "A plant manager attributes low participation in a packaging improvement project to employees being inherently resistant to change. The same employees engaged positively in six major changes during the preceding year. No interviews or workload assessment have been conducted for the new project. What is the MBB's most defensible next step?",
+      "options": [
+        "Treat the six earlier successes as proof that current resistance cannot exist, and launch the new project unchanged while reporting that the manager's concern is statistically disproven.",
+        "Conclude that the six changes caused change fatigue and suspend the project, without checking its specific risks, employees' concerns or their remaining capacity to participate.",
+        "Require refresher change-management training for all employees before reviewing the project, treating the manager's description as an established diagnosis of their attitude.",
+        "Investigate project-specific concerns, participation conditions and cumulative change workload, using earlier successes as context rather than proof of either a fixed trait or a single alternative cause."
+      ],
+      "why": "The history weakens an unsupported fixed-trait explanation but does not identify the present cause. Employees may have concerns about this change, capacity constraints, cumulative fatigue or other barriers. Interviews and workload evidence are needed before selecting an intervention. Six successful changes are contextual evidence, not a statistical test or proof that further change must be welcomed.",
+      "optionRationales": [
+        "Past engagement does not disprove current concerns, and no inferential test has been performed.",
+        "Cumulative fatigue is plausible but not established by the count of previous changes alone.",
+        "A training prescription assumes the attitude diagnosis before investigating its evidence.",
+        "Correct. It tests competing explanations rather than substituting a new unsupported label."
+      ],
+      "trap": "Evidence against one explanation does not prove another. Prior change success can coexist with legitimate new concerns or accumulated workload and fatigue.",
+      "bok": "II.C.1; II.D.3",
+      "findings": [
+        "Unwarranted project-specific causal inference",
+        "Change-fatigue omission",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "II.C.1; II.D.3"
+        }
+      ]
+    },
+    {
+      "number": 55,
+      "qid": "mbb:set-3:d2-072",
+      "answer": 1,
+      "stem": "Ambulance crews say they withhold details during protocol-deviation reviews because every deviation is routed directly to individual disciplinary review, without examining dispatch information or equipment access. Mandatory incident reporting and urgent safety escalation must continue. Which redesign best improves learning while preserving justified accountability?",
+      "options": [
+        "Offer absolute anonymity and immunity for every deviation, including reckless conduct, so crews can discuss events without any possibility of an individual accountability decision.",
+        "Add prompt, facilitated systems-focused debriefs, clear reporting and escalation routes, and a fair behavior-based accountability process; communicate confidentiality limits and track corrective actions.",
+        "Collect identifiable written statements only after the disciplinary outcome, so the decision about individual fault is finalized before operational contributors are considered.",
+        "Ask crews to resolve deviations informally within each shift and submit only aggregate trends, replacing incident-level escalation with a monthly learning report."
+      ],
+      "why": "A learning-oriented review examines system conditions without assuming that every deviation is misconduct. It also preserves required reporting, urgent escalation and fair behavior-based accountability. Confidentiality must not be promised beyond what the process can provide. Facilitated debriefs and tracked corrective actions make this an operational learning-system design, not merely a label for a blame-free culture.",
+      "optionRationales": [
+        "Absolute immunity removes appropriate accountability; anonymity may also be impossible to guarantee.",
+        "Correct. It combines event-level learning, action follow-through and explicit accountability safeguards.",
+        "Deferring systems evidence until after discipline risks a premature and biased judgment.",
+        "Aggregate monthly trends cannot replace required incident reporting or urgent safety escalation."
+      ],
+      "trap": "A learning system needs usable reporting, timely systems review and action closure. Just culture does not mean ignoring reckless conduct or promising confidentiality beyond actual limits.",
+      "bok": "II.D.6; II.E.2",
+      "findings": [
+        "Cross-question dependence",
+        "Incorrect II.D title",
+        "Near-duplicate just-culture recall task",
+        "Missing reporting and confidentiality safeguards",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "II.D.6; II.E.2"
+        },
+        {
+          "title": "AHRQ PSNet: Culture of Safety",
+          "url": "https://psnet.ahrq.gov/primer/culture-safety",
+          "locator": "Measuring and Achieving a Culture of Safety: just culture"
+        }
+      ]
+    },
+    {
+      "number": 56,
+      "qid": "mbb:set-3:d2-073",
+      "answer": 3,
+      "stem": "A ceramics manufacturer sells through distributors and online across several language groups. Its feedback team has limited response capacity, and some customers want to submit anonymous feedback. Repeat buyers dominate the current contact list. Which design best improves coverage and follow-through without making commitments the system cannot meet?",
+      "options": [
+        "Use the repeat-buyer email list with translated questions and promise an individual resolution to every submission, including anonymous messages with no return contact channel.",
+        "Open separate feedback channels for every distributor but leave eligibility rules, prioritization and action ownership to each channel, assuming broad access ensures representative evidence.",
+        "Replace external feedback with inspection results and collect customer comments annually, because the inspection system already measures all customer experience dimensions consistently.",
+        "Include lapsed and underrepresented customers, test language accessibility and comparability, triage by risk, assign action owners and response targets, and publish aggregate follow-up for anonymous submissions."
+      ],
+      "why": "Feedback coverage should extend beyond surviving repeat buyers, and translation alone does not establish comparable interpretation or response scales. Finite capacity requires prioritization and realistic service targets. Contactable submissions can receive individual acknowledgment; anonymous submissions without a return channel need another closure route, such as aggregate action updates. No design guarantees complete representativeness merely by offering many channels.",
+      "optionRationales": [
+        "It retains survivor selection and promises a direct response where no contact route exists.",
+        "More channels do not assure comparable definitions, representative coverage or action ownership.",
+        "Inspection measures cannot fully substitute for customer experience and loss-of-customer feedback.",
+        "Correct. It addresses selection, language fit, capacity and credible closure for different submission types."
+      ],
+      "trap": "Separate acknowledgment, investigation and resolution. A promise to respond individually to every anonymous submission is not credible without a return channel.",
+      "bok": "II.E.1; II.E.2",
+      "findings": [
+        "Cross-question dependence",
+        "Impossible universal response guarantee",
+        "Missing triage and ownership",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "II.E.1; II.E.2"
+        }
+      ]
+    },
+    {
+      "number": 57,
+      "qid": "mbb:set-3:d2-074",
+      "answer": 2,
+      "stem": "A mobile-phone repair chain is reviewing the current scorecard shown below. Stores differ in repair complexity, arrival volume and staffing. Management wants faster service without increasing repeat repairs. Which redesign best supports comparable, actionable review rather than rewarding throughput at the expense of quality?",
+      "options": [
+        "Keep daily repair totals as the ranking measure and add a named owner; use the monthly callback count as a tie-breaker without aligning follow-up periods or denominators.",
+        "Combine all measures into one weighted score immediately; allow higher throughput to offset any deterioration in repeat repairs, even when customer-quality thresholds are breached.",
+        "Pair an effort-aware throughput measure with defined repeat-repair rates, review workload and repair mix, assign accountable owners, and use timely reviews with explicit quality safeguards.",
+        "Rank stores by callbacks per day and retain raw repair totals only for information; treat differences in repair mix and the number of completed repairs as irrelevant to quality comparisons."
+      ],
+      "why": "Raw throughput confounds staffing, arrivals and repair difficulty. Callback counts also require a defined eligible repair population and consistent follow-up window before comparisons are meaningful. Pairing suitable productivity and quality measures, examining case mix and assigning owners supports action without treating an adjustment as proof of causation. Quality safeguards should not disappear inside a compensating weighted average.",
+      "optionRationales": [
+        "Naming an owner does not repair non-comparable callback counts or unadjusted workload differences.",
+        "An aggregate score can hide unacceptable quality deterioration behind a throughput gain.",
+        "Correct. It addresses comparability, counter-metrics, ownership and response timing together.",
+        "Callbacks per day still lack the relevant repair denominator and comparable follow-up exposure."
+      ],
+      "trap": "A common dashboard does not guarantee comparable measures. Align operational definitions, eligible denominators and follow-up windows, and preserve quality safeguards alongside productivity.",
+      "bok": "II.F.2; II.E.1",
+      "findings": [
+        "Cross-question dependence",
+        "Answer-revealing table",
+        "Stem-table cadence and owner mismatch",
+        "Benchmarking described as confound control",
+        "Length-cued distractors"
+      ],
+      "chart": {
+        "type": "data-table",
+        "title": "Current scorecard to be evaluated",
+        "columns": [
+          "Measure",
+          "Current definition / context",
+          "Review / accountability"
+        ],
+        "rows": [
+          [
+            "Repairs completed",
+            "Raw daily count; stores differ in hours, arrivals and repair mix",
+            "Annual ranking; no action owner"
+          ],
+          [
+            "Repeat repairs",
+            "Raw callback count; follow-up windows vary",
+            "Monthly count; no shared denominator"
+          ],
+          [
+            "Service mix",
+            "No trigger for revising measures when repair mix changes",
+            "Owner not assigned"
+          ]
+        ]
+      },
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "II.F.2; II.E.1"
+        }
+      ]
+    },
+    {
+      "number": 58,
+      "qid": "mbb:set-3:d2-075",
+      "answer": 0,
+      "stem": "A credit union has conflicting matrix assignments, inconsistent sponsor follow-through, skeptical experienced loan officers, sales-only incentives despite a member-first value, uniformly positive identifiable member surveys, and observed shortcuts under a loans-per-week target. No causal links among these findings have been established. Which initial recovery plan is most defensible?",
+      "options": [
+        "Contain harmful shortcuts, secure accountable sponsorship and priority decisions, and coordinate an evidence-based review of incentives, feedback, paired metrics and model fit with frontline participation.",
+        "Treat sales incentives as the proven cause of every finding and complete their redesign before addressing harmful shortcuts, sponsor decisions or the validity of the member-survey evidence.",
+        "Replace loans per week with a composite score and publish revised rankings, relying on the better metric to resolve reporting conflicts, survey candor and skepticism about statistical models.",
+        "Delay leadership and governance involvement until the loan officers endorse statistical models, leaving the existing target and survey mechanism unchanged throughout the engagement exercise."
+      ],
+      "why": "Observed harmful shortcuts warrant containment, while sponsorship and decision rights enable coordinated recovery. The findings do not establish a single root cause or justify delaying governance until an incentive redesign is complete. A positive member survey cannot be explained simply by assuming staff fear: respondent selection, question design, confidentiality and actual member experience need assessment. Involve loan officers in evaluating model fit rather than treating expertise as obstruction.",
+      "optionRationales": [
+        "Correct. It prioritizes demonstrated harm and enabling governance while testing possible causes together.",
+        "The causal claim is unsupported and the proposed sequence delays immediate harm containment.",
+        "A new score alone does not establish authority, trustworthy feedback or appropriate model use.",
+        "Frontline involvement matters, but postponing accountable leadership leaves harmful conditions in place."
+      ],
+      "trap": "Do not infer one root cause from coexisting symptoms or confuse member survey responses with employee reporting. Contain known harm while establishing the authority and evidence needed for coordinated recovery.",
+      "bok": "II.B.1; II.C.3; II.D.6; II.E.2; II.F.2",
+      "findings": [
+        "Cross-question dependence",
+        "Unsupported causal chain and rigid priority order",
+        "Member-versus-employee survey confusion",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "II.B.1; II.C.3; II.D.6; II.E.2; II.F.2"
+        }
+      ]
+    },
+    {
+      "number": 59,
+      "qid": "mbb:set-3:d3-001",
+      "answer": 0,
+      "stem": "At a shipbuilder's Measure-to-Analyze gate, a gauge R&R report is labeled marginal. The team has not defined acceptable measurement error for the intended defect analysis or assessed whether the gauge can distinguish the differences that matter. The Black Belt wants approval solely to recover schedule. What should the MBB do next?",
+      "options": [
+        "Withhold approval for measurement-dependent conclusions until fitness for the intended use is assessed and documented; improve or replace the method if needed, while allowing explicitly bounded independent work.",
+        "Approve unrestricted Analyze work because any marginal gauge R&R result is acceptable for root-cause analysis, reserving measurement validation for final product acceptance decisions.",
+        "Require replacement of the gauge immediately because the word marginal always means the instrument is unusable, without considering decision risk, study design or alternatives.",
+        "Increase the number of readings and approve the gate on that basis alone, assuming larger samples automatically eliminate bias, operator differences and inadequate resolution."
+      ],
+      "why": "A marginal label is not an application-specific acceptance decision. Assess the study design, error components, discrimination and consequences of wrong decisions against the intended use. Schedule pressure alone cannot establish adequacy. Measurement-dependent conclusions remain on hold until that assessment supports them; data-independent planning can proceed under explicit limits. More observations can reduce some random error but do not automatically correct bias or resolution problems.",
+      "optionRationales": [
+        "Correct. It establishes fit-for-use evidence before authorizing dependent conclusions without an unnecessary universal work stop.",
+        "Marginal results are not automatically adequate for every analytical decision.",
+        "Immediate replacement is not justified by a label without an application-specific assessment.",
+        "Sample size alone does not eliminate systematic error, operator effects or inadequate discrimination."
+      ],
+      "trap": "Gauge R&R is evidence about measurement variation, not a universal pass/fail label. Acceptance must match the analysis purpose and decision risk; neither schedule pressure nor a larger sample substitutes for that assessment.",
+      "bok": "III.A.1; III.A.2; VI.A",
+      "findings": [
+        "Marginal MSA equated with universal failure",
+        "Missing intended-use criteria",
+        "Unverified textbook chapter attribution",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.A.1; III.A.2; VI.A"
+        },
+        {
+          "title": "NIST: Metrological Traceability FAQ",
+          "url": "https://www.nist.gov/metrology/metrological-traceability",
+          "locator": "5.1.4: Are traceable measurement results fit for purpose?"
+        },
+        {
+          "title": "ASQ: DMAIC",
+          "url": "https://asq.org/quality-resources/dmaic",
+          "locator": "What are the DMAIC phases?"
+        }
+      ]
+    },
+    {
+      "number": 60,
+      "qid": "mbb:set-3:d3-005",
+      "answer": 0,
+      "stem": "A watch manufacturer's annual portfolio board repeatedly discovers product and supplier changes after affected projects have committed their next quarter's resources. Project teams already report weekly delivery status. Which governance change best addresses the delayed allocation decisions without confusing portfolio decisions with routine task monitoring?",
+      "options": [
+        "Introduce reviews before major resource commitments plus material-change triggers, with the authority to resequence or stop work; adjust the interval using observed decision needs and review cost.",
+        "Require daily portfolio re-ranking from every weekly status update, with unchanged decision authority, so frequent reporting alone resolves delayed funding and resource decisions.",
+        "Keep the annual allocation decision but add weekly status presentations, without allowing changes to commitments between meetings, to preserve consistency in approved rankings.",
+        "Delegate all cross-project resource reallocations to individual project leaders, retaining only an annual summary because each team knows its own delivery risks most accurately."
+      ],
+      "why": "The gap is the timing and authority of allocation decisions, not simply a shortage of status reports. Reviews should occur before consequential commitments and when material conditions change. A quarterly rhythm may suit the example, but the evidence does not establish a universal optimal interval. Individual teams need portfolio-level arbitration when their resource changes affect other projects.",
+      "optionRationales": [
+        "Correct. It links review timing and decision rights to consequential commitments and changing assumptions.",
+        "Daily re-ranking can add noise and effort, and reporting frequency cannot create missing authority.",
+        "More presentations without interim decision rights leave the identified allocation delay intact.",
+        "Independent reallocations can conflict where projects share constrained resources."
+      ],
+      "trap": "Distinguish reporting cadence from decision cadence. A useful portfolio review must be timely enough to change a commitment and have the authority to do so.",
+      "bok": "III.B.1; III.B.6; III.B.8",
+      "findings": [
+        "Cross-question framing",
+        "Universal cadence implications",
+        "Recall-level distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.B.1; III.B.6; III.B.8"
+        }
+      ]
+    },
+    {
+      "number": 61,
+      "qid": "mbb:set-3:d3-008",
+      "answer": 1,
+      "stem": "Three of a pharmacy benefit manager's 15 projects require the same vendor claims-system release, as shown below. Their separate risk logs name the dependency, but no one consolidates it or coordinates responses. Which portfolio-level intervention best addresses this shared exposure without assuming the three projects should become one? Network durations are planning estimates in days, not independent risk probabilities.",
+      "options": [
+        "Require each project to add its own contingency allowance and leave the logs separate, assuming three allowances make the shared vendor event independent across the portfolio.",
+        "Link the shared dependency across project logs, name a portfolio owner, assess affected milestones together and agree escalation and contingency responses with the vendor and project leads.",
+        "Merge the three projects and sum their stated benefits and contingencies immediately, assuming a common prerequisite also establishes a common scope and eliminates correlated risk.",
+        "Retain separate logs and inform executives only after the release is late, because an external dependency cannot be monitored or mitigated before its delivery date."
+      ],
+      "why": "A single vendor event can affect several projects together. Consolidation should expose this common cause, assign ownership and coordinate assumptions, escalation and contingencies. Project-level logs remain useful inputs, but disconnected logs do not provide the portfolio view. A shared prerequisite does not prove common scope, independent risks, additive contingency needs or inevitable delays to every final completion date; available float and alternatives must be assessed.",
+      "optionRationales": [
+        "Separate allowances do not make one common event independent or reveal overlapping contingency needs.",
+        "Correct. It provides connected visibility and accountable coordination while retaining distinct project scopes.",
+        "A common dependency does not justify merging otherwise distinct objectives or double-counting benefits.",
+        "External delivery can still be monitored and its potential impacts prepared for before a delay occurs."
+      ],
+      "trap": "Shared dependencies create correlated exposure. Consolidate the dependency and response, not automatically the project scopes; assess float and alternatives before predicting completion delays.",
+      "bok": "III.B.1; III.B.2; I.F.4",
+      "findings": [
+        "Unspecified durations in original network",
+        "Project-level risk visibility overclaim",
+        "Length-cued distractors"
+      ],
+      "chart": {
+        "type": "activity-network",
+        "title": "Shared vendor dependency — durations in days",
+        "nodes": {
+          "Vendor upgrade": {
+            "col": 0,
+            "row": 1,
+            "dur": 90
+          },
+          "Project A": {
+            "col": 1,
+            "row": 0,
+            "dur": 60
+          },
+          "Project B": {
+            "col": 1,
+            "row": 1,
+            "dur": 75
+          },
+          "Project C": {
+            "col": 1,
+            "row": 2,
+            "dur": 45
+          }
+        },
+        "edges": [
+          [
+            "Vendor upgrade",
+            "Project A"
+          ],
+          [
+            "Vendor upgrade",
+            "Project B"
+          ],
+          [
+            "Vendor upgrade",
+            "Project C"
+          ]
+        ],
+        "altText": "One vendor upgrade, estimated at 90 days, precedes Project A (60 days), Project B (75 days) and Project C (45 days). These are shared dependency links, not independent risk probabilities."
+      },
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.B.1; III.B.2; I.F.4"
+        }
+      ]
+    },
+    {
+      "number": 62,
+      "qid": "mbb:set-3:d3-011",
+      "answer": 1,
+      "stem": "A zoo has four Black Belts assigned nine projects as shown below. For this planning example only, each project requires 10 Belt-hours per week, each Belt has 20 available hours per week after other duties, and work is transferable without skill restrictions. At the 20-hour baseline, which interpretation should guide intake of another project? The slider explores scenarios; it does not change the question's baseline.",
+      "options": [
+        "Total demand is 90 hours against 80 available, but moving one project to Belt 3 eliminates both individual overloads and the total shortfall, so another project can start.",
+        "Belts 1 and 4 each exceed capacity by 10 hours; Belt 3 has 10 spare hours, but aggregate demand exceeds capacity by 10, so redistribution alone cannot absorb all current work.",
+        "Only Belt 1 exceeds capacity by 10 hours; Belt 4's three projects are covered by the unused time on Belt 3, leaving the portfolio with 10 hours available for intake.",
+        "All nine projects fit because average allocation is 2.25 projects per Belt and the average is close to two; individual loading is not needed before approving new intake."
+      ],
+      "why": "The equal-effort assumption converts assignments of 3, 2, 1 and 3 into 30, 20, 10 and 30 hours per week. With 20 hours each, total demand is 90 versus capacity 80. Local excesses total 20 hours and spare capacity is 10, giving a net shortfall of 10. Moving one project can remove one overload but cannot remove aggregate excess. Real projects need time-phased effort and skill constraints, not a universal project-count limit.",
+      "optionRationales": [
+        "Reallocation preserves total demand and capacity; it cannot remove the 10-hour aggregate deficit.",
+        "Correct. It distinguishes two local overloads from the smaller net portfolio capacity deficit.",
+        "Capacity cannot be counted twice, and Belt 4 still requires its own reassignment or relief.",
+        "A near-looking average does not establish feasibility, and 2.25 exceeds the stipulated two-project capacity."
+      ],
+      "trap": "Capacity is a time-phased resource quantity. Local overload and aggregate shortfall differ; spare time elsewhere can offset some overload only when work can actually be reassigned.",
+      "bok": "III.B.8; III.A.1",
+      "findings": [
+        "Project-count proxy lacked effort and time basis",
+        "Recall upgraded to workload interpretation",
+        "Interactive baseline unclear",
+        "Length-cued distractors"
+      ],
+      "chart": {
+        "type": "data-table",
+        "title": "Baseline weekly resource demand",
+        "columns": [
+          "Belt",
+          "Assigned projects",
+          "Demand (hours/week)",
+          "Available (hours/week)"
+        ],
+        "rows": [
+          [
+            "Belt 1",
+            3,
+            30,
+            20
+          ],
+          [
+            "Belt 2",
+            2,
+            20,
+            20
+          ],
+          [
+            "Belt 3",
+            1,
+            10,
+            20
+          ],
+          [
+            "Belt 4",
+            3,
+            30,
+            20
+          ]
+        ],
+        "whatIf": {
+          "id": "belt-capacity",
+          "label": "Scenario capacity per Belt",
+          "value": 20,
+          "min": 10,
+          "max": 40,
+          "step": 5,
+          "unit": " hours/week",
+          "committed": 30,
+          "committedLabel": "Belt 1 weekly demand"
+        },
+        "interactiveKind": "capacity",
+        "altText": "Each Belt has baseline capacity 20 hours per week; demands are 30, 20, 10 and 30. The optional slider changes scenario capacity only."
+      },
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.B.8; III.A.1"
+        }
+      ]
+    },
+    {
+      "number": 63,
+      "qid": "mbb:set-3:d3-012",
+      "answer": 1,
+      "stem": "A medical billing company compares projects M and N for one explicitly defined first-year screen. M has $300,000 first-year cash benefits and $150,000 implementation cost; N has $900,000 and $600,000. These are complete incremental cash amounts for that year; ignore taxes and discounting. Define benefit–cost ratio as benefits divided by cost. Which statement correctly distinguishes ratio ranking from absolute first-year net value?",
+      "options": [
+        "M has the higher ratio, 2.0 versus 1.5, and therefore also has the higher first-year net value; the ratio alone establishes the final choice under any capital constraint.",
+        "M has the higher ratio, 2.0 versus 1.5, but N has higher first-year net value, $300,000 versus $150,000; review feasibility and later cash flows before final selection.",
+        "N has the higher ratio, 2.0 versus 1.5, and higher first-year net value, $300,000 versus $150,000; both measures therefore favor N in the stated screen.",
+        "M has the higher ratio, 2.0 versus 1.5, while N produces $300,000 more net value in every future year; the first-year figures establish the same recurring difference."
+      ],
+      "why": "M: 300,000/150,000 = 2.0 and first-year net value = $150,000. N: 900,000/600,000 = 1.5 and first-year net value = $300,000. N's first-year net value exceeds M's by $150,000, not $300,000. Subtracting a one-time implementation cost does not define recurring annual net benefit. The stipulated one-year screen is not a multi-year NPV model or an automatic capital-constrained selection rule.",
+      "optionRationales": [
+        "A higher benefit–cost ratio does not imply higher absolute net value or solve every budget constraint.",
+        "Correct. It calculates both measures on the stated common horizon and limits the conclusion accordingly.",
+        "The stated ratio calculations are reversed; N's ratio is 1.5, not 2.0.",
+        "Later benefits and costs are unspecified, and the first-year net difference is $150,000."
+      ],
+      "trap": "Match the time horizon of benefits and costs. A first-year cash surplus after a one-time cost is not a recurring annual saving, and ratio ranking is not absolute-value ranking.",
+      "bok": "III.C.1; II.F.1",
+      "findings": [
+        "Benefit–cost terminology reversed",
+        "Recurring versus first-year net benefit ambiguity",
+        "Missing common financial horizon",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.C.1; II.F.1"
+        },
+        {
+          "title": "OpenStax: Principles of Accounting, Volume 2: Managerial Accounting",
+          "url": "https://openstax.org/books/principles-managerial-accounting/pages/11-4-use-discounted-cash-flow-models-to-make-capital-investment-decisions",
+          "locator": "11.4: profitability index"
+        }
+      ]
+    },
+    {
+      "number": 64,
+      "qid": "mbb:set-3:d3-016",
+      "answer": 3,
+      "stem": "For a playground-equipment project, material testing (3 days), supplier qualification (4 days) and design review (6 days) can start together at time zero. A 1-day readiness review starts only after all three finish; a zero-duration manufacturing-ready milestone follows. Assume finish-to-start links, no lags, adequate resources and unchanged durations. Which baseline conclusion is correct?",
+      "options": [
+        "The project takes 14 days because all activity durations must be added; design review is important but no parallel activity can have float under these assumptions.",
+        "The project takes 6 days because the longest initial activity determines completion; the readiness review has no duration because it leads to a milestone.",
+        "The project takes 7 days with design and readiness reviews critical; supplier qualification has 3 days of total float before the manufacturing-ready milestone moves.",
+        "The project takes 7 days with design and readiness reviews critical; supplier qualification has 2 days of total float before the manufacturing-ready milestone moves."
+      ],
+      "why": "The readiness review starts at max(3,4,6) = 6 and finishes at day 7. The critical path is design review followed by readiness review. Supplier qualification can finish as late as day 6 without delaying that review, so its total float is 6−4 = 2 days; material testing has 3 days. The 1-day review is an activity, while the following milestone has zero duration. These results assume no resource-induced delays or schedule changes.",
+      "optionRationales": [
+        "The first three activities run in parallel; adding all durations treats them incorrectly as sequential.",
+        "The 1-day readiness review is a real activity, separate from the zero-duration milestone.",
+        "Three days is material testing's float; supplier qualification has only two days.",
+        "Correct. The forward-pass completion and supplier float follow from the stated dependencies."
+      ],
+      "trap": "Use the longest dependent path, not the sum of parallel work. Distinguish a real review activity from a zero-duration milestone and compute float against the successor's latest permissible start.",
+      "bok": "III.A.1; III.B.6",
+      "findings": [
+        "Missing duration units and scheduling assumptions",
+        "Milestone incorrectly assigned activity duration",
+        "Recall upgraded to network calculation",
+        "Length-cued distractors"
+      ],
+      "chart": {
+        "type": "activity-network",
+        "title": "Readiness network — activity durations in days",
+        "nodes": {
+          "Material testing": {
+            "col": 0,
+            "row": 0,
+            "dur": 3
+          },
+          "Supplier qualification": {
+            "col": 0,
+            "row": 1,
+            "dur": 4
+          },
+          "Design review": {
+            "col": 0,
+            "row": 2,
+            "dur": 6
+          },
+          "Readiness review": {
+            "col": 1,
+            "row": 1,
+            "dur": 1
+          },
+          "Manufacturing ready": {
+            "col": 2,
+            "row": 1,
+            "dur": 0
+          }
+        },
+        "edges": [
+          [
+            "Material testing",
+            "Readiness review"
+          ],
+          [
+            "Supplier qualification",
+            "Readiness review"
+          ],
+          [
+            "Design review",
+            "Readiness review"
+          ],
+          [
+            "Readiness review",
+            "Manufacturing ready"
+          ]
+        ],
+        "altText": "Material testing, 3 days; supplier qualification, 4 days; and design review, 6 days, run in parallel. All precede a 1-day readiness review, followed by a zero-duration manufacturing-ready milestone."
+      },
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.A.1; III.B.6"
+        },
+        {
+          "title": "PMI: Schedule Risk Analysis Simplified",
+          "url": "https://www.pmi.org/learning/library/schedule-risk-analysis-simplified-10573",
+          "locator": "CPM, merge points and float"
+        }
+      ]
+    },
+    {
+      "number": 65,
+      "qid": "mbb:set-3:d3-017",
+      "answer": 0,
+      "stem": "An elevator-maintenance company's scoring weights still reflect a three-year-old strategy, although leadership has since emphasized predictive maintenance. Safety obligations and the company's minimum acceptable safety controls remain mandatory. Which update best realigns discretionary project selection without trading away those requirements?",
+      "options": [
+        "Retain mandatory safety gates, review discretionary weights against current strategy, document the rationale and assess how re-scoring changes portfolio priorities before authorizing reallocations.",
+        "Reduce all safety weights until predictive-maintenance proposals rank first, allowing technology benefits to compensate for failure to meet mandatory safety controls within a single score.",
+        "Keep the original weights permanently and create an unrecorded executive override for new technology projects, preserving apparent comparability while bypassing the approved selection process.",
+        "Discard the old criteria and halt every project until new weights are finalized, without checking which ongoing work remains required or aligned with the revised direction."
+      ],
+      "why": "Selection criteria need review when the strategy or assumptions they operationalize change. Mandatory obligations should be eligibility constraints, not merely low-weight preferences that attractive technology benefits can offset. Re-scoring and sensitivity review reveal consequences before resources move. Three years alone does not prove obsolescence, but the explicitly changed strategy warrants reassessment.",
+      "optionRationales": [
+        "Correct. It distinguishes non-negotiable safety eligibility from revisable strategic preferences.",
+        "A weighted score cannot legitimately compensate for failure to meet the stipulated mandatory controls.",
+        "Undocumented overrides weaken traceability and do not repair the obsolete criteria.",
+        "Some current work remains required or valuable; a universal stop is not supported by the case."
+      ],
+      "trap": "Refresh discretionary priorities without treating mandatory safety as a tradeable score. An old criterion may remain relevant; test alignment rather than replacing everything because of its age.",
+      "bok": "III.B.4; I.F.3",
+      "findings": [
+        "Cross-question dependence",
+        "Safety framed as superseded preference",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.B.4; I.F.3"
+        }
+      ]
+    },
+    {
+      "number": 66,
+      "qid": "mbb:set-3:d3-022",
+      "answer": 3,
+      "stem": "A dry-ice supplier's DMAIC project has validated its measurement method and a root cause within the approved delivery process. At the Analyze gate, the sponsor asks the team to add a second, materially different process but keep the existing deadline and benefit estimate. No analysis covers that additional process. Which gate decision best preserves lifecycle discipline?",
+      "options": [
+        "Approve the expanded scope using the existing root-cause evidence, because sponsor interest establishes that conclusions from one delivery process transfer to the second process.",
+        "Reject any scope revision after Define, even if strategy or evidence changes, because a disciplined lifecycle prohibits revisiting an approved project charter.",
+        "Record the additional process in the meeting minutes and continue with the unchanged deadline, treating documentation of the request as sufficient authorization of its resource impacts.",
+        "Assess the added process's evidence, resources, risk and schedule implications; obtain an approved re-scope or separate project before claiming the existing gate covers the expanded work."
+      ],
+      "why": "Evidence valid for the original process does not automatically support a materially different scope. The gate should trigger explicit change assessment and reauthorization, including benefit and resource implications, rather than silently inheriting the earlier evidence. Legitimate changes are possible; recording a request or repeating a sponsor's desired date does not establish their feasibility. This item tests scope-change control, distinct from general exit-criterion recall.",
+      "optionRationales": [
+        "The new process has not been analyzed; interest in expanding scope is not transfer-validation evidence.",
+        "Controlled re-scoping is possible when justified; the lifecycle is not a ban on responding to new needs.",
+        "Minutes record a request but do not evaluate or authorize its technical and resource consequences.",
+        "Correct. It separates the existing evidence boundary from the authorization needed for new work."
+      ],
+      "trap": "A gate approves evidence for a defined scope. Expanding the scope requires an impact assessment; sponsor support alone cannot extend the validity of a measurement study or root-cause finding.",
+      "bok": "III.A.1; III.A.2",
+      "findings": [
+        "Cross-question dependence",
+        "Near-duplicate task with Q71",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.A.1; III.A.2"
+        }
+      ]
+    },
+    {
+      "number": 67,
+      "qid": "mbb:set-3:d3-026",
+      "answer": 2,
+      "stem": "A shoe company's governance requires sponsor authorization of the problem statement and scope before full Measure-phase collection; limited discovery can be separately approved. Without either approval, a Black Belt collects data for two weeks. The sponsor then changes the scope. What should the MBB conclude and require next?",
+      "options": [
+        "Record all two weeks as irrecoverable loss and terminate the project, without checking whether any measurements remain usable for the newly approved problem.",
+        "Accept the original scope because data collection has already begun, treating completed work as authority to override the sponsor's approval responsibility.",
+        "Recognize the missing authorization, agree and document the revised scope, assess which data remain usable, and re-plan collection rather than assuming approval or declaring all prior effort wasted.",
+        "Treat the collection as authorized discovery after the fact, because technical confidence in the initial charter provides the same approval as the required sponsor decision."
+      ],
+      "why": "The team bypassed the explicit governance rule in this scenario. Sponsor alignment should precede substantial scope-dependent collection, although separately authorized discovery is possible. The consequence is rework risk, not proof that all two weeks are lost; data relevance must be assessed against the revised question. Document authorization and update the collection plan rather than defending sunk effort or retrospectively inventing approval.",
+      "optionRationales": [
+        "A scope change may leave some data usable; complete loss and termination are not established.",
+        "Sunk effort does not transfer the sponsor's approval authority to the project team.",
+        "Correct. It repairs authorization and assesses actual rework rather than assuming all data are unusable.",
+        "The scenario explicitly states that no discovery authorization was obtained."
+      ],
+      "trap": "Authorization and technical confidence are different. A revised scope creates a data-relevance review, not an automatic finding that every prior observation or hour is wasted.",
+      "bok": "III.A.1; III.A.2",
+      "findings": [
+        "Universal sign-off rule lacked local governance context",
+        "Unsupported total rework claim",
+        "Unverified textbook chapter attribution",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.A.1; III.A.2"
+        },
+        {
+          "title": "ASQ: DMAIC",
+          "url": "https://asq.org/quality-resources/dmaic",
+          "locator": "What are the DMAIC phases?"
+        }
+      ]
+    },
+    {
+      "number": 68,
+      "qid": "mbb:set-3:d3-031",
+      "answer": 3,
+      "stem": "A wind-farm maintenance proposal changes the schedule in a way that triggers an additional safety-certification cost under the operator's stated requirements. The financial screen includes labor savings and recovered downtime revenue but omits that incremental cost. Its amount and timing are being estimated. How should the MBB correct the appraisal?",
+      "options": [
+        "Exclude the certification cost because it is compliance-related rather than operational, retaining the financial ranking while reporting the requirement only in the risk register.",
+        "Subtract an arbitrary contingency equal to the project's labor savings and treat the resulting point estimate as fully validated, without estimating certification timing or recurrence.",
+        "Cancel the project because any omitted cost proves its NPV is negative, without obtaining the missing estimate or recomputing the complete incremental cash flows.",
+        "Estimate the incremental certification cash flows and timing, include them on a consistent appraisal basis, and test decision sensitivity; meet applicable requirements regardless of the resulting ranking."
+      ],
+      "why": "A cost caused by the proposed change belongs in the incremental appraisal even when it arises from a safety requirement. Its size, timing and recurrence must be estimated rather than assumed negligible or material. If discounting is used elsewhere, apply the same basis to this cost. Recompute the decision and examine uncertainty; an omission does not establish negative NPV, and financial attractiveness does not waive the stipulated requirement.",
+      "optionRationales": [
+        "Compliance-related costs can still be incremental project costs and cannot be omitted from the appraisal.",
+        "An arbitrary contingency is not a supported estimate and does not resolve timing or recurrence.",
+        "A missing cost reduces the estimated net value but need not make the completed appraisal negative.",
+        "Correct. It restores the missing cash-flow category and preserves the distinction between appraisal and compliance."
+      ],
+      "trap": "Include all relevant incremental cash flows on a common time basis. The existence of an omitted cost does not establish its magnitude, timing, materiality or the sign of the corrected NPV.",
+      "bok": "III.C.1; III.C.2",
+      "findings": [
+        "Incorrect explanation option-letter reference",
+        "Unestablished materiality",
+        "Missing timing and incremental-cost basis",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.C.1; III.C.2"
+        }
+      ]
+    },
+    {
+      "number": 69,
+      "qid": "mbb:set-3:d3-035",
+      "answer": 3,
+      "stem": "A pet-food ingredient-substitution team has quality and operations staff but no formulation expertise. During Analyze, a candidate substitute shows an unexpected interaction with another ingredient. No production trial has been authorized. What immediate response and future charter control should the MBB require?",
+      "options": [
+        "Continue toward the trial using the operations team's experience, adding a formulation specialist only after implementation if the observed interaction affects reported customer complaints.",
+        "Replace all quality and operations members with formulation staff, because the technical gap establishes that the original disciplines have no useful role in the project.",
+        "Add the interaction to the final report but retain the trial schedule, assuming the absence of a previously identified problem makes further technical review unnecessary.",
+        "Bring qualified formulation expertise into the risk and evidence review before authorizing trials, reassess affected conclusions, and require scope-based technical coverage at future chartering."
+      ],
+      "why": "The observed interaction identifies a domain-expertise gap requiring prompt review before trials, not simply a future staffing lesson. Qualified formulation input complements quality and operations knowledge and should reassess affected assumptions, safety and evidence needs. Charter review should confirm technical coverage as soon as the scope is known; it need not require every expert to be a full-time team member. Expertise reduces blind spots but does not guarantee that an interaction would have been predicted.",
+      "optionRationales": [
+        "Waiting for customer complaints exposes the project to a known unresolved technical risk.",
+        "Adding missing expertise does not remove the contribution of quality and operations disciplines.",
+        "The newly observed interaction is positive evidence of a review need, not an absence of a problem.",
+        "Correct. It addresses the current evidence gap and embeds proportionate technical coverage in future charters."
+      ],
+      "trap": "When a technical gap emerges, repair the current team and reassess dependent conclusions before implementation. A future charter checklist alone does not resolve today's known risk.",
+      "bok": "III.A.1; II.B.2",
+      "findings": [
+        "Cross-question framing",
+        "Immediate corrective action omitted",
+        "Expert foresight overclaim",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.A.1; II.B.2"
+        }
+      ]
+    },
+    {
+      "number": 70,
+      "qid": "mbb:set-3:d3-037",
+      "answer": 0,
+      "stem": "A kayak manufacturer has a $500,000 capital limit. Projects 1–3 have the investments and NPVs shown below. Projects are indivisible and independent, NPVs are additive on a common appraisal basis, and there are no other constraints or interactions. Initial investment is already deducted in each NPV. Define profitability index as PV of subsequent net cash inflows divided by initial investment, so PI = 1 + NPV/investment. Which feasible portfolio maximizes total NPV? The budget slider is exploratory; answer for $500,000.",
+      "options": [
+        "Select Projects 1 and 3: investment $500,000 and NPV $420,000. The PI ranking is 1, 2, 3, but taking projects greedily in that order does not maximize this indivisible portfolio.",
+        "Select Projects 1 and 2: investment $450,000 and NPV $400,000. Their higher individual PIs establish that this combination must maximize NPV under the stated capital limit.",
+        "Select Projects 2 and 3: investment $550,000 and NPV $460,000. The extra $50,000 is acceptable because positive NPV automatically finances any excess over the capital limit.",
+        "Select Project 3 alone: investment $300,000 and NPV $240,000. Its highest individual NPV means that adding any lower-NPV project would reduce the portfolio's total value."
+      ],
+      "why": "Standard PIs are 1.90, 1.88 and 1.80, not 0.90, 0.88 and 0.80; those latter values are NPV/investment. Feasible subsets have (investment, NPV), in $000: none (0,0), 1 (200,180), 2 (250,220), 3 (300,240), 1+2 (450,400), and 1+3 (500,420). Subsets 2+3 (550,460) and 1+2+3 (750,640) exceed the limit. Thus 1+3 uniquely maximizes NPV at $420,000. PI ranking is a heuristic, not an optimizer for indivisible projects.",
+      "optionRationales": [
+        "Correct. It is feasible and has the largest total NPV among all feasible subsets.",
+        "Greedy PI selection leaves $50,000 unused and gives $20,000 less NPV than Projects 1 and 3.",
+        "Future value does not waive the current capital limit; this combination is infeasible.",
+        "Adding independent positive-NPV Project 1 is feasible and raises total NPV to $420,000."
+      ],
+      "trap": "For the stated convention, PI = 1 + NPV/investment. Under an indivisible budget constraint, enumerate feasible combinations or optimize them; neither PI nor individual NPV ranking alone guarantees the best portfolio.",
+      "bok": "III.C.1; II.F.1",
+      "findings": [
+        "Nonstandard profitability-index label",
+        "Internally contradictory keyed choice",
+        "Wrong PI values in table",
+        "Missing indivisibility and additivity assumptions",
+        "Ambiguous preselected slider commitment",
+        "Length-cued distractors"
+      ],
+      "chart": {
+        "type": "data-table",
+        "title": "Indivisible candidate projects — common appraisal basis",
+        "columns": [
+          "Project",
+          "Initial investment",
+          "NPV",
+          "PI = 1 + NPV / investment"
+        ],
+        "rows": [
+          [
+            "Project 1",
+            "$200,000",
+            "$180,000",
+            "1.90"
+          ],
+          [
+            "Project 2",
+            "$250,000",
+            "$220,000",
+            "1.88"
+          ],
+          [
+            "Project 3",
+            "$300,000",
+            "$240,000",
+            "1.80"
+          ]
+        ],
+        "whatIf": {
+          "id": "capital-budget",
+          "label": "Scenario capital budget ($000)",
+          "value": 500,
+          "min": 200,
+          "max": 750,
+          "step": 50,
+          "unit": " $000",
+          "committed": 750,
+          "committedLabel": "All three candidates combined"
+        },
+        "interactiveKind": "budget",
+        "altText": "Candidate investments total $750,000. The optional slider compares that total with an exploratory budget; the exam baseline remains $500,000."
+      },
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.C.1; II.F.1"
+        },
+        {
+          "title": "OpenStax: Principles of Accounting, Volume 2: Managerial Accounting",
+          "url": "https://openstax.org/books/principles-managerial-accounting/pages/11-4-use-discounted-cash-flow-models-to-make-capital-investment-decisions",
+          "locator": "11.4: profitability index"
+        }
+      ]
+    },
+    {
+      "number": 71,
+      "qid": "mbb:set-3:d3-041",
+      "answer": 2,
+      "stem": "At a 3D-printing service bureau's Control gate, a stable pilot meets its performance goal and the report is complete. However, the receiving process owner has not accepted the monitoring workload, no reaction plan has been practiced, and no one is assigned to verify benefits after handoff. Which closure decision best tests substantive readiness?",
+      "options": [
+        "Close the project because a stable successful pilot establishes that future performance needs no additional ownership, response practice or post-handoff benefit verification.",
+        "Close after the Black Belt signs the report on behalf of the process owner, treating the project leader's competence as a substitute for operational acceptance of the workload.",
+        "Keep closure conditional on accepted ownership, resourced monitoring, a tested reaction plan and defined benefit follow-up; close only when the agreed sustainment evidence supports the handoff.",
+        "Extend the pilot indefinitely without assigning ownership or response duties, because more observations alone will eventually resolve the missing operational commitments."
+      ],
+      "why": "A successful pilot and a completed report do not demonstrate operational ability to sustain gains. Control readiness requires an accountable receiving owner, feasible monitoring, a usable response and planned benefit verification. Additional observation may be appropriate, but it does not assign responsibilities. The question tests handoff evidence, distinct from scope-change control and from simply naming a generic phase-gate principle.",
+      "optionRationales": [
+        "Observed pilot stability does not establish future ownership, resources or reaction capability.",
+        "The Black Belt cannot silently accept another owner's operational workload or accountability.",
+        "Correct. It links closure to demonstrated and accepted sustainment arrangements.",
+        "More data do not create missing responsibilities or an executable response plan."
+      ],
+      "trap": "Separate pilot results from sustainment readiness. Closure is an operational handoff supported by ownership and response evidence, not merely a signed report or a longer observation period.",
+      "bok": "III.A.2; III.B.5",
+      "findings": [
+        "Cross-question dependence",
+        "Near-duplicate task with Q66",
+        "Risk acceptance framed as universal gate waiver",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.A.2; III.B.5"
+        },
+        {
+          "title": "ASQ: DMAIC",
+          "url": "https://asq.org/quality-resources/dmaic",
+          "locator": "What are the DMAIC phases?"
+        }
+      ]
+    },
+    {
+      "number": 72,
+      "qid": "mbb:set-3:d3-042",
+      "answer": 3,
+      "stem": "A luggage manufacturer has consistent status reporting and scheduled portfolio reviews, but lacks a shared dependency register and a capacity-checking intake gate. Its selection weights have not been reviewed in three years. The urgency of strategic changes and exposures has not been assessed. What maturity finding and next action are justified by this evidence?",
+      "options": [
+        "Classify the portfolio as having no useful infrastructure and replace all existing reporting, because the missing controls invalidate every established monitoring practice.",
+        "Classify the portfolio as fully mature because status reports and scheduled reviews are present, treating unassessed risks and obsolete weights as unrelated operational details.",
+        "Fix intake and dependencies first and defer strategy review, because strategic misalignment necessarily compounds more slowly than every capacity or dependency risk.",
+        "Recognize partial infrastructure, assess each gap's severity and urgency, contain unacceptable exposure, and sequence assigned actions using evidence rather than a universal priority order."
+      ],
+      "why": "The organization has some functioning controls and some important unassessed gaps. No named maturity model or scored assessment is supplied, so a formal maturity level is not justified. Capacity, dependency and strategic-alignment risks can each be urgent. Their priority depends on actual exposure, timing and consequences, not an assumed rule that stale strategy always matters later. Preserve useful reporting while improving the missing decision controls.",
+      "optionRationales": [
+        "Missing controls do not prove that existing reporting and review practices have no value.",
+        "Reporting presence alone is not evidence of effective intake, dependency or strategic control.",
+        "The claim about relative urgency is unsupported; strategic misalignment can require immediate action.",
+        "Correct. It states the supported maturity observation and requires evidence-based risk prioritization."
+      ],
+      "trap": "Do not assign a formal maturity level without a model or rank gaps solely by their category. Assess current exposure and timing; strategic misalignment can be as urgent as capacity overload.",
+      "bok": "III.B.1; III.B.4; III.B.8",
+      "findings": [
+        "Cross-question dependence",
+        "Unsupported fixed remediation order",
+        "Unqualified formal maturity inference",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.B.1; III.B.4; III.B.8"
+        }
+      ]
+    },
+    {
+      "number": 73,
+      "qid": "mbb:set-3:d3-043",
+      "answer": 0,
+      "stem": "A fireworks manufacturer's process-safety proposal has an $85,000 NPV based only on routine operational cash flows. Other proposals exceed $200,000. The committee has not established whether the safety work is required to meet mandatory controls, how much risk it reduces, or whether incident losses overlap with the forecast. What should the MBB require before applying a purely financial ranking?",
+      "options": [
+        "Establish mandatory safety requirements and acceptable-risk constraints first; then assess credible incremental risk reduction and cash-flow effects without double-counting, using uncertainty and nonfinancial consequences in the decision.",
+        "Add the full cost of the worst conceivable incident to the $85,000 NPV as a certain saving, without estimating baseline probability, risk reduction or overlaps with existing cash flows.",
+        "Select the safety-labeled proposal automatically and stop reviewing alternatives, assuming any proposal described as safety work delivers the same necessary and sufficient protection.",
+        "Rank the $85,000 proposal below every $200,000 proposal immediately, treating missing incident-risk data as proof that the omitted safety consequences have zero decision value."
+      ],
+      "why": "First establish required controls and risk acceptability: these can constrain the feasible decision set rather than act as optional weighted benefits. For discretionary alternatives, assess the change in expected losses using credible probabilities, consequences, timing and overlaps, not the full incident severity as a certain saving. The information given cannot establish a revised NPV or the final ranking. Financial analysis informs the choice but does not substitute for required safety controls.",
+      "optionRationales": [
+        "Correct. It separates required protection from financial comparison and demands support for incremental risk benefits.",
+        "Worst-case severity is not expected avoided loss, and adding it may double-count forecast impacts.",
+        "A safety label does not establish effectiveness or make alternative control designs irrelevant.",
+        "Missing risk information is uncertainty, not evidence of zero risk or zero consequence."
+      ],
+      "trap": "Safety eligibility comes before a discretionary financial ranking. Do not add incident severity directly to NPV: estimate incremental expected risk reduction, avoid double-counting and state what remains uncertain.",
+      "bok": "III.C.1; I.F.3; I.F.4",
+      "findings": [
+        "Cross-question dependence",
+        "Incident severity conflated with expected avoided loss",
+        "Missing mandatory-risk constraints",
+        "Unsupported value overclaim",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.C.1; I.F.3; I.F.4"
+        }
+      ]
+    },
+    {
+      "number": 74,
+      "qid": "mbb:set-3:d3-044",
+      "answer": 3,
+      "stem": "During an escape-room chain's Improve pilot, new observations suggest an additional cause that the Analyze phase did not test. The proposed mechanism is plausible but not yet validated, and implementation has not been approved. What should the MBB require while preserving useful earlier work?",
+      "options": [
+        "Proceed with full implementation because an Improve-phase observation validates causation automatically, noting the additional cause only in the final lessons-learned report.",
+        "Restart every completed activity from Define and discard all prior data, because new evidence makes every earlier conclusion invalid regardless of its relevance.",
+        "Record the observation without investigating it until after closure, because returning to Analyze would violate the agreed order of DMAIC phases.",
+        "Assess the observation, return to the relevant analysis to test the suspected cause, and update affected solution, risk and control decisions while retaining evidence that remains valid."
+      ],
+      "why": "A plausible new mechanism is a hypothesis, not a confirmed root cause merely because it appeared during a pilot. Revisit the analysis needed to test it and reassess dependent decisions. Iteration supports disciplined problem solving when documented and governed; it does not require discarding unrelated valid work or restarting every phase. The extent of rework should follow the evidence and its effect on scope, risk and solution validity.",
+      "optionRationales": [
+        "The project phase does not turn an observation into proof of causation.",
+        "New evidence affects particular assumptions; it need not invalidate all previous work.",
+        "Phase structure supports problem solving and does not justify ignoring relevant new evidence.",
+        "Correct. It validates the new hypothesis and updates only the work that depends on it."
+      ],
+      "trap": "A pilot can reveal a new hypothesis without proving a new cause. Revisit the affected analysis and approvals; disciplined iteration is neither blind continuation nor an automatic full restart.",
+      "bok": "III.A.1; III.A.2",
+      "findings": [
+        "Suspected versus validated root cause ambiguity",
+        "Unverified textbook chapter attribution",
+        "Recall-level distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.A.1; III.A.2"
+        },
+        {
+          "title": "ASQ: DMAIC",
+          "url": "https://asq.org/quality-resources/dmaic",
+          "locator": "What are the DMAIC phases?"
+        }
+      ]
+    },
+    {
+      "number": 75,
+      "qid": "mbb:set-3:d3-045",
+      "answer": 2,
+      "stem": "A car-wash chain approved a six-week, multi-site water-reduction DMAIC charter without reviewing task estimates, dependencies, resource availability or a concern the Black Belt held about feasibility. By week five, the team is still in Analyze. What planning control was missing, and how should the MBB respond?",
+      "options": [
+        "Replace the Black Belt because the late phase alone proves insufficient competence, retaining the six-week baseline without reviewing its scope, dependencies or resource assumptions.",
+        "Extend the completion date indefinitely and keep the original scope and benefit forecast, avoiding a formal change decision because the initial estimate has already been missed.",
+        "Require transparent, evidence-based feasibility review at chartering; now reassess scope, dependencies, resources and risks with the sponsor and approve a justified recovery plan or revised baseline.",
+        "Keep the deadline and remove the remaining validation activities, assuming schedule adherence is the most reliable indication that the original charter was feasible."
+      ],
+      "why": "The missing control is an explicit feasibility review, including estimates, dependencies, capacity and honest concerns, before commitment. The Black Belt's private doubt is relevant input but not proof of a particular completion date. Current progress triggers evidence-based recovery and change approval, not blame, indefinite extension or weakened validation. A shorter scope or added resources may help only where the schedule and technical dependencies permit.",
+      "optionRationales": [
+        "Being in Analyze at week five does not establish individual incompetence or validate the original plan.",
+        "An open-ended extension without scope, value and resource review is not a controlled recovery plan.",
+        "Correct. It repairs the planning and approval process using current evidence and explicit tradeoffs.",
+        "Removing necessary validation can meet a date on paper while invalidating the promised improvement."
+      ],
+      "trap": "Surface feasibility concerns with evidence before commitment. Recovery requires an approved scope–time–resource tradeoff; neither private doubt nor current phase alone proves the exact duration required.",
+      "bok": "III.A.1; III.C.1",
+      "findings": [
+        "Timeline inevitability overclaim",
+        "Missing evidence-based recovery control",
+        "Length-cued distractors"
+      ],
+      "chart": null,
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "III.A.1; III.C.1"
+        }
+      ]
+    }
+  ]
+}
