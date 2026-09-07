@@ -1,0 +1,117 @@
+name: Final175 recovery and acceptance
+on:
+  push:
+    branches: ['automation/mbb-set3-final175']
+    paths: ['.github/workflows/mbb-set3-final175-recovery.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prepare:
+    permissions: {contents: write}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: |
+          python3 audit-staging/final175-save-recovery.py
+          npm ci
+          node --test --test-concurrency=1 tests/test-bank-mbb-set3-final-student.test.js
+      - id: commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add test-bank.html tests/test-bank-mbb-set3-final-student.test.js
+          git diff --cached --check
+          git commit -m 'fix: announce failed completion and prevent changes to expired exam answers'
+          git push origin HEAD:refs/heads/automation/mbb-set3-final175
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          mkdir -p /tmp/final175-source
+          git rev-parse HEAD > /tmp/final175-source/commit.txt
+          git diff a826d62780928256df12f905501a76a372e803d5 -- test-bank-mbb-set3.js test-bank.html test-bank-feedback-loop.js test-bank-deep-feedback.js test-bank-phase2-quality-assurance.js test-bank-retake-runner.js tests scripts/stress-mbb-set3-final175.mjs scripts/stress-mbb-set3-edge-cases.mjs > /tmp/final175-source/reviewed.patch
+          tar --exclude=.git --exclude=node_modules -czf /tmp/final175-source/repository.tar.gz .
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: final175-reviewed-source, path: /tmp/final175-source, retention-days: 14}
+  regression:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ needs.prepare.outputs.sha }}'}
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: npm ci
+      - run: |
+          mkdir -p final175-results
+          git rev-parse HEAD > final175-results/tested-commit.txt
+          set -o pipefail
+          node --test --test-concurrency=1 tests/*.test.js | tee final175-results/full-suite.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: final175-regression, path: final175-results, retention-days: 14}
+  browsers:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {engine: chromium, layout: desktop, mixed: '0', width: '1440', label: chromium-desktop}
+          - {engine: chromium, layout: mobile, mixed: '0', width: '390', label: chromium-mobile}
+          - {engine: webkit, layout: desktop, mixed: '0', width: '1440', label: webkit-desktop}
+          - {engine: webkit, layout: mobile, mixed: '0', width: '390', label: webkit-mobile}
+          - {engine: chromium, layout: mobile, mixed: '1', width: '320', label: mixed-chromium}
+          - {engine: webkit, layout: mobile, mixed: '1', width: '320', label: mixed-webkit}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ needs.prepare.outputs.sha }}'}
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: |
+          npm ci
+          npm install --no-save --package-lock=false playwright @axe-core/playwright
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: ${{ matrix.layout }}
+          AUDIT_MIXED: ${{ matrix.mixed }}
+          AUDIT_WIDTH: ${{ matrix.width }}
+          AUDIT_AXE: '1'
+          AUDIT_SOURCE: ${{ needs.prepare.outputs.sha }}
+        run: node scripts/stress-mbb-set3-final175.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: 'final175-${{ matrix.label }}', path: audit-results-final175, retention-days: 14}
+  edges:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix: {engine: [chromium, webkit]}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ needs.prepare.outputs.sha }}'}
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: |
+          npm ci
+          npm install --no-save --package-lock=false playwright @axe-core/playwright
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: mobile
+          AUDIT_WIDTH: '320'
+          AUDIT_SOURCE: ${{ needs.prepare.outputs.sha }}
+        run: node scripts/stress-mbb-set3-edge-cases.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: 'final175-edges-${{ matrix.engine }}', path: audit-results-final175-edges, retention-days: 14}
