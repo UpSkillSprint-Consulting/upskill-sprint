@@ -1,0 +1,133 @@
+name: Integrate and validate MBB Set 3 Batch 5
+on:
+  push:
+    branches: ['automation/mbb-set3-batch5']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mbb-set3-batch5-integrate
+  cancel-in-progress: true
+jobs:
+  integrate:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare and precompile reviewed staging
+        run: |
+          cp -R audit-staging /tmp/mbb5-staging
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('/tmp/mbb5-staging/batch5-tests.py')
+          p.write_text(p.read_text().replace("'mbb-advanced'","'mbb-analytics'"))
+          for p in Path('/tmp/mbb5-staging').glob('*.py'):
+              compile(p.read_text(),str(p),'exec')
+          PY
+      - name: Apply only to the unchanged authorized review head
+        run: |
+          git fetch origin audit/mbb-set3-batch1-q001-q025
+          test "$(git rev-parse FETCH_HEAD)" = '3194498cc4ce96765aef172afe09056a282ab458'
+          git checkout --detach FETCH_HEAD
+          python3 - <<'PY'
+          from pathlib import Path
+          ns={}
+          for name in ['batch5-content.py','batch5-integrate.py']:
+              p=Path('/tmp/mbb5-staging')/name
+              exec(compile(p.read_text(),str(p),'exec'),ns)
+          PY
+          node --check test-bank-mbb-set3.js
+          node --check test-bank-mbb-set3-batch5-ui.js
+          node --check tests/test-bank-mbb-set3-batch5-audit.test.js
+          node --check scripts/audit-mbb-set3-batch5.mjs
+      - name: Commit only reviewed application, tests and evidence; no merge or deployment
+        id: commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add test-bank-mbb-set3.js test-bank-mbb-set3-batch5-ui.js test-bank.html test-bank-feedback-loop.js tests/test-bank-mbb-set3-batch1-audit.test.js tests/test-bank-mbb-set3-batch2-audit.test.js tests/test-bank-mbb-set3-batch3-audit.test.js tests/test-bank-mbb-set3-batch4-audit.test.js tests/test-bank-mbb-set3-batch5-audit.test.js scripts/audit-mbb-set3-batch5.mjs docs/audits/mbb-set3-batch05
+          git diff --cached --check
+          git commit -m 'fix: audit MBB Set 3 Q101–125; reconcile MSA, capability, SPC and sampling visuals'
+          git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Export exact workspace and normalized generators
+        if: always()
+        run: |
+          mkdir -p /tmp/mbb5-workspace
+          git rev-parse HEAD > /tmp/mbb5-workspace/commit.txt
+          git archive --format=tar HEAD | gzip > /tmp/mbb5-workspace/repository.tar.gz
+          tar -czf /tmp/mbb5-workspace/staging.tar.gz -C /tmp mbb5-staging
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch5-workspace
+          path: /tmp/mbb5-workspace
+          retention-days: 14
+  regression:
+    needs: integrate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.integrate.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Independent calculations, preservation and all-option player grading
+        run: |
+          mkdir -p audit-results-batch5
+          git rev-parse HEAD > audit-results-batch5/tested-commit.txt
+          set -o pipefail
+          node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch5-audit.test.js | tee audit-results-batch5/batch5-tests.txt
+      - name: Complete repository regression
+        run: timeout 900 node --test --test-concurrency=2 tests/*.test.js > audit-results-batch5/full-regression.txt 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch5-regression
+          path: audit-results-batch5
+          retention-days: 14
+  browsers:
+    needs: integrate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+        layout: [desktop, mobile]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.integrate.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Answer and reopen all 25 items and inspect all nine statistical visuals
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: ${{ matrix.layout }}
+        run: |
+          mkdir -p audit-results-batch5
+          git rev-parse HEAD > audit-results-batch5/tested-commit.txt
+          node scripts/audit-mbb-set3-batch5.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch5-${{ matrix.engine }}-${{ matrix.layout }}
+          path: audit-results-batch5
+          retention-days: 14
