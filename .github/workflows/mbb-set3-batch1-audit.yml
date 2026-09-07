@@ -7,7 +7,7 @@ permissions:
   contents: write
 concurrency:
   group: mbb-set3-batch1-audit
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   audit:
     runs-on: ubuntu-latest
@@ -18,45 +18,43 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-      - name: Apply reviewed batch without touching Q26 onward
-        if: hashFiles('.audit-mbb-set3-batch1.part1') != ''
+      - name: Apply reviewed scoped integration
+        if: hashFiles('.audit-mbb-set3-integrate.cjs') != ''
         run: |
+          node .audit-mbb-set3-integrate.cjs
           node <<'NODE'
-          const fs=require('node:fs'),z=require('node:zlib'),vm=require('node:vm'),crypto=require('node:crypto'),assert=require('node:assert/strict');
-          const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
-          let payload=[1,2,3].map(n=>fs.readFileSync('.audit-mbb-set3-batch1.part'+n,'utf8').trim()).join('');
-          payload=payload.replace('HD/s8Pvoc','HD84Pvoc');
-          assert.equal(hash(payload),'f6fd5200680af6c59f5f0417c3fd9ba0f182c4291ae810adf18ea8f8932b165a','Reviewed payload integrity');
-          const revised=JSON.parse(z.gunzipSync(Buffer.from(payload,'base64')));
-          const file='test-bank-mbb-set3.js',s=fs.readFileSync(file,'utf8'),ctx={window:{}};
-          vm.runInNewContext(s,ctx); const before=JSON.parse(JSON.stringify(ctx.window.MBB_SET3));
-          assert.equal(before.length,175); assert.equal(revised.length,25);
-          revised.forEach((q,i)=>{for(const k of ['qid','sub','set','answer'])assert.equal(q[k],before[i][k]);assert.equal(q.optionRationales.length,4);});
-          const starts=[...s.matchAll(/^  \{$/gm)].map(m=>m.index); assert.equal(starts.length,175);
-          const suffix=s.slice(starts[25]); assert.equal(hash(suffix),'b55c09425e0b5c6a706127aa9eb5181a58e0983690b880b65113fe63e3014025');
-          const formatted=revised.map(q=>JSON.stringify(q,null,2).split('\n').map(l=>'  '+l).join('\n')).join(',\n')+',\n';
-          const result=s.slice(0,starts[0])+formatted+suffix;
-          const afterCtx={window:{}};vm.runInNewContext(result,afterCtx);
-          assert.deepEqual(JSON.parse(JSON.stringify(afterCtx.window.MBB_SET3)).slice(25),before.slice(25));
-          fs.writeFileSync(file,result);for(let n=1;n<=3;n++)fs.unlinkSync('.audit-mbb-set3-batch1.part'+n);
-          console.log('Applied 25 independently reviewed questions; 150 remaining questions byte-preserved.');
+          const fs=require('node:fs'),assert=require('node:assert/strict');
+          const f='scripts/audit-mbb-set3-batch1.mjs';let s=fs.readFileSync(f,'utf8');
+          const old='getUser:()=>({id:"audit-set3-isolated"}),getClient:';
+          const replacement='isConfigured:()=>true,onChange:(cb)=>{queueMicrotask(()=>cb({id:"audit-set3-isolated"}));return ()=>{};},getUser:()=>({id:"audit-set3-isolated"}),getClient:';
+          assert.ok(s.includes(old));s=s.replace(old,replacement);
+          s=s.replace("await page.screenshot({path:path.join(out,label+'-'+theme+'.png'),fullPage:true})","await page.locator('.tb-quiz').screenshot({path:path.join(out,label+'-'+theme+'.png')})");
+          fs.writeFileSync(f,s);
           NODE
+          rm .audit-mbb-set3-integrate.cjs
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add test-bank-mbb-set3.js .audit-mbb-set3-batch1.part1 .audit-mbb-set3-batch1.part2 .audit-mbb-set3-batch1.part3
-          git commit -m 'fix: audit and correct MBB Set 3 questions 1–25'
+          git add test-bank-mbb-set3.js test-bank.html test-bank-feedback-loop.js scripts/audit-mbb-set3-batch1.mjs .audit-mbb-set3-integrate.cjs
+          git commit -m 'fix: integrate accessible Set 3 batch 1 presentation and feedback'
           git push origin HEAD:audit/mbb-set3-batch1-q001-q025
       - run: npm ci
-      - name: Existing Set 3 regression
-        run: node --test tests/test-bank-mbb-set3.test.js
+      - name: Batch 1 independent and existing Set 3 regression
+        run: |
+          mkdir -p audit-results
+          set -o pipefail
+          node --test tests/test-bank-mbb-set3.test.js tests/test-bank-mbb-set3-batch1-audit.test.js | tee audit-results/set3-tests.txt
+      - name: Complete repository regression
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          timeout 600 npm test > audit-results/full-regression.txt 2>&1
       - name: Capture current published baseline
         continue-on-error: true
         run: |
-          mkdir -p audit-results
           curl --fail --location --max-time 45 https://upskillsprint.com/test-bank-mbb-set3.js -o audit-results/published-set3.js
           sha256sum audit-results/published-set3.js test-bank-mbb-set3.js > audit-results/source-hashes.txt
       - name: Browser validation
-        if: hashFiles('scripts/audit-mbb-set3-batch1.mjs') != ''
+        if: always()
         run: |
           npm install --no-save --package-lock=false playwright @axe-core/playwright
           npx playwright install --with-deps chromium webkit
