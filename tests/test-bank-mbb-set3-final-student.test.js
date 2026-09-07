@@ -55,3 +55,15 @@ test('Final audit allows only the documented Q1 hint repair; every other questio
  const source=read('test-bank-mbb-set3.js');
  assert.equal(crypto.createHash('sha256').update(source.replace("Test the stated linkage between the clinical IT weakness and reimbursement exposure. A plausible strategic story is not a substitute for the documented mechanism.","Test both stated decision criteria: customer convenience and the documented reimbursement mechanism. A plausible strategic story is not a substitute for that evidence.")).digest('hex'),"606c8ba8732d51b74640575e44930a88ed4e949861cf55c463eccd07819e35a2");
 });
+
+test('review navigation avoids smooth-scroll races and related Set 3 practice retains the correct reference',async()=>{
+ const p=await player();try{const {w,click}=p;click('[data-goto="174"]');click('[data-submit]');await wait(60);click('[data-open-review="all"]');click('[data-review-tab="correct"]');w.eval(read('test-bank-deep-feedback.js'));await wait(30);
+ const header=w.document.querySelector('header.site');header.getBoundingClientRect=()=>({height:84});let scroll;
+ const element=w.document.createElement('div');element.scrollIntoView=o=>scroll=o;w.__TBFeedbackPresentation.scrollTo(element);assert.equal(scroll.behavior,'instant');assert.equal(scroll.block,'start');assert.equal(element.style.scrollMarginTop,'100px');
+ // Constrain this practice fixture to the audited bank, not unaudited Sets 1/2.
+ w.__TB.EXAMS.mbb.bank=bank;w.__TB.EXAMS.mbb.sets={3:bank};if(w.__TBQuestionRegistry)w.__TBQuestionRegistry.questionsFor=()=>bank;
+ click('[data-review-goto="0"]');const source=w.document.querySelector('.tb-review-card').dataset.questionId;click('[data-practice-similar="'+source+'"]');
+ for(let i=0;i<5;i++){const panel=w.document.querySelector('#tb-similar-practice'),q=bank.find(q=>q.qid===panel.dataset.questionId);assert.ok(q);click('[data-similar-opt="'+q.answer+'"]');click('[data-similar-check]');const a=panel.querySelector('.tb-review-reference'),ref=q.auditSources[1]||q.auditSources[0];assert.ok(a);assert.equal(a.href,ref.url);assert.equal(a.target,'_blank');click('[data-similar-next]');}
+ assert.match(w.document.querySelector('#tb-similar-practice').textContent,/Subtopic reinforced/);click('[data-close-similar]');assert.equal(w.document.querySelector('#tb-answer-review').hidden,false);assert.deepEqual(p.errors,[]);
+ }finally{await wait(40);p.w.close();}
+});

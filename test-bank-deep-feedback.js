@@ -450,7 +450,8 @@
     if (!items.length) {
       panel.hidden = false;
       panel.innerHTML = '<div class="tb-review-empty">No additional validated questions are available for this subtopic yet.</div><button type="button" class="tb-ghost" data-close-similar>Return to review</button>';
-      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (window.__TBFeedbackPresentation) window.__TBFeedbackPresentation.scrollTo(panel);
+      else panel.scrollIntoView({behavior:'instant',block:'start'});
       return;
     }
     similarState = { source: question, items: items, index: 0, selected: null, checked: false, answers: [] };
@@ -467,7 +468,7 @@
       if (similarState.checked && similarState.selected === index && index !== question.answer) classes.push('wrong');
       return '<button type="button" class="' + classes.join(' ') + '" data-similar-opt="' + index + '"' + (similarState.checked ? ' disabled' : '') + '><span>' + String.fromCharCode(65 + index) + '</span>' + esc(option) + '</button>';
     }).join('');
-    const feedback = similarState.checked ? '<div class="tb-similar-feedback"><strong>' + (similarState.selected === question.answer ? 'Correct.' : 'Not quite. The correct answer is ' + esc(answerText(question, question.answer)) + '.') + '</strong><p>' + (question.why || 'A validated explanation is not available yet.') + '</p><div class="tb-deep-label">Key learning point</div><p>' + esc(questionKeyPoint(question)) + '</p><a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a></div>' : '';
+    const feedback = similarState.checked ? '<div class="tb-similar-feedback"><strong>' + (similarState.selected === question.answer ? 'Correct.' : 'Not quite. The correct answer is ' + esc(answerText(question, question.answer)) + '.') + '</strong><p>' + (question.why || 'A validated explanation is not available yet.') + '</p><div class="tb-deep-label">Key learning point</div><p>' + esc(questionKeyPoint(question)) + '</p>'+ (window.__TBFeedbackPresentation ? window.__TBFeedbackPresentation.referenceHtml(question, meta) : '<a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a>') + '</div>' : '';
     return '<div class="tb-retry-head"><div><div class="tb-diag-kick">Same-subtopic practice</div><h3>Practise similar questions</h3></div><span class="tb-badge2">' + (similarState.index + 1) + ' of ' + similarState.items.length + '</span></div>' +
       '<div class="tb-retry-topic">' + esc(meta.domainName) + ' &rsaquo; ' + esc(meta.subName) + '</div>' + reviewQuestionContent(question) + '<div class="tb-similar-options">' + options + '</div>' + feedback +
       '<div class="tb-retry-actions">' + (similarState.checked ? '<button type="button" class="btn btn-teal" data-similar-next>' + (similarState.index === similarState.items.length - 1 ? 'See practice results' : 'Next question') + '</button>' : '<button type="button" class="btn btn-teal" data-similar-check' + (similarState.selected == null ? ' disabled' : '') + '>Check answer</button>') + '<button type="button" class="tb-ghost" data-close-similar>Return to review</button></div>';
@@ -488,7 +489,8 @@
     const review = document.getElementById('tb-answer-review');
     if (review) review.hidden = true;
     panel.innerHTML = similarState.index >= similarState.items.length ? similarSummaryHtml() : similarQuestionHtml();
-    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (window.__TBFeedbackPresentation) window.__TBFeedbackPresentation.scrollTo(panel);
+      else panel.scrollIntoView({behavior:'instant',block:'start'});
   }
 
   function closeSimilar() {
@@ -497,7 +499,8 @@
     const review = document.getElementById('tb-answer-review');
     if (review) {
       review.hidden = false;
-      review.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (window.__TBFeedbackPresentation) window.__TBFeedbackPresentation.scrollTo(review);
+      else review.scrollIntoView({behavior:'instant',block:'start'});
     }
   }
 

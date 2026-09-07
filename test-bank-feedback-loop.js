@@ -287,6 +287,19 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
     return '<a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a>';
   }
 
+  // Replacement review cards can be much taller than the viewport. Position
+  // the top deterministically below the sticky header; do not leave a smooth
+  // scroll racing the learner's next disclosure or keyboard action.
+  function scrollFeedbackTo(element) {
+    if (!element || typeof element.scrollIntoView !== 'function') return;
+    const header = document.querySelector('header.site');
+    const offset = header ? Math.max(0, header.getBoundingClientRect().height) + 16 : 16;
+    document.documentElement.style.setProperty('--tb-review-header-offset', offset + 'px');
+    element.style.scrollMarginTop = offset + 'px';
+    element.scrollIntoView({behavior: 'instant', block: 'start', inline: 'nearest'});
+  }
+  window.__TBFeedbackPresentation = Object.freeze({referenceHtml: reviewReferenceHtml, scrollTo: scrollFeedbackTo});
+
   function reviewCardHtml(record) {
     const question = record.question;
     const status = statusOf(record);
@@ -363,7 +376,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
     list.innerHTML = reviewCardHtml(record);
     document.dispatchEvent(new CustomEvent('tb:review-rendered', {detail: {root: list}}));
     const card = list.querySelector('.tb-review-card');
-    if (card && typeof card.scrollIntoView === 'function') card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    scrollFeedbackTo(card);
   }
 
   function renderReview(filter) {
@@ -391,7 +404,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
       : '<div class="tb-review-empty">No questions match this filter.</div>';
 
     document.dispatchEvent(new CustomEvent('tb:review-rendered', {detail: {root: list}}));
-    if (typeof review.scrollIntoView === 'function') review.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollFeedbackTo(review);
   }
 
   function retryQuestionHtml(record, index, total) {
@@ -457,7 +470,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
     } else {
       panel.innerHTML = retryQuestionHtml(retryState.items[retryState.index], retryState.index, retryState.items.length);
     }
-    if (typeof panel.scrollIntoView === 'function') panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollFeedbackTo(panel);
   }
 
   function startRetryMissed() {
@@ -515,6 +528,8 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
     const style = document.createElement('style');
     style.id = STYLE_ID;
     style.textContent = `
+      html:has(#tb-feedback-loop){scroll-behavior:auto}
+      .tb-review-card summary,.tb-review-card button,.tb-review-card select,.tb-review-reference{scroll-margin-top:var(--tb-review-header-offset,100px);scroll-margin-bottom:18px}
       .tb-review-reference{max-width:100%;overflow-wrap:anywhere;line-height:1.6}
       .tb-feedback-loop{margin:0 0 26px;padding:20px;border:1px solid var(--teal);border-radius:12px;background:linear-gradient(180deg,color-mix(in srgb,var(--teal) 7%,var(--card)),var(--card))}
       .tb-feedback-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.tb-feedback-head h2{font-family:"Source Serif 4",serif;font-size:22px;color:var(--ink);margin:2px 0 7px}.tb-feedback-head p{max-width:70ch;margin:0;color:var(--muted);font-size:13.5px;line-height:1.55}
