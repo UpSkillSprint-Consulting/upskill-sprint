@@ -17,65 +17,50 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Normalize and precompile the reviewed staging generators
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-          p=Path('audit-staging/batch4-integrate.py')
-          s=p.read_text().replace("investigated'))))]:","investigated')))]:")
-          old="bank=json.JSONDecoder().raw_decode(source[source.index('global.MBB_SET3=')+len('global.MBB_SET3='):])[0]"
-          new="bank=json.loads(subprocess.check_output(['node','-e',\"const fs=require('fs'),vm=require('vm'),c={window:{}};vm.runInNewContext(fs.readFileSync('test-bank-mbb-set3.js','utf8'),c);console.log(JSON.stringify(c.window.MBB_SET3));\"],text=True))"
-          assert old in s or new in s
-          s=s.replace(old,new)
-          p.write_text(s)
-          for name in ['batch4-content-a.py','batch4-content-b.py','batch4-integrate.py']:
-              p=Path('audit-staging')/name
-              compile(p.read_text(),str(p),'exec')
-          PY
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add audit-staging/batch4-integrate.py
-          if ! git diff --cached --quiet; then
-            git commit -m 'fix: parse JS bank with Node VM rather than strict JSON'
-            git push origin HEAD:refs/heads/automation/mbb-set3-batch4
-          fi
-          cp -R audit-staging /tmp/mbb4-staging
-      - name: Apply reviewed edits only to the unchanged PR170 baseline
+      - name: Apply the visually confirmed repair only to the reviewed PR head
         run: |
           git fetch origin audit/mbb-set3-batch1-q001-q025
-          test "$(git rev-parse FETCH_HEAD)" = 'f137be91f2f0f57bddfe27e6e649b0c81666d86c'
+          test "$(git rev-parse FETCH_HEAD)" = '15a8b840aa514b8a1be0f2dbfd39c5296bb40dc8'
           git checkout --detach FETCH_HEAD
           python3 - <<'PY'
           from pathlib import Path
-          ns={}
-          for name in ['batch4-content-a.py','batch4-content-b.py','batch4-integrate.py']:
-              p=Path('/tmp/mbb4-staging')/name
-              exec(compile(p.read_text(),str(p),'exec'),ns)
+          import re
+          p=Path('test-bank-mbb-set3.js');s=p.read_text()
+          old='Cash outlays total $350,000+$40,000+$15,000+$20,000=$425,000.'
+          new='Cash outlays total $350,000 + $40,000 + $15,000 + $20,000 = $425,000.'
+          assert s.count(old)==1
+          starts=[m.start() for m in re.finditer(r'^  \{$',s,re.M)]
+          before=s[:starts[75]];after=s[starts[100]:]
+          p.write_text(s.replace(old,new))
+          t=p.read_text();starts2=[m.start() for m in re.finditer(r'^  \{$',t,re.M)]
+          assert t[:starts2[75]]==before and t[starts2[100]:]==after
+          for name in ['revisions.json','question-audit-tracker.json']:
+              p=Path('docs/audits/mbb-set3-batch04')/name;s=p.read_text();assert old in s;p.write_text(s.replace(old,new))
+          p=Path('test-bank-mbb-set3-batch4-ui.js');s=p.read_text();anchor='`;document.head.appendChild(style);';assert s.count(anchor)==1
+          s=s.replace(anchor,'.tb-review-card:has(.mbbs3b4-question) .tb-key-point,.tb-review-card:has(.mbbs3b4-question) .tb-exam-trap{overflow-wrap:anywhere;min-width:0}\n'+anchor);p.write_text(s)
+          p=Path('scripts/audit-mbb-set3-batch4.mjs');s=p.read_text();assert '.tb-explanation-copy,th,td,dd' in s
+          s=s.replace('.tb-explanation-copy,th,td,dd','.tb-explanation-copy,.tb-key-point,.tb-exam-trap,.tb-deep-label,.tb-accuracy-note,th,td,dd')
+          old='if(keyboardScroll.needed){await page.waitForTimeout(150);assert.ok(await area.evaluate(e=>e.scrollLeft>0));}'
+          new='if(keyboardScroll.needed){await page.waitForTimeout(150);keyboardScroll.moved=await area.evaluate(e=>e.scrollLeft>0);assert.ok(keyboardScroll.moved);}'
+          assert s.count(old)==1;s=s.replace(old,new);p.write_text(s)
           PY
           node --check test-bank-mbb-set3.js
           node --check test-bank-mbb-set3-batch4-ui.js
           node --check scripts/audit-mbb-set3-batch4.mjs
-          node --check tests/test-bank-mbb-set3-batch4-audit.test.js
-      - name: Commit only Batch 4 application, tests and evidence to the review branch
+      - name: Commit the verified scope to the review branch without merging
         id: commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add test-bank-mbb-set3.js test-bank-mbb-set3-batch4-ui.js test-bank.html test-bank-feedback-loop.js tests/test-bank-mbb-set3-batch1-audit.test.js tests/test-bank-mbb-set3-batch2-audit.test.js tests/test-bank-mbb-set3-batch3-audit.test.js tests/test-bank-mbb-set3-batch4-audit.test.js scripts/audit-mbb-set3-batch4.mjs docs/audits/mbb-set3-batch04
+          git add test-bank-mbb-set3.js test-bank-mbb-set3-batch4-ui.js scripts/audit-mbb-set3-batch4.mjs docs/audits/mbb-set3-batch04/revisions.json docs/audits/mbb-set3-batch04/question-audit-tracker.json
           git diff --cached --check
-          git commit -m 'fix: audit MBB Set 3 Q76–100; correct finance, training inference, governance and feedback'
+          git commit -m 'fix: wrap Q77 learning-point arithmetic and verify all expanded feedback regions'
           git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      - name: Export exact workspace for evidence inspection
-        if: always()
-        run: |
           mkdir -p /tmp/mbb4-workspace
           git rev-parse HEAD > /tmp/mbb4-workspace/commit.txt
-          tar --exclude=.git -czf /tmp/mbb4-workspace/repository.tar.gz .
-          cp -R /tmp/mbb4-staging /tmp/mbb4-workspace/staging
+          git archive --format=tar HEAD | gzip > /tmp/mbb4-workspace/repository.tar.gz
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: mbb-set3-batch4-workspace
           path: /tmp/mbb4-workspace
@@ -127,7 +112,7 @@ jobs:
       - run: npm ci
       - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
       - run: npx playwright install --with-deps ${{ matrix.engine }}
-      - name: Every item and answer review in both themes, including both tables
+      - name: Every item and expanded feedback in both themes; verify both tables
         env:
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: ${{ matrix.layout }}
