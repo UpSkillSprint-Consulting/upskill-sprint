@@ -1,0 +1,57 @@
+name: Final 175-question student stress test
+on:
+  push:
+    branches: ['automation/mbb-set3-final175']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browsers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+        layout: [desktop, mobile]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Full student session, every question and every review
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: ${{ matrix.layout }}
+          AUDIT_SOURCE: a826d62780928256df12f905501a76a372e803d5
+        run: |
+          mkdir -p audit-results-final175
+          git rev-parse HEAD > audit-results-final175/tested-commit.txt
+          node scripts/stress-mbb-set3-final175.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final175-${{ matrix.engine }}-${{ matrix.layout }}
+          path: audit-results-final175
+          retention-days: 14
+  workspace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: |
+          mkdir -p /tmp/final175-workspace
+          tar --exclude=.git -czf /tmp/final175-workspace/repository-with-dependencies.tar.gz .
+          git rev-parse HEAD > /tmp/final175-workspace/commit.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: final175-workspace
+          path: /tmp/final175-workspace
+          retention-days: 14
