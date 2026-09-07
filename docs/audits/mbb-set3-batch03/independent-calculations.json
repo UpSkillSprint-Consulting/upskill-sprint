@@ -1,0 +1,124 @@
+{
+  "Q62": {
+    "loadsHoursPerWeek": [
+      30,
+      20,
+      10,
+      30
+    ],
+    "capacityPerBelt": 20,
+    "totalDemand": 90,
+    "totalCapacity": 80,
+    "aggregateShortfall": 10,
+    "localOverload": [
+      10,
+      0,
+      0,
+      10
+    ],
+    "localSpare": [
+      0,
+      0,
+      10,
+      0
+    ]
+  },
+  "Q63": {
+    "ratioM": 2.0,
+    "ratioN": 1.5,
+    "firstYearNetM": 150000,
+    "firstYearNetN": 300000,
+    "difference": 150000
+  },
+  "Q64": {
+    "earliestCompletionDays": 7,
+    "criticalActivities": [
+      "Design review",
+      "Readiness review"
+    ],
+    "supplierTotalFloatDays": 2,
+    "materialTotalFloatDays": 3,
+    "milestoneDuration": 0
+  },
+  "Q70": {
+    "indices": [
+      1.9,
+      1.88,
+      1.8
+    ],
+    "allSubsets": [
+      {
+        "projects": [],
+        "investment": 0,
+        "npv": 0,
+        "feasibleAt500k": true
+      },
+      {
+        "projects": [
+          1
+        ],
+        "investment": 200000,
+        "npv": 180000,
+        "feasibleAt500k": true
+      },
+      {
+        "projects": [
+          2
+        ],
+        "investment": 250000,
+        "npv": 220000,
+        "feasibleAt500k": true
+      },
+      {
+        "projects": [
+          1,
+          2
+        ],
+        "investment": 450000,
+        "npv": 400000,
+        "feasibleAt500k": true
+      },
+      {
+        "projects": [
+          3
+        ],
+        "investment": 300000,
+        "npv": 240000,
+        "feasibleAt500k": true
+      },
+      {
+        "projects": [
+          1,
+          3
+        ],
+        "investment": 500000,
+        "npv": 420000,
+        "feasibleAt500k": true
+      },
+      {
+        "projects": [
+          2,
+          3
+        ],
+        "investment": 550000,
+        "npv": 460000,
+        "feasibleAt500k": false
+      },
+      {
+        "projects": [
+          1,
+          2,
+          3
+        ],
+        "investment": 750000,
+        "npv": 640000,
+        "feasibleAt500k": false
+      }
+    ],
+    "optimum": [
+      1,
+      3
+    ],
+    "optimumNPV": 420000
+  }
+}

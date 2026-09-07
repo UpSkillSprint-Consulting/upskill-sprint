@@ -450,6 +450,7 @@
 <script src="/test-bank-mbb-set3.js"></script>
 <script src="/test-bank-mbb-set3-batch1-ui.js"></script>
 <script src="/test-bank-mbb-set3-batch2-ui.js"></script>
+<script src="/test-bank-mbb-set3-batch3-ui.js"></script>
 <script src="/test-bank-cssgb-set1.js"></script>
 <script src="/test-bank-cssgb-set2.js"></script>
 <script>
@@ -3731,6 +3732,7 @@
   }
   function renderQuestionContent(q,review){
     if(!q)return '';
+    if(window.__MBBSet3Batch3UI&&window.__MBBSet3Batch3UI.isQuestion(q))return window.__MBBSet3Batch3UI.render(q,review);
     if(window.__MBBSet3Batch2UI&&window.__MBBSet3Batch2UI.isQuestion(q))return window.__MBBSet3Batch2UI.render(q,review);
     if(window.__MBBSet3Batch1UI&&window.__MBBSet3Batch1UI.isQuestion(q))return window.__MBBSet3Batch1UI.render(q,review);
     var b1=window.__TBMbbBatch1Review;
@@ -4397,6 +4399,7 @@
     var host=document.getElementById('tb-overview');
     if(window.__MBBSet3Batch1UI)window.__MBBSet3Batch1UI.wire(host);
     if(window.__MBBSet3Batch2UI)window.__MBBSet3Batch2UI.wire(host);
+    if(window.__MBBSet3Batch3UI)window.__MBBSet3Batch3UI.wire(host);
     if(window.__TBMbbBatch1Review)window.__TBMbbBatch1Review.wire(host);
     Array.prototype.forEach.call(host.querySelectorAll('[data-tb-whatif]'),function(slider){
       var update=function(){var value=Number(slider.value),committed=Number(slider.dataset.committed||0),container=slider.closest('.tb-chart-whatif');if(!container)return;var shown=container.querySelector('[data-tb-whatif-value]'),remaining=container.querySelector('[data-tb-whatif-remaining]');if(shown)shown.textContent=String(value);if(remaining)remaining.textContent=String(value-committed);};
