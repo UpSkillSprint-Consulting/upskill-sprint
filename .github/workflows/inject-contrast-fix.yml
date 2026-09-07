@@ -1,89 +1,74 @@
-name: Inject site contrast fix
+name: Prepare site contrast fix for review
 
+# Maintenance must not append untested commits to an approved pull request.
+# Run manually for one real page, then review the artifact in a normal PR.
 on:
-  push:
-    paths:
-      - '.github/workflows/inject-contrast-fix.yml'
-      - 'contrast-fix.js'
   workflow_dispatch:
+    inputs:
+      page:
+        description: 'Repository-relative HTML page to propose updating'
+        required: true
+        type: string
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  inject:
+  prepare:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-
-      - name: Inject contrast script into site pages
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - name: Prepare a single-page patch without changing a branch
+        env:
+          CONTRAST_PAGE: ${{ inputs.page }}
         run: |
           python - <<'PY'
           from pathlib import Path
+          import os
           import re
 
-          script_tag = '<script src="/contrast-fix.js"></script>'
-          injected_expression = "'<script src=\"/contrast-fix.js\"><\\/script></body>'"
-          changed = []
-
-          for path in Path('.').rglob('*.html'):
-              if any(part.startswith('.') for part in path.parts):
-                  continue
-
-              text = path.read_text(encoding='utf-8')
-              original = text
-
-              # Repair the malformed first-pass injection, if present.
-              broken = re.compile(
-                  r"document\.write\((finalHtml|html)\.replace\(" 
-                  r"'<script src=\"/contrast-fix\.js\"></script>\s*</body>',\s*"
-                  r"'<script src=\"/contrast-fix\.js\"><\\/script></body>'\)\);",
-                  re.S,
-              )
-              text = broken.sub(
-                  lambda match: "document.write(" + match.group(1) + ".replace('</body>', " + injected_expression + "));",
-                  text,
-              )
-
-              # Dynamic tools replace the wrapper document after decompressing their payload.
-              # Inject the contrast script into that generated document as well.
-              for variable in ('finalHtml', 'html'):
-                  plain = f'document.write({variable});'
-                  replacement = f"document.write({variable}.replace('</body>', {injected_expression}));"
-                  if plain in text:
-                      text = text.replace(plain, replacement)
-
-              # Standard pages load the repair directly. Use the final closing body tag so
-              # JavaScript string literals containing </body> are never modified.
-              direct_script_at_end = re.search(
-                  r'<script src="/contrast-fix\.js"></script>\s*</body>\s*</html>\s*$',
-                  text,
-                  re.S,
-              )
-              if not direct_script_at_end:
-                  closing_body = text.lower().rfind('</body>')
-                  if closing_body >= 0:
-                      text = text[:closing_body] + script_tag + '\n' + text[closing_body:]
-
-              if text != original:
-                  path.write_text(text, encoding='utf-8')
-                  changed.append(str(path))
-
-          print('Updated pages:')
-          for item in changed:
-              print(' -', item)
+          path = Path(os.environ['CONTRAST_PAGE'])
+          excluded = {'test-bank-assets', 'tests', 'docs', 'source-assets', 'vendor', 'node_modules', 'downloads'}
+          if path.is_absolute() or '..' in path.parts or any(part.startswith('.') or part in excluded for part in path.parts):
+              raise SystemExit('Choose a real repository page, not a generated asset or test fixture.')
+          if path.suffix.lower() != '.html' or not path.is_file() or path.is_symlink():
+              raise SystemExit('The page must be an existing regular HTML file.')
+          if not path.resolve().is_relative_to(Path.cwd().resolve()):
+              raise SystemExit('The page must remain inside the repository.')
+          text = path.read_bytes().decode('utf-8')
+          if not re.search(r'<!doctype\s+html', text, re.I) or not re.search(r'<body\b', text, re.I):
+              raise SystemExit('HTML fragments are not eligible for script injection.')
+          if re.search(r'document\.write\s*\(', text):
+              raise SystemExit('Dynamic document wrappers require an individually reviewed integration.')
+          if not re.search(r'<script\b[^>]*\bsrc\s*=\s*[\"\']/contrast-fix\.js(?:\?[^\"\']*)?[\"\']', text, re.I):
+              closing = text.lower().rfind('</body>')
+              if closing < 0:
+                  raise SystemExit('No closing body tag found.')
+              # A lesson-owned final dark override must remain the final element.
+              overrides = list(re.finditer(r'<style\b[^>]*\bid\s*=\s*[\"\'][^\"\']*dark-overrides[\"\'][^>]*>', text, re.I))
+              insertion = overrides[-1].start() if overrides else closing
+              text = text[:insertion] + '<script src="/contrast-fix.js"></script>\n' + text[insertion:]
+              path.write_bytes(text.encode('utf-8'))
           PY
-
-      - name: Commit injected site fix
+          mkdir -p contrast-proposal
+          git diff --check
+          git diff --binary > contrast-proposal/contrast-injection.patch
+          git rev-parse HEAD > contrast-proposal/base-commit.txt
+      - name: Validate the proposed page against all tests
         run: |
-          if git diff --quiet; then
-            echo "No HTML changes required."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add '*.html' '**/*.html'
-          git commit -m "Repair and load contrast fix across site [skip ci]"
-          git push
+          npm ci
+          npm test
+      - name: Upload proposal for human review; never commit or push
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: contrast-injection-proposal
+          path: contrast-proposal
+          if-no-files-found: warn
