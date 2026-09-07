@@ -1,0 +1,109 @@
+name: MBB Set 3 Batch 2 audit
+on:
+  push:
+    branches: ['audit/mbb-set3-batch1-q001-q025']
+    paths: ['.github/workflows/mbb-set3-batch2-audit.yml', 'scripts/apply-mbb-set3-batch2.mjs', 'scripts/audit-mbb-set3-batch2.mjs', 'tests/test-bank-mbb-set3-batch2*', 'test-bank-mbb-set3-batch2-ui.js']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mbb-set3-batch2-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  integrate:
+    if: github.ref == 'refs/heads/audit/mbb-set3-batch1-q001-q025'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply guarded reviewed edits to the review branch only
+        run: |
+          if [ ! -f docs/audits/mbb-set3-batch02/preservation.json ]; then
+            node scripts/apply-mbb-set3-batch2.mjs
+          fi
+      - name: Commit source and scope evidence without merging or deploying
+        id: commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add test-bank-mbb-set3.js test-bank.html test-bank-feedback-loop.js test-bank-mbb-set3-batch2-ui.js scripts/audit-mbb-set3-batch2.mjs tests/test-bank-mbb-set3-batch1-audit.test.js docs/audits/mbb-set3-batch02/preservation.json docs/audits/mbb-set3-batch02/question-audit-tracker.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'fix: audit MBB Set 3 Q26–50; preserve Batch 1 and Q51–175'
+            git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          mkdir -p /tmp/batch2-workspace
+          git rev-parse HEAD > /tmp/batch2-workspace/commit.txt
+          git archive --format=tar HEAD | gzip > /tmp/batch2-workspace/repository.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mbb-set3-batch2-workspace
+          path: /tmp/batch2-workspace
+          retention-days: 14
+  regression:
+    needs: integrate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.integrate.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Question-level and grading checks
+        run: |
+          mkdir -p audit-results-batch2
+          set -o pipefail
+          node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch2-audit.test.js | tee audit-results-batch2/batch2-tests.txt
+      - name: Complete repository regression
+        run: |
+          timeout 900 node --test --test-concurrency=2 tests/*.test.js > audit-results-batch2/full-regression.txt 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch2-regression
+          path: audit-results-batch2
+          retention-days: 14
+  browsers:
+    needs: integrate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+        layout: [desktop, mobile]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.integrate.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Render, select all choices, reopen and review Q26–50 in both themes
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: ${{ matrix.layout }}
+        run: node scripts/audit-mbb-set3-batch2.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch2-${{ matrix.engine }}-${{ matrix.layout }}
+          path: audit-results-batch2
+          retention-days: 14
