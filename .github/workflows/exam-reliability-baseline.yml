@@ -34,10 +34,23 @@ jobs:
         run: |
           set -o pipefail
           node --test --test-concurrency=1 tests/test-bank-segment01-baseline.test.js | tee segment01-run.log
+      - name: Record dependency advisory baseline without changing packages
+        shell: bash
+        run: |
+          set +e
+          npm audit --json > segment01-npm-audit.json
+          status=$?
+          set -e
+          if [ "$status" -gt 1 ]; then exit "$status"; fi
+      - name: Package scoped offline inspection inputs
+        run: tar -czf segment01-inspection.tgz test-bank.html test-bank*.js tests package.json package-lock.json .node-version node_modules netlify.toml supabase .github/workflows
       - name: Preserve evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: segment01-baseline-${{ github.run_id }}
-          path: segment01-run.log
-          retention-days: 14
+          path: |
+            segment01-run.log
+            segment01-npm-audit.json
+            segment01-inspection.tgz
+          retention-days: 7
