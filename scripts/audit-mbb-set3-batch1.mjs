@@ -17,7 +17,7 @@ const report={scope:'Canonical Set 3 Q1–25',backend:'isolated authentication a
 const save=()=>fs.writeFileSync(path.join(out,'browser-report.json'),JSON.stringify(report,null,2));
 const server=http.createServer((req,res)=>{let p=decodeURIComponent(new URL(req.url,'http://localhost').pathname);if(!path.extname(p))p+='.html';const f=path.resolve(root,'.'+p);if(!f.startsWith(root+path.sep)||!fs.existsSync(f)||!fs.statSync(f).isFile()){res.writeHead(404);res.end();return;}res.setHeader('Content-Type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png'})[path.extname(f)]||'application/octet-stream');res.end(fs.readFileSync(f));});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
-const auth='window.UpskillAuth={getUser:()=>({id:"audit-set3-isolated"}),getClient:()=>('+emptyClient.toString()+')()};';
+const auth='window.UpskillAuth={isConfigured:()=>true,onChange:(cb)=>{queueMicrotask(()=>cb({id:"audit-set3-isolated"}));return ()=>{};},getUser:()=>({id:"audit-set3-isolated"}),getClient:()=>('+emptyClient.toString()+')()};';
 async function geometry(page,selector){return page.locator(selector).evaluate(host=>{
   const clipped=[...host.querySelectorAll('.tb-stem,.tb-review-stem,.tb-opt,.tb-answer-copy,.tb-explanation-copy,th,td,dd')].filter(e=>e.clientWidth&&e.scrollWidth>e.clientWidth+2).map(e=>({tag:e.tagName,text:e.textContent.slice(0,90),scroll:e.scrollWidth,width:e.clientWidth}));
   const svgText=[...host.querySelectorAll('svg text')].map(t=>{const a=t.getBoundingClientRect(),s=t.closest('svg').getBoundingClientRect();return {text:t.textContent,outside:a.left<s.left-2||a.right>s.right+2||a.top<s.top-2||a.bottom>s.bottom+2};}).filter(x=>x.outside);
@@ -55,7 +55,7 @@ for(const engine of ['chromium','webkit']){
     const navigation=await geometry(page,'.tb-quiz');
     for(const theme of ['light','dark']){
       await page.evaluate(t=>{document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;},theme);
-      await page.locator('.tb-quiz').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,label+'-'+theme+'.png'),fullPage:true});
+      await page.locator('.tb-quiz').scrollIntoViewIfNeeded();await page.locator('.tb-quiz').screenshot({path:path.join(out,label+'-'+theme+'.png')});
       const g=await geometry(page,'.tb-quiz');const axe=await new AxeBuilder({page}).include('.tb-quiz').withTags(['wcag2a','wcag2aa']).analyze();
       report.cases.push({engine,layout,theme,number:i+1,qid:q.qid,phase:'question',fourChoicesSelected:true,keyboardSpace:true,reopenedSelection:true,geometry:g,navigation,axe:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))});save();
     }

@@ -341,7 +341,8 @@
           "3"
         ]
       ],
-      "title": "Inputs for the expected gross-benefit screen"
+      "title": "Inputs for the expected gross-benefit screen",
+      "altText": "P1: $500,000, 80%, risk 2; P2: $900,000, 50%, risk 4; P3: $300,000, 95%, risk 1; P4: $700,000, 65%, risk 3. Benefits are conditional on success and the separate risk scale is 1 to 5."
     },
     "set": 3,
     "qid": "mbb:set-3:d1-022",
