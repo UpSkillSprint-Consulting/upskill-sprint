@@ -20,9 +20,10 @@ test('scoped issue-form styling respects the native hidden state',()=>{
 });
 test('browser audit checks reviewed hints, expanded feedback and non-sending issue-report workflow',()=>{
  const s=fs.readFileSync(path.join(root,'scripts/audit-mbb-set3-batch1.mjs'),'utf8');
- for(const token of ['q.trap',"'.tb-distractor-row'","'.tb-quality-details summary'","'[data-report-note]'","mail.startsWith('mailto:')",'preparedUnsentReport:true'])assert.ok(s.includes(token),token);
+ for(const token of ['q.trap',"'.tb-distractor-row'","'.tb-quality-details summary'","'[data-report-note]'","mail.startsWith('mailto:')",'preparedUnsentReport:true','async function stableClick(locator)','await locator.click()'])assert.ok(s.includes(token),token);
  assert.ok(s.includes('header.site{visibility:hidden!important}'));
  assert.ok(!s.includes('header.site{position:relative!important'));
+ assert.doesNotMatch(s,/force\s*:\s*true|dispatchEvent\(['"]click/);
 });
 test('Set 3 presentation cannot reuse the existing Set 2 batch 3 CSS namespace',()=>{
  const current=fs.readFileSync(path.join(root,'test-bank-mbb-set3-batch1-ui.js'),'utf8');
