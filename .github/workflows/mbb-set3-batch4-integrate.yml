@@ -17,7 +17,28 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: cp -R audit-staging /tmp/mbb4-staging
+      - name: Correct the staged generator typo and precompile all three generators
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('audit-staging/batch4-integrate.py')
+          s=p.read_text()
+          old="investigated'))))]:"
+          if old in s:
+              assert s.count(old)==1
+              p.write_text(s.replace(old,"investigated')))]:"))
+          for name in ['batch4-content-a.py','batch4-content-b.py','batch4-integrate.py']:
+              p=Path('audit-staging')/name
+              compile(p.read_text(),str(p),'exec')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit-staging/batch4-integrate.py
+          if ! git diff --cached --quiet; then
+            git commit -m 'fix: remove extra closing parenthesis in Batch 4 staging generator'
+            git push origin HEAD:refs/heads/automation/mbb-set3-batch4
+          fi
+          cp -R audit-staging /tmp/mbb4-staging
       - name: Apply reviewed edits only to the unchanged PR170 baseline
         run: |
           git fetch origin audit/mbb-set3-batch1-q001-q025
