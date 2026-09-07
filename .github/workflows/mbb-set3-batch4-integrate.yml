@@ -17,16 +17,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Correct the staged generator typo and precompile all three generators
+      - name: Normalize and precompile the reviewed staging generators
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
           p=Path('audit-staging/batch4-integrate.py')
-          s=p.read_text()
-          old="investigated'))))]:"
-          if old in s:
-              assert s.count(old)==1
-              p.write_text(s.replace(old,"investigated')))]:"))
+          s=p.read_text().replace("investigated'))))]:","investigated')))]:")
+          old="bank=json.JSONDecoder().raw_decode(source[source.index('global.MBB_SET3=')+len('global.MBB_SET3='):])[0]"
+          new="bank=json.loads(subprocess.check_output(['node','-e',\"const fs=require('fs'),vm=require('vm'),c={window:{}};vm.runInNewContext(fs.readFileSync('test-bank-mbb-set3.js','utf8'),c);console.log(JSON.stringify(c.window.MBB_SET3));\"],text=True))"
+          assert old in s or new in s
+          s=s.replace(old,new)
+          p.write_text(s)
           for name in ['batch4-content-a.py','batch4-content-b.py','batch4-integrate.py']:
               p=Path('audit-staging')/name
               compile(p.read_text(),str(p),'exec')
@@ -35,7 +37,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add audit-staging/batch4-integrate.py
           if ! git diff --cached --quiet; then
-            git commit -m 'fix: remove extra closing parenthesis in Batch 4 staging generator'
+            git commit -m 'fix: parse JS bank with Node VM rather than strict JSON'
             git push origin HEAD:refs/heads/automation/mbb-set3-batch4
           fi
           cp -R audit-staging /tmp/mbb4-staging
@@ -65,10 +67,15 @@ jobs:
           git commit -m 'fix: audit MBB Set 3 Q76–100; correct finance, training inference, governance and feedback'
           git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Export exact workspace for evidence inspection
+        if: always()
+        run: |
           mkdir -p /tmp/mbb4-workspace
           git rev-parse HEAD > /tmp/mbb4-workspace/commit.txt
-          git archive --format=tar HEAD | gzip > /tmp/mbb4-workspace/repository.tar.gz
+          tar --exclude=.git -czf /tmp/mbb4-workspace/repository.tar.gz .
+          cp -R /tmp/mbb4-staging /tmp/mbb4-workspace/staging
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: mbb-set3-batch4-workspace
           path: /tmp/mbb4-workspace
