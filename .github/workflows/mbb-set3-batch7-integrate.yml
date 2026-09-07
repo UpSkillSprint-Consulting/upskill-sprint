@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Repair the item-specific study reference on the unchanged review head
+      - name: Repair item references on the unchanged PR170 head
         run: |
           git fetch origin audit/mbb-set3-batch1-q001-q025
           test "$(git rev-parse FETCH_HEAD)" = '87e04cd9a892f366b8642ebc2db27edccd9009da'
@@ -44,9 +44,10 @@ jobs:
           s=s.replace('`;document.head.appendChild(style);','.tb-review-card:has(.mbbs3b7-question) .tb-review-reference{max-width:100%;overflow-wrap:anywhere;line-height:1.6}\n`;document.head.appendChild(style);')
           p.write_text(s)
           p=root/'test-bank-feedback-loop.js';s=p.read_text()
-          old='\'<a class="tb-review-lesson" href="\' + esc(meta.lesson) + '\">Study: \' + esc(meta.lessonName) + \'</a>\''
-          assert s.count(old)==1
-          s=s.replace(old,'(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question)?window.__MBBSet3Batch7UI.referenceLink(question):'+old+')',1);p.write_text(s)
+          lines=[line for line in s.splitlines() if '<a class="tb-review-lesson"' in line and 'Study:' in line and line.rstrip().endswith('+')]
+          assert len(lines)==1
+          line=lines[0];expression=line.strip()[:-1].strip()
+          s=s.replace(line,'      (window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question)?window.__MBBSet3Batch7UI.referenceLink(question):'+expression+') +',1);p.write_text(s)
           p=root/'tests/test-bank-mbb-set3-batch7-audit.test.js';s=p.read_text();s+=r'''
           test('Every Batch 7 review gets its actual item reference; unsafe or out-of-scope links cannot be injected',()=>{
            const c={window:{}};vm.runInNewContext(read('test-bank-mbb-set3-batch7-ui.js'),c);const ui=c.window.__MBBSet3Batch7UI;
@@ -68,7 +69,7 @@ jobs:
           node --check test-bank-feedback-loop.js
           node --check scripts/audit-mbb-set3-batch7.mjs
       - run: npm ci
-      - name: Revalidate scoped references, every answer and both graphical paths
+      - name: Revalidate references, every answer and both graphical paths
         run: node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch7*.test.js
       - name: Push reviewed reference correction to PR170 only
         id: commit
@@ -106,7 +107,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Independent mathematics, all-option grading, references, fallback and Set 3 traversal
+      - name: Independent mathematics, all-option grading, references, fallback and traversal
         run: |
           mkdir -p audit-results-batch7
           git rev-parse HEAD > audit-results-batch7/tested-commit.txt
@@ -140,7 +141,7 @@ jobs:
       - run: npm ci
       - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
       - run: npx playwright install --with-deps ${{ matrix.engine }}
-      - name: Reopen all 25 questions, all five visuals and every corrected reference footer
+      - name: Reopen all 25 questions, five visuals and every corrected reference footer
         env:
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: ${{ matrix.layout }}
