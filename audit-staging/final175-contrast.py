@@ -1,0 +1,3 @@
+from pathlib import Path
+p=Path('test-bank-deep-feedback.js');s=p.read_text();old='.tb-error-diagnosis p{margin:7px 0 0;color:var(--muted);font-size:11.5px}';new='.tb-error-diagnosis p{margin:7px 0 0;color:var(--ink);font-size:11.5px}';assert old in s;s=s.replace(old,new,1);p.write_text(s)
+p=Path('tests/test-bank-mbb-set3-final-student.test.js');s=p.read_text();needle="test('narrow-screen review copy wraps long terms instead of escaping its grid column',()=>{";assert needle in s;s=s.replace(needle,needle+"\n assert.ok(read('test-bank-deep-feedback.js').includes('.tb-error-diagnosis p{margin:7px 0 0;color:var(--ink);font-size:11.5px}'));",1);p.write_text(s)
