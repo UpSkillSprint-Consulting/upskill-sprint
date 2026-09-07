@@ -27,7 +27,7 @@ test('manual submission captures authoritative answers without synthetic navigat
  }finally{await wait(40);p.w.close();}
 });
 test('failed completion never publishes a completed review or claims a saved attempt',async()=>{
- const p=await player();try{const {w,click}=p;let completions=0;w.document.addEventListener('tb:attempt-completed',()=>completions++);w.__TBLearning.completeSession=()=>({saved:false});click('[data-goto="174"]');click('[data-submit]');await wait(40);assert.equal(completions,0);assert.equal(w.__TB.getFeedbackSnapshot().completed,false);assert.ok(w.document.querySelector('.tb-quiz'));assert.equal(w.document.querySelector('.tb-reshead'),null);assert.deepEqual(p.errors,[]);
+ const p=await player();try{const {w,click}=p;let completions=0;w.document.addEventListener('tb:attempt-completed',()=>completions++);w.__TBLearning.completeSession=()=>({saved:false});click('[data-goto="174"]');click('[data-submit]');await wait(40);assert.equal(completions,0);assert.equal(w.__TB.getFeedbackSnapshot().completed,false);assert.ok(w.document.querySelector('.tb-quiz'));assert.equal(w.document.querySelector('.tb-reshead'),null);assert.match(w.document.querySelector('#tb-learning-storage-notice').textContent,/could not be safely saved/);assert.deepEqual(p.errors,[]);
  }finally{await wait(40);p.w.close();}
 });
 test('feedback quality details recover when the badge was inserted before deep feedback',async()=>{
@@ -77,4 +77,11 @@ test('Full Exam retake retains its core listener when the Quick/Focused coordina
 
 test('narrow-screen review copy wraps long terms instead of escaping its grid column',()=>{
  const source=read('test-bank-feedback-loop.js');assert.ok(source.includes('.tb-review-option .tb-answer-copy,.tb-answer-compare strong,.tb-distractor-title{min-width:0;overflow-wrap:anywhere}'));
+});
+
+
+test('failed timeout save cannot change expired answers, and retry keeps the timeout reason',async()=>{
+ const p=await player();try{const {w,click,ticks}=p;const first=w.__TB.getFeedbackSnapshot().records[0].question;click('[data-opt="'+first.answer+'"]');const complete=w.__TBLearning.completeSession;w.__TBLearning.completeSession=()=>({saved:false});const now=w.Date.now();w.Date.now=()=>now+100000000;ticks.find(t=>t.fn.name==='tickTimer').fn();await wait(30);click('[data-opt="'+((first.answer+1)%4)+'"]');assert.equal(w.__TB.getFeedbackSnapshot().records[0].selected,first.answer);assert.ok(w.document.querySelector('#tb-learning-storage-notice'));
+ let reason;w.__TBLearning.completeSession=function(c){reason=c.completedReason;return complete.call(this,c);};click('[data-goto="174"]');click('[data-submit]');await wait(60);assert.equal(reason,'timed-out');assert.match(w.document.querySelector('.tb-resverd').textContent,/1 of 175 correctly/);assert.deepEqual(p.errors,[]);
+ }finally{await wait(40);p.w.close();}
 });
