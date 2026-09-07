@@ -1,0 +1,22 @@
+name: MBB Set 3 Batch 1 audit
+on:
+  push:
+    branches: ['audit/mbb-set3-batch1-q001-q025']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Capture immutable audit workspace
+        run: |
+          mkdir -p /tmp/mbb-set3-audit
+          git rev-parse HEAD > /tmp/mbb-set3-audit/commit.txt
+          git archive --format=tar HEAD | gzip > /tmp/mbb-set3-audit/repository.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mbb-set3-audit-workspace
+          path: /tmp/mbb-set3-audit
+          retention-days: 7
