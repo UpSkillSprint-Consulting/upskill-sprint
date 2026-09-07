@@ -3769,7 +3769,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     return ui?stem+ui.conditions(q)+renderQuestionChart(q.chart):renderQuestionChart(q.chart)+stem;
   }
 
-  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale};
+  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale,getFeedbackSnapshot:getFeedbackSnapshot};
 
   /* ---------- rail ---------- */
   function renderRail(){
@@ -4432,6 +4432,9 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
       slider.addEventListener('input',update);update();
     });
     Array.prototype.forEach.call(host.querySelectorAll('[data-opt]'),function(b){b.addEventListener('click',function(){
+      if(session.completed)return;
+      // A failed timeout save must not let a learner revise expired answers.
+      if(session.timed&&session.endsAt<=Date.now()){submitQuiz('timed-out');return;}
       var index=session.i,selected=+b.dataset.opt,question=session.items[index].q;
       /* Write the answer before repainting. A refresh, mobile process kill, or
          exit after this click still leaves a durable ledger record. */
@@ -4453,8 +4456,17 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
   }
 
   /* ---------- results ---------- */
+  // The session, not the rendered navigation history, owns the completed review.
+  // Copy the answer/flag records so feedback cannot mutate scoring or persistence.
+  function getFeedbackSnapshot(){
+    if(!session||!Array.isArray(session.items))return null;
+    return {sessionId:session.id,examId:current,completed:!!session.completed,
+      records:session.items.map(function(it,index){return {index:index,question:it.q,
+        selected:session.answers[index]==null?null:session.answers[index],flagged:!!session.flags[index]};})};
+  }
   function submitQuiz(completedReason){
     if(!session||session.completed)return;
+    if(session.timed&&session.endsAt<=Date.now())completedReason='timed-out';
     session.completed=true;
     stopTimer();stopTools();
     var e=EXAMS[current];
@@ -4462,13 +4474,21 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     var learning=window.__TBLearning;
     if(!learning||typeof learning.completeSession!=='function'||!session.id){session.completed=false;showLearningStorageNotice('Your completed test could not be saved because study-record storage is unavailable. Please wait a moment and submit again.');return;}
     var completion=learning.completeSession({examId:current,sessionId:session.id,mode:session.kind,timed:session.timed,filter:session.filter||null,startedAt:session.endsAt&&session.limitSeconds?session.endsAt-session.limitSeconds*1000:null,completedReason:completedReason||'submitted',records:learningRecords});
-    if(!completion||completion.saved===false||!writeAheadConfirmed(learning)){session.completed=false;return;}
+    if(!completion||completion.saved===false||!writeAheadConfirmed(learning)){
+      session.completed=false;
+      showLearningStorageNotice('Your completed test could not be safely saved. Your answers remain on this page. Keep it open and select See my results to retry; no completed result has been recorded.');
+      // Preserve the original deadline rather than silently pausing a live exam.
+      if(session.timed&&session.endsAt>Date.now())startTimer();
+      return;
+    }
     var agg=subAgg(session.items.map(function(it){return it.q;}),session.answers);
     var units=subUnits(e);
     var rec=recordAttempt(current,units,agg,e.pass);
     rec.readiness=canonicalReadiness(rec.readiness);
     var cum=cumAggFrom(rec.state.subState);
     session.result={agg:agg,cum:cum,units:units,readiness:rec.readiness,plan:studyPlan(units,cum),state:rec.state};
+    // Timed expiry and manual submission publish the same complete saved attempt.
+    document.dispatchEvent(new CustomEvent('tb:attempt-completed',{detail:getFeedbackSnapshot()}));
     view='results';renderMain();
   }
   function resultsHTML(){

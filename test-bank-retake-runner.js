@@ -328,9 +328,12 @@
     const host = state.overview();
     let button = host && host.querySelector('[data-retake]');
     if (!button) return;
-    button = disownLegacyRetakeButton(button);
     const kind = resultKind(button) || retakeKind(button);
-    if (kind === 'quick' || kind === 'focus') button.dataset.retakeKind = kind;
+    // This coordinator owns only Quick/Focused Quiz recipes. Preserve the core
+    // Full Exam/Diagnostic listener; cloning those buttons makes them inert.
+    if (kind !== 'quick' && kind !== 'focus') return;
+    button = disownLegacyRetakeButton(button);
+    button.dataset.retakeKind = kind;
     const recipe = state.currentRecipe();
     const valid = validRecipe(recipe, button, kind);
     button.dataset.retakeConfigured = String(valid);

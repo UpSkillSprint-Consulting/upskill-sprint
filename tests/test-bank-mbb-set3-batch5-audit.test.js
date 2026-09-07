@@ -1,3 +1,5 @@
+// Final 175-item review: prefix updated only for the Q1 hint repair;
+// test-bank-mbb-set3-final-student.test.js protects all other source bytes.
  'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto');
 const root=path.join(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
@@ -15,7 +17,7 @@ for(const [i,q] of batch.entries())test(`Batch 5 Q${i+101}: identity, complete i
 });
 test('Batch 5 protects every byte of Q1–100 and final JavaScript trailer and every stable question ID',()=>{
  const starts=[...source.matchAll(/^  \{$/gm)].map(m=>m.index);assert.equal(starts.length,175);
- assert.equal(sha(source.slice(0,starts[100])),'0d34eb6ab6236e9c923aee02177a7d99e04fb428081b23962d85f54d54a26e26');assert.equal(sha(source.slice(source.lastIndexOf('  ];'))),'2d06d874c33463730929799a11508fd6c3bf9402321145fd3cbb09cb2d813f46');
+ assert.equal(sha(source.slice(0,starts[100])),'0558868bb71414fad16973a548609e1f65f375fd0755322acf98cf4ae94932c5');assert.equal(sha(source.slice(source.lastIndexOf('  ];'))),'2d06d874c33463730929799a11508fd6c3bf9402321145fd3cbb09cb2d813f46');
  const p=JSON.parse(read('docs/audits/mbb-set3-batch05/preservation.json'));assert.deepEqual(bank.map(q=>q.qid),p.ids);assert.equal(new Set(p.ids).size,175);
 });
 test('Q111 distinguishes 22% variance contribution from 46.9% study variation',()=>{

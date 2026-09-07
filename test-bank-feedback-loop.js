@@ -164,6 +164,21 @@
     };
   }
 
+  function acceptFeedbackSnapshot(snapshot) {
+    if (!snapshot || snapshot.examId !== currentExamId() || !Array.isArray(snapshot.records) || !snapshot.records.length) return false;
+    const records = {};
+    for (const entry of snapshot.records) {
+      if (!entry || !Number.isInteger(entry.index) || !entry.question || !entry.question.stem) return false;
+      records[entry.index] = { index: entry.index, questionId: questionId(snapshot.examId, entry.question),
+        question: entry.question, selected: entry.selected == null ? null : entry.selected, flagged: !!entry.flagged };
+    }
+    if (Object.keys(records).length !== snapshot.records.length) return false;
+    attempt = {active: true, examId: snapshot.examId, sessionId: snapshot.sessionId,
+      total: snapshot.records.length, records: records, startedAt: Date.now()};
+    retryState = null;
+    return true;
+  }
+
   function captureAllQuestionsAndSubmit(overview) {
     ensureAttempt(overview);
     captureCurrentQuestion(overview);
@@ -254,6 +269,37 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
     return window.__MBBBatch7UI && window.__MBBBatch7UI.isQuestion(question) ? window.__MBBBatch7UI.rationales(question) : window.__MBBBatch6UI && window.__MBBBatch6UI.isQuestion(question) ? window.__MBBBatch6UI.rationales(question) : window.__MBBBatch5UI && window.__MBBBatch5UI.isQuestion(question) ? window.__MBBBatch5UI.rationales(question) : window.__MBBBatch3UI && window.__MBBBatch3UI.isQuestion(question) ? window.__MBBBatch3UI.rationales(question) : window.__MBBBatch4UI && window.__MBBBatch4UI.isQuestion(question) ? window.__MBBBatch4UI.rationales(question) : window.__MBBBatch2UI ? window.__MBBBatch2UI.rationales(question) : '';
   }
 
+  function reviewReferenceHtml(question, meta) {
+    if (currentExamId() === 'mbb' && /^mbb:set-3:/.test(question.qid || '') && Array.isArray(question.auditSources)) {
+      const sources = question.auditSources.slice(1).concat(question.auditSources.slice(0, 1));
+      const hosts = new Set(['www.asq.org','asq.org','www.itl.nist.gov','support.minitab.com','www.cdc.gov',
+        'coachingfederation.org','www.gov.uk','www.nasa.gov','psnet.ahrq.gov','openstax.org','scikit-learn.org',
+        'www.open.edu','www.nist.gov','doi.org','www.kirkpatrickpartners.com','www.jmp.com','scrumguides.org','www.osha.gov','www.pmi.org','www.postgresql.org','www.nrc.gov']);
+      const source = sources.find(function (item) {
+        if (!item || !item.title) return false;
+        try { const url = new URL(item.url); return url.protocol === 'https:' && !url.username && !url.password && hosts.has(url.hostname); }
+        catch (_) { return false; }
+      });
+      if (source) return '<a class="tb-review-lesson tb-review-reference" href="' + esc(source.url) +
+        '" target="_blank" rel="noopener noreferrer" aria-label="Reference: ' + esc(source.title) +
+        ' (opens in a new tab)">Reference: ' + esc(source.title) + '</a>';
+    }
+    return '<a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a>';
+  }
+
+  // Replacement review cards can be much taller than the viewport. Position
+  // the top deterministically below the sticky header; do not leave a smooth
+  // scroll racing the learner's next disclosure or keyboard action.
+  function scrollFeedbackTo(element) {
+    if (!element || typeof element.scrollIntoView !== 'function') return;
+    const header = document.querySelector('header.site');
+    const offset = header ? Math.max(0, header.getBoundingClientRect().height) + 16 : 16;
+    document.documentElement.style.setProperty('--tb-review-header-offset', offset + 'px');
+    element.style.scrollMarginTop = offset + 'px';
+    element.scrollIntoView({behavior: 'instant', block: 'start', inline: 'nearest'});
+  }
+  window.__TBFeedbackPresentation = Object.freeze({referenceHtml: reviewReferenceHtml, scrollTo: scrollFeedbackTo});
+
   function reviewCardHtml(record) {
     const question = record.question;
     const status = statusOf(record);
@@ -277,7 +323,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
       '<div class="tb-answer-compare"><div><span>Your answer</span><strong>' + esc(answerText(question, record.selected)) + '</strong></div>' +
       '<div><span>Correct answer</span><strong>' + esc(answerText(question, question.answer)) + '</strong></div></div>' +
       '<div class="tb-explanation"><div class="tb-explanation-title">Why this is correct</div><div class="tb-explanation-copy">' + (question.why || 'An explanation is not available for this question yet.') + '</div>' + auditedRationales(question) + '</div>' +
-      (window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question)?window.__MBBSet3Batch7UI.referenceLink(question):'<a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a>') +
+      reviewReferenceHtml(question, meta) +
       '</article>';
   }
 
@@ -328,8 +374,9 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
     paintReviewGrid(index);
 
     list.innerHTML = reviewCardHtml(record);
+    document.dispatchEvent(new CustomEvent('tb:review-rendered', {detail: {root: list}}));
     const card = list.querySelector('.tb-review-card');
-    if (card && typeof card.scrollIntoView === 'function') card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    scrollFeedbackTo(card);
   }
 
   function renderReview(filter) {
@@ -356,7 +403,8 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
       ? filtered.map(reviewCardHtml).join('')
       : '<div class="tb-review-empty">No questions match this filter.</div>';
 
-    if (typeof review.scrollIntoView === 'function') review.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.dispatchEvent(new CustomEvent('tb:review-rendered', {detail: {root: list}}));
+    scrollFeedbackTo(review);
   }
 
   function retryQuestionHtml(record, index, total) {
@@ -378,7 +426,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
       ? '<div class="tb-retry-feedback ' + (correct ? 'correct' : 'wrong') + '"><strong>' + (correct ? 'Correct.' : 'Not quite.') + '</strong> ' +
         (correct ? 'You have corrected this question.' : 'The correct answer is ' + esc(answerText(question, question.answer)) + '.') +
         '<div class="tb-explanation-copy">' + (question.why || 'An explanation is not available for this question yet.') + '</div>' + auditedRationales(question) +
-        '<a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a></div>'
+        reviewReferenceHtml(question, meta) + '</div>'
       : '';
 
     return '<div class="tb-retry-head"><div><div class="tb-diag-kick">Correction quiz</div><h3>Retry missed questions</h3></div>' +
@@ -422,7 +470,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
     } else {
       panel.innerHTML = retryQuestionHtml(retryState.items[retryState.index], retryState.index, retryState.items.length);
     }
-    if (typeof panel.scrollIntoView === 'function') panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollFeedbackTo(panel);
   }
 
   function startRetryMissed() {
@@ -480,6 +528,11 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
     const style = document.createElement('style');
     style.id = STYLE_ID;
     style.textContent = `
+      html:has(#tb-feedback-loop){scroll-behavior:auto}
+      .tb-review-card summary,.tb-review-card button,.tb-review-card select,.tb-review-reference{scroll-margin-top:var(--tb-review-header-offset,100px);scroll-margin-bottom:18px}
+      .tb-review-reference{max-width:100%;overflow-wrap:anywhere;line-height:1.6}
+      .tb-review-option .tb-answer-copy,.tb-answer-compare strong,.tb-distractor-title{min-width:0;overflow-wrap:anywhere}
+      .tb-retry-option,.tb-similar-option{min-width:0;overflow-wrap:anywhere}
       .tb-feedback-loop{margin:0 0 26px;padding:20px;border:1px solid var(--teal);border-radius:12px;background:linear-gradient(180deg,color-mix(in srgb,var(--teal) 7%,var(--card)),var(--card))}
       .tb-feedback-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.tb-feedback-head h2{font-family:"Source Serif 4",serif;font-size:22px;color:var(--ink);margin:2px 0 7px}.tb-feedback-head p{max-width:70ch;margin:0;color:var(--muted);font-size:13.5px;line-height:1.55}
       .tb-feedback-stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.tb-feedback-stats span{min-width:84px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--muted);font-size:11.5px;text-align:center}.tb-feedback-stats strong{display:block;color:var(--ink);font-size:19px;font-family:"Source Serif 4",serif}
@@ -590,16 +643,27 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
     const overview = document.getElementById(OVERVIEW_ID);
     if (!overview) return;
 
+    document.addEventListener('tb:attempt-completed', function (event) {
+      if (acceptFeedbackSnapshot(event.detail)) scheduleEnhance();
+    });
+
     document.addEventListener('click', function (event) {
       const submit = event.target.closest('[data-submit]');
       if (submit && overview.contains(submit)) {
         if (bypassSubmitCapture) {
           bypassSubmitCapture = false;
         } else {
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          captureAllQuestionsAndSubmit(overview);
-          return;
+          const helper = window.__TB;
+          // Let the original click reach the core handler. Re-clicking the same
+          // button during its click dispatch is suppressed by browser semantics.
+          const captured = helper && typeof helper.getFeedbackSnapshot === 'function' &&
+            acceptFeedbackSnapshot(helper.getFeedbackSnapshot());
+          if (!captured) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            captureAllQuestionsAndSubmit(overview);
+            return;
+          }
         }
       }
       handleFeedbackClick(event);

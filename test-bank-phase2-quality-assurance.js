@@ -175,14 +175,14 @@
   }
 
   function enhanceCard(card) {
-    if (card.querySelector('.tb-quality-badge')) return;
+    if (card.querySelector('.tb-quality-badge') && card.querySelector('.tb-quality-details')) return;
     const stemNode = card.querySelector('.tb-review-stem');
     if (!stemNode) return;
     const question = questionByIdentity(card.dataset.questionId || stemNode.textContent.trim(), stemNode.textContent.trim());
     if (!question) return;
     const quality = qualityLevel(question);
     const header = card.querySelector('.tb-review-card-head');
-    if (header) {
+    if (header && !card.querySelector('.tb-quality-badge')) {
       const badge = document.createElement('span');
       badge.className = 'tb-quality-badge ' + quality.level;
       badge.textContent = quality.label;
@@ -191,7 +191,7 @@
       if (badges) badges.prepend(badge);
     }
     const deep = card.querySelector('.tb-deep-learning');
-    if (deep) deep.insertAdjacentHTML('afterend', qualityDetailsHtml(quality));
+    if (deep && !card.querySelector('.tb-quality-details')) deep.insertAdjacentHTML('afterend', qualityDetailsHtml(quality));
   }
 
   function enhanceHeader(feedback) {
@@ -229,6 +229,7 @@
 
   function initialize() {
     ensureStyles();
+    document.addEventListener('tb:review-rendered', apply);
     const overview = document.getElementById(OVERVIEW_ID);
     if (overview) new MutationObserver(schedule).observe(overview, { childList: true, subtree: true });
     schedule();

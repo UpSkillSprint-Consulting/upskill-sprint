@@ -340,6 +340,9 @@
 
     requestAnimationFrame(function () {
       scanQueued = false;
+      // A theme switch may have started after this frame was queued. Let its
+      // settling pass measure the final palette, not an intermediate surface.
+      if (performance.now() < themeSettlingUntil) return;
       scan(rootNode || document);
     });
   }
@@ -397,8 +400,8 @@
     scan(document);
 
     const observer = new MutationObserver(function (mutations) {
-      if (suppressObserver || performance.now() < themeSettlingUntil) return;
-
+      // A real theme change is not a mutation caused by our repair classes.
+      // Never discard it during scan suppression or an earlier transition.
       const themeChanged = mutations.some(function (mutation) {
         return mutation.type === 'attributes' &&
           mutation.attributeName === 'data-theme' &&
@@ -409,6 +412,7 @@
         refreshForTheme();
         return;
       }
+      if (suppressObserver || performance.now() < themeSettlingUntil) return;
 
       const changed = mutations.some(function (mutation) {
         return mutation.type === 'characterData' ||
