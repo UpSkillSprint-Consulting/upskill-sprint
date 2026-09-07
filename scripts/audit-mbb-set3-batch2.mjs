@@ -19,7 +19,7 @@ const server=http.createServer((req,res)=>{let p=decodeURIComponent(new URL(req.
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
 const auth=`(()=>{const user={id:'audit-set3-isolated',email:'audit@example.invalid'};const c=(${emptyClient.toString()})();const from=c.from.bind(c);c.from=function(table){const t=from(table),select=t.select.bind(t);t.select=function(...args){const q=select(...args);q.maybeSingle=q.single=()=>Promise.resolve({data:table==='profiles'?{user_id:user.id,display_name:'Isolated audit',timezone:'America/Regina',onboarding_completed:true}:null,error:null});return q;};return t;};window.UpskillAuth={isConfigured:()=>true,onChange:cb=>{queueMicrotask(()=>cb(user));return ()=>{};},getUser:()=>user,getClient:()=>c};})();`;
 // Bring the intended control into view, then click normally. This avoids racing
-// Playwright auto-scroll against the player's smooth review navigation in WebKit.
+// Playwright auto-scroll against the player's smooth review navigation.
 // No force click, DOM click dispatch, or application event handler is bypassed.
 async function stableClick(locator){
   await locator.evaluate(el=>el.scrollIntoView({behavior:'instant',block:'center',inline:'nearest'}));
@@ -74,7 +74,7 @@ for(const engine of engines){
    }
    await page.locator('[data-goto="174"]').click();await page.locator('[data-submit]').click();await page.locator('[data-open-review="all"]').click();await page.locator('#tb-answer-review').waitFor();
    assert.match(await page.locator('.tb-resverd').innerText(),/25 of 175 correctly/);
-   await page.locator('[data-review-tab="correct"]').click();
+   await stableClick(page.locator('[data-review-tab="correct"]'));
    for(let i=0;i<questions.length;i++){
     const q=questions[i],index=order.indexOf(q.qid);await page.locator('[data-review-goto="'+index+'"]').click();
     const card=page.locator('.tb-review-card');assert.equal(await card.getAttribute('data-question-id'),q.qid);assert.equal(await card.getAttribute('data-review-status'),'correct');
