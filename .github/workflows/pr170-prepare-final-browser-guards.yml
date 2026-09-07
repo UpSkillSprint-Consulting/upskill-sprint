@@ -1,0 +1,44 @@
+name: Prepare PR170 final browser guards
+on:
+  push:
+    branches: ['repair/pr170-final-browser-guards']
+    paths: ['audit-staging/pr170-final-browser-guards.py', '.github/workflows/pr170-prepare-final-browser-guards.yml']
+permissions:
+  contents: write
+concurrency:
+  group: pr170-prepare-final-browser-guards
+  cancel-in-progress: true
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - name: Apply only hash-verified repairs and retain the entire question bank
+        run: python3 audit-staging/pr170-final-browser-guards.py
+      - name: Verify focused guards and original Batch 6 contracts
+        run: |
+          mkdir -p /tmp/pr170-prepared
+          set -o pipefail
+          node --test --test-concurrency=1 tests/pr170-final-browser-guards.test.js tests/test-bank-mbb-set3-batch6-audit.test.js | tee /tmp/pr170-prepared/targeted.tap
+      - name: Save tested files on this staging branch only
+        run: |
+          test "$GITHUB_REF_NAME" = 'repair/pr170-final-browser-guards'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add test-bank-mbb-set3-batch6-ui.js dmaic-encyclopedia-fixes.css test-bank-phase2-quality-assurance.js tests/pr170-final-browser-guards.test.js docs/audits/pr170-final-browser-repair.md
+          git commit -m 'fix: deterministic exam keyboard navigation and theme-safe print controls'
+          git push origin HEAD:refs/heads/repair/pr170-final-browser-guards
+          git rev-parse HEAD > /tmp/pr170-prepared/commit.txt
+          git ls-tree -r HEAD -- test-bank-mbb-set3-batch6-ui.js dmaic-encyclopedia-fixes.css test-bank-phase2-quality-assurance.js tests/pr170-final-browser-guards.test.js docs/audits/pr170-final-browser-repair.md > /tmp/pr170-prepared/blobs.txt
+          git diff 31564739b660c31e3b0bf3b6b457ca4f5fae85c7 HEAD -- test-bank-mbb-set3-batch6-ui.js dmaic-encyclopedia-fixes.css test-bank-phase2-quality-assurance.js tests/pr170-final-browser-guards.test.js docs/audits/pr170-final-browser-repair.md > /tmp/pr170-prepared/repair.patch
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr170-prepared-browser-guards
+          path: /tmp/pr170-prepared
+          retention-days: 14
