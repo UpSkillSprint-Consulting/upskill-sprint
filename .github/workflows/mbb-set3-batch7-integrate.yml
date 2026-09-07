@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: mbb-set3-batch7-reference-polish
+  group: mbb-set3-batch7-numeric-visibility
   cancel-in-progress: true
 jobs:
   integrate:
@@ -21,64 +21,50 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Repair item references on the unchanged PR170 head
+      - name: Repair observed numeric visibility only on the unchanged PR170 head
         run: |
           git fetch origin audit/mbb-set3-batch1-q001-q025
-          test "$(git rev-parse FETCH_HEAD)" = '87e04cd9a892f366b8642ebc2db27edccd9009da'
+          test "$(git rev-parse FETCH_HEAD)" = '47e8db72f294cfe191517fc911f15db67d3230c8'
           git checkout --detach FETCH_HEAD
           python3 - <<'PY'
           from pathlib import Path
           import json
           root=Path.cwd();p=root/'test-bank-mbb-set3-batch7-ui.js';s=p.read_text()
-          helper=r'''
-           function referenceLink(q){
-            if(!isQuestion(q))return '';
-            const r=Array.isArray(q.auditSources)?q.auditSources[1]:null;
-            const allowed=/^https:\/\/(?:www\.itl\.nist\.gov|www\.gov\.uk|www\.postgresql\.org|scikit-learn\.org|asq\.org|www\.asq\.org|www\.nasa\.gov|www\.nrc\.gov)\//;
-            if(!r||!r.title||!allowed.test(String(r.url)))return '<span class="tb-review-reference-unavailable">An item-specific reference link is not available.</span>';
-            return '<a class="tb-review-lesson tb-review-reference" href="'+esc(r.url)+'">Reference: '+esc(r.title)+'</a>';
-           }
-          '''
-          assert 'function referenceLink' not in s
-          s=s.replace(' let lastId=',helper+' let lastId=',1).replace('isQuestion,render,rationales,wire','isQuestion,render,rationales,wire,referenceLink')
-          s=s.replace('`;document.head.appendChild(style);','.tb-review-card:has(.mbbs3b7-question) .tb-review-reference{max-width:100%;overflow-wrap:anywhere;line-height:1.6}\n`;document.head.appendChild(style);')
+          start=s.index(' function table(c)');end=s.index('\n',start)
+          table=r''' function table(c){const numeric=c.columns.map((_,i)=>i>0&&c.rows.every(r=>/^[+\-−±]?(?:\d|\.\d)/.test(String(r[i]))));return '<p class="mbbs3b7-scroll-hint">Scroll or swipe horizontally when needed to read every table column.</p><div class="mbbs3b7-scroll" role="region" tabindex="0" aria-label="'+esc(c.title)+'; scroll horizontally if needed"><table class="mbbs3b7-table"><caption>'+esc(c.title)+'</caption><thead><tr>'+c.columns.map((s,i)=>'<th scope="col"'+(numeric[i]?' class="mbbs3b7-number"':'')+'>'+esc(s)+'</th>').join('')+'</tr></thead><tbody>'+c.rows.map(r=>'<tr>'+r.map((s,i)=>i===0?'<th scope="row">'+esc(s)+'</th>':'<td'+(numeric[i]?' class="mbbs3b7-number"':'')+'>'+esc(s)+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';}'''
+          s=s[:start]+table+s[end:]
+          s=s.replace('`;document.head.appendChild(style);','.mbbs3b7-table .mbbs3b7-number{text-align:right;font-variant-numeric:tabular-nums}\n`;document.head.appendChild(style);')
           p.write_text(s)
-          p=root/'test-bank-feedback-loop.js';s=p.read_text()
-          lines=[line for line in s.splitlines() if '<a class="tb-review-lesson"' in line and 'Study:' in line and line.rstrip().endswith('+')]
-          assert len(lines)==1
-          line=lines[0];expression=line.strip()[:-1].strip()
-          s=s.replace(line,'      (window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question)?window.__MBBSet3Batch7UI.referenceLink(question):'+expression+') +',1);p.write_text(s)
+          p=root/'scripts/audit-mbb-set3-batch7.mjs';s=p.read_text()
+          old="await area.screenshot({path:path.join(out,label+'-'+phase+'-region'+i+'-right.png')});"
+          new=r'''const numericVisibility=await area.evaluate(el=>{const a=el.getBoundingClientRect();return [...el.querySelectorAll('tbody td.mbbs3b7-number:last-child')].map(td=>{const r=document.createRange();r.selectNodeContents(td);const b=r.getBoundingClientRect();return {text:td.textContent,left:b.left,right:b.right,inside:b.left>=a.left&&b.right<=a.right};});});assert.ok(numericVisibility.every(v=>v.inside),'Rightmost numeric values must remain within the horizontal viewport');right.numericVisibility=numericVisibility;await area.screenshot({path:path.join(out,label+'-'+phase+'-region'+i+'-right.png')});'''
+          assert s.count(old)==1;s=s.replace(old,new,1);p.write_text(s)
           p=root/'tests/test-bank-mbb-set3-batch7-audit.test.js';s=p.read_text();s+=r'''
-          test('Every Batch 7 review gets its actual item reference; unsafe or out-of-scope links cannot be injected',()=>{
+          test('Rightmost numeric columns use tabular right alignment and rendered range-visibility checks',()=>{
            const c={window:{}};vm.runInNewContext(read('test-bank-mbb-set3-batch7-ui.js'),c);const ui=c.window.__MBBSet3Batch7UI;
-           for(const q of batch){const h=ui.referenceLink(q);assert.match(h,/Reference: /);assert.ok(h.includes(q.auditSources[1].url.replace(/&/g,'&amp;')));assert.doesNotMatch(h,/Study: Design of Experiments/);}
-           assert.equal(ui.referenceLink(bank[0]),'');assert.doesNotMatch(ui.referenceLink({...batch[0],auditSources:[{}, {title:'bad',url:'javascript:alert(1)'}]}),/<a/);
-           assert.doesNotMatch(ui.referenceLink({...batch[0],auditSources:[{}, {title:'bad',url:'https://www.nasa.gov.attacker.example/'}]}),/<a/);
-           assert.match(ui.referenceLink({...batch[0],auditSources:[{}, {title:'<img onerror=bad>',url:'https://www.nasa.gov/reference/'}]}),/&lt;img/);
+           for(const index of [0,15,17,20]){const q=batch[index],h=ui.render(q,true);assert.ok((h.match(/class="mbbs3b7-number"/g)||[]).length>=q.chart.rows.length+1);}
+           assert.match(read('test-bank-mbb-set3-batch7-ui.js'),/text-align:right;font-variant-numeric:tabular-nums/);
+           assert.match(read('scripts/audit-mbb-set3-batch7.mjs'),/numericVisibility.every\(v=>v.inside\)/);
           });
           ''';p.write_text(s)
-          p=root/'scripts/audit-mbb-set3-batch7.mjs';s=p.read_text()
-          old="const card=page.locator('.tb-review-card');assert.equal"
-          new="const card=page.locator('.tb-review-card');assert.equal(await card.locator('a.tb-review-reference').getAttribute('href'),q.auditSources[1].url);assert.equal(await card.locator('a.tb-review-reference').textContent(),'Reference: '+q.auditSources[1].title);assert.equal"
-          assert old in s;s=s.replace(old,new,1);p.write_text(s)
           D=root/'docs/audits/mbb-set3-batch07';r=json.loads((D/'revisions.json').read_text())
-          for row in r:row['findings'].append('Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson.')
+          r[0]['findings'].append('Final mobile right-edge inspection found that left-aligned numeric values could move off-screen at maximum scroll in the narrow review card. Numeric columns now align consistently to the right, with actual text-range visibility assertions and fresh captures.')
           (D/'revisions.json').write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\n')
           PY
           node --check test-bank-mbb-set3-batch7-ui.js
-          node --check test-bank-feedback-loop.js
           node --check scripts/audit-mbb-set3-batch7.mjs
+          node --check tests/test-bank-mbb-set3-batch7-audit.test.js
       - run: npm ci
-      - name: Revalidate references, every answer and both graphical paths
+      - name: Validate every answer and the new numeric visibility guard
         run: node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch7*.test.js
-      - name: Push reviewed reference correction to PR170 only
+      - name: Push reviewed visual fix to PR170 only
         id: commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add test-bank-mbb-set3-batch7-ui.js test-bank-feedback-loop.js docs/audits/mbb-set3-batch07/revisions.json tests/test-bank-mbb-set3-batch7-audit.test.js scripts/audit-mbb-set3-batch7.mjs
+          git add test-bank-mbb-set3-batch7-ui.js scripts/audit-mbb-set3-batch7.mjs tests/test-bank-mbb-set3-batch7-audit.test.js docs/audits/mbb-set3-batch07/revisions.json
           git diff --cached --check
-          git commit -m 'fix: give final-batch review cards accurate item-specific reference links'
+          git commit -m 'fix: keep Batch 7 numeric evidence visible at the mobile table scroll edge'
           git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - name: Export exact workspace
@@ -107,7 +93,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Independent mathematics, all-option grading, references, fallback and traversal
+      - name: Independent calculations, all-option grading, references, fallback and traversal
         run: |
           mkdir -p audit-results-batch7
           git rev-parse HEAD > audit-results-batch7/tested-commit.txt
@@ -141,7 +127,7 @@ jobs:
       - run: npm ci
       - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
       - run: npx playwright install --with-deps ${{ matrix.engine }}
-      - name: Reopen all 25 questions, five visuals and every corrected reference footer
+      - name: Reopen every question and verify every numeric value at the scroll edge
         env:
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: ${{ matrix.layout }}
