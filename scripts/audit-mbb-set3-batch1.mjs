@@ -57,7 +57,7 @@ for(const engine of engines){
     const navigation=await geometry(page,'.tb-quiz');
     for(const theme of ['light','dark']){
      await page.evaluate(t=>{document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;},theme);
-     await page.locator('.tb-quiz').scrollIntoViewIfNeeded();await page.locator('.tb-quiz').screenshot({path:path.join(out,label+'-'+theme+'.png'),style:'header.site{position:relative!important;top:auto!important}'});
+     await page.locator('.tb-quiz').scrollIntoViewIfNeeded();await page.locator('.tb-quiz').screenshot({path:path.join(out,label+'-'+theme+'.png'),style:'header.site{visibility:hidden!important}'});
      const g=await geometry(page,'.tb-quiz');const axe=await new AxeBuilder({page}).include('.tb-quiz').withTags(['wcag2a','wcag2aa']).analyze();
      report.cases.push({engine,layout,theme,number:i+1,qid:q.qid,phase:'question',fourChoicesSelected:true,keyboardSpace:true,reopenedSelection:true,geometry:g,navigation,axe:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))});save();
      if(layout==='mobile'&&q.chart){const area=page.locator('.mbb3-scroll').first();const scroll=await area.evaluate(e=>{e.scrollLeft=e.scrollWidth;return {needed:e.scrollWidth>e.clientWidth+2,moved:e.scrollLeft>0};});assert.ok(!scroll.needed||scroll.moved);await area.screenshot({path:path.join(out,label+'-'+theme+'-visual-right.png')});await area.evaluate(e=>e.scrollLeft=0);}
@@ -71,12 +71,22 @@ for(const engine of engines){
     const q=questions[i],index=order.indexOf(q.qid);await page.locator('[data-review-goto="'+index+'"]').click();
     const card=page.locator('.tb-review-card');assert.equal(await card.getAttribute('data-question-id'),q.qid);assert.equal(await card.getAttribute('data-review-status'),'correct');
     assert.equal((await card.locator('.tb-explanation-copy').innerText()).trim(),q.why);
+    assert.equal((await card.locator('.tb-exam-trap').innerText()).trim(),q.trap);
+    const details=card.locator('.tb-distractor-analysis');await details.locator('summary').click();assert.ok(await details.getAttribute('open')!==null);
+    const wrong=q.options.map((_,j)=>j).filter(j=>j!==q.answer);const rows=details.locator('.tb-distractor-row');assert.equal(await rows.count(),3);
+    for(let j=0;j<3;j++)assert.equal((await rows.nth(j).locator('p').innerText()).trim(),q.optionRationales[wrong[j]]);
+    await card.locator('.tb-quality-details summary').click();assert.ok((await card.locator('.tb-quality-details').innerText()).includes('All distractor rationales'));
+    const box=card.locator('.tb-report-box');assert.equal(await box.isVisible(),false);
+    await card.locator('[data-report-question]').click();assert.equal(await box.isVisible(),true);
+    await box.locator('[data-report-type]').selectOption({label:'Other'});await box.locator('[data-report-note]').fill('Isolated audit check; no message is sent.');
+    await box.locator('[data-prepare-report]').click();const mail=await box.locator('[data-report-link]').getAttribute('href');assert.ok(mail.startsWith('mailto:'));assert.ok(decodeURIComponent(mail).includes(q.stem));
+    await card.locator('[data-report-question]').click();assert.equal(await box.isVisible(),false);
     const copy=await card.innerText();const rationales=q.optionRationales.map(r=>copy.includes(r));
     for(const theme of ['light','dark']){
      await page.evaluate(t=>{document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;},theme);
-     await card.screenshot({path:path.join(out,engine+'-'+layout+'-q'+String(i+1).padStart(2,'0')+'-review-'+theme+'.png'),style:'header.site{position:relative!important;top:auto!important}'});
+     await card.screenshot({path:path.join(out,engine+'-'+layout+'-q'+String(i+1).padStart(2,'0')+'-review-'+theme+'.png'),style:'header.site{visibility:hidden!important}'});
      const axe=await new AxeBuilder({page}).include('.tb-review-card').withTags(['wcag2a','wcag2aa']).analyze();
-     report.cases.push({engine,layout,theme,number:i+1,qid:q.qid,phase:'review',status:'correct',rationales,geometry:await geometry(page,'.tb-review-card'),axe:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))});save();
+     report.cases.push({engine,layout,theme,number:i+1,qid:q.qid,phase:'review',status:'correct',reviewedTip:true,expandedDistractors:true,issueFormToggle:true,preparedUnsentReport:true,rationales,geometry:await geometry(page,'.tb-review-card'),axe:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))});save();
     }
    }
    report.cases.push({engine,layout,phase:'session',result:'25/175',auditedQuestions:25,untouchedUnanswered:150,flagPersisted:true});

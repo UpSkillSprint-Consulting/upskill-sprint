@@ -26,6 +26,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.A; I.B.2; I.E.2"
       }
+    ],
+    "trap": "Test both stated decision criteria: customer convenience and the documented reimbursement mechanism. A plausible strategic story is not a substitute for that evidence.",
+    "distractors": [
+      "Correct. It uses the verified weakness-to-threat mechanism and separates strategic fit from final authorization.",
+      "Boarding may be important, but no connection from boarding to the two specific strategic findings is supplied.",
+      "Payback and strategic alignment are different criteria; a fast return does not establish the missing linkage.",
+      "Feasibility does not demonstrate equal strategic contribution. The documented mechanism distinguishes the projects."
     ]
   },
   {
@@ -53,6 +60,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.A; I.F.4"
       }
+    ],
+    "trap": "Plausible scenarios are not probabilities. Without defensible likelihoods, test robustness and define observable triggers rather than inventing an expected-value model.",
+    "distractors": [
+      "Unsupported equal probabilities create false precision; scenario plausibility alone does not establish likelihood.",
+      "A fixed ranking ignores the very external uncertainty the committee needs to manage.",
+      "Correct. It evaluates robustness and defines how new evidence will change contingent decisions.",
+      "Optimizing for a favorable future does not establish robustness, and delivery milestones do not monitor external assumptions."
     ]
   },
   {
@@ -117,6 +131,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.B.2–3; I.F.4"
       }
+    ],
+    "trap": "Recompute both weighted totals, then distinguish the nominal ranking from a robust funding decision. The phrase about ratings not being sensitivity-tested is context, not a negative question lead-in.",
+    "distractors": [
+      "Correct. The arithmetic favors Y, while the small lead and judgment-based inputs warrant sensitivity and feasibility checks.",
+      "The weighted totals are 6.8 and 6.7, not 7.0 and 6.6; the proposed feasibility check does not repair the arithmetic.",
+      "Averaging the two totals gives 6.75, but does not make either project's own weighted score 6.75.",
+      "Agreed weights specify preferences; they do not remove uncertainty in the underlying ratings."
     ]
   },
   {
@@ -144,6 +165,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.B.2–3; I.F.2"
       }
+    ],
+    "trap": "Separate past gains and sunk expenditure from future incremental contribution. The question asks for a reassessment process, not automatic cancellation or continuation.",
+    "distractors": [
+      "Correct. It reassesses the future decision jointly and allows the evidence to support continuation, rescoping or closure.",
+      "Historical effort and achieved gains do not establish that further spending is justified under the changed strategy.",
+      "Automatic cancellation skips the comparison of remaining costs, residual benefits and alternative uses of capacity.",
+      "Uncertainty about past benefit realization should be tracked, but does not justify postponing assessment of remaining work."
     ]
   },
   {
@@ -171,6 +199,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.C.2–6; I.F.2"
       }
+    ],
+    "trap": "Distinguish activity and forecasts from validated, sustained outcomes. Diagnose the evidence and ownership gaps instead of inferring deployment maturity from training counts.",
+    "distractors": [
+      "Training volume is an input and capability indicator, not a substitute for demonstrated sustained outcomes.",
+      "More selection reviews and forecasts do not provide the missing post-closure evidence.",
+      "Correct. It closes the measurement, ownership and learning gaps identified in the case.",
+      "Knowledge capture helps, but closure sign-off alone does not demonstrate later financial realization or sustainment."
     ]
   },
   {
@@ -203,6 +238,13 @@
         "url": "https://scrumguides.org/scrum-guide.html",
         "locator": "Scrum Theory; Increment; Definition of Done"
       }
+    ],
+    "trap": "Scrum delivery evidence and process-improvement evidence are different. Preserve testable increments while still verifying the process outcome and its sustainment.",
+    "distractors": [
+      "Correct. It combines iterative delivery with verification of the improvement and its sustainment.",
+      "Completed work and delivery velocity do not establish a reduction in the targeted process defects.",
+      "A fixed solution and task-assignment-only use remove the inspection and adaptation central to Scrum.",
+      "The Definition of Done supports increment quality; it is not the same as sustained process-outcome evidence."
     ]
   },
   {
@@ -267,6 +309,13 @@
         "url": "https://asq.org/quality-resources/cost-of-quality",
         "locator": "What is Cost of Poor Quality (COPQ)?"
       }
+    ],
+    "trap": "Use the explicitly stated prevention-appraisal-failure definitions. COPQ is failure cost; total COQ also includes prevention and appraisal. Neither ratio alone establishes maturity.",
+    "distractors": [
+      "7.25% is total COQ, not COPQ, and no validated maturity threshold is supplied.",
+      "Correct. It uses the failure-cost definition and distinguishes an investigation priority from a proven intervention or maturity rating.",
+      "4.75% includes external failures only; COPQ also includes the $1.2M internal failure cost.",
+      "Appraisal is not a failure category, is smaller than either failure category, and cannot be removed solely from its cost."
     ]
   },
   {
@@ -294,6 +343,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.E.1–2; I.B.3"
       }
+    ],
+    "trap": "Two reported rates establish a numerical difference, not a defensible inferential comparison. Check denominator information, comparability and practical consequences.",
+    "distractors": [
+      "Multiplying both rates by the same conversion factor does not make the underlying definitions or populations comparable.",
+      "A favorable point estimate does not establish economic irrelevance or a statistically supported performance difference.",
+      "External benchmarks can be useful when appropriately comparable; internal averages are not automatically suitable targets.",
+      "Correct. It identifies the missing measurement, inference and decision context without rejecting benchmarking itself."
     ]
   },
   {
@@ -358,6 +414,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.F.1; I.F.4"
       }
+    ],
+    "trap": "Multiply each success-conditional benefit by its success probability under the zero-failure-benefit assumption. Keep gross benefits separate from costs and ordinal risk scores.",
+    "distractors": [
+      "Correct. The ranking is numerical, while final selection still needs the missing costs, constraints and separate risk assessment.",
+      "This is the raw-benefit ranking; incorporating success probabilities puts P4 above P2.",
+      "This is the success-probability ranking, not the expected-benefit ranking.",
+      "The ranking is correct, but division by an ordinal risk rating does not produce a validated net monetary measure."
     ]
   },
   {
@@ -412,6 +475,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.C.3; I.F.1–2"
       }
+    ],
+    "trap": "Compute sequential waves at the stated concurrent capacity. A deterministic planning baseline is not a promise that real disruptions and variation have been covered.",
+    "distractors": [
+      "Giving each Belt four concurrent projects does not multiply the stated capacity or remove the total work requirement.",
+      "Correct. It calculates the baseline and distinguishes the simplified model from an operational promise.",
+      "Three waves complete only 18 projects; 24 require four waves at six projects per wave.",
+      "The arithmetic excludes disruptions and variability by assumption; it cannot be claimed to have allowed for them."
     ]
   },
   {
@@ -459,6 +529,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.F.2; I.F.4"
       }
+    ],
+    "trap": "Reconcile opening work plus starts minus completions in every period. Accumulation does not identify its cause or establish steady-state mean lead time.",
+    "distractors": [
+      "Multitasking is a hypothesis, not a proven cause, and reducing capacity is not supported by the observed aggregates.",
+      "The ratio is 5.5 quarters, but its inputs are a snapshot and one interval from a changing system, not compatible stable averages.",
+      "WIP is unfinished inventory, not output; increasing WIP with falling completions does not demonstrate productivity improvement.",
+      "Correct. It distinguishes the reconciled flow pattern from a causal diagnosis and gathers evidence for an appropriate intervention."
     ]
   },
   {
@@ -486,6 +563,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.B.1–3"
       }
+    ],
+    "trap": "Treat local optimization as a hypothesis consistent with the pattern, not a proven cause. Preserve useful local measures while testing their end-to-end effects.",
+    "distractors": [
+      "A local improvement is not evidence of a favorable end-to-end effect; tighter targets could worsen an untested tradeoff.",
+      "Replacing every diagnostic measure with the top-level outcome sacrifices information; complementary measures can be aligned.",
+      "Organizational structure alone does not identify the failure mechanism or justify a merger.",
+      "Correct. It tests the mechanism and balances local efficiency against the intended enterprise outcome."
     ]
   },
   {
@@ -513,6 +597,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.F.3; I.E.2"
       }
+    ],
+    "trap": "Treat the confirmed obligation and deadline as case facts. A mandatory feasibility constraint is not interchangeable with a discretionary satisfaction or benefit score.",
+    "distractors": [
+      "VOC data do not supersede an independently confirmed obligation.",
+      "Treating mandatory compliance as freely exchangeable for discretionary benefits can produce an infeasible or noncompliant portfolio.",
+      "Correct. It protects the confirmed deadline and then makes the constrained discretionary allocation.",
+      "Waiting until the effective date or an observed failure risks knowingly missing the required implementation window."
     ]
   },
   {
@@ -540,6 +631,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.C.3–4"
       }
+    ],
+    "trap": "This is an internal qualification system, not an ASQ eligibility rule. Compare the evidence standards and assessor calibration rather than certificate appearance or attendance.",
+    "distractors": [
+      "Uniform tenure does not resolve differences in assessed competence or uncalibrated decision standards.",
+      "Correct. It standardizes the evidence and review process without inventing external certification requirements.",
+      "Attendance is evidence of participation, not sufficient evidence of applied project and technical competence.",
+      "A common certificate design does not make undocumented department-specific criteria equivalent."
     ]
   },
   {
@@ -567,6 +665,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.F.1–4"
       }
+    ],
+    "trap": "Strategic concentration can be justified, but a top KPI does not validate every marginal project. Check overlapping benefits and uncovered material risks before reallocating.",
+    "distractors": [
+      "The top priority does not eliminate the need for portfolio-level benefit and risk analysis before committing resources.",
+      "Equal counts are not a demonstrated optimum and can disregard strategic value and project size.",
+      "Shared scope creates a need to investigate interactions; it does not prove identical benefits.",
+      "Correct. It tests whether concentration remains justified instead of assuming either concentration or diversification is inherently optimal."
     ]
   },
   {
@@ -594,6 +699,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.D.1–2; I.B.3"
       }
+    ],
+    "trap": "Reducing false positives is not sufficient if missed fraud or losses increase. Investigate the existing process and preserve detection-performance guardrails.",
+    "distractors": [
+      "The case has not established the need for a new design or the inadequacy of the existing process.",
+      "Complaint reduction alone cannot establish that the fraud-detection tradeoff is acceptable.",
+      "A wholesale rollback confounds changes and can introduce other adverse outcomes; timing alone does not identify causes.",
+      "Correct. It selects a suitable investigation framework and protects the intended detection outcome."
     ]
   },
   {
@@ -621,6 +733,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.A; I.B.2–3"
       }
+    ],
+    "trap": "The defect is exclusive reliance on budget variance despite omitted strategic objectives. Financial evidence need not be discarded to repair that omission.",
+    "distractors": [
+      "Financial performance remains relevant; the flaw is exclusive reliance on it, not its inclusion.",
+      "The case explicitly states strategic objectives that are not represented by the budget-only selection rule.",
+      "Correct. It integrates the omitted strategic dimensions without abandoning financial discipline.",
+      "A longer forecast is still incomplete unless the stated nonfinancial objectives and constraints are represented."
     ]
   },
   {
@@ -648,6 +767,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.E.1–2"
       }
+    ],
+    "trap": "Return status defines the restricted sampling frame; it does not reveal why people did not return. More observations from that same frame do not include the excluded population.",
+    "distractors": [
+      "Larger sample size can improve precision within returners but does not include the excluded population.",
+      "Non-return does not establish dissatisfaction or a service failure; the reasons must be investigated.",
+      "Return behavior is the selection mechanism, not evidence of representativeness for all recipients.",
+      "Correct. It identifies the coverage/selection issue and gathers missing evidence without imputing negative experiences."
     ]
   },
   {
@@ -675,6 +801,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.A; I.F.2"
       }
+    ],
+    "trap": "Respond to changed assumptions before losses materialize, but distinguish affected from unaffected projects. A demand threat does not justify freezing or cancelling every project.",
+    "distractors": [
+      "Correct. It responds to material new evidence through formal review while distinguishing affected from unaffected work.",
+      "A planning horizon does not prohibit trigger-based reassessment of assumptions during that horizon.",
+      "Credible prospective evidence is relevant to future investment decisions; waiting for realized loss can waste capacity.",
+      "A threat to part of demand does not establish negative value for every project, particularly those in unaffected families."
     ]
   },
   {
@@ -707,6 +840,13 @@
         "url": "https://www.osha.gov/safety-management/program-evaluation",
         "locator": "Action items 1–3; leading and lagging indicators"
       }
+    ],
+    "trap": "Near-miss counts are not direct measurements of hazard frequency or severity. Review reporting and exposure while promptly controlling identified serious hazards.",
+    "distractors": [
+      "Counts alone do not establish the mechanism, and identical treatment ignores different potential consequences and urgency.",
+      "Correct. It protects workers promptly and uses appropriate evidence rather than a simplistic ranking of reported counts or realized costs.",
+      "Absence of a realized injury cost does not establish absence of serious risk or remove the need for preventive action.",
+      "Improved reporting is one possible explanation, not proof that hazards are controlled or risk has fallen."
     ]
   },
   {
@@ -734,6 +874,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.B.1–3"
       }
+    ],
+    "trap": "Metric age is not the alignment test. Diagnose missing role-level outcome linkage and incentive balance without assuming every legacy measure must be replaced.",
+    "distractors": [
+      "An old measure can retain diagnostic or financial value when balanced with the strategic objective.",
+      "A governance and incentive gap can be identified before a downstream adverse outcome is observed.",
+      "Correct. It addresses the missing role-level linkage without requiring arbitrary replacement of every existing measure.",
+      "Renaming or changing a target does not by itself establish alignment, and retaining a valid measure is not necessarily a failure."
     ]
   },
   {
@@ -761,6 +908,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.C.3; I.F.1–2"
       }
+    ],
+    "trap": "Separate season-dependent data collection from valid preparatory work. Schedule capacity around the real evidence window without substituting fabricated observations.",
+    "distractors": [
+      "Correct. It recognizes the real constraint while separating preparatory tasks from season-dependent work.",
+      "The case explicitly states preparatory tasks that can occur earlier; delaying them wastes the available window.",
+      "A full-time assignment to blocked work can displace productive work and does not eliminate the underlying wait.",
+      "Estimated substitutes do not meet the stipulated field-evidence requirement and can undermine the analysis."
     ]
   },
   {
@@ -788,6 +942,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.C.3; I.C.6"
       }
+    ],
+    "trap": "Benefits divided by cost is the benefit-cost ratio. Net ROI subtracts cost first. Historical return and the case for future incremental funding are separate judgments.",
+    "distractors": [
+      "The two measures are confused: 6.0833 is net benefit/cost, while 708.3% expresses gross benefits as a percentage of cost.",
+      "The arithmetic is correct, but historical one-year returns do not establish that the same future funding is always justified.",
+      "Correct. It separates the two financial measures and combines historical evidence with a forward-looking funding assessment.",
+      "708.3% is gross benefit/cost expressed as a percentage, not the defined net ROI after subtracting cost."
     ]
   },
   {
@@ -815,6 +976,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.A; I.F.2"
       }
+    ],
+    "trap": "The missing control is a trigger-to-decision rule between scheduled meetings. More reporting alone is not formal reassessment or reauthorization.",
+    "distractors": [
+      "Holding teams to obsolete assumptions can preserve a plan that no longer produces the intended value.",
+      "Private revisions bypass the common decision and audit controls needed for portfolio-level tradeoffs.",
+      "Correct. It establishes a usable response to material changes rather than merely increasing reporting.",
+      "Status frequency does not determine how changed strategic assumptions alter authorization or allocation."
     ]
   },
   {
@@ -842,6 +1010,13 @@
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
         "locator": "I.B.1–3"
       }
+    ],
+    "trap": "Test outcome linkage, gaming and end-to-end tradeoffs. Renaming or retargeting a metric does not establish alignment, and a valid existing measure may remain useful.",
+    "distractors": [
+      "Correct. It assesses the mechanism and tradeoffs rather than treating novelty or uniformity as evidence of alignment.",
+      "Role-appropriate local measures can support an enterprise outcome without being identical to it.",
+      "A changed target does not demonstrate either a valid causal contribution or protection against unintended behavior.",
+      "Age is not a validity criterion; a retained measure can remain appropriate under the new strategy."
     ]
   },
   {
