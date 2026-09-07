@@ -178,7 +178,8 @@
     "findings": [
       "Authoring-rationale leakage removed.",
       "Qualified claims of immediate interaction recognition and supplied units/uncertainty context.",
-      "Replaced implausible distractors with inference and data-provenance errors."
+      "Replaced implausible distractors with inference and data-provenance errors.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "A cube reorganizes the same eight means; it adds a spatial view, not independent measurements or an error estimate. For example, raising A changes the mean by 9 nm/min at low B and C, but by 18 nm/min at high B and C. That difference is a descriptive conditional pattern, not a significance result. The largest observed mean is 89 nm/min at the all-high corner; the excerpt does not identify the best untested interior setting or establish robustness.",
     "keyIndexChanged": false
@@ -246,7 +247,8 @@
     },
     "findings": [
       "Qualified a universal two-level default.",
-      "Specified budget and curvature needs; independently checked 125 versus 8."
+      "Specified budget and curvature needs; independently checked 125 versus 8.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "The full factorial requires 5³ = 125 settings versus 2³ = 8, before any replication or extra confirmation. The ratio is 15.625 and the difference is 117 settings. A 30-trial budget therefore cannot accommodate the proposed 125-setting design. Extra levels can characterize nonlinear behavior, but the design should be chosen for its model and precision requirements. Two-level corners alone do not separate pure-quadratic terms, and replication at an existing corner adds precision rather than a new factor level. No uniquely optimal 30-run plan follows from the information given.",
     "keyIndexChanged": false
@@ -309,7 +311,8 @@
     },
     "findings": [
       "Removed absolute claim that all reporting must stop.",
-      "Added denominator, promise-date, lineage and historical-restatement limitations."
+      "Added denominator, promise-date, lineage and historical-restatement limitations.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "A common label is not a common operational definition. The reporting purpose must determine the promised-date convention, unit of analysis, eligible denominator, event, exclusions and handling of revised commitments. Named ownership and versioning support consistent implementation. Local variants may remain useful if clearly labeled and reconciled. Some historical records may not contain the fields needed to restate them; mark that limitation rather than fabricate comparability. The issue prevents the intended enterprise comparison, not every possible local analysis.",
     "keyIndexChanged": false
@@ -378,7 +381,8 @@
     "findings": [
       "Specified duplicate denominator and business grain.",
       "Removed assumption that source-local unique IDs identify cross-system events.",
-      "Added ambiguous-match handling and explicit reconciliation."
+      "Added ambiguous-match handling and explicit reconciliation.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "The required grain is one defect event, not one asset or one source row. Cross-system identity needs a business event key or a documented matching process; source-local ID collisions and differing representations both require attention. Reconciliation should preserve provenance, distinguish repeat events from replicated representations and resolve uncertain matches. The stated 8% uses combined rows as its denominator; it is not automatically the percentage overstatement relative to the corrected unique count. With only duplicate removal and complete coverage, that relative overstatement would be 0.08/0.92, about 8.70%.",
     "keyIndexChanged": false
@@ -442,7 +446,8 @@
     "findings": [
       "Removed cross-bank reference.",
       "Corrected implication that a timestamp alone fixes operational fitness.",
-      "Distinguished upstream coverage from display-refresh time."
+      "Distinguished upstream coverage from display-refresh time.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "A display refresh does not establish that source events are current or complete. The immediate control is to remove misleading real-time claims, show coverage and age, and prevent unsupported decisions or provide an approved current alternative. The durable design specifies the maximum acceptable end-to-end age for each decision, feed-latency monitoring, visible failure states and accountable response. Updating once per shift may still be inadequate for a decision made within the shift. Disclosure informs use; it does not repair unsuitable evidence.",
     "keyIndexChanged": false
@@ -505,7 +510,8 @@
     },
     "findings": [
       "Corrected conflation of probability score with severity.",
-      "Added horizon, calibration, consequence, effort and action-feasibility assumptions."
+      "Added horizon, calibration, consequence, effort and action-feasibility assumptions.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "A binary flag loses ranking information, but a calibrated failure probability is still not consequence severity or intervention benefit. Under the stipulated equal inspection effort and additive, separable benefits, probability × loss conditional on failure × fraction preventable by the feasible action supports an expected-benefit ranking. Mandatory constraints remain outside this discretionary comparison. Uncertain consequences, calibration, dependencies, changing horizons and action capacity require review; the largest raw score is not a universal optimum. Four weekly batches would use different risk horizons and must be reassessed.",
     "keyIndexChanged": false
@@ -568,7 +574,8 @@
     },
     "findings": [
       "Upgraded recall to a specific leakage diagnosis.",
-      "Added unseen-category and subgroup checks without claiming ZIP code is always prohibited."
+      "Added unseen-category and subgroup checks without claiming ZIP code is always prohibited.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "Sparse high-cardinality categories can support unstable memorization. Encoding them using outcomes from validation cases leaks those outcomes into their features. Any learned preprocessing must be fit within the development split and cross-validation procedure; outcome-based encoders need suitable out-of-fold construction for training examples as well. Grouping or regularization are candidates, not guaranteed cures, and unseen regions need defined handling. Geography may also act as a proxy for sensitive attributes, so assess relevant subgroup performance and permitted use rather than assuming universal exclusion or universal acceptability.",
     "keyIndexChanged": false
@@ -631,7 +638,8 @@
     },
     "findings": [
       "Removed unsupported legal implication and age-equals-poor-quality claim.",
-      "Distinguished archival status, anonymization, retention and access."
+      "Distinguished archival status, anonymization, retention and access.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "Indefinite uncontrolled retention increases exposure and can undermine purpose, access and lineage controls. It is not automatically unlawful in every setting, and old records are not automatically inaccurate or analytically irrelevant. Relevant obligations, preservation needs and defensible business purposes must determine schedules and access. Archiving changes storage or access arrangements; it does not necessarily anonymize data or resolve retention obligations. No specific legal period can be derived from the scenario, so qualified organizational review is required before implementing deletion rules.",
     "keyIndexChanged": false
@@ -694,7 +702,8 @@
     },
     "findings": [
       "Removed cross-question references.",
-      "Added pooled-denominator and mix effects, while retaining legitimate aggregate reporting."
+      "Added pooled-denominator and mix effects, while retaining legitimate aggregate reporting.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "The pooled unit yield is total first-pass units divided by total first-inspected units, not usually the unweighted average of line percentages. It remains useful for its stated aggregate purpose, but can hide opposing within-line trends or change because product mix changes. Stratified numerators, denominators and uncertainty support diagnosis. Complexity adjustment or common-mix comparisons may be appropriate when supported; stratification alone does not make managerial comparisons causally fair. This metric is not automatically rolled-throughput yield across several process stages.",
     "keyIndexChanged": false
@@ -762,7 +771,8 @@
     },
     "findings": [
       "Corrected claim that row-count validation alone would catch the defect.",
-      "Specified intended grain and a concrete cancellation counterexample."
+      "Specified intended grain and a concrete cancellation counterexample.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "The output contains E1 twice, E3 once and no E2. Its amount total is 100 + 100 + 300 = 500 rather than the original 600, even though both row counts are three. An inner join can drop unmatched events while another key multiplies rows. Validate the intended grain, key uniqueness, match multiplicity, unmatched coverage and business totals. A LEFT JOIN preserves unmatched left rows but still multiplies them when several right-side matches exist. Non-unique joins are not inherently wrong; they are wrong here because they violate the specified one-event grain.",
     "keyIndexChanged": false
@@ -825,7 +835,8 @@
     },
     "findings": [
       "Removed unsupported formal maturity framing.",
-      "Added no-action decisions, authority and outcome follow-up rather than tool purchasing."
+      "Added no-action decisions, authority and outcome follow-up rather than tool purchasing.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "The demonstrated gap is between evidence and governed action, not proof of a missing software class or a formally scored maturity level. A decision process needs accountable roles, appropriate triggers, explicit decisions—including justified no-action decisions—and verification of follow-through. Uncertainty and practical consequences should inform triggers. Once the process is defined, optimization or other tools may help where they meet a real need. A recommendation is not automatically an authorized decision, and every fluctuation need not provoke adjustment.",
     "keyIndexChanged": false
@@ -888,7 +899,8 @@
     },
     "findings": [
       "Removed reference to another enterprise scenario.",
-      "Differentiated this task from Q153 by testing versioning and change authority."
+      "Differentiated this task from Q153 by testing versioning and change authority.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "Canonical reporting and local analysis can coexist when their semantic identities, purposes and ownership are clear. A changed denominator changes the quantity measured; retaining the same identifier creates silent ambiguity. Versioned definitions, lineage, explicit permissions and downstream impact review make changes auditable. A canonical change may require historical restatement or a marked break in series; neither is implied automatically. This item concerns change control after a definition exists, not repeating the initial definition exercise.",
     "keyIndexChanged": false
@@ -996,7 +1008,8 @@
     },
     "findings": [
       "Replaced the unparameterized generic diagram with an explicit incomplete review-status sketch.",
-      "Distinguished technical judgments from measured correlations and preserved valid partial work."
+      "Distinguished technical judgments from measured correlations and preserved valid partial work.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "The roof addresses relationships among technical characteristics, whereas the body links customer needs to technical characteristics. Missing roof analysis can leave design conflicts or synergies unexamined. The omission does not prove independence or invalidate every other entry. Such roof assessments may initially be engineering judgments: they are not automatically measured Pearson correlations or experimentally established causal effects. Record the rationale, uncertainty and follow-up evidence for material trade-offs. The visual is a review-status sketch, not measured clinical performance or a complete safety assessment.",
     "keyIndexChanged": false
@@ -1064,7 +1077,8 @@
     },
     "findings": [
       "Qualified invented target and verification/validation terminology.",
-      "Added tail metric and timeout/denominator ambiguity for an MBB-level decision."
+      "Added tail metric and timeout/denominator ambiguity for an MBB-level decision.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "A CTQ must translate the need into a verifiable requirement with an appropriate population, statistic, boundary and criterion. An average among successful cases can hide poor tail performance and excludes the failure experience. A percentile or time-based success target may be suitable, but its value must be agreed from customer and operational evidence rather than invented by the auditor. Define timeouts and excluded cases explicitly and retain other needs such as accuracy and accessibility. Exploratory design can continue, but requirements cannot be claimed complete without this definition.",
     "keyIndexChanged": false
@@ -1132,7 +1146,8 @@
     },
     "findings": [
       "Removed universal named-document claim.",
-      "Added method tailoring, configuration control and verification versus validation distinction."
+      "Added method tailoring, configuration control and verification versus validation distinction.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "A design verification plan or equivalent controlled record should show how each applicable requirement will be checked and how results support the claimed configuration. The need is traceable evidence, not a specific title or paperwork volume. Verification methods can include test, analysis, inspection or demonstration where suitable; sampling and uncertainty must fit the claim. Validation asks whether the product serves intended users and use conditions, not merely whether written specifications were met. Missing coverage and acceptance criteria should be resolved before readiness is claimed.",
     "keyIndexChanged": false
@@ -1258,7 +1273,8 @@
     "findings": [
       "Corrected Pugh scale terminology.",
       "Removed unsupported ranking across absent alternatives.",
-      "Added absolute safety gate and independently verified +1.05."
+      "Added absolute safety gate and independently verified +1.05.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "The weighted score is 0.25(2) + 0.30(2) + 0.20(1) + 0.25(−1) = 1.05. It is a judgment-based comparative index, not a probability or a verified safety result. A safety score below baseline does not itself prove failure of an absolute limit, but an unverified mandatory requirement cannot be offset by favorable scores elsewhere. Evaluate the safety evidence and resolve any failing requirement before release. No other concepts’ scores are supplied, so the table does not independently establish that C is the best of four.",
     "keyIndexChanged": false
@@ -1326,7 +1342,8 @@
     },
     "findings": [
       "Removed cross-bank prosthetics reference and false binary framing.",
-      "Qualified risk/volume trade-off and preserved mandatory requirements."
+      "Qualified risk/volume trade-off and preserved mandatory requirements.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "The choice is not necessarily exhaustive optimization versus unsupported release. Use failure consequences, uncertainty, existing evidence, feasible designs and schedule to determine the additional work required. A targeted sequential DOE, focused robustness study or other suitable evidence may resolve key gaps more efficiently. High consequence does not prescribe one particular design, and low sales volume does not waive mandatory requirements. Optimize only where the expected information and design benefit justify it, while retaining necessary verification and validation before release.",
     "keyIndexChanged": false
@@ -1434,7 +1451,8 @@
       "Corrected simultaneous-onset implication.",
       "Removed answer-revealing gate-definition table and replaced it with scenario probability evidence.",
       "Added dependence and independently calculated joint probability.",
-      "Final review fixes the common demand instant so temporally separate unavailability periods are not confused with coincident states."
+      "Final review fixes the common demand instant so temporally separate unavailability periods are not confused with coincident states.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "An AND output is the intersection of its input events. Here P(A and B) = P(A) × P(B given A) = 0.02 × 0.10 = 0.0020, or 0.20%. Multiplying the marginals would give 0.0006, but independence is explicitly contradicted by P(B given A) = 0.10 versus P(B) = 0.03. The union probability would be 0.02 + 0.03 − 0.002 = 0.048. Both unavailability states must be present at the specified demand; a static AND gate does not require identical failure onset times or specify sequence. The simplified tree is not a complete aircraft safety assessment.",
     "keyIndexChanged": false
@@ -1497,7 +1515,8 @@
     },
     "findings": [
       "Distinguished robustness assessment from robust parameter selection.",
-      "Added control/noise comparison, mean-target trade-off and coverage limits."
+      "Added control/noise comparison, mean-target trade-off and coverage limits.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "Robust parameter design seeks controllable settings that perform acceptably despite relevant noise, not simply settings with the best nominal mean. A planned control-by-noise comparison can expose sensitivity and important interactions while evaluating the target level and constraints. Testing only one configuration may assess it, but cannot by itself identify the best untested alternative. Laboratory coverage, replication and confirmation must support the intended-use claim; no finite set of noise levels proves performance under every possible field condition.",
     "keyIndexChanged": false
@@ -1565,7 +1584,8 @@
     },
     "findings": [
       "Corrected tolerance-to-SD assumption gap.",
-      "Separated conditional predicted index, stability, empirical capability and tail probability."
+      "Separated conditional predicted index, stability, empirical capability and tail probability.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "Specification or tolerance limits constrain allowed geometry; they do not uniquely determine a manufacturing distribution or its standard deviation. A model-based capability forecast needs a justified mean, variation and dependence model, with explicit uncertainty and intended conditions. It can guide early design choices and sensitivity analysis, but is not an observed production-capability result. Empirical evidence is needed to validate the model and assess stable, representative operation. Even a numerically defined Cpk does not by itself establish a distribution-based tail probability or future stability.",
     "keyIndexChanged": false
@@ -1701,7 +1721,8 @@
     "findings": [
       "Supplied missing assembly equation and acceptance limit.",
       "Corrected implied feasibility and cost-optimality of the original illustrative allocation.",
-      "Retained original component tolerances and independently checked all 32 extreme combinations."
+      "Retained original component tolerances and independently checked all 32 extreme combinations.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "For the stated additive geometry and hard-bound guarantee, the worst-case half-width is 0.02 + 0.05 + 0.10 + 0.10 + 0.05 = 0.32 mm, exceeding 0.25 mm by 0.07 mm. Even eliminating component 1’s entire 0.02 mm contribution leaves 0.30 mm. Root-sum-square gives about 0.1594 mm but is not an all-combinations guarantee; statistical interpretations would need a permitted probabilistic criterion and justified distributions and dependencies. Optimize using sensitivities, feasible manufacturing capability and marginal costs. Qualitative cost labels alone do not prove a unique cost optimum.",
     "keyIndexChanged": false
@@ -1769,7 +1790,8 @@
     },
     "findings": [
       "Removed implication that accelerated testing is universally required or sufficient.",
-      "Added mission, dependence, failure-mechanism and uncertainty requirements."
+      "Added mission, dependence, failure-mechanism and uncertainty requirements.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "A component model is useful evidence but does not resolve unsupported assembly interactions, environments and dependence. The verification strategy should define the mission, configuration, relevant failure modes, confidence or other uncertainty treatment and acceptance criteria. Integrated tests or justified combinations of evidence must address the actual gaps. Accelerated testing requires a defensible stress-life relationship and should not introduce unrelated mechanisms; a single arbitrary high-stress exposure is not automatically a use-life demonstration. No universal accelerated-test requirement or multiplier can be inferred from this case.",
     "keyIndexChanged": false
@@ -1838,7 +1860,8 @@
     "findings": [
       "Removed explicit cross-bank dependence.",
       "Qualified blanket prohibition on all design work before measurable goals.",
-      "Distinguished discovery from design freeze."
+      "Distinguished discovery from design freeze.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "A directional aspiration can initiate discovery but cannot support a claim that a frozen design satisfies agreed needs. The team and sponsor should operationalize objectives, baselines, measurement conditions, constraints and acceptance evidence. Targets should follow from customer and business evidence rather than arbitrary percentages, and competing requirements must remain visible. This does not require pretending every uncertainty is resolved before exploratory work; it requires matching authorization and claims to the maturity of the requirements.",
     "keyIndexChanged": false
@@ -1912,7 +1935,8 @@
     "findings": [
       "Corrected rigid sequential toolchain and CTQ-tree ordering overclaims.",
       "Removed author-level capstone commentary.",
-      "Differentiated from verification-plan recall by testing change impact and configuration evidence."
+      "Differentiated from verification-plan recall by testing change impact and configuration evidence.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "The connecting principle is traceability from intended needs through measurable requirements and design decisions to relevant verification and validation evidence. DFSS tools do not impose one universal linear sequence, and a CTQ tree does not necessarily start from specifications already generated by QFD. A change-impact review should identify which assumptions, analyses and tests remain valid and which must be revised or repeated. Completed documents from inconsistent versions are not a coherent evidence package. Updating labels without reassessment would conceal the missing support.",
     "keyIndexChanged": false
@@ -1980,7 +2004,8 @@
     },
     "findings": [
       "Replaced hardware-versus-software recall with specific operationalization and denominator checks.",
-      "Qualified diagnostic accuracy and avoided unverified universal thresholds."
+      "Qualified diagnostic accuracy and avoided unverified universal thresholds.",
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
     ],
     "independentSolution": "QFD’s customer-to-technical translation applies to products and services; the measurable characteristics must fit the context. Tail response times, availability and output correctness may matter, but the team must agree values, populations, references and conditions rather than assume a universal target. Average latency among successes can conceal overload and failed requests. Test coverage describes exercised code, not proof of requirement satisfaction or intended-use performance. This is a requirements-method question, not a claim that the tool’s diagnostic accuracy or clinical suitability has been established.",
     "keyIndexChanged": false

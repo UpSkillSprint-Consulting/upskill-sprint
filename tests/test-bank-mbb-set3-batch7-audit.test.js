@@ -105,3 +105,11 @@ for(let rotation=0;rotation<4;rotation++)test(`Batch 7 every answer position gra
 });
 
 test('Q168 explicitly evaluates both unavailable states at the same demand rather than at different mission times',()=>{assert.match(batch[17].stem,/at that same demand/);assert.match(batch[17].chart.altText,/same specified mission demand/);});
+
+test('Every Batch 7 review gets its actual item reference; unsafe or out-of-scope links cannot be injected',()=>{
+ const c={window:{}};vm.runInNewContext(read('test-bank-mbb-set3-batch7-ui.js'),c);const ui=c.window.__MBBSet3Batch7UI;
+ for(const q of batch){const h=ui.referenceLink(q);assert.match(h,/Reference: /);assert.ok(h.includes(q.auditSources[1].url.replace(/&/g,'&amp;')));assert.doesNotMatch(h,/Study: Design of Experiments/);}
+ assert.equal(ui.referenceLink(bank[0]),'');assert.doesNotMatch(ui.referenceLink({...batch[0],auditSources:[{}, {title:'bad',url:'javascript:alert(1)'}]}),/<a/);
+ assert.doesNotMatch(ui.referenceLink({...batch[0],auditSources:[{}, {title:'bad',url:'https://www.nasa.gov.attacker.example/'}]}),/<a/);
+ assert.match(ui.referenceLink({...batch[0],auditSources:[{}, {title:'<img onerror=bad>',url:'https://www.nasa.gov/reference/'}]}),/&lt;img/);
+});

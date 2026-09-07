@@ -277,7 +277,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
       '<div class="tb-answer-compare"><div><span>Your answer</span><strong>' + esc(answerText(question, record.selected)) + '</strong></div>' +
       '<div><span>Correct answer</span><strong>' + esc(answerText(question, question.answer)) + '</strong></div></div>' +
       '<div class="tb-explanation"><div class="tb-explanation-title">Why this is correct</div><div class="tb-explanation-copy">' + (question.why || 'An explanation is not available for this question yet.') + '</div>' + auditedRationales(question) + '</div>' +
-      '<a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a>' +
+      (window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question)?window.__MBBSet3Batch7UI.referenceLink(question):'<a class="tb-review-lesson" href="' + esc(meta.lesson) + '">Study: ' + esc(meta.lessonName) + '</a>') +
       '</article>';
   }
 

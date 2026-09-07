@@ -9,6 +9,14 @@
  function house(c){return '<p class="mbbs3b7-scroll-hint">Simplified review-status sketch. Scroll or swipe to inspect the complete diagram.</p><div class="mbbs3b7-scroll" role="region" tabindex="0" aria-label="House of quality status diagram; scroll horizontally if needed"><figure class="mbbs3b7-plot"><figcaption>'+esc(c.title)+'</figcaption><svg viewBox="0 0 560 400" role="img" aria-label="'+esc(c.altText)+'"><title>'+esc(c.title)+'</title><desc>'+esc(c.altText)+'</desc><path d="M170 160 L350 36 L530 160 Z" fill="none" stroke="currentColor" stroke-width="2"/><text x="350" y="118" text-anchor="middle">Technical-correlation roof</text><text x="350" y="144" text-anchor="middle">Not assessed</text><rect x="170" y="174" width="360" height="54" fill="none" stroke="currentColor"/><text x="350" y="195" text-anchor="middle">Technical characteristics</text><text x="350" y="216" text-anchor="middle">Battery capacity · housing thickness · mass</text><rect x="20" y="242" width="136" height="112" fill="none" stroke="currentColor"/><text x="88" y="272" text-anchor="middle">Customer needs</text><text x="88" y="299" text-anchor="middle">Duration</text><text x="88" y="320" text-anchor="middle">Durability</text><text x="88" y="341" text-anchor="middle">Portability</text><rect x="170" y="242" width="360" height="112" fill="none" stroke="currentColor"/><text x="350" y="279" text-anchor="middle">Customer-to-technical relationships</text><text x="350" y="308" text-anchor="middle">Recorded in the review body</text><text x="280" y="382" text-anchor="middle">Status sketch only — not measured performance</text></svg></figure></div>'+table(c.evidence);}
  function render(q,review){if(!isQuestion(q))return '';return '<div class="mbbs3b7-question"><div class="'+(review?'tb-review-stem':'tb-stem')+'" data-question-id="'+esc(q.qid)+'" tabindex="-1">'+esc(q.stem)+'</div>'+(q.chart?'<div class="mbbs3b7-evidence">'+(q.chart.type==='house-of-quality'?house(q.chart):table(q.chart))+'</div>':'')+'</div>';}
  function rationales(q){if(!isQuestion(q)||!Array.isArray(q.optionRationales))return '';return '<dl class="mbbs3b7-rationales" aria-label="Answer-choice explanations">'+q.optionRationales.map((s,i)=>'<dt>Choice '+String.fromCharCode(65+i)+'</dt><dd>'+esc(s)+'</dd>').join('')+'</dl>';}
+
+ function referenceLink(q){
+  if(!isQuestion(q))return '';
+  const r=Array.isArray(q.auditSources)?q.auditSources[1]:null;
+  const allowed=/^https:\/\/(?:www\.itl\.nist\.gov|www\.gov\.uk|www\.postgresql\.org|scikit-learn\.org|asq\.org|www\.asq\.org|www\.nasa\.gov|www\.nrc\.gov)\//;
+  if(!r||!r.title||!allowed.test(String(r.url)))return '<span class="tb-review-reference-unavailable">An item-specific reference link is not available.</span>';
+  return '<a class="tb-review-lesson tb-review-reference" href="'+esc(r.url)+'">Reference: '+esc(r.title)+'</a>';
+ }
  let lastId='';
  function wire(host){const quiz=host.querySelector('.tb-quiz');if(!quiz||!ids.has(quiz.dataset.questionId)){lastId='';return;}
   quiz.querySelectorAll('[data-opt]').forEach(b=>b.setAttribute('aria-pressed',String(b.classList.contains('sel'))));
@@ -27,8 +35,9 @@
 
 .mbbs3b7-table{min-width:560px}.mbbs3b7-scroll-hint{font-size:13px;line-height:1.6;color:var(--ink)!important;margin:8px 0}.mbbs3b7-table th,.mbbs3b7-table td{overflow-wrap:break-word}
 .tb-review-card:has(.mbbs3b7-question) .tb-key-point,.tb-review-card:has(.mbbs3b7-question) .tb-exam-trap{overflow-wrap:anywhere;min-width:0}
+.tb-review-card:has(.mbbs3b7-question) .tb-review-reference{max-width:100%;overflow-wrap:anywhere;line-height:1.6}
 `;document.head.appendChild(style);
   document.addEventListener('click',e=>{const b=e.target.closest?.('[data-opt],[data-flag]'),q=b?.closest('.tb-quiz');if(!b||!q||!ids.has(q.dataset.questionId))return;const attr=b.hasAttribute('data-opt')?'data-opt':'data-flag',value=b.getAttribute(attr);setTimeout(()=>{const now=document.querySelector('.tb-quiz');if(now?.dataset.questionId===q.dataset.questionId)now.querySelector('['+attr+'="'+value+'"]')?.focus({preventScroll:true});},0);},true);
  }
- global.__MBBSet3Batch7UI={isQuestion,render,rationales,wire};
+ global.__MBBSet3Batch7UI={isQuestion,render,rationales,wire,referenceLink};
 })(window);

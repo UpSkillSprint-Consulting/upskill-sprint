@@ -113,7 +113,7 @@ for(const engine of engines){
    await stableClick(page.locator('[data-review-tab="correct"]'));
    for(let i=0;i<questions.length;i++){
     const q=questions[i],index=order.indexOf(q.qid);await page.locator('[data-review-goto="'+index+'"]').click();
-    await page.waitForFunction(id=>document.querySelector('.tb-review-card')?.dataset.questionId===id,q.qid);const card=page.locator('.tb-review-card');assert.equal(await card.getAttribute('data-question-id'),q.qid);assert.equal(await card.getAttribute('data-review-status'),'correct');
+    await page.waitForFunction(id=>document.querySelector('.tb-review-card')?.dataset.questionId===id,q.qid);const card=page.locator('.tb-review-card');assert.equal(await card.locator('a.tb-review-reference').getAttribute('href'),q.auditSources[1].url);assert.equal(await card.locator('a.tb-review-reference').textContent(),'Reference: '+q.auditSources[1].title);assert.equal(await card.getAttribute('data-question-id'),q.qid);assert.equal(await card.getAttribute('data-review-status'),'correct');
     assert.equal((await card.locator('.tb-explanation-copy').innerText()).trim(),q.why);
     assert.equal((await card.locator('.tb-exam-trap').innerText()).trim(),q.trap);
     const details=card.locator('.tb-distractor-analysis');await stableClick(details.locator('summary'));assert.ok(await details.getAttribute('open')!==null);
