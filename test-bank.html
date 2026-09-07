@@ -3437,6 +3437,20 @@
     if(chart && chart.auditBatch===4 && window.__MBBBatch4UI) return window.__MBBBatch4UI.render(chart);
     if(chart && chart.auditBatch===2 && window.__MBBBatch2UI) return window.__MBBBatch2UI.render(chart);
     if(!chart)return '';
+    // Rich chart schemas retain an exact numerical alternative. Legacy-only
+    // consumers must not reinterpret them as an older chart schema or invent
+    // placeholder curves. The full player uses its scoped graphical renderer.
+    if(chart.evidence && Array.isArray(chart.evidence.columns) && Array.isArray(chart.evidence.rows)){
+      var ev=chart.evidence, title=ev.title||chart.title||'Chart data';
+      return '<div class="tb-chart-evidence-fallback"><p>'+esc(chart.altText||'')+'</p>'+
+        '<p>Numerical chart evidence. Scroll horizontally when needed.</p>'+
+        '<div role="region" tabindex="0" aria-label="'+esc(title)+'" style="max-width:100%;overflow-x:auto">'+
+        '<table class="tb-q-data-table"><caption>'+esc(title)+'</caption><thead><tr>'+
+        ev.columns.map(function(c){return '<th scope="col">'+esc(c)+'</th>';}).join('')+
+        '</tr></thead><tbody>'+ev.rows.map(function(row){return '<tr>'+row.map(function(cell,i){
+          return i===0?'<th scope="row">'+esc(cell)+'</th>':'<td>'+esc(cell)+'</td>';
+        }).join('')+'</tr>';}).join('')+'</tbody></table></div></div>';
+    }
     var inner='';
     if(chart.type==='xbar-r')inner=chartXbarR(chart);
     else if(chart.type==='boxplot')inner=chartBoxplot(chart);
