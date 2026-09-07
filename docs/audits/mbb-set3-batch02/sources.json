@@ -1,0 +1,9 @@
+{
+  "sourcePolicy": "ASQ Body of Knowledge locators establish topic alignment, not authorship, exact scenario answers or endorsement of these original questions. Scenario-specific decisions are derived from the facts expressly stipulated in each item. No fabricated textbook page numbers or quotations are used.",
+  "sources": [
+    {"id":"ASQ-CMBB-BOK","title":"ASQ Certified Master Black Belt Body of Knowledge","url":"https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf","use":"Verified infrastructure, methodology selection, pipeline, leadership, conflict, organizational change, feedback, metrics and training-effectiveness topic locators for all 25 items.","importantCorrection":"II.D is Organizational Change Management; II.D.6 addresses culture-change techniques. It is not titled Organizational Culture and Values Framework.","itemLocators":"revisions.json questions[].bok and question-audit-tracker.json questions[].sourceLocator"},
+    {"id":"ASQ-DMAIC","title":"ASQ: DMAIC","url":"https://asq.org/quality-resources/dmaic","questions":[27],"use":"Existing-process improvement, measurement and analysis before solution selection; distinction from DMADV; Kaizen can be used within a DMAIC framework."},
+    {"id":"AHRQ-PSNET-CULTURE","title":"AHRQ PSNet: Culture of Safety","url":"https://psnet.ahrq.gov/primer/culture-safety","questions":[32,42],"use":"Reporting behavior and safety-culture assessment; just-culture distinctions among human error, at-risk behavior and reckless conduct, rather than deciding accountability only by outcome severity."}
+  ],
+  "caseLimitations": ["The franchise decision rights in Q49 are stipulated facts, not a general statement of franchise law.","Culture and readiness questions do not claim that a particular survey is valid in every population or for every construct.","Quantitative examples in this batch do not require inferential statistics or an external critical-value table."]
+}
