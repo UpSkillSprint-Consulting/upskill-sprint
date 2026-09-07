@@ -73,11 +73,12 @@
         html=fflate.strFromU8(fflate.gunzipSync(bytes));
       }
       if(!html.includes('Beyond the Bell: The Normal Distribution and Its Relatives'))throw new Error('Lesson validation failed.');
-      document.open();document.write(html);document.close();
+      document.open();document.write(html.replace('</body>', '<script src="/contrast-fix.js"><\/script></body>'));document.close();
     }catch(error){
       document.getElementById('loader').innerHTML='<h1>The lesson could not be loaded</h1><p>'+String(error.message||error)+'<br><br><a href="/lessons#statistics">Back to Statistics</a></p>';
     }
   }());
   </script>
+<script src="/contrast-fix.js"></script>
 </body>
 </html>
