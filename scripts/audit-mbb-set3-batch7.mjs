@@ -45,7 +45,7 @@ async function checkVisual(page,q,host,phase,label){
   const area=regions.nth(i);await area.evaluate(e=>e.scrollLeft=0);await area.focus();await page.keyboard.press('ArrowRight');await page.waitForTimeout(180);
   const keyboard=await area.evaluate(e=>({needed:e.scrollWidth>e.clientWidth+2,moved:e.scrollLeft>0}));assert.ok(!keyboard.needed||keyboard.moved);
   await area.evaluate(e=>e.scrollLeft=e.scrollWidth);const right=await area.evaluate(e=>({needed:e.scrollWidth>e.clientWidth+2,moved:e.scrollLeft>0}));assert.ok(!right.needed||right.moved);
-  await area.screenshot({path:path.join(out,label+'-'+phase+'-region'+i+'-right.png')});await area.evaluate(e=>e.scrollLeft=0);access.push({keyboard,right});
+  const numericVisibility=await area.evaluate(el=>{const a=el.getBoundingClientRect();return [...el.querySelectorAll('tbody td.mbbs3b7-number:last-child')].map(td=>{const r=document.createRange();r.selectNodeContents(td);const b=r.getBoundingClientRect();return {text:td.textContent,left:b.left,right:b.right,inside:b.left>=a.left&&b.right<=a.right};});});assert.ok(numericVisibility.every(v=>v.inside),'Rightmost numeric values must remain within the horizontal viewport');right.numericVisibility=numericVisibility;await area.screenshot({path:path.join(out,label+'-'+phase+'-region'+i+'-right.png')});await area.evaluate(e=>e.scrollLeft=0);access.push({keyboard,right});
  }
  report.interactions.push({qid:q.qid,phase,type:c.type,tableCellsVerified:true,captionVerified:true,columnAndRowHeaders:true,actualPointCount:0,regions:access});save();
 }

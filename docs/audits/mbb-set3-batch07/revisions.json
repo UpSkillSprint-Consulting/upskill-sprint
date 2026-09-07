@@ -179,7 +179,8 @@
       "Authoring-rationale leakage removed.",
       "Qualified claims of immediate interaction recognition and supplied units/uncertainty context.",
       "Replaced implausible distractors with inference and data-provenance errors.",
-      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson."
+      "Rendered review linked all advanced-analytics items to the DOE lesson; the final scoped footer now links the actual item-specific primary reference and labels it as a reference, not a platform lesson.",
+      "Final mobile right-edge inspection found that left-aligned numeric values could move off-screen at maximum scroll in the narrow review card. Numeric columns now align consistently to the right, with actual text-range visibility assertions and fresh captures."
     ],
     "independentSolution": "A cube reorganizes the same eight means; it adds a spatial view, not independent measurements or an error estimate. For example, raising A changes the mean by 9 nm/min at low B and C, but by 18 nm/min at high B and C. That difference is a descriptive conditional pattern, not a significance result. The largest observed mean is 89 nm/min at the all-high corner; the excerpt does not identify the best untested interior setting or establish robustness.",
     "keyIndexChanged": false

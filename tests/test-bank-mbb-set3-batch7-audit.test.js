@@ -113,3 +113,10 @@ test('Every Batch 7 review gets its actual item reference; unsafe or out-of-scop
  assert.doesNotMatch(ui.referenceLink({...batch[0],auditSources:[{}, {title:'bad',url:'https://www.nasa.gov.attacker.example/'}]}),/<a/);
  assert.match(ui.referenceLink({...batch[0],auditSources:[{}, {title:'<img onerror=bad>',url:'https://www.nasa.gov/reference/'}]}),/&lt;img/);
 });
+
+test('Rightmost numeric columns use tabular right alignment and rendered range-visibility checks',()=>{
+ const c={window:{}};vm.runInNewContext(read('test-bank-mbb-set3-batch7-ui.js'),c);const ui=c.window.__MBBSet3Batch7UI;
+ for(const index of [0,15,17,20]){const q=batch[index],h=ui.render(q,true);assert.ok((h.match(/class="mbbs3b7-number"/g)||[]).length>=q.chart.rows.length+1);}
+ assert.match(read('test-bank-mbb-set3-batch7-ui.js'),/text-align:right;font-variant-numeric:tabular-nums/);
+ assert.match(read('scripts/audit-mbb-set3-batch7.mjs'),/numericVisibility.every\(v=>v.inside\)/);
+});
