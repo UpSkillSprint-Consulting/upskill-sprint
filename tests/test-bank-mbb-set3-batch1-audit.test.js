@@ -23,9 +23,9 @@ for(let i=0;i<25;i++)test(`Q${i+1} ${suffixes[i]} retains identity, key and inde
  assert.ok(lengths[q.answer]/other[1]<=1.25,'correct option is not conspicuously longer than distractors');
  if(q.chart){assert.ok(q.chart.title);assert.ok(q.chart.altText);if(q.chart.type==='data-table')assert.ok(q.chart.rows.every(r=>r.length===q.chart.columns.length));}
 });
-test('Q126–175 source remains byte-identical to the audit baseline',()=>{
+test('Q151–175 source remains byte-identical to the audit baseline',()=>{
  const starts=[...source.matchAll(/^  \{$/gm)].map(m=>m.index);assert.equal(starts.length,175);
- assert.equal(crypto.createHash('sha256').update(source.slice(starts[125])).digest('hex'),'7c27818031175f62f0e580fb4160760925a681a3f079751cb0f5aadd5f2475dd');
+ assert.equal(crypto.createHash('sha256').update(source.slice(starts[150])).digest('hex'),'fdbb6f31fbeae47aafea3f47e2ea5d1452d5b5dae00cbfec2e8a32489d9e10d3');
 });
 test('Q3 independently recomputes weighted totals and sensitivity reversal',()=>{
  const rows=batch[2].chart.rows;const score=col=>rows.reduce((s,r)=>s+parseFloat(r[1])/100*Number(r[col]),0);

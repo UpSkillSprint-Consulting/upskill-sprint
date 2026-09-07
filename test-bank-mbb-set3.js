@@ -7493,361 +7493,1744 @@
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A regression model predicting patient length-of-stay from five clinical variables reports R\u00b2 = 0.89, and the team concludes 'we've found the causal drivers of length-of-stay.' What is the flaw in this conclusion?",
+    "stem": "An observational ordinary least-squares model with an intercept predicts patient length of stay from five clinical variables and has training R² = 0.89. No intervention, causal identification strategy or independent validation has been performed. The sponsor proposes changing care based on the largest coefficients. Which review conclusion is best supported?",
     "options": [
-      "There is no flaw; a high R\u00b2 always proves causation for the included variables",
-      "R\u00b2 values above 0.85 are mathematically impossible unless causation has been established",
-      "A high R\u00b2 indicates strong statistical association/explanatory power within the sample but does not by itself establish causation; confounding variables, reverse causation, or spurious correlation could all produce a high R\u00b2 without the included variables being true causal drivers",
-      "The model should be discarded entirely since R\u00b2 is never a meaningful statistic"
+      "Approve the intervention because explaining 89% of outcome variation establishes that the included predictors are the important causal levers.",
+      "Approve the causal interpretation after cross-validation reproduces R² = 0.89; successful prediction removes the need to investigate confounding.",
+      "Validate prediction separately; require causal identification before interpreting these observational coefficients as intervention effects.",
+      "Discard the model because observational R² cannot provide useful information about either sample fit or predictive performance."
     ],
     "answer": 2,
-    "why": "This is a direct application of the correlation-is-not-causation principle to regression specifically: a high R\u00b2 reflects strong statistical association within the data, not proof of a causal mechanism \u2014 confounding and other explanations must be ruled out separately. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
+    "why": "R² = 0.89 describes the fraction of centered response variation explained in this training sample. It neither identifies causal effects nor establishes generalization. Predictor timing, confounding, selection, reverse causation and leakage need consideration; merely collecting more observational data or validating prediction does not supply causal identification. A useful predictive model and a defensible intervention model answer different questions. Source alignment: ASQ CMBB Body of Knowledge, VI.B.2, Multiple regression analysis. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-016"
+    "qid": "mbb:set-3:d6-016",
+    "optionRationales": [
+      "Incorrect. The proportion of training variation explained is not the proportion caused by these variables, and coefficient magnitude also depends on units.",
+      "Incorrect. Held-out prediction can support generalization to comparable cases, but a noncausal proxy can predict well without being an effective intervention target.",
+      "Correct. This separates descriptive fit, predictive validation and causal identification, preserving legitimate model uses without authorizing unsupported care changes.",
+      "Incorrect. Observational models can provide useful descriptions and predictions; the unsupported step is equating either with a causal intervention effect."
+    ],
+    "trap": "Ask which claim is being made: sample fit, prediction or intervention. Strong evidence for one is not automatically evidence for the others.",
+    "distractors": [
+      "Incorrect. The proportion of training variation explained is not the proportion caused by these variables, and coefficient magnitude also depends on units.",
+      "Incorrect. Held-out prediction can support generalization to comparable cases, but a noncausal proxy can predict well without being an effective intervention target.",
+      "Correct. This separates descriptive fit, predictive validation and causal identification, preserving legitimate model uses without authorizing unsupported care changes.",
+      "Incorrect. Observational models can provide useful descriptions and predictions; the unsupported step is equating either with a causal intervention effect."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.B.2, Multiple regression analysis"
+      },
+      {
+        "title": "NIST/SEMATECH e-Handbook: Model validation",
+        "url": "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd44.htm",
+        "locator": "4.4.4; residual analysis and limits of training fit"
+      },
+      {
+        "title": "scikit-learn: Common pitfalls and recommended practices",
+        "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+        "locator": "Data leakage; fit selection/preprocessing using training partitions only"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A regression diagnostic plot of standardized residuals versus fitted values for a manufacturing yield model shows a clear funnel shape (residual spread increasing as fitted values increase). What assumption does this violate, and what is the practical consequence?",
+    "stem": "The selected standardized residuals below come from an OLS yield model; they are an excerpt, not all fitted observations. The full residual diagnostic shows increasing spread at higher fitted yields without a clear mean trend. Conventional standard errors assume constant error variance. Which concern and response are most appropriate?",
     "options": [
-      "This violates the assumption of constant variance (homoscedasticity); the practical consequence is that the model's standard errors and any hypothesis tests/confidence intervals based on them become unreliable, even if the point estimates of the coefficients remain reasonable",
-      "Funnel-shaped residuals indicate the model has too many predictor variables and none should ever be interpreted",
-      "This pattern indicates the data must be re-collected using a completely different measurement instrument",
-      "This violates the linearity assumption; the consequence is a completely useless model requiring immediate discard"
+      "Investigate heteroscedasticity and mean-model adequacy; justify variance modeling or robust inference before trusting conventional standard errors.",
+      "Diagnose curvature from the changing spread alone and add a quadratic term, leaving the original standard-error formula unchanged.",
+      "Treat heteroscedasticity as proof that every OLS coefficient is biased and replace the model without examining its assumptions.",
+      "Keep the conventional confidence and prediction intervals because heteroscedasticity affects only the visual appearance of residual plots."
     ],
     "answer": 0,
-    "why": "A funnel-shaped residual pattern is the classic signature of heteroscedasticity (non-constant variance), which specifically undermines standard-error-based inference (hypothesis tests, confidence intervals) even though the coefficient point estimates themselves may remain reasonably unbiased. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
-    "chart": {"type": "regression-diagnostic", "points": [[10, 0.2], [15, -0.3], [20, 0.8], [25, -1.1], [30, 1.6], [35, -2.0], [40, 2.8], [45, -3.2], [50, 3.9]], "xLabel": "Fitted yield (%)", "yLabel": "Standardized residual", "title": "Residuals vs. fitted values"},
+    "why": "Changing residual spread suggests nonconstant conditional error variance. Conventional homoscedastic standard errors and prediction intervals may be wrong. With a correctly specified conditional mean and exogeneity, OLS coefficients can remain unbiased; the plot alone does not establish those conditions. Heteroscedasticity-consistent covariance can address coefficient inference under its assumptions, but does not by itself model observation-level predictive spread. Consider a justified variance model, transformation or weighted fit and validate the result. Source alignment: ASQ CMBB Body of Knowledge, VI.B.2, Multiple regression analysis. This is an original practice scenario, not an ASQ-authored or endorsed item.",
+    "chart": {
+      "type": "regression-diagnostic",
+      "title": "Selected standardized residuals versus fitted yield",
+      "altText": "Nine selected residuals from the full-model diagnostic. These are not the complete fitted sample.",
+      "panels": [
+        {
+          "title": "Residual diagnostic excerpt",
+          "xs": [
+            10,
+            15,
+            20,
+            25,
+            30,
+            35,
+            40,
+            45,
+            50
+          ],
+          "series": [
+            {
+              "name": "Standardized residual",
+              "values": [
+                0.2,
+                -0.3,
+                0.8,
+                -1.1,
+                1.6,
+                -2,
+                2.8,
+                -3.2,
+                3.9
+              ],
+              "connect": false
+            }
+          ],
+          "range": [
+            8,
+            52,
+            -5,
+            5
+          ],
+          "xLabel": "Fitted yield (%)",
+          "yLabel": "Residual (unitless)",
+          "refs": [
+            {
+              "y": 0,
+              "label": "Zero"
+            }
+          ]
+        }
+      ],
+      "evidence": {
+        "type": "data-table",
+        "title": "Residual excerpt: exact plotted values",
+        "columns": [
+          "Fitted yield (%)",
+          "Standardized residual"
+        ],
+        "rows": [
+          [
+            10,
+            0.2
+          ],
+          [
+            15,
+            -0.3
+          ],
+          [
+            20,
+            0.8
+          ],
+          [
+            25,
+            -1.1
+          ],
+          [
+            30,
+            1.6
+          ],
+          [
+            35,
+            -2
+          ],
+          [
+            40,
+            2.8
+          ],
+          [
+            45,
+            -3.2
+          ],
+          [
+            50,
+            3.9
+          ]
+        ],
+        "altText": "Numerical alternative to the residual excerpt."
+      }
+    },
     "set": 3,
-    "qid": "mbb:set-3:d6-017"
+    "qid": "mbb:set-3:d6-017",
+    "optionRationales": [
+      "Correct. It targets the variance concern without assuming biased coefficients, a unique cause, or that robust coefficient errors alone fix predictive intervals.",
+      "Incorrect. Spread and mean structure are different diagnostics; a funnel does not by itself establish a missing quadratic mean term.",
+      "Incorrect. Nonconstant variance alone does not prove coefficient bias when the conditional mean and exogeneity assumptions hold.",
+      "Incorrect. Constant-variance interval formulas depend on the assumption under challenge; an unchanged mean fit does not preserve interval validity."
+    ],
+    "trap": "Robust standard errors concern coefficient uncertainty. Individual prediction intervals still need a defensible model for prediction error at the relevant predictor values.",
+    "distractors": [
+      "Correct. It targets the variance concern without assuming biased coefficients, a unique cause, or that robust coefficient errors alone fix predictive intervals.",
+      "Incorrect. Spread and mean structure are different diagnostics; a funnel does not by itself establish a missing quadratic mean term.",
+      "Incorrect. Nonconstant variance alone does not prove coefficient bias when the conditional mean and exogeneity assumptions hold.",
+      "Incorrect. Constant-variance interval formulas depend on the assumption under challenge; an unchanged mean fit does not preserve interval validity."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.B.2, Multiple regression analysis"
+      },
+      {
+        "title": "NIST/SEMATECH e-Handbook: Model validation",
+        "url": "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd44.htm",
+        "locator": "4.4.4; residual analysis and limits of training fit"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A predictive maintenance model includes both 'machine age in years' and 'total operating hours' as predictors, and the team notices the coefficient signs flip unpredictably when either variable is added or removed. What is the most likely explanation, and what diagnostic should confirm it?",
+    "stem": "A predictive-maintenance OLS model with an intercept includes machine age, operating hours and ambient temperature. Age and hours have unstable coefficient signs across model specifications; their VIFs are shown below. The objective is reliable prediction, not estimating an intervention effect. What should the MBB recommend?",
     "options": [
-      "The model is simply broken and cannot be fixed regardless of diagnosis",
-      "Multicollinearity between the two highly correlated predictors (machine age and operating hours often move together) is the likely cause; a Variance Inflation Factor (VIF) calculation for each predictor would confirm this, with a high VIF (commonly, above 5-10) indicating problematic collinearity",
-      "This pattern always indicates a data entry error rather than a modeling issue",
-      "The coefficient sign instability proves the underlying relationship is nonlinear and no diagnostic is needed"
+      "Delete both age and hours because a VIF above 10 establishes that neither variable contains useful predictive information.",
+      "Review shared information and coefficient uncertainty; evaluate justified simplification or regularization using held-out prediction rather than a mechanical VIF cutoff.",
+      "Interpret both coefficient signs as stable independent physical effects because VIF measures only correlation with the response.",
+      "Center age and hours and accept the model, since centering removes their linear dependence and reduces these VIFs to one."
     ],
     "answer": 1,
-    "why": "Unstable, flip-flopping coefficient signs when correlated predictors are added/removed is a classic multicollinearity signature; VIF is the standard diagnostic (VIF = 1/(1-R\u00b2) for that predictor regressed on the others) to confirm and quantify the collinearity. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
-    "chart": {"type": "data-table", "columns": ["Predictor", "VIF"], "rows": [["Machine age (years)", "14.2"], ["Operating hours", "13.8"], ["Ambient temperature", "1.3"]]},
+    "why": "VIF measures inflation of coefficient variance due to linear dependence among predictors, not dependence on the response. The values 14.2 and 13.8 warn that separate age/hour coefficients are imprecise. They do not identify a physical cause of sign changes or prove poor predictions. For age, the auxiliary R² is 1 - 1/14.2 = 0.92958; the corresponding standard-error multiplier is sqrt(14.2), not 14.2. Compare defensible models and predictions; centering cannot remove ordinary age/hour collinearity. Source alignment: ASQ CMBB Body of Knowledge, VI.B.2, Multiple regression analysis. This is an original practice scenario, not an ASQ-authored or endorsed item.",
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Predictor",
+        "VIF"
+      ],
+      "rows": [
+        [
+          "Machine age (years)",
+          "14.2"
+        ],
+        [
+          "Operating hours",
+          "13.8"
+        ],
+        [
+          "Ambient temperature",
+          "1.3"
+        ]
+      ],
+      "title": "Predictor variance inflation factors",
+      "altText": "Reported conventional VIF values for the three predictors. These quantify predictor dependence, not response association."
+    },
     "set": 3,
-    "qid": "mbb:set-3:d6-018"
+    "qid": "mbb:set-3:d6-018",
+    "optionRationales": [
+      "Incorrect. Correlated predictors may still jointly predict well; their individual coefficients can be unstable without the variables being useless.",
+      "Correct. It uses the VIF warning to guide diagnosis and model comparison while keeping the stated predictive objective central.",
+      "Incorrect. VIF is based on regressing a predictor on the other predictors; it warns against treating unstable partial slopes as established mechanisms.",
+      "Incorrect. Subtracting constants does not eliminate ordinary linear dependence between age and operating hours in an intercept-containing model."
+    ],
+    "trap": "VIF is a variance multiplier; its square root is the standard-error multiplier under the usual comparison. Thresholds are screening guides, not universal deletion rules.",
+    "distractors": [
+      "Incorrect. Correlated predictors may still jointly predict well; their individual coefficients can be unstable without the variables being useless.",
+      "Correct. It uses the VIF warning to guide diagnosis and model comparison while keeping the stated predictive objective central.",
+      "Incorrect. VIF is based on regressing a predictor on the other predictors; it warns against treating unstable partial slopes as established mechanisms.",
+      "Incorrect. Subtracting constants does not eliminate ordinary linear dependence between age and operating hours in an intercept-containing model."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.B.2, Multiple regression analysis"
+      },
+      {
+        "title": "Minitab: Coefficients table for Fit Regression Model",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/regression/how-to/fit-regression-model/interpret-the-results/all-statistics-and-graphs/coefficients-table/",
+        "locator": "Variance inflation factors and coefficient uncertainty"
+      },
+      {
+        "title": "scikit-learn: Common pitfalls and recommended practices",
+        "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+        "locator": "Data leakage; fit selection/preprocessing using training partitions only"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A logistic regression model predicting equipment failure (yes/no) reports an odds ratio of 2.3 for a maintenance-interval variable. What does this odds ratio mean in practical terms?",
+    "stem": "A binary logistic model uses failure as the event and a single indicator: long maintenance interval = 1, short interval = 0. The table contains all 200 observations, with no other predictors. The reported odds ratio is 2.3, rounded to one decimal. Which interpretation and probability comparison agree with these data?",
     "options": [
-      "A one-unit increase in the maintenance interval is associated with the odds of failure being 2.3 times higher (not the same as a 2.3-percentage-point or 2.3x probability increase) \u2014 odds ratios and probability changes are related but distinct quantities that should not be conflated",
-      "An odds ratio of 2.3 indicates the model has no predictive value",
-      "Odds ratios are only interpretable for linear regression, not logistic regression",
-      "A one-unit increase in the maintenance interval is associated with the failure probability being exactly 2.3 percentage points higher"
+      "Long versus short has about 2.35 times the failure odds; observed risks are 34% versus 18%.",
+      "Long versus short has about 2.35 times the failure probability; therefore the long-interval failure probability is approximately 42.2%.",
+      "Changing the interval indicator from zero to one increases failure probability by 2.3 percentage points, from 18% to approximately 20.3%.",
+      "Long versus short has about 0.43 times the failure odds because the event odds are calculated as nonfailures divided by failures."
     ],
     "answer": 0,
-    "why": "This tests a common misinterpretation: an odds ratio describes a multiplicative change in odds, not a direct percentage-point or proportional probability change \u2014 conflating the two is a frequent and consequential misreading of logistic regression output. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
-    "chart": {"type": "data-table", "columns": ["Maintenance interval group", "Failures", "No failures"], "rows": [["Short interval", "18", "82"], ["Long interval", "34", "66"]]},
+    "why": "The short-interval failure odds are 18/82 and the long-interval odds are 34/66. Their ratio is (34 × 82)/(66 × 18) = 2.34680, which rounds to 2.3 at one decimal. The observed risk ratio is 0.34/0.18 = 1.88889 and the risk difference is 16 percentage points. The one-unit change is the stated indicator contrast, not an unspecified number of days. This is an unadjusted association; these data alone do not establish the causal effect of changing maintenance intervals. Source alignment: ASQ CMBB Body of Knowledge, VI.B.3, Logistic regression analysis. This is an original practice scenario, not an ASQ-authored or endorsed item.",
+    "chart": {
+      "type": "data-table",
+      "columns": [
+        "Interval / model indicator",
+        "Failures",
+        "No failures"
+      ],
+      "rows": [
+        [
+          "Short / 0",
+          18,
+          82
+        ],
+        [
+          "Long / 1",
+          34,
+          66
+        ]
+      ],
+      "title": "Failure counts by interval indicator",
+      "altText": "Long indicator 1 versus short indicator 0; failures are the modeled event. Both groups contain 100 observations."
+    },
     "set": 3,
-    "qid": "mbb:set-3:d6-019"
+    "qid": "mbb:set-3:d6-019",
+    "optionRationales": [
+      "Correct. It uses failure odds in the specified comparison direction and distinguishes odds, risk ratio and the observed group probabilities.",
+      "Incorrect. Multiplying 18% directly by an odds ratio confuses odds with probability; the table gives a long-interval risk of 34%.",
+      "Incorrect. An odds ratio is multiplicative on odds, not an additive percentage-point change in failure probability.",
+      "Incorrect. Nonfailures/failures are the odds of the opposite event. Reversing the event or comparison direction inverts the requested ratio."
+    ],
+    "trap": "Name the event, reference group and predictor increment before interpreting an odds ratio. Adjusted model odds ratios need not equal crude table odds ratios.",
+    "distractors": [
+      "Correct. It uses failure odds in the specified comparison direction and distinguishes odds, risk ratio and the observed group probabilities.",
+      "Incorrect. Multiplying 18% directly by an odds ratio confuses odds with probability; the table gives a long-interval risk of 34%.",
+      "Incorrect. An odds ratio is multiplicative on odds, not an additive percentage-point change in failure probability.",
+      "Incorrect. Nonfailures/failures are the odds of the opposite event. Reversing the event or comparison direction inverts the requested ratio."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.B.3, Logistic regression analysis"
+      },
+      {
+        "title": "Minitab: Methods and formulas for the estimated binary logistic equation",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/regression/how-to/fit-binary-logistic-model/methods-and-formulas/estimated-equation/",
+        "locator": "Logit equation and odds ratios"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A regression model built on 18 months of historical data performs excellently in-sample (R\u00b2 = 0.94) but performs poorly when applied to 3 new months of data collected after the model was built. What does this pattern most likely indicate?",
+    "stem": "A model fitted to 18 months of production data has training R² = 0.94 but fails the agreed prediction-error target in the next three months. Those three months were not used in fitting, although the team has now inspected their errors. What is the strongest validation response before redeployment?",
     "options": [
-      "In-sample R\u00b2 and out-of-sample performance are always identical by mathematical necessity",
-      "The correct fix is to simply add more predictor variables to the existing model without further validation",
-      "The new data must be flawed, since the original model's high R\u00b2 proves it is correct",
-      "The model likely suffers from overfitting to the specific historical dataset (capturing noise or dataset-specific quirks rather than a generalizable relationship), or the underlying process has genuinely shifted since the training period; the model should be validated on truly held-out data before being trusted for ongoing predictions"
+      "Randomly mix all 21 months into folds so every validation fold contains future and past records, then report the best score.",
+      "Tune repeatedly on the three new months and call their final improved score an independent estimate of future performance.",
+      "Attribute the failure solely to overfitting and add interaction terms until the original training R² increases further.",
+      "Investigate drift, leakage and model complexity; use time-respecting development validation and reserve fresh data for final evaluation after revision."
     ],
     "answer": 3,
-    "why": "Strong in-sample fit with poor out-of-sample performance is the classic overfitting signature (or a genuine process shift); proper model validation on genuinely held-out data is the standard practice to catch this before deploying a model operationally. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
+    "why": "Poor future performance can reflect overfitting, changing operating conditions, measurement changes, leakage or a mismatch between training and deployment. The pattern alone does not identify one cause. The three months began as a genuine test but become development evidence once used to select revisions. Use chronological or rolling-origin validation appropriate to the forecast horizon, fit preprocessing within each training split, and seek a fresh final evaluation before making renewed performance claims. Source alignment: ASQ CMBB Body of Knowledge, VI.B.2, Multiple regression analysis. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-020"
+    "qid": "mbb:set-3:d6-020",
+    "optionRationales": [
+      "Incorrect. For prospective time-dependent prediction, mixing future and past can leak information and understate deployment error.",
+      "Incorrect. Once outcomes guide model selection, performance on those same records is no longer an independent final test.",
+      "Incorrect. More terms can worsen overfitting and do not address drift, leakage or changed measurement processes.",
+      "Correct. It addresses competing explanations and protects final evaluation from reuse of the already inspected holdout."
+    ],
+    "trap": "A holdout is independent of the decisions that created the model. Once it guides revisions, reserve new evidence for the final deployment claim.",
+    "distractors": [
+      "Incorrect. For prospective time-dependent prediction, mixing future and past can leak information and understate deployment error.",
+      "Incorrect. Once outcomes guide model selection, performance on those same records is no longer an independent final test.",
+      "Incorrect. More terms can worsen overfitting and do not address drift, leakage or changed measurement processes.",
+      "Correct. It addresses competing explanations and protects final evaluation from reuse of the already inspected holdout."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.B.2, Multiple regression analysis"
+      },
+      {
+        "title": "scikit-learn: Common pitfalls and recommended practices",
+        "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+        "locator": "Data leakage; fit selection/preprocessing using training partitions only"
+      },
+      {
+        "title": "NIST/SEMATECH e-Handbook: Model validation",
+        "url": "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd44.htm",
+        "locator": "4.4.4; residual analysis and limits of training fit"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A response surface analysis of a chemical yield process identifies a stationary point, and contour plots show elliptical, concentric contours around it with no saddle pattern. What does this indicate about the nature of that stationary point?",
+    "stem": "Within the safe coded region −1 ≤ x₁, x₂ ≤ 1, a fitted response surface is ŷ = 80 − 2x₁² − 5x₂² (yield %). Its stationary point is (0,0). The team calls it the proven best operating point for the physical process. Which assessment correctly classifies the fitted point and limits that claim?",
     "options": [
-      "Elliptical, concentric contours around a stationary point (without a saddle/hyperbolic pattern) indicate the point is likely a true maximum or minimum \u2014 the response surface curves consistently in one direction around that point, unlike a saddle point where the surface rises in one direction and falls in another",
-      "Concentric elliptical contours always indicate the response is completely flat (no optimum exists) in that region",
-      "The stationary point is definitely a saddle point requiring further exploration in a different direction",
-      "This pattern can only occur if the underlying model is a first-order (linear) fit, never a quadratic response surface model"
+      "The fitted Hessian eigenvalues −4 and −10 indicate a maximum; check adequacy and confirm the process candidate.",
+      "The fitted stationary point is a minimum because concentric ellipses indicate the response increases toward their center.",
+      "The fitted stationary point is a saddle because unequal quadratic coefficients imply that one direction must rise while the other falls.",
+      "The fitted maximum proves a global physical optimum outside the studied region as well, so confirmation runs would add no useful information."
     ],
     "answer": 0,
-    "why": "Concentric elliptical contours around a stationary point are the visual signature of a true maximum or minimum (the response consistently curves one direction), as distinct from the characteristic hyperbolic/saddle-shaped contours that indicate a saddle point requiring further exploration. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
+    "why": "The gradient is (−4x₁, −10x₂), zero at the origin. The Hessian is diagonal with eigenvalues −4 and −10, so the fitted quadratic has a strict maximum there, with predicted yield 80%. Both directions curve downward. Unequal curvature does not imply a saddle. The algebra classifies the fitted model, not the unknown physical response outside its support; model adequacy, uncertainty and confirmation at feasible settings still matter. Source alignment: ASQ CMBB Body of Knowledge, VI.C.3, DOE approaches. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-021"
+    "qid": "mbb:set-3:d6-021",
+    "optionRationales": [
+      "Correct. Negative Hessian eigenvalues classify the model maximum while confirmation and adequacy checks limit the physical-process claim.",
+      "Incorrect. The supplied negative squared terms decrease yield away from the origin; the coefficients, not ellipse shape alone, determine the direction.",
+      "Incorrect. A saddle requires opposing curvature signs; both eigenvalues here are negative despite their different magnitudes.",
+      "Incorrect. A fitted optimum is conditional on model adequacy and the studied region, not proof of a global physical optimum."
+    ],
+    "trap": "An unlabeled ellipse alone does not distinguish maximum from minimum. Check contour values or curvature signs, then separate model classification from process validation.",
+    "distractors": [
+      "Correct. Negative Hessian eigenvalues classify the model maximum while confirmation and adequacy checks limit the physical-process claim.",
+      "Incorrect. The supplied negative squared terms decrease yield away from the origin; the coefficients, not ellipse shape alone, determine the direction.",
+      "Incorrect. A saddle requires opposing curvature signs; both eigenvalues here are negative despite their different magnitudes.",
+      "Incorrect. A fitted optimum is conditional on model adequacy and the studied region, not proof of a global physical optimum."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C.3, DOE approaches"
+      },
+      {
+        "title": "NIST: Optimization when there is adequate quadratic fit",
+        "url": "https://www.itl.nist.gov/div898/handbook/pri/section5/pri5514.htm",
+        "locator": "5.5.5.1.4; stationary point, eigenvalues, confirmation"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A team building a regression model to predict customer churn includes 40 candidate predictor variables with only 85 observations. What statistical concern should the MBB raise before the model is trusted?",
+    "stem": "A team fits a logistic churn model with an intercept and 40 candidate one-degree-of-freedom predictors to 85 independent customers, only 12 of whom churned. It selects predictors on all 85 outcomes before cross-validation. What should the MBB challenge before accepting the prediction claims?",
     "options": [
-      "The concern is irrelevant as long as the reported R\u00b2 is high",
-      "With 40 predictors and only 85 observations, the model is at serious risk of overfitting (too many parameters relative to the sample size) \u2014 the MBB should recommend reducing the predictor set (via domain knowledge, regularization, or stepwise/validated selection) and using proper cross-validation before trusting the model's predictive claims",
-      "No concern; more predictor variables always produce a more accurate and more trustworthy model",
-      "The correct fix is to simply collect more predictor variables to further increase the ratio"
+      "The ratio of observations to predictors exceeds two, so the model has enough information regardless of the number of churn events.",
+      "Address sparse events and complexity; perform selection inside validation folds, evaluate shrinkage, and seek representative outcome data.",
+      "Cross-validation corrects selection bias automatically even when all outcome-based feature selection was performed before the folds were created.",
+      "A significant global likelihood-ratio test would establish calibrated future probabilities and remove the need to validate the selected model."
     ],
     "answer": 1,
-    "why": "A high ratio of predictors to observations (here, nearly 1 predictor for every 2 observations) is a well-known overfitting risk factor; dimension reduction and proper out-of-sample validation are the standard remedies before trusting such a model. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
+    "why": "There are 41 candidate coefficients including the intercept and only 12 events. This raises serious instability, separation and overfitting concerns, but no universal observations-per-predictor rule proves a model valid or invalid. Selecting on all outcomes leaks validation information. Model development, including preprocessing, selection and tuning, must be repeated within the appropriate resampling structure; separate outer evaluation is needed for tuning comparisons. Regularization can help but does not replace representative event information or calibration assessment. Source alignment: ASQ CMBB Body of Knowledge, VI.B.3, Logistic regression analysis. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-022"
+    "qid": "mbb:set-3:d6-022",
+    "optionRationales": [
+      "Incorrect. The outcome event count and effective model complexity matter; 85/40 alone cannot establish adequate logistic-model information.",
+      "Correct. It addresses both limited information and leakage, while treating regularization and new data as tools rather than guarantees.",
+      "Incorrect. Validation outcomes have already influenced the chosen predictors, making the subsequent score optimistically biased.",
+      "Incorrect. A global association test does not establish future discrimination, calibration or generalization after model selection."
+    ],
+    "trap": "For a binary outcome, check events and nonevents as well as total sample size. Cross-validation must include the entire modeling process, not only the last fit.",
+    "distractors": [
+      "Incorrect. The outcome event count and effective model complexity matter; 85/40 alone cannot establish adequate logistic-model information.",
+      "Correct. It addresses both limited information and leakage, while treating regularization and new data as tools rather than guarantees.",
+      "Incorrect. Validation outcomes have already influenced the chosen predictors, making the subsequent score optimistically biased.",
+      "Incorrect. A global association test does not establish future discrimination, calibration or generalization after model selection."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.B.3, Logistic regression analysis"
+      },
+      {
+        "title": "scikit-learn: Common pitfalls and recommended practices",
+        "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+        "locator": "Data leakage; fit selection/preprocessing using training partitions only"
+      },
+      {
+        "title": "Minitab: Methods and formulas for the estimated binary logistic equation",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/regression/how-to/fit-binary-logistic-model/methods-and-formulas/estimated-equation/",
+        "locator": "Logit equation and odds ratios"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A Master Black Belt reviewing a colleague's regression output notices the reported Variance Inflation Factor (VIF) for a key predictor is 0.6. What should the MBB conclude about this reported figure?",
+    "stem": "For a full-rank, intercept-containing OLS model, the report labels 0.60 as the conventional centered VIF for one predictor. Its metadata define VIF = 1/(1 − Rⱼ²), where Rⱼ² comes from regressing that predictor on the others. What is the best audit response?",
     "options": [
-      "A VIF of 0.6 indicates a perfectly uncorrelated predictor with no further action needed",
-      "A VIF of 0.6 indicates mild but acceptable multicollinearity for this predictor",
-      "VIF values below 1 are common and simply indicate a well-specified model",
-      "This reported VIF value is mathematically impossible \u2014 VIF is calculated as 1/(1-R\u00b2) for that predictor regressed on the others, and since R\u00b2 is bounded between 0 and 1, VIF can never be below 1; a reported value of 0.6 indicates a calculation or reporting error that should be corrected before the analysis is trusted"
+      "Accept 0.60 as evidence that correlation with the other predictors reduces the coefficient variance by 40%.",
+      "Interpret 0.60 as an auxiliary R² and report a VIF of 2.50 without checking the field definition.",
+      "Round 0.60 up to one because small VIF reporting discrepancies cannot affect conclusions about individual coefficients.",
+      "Flag the definition: centered VIF is at least one; tolerance 0.60 would instead imply VIF 1.67."
     ],
     "answer": 3,
-    "why": "VIF = 1/(1-R\u00b2), and since R\u00b2 is bounded in [0,1), VIF is bounded below by 1 \u2014 a reported VIF below 1 is mathematically impossible and signals a calculation or reporting error requiring correction. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
+    "why": "Under the stated conventional definition, 0 ≤ Rⱼ² < 1 and VIF ≥ 1. A VIF of 0.60 would require Rⱼ² = 1 − 1/0.60 = −0.6667, inconsistent with that centered auxiliary regression. Tolerance is 1 − Rⱼ²; if the field is actually tolerance 0.60, VIF = 1/0.60 = 1.6667 and Rⱼ² = 0.40. Verify metadata rather than silently relabeling. The qualification matters because other diagnostics and conventions should not be conflated with this VIF. Source alignment: ASQ CMBB Body of Knowledge, VI.B.2, Multiple regression analysis. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-023"
+    "qid": "mbb:set-3:d6-023",
+    "optionRationales": [
+      "Incorrect. The stated VIF measures inflation relative to an orthogonal-predictor comparison and has a lower bound of one.",
+      "Incorrect. That conversion assumes a different reported quantity; the metadata must be checked before assigning an auxiliary R².",
+      "Incorrect. Rounding does not repair a definition or reporting error and may hide the actual quantity being reported.",
+      "Correct. It applies the stated mathematical bound and identifies a plausible tolerance-label error without assuming it is proven."
+    ],
+    "trap": "State the diagnostic convention before asserting a bound. Tolerance is the reciprocal of conventional VIF, not the same statistic.",
+    "distractors": [
+      "Incorrect. The stated VIF measures inflation relative to an orthogonal-predictor comparison and has a lower bound of one.",
+      "Incorrect. That conversion assumes a different reported quantity; the metadata must be checked before assigning an auxiliary R².",
+      "Incorrect. Rounding does not repair a definition or reporting error and may hide the actual quantity being reported.",
+      "Correct. It applies the stated mathematical bound and identifies a plausible tolerance-label error without assuming it is proven."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.B.2, Multiple regression analysis"
+      },
+      {
+        "title": "Minitab: Coefficients table for Fit Regression Model",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/regression/how-to/fit-regression-model/interpret-the-results/all-statistics-and-graphs/coefficients-table/",
+        "locator": "Variance inflation factors and coefficient uncertainty"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A time-series regression modeling daily call-center volume shows a Durbin-Watson statistic of 0.45. What does this value indicate, and why does it matter for the model's validity?",
+    "stem": "An illustrative daily call-volume OLS model has an intercept, one prespecified nonlagged predictor and 14 consecutive observations. The table provides observed calls, fitted values and residuals in time order; the predictor is assumed exogenous. The reported Durbin–Watson statistic is 0.45. What conclusion is justified before reporting uncertainty for future calls?",
     "options": [
-      "Durbin-Watson statistics only apply to cross-sectional data, never to time-series data",
-      "A Durbin-Watson value well below 2 (here, 0.45) indicates strong positive autocorrelation in the residuals, meaning consecutive residuals are correlated rather than independent; this violates a standard regression assumption and means the model likely needs a time-series-appropriate approach (e.g., including lagged terms or an ARIMA-style model) rather than standard OLS regression",
-      "A Durbin-Watson value of 0.45 indicates no autocorrelation and the model is fully valid as specified",
-      "A low Durbin-Watson value indicates the model has too many predictor variables"
+      "The rising raw call-volume series proves positive error autocorrelation, so the residuals and the fitted mean model need no review.",
+      "The residual statistic suggests positive dependence; review time structure, uncertainty methods and applicable formal-test bounds.",
+      "The statistic is the exact lag-one residual correlation, so adjacent residuals have correlation 0.45 and conventional intervals remain valid.",
+      "Any Durbin–Watson value below two proves biased OLS coefficients and uniquely identifies ARIMA(1,1,1) as the required replacement model."
     ],
     "answer": 1,
-    "why": "Durbin-Watson values range roughly 0-4, with values near 2 indicating no autocorrelation; a value of 0.45 signals strong positive autocorrelation, a common issue in time-series regression that violates the independence assumption and typically requires a time-series-appropriate modeling approach. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
-    "chart": {"type": "time-series", "title": "Daily call volume (14 days)", "labels": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"], "data": [210, 225, 240, 255, 248, 260, 275, 268, 280, 295, 288, 300, 315, 308], "xLabel": "Day", "yLabel": "Calls"},
+    "why": "Durbin–Watson is the sum of squared adjacent residual differences divided by the residual sum of squares; the supplied illustrative residuals give approximately 0.45. Small successive changes relative to residual magnitude suggest positive serial dependence. The approximation d ≈ 2(1 − r₁) is not an exact identity here. A formal test needs its applicable assumptions and critical bounds. Raw outcome trend is not residual dependence. With exogeneity OLS coefficients need not be biased solely by correlated errors, but conventional uncertainty and predictive-error modeling require review; no unique ARIMA order follows. Source alignment: ASQ CMBB Body of Knowledge, VI.B.1, Autocorrelation and forecasting. This is an original practice scenario, not an ASQ-authored or endorsed item.",
+    "chart": {
+      "type": "time-series",
+      "title": "Daily calls and illustrative model residuals",
+      "altText": "Top: all 14 original call counts. Bottom: added illustrative OLS residuals, not raw-call deviations. The fit is constructed for a reproducible diagnostic example, not an empirical case study.",
+      "rawCalls": [
+        210,
+        225,
+        240,
+        255,
+        248,
+        260,
+        275,
+        268,
+        280,
+        295,
+        288,
+        300,
+        315,
+        308
+      ],
+      "fittedValues": [
+        218.3287065927862,
+        229.25007722528755,
+        238.20719779074818,
+        248.25419220992742,
+        239.73799709008458,
+        254.13442767692146,
+        273.9804407283976,
+        271.8268190226318,
+        286.5589082239198,
+        301.3193188857601,
+        291.6299845346419,
+        299.8501181850965,
+        311.4432586755537,
+        302.47855315824324
+      ],
+      "residuals": [
+        -8.328706592786201,
+        -4.250077225287544,
+        1.792802209251819,
+        6.745807790072581,
+        8.262002909915417,
+        5.865572323078529,
+        1.0195592716024073,
+        -3.8268190226318244,
+        -6.558908223919766,
+        -6.319318885760101,
+        -3.6299845346418924,
+        0.14988181490349237,
+        3.556741324446296,
+        5.52144684175678
+      ],
+      "panels": [
+        {
+          "title": "Observed daily call volume",
+          "xs": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "series": [
+            {
+              "name": "Observed calls",
+              "values": [
+                210,
+                225,
+                240,
+                255,
+                248,
+                260,
+                275,
+                268,
+                280,
+                295,
+                288,
+                300,
+                315,
+                308
+              ]
+            }
+          ],
+          "range": [
+            1,
+            14,
+            200,
+            330
+          ],
+          "xLabel": "Day",
+          "yLabel": "Calls",
+          "refs": []
+        },
+        {
+          "title": "Residuals in time order",
+          "xs": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "series": [
+            {
+              "name": "Model residual",
+              "values": [
+                -8.328706592786201,
+                -4.250077225287544,
+                1.792802209251819,
+                6.745807790072581,
+                8.262002909915417,
+                5.865572323078529,
+                1.0195592716024073,
+                -3.8268190226318244,
+                -6.558908223919766,
+                -6.319318885760101,
+                -3.6299845346418924,
+                0.14988181490349237,
+                3.556741324446296,
+                5.52144684175678
+              ]
+            }
+          ],
+          "range": [
+            1,
+            14,
+            -10,
+            10
+          ],
+          "xLabel": "Day",
+          "yLabel": "Residual (calls)",
+          "refs": [
+            {
+              "y": 0,
+              "label": "Zero"
+            }
+          ]
+        }
+      ],
+      "evidence": {
+        "type": "data-table",
+        "title": "Daily model data (display rounded to 6 decimals)",
+        "columns": [
+          "Day",
+          "Observed calls",
+          "Fitted calls",
+          "Residual (calls)"
+        ],
+        "rows": [
+          [
+            1,
+            210,
+            218.328707,
+            -8.328707
+          ],
+          [
+            2,
+            225,
+            229.250077,
+            -4.250077
+          ],
+          [
+            3,
+            240,
+            238.207198,
+            1.792802
+          ],
+          [
+            4,
+            255,
+            248.254192,
+            6.745808
+          ],
+          [
+            5,
+            248,
+            239.737997,
+            8.262003
+          ],
+          [
+            6,
+            260,
+            254.134428,
+            5.865572
+          ],
+          [
+            7,
+            275,
+            273.980441,
+            1.019559
+          ],
+          [
+            8,
+            268,
+            271.826819,
+            -3.826819
+          ],
+          [
+            9,
+            280,
+            286.558908,
+            -6.558908
+          ],
+          [
+            10,
+            295,
+            301.319319,
+            -6.319319
+          ],
+          [
+            11,
+            288,
+            291.629985,
+            -3.629985
+          ],
+          [
+            12,
+            300,
+            299.850118,
+            0.149882
+          ],
+          [
+            13,
+            315,
+            311.443259,
+            3.556741
+          ],
+          [
+            14,
+            308,
+            302.478553,
+            5.521447
+          ]
+        ],
+        "altText": "All observations, fitted values and residuals."
+      }
+    },
     "set": 3,
-    "qid": "mbb:set-3:d6-024"
+    "qid": "mbb:set-3:d6-024",
+    "optionRationales": [
+      "Incorrect. A changing conditional mean can produce raw-series trend without serially correlated errors; the relevant diagnostic uses residuals.",
+      "Correct. It distinguishes the diagnostic warning from a fully specified test and model choice, without claiming inevitable coefficient bias.",
+      "Incorrect. Durbin–Watson is a ratio of quadratic forms, not the lag-one correlation coefficient itself.",
+      "Incorrect. Neither universal coefficient bias nor a particular time-series model order follows from this one statistic."
+    ],
+    "trap": "Use meaningful time order and residuals, not raw outcomes, for an error-dependence diagnostic. Do not obtain a p-value or ARIMA order from d alone.",
+    "distractors": [
+      "Incorrect. A changing conditional mean can produce raw-series trend without serially correlated errors; the relevant diagnostic uses residuals.",
+      "Correct. It distinguishes the diagnostic warning from a fully specified test and model choice, without claiming inevitable coefficient bias.",
+      "Incorrect. Durbin–Watson is a ratio of quadratic forms, not the lag-one correlation coefficient itself.",
+      "Incorrect. Neither universal coefficient bias nor a particular time-series model order follows from this one statistic."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.B.1, Autocorrelation and forecasting"
+      },
+      {
+        "title": "Minitab: Test for autocorrelation using Durbin–Watson",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/regression/supporting-topics/model-assumptions/test-for-autocorrelation-by-using-the-durbin-watson-statistic/",
+        "locator": "Time ordering, statistic and critical-bound assumptions"
+      },
+      {
+        "title": "NIST/SEMATECH e-Handbook: Model validation",
+        "url": "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd44.htm",
+        "locator": "4.4.4; residual analysis and limits of training fit"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A multiple regression model for predicting project cost overruns includes 'project duration' and 'project complexity score,' both of which individually show strong, statistically significant relationships with cost overrun when tested alone, but neither is significant when both are included together in the same model. What is the most likely explanation?",
+    "stem": "Using the same complete-case sample, project duration and complexity each have a significant simple-regression slope for cost overrun. In the combined OLS model neither partial slope is significant at the preselected 5% level; the predictors are strongly correlated. What is the best next interpretation and check?",
     "options": [
-      "This pattern proves the underlying relationship must be nonlinear rather than linear",
-      "The sample size used must have been too large for meaningful hypothesis testing",
-      "The two predictors are likely substantially correlated with each other (project duration and complexity often move together), so once one is in the model, the other has little additional explanatory power left to contribute \u2014 a multicollinearity pattern distinct from either variable being truly unrelated to the outcome",
-      "Both variables are simply irrelevant to cost overruns and should be discarded entirely"
+      "The two nonsignificant partial tests establish that both predictors are unrelated to overrun and should be removed together.",
+      "The change in significance establishes a nonlinear relationship, so a quadratic model is justified without examining shared predictor information.",
+      "Inspect shared predictor information, VIFs, joint evidence and intervals before concluding that these predictors lack useful association.",
+      "Select whichever simple regression has the smaller p-value and interpret its slope as the independent causal effect of that predictor."
     ],
     "answer": 2,
-    "why": "When two individually-significant predictors both become non-significant together, shared explanatory overlap (multicollinearity) between them is the most likely explanation \u2014 not that either variable is truly unrelated to the outcome. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
+    "why": "Simple slopes and partial slopes answer different questions. Correlated predictors can share information about the response, leaving large uncertainty in their separate conditional slopes. Neither partial p-value proves absence of association or lack of joint predictive value. Check design, VIFs, joint tests, intervals and intended use. The same-sample condition removes one alternative explanation, but sign or significance changes alone would not uniquely diagnose collinearity. Selection by the smaller simple-model p-value also does not identify a causal effect. Source alignment: ASQ CMBB Body of Knowledge, VI.B.2, Multiple regression analysis. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-025"
+    "qid": "mbb:set-3:d6-025",
+    "optionRationales": [
+      "Incorrect. Nonsignificant partial slopes do not establish zero association or lack of joint value, especially with shared predictor information.",
+      "Incorrect. A significance change does not establish curvature; diagnostic evidence and model comparisons are needed for that claim.",
+      "Correct. It distinguishes marginal and conditional questions and evaluates shared information rather than interpreting p-values as relevance labels.",
+      "Incorrect. A selected marginal slope is neither an independently adjusted effect nor a demonstrated causal effect."
+    ],
+    "trap": "A marginal association and a partial slope are different estimands. Compare models on the same records and inspect joint uncertainty, not only significance labels.",
+    "distractors": [
+      "Incorrect. Nonsignificant partial slopes do not establish zero association or lack of joint value, especially with shared predictor information.",
+      "Incorrect. A significance change does not establish curvature; diagnostic evidence and model comparisons are needed for that claim.",
+      "Correct. It distinguishes marginal and conditional questions and evaluates shared information rather than interpreting p-values as relevance labels.",
+      "Incorrect. A selected marginal slope is neither an independently adjusted effect nor a demonstrated causal effect."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.B.2, Multiple regression analysis"
+      },
+      {
+        "title": "Minitab: Coefficients table for Fit Regression Model",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/regression/how-to/fit-regression-model/interpret-the-results/all-statistics-and-graphs/coefficients-table/",
+        "locator": "Variance inflation factors and coefficient uncertainty"
+      },
+      {
+        "title": "NIST/SEMATECH e-Handbook: Model validation",
+        "url": "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd44.htm",
+        "locator": "4.4.4; residual analysis and limits of training fit"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A Master Black Belt is asked to choose between a simple linear regression model (R\u00b2 = 0.71) and a complex model with 12 polynomial and interaction terms (R\u00b2 = 0.93) for predicting a stable, well-understood manufacturing relationship. What consideration should weigh most heavily in this decision, beyond the raw R\u00b2 difference?",
+    "stem": "For the same continuous manufacturing response and training sample, a simple model has R² = 0.71 and a model with 12 polynomial/interaction terms has R² = 0.93. Both will be considered for prediction inside the operating region, but neither has yet passed an independent error target. What should govern the choice?",
     "options": [
-      "R\u00b2 is the only consideration relevant to model selection; interpretability is irrelevant",
-      "Consider model parsimony and interpretability alongside predictive validity \u2014 a much more complex model's R\u00b2 gain may partly reflect overfitting to the specific dataset rather than genuine explanatory improvement, and a simpler, more interpretable model is often preferable when it captures the well-understood relationship adequately and generalizes more reliably",
-      "Always select the model with the higher R\u00b2 regardless of any other consideration",
-      "Always select the simpler model regardless of the R\u00b2 difference, no matter how large"
+      "Choose the complex model because increasing training R² establishes that its added terms improve future prediction by the same amount.",
+      "Compare held-out error, uncertainty and operational adequacy; favor simplicity when validated performance is sufficiently comparable.",
+      "Choose the simple model because interpretability always overrides a validated, operationally important gain in predictive accuracy.",
+      "Choose the complex model when its adjusted R² is larger, treating that internal statistic as a substitute for external validation."
     ],
     "answer": 1,
-    "why": "Model selection should weigh parsimony, interpretability, and generalization risk (overfitting) alongside raw fit statistics \u2014 a large jump in R\u00b2 from a much more complex model warrants scrutiny for overfitting rather than automatic preference. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
+    "why": "Added terms can improve training fit without improving deployment performance. Compare models using evaluation data and splitting rules suited to the intended use, with transformations and tuning learned only from training records. Assess error, residual structure, uncertainty, extrapolation risk, cost and interpretability. Parsimony is valuable when simpler performance is adequate or comparable; it is not a rule to reject demonstrated useful complexity. Adjusted R² penalizes parameter count internally but does not replace independent evaluation. Source alignment: ASQ CMBB Body of Knowledge, VI.B.2, Multiple regression analysis. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-026"
+    "qid": "mbb:set-3:d6-026",
+    "optionRationales": [
+      "Incorrect. Training improvement may reflect noise fitting and does not establish a matching improvement on new observations.",
+      "Correct. It bases the choice on validated operational performance and uses simplicity as a consideration rather than an absolute rule.",
+      "Incorrect. A simpler model can be inadequate; interpretation benefits should be weighed against a demonstrated material predictive gain.",
+      "Incorrect. Adjusted R² is still computed from the development data and cannot substitute for validation of the selected model."
+    ],
+    "trap": "Avoid both shortcuts: always choosing the highest R² and always choosing the simplest model. The decision depends on validated fitness for the actual use.",
+    "distractors": [
+      "Incorrect. Training improvement may reflect noise fitting and does not establish a matching improvement on new observations.",
+      "Correct. It bases the choice on validated operational performance and uses simplicity as a consideration rather than an absolute rule.",
+      "Incorrect. A simpler model can be inadequate; interpretation benefits should be weighed against a demonstrated material predictive gain.",
+      "Incorrect. Adjusted R² is still computed from the development data and cannot substitute for validation of the selected model."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.B.2, Multiple regression analysis"
+      },
+      {
+        "title": "scikit-learn: Common pitfalls and recommended practices",
+        "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+        "locator": "Data leakage; fit selection/preprocessing using training partitions only"
+      },
+      {
+        "title": "NIST/SEMATECH e-Handbook: Model validation",
+        "url": "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd44.htm",
+        "locator": "4.4.4; residual analysis and limits of training fit"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A regression analysis of supplier delivery delays reports a p-value of 0.03 for a key predictor with a very small effect size (a one-unit increase in the predictor is associated with only a 0.02-day change in delay). How should the MBB frame this finding to the project team?",
+    "stem": "A prespecified adjusted regression slope for a supplier scheduling score is 0.02 days per score point, with two-sided p = 0.03 against a zero slope at α = 0.05. A feasible change is 50 points, inside the modeled range; the business threshold is 0.5 day. Treat the fitted relationship as linear over that range. Which interpretation is most defensible?",
     "options": [
-      "Distinguish statistical significance from practical significance: with a very large sample, even a trivially small effect (0.02 days) can be statistically significant; the MBB should frame this finding as statistically detectable but likely not practically meaningful, and should not be prioritized as a major delay driver on that basis alone",
-      "Effect size is irrelevant as long as the p-value is below the conventional 0.05 threshold",
-      "The p-value of 0.03 proves this is a practically important driver of delivery delays that should be prioritized",
-      "A p-value of 0.03 indicates the finding is not statistically significant and should be ignored entirely"
+      "The slope passes the stated test; the predicted 1.0-day contrast warrants evaluation of uncertainty, cost and causal feasibility.",
+      "The slope is too small to matter operationally because 0.02 day per point is below the 0.5-day business threshold.",
+      "The p-value establishes a 97% probability that changing the score will cause at least a one-day change in delivery delay.",
+      "A p-value above 0.01 means the result fails the stated significance rule and should be ignored without calculating the feasible contrast."
     ],
     "answer": 0,
-    "why": "This is a direct application of the statistical-versus-practical-significance distinction explicitly required by the original assignment's statistical rigor standards \u2014 a statistically significant but practically trivial effect should not be treated as an important business driver. Source: [BOK] Domain VI.B, Measuring and Modeling (Regression).",
+    "why": "At the specified 5% level, p = 0.03 rejects the zero-slope null for this prespecified test. Practical interpretation uses the feasible contrast: 50 × 0.02 = 1.0 day, not the per-point slope alone. That point prediction exceeds 0.5 day, but the coefficient p-value does not provide the uncertainty interval for this contrast, its probability of exceeding the threshold, or causal validity. A small numerical coefficient can be important across a large feasible predictor change; consider uncertainty and intervention costs before prioritizing. Source alignment: ASQ CMBB Body of Knowledge, VI.B.2, Multiple regression analysis. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-027"
+    "qid": "mbb:set-3:d6-027",
+    "optionRationales": [
+      "Correct. It computes the relevant operational contrast and separates statistical detection, practical scale, uncertainty and causation.",
+      "Incorrect. It compares a per-point slope with a threshold for the complete feasible change, a mismatch of scale.",
+      "Incorrect. A p-value is not the probability that the causal claim is true or that an effect exceeds a practical threshold.",
+      "Incorrect. The stated α is 0.05, not 0.01; changing the criterion after seeing the result misapplies the decision rule."
+    ],
+    "trap": "Always identify the predictor unit and feasible change before calling an effect trivial. Statistical significance does not quantify intervention value or threshold-exceedance probability.",
+    "distractors": [
+      "Correct. It computes the relevant operational contrast and separates statistical detection, practical scale, uncertainty and causation.",
+      "Incorrect. It compares a per-point slope with a threshold for the complete feasible change, a mismatch of scale.",
+      "Incorrect. A p-value is not the probability that the causal claim is true or that an effect exceeds a practical threshold.",
+      "Incorrect. The stated α is 0.05, not 0.01; changing the criterion after seeing the result misapplies the decision rule."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.B.2, Multiple regression analysis"
+      },
+      {
+        "title": "NIST/SEMATECH e-Handbook: Model validation",
+        "url": "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd44.htm",
+        "locator": "4.4.4; residual analysis and limits of training fit"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A main effects plot for a 2\u00b2 factorial experiment on adhesive bond strength shows Factor A's line rising steeply from low to high, while Factor B's line is nearly flat. What does this pattern indicate about the relative importance of the two factors on the main-effects plot alone?",
+    "stem": "In a balanced 2² experiment, the same bond-strength scale (MPa) and coded low/high spacing are used in both main-effects panels. Marginal means are A: 42 and 68 MPa; B: 54 and 56 MPa. Replication variability and the four cell means are not supplied. Which conclusion follows from this display alone?",
     "options": [
-      "Factor A appears to have a substantially larger main effect on bond strength (the steep rise from low to high indicates the response changes considerably with Factor A's level), while Factor B's near-flat line suggests little to no main effect \u2014 though this main-effects view alone doesn't rule out an interaction effect between A and B",
-      "The main effects plot indicates Factor B should be immediately dropped from any further experimentation",
-      "Factor B has a larger effect on the response than Factor A, based on the flat line",
-      "Both factors have identical effects on the response, since both were tested at the same two levels"
+      "Effects are A = +26 MPa and B = +2 MPa; their significance and interaction remain undetermined.",
+      "Factor A is statistically significant and B is not, because the difference between their plotted slopes supplies the experimental error estimate.",
+      "Factor B can be dropped because a small marginal contrast establishes that it cannot interact with A.",
+      "The two effects are +13 MPa and +1 MPa, because high-minus-low effects equal the coefficients under −1/+1 coding."
     ],
     "answer": 0,
-    "why": "Slope steepness on a main effects plot directly reflects effect magnitude; a steep line for A and flat line for B indicates A has the larger apparent main effect \u2014 though a full DOE analysis should still check for interactions before completely dismissing Factor B's role. Source: [BOK] Domain VI.C, Design of Experiments.",
-    "chart": {"type": "main-effects-plot", "panels": [{"factor": "A", "low": 42, "high": 68}, {"factor": "B", "low": 54, "high": 56}], "overall": 55},
+    "why": "The high-minus-low marginal contrasts are 68 − 42 = 26 MPa and 56 − 54 = 2 MPa. With −1/+1 coding the corresponding regression coefficients in a balanced orthogonal parameterization are half those effects, 13 and 1. The equal panel scales make visual comparison meaningful. Marginal means alone do not supply an error estimate or determine the A×B interaction; a small average B effect can conceal substantial opposing simple effects. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
+    "chart": {
+      "type": "main-effects-plot",
+      "title": "Bond strength: marginal means",
+      "altText": "Equal response scales and coded level spacing. Replicate variability and joint cell means are not supplied.",
+      "panels": [
+        {
+          "title": "Factor A",
+          "xs": [
+            -1,
+            1
+          ],
+          "series": [
+            {
+              "name": "A marginal mean",
+              "values": [
+                42,
+                68
+              ]
+            }
+          ],
+          "range": [
+            -1,
+            1,
+            35,
+            75
+          ],
+          "xLabel": "A coded level",
+          "yLabel": "Strength (MPa)",
+          "refs": [
+            {
+              "y": 55,
+              "label": "Mean"
+            }
+          ]
+        },
+        {
+          "title": "Factor B",
+          "xs": [
+            -1,
+            1
+          ],
+          "series": [
+            {
+              "name": "B marginal mean",
+              "values": [
+                54,
+                56
+              ]
+            }
+          ],
+          "range": [
+            -1,
+            1,
+            35,
+            75
+          ],
+          "xLabel": "B coded level",
+          "yLabel": "Strength (MPa)",
+          "refs": [
+            {
+              "y": 55,
+              "label": "Mean"
+            }
+          ]
+        }
+      ],
+      "evidence": {
+        "type": "data-table",
+        "title": "Main-effect marginal means",
+        "columns": [
+          "Factor",
+          "Low (−1), MPa",
+          "High (+1), MPa"
+        ],
+        "rows": [
+          [
+            "A",
+            42,
+            68
+          ],
+          [
+            "B",
+            54,
+            56
+          ]
+        ],
+        "altText": "Means share an overall mean of 55 MPa."
+      }
+    },
     "set": 3,
-    "qid": "mbb:set-3:d6-028"
+    "qid": "mbb:set-3:d6-028",
+    "optionRationales": [
+      "Correct. It computes both contrasts and limits the conclusion to the descriptive main effects supported by the supplied means.",
+      "Incorrect. The relative slopes do not estimate random error or provide a significance test without replication or other valid error information.",
+      "Incorrect. A factor may have a small average effect and a substantial interaction whose conditional effects cancel when averaged.",
+      "Incorrect. Thirteen and one are coded regression coefficients, not the high-minus-low factorial effects requested."
+    ],
+    "trap": "Check equal scales before comparing slopes. In standard −1/+1 coding, a factorial effect is twice its coefficient; neither size nor steepness alone supplies a p-value.",
+    "distractors": [
+      "Correct. It computes both contrasts and limits the conclusion to the descriptive main effects supported by the supplied means.",
+      "Incorrect. The relative slopes do not estimate random error or provide a significance test without replication or other valid error information.",
+      "Incorrect. A factor may have a small average effect and a substantial interaction whose conditional effects cancel when averaged.",
+      "Incorrect. Thirteen and one are coded regression coefficients, not the high-minus-low factorial effects requested."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "Minitab: Interpret Main Effects Plot",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/anova/how-to/main-effects-plot/interpret-the-results/key-results/",
+        "locator": "Marginal means versus statistical significance"
+      },
+      {
+        "title": "Minitab: What is an interaction?",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/anova/supporting-topics/anova-models/what-is-an-interaction/",
+        "locator": "Conditional effects; plot does not establish significance"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "An interaction plot for factors A and B on a plastic injection molding response shows two clearly non-parallel lines, with one factor's effect reversing direction depending on the other factor's level. What does this pattern indicate, and why does it matter for interpreting main effects?",
+    "stem": "The interaction plot shows four cell means from a balanced 2² molding experiment. When B is low, increasing A changes mean strength from 40 to 70 MPa; when B is high, it changes strength from 60 to 45 MPa. Replicate observations, an error estimate and uncertainty intervals are unavailable. What can the MBB conclude?",
     "options": [
-      "Interaction plots can only be constructed for three or more factors, never for two",
-      "This pattern proves the experiment was run incorrectly and should be discarded",
-      "The non-parallel lines indicate no interaction is present; only parallel lines would indicate an interaction",
-      "Non-parallel lines (especially with a reversal in direction) indicate a significant interaction effect between A and B \u2014 this means the effect of one factor genuinely depends on the level of the other, and interpreting either factor's main effect in isolation (without accounting for this interaction) would be misleading or incomplete"
+      "The crossing lines prove a statistically significant A×B interaction at α = 0.05, even without information about experimental error.",
+      "The average effect of A is +7.5 MPa, so A increases strength at both B settings and B need not be considered.",
+      "The nonparallel lines show that the experiment violated randomization and that all four means must be discarded.",
+      "The estimated A effect reverses from +30 to −15 MPa across B levels; assess interaction uncertainty before claiming significance or selecting settings."
     ],
     "answer": 3,
-    "why": "Non-parallel interaction-plot lines (especially with a directional reversal, a strong/'crossover' interaction) are the classic visual signature of a significant interaction \u2014 exactly the case where interpreting main effects alone, without the interaction, would mislead. Source: [BOK] Domain VI.C, Design of Experiments.",
-    "chart": {"type": "interaction-plot", "parallel": false},
+    "why": "The displayed simple effects of A are 70 − 40 = +30 MPa at low B and 45 − 60 = −15 MPa at high B. Their difference is −45 MPa. The standard A×B factorial effect is half that difference, −22.5 MPa, and the coded interaction coefficient is −11.25 MPa. These are descriptive estimates. Without a valid error estimate the plot cannot establish statistical significance. The average A effect (+7.5 MPa) conceals the reversal and is incomplete for selecting settings. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
+    "chart": {
+      "type": "interaction-plot",
+      "title": "Molding strength: cell means by A and B",
+      "altText": "Supplied illustrative cell means; no replicate error or significance estimate is shown.",
+      "panels": [
+        {
+          "title": "Strength at the two B levels",
+          "xs": [
+            -1,
+            1
+          ],
+          "series": [
+            {
+              "name": "B low",
+              "values": [
+                40,
+                70
+              ]
+            },
+            {
+              "name": "B high",
+              "values": [
+                60,
+                45
+              ],
+              "dashed": true
+            }
+          ],
+          "range": [
+            -1,
+            1,
+            30,
+            80
+          ],
+          "xLabel": "A coded level",
+          "yLabel": "Strength (MPa)",
+          "refs": []
+        }
+      ],
+      "legend": "Solid line: B low (−1). Dashed line: B high (+1).",
+      "evidence": {
+        "type": "data-table",
+        "title": "Four cell means",
+        "columns": [
+          "B level",
+          "A low (−1), MPa",
+          "A high (+1), MPa"
+        ],
+        "rows": [
+          [
+            "Low (−1)",
+            40,
+            70
+          ],
+          [
+            "High (+1)",
+            60,
+            45
+          ]
+        ],
+        "altText": "Exact means used in the interaction plot."
+      }
+    },
     "set": 3,
-    "qid": "mbb:set-3:d6-029"
+    "qid": "mbb:set-3:d6-029",
+    "optionRationales": [
+      "Incorrect. The shape depicts an estimated interaction; statistical significance requires uncertainty or an appropriate inferential model.",
+      "Incorrect. An average contrast can hide a crossover: at high B the observed A effect is negative, not positive.",
+      "Incorrect. Nonparallel response means do not diagnose run-order or randomization violations.",
+      "Correct. It identifies the conditional reversal while reserving inferential and operating decisions until uncertainty is assessed."
+    ],
+    "trap": "Nonparallel lines do not equal statistically significant interaction. Keep the simple-effect difference, factorial interaction effect and coded coefficient distinct.",
+    "distractors": [
+      "Incorrect. The shape depicts an estimated interaction; statistical significance requires uncertainty or an appropriate inferential model.",
+      "Incorrect. An average contrast can hide a crossover: at high B the observed A effect is negative, not positive.",
+      "Incorrect. Nonparallel response means do not diagnose run-order or randomization violations.",
+      "Correct. It identifies the conditional reversal while reserving inferential and operating decisions until uncertainty is assessed."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "Minitab: What is an interaction?",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/anova/supporting-topics/anova-models/what-is-an-interaction/",
+        "locator": "Conditional effects; plot does not establish significance"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A DOE team runs a 2\u00b3 full factorial design but wants to reduce runs to save time, proposing a half-fraction (2\u00b3\u207b\u00b9) design instead. What is the primary trade-off the MBB should explain before this change is approved?",
+    "stem": "Before running an experiment, a team proposes replacing an eight-run 2³ factorial with the four-run regular half-fraction C = AB, using −1/+1 coding. The goal is to screen main effects; there are no replicate runs or independent error estimate. Which trade-off must the MBB communicate?",
     "options": [
-      "There is no trade-off; fractional designs always provide identical information to full factorial designs",
-      "The only consequence of fractionation is a change in the units of the response variable",
-      "Fractional designs always require more runs than the full factorial they're derived from",
-      "A half-fraction design confounds (aliases) certain effects with each other \u2014 typically higher-order interactions with main effects or lower-order interactions \u2014 meaning some effects can no longer be estimated independently; the team should review the specific alias structure to confirm the confounded effects are ones they're willing to assume are negligible"
+      "Main effects remain clear of all two-factor interactions; only three-factor interactions are sacrificed by halving the runs.",
+      "All three main effects and all three two-factor interactions remain separately estimable because the four rows are orthogonal.",
+      "The four distinct settings provide four residual degrees of freedom after fitting an intercept and three main effects.",
+      "I = ABC aliases A with BC, B with AC and C with AB; the model is saturated."
     ],
     "answer": 3,
-    "why": "Fractional factorial designs achieve run reduction by deliberately confounding certain effects (per the design's specific alias structure); the team must review which effects are aliased and confirm an acceptable assumption (e.g., higher-order interactions are negligible) before adopting the reduced design. Source: [BOK] Domain VI.C, Design of Experiments.",
+    "why": "Multiplying C = AB by C gives I = ABC, a resolution III defining relation. Multiplication by A, B and C yields the main-effect/two-factor aliases A = BC, B = AC and C = AB. Four observations fit four main-model coefficients including the intercept, leaving zero residual degrees of freedom. The design is useful for screening under justified sparsity assumptions, but it cannot separate those aliased effects or provide a conventional residual-error test by itself. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-030"
+    "qid": "mbb:set-3:d6-030",
+    "optionRationales": [
+      "Incorrect. In this specific three-factor half-fraction, every main effect is aliased with a two-factor interaction, not only a higher-order term.",
+      "Incorrect. Orthogonality between the four distinct design columns does not create separate columns for effects that are identical within the fraction.",
+      "Incorrect. Residual degrees of freedom are observations minus fitted rank: 4 − 4 = 0 here.",
+      "Correct. It gives the actual alias structure and the lack of residual error information rather than relying on a generic fractionation warning."
+    ],
+    "trap": "Write the defining relation for the proposed fraction. Run count alone does not establish resolution, and a saturated model provides no residual error degrees of freedom.",
+    "distractors": [
+      "Incorrect. In this specific three-factor half-fraction, every main effect is aliased with a two-factor interaction, not only a higher-order term.",
+      "Incorrect. Orthogonality between the four distinct design columns does not create separate columns for effects that are identical within the fraction.",
+      "Incorrect. Residual degrees of freedom are observations minus fitted rank: 4 − 4 = 0 here.",
+      "Correct. It gives the actual alias structure and the lack of residual error information rather than relying on a generic fractionation warning."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "NIST: Fractional factorial specifications and resolution",
+        "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3344.htm",
+        "locator": "5.3.3.4.4; defining relations and resolution"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A 2\u2074 fractional factorial design has a defining relation showing Factor D is confounded with the ABC three-way interaction. If the experiment detects a large, statistically significant effect associated with this alias, what is the correct interpretation?",
+    "stem": "An eight-run regular 2⁴⁻¹ design uses D = ABC, hence I = ABCD. Its D/ABC alias contrast is large. The team can add eight runs under comparable conditions and must distinguish D from ABC without assuming ABC negligible. Which interpretation and augmentation are valid?",
     "options": [
-      "The effect must be entirely due to the ABC interaction, since main effects are never confounded with interactions in fractional designs",
-      "Aliased effects are always non-significant by mathematical necessity, so this observation would be a data error",
-      "The effect must be entirely due to Factor D, since three-way interactions are never practically significant",
-      "The observed effect could be due to Factor D's main effect, the ABC three-way interaction, or some combination of both \u2014 since they are aliased (confounded) in this design, the data alone cannot distinguish between them; follow-up experimentation (e.g., a foldover design) would be needed to de-alias and determine the true source"
+      "Attribute the contrast to D and repeat the original fraction; repetition separates D from ABC by reducing random error.",
+      "Attribute the contrast to ABC because a main effect cannot contribute when it is aliased with a three-factor interaction.",
+      "Reverse every factor sign in the original fraction; this necessarily creates the complementary I = −ABCD fraction.",
+      "Add the D-only sign reversal, I = −ABCD; combined fractions separate D and ABC if stages remain comparable."
     ],
     "answer": 3,
-    "why": "When effects are aliased in a fractional factorial design, the observed data cannot statistically distinguish between them; correctly interpreting the result requires acknowledging both are plausible explanations, with follow-up experimentation needed to resolve the ambiguity, rather than assuming one attribution over the other without justification. Source: [BOK] Domain VI.C, Design of Experiments.",
+    "why": "In the original fraction the D and ABC columns are identical, so their contributions cannot be separated. Reversing D alone gives the complementary half with I = −ABCD; together the two halves cover all 16 combinations. Reversing all four signs leaves the four-letter product ABCD unchanged, reproducing the same fraction instead. Repeating original settings can improve precision but not break this alias. Stage effects and changing conditions must be addressed when augmenting sequentially. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-031"
+    "qid": "mbb:set-3:d6-031",
+    "optionRationales": [
+      "Incorrect. Replication reduces random uncertainty but preserves the identical D and ABC columns and cannot by itself identify their separate contributions.",
+      "Incorrect. Both contributions, including cancellation or reinforcement, are possible; aliasing does not privilege the higher-order interaction.",
+      "Incorrect. Reversing four signs multiplies ABCD by (+1), so an all-factor mirror foldover does not create the complementary fraction here.",
+      "Correct. A D-only sign reversal changes the defining word's sign and supplies the missing combinations under the stated comparability condition."
+    ],
+    "trap": "A mirror-image foldover is not universally de-aliasing. For an even-length defining word, reversing every factor preserves its sign; verify the actual follow-up columns.",
+    "distractors": [
+      "Incorrect. Replication reduces random uncertainty but preserves the identical D and ABC columns and cannot by itself identify their separate contributions.",
+      "Incorrect. Both contributions, including cancellation or reinforcement, are possible; aliasing does not privilege the higher-order interaction.",
+      "Incorrect. Reversing four signs multiplies ABCD by (+1), so an all-factor mirror foldover does not create the complementary fraction here.",
+      "Correct. A D-only sign reversal changes the defining word's sign and supplies the missing combinations under the stated comparability condition."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "NIST: Alternative foldover designs",
+        "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3382.htm",
+        "locator": "5.3.3.8.2; reversing selected factor columns"
+      },
+      {
+        "title": "NIST: Fractional factorial specifications and resolution",
+        "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3344.htm",
+        "locator": "5.3.3.4.4; defining relations and resolution"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A DOE resolution III design is used to screen 7 factors in 8 runs. What is the key limitation of a resolution III design that the MBB should communicate to the team before they interpret results?",
+    "stem": "A seven-factor, eight-run regular screening design starts with independent A, B and C columns and assigns D = AB, E = AC, F = BC and G = ABC. The table lists each main effect's complete two-factor alias set (higher-order aliases are omitted). No replication or external error estimate is available. What is the key interpretation limit?",
     "options": [
-      "Resolution III designs can only be used when all factors are known in advance to have zero interactions, which must be verified before running the experiment",
-      "In a resolution III design, main effects are confounded with two-factor interactions; if any meaningful two-factor interactions exist among the screened factors, the main effect estimates could be distorted by that confounding, and the team should treat this as a preliminary screening step requiring follow-up (often a higher-resolution design) rather than a final, fully reliable result",
-      "Resolution III designs provide complete information equivalent to a full factorial with no limitations",
-      "The resolution number refers only to the number of factors that can be included, unrelated to confounding"
+      "The table's three interactions per row can be estimated individually because each row names a different main effect.",
+      "Interpret contrasts conditionally on sparsity assumptions; this saturated resolution III design needs targeted follow-up to separate aliases.",
+      "Eight observations give one residual degree of freedom after fitting seven main effects and an intercept, so ordinary t-tests are available.",
+      "Assigning interactions as factor columns removes their influence from the process, making a main-effects-only physical interpretation valid."
     ],
     "answer": 1,
-    "why": "Resolution III is specifically defined by main effects being confounded with two-factor interactions \u2014 a critical limitation for screening designs that the MBB must communicate, since real two-factor interactions (if present) would distort the apparent main effect estimates. Source: [BOK] Domain VI.C, Design of Experiments.",
-    "chart": {"type": "data-table", "columns": ["Effect", "Confounded with"], "rows": [["A", "BC + DE"], ["B", "AC + DF"], ["C", "AB + EF"], ["D", "AE + BF"]]},
+    "why": "The generator columns give A = BD = CE = FG, with analogous three-interaction sets for the other factors. These equalities describe identical design columns, not separately observed effects. Intercept plus seven main-effect columns has rank eight, leaving zero residual degrees of freedom. The design can screen efficiently under defensible sparsity assumptions, but large contrasts cannot be uniquely attributed without assumptions or additional runs. Follow-up should break the aliases important to the engineering decision. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
+    "chart": {
+      "type": "data-table",
+      "title": "Complete two-factor alias sets for the stated generators",
+      "columns": [
+        "Main-effect column",
+        "Identical two-factor columns"
+      ],
+      "rows": [
+        [
+          "A",
+          "BD = CE = FG"
+        ],
+        [
+          "B",
+          "AD = CF = EG"
+        ],
+        [
+          "C",
+          "AE = BF = DG"
+        ],
+        [
+          "D",
+          "AB = CG = EF"
+        ],
+        [
+          "E",
+          "AC = BG = DF"
+        ],
+        [
+          "F",
+          "AG = BC = DE"
+        ],
+        [
+          "G",
+          "AF = BE = CD"
+        ]
+      ],
+      "altText": "All seven main effects. Higher-order aliases are omitted; equality denotes identical columns, not estimated separate effects."
+    },
     "set": 3,
-    "qid": "mbb:set-3:d6-032"
+    "qid": "mbb:set-3:d6-032",
+    "optionRationales": [
+      "Incorrect. Identical columns within an alias set cannot be separated by relabeling them; each apparent contrast can combine multiple effects.",
+      "Correct. It states the actual resolution, saturation and need for assumptions or augmentation before physical attribution.",
+      "Incorrect. Eight observations minus eight fitted independent columns leaves zero, not one, residual degree of freedom.",
+      "Incorrect. A design assignment affects identifiability; it does not remove physical interactions from the process."
+    ],
+    "trap": "Do not trust an alias table without generators. Derive it from the actual design and keep unestimated interactions separate from claims that they do not exist.",
+    "distractors": [
+      "Incorrect. Identical columns within an alias set cannot be separated by relabeling them; each apparent contrast can combine multiple effects.",
+      "Correct. It states the actual resolution, saturation and need for assumptions or augmentation before physical attribution.",
+      "Incorrect. Eight observations minus eight fitted independent columns leaves zero, not one, residual degree of freedom.",
+      "Incorrect. A design assignment affects identifiability; it does not remove physical interactions from the process."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "NIST: Fractional factorial specifications and resolution",
+        "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3344.htm",
+        "locator": "5.3.3.4.4; defining relations and resolution"
+      },
+      {
+        "title": "NIST: Alternative foldover designs",
+        "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3382.htm",
+        "locator": "5.3.3.8.2; reversing selected factor columns"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A response surface methodology (RSM) study on a coating-thickness process identifies a region of curvature in the response, but the team's initial design was a simple 2-level factorial with no center points. What is the consequence of this design choice?",
+    "stem": "A coating experiment samples only the ±1 corners of a two-factor factorial. The response may contain β₁₁x₁² + β₂₂x₂² as well as an interaction. The team proposes adding replicated center points at (0,0) and then estimating both pure quadratic terms separately. Which assessment is correct?",
     "options": [
-      "Curvature can only ever be detected using a fractional factorial design, never a full factorial",
-      "A 2-level factorial design without center points cannot detect curvature (nonlinear/quadratic effects) in the response at all \u2014 it can only estimate linear main effects and interactions; center points (or a follow-up RSM design like central composite) are needed to detect and model the curvature the team now suspects is present",
-      "No consequence; 2-level factorial designs are always sufficient for detecting and modeling curvature",
-      "The team should have used more factor levels rather than adding center points"
+      "Corner points identify both pure quadratic coefficients because x₁² and x₂² have opposite signs at opposite corners.",
+      "Center points identify an aggregate pure-curvature contrast, not separate quadratic terms; augment with suitable additional settings.",
+      "Replicated center points separately estimate every quadratic coefficient because each additional observation creates a new independent design column.",
+      "A two-level factorial cannot estimate any second-order response feature, including x₁x₂, so its interaction estimates must be discarded."
     ],
     "answer": 1,
-    "why": "A basic 2-level factorial design is fundamentally unable to detect curvature (it only estimates linear effects); center points or a full RSM design (e.g., central composite) are specifically needed to detect and characterize nonlinear/quadratic response behavior. Source: [BOK] Domain VI.C, Design of Experiments.",
+    "why": "At every ±1 corner, x₁² = x₂² = 1; both columns are identical to the intercept. At the center both become zero, but remain identical to each other across the augmented design. Center observations can identify an aggregate pure-curvature contrast, with replication providing pure-error information, but cannot identify the two separate quadratic coefficients. Opposing quadratic contributions can cancel in that contrast. Two-level designs can estimate interactions, which are second-order terms; an appropriate response-surface augmentation adds independent information about pure quadratics. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-033"
+    "qid": "mbb:set-3:d6-033",
+    "optionRationales": [
+      "Incorrect. Squaring either +1 or −1 yields +1; the pure quadratic columns do not change sign at the corners.",
+      "Correct. It distinguishes pure-curvature detection from identification of individual quadratic coefficients and calls for an appropriate augmentation.",
+      "Incorrect. Repeating the same center setting adds precision/error information, not independent geometric directions for the quadratic terms.",
+      "Incorrect. An estimable cross-product interaction is a second-order response feature; the limitation concerns individual pure quadratic terms."
+    ],
+    "trap": "Center points can reveal net pure curvature, not necessarily each quadratic term; cancellation can hide it. Replication and new design locations solve different problems.",
+    "distractors": [
+      "Incorrect. Squaring either +1 or −1 yields +1; the pure quadratic columns do not change sign at the corners.",
+      "Correct. It distinguishes pure-curvature detection from identification of individual quadratic coefficients and calls for an appropriate augmentation.",
+      "Incorrect. Repeating the same center setting adds precision/error information, not independent geometric directions for the quadratic terms.",
+      "Incorrect. An estimable cross-product interaction is a second-order response feature; the limitation concerns individual pure quadratic terms."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "NIST: Response surface designs",
+        "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri336.htm",
+        "locator": "5.3.3.6; pure-quadratic terms and center-point limitations"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A DOE cube plot for a 2\u00b3 design on etch rate shows the highest response value at the corner where all three factors are at their high setting, and the lowest at the opposite corner (all factors low). What does this pattern suggest, assuming no significant interactions are present?",
+    "stem": "The complete cube shows fitted etch rates (nm/min) from an additive model over three coded factors A, B and C. These eight model predictions—not raw replicates—use the same scale. The values at (−,−,−) and (+,+,+) are 42 and 89. What does the full display establish, and what does it not establish?",
     "options": [
-      "A cube plot cannot show a monotonic corner-to-corner pattern under any circumstances",
-      "All three factors appear to move the response in the same direction (higher factor settings associated with higher response), consistent with three positive main effects and no strongly conflicting interaction pulling the surface away from this simple corner-to-corner pattern",
-      "All three factors have effects working against each other, canceling out any overall pattern",
-      "This cube plot pattern can only occur if all three factors have zero effect on the response"
+      "The positive main effects establish that (+,+,+) is the statistically confirmed global optimum outside the tested ranges.",
+      "Fitted effects are +9, +16 and +22 nm/min; significance and physical additivity are not established by this display.",
+      "The difference 89 − 42 is the main effect of each factor separately because it compares the lowest and highest corners.",
+      "The connecting cube edges represent activity dependencies, so the corner values should be added to obtain the process completion time."
     ],
     "answer": 1,
-    "why": "A clean corner-to-corner pattern (highest response at all-factors-high, lowest at all-factors-low) is consistent with all three factors having positive main effects and no strong interactions disrupting that simple, additive pattern. Source: [BOK] Domain VI.C, Design of Experiments.",
-    "chart": {"type": "activity-network", "nodes": {"Low-Low-Low": {"col": 0, "row": 0, "dur": 42}, "High-Low-Low": {"col": 1, "row": 0, "dur": 51}, "Low-High-Low": {"col": 0, "row": 1, "dur": 58}, "High-High-High": {"col": 1, "row": 1, "dur": 89}}, "edges": [["Low-Low-Low", "High-Low-Low"], ["Low-Low-Low", "Low-High-Low"], ["High-Low-Low", "High-High-High"], ["Low-High-Low", "High-High-High"]]},
+    "why": "Compare matched cube edges: changing A adds 9, B adds 16 and C adds 22 nm/min; 9 + 16 + 22 = 47, matching 89 − 42. Under the explicitly fitted additive model the other corners are 51, 58, 67, 64, 73 and 80. The all-high corner is its best tested corner for maximizing rate, but an additive display is not evidence that interactions are absent in the physical process. Replication/error information and model validation are needed for inference and operating recommendations. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
+    "chart": {
+      "type": "doe-cube",
+      "title": "Complete 2³ cube: fitted additive etch rate",
+      "altText": "Eight additive-model predictions in nm/min. Cube edges join settings differing in one factor; they are not activity dependencies.",
+      "vertices": [
+        {
+          "a": -1,
+          "b": -1,
+          "c": -1,
+          "value": 42.0
+        },
+        {
+          "a": 1,
+          "b": -1,
+          "c": -1,
+          "value": 51.0
+        },
+        {
+          "a": -1,
+          "b": 1,
+          "c": -1,
+          "value": 58.0
+        },
+        {
+          "a": 1,
+          "b": 1,
+          "c": -1,
+          "value": 67.0
+        },
+        {
+          "a": -1,
+          "b": -1,
+          "c": 1,
+          "value": 64.0
+        },
+        {
+          "a": 1,
+          "b": -1,
+          "c": 1,
+          "value": 73.0
+        },
+        {
+          "a": -1,
+          "b": 1,
+          "c": 1,
+          "value": 80.0
+        },
+        {
+          "a": 1,
+          "b": 1,
+          "c": 1,
+          "value": 89.0
+        }
+      ],
+      "evidence": {
+        "type": "data-table",
+        "title": "All eight fitted treatment combinations",
+        "columns": [
+          "A (coded)",
+          "B (coded)",
+          "C (coded)",
+          "Etch rate (nm/min)"
+        ],
+        "rows": [
+          [
+            -1,
+            -1,
+            -1,
+            42
+          ],
+          [
+            1,
+            -1,
+            -1,
+            51
+          ],
+          [
+            -1,
+            1,
+            -1,
+            58
+          ],
+          [
+            1,
+            1,
+            -1,
+            67
+          ],
+          [
+            -1,
+            -1,
+            1,
+            64
+          ],
+          [
+            1,
+            -1,
+            1,
+            73
+          ],
+          [
+            -1,
+            1,
+            1,
+            80
+          ],
+          [
+            1,
+            1,
+            1,
+            89
+          ]
+        ],
+        "altText": "The four formerly absent corners are explicitly additive-model predictions."
+      }
+    },
     "set": 3,
-    "qid": "mbb:set-3:d6-034"
+    "qid": "mbb:set-3:d6-034",
+    "optionRationales": [
+      "Incorrect. The plot has no inferential uncertainty and does not justify extrapolation or prove a global physical optimum.",
+      "Correct. It computes the three model contrasts while distinguishing model predictions from experimental proof of significance or additivity.",
+      "Incorrect. The 47-unit diagonal contrast combines all three additive effects; it is not each individual main effect.",
+      "Incorrect. This is a factorial-response cube, not a project network; the etch-rate values are not activity durations."
+    ],
+    "trap": "A genuine 2³ cube has eight combinations. A plot of an additive fit necessarily looks additive; it cannot independently validate the assumption used to draw it.",
+    "distractors": [
+      "Incorrect. The plot has no inferential uncertainty and does not justify extrapolation or prove a global physical optimum.",
+      "Correct. It computes the three model contrasts while distinguishing model predictions from experimental proof of significance or additivity.",
+      "Incorrect. The 47-unit diagonal contrast combines all three additive effects; it is not each individual main effect.",
+      "Incorrect. This is a factorial-response cube, not a project network; the etch-rate values are not activity durations."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "Minitab: Interpret Main Effects Plot",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/anova/how-to/main-effects-plot/interpret-the-results/key-results/",
+        "locator": "Marginal means versus statistical significance"
+      },
+      {
+        "title": "NIST: Fractional factorial specifications and resolution",
+        "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3344.htm",
+        "locator": "5.3.3.4.4; defining relations and resolution"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A Black Belt wants to study 5 factors but can only afford 16 experimental runs due to material cost constraints. Which design choice, and why, is most appropriate given this constraint?",
+    "stem": "A team can afford 16 runs to study five two-level factors. It wants main effects and all two-factor interactions, and engineering judgment supports treating interactions of order three and above as negligible for initial screening. No external error estimate is available. Which design and limitation best fit this purpose?",
     "options": [
-      "A one-factor-at-a-time approach testing each of the 5 factors individually, ignoring any possible interactions",
-      "Randomly select only 2 of the 5 factors to study, discarding the other 3 without justification",
-      "A full 2\u2075 factorial design (32 runs), exceeding the stated budget, since full factorials are always required",
-      "A 2\u2075\u207b\u00b9 half-fraction design (16 runs), which fits the budget while still providing reasonable resolution for estimating main effects and typically most two-factor interactions, depending on the specific fraction's alias structure \u2014 an appropriate trade-off between information and run-count constraints"
+      "Use a 16-run half-fraction with I = ABC; all five main effects and all two-factor interactions will then be clear of each other.",
+      "Use one-factor-at-a-time trials across all five factors; they recover two-factor interactions without alias assumptions at lower cost.",
+      "Use I = ABCDE and fit the full second-order factorial model; its 16 parameters leave 15 residual degrees of freedom.",
+      "Use I = ABCDE, resolution V; the mutually clear main-plus-two-factor model has 16 parameters and no residual degrees of freedom."
     ],
     "answer": 3,
-    "why": "Given a firm budget constraint, a half-fraction design matching that run count is the standard, defensible DOE choice \u2014 far superior to one-factor-at-a-time (which cannot detect interactions) or arbitrarily dropping factors without justification. Source: [BOK] Domain VI.C, Design of Experiments.",
+    "why": "The length-five defining word gives resolution V. A main effect is aliased with a four-factor interaction and a two-factor interaction with a three-factor interaction; the five main effects and ten two-factor interactions are mutually clear under the stated higher-order assumptions. Including the intercept gives 1 + 5 + 10 = 16 parameters for 16 observations, leaving zero residual degrees of freedom. Plan subsequent error/confirmation information; run count alone does not specify the resolution, and negligible higher-order effects remain an assumption. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-035"
+    "qid": "mbb:set-3:d6-035",
+    "optionRationales": [
+      "Incorrect. A length-three defining word gives resolution III, so the proposed fraction does not provide the requested separation of low-order effects.",
+      "Incorrect. One-factor-at-a-time changes do not support joint interaction estimation over the factorial region as the requested design does.",
+      "Incorrect. Sixteen observations minus rank sixteen leaves zero residual degrees of freedom, not fifteen.",
+      "Correct. It identifies a specific resolution V fraction and explicitly acknowledges its saturated full main-plus-two-factor model."
+    ],
+    "trap": "Resolution V is not an automatic error estimate. Distinguish estimability under alias assumptions from precision and significance estimation in a saturated design.",
+    "distractors": [
+      "Incorrect. A length-three defining word gives resolution III, so the proposed fraction does not provide the requested separation of low-order effects.",
+      "Incorrect. One-factor-at-a-time changes do not support joint interaction estimation over the factorial region as the requested design does.",
+      "Incorrect. Sixteen observations minus rank sixteen leaves zero residual degrees of freedom, not fifteen.",
+      "Correct. It identifies a specific resolution V fraction and explicitly acknowledges its saturated full main-plus-two-factor model."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "NIST: Fractional factorial specifications and resolution",
+        "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3344.htm",
+        "locator": "5.3.3.4.4; defining relations and resolution"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A DOE team is deciding factor levels for a temperature variable in an experiment and sets the 'low' and 'high' levels only 2 degrees apart, well within the normal random noise band already observed in the process. What is the likely consequence of this choice?",
+    "stem": "For a safe temperature interval, planning evidence suggests a locally linear strength sensitivity of 0.5 MPa/°C and independent run-to-run strength SD of 3 MPa. The proposed low/high temperatures differ by 2 °C, with one independent run per level. Which planning assessment is best?",
     "options": [
-      "Levels set too close together always produce statistically significant results regardless of the true effect",
-      "The correct fix is to reduce the number of replicates to compensate for the narrow level spacing",
-      "No consequence; factor level spacing never affects the ability to detect a real effect",
-      "Setting factor levels too close together (within the normal noise band) risks the experiment failing to detect a real effect even if one exists, since the signal from the deliberately small level change may be indistinguishable from ordinary process noise \u2014 levels should be spaced widely enough to produce a detectable signal while remaining within a practical, safe operating range"
+      "The 2 °C spacing is smaller than 3 MPa of noise, so the experiment is invalid by direct comparison of these two numbers.",
+      "The expected 1 MPa contrast exceeds the standard error because the standard error equals the 0.5 MPa/°C sensitivity.",
+      "Changing to fewer replicates would improve detection by reducing the amount of response variation included in the comparison.",
+      "The expected 1 MPa contrast has SE 4.24 MPa; assess safe wider spacing, replication or justified blocking."
     ],
     "answer": 3,
-    "why": "Factor levels set within the existing noise band risk a real effect being masked by ordinary process variation, reducing the experiment's power to detect it \u2014 level spacing should be wide enough (within practical/safety bounds) to produce a signal distinguishable from noise. Source: [BOK] Domain VI.C, Design of Experiments.",
+    "why": "Expected signal is sensitivity times spacing: 0.5 × 2 = 1 MPa. For two independent observations with SD 3 MPa, the planning SE of their difference is sqrt(3² + 3²) = sqrt(18) = 4.2426 MPa. This weak signal-to-SE comparison motivates a power/precision assessment, not a guarantee of a particular p-value. With r independent runs per level the planning SE is 3 sqrt(2/r). Widening levels must remain safe and respect local-model limits; blocking can help only when it accounts for a real nuisance source. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-036"
+    "qid": "mbb:set-3:d6-036",
+    "optionRationales": [
+      "Incorrect. Temperature spacing and strength noise have different units; use a sensitivity model to translate spacing into response change.",
+      "Incorrect. Sensitivity is a slope with units MPa/°C, not the standard error of the response contrast.",
+      "Incorrect. Fewer independent replicates increase, not reduce, the uncertainty of the estimated level difference under this model.",
+      "Correct. It compares signal and uncertainty on the same response scale and considers feasible design remedies rather than declaring failure certain."
+    ],
+    "trap": "Compare signal with noise in compatible units. Small factor spacing is not inherently wrong: sensitivity, replication, nuisance control and the decision target determine adequacy.",
+    "distractors": [
+      "Incorrect. Temperature spacing and strength noise have different units; use a sensitivity model to translate spacing into response change.",
+      "Incorrect. Sensitivity is a slope with units MPa/°C, not the standard error of the response contrast.",
+      "Incorrect. Fewer independent replicates increase, not reduce, the uncertainty of the estimated level difference under this model.",
+      "Correct. It compares signal and uncertainty on the same response scale and considers feasible design remedies rather than declaring failure certain."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "NIST/SEMATECH e-Handbook: Model validation",
+        "url": "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd44.htm",
+        "locator": "4.4.4; residual analysis and limits of training fit"
+      },
+      {
+        "title": "NIST: Fractional factorial specifications and resolution",
+        "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3344.htm",
+        "locator": "5.3.3.4.4; defining relations and resolution"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A DOE analysis for a plastics extrusion process identifies a statistically significant three-way interaction (A\u00d7B\u00d7C) but no significant two-way interactions or main effects for any of the three factors individually. How should the team interpret and communicate this finding?",
+    "stem": "In a replicated, randomized 2³ extrusion experiment, a prespecified analysis with an adequate error model finds the A×B×C interaction significant. The main-effect and two-factor tests are not significant. The team proposes deleting all lower-order terms and reporting that no pair of factors interacts. What should the MBB recommend?",
     "options": [
-      "This pattern always indicates the experiment must be re-run with a completely different set of factors",
-      "The three-way interaction should be ignored entirely since only main effects are ever actionable",
-      "This result is impossible and indicates a data error, since interactions cannot be significant without their component main effects also being significant",
-      "A significant higher-order interaction without significant lower-order effects, while less common, is a valid and interpretable result \u2014 it means the combined effect of all three factors together matters, even though no single factor or two-factor combination shows a detectable effect on its own; the team should use interaction plots stratified by the third factor to interpret and communicate this pattern"
+      "Delete A×B×C because a higher-order interaction cannot be present unless every component main effect is significant.",
+      "Delete the lower-order terms and state that the nonsignificant marginal A×B test proves no A×B interaction at either C level.",
+      "Average the response over C and select settings solely from the resulting main-effects plot to avoid interpreting an unusual finding.",
+      "Retain hierarchy and examine A×B at each C level; nonsignificant marginal tests do not establish zero conditional effects."
     ],
     "answer": 3,
-    "why": "While hierarchical models (where interactions imply their component main effects) are common practice, a significant higher-order interaction without significant lower-order terms is a valid, if less common, DOE result requiring careful visualization (e.g., stratified interaction plots) to interpret and communicate clearly. Source: [BOK] Domain VI.C, Design of Experiments.",
+    "why": "A three-way interaction means that a two-factor interaction changes with the third factor. Opposing A×B interactions at the two C levels can average to zero, so a nonsignificant marginal A×B term does not imply absence at each C level. Model hierarchy concerns retaining lower-order terms needed to interpret the higher-order structure, not requiring each to be statistically significant. For example, y = 50 + 10ABC has zero averaged main/two-factor effects but opposing conditional A×B patterns. Verify adequacy and uncertainty before operational recommendations. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-037"
+    "qid": "mbb:set-3:d6-037",
+    "optionRationales": [
+      "Incorrect. Significance of the highest-order interaction does not mathematically require significance of every lower-order term.",
+      "Incorrect. Marginal cancellation can hide conditional two-factor interactions; a nonsignificant test is not proof that those conditional effects are zero.",
+      "Incorrect. Averaging over the conditioning factor can remove the very structure needed to choose and communicate settings.",
+      "Correct. It preserves hierarchy and focuses on the conditional interpretation supported by a three-way interaction."
+    ],
+    "trap": "Hierarchy is a modeling principle, not a significance requirement. Distinguish an averaged two-factor term from the two-factor relationship conditional on the third factor.",
+    "distractors": [
+      "Incorrect. Significance of the highest-order interaction does not mathematically require significance of every lower-order term.",
+      "Incorrect. Marginal cancellation can hide conditional two-factor interactions; a nonsignificant test is not proof that those conditional effects are zero.",
+      "Incorrect. Averaging over the conditioning factor can remove the very structure needed to choose and communicate settings.",
+      "Correct. It preserves hierarchy and focuses on the conditional interpretation supported by a three-way interaction."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "Minitab: What is an interaction?",
+        "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/anova/supporting-topics/anova-models/what-is-an-interaction/",
+        "locator": "Conditional effects; plot does not establish significance"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A DOE team runs their experiment with all high-temperature trials completed on Monday and all low-temperature trials on Tuesday, for scheduling convenience. What experimental design principle does this violate, and what confound does it introduce?",
+    "stem": "All high-temperature trials were run Monday and all low-temperature trials Tuesday, so temperature is completely confounded with day. Temperature is hard to change, but future work can include both levels on each of several days with independently replicated temperature periods. Which redesign best protects temperature estimation?",
     "options": [
-      "No principle is violated; scheduling convenience is always an acceptable basis for run order",
-      "This violates the principle of randomization; running all high-temperature trials on one day and all low trials on another confounds the temperature effect with any day-to-day (or time-based) variation \u2014 e.g., a raw material lot change or ambient humidity difference between Monday and Tuesday would be indistinguishable from the temperature effect itself",
-      "The correct fix is to run the entire experiment in a single day regardless of practical constraints",
-      "This only matters if temperature is not the primary factor of interest in the study"
+      "Repeat the same high-Monday/low-Tuesday schedule with more subsamples, keeping day and temperature perfectly aligned.",
+      "Use a justified restricted-randomization design with both temperatures represented across days, randomized feasible periods, independent whole-plot replication and the correct error strata.",
+      "Fit day and temperature as separate fixed effects to the current confounded data; software can recover their unique effects without new information.",
+      "Randomize only the order of subsample measurements within each existing day and treat all subsamples as independent temperature replications."
     ],
     "answer": 1,
-    "why": "Randomizing run order is a foundational DOE principle specifically to prevent confounding a factor's effect with uncontrolled time-based variation (material lot changes, ambient conditions, equipment drift) \u2014 blocking by day without randomization, as described here, creates exactly that confound. Source: [BOK] Domain VI.C, Design of Experiments.",
+    "why": "The present data cannot separate temperature from day. More subsamples under the same day/temperature alignment do not create independent information for that contrast. Hard-to-change factors can be studied using legitimate restricted randomization, such as split-plot structures, rather than insisting on unrestricted run order. Spread temperature levels across independently replicated periods, randomize within feasibility, and use whole-plot error for temperature where appropriate. Subsamples are not independent replications of the temperature assignment. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-038"
+    "qid": "mbb:set-3:d6-038",
+    "optionRationales": [
+      "Incorrect. Repetition without breaking the alignment improves precision of a confounded contrast but cannot identify temperature separately from day.",
+      "Correct. It breaks the complete confounding, respects physical constraints and matches inference to the actual randomization units.",
+      "Incorrect. A rank-deficient model cannot identify separate day and temperature effects from perfectly confounded columns.",
+      "Incorrect. Measurement-order randomization does not randomize treatment assignment, and subsamples do not replace whole-plot replication."
+    ],
+    "trap": "Randomization has levels. For hard-to-change factors, identify the experimental unit and error stratum; randomizing measurement order does not repair confounded assignments.",
+    "distractors": [
+      "Incorrect. Repetition without breaking the alignment improves precision of a confounded contrast but cannot identify temperature separately from day.",
+      "Correct. It breaks the complete confounding, respects physical constraints and matches inference to the actual randomization units.",
+      "Incorrect. A rank-deficient model cannot identify separate day and temperature effects from perfectly confounded columns.",
+      "Incorrect. Measurement-order randomization does not randomize treatment assignment, and subsamples do not replace whole-plot replication."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "NIST: Fractional factorial specifications and resolution",
+        "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3344.htm",
+        "locator": "5.3.3.4.4; defining relations and resolution"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A DOE team includes 'operator' as a blocking variable in their design, recognizing that different operators may introduce systematic variation unrelated to the factors under study. What is the purpose of this blocking, and how does it differ from simply ignoring operator differences?",
+    "stem": "A planned experiment has each operator run a complete replicate of every treatment combination. Treatment order is randomized within operator, and the initial analysis includes an additive operator block effect. What benefit does this provide, and what limitation should the MBB retain?",
     "options": [
-      "Blocking is only relevant when a single operator runs the entire experiment",
-      "Blocking accounts for a known, systematic source of variation (operator differences) by structuring the design so that operator effects don't get confounded with the factors of actual interest; this increases the experiment's sensitivity to detect real factor effects, compared to simply ignoring operator differences and letting that variation add uncontrolled noise to the results",
-      "Blocking and randomization are the same technique with no meaningful difference",
-      "Blocking eliminates operator-to-operator variation from existing in the process at all"
+      "Blocking removes operator differences from the physical process, so future production variation will necessarily be lower.",
+      "Account for additive operator shifts to improve precision; assess relevant treatment-by-operator differences rather than assuming additivity.",
+      "Blocking makes randomization unnecessary because identical treatment coverage eliminates all time-order and learning effects within an operator.",
+      "Including operator as a block automatically estimates every treatment-by-operator interaction even with only one observation per combination."
     ],
     "answer": 1,
-    "why": "Blocking is a design technique for controlling a known nuisance variable (like operator) by structuring it into the design, increasing sensitivity to the factors of real interest \u2014 distinct from simply ignoring the variable and absorbing its variation as uncontrolled noise. Source: [BOK] Domain VI.C, Design of Experiments.",
+    "why": "Complete treatment coverage within each operator keeps additive operator shifts from being confounded with the treatment contrasts. Accounting for a real nuisance source can reduce residual variation and improve precision, but blocking does not remove physical operator variation or guarantee an improvement when block effects are negligible. Randomization within blocks is still needed. An additive block model assumes away treatment-by-operator structure; estimating and testing that structure requires an appropriate design and error information, not merely naming the block. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-039"
+    "qid": "mbb:set-3:d6-039",
+    "optionRationales": [
+      "Incorrect. Blocking controls a source of variation in design and analysis; it does not change the physical operating process itself.",
+      "Correct. It states the potential precision benefit under additive blocks and preserves the need to consider interactions and design adequacy.",
+      "Incorrect. Time trends and order effects can remain within operators, so blocking is complementary to randomization, not a replacement.",
+      "Incorrect. A block term does not automatically supply separately estimable and testable treatment-by-block interaction and error information."
+    ],
+    "trap": "Blocking is useful when it controls real nuisance variation without sacrificing the needed treatment contrasts. Check coverage, randomization and the additive-model assumption.",
+    "distractors": [
+      "Incorrect. Blocking controls a source of variation in design and analysis; it does not change the physical operating process itself.",
+      "Correct. It states the potential precision benefit under additive blocks and preserves the need to consider interactions and design adequacy.",
+      "Incorrect. Time trends and order effects can remain within operators, so blocking is complementary to randomization, not a replacement.",
+      "Incorrect. A block term does not automatically supply separately estimable and testable treatment-by-block interaction and error information."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "NIST: Fractional factorial specifications and resolution",
+        "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3344.htm",
+        "locator": "5.3.3.4.4; defining relations and resolution"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A DFSS team runs a definitive screening design (DSD) to study 8 factors efficiently before committing to a full response surface study. What is the primary advantage of a DSD over a standard resolution III fractional factorial for this purpose?",
+    "stem": "A DFSS team proposes a standard 17-run definitive screening design for eight continuous factors at three coded levels. It expects only a few active effects and will validate any selected model. What advantage over a standard resolution III two-level screen is defensible, and what estimation claim must be rejected?",
     "options": [
-      "DSDs are specifically constructed so that main effects are not confounded with two-factor interactions (unlike resolution III designs), and can often detect some quadratic (curvature) effects directly \u2014 providing more reliable screening information without the resolution III's main-effect/interaction confounding problem",
-      "DSDs eliminate the need for any follow-up experimentation regardless of the screening results",
-      "DSDs can only be used when all factors are categorical, never continuous",
-      "DSDs always require more runs than an equivalent fractional factorial, making them strictly worse"
+      "The DSD protects main effects from second-order aliasing; its 17 runs cannot freely estimate all 45 quadratic-model coefficients.",
+      "The DSD identifies all main effects, two-factor interactions and pure quadratic terms simultaneously because no pair of columns is fully aliased.",
+      "The DSD's third levels eliminate uncertainty, so the best settings from the screen require neither error assessment nor confirmation.",
+      "The DSD makes main effects identical to two-factor interaction columns, which is why it can use fewer runs than a full factorial."
     ],
     "answer": 0,
-    "why": "Definitive screening designs are specifically constructed to avoid confounding main effects with two-factor interactions (the key resolution III limitation) while also allowing some curvature detection \u2014 a meaningful efficiency and reliability advantage for screening purposes. Source: [BOK] Domain VI.C, Design of Experiments.",
+    "why": "For the stated standard continuous-factor DSD, main-effect columns are orthogonal to second-order terms, unlike the main-effect/two-factor aliasing of resolution III. Three levels provide information about pure curvature, and sparse active-factor models can be useful. However, a full quadratic in eight factors contains 1 + 8 + 8 + 28 = 45 coefficients. Seventeen observations cannot identify all 45 freely; absence of pairwise complete aliasing does not imply full joint estimability. Model selection, second-order correlations, uncertainty and confirmation or augmentation remain important. Source alignment: ASQ CMBB Body of Knowledge, VI.C, Design of Experiments. This is an original practice scenario, not an ASQ-authored or endorsed item.",
     "set": 3,
-    "qid": "mbb:set-3:d6-040"
+    "qid": "mbb:set-3:d6-040",
+    "optionRationales": [
+      "Correct. It gives the designed screening advantage and the parameter-count limit without promising a full unrestricted response surface.",
+      "Incorrect. More columns than rows cannot all be jointly independent even when no two individual columns are identical.",
+      "Incorrect. Additional levels improve design information but do not eliminate random error, selection uncertainty or the need for validation.",
+      "Incorrect. Main-effect orthogonality to second-order terms is the advantage; making the columns identical would recreate the aliasing problem."
+    ],
+    "trap": "Not completely aliased pairwise is not the same as jointly estimable. Count parameters and respect the sparsity and follow-up assumptions behind an efficient screen.",
+    "distractors": [
+      "Correct. It gives the designed screening advantage and the parameter-count limit without promising a full unrestricted response surface.",
+      "Incorrect. More columns than rows cannot all be jointly independent even when no two individual columns are identical.",
+      "Incorrect. Additional levels improve design information but do not eliminate random error, selection uncertainty or the need for validation.",
+      "Incorrect. Main-effect orthogonality to second-order terms is the advantage; making the columns identical would recreate the aliasing problem."
+    ],
+    "auditSources": [
+      {
+        "title": "ASQ Certified Master Black Belt Body of Knowledge",
+        "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+        "locator": "VI.C, Design of Experiments"
+      },
+      {
+        "title": "JMP: Definitive screening designs",
+        "url": "https://www.jmp.com/en/statistics-knowledge-portal/design-of-experiments/screening-designs/definitive-screening-designs",
+        "locator": "Main-effect orthogonality, curvature and sparse active-factor models"
+      }
+    ]
   },
   {
     "sub": "mbb-analytics",

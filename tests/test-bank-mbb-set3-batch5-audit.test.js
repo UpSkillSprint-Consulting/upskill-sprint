@@ -13,9 +13,9 @@ for(const [i,q] of batch.entries())test(`Batch 5 Q${i+101}: identity, complete i
  assert.ok(q.stem.length>180);assert.ok(q.why.length>250);assert.ok(q.trap.length>80);assert.ok(q.auditSources.every(s=>s.title&&s.url&&s.locator));
  assert.doesNotMatch(q.stem+' '+q.why,/D[1-6]-[0-9]|elsewhere in this bank|across this entire domain|full-subdomain capstone/);
 });
-test('Batch 5 protects every byte of Q1–100 and Q126–175 and every stable question ID',()=>{
+test('Batch 5 protects every byte of Q1–100 and Q151–175 and every stable question ID',()=>{
  const starts=[...source.matchAll(/^  \{$/gm)].map(m=>m.index);assert.equal(starts.length,175);
- assert.equal(sha(source.slice(0,starts[100])),'0d34eb6ab6236e9c923aee02177a7d99e04fb428081b23962d85f54d54a26e26');assert.equal(sha(source.slice(starts[125])),'7c27818031175f62f0e580fb4160760925a681a3f079751cb0f5aadd5f2475dd');
+ assert.equal(sha(source.slice(0,starts[100])),'0d34eb6ab6236e9c923aee02177a7d99e04fb428081b23962d85f54d54a26e26');assert.equal(sha(source.slice(starts[150])),'fdbb6f31fbeae47aafea3f47e2ea5d1452d5b5dae00cbfec2e8a32489d9e10d3');
  const p=JSON.parse(read('docs/audits/mbb-set3-batch05/preservation.json'));assert.deepEqual(bank.map(q=>q.qid),p.ids);assert.equal(new Set(p.ids).size,175);
 });
 test('Q111 distinguishes 22% variance contribution from 46.9% study variation',()=>{

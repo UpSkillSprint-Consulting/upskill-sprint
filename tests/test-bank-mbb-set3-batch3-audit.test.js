@@ -15,9 +15,9 @@ for(const [i,q] of batch.entries())test(`Batch 3 Q${i+51}: complete case, indepe
  assert.doesNotMatch(q.stem+' '+q.why,/D[123]-\d|earlier in this domain|tested across|full.domain synthesis|Organizational Culture and Values Framework|\*[^*]+\*/i);
  const len=q.options.map(o=>o.split(/\s+/).length),others=len.filter((_,k)=>k!==q.answer).sort((a,b)=>a-b);assert.ok(len[q.answer]/others[1]<1.36);
 });
-test('Batch 3 preserves every byte of Q1–50 and Q126–175, all IDs and all answer positions',()=>{
+test('Batch 3 preserves every byte of Q1–50 and Q151–175, all IDs and all answer positions',()=>{
  const starts=[...source.matchAll(/^  \{$/gm)].map(m=>m.index);assert.equal(starts.length,175);
- assert.equal(sha(source.slice(0,starts[50])),'4b32c2aadc3faf6d91b1a7f5393732abf46af976d5a805de21f37c11fdeee7f3');assert.equal(sha(source.slice(starts[125])),'7c27818031175f62f0e580fb4160760925a681a3f079751cb0f5aadd5f2475dd');
+ assert.equal(sha(source.slice(0,starts[50])),'4b32c2aadc3faf6d91b1a7f5393732abf46af976d5a805de21f37c11fdeee7f3');assert.equal(sha(source.slice(starts[150])),'fdbb6f31fbeae47aafea3f47e2ea5d1452d5b5dae00cbfec2e8a32489d9e10d3');
  assert.equal(new Set(bank.map(x=>x.qid)).size,175);assert.deepEqual(batch.map(x=>x.answer),keys);
 });
 test('Q62 independently derives all individual loads, excesses and aggregate capacity at every scenario value',()=>{

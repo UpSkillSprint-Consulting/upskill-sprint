@@ -1,0 +1,71 @@
+{
+  "verifiedOn": "2026-09-07",
+  "sources": {
+    "bok": {
+      "title": "ASQ Certified Master Black Belt Body of Knowledge",
+      "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "locator": "VI.B and VI.C; printed pages 12–13; visually inspected"
+    },
+    "model-validation": {
+      "title": "NIST/SEMATECH e-Handbook: Model validation",
+      "url": "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd44.htm",
+      "locator": "4.4.4; residual analysis and limits of training fit"
+    },
+    "validation": {
+      "title": "scikit-learn: Common pitfalls and recommended practices",
+      "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+      "locator": "Data leakage; fit selection/preprocessing using training partitions only"
+    },
+    "vif": {
+      "title": "Minitab: Coefficients table for Fit Regression Model",
+      "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/regression/how-to/fit-regression-model/interpret-the-results/all-statistics-and-graphs/coefficients-table/",
+      "locator": "Variance inflation factors and coefficient uncertainty"
+    },
+    "logistic": {
+      "title": "Minitab: Methods and formulas for the estimated binary logistic equation",
+      "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/regression/how-to/fit-binary-logistic-model/methods-and-formulas/estimated-equation/",
+      "locator": "Logit equation and odds ratios"
+    },
+    "dw": {
+      "title": "Minitab: Test for autocorrelation using Durbin–Watson",
+      "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/regression/supporting-topics/model-assumptions/test-for-autocorrelation-by-using-the-durbin-watson-statistic/",
+      "locator": "Time ordering, statistic and critical-bound assumptions"
+    },
+    "rsm": {
+      "title": "NIST: Optimization when there is adequate quadratic fit",
+      "url": "https://www.itl.nist.gov/div898/handbook/pri/section5/pri5514.htm",
+      "locator": "5.5.5.1.4; stationary point, eigenvalues, confirmation"
+    },
+    "main-effects": {
+      "title": "Minitab: Interpret Main Effects Plot",
+      "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/anova/how-to/main-effects-plot/interpret-the-results/key-results/",
+      "locator": "Marginal means versus statistical significance"
+    },
+    "interaction": {
+      "title": "Minitab: What is an interaction?",
+      "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/anova/supporting-topics/anova-models/what-is-an-interaction/",
+      "locator": "Conditional effects; plot does not establish significance"
+    },
+    "fractional": {
+      "title": "NIST: Fractional factorial specifications and resolution",
+      "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3344.htm",
+      "locator": "5.3.3.4.4; defining relations and resolution"
+    },
+    "foldover": {
+      "title": "NIST: Alternative foldover designs",
+      "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3382.htm",
+      "locator": "5.3.3.8.2; reversing selected factor columns"
+    },
+    "curvature": {
+      "title": "NIST: Response surface designs",
+      "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri336.htm",
+      "locator": "5.3.3.6; pure-quadratic terms and center-point limitations"
+    },
+    "dsd": {
+      "title": "JMP: Definitive screening designs",
+      "url": "https://www.jmp.com/en/statistics-knowledge-portal/design-of-experiments/screening-designs/definitive-screening-designs",
+      "locator": "Main-effect orthogonality, curvature and sparse active-factor models"
+    }
+  },
+  "limitations": "Primary sources verify principles and BOK topic alignment, not empirical results or authorship of these revised scenarios. Added illustrative data and assumptions are explicitly identified."
+}
