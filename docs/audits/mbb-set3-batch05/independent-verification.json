@@ -1,0 +1,11 @@
+{
+  "testedSource": "7597164f6c1ee1ef3a1f605bd9041286b7594661",
+  "binomialProbabilities": 402,
+  "binomialMaxAbsoluteDifference": 6.5503158452884236e-15,
+  "normalQuantiles": 24,
+  "normalQuantileMaxAbsoluteDifference": 4.440892098500626e-16,
+  "referenceMethods": "Independently executed scipy.stats.binom.cdf and scipy.stats.norm.ppf versus combinatorial binomial CDF and statistics.NormalDist. Repository tests also use independent JavaScript binomial recursion.",
+  "plottingPositions": "Filliben, not Blom",
+  "derivations": "independent-calculations.json",
+  "limits": "Numeric reproduction does not establish empirical validity of invented scenarios or psychometric calibration."
+}

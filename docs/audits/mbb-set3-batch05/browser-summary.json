@@ -1,0 +1,64 @@
+{
+  "testedApplication": "7597164f6c1ee1ef3a1f605bd9041286b7594661",
+  "laterCiOnlyCommit": "755ab0e482f852caa4ddf57db49610b998b3ea22",
+  "acceptedRun": 34092148192,
+  "batchTestsPassed": 47,
+  "existingSet3TestsPassed": 8,
+  "combinedTargetedPassed": 55,
+  "fullRepositoryPassed": 1645,
+  "fullRepositoryFailed": 0,
+  "fullRepositorySkipped": 0,
+  "optionGradingOutcomes": 100,
+  "renderedCases": 400,
+  "sessionRecords": 4,
+  "visualSequences": 72,
+  "pageErrors": 0,
+  "failedCases": 0,
+  "detectedClippingOrOverflow": 0,
+  "svgTextBoundsFailures": 0,
+  "labelPointCollisions": 0,
+  "scopedAxeViolations": 0,
+  "regressionArtifactId": 10007470515,
+  "workspaceArtifactId": 10007209747,
+  "contexts": [
+    {
+      "name": "chromium-desktop",
+      "cases": 100,
+      "visualSequences": 18,
+      "artifactId": 10007330913,
+      "archiveSHA256": "d7ebd18ea598cc3459df468eda6f50eec31a30dd2670781e8ffa7f0885f6123f",
+      "reportSHA256": "b723ad9b6579c42c84f682a5022bbaed4e048354f0525bdfad500e218d54a1db"
+    },
+    {
+      "name": "chromium-mobile",
+      "cases": 100,
+      "visualSequences": 18,
+      "artifactId": 10007338795,
+      "archiveSHA256": "d542ceafb0d9a7273546b0f22f81ba6b2a23f4f61b51b0ddb02ceb8252bea848",
+      "reportSHA256": "42a0350d9739df0e580cb70fa38c14430c3a8d8ebceefed0a6e4ad54b68fa71a"
+    },
+    {
+      "name": "webkit-desktop",
+      "cases": 100,
+      "visualSequences": 18,
+      "artifactId": 10007349678,
+      "archiveSHA256": "0457c058da1e25d5382b6fd1ab97b91ae783af257f272fbbbdd2cf17962b8ff4",
+      "reportSHA256": "79f7f318b9417d4f4dc3156bb9c31712d48cbd05c7a8a9d3ff8ffa8b83ebb2c1"
+    },
+    {
+      "name": "webkit-mobile",
+      "cases": 100,
+      "visualSequences": 18,
+      "artifactId": 10007349856,
+      "archiveSHA256": "fa94d0d4d9bf07f537c73fd80bc8e0a80cd7fd07f7dec5e23f6a84107e93c962",
+      "reportSHA256": "7b059ec877e408f347d14dc4414c3cde03a795aac62d7556b0844e23399624f6"
+    }
+  ],
+  "failureHistory": {
+    "supersededRun": 34091264983,
+    "fullSuiteFailures": 11,
+    "defect": "Legacy/public chart entry points did not understand the new evidence structure, notably Q115.",
+    "repair": "7597164 delegates to the audited renderer when available and supplies complete accessible numerical evidence otherwise. Existing failing tests were retained and two explicit compatibility tests added."
+  },
+  "limits": "Authentication and persistence are isolated fixtures. Browser emulation is not physical-device testing. No release, security or empirical-psychometric clearance; Q126\u2013175 are not audited."
+}

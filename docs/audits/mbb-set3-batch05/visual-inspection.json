@@ -1,0 +1,43 @@
+{
+  "canonicalRange": [
+    101,
+    125
+  ],
+  "individuallyInspectedQuestions": 25,
+  "primaryViews": 200,
+  "matrix": "25 × desktop/mobile × light/dark × question/expanded-review",
+  "primaryCaptureHead": "2d4307bbb248363ca3313b1db0d93cc12bb887f5",
+  "finalApplication": "7597164f6c1ee1ef3a1f605bd9041286b7594661",
+  "identityCheck": "Primary complete captures have question-bank, scoped-UI and feedback-loop code verified byte-identical to the final application. The final 400-case matrix reopened every item on the compatibility-repaired source.",
+  "method": "Every question inspected individually. Mobile composites use complete sequential native-width strips with overlap; no OCR.",
+  "finalSupplementalInspection": {
+    "engine": "WebKit",
+    "layout": "mobile",
+    "visualQuestions": [
+      113,
+      115,
+      116,
+      117,
+      118,
+      119,
+      121,
+      123,
+      124
+    ],
+    "rightEdgeRegions": 18
+  },
+  "correctedDefects": [
+    "Q113 malformed contingency headers",
+    "Q115 inconsistent/underspecified limits and labels overlapping observations",
+    "Q116 fence/whisker/maximum ambiguity",
+    "Q117 actual Filliben positions and full data",
+    "Q118 neutral panels and visible reference marks",
+    "Q119 explicit bias evidence",
+    "Q121 observation indexing and run convention",
+    "Q123 genuine binomial OC curves",
+    "Q124 explicit grouped values and units"
+  ],
+  "captureLimits": "Complete companion desktop/WebKit views verify captions and footers where isolated long captures show unpainted tails or fixed controls. Gray composite padding is not a missing page section. Capture-only header hiding does not change interactions or geometry checks.",
+  "unresolvedConfirmedBatch5VisualDefects": 0,
+  "limits": "No slider exists in this batch. Not a certification of physical phones or all assistive technologies."
+}
