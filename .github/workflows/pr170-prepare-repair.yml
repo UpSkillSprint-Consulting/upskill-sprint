@@ -1,0 +1,51 @@
+name: Prepare PR170 browser repair
+on:
+  push:
+    branches: ['repair/pr170-student-checks']
+    paths: ['.github/workflows/pr170-prepare-repair.yml']
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply exact independently reproduced race fix
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          p=Path('contrast-fix.js')
+          s=p.read_text()
+          assert hashlib.sha256(Path('tests/contrast-theme-race.test.js').read_bytes()).hexdigest()=='6f93ae393ed88b7f8cba4556bb7b14b0c79bce5ab7d0356d1e1c4a51043493dd'
+          a='      scanQueued = false;\n      scan(rootNode || document);'
+          b='      scanQueued = false;\n      // A theme switch may have started after this frame was queued. Let its\n      // settling pass measure the final palette, not an intermediate surface.\n      if (performance.now() < themeSettlingUntil) return;\n      scan(rootNode || document);'
+          assert s.count(a)==1
+          s=s.replace(a,b)
+          a='    const observer = new MutationObserver(function (mutations) {\n      if (suppressObserver || performance.now() < themeSettlingUntil) return;\n\n      const themeChanged'
+          b='    const observer = new MutationObserver(function (mutations) {\n      // A real theme change is not a mutation caused by our repair classes.\n      // Never discard it during scan suppression or an earlier transition.\n      const themeChanged'
+          assert s.count(a)==1
+          s=s.replace(a,b)
+          a='        refreshForTheme();\n        return;\n      }\n\n      const changed'
+          b='        refreshForTheme();\n        return;\n      }\n      if (suppressObserver || performance.now() < themeSettlingUntil) return;\n\n      const changed'
+          assert s.count(a)==1
+          s=s.replace(a,b)
+          assert hashlib.sha256(s.encode()).hexdigest()=='94fd85742d5e073ba0cfb33271725a18f5f399de513aae48150930377eb596af'
+          p.write_text(s)
+          PY
+      - run: npm ci
+      - name: Regression for contrast races and completed-session behavior
+        run: node --test --test-concurrency=1 tests/contrast-theme-race.test.js tests/test-bank-mbb-set3-final-student.test.js
+      - name: Commit only on the isolated repair branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add contrast-fix.js
+          git diff --cached --check
+          git commit -m 'fix: handle theme mutations even while contrast scans are suppressed'
+          git push origin HEAD:refs/heads/repair/pr170-student-checks
+          git rev-parse HEAD
