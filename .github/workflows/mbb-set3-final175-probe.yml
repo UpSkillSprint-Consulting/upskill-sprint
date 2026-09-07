@@ -18,35 +18,39 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Verify and apply exact locally tested patch
+      - name: Verify and apply exact locally tested incremental repair
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import base64,gzip,hashlib,subprocess
-          p=Path('audit-staging/final175.patch.b64')
-          text=p.read_text().replace('ixLdxB1pw','ixLdxBpw')
+          text=Path('audit-staging/final175-v2.patch.b64').read_text().replace('alGbobV5TCF','alGbobVTCF').replace('DlNS6Ud4OH4Ok','DlNS6Ud4OHIOk')
           data=gzip.decompress(base64.b64decode(text))
-          assert hashlib.sha256(data).hexdigest()=='e06241de7d83e437ad70b7328b1550284219bc9dcc611ad1e2f0aada0e8ba79a'
-          Path('/tmp/final175.patch').write_bytes(data)
-          subprocess.run(['git','apply','--check','--unidiff-zero','/tmp/final175.patch'],check=True)
-          subprocess.run(['git','apply','--unidiff-zero','/tmp/final175.patch'],check=True)
+          assert hashlib.sha256(data).hexdigest()=='6c3dc992a8fb5de608b9459a0041440be9934932021f9bff34f3dab23fb3fc3c'
+          Path('/tmp/final175-v2.patch').write_bytes(data)
+          subprocess.run(['git','apply','--check','--unidiff-zero','/tmp/final175-v2.patch'],check=True)
+          subprocess.run(['git','apply','--unidiff-zero','/tmp/final175-v2.patch'],check=True)
           PY
           node --check scripts/stress-mbb-set3-final175.mjs
+          node --check scripts/stress-mbb-set3-edge-cases.mjs
           node --check test-bank-feedback-loop.js
           node --check test-bank-deep-feedback.js
-          node --check test-bank-phase2-quality-assurance.js
       - run: npm ci
       - run: node --test --test-concurrency=1 tests/test-bank-mbb-set3-final-student.test.js
-      - name: Commit only on isolated review-test branch
+      - name: Commit only to isolated review-test branch
         id: commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add scripts/stress-mbb-set3-final175.mjs test-bank.html test-bank-feedback-loop.js test-bank-deep-feedback.js test-bank-phase2-quality-assurance.js test-bank-mbb-set3.js tests/test-bank-mbb-set3-*-audit.test.js tests/test-bank-mbb-set3-final-student.test.js
+          git add scripts/stress-mbb-set3-final175.mjs scripts/stress-mbb-set3-edge-cases.mjs test-bank-feedback-loop.js test-bank-deep-feedback.js tests/test-bank-mbb-set3-final-student.test.js
           git diff --cached --check
-          git commit -m 'fix: preserve complete timeout review and synchronously enhance replacement feedback'
+          git commit -m 'fix: position review controls below header and retain safe practice references'
           git push origin HEAD:refs/heads/automation/mbb-set3-final175
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: final175-staging-diagnostic
+          path: audit-staging/final175-v2.patch.b64
   browsers:
     needs: prepare
     runs-on: ubuntu-latest
@@ -54,8 +58,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: [chromium, webkit]
-        layout: [desktop, mobile]
+        include:
+          - engine: chromium
+            layout: desktop
+            axe: '0'
+          - engine: chromium
+            layout: mobile
+            axe: '1'
+          - engine: webkit
+            layout: desktop
+            axe: '0'
+          - engine: webkit
+            layout: mobile
+            axe: '0'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -66,10 +81,11 @@ jobs:
       - run: npm ci
       - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
       - run: npx playwright install --with-deps ${{ matrix.engine }}
-      - name: Full uninterrupted student session, every question and review in both themes
+      - name: Every question and review, both themes, uninterrupted full exam
         env:
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: ${{ matrix.layout }}
+          AUDIT_AXE: ${{ matrix.axe }}
           AUDIT_SOURCE: ${{ needs.prepare.outputs.sha }}
         run: |
           mkdir -p audit-results-final175
@@ -99,7 +115,7 @@ jobs:
       - run: npm ci
       - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
       - run: npx playwright install --with-deps ${{ matrix.engine }}
-      - name: Mixed 59 correct, 58 incorrect and 58 skipped items at narrow phone width
+      - name: Mixed outcomes and skipped items, both themes at 320px
         env:
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: mobile
@@ -115,6 +131,40 @@ jobs:
         with:
           name: final175-mixed-${{ matrix.engine }}
           path: audit-results-final175
+          retention-days: 14
+  edges:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Actual timeout, failed save, 174 correction items and rapid review
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: mobile
+          AUDIT_WIDTH: 320
+          AUDIT_SOURCE: ${{ needs.prepare.outputs.sha }}
+        run: |
+          mkdir -p audit-results-final175-edges
+          git rev-parse HEAD > audit-results-final175-edges/tested-commit.txt
+          node scripts/stress-mbb-set3-edge-cases.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final175-edges-${{ matrix.engine }}
+          path: audit-results-final175-edges
           retention-days: 14
   prior-gates:
     needs: prepare
