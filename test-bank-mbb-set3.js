@@ -10077,7 +10077,7 @@
   },
   {
     "sub": "mbb-analytics",
-    "stem": "A simplified fault tree defines total power loss during a specified mission as A AND B, where A and B mean the primary and backup supplies are unavailable during that mission. No other path is included. The table gives P(A), P(B) and P(B given A); the events are not independent. What is the modeled top-event probability and correct timing interpretation?",
+    "stem": "A simplified fault tree defines total power loss at a specified mission demand as A AND B. A and B denote primary and backup supply unavailability at that same demand. No other path is included. The table gives P(A), P(B) and P(B given A); the events are not independent. What is the modeled top-event probability and correct timing interpretation?",
     "options": [
       "0.0006; multiplying the two marginal probabilities is valid because an AND gate itself guarantees independent failure events.",
       "0.0500; add the marginal probabilities because either unavailable supply alone meets the stated AND condition.",
@@ -10085,11 +10085,11 @@
       "0.0480; subtract the joint term from the sum, because that union probability represents the stated AND output."
     ],
     "answer": 2,
-    "why": "An AND output is the intersection of its input events. Here P(A and B) = P(A) × P(B given A) = 0.02 × 0.10 = 0.0020, or 0.20%. Multiplying the marginals would give 0.0006, but independence is explicitly contradicted by P(B given A) = 0.10 versus P(B) = 0.03. The union probability would be 0.02 + 0.03 − 0.002 = 0.048. Both defined unavailability states must be present; a static AND gate does not require identical failure onset times or specify sequence. The simplified tree is not a complete aircraft safety assessment. Source alignment: ASQ CMBB VI.B.9: reliability modeling; related DFSS risk analysis. Case conclusions follow from the stated assumptions.",
+    "why": "An AND output is the intersection of its input events. Here P(A and B) = P(A) × P(B given A) = 0.02 × 0.10 = 0.0020, or 0.20%. Multiplying the marginals would give 0.0006, but independence is explicitly contradicted by P(B given A) = 0.10 versus P(B) = 0.03. The union probability would be 0.02 + 0.03 − 0.002 = 0.048. Both unavailability states must be present at the specified demand; a static AND gate does not require identical failure onset times or specify sequence. The simplified tree is not a complete aircraft safety assessment. Source alignment: ASQ CMBB VI.B.9: reliability modeling; related DFSS risk analysis. Case conclusions follow from the stated assumptions.",
     "chart": {
       "type": "data-table",
-      "title": "Mission-level probability inputs — simplified power-loss model",
-      "altText": "Probabilities apply to the same defined mission: primary unavailable 0.02, backup unavailable 0.03, backup unavailable conditional on primary unavailable 0.10.",
+      "title": "Probability inputs at the specified mission demand",
+      "altText": "All probabilities apply to unavailability at the same specified mission demand: primary 0.02, backup 0.03, backup conditional on primary 0.10.",
       "columns": [
         "Input event or condition",
         "Probability"
@@ -10186,7 +10186,7 @@
       "Treat any positive predicted Cpk as proof of process stability and the exact defect rate, regardless of the assumed manufacturing distribution."
     ],
     "answer": 1,
-    "why": "Specification or tolerance limits constrain allowed geometry; they do not uniquely determine a manufacturing distribution or its standard deviation. A model-based capability forecast needs a justified mean, variation and dependence model, with explicit uncertainty and intended conditions. It can guide early design choices and sensitivity analysis, but is not an observed production-capability result. Empirical evidence is needed to validate the model and assess stable, representative operation. Even a numerically defined Cpk does not by itself establish a distribution-based tail probability or future stability. Source alignment: ASQ CMBB VI.A.1 and VI.E as related design-capability applications. Case conclusions follow from the stated assumptions.",
+    "why": "Specification or tolerance limits constrain allowed geometry; they do not uniquely determine a manufacturing distribution or its standard deviation. A model-based capability forecast needs a justified mean, variation and dependence model, with explicit uncertainty and intended conditions. It can guide early design choices and sensitivity analysis, but is not an observed production-capability result. Empirical evidence is needed to validate the model and assess stable, representative operation. Even a numerically defined Cpk does not by itself establish a distribution-based tail probability or future stability. Source alignment: ASQ CMBB VI.A.1; VI.A.5; I.D.2, with related VI.E design-quality application. Case conclusions follow from the stated assumptions.",
     "set": 3,
     "qid": "mbb:set-3:d6-060",
     "optionRationales": [
@@ -10206,7 +10206,7 @@
       {
         "title": "ASQ Certified Master Black Belt Body of Knowledge",
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
-        "locator": "VI.A.1 and VI.E as related design-capability applications"
+        "locator": "VI.A.1; VI.A.5; I.D.2, with related VI.E design-quality application"
       },
       {
         "title": "NIST: What is Process Capability?",

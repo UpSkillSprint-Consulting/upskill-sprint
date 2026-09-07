@@ -103,3 +103,5 @@ for(let rotation=0;rotation<4;rotation++)test(`Batch 7 every answer position gra
   assert.deepEqual(errors,[]);
  }finally{observers.forEach(observer=>observer.disconnect());w.close();}
 });
+
+test('Q168 explicitly evaluates both unavailable states at the same demand rather than at different mission times',()=>{assert.match(batch[17].stem,/at that same demand/);assert.match(batch[17].chart.altText,/same specified mission demand/);});

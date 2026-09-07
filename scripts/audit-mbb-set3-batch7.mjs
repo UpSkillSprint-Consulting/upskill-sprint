@@ -74,7 +74,7 @@ for(const engine of engines){
  for(const layout of layouts){
   assert.ok(['desktop','mobile'].includes(layout));const viewport=layout==='desktop'?{width:1440,height:1000}:{width:390,height:844};
   const context=await browser.newContext({viewport,deviceScaleFactor:1,isMobile:layout==='mobile',hasTouch:layout==='mobile',colorScheme:'light'});
-  const page=await context.newPage();page.setDefaultTimeout(20000);page.on('pageerror',e=>report.pageErrors.push({engine,layout,message:e.message}));
+  const page=await context.newPage();page.setDefaultTimeout(20000);page.on('pageerror',e=>report.pageErrors.push({engine,layout,message:e.message}));page.on('crash',()=>{report.failures.push({engine,layout,error:'Browser page crashed during the audit'});save();});
   await page.route('**/auth.js',r=>r.fulfill({body:auth,contentType:'text/javascript'}));
   await page.route(/https:\/\/[^/]*supabase\.[^/]+\/.*/,r=>r.fulfill({body:'[]',contentType:'application/json'}));
   await page.addInitScript(auth);
