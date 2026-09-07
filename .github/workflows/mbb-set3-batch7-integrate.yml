@@ -1,0 +1,131 @@
+name: Integrate and validate MBB Set 3 Batch 7
+on:
+  push:
+    branches: ['automation/mbb-set3-batch7']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mbb-set3-batch7-integration
+  cancel-in-progress: true
+jobs:
+  integrate:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preserve and precompile reviewed staging
+        run: |
+          cp -R audit-staging /tmp/mbb7-staging
+          python3 -m py_compile /tmp/mbb7-staging/batch7-content.py /tmp/mbb7-staging/batch7-build.py
+      - name: Apply only to the unchanged authorized PR170 head
+        run: |
+          git fetch origin audit/mbb-set3-batch1-q001-q025
+          test "$(git rev-parse FETCH_HEAD)" = '3d4ea284e1493ef200c167eb926670073d325637'
+          git checkout --detach FETCH_HEAD
+          python3 - <<'PY'
+          from pathlib import Path
+          ns={}
+          for name in ['batch7-content.py','batch7-build.py']:
+              p=Path('/tmp/mbb7-staging')/name
+              exec(compile(p.read_text(),str(p),'exec'),ns)
+          PY
+          node --check test-bank-mbb-set3.js
+          node --check test-bank-mbb-set3-batch7-ui.js
+          node --check scripts/audit-mbb-set3-batch7.mjs
+          node --check tests/test-bank-mbb-set3-batch7-audit.test.js
+      - run: npm ci
+      - name: Independent calculations, all-choice grading and graphical fallback
+        run: node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch7*.test.js
+      - name: Push reviewed application and evidence only to PR170
+        id: commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add test-bank-mbb-set3.js test-bank-mbb-set3-batch7-ui.js test-bank.html test-bank-feedback-loop.js tests/test-bank-mbb-set3-batch*-audit.test.js tests/test-bank-mbb-set3-batch7-fallback.test.js scripts/audit-mbb-set3-batch7.mjs docs/audits/mbb-set3-batch07
+          git diff --cached --check
+          git commit -m 'audit: correct Set 3 final Batch 7 Q151–175 content, numerical evidence, visuals and tests'
+          git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Export exact workspace including failure evidence
+        if: always()
+        run: |
+          mkdir -p /tmp/mbb7-workspace
+          git rev-parse HEAD > /tmp/mbb7-workspace/commit.txt
+          git diff HEAD > /tmp/mbb7-workspace/uncommitted.patch
+          tar --exclude=.git --exclude=node_modules -czf /tmp/mbb7-workspace/repository.tar.gz .
+          cp -R /tmp/mbb7-staging /tmp/mbb7-workspace/staging
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch7-workspace
+          path: /tmp/mbb7-workspace
+          retention-days: 14
+  regression:
+    needs: integrate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.integrate.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Independent mathematics, every-option grading, fallback and Set 3 traversal
+        run: |
+          mkdir -p audit-results-batch7
+          git rev-parse HEAD > audit-results-batch7/tested-commit.txt
+          set -o pipefail
+          node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch7*.test.js tests/test-bank-mbb-set3.test.js | tee audit-results-batch7/batch7-tests.txt
+      - name: Complete repository regression
+        run: timeout 900 node --test --test-concurrency=2 tests/*.test.js > audit-results-batch7/full-regression.txt 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch7-regression
+          path: audit-results-batch7
+          retention-days: 14
+  browsers:
+    needs: integrate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+        layout: [desktop, mobile]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.integrate.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Open, answer and reopen every final-batch question and all five visual items
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: ${{ matrix.layout }}
+        run: |
+          mkdir -p audit-results-batch7
+          git rev-parse HEAD > audit-results-batch7/tested-commit.txt
+          node scripts/audit-mbb-set3-batch7.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch7-${{ matrix.engine }}-${{ matrix.layout }}
+          path: audit-results-batch7
+          retention-days: 14
