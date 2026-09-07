@@ -1021,35 +1021,35 @@
   },
   {
     "sub": "mbb-enterprise",
-    "stem": "An enterprise has active sponsors, trained Belts, a prioritized pipeline and reliable operational measures. However, completed projects have no named benefits owner or post-closure verification, so reported savings cannot be reconciled with Finance. Only one infrastructure initiative can be funded this quarter. Which proposal most directly addresses the documented deployment constraint?",
+    "stem": "Four divisions meet their local on-time-delivery targets, but their promised-date rules and reporting cutoffs differ. Sponsorship, Belt capacity and post-closure benefit verification are already established. Executives want to rank cross-divisional opportunities using the current delivery percentages. Only one measurement-infrastructure initiative can be funded this quarter. Which proposal most directly makes that comparison defensible?",
     "options": [
-      "Expand Belt training to increase project capacity, and continue using estimated savings at closure until the next annual finance review.",
-      "Add another steering committee to approve new projects, and keep post-closure verification with individual project leaders on an informal basis.",
-      "Purchase a portfolio dashboard to consolidate existing savings estimates, and defer assigning benefits owners until reporting has been fully automated.",
-      "Establish benefits ownership and Finance-approved verification after closure, and use reconciliation results to improve the deployment's benefit-measurement process."
+      "Rank divisions by percentage-point distance from their own local targets, and treat that normalization as sufficient to compare the underlying delivery performance across divisions.",
+      "Replace every local delivery definition with the largest division's existing definition, and treat organizational size as the basis for selecting a common customer-performance standard.",
+      "Automate extraction of the existing local percentages into one dashboard, and use more frequent updates to resolve concerns about different promised-date rules and reporting cutoffs.",
+      "Agree customer-relevant definitions and comparability rules, validate the underlying records and assign data owners before using the resulting measures to rank cross-divisional opportunities."
     ],
     "answer": 3,
-    "why": "The documented constraint is unverified benefit realization, not a shortage of training, prioritization or operational data. A benefits owner, agreed measurement basis, verification cadence and reconciliation with Finance directly address it. A dashboard can support that process but cannot establish ownership or validate estimates by itself. The appropriate first investment depends on the diagnosed constraint; this case does not establish a universal infrastructure sequence. Source alignment: ASQ CMBB Body of Knowledge, I.C.2; I.C.6. The scenario-specific conclusion follows from the stated case.",
+    "why": "The documented constraint is incompatible measurement meaning, not absent benefits ownership or insufficient reporting speed. Common, customer-relevant definitions and validated records establish a defensible basis for comparison; where customer commitments legitimately differ, explicit stratification or comparability rules may be needed. Distances from different local targets do not automatically create comparable measures. Neither faster extraction nor imposing the largest division's definition demonstrates that the measurement represents equivalent customer performance. Source alignment: ASQ CMBB Body of Knowledge, I.C.2; I.C.6; II.E.1. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
     "qid": "mbb:set-3:d1-071",
     "optionRationales": [
-      "Additional training does not resolve the missing ownership and verification of benefits from already completed projects.",
-      "Another approval forum duplicates existing governance without creating a reliable post-closure measurement process.",
-      "Consolidating estimates improves visibility, but automation does not make unverified benefits valid or accountable.",
-      "Correct. Ownership and agreed verification directly address the specific constraint established by the scenario."
+      "Subtracting different local targets does not reconcile different promised-date definitions, reporting cutoffs or customer commitments.",
+      "A division's size does not establish that its existing definition is appropriate for every customer or comparable across all operating contexts.",
+      "Automation and reporting frequency improve timeliness, but do not change what the underlying local percentages actually measure.",
+      "Correct. It establishes measurement meaning, comparability, data quality and ownership before an enterprise-level ranking is based on the figures."
     ],
     "distractors": [
-      "Additional training does not resolve the missing ownership and verification of benefits from already completed projects.",
-      "Another approval forum duplicates existing governance without creating a reliable post-closure measurement process.",
-      "Consolidating estimates improves visibility, but automation does not make unverified benefits valid or accountable.",
-      "Correct. Ownership and agreed verification directly address the specific constraint established by the scenario."
+      "Subtracting different local targets does not reconcile different promised-date definitions, reporting cutoffs or customer commitments.",
+      "A division's size does not establish that its existing definition is appropriate for every customer or comparable across all operating contexts.",
+      "Automation and reporting frequency improve timeliness, but do not change what the underlying local percentages actually measure.",
+      "Correct. It establishes measurement meaning, comparability, data quality and ownership before an enterprise-level ranking is based on the figures."
     ],
-    "trap": "Choose the intervention that addresses the documented constraint, not the most visible infrastructure investment. More training, committees or software cannot substitute for benefit ownership and verification.",
+    "trap": "Measurement standardization is not just placing local percentages in one dashboard. Establish comparable customer-relevant definitions and data quality, while retaining justified differences through explicit comparison or stratification rules.",
     "auditSources": [
       {
         "title": "ASQ Certified Master Black Belt Body of Knowledge",
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
-        "locator": "I.C.2; I.C.6"
+        "locator": "I.C.2; I.C.6; II.E.1"
       }
     ]
   },
@@ -1507,35 +1507,35 @@
   },
   {
     "sub": "mbb-org",
-    "stem": "A pet-grooming brand has 150 independently owned locations. Its agreements require common service outcomes and quality records, but leave staffing and daily meeting routines to franchisees. The MBB is asked to reinforce data-driven improvement values across the network. Which implementation approach best respects these stated decision rights?",
+    "stem": "A pet-grooming brand's 150 franchisees have joined an agreed improvement program built around careful service and clear customer communication. Awareness-training completion is high, but observations show inconsistent intake practices, and the values have no shared behavioral description. Which next step best tests whether these values are being translated into routine service behavior?",
     "options": [
-      "Require an identical daily meeting script and staffing pattern in every location, treating the shared brand identity as sufficient authority over all local operating routines.",
-      "Allow every location to define its own quality outcomes and records, treating independent ownership as an exemption from the common requirements in the existing agreements.",
-      "Distribute brand posters and record acknowledgments from owners, treating awareness of the value statements as sufficient evidence that the required improvement behaviors are established.",
-      "Co-develop shared training and evidence standards around the required outcomes, allow local delivery methods, and review adoption with franchisees through agreed governance arrangements."
+      "Increase the frequency of awareness quizzes and publish completion rankings, using recall of the value statements as the principal evidence that intake practices have changed.",
+      "Compare each location's overall online star rating with the brand average, using that single outcome as sufficient evidence of how staff apply the values during intake.",
+      "Require identical wording for every intake conversation and count script deviations, using verbal uniformity as the principal test of careful service across differing customer needs.",
+      "Co-develop observable behavior criteria and practice examples, then assess their application through structured observation and customer feedback rather than treating training completion as implementation evidence."
     ],
     "answer": 3,
-    "why": "The case explicitly distinguishes required outcomes and records from locally controlled operating methods. Shared training, examples and evidence standards can reinforce consistent values within those boundaries. Brand identity alone does not establish additional decision rights, and independence does not erase agreed obligations. Acknowledging a message is not evidence that the associated behaviors are practiced. This is a case-specific governance decision, not a general statement of franchise law. Source alignment: ASQ CMBB Body of Knowledge, II.D.4; II.D.6; I.E.3. The scenario-specific conclusion follows from the stated case.",
+    "why": "The gap is between awareness of abstract values and observable application. Shared behavior criteria, relevant examples and practice make the intended conduct assessable, while structured observation and customer feedback test transfer into routine service. Quiz completion measures participation or recall, not demonstrated behavior. Overall ratings have multiple drivers, and an identical script can overlook whether customer-specific needs were addressed. This item tests operationalization and evidence of culture change, not corporate staffing authority over franchise personnel. Source alignment: ASQ CMBB Body of Knowledge, II.D.6; II.C.2; IV.D. The scenario-specific conclusion follows from the stated case.",
     "set": 3,
     "qid": "mbb:set-3:d2-029",
     "optionRationales": [
-      "The stated agreements leave staffing and daily routines to franchisees, so brand identity does not justify these additional requirements.",
-      "Independent ownership does not cancel the outcome and record obligations explicitly stipulated in the scenario.",
-      "Acknowledgment demonstrates receipt or awareness, not routine application of data-driven improvement behaviors.",
-      "Correct. It standardizes the required outcomes and supporting evidence while adapting implementation within the stated authority boundaries."
+      "Repeated recall checks do not establish whether staff consistently apply the values during actual customer intake.",
+      "Overall ratings can reflect price, waiting time and many other factors; they do not isolate the specific intake behaviors being assessed.",
+      "Identical wording does not by itself establish careful service or appropriate communication for different customers and situations.",
+      "Correct. It defines observable application and gathers direct behavioral and customer evidence to assess transfer beyond awareness training."
     ],
     "distractors": [
-      "The stated agreements leave staffing and daily routines to franchisees, so brand identity does not justify these additional requirements.",
-      "Independent ownership does not cancel the outcome and record obligations explicitly stipulated in the scenario.",
-      "Acknowledgment demonstrates receipt or awareness, not routine application of data-driven improvement behaviors.",
-      "Correct. It standardizes the required outcomes and supporting evidence while adapting implementation within the stated authority boundaries."
+      "Repeated recall checks do not establish whether staff consistently apply the values during actual customer intake.",
+      "Overall ratings can reflect price, waiting time and many other factors; they do not isolate the specific intake behaviors being assessed.",
+      "Identical wording does not by itself establish careful service or appropriate communication for different customers and situations.",
+      "Correct. It defines observable application and gathers direct behavioral and customer evidence to assess transfer beyond awareness training."
     ],
-    "trap": "Distinguish common obligations from local implementation choices. Neither independent ownership nor a shared brand name determines all decision rights; use the specific agreements and governance stated in the case.",
+    "trap": "Training completion, recall, verbal uniformity and broad outcome ratings are not interchangeable with evidence of behavior. Define what application looks like and use observations and relevant feedback to assess it.",
     "auditSources": [
       {
         "title": "ASQ Certified Master Black Belt Body of Knowledge",
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
-        "locator": "II.D.4; II.D.6; I.E.3"
+        "locator": "II.D.6; II.C.2; IV.D"
       }
     ]
   },

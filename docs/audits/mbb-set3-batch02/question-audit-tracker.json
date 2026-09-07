@@ -11,7 +11,8 @@
     "findings": [
       "Cross-question dependency",
       "Correct-answer length cue",
-      "Implausible universal-order distractors"
+      "Implausible universal-order distractors",
+      "Near-duplicate decision task with Batch 1 Q5 resolved by testing cross-divisional measurement comparability"
     ],
     "changedFields": [
       "stem",
@@ -22,19 +23,19 @@
       "trap",
       "auditSources"
     ],
-    "independentSolution": "The documented constraint is unverified benefit realization, not a shortage of training, prioritization or operational data. A benefits owner, agreed measurement basis, verification cadence and reconciliation with Finance directly address it. A dashboard can support that process but cannot establish ownership or validate estimates by itself. The appropriate first investment depends on the diagnosed constraint; this case does not establish a universal infrastructure sequence.",
+    "independentSolution": "The documented constraint is incompatible measurement meaning, not absent benefits ownership or insufficient reporting speed. Common, customer-relevant definitions and validated records establish a defensible basis for comparison; where customer commitments legitimately differ, explicit stratification or comparability rules may be needed. Distances from different local targets do not automatically create comparable measures. Neither faster extraction nor imposing the largest division's definition demonstrates that the measurement represents equivalent customer performance.",
     "distractorValidation": [
-      "Additional training does not resolve the missing ownership and verification of benefits from already completed projects.",
-      "Another approval forum duplicates existing governance without creating a reliable post-closure measurement process.",
-      "Consolidating estimates improves visibility, but automation does not make unverified benefits valid or accountable.",
-      "Correct. Ownership and agreed verification directly address the specific constraint established by the scenario."
+      "Subtracting different local targets does not reconcile different promised-date definitions, reporting cutoffs or customer commitments.",
+      "A division's size does not establish that its existing definition is appropriate for every customer or comparable across all operating contexts.",
+      "Automation and reporting frequency improve timeliness, but do not change what the underlying local percentages actually measure.",
+      "Correct. It establishes measurement meaning, comparability, data quality and ownership before an enterprise-level ranking is based on the figures."
     ],
-    "assumptionsAndContext": "An enterprise has active sponsors, trained Belts, a prioritized pipeline and reliable operational measures. However, completed projects have no named benefits owner or post-closure verification, so reported savings cannot be reconciled with Finance. Only one infrastructure initiative can be funded this quarter. Which proposal most directly addresses the documented deployment constraint?",
+    "assumptionsAndContext": "Four divisions meet their local on-time-delivery targets, but their promised-date rules and reporting cutoffs differ. Sponsorship, Belt capacity and post-closure benefit verification are already established. Executives want to rank cross-divisional opportunities using the current delivery percentages. Only one measurement-infrastructure initiative can be funded this quarter. Which proposal most directly makes that comparison defensible?",
     "sourceAlignment": [
       {
         "title": "ASQ Certified Master Black Belt Body of Knowledge",
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
-        "locator": "I.C.2; I.C.6"
+        "locator": "I.C.2; I.C.6; II.E.1"
       }
     ],
     "visuals": {
@@ -701,7 +702,8 @@
       "Mismatched option letters in explanation",
       "Franchise authority assumed",
       "Incorrect II.D title",
-      "Correct-answer length cue"
+      "Correct-answer length cue",
+      "Near-duplicate decision task with Q49 resolved by testing values-to-behavior transfer rather than staffing rights"
     ],
     "changedFields": [
       "stem",
@@ -712,19 +714,19 @@
       "trap",
       "auditSources"
     ],
-    "independentSolution": "The case explicitly distinguishes required outcomes and records from locally controlled operating methods. Shared training, examples and evidence standards can reinforce consistent values within those boundaries. Brand identity alone does not establish additional decision rights, and independence does not erase agreed obligations. Acknowledging a message is not evidence that the associated behaviors are practiced. This is a case-specific governance decision, not a general statement of franchise law.",
+    "independentSolution": "The gap is between awareness of abstract values and observable application. Shared behavior criteria, relevant examples and practice make the intended conduct assessable, while structured observation and customer feedback test transfer into routine service. Quiz completion measures participation or recall, not demonstrated behavior. Overall ratings have multiple drivers, and an identical script can overlook whether customer-specific needs were addressed. This item tests operationalization and evidence of culture change, not corporate staffing authority over franchise personnel.",
     "distractorValidation": [
-      "The stated agreements leave staffing and daily routines to franchisees, so brand identity does not justify these additional requirements.",
-      "Independent ownership does not cancel the outcome and record obligations explicitly stipulated in the scenario.",
-      "Acknowledgment demonstrates receipt or awareness, not routine application of data-driven improvement behaviors.",
-      "Correct. It standardizes the required outcomes and supporting evidence while adapting implementation within the stated authority boundaries."
+      "Repeated recall checks do not establish whether staff consistently apply the values during actual customer intake.",
+      "Overall ratings can reflect price, waiting time and many other factors; they do not isolate the specific intake behaviors being assessed.",
+      "Identical wording does not by itself establish careful service or appropriate communication for different customers and situations.",
+      "Correct. It defines observable application and gathers direct behavioral and customer evidence to assess transfer beyond awareness training."
     ],
-    "assumptionsAndContext": "A pet-grooming brand has 150 independently owned locations. Its agreements require common service outcomes and quality records, but leave staffing and daily meeting routines to franchisees. The MBB is asked to reinforce data-driven improvement values across the network. Which implementation approach best respects these stated decision rights?",
+    "assumptionsAndContext": "A pet-grooming brand's 150 franchisees have joined an agreed improvement program built around careful service and clear customer communication. Awareness-training completion is high, but observations show inconsistent intake practices, and the values have no shared behavioral description. Which next step best tests whether these values are being translated into routine service behavior?",
     "sourceAlignment": [
       {
         "title": "ASQ Certified Master Black Belt Body of Knowledge",
         "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
-        "locator": "II.D.4; II.D.6; I.E.3"
+        "locator": "II.D.6; II.C.2; IV.D"
       }
     ],
     "visuals": {

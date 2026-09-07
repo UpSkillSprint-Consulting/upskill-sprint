@@ -21,7 +21,12 @@
         "Correct. It establishes measurement meaning, comparability, data quality and ownership before an enterprise-level ranking is based on the figures."
       ],
       "trap": "Measurement standardization is not just placing local percentages in one dashboard. Establish comparable customer-relevant definitions and data quality, while retaining justified differences through explicit comparison or stratification rules.",
-      "findings": ["Cross-question dependency", "Correct-answer length cue", "Implausible universal-order distractors", "Near-duplicate decision task with Batch 1 Q5 resolved by testing cross-divisional measurement comparability"]
+      "findings": [
+        "Cross-question dependency",
+        "Correct-answer length cue",
+        "Implausible universal-order distractors",
+        "Near-duplicate decision task with Batch 1 Q5 resolved by testing cross-divisional measurement comparability"
+      ]
     },
     {
       "number": 40,
@@ -43,7 +48,19 @@
         "Correct. It defines observable application and gathers direct behavioral and customer evidence to assess transfer beyond awareness training."
       ],
       "trap": "Training completion, recall, verbal uniformity and broad outcome ratings are not interchangeable with evidence of behavior. Define what application looks like and use observations and relevant feedback to assess it.",
-      "findings": ["Cross-question dependency", "Mismatched option letters in explanation", "Franchise authority assumed", "Incorrect II.D title", "Correct-answer length cue", "Near-duplicate decision task with Q49 resolved by testing values-to-behavior transfer rather than staffing rights"]
+      "findings": [
+        "Cross-question dependency",
+        "Mismatched option letters in explanation",
+        "Franchise authority assumed",
+        "Incorrect II.D title",
+        "Correct-answer length cue",
+        "Near-duplicate decision task with Q49 resolved by testing values-to-behavior transfer rather than staffing rights"
+      ]
     }
+  ],
+  "applied": true,
+  "onlyChangedQuestionNumbers": [
+    26,
+    40
   ]
 }
