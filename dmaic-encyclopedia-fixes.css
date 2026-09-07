@@ -127,6 +127,15 @@ html[data-theme="dark"] [data-dmaic-encyclopedia] .toolbar select:disabled {
   .dmaic-encyclopedia-page, .dmaic-encyclopedia-page * { scroll-behavior: auto !important; transition: none !important; }
 }
 @media print {
+  /* Printing can begin in the same frame as a theme switch. Transitions outrank
+     even !important colours, so cancel motion before resolving the paper palette. */
+  body.dmaic-encyclopedia-page,
+  body.dmaic-encyclopedia-page *,
+  body.dmaic-encyclopedia-page *::before,
+  body.dmaic-encyclopedia-page *::after {
+    transition: none !important;
+    animation: none !important;
+  }
   html[data-theme] body.dmaic-encyclopedia-page { color-scheme: light; background: #fff !important; color: #000 !important; }
   html[data-theme] [data-dmaic-encyclopedia] { --panel: #fff; --panel-2: #fff; --text: #000; --muted: #000; --primary: #000; --math-panel: #fff; --trap-panel: #fff; }
   .dmaic-encyclopedia-page header.site,

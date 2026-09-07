@@ -530,6 +530,9 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
     style.textContent = `
       html:has(#tb-feedback-loop){scroll-behavior:auto}
       .tb-review-card summary,.tb-review-card button,.tb-review-card select,.tb-review-reference{scroll-margin-top:var(--tb-review-header-offset,100px);scroll-margin-bottom:18px}
+      /* Keep foreground and surface in the same theme frame. A background-only
+         transition makes the back button unreadable during a rapid theme switch. */
+      .tb-backsim{transition:none!important}
       .tb-review-reference{max-width:100%;overflow-wrap:anywhere;line-height:1.6}
       .tb-review-option .tb-answer-copy,.tb-answer-compare strong,.tb-distractor-title{min-width:0;overflow-wrap:anywhere}
       .tb-retry-option,.tb-similar-option{min-width:0;overflow-wrap:anywhere}
