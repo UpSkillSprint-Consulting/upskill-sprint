@@ -24,6 +24,14 @@ jobs:
       - name: Preserve and precompile reviewed staging
         run: |
           cp -R audit-staging /tmp/mbb7-staging
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('/tmp/mbb7-staging/batch7-content.py')
+          s=p.read_text()
+          old="'altText':'Proposed component bounds"
+          assert s.count(old)==1
+          p.write_text(s.replace(old,"altText='Proposed component bounds"))
+          PY
           python3 -m py_compile /tmp/mbb7-staging/batch7-content.py /tmp/mbb7-staging/batch7-build.py
       - name: Apply only to the unchanged authorized PR170 head
         run: |
