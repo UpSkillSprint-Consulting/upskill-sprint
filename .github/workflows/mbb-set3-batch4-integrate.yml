@@ -1,0 +1,115 @@
+name: Integrate and validate MBB Set 3 Batch 4
+on:
+  push:
+    branches: ['automation/mbb-set3-batch4']
+    paths: ['.github/workflows/mbb-set3-batch4-integrate.yml']
+permissions:
+  contents: read
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: cp -R audit-staging /tmp/mbb4-staging
+      - name: Apply reviewed edits only to the unchanged PR170 baseline
+        run: |
+          git fetch origin audit/mbb-set3-batch1-q001-q025
+          test "$(git rev-parse FETCH_HEAD)" = 'f137be91f2f0f57bddfe27e6e649b0c81666d86c'
+          git checkout --detach FETCH_HEAD
+          python3 - <<'PY'
+          from pathlib import Path
+          ns={}
+          for name in ['batch4-content-a.py','batch4-content-b.py','batch4-integrate.py']:
+              p=Path('/tmp/mbb4-staging')/name
+              exec(compile(p.read_text(),str(p),'exec'),ns)
+          PY
+          node --check test-bank-mbb-set3.js
+          node --check test-bank-mbb-set3-batch4-ui.js
+          node --check scripts/audit-mbb-set3-batch4.mjs
+          node --check tests/test-bank-mbb-set3-batch4-audit.test.js
+      - name: Commit only Batch 4 application, tests and evidence to the review branch
+        id: commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add test-bank-mbb-set3.js test-bank-mbb-set3-batch4-ui.js test-bank.html test-bank-feedback-loop.js tests/test-bank-mbb-set3-batch1-audit.test.js tests/test-bank-mbb-set3-batch2-audit.test.js tests/test-bank-mbb-set3-batch3-audit.test.js tests/test-bank-mbb-set3-batch4-audit.test.js scripts/audit-mbb-set3-batch4.mjs docs/audits/mbb-set3-batch04
+          git diff --cached --check
+          git commit -m 'fix: audit MBB Set 3 Q76–100; correct finance, training inference, governance and feedback'
+          git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          mkdir -p /tmp/mbb4-workspace
+          git rev-parse HEAD > /tmp/mbb4-workspace/commit.txt
+          git archive --format=tar HEAD | gzip > /tmp/mbb4-workspace/repository.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mbb-set3-batch4-workspace
+          path: /tmp/mbb4-workspace
+          retention-days: 14
+  regression:
+    needs: integrate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.integrate.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Independent content, financial, preservation and all-option grading tests
+        run: |
+          mkdir -p audit-results-batch4
+          git rev-parse HEAD > audit-results-batch4/tested-commit.txt
+          set -o pipefail
+          node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch4-audit.test.js | tee audit-results-batch4/batch4-tests.txt
+      - name: Complete repository regression
+        run: timeout 900 node --test --test-concurrency=2 tests/*.test.js > audit-results-batch4/full-regression.txt 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch4-regression
+          path: audit-results-batch4
+          retention-days: 14
+  browsers:
+    needs: integrate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+        layout: [desktop, mobile]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.integrate.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Every item and answer review in both themes, including both tables
+        env:
+          AUDIT_ENGINE: ${{ matrix.engine }}
+          AUDIT_LAYOUT: ${{ matrix.layout }}
+        run: |
+          mkdir -p audit-results-batch4
+          git rev-parse HEAD > audit-results-batch4/tested-commit.txt
+          node scripts/audit-mbb-set3-batch4.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbb-set3-batch4-${{ matrix.engine }}-${{ matrix.layout }}
+          path: audit-results-batch4
+          retention-days: 14
