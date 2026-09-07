@@ -16,10 +16,10 @@ for(const [i,q] of batch.entries())test(`Batch 2 Q${i+26}: ${ids[i]} complete in
  const lengths=q.options.map(s=>s.split(/\s+/).length),other=lengths.filter((_,j)=>j!==q.answer).sort((a,b)=>a-b);assert.ok(lengths[q.answer]/other[1]<=1.35,'no conspicuously longer keyed choice');
  assert.equal(q.chart,undefined,'text-only baseline: no unreviewed visual is added');
 });
-test('Batch 2 integration preserves the previously audited Q1–25 and still-unaudited Q101–175 source objects byte-for-byte',()=>{
+test('Batch 2 integration preserves the previously audited Q1–25 and still-unaudited Q126–175 source objects byte-for-byte',()=>{
  const starts=[...source.matchAll(/^  \{$/gm)].map(m=>m.index);assert.equal(starts.length,175);
  assert.equal(sha(source.slice(0,starts[25])),'5904d0a49809e8e16422784e32e668fce797c760453e9fc351f0ab28801e1eaa');
- assert.equal(sha(source.slice(starts[100])),'5cb7bbdfb92e4d9e2f482356dc64c60371380e9f66d42093ad7f6827b9f63750');
+ assert.equal(sha(source.slice(starts[125])),'7c27818031175f62f0e580fb4160760925a681a3f079751cb0f5aadd5f2475dd');
  assert.equal(new Set(bank.map(q=>q.qid)).size,175);
 });
 test('reviewed numerical relationships do not imply extra capacity or representative off-season data',()=>{

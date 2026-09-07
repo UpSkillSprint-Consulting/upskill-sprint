@@ -1,0 +1,81 @@
+{
+  "verifiedOn": "2026-09-07",
+  "sources": {
+    "bok": {
+      "title": "ASQ Certified Master Black Belt Body of Knowledge",
+      "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+      "locator": "Printed pages 11–12, V and VI; acceptance sampling is related application rather than a separately named subtopic"
+    },
+    "icf": {
+      "title": "International Coaching Federation: Core Competencies and Code of Ethics",
+      "url": "https://coachingfederation.org/credentialing/coaching-competencies/icf-core-competencies/",
+      "locator": "Active listening, awareness, learner growth, agreements and ethical boundaries; complementary coaching principles, not ASQ credential rules"
+    },
+    "grr": {
+      "title": "Minitab: Is my measurement system acceptable?",
+      "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/supporting-topics/gage-r-r-and-wheeler-s-emp-studies/is-my-measurement-system-acceptable/",
+      "locator": "Study variation versus variance contribution; application-dependent acceptance guidance"
+    },
+    "ndc": {
+      "title": "Minitab: Using the number of distinct categories in a gage R&R study",
+      "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/supporting-topics/gage-r-r-and-wheeler-s-emp-studies/using-the-number-of-distinct-categories-in-a-gage-r-r-study/",
+      "locator": "1.41 times part-to-gage SD ratio, truncated to integer; minimum-five guideline"
+    },
+    "kappa": {
+      "title": "Minitab: Kappa statistics for Attribute Agreement Analysis",
+      "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/how-to/attribute-agreement-analysis/attribute-agreement-analysis/interpret-the-results/all-statistics-and-graphs/kappa-statistics/",
+      "locator": "Chance-adjusted agreement; between-appraiser agreement is distinct from agreement with a standard"
+    },
+    "capability": {
+      "title": "NIST/SEMATECH e-Handbook: What is process capability?",
+      "url": "https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm",
+      "locator": "Cp, Cpu, Cpl, Cpk formulas, centering and normal-distribution interpretation"
+    },
+    "xbar": {
+      "title": "NIST/SEMATECH e-Handbook: X-bar and R charts",
+      "url": "https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc321.htm",
+      "locator": "Control-limit formulas and n=5 factors A2=0.577, D3=0, D4=2.115"
+    },
+    "spc": {
+      "title": "NIST/SEMATECH e-Handbook: Shewhart control charts",
+      "url": "https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm",
+      "locator": "Control versus specification limits, Western Electric eight-point rule and justified limit revisions"
+    },
+    "boxplot": {
+      "title": "NIST/SEMATECH e-Handbook: Box plot",
+      "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/boxplot.htm",
+      "locator": "Quartiles, fences and outlier labeling"
+    },
+    "normal": {
+      "title": "NIST/SEMATECH e-Handbook: Normal probability plot",
+      "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/normprpl.htm",
+      "locator": "Normal quantile plot and Filliben order-statistic plotting positions"
+    },
+    "bias": {
+      "title": "NIST/SEMATECH e-Handbook: Bias and accuracy",
+      "url": "https://www.itl.nist.gov/div898/handbook/mpc/section4/mpc45.htm",
+      "locator": "Bias relative to reference and measurement-system accuracy"
+    },
+    "oc": {
+      "title": "NIST/SEMATECH e-Handbook: Choosing a single sampling plan",
+      "url": "https://www.itl.nist.gov/div898/handbook/pmc/section2/pmc222.htm",
+      "locator": "Binomial acceptance probabilities and producer/consumer risks at designated quality levels"
+    },
+    "components": {
+      "title": "NIST/SEMATECH e-Handbook: Process modeling",
+      "url": "https://www.itl.nist.gov/div898/handbook/ppc/section2/ppc22.htm",
+      "locator": "Statistical process models and assumptions; descriptive groups alone do not identify causes"
+    },
+    "ppk": {
+      "title": "Minitab: Overall capability for Normal Capability Analysis",
+      "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/capability-analysis/how-to/capability-analysis/normal-capability-analysis/interpret-the-results/all-statistics-and-graphs/overall-capability/",
+      "locator": "Overall standard deviation, Pp and Ppk; comparison with within capability"
+    },
+    "ethics": {
+      "title": "ICF Code of Ethics overview",
+      "url": "https://coachingfederation.org/code-of-ethics-overview/",
+      "locator": "Confidentiality and applicable disclosure exceptions; not a jurisdiction-specific legal ruling"
+    }
+  },
+  "limits": "Primary-source principles and BoK alignment, not authorship or endorsement. Newly specified scenario assumptions are visible."
+}

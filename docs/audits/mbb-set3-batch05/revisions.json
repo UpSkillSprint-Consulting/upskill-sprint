@@ -1,0 +1,4157 @@
+[
+  {
+    "number": 101,
+    "qid": "mbb:set-3:d5-006",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "Two champions at a manufacturing conglomerate are competing for the same Black Belt's time on their respective projects, each escalating directly to the MBB to demand priority. What coaching approach should the MBB take?",
+      "options": [
+        "Refuse to engage with either champion until they resolve the conflict entirely on their own with no facilitation",
+        "Personally decide which champion's project wins and inform both unilaterally",
+        "Assign the Black Belt to work on both projects simultaneously at full capacity for each",
+        "Facilitate a joint conversation between the two champions (and their common executive sponsor if needed) to resolve the resource conflict using shared criteria, coaching both on the expectation that competing resource claims go through governance rather than direct escalation to the MBB"
+      ],
+      "answer": 3,
+      "why": "This mirrors the cross-functional resource-conflict facilitation principle established elsewhere in this domain (organizational competencies) — the MBB's coaching role is facilitating resolution through proper channels, not personally arbitrating beyond their authority. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-006"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "Two champions request the same Black Belt's full available time for overlapping project work. The MBB may facilitate and recommend allocations, but the portfolio council holds final resource authority. Neither project has an immediate safety or regulatory emergency. What coaching response best resolves the conflict without exceeding the MBB's authority?",
+      "options": [
+        "Give each champion half the Belt's time immediately, then ask the council to confirm that equal allocation at its next meeting.",
+        "Choose the project with the larger forecast benefit and instruct the Belt to prioritize it before the council reviews the competing demands.",
+        "Ask the Belt to negotiate separate commitments with each champion, leaving any resulting schedule conflicts to the two project teams.",
+        "Coach both champions to present capacity, dependencies and shared priority criteria jointly; facilitate a recommendation and route unresolved allocation decisions to the council."
+      ],
+      "answer": 3,
+      "why": "The conflict requires both a feasible resource decision and coaching on how champions use governance. The MBB can help frame the competing demands, test assumptions and facilitate agreement, while the council resolves decisions outside the MBB's delegated authority. Neither equal splitting nor larger forecast benefit automatically yields a feasible allocation. Escalation to the MBB is not inherently improper; unilateral allocation without authority is the issue. Source alignment: ASQ CMBB Body of Knowledge, V.A.1 Scoping and resourcing; V.A.4 Feedback. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-006",
+      "optionRationales": [
+        "Incorrect. Equal sharing can leave both tasks infeasible and implements a resource decision before the named authority approves it.",
+        "Incorrect. Benefit is relevant evidence, but one estimate does not establish priority or grant the MBB allocation authority.",
+        "Incorrect. Separate negotiations place incompatible commitments on the Belt and fail to resolve the cross-project tradeoff through governance.",
+        "Correct. It combines facilitated evidence-based resolution, champion development and a decision by the authority specified in this case."
+      ],
+      "trap": "Facilitation is not allocation authority. Check the delegated decision rights and urgency before directing scarce resources or requiring a fixed split.",
+      "distractors": [
+        "Incorrect. Equal sharing can leave both tasks infeasible and implements a resource decision before the named authority approves it.",
+        "Incorrect. Benefit is relevant evidence, but one estimate does not establish priority or grant the MBB allocation authority.",
+        "Incorrect. Separate negotiations place incompatible commitments on the Belt and fail to resolve the cross-project tradeoff through governance.",
+        "Correct. It combines facilitated evidence-based resolution, champion development and a decision by the authority specified in this case."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.A.1 Scoping and resourcing; V.A.4 Feedback"
+        }
+      ]
+    },
+    "issues": [
+      "Cross-question reference removed; authority and urgency made explicit; escalation to MBB is not universally improper; differentiated from generic matrix allocation."
+    ]
+  },
+  {
+    "number": 102,
+    "qid": "mbb:set-3:d5-007",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "An MBB notices a champion consistently takes public credit for Black Belt-led project successes in executive presentations, never mentioning the team. What coaching conversation should the MBB have?",
+      "options": [
+        "Say nothing, since crediting the champion is expected regardless of who did the actual work",
+        "Publicly correct the champion in front of executives without any private conversation first",
+        "Directly and respectfully raise the pattern with the champion, framing it in terms of the practical cost — Black Belts who feel their work is invisible to leadership disengage or leave, echoing the recognition/retention risk documented elsewhere in this domain — and coach toward genuinely shared credit in future presentations",
+        "Recommend the Black Belt stop working on any project this champion sponsors"
+      ],
+      "answer": 2,
+      "why": "This connects to the recognition/retention principle established elsewhere (organizational competencies) — invisible credit-taking is a real driver of Belt disengagement, and the MBB's coaching role includes raising this directly and constructively with the champion. Source: [BOK] Domain V.A, Coaching Executives and Champions.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-007"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "An MBB has reviewed three executive presentations in which a champion describes team-delivered improvements solely as personal achievements. Contributions are documented, but the MBB has not established the champion's intent or any effect on retention. What is the most appropriate first coaching action?",
+      "options": [
+        "Publish the contribution records to the executive group before speaking with the champion, so the correction is visible to every original audience member.",
+        "Privately recognize the Belt team while retaining the champion's executive narrative, because recognition below executive level resolves the attribution problem.",
+        "Discuss specific presentation examples privately, hear the champion's perspective, and agree accurate shared attribution and a proportionate correction of misleading records.",
+        "Tell the champion that the pattern has already caused employee turnover and require a standard public apology as the immediate remedy."
+      ],
+      "answer": 2,
+      "why": "Feedback should address observed attribution, not invent intent or a proven retention effect. A private, specific conversation allows the champion to respond and supports accurate future recognition and correction of materially misleading records. Follow-up should verify the agreed behavior. Public correction can become necessary, but its form should fit the facts rather than being automatic punishment or a substitute for initial fact-based coaching. Source alignment: ASQ CMBB Body of Knowledge, V.A.3 Leadership and communication; V.A.4 Feedback. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-007",
+      "optionRationales": [
+        "Incorrect. Immediate broad publication can escalate unnecessarily before checking context; a proportionate correction can be agreed after the initial conversation.",
+        "Incorrect. Private thanks do not correct an inaccurate executive record or the champion's recurring presentation behavior.",
+        "Correct. It addresses documented behavior, allows clarification and establishes accurate attribution and follow-up without making unsupported causal claims.",
+        "Incorrect. No turnover effect has been established, and a predetermined public remedy bypasses a proportionate fact-based response."
+      ],
+      "trap": "Give feedback on specific observed behavior. Do not infer intent or a retention effect without evidence, and do not leave materially misleading records uncorrected.",
+      "distractors": [
+        "Incorrect. Immediate broad publication can escalate unnecessarily before checking context; a proportionate correction can be agreed after the initial conversation.",
+        "Incorrect. Private thanks do not correct an inaccurate executive record or the champion's recurring presentation behavior.",
+        "Correct. It addresses documented behavior, allows clarification and establishes accurate attribution and follow-up without making unsupported causal claims.",
+        "Incorrect. No turnover effect has been established, and a predetermined public remedy bypasses a proportionate fact-based response."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.A.3 Leadership and communication; V.A.4 Feedback"
+        },
+        {
+          "title": "International Coaching Federation: Core Competencies and Code of Ethics",
+          "url": "https://coachingfederation.org/credentialing/coaching-competencies/icf-core-competencies/",
+          "locator": "Active listening, awareness, learner growth, agreements and ethical boundaries; complementary coaching principles, not ASQ credential rules"
+        }
+      ]
+    },
+    "issues": [
+      "Cross-question dependence and unsupported recognition-to-turnover causation removed; added correction of misleading records."
+    ]
+  },
+  {
+    "number": 103,
+    "qid": "mbb:set-3:d5-008",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "A Black Belt candidate is technically excellent but consistently dismisses frontline operators' input during Measure-phase data collection, causing operators to stop cooperating. What coaching focus should the MBB prioritize?",
+      "options": [
+        "Remove the Black Belt from all future projects permanently based on this one issue",
+        "Coach the Black Belt specifically on facilitation and stakeholder-engagement skills — technical excellence alone doesn't ensure project success if frontline cooperation, which the project depends on, has been damaged by dismissive engagement",
+        "Praise the Black Belt's technical excellence and ignore the interpersonal pattern entirely",
+        "Recommend the Black Belt work entirely alone with no team or stakeholder interaction going forward"
+      ],
+      "answer": 1,
+      "why": "Technical skill and interpersonal/facilitation skill are both necessary; coaching should address the specific gap (stakeholder engagement) rather than either ignoring it or overreacting to remove a technically strong Belt. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-008"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "A technically strong Black Belt repeatedly dismisses frontline operators' concerns about how Measure-phase data are collected. Operators have now declined further interviews, and the team cannot establish coverage of all shifts. What coaching plan should the MBB prioritize?",
+      "options": [
+        "Assign another person to all operator contact permanently while the Belt continues the analysis, judging the Belt's development only by statistical accuracy.",
+        "Use observed examples to coach listening and facilitation; help the Belt repair operator engagement, review data-coverage risks, and verify improvement in later sessions.",
+        "Require the operators to complete the planned interviews before addressing the Belt's behavior, so the measurement schedule remains the first priority.",
+        "Enroll the Belt in a general leadership course and keep the existing data plan unchanged until the course has been completed."
+      ],
+      "answer": 1,
+      "why": "The behavior has created an immediate stakeholder and measurement-coverage problem. Specific feedback, practiced listening, supported repair and follow-up address the demonstrated skill gap while the MBB checks whether the data remain representative. Generic training alone or forced cooperation does not repair the current problem. Reassignment can be necessary if harm persists, but permanent removal of stakeholder duties is not the first developmental response in this case. Source alignment: ASQ CMBB Body of Knowledge, V.B.1 Belt coaching and mentoring; V.B.3 Team facilitation and meeting management. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-008",
+      "optionRationales": [
+        "Incorrect. This may temporarily separate people but avoids developing the missing skill and leaves the representativeness concern unresolved.",
+        "Correct. It addresses the specific behavior, its current effect on data collection and observable evidence that the coaching is working.",
+        "Incorrect. Schedule pressure does not justify ignoring the behavior or relying on cooperation obtained without repairing the engagement problem.",
+        "Incorrect. A general course delays action on the current gap and does not establish that the existing sampling coverage is adequate."
+      ],
+      "trap": "A stakeholder breakdown can also create a measurement-coverage gap. Repair the behavior and check the current data rather than prescribe generic training alone.",
+      "distractors": [
+        "Incorrect. This may temporarily separate people but avoids developing the missing skill and leaves the representativeness concern unresolved.",
+        "Correct. It addresses the specific behavior, its current effect on data collection and observable evidence that the coaching is working.",
+        "Incorrect. Schedule pressure does not justify ignoring the behavior or relying on cooperation obtained without repairing the engagement problem.",
+        "Incorrect. A general course delays action on the current gap and does not establish that the existing sampling coverage is adequate."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.B.1 Belt coaching and mentoring; V.B.3 Team facilitation and meeting management"
+        },
+        {
+          "title": "International Coaching Federation: Core Competencies and Code of Ethics",
+          "url": "https://coachingfederation.org/credentialing/coaching-competencies/icf-core-competencies/",
+          "locator": "Active listening, awareness, learner growth, agreements and ethical boundaries; complementary coaching principles, not ASQ credential rules"
+        }
+      ]
+    },
+    "issues": [
+      "Added immediate data-coverage and relationship repair; replaced implausible distractors and unsupported permanent-removal framing."
+    ]
+  },
+  {
+    "number": 104,
+    "qid": "mbb:set-3:d5-009",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "A Green Belt says to the MBB, 'I don't think my project's data supports our hypothesized root cause, but my champion really wants this to be the answer.' What coaching response protects both the Green Belt and the integrity of the analysis?",
+      "options": [
+        "Instruct the Green Belt to escalate immediately over the champion's head without first attempting a direct conversation",
+        "Tell the Green Belt to quietly change their own hypothesis to whatever will avoid conflict with the champion",
+        "Coach the Green Belt to present the data honestly to the champion, framing it as new information that changes the analysis rather than a confrontation, and to bring the MBB in to help facilitate that conversation if needed — protecting analytical integrity while giving the Green Belt a constructive path to raise it",
+        "Advise the Green Belt to report the root cause the champion wants regardless of what the data shows"
+      ],
+      "answer": 2,
+      "why": "This is a core coaching-for-integrity moment — the Green Belt needs both permission and a constructive method to report what the data actually shows, rather than either suppressing it or escalating unnecessarily before attempting direct, honest communication. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-009"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "A Green Belt reports that the current data do not support the champion's preferred root-cause hypothesis. The MBB has not yet reviewed the study design or uncertainty. There is no reported retaliation, falsification order or immediate safety threat, and the champion has been receptive to evidence in previous reviews. What should the MBB coach the Belt to do next?",
+      "options": [
+        "Bypass the normal review and submit a formal misconduct allegation, treating the difference between the hypothesis and current data as proof of interference.",
+        "Replace the current hypothesis with the champion's explanation in the report, while keeping the contradictory analysis in the Belt's private working notes.",
+        "Check the analysis and its limitations, then present the evidence honestly with a proposed next test; offer MBB support and escalate if pressure to misrepresent emerges.",
+        "State that the preferred root cause has been disproved permanently and recommend closing the project without investigating alternative explanations."
+      ],
+      "answer": 2,
+      "why": "Analytical integrity requires an honest, qualified account of what the data support. The MBB should first help check design, uncertainty and interpretation, then support a constructive evidence review and next step. Lack of support is not necessarily proof that the hypothesized effect is absent. Direct conversation is appropriate under the stated circumstances, but it must not become a mandatory prerequisite when retaliation, misconduct or safety concerns require protected escalation. Source alignment: ASQ CMBB Body of Knowledge, V.B.1 Belt coaching and mentoring; V.B.2 Project reviews. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-009",
+      "optionRationales": [
+        "Incorrect. The stated evidence does not establish misconduct; appropriate protected escalation remains available if the circumstances change.",
+        "Incorrect. Private retention of contradictory evidence does not make a knowingly misleading report acceptable.",
+        "Correct. It protects integrity, addresses uncertainty and gives the Belt both a practical review path and support against inappropriate pressure.",
+        "Incorrect. An unsupported hypothesis is not necessarily conclusively disproved, and alternative explanations or better evidence may warrant investigation."
+      ],
+      "trap": "Unsupported does not always mean disproved. Preserve honest uncertainty and protected escalation rather than assume that every disagreement is misconduct.",
+      "distractors": [
+        "Incorrect. The stated evidence does not establish misconduct; appropriate protected escalation remains available if the circumstances change.",
+        "Incorrect. Private retention of contradictory evidence does not make a knowingly misleading report acceptable.",
+        "Correct. It protects integrity, addresses uncertainty and gives the Belt both a practical review path and support against inappropriate pressure.",
+        "Incorrect. An unsupported hypothesis is not necessarily conclusively disproved, and alternative explanations or better evidence may warrant investigation."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.B.1 Belt coaching and mentoring; V.B.2 Project reviews"
+        },
+        {
+          "title": "International Coaching Federation: Core Competencies and Code of Ethics",
+          "url": "https://coachingfederation.org/credentialing/coaching-competencies/icf-core-competencies/",
+          "locator": "Active listening, awareness, learner growth, agreements and ethical boundaries; complementary coaching principles, not ASQ credential rules"
+        },
+        {
+          "title": "ICF Code of Ethics overview",
+          "url": "https://coachingfederation.org/code-of-ethics-overview/",
+          "locator": "Confidentiality and applicable disclosure exceptions; not a jurisdiction-specific legal ruling"
+        }
+      ]
+    },
+    "issues": [
+      "Added analysis review, uncertainty and escalation exceptions; avoided treating nonsupport as proof of no effect."
+    ]
+  },
+  {
+    "number": 105,
+    "qid": "mbb:set-3:d5-010",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "A Black Belt on a cross-functional team consistently interrupts and talks over a quieter team member with valuable domain expertise. What specific coaching technique should the MBB suggest the Black Belt use in the next team meeting?",
+      "options": [
+        "Tell the Black Belt to continue as before, since dominant personalities are simply more valuable to have on teams",
+        "Suggest the Black Belt should stop attending team meetings personally",
+        "Recommend removing the quieter team member from the project instead",
+        "Suggest a structured facilitation technique — e.g., a round-robin format where each member speaks in turn, or explicitly inviting the quieter member's input before opening discussion — to ensure the valuable expertise isn't lost to the dominant dynamic"
+      ],
+      "answer": 3,
+      "why": "This is the same team-dynamics coaching pattern established elsewhere (organizational competencies) — concrete facilitation techniques (round-robin, explicit invitation) are the practical coaching tool for exactly this dominant-voice/quiet-expert dynamic. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-010"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "During a cross-functional review, a Black Belt repeatedly interrupts a quieter member who holds essential operating knowledge. The member is willing to contribute, and the next meeting must identify failure mechanisms before ranking solutions. Which coaching suggestion best protects input without treating equal speaking time as evidence that every claim is equally valid?",
+      "options": [
+        "Let the Belt present a complete solution first, then ask the quieter member to approve it by email without reopening the meeting discussion.",
+        "Replace the review with a vote in which each member has one ballot, using the vote totals to establish which failure mechanism is correct.",
+        "Have the MBB lead all future meetings personally, removing the Belt's facilitation responsibility so the same interruption pattern cannot recur.",
+        "Coach non-interruption and structured turn-taking with a pass option, invite the operating evidence, then evaluate competing claims using common criteria."
+      ],
+      "answer": 3,
+      "why": "Structured participation protects access to the discussion; it does not make all proposed causes equally supported. The MBB should coach the interruption behavior and a concrete meeting process, then check whether the Belt elicits and evaluates relevant evidence. Turn-taking can include a pass or written contribution so participation is not coercive. Majority preference and post-hoc approval do not replace examination of failure mechanisms. Source alignment: ASQ CMBB Body of Knowledge, V.B.3 Team facilitation and meeting management. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-010",
+      "optionRationales": [
+        "Incorrect. An approval request after the solution is fixed gives the operating expertise little opportunity to shape the causal analysis.",
+        "Incorrect. Equal voting rights do not establish technical truth or resolve the evidence behind a failure mechanism.",
+        "Incorrect. Taking over permanently avoids development of the Belt's facilitation capability rather than addressing the specific behavior.",
+        "Correct. It combines inclusive participation with evidence-based assessment and a concrete behavior the coach can observe."
+      ],
+      "trap": "Access to discussion and strength of evidence are different. Structured participation does not make a majority vote a test of technical truth.",
+      "distractors": [
+        "Incorrect. An approval request after the solution is fixed gives the operating expertise little opportunity to shape the causal analysis.",
+        "Incorrect. Equal voting rights do not establish technical truth or resolve the evidence behind a failure mechanism.",
+        "Incorrect. Taking over permanently avoids development of the Belt's facilitation capability rather than addressing the specific behavior.",
+        "Correct. It combines inclusive participation with evidence-based assessment and a concrete behavior the coach can observe."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.B.3 Team facilitation and meeting management"
+        },
+        {
+          "title": "International Coaching Federation: Core Competencies and Code of Ethics",
+          "url": "https://coachingfederation.org/credentialing/coaching-competencies/icf-core-competencies/",
+          "locator": "Active listening, awareness, learner growth, agreements and ethical boundaries; complementary coaching principles, not ASQ credential rules"
+        }
+      ]
+    },
+    "issues": [
+      "Cross-question reference removed; structured participation distinguished from consensus proof; pass/written input and follow-up clarified."
+    ]
+  },
+  {
+    "number": 106,
+    "qid": "mbb:set-3:d5-011",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "A Green Belt has completed two successful projects but tells the MBB they feel like an impostor and doubt they deserve certification advancement. What coaching approach best supports this individual?",
+      "options": [
+        "Dismiss the concern entirely and simply announce their promotion without further conversation",
+        "Acknowledge the feeling as common and separate it from the objective evidence of their two successful, validated projects, walking through the specific competencies they've demonstrated — grounding the coaching conversation in concrete evidence rather than either ignoring the concern or over-indulging it",
+        "Tell them impostor feelings mean they should leave the improvement function entirely",
+        "Agree that they probably aren't ready and delay their advancement indefinitely based on their stated self-doubt alone"
+      ],
+      "answer": 1,
+      "why": "Effective individual coaching acknowledges the feeling while grounding the conversation in concrete, objective evidence of demonstrated competency — neither dismissing the person's experience nor letting self-doubt alone override documented performance. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-011"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "A Green Belt with two validated project successes expresses self-doubt about advancing within the employer's internal Belt-development program. Advancement also requires competencies not necessarily demonstrated by those two projects. The individual asks for coaching rather than a mental-health assessment. What is the most appropriate response?",
+      "options": [
+        "Approve advancement solely from the two successful outcomes and avoid discussing the concern, since outcomes are a complete measure of competence.",
+        "Acknowledge the concern, review specific demonstrated competencies against the internal criteria, identify remaining evidence or development needs, and agree a supported next step.",
+        "Delay advancement until the individual reports no self-doubt, using confidence rather than the competency criteria as the primary readiness measure.",
+        "Diagnose an impostor syndrome from this conversation and make treatment completion a prerequisite for any further professional development."
+      ],
+      "answer": 1,
+      "why": "Coaching should respect the person's experience while checking concrete evidence against the actual advancement requirements. Two successful outcomes support some competencies but do not automatically satisfy the full standard. A development plan can recognize strengths and target remaining evidence without letting confidence alone decide readiness. The MBB should remain within the coaching role and should not diagnose a condition from this statement. Source alignment: ASQ CMBB Body of Knowledge, V.B.1 Belt coaching and mentoring. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-011",
+      "optionRationales": [
+        "Incorrect. Project outcomes alone do not establish every advancement competency stated in the scenario.",
+        "Correct. It combines supportive listening with criterion-based evidence and an agreed, actionable development path.",
+        "Incorrect. Absence of self-doubt is not the internal competency standard and can indefinitely block otherwise justified advancement.",
+        "Incorrect. The information does not support a diagnosis or a treatment condition imposed by a workplace coach."
+      ],
+      "trap": "Confidence is not the credential criterion, and two project outcomes do not demonstrate every competency. Support the person without diagnosing or automatically certifying.",
+      "distractors": [
+        "Incorrect. Project outcomes alone do not establish every advancement competency stated in the scenario.",
+        "Correct. It combines supportive listening with criterion-based evidence and an agreed, actionable development path.",
+        "Incorrect. Absence of self-doubt is not the internal competency standard and can indefinitely block otherwise justified advancement.",
+        "Incorrect. The information does not support a diagnosis or a treatment condition imposed by a workplace coach."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.B.1 Belt coaching and mentoring"
+        },
+        {
+          "title": "International Coaching Federation: Core Competencies and Code of Ethics",
+          "url": "https://coachingfederation.org/credentialing/coaching-competencies/icf-core-competencies/",
+          "locator": "Active listening, awareness, learner growth, agreements and ethical boundaries; complementary coaching principles, not ASQ credential rules"
+        },
+        {
+          "title": "ICF Code of Ethics overview",
+          "url": "https://coachingfederation.org/code-of-ethics-overview/",
+          "locator": "Confidentiality and applicable disclosure exceptions; not a jurisdiction-specific legal ruling"
+        }
+      ]
+    },
+    "issues": [
+      "Clarified internal credential and evidence limits; removed automatic-certification inference and diagnostic implication."
+    ]
+  },
+  {
+    "number": 107,
+    "qid": "mbb:set-3:d5-012",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "A Black Belt is struggling with a DOE design and asks the MBB for help. The MBB immediately takes over and designs the experiment personally, handing it back complete. What coaching principle does this violate?",
+      "options": [
+        "The MBB should have refused to help at all rather than providing any guidance",
+        "Nothing is violated; the MBB solving the problem directly is always the most efficient coaching approach",
+        "DOE is too advanced for any Black Belt to ever attempt without the MBB doing it entirely",
+        "This violates the coach-not-doer principle — effective coaching builds the Black Belt's own capability by guiding them through the reasoning (asking questions, pointing to relevant resources, reviewing their draft) rather than solving the problem for them, which leaves the underlying skill gap unaddressed for next time"
+      ],
+      "answer": 3,
+      "why": "This is a classic coach-vs-doer distinction: solving the problem directly may be faster once, but it doesn't build the Black Belt's own capability, leaving them equally stuck next time a similar situation arises — guided reasoning is the correct coaching approach. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-012"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "A Black Belt asks for help choosing a DOE design. There is time for guided development before authorization, and no urgent safety issue requires the MBB to take over. The MBB supplies a finished design without discussing the reasoning or checking the Belt's understanding. What change would best meet the coaching objective?",
+      "options": [
+        "Provide the finished design with a detailed written explanation and consider the learning objective met once the Belt confirms receipt.",
+        "Require the Belt to solve the design alone without access to examples, expert review or discussion so that the work is genuinely independent.",
+        "Assign all future DOE design decisions to the MBB while allowing the Belt to manage logistics and present the results to management.",
+        "Elicit the objective and constraints, guide the Belt's design choices, review a justified draft, and check transfer on a comparable design decision."
+      ],
+      "answer": 3,
+      "why": "The missing element is active development and verification of the Belt's reasoning. Questions, examples and direct instruction can all support coaching when the Belt applies the reasoning and receives feedback. Supplying a worked example is not inherently wrong, nor must an MBB refuse expert work in an emergency. Under the stated conditions, a finished answer without learner application leaves the specific capability gap untested. Source alignment: ASQ CMBB Body of Knowledge, V.B.1 Belt coaching and mentoring. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-012",
+      "optionRationales": [
+        "Incorrect. Receiving an explanation does not demonstrate that the Belt can apply the design reasoning independently.",
+        "Incorrect. Withholding support is not required for learning and abandons the requested coaching opportunity.",
+        "Incorrect. Permanent dependence on the MBB does not meet the objective of developing the Belt's design competence.",
+        "Correct. Guided reasoning, a reviewed draft and a transfer check provide evidence of learning rather than merely completion of this design."
+      ],
+      "trap": "A worked example can support coaching when followed by learner application. Supplying an answer without a transfer check does not demonstrate new competence.",
+      "distractors": [
+        "Incorrect. Receiving an explanation does not demonstrate that the Belt can apply the design reasoning independently.",
+        "Incorrect. Withholding support is not required for learning and abandons the requested coaching opportunity.",
+        "Incorrect. Permanent dependence on the MBB does not meet the objective of developing the Belt's design competence.",
+        "Correct. Guided reasoning, a reviewed draft and a transfer check provide evidence of learning rather than merely completion of this design."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.B.1 Belt coaching and mentoring"
+        },
+        {
+          "title": "International Coaching Federation: Core Competencies and Code of Ethics",
+          "url": "https://coachingfederation.org/credentialing/coaching-competencies/icf-core-competencies/",
+          "locator": "Active listening, awareness, learner growth, agreements and ethical boundaries; complementary coaching principles, not ASQ credential rules"
+        }
+      ]
+    },
+    "issues": [
+      "Qualified coach-not-doer absolute; distinguished scaffolding/direct instruction from unverified takeover; added transfer check."
+    ]
+  },
+  {
+    "number": 108,
+    "qid": "mbb:set-3:d5-013",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "A Black Belt candidate from an underrepresented background on the team confides to the MBB that they feel excluded from informal networking that seems to influence project assignments. What should the MBB do with this information?",
+      "options": [
+        "Take the concern seriously and examine whether project assignment actually happens through an informal, exclusionary process rather than transparent criteria — if so, work toward a more transparent, criteria-based assignment process that doesn't depend on informal network access",
+        "Tell the Black Belt candidate to simply try harder to join the informal networking themselves",
+        "Publicly announce the individual's concern to the whole team without their consent",
+        "Dismiss the concern as unrelated to formal project work and take no action"
+      ],
+      "answer": 0,
+      "why": "This tests recognizing that informal, network-dependent processes can create real and unfair barriers; the appropriate MBB response is investigating and working toward more transparent, criteria-based processes, not dismissing the concern or mishandling the confidence. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-013"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "A Black Belt candidate from an underrepresented background tells the MBB that informal networking appears to determine desirable project assignments. The candidate requests discretion. The MBB has not established how assignments are made or whether exclusion occurred. Which response best combines fair investigation, confidentiality and an actionable process improvement?",
+      "options": [
+        "Clarify confidentiality limits and the candidate's wishes; examine assignment criteria and outcomes through appropriate channels, then address evidenced access barriers with transparent criteria.",
+        "Announce the candidate's account to the whole team as a confirmed finding, asking everyone to explain why the candidate was excluded.",
+        "Promise absolute secrecy in all circumstances and personally assign the candidate the next high-profile project without reviewing the allocation process.",
+        "Recommend more networking practice for the candidate and defer review of the assignment process until a second person reports the same concern."
+      ],
+      "answer": 0,
+      "why": "The concern warrants respectful examination, not dismissal or a premature finding. The MBB should explain applicable confidentiality limits, avoid unnecessary identifying disclosures and use appropriate organizational channels to assess the process. Transparent, relevant selection criteria and review of access can address supported barriers. A demographic characteristic alone does not prove discrimination, and individual networking advice does not substitute for examining the reported process. Source alignment: ASQ CMBB Body of Knowledge, V.B.1 Belt coaching and mentoring; V.B.3 Team facilitation and meeting management. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-013",
+      "optionRationales": [
+        "Correct. It preserves a fair fact-finding process, respects confidentiality boundaries and links corrective action to supported assignment barriers.",
+        "Incorrect. It breaches discretion unnecessarily and labels an unverified account as an established conclusion.",
+        "Incorrect. Absolute secrecy may conflict with applicable obligations, and a unilateral exception does not establish fair allocation.",
+        "Incorrect. It shifts responsibility to the candidate and imposes an unsupported threshold before examining a credible concern."
+      ],
+      "trap": "Investigate the reported process fairly and explain confidentiality limits. Do not dismiss a concern, assume a finding, or promise secrecy that cannot be kept.",
+      "distractors": [
+        "Correct. It preserves a fair fact-finding process, respects confidentiality boundaries and links corrective action to supported assignment barriers.",
+        "Incorrect. It breaches discretion unnecessarily and labels an unverified account as an established conclusion.",
+        "Incorrect. Absolute secrecy may conflict with applicable obligations, and a unilateral exception does not establish fair allocation.",
+        "Incorrect. It shifts responsibility to the candidate and imposes an unsupported threshold before examining a credible concern."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.B.1 Belt coaching and mentoring; V.B.3 Team facilitation and meeting management"
+        },
+        {
+          "title": "International Coaching Federation: Core Competencies and Code of Ethics",
+          "url": "https://coachingfederation.org/credentialing/coaching-competencies/icf-core-competencies/",
+          "locator": "Active listening, awareness, learner growth, agreements and ethical boundaries; complementary coaching principles, not ASQ credential rules"
+        },
+        {
+          "title": "ICF Code of Ethics overview",
+          "url": "https://coachingfederation.org/code-of-ethics-overview/",
+          "locator": "Confidentiality and applicable disclosure exceptions; not a jurisdiction-specific legal ruling"
+        }
+      ]
+    },
+    "issues": [
+      "Added confidentiality boundaries, consent and appropriate channels; allegations distinguished from findings without dismissing concern."
+    ]
+  },
+  {
+    "number": 109,
+    "qid": "mbb:set-3:d5-014",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "A Green Belt on their first project becomes visibly frustrated and says 'I don't think I can do this' after a difficult Analyze-phase setback. What is the MBB's most appropriate immediate coaching response?",
+      "options": [
+        "Immediately reassign the project to someone else without further conversation",
+        "Ignore the emotional statement entirely and only discuss the technical obstacle in purely clinical terms",
+        "Tell them that if they can't do it now, they should give up on process improvement entirely",
+        "Normalize the difficulty as a common part of the learning process, help them break the specific Analyze-phase obstacle into a smaller, more manageable next step, and offer concrete support (a working session, a relevant example) — addressing both the emotional moment and the specific technical obstacle"
+      ],
+      "answer": 3,
+      "why": "Effective in-the-moment coaching addresses both the emotional experience (normalizing difficulty, offering support) and the concrete technical obstacle (breaking it into a manageable next step) — neither purely clinical nor purely reassuring alone fully serves the person. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-014"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "After a first-project Analyze-phase setback, a Green Belt says, 'I do not think I can do this.' No immediate safety concern is present. The MBB has not yet clarified whether the obstacle is technical, resource-related or a misunderstanding of expectations. What is the best immediate coaching response?",
+      "options": [
+        "Reassign the project immediately and use a later performance review to explain that frustration indicates the Belt is not suited to improvement work.",
+        "Begin a detailed statistical lecture without discussing the concern, assuming that more technical information will resolve the obstacle.",
+        "Promise that the project will succeed and tell the Belt to repeat the same analysis until the results support the original hypothesis.",
+        "Acknowledge the frustration, clarify the obstacle with the Belt, agree a manageable next action and suitable support, and arrange a follow-up check."
+      ],
+      "answer": 3,
+      "why": "The coach should first understand the obstacle and the person's concern rather than assume a technical deficiency or a fixed lack of ability. A specific next action and appropriate support make the conversation useful, while follow-up tests whether the barrier is being addressed. Reassurance need not promise success. Reassignment may become appropriate after assessment, but this statement alone does not justify it. Source alignment: ASQ CMBB Body of Knowledge, V.B.1 Belt coaching and mentoring. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-014",
+      "optionRationales": [
+        "Incorrect. The statement does not establish inability, and immediate reassignment bypasses assessment and development.",
+        "Incorrect. The barrier has not been diagnosed and may not be resolved by a technical lecture.",
+        "Incorrect. Success cannot be guaranteed, and repeating analysis to obtain a desired conclusion compromises analytical integrity.",
+        "Correct. It responds to the immediate concern while identifying a feasible evidence-based next step and checking progress."
+      ],
+      "trap": "Clarify the actual obstacle before choosing support. Empathy, a manageable action and follow-up are more useful than guaranteed success or an assumed technical lecture.",
+      "distractors": [
+        "Incorrect. The statement does not establish inability, and immediate reassignment bypasses assessment and development.",
+        "Incorrect. The barrier has not been diagnosed and may not be resolved by a technical lecture.",
+        "Incorrect. Success cannot be guaranteed, and repeating analysis to obtain a desired conclusion compromises analytical integrity.",
+        "Correct. It responds to the immediate concern while identifying a feasible evidence-based next step and checking progress."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.B.1 Belt coaching and mentoring"
+        },
+        {
+          "title": "International Coaching Federation: Core Competencies and Code of Ethics",
+          "url": "https://coachingfederation.org/credentialing/coaching-competencies/icf-core-competencies/",
+          "locator": "Active listening, awareness, learner growth, agreements and ethical boundaries; complementary coaching principles, not ASQ credential rules"
+        }
+      ]
+    },
+    "issues": [
+      "Removed assumed technical cause and universal emotional diagnosis; added barrier clarification and follow-up."
+    ]
+  },
+  {
+    "number": 110,
+    "qid": "mbb:set-3:d5-015",
+    "original": {
+      "sub": "mbb-coaching",
+      "stem": "An experienced Black Belt mentor is assigned to a new Green Belt but spends mentoring sessions mostly talking about their own past projects rather than asking questions about the Green Belt's current challenges. What coaching correction should the MBB suggest to the mentor?",
+      "options": [
+        "Remove the mentor from the role entirely for talking too much",
+        "Instruct the Green Belt to ignore anything their mentor says",
+        "Shift the mentoring approach toward asking open-ended questions about the Green Belt's specific current challenges and letting the mentor's own experience surface in response to those questions, rather than leading with unprompted stories — making the mentee's actual needs the center of the conversation",
+        "Continue as-is, since sharing past experience is the only valuable thing a mentor can offer"
+      ],
+      "answer": 2,
+      "why": "Effective mentoring centers the mentee's actual current needs (surfaced through open-ended questions) rather than leading with the mentor's own unprompted experience — a correctable coaching-of-the-coach adjustment, not grounds for removal. Source: [BOK] Domain V.B, Coaching Teams and Individuals.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-015"
+    },
+    "corrected": {
+      "sub": "mbb-coaching",
+      "stem": "An experienced Black Belt mentor spends most sessions describing past projects. The new Green Belt leaves without an agreed next action on the current project, although some of the examples are relevant. Which coaching adjustment should the MBB recommend and subsequently evaluate?",
+      "options": [
+        "Standardize a sequence of the mentor's past projects and measure session quality by the number of examples covered each month.",
+        "Ask the Green Belt to listen without interruption and submit written questions only after the mentor has finished the planned stories.",
+        "Start with the mentee's current goal and questions, use relevant experience selectively, and finish with a mentee-owned action and a later application check.",
+        "Replace all mentoring discussion with a repository of case studies and let download counts indicate whether the Green Belt is developing."
+      ],
+      "answer": 2,
+      "why": "Mentoring can legitimately include advice and experience, but those resources should serve the learner's current needs. An agreed goal, open questions, selective examples and an owned next action connect the discussion to application. Later review should examine progress and learning rather than story counts or downloads. This corrects the observed pattern without claiming that all storytelling is inappropriate. Source alignment: ASQ CMBB Body of Knowledge, V.B.1 Belt coaching and mentoring. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d5-015",
+      "optionRationales": [
+        "Incorrect. Counting examples measures delivery activity rather than whether the current challenge is being addressed.",
+        "Incorrect. It further delays exploration of the mentee's needs and retains the one-way structure causing the problem.",
+        "Correct. It preserves useful mentoring expertise while centering the current goal, action and evidence of application.",
+        "Incorrect. A resource repository can supplement mentoring but download counts do not demonstrate competence or problem resolution."
+      ],
+      "trap": "Relevant experience is a mentoring resource, not the outcome. Check whether the mentee can apply it to the current goal and own the next action.",
+      "distractors": [
+        "Incorrect. Counting examples measures delivery activity rather than whether the current challenge is being addressed.",
+        "Incorrect. It further delays exploration of the mentee's needs and retains the one-way structure causing the problem.",
+        "Correct. It preserves useful mentoring expertise while centering the current goal, action and evidence of application.",
+        "Incorrect. A resource repository can supplement mentoring but download counts do not demonstrate competence or problem resolution."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "V.B.1 Belt coaching and mentoring"
+        },
+        {
+          "title": "International Coaching Federation: Core Competencies and Code of Ethics",
+          "url": "https://coachingfederation.org/credentialing/coaching-competencies/icf-core-competencies/",
+          "locator": "Active listening, awareness, learner growth, agreements and ethical boundaries; complementary coaching principles, not ASQ credential rules"
+        }
+      ]
+    },
+    "issues": [
+      "Qualified storytelling prohibition; added goal setting, action ownership and measured follow-up."
+    ]
+  },
+  {
+    "number": 111,
+    "qid": "mbb:set-3:d6-001",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A gauge R&R study on a torque wrench used in an aerospace fastener line yields %Contribution (variance) of 22% for the measurement system. Using the standard AIAG-style guideline, how should this measurement system be classified, and what is the appropriate next step?",
+      "options": [
+        "Acceptable; no further action needed, since 22% is well below 50%",
+        "Unacceptable; the measurement system consumes too much of the total observed variation to reliably distinguish part-to-part differences, and should be improved (fixture redesign, operator retraining, or gauge replacement) before being used for capability or control decisions",
+        "The percentage is irrelevant; only the number of distinct categories matters",
+        "Marginal but usable for all decisions without qualification"
+      ],
+      "answer": 1,
+      "why": "Under common AIAG-style guidelines, %Contribution (a variance-based measure) above roughly 9% is generally unacceptable, and above ~1% but below 9% is often marginal; a 22% figure reflects a measurement system consuming too much of observed variation to be trusted for capability/control decisions without improvement. Source: [BOK] Domain VI.A, Measurement Systems Analysis.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-001"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A torque-wrench gage R&R study uses representative parts and a valid variance-component model. Measurement-system variance is 22% of total observed variance. The site's adopted guideline rejects greater than 30% study variation, equivalent to greater than 9% variance contribution. Which interpretation and response are justified before using this system for process capability decisions?",
+      "options": [
+        "It is conditionally acceptable at 22% study variation; use it for capability decisions and defer improvement until the variance contribution exceeds 30%.",
+        "It is unacceptable under the adopted guideline: study variation is about 46.9%; investigate the error components, improve the system and verify adequacy before relying on capability.",
+        "It is acceptable because parts account for 78% of observed variance; a majority part contribution is sufficient evidence of measurement adequacy.",
+        "It is unacceptable because measurement variation consumes 22% of the engineering tolerance; replace the wrench immediately without examining repeatability or reproducibility."
+      ],
+      "answer": 1,
+      "why": "The reported percentage divides variances, not standard deviations. The study-variation fraction is sqrt(0.22), so %Study Variation is approximately 46.9%, above the site's 30% screening limit. The variance contribution also exceeds 9%. The study does not provide engineering tolerance or identify which measurement component dominates; investigate those components and validate improvements rather than prescribe replacement without evidence. This is the stated guideline, not a universal ban on every possible measurement use. Source alignment: ASQ CMBB Body of Knowledge, VI.A Measurement Systems Analysis (MSA), Process Capability, and Control; VI.B.6 Components of variation. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-001",
+      "optionRationales": [
+        "Incorrect. It applies a standard-deviation threshold directly to a variance percentage; 22% contribution is not 22% study variation.",
+        "Correct. Taking the square root gives the appropriate scale, and component-based improvement followed by verification matches the stated decision rule.",
+        "Incorrect. A majority part contribution is not the adopted criterion; measurement-system variation still exceeds the stated threshold.",
+        "Incorrect. No tolerance percentage can be derived from the given variance contribution, and the cause of error has not been localized."
+      ],
+      "trap": "Variance percentages and standard-deviation percentages use different scales. Take the square root before comparing contribution with a study-variation threshold.",
+      "distractors": [
+        "Incorrect. It applies a standard-deviation threshold directly to a variance percentage; 22% contribution is not 22% study variation.",
+        "Correct. Taking the square root gives the appropriate scale, and component-based improvement followed by verification matches the stated decision rule.",
+        "Incorrect. A majority part contribution is not the adopted criterion; measurement-system variation still exceeds the stated threshold.",
+        "Incorrect. No tolerance percentage can be derived from the given variance contribution, and the cause of error has not been localized."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A Measurement Systems Analysis (MSA), Process Capability, and Control; VI.B.6 Components of variation"
+        },
+        {
+          "title": "Minitab: Is my measurement system acceptable?",
+          "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/supporting-topics/gage-r-r-and-wheeler-s-emp-studies/is-my-measurement-system-acceptable/",
+          "locator": "Study variation versus variance contribution; application-dependent acceptance guidance"
+        }
+      ]
+    },
+    "issues": [
+      "Made representative sampling and adopted guideline explicit; independently converted variance to SD; removed universal application claim and predetermined fix."
+    ]
+  },
+  {
+    "number": 112,
+    "qid": "mbb:set-3:d6-002",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A Gauge R&R study reports %Study Variation of 28% and Number of Distinct Categories (ndc) = 2. What does the ndc value specifically indicate, beyond the %Study Variation figure alone?",
+      "options": [
+        "An ndc of 2 is fully acceptable as long as %Study Variation is below 30%",
+        "ndc measures only operator-to-operator variation, unrelated to part discrimination",
+        "Nothing additional; ndc and %Study Variation always convey identical information",
+        "ndc estimates how many distinct groups of part values the measurement system can reliably distinguish; an ndc of 2 means the gauge can barely tell 'high' from 'low' and cannot meaningfully resolve finer part-to-part differences, a serious problem for process control even beyond the %Study Variation figure"
+      ],
+      "answer": 3,
+      "why": "ndc directly answers 'how many distinguishable groups can this gauge resolve' — a low ndc (commonly, below 5) signals the gauge cannot adequately discriminate between parts, a distinct and important piece of information beyond the %Study Variation figure alone. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-002"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A gage R&R report lists %Study Variation = 28% and ndc = 2. Both allegedly use the same nonnegative components, with total variance = part variance + gage variance and no historical-SD substitution. Use ndc = floor(1.41 × SDpart / SDgage); the site seeks at least 5 categories. Which MBB review conclusion is correct?",
+      "options": [
+        "The two values are consistent; ndc = 2 adds independent evidence that cannot be checked from the stated study-variation percentage.",
+        "The correct ndc is 5 after rounding 1.41 times the part-to-gage SD ratio to the nearest integer, so the stated requirement is met.",
+        "The correct ndc is 3 because part SD is 72% of total SD and the ratio is 1.41 × 72 / 28.",
+        "The values are inconsistent: the formula gives ndc = 4, still below 5; reconcile the report and investigate discrimination and sampling adequacy before approval."
+      ],
+      "answer": 3,
+      "why": "Let total SD be 1. Gage SD is 0.28, and part SD is sqrt(1 - 0.28 squared) = 0.96. Thus 1.41 × 0.96 / 0.28 = 4.8343, which truncates to ndc = 4, not 2 or 5. Standard deviations do not add linearly. Under this common component model, ndc and %Study Variation are related rather than independent evidence. Verify report settings and part representativeness; the corrected value still misses the site's five-category screen. Source alignment: ASQ CMBB Body of Knowledge, VI.A Measurement Systems Analysis (MSA), Process Capability, and Control; VI.B.6 Components of variation. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-002",
+      "optionRationales": [
+        "Incorrect. With the specified common components the relationship is checkable and the reported pair is mathematically inconsistent.",
+        "Incorrect. The stated formula truncates rather than rounds; 4.8343 gives four categories, not five.",
+        "Incorrect. Variances add under the stated model; subtracting standard-deviation percentages gives the wrong part SD.",
+        "Correct. The calculation gives four categories, identifies the report inconsistency and does not mistake correction of the report for measurement adequacy."
+      ],
+      "trap": "Under the specified common components, ndc and study variation are linked. Truncate 4.8343 to 4, and distinguish fixing the report from making the gage adequate.",
+      "distractors": [
+        "Incorrect. With the specified common components the relationship is checkable and the reported pair is mathematically inconsistent.",
+        "Incorrect. The stated formula truncates rather than rounds; 4.8343 gives four categories, not five.",
+        "Incorrect. Variances add under the stated model; subtracting standard-deviation percentages gives the wrong part SD.",
+        "Correct. The calculation gives four categories, identifies the report inconsistency and does not mistake correction of the report for measurement adequacy."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A Measurement Systems Analysis (MSA), Process Capability, and Control; VI.B.6 Components of variation"
+        },
+        {
+          "title": "Minitab: Using the number of distinct categories in a gage R&R study",
+          "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/supporting-topics/gage-r-r-and-wheeler-s-emp-studies/using-the-number-of-distinct-categories-in-a-gage-r-r-study/",
+          "locator": "1.41 times part-to-gage SD ratio, truncated to integer; minimum-five guideline"
+        },
+        {
+          "title": "Minitab: Is my measurement system acceptable?",
+          "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/supporting-topics/gage-r-r-and-wheeler-s-emp-studies/is-my-measurement-system-acceptable/",
+          "locator": "Study variation versus variance contribution; application-dependent acceptance guidance"
+        }
+      ]
+    },
+    "issues": [
+      "Confirmed numerical contradiction: 28% study variation implies ndc4, not2; converted flawed output into an explicit reconciliation task; corrected claim of independent information."
+    ]
+  },
+  {
+    "number": 113,
+    "qid": "mbb:set-3:d6-003",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A Black Belt's MSA study for a discrete pass/fail visual inspection reports Cohen's kappa of 0.40 between two inspectors. How should this be interpreted, and what should the MBB recommend?",
+      "options": [
+        "Kappa of 0.40 indicates excellent agreement; no action is needed",
+        "A kappa below 1.0 always means the inspection system must be replaced with 100% automated inspection",
+        "Kappa of 0.40 indicates only moderate agreement at best (commonly, kappa below 0.6-0.7 is considered inadequate for a production inspection decision); the MBB should recommend clarifying inspection criteria, retraining inspectors on ambiguous cases, and re-running the study before relying on this inspection system",
+        "Kappa is only applicable to continuous data and cannot be computed for pass/fail inspection"
+      ],
+      "answer": 2,
+      "why": "Kappa quantifies agreement beyond chance for categorical/attribute data; a value of 0.40 reflects only moderate agreement, well short of the threshold typically required (often 0.6-0.75+) to trust a pass/fail inspection system for production decisions. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "chart": {
+        "type": "data-table",
+        "columns": [
+          "Inspector 2: Pass",
+          "Inspector 2: Fail"
+        ],
+        "rows": [
+          [
+            "Inspector 1: Pass",
+            "30",
+            "20"
+          ],
+          [
+            "Inspector 1: Fail",
+            "10",
+            "40"
+          ]
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-003"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "Two inspectors independently classify the same 100 items once as pass or fail. The paired counts are shown below; no reference classifications are available. The site's screening criterion is Cohen's kappa at least 0.75. Using observed agreement and agreement expected from the marginal proportions, which conclusion should the MBB report?",
+      "options": [
+        "Kappa is 0.70, so only a five-percentage-point increase in overall agreement is needed to satisfy the site's 0.75 kappa criterion.",
+        "Kappa is 0.40, which establishes that 40% of the items were classified correctly and that the remaining 60% require reinspection.",
+        "Kappa is 0.40 and observed agreement is 70%; the screen is not met. Review disagreements and validate against reference classifications before claiming inspection accuracy.",
+        "Kappa is 0.40, but Inspector 2's 60% fail rate proves that this inspector is correct more often and should become the reference assessor."
+      ],
+      "answer": 2,
+      "why": "Observed agreement is (30 + 40) / 100 = 0.70. Inspector 1's pass/fail proportions are 0.50/0.50 and Inspector 2's are 0.40/0.60, giving expected agreement 0.50. Kappa is (0.70 - 0.50) / (1 - 0.50) = 0.40, below the stated screen. Agreement is not accuracy: without reference truth the error rate and better inspector cannot be identified. Review ambiguous criteria, collect appropriate reference and repeatability evidence, and consider uncertainty and category prevalence before validation. Source alignment: ASQ CMBB Body of Knowledge, VI.A.2 Attribute (discrete) measurement systems. Sources support principles, not ASQ authorship of this original scenario.",
+      "chart": {
+        "type": "data-table",
+        "title": "Paired inspector classifications (100 items)",
+        "altText": "Inspector 1 forms the rows and Inspector 2 the columns; paired counts sum to 100.",
+        "columns": [
+          "Inspector 1 classification",
+          "Inspector 2: Pass",
+          "Inspector 2: Fail",
+          "Row total"
+        ],
+        "rows": [
+          [
+            "Pass",
+            "30",
+            "20",
+            "50"
+          ],
+          [
+            "Fail",
+            "10",
+            "40",
+            "50"
+          ],
+          [
+            "Column total",
+            "40",
+            "60",
+            "100"
+          ]
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-003",
+      "optionRationales": [
+        "Incorrect. It confuses raw agreement with chance-adjusted kappa; a five-point change in one does not automatically yield the stated kappa.",
+        "Incorrect. Kappa is not a percentage of correct classifications, and no reference truth is supplied.",
+        "Correct. Both numerical results follow from the table, and the action distinguishes insufficient agreement from unmeasured classification accuracy.",
+        "Incorrect. A higher fail rate does not establish correct decisions or qualify an inspector as the reference standard."
+      ],
+      "trap": "Kappa is neither raw agreement nor the percentage correct. A reference standard is needed for an accuracy claim; marginal proportions determine expected agreement.",
+      "distractors": [
+        "Incorrect. It confuses raw agreement with chance-adjusted kappa; a five-point change in one does not automatically yield the stated kappa.",
+        "Incorrect. Kappa is not a percentage of correct classifications, and no reference truth is supplied.",
+        "Correct. Both numerical results follow from the table, and the action distinguishes insufficient agreement from unmeasured classification accuracy.",
+        "Incorrect. A higher fail rate does not establish correct decisions or qualify an inspector as the reference standard."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A.2 Attribute (discrete) measurement systems"
+        },
+        {
+          "title": "Minitab: Kappa statistics for Attribute Agreement Analysis",
+          "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/how-to/attribute-agreement-analysis/attribute-agreement-analysis/interpret-the-results/all-statistics-and-graphs/kappa-statistics/",
+          "locator": "Chance-adjusted agreement; between-appraiser agreement is distinct from agreement with a standard"
+        }
+      ]
+    },
+    "issues": [
+      "Corrected ragged two-column/three-cell table; replaced universal moderate/inadequate labels with explicit site criterion; added agreement versus accuracy and uncertainty limits."
+    ]
+  },
+  {
+    "number": 114,
+    "qid": "mbb:set-3:d6-004",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A process has USL = 62, LSL = 38, process mean = 51, and process standard deviation = 4. What is Cpk, and what does the value indicate about the process relative to its specification limits?",
+      "options": [
+        "Cpk cannot be calculated without knowing the sample size used to estimate the standard deviation",
+        "Cpk = 2.0; the process exceeds Six Sigma capability",
+        "Cpk = 0.92; the process is shifted toward the USL side and is only marginally capable — min[(62-51)/(3×4), (51-38)/(3×4)] = min[0.917, 1.083] = 0.92, below the common 1.33 target for a well-controlled process",
+        "Cpk = 1.33; the process is well-centered and capable relative to the specification limits"
+      ],
+      "answer": 2,
+      "why": "Cpu = (62-51)/(3×4) = 11/12 = 0.917; Cpl = (51-38)/(3×4) = 13/12 = 1.083; Cpk = min(0.917, 1.083) = 0.92, indicating the process is closer to the upper limit and only marginally capable — below the common 1.33 benchmark for a well-controlled process. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-004"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A stable, approximately normal diameter process has adequate measurement capability. Specifications are LSL = 38 mm and USL = 62 mm; estimated mean = 51 mm and within-subgroup SD = 4 mm. The customer's stated Cpk target is 1.33. Calculate the point estimate to two decimals and select the appropriate conclusion; no confidence interval is requested.",
+      "options": [
+        "Cpk = 1.00; because Cp also equals 1.00, the process is centered and no adjustment of its location is indicated.",
+        "Cpk = 1.08; use the larger one-sided index because the lower specification is farther from the process mean.",
+        "Cpk = 0.92; the upper specification is nearer and the point estimate misses 1.33. Capability below target does not mean the process is unstable.",
+        "Cpk = 1.33; the mean is inside specifications and this is sufficient to establish that the customer's capability target is met."
+      ],
+      "answer": 2,
+      "why": "Cpu = (62 - 51) / (3 × 4) = 0.9167 and Cpl = (51 - 38) / (3 × 4) = 1.0833. Cpk takes the smaller index, so the point estimate is 0.92. Cp = (62 - 38) / (6 × 4) = 1.00; the mean lies above the specification midpoint of 50 mm. Even recentering alone leaves Cp below 1.33. Stability is a separate question and is given here; sample information would be needed for an uncertainty interval, not for this point calculation. Source alignment: ASQ CMBB Body of Knowledge, VI.A Measurement Systems Analysis (MSA), Process Capability, and Control. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-004",
+      "optionRationales": [
+        "Incorrect. The value 1.00 is Cp, which ignores centering; the estimated mean is 1 mm above the specification midpoint.",
+        "Incorrect. Cpk uses the smaller, limiting one-sided index rather than the larger one.",
+        "Correct. The minimum is 11/12, which rounds to 0.92; it misses the stated requirement despite the stipulated stability.",
+        "Incorrect. Having a mean between the specifications does not establish the required tail clearance relative to process variation."
+      ],
+      "trap": "Cpk is the smaller one-sided index and reflects centering. Cp = 1 means recentering alone cannot achieve the stated 1.33 target at the same variation.",
+      "distractors": [
+        "Incorrect. The value 1.00 is Cp, which ignores centering; the estimated mean is 1 mm above the specification midpoint.",
+        "Incorrect. Cpk uses the smaller, limiting one-sided index rather than the larger one.",
+        "Correct. The minimum is 11/12, which rounds to 0.92; it misses the stated requirement despite the stipulated stability.",
+        "Incorrect. Having a mean between the specifications does not establish the required tail clearance relative to process variation."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A Measurement Systems Analysis (MSA), Process Capability, and Control"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: What is process capability?",
+          "url": "https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm",
+          "locator": "Cp, Cpu, Cpl, Cpk formulas, centering and normal-distribution interpretation"
+        }
+      ]
+    },
+    "issues": [
+      "Added units, within-SD, normality, stability and explicit customer target; corrected marginal-capable label and control-versus-capability conflation; strengthened distractors."
+    ]
+  },
+  {
+    "number": 115,
+    "qid": "mbb:set-3:d6-005",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "An X-bar and R control chart for a fill-weight process shows the X-bar chart in control, but the R-chart shows point 6 above the UCL. What is the most defensible interpretation, and what should happen before the X-bar chart is trusted?",
+      "options": [
+        "Both charts should be discarded and the process restarted from a completely new baseline",
+        "The X-bar chart's control status is fully valid regardless of the out-of-control R-chart point",
+        "An out-of-control R-chart indicates increased within-subgroup variability at that point, which can distort the X-bar chart's control limits (since they're derived from the average range); the special cause behind the R-chart signal should be investigated and, if assignable, removed before recalculating limits and trusting the X-bar chart's in-control read",
+        "The R-chart should simply be discarded and only the X-bar chart used going forward"
+      ],
+      "answer": 2,
+      "why": "Because X-bar chart control limits are calculated from the average range, an out-of-control R-chart point can invalidate the X-bar limits derived from that data; the correct sequence is to always check the R-chart first, investigate/resolve special causes there, then trust the X-bar chart. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "chart": {
+        "type": "xbar-r",
+        "xbar": {
+          "ucl": 52.1,
+          "cl": 50,
+          "lcl": 47.9,
+          "data": [
+            50.2,
+            49.8,
+            50.5,
+            49.6,
+            50.1,
+            50.9,
+            49.7,
+            50.3
+          ]
+        },
+        "r": {
+          "ucl": 6.2,
+          "cl": 2.9,
+          "lcl": 0,
+          "data": [
+            2.5,
+            3.1,
+            2.8,
+            3.4,
+            2.6,
+            7.8,
+            2.9,
+            3
+          ]
+        }
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-005"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A Phase II fill-weight chart uses fixed limits from a previously validated stable baseline: subgroup size n = 5, baseline grand mean 50 g, baseline average range 2.9 g, A2 = 0.577, D3 = 0 and D4 = 2.115. Eight new subgroups are plotted. With the one-point-beyond-3-sigma rule enabled, which interpretation and response are appropriate?",
+      "options": [
+        "Widen both charts using the eight new subgroups immediately; this makes the range signal part of the current estimate of normal process variation.",
+        "Release the process as stable because the subgroup means remain inside their limits; range-chart signals matter only when the mean chart also signals.",
+        "Investigate subgroup 6's range signal and assess affected output. Do not claim overall stability or automatically recalculate the valid historical limits from this new signal.",
+        "Delete subgroup 6 from both plots without checking its records, then use the remaining seven subgroups to replace the historical baseline."
+      ],
+      "answer": 2,
+      "why": "The mean limits are 50 ± 0.577 × 2.9 = 48.3267 and 51.6733 g. The range UCL is 2.115 × 2.9 = 6.1335 g, with LCL 0. New subgroup 6 has range 7.8 g and signals; the eight means are within the fixed mean limits. A new Phase II signal does not retroactively invalidate a sound historical baseline. Investigate the cause and output risk, document any exclusion or process change, and rebaseline only when justified. Stability of dispersion must not be ignored. Source alignment: ASQ CMBB Body of Knowledge, VI.A Measurement Systems Analysis (MSA), Process Capability, and Control. Sources support principles, not ASQ authorship of this original scenario.",
+      "chart": {
+        "type": "xbar-r",
+        "title": "Fixed-baseline X-bar and R charts",
+        "altText": "Eight new subgroups, n=5. Dashed references are the fixed historical control limits and centerlines, not specification limits.",
+        "labels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "meanData": [
+          50.2,
+          49.8,
+          50.5,
+          49.6,
+          50.1,
+          50.9,
+          49.7,
+          50.3
+        ],
+        "rangeData": [
+          2.5,
+          3.1,
+          2.8,
+          3.4,
+          2.6,
+          7.8,
+          2.9,
+          3
+        ],
+        "xbarLimits": [
+          51.6733,
+          50,
+          48.3267
+        ],
+        "rLimits": [
+          6.1335,
+          2.9,
+          0
+        ],
+        "evidence": {
+          "title": "Fixed-baseline X-bar and R charts — numerical alternative",
+          "columns": [
+            "Subgroup",
+            "Mean (g)",
+            "Range (g)"
+          ],
+          "rows": [
+            [
+              "1",
+              "50.2",
+              "2.5"
+            ],
+            [
+              "2",
+              "49.8",
+              "3.1"
+            ],
+            [
+              "3",
+              "50.5",
+              "2.8"
+            ],
+            [
+              "4",
+              "49.6",
+              "3.4"
+            ],
+            [
+              "5",
+              "50.1",
+              "2.6"
+            ],
+            [
+              "6",
+              "50.9",
+              "7.8"
+            ],
+            [
+              "7",
+              "49.7",
+              "2.9"
+            ],
+            [
+              "8",
+              "50.3",
+              "3"
+            ]
+          ]
+        }
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-005",
+      "optionRationales": [
+        "Incorrect. Re-estimating limits immediately can absorb the special-cause signal and hide a change rather than explain it.",
+        "Incorrect. A dispersion signal is evidence against overall stability even when subgroup averages have not crossed their limits.",
+        "Correct. It recognizes the specific range signal, preserves the meaning of fixed historical limits and calls for investigation and risk assessment.",
+        "Incorrect. An unexplained point cannot be deleted simply because it signals, and seven remaining subgroups do not justify this automatic rebaseline."
+      ],
+      "trap": "A new Phase II signal does not erase a sound historical baseline. Investigate dispersion and output risk; do not widen limits to absorb the signal.",
+      "distractors": [
+        "Incorrect. Re-estimating limits immediately can absorb the special-cause signal and hide a change rather than explain it.",
+        "Incorrect. A dispersion signal is evidence against overall stability even when subgroup averages have not crossed their limits.",
+        "Correct. It recognizes the specific range signal, preserves the meaning of fixed historical limits and calls for investigation and risk assessment.",
+        "Incorrect. An unexplained point cannot be deleted simply because it signals, and seven remaining subgroups do not justify this automatic rebaseline."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A Measurement Systems Analysis (MSA), Process Capability, and Control"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: X-bar and R charts",
+          "url": "https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc321.htm",
+          "locator": "Control-limit formulas and n=5 factors A2=0.577, D3=0, D4=2.115"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: Shewhart control charts",
+          "url": "https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm",
+          "locator": "Control versus specification limits, Western Electric eight-point rule and justified limit revisions"
+        }
+      ]
+    },
+    "issues": [
+      "Corrected inconsistent chart constants/limits; made PhaseII baseline explicit; removed automatic recalculation and retroactive-baseline-invalidity claims."
+    ]
+  },
+  {
+    "number": 116,
+    "qid": "mbb:set-3:d6-006",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A boxplot of cycle-time data from a claims-processing center shows a median of 4.2 days, with several points plotted well above the upper whisker. What should the MBB investigate first regarding these points?",
+      "options": [
+        "Investigate the outlier points as potential signals of a special cause (e.g., unusually complex claims, a system outage, or a specific under-trained processor) before deciding whether to exclude them — outliers may represent real, actionable process behavior rather than simply bad data",
+        "Immediately delete the outlier points from the dataset without further investigation, since outliers always represent bad data",
+        "Recompute the median including only the outlier points",
+        "Ignore the outliers entirely and report only the median, since boxplots are unaffected by outlier interpretation"
+      ],
+      "answer": 0,
+      "why": "Outliers on a boxplot should prompt investigation into their root cause before any decision to exclude them — they may represent genuine, actionable special-cause behavior (a specific complexity driver, system issue, etc.) rather than simply noise to be discarded. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "chart": {
+        "type": "boxplot",
+        "min": 2.1,
+        "q1": 3.4,
+        "median": 4.2,
+        "q3": 5.1,
+        "max": 6.8,
+        "mean": 4.5,
+        "outliers": [
+          9.2,
+          10.1,
+          11.4
+        ],
+        "axisMin": 0,
+        "axisMax": 12
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-006"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A claims-cycle-time boxplot uses Tukey's 1.5 × IQR rule. Its quartiles are 3.4 and 5.1 days, median 4.2 days, and largest observation inside the upper fence 6.8 days. Three observations are 9.2, 10.1 and 11.4 days. Before excluding any records, what should the MBB conclude and investigate?",
+      "options": [
+        "The three observations exceed the 7.65-day upper fence. Check records, timing and claim mix; a boxplot flag alone proves neither bad data nor an SPC special cause.",
+        "The upper fence is 6.8 days, so all values above the whisker are confirmed recording errors that should be removed before further analysis.",
+        "The three observations demonstrate that the process was out of statistical control at those times, even without time-order or baseline evidence.",
+        "The median of 4.2 days makes the high observations irrelevant to service performance, so only the central half of claims should be retained."
+      ],
+      "answer": 0,
+      "why": "IQR = 5.1 - 3.4 = 1.7 days, so the upper fence is 5.1 + 1.5 × 1.7 = 7.65 days. The upper whisker ends at the largest observation inside that fence, 6.8 days; it is not the dataset maximum, which is 11.4. All three flagged values warrant context and record checks. They may be legitimate observations from a skewed distribution or a different case mix. Do not infer a time-based special cause or remove data solely from a boxplot flag. Source alignment: ASQ CMBB Body of Knowledge, VI.A Measurement Systems Analysis (MSA), Process Capability, and Control. Sources support principles, not ASQ authorship of this original scenario.",
+      "chart": {
+        "type": "boxplot",
+        "title": "Claims cycle time (days)",
+        "altText": "Box spans Q1 to Q3, line marks median, whiskers end at observations inside 1.5-IQR fences. Three separately plotted high observations are retained.",
+        "q1": 3.4,
+        "q3": 5.1,
+        "median": 4.2,
+        "lowerWhisker": 2.1,
+        "upperWhisker": 6.8,
+        "mean": 4.5,
+        "outliers": [
+          9.2,
+          10.1,
+          11.4
+        ],
+        "evidence": {
+          "title": "Claims cycle time (days) — numerical alternative",
+          "columns": [
+            "Statistic or observation",
+            "Days"
+          ],
+          "rows": [
+            [
+              "Lower whisker",
+              "2.1"
+            ],
+            [
+              "Q1",
+              "3.4"
+            ],
+            [
+              "Median",
+              "4.2"
+            ],
+            [
+              "Q3",
+              "5.1"
+            ],
+            [
+              "Upper whisker",
+              "6.8"
+            ],
+            [
+              "Mean (provided summary)",
+              "4.5"
+            ],
+            [
+              "High observation 1",
+              "9.2"
+            ],
+            [
+              "High observation 2",
+              "10.1"
+            ],
+            [
+              "High observation 3",
+              "11.4"
+            ]
+          ]
+        }
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-006",
+      "optionRationales": [
+        "Correct. It calculates the fence correctly and preserves the distinction between a descriptive outlier flag and evidence of an error or special cause.",
+        "Incorrect. The whisker endpoint is an observed value inside the fence, not the fence itself or proof that other records are erroneous.",
+        "Incorrect. A distributional display without appropriate time-order and baseline evidence does not establish statistical-control violations.",
+        "Incorrect. Long-cycle claims can be central to service risk even when a robust median changes little; discarding them changes the population being assessed."
+      ],
+      "trap": "A Tukey whisker is not necessarily the maximum observation. An outlier label is descriptive, not proof of a recording error or a time-based special cause.",
+      "distractors": [
+        "Correct. It calculates the fence correctly and preserves the distinction between a descriptive outlier flag and evidence of an error or special cause.",
+        "Incorrect. The whisker endpoint is an observed value inside the fence, not the fence itself or proof that other records are erroneous.",
+        "Incorrect. A distributional display without appropriate time-order and baseline evidence does not establish statistical-control violations.",
+        "Incorrect. Long-cycle claims can be central to service risk even when a robust median changes little; discarding them changes the population being assessed."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A Measurement Systems Analysis (MSA), Process Capability, and Control"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: Box plot",
+          "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/boxplot.htm",
+          "locator": "Quartiles, fences and outlier labeling"
+        }
+      ]
+    },
+    "issues": [
+      "Specified whisker rule, units and fence; corrected max-versus-whisker semantics and outlier-to-special-cause inference."
+    ]
+  },
+  {
+    "number": 117,
+    "qid": "mbb:set-3:d6-007",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A normal probability plot of 24 measurements from a chemical purity process shows most points falling close to the reference line, but the two lowest values curve noticeably away from it. What does this pattern most likely suggest?",
+      "options": [
+        "The plot indicates a strongly bimodal distribition affecting all 24 points equally",
+        "Normal probability plots cannot detect any deviation from normality by design",
+        "The bulk of the data is reasonably consistent with normality, but the two low-end points may represent a distinct subpopulation or special cause (e.g., a different raw material lot) rather than being part of the same underlying normal distribution — worth investigating those two points specifically rather than concluding non-normality for the whole dataset",
+        "The entire dataset is non-normal and should be discarded"
+      ],
+      "answer": 2,
+      "why": "A normal probability plot where most points track the reference line but a few clear outliers deviate suggests investigating those specific points as a potential distinct subpopulation or special cause, rather than concluding the entire dataset is non-normal. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "chart": {
+        "type": "normal-prob",
+        "values": [
+          12.1,
+          12.3,
+          12.4,
+          12.5,
+          12.5,
+          12.6,
+          12.6,
+          12.7,
+          12.7,
+          12.7,
+          12.8,
+          12.8,
+          12.8,
+          12.9,
+          12.9,
+          13,
+          13,
+          13.1,
+          13.1,
+          13.2,
+          13.3,
+          13.4,
+          8.9,
+          9.1
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-007"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A normal probability plot displays all 24 purity-assay results in mass percent. Twenty-two values range from 12.1% to 13.4%, while two are 8.9% and 9.1%. The central observations are near a straight reference trend; the low tail departs markedly. Which conclusion best guides the MBB's next analysis?",
+      "options": [
+        "The plot proves a second raw-material population; fit two distributions immediately and omit the low observations from the main capability report.",
+        "Because 22 of 24 values appear roughly linear, the complete sample has demonstrated normality and the low values need no investigation.",
+        "Check the two low results and their lot/time context, retaining valid observations; the pattern questions a single normal model but does not establish a specific cause.",
+        "Discard all 24 observations and restart sampling because any departure from the reference line makes the entire measurement study unusable."
+      ],
+      "answer": 2,
+      "why": "The two low measurements are present in the actual plotted dataset, not inferred from an unlabeled sketch. Their separation makes them a useful focus for record, measurement and process-context checks. The display raises doubt about a single normal model for the whole sample, but it does not identify a lot effect or prove a mixture. A straight central portion is not proof that the full population is normal. Keep valid records and choose subsequent modeling or stratification based on evidence rather than deletion to improve a fit. Source alignment: ASQ CMBB Body of Knowledge, VI.A.5 Process capability for non-normal data. Sources support principles, not ASQ authorship of this original scenario.",
+      "chart": {
+        "type": "normal-prob",
+        "title": "All 24 purity-assay observations",
+        "altText": "Ordered purity against Filliben theoretical normal quantiles. The dashed reference passes through the sample quartiles using linear-interpolated quartiles; it is not a hypothesis test.",
+        "values": [
+          12.1,
+          12.3,
+          12.4,
+          12.5,
+          12.5,
+          12.6,
+          12.6,
+          12.7,
+          12.7,
+          12.7,
+          12.8,
+          12.8,
+          12.8,
+          12.9,
+          12.9,
+          13.0,
+          13.0,
+          13.1,
+          13.1,
+          13.2,
+          13.3,
+          13.4,
+          8.9,
+          9.1
+        ],
+        "points": [
+          {
+            "rank": 1,
+            "value": 8.9,
+            "probability": 0.02846805884639414,
+            "z": -1.9038009122306798
+          },
+          {
+            "rank": 2,
+            "value": 9.1,
+            "probability": 0.06905397085983994,
+            "z": -1.482873807168146
+          },
+          {
+            "rank": 3,
+            "value": 12.1,
+            "probability": 0.11009644982556947,
+            "z": -1.2260153473499953
+          },
+          {
+            "rank": 4,
+            "value": 12.3,
+            "probability": 0.151138928791299,
+            "z": -1.0315609161350217
+          },
+          {
+            "rank": 5,
+            "value": 12.4,
+            "probability": 0.19218140775702855,
+            "z": -0.869885801503279
+          },
+          {
+            "rank": 6,
+            "value": 12.5,
+            "probability": 0.23322388672275807,
+            "z": -0.7282708978180911
+          },
+          {
+            "rank": 7,
+            "value": 12.5,
+            "probability": 0.2742663656884876,
+            "z": -0.5999602436906024
+          },
+          {
+            "rank": 8,
+            "value": 12.6,
+            "probability": 0.31530884465421716,
+            "z": -0.48085762800058
+          },
+          {
+            "rank": 9,
+            "value": 12.6,
+            "probability": 0.35635132361994665,
+            "z": -0.3682287868067115
+          },
+          {
+            "rank": 10,
+            "value": 12.7,
+            "probability": 0.3973938025856762,
+            "z": -0.26009874602991956
+          },
+          {
+            "rank": 11,
+            "value": 12.7,
+            "probability": 0.4384362815514057,
+            "z": -0.15493499706475639
+          },
+          {
+            "rank": 12,
+            "value": 12.7,
+            "probability": 0.4794787605171352,
+            "z": -0.051461824655829
+          },
+          {
+            "rank": 13,
+            "value": 12.8,
+            "probability": 0.5205212394828648,
+            "z": 0.051461824655829
+          },
+          {
+            "rank": 14,
+            "value": 12.8,
+            "probability": 0.5615637184485943,
+            "z": 0.15493499706475639
+          },
+          {
+            "rank": 15,
+            "value": 12.8,
+            "probability": 0.6026061974143239,
+            "z": 0.2600987460299197
+          },
+          {
+            "rank": 16,
+            "value": 12.9,
+            "probability": 0.6436486763800534,
+            "z": 0.3682287868067116
+          },
+          {
+            "rank": 17,
+            "value": 12.9,
+            "probability": 0.684691155345783,
+            "z": 0.48085762800058035
+          },
+          {
+            "rank": 18,
+            "value": 13.0,
+            "probability": 0.7257336343115125,
+            "z": 0.5999602436906027
+          },
+          {
+            "rank": 19,
+            "value": 13.0,
+            "probability": 0.766776113277242,
+            "z": 0.7282708978180915
+          },
+          {
+            "rank": 20,
+            "value": 13.1,
+            "probability": 0.8078185922429716,
+            "z": 0.8698858015032793
+          },
+          {
+            "rank": 21,
+            "value": 13.1,
+            "probability": 0.8488610712087011,
+            "z": 1.031560916135022
+          },
+          {
+            "rank": 22,
+            "value": 13.2,
+            "probability": 0.8899035501744307,
+            "z": 1.2260153473499962
+          },
+          {
+            "rank": 23,
+            "value": 13.3,
+            "probability": 0.9309460291401601,
+            "z": 1.4828738071681467
+          },
+          {
+            "rank": 24,
+            "value": 13.4,
+            "probability": 0.9715319411536059,
+            "z": 1.9038009122306798
+          }
+        ],
+        "reference": {
+          "slope": 0.3706505546264005,
+          "intercept": 12.75
+        },
+        "evidence": {
+          "title": "All 24 purity-assay observations — numerical alternative",
+          "columns": [
+            "Ordered rank",
+            "Purity (mass %)",
+            "Normal quantile"
+          ],
+          "rows": [
+            [
+              "1",
+              "8.9",
+              "-1.903801"
+            ],
+            [
+              "2",
+              "9.1",
+              "-1.482874"
+            ],
+            [
+              "3",
+              "12.1",
+              "-1.226015"
+            ],
+            [
+              "4",
+              "12.3",
+              "-1.031561"
+            ],
+            [
+              "5",
+              "12.4",
+              "-0.869886"
+            ],
+            [
+              "6",
+              "12.5",
+              "-0.728271"
+            ],
+            [
+              "7",
+              "12.5",
+              "-0.59996"
+            ],
+            [
+              "8",
+              "12.6",
+              "-0.480858"
+            ],
+            [
+              "9",
+              "12.6",
+              "-0.368229"
+            ],
+            [
+              "10",
+              "12.7",
+              "-0.260099"
+            ],
+            [
+              "11",
+              "12.7",
+              "-0.154935"
+            ],
+            [
+              "12",
+              "12.7",
+              "-0.051462"
+            ],
+            [
+              "13",
+              "12.8",
+              "0.051462"
+            ],
+            [
+              "14",
+              "12.8",
+              "0.154935"
+            ],
+            [
+              "15",
+              "12.8",
+              "0.260099"
+            ],
+            [
+              "16",
+              "12.9",
+              "0.368229"
+            ],
+            [
+              "17",
+              "12.9",
+              "0.480858"
+            ],
+            [
+              "18",
+              "13.0",
+              "0.59996"
+            ],
+            [
+              "19",
+              "13.0",
+              "0.728271"
+            ],
+            [
+              "20",
+              "13.1",
+              "0.869886"
+            ],
+            [
+              "21",
+              "13.1",
+              "1.031561"
+            ],
+            [
+              "22",
+              "13.2",
+              "1.226015"
+            ],
+            [
+              "23",
+              "13.3",
+              "1.482874"
+            ],
+            [
+              "24",
+              "13.4",
+              "1.903801"
+            ]
+          ]
+        }
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-007",
+      "optionRationales": [
+        "Incorrect. The plot does not identify provenance or prove a mixture, and automatic deletion would bias the assessed population.",
+        "Incorrect. Apparent linearity of a selected central subset does not validate normality for all 24 observations.",
+        "Correct. It links the visible tail deviation to appropriate investigation without overclaiming its cause or discarding valid evidence.",
+        "Incorrect. A model-assumption concern does not make every recorded observation invalid or require wholesale replacement of the study."
+      ],
+      "trap": "A straight central subset does not prove full-sample normality. Check the low observations and their provenance before deleting, stratifying or fitting a mixture.",
+      "distractors": [
+        "Incorrect. The plot does not identify provenance or prove a mixture, and automatic deletion would bias the assessed population.",
+        "Incorrect. Apparent linearity of a selected central subset does not validate normality for all 24 observations.",
+        "Correct. It links the visible tail deviation to appropriate investigation without overclaiming its cause or discarding valid evidence.",
+        "Incorrect. A model-assumption concern does not make every recorded observation invalid or require wholesale replacement of the study."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A.5 Process capability for non-normal data"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: Normal probability plot",
+          "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/normprpl.htm",
+          "locator": "Normal quantile plot and Filliben order-statistic plotting positions"
+        }
+      ]
+    },
+    "issues": [
+      "Corrected typo and full-sample normality overclaim; retained24 actual values; real inverse-normal positions, labelled units and numeric alternative specified."
+    ]
+  },
+  {
+    "number": 118,
+    "qid": "mbb:set-3:d6-008",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A precision-versus-accuracy target diagram is used to teach new Black Belts the distinction between the two concepts using four labeled panels (A-D) showing different combinations of tight/loose clustering and on-target/off-target centering. Which panel would correctly illustrate 'high precision, low accuracy'?",
+      "options": [
+        "A panel showing points tightly clustered exactly on the target",
+        "A panel showing points scattered widely but centered on the target",
+        "A panel showing points tightly clustered together but consistently offset from the target center — tight clustering indicates high precision (low variability), while the systematic offset from the true target indicates low accuracy (bias)",
+        "A panel showing points scattered widely and also offset from the target"
+      ],
+      "answer": 2,
+      "why": "High precision means low variability (tight clustering); low accuracy means the measurements are biased away from the true value — the combination is tight clustering that is consistently off-center from the target, distinct from the other three quadrant combinations. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "chart": {
+        "type": "precision-accuracy"
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-008"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "Four illustrative target panels A–D show repeated measurement errors relative to a reference at the center. Their coordinate scale is identical. A proposed correction can shift a panel's mean error but cannot change its repeatability spread. Which panel best represents high precision with substantial systematic offset, making a validated offset correction the first candidate rather than averaging alone?",
+      "options": [
+        "Panel A: the clustered results near the reference indicate that a substantial offset correction is needed before any further use.",
+        "Panel B: the widely dispersed results centered near the reference indicate a large constant offset but little repeatability error.",
+        "Panel C: the results cluster tightly away from the reference; assess an offset correction and verify residual bias and repeatability afterward.",
+        "Panel D: the widely dispersed, displaced results indicate that shifting their average alone will also make the individual readings precise."
+      ],
+      "answer": 2,
+      "why": "Panel C combines small repeatability spread with a displaced mean relative to the reference. A suitable validated correction may address that systematic component, but averaging alone does not remove a constant bias. Panel A is already clustered near the reference; B has large spread with a near-centered average; D combines large spread with offset. Accuracy is broader than mean centering: an on-target average does not make imprecise individual measurements accurate. This schematic does not quantify uncertainty for a real instrument. Source alignment: ASQ CMBB Body of Knowledge, VI.A Measurement Systems Analysis (MSA), Process Capability, and Control. Sources support principles, not ASQ authorship of this original scenario.",
+      "chart": {
+        "type": "precision-accuracy",
+        "title": "Four illustrative target panels",
+        "altText": "Panels A–D use identical error-coordinate scales and the same central reference. Coordinates in the numerical alternative describe every marker without assigning a diagnosis.",
+        "panels": [
+          {
+            "label": "A",
+            "points": [
+              [
+                -0.4,
+                -0.2
+              ],
+              [
+                0.3,
+                0.2
+              ],
+              [
+                0.2,
+                -0.3
+              ],
+              [
+                -0.2,
+                0.4
+              ],
+              [
+                0.1,
+                0.1
+              ]
+            ]
+          },
+          {
+            "label": "B",
+            "points": [
+              [
+                -5,
+                -3
+              ],
+              [
+                5,
+                3
+              ],
+              [
+                -4,
+                4
+              ],
+              [
+                4,
+                -4
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          {
+            "label": "C",
+            "points": [
+              [
+                3.6,
+                2.8
+              ],
+              [
+                4.3,
+                3.2
+              ],
+              [
+                4.2,
+                2.7
+              ],
+              [
+                3.8,
+                3.4
+              ],
+              [
+                4.1,
+                3.1
+              ]
+            ]
+          },
+          {
+            "label": "D",
+            "points": [
+              [
+                -2,
+                -6
+              ],
+              [
+                8,
+                0
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                7,
+                -7
+              ],
+              [
+                3,
+                -3
+              ]
+            ]
+          }
+        ],
+        "evidence": {
+          "title": "Four illustrative target panels — numerical alternative",
+          "columns": [
+            "Panel",
+            "Reading",
+            "Horizontal error (units)",
+            "Vertical error (units)"
+          ],
+          "rows": [
+            [
+              "A",
+              "1",
+              "-0.4",
+              "-0.2"
+            ],
+            [
+              "A",
+              "2",
+              "0.3",
+              "0.2"
+            ],
+            [
+              "A",
+              "3",
+              "0.2",
+              "-0.3"
+            ],
+            [
+              "A",
+              "4",
+              "-0.2",
+              "0.4"
+            ],
+            [
+              "A",
+              "5",
+              "0.1",
+              "0.1"
+            ],
+            [
+              "B",
+              "1",
+              "-5",
+              "-3"
+            ],
+            [
+              "B",
+              "2",
+              "5",
+              "3"
+            ],
+            [
+              "B",
+              "3",
+              "-4",
+              "4"
+            ],
+            [
+              "B",
+              "4",
+              "4",
+              "-4"
+            ],
+            [
+              "B",
+              "5",
+              "0",
+              "0"
+            ],
+            [
+              "C",
+              "1",
+              "3.6",
+              "2.8"
+            ],
+            [
+              "C",
+              "2",
+              "4.3",
+              "3.2"
+            ],
+            [
+              "C",
+              "3",
+              "4.2",
+              "2.7"
+            ],
+            [
+              "C",
+              "4",
+              "3.8",
+              "3.4"
+            ],
+            [
+              "C",
+              "5",
+              "4.1",
+              "3.1"
+            ],
+            [
+              "D",
+              "1",
+              "-2",
+              "-6"
+            ],
+            [
+              "D",
+              "2",
+              "8",
+              "0"
+            ],
+            [
+              "D",
+              "3",
+              "-1",
+              "1"
+            ],
+            [
+              "D",
+              "4",
+              "7",
+              "-7"
+            ],
+            [
+              "D",
+              "5",
+              "3",
+              "-3"
+            ]
+          ]
+        }
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-008",
+      "optionRationales": [
+        "Incorrect. Panel A's mean is near the reference; the diagram does not support a substantial offset correction there.",
+        "Incorrect. Panel B's main displayed problem is spread, not a large mean offset.",
+        "Correct. Panel C shows the specified combination; a correction must still be validated rather than assumed to eliminate all error.",
+        "Incorrect. Moving the mean of panel D does not reduce its large repeatability spread."
+      ],
+      "trap": "Moving a mean does not reduce repeatability spread. Averaging does not remove a constant bias, and a centered average need not imply accurate individual readings.",
+      "distractors": [
+        "Incorrect. Panel A's mean is near the reference; the diagram does not support a substantial offset correction there.",
+        "Incorrect. Panel B's main displayed problem is spread, not a large mean offset.",
+        "Correct. Panel C shows the specified combination; a correction must still be validated rather than assumed to eliminate all error.",
+        "Incorrect. Moving the mean of panel D does not reduce its large repeatability spread."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A Measurement Systems Analysis (MSA), Process Capability, and Control"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: Bias and accuracy",
+          "url": "https://www.itl.nist.gov/div898/handbook/mpc/section4/mpc45.htm",
+          "locator": "Bias relative to reference and measurement-system accuracy"
+        }
+      ]
+    },
+    "issues": [
+      "Upgraded recall to corrective-action judgment; made panel labels deterministic and scale identical; distinguished accuracy/trueness/precision without labelling answers in diagram."
+    ]
+  },
+  {
+    "number": 119,
+    "qid": "mbb:set-3:d6-009",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "An MSA bias study compares a gauge's measurements against a certified reference standard across the low, middle, and high end of the process range, finding a consistent gap between measured and true values at every point on the range. What does this pattern indicate, and how does it differ from a linearity problem?",
+      "options": [
+        "This indicates a constant bias (the gauge reads consistently high or low by the same amount regardless of where in the range it measures) rather than a linearity problem, which would instead show the bias itself changing in magnitude across the range — a constant bias is often correctable via a fixed offset/calibration adjustment",
+        "Bias and linearity are the same concept and cannot be distinguished from this data",
+        "This pattern indicates the gauge is functioning perfectly with no correction needed",
+        "This indicates a linearity problem, since the gap changes across the range"
+      ],
+      "answer": 0,
+      "why": "A constant offset across the full range is a bias (calibration) issue, correctable with a fixed adjustment; a linearity problem is specifically when the size of the bias itself changes across the measurement range, requiring a different (often more involved) fix. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "chart": {
+        "type": "bias-diagram"
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-009"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "An illustrative gage study uses traceable references of 10, 50 and 90 mm. Mean readings from repeated measurements are 12, 52 and 92 mm. Repeatability and reference uncertainty still require validation; no regression significance test is provided. Which interpretation and next step are justified by these observed means?",
+      "options": [
+        "The observed biases are +2 mm at all three levels. Evaluate a constant-offset correction and validate it across the intended range; the means alone do not prove zero linearity error.",
+        "The observed bias increases from 12 to 92 mm across the range, so a constant-offset correction is ruled out by the data.",
+        "The means rise with the references, which proves the gage is unbiased and eliminates the need for reference-uncertainty or repeatability checks.",
+        "Subtract 2% from every reading and declare the system calibrated, because a constant absolute offset is equivalent to a constant relative error."
+      ],
+      "answer": 0,
+      "why": "Bias is measured mean minus reference: 12 - 10, 52 - 50 and 92 - 90 each equal +2 mm. These observed means suggest an additive offset, not an increasing absolute bias. They do not establish the statistical absence of a slope, adequate repeatability, or performance between and beyond the tested levels. Investigate calibration and uncertainty, apply only a justified correction, and verify residual errors. A 2% multiplicative correction is not a 2 mm additive correction. Source alignment: ASQ CMBB Body of Knowledge, VI.A Measurement Systems Analysis (MSA), Process Capability, and Control. Sources support principles, not ASQ authorship of this original scenario.",
+      "chart": {
+        "type": "bias-diagram",
+        "title": "Illustrative reference and mean-reading comparison",
+        "altText": "The figure plots mean minus reference for each of the three levels; it does not show repeatability or confidence intervals.",
+        "referenceValues": [
+          10,
+          50,
+          90
+        ],
+        "measuredMeans": [
+          12,
+          52,
+          92
+        ],
+        "biases": [
+          2,
+          2,
+          2
+        ],
+        "evidence": {
+          "title": "Illustrative reference and mean-reading comparison — numerical alternative",
+          "columns": [
+            "Reference (mm)",
+            "Measured mean (mm)",
+            "Bias (mm)"
+          ],
+          "rows": [
+            [
+              "10",
+              "12",
+              "2"
+            ],
+            [
+              "50",
+              "52",
+              "2"
+            ],
+            [
+              "90",
+              "92",
+              "2"
+            ]
+          ]
+        }
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-009",
+      "optionRationales": [
+        "Correct. It correctly computes the three biases and treats constant-offset calibration as a candidate requiring validation, not a proven complete fix.",
+        "Incorrect. It substitutes the raw measurement means for bias; the reference values must first be subtracted.",
+        "Incorrect. Tracking increasing references does not demonstrate absence of bias; the displayed means all exceed their references.",
+        "Incorrect. The offset is in millimetres, not percent, and calibration adequacy cannot be declared from these three means alone."
+      ],
+      "trap": "A 2 mm additive offset is not a 2% multiplicative error. Three observed means do not prove statistical absence of linearity error or validate a calibration.",
+      "distractors": [
+        "Correct. It correctly computes the three biases and treats constant-offset calibration as a candidate requiring validation, not a proven complete fix.",
+        "Incorrect. It substitutes the raw measurement means for bias; the reference values must first be subtracted.",
+        "Incorrect. Tracking increasing references does not demonstrate absence of bias; the displayed means all exceed their references.",
+        "Incorrect. The offset is in millimetres, not percent, and calibration adequacy cannot be declared from these three means alone."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A Measurement Systems Analysis (MSA), Process Capability, and Control"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: Bias and accuracy",
+          "url": "https://www.itl.nist.gov/div898/handbook/mpc/section4/mpc45.htm",
+          "locator": "Bias relative to reference and measurement-system accuracy"
+        }
+      ]
+    },
+    "issues": [
+      "Replaced generic diagram with explicit measured/reference means; qualified fixed-offset remedy and no-linearity inference; units and uncertainty limits added."
+    ]
+  },
+  {
+    "number": 120,
+    "qid": "mbb:set-3:d6-010",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A process capability study assumes the underlying data are normally distributed and reports Cpk = 1.5, but a normal probability plot of the same data shows a clear, strong S-curve pattern. What should the MBB do before trusting the Cpk value?",
+      "options": [
+        "Conclude the process is not capable regardless of the Cpk figure, without further analysis",
+        "Automatically double the reported Cpk value to compensate for non-normality",
+        "Recognize that Cpk (as conventionally calculated) assumes normality, and a clear non-normal pattern invalidates that assumption; the MBB should either transform the data, use a capability method appropriate to the actual distribution, or otherwise verify the assumption before trusting the reported Cpk value",
+        "Trust the Cpk value as calculated, since Cpk calculations don't depend on the underlying distribution shape"
+      ],
+      "answer": 2,
+      "why": "Standard Cpk calculations assume normality; a clearly non-normal pattern (like a strong S-curve on a normal probability plot) means the reported Cpk may be misleading, and the MBB should verify/correct for the actual distribution before relying on it. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-010"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A capability report uses a conventional within-subgroup Cpk of 1.5 to predict a normal-tail nonconformance rate. Stability and measurement adequacy are supported, but the same data's normal probability plot has a strong systematic S-shape. Which action should the MBB require before accepting the predicted rate?",
+      "options": [
+        "Reject the process as incapable immediately; any non-normal pattern means the process must fail its specifications regardless of its observed tails.",
+        "Add 1.5 to the reported Cpk to offset the non-normality and retain the report's predicted normal-tail rate.",
+        "Withhold the normal-tail prediction; investigate distributional fit and use a justified transformation with transformed limits, a suitable distributional model or a defensible alternative.",
+        "Accept the prediction because the Cpk arithmetic can be computed for these data, which makes normal-tail probabilities valid for any distribution shape."
+      ],
+      "answer": 2,
+      "why": "The Cpk formula can be evaluated algebraically without a normal distribution, but its usual normal-tail interpretation needs an appropriate model. A systematic probability-plot departure challenges the report's tail prediction; it does not by itself prove poor capability or identify a specific distribution. Check fit in the relevant tails and model uncertainty. Any transformation must also be applied consistently to the specification limits. Empirical tail estimates or nonnormal methods require adequate data rather than an automatic distribution choice. Source alignment: ASQ CMBB Body of Knowledge, VI.A.5 Process capability for non-normal data. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-010",
+      "optionRationales": [
+        "Incorrect. Nonnormality challenges a model assumption, not necessarily the process's ability to meet specifications.",
+        "Incorrect. Adding a constant to Cpk has no basis for correcting distributional shape or tail risk.",
+        "Correct. It separates computable index arithmetic from unsupported tail inference and requires a method appropriate to the data and limits.",
+        "Incorrect. Existence of an arithmetic ratio does not validate a normal-distribution probability calculation."
+      ],
+      "trap": "An index can be calculated even when its usual tail interpretation is unsupported. Match the distributional method and transformed limits to the intended probability claim.",
+      "distractors": [
+        "Incorrect. Nonnormality challenges a model assumption, not necessarily the process's ability to meet specifications.",
+        "Incorrect. Adding a constant to Cpk has no basis for correcting distributional shape or tail risk.",
+        "Correct. It separates computable index arithmetic from unsupported tail inference and requires a method appropriate to the data and limits.",
+        "Incorrect. Existence of an arithmetic ratio does not validate a normal-distribution probability calculation."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A.5 Process capability for non-normal data"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: What is process capability?",
+          "url": "https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm",
+          "locator": "Cp, Cpu, Cpl, Cpk formulas, centering and normal-distribution interpretation"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: Normal probability plot",
+          "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/normprpl.htm",
+          "locator": "Normal quantile plot and Filliben order-statistic plotting positions"
+        }
+      ]
+    },
+    "issues": [
+      "Corrected claim that Cpk arithmetic itself requires normality; distinguished tail interpretation, transformation of specs and stability."
+    ]
+  },
+  {
+    "number": 121,
+    "qid": "mbb:set-3:d6-011",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A control chart shows a process running in statistical control for 40 consecutive points, then shows 8 consecutive points all above the centerline (though none individually beyond the control limits). What does this pattern most likely indicate under standard Western Electric-style run rules?",
+      "options": [
+        "A run of 8 or more consecutive points on one side of the centerline is a standard special-cause signal (even without any single point exceeding the control limits), indicating a likely process shift that should be investigated",
+        "The correct response is to recalculate control limits immediately using only the most recent 8 points",
+        "This pattern can only be meaningful if it occurs on the R-chart, never on the X-bar chart",
+        "Nothing; since no individual point exceeds the control limits, the process remains fully in control with no signal present"
+      ],
+      "answer": 0,
+      "why": "Standard run rules (e.g., 8+ consecutive points on one side of the centerline) flag a likely process shift as a special cause signal even when no single point exceeds the 3-sigma control limits — a run-based signal, not a single-point signal. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "chart": {
+        "type": "control-single",
+        "title": "Fill weight (g)",
+        "unit": "g",
+        "ucl": 505,
+        "cl": 500,
+        "lcl": 495,
+        "data": [
+          499,
+          501,
+          500,
+          498,
+          502,
+          501,
+          502,
+          503,
+          502,
+          504,
+          503,
+          502
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-011"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A fill-weight chart uses fixed baseline limits and a preselected Western Electric rule: eight consecutive points strictly on one side of the centerline trigger investigation. After 40 baseline points with no configured signals, points 41–48 are all above the centerline but inside the 3-sigma limits. The display shows only points 37–48. What is the appropriate interpretation?",
+      "options": [
+        "The configured eight-point rule signals at point 48; investigate a possible upward shift while retaining the baseline limits unless a justified change supports rebaselining.",
+        "No signal is present because a valid run must contain at least one point beyond a 3-sigma limit before it can be investigated.",
+        "The chart must wait for a ninth point above the centerline because every run-rule system uses nine, regardless of the preselected rule.",
+        "The eight points prove a permanent new mean, so replace the centerline and limits immediately using only these latest eight observations."
+      ],
+      "answer": 0,
+      "why": "The displayed points 41–48 are eight consecutive values strictly above 500 g, so the stated rule signals at point 48 without requiring a limit exceedance. This is evidence warranting investigation, not proof of a specific cause or a permanent shift. Western Electric's eight-point rule is distinct from rule sets that use nine. The figure is explicitly the final 12-point excerpt; it does not misrepresent 12 points as all 48 observations. Avoid automatic recalculation that absorbs the signal. Source alignment: ASQ CMBB Body of Knowledge, VI.A Measurement Systems Analysis (MSA), Process Capability, and Control. Sources support principles, not ASQ authorship of this original scenario.",
+      "chart": {
+        "type": "control-single",
+        "title": "Final 12 observations of the 48-point fill-weight sequence",
+        "altText": "Only observations 37–48 are shown. The centerline is 500 g, UCL 505 g and LCL 495 g; values 41–48 are above the centerline.",
+        "labels": [
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48
+        ],
+        "data": [
+          499,
+          501,
+          500,
+          498,
+          502,
+          501,
+          502,
+          503,
+          502,
+          504,
+          503,
+          502
+        ],
+        "ucl": 505,
+        "cl": 500,
+        "lcl": 495,
+        "evidence": {
+          "title": "Final 12 observations of the 48-point fill-weight sequence — numerical alternative",
+          "columns": [
+            "Observation number",
+            "Weight (g)"
+          ],
+          "rows": [
+            [
+              "37",
+              "499"
+            ],
+            [
+              "38",
+              "501"
+            ],
+            [
+              "39",
+              "500"
+            ],
+            [
+              "40",
+              "498"
+            ],
+            [
+              "41",
+              "502"
+            ],
+            [
+              "42",
+              "501"
+            ],
+            [
+              "43",
+              "502"
+            ],
+            [
+              "44",
+              "503"
+            ],
+            [
+              "45",
+              "502"
+            ],
+            [
+              "46",
+              "504"
+            ],
+            [
+              "47",
+              "503"
+            ],
+            [
+              "48",
+              "502"
+            ]
+          ]
+        }
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-011",
+      "optionRationales": [
+        "Correct. It applies the configured rule and proposes investigation without automatically redefining the baseline.",
+        "Incorrect. The run rule is an additional signal rule and does not require a 3-sigma exceedance.",
+        "Incorrect. It substitutes a different run length for the one explicitly selected in the question.",
+        "Incorrect. A signal alone does not establish a permanent regime or justify estimating a new baseline from only these eight points."
+      ],
+      "trap": "Apply the rule that was selected: eight points for this Western Electric run rule, not nine from another rule set. A signal calls for investigation, not automatic rebaselining.",
+      "distractors": [
+        "Correct. It applies the configured rule and proposes investigation without automatically redefining the baseline.",
+        "Incorrect. The run rule is an additional signal rule and does not require a 3-sigma exceedance.",
+        "Incorrect. It substitutes a different run length for the one explicitly selected in the question.",
+        "Incorrect. A signal alone does not establish a permanent regime or justify estimating a new baseline from only these eight points."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A Measurement Systems Analysis (MSA), Process Capability, and Control"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: Shewhart control charts",
+          "url": "https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm",
+          "locator": "Control versus specification limits, Western Electric eight-point rule and justified limit revisions"
+        }
+      ]
+    },
+    "issues": [
+      "Reconciled12 plotted points with40+8 narrative; labelled37–48; explicit WE8 rule and no automatic limit reset."
+    ]
+  },
+  {
+    "number": 122,
+    "qid": "mbb:set-3:d6-012",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A quality engineer proposes tightening a process's control limits to match the specification limits, reasoning 'this way the chart will catch defects sooner.' What is the flaw in this proposal?",
+      "options": [
+        "There is no flaw; control limits and specification limits should always be set equal to each other",
+        "Tightening control limits to match specification limits is always the best practice for high-risk products",
+        "Control limits reflect the process's own natural (common-cause) variation and are used to detect special causes; specification limits reflect customer/engineering requirements. Conflating the two causes the chart to either over-react to normal common-cause variation (false alarms) or under-detect real specification risk, depending on which is tighter — the two serve fundamentally different purposes and should not be set equal",
+        "Specification limits should always be set wider than control limits automatically, regardless of the actual process capability"
+      ],
+      "answer": 2,
+      "why": "This tests a foundational SPC distinction: control limits (based on actual process variation) and specification limits (based on customer requirements) serve different purposes and are calculated differently; conflating them produces either excessive false alarms or inadequate defect detection depending on the process's actual capability relative to spec. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-012"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "An engineer proposes replacing an X-bar chart's 3-sigma limits with the individual-unit engineering specifications to 'catch defects sooner.' The chart plots subgroup means, and separate checks are available for unit conformance. Which response best addresses both the statistical and operational flaw?",
+      "options": [
+        "Use specifications as control limits whenever the sample size exceeds five, because larger subgroups make average and individual-unit variation equivalent.",
+        "Replace the limits only when specifications are tighter, since tighter decision boundaries necessarily preserve the chart's designed false-alarm behavior.",
+        "Retain limits appropriate to subgroup means for stability monitoring and use specifications for unit conformance; equal numerical values must not be imposed, although they can coincide.",
+        "Widen the product specifications until they match the current chart limits, allowing a single boundary set to govern both monitoring and customer acceptance."
+      ],
+      "answer": 2,
+      "why": "Control limits describe the expected behavior of a plotted statistic under the monitoring model. Engineering specifications describe required product performance. Subgroup means and individual units have different spreads, so substituting individual specifications can miss nonconforming units or change detection and false-alarm properties. Keep stability monitoring and conformance assessment distinct. The boundaries can coincide numerically by chance, but forcing equality or changing requirements to fit the process has no statistical justification. Source alignment: ASQ CMBB Body of Knowledge, VI.A Measurement Systems Analysis (MSA), Process Capability, and Control. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-012",
+      "optionRationales": [
+        "Incorrect. Increasing subgroup size does not make the distribution of means equal to the distribution of individual measurements.",
+        "Incorrect. Changing the boundaries changes their signal probabilities; tighter specifications do not automatically preserve the designed false-alarm rate.",
+        "Correct. It distinguishes both purpose and statistical scale without asserting that independently derived limits can never coincide.",
+        "Incorrect. Customer or engineering requirements cannot be widened merely to make the process or chart appear acceptable."
+      ],
+      "trap": "Subgroup means and individual units have different variation. Control and specification limits answer different questions even when their numbers happen to match.",
+      "distractors": [
+        "Incorrect. Increasing subgroup size does not make the distribution of means equal to the distribution of individual measurements.",
+        "Incorrect. Changing the boundaries changes their signal probabilities; tighter specifications do not automatically preserve the designed false-alarm rate.",
+        "Correct. It distinguishes both purpose and statistical scale without asserting that independently derived limits can never coincide.",
+        "Incorrect. Customer or engineering requirements cannot be widened merely to make the process or chart appear acceptable."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A Measurement Systems Analysis (MSA), Process Capability, and Control"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: Shewhart control charts",
+          "url": "https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm",
+          "locator": "Control versus specification limits, Western Electric eight-point rule and justified limit revisions"
+        }
+      ]
+    },
+    "issues": [
+      "Added subgroup-mean versus individual-unit distinction; corrected absolute cannot-equal assertion and conflation of alarms with defect detection."
+    ]
+  },
+  {
+    "number": 123,
+    "qid": "mbb:set-3:d6-013",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "An operating characteristic (OC) curve comparison shows Sampling Plan A's curve dropping off much more steeply than Sampling Plan B's curve as lot percent defective increases. What does the steeper curve indicate about Plan A relative to Plan B?",
+      "options": [
+        "Plan A necessarily requires a larger sample size than Plan B in every case, based on curve steepness alone",
+        "Plan A discriminates more sharply between acceptable and unacceptable lots — its probability of acceptance drops more quickly as defect levels rise, meaning it is more likely to reject a genuinely bad lot (and accept a genuinely good one) compared to Plan B's more gradual curve",
+        "The steepness of an OC curve has no relationship to a sampling plan's discrimination ability",
+        "Plan A is worse at discriminating between good and bad lots than Plan B"
+      ],
+      "answer": 1,
+      "why": "A steeper OC curve indicates sharper discrimination between good and bad lots — probability of acceptance falls off more quickly as true defect levels rise, which is generally a desirable sampling-plan property, though it usually comes with trade-offs in sample size or cost. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "chart": {
+        "type": "oc-curve"
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-013"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "Two single-sampling plans use the binomial model for large homogeneous lots with independent item outcomes. Plan A samples n = 200 and accepts at most 10 defectives; Plan B uses n = 50 and accepts at most 2. The OC curves and selected binomial probabilities are provided. At 1% defective the lot is designated good; at 10% it is designated poor. Which comparison is justified?",
+      "options": [
+        "The steepness of A proves that it has a higher acceptance probability at every defect level and requires fewer inspected items than B.",
+        "At the two designated quality levels, A has lower producer and consumer risks than B; its sharper transition costs a larger sample, and slope alone would not establish both risks.",
+        "A's larger sample proves its consumer risk is higher at 10% defective, regardless of the acceptance numbers or the displayed probabilities.",
+        "B's smaller sample guarantees equal discrimination at both designated quality levels because both plans use the same binomial distribution family."
+      ],
+      "answer": 1,
+      "why": "For each plan, Pa(p) is the sum of binomial probabilities for 0 through c defectives. At 1% defective, Pa is approximately 0.999993 for A and 0.986183 for B, so producer risk 1 - Pa is smaller for A. At 10%, Pa is about 0.008071 for A and 0.111729 for B, so consumer risk is also smaller for A there. These comparisons use actual quality levels and curve locations, not steepness alone. A inspects 200 items rather than 50; neither risk statement is a claim of dominance at every possible quality level. Source alignment: ASQ CMBB Body of Knowledge, VI.A Measurement Systems Analysis (MSA), Process Capability, and Control (related acceptance-sampling application; not a separately named BoK subtopic). Sources support principles, not ASQ authorship of this original scenario.",
+      "chart": {
+        "type": "oc-curve",
+        "title": "Binomial single-sampling operating characteristics",
+        "altText": "Solid curve A: sample 200, accept at most 10. Dashed curve B: sample 50, accept at most 2. Acceptance probabilities are binomial-model values; the numerical table rounds to six decimals.",
+        "plans": [
+          {
+            "label": "A",
+            "n": 200,
+            "c": 10
+          },
+          {
+            "label": "B",
+            "n": 50,
+            "c": 2
+          }
+        ],
+        "curves": [
+          {
+            "p": 0.0,
+            "acceptance": [
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "p": 0.001,
+            "acceptance": [
+              0.9999999999999996,
+              0.9999810783448599
+            ]
+          },
+          {
+            "p": 0.002,
+            "acceptance": [
+              0.999999999999438,
+              0.9998538575792005
+            ]
+          },
+          {
+            "p": 0.003,
+            "acceptance": [
+              0.999999999959138,
+              0.9995237863870275
+            ]
+          },
+          {
+            "p": 0.004,
+            "acceptance": [
+              0.9999999991862502,
+              0.998910079794915
+            ]
+          },
+          {
+            "p": 0.005,
+            "acceptance": [
+              0.9999999920313928,
+              0.9979444558904411
+            ]
+          },
+          {
+            "p": 0.006,
+            "acceptance": [
+              0.9999999501927571,
+              0.9965699663313831
+            ]
+          },
+          {
+            "p": 0.007,
+            "acceptance": [
+              0.9999997716183714,
+              0.9947399145325507
+            ]
+          },
+          {
+            "p": 0.008,
+            "acceptance": [
+              0.9999991652294988,
+              0.9924168557803177
+            ]
+          },
+          {
+            "p": 0.009,
+            "acceptance": [
+              0.9999974338446791,
+              0.9895716738680105
+            ]
+          },
+          {
+            "p": 0.01,
+            "acceptance": [
+              0.999993118229587,
+              0.9861827291693992
+            ]
+          },
+          {
+            "p": 0.011,
+            "acceptance": [
+              0.9999834745014553,
+              0.9822350733735754
+            ]
+          },
+          {
+            "p": 0.012,
+            "acceptance": [
+              0.9999637742843002,
+              0.9777197263934596
+            ]
+          },
+          {
+            "p": 0.013,
+            "acceptance": [
+              0.9999264394037934,
+              0.9726330112329395
+            ]
+          },
+          {
+            "p": 0.014,
+            "acceptance": [
+              0.9998600469673155,
+              0.9669759428550667
+            ]
+          },
+          {
+            "p": 0.015,
+            "acceptance": [
+              0.9997482627408958,
+              0.9607536673366239
+            ]
+          },
+          {
+            "p": 0.016,
+            "acceptance": [
+              0.9995687777181369,
+              0.9539749478235064
+            ]
+          },
+          {
+            "p": 0.017,
+            "acceptance": [
+              0.9992923325547577,
+              0.9466516940174592
+            ]
+          },
+          {
+            "p": 0.018,
+            "acceptance": [
+              0.9988819161251641,
+              0.9387985321284753
+            ]
+          },
+          {
+            "p": 0.019,
+            "acceptance": [
+              0.9982922179416858,
+              0.930432412419238
+            ]
+          },
+          {
+            "p": 0.02,
+            "acceptance": [
+              0.997469400564651,
+              0.9215722516490301
+            ]
+          },
+          {
+            "p": 0.021,
+            "acceptance": [
+              0.996351239067551,
+              0.9122386078951044
+            ]
+          },
+          {
+            "p": 0.022,
+            "acceptance": [
+              0.9948676521110403,
+              0.90245338539019
+            ]
+          },
+          {
+            "p": 0.023,
+            "acceptance": [
+              0.9929416253217861,
+              0.8922395671661383
+            ]
+          },
+          {
+            "p": 0.024,
+            "acceptance": [
+              0.9904905044400553,
+              0.8816209734361751
+            ]
+          },
+          {
+            "p": 0.025,
+            "acceptance": [
+              0.9874276147776061,
+              0.8706220437823444
+            ]
+          },
+          {
+            "p": 0.026,
+            "acceptance": [
+              0.9836641462085555,
+              0.8592676413409098
+            ]
+          },
+          {
+            "p": 0.027,
+            "acceptance": [
+              0.979111230058906,
+              0.8475828772972048
+            ]
+          },
+          {
+            "p": 0.028,
+            "acceptance": [
+              0.9736821262906843,
+              0.8355929541130703
+            ]
+          },
+          {
+            "p": 0.029,
+            "acceptance": [
+              0.9672944363251449,
+              0.8233230260149917
+            ]
+          },
+          {
+            "p": 0.03,
+            "acceptance": [
+              0.9598722584152357,
+              0.8107980753697203
+            ]
+          },
+          {
+            "p": 0.031,
+            "acceptance": [
+              0.9513482081040184,
+              0.79804280366687
+            ]
+          },
+          {
+            "p": 0.032,
+            "acceptance": [
+              0.9416652352609495,
+              0.7850815359150783
+            ]
+          },
+          {
+            "p": 0.033,
+            "acceptance": [
+              0.9307781806418141,
+              0.7719381373400928
+            ]
+          },
+          {
+            "p": 0.034,
+            "acceptance": [
+              0.9186550280113565,
+              0.7586359413499221
+            ]
+          },
+          {
+            "p": 0.035,
+            "acceptance": [
+              0.9052778217695028,
+              0.7451976878042331
+            ]
+          },
+          {
+            "p": 0.036,
+            "acceptance": [
+              0.890643233974751,
+              0.731645470692755
+            ]
+          },
+          {
+            "p": 0.037,
+            "acceptance": [
+              0.8747627780084514,
+              0.7180006943908362
+            ]
+          },
+          {
+            "p": 0.038,
+            "acceptance": [
+              0.8576626783413718,
+              0.7042840377197053
+            ]
+          },
+          {
+            "p": 0.039,
+            "acceptance": [
+              0.839383416550687,
+              0.6905154250946648
+            ]
+          },
+          {
+            "p": 0.04,
+            "acceptance": [
+              0.8199789826230847,
+              0.6767140040965924
+            ]
+          },
+          {
+            "p": 0.041,
+            "acceptance": [
+              0.7995158675221321,
+              0.662898128850957
+            ]
+          },
+          {
+            "p": 0.042,
+            "acceptance": [
+              0.7780718379582522,
+              0.6490853486442543
+            ]
+          },
+          {
+            "p": 0.043,
+            "acceptance": [
+              0.7557345373328187,
+              0.6352924012505268
+            ]
+          },
+          {
+            "p": 0.044,
+            "acceptance": [
+              0.7325999580634454,
+              0.621535210480615
+            ]
+          },
+          {
+            "p": 0.045,
+            "acceptance": [
+              0.7087708301204934,
+              0.6078288875041602
+            ]
+          },
+          {
+            "p": 0.046,
+            "acceptance": [
+              0.6843549688382627,
+              0.5941877355292983
+            ]
+          },
+          {
+            "p": 0.047,
+            "acceptance": [
+              0.6594636221528374,
+              0.5806252574575901
+            ]
+          },
+          {
+            "p": 0.048,
+            "acceptance": [
+              0.6342098536144979,
+              0.567154166162171
+            ]
+          },
+          {
+            "p": 0.049,
+            "acceptance": [
+              0.6087069930738144,
+              0.5537863970654937
+            ]
+          },
+          {
+            "p": 0.05,
+            "acceptance": [
+              0.5830671820811668,
+              0.540533122719514
+            ]
+          },
+          {
+            "p": 0.051,
+            "acceptance": [
+              0.5574000359827863,
+              0.5274047691158368
+            ]
+          },
+          {
+            "p": 0.052,
+            "acceptance": [
+              0.5318114396300849,
+              0.5144110334763179
+            ]
+          },
+          {
+            "p": 0.053,
+            "acceptance": [
+              0.5064024887021015,
+              0.5015609032960036
+            ]
+          },
+          {
+            "p": 0.054,
+            "acceptance": [
+              0.4812685840027726,
+              0.48886267643017994
+            ]
+          },
+          {
+            "p": 0.055,
+            "acceptance": [
+              0.4564986818353707,
+              0.4763239820358035
+            ]
+          },
+          {
+            "p": 0.056,
+            "acceptance": [
+              0.43217469974789413,
+              0.4639518021947561
+            ]
+          },
+          {
+            "p": 0.057,
+            "acceptance": [
+              0.4083710736316263,
+              0.45175249406232004
+            ]
+          },
+          {
+            "p": 0.058,
+            "acceptance": [
+              0.3851544593637425,
+              0.4397318123990641
+            ]
+          },
+          {
+            "p": 0.059,
+            "acceptance": [
+              0.36258356991717383,
+              0.4278949323580394
+            ]
+          },
+          {
+            "p": 0.06,
+            "acceptance": [
+              0.34070913710370343,
+              0.4162464724118734
+            ]
+          },
+          {
+            "p": 0.061,
+            "acceptance": [
+              0.3195739858434693,
+              0.4047905173161632
+            ]
+          },
+          {
+            "p": 0.062,
+            "acceptance": [
+              0.2992132080281411,
+              0.39353064101628804
+            ]
+          },
+          {
+            "p": 0.063,
+            "acceptance": [
+              0.2796544226243374,
+              0.3824699294150281
+            ]
+          },
+          {
+            "p": 0.064,
+            "acceptance": [
+              0.2609181085971361,
+              0.3716110029273556
+            ]
+          },
+          {
+            "p": 0.065,
+            "acceptance": [
+              0.24301799747373135,
+              0.36095603875759485
+            ]
+          },
+          {
+            "p": 0.066,
+            "acceptance": [
+              0.22596151285990657,
+              0.3505067928417148
+            ]
+          },
+          {
+            "p": 0.067,
+            "acceptance": [
+              0.2097502449208326,
+              0.3402646214050318
+            ]
+          },
+          {
+            "p": 0.068,
+            "acceptance": [
+              0.19438044869235566,
+              0.33023050209195853
+            ]
+          },
+          {
+            "p": 0.069,
+            "acceptance": [
+              0.1798435560587634,
+              0.3204050546307978
+            ]
+          },
+          {
+            "p": 0.07,
+            "acceptance": [
+              0.16612669227556962,
+              0.3107885610018909
+            ]
+          },
+          {
+            "p": 0.071,
+            "acceptance": [
+              0.1532131889987149,
+              0.3013809850827869
+            ]
+          },
+          {
+            "p": 0.072,
+            "acceptance": [
+              0.14108308687192608,
+              0.2921819917485138
+            ]
+          },
+          {
+            "p": 0.073,
+            "acceptance": [
+              0.12971362179841936,
+              0.28319096540949396
+            ]
+          },
+          {
+            "p": 0.074,
+            "acceptance": [
+              0.11907969005869742,
+              0.2744070279733335
+            ]
+          },
+          {
+            "p": 0.075,
+            "acceptance": [
+              0.10915428841772085,
+              0.26582905622032804
+            ]
+          },
+          {
+            "p": 0.076,
+            "acceptance": [
+              0.09990892627863508,
+              0.2574556985856515
+            ]
+          },
+          {
+            "p": 0.077,
+            "acceptance": [
+              0.09131400777802456,
+              0.24928539134407493
+            ]
+          },
+          {
+            "p": 0.078,
+            "acceptance": [
+              0.08333918247347517,
+              0.24131637419564045
+            ]
+          },
+          {
+            "p": 0.079,
+            "acceptance": [
+              0.07595366394521566,
+              0.23354670525303664
+            ]
+          },
+          {
+            "p": 0.08,
+            "acceptance": [
+              0.06912651621930378,
+              0.2259742754334942
+            ]
+          },
+          {
+            "p": 0.081,
+            "acceptance": [
+              0.06282690842174864,
+              0.21859682225987237
+            ]
+          },
+          {
+            "p": 0.082,
+            "acceptance": [
+              0.05702433849424829,
+              0.21141194307724745
+            ]
+          },
+          {
+            "p": 0.083,
+            "acceptance": [
+              0.05168882714724884,
+              0.20441710769276564
+            ]
+          },
+          {
+            "p": 0.084,
+            "acceptance": [
+              0.04679108350010126,
+              0.19760967044779595
+            ]
+          },
+          {
+            "p": 0.085,
+            "acceptance": [
+              0.042302644067140745,
+              0.19098688173253026
+            ]
+          },
+          {
+            "p": 0.086,
+            "acceptance": [
+              0.03819598689886027,
+              0.184545898954138
+            ]
+          },
+          {
+            "p": 0.087,
+            "acceptance": [
+              0.03444462278548747,
+              0.17828379697040989
+            ]
+          },
+          {
+            "p": 0.088,
+            "acceptance": [
+              0.031023165482678867,
+              0.17219757800152102
+            ]
+          },
+          {
+            "p": 0.089,
+            "acceptance": [
+              0.02790738293205143,
+              0.1662841810331305
+            ]
+          },
+          {
+            "p": 0.09,
+            "acceptance": [
+              0.025074231428929516,
+              0.16054049072451043
+            ]
+          },
+          {
+            "p": 0.091,
+            "acceptance": [
+              0.022501874641706686,
+              0.15496334583578267
+            ]
+          },
+          {
+            "p": 0.092,
+            "acceptance": [
+              0.02016968931688938,
+              0.14954954718863517
+            ]
+          },
+          {
+            "p": 0.093,
+            "acceptance": [
+              0.018058259416035338,
+              0.14429586517510753
+            ]
+          },
+          {
+            "p": 0.094,
+            "acceptance": [
+              0.016149360329773595,
+              0.1391990468291788
+            ]
+          },
+          {
+            "p": 0.095,
+            "acceptance": [
+              0.014425934703759451,
+              0.134255822475971
+            ]
+          },
+          {
+            "p": 0.096,
+            "acceptance": [
+              0.012872061295160426,
+              0.12946291197340182
+            ]
+          },
+          {
+            "p": 0.097,
+            "acceptance": [
+              0.0114729181590053,
+              0.12481703056108948
+            ]
+          },
+          {
+            "p": 0.098,
+            "acceptance": [
+              0.010214741343933922,
+              0.12031489433123228
+            ]
+          },
+          {
+            "p": 0.099,
+            "acceptance": [
+              0.009084780158621948,
+              0.11595322533606667
+            ]
+          },
+          {
+            "p": 0.1,
+            "acceptance": [
+              0.008071249955102727,
+              0.11172875634634728
+            ]
+          },
+          {
+            "p": 0.101,
+            "acceptance": [
+              0.007163283264702196,
+              0.10763823527510231
+            ]
+          },
+          {
+            "p": 0.102,
+            "acceptance": [
+              0.006350880017364422,
+              0.10367842928069697
+            ]
+          },
+          {
+            "p": 0.103,
+            "acceptance": [
+              0.005624857476524246,
+              0.09984612856299224
+            ]
+          },
+          {
+            "p": 0.104,
+            "acceptance": [
+              0.004976800429885929,
+              0.09613814986611753
+            ]
+          },
+          {
+            "p": 0.105,
+            "acceptance": [
+              0.00439901209179529,
+              0.09255133970109038
+            ]
+          },
+          {
+            "p": 0.106,
+            "acceptance": [
+              0.0038844660954717634,
+              0.0890825773012133
+            ]
+          },
+          {
+            "p": 0.107,
+            "acceptance": [
+              0.003426759883177299,
+              0.08572877732286098
+            ]
+          },
+          {
+            "p": 0.108,
+            "acceptance": [
+              0.0030200697393007172,
+              0.0824868923039455
+            ]
+          },
+          {
+            "p": 0.109,
+            "acceptance": [
+              0.0026591076550946846,
+              0.07935391489200964
+            ]
+          },
+          {
+            "p": 0.11,
+            "acceptance": [
+              0.0023390801641097045,
+              0.07632687985355727
+            ]
+          },
+          {
+            "p": 0.111,
+            "acceptance": [
+              0.0020556492438625353,
+              0.07340286587588007
+            ]
+          },
+          {
+            "p": 0.112,
+            "acceptance": [
+              0.001804895341554283,
+              0.07057899717229053
+            ]
+          },
+          {
+            "p": 0.113,
+            "acceptance": [
+              0.0015832825492910828,
+              0.06785244490131644
+            ]
+          },
+          {
+            "p": 0.114,
+            "acceptance": [
+              0.0013876259268207662,
+              0.06522042841005948
+            ]
+          },
+          {
+            "p": 0.115,
+            "acceptance": [
+              0.001215060946842973,
+              0.06268021631156684
+            ]
+          },
+          {
+            "p": 0.116,
+            "acceptance": [
+              0.0010630150190445778,
+              0.060229127405713456
+            ]
+          },
+          {
+            "p": 0.117,
+            "acceptance": [
+              0.0009291810337362823,
+              0.057864531452744485
+            ]
+          },
+          {
+            "p": 0.118,
+            "acceptance": [
+              0.0008114928539162922,
+              0.05558384980828135
+            ]
+          },
+          {
+            "p": 0.119,
+            "acceptance": [
+              0.0007081026753809901,
+              0.0533845559282553
+            ]
+          },
+          {
+            "p": 0.12,
+            "acceptance": [
+              0.0006173601677818343,
+              0.051264175751895444
+            ]
+          },
+          {
+            "p": 0.121,
+            "acceptance": [
+              0.0005377933049595245,
+              0.04922028797056897
+            ]
+          },
+          {
+            "p": 0.122,
+            "acceptance": [
+              0.00046809079016399055,
+              0.0472505241899467
+            ]
+          },
+          {
+            "p": 0.123,
+            "acceptance": [
+              0.00040708598061217264,
+              0.045352568992649805
+            ]
+          },
+          {
+            "p": 0.124,
+            "acceptance": [
+              0.00035374221599119063,
+              0.043524159908222886
+            ]
+          },
+          {
+            "p": 0.125,
+            "acceptance": [
+              0.00030713945675447,
+              0.04176308729697535
+            ]
+          },
+          {
+            "p": 0.126,
+            "acceptance": [
+              0.0002664621401794533,
+              0.04006719415393732
+            ]
+          },
+          {
+            "p": 0.127,
+            "acceptance": [
+              0.00023098816497781595,
+              0.038434375838887896
+            ]
+          },
+          {
+            "p": 0.128,
+            "acceptance": [
+              0.0002000789186147652,
+              0.036862579738133894
+            ]
+          },
+          {
+            "p": 0.129,
+            "acceptance": [
+              0.00017317026526555664,
+              0.035349804863444655
+            ]
+          },
+          {
+            "p": 0.13,
+            "acceptance": [
+              0.00014976441639619756,
+              0.033894101393284616
+            ]
+          },
+          {
+            "p": 0.131,
+            "acceptance": [
+              0.00012942261019999722,
+              0.032493570161229654
+            ]
+          },
+          {
+            "p": 0.132,
+            "acceptance": [
+              0.00011175853046634457,
+              0.031146362096205124
+            ]
+          },
+          {
+            "p": 0.133,
+            "acceptance": [
+              9.643239983106569e-05,
+              0.029850677618944492
+            ]
+          },
+          {
+            "p": 0.134,
+            "acceptance": [
+              8.314568669968884e-05,
+              0.028604765998835827
+            ]
+          },
+          {
+            "p": 0.135,
+            "acceptance": [
+              7.163636939779584e-05,
+              0.027406924675100287
+            ]
+          },
+          {
+            "p": 0.136,
+            "acceptance": [
+              6.167470524801075e-05,
+              0.026255498546031576
+            ]
+          },
+          {
+            "p": 0.137,
+            "acceptance": [
+              5.3059456271257736e-05,
+              0.02514887922981805
+            ]
+          },
+          {
+            "p": 0.138,
+            "acceptance": [
+              4.56145270382866e-05,
+              0.024085504300269758
+            ]
+          },
+          {
+            "p": 0.139,
+            "acceptance": [
+              3.9185973840045386e-05,
+              0.023063856500581074
+            ]
+          },
+          {
+            "p": 0.14,
+            "acceptance": [
+              3.3639347791600845e-05,
+              0.022082462938075188
+            ]
+          },
+          {
+            "p": 0.141,
+            "acceptance": [
+              2.8857337727847487e-05,
+              0.021139894262700548
+            ]
+          },
+          {
+            "p": 0.142,
+            "acceptance": [
+              2.4737681787868285e-05,
+              0.02023476383187929
+            ]
+          },
+          {
+            "p": 0.143,
+            "acceptance": [
+              2.1191319419289027e-05,
+              0.01936572686414603
+            ]
+          },
+          {
+            "p": 0.144,
+            "acceptance": [
+              1.8140758167602344e-05,
+              0.01853147958385966
+            ]
+          },
+          {
+            "p": 0.145,
+            "acceptance": [
+              1.5518632053512294e-05,
+              0.017730758359122464
+            ]
+          },
+          {
+            "p": 0.146,
+            "acceptance": [
+              1.3266430590712743e-05,
+              0.016962338834898852
+            ]
+          },
+          {
+            "p": 0.147,
+            "acceptance": [
+              1.1333379565158004e-05,
+              0.016225035063190524
+            ]
+          },
+          {
+            "p": 0.148,
+            "acceptance": [
+              9.675456593644387e-06,
+              0.015517698631995685
+            ]
+          },
+          {
+            "p": 0.149,
+            "acceptance": [
+              8.254526213774465e-06,
+              0.014839217794656587
+            ]
+          },
+          {
+            "p": 0.15,
+            "acceptance": [
+              7.03758083881767e-06,
+              0.014188516601082553
+            ]
+          },
+          {
+            "p": 0.151,
+            "acceptance": [
+              5.996075349428518e-06,
+              0.013564554032223819
+            ]
+          },
+          {
+            "p": 0.152,
+            "acceptance": [
+              5.105344399419137e-06,
+              0.012966323139065516
+            ]
+          },
+          {
+            "p": 0.153,
+            "acceptance": [
+              4.344092694425524e-06,
+              0.012392850187310293
+            ]
+          },
+          {
+            "p": 0.154,
+            "acceptance": [
+              3.6939495697144855e-06,
+              0.01184319380882233
+            ]
+          },
+          {
+            "p": 0.155,
+            "acceptance": [
+              3.1390801555692454e-06,
+              0.011316444160814915
+            ]
+          },
+          {
+            "p": 0.156,
+            "acceptance": [
+              2.6658462842896926e-06,
+              0.010811722093677714
+            ]
+          },
+          {
+            "p": 0.157,
+            "acceptance": [
+              2.262511070036001e-06,
+              0.010328178328258518
+            ]
+          },
+          {
+            "p": 0.158,
+            "acceptance": [
+              1.9189817892589635e-06,
+              0.009864992643337475
+            ]
+          },
+          {
+            "p": 0.159,
+            "acceptance": [
+              1.6265863125479612e-06,
+              0.00942137307395896
+            ]
+          },
+          {
+            "p": 0.16,
+            "acceptance": [
+              1.3778788951598438e-06,
+              0.008996555121217865
+            ]
+          },
+          {
+            "p": 0.161,
+            "acceptance": [
+              1.1664716295636984e-06,
+              0.008589800974032306
+            ]
+          },
+          {
+            "p": 0.162,
+            "acceptance": [
+              9.868883048749738e-07,
+              0.008200398743373931
+            ]
+          },
+          {
+            "p": 0.163,
+            "acceptance": [
+              8.344378104316729e-07,
+              0.007827661709369754
+            ]
+          },
+          {
+            "p": 0.164,
+            "acceptance": [
+              7.051045689238267e-07,
+              0.007470927581635531
+            ]
+          },
+          {
+            "p": 0.165,
+            "acceptance": [
+              5.954537929483766e-07,
+              0.007129557773150329
+            ]
+          },
+          {
+            "p": 0.166,
+            "acceptance": [
+              5.02549631755082e-07,
+              0.006802936687934423
+            ]
+          },
+          {
+            "p": 0.167,
+            "acceptance": [
+              4.2388451603539346e-07,
+              0.006490471022748428
+            ]
+          },
+          {
+            "p": 0.168,
+            "acceptance": [
+              3.5731822129960035e-07,
+              0.0061915890829901095
+            ]
+          },
+          {
+            "p": 0.169,
+            "acceptance": [
+              3.010253577799793e-07,
+              0.005905740112926533
+            ]
+          },
+          {
+            "p": 0.17,
+            "acceptance": [
+              2.534501596824548e-07,
+              0.005632393640363236
+            ]
+          },
+          {
+            "p": 0.171,
+            "acceptance": [
+              2.1326759150410025e-07,
+              0.005371038835818448
+            ]
+          },
+          {
+            "p": 0.172,
+            "acceptance": [
+              1.7934991630278676e-07,
+              0.005121183886239215
+            ]
+          },
+          {
+            "p": 0.173,
+            "acceptance": [
+              1.5073798228021859e-07,
+              0.0048823553832670966
+            ]
+          },
+          {
+            "p": 0.174,
+            "acceptance": [
+              1.2661658164034552e-07,
+              0.004654097726035221
+            ]
+          },
+          {
+            "p": 0.175,
+            "acceptance": [
+              1.0629332103761084e-07,
+              0.004435972538451649
+            ]
+          },
+          {
+            "p": 0.176,
+            "acceptance": [
+              8.918051748581967e-08,
+              0.004227558100904343
+            ]
+          },
+          {
+            "p": 0.177,
+            "acceptance": [
+              7.477969864930217e-08,
+              0.00402844879629825
+            ]
+          },
+          {
+            "p": 0.178,
+            "acceptance": [
+              6.26683431340019e-08,
+              0.0038382545703196653
+            ]
+          },
+          {
+            "p": 0.179,
+            "acceptance": [
+              5.248854575505424e-08,
+              0.003656600405801604
+            ]
+          },
+          {
+            "p": 0.18,
+            "acceptance": [
+              4.393733568413764e-08,
+              0.003483125811051503
+            ]
+          },
+          {
+            "p": 0.181,
+            "acceptance": [
+              3.6758412672352714e-08,
+              0.0033174843219845093
+            ]
+          },
+          {
+            "p": 0.182,
+            "acceptance": [
+              3.0735098909547455e-08,
+              0.0031593430178956973
+            ]
+          },
+          {
+            "p": 0.183,
+            "acceptance": [
+              2.5684332140625227e-08,
+              0.003008382050689535
+            ]
+          },
+          {
+            "p": 0.184,
+            "acceptance": [
+              2.145154996251761e-08,
+              0.0028642941873772113
+            ]
+          },
+          {
+            "p": 0.185,
+            "acceptance": [
+              1.790633625384579e-08,
+              0.0027267843656401222
+            ]
+          },
+          {
+            "p": 0.186,
+            "acceptance": [
+              1.49387188669074e-08,
+              0.0025955692622520662
+            ]
+          },
+          {
+            "p": 0.187,
+            "acceptance": [
+              1.245602340960783e-08,
+              0.0024703768741427597
+            ]
+          },
+          {
+            "p": 0.188,
+            "acceptance": [
+              1.0380201489102776e-08,
+              0.002350946111881277
+            ]
+          },
+          {
+            "p": 0.189,
+            "acceptance": [
+              8.645563463651965e-09,
+              0.002237026405350171
+            ]
+          },
+          {
+            "p": 0.19,
+            "acceptance": [
+              7.196855803530256e-09,
+              0.0021283773213785604
+            ]
+          },
+          {
+            "p": 0.191,
+            "acceptance": [
+              5.987631812707251e-09,
+              0.002024768193096439
+            ]
+          },
+          {
+            "p": 0.192,
+            "acceptance": [
+              4.978871899817379e-09,
+              0.0019259777607713259
+            ]
+          },
+          {
+            "p": 0.193,
+            "acceptance": [
+              4.137815974330981e-09,
+              0.0018317938238839706
+            ]
+          },
+          {
+            "p": 0.194,
+            "acceptance": [
+              3.4369760252263346e-09,
+              0.0017420129041998062
+            ]
+          },
+          {
+            "p": 0.195,
+            "acceptance": [
+              2.8533016392392647e-09,
+              0.0016564399195898684
+            ]
+          },
+          {
+            "p": 0.196,
+            "acceptance": [
+              2.3674752420384887e-09,
+              0.0015748878683558367
+            ]
+          },
+          {
+            "p": 0.197,
+            "acceptance": [
+              1.9633172920086017e-09,
+              0.0014971775238121097
+            ]
+          },
+          {
+            "p": 0.198,
+            "acceptance": [
+              1.6272846038568016e-09,
+              0.0014231371388795917
+            ]
+          },
+          {
+            "p": 0.199,
+            "acceptance": [
+              1.3480474980808483e-09,
+              0.0013526021604451663
+            ]
+          },
+          {
+            "p": 0.2,
+            "acceptance": [
+              1.116133623089088e-09,
+              0.0012854149532433089
+            ]
+          }
+        ],
+        "evidence": {
+          "title": "Binomial single-sampling operating characteristics — numerical alternative",
+          "columns": [
+            "Lot defective (%)",
+            "Plan A acceptance probability",
+            "Plan B acceptance probability"
+          ],
+          "rows": [
+            [
+              "0",
+              "1.000000",
+              "1.000000"
+            ],
+            [
+              "1",
+              "0.999993",
+              "0.986183"
+            ],
+            [
+              "2",
+              "0.997469",
+              "0.921572"
+            ],
+            [
+              "4",
+              "0.819979",
+              "0.676714"
+            ],
+            [
+              "5",
+              "0.583067",
+              "0.540533"
+            ],
+            [
+              "6",
+              "0.340709",
+              "0.416246"
+            ],
+            [
+              "8",
+              "0.069127",
+              "0.225974"
+            ],
+            [
+              "10",
+              "0.008071",
+              "0.111729"
+            ],
+            [
+              "15",
+              "0.000007",
+              "0.014189"
+            ],
+            [
+              "20",
+              "0.000000",
+              "0.001285"
+            ]
+          ]
+        }
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-013",
+      "optionRationales": [
+        "Incorrect. A uses the larger sample, and a steep decline does not imply higher acceptance everywhere; at poor quality lower acceptance is desirable.",
+        "Correct. The probabilities at the named good and poor quality levels establish the two risk comparisons, with a clear sample-size tradeoff.",
+        "Incorrect. Consumer risk is the acceptance probability at the designated poor quality and is lower for A in the supplied comparison.",
+        "Incorrect. Sharing a distributional model does not make different n and c values yield equal OC curves or risks."
+      ],
+      "trap": "Steepness alone cannot compare producer and consumer risks. Specify good and poor quality levels, read acceptance there, and account for the sample-size tradeoff.",
+      "distractors": [
+        "Incorrect. A uses the larger sample, and a steep decline does not imply higher acceptance everywhere; at poor quality lower acceptance is desirable.",
+        "Correct. The probabilities at the named good and poor quality levels establish the two risk comparisons, with a clear sample-size tradeoff.",
+        "Incorrect. Consumer risk is the acceptance probability at the designated poor quality and is lower for A in the supplied comparison.",
+        "Incorrect. Sharing a distributional model does not make different n and c values yield equal OC curves or risks."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A Measurement Systems Analysis (MSA), Process Capability, and Control (related acceptance-sampling application; not a separately named BoK subtopic)"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: Choosing a single sampling plan",
+          "url": "https://www.itl.nist.gov/div898/handbook/pmc/section2/pmc222.htm",
+          "locator": "Binomial acceptance probabilities and producer/consumer risks at designated quality levels"
+        }
+      ]
+    },
+    "issues": [
+      "Replaced unsupported slope-to-both-risks inference and placeholder curves with explicit binomial plans, quality points and reproducible probabilities."
+    ]
+  },
+  {
+    "number": 124,
+    "qid": "mbb:set-3:d6-014",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A multi-vari chart plotting diameter measurements grouped by machine (1, 2, 3) shows tight within-machine spread but the group means differ substantially across machines. What does this pattern suggest as the dominant source of variation, and what should the next analysis step be?",
+      "options": [
+        "Between-machine variation is dominant (tight spread within each machine but substantial differences between machine means), suggesting the next step is investigating what differs systematically between the machines themselves (calibration, tooling, maintenance history) rather than individual-part-level causes",
+        "The multi-vari chart cannot distinguish between within- and between-group variation",
+        "Within-machine (piece-to-piece) variation is dominant; investigate individual part handling",
+        "Time-to-time variation is clearly the dominant source based on this chart alone"
+      ],
+      "answer": 0,
+      "why": "A multi-vari chart's core diagnostic value is separating variation sources; tight within-group spread with large between-group differences points to a machine-level (not part-level) root cause, directing the next investigation toward what differs between the machines themselves. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "chart": {
+        "type": "multi-vari",
+        "groupLabel": "Machine",
+        "groups": [
+          {
+            "label": "Machine 1",
+            "values": [
+              10.02,
+              10.01,
+              10.03,
+              10.02
+            ]
+          },
+          {
+            "label": "Machine 2",
+            "values": [
+              10.15,
+              10.14,
+              10.16,
+              10.15
+            ]
+          },
+          {
+            "label": "Machine 3",
+            "values": [
+              9.88,
+              9.87,
+              9.89,
+              9.88
+            ]
+          }
+        ]
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-014"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A grouped multi-vari display shows four diameter observations from each of three machines, measured in millimetres with the same adequate gage. Within each machine the span is 0.02 mm; the machine groups are separated. Lot, operator and collection-time effects have not been controlled. What conclusion and follow-up are most defensible?",
+      "options": [
+        "Machine-group differences dominate the displayed spread; investigate setup and measurement conditions with a balanced or blocked follow-up before attributing causation to machine identity.",
+        "The display proves the machine mechanisms caused the offsets, so adjust all three machines to the pooled mean without checking product or setup differences.",
+        "The 0.02 mm within-machine spans dominate the overall variation, so ignore the differences between machine means and study only individual handling.",
+        "The display identifies time drift as the dominant source because connecting observations within each group establishes their chronological sequence across machines."
+      ],
+      "answer": 0,
+      "why": "The group means are 10.02, 10.15 and 9.88 mm, a 0.27 mm spread, while each within-group range is 0.02 mm. Thus between-group separation is the main displayed feature. These descriptive differences do not identify machine identity as the causal mechanism: lot, time, operator or setup may be confounded. Review the production context and collect an appropriate balanced or blocked comparison, with replication and measurement checks, before adjusting equipment or generalizing to the full process. Source alignment: ASQ CMBB Body of Knowledge, VI.B.5 General linear models; VI.B.6 Components of variation. Sources support principles, not ASQ authorship of this original scenario.",
+      "chart": {
+        "type": "multi-vari",
+        "title": "Diameter measurements grouped by machine",
+        "altText": "Each marker is one observation; horizontal offsets separate the four readings in each group. Group order is not a time sequence.",
+        "groups": [
+          {
+            "label": "Machine 1",
+            "values": [
+              10.02,
+              10.01,
+              10.03,
+              10.02
+            ]
+          },
+          {
+            "label": "Machine 2",
+            "values": [
+              10.15,
+              10.14,
+              10.16,
+              10.15
+            ]
+          },
+          {
+            "label": "Machine 3",
+            "values": [
+              9.88,
+              9.87,
+              9.89,
+              9.88
+            ]
+          }
+        ],
+        "evidence": {
+          "title": "Diameter measurements grouped by machine — numerical alternative",
+          "columns": [
+            "Machine",
+            "Reading",
+            "Diameter (mm)"
+          ],
+          "rows": [
+            [
+              "Machine 1",
+              "1",
+              "10.02"
+            ],
+            [
+              "Machine 1",
+              "2",
+              "10.01"
+            ],
+            [
+              "Machine 1",
+              "3",
+              "10.03"
+            ],
+            [
+              "Machine 1",
+              "4",
+              "10.02"
+            ],
+            [
+              "Machine 2",
+              "1",
+              "10.15"
+            ],
+            [
+              "Machine 2",
+              "2",
+              "10.14"
+            ],
+            [
+              "Machine 2",
+              "3",
+              "10.16"
+            ],
+            [
+              "Machine 2",
+              "4",
+              "10.15"
+            ],
+            [
+              "Machine 3",
+              "1",
+              "9.88"
+            ],
+            [
+              "Machine 3",
+              "2",
+              "9.87"
+            ],
+            [
+              "Machine 3",
+              "3",
+              "9.89"
+            ],
+            [
+              "Machine 3",
+              "4",
+              "9.88"
+            ]
+          ]
+        }
+      },
+      "set": 3,
+      "qid": "mbb:set-3:d6-014",
+      "optionRationales": [
+        "Correct. It quantifies the visible source of separation while requiring a design that can distinguish machine effects from confounding.",
+        "Incorrect. Descriptive grouping does not prove cause, and automatic centering may be inappropriate if groups differ in product or intended setup.",
+        "Incorrect. The 0.27 mm spread of group means is much larger than each 0.02 mm within-group span in these displayed data.",
+        "Incorrect. The group order does not establish a time trend; collection-time confounding remains unassessed."
+      ],
+      "trap": "Between-group separation is not proof of a machine mechanism. Check lot, operator, time and setup confounding before adjusting equipment.",
+      "distractors": [
+        "Correct. It quantifies the visible source of separation while requiring a design that can distinguish machine effects from confounding.",
+        "Incorrect. Descriptive grouping does not prove cause, and automatic centering may be inappropriate if groups differ in product or intended setup.",
+        "Incorrect. The 0.27 mm spread of group means is much larger than each 0.02 mm within-group span in these displayed data.",
+        "Incorrect. The group order does not establish a time trend; collection-time confounding remains unassessed."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.B.5 General linear models; VI.B.6 Components of variation"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: Process modeling",
+          "url": "https://www.itl.nist.gov/div898/handbook/ppc/section2/ppc22.htm",
+          "locator": "Statistical process models and assumptions; descriptive groups alone do not identify causes"
+        }
+      ]
+    },
+    "issues": [
+      "Added mm units and uncontrolled-factor caveat; removed machine-root-cause assertion; independently checked means/ranges and follow-up design."
+    ]
+  },
+  {
+    "number": 125,
+    "qid": "mbb:set-3:d6-015",
+    "original": {
+      "sub": "mbb-analytics",
+      "stem": "A Black Belt reports 'our process is 6 Sigma capable' based solely on a short-term Cp calculation of 2.0, without ever examining long-term process performance (Ppk) across multiple shifts and time periods. What is the flaw in this claim?",
+      "options": [
+        "Ppk is always smaller than Cp only when the process is out of control, and equal otherwise",
+        "The distinction between Cp and Ppk is purely terminological with no practical difference",
+        "There is no flaw; short-term Cp and long-term Ppk always produce identical values",
+        "Cp (typically calculated from short-term, within-subgroup variation) can substantially overstate real-world capability compared to Ppk (calculated from long-term, overall variation including shift-to-shift and time-to-time effects); a genuine '6 Sigma' claim requires examining long-term performance, not just a short-term snapshot"
+      ],
+      "answer": 3,
+      "why": "Cp/Cpk (short-term, within-subgroup variation) and Pp/Ppk (long-term, overall variation) can differ substantially in practice; the well-known '1.5 sigma shift' concept in Six Sigma literature exists precisely because short-term capability commonly overstates sustained, long-term performance. Source: [BOK] Domain VI.A, Measurement Systems Analysis, Process Capability and Control.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-015"
+    },
+    "corrected": {
+      "sub": "mbb-analytics",
+      "stem": "A Black Belt claims sustained 'Six Sigma capability' from Cp = 2.0 calculated with within-subgroup variation on one shift. The report omits the process mean, stability over representative operation and overall performance across shifts. What should the MBB require before accepting the sustained-performance claim?",
+      "options": [
+        "Accept the claim because Cp = 2.0 establishes both adequate centering and the long-term defect rate, regardless of how the observations were collected.",
+        "Subtract exactly 0.5 from Cp and call the result Ppk, using an assumed 1.5-sigma shift in place of collecting overall performance data.",
+        "Require only a longer run of the same shift at the same settings; overall variation then necessarily equals within-subgroup variation without a centering check.",
+        "Check centering with Cpk, measurement adequacy, stability and representative overall performance with Ppk or suitable tail analysis; do not assume a universal shift or ordering of estimates."
+      ],
+      "answer": 3,
+      "why": "Cp measures specification width relative to within-subgroup spread and ignores the mean. Even a high Cp cannot establish actual tail clearance without centering information. Cpk adds centering, while Ppk uses overall rather than within-subgroup variation; the data must cover the operating conditions relevant to a sustained claim. These are estimator definitions, not guarantees of short or long observation duration. A fixed 1.5-sigma shift and a universal Ppk ordering cannot substitute for evidence, and neither index alone validates a defect rate when model assumptions fail. Source alignment: ASQ CMBB Body of Knowledge, VI.A Measurement Systems Analysis (MSA), Process Capability, and Control. Sources support principles, not ASQ authorship of this original scenario.",
+      "set": 3,
+      "qid": "mbb:set-3:d6-015",
+      "optionRationales": [
+        "Incorrect. Cp ignores the mean and does not by itself establish sustained performance or a defect probability.",
+        "Incorrect. A conventional shift assumption is not a measurement of overall variation and does not define Ppk for these data.",
+        "Incorrect. More data from one narrow operating condition may remain unrepresentative, and centering is still unassessed.",
+        "Correct. It identifies missing centering and representative performance evidence while avoiding unsupported conversion or ordering rules."
+      ],
+      "trap": "Cp ignores the mean; Ppk uses overall spread. Representative data, centering and stability are needed, not a fixed shift or a universal ordering of index estimates.",
+      "distractors": [
+        "Incorrect. Cp ignores the mean and does not by itself establish sustained performance or a defect probability.",
+        "Incorrect. A conventional shift assumption is not a measurement of overall variation and does not define Ppk for these data.",
+        "Incorrect. More data from one narrow operating condition may remain unrepresentative, and centering is still unassessed.",
+        "Correct. It identifies missing centering and representative performance evidence while avoiding unsupported conversion or ordering rules."
+      ],
+      "auditSources": [
+        {
+          "title": "ASQ Certified Master Black Belt Body of Knowledge",
+          "url": "https://www.asq.org/cert/resource/pdf/certification/cmbb-cert-insert.pdf",
+          "locator": "VI.A Measurement Systems Analysis (MSA), Process Capability, and Control"
+        },
+        {
+          "title": "NIST/SEMATECH e-Handbook: What is process capability?",
+          "url": "https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm",
+          "locator": "Cp, Cpu, Cpl, Cpk formulas, centering and normal-distribution interpretation"
+        },
+        {
+          "title": "Minitab: Overall capability for Normal Capability Analysis",
+          "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/capability-analysis/how-to/capability-analysis/normal-capability-analysis/interpret-the-results/all-statistics-and-graphs/overall-capability/",
+          "locator": "Overall standard deviation, Pp and Ppk; comparison with within capability"
+        }
+      ]
+    },
+    "issues": [
+      "Added Cp-centering omission; corrected universal1.5shift implication and short/long-term estimator conflation; no assumed Ppk<Cp."
+    ]
+  }
+]
