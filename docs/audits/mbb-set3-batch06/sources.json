@@ -65,6 +65,21 @@
       "title": "JMP: Definitive screening designs",
       "url": "https://www.jmp.com/en/statistics-knowledge-portal/design-of-experiments/screening-designs/definitive-screening-designs",
       "locator": "Main-effect orthogonality, curvature and sparse active-factor models"
+    },
+    "blocks": {
+      "title": "NIST: Randomized block designs",
+      "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri332.htm",
+      "locator": "5.3.3.2; balanced coverage, within-block comparisons and additive block model"
+    },
+    "splitplot": {
+      "title": "Minitab: Create 2-Level Split-Plot Design — All statistics",
+      "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/doe/how-to/factorial/create-factorial-design/create-2-level-split-plot/examine-the-design/all-statistics/",
+      "locator": "Whole plots, hard-to-change factors, whole-plot replicates and blocks"
+    },
+    "dsd-runs": {
+      "title": "Minitab: Available definitive screening designs",
+      "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/doe/supporting-topics/factorial-and-screening-designs/available-definitive-screening-designs/",
+      "locator": "Single replicate, all continuous factors: 7–8 factors, 17 runs"
     }
   },
   "limitations": "Primary sources verify principles and BOK topic alignment, not empirical results or authorship of these revised scenarios. Added illustrative data and assumptions are explicitly identified."

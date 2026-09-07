@@ -132,7 +132,7 @@
       "sub": "mbb-analytics",
       "stem": "The selected standardized residuals below come from an OLS yield model; they are an excerpt, not all fitted observations. The full residual diagnostic shows increasing spread at higher fitted yields without a clear mean trend. Conventional standard errors assume constant error variance. Which concern and response are most appropriate?",
       "options": [
-        "Investigate heteroscedasticity and mean-model adequacy; justify variance modeling or robust inference before trusting conventional standard errors.",
+        "Investigate heteroscedasticity; check the mean model and use justified variance modeling or robust inference rather than trusting the conventional standard errors.",
         "Diagnose curvature from the changing spread alone and add a quadratic term, leaving the original standard-error formula unchanged.",
         "Treat heteroscedasticity as proof that every OLS coefficient is biased and replace the model without examining its assumptions.",
         "Keep the conventional confidence and prediction intervals because heteroscedasticity affects only the visual appearance of residual plots."
@@ -580,7 +580,7 @@
       "sub": "mbb-analytics",
       "stem": "Within the safe coded region −1 ≤ x₁, x₂ ≤ 1, a fitted response surface is ŷ = 80 − 2x₁² − 5x₂² (yield %). Its stationary point is (0,0). The team calls it the proven best operating point for the physical process. Which assessment correctly classifies the fitted point and limits that claim?",
       "options": [
-        "The fitted Hessian eigenvalues −4 and −10 indicate a maximum; check adequacy and confirm the process candidate.",
+        "The fitted stationary point is a maximum: Hessian eigenvalues are −4 and −10. Check model adequacy and confirm the candidate before treating it as a process optimum.",
         "The fitted stationary point is a minimum because concentric ellipses indicate the response increases toward their center.",
         "The fitted stationary point is a saddle because unequal quadratic coefficients imply that one direction must rise while the other falls.",
         "The fitted maximum proves a global physical optimum outside the studied region as well, so confirmation runs would add no useful information."
@@ -714,7 +714,7 @@
         "Accept 0.60 as evidence that correlation with the other predictors reduces the coefficient variance by 40%.",
         "Interpret 0.60 as an auxiliary R² and report a VIF of 2.50 without checking the field definition.",
         "Round 0.60 up to one because small VIF reporting discrepancies cannot affect conclusions about individual coefficients.",
-        "Flag the definition: centered VIF is at least one; tolerance 0.60 would instead imply VIF 1.67."
+        "Flag the label or calculation; centered VIF cannot be below one. If 0.60 is tolerance instead, the corresponding VIF is 1.67."
       ],
       "answer": 3,
       "why": "Under the stated conventional definition, 0 ≤ Rⱼ² < 1 and VIF ≥ 1. A VIF of 0.60 would require Rⱼ² = 1 − 1/0.60 = −0.6667, inconsistent with that centered auxiliary regression. Tolerance is 1 − Rⱼ²; if the field is actually tolerance 0.60, VIF = 1/0.60 = 1.6667 and Rⱼ² = 0.40. Verify metadata rather than silently relabeling. The qualification matters because other diagnostics and conventions should not be conflated with this VIF. Source alignment: ASQ CMBB Body of Knowledge, VI.B.2, Multiple regression analysis. This is an original practice scenario, not an ASQ-authored or endorsed item.",
@@ -1205,7 +1205,7 @@
       "stem": "For the same continuous manufacturing response and training sample, a simple model has R² = 0.71 and a model with 12 polynomial/interaction terms has R² = 0.93. Both will be considered for prediction inside the operating region, but neither has yet passed an independent error target. What should govern the choice?",
       "options": [
         "Choose the complex model because increasing training R² establishes that its added terms improve future prediction by the same amount.",
-        "Compare held-out error, uncertainty and operational adequacy; favor simplicity when validated performance is sufficiently comparable.",
+        "Compare appropriate held-out error, calibration of uncertainty and practical adequacy; prefer less complexity when performance is sufficiently comparable for the stated use.",
         "Choose the simple model because interpretability always overrides a validated, operationally important gain in predictive accuracy.",
         "Choose the complex model when its adjusted R² is larger, treating that internal statistic as a substitute for external validation."
       ],
@@ -1351,7 +1351,7 @@
       "sub": "mbb-analytics",
       "stem": "In a balanced 2² experiment, the same bond-strength scale (MPa) and coded low/high spacing are used in both main-effects panels. Marginal means are A: 42 and 68 MPa; B: 54 and 56 MPa. Replication variability and the four cell means are not supplied. Which conclusion follows from this display alone?",
       "options": [
-        "Effects are A = +26 MPa and B = +2 MPa; their significance and interaction remain undetermined.",
+        "The estimated main effects are A = +26 MPa and B = +2 MPa; A has the larger marginal contrast, but significance and interaction are not determined.",
         "Factor A is statistically significant and B is not, because the difference between their plotted slopes supplies the experimental error estimate.",
         "Factor B can be dropped because a small marginal contrast establishes that it cannot interact with A.",
         "The two effects are +13 MPa and +1 MPa, because high-minus-low effects equal the coefficients under −1/+1 coding."
@@ -1795,7 +1795,7 @@
       "stem": "A seven-factor, eight-run regular screening design starts with independent A, B and C columns and assigns D = AB, E = AC, F = BC and G = ABC. The table lists each main effect's complete two-factor alias set (higher-order aliases are omitted). No replication or external error estimate is available. What is the key interpretation limit?",
       "options": [
         "The table's three interactions per row can be estimated individually because each row names a different main effect.",
-        "Interpret contrasts conditionally on sparsity assumptions; this saturated resolution III design needs targeted follow-up to separate aliases.",
+        "Each apparent main effect combines the listed aliases; this saturated resolution III screen requires justified interaction assumptions and targeted follow-up before attribution.",
         "Eight observations give one residual degree of freedom after fitting seven main effects and an intercept, so ordinary t-tests are available.",
         "Assigning interactions as factor columns removes their influence from the process, making a main-effects-only physical interpretation valid."
       ],
@@ -2023,49 +2023,49 @@
             "a": -1,
             "b": -1,
             "c": -1,
-            "value": 42.0
+            "value": 42
           },
           {
             "a": 1,
             "b": -1,
             "c": -1,
-            "value": 51.0
+            "value": 51
           },
           {
             "a": -1,
             "b": 1,
             "c": -1,
-            "value": 58.0
+            "value": 58
           },
           {
             "a": 1,
             "b": 1,
             "c": -1,
-            "value": 67.0
+            "value": 67
           },
           {
             "a": -1,
             "b": -1,
             "c": 1,
-            "value": 64.0
+            "value": 64
           },
           {
             "a": 1,
             "b": -1,
             "c": 1,
-            "value": 73.0
+            "value": 73
           },
           {
             "a": -1,
             "b": 1,
             "c": 1,
-            "value": 80.0
+            "value": 80
           },
           {
             "a": 1,
             "b": 1,
             "c": 1,
-            "value": 89.0
+            "value": 89
           }
         ],
         "evidence": {
@@ -2418,6 +2418,11 @@
           "title": "NIST: Fractional factorial specifications and resolution",
           "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3344.htm",
           "locator": "5.3.3.4.4; defining relations and resolution"
+        },
+        {
+          "title": "Minitab: Create 2-Level Split-Plot Design — All statistics",
+          "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/doe/how-to/factorial/create-factorial-design/create-2-level-split-plot/examine-the-design/all-statistics/",
+          "locator": "Whole plots, hard-to-change factors, whole-plot replicates and blocks"
         }
       ]
     },
@@ -2450,7 +2455,7 @@
       "stem": "A planned experiment has each operator run a complete replicate of every treatment combination. Treatment order is randomized within operator, and the initial analysis includes an additive operator block effect. What benefit does this provide, and what limitation should the MBB retain?",
       "options": [
         "Blocking removes operator differences from the physical process, so future production variation will necessarily be lower.",
-        "Account for additive operator shifts to improve precision; assess relevant treatment-by-operator differences rather than assuming additivity.",
+        "It separates additive operator shifts from treatment comparisons and can improve precision; treatment-by-operator differences still require assessment when scientifically relevant.",
         "Blocking makes randomization unnecessary because identical treatment coverage eliminates all time-order and learning effects within an operator.",
         "Including operator as a block automatically estimates every treatment-by-operator interaction even with only one observation per combination."
       ],
@@ -2481,6 +2486,11 @@
           "title": "NIST: Fractional factorial specifications and resolution",
           "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3344.htm",
           "locator": "5.3.3.4.4; defining relations and resolution"
+        },
+        {
+          "title": "NIST: Randomized block designs",
+          "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri332.htm",
+          "locator": "5.3.3.2; balanced coverage, within-block comparisons and additive block model"
         }
       ]
     },
@@ -2544,6 +2554,11 @@
           "title": "JMP: Definitive screening designs",
           "url": "https://www.jmp.com/en/statistics-knowledge-portal/design-of-experiments/screening-designs/definitive-screening-designs",
           "locator": "Main-effect orthogonality, curvature and sparse active-factor models"
+        },
+        {
+          "title": "Minitab: Available definitive screening designs",
+          "url": "https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/doe/supporting-topics/factorial-and-screening-designs/available-definitive-screening-designs/",
+          "locator": "Single replicate, all continuous factors: 7–8 factors, 17 runs"
         }
       ]
     },

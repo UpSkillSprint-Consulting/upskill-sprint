@@ -106,7 +106,7 @@ test('All eight visuals render from data, remain exact-qid scoped and escape inj
  assert.match(ui.render({...batch[0],stem:'<script>bad</script>'},false),/&lt;script/);
 });
 test('Wording no longer has an all-longest-key pattern, and numerical choices remain distinct',()=>{
- const longest=batch.filter(q=>q.options[q.answer].split(/\s+/).length>Math.max(...q.options.filter((_,j)=>j!==q.answer).map(s=>s.split(/\s+/).length)));assert.ok(longest.length<20);
+ const longest=batch.filter(q=>q.options[q.answer].split(/\s+/).length>Math.max(...q.options.filter((_,j)=>j!==q.answer).map(s=>s.split(/\s+/).length)));assert.ok(longest.length>=3 && longest.length<=10);
  for(const q of batch)assert.equal(new Set(q.options.map(s=>s.trim().toLowerCase())).size,4);
 });
 
