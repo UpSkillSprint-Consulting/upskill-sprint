@@ -210,6 +210,9 @@
     const style = document.createElement('style');
     style.id = STYLE_ID;
     style.textContent = '.tb-quality-badge{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:700;letter-spacing:.03em}.tb-quality-badge.expert-reviewed{color:#14734f;background:rgba(31,157,107,.14)}.tb-quality-badge.bank-grounded{color:#315f99;background:rgba(59,111,176,.14)}.tb-quality-badge.review-required{color:#a3332f;background:rgba(192,69,63,.14)}.tb-quality-details,.tb-quality-audit{margin:10px 0;border:1px solid var(--line);border-radius:9px;background:var(--tint)}.tb-quality-details summary,.tb-quality-audit summary{padding:10px 12px;color:var(--ink);font-size:12px;font-weight:700;cursor:pointer}.tb-quality-details p,.tb-quality-audit div{margin:0;padding:0 12px 11px;color:var(--muted);font-size:12px;line-height:1.5}.tb-quality-details ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 12px;margin:0;padding:0 12px 12px;list-style:none;color:var(--muted);font-size:11.5px}@media(max-width:640px){.tb-quality-details ul{grid-template-columns:1fr}}';
+    // Theme foregrounds change immediately. Keep this navigation surface
+    // equally immediate so it never fades through an unreadable middle colour.
+    style.textContent += '.tb-quiz .tb-backsim{background:var(--tint)!important;color:var(--ink)!important;transition:none!important}';
     document.head.appendChild(style);
   }
 
