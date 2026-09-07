@@ -64,3 +64,9 @@ test('no exact duplicates or high token-overlap stems within the audited batch',
  const scores=[];for(let i=0;i<25;i++)for(let j=i+1;j<25;j++){const a=words(batch[i].stem),b=words(batch[j].stem);const overlap=[...a].filter(w=>b.has(w)).length/new Set([...a,...b]).size;scores.push({a:i+1,b:j+1,overlap});assert.ok(overlap<.55,`Q${i+1}/Q${j+1} need duplicate review`);}
  scores.sort((a,b)=>b.overlap-a.overlap);console.log('Highest within-batch token similarities:',JSON.stringify(scores.slice(0,5)));
 });
+
+test('Set 3 overview states the actual practice format rather than inheriting Set 1 copy',()=>{
+ const html=fs.readFileSync(path.join(root,'test-bank.html'),'utf8');
+ assert.match(html,/selectedSet==='3'\)return 'Set 3 contains '/);
+ assert.match(html,/not a replica of the official ASQ examination format or domain weighting/);
+});

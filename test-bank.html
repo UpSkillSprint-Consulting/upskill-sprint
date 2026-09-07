@@ -3554,6 +3554,7 @@
   function fullExamCount(e){return Math.min(activeBank(e).length,fullExamTarget(e));}
   function formatNoteFor(e){
     var plan=setPlan(e,selectedSet),available=activeBank(e).length;
+    if(current==='mbb'&&selectedSet==='3')return 'Set 3 contains '+available+' original practice questions. Its Full Exam uses all '+available+' items at a practice pace of 90 seconds per question. This analytics-heavy practice bank is not a replica of the official ASQ examination format or domain weighting.';
     if(plan)return 'Set 2 currently contains '+available+' of the planned '+plan.target+' original questions ('+plan.label+'). Every completed, validated batch will be added here. The current Full Exam serves all '+available+' available questions.';
     if(current==='mbb'&&selectedSet==='mix')return 'Mixed practice combines the 100-question supplied simulation with '+e.sets[2].length+' validated original Set 2 questions. The Mixed Full Exam remains a 100-question sitting at the same per-question pace.';
     return e.formatNote||'';

@@ -39,7 +39,7 @@ for(const engine of engines){
    await page.goto(base+'/test-bank.html',{waitUntil:'load'});await page.waitForFunction(()=>window.__TB&&window.__TBLearning&&document.body.classList.contains('auth-ready'));
    await page.evaluate(async()=>{await __TBLearning.sync('test-hydrate');await new Promise(r=>setTimeout(r,0));const start=__TBLearning.startSession;__TBLearning.startSession=function(c){window.__AUDIT_ORDER=c.questions.map(q=>q.qid);return start.call(this,c);};});
    await page.locator('.tb-tile[data-exam="mbb"]').click();await page.locator('.tb-setpick [data-set="3"]').click();await page.locator('[data-mode="full"]').click();
-   await page.locator('.tb-quiz').waitFor();const order=await page.evaluate(()=>__AUDIT_ORDER);assert.equal(order.length,175);assert.equal(await page.locator('.tb-navcell').count(),175);assert.ok(await page.locator('#tb-timer').isVisible());
+   await page.locator('.tb-quiz').waitFor();const order=await page.evaluate(()=>__AUDIT_ORDER);assert.equal(order.length,175);assert.equal(await page.locator('.tb-navcell').count(),175);assert.ok(await page.locator('#tb-timer').isVisible());const clock=await page.locator('#tb-timer').innerText();await page.waitForTimeout(1150);assert.notEqual(await page.locator('#tb-timer').innerText(),clock);
    for(let i=0;i<questions.length;i++){
     const q=questions[i],index=order.indexOf(q.qid),label=engine+'-'+layout+'-q'+String(i+1).padStart(2,'0');
     assert.ok(index>=0);await page.locator('[data-goto="'+index+'"]').click();await page.waitForFunction(id=>document.querySelector('.tb-quiz')?.dataset.questionId===id,q.qid);
@@ -57,14 +57,14 @@ for(const engine of engines){
     const navigation=await geometry(page,'.tb-quiz');
     for(const theme of ['light','dark']){
      await page.evaluate(t=>{document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;},theme);
-     await page.locator('.tb-quiz').scrollIntoViewIfNeeded();await page.locator('.tb-quiz').screenshot({path:path.join(out,label+'-'+theme+'.png')});
+     await page.locator('.tb-quiz').scrollIntoViewIfNeeded();await page.locator('.tb-quiz').screenshot({path:path.join(out,label+'-'+theme+'.png'),style:'header.site{position:relative!important;top:auto!important}'});
      const g=await geometry(page,'.tb-quiz');const axe=await new AxeBuilder({page}).include('.tb-quiz').withTags(['wcag2a','wcag2aa']).analyze();
      report.cases.push({engine,layout,theme,number:i+1,qid:q.qid,phase:'question',fourChoicesSelected:true,keyboardSpace:true,reopenedSelection:true,geometry:g,navigation,axe:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))});save();
      if(layout==='mobile'&&q.chart){const area=page.locator('.mbb3-scroll').first();const scroll=await area.evaluate(e=>{e.scrollLeft=e.scrollWidth;return {needed:e.scrollWidth>e.clientWidth+2,moved:e.scrollLeft>0};});assert.ok(!scroll.needed||scroll.moved);await area.screenshot({path:path.join(out,label+'-'+theme+'-visual-right.png')});await area.evaluate(e=>e.scrollLeft=0);}
     }
     if(i===2){for(const name of ['calc','formulas','tables']){await page.locator('[data-'+name+']').click();assert.ok(await page.locator('#tb-'+name).isVisible());await page.locator('[data-close="'+name+'"]').click();}}
    }
-   await page.locator('[data-goto="174"]').click();await page.locator('[data-submit]').click();await page.locator('#tb-answer-review').waitFor();
+   await page.locator('[data-goto="174"]').click();await page.locator('[data-submit]').click();await page.locator('[data-open-review="all"]').click();await page.locator('#tb-answer-review').waitFor();
    assert.match(await page.locator('.tb-resverd').innerText(),/25 of 175 correctly/);
    await page.locator('[data-review-tab="correct"]').click();
    for(let i=0;i<questions.length;i++){
@@ -74,7 +74,7 @@ for(const engine of engines){
     const copy=await card.innerText();const rationales=q.optionRationales.map(r=>copy.includes(r));
     for(const theme of ['light','dark']){
      await page.evaluate(t=>{document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;},theme);
-     await card.screenshot({path:path.join(out,engine+'-'+layout+'-q'+String(i+1).padStart(2,'0')+'-review-'+theme+'.png')});
+     await card.screenshot({path:path.join(out,engine+'-'+layout+'-q'+String(i+1).padStart(2,'0')+'-review-'+theme+'.png'),style:'header.site{position:relative!important;top:auto!important}'});
      const axe=await new AxeBuilder({page}).include('.tb-review-card').withTags(['wcag2a','wcag2aa']).analyze();
      report.cases.push({engine,layout,theme,number:i+1,qid:q.qid,phase:'review',status:'correct',rationales,geometry:await geometry(page,'.tb-review-card'),axe:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))});save();
     }
@@ -86,5 +86,7 @@ for(const engine of engines){
  await browser.close();
 }
 }finally{server.close();save();}
-if(report.failures.length)process.exitCode=1;
+const bad=report.cases.filter(c=>c.geometry&&(c.geometry.pageOverflow||c.geometry.clipped.length||c.geometry.svgText.length||!c.geometry.selectedAnnounced)||(c.rationales&&!c.rationales.every(Boolean))||(c.axe&&c.axe.length));
+if(report.failures.length||report.pageErrors.length||bad.length)process.exitCode=1;
+console.log('Recorded quality-gate failures:',bad.length);
 console.log(JSON.stringify({cases:report.cases.length,failures:report.failures,pageErrors:report.pageErrors},null,2));
