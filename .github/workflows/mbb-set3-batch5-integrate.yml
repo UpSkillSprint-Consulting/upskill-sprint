@@ -21,92 +21,90 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Apply reviewed wording and annotation corrections to unchanged PR head
+      - name: Repair shared-renderer compatibility without changing question content
         run: |
           git fetch origin audit/mbb-set3-batch1-q001-q025
-          test "$(git rev-parse FETCH_HEAD)" = 'c32f5ad167661d2a2fdaffbdb816d206fb8443a2'
+          test "$(git rev-parse FETCH_HEAD)" = '2d4307bbb248363ca3313b1db0d93cc12bb887f5'
           git checkout --detach FETCH_HEAD
           python3 - <<'PY'
-          import json,re,pathlib,subprocess,hashlib
-          root=pathlib.Path.cwd();D=root/'docs/audits/mbb-set3-batch05'
-          p=root/'test-bank-mbb-set3.js';source=p.read_text();starts=[m.start() for m in re.finditer(r'^  \{$',source,re.M)]
-          bank=json.loads(subprocess.check_output(['node','-e',"let c={window:{}};require('vm').runInNewContext(require('fs').readFileSync('test-bank-mbb-set3.js','utf8'),c);console.log(JSON.stringify(c.window.MBB_SET3))"],text=True))
-          revised={
-          101:'Facilitate a joint capacity-and-priority assessment; coach a recommendation and route unresolved allocation to the authorized portfolio council.',
-          103:'Coach listening and facilitation using observed examples, repair operator engagement, and verify both data coverage and later behavior.',
-          104:'Check the analysis and uncertainty, present it honestly with MBB support, and escalate any pressure to misrepresent findings.',
-          106:'Review demonstrated competencies and remaining requirements, acknowledge the concern, and agree a supported development or advancement step.',
-          110:"Explore the mentee's current goal, use relevant examples, and agree a mentee-owned action with a later application check.",
-          111:'Study variation is about 46.9%, failing the guideline; investigate components and verify improvements before relying on capability decisions.',
-          113:'Agreement is 70% and kappa is 0.40, below the screen; review disagreements and validate accuracy against reference classifications.',
-          114:'Cpk = 0.92, limited by the upper specification; it misses the stated target despite the stipulated process stability.',
-          115:"Investigate subgroup 6's range signal and assess affected output; retain the historical limits unless a justified process change supports rebaselining.",
-          116:'All three exceed the 7.65-day fence; investigate records and case mix without equating boxplot flags with data errors or SPC signals.',
-          117:'Investigate the low results and their provenance; retain valid data and question normality without assuming a cause.',
-          119:'Bias is consistently +2 mm; validate a candidate offset correction, including repeatability and residual bias across the intended range.',
-          121:'The configured eight-point rule signals at point 48; investigate a possible shift without automatically replacing the validated baseline limits.',
-          122:'Retain subgroup-mean control limits for stability and specifications for unit conformance; derive them separately even when their numerical values coincide.',
-          123:'A has lower risks at both designated quality levels, with a larger sample; slope alone would not establish these comparisons.'}
-          revisions=json.loads((D/'revisions.json').read_text())
-          for number,value in revised.items():
-              q=bank[number-1];q['options'][q['answer']]=value
-          q=bank[119]
-          q['options'][1]='Transform measurements to normality, but compare them with the original specification limits so that the customer requirements remain unchanged.'
-          q['optionRationales'][1]='Incorrect. A transformation must also be applied to the specification limits; comparing transformed measurements with untransformed limits changes the meaning of conformance.'
-          q['distractors']=q['optionRationales'][:]
-          for r in revisions:r['corrected']=bank[r['number']-1]
-          (D/'revisions.json').write_text(json.dumps(revisions,ensure_ascii=False,indent=2)+'\n')
-          replacement=''.join('  '+json.dumps(q,ensure_ascii=False,indent=2).replace('\n','\n  ')+',\n' for q in bank[100:125])
-          updated=source[:starts[100]]+replacement+source[starts[125]:];ns=[m.start() for m in re.finditer(r'^  \{$',updated,re.M)]
-          assert updated[:ns[100]]==source[:starts[100]] and updated[ns[125]:]==source[starts[125]:]
-          p.write_text(updated)
-          p=root/'test-bank-mbb-set3-batch5-ui.js';s=p.read_text()
-          old='const [xmin,xmax,ymin,ymax]=range,X=x=>70+(x-xmin)/(xmax-xmin)*550,Y=y=>270-(y-ymin)/(ymax-ymin)*220;'
-          new='const [xmin,xmax,ymin,ymax]=range,right=refs.some(r=>r.y!==undefined)?500:620,X=x=>70+(x-xmin)/(xmax-xmin)*(right-70),Y=y=>270-(y-ymin)/(ymax-ymin)*220;'
-          assert old in s;s=s.replace(old,new).replace("line(70,Y(y),620,Y(y),'mbbs3b5-grid')","line(70,Y(y),right,Y(y),'mbbs3b5-grid')").replace('line(70,270,620,270)','line(70,270,right,270)')
-          s=s.replace("line(70,Y(r.y),620,Y(r.y),'mbbs3b5-reference'","line(70,Y(r.y),right,Y(r.y),'mbbs3b5-reference'").replace("text(618,Y(r.y)-7,r.label+' '+num(r.y,4),'end')","text(right+12,Y(r.y)+5,r.label+' '+num(r.y,4),'start')")
-          s=s.replace('[1,8,-1,10]','[1,8,0,10]')
-          s=s.replace('fill:none;stroke:var(--line);stroke-width:1.5','fill:none;stroke:var(--ink);stroke-width:1.5;opacity:.55')
-          s=s.replace('`;document.head.appendChild(style);','\n.mbbs3b5-plot svg:has(.mbbs3b5-target) .mbbs3b5-grid{stroke:var(--ink);opacity:.55}\n`;document.head.appendChild(style);')
-          p.write_text(s)
-          p=root/'scripts/audit-mbb-set3-batch5.mjs';s=p.read_text()
-          old=' return {pageOverflow:document.documentElement.scrollWidth>innerWidth+2,clipped,svgText,'
-          new=" const labelCollisions=[...host.querySelectorAll('svg')].flatMap(svg=>[...svg.querySelectorAll('text')].flatMap(t=>{const a=t.getBoundingClientRect();return [...svg.querySelectorAll('circle[data-point]')].filter(p=>{const b=p.getBoundingClientRect();return Math.min(a.right,b.right)-Math.max(a.left,b.left)>2&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>2;}).map(p=>({label:t.textContent,x:p.dataset.x,y:p.dataset.y}));}));\n return {pageOverflow:document.documentElement.scrollWidth>innerWidth+2,labelCollisions,clipped,svgText,"
-          assert old in s;s=s.replace(old,new).replace('c.geometry.svgText.length||!c.geometry.selectedAnnounced','c.geometry.svgText.length||c.geometry.labelCollisions.length||!c.geometry.selectedAnnounced');p.write_text(s)
-          p=root/'tests/test-bank-mbb-set3-batch5-audit.test.js';s=p.read_text();s+='''
-          test('Final wording does not retain a systematic longest-correct-choice cue',()=>{
-           const uniqueLongest=batch.filter(q=>q.options[q.answer].split(/\\s+/).length>Math.max(...q.options.filter((_,i)=>i!==q.answer).map(s=>s.split(/\\s+/).length)));
-           assert.ok(uniqueLongest.length<=9);
-          });
-          test('Reference labels occupy a reserved right-side band and render checks detect label/point collisions',()=>{
-           const s=read('test-bank-mbb-set3-batch5-ui.js');assert.ok(s.includes('right=refs.some(r=>r.y!==undefined)?500:620'));assert.ok(s.includes('text(right+12,Y(r.y)+5'));
-           assert.ok(read('scripts/audit-mbb-set3-batch5.mjs').includes('c.geometry.labelCollisions.length'));
-          });
-          ''';p.write_text(s)
+          from pathlib import Path
+          p=Path('test-bank.html');s=p.read_text();old="    if(!chart)return '';\n    var inner='';"
+          new="""    if(!chart)return '';
+              // Rich chart schemas retain an exact numerical alternative. Legacy-only
+              // consumers must not reinterpret them as an older chart schema or invent
+              // placeholder curves. The full player uses its scoped graphical renderer.
+              if(chart.evidence && Array.isArray(chart.evidence.columns) && Array.isArray(chart.evidence.rows)){
+                var ev=chart.evidence, title=ev.title||chart.title||'Chart data';
+                return '<div class="tb-chart-evidence-fallback"><p>'+esc(chart.altText||'')+'</p>'+
+                  '<p>Numerical chart evidence. Scroll horizontally when needed.</p>'+
+                  '<div role="region" tabindex="0" aria-label="'+esc(title)+'" style="max-width:100%;overflow-x:auto">'+
+                  '<table class="tb-q-data-table"><caption>'+esc(title)+'</caption><thead><tr>'+
+                  ev.columns.map(function(c){return '<th scope="col">'+esc(c)+'</th>';}).join('')+
+                  '</tr></thead><tbody>'+ev.rows.map(function(row){return '<tr>'+row.map(function(cell,i){
+                    return i===0?'<th scope="row">'+esc(cell)+'</th>':'<td>'+esc(cell)+'</td>';
+                  }).join('')+'</tr>';}).join('')+'</tbody></table></div></div>';
+              }
+              var inner='';"""
+          assert s.count(old)==1;p.write_text(s.replace(old,new))
           PY
-          node --check test-bank-mbb-set3.js
-          node --check test-bank-mbb-set3-batch5-ui.js
-          node --check tests/test-bank-mbb-set3-batch5-audit.test.js
-          node --check scripts/audit-mbb-set3-batch5.mjs
-          node --test --test-name-pattern='Q[0-9]|All nine|Batch 5 protects|Final wording|Reference labels' tests/test-bank-mbb-set3-batch5-audit.test.js
-      - name: Commit reviewed correction to PR branch without merge or deployment
+          cat > tests/test-bank-mbb-set3-batch5-fallback.test.js <<'JS'
+          'use strict';
+          const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+          const {JSDOM,VirtualConsole}=require('jsdom');
+          const root=path.join(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
+          async function withPage(run){
+            let html=read('test-bank.html');
+            for(const file of ['test-bank-mbb-set1.js','test-bank-mbb-set2.js','test-bank-mbb-set3.js'])
+              html=html.replace('<script src="/'+file+'"></script>','<script>'+read(file)+'</script>');
+            const errors=[],observers=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
+            const dom=new JSDOM(html,{url:'https://upskillsprint.com/test-bank.html',runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){
+              w.HTMLElement.prototype.scrollIntoView=function(){};
+              const Native=w.MutationObserver;w.MutationObserver=class extends Native{constructor(cb){super(cb);observers.push(this);}};
+            }});
+            try{await new Promise(resolve=>dom.window.addEventListener('load',resolve));await run(dom.window);assert.deepEqual(errors,[]);}
+            finally{observers.forEach(o=>o.disconnect());dom.window.close();}
+          }
+          test('Batch 5 numerical alternatives remain exact and accessible without the optional graphical module',()=>withPage(w=>{
+            assert.equal(w.__MBBSet3Batch5UI,undefined);
+            const items=w.__TB.EXAMS.mbb.sets[3].slice(100,125).filter(q=>q.chart&&q.chart.evidence);assert.equal(items.length,8);
+            for(const q of items){
+              const rendered=w.__TB.renderQuestionChart(q.chart),host=w.document.createElement('div');host.innerHTML=rendered;
+              assert.doesNotMatch(rendered,/NaN|undefined|<svg/);assert.equal(host.querySelector('caption').textContent,q.chart.evidence.title);
+              assert.equal(host.querySelectorAll('thead th[scope="col"]').length,q.chart.evidence.columns.length);
+              const rows=Array.from(host.querySelectorAll('tbody tr'),r=>Array.from(r.children,c=>c.textContent));
+              assert.deepEqual(rows,JSON.parse(JSON.stringify(q.chart.evidence.rows)).map(r=>r.map(String)));
+              assert.ok(host.querySelector('[role="region"][tabindex="0"]'));assert.equal(host.querySelectorAll('tbody th[scope="row"]').length,rows.length);
+            }
+            const q=items[0],unsafe={...q.chart,evidence:{...q.chart.evidence,title:'<script>not executable</script>'}};
+            assert.match(w.__TB.renderQuestionChart(unsafe),/&lt;script/);
+          }));
+          test('The normal player still uses all eight graphical Batch 5 visuals, not their degraded-mode tables alone',()=>withPage(w=>{
+            w.eval(read('test-bank-mbb-set3-batch5-ui.js'));
+            const items=w.__TB.EXAMS.mbb.sets[3].slice(100,125).filter(q=>q.chart&&q.chart.evidence);assert.equal(items.length,8);
+            for(const q of items)for(const review of [false,true]){
+              const rendered=w.__TB.renderQuestionContent(q,review);
+              assert.match(rendered,/mbbs3b5-question/);assert.match(rendered,/<svg/);assert.doesNotMatch(rendered,/tb-chart-evidence-fallback|NaN|undefined/);
+              assert.ok(rendered.includes(q.chart.evidence.title));
+            }
+          }));
+          JS
+          node --check tests/test-bank-mbb-set3-batch5-fallback.test.js
+      - name: Commit repair to PR170 only; no merge or deployment
         id: commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add test-bank-mbb-set3.js test-bank-mbb-set3-batch5-ui.js scripts/audit-mbb-set3-batch5.mjs tests/test-bank-mbb-set3-batch5-audit.test.js docs/audits/mbb-set3-batch05/revisions.json
+          git add test-bank.html tests/test-bank-mbb-set3-batch5-fallback.test.js
           git diff --cached --check
-          git commit -m 'fix: balance Batch 5 choices and separate chart references from data points'
+          git commit -m 'fix: preserve statistical evidence in legacy and degraded chart rendering'
           git push origin HEAD:refs/heads/audit/mbb-set3-batch1-q001-q025
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - name: Export exact revised workspace
-        if: always()
         run: |
           mkdir -p /tmp/mbb5-workspace
           git rev-parse HEAD > /tmp/mbb5-workspace/commit.txt
           git archive --format=tar HEAD | gzip > /tmp/mbb5-workspace/repository.tar.gz
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: mbb-set3-batch5-workspace
           path: /tmp/mbb5-workspace
@@ -124,12 +122,12 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Independent calculations, preservation and all-option player grading
+      - name: Independent calculations, shared-renderer compatibility and all-option grading
         run: |
           mkdir -p audit-results-batch5
           git rev-parse HEAD > audit-results-batch5/tested-commit.txt
           set -o pipefail
-          node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch5-audit.test.js | tee audit-results-batch5/batch5-tests.txt
+          node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch5*.test.js tests/test-bank-mbb-set3.test.js | tee audit-results-batch5/batch5-tests.txt
       - name: Complete repository regression
         run: timeout 900 node --test --test-concurrency=2 tests/*.test.js > audit-results-batch5/full-regression.txt 2>&1
       - uses: actions/upload-artifact@v4
