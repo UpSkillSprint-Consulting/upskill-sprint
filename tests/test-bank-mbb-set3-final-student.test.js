@@ -76,6 +76,7 @@ test('Full Exam retake retains its core listener when the Quick/Focused coordina
 });
 
 test('narrow-screen review copy wraps long terms instead of escaping its grid column',()=>{
+ assert.ok(read('test-bank-deep-feedback.js').includes('.tb-error-diagnosis p{margin:7px 0 0;color:var(--ink);font-size:11.5px}'));
  const source=read('test-bank-feedback-loop.js');assert.ok(source.includes('.tb-review-option .tb-answer-copy,.tb-answer-compare strong,.tb-distractor-title{min-width:0;overflow-wrap:anywhere}'));
 });
 
