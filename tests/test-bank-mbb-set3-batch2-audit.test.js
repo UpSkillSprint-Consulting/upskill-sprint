@@ -1,3 +1,5 @@
+// Final 175-item review: prefix updated only for the Q1 hint repair;
+// test-bank-mbb-set3-final-student.test.js protects all other source bytes.
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto');
 const root=path.join(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
@@ -18,7 +20,7 @@ for(const [i,q] of batch.entries())test(`Batch 2 Q${i+26}: ${ids[i]} complete in
 });
 test('Batch 2 integration preserves the previously audited Q1–25 and still-unaudited final JavaScript trailer source objects byte-for-byte',()=>{
  const starts=[...source.matchAll(/^  \{$/gm)].map(m=>m.index);assert.equal(starts.length,175);
- assert.equal(sha(source.slice(0,starts[25])),'5904d0a49809e8e16422784e32e668fce797c760453e9fc351f0ab28801e1eaa');
+ assert.equal(sha(source.slice(0,starts[25])),'df19c6f99ac45449da343a2bf16447576dcc6dbda60474bb485c0f41bb88060a');
  assert.equal(sha(source.slice(source.lastIndexOf('  ];'))),'2d06d874c33463730929799a11508fd6c3bf9402321145fd3cbb09cb2d813f46');
  assert.equal(new Set(bank.map(q=>q.qid)).size,175);
 });

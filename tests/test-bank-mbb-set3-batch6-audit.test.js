@@ -1,3 +1,5 @@
+// Final 175-item review: prefix updated only for the Q1 hint repair;
+// test-bank-mbb-set3-final-student.test.js protects all other source bytes.
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto');
 const root=path.join(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
@@ -13,7 +15,7 @@ for(const [i,q] of batch.entries())test(`Batch 6 Q${i+126}: reviewed identity, k
 });
 test('Batch 6 byte-preserves Q1–125, final JavaScript trailer and all stable IDs/answer positions',()=>{
  const p=JSON.parse(read('docs/audits/mbb-set3-batch06/preservation.json')),starts=[...source.matchAll(/^  \{$/gm)].map(m=>m.index);assert.equal(starts.length,175);
- assert.equal(sha(source.slice(0,starts[125])),'f022ebd5a43e01f81ea10e9ebe5a7f0f98f16b46bf1ef294e959d8f7c572ba5c');assert.equal(sha(source.slice(source.lastIndexOf('  ];'))),'2d06d874c33463730929799a11508fd6c3bf9402321145fd3cbb09cb2d813f46');assert.deepEqual(bank.map(q=>q.qid),p.ids);assert.deepEqual(bank.map(q=>q.answer),p.keys);
+ assert.equal(sha(source.slice(0,starts[125])),'31d1a2038f3fabb518b3c707ec29e041608bf5ad36697385481169b4e7c8ae50');assert.equal(sha(source.slice(source.lastIndexOf('  ];'))),'2d06d874c33463730929799a11508fd6c3bf9402321145fd3cbb09cb2d813f46');assert.deepEqual(bank.map(q=>q.qid),p.ids);assert.deepEqual(bank.map(q=>q.answer),p.keys);
 });
 test('Q128 derives auxiliary R-squared and standard-error inflation from actual VIF table',()=>{
  const v=Number(batch[2].chart.rows[0][1]);near(1-1/v,.9295774647887324);near(Math.sqrt(v),3.7682887362833544);

@@ -3769,7 +3769,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     return ui?stem+ui.conditions(q)+renderQuestionChart(q.chart):renderQuestionChart(q.chart)+stem;
   }
 
-  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale};
+  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale,getFeedbackSnapshot:getFeedbackSnapshot};
 
   /* ---------- rail ---------- */
   function renderRail(){
@@ -4453,6 +4453,14 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
   }
 
   /* ---------- results ---------- */
+  // The session, not the rendered navigation history, owns the completed review.
+  // Copy the answer/flag records so feedback cannot mutate scoring or persistence.
+  function getFeedbackSnapshot(){
+    if(!session||!Array.isArray(session.items))return null;
+    return {sessionId:session.id,examId:current,completed:!!session.completed,
+      records:session.items.map(function(it,index){return {index:index,question:it.q,
+        selected:session.answers[index]==null?null:session.answers[index],flagged:!!session.flags[index]};})};
+  }
   function submitQuiz(completedReason){
     if(!session||session.completed)return;
     session.completed=true;
@@ -4469,6 +4477,8 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     rec.readiness=canonicalReadiness(rec.readiness);
     var cum=cumAggFrom(rec.state.subState);
     session.result={agg:agg,cum:cum,units:units,readiness:rec.readiness,plan:studyPlan(units,cum),state:rec.state};
+    // Timed expiry and manual submission publish the same complete saved attempt.
+    document.dispatchEvent(new CustomEvent('tb:attempt-completed',{detail:getFeedbackSnapshot()}));
     view='results';renderMain();
   }
   function resultsHTML(){

@@ -1,3 +1,5 @@
+// Final 175-item review: prefix updated only for the Q1 hint repair;
+// test-bank-mbb-set3-final-student.test.js protects all other source bytes.
 // Q51–75 validation. These assertions supplement, not replace, independent item review.
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto');
@@ -17,7 +19,7 @@ for(const [i,q] of batch.entries())test(`Batch 3 Q${i+51}: complete case, indepe
 });
 test('Batch 3 preserves every byte of Q1–50 and final JavaScript trailer, all IDs and all answer positions',()=>{
  const starts=[...source.matchAll(/^  \{$/gm)].map(m=>m.index);assert.equal(starts.length,175);
- assert.equal(sha(source.slice(0,starts[50])),'4b32c2aadc3faf6d91b1a7f5393732abf46af976d5a805de21f37c11fdeee7f3');assert.equal(sha(source.slice(source.lastIndexOf('  ];'))),'2d06d874c33463730929799a11508fd6c3bf9402321145fd3cbb09cb2d813f46');
+ assert.equal(sha(source.slice(0,starts[50])),'1a2524ebd37457677f437f61c8d25c5689dc836915e52ec7db4a1eb35b91c53d');assert.equal(sha(source.slice(source.lastIndexOf('  ];'))),'2d06d874c33463730929799a11508fd6c3bf9402321145fd3cbb09cb2d813f46');
  assert.equal(new Set(bank.map(x=>x.qid)).size,175);assert.deepEqual(batch.map(x=>x.answer),keys);
 });
 test('Q62 independently derives all individual loads, excesses and aggregate capacity at every scenario value',()=>{

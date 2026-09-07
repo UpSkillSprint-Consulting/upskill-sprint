@@ -1,3 +1,5 @@
+// Final 175-item review: prefix updated only for the Q1 hint repair;
+// test-bank-mbb-set3-final-student.test.js protects all other source bytes.
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto');
 const root=path.join(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
@@ -15,7 +17,7 @@ for(const [i,q] of batch.entries())test(`Batch 4 Q${i+76}: identity, reviewed ke
 });
 test('Batch 4 independently byte-locks all Q1–75 and final JavaScript trailer plus all identities',()=>{
  const starts=[...source.matchAll(/^  \{$/gm)].map(m=>m.index);assert.equal(starts.length,175);
- assert.equal(sha(source.slice(0,starts[75])),'8eba5c0654013cbc23f17a532cef4553de701fe0b07d02a73247cfbdb05225a0');assert.equal(sha(source.slice(source.lastIndexOf('  ];'))),'2d06d874c33463730929799a11508fd6c3bf9402321145fd3cbb09cb2d813f46');assert.equal(new Set(bank.map(q=>q.qid)).size,175);
+ assert.equal(sha(source.slice(0,starts[75])),'4c9c01508bfee77853ee40b2f557dca33920ce15084d9ea921afc3bccee0a23f');assert.equal(sha(source.slice(source.lastIndexOf('  ];'))),'2d06d874c33463730929799a11508fd6c3bf9402321145fd3cbb09cb2d813f46');assert.equal(new Set(bank.map(q=>q.qid)).size,175);
 });
 test('Q77 derives cash outlays and opportunity-inclusive economic cost from the actual stem',()=>{
  const a=[...batch[1].stem.matchAll(/\$([0-9,]+)/g)].map(m=>Number(m[1].replace(/,/g,'')));assert.deepEqual(a,[350000,40000,15000,20000,60000]);

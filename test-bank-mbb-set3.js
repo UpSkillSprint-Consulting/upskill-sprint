@@ -27,7 +27,7 @@
         "locator": "I.A; I.B.2; I.E.2"
       }
     ],
-    "trap": "Test both stated decision criteria: customer convenience and the documented reimbursement mechanism. A plausible strategic story is not a substitute for that evidence.",
+    "trap": "Test the stated linkage between the clinical IT weakness and reimbursement exposure. A plausible strategic story is not a substitute for the documented mechanism.",
     "distractors": [
       "Correct. It uses the verified weakness-to-threat mechanism and separates strategic fit from final authorization.",
       "Boarding may be important, but no connection from boarding to the two specific strategic findings is supplied.",

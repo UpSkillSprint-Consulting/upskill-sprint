@@ -605,6 +605,9 @@
   function initialize() {
     ensureStyles();
     schedule();
+    // The player publishes fresh review markup synchronously; the observer remains
+    // a compatibility path for legacy callers and delayed optional modules.
+    document.addEventListener('tb:review-rendered', enhanceDeepFeedback);
     document.addEventListener('click', handleClick, true);
     document.addEventListener('change', function (event) {
       const select = event.target.closest('[data-error-class]');

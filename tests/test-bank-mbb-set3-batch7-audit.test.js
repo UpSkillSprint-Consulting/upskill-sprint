@@ -1,3 +1,5 @@
+// Final 175-item review: prefix updated only for the Q1 hint repair;
+// test-bank-mbb-set3-final-student.test.js protects all other source bytes.
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto');
 const root=path.join(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
@@ -13,7 +15,7 @@ for(const [i,q] of batch.entries())test(`Batch 7 Q${i+151}: reviewed identity, u
 });
 test('Batch 7 independently preserves every Q1–150 byte, all IDs/keys and the closing JavaScript',()=>{
  const starts=[...source.matchAll(/^  \{$/gm)].map(m=>m.index);assert.equal(starts.length,175);
- assert.equal(sha(source.slice(0,starts[150])),'67b24b988802ba5073c9db4ca41df48fda21664a0335d24694a8817a28523447');assert.equal(sha(source.slice(source.lastIndexOf('  ];'))),'2d06d874c33463730929799a11508fd6c3bf9402321145fd3cbb09cb2d813f46');
+ assert.equal(sha(source.slice(0,starts[150])),'fc8269d41f71d5f8e219a34dff93af8afe20a13c94457910e6f1902e31c7fbaf');assert.equal(sha(source.slice(source.lastIndexOf('  ];'))),'2d06d874c33463730929799a11508fd6c3bf9402321145fd3cbb09cb2d813f46');
  const p=JSON.parse(read('docs/audits/mbb-set3-batch07/preservation.json'));assert.deepEqual(bank.map(q=>q.qid),p.ids);assert.deepEqual(bank.map(q=>q.answer),p.keys);assert.equal(new Set(p.ids).size,175);
 });
 test('Q151 retains all observed corners and describes conditional effects without inventing uncertainty',()=>{
