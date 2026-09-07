@@ -1,0 +1,24 @@
+{
+  "verifiedOn":"2026-09-07","appSnapshot":"7384e94d823a0cf9ef36ca4b2be2d0e327a58148",
+  "method":"Independent Python/NumPy design matrices and linear algebra, SciPy logistic likelihood optimization and statsmodels Durbin-Watson on actual revised data; supplied premises and illustrative constructions distinguished.",
+  "checks":{
+    "Q128":{"auxiliaryR2":[0.9295774647887324,0.927536231884058,0.23076923076923084],"standardErrorMultipliers":[3.7682887362833544,3.714835124201342,1.140175425099138]},
+    "Q129":{"oddsRatio":2.346801346801347,"riskRatio":1.888888888888889,"riskDifference":0.16000000000000003,"independentLogisticMLE":[-1.516347495771797,0.8530532471475009],"ORverificationError":5.822489956841537e-8},
+    "Q131":{"hessianEigenvalues":[-10,-4],"stationaryPrediction":80},
+    "Q133":{"VIFfromTolerance":1.6666666666666667,"auxR2FromTolerance":0.4,"invalidAuxR2fromClaimedVIF":-0.6666666666666667},
+    "Q134":{"DWfromIndependentOLS":0.45,"coefficients":[1.3851495865336016e-13,0.9999999999999993],"maximumResidualDiscrepancy":1.3145040611561853e-13,"residualSum":-7.993605777301127e-15,"residualFittedDot":9.044234568180539e-13,"all14OriginalCallsPreserved":true},
+    "Q137":{"completeFeasibleContrastDays":1,"thresholdDays":0.5,"pValueIsGivenPremise":0.03,"pValueIndependentlyReconstructed":false,"reason":"No source regression dataset, standard error or degrees of freedom supplied; this item assesses interpretation, not reconstruction, of its stated p-value."},
+    "Q138":{"effects":[26,2],"coefficients":[13,1]},
+    "Q139":{"simpleAEffects":[30,-15],"differenceOfDifferences":-45,"factorialABEffect":-22.5,"codedABCoefficient":-11.25,"significance":"Not identifiable; no error estimate supplied."},
+    "Q140":{"rank":4,"residualDF":0},
+    "Q141":{"originalUniqueRuns":8,"allFactorReversalUnionUniqueRuns":8,"DOnlyUnionUniqueRuns":16,"DAliasABCOriginalDot":8,"DAliasABCCombinedDot":0},
+    "Q142":{"all21TwoFactorAliases":{"A":["BD","CE","FG"],"B":["AD","CF","EG"],"C":["AE","BF","DG"],"D":["AB","CG","EF"],"E":["AC","BG","DF"],"F":["AG","BC","DE"],"G":["AF","BE","CD"]},"mainModelRank":8,"residualDF":0},
+    "Q143":{"interceptPureQuadraticRankAtCorners":1,"withCenterRank":2,"columnCount":3,"opposingQuadraticCounterexampleCornerAndCenterValues":[0,0,0,0,0]},
+    "Q144":{"interceptAndCodedCoefficients":[65.5,4.499999999999999,7.9999999999999964,10.999999999999998],"factorialEffects":[8.999999999999998,15.999999999999993,21.999999999999996],"maximumAdditiveResidual":0,"eightUniqueCorners":8},
+    "Q145":{"observations":16,"interceptMainTwoFactorRank":16,"residualDF":0,"all120PairsOrthogonal":true},
+    "Q146":{"signalMPa":1,"contrastSEMPa":4.242640687119285,"signalToSE":0.23570226039551587},
+    "Q147":{"constructiveModel":"y=50+10ABC","factorialEffects":{"A":0,"B":0,"C":0,"AB":0,"AC":0,"BC":0,"ABC":20}},
+    "Q150":{"runs":17,"fullQuadraticColumns":45,"fullQuadraticRank":17,"interceptMainPureQuadraticRank":17,"mainSecondOrderDotMaximum":0,"scope":"Independent illustrative design verifies feasibility and properties; no design matrix was inferred from a source company dataset."}
+  },
+  "limits":"Given R-squared values, p-values and significance declarations in interpretation scenarios are not independently reconstructed empirical results. No missing confidence interval, critical bound, outcome data or degrees of freedom were invented."
+}

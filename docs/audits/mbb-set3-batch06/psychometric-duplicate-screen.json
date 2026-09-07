@@ -1,0 +1,18 @@
+{
+  "batch":6,"range":[126,150],"application":"7384e94d823a0cf9ef36ca4b2be2d0e327a58148",
+  "original":{"uniqueLongestCorrect":25,"medianCorrectToMedianDistractorWordRatio":3.466666666666667},
+  "revised":{"uniqueLongestCorrect":7,"medianCorrectToMedianDistractorWordRatio":1.0},
+  "keyPositions":{"A":6,"B":9,"C":2,"D":8},"keysRebalanced":false,
+  "exactStemScreen":{"questionsAcrossMBBsets":450,"normalizedDuplicatesInvolvingBatch":[]},
+  "relatedConstructReview":[
+    {"questions":[128,133],"distinction":"High-VIF coefficient/prediction interpretation versus reconciliation of an invalid VIF/tolerance field."},
+    {"questions":[130,132,136],"distinction":"Future temporal validation and reused holdout; sparse binary outcomes and preselection leakage; comparative model adequacy versus complexity."},
+    {"questions":[140,141,142,145],"distinction":"Specific three-factor aliases, complementary foldover geometry, full seven-factor alias screen, and resolution V estimability/error degrees of freedom."},
+    {"questions":[143,150],"distinction":"Center-point aggregate curvature and rank deficiency versus DSD main-effect protection and 45-parameter joint-estimation limit."},
+    {"question":129,"distinction":"Binary indicator/table-based OR, risk ratio and event-direction reconciliation rather than a generic continuous-predictor odds-ratio recall item."},
+    {"question":141,"distinction":"Verifies that reversing all signs in an even defining word fails to add the complementary fraction, beyond simply naming the original alias."},
+    {"question":145,"distinction":"Budget, exact generator and saturated parameter count distinguish this decision from merely identifying resolution V."}
+  ],
+  "methods":"Exact normalized stems plus lexical nearest-neighbor screening (three candidates per audited item), individual content review and question-level decision-task differentiation.",
+  "limitations":"Word counts and lexical screens are quality checks, not empirical item difficulty, discrimination, reliability, DIF or proof of item independence. No candidate-response dataset was analyzed. Shared competencies are intentional; no claim that every conceivable cue or related topic has been eliminated."
+}
