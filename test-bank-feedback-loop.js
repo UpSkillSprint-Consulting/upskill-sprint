@@ -245,6 +245,7 @@
   }
   function auditedRationales(question) {
     if(window.__MBBSet3Batch3UI&&window.__MBBSet3Batch3UI.isQuestion(question))return window.__MBBSet3Batch3UI.rationales(question);
+    if(window.__MBBSet3Batch4UI&&window.__MBBSet3Batch4UI.isQuestion(question))return window.__MBBSet3Batch4UI.rationales(question);
     if(window.__MBBSet3Batch2UI&&window.__MBBSet3Batch2UI.isQuestion(question))return window.__MBBSet3Batch2UI.rationales(question);
     if(window.__MBBSet3Batch1UI&&window.__MBBSet3Batch1UI.isQuestion(question))return window.__MBBSet3Batch1UI.rationales(question);
     return window.__MBBBatch7UI && window.__MBBBatch7UI.isQuestion(question) ? window.__MBBBatch7UI.rationales(question) : window.__MBBBatch6UI && window.__MBBBatch6UI.isQuestion(question) ? window.__MBBBatch6UI.rationales(question) : window.__MBBBatch5UI && window.__MBBBatch5UI.isQuestion(question) ? window.__MBBBatch5UI.rationales(question) : window.__MBBBatch3UI && window.__MBBBatch3UI.isQuestion(question) ? window.__MBBBatch3UI.rationales(question) : window.__MBBBatch4UI && window.__MBBBatch4UI.isQuestion(question) ? window.__MBBBatch4UI.rationales(question) : window.__MBBBatch2UI ? window.__MBBBatch2UI.rationales(question) : '';
