@@ -14,68 +14,25 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Apply exact reviewed feedback changes
+      - name: Isolate component namespace and expanded metadata contrast
         run: |
           node <<'NODE'
-          const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),crypto=require('node:crypto');
-          const tips=[
-          'Test both stated decision criteria: customer convenience and the documented reimbursement mechanism. A plausible strategic story is not a substitute for that evidence.',
-          'Plausible scenarios are not probabilities. Without defensible likelihoods, test robustness and define observable triggers rather than inventing an expected-value model.',
-          'Recompute both weighted totals, then distinguish the nominal ranking from a robust funding decision. The phrase about ratings not being sensitivity-tested is context, not a negative question lead-in.',
-          'Separate past gains and sunk expenditure from future incremental contribution. The question asks for a reassessment process, not automatic cancellation or continuation.',
-          'Distinguish activity and forecasts from validated, sustained outcomes. Diagnose the evidence and ownership gaps instead of inferring deployment maturity from training counts.',
-          'Scrum delivery evidence and process-improvement evidence are different. Preserve testable increments while still verifying the process outcome and its sustainment.',
-          'Use the explicitly stated prevention-appraisal-failure definitions. COPQ is failure cost; total COQ also includes prevention and appraisal. Neither ratio alone establishes maturity.',
-          'Two reported rates establish a numerical difference, not a defensible inferential comparison. Check denominator information, comparability and practical consequences.',
-          'Multiply each success-conditional benefit by its success probability under the zero-failure-benefit assumption. Keep gross benefits separate from costs and ordinal risk scores.',
-          'Compute sequential waves at the stated concurrent capacity. A deterministic planning baseline is not a promise that real disruptions and variation have been covered.',
-          'Reconcile opening work plus starts minus completions in every period. Accumulation does not identify its cause or establish steady-state mean lead time.',
-          'Treat local optimization as a hypothesis consistent with the pattern, not a proven cause. Preserve useful local measures while testing their end-to-end effects.',
-          'Treat the confirmed obligation and deadline as case facts. A mandatory feasibility constraint is not interchangeable with a discretionary satisfaction or benefit score.',
-          'This is an internal qualification system, not an ASQ eligibility rule. Compare the evidence standards and assessor calibration rather than certificate appearance or attendance.',
-          'Strategic concentration can be justified, but a top KPI does not validate every marginal project. Check overlapping benefits and uncovered material risks before reallocating.',
-          'Reducing false positives is not sufficient if missed fraud or losses increase. Investigate the existing process and preserve detection-performance guardrails.',
-          'The defect is exclusive reliance on budget variance despite omitted strategic objectives. Financial evidence need not be discarded to repair that omission.',
-          'Return status defines the restricted sampling frame; it does not reveal why people did not return. More observations from that same frame do not include the excluded population.',
-          'Respond to changed assumptions before losses materialize, but distinguish affected from unaffected projects. A demand threat does not justify freezing or cancelling every project.',
-          'Near-miss counts are not direct measurements of hazard frequency or severity. Review reporting and exposure while promptly controlling identified serious hazards.',
-          'Metric age is not the alignment test. Diagnose missing role-level outcome linkage and incentive balance without assuming every legacy measure must be replaced.',
-          'Separate season-dependent data collection from valid preparatory work. Schedule capacity around the real evidence window without substituting fabricated observations.',
-          'Benefits divided by cost is the benefit-cost ratio. Net ROI subtracts cost first. Historical return and the case for future incremental funding are separate judgments.',
-          'The missing control is a trigger-to-decision rule between scheduled meetings. More reporting alone is not formal reassessment or reauthorization.',
-          'Test outcome linkage, gaming and end-to-end tradeoffs. Renaming or retargeting a metric does not establish alignment, and a valid existing measure may remain useful.'
-          ];
-          const f='test-bank-mbb-set3.js',s=fs.readFileSync(f,'utf8'),ctx={window:{}};vm.runInNewContext(s,ctx);
-          const qs=JSON.parse(JSON.stringify(ctx.window.MBB_SET3)),starts=[...s.matchAll(/^  \{$/gm)].map(m=>m.index),suffix=s.slice(starts[25]);
-          assert.equal(qs.length,175);assert.equal(tips.length,25);assert.equal(crypto.createHash('sha256').update(suffix).digest('hex'),'b55c09425e0b5c6a706127aa9eb5181a58e0983690b880b65113fe63e3014025');
-          qs.slice(0,25).forEach((q,i)=>{q.trap=tips[i];q.distractors=q.optionRationales.slice();});
-          fs.writeFileSync(f,s.slice(0,starts[0])+qs.slice(0,25).map(q=>JSON.stringify(q,null,2).split('\n').map(l=>'  '+l).join('\n')).join(',\n')+',\n'+suffix);
-          function edit(file,old,replacement){const text=fs.readFileSync(file,'utf8');assert.equal(text.split(old).length,2,'Unique anchor in '+file);fs.writeFileSync(file,text.replace(old,replacement));}
-          edit('test-bank-mbb-set3-batch1-ui.js','@media(max-width:560px)',`.tb-review-card:has(.mbb3-question) .tb-report-box[hidden]{display:none!important}.tb-review-card:has(.mbb3-question) .tb-distractor-analysis,.tb-review-card:has(.mbb3-question) .tb-distractor-row p,.tb-review-card:has(.mbb3-question) .tb-distractor-row small,.tb-review-card:has(.mbb3-question) .tb-accuracy-note,.tb-review-card:has(.mbb3-question) .tb-quality-details{color:var(--ink)!important;line-height:1.6}\n@media(max-width:560px)`);
-          const script='scripts/audit-mbb-set3-batch1.mjs';let scriptText=fs.readFileSync(script,'utf8');assert.equal(scriptText.split('header.site{position:relative!important;top:auto!important}').length,3);scriptText=scriptText.replaceAll('header.site{position:relative!important;top:auto!important}','header.site{visibility:hidden!important}');fs.writeFileSync(script,scriptText);
-          const old="const copy=await card.innerText();const rationales=q.optionRationales.map(r=>copy.includes(r));";
-          const replacement=`assert.equal((await card.locator('.tb-exam-trap').innerText()).trim(),q.trap);
-              const details=card.locator('.tb-distractor-analysis');await details.locator('summary').click();assert.ok(await details.getAttribute('open')!==null);
-              const wrong=q.options.map((_,j)=>j).filter(j=>j!==q.answer);const rows=details.locator('.tb-distractor-row');assert.equal(await rows.count(),3);
-              for(let j=0;j<3;j++)assert.equal((await rows.nth(j).locator('p').innerText()).trim(),q.optionRationales[wrong[j]]);
-              await card.locator('.tb-quality-details summary').click();assert.ok((await card.locator('.tb-quality-details').innerText()).includes('All distractor rationales'));
-              const box=card.locator('.tb-report-box');assert.equal(await box.isVisible(),false);
-              await card.locator('[data-report-question]').click();assert.equal(await box.isVisible(),true);
-              await box.locator('[data-report-type]').selectOption({label:'Other'});await box.locator('[data-report-note]').fill('Isolated audit check; no message is sent.');
-              await box.locator('[data-prepare-report]').click();const mail=await box.locator('[data-report-link]').getAttribute('href');assert.ok(mail.startsWith('mailto:'));assert.ok(decodeURIComponent(mail).includes(q.stem));
-              await card.locator('[data-report-question]').click();assert.equal(await box.isVisible(),false);
-              const copy=await card.innerText();const rationales=q.optionRationales.map(r=>copy.includes(r));`;
-          edit(script,old,replacement);
-          edit(script,"phase:'review',status:'correct',rationales,geometry:","phase:'review',status:'correct',reviewedTip:true,expandedDistractors:true,issueFormToggle:true,preparedUnsentReport:true,rationales,geometry:");
-          console.log('Added 25 reviewed traps and stored distractor metadata; fixed hidden issue forms; expanded browser assertions.');
+          const fs=require('node:fs'),assert=require('node:assert/strict');
+          for(const file of ['test-bank-mbb-set3-batch1-ui.js','scripts/audit-mbb-set3-batch1.mjs','tests/test-bank-mbb-set3-batch1-feedback.test.js']){
+            let s=fs.readFileSync(file,'utf8');assert.ok(s.includes('mbb3-'));s=s.replaceAll('mbb3-','mbbs3b1-');
+            if(file.endsWith('-ui.js')){
+              const anchor='@media(max-width:560px)';assert.equal(s.split(anchor).length,2);
+              s=s.replace(anchor,'.tb-review-card:has(.mbbs3b1-question) .tb-quality-details p,.tb-review-card:has(.mbbs3b1-question) .tb-quality-details ul{color:var(--ink)!important}\n'+anchor);
+            }
+            fs.writeFileSync(file,s);
+          }
           NODE
-          node --check test-bank-mbb-set3.js
           node --check test-bank-mbb-set3-batch1-ui.js
           node --check scripts/audit-mbb-set3-batch1.mjs
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add test-bank-mbb-set3.js test-bank-mbb-set3-batch1-ui.js scripts/audit-mbb-set3-batch1.mjs
-          git commit -m 'fix: reviewed Batch 1 hints and functional issue-form disclosure'
+          git add test-bank-mbb-set3-batch1-ui.js scripts/audit-mbb-set3-batch1.mjs tests/test-bank-mbb-set3-batch1-feedback.test.js
+          git commit -m 'fix: isolate Set 3 table layout from legacy Set 2 styles'
           git push origin HEAD:audit/mbb-set3-batch1-q001-q025
       - name: Capture applied source
         if: always()
