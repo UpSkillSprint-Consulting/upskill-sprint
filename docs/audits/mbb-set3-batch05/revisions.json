@@ -23,7 +23,7 @@
         "Give each champion half the Belt's time immediately, then ask the council to confirm that equal allocation at its next meeting.",
         "Choose the project with the larger forecast benefit and instruct the Belt to prioritize it before the council reviews the competing demands.",
         "Ask the Belt to negotiate separate commitments with each champion, leaving any resulting schedule conflicts to the two project teams.",
-        "Coach both champions to present capacity, dependencies and shared priority criteria jointly; facilitate a recommendation and route unresolved allocation decisions to the council."
+        "Facilitate a joint capacity-and-priority assessment; coach a recommendation and route unresolved allocation to the authorized portfolio council."
       ],
       "answer": 3,
       "why": "The conflict requires both a feasible resource decision and coaching on how champions use governance. The MBB can help frame the competing demands, test assumptions and facilitate agreement, while the council resolves decisions outside the MBB's delegated authority. Neither equal splitting nor larger forecast benefit automatically yields a feasible allocation. Escalation to the MBB is not inherently improper; unilateral allocation without authority is the issue. Source alignment: ASQ CMBB Body of Knowledge, V.A.1 Scoping and resourcing; V.A.4 Feedback. Sources support principles, not ASQ authorship of this original scenario.",
@@ -136,7 +136,7 @@
       "stem": "A technically strong Black Belt repeatedly dismisses frontline operators' concerns about how Measure-phase data are collected. Operators have now declined further interviews, and the team cannot establish coverage of all shifts. What coaching plan should the MBB prioritize?",
       "options": [
         "Assign another person to all operator contact permanently while the Belt continues the analysis, judging the Belt's development only by statistical accuracy.",
-        "Use observed examples to coach listening and facilitation; help the Belt repair operator engagement, review data-coverage risks, and verify improvement in later sessions.",
+        "Coach listening and facilitation using observed examples, repair operator engagement, and verify both data coverage and later behavior.",
         "Require the operators to complete the planned interviews before addressing the Belt's behavior, so the measurement schedule remains the first priority.",
         "Enroll the Belt in a general leadership course and keep the existing data plan unchanged until the course has been completed."
       ],
@@ -197,7 +197,7 @@
       "options": [
         "Bypass the normal review and submit a formal misconduct allegation, treating the difference between the hypothesis and current data as proof of interference.",
         "Replace the current hypothesis with the champion's explanation in the report, while keeping the contradictory analysis in the Belt's private working notes.",
-        "Check the analysis and its limitations, then present the evidence honestly with a proposed next test; offer MBB support and escalate if pressure to misrepresent emerges.",
+        "Check the analysis and uncertainty, present it honestly with MBB support, and escalate any pressure to misrepresent findings.",
         "State that the preferred root cause has been disproved permanently and recommend closing the project without investigating alternative explanations."
       ],
       "answer": 2,
@@ -321,7 +321,7 @@
       "stem": "A Green Belt with two validated project successes expresses self-doubt about advancing within the employer's internal Belt-development program. Advancement also requires competencies not necessarily demonstrated by those two projects. The individual asks for coaching rather than a mental-health assessment. What is the most appropriate response?",
       "options": [
         "Approve advancement solely from the two successful outcomes and avoid discussing the concern, since outcomes are a complete measure of competence.",
-        "Acknowledge the concern, review specific demonstrated competencies against the internal criteria, identify remaining evidence or development needs, and agree a supported next step.",
+        "Review demonstrated competencies and remaining requirements, acknowledge the concern, and agree a supported development or advancement step.",
         "Delay advancement until the individual reports no self-doubt, using confidence rather than the competency criteria as the primary readiness measure.",
         "Diagnose an impostor syndrome from this conversation and make treatment completion a prerequisite for any further professional development."
       ],
@@ -572,7 +572,7 @@
       "options": [
         "Standardize a sequence of the mentor's past projects and measure session quality by the number of examples covered each month.",
         "Ask the Green Belt to listen without interruption and submit written questions only after the mentor has finished the planned stories.",
-        "Start with the mentee's current goal and questions, use relevant experience selectively, and finish with a mentee-owned action and a later application check.",
+        "Explore the mentee's current goal, use relevant examples, and agree a mentee-owned action with a later application check.",
         "Replace all mentoring discussion with a repository of case studies and let download counts indicate whether the Green Belt is developing."
       ],
       "answer": 2,
@@ -631,7 +631,7 @@
       "stem": "A torque-wrench gage R&R study uses representative parts and a valid variance-component model. Measurement-system variance is 22% of total observed variance. The site's adopted guideline rejects greater than 30% study variation, equivalent to greater than 9% variance contribution. Which interpretation and response are justified before using this system for process capability decisions?",
       "options": [
         "It is conditionally acceptable at 22% study variation; use it for capability decisions and defer improvement until the variance contribution exceeds 30%.",
-        "It is unacceptable under the adopted guideline: study variation is about 46.9%; investigate the error components, improve the system and verify adequacy before relying on capability.",
+        "Study variation is about 46.9%, failing the guideline; investigate components and verify improvements before relying on capability decisions.",
         "It is acceptable because parts account for 78% of observed variance; a majority part contribution is sufficient evidence of measurement adequacy.",
         "It is unacceptable because measurement variation consumes 22% of the engineering tolerance; replace the wrench immediately without examining repeatability or reproducibility."
       ],
@@ -776,7 +776,7 @@
       "options": [
         "Kappa is 0.70, so only a five-percentage-point increase in overall agreement is needed to satisfy the site's 0.75 kappa criterion.",
         "Kappa is 0.40, which establishes that 40% of the items were classified correctly and that the remaining 60% require reinspection.",
-        "Kappa is 0.40 and observed agreement is 70%; the screen is not met. Review disagreements and validate against reference classifications before claiming inspection accuracy.",
+        "Agreement is 70% and kappa is 0.40, below the screen; review disagreements and validate accuracy against reference classifications.",
         "Kappa is 0.40, but Inspector 2's 60% fail rate proves that this inspector is correct more often and should become the reference assessor."
       ],
       "answer": 2,
@@ -867,7 +867,7 @@
       "options": [
         "Cpk = 1.00; because Cp also equals 1.00, the process is centered and no adjustment of its location is indicated.",
         "Cpk = 1.08; use the larger one-sided index because the lower specification is farther from the process mean.",
-        "Cpk = 0.92; the upper specification is nearer and the point estimate misses 1.33. Capability below target does not mean the process is unstable.",
+        "Cpk = 0.92, limited by the upper specification; it misses the stated target despite the stipulated process stability.",
         "Cpk = 1.33; the mean is inside specifications and this is sufficient to establish that the customer's capability target is met."
       ],
       "answer": 2,
@@ -960,7 +960,7 @@
       "options": [
         "Widen both charts using the eight new subgroups immediately; this makes the range signal part of the current estimate of normal process variation.",
         "Release the process as stable because the subgroup means remain inside their limits; range-chart signals matter only when the mean chart also signals.",
-        "Investigate subgroup 6's range signal and assess affected output. Do not claim overall stability or automatically recalculate the valid historical limits from this new signal.",
+        "Investigate subgroup 6's range signal and assess affected output; retain the historical limits unless a justified process change supports rebaselining.",
         "Delete subgroup 6 from both plots without checking its records, then use the remaining seven subgroups to replace the historical baseline."
       ],
       "answer": 2,
@@ -1134,7 +1134,7 @@
       "sub": "mbb-analytics",
       "stem": "A claims-cycle-time boxplot uses Tukey's 1.5 × IQR rule. Its quartiles are 3.4 and 5.1 days, median 4.2 days, and largest observation inside the upper fence 6.8 days. Three observations are 9.2, 10.1 and 11.4 days. Before excluding any records, what should the MBB conclude and investigate?",
       "options": [
-        "The three observations exceed the 7.65-day upper fence. Check records, timing and claim mix; a boxplot flag alone proves neither bad data nor an SPC special cause.",
+        "All three exceed the 7.65-day fence; investigate records and case mix without equating boxplot flags with data errors or SPC signals.",
         "The upper fence is 6.8 days, so all values above the whisker are confirmed recording errors that should be removed before further analysis.",
         "The three observations demonstrate that the process was out of statistical control at those times, even without time-order or baseline evidence.",
         "The median of 4.2 days makes the high observations irrelevant to service performance, so only the central half of claims should be retained."
@@ -1286,7 +1286,7 @@
       "options": [
         "The plot proves a second raw-material population; fit two distributions immediately and omit the low observations from the main capability report.",
         "Because 22 of 24 values appear roughly linear, the complete sample has demonstrated normality and the low values need no investigation.",
-        "Check the two low results and their lot/time context, retaining valid observations; the pattern questions a single normal model but does not establish a specific cause.",
+        "Investigate the low results and their provenance; retain valid data and question normality without assuming a cause.",
         "Discard all 24 observations and restart sampling because any departure from the reference line makes the entire measurement study unusable."
       ],
       "answer": 2,
@@ -1311,8 +1311,8 @@
           12.8,
           12.9,
           12.9,
-          13.0,
-          13.0,
+          13,
+          13,
           13.1,
           13.1,
           13.2,
@@ -1426,13 +1426,13 @@
           },
           {
             "rank": 18,
-            "value": 13.0,
+            "value": 13,
             "probability": 0.7257336343115125,
             "z": 0.5999602436906027
           },
           {
             "rank": 19,
-            "value": 13.0,
+            "value": 13,
             "probability": 0.766776113277242,
             "z": 0.7282708978180915
           },
@@ -1959,7 +1959,7 @@
       "sub": "mbb-analytics",
       "stem": "An illustrative gage study uses traceable references of 10, 50 and 90 mm. Mean readings from repeated measurements are 12, 52 and 92 mm. Repeatability and reference uncertainty still require validation; no regression significance test is provided. Which interpretation and next step are justified by these observed means?",
       "options": [
-        "The observed biases are +2 mm at all three levels. Evaluate a constant-offset correction and validate it across the intended range; the means alone do not prove zero linearity error.",
+        "Bias is consistently +2 mm; validate a candidate offset correction, including repeatability and residual bias across the intended range.",
         "The observed bias increases from 12 to 92 mm across the range, so a constant-offset correction is ruled out by the data.",
         "The means rise with the references, which proves the gage is unbiased and eliminates the need for reference-uncertainty or repeatability checks.",
         "Subtract 2% from every reading and declare the system calibrated, because a constant absolute offset is equivalent to a constant relative error."
@@ -2065,7 +2065,7 @@
       "stem": "A capability report uses a conventional within-subgroup Cpk of 1.5 to predict a normal-tail nonconformance rate. Stability and measurement adequacy are supported, but the same data's normal probability plot has a strong systematic S-shape. Which action should the MBB require before accepting the predicted rate?",
       "options": [
         "Reject the process as incapable immediately; any non-normal pattern means the process must fail its specifications regardless of its observed tails.",
-        "Add 1.5 to the reported Cpk to offset the non-normality and retain the report's predicted normal-tail rate.",
+        "Transform measurements to normality, but compare them with the original specification limits so that the customer requirements remain unchanged.",
         "Withhold the normal-tail prediction; investigate distributional fit and use a justified transformation with transformed limits, a suitable distributional model or a defensible alternative.",
         "Accept the prediction because the Cpk arithmetic can be computed for these data, which makes normal-tail probabilities valid for any distribution shape."
       ],
@@ -2075,14 +2075,14 @@
       "qid": "mbb:set-3:d6-010",
       "optionRationales": [
         "Incorrect. Nonnormality challenges a model assumption, not necessarily the process's ability to meet specifications.",
-        "Incorrect. Adding a constant to Cpk has no basis for correcting distributional shape or tail risk.",
+        "Incorrect. A transformation must also be applied to the specification limits; comparing transformed measurements with untransformed limits changes the meaning of conformance.",
         "Correct. It separates computable index arithmetic from unsupported tail inference and requires a method appropriate to the data and limits.",
         "Incorrect. Existence of an arithmetic ratio does not validate a normal-distribution probability calculation."
       ],
       "trap": "An index can be calculated even when its usual tail interpretation is unsupported. Match the distributional method and transformed limits to the intended probability claim.",
       "distractors": [
         "Incorrect. Nonnormality challenges a model assumption, not necessarily the process's ability to meet specifications.",
-        "Incorrect. Adding a constant to Cpk has no basis for correcting distributional shape or tail risk.",
+        "Incorrect. A transformation must also be applied to the specification limits; comparing transformed measurements with untransformed limits changes the meaning of conformance.",
         "Correct. It separates computable index arithmetic from unsupported tail inference and requires a method appropriate to the data and limits.",
         "Incorrect. Existence of an arithmetic ratio does not validate a normal-distribution probability calculation."
       ],
@@ -2151,7 +2151,7 @@
       "sub": "mbb-analytics",
       "stem": "A fill-weight chart uses fixed baseline limits and a preselected Western Electric rule: eight consecutive points strictly on one side of the centerline trigger investigation. After 40 baseline points with no configured signals, points 41–48 are all above the centerline but inside the 3-sigma limits. The display shows only points 37–48. What is the appropriate interpretation?",
       "options": [
-        "The configured eight-point rule signals at point 48; investigate a possible upward shift while retaining the baseline limits unless a justified change supports rebaselining.",
+        "The configured eight-point rule signals at point 48; investigate a possible shift without automatically replacing the validated baseline limits.",
         "No signal is present because a valid run must contain at least one point beyond a 3-sigma limit before it can be investigated.",
         "The chart must wait for a ninth point above the centerline because every run-rule system uses nine, regardless of the preselected rule.",
         "The eight points prove a permanent new mean, so replace the centerline and limits immediately using only these latest eight observations."
@@ -2306,7 +2306,7 @@
       "options": [
         "Use specifications as control limits whenever the sample size exceeds five, because larger subgroups make average and individual-unit variation equivalent.",
         "Replace the limits only when specifications are tighter, since tighter decision boundaries necessarily preserve the chart's designed false-alarm behavior.",
-        "Retain limits appropriate to subgroup means for stability monitoring and use specifications for unit conformance; equal numerical values must not be imposed, although they can coincide.",
+        "Retain subgroup-mean control limits for stability and specifications for unit conformance; derive them separately even when their numerical values coincide.",
         "Widen the product specifications until they match the current chart limits, allowing a single boundary set to govern both monitoring and customer acceptance."
       ],
       "answer": 2,
@@ -2368,7 +2368,7 @@
       "stem": "Two single-sampling plans use the binomial model for large homogeneous lots with independent item outcomes. Plan A samples n = 200 and accepts at most 10 defectives; Plan B uses n = 50 and accepts at most 2. The OC curves and selected binomial probabilities are provided. At 1% defective the lot is designated good; at 10% it is designated poor. Which comparison is justified?",
       "options": [
         "The steepness of A proves that it has a higher acceptance probability at every defect level and requires fewer inspected items than B.",
-        "At the two designated quality levels, A has lower producer and consumer risks than B; its sharper transition costs a larger sample, and slope alone would not establish both risks.",
+        "A has lower risks at both designated quality levels, with a larger sample; slope alone would not establish these comparisons.",
         "A's larger sample proves its consumer risk is higher at 10% defective, regardless of the acceptance numbers or the displayed probabilities.",
         "B's smaller sample guarantees equal discrimination at both designated quality levels because both plans use the same binomial distribution family."
       ],
@@ -2392,10 +2392,10 @@
         ],
         "curves": [
           {
-            "p": 0.0,
+            "p": 0,
             "acceptance": [
-              1.0,
-              1.0
+              1,
+              1
             ]
           },
           {

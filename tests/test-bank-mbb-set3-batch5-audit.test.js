@@ -96,3 +96,12 @@ for(let rotation=0;rotation<4;rotation++)test(`Batch 5 every answer position gra
   assert.deepEqual(errors,[]);
  }finally{observers.forEach(observer=>observer.disconnect());w.close();}
 });
+
+test('Final wording does not retain a systematic longest-correct-choice cue',()=>{
+ const uniqueLongest=batch.filter(q=>q.options[q.answer].split(/\s+/).length>Math.max(...q.options.filter((_,i)=>i!==q.answer).map(s=>s.split(/\s+/).length)));
+ assert.ok(uniqueLongest.length<=9);
+});
+test('Reference labels occupy a reserved right-side band and render checks detect label/point collisions',()=>{
+ const s=read('test-bank-mbb-set3-batch5-ui.js');assert.ok(s.includes('right=refs.some(r=>r.y!==undefined)?500:620'));assert.ok(s.includes('text(right+12,Y(r.y)+5'));
+ assert.ok(read('scripts/audit-mbb-set3-batch5.mjs').includes('c.geometry.labelCollisions.length'));
+});

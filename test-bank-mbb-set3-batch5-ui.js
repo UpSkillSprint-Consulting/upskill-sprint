@@ -13,13 +13,13 @@
  function svg(title,body,w=660,h=340){return '<svg viewBox="0 0 '+w+' '+h+'" width="'+w+'" height="'+h+'" role="img" aria-label="'+esc(title)+'"><title>'+esc(title)+'</title>'+body+'</svg>';}
  function dot(x,y,label,extra=''){return '<circle cx="'+x+'" cy="'+y+'" r="4" data-point="true" '+extra+'><title>'+esc(label)+'</title></circle>';}
  function xyPlot(title,xs,series,range,xlabel,ylabel,refs=[]){
-  const [xmin,xmax,ymin,ymax]=range,X=x=>70+(x-xmin)/(xmax-xmin)*550,Y=y=>270-(y-ymin)/(ymax-ymin)*220;
+  const [xmin,xmax,ymin,ymax]=range,right=refs.some(r=>r.y!==undefined)?500:620,X=x=>70+(x-xmin)/(xmax-xmin)*(right-70),Y=y=>270-(y-ymin)/(ymax-ymin)*220;
   let b=text(330,24,title,'middle')+text(330,326,xlabel,'middle')+text(16,43,ylabel);
-  for(let i=0;i<=4;i++){let y=ymin+(ymax-ymin)*i/4;b+=line(70,Y(y),620,Y(y),'mbbs3b5-grid')+text(59,Y(y)+5,num(y,3),'end');}
+  for(let i=0;i<=4;i++){let y=ymin+(ymax-ymin)*i/4;b+=line(70,Y(y),right,Y(y),'mbbs3b5-grid')+text(59,Y(y)+5,num(y,3),'end');}
   const xt=xs.length<=13?xs:[xmin,(xmin+xmax)/2,xmax];
   xt.forEach(x=>{b+=line(X(x),270,X(x),277)+text(X(x),296,num(x,3),'middle');});
-  b+=line(70,50,70,270)+line(70,270,620,270);
-  refs.forEach(r=>{if(r.y!==undefined){b+=line(70,Y(r.y),620,Y(r.y),'mbbs3b5-reference','stroke-dasharray="7 5"')+text(618,Y(r.y)-7,r.label+' '+num(r.y,4),'end');}else if(r.points){b+='<polyline class="mbbs3b5-reference" stroke-dasharray="7 5" points="'+r.points.map(p=>X(p[0])+','+Y(p[1])).join(' ')+'"/>';}});
+  b+=line(70,50,70,270)+line(70,270,right,270);
+  refs.forEach(r=>{if(r.y!==undefined){b+=line(70,Y(r.y),right,Y(r.y),'mbbs3b5-reference','stroke-dasharray="7 5"')+text(right+12,Y(r.y)+5,r.label+' '+num(r.y,4),'start');}else if(r.points){b+='<polyline class="mbbs3b5-reference" stroke-dasharray="7 5" points="'+r.points.map(p=>X(p[0])+','+Y(p[1])).join(' ')+'"/>';}});
   series.forEach((s,j)=>{if(s.connect!==false)b+='<polyline data-series="'+j+'" class="mbbs3b5-series" '+(s.dashed?'stroke-dasharray="8 5" ':'')+'points="'+s.values.map((v,i)=>X(xs[i])+','+Y(v)).join(' ')+'"/>';
    if(s.dots!==false)s.values.forEach((v,i)=>b+=dot(X(xs[i]),Y(v),s.name+'; '+xlabel+' '+xs[i]+'; value '+num(v,6),'data-x="'+xs[i]+'" data-y="'+v+'" data-series="'+j+'"'));
   });return svg(title,b);
@@ -28,7 +28,7 @@
   let drawings='';
   if(c.type==='xbar-r'){
    drawings=xyPlot('Subgroup means',c.labels,[{name:'Mean',values:c.meanData}],[1,8,47.5,52.5],'Subgroup','Mean (g)',[{y:c.xbarLimits[0],label:'UCL'},{y:c.xbarLimits[1],label:'CL'},{y:c.xbarLimits[2],label:'LCL'}]);
-   drawings+=xyPlot('Subgroup ranges',c.labels,[{name:'Range',values:c.rangeData}],[1,8,-1,10],'Subgroup','Range (g)',[{y:c.rLimits[0],label:'UCL'},{y:c.rLimits[1],label:'CL'},{y:c.rLimits[2],label:'LCL'}]);
+   drawings+=xyPlot('Subgroup ranges',c.labels,[{name:'Range',values:c.rangeData}],[1,8,0,10],'Subgroup','Range (g)',[{y:c.rLimits[0],label:'UCL'},{y:c.rLimits[1],label:'CL'},{y:c.rLimits[2],label:'LCL'}]);
   }else if(c.type==='control-single'){
    drawings=xyPlot('Fill-weight chart: points 37–48',c.labels,[{name:'Fill weight',values:c.data}],[37,48,493,507],'Observation number','Weight (g)',[{y:c.ucl,label:'UCL'},{y:c.cl,label:'CL'},{y:c.lcl,label:'LCL'}]);
   }else if(c.type==='normal-prob'){
@@ -78,7 +78,9 @@
 .mbbs3b5-table{min-width:560px}.mbbs3b5-scroll-hint{font-size:13px;line-height:1.6;color:var(--ink)!important;margin:8px 0}.mbbs3b5-table th,.mbbs3b5-table td{overflow-wrap:break-word}
 .tb-review-card:has(.mbbs3b5-question) .tb-key-point,.tb-review-card:has(.mbbs3b5-question) .tb-exam-trap{overflow-wrap:anywhere;min-width:0}
 
-.mbbs3b5-plot p{font-size:14px;line-height:1.6;white-space:normal;overflow-wrap:anywhere;color:var(--ink)}.mbbs3b5-axis,.mbbs3b5-reference{stroke:var(--ink);stroke-width:1.4;fill:none}.mbbs3b5-box{fill:var(--tint);stroke:var(--ink);stroke-width:2}.mbbs3b5-plot circle.mbbs3b5-target{fill:none;stroke:var(--line);stroke-width:1.5}.mbbs3b5-plot{margin:0 0 14px}.mbbs3b5-legend{padding:10px 18px;max-width:600px}
+.mbbs3b5-plot p{font-size:14px;line-height:1.6;white-space:normal;overflow-wrap:anywhere;color:var(--ink)}.mbbs3b5-axis,.mbbs3b5-reference{stroke:var(--ink);stroke-width:1.4;fill:none}.mbbs3b5-box{fill:var(--tint);stroke:var(--ink);stroke-width:2}.mbbs3b5-plot circle.mbbs3b5-target{fill:none;stroke:var(--ink);stroke-width:1.5;opacity:.55}.mbbs3b5-plot{margin:0 0 14px}.mbbs3b5-legend{padding:10px 18px;max-width:600px}
+
+.mbbs3b5-plot svg:has(.mbbs3b5-target) .mbbs3b5-grid{stroke:var(--ink);opacity:.55}
 `;document.head.appendChild(style);
   document.addEventListener('click',e=>{const b=e.target.closest?.('[data-opt],[data-flag]'),q=b?.closest('.tb-quiz');if(!b||!q||!ids.has(q.dataset.questionId))return;const attr=b.hasAttribute('data-opt')?'data-opt':'data-flag',value=b.getAttribute(attr);setTimeout(()=>{const now=document.querySelector('.tb-quiz');if(now?.dataset.questionId===q.dataset.questionId)now.querySelector('['+attr+'="'+value+'"]')?.focus({preventScroll:true});},0);},true);
  }

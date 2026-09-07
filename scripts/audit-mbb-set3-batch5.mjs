@@ -56,7 +56,8 @@ async function checkVisual(page,q,host,phase,label){
 async function geometry(page,selector){return page.locator(selector).evaluate(host=>{
  const clipped=[...host.querySelectorAll('.tb-stem,.tb-review-stem,.tb-opt,.tb-answer-copy,.tb-explanation-copy,.tb-key-point,.tb-exam-trap,.tb-deep-label,.tb-accuracy-note,th,td,dd')].filter(e=>e.clientWidth&&e.scrollWidth>e.clientWidth+2).map(e=>({tag:e.tagName,text:e.textContent.slice(0,90),scroll:e.scrollWidth,width:e.clientWidth}));
  const svgText=[...host.querySelectorAll('svg text')].map(t=>{const a=t.getBoundingClientRect(),s=t.closest('svg').getBoundingClientRect();return {text:t.textContent,outside:a.left<s.left-2||a.right>s.right+2||a.top<s.top-2||a.bottom>s.bottom+2};}).filter(x=>x.outside);
- return {pageOverflow:document.documentElement.scrollWidth>innerWidth+2,clipped,svgText,questionTop:host.getBoundingClientRect().top,selectedAnnounced:[...host.querySelectorAll('.tb-opt')].every(b=>b.hasAttribute('aria-pressed')||b.hasAttribute('aria-checked'))};
+ const labelCollisions=[...host.querySelectorAll('svg')].flatMap(svg=>[...svg.querySelectorAll('text')].flatMap(t=>{const a=t.getBoundingClientRect();return [...svg.querySelectorAll('circle[data-point]')].filter(p=>{const b=p.getBoundingClientRect();return Math.min(a.right,b.right)-Math.max(a.left,b.left)>2&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>2;}).map(p=>({label:t.textContent,x:p.dataset.x,y:p.dataset.y}));}));
+ return {pageOverflow:document.documentElement.scrollWidth>innerWidth+2,labelCollisions,clipped,svgText,questionTop:host.getBoundingClientRect().top,selectedAnnounced:[...host.querySelectorAll('.tb-opt')].every(b=>b.hasAttribute('aria-pressed')||b.hasAttribute('aria-checked'))};
 });}
 const engines=process.env.AUDIT_ENGINE?[process.env.AUDIT_ENGINE]:['chromium','webkit'];
 const layouts=process.env.AUDIT_LAYOUT?[process.env.AUDIT_LAYOUT]:['desktop','mobile'];
@@ -133,7 +134,7 @@ for(const engine of engines){
  await browser.close();
 }
 }finally{server.close();save();}
-const bad=report.cases.filter(c=>c.geometry&&(c.geometry.pageOverflow||c.geometry.clipped.length||c.geometry.svgText.length||!c.geometry.selectedAnnounced)||(c.rationales&&!c.rationales.every(Boolean))||(c.axe&&c.axe.length));
+const bad=report.cases.filter(c=>c.geometry&&(c.geometry.pageOverflow||c.geometry.clipped.length||c.geometry.svgText.length||c.geometry.labelCollisions.length||!c.geometry.selectedAnnounced)||(c.rationales&&!c.rationales.every(Boolean))||(c.axe&&c.axe.length));
 if(report.failures.length||report.pageErrors.length||bad.length||report.cases.filter(c=>c.geometry).length!==engines.length*layouts.length*100)process.exitCode=1;
 console.log('Recorded quality-gate failures:',bad.length);
 console.log(JSON.stringify({cases:report.cases.length,failures:report.failures,pageErrors:report.pageErrors},null,2));
