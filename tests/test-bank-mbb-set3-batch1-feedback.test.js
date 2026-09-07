@@ -15,8 +15,8 @@ for(const [i,q] of questions.entries())test(`Q${i+1} stores reviewed reading gui
 });
 test('scoped issue-form styling respects the native hidden state',()=>{
  const s=fs.readFileSync(path.join(root,'test-bank-mbb-set3-batch1-ui.js'),'utf8');
- assert.ok(s.includes('.tb-review-card:has(.mbb3-question) .tb-report-box[hidden]{display:none!important}'));
- assert.ok(s.includes('.tb-review-card:has(.mbb3-question) .tb-quality-details{color:var(--ink)!important;line-height:1.6}'));
+ assert.ok(s.includes('.tb-review-card:has(.mbbs3b1-question) .tb-report-box[hidden]{display:none!important}'));
+ assert.ok(s.includes('.tb-review-card:has(.mbbs3b1-question) .tb-quality-details{color:var(--ink)!important;line-height:1.6}'));
 });
 test('browser audit checks reviewed hints, expanded feedback and non-sending issue-report workflow',()=>{
  const s=fs.readFileSync(path.join(root,'scripts/audit-mbb-set3-batch1.mjs'),'utf8');

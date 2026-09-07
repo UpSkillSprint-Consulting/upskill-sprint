@@ -60,7 +60,7 @@ for(const engine of engines){
      await page.locator('.tb-quiz').scrollIntoViewIfNeeded();await page.locator('.tb-quiz').screenshot({path:path.join(out,label+'-'+theme+'.png'),style:'header.site{visibility:hidden!important}'});
      const g=await geometry(page,'.tb-quiz');const axe=await new AxeBuilder({page}).include('.tb-quiz').withTags(['wcag2a','wcag2aa']).analyze();
      report.cases.push({engine,layout,theme,number:i+1,qid:q.qid,phase:'question',fourChoicesSelected:true,keyboardSpace:true,reopenedSelection:true,geometry:g,navigation,axe:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))});save();
-     if(layout==='mobile'&&q.chart){const area=page.locator('.mbb3-scroll').first();const scroll=await area.evaluate(e=>{e.scrollLeft=e.scrollWidth;return {needed:e.scrollWidth>e.clientWidth+2,moved:e.scrollLeft>0};});assert.ok(!scroll.needed||scroll.moved);await area.screenshot({path:path.join(out,label+'-'+theme+'-visual-right.png')});await area.evaluate(e=>e.scrollLeft=0);}
+     if(layout==='mobile'&&q.chart){const area=page.locator('.mbbs3b1-scroll').first();const scroll=await area.evaluate(e=>{e.scrollLeft=e.scrollWidth;return {needed:e.scrollWidth>e.clientWidth+2,moved:e.scrollLeft>0};});assert.ok(!scroll.needed||scroll.moved);await area.screenshot({path:path.join(out,label+'-'+theme+'-visual-right.png')});await area.evaluate(e=>e.scrollLeft=0);}
     }
     if(i===2){for(const name of ['calc','formulas','tables']){await page.locator('[data-'+name+']').click();assert.ok(await page.locator('#tb-'+name).isVisible());await page.locator('[data-close="'+name+'"]').click();}}
    }
