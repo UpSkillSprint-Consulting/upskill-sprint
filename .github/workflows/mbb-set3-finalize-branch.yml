@@ -14,25 +14,30 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Isolate component namespace and expanded metadata contrast
+      - name: Resolve test-scroll races without bypassing click actionability
         run: |
           node <<'NODE'
           const fs=require('node:fs'),assert=require('node:assert/strict');
-          for(const file of ['test-bank-mbb-set3-batch1-ui.js','scripts/audit-mbb-set3-batch1.mjs','tests/test-bank-mbb-set3-batch1-feedback.test.js']){
-            let s=fs.readFileSync(file,'utf8');assert.ok(s.includes('mbb3-'));s=s.replaceAll('mbb3-','mbbs3b1-');
-            if(file.endsWith('-ui.js')){
-              const anchor='@media(max-width:560px)';assert.equal(s.split(anchor).length,2);
-              s=s.replace(anchor,'.tb-review-card:has(.mbbs3b1-question) .tb-quality-details p,.tb-review-card:has(.mbbs3b1-question) .tb-quality-details ul{color:var(--ink)!important}\n'+anchor);
-            }
-            fs.writeFileSync(file,s);
+          const f='scripts/audit-mbb-set3-batch1.mjs';let s=fs.readFileSync(f,'utf8');
+          const anchor='async function geometry(page,selector)';assert.equal(s.split(anchor).length,2);
+          const helper=`// Bring the intended control into view, then click normally. This avoids racing
+          // Playwright auto-scroll against the player's smooth review navigation in WebKit.
+          // No force click, DOM click dispatch, or application event handler is bypassed.
+          async function stableClick(locator){
+            await locator.evaluate(el=>el.scrollIntoView({behavior:'instant',block:'center',inline:'nearest'}));
+            await new Promise(resolve=>setTimeout(resolve,180));
+            await locator.click();
           }
+          `;
+          s=s.replace(anchor,helper+anchor);
+          for(const target of ["details.locator('summary')","card.locator('.tb-quality-details summary')","card.locator('[data-report-question]')","box.locator('[data-prepare-report]')"]){const old='await '+target+'.click()';assert.ok(s.includes(old));s=s.replaceAll(old,'await stableClick('+target+')');}
+          fs.writeFileSync(f,s);
           NODE
-          node --check test-bank-mbb-set3-batch1-ui.js
           node --check scripts/audit-mbb-set3-batch1.mjs
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add test-bank-mbb-set3-batch1-ui.js scripts/audit-mbb-set3-batch1.mjs tests/test-bank-mbb-set3-batch1-feedback.test.js
-          git commit -m 'fix: isolate Set 3 table layout from legacy Set 2 styles'
+          git add scripts/audit-mbb-set3-batch1.mjs
+          git commit -m 'test: settle WebKit review controls before normal pointer clicks'
           git push origin HEAD:audit/mbb-set3-batch1-q001-q025
       - name: Capture applied source
         if: always()
