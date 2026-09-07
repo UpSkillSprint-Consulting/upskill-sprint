@@ -531,6 +531,8 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
       html:has(#tb-feedback-loop){scroll-behavior:auto}
       .tb-review-card summary,.tb-review-card button,.tb-review-card select,.tb-review-reference{scroll-margin-top:var(--tb-review-header-offset,100px);scroll-margin-bottom:18px}
       .tb-review-reference{max-width:100%;overflow-wrap:anywhere;line-height:1.6}
+      .tb-review-option .tb-answer-copy,.tb-answer-compare strong,.tb-distractor-title{min-width:0;overflow-wrap:anywhere}
+      .tb-retry-option,.tb-similar-option{min-width:0;overflow-wrap:anywhere}
       .tb-feedback-loop{margin:0 0 26px;padding:20px;border:1px solid var(--teal);border-radius:12px;background:linear-gradient(180deg,color-mix(in srgb,var(--teal) 7%,var(--card)),var(--card))}
       .tb-feedback-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.tb-feedback-head h2{font-family:"Source Serif 4",serif;font-size:22px;color:var(--ink);margin:2px 0 7px}.tb-feedback-head p{max-width:70ch;margin:0;color:var(--muted);font-size:13.5px;line-height:1.55}
       .tb-feedback-stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.tb-feedback-stats span{min-width:84px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--muted);font-size:11.5px;text-align:center}.tb-feedback-stats strong{display:block;color:var(--ink);font-size:19px;font-family:"Source Serif 4",serif}

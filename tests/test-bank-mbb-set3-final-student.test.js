@@ -67,3 +67,14 @@ test('review navigation avoids smooth-scroll races and related Set 3 practice re
  assert.match(w.document.querySelector('#tb-similar-practice').textContent,/Subtopic reinforced/);click('[data-close-similar]');assert.equal(w.document.querySelector('#tb-answer-review').hidden,false);assert.deepEqual(p.errors,[]);
  }finally{await wait(40);p.w.close();}
 });
+
+
+test('Full Exam retake retains its core listener when the Quick/Focused coordinator is loaded',async()=>{
+ const p=await player();try{const {w,click}=p;for(const f of ['test-bank-retake-state.js','test-bank-retake-runner.js'])w.eval(read(f));const first=w.__TB.getFeedbackSnapshot();click('[data-opt="'+first.records[0].question.answer+'"]');click('[data-flag]');click('[data-goto="174"]');click('[data-submit]');await wait(100);
+ const button=w.document.querySelector('[data-retake]');assert.ok(button);assert.match(button.textContent,/Full Exam/);assert.equal(button.dataset.upskillRetakeOwned,undefined);button.click();await wait(100);const next=w.__TB.getFeedbackSnapshot();assert.ok(w.document.querySelector('.tb-quiz'));assert.notEqual(next.sessionId,first.sessionId);assert.equal(next.records.length,175);assert.ok(next.records.every(r=>r.selected===null&&!r.flagged));assert.deepEqual(p.errors,[]);
+ }finally{await wait(40);p.w.close();}
+});
+
+test('narrow-screen review copy wraps long terms instead of escaping its grid column',()=>{
+ const source=read('test-bank-feedback-loop.js');assert.ok(source.includes('.tb-review-option .tb-answer-copy,.tb-answer-compare strong,.tb-distractor-title{min-width:0;overflow-wrap:anywhere}'));
+});
