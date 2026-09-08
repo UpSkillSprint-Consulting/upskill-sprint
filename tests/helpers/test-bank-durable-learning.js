@@ -33,6 +33,22 @@ function emptyClient() {
        retake reservations return only the required count, matching the
        all-or-nothing RPC contract. */
     rpc(name, args) {
+      if (name === 'ingest_test_bank_operations_v1') {
+        return Promise.resolve({
+          data: (args && args.p_operations || []).map((operation, index) => ({
+            operationId: operation.operationId,
+            payloadDigest: 'fixture-digest-' + operation.operationId,
+            receivedAt: new Date().toISOString(),
+            acceptedAt: new Date().toISOString(),
+            serverSequence: index + 1,
+            sessionRevision: operation.expectedSessionRevision + 1,
+            applied: true,
+            canonicalEventId: operation.operationId,
+            state: operation.type === 'finalization_requested' ? 'completed' : 'in_progress'
+          })),
+          error: null
+        });
+      }
       const ids = args && args.p_question_ids || [];
       const required = name === 'reserve_test_bank_new_questions_exact'
         ? Math.max(0, Number(args && args.p_required_count || 0))

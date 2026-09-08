@@ -62,6 +62,7 @@ async function main(){let target;try{
   assert.equal(race.filter(r=>r.exit===0).length,1);assert.equal(race.filter(r=>r.exit!==0&&!r.signal&&r.stderr.includes('P0001')).length,1);passed.push('competing real SQL exact reservations yield one winner');
   expect(target,'race committed exactly two unique claims',requireCount('SELECT * FROM public.test_bank_new_question_claims',2));
   require('../../tests/exam-reliability/database/segment05-catalog.cjs').runChecks({ROOT,target,ok,run,role,expect,expectDenied,requireCount});
+  await require('../../tests/exam-reliability/database/segment07-ingestion.cjs').runChecks({ROOT,target,ok,run,role,expect,expectDenied,requireCount,concurrent});
   fs.writeFileSync(path.join(output(),'database.log'),JSON.stringify(logs,null,2));
   write('database',{status:'passed',tests:passed.length,failures:0,skipped:0,passed,databaseVersion,command:'node scripts/exam-reliability/run-database.cjs',limitations:['Disposable PostgreSQL17; repository migrations, not live schema parity.','auth.uid fixture; no JWT/Data API/production authorization claim.']});
 }catch(e){fs.writeFileSync(path.join(output(),'database.log'),JSON.stringify(logs,null,2));write('database',{status:'failed',tests:passed.length,failures:1,skipped:0,error:e.stack,databaseVersion});process.exitCode=1;}console.log(JSON.stringify({tests:passed.length,passed:process.exitCode!==1}));}

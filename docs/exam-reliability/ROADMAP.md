@@ -12,7 +12,7 @@ Scope: all published certifications/sets; full, focused/custom, quick and adapti
 | 04 — Identity | Validate every ID, namespace, domain and import; preserve identity under reordering/editing. Malformed imports must fail visibly, not remove valid questions silently. | Human-merged in PR #173; production verification pending |
 | 05 — Versions/catalog | Pin content, bank, blueprint, grading, timing, length and site target to a session; verify official-source configuration; preserve retired aliases and original results. Add compatible ownership/validation constraints. | Human-merged in PR #173; migration/deployment verification pending |
 | 06 — Local durability | Harden the existing outbox; distinct draft and scored interactions; persist before acknowledging; handle storage/crash/offline/account ownership failures without invented attempts. | Implemented for review in a new PR; deployment verification pending |
-| 07 — Server ingestion | Validate ownership and operation/version contracts; enforce idempotent replay and atomic finalization. Concurrent/lost-ack submissions must yield one canonical completion. | Not started |
+| 07 — Server ingestion | Validate ownership and operation/version contracts; enforce idempotent replay and atomic finalization. Concurrent/lost-ack submissions must yield one canonical completion. | Implemented for review in PR #174; production migration/deploy verification pending |
 | 08 — Reconciliation | Rebuild deterministic projections from ledger, completion, legacy baselines and reset epochs. Reconcile first/repeat/unique scope, retain unknown provenance, dry-run conversions, never reset evidence to align counters. | Not started |
 | 09 — Grading | One grading policy across results/history/review; exact counts and unrounded threshold comparisons; blanks and domain totals; historical pinned configuration; explicit site-target terminology. | Not started |
 | 10 — Learning metrics | Distinguish accuracy, estimated mastery, raw/weighted coverage, readiness, due/mastered/notebook and reservation counts. Every number has a named formula, scope, denominator and evaluation timestamp. | Not started |
@@ -46,3 +46,5 @@ Segment 03 is stacked on the same PR by explicit instruction. Its [framework](SE
 Segment 04 is a new PR from the human-merged prerequisites. See [identity repair](SEGMENT-04-IDENTITY.md). G09 is implemented, not yet signed off in production; later catalog/versioning and all remaining release criteria stay open.
 
 Segment 05 is explicitly stacked on PR #173; see [versioning implementation and deployment boundaries](SEGMENT-05-VERSIONS.md). No earlier failed/cancelled acceptance result is waived.
+
+Segment 07 is explicitly stacked on the open Segment 06 PR #174. See [server ingestion implementation and deployment order](SEGMENT-07-SERVER-INGESTION.md). Repository tests use disposable PostgreSQL; live Supabase migration and deployment verification remain separate Segment 20 evidence.

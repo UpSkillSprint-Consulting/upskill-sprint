@@ -655,6 +655,7 @@
       sessionId: safeId(fields && fields.sessionId, 'session-' + state.sequence.toString(36)),
       questionId: fields && fields.questionId ? safeId(fields.questionId, '') : null,
       deviceId: device,
+      clientSequence: state.sequence,
       occurredAt: timestamp,
       payload: record(fields && fields.payload),
       syncedFor: []
@@ -1552,6 +1553,88 @@
     });
   }
 
+  function versionedEvent(state, event) {
+    const session = record(state.sessions[event.sessionId]);
+    return Boolean(record(event.payload).versionPin || record(event.payload).versionRef || record(event.payload).grading || session.versionPin || session.archivedVersionPin);
+  }
+
+  function logicalOperationType(event) {
+    return {
+      session_started: 'session_started',
+      question_exposed: 'question_displayed',
+      answer_recorded: 'response_committed',
+      session_completed: 'finalization_requested',
+      session_abandoned: 'session_abandoned'
+    }[event.type] || null;
+  }
+
+  function operationEnvelopes(state, events, userId) {
+    const revisions = {};
+    return events.map(function (event, index) {
+      const session = record(state.sessions[event.sessionId]);
+      if (revisions[event.sessionId] == null) revisions[event.sessionId] = Math.max(0, Number(session.serverRevision || 0));
+      const expected = revisions[event.sessionId];
+      revisions[event.sessionId] += 1;
+      return {
+        schemaVersion: '1.0.0',
+        operationId: event.id,
+        ownerId: userId,
+        deviceId: event.deviceId,
+        examId: event.examId,
+        sessionId: event.sessionId,
+        writerEpoch: Math.max(0, Number(session.writerEpoch || 0)),
+        expectedSessionRevision: expected,
+        resetEpochId: session.resetEpochId || null,
+        type: logicalOperationType(event),
+        clientOccurredAt: iso(event.occurredAt),
+        clientSequence: Math.max(0, Number(event.clientSequence == null ? index : event.clientSequence)),
+        payload: { questionId: event.questionId, eventPayload: event.payload }
+      };
+    });
+  }
+
+  function acceptReceipts(state, events, receipts, userId) {
+    if (!Array.isArray(receipts) || receipts.length !== events.length) throw new Error('Server returned an incomplete operation receipt batch');
+    const byId = new Map(events.map(function (event) { return [event.id, event]; }));
+    const seenReceipts = new Set();
+    receipts.forEach(function (receipt) {
+      const event = byId.get(String(receipt && receipt.operationId || ''));
+      if (!event || seenReceipts.has(event.id) || !receipt.payloadDigest || !receipt.acceptedAt || !Number.isInteger(Number(receipt.serverSequence)) || !Number.isInteger(Number(receipt.sessionRevision))) {
+        throw new Error('Server returned a malformed operation receipt');
+      }
+      seenReceipts.add(event.id);
+      event.serverReceipt = clone(receipt);
+      if (asArray(event.syncedFor).indexOf(userId) === -1) event.syncedFor = asArray(event.syncedFor).concat([userId]);
+      const session = record(state.sessions[event.sessionId]);
+      session.serverRevision = Math.max(Number(session.serverRevision || 0), Number(receipt.sessionRevision));
+      session.writerEpoch = Math.max(0, Number(session.writerEpoch || 0));
+      state.sessions[event.sessionId] = session;
+    });
+  }
+
+  async function uploadEvents(client, state, events, userId, label) {
+    let offset = 0;
+    while (offset < events.length) {
+      const useRpc = versionedEvent(state, events[offset]);
+      let end = offset + 1;
+      while (end < events.length && versionedEvent(state, events[end]) === useRpc) end += 1;
+      const group = events.slice(offset, end);
+      if (useRpc) {
+        if (typeof client.rpc !== 'function') throw new Error('Receipt-based exam ingestion is unavailable');
+        const result = await runRemoteRequest(client.rpc('ingest_test_bank_operations_v1', { p_operations: operationEnvelopes(state, group, userId) }), label);
+        if (result && result.error) throw result.error;
+        acceptReceipts(state, group, result && result.data, userId);
+      } else {
+        const result = await runRemoteRequest(client.from(TABLE).upsert(dbRows(group, userId), { onConflict: 'user_id,event_id', ignoreDuplicates: true }), label + ' (legacy adapter)');
+        if (result && result.error) throw result.error;
+        group.forEach(function (event) {
+          if (asArray(event.syncedFor).indexOf(userId) === -1) event.syncedFor = asArray(event.syncedFor).concat([userId]);
+        });
+      }
+      offset = end;
+    }
+  }
+
   function mergeEvent(state, event, userId, forceLocal) {
     if (!event || !event.id) return false;
     const id = String(event.id);
@@ -1723,19 +1806,16 @@
       persist(state, 'legacy-mastery-scan');
       const pending = state.events.filter(function (event) {
         return event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1;
+      }).sort(function (left, right) {
+        return Number(left.occurredAt || 0) - Number(right.occurredAt || 0) || Number(left.clientSequence || 0) - Number(right.clientSequence || 0) || String(left.id).localeCompare(String(right.id));
       });
       for (let index = 0; index < pending.length; index += BATCH_SIZE) {
         if (!activeUser() || activeUser().id !== userId) throw new Error('Account changed while learning records were syncing');
         const batch = pending.slice(index, index + BATCH_SIZE);
         batch.forEach(function (event) { event.uploadingFor = asArray(event.uploadingFor).concat([userId]); });
-        const result = await runRemoteRequest(client.from(TABLE).upsert(dbRows(batch, userId), {
-          onConflict: 'user_id,event_id',
-          ignoreDuplicates: true
-        }), 'Learning-history upload');
-        if (result && result.error) throw result.error;
+        await uploadEvents(client, state, batch, userId, 'Learning-history upload');
         const ids = new Set(batch.map(function (event) { return event.id; }));
         state.events.forEach(function (event) {
-          if (ids.has(event.id) && event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1) event.syncedFor = asArray(event.syncedFor).concat([userId]);
           if (ids.has(event.id)) event.uploadingFor = asArray(event.uploadingFor).filter(function (id) { return id !== userId; });
         });
         markLegacyMigrationAcknowledged(state, userId);
@@ -1747,15 +1827,15 @@
       if (pendingWriteRevision > writeRevisionAtStart) {
         const followUpPending = state.events.filter(function (event) {
           return event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1;
+        }).sort(function (left, right) {
+          return Number(left.occurredAt || 0) - Number(right.occurredAt || 0) || Number(left.clientSequence || 0) - Number(right.clientSequence || 0) || String(left.id).localeCompare(String(right.id));
         });
         for (let index = 0; index < followUpPending.length; index += BATCH_SIZE) {
           const batch = followUpPending.slice(index, index + BATCH_SIZE);
           batch.forEach(function (event) { event.uploadingFor = asArray(event.uploadingFor).concat([userId]); });
-          const result = await runRemoteRequest(client.from(TABLE).upsert(dbRows(batch, userId), { onConflict: 'user_id,event_id', ignoreDuplicates: true }), 'Learning-history follow-up upload');
-          if (result && result.error) throw result.error;
+          await uploadEvents(client, state, batch, userId, 'Learning-history follow-up upload');
           const ids = new Set(batch.map(function (event) { return event.id; }));
           state.events.forEach(function (event) {
-            if (ids.has(event.id) && event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1) event.syncedFor = asArray(event.syncedFor).concat([userId]);
             if (ids.has(event.id)) event.uploadingFor = asArray(event.uploadingFor).filter(function (id) { return id !== userId; });
           });
           persist(state, 'sync-follow-up-acknowledged');
