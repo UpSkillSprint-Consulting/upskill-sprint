@@ -2,7 +2,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const {fixture,read}=require('./helpers/segment04-identity.cjs');
 const ROOT=path.join(__dirname,'..');
-const migration=()=>fs.readFileSync(path.join(ROOT,'supabase/migrations/20260908180000_add_idempotent_exam_ingestion.sql'),'utf8');
+const migration=()=>fs.readFileSync(path.join(ROOT,'supabase/migrations/20260908214508_add_idempotent_exam_ingestion.sql'),'utf8');
 
 function versionedLedger(t,client){
   const f=fixture(t);f.w.TextEncoder=require('node:util').TextEncoder;f.w.eval(read('test-bank-versioning.js'));
