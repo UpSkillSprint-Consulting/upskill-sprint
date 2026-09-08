@@ -1,0 +1,59 @@
+name: PR173 isolated Batch4 audit verification
+on:
+  push:
+    branches: ['diagnostic/pr173-batch4-check']
+permissions:
+  contents: read
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: b03ebcdb218e2e0ac0ba0d6e0ac6428bd1935f0b
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('node:fs'),zlib=require('node:zlib'),crypto=require('node:crypto'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
+            const git=(...a)=>execFileSync('git',a,{encoding:'utf8'}).trim();
+            assert.equal(git('rev-parse','HEAD'),'b03ebcdb218e2e0ac0ba0d6e0ac6428bd1935f0b');
+            const repo={owner:context.repo.owner,repo:context.repo.repo};
+            const r=await github.rest.git.getBlob({...repo,file_sha:'45081cc84e6cec4df4b2c26cfcc67f7acdfd22d2'});
+            const patch=zlib.brotliDecompressSync(Buffer.from(Buffer.from(r.data.content,'base64').toString('utf8'),'base64'));
+            assert.equal(crypto.createHash('sha256').update(patch).digest('hex'),'4890653208ad8ff79bc184765de5bd5095f819c0f242f6ef6619eb2e30b79cb8');
+            fs.writeFileSync('/tmp/pr173-batch4.patch',patch);git('apply','--index','/tmp/pr173-batch4.patch');
+            assert.equal(git('write-tree'),'fffc69c93e768203f736e4e3ba6f42bdebe811fa');
+            const paths=git('diff','--cached','--name-only').split('\n');assert.deepEqual(paths,['.github/workflows/mbb-set3-batch4-audit.yml','scripts/audit-mbb-set3-batch4.mjs']);
+            const entries=[];
+            for(const path of paths){const bytes=fs.readFileSync(path);const b=await github.rest.git.createBlob({...repo,content:bytes.toString('base64'),encoding:'base64'});assert.equal(b.data.sha,git('hash-object',path));entries.push({path,mode:'100644',type:'blob',sha:b.data.sha});}
+            fs.mkdirSync('/tmp/pr173-batch4',{recursive:true});fs.writeFileSync('/tmp/pr173-batch4/assembly.json',JSON.stringify({parent:git('rev-parse','HEAD'),tree:git('write-tree'),entries,refsUpdated:false},null,2));
+            // Immutable objects only. No PR/main branch updates, deployment or live database changes.
+      - run: npm ci
+      - name: Existing all-option content grading plus watchdog regressions
+        run: node --test --test-concurrency=1 tests/test-bank-mbb-set3-batch4-audit.test.js tests/student-audit-runtime.test.js > /tmp/pr173-batch4/tests.log 2>&1
+      - run: npm install --prefix /tmp/student-audit-tools --ignore-scripts --save-exact playwright@1.63.0 @axe-core/playwright@4.13.0 axe-core@4.13.0
+      - run: /tmp/student-audit-tools/node_modules/.bin/playwright install --with-deps webkit
+      - name: Full original 25-question and 25-review Batch4 WebKit-mobile acceptance
+        env:
+          AUDIT_TOOLS_DIR: /tmp/student-audit-tools
+          AUDIT_ENGINE: webkit
+          AUDIT_LAYOUT: mobile
+        run: node scripts/audit-mbb-set3-batch4.mjs
+      - name: Preserve exact candidate evidence and coverage
+        if: always()
+        run: |
+          mkdir -p /tmp/pr173-batch4
+          if test -d audit-results-batch4; then cp -r audit-results-batch4 /tmp/pr173-batch4/browser; fi
+          cp /tmp/student-audit-tools/package-lock.json /tmp/pr173-batch4/audit-tools-lock.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr173-batch4-candidate-${{ github.run_id }}
+          path: /tmp/pr173-batch4
+          retention-days: 14
