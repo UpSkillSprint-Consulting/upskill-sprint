@@ -1,6 +1,6 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
-const {gate,budget,lanes,profiles}=require('../scripts/exam-reliability/evidence.cjs');
+const {gate,budget,lanes,profiles,digest}=require('../scripts/exam-reliability/evidence.cjs');
 const {validateTarget}=require('../scripts/exam-reliability/run-database.cjs');
 const sha='a'.repeat(40);
 const records=()=>lanes.map(lane=>({lane,exactCommit:sha,status:'passed',tests:1,failures:0,skipped:0,environment:'isolated'}));
@@ -28,4 +28,8 @@ test('coverage: browser engines, all certifications, future modes and physical b
   assert.ok(profiles.automation.every(x=>x.physical===false));
   assert.equal(profiles.workloads.requiredExamIds.length,5);assert.equal(profiles.workloads.requiredModes.length,7);
   assert.ok(profiles.physicalAcceptance.length>=3);assert.equal(profiles.evidence.automaticRetries,0);
+});
+
+test('profiles: frozen v1 budgets require an explicit version/impact review to change',()=>{
+  assert.equal(digest(path.join(__dirname,'../docs/exam-reliability/verification/v1/profiles.json')),'25bd172f0dee92d42ea9659b5dccbb2f9b919c3a0af22eb7d1b14ce03f19d8a8');
 });

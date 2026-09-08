@@ -21,7 +21,7 @@ async function context(owner){
   await c.route('**/*',async route=>{const u=new URL(route.request().url());if(u.origin!==base){blocked.push(u.origin);return route.abort();}if(u.pathname==='/auth.js')return route.fulfill({body:auth,contentType:'text/javascript'});return route.continue();});
   await c.tracing.start({screenshots:true,snapshots:true,sources:false});return c;
 }
-async function open(c){const page=await c.newPage();page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(e.message));page.on('crash',()=>errors.push('browser page crash'));page.on('framenavigated',f=>{if(f===page.mainFrame())navigations.push(f.url());});const start=performance.now();await page.goto(base+'/test-bank.html',{waitUntil:'load'});
+async function open(c){const page=await c.newPage();page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(e.message));page.on('crash',()=>errors.push('browser page crash'));page.on('framenavigated',f=>{if(f===page.mainFrame())navigations.push(f.url());});await page.clock.install();const start=performance.now();await page.goto(base+'/test-bank.html',{waitUntil:'load'});
   await page.waitForFunction(()=>window.__TB && window.__TBLearning && document.body.classList.contains('auth-ready'));
   await page.evaluate(async()=>{await __TBLearning.sync('fixture-ready');await new Promise(r=>setTimeout(r,0));});
   const ms=performance.now()-start;timings.push(ms);assert.equal(budget('smoke_ready',[ms]).status,'passed');return page;
@@ -38,7 +38,7 @@ try{
   for(const exam of profiles.workloads.requiredExamIds){const c=await context('browser-'+exam);try{const p=await open(c);await quick(p,exam);await sync(p);const s=await summary(p,exam);assert.equal(s.answeredEvents,1);assert.equal(s.completedSessions,1);checks.push(exam+': real UI one correct/nine blanks');
     for(const theme of ['light','dark']){await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);await shot(p,exam+'-result-'+theme);} // screenshots are evidence, not visual approval
     await p.reload();await p.waitForFunction(()=>window.__TBLearning);await sync(p);assert.equal((await summary(p,exam)).answeredEvents,1);checks.push(exam+': history survives native reload');
-    await p.locator('.tb-tile[data-exam="'+exam+'"]').click();await p.locator('[data-mode="full"]').click();await p.locator('#tb-timer').waitFor();const before=await p.locator('#tb-timer').textContent();await p.clock.install();await p.clock.fastForward(31000);assert.notEqual(await p.locator('#tb-timer').textContent(),before);checks.push(exam+': full exam starts and deadline ticks');
+    await p.locator('.tb-tile[data-exam="'+exam+'"]').click();await p.locator('[data-mode="full"]').click();await p.locator('#tb-timer').waitFor();const before=await p.locator('#tb-timer').textContent();await p.clock.fastForward(31000);assert.notEqual(await p.locator('#tb-timer').textContent(),before);checks.push(exam+': full exam starts and deadline ticks');
     await shot(p,exam+'-timed');
   }finally{await c.tracing.stop({path:path.join(directory,exam+'-trace.zip')});await c.close();}}
   const ca=await context('browser-shared'),cb=await context('browser-shared');try{
