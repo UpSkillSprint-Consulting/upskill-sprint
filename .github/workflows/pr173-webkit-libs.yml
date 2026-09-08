@@ -1,0 +1,39 @@
+name: PR173 local WebKit prerequisites
+on:
+  push:
+    branches: ['diagnostic/pr173-local-webkit']
+permissions:
+  contents: read
+jobs:
+  libraries:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: 97b386874371ea3920e769c4f43900e942db00bb, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version'}
+      - run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install-deps webkit
+      - name: Collect only ELF dependencies; no credentials or font files
+        run: |
+          mkdir -p /tmp/pr173-webkit-libs
+          python3 <<'PY'
+          import pathlib,subprocess,re,shutil
+          root=pathlib.Path('/usr/lib/x86_64-linux-gnu');out=pathlib.Path('/tmp/pr173-webkit-libs')
+          names=['libgtk-4.so.1','libgraphene-1.0.so.0','libicudata.so.74','libicui18n.so.74','libicuuc.so.74','libjpeg.so.8','libmanette-0.2.so.0','libsecret-1.so.0','libGLESv2.so.2']
+          queue=[str(root/n) for n in names];seen=set()
+          excluded={'libc.so.6','libm.so.6','libpthread.so.0','libdl.so.2','librt.so.1','ld-linux-x86-64.so.2'}
+          while queue:
+            p=pathlib.Path(queue.pop());n=p.name
+            if n in seen or n in excluded:continue
+            seen.add(n)
+            if not p.is_file():raise RuntimeError(str(p))
+            shutil.copyfile(p,out/n)
+            text=subprocess.check_output(['ldd',str(p)],text=True)
+            queue.extend(re.findall(r'=> (/[^\s]+)',text))
+          print('Shared libraries:',len(seen))
+          PY
+          tar -czf /tmp/pr173-webkit-libs.tgz -C /tmp pr173-webkit-libs
+      - uses: actions/upload-artifact@v4
+        with: {name: pr173-webkit-libs, path: /tmp/pr173-webkit-libs.tgz, retention-days: 7}
