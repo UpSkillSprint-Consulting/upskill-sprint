@@ -1,0 +1,29 @@
+name: Segment06 isolated inspection
+on:
+  push:
+    branches: ['diagnostic/segment06-durability']
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: c89f10ac77fc731fc9d0366501c809a6ddfc1e83
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - run: |
+          mkdir -p /tmp/segment06-inspection
+          git archive --format=tar.gz HEAD > /tmp/segment06-inspection/source.tgz
+          tar -czf /tmp/segment06-inspection/dependencies.tgz node_modules
+          git rev-parse HEAD > /tmp/segment06-inspection/revision.txt
+          git rev-parse 'HEAD^{tree}' > /tmp/segment06-inspection/tree.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: segment06-inspection-${{ github.run_id }}
+          path: /tmp/segment06-inspection
+          retention-days: 7
