@@ -1,0 +1,76 @@
+name: Segment 09 verified object assembly
+on: pull_request
+permissions:
+  contents: read
+jobs:
+  objects:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'fix/segment-09-canonical-grading'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Reconstruct exact reviewed bytes without moving any branch
+        run: |
+          python - <<'PY'
+          import gzip, hashlib, json, pathlib, subprocess
+          root=pathlib.Path.cwd()
+          packed=b''.join((root/f'.segment09-stage/part{i:02}.bin').read_bytes() for i in range(28))
+          raw=gzip.decompress(packed)
+          assert hashlib.sha256(raw).hexdigest()=='184b79a60696bf2bb138f16ef191a11c142e5726c33fd42070ef40fc6b2a17aa'
+          extra=(root/'.segment09-stage/overlay.json').read_bytes()
+          assert hashlib.sha256(extra).hexdigest()=='f1dbe5fec96a1053e42c8669fd577968e407d557c6b73ff4a2b1c5679f35b80b'
+          stages=[json.loads(raw),json.loads(extra)]
+          assert stages[0]['base']=='12ad5ba5c9095681275e1e0f83b2b879eb49cad0'
+          subprocess.run(['git','checkout','--detach',stages[0]['base']],check=True)
+          blob=lambda b: hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          entries={}
+          for stage in stages:
+            assert subprocess.check_output(['git','write-tree'],text=True).strip()==stage['baseTree']
+            for row in stage['files']:
+              path=pathlib.PurePosixPath(row['path'])
+              assert not path.is_absolute() and '..' not in path.parts and '.git' not in path.parts
+              p=root/str(path)
+              before=p.read_bytes() if p.exists() else None
+              assert (blob(before) if before is not None else None)==row['before'],str(path)
+              if row['after'] is None:
+                p.unlink()
+              else:
+                data=before or b''
+                for lo,hi,text in reversed(row['edits']):
+                  assert 0<=lo<=hi<=len(data)
+                  data=data[:lo]+text.encode('utf-8')+data[hi:]
+                assert blob(data)==row['after'],str(path)
+                p.parent.mkdir(parents=True,exist_ok=True)
+                p.write_bytes(data)
+              entries[str(path)]={'path':str(path),'mode':'100644','type':'blob','sha':row['after']}
+            subprocess.run(['git','add','--']+[r['path'] for r in stage['files']],check=True)
+            assert subprocess.check_output(['git','write-tree'],text=True).strip()==stage['expectedTree']
+          out=pathlib.Path('/tmp/segment09-objects');out.mkdir()
+          (out/'manifest.json').write_text(json.dumps({'baseTree':stages[0]['baseTree'],'expectedTree':stages[-1]['expectedTree'],'entries':list(entries.values())}))
+          PY
+      - name: Store validated blobs and tree only; no commit, merge, ref or deployment write
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('fs');
+            const m=JSON.parse(fs.readFileSync('/tmp/segment09-objects/manifest.json','utf8'));
+            const {owner,repo}=context.repo;
+            for(const entry of m.entries){
+              if(entry.sha===null)continue;
+              const content=fs.readFileSync(entry.path).toString('base64');
+              const result=await github.rest.git.createBlob({owner,repo,content,encoding:'base64'});
+              if(result.data.sha!==entry.sha)throw new Error('Blob mismatch: '+entry.path);
+            }
+            const result=await github.rest.git.createTree({owner,repo,base_tree:m.baseTree,tree:m.entries});
+            if(result.data.sha!==m.expectedTree)throw new Error('Tree mismatch');
+            fs.writeFileSync('/tmp/segment09-objects/result.json',JSON.stringify({tree:result.data.sha,entries:m.entries,status:'verified',writes:'unreferenced git objects only'},null,2));
+      - uses: actions/upload-artifact@v4
+        with:
+          name: segment09-objects
+          path: /tmp/segment09-objects
+          retention-days: 2
