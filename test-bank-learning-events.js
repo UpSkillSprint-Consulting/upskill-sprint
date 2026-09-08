@@ -53,6 +53,7 @@
   let lastUserId = '';
   let lastWriteAheadSaved = true;
   let lastWriteAheadAt = null;
+  let localRecovery = { required: false, failedAt: null, recoveredAt: null, reason: null };
   let authListenerAttached = false;
   let initialized = false;
 
@@ -167,12 +168,28 @@
     const rank = { active: 1, abandoned: 2, completed: 3 };
     const status = Number(rank[right.status] || 0) > Number(rank[left.status] || 0) ? right.status : left.status;
     const answerEvents = Object.assign({}, record(right.answerEvents), record(left.answerEvents));
+    const drafts = Object.assign({}, record(right.drafts));
+    Object.keys(record(left.drafts)).forEach(function (questionId) {
+      const candidate = record(left.drafts[questionId]);
+      const previous = record(drafts[questionId]);
+      const candidateRevision = Number(candidate.revision || 0);
+      const previousRevision = Number(previous.revision || 0);
+      const candidateSequence = Number(candidate.clientSequence || 0);
+      const previousSequence = Number(previous.clientSequence || 0);
+      if (!previous.operationId || candidateRevision > previousRevision ||
+          (candidateRevision === previousRevision && candidateSequence > previousSequence) ||
+          (candidateRevision === previousRevision && candidateSequence === previousSequence && String(candidate.operationId) >= String(previous.operationId))) {
+        drafts[questionId] = candidate;
+      }
+    });
+    Object.keys(answerEvents).forEach(function (questionId) { delete drafts[questionId]; });
     const firstExposureByQuestion = Object.assign({}, record(right.firstExposureByQuestion), record(left.firstExposureByQuestion));
     const questionIds = Array.from(new Set(asArray(right.questionIds).concat(asArray(left.questionIds))));
     const starts = [Number(left.startedAt || 0), Number(right.startedAt || 0)].filter(function (value) { return value > 0; });
     return Object.assign({}, right, left, {
       status: status,
       answerEvents: answerEvents,
+      drafts: drafts,
       firstExposureByQuestion: firstExposureByQuestion,
       questionIds: questionIds,
       startedAt: starts.length ? Math.min.apply(null, starts) : 0,
@@ -796,6 +813,15 @@
     }
     lastWriteAheadSaved = result.saved;
     lastWriteAheadAt = now();
+    if (result.saved) {
+      if (localRecovery.required) localRecovery.recoveredAt = lastWriteAheadAt;
+      localRecovery.required = false;
+      localRecovery.reason = null;
+    } else {
+      localRecovery.required = true;
+      localRecovery.failedAt = lastWriteAheadAt;
+      localRecovery.reason = String(result.error && result.error.message || result.error || 'Browser storage rejected the write');
+    }
     cachedState = state;
     const detail = { reason: reason || 'local', saved: result.saved, pending: pendingCount(state), indexedDb: mirrorAvailable };
     emit('tb:learning-updated', detail);
@@ -831,10 +857,12 @@
       startedAt: Number(input.startedAt || now()),
       questionIds: [],
       answerEvents: {},
+      drafts: {},
       firstExposureByQuestion: {},
       status: 'active'
     }, existing);
     session.answerEvents = record(session.answerEvents);
+    session.drafts = record(session.drafts);
     session.firstExposureByQuestion = record(session.firstExposureByQuestion);
     return session;
   }
@@ -904,6 +932,7 @@
       questionIds: ids,
       versionPin: versionPin,
       answerEvents: {},
+      drafts: {},
       firstExposureByQuestion: firstExposureByQuestion,
       status: 'active'
     };
@@ -978,6 +1007,98 @@
   }
 
   /*
+   * A choice is a recoverable draft until the learner explicitly checks it or
+   * completes the session. Draft changes have a stable logical operation ID,
+   * are owner-scoped inside the durable session record, and never enter the
+   * scored learning-event stream. Segment 15 may later synchronize these
+   * drafts for active-session handoff; Segment 06 deliberately keeps them
+   * local so a pre-submission edit cannot manufacture a learning attempt.
+   */
+  function recordDraft(input) {
+    input = record(input);
+    let question = input.question;
+    if (!question || !input.sessionId) return null;
+    const state = read();
+    mergeFreshStoredState(state);
+    if (window.__TB && window.__TB.examVersionPolicy === 'catalog-v1' && !state.sessions[input.sessionId]) {
+      return versionRejection(input, input.sessionId, new Error('Start a versioned session before saving a draft'));
+    }
+    const session = sessionFor(state, input);
+    if (!sessionBelongsToActiveUser(session)) return null;
+    if (session.status === 'completed' || session.status === 'abandoned') return null;
+    let index = Number(input.index || 0);
+    if (session.versionPin) {
+      try {
+        if (input.examId && input.examId !== session.examId) throw new Error('Question belongs to another exam');
+        const pinned = window.__TBVersions.questionFor(session.versionPin, question, index);
+        question = pinned.question;
+        index = pinned.index;
+      } catch (error) { return versionRejection(input, session.id, error); }
+    }
+    const selected = input.selected == null ? null : Number(input.selected);
+    if (selected != null && (!Number.isInteger(selected) || selected < 0 || selected >= asArray(question.options).length)) {
+      return { sessionId: session.id, saved: false, rejected: true, reason: 'invalid-selected-option' };
+    }
+    const id = questionId(input.examId || session.examId, question);
+    if (!id) return { sessionId: session.id, saved: false, rejected: true, reason: 'invalid-question-identity' };
+    const timestamp = Number(input.at || now());
+    const existing = record(session.drafts[id]);
+    const changed = !existing.operationId || existing.selected !== selected || Number(existing.index) !== index;
+    if (!changed) {
+      state.sessions[session.id] = session;
+      const saved = persist(state, 'draft-duplicate');
+      return {
+        sessionId: session.id,
+        questionId: id,
+        draftId: existing.draftId,
+        operationId: existing.operationId,
+        saved: saved,
+        duplicate: true,
+        revised: false,
+        revision: Number(existing.revision || 0),
+        kind: 'draft'
+      };
+    }
+    state.sequence = Math.max(0, Number(state.sequence || 0)) + 1;
+    const draftId = safeId(existing.draftId, '') || 'draft-' + uuid();
+    const operationId = 'draft-op-' + uuid();
+    session.drafts[id] = {
+      schemaVersion: 1,
+      type: 'answer_draft_saved',
+      draftId: draftId,
+      operationId: operationId,
+      ownerId: session.ownerId || null,
+      deviceId: deviceId(state),
+      examId: session.examId,
+      sessionId: session.id,
+      questionId: id,
+      index: index,
+      selected: selected,
+      createdAt: Number(existing.createdAt || timestamp),
+      updatedAt: timestamp,
+      clientOccurredAt: timestamp,
+      clientSequence: state.sequence,
+      writerEpoch: 0,
+      expectedSessionRevision: 0,
+      resetEpochId: null,
+      revision: Math.max(0, Number(existing.revision || 0)) + 1
+    };
+    state.sessions[session.id] = session;
+    const saved = persist(state, 'draft-saved');
+    return {
+      sessionId: session.id,
+      questionId: id,
+      draftId: draftId,
+      operationId: operationId,
+      saved: saved,
+      duplicate: false,
+      revised: Boolean(existing.operationId),
+      revision: session.drafts[id].revision,
+      kind: 'draft'
+    };
+  }
+
+  /*
    * Write-ahead answer capture. It is idempotent for a session/question pair:
    * repeated clicks never create duplicate answer events. Before an event is
    * uploaded, a changed selection replaces the pending payload. Once it is
@@ -1005,6 +1126,12 @@
     const id = questionId(input.examId || session.examId, question);
     const timestamp = Number(input.at || now());
     const payload = answerPayload(question, input, session, input.index);
+    const draft = record(session.drafts[id]);
+    if (draft.operationId) {
+      payload.draftId = draft.draftId;
+      payload.draftOperationId = draft.operationId;
+      payload.draftSelectedAt = draft.clientOccurredAt;
+    }
     const existingId = session.answerEvents[id];
     let event = existingId && findEvent(state, existingId);
     if (event) {
@@ -1027,6 +1154,7 @@
       }
       indexEvent(state, event, true);
       session.answerEvents[id] = event.id;
+      delete session.drafts[id];
       state.sessions[session.id] = session;
       const saved = persist(state, changed ? 'answer-revised' : 'answer-duplicate');
       scheduleSync(changed ? 'answer-revised' : 'answer-duplicate');
@@ -1040,6 +1168,7 @@
       payload: payload
     });
     session.answerEvents[id] = event.id;
+    delete session.drafts[id];
     state.sessions[session.id] = session;
     const saved = persist(state, 'answer-recorded');
     scheduleSync('answer-recorded');
@@ -1085,6 +1214,7 @@
         session.answerEvents[id] = created.id;
         ids.push(created.id);
       }
+      delete session.drafts[id];
       /* Keep the blueprint subtopic with the completion record.  The
          session_completed event is the immutable scoring source for a full
          exam, so its domain breakdown must not depend on a later bank edit
@@ -1938,6 +2068,7 @@
          IndexedDB remains an asynchronous secondary mirror. */
       writeAheadSaved: lastWriteAheadSaved,
       writeAheadAt: lastWriteAheadAt,
+      recovery: clone(localRecovery),
       storage: { localStorage: true, indexedDb: mirrorAvailable, indexedDbHydrated: mirrorHydrated }
     };
   }
@@ -1983,6 +2114,7 @@
   window.__TBLearning = {
     version: VERSION,
     startSession: startSession,
+    recordDraft: recordDraft,
     recordAnswer: recordAnswer,
     completeSession: completeSession,
     abandonSession: abandonSession,

@@ -94,7 +94,7 @@ test('saving a choice preserves its DOM, focus, evidence and updated progress',a
  const quiz=w.document.querySelector('.tb-quiz'),opt=quiz.querySelector('[data-opt="2"]');opt.focus();opt.click();
  assert.ok(opt.isConnected,'Saved answer must retain its original button');assert.equal(w.document.activeElement,opt);assert.equal(w.document.querySelector('.tb-quiz'),quiz);
  assert.equal(opt.getAttribute('aria-pressed'),'true');assert.equal(quiz.querySelector('[data-opt="0"]').getAttribute('aria-pressed'),'false');assert.match(quiz.querySelector('.tb-quizprog').textContent,/1 answered/);assert.ok(quiz.querySelector('.tb-navcell.cur').classList.contains('done'));
- const original=w.__TBLearning.recordAnswer;w.__TBLearning.recordAnswer=()=>({saved:false});quiz.querySelector('[data-opt="3"]').click();assert.equal(w.__TB.getFeedbackSnapshot().records[index].selected,2);assert.equal(quiz.querySelector('.tb-opt.sel'),opt);w.__TBLearning.recordAnswer=original;
+ const original=w.__TBLearning.recordDraft;w.__TBLearning.recordDraft=()=>({saved:false});quiz.querySelector('[data-opt="3"]').click();assert.equal(w.__TB.getFeedbackSnapshot().records[index].selected,2);assert.equal(quiz.querySelector('.tb-opt.sel'),opt);w.__TBLearning.recordDraft=original;
  quiz.querySelector('[data-opt="3"]').click();assert.equal(w.__TB.getFeedbackSnapshot().records[index].selected,3);assert.match(quiz.querySelector('.tb-quizprog').textContent,/1 answered/);assert.equal(w.document.querySelector('.tb-quiz'),quiz);assert.deepEqual(p.errors,[]);
  }finally{await wait(40);p.w.close();}
 });

@@ -27,7 +27,7 @@ async function load(options) {
     url: 'https://upskillsprint.com/test-bank', runScripts: 'outside-only', pretendToBeVisual: true
   });
   const question = { qid: 'cssbb:guard-001', stem: 'Guarded adaptive question.', options: ['A', 'B', 'C', 'D'], answer: 1, why: 'Explanation.', sub: 'mea' };
-  const calls = { start: 0, answer: 0, complete: 0 };
+  const calls = { start: 0, draft: 0, answer: 0, complete: 0 };
   dom.window.__TB = { EXAMS: { cssbb: {
     questions: 165, sets: { 1: [question] },
     bok: [{ subs: [{ id: 'mea', name: 'Measure', w: 100 }] }]
@@ -35,6 +35,7 @@ async function load(options) {
   if (!options.noLedger) {
     dom.window.__TBLearning = {
       startSession() { calls.start += 1; return { sessionId: 'guard-session', saved: options.startSaved !== false }; },
+      recordDraft() { calls.draft += 1; return { operationId: 'guard-draft', saved: options.draftSaved !== false }; },
       recordAnswer() { calls.answer += 1; return { eventId: 'guard-answer', saved: options.answerSaved !== false }; },
       completeSession(payload) {
         calls.complete += 1;
@@ -67,15 +68,50 @@ function closeQuietly(dom) {
   dom.window.close();
 }
 
-test('v1 adaptive practice does not visually accept an answer whose write-ahead record failed', async () => {
-  const { dom, window, calls } = await load({ answerSaved: false });
+test('v1 adaptive practice does not visually accept a draft whose write-ahead record failed', async () => {
+  const { dom, window, calls } = await load({ draftSaved: false });
   try {
     click(window, window.document.querySelector('[data-start-adaptive]'));
     await settle(window);
     click(window, window.document.querySelector('[data-adaptive-opt="1"]'));
-    assert.equal(calls.answer, 1);
+    assert.equal(calls.draft, 1);
+    assert.equal(calls.answer, 0, 'an option click is not yet a scored answer');
     assert.equal(window.document.querySelector('.tb-adaptive-option.selected'), null, 'selection stays unchanged until the ledger write succeeds');
     assert.match(window.document.getElementById('tb-feedback-live').textContent, /could not be saved/i);
+  } finally {
+    await settle(window, 6);
+    closeQuietly(dom);
+  }
+});
+
+test('v1 adaptive practice submits one scored answer only when the learner checks the saved draft', async () => {
+  const { dom, window, calls } = await load({});
+  try {
+    click(window, window.document.querySelector('[data-start-adaptive]'));
+    await settle(window);
+    click(window, window.document.querySelector('[data-adaptive-opt="0"]'));
+    click(window, window.document.querySelector('[data-adaptive-opt="1"]'));
+    assert.equal(calls.draft, 2, 'rapid choice changes remain draft operations');
+    assert.equal(calls.answer, 0);
+    click(window, window.document.querySelector('[data-adaptive-check]'));
+    assert.equal(calls.answer, 1, 'Check answer creates the single scored submission');
+  } finally {
+    await settle(window, 6);
+    closeQuietly(dom);
+  }
+});
+
+test('hardened adaptive practice keeps an unchecked draft editable when scored submission fails', async () => {
+  const { dom, window, calls } = await load({ hardening: true, answerSaved: false });
+  try {
+    click(window, window.document.querySelector('[data-start-adaptive]'));
+    await settle(window);
+    click(window, window.document.querySelector('[data-v2-option="1"]'));
+    click(window, window.document.querySelector('[data-v2-check]'));
+    assert.equal(calls.draft, 1);
+    assert.equal(calls.answer, 1);
+    assert.ok(window.document.querySelector('[data-v2-check]'), 'failed submission does not reveal feedback or advance state');
+    assert.match(window.document.getElementById('tb-feedback-live').textContent, /could not be submitted safely/i);
   } finally {
     await settle(window, 6);
     closeQuietly(dom);

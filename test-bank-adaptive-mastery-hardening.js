@@ -686,12 +686,11 @@
       event.preventDefault(); event.stopImmediatePropagation();
       const selected = Number(target.dataset.v2Option);
       const question = session.items[session.index];
-      const learning = learningLedger('recordAnswer');
+      const learning = learningLedger('recordDraft');
       if (!learning || !session.learningSessionId) { durableLearningUnavailable(); return; }
-      const saved = learning.recordAnswer({
+      const saved = learning.recordDraft({
         examId: examId(), sessionId: session.learningSessionId, mode: 'adaptive', timed: false,
-        index: session.index, question: question, selected: selected,
-        status: selected === question.answer ? 'correct' : 'incorrect'
+        index: session.index, question: question, selected: selected
       });
       if (!saved || !writeAheadSaved(saved)) {
         announce('That answer could not be saved on this device. Please try again after freeing browser storage.');
@@ -704,6 +703,17 @@
       const question = session.items[session.index];
       const selected = session.answers[session.index];
       if (selected == null) return;
+      const learning = learningLedger('recordAnswer');
+      if (!learning || !session.learningSessionId) { durableLearningUnavailable(); return; }
+      const saved = learning.recordAnswer({
+        examId: examId(), sessionId: session.learningSessionId, mode: 'adaptive', timed: false,
+        index: session.index, question: question, selected: selected,
+        status: selected === question.answer ? 'correct' : 'incorrect'
+      });
+      if (!saved || !writeAheadSaved(saved)) {
+        announce('That answer could not be submitted safely. Your draft remains available; free browser storage and try again.');
+        return;
+      }
       session.checked[session.index] = true;
       session.results[session.index] = { question: question, selected: selected, status: selected === question.answer ? 'correct' : 'incorrect' };
       saveSession(); renderQuestion(); return;

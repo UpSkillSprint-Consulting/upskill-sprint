@@ -244,9 +244,12 @@ test('observation G10: changing device clock shifts remaining time; reload does 
     const saved = Object.fromEntries(Array.from({ length: w.localStorage.length }, (_, i) => w.localStorage.key(i)).map(k => [k, w.localStorage.getItem(k)]));
     second = await load(saved);
     await installDurableLearning(second.window);
+    const restoredSession = second.window.__TBLearning.store().sessions[Object.keys(second.window.__TBLearning.store().sessions)[0]];
     const recorded = second.window.__TBLearning.eventsForExam('cssbb').filter(e => e.type === 'answer_recorded').length;
-    emit('OBSERVATION', { id: 'G10', remainingAfterClockBack120s: shifted, answerEventsAfterReload: recorded, coreSessionRestored: second.window.__TBSegment01Probe.getSession() !== null, fixedByThisPR: false });
-    assert.ok(recorded > 0, 'Durable answer evidence must survive same-account reload');
+    const drafts = restoredSession ? Object.keys(restoredSession.drafts || {}).length : 0;
+    emit('OBSERVATION', { id: 'G10', remainingAfterClockBack120s: shifted, durableDraftsAfterReload: drafts, answerEventsAfterReload: recorded, coreSessionRestored: second.window.__TBSegment01Probe.getSession() !== null, fixedByThisPR: false });
+    assert.ok(drafts > 0, 'Durable draft evidence must survive same-account reload');
+    assert.equal(recorded, 0, 'an unsubmitted choice is not a scored answer event');
   } finally { first.dom.window.close(); if (second) second.dom.window.close(); }
 });
 

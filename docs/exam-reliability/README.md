@@ -2,11 +2,13 @@
 
 ## Current execution boundary
 
-Segments 01–03 were human-merged through PR #172 at `b9bf726baf3418d4405e5aed46f13e99b63ba3dd`. Segment 04 is implemented for review in new PR #173 on `fix/segment-04-question-identity`, as explicitly requested. Segment 05 is stacked on the same PR by explicit user instruction; its version/catalog implementation is described below. Segment 06 is not included in this PR; later segments are not signed off. Review, merge, deployment and physical/production acceptance remain separate gates.
+Segments 01–03 were human-merged through PR #172. Segments 04–05 were human-merged through PR #173. Segment 06 is implemented for review on the separate `fix/segment-06-local-answer-durability` branch. Later segments are not signed off. Review, merge, deployment and physical/production acceptance remain separate gates.
 
 Application baseline: `990e385350ae63d76cfc1e3940c3644859cc636a`. Segments 01–03 add baseline evidence, contracts and verification infrastructure. Segment 04 changes identity validation/runtime guards but no question content/IDs, learner history, dependency pins or live database objects. Product rating does not increase merely for adding tests or documenting defects.
 
 ## Records
+
+- [Segment 06 local durability](SEGMENT-06-LOCAL-DURABILITY.md): owner-scoped durable drafts, explicit scored submission, fail-closed storage recovery and no database-enum expansion.
 
 - [WebKit full-review stability](WEBKIT-REVIEW-STABILITY.md): reproduced DOM/focus repair, same-document scan safeguards, independent process deadlines, and all-profile evidence acceptance on every PR. This follow-up does not include unfinished Segment 06 work.
 

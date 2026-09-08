@@ -990,3 +990,132 @@ test('a stale tab write merges a newly persisted outbox event instead of overwri
     dom.window.close();
   }
 });
+
+test('rapid draft changes keep stable draft and operation identities without creating a scored attempt', () => {
+  const { dom, window, questions } = load();
+  try {
+    const api = window.__TBLearning;
+    const sessionId = api.startSession({
+      examId: 'cssbb', sessionId: 'draft-separation-session', questions: [questions[0]], mode: 'quick', timed: false
+    });
+    const first = api.recordDraft({ examId: 'cssbb', sessionId, question: questions[0], index: 0, selected: 1, at: 1000 });
+    const second = api.recordDraft({ examId: 'cssbb', sessionId, question: questions[0], index: 0, selected: 2, at: 1001 });
+    const third = api.recordDraft({ examId: 'cssbb', sessionId, question: questions[0], index: 0, selected: 0, at: 1002 });
+    const retry = api.recordDraft({ examId: 'cssbb', sessionId, question: questions[0], index: 0, selected: 0, at: 2000 });
+
+    assert.equal(first.saved, true);
+    assert.equal(first.draftId, second.draftId);
+    assert.equal(second.draftId, third.draftId, 'one item draft retains its identity through edits');
+    assert.notEqual(first.operationId, second.operationId, 'each changed draft is a distinct logical operation');
+    assert.notEqual(second.operationId, third.operationId);
+    assert.equal(third.revision, 3);
+    assert.equal(retry.duplicate, true);
+    assert.equal(retry.operationId, third.operationId, 'an identical retry preserves the original operation identity');
+    assert.equal(api.store().sessions[sessionId].drafts['cssbb:test-001'].clientOccurredAt, 1002,
+      'an identical retry cannot mutate the accepted operation payload');
+    assert.equal(api.store().events.filter(event => event.type === 'answer_recorded').length, 0,
+      'draft changes never enter the scored event stream');
+    assert.equal(api.summary('cssbb').answeredEvents, 0);
+
+    const submitted = api.recordAnswer({
+      examId: 'cssbb', sessionId, question: questions[0], index: 0, selected: 0, status: 'correct', at: 1003
+    });
+    assert.equal(submitted.saved, true);
+    const answers = api.store().events.filter(event => event.type === 'answer_recorded');
+    assert.equal(answers.length, 1);
+    assert.equal(answers[0].payload.draftId, first.draftId);
+    assert.equal(answers[0].payload.draftOperationId, third.operationId, 'the submission traces to the final durable draft operation');
+    assert.equal(answers[0].payload.draftSelectedAt, 1002, 'the final choice time is preserved separately from submission time');
+    assert.equal(Object.keys(api.store().sessions[sessionId].drafts).length, 0, 'the committed draft is cleared atomically with its answer');
+    assert.equal(api.summary('cssbb').answeredEvents, 1);
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('an acknowledged draft survives a new page runtime without becoming an answer', () => {
+  const first = load();
+  let persisted;
+  try {
+    const sessionId = first.window.__TBLearning.startSession({
+      examId: 'cssbb', sessionId: 'draft-restart-session', questions: [first.questions[1]], mode: 'exam', timed: true
+    });
+    const draft = first.window.__TBLearning.recordDraft({
+      examId: 'cssbb', sessionId, question: first.questions[1], index: 0, selected: 3
+    });
+    assert.equal(draft.saved, true);
+    persisted = first.window.localStorage.getItem('tb-learning-events-v2');
+  } finally {
+    first.dom.window.close();
+  }
+
+  const restarted = load(window => window.localStorage.setItem('tb-learning-events-v2', persisted));
+  try {
+    const restored = restarted.window.__TBLearning.store().sessions['draft-restart-session'];
+    assert.equal(restored.drafts['cssbb:test-002'].selected, 3);
+    assert.match(restored.drafts['cssbb:test-002'].operationId, /^draft-/);
+    assert.equal(restarted.window.__TBLearning.summary('cssbb').answeredEvents, 0,
+      'restart recovery does not reinterpret a draft as scored evidence');
+  } finally {
+    restarted.dom.window.close();
+  }
+});
+
+test('a denied draft write fails closed, exposes recovery state, and retries the same operation identity', () => {
+  const { dom, window, questions } = load();
+  const storagePrototype = Object.getPrototypeOf(window.localStorage);
+  const originalSetItem = storagePrototype.setItem;
+  try {
+    const api = window.__TBLearning;
+    const sessionId = api.startSession({
+      examId: 'cssbb', sessionId: 'draft-denied-session', questions: [questions[0]], mode: 'quick', timed: false
+    });
+    let storageErrors = 0;
+    window.document.addEventListener('tb:learning-storage-error', () => { storageErrors += 1; });
+    storagePrototype.setItem = function (key, value) {
+      if (key === 'tb-learning-events-v2') throw new window.DOMException('Storage is full', 'QuotaExceededError');
+      return originalSetItem.call(this, key, value);
+    };
+    const failed = api.recordDraft({ examId: 'cssbb', sessionId, question: questions[0], index: 0, selected: 2 });
+    assert.equal(failed.saved, false);
+    assert.equal(api.status().writeAheadSaved, false);
+    assert.equal(api.status().recovery.required, true);
+    assert.match(api.status().recovery.reason, /storage is full/i);
+    assert.ok(storageErrors >= 1, 'the UI receives an explicit storage recovery event');
+    assert.equal(JSON.parse(window.localStorage.getItem('tb-learning-events-v2')).sessions[sessionId].drafts['cssbb:test-001'], undefined,
+      'an unacknowledged draft is not falsely present in durable storage');
+
+    storagePrototype.setItem = originalSetItem;
+    const retried = api.recordDraft({ examId: 'cssbb', sessionId, question: questions[0], index: 0, selected: 2 });
+    assert.equal(retried.saved, true);
+    assert.equal(retried.operationId, failed.operationId, 'retry preserves the logical operation identity');
+    assert.equal(api.status().recovery.required, false);
+    assert.ok(api.status().recovery.recoveredAt);
+  } finally {
+    storagePrototype.setItem = originalSetItem;
+    dom.window.close();
+  }
+});
+
+test('draft ownership remains bound to the account that started the session', () => {
+  const { dom, window, questions } = load();
+  try {
+    const userA = { id: 'draft-owner-a' };
+    const userB = { id: 'draft-owner-b' };
+    let currentUser = userA;
+    window.UpskillAuth = { getUser: () => currentUser, getClient: () => null };
+    const api = window.__TBLearning;
+    const sessionId = api.startSession({
+      examId: 'cssbb', sessionId: 'draft-owner-session', questions: [questions[0]], mode: 'quick', timed: false
+    });
+    const owned = api.recordDraft({ examId: 'cssbb', sessionId, question: questions[0], index: 0, selected: 1 });
+    currentUser = userB;
+    const foreign = api.recordDraft({ examId: 'cssbb', sessionId, question: questions[0], index: 0, selected: 2 });
+    assert.equal(foreign, null);
+    assert.equal(api.store().sessions[sessionId].drafts['cssbb:test-001'].selected, 1);
+    assert.equal(api.store().sessions[sessionId].drafts['cssbb:test-001'].operationId, owned.operationId);
+    assert.equal(api.store().events.some(event => event.scope === 'user:' + userB.id && event.sessionId === sessionId), false);
+  } finally {
+    dom.window.close();
+  }
+});
