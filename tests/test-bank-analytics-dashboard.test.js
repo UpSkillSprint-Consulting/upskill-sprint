@@ -11,6 +11,7 @@ const { installDurableLearning } = require('./helpers/test-bank-durable-learning
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
 const registry = fs.readFileSync(path.join(ROOT, 'test-bank-question-registry.js'), 'utf8');
+const reconciliation = fs.readFileSync(path.join(ROOT, 'test-bank-history-reconciliation.js'), 'utf8');
 const mastery = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery.js'), 'utf8');
 const hardening = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery-hardening.js'), 'utf8');
 const analytics = fs.readFileSync(path.join(ROOT, 'test-bank-analytics-dashboard.js'), 'utf8');
@@ -37,6 +38,7 @@ async function load() {
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
   if (!dom.window.Element.prototype.scrollIntoView) dom.window.Element.prototype.scrollIntoView = function () {};
   dom.window.eval(registry);
+  dom.window.eval(reconciliation);
   dom.window.eval(mastery);
   dom.window.eval(hardening);
   dom.window.eval(analytics);
@@ -231,6 +233,29 @@ test('Full Analytics caps delivered history to the canonical current bank and ex
   assert.match(text, /unique questions answered/i);
   assert.match(text, /unique questions delivered/i);
   assert.match(text, /retired or legacy question IDs are retained in history but excluded/i);
+});
+
+test('Full Analytics uses the canonical union and exposes source disagreement instead of taking the larger counter', async () => {
+  const { window } = await load();
+  const question = questions(window)[0];
+  const id = windowQuestionId(question);
+  writeStore(window, { questions: { [id]: seedQuestionState(question, Date.now(), {
+    attempts: 2,
+    masteryHistory: [
+      { id: 'one', attemptId: 's1', learningEventId: 'event-one', at: 100, status: 'correct' },
+      { id: 'two', attemptId: 's2', at: 200, status: 'incorrect' }
+    ]
+  }) }, attempts: [], sessions: [] });
+  window.__TBLearning = {
+    summary: () => ({ uniqueSeen: 1, answeredEvents: 9, completedSessions: 0, pending: 0, historyReady: true }),
+    eventsForExam: () => [{ id: 'event-one', type: 'answer_recorded', sessionId: 's1', questionId: id, occurredAt: 100, payload: { status: 'correct' } }]
+  };
+  const result = window.__TBAnalyticsDashboard.learningSummary({ attempted: 1, answers: 2, total: questions(window).length });
+  assert.equal(result.answeredEvents, 9, 'all accepted aggregate evidence remains counted, with compacted detail explicit rather than hidden');
+  assert.match(Array.from(result.disagreement, item => item.code).join(','), /compacted-ledger-detail/);
+  assert.equal(result.firstAnswers, 1);
+  assert.equal(result.repeatedAnswers, 1);
+  assert.equal(result.unknownAnswers, 7);
 });
 
 test('sessionTrend and studyHeatmap read real attempt history, not fabricated data', async () => {

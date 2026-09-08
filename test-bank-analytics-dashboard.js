@@ -212,9 +212,29 @@
        durable ledger for audit/notebook purposes, but cannot be placed over
        the current-bank denominator or the result can exceed 100%. */
     const ledger = learning.summary(examId(), data.questions || {}, currentIds);
+    const reconciliation = window.__TBHistoryReconciliation;
+    const projection = reconciliation && typeof reconciliation.project === 'function' ? reconciliation.project({
+      events: typeof learning.eventsForExam === 'function' ? learning.eventsForExam(examId()) : [],
+      questionStates: data.questions || {},
+      currentQuestionIds: currentIds,
+      ledgerAggregate: Number(ledger && ledger.answeredEvents || 0),
+      historyComplete: Boolean(ledger && ledger.historyReady)
+    }) : null;
+    const ledgerAnswers = Number(ledger && ledger.answeredEvents || 0);
+    const derivedAnswers = Number(summary && summary.answers || summary && summary.attempted || 0);
+    const disagreement = projection && projection.diagnostics.length ? projection.diagnostics : (ledgerAnswers !== derivedAnswers ? [{
+      code: 'source-count-mismatch', ledger: ledgerAnswers, mastery: derivedAnswers,
+      message: 'Durable ledger and mastery projections differ; history reconciliation is incomplete.'
+    }] : []);
     return {
-      uniqueSeen: Math.min(Number(summary && summary.total || currentIds.length || 0), Math.max(fallback.uniqueSeen, Number(ledger && ledger.uniqueSeen || 0))),
-      answeredEvents: Math.max(fallback.answeredEvents, Number(ledger && ledger.answeredEvents || 0)),
+      uniqueSeen: Math.min(Number(summary && summary.total || currentIds.length || 0), Number(ledger && ledger.uniqueSeen || fallback.uniqueSeen)),
+      answeredEvents: projection ? projection.answered : (ledger && ledger.historyReady ? ledgerAnswers : derivedAnswers),
+      uniqueAnswered: projection ? projection.uniqueAnswered : Number(summary && summary.attempted || 0),
+      firstAnswers: projection ? projection.first : 0,
+      repeatedAnswers: projection ? projection.repeat : 0,
+      unknownAnswers: projection ? projection.unknown : 0,
+      reconciliationComplete: projection ? projection.complete : disagreement.length === 0,
+      disagreement: disagreement,
       completedSessions: Number(ledger && ledger.completedSessions || 0),
       pending: Number(ledger && ledger.pending || 0),
       historicalUniqueSeen: Number(ledger && ledger.historicalUniqueSeen || 0),
@@ -492,6 +512,7 @@
         '<div class="tb-an-stat"><b>' + ledger.uniqueSeen + '/' + summary.total + '</b><span>unique questions delivered</span></div>' +
       '</div></div>' +
       '<p class="tb-an-desc">Readiness is blueprint-weighted: each subtopic contributes its official exam weight × your effective mastery × the share of that subtopic you have answered. All five counters above use the current question bank. Delivered questions are shown separately and never raise readiness on their own, so a high score on 20 questions reads lower than the same score on 500.' + (ledger.historicalUniqueSeen ? ' ' + ledger.historicalUniqueSeen + ' retired or legacy question ID' + (ledger.historicalUniqueSeen === 1 ? ' is' : 's are') + ' retained in history but excluded from these current-bank totals.' : '') + (ledger.pending ? ' ' + ledger.pending + ' record' + (ledger.pending === 1 ? ' is' : 's are') + ' waiting to sync.' : '') + '</p>' +
+      (ledger.disagreement && ledger.disagreement.length ? '<p class="tb-an-reconciliation" role="status"><strong>History reconciliation:</strong> ' + esc(ledger.disagreement[0].message) + ' First ' + ledger.firstAnswers + ', repeated ' + ledger.repeatedAnswers + ', unknown ' + ledger.unknownAnswers + '.</p>' : '') +
       domainSection;
   }
 

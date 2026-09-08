@@ -20,6 +20,7 @@ export default async function testBankSetControls(request, context) {
     '<script src="/test-bank-phase2-runtime-coordinator.js" defer></script>',
     '<script src="/test-bank-phase2-quality-assurance.js" defer></script>',
     '<script src="/test-bank-account-sync.js" defer></script>',
+    '<script src="/test-bank-history-reconciliation.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery.js" defer></script>',
     '<script src="/test-bank-learning-events.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery-runtime.js" defer></script>',

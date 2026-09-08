@@ -1,0 +1,20 @@
+name: Exam history reconciliation
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: exam-history-reconciliation-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  segment-08:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - run: node --test tests/test-bank-segment08-reconciliation.test.js tests/test-bank-segment07-ingestion.test.js tests/test-bank-segment06-durability.test.js

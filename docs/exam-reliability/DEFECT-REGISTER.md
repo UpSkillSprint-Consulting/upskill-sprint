@@ -77,6 +77,15 @@ See [Segment 04 implementation and limits](SEGMENT-04-IDENTITY.md). Segments 01â
 
 No production closure is asserted. See [Segment 05](SEGMENT-05-VERSIONS.md).
 
+## Segment 08 disposition update (prior observations retained)
+
+- **G01:** the runtime projector ignores stored `priorAttempts` labels and derives one first interaction per complete scoped canonical history. The screenshot-sized 698/649 fixture now produces 649 first and 49 repeat interactions without rewriting evidence.
+- **G02:** compacted or incomplete first provenance is explicitly `unknown`; current-bank filtering occurs after canonical history construction. Complete-history export and reporting presentation remain Segments 10â€“11.
+- **G03:** analytics no longer takes the maximum of competing projections. It displays the canonical overlap-aware union and an observable source-count diagnostic.
+- **R16:** deterministic projection and dry-run conversion are implemented. Authorized pagination, export completeness, reset/deletion policy, and production recovery evidence remain open in Segments 11, 18, and 19.
+
+See [Segment 08 reconciliation](SEGMENT-08-RECONCILIATION.md). No production data conversion, deployment, or merge is asserted.
+
 
 ## PR173 WebKit stability follow-up (historical failures retained)
 
