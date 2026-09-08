@@ -1,0 +1,31 @@
+name: Segment 09 isolated inspection
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  source:
+    if: github.head_ref == 'fix/segment-09-canonical-grading'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - name: Archive public tracked source and locked test dependencies only
+        run: |
+          mkdir -p /tmp/segment09-inspection
+          git archive --format=tar HEAD | gzip > /tmp/segment09-inspection/source.tgz
+          tar -czf /tmp/segment09-inspection/dependencies.tgz node_modules
+          git rev-parse HEAD > /tmp/segment09-inspection/commit.txt
+          git rev-parse HEAD^{tree} > /tmp/segment09-inspection/tree.txt
+          git ls-tree -r HEAD > /tmp/segment09-inspection/files.txt
+          sha256sum /tmp/segment09-inspection/*.tgz > /tmp/segment09-inspection/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: segment09-inspection
+          path: /tmp/segment09-inspection
+          retention-days: 2
