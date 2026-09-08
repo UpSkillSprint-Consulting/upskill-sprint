@@ -23,6 +23,10 @@ jobs:
           set -o pipefail
           mkdir -p .segment09-results
           git rev-parse HEAD > .segment09-results/commit.txt
+          git rev-parse HEAD^{tree} > .segment09-results/tree.txt
+          git ls-tree -r HEAD > .segment09-results/files.txt
+          git archive --format=tar HEAD .github docs scripts tests supabase test-bank.html 'test-bank*.js' package.json package-lock.json .node-version | gzip > .segment09-results/source.tgz
+          sha256sum .segment09-results/source.tgz > .segment09-results/SHA256SUMS
           node scripts/exam-reliability/build-catalog.cjs --check | tee .segment09-results/catalog.log
           node --test --test-concurrency=2 tests/test-bank-segment09-grading.test.js tests/test-bank-segment08-reconciliation.test.js tests/test-bank-segment07-ingestion.test.js tests/test-bank-segment06-durability.test.js tests/test-bank-segment05-versions.test.js tests/test-bank-analytics-dashboard.test.js | tee .segment09-results/grading.log
       - uses: actions/upload-artifact@v4
