@@ -125,7 +125,7 @@
             inList.add(id);
             if (byId.has(id) && byId.get(id) !== q) error('DUPLICATE_ID', where, id, 'Another question object already uses this ID at ' + origins.get(id) + '. Give a genuinely new question a new explicit ID.');
             if (!byId.has(id)) { byId.set(id, q); origins.set(id, where); questions.push(q); memberships.set(id, []); }
-            if (setId !== 'bank' && memberships.get(id).indexOf(setId) < 0) memberships.get(id).push(setId);
+            if (location !== 'bank' && memberships.get(id).indexOf(setId) < 0) memberships.get(id).push(setId);
           }
         }
         if (own(source, 'sets')) {

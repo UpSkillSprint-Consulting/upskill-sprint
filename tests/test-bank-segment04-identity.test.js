@@ -74,6 +74,8 @@ test('cache observes array replacement, push, splice, alias/subtopic/BoK edits a
 test('membership is separate: repeated reference in another set or bank counts once; repetition within a set rejects',t=>{
   const {api,exam,rows}=fixture(t);exam.sets[2]=[rows[0]];
   assert.equal(api.validate('cssbb').total,2);assert.deepEqual(plain(api.membershipsFor('cssbb',rows[0].qid)),['1','2']);
+  exam.sets.bank=[rows[0]];assert.equal(api.validate('cssbb').valid,true);
+  assert.deepEqual(plain(api.membershipsFor('cssbb',rows[0].qid)),['1','2','bank'],'A set named bank is distinct from the bank mirror');
   exam.sets[2].push(rows[0]);assert.ok(codes(api.validate('cssbb')).includes('DUPLICATE_MEMBERSHIP'));
 });
 test('malformed containers, sparse rows, duplicate domains and unreadable records produce errors',t=>{
