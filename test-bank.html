@@ -4426,6 +4426,20 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';
   }
+  function updateQuizAnswerState(host){
+    var quiz=host.querySelector('.tb-quiz');if(!quiz||!session)return;
+    var answered=Object.keys(session.answers).length,n=session.items.length;
+    var flagged=Object.keys(session.flags).filter(function(key){return session.flags[key];}).length;
+    Array.prototype.forEach.call(quiz.querySelectorAll('[data-opt]'),function(button){
+      var selected=+button.dataset.opt===session.answers[session.i];
+      button.classList.toggle('sel',selected);button.setAttribute('aria-pressed',String(selected));
+    });
+    var progress=quiz.querySelector('.tb-quizprog');
+    if(progress)progress.textContent='Question '+(session.i+1)+' of '+n+' · '+answered+' answered'+(flagged?' · '+flagged+' flagged':'');
+    var bar=quiz.querySelector('.tb-progress span');if(bar)bar.style.width=(answered/n*100)+'%';
+    var current=quiz.querySelector('.tb-navcell.cur');if(current)current.classList.toggle('done',session.answers[session.i]!=null);
+    var notice=document.getElementById('tb-learning-storage-notice');if(notice)notice.remove();
+  }
   function wireQuiz(){
     var host=document.getElementById('tb-overview');
     if(window.__MBBSet3Batch1UI)window.__MBBSet3Batch1UI.wire(host);
@@ -4451,7 +4465,12 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
       if(!learning||typeof learning.recordAnswer!=='function'||!session.id){showLearningStorageNotice('Your answer could not be saved because study-record storage is unavailable. Please wait a moment and try again.');return;}
       var saved=learning.recordAnswer({examId:current,sessionId:session.id,mode:session.kind,timed:session.timed,index:index,question:question,selected:selected,status:selected===question.answer?'correct':'incorrect'});
       if(!saved||saved.saved===false||!writeAheadConfirmed(learning))return;
-      session.answers[index]=selected;renderMain();
+      session.answers[index]=selected;
+      // Saving a choice is not navigation. Keep the focused button and any
+      // interactive evidence alive; replacing the whole quiz here detaches the
+      // event target and races the next mobile pointer/keyboard action.
+      updateQuizAnswerState(host);
+      b.focus({preventScroll:true});
     });});
     Array.prototype.forEach.call(host.querySelectorAll('[data-goto]'),function(b){b.addEventListener('click',function(){session.i=+b.dataset.goto;renderMain();});});
     var nx=host.querySelector('[data-next]');if(nx)nx.addEventListener('click',function(){session.i++;renderMain();});

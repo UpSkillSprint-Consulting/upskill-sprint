@@ -7,6 +7,8 @@ on:
       - 'contrast-fix.js'
       - 'tests/contrast-theme-race.test.js'
       - 'tests/test-bank-mbb-set3-final-student.test.js'
+      - 'tests/student-audit-runtime.test.js'
+      - 'scripts/lib/student-audit-runtime.cjs'
       - 'scripts/stress-mbb-set3-*.mjs'
       - '.github/workflows/mbb-set3-final-student.yml'
   workflow_dispatch:
@@ -21,6 +23,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with: {persist-credentials: false}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -31,7 +34,7 @@ jobs:
           mkdir -p final-student-regression
           git rev-parse HEAD > final-student-regression/tested-commit.txt
           set -o pipefail
-          node --test --test-concurrency=1 tests/contrast-theme-race.test.js tests/test-bank-mbb-set3-final-student.test.js | tee final-student-regression/tests.log
+          node --test --test-concurrency=1 tests/contrast-theme-race.test.js tests/test-bank-mbb-set3-final-student.test.js tests/student-audit-runtime.test.js | tee final-student-regression/tests.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -53,14 +56,17 @@ jobs:
           - {engine: webkit, layout: mobile, width: 320, mixed: '1', label: webkit-narrow-mixed}
     steps:
       - uses: actions/checkout@v4
+        with: {persist-credentials: false}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - run: npm ci
-      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
-      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Install exact audit tools outside application dependencies
+        run: npm install --prefix /tmp/student-audit-tools --ignore-scripts --save-exact playwright@1.63.0 @axe-core/playwright@4.13.0 axe-core@4.13.0
+      - run: /tmp/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - name: All 175 questions and reviews, both themes, actual controls and accessibility
         env:
+          AUDIT_TOOLS_DIR: /tmp/student-audit-tools
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: ${{ matrix.layout }}
           AUDIT_WIDTH: ${{ matrix.width }}
@@ -73,6 +79,7 @@ jobs:
         run: |
           mkdir -p final-student-summary
           git rev-parse HEAD > final-student-summary/tested-commit.txt
+          cp /tmp/student-audit-tools/package-lock.json final-student-summary/audit-tools-lock.json
           test ! -f audit-results-final175/report.json || cp audit-results-final175/report.json final-student-summary/
       - uses: actions/upload-artifact@v4
         if: always()
@@ -95,14 +102,17 @@ jobs:
         engine: [chromium, webkit]
     steps:
       - uses: actions/checkout@v4
+        with: {persist-credentials: false}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - run: npm ci
-      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
-      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Install exact audit tools outside application dependencies
+        run: npm install --prefix /tmp/student-audit-tools --ignore-scripts --save-exact playwright@1.63.0 @axe-core/playwright@4.13.0 axe-core@4.13.0
+      - run: /tmp/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - name: Timeout, failed save, retake, correction quiz and rapid review at 320px
         env:
+          AUDIT_TOOLS_DIR: /tmp/student-audit-tools
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: mobile
           AUDIT_WIDTH: 320
