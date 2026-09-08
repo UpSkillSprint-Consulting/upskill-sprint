@@ -4459,12 +4459,12 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
       // A failed timeout save must not let a learner revise expired answers.
       if(session.timed&&session.endsAt<=Date.now()){submitQuiz('timed-out');return;}
       var index=session.i,selected=+b.dataset.opt,question=session.items[index].q;
-      /* Write the answer before repainting. A refresh, mobile process kill, or
-         exit after this click still leaves a durable ledger record. */
+      /* Persist the current choice before repainting. It remains a draft until
+         final submission, so changing it cannot manufacture learning attempts. */
       var learning=window.__TBLearning;
-      if(!learning||typeof learning.recordAnswer!=='function'||!session.id){showLearningStorageNotice('Your answer could not be saved because study-record storage is unavailable. Please wait a moment and try again.');return;}
-      var saved=learning.recordAnswer({examId:current,sessionId:session.id,mode:session.kind,timed:session.timed,index:index,question:question,selected:selected,status:selected===question.answer?'correct':'incorrect'});
-      if(!saved||saved.saved===false||!writeAheadConfirmed(learning))return;
+      if(!learning||typeof learning.recordDraft!=='function'||!session.id){showLearningStorageNotice('Your answer could not be saved because study-record storage is unavailable. Please wait a moment and try again.');return;}
+      var saved=learning.recordDraft({examId:current,sessionId:session.id,mode:session.kind,timed:session.timed,index:index,question:question,selected:selected});
+      if(!saved||saved.saved===false||!writeAheadConfirmed(learning)){showLearningStorageNotice('That choice could not be saved safely. Your previous saved choice is unchanged; free browser storage and try again.');return;}
       session.answers[index]=selected;
       // Saving a choice is not navigation. Keep the focused button and any
       // interactive evidence alive; replacing the whole quiz here detaches the
@@ -4625,6 +4625,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
 <script defer src="/test-bank-phase2-runtime-coordinator.js"></script>
 <script defer src="/test-bank-phase2-quality-assurance.js"></script>
 <script defer src="/test-bank-account-sync.js"></script>
+<script defer src="/test-bank-history-reconciliation.js"></script>
 <script defer src="/test-bank-adaptive-mastery.js"></script>
 <script defer src="/test-bank-learning-events.js"></script>
 <script defer src="/test-bank-adaptive-mastery-runtime.js"></script>

@@ -15,7 +15,7 @@ Baseline: `990e385350ae63d76cfc1e3940c3644859cc636a`, 2026-09-07. None of these 
 | G07 | Confirmed cache/handoff limitation / High | Merge two snapshots each containing 75 attempts: mastery list becomes60, legacy history50. `tb-adaptive-session-v2` excluded from payload. Cloud deletion is not established. | 11, 12, 14, 15: complete paginated history and explicit resumable-session path; preserve valid cache bounds separately. |
 | G08 | Confirmed storage-denial failure / Medium | Throw from localStorage.getItem; analytics `readStore()` calls it outside try, so sessionTrend throws. | 06, 10, 17: safe failure UI and recovery, no false empty/healthy state. |
 | G09 | Confirmed future-import hazard / Medium | Two distinct question objects share an ID; registry warns and registers only one. No current inventory collision. | 04: reject invalid import visibly/atomically without renumbering valid IDs. |
-| G10 | Confirmed core recovery/clock limitations / High | Move clock back120s in a60s exam =>180s left. Reload saved storage => answer event survives but core active session is null. | 12, 13, 15: stable policy/deadline authority, safe restore/takeover and stale-writer rules. |
+| G10 | Confirmed core recovery/clock limitations / High | Move clock back120s in a60s exam =>180s left. After Segment 06, reload preserves the unsubmitted choice as a durable draft (not a scored answer), but the core active session UI is still null. | 12, 13, 15: stable policy/deadline authority, safe restore/takeover and stale-writer rules. |
 | G11 | Confirmed MBB history-filter defect / High | Core Set3 target=175; insert completed/timed/exam175 summary; examAttemptSeries returns no attempt because generic MBB length=100. Set2 uses the same175 override. | 05, 09, 11: accept pinned set-specific length; preserve mixed100 and legitimate175 sessions. |
 | G12 | Confirmed misleading score fraction/scope / Medium | Submit1 correct+1 blank in p1; actual aggregate1/2 but result breakdown reads50% (0.5/1) from retained latest-domain proportions. Other retained domains can be from previous attempts. | 09, 10, 17: exact current-exam counts and separately labelled learning-history proportions. |
 | G13 | Not reproduced in selected DST fixture / Verification | New York seven-day grid ending2026-11-03 has seven expected distinct UTC keys. This does not negate G04 or certify all timezones/DST transitions. | 03, 11, 19: add timezone/calendar boundary matrix; do not claim duplicate-day defect from this result. |
@@ -32,7 +32,7 @@ Baseline: `990e385350ae63d76cfc1e3940c3644859cc636a`, 2026-09-07. None of these 
 | R05 | Confirmed activity-definition mismatch / Medium | Heatmap counts session-summary answers on completion date, not individual response dates. Session trend mixes modes and sizes. | 02, 11: answer-date activity; distinguish trend types and session sample sizes. |
 | R06 | Required interpretation contract | 55% estimated mastery,92% first accuracy,34% readiness and zero mastered can coexist under the current heuristic. This is not a pass probability or evidence of a broken score formula. | 02, 10, 17: retain sound behavior; disclose estimate/coverage/minimum-repeat rules; do not tune to inflate scores. |
 | R07 | Version/validation hardening risk / High | Question IDs are text in events with no catalog FK; question snapshots help but do not constitute a complete versioned bank/grading/session contract. | 04, 05, 07: compatible catalog/API validation, retired aliases, versioned historical decisions. |
-| R08 | Unverified server concurrency / High | Event PK idempotency and local completion retry tests do not prove one authoritative completion under competing devices or conflicting operation payloads. | 07, 15, 19: lost-ack/conflicting-payload/concurrent-finalize role tests. |
+| R08 | Server concurrency implementation complete; production verification pending / High | Segment 07 adds canonical payload receipts, row-locked session revisions, conflicting-operation rejection, and concurrent-finalization database tests. Two same-payload finalizers converge on one completion/result; conflicting payloads fail atomically. Live Supabase parity and later takeover epochs remain unverified. | 07 implemented; retain 15 and 19 for takeover and production qualification. |
 | R09 | Unverified authorization/reset acceptance / High | RLS and own-user grants/policies inspected; service-role metadata reads do not test actual anonymous/other-user/stale-offline clients. | 03, 18, 19: prove denial/isolation, original outbox ownership and no reset resurrection. |
 | R10 | Unverified physical-device acceptance / High | JSDOM/VM evidence is not iPhone/iPad/laptop takeover, suspension, eviction or private-mode acceptance. | 03, 12–15, 19: witnessed/device-capable matrix with explicit offline limits. |
 | R11 | Sync/performance verification / High | Incremental learning synchronization, bounded requests and reservation RPC already exist. Account polling is60s. Do not reintroduce Start-path full refresh or assume every connection indicator means caught up. | 03, 14, 16, 19: frozen latency/resource budgets, cursor safety, New-only concurrent/exhausted/offline tests, meaningful synced-as-of state. |
@@ -76,6 +76,15 @@ See [Segment 04 implementation and limits](SEGMENT-04-IDENTITY.md). Segments 01�
 - **S04-B01:** still open. Original failed WebKit-mobile full-student check and cancelled Batch 3 job remain recorded in PR #173. New versioning acceptance does not diagnose that failure.
 
 No production closure is asserted. See [Segment 05](SEGMENT-05-VERSIONS.md).
+
+## Segment 08 disposition update (prior observations retained)
+
+- **G01:** the runtime projector ignores stored `priorAttempts` labels and derives one first interaction per complete scoped canonical history. The screenshot-sized 698/649 fixture now produces 649 first and 49 repeat interactions without rewriting evidence.
+- **G02:** compacted or incomplete first provenance is explicitly `unknown`; current-bank filtering occurs after canonical history construction. Complete-history export and reporting presentation remain Segments 10–11.
+- **G03:** analytics no longer takes the maximum of competing projections. It displays the canonical overlap-aware union and an observable source-count diagnostic.
+- **R16:** deterministic projection and dry-run conversion are implemented. Authorized pagination, export completeness, reset/deletion policy, and production recovery evidence remain open in Segments 11, 18, and 19.
+
+See [Segment 08 reconciliation](SEGMENT-08-RECONCILIATION.md). No production data conversion, deployment, or merge is asserted.
 
 
 ## PR173 WebKit stability follow-up (historical failures retained)

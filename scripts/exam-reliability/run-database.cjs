@@ -18,7 +18,7 @@ function role(user,sql,as='authenticated'){return `BEGIN; SET LOCAL ROLE ${as}; 
 function expectDenied(target,name,sql,code){const r=run(target,sql);assert.notEqual(r.status,0,name);assert.ok((r.stderr||'').includes(code),name+': expected SQLSTATE '+code);passed.push(name);}
 function expect(target,name,sql){ok(target,sql);passed.push(name);}
 const requireCount=(query,n)=>`DO $$ DECLARE n bigint; BEGIN SELECT count(*) INTO n FROM (${query}) q; IF n <> ${n} THEN RAISE EXCEPTION 'ROW_SENTINEL expected ${n}, got %',n; END IF; END $$;`;
-const insert=(owner,id='fixture-event-01',extra="'{}'::jsonb",type='question_exposed')=>`INSERT INTO public.test_bank_learning_events(user_id,event_id,device_id,event_type,exam_id,session_id,question_id,occurred_at,payload) VALUES('${owner}','${id}','fixture-device','${type}','cssbb','fixture-session','cssbb:fixture:0',now(),${extra})`;
+const insert=(owner,id='fixture-event-01',extra="'{}'::jsonb",type='question_exposed')=>`INSERT INTO public.test_bank_learning_events(user_id,event_id,device_id,event_type,exam_id,session_id,question_id,occurred_at,payload) VALUES('${owner}','${id}','fixture-device','${type}','cssbb','fixture-session','cssbb:fixture:0','2026-09-08T00:00:00Z',${extra})`;
 function concurrent(target,sql){return new Promise((resolve,reject)=>{let stdout='',stderr='';const p=spawn('psql',cli(target),{env:target.env,cwd:ROOT});const timer=setTimeout(()=>p.kill('SIGKILL'),30000);p.stdout.on('data',b=>stdout+=b);p.stderr.on('data',b=>stderr+=b);p.on('error',reject);p.on('close',(exit,signal)=>{clearTimeout(timer);logs.push({sql,exit,signal,stdout,stderr});resolve({exit,signal,stdout,stderr});});p.stdin.end(sql);});}
 async function main(){let target;try{
   target=validateTarget(process.env.SEG03_DB_URL||'',process.env.SEG03_ALLOW_DISPOSABLE_DB);
@@ -62,6 +62,7 @@ async function main(){let target;try{
   assert.equal(race.filter(r=>r.exit===0).length,1);assert.equal(race.filter(r=>r.exit!==0&&!r.signal&&r.stderr.includes('P0001')).length,1);passed.push('competing real SQL exact reservations yield one winner');
   expect(target,'race committed exactly two unique claims',requireCount('SELECT * FROM public.test_bank_new_question_claims',2));
   require('../../tests/exam-reliability/database/segment05-catalog.cjs').runChecks({ROOT,target,ok,run,role,expect,expectDenied,requireCount});
+  await require('../../tests/exam-reliability/database/segment07-ingestion.cjs').runChecks({ROOT,target,ok,run,role,expect,expectDenied,requireCount,concurrent});
   fs.writeFileSync(path.join(output(),'database.log'),JSON.stringify(logs,null,2));
   write('database',{status:'passed',tests:passed.length,failures:0,skipped:0,passed,databaseVersion,command:'node scripts/exam-reliability/run-database.cjs',limitations:['Disposable PostgreSQL17; repository migrations, not live schema parity.','auth.uid fixture; no JWT/Data API/production authorization claim.']});
 }catch(e){fs.writeFileSync(path.join(output(),'database.log'),JSON.stringify(logs,null,2));write('database',{status:'failed',tests:passed.length,failures:1,skipped:0,error:e.stack,databaseVersion});process.exitCode=1;}console.log(JSON.stringify({tests:passed.length,passed:process.exitCode!==1}));}

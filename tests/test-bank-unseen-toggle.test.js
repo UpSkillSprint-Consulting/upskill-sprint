@@ -201,9 +201,14 @@ async function verifyNewOnlyModeForExam(examId, kind) {
   await settle(window, 6);
 
   assert.equal(fullLedgerRefreshes, 0, examId + ' ' + kind + ' Start does not invoke full-ledger freshness');
-  assert.ok(rpcCalls.length > 0, examId + ' ' + kind + ' Start calls the reservation RPC');
-  rpcCalls.forEach(call => {
-    assert.equal(call.name, 'reserve_test_bank_new_questions');
+  const reservationCalls = rpcCalls.filter(call => call.name === 'reserve_test_bank_new_questions');
+  assert.ok(reservationCalls.length > 0, examId + ' ' + kind + ' Start calls the reservation RPC');
+  assert.deepEqual(
+    [...new Set(rpcCalls.map(call => call.name))].sort(),
+    ['ingest_test_bank_operations_v1', 'reserve_test_bank_new_questions'],
+    examId + ' ' + kind + ' Start only calls the expected reservation and ingestion RPCs'
+  );
+  reservationCalls.forEach(call => {
     assert.equal(call.args.p_exam_id, examId, 'reservation is scoped to the selected certification');
     assert.ok(call.args.p_question_ids.length > 0);
     call.args.p_question_ids.forEach(questionId => {

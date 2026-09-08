@@ -11,6 +11,7 @@ const { installDurableLearning } = require('./helpers/test-bank-durable-learning
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
 const phase1 = fs.readFileSync(path.join(ROOT, 'test-bank-feedback-loop.js'), 'utf8');
+const reconciliation = fs.readFileSync(path.join(ROOT, 'test-bank-history-reconciliation.js'), 'utf8');
 const mastery = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery.js'), 'utf8');
 const runtime = fs.readFileSync(path.join(ROOT, 'test-bank-adaptive-mastery-runtime.js'), 'utf8');
 const windows = [];
@@ -40,6 +41,7 @@ async function load() {
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
   if (!dom.window.Element.prototype.scrollIntoView) dom.window.Element.prototype.scrollIntoView = function () {};
   dom.window.eval(phase1);
+  dom.window.eval(reconciliation);
   dom.window.eval(mastery);
   dom.window.eval(runtime);
   await settle(dom.window);

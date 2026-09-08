@@ -6,7 +6,7 @@ const V=require('../../../test-bank-versioning.js');
 const A='10000000-0000-4000-8000-000000000001',B='10000000-0000-4000-8000-000000000002';
 const literal=x=>"'"+String(x).replace(/'/g,"''")+"'";
 const json=x=>literal(JSON.stringify(x))+'::jsonb';
-const row=(owner,id,session,type,payload,qid=null)=>`INSERT INTO public.test_bank_learning_events(user_id,event_id,device_id,event_type,exam_id,session_id,question_id,occurred_at,payload) VALUES('${owner}',${literal(id)},'version-test-device',${literal(type)},'cssbb',${literal(session)},${qid?literal(qid):'NULL'},now(),${json(payload)})`;
+const row=(owner,id,session,type,payload,qid=null)=>`INSERT INTO public.test_bank_learning_events(user_id,event_id,device_id,event_type,exam_id,session_id,question_id,occurred_at,payload) VALUES('${owner}',${literal(id)},'version-test-device',${literal(type)},'cssbb',${literal(session)},${qid?literal(qid):'NULL'},'2026-09-08T00:00:00Z',${json(payload)})`;
 function publication(exam){const c=V.createExamCatalog('cssbb',exam,{source:'synthetic SQL regression'});return {schemaVersion:'1.0.0',examId:'cssbb',configVersion:c.configVersion,blueprintVersion:c.blueprintVersion,bankVersion:c.bankVersion,config:c.config,provenance:c.provenance,canonicalConfig:V.canonical({config:c.config,provenance:c.provenance}),canonicalBlueprint:V.canonical(c.config.bok),canonicalManifest:V.canonical({examId:'cssbb',questions:c.questions,sets:c.sets}),contents:Object.fromEntries(exam.sets[1].map(q=>[q.qid,{revision:c.questions[q.qid],content:V.content(q),canonicalContent:V.canonical(V.content(q))}]))};}
 function runChecks({ROOT,target,ok,run,role,expect,expectDenied,requireCount}){
   const publish=p=>'SELECT public.publish_test_bank_catalog('+json(p)+');';

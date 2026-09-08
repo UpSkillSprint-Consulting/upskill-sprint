@@ -130,6 +130,7 @@
 
     const originals = {
       startSession: typeof learning.startSession === 'function' ? learning.startSession.bind(learning) : null,
+      recordDraft: typeof learning.recordDraft === 'function' ? learning.recordDraft.bind(learning) : null,
       recordAnswer: typeof learning.recordAnswer === 'function' ? learning.recordAnswer.bind(learning) : null,
       completeSession: typeof learning.completeSession === 'function' ? learning.completeSession.bind(learning) : null
     };
@@ -142,6 +143,11 @@
     if (originals.recordAnswer) {
       learning.recordAnswer = function (input) {
         return retryAfterCompaction('recordAnswer', input, originals.recordAnswer(input));
+      };
+    }
+    if (originals.recordDraft) {
+      learning.recordDraft = function (input) {
+        return retryAfterCompaction('recordDraft', input, originals.recordDraft(input));
       };
     }
     if (originals.completeSession) {

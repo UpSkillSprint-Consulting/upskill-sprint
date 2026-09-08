@@ -53,6 +53,7 @@
   let lastUserId = '';
   let lastWriteAheadSaved = true;
   let lastWriteAheadAt = null;
+  let localRecovery = { required: false, failedAt: null, recoveredAt: null, reason: null };
   let authListenerAttached = false;
   let initialized = false;
 
@@ -167,12 +168,28 @@
     const rank = { active: 1, abandoned: 2, completed: 3 };
     const status = Number(rank[right.status] || 0) > Number(rank[left.status] || 0) ? right.status : left.status;
     const answerEvents = Object.assign({}, record(right.answerEvents), record(left.answerEvents));
+    const drafts = Object.assign({}, record(right.drafts));
+    Object.keys(record(left.drafts)).forEach(function (questionId) {
+      const candidate = record(left.drafts[questionId]);
+      const previous = record(drafts[questionId]);
+      const candidateRevision = Number(candidate.revision || 0);
+      const previousRevision = Number(previous.revision || 0);
+      const candidateSequence = Number(candidate.clientSequence || 0);
+      const previousSequence = Number(previous.clientSequence || 0);
+      if (!previous.operationId || candidateRevision > previousRevision ||
+          (candidateRevision === previousRevision && candidateSequence > previousSequence) ||
+          (candidateRevision === previousRevision && candidateSequence === previousSequence && String(candidate.operationId) >= String(previous.operationId))) {
+        drafts[questionId] = candidate;
+      }
+    });
+    Object.keys(answerEvents).forEach(function (questionId) { delete drafts[questionId]; });
     const firstExposureByQuestion = Object.assign({}, record(right.firstExposureByQuestion), record(left.firstExposureByQuestion));
     const questionIds = Array.from(new Set(asArray(right.questionIds).concat(asArray(left.questionIds))));
     const starts = [Number(left.startedAt || 0), Number(right.startedAt || 0)].filter(function (value) { return value > 0; });
     return Object.assign({}, right, left, {
       status: status,
       answerEvents: answerEvents,
+      drafts: drafts,
       firstExposureByQuestion: firstExposureByQuestion,
       questionIds: questionIds,
       startedAt: starts.length ? Math.min.apply(null, starts) : 0,
@@ -638,6 +655,7 @@
       sessionId: safeId(fields && fields.sessionId, 'session-' + state.sequence.toString(36)),
       questionId: fields && fields.questionId ? safeId(fields.questionId, '') : null,
       deviceId: device,
+      clientSequence: state.sequence,
       occurredAt: timestamp,
       payload: record(fields && fields.payload),
       syncedFor: []
@@ -796,6 +814,15 @@
     }
     lastWriteAheadSaved = result.saved;
     lastWriteAheadAt = now();
+    if (result.saved) {
+      if (localRecovery.required) localRecovery.recoveredAt = lastWriteAheadAt;
+      localRecovery.required = false;
+      localRecovery.reason = null;
+    } else {
+      localRecovery.required = true;
+      localRecovery.failedAt = lastWriteAheadAt;
+      localRecovery.reason = String(result.error && result.error.message || result.error || 'Browser storage rejected the write');
+    }
     cachedState = state;
     const detail = { reason: reason || 'local', saved: result.saved, pending: pendingCount(state), indexedDb: mirrorAvailable };
     emit('tb:learning-updated', detail);
@@ -831,10 +858,12 @@
       startedAt: Number(input.startedAt || now()),
       questionIds: [],
       answerEvents: {},
+      drafts: {},
       firstExposureByQuestion: {},
       status: 'active'
     }, existing);
     session.answerEvents = record(session.answerEvents);
+    session.drafts = record(session.drafts);
     session.firstExposureByQuestion = record(session.firstExposureByQuestion);
     return session;
   }
@@ -904,6 +933,7 @@
       questionIds: ids,
       versionPin: versionPin,
       answerEvents: {},
+      drafts: {},
       firstExposureByQuestion: firstExposureByQuestion,
       status: 'active'
     };
@@ -978,6 +1008,98 @@
   }
 
   /*
+   * A choice is a recoverable draft until the learner explicitly checks it or
+   * completes the session. Draft changes have a stable logical operation ID,
+   * are owner-scoped inside the durable session record, and never enter the
+   * scored learning-event stream. Segment 15 may later synchronize these
+   * drafts for active-session handoff; Segment 06 deliberately keeps them
+   * local so a pre-submission edit cannot manufacture a learning attempt.
+   */
+  function recordDraft(input) {
+    input = record(input);
+    let question = input.question;
+    if (!question || !input.sessionId) return null;
+    const state = read();
+    mergeFreshStoredState(state);
+    if (window.__TB && window.__TB.examVersionPolicy === 'catalog-v1' && !state.sessions[input.sessionId]) {
+      return versionRejection(input, input.sessionId, new Error('Start a versioned session before saving a draft'));
+    }
+    const session = sessionFor(state, input);
+    if (!sessionBelongsToActiveUser(session)) return null;
+    if (session.status === 'completed' || session.status === 'abandoned') return null;
+    let index = Number(input.index || 0);
+    if (session.versionPin) {
+      try {
+        if (input.examId && input.examId !== session.examId) throw new Error('Question belongs to another exam');
+        const pinned = window.__TBVersions.questionFor(session.versionPin, question, index);
+        question = pinned.question;
+        index = pinned.index;
+      } catch (error) { return versionRejection(input, session.id, error); }
+    }
+    const selected = input.selected == null ? null : Number(input.selected);
+    if (selected != null && (!Number.isInteger(selected) || selected < 0 || selected >= asArray(question.options).length)) {
+      return { sessionId: session.id, saved: false, rejected: true, reason: 'invalid-selected-option' };
+    }
+    const id = questionId(input.examId || session.examId, question);
+    if (!id) return { sessionId: session.id, saved: false, rejected: true, reason: 'invalid-question-identity' };
+    const timestamp = Number(input.at || now());
+    const existing = record(session.drafts[id]);
+    const changed = !existing.operationId || existing.selected !== selected || Number(existing.index) !== index;
+    if (!changed) {
+      state.sessions[session.id] = session;
+      const saved = persist(state, 'draft-duplicate');
+      return {
+        sessionId: session.id,
+        questionId: id,
+        draftId: existing.draftId,
+        operationId: existing.operationId,
+        saved: saved,
+        duplicate: true,
+        revised: false,
+        revision: Number(existing.revision || 0),
+        kind: 'draft'
+      };
+    }
+    state.sequence = Math.max(0, Number(state.sequence || 0)) + 1;
+    const draftId = safeId(existing.draftId, '') || 'draft-' + uuid();
+    const operationId = 'draft-op-' + uuid();
+    session.drafts[id] = {
+      schemaVersion: 1,
+      type: 'answer_draft_saved',
+      draftId: draftId,
+      operationId: operationId,
+      ownerId: session.ownerId || null,
+      deviceId: deviceId(state),
+      examId: session.examId,
+      sessionId: session.id,
+      questionId: id,
+      index: index,
+      selected: selected,
+      createdAt: Number(existing.createdAt || timestamp),
+      updatedAt: timestamp,
+      clientOccurredAt: timestamp,
+      clientSequence: state.sequence,
+      writerEpoch: 0,
+      expectedSessionRevision: 0,
+      resetEpochId: null,
+      revision: Math.max(0, Number(existing.revision || 0)) + 1
+    };
+    state.sessions[session.id] = session;
+    const saved = persist(state, 'draft-saved');
+    return {
+      sessionId: session.id,
+      questionId: id,
+      draftId: draftId,
+      operationId: operationId,
+      saved: saved,
+      duplicate: false,
+      revised: Boolean(existing.operationId),
+      revision: session.drafts[id].revision,
+      kind: 'draft'
+    };
+  }
+
+  /*
    * Write-ahead answer capture. It is idempotent for a session/question pair:
    * repeated clicks never create duplicate answer events. Before an event is
    * uploaded, a changed selection replaces the pending payload. Once it is
@@ -1005,6 +1127,12 @@
     const id = questionId(input.examId || session.examId, question);
     const timestamp = Number(input.at || now());
     const payload = answerPayload(question, input, session, input.index);
+    const draft = record(session.drafts[id]);
+    if (draft.operationId) {
+      payload.draftId = draft.draftId;
+      payload.draftOperationId = draft.operationId;
+      payload.draftSelectedAt = draft.clientOccurredAt;
+    }
     const existingId = session.answerEvents[id];
     let event = existingId && findEvent(state, existingId);
     if (event) {
@@ -1027,6 +1155,7 @@
       }
       indexEvent(state, event, true);
       session.answerEvents[id] = event.id;
+      delete session.drafts[id];
       state.sessions[session.id] = session;
       const saved = persist(state, changed ? 'answer-revised' : 'answer-duplicate');
       scheduleSync(changed ? 'answer-revised' : 'answer-duplicate');
@@ -1040,6 +1169,7 @@
       payload: payload
     });
     session.answerEvents[id] = event.id;
+    delete session.drafts[id];
     state.sessions[session.id] = session;
     const saved = persist(state, 'answer-recorded');
     scheduleSync('answer-recorded');
@@ -1085,6 +1215,7 @@
         session.answerEvents[id] = created.id;
         ids.push(created.id);
       }
+      delete session.drafts[id];
       /* Keep the blueprint subtopic with the completion record.  The
          session_completed event is the immutable scoring source for a full
          exam, so its domain breakdown must not depend on a later bank edit
@@ -1422,6 +1553,88 @@
     });
   }
 
+  function versionedEvent(state, event) {
+    const session = record(state.sessions[event.sessionId]);
+    return Boolean(record(event.payload).versionPin || record(event.payload).versionRef || record(event.payload).grading || session.versionPin || session.archivedVersionPin);
+  }
+
+  function logicalOperationType(event) {
+    return {
+      session_started: 'session_started',
+      question_exposed: 'question_displayed',
+      answer_recorded: 'response_committed',
+      session_completed: 'finalization_requested',
+      session_abandoned: 'session_abandoned'
+    }[event.type] || null;
+  }
+
+  function operationEnvelopes(state, events, userId) {
+    const revisions = {};
+    return events.map(function (event, index) {
+      const session = record(state.sessions[event.sessionId]);
+      if (revisions[event.sessionId] == null) revisions[event.sessionId] = Math.max(0, Number(session.serverRevision || 0));
+      const expected = revisions[event.sessionId];
+      revisions[event.sessionId] += 1;
+      return {
+        schemaVersion: '1.0.0',
+        operationId: event.id,
+        ownerId: userId,
+        deviceId: event.deviceId,
+        examId: event.examId,
+        sessionId: event.sessionId,
+        writerEpoch: Math.max(0, Number(session.writerEpoch || 0)),
+        expectedSessionRevision: expected,
+        resetEpochId: session.resetEpochId || null,
+        type: logicalOperationType(event),
+        clientOccurredAt: iso(event.occurredAt),
+        clientSequence: Math.max(0, Number(event.clientSequence == null ? index : event.clientSequence)),
+        payload: { questionId: event.questionId, eventPayload: event.payload }
+      };
+    });
+  }
+
+  function acceptReceipts(state, events, receipts, userId) {
+    if (!Array.isArray(receipts) || receipts.length !== events.length) throw new Error('Server returned an incomplete operation receipt batch');
+    const byId = new Map(events.map(function (event) { return [event.id, event]; }));
+    const seenReceipts = new Set();
+    receipts.forEach(function (receipt) {
+      const event = byId.get(String(receipt && receipt.operationId || ''));
+      if (!event || seenReceipts.has(event.id) || !receipt.payloadDigest || !receipt.acceptedAt || !Number.isInteger(Number(receipt.serverSequence)) || !Number.isInteger(Number(receipt.sessionRevision))) {
+        throw new Error('Server returned a malformed operation receipt');
+      }
+      seenReceipts.add(event.id);
+      event.serverReceipt = clone(receipt);
+      if (asArray(event.syncedFor).indexOf(userId) === -1) event.syncedFor = asArray(event.syncedFor).concat([userId]);
+      const session = record(state.sessions[event.sessionId]);
+      session.serverRevision = Math.max(Number(session.serverRevision || 0), Number(receipt.sessionRevision));
+      session.writerEpoch = Math.max(0, Number(session.writerEpoch || 0));
+      state.sessions[event.sessionId] = session;
+    });
+  }
+
+  async function uploadEvents(client, state, events, userId, label) {
+    let offset = 0;
+    while (offset < events.length) {
+      const useRpc = versionedEvent(state, events[offset]);
+      let end = offset + 1;
+      while (end < events.length && versionedEvent(state, events[end]) === useRpc) end += 1;
+      const group = events.slice(offset, end);
+      if (useRpc) {
+        if (typeof client.rpc !== 'function') throw new Error('Receipt-based exam ingestion is unavailable');
+        const result = await runRemoteRequest(client.rpc('ingest_test_bank_operations_v1', { p_operations: operationEnvelopes(state, group, userId) }), label);
+        if (result && result.error) throw result.error;
+        acceptReceipts(state, group, result && result.data, userId);
+      } else {
+        const result = await runRemoteRequest(client.from(TABLE).upsert(dbRows(group, userId), { onConflict: 'user_id,event_id', ignoreDuplicates: true }), label + ' (legacy adapter)');
+        if (result && result.error) throw result.error;
+        group.forEach(function (event) {
+          if (asArray(event.syncedFor).indexOf(userId) === -1) event.syncedFor = asArray(event.syncedFor).concat([userId]);
+        });
+      }
+      offset = end;
+    }
+  }
+
   function mergeEvent(state, event, userId, forceLocal) {
     if (!event || !event.id) return false;
     const id = String(event.id);
@@ -1593,19 +1806,16 @@
       persist(state, 'legacy-mastery-scan');
       const pending = state.events.filter(function (event) {
         return event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1;
+      }).sort(function (left, right) {
+        return Number(left.occurredAt || 0) - Number(right.occurredAt || 0) || Number(left.clientSequence || 0) - Number(right.clientSequence || 0) || String(left.id).localeCompare(String(right.id));
       });
       for (let index = 0; index < pending.length; index += BATCH_SIZE) {
         if (!activeUser() || activeUser().id !== userId) throw new Error('Account changed while learning records were syncing');
         const batch = pending.slice(index, index + BATCH_SIZE);
         batch.forEach(function (event) { event.uploadingFor = asArray(event.uploadingFor).concat([userId]); });
-        const result = await runRemoteRequest(client.from(TABLE).upsert(dbRows(batch, userId), {
-          onConflict: 'user_id,event_id',
-          ignoreDuplicates: true
-        }), 'Learning-history upload');
-        if (result && result.error) throw result.error;
+        await uploadEvents(client, state, batch, userId, 'Learning-history upload');
         const ids = new Set(batch.map(function (event) { return event.id; }));
         state.events.forEach(function (event) {
-          if (ids.has(event.id) && event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1) event.syncedFor = asArray(event.syncedFor).concat([userId]);
           if (ids.has(event.id)) event.uploadingFor = asArray(event.uploadingFor).filter(function (id) { return id !== userId; });
         });
         markLegacyMigrationAcknowledged(state, userId);
@@ -1617,15 +1827,15 @@
       if (pendingWriteRevision > writeRevisionAtStart) {
         const followUpPending = state.events.filter(function (event) {
           return event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1;
+        }).sort(function (left, right) {
+          return Number(left.occurredAt || 0) - Number(right.occurredAt || 0) || Number(left.clientSequence || 0) - Number(right.clientSequence || 0) || String(left.id).localeCompare(String(right.id));
         });
         for (let index = 0; index < followUpPending.length; index += BATCH_SIZE) {
           const batch = followUpPending.slice(index, index + BATCH_SIZE);
           batch.forEach(function (event) { event.uploadingFor = asArray(event.uploadingFor).concat([userId]); });
-          const result = await runRemoteRequest(client.from(TABLE).upsert(dbRows(batch, userId), { onConflict: 'user_id,event_id', ignoreDuplicates: true }), 'Learning-history follow-up upload');
-          if (result && result.error) throw result.error;
+          await uploadEvents(client, state, batch, userId, 'Learning-history follow-up upload');
           const ids = new Set(batch.map(function (event) { return event.id; }));
           state.events.forEach(function (event) {
-            if (ids.has(event.id) && event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1) event.syncedFor = asArray(event.syncedFor).concat([userId]);
             if (ids.has(event.id)) event.uploadingFor = asArray(event.uploadingFor).filter(function (id) { return id !== userId; });
           });
           persist(state, 'sync-follow-up-acknowledged');
@@ -1938,6 +2148,7 @@
          IndexedDB remains an asynchronous secondary mirror. */
       writeAheadSaved: lastWriteAheadSaved,
       writeAheadAt: lastWriteAheadAt,
+      recovery: clone(localRecovery),
       storage: { localStorage: true, indexedDb: mirrorAvailable, indexedDbHydrated: mirrorHydrated }
     };
   }
@@ -1983,6 +2194,7 @@
   window.__TBLearning = {
     version: VERSION,
     startSession: startSession,
+    recordDraft: recordDraft,
     recordAnswer: recordAnswer,
     completeSession: completeSession,
     abandonSession: abandonSession,

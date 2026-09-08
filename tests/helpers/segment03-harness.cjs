@@ -39,11 +39,57 @@ class Clock {
   }
 }
 class Service {
-  constructor() { this.rows = new Map(); this.progress = new Map(); this.calls = []; this.faults = []; this.sequence = 0; this.online = true; this.reverse = false; }
+  constructor() { this.rows = new Map(); this.progress = new Map(); this.receipts = new Map(); this.calls = []; this.faults = []; this.sequence = 0; this.online = true; this.reverse = false; }
   failNext(kind) { assert.ok(['before_commit', 'after_commit', 'read'].includes(kind)); this.faults.push(kind); }
   async exchange(owner, request) {
     this.calls.push(copy({owner, ...request}));
     if (!this.online) return {data:null,error:{message:'synthetic offline'}};
+    if (request.kind === 'rpc') {
+      assert.equal(request.name, 'ingest_test_bank_operations_v1');
+      const operations = request.args && request.args.p_operations;
+      assert.ok(Array.isArray(operations) && operations.length, 'ingestion requires operations');
+      const eventTypes = {
+        session_started: 'session_started',
+        question_displayed: 'question_exposed',
+        response_committed: 'answer_recorded',
+        finalization_requested: 'session_completed',
+        session_abandoned: 'session_abandoned'
+      };
+      const receipts = operations.map(operation => {
+        assert.equal(operation.ownerId, owner, 'RPC owner mismatch');
+        const key = owner + '|' + operation.operationId;
+        if (this.receipts.has(key)) return copy(this.receipts.get(key));
+        const eventType = eventTypes[operation.type];
+        assert.ok(eventType, 'unsupported synthetic operation type');
+        const acceptedAt = new Date(EPOCH + ++this.sequence).toISOString();
+        this.rows.set(key, {
+          user_id: owner,
+          event_id: operation.operationId,
+          device_id: operation.deviceId,
+          event_type: eventType,
+          exam_id: operation.examId,
+          session_id: operation.sessionId,
+          question_id: operation.payload.questionId,
+          occurred_at: operation.clientOccurredAt,
+          payload: copy(operation.payload.eventPayload),
+          received_at: acceptedAt
+        });
+        const receipt = {
+          operationId: operation.operationId,
+          payloadDigest: 'synthetic-digest-' + operation.operationId,
+          receivedAt: acceptedAt,
+          acceptedAt,
+          serverSequence: this.sequence,
+          sessionRevision: operation.expectedSessionRevision + 1,
+          applied: true,
+          canonicalEventId: operation.operationId,
+          state: operation.type === 'finalization_requested' ? 'completed' : 'in_progress'
+        };
+        this.receipts.set(key, copy(receipt));
+        return receipt;
+      });
+      return {data:receipts,error:null};
+    }
     if (request.kind === 'upsert') {
       if (this.faults[0] === 'before_commit') { this.faults.shift(); return {error:{message:'synthetic precommit failure'}}; }
       if (request.table === 'test_bank_progress_devices') { const row=request.batch; assert.equal(row.user_id,owner); this.progress.set(owner+'|'+row.device_id,{...copy(row),updated_at:new Date(EPOCH + ++this.sequence).toISOString()}); return {error:null}; }
@@ -74,7 +120,7 @@ class Service {
 }
 // Self-contained so this exact query adapter can also execute in a browser context.
 function client(send) {
-  return { from(table) { return {
+  return { rpc(name,args) { return send({kind:'rpc',name,args}); }, from(table) { return {
     upsert(batch, options) { return send({kind:'upsert',table,batch,options}); },
     select() {
       const state = {kind:'read',table};

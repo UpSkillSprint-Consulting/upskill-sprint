@@ -1166,6 +1166,19 @@
   }
 
   function improvement(data) {
+    const reconciliation = window.__TBHistoryReconciliation;
+    if (reconciliation && typeof reconciliation.project === 'function') {
+      const projection = reconciliation.project({ questionStates: data.questions || {} });
+      return {
+        first: projection.first ? Math.round(projection.firstCorrect / projection.first * 100) : 0,
+        repeat: projection.repeat ? Math.round(projection.repeatCorrect / projection.repeat * 100) : 0,
+        firstTotal: projection.first,
+        repeatTotal: projection.repeat,
+        unknownTotal: projection.unknown,
+        complete: projection.complete,
+        diagnostics: projection.diagnostics
+      };
+    }
     let firstCorrect = 0;
     let firstTotal = 0;
     let repeatCorrect = 0;
@@ -1209,7 +1222,7 @@
       '<div class="tb-mastery-actions"><button type="button" class="btn btn-teal" data-start-adaptive>Start adaptive practice</button><button type="button" class="tb-ghost" data-open-notebook>Open mistake notebook</button><button type="button" class="tb-ghost" data-open-mastery-details>View mastery details</button></div>' +
       '<div class="tb-mastery-grid">' +
         '<section><div class="tb-sec">Weakest subtopics</div><div class="tb-weak-list">' + (weak.length ? weak.map(function (item) { return '<div><span>' + esc(subtopicName(item.sub)) + '</span><b>' + item.mastery + '%</b><i style="--p:' + item.mastery + '"></i></div>'; }).join('') : '<p>Complete an attempt to build your mastery map.</p>') + '</div></section>' +
-        '<section><div class="tb-sec">Learning improvement</div><div class="tb-improvement"><div><span>First encounters</span><strong>' + gains.first + '%</strong><small>' + gains.firstTotal + ' answers</small></div><div><span>Repeated questions</span><strong>' + gains.repeat + '%</strong><small>' + gains.repeatTotal + ' answers</small></div></div></section>' +
+        '<section><div class="tb-sec">Learning improvement</div><div class="tb-improvement"><div><span>First encounters</span><strong>' + gains.first + '%</strong><small>' + gains.firstTotal + ' answers</small></div><div><span>Repeated questions</span><strong>' + gains.repeat + '%</strong><small>' + gains.repeatTotal + ' answers</small></div></div>' + (gains.unknownTotal ? '<p role="status">' + gains.unknownTotal + ' historical answer' + (gains.unknownTotal === 1 ? ' has' : 's have') + ' unknown first/repeat provenance and is not included in either percentage.</p>' : '') + '</section>' +
         '<section><div class="tb-sec">Recent attempt trend</div><div class="tb-trend" aria-label="Recent attempt accuracy">' + (bars.length ? bars.map(function (value) { return '<i style="--p:' + value + '" title="' + value + '%"><span></span></i>'; }).join('') : '<p>No attempt history yet.</p>') + '</div></section>' +
       '</div><div id="tb-adaptive-panel" class="tb-adaptive-panel" hidden></div></section>';
   }
@@ -1497,12 +1510,11 @@
     if (target.dataset.adaptiveOpt != null && adaptive && !adaptive.checked[adaptive.index]) {
       const selected = Number(target.dataset.adaptiveOpt);
       const question = adaptive.items[adaptive.index];
-      const learning = learningLedger('recordAnswer');
+      const learning = learningLedger('recordDraft');
       if (!learning || !adaptive.id) { durableLearningUnavailable(); return; }
-      const saved = learning.recordAnswer({
+      const saved = learning.recordDraft({
         examId: examId(), sessionId: adaptive.id, mode: 'adaptive', timed: false,
-        index: adaptive.index, question: question, selected: selected,
-        status: selected === question.answer ? 'correct' : 'incorrect'
+        index: adaptive.index, question: question, selected: selected
       });
       if (!saved || !writeAheadSaved(saved)) {
         announce('That answer could not be saved on this device. Please try again after freeing browser storage.');
@@ -1513,6 +1525,19 @@
       return;
     }
     if (target.hasAttribute('data-adaptive-check') && adaptive && adaptive.answers[adaptive.index] != null) {
+      const question = adaptive.items[adaptive.index];
+      const selected = adaptive.answers[adaptive.index];
+      const learning = learningLedger('recordAnswer');
+      if (!learning || !adaptive.id) { durableLearningUnavailable(); return; }
+      const saved = learning.recordAnswer({
+        examId: examId(), sessionId: adaptive.id, mode: 'adaptive', timed: false,
+        index: adaptive.index, question: question, selected: selected,
+        status: selected === question.answer ? 'correct' : 'incorrect'
+      });
+      if (!saved || !writeAheadSaved(saved)) {
+        announce('That answer could not be submitted safely. Your draft remains available; free browser storage and try again.');
+        return;
+      }
       adaptive.checked[adaptive.index] = true;
       renderAdaptive();
       return;

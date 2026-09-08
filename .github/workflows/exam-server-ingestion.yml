@@ -1,0 +1,31 @@
+name: Exam server ingestion
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: exam-server-ingestion-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  segment-07:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    services:
+      postgres:
+        image: postgres:17.6
+        env: {POSTGRES_USER: postgres, POSTGRES_PASSWORD: segment03_ci_only, POSTGRES_DB: segment03_test}
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - run: node --test tests/test-bank-segment07-ingestion.test.js tests/test-bank-segment06-durability.test.js
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - run: node scripts/exam-reliability/run-database.cjs
+        env:
+          SEG03_ALLOW_DISPOSABLE_DB: '1'
+          SEG03_DB_URL: postgresql://postgres:segment03_ci_only@127.0.0.1:5432/segment03_test
