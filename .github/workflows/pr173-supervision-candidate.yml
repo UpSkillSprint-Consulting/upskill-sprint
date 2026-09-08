@@ -26,12 +26,11 @@ jobs:
             assert.equal(git('rev-parse','HEAD'),'b03ebcdb218e2e0ac0ba0d6e0ac6428bd1935f0b');
             const repo={owner:context.repo.owner,repo:context.repo.repo};
             const chunks=['9461d9f252dc469431fbdc05408054a989317a59','3e9d4e15a0b7cb49c0805579b7da9892a96de7b5','e6705b29ba6fb407052140394d33981558b335b9','6f57cffbaba76a5da9db6336a6cd1e5bac537511'];
-            let encoded='';
-            for(const file_sha of chunks){const r=await github.rest.git.getBlob({...repo,file_sha});encoded+=Buffer.from(r.data.content,'base64').toString('utf8');}
-            const patch=zlib.brotliDecompressSync(Buffer.from(encoded,'base64'));
-            assert.equal(crypto.createHash('sha256').update(patch).digest('hex'),'9405a81521cec973c4061b055c5be779b7282ca795b5eb7e9c9e6e38c12d9062');
-            fs.writeFileSync('/tmp/pr173-stability.patch',patch);git('apply','--index','/tmp/pr173-stability.patch');
+            async function apply(ids,hash,name){let encoded='';for(const file_sha of ids){const r=await github.rest.git.getBlob({...repo,file_sha});encoded+=Buffer.from(r.data.content,'base64').toString('utf8');}const patch=zlib.brotliDecompressSync(Buffer.from(encoded,'base64'));assert.equal(crypto.createHash('sha256').update(patch).digest('hex'),hash);fs.writeFileSync(name,patch);git('apply','--index',name);}
+            await apply(chunks,'9405a81521cec973c4061b055c5be779b7282ca795b5eb7e9c9e6e38c12d9062','/tmp/pr173-stability.patch');
             assert.equal(git('write-tree'),'0fb97efc1bc4663c721483d4bffb2ae8345b5a96');
+            await apply(['4db5dd4396f884c4e41adb34f121b9308f917603'],'65aaeed17221b35bf495bf4d05b744fa81ace6ecc7bd80832706de2658c0989f','/tmp/pr173-scope-review.patch');
+            assert.equal(git('write-tree'),'28703f42372ee9c2be7812023819ea162606387a');
             const paths=git('diff','--cached','--name-only').split('\n');assert.equal(paths.length,30);
             const entries=[];
             for(const path of paths){const bytes=fs.readFileSync(path);const b=await github.rest.git.createBlob({...repo,content:bytes.toString('base64'),encoding:'base64'});assert.equal(b.data.sha,git('hash-object',path));entries.push({path,mode:'100644',type:'blob',sha:b.data.sha});}
@@ -45,12 +44,24 @@ jobs:
       - name: Install exact lock without changing application dependencies
         run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
       - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps webkit
+      - name: Verify a deliberately frozen real WebKit audit is terminated without touching an unrelated process
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{spawn}=require('node:child_process');
+          const {supervise}=require('./scripts/lib/student-audit-supervisor.cjs');
+          const tools=path.resolve('scripts/student-audit-tools/node_modules/playwright');
+          const fixture='/tmp/pr173-real-webkit-freeze.cjs';
+          fs.writeFileSync(fixture,`const {webkit}=require(${JSON.stringify(tools)});(async()=>{const server=await webkit.launchServer({headless:true});require('node:fs').writeFileSync('/tmp/pr173-real-webkit-pid.txt',String(server.process().pid));process.send({type:'student-audit-progress',operation:{label:'deliberate-real-webkit-freeze',status:'running'}});while(true){}})().catch(e=>{console.error(e);process.exit(1)});`);
+          const unrelated=spawn(process.execPath,['-e','setInterval(()=>{},1000)'],{detached:true,stdio:'ignore'});
+          const alive=pid=>{try{return fs.readFileSync(`/proc/${pid}/stat`,'utf8').split(') ')[1].split(' ')[0]!=='Z'}catch(e){if(e.code==='ENOENT')return false;throw e;}};
+          (async()=>{try{const result=await supervise({args:[fixture],resultFile:'/tmp/pr173-supervision-candidate/real-webkit-freeze.json',idleMs:10000,totalMs:45000,graceMs:1000});assert.equal(result.status,'failed');assert.equal(result.reason,'AUDIT_NO_PROGRESS');assert.equal(result.lastOperation.label,'deliberate-real-webkit-freeze');const pid=Number(fs.readFileSync('/tmp/pr173-real-webkit-pid.txt','utf8'));assert.ok(pid>1);assert.equal(alive(pid),false,'Detached WebKit survived watchdog');assert.equal(alive(unrelated.pid),true,'Unrelated process was affected');console.log('Expected real-WebKit freeze detected; detached browser removed; unrelated process preserved.');}finally{process.kill(-unrelated.pid,'SIGKILL');}})().catch(e=>{console.error(e);process.exitCode=1;});
+          NODE
       - name: Complete existing 25-item Batch4 WebKit-mobile audit under independent supervision
         env:
           AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
           AUDIT_ENGINE: webkit
           AUDIT_LAYOUT: mobile
-          AUDIT_SOURCE: 'candidate-tree-0fb97efc1bc4663c721483d4bffb2ae8345b5a96'
+          AUDIT_SOURCE: 'candidate-tree-28703f42372ee9c2be7812023819ea162606387a'
         run: node scripts/run-student-audit.cjs batch4
       - name: Construct scoped full-driver probe without editing the original acceptance test
         run: |
@@ -72,7 +83,7 @@ jobs:
           AUDIT_LAYOUT: mobile
           AUDIT_WIDTH: '390'
           AUDIT_AXE: '1'
-          AUDIT_SOURCE: 'candidate-tree-0fb97efc1bc4663c721483d4bffb2ae8345b5a96'
+          AUDIT_SOURCE: 'candidate-tree-28703f42372ee9c2be7812023819ea162606387a'
           AUDIT_OUT: audit-pr173-supervision-probe
         run: |
           node <<'NODE'
