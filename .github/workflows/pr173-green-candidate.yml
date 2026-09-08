@@ -1,0 +1,70 @@
+name: PR173 isolated green candidate
+on:
+  push:
+    branches: ['diagnostic/pr173-green-check']
+permissions:
+  contents: read
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: c89f10ac77fc731fc9d0366501c809a6ddfc1e83
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('node:fs'),zlib=require('node:zlib'),crypto=require('node:crypto'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
+            const git=(...a)=>execFileSync('git',a,{encoding:'utf8'}).trim();
+            assert.equal(git('rev-parse','HEAD'),'c89f10ac77fc731fc9d0366501c809a6ddfc1e83');
+            const r=await github.rest.git.getBlob({owner:context.repo.owner,repo:context.repo.repo,file_sha:'33aaedf202b06c7f95e1fca620ad14bc7fdfa243'});
+            const patch=zlib.brotliDecompressSync(Buffer.from(Buffer.from(r.data.content,'base64').toString('utf8'),'base64'));
+            assert.equal(crypto.createHash('sha256').update(patch).digest('hex'),'20b3caa0322cdaca1f265da9b03df13ff56e2443189f4e7f77657e84f9ddf460');
+            fs.writeFileSync('/tmp/pr173.patch',patch);git('apply','--index','/tmp/pr173.patch');
+            assert.equal(git('write-tree'),'e2cc592818dba1b3423f2ff403b9744b63ad0b68');
+            const paths=git('diff','--cached','--name-only').split('\n');assert.equal(paths.length,14);
+            const entries=[];
+            for(const path of paths){const bytes=fs.readFileSync(path);const b=await github.rest.git.createBlob({owner:context.repo.owner,repo:context.repo.repo,content:bytes.toString('base64'),encoding:'base64'});assert.equal(b.data.sha,git('hash-object',path));entries.push({path,mode:'100644',type:'blob',sha:b.data.sha});}
+            fs.mkdirSync('/tmp/pr173-candidate',{recursive:true});fs.writeFileSync('/tmp/pr173-candidate/assembly.json',JSON.stringify({parent:git('rev-parse','HEAD'),tree:git('write-tree'),entries,refsUpdated:false},null,2));
+            // Only immutable objects are created; no PR/main ref is changed.
+      - run: npm ci
+      - name: Existing complete-review tests plus new failing-before focus and watchdog regressions
+        run: node --test --test-concurrency=1 tests/contrast-theme-race.test.js tests/test-bank-mbb-set3-final-student.test.js tests/student-audit-runtime.test.js > /tmp/pr173-candidate/tests.log 2>&1
+      - run: npm install --prefix /tmp/student-audit-tools --ignore-scripts --save-exact playwright@1.63.0 @axe-core/playwright@4.13.0 axe-core@4.13.0
+      - run: /tmp/student-audit-tools/node_modules/.bin/playwright install --with-deps webkit
+      - name: Construct explicitly scoped diagnostic copy; production acceptance remains all 175
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs'),assert=require('node:assert/strict');
+          let s=fs.readFileSync('scripts/stress-mbb-set3-final175.mjs','utf8');
+          const before='for(let i=0;i<175;i++){const q=bank[i]';assert.equal(s.split(before).length,3);
+          s=s.split(before).join('for(const i of [0,42,138,139,140,174]){const q=bank[i]');
+          s=s.replace('const correct=mixed?59:175;','const correct=6;');
+          const a=s.indexOf(" for(const filter of ['all','correct','incorrect','unanswered','flagged'])"),b=s.indexOf(' verifyCoverage(report);report.complete=true;',a);assert.ok(a>0&&b>a);
+          s=s.slice(0,a)+' report.diagnosticOnly=true;report.complete=true;'+s.slice(b+' verifyCoverage(report);report.complete=true;'.length);
+          s=s.replace("scope:'All 175 canonical Set 3 items in one uninterrupted session'","scope:'DIAGNOSTIC ONLY: six selected items in an otherwise blank 175-question exam; not full acceptance'");
+          fs.writeFileSync('scripts/pr173-candidate-probe.mjs',s);
+          NODE
+          node --check scripts/pr173-candidate-probe.mjs
+      - name: Actual WebKit clicks, keyboard, archive grading and six disclosures with axe equivalence self-test
+        env:
+          AUDIT_TOOLS_DIR: /tmp/student-audit-tools
+          AUDIT_ENGINE: webkit
+          AUDIT_LAYOUT: mobile
+          AUDIT_WIDTH: '390'
+          AUDIT_AXE: '1'
+          AUDIT_SOURCE: 'candidate-tree-e2cc592818dba1b3423f2ff403b9744b63ad0b68'
+          AUDIT_OUT: /tmp/pr173-candidate/browser
+        run: node scripts/pr173-candidate-probe.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr173-green-candidate-${{ github.run_id }}
+          path: /tmp/pr173-candidate
+          retention-days: 14
