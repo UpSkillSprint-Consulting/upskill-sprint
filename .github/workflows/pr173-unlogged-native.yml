@@ -1,0 +1,55 @@
+name: PR173 bounded native repro
+on:
+  push:
+    branches: ['diagnostic/pr173-native-freeze']
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    strategy:
+      fail-fast: false
+      matrix:
+        trial: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 97b386874371ea3920e769c4f43900e942db00bb
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps webkit
+      - run: command -v gdb || (sudo apt-get update -qq && sudo apt-get install -y gdb)
+      - name: Observe the original unmodified driver without per-command logging
+        run: |
+          mkdir -p /tmp/pr173-native
+          cat > /tmp/pr173-native/probe.cjs <<'NODE'
+          const fs=require('node:fs'),path=require('node:path'),{spawn,execFileSync}=require('node:child_process');
+          (async()=>{for(let run=1;run<=3;run++){
+           const out=path.resolve('audit-native-'+run);fs.mkdirSync(out,{recursive:true});
+           const log=fs.openSync(out+'/node.log','w');const child=spawn(process.execPath,['scripts/run-student-audit.cjs','batch4'],{env:{...process.env,AUDIT_OUT:out},stdio:['ignore',log,log]});let sampled=false;
+           const timer=setInterval(()=>{let file;try{file=JSON.parse(fs.readFileSync(out+'/progress.json','utf8'));}catch{return;}if(sampled||Date.now()-fs.statSync(out+'/progress.json').mtimeMs<8000)return;sampled=true;
+            fs.writeFileSync(out+'/frozen.json',JSON.stringify(file,null,2));fs.writeFileSync(out+'/processes.txt',execFileSync('ps',['-eLo','pid,ppid,pgid,tid,stat,pcpu,pmem,rss,wchan:24,comm'],{encoding:'utf8'}));
+            for(const pid of fs.readdirSync('/proc').filter(p=>/^\d+$/.test(p))){try{const env=fs.readFileSync(`/proc/${pid}/environ`).toString(),comm=fs.readFileSync(`/proc/${pid}/comm`,'utf8').trim();if(!env.split('\0').some(s=>s.startsWith('UPSKILL_AUDIT_SCOPE='))||!/WPEWebProcess|MiniBrowser/.test(comm))continue;const fd=fs.openSync(out+'/stack-'+comm+'-'+pid+'.txt','w');spawn('timeout',['10s','sudo','gdb','--batch','-p',pid,'-ex','set pagination off','-ex','thread apply all bt 32','-ex','detach'],{stdio:['ignore',fd,fd]}).on('close',()=>fs.closeSync(fd));}catch{}}
+           },1000);
+           const result=await new Promise(r=>child.on('exit',(code,signal)=>r({code,signal,sampled})));clearInterval(timer);fs.closeSync(log);fs.writeFileSync(out+'/exit.json',JSON.stringify(result));
+           for(const name of fs.readdirSync(out))if(/\.(json|txt|log)$/.test(name))fs.copyFileSync(out+'/'+name,'/tmp/pr173-native/'+run+'-'+name);
+           if(result.code!==0){process.exitCode=1;break;}
+          }})();
+          NODE
+      - name: Three explicitly diagnostic independent sessions with no retries after failure
+        env:
+          AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
+          AUDIT_ENGINE: webkit
+          AUDIT_LAYOUT: mobile
+          AUDIT_SOURCE: 97b386874371ea3920e769c4f43900e942db00bb
+        run: node /tmp/pr173-native/probe.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr173-native-capture-${{ matrix.trial }}-${{ github.run_id }}
+          path: /tmp/pr173-native
+          retention-days: 7
