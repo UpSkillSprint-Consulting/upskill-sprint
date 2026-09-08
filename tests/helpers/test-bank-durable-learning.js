@@ -53,6 +53,7 @@ async function installDurableLearning(window, options) {
     getUser: () => user,
     getClient: () => client
   });
+  require('./test-bank-version-runtime.cjs').installVersions(window);
   if (!window.__TBQuestionRegistry) window.eval(registry);
   if (!window.__TBLearning) window.eval(learning);
   await window.__TBLearning.sync('test-hydrate');

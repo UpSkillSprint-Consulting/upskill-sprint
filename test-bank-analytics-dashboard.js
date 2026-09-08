@@ -269,12 +269,14 @@
     const expectedTotal = Number(source && source.questions || 0);
     return (data.attempts || []).filter(function (entry) {
       return entry && entry.mode === 'exam' && entry.timed === true && entry.completed === true &&
-        (!expectedTotal || Number(entry.total) === expectedTotal);
+        (!(entry.versionPin ? entry.versionPin.expectedLength : expectedTotal) || Number(entry.total) === (entry.versionPin ? entry.versionPin.expectedLength : expectedTotal));
     })
       .sort(function (a, b) { return a.at - b.at; })
       .map(function (entry) {
         const pct = entry.total ? Math.round(entry.correct / entry.total * 100) : 0;
-        return { id: entry.id, at: entry.at, total: entry.total, correct: entry.correct, pct: pct, margin: pct - passLine };
+        const target=entry.versionPin ? entry.versionPin.siteTargetBps : passLine*100;
+        const exact=entry.total ? entry.correct/entry.total*100 : null;
+        return { id: entry.id, at: entry.at, total: entry.total, correct: entry.correct, pct: pct, margin: target===null || exact===null ? null : (entry.versionPin ? exact : pct) - target/100, versionProvenance: entry.versionPin ? 'pinned' : 'legacy-unknown' };
       });
   }
 
@@ -289,7 +291,7 @@
       const payload = event && event.payload || {};
       const total = Number(payload.total || (Array.isArray(payload.answers) ? payload.answers.length : 0));
       return event && event.type === 'session_completed' && String(event.sessionId || '') === String(sessionId || '') &&
-        payload.mode === 'exam' && payload.timed === true && (!expectedTotal || total === expectedTotal);
+        payload.mode === 'exam' && payload.timed === true && (!(payload.versionPin ? payload.versionPin.expectedLength : expectedTotal) || total === (payload.versionPin ? payload.versionPin.expectedLength : expectedTotal));
     }).sort(function (left, right) {
       return Number(left.occurredAt || 0) - Number(right.occurredAt || 0) || String(left.id || '').localeCompare(String(right.id || ''));
     }).pop() || null;
@@ -540,7 +542,7 @@
     const maxBucket = Math.max.apply(null, buckets.map(function (b) { return b.count; }).concat([1]));
     const breakdown = latestExamDomainBreakdown();
     const passLine = exam() && exam().pass != null ? exam().pass : 70;
-    return '<div class="tb-an-label">Score distribution across ' + series.length + ' timed exam' + (series.length === 1 ? '' : 's') + ' &middot; pass line ' + passLine + '%</div>' +
+    return '<div class="tb-an-label">Score distribution across ' + series.length + ' timed exam' + (series.length === 1 ? '' : 's') + ' &middot; site practice scores</div>' +
       '<div class="tb-an-hist">' + buckets.map(function (b) {
         const h = Math.round(b.count / maxBucket * 100);
         const passing = b.label === '70-79%' || b.label === '80-89%' || b.label === '90%+';
@@ -552,14 +554,15 @@
           '<div class="tb-an-bar-track"><div class="tb-an-bar-fill ' + tone(item.pct) + '" style="width:' + item.pct + '%"></div></div>' +
           '<div class="tb-an-domain-sub"><span>' + item.correct + ' / ' + item.total + ' correct on that exam</span></div></div>';
       }).join('') : '<p class="tb-an-empty">Domain detail is unavailable for exams taken before this dashboard was added.</p>') + '</div>' +
-      '<div class="tb-an-label" style="margin-top:20px">Pass margin over successive exams</div>' +
-      '<p class="tb-an-desc">Distance above or below the ' + passLine + '% pass line each time — the clearest signal of whether you are getting closer.</p>' +
+      '<div class="tb-an-label" style="margin-top:20px">Site-target margin over successive exams</div>' +
+      '<p class="tb-an-desc">New sessions use their original saved site target, not an ASQ passing score. Legacy targets are unknown; their comparison uses today’s ' + passLine + '% site target. Sessions without a target are omitted from the margin chart.</p>' +
       marginChart(series, passLine);
   }
 
   function marginChart(series, passLine) {
     const w = 560, h = 140, p = 14;
-    const values = series.map(function (s) { return s.margin; });
+    const values = series.filter(function(s){return s.margin!=null;}).map(function (s) { return s.margin; });
+    if (!values.length) return '<p class="tb-an-empty">No site target is available for these sessions.</p>';
     const maxAbs = Math.max(10, Math.max.apply(null, values.map(Math.abs)));
     const zeroY = p + (h - p * 2) * 0.5;
     function y(value) { return p + (h - p * 2) * (0.5 - value / (2 * maxAbs)); }
@@ -569,7 +572,7 @@
       const cx = p + step * index;
       return '<circle cx="' + cx.toFixed(1) + '" cy="' + y(value).toFixed(1) + '" r="3.5" fill="' + (value >= 0 ? '#1f9d6b' : '#c0453f') + '"></circle>';
     }).join('');
-    return '<svg viewBox="0 0 ' + w + ' ' + h + '" class="tb-an-margin" role="img" aria-label="Score margin above or below the pass line across exams">' +
+    return '<svg viewBox="0 0 ' + w + ' ' + h + '" class="tb-an-margin" role="img" aria-label="Score margin above or below the saved site target; legacy entries use the current site target">' +
       '<line x1="' + p + '" y1="' + zeroY.toFixed(1) + '" x2="' + (w - p) + '" y2="' + zeroY.toFixed(1) + '" class="tb-an-zero"></line>' +
       '<polyline points="' + points + '" fill="none" stroke="#6656b5" stroke-width="1.5"></polyline>' + dots + '</svg>';
   }

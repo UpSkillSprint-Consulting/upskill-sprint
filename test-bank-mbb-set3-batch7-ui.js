@@ -22,7 +22,7 @@
   quiz.querySelectorAll('[data-opt]').forEach(b=>b.setAttribute('aria-pressed',String(b.classList.contains('sel'))));
   quiz.querySelector('[data-flag]')?.setAttribute('aria-pressed',String(quiz.querySelector('[data-flag]').classList.contains('on')));
   quiz.querySelector('.tb-navcell.cur')?.setAttribute('aria-current','step');
-  if(lastId!==quiz.dataset.questionId){lastId=quiz.dataset.questionId;requestAnimationFrame(()=>{if(!quiz.isConnected)return;quiz.scrollIntoView({block:'start',behavior:'instant'});quiz.querySelector('.tb-stem')?.focus({preventScroll:true});});}
+  if(lastId!==quiz.dataset.questionId){lastId=quiz.dataset.questionId;requestAnimationFrame(()=>{if(!quiz.isConnected)return;const active=document.activeElement;if(active&&quiz.contains(active)&&active.matches('button,input,select,textarea,summary,[role="button"]'))return;quiz.scrollIntoView({block:'start',behavior:'instant'});quiz.querySelector('.tb-stem')?.focus({preventScroll:true});});}
  }
  if(global.document){
   const style=document.createElement('style');style.id='mbb-set3-batch7-style';style.textContent=`
@@ -38,7 +38,7 @@
 .tb-review-card:has(.mbbs3b7-question) .tb-review-reference{max-width:100%;overflow-wrap:anywhere;line-height:1.6}
 .mbbs3b7-table .mbbs3b7-number{text-align:right;font-variant-numeric:tabular-nums}
 `;document.head.appendChild(style);
-  document.addEventListener('click',e=>{const b=e.target.closest?.('[data-opt],[data-flag]'),q=b?.closest('.tb-quiz');if(!b||!q||!ids.has(q.dataset.questionId))return;const attr=b.hasAttribute('data-opt')?'data-opt':'data-flag',value=b.getAttribute(attr);setTimeout(()=>{const now=document.querySelector('.tb-quiz');if(now?.dataset.questionId===q.dataset.questionId)now.querySelector('['+attr+'="'+value+'"]')?.focus({preventScroll:true});},0);},true);
+  document.addEventListener('click',e=>{const b=e.target.closest?.('[data-opt],[data-flag]'),q=b?.closest('.tb-quiz');if(!b||!q||!ids.has(q.dataset.questionId))return;const attr=b.hasAttribute('data-opt')?'data-opt':'data-flag',value=b.getAttribute(attr);setTimeout(()=>{if(b.isConnected)return;const now=document.querySelector('.tb-quiz');if(now?.dataset.questionId===q.dataset.questionId)now.querySelector('['+attr+'="'+value+'"]')?.focus({preventScroll:true});},0);},true);
  }
  global.__MBBSet3Batch7UI={isQuestion,render,rationales,wire,referenceLink};
 })(window);

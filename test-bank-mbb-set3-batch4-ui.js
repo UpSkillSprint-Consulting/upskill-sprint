@@ -12,7 +12,7 @@
   quiz.querySelectorAll('[data-opt]').forEach(b=>b.setAttribute('aria-pressed',String(b.classList.contains('sel'))));
   quiz.querySelector('[data-flag]')?.setAttribute('aria-pressed',String(quiz.querySelector('[data-flag]').classList.contains('on')));
   quiz.querySelector('.tb-navcell.cur')?.setAttribute('aria-current','step');
-  if(lastId!==quiz.dataset.questionId){lastId=quiz.dataset.questionId;requestAnimationFrame(()=>{if(!quiz.isConnected)return;quiz.scrollIntoView({block:'start',behavior:'instant'});quiz.querySelector('.tb-stem')?.focus({preventScroll:true});});}
+  if(lastId!==quiz.dataset.questionId){lastId=quiz.dataset.questionId;requestAnimationFrame(()=>{if(!quiz.isConnected)return;const active=document.activeElement;if(active&&quiz.contains(active)&&active.matches('button,input,select,textarea,summary,[role="button"]'))return;quiz.scrollIntoView({block:'start',behavior:'instant'});quiz.querySelector('.tb-stem')?.focus({preventScroll:true});});}
  }
  if(global.document){
   const style=document.createElement('style');style.id='mbb-set3-batch4-style';style.textContent=`
@@ -26,7 +26,7 @@
 .mbbs3b4-table{min-width:560px}.mbbs3b4-scroll-hint{font-size:13px;line-height:1.6;color:var(--ink)!important;margin:8px 0}.mbbs3b4-table th,.mbbs3b4-table td{overflow-wrap:break-word}
 .tb-review-card:has(.mbbs3b4-question) .tb-key-point,.tb-review-card:has(.mbbs3b4-question) .tb-exam-trap{overflow-wrap:anywhere;min-width:0}
 `;document.head.appendChild(style);
-  document.addEventListener('click',e=>{const b=e.target.closest?.('[data-opt],[data-flag]'),q=b?.closest('.tb-quiz');if(!b||!q||!ids.has(q.dataset.questionId))return;const attr=b.hasAttribute('data-opt')?'data-opt':'data-flag',value=b.getAttribute(attr);setTimeout(()=>{const now=document.querySelector('.tb-quiz');if(now?.dataset.questionId===q.dataset.questionId)now.querySelector('['+attr+'="'+value+'"]')?.focus({preventScroll:true});},0);},true);
+  document.addEventListener('click',e=>{const b=e.target.closest?.('[data-opt],[data-flag]'),q=b?.closest('.tb-quiz');if(!b||!q||!ids.has(q.dataset.questionId))return;const attr=b.hasAttribute('data-opt')?'data-opt':'data-flag',value=b.getAttribute(attr);setTimeout(()=>{if(b.isConnected)return;const now=document.querySelector('.tb-quiz');if(now?.dataset.questionId===q.dataset.questionId)now.querySelector('['+attr+'="'+value+'"]')?.focus({preventScroll:true});},0);},true);
  }
  global.__MBBSet3Batch4UI={isQuestion,render,rationales,wire};
 })(window);

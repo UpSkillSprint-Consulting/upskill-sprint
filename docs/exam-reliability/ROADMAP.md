@@ -6,11 +6,11 @@ Scope: all published certifications/sets; full, focused/custom, quick and adapti
 
 | Segment | Work and acceptance boundary | State |
 |---|---|---|
-| 01 — Baseline | Pin source/deployment/schema/inventory; inspect core timing/grading; reproduce concerns; assign every finding or explicit verification task. No product repair. | Prepared for review, PR #172 |
-| 02 — Contracts | Define answer/selection/save/grade/first/repeat/reservation/display/completion, scopes, blank handling, resets, timezones, thresholds, versions and offline conflicts. Approve hand-worked examples and release rubric. | Implemented for review on PR #172; runtime adoption pending |
-| 03 — Verification framework | Preserve existing tests; add independent expected results, deterministic clocks, database/client-role and browser fixtures, failure injection and controlled concurrency. Freeze performance/device budgets and evidence requirements. | Implemented for review on PR #172; exact-head cumulative gate required |
-| 04 — Identity | Validate every ID, namespace, domain and import; preserve identity under reordering/editing. Malformed imports must fail visibly, not remove valid questions silently. | Not started |
-| 05 — Versions/catalog | Pin content, bank, blueprint, grading, timing, length and site target to a session; verify official-source configuration; preserve retired aliases and original results. Add compatible ownership/validation constraints. | Not started |
+| 01 — Baseline | Pin source/deployment/schema/inventory; inspect core timing/grading; reproduce concerns; assign every finding or explicit verification task. No product repair. | Human-merged in PR #172 |
+| 02 — Contracts | Define answer/selection/save/grade/first/repeat/reservation/display/completion, scopes, blank handling, resets, timezones, thresholds, versions and offline conflicts. Approve hand-worked examples and release rubric. | Human-merged in PR #172; runtime adoption remains per segment |
+| 03 — Verification framework | Preserve existing tests; add independent expected results, deterministic clocks, database/client-role and browser fixtures, failure injection and controlled concurrency. Freeze performance/device budgets and evidence requirements. | Human-merged in PR #172; cumulative gate retained |
+| 04 — Identity | Validate every ID, namespace, domain and import; preserve identity under reordering/editing. Malformed imports must fail visibly, not remove valid questions silently. | Implemented for review in new PR #173; deployment verification pending |
+| 05 — Versions/catalog | Pin content, bank, blueprint, grading, timing, length and site target to a session; verify official-source configuration; preserve retired aliases and original results. Add compatible ownership/validation constraints. | Implemented for review, stacked on draft PR #173 by explicit instruction; S04 acceptance remains open |
 | 06 — Local durability | Harden the existing outbox; distinct draft and scored interactions; persist before acknowledging; handle storage/crash/offline/account ownership failures without invented attempts. | Not started |
 | 07 — Server ingestion | Validate ownership and operation/version contracts; enforce idempotent replay and atomic finalization. Concurrent/lost-ack submissions must yield one canonical completion. | Not started |
 | 08 — Reconciliation | Rebuild deterministic projections from ledger, completion, legacy baselines and reset epochs. Reconcile first/repeat/unique scope, retain unknown provenance, dry-run conversions, never reset evidence to align counters. | Not started |
@@ -42,3 +42,7 @@ Lost acknowledged evidence, duplicate canonical completion, cross-account access
 Segment 02 is stacked on the existing PR by explicit user instruction; see [ADR-002-A](SEGMENT-02-DECISIONS.md). Its [normative contract](contracts/v1/CONTRACT.md), [48 worked examples](contracts/v1/worked-examples.json), and [20-criterion rubric](contracts/v1/release-rubric.json) are implemented for human review, not deployed. No Segment01 defect is closed merely by this specification.
 
 Segment 03 is stacked on the same PR by explicit instruction. Its [framework](SEGMENT-03-FRAMEWORK.md) preserves the earlier contracts and observations. The CI gate is not a physical-device, production-security, or final-release sign-off.
+
+Segment 04 is a new PR from the human-merged prerequisites. See [identity repair](SEGMENT-04-IDENTITY.md). G09 is implemented, not yet signed off in production; later catalog/versioning and all remaining release criteria stay open.
+
+Segment 05 is explicitly stacked on PR #173; see [versioning implementation and deployment boundaries](SEGMENT-05-VERSIONS.md). No earlier failed/cancelled acceptance result is waived.

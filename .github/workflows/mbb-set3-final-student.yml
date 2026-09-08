@@ -1,14 +1,6 @@
 name: MBB Set 3 final student stress test
 on:
   pull_request:
-    paths:
-      - 'test-bank*.js'
-      - 'test-bank.html'
-      - 'contrast-fix.js'
-      - 'tests/contrast-theme-race.test.js'
-      - 'tests/test-bank-mbb-set3-final-student.test.js'
-      - 'scripts/stress-mbb-set3-*.mjs'
-      - '.github/workflows/mbb-set3-final-student.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -21,6 +13,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with: {persist-credentials: false}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -31,7 +24,7 @@ jobs:
           mkdir -p final-student-regression
           git rev-parse HEAD > final-student-regression/tested-commit.txt
           set -o pipefail
-          node --test --test-concurrency=1 tests/contrast-theme-race.test.js tests/test-bank-mbb-set3-final-student.test.js | tee final-student-regression/tests.log
+          node --test --test-concurrency=1 tests/contrast-theme-race.test.js tests/test-bank-mbb-set3-final-student.test.js tests/student-audit-*.test.js | tee final-student-regression/tests.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -51,29 +44,37 @@ jobs:
           - {engine: webkit, layout: mobile, width: 390, mixed: '0', label: webkit-mobile}
           - {engine: chromium, layout: mobile, width: 320, mixed: '1', label: chromium-narrow-mixed}
           - {engine: webkit, layout: mobile, width: 320, mixed: '1', label: webkit-narrow-mixed}
+          - {engine: webkit, layout: mobile, width: 390, mixed: '0', label: webkit-mobile-repeat}
     steps:
       - uses: actions/checkout@v4
+        with: {persist-credentials: false}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - run: npm ci
-      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
-      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Install locked audit tools outside application dependencies
+        run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - name: All 175 questions and reviews, both themes, actual controls and accessibility
         env:
+          AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
+          AUDIT_PROFILE: ${{ matrix.label }}
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: ${{ matrix.layout }}
           AUDIT_WIDTH: ${{ matrix.width }}
           AUDIT_MIXED: ${{ matrix.mixed }}
           AUDIT_AXE: '1'
           AUDIT_SOURCE: ${{ github.sha }}
-        run: node scripts/stress-mbb-set3-final175.mjs
+        run: node scripts/run-student-audit.cjs full
       - name: Collect compact exact-source result
         if: always()
         run: |
           mkdir -p final-student-summary
           git rev-parse HEAD > final-student-summary/tested-commit.txt
-          test ! -f audit-results-final175/report.json || cp audit-results-final175/report.json final-student-summary/
+          cp scripts/student-audit-tools/package-lock.json final-student-summary/audit-tools-lock.json
+          for file in report.json progress.json supervisor.json; do
+            test ! -f "audit-results-final175/$file" || cp "audit-results-final175/$file" final-student-summary/
+          done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -95,22 +96,62 @@ jobs:
         engine: [chromium, webkit]
     steps:
       - uses: actions/checkout@v4
+        with: {persist-credentials: false}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - run: npm ci
-      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
-      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Install locked audit tools outside application dependencies
+        run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - name: Timeout, failed save, retake, correction quiz and rapid review at 320px
         env:
+          AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: mobile
           AUDIT_WIDTH: 320
           AUDIT_SOURCE: ${{ github.sha }}
-        run: node scripts/stress-mbb-set3-edge-cases.mjs
+        run: node scripts/run-student-audit.cjs edges
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: final-student-edges-${{ matrix.engine }}
           path: audit-results-final175-edges
+          retention-days: 14
+
+  acceptance:
+    name: MBB complete student acceptance
+    if: always()
+    needs: [regression, browsers, edge-cases]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version'}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: final-student-summary-*
+          path: .student-audit-evidence
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: final-student-edges-*
+          path: .student-audit-evidence
+      - uses: actions/download-artifact@v4
+        with:
+          name: final-student-regression
+          path: .student-audit-evidence/final-student-regression
+      - name: Reject missing, stale, cancelled, shortened or failed audit evidence
+        if: always()
+        env:
+          AUDIT_SOURCE: ${{ github.sha }}
+          STUDENT_AUDIT_NEEDS: ${{ toJSON(needs) }}
+        run: node scripts/check-student-audit.cjs .student-audit-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-student-acceptance
+          path: final-student-gate
+          if-no-files-found: error
           retention-days: 14

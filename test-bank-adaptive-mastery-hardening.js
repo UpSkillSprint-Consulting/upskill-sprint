@@ -10,6 +10,7 @@
   const MASTERY_THRESHOLD = 80;
   const STYLE_ID = 'tb-adaptive-hardening-styles';
   let session = null;
+  let restoreError = null;
   let scheduled = false;
 
   function esc(value) {
@@ -290,15 +291,26 @@
   }
 
   function restoreSession() {
+    restoreError = null;
     try {
       const parsed = JSON.parse(localStorage.getItem(SESSION_KEY));
       if (!parsed || parsed.examId !== examId() || parsed.complete) return null;
+      if (parsed.versionPin) {
+        const versions=window.__TBVersions;
+        if (!versions || !window.__TBLearning) throw new Error('Historical session support has not loaded.');
+        const pin=versions.checkedPin(parsed.versionPin);
+        const owner=window.__TBLearning.status().userId;
+        if (pin.ownerId && owner !== pin.ownerId) throw new Error('This saved session belongs to another account.');
+        parsed.items=versions.freeze(pin.orderedItems.map((item,index)=>versions.questionFor(pin,{qid:item.questionId},index).question));
+        return parsed;
+      }
       const map = new Map(allQuestions().map(function (question) { return [questionId(question), question]; }));
       const items = (parsed.questionIds || parsed.stems || []).map(function (id) { return map.get(id) || allQuestions().find(function (question) { return question.stem === id; }); }).filter(Boolean);
       if (!items.length) return null;
       parsed.items = items;
       return parsed;
     } catch (error) {
+      restoreError = error;
       return null;
     }
   }
@@ -366,7 +378,7 @@
   }
 
   function startSession(forceNew) {
-    if (!forceNew) session = restoreSession();
+    if (!forceNew) { session = restoreSession(); if (restoreError) { announce('The saved session was not changed: ' + restoreError.message); return; } }
     if (session && !session.learningSessionId) {
       /* This is an old local-only paused session. It has no completed study
          evidence to lose, and resuming it would violate the durable-record
@@ -394,7 +406,8 @@
         stems: items.map(function (question) { return question.stem; }),
         questionIds: items.map(function (question) { return questionId(question); }),
         learningSessionId: learningSessionId,
-        items: items,
+        items: started.pinnedQuestions || items,
+        versionPin: started.versionPin || null,
         reasons: items.map(function (question) { return reasonFor(question, data, timestamp); }),
         index: 0,
         answers: {},

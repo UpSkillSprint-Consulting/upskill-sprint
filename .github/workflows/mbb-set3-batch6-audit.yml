@@ -2,6 +2,10 @@ name: MBB Set 3 Batch 6 audit
 on:
   pull_request:
     paths:
+      - 'scripts/lib/student-audit-*.cjs'
+      - 'scripts/run-student-audit.cjs'
+      - 'scripts/student-audit-tools/**'
+      - 'tests/student-audit-*.test.js'
       - 'test-bank*.js'
       - 'test-bank.html'
       - 'tests/test-bank-mbb-set3-batch6*'
@@ -54,16 +58,18 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
-      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - name: Open, answer, reopen and review all 25 items and all eight visual questions
         env:
+          AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
+          AUDIT_SOURCE: ${{ github.sha }}
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: ${{ matrix.layout }}
         run: |
           mkdir -p audit-results-batch6
           git rev-parse HEAD > audit-results-batch6/tested-commit.txt
-          node scripts/audit-mbb-set3-batch6.mjs
+          node scripts/run-student-audit.cjs batch6
       - uses: actions/upload-artifact@v4
         if: always()
         with:

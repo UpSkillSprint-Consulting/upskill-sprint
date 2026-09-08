@@ -86,3 +86,25 @@ test('failed timeout save cannot change expired answers, and retry keeps the tim
  let reason;w.__TBLearning.completeSession=function(c){reason=c.completedReason;return complete.call(this,c);};click('[data-goto="174"]');click('[data-submit]');await wait(60);assert.equal(reason,'timed-out');assert.match(w.document.querySelector('.tb-resverd').textContent,/1 of 175 correctly/);assert.deepEqual(p.errors,[]);
  }finally{await wait(40);p.w.close();}
 });
+
+// PR173 interaction regression: a saved choice must not replace the focused
+// controls/interactive evidence underneath an in-flight pointer or keyboard action.
+test('saving a choice preserves its DOM, focus, evidence and updated progress',async()=>{
+ const p=await player();try{const {w,click}=p;const snap=w.__TB.getFeedbackSnapshot();const index=snap.records.findIndex(r=>r.question.qid==='mbb:set-3:d2-038');click('[data-goto="'+index+'"]');await wait(40);
+ const quiz=w.document.querySelector('.tb-quiz'),opt=quiz.querySelector('[data-opt="2"]');opt.focus();opt.click();
+ assert.ok(opt.isConnected,'Saved answer must retain its original button');assert.equal(w.document.activeElement,opt);assert.equal(w.document.querySelector('.tb-quiz'),quiz);
+ assert.equal(opt.getAttribute('aria-pressed'),'true');assert.equal(quiz.querySelector('[data-opt="0"]').getAttribute('aria-pressed'),'false');assert.match(quiz.querySelector('.tb-quizprog').textContent,/1 answered/);assert.ok(quiz.querySelector('.tb-navcell.cur').classList.contains('done'));
+ const original=w.__TBLearning.recordAnswer;w.__TBLearning.recordAnswer=()=>({saved:false});quiz.querySelector('[data-opt="3"]').click();assert.equal(w.__TB.getFeedbackSnapshot().records[index].selected,2);assert.equal(quiz.querySelector('.tb-opt.sel'),opt);w.__TBLearning.recordAnswer=original;
+ quiz.querySelector('[data-opt="3"]').click();assert.equal(w.__TB.getFeedbackSnapshot().records[index].selected,3);assert.match(quiz.querySelector('.tb-quizprog').textContent,/1 answered/);assert.equal(w.document.querySelector('.tb-quiz'),quiz);assert.deepEqual(p.errors,[]);
+ }finally{await wait(40);p.w.close();}
+});
+test('queued focus restoration cannot steal focus from the next answer control',async()=>{
+ const p=await player();try{const {w,click}=p;const snap=w.__TB.getFeedbackSnapshot();
+ for(let batch=0;batch<7;batch++){
+ const q=bank[batch*25],index=snap.records.findIndex(r=>r.question.qid===q.qid);click('[data-goto="'+index+'"]');await wait(40);
+ const c=w.document.querySelector('[data-opt="2"]');c.focus();c.click();const d=w.document.querySelector('[data-opt="3"]');d.focus();await wait(40);
+ assert.equal(w.document.activeElement,d,'Earlier choice must not steal focus in batch '+(batch+1));
+ }
+ assert.deepEqual(p.errors,[]);
+ }finally{await wait(40);p.w.close();}
+});

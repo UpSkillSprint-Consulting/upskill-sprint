@@ -3497,12 +3497,16 @@
   function hasBank(e){return e&&e.bank&&e.bank.length>0;}
   function hasTwoSets(e){return !!(e&&e.sets&&e.sets[2]&&e.sets[2].length);}
   /* the question pool the draw functions sample from, per the user's set choice */
+  function uniqueQuestionPool(rows){
+    var seen=new Set();
+    return rows.filter(function(q){var id=q&&(q.qid||q.questionId||q.id||q.question_id);if(!id)return true;if(seen.has(id))return false;seen.add(id);return true;});
+  }
   function activeBank(e){
     if(!hasTwoSets(e))return e.bank||[];
     var s=e.sets;
     if(selectedSet==='2')return s[2];
     if(selectedSet==='3'&&s[3])return s[3];
-    if(selectedSet==='mix')return s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]);
+    if(selectedSet==='mix')return uniqueQuestionPool(s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]));
     return s[1];
   }
   /* the pooled bank across every set, independent of the Set 1/2/3/Mixed picker \u2014
@@ -3510,7 +3514,7 @@
   function mixedBank(e){
     if(!hasTwoSets(e))return e.bank||[];
     var s=e.sets;
-    return s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]);
+    return uniqueQuestionPool(s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]));
   }
   var practiceFilterFocusSelector='';
   /* Local history makes the candidate batch smaller when it is ready, but the
@@ -3770,6 +3774,9 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
   }
 
   window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale,getFeedbackSnapshot:getFeedbackSnapshot};
+  window.__TB.questionIdentityPolicy='explicit-v1';
+  window.__TB.examVersionPolicy='catalog-v1';
+  window.__TB.isExamSessionActive=function(examId){return current===examId&&view==='quiz';};
 
   /* ---------- rail ---------- */
   function renderRail(){
@@ -3783,7 +3790,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
         return '<button class="tb-tile'+(id===current?' active':'')+'" data-exam="'+id+'" aria-label="'+esc(e.body)+'">'+
           '<span class="tb-badge" style="background:'+e.bc+'">'+e.badge+'</span>'+
           '<span class="tb-tinfo"><span class="tb-tn">'+esc(e.body.replace('ASQ ',''))+'</span>'+
-          '<span class="tb-tm">'+e.questions+' questions · '+fmtDur(e.minutes)+' · '+e.pass+'% to pass</span>'+
+          '<span class="tb-tm">'+e.questions+' questions · '+fmtDur(e.minutes)+' · '+e.pass+'% site target</span>'+
           tag+'</span></button>';
       }).join('')+'</div>';
     }).join('');
@@ -3917,7 +3924,9 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Filters</span><div class="tb-fieldrow-value">'+unseenToggleHTML('focus',mode.focusUnseen,!newOnlyAvailable&&!mode.focusUnseen)+missedToggleHTML('focus',mode.focusMissed,focusMissedTotal===0&&!mode.focusMissed)+'</div></div>'+
       '</div>'+
       '<div class="tb-mode-foot"><span class="tb-mode-sum">'+focusSum+'</span>'+(live?liveStart('focus',newOnlyReservationGate.active?'Reserving…':'Start quiz',(mode.focusUnseen&&(!newOnlyAvailable||newOnlyReservationGate.active||(newOnlyReady&&focusAvail===0)))||(mode.focusMissed&&focusMissedAvail===0)):startBtn())+'</div></div>';
-    return full+quick+focus;
+    var catalog=window.__TBVersionCatalog&&window.__TBVersionCatalog.exams[current];
+    var disclosure=catalog?'<details class="tb-catalog-disclosure"><summary>Practice preset and official exam format</summary><p>'+esc(catalog.provenance.disclosure)+'</p><p>'+esc(catalog.provenance.scoring.siteTargetMeaning)+'. Official format checked '+esc(catalog.provenance.verifiedAt)+'.</p></details>':'';
+    return disclosure+full+quick+focus;
   }
 
   /* ---------- diagnostic banner (adaptive) ---------- */
@@ -4054,10 +4063,10 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     buildTools();
     var durationSeconds=timed?(limitSeconds==null?quizDurationSeconds(e,items.length):limitSeconds):null;
     var learning=learningWriter();if(!learning)return false;
-    var start=learning.startSession({examId:current,questions:items,mode:kind,timed:!!timed,filter:filter||null,limitSeconds:durationSeconds,returnResult:true});
+    var start=learning.startSession({examId:current,questions:items,mode:kind,timed:!!timed,setId:filter?'mix':String(selectedSet),filter:filter||null,limitSeconds:durationSeconds,returnResult:true});
     var learningSessionId=start&&start.sessionId;
     if(!learningSessionId||start.saved===false||!writeAheadConfirmed(learning))return false;
-    session={id:learningSessionId,kind:kind,filter:filter||null,items:items.map(function(q){return {q:q};}),answers:{},flags:{},i:0,timed:!!timed,limitSeconds:durationSeconds,endsAt:timed?Date.now()+durationSeconds*1000:null,completed:false};
+    session={id:learningSessionId,kind:kind,filter:filter||null,versionPin:start.versionPin||null,items:(start.pinnedQuestions||items).map(function(q){return {q:q};}),answers:{},flags:{},i:0,timed:!!timed,limitSeconds:durationSeconds,endsAt:timed?(start.versionPin?Date.parse(start.versionPin.deadlineAt):Date.now()+durationSeconds*1000):null,completed:false};
     view='quiz';renderMain();startTimer();
     return true;
   }
@@ -4392,7 +4401,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
 
 
   function quizHTML(){
-    var e=EXAMS[current],n=session.items.length,it=session.items[session.i],q=it.q;
+    var e=session.versionPin?session.versionPin.configuration:EXAMS[current],n=session.items.length,it=session.items[session.i],q=it.q;
     var questionId=window.__TBQuestionRegistry&&typeof window.__TBQuestionRegistry.idFor==='function'?window.__TBQuestionRegistry.idFor(current,q):(q.qid||q.questionId||q.id||'');
     var answered=Object.keys(session.answers).length;
     var flagged=0;for(var fk in session.flags){if(session.flags[fk])flagged++;}
@@ -4416,6 +4425,20 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       '<div class="tb-quizfoot"><div class="tb-nav">'+nav+'</div>'+
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';
+  }
+  function updateQuizAnswerState(host){
+    var quiz=host.querySelector('.tb-quiz');if(!quiz||!session)return;
+    var answered=Object.keys(session.answers).length,n=session.items.length;
+    var flagged=Object.keys(session.flags).filter(function(key){return session.flags[key];}).length;
+    Array.prototype.forEach.call(quiz.querySelectorAll('[data-opt]'),function(button){
+      var selected=+button.dataset.opt===session.answers[session.i];
+      button.classList.toggle('sel',selected);button.setAttribute('aria-pressed',String(selected));
+    });
+    var progress=quiz.querySelector('.tb-quizprog');
+    if(progress)progress.textContent='Question '+(session.i+1)+' of '+n+' · '+answered+' answered'+(flagged?' · '+flagged+' flagged':'');
+    var bar=quiz.querySelector('.tb-progress span');if(bar)bar.style.width=(answered/n*100)+'%';
+    var current=quiz.querySelector('.tb-navcell.cur');if(current)current.classList.toggle('done',session.answers[session.i]!=null);
+    var notice=document.getElementById('tb-learning-storage-notice');if(notice)notice.remove();
   }
   function wireQuiz(){
     var host=document.getElementById('tb-overview');
@@ -4442,7 +4465,12 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
       if(!learning||typeof learning.recordAnswer!=='function'||!session.id){showLearningStorageNotice('Your answer could not be saved because study-record storage is unavailable. Please wait a moment and try again.');return;}
       var saved=learning.recordAnswer({examId:current,sessionId:session.id,mode:session.kind,timed:session.timed,index:index,question:question,selected:selected,status:selected===question.answer?'correct':'incorrect'});
       if(!saved||saved.saved===false||!writeAheadConfirmed(learning))return;
-      session.answers[index]=selected;renderMain();
+      session.answers[index]=selected;
+      // Saving a choice is not navigation. Keep the focused button and any
+      // interactive evidence alive; replacing the whole quiz here detaches the
+      // event target and races the next mobile pointer/keyboard action.
+      updateQuizAnswerState(host);
+      b.focus({preventScroll:true});
     });});
     Array.prototype.forEach.call(host.querySelectorAll('[data-goto]'),function(b){b.addEventListener('click',function(){session.i=+b.dataset.goto;renderMain();});});
     var nx=host.querySelector('[data-next]');if(nx)nx.addEventListener('click',function(){session.i++;renderMain();});
@@ -4469,7 +4497,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     if(session.timed&&session.endsAt<=Date.now())completedReason='timed-out';
     session.completed=true;
     stopTimer();stopTools();
-    var e=EXAMS[current];
+    var e=session.versionPin?Object.assign({},EXAMS[current],session.versionPin.configuration,{pass:session.versionPin.siteTargetBps==null?null:session.versionPin.siteTargetBps/100}):EXAMS[current];
     var learningRecords=session.items.map(function(it,index){var selected=session.answers[index];return {question:it.q,selected:selected==null?null:selected,status:selected==null?'unanswered':selected===it.q.answer?'correct':'incorrect'};});
     var learning=window.__TBLearning;
     if(!learning||typeof learning.completeSession!=='function'||!session.id){session.completed=false;showLearningStorageNotice('Your completed test could not be saved because study-record storage is unavailable. Please wait a moment and submit again.');return;}
@@ -4481,6 +4509,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
       if(session.timed&&session.endsAt>Date.now())startTimer();
       return;
     }
+    session.originalGrade=completion.grading||null;
     var agg=subAgg(session.items.map(function(it){return it.q;}),session.answers);
     var units=subUnits(e);
     var rec=recordAttempt(current,units,agg,e.pass);
@@ -4492,7 +4521,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     view='results';renderMain();
   }
   function resultsHTML(){
-    var e=EXAMS[current],r=session.result;var rd=r.readiness;var plan=r.plan;var agg=r.cum;
+    var e=session.versionPin?Object.assign({},EXAMS[current],session.versionPin.configuration):EXAMS[current],r=session.result;var rd=r.readiness;var plan=r.plan;var agg=r.cum;
     var prev=r.state&&r.state.history&&r.state.history.length>1?r.state.history[r.state.history.length-2].readiness:null;
     var delta=prev!=null?rd.readiness-prev:null;
     var scored=0,tot=0;session.items.forEach(function(it,i){tot++;if(session.answers[i]===it.q.answer)scored++;});
@@ -4557,7 +4586,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
   /* Account hydration and an answer write can happen without a DOM mutation.
      Repaint the browse view so readiness tags and the New-only control reflect
      the reconciled ledger immediately. */
-  ['tb:learning-updated','tb:learning-recorded','tb:learning-sync-status','upskill-test-learning-synced','upskill-test-progress-synced'].forEach(function(name){
+  ['tb:question-bank-updated','tb:learning-updated','tb:learning-recorded','tb:learning-sync-status','upskill-test-learning-synced','upskill-test-progress-synced'].forEach(function(name){
     document.addEventListener(name,function(){
       if(view!=='browse')return;
       window.setTimeout(function(){if(view==='browse'){
@@ -4583,6 +4612,8 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
      Netlify edge injector, so previews and the pretty URL cannot accidentally
      skip progress capture or analytics. Deferred order is intentional. -->
 <script defer src="/test-bank-question-registry.js"></script>
+<script defer src="/test-bank-versioning.js"></script>
+<script defer src="/test-bank-version-catalog.js"></script>
 <script defer src="/test-bank-set-controls.js"></script>
 <script defer src="/test-bank-feedback-loop.js"></script>
 <script defer src="/test-bank-phase1-api.js"></script>

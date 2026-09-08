@@ -102,6 +102,7 @@ async function loadPage(options) {
   dom.window.eval(registry);
   compactCssbbFixture(dom.window);
   dom.window.eval(mastery);
+  require('./helpers/test-bank-version-runtime.cjs').installVersions(dom.window);
   dom.window.eval(learning);
   await dom.window.__TBLearning.sync('test-hydrate');
   dom.window.eval(setControls);
