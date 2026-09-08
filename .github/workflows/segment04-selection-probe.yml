@@ -41,7 +41,7 @@ jobs:
           once(" await page.goto(base+'/test-bank.html'", " await page.addInitScript(()=>{window.__POINTER_TRACE=[];for(const type of ['pointerdown','pointerup','mousedown','mouseup','click'])document.addEventListener(type,e=>{const b=e.target.closest?.('[data-opt]');window.__POINTER_TRACE.push({type,t:Date.now(),x:e.clientX,y:e.clientY,target:e.target.outerHTML?.slice(0,220),option:b?.dataset.opt,question:document.querySelector('.tb-quiz')?.dataset.questionId,scrollY,active:document.activeElement?.outerHTML.slice(0,160)});if(window.__POINTER_TRACE.length>120)__POINTER_TRACE.shift();},true);});\n await page.goto(base+'/test-bank.html'");
           once('report.trace=await page.evaluate(()=>window.__AUDIT_TRACE);', 'report.trace=await page.evaluate(()=>window.__AUDIT_TRACE);report.pointerTrace=await page.evaluate(()=>window.__POINTER_TRACE);');
           fs.writeFileSync('scripts/segment04-selection-probe.mjs',script);
-          fs.writeFileSync('audit-results-final175/tool-version.json',JSON.stringify({playwright:require('playwright/package.json').version,axe:require('@axe-core/playwright/package.json').version,node:process.version},null,2));
+          fs.writeFileSync('audit-results-final175/tool-version.json',JSON.stringify({playwright:JSON.parse(fs.readFileSync('node_modules/playwright/package.json','utf8')).version,axe:JSON.parse(fs.readFileSync('node_modules/@axe-core/playwright/package.json','utf8')).version,node:process.version},null,2));
           NODE
           node --check scripts/segment04-selection-probe.mjs
           git diff --exit-code
