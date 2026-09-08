@@ -8,79 +8,38 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-      - name: Reconstruct exact reviewed bytes without moving any branch
-        run: |
-          python - <<'PY'
-          import gzip, hashlib, json, pathlib, subprocess
-          root=pathlib.Path.cwd()
-          packed=b''.join((root/f'.segment09-stage/part{i:02}.bin').read_bytes() for i in range(28))
-          raw=gzip.decompress(packed)
-          assert hashlib.sha256(raw).hexdigest()=='184b79a60696bf2bb138f16ef191a11c142e5726c33fd42070ef40fc6b2a17aa'
-          extra=(root/'.segment09-stage/overlay.json').read_bytes()
-          assert hashlib.sha256(extra).hexdigest()=='f1dbe5fec96a1053e42c8669fd577968e407d557c6b73ff4a2b1c5679f35b80b'
-          stages=[json.loads(raw),json.loads(extra)]
-          assert stages[0]['base']=='12ad5ba5c9095681275e1e0f83b2b879eb49cad0'
-          # The local import omitted two already-tracked ignored .DS_Store files.
-          # Preserve both byte-for-byte. No application edit changes; exact tree
-          # expectations below were independently recomputed with these retained.
-          assert stages[0]['expectedTree']=='6011f559b430fea3ec2804cb1b2c08d783c3ccb4'
-          assert stages[1]['baseTree']=='6011f559b430fea3ec2804cb1b2c08d783c3ccb4'
-          assert stages[1]['expectedTree']=='73a48f9517aab8162f370b50bb92b11aabe4a571'
-          stages[0]['expectedTree']='8feb5d34862f0b40b42d636fc52a1d0cb5e9fe52'
-          stages[1]['baseTree']='8feb5d34862f0b40b42d636fc52a1d0cb5e9fe52'
-          stages[1]['expectedTree']='848b14e337552c39fbc847c7d9dc366f77a8096c'
-          subprocess.run(['git','checkout','--detach',stages[0]['base']],check=True)
-          blob=lambda b: hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
-          for path,sha in [('.DS_Store','5293acca81f5a363a78ad834199168ae459221d8'),('lessons/.DS_Store','9d6b5019745ae12928ad825bbd3d1c6f4e553a1e')]:
-            assert blob((root/path).read_bytes())==sha
-          entries={}
-          for stage in stages:
-            assert subprocess.check_output(['git','write-tree'],text=True).strip()==stage['baseTree']
-            for row in stage['files']:
-              path=pathlib.PurePosixPath(row['path'])
-              assert not path.is_absolute() and '..' not in path.parts and '.git' not in path.parts
-              p=root/str(path)
-              before=p.read_bytes() if p.exists() else None
-              assert (blob(before) if before is not None else None)==row['before'],str(path)
-              if row['after'] is None:
-                p.unlink()
-              else:
-                data=before or b''
-                for lo,hi,text in reversed(row['edits']):
-                  assert 0<=lo<=hi<=len(data)
-                  data=data[:lo]+text.encode('utf-8')+data[hi:]
-                assert blob(data)==row['after'],str(path)
-                p.parent.mkdir(parents=True,exist_ok=True)
-                p.write_bytes(data)
-              entries[str(path)]={'path':str(path),'mode':'100644','type':'blob','sha':row['after']}
-            subprocess.run(['git','add','--']+[r['path'] for r in stage['files']],check=True)
-            actual=subprocess.check_output(['git','write-tree'],text=True).strip()
-            assert actual==stage['expectedTree'],(actual,stage['expectedTree'])
-          out=pathlib.Path('/tmp/segment09-objects');out.mkdir()
-          (out/'manifest.json').write_text(json.dumps({'baseTree':stages[0]['baseTree'],'expectedTree':stages[-1]['expectedTree'],'entries':list(entries.values())}))
-          PY
-      - name: Store validated blobs and tree only; no commit, merge, ref or deployment write
+        with: {persist-credentials: false}
+      - name: Store two validated guard blobs only; branch updates remain human-reviewed connector actions
         uses: actions/github-script@v7
         with:
           script: |
-            const fs=require('fs');
-            const m=JSON.parse(fs.readFileSync('/tmp/segment09-objects/manifest.json','utf8'));
+            const fs=require('fs'),crypto=require('crypto');
+            const m=JSON.parse(fs.readFileSync('.segment09-stage/guard.json','utf8'));
             const {owner,repo}=context.repo;
-            for(const entry of m.entries){
-              if(entry.sha===null)continue;
-              const content=fs.readFileSync(entry.path).toString('base64');
-              const result=await github.rest.git.createBlob({owner,repo,content,encoding:'base64'});
-              if(result.data.sha!==entry.sha)throw new Error('Blob mismatch: '+entry.path);
+            const hash=b=>crypto.createHash('sha1').update(Buffer.from('blob '+b.length+'\0')).update(b).digest('hex');
+            if(m.baseTree!=='848b14e337552c39fbc847c7d9dc366f77a8096c'||m.expectedTree!=='27761a0f652c441b8a6ad05a369cbff031d664d1')throw new Error('Unexpected reviewed manifest');
+            const allowed=['test-bank-analytics-dashboard.js','tests/test-bank-segment09-grading.test.js'];
+            if(m.files.length!==2)throw new Error('Unexpected paths');
+            const result=[];
+            for(const entry of m.files){
+              if(!allowed.includes(entry.path))throw new Error('Unexpected path');
+              const before=await github.rest.git.getBlob({owner,repo,file_sha:entry.before});
+              let data=Buffer.from(before.data.content,'base64');
+              if(hash(data)!==entry.before)throw new Error('Before hash mismatch');
+              for(const [lo,hi,text] of entry.edits.slice().reverse()){
+                if(!Number.isInteger(lo)||lo<0||hi<lo||hi>data.length)throw new Error('Bad edit');
+                data=Buffer.concat([data.subarray(0,lo),Buffer.from(text,'utf8'),data.subarray(hi)]);
+              }
+              if(hash(data)!==entry.after)throw new Error('After hash mismatch');
+              const stored=await github.rest.git.createBlob({owner,repo,content:data.toString('base64'),encoding:'base64'});
+              if(stored.data.sha!==entry.after)throw new Error('Stored hash mismatch');
+              result.push({path:entry.path,sha:entry.after});
             }
-            const result=await github.rest.git.createTree({owner,repo,base_tree:m.baseTree,tree:m.entries});
-            if(result.data.sha!==m.expectedTree)throw new Error('Tree mismatch');
-            fs.writeFileSync('/tmp/segment09-objects/result.json',JSON.stringify({tree:result.data.sha,entries:m.entries,status:'verified',writes:'unreferenced git objects only'},null,2));
+            fs.mkdirSync('/tmp/segment09-objects',{recursive:true});
+            fs.writeFileSync('/tmp/segment09-objects/result.json',JSON.stringify({status:'verified',blobs:result,writes:'unreferenced blobs only; no tree/ref/commit changes'},null,2));
       - uses: actions/upload-artifact@v4
         with:
           name: segment09-objects
