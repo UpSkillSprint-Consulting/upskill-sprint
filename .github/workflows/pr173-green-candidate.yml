@@ -28,17 +28,22 @@ jobs:
             assert.equal(crypto.createHash('sha256').update(patch).digest('hex'),'20b3caa0322cdaca1f265da9b03df13ff56e2443189f4e7f77657e84f9ddf460');
             fs.writeFileSync('/tmp/pr173.patch',patch);git('apply','--index','/tmp/pr173.patch');
             assert.equal(git('write-tree'),'e2cc592818dba1b3423f2ff403b9744b63ad0b68');
+            function replace(path,from,to){const s=fs.readFileSync(path,'utf8');assert.equal(s.split(from).length,2);fs.writeFileSync(path,s.replace(from,to));git('add','--',path);}
+            replace('test-bank.html','      updateQuizAnswerState(host);','      updateQuizAnswerState(host);\n      b.focus({preventScroll:true});');
+            replace('scripts/stress-mbb-set3-final175.mjs',"await phase('submit-175',()=>page.locator('[data-submit]').click({timeout:300000}),300000);","await phase('submit-175',()=>page.locator('[data-submit]').click());");
+            replace('scripts/stress-mbb-set3-final175.mjs',"assert.equal(await opt.getAttribute('aria-pressed'),'true');","assert.equal(await opt.getAttribute('aria-pressed'),'true');assert.equal(await opt.evaluate(e=>document.activeElement===e),true,'Selected option must retain focus');");
+            assert.equal(git('write-tree'),'2345dc0b60e0aaa2db73cd3f21612199f2e24e6b');
             const paths=git('diff','--cached','--name-only').split('\n');assert.equal(paths.length,14);
             const entries=[];
             for(const path of paths){const bytes=fs.readFileSync(path);const b=await github.rest.git.createBlob({owner:context.repo.owner,repo:context.repo.repo,content:bytes.toString('base64'),encoding:'base64'});assert.equal(b.data.sha,git('hash-object',path));entries.push({path,mode:'100644',type:'blob',sha:b.data.sha});}
             fs.mkdirSync('/tmp/pr173-candidate',{recursive:true});fs.writeFileSync('/tmp/pr173-candidate/assembly.json',JSON.stringify({parent:git('rev-parse','HEAD'),tree:git('write-tree'),entries,refsUpdated:false},null,2));
             // Only immutable objects are created; no PR/main ref is changed.
       - run: npm ci
-      - name: Existing complete-review tests plus new failing-before focus and watchdog regressions
+      - name: Existing review tests plus failing-before focus and watchdog regressions
         run: node --test --test-concurrency=1 tests/contrast-theme-race.test.js tests/test-bank-mbb-set3-final-student.test.js tests/student-audit-runtime.test.js > /tmp/pr173-candidate/tests.log 2>&1
       - run: npm install --prefix /tmp/student-audit-tools --ignore-scripts --save-exact playwright@1.63.0 @axe-core/playwright@4.13.0 axe-core@4.13.0
       - run: /tmp/student-audit-tools/node_modules/.bin/playwright install --with-deps webkit
-      - name: Construct explicitly scoped diagnostic copy; production acceptance remains all 175
+      - name: Create scoped diagnostic copy; PR acceptance remains all 175
         run: |
           node <<'NODE'
           const fs=require('node:fs'),assert=require('node:assert/strict');
@@ -52,16 +57,22 @@ jobs:
           fs.writeFileSync('scripts/pr173-candidate-probe.mjs',s);
           NODE
           node --check scripts/pr173-candidate-probe.mjs
-      - name: Actual WebKit clicks, keyboard, archive grading and six disclosures with axe equivalence self-test
+      - name: WebKit native focus, clicks, keyboard, archives and axe equivalence self-test
         env:
           AUDIT_TOOLS_DIR: /tmp/student-audit-tools
           AUDIT_ENGINE: webkit
           AUDIT_LAYOUT: mobile
           AUDIT_WIDTH: '390'
           AUDIT_AXE: '1'
-          AUDIT_SOURCE: 'candidate-tree-e2cc592818dba1b3423f2ff403b9744b63ad0b68'
-          AUDIT_OUT: /tmp/pr173-candidate/browser
+          AUDIT_SOURCE: 'candidate-tree-2345dc0b60e0aaa2db73cd3f21612199f2e24e6b'
+          AUDIT_OUT: audit-pr173-probe
         run: node scripts/pr173-candidate-probe.mjs
+      - name: Preserve diagnostic artifacts and exact scope
+        if: always()
+        run: |
+          mkdir -p /tmp/pr173-candidate
+          if test -d audit-pr173-probe; then cp -r audit-pr173-probe /tmp/pr173-candidate/browser; fi
+          if test -f scripts/pr173-candidate-probe.mjs; then cp scripts/pr173-candidate-probe.mjs /tmp/pr173-candidate/; fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
