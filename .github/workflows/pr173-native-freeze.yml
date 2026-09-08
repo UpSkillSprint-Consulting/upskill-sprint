@@ -1,0 +1,67 @@
+name: PR173 native WebKit freeze diagnosis
+on:
+  push:
+    branches: ['diagnostic/pr173-native-freeze']
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        trial: [1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 97b386874371ea3920e769c4f43900e942db00bb
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps webkit
+      - run: command -v gdb || (sudo apt-get update -qq && sudo apt-get install -y gdb)
+      - name: Preserve unmodified runtime and enable diagnostic protocol logging
+        run: |
+          mkdir -p /tmp/pr173-native
+          git rev-parse HEAD > /tmp/pr173-native/source.txt
+          cp scripts/student-audit-tools/package-lock.json /tmp/pr173-native/tool-lock.json
+          cat > /tmp/pr173-native/run.cjs <<'NODE'
+          const fs=require('node:fs'),{spawn,execFileSync}=require('node:child_process');
+          const log=fs.openSync('/tmp/pr173-native/protocol.log','w');
+          const child=spawn(process.execPath,['scripts/run-student-audit.cjs','batch4'],{env:{...process.env,DEBUG:'pw:api,pw:protocol,pw:browser'},stdio:['ignore',log,log]});
+          let sampled=false,lastSample=0;
+          const timer=setInterval(()=>{
+            let file;try{file=JSON.parse(fs.readFileSync('audit-results-batch4/progress.json','utf8'));}catch{return;}
+            const mtime=fs.statSync('audit-results-batch4/progress.json').mtimeMs;
+            if(Date.now()-mtime<12000||sampled)return;sampled=true;lastSample=Date.now();
+            fs.writeFileSync('/tmp/pr173-native/frozen-progress.json',JSON.stringify(file,null,2));
+            fs.writeFileSync('/tmp/pr173-native/processes.txt',execFileSync('ps',['-eLo','pid,ppid,pgid,tid,stat,pcpu,pmem,rss,wchan:24,comm'],{encoding:'utf8'}));
+            const targets=[];
+            for(const pid of fs.readdirSync('/proc').filter(p=>/^\d+$/.test(p))){try{const env=fs.readFileSync(`/proc/${pid}/environ`).toString();const comm=fs.readFileSync(`/proc/${pid}/comm`,'utf8').trim();if(env.split('\0').some(s=>s.startsWith('UPSKILL_AUDIT_SCOPE='))&&/WPEWebProcess|MiniBrowser/.test(comm))targets.push({pid,comm});}catch{}}
+            fs.writeFileSync('/tmp/pr173-native/targets.json',JSON.stringify(targets));
+            for(const t of targets){const dest=fs.openSync(`/tmp/pr173-native/stack-${t.comm}-${t.pid}.log`,'w');spawn('timeout',['10s','sudo','gdb','--batch','-p',t.pid,'-ex','set pagination off','-ex','thread apply all bt 18','-ex','detach'],{stdio:['ignore',dest,dest]}).on('close',()=>fs.closeSync(dest));}
+          },1000);
+          child.on('exit',(code,signal)=>{clearInterval(timer);fs.closeSync(log);fs.writeFileSync('/tmp/pr173-native/exit.json',JSON.stringify({code,signal,sampled,lastSample}));process.exitCode=code===0?0:1;});
+          NODE
+      - name: Full Batch4 student interactions with independent native diagnostic observer
+        env:
+          AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
+          AUDIT_ENGINE: webkit
+          AUDIT_LAYOUT: mobile
+          AUDIT_SOURCE: 97b386874371ea3920e769c4f43900e942db00bb
+        run: node /tmp/pr173-native/run.cjs
+      - name: Preserve exact operation and bounded native stack evidence
+        if: always()
+        run: |
+          mkdir -p /tmp/pr173-native
+          if test -d audit-results-batch4; then cp audit-results-batch4/*.json /tmp/pr173-native/; fi
+          if test -f /tmp/pr173-native/protocol.log; then tail -c 2000000 /tmp/pr173-native/protocol.log > /tmp/pr173-native/protocol-tail.log; rm /tmp/pr173-native/protocol.log; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr173-native-${{ matrix.trial }}-${{ github.run_id }}
+          path: /tmp/pr173-native
+          retention-days: 14
