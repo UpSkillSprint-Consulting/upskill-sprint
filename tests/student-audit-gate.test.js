@@ -8,7 +8,7 @@ function full(profile=PROFILES[0]) {
  const records=()=>bank.map((q,i)=>({number:i+1,qid:q.qid,reopened:true,selected:profile.mixed?(i%3===2?null:i%3===0?q.answer:(q.answer+1)%4):q.answer,status:profile.mixed?(i%3===2?'unanswered':i%3===0?'correct':'incorrect'):'correct',checks:['light','dark'].map(theme=>({theme,geometry:{pageOverflow:false,clipped:[],svgOutside:[]},violations:[],a11y:{completed:true,passedRules:3,incompleteRules:[],engine:{name:'axe-core',version:'4.13.0'}}}))}));
  return {...profile,profile:profile.label,complete:true,source,failures:[],pageErrors:[],qualityFailures:[],accessibilityRequired:true,accessibilityScans:700,toolVersions:{playwright:'1.63.0',axe:'4.13.0'},accessibilitySelfTest:{passed:true,violationsDetected:['image-alt','button-name']},sessionOrder:bank.map(q=>q.qid),expectedCorrect:profile.mixed?59:175,verdict:`${profile.mixed?59:175} of 175 correctly`,questions:records(),reviews:records()};
 }
-function supervisor(totalLimitMs=35*60000) {return {source,status:'passed',exitCode:0,signal:null,progressMessages:100,idleLimitMs:90000,totalLimitMs};}
+function supervisor(totalLimitMs=35*60000,engine='chromium') {return {source,status:'passed',exitCode:0,signal:null,progressMessages:100,idleLimitMs:90000,totalLimitMs,renderingPolicy:{version:1,platform:'linux',engine,rasterizer:engine==='webkit'?'webkit-skia-cpu':'browser-default',paintingThreads:engine==='webkit'?1:null,scope:'audit-process-only'}};}
 test('student gate accepts complete correct and mixed-score evidence for every required profile',()=>{
  for(const profile of PROFILES)validateFullReport(full(profile),profile,source,bank);
  validateNeeds(needs);validateSupervisor(supervisor(),source);
@@ -29,8 +29,8 @@ test('aggregate rejects a missing or corrupted independent WebKit report and emi
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'student-gate-'));
  const write=(f,o)=>{fs.mkdirSync(path.dirname(path.join(dir,f)),{recursive:true});fs.writeFileSync(path.join(dir,f),typeof o==='string'?o:JSON.stringify(o));};
  try{
-  for(const profile of PROFILES){const base=`final-student-summary-${profile.label}`;write(`${base}/report.json`,full(profile));write(`${base}/supervisor.json`,supervisor());write(`${base}/tested-commit.txt`,source);}
-  for(const engine of ['chromium','webkit']){const base=`final-student-edges-${engine}`;write(`${base}/supervisor.json`,supervisor(15*60000));write(`${base}/report.json`,{complete:true,source,engine,width:320,failures:[],pageErrors:[],calculatorAndLookup:true,timeout:{all:175,unvisitedSkipped:174,flagged:1,score:1},failedSaveAndRetake:true,correctionQuiz:{corrected:174,originalScoreStill:1},relatedPractice:5,rapidReview:175,reviews:['light','dark'].map(theme=>({theme,violations:[],geometry:{pageOverflow:false,clipped:[],svgOutside:[]}}))});}
+  for(const profile of PROFILES){const base=`final-student-summary-${profile.label}`;write(`${base}/report.json`,full(profile));write(`${base}/supervisor.json`,supervisor(35*60000,profile.engine));write(`${base}/tested-commit.txt`,source);}
+  for(const engine of ['chromium','webkit']){const base=`final-student-edges-${engine}`;write(`${base}/supervisor.json`,supervisor(15*60000,engine));write(`${base}/report.json`,{complete:true,source,engine,width:320,failures:[],pageErrors:[],calculatorAndLookup:true,timeout:{all:175,unvisitedSkipped:174,flagged:1,score:1},failedSaveAndRetake:true,correctionQuiz:{corrected:174,originalScoreStill:1},relatedPractice:5,rapidReview:175,reviews:['light','dark'].map(theme=>({theme,violations:[],geometry:{pageOverflow:false,clipped:[],svgOutside:[]}}))});}
   write('final-student-regression/tested-commit.txt',source);
   const gate=verifyEvidenceDirectory(dir,source,bank,needs);assert.equal(gate.profiles.length,7);assert.equal(gate.manifest.length,18);gate.manifest.forEach(m=>assert.match(m.sha256,/^[a-f0-9]{64}$/));
   write('final-student-summary-webkit-mobile-repeat/report.json','{incomplete');assert.throws(()=>verifyEvidenceDirectory(dir,source,bank,needs));
@@ -89,5 +89,14 @@ test('all seven batch audit drivers share the no-tab-churn engine, bounded teard
   assert.ok(workflow.includes('npm ci --prefix scripts/student-audit-tools --ignore-scripts'));
   assert.doesNotMatch(workflow,/npm install --no-save/);
   if(batch!==2)assert.ok(workflow.includes('scripts/lib/student-audit-*.cjs'));
+ }
+});
+
+
+test('student gate rejects missing, mismatched or silently weakened WebKit rendering evidence',()=>{
+ const make=()=>supervisor(35*60000,'webkit');
+ validateSupervisor(make(),source,35*60000,'webkit');
+ for(const change of [s=>delete s.renderingPolicy,s=>s.renderingPolicy.rasterizer='browser-default',s=>s.renderingPolicy.paintingThreads=8,s=>s.renderingPolicy.engine='chromium',s=>s.renderingPolicy.scope='production',s=>s.renderingPolicy.version=2]){
+  const s=make();change(s);assert.throws(()=>validateSupervisor(s,source,35*60000,'webkit'),/rendering policy/);
  }
 });

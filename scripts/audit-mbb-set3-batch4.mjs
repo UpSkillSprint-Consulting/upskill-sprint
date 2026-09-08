@@ -64,6 +64,8 @@ for(const engine of engines){
   const c=await browser.newContext(),p=await c.newPage();
   try{await p.setContent('<!doctype html><html lang="en"><title>Audit fixture</title><body><main id="audit-fixture"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><button></button></main></body></html>');
    const modern=await new AxeBuilder({page:p}).include('#audit-fixture').withTags(['wcag2a','wcag2aa']).analyze(),direct=await runtime.analyzeSingleDocument(p,AxeBuilder,'#audit-fixture');
+   const reused=await runtime.analyzeSingleDocument(p,AxeBuilder,'#audit-fixture');
+   assert.deepEqual(reused.violations.map(v=>v.id).sort(),direct.violations.map(v=>v.id).sort(),'Reused engine must detect the same known accessibility defects');
    for(const k of ['violations','passes','incomplete','inapplicable'])assert.deepEqual(direct[k].map(x=>x.id).sort(),modern[k].map(x=>x.id).sort());
    assert.ok(direct.violations.some(x=>x.id==='image-alt'));assert.ok(direct.violations.some(x=>x.id==='button-name'));
    report.accessibilitySelfTest={passed:true,engine,violationsDetected:direct.violations.map(x=>x.id)};

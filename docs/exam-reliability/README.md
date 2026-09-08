@@ -47,3 +47,5 @@ Before approval, verify the exact-head **Full test suite**, **Exam reliability b
 JSDOM, a mocked service and emulated mobile browsers are not physical-device, JWT/Data API or production-authorization acceptance. Actual PostgreSQL role tests exercise the repository DDL in a disposable database, not live-schema parity. Screenshots are evidence, not a complete visual/WCAG approval. The unresolved product findings remain open in their assigned segments.
 
 Explicit stacking instructions supersede the earlier separate-merge sequence without claiming human approval or deployment. Segment 04 was explicitly authorized as a new PR; Segment 05 was explicitly requested on this PR; stacking is not acceptance of the open Segment 04 blocker. No automatic merge, production writes or future release rating are authorized by a passing framework run.
+
+The [Linux WebKit renderer repair](WEBKIT-RENDERER-REPAIR.md) documents the CPU audit policy, remaining deferred-focus race correction and engine-only reuse. Its final acceptance requires complete exact-head runs; the earlier watchdogs alone were not proof of a native stall fix.

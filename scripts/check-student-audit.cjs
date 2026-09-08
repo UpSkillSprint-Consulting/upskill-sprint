@@ -13,9 +13,14 @@ const noErrors = report => {
   assert.deepEqual(report.failures, [], 'Student audit failed');
   assert.deepEqual(report.pageErrors, [], 'Unhandled page error');
 };
-function validateSupervisor(supervisor, source, totalMs = 35 * 60000) {
+function validateSupervisor(supervisor, source, totalMs = 35 * 60000, engine = 'chromium') {
   assert.equal(supervisor.source, source, 'Stale supervisor evidence');
   assert.equal(supervisor.status, 'passed', 'Audit supervisor did not finish successfully');
+  assert.deepEqual(supervisor.renderingPolicy, {
+    version: 1, platform: 'linux', engine,
+    rasterizer: engine === 'webkit' ? 'webkit-skia-cpu' : 'browser-default',
+    paintingThreads: engine === 'webkit' ? 1 : null, scope: 'audit-process-only'
+  }, 'Required headless rendering policy is missing or changed');
   assert.equal(supervisor.exitCode, 0);
   assert.equal(supervisor.signal, null);
   assert.ok(supervisor.progressMessages > 0, 'No audit progress recorded');
@@ -88,7 +93,7 @@ function verifyEvidenceDirectory(dir, source, bank, needs) {
     const base = `final-student-summary-${profile.label}`;
     const report = read(`${base}/report.json`);
     validateFullReport(report, profile, source, bank);
-    validateSupervisor(read(`${base}/supervisor.json`), source);
+    validateSupervisor(read(`${base}/supervisor.json`), source, 35 * 60000, profile.engine);
     const tested = fs.readFileSync(path.join(dir, base, 'tested-commit.txt'), 'utf8').trim();
     assert.equal(tested, source, 'Artifact checkout differs from report source');
     completed.push({profile:profile.label,questions:175,reviews:175,accessibilityScans:700});
@@ -96,7 +101,7 @@ function verifyEvidenceDirectory(dir, source, bank, needs) {
   for (const engine of ['chromium','webkit']) {
     const base = `final-student-edges-${engine}`;
     validateEdgeReport(read(`${base}/report.json`), engine, source);
-    validateSupervisor(read(`${base}/supervisor.json`), source, 15 * 60000);
+    validateSupervisor(read(`${base}/supervisor.json`), source, 15 * 60000, engine);
   }
   assert.equal(fs.readFileSync(path.join(dir,'final-student-regression/tested-commit.txt'),'utf8').trim(),source);
   return {schemaVersion:1,status:'passed',source,profiles:completed,edgeProfiles:2,manifest};

@@ -16,7 +16,7 @@ function atomicJson(file, value) {
 }
 
 function supervise({ command = process.execPath, args, cwd = process.cwd(), env = process.env,
-  resultFile, idleMs = 90000, totalMs = 35 * 60000, graceMs = 5000, stdio = 'inherit' }) {
+  resultFile, renderingPolicy = null, idleMs = 90000, totalMs = 35 * 60000, graceMs = 5000, stdio = 'inherit' }) {
   assert.ok(Array.isArray(args) && args.every(x => typeof x === 'string'));
   for (const x of [idleMs, totalMs, graceMs]) assert.ok(Number.isFinite(x) && x > 0);
   assert.equal(typeof resultFile, 'string');
@@ -25,7 +25,7 @@ function supervise({ command = process.execPath, args, cwd = process.cwd(), env 
   const childEnv = { ...env, UPSKILL_AUDIT_SCOPE: scope };
   const started = performance.now();
   const state = { schemaVersion: 1, source: env.AUDIT_SOURCE || '', status: 'running',
-    idleLimitMs: idleMs, totalLimitMs: totalMs, lastOperation: null, progressMessages: 0 };
+    idleLimitMs: idleMs, totalLimitMs: totalMs, lastOperation: null, progressMessages: 0, renderingPolicy };
   const persist = () => atomicJson(resultFile, { ...state, elapsedMs: Math.round(performance.now() - started) });
   persist();
   return new Promise(resolve => {

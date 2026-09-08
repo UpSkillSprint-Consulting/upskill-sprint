@@ -54,6 +54,8 @@ let browser,context,page;try{
    try{await p.setContent('<!doctype html><html lang="en"><title>Audit fixture</title><body><main id="audit-fixture"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><button></button></main></body></html>');
     const modern=await new AxeBuilder({page:p}).include('#audit-fixture').withTags(['wcag2a','wcag2aa']).analyze();
     const direct=await analyzeSingleDocument(p,AxeBuilder,'#audit-fixture');
+    const reused=await analyzeSingleDocument(p,AxeBuilder,'#audit-fixture');
+    assert.deepEqual(reused.violations.map(v=>v.id).sort(),direct.violations.map(v=>v.id).sort(),'Reused engine must still detect the deliberately inaccessible fixture');
     for(const k of ['violations','passes','incomplete','inapplicable'])assert.deepEqual(direct[k].map(r=>r.id).sort(),modern[k].map(r=>r.id).sort(),k+' differs between axe execution paths');
     assert.ok(direct.violations.some(v=>v.id==='image-alt'));assert.ok(direct.violations.some(v=>v.id==='button-name'));
     report.accessibilitySelfTest={passed:true,violationsDetected:direct.violations.map(v=>v.id)};

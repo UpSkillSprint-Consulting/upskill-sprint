@@ -26,3 +26,29 @@ test('accessibility scope cannot acquire an omitted iframe during a scan',async(
  class Builder{include(){return this;}withTags(){return this;}setLegacyMode(){return this;}async analyze(){frames=2;return {violations:[],passes:[{id:'rule'}],incomplete:[]};}}
  await assert.rejects(analyzeSingleDocument(page,Builder,'.tb-review-card'),/scope changed during scan/);
 });
+
+test('reuse installs an axe engine once but evaluates every new DOM state and selector', async () => {
+ const vm=require('node:vm');let installs=0,runs=0,domHasViolation=false;const observed=[];
+ const result=()=>({testEngine:{name:'axe-core',version:'4.13.0'},passes:[{id:'rule'}],violations:domHasViolation?[{id:'button-name'}]:[],incomplete:[]});
+ const window={};
+ const page={frames:()=>[{}],evaluate:async(fn,arg)=>vm.runInNewContext('('+fn.toString()+')(input)',{window,input:arg})};
+ class Builder{include(){return this;}withTags(){return this;}setLegacyMode(){return this;}async analyze(){installs++;window.axe={version:'4.13.0',run:async(context,options)=>{runs++;observed.push(JSON.parse(JSON.stringify({context,options})));return result();}};return result();}}
+ assert.deepEqual((await analyzeSingleDocument(page,Builder,'.quiz')).violations,[]);
+ domHasViolation=true;
+ assert.deepEqual((await analyzeSingleDocument(page,Builder,'.review')).violations,[{id:'button-name'}]);
+ assert.equal(installs,1);assert.equal(runs,1);
+ assert.deepEqual(observed,[{context:{include:['.review']},options:{runOnly:{type:'tag',values:[...TAGS]}}}]);
+ delete window.axe;await analyzeSingleDocument(page,Builder,'.new-document');assert.equal(installs,2,'Navigation requires a new engine');
+ window.axe.run=async()=>{throw Error('real audit failed');};
+ await assert.rejects(analyzeSingleDocument(page,Builder,'.review'),/real audit failed/);
+ assert.equal(installs,2,'An audit failure is not retried or hidden');
+});
+
+test('two simultaneous scans on a single page fail instead of sharing stale audit state',async()=>{
+ let release;const waiting=new Promise(r=>{release=r;});
+ const page={frames:()=>[{}]};
+ class Builder{include(){return this;}withTags(){return this;}setLegacyMode(){return this;}async analyze(){await waiting;return {passes:[{id:'rule'}],violations:[],incomplete:[]};}}
+ const first=analyzeSingleDocument(page,Builder,'.review');
+ await assert.rejects(analyzeSingleDocument(page,Builder,'.review'),/Concurrent accessibility/);
+ release();await first;
+});

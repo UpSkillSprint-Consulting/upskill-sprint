@@ -34,17 +34,36 @@ async function bounded(label, operation, milliseconds, onProgress = () => {}) {
 }
 
 const TAGS = Object.freeze(['wcag2a', 'wcag2aa']);
+const installedEngines = new WeakMap();
+const activeScans = new WeakSet();
 async function analyzeSingleDocument(page, AxeBuilder, selector) {
-  // The student view has no iframes. Assert that prerequisite on every scan so
-  // same-document execution can never silently omit a subsequently added frame.
-  // AxeBuilder's supported legacy mode uses axe.run in the page rather than
-  // opening/closing a synthetic result-aggregation tab for each of 700 scans.
+  // No scan result is cached. Only reuse the installed engine in the same
+  // document; axe.run performs a fresh DOM evaluation for every call/theme.
+  // Navigation destroys window.axe and causes a fresh builder bootstrap.
   assert.equal(page.frames().length, 1, 'Audit scope changed: frame-aware scan required');
-  const result = await new AxeBuilder({page}).include(selector).withTags([...TAGS]).setLegacyMode(true).analyze();
-  assert.equal(page.frames().length, 1, 'Audit scope changed during scan: frame-aware scan required');
-  assert.ok(Array.isArray(result.violations) && Array.isArray(result.passes) && Array.isArray(result.incomplete));
-  assert.ok(result.passes.length + result.violations.length + result.incomplete.length > 0, 'Accessibility scan returned no evaluated rules');
-  return result;
+  assert.ok(!activeScans.has(page), 'Concurrent accessibility scans in one document');
+  activeScans.add(page);
+  try {
+    const installed = installedEngines.get(page);
+    let result = null;
+    if (installed && installed.builder === AxeBuilder) {
+      result = await page.evaluate(({ selector, version, tags }) => {
+        if (!window.axe || window.axe.version !== version || typeof window.axe.run !== 'function') return null;
+        // Same public axe.run call/options as AxeBuilder's supported legacy path.
+        return window.axe.run({ include: [selector] }, { runOnly: { type: 'tag', values: tags } });
+      }, { selector, version: installed.version, tags: [...TAGS] });
+    }
+    if (result === null) {
+      result = await new AxeBuilder({page}).include(selector).withTags([...TAGS]).setLegacyMode(true).analyze();
+      if (result.testEngine?.name === 'axe-core' && typeof result.testEngine.version === 'string') {
+        installedEngines.set(page, { builder: AxeBuilder, version: result.testEngine.version });
+      }
+    }
+    assert.equal(page.frames().length, 1, 'Audit scope changed during scan: frame-aware scan required');
+    assert.ok(Array.isArray(result.violations) && Array.isArray(result.passes) && Array.isArray(result.incomplete));
+    assert.ok(result.passes.length + result.violations.length + result.incomplete.length > 0, 'Accessibility scan returned no evaluated rules');
+    return result;
+  } finally { activeScans.delete(page); }
 }
 
 function verifyCoverage(report, expectedQuestions) {
