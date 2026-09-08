@@ -76,6 +76,9 @@ ON CONFLICT DO NOTHING;
 CREATE FUNCTION public.test_bank_guard_versioned_event() RETURNS trigger
 LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
 DECLARE prior public.test_bank_learning_events; runtime public.test_bank_session_runtime; is_versioned boolean; BEGIN
+  -- Do not let this privileged trigger reveal whether another owner's
+  -- operation/session exists before the table's RLS policy rejects the row.
+  IF auth.uid() IS NOT NULL AND auth.uid()<>NEW.user_id THEN RETURN NEW; END IF;
   SELECT * INTO prior FROM public.test_bank_learning_events WHERE user_id=NEW.user_id AND event_id=NEW.event_id;
   IF prior.event_id IS NOT NULL THEN
     IF prior.device_id IS DISTINCT FROM NEW.device_id OR prior.event_type IS DISTINCT FROM NEW.event_type OR
