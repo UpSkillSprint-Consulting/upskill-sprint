@@ -92,12 +92,10 @@ DECLARE prior public.test_bank_learning_events; runtime public.test_bank_session
   is_versioned := (NEW.event_type='session_started' AND NEW.payload->'versionPin' IS NOT NULL AND NEW.payload->'versionPin'<>'null'::jsonb)
     OR EXISTS(SELECT 1 FROM public.test_bank_session_versions WHERE user_id=NEW.user_id AND session_id=NEW.session_id);
   IF NOT is_versioned THEN RETURN NEW; END IF;
-  IF NEW.event_type='session_started' THEN
-    IF EXISTS(SELECT 1 FROM public.test_bank_session_runtime WHERE user_id=NEW.user_id AND session_id=NEW.session_id) THEN
-      RAISE EXCEPTION 'Session has already started under another operation' USING ERRCODE='23505';
-    END IF;
-    RETURN NEW;
-  END IF;
+  -- The existing catalog trigger validates the complete start payload first.
+  -- Its later runtime insert is the atomic uniqueness boundary for a second
+  -- valid start operation on the same session.
+  IF NEW.event_type='session_started' THEN RETURN NEW; END IF;
   SELECT * INTO STRICT runtime FROM public.test_bank_session_runtime WHERE user_id=NEW.user_id AND session_id=NEW.session_id FOR UPDATE;
   IF runtime.exam_id IS DISTINCT FROM NEW.exam_id THEN RAISE EXCEPTION 'Event belongs to another exam' USING ERRCODE='23514'; END IF;
   IF runtime.state IN ('completed','expired','abandoned') THEN RAISE EXCEPTION 'Terminal session cannot accept another event' USING ERRCODE='23514'; END IF;
