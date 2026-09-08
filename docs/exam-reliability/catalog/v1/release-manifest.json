@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceIdentityCommit": "64b25d19d9c148bd769d88b2eb13db4450b0843c",
+  "provenanceVersion": "5607ddddae05574dc9464b89b97c8c7ad0d37eb2241df73fd952615f1a8a14dd",
+  "exams": {
+    "cmq": {
+      "bankVersion": "ca1fd964585ee7a048a1256035a5e7ad997b527a0da4dec7baf7a60888d36d1e",
+      "configVersion": "8ea161b08049f1c907c9adf8da501599804e2b4a8ec3e661e6dcc5663406d2b0",
+      "blueprintVersion": "d6cb121fa7613f0e7b42732e609ad7b93061425055328cc8ce0e7975c9fb7a43",
+      "questions": 166,
+      "archive": "exam-catalog/ca1fd964585ee7a048a1256035a5e7ad997b527a0da4dec7baf7a60888d36d1e.json"
+    },
+    "cqe": {
+      "bankVersion": "d9e4b9a30a37aef1d6d8b56a00e1ee1aa4e21748a4203bdbaa2263054b33d0cb",
+      "configVersion": "b087a2409e6cffbed5b6963ac6471174aea55fa592d3c387c735bade77756c75",
+      "blueprintVersion": "dbdb14bc2f0ac1cfaaeecc032c8865dd1627c5da24da5870fd9774d67500087a",
+      "questions": 933,
+      "archive": "exam-catalog/d9e4b9a30a37aef1d6d8b56a00e1ee1aa4e21748a4203bdbaa2263054b33d0cb.json"
+    },
+    "cssbb": {
+      "bankVersion": "a4d54e6a4a63caac4e8eb020ca5883d4fd95224119f797c8587580afed3233b3",
+      "configVersion": "7c3ff8c12164850eb279d985944e407a34077dfcb5d9ace6f420c582a9b67ccf",
+      "blueprintVersion": "11abbed2809582e708b34ed0e92ed9bb8ffafddb897b47ce889442e1c91e37a1",
+      "questions": 1024,
+      "archive": "exam-catalog/a4d54e6a4a63caac4e8eb020ca5883d4fd95224119f797c8587580afed3233b3.json"
+    },
+    "cssgb": {
+      "bankVersion": "3d1de059d18173e3bc3293673b870b601178278f3803e00cbd27bf6cf51b2a6b",
+      "configVersion": "a6666fc63b60efb85f75e823c260b7a30e11d8f0bb7697b724829314bbcb938e",
+      "blueprintVersion": "dd966a4f5739d85f5884379ca366c7ee0f314b83e58dc891e3d1ad7c80bf13d8",
+      "questions": 616,
+      "archive": "exam-catalog/3d1de059d18173e3bc3293673b870b601178278f3803e00cbd27bf6cf51b2a6b.json"
+    },
+    "mbb": {
+      "bankVersion": "54cf6b9981572bad63f647d0bb16c31daa48593831a179659bb4885f17725270",
+      "configVersion": "2c2b8866712a23e45ac5b2f1053c1bdbeda98ed9503bd7b7f564fe791aef0c79",
+      "blueprintVersion": "6b9ec77e832a3a5765fc14ab9785eeeb55220b6faf2ab72bd41ffaa95b5c3883",
+      "questions": 450,
+      "archive": "exam-catalog/54cf6b9981572bad63f647d0bb16c31daa48593831a179659bb4885f17725270.json"
+    }
+  }
+}

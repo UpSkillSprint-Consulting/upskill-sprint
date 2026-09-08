@@ -86,6 +86,7 @@ async function loadLedger(options) {
   const user = { id: config.userId || 'reservation-test-user' };
   dom.window.UpskillAuth = { getUser: () => user, getClient: () => config.client };
   dom.window.eval(registry);
+  if(dom.window.__TB) require('./helpers/test-bank-version-runtime.cjs').installVersions(dom.window);
   dom.window.eval(learning);
   if (!config.skipSync) await dom.window.__TBLearning.sync('reservation-test-hydrate');
   return { window: dom.window, api: dom.window.__TBLearning };
@@ -129,6 +130,7 @@ async function loadCore(options) {
   dom.window.UpskillAuth = { getUser: () => user, getClient: () => config.client };
   dom.window.eval(registry);
   compactCssbbFixture(dom.window);
+  if(dom.window.__TB) require('./helpers/test-bank-version-runtime.cjs').installVersions(dom.window);
   dom.window.eval(learning);
   await dom.window.__TBLearning.sync('reservation-test-hydrate');
   await settle(dom.window, 3);

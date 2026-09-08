@@ -2,11 +2,13 @@
 
 ## Current execution boundary
 
-Segments 01–03 were human-merged through PR #172 at `b9bf726baf3418d4405e5aed46f13e99b63ba3dd`. Segment 04 is implemented for review in new PR #173 on `fix/segment-04-question-identity`, as explicitly requested. Segments 05–20 have not started. Review, merge, deployment and physical/production acceptance remain separate gates.
+Segments 01–03 were human-merged through PR #172 at `b9bf726baf3418d4405e5aed46f13e99b63ba3dd`. Segment 04 is implemented for review in new PR #173 on `fix/segment-04-question-identity`, as explicitly requested. Segment 05 is stacked on the same draft PR by explicit user instruction; its version/catalog implementation is described below. Segments 06–20 have not started. Review, merge, deployment and physical/production acceptance remain separate gates.
 
 Application baseline: `990e385350ae63d76cfc1e3940c3644859cc636a`. Segments 01–03 add baseline evidence, contracts and verification infrastructure. Segment 04 changes identity validation/runtime guards but no question content/IDs, learner history, dependency pins or live database objects. Product rating does not increase merely for adding tests or documenting defects.
 
 ## Records
+
+- [Segment 05 versions/catalog](SEGMENT-05-VERSIONS.md): immutable releases, original results, official-format disclosures and mandatory schema/seed/client release order. S04-B01 and the cancelled older WebKit check remain open.
 
 - [Segment 04 identity repair](SEGMENT-04-IDENTITY.md): atomic validation/imports, stable identity and the exact scope of G09 repair.
 
@@ -42,4 +44,4 @@ Before approval, verify the exact-head **Full test suite**, **Exam reliability b
 
 JSDOM, a mocked service and emulated mobile browsers are not physical-device, JWT/Data API or production-authorization acceptance. Actual PostgreSQL role tests exercise the repository DDL in a disposable database, not live-schema parity. Screenshots are evidence, not a complete visual/WCAG approval. The unresolved product findings remain open in their assigned segments.
 
-Explicit stacking instructions supersede the earlier separate-merge sequence without claiming human approval or deployment. Segment 04 was explicitly authorized as a new PR; Segment 05 does not start automatically. No automatic merge, production writes or future release rating are authorized by a passing framework run.
+Explicit stacking instructions supersede the earlier separate-merge sequence without claiming human approval or deployment. Segment 04 was explicitly authorized as a new PR; Segment 05 was explicitly requested on this PR; stacking is not acceptance of the open Segment 04 blocker. No automatic merge, production writes or future release rating are authorized by a passing framework run.

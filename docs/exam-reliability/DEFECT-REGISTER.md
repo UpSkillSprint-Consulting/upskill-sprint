@@ -68,3 +68,11 @@ Every concern in the preceding audit is mapped above. Only baseline/evidence inf
 - **R07:** client identity/membership boundary improved only. Versioned catalog, database references, retirement aliases and historical grading remain Segments 05/07. No other finding is closed by this work.
 
 See [Segment 04 implementation and limits](SEGMENT-04-IDENTITY.md). Segments 01–03 were human-merged in PR #172; their original evidence is not rewritten.
+
+## Segment 05 disposition update (prior observations retained)
+
+- **G05/G11:** new versioned attempts use original target and set-specific expected length; original unrounded comparisons are persisted. Legacy unknown policies are not fabricated; full legacy reconciliation/visual grading adoption remain 08/09/11.
+- **R07/P01:** immutable content/config/bank/blueprint catalogs, explicit retirement aliases, ownership/FKs and separate privileged regrades are implemented for review. Original 3,189 IDs/content are unchanged. Mandatory ingestion protocol, receipts and writer epochs remain 07.
+- **S04-B01:** still open. Original failed WebKit-mobile full-student check and cancelled Batch 3 job remain recorded in PR #173. New versioning acceptance does not diagnose that failure.
+
+No production closure is asserted. See [Segment 05](SEGMENT-05-VERSIONS.md).

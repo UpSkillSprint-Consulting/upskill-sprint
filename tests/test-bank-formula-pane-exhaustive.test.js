@@ -218,6 +218,7 @@ test('search finds formulas by late bank-question numbers, not only the first tw
     why: 'Cpk accounts for centering.'
   }));
   window.__TB.EXAMS.cqe.sets[1] = syntheticBank;
+  require('./helpers/test-bank-version-runtime.cjs').publishFixture(window, 'cqe');
 
   startQuick(window, document);
   document.querySelector('.tb-stem').textContent = syntheticBank[0].stem;

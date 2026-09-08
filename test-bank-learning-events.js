@@ -666,6 +666,16 @@
   }
 
   function compactConfirmedPayloads(state) {
+    // The public content archive is immutable and the complete original grade
+    // remains local. Drop only a redundant, remotely acknowledged terminal
+    // content copy, after mastery projection; never compact an active/pending pin.
+    Object.keys(state.sessions).forEach(function(id) {
+      const session=state.sessions[id], completion=completionEventForSession(state,id);
+      if (session.status === 'completed' && session.masteryDerived && session.versionPin && completion && session.ownerId && asArray(completion.syncedFor).indexOf(session.ownerId)!==-1) {
+        session.archivedVersionPin=window.__TBVersions.reference(session.versionPin);
+        session.versionPin=null;
+      }
+    });
     state.events.forEach(function (event) {
       if (!asArray(event.syncedFor).length || !event.payload || !event.payload.snapshot) return;
       event.payload = Object.assign({}, event.payload);
@@ -837,6 +847,21 @@
     return Boolean(session && (!session.ownerId || (user && session.ownerId === user.id)));
   }
 
+  function versionRejection(input, sessionId, error) {
+    emit('tb:exam-version-rejected', {examId: input.examId, message: String(error.message || error)});
+    const host = document.getElementById('tb-overview');
+    if (host) {
+      let notice = document.getElementById('tb-exam-version-notice');
+      if (!notice) { notice = document.createElement('p'); notice.id = 'tb-exam-version-notice'; notice.setAttribute('role', 'alert'); host.prepend(notice); }
+      notice.textContent = 'This action was not saved: ' + String(error.message || error) + '. Your existing study records are unchanged.';
+    }
+    return {sessionId: sessionId, saved: false, rejected: true, reason: 'invalid-exam-version'};
+  }
+
+  function startedVersionResult(session) {
+    return session.versionPin ? {versionPin: window.__TBVersions.freeze(window.__TBVersions.clone(session.versionPin)), pinnedQuestions: window.__TBVersions.freeze(session.versionPin.contents.map(function(q,i){return window.__TBVersions.questionFor(session.versionPin,q,i).question;}))} : {};
+  }
+
   function startSession(input) {
     input = record(input);
     const state = read();
@@ -846,7 +871,7 @@
     if (existing.status === 'active' || existing.status === 'completed' || existing.status === 'abandoned') {
       const saved = input.returnResult ? persist(state, 'session-start-retry') : lastWriteAheadSaved;
       if (input.returnResult) scheduleSync('session-start-retry');
-      return input.returnResult ? { sessionId: sessionId, saved: saved, retried: true } : sessionId;
+      return input.returnResult ? Object.assign({ sessionId: sessionId, saved: saved, retried: true }, startedVersionResult(existing)) : sessionId;
     }
     if (window.__TB && window.__TB.questionIdentityPolicy === 'explicit-v1') {
       const registry = window.__TBQuestionRegistry;
@@ -856,6 +881,13 @@
     }
     const questions = asArray(input.questions);
     const startedAt = Number(input.startedAt || now());
+    let versionPin = null;
+    if (window.__TB && window.__TB.examVersionPolicy === 'catalog-v1') {
+      try {
+        if (!window.__TBVersions || !window.__TBVersionCatalog) throw new Error('The version catalog has not loaded');
+        versionPin = window.__TBVersions.pin(Object.assign({}, input, {sessionId: sessionId, mode: String(input.mode || 'practice'), startedAt: startedAt, ownerId: (activeUser() && activeUser().id) || null}), window.__TB.EXAMS[input.examId], window.__TBVersionCatalog.exams[input.examId]);
+      } catch (error) { const rejected=versionRejection(input, sessionId, error); return input.returnResult ? rejected : null; }
+    }
     const ids = questions.map(function (question) { return questionId(input.examId, question); });
     const seenBefore = new Set(seenQuestionIds(String(input.examId)));
     const firstExposureByQuestion = {};
@@ -870,6 +902,7 @@
       ownerId: (activeUser() && activeUser().id) || null,
       startedAt: startedAt,
       questionIds: ids,
+      versionPin: versionPin,
       answerEvents: {},
       firstExposureByQuestion: firstExposureByQuestion,
       status: 'active'
@@ -878,7 +911,7 @@
       examId: input.examId,
       sessionId: sessionId,
       at: startedAt,
-      payload: { mode: String(input.mode || 'practice'), timed: Boolean(input.timed), filter: filter, total: questions.length, limitSeconds: input.limitSeconds == null ? null : Number(input.limitSeconds) }
+      payload: Object.assign({ mode: String(input.mode || 'practice'), timed: Boolean(input.timed), filter: filter, total: questions.length, limitSeconds: input.limitSeconds == null ? null : Number(input.limitSeconds) }, versionPin ? {versionPin: window.__TBVersions.wire(versionPin)} : {})
     });
     /* Selecting a set counts as exposure. This makes “new questions only”
        conservative: an abandoned set is never silently served again. */
@@ -901,7 +934,7 @@
     const saved = persist(state, 'session-started');
     if (saved) emit('tb:learning-session-started', { sessionId: sessionId, examId: input.examId, mode: String(input.mode || 'practice') });
     scheduleSync('session-started');
-    return input.returnResult ? { sessionId: sessionId, saved: saved, retried: false } : sessionId;
+    return input.returnResult ? Object.assign({ sessionId: sessionId, saved: saved, retried: false }, startedVersionResult(state.sessions[sessionId])) : sessionId;
   }
 
   function sourceForMode(mode) {
@@ -923,12 +956,13 @@
       status: status,
       selected: selected,
       correctAnswer: Number(question && question.answer),
+      versionRef: session.versionPin ? {codec: 1, configVersion: session.versionPin.configVersion, bankVersion: session.versionPin.bankVersion, questionRevision: session.versionPin.orderedItems[Number(index || 0)].questionRevision} : null,
       mode: String(entry && entry.mode || session.mode || 'practice'),
       timed: entry && entry.timed != null ? Boolean(entry.timed) : Boolean(session.timed),
       sub: question && question.sub || 'general',
       /* Immutable study snapshot: the notebook still shows exactly what a
          learner saw even after later question wording or explanation updates. */
-      snapshot: {
+      snapshot: session.versionPin ? window.__TBVersions.clone(question) : {
         stem: String(question && question.stem || ''),
         options: asArray(question && question.options).map(String),
         answer: Number(question && question.answer),
@@ -952,12 +986,22 @@
    */
   function recordAnswer(input) {
     input = record(input);
-    const question = input.question;
+    let question = input.question;
     if (!question || !input.sessionId) return null;
     const state = read();
+    if (window.__TB && window.__TB.examVersionPolicy === 'catalog-v1' && !state.sessions[input.sessionId]) return versionRejection(input, input.sessionId, new Error('Start a versioned session before recording answers'));
     const session = sessionFor(state, input);
     if (!sessionBelongsToActiveUser(session)) return null;
     if (session.status === 'completed' || session.status === 'abandoned') return null;
+    if (session.versionPin) {
+      try {
+        if (input.examId && input.examId !== session.examId) throw new Error('Question belongs to another exam');
+        const pinned = window.__TBVersions.questionFor(session.versionPin, question, input.index);
+        question = pinned.question;
+        if (input.selected != null && (!Number.isInteger(input.selected) || input.selected < 0 || input.selected >= question.options.length)) throw new Error('Invalid selected option');
+        input = Object.assign({}, input, {question: question, index: pinned.index, status: input.selected == null ? 'unanswered' : input.selected === question.answer ? 'correct' : 'incorrect'});
+      } catch (error) { return versionRejection(input, session.id, error); }
+    }
     const id = questionId(input.examId || session.examId, question);
     const timestamp = Number(input.at || now());
     const payload = answerPayload(question, input, session, input.index);
@@ -1082,6 +1126,10 @@
      records in memory. */
   function recordsForCompletedSession(state, session, completion, supplied) {
     const original = asArray(supplied);
+    if (session.versionPin) {
+      const finalAnswers = asArray(completion && completion.payload && completion.payload.answers);
+      return window.__TBVersions.records(session.versionPin, session.versionPin.contents.map(function(q, i) { return {question: q, selected: finalAnswers[i] && finalAnswers[i].selected}; }));
+    }
     if (original.length) return original;
     const payload = record(completion && completion.payload);
     const answers = asArray(payload.answers);
@@ -1139,7 +1187,7 @@
     current.masteryDeriving = true;
     state.sessions[current.id] = current;
     try {
-      mastery.recordResults(records, {
+      mastery.recordResults(records, Object.assign({
         source: sourceForMode(payload.mode || current.mode),
         mode: payload.mode || current.mode || 'practice',
         timed: Boolean(payload.timed == null ? current.timed : payload.timed),
@@ -1152,7 +1200,7 @@
         answered: payload.answered,
         newQuestions: payload.newQuestions,
         repeated: payload.repeated
-      });
+      }, payload.versionPin ? {versionPin:payload.versionPin, grading:payload.grading || null} : {}));
       current.masteryDerived = true;
       return true;
     } finally {
@@ -1164,6 +1212,7 @@
   function completeSession(input) {
     input = record(input);
     const state = read();
+    if (window.__TB && window.__TB.examVersionPolicy === 'catalog-v1' && !state.sessions[input.sessionId]) return versionRejection(input, input.sessionId, new Error('Start a versioned session before recording answers'));
     const session = sessionFor(state, input);
     if (!sessionBelongsToActiveUser(session)) return null;
     if (session.status === 'completed') {
@@ -1180,7 +1229,16 @@
       return Object.assign({ sessionId: session.id }, record(session.result), { saved: saved, retried: true });
     }
     const timestamp = Number(input.completedAt || now());
-    const records = asArray(input.records);
+    let records = asArray(input.records), grading = null;
+    if (session.versionPin) {
+      try {
+        if (input.examId && input.examId !== session.examId) throw new Error('Completion belongs to another exam');
+        records = window.__TBVersions.records(session.versionPin, records);
+        grading = window.__TBVersions.clone(window.__TBVersions.grade(session.versionPin, records));
+        delete grading.answers; // Canonical answers already exist below; keep the wire payload bounded.
+        input = Object.assign({}, input, {mode: session.versionPin.mode, timed: session.versionPin.timed});
+      } catch (error) { return versionRejection(input, session.id, error); }
+    }
     const finalised = finalAnswerEvents(state, input, session, records, timestamp);
     const correct = finalised.canonical.filter(function (answer) { return answer.status === 'correct'; }).length;
     const scored = finalised.canonical.filter(function (answer) { return answer.status === 'correct' || answer.status === 'incorrect'; });
@@ -1206,9 +1264,9 @@
            after its write-ahead event was already uploaded. */
         answers: finalised.canonical,
         answerEventIds: finalised.ids
-      }, novelty)
+      }, novelty, session.versionPin ? {versionPin: window.__TBVersions.reference(session.versionPin), grading: grading} : {})
     });
-    const result = { total: finalised.canonical.length, correct: correct };
+    const result = Object.assign({ total: finalised.canonical.length, correct: correct }, session.versionPin ? {versionPin: window.__TBVersions.reference(session.versionPin), grading: grading} : {});
     state.sessions[session.id] = Object.assign({}, session, { status: 'completed', completedAt: timestamp, result: result, masteryDerived: false });
     const saved = persist(state, 'session-completed');
 
@@ -1748,6 +1806,12 @@
       }
     }
     const ids = reservationIds(examId, input);
+    if (window.__TB && window.__TB.examVersionPolicy === 'catalog-v1') {
+      try {
+        if (!window.__TBVersions || !window.__TBVersionCatalog) throw new Error('The version catalog has not loaded');
+        window.__TBVersions.validateCandidates(examId, ids.map(function(id){return registry().find(examId,id);}), window.__TB.EXAMS[examId], window.__TBVersionCatalog.exams[examId]);
+      } catch(error) { versionRejection(input, null, error); return Promise.resolve({reserved:false,ready:false,reason:'invalid-exam-version',acceptedIds:[],rejectedIds:ids}); }
+    }
     const state = read();
 
     if (!user || !client) {

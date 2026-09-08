@@ -34,6 +34,7 @@ async function load() {
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
   if (!dom.window.Element.prototype.scrollIntoView) dom.window.Element.prototype.scrollIntoView = function () {};
   dom.window.eval(registry);
+  require('./helpers/test-bank-version-runtime.cjs').installVersions(dom.window);
   dom.window.eval(events);
   await settle(dom.window, 3);
   return { dom: dom, window: dom.window, errors: errors };

@@ -168,6 +168,7 @@ test('an unmappable retired legacy question performs one progress hand-off witho
     }
   };
 
+  require('./helpers/test-bank-version-runtime.cjs').installVersions(dom.window);
   dom.window.eval(learningSource);
   await dom.window.__TBLearning.sync('bounded-retry-regression');
   for (let count = 0; count < 10; count += 1) await flush();

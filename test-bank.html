@@ -3775,6 +3775,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
 
   window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale,getFeedbackSnapshot:getFeedbackSnapshot};
   window.__TB.questionIdentityPolicy='explicit-v1';
+  window.__TB.examVersionPolicy='catalog-v1';
   window.__TB.isExamSessionActive=function(examId){return current===examId&&view==='quiz';};
 
   /* ---------- rail ---------- */
@@ -3789,7 +3790,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
         return '<button class="tb-tile'+(id===current?' active':'')+'" data-exam="'+id+'" aria-label="'+esc(e.body)+'">'+
           '<span class="tb-badge" style="background:'+e.bc+'">'+e.badge+'</span>'+
           '<span class="tb-tinfo"><span class="tb-tn">'+esc(e.body.replace('ASQ ',''))+'</span>'+
-          '<span class="tb-tm">'+e.questions+' questions · '+fmtDur(e.minutes)+' · '+e.pass+'% to pass</span>'+
+          '<span class="tb-tm">'+e.questions+' questions · '+fmtDur(e.minutes)+' · '+e.pass+'% site target</span>'+
           tag+'</span></button>';
       }).join('')+'</div>';
     }).join('');
@@ -3923,7 +3924,9 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Filters</span><div class="tb-fieldrow-value">'+unseenToggleHTML('focus',mode.focusUnseen,!newOnlyAvailable&&!mode.focusUnseen)+missedToggleHTML('focus',mode.focusMissed,focusMissedTotal===0&&!mode.focusMissed)+'</div></div>'+
       '</div>'+
       '<div class="tb-mode-foot"><span class="tb-mode-sum">'+focusSum+'</span>'+(live?liveStart('focus',newOnlyReservationGate.active?'Reserving…':'Start quiz',(mode.focusUnseen&&(!newOnlyAvailable||newOnlyReservationGate.active||(newOnlyReady&&focusAvail===0)))||(mode.focusMissed&&focusMissedAvail===0)):startBtn())+'</div></div>';
-    return full+quick+focus;
+    var catalog=window.__TBVersionCatalog&&window.__TBVersionCatalog.exams[current];
+    var disclosure=catalog?'<details class="tb-catalog-disclosure"><summary>Practice preset and official exam format</summary><p>'+esc(catalog.provenance.disclosure)+'</p><p>'+esc(catalog.provenance.scoring.siteTargetMeaning)+'. Official format checked '+esc(catalog.provenance.verifiedAt)+'.</p></details>':'';
+    return disclosure+full+quick+focus;
   }
 
   /* ---------- diagnostic banner (adaptive) ---------- */
@@ -4060,10 +4063,10 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     buildTools();
     var durationSeconds=timed?(limitSeconds==null?quizDurationSeconds(e,items.length):limitSeconds):null;
     var learning=learningWriter();if(!learning)return false;
-    var start=learning.startSession({examId:current,questions:items,mode:kind,timed:!!timed,filter:filter||null,limitSeconds:durationSeconds,returnResult:true});
+    var start=learning.startSession({examId:current,questions:items,mode:kind,timed:!!timed,setId:filter?'mix':String(selectedSet),filter:filter||null,limitSeconds:durationSeconds,returnResult:true});
     var learningSessionId=start&&start.sessionId;
     if(!learningSessionId||start.saved===false||!writeAheadConfirmed(learning))return false;
-    session={id:learningSessionId,kind:kind,filter:filter||null,items:items.map(function(q){return {q:q};}),answers:{},flags:{},i:0,timed:!!timed,limitSeconds:durationSeconds,endsAt:timed?Date.now()+durationSeconds*1000:null,completed:false};
+    session={id:learningSessionId,kind:kind,filter:filter||null,versionPin:start.versionPin||null,items:(start.pinnedQuestions||items).map(function(q){return {q:q};}),answers:{},flags:{},i:0,timed:!!timed,limitSeconds:durationSeconds,endsAt:timed?(start.versionPin?Date.parse(start.versionPin.deadlineAt):Date.now()+durationSeconds*1000):null,completed:false};
     view='quiz';renderMain();startTimer();
     return true;
   }
@@ -4398,7 +4401,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
 
 
   function quizHTML(){
-    var e=EXAMS[current],n=session.items.length,it=session.items[session.i],q=it.q;
+    var e=session.versionPin?session.versionPin.configuration:EXAMS[current],n=session.items.length,it=session.items[session.i],q=it.q;
     var questionId=window.__TBQuestionRegistry&&typeof window.__TBQuestionRegistry.idFor==='function'?window.__TBQuestionRegistry.idFor(current,q):(q.qid||q.questionId||q.id||'');
     var answered=Object.keys(session.answers).length;
     var flagged=0;for(var fk in session.flags){if(session.flags[fk])flagged++;}
@@ -4475,7 +4478,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     if(session.timed&&session.endsAt<=Date.now())completedReason='timed-out';
     session.completed=true;
     stopTimer();stopTools();
-    var e=EXAMS[current];
+    var e=session.versionPin?Object.assign({},EXAMS[current],session.versionPin.configuration,{pass:session.versionPin.siteTargetBps==null?null:session.versionPin.siteTargetBps/100}):EXAMS[current];
     var learningRecords=session.items.map(function(it,index){var selected=session.answers[index];return {question:it.q,selected:selected==null?null:selected,status:selected==null?'unanswered':selected===it.q.answer?'correct':'incorrect'};});
     var learning=window.__TBLearning;
     if(!learning||typeof learning.completeSession!=='function'||!session.id){session.completed=false;showLearningStorageNotice('Your completed test could not be saved because study-record storage is unavailable. Please wait a moment and submit again.');return;}
@@ -4487,6 +4490,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
       if(session.timed&&session.endsAt>Date.now())startTimer();
       return;
     }
+    session.originalGrade=completion.grading||null;
     var agg=subAgg(session.items.map(function(it){return it.q;}),session.answers);
     var units=subUnits(e);
     var rec=recordAttempt(current,units,agg,e.pass);
@@ -4498,7 +4502,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     view='results';renderMain();
   }
   function resultsHTML(){
-    var e=EXAMS[current],r=session.result;var rd=r.readiness;var plan=r.plan;var agg=r.cum;
+    var e=session.versionPin?Object.assign({},EXAMS[current],session.versionPin.configuration):EXAMS[current],r=session.result;var rd=r.readiness;var plan=r.plan;var agg=r.cum;
     var prev=r.state&&r.state.history&&r.state.history.length>1?r.state.history[r.state.history.length-2].readiness:null;
     var delta=prev!=null?rd.readiness-prev:null;
     var scored=0,tot=0;session.items.forEach(function(it,i){tot++;if(session.answers[i]===it.q.answer)scored++;});
@@ -4589,6 +4593,8 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
      Netlify edge injector, so previews and the pretty URL cannot accidentally
      skip progress capture or analytics. Deferred order is intentional. -->
 <script defer src="/test-bank-question-registry.js"></script>
+<script defer src="/test-bank-versioning.js"></script>
+<script defer src="/test-bank-version-catalog.js"></script>
 <script defer src="/test-bank-set-controls.js"></script>
 <script defer src="/test-bank-feedback-loop.js"></script>
 <script defer src="/test-bank-phase1-api.js"></script>

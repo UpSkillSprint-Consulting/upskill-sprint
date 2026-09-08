@@ -628,6 +628,7 @@
       total: Number.isFinite(declaredTotal) && declaredTotal >= records.length ? declaredTotal : records.length,
       correct: 0, answered: 0, repeated: 0, newQuestions: 0
     };
+    if (metadata.versionPin) { summary.versionPin = JSON.parse(JSON.stringify(metadata.versionPin)); summary.grading = metadata.grading ? JSON.parse(JSON.stringify(metadata.grading)) : null; }
     if (metadata.filter) summary.filter = String(metadata.filter);
     const firstExposureByQuestion = asRecord(metadata.firstExposureByQuestion);
 
@@ -728,6 +729,7 @@
     const helper = registry();
     const snapshot = asRecord(asRecord(answerEvent && answerEvent.payload).snapshot);
     if (snapshot.stem && asArray(snapshot.options).length) {
+      if (asRecord(answerEvent && answerEvent.payload).versionRef) return Object.assign({}, snapshot, {questionId: String(identity || '')});
       /* Prefer the immutable answer-time content over today's registry entry:
          a wording or explanation correction must not rewrite a learner's
          historic mistake notebook. */
@@ -741,6 +743,7 @@
         chart: snapshot.chart || null
       };
     }
+    if (asRecord(answerEvent && answerEvent.payload).versionRef) return null;
     return helper && typeof helper.find === 'function' ? helper.find(examId(), identity) : null;
   }
 
@@ -880,7 +883,8 @@
         eventIds: eventIds,
         firstExposureByQuestion: firstExposureByQuestion,
         noveltyKnown: noveltyKnown,
-        domainBreakdown: ledgerDomainBreakdown(answers, answersBySession, event.sessionId)
+        domainBreakdown: ledgerDomainBreakdown(answers, answersBySession, event.sessionId),
+        versionPin: payload.versionPin || null, grading: payload.grading || null
       }, novelty);
     });
   }
@@ -971,7 +975,8 @@
         answered: session.answered,
         newQuestions: session.newQuestions,
         repeated: session.repeated,
-        domainBreakdown: session.domainBreakdown
+        domainBreakdown: session.domainBreakdown,
+        versionPin: session.versionPin || null, grading: session.grading || null
       });
       if (result) imported += 1;
     });
@@ -1283,7 +1288,7 @@
       announce('Adaptive practice could not be saved on this device. Check available browser storage, then try again.');
       return;
     }
-    adaptive = { id: sessionId, items: items, index: 0, answers: {}, checked: {}, results: [], complete: false };
+    adaptive = { id: sessionId, versionPin: started.versionPin || null, items: started.pinnedQuestions || items, index: 0, answers: {}, checked: {}, results: [], complete: false };
     renderAdaptive();
   }
 

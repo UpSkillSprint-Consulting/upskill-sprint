@@ -41,9 +41,22 @@ try{
     for(const theme of ['light','dark']){await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);await shot(p,exam+'-identity-error-'+theme);}
     if(exam==='cssbb'){const accepted=await p.evaluate(()=>__TBQuestionRegistry.replaceBank('cssbb',__TB.EXAMS.cssbb.sets));assert.equal(accepted.accepted,true);await p.locator('#tb-question-identity-alert').waitFor({state:'detached'});checks.push('cssbb: accepted identity-preserving update remains usable');}
     await quick(p,exam);await sync(p);const s=await summary(p,exam);assert.equal(s.answeredEvents,1);assert.equal(s.completedSessions,1);checks.push(exam+': real UI one correct/nine blanks');
+    const versionEvidence=await p.evaluate(async id=>{
+      const store=__TBLearning.store(),done=store.events.filter(e=>e.type==='session_completed'&&e.examId===id).at(-1);
+      const start=store.events.find(e=>e.type==='session_started'&&e.sessionId===done.sessionId),wire=start.payload.versionPin;
+      const archive=await __TBVersions.loadHistory(wire,window.fetch.bind(window)),historical=__TBVersions.historicalQuestions(wire,archive.bank);
+      const current=__TB.EXAMS[id],oldTarget=current.pass,oldLength=current.questions,q=__TBQuestionRegistry.find(id,wire.items[0][0]),oldAnswer=q.answer;
+      const before=JSON.stringify(done.payload.grading);
+      try {current.pass=99;current.questions=1;q.answer=(oldAnswer+1)%q.options.length;
+        const retry=__TBLearning.completeSession({examId:id,sessionId:done.sessionId,records:[]});
+        return {codec:wire.codec,items:wire.items.length,expected:wire.expectedLength,originalKey:historical[0].answer===oldAnswer,archiveConfig:archive.config.configVersion===wire.configVersion,referenceOnly:!('items' in done.payload.versionPin),immutable:JSON.stringify(retry.grading)===before,correct:retry.correct};
+      } finally {current.pass=oldTarget;current.questions=oldLength;q.answer=oldAnswer;}
+    },exam);
+    assert.deepEqual(versionEvidence,{codec:1,items:10,expected:10,originalKey:true,archiveConfig:true,referenceOnly:true,immutable:true,correct:1});checks.push(exam+': immutable archives and original result survive later key/target/length edits');
     for(const theme of ['light','dark']){await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);await shot(p,exam+'-result-'+theme);} // screenshots are evidence, not visual approval
     await p.reload();await p.waitForFunction(()=>window.__TBLearning);await sync(p);assert.equal((await summary(p,exam)).answeredEvents,1);checks.push(exam+': history survives native reload');
     await p.locator('.tb-tile[data-exam="'+exam+'"]').click();await p.locator('[data-mode="full"]').click();await p.locator('#tb-timer').waitFor();const before=await p.locator('#tb-timer').textContent();await p.clock.fastForward(31000);assert.notEqual(await p.locator('#tb-timer').textContent(),before);checks.push(exam+': full exam starts and deadline ticks');
+    const timingPin=await p.evaluate(id=>{const x=Object.values(__TBLearning.store().sessions).filter(s=>s.examId===id&&s.status!=='completed').at(-1).versionPin;return {valid:!!__TBVersions.checkedPin(x),timed:x.timed,seconds:(Date.parse(x.deadlineAt)-Date.parse(x.startedAt))/1000,limit:x.limitSeconds};},exam);assert.equal(timingPin.valid,true);assert.equal(timingPin.timed,true);assert.equal(timingPin.seconds,timingPin.limit);checks.push(exam+': active full session preserves exact original timing plan');
     const blocked=await p.evaluate(id=>__TBQuestionRegistry.replaceBank(id,__TB.EXAMS[id].sets),exam);assert.equal(blocked.accepted,false);assert.ok(blocked.errors.some(e=>e.code==='ACTIVE_SESSION'));await p.locator('.tb-quiz').waitFor();checks.push(exam+': active session rejects bank replacement');
     await shot(p,exam+'-timed');
   }finally{await c.tracing.stop({path:path.join(directory,exam+'-trace.zip')});await c.close();}}
