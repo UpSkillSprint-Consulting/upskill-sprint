@@ -1,0 +1,26 @@
+name: PR173 review inspection
+on:
+  push:
+    branches: ['diagnostic/pr173-green-check']
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: b03ebcdb218e2e0ac0ba0d6e0ac6428bd1935f0b
+          persist-credentials: false
+      - name: Capture exact source without credentials or learner data
+        run: |
+          mkdir -p /tmp/pr173-review-inspection
+          git archive --format=tar.gz HEAD > /tmp/pr173-review-inspection/source.tgz
+          git rev-parse HEAD > /tmp/pr173-review-inspection/revision.txt
+          git rev-parse 'HEAD^{tree}' > /tmp/pr173-review-inspection/tree.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr173-review-inspection-${{ github.run_id }}
+          path: /tmp/pr173-review-inspection
+          retention-days: 7
