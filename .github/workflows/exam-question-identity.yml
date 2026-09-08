@@ -17,16 +17,18 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version-file: '.node-version', cache: npm}
       - run: npm ci
-      - name: Verify existing question identity baseline
-        run: node --test --test-concurrency=1 tests/test-bank-question-*.test.js
-      - name: Capture isolated inspection checkout
+      - name: Validate every published identity and invalid-bank rejection
+        shell: bash
         run: |
-          mkdir -p /tmp/segment04-inspection
-          git archive --format=tar.gz HEAD > /tmp/segment04-inspection/source.tgz
-          tar -czf /tmp/segment04-inspection/dependencies.tgz node_modules
-          git rev-parse HEAD > /tmp/segment04-inspection/revision.txt
+          set -o pipefail
+          node --test --test-concurrency=1 tests/test-bank-question-identities.test.js tests/test-bank-segment04-identity.test.js | tee segment04-identity.log
+          git rev-parse HEAD > segment04-revision.txt
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: segment04-inspection-${{ github.run_id }}
-          path: /tmp/segment04-inspection
-          retention-days: 7
+          name: segment04-identity-${{ github.run_id }}
+          path: |
+            segment04-identity.log
+            segment04-revision.txt
+            docs/exam-reliability/identity/v1/published-baseline.json
+          retention-days: 30

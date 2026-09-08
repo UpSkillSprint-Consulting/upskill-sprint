@@ -59,3 +59,12 @@ Baseline: `990e385350ae63d76cfc1e3940c3644859cc636a`, 2026-09-07. None of these 
 ## Segment 01 gate and future updates
 
 Every concern in the preceding audit is mapped above. Only baseline/evidence infrastructure is delivered now. A later segment closes an entry only with its desired-behavior regression, relevant cross-device/security acceptance, reviewer decision and deployed verification where required. Reopen affected entries when contracts change; never delete inconvenient history or relabel a risk as fixed because a harness passes.
+
+
+## Segment 04 disposition update (historical baseline above retained)
+
+- **G09:** implemented for review in PR #173. Whole-bank validation rejects duplicate/malformed candidates atomically; no partial pool is exposed; the previous accepted bank and learner evidence survive rejected imports. New desired-behavior tests and all-profile browser rejection checks are required before approval. Production closure awaits human merge/deploy verification.
+- **P01:** all 3,189 published identities/domain mappings preserved; sorted-ID digests, all-bank reorder/wording tests, namespaces and membership checks added. No renumbering or question content edits.
+- **R07:** client identity/membership boundary improved only. Versioned catalog, database references, retirement aliases and historical grading remain Segments 05/07. No other finding is closed by this work.
+
+See [Segment 04 implementation and limits](SEGMENT-04-IDENTITY.md). Segments 01–03 were human-merged in PR #172; their original evidence is not rewritten.

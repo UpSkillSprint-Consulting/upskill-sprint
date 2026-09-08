@@ -210,6 +210,7 @@ test('search finds formulas by late bank-question numbers, not only the first tw
   selectCqe(window, document);
   const api = window.__TB_FORMULAS_TEST__;
   const syntheticBank = Array.from({ length: 15 }, (_, index) => ({
+    qid: `cqe:fixture:formula-search-${index + 1}`,
     sub: 'ppc',
     stem: `Synthetic Cpk mapping question ${index + 1}: USL 20, LSL 10, mean 16, standard deviation 1. What is Cpk?`,
     options: ['0.67', '1.00', '1.33', '1.67'],

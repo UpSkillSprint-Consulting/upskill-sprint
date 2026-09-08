@@ -3497,12 +3497,16 @@
   function hasBank(e){return e&&e.bank&&e.bank.length>0;}
   function hasTwoSets(e){return !!(e&&e.sets&&e.sets[2]&&e.sets[2].length);}
   /* the question pool the draw functions sample from, per the user's set choice */
+  function uniqueQuestionPool(rows){
+    var seen=new Set();
+    return rows.filter(function(q){var id=q&&(q.qid||q.questionId||q.id||q.question_id);if(!id)return true;if(seen.has(id))return false;seen.add(id);return true;});
+  }
   function activeBank(e){
     if(!hasTwoSets(e))return e.bank||[];
     var s=e.sets;
     if(selectedSet==='2')return s[2];
     if(selectedSet==='3'&&s[3])return s[3];
-    if(selectedSet==='mix')return s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]);
+    if(selectedSet==='mix')return uniqueQuestionPool(s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]));
     return s[1];
   }
   /* the pooled bank across every set, independent of the Set 1/2/3/Mixed picker \u2014
@@ -3510,7 +3514,7 @@
   function mixedBank(e){
     if(!hasTwoSets(e))return e.bank||[];
     var s=e.sets;
-    return s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]);
+    return uniqueQuestionPool(s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]));
   }
   var practiceFilterFocusSelector='';
   /* Local history makes the candidate batch smaller when it is ready, but the
@@ -3770,6 +3774,8 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
   }
 
   window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale,getFeedbackSnapshot:getFeedbackSnapshot};
+  window.__TB.questionIdentityPolicy='explicit-v1';
+  window.__TB.isExamSessionActive=function(examId){return current===examId&&view==='quiz';};
 
   /* ---------- rail ---------- */
   function renderRail(){
@@ -4557,7 +4563,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
   /* Account hydration and an answer write can happen without a DOM mutation.
      Repaint the browse view so readiness tags and the New-only control reflect
      the reconciled ledger immediately. */
-  ['tb:learning-updated','tb:learning-recorded','tb:learning-sync-status','upskill-test-learning-synced','upskill-test-progress-synced'].forEach(function(name){
+  ['tb:question-bank-updated','tb:learning-updated','tb:learning-recorded','tb:learning-sync-status','upskill-test-learning-synced','upskill-test-progress-synced'].forEach(function(name){
     document.addEventListener(name,function(){
       if(view!=='browse')return;
       window.setTimeout(function(){if(view==='browse'){

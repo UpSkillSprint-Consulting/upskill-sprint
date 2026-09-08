@@ -848,6 +848,12 @@
       if (input.returnResult) scheduleSync('session-start-retry');
       return input.returnResult ? { sessionId: sessionId, saved: saved, retried: true } : sessionId;
     }
+    if (window.__TB && window.__TB.questionIdentityPolicy === 'explicit-v1') {
+      const registry = window.__TBQuestionRegistry;
+      if (!registry || typeof registry.validateSelection !== 'function' || !registry.validateSelection(String(input.examId || ''), input.questions, true).valid) {
+        return input.returnResult ? { sessionId: sessionId, saved: false, rejected: true, reason: 'invalid-question-identity' } : null;
+      }
+    }
     const questions = asArray(input.questions);
     const startedAt = Number(input.startedAt || now());
     const ids = questions.map(function (question) { return questionId(input.examId, question); });
@@ -1734,6 +1740,13 @@
     const auth = window.UpskillAuth;
     const client = auth && typeof auth.getClient === 'function' ? auth.getClient() : null;
     const examId = safeId(input.examId, '');
+    if (window.__TB && window.__TB.questionIdentityPolicy === 'explicit-v1') {
+      const registry = window.__TBQuestionRegistry;
+      const candidates = Object.prototype.hasOwnProperty.call(input, 'questionIds') ? input.questionIds : input.questions;
+      if (!registry || typeof registry.validateSelection !== 'function' || !registry.validateSelection(examId, candidates).valid) {
+        return Promise.resolve({ reserved: false, ready: false, reason: 'invalid-question-identity', acceptedIds: [], rejectedIds: [] });
+      }
+    }
     const ids = reservationIds(examId, input);
     const state = read();
 

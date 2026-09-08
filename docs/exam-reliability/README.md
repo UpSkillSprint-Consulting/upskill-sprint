@@ -2,11 +2,13 @@
 
 ## Current execution boundary
 
-Segments 01, 02 and 03 are implemented for joint human review in PR #172 on `audit/segment-01-baseline`. Ernest explicitly requested adding Segments 02 and 03 to that existing PR. None is represented as merged or deployed; Segments 04–20 have not started. Review/merge, deployment and physical/production acceptance are separate gates.
+Segments 01–03 were human-merged through PR #172 at `b9bf726baf3418d4405e5aed46f13e99b63ba3dd`. Segment 04 is implemented for review in new PR #173 on `fix/segment-04-question-identity`, as explicitly requested. Segments 05–20 have not started. Review, merge, deployment and physical/production acceptance remain separate gates.
 
-Application baseline: `990e385350ae63d76cfc1e3940c3644859cc636a`. These segments add baseline evidence, contracts and verification infrastructure. They do not change production application code, question content/IDs, learner history, application dependency pins or live database objects. Product rating does not increase merely for adding tests or documenting defects.
+Application baseline: `990e385350ae63d76cfc1e3940c3644859cc636a`. Segments 01–03 add baseline evidence, contracts and verification infrastructure. Segment 04 changes identity validation/runtime guards but no question content/IDs, learner history, dependency pins or live database objects. Product rating does not increase merely for adding tests or documenting defects.
 
 ## Records
+
+- [Segment 04 identity repair](SEGMENT-04-IDENTITY.md): atomic validation/imports, stable identity and the exact scope of G09 repair.
 
 - [Segment 03 framework](SEGMENT-03-FRAMEWORK.md): cumulative runtime, mutation, database-role and browser gates, methodology and explicit boundaries.
 - [Frozen test profiles](verification/v1/profiles.json): layouts, physical devices, networks, workloads, acceptance budgets and evidence retention.
@@ -36,8 +38,8 @@ Segment 01 `OBSERVATION` rows record existing behavior, including known defects.
 
 One segment is active at a time. Recheck source/deployment and open PRs before each step. Keep cumulative tests and accepted contracts; do not reset learner records, renumber questions, weaken tests or attach unrelated refactors. Changes to a contract/profile require an explicit version/impact review and revalidation of dependent gates.
 
-Before approval, verify the exact-head **Full test suite**, **Exam reliability baseline**, **Exam reliability contracts**, and **Exam reliability framework / Segment 03 cumulative gate**. The new aggregate rejects missing/failed lanes and mixed revisions. It reports CI status; this segment does not change administrative branch-protection rules. A reviewer must not merge a red/missing gate. Dependency advisories are not resolved by a green test job.
+Before approval, verify the exact-head **Full test suite**, **Exam reliability baseline**, **Exam reliability contracts**, and **Exam reliability framework / Segment 03 cumulative gate**, and **Exam question identity**. The new aggregate rejects missing/failed lanes and mixed revisions. It reports CI status; this segment does not change administrative branch-protection rules. A reviewer must not merge a red/missing gate. Dependency advisories are not resolved by a green test job.
 
 JSDOM, a mocked service and emulated mobile browsers are not physical-device, JWT/Data API or production-authorization acceptance. Actual PostgreSQL role tests exercise the repository DDL in a disposable database, not live-schema parity. Screenshots are evidence, not a complete visual/WCAG approval. The unresolved product findings remain open in their assigned segments.
 
-Explicit stacking instructions supersede the earlier separate-merge sequence without claiming human approval or deployment. Segment 04 does not start automatically. No automatic merge, production writes or future release rating are authorized by a passing framework run.
+Explicit stacking instructions supersede the earlier separate-merge sequence without claiming human approval or deployment. Segment 04 was explicitly authorized as a new PR; Segment 05 does not start automatically. No automatic merge, production writes or future release rating are authorized by a passing framework run.
