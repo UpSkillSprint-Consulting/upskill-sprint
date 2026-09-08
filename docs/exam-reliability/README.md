@@ -2,13 +2,15 @@
 
 ## Current execution boundary
 
-Segments 01–03 were human-merged through PR #172 at `b9bf726baf3418d4405e5aed46f13e99b63ba3dd`. Segment 04 is implemented for review in new PR #173 on `fix/segment-04-question-identity`, as explicitly requested. Segment 05 is stacked on the same draft PR by explicit user instruction; its version/catalog implementation is described below. Segments 06–20 have not started. Review, merge, deployment and physical/production acceptance remain separate gates.
+Segments 01–03 were human-merged through PR #172 at `b9bf726baf3418d4405e5aed46f13e99b63ba3dd`. Segment 04 is implemented for review in new PR #173 on `fix/segment-04-question-identity`, as explicitly requested. Segment 05 is stacked on the same PR by explicit user instruction; its version/catalog implementation is described below. Segment 06 is not included in this PR; later segments are not signed off. Review, merge, deployment and physical/production acceptance remain separate gates.
 
 Application baseline: `990e385350ae63d76cfc1e3940c3644859cc636a`. Segments 01–03 add baseline evidence, contracts and verification infrastructure. Segment 04 changes identity validation/runtime guards but no question content/IDs, learner history, dependency pins or live database objects. Product rating does not increase merely for adding tests or documenting defects.
 
 ## Records
 
-- [Segment 05 versions/catalog](SEGMENT-05-VERSIONS.md): immutable releases, original results, official-format disclosures and mandatory schema/seed/client release order. S04-B01 and the cancelled older WebKit check remain open.
+- [WebKit full-review stability](WEBKIT-REVIEW-STABILITY.md): reproduced DOM/focus repair, same-document scan safeguards, independent process deadlines, and all-profile evidence acceptance on every PR. This follow-up does not include unfinished Segment 06 work.
+
+- [Segment 05 versions/catalog](SEGMENT-05-VERSIONS.md): immutable releases, original results, official-format disclosures and mandatory schema/seed/client release order. The historical S04-B01/cancelled checks remain preserved; the stability follow-up defines the new full-run acceptance gate.
 
 - [Segment 04 identity repair](SEGMENT-04-IDENTITY.md): atomic validation/imports, stable identity and the exact scope of G09 repair.
 
@@ -40,7 +42,7 @@ Segment 01 `OBSERVATION` rows record existing behavior, including known defects.
 
 One segment is active at a time. Recheck source/deployment and open PRs before each step. Keep cumulative tests and accepted contracts; do not reset learner records, renumber questions, weaken tests or attach unrelated refactors. Changes to a contract/profile require an explicit version/impact review and revalidation of dependent gates.
 
-Before approval, verify the exact-head **Full test suite**, **Exam reliability baseline**, **Exam reliability contracts**, and **Exam reliability framework / Segment 03 cumulative gate**, and **Exam question identity**. The new aggregate rejects missing/failed lanes and mixed revisions. It reports CI status; this segment does not change administrative branch-protection rules. A reviewer must not merge a red/missing gate. Dependency advisories are not resolved by a green test job.
+Before approval, verify the exact-head **Full test suite**, **Exam reliability baseline**, **Exam reliability contracts**, and **Exam reliability framework / Segment 03 cumulative gate**, and **Exam question identity**, **Exam version catalog**, and **MBB complete student acceptance**. The new aggregate rejects missing/failed lanes and mixed revisions. It reports CI status; this segment does not change administrative branch-protection rules. A reviewer must not merge a red/missing gate. Dependency advisories are not resolved by a green test job.
 
 JSDOM, a mocked service and emulated mobile browsers are not physical-device, JWT/Data API or production-authorization acceptance. Actual PostgreSQL role tests exercise the repository DDL in a disposable database, not live-schema parity. Screenshots are evidence, not a complete visual/WCAG approval. The unresolved product findings remain open in their assigned segments.
 

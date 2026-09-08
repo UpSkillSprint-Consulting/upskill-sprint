@@ -20,3 +20,9 @@ test('complete student coverage requires all 175 unique questions and reviews, b
  const report={questions:records(),reviews:records(),accessibilityRequired:true,accessibilityScans:700};verifyCoverage(report);
  for(const edit of [r=>r.reviews.pop(),r=>r.questions[1].qid=r.questions[0].qid,r=>r.questions[0].checks.pop(),r=>r.questions[0].checks[0].a11y.completed=false,r=>r.accessibilityScans--]){const copy=structuredClone(report);edit(copy);assert.throws(()=>verifyCoverage(copy));}
 });
+
+test('accessibility scope cannot acquire an omitted iframe during a scan',async()=>{
+ let frames=1;const page={frames:()=>Array.from({length:frames},()=>({}))};
+ class Builder{include(){return this;}withTags(){return this;}setLegacyMode(){return this;}async analyze(){frames=2;return {violations:[],passes:[{id:'rule'}],incomplete:[]};}}
+ await assert.rejects(analyzeSingleDocument(page,Builder,'.tb-review-card'),/scope changed during scan/);
+});

@@ -4,7 +4,7 @@ on:
     branches: ['audit/mbb-set3-batch1-q001-q025']
     paths-ignore: ['docs/**']
   pull_request:
-    paths: ['test-bank-mbb-set3*', 'test-bank.html', 'test-bank-feedback-loop.js', 'tests/test-bank-mbb-set3*', 'scripts/audit-mbb-set3-batch1.mjs', '.github/workflows/mbb-set3-batch1-audit.yml']
+    paths: ['scripts/lib/student-audit-*.cjs', 'scripts/run-student-audit.cjs', 'scripts/student-audit-tools/**', 'tests/student-audit-*.test.js', 'test-bank-mbb-set3*', 'test-bank.html', 'test-bank-feedback-loop.js', 'tests/test-bank-mbb-set3*', 'scripts/audit-mbb-set3-batch1.mjs', '.github/workflows/mbb-set3-batch1-audit.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -59,13 +59,15 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
-      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - name: Render, answer, reopen and review each question
         env:
+          AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
+          AUDIT_SOURCE: ${{ github.sha }}
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: ${{ matrix.layout }}
-        run: node scripts/audit-mbb-set3-batch1.mjs
+        run: node scripts/run-student-audit.cjs batch1
       - uses: actions/upload-artifact@v4
         if: always()
         with:

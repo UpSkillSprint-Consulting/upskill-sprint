@@ -76,3 +76,18 @@ See [Segment 04 implementation and limits](SEGMENT-04-IDENTITY.md). Segments 01â
 - **S04-B01:** still open. Original failed WebKit-mobile full-student check and cancelled Batch 3 job remain recorded in PR #173. New versioning acceptance does not diagnose that failure.
 
 No production closure is asserted. See [Segment 05](SEGMENT-05-VERSIONS.md).
+
+
+## PR173 WebKit stability follow-up (historical failures retained)
+
+- **S04-B01:** the answer DOM replacement and queued focus-stealing regressions are reproduced on the Segment 05 parent and corrected by `b03ebcd`. The exact historical missing pointer event is not retrospectively explained.
+- **Full-review stall:** the old run reached 175 questions/139 reviews without bounded internal operation evidence. Same-document axe execution retains the engine/rules with pre/post no-frame guards and equivalence checks. Independent process supervision now bounds even blocked-event-loop/teardown stalls and preserves the last operation.
+- **Acceptance:** all original profiles plus an independent second WebKit-mobile full session, both edge profiles, unchanged focus/save assertions and the new fail-closed evidence gate must pass on the candidate revision. The new gate rejects missing, stale, shortened, failed, cancelled and skipped evidence. A previous failed/cancelled run is not changed to passing.
+
+See [WebKit review stability](WEBKIT-REVIEW-STABILITY.md). Current execution results are in PR #173; production/device closure and later roadmap defects remain separate.
+
+The related older Batch 4 WebKit-mobile cancellation on b03 (run
+34225393136, job 102058141685) is retained as historical evidence. All seven
+batch audit drivers now share the bounded scanner, locked tools and external
+watchdog. Completion requires fresh passing browser results, not relabelling
+that cancelled report. See WEBKIT-REVIEW-STABILITY.md for artifact provenance.

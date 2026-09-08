@@ -101,13 +101,15 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
-      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - name: Render, select all choices, reopen and review Q26–50 in both themes
         env:
+          AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
+          AUDIT_SOURCE: ${{ needs.integrate.outputs.sha }}
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: ${{ matrix.layout }}
-        run: node scripts/audit-mbb-set3-batch2.mjs
+        run: node scripts/run-student-audit.cjs batch2
       - uses: actions/upload-artifact@v4
         if: always()
         with:

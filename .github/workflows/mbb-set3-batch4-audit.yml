@@ -2,12 +2,15 @@ name: MBB Set 3 Batch 4 audit
 on:
   pull_request:
     paths:
+      - 'scripts/lib/student-audit-*.cjs'
+      - 'scripts/run-student-audit.cjs'
+      - 'scripts/student-audit-tools/**'
+      - 'tests/student-audit-*.test.js'
       - 'test-bank*.js'
       - 'test-bank.html'
       - 'tests/test-bank-mbb-set3-batch4*'
       - 'tests/helpers/test-bank-durable-learning.js'
       - 'scripts/audit-mbb-set3-batch4.mjs'
-      - 'scripts/lib/student-audit-runtime.cjs'
       - '.github/workflows/mbb-set3-batch4-audit.yml'
   workflow_dispatch:
 permissions:
@@ -57,21 +60,23 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Install exact audit tools outside application dependencies
-        run: npm install --prefix /tmp/student-audit-tools --ignore-scripts --save-exact playwright@1.63.0 @axe-core/playwright@4.13.0 axe-core@4.13.0
-      - run: /tmp/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
+      - run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - name: Open, answer, reopen and review every item; verify both tables
         env:
-          AUDIT_TOOLS_DIR: /tmp/student-audit-tools
+          AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
+          AUDIT_SOURCE: ${{ github.sha }}
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: ${{ matrix.layout }}
         run: |
           mkdir -p audit-results-batch4
           git rev-parse HEAD > audit-results-batch4/tested-commit.txt
-          node scripts/audit-mbb-set3-batch4.mjs
+          node scripts/run-student-audit.cjs batch4
       - name: Preserve exact resolved audit dependencies
         if: always()
-        run: cp /tmp/student-audit-tools/package-lock.json audit-results-batch4/audit-tools-lock.json
+        run: |
+          mkdir -p audit-results-batch4
+          cp scripts/student-audit-tools/package-lock.json audit-results-batch4/audit-tools-lock.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
