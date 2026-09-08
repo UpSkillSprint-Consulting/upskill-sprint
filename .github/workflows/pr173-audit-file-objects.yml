@@ -1,0 +1,46 @@
+name: Store verified audit file objects
+on:
+  push:
+    branches: ['diagnostic/pr173-all-audits-check']
+permissions:
+  contents: read
+jobs:
+  objects:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '00a29280c2bcb2821ce65b415140aa337f623bdd', persist-credentials: false}
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('node:fs'),zlib=require('node:zlib'),crypto=require('node:crypto'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
+            const git=(...a)=>execFileSync('git',a,{encoding:'utf8'}).trim();
+            assert.equal(context.ref,'refs/heads/diagnostic/pr173-all-audits-check');
+            assert.equal(git('rev-parse','HEAD'),'00a29280c2bcb2821ce65b415140aa337f623bdd');
+            const repo={owner:context.repo.owner,repo:context.repo.repo};
+            const r=await github.rest.git.getBlob({...repo,file_sha:'262e0f686aab37d77d49efe3a91afcabb627fd35'});
+            const patch=zlib.brotliDecompressSync(Buffer.from(Buffer.from(r.data.content,'base64').toString('utf8'),'base64'));
+            assert.equal(crypto.createHash('sha256').update(patch).digest('hex'),'06b7679635e21dbee65a9cef76210fc6227c0ac9b1049e31f8fce8826b7d60cb');
+            fs.writeFileSync('/tmp/audit.patch',patch);git('apply','--index','/tmp/audit.patch');
+            assert.equal(git('write-tree'),'9d1470d98e5c85525dec3cf7dd96ed2ced769d6b');
+            const paths=git('diff','--cached','--name-only').split('\n');assert.equal(paths.length,10);
+            const entries=[];
+            for(const p of paths){
+              assert.match(p,/^(\.github\/workflows\/mbb-set3-batch[13567]-audit\.yml|scripts\/audit-mbb-set3-batch[13567]\.mjs)$/);
+              const bytes=fs.readFileSync(p);
+              const result=await github.rest.git.createBlob({...repo,content:bytes.toString('base64'),encoding:'base64'});
+              assert.equal(result.data.sha,git('hash-object',p));
+              entries.push({path:p,mode:'100644',type:'blob',sha:result.data.sha});
+            }
+            fs.mkdirSync('/tmp/audit-objects',{recursive:true});
+            fs.writeFileSync('/tmp/audit-objects/objects.json',JSON.stringify({parent:git('rev-parse','HEAD'),tree:git('write-tree'),entries,refsUpdated:false},null,2));
+            // Immutable file objects only: no createCommit/updateRef/merge calls.
+            // The connector separately verifies these objects before a feature-branch push.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr173-audit-objects-${{ github.run_id }}
+          path: /tmp/audit-objects
+          retention-days: 7
