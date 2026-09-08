@@ -30,7 +30,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v4
         with: {node-version-file: '.node-version', cache: npm}
-      - name: Reconstruct SHA-verified source patch
+      - name: Reconstruct SHA-verified source and review patches
         uses: actions/github-script@v7
         with:
           script: |
@@ -41,26 +41,23 @@ jobs:
             assert.equal(git('write-tree'),'ccce1e7d873227da45d95bc5a6e766f8c88d18ac');
             const repo={owner:context.repo.owner,repo:context.repo.repo};
             const chunks=['19ef075939158dc3b795b17294475fac7475f991','7154bc03d120ab5f6f45711b130138f2a18d3ab4','e2af6b2476e19028af28de1c42ca594416f0fe3d','140b3d48bb33b0950f9d11d3ca6bbc09f250b6e4','9601e477b6d1f926d60fabbaec5bfd1a37b7639c','00990a06567eba4bc33fa58a94fcfe38b3b1c163','2991f856418c535e1f074ea7a47934602bdc900c','3e330ed4018df89e3e0cf71ddfc03e3555a738f3','4f2a566d298830a7f0994d6bc2a07d6bda860d9c'];
-            let encoded='';
-            for(const file_sha of chunks){const r=await github.rest.git.getBlob({...repo,file_sha});encoded+=Buffer.from(r.data.content,'base64').toString('utf8');}
-            const patch=zlib.brotliDecompressSync(Buffer.from(encoded,'base64'));
-            assert.equal(crypto.createHash('sha256').update(patch).digest('hex'),'5e7fe5a5a97196699b97bf3ced4356b2f06f0f6225eac0680e2e2e6f8f5fb71f');
-            fs.writeFileSync('/tmp/segment05.patch',patch);
-            git('apply','--index','/tmp/segment05.patch');
+            async function apply(ids,hash,name){let encoded='';for(const file_sha of ids){const r=await github.rest.git.getBlob({...repo,file_sha});encoded+=Buffer.from(r.data.content,'base64').toString('utf8');}const patch=zlib.brotliDecompressSync(Buffer.from(encoded,'base64'));assert.equal(crypto.createHash('sha256').update(patch).digest('hex'),hash);fs.writeFileSync(name,patch);git('apply','--index',name);}
+            await apply(chunks,'5e7fe5a5a97196699b97bf3ced4356b2f06f0f6225eac0680e2e2e6f8f5fb71f','/tmp/segment05.patch');
+            await apply(['05c28a764e9b73f091c41886085a1758d9cf997d'],'4cc19a1e4f1ffc238f0719588c49f9361f55c303ef8e660c922dbb27a1518738','/tmp/segment05-review.patch');
       - run: npm ci
       - name: Build deterministic archives and verify complete candidate tree
         run: |
           node scripts/exam-reliability/build-catalog.cjs
           node scripts/exam-reliability/build-catalog.cjs --check
           git add test-bank-version-catalog.js docs/exam-reliability/catalog/v1/release-manifest.json supabase/catalog/segment05-catalog.sql exam-catalog
-          test "$(git write-tree)" = '1cd3c21d87e44009b9d49dd073cc607f8b3d3d46'
+          test "$(git write-tree)" = 'def759a9337974bfe0050f1645389712a1be91bb'
       - name: Preserve independently verifiable immutable Git objects
         uses: actions/github-script@v7
         with:
           script: |
             const fs=require('node:fs'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
             const git=(...a)=>execFileSync('git',a,{encoding:'utf8'}).trim();
-            const tree=git('write-tree');assert.equal(tree,'1cd3c21d87e44009b9d49dd073cc607f8b3d3d46');
+            const tree=git('write-tree');assert.equal(tree,'def759a9337974bfe0050f1645389712a1be91bb');
             const paths=git('diff','--cached','--name-only').split('\n');assert.equal(paths.length,39);
             const entries=[];
             for(const path of paths){const bytes=fs.readFileSync(path);const b=await github.rest.git.createBlob({owner:context.repo.owner,repo:context.repo.repo,content:bytes.toString('base64'),encoding:'base64'});assert.equal(b.data.sha,git('hash-object',path));entries.push({path,mode:'100644',type:'blob',sha:b.data.sha});}
