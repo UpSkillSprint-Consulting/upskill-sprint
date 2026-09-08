@@ -30,6 +30,8 @@ async function main(){let target;try{
   expect(target,'actual authenticated role is neither owner nor bypass RLS',role(A,"DO $$ BEGIN IF current_user <> 'authenticated' OR EXISTS(SELECT 1 FROM pg_roles WHERE rolname=current_user AND (rolsuper OR rolbypassrls)) THEN RAISE EXCEPTION 'Wrong test role'; END IF; END $$;"));
   expect(target,'owner sees only own event',role(A,requireCount('SELECT * FROM public.test_bank_learning_events',1)));
   expect(target,'second owner sees own event, not first owner',role(B,requireCount('SELECT * FROM public.test_bank_learning_events',1)));
+  expect(target,'owner A cannot read any other owner row',role(A,requireCount("SELECT * FROM public.test_bank_learning_events WHERE user_id <> '"+A+"'",0)));
+  expect(target,'owner B cannot read any other owner row',role(B,requireCount("SELECT * FROM public.test_bank_learning_events WHERE user_id <> '"+B+"'",0)));
   expect(target,'missing authentication subject sees no rows',role(null,requireCount('SELECT * FROM public.test_bank_learning_events',0)));
   expect(target,'own append succeeds',role(A,insert(A,'fixture-event-02')+';'));
   expectDenied(target,'other-owner append denied',role(A,insert(B,'foreign-event-02')+';'),'42501');

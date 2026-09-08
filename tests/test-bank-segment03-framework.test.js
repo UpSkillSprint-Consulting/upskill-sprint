@@ -1,14 +1,15 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
-const {gate,budget,lanes,profiles,digest}=require('../scripts/exam-reliability/evidence.cjs');
+const {gate,budget,lanes,minima,profiles,digest}=require('../scripts/exam-reliability/evidence.cjs');
 const {validateTarget}=require('../scripts/exam-reliability/run-database.cjs');
 const sha='a'.repeat(40);
-const records=()=>lanes.map(lane=>({lane,exactCommit:sha,status:'passed',tests:1,failures:0,skipped:0,environment:'isolated'}));
+const records=()=>lanes.map(lane=>({lane,exactCommit:sha,status:'passed',tests:minima[lane],failures:0,skipped:0,environment:'isolated',checks:Array.from({length:minima[lane]},(_,i)=>'check-'+i),passed:Array.from({length:minima[lane]},(_,i)=>'check-'+i),trials:Array(3).fill({detected:true})}));
 test('gate: missing/stale/failed/skipped evidence cannot produce green aggregate',()=>{
   assert.equal(gate(records(),sha).status,'passed');
   assert.throws(()=>gate(records().slice(1),sha),/Missing/);
-  for(const patch of [{status:'failed'},{exactCommit:'b'.repeat(40)},{tests:0},{tests:null},{skipped:1},{failures:1},{environment:'physical_device'}]){const r=records();r[0]={...r[0],...patch};assert.throws(()=>gate(r,sha));}
+  for(const patch of [{status:'failed'},{exactCommit:'b'.repeat(40)},{tests:0},{tests:1},{tests:null},{skipped:1},{failures:1},{environment:'physical_device'}]){const r=records();r[0]={...r[0],...patch};assert.throws(()=>gate(r,sha));}
   assert.throws(()=>gate([...records(),records()[0]],sha),/duplicate/);
+  const partial=records();partial.at(-1).checks=[];assert.throws(()=>gate(partial,sha),/case evidence/);
 });
 test('budget: independent nearest-rank p95, inadequate samples and exceeded budgets fail',()=>{
   assert.equal(budget('quick_start',[],3).status,'not_due');

@@ -66,3 +66,21 @@ test('runtime: old snapshot plus new canonical snapshot preserves counts and rep
   const once=copy(merge(old,modern)),twice=copy(merge(once,modern));
   assert.deepEqual(twice,once);assert.equal(once.exams.cssbb.questions[q].attempts,3);
 });
+
+test('runtime: failed second page does not acknowledge partial remote hydration',async t=>{
+  const svc=new Service(),d=fixture(t,svc),owner='fixture-owner-a';
+  for(let i=0;i<501;i++)svc.rows.set('page-'+i,{user_id:owner,event_id:`page-event-${i}`,device_id:'fixture-device-z',exam_id:'cssbb',session_id:'remote-session',event_type:'question_exposed',question_id:`cssbb:page:${i}`,occurred_at:new Date(EPOCH).toISOString(),received_at:new Date(EPOCH+i).toISOString(),payload:{}});
+  const exchange=svc.exchange.bind(svc);let reads=0;
+  svc.exchange=async (user,request)=>{if(request.kind==='read'&&++reads===2)return {data:null,error:{message:'synthetic second-page failure'}};return exchange(user,request);};
+  await assert.rejects(d.api.sync('partial-pages'),e=>/second-page/.test(e.message));
+  assert.equal(d.api.summary('cssbb').historyReady,false);assert.equal(d.api.seenQuestionIds('cssbb').length,0);
+  svc.exchange=exchange;await d.api.sync('retry-pages');assert.equal(d.api.seenQuestionIds('cssbb').length,501);
+});
+test('runtime: a hung remote request terminates on the deterministic timeout clock',async t=>{
+  const svc=new Service(),d=fixture(t,svc);
+  svc.exchange=()=>new Promise(()=>{});
+  const pending=d.api.sync('hung-read');
+  d.clock.advance(12001);
+  await assert.rejects(pending,e=>/timed out|timeout/i.test(e.message));
+  assert.equal(d.api.summary('cssbb').historyReady,false);
+});
