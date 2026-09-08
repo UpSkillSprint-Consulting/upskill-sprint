@@ -1,0 +1,80 @@
+name: PR173 review root-cause diagnostics
+on:
+  push:
+    branches: ['diagnostic/pr173-review-root-cause']
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: 97b386874371ea3920e769c4f43900e942db00bb, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version'}
+      - run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install webkit
+      - run: |
+          mkdir -p /tmp/pr173-root-source
+          git archive --format=tar.gz HEAD > /tmp/pr173-root-source/source.tgz
+          tar -czf /tmp/pr173-root-source/tools.tgz scripts/student-audit-tools/node_modules
+          tar -czf /tmp/pr173-root-source/webkit.tgz -C $HOME/.cache ms-playwright
+          git rev-parse HEAD > /tmp/pr173-root-source/source.txt
+          git rev-parse 'HEAD^{tree}' > /tmp/pr173-root-source/tree.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: pr173-root-source, path: /tmp/pr173-root-source, retention-days: 7}
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [batch4, full]
+        trial: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: 97b386874371ea3920e769c4f43900e942db00bb, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version'}
+      - run: npm ci && npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps webkit
+      - run: command -v gdb || (sudo apt-get update -qq && sudo apt-get install -y gdb)
+      - name: Native sampling without protocol logging or application changes
+        env:
+          AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
+          AUDIT_ENGINE: webkit
+          AUDIT_LAYOUT: mobile
+          AUDIT_WIDTH: '390'
+          AUDIT_AXE: '1'
+          AUDIT_SOURCE: 97b386874371ea3920e769c4f43900e942db00bb
+          DIAGNOSTIC_TARGET: ${{ matrix.target }}
+        run: |
+          mkdir -p /tmp/pr173-native-low
+          cat > /tmp/pr173-native-low/run.cjs <<'NODE'
+          const fs=require('node:fs'),{spawn,execFileSync}=require('node:child_process');
+          const target=process.env.DIAGNOSTIC_TARGET,out=target==='full'?'audit-results-final175':'audit-results-batch4';
+          const log=fs.openSync('/tmp/pr173-native-low/child.log','w');
+          const p=spawn(process.execPath,['scripts/run-student-audit.cjs',target],{env:process.env,stdio:['ignore',log,log]});
+          let sampled=false;
+          const timer=setInterval(()=>{let progress;try{progress=JSON.parse(fs.readFileSync(out+'/progress.json','utf8'));}catch{return;}if(Date.now()-fs.statSync(out+'/progress.json').mtimeMs<8000||sampled)return;sampled=true;fs.writeFileSync('/tmp/pr173-native-low/frozen-progress.json',JSON.stringify(progress,null,2));fs.writeFileSync('/tmp/pr173-native-low/processes.txt',execFileSync('ps',['-eLo','pid,ppid,pgid,tid,stat,pcpu,pmem,rss,wchan:24,comm'],{encoding:'utf8'}));fs.writeFileSync('/tmp/pr173-native-low/memory.txt',fs.readFileSync('/proc/meminfo'));
+          for(const pid of fs.readdirSync('/proc').filter(x=>/^\d+$/.test(x))){try{const env=fs.readFileSync(`/proc/${pid}/environ`).toString(),comm=fs.readFileSync(`/proc/${pid}/comm`,'utf8').trim();if(!env.split('\0').some(s=>s.startsWith('UPSKILL_AUDIT_SCOPE='))||!/WPEWebProcess|MiniBrowser/.test(comm))continue;const fd=fs.openSync(`/tmp/pr173-native-low/stack-${pid}-${comm}.txt`,'w');spawn('timeout',['8s','sudo','gdb','--batch','-p',pid,'-ex','set pagination off','-ex','thread apply all bt 22','-ex','detach'],{stdio:['ignore',fd,fd]}).on('close',()=>fs.closeSync(fd));}catch{}}
+          },1000);
+          p.on('exit',(code,signal)=>{clearInterval(timer);fs.closeSync(log);fs.writeFileSync('/tmp/pr173-native-low/exit.json',JSON.stringify({code,signal,sampled}));process.exitCode=code===0?0:1;});
+          NODE
+          node /tmp/pr173-native-low/run.cjs
+      - name: Preserve bounded diagnostics
+        if: always()
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          mkdir -p /tmp/pr173-native-low
+          git rev-parse HEAD > /tmp/pr173-native-low/source.txt
+          if test "$TARGET" = full; then D=audit-results-final175; else D=audit-results-batch4; fi
+          cp "$D"/*.json /tmp/pr173-native-low/ 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr173-native-low-${{ matrix.target }}-${{ matrix.trial }}
+          path: /tmp/pr173-native-low
+          retention-days: 14
