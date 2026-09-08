@@ -1,0 +1,19 @@
+name: PR173 isolated debugger dependency
+on:
+  push:
+    branches: ['diagnostic/pr173-review-rootcause']
+permissions:
+  contents: read
+jobs:
+  library:
+    runs-on: ubuntu-latest
+    container: debian:bookworm-slim
+    timeout-minutes: 5
+    steps:
+      - run: apt-get update -qq && apt-get install -y libpython3.11
+      - run: mkdir -p /tmp/pr173-debug-lib && cp -L /usr/lib/x86_64-linux-gnu/libpython3.11.so.1.0 /tmp/pr173-debug-lib/ && cd /tmp/pr173-debug-lib && sha256sum * > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr173-isolated-debugger-lib
+          path: /tmp/pr173-debug-lib
+          retention-days: 1
