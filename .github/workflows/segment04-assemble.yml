@@ -1,0 +1,78 @@
+name: Assemble Segment 04 change
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  assemble:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'fix/segment-04-question-identity'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('node:fs');
+            const zlib = require('node:zlib');
+            const crypto = require('node:crypto');
+            const assert = require('node:assert/strict');
+            const {execFileSync} = require('node:child_process');
+            const git = (...args) => execFileSync('git', args, {encoding:'utf8'}).trim();
+            const repo = {owner:context.repo.owner, repo:context.repo.repo};
+            const parent = context.payload.pull_request.head.sha;
+            assert.equal(context.payload.pull_request.number,173);
+            assert.equal(context.payload.pull_request.base.sha,'b9bf726baf3418d4405e5aed46f13e99b63ba3dd');
+            assert.equal(git('rev-parse','HEAD'),parent);
+            const chunks = ['f2537cdcec8d1927f029ea79f3a24a8614a066aa','1197c1079dff7b97b52e51ca9082edcc228ed8ab','8a4b44641bd681152c6c82f78f1e40b89927ae28','ffcd10f4ed4b408cdcdab0bd0cd090517a0a5f31','34f5255f2c636ccb6e8e2d4d0a9ffdb026867dc9'];
+            let encoded = '';
+            for (const file_sha of chunks) {
+              const r = await github.rest.git.getBlob({...repo,file_sha});
+              encoded += Buffer.from(r.data.content,'base64').toString('utf8');
+            }
+            const patch = zlib.brotliDecompressSync(Buffer.from(encoded,'base64'));
+            assert.equal(crypto.createHash('sha256').update(patch).digest('hex'),'9f2826f0d9c162dde286fab521e067c9317a2d1b4d3fec7b150417f964502944');
+            fs.writeFileSync('/tmp/segment04.patch',patch);
+            git('apply','--index','/tmp/segment04.patch');
+            const testPath = 'tests/test-bank-formula-pane-exhaustive.test.js';
+            const before = "  const syntheticBank = Array.from({ length: 15 }, (_, index) => ({\n    sub: 'ppc',";
+            const after = "  const syntheticBank = Array.from({ length: 15 }, (_, index) => ({\n    qid: `cqe:fixture:formula-search-${index + 1}`,\n    sub: 'ppc',";
+            const oldTest = fs.readFileSync(testPath,'utf8');
+            assert.equal(oldTest.split(before).length,2);
+            fs.writeFileSync(testPath,oldTest.replace(before,after));
+            const docPath = 'docs/exam-reliability/SEGMENT-04-IDENTITY.md';
+            fs.appendFileSync(docPath,'\n### Existing formula-search fixture compatibility\n\nThe cumulative run detected an old formula-search fixture that inserted 15 synthetic live questions without IDs. The new runtime correctly rejected that malformed bank. Each synthetic row now declares an explicit `cqe:fixture:formula-search-*` ID; the formula-search assertions and application validation remain unchanged. This is a fixture schema correction, not removal or weakening of the preceding regression.\n');
+            git('add','--',testPath,docPath);
+            const transport = '.github/workflows/segment04-assemble.yml';
+            git('rm','--cached','--',transport);
+            const expected = 'c9381429638562539329c4d9a36489b380020727';
+            assert.equal(git('write-tree'),expected);
+            const paths = git('diff','--cached','--name-only').split('\n');
+            const allowed = ['.github/workflows/exam-question-identity.yml','docs/exam-reliability/DEFECT-REGISTER.md','docs/exam-reliability/README.md','docs/exam-reliability/ROADMAP.md','docs/exam-reliability/SEGMENT-04-IDENTITY.md','docs/exam-reliability/identity/v1/published-baseline.json','scripts/exam-reliability/run-browser.cjs','test-bank-learning-events.js','test-bank-question-registry.js','test-bank-set-controls.js','test-bank.html','tests/helpers/segment04-identity.cjs','tests/test-bank-segment04-identity.test.js',testPath,transport];
+            assert.deepEqual(paths.slice().sort(),allowed.slice().sort());
+            const tree = [];
+            for (const path of paths) {
+              if (path === transport) {tree.push({path,mode:'100644',type:'blob',sha:null});continue;}
+              const content = fs.readFileSync(path);
+              const blob = await github.rest.git.createBlob({...repo,content:content.toString('base64'),encoding:'base64'});
+              assert.equal(blob.data.sha,git('hash-object',path));
+              tree.push({path,mode:'100644',type:'blob',sha:blob.data.sha});
+            }
+            const original = await github.rest.git.getCommit({...repo,commit_sha:parent});
+            const assembled = await github.rest.git.createTree({...repo,base_tree:original.data.tree.sha,tree});
+            assert.equal(assembled.data.sha,expected);
+            const commit = await github.rest.git.createCommit({...repo,message:'fix(identity): validate explicit banks atomically and preserve learner identities',tree:expected,parents:[parent]});
+            // Deliberately do not update any branch/ref. The connector separately
+            // verifies this artifact/tree/parent and advances only the PR branch.
+            fs.writeFileSync('/tmp/segment04-assembly.json',JSON.stringify({parent,tree:expected,commit:commit.data.sha,paths:paths.filter(p=>p!==transport),refsUpdated:false},null,2)+'\n');
+            core.info('Created verified immutable commit '+commit.data.sha+'; no refs changed.');
+      - uses: actions/upload-artifact@v4
+        with:
+          name: segment04-assembly-${{ github.run_id }}
+          path: /tmp/segment04-assembly.json
+          retention-days: 7
