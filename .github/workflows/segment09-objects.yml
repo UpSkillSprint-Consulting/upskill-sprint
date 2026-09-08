@@ -26,8 +26,19 @@ jobs:
           assert hashlib.sha256(extra).hexdigest()=='f1dbe5fec96a1053e42c8669fd577968e407d557c6b73ff4a2b1c5679f35b80b'
           stages=[json.loads(raw),json.loads(extra)]
           assert stages[0]['base']=='12ad5ba5c9095681275e1e0f83b2b879eb49cad0'
+          # The local import omitted two already-tracked ignored .DS_Store files.
+          # Preserve both byte-for-byte. No application edit changes; exact tree
+          # expectations below were independently recomputed with these retained.
+          assert stages[0]['expectedTree']=='6011f559b430fea3ec2804cb1b2c08d783c3ccb4'
+          assert stages[1]['baseTree']=='6011f559b430fea3ec2804cb1b2c08d783c3ccb4'
+          assert stages[1]['expectedTree']=='73a48f9517aab8162f370b50bb92b11aabe4a571'
+          stages[0]['expectedTree']='8feb5d34862f0b40b42d636fc52a1d0cb5e9fe52'
+          stages[1]['baseTree']='8feb5d34862f0b40b42d636fc52a1d0cb5e9fe52'
+          stages[1]['expectedTree']='848b14e337552c39fbc847c7d9dc366f77a8096c'
           subprocess.run(['git','checkout','--detach',stages[0]['base']],check=True)
           blob=lambda b: hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          for path,sha in [('.DS_Store','5293acca81f5a363a78ad834199168ae459221d8'),('lessons/.DS_Store','9d6b5019745ae12928ad825bbd3d1c6f4e553a1e')]:
+            assert blob((root/path).read_bytes())==sha
           entries={}
           for stage in stages:
             assert subprocess.check_output(['git','write-tree'],text=True).strip()==stage['baseTree']
@@ -49,7 +60,8 @@ jobs:
                 p.write_bytes(data)
               entries[str(path)]={'path':str(path),'mode':'100644','type':'blob','sha':row['after']}
             subprocess.run(['git','add','--']+[r['path'] for r in stage['files']],check=True)
-            assert subprocess.check_output(['git','write-tree'],text=True).strip()==stage['expectedTree']
+            actual=subprocess.check_output(['git','write-tree'],text=True).strip()
+            assert actual==stage['expectedTree'],(actual,stage['expectedTree'])
           out=pathlib.Path('/tmp/segment09-objects');out.mkdir()
           (out/'manifest.json').write_text(json.dumps({'baseTree':stages[0]['baseTree'],'expectedTree':stages[-1]['expectedTree'],'entries':list(entries.values())}))
           PY
