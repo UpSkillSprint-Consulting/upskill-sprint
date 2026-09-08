@@ -7,6 +7,7 @@ on:
       - 'tests/test-bank-mbb-set3-batch4*'
       - 'tests/helpers/test-bank-durable-learning.js'
       - 'scripts/audit-mbb-set3-batch4.mjs'
+      - 'scripts/lib/student-audit-runtime.cjs'
       - '.github/workflows/mbb-set3-batch4-audit.yml'
   workflow_dispatch:
 permissions:
@@ -20,6 +21,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with: {persist-credentials: false}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -49,21 +51,27 @@ jobs:
         layout: [desktop, mobile]
     steps:
       - uses: actions/checkout@v4
+        with: {persist-credentials: false}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
-      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Install exact audit tools outside application dependencies
+        run: npm install --prefix /tmp/student-audit-tools --ignore-scripts --save-exact playwright@1.63.0 @axe-core/playwright@4.13.0 axe-core@4.13.0
+      - run: /tmp/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - name: Open, answer, reopen and review every item; verify both tables
         env:
+          AUDIT_TOOLS_DIR: /tmp/student-audit-tools
           AUDIT_ENGINE: ${{ matrix.engine }}
           AUDIT_LAYOUT: ${{ matrix.layout }}
         run: |
           mkdir -p audit-results-batch4
           git rev-parse HEAD > audit-results-batch4/tested-commit.txt
           node scripts/audit-mbb-set3-batch4.mjs
+      - name: Preserve exact resolved audit dependencies
+        if: always()
+        run: cp /tmp/student-audit-tools/package-lock.json audit-results-batch4/audit-tools-lock.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:

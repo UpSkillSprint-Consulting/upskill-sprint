@@ -6,15 +6,19 @@ import http from 'node:http';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {createRequire} from 'node:module';
-import {chromium,webkit} from 'playwright';
-import AxeBuilder from '@axe-core/playwright';
+import runtime from './lib/student-audit-runtime.cjs';
+const {bounded,analyzeSingleDocument}=runtime;
+const tools=createRequire(path.join(process.env.AUDIT_TOOLS_DIR||process.cwd(),'package.json'));
+const {chromium,webkit}=tools('playwright');
+const axeModule=tools('@axe-core/playwright'),AxeBuilder=axeModule.default||axeModule;
 const require=createRequire(import.meta.url);
 const {emptyClient}=require('../tests/helpers/test-bank-durable-learning.js');
 const root=process.cwd(),out=path.join(root,'audit-results-batch4');fs.mkdirSync(out,{recursive:true});
 const sandbox={window:{}};vm.runInNewContext(fs.readFileSync('test-bank-mbb-set3.js','utf8'),sandbox);
 const questions=JSON.parse(JSON.stringify(sandbox.window.MBB_SET3)).slice(75,100);
-const report={interactions:[],scope:'Canonical Set 3 Q76–100',backend:'isolated authentication and remote-persistence fixture',cases:[],failures:[],pageErrors:[]};
+const report={accessibilityScans:0,toolVersions:{playwright:tools('playwright/package.json').version,axe:tools('axe-core').version},interactions:[],scope:'Canonical Set 3 Q76–100',backend:'isolated authentication and remote-persistence fixture',cases:[],failures:[],pageErrors:[]};
 const save=()=>fs.writeFileSync(path.join(out,'browser-report.json'),JSON.stringify(report,null,2));
+const phase=(label,fn,ms=60000)=>bounded(label,fn,ms,state=>{report.operation={...report.current,...state};if(state.status==='failed')report.failedOperation=report.operation;save();});
 const server=http.createServer((req,res)=>{let p=decodeURIComponent(new URL(req.url,'http://localhost').pathname);if(!path.extname(p))p+='.html';const f=path.resolve(root,'.'+p);if(!f.startsWith(root+path.sep)||!fs.existsSync(f)||!fs.statSync(f).isFile()){res.writeHead(404);res.end();return;}res.setHeader('Content-Type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png'})[path.extname(f)]||'application/octet-stream');res.end(fs.readFileSync(f));});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
 const auth=`(()=>{const user={id:'audit-set3-isolated',email:'audit@example.invalid'};const c=(${emptyClient.toString()})();const from=c.from.bind(c);c.from=function(table){const t=from(table),select=t.select.bind(t);t.select=function(...args){const q=select(...args);q.maybeSingle=q.single=()=>Promise.resolve({data:table==='profiles'?{user_id:user.id,display_name:'Isolated audit',timezone:'America/Regina',onboarding_completed:true}:null,error:null});return q;};return t;};window.UpskillAuth={isConfigured:()=>true,onChange:cb=>{queueMicrotask(()=>cb(user));return ()=>{};},getUser:()=>user,getClient:()=>c};})();`;
@@ -48,12 +52,22 @@ async function geometry(page,selector){return page.locator(selector).evaluate(ho
 });}
 const engines=process.env.AUDIT_ENGINE?[process.env.AUDIT_ENGINE]:['chromium','webkit'];
 const layouts=process.env.AUDIT_LAYOUT?[process.env.AUDIT_LAYOUT]:['desktop','mobile'];
+let activeBrowser=null,activeContext=null;
 try{
 for(const engine of engines){
- assert.ok(['chromium','webkit'].includes(engine));const browser=await ({chromium,webkit}[engine]).launch();
+ assert.ok(['chromium','webkit'].includes(engine));const browser=await ({chromium,webkit}[engine]).launch();activeBrowser=browser;
+ await phase(engine+'-accessibility-self-test',async()=>{
+  const c=await browser.newContext(),p=await c.newPage();
+  try{await p.setContent('<!doctype html><html lang="en"><title>Audit fixture</title><body><main id="audit-fixture"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><button></button></main></body></html>');
+   const modern=await new AxeBuilder({page:p}).include('#audit-fixture').withTags(['wcag2a','wcag2aa']).analyze(),direct=await analyzeSingleDocument(p,AxeBuilder,'#audit-fixture');
+   for(const k of ['violations','passes','incomplete','inapplicable'])assert.deepEqual(direct[k].map(x=>x.id).sort(),modern[k].map(x=>x.id).sort());
+   assert.ok(direct.violations.some(x=>x.id==='image-alt'));assert.ok(direct.violations.some(x=>x.id==='button-name'));
+   report.accessibilitySelfTest={passed:true,engine,violationsDetected:direct.violations.map(x=>x.id)};
+  }finally{await c.close();}
+ });
  for(const layout of layouts){
   assert.ok(['desktop','mobile'].includes(layout));const viewport=layout==='desktop'?{width:1440,height:1000}:{width:390,height:844};
-  const context=await browser.newContext({viewport,deviceScaleFactor:1,isMobile:layout==='mobile',hasTouch:layout==='mobile',colorScheme:'light'});
+  const context=await browser.newContext({viewport,deviceScaleFactor:1,isMobile:layout==='mobile',hasTouch:layout==='mobile',colorScheme:'light'});activeContext=context;
   const page=await context.newPage();page.setDefaultTimeout(20000);page.on('pageerror',e=>report.pageErrors.push({engine,layout,message:e.message}));
   await page.route('**/auth.js',r=>r.fulfill({body:auth,contentType:'text/javascript'}));
   await page.route(/https:\/\/[^/]*supabase\.[^/]+\/.*/,r=>r.fulfill({body:'[]',contentType:'application/json'}));
@@ -65,6 +79,7 @@ for(const engine of engines){
    await page.locator('.tb-quiz').waitFor();const order=await page.evaluate(()=>__AUDIT_ORDER);assert.equal(order.length,175);assert.equal(await page.locator('.tb-navcell').count(),175);assert.ok(await page.locator('#tb-timer').isVisible());const clock=await page.locator('#tb-timer').innerText();await page.waitForTimeout(1150);assert.notEqual(await page.locator('#tb-timer').innerText(),clock);
    for(let i=0;i<questions.length;i++){
     const q=questions[i],index=order.indexOf(q.qid),label=engine+'-'+layout+'-q'+String(i+76).padStart(2,'0');
+    report.current={engine,layout,phase:'question',number:i+76,qid:q.qid};await phase(label+'-question',async()=>{
     assert.ok(index>=0);await page.locator('[data-goto="'+index+'"]').click();await page.waitForFunction(id=>document.querySelector('.tb-quiz')?.dataset.questionId===id,q.qid);
     assert.equal((await page.locator('.tb-stem').innerText()).trim(),q.stem);
     for(let choice=0;choice<4;choice++){
@@ -81,18 +96,19 @@ for(const engine of engines){
     const navigation=await geometry(page,'.tb-quiz');
     for(const theme of ['light','dark']){
      await page.evaluate(t=>{document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;},theme);
-     await page.locator('.tb-quiz').scrollIntoViewIfNeeded();await page.locator('.tb-quiz').screenshot({path:path.join(out,label+'-'+theme+'.png'),style:'header.site{visibility:hidden!important}'});
-     const g=await geometry(page,'.tb-quiz');const axe=await new AxeBuilder({page}).include('.tb-quiz').withTags(['wcag2a','wcag2aa']).analyze();
+     await page.locator('.tb-quiz').scrollIntoViewIfNeeded();await page.locator('.tb-quiz').screenshot({path:path.join(out,label+'-'+theme+'.png'),style:'header.site{visibility:hidden!important}',timeout:20000});
+     const g=await geometry(page,'.tb-quiz');const axe=await phase(label+'-'+theme+'-axe',()=>analyzeSingleDocument(page,AxeBuilder,'.tb-quiz'));report.accessibilityScans++;
      report.cases.push({engine,layout,theme,number:i+76,qid:q.qid,phase:'question',fourChoicesSelected:true,keyboardSpace:true,reopenedSelection:true,geometry:g,navigation,axe:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))});save();
      if(layout==='mobile'&&q.chart){const area=page.locator('.mbbs3b4-scroll').first();const scroll=await area.evaluate(e=>{e.scrollLeft=e.scrollWidth;return {needed:e.scrollWidth>e.clientWidth+2,moved:e.scrollLeft>0};});assert.ok(!scroll.needed||scroll.moved);await area.screenshot({path:path.join(out,label+'-'+theme+'-visual-right.png')});await area.evaluate(e=>e.scrollLeft=0);}
     }
     if(i===2){for(const name of ['calc','formulas','tables']){await page.locator('[data-'+name+']').click();assert.ok(await page.locator('#tb-'+name).isVisible());await page.locator('[data-close="'+name+'"]').click();}}
+    },120000);
    }
    await page.locator('[data-goto="174"]').click();await page.locator('[data-submit]').click();await page.locator('[data-open-review="all"]').click();await page.locator('#tb-answer-review').waitFor();
    assert.match(await page.locator('.tb-resverd').innerText(),/25 of 175 correctly/);
    await stableClick(page.locator('[data-review-tab="correct"]'));
    for(let i=0;i<questions.length;i++){
-    const q=questions[i],index=order.indexOf(q.qid);await page.locator('[data-review-goto="'+index+'"]').click();
+    const q=questions[i],index=order.indexOf(q.qid);report.current={engine,layout,phase:'review',number:i+76,qid:q.qid};await phase(engine+'-'+layout+'-review-'+(i+76),async()=>{await page.locator('[data-review-goto="'+index+'"]').click();
     const card=page.locator('.tb-review-card');assert.equal(await card.getAttribute('data-question-id'),q.qid);assert.equal(await card.getAttribute('data-review-status'),'correct');
     assert.equal((await card.locator('.tb-explanation-copy').innerText()).trim(),q.why);
     assert.equal((await card.locator('.tb-exam-trap').innerText()).trim(),q.trap);
@@ -109,19 +125,27 @@ for(const engine of engines){
     const copy=await card.innerText();const rationales=q.optionRationales.map(r=>copy.includes(r));
     for(const theme of ['light','dark']){
      await page.evaluate(t=>{document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;},theme);
-     await card.screenshot({path:path.join(out,engine+'-'+layout+'-q'+String(i+76).padStart(2,'0')+'-review-'+theme+'.png'),style:'header.site{visibility:hidden!important}'});
-     const axe=await new AxeBuilder({page}).include('.tb-review-card').withTags(['wcag2a','wcag2aa']).analyze();
+     await card.screenshot({path:path.join(out,engine+'-'+layout+'-q'+String(i+76).padStart(2,'0')+'-review-'+theme+'.png'),style:'header.site{visibility:hidden!important}',timeout:20000});
+     const axe=await phase(engine+'-'+layout+'-review-'+(i+76)+'-'+theme+'-axe',()=>analyzeSingleDocument(page,AxeBuilder,'.tb-review-card'));report.accessibilityScans++;
      report.cases.push({engine,layout,theme,number:i+76,qid:q.qid,phase:'review',status:'correct',reviewedTip:true,expandedDistractors:true,issueFormToggle:true,preparedUnsentReport:true,rationales,geometry:await geometry(page,'.tb-review-card'),axe:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))});save();
     }
+    },120000);
    }
    report.cases.push({engine,layout,phase:'session',result:'25/175',auditedQuestions:25,untouchedUnanswered:150,flagPersisted:true});
-  }catch(e){report.failures.push({engine,layout,error:e.stack});await page.screenshot({path:path.join(out,engine+'-'+layout+'-failure.png'),fullPage:true}).catch(()=>{});try{fs.writeFileSync(path.join(out,engine+'-'+layout+'-failure.html'),await page.content());}catch{}save();}
-  finally{await context.close();}
+  }catch(e){report.failures.push({engine,layout,current:report.current,operation:report.failedOperation,error:e.stack});save();
+   try{await bounded('failure-screenshot',()=>page.screenshot({path:path.join(out,engine+'-'+layout+'-failure.png'),fullPage:true,timeout:3000}),4000);}catch(error){report.screenshotError=String(error);}
+   try{fs.writeFileSync(path.join(out,engine+'-'+layout+'-failure.html'),await bounded('failure-html',()=>page.content(),3000));}catch(error){report.htmlError=String(error);}save();}
+  finally{await phase('context-close',()=>context.close(),5000);activeContext=null;}
  }
- await browser.close();
+ await phase('browser-close',()=>browser.close(),5000);activeBrowser=null;
 }
-}finally{server.close();save();}
+}catch(e){report.failures.push({current:report.current,error:e.stack});save();}
+finally{
+ const kill=setTimeout(()=>{report.failures.push({error:'Browser teardown exceeded 15 seconds'});save();process.exit(1);},15000);kill.unref();
+ try{if(activeContext){await bounded('final-context-close',()=>activeContext.close(),5000);activeContext=null;}if(activeBrowser){await bounded('final-browser-close',()=>activeBrowser.close(),5000);activeBrowser=null;}}catch(e){report.failures.push({error:String(e)});}
+ if(!activeBrowser&&!activeContext)clearTimeout(kill);server.closeAllConnections();server.close();save();
+}
 const bad=report.cases.filter(c=>c.geometry&&(c.geometry.pageOverflow||c.geometry.clipped.length||c.geometry.svgText.length||!c.geometry.selectedAnnounced)||(c.rationales&&!c.rationales.every(Boolean))||(c.axe&&c.axe.length));
-if(report.failures.length||report.pageErrors.length||bad.length||report.cases.filter(c=>c.geometry).length!==engines.length*layouts.length*100)process.exitCode=1;
+if(report.failures.length||report.pageErrors.length||bad.length||report.accessibilityScans!==engines.length*layouts.length*100||report.cases.filter(c=>c.geometry).length!==engines.length*layouts.length*100)process.exitCode=1;
 console.log('Recorded quality-gate failures:',bad.length);
 console.log(JSON.stringify({cases:report.cases.length,failures:report.failures,pageErrors:report.pageErrors},null,2));
