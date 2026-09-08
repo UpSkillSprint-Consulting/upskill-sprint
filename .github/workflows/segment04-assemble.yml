@@ -50,7 +50,9 @@ jobs:
             git('add','--',testPath,docPath);
             const transport = '.github/workflows/segment04-assemble.yml';
             git('rm','--cached','--',transport);
-            const expected = 'c9381429638562539329c4d9a36489b380020727';
+            // Preserve both pre-existing tracked .DS_Store files. Fresh local git
+            // initialization had ignored them; archive comparison verified bytes.
+            const expected = 'b4c05edb31a10a1030fa590f805f425e05385063';
             assert.equal(git('write-tree'),expected);
             const paths = git('diff','--cached','--name-only').split('\n');
             const allowed = ['.github/workflows/exam-question-identity.yml','docs/exam-reliability/DEFECT-REGISTER.md','docs/exam-reliability/README.md','docs/exam-reliability/ROADMAP.md','docs/exam-reliability/SEGMENT-04-IDENTITY.md','docs/exam-reliability/identity/v1/published-baseline.json','scripts/exam-reliability/run-browser.cjs','test-bank-learning-events.js','test-bank-question-registry.js','test-bank-set-controls.js','test-bank.html','tests/helpers/segment04-identity.cjs','tests/test-bank-segment04-identity.test.js',testPath,transport];
