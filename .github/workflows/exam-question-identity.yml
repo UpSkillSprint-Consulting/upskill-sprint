@@ -1,0 +1,32 @@
+name: Exam question identity
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: question-identity-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  identity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - name: Verify existing question identity baseline
+        run: node --test --test-concurrency=1 tests/test-bank-question-*.test.js
+      - name: Capture isolated inspection checkout
+        run: |
+          mkdir -p /tmp/segment04-inspection
+          git archive --format=tar.gz HEAD > /tmp/segment04-inspection/source.tgz
+          tar -czf /tmp/segment04-inspection/dependencies.tgz node_modules
+          git rev-parse HEAD > /tmp/segment04-inspection/revision.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: segment04-inspection-${{ github.run_id }}
+          path: /tmp/segment04-inspection
+          retention-days: 7
