@@ -1,0 +1,30 @@
+name: PR173 root-cause workspace
+on:
+  push:
+    branches: ['diagnostic/pr173-review-rootcause']
+permissions:
+  contents: read
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 97b386874371ea3920e769c4f43900e942db00bb
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install webkit
+      - run: |
+          mkdir -p /tmp/pr173-rootcause
+          git archive --format=tar.gz HEAD > /tmp/pr173-rootcause/source.tgz
+          tar -czf /tmp/pr173-rootcause/audit-tools.tgz scripts/student-audit-tools/node_modules
+          tar -czf /tmp/pr173-rootcause/webkit.tgz -C "$HOME/.cache" ms-playwright
+          git rev-parse HEAD > /tmp/pr173-rootcause/revision.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr173-rootcause-workspace
+          path: /tmp/pr173-rootcause
+          retention-days: 7
