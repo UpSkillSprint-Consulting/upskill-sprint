@@ -1,0 +1,95 @@
+name: Segment05 isolated candidate verification
+on:
+  push:
+    branches: ['diagnostic/segment05-catalog-verify']
+permissions:
+  contents: read
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    services:
+      postgres:
+        image: postgres:17.6
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: segment03_ci_only
+          POSTGRES_DB: segment03_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 64b25d19d9c148bd769d88b2eb13db4450b0843c
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - name: Reconstruct SHA-verified source patch
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('node:fs'),zlib=require('node:zlib'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+            const {execFileSync}=require('node:child_process');
+            const git=(...a)=>execFileSync('git',a,{encoding:'utf8'}).trim();
+            assert.equal(git('rev-parse','HEAD'),'64b25d19d9c148bd769d88b2eb13db4450b0843c');
+            assert.equal(git('write-tree'),'ccce1e7d873227da45d95bc5a6e766f8c88d18ac');
+            const repo={owner:context.repo.owner,repo:context.repo.repo};
+            const chunks=['19ef075939158dc3b795b17294475fac7475f991','7154bc03d120ab5f6f45711b130138f2a18d3ab4','e2af6b2476e19028af28de1c42ca594416f0fe3d','140b3d48bb33b0950f9d11d3ca6bbc09f250b6e4','9601e477b6d1f926d60fabbaec5bfd1a37b7639c','00990a06567eba4bc33fa58a94fcfe38b3b1c163','2991f856418c535e1f074ea7a47934602bdc900c','3e330ed4018df89e3e0cf71ddfc03e3555a738f3','4f2a566d298830a7f0994d6bc2a07d6bda860d9c'];
+            let encoded='';
+            for(const file_sha of chunks){const r=await github.rest.git.getBlob({...repo,file_sha});encoded+=Buffer.from(r.data.content,'base64').toString('utf8');}
+            const patch=zlib.brotliDecompressSync(Buffer.from(encoded,'base64'));
+            assert.equal(crypto.createHash('sha256').update(patch).digest('hex'),'5e7fe5a5a97196699b97bf3ced4356b2f06f0f6225eac0680e2e2e6f8f5fb71f');
+            fs.writeFileSync('/tmp/segment05.patch',patch);
+            git('apply','--index','/tmp/segment05.patch');
+      - run: npm ci
+      - name: Build deterministic archives and verify complete candidate tree
+        run: |
+          node scripts/exam-reliability/build-catalog.cjs
+          node scripts/exam-reliability/build-catalog.cjs --check
+          git add test-bank-version-catalog.js docs/exam-reliability/catalog/v1/release-manifest.json supabase/catalog/segment05-catalog.sql exam-catalog
+          test "$(git write-tree)" = '1cd3c21d87e44009b9d49dd073cc607f8b3d3d46'
+      - name: Preserve independently verifiable immutable Git objects
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('node:fs'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
+            const git=(...a)=>execFileSync('git',a,{encoding:'utf8'}).trim();
+            const tree=git('write-tree');assert.equal(tree,'1cd3c21d87e44009b9d49dd073cc607f8b3d3d46');
+            const paths=git('diff','--cached','--name-only').split('\n');assert.equal(paths.length,39);
+            const entries=[];
+            for(const path of paths){const bytes=fs.readFileSync(path);const b=await github.rest.git.createBlob({owner:context.repo.owner,repo:context.repo.repo,content:bytes.toString('base64'),encoding:'base64'});assert.equal(b.data.sha,git('hash-object',path));entries.push({path,mode:'100644',type:'blob',sha:b.data.sha});}
+            fs.mkdirSync('/tmp/segment05-evidence',{recursive:true});
+            fs.writeFileSync('/tmp/segment05-evidence/assembly.json',JSON.stringify({parent:git('rev-parse','HEAD'),tree,entries,refsUpdated:false,scope:'Working-tree candidate only; PR-head qualification runs after connector push'},null,2));
+            // No branch/ref, merge, deployment or live database changes here.
+      - name: Identity and version regressions
+        run: node --test --test-concurrency=1 tests/test-bank-question-*.test.js tests/test-bank-segment04-identity.test.js tests/test-bank-segment05-versions.test.js > /tmp/segment05-evidence/unit.log 2>&1
+      - name: PostgreSQL17 ownership, immutable grading and compatible migration tests
+        env:
+          SEG03_ALLOW_DISPOSABLE_DB: '1'
+          SEG03_DB_URL: postgresql://postgres:segment03_ci_only@127.0.0.1:5432/segment03_test
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client > /tmp/postgresql-client-install.log
+          node scripts/exam-reliability/run-database.cjs
+      - name: Preserve diagnostics without truncating SQL failure details
+        if: always()
+        run: |
+          mkdir -p /tmp/segment05-evidence
+          cp -r .segment03-results /tmp/segment05-evidence/ 2>/dev/null || true
+          find . -name database.json -not -path './node_modules/*' -exec cp '{}' /tmp/segment05-evidence/ \;
+          node <<'NODE'
+          const fs=require('node:fs'),path=require('node:path');
+          function walk(d){for(const e of fs.readdirSync(d,{withFileTypes:true})){if(['.git','node_modules'].includes(e.name))continue;const p=path.join(d,e.name);if(e.isDirectory())walk(p);else if(e.name==='database.log'){const logs=JSON.parse(fs.readFileSync(p,'utf8'));fs.writeFileSync('/tmp/segment05-evidence/sql-tail.json',JSON.stringify(logs.slice(-3).map(x=>({...x,sql:x.sql.length>20000?'[large SQL omitted; stderr preserved]':x.sql})),null,2));fs.copyFileSync(p,'/tmp/segment05-evidence/database.log');}}}walk('.');
+          NODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: segment05-candidate-${{ github.run_id }}
+          path: /tmp/segment05-evidence
+          retention-days: 14
