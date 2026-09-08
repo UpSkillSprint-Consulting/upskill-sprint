@@ -1,0 +1,56 @@
+name: PR173 remaining batch audit verification
+on:
+  push:
+    branches: ['diagnostic/pr173-all-audits-check']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        batch: [1, 3, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '00a29280c2bcb2821ce65b415140aa337f623bdd', persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - name: Read and verify test-only candidate patch
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('node:fs'),zlib=require('node:zlib'),crypto=require('node:crypto'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
+            const git=(...a)=>execFileSync('git',a,{encoding:'utf8'}).trim();
+            assert.equal(git('rev-parse','HEAD'),'00a29280c2bcb2821ce65b415140aa337f623bdd');
+            const r=await github.rest.git.getBlob({owner:context.repo.owner,repo:context.repo.repo,file_sha:'262e0f686aab37d77d49efe3a91afcabb627fd35'});
+            const patch=zlib.brotliDecompressSync(Buffer.from(Buffer.from(r.data.content,'base64').toString('utf8'),'base64'));
+            assert.equal(crypto.createHash('sha256').update(patch).digest('hex'),'06b7679635e21dbee65a9cef76210fc6227c0ac9b1049e31f8fce8826b7d60cb');
+            fs.writeFileSync('/tmp/audit.patch',patch);git('apply','--index','/tmp/audit.patch');
+            assert.equal(git('write-tree'),'9d1470d98e5c85525dec3cf7dd96ed2ced769d6b');
+            const paths=git('diff','--cached','--name-only').split('\n');assert.equal(paths.length,10);
+            for(const p of paths)assert.match(p,/^(\.github\/workflows\/mbb-set3-batch[13567]-audit\.yml|scripts\/audit-mbb-set3-batch[13567]\.mjs)$/);
+            fs.mkdirSync('/tmp/pr173-result',{recursive:true});
+            fs.writeFileSync('/tmp/pr173-result/candidate.json',JSON.stringify({parent:git('rev-parse','HEAD'),tree:git('write-tree'),paths,scope:'Isolated working-tree candidate; no repository writes'},null,2));
+      - run: npm ci
+      - run: npm install --prefix /tmp/student-audit-tools --ignore-scripts --save-exact playwright@1.63.0 @axe-core/playwright@4.13.0 axe-core@4.13.0
+      - run: /tmp/student-audit-tools/node_modules/.bin/playwright install --with-deps webkit
+      - name: All 25 questions and 25 reviews, both themes and original controls
+        env:
+          AUDIT_TOOLS_DIR: /tmp/student-audit-tools
+          AUDIT_ENGINE: webkit
+          AUDIT_LAYOUT: mobile
+        run: node scripts/audit-mbb-set3-batch${{ matrix.batch }}.mjs
+      - name: Preserve exact candidate and audit evidence
+        if: always()
+        run: |
+          mkdir -p /tmp/pr173-result
+          cp /tmp/student-audit-tools/package-lock.json /tmp/pr173-result/audit-tools-lock.json
+          for dir in audit-results audit-results-batch*; do if test -d "$dir"; then cp -r "$dir" /tmp/pr173-result/; fi; done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr173-remaining-batch${{ matrix.batch }}
+          path: /tmp/pr173-result
+          retention-days: 14
