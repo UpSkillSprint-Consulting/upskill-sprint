@@ -1,0 +1,66 @@
+name: Segment04 isolated WebKit selection probe
+on:
+  push:
+    branches: ['diagnostic/segment04-webkit-selection']
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {label: baseline, source: b9bf726baf3418d4405e5aed46f13e99b63ba3dd}
+          - {label: segment04, source: 64b25d19d9c148bd769d88b2eb13db4450b0843c}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.source }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm ci
+      - run: npm install --no-save --package-lock=false playwright @axe-core/playwright
+      - run: npx playwright install --with-deps webkit
+      - name: Create diagnostic copy without changing application or original test
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs'),assert=require('node:assert/strict');
+          const source=fs.readFileSync('scripts/stress-mbb-set3-final175.mjs','utf8');
+          let script=source;
+          const once=(a,b)=>{assert.equal(script.split(a).length,2,a);script=script.replace(a,b);};
+          once(' for(let i=0;i<175;i++){const q=bank[i],index=order.indexOf(q.qid),n=i+1;report.current=', ' for(let i=0;i<60;i++){const q=bank[i],index=order.indexOf(q.qid),n=i+1;report.current=');
+          const start=script.indexOf(" await page.locator('[data-goto=\"174\"]')");
+          const end=script.indexOf(' report.complete=true;',start);
+          assert.ok(start>0&&end>start);
+          script=script.slice(0,start)+script.slice(end);
+          once("scope:'All 175 canonical Set 3 items in one uninterrupted session'", "scope:'DIAGNOSTIC ONLY: first 60 canonical questions; no review/finalization acceptance'");
+          once(" await page.goto(base+'/test-bank.html'", " await page.addInitScript(()=>{window.__POINTER_TRACE=[];for(const type of ['pointerdown','pointerup','mousedown','mouseup','click'])document.addEventListener(type,e=>{const b=e.target.closest?.('[data-opt]');window.__POINTER_TRACE.push({type,t:Date.now(),x:e.clientX,y:e.clientY,target:e.target.outerHTML?.slice(0,220),option:b?.dataset.opt,question:document.querySelector('.tb-quiz')?.dataset.questionId,scrollY,active:document.activeElement?.outerHTML.slice(0,160)});if(window.__POINTER_TRACE.length>120)__POINTER_TRACE.shift();},true);});\n await page.goto(base+'/test-bank.html'");
+          once('report.trace=await page.evaluate(()=>window.__AUDIT_TRACE);', 'report.trace=await page.evaluate(()=>window.__AUDIT_TRACE);report.pointerTrace=await page.evaluate(()=>window.__POINTER_TRACE);');
+          fs.writeFileSync('scripts/segment04-selection-probe.mjs',script);
+          fs.mkdirSync('audit-results-final175',{recursive:true});
+          fs.writeFileSync('audit-results-final175/tool-version.json',JSON.stringify({playwright:require('playwright/package.json').version,axe:require('@axe-core/playwright/package.json').version,node:process.version},null,2));
+          NODE
+          git diff --exit-code
+      - name: First 60 original student interactions, with pointer trace
+        env:
+          AUDIT_ENGINE: webkit
+          AUDIT_LAYOUT: mobile
+          AUDIT_WIDTH: '390'
+          AUDIT_MIXED: '0'
+          AUDIT_AXE: '1'
+          AUDIT_SOURCE: ${{ matrix.source }}
+        run: node scripts/segment04-selection-probe.mjs
+      - name: Preserve exact diagnostic scope and source
+        if: always()
+        run: |
+          git rev-parse HEAD > audit-results-final175/source.txt
+          cp scripts/segment04-selection-probe.mjs audit-results-final175/probe-source.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: segment04-selection-probe-${{ matrix.label }}
+          path: audit-results-final175
+          retention-days: 14
