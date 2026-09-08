@@ -1,0 +1,66 @@
+name: PR173 reconciled review candidate
+on:
+  push:
+    branches: ['diagnostic/pr173-final-review-assembly']
+permissions:
+  contents: read
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: b03ebcdb218e2e0ac0ba0d6e0ac6428bd1935f0b
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - name: Reconstruct and preserve the reconciled immutable tree
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('node:fs'),zlib=require('node:zlib'),crypto=require('node:crypto'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
+            const git=(...a)=>execFileSync('git',a,{encoding:'utf8'}).trim();
+            assert.equal(git('rev-parse','HEAD'),'b03ebcdb218e2e0ac0ba0d6e0ac6428bd1935f0b');
+            const repo={owner:context.repo.owner,repo:context.repo.repo};
+            async function apply(ids,hash,name){let encoded='';for(const file_sha of ids){const r=await github.rest.git.getBlob({...repo,file_sha});encoded+=Buffer.from(r.data.content,'base64').toString('utf8');}const patch=zlib.brotliDecompressSync(Buffer.from(encoded,'base64'));assert.equal(crypto.createHash('sha256').update(patch).digest('hex'),hash);fs.writeFileSync(name,patch);git('apply','--index',name);}
+            await apply(['9461d9f252dc469431fbdc05408054a989317a59','3e9d4e15a0b7cb49c0805579b7da9892a96de7b5','e6705b29ba6fb407052140394d33981558b335b9','6f57cffbaba76a5da9db6336a6cd1e5bac537511'],'9405a81521cec973c4061b055c5be779b7282ca795b5eb7e9c9e6e38c12d9062','/tmp/pr173-shared.patch');
+            await apply(['4db5dd4396f884c4e41adb34f121b9308f917603'],'65aaeed17221b35bf495bf4d05b744fa81ace6ecc7bd80832706de2658c0989f','/tmp/pr173-scope.patch');
+            assert.equal(git('write-tree'),'28703f42372ee9c2be7812023819ea162606387a');
+            await apply(['2c91aaf85415c1c511a7164c635269406017216d'],'a8edab031d23fe841bebad37c442b7e7fe766e9ba663f85b97505f0a774db41e','/tmp/pr173-reconcile.patch');
+            assert.equal(git('write-tree'),'45fc49d26f47fc6e11dcc912696c65838b1d90b0');
+            const paths=git('diff','--cached','--name-only').split('\n');assert.equal(paths.length,30);
+            const entries=[];
+            for(const path of paths){const bytes=fs.readFileSync(path);const b=await github.rest.git.createBlob({...repo,content:bytes.toString('base64'),encoding:'base64'});assert.equal(b.data.sha,git('hash-object',path));entries.push({path,mode:'100644',type:'blob',sha:b.data.sha});}
+            const concurrent=await github.rest.git.getCommit({...repo,commit_sha:'00a29280c2bcb2821ce65b415140aa337f623bdd'});
+            assert.equal(concurrent.data.parents[0].sha,git('rev-parse','HEAD'));
+            assert.equal(concurrent.data.tree.sha,'fffc69c93e768203f736e4e3ba6f42bdebe811fa');
+            const final=await github.rest.git.createTree({...repo,base_tree:concurrent.data.tree.sha,tree:entries});
+            assert.equal(final.data.sha,git('write-tree'));
+            fs.mkdirSync('/tmp/pr173-final-candidate',{recursive:true});fs.writeFileSync('/tmp/pr173-final-candidate/assembly.json',JSON.stringify({checkout:git('rev-parse','HEAD'),parent:concurrent.data.sha,tree:final.data.sha,entries,refsUpdated:false,scope:'Reconciled candidate; connector separately advances feature branch and PR CI qualifies exact head'},null,2));
+      - run: npm ci
+      - name: Retained focus, Batch4, actual freeze, scoped cleanup and evidence-gate tests
+        run: node --test --test-concurrency=1 tests/contrast-theme-race.test.js tests/test-bank-mbb-set3-final-student.test.js tests/student-audit-*.test.js tests/test-bank-mbb-set3-batch1-feedback.test.js tests/test-bank-mbb-set3-batch4-affordances.test.js > /tmp/pr173-final-candidate/tests.log 2>&1
+      - run: node scripts/exam-reliability/build-catalog.cjs --check > /tmp/pr173-final-candidate/catalogue.json
+      - run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
+      - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps webkit
+      - name: All25 Batch4 questions and reviews including preserved engine-equivalence test
+        env:
+          AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
+          AUDIT_ENGINE: webkit
+          AUDIT_LAYOUT: mobile
+          AUDIT_SOURCE: candidate-tree-45fc49d26f47fc6e11dcc912696c65838b1d90b0
+        run: node scripts/run-student-audit.cjs batch4
+      - name: Preserve exact candidate evidence
+        if: always()
+        run: |
+          mkdir -p /tmp/pr173-final-candidate
+          if test -d audit-results-batch4; then cp -r audit-results-batch4 /tmp/pr173-final-candidate/batch4; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr173-reconciled-candidate-${{ github.run_id }}
+          path: /tmp/pr173-final-candidate
+          retention-days: 14
