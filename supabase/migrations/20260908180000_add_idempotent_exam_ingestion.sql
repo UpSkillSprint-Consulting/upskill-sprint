@@ -153,7 +153,7 @@ DECLARE uid uuid:=auth.uid(); existing public.test_bank_operation_receipts; runt
      exam NOT IN ('cssbb','cqe','cssgb','cmq','mbb') OR expected_revision<0 OR supplied_epoch<0 OR
      jsonb_typeof(p->'clientSequence') IS DISTINCT FROM 'number' OR (p->>'clientSequence')::numeric<>trunc((p->>'clientSequence')::numeric) OR (p->>'clientSequence')::bigint<0 OR
      p->'resetEpochId' IS DISTINCT FROM 'null'::jsonb OR jsonb_typeof(p->'payload') IS DISTINCT FROM 'object' OR
-     NOT(p->'payload' ?& ARRAY['questionId','eventPayload']) OR (p->'payload'-ARRAY['questionId','eventPayload'])<>'{}'::jsonb OR jsonb_typeof(event_payload) IS DISTINCT FROM 'object' THEN
+     NOT((p->'payload') ?& ARRAY['questionId','eventPayload']) OR ((p->'payload')-ARRAY['questionId','eventPayload'])<>'{}'::jsonb OR jsonb_typeof(event_payload) IS DISTINCT FROM 'object' THEN
     RAISE EXCEPTION 'Malformed operation fields' USING ERRCODE='23514';
   END IF;
   legacy_type:=CASE logical_type WHEN 'session_started' THEN 'session_started' WHEN 'question_displayed' THEN 'question_exposed' WHEN 'response_committed' THEN 'answer_recorded' WHEN 'finalization_requested' THEN 'session_completed' WHEN 'session_abandoned' THEN 'session_abandoned' ELSE NULL END;
