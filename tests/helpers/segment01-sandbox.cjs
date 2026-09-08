@@ -27,7 +27,7 @@ function makeSandbox(options = {}) {
   const exam = { questions: options.examLength || 165, minutes: 270, pass: 70, sets: { 1: questions }, bok: [{ domain: 'fixture', subs: [{ id: 'p1', name: 'One', w: 80 }, { id: 'p2', name: 'Two', w: 20 }] }] };
   const noop = () => {};
   const context = {
-    console, Date: ClockDate, crypto, localStorage,
+    console, Date: ClockDate, crypto, localStorage, TextEncoder,
     document: { readyState: 'loading', addEventListener: noop, dispatchEvent: noop, getElementById: () => null,
       querySelector: () => ({ dataset: { exam: 'cssbb' } }) },
     addEventListener: noop, removeEventListener: noop, requestAnimationFrame: noop,
@@ -40,6 +40,8 @@ function makeSandbox(options = {}) {
   context.window = context;
   vm.createContext(context);
   function load(file) {
+    // Match the deployed prerequisite for consumers of canonical scoring.
+    if (file !== 'test-bank-versioning.js' && !context.__TBVersions) load('test-bank-versioning.js');
     vm.runInContext(fs.readFileSync(path.join(ROOT, file), 'utf8'), context, { filename: file, timeout: 3000 });
   }
   function setExamData(data) {

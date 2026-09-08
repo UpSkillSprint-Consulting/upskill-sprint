@@ -358,7 +358,7 @@
       if (checked && selected === index && index !== question.answer) cls += ' wrong';
       return '<button type="button" class="' + cls + '" data-v2-option="' + index + '"' + (checked ? ' disabled' : '') + '><span>' + String.fromCharCode(65 + index) + '</span>' + esc(option) + '</button>';
     }).join('');
-    const status = selected === question.answer ? 'correct' : 'incorrect';
+    const status = window.__TBVersions.classify(question,selected);
     host.hidden = false;
     host.innerHTML = '<div class="tb-adaptive-head"><div><div class="tb-diag-kick">Adaptive practice · ' + (session.index + 1) + ' of ' + session.items.length + '</div><h3>' + esc(question.sub || 'General review') + '</h3><p class="tb-adaptive-rationale">Selected because it is ' + esc(session.reasons[session.index] || 'part of your balanced review plan') + '.</p></div><div class="tb-adaptive-mastery-chip">Current effective mastery <strong>' + currentMastery + '%</strong></div></div>' +
       '<div class="tb-adaptive-progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + session.items.length + '" aria-valuenow="' + session.index + '"><span style="--p:' + Math.round(session.index / session.items.length * 100) + '"></span></div>' +
@@ -432,9 +432,10 @@
     }
     active.complete = true;
     const host = panel();
-    const correct = active.results.filter(function (result) { return result.status === 'correct'; }).length;
+    const score=window.__TBVersions.scoreCounts(completed.grading || window.__TBVersions.scoreRecords(active.results),null);
+    const correct=score.correct;
     if (host) {
-      host.innerHTML = '<div class="tb-adaptive-summary"><div class="tb-ring big" style="--p:' + Math.round(correct / Math.max(active.items.length, 1) * 100) + '"><span>' + correct + '<small>/' + active.items.length + '</small></span></div><div><div class="tb-diag-kick">Adaptive session complete</div><h3>Your mastery map has been updated.</h3><p>This session combined due retrieval, low-mastery reinforcement, subtopic diversity, and controlled new material.</p><div class="tb-adaptive-actions"><button type="button" class="btn btn-teal" data-v2-new>Build another session</button><button type="button" class="tb-ghost" data-v2-close>Return to results</button></div></div></div>';
+      host.innerHTML = '<div class="tb-adaptive-summary"><div class="tb-ring big" style="--p:' + Math.round(score.scorePercent || 0) + '"><span>' + correct + '<small>/' + active.items.length + '</small></span></div><div><div class="tb-diag-kick">Adaptive session complete</div><h3>Your mastery map has been updated.</h3><p>This session combined due retrieval, low-mastery reinforcement, subtopic diversity, and controlled new material.</p><div class="tb-adaptive-actions"><button type="button" class="btn btn-teal" data-v2-new>Build another session</button><button type="button" class="tb-ghost" data-v2-close>Return to results</button></div></div></div>';
       host.tabIndex = -1;
       host.focus();
     }
@@ -708,14 +709,14 @@
       const saved = learning.recordAnswer({
         examId: examId(), sessionId: session.learningSessionId, mode: 'adaptive', timed: false,
         index: session.index, question: question, selected: selected,
-        status: selected === question.answer ? 'correct' : 'incorrect'
+        status: window.__TBVersions.classify(question,selected)
       });
       if (!saved || !writeAheadSaved(saved)) {
         announce('That answer could not be submitted safely. Your draft remains available; free browser storage and try again.');
         return;
       }
       session.checked[session.index] = true;
-      session.results[session.index] = { question: question, selected: selected, status: selected === question.answer ? 'correct' : 'incorrect' };
+      session.results[session.index] = { question: question, selected: selected, status: window.__TBVersions.classify(question,selected) };
       saveSession(); renderQuestion(); return;
     }
     if (target.hasAttribute('data-v2-next') && session) {

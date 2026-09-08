@@ -41,6 +41,17 @@ try{
     for(const theme of ['light','dark']){await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);await shot(p,exam+'-identity-error-'+theme);}
     if(exam==='cssbb'){const accepted=await p.evaluate(()=>__TBQuestionRegistry.replaceBank('cssbb',__TB.EXAMS.cssbb.sets));assert.equal(accepted.accepted,true);await p.locator('#tb-question-identity-alert').waitFor({state:'detached'});checks.push('cssbb: accepted identity-preserving update remains usable');}
     await quick(p,exam);await sync(p);const s=await summary(p,exam);assert.equal(s.answeredEvents,1);assert.equal(s.completedSessions,1);checks.push(exam+': real UI one correct/nine blanks');
+    const gradingEvidence=await p.evaluate(id=>{
+      const view=document.querySelector('[data-score-result]'), snapshot=__TB.getFeedbackSnapshot();
+      const fractions=[...document.querySelector('.tb-breakdown').textContent.matchAll(/\((\d+)\/(\d+)\)/g)].map(x=>[Number(x[1]),Number(x[2])]);
+      const statuses=snapshot.records.map(r=>__TBVersions.classify(r.question,r.selected));
+      const history=__TBAdaptiveMastery.store().exams[id].attempts.find(a=>a.id===snapshot.sessionId);
+      return {score:Number(view.dataset.scorePercent),target:view.dataset.targetMet,hasDisclaimer:view.textContent.includes('not an official certification pass/fail'),
+        numerator:fractions.reduce((n,x)=>n+x[0],0),denominator:fractions.reduce((n,x)=>n+x[1],0),
+        correct:statuses.filter(s=>s==='correct').length,blanks:statuses.filter(s=>s==='unanswered').length,
+        historyTotal:history.total,historyCorrect:history.correct,originalTotal:snapshot.grading.total,originalBlanks:snapshot.grading.unanswered};
+    },exam);
+    assert.deepEqual(gradingEvidence,{score:10,target:'false',hasDisclaimer:true,numerator:1,denominator:10,correct:1,blanks:9,historyTotal:10,historyCorrect:1,originalTotal:10,originalBlanks:9});checks.push(exam+': Segment09 exact grade, original fractions, review and history agree');
     const versionEvidence=await p.evaluate(async id=>{
       const store=__TBLearning.store(),done=store.events.filter(e=>e.type==='session_completed'&&e.examId===id).at(-1);
       const start=store.events.find(e=>e.type==='session_started'&&e.sessionId===done.sessionId),wire=start.payload.versionPin;

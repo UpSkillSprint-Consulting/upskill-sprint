@@ -107,7 +107,7 @@ test('a full exam is capped at 165 questions for every set choice', async () => 
 
 test('subAgg tallies only the questions passed to it (per-presented, not per-bank)', async () => {
   const w = await loadPage();
-  const items = [{ sub: 'mea', answer: 1 }, { sub: 'mea', answer: 0 }, { sub: 'ana', answer: 2 }];
+  const items = [{ sub: 'mea', answer: 1 }, { sub: 'mea', answer: 0 }, { sub: 'ana', answer: 2 }].map(q=>({...q,options:['A','B','C','D']}));
   const agg = w.__TB.subAgg(items, { 0: 1, 1: 3, 2: 2 }); // mea: 1 right 1 wrong; ana: 1 right
   assert.equal(agg.mea.c, 1); assert.equal(agg.mea.t, 2, 'mastery denominator is what was presented');
   assert.equal(agg.ana.c, 1); assert.equal(agg.ana.t, 1);

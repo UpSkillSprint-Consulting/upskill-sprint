@@ -40,6 +40,7 @@ async function load() {
   windows.push(dom.window);
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
   if (!dom.window.Element.prototype.scrollIntoView) dom.window.Element.prototype.scrollIntoView = function () {};
+  require('./helpers/test-bank-version-runtime.cjs').installVersions(dom.window);
   dom.window.eval(phase1);
   dom.window.eval(reconciliation);
   dom.window.eval(mastery);
@@ -243,16 +244,20 @@ test('a completed timed full exam persists an immutable per-domain score includi
   const api = window.__TBAdaptiveMastery;
   const questions = window.__TB.EXAMS.cssbb.sets[1].filter(question => question.sub === 'mea').slice(0, 2);
   assert.equal(questions.length, 2, 'fixture has two Measure questions');
+  // Complete synthetic 2-item exam, not an incomplete 2-of-165 score.
+  const V=window.__TBVersions, e=Object.assign({},window.__TB.EXAMS.cssbb,{questions:2,sets:{1:questions},bank:questions});
+  const pin=V.pin({examId:'cssbb',sessionId:'full-domain-breakdown-1',setId:'1',mode:'exam',questions,timed:true,limitSeconds:600,startedAt:Date.now()},e,V.createExamCatalog('cssbb',e,{source:'synthetic full-domain test'}));
+  const scored=[{question:questions[0],selected:questions[0].answer},{question:questions[1],selected:null}];
   const attempt = api.recordResults([
     { question: questions[0], selected: questions[0].answer, status: 'correct' },
     { question: questions[1], selected: null, status: 'unanswered' }
   ], {
     source: 'exam-attempt', mode: 'exam', timed: true, completed: true,
-    sessionId: 'full-domain-breakdown-1', total: window.__TB.EXAMS.cssbb.questions, correct: 1
+    sessionId: 'full-domain-breakdown-1', total: 2, correct: 1, versionPin:V.reference(pin),grading:V.grade(pin,scored),scoringConfiguration:pin.configuration
   });
   const measure = attempt.domainBreakdown.find(item => item.id === 'mea');
   assert.deepEqual(JSON.parse(JSON.stringify(measure)), {
-    id: 'mea', total: 2, correct: 1, incorrect: 0, unanswered: 1
+    id: 'mea', name:'V. Measure', total: 2, correct: 1, incorrect: 0, unanswered: 1
   });
   const persisted = api.store().exams.cssbb.attempts.find(item => item.id === 'full-domain-breakdown-1');
   assert.deepEqual(JSON.parse(JSON.stringify(persisted.domainBreakdown)), JSON.parse(JSON.stringify(attempt.domainBreakdown)));

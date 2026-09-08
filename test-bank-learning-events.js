@@ -1321,6 +1321,7 @@
       mastery.recordResults(records, Object.assign({
         source: sourceForMode(payload.mode || current.mode),
         mode: payload.mode || current.mode || 'practice',
+        completedReason: payload.completedReason || null,
         timed: Boolean(payload.timed == null ? current.timed : payload.timed),
         sessionId: current.id,
         at: Number(completion && completion.occurredAt || current.completedAt || now()),
@@ -1331,7 +1332,7 @@
         answered: payload.answered,
         newQuestions: payload.newQuestions,
         repeated: payload.repeated
-      }, payload.versionPin ? {versionPin:payload.versionPin, grading:payload.grading || null} : {}));
+      }, payload.versionPin ? {versionPin:payload.versionPin, grading:payload.grading || null, scoringConfiguration:current.versionPin && current.versionPin.configuration || null} : {}));
       current.masteryDerived = true;
       return true;
     } finally {

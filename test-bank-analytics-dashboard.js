@@ -242,22 +242,26 @@
     };
   }
 
+  // Malformed cache entries are not graded sessions. Keep valid evidence
+  // usable without rewriting the cache or fabricating replacement results.
+  function attemptEntries() {
+    const entries=examData(readStore()).attempts;
+    return Array.isArray(entries)?entries.filter(function(entry){return entry && typeof entry==='object' && !Array.isArray(entry);}):[];
+  }
+
   // Last N practice/adaptive/exam sessions, in chronological order.
   function sessionTrend(limit) {
     const data = examData(readStore());
-    return (data.attempts || []).slice().sort(function (left, right) {
-      return Number(left.at || 0) - Number(right.at || 0) || String(left.id || '').localeCompare(String(right.id || ''));
+    return attemptEntries().slice().sort(function (left, right) {
+      return Number(left.at || 0)-Number(right.at || 0) || String(left.id || '').localeCompare(String(right.id || ''));
     }).slice(-(limit || TREND_LIMIT)).map(function (entry) {
-      return {
-        at: entry.at, source: entry.source, total: entry.total || 0, correct: entry.correct || 0,
-        pct: entry.total ? Math.round(entry.correct / entry.total * 100) : 0,
-        newQuestions: entry.newQuestions || 0, repeated: entry.repeated || 0
-      };
+      const score=window.__TBVersions.assessAttempt(entry);
+      return {at:entry.at,source:entry.source,total:entry.total,correct:entry.correct,
+        pct:score.scorePercent,scorePercent:score.scorePercent,available:score.available,
+        newQuestions:entry.newQuestions||0,repeated:entry.repeated||0};
     });
   }
 
-  // Daily activity for the last N weeks, for a streak heatmap. Counts every
-  // question answered that day across all attempt sources.
   function studyHeatmap(weeks) {
     const data = examData(readStore());
     const byDay = {};
@@ -283,148 +287,101 @@
   // never be represented as a full exam just because it used an old source
   // label.
   function examAttemptSeries() {
-    const data = examData(readStore());
-    const source = exam();
-    const passLine = source && source.pass != null ? source.pass : 70;
-    const expectedTotal = Number(source && source.questions || 0);
-    return (data.attempts || []).filter(function (entry) {
-      return entry && entry.mode === 'exam' && entry.timed === true && entry.completed === true &&
-        (!(entry.versionPin ? entry.versionPin.expectedLength : expectedTotal) || Number(entry.total) === (entry.versionPin ? entry.versionPin.expectedLength : expectedTotal));
-    })
-      .sort(function (a, b) { return a.at - b.at; })
-      .map(function (entry) {
-        const pct = entry.total ? Math.round(entry.correct / entry.total * 100) : 0;
-        const target=entry.versionPin ? entry.versionPin.siteTargetBps : passLine*100;
-        const exact=entry.total ? entry.correct/entry.total*100 : null;
-        return { id: entry.id, at: entry.at, total: entry.total, correct: entry.correct, pct: pct, margin: target===null || exact===null ? null : (entry.versionPin ? exact : pct) - target/100, versionProvenance: entry.versionPin ? 'pinned' : 'legacy-unknown' };
-      });
+    return attemptEntries().map(function(entry) {
+      const score=window.__TBVersions.assessAttempt(entry);
+      return Object.assign({id:entry.id,at:entry.at,completedReason:entry.completedReason||null,versionPin:entry.versionPin||null},score,
+        {pct:score.scorePercent==null?null:Math.round(score.scorePercent),versionProvenance:score.provenance});
+    }).filter(function(entry){return entry.eligible;}).sort(function(a,b){return a.at-b.at || String(a.id).localeCompare(String(b.id));});
   }
 
-  // Per-domain score for the single most recent completed timed full exam. The
-  // immutable session ID prevents timestamp collisions between rapid attempts.
+  function legacyExamAttempts() {
+    return attemptEntries().filter(function(entry){return entry && !entry.versionPin && entry.mode==='exam' && entry.timed===true && entry.completed===true;}).map(function(entry){
+      return Object.assign({id:entry.id,at:entry.at},window.__TBVersions.assessAttempt(entry));
+    });
+  }
+
   function fullExamCompletion(sessionId) {
-    const learning = window.__TBLearning;
-    if (!learning || typeof learning.eventsForExam !== 'function') return null;
-    const expectedTotal = Number(exam() && exam().questions || 0);
-    const events = learning.eventsForExam(examId()) || [];
-    return events.filter(function (event) {
-      const payload = event && event.payload || {};
-      const total = Number(payload.total || (Array.isArray(payload.answers) ? payload.answers.length : 0));
-      return event && event.type === 'session_completed' && String(event.sessionId || '') === String(sessionId || '') &&
-        payload.mode === 'exam' && payload.timed === true && (!(payload.versionPin ? payload.versionPin.expectedLength : expectedTotal) || total === (payload.versionPin ? payload.versionPin.expectedLength : expectedTotal));
-    }).sort(function (left, right) {
-      return Number(left.occurredAt || 0) - Number(right.occurredAt || 0) || String(left.id || '').localeCompare(String(right.id || ''));
-    }).pop() || null;
+    const learning=window.__TBLearning;
+    if(!learning || typeof learning.eventsForExam!=='function')return null;
+    return (learning.eventsForExam(examId())||[]).filter(function(event){
+      return event && event.type==='session_completed' && String(event.sessionId)===String(sessionId);
+    }).sort(function(a,b){return Number(a.occurredAt)-Number(b.occurredAt)||String(a.id).localeCompare(String(b.id));}).pop()||null;
   }
 
   function completionDomainBreakdown(completion, meta) {
-    if (!completion || !Array.isArray(completion.payload && completion.payload.answers)) return [];
-    const events = window.__TBLearning && typeof window.__TBLearning.eventsForExam === 'function'
-      ? window.__TBLearning.eventsForExam(examId()) || []
-      : [];
-    const answerEvents = {};
-    events.forEach(function (event) {
-      if (!event || event.type !== 'answer_recorded' || String(event.sessionId || '') !== String(completion.sessionId || '')) return;
-      const id = String(event.questionId || '');
-      if (!id) return;
-      const previous = answerEvents[id];
-      if (!previous || Number(previous.occurredAt || 0) < Number(event.occurredAt || 0) ||
-        (Number(previous.occurredAt || 0) === Number(event.occurredAt || 0) && String(previous.id || '') < String(event.id || ''))) answerEvents[id] = event;
-    });
-
-    const totals = {};
-    const seen = {};
-    (completion.payload.answers || []).forEach(function (answer) {
-      const id = String(answer && answer.questionId || '');
-      if (!id) return;
-      /* A completion payload is definitive.  If a malformed legacy payload
-         repeats an ID, retain its last value without inflating the denominator. */
-      const answerEvent = answerEvents[id];
-      const payload = answerEvent && answerEvent.payload || {};
-      const snapshot = payload.snapshot || {};
-      const current = registry() && typeof registry().find === 'function' ? registry().find(examId(), id) : null;
-      const sub = String(answer && answer.sub || payload.sub || snapshot.sub || current && current.sub || 'general');
-      const prior = seen[id];
-      if (prior) {
-        prior.total -= 1;
-        if (prior.correct) prior.correct -= 1;
-      }
-      totals[sub] = totals[sub] || { total: 0, correct: 0 };
-      const correct = answer.status === 'correct';
-      totals[sub].total += 1;
-      if (correct) totals[sub].correct += 1;
-      seen[id] = { total: totals[sub], correct: correct };
-    });
-    return meta.filter(function (item) { return totals[item.id] && totals[item.id].total > 0; }).map(function (item) {
-      const total = totals[item.id];
-      return { id: item.id, name: item.name, total: total.total, correct: total.correct, pct: Math.round(total.correct / total.total * 100) };
-    });
+    if(!completion || !Array.isArray(completion.payload && completion.payload.answers))return [];
+    const payload=completion.payload, answers=new Map();
+    let duplicate=false;
+    for(const answer of payload.answers) {
+      if(!answer || typeof answer.questionId!=='string' || !answer.questionId)return [];
+      if(answers.has(answer.questionId))duplicate=true;
+      answers.set(answer.questionId,answer);
+    }
+    // Versioned duplicates are invalid. Legacy recovery is an explicit last-final
+    // value projection, never arithmetic subtraction against the wrong domain.
+    if(duplicate && payload.versionPin)return [];
+    try {
+      const totals=window.__TBVersions.aggregateStatuses(Array.from(answers.values(),function(answer){return {status:answer.status,subId:answer.sub||'unknown-domain'};}));
+      if(payload.versionPin && (totals.total!==payload.total || totals.correct!==payload.correct))return [];
+      if(payload.grading && (totals.total!==payload.grading.total || totals.correct!==payload.grading.correct || totals.incorrect!==payload.grading.incorrect || totals.unanswered!==payload.grading.unanswered))return [];
+      const names=new Map((meta||[]).map(function(item){return [item.id,item.name];}));
+      return Object.keys(totals.bySubtopic).map(function(id){
+        const t=totals.bySubtopic[id], score=window.__TBVersions.scoreCounts(t,null);
+        return Object.assign({id,name:names.get(id)||id,pct:Math.round(score.scorePercent),scorePercent:score.scorePercent,evidenceWarning:duplicate?'Duplicate legacy IDs: last final value retained':null},t);
+      });
+    } catch(error){return [];}
   }
 
-  function persistedAttemptDomainBreakdown(attempt, meta) {
-    const totals = {};
-    (attempt && Array.isArray(attempt.domainBreakdown) ? attempt.domainBreakdown : []).forEach(function (entry) {
-      const id = String(entry && (entry.id || entry.sub) || '');
-      const total = Math.max(0, Math.floor(Number(entry && entry.total) || 0));
-      const correct = Math.max(0, Math.min(total, Math.floor(Number(entry && entry.correct) || 0)));
-      if (!id || !total) return;
-      totals[id] = { total: total, correct: correct };
-    });
-    return meta.filter(function (item) { return totals[item.id]; }).map(function (item) {
-      const total = totals[item.id];
-      return { id: item.id, name: item.name, total: total.total, correct: total.correct, pct: Math.round(total.correct / total.total * 100) };
-    });
+  function persistedAttemptDomainBreakdown(attempt) {
+    if(!attempt)return [];
+    const rows=Array.isArray(attempt.domainBreakdown)?attempt.domainBreakdown:[];
+    const seen=new Set();
+    try {
+      const out=rows.map(function(item){
+        const id=String(item && (item.id||item.sub)||'');
+        if(!id || seen.has(id))throw new Error('Invalid historical score group');
+        seen.add(id);
+        const score=window.__TBVersions.scoreCounts(item,null);
+        return {id,name:item.name||id,total:item.total,correct:item.correct,pct:score.scorePercent==null?null:Math.round(score.scorePercent),scorePercent:score.scorePercent};
+      });
+      if(out.reduce(function(sum,row){return sum+row.total;},0)!==attempt.total || out.reduce(function(sum,row){return sum+row.correct;},0)!==attempt.correct)return [];
+      return out;
+    }catch(error){return [];}
   }
 
   function latestExamDomainBreakdown() {
-    const series = examAttemptSeries();
-    if (!series.length) return [];
-    const last = series[series.length - 1];
-    const data = examData(readStore());
-    const meta = subtopicMeta();
-    /* Full-exam domain scoring must use the canonical completion answer list.
-       Mastery history can omit unanswered records (or be compacted/rebuilt)
-       and would turn 1 correct plus 1 blank into a misleading 100%. */
-    const completion = fullExamCompletion(last.id);
-    const immutable = completionDomainBreakdown(completion, meta);
-    if (immutable.length) return immutable;
-
-    /* Local event compaction intentionally bounds the ledger cache. The
-       derived full-exam attempt keeps this same immutable breakdown, so it
-       remains accurate after its answer/completion events have been trimmed. */
-    const attempt = (data.attempts || []).find(function (entry) { return entry && String(entry.id || '') === String(last.id || ''); });
-    const persisted = persistedAttemptDomainBreakdown(attempt, meta);
-    if (persisted.length) return persisted;
-
-    /* Pre-ledger browser history has no immutable completion payload. Retain
-       this compatibility fallback for old attempts, but never prefer it over
-       a durable session_completed answer list. */
-    const totals = {};
-    Object.values(data.questions || {}).forEach(function (state) {
-      if (!state) return;
-      (state.history || []).forEach(function (entry) {
-        if (entry.source !== 'exam-attempt' || entry.attemptId !== last.id) return;
-        const sub = entry.snapshot && entry.snapshot.sub || state.sub || 'general';
-        totals[sub] = totals[sub] || { total: 0, correct: 0 };
-        totals[sub].total += 1;
-        if (entry.status === 'correct') totals[sub].correct += 1;
-      });
-    });
-    return meta.filter(function (item) { return totals[item.id]; }).map(function (item) {
-      const t = totals[item.id];
-      return { id: item.id, name: item.name, total: t.total, correct: t.correct, pct: Math.round(t.correct / t.total * 100) };
-    });
+    const series=examAttemptSeries();
+    if(!series.length)return [];
+    const last=series[series.length-1];
+    const attempt=attemptEntries().find(function(entry){return entry && String(entry.id)===String(last.id);});
+    // Labels and group identities come from the original result projection,
+    // never today's BoK. An unavailable historical label is shown as its ID.
+    const names=attempt && attempt.domainBreakdown || [];
+    const completion=fullExamCompletion(last.id);
+    const payload=completion && completion.payload;
+    let compatible=false;
+    try {compatible=!!(payload && payload.versionPin && window.__TBVersions.canonical(payload.versionPin)===window.__TBVersions.canonical(last.versionPin));}
+    catch(error) { /* Invalid retained payload: use validated original aggregates. */ }
+    const immutable=compatible?completionDomainBreakdown(completion,names):[];
+    if(immutable.length && (immutable.reduce(function(sum,row){return sum+row.total;},0)!==last.total || immutable.reduce(function(sum,row){return sum+row.correct;},0)!==last.correct))return [];
+    if(immutable.length)return immutable;
+    const persisted=persistedAttemptDomainBreakdown(attempt);
+    if(persisted.length)return persisted;
+    const grade=attempt && attempt.grading;
+    if(!grade || !grade.byDomain)return [];
+    return persistedAttemptDomainBreakdown({total:grade.total,correct:grade.correct,domainBreakdown:Object.keys(grade.byDomain).map(function(id){return Object.assign({id,name:id},grade.byDomain[id]);})});
   }
 
   function scoreBuckets(series) {
-    const labels = ['<50%', '50-59%', '60-69%', '70-79%', '80-89%', '90%+'];
-    const counts = [0, 0, 0, 0, 0, 0];
-    series.forEach(function (entry) {
-      const p = entry.pct;
-      const index = p < 50 ? 0 : p < 60 ? 1 : p < 70 ? 2 : p < 80 ? 3 : p < 90 ? 4 : 5;
-      counts[index] += 1;
+    const labels=['<50%', '50–<60%', '60–<70%', '70–<80%', '80–<90%', '90–100%'];
+    const counts=[0,0,0,0,0,0];
+    series.forEach(function(entry){
+      let score;
+      try {score=Number.isSafeInteger(entry.total)&&Number.isSafeInteger(entry.correct)?window.__TBVersions.scoreCounts(entry,null):entry;}catch(error){return;}
+      const index=window.__TBVersions.scoreBucket(score);
+      if(index!==null)counts[index]++;
     });
-    return labels.map(function (label, index) { return { label: label, count: counts[index] }; });
+    return labels.map(function(label,index){return {label,count:counts[index]};});
   }
 
   function tone(value) { return value < 60 ? 'red' : value < 75 ? 'amber' : 'green'; }
@@ -432,6 +389,7 @@
   // --- rendering -----------------------------------------------------------
 
   function svgPolyline(values, width, height, pad) {
+    values=values.filter(function(value){return value!=null&&Number.isFinite(value);});
     if (!values.length) return '';
     const w = width, h = height, p = pad || 6;
     const max = 100, min = 0;
@@ -556,31 +514,33 @@
 
   function examTab() {
     const series = examAttemptSeries();
+    const legacy=legacyExamAttempts();
+    const invalid=(examData(readStore()).attempts||[]).filter(function(entry){return !window.__TBVersions.assessAttempt(entry).available;}).length;
+    const evidenceNote='<p class="tb-an-desc">This is the saved local history projection; cloud acceptance is reported separately by synchronization status.</p>'+(invalid?'<p role="status">'+invalid+' stored result(s) have inconsistent grading evidence and are excluded pending reconciliation.</p>':'');
+    const legacyMarkup=legacy.length?'<details class="tb-an-legacy"><summary>'+legacy.length+' legacy exam record(s): original length/target not captured</summary><p>These saved scores are retained, but are excluded from the pinned full-exam trend and target comparison. No current target or exam length is substituted.</p>'+legacy.map(function(entry){return '<p>'+esc(entry.id)+': '+(entry.available?window.__TBVersions.formatScore(entry.scorePercent)+' ('+entry.correct+'/'+entry.total+')':'Unavailable: invalid stored counts')+'</p>';}).join('')+'</details>':'';
     if (!series.length) {
-      return '<p class="tb-an-empty">You have not completed a full timed exam simulation yet. This tab fills in once you finish one — quiz and adaptive-practice sessions do not count toward it.</p>';
+      return '<p class="tb-an-empty">No completed timed full examination with a saved original configuration is available. Quick, focused, adaptive, abandoned and unverified legacy sessions are not included.</p>'+evidenceNote+legacyMarkup;
     }
     const buckets = scoreBuckets(series);
     const maxBucket = Math.max.apply(null, buckets.map(function (b) { return b.count; }).concat([1]));
     const breakdown = latestExamDomainBreakdown();
-    const passLine = exam() && exam().pass != null ? exam().pass : 70;
     return '<div class="tb-an-label">Score distribution across ' + series.length + ' timed exam' + (series.length === 1 ? '' : 's') + ' &middot; site practice scores</div>' +
       '<div class="tb-an-hist">' + buckets.map(function (b) {
         const h = Math.round(b.count / maxBucket * 100);
-        const passing = b.label === '70-79%' || b.label === '80-89%' || b.label === '90%+';
-        return '<div class="tb-an-hist-col"><div class="tb-an-hist-bar ' + (passing ? 'green' : 'red') + '" style="height:' + Math.max(4, h) + '%"><b>' + b.count + '</b></div><span>' + b.label + '</span></div>';
+        return '<div class="tb-an-hist-col"><div class="tb-an-hist-bar ' + 'neutral' + '" style="height:' + Math.max(4, h) + '%"><b>' + b.count + '</b></div><span>' + b.label + '</span></div>';
       }).join('') + '</div>' +
-      '<div class="tb-an-label" style="margin-top:20px">Per-domain score \u2014 most recent exam</div>' +
+      '<div class="tb-an-label" style="margin-top:20px">Domain/subtopic score \u2014 most recent exam</div>' +
       '<div class="tb-an-domain-list">' + (breakdown.length ? breakdown.map(function (item) {
         return '<div class="tb-an-domain-row"><div class="tb-an-domain-head"><span>' + esc(item.name) + '</span><b class="tb-pill ' + tone(item.pct) + '">' + item.pct + '%</b></div>' +
           '<div class="tb-an-bar-track"><div class="tb-an-bar-fill ' + tone(item.pct) + '" style="width:' + item.pct + '%"></div></div>' +
           '<div class="tb-an-domain-sub"><span>' + item.correct + ' / ' + item.total + ' correct on that exam</span></div></div>';
-      }).join('') : '<p class="tb-an-empty">Domain detail is unavailable for exams taken before this dashboard was added.</p>') + '</div>' +
+      }).join('') : '<p class="tb-an-empty">Original domain counts are unavailable or do not reconcile. Incomplete mastery history is not substituted for the exam denominator.</p>') + '</div>' +
       '<div class="tb-an-label" style="margin-top:20px">Site-target margin over successive exams</div>' +
-      '<p class="tb-an-desc">New sessions use their original saved site target, not an ASQ passing score. Legacy targets are unknown; their comparison uses today’s ' + passLine + '% site target. Sessions without a target are omitted from the margin chart.</p>' +
-      marginChart(series, passLine);
+      '<p class="tb-an-desc">Each point uses its original saved site practice target, not an official certification passing score. Unrounded scores determine margins and score bands. Sessions with unknown targets are omitted, never assigned today’s target.</p>' +
+      marginChart(series)+evidenceNote+legacyMarkup;
   }
 
-  function marginChart(series, passLine) {
+  function marginChart(series) {
     const w = 560, h = 140, p = 14;
     const values = series.filter(function(s){return s.margin!=null;}).map(function (s) { return s.margin; });
     if (!values.length) return '<p class="tb-an-empty">No site target is available for these sessions.</p>';
@@ -593,7 +553,7 @@
       const cx = p + step * index;
       return '<circle cx="' + cx.toFixed(1) + '" cy="' + y(value).toFixed(1) + '" r="3.5" fill="' + (value >= 0 ? '#1f9d6b' : '#c0453f') + '"></circle>';
     }).join('');
-    return '<svg viewBox="0 0 ' + w + ' ' + h + '" class="tb-an-margin" role="img" aria-label="Score margin above or below the saved site target; legacy entries use the current site target">' +
+    return '<svg viewBox="0 0 ' + w + ' ' + h + '" class="tb-an-margin" role="img" aria-label="Score margin above or below each saved site practice target">' +
       '<line x1="' + p + '" y1="' + zeroY.toFixed(1) + '" x2="' + (w - p) + '" y2="' + zeroY.toFixed(1) + '" class="tb-an-zero"></line>' +
       '<polyline points="' + points + '" fill="none" stroke="#6656b5" stroke-width="1.5"></polyline>' + dots + '</svg>';
   }
@@ -876,6 +836,7 @@
     examAttemptSeries: examAttemptSeries,
     latestExamDomainBreakdown: latestExamDomainBreakdown,
     scoreBuckets: scoreBuckets,
+    legacyExamAttempts: legacyExamAttempts,
     open: openPanel,
     close: closePanel,
     setTab: function (tab) {

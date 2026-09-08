@@ -573,7 +573,7 @@
       const sub = String(question.sub || 'general');
       const status = result.status === 'correct' || result.status === 'incorrect' || result.status === 'unanswered'
         ? result.status
-        : result.selected == null ? 'unanswered' : result.selected === Number(question.answer) ? 'correct' : 'incorrect';
+        : window.__TBVersions.classify(question,result.selected);
       totals[sub] = totals[sub] || { id: sub, total: 0, correct: 0, incorrect: 0, unanswered: 0 };
       totals[sub].total += 1;
       totals[sub][status] += 1;
@@ -582,28 +582,28 @@
   }
 
   function normaliseDomainBreakdown(source) {
-    const raw = Array.isArray(source) ? source : [];
-    const totals = {};
-    raw.forEach(function (item) {
-      if (!isRecord(item)) return;
-      const id = String(item.id || item.sub || '');
-      if (!id) return;
-      const total = boundedWhole(item.total);
-      const correct = Math.min(total, boundedWhole(item.correct));
-      const unanswered = Math.min(Math.max(0, total - correct), boundedWhole(item.unanswered));
-      const suppliedIncorrect = boundedWhole(item.incorrect);
-      const incorrect = suppliedIncorrect
-        ? Math.min(Math.max(0, total - correct - unanswered), suppliedIncorrect)
-        : Math.max(0, total - correct - unanswered);
-      totals[id] = { id: id, total: total, correct: correct, incorrect: incorrect, unanswered: unanswered };
-    });
-    return Object.keys(totals).sort().map(function (id) { return totals[id]; }).filter(function (item) { return item.total > 0; });
+    if(!Array.isArray(source))return [];
+    const seen=new Set();
+    try {
+      return source.map(function(item){
+        if(!isRecord(item)||typeof (item.id||item.sub)!=='string')throw new Error('Missing historical score group');
+        const id=item.id||item.sub;
+        if(!id||seen.has(id))throw new Error('Duplicate historical score group');
+        seen.add(id);
+        window.__TBVersions.scoreCounts(item,null);
+        if(!item.total)throw new Error('Empty historical score group');
+        const row={id:id,total:item.total,correct:item.correct};
+        if(typeof item.name==='string')row.name=item.name;
+        if(Object.prototype.hasOwnProperty.call(item,'incorrect')){row.incorrect=item.incorrect;row.unanswered=item.unanswered;}
+        return row;
+      }).sort(function(a,b){return a.id.localeCompare(b.id);});
+    }catch(error){return [];}
   }
 
   function isCompletedFullTimedExam(metadata, total) {
     if (!metadata || metadata.mode !== 'exam' || metadata.timed !== true || metadata.completed === false) return false;
-    const expected = Number(exam() && exam().questions || 0);
-    return !expected || Number(total) === expected;
+    const expected = metadata.versionPin && metadata.versionPin.expectedLength;
+    return Number.isSafeInteger(expected) && Number(total) === expected;
   }
 
   function recordResults(records, source) {
@@ -625,10 +625,16 @@
       id: attemptId, at: timestamp, resetAt: currentResetAt(), source: sourceLabel,
       mode: metadata.mode || null, timed: metadata.timed == null ? null : Boolean(metadata.timed),
       completed: metadata.completed !== false,
+      completedReason: metadata.completedReason || null,
       total: Number.isFinite(declaredTotal) && declaredTotal >= records.length ? declaredTotal : records.length,
       correct: 0, answered: 0, repeated: 0, newQuestions: 0
     };
     if (metadata.versionPin) { summary.versionPin = JSON.parse(JSON.stringify(metadata.versionPin)); summary.grading = metadata.grading ? JSON.parse(JSON.stringify(metadata.grading)) : null; }
+    if (metadata.versionPin && metadata.grading) {
+      const original=window.__TBVersions.assessAttempt(Object.assign({},summary,{total:metadata.grading.total,correct:metadata.grading.correct}));
+      if(!original.available)return null;
+      summary.total=original.total;
+    }
     if (metadata.filter) summary.filter = String(metadata.filter);
     const firstExposureByQuestion = asRecord(metadata.firstExposureByQuestion);
 
@@ -681,6 +687,7 @@
     if (Number.isFinite(declaredCorrect) && declaredCorrect >= 0 && declaredCorrect <= summary.total) {
       summary.correct = Math.floor(declaredCorrect);
     }
+    if (metadata.versionPin && metadata.grading) summary.correct=metadata.grading.correct;
     const declaredAnswered = Number(metadata.answered);
     const declaredNew = Number(metadata.newQuestions);
     const declaredRepeated = Number(metadata.repeated);
@@ -691,10 +698,18 @@
       summary.repeated = Math.floor(declaredRepeated);
     }
 
-    if (isCompletedFullTimedExam(metadata, summary.total)) {
+    if (metadata.versionPin || isCompletedFullTimedExam(metadata, summary.total)) {
       const supplied = normaliseDomainBreakdown(metadata.domainBreakdown);
       const derived = supplied.length ? supplied : domainBreakdownFromRecords(records);
-      if (derived.length) summary.domainBreakdown = derived;
+      // Only a configuration tied to the saved version may supply historic names.
+      const catalog=window.__TBVersionCatalog && window.__TBVersionCatalog.exams && window.__TBVersionCatalog.exams[examId()];
+      const candidate=metadata.scoringConfiguration || (catalog && metadata.versionPin && catalog.configVersion===metadata.versionPin.configVersion ? catalog.config : null);
+      const configuration=candidate && metadata.versionPin && window.__TBVersions.digest('snapshot-config-v1',candidate)===metadata.versionPin.configurationDigest ? candidate : null;
+      const names={};
+      if(configuration)asArray(configuration.bok).forEach(function(d){asArray(d.subs).forEach(function(sub){names[sub.id]=sub.name;});});
+      if (derived.length && derived.reduce(function(sum,row){return sum+row.total;},0)===summary.total && derived.reduce(function(sum,row){return sum+row.correct;},0)===summary.correct) {
+        summary.domainBreakdown=derived.map(function(row){return Object.assign({},row,{name:names[row.id]||row.name||row.id});});
+      }
     }
 
     data.attempts = asArray(data.attempts).concat([summary]).slice(-500);
@@ -875,6 +890,7 @@
         id: String(event.sessionId),
         at: Number(event.occurredAt || 0),
         mode: String(payload.mode || 'practice'),
+        completedReason: payload.completedReason || null,
         timed: Boolean(payload.timed),
         filter: payload.filter || null,
         total: Number(payload.total || records.length),
@@ -963,6 +979,7 @@
       const result = recordResults(session.records, {
         source: ledgerSource(session.mode),
         mode: session.mode,
+        completedReason: session.completedReason || null,
         timed: session.timed,
         sessionId: session.id,
         at: session.at || now(),
@@ -1267,7 +1284,7 @@
       if (checked && selected === optionIndex && optionIndex !== question.answer) cls += ' wrong';
       return '<button type="button" class="' + cls + '" data-adaptive-opt="' + optionIndex + '"' + (checked ? ' disabled' : '') + '><span>' + String.fromCharCode(65 + optionIndex) + '</span>' + esc(option) + '</button>';
     }).join('');
-    const status = selected == null ? 'unanswered' : selected === question.answer ? 'correct' : 'incorrect';
+    const status = window.__TBVersions.classify(question,selected);
     return '<div class="tb-adaptive-head"><div><div class="tb-diag-kick">Adaptive practice · ' + (index + 1) + ' of ' + total + '</div><h3>' + esc(subtopicName(question.sub)) + '</h3></div><div class="tb-adaptive-mastery-chip">Current mastery <strong>' + state.mastery + '%</strong></div></div>' +
       chartHtml(question.chart) + '<div class="tb-adaptive-stem">' + esc(question.stem) + '</div><div class="tb-adaptive-options">' + options + '</div>' +
       (checked ? '<div class="tb-adaptive-feedback ' + status + '"><strong>' + (status === 'correct' ? 'Correct.' : 'Not yet.') + '</strong><div>' + (question.why || 'A stored explanation is not available.') + '</div></div>' : '') +
@@ -1276,8 +1293,9 @@
 
   function adaptiveSummaryMarkup() {
     const total = adaptive.items.length;
-    const correct = adaptive.items.reduce(function (count, question, index) { return count + (adaptive.answers[index] === question.answer ? 1 : 0); }, 0);
-    return '<div class="tb-adaptive-summary"><div class="tb-ring big" style="--p:' + Math.round(correct / Math.max(total, 1) * 100) + '"><span>' + correct + '<small>/' + total + '</small></span></div><div><div class="tb-diag-kick">Adaptive session complete</div><h3>Your mastery map has been updated.</h3><p>The next review dates, weak-area ranking, mistake notebook, and repeated-question trend now reflect this session.</p><div class="tb-adaptive-actions"><button type="button" class="btn btn-teal" data-restart-adaptive>Build another session</button><button type="button" class="tb-ghost" data-close-adaptive>Return to results</button></div></div></div>';
+    const score=window.__TBVersions.scoreCounts(adaptive.originalGrade || window.__TBVersions.scoreRecords(adaptive.items.map(function(question,index){return {question:question,selected:adaptive.answers[index]};})),null);
+    const correct=score.correct;
+    return '<div class="tb-adaptive-summary"><div class="tb-ring big" style="--p:' + Math.round(score.scorePercent || 0) + '"><span>' + correct + '<small>/' + total + '</small></span></div><div><div class="tb-diag-kick">Adaptive session complete</div><h3>Your mastery map has been updated.</h3><p>The next review dates, weak-area ranking, mistake notebook, and repeated-question trend now reflect this session.</p><div class="tb-adaptive-actions"><button type="button" class="btn btn-teal" data-restart-adaptive>Build another session</button><button type="button" class="tb-ghost" data-close-adaptive>Return to results</button></div></div></div>';
   }
 
   function renderAdaptive() {
@@ -1308,7 +1326,7 @@
   function finishAdaptiveQuestion() {
     const question = adaptive.items[adaptive.index];
     const selected = adaptive.answers[adaptive.index];
-    const status = selected == null ? 'unanswered' : selected === question.answer ? 'correct' : 'incorrect';
+    const status = window.__TBVersions.classify(question,selected);
     /* Completion can deliberately remain on this final question when the
        ledger's local write-ahead save fails. Keep the retry idempotent rather
        than appending the same answer every time Finish is pressed. */
@@ -1323,6 +1341,7 @@
       announce('Your completed adaptive session is still waiting for a safe local save. Please try finishing it again.');
       return false;
     }
+    adaptive.originalGrade=completed.grading||null;
     adaptive.complete = true;
     renderAdaptive();
     return true;

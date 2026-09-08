@@ -199,9 +199,7 @@
   }
 
   function statusOf(record) {
-    if (!record || record.selected == null) return 'unanswered';
-    if (record.question && record.question.answer === record.selected) return 'correct';
-    return 'incorrect';
+    return window.__TBVersions.classify(record && record.question,record && record.selected);
   }
 
   function attemptRecords() {
@@ -212,14 +210,9 @@
   }
 
   function resultCounts(records) {
-    const counts = { all: records.length, correct: 0, incorrect: 0, unanswered: 0, flagged: 0, missed: 0 };
-    records.forEach(function (record) {
-      const status = statusOf(record);
-      counts[status] += 1;
-      if (status !== 'correct') counts.missed += 1;
-      if (record.flagged) counts.flagged += 1;
-    });
-    return counts;
+    const score=window.__TBVersions.aggregateStatuses(records.map(function(record){return {status:statusOf(record)};}));
+    return {all:score.total,correct:score.correct,incorrect:score.incorrect,unanswered:score.unanswered,
+      missed:score.incorrect+score.unanswered,flagged:records.filter(function(record){return record.flagged;}).length};
   }
 
   function answerText(question, index) {
@@ -412,7 +405,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(question))retur
     const meta = topicMeta(currentExam(), question.sub);
     const selected = retryState.answers[index];
     const checked = Boolean(retryState.checked[index]);
-    const correct = selected === question.answer;
+    const correct = window.__TBVersions.classify(question,selected) === 'correct';
     const options = (question.options || []).map(function (option, optionIndex) {
       const classes = ['tb-retry-option'];
       if (selected === optionIndex) classes.push('selected');

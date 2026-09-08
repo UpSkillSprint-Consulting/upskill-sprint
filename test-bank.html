@@ -235,6 +235,8 @@
   .tb-planlink{font-size:12.5px;font-weight:700;color:var(--teal)}
   .mut{color:var(--muted)}
   .tb-planacts{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px}
+  .tb-score-result{border:1px solid var(--line);border-radius:12px;background:var(--paper);color:var(--ink);padding:16px;margin:0 0 20px;overflow-wrap:anywhere}
+  .tb-score-result strong{font-size:20px}.tb-score-result p{margin:8px 0 0;font-size:13px;color:var(--ink)}
   .tb-breakdown{display:grid;gap:12px;margin-bottom:16px}
   .tb-domblock{border:1px solid var(--line);border-radius:11px;padding:14px 16px;background:var(--tint)}
   .tb-domhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
@@ -3605,7 +3607,10 @@
   /* ---------- adaptive engine (pure) ---------- */
   function subUnits(e){var u=[];e.bok.forEach(function(dm){dm.subs.forEach(function(x){var per=(x.w!=null?x.w:dm.weight/dm.subs.length);u.push({id:x.id,name:x.name,domain:dm.domain,lesson:x.lesson,lessonName:x.lessonName,weight:per,domWeight:dm.weight});});});return u;}
   function domainOf(e,subId){for(var i=0;i<e.bok.length;i++){for(var j=0;j<e.bok[i].subs.length;j++){if(e.bok[i].subs[j].id===subId)return e.bok[i].domain;}}return null;}
-  function subAgg(bank,answers){var agg={};bank.forEach(function(q,i){agg[q.sub]=agg[q.sub]||{c:0,t:0};agg[q.sub].t++;if(answers[i]===q.answer)agg[q.sub].c++;});return agg;}
+  function subAgg(bank,answers){
+    var groups=window.__TBVersions.scoreRecords(bank.map(function(question,i){return {question:question,selected:answers[i]==null?null:answers[i]};})).bySubtopic;
+    var agg={};Object.keys(groups).forEach(function(id){agg[id]={c:groups[id].correct,t:groups[id].total};});return agg;
+  }
   function readiness(units,agg,pass){var tot=0,got=0,exam=0;units.forEach(function(u){exam+=u.weight;var a=agg[u.id];if(a&&a.t){tot+=u.weight;got+=u.weight*(a.c/a.t);}});var m=tot?got/tot:0,p=pass/100;var prob=1/(1+Math.exp(-12*(m-p)));return {mastery:m,readiness:Math.round(prob*100),coverage:exam?tot/exam:0};}
   function studyPlan(units,agg){var items=[];units.forEach(function(u){var a=agg[u.id];if(!a||!a.t)return;var mastery=a.c/a.t;items.push({id:u.id,name:u.name,domain:u.domain,lesson:u.lesson,lessonName:u.lessonName,mastery:mastery,weight:u.weight,domWeight:u.domWeight,priority:(1-mastery)*u.weight});});var sum=items.reduce(function(x,i){return x+i.priority;},0)||1;items.forEach(function(i){i.timePct=Math.round(i.priority/sum*100);});items.sort(function(a,b){return b.priority-a.priority||b.weight-a.weight;});return items;}
   function sm2(st,q){st=st||{reps:0,ease:2.5,interval:0};var ease=st.ease,reps=st.reps,interval;if(q<3){reps=0;interval=1;}else{ease=Math.max(1.3,ease+(0.1-(5-q)*(0.08+(5-q)*0.02)));reps=reps+1;interval=reps===1?1:reps===2?6:Math.round(st.interval*ease);}return {reps:reps,ease:Math.round(ease*100)/100,interval:interval};}
@@ -4489,7 +4494,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
   function getFeedbackSnapshot(){
     if(!session||!Array.isArray(session.items))return null;
     return {sessionId:session.id,examId:current,completed:!!session.completed,
-      records:session.items.map(function(it,index){return {index:index,question:it.q,
+      grading:session.originalGrade||null,versionPin:session.versionPin?window.__TBVersions.reference(session.versionPin):null,records:session.items.map(function(it,index){return {index:index,question:it.q,
         selected:session.answers[index]==null?null:session.answers[index],flagged:!!session.flags[index]};})};
   }
   function submitQuiz(completedReason){
@@ -4498,7 +4503,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     session.completed=true;
     stopTimer();stopTools();
     var e=session.versionPin?Object.assign({},EXAMS[current],session.versionPin.configuration,{pass:session.versionPin.siteTargetBps==null?null:session.versionPin.siteTargetBps/100}):EXAMS[current];
-    var learningRecords=session.items.map(function(it,index){var selected=session.answers[index];return {question:it.q,selected:selected==null?null:selected,status:selected==null?'unanswered':selected===it.q.answer?'correct':'incorrect'};});
+    var learningRecords=session.items.map(function(it,index){var selected=session.answers[index];return {question:it.q,selected:selected==null?null:selected,status:window.__TBVersions.classify(it.q,selected)};});
     var learning=window.__TBLearning;
     if(!learning||typeof learning.completeSession!=='function'||!session.id){session.completed=false;showLearningStorageNotice('Your completed test could not be saved because study-record storage is unavailable. Please wait a moment and submit again.');return;}
     var completion=learning.completeSession({examId:current,sessionId:session.id,mode:session.kind,timed:session.timed,filter:session.filter||null,startedAt:session.endsAt&&session.limitSeconds?session.endsAt-session.limitSeconds*1000:null,completedReason:completedReason||'submitted',records:learningRecords});
@@ -4510,26 +4515,29 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
       return;
     }
     session.originalGrade=completion.grading||null;
-    var agg=subAgg(session.items.map(function(it){return it.q;}),session.answers);
+    var scoredGroups=window.__TBVersions.scoreRecords(learningRecords,session.versionPin?session.versionPin.configuration:null);
+    var agg={};Object.keys(scoredGroups.bySubtopic).forEach(function(id){var item=scoredGroups.bySubtopic[id];agg[id]={c:item.correct,t:item.total};});
     var units=subUnits(e);
     var rec=recordAttempt(current,units,agg,e.pass);
     rec.readiness=canonicalReadiness(rec.readiness);
     var cum=cumAggFrom(rec.state.subState);
-    session.result={agg:agg,cum:cum,units:units,readiness:rec.readiness,plan:studyPlan(units,cum),state:rec.state};
+    session.result={agg:agg,cum:cum,units:units,readiness:rec.readiness,plan:studyPlan(units,cum),state:rec.state,score:window.__TBVersions.scoreCounts(completion.grading||scoredGroups,session.versionPin?session.versionPin.siteTargetBps:null),completedReason:completedReason||'submitted'};
     // Timed expiry and manual submission publish the same complete saved attempt.
     document.dispatchEvent(new CustomEvent('tb:attempt-completed',{detail:getFeedbackSnapshot()}));
     view='results';renderMain();
   }
   function resultsHTML(){
-    var e=session.versionPin?Object.assign({},EXAMS[current],session.versionPin.configuration):EXAMS[current],r=session.result;var rd=r.readiness;var plan=r.plan;var agg=r.cum;
+    var e=session.versionPin?Object.assign({},EXAMS[current],session.versionPin.configuration):EXAMS[current],r=session.result;var rd=r.readiness;var plan=r.plan;var agg=r.agg;
     var prev=r.state&&r.state.history&&r.state.history.length>1?r.state.history[r.state.history.length-2].readiness:null;
     var delta=prev!=null?rd.readiness-prev:null;
-    var scored=0,tot=0;session.items.forEach(function(it,i){tot++;if(session.answers[i]===it.q.answer)scored++;});
+    var score=r.score,scored=score.correct,tot=score.total;
+    var targetText=score.siteTargetMet===null?'Site practice target unavailable':(score.siteTargetMet?'Site practice target met':'Below site practice target')+' ('+window.__TBVersions.formatScore(score.siteTargetBps/100)+')';
+    var gradeNotice='<div class="tb-score-result" data-score-result data-score-percent="'+score.scorePercent+'" data-target-met="'+score.siteTargetMet+'"><strong>Session score: '+window.__TBVersions.formatScore(score.scorePercent)+' ('+score.correct+'/'+score.total+')</strong><p>'+targetText+'. This is a site practice target, not an official certification pass/fail result.</p><p>'+(session.originalGrade?session.originalGrade.incorrect+' incorrect · '+session.originalGrade.unanswered+' unanswered. ':'')+(r.completedReason==='timed-out'?'Time expired. ':'')+'Saved locally; cloud acceptance is tracked separately in sync status.</p></div>';
     // per-domain -> sub breakdown
     var byDom={};r.units.forEach(function(u){var a=agg[u.id];if(!a||!a.t)return;byDom[u.domain]=byDom[u.domain]||{c:0,t:0,subs:[]};byDom[u.domain].c+=a.c;byDom[u.domain].t+=a.t;byDom[u.domain].subs.push({u:u,a:a});});
-    var breakdown=e.bok.filter(function(bd){return byDom[bd.domain];}).map(function(bd){var g=byDom[bd.domain],p=g.c/g.t,col=DM[bd.domain].color;
+    var breakdown=e.bok.filter(function(bd){return byDom[bd.domain];}).map(function(bd){var g=byDom[bd.domain],p=g.c/g.t,col=(DM[bd.domain]||{}).color||'#6656b5';
       var subs=g.subs.map(function(x){var m=x.a.c/x.a.t,weak=m<0.6;return '<div class="tb-sub"><span class="tb-subn">'+esc(x.u.name)+'</span><span class="tb-subp" style="color:'+(weak?'#c0453f':'var(--good,#1f9d6b)')+'">'+Math.round(m*100)+'% <span class="mut">('+x.a.c+'/'+x.a.t+')</span></span><span class="tb-subbar"><span style="width:'+Math.round(m*100)+'%;background:'+(weak?'#c0453f':col)+'"></span></span></div>';}).join('');
-      return '<div class="tb-domblock"><div class="tb-domhead"><span class="tb-domn"><i style="background:'+col+'"></i>'+esc(DM[bd.domain].name)+'</span><span class="tb-domp">'+Math.round(p*100)+'%</span></div>'+subs+'</div>';}).join('');
+      return '<div class="tb-domblock"><div class="tb-domhead"><span class="tb-domn"><i style="background:'+col+'"></i>'+esc(bd.name||(DM[bd.domain]||{}).name||bd.domain)+'</span><span class="tb-domp">'+Math.round(p*100)+'%</span></div>'+subs+'</div>';}).join('');
     // study plan (weak-first)
     var weak=plan.filter(function(i){return i.mastery<0.8;});
     var totExam=r.units.reduce(function(x,u){return x+u.weight;},0);
@@ -4542,7 +4550,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
         '<a class="tb-planlink" href="'+i.lesson+'">Study: '+esc(i.lessonName)+' &rarr;</a></div></div>';
     }).join('');
     var deltaTxt=delta!=null?(' <span class="tb-delta '+(delta>=0?'up':'down')+'">'+(delta>=0?'\u25b2 +':'\u25bc ')+delta+'</span>'):'';
-    var passLine=rd.readiness>=50?'On track \u2014 keep closing the gaps below.':'Below the line \u2014 the plan below is where to start.';
+    var passLine=rd.readiness>=50?'Keep consolidating your learning with the plan below.':'Build broader coverage and repeated practice with the plan below.';
     var resultLabel=session.kind==='diagnostic'?'Sample diagnostic result':session.kind==='exam'?'Full Exam result':session.kind==='quick'?'Quick Quiz result':session.kind==='focus'?'Focused Quiz result':'Weak-area practice';
     var attemptLabel=session.kind==='diagnostic'?'diagnostic':session.kind==='exam'?'full exam':session.kind==='quick'?'quick quiz':session.kind==='focus'?'focused quiz':'practice set';
     var retakeLabel=session.kind==='diagnostic'?'Retake diagnostic':session.kind==='exam'?'Retake Full Exam':session.kind==='quick'?'Retake Quick Quiz':session.kind==='focus'?'Retake Focused Quiz':'';
@@ -4550,10 +4558,10 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
       '<div class="tb-reshead"><div class="tb-ring big" style="--p:'+rd.readiness+';--rc:'+(rd.readiness>=50?'var(--good,#1f9d6b)':'#c0453f')+'"><span>'+rd.readiness+'<small>%</small></span></div>'+
         '<div class="tb-resverd"><div class="tb-diag-kick">Coverage-adjusted readiness'+deltaTxt+'</div><h2>Your current study evidence</h2>'+
         '<p>You answered '+scored+' of '+tot+' correctly on this '+attemptLabel+'. '+passLine+' Blueprint-weighted answered-pool coverage: '+Math.round(rd.readiness>=0?r.readiness.coverage*100:0)+'%.</p></div></div>'+
-      '<div class="tb-sec">Your personalized study plan</div>'+
+      gradeNotice+'<div class="tb-sec">Your personalized study plan</div>'+
       '<div class="tb-plan">'+planRows+'</div>'+
       '<div class="tb-planacts"><button type="button" class="btn btn-teal" data-practice2>Practice your weak areas</button>'+(retakeLabel?'<button type="button" class="tb-ghost" data-retake>'+retakeLabel+'</button>':'')+'</div>'+
-      '<div class="tb-sec">Full breakdown by phase &rarr; subtopic</div>'+
+      '<div class="tb-sec">This session: score breakdown by phase &rarr; subtopic</div>'+
       '<div class="tb-breakdown">'+breakdown+'</div>'+
       '<p class="tb-srnote">Each subtopic is scheduled with spaced repetition and recorded in your durable learning ledger. When you are signed in, your saved results sync across your devices.</p>';
   }
