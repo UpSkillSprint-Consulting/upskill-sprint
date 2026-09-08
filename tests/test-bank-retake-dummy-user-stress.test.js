@@ -343,6 +343,7 @@ test('dummy-account stress: a cross-device New-only shortfall is atomic and crea
     from: base.from,
     rpc(name, args) {
       rpcCalls.push({ name, args });
+      if (name === 'ingest_test_bank_operations_v1') return base.rpc(name, args);
       const ids = (args && args.p_question_ids || []).slice();
       if (name === 'reserve_test_bank_new_questions_exact') {
         const available = ids.filter(id => !claims.has(id)).slice(0, 7);
