@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - run: sudo apt-get update -qq && sudo apt-get install -y libicu74 libjpeg-turbo8 libmanette-0.2-0
+      - run: sudo apt-get update -qq && sudo apt-get install -y libicu74 libjpeg-turbo8 libmanette-0.2-0 libgles2
       - run: |
           mkdir -p /tmp/pr173-libs
-          cp -L /usr/lib/x86_64-linux-gnu/libicudata.so.74 /usr/lib/x86_64-linux-gnu/libicui18n.so.74 /usr/lib/x86_64-linux-gnu/libicuuc.so.74 /usr/lib/x86_64-linux-gnu/libjpeg.so.8 /usr/lib/x86_64-linux-gnu/libmanette-0.2.so.0 /tmp/pr173-libs/
+          cp -L /usr/lib/x86_64-linux-gnu/libicudata.so.74 /usr/lib/x86_64-linux-gnu/libicui18n.so.74 /usr/lib/x86_64-linux-gnu/libicuuc.so.74 /usr/lib/x86_64-linux-gnu/libjpeg.so.8 /usr/lib/x86_64-linux-gnu/libmanette-0.2.so.0 /usr/lib/x86_64-linux-gnu/libGLESv2.so.2 /tmp/pr173-libs/
           cd /tmp/pr173-libs && sha256sum *.so* > SHA256SUMS
       - uses: actions/upload-artifact@v4
         with:
