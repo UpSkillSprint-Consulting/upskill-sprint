@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "segment": 1,
+  "date": "2026-09-07",
+  "repository": "UpSkillSprint-Consulting/upskill-sprint",
+  "baselineCommit": "990e385350ae63d76cfc1e3940c3644859cc636a",
+  "pullRequest": 172,
+  "productionBehaviorModified": false,
+  "databaseWrites": false,
+  "production": {
+    "deployment": "6a9f21c2b2e1be0008e52475",
+    "commit": "990e385350ae63d76cfc1e3940c3644859cc636a",
+    "state": "ready",
+    "publishedAt": "2026-09-07T20:43:30.632Z"
+  },
+  "inventory": {
+    "cssbb": {"total": 1024, "sets": [165,165,694], "genericLength": 165, "minutes": 270},
+    "mbb": {"total": 450, "sets": [100,175,175], "genericLength": 100, "minutes": 150, "fullLengthOverrides": {"1":100,"2":175,"3":175,"mix":100}},
+    "cssgb": {"total": 616, "sets": [110,506], "genericLength": 110, "minutes": 258},
+    "cqe": {"total": 933, "sets": [160,160,613], "genericLength": 160, "minutes": 300},
+    "cmq": {"total": 166, "sets": [166], "genericLength": 150, "minutes": 270},
+    "total": 3189,
+    "globalCanonicalCollisions": 0,
+    "missingExplicitIds": 0,
+    "unmappedDomains": 0,
+    "configuredSitePracticeTarget": 70,
+    "officialBlueprintProvenanceVerified": false
+  },
+  "database": {
+    "capturedAt": "2026-09-07T21:55:48.036436Z",
+    "postgresVersion": "17.6",
+    "rlsEnabled": ["test_bank_learning_events", "test_bank_progress_devices", "test_bank_new_question_claims"],
+    "authenticatedGrants": {
+      "test_bank_learning_events": ["SELECT", "INSERT"],
+      "test_bank_progress_devices": ["SELECT", "INSERT", "UPDATE"],
+      "test_bank_new_question_claims": []
+    },
+    "learningEventPrimaryKey": ["user_id", "event_id"],
+    "clientRoleAdversarialTestsPerformed": false,
+    "questionCatalogForeignKeyPresent": false,
+    "reservationFunctionMd5": {
+      "reserve_test_bank_new_questions": "0b4d94bd3bbec212baf868184de23fc7",
+      "reserve_test_bank_new_questions_exact": "d66f315f5d411092d136aed0b74888fb"
+    },
+    "duplicateIndexDefinitions": ["test_bank_learning_events_user_occurred_event_idx", "test_bank_learning_events_user_occurred_idx"],
+    "migrations": [
+      ["20260821151016", "add_account_synced_test_progress"],
+      ["20260821153716", "create_account_profiles_phase_1"],
+      ["20260821162227", "protect_account_audit_and_progress_privileges"],
+      ["20260830235559", "create_test_bank_learning_events"],
+      ["20260831004551", "add_test_bank_learning_events_sync_index"],
+      ["20260831010000", "add_test_bank_new_question_claims"],
+      ["20260831051512", "restrict_test_bank_learning_events_authenticated_privileges"],
+      ["20260831224207", "fix_test_bank_new_question_reservation"],
+      ["20260903122940", "harden_test_bank_new_only_tier1_database"],
+      ["20260903123402", "add_learning_events_user_occurred_index"],
+      ["20260903123535", "add_explicit_timeout_to_reserve_function"],
+      ["20260905030445", "add_exact_new_only_retake_reservation"]
+    ],
+    "migrationNameDifferencesProveSemanticDrift": false
+  },
+  "screenshotMatchingSnapshotAggregate": {
+    "questionStateKeys": 649,
+    "storedAttempts": 698,
+    "detailedHistoryRows": 698,
+    "firstLabelRows": 685,
+    "repeatLabelRows": 13,
+    "statesWithMultipleFirstLabels": 30,
+    "excessFirstLabels": 36,
+    "statesWithoutFirstLabel": 0,
+    "nonCssbbNamespaceKeys": 0,
+    "originalWriterProvenanceEstablished": false,
+    "rawLearnerRecordsIncluded": false
+  },
+  "localIsolatedRun": {
+    "node": "22.16.0",
+    "npm": "10.9.2",
+    "command": "node --test --test-concurrency=1 tests/test-bank-segment01-*.test.js",
+    "checks": 19,
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0,
+    "isProductAcceptance": false
+  },
+  "dependencyAdvisorySnapshot": {"total":11,"critical":1,"high":4,"moderate":6,"exploitableProductionPathsEstablished":false,"packagesChanged":false},
+  "limitations": ["No physical iPhone/iPad handoff test", "No production synthetic attempts", "No adversarial production client-role testing", "No full performance-budget qualification", "No production visual/accessibility sign-off"],
+  "sourceSha256": {
+    "test-bank.html": "272e485ba5a2134a425712de50a2f7d63adce917f22e032063c35cc843165437",
+    "test-bank-question-registry.js": "919864522814cef3247fc9269a6114300fdf9664301b2c91db35e25ba23bf242",
+    "test-bank-learning-events.js": "450a3003381dc0511aeaaa7580230c22c8421b0543b8eb908346c1e1d3a6bcb9",
+    "test-bank-account-sync.js": "d3fa13b444a38fc25cc5577661dde0d15c17a0a131eb205cece5d6ea20eb9e85",
+    "test-bank-adaptive-mastery.js": "ba76e4f2c6ff88e49122c752097dcd4268b153c4d40a019a433f4ae1daf416d8",
+    "test-bank-adaptive-mastery-hardening.js": "f42b8518fefdb32c91149dc3bf3cc129d02918766425677a4c4fc1d18cebcdfb",
+    "test-bank-analytics-dashboard.js": "9a922c29be5a4d5b5a90d68f6e16bffd11d2b867c3d21648149d1d332eaeb029",
+    "package-lock.json": "9cf19fd425d43875c321c3c5f99a8ffd32e7c7442d1f3114d4aace7e6c40d478"
+  }
+}
