@@ -5,7 +5,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM } = require('jsdom');
 
-const source = fs.readFileSync(path.join(__dirname, '..', 'test-bank-incremental-sync-policy.js'), 'utf8');
+const ROOT = path.join(__dirname, '..');
+const source = fs.readFileSync(path.join(ROOT, 'test-bank-incremental-sync-policy.js'), 'utf8');
+const accountSource = fs.readFileSync(path.join(ROOT, 'test-bank-account-sync.js'), 'utf8');
 
 function load(initialStorage) {
   const dom = new JSDOM('<!doctype html><body></body>', { url: 'https://segment14.invalid/test-bank', runScripts: 'outside-only' });
@@ -107,4 +109,59 @@ test('cross-account auth clears stale cursor/digest metadata before account sync
   dom.window.localStorage.setItem('tb-account-sync-user-v1', 'owner-b');
   authChange({ id: 'owner-c' });
   assert.equal(dom.window.localStorage.getItem('tb-account-sync-meta-v1'), null, 'later account switches are sanitized before sync');
+});
+
+test('a failed first fetch after an account switch cannot revive the prior owner cursor', async t => {
+  const dom = load({
+    'tb-account-sync-user-v1': 'owner-a',
+    'tb-account-sync-meta-v1': JSON.stringify({ userId: 'owner-a', remoteCursor: { syncSeq: 912 }, uploadedDigest: 'owner-a-digest' })
+  });
+  t.after(() => dom.window.close());
+  const user = { id: 'owner-b' };
+  const authCallbacks = [];
+  const cursors = [];
+  let first = true;
+  const client = {
+    rpc(name, args) {
+      assert.equal(name, 'fetch_test_bank_progress_devices_incremental_v1');
+      cursors.push(args.p_after_sync_seq);
+      if (first) { first = false; return Promise.resolve({ data: null, error: { message: 'synthetic first-fetch failure' } }); }
+      return Promise.resolve({ data: [], error: null });
+    },
+    from(table) {
+      assert.equal(table, 'test_bank_progress_devices');
+      return { upsert() { return Promise.resolve({ data: null, error: null }); } };
+    }
+  };
+  dom.window.UpskillAuth = {
+    getUser: () => user,
+    getClient: () => client,
+    onChange(callback) { authCallbacks.push(callback); }
+  };
+  dom.window.document.dispatchEvent(new dom.window.CustomEvent('upskill-auth-ready'));
+  dom.window.eval(accountSource);
+  assert.ok(authCallbacks.length >= 2, 'policy and account runtime both observe auth');
+  authCallbacks[0](user); // policy listener executes first in production script order
+  const failed = await dom.window.__TBAccountSync.sync('owner-b-first');
+  assert.ok(failed.error);
+  assert.equal(cursors[0], null, 'new account starts from a null sequence cursor');
+  const retried = await dom.window.__TBAccountSync.sync('owner-b-retry');
+  assert.ifError(retried.error);
+  assert.equal(cursors[1], null, 'failed first fetch cannot restore owner A cursor metadata');
+  const meta = JSON.parse(dom.window.localStorage.getItem('tb-account-sync-meta-v1'));
+  assert.equal(meta.userId, 'owner-b');
+  assert.equal(meta.remoteCursor, null);
+});
+
+test('production edge loaders insert the Segment 14 policy before already-present sync runtimes', () => {
+  ['netlify/edge-functions/test-bank-set-controls.js', 'netlify/edge-functions/test-bank-mobile-picker.js'].forEach(file => {
+    const edge = fs.readFileSync(path.join(ROOT, file), 'utf8');
+    assert.match(edge, /ensureIncrementalPolicyBeforeSync/);
+    assert.match(edge, /html\.replace\(accountTag, policy \+ accountTag\)/);
+    assert.match(edge, /html\.replace\(learningTag, policy \+ learningTag\)/);
+    const policy = edge.indexOf("'/test-bank-incremental-sync-policy.js'");
+    const account = edge.indexOf("'/test-bank-account-sync.js'");
+    const learning = edge.indexOf("'/test-bank-learning-events.js'");
+    assert.ok(policy >= 0 && account > policy && learning > account, file + ' enhancement order must be policy → account → learning');
+  });
 });
