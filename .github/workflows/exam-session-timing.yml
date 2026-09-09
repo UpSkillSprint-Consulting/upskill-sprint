@@ -1,0 +1,129 @@
+name: Exam session timing
+on:
+  pull_request:
+    paths:
+      - 'test-bank-session-timing.js'
+      - 'test-bank-adaptive-mastery-completion-guard.js'
+      - 'test-bank-phase2-hardening.js'
+      - 'test-bank-phase2-runtime-coordinator.js'
+      - 'tests/test-bank-segment13-timing.test.js'
+      - 'tests/helpers/segment03-harness.cjs'
+      - 'scripts/exam-reliability/run-session-timing-browser.cjs'
+      - 'supabase/migrations/20260909152000_add_exam_trusted_clock.sql'
+      - '.github/workflows/exam-session-timing.yml'
+      - 'docs/exam-reliability/SEGMENT-13-AUTHORITATIVE-TIMING.md'
+      - 'docs/exam-reliability/ROADMAP.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: exam-session-timing-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - name: Syntax
+        run: |
+          node --check test-bank-session-timing.js
+          node --check test-bank-phase2-hardening.js
+          node --check test-bank-phase2-runtime-coordinator.js
+          node --check test-bank-adaptive-mastery-completion-guard.js
+          node --check scripts/exam-reliability/run-session-timing-browser.cjs
+      - name: Segment 01–13 timing/lifecycle regression
+        run: |
+          node --test --test-concurrency=1 \
+            tests/test-bank-segment01-timing.test.js \
+            tests/test-bank-quiz-timing.test.js \
+            tests/test-bank-phase2-runtime.test.js \
+            tests/test-bank-segment12-session-lifecycle.test.js \
+            tests/test-bank-segment13-timing.test.js
+      - name: Full repository regression
+        run: npm test
+  database:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    services:
+      postgres:
+        image: postgres:17.6
+        env: {POSTGRES_USER: postgres, POSTGRES_PASSWORD: segment13_ci_only, POSTGRES_DB: segment03_test}
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version'}
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Apply repository DDL and existing authorization suite
+        env:
+          SEG03_ALLOW_DISPOSABLE_DB: '1'
+          SEG03_DB_URL: postgresql://postgres:segment13_ci_only@127.0.0.1:5432/segment03_test
+        run: node scripts/exam-reliability/run-database.cjs
+      - name: Authenticated clock succeeds and anonymous execution is denied
+        env:
+          PGPASSWORD: segment13_ci_only
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -U postgres -d segment03_test <<'SQL'
+          BEGIN;
+          SET LOCAL ROLE authenticated;
+          SET LOCAL request.jwt.claim.sub='10000000-0000-4000-8000-000000000001';
+          DO $$ DECLARE r jsonb; BEGIN
+            SELECT public.get_test_bank_server_time_v1('segment13-ci') INTO r;
+            IF r->>'protocolVersion' <> '1' OR (r->>'serverTime')::timestamptz IS NULL THEN
+              RAISE EXCEPTION 'invalid trusted-clock response';
+            END IF;
+          END $$;
+          ROLLBACK;
+          SQL
+          if psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -U postgres -d segment03_test <<'SQL'
+          BEGIN;
+          SET LOCAL ROLE anon;
+          SELECT public.get_test_bank_server_time_v1('must-fail');
+          ROLLBACK;
+          SQL
+          then
+            echo 'anonymous trusted-clock execution unexpectedly succeeded' >&2
+            exit 1
+          fi
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {profile: chromium-desktop, engine: chromium}
+          - {profile: webkit-phone, engine: webkit}
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - name: Install pinned browser driver outside application dependencies
+        run: npm install --prefix /tmp/segment13-tools --ignore-scripts --save-exact playwright@1.57.0
+      - run: /tmp/segment13-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
+      - name: Run trusted timing/recovery acceptance
+        env:
+          SEG13_BROWSER_PROFILE: ${{ matrix.profile }}
+          SEG13_PLAYWRIGHT_PATH: /tmp/segment13-tools/node_modules/playwright
+        run: node scripts/exam-reliability/run-session-timing-browser.cjs
+  gate:
+    name: Segment 13 timing gate
+    if: always()
+    needs: [unit, database, browser]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reject any missing, cancelled or failed prerequisite
+        env:
+          UNIT: ${{ needs.unit.result }}
+          DATABASE: ${{ needs.database.result }}
+          BROWSER: ${{ needs.browser.result }}
+        run: test "$UNIT" = success && test "$DATABASE" = success && test "$BROWSER" = success
