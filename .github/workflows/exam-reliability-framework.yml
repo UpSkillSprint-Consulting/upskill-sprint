@@ -76,7 +76,7 @@ jobs:
         run: npm install --prefix /tmp/segment03-tools --ignore-scripts --save-exact playwright@1.57.0
       - name: Install browser and host dependencies
         run: |
-          sudo sed -i 's/^deb /# deb /' /etc/apt/sources.list.d/google-chrome.list 2>/dev/null || true
+          sudo find /etc/apt/sources.list.d -maxdepth 1 -type f \( -iname '*google*' -o -iname '*chrome*' \) -delete || true
           /tmp/segment03-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - run: node scripts/exam-reliability/run-browser.cjs
         env:
