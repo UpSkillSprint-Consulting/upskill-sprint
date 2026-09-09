@@ -78,34 +78,79 @@
     return true;
   }
 
-  function repairNotice() {
-    if (!root.document) return;
-    const snapshot = lifecycle.load();
-    if (!snapshot || snapshot.state !== 'finalizing') return;
-    const box = root.document.querySelector('[data-session-resume]');
-    if (!box) return;
+  function getHost() {
+    return root.document && root.document.getElementById('tb-overview');
+  }
+
+  function ensureBox() {
+    const host = getHost();
+    if (!host) return null;
+    let box = host.querySelector('[data-session-resume]');
+    if (!box) {
+      box = root.document.createElement('section');
+      box.className = 'tb-pane';
+      box.setAttribute('data-session-resume','');
+      box.setAttribute('role','status');
+      host.prepend(box);
+    }
+    return box;
+  }
+
+  function renderEditable(snapshot, box) {
     const answered = snapshot.orderedItems.filter(function (item) { return item.selectedOptionId != null; }).length;
-    box.innerHTML = '<div class="tb-sec">Submission recovery</div><h3 style="margin-top:0">Your submission is still finalizing.</h3><p>' + answered + ' of ' + snapshot.orderedItems.length + ' answers are frozen. This submission cannot be reopened or abandoned because that could create conflicting terminal results.</p><div class="tb-cta"><button type="button" class="btn btn-teal" data-retry-finalization>Retry saving submission</button></div>';
-    const button = box.querySelector('[data-retry-finalization]');
-    if (button) button.addEventListener('click', function () {
-      try {
-        const result = lifecycle.retryFinalization(snapshot.sessionId);
-        if (result && result.saved !== false) box.innerHTML = '<div class="tb-sec">Submission saved</div><p>Your frozen submission was saved successfully. It is terminal and cannot be submitted twice.</p>';
-      } catch (error) {
-        box.setAttribute('data-session-recovery-error', error.code || 'ERROR');
-      }
-    });
+    box.textContent = '';
+    const kicker = root.document.createElement('div'); kicker.className='tb-sec'; kicker.textContent='Saved session';
+    const title = root.document.createElement('h3'); title.style.marginTop='0'; title.textContent='Continue your ' + snapshot.mode + ' session?';
+    const copy = root.document.createElement('p'); copy.textContent = answered + ' of ' + snapshot.orderedItems.length + ' answered. Your question order, selections, flags and original ' + (snapshot.timed ? 'deadline' : 'untimed policy') + ' are preserved on this device.';
+    const actions = root.document.createElement('div'); actions.className='tb-cta';
+    const resume = root.document.createElement('button'); resume.type='button'; resume.className='btn btn-teal'; resume.setAttribute('data-resume-session',''); resume.textContent='Resume session';
+    const abandon = root.document.createElement('button'); abandon.type='button'; abandon.className='tb-ghost'; abandon.setAttribute('data-discard-session',''); abandon.textContent='Abandon saved session';
+    resume.addEventListener('click', function () { lifecycle.resume(snapshot.sessionId); });
+    abandon.addEventListener('click', function () { lifecycle.abandonSaved(snapshot.sessionId); box.remove(); });
+    actions.append(resume,abandon); box.append(kicker,title,copy,actions);
+  }
+
+  function renderFinalizing(snapshot, box) {
+    const answered = snapshot.orderedItems.filter(function (item) { return item.selectedOptionId != null; }).length;
+    box.textContent='';
+    const kicker=root.document.createElement('div');kicker.className='tb-sec';kicker.textContent='Submission recovery';
+    const title=root.document.createElement('h3');title.style.marginTop='0';title.textContent='Your submission is still finalizing.';
+    const copy=root.document.createElement('p');copy.textContent=answered+' of '+snapshot.orderedItems.length+' answers are frozen. This submission cannot be reopened or abandoned because that could create conflicting terminal results.';
+    const actions=root.document.createElement('div');actions.className='tb-cta';
+    const retry=root.document.createElement('button');retry.type='button';retry.className='btn btn-teal';retry.setAttribute('data-retry-finalization','');retry.textContent='Retry saving submission';
+    retry.addEventListener('click',function(){try{const result=lifecycle.retryFinalization(snapshot.sessionId);if(result&&result.saved!==false){box.textContent='';const done=root.document.createElement('p');done.textContent='Your frozen submission was saved successfully. It is terminal and cannot be submitted twice.';box.append(done);}}catch(error){box.setAttribute('data-session-recovery-error',error.code||'ERROR');}});
+    actions.append(retry);box.append(kicker,title,copy,actions);
+  }
+
+  lifecycle.ensureRecoveryNotice = function (ownerId) {
+    if (!root.document || !ownerId) return false;
+    const snapshot = lifecycle.load(null,{ownerId:String(ownerId)});
+    if (!snapshot || lifecycle.terminalStates.includes(snapshot.state)) return false;
+    const existing = root.document.querySelector('[data-session-resume]');
+    if (existing) {
+      if (snapshot.state === 'finalizing') renderFinalizing(snapshot,existing);
+      return true;
+    }
+    const box = ensureBox();
+    if (!box) return false;
+    if (snapshot.state === 'finalizing') renderFinalizing(snapshot,box);
+    else if (editable.has(snapshot.state)) renderEditable(snapshot,box);
+    else { box.remove(); return false; }
+    return true;
+  };
+
+  function repairNotice() {
+    const auth = root.UpskillAuth;
+    const user = auth && typeof auth.getUser === 'function' ? auth.getUser() : null;
+    if (user && user.id) lifecycle.ensureRecoveryNotice(String(user.id));
   }
 
   function signalOwnerRecovery(user) {
     if (!root.document || !user || !user.id) return;
-    /* Core lifecycle already owns the authenticated lookup and rendering path.
-       Re-dispatch its existing discovery event only after auth resolves so the
-       owner-scoped bucket is never weakened to anonymous or cross-account data. */
     queueMicrotask(function () {
       try {
         root.document.dispatchEvent(new root.CustomEvent('tb:exam-changed', { detail:{ reason:'segment12-auth-resolved', ownerId:String(user.id) } }));
-        queueMicrotask(repairNotice);
+        queueMicrotask(function(){lifecycle.ensureRecoveryNotice(String(user.id));});
       } catch (_) {}
     });
   }
@@ -127,7 +172,7 @@
     const boot = function () { wrapLearning(); subscribeAuth(); queueMicrotask(repairNotice); };
     if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', boot, {once:true});
     else queueMicrotask(boot);
-    root.document.addEventListener('upskill-auth-ready', function () { subscribeAuth(); }, {once:true});
+    root.document.addEventListener('upskill-auth-ready', function () { subscribeAuth(); repairNotice(); }, {once:true});
   }
   return lifecycle;
 }));
