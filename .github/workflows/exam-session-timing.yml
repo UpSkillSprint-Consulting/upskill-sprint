@@ -120,8 +120,10 @@ jobs:
       - run: npm ci
       - name: Install pinned browser driver outside application dependencies
         run: npm install --prefix /tmp/segment13-tools --ignore-scripts --save-exact playwright@1.57.0
-      - name: Install pinned browser binary
-        run: /tmp/segment13-tools/node_modules/.bin/playwright install ${{ matrix.engine }}
+      - name: Install browser and host dependencies
+        run: |
+          sudo sed -i 's/^deb /# deb /' /etc/apt/sources.list.d/google-chrome.list 2>/dev/null || true
+          /tmp/segment13-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - name: Run trusted timing/recovery acceptance
         env:
           SEG13_BROWSER_PROFILE: ${{ matrix.profile }}
