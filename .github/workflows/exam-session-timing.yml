@@ -64,7 +64,8 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version-file: '.node-version', cache: npm}
       - run: npm ci
-      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Verify preinstalled PostgreSQL client
+        run: psql --version
       - name: Apply repository DDL and existing authorization suite
         env:
           SEG03_ALLOW_DISPOSABLE_DB: '1'
@@ -119,7 +120,8 @@ jobs:
       - run: npm ci
       - name: Install pinned browser driver outside application dependencies
         run: npm install --prefix /tmp/segment13-tools --ignore-scripts --save-exact playwright@1.57.0
-      - run: /tmp/segment13-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
+      - name: Install pinned browser binary
+        run: /tmp/segment13-tools/node_modules/.bin/playwright install ${{ matrix.engine }}
       - name: Run trusted timing/recovery acceptance
         env:
           SEG13_BROWSER_PROFILE: ${{ matrix.profile }}
