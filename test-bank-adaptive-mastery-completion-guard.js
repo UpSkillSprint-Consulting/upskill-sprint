@@ -102,3 +102,25 @@
 
   window.__TBAdaptiveCompletionGuard = { complete: complete, readSession: readSession };
 }());
+
+/* Segment 12: keep adaptive recovery intact and load the general exam lifecycle
+   only after the existing bank/version/learning runtime has been established. */
+(function () {
+  'use strict';
+  if (window.__TBSessionLifecycle || document.querySelector('script[data-segment12-lifecycle]')) return;
+  const lifecycle = document.createElement('script');
+  lifecycle.src = '/test-bank-session-lifecycle.js';
+  lifecycle.async = false;
+  lifecycle.dataset.segment12Lifecycle = 'true';
+  lifecycle.addEventListener('load', function () {
+    if (document.querySelector('script[data-segment12-finalization]')) return;
+    const finalization = document.createElement('script');
+    finalization.src = '/test-bank-session-lifecycle-finalization.js';
+    finalization.async = false;
+    finalization.dataset.segment12Finalization = 'true';
+    finalization.addEventListener('error', function () { console.error('[exam-session-lifecycle] finalization adapter failed to load'); }, { once:true });
+    document.head.appendChild(finalization);
+  }, { once:true });
+  lifecycle.addEventListener('error', function () { console.error('[exam-session-lifecycle] failed to load'); }, { once:true });
+  document.head.appendChild(lifecycle);
+}());
