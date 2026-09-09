@@ -16,16 +16,111 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version-file: '.node-version', cache: npm}
       - run: npm ci
-      - name: Apply exact reviewed patch to the disposable checkout
-        env:
-          PATCH_B64: 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
+      - name: Apply reviewed transformations to disposable checkout only
         run: |
           python - <<'PY'
-          import os,base64,gzip,hashlib,subprocess,pathlib
-          raw=gzip.decompress(base64.b64decode(os.environ['PATCH_B64']))
-          assert hashlib.sha256(raw).hexdigest()=='a50af95de7e7f86572f00124cf4bb045589a4bb9552eaca0b80302c3f61e3b14'
-          subprocess.run(['git','apply','--index','-'],input=raw,check=True)
-          pathlib.Path('.stage09').mkdir()
+          from pathlib import Path
+          r=Path('.')
+          p=r/'test-bank-versioning.js';s=p.read_text();s=s.replace('function assessAttempt(entry) {','function assessAttempt(entry, expectedExamId) {')
+          s=s.replace("['abandoned','in_progress','paused','finalizing'].includes(entry.state)","['created','in_progress','paused','finalizing','abandoned','cancelled','canceled'].includes(entry.state)")
+          a="      const v=entry.versionPin||null, g=entry.grading||null;\n"
+          b=a+"""      if(expectedExamId!=null) {
+                  requireValue(typeof expectedExamId==='string'&&expectedExamId.length>0,'Invalid historical exam scope');
+                  if(entry.examId!=null)requireValue(entry.examId===expectedExamId,'Historical exam scope mismatch');
+                  if(v&&v.examId!=null)requireValue(v.examId===expectedExamId,'Pinned exam scope mismatch');
+                }
+                if(v&&v.sessionId!=null) {
+                  requireValue(typeof v.sessionId==='string'&&v.sessionId.length>0,'Invalid historical session identity');
+                  if(entry.id!=null)requireValue(entry.id===v.sessionId,'Historical session identity mismatch');
+                  if(entry.sessionId!=null)requireValue(entry.sessionId===v.sessionId,'Historical session identity mismatch');
+                }
+                if(v&&v.examId!=null&&entry.examId!=null)requireValue(v.examId===entry.examId,'Historical exam identity mismatch');
+          """
+          assert s.count(a)==1;s=s.replace(a,b)
+          a="      if(g) {\n        requireValue(v&&g.schemaVersion"
+          b="""      if(g) {
+                  if(g.resultId!=null)requireValue(v&&typeof v.sessionId==='string'&&g.resultId===v.sessionId+':original','Original result identity mismatch');
+                  if(g.pinDigest!=null&&v&&v.pinDigest!=null)requireValue(g.pinDigest===v.pinDigest,'Original pin digest mismatch');
+                  requireValue(v&&g.schemaVersion"""
+          assert s.count(a)==1;s=s.replace(a,b);p.write_text(s)
+          p=r/'test-bank-analytics-dashboard.js';s=p.read_text();assert s.count('window.__TBVersions.assessAttempt(entry)')==4;s=s.replace('window.__TBVersions.assessAttempt(entry)','window.__TBVersions.assessAttempt(entry,examId())');p.write_text(s)
+          p=r/'scripts/exam-reliability/run-browser.cjs';s=p.read_text()
+          s=s.replace("await page.waitForFunction(()=>window.__TB && window.__TBLearning && document.body.classList.contains('auth-ready'));\n  await page.evaluate(async()=>{await __TBLearning.sync('fixture-ready');await new Promise(r=>setTimeout(r,0));});", """await page.waitForFunction(()=>window.__TB && window.__TBLearning && window.__TBAccountSync && window.__TBRetakeConfiguration && document.body.classList.contains('auth-ready'));
+            // Both startup hydrators can schedule browse replacement. Finish their real
+            // promises and enhancement frames before interacting; do not retry lost clicks.
+            await page.evaluate(async()=>{
+              const account=await __TBAccountSync.syncAfterCurrent('fixture-ready');
+              if(account&&account.error)throw new Error('Synthetic account hydration failed');
+              await __TBLearning.sync('fixture-ready');
+              await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+            });""")
+          a='async function quick(page,exam){';start=s.index(a);end=s.index('\nasync function main()',start)
+          s=s[:start]+'''async function quick(page,exam){
+            await page.locator('.tb-tile[data-exam="'+exam+'"]').click();
+            await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
+            await page.locator('[data-count="quick"][data-n="10"]').click();
+            await page.waitForFunction(()=>document.querySelector('[data-count="quick"][data-n="10"]')?.getAttribute('aria-pressed')==='true');
+            await page.locator('[data-mode="quick"]').click();
+            await page.locator('.tb-quiz').waitFor();
+            assert.equal(await page.locator('.tb-navcell').count(),10,'Selected ten-item plan must exist before grading');
+            const answer=await page.evaluate(e=>{const id=document.querySelector('.tb-quiz').dataset.questionId;return __TBQuestionRegistry.find(e,id).answer;},exam);
+            await page.locator('[data-opt="'+answer+'"]').click();
+            await page.locator('.tb-navcell').last().click();
+            await page.locator('[data-submit]').click();
+            await page.locator('.tb-resverd').waitFor();
+            assert.match(await page.locator('.tb-resverd').innerText(),/1 of 10 correctly/);
+          }'''+s[end:];p.write_text(s)
+          p=r/'docs/exam-reliability/SEGMENT-09-GRADING.md';s=p.read_text()+'''
+          ## Final review safeguards
+
+          Historical assessment also checks supplied session/result identity, optional pin digest and the analytics certification scope. A completed flag cannot override created, cancelled, paused, abandoned or finalizing state. These checks withhold inconsistent derived history without changing original ledger evidence or the grading wire schema.
+
+          The Firefox trace from framework run 34289938696 recorded a twenty-item plan in a test that requested ten, before any score assertion. The browser fixture now waits for both actual startup hydration promises and enhancement frames, verifies the selected count, and checks the ten-item plan before answering. It retains the original result, blank, history and synchronization assertions and does not retry a missed click. This is an explicit test setup prerequisite, not a claim that all early-hydration user interactions or physical-device behavior have been qualified.
+
+          Grading CI retains the exact tested commit/tree, file fingerprints, scoped source archive and logs. Source fingerprints make later continuation independent of a stale local checkout. No credentials, production learner data or font files are added to the review evidence.
+          ''';p.write_text(s)
+          p=r/'.github/workflows/exam-grading.yml';p.write_text(p.read_text().replace('tests/test-bank-segment09-grading.test.js','tests/test-bank-segment09-*.test.js'))
+          p=r/'tests/test-bank-segment09-identity.test.js';p.write_text('''\
+          'use strict';
+          const test=require('node:test'),assert=require('node:assert/strict');
+          const V=require('../test-bank-versioning.js');
+          const {makeSandbox}=require('./helpers/segment01-sandbox.cjs');
+          const copy=x=>JSON.parse(JSON.stringify(x));
+          function original(examId='cssbb') {
+            const q={qid:examId+':s09:identity',sub:'one',stem:'Synthetic identity fixture',options:['A','B'],answer:0};
+            const exam={questions:1,minutes:1,pass:70,sets:{1:[q]},bok:[{domain:'domain',subs:[{id:'one',name:'Original domain',w:1}]}]};
+            const catalog=V.createExamCatalog(examId,exam,{source:'synthetic scope fixture'});
+            const pin=V.pin({examId,sessionId:'identity-'+examId,questions:[q],setId:'1',mode:'exam',timed:true,limitSeconds:60,startedAt:Date.UTC(2026,8,8)},exam,catalog);
+            const grading=V.grade(pin,[{question:q,selected:0}]);
+            return {id:pin.sessionId,examId,total:1,correct:1,mode:'exam',timed:true,completed:true,at:Date.UTC(2026,8,8),versionPin:V.reference(pin),grading};
+          }
+          test('09 saved result identity cannot be attached to a different session or certification',()=>{
+            const base=original();assert.equal(V.assessAttempt(base,'cssbb').eligible,true);
+            for(const change of [x=>x.id='foreign',x=>x.sessionId='foreign',x=>x.examId='cqe',x=>x.grading.resultId='foreign:original',x=>x.versionPin.sessionId='foreign']) {
+              const x=copy(base);change(x);const before=JSON.stringify(x),view=V.assessAttempt(x,'cssbb');
+              assert.equal(view.available,false);assert.equal(view.eligible,false);assert.ok(view.diagnostic);assert.equal(JSON.stringify(x),before);
+            }
+            assert.equal(V.assessAttempt(original('mbb'),'cssbb').available,false);
+            const x=copy(base);x.versionPin.pinDigest='different';assert.equal(V.assessAttempt(x).available,false);
+          });
+          test('09 a completed flag cannot override a created, cancelled or nonterminal state',()=>{
+            const a=original();for(const state of ['created','in_progress','paused','finalizing','abandoned','cancelled','canceled']) {
+              const g=V.assessAttempt({...a,state});assert.equal(g.available,false,state);assert.equal(g.eligible,false,state);
+            }
+            assert.equal(V.assessAttempt({...a,state:'expired',completedReason:'timed-out'}).eligible,true);
+          });
+          test('09 certification-scoped analytics withhold a valid grade stored under the wrong certification',()=>{
+            const s=makeSandbox();['test-bank-question-registry.js','test-bank-adaptive-mastery.js','test-bank-adaptive-mastery-hardening.js','test-bank-analytics-dashboard.js'].forEach(s.load);
+            const valid=original(),foreign=original('mbb');s.setExamData({attempts:[valid,foreign]});
+            const before=s.localStorage.getItem('tb-adaptive-mastery-v1');
+            assert.equal(s.context.__TBAnalyticsDashboard.examAttemptSeries().length,1);
+            const trend=s.context.__TBAnalyticsDashboard.sessionTrend();
+            assert.equal(trend.filter(x=>x.available).length,1);
+            assert.equal(trend.filter(x=>!x.available&&x.scorePercent===null).length,1);
+            assert.equal(s.localStorage.getItem('tb-adaptive-mastery-v1'),before);
+          });
+          ''')
+          Path('.stage09').mkdir()
           PY
       - name: Validate staged source and independent grading cases
         run: |
