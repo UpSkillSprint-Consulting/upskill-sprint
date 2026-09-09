@@ -14,26 +14,40 @@ jobs:
         with:
           ref: fix/segment-10-mastery-readiness-metrics
           fetch-depth: 0
+      - name: Decide whether integration is still needed
+        id: gate
+        shell: bash
+        run: |
+          if git log -1 --format=%B | grep -q '\[segment10-bot\]'; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/setup-node@v4
+        if: steps.gate.outputs.run == 'true'
         with:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
+        if: steps.gate.outputs.run == 'true'
       - name: Apply deterministic Segment 10 integration
+        if: steps.gate.outputs.run == 'true'
         run: python scripts/segment10-integrate.py
       - name: Verify Segment 10 and preserved metric/deploy contracts
+        if: steps.gate.outputs.run == 'true'
         run: |
           node --test --test-concurrency=1 tests/test-bank-segment10-mastery-readiness.test.js
           node --test --test-concurrency=2 tests/test-bank-adaptive-mastery.test.js tests/test-bank-analytics-dashboard.test.js tests/test-bank-segment09-grading.test.js
           node scripts/exam-reliability/build-catalog.cjs --check
           node scripts/run-test-bank-deploy-checks.mjs
-      - name: Commit implementation and remove staging helpers
+      - name: Commit integrated code
+        if: steps.gate.outputs.run == 'true'
         shell: bash
         run: |
           git config user.name upskillsprint-agent
           git config user.email skillsprintconsulting@gmail.com
-          git rm .github/workflows/segment10-implementation.yml .github/workflows/segment10-pr-implementation.yml scripts/segment10-integrate.py
-          git add test-bank-metrics-policy.js test-bank-adaptive-mastery-hardening.js netlify/edge-functions/test-bank-set-controls.js netlify/edge-functions/test-bank-mobile-picker.js tests/test-bank-segment10-mastery-readiness.test.js docs/exam-reliability/SEGMENT-10-MASTERY-READINESS.md .github/workflows/exam-mastery-readiness.yml
+          git rm scripts/segment10-integrate.py
+          git add test-bank-metrics-policy.js test-bank-adaptive-mastery-hardening.js netlify/edge-functions/test-bank-set-controls.js netlify/edge-functions/test-bank-mobile-picker.js tests/test-bank-segment10-mastery-readiness.test.js docs/exam-reliability/SEGMENT-10-MASTERY-READINESS.md
           git diff --cached --check
           git commit -m "feat(metrics): implement Segment 10 mastery and readiness [segment10-bot]"
           git push origin HEAD:fix/segment-10-mastery-readiness-metrics
