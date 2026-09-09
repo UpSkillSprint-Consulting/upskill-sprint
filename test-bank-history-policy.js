@@ -36,6 +36,10 @@
     if(typeof assess!=='function')fail('Missing assessment function');
     const limit=input.limit==null?20:Number(input.limit);if(!Number.isSafeInteger(limit)||limit<1||limit>500)fail('Invalid trend limit');
     return attempts.filter(x=>x&&typeof x==='object'&&!Array.isArray(x)).slice().sort(attemptOrder).map(entry=>{
+      /* Anything explicitly authored as an exam remains outside the practice
+         cohort even when legacy provenance is too incomplete to qualify it for
+         the pinned full-exam trend. Unknown exam evidence is not practice. */
+      if(entry.mode==='exam'||entry.source==='exam-attempt')return null;
       let score;try{score=assess(entry,input.examId);}catch(error){score={available:false,eligible:false,scorePercent:null};}
       const fullExam=Boolean(score&&score.eligible);
       const available=Boolean(score&&score.available&&score.scorePercent!=null);
@@ -62,8 +66,9 @@
     let unknownAnswers=invalidTimestamp.length,unknownSessions=0;
     attempts.forEach(entry=>{
       if(!entry||typeof entry!=='object'||Array.isArray(entry))return;
-      if(entry.answered==null){unknownSessions+=1;return;}
-      const answered=Math.max(0,Number(entry.answered)||0),known=knownBySession[String(entry.id||entry.sessionId||'')]||0;
+      const sessionKey=String(entry.id||entry.sessionId||''),known=knownBySession[sessionKey]||0;
+      if(entry.answered==null){if(!known)unknownSessions+=1;return;}
+      const answered=Math.max(0,Number(entry.answered)||0);
       if(answered>known)unknownAnswers+=answered-known;
     });
     const endKey=reportingDay(now,timeZone),keys=calendarKeysEnding(endKey,weeks*7);
