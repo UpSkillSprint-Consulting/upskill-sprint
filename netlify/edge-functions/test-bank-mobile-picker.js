@@ -87,6 +87,7 @@ export default async function handler(_request, context) {
     '/test-bank-phase2-reporting.js',
     '/test-bank-phase2-runtime-coordinator.js',
     '/test-bank-phase2-quality-assurance.js',
+    '/test-bank-incremental-sync-policy.js',
     '/test-bank-account-sync.js',
     '/test-bank-history-reconciliation.js',
     '/test-bank-adaptive-mastery.js',

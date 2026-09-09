@@ -12,36 +12,58 @@
   const LOCAL_WATCH_MS = 3000;
   const REMOTE_POLL_MS = 60000;
   const REMOTE_REQUEST_TIMEOUT_MS = 12000;
+  const INCREMENTAL_FETCH_RPC = 'fetch_test_bank_progress_devices_incremental_v1';
+  const REMOTE_PAGE_SIZE = 100;
+  const MAX_REMOTE_PAGES = 20;
   let syncing = false, lastDigest = '', timer = 0, nextRemoteAt = 0;
   let pendingReason = '', reloadForAccountSwitch = false;
   let queuedSyncPromise = null, resolveQueuedSync = null;
+  let activeSyncController = null, syncGeneration = 0, observedUserId = '';
 
   function remoteTimeoutError(label) {
     const error = new Error((label || 'Supabase request') + ' timed out');
     error.code = 'TB_ACCOUNT_SYNC_TIMEOUT';
     return error;
   }
+  function remoteCancelledError(reason) {
+    const error = new Error('Account sync cancelled' + (reason ? ': ' + reason : ''));
+    error.code = 'TB_ACCOUNT_SYNC_CANCELLED';
+    return error;
+  }
+  function incrementalUnavailableError() {
+    const error = new Error('Incremental account-progress RPC is unavailable');
+    error.code = 'TB_ACCOUNT_INCREMENTAL_UNAVAILABLE';
+    return error;
+  }
+  function incrementalSyncEnabled() { return window.__TB_INCREMENTAL_SYNC_V1 === true; }
 
-  /* Keep account-history recovery bounded on mobile network transitions.
-     Supabase query builders support AbortSignal; the Promise timer also
-     protects older/fake clients that do not expose abortSignal(). */
-  function runRemoteRequest(request, label) {
+  function runRemoteRequest(request, label, parentSignal) {
     let controller = null;
     if (typeof AbortController === 'function' && request && typeof request.abortSignal === 'function') {
       controller = new AbortController();
       request = request.abortSignal(controller.signal);
     }
     return new Promise(function (resolve, reject) {
+      let settled = false, parentAbort = null;
+      function finish(callback, value) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        if (parentSignal && parentAbort) parentSignal.removeEventListener('abort', parentAbort);
+        callback(value);
+      }
       const timer = setTimeout(function () {
         if (controller) controller.abort();
-        reject(remoteTimeoutError(label));
+        finish(reject, remoteTimeoutError(label));
       }, REMOTE_REQUEST_TIMEOUT_MS);
-      Promise.resolve(request).then(function (result) {
-        clearTimeout(timer);
-        resolve(result);
-      }, function (error) {
-        clearTimeout(timer);
-        reject(error);
+      if (parentSignal) {
+        parentAbort = function () { if (controller) controller.abort(); finish(reject, remoteCancelledError('parent signal')); };
+        if (parentSignal.aborted) { parentAbort(); return; }
+        parentSignal.addEventListener('abort', parentAbort, { once: true });
+      }
+      Promise.resolve(request).then(function (result) { finish(resolve, result); }, function (error) {
+        if (parentSignal && parentSignal.aborted) finish(reject, remoteCancelledError('parent signal'));
+        else finish(reject, error);
       });
     });
   }
@@ -605,6 +627,127 @@
     });
     return changed;
   }
+  function cursorTimestamp(value) {
+    const parsed = Date.parse(value || '');
+    return Number.isFinite(parsed) ? new Date(parsed).toISOString() : null;
+  }
+  function normalizeProgressCursor(value) {
+    if (typeof value === 'string') {
+      const updatedAt = cursorTimestamp(value);
+      return updatedAt ? { syncSeq: null, updatedAt: updatedAt, deviceId: null } : null;
+    }
+    const raw = asRecord(value);
+    const parsedSeq = Number(raw.syncSeq != null ? raw.syncSeq : raw.sync_seq);
+    const syncSeq = Number.isSafeInteger(parsedSeq) && parsedSeq >= 0 ? parsedSeq : null;
+    const updatedAt = cursorTimestamp(raw.updatedAt || raw.updated_at);
+    const deviceId = String(raw.deviceId || raw.device_id || '') || null;
+    if (syncSeq == null && !updatedAt) return null;
+    return { syncSeq: syncSeq, updatedAt: updatedAt, deviceId: deviceId };
+  }
+  function compareProgressCursor(left, right) {
+    const a = normalizeProgressCursor(left), b = normalizeProgressCursor(right);
+    if (!a && !b) return 0;
+    if (!a) return -1;
+    if (!b) return 1;
+    if (a.syncSeq != null || b.syncSeq != null) {
+      if (a.syncSeq == null) return -1;
+      if (b.syncSeq == null) return 1;
+      return a.syncSeq - b.syncSeq;
+    }
+    const at = Date.parse(a.updatedAt) - Date.parse(b.updatedAt);
+    if (at) return at;
+    return String(a.deviceId || '').localeCompare(String(b.deviceId || ''));
+  }
+  function maxProgressCursor(left, right) { return compareProgressCursor(left, right) >= 0 ? normalizeProgressCursor(left) : normalizeProgressCursor(right); }
+
+  async function fetchProgressRows(client, cursor, signal) {
+    const start = normalizeProgressCursor(cursor);
+    if (!incrementalSyncEnabled()) {
+      let query = client.from(TABLE).select('device_id,payload,updated_at');
+      if (start && start.updatedAt && typeof query.gte === 'function') query = query.gte('updated_at', start.updatedAt);
+      query = query.order('updated_at', { ascending: true });
+      const result = await runRemoteRequest(query, 'Account-history fetch (legacy compatibility)', signal);
+      if (result && result.error) throw result.error;
+      const rows = asArray(result && result.data);
+      let next = start;
+      rows.forEach(function (row) { next = maxProgressCursor(next, { updatedAt: row.updated_at, deviceId: row.device_id }); });
+      return { rows: rows, cursor: next, pages: 1, mode: 'legacy-timestamp-v1' };
+    }
+    if (!client || typeof client.rpc !== 'function') throw incrementalUnavailableError();
+    const rows = [];
+    let current = start;
+    const initialAfter = current && current.syncSeq != null ? current.syncSeq : null;
+    for (let pageNumber = 1; pageNumber <= MAX_REMOTE_PAGES; pageNumber += 1) {
+      const result = await runRemoteRequest(client.rpc(INCREMENTAL_FETCH_RPC, {
+        p_after_sync_seq: current && current.syncSeq != null ? current.syncSeq : null,
+        p_limit: REMOTE_PAGE_SIZE
+      }), 'Incremental account-history fetch', signal);
+      if (result && result.error) throw result.error;
+      const page = asArray(result && result.data);
+      if (page.length > REMOTE_PAGE_SIZE) throw new Error('Incremental account-history page exceeded its declared size');
+      let pageCursor = current;
+      page.forEach(function (row) {
+        const candidate = normalizeProgressCursor({ syncSeq: row && row.sync_seq, updatedAt: row && row.updated_at, deviceId: row && row.device_id });
+        if (!candidate || candidate.syncSeq == null) throw new Error('Incremental account-history row is missing its server sequence');
+        if (pageCursor && pageCursor.syncSeq != null && candidate.syncSeq <= pageCursor.syncSeq) throw new Error('Incremental account-history response was not strictly ordered');
+        pageCursor = candidate;
+      });
+      rows.push.apply(rows, page);
+      current = pageCursor;
+      if (page.length < REMOTE_PAGE_SIZE) {
+        if (!current || current.syncSeq == null) current = { syncSeq: initialAfter == null ? 0 : initialAfter, updatedAt: null, deviceId: null };
+        return { rows: rows, cursor: current, pages: pageNumber, mode: 'server-sequence-v1' };
+      }
+    }
+    const error = new Error('Incremental account-history catch-up exceeded ' + MAX_REMOTE_PAGES + ' pages');
+    error.code = 'TB_ACCOUNT_CURSOR_INVALID';
+    throw error;
+  }
+
+  function accountStatusDetail(phase, error) {
+    const ctx = context(), meta = asRecord(parse(localStorage.getItem(META_KEY), {}));
+    const currentDigest = stable(localPayload());
+    const dirty = Boolean(ctx.user && meta.userId === ctx.user.id && meta.uploadedDigest !== currentDigest);
+    let state = phase || meta.status || 'idle';
+    if (!ctx.user) state = 'signed-out';
+    else if (!navigator.onLine) state = 'offline';
+    else if (syncing) state = 'syncing';
+    else if (dirty && state === 'synced') state = 'pending';
+    const clean = state === 'synced' && !dirty && navigator.onLine;
+    return {
+      phase: state,
+      state: state,
+      userId: ctx.user && ctx.user.id || null,
+      pending: dirty ? 1 : 0,
+      online: navigator.onLine !== false,
+      syncedAsOf: clean ? (meta.syncedAsOf || meta.lastSyncedAt || null) : null,
+      lastAttemptAt: meta.lastAttemptAt || null,
+      cursor: normalizeProgressCursor(meta.remoteCursor),
+      cursorMode: incrementalSyncEnabled() ? 'server-sequence-v1' : 'legacy-timestamp-v1',
+      error: error || (meta.status === 'error' ? meta.message || 'Account sync failed' : null)
+    };
+  }
+  function emitAccountStatus(phase, error) {
+    const detail = accountStatusDetail(phase, error);
+    try { document.dispatchEvent(new CustomEvent('tb:account-sync-status', { detail: detail })); } catch (_) {}
+    return detail;
+  }
+  function cancelSync(reason) {
+    syncGeneration += 1;
+    if (activeSyncController) { try { activeSyncController.abort(); } catch (_) {} }
+    pendingReason = '';
+    const finish = resolveQueuedSync;
+    queuedSyncPromise = null; resolveQueuedSync = null;
+    if (finish) finish({ cancelled: true, reason: reason || 'cancelled' });
+    const meta = asRecord(parse(localStorage.getItem(META_KEY), {}));
+    localStorage.setItem(META_KEY, JSON.stringify(Object.assign({}, meta, { status: navigator.onLine === false ? 'offline' : 'cancelled', lastCancelAt: new Date().toISOString(), cancelReason: String(reason || 'cancelled') })));
+    emitAccountStatus(navigator.onLine === false ? 'offline' : 'cancelled');
+    return { cancelled: true, reason: String(reason || 'cancelled') };
+  }
+  function assertAccountSyncCurrent(userId, generation, signal) {
+    if ((signal && signal.aborted) || generation !== syncGeneration || !currentUserIs(userId)) throw remoteCancelledError('account or connection changed');
+  }
+
   function context() { const auth = window.UpskillAuth; return { client: auth && auth.getClient ? auth.getClient() : null, user: auth && auth.getUser ? auth.getUser() : null }; }
   function reloadPage() { location.reload(); }
   function clearTrackedPayload() {
@@ -635,126 +778,131 @@
     localStorage.setItem(RESET_KEY, JSON.stringify(resets));
     return sync('adaptive-reset');
   }
-  /* A freshness gate must observe the follow-up request when a normal account
-     sync is already active. Ordinary background callers keep the lightweight
-     { queued: true } response; this path resolves only after that queued sync. */
   function syncAfterCurrent(reason) {
     if (!syncing) return sync(reason);
     pendingReason = reason || 'queued-fresh-sync';
-    if (!queuedSyncPromise) {
-      queuedSyncPromise = new Promise(function (resolve) { resolveQueuedSync = resolve; });
-    }
+    if (!queuedSyncPromise) queuedSyncPromise = new Promise(function (resolve) { resolveQueuedSync = resolve; });
     return queuedSyncPromise;
   }
   async function sync(reason) {
-    const ctx = context(); if (!ctx.client || !ctx.user) return { skipped: true };
+    const ctx = context();
+    if (!ctx.client || !ctx.user) { emitAccountStatus('signed-out'); return { skipped: true, reason: 'not-signed-in' }; }
     prepareUser(ctx.user.id);
-    if (!navigator.onLine) return { skipped: true };
+    if (!navigator.onLine) { emitAccountStatus('offline'); return { skipped: true, reason: 'offline' }; }
     if (syncing) { pendingReason = reason || 'queued'; return { queued: true }; }
     syncing = true;
-    const previousMeta = parse(localStorage.getItem(META_KEY), {});
+    const generation = ++syncGeneration;
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    const signal = controller && controller.signal;
+    activeSyncController = controller;
+    const previousMeta = asRecord(parse(localStorage.getItem(META_KEY), {}));
+    localStorage.setItem(META_KEY, JSON.stringify(Object.assign({}, previousMeta, { userId: ctx.user.id, lastAttemptAt: new Date().toISOString(), reason: reason || 'automatic', status: 'syncing' })));
+    emitAccountStatus('syncing');
     try {
       const id = deviceId(), initialLocal = localPayload();
-      const remoteCursor = previousMeta && previousMeta.userId === ctx.user.id ? String(previousMeta.remoteCursor || '') : '';
-      let remoteQuery = ctx.client.from(TABLE).select('device_id,payload,updated_at');
-      /* Each row is a versioned device snapshot. After the first hydration,
-         fetch only snapshots at or beyond the last observed version. The
-         inclusive cursor avoids missing two devices that wrote in the same
-         millisecond; deterministic merging makes the small overlap harmless. */
-      if (remoteCursor && typeof remoteQuery.gte === 'function') remoteQuery = remoteQuery.gte('updated_at', remoteCursor);
-      remoteQuery = remoteQuery.order('updated_at', { ascending: true });
-      let result = await runRemoteRequest(
-        remoteQuery,
-        'Account-history fetch'
-      );
-      if (result.error) throw result.error;
-      if (!currentUserIs(ctx.user.id)) return { stale: true };
-      const merged = mergePayloads((result.data || []).map(row => row.payload).concat([initialLocal, localPayload()]));
+      const remoteCursor = previousMeta && previousMeta.userId === ctx.user.id ? normalizeProgressCursor(previousMeta.remoteCursor) : null;
+      const remote = await fetchProgressRows(ctx.client, remoteCursor, signal);
+      assertAccountSyncCurrent(ctx.user.id, generation, signal);
+      const fetchedRows = remote.rows;
+      const merged = mergePayloads(fetchedRows.map(row => row.payload).concat([initialLocal, localPayload()]));
       const changed = applyPayload(merged);
       const mergedDigest = stable(merged);
-      if (!currentUserIs(ctx.user.id)) return { stale: true };
-      const fetchedRows = result.data || [];
-      let nextCursor = remoteCursor;
-      fetchedRows.forEach(function (row) {
-        if (String(row && row.updated_at || '') > nextCursor) nextCursor = String(row.updated_at);
-      });
+      assertAccountSyncCurrent(ctx.user.id, generation, signal);
       const shouldUpload = !previousMeta || previousMeta.userId !== ctx.user.id || previousMeta.uploadedDigest !== mergedDigest;
       if (shouldUpload) {
         const uploadedAt = new Date().toISOString();
-        result = await runRemoteRequest(
-          ctx.client.from(TABLE).upsert({ user_id: ctx.user.id, device_id: id, payload: merged, updated_at: uploadedAt }, { onConflict: 'user_id,device_id' }),
-          'Account-history upload'
-        );
-        if (result.error) throw result.error;
+        const upload = await runRemoteRequest(ctx.client.from(TABLE).upsert({ user_id: ctx.user.id, device_id: id, payload: merged, updated_at: uploadedAt }, { onConflict: 'user_id,device_id' }), 'Account-history upload', signal);
+        if (upload && upload.error) throw upload.error;
       }
-      if (!currentUserIs(ctx.user.id)) return { stale: true };
+      assertAccountSyncCurrent(ctx.user.id, generation, signal);
+      const latestMeta = asRecord(parse(localStorage.getItem(META_KEY), {}));
+      const nextCursor = latestMeta.userId === ctx.user.id ? maxProgressCursor(remote.cursor, latestMeta.remoteCursor) : remote.cursor;
+      const syncedAt = new Date().toISOString();
       localStorage.setItem(META_KEY, JSON.stringify({
         userId: ctx.user.id,
-        lastSyncedAt: new Date().toISOString(),
+        lastSyncedAt: syncedAt,
+        syncedAsOf: syncedAt,
+        lastAttemptAt: previousMeta.lastAttemptAt || syncedAt,
         reason: reason || 'automatic',
         status: 'synced',
         remoteCursor: nextCursor,
+        cursorMode: remote.mode,
         uploadedDigest: mergedDigest
       }));
       lastDigest = mergedDigest;
       nextRemoteAt = Date.now() + REMOTE_POLL_MS;
-      document.dispatchEvent(new CustomEvent('upskill-test-progress-synced', { detail: { changed } }));
-      /* A genuine account switch still reloads to discard the previous
-         account's in-memory session. Background merges are delivered through
-         the progress event above and never reload or interrupt the page. */
+      document.dispatchEvent(new CustomEvent('upskill-test-progress-synced', { detail: { changed, pages: remote.pages, cursorMode: remote.mode } }));
       const accountSwitched = reloadForAccountSwitch;
       reloadForAccountSwitch = false;
       if (accountSwitched) reloadPage();
-      return { changed, incremental: Boolean(remoteCursor), fetched: fetchedRows.length, uploaded: shouldUpload };
+      emitAccountStatus('synced');
+      return { changed, incremental: Boolean(remoteCursor), fetched: fetchedRows.length, uploaded: shouldUpload, pages: remote.pages, cursorMode: remote.mode };
     } catch (error) {
-      if (currentUserIs(ctx.user.id)) localStorage.setItem(META_KEY, JSON.stringify(Object.assign({}, previousMeta, { userId: ctx.user.id, lastAttemptAt: new Date().toISOString(), reason: reason || 'automatic', status: 'error', message: String(error && error.message || error) })));
+      if (String(error && error.code || '') === 'TB_ACCOUNT_SYNC_CANCELLED') {
+        const meta = asRecord(parse(localStorage.getItem(META_KEY), {}));
+        localStorage.setItem(META_KEY, JSON.stringify(Object.assign({}, meta, { userId: ctx.user.id, status: navigator.onLine === false ? 'offline' : 'cancelled', lastCancelAt: new Date().toISOString(), cancelReason: String(error.message || error) })));
+        emitAccountStatus(navigator.onLine === false ? 'offline' : 'cancelled');
+        return { cancelled: true, reason: String(error.message || error) };
+      }
+      if (currentUserIs(ctx.user.id)) localStorage.setItem(META_KEY, JSON.stringify(Object.assign({}, previousMeta, { userId: ctx.user.id, syncedAsOf: null, lastAttemptAt: new Date().toISOString(), reason: reason || 'automatic', status: 'error', message: String(error && error.message || error) })));
+      emitAccountStatus('error', String(error && error.message || error));
       return { error };
     } finally {
+      if (activeSyncController === controller) activeSyncController = null;
       syncing = false;
       if (pendingReason) {
         const nextReason = pendingReason; pendingReason = '';
         const finishQueuedSync = resolveQueuedSync;
-        queuedSyncPromise = null;
-        resolveQueuedSync = null;
-        Promise.resolve().then(function () {
-          /* If another microtask starts a sync first, queue behind that request
-             too; never resolve this freshness gate with { queued: true }. */
-          return syncing ? syncAfterCurrent(nextReason) : sync(nextReason);
-        }).then(function (result) {
+        queuedSyncPromise = null; resolveQueuedSync = null;
+        Promise.resolve().then(function () { return syncing ? syncAfterCurrent(nextReason) : sync(nextReason); }).then(function (result) {
           if (finishQueuedSync) finishQueuedSync(result);
         }, function (error) {
-          if (finishQueuedSync) finishQueuedSync({ error: error });
+          if (finishQueuedSync) finishQueuedSync({ error });
         });
       }
     }
   }
+
   function watch() {
     clearInterval(timer); lastDigest = stable(localPayload());
     nextRemoteAt = Date.now() + REMOTE_POLL_MS;
     timer = setInterval(() => {
       const next = stable(localPayload());
       if (next !== lastDigest) { lastDigest = next; sync('local-change'); return; }
-      /* Focus and online events cover common resumptions. Polling closes the
-         remaining gap when two signed-in devices stay open at the same time. */
       if (Date.now() >= nextRemoteAt) {
         nextRemoteAt = Date.now() + REMOTE_POLL_MS;
         sync('remote-poll');
       }
     }, LOCAL_WATCH_MS);
   }
+  function status() {
+    const detail = accountStatusDetail();
+    return Object.assign({}, detail, {
+      syncState: detail.phase,
+      pollIntervalMs: REMOTE_POLL_MS,
+      requestTimeoutMs: REMOTE_REQUEST_TIMEOUT_MS,
+      syncing: syncing,
+      queued: Boolean(pendingReason || queuedSyncPromise)
+    });
+  }
   function start() {
     const auth = window.UpskillAuth; if (!auth || !auth.onChange) return;
     auth.onChange(user => {
-      if (user) sync('sign-in').then(watch);
-      else {
+      if (user) {
+        if (observedUserId && observedUserId !== user.id) cancelSync('account-change');
+        observedUserId = user.id;
+        sync('sign-in').then(watch);
+      } else {
+        cancelSync('signed-out');
+        observedUserId = '';
         clearInterval(timer); pendingReason = ''; reloadForAccountSwitch = false;
-        if (resolveQueuedSync) resolveQueuedSync({ stale: true });
-        queuedSyncPromise = null; resolveQueuedSync = null;
         if (localStorage.getItem(USER_KEY)) clearTrackedPayload();
       }
     });
-    addEventListener('online', () => sync('online')); addEventListener('focus', () => sync('focus'));
+    addEventListener('online', () => sync('online'));
+    addEventListener('offline', () => cancelSync('offline'));
+    addEventListener('focus', () => sync('focus'));
   }
-  window.__TBAccountSync = { sync, syncAfterCurrent, mergePayloads, mergeMastery, localPayload, resetAdaptiveExam, REMOTE_POLL_MS, REMOTE_REQUEST_TIMEOUT_MS };
+  window.__TBAccountSync = { sync, syncAfterCurrent, cancelSync, status, mergePayloads, mergeMastery, localPayload, resetAdaptiveExam, REMOTE_POLL_MS, REMOTE_REQUEST_TIMEOUT_MS };
   if (window.UpskillAuth) start(); else document.addEventListener('upskill-auth-ready', start, { once: true });
 }());

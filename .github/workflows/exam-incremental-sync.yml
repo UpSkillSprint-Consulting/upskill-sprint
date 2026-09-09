@@ -1,0 +1,112 @@
+name: Exam incremental sync
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: exam-incremental-sync-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - name: Syntax and Segment 14 focused regressions
+        run: |
+          node --check test-bank-learning-events.js
+          node --check test-bank-account-sync.js
+          node --check test-bank-incremental-sync-policy.js
+          node --check scripts/exam-reliability/run-segment14-database.cjs
+          node --test --test-concurrency=1 \
+            tests/test-bank-segment14-incremental-sync.test.js \
+            tests/test-bank-segment14-sync-policy.test.js \
+            tests/test-bank-account-sync.test.js \
+            tests/test-bank-learning-events.test.js \
+            tests/test-bank-segment03-runtime.test.js \
+            tests/test-bank-segment13-timing.test.js
+          git diff --check
+
+  database:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17.6
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: segment14_ci_only
+          POSTGRES_DB: segment03_test
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Apply complete repository schema and cumulative database checks
+        run: node scripts/exam-reliability/run-database.cjs
+        env:
+          SEG03_ALLOW_DISPOSABLE_DB: '1'
+          SEG03_DB_URL: postgresql://postgres:segment14_ci_only@127.0.0.1:5432/segment03_test
+      - name: Segment 14 server-sequence, authorization and commit-order checks
+        run: node scripts/exam-reliability/run-segment14-database.cjs
+        env:
+          SEG03_ALLOW_DISPOSABLE_DB: '1'
+          SEG03_DB_URL: postgresql://postgres:segment14_ci_only@127.0.0.1:5432/segment03_test
+
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {profile: chromium-desktop, engine: chromium}
+          - {profile: webkit-phone, engine: webkit}
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - name: Install pinned test-only browser driver
+        run: npm install --prefix /tmp/segment14-tools --ignore-scripts --save-exact playwright@1.57.0
+      - run: /tmp/segment14-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
+      - name: Run cumulative browser flow with Segment 14 protocol enabled
+        run: node scripts/exam-reliability/run-browser.cjs
+        env:
+          SEG03_BROWSER_PROFILE: ${{ matrix.profile }}
+          SEG03_PLAYWRIGHT_PATH: /tmp/segment14-tools/node_modules/playwright
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: segment14-browser-${{ matrix.profile }}-${{ github.run_id }}
+          path: .segment03-results
+          include-hidden-files: true
+          retention-days: 30
+
+  gate:
+    name: Segment 14 acceptance gate
+    if: always()
+    needs: [node, database, browser]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Reject any failed, skipped, or infrastructure-incomplete lane
+        env:
+          NODE_RESULT: ${{ needs.node.result }}
+          DATABASE_RESULT: ${{ needs.database.result }}
+          BROWSER_RESULT: ${{ needs.browser.result }}
+        run: |
+          test "$NODE_RESULT" = success
+          test "$DATABASE_RESULT" = success
+          test "$BROWSER_RESULT" = success

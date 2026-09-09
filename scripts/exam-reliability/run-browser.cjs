@@ -13,7 +13,7 @@ assert.equal(pkg.version,profiles.testTools.playwright);
 const lane='browser-'+profile.id,svc=new Service(),checks=[],errors=[],blocked=[],timings=[],navigations=[];
 const directory=path.join(output(),lane);fs.mkdirSync(directory,{recursive:true});
 let browser,server,base;
-function authScript(owner){return `(()=>{const send=request=>window.__seg03Transport(request);const c=(${client.toString()})(send);const user={id:${JSON.stringify(owner)},email:'audit@example.invalid'};window.UpskillAuth={getUser:()=>user,getClient:()=>c,isConfigured:()=>true,onChange:cb=>{queueMicrotask(()=>cb(user));return ()=>{};}};})();`;}
+function authScript(owner){return `(()=>{window.__TB_INCREMENTAL_SYNC_V1=true;const send=request=>window.__seg03Transport(request);const c=(${client.toString()})(send);const user={id:${JSON.stringify(owner)},email:'audit@example.invalid'};window.UpskillAuth={getUser:()=>user,getClient:()=>c,isConfigured:()=>true,onChange:cb=>{queueMicrotask(()=>cb(user));return ()=>{};}};})();`;}
 async function context(owner){
   const c=await browser.newContext({viewport:{width:profile.width,height:profile.height},isMobile:profile.mobile,hasTouch:profile.touch,deviceScaleFactor:1,serviceWorkers:'block',timezoneId:'America/Regina'});
   await c.exposeBinding('__seg03Transport',(_,request)=>svc.exchange(owner,request));
