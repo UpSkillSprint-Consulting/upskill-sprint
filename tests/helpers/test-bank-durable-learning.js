@@ -16,15 +16,15 @@ function emptyClient() {
   /* Browser audit scripts serialize this fixture into their isolated auth
      adapter. The adapter can become available after Segment 13's first clock
      boot attempt, so reproduce the production auth-ready contract instead of
-     leaving the trusted clock permanently uncalibrated. Two queued signals
-     cover both early init-script execution and the later routed auth.js load;
-     production code is unaffected because this helper is test-only. */
+     leaving the trusted clock permanently uncalibrated. A short bounded pulse
+     train keeps the signal observable across parser/script ordering differences
+     in Chromium and WebKit; production code is unaffected because this helper
+     is test-only. */
   if (typeof document === 'object' && typeof setTimeout === 'function' && typeof CustomEvent === 'function') {
     const announce = () => {
       try { document.dispatchEvent(new CustomEvent('upskill-auth-ready', { detail: { fixture: true } })); } catch (_) {}
     };
-    setTimeout(announce, 0);
-    setTimeout(announce, 50);
+    [0, 50, 250, 750, 1500, 2500].forEach(ms => setTimeout(announce, ms));
   }
   return {
     from() {
