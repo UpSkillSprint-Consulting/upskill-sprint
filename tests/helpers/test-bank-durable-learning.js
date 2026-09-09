@@ -63,7 +63,7 @@ function emptyClient() {
         return Promise.resolve({
           data: {
             protocolVersion: 1,
-            serverTime: new Date(override == null ? undefined : override).toISOString(),
+            serverTime: (override == null ? new Date() : new Date(override)).toISOString(),
             userId: 'isolated-test-user'
           },
           error: null
