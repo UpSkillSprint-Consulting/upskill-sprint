@@ -32,6 +32,7 @@ function load(beforeSources) {
     bok: [{ subs: [{ id: 'mea', name: 'Measure', w: 40 }, { id: 'ana', name: 'Analyze', w: 60 }] }]
   } } };
   if (typeof beforeSources === 'function') beforeSources(dom.window, questions);
+  require('./helpers/test-bank-version-runtime.cjs').installVersions(dom.window);
   dom.window.eval(registrySource);
   dom.window.eval(eventsSource);
   dom.window.eval(masterySource);
@@ -116,7 +117,7 @@ test('remote completed ledger sessions hydrate mastery and the immutable mistake
     assert.equal(data.attempts.length, 1);
     assert.deepEqual(JSON.parse(JSON.stringify(data.attempts[0])), {
       id: 'phone-session-001', at, resetAt: 0, source: 'quick-quiz', mode: 'quick', timed: false,
-      completed: true, total: 2, correct: 1, answered: 2, repeated: 0, newQuestions: 2
+      completed: true, completedReason: null, total: 2, correct: 1, answered: 2, repeated: 0, newQuestions: 2
     });
     const retired = data.questions['cssbb:retired-001'];
     assert.equal(retired.incorrect, 1);
@@ -173,7 +174,7 @@ test('completion replaces provisional answer evidence and preserves New-only nov
     assert.equal(data.questions['cssbb:active-001'].attempts, 1, 'completion replaces rather than duplicates provisional evidence');
     assert.deepEqual(JSON.parse(JSON.stringify(data.attempts[0])), {
       id: 'new-only-session-001', at: at + 2000, resetAt: 0, source: 'quick-quiz', mode: 'quick', timed: false,
-      completed: true, total: 1, correct: 1, answered: 1, repeated: 0, newQuestions: 1, filter: 'new-only'
+      completed: true, completedReason: null, total: 1, correct: 1, answered: 1, repeated: 0, newQuestions: 1, filter: 'new-only'
     });
 
     const raw = api.store();
@@ -292,14 +293,16 @@ test('a reset marker prevents an older remote completed session from restoring m
   }
 });
 
-test('remote full-exam reconciliation persists immutable domain totals even when only the completion payload remains', () => {
+test('remote pinned full-exam reconciliation persists immutable domain totals even when only the completion payload remains', () => {
   const { dom, window } = load();
   try {
     const at = Date.UTC(2026, 7, 30, 19, 0, 0);
     const events = [{
       id: 'phone-full-complete-001', type: 'session_completed', examId: 'cssbb', sessionId: 'phone-full-session-001', occurredAt: at,
       payload: {
-        mode: 'exam', timed: true, total: 165, correct: 1,
+        // Complete synthetic two-item examination, not two answers passed off as 165.
+        mode: 'exam', timed: true, total: 2, correct: 1,
+        versionPin: { codec: 1, contractVersion: '1.0.0', gradingPolicyVersion: 'single-select-v1', expectedLength: 2, siteTargetBps: 7000, mode: 'exam', timed: true },
         answers: [
           { questionId: 'cssbb:active-001', sub: 'mea', selected: 1, status: 'correct' },
           { questionId: 'cssbb:retired-001', sub: 'mea', selected: null, status: 'unanswered' }
@@ -309,8 +312,12 @@ test('remote full-exam reconciliation persists immutable domain totals even when
     assert.equal(window.__TBAdaptiveMastery.reconcileLearningEvents(events), 1);
     const attempt = window.__TBAdaptiveMastery.store().exams.cssbb.attempts.find(item => item.id === 'phone-full-session-001');
     assert.deepEqual(JSON.parse(JSON.stringify(attempt.domainBreakdown)), [
-      { id: 'mea', total: 2, correct: 1, incorrect: 0, unanswered: 1 }
+      { id: 'mea', name: 'mea', total: 2, correct: 1, incorrect: 0, unanswered: 1 }
     ]);
+    assert.equal(attempt.total, 2);
+    assert.equal(attempt.versionPin.expectedLength, 2);
+    assert.equal(attempt.correct, 1);
+    assert.equal(attempt.answered, 1, 'the blank is graded but not a learning interaction');
   } finally {
     dom.window.close();
   }

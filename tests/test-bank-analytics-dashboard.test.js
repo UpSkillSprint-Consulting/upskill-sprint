@@ -37,6 +37,7 @@ async function load() {
   windows.push(dom.window);
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
   if (!dom.window.Element.prototype.scrollIntoView) dom.window.Element.prototype.scrollIntoView = function () {};
+  require('./helpers/test-bank-version-runtime.cjs').installVersions(dom.window);
   dom.window.eval(registry);
   dom.window.eval(reconciliation);
   dom.window.eval(mastery);
@@ -44,6 +45,26 @@ async function load() {
   dom.window.eval(analytics);
   await settle(dom.window);
   return { window: dom.window, errors };
+}
+
+// Synthetic immutable policy: full-history tests must supply their original
+// length/target. Missing real legacy provenance stays unknown in production.
+function pinned(expectedLength, overrides = {}) {
+  const reference = Object.assign({
+    codec: 1, contractVersion: '1.0.0', sessionId: 'synthetic-exam', examId: 'cssbb', setId: 'mix',
+    configurationDigest: '1'.repeat(64), configVersion: '2'.repeat(64), bankVersion: '3'.repeat(64), blueprintVersion: '4'.repeat(64),
+    reportingTimeZoneAtStart: 'UTC', resetEpochId: null, gradingPolicyVersion: 'single-select-v1',
+    masteryPolicyVersion: 'adaptive-mastery-v1', timingPolicyVersion: 'deadline-v1', expectedLength,
+    siteTargetBps: 7000, mode: 'exam', timed: true, startedAt: '2026-09-08T00:00:00.000Z'
+  }, overrides);
+  if (reference.timed) {
+    reference.limitSeconds = overrides.limitSeconds ?? 3600;
+    reference.deadlineAt = new Date(Date.parse(reference.startedAt) + reference.limitSeconds * 1000).toISOString();
+  } else {
+    reference.limitSeconds = null;
+    reference.deadlineAt = null;
+  }
+  return reference;
 }
 
 function hash(value) {
@@ -333,13 +354,13 @@ test('examAttemptSeries only counts completed, timed, full-length exam simulatio
     { id: 'short-quiz', at: now - 4000, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: 20, correct: 20 },
     { id: 'e1', at: now - 2000, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: Math.round(fullLength * 0.6) },
     { id: 'e2', at: now - 1000, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: Math.round(fullLength * 0.8) }
-  ];
+  ].map(entry => Object.assign(entry, {versionPin:pinned(fullLength,{sessionId:entry.id,mode:entry.mode,timed:entry.timed})}));
   writeStore(window, { questions: {}, attempts: attempts, sessions: [] });
 
   const series = window.__TBAnalyticsDashboard.examAttemptSeries();
   assert.deepEqual(Array.from(series, entry => entry.id), ['e1', 'e2'], 'adaptive, untimed, abandoned, and short quiz sessions are excluded from exam analytics');
   assert.equal(series[0].pct, 60);
-  assert.equal(series[0].margin, 60 - 70, 'margin is measured against the exam.pass threshold (70 for CSSBB)');
+  assert.equal(series[0].margin, 60 - 70, 'margin uses the immutable site practice target, not current exam.pass');
   assert.equal(series[1].pct, 80);
   assert.equal(series[1].margin, 10);
 });
@@ -347,7 +368,7 @@ test('examAttemptSeries only counts completed, timed, full-length exam simulatio
 test('latestExamDomainBreakdown reconstructs only the most recent full exam by immutable attempt ID, even when timestamps collide', async () => {
   const { window } = await load();
   const timestamp = Date.now();
-  const fullLength = window.__TB.EXAMS.cssbb.questions;
+  const fullLength = 2; // explicit synthetic full session, independent of current length
   const bank = questions(window);
   const measureQ = bank.find(q => q.sub === 'mea');
   const analyzeQ = bank.find(q => q.sub === 'ana');
@@ -363,8 +384,8 @@ test('latestExamDomainBreakdown reconstructs only the most recent full exam by i
     })
   };
   const attempts = [
-    { id: 'e1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 0 },
-    { id: 'e2', at: timestamp + 1, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1 }
+    { id: 'e1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 0, versionPin:pinned(fullLength,{sessionId:'e1'}), domainBreakdown:[{id:'mea',total:1,correct:0},{id:'ana',total:1,correct:0}] },
+    { id: 'e2', at: timestamp + 1, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength,{sessionId:'e2'}), domainBreakdown:[{id:'mea',total:1,correct:1},{id:'ana',total:1,correct:0}] }
   ];
   writeStore(window, { questions: states, attempts: attempts, sessions: [] });
 
@@ -380,7 +401,7 @@ test('latestExamDomainBreakdown reconstructs only the most recent full exam by i
 test('historic full-exam domains and notebook labels use the answer-time snapshot instead of a later reclassification', async () => {
   const { window } = await load();
   const timestamp = Date.now();
-  const fullLength = window.__TB.EXAMS.cssbb.questions;
+  const fullLength = 1; // original synthetic policy captured one item
   const historic = questions(window).find(question => question.sub === 'mea');
   const state = seedQuestionState(historic, timestamp, {
     /* Simulate the live taxonomy moving the question after the learner sat
@@ -402,7 +423,7 @@ test('historic full-exam domains and notebook labels use the answer-time snapsho
     questions: { [windowQuestionId(historic)]: state },
     attempts: [{
       id: 'historic-reclassified-full', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true,
-      completed: true, total: fullLength, correct: 0
+      completed: true, total: fullLength, correct: 0, versionPin:pinned(fullLength,{sessionId:'historic-reclassified-full'}), domainBreakdown:[{id:'mea',name:'V. Measure',total:1,correct:0,incorrect:1,unanswered:0}]
     }],
     sessions: []
   });
@@ -410,7 +431,7 @@ test('historic full-exam domains and notebook labels use the answer-time snapsho
 
   const breakdown = window.__TBAnalyticsDashboard.latestExamDomainBreakdown();
   const measure = breakdown.find(item => item.id === 'mea');
-  assert.ok(measure, 'legacy full-exam fallback keeps the historic Measure denominator');
+  assert.ok(measure, 'the original pinned score keeps the historic Measure denominator');
   assert.equal(measure.total, 1);
   assert.equal(breakdown.some(item => item.id === 'ana'), false, 'a later taxonomy move cannot rewrite the old score');
 
@@ -427,7 +448,7 @@ test('historic full-exam domains and notebook labels use the answer-time snapsho
 test('latestExamDomainBreakdown counts an unanswered full-exam item from the immutable completion payload', async () => {
   const { window } = await load();
   const timestamp = Date.now();
-  const fullLength = window.__TB.EXAMS.cssbb.questions;
+  const fullLength = 2; // synthetic original length; current exam remains 165
   const bank = questions(window);
   const answered = bank.find(q => q.sub === 'mea');
   const blank = bank.filter(q => q.sub === 'mea').find(q => windowQuestionId(q) !== windowQuestionId(answered));
@@ -441,14 +462,14 @@ test('latestExamDomainBreakdown counts an unanswered full-exam item from the imm
   };
   writeStore(window, {
     questions: states,
-    attempts: [{ id: 'full-ledger-1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1 }],
+    attempts: [{ id: 'full-ledger-1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength,{sessionId:'full-ledger-1'}) }],
     sessions: []
   });
   window.__TBLearning = {
     eventsForExam: () => [{
       id: 'complete-ledger-1', type: 'session_completed', examId: 'cssbb', sessionId: 'full-ledger-1', occurredAt: timestamp,
       payload: {
-        mode: 'exam', timed: true, total: fullLength, correct: 1,
+        mode: 'exam', timed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength,{sessionId:'full-ledger-1'}),
         answers: [
           { questionId: windowQuestionId(answered), sub: 'mea', selected: answered.answer, status: 'correct' },
           { questionId: windowQuestionId(blank), sub: 'mea', selected: null, status: 'unanswered' }
@@ -467,7 +488,7 @@ test('latestExamDomainBreakdown counts an unanswered full-exam item from the imm
 test('latestExamDomainBreakdown keeps the persisted immutable domain denominator after ledger event cache compaction', async () => {
   const { window } = await load();
   const timestamp = Date.now();
-  const fullLength = window.__TB.EXAMS.cssbb.questions;
+  const fullLength = 2; // synthetic original length; current exam remains 165
   const bank = questions(window);
   const answered = bank.find(q => q.sub === 'mea');
   const states = {
@@ -478,7 +499,7 @@ test('latestExamDomainBreakdown keeps the persisted immutable domain denominator
   writeStore(window, {
     questions: states,
     attempts: [{
-      id: 'trimmed-full-1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1,
+      id: 'trimmed-full-1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength,{sessionId:'trimmed-full-1'}),
       domainBreakdown: [{ id: 'mea', total: 2, correct: 1, incorrect: 0, unanswered: 1 }]
     }],
     sessions: []
@@ -496,7 +517,7 @@ test('latestExamDomainBreakdown keeps the persisted immutable domain denominator
 
 test('scoreBuckets tallies exam scores into the correct histogram bucket', async () => {
   const { window } = await load();
-  const series = [{ pct: 45 }, { pct: 58 }, { pct: 65 }, { pct: 72 }, { pct: 88 }, { pct: 95 }, { pct: 71 }];
+  const series = [45,58,65,72,88,95,71].map(correct=>({correct,total:100}));
   const buckets = window.__TBAnalyticsDashboard.scoreBuckets(series);
   assert.deepEqual(Array.from(buckets).map(b => b.count), [1, 1, 1, 2, 1, 1]);
 });
@@ -651,7 +672,7 @@ test('the exam attempts tab shows an empty state until a timed exam has been com
   window.document.querySelector('[data-analytics-tab="exam"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
   await settle(window, 2);
   const panel = window.document.getElementById('tb-analytics-panel');
-  assert.ok(panel.textContent.includes('have not completed a full timed exam'));
+  assert.ok(panel.textContent.includes('No completed timed full examination with a saved original configuration'));
 });
 
 test('closing the panel hides and clears it', async () => {

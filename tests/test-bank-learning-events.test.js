@@ -267,7 +267,7 @@ test('the learning ledger records every delivered and submitted question before 
     assert.equal(captured[0].records.length, 3);
     assert.deepEqual(plain(captured[0].metadata), {
       source: 'exam-attempt', mode: 'exam', timed: true, sessionId: 'cssbb-session-001', at: startedAt + 60000,
-      completed: true, eventIds: Array.from(store.events.filter(event => event.type === 'answer_recorded'), event => event.id),
+      completed: true, completedReason: 'submitted', eventIds: Array.from(store.events.filter(event => event.type === 'answer_recorded'), event => event.id),
       filter: null,
       firstExposureByQuestion: {
         'cssbb:test-001': true,

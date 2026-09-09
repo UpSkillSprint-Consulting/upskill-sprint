@@ -37,6 +37,7 @@ async function load(storage = {}) {
       new Promise(resolve => dom.window.addEventListener('load', resolve, { once: true })),
       new Promise((_, reject) => { timeout = setTimeout(() => reject(new Error('Isolated baseline DOM failed to load')), 15000); })
     ]);
+    require('./helpers/test-bank-version-runtime.cjs').installVersions(dom.window);
     dom.window.eval(read('test-bank-question-registry.js'));
     return { dom, window: dom.window, errors };
   } catch (error) { dom.window.close(); throw error; }

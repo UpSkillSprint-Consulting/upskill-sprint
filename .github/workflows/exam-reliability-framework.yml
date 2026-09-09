@@ -40,7 +40,8 @@ jobs:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
       - uses: actions/setup-node@v4
-        with: {node-version-file: '.node-version'}
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
       - run: sudo apt-get update && sudo apt-get install -y postgresql-client
       - run: node scripts/exam-reliability/run-database.cjs
         env:

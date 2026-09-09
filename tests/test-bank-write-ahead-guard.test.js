@@ -45,6 +45,7 @@ async function load(options) {
       status() { return { writeAheadSaved: options.statusSaved !== false }; }
     };
   }
+  require('./helpers/test-bank-version-runtime.cjs').installVersions(dom.window);
   dom.window.eval(registrySource);
   dom.window.eval(masterySource);
   if (options.hardening) dom.window.eval(hardeningSource);
