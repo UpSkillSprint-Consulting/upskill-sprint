@@ -10,6 +10,7 @@ on:
       - 'tests/test-bank-phase2-runtime.test.js'
       - 'tests/test-bank-segment13-timing.test.js'
       - 'tests/helpers/segment03-harness.cjs'
+      - 'tests/helpers/test-bank-durable-learning.js'
       - 'scripts/exam-reliability/run-session-timing-browser.cjs'
       - 'supabase/migrations/20260909152000_add_exam_trusted_clock.sql'
       - '.github/workflows/exam-session-timing.yml'
@@ -61,7 +62,8 @@ jobs:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
       - uses: actions/setup-node@v4
-        with: {node-version-file: '.node-version'}
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
       - run: sudo apt-get update && sudo apt-get install -y postgresql-client
       - name: Apply repository DDL and existing authorization suite
         env:
