@@ -319,7 +319,8 @@ test('an in-flight sync for one account cannot apply after switching accounts', 
     user_id: 'user-a', device_id: 'a-device', updated_at: new Date().toISOString(),
     payload: { schemaVersion: 1, values: { 'tb-adaptive-mastery-v1': mastery(['a-question']) } }
   }] });
-  assert.equal((await aPending).stale, true);
+  const aResult = await aPending;
+  assert.equal(aResult.cancelled, true, 'Segment 14 actively cancels stale cross-account work');
   for (let i = 0; i < 8 && bUpserts === 0; i += 1) await flush();
   assert.equal(aUpserts, 0);
   assert.equal(bUpserts, 1);
