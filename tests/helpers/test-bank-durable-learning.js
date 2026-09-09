@@ -13,6 +13,26 @@ const registry = fs.readFileSync(path.join(ROOT, 'test-bank-question-registry.js
 const learning = fs.readFileSync(path.join(ROOT, 'test-bank-learning-events.js'), 'utf8');
 
 function emptyClient() {
+  /* Browser audit scripts serialize this fixture into their isolated auth
+     adapter. The adapter can become available after Segment 13's first clock
+     boot attempt. Reproduce production auth readiness and, once the timing API
+     exists, exercise its real authenticated calibration path. Nothing here
+     force-enables controls or bypasses the fail-closed timing contract. */
+  if (typeof document === 'object' && typeof setTimeout === 'function' && typeof CustomEvent === 'function') {
+    const announce = () => {
+      try { document.dispatchEvent(new CustomEvent('upskill-auth-ready', { detail: { fixture: true } })); } catch (_) {}
+      try {
+        const timing = typeof globalThis !== 'undefined' && globalThis.__TBSessionTiming;
+        if (timing && typeof timing.calibrate === 'function') {
+          const state = typeof timing.status === 'function' ? timing.status() : null;
+          if (!state || !state.clock || !state.clock.ready || state.clock.recoveryRequired) {
+            Promise.resolve(timing.calibrate('isolated-browser-auth-ready')).catch(() => {});
+          }
+        }
+      } catch (_) {}
+    };
+    [0, 50, 250, 750, 1500, 2500].forEach(ms => setTimeout(announce, ms));
+  }
   return {
     from() {
       return {
@@ -31,8 +51,24 @@ function emptyClient() {
     /* Default browser fixtures do not model another device. Accepting the
        requested IDs mirrors an uncontended account-owned reservation. Exact
        retake reservations return only the required count, matching the
-       all-or-nothing RPC contract. */
+       all-or-nothing RPC contract. Segment 13 also requires a trustworthy
+       server clock before a timed quiz may start. Tests can deliberately move
+       that authoritative fixture clock through __TEST_SERVER_TIME_MS; changing
+       Date.now alone must never expire a timed exam. */
     rpc(name, args) {
+      if (name === 'get_test_bank_server_time_v1') {
+        const override = typeof globalThis !== 'undefined' && Number.isFinite(Number(globalThis.__TEST_SERVER_TIME_MS))
+          ? Number(globalThis.__TEST_SERVER_TIME_MS)
+          : null;
+        return Promise.resolve({
+          data: {
+            protocolVersion: 1,
+            serverTime: (override == null ? new Date() : new Date(override)).toISOString(),
+            userId: 'isolated-test-user'
+          },
+          error: null
+        });
+      }
       if (name === 'ingest_test_bank_operations_v1') {
         return Promise.resolve({
           data: (args && args.p_operations || []).map((operation, index) => ({

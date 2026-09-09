@@ -71,8 +71,9 @@ test('runtime timing resets when a new quiz begins', async () => {
   assertNoTrackedTimes(window);
 });
 
-test('runtime labels sub-second internal navigation as unreliable rather than learner time', async () => {
+test('runtime preserves known sub-second visits while keeping genuinely unknown timing explicit', async () => {
   const window = await load();
-  assert.equal(window.__TBPhase2Runtime.format(200), 'Not reliably tracked');
+  assert.equal(window.__TBPhase2Runtime.format(null), 'Not reliably tracked');
+  assert.equal(window.__TBPhase2Runtime.format(200), '0 sec');
   assert.equal(window.__TBPhase2Runtime.format(1200), '1 sec');
 });

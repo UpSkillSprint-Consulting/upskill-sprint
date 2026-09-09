@@ -103,24 +103,38 @@
   window.__TBAdaptiveCompletionGuard = { complete: complete, readSession: readSession };
 }());
 
-/* Segment 12: keep adaptive recovery intact and load the general exam lifecycle
-   only after the existing bank/version/learning runtime has been established. */
+/* Segment 12/13 bootstrap: keep adaptive recovery intact, then load the
+   versioned lifecycle, frozen-finalization adapter, and trusted timing adapter
+   in dependency order after the bank/version/learning runtime is established. */
 (function () {
   'use strict';
-  if (window.__TBSessionLifecycle || document.querySelector('script[data-segment12-lifecycle]')) return;
-  const lifecycle = document.createElement('script');
-  lifecycle.src = '/test-bank-session-lifecycle.js';
-  lifecycle.async = false;
-  lifecycle.dataset.segment12Lifecycle = 'true';
-  lifecycle.addEventListener('load', function () {
+  function loadTiming() {
+    if (window.__TBSessionTiming || document.querySelector('script[data-segment13-timing]')) return;
+    const timing = document.createElement('script');
+    timing.src = '/test-bank-session-timing.js';
+    timing.async = false;
+    timing.dataset.segment13Timing = 'true';
+    timing.addEventListener('error', function () { console.error('[exam-session-timing] trusted timing adapter failed to load'); }, { once:true });
+    document.head.appendChild(timing);
+  }
+  function loadFinalization() {
+    if (window.__TBSessionLifecycle && window.__TBSessionLifecycle.__segment12FinalizationHardened) { loadTiming(); return; }
     if (document.querySelector('script[data-segment12-finalization]')) return;
     const finalization = document.createElement('script');
     finalization.src = '/test-bank-session-lifecycle-finalization.js';
     finalization.async = false;
     finalization.dataset.segment12Finalization = 'true';
+    finalization.addEventListener('load', loadTiming, { once:true });
     finalization.addEventListener('error', function () { console.error('[exam-session-lifecycle] finalization adapter failed to load'); }, { once:true });
     document.head.appendChild(finalization);
-  }, { once:true });
+  }
+  if (window.__TBSessionLifecycle) { loadFinalization(); return; }
+  if (document.querySelector('script[data-segment12-lifecycle]')) return;
+  const lifecycle = document.createElement('script');
+  lifecycle.src = '/test-bank-session-lifecycle.js';
+  lifecycle.async = false;
+  lifecycle.dataset.segment12Lifecycle = 'true';
+  lifecycle.addEventListener('load', loadFinalization, { once:true });
   lifecycle.addEventListener('error', function () { console.error('[exam-session-lifecycle] failed to load'); }, { once:true });
   document.head.appendChild(lifecycle);
 }());
