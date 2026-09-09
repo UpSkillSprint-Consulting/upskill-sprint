@@ -1,0 +1,95 @@
+name: Segment 09 final regression repair
+on:
+  push:
+    branches: [fix/segment-09-canonical-grading]
+permissions:
+  contents: write
+jobs:
+  repair:
+    if: "!contains(github.event.head_commit.message, '[segment09-finalfix]')"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/segment-09-canonical-grading
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - name: Harden canonical reference and repair stale synthetic fixtures
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('test-bank-versioning.js'); s=p.read_text()
+          old="""  requireValue(typeof v.sessionId==='string'&&v.sessionId.length>0&&typeof v.examId==='string'&&v.examId.length>0&&typeof v.setId==='string'&&v.setId.length>0,'Missing historical version identity');
+            for(const key of ['configVersion','bankVersion','blueprintVersion','configurationDigest'])requireValue(typeof v[key]==='string'&&/^[a-f0-9]{64}$/.test(v[key]),'Missing or invalid historical '+key);
+          """
+          new="""  requireValue(typeof v.sessionId==='string'&&v.sessionId.length>0&&typeof v.examId==='string'&&v.examId.length>0&&typeof v.setId==='string'&&v.setId.length>0,'Missing historical version identity');
+            requireValue(v.pinDigest==null&&v.items==null,'Historical attempt requires a canonical version reference');
+            requireValue(typeof v.reportingTimeZoneAtStart==='string'&&v.reportingTimeZoneAtStart.length>0,'Missing historical reporting timezone');
+            requireValue(v.resetEpochId===null||typeof v.resetEpochId==='string'&&v.resetEpochId.length>0,'Invalid historical reset epoch');
+            for(const key of ['configVersion','bankVersion','blueprintVersion','configurationDigest'])requireValue(typeof v[key]==='string'&&/^[a-f0-9]{64}$/.test(v[key]),'Missing or invalid historical '+key);
+          """
+          assert s.count(old)==1
+          p.write_text(s.replace(old,new,1))
+
+          p=Path('tests/test-bank-analytics-dashboard.test.js'); s=p.read_text()
+          old="""function pinned(expectedLength, overrides = {}) {
+            return Object.assign({codec:1, contractVersion:'1.0.0', gradingPolicyVersion:'single-select-v1',
+              expectedLength, siteTargetBps:7000, mode:'exam', timed:true}, overrides);
+          }
+          """
+          new="""function pinned(expectedLength, overrides = {}) {
+            const reference = Object.assign({
+              codec: 1, contractVersion: '1.0.0', sessionId: 'synthetic-exam', examId: 'cssbb', setId: 'mix',
+              configurationDigest: '1'.repeat(64), configVersion: '2'.repeat(64), bankVersion: '3'.repeat(64), blueprintVersion: '4'.repeat(64),
+              reportingTimeZoneAtStart: 'UTC', resetEpochId: null, gradingPolicyVersion: 'single-select-v1',
+              masteryPolicyVersion: 'adaptive-mastery-v1', timingPolicyVersion: 'deadline-v1', expectedLength,
+              siteTargetBps: 7000, mode: 'exam', timed: true, startedAt: '2026-09-08T00:00:00.000Z'
+            }, overrides);
+            if (reference.timed) {
+              reference.limitSeconds = overrides.limitSeconds ?? 3600;
+              reference.deadlineAt = new Date(Date.parse(reference.startedAt) + reference.limitSeconds * 1000).toISOString();
+            } else {
+              reference.limitSeconds = null;
+              reference.deadlineAt = null;
+            }
+            return reference;
+          }
+          """
+          assert s.count(old)==1
+          s=s.replace(old,new,1)
+          replacements={
+            "versionPin:pinned(fullLength,{mode:entry.mode,timed:entry.timed})":"versionPin:pinned(fullLength,{sessionId:entry.id,mode:entry.mode,timed:entry.timed})",
+            "versionPin:pinned(fullLength), domainBreakdown:[{id:'mea',total:1,correct:0}":"versionPin:pinned(fullLength,{sessionId:'e1'}), domainBreakdown:[{id:'mea',total:1,correct:0}",
+            "versionPin:pinned(fullLength), domainBreakdown:[{id:'mea',total:1,correct:1}":"versionPin:pinned(fullLength,{sessionId:'e2'}), domainBreakdown:[{id:'mea',total:1,correct:1}",
+            "versionPin:pinned(fullLength), domainBreakdown:[{id:'mea',name:'V. Measure'":"versionPin:pinned(fullLength,{sessionId:'historic-reclassified-full'}), domainBreakdown:[{id:'mea',name:'V. Measure'",
+            "versionPin:pinned(fullLength) }],\n    sessions: []":"versionPin:pinned(fullLength,{sessionId:'full-ledger-1'}) }],\n    sessions: []",
+            "mode: 'exam', timed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength),\n        answers:":"mode: 'exam', timed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength,{sessionId:'full-ledger-1'}),\n        answers:",
+            "correct: 1, versionPin:pinned(fullLength),\n      domainBreakdown":"correct: 1, versionPin:pinned(fullLength,{sessionId:'trimmed-full-1'}),\n      domainBreakdown"
+          }
+          for a,b in replacements.items():
+            assert s.count(a)==1, a
+            s=s.replace(a,b,1)
+          p.write_text(s)
+          PY
+      - name: Verify the previously failing grading and deploy gates
+        shell: bash
+        run: |
+          node --test --test-concurrency=1 tests/test-bank-segment09-grading.test.js tests/test-bank-segment09-identity.test.js
+          node --test --test-concurrency=1 --test-name-pattern='examAttemptSeries only|latestExamDomainBreakdown reconstructs|historic full-exam domains|unanswered full-exam item|cache compaction' tests/test-bank-analytics-dashboard.test.js
+          node scripts/run-test-bank-deploy-checks.mjs
+      - name: Commit repair and remove helper workflow
+        shell: bash
+        run: |
+          git config user.name upskillsprint-agent
+          git config user.email skillsprintconsulting@gmail.com
+          git rm .github/workflows/segment09-final-regression-fix.yml
+          git add test-bank-versioning.js tests/test-bank-analytics-dashboard.test.js
+          git diff --cached --check
+          git commit -m "fix(grading): validate canonical historical references [segment09-finalfix]"
+          git push origin HEAD:fix/segment-09-canonical-grading
