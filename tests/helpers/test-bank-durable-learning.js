@@ -31,8 +31,20 @@ function emptyClient() {
     /* Default browser fixtures do not model another device. Accepting the
        requested IDs mirrors an uncontended account-owned reservation. Exact
        retake reservations return only the required count, matching the
-       all-or-nothing RPC contract. */
+       all-or-nothing RPC contract. Segment 13 also requires a trustworthy
+       server clock before a timed quiz may start; isolated browser fixtures
+       return the fixture process clock rather than bypassing that guard. */
     rpc(name, args) {
+      if (name === 'get_test_bank_server_time_v1') {
+        return Promise.resolve({
+          data: {
+            protocolVersion: 1,
+            serverTime: new Date().toISOString(),
+            userId: 'isolated-test-user'
+          },
+          error: null
+        });
+      }
       if (name === 'ingest_test_bank_operations_v1') {
         return Promise.resolve({
           data: (args && args.p_operations || []).map((operation, index) => ({
