@@ -66,13 +66,19 @@ const ACCOUNT_SYNC_SOURCE = '/test-bank-account-sync.js';
 const LEARNING_SYNC_SOURCE = '/test-bank-learning-events.js';
 function scriptTag(source) { return `<script src="${source}" defer></script>`; }
 function ensureIncrementalPolicyBeforeSync(html) {
-  if (html.includes(`src="${POLICY_SOURCE}"`)) return html;
   const policy = scriptTag(POLICY_SOURCE);
   const accountTag = scriptTag(ACCOUNT_SYNC_SOURCE);
   const learningTag = scriptTag(LEARNING_SYNC_SOURCE);
-  if (html.includes(accountTag)) return html.replace(accountTag, policy + accountTag);
-  if (html.includes(learningTag)) return html.replace(learningTag, policy + learningTag);
-  return html;
+  const policyIndex = html.indexOf(policy);
+  const accountIndex = html.indexOf(accountTag);
+  const learningIndex = html.indexOf(learningTag);
+  const firstSyncIndex = [accountIndex, learningIndex].filter((index) => index >= 0).sort((a, b) => a - b)[0];
+  if (firstSyncIndex == null) return html;
+  if (policyIndex >= 0 && policyIndex < firstSyncIndex) return html;
+  const withoutLatePolicy = policyIndex >= 0 ? html.replace(policy, '') : html;
+  if (withoutLatePolicy.includes(accountTag)) return withoutLatePolicy.replace(accountTag, policy + accountTag);
+  if (withoutLatePolicy.includes(learningTag)) return withoutLatePolicy.replace(learningTag, policy + learningTag);
+  return withoutLatePolicy;
 }
 
 export default async function handler(_request, context) {
