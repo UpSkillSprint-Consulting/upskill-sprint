@@ -24,7 +24,8 @@ jobs:
         with: {node-version-file: '.node-version', cache: npm}
       - run: npm ci
       - run: node --test tests/test-bank-segment07-ingestion.test.js tests/test-bank-segment06-durability.test.js
-      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Verify preinstalled PostgreSQL client
+        run: psql --version
       - run: node scripts/exam-reliability/run-database.cjs
         env:
           SEG03_ALLOW_DISPOSABLE_DB: '1'
