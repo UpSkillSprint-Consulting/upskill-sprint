@@ -85,6 +85,10 @@
   }
 
   function effectiveMastery(state, timestamp) {
+    const policy = window.__TBMetricPolicy;
+    if (policy && typeof policy.effectiveMastery === 'function') return policy.effectiveMastery(state, timestamp);
+    /* Compatibility fallback for isolated legacy fixtures. Production loads
+       the versioned Segment 10 policy before this module. */
     if (!state || !state.attempts) return 0;
     const accuracy = state.correct / state.attempts;
     const confidence = Math.min(state.attempts / 5, 1);
@@ -139,6 +143,15 @@
 
   function masterySummary(data, timestamp) {
     const questions = allQuestions();
+    const policy = window.__TBMetricPolicy;
+    if (policy && typeof policy.summarize === 'function') {
+      return policy.summarize({
+        questions: questions,
+        bok: (exam() && exam().bok) || [],
+        timestamp: timestamp,
+        stateFor: function (question) { return stateFor(question, data); }
+      });
+    }
     const attempted = questions.filter(function (question) { return stateFor(question, data).attempts > 0; });
     const meta = blueprintSubtopics();
     const groups = {};
@@ -449,7 +462,7 @@
     const dashboard = document.getElementById('tb-adaptive-mastery');
     if (!dashboard) return;
     const summary = masterySummary(examData(readStore()), Date.now());
-    const inner = '<div class="tb-sec">Mastery confidence and coverage</div><div class="tb-reliability-grid"><div><strong>' + summary.attemptedMastery + '%</strong><span>mastery on attempted questions</span></div><div><strong>' + summary.coverage + '%</strong><span>answered-pool coverage</span></div><div><strong>' + summary.readiness + '%</strong><span>coverage-adjusted readiness</span></div></div><p>Readiness discounts high scores based on a small evidence sample. Questions merely delivered are tracked separately and do not raise readiness. Effective mastery also decays as retrieval becomes stale.</p><div class="tb-data-actions"><button type="button" class="tb-ghost" data-v2-export>Export learning data</button><button type="button" class="tb-ghost danger" data-v2-reset>Reset adaptive data</button></div>';
+    const inner = '<div class="tb-sec">Mastery confidence and coverage</div><div class="tb-reliability-grid"><div><strong>' + summary.attemptedMastery + '%</strong><span>mastery on attempted questions</span></div><div><strong>' + summary.coverage + '%</strong><span>blueprint-weighted question coverage</span></div><div><strong>' + summary.readiness + '%</strong><span>coverage-adjusted readiness</span></div></div><p>Readiness is a blueprint-weighted coverage × mastery study heuristic, not a pass probability. Reserved, delivered or displayed questions are tracked separately and cannot raise question coverage or readiness. Effective mastery decays as retrieval becomes stale.</p><div class="tb-data-actions"><button type="button" class="tb-ghost" data-v2-export>Export learning data</button><button type="button" class="tb-ghost danger" data-v2-reset>Reset adaptive data</button></div>';
     // Idempotent: only touch the DOM when the rendered content actually changes.
     // (This function runs on every observed mutation; re-inserting an identical
     // block would retrigger the observers and create a re-render loop that makes
@@ -558,7 +571,7 @@
     doc.setFontSize(10);
     const metrics = [
       ['Mastery on attempted questions', summary.attemptedMastery + '%'],
-      ['Answered-pool coverage', summary.coverage + '% (' + summary.attempted + ' of ' + summary.total + ' questions)'],
+      ['Blueprint-weighted question coverage', summary.coverage + '% (raw: ' + (summary.rawCoverage == null ? 'Unavailable' : summary.rawCoverage.toFixed(1) + '%') + ')'],
       ['Coverage-adjusted readiness', summary.readiness + '%'],
       ['Questions mastered (3+ attempts, 80%+ mastery)', String(summary.mastered)],
       ['Questions due for review', String(summary.due)]
@@ -573,9 +586,9 @@
     y += 3;
     doc.setFontSize(8.5);
     doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
-    doc.text('Readiness discounts high scores based on a small answered evidence sample.', MARGIN_X, y);
+    doc.text('Readiness is a blueprint-weighted coverage × mastery study heuristic, not a pass probability.', MARGIN_X, y);
     y += 4.5;
-    doc.text('Questions merely delivered do not raise readiness; mastery also decays as retrieval becomes stale.', MARGIN_X, y);
+    doc.text('Reserved, delivered or displayed questions do not raise coverage/readiness; mastery decays with age.', MARGIN_X, y);
     doc.setTextColor(CHARCOAL[0], CHARCOAL[1], CHARCOAL[2]);
     y += 12;
 
@@ -640,7 +653,7 @@
       doc.save('upskillsprint-' + examId() + '-mastery-' + new Date(timestamp).toISOString().slice(0, 10) + '.pdf');
       announce('Adaptive learning data export prepared.');
     }).catch(function () {
-      downloadJSONFallback({ exportedAt: new Date(timestamp).toISOString(), examId: examId(), mastery: data });
+      downloadJSONFallback({ exportedAt: new Date(timestamp).toISOString(), examId: examId(), formulaVersion: summary.policyVersion || null, metrics: summary.metrics || null, summary: summary, mastery: data });
     });
   }
 
