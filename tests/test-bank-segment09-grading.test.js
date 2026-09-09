@@ -111,6 +111,15 @@ test('09 corrupt grading metadata fails visibly instead of silently reinterpreti
     const x=plain(base);mutate(x);const g=V.assessAttempt(x);assert.equal(g.available,false);assert.equal(g.eligible,false);assert.ok(g.diagnostic);
   }
 });
+test('09 truncated or unbound version references cannot qualify as pinned examinations',()=>{
+  const base=attempt(fixture({count:165}));
+  assert.equal(V.assessAttempt(base,'cssbb').eligible,true);
+  const fields=['sessionId','examId','setId','configVersion','bankVersion','blueprintVersion','configurationDigest','gradingPolicyVersion','masteryPolicyVersion','timingPolicyVersion','startedAt'];
+  for(const field of fields){const x=plain(base);delete x.versionPin[field];const g=V.assessAttempt(x,'cssbb');assert.equal(g.available,false,field);assert.equal(g.eligible,false,field);assert.notEqual(g.provenance,'pinned',field);assert.ok(g.diagnostic,field);}
+  const codex=plain(base);codex.versionPin={codec:1,contractVersion:'1.0.0',gradingPolicyVersion:'single-select-v1',expectedLength:165,siteTargetBps:7000,mode:'exam',timed:true};
+  const rejected=V.assessAttempt(codex,'cssbb');assert.equal(rejected.available,false);assert.equal(rejected.eligible,false);assert.notEqual(rejected.provenance,'pinned');
+  for(const mutate of [a=>delete a.grading.pinDigest,a=>a.grading.pinDigest='f'.repeat(63),a=>a.grading.resultId='foreign:original']){const x=plain(base);mutate(x);const g=V.assessAttempt(x,'cssbb');assert.equal(g.available,false);assert.equal(g.eligible,false);assert.notEqual(g.provenance,'pinned');}
+});
 test('09 complete original groups survive cache compaction; incomplete evidence does not become a 100% score',()=>{
   const f=fixture(),a=attempt(f),s=analytics(),groups=V.scoreRecords(f.records,f.pin.configuration).bySubtopic;
   a.domainBreakdown=Object.entries(groups).map(([id,c])=>({id,name:'Pinned '+id,...c}));s.setExamData({attempts:[a],questions:{}});s.context.__TBLearning={eventsForExam:()=>[]};

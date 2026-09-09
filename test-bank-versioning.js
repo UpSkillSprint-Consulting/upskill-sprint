@@ -177,6 +177,22 @@
     });
     return aggregateStatuses(rows);
   }
+  function checkedReference(value) {
+  const v=value;
+  requireValue(v&&v.codec===1&&v.contractVersion===SCHEMA,'Unsupported historical version reference');
+  requireValue(typeof v.sessionId==='string'&&v.sessionId.length>0&&typeof v.examId==='string'&&v.examId.length>0&&typeof v.setId==='string'&&v.setId.length>0,'Missing historical version identity');
+  for(const key of ['configVersion','bankVersion','blueprintVersion','configurationDigest'])requireValue(typeof v[key]==='string'&&/^[a-f0-9]{64}$/.test(v[key]),'Missing or invalid historical '+key);
+  for(const key of ['gradingPolicyVersion','masteryPolicyVersion','timingPolicyVersion'])requireValue(typeof v[key]==='string'&&v[key].length>0,'Missing historical '+key);
+  requireValue(MODES.includes(v.mode)&&v.mode!=='review','Invalid historical session mode');
+  requireValue(Number.isSafeInteger(v.expectedLength)&&v.expectedLength>0&&v.expectedLength<=200,'Invalid historical expected length');
+  requireValue(v.siteTargetBps===null||Number.isInteger(v.siteTargetBps)&&v.siteTargetBps>=0&&v.siteTargetBps<=10000,'Invalid historical site target');
+  requireValue(typeof v.timed==='boolean'&&typeof v.startedAt==='string'&&!Number.isNaN(Date.parse(v.startedAt)),'Invalid historical timing identity');
+  if(v.timed) {
+    requireValue(Number.isSafeInteger(v.limitSeconds)&&v.limitSeconds>0&&v.limitSeconds<=86400&&typeof v.deadlineAt==='string'&&!Number.isNaN(Date.parse(v.deadlineAt)),'Invalid historical deadline');
+    requireValue(Date.parse(v.deadlineAt)-Date.parse(v.startedAt)===v.limitSeconds*1000,'Historical deadline differs from pinned limit');
+  } else requireValue(v.limitSeconds===null&&v.deadlineAt===null,'Untimed historical session has a deadline');
+  return v;
+}
   /* Historical presentation is read-only. Unknown legacy policy is not today's
    * policy. Invalid/conflicting evidence remains unavailable rather than being
    * clamped or silently regraded using the current question bank. */
@@ -186,6 +202,7 @@
       requireValue(entry&&typeof entry==='object','Missing attempt');
       if(entry.completed===false || ['created','in_progress','paused','finalizing','abandoned','cancelled','canceled'].includes(entry.state) || ['abandoned','cancelled','canceled'].includes(entry.completedReason))return Object.assign({},unavailable,{provenance:'not-finalized',diagnostic:'Session has no finalized score'});
       const v=entry.versionPin||null, g=entry.grading||null;
+      if(v)checkedReference(v);
       if(expectedExamId!=null) {
         requireValue(typeof expectedExamId==='string'&&expectedExamId.length>0,'Invalid historical exam scope');
         if(entry.examId!=null)requireValue(entry.examId===expectedExamId,'Historical exam scope mismatch');
@@ -197,10 +214,10 @@
         if(entry.sessionId!=null)requireValue(entry.sessionId===v.sessionId,'Historical session identity mismatch');
       }
       if(v&&v.examId!=null&&entry.examId!=null)requireValue(v.examId===entry.examId,'Historical exam identity mismatch');
-      if(v)requireValue(v.codec===1&&v.contractVersion===SCHEMA&&v.gradingPolicyVersion==='single-select-v1'&&Number.isSafeInteger(v.expectedLength)&&v.expectedLength>0,'Unsupported historical grading policy');
+      if(v)requireValue(v.gradingPolicyVersion==='single-select-v1','Unsupported historical grading policy');
       if(g) {
-        if(g.resultId!=null)requireValue(v&&typeof v.sessionId==='string'&&g.resultId===v.sessionId+':original','Original result identity mismatch');
-        if(g.pinDigest!=null&&v&&v.pinDigest!=null)requireValue(g.pinDigest===v.pinDigest,'Original pin digest mismatch');
+        requireValue(v&&g.resultId===v.sessionId+':original','Original result identity mismatch');
+        requireValue(typeof g.pinDigest==='string'&&/^[a-f0-9]{64}$/.test(g.pinDigest),'Missing original pin digest');
         requireValue(v&&g.schemaVersion===SCHEMA&&g.gradingPolicyVersion===v.gradingPolicyVersion&&g.configVersion===v.configVersion&&g.bankVersion===v.bankVersion&&g.expectedLength===v.expectedLength&&g.siteTargetBps===v.siteTargetBps,'Conflicting historical grade');
         requireValue(g.total===entry.total&&g.correct===entry.correct,'Conflicting historical counts');
       }
