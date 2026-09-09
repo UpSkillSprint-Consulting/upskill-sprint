@@ -50,8 +50,21 @@ async function load() {
 // Synthetic immutable policy: full-history tests must supply their original
 // length/target. Missing real legacy provenance stays unknown in production.
 function pinned(expectedLength, overrides = {}) {
-  return Object.assign({codec:1, contractVersion:'1.0.0', gradingPolicyVersion:'single-select-v1',
-    expectedLength, siteTargetBps:7000, mode:'exam', timed:true}, overrides);
+  const reference = Object.assign({
+    codec: 1, contractVersion: '1.0.0', sessionId: 'synthetic-exam', examId: 'cssbb', setId: 'mix',
+    configurationDigest: '1'.repeat(64), configVersion: '2'.repeat(64), bankVersion: '3'.repeat(64), blueprintVersion: '4'.repeat(64),
+    reportingTimeZoneAtStart: 'UTC', resetEpochId: null, gradingPolicyVersion: 'single-select-v1',
+    masteryPolicyVersion: 'adaptive-mastery-v1', timingPolicyVersion: 'deadline-v1', expectedLength,
+    siteTargetBps: 7000, mode: 'exam', timed: true, startedAt: '2026-09-08T00:00:00.000Z'
+  }, overrides);
+  if (reference.timed) {
+    reference.limitSeconds = overrides.limitSeconds ?? 3600;
+    reference.deadlineAt = new Date(Date.parse(reference.startedAt) + reference.limitSeconds * 1000).toISOString();
+  } else {
+    reference.limitSeconds = null;
+    reference.deadlineAt = null;
+  }
+  return reference;
 }
 
 function hash(value) {
@@ -341,7 +354,7 @@ test('examAttemptSeries only counts completed, timed, full-length exam simulatio
     { id: 'short-quiz', at: now - 4000, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: 20, correct: 20 },
     { id: 'e1', at: now - 2000, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: Math.round(fullLength * 0.6) },
     { id: 'e2', at: now - 1000, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: Math.round(fullLength * 0.8) }
-  ].map(entry => Object.assign(entry, {versionPin:pinned(fullLength,{mode:entry.mode,timed:entry.timed})}));
+  ].map(entry => Object.assign(entry, {versionPin:pinned(fullLength,{sessionId:entry.id,mode:entry.mode,timed:entry.timed})}));
   writeStore(window, { questions: {}, attempts: attempts, sessions: [] });
 
   const series = window.__TBAnalyticsDashboard.examAttemptSeries();
@@ -371,8 +384,8 @@ test('latestExamDomainBreakdown reconstructs only the most recent full exam by i
     })
   };
   const attempts = [
-    { id: 'e1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 0, versionPin:pinned(fullLength), domainBreakdown:[{id:'mea',total:1,correct:0},{id:'ana',total:1,correct:0}] },
-    { id: 'e2', at: timestamp + 1, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength), domainBreakdown:[{id:'mea',total:1,correct:1},{id:'ana',total:1,correct:0}] }
+    { id: 'e1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 0, versionPin:pinned(fullLength,{sessionId:'e1'}), domainBreakdown:[{id:'mea',total:1,correct:0},{id:'ana',total:1,correct:0}] },
+    { id: 'e2', at: timestamp + 1, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength,{sessionId:'e2'}), domainBreakdown:[{id:'mea',total:1,correct:1},{id:'ana',total:1,correct:0}] }
   ];
   writeStore(window, { questions: states, attempts: attempts, sessions: [] });
 
@@ -410,7 +423,7 @@ test('historic full-exam domains and notebook labels use the answer-time snapsho
     questions: { [windowQuestionId(historic)]: state },
     attempts: [{
       id: 'historic-reclassified-full', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true,
-      completed: true, total: fullLength, correct: 0, versionPin:pinned(fullLength), domainBreakdown:[{id:'mea',name:'V. Measure',total:1,correct:0,incorrect:1,unanswered:0}]
+      completed: true, total: fullLength, correct: 0, versionPin:pinned(fullLength,{sessionId:'historic-reclassified-full'}), domainBreakdown:[{id:'mea',name:'V. Measure',total:1,correct:0,incorrect:1,unanswered:0}]
     }],
     sessions: []
   });
@@ -449,14 +462,14 @@ test('latestExamDomainBreakdown counts an unanswered full-exam item from the imm
   };
   writeStore(window, {
     questions: states,
-    attempts: [{ id: 'full-ledger-1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength) }],
+    attempts: [{ id: 'full-ledger-1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength,{sessionId:'full-ledger-1'}) }],
     sessions: []
   });
   window.__TBLearning = {
     eventsForExam: () => [{
       id: 'complete-ledger-1', type: 'session_completed', examId: 'cssbb', sessionId: 'full-ledger-1', occurredAt: timestamp,
       payload: {
-        mode: 'exam', timed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength),
+        mode: 'exam', timed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength,{sessionId:'full-ledger-1'}),
         answers: [
           { questionId: windowQuestionId(answered), sub: 'mea', selected: answered.answer, status: 'correct' },
           { questionId: windowQuestionId(blank), sub: 'mea', selected: null, status: 'unanswered' }
@@ -486,7 +499,7 @@ test('latestExamDomainBreakdown keeps the persisted immutable domain denominator
   writeStore(window, {
     questions: states,
     attempts: [{
-      id: 'trimmed-full-1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength),
+      id: 'trimmed-full-1', at: timestamp, source: 'exam-attempt', mode: 'exam', timed: true, completed: true, total: fullLength, correct: 1, versionPin:pinned(fullLength,{sessionId:'trimmed-full-1'}),
       domainBreakdown: [{ id: 'mea', total: 2, correct: 1, incorrect: 0, unanswered: 1 }]
     }],
     sessions: []

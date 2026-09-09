@@ -181,6 +181,9 @@
   const v=value;
   requireValue(v&&v.codec===1&&v.contractVersion===SCHEMA,'Unsupported historical version reference');
   requireValue(typeof v.sessionId==='string'&&v.sessionId.length>0&&typeof v.examId==='string'&&v.examId.length>0&&typeof v.setId==='string'&&v.setId.length>0,'Missing historical version identity');
+  requireValue(v.pinDigest==null&&v.items==null,'Historical attempt requires a canonical version reference');
+  requireValue(typeof v.reportingTimeZoneAtStart==='string'&&v.reportingTimeZoneAtStart.length>0,'Missing historical reporting timezone');
+  requireValue(v.resetEpochId===null||typeof v.resetEpochId==='string'&&v.resetEpochId.length>0,'Invalid historical reset epoch');
   for(const key of ['configVersion','bankVersion','blueprintVersion','configurationDigest'])requireValue(typeof v[key]==='string'&&/^[a-f0-9]{64}$/.test(v[key]),'Missing or invalid historical '+key);
   for(const key of ['gradingPolicyVersion','masteryPolicyVersion','timingPolicyVersion'])requireValue(typeof v[key]==='string'&&v[key].length>0,'Missing historical '+key);
   requireValue(MODES.includes(v.mode)&&v.mode!=='review','Invalid historical session mode');
