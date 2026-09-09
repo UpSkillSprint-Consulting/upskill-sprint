@@ -62,6 +62,29 @@
     nativeDateNowInstalled = true;
     return true;
   }
+  function syncTimedStartControls() {
+    if (!root || !root.document) return;
+    const blocked = recoveryRequired || trustedNow()==null;
+    root.document.querySelectorAll('[data-mode="full"]').forEach(function (button) {
+      if (!('disabled' in button)) return;
+      if (blocked) {
+        if (button.getAttribute('data-timing-clock-wait')!=='true') {
+          button.setAttribute('data-timing-clock-was-disabled',button.disabled?'1':'0');
+          button.setAttribute('data-timing-clock-wait','true');
+        }
+        button.disabled=true;
+        button.setAttribute('aria-disabled','true');
+        return;
+      }
+      if (button.getAttribute('data-timing-clock-wait')==='true') {
+        const wasDisabled=button.getAttribute('data-timing-clock-was-disabled')==='1';
+        button.disabled=wasDisabled;
+        if (!wasDisabled) button.removeAttribute('aria-disabled');
+        button.removeAttribute('data-timing-clock-wait');
+        button.removeAttribute('data-timing-clock-was-disabled');
+      }
+    });
+  }
   function clockState() {
     return {
       schemaVersion:SCHEMA,
@@ -87,16 +110,16 @@
     const user = authUser(), client = authClient();
     if (!user || !user.id || !client || typeof client.rpc !== 'function') {
       const e = new Error('Authenticated trusted-clock service is unavailable.'); e.code='CLOCK_SERVICE_UNAVAILABLE';
-      lastCalibrationError=e; throw e;
+      lastCalibrationError=e; syncTimedStartControls(); throw e;
     }
     const t0 = monotonicNow();
     let response;
     try { response = await client.rpc(RPC, { p_reason:String(reason || 'runtime').slice(0,64) }); }
-    catch (error) { lastCalibrationError=error; throw error; }
+    catch (error) { lastCalibrationError=error; syncTimedStartControls(); throw error; }
     const t1 = monotonicNow();
     if (!response || response.error) {
       const e = new Error(response && response.error && response.error.message || 'Trusted-clock RPC failed.'); e.code='CLOCK_SYNC_FAILED';
-      lastCalibrationError=e; throw e;
+      lastCalibrationError=e; syncTimedStartControls(); throw e;
     }
     const serverMs = parseServerTime(response.data);
     const midpoint = (t0 + t1) / 2;
@@ -116,6 +139,7 @@
     recoveryReason=null;
     lastContinuity={wall:nativeDateNow(),mono:monotonicNow()};
     installTrustedDateNow();
+    syncTimedStartControls();
     persistClockMetadata();
     checkDeadline('clock-calibrated');
     dispatch('tb:timing-calibrated',clockState());
@@ -124,6 +148,7 @@
   function markRecoveryRequired(reason) {
     recoveryRequired=true;
     recoveryReason=String(reason || 'trusted-clock-recovery-required');
+    syncTimedStartControls();
     commitVisit('clock-recovery-required');
     renderRecoveryMessage();
     dispatch('tb:timing-recovery-required',{reason:recoveryReason});
@@ -366,6 +391,7 @@
   function bootClock() {
     const snap=currentSnapshot();
     const timed=!!(snap&&snap.timed&&!TERMINAL.has(snap.state));
+    syncTimedStartControls();
     if (root.navigator&&root.navigator.onLine===false) {
       if (timed) markRecoveryRequired('offline-restart');
       return Promise.resolve(clockState());
@@ -374,10 +400,10 @@
   }
   function initializeBrowser() {
     if (installed || !root || !root.document) return false;installed=true;
-    wrapLearning();wrapLifecycleResume();
-    const start=function(){wrapLearning();wrapLifecycleResume();bootClock().then(function(){syncVisible('boot');checkDeadline('boot');});};
+    wrapLearning();wrapLifecycleResume();syncTimedStartControls();
+    const start=function(){wrapLearning();wrapLifecycleResume();syncTimedStartControls();bootClock().then(function(){syncTimedStartControls();syncVisible('boot');checkDeadline('boot');});};
     if (root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',start,{once:true});else queueMicrotask(start);
-    root.document.addEventListener('upskill-auth-ready',function(){bootClock();});
+    root.document.addEventListener('upskill-auth-ready',function(){syncTimedStartControls();bootClock();});
     root.document.addEventListener('tb:learning-session-started',function(){wrapLearning();queueMicrotask(function(){persistClockMetadata();syncVisible('learning-started');});});
     root.document.addEventListener('visibilitychange',function(){
       if (root.document.hidden) { commitVisit('hidden'); lastContinuity={wall:nativeDateNow(),mono:monotonicNow()}; }
@@ -385,10 +411,10 @@
     },true);
     root.addEventListener('pagehide',function(){commitVisit('pagehide');},{capture:true});
     root.addEventListener('online',function(){calibrate('online').catch(function(){});});
-    root.addEventListener('offline',function(){lastContinuity={wall:nativeDateNow(),mono:monotonicNow()};});
+    root.addEventListener('offline',function(){lastContinuity={wall:nativeDateNow(),mono:monotonicNow()};syncTimedStartControls();});
     root.document.addEventListener('click',function(e){const t=e.target&&e.target.closest&&e.target.closest('[data-goto],[data-next],[data-prev],[data-submit]');if(t)queueMicrotask(function(){syncVisible('navigation');});},true);
-    const host=root.document.getElementById('tb-overview');if(host&&root.MutationObserver){observer=new root.MutationObserver(function(){queueMicrotask(function(){syncVisible('mutation');renderTimer(currentSnapshot());});});observer.observe(host,{childList:true,subtree:true,attributes:true,attributeFilter:['class','data-question-id','hidden']});}
-    timer=root.setInterval(function(){wrapLearning();checkDeadline('tick');syncVisible('tick');},TICK_MS);
+    const host=root.document.getElementById('tb-overview');if(host&&root.MutationObserver){observer=new root.MutationObserver(function(){queueMicrotask(function(){syncTimedStartControls();syncVisible('mutation');renderTimer(currentSnapshot());});});observer.observe(host,{childList:true,subtree:true,attributes:true,attributeFilter:['class','data-question-id','hidden']});}
+    timer=root.setInterval(function(){wrapLearning();syncTimedStartControls();checkDeadline('tick');syncVisible('tick');},TICK_MS);
     return true;
   }
 
