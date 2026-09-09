@@ -14,6 +14,8 @@
   const originalAbandon = lifecycle.abandonSaved;
   let learningWrapped = false;
   let authSubscribed = false;
+  let hostObserver = null;
+  let recoveryScheduled = false;
 
   function fail(code, message) { const error = new Error(message || code); error.code = code; throw error; }
   function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
@@ -126,7 +128,9 @@
     if (!root.document || !ownerId) return false;
     const snapshot = lifecycle.load(null,{ownerId:String(ownerId)});
     if (!snapshot || lifecycle.terminalStates.includes(snapshot.state)) return false;
+    const runtimeActive = root.__TB && typeof root.__TB.isExamSessionActive === 'function' && root.__TB.isExamSessionActive(snapshot.examId);
     const existing = root.document.querySelector('[data-session-resume]');
+    if (runtimeActive) { if (existing) existing.remove(); return false; }
     if (existing) {
       if (snapshot.state === 'finalizing') renderFinalizing(snapshot,existing);
       return true;
@@ -145,12 +149,35 @@
     if (user && user.id) lifecycle.ensureRecoveryNotice(String(user.id));
   }
 
+  function scheduleRecovery() {
+    if (recoveryScheduled) return;
+    recoveryScheduled = true;
+    queueMicrotask(function () { recoveryScheduled=false; repairNotice(); });
+  }
+
+  function observeRecoveryHost() {
+    const host = getHost();
+    if (!host || !root.MutationObserver) return false;
+    if (hostObserver) hostObserver.disconnect();
+    hostObserver = new root.MutationObserver(function () {
+      if (!host.querySelector('[data-session-resume]')) scheduleRecovery();
+    });
+    hostObserver.observe(host,{childList:true});
+    return true;
+  }
+
+  function afterUiSettles() {
+    const run = function () { observeRecoveryHost(); repairNotice(); };
+    if (typeof root.requestAnimationFrame === 'function') root.requestAnimationFrame(function(){root.requestAnimationFrame(run);});
+    else root.setTimeout(run,0);
+  }
+
   function signalOwnerRecovery(user) {
     if (!root.document || !user || !user.id) return;
     queueMicrotask(function () {
       try {
         root.document.dispatchEvent(new root.CustomEvent('tb:exam-changed', { detail:{ reason:'segment12-auth-resolved', ownerId:String(user.id) } }));
-        queueMicrotask(function(){lifecycle.ensureRecoveryNotice(String(user.id));});
+        queueMicrotask(function(){lifecycle.ensureRecoveryNotice(String(user.id));afterUiSettles();});
       } catch (_) {}
     });
   }
@@ -169,10 +196,11 @@
   lifecycle.__segment12FinalizationHardened = true;
   wrapLearning();
   if (root.document) {
-    const boot = function () { wrapLearning(); subscribeAuth(); queueMicrotask(repairNotice); };
+    const boot = function () { wrapLearning(); subscribeAuth(); observeRecoveryHost(); queueMicrotask(repairNotice); afterUiSettles(); };
     if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', boot, {once:true});
     else queueMicrotask(boot);
-    root.document.addEventListener('upskill-auth-ready', function () { subscribeAuth(); repairNotice(); }, {once:true});
+    root.document.addEventListener('upskill-auth-ready', function () { subscribeAuth(); repairNotice(); afterUiSettles(); }, {once:true});
+    root.addEventListener('load', afterUiSettles, {once:true});
   }
   return lifecycle;
 }));
