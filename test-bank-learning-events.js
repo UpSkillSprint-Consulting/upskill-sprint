@@ -1664,7 +1664,7 @@
       id: String(row.event_id), version: 1, scope: 'user:' + userId,
       type: String(row.event_type), examId: String(row.exam_id), sessionId: String(row.session_id),
       questionId: row.question_id ? String(row.question_id) : null, deviceId: String(row.device_id || ''),
-      occurredAt: Date.parse(row.occurred_at) || now(), payload: record(row.payload), syncedFor: [userId]
+      occurredAt: Date.parse(row.occurred_at) || now(), receivedAt: Date.parse(row.received_at) || null, payload: record(row.payload), syncedFor: [userId]
     };
   }
 
@@ -1698,6 +1698,51 @@
       offset += page.length;
     }
     return rows;
+  }
+
+  async function historyPage(input) {
+    input = record(input);
+    const user = activeUser();
+    const auth = window.UpskillAuth;
+    const client = auth && typeof auth.getClient === 'function' ? auth.getClient() : null;
+    const requestedExamId = safeId(input.examId, '');
+    const offset = Math.max(0, Number.isSafeInteger(Number(input.offset)) ? Number(input.offset) : 0);
+    const limit = Math.max(1, Math.min(200, Number.isSafeInteger(Number(input.limit)) ? Number(input.limit) : 100));
+    if (!user || !client) return { available:false, reason:'not-signed-in', events:[], offset:offset, limit:limit, nextOffset:null, complete:false };
+    if (!online()) return { available:false, reason:'offline', events:[], offset:offset, limit:limit, nextOffset:null, complete:false };
+    let query = client.from(TABLE).select('event_id,device_id,event_type,exam_id,session_id,question_id,occurred_at,received_at,payload').eq('user_id', user.id);
+    if (requestedExamId) query = query.eq('exam_id', requestedExamId);
+    query = query.order('received_at', {ascending:true}).order('event_id', {ascending:true});
+    if (typeof query.range === 'function') query = query.range(offset, offset + limit - 1);
+    else query = query.limit(limit);
+    const result = await runRemoteRequest(query, 'Learning-history page');
+    if (result && result.error) throw result.error;
+    const rows = asArray(result && result.data), events = rows.map(function(row){ return eventFromRemoteRow(row, user.id); });
+    return {
+      available:true, reason:'ok', ownerId:user.id, examId:requestedExamId || null,
+      offset:offset, limit:limit, events:events, complete:rows.length < limit,
+      nextOffset:rows.length < limit ? null : offset + rows.length,
+      scope:{population:'historical-all', ownerId:user.id, examId:requestedExamId || null, order:['receivedAt','eventId']}
+    };
+  }
+
+  async function exportHistory(input) {
+    input = record(input);
+    const limit = 200, collected = [];
+    let offset = 0, pageCount = 0, scope = null;
+    while (true) {
+      if (++pageCount > 1000) throw new Error('History export exceeded the bounded page limit');
+      const page = await historyPage({examId:input.examId, offset:offset, limit:limit});
+      if (!page.available) return Object.assign({}, page, {exportedAt:iso(now()), events:[]});
+      scope = page.scope; collected.push.apply(collected, page.events);
+      if (page.complete || page.nextOffset == null) break;
+      offset = page.nextOffset;
+    }
+    return {
+      available:true, schemaVersion:'1.0.0', exportedAt:iso(now()), scope:scope,
+      pageSize:limit, pages:pageCount, eventCount:collected.length, events:collected,
+      limitations:{legacyMissingDatesRemainUnknown:true, legacyMissingDurationsRemainUnknown:true, localCacheIsNotLifetimeBoundary:true}
+    };
   }
 
   function syncStatus(state, phase, userId, error) {
@@ -2208,6 +2253,8 @@
     reserveNewQuestions: reserveNewQuestions,
     store: read,
     eventsForExam: eventsForExam,
+    historyPage: historyPage,
+    exportHistory: exportHistory,
     seenQuestionIds: seenQuestionIds,
     questionId: questionId
   };

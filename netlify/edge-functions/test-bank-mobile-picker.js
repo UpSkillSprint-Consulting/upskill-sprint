@@ -92,7 +92,9 @@ export default async function handler(_request, context) {
     '/test-bank-adaptive-mastery.js',
     '/test-bank-learning-events.js',
     '/test-bank-adaptive-mastery-runtime.js',
+    '/test-bank-metrics-policy.js',
     '/test-bank-adaptive-mastery-hardening.js',
+    '/test-bank-history-policy.js',
     '/test-bank-analytics-dashboard.js',
     '/test-bank-adaptive-mastery-completion-guard.js',
     '/test-bank-phases-integration.js'

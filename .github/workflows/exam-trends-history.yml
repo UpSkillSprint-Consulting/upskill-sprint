@@ -1,0 +1,27 @@
+name: Exam trends and history
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: exam-trends-history-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  segment-11:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - run: npm ci
+      - name: Run Segment 11 and preserved history regressions
+        shell: bash
+        run: |
+          set -o pipefail
+          node --test --test-concurrency=1 tests/test-bank-segment11-history.test.js tests/test-bank-segment11-history-integration.test.js
+          node --test --test-concurrency=2 tests/test-bank-learning-events.test.js tests/test-bank-analytics-dashboard.test.js tests/test-bank-segment10-mastery-readiness.test.js tests/test-bank-segment09-grading.test.js
+          node scripts/exam-reliability/build-catalog.cjs --check
+          node scripts/run-test-bank-deploy-checks.mjs
