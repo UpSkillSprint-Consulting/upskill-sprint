@@ -1,4 +1,5 @@
 name: Exam canonical grading
+# Segment 09 review regression includes rejection of incomplete historical version references.
 on:
   pull_request:
   workflow_dispatch:
