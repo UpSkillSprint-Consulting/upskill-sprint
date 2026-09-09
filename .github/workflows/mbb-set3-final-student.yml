@@ -54,7 +54,10 @@ jobs:
       - run: npm ci
       - name: Install locked audit tools outside application dependencies
         run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
-      - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
+      - name: Install browser without unrelated Chrome apt feed
+        run: |
+          sudo find /etc/apt/sources.list.d -maxdepth 1 -type f \( -iname '*google*' -o -iname '*chrome*' \) -delete || true
+          scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - name: All 175 questions and reviews, both themes, actual controls and accessibility
         env:
           AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
@@ -103,7 +106,10 @@ jobs:
       - run: npm ci
       - name: Install locked audit tools outside application dependencies
         run: npm ci --prefix scripts/student-audit-tools --ignore-scripts
-      - run: scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
+      - name: Install browser without unrelated Chrome apt feed
+        run: |
+          sudo find /etc/apt/sources.list.d -maxdepth 1 -type f \( -iname '*google*' -o -iname '*chrome*' \) -delete || true
+          scripts/student-audit-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
       - name: Timeout, failed save, retake, correction quiz and rapid review at 320px
         env:
           AUDIT_TOOLS_DIR: ${{ github.workspace }}/scripts/student-audit-tools
