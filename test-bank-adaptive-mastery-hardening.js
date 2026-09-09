@@ -462,7 +462,7 @@
     const dashboard = document.getElementById('tb-adaptive-mastery');
     if (!dashboard) return;
     const summary = masterySummary(examData(readStore()), Date.now());
-    const inner = '<div class="tb-sec">Mastery confidence and coverage</div><div class="tb-reliability-grid"><div><strong>' + summary.attemptedMastery + '%</strong><span>mastery on attempted questions</span></div><div><strong>' + summary.coverage + '%</strong><span>blueprint-weighted question coverage</span></div><div><strong>' + summary.readiness + '%</strong><span>coverage-adjusted readiness</span></div></div><p>Readiness is a blueprint-weighted coverage × mastery study heuristic, not a pass probability. Reserved, delivered or displayed questions are tracked separately and cannot raise question coverage or readiness. Effective mastery decays as retrieval becomes stale.</p><div class="tb-data-actions"><button type="button" class="tb-ghost" data-v2-export>Export learning data</button><button type="button" class="tb-ghost danger" data-v2-reset>Reset adaptive data</button></div>';
+    const inner = '<div class="tb-sec">Mastery confidence and coverage</div><div class="tb-reliability-grid"><div><strong>' + summary.attemptedMastery + '%</strong><span>mastery on attempted questions</span></div><div><strong>' + summary.coverage + '%</strong><span>blueprint-weighted question coverage</span></div><div><strong>' + summary.readiness + '%</strong><span>coverage-adjusted readiness</span></div></div><p>Readiness is a blueprint-weighted coverage × mastery study heuristic, not a pass probability. Reserved, delivered or displayed questions are tracked separately and cannot raise question coverage or readiness. Effective mastery decays as retrieval becomes stale.</p><div class="tb-data-actions"><button type="button" class="tb-ghost" data-v2-export>Export mastery report</button><button type="button" class="tb-ghost" data-v2-export-history>Export complete history</button><button type="button" class="tb-ghost danger" data-v2-reset>Reset adaptive data</button></div>';
     // Idempotent: only touch the DOM when the rendered content actually changes.
     // (This function runs on every observed mutation; re-inserting an identical
     // block would retrigger the observers and create a re-render loop that makes
@@ -657,6 +657,20 @@
     });
   }
 
+  function exportCompleteHistory() {
+    const learning=window.__TBLearning;
+    if(!learning || typeof learning.exportHistory!=='function') { announce('Complete history export is unavailable until secure learning storage loads.'); return; }
+    announce('Preparing complete paginated history…');
+    learning.exportHistory({examId:examId()}).then(function(payload){
+      if(!payload || payload.available===false) throw new Error(payload && payload.reason || 'history unavailable');
+      const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+      const link=document.createElement('a');link.href=URL.createObjectURL(blob);
+      link.download='upskillsprint-'+examId()+'-complete-history-'+new Date().toISOString().slice(0,10)+'.json';
+      document.body.appendChild(link);link.click();link.remove();setTimeout(function(){URL.revokeObjectURL(link.href);},0);
+      announce('Complete history export prepared: '+payload.eventCount+' event'+(payload.eventCount===1?'':'s')+' across '+payload.pages+' page'+(payload.pages===1?'':'s')+'.');
+    }).catch(function(error){announce('Complete history export failed: '+String(error&&error.message||error));});
+  }
+
   function resetData(button) {
     if (button.dataset.confirmReset !== 'true') {
       button.dataset.confirmReset = 'true';
@@ -748,6 +762,7 @@
       closePanel(); return;
     }
     if (target.hasAttribute('data-v2-export')) { event.preventDefault(); event.stopImmediatePropagation(); exportData(); return; }
+    if (target.hasAttribute('data-v2-export-history')) { event.preventDefault(); event.stopImmediatePropagation(); exportCompleteHistory(); return; }
     if (target.hasAttribute('data-v2-reset')) { event.preventDefault(); event.stopImmediatePropagation(); resetData(target); }
   }
 

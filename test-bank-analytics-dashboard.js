@@ -99,6 +99,8 @@
     return window.__TBAdaptiveHardening || null;
   }
 
+  function historyPolicy() { return window.__TBHistoryPolicy || null; }
+
   function effectiveMastery(state, timestamp) {
     const api = hardening();
     if (api && api.effectiveMastery) return api.effectiveMastery(state, timestamp);
@@ -262,25 +264,28 @@
     });
   }
 
-  function studyHeatmap(weeks) {
-    const data = examData(readStore());
-    const byDay = {};
-    (data.attempts || []).forEach(function (entry) {
-      const key = new Date(entry.at).toISOString().slice(0, 10);
-      const answered = entry.answered == null ? entry.total : entry.answered;
-      byDay[key] = (byDay[key] || 0) + Math.max(0, Number(answered || 0));
-    });
-    const days = weeks * 7;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const output = [];
-    for (let i = days - 1; i >= 0; i -= 1) {
-      const date = new Date(today.getTime() - i * DAY);
-      const key = date.toISOString().slice(0, 10);
-      output.push({ key: key, count: byDay[key] || 0 });
-    }
-    return output;
+  function reportingTimeZone() {
+    const policy=historyPolicy();
+    return policy && policy.pickReportingTimeZone ? policy.pickReportingTimeZone(attemptEntries(),'UTC') : 'UTC';
   }
+
+  function practiceSessionTrend(limit) {
+    const policy=historyPolicy();
+    if (!policy || typeof policy.practiceTrend!=='function') return sessionTrend(limit).filter(function(row){return row.source!=='exam-attempt';});
+    return policy.practiceTrend({attempts:attemptEntries(), examId:examId(), limit:limit || TREND_LIMIT, assessAttempt:window.__TBVersions.assessAttempt});
+  }
+
+  function studyActivity(weeks) {
+    const policy=historyPolicy(), learning=window.__TBLearning;
+    const zone=reportingTimeZone();
+    if (!policy || typeof policy.answerActivity!=='function') return {timeZone:zone,days:[],knownAnswers:0,unknownAnswers:0,unknownSessions:0,complete:false};
+    return policy.answerActivity({
+      events:learning&&typeof learning.eventsForExam==='function'?learning.eventsForExam(examId()):[],
+      attempts:attemptEntries(), timeZone:zone, weeks:weeks || HEATMAP_WEEKS, now:Date.now()
+    });
+  }
+
+  function studyHeatmap(weeks) { return studyActivity(weeks).days; }
 
   // Only completed, timed, published-length full-exam simulations belong in
   // the exam trend. A quick quiz can share the same question bank, but must
@@ -454,7 +459,7 @@
         '<div><div class="tb-an-label">Readiness vs. exam blueprint weight</div>' + radarSvg(domains) +
           '<p class="tb-an-radar-caption" data-radar-caption data-default="Hover, tap, or tab to a domain on the chart for its full name">Hover, tap, or tab to a domain on the chart for its full name</p>' +
           '<div class="tb-an-legend"><span><i class="tb-an-swatch weight"></i>Blueprint weight</span><span><i class="tb-an-swatch mastery"></i>Your readiness</span></div></div>' +
-        '<div><div class="tb-an-label">Highest-leverage fixes</div><p class="tb-an-desc">Ranked by blueprint weight &times; readiness gap — where an hour of study moves your score the most.</p>' +
+        '<div><div class="tb-an-label">Highest-leverage fixes</div><p class="tb-an-desc">Ranked by blueprint weight &times; readiness gap — a study-priority heuristic, not measured gain per hour.</p>' +
           '<ul class="tb-an-leverage">' + (leverage.length ? leverage.map(function (item, index) {
             return '<li><span class="tb-an-rank">' + (index + 1) + '</span><span class="tb-an-lev-name">' + esc(item.name) + '</span><span class="tb-pill ' + tone(item.domainReadiness) + '">' + (item.attempted ? item.domainReadiness + '% readiness' : 'not attempted') + '</span></li>';
           }).join('') : '<li class="tb-an-empty">Complete some questions to see ranked priorities.</li>') + '</ul></div>' +
@@ -492,12 +497,13 @@
   }
 
   function trendTab() {
-    const trend = sessionTrend(TREND_LIMIT);
-    const heat = studyHeatmap(HEATMAP_WEEKS);
+    const trend = practiceSessionTrend(TREND_LIMIT);
+    const activity = studyActivity(HEATMAP_WEEKS);
+    const heat = activity.days;
     const maxHeat = Math.max.apply(null, heat.map(function (d) { return d.count; }).concat([1]));
-    return '<div class="tb-an-label">Accuracy across your last ' + trend.length + ' sessions</div>' +
-      (trend.length ? svgPolyline(trend.map(function (t) { return t.pct; }), 560, 140, 10) : '<p class="tb-an-empty">No sessions yet — complete a quiz or adaptive session to start the trend line.</p>') +
-      '<div class="tb-an-label" style="margin-top:18px">Study streak — last ' + HEATMAP_WEEKS + ' weeks</div>' +
+    return '<div class="tb-an-label">Practice accuracy across your last ' + trend.length + ' practice sessions</div>' +
+      (trend.length ? svgPolyline(trend.map(function (t) { return t.pct; }), 560, 140, 10) : '<p class="tb-an-empty">No practice sessions yet — completed full exams are shown separately in Exam attempts.</p>') +
+      '<div class="tb-an-label" style="margin-top:18px">Answer activity — last ' + HEATMAP_WEEKS + ' weeks</div><p class="tb-an-desc">Reporting timezone: ' + esc(activity.timeZone) + '. Activity uses final answer-event dates, not session completion dates.' + (activity.unknownAnswers || activity.unknownSessions ? ' ' + activity.unknownAnswers + ' answer(s) and ' + activity.unknownSessions + ' legacy session(s) have insufficient date evidence and are not assigned to a day.' : '') + '</p>' +
       '<div class="tb-an-heat">' + heat.map(function (d) {
         const level = d.count === 0 ? 0 : Math.min(4, Math.ceil(d.count / maxHeat * 4));
         return '<i class="tb-an-heat-cell l' + level + '" title="' + d.key + ': ' + d.count + ' question' + (d.count === 1 ? '' : 's') + '"></i>';
@@ -832,6 +838,9 @@
     readinessSummary: readinessSummary,
     learningSummary: learningSummary,
     sessionTrend: sessionTrend,
+    practiceSessionTrend: practiceSessionTrend,
+    studyActivity: studyActivity,
+    reportingTimeZone: reportingTimeZone,
     studyHeatmap: studyHeatmap,
     examAttemptSeries: examAttemptSeries,
     latestExamDomainBreakdown: latestExamDomainBreakdown,
