@@ -7,8 +7,9 @@ const { JSDOM } = require('jsdom');
 
 const source = fs.readFileSync(path.join(__dirname, '..', 'test-bank-incremental-sync-policy.js'), 'utf8');
 
-function load() {
+function load(initialStorage) {
   const dom = new JSDOM('<!doctype html><body></body>', { url: 'https://segment14.invalid/test-bank', runScripts: 'outside-only' });
+  Object.entries(initialStorage || {}).forEach(([key, value]) => dom.window.localStorage.setItem(key, value));
   dom.window.eval(source);
   return dom;
 }
@@ -33,6 +34,10 @@ test('a successful account poll triggers one coalesced learning-ledger catch-up'
   const finishingFirst = dom.window.__TBSyncStatus.catchUpLearningAfterProgress();
   release({ synced: true });
   await finishingFirst;
+  /* Promise resolution and the outer finally are separate scheduling turns in
+     Node/JSDOM. Wait for the policy's cleanup rather than assuming a fixed
+     number of microtasks, then prove a later poll starts fresh work. */
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
 
   dom.window.document.dispatchEvent(new dom.window.CustomEvent('upskill-test-progress-synced'));
   await Promise.resolve();
@@ -72,4 +77,34 @@ test('policy advertises the server-sequence protocol used by both durable channe
   const dom = load(); t.after(() => dom.window.close());
   assert.equal(dom.window.__TB_INCREMENTAL_SYNC_V1, true);
   assert.equal(dom.window.__TBSyncStatus.version, 'server-sequence-v1');
+});
+
+test('cross-account auth clears stale cursor/digest metadata before account sync can relabel it', t => {
+  const stale = JSON.stringify({
+    userId: 'owner-a',
+    remoteCursor: { syncSeq: 912 },
+    uploadedDigest: 'owner-a-digest',
+    syncedAsOf: '2026-09-09T20:00:00.000Z'
+  });
+  const dom = load({
+    'tb-account-sync-user-v1': 'owner-a',
+    'tb-account-sync-meta-v1': stale
+  });
+  t.after(() => dom.window.close());
+  let authChange = null;
+  const user = { id: 'owner-b' };
+  dom.window.UpskillAuth = {
+    getUser: () => user,
+    onChange(callback) { authChange = callback; }
+  };
+  dom.window.document.dispatchEvent(new dom.window.CustomEvent('upskill-auth-ready'));
+  assert.equal(dom.window.localStorage.getItem('tb-account-sync-meta-v1'), null, 'new owner cannot inherit the prior cursor/digest');
+  assert.equal(typeof authChange, 'function');
+
+  dom.window.localStorage.setItem('tb-account-sync-meta-v1', JSON.stringify({ userId: 'owner-b', remoteCursor: { syncSeq: 3 } }));
+  authChange({ id: 'owner-b' });
+  assert.equal(JSON.parse(dom.window.localStorage.getItem('tb-account-sync-meta-v1')).remoteCursor.syncSeq, 3, 'same-owner cursor remains durable');
+  dom.window.localStorage.setItem('tb-account-sync-user-v1', 'owner-b');
+  authChange({ id: 'owner-c' });
+  assert.equal(dom.window.localStorage.getItem('tb-account-sync-meta-v1'), null, 'later account switches are sanitized before sync');
 });
