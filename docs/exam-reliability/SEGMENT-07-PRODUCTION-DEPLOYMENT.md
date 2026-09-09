@@ -4,18 +4,25 @@
 
 The production Supabase project received the approved additive Segment 05
 catalog prerequisite and Segment 07 idempotent-ingestion migration on
-2026-09-08. The repository migration filenames now match the migration versions
-recorded by production, preventing a later migration runner from treating the
-already-applied DDL as pending.
+2026-09-08. PR #174 had already published the canonical repository migration
+versions, so those committed versions are preserved:
 
-| Production migration | Purpose |
+| Canonical migration | Purpose |
 |---|---|
-| `20260908213852_add_exam_version_catalog` | Immutable question/config/bank catalog, pinned sessions and original results |
-| `20260908214508_add_idempotent_exam_ingestion` | Runtime state, canonical receipts, guarded transitions and ingestion RPC |
+| `20260908010000_add_exam_version_catalog` | Immutable question/config/bank catalog, pinned sessions and original results |
+| `20260908180000_add_idempotent_exam_ingestion` | Runtime state, canonical receipts, guarded transitions and ingestion RPC |
 
-The reviewed catalog seed was published between those migrations. It contains
-five releases and 3,189 question revisions: CMQ/OE 166, CQE 933, CSSBB 1,024,
-CSSGB 616 and MBB 450.
+The first authorized production application recorded transient migration ledger
+versions `20260908213852` and `20260908214508`. During PR #175 review, those
+ledger entries were repaired in place to the canonical versions above. The
+repair changed migration metadata only: it did not execute the DDL again, alter
+application tables, rewrite learner evidence, or rename the already-published
+repository migrations. This keeps production aligned with environments that
+already recorded the PR #174 versions and prevents divergent migration history.
+
+The reviewed catalog seed was published between the schema applications. It
+contains five releases and 3,189 question revisions: CMQ/OE 166, CQE 933,
+CSSBB 1,024, CSSGB 616 and MBB 450.
 
 ## Production verification
 
@@ -31,11 +38,16 @@ The production run verified:
 - receipt/runtime RLS hides another owner's rows;
 - browser roles cannot insert forged receipts directly.
 
-After rollback, production retained zero smoke users, events, sessions or
-receipts. The pre-deployment 8,659 legacy learning events remained 8,659.
+Immediately after the rollback-only deployment smoke, production retained zero
+smoke users, events, sessions or receipts and the pre-smoke 8,659 legacy
+learning events were unchanged. Later legitimate site activity may increase the
+normal learning-event, runtime and receipt counts; zero is not a steady-state
+production invariant.
 
-Post-deployment grants and objects were also checked independently:
+Post-deployment checks independently confirmed:
 
+- the migration ledger records the canonical versions `20260908010000` and
+  `20260908180000`, with no transient `20260908213852`/`20260908214508` entries;
 - `authenticated` can execute `ingest_test_bank_operations_v1(jsonb)`;
 - `anon` and `PUBLIC` cannot execute it;
 - `authenticated` can owner-read receipts through RLS but has no direct INSERT;
@@ -65,6 +77,8 @@ Those remain explicit Segments 15, 19 and 20 gates.
 
 The schema is additive and the legacy append path remains compatible. If a
 client rollback is required, retain the catalog, runtime, receipts and accepted
-evidence; do not drop tables or delete learner history. Any schema reversal
-requires a separately reviewed forward-recovery migration after confirming no
-versioned sessions or receipts depend on the new objects.
+evidence; do not drop tables or delete learner history. Migration versions that
+have been published and repaired to the canonical PR #174 ledger must remain
+stable. Any schema reversal requires a separately reviewed forward-recovery
+migration after confirming no versioned sessions or receipts depend on the new
+objects.

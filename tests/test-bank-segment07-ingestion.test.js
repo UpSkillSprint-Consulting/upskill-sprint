@@ -2,7 +2,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const {fixture,read}=require('./helpers/segment04-identity.cjs');
 const ROOT=path.join(__dirname,'..');
-const migration=()=>fs.readFileSync(path.join(ROOT,'supabase/migrations/20260908214508_add_idempotent_exam_ingestion.sql'),'utf8');
+const migration=()=>fs.readFileSync(path.join(ROOT,'supabase/migrations/20260908180000_add_idempotent_exam_ingestion.sql'),'utf8');
 
 function versionedLedger(t,client){
   const f=fixture(t);f.w.TextEncoder=require('node:util').TextEncoder;f.w.eval(read('test-bank-versioning.js'));
@@ -21,6 +21,19 @@ function clientWithReceipts(){
     });return Promise.resolve({data,error:null});
   }};
 }
+
+test('canonical Segment 05/07 migration filenames stay stable after production-ledger repair',()=>{
+  const canonical=[
+    '20260908010000_add_exam_version_catalog.sql',
+    '20260908180000_add_idempotent_exam_ingestion.sql'
+  ];
+  const transient=[
+    '20260908213852_add_exam_version_catalog.sql',
+    '20260908214508_add_idempotent_exam_ingestion.sql'
+  ];
+  for(const file of canonical)assert.equal(fs.existsSync(path.join(ROOT,'supabase/migrations',file)),true,file);
+  for(const file of transient)assert.equal(fs.existsSync(path.join(ROOT,'supabase/migrations',file)),false,file);
+});
 
 test('Segment 07 migration installs owned receipts, runtime locks and an atomic batch RPC',()=>{
   const sql=migration();

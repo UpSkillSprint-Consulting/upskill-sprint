@@ -49,7 +49,7 @@ The builder produces the current small browser catalogue, immutable public bank/
 
 ### Required human-approved release order
 
-1. Back up and verify current database/schema parity, client-role grants and recovery in a staging environment. Apply `supabase/migrations/20260908213852_add_exam_version_catalog.sql` through the authorized migration process.
+1. Back up and verify current database/schema parity, client-role grants and recovery in a staging environment. Apply `supabase/migrations/20260908010000_add_exam_version_catalog.sql` through the authorized migration process.
 2. Using the authorized migration owner, execute `supabase/catalog/segment05-catalog.sql`. This seed is idempotent publication, not a learner RPC. Confirm five releases, 3,189 original revisions and expected hashes. Do not deploy the new client before this publication; missing catalogue rows intentionally reject versioned sync.
 3. Deploy the exact reviewed client, catalogue and all immutable archives together. Run authorized old/new client compatibility and smoke checks before production acceptance.
 4. Recovery: roll back the client to the prior release if needed; retain additive tables, original results and all archived revisions. Never roll back by deleting accepted results, catalogue references or learner evidence. A legacy client cannot overwrite a versioned session result.

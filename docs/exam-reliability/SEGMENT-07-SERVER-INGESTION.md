@@ -26,7 +26,7 @@ Local drafts remain local under Segment 06. Active draft synchronization, takeov
 ## Deployment order
 
 1. Confirm the Segment 05 catalog migration and seed are present.
-2. Apply `20260908214508_add_idempotent_exam_ingestion.sql`.
+2. Apply `20260908180000_add_idempotent_exam_ingestion.sql`.
 3. Run the actual-role replay, conflict, ownership, malformed-input, and concurrent-finalization smoke checks.
 4. Deploy the matching web revision.
 5. Verify receipt creation and pending-outbox convergence with an authorized test account.
@@ -41,6 +41,6 @@ The schema-first order is backward compatible because the old append path remain
 - Segment 01–06 and repository-wide tests remain cumulative gates.
 
 The implementation PR did not perform a production migration. The later authorized
-deployment, exact production migration versions, rollback-only role smoke and
-remaining qualification boundaries are recorded in
-[`SEGMENT-07-PRODUCTION-DEPLOYMENT.md`](SEGMENT-07-PRODUCTION-DEPLOYMENT.md).
+deployment, rollback-only role smoke, migration-ledger repair back to the
+canonical PR #174 versions, and remaining qualification boundaries are recorded
+in [`SEGMENT-07-PRODUCTION-DEPLOYMENT.md`](SEGMENT-07-PRODUCTION-DEPLOYMENT.md).
