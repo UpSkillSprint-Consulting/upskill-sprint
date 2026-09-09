@@ -2,8 +2,11 @@
   'use strict';
 
   const VERSION = 'server-sequence-v1';
+  const ACCOUNT_META_KEY = 'tb-account-sync-meta-v1';
+  const ACCOUNT_USER_KEY = 'tb-account-sync-user-v1';
   const components = { account: null, learning: null };
   let pollCatchUp = null;
+  let authSanitizerAttached = false;
 
   function clone(value) {
     try { return JSON.parse(JSON.stringify(value)); } catch (error) { return value; }
@@ -91,20 +94,55 @@
     return pollCatchUp;
   }
 
+  /* Account-sync metadata contains the durable server cursor and last uploaded
+     digest. Those values are owner-scoped and must never be relabelled for a
+     different authenticated account, even when the new account's first remote
+     request fails. The policy executes before the sync runtimes in production,
+     so its auth listener clears only stale transport metadata; the account
+     runtime still owns tracked-payload clearing and the intentional account-
+     switch reload. */
+  function sanitizeAccountMetadata(user) {
+    const userId = user && user.id ? String(user.id) : '';
+    if (!userId) return false;
+    let meta = null;
+    try { meta = JSON.parse(localStorage.getItem(ACCOUNT_META_KEY) || 'null'); } catch (error) { meta = null; }
+    const previousUser = String(localStorage.getItem(ACCOUNT_USER_KEY) || '');
+    const metaUser = meta && meta.userId ? String(meta.userId) : '';
+    if ((metaUser && metaUser !== userId) || (previousUser && previousUser !== userId)) {
+      localStorage.removeItem(ACCOUNT_META_KEY);
+      return true;
+    }
+    return false;
+  }
+
+  function attachAccountMetadataGuard() {
+    const auth = window.UpskillAuth;
+    if (!auth) return false;
+    try { sanitizeAccountMetadata(typeof auth.getUser === 'function' ? auth.getUser() : null); } catch (error) {}
+    if (!authSanitizerAttached && typeof auth.onChange === 'function') {
+      authSanitizerAttached = true;
+      try { auth.onChange(function (user) { sanitizeAccountMetadata(user); }); } catch (error) { authSanitizerAttached = false; }
+    }
+    return true;
+  }
+
   document.addEventListener('tb:account-sync-status', function (event) { publish('account', event && event.detail); });
   document.addEventListener('tb:learning-sync-status', function (event) { publish('learning', event && event.detail); });
   /* Account sync already performs the bounded 60-second remote poll. Reuse
      that successful poll as the idle-device trigger for the append-only
      learning ledger instead of adding another interval or a Start-path read. */
   document.addEventListener('upskill-test-progress-synced', function () { void catchUpLearningAfterProgress(); });
+  document.addEventListener('upskill-auth-ready', attachAccountMetadataGuard);
 
   window.__TB_INCREMENTAL_SYNC_V1 = true;
   window.__TBSyncStatus = Object.freeze({
     version: VERSION,
     status: combined,
     components: function () { return clone(components); },
-    catchUpLearningAfterProgress: catchUpLearningAfterProgress
+    catchUpLearningAfterProgress: catchUpLearningAfterProgress,
+    sanitizeAccountMetadata: sanitizeAccountMetadata
   });
 
+  attachAccountMetadataGuard();
   try { document.dispatchEvent(new CustomEvent('tb:incremental-sync-policy-ready', { detail: { version: VERSION } })); } catch (error) {}
 }());
