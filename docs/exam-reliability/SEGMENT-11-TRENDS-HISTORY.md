@@ -10,5 +10,8 @@ Segment 11 separates practice trends from pinned full-exam trends, moves activit
 - `__TBLearning.historyPage()` reads the authenticated owner's ledger directly with deterministic `received_at,event_id` ordering and bounded pages. `exportHistory()` walks those pages so the local 500-attempt/cache limits are not represented as lifetime history.
 - Complete-history export is a separate JSON action from the mastery PDF/report. Its envelope includes scope, owner/exam, page count, event count, ordering, timestamps and explicit legacy limitations.
 
+## Review closure
+The final review pass also preserves unavailable mastery evidence end-to-end: missing/future mastery timestamps render as `Unavailable`, do not become `null%`, do not receive a false 0% ring value, and do not dilute subtopic/domain aggregates. The corresponding Codex review threads are resolved only after this behavior passed the focused regression gate.
+
 ## Preservation
 No learner evidence is rewritten or deleted. No question IDs/content, grading policy, mastery coefficients, timing policy, database migration, dependency version, reset semantics or New-only reservation behavior changes. Segment 09 remains authoritative for historical full-exam eligibility; Segment 10 remains authoritative for mastery/readiness formulas.
