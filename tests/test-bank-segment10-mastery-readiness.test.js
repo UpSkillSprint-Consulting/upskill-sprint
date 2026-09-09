@@ -21,7 +21,7 @@ function fixture(overrides={}){
 
 test('10 retained mastery coefficients reproduce frozen fresh-correct sequence',()=>{
   assert.equal(P.POLICY_VERSION,'baseline-confidence-v1');
-  assert.deepEqual([1,2,3,4,5].map(n=>P.effectiveMastery(state(n,n,n))),[57,68,80,92,100]);
+  assert.deepEqual([1,2,3,4,5].map(n=>P.effectiveMastery(state(n,n,n),NOW)),[57,68,80,92,100]);
 });
 
 test('10 raw and blueprint-weighted question coverage are distinct with unequal weights',()=>{
