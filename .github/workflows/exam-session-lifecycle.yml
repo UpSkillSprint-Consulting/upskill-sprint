@@ -52,7 +52,8 @@ jobs:
       - run: npm ci
       - name: Install pinned test-only browser driver outside app dependencies
         run: npm install --prefix /tmp/segment12-tools --ignore-scripts --save-exact playwright@1.57.0
-      - run: /tmp/segment12-tools/node_modules/.bin/playwright install --with-deps ${{ matrix.engine }}
+      - name: Install pinned browser binary
+        run: /tmp/segment12-tools/node_modules/.bin/playwright install ${{ matrix.engine }}
       - name: Reload, restore, finalize, and terminal-state acceptance
         run: node scripts/exam-reliability/run-session-lifecycle-browser.cjs
         env:
