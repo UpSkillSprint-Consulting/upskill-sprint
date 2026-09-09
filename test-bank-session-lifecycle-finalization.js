@@ -13,6 +13,7 @@
   const originalResume = lifecycle.resume;
   const originalAbandon = lifecycle.abandonSaved;
   let learningWrapped = false;
+  let authSubscribed = false;
 
   function fail(code, message) { const error = new Error(message || code); error.code = code; throw error; }
   function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
@@ -96,11 +97,37 @@
     });
   }
 
+  function signalOwnerRecovery(user) {
+    if (!root.document || !user || !user.id) return;
+    /* Core lifecycle already owns the authenticated lookup and rendering path.
+       Re-dispatch its existing discovery event only after auth resolves so the
+       owner-scoped bucket is never weakened to anonymous or cross-account data. */
+    queueMicrotask(function () {
+      try {
+        root.document.dispatchEvent(new root.CustomEvent('tb:exam-changed', { detail:{ reason:'segment12-auth-resolved', ownerId:String(user.id) } }));
+        queueMicrotask(repairNotice);
+      } catch (_) {}
+    });
+  }
+
+  function subscribeAuth() {
+    if (authSubscribed) return true;
+    const auth = root.UpskillAuth;
+    if (!auth || typeof auth.onChange !== 'function') return false;
+    authSubscribed = true;
+    auth.onChange(function (user) { signalOwnerRecovery(user); });
+    const currentUser = typeof auth.getUser === 'function' ? auth.getUser() : null;
+    if (currentUser) signalOwnerRecovery(currentUser);
+    return true;
+  }
+
   lifecycle.__segment12FinalizationHardened = true;
   wrapLearning();
   if (root.document) {
-    if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', function () { wrapLearning(); queueMicrotask(repairNotice); }, {once:true});
-    else queueMicrotask(repairNotice);
+    const boot = function () { wrapLearning(); subscribeAuth(); queueMicrotask(repairNotice); };
+    if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', boot, {once:true});
+    else queueMicrotask(boot);
+    root.document.addEventListener('upskill-auth-ready', function () { subscribeAuth(); }, {once:true});
   }
   return lifecycle;
 }));
