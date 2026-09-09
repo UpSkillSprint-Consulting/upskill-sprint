@@ -14,11 +14,11 @@ Scope: all published certifications/sets; full, focused/custom, quick and adapti
 | 06 — Local durability | Harden the existing outbox; distinct draft and scored interactions; persist before acknowledging; handle storage/crash/offline/account ownership failures without invented attempts. | Human-merged in PR #174 |
 | 07 — Server ingestion | Validate ownership and operation/version contracts; enforce idempotent replay and atomic finalization. Concurrent/lost-ack submissions must yield one canonical completion. | Human-merged in PR #174; production migration and rollback-only smoke verified 2026-09-08 |
 | 08 — Reconciliation | Rebuild deterministic projections from ledger, completion, legacy baselines and reset epochs. Reconcile first/repeat/unique scope, retain unknown provenance, dry-run conversions, never reset evidence to align counters. | Human-merged in PR #174; no production evidence rewrite |
-| 09 — Grading | One grading policy across results/history/review; exact counts and unrounded threshold comparisons; blanks and domain totals; historical pinned configuration; explicit site-target terminology. | Not started |
-| 10 — Learning metrics | Distinguish accuracy, estimated mastery, raw/weighted coverage, readiness, due/mastered/notebook and reservation counts. Every number has a named formula, scope, denominator and evaluation timestamp. | Not started |
-| 11 — Trends/history | Separate practice/full-exam trends; answer-date activity in a consistent reporting timezone; complete paginated history and scoped exports; unknown legacy dates/durations stay unknown. | Not started |
-| 12 — Session lifecycle | Define valid state transitions and identity/version-based restoration of question/option order, position, answers, flags and policy. Preserve all supported modes. | Not started |
-| 13 — Timing | Persist authoritative timing policy/deadline and clock recovery; handle background/reload/offline/expiry; separate active question visits from total exam time without double counting. | Not started |
+| 09 — Grading | One grading policy across results/history/review; exact counts and unrounded threshold comparisons; blanks and domain totals; historical pinned configuration; explicit site-target terminology. | Human-merged in PR #176 |
+| 10 — Learning metrics | Distinguish accuracy, estimated mastery, raw/weighted coverage, readiness, due/mastered/notebook and reservation counts. Every number has a named formula, scope, denominator and evaluation timestamp. | Human-merged in PR #177 |
+| 11 — Trends/history | Separate practice/full-exam trends; answer-date activity in a consistent reporting timezone; complete paginated history and scoped exports; unknown legacy dates/durations stay unknown. | Human-merged in PR #177 |
+| 12 — Session lifecycle | Define valid state transitions and identity/version-based restoration of question/option order, position, answers, flags and policy. Preserve all supported modes. | Human-merged in PR #178 |
+| 13 — Timing | Persist authoritative timing policy/deadline and clock recovery; handle background/reload/offline/expiry; separate active question visits from total exam time without double counting. | Implemented on `fix/segment-13-authoritative-timing`; human review, migration deployment and production verification pending |
 | 14 — Incremental sync | Preserve existing incremental/reservation work; safe cursors/catch-up/retries/cancellation; meaningful pending/offline/synced-as-of/error states. No full-ledger Start-path regression or page-refresh sync. | Not started |
 | 15 — Handoff | Canonical resumable session with explicit takeover/version ownership; preserve latest cloud-accepted state/deadline; reject stale writes and disclose unuploaded offline limitations. | Not started |
 | 16 — New-only | Authoritative, concurrency-safe allocation across eligible exams/modes; explicit reserved/displayed/answered and abandonment policies; no silent Start hangs or readiness gains from reservation alone. | Not started |
@@ -39,14 +39,16 @@ Metrics/scoring/interpretation 20; identity/versioning 10; lifecycle/timing 15; 
 
 Lost acknowledged evidence, duplicate canonical completion, cross-account access, unexplained reconciliations, missing required device/authorization evidence or unsupported pass-probability claims are release blockers, not weaknesses that can be averaged away. All 100 points must be evidenced before a 10/10 release rating.
 
-Segment 02 is stacked on the existing PR by explicit user instruction; see [ADR-002-A](SEGMENT-02-DECISIONS.md). Its [normative contract](contracts/v1/CONTRACT.md), [48 worked examples](contracts/v1/worked-examples.json), and [20-criterion rubric](contracts/v1/release-rubric.json) are implemented for human review, not deployed. No Segment01 defect is closed merely by this specification.
+Segment 02 was stacked on PR #172 by explicit user instruction; see [ADR-002-A](SEGMENT-02-DECISIONS.md). Its [normative contract](contracts/v1/CONTRACT.md), [48 worked examples](contracts/v1/worked-examples.json), and [20-criterion rubric](contracts/v1/release-rubric.json) remain the policy baseline.
 
-Segment 03 is stacked on the same PR by explicit instruction. Its [framework](SEGMENT-03-FRAMEWORK.md) preserves the earlier contracts and observations. The CI gate is not a physical-device, production-security, or final-release sign-off.
+Segment 03 was stacked on the same PR. Its [framework](SEGMENT-03-FRAMEWORK.md) preserves the earlier contracts and observations. The CI gate is not a physical-device, production-security, or final-release sign-off.
 
-Segment 04 is a new PR from the human-merged prerequisites. See [identity repair](SEGMENT-04-IDENTITY.md). G09 is implemented, not yet signed off in production; later catalog/versioning and all remaining release criteria stay open.
+Segment 04 was a new PR from the human-merged prerequisites. See [identity repair](SEGMENT-04-IDENTITY.md). Later catalog/versioning and remaining release criteria remain cumulative.
 
-Segment 05 is explicitly stacked on PR #173; see [versioning implementation and deployment boundaries](SEGMENT-05-VERSIONS.md). No earlier failed/cancelled acceptance result is waived.
+Segment 05 was stacked on PR #173; see [versioning implementation and deployment boundaries](SEGMENT-05-VERSIONS.md).
 
 Segment 07 was stacked on Segment 06 in merged PR #174. Its production schema deployment and rollback-only authenticated-role smoke are recorded in [the production deployment report](SEGMENT-07-PRODUCTION-DEPLOYMENT.md). Later live learner-flow observation, concurrent-connection qualification, takeover epochs and final production acceptance remain in Segments 15, 19 and 20.
 
-Segment 08 is explicitly stacked on the same PR. See [deterministic history reconciliation](SEGMENT-08-RECONCILIATION.md). Its conversion tool is write-free; no production learner evidence is changed.
+Segment 08 was stacked on the same PR. See [deterministic history reconciliation](SEGMENT-08-RECONCILIATION.md). Its conversion tool is write-free; no production learner evidence is changed.
+
+Segments 09–12 are now human-merged through PRs #176–#178. Segment 13 starts from that exact `main` state and keeps their grading, metrics, history/version, durability and lifecycle contracts intact. See [Segment 13 authoritative timing](SEGMENT-13-AUTHORITATIVE-TIMING.md). The trusted-clock migration must be deployed before the Segment 13 frontend; cross-device takeover remains Segment 15.
