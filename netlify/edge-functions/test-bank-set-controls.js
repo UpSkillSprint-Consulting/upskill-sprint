@@ -1,10 +1,30 @@
+const POLICY_SOURCE = '/test-bank-incremental-sync-policy.js';
+const ACCOUNT_SYNC_SOURCE = '/test-bank-account-sync.js';
+const LEARNING_SYNC_SOURCE = '/test-bank-learning-events.js';
+
+function scriptTag(source) { return `<script src="${source}" defer></script>`; }
+
+function ensureIncrementalPolicyBeforeSync(html) {
+  if (html.includes(`src="${POLICY_SOURCE}"`)) return html;
+  const policy = scriptTag(POLICY_SOURCE);
+  const accountTag = scriptTag(ACCOUNT_SYNC_SOURCE);
+  const learningTag = scriptTag(LEARNING_SYNC_SOURCE);
+  if (html.includes(accountTag)) return html.replace(accountTag, policy + accountTag);
+  if (html.includes(learningTag)) return html.replace(learningTag, policy + learningTag);
+  return html;
+}
+
 export default async function testBankSetControls(request, context) {
   const response = await context.next();
   const contentType = response.headers.get('content-type') || '';
 
   if (!contentType.includes('text/html')) return response;
 
-  const html = await response.text();
+  let html = await response.text();
+  /* Segment 14 policy must execute before either existing sync runtime. A page
+     that already contains account/learning tags cannot be fixed by appending
+     the policy at </body>: deferred scripts execute in document order. */
+  html = ensureIncrementalPolicyBeforeSync(html);
   const scripts = [
     '<script src="/test-bank-question-registry.js" defer></script>',
     '<script src="/test-bank-versioning.js" defer></script>',
