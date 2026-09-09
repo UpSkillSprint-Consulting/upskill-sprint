@@ -20,7 +20,9 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Apply Segment 11 integration
-        run: python scripts/segment11-integrate.py
+        run: |
+          python scripts/segment11-integrate.py
+          python scripts/segment11-adjust-tests.py
       - name: Verify Segment 11 and preserved analytics/history contracts
         run: |
           node --test --test-concurrency=1 tests/test-bank-segment11-history.test.js tests/test-bank-segment11-history-integration.test.js
@@ -32,8 +34,8 @@ jobs:
         run: |
           git config user.name upskillsprint-agent
           git config user.email skillsprintconsulting@gmail.com
-          git rm scripts/segment11-integrate.py
-          git add test-bank-history-policy.js test-bank-learning-events.js test-bank-analytics-dashboard.js test-bank-adaptive-mastery-hardening.js netlify/edge-functions/test-bank-set-controls.js netlify/edge-functions/test-bank-mobile-picker.js tests/test-bank-segment11-history.test.js tests/test-bank-segment11-history-integration.test.js docs/exam-reliability/SEGMENT-11-TRENDS-HISTORY.md
+          git rm scripts/segment11-integrate.py scripts/segment11-adjust-tests.py
+          git add test-bank-history-policy.js test-bank-learning-events.js test-bank-analytics-dashboard.js test-bank-adaptive-mastery-hardening.js netlify/edge-functions/test-bank-set-controls.js netlify/edge-functions/test-bank-mobile-picker.js tests/test-bank-analytics-dashboard.test.js tests/test-bank-segment11-history.test.js tests/test-bank-segment11-history-integration.test.js docs/exam-reliability/SEGMENT-11-TRENDS-HISTORY.md
           git diff --cached --check
           git commit -m "feat(history): implement Segment 11 trends and complete history [segment11-bot]"
           git push origin HEAD:fix/segment-10-mastery-readiness-metrics
