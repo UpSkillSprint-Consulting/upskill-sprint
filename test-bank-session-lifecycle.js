@@ -11,7 +11,8 @@
   const SCHEMA = 1;
   const CONTRACT = '1.0.0';
   const STORE_KEY = 'tb-exam-session-lifecycle-v1';
-  const ACTIVE = ['created','in_progress','paused','finalizing'];
+  const EDITABLE = ['created','in_progress','paused'];
+  const ACTIVE = EDITABLE.concat(['finalizing']);
   const TERMINAL = ['completed','expired','abandoned'];
   const TRANSITIONS = Object.freeze({
     created: { start:'in_progress', abandon:'abandoned' },
@@ -132,6 +133,7 @@
     };
   }
   function updateDraft(snapshot,input) {
+    requireThat(snapshot && EDITABLE.includes(snapshot.state),'SESSION_NOT_EDITABLE');
     const out=clone(snapshot),index=Number(input.index),item=out.orderedItems[index];
     requireThat(item && item.questionId === questionIdentity(input.examId,input.question),'SESSION_ITEM_MISMATCH');
     const selected=input.selected;
@@ -146,7 +148,7 @@
   function syncFromRuntime() {
     if (!root || !root.__TB || typeof root.__TB.getFeedbackSnapshot!=='function') return null;
     const feedback=root.__TB.getFeedbackSnapshot(); if(!feedback||!feedback.sessionId)return null;
-    let snap=load(feedback.sessionId); if(!snap||TERMINAL.includes(snap.state))return snap;
+    let snap=load(feedback.sessionId); if(!snap||!EDITABLE.includes(snap.state))return snap;
     const byQuestion=new Map(snap.orderedItems.map(x=>[x.questionId,x]));
     feedback.records.forEach(function(r){const id=questionIdentity(feedback.examId,r.question),item=byQuestion.get(id);if(!item)return;item.selectedOptionId=r.selected==null?null:item.optionOrder[Number(r.selected)]||null;});
     const flags=[];feedback.records.forEach(function(r){if(r.flagged){const item=byQuestion.get(questionIdentity(feedback.examId,r.question));if(item)flags.push(item.itemId);}});snap.flags=flags;
@@ -160,7 +162,7 @@
     return {pin:pin,questions:pin.contents.map(function(q,i){return versions.questionFor(pin,q,i).question;})};
   }
   function renderResumeNotice(snapshot) {
-    if(!root.document||!snapshot||!ACTIVE.includes(snapshot.state))return;
+    if(!root.document||!snapshot||!EDITABLE.includes(snapshot.state)||!UI_RESTORE_MODES.has(snapshot.mode))return;
     if(root.__TB&&typeof root.__TB.isExamSessionActive==='function'&&root.__TB.isExamSessionActive(snapshot.examId))return;
     const host=root.document.getElementById('tb-overview');if(!host||host.querySelector('[data-session-resume]'))return;
     const box=root.document.createElement('section');box.className='tb-pane';box.setAttribute('data-session-resume','');box.setAttribute('role','status');
@@ -191,7 +193,7 @@
     syncFromRuntime();
   }
   function resume(sessionId) {
-    const snapshot=load(sessionId);requireThat(snapshot&&ACTIVE.includes(snapshot.state),'NO_RESUMABLE_SESSION');requireThat(UI_RESTORE_MODES.has(snapshot.mode),'MODE_RESTORE_ADAPTER_UNAVAILABLE');
+    const snapshot=load(sessionId);requireThat(snapshot&&EDITABLE.includes(snapshot.state),'NO_RESUMABLE_SESSION');requireThat(UI_RESTORE_MODES.has(snapshot.mode),'MODE_RESTORE_ADAPTER_UNAVAILABLE');
     const rebuilt=reconstructQuestions(snapshot),kind=prepareControls(snapshot);
     armedResume={sessionId:snapshot.sessionId,result:{sessionId:snapshot.sessionId,saved:true,retried:true,resumed:true,versionPin:rebuilt.pin,pinnedQuestions:rebuilt.questions}};
     try { click('[data-mode="'+(kind==='exam'?'full':kind)+'"]'); } finally { if(armedResume) armedResume=null; }
@@ -200,19 +202,26 @@
   }
   function abandonSaved(sessionId) {
     let snap=load(sessionId);if(!snap)return null;if(TERMINAL.includes(snap.state))return snap;
-    if(snap.state==='finalizing') { clearActive(snap.sessionId); return snap; }
+    requireThat(EDITABLE.includes(snap.state),'ILLEGAL_SESSION_TRANSITION','A finalizing submission cannot be abandoned.');
     snap=transition(snap,'abandon');save(snap);
     const learning=root.__TBLearning;if(learning&&typeof learning.abandonSession==='function')learning.abandonSession({examId:snap.examId,sessionId:snap.sessionId,mode:snap.mode,reason:'discard-recovered-session'});
     return snap;
   }
-  function wrappedRecordDraft(original) { return function(input){const result=original.apply(this,arguments);if(!restoring&&result&&result.saved!==false){const snap=load(input&&input.sessionId);if(snap&&ACTIVE.includes(snap.state))save(updateDraft(snap,input));}return result;}; }
+  function wrappedRecordDraft(original) { return function(input){
+    const snap=input&&load(input.sessionId);
+    if(snap&&!EDITABLE.includes(snap.state))return {saved:false,blocked:true,reason:'SESSION_NOT_EDITABLE'};
+    const result=original.apply(this,arguments);
+    if(!restoring&&result&&result.saved!==false&&snap&&EDITABLE.includes(snap.state))save(updateDraft(snap,input));
+    return result;
+  }; }
   function wrapLearning() {
     const learning=root.__TBLearning;if(!learning||learning.__segment12LifecycleWrapped)return false;
     originals={startSession:learning.startSession,recordDraft:learning.recordDraft,completeSession:learning.completeSession,abandonSession:learning.abandonSession};
     requireThat(typeof originals.startSession==='function'&&typeof originals.recordDraft==='function'&&typeof originals.completeSession==='function','LEARNING_RUNTIME_UNAVAILABLE');
     learning.startSession=function(input){
       if(armedResume&&armedResume.sessionId){const out=armedResume.result;armedResume=null;return out;}
-      const result=originals.startSession.apply(this,arguments);if(input&&input.returnResult&&result&&result.saved!==false&&result.versionPin){try{save(snapshotFromStart(input,result));}catch(e){lastError=e;}}
+      const result=originals.startSession.apply(this,arguments);
+      if(input&&input.mode!=='adaptive'&&input.returnResult&&result&&result.saved!==false&&result.versionPin){try{save(snapshotFromStart(input,result));}catch(e){lastError=e;}}
       return result;
     };
     learning.recordDraft=wrappedRecordDraft(originals.recordDraft);
@@ -225,7 +234,15 @@
       if(result&&result.saved!==false&&snap){try{snap=load(snap.sessionId)||snap;if(snap.state==='finalizing')snap=transition(snap,(input&&input.completedReason==='timed-out')?'accept_expiry':'accept_completion');save(snap);}catch(e){lastError=e;}}
       return result;
     };
-    if(typeof originals.abandonSession==='function')learning.abandonSession=function(input){const result=originals.abandonSession.apply(this,arguments);let snap=input&&load(input.sessionId);if(snap&&!TERMINAL.includes(snap.state)&&snap.state!=='finalizing'&&(!result||result.saved!==false)){try{snap=transition(snap,'abandon');save(snap);}catch(e){lastError=e;}}return result;};
+    if(typeof originals.abandonSession==='function')learning.abandonSession=function(input){
+      let snap=input&&load(input.sessionId);
+      if(snap&&snap.state==='finalizing')return {saved:false,blocked:true,reason:'FINALIZATION_IN_PROGRESS'};
+      if(snap&&TERMINAL.includes(snap.state))return {saved:true,terminal:true,state:snap.state};
+      const result=originals.abandonSession.apply(this,arguments);
+      snap=input&&load(input.sessionId);
+      if(snap&&EDITABLE.includes(snap.state)&&(!result||result.saved!==false)){try{snap=transition(snap,'abandon');save(snap);}catch(e){lastError=e;}}
+      return result;
+    };
     learning.__segment12LifecycleWrapped=true;return true;
   }
   function installBrowser() {
@@ -236,7 +253,7 @@
     root.document.addEventListener('tb:exam-changed',function(){queueMicrotask(function(){const snap=load();if(snap)renderResumeNotice(snap);});});
     return true;
   }
-  const api={schemaVersion:SCHEMA,contractVersion:CONTRACT,storeKey:STORE_KEY,states:Object.keys(TRANSITIONS),terminalStates:TERMINAL.slice(),transitions:clone(TRANSITIONS),validateSnapshot,transition,save,load,clearActive,snapshotFromStart,updateDraft,syncFromRuntime,resume,abandonSaved,installBrowser,status:function(){const snap=load();return {installed,active:snap?clone(snap):null,lastError:lastError?{code:lastError.code||'ERROR',message:lastError.message}:null,crossDeviceTakeover:false};}};
+  const api={schemaVersion:SCHEMA,contractVersion:CONTRACT,storeKey:STORE_KEY,states:Object.keys(TRANSITIONS),editableStates:EDITABLE.slice(),terminalStates:TERMINAL.slice(),transitions:clone(TRANSITIONS),validateSnapshot,transition,save,load,clearActive,snapshotFromStart,updateDraft,syncFromRuntime,resume,abandonSaved,installBrowser,status:function(){const snap=load();return {installed,active:snap?clone(snap):null,lastError:lastError?{code:lastError.code||'ERROR',message:lastError.message}:null,crossDeviceTakeover:false};}};
   if(root&&root.document)installBrowser();
   return api;
 }));
