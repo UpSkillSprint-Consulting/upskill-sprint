@@ -103,6 +103,7 @@ test('cross-account auth clears stale cursor/digest metadata before account sync
   assert.equal(dom.window.localStorage.getItem('tb-account-sync-meta-v1'), null, 'new owner cannot inherit the prior cursor/digest');
   assert.equal(typeof authChange, 'function');
 
+  dom.window.localStorage.setItem('tb-account-sync-user-v1', 'owner-b');
   dom.window.localStorage.setItem('tb-account-sync-meta-v1', JSON.stringify({ userId: 'owner-b', remoteCursor: { syncSeq: 3 } }));
   authChange({ id: 'owner-b' });
   assert.equal(JSON.parse(dom.window.localStorage.getItem('tb-account-sync-meta-v1')).remoteCursor.syncSeq, 3, 'same-owner cursor remains durable');
@@ -150,7 +151,7 @@ test('a failed first fetch after an account switch cannot revive the prior owner
   assert.equal(cursors[1], null, 'failed first fetch cannot restore owner A cursor metadata');
   const meta = JSON.parse(dom.window.localStorage.getItem('tb-account-sync-meta-v1'));
   assert.equal(meta.userId, 'owner-b');
-  assert.equal(meta.remoteCursor, null);
+  assert.deepEqual(meta.remoteCursor, { syncSeq: 0, updatedAt: null, deviceId: null }, 'a successful empty replay stores only the semantic zero cursor, never owner A\'s sequence');
 });
 
 test('production edge loaders insert or move the Segment 14 policy before existing sync runtimes', () => {
