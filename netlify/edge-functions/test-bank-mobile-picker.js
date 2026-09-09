@@ -61,20 +61,35 @@ const MOBILE_PICKER_MARKUP = `
 })();
 </script>`;
 
+const POLICY_SOURCE = '/test-bank-incremental-sync-policy.js';
+const ACCOUNT_SYNC_SOURCE = '/test-bank-account-sync.js';
+const LEARNING_SYNC_SOURCE = '/test-bank-learning-events.js';
+function scriptTag(source) { return `<script src="${source}" defer></script>`; }
+function ensureIncrementalPolicyBeforeSync(html) {
+  if (html.includes(`src="${POLICY_SOURCE}"`)) return html;
+  const policy = scriptTag(POLICY_SOURCE);
+  const accountTag = scriptTag(ACCOUNT_SYNC_SOURCE);
+  const learningTag = scriptTag(LEARNING_SYNC_SOURCE);
+  if (html.includes(accountTag)) return html.replace(accountTag, policy + accountTag);
+  if (html.includes(learningTag)) return html.replace(learningTag, policy + learningTag);
+  return html;
+}
+
 export default async function handler(_request, context) {
   const response = await context.next();
   const contentType = response.headers.get('content-type') || '';
   if (!contentType.includes('text/html')) return response;
 
-  const html = await response.text();
+  let html = await response.text();
   if (html.includes('tb-mobile-certification-picker-script')) {
-    return new Response(html, response);
+    return new Response(ensureIncrementalPolicyBeforeSync(html), response);
   }
 
   /* This is the edge function currently bound to /test-bank in netlify.toml.
      Keep every test-bank enhancement here so production does not depend on an
-     unbound edge function file. Script tags are idempotent because the page is
-     inspected before injection. */
+     unbound edge function file. The Segment 14 policy is inserted before an
+     already-present sync runtime rather than appended after it. */
+  html = ensureIncrementalPolicyBeforeSync(html);
   const enhancementSources = [
     '/test-bank-question-registry.js',
     '/test-bank-set-controls.js',
