@@ -1,0 +1,38 @@
+name: Review nullable mastery fix
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  repair:
+    if: github.head_ref == 'fix/segment-10-mastery-readiness-metrics'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/segment-10-mastery-readiness-metrics
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - name: Apply nullable mastery review fixes
+        run: python scripts/review-null-mastery-fix.py
+      - name: Verify focused and preserved analytics/mastery paths
+        run: |
+          node --test --test-concurrency=2 tests/test-bank-segment10-mastery-readiness.test.js tests/test-bank-adaptive-mastery.test.js tests/test-bank-adaptive-mastery-hardening.test.js tests/test-bank-analytics-dashboard.test.js tests/test-bank-segment11-history.test.js tests/test-bank-segment11-history-integration.test.js tests/test-bank-segment09-grading.test.js
+          node scripts/exam-reliability/build-catalog.cjs --check
+          node scripts/run-test-bank-deploy-checks.mjs
+      - name: Commit review fixes and remove staging helpers
+        shell: bash
+        run: |
+          git config user.name upskillsprint-agent
+          git config user.email skillsprintconsulting@gmail.com
+          git rm scripts/review-null-mastery-fix.py .github/workflows/review-null-mastery-fix.yml
+          git add test-bank-adaptive-mastery-hardening.js test-bank-analytics-dashboard.js
+          git diff --cached --check
+          git commit -m "fix(metrics): preserve unavailable mastery evidence [review-fix]"
+          git push origin HEAD:fix/segment-10-mastery-readiness-metrics
