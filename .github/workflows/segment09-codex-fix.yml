@@ -26,12 +26,8 @@ jobs:
           from pathlib import Path
           p=Path('test-bank-versioning.js')
           s=p.read_text()
-          anchor="""  /* Historical presentation is read-only. Unknown legacy policy is not today's
-           * policy. Invalid/conflicting evidence remains unavailable rather than being
-           * clamped or silently regraded using the current question bank. */
-          function assessAttempt(entry, expectedExamId) {
-          """
-          assert anchor in s
+          marker="  /* Historical presentation is read-only. Unknown legacy policy is not today's\n"
+          assert s.count(marker)==1
           helper="""  function checkedReference(value) {
             const v=value;
             requireValue(v&&v.codec===1&&v.contractVersion===SCHEMA,'Unsupported historical version reference');
@@ -49,36 +45,25 @@ jobs:
             return v;
           }
           """
-          s=s.replace(anchor,helper+anchor,1)
-          old="""      const v=entry.versionPin||null, g=entry.grading||null;
-              if(expectedExamId!=null) {
-          """
-          assert old in s
-          s=s.replace(old,"""      const v=entry.versionPin||null, g=entry.grading||null;
-              if(v)checkedReference(v);
-              if(expectedExamId!=null) {
-          """,1)
-          old="""      if(v)requireValue(v.codec===1&&v.contractVersion===SCHEMA&&v.gradingPolicyVersion==='single-select-v1'&&Number.isSafeInteger(v.expectedLength)&&v.expectedLength>0,'Unsupported historical grading policy');
-              if(g) {
-                if(g.resultId!=null)requireValue(v&&typeof v.sessionId==='string'&&g.resultId===v.sessionId+':original','Original result identity mismatch');
-                if(g.pinDigest!=null&&v&&v.pinDigest!=null)requireValue(g.pinDigest===v.pinDigest,'Original pin digest mismatch');
-                requireValue(v&&g.schemaVersion===SCHEMA&&g.gradingPolicyVersion===v.gradingPolicyVersion&&g.configVersion===v.configVersion&&g.bankVersion===v.bankVersion&&g.expectedLength===v.expectedLength&&g.siteTargetBps===v.siteTargetBps,'Conflicting historical grade');
-          """
-          assert old in s
-          new="""      if(v)requireValue(v.gradingPolicyVersion==='single-select-v1','Unsupported historical grading policy');
-              if(g) {
-                requireValue(v&&g.resultId===v.sessionId+':original','Original result identity mismatch');
-                requireValue(typeof g.pinDigest==='string'&&/^[a-f0-9]{64}$/.test(g.pinDigest),'Missing original pin digest');
-                requireValue(g.schemaVersion===SCHEMA&&g.gradingPolicyVersion===v.gradingPolicyVersion&&g.configVersion===v.configVersion&&g.bankVersion===v.bankVersion&&g.expectedLength===v.expectedLength&&g.siteTargetBps===v.siteTargetBps,'Conflicting historical grade');
-          """
-          s=s.replace(old,new,1)
+          s=s.replace(marker,helper+marker,1)
+          line="      const v=entry.versionPin||null, g=entry.grading||null;\n"
+          assert s.count(line)==1
+          s=s.replace(line,line+"      if(v)checkedReference(v);\n",1)
+          old="      if(v)requireValue(v.codec===1&&v.contractVersion===SCHEMA&&v.gradingPolicyVersion==='single-select-v1'&&Number.isSafeInteger(v.expectedLength)&&v.expectedLength>0,'Unsupported historical grading policy');"
+          assert s.count(old)==1
+          s=s.replace(old,"      if(v)requireValue(v.gradingPolicyVersion==='single-select-v1','Unsupported historical grading policy');",1)
+          old="        if(g.resultId!=null)requireValue(v&&typeof v.sessionId==='string'&&g.resultId===v.sessionId+':original','Original result identity mismatch');"
+          assert s.count(old)==1
+          s=s.replace(old,"        requireValue(v&&g.resultId===v.sessionId+':original','Original result identity mismatch');",1)
+          old="        if(g.pinDigest!=null&&v&&v.pinDigest!=null)requireValue(g.pinDigest===v.pinDigest,'Original pin digest mismatch');"
+          assert s.count(old)==1
+          s=s.replace(old,"        requireValue(typeof g.pinDigest==='string'&&/^[a-f0-9]{64}$/.test(g.pinDigest),'Missing original pin digest');",1)
           p.write_text(s)
 
           p=Path('tests/test-bank-segment09-grading.test.js')
           s=p.read_text()
-          needle="""test('09 complete original groups survive cache compaction; incomplete evidence does not become a 100% score',()=>{
-          """
-          assert needle in s
+          needle="test('09 complete original groups survive cache compaction; incomplete evidence does not become a 100% score',()=>{\n"
+          assert s.count(needle)==1
           addition="""test('09 truncated or unbound version references cannot qualify as pinned examinations',()=>{
             const base=attempt(fixture({count:165}));
             assert.equal(V.assessAttempt(base,'cssbb').eligible,true);
