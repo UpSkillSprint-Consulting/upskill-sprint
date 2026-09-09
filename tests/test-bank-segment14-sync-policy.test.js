@@ -29,13 +29,16 @@ test('a successful account poll triggers one coalesced learning-ledger catch-up'
   dom.window.document.dispatchEvent(new dom.window.CustomEvent('upskill-test-progress-synced'));
   await Promise.resolve();
   assert.equal(calls, 1, 'overlapping account polls share one ledger catch-up');
+
+  const finishingFirst = dom.window.__TBSyncStatus.catchUpLearningAfterProgress();
   release({ synced: true });
-  await Promise.resolve();
-  await Promise.resolve();
+  await finishingFirst;
+
   dom.window.document.dispatchEvent(new dom.window.CustomEvent('upskill-test-progress-synced'));
   await Promise.resolve();
   assert.equal(calls, 2, 'a later poll begins a new incremental catch-up');
   release({ synced: true });
+  await dom.window.__TBSyncStatus.catchUpLearningAfterProgress();
 });
 
 test('background catch-up failures are contained while the learning runtime owns error status', async t => {
