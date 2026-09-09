@@ -55,3 +55,11 @@ Physical iPhone/iPad acceptance, live browser JWT/Data API transport, live schem
 | Preserved P01–P07 and Segments 04–08 | Inventory/catalog hashes, original grading wire fields, durable drafts, receipt protocol and answer-reconciliation semantics remain protected by their cumulative tests. |
 
 Unverified production evidence and later-segment defects are not closed by this document. The separate PR #175 deployment register updates are not duplicated here.
+
+## Final review safeguards
+
+Historical assessment also checks supplied session/result identity, optional pin digest and the analytics certification scope. A completed flag cannot override created, cancelled, paused, abandoned or finalizing state. These checks withhold inconsistent derived history without changing original ledger evidence or the grading wire schema.
+
+The Firefox trace from framework run 34289938696 recorded a twenty-item plan in a test that requested ten, before any score assertion. The browser fixture now waits for both actual startup hydration promises and enhancement frames, verifies the selected count, and checks the ten-item plan before answering. It retains the original result, blank, history and synchronization assertions and does not retry a missed click. This is an explicit test setup prerequisite, not a claim that all early-hydration user interactions or physical-device behavior have been qualified.
+
+Grading CI retains the exact tested commit/tree, file fingerprints, scoped source archive and logs. Source fingerprints make later continuation independent of a stale local checkout. No credentials, production learner data or font files are added to the review evidence.

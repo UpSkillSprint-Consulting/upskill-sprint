@@ -255,7 +255,7 @@
     return attemptEntries().slice().sort(function (left, right) {
       return Number(left.at || 0)-Number(right.at || 0) || String(left.id || '').localeCompare(String(right.id || ''));
     }).slice(-(limit || TREND_LIMIT)).map(function (entry) {
-      const score=window.__TBVersions.assessAttempt(entry);
+      const score=window.__TBVersions.assessAttempt(entry,examId());
       return {at:entry.at,source:entry.source,total:entry.total,correct:entry.correct,
         pct:score.scorePercent,scorePercent:score.scorePercent,available:score.available,
         newQuestions:entry.newQuestions||0,repeated:entry.repeated||0};
@@ -288,7 +288,7 @@
   // label.
   function examAttemptSeries() {
     return attemptEntries().map(function(entry) {
-      const score=window.__TBVersions.assessAttempt(entry);
+      const score=window.__TBVersions.assessAttempt(entry,examId());
       return Object.assign({id:entry.id,at:entry.at,completedReason:entry.completedReason||null,versionPin:entry.versionPin||null},score,
         {pct:score.scorePercent==null?null:Math.round(score.scorePercent),versionProvenance:score.provenance});
     }).filter(function(entry){return entry.eligible;}).sort(function(a,b){return a.at-b.at || String(a.id).localeCompare(String(b.id));});
@@ -296,7 +296,7 @@
 
   function legacyExamAttempts() {
     return attemptEntries().filter(function(entry){return entry && !entry.versionPin && entry.mode==='exam' && entry.timed===true && entry.completed===true;}).map(function(entry){
-      return Object.assign({id:entry.id,at:entry.at},window.__TBVersions.assessAttempt(entry));
+      return Object.assign({id:entry.id,at:entry.at},window.__TBVersions.assessAttempt(entry,examId()));
     });
   }
 
@@ -515,7 +515,7 @@
   function examTab() {
     const series = examAttemptSeries();
     const legacy=legacyExamAttempts();
-    const invalid=(examData(readStore()).attempts||[]).filter(function(entry){return !window.__TBVersions.assessAttempt(entry).available;}).length;
+    const invalid=(examData(readStore()).attempts||[]).filter(function(entry){return !window.__TBVersions.assessAttempt(entry,examId()).available;}).length;
     const evidenceNote='<p class="tb-an-desc">This is the saved local history projection; cloud acceptance is reported separately by synchronization status.</p>'+(invalid?'<p role="status">'+invalid+' stored result(s) have inconsistent grading evidence and are excluded pending reconciliation.</p>':'');
     const legacyMarkup=legacy.length?'<details class="tb-an-legacy"><summary>'+legacy.length+' legacy exam record(s): original length/target not captured</summary><p>These saved scores are retained, but are excluded from the pinned full-exam trend and target comparison. No current target or exam length is substituted.</p>'+legacy.map(function(entry){return '<p>'+esc(entry.id)+': '+(entry.available?window.__TBVersions.formatScore(entry.scorePercent)+' ('+entry.correct+'/'+entry.total+')':'Unavailable: invalid stored counts')+'</p>';}).join('')+'</details>':'';
     if (!series.length) {

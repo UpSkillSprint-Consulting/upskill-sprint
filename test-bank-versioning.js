@@ -180,14 +180,27 @@
   /* Historical presentation is read-only. Unknown legacy policy is not today's
    * policy. Invalid/conflicting evidence remains unavailable rather than being
    * clamped or silently regraded using the current question bank. */
-  function assessAttempt(entry) {
+  function assessAttempt(entry, expectedExamId) {
     const unavailable={available:false,eligible:false,scorePercent:null,margin:null,siteTargetMet:null,siteTargetBps:null,expectedLength:null,provenance:'invalid',diagnostic:'Invalid historical grading evidence'};
     try {
       requireValue(entry&&typeof entry==='object','Missing attempt');
-      if(entry.completed===false || ['abandoned','in_progress','paused','finalizing'].includes(entry.state) || ['abandoned','cancelled','canceled'].includes(entry.completedReason))return Object.assign({},unavailable,{provenance:'not-finalized',diagnostic:'Session has no finalized score'});
+      if(entry.completed===false || ['created','in_progress','paused','finalizing','abandoned','cancelled','canceled'].includes(entry.state) || ['abandoned','cancelled','canceled'].includes(entry.completedReason))return Object.assign({},unavailable,{provenance:'not-finalized',diagnostic:'Session has no finalized score'});
       const v=entry.versionPin||null, g=entry.grading||null;
+      if(expectedExamId!=null) {
+        requireValue(typeof expectedExamId==='string'&&expectedExamId.length>0,'Invalid historical exam scope');
+        if(entry.examId!=null)requireValue(entry.examId===expectedExamId,'Historical exam scope mismatch');
+        if(v&&v.examId!=null)requireValue(v.examId===expectedExamId,'Pinned exam scope mismatch');
+      }
+      if(v&&v.sessionId!=null) {
+        requireValue(typeof v.sessionId==='string'&&v.sessionId.length>0,'Invalid historical session identity');
+        if(entry.id!=null)requireValue(entry.id===v.sessionId,'Historical session identity mismatch');
+        if(entry.sessionId!=null)requireValue(entry.sessionId===v.sessionId,'Historical session identity mismatch');
+      }
+      if(v&&v.examId!=null&&entry.examId!=null)requireValue(v.examId===entry.examId,'Historical exam identity mismatch');
       if(v)requireValue(v.codec===1&&v.contractVersion===SCHEMA&&v.gradingPolicyVersion==='single-select-v1'&&Number.isSafeInteger(v.expectedLength)&&v.expectedLength>0,'Unsupported historical grading policy');
       if(g) {
+        if(g.resultId!=null)requireValue(v&&typeof v.sessionId==='string'&&g.resultId===v.sessionId+':original','Original result identity mismatch');
+        if(g.pinDigest!=null&&v&&v.pinDigest!=null)requireValue(g.pinDigest===v.pinDigest,'Original pin digest mismatch');
         requireValue(v&&g.schemaVersion===SCHEMA&&g.gradingPolicyVersion===v.gradingPolicyVersion&&g.configVersion===v.configVersion&&g.bankVersion===v.bankVersion&&g.expectedLength===v.expectedLength&&g.siteTargetBps===v.siteTargetBps,'Conflicting historical grade');
         requireValue(g.total===entry.total&&g.correct===entry.correct,'Conflicting historical counts');
       }
@@ -199,7 +212,7 @@
         Object.keys(g.byDomain).forEach(id=>{const d=g.byDomain[id];scoreCounts(d,null);Object.keys(sums).forEach(k=>sums[k]+=d[k]);});
         requireValue(Object.keys(sums).every(k=>sums[k]===g[k]),'Original domains do not reconcile');
       }
-      const terminal=(entry.completed===true || ['completed','expired'].includes(entry.state)) && !['abandoned','in_progress','paused','finalizing'].includes(entry.state) && !['abandoned','cancelled','canceled'].includes(entry.completedReason);
+      const terminal=(entry.completed===true || ['completed','expired'].includes(entry.state)) && !['created','in_progress','paused','finalizing','abandoned','cancelled','canceled'].includes(entry.state) && !['abandoned','cancelled','canceled'].includes(entry.completedReason);
       const mode=v?v.mode:entry.mode,timed=v?v.timed:entry.timed;
       if(v)requireValue((entry.mode==null||entry.mode===v.mode)&&(entry.timed==null||entry.timed===v.timed),'Conflicting historical session mode');
       return Object.assign(score,{available:true,eligible:!!(v&&terminal&&mode==='exam'&&timed===true&&score.total===v.expectedLength),
