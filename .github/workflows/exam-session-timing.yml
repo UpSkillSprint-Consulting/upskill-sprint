@@ -6,6 +6,8 @@ on:
       - 'test-bank-adaptive-mastery-completion-guard.js'
       - 'test-bank-phase2-hardening.js'
       - 'test-bank-phase2-runtime-coordinator.js'
+      - 'tests/test-bank-segment01-timing.test.js'
+      - 'tests/test-bank-phase2-runtime.test.js'
       - 'tests/test-bank-segment13-timing.test.js'
       - 'tests/helpers/segment03-harness.cjs'
       - 'scripts/exam-reliability/run-session-timing-browser.cjs'
@@ -65,7 +67,13 @@ jobs:
         env:
           SEG03_ALLOW_DISPOSABLE_DB: '1'
           SEG03_DB_URL: postgresql://postgres:segment13_ci_only@127.0.0.1:5432/segment03_test
-        run: node scripts/exam-reliability/run-database.cjs
+        run: |
+          if ! node scripts/exam-reliability/run-database.cjs; then
+            echo '--- database regression evidence ---'
+            cat .segment03-results/database.json || true
+            echo '--- end database regression evidence ---'
+            exit 1
+          fi
       - name: Authenticated clock succeeds and anonymous execution is denied
         env:
           PGPASSWORD: segment13_ci_only
