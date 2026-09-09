@@ -32,14 +32,18 @@ function emptyClient() {
        requested IDs mirrors an uncontended account-owned reservation. Exact
        retake reservations return only the required count, matching the
        all-or-nothing RPC contract. Segment 13 also requires a trustworthy
-       server clock before a timed quiz may start; isolated browser fixtures
-       return the fixture process clock rather than bypassing that guard. */
+       server clock before a timed quiz may start. Tests can deliberately move
+       that authoritative fixture clock through __TEST_SERVER_TIME_MS; changing
+       Date.now alone must never expire a timed exam. */
     rpc(name, args) {
       if (name === 'get_test_bank_server_time_v1') {
+        const override = typeof globalThis !== 'undefined' && Number.isFinite(Number(globalThis.__TEST_SERVER_TIME_MS))
+          ? Number(globalThis.__TEST_SERVER_TIME_MS)
+          : null;
         return Promise.resolve({
           data: {
             protocolVersion: 1,
-            serverTime: new Date().toISOString(),
+            serverTime: new Date(override == null ? undefined : override).toISOString(),
             userId: 'isolated-test-user'
           },
           error: null
