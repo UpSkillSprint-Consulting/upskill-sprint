@@ -84,6 +84,14 @@
     };
   }
 
+  function masteryPercent(value) {
+    return Number.isFinite(Number(value)) ? Math.round(Number(value)) + '%' : 'Unavailable';
+  }
+
+  function masteryValue(value) {
+    return Number.isFinite(Number(value)) ? Math.max(0, Math.min(100, Number(value))) : 0;
+  }
+
   function effectiveMastery(state, timestamp) {
     const policy = window.__TBMetricPolicy;
     if (policy && typeof policy.effectiveMastery === 'function') return policy.effectiveMastery(state, timestamp);
@@ -205,13 +213,15 @@
       const state = stateFor(question, data);
       if (!state.attempts) return;
       const sub = question.sub || 'general';
-      if (!groups[sub]) groups[sub] = { sub: sub, attempted: 0, masterySum: 0 };
+      if (!groups[sub]) groups[sub] = { sub: sub, attempted: 0, masterySum: 0, unknownMastery: 0 };
       groups[sub].attempted += 1;
-      groups[sub].masterySum += effectiveMastery(state, timestamp);
+      const mastery = effectiveMastery(state, timestamp);
+      if (mastery == null) groups[sub].unknownMastery += 1;
+      else groups[sub].masterySum += mastery;
     });
     return Object.keys(groups).sort().map(function (sub) {
       const group = groups[sub];
-      return { sub: sub, attempted: group.attempted, avgMastery: Math.round(group.masterySum / group.attempted) };
+      return { sub: sub, attempted: group.attempted, avgMastery: group.unknownMastery ? null : Math.round(group.masterySum / group.attempted), unknownMastery: group.unknownMastery };
     });
   }
 
@@ -373,7 +383,7 @@
     }).join('');
     const status = window.__TBVersions.classify(question,selected);
     host.hidden = false;
-    host.innerHTML = '<div class="tb-adaptive-head"><div><div class="tb-diag-kick">Adaptive practice · ' + (session.index + 1) + ' of ' + session.items.length + '</div><h3>' + esc(question.sub || 'General review') + '</h3><p class="tb-adaptive-rationale">Selected because it is ' + esc(session.reasons[session.index] || 'part of your balanced review plan') + '.</p></div><div class="tb-adaptive-mastery-chip">Current effective mastery <strong>' + currentMastery + '%</strong></div></div>' +
+    host.innerHTML = '<div class="tb-adaptive-head"><div><div class="tb-diag-kick">Adaptive practice · ' + (session.index + 1) + ' of ' + session.items.length + '</div><h3>' + esc(question.sub || 'General review') + '</h3><p class="tb-adaptive-rationale">Selected because it is ' + esc(session.reasons[session.index] || 'part of your balanced review plan') + '.</p></div><div class="tb-adaptive-mastery-chip">Current effective mastery <strong>' + masteryPercent(currentMastery) + '</strong></div></div>' +
       '<div class="tb-adaptive-progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + session.items.length + '" aria-valuenow="' + session.index + '"><span style="--p:' + Math.round(session.index / session.items.length * 100) + '"></span></div>' +
       chartHtml(question.chart) + '<div class="tb-adaptive-stem">' + esc(question.stem) + '</div><div class="tb-adaptive-options">' + options + '</div>' +
       (checked ? '<div class="tb-adaptive-feedback ' + status + '" role="status"><strong>' + (status === 'correct' ? 'Correct.' : 'Not yet. The correct answer is ' + String.fromCharCode(65 + question.answer) + '.') + '</strong><div>' + (question.why || 'A stored explanation is not available.') + '</div></div>' : '') +
@@ -386,7 +396,9 @@
     const state = stateFor(question, data);
     if (!state.attempts) return 'new material selected for controlled coverage growth';
     if (state.dueAt <= timestamp) return 'due for spaced retrieval';
-    if (effectiveMastery(state, timestamp) < MASTERY_THRESHOLD) return 'one of your lower-mastery questions';
+    const mastery = effectiveMastery(state, timestamp);
+    if (mastery == null) return 'mastery evidence is incomplete and needs another reliable retrieval';
+    if (mastery < MASTERY_THRESHOLD) return 'one of your lower-mastery questions';
     return 'needed to balance the session across subtopics';
   }
 
@@ -462,7 +474,7 @@
     const dashboard = document.getElementById('tb-adaptive-mastery');
     if (!dashboard) return;
     const summary = masterySummary(examData(readStore()), Date.now());
-    const inner = '<div class="tb-sec">Mastery confidence and coverage</div><div class="tb-reliability-grid"><div><strong>' + summary.attemptedMastery + '%</strong><span>mastery on attempted questions</span></div><div><strong>' + summary.coverage + '%</strong><span>blueprint-weighted question coverage</span></div><div><strong>' + summary.readiness + '%</strong><span>coverage-adjusted readiness</span></div></div><p>Readiness is a blueprint-weighted coverage × mastery study heuristic, not a pass probability. Reserved, delivered or displayed questions are tracked separately and cannot raise question coverage or readiness. Effective mastery decays as retrieval becomes stale.</p><div class="tb-data-actions"><button type="button" class="tb-ghost" data-v2-export>Export mastery report</button><button type="button" class="tb-ghost" data-v2-export-history>Export complete history</button><button type="button" class="tb-ghost danger" data-v2-reset>Reset adaptive data</button></div>';
+    const inner = '<div class="tb-sec">Mastery confidence and coverage</div><div class="tb-reliability-grid"><div><strong>' + masteryPercent(summary.attemptedMastery) + '</strong><span>mastery on attempted questions</span></div><div><strong>' + masteryPercent(summary.coverage) + '</strong><span>blueprint-weighted question coverage</span></div><div><strong>' + masteryPercent(summary.readiness) + '</strong><span>coverage-adjusted readiness</span></div></div><p>Readiness is a blueprint-weighted coverage × mastery study heuristic, not a pass probability. Reserved, delivered or displayed questions are tracked separately and cannot raise question coverage or readiness. Effective mastery decays as retrieval becomes stale.</p><div class="tb-data-actions"><button type="button" class="tb-ghost" data-v2-export>Export mastery report</button><button type="button" class="tb-ghost" data-v2-export-history>Export complete history</button><button type="button" class="tb-ghost danger" data-v2-reset>Reset adaptive data</button></div>';
     // Idempotent: only touch the DOM when the rendered content actually changes.
     // (This function runs on every observed mutation; re-inserting an identical
     // block would retrigger the observers and create a re-render loop that makes
@@ -483,10 +495,11 @@
     }
     const ring = dashboard.querySelector('.tb-mastery-ring');
     if (ring) {
-      if (ring.style.getPropertyValue('--p') !== String(summary.attemptedMastery)) ring.style.setProperty('--p', summary.attemptedMastery);
+      const ringValue = masteryValue(summary.attemptedMastery);
+      if (ring.style.getPropertyValue('--p') !== String(ringValue)) ring.style.setProperty('--p', ringValue);
       const strong = ring.querySelector('strong');
       const label = ring.querySelector('span');
-      const strongText = summary.attemptedMastery + '%';
+      const strongText = masteryPercent(summary.attemptedMastery);
       if (strong && strong.textContent !== strongText) strong.textContent = strongText;
       if (label && label.textContent !== 'attempted mastery') label.textContent = 'attempted mastery';
     }
@@ -570,9 +583,9 @@
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
     const metrics = [
-      ['Mastery on attempted questions', summary.attemptedMastery + '%'],
-      ['Blueprint-weighted question coverage', summary.coverage + '% (raw: ' + (summary.rawCoverage == null ? 'Unavailable' : summary.rawCoverage.toFixed(1) + '%') + ')'],
-      ['Coverage-adjusted readiness', summary.readiness + '%'],
+      ['Mastery on attempted questions', masteryPercent(summary.attemptedMastery)],
+      ['Blueprint-weighted question coverage', masteryPercent(summary.coverage) + ' (raw: ' + (summary.rawCoverage == null ? 'Unavailable' : summary.rawCoverage.toFixed(1) + '%') + ')'],
+      ['Coverage-adjusted readiness', masteryPercent(summary.readiness)],
       ['Questions mastered (3+ attempts, 80%+ mastery)', String(summary.mastered)],
       ['Questions due for review', String(summary.due)]
     ];
@@ -616,7 +629,7 @@
         }
         doc.text(row.sub, MARGIN_X, y);
         doc.text(String(row.attempted), 140, y, { align: 'right' });
-        doc.text(row.avgMastery + '%', PAGE_RIGHT, y, { align: 'right' });
+        doc.text(masteryPercent(row.avgMastery), PAGE_RIGHT, y, { align: 'right' });
         y += 7;
       });
     }
