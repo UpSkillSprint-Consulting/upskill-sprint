@@ -76,12 +76,19 @@ async function main() {
   denied(target, 'negative learning cursors fail closed', role(A, `SELECT * FROM public.fetch_test_bank_learning_events_incremental_v1(-1,500);`), '22023');
   denied(target, 'oversized progress pages fail closed', role(A, `SELECT * FROM public.fetch_test_bank_progress_devices_incremental_v1(NULL,101);`), '22023');
 
-  const progressBefore = Number(ok(target, `SELECT sync_seq FROM public.test_bank_progress_devices WHERE user_id='${A}' AND device_id='fixture-device';`));
-  ok(target, `BEGIN; SET LOCAL ROLE authenticated; SET LOCAL request.jwt.claim.sub='${A}'; UPDATE public.test_bank_progress_devices SET payload=jsonb_build_object('segment14','updated') WHERE user_id='${A}' AND device_id='fixture-device'; COMMIT;`);
-  const progressAfter = Number(ok(target, `SELECT sync_seq FROM public.test_bank_progress_devices WHERE user_id='${A}' AND device_id='fixture-device';`));
+  // The cumulative Segment 03 database suite deliberately wraps its progress
+  // fixture in a rollback transaction. Segment 14 needs a durable row to prove
+  // that an UPDATE advances the server cursor, so create one explicitly here
+  // as the authenticated owner instead of depending on another test's fixture.
+  const progressDevice = 'segment14-progress-device';
+  ok(target, `BEGIN; SET LOCAL ROLE authenticated; SET LOCAL request.jwt.claim.sub='${A}'; INSERT INTO public.test_bank_progress_devices(user_id,device_id,payload,updated_at) VALUES('${A}','${progressDevice}','{}',clock_timestamp()) ON CONFLICT(user_id,device_id) DO UPDATE SET payload=excluded.payload; COMMIT;`);
+  const progressBefore = Number(ok(target, `SELECT sync_seq FROM public.test_bank_progress_devices WHERE user_id='${A}' AND device_id='${progressDevice}';`));
+  check('committed progress fixture receives a server sequence', () => assert.ok(Number.isSafeInteger(progressBefore) && progressBefore > 0));
+  ok(target, `BEGIN; SET LOCAL ROLE authenticated; SET LOCAL request.jwt.claim.sub='${A}'; UPDATE public.test_bank_progress_devices SET payload=jsonb_build_object('segment14','updated') WHERE user_id='${A}' AND device_id='${progressDevice}'; COMMIT;`);
+  const progressAfter = Number(ok(target, `SELECT sync_seq FROM public.test_bank_progress_devices WHERE user_id='${A}' AND device_id='${progressDevice}';`));
   check('progress updates receive a newer server sequence', () => assert.ok(progressAfter > progressBefore));
   check('progress cursor returns the post-cursor update', () => {
-    ok(target, role(A, `DO $$ DECLARE n bigint; BEGIN SELECT count(*) INTO n FROM public.fetch_test_bank_progress_devices_incremental_v1(${progressBefore},100); IF n < 1 THEN RAISE EXCEPTION 'expected post-cursor progress update'; END IF; END $$;`));
+    ok(target, role(A, `DO $$ DECLARE n bigint; BEGIN SELECT count(*) INTO n FROM public.fetch_test_bank_progress_devices_incremental_v1(${progressBefore},100) WHERE device_id='${progressDevice}'; IF n <> 1 THEN RAISE EXCEPTION 'expected one post-cursor progress update, got %', n; END IF; END $$;`));
   });
 
   const eventOne = 'segment14-commit-order-a';
