@@ -40,4 +40,7 @@ The schema-first order is backward compatible because the old append path remain
 - The race acceptance condition is exactly one `session_completed` event and one `original` result, with the losing same-payload contender receiving a non-applied canonical alias receipt.
 - Segment 01–06 and repository-wide tests remain cumulative gates.
 
-No production migration, learner record, deployment, or merge is performed by this PR.
+The implementation PR did not perform a production migration. The later authorized
+deployment, rollback-only role smoke, migration-ledger repair back to the
+canonical PR #174 versions, and remaining qualification boundaries are recorded
+in [`SEGMENT-07-PRODUCTION-DEPLOYMENT.md`](SEGMENT-07-PRODUCTION-DEPLOYMENT.md).

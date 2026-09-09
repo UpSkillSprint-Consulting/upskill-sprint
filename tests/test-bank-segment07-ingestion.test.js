@@ -22,6 +22,19 @@ function clientWithReceipts(){
   }};
 }
 
+test('canonical Segment 05/07 migration filenames stay stable after production-ledger repair',()=>{
+  const canonical=[
+    '20260908010000_add_exam_version_catalog.sql',
+    '20260908180000_add_idempotent_exam_ingestion.sql'
+  ];
+  const transient=[
+    '20260908213852_add_exam_version_catalog.sql',
+    '20260908214508_add_idempotent_exam_ingestion.sql'
+  ];
+  for(const file of canonical)assert.equal(fs.existsSync(path.join(ROOT,'supabase/migrations',file)),true,file);
+  for(const file of transient)assert.equal(fs.existsSync(path.join(ROOT,'supabase/migrations',file)),false,file);
+});
+
 test('Segment 07 migration installs owned receipts, runtime locks and an atomic batch RPC',()=>{
   const sql=migration();
   for(const token of ['test_bank_session_runtime','test_bank_operation_receipts','private.test_bank_ingest_operation_v1','ingest_test_bank_operations_v1','FOR UPDATE','Operation ID reused with conflicting payload','Session already has a conflicting canonical completion'])assert.match(sql,new RegExp(token.replaceAll('.','\\.')));

@@ -2,7 +2,7 @@
 
 ## Current execution boundary
 
-Segments 01–03 were human-merged through PR #172. Segments 04–05 were human-merged through PR #173. Segments 06–08 are implemented for review on the separate `fix/segment-06-local-answer-durability` branch in PR #174. Later segments are not signed off. Review, merge, deployment and physical/production acceptance remain separate gates.
+Segments 01–03 were human-merged through PR #172, Segments 04–05 through PR #173, and Segments 06–08 through PR #174. The Segment 05 catalog prerequisite and Segment 07 server-ingestion migration were deployed and rollback-smoke-verified on 2026-09-08. Later segments are not signed off. Review, merge, deployment and physical/production acceptance remain separate gates.
 
 Application baseline: `990e385350ae63d76cfc1e3940c3644859cc636a`. Segments 01–03 add baseline evidence, contracts and verification infrastructure. Segment 04 changes identity validation/runtime guards but no question content/IDs, learner history, dependency pins or live database objects. Product rating does not increase merely for adding tests or documenting defects.
 
@@ -11,6 +11,7 @@ Application baseline: `990e385350ae63d76cfc1e3940c3644859cc636a`. Segments 01–
 - [Segment 08 history reconciliation](SEGMENT-08-RECONCILIATION.md): canonical first/repeat/unknown projection, source-disagreement diagnostics, current-bank/date/reset scope, and a write-free deterministic dry run.
 
 - [Segment 07 server ingestion](SEGMENT-07-SERVER-INGESTION.md): authenticated idempotent operation receipts, serialized session transitions and atomic finalization.
+- [Segment 07 production deployment](SEGMENT-07-PRODUCTION-DEPLOYMENT.md): exact migration ledger, five-certification catalog counts, rollback-only role smoke and remaining production boundaries.
 
 - [Segment 06 local durability](SEGMENT-06-LOCAL-DURABILITY.md): owner-scoped durable drafts, explicit scored submission, fail-closed storage recovery and no database-enum expansion.
 
