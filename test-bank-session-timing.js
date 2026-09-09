@@ -222,13 +222,15 @@
     const evidence=timingEvidence(snap,true);
     if (evidence.visits.some(function(v){return v.visitId===active.visitId;})) return null;
     const endMono=monotonicNow();
-    let endTrusted=snap.timed?trustedNow():effectiveNow();
+    let endTrusted=snap.timed?trustedNow():(active.startTrusted==null?effectiveNow():active.startTrusted+Math.max(0,endMono-active.startMono));
     let duration=null;
-    if (active.startTrusted!=null && endTrusted!=null) {
-      if (snap.timed) {
+    if (snap.timed) {
+      if (active.startTrusted!=null && endTrusted!=null) {
         const deadline=deadlineMs(snap); if (deadline!=null) endTrusted=Math.min(endTrusted,deadline);
+        duration=Math.max(0,Math.round(endTrusted-active.startTrusted));
       }
-      duration=Math.max(0,Math.round(endTrusted-active.startTrusted));
+    } else if (finite(active.startMono) && finite(endMono)) {
+      duration=Math.max(0,Math.round(endMono-active.startMono));
     }
     if (duration==null) evidence.unknownVisitCount=Number(evidence.unknownVisitCount||0)+1;
     else {
