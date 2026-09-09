@@ -153,12 +153,13 @@ test('a failed first fetch after an account switch cannot revive the prior owner
   assert.equal(meta.remoteCursor, null);
 });
 
-test('production edge loaders insert the Segment 14 policy before already-present sync runtimes', () => {
+test('production edge loaders insert or move the Segment 14 policy before existing sync runtimes', () => {
   ['netlify/edge-functions/test-bank-set-controls.js', 'netlify/edge-functions/test-bank-mobile-picker.js'].forEach(file => {
     const edge = fs.readFileSync(path.join(ROOT, file), 'utf8');
     assert.match(edge, /ensureIncrementalPolicyBeforeSync/);
-    assert.match(edge, /html\.replace\(accountTag, policy \+ accountTag\)/);
-    assert.match(edge, /html\.replace\(learningTag, policy \+ learningTag\)/);
+    assert.match(edge, /const withoutLatePolicy = policyIndex >= 0 \? html\.replace\(policy, ''\) : html;/);
+    assert.match(edge, /withoutLatePolicy\.replace\(accountTag, policy \+ accountTag\)/);
+    assert.match(edge, /withoutLatePolicy\.replace\(learningTag, policy \+ learningTag\)/);
     const policy = edge.indexOf("'/test-bank-incremental-sync-policy.js'");
     const account = edge.indexOf("'/test-bank-account-sync.js'");
     const learning = edge.indexOf("'/test-bank-learning-events.js'");
