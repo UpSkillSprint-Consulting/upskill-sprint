@@ -1,6 +1,9 @@
 /* Segment 12 finalization adapter.
  * Loaded after test-bank-session-lifecycle.js. Keeps a failed submission frozen,
- * retries the same session id, and never reopens a finalizing/terminal session. */
+ * retries the same session id, and never reopens a finalizing/terminal session.
+ * The durable learning ledger owns the full immutable version pin; the lifecycle
+ * store keeps only a compact reference so large exams do not duplicate the bank
+ * snapshot in localStorage. */
 (function (root, factory) {
   'use strict';
   if (typeof module === 'object' && module.exports) module.exports = factory;
@@ -21,10 +24,71 @@
   function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
   function current(sessionId) { return lifecycle.load(sessionId); }
 
+  function durableLearningSession(sessionId) {
+    const learning = root.__TBLearning;
+    if (!learning || typeof learning.store !== 'function') return null;
+    const store = learning.store();
+    return store && store.sessions && store.sessions[sessionId] || null;
+  }
+
+  function resolvePin(snapshot) {
+    const versions = root.__TBVersions;
+    if (!versions || typeof versions.checkedPin !== 'function') fail('VERSION_RUNTIME_UNAVAILABLE');
+    let candidate = snapshot && snapshot.versionPin;
+    if (!candidate && snapshot) {
+      const learningSession = durableLearningSession(snapshot.sessionId);
+      candidate = learningSession && learningSession.versionPin;
+    }
+    if (!candidate) fail('DURABLE_VERSION_PIN_UNAVAILABLE','The immutable session version pin is unavailable from durable learning storage.');
+    const pin = versions.checkedPin(clone(candidate));
+    if (!snapshot || pin.sessionId !== snapshot.sessionId || pin.examId !== snapshot.examId || pin.orderedItems.length !== snapshot.orderedItems.length) {
+      fail('SESSION_VERSION_PIN_MISMATCH');
+    }
+    snapshot.orderedItems.forEach(function (item,index) {
+      const pinned = pin.orderedItems[index];
+      if (!pinned || pinned.questionId !== item.questionId || pinned.questionRevision !== item.questionRevision || JSON.stringify(pinned.optionOrder) !== JSON.stringify(item.optionOrder)) {
+        fail('SESSION_VERSION_PIN_MISMATCH');
+      }
+    });
+    return pin;
+  }
+
+  function compactSnapshot(snapshot) {
+    if (!snapshot || !snapshot.versionPin) return snapshot;
+    const compact = clone(snapshot);
+    const versions = root.__TBVersions;
+    if (versions && typeof versions.reference === 'function') {
+      try { compact.versionRef = versions.reference(snapshot.versionPin); } catch (_) {}
+    }
+    delete compact.versionPin;
+    lifecycle.save(compact);
+    return compact;
+  }
+
+  function compactCurrent(sessionId) {
+    try {
+      const snapshot = current(sessionId);
+      if (snapshot && snapshot.versionPin) compactSnapshot(snapshot);
+    } catch (_) {}
+  }
+
   lifecycle.resume = function (sessionId) {
-    const snapshot = current(sessionId);
+    let snapshot = current(sessionId);
     if (!snapshot || !editable.has(snapshot.state)) fail('NO_RESUMABLE_SESSION');
-    const result = originalResume.call(lifecycle, sessionId);
+    let hydrated = false;
+    if (!snapshot.versionPin) {
+      const full = clone(snapshot);
+      full.versionPin = clone(resolvePin(snapshot));
+      lifecycle.save(full);
+      snapshot = full;
+      hydrated = true;
+    }
+    let result;
+    try {
+      result = originalResume.call(lifecycle, sessionId);
+    } finally {
+      if (hydrated) compactCurrent(sessionId);
+    }
     try {
       if (root.document && root.CustomEvent) root.document.dispatchEvent(new root.CustomEvent('tb:learning-session-started', { detail: { sessionId:snapshot.sessionId, examId:snapshot.examId, mode:snapshot.mode, resumed:true } }));
     } catch (_) {}
@@ -43,9 +107,9 @@
     if (!snapshot || snapshot.state !== 'finalizing') fail('NO_FINALIZATION_TO_RETRY');
     const versions = root.__TBVersions;
     const learning = root.__TBLearning;
-    if (!versions || typeof versions.checkedPin !== 'function' || typeof versions.questionFor !== 'function') fail('VERSION_RUNTIME_UNAVAILABLE');
+    if (!versions || typeof versions.questionFor !== 'function') fail('VERSION_RUNTIME_UNAVAILABLE');
     if (!learning || typeof learning.completeSession !== 'function') fail('LEARNING_RUNTIME_UNAVAILABLE');
-    const pin = versions.checkedPin(clone(snapshot.versionPin));
+    const pin = resolvePin(snapshot);
     const questions = pin.contents.map(function (q,index) { return versions.questionFor(pin,q,index).question; });
     const records = questions.map(function (question,index) {
       const item = snapshot.orderedItems[index];
@@ -64,7 +128,15 @@
     const learning = root.__TBLearning;
     if (learningWrapped || !learning || typeof learning.completeSession !== 'function') return false;
     learningWrapped = true;
-    const previous = learning.completeSession;
+    const previousStart = typeof learning.startSession === 'function' ? learning.startSession : null;
+    const previousComplete = learning.completeSession;
+
+    if (previousStart) learning.startSession = function (input) {
+      const result = previousStart.apply(this,arguments);
+      if (input && input.mode !== 'adaptive' && result && result.saved !== false && result.sessionId) compactCurrent(result.sessionId);
+      return result;
+    };
+
     learning.completeSession = function (input) {
       const snapshot = input && current(input.sessionId);
       if (snapshot && !lifecycle.terminalStates.includes(snapshot.state) && snapshot.state !== 'finalizing') {
@@ -75,7 +147,7 @@
       } else if (snapshot && snapshot.state === 'finalizing' && !snapshot.completionReason) {
         try { snapshot.completionReason = input.completedReason || 'submitted'; snapshot.sessionRevision += 1; snapshot.updatedAt = new Date().toISOString(); lifecycle.save(snapshot); } catch (_) {}
       }
-      return previous.call(this,input);
+      return previousComplete.call(this,input);
     };
     return true;
   }
@@ -196,10 +268,11 @@
   lifecycle.__segment12FinalizationHardened = true;
   wrapLearning();
   if (root.document) {
-    const boot = function () { wrapLearning(); subscribeAuth(); observeRecoveryHost(); queueMicrotask(repairNotice); afterUiSettles(); };
+    const boot = function () { wrapLearning(); compactCurrent(); subscribeAuth(); observeRecoveryHost(); queueMicrotask(repairNotice); afterUiSettles(); };
     if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', boot, {once:true});
     else queueMicrotask(boot);
-    root.document.addEventListener('upskill-auth-ready', function () { subscribeAuth(); repairNotice(); afterUiSettles(); }, {once:true});
+    root.document.addEventListener('upskill-auth-ready', function () { subscribeAuth(); compactCurrent(); repairNotice(); afterUiSettles(); }, {once:true});
+    root.document.addEventListener('tb:learning-session-started', function (event) { compactCurrent(event && event.detail && event.detail.sessionId); });
     root.addEventListener('load', afterUiSettles, {once:true});
   }
   return lifecycle;
