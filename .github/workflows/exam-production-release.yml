@@ -55,16 +55,20 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Validate committed preflight does not claim acceptance
+      - name: Validate committed preflight reflects current rollout without claiming acceptance
         shell: bash
         run: |
           node - <<'NODE'
           const p=require('./docs/exam-reliability/verification/v1/segment20-production-preflight.json');
           if(p.environment!=='production') throw Error('wrong environment');
-          if(p.status!=='blocked_preflight') throw Error('preflight must remain blocked until production evidence is supplied');
+          if(p.status!=='blocked_preflight') throw Error('preflight must remain blocked until production evidence is complete');
           if(p.rating!==null) throw Error('blocked preflight cannot have a rating');
-          if(!Array.isArray(p.database?.requiredRepositoryMigrationsMissing) || !p.database.requiredRepositoryMigrationsMissing.length) throw Error('current production drift must remain explicit');
+          if(!Array.isArray(p.database?.requiredRepositoryMigrationsMissing) || p.database.requiredRepositoryMigrationsMissing.length!==0) throw Error('production migration rollout must be recorded as complete');
+          for(const k of ['trustedClock','incrementalSync','sessionHandoff','newOnlyV2','securityReset']) if(p.database?.capabilities?.[k]!==true) throw Error('missing production capability: '+k);
+          if(p.productionSmoke?.status!=='partial_passed' || p.productionSmoke?.persistentLearnerWrites!==false) throw Error('rollback-only production smoke evidence missing');
           if(p.security?.leakedPasswordProtection!==false) throw Error('hosted Auth risk must not be silently marked fixed');
           if(p.segment19?.physicalEvidence!=='pending_physical' || p.segment19?.realNetworkEvidence!=='pending_real_network') throw Error('pending Segment19 evidence must remain explicit');
-          console.log('Segment 20 preflight truthfulness check passed');
+          if(p.observationWindow!=='not_started') throw Error('observation must not start before external prerequisites pass');
+          if(!Array.isArray(p.blockingReasons) || p.blockingReasons.length<4) throw Error('remaining release blockers must stay explicit');
+          console.log('Segment 20 production-rollout truthfulness check passed');
           NODE
