@@ -48,7 +48,7 @@ async function main(){
   const t=validateTarget(process.env.SEG03_DB_URL||'',process.env.SEG03_ALLOW_DISPOSABLE_DB);
   check('18 data-control table, purge RPCs and stale guards exist',()=>{
     assert.equal(ok(t,"SELECT count(*) FROM pg_class WHERE relname='test_bank_data_control';"),'1');
-    assert.equal(ok(t,"SELECT count(*) FROM pg_proc WHERE proname IN ('fetch_test_bank_data_control_v1','delete_test_bank_learning_data_v1','test_bank_guard_post_purge_event_v1','test_bank_guard_progress_generation_v1');"),'4');
+    assert.equal(ok(t,"SELECT count(*) FROM pg_proc WHERE proname IN ('fetch_test_bank_data_control_v1','delete_test_bank_learning_data_v1','test_bank_guard_post_purge_event_v1','test_bank_guard_progress_generation_v1','test_bank_lock_data_control_purge_v1','test_bank_security_advisory_key_v1');"),'6');
   });
   check('18 public SECURITY DEFINER entry points pin search_path',()=>{
     const bad=ok(t,`SELECT count(*) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='public' AND p.prosecdef AND has_function_privilege('authenticated',p.oid,'EXECUTE') AND NOT EXISTS (SELECT 1 FROM unnest(coalesce(p.proconfig,array[]::text[])) c WHERE c LIKE 'search_path=%');`);
@@ -79,7 +79,7 @@ async function main(){
   check('18 another owner cannot read A purge control through RLS',()=>assert.equal(ok(t,role(B,`SELECT count(*) FROM public.test_bank_data_control WHERE user_id='${A}';`)),'0'));
   denied(t,'18 stale CAS deletion is rejected',role(A,'SELECT public.delete_test_bank_learning_data_v1(0);'),'40001');
   denied(t,'18 pre-purge offline event cannot be resurrected',role(A,`INSERT INTO public.test_bank_learning_events(user_id,event_id,device_id,event_type,exam_id,session_id,question_id,occurred_at,payload) VALUES('${A}','seg18-stale-event','seg18-device-a','question_exposed','cssbb','seg18-session-old','cssbb:seg18:old',(SELECT purged_at-interval '1 second' FROM public.test_bank_data_control WHERE user_id='${A}'),'{}');`),'40001');
-  check('18 genuinely post-purge learning event remains permitted',()=>ok(t,commit(role(A,`INSERT INTO public.test_bank_learning_events(user_id,event_id,device_id,event_type,exam_id,session_id,question_id,occurred_at,payload) VALUES('${A}','seg18-new-event','seg18-device-a','question_exposed','cssbb','seg18-session-new','cssbb:seg18:new',clock_timestamp()+interval '1 second','{}');`))));
+  denied(t,'18 future client timestamp cannot bypass stale device generation',role(A,`INSERT INTO public.test_bank_learning_events(user_id,event_id,device_id,event_type,exam_id,session_id,question_id,occurred_at,payload) VALUES('${A}','seg18-future-clock-event','seg18-device-a','question_exposed','cssbb','seg18-session-clock','cssbb:seg18:clock',clock_timestamp()+interval '30 days','{}');`),'40001');
   denied(t,'18 stale progress snapshot without purge marker is rejected',role(A,`UPDATE public.test_bank_progress_devices SET payload=jsonb_build_object('schemaVersion',2,'values',jsonb_build_object('tb-attempt-history-v3',jsonb_build_object('attempts',jsonb_build_array(jsonb_build_object('id','resurrect')))),'resets','{}'::jsonb) WHERE user_id='${A}' AND device_id='seg18-device-a';`),'40001');
   check('18 first stale snapshot with current marker is sanitized and remains unacknowledged',()=>{
     ok(t,commit(role(A,`UPDATE public.test_bank_progress_devices SET payload=${stalePayload} WHERE user_id='${A}' AND device_id='seg18-device-a';`)));
@@ -90,6 +90,7 @@ async function main(){
     ok(t,commit(role(A,`UPDATE public.test_bank_progress_devices SET payload=${cleanPayload} WHERE user_id='${A}' AND device_id='seg18-device-a';`)));
     assert.equal(ok(t,`SELECT security_generation FROM public.test_bank_progress_devices WHERE user_id='${A}' AND device_id='seg18-device-a';`),'1');
   });
+  check('18 acknowledged device can sync genuinely new learning events',()=>ok(t,commit(role(A,`INSERT INTO public.test_bank_learning_events(user_id,event_id,device_id,event_type,exam_id,session_id,question_id,occurred_at,payload) VALUES('${A}','seg18-new-event','seg18-device-a','question_exposed','cssbb','seg18-session-new','cssbb:seg18:new',clock_timestamp(),'{}');`))));
   check('18 legacy reservation compatibility still enforces authenticated owner scope',()=>{
     const result=ok(t,role(A,"SELECT count(*) FROM public.reserve_test_bank_new_questions('cssbb',ARRAY['cssbb:seg18:legacy']);"));
     assert.match(result,/^[01]$/m);
