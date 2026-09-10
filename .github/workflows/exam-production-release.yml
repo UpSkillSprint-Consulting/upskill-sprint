@@ -1,0 +1,70 @@
+name: Exam production release - Segment 20
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: exam-production-release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-contract:
+    name: Segment 20 release contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - name: Verify release helper syntax
+        run: node --check scripts/exam-reliability/segment20-release.cjs
+      - name: Verify Segment 19 + Segment 20 release contracts
+        run: node --test --test-concurrency=1 tests/test-bank-segment19-qualification.test.js tests/test-bank-segment20-release.test.js
+      - name: Verify production dependency high/critical gate
+        run: npm audit --omit=dev --audit-level=high
+
+  cumulative-regression:
+    name: Segment 20 cumulative regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  preflight-honesty:
+    name: Production preflight remains fail-closed
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate committed preflight does not claim acceptance
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const p=require('./docs/exam-reliability/verification/v1/segment20-production-preflight.json');
+          if(p.environment!=='production') throw Error('wrong environment');
+          if(p.status!=='blocked_preflight') throw Error('preflight must remain blocked until production evidence is supplied');
+          if(p.rating!==null) throw Error('blocked preflight cannot have a rating');
+          if(!Array.isArray(p.database?.requiredRepositoryMigrationsMissing) || !p.database.requiredRepositoryMigrationsMissing.length) throw Error('current production drift must remain explicit');
+          if(p.security?.leakedPasswordProtection!==false) throw Error('hosted Auth risk must not be silently marked fixed');
+          if(p.segment19?.physicalEvidence!=='pending_physical' || p.segment19?.realNetworkEvidence!=='pending_real_network') throw Error('pending Segment19 evidence must remain explicit');
+          console.log('Segment 20 preflight truthfulness check passed');
+          NODE
