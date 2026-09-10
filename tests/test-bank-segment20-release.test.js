@@ -1,0 +1,169 @@
+'use strict';
+
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const r = require('../scripts/exam-reliability/segment20-release.cjs');
+const SHA = 'a'.repeat(40);
+
+function samples(n, v) { return Array.from({ length: n }, () => v); }
+function automated() {
+  return {
+    schemaVersion: 1,
+    examIds: [...r.segment19.REQUIRED_EXAMS],
+    modes: [...r.segment19.REQUIRED_MODES],
+    workloads: { ...r.segment19.profiles.workloads },
+    budgets: r.segment19.profiles.budgets.filter(x => x.enforcedFromSegment <= 19).map(b => ({ id: b.id, status: 'passed' })),
+    invariants: { ...r.segment19.profiles.invariants },
+    unresolvedConfirmedDefects: 0,
+    migrationRecovery: { freshInstall: true, backupRestore: true, rollbackSafe: true }
+  };
+}
+function physical() {
+  return { schemaVersion: 1, records: r.segment19.REQUIRED_PHYSICAL.map(id => ({ id, physical: true, emulated: false, status: 'passed', device: 'physical fixture', os: 'fixture-os', browser: 'fixture-browser', executedAt: '2020-01-01T00:00:00Z', observer: 'fixture-observer' })) };
+}
+function network() {
+  return {
+    schemaVersion: 1,
+    environment: 'real_network',
+    synthetic: false,
+    emulated: false,
+    executedAt: '2020-01-01T00:00:00Z',
+    observer: 'fixture-observer',
+    connection: 'witnessed connection',
+    locationClass: 'controlled location',
+    budgets: r.segment19.REQUIRED_REAL_NETWORK_BUDGETS.map(id => {
+      const b = r.segment19.profiles.budgets.find(x => x.id === id);
+      const value = Math.max(0, b.limitMs - 1);
+      return { id, network: b.network, status: 'passed', valueMs: value, samplesMs: samples(b.minimumSamples, value) };
+    })
+  };
+}
+function rubric() {
+  return {
+    rubricVersion: r.rubric.rubricVersion,
+    criteria: r.rubric.areas.flatMap(area => area.criteria.map(c => ({
+      criterionId: c.id,
+      status: 'passed',
+      evidenceRef: `fixture://${c.id}`,
+      verifiedCommit: SHA,
+      environment: c.requiredEnvironment || (c.id === 'AC20' ? 'production' : 'isolated')
+    })))
+  };
+}
+function production() {
+  return {
+    schemaVersion: 1,
+    environment: 'production',
+    releaseCommit: SHA,
+    deployment: { commit: SHA, deployId: 'fixture-deploy', state: 'ready', context: 'production', publishedAt: '2020-01-01T00:00:00Z' },
+    database: { projectStatus: 'ACTIVE_HEALTHY', verifiedAt: '2020-01-01T00:10:00Z', migrationVersions: [...r.ACCEPTED_BASELINE_MIGRATIONS, ...r.REQUIRED_MIGRATIONS], capabilities: Object.fromEntries(r.REQUIRED_SCHEMA_CAPABILITIES.map(k => [k, true])) },
+    security: { leakedPasswordProtection: true, productionDependencyAudit: true, unresolvedReleaseRisks: 0, verifiedAt: '2020-01-01T00:20:00Z' },
+    smoke: { checks: r.REQUIRED_SMOKE_CHECKS.map(id => ({ id, status: 'passed', evidenceRef: `fixture://smoke/${id}` })), lostAcknowledgedEvidence: 0, duplicateCanonicalCompletions: 0, crossAccountExposure: 0, unexplainedReconciliation: 0 },
+    recovery: { rollbackRunbookVerified: true, forwardRecoveryVerified: true, backupRestoreVerified: true, evidenceRef: 'fixture://recovery' },
+    observation: { startedAt: '2020-01-01T00:20:00Z', endedAt: '2020-01-02T00:20:00Z', status: 'passed', confirmedIncidents: 0, healthChecksPassed: 24, healthChecksTotal: 24, evidenceRef: 'fixture://observation' },
+    rubric: rubric()
+  };
+}
+function input() { return { automated: automated(), physical: physical(), network: network(), production: production() }; }
+
+test('Segment20 can award 10/10 only after Segment19 and every production gate pass', () => {
+  const result = r.releaseDecision(input());
+  assert.equal(result.status, 'qualified_10_of_10');
+  assert.equal(result.points, 100);
+  assert.equal(result.rating, '10/10');
+});
+
+test('pending physical or real-network Segment19 evidence blocks Segment20', () => {
+  let x = input(); x.physical.records[0].status = 'pending';
+  assert.deepEqual(r.releaseDecision(x).stage, 'segment19');
+  x = input(); x.network.budgets[0].samplesMs = [];
+  assert.deepEqual(r.releaseDecision(x).stage, 'segment19');
+});
+
+test('production deploy must exactly match the scored release commit', () => {
+  const x = production(); x.deployment.commit = 'b'.repeat(40);
+  assert.throws(() => r.validateProduction(x), /does not match release commit/);
+});
+
+test('required migrations are a subset of the reviewed production history and unreviewed drift is rejected', () => {
+  let x = production();
+  assert.doesNotThrow(() => r.validateProduction(x));
+  x.database.migrationVersions = x.database.migrationVersions.filter(v => v !== r.REQUIRED_MIGRATIONS.at(-1));
+  assert.throws(() => r.validateProduction(x), /migration coverage mismatch/);
+  x = production(); x.database.migrationVersions.push('20260910120000');
+  assert.throws(() => r.validateProduction(x), /unreviewed entries/);
+  x = production(); x.database.migrationVersions.push(r.REQUIRED_MIGRATIONS[0]);
+  assert.throws(() => r.validateProduction(x), /duplicate entries/);
+});
+
+test('every critical schema capability is mandatory', () => {
+  const x = production(); x.database.capabilities.sessionHandoff = false;
+  assert.throws(() => r.validateProduction(x), /sessionHandoff/);
+});
+
+test('hosted leaked-password protection and zero unresolved release risks are mandatory', () => {
+  let x = production(); x.security.leakedPasswordProtection = false;
+  assert.throws(() => r.validateProduction(x), /leaked-password/);
+  x = production(); x.security.unresolvedReleaseRisks = 1;
+  assert.throws(() => r.validateProduction(x), /security release risk/);
+});
+
+test('production smoke must cover exactly one passing evidenced record for every required path and preserve hard invariants', () => {
+  let x = production(); x.smoke.checks.pop();
+  assert.throws(() => r.validateProduction(x), /smoke coverage mismatch/);
+  x = production(); x.smoke.checks.find(row => row.id === 'crossAccountIsolation').status = 'failed';
+  assert.throws(() => r.validateProduction(x), /has not passed/);
+  x = production(); x.smoke.checks.push({ id: 'crossAccountIsolation', status: 'failed', evidenceRef: 'fixture://contradiction' });
+  assert.throws(() => r.validateProduction(x), /duplicate entries/);
+  x = production(); x.smoke.checks[0].evidenceRef = '   ';
+  assert.throws(() => r.validateProduction(x), /missing evidence provenance/);
+  for (const key of ['lostAcknowledgedEvidence','duplicateCanonicalCompletions','crossAccountExposure','unexplainedReconciliation']) {
+    x = production(); x.smoke[key] = 1;
+    assert.throws(() => r.validateProduction(x));
+  }
+});
+
+test('recovery readiness and provenance cannot be replaced by a green deployment', () => {
+  let x = production(); x.recovery.forwardRecoveryVerified = false;
+  assert.throws(() => r.validateProduction(x), /recovery readiness/);
+  x = production(); x.recovery.evidenceRef = null;
+  assert.throws(() => r.validateProduction(x), /production recovery missing evidence provenance/);
+});
+
+test('production observation requires verified release prerequisites, reviewable provenance, a non-future end, and a clean full 24-hour window', () => {
+  let x = production(); x.observation.endedAt = '2020-01-02T00:19:59Z';
+  assert.throws(() => r.validateProduction(x), /shorter than 24 hours/);
+  x = production(); x.observation.startedAt = '2020-01-01T00:19:59Z'; x.observation.endedAt = '2020-01-02T00:20:00Z';
+  assert.throws(() => r.validateProduction(x), /before release prerequisites/);
+  x = production(); x.observation.startedAt = '2999-01-01T00:00:00Z'; x.observation.endedAt = '2999-01-02T00:00:00Z';
+  assert.throws(() => r.validateProduction(x), /cannot end in the future/);
+  x = production(); x.database.verifiedAt = null;
+  assert.throws(() => r.validateProduction(x), /database.verifiedAt/);
+  x = production(); x.observation.confirmedIncidents = 1;
+  assert.throws(() => r.validateProduction(x), /has not passed cleanly/);
+  x = production(); x.observation.healthChecksPassed = 23;
+  assert.throws(() => r.validateProduction(x), /health checks are incomplete/);
+  x = production(); x.observation.evidenceRef = '';
+  assert.throws(() => r.validateProduction(x), /production observation missing evidence provenance/);
+});
+
+test('all 20 frozen rubric criteria must pass against the exact release commit with unique provenance', () => {
+  let x = production(); x.rubric.criteria.pop();
+  assert.throws(() => r.validateProduction(x), /criterion coverage mismatch/);
+  x = production(); x.rubric.criteria.find(c => c.criterionId === 'AC17').environment = 'preview';
+  assert.throws(() => r.validateProduction(x), /requires physical_device/);
+  x = production(); x.rubric.criteria[0].verifiedCommit = 'b'.repeat(40);
+  assert.throws(() => r.validateProduction(x), /release commit/);
+  x = production(); x.rubric.criteria.push({ ...x.rubric.criteria[0] });
+  assert.throws(() => r.validateProduction(x), /duplicate entries/);
+  x = production(); x.rubric.criteria[0].evidenceRef = ' ';
+  assert.throws(() => r.validateProduction(x), /missing evidence provenance/);
+});
+
+test('a blocked release never receives partial credit or a numeric rating', () => {
+  const x = input(); x.production.security.leakedPasswordProtection = false;
+  const result = r.releaseDecision(x);
+  assert.equal(result.status, 'blocked');
+  assert.equal(result.stage, 'production');
+  assert.equal(result.rating, null);
+});

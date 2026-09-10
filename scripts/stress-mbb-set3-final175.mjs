@@ -23,6 +23,17 @@ const phase=(label,fn,ms=60000)=>bounded(label,fn,ms,s=>{report.operation={...re
 const server=http.createServer((req,res)=>{let p=decodeURIComponent(new URL(req.url,'http://localhost').pathname);if(!path.extname(p))p+='.html';const f=path.resolve(root,'.'+p);if(!f.startsWith(root+path.sep)||!fs.existsSync(f)||!fs.statSync(f).isFile()){res.writeHead(404);res.end();return;}res.setHeader('Content-Type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png'})[path.extname(f)]||'application/octet-stream');res.end(fs.readFileSync(f));});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
 const auth=`(()=>{const user={id:'audit-final175-isolated',email:'audit@example.invalid'};const c=(${emptyClient.toString()})();const from=c.from.bind(c);c.from=function(table){const t=from(table),select=t.select.bind(t);t.select=function(...args){const q=select(...args);q.maybeSingle=q.single=()=>Promise.resolve({data:table==='profiles'?{user_id:user.id,display_name:'Final exam audit',timezone:'America/Regina',onboarding_completed:true}:null,error:null});return q;};return t;};window.UpskillAuth={isConfigured:()=>true,onChange:cb=>{queueMicrotask(()=>cb(user));return ()=>{};},getUser:()=>user,getClient:()=>c};})();`;
+// Match the already-hardened batch audit interaction: place the intended
+// review control deterministically in the viewport, allow layout to settle,
+// then perform a normal Playwright click. Large full-review filter changes
+// synchronously enhance many cards, so the click uses the framework's normal
+// operation budget rather than the page's shorter generic action default.
+// This is not a retry, force click, DOM click dispatch, or handler bypass.
+async function stableClick(locator){
+ await locator.evaluate(el=>el.scrollIntoView({behavior:'instant',block:'center',inline:'nearest'}));
+ await new Promise(resolve=>setTimeout(resolve,180));
+ await locator.click({timeout:55000});
+}
 async function geometry(host){return host.evaluate(h=>({pageOverflow:document.documentElement.scrollWidth>innerWidth+2,clipped:[...h.querySelectorAll('.tb-stem,.tb-review-stem,.tb-opt,.tb-answer-copy,.tb-explanation-copy,.tb-key-point,.tb-exam-trap,th,td,dd')].filter(e=>e.clientWidth&&e.scrollWidth>e.clientWidth+2).map(e=>({text:e.textContent.slice(0,90),width:e.clientWidth,scroll:e.scrollWidth})),svgOutside:[...h.querySelectorAll('svg text')].filter(t=>{const a=t.getBoundingClientRect(),b=t.closest('svg').getBoundingClientRect();return a.left<b.left-2||a.right>b.right+2||a.top<b.top-2||a.bottom>b.bottom+2;}).map(e=>e.textContent)}));}
 async function visual(host,q,n,phase){if(!q.chart)return;const data=q.chart.type==='data-table'?q.chart:q.chart.evidence;const b=Math.ceil(n/25),prefix='.mbbs3b'+b;let tables=0;
  if(data?.rows){const rows=host.locator(prefix+'-table tbody tr');assert.equal(await rows.count(),data.rows.length);for(let i=0;i<data.rows.length;i++)assert.deepEqual(await rows.nth(i).locator('th,td').allTextContents(),data.rows[i].map(String));tables=data.rows.length;}
@@ -84,7 +95,7 @@ let browser,context,page;try{
   if(status!=='correct'){await card.locator('[data-error-class]').selectOption({index:1});}
   });const card=page.locator('.tb-review-card'),status=mixed?(i%3===2?'unanswered':i%3===0?'correct':'incorrect'):'correct';await phase(`review-${n}-visual`,()=>visual(card,q,n,'review'));const checks=await snapshots(page,card,n,'review');report.reviews.push({number:n,qid:q.qid,status,keyPoint:await card.locator('.tb-key-point').innerText(),trap:await card.locator('.tb-exam-trap').innerText(),reference:await card.locator('.tb-review-lesson').innerText(),ms:Date.now()-t,checks});save();if(n%25===0)console.log('Reviewed',n);
  }
- for(const filter of ['all','correct','incorrect','unanswered','flagged']){const b=page.locator(`[data-review-tab="${filter}"]`);if(await b.count()){await b.click();const expected=filter==='all'?175:filter==='flagged'?7:filter==='correct'?correct:mixed?58:0;assert.equal(await page.locator('.tb-review-card').count(),expected);}}
+ for(const filter of ['all','correct','incorrect','unanswered','flagged']){const b=page.locator(`[data-review-tab="${filter}"]`);if(await b.count()){await phase(`review-filter-${filter}`,()=>stableClick(b));assert.equal(await page.locator('#tb-answer-review').getAttribute('data-active-filter'),filter);const expected=filter==='all'?175:filter==='flagged'?7:filter==='correct'?correct:mixed?58:0;assert.equal(await page.locator('.tb-review-card').count(),expected);}}
  verifyCoverage(report,bank);report.complete=true;
 }catch(e){
  report.failures.push({current:report.current,operation:report.failedOperation,error:e.stack});save();
