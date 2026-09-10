@@ -1,45 +1,39 @@
 {
   "schemaVersion": 1,
   "environment": "production",
-  "status": "pending",
+  "status": "partial",
   "releaseCommit": null,
   "deployment": {
-    "commit": null,
-    "deployId": null,
-    "state": null,
+    "commit": "b48b205fc355942956b25220881c32d949ac1224",
+    "deployId": "6aa315ae4dbede0008122e10",
+    "state": "ready",
     "context": "production",
-    "publishedAt": null
+    "publishedAt": "2026-09-10T20:41:08.326Z"
   },
   "database": {
-    "projectStatus": null,
-    "migrationVersions": [],
-    "capabilities": {
-      "trustedClock": false,
-      "incrementalSync": false,
-      "sessionHandoff": false,
-      "newOnlyV2": false,
-      "securityReset": false
-    }
+    "projectStatus": "ACTIVE_HEALTHY",
+    "migrationVersions": ["20260830235559","20260831004551","20260831010000","20260831051512","20260831224207","20260903133841","20260904010000","20260908010000","20260908180000","20260909152000","20260909195500","20260910010000","20260910030000","20260910050000","20260910050100","20260910050200"],
+    "capabilities": {"trustedClock":true,"incrementalSync":true,"sessionHandoff":true,"newOnlyV2":true,"securityReset":true}
   },
   "security": {
     "leakedPasswordProtection": false,
-    "productionDependencyAudit": false,
-    "unresolvedReleaseRisks": null,
-    "advisorSnapshotAt": null
+    "productionDependencyAudit": true,
+    "unresolvedReleaseRisks": 1,
+    "advisorSnapshotAt": "2026-09-10T20:46:38.272Z"
   },
   "smoke": {
     "checks": [
       {"id":"authenticatedTransport","status":"pending","evidenceRef":null},
-      {"id":"trustedClock","status":"pending","evidenceRef":null},
-      {"id":"incrementalSync","status":"pending","evidenceRef":null},
-      {"id":"sessionHandoff","status":"pending","evidenceRef":null},
-      {"id":"newOnlyV2","status":"pending","evidenceRef":null},
+      {"id":"trustedClock","status":"partial_passed","evidenceRef":"rollback-only restricted authenticated-role smoke"},
+      {"id":"incrementalSync","status":"partial_passed","evidenceRef":"rollback-only restricted authenticated-role smoke"},
+      {"id":"sessionHandoff","status":"partial_passed","evidenceRef":"rollback-only restricted authenticated-role smoke"},
+      {"id":"newOnlyV2","status":"partial_passed","evidenceRef":"rollback-only restricted authenticated-role smoke"},
       {"id":"historyReconciliation","status":"pending","evidenceRef":null},
-      {"id":"crossAccountIsolation","status":"pending","evidenceRef":null}
+      {"id":"crossAccountIsolation","status":"partial_passed","evidenceRef":"rollback-only restricted authenticated-role RLS smoke"}
     ],
     "lostAcknowledgedEvidence": null,
     "duplicateCanonicalCompletions": null,
-    "crossAccountExposure": null,
+    "crossAccountExposure": 0,
     "unexplainedReconciliation": null
   },
   "recovery": {
@@ -57,9 +51,6 @@
     "healthChecksTotal": 0,
     "evidenceRef": null
   },
-  "rubric": {
-    "rubricVersion": "1.0.0",
-    "criteria": []
-  },
-  "notes": "Populate only with exact, reviewable production evidence. Do not mark a field passed from preview, emulation, synthetic network evidence, administrator-only access, or an earlier commit."
+  "rubric": {"rubricVersion":"1.0.0","criteria":[]},
+  "notes": "Partial production evidence only. Seven Segment13-18 migrations were deployed and normalized to canonical repository versions; capability and rollback-only restricted-role smoke passed. This file deliberately does not set releaseCommit because PR #186 itself is not merged/deployed and external release gates remain incomplete."
 }
