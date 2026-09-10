@@ -1,10 +1,36 @@
+const POLICY_SOURCE = '/test-bank-incremental-sync-policy.js';
+const ACCOUNT_SYNC_SOURCE = '/test-bank-account-sync.js';
+const LEARNING_SYNC_SOURCE = '/test-bank-learning-events.js';
+
+function scriptTag(source) { return `<script src="${source}" defer></script>`; }
+
+function ensureIncrementalPolicyBeforeSync(html) {
+  const policy = scriptTag(POLICY_SOURCE);
+  const accountTag = scriptTag(ACCOUNT_SYNC_SOURCE);
+  const learningTag = scriptTag(LEARNING_SYNC_SOURCE);
+  const policyIndex = html.indexOf(policy);
+  const accountIndex = html.indexOf(accountTag);
+  const learningIndex = html.indexOf(learningTag);
+  const firstSyncIndex = [accountIndex, learningIndex].filter((index) => index >= 0).sort((a, b) => a - b)[0];
+  if (firstSyncIndex == null) return html;
+  if (policyIndex >= 0 && policyIndex < firstSyncIndex) return html;
+  const withoutLatePolicy = policyIndex >= 0 ? html.replace(policy, '') : html;
+  if (withoutLatePolicy.includes(accountTag)) return withoutLatePolicy.replace(accountTag, policy + accountTag);
+  if (withoutLatePolicy.includes(learningTag)) return withoutLatePolicy.replace(learningTag, policy + learningTag);
+  return withoutLatePolicy;
+}
+
 export default async function testBankSetControls(request, context) {
   const response = await context.next();
   const contentType = response.headers.get('content-type') || '';
 
   if (!contentType.includes('text/html')) return response;
 
-  const html = await response.text();
+  let html = await response.text();
+  /* Segment 14 policy must execute before either existing sync runtime. A page
+     that already contains account/learning tags cannot be fixed by appending
+     the policy at </body>: deferred scripts execute in document order. */
+  html = ensureIncrementalPolicyBeforeSync(html);
   const scripts = [
     '<script src="/test-bank-question-registry.js" defer></script>',
     '<script src="/test-bank-versioning.js" defer></script>',
@@ -19,10 +45,11 @@ export default async function testBankSetControls(request, context) {
     '<script src="/test-bank-phase2-reporting.js" defer></script>',
     '<script src="/test-bank-phase2-runtime-coordinator.js" defer></script>',
     '<script src="/test-bank-phase2-quality-assurance.js" defer></script>',
-    '<script src="/test-bank-account-sync.js" defer></script>',
+    scriptTag(POLICY_SOURCE),
+    scriptTag(ACCOUNT_SYNC_SOURCE),
     '<script src="/test-bank-history-reconciliation.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery.js" defer></script>',
-    '<script src="/test-bank-learning-events.js" defer></script>',
+    scriptTag(LEARNING_SYNC_SOURCE),
     '<script src="/test-bank-adaptive-mastery-runtime.js" defer></script>',
     '<script src="/test-bank-metrics-policy.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery-hardening.js" defer></script>',

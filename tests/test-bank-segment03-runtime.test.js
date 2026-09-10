@@ -51,12 +51,13 @@ test('runtime: pending evidence belongs to its original owner, not the next sign
 });
 test('runtime: >500 remote rows paginate and late older answer-time does not evade received cursor',async t=>{
   const svc=new Service(),d=fixture(t,svc);const owner='fixture-owner-a';
-  for(let i=0;i<1001;i++)svc.rows.set(`${owner}|remote-${i}`,{user_id:owner,event_id:`remote-event-${String(i).padStart(5,'0')}`,device_id:'fixture-device-z',exam_id:'cssbb',session_id:'remote-session',event_type:'question_exposed',question_id:`cssbb:remote:${i}`,occurred_at:new Date(EPOCH-50000).toISOString(),received_at:new Date(EPOCH+i).toISOString(),payload:{}});
+  for(let i=0;i<1001;i++)svc.rows.set(`${owner}|remote-${i}`,{user_id:owner,event_id:`remote-event-${String(i).padStart(5,'0')}`,device_id:'fixture-device-z',exam_id:'cssbb',session_id:'remote-session',event_type:'question_exposed',question_id:`cssbb:remote:${i}`,occurred_at:new Date(EPOCH-50000).toISOString(),received_at:new Date(EPOCH+i).toISOString(),sync_seq:i+1,payload:{}});
   await d.api.sync('pages');assert.equal(d.api.seenQuestionIds('cssbb').length,1001);
-  const reads=svc.calls.filter(c=>c.kind==='read');assert.deepEqual(reads.map(r=>r.from),[0,500,1000]);
-  svc.rows.set(`${owner}|late-event`,{...copy([...svc.rows.values()][0]),event_id:'late-event',question_id:'cssbb:remote:late',occurred_at:new Date(EPOCH-1000000).toISOString(),received_at:new Date(EPOCH+2000).toISOString()});
+  const reads=svc.calls.filter(c=>c.kind==='rpc'&&c.name==='fetch_test_bank_learning_events_incremental_v1');
+  assert.equal(reads.length,3);assert.equal(reads[0].args.p_after_sync_seq,null);assert.equal(reads[1].args.p_after_sync_seq,500);assert.equal(reads[2].args.p_after_sync_seq,1000);
+  svc.rows.set(`${owner}|late-event`,{...copy([...svc.rows.values()][0]),event_id:'late-event',question_id:'cssbb:remote:late',occurred_at:new Date(EPOCH-1000000).toISOString(),received_at:new Date(EPOCH+2000).toISOString(),sync_seq:1002});
   await d.api.sync('tail');assert.equal(d.api.seenQuestionIds('cssbb').length,1002);
-  assert.ok(svc.calls.filter(c=>c.kind==='read').at(-1).since);
+  assert.equal(svc.calls.filter(c=>c.kind==='rpc'&&c.name==='fetch_test_bank_learning_events_incremental_v1').at(-1).args.p_after_sync_seq,1001);
 });
 test('runtime: old snapshot plus new canonical snapshot preserves counts and repeated merge is stable',t=>{
   const d=fixture(t,new Service());d.w.eval(fs.readFileSync(path.join(__dirname,'../test-bank-account-sync.js'),'utf8'));
@@ -69,9 +70,9 @@ test('runtime: old snapshot plus new canonical snapshot preserves counts and rep
 
 test('runtime: failed second page does not acknowledge partial remote hydration',async t=>{
   const svc=new Service(),d=fixture(t,svc),owner='fixture-owner-a';
-  for(let i=0;i<501;i++)svc.rows.set('page-'+i,{user_id:owner,event_id:`page-event-${i}`,device_id:'fixture-device-z',exam_id:'cssbb',session_id:'remote-session',event_type:'question_exposed',question_id:`cssbb:page:${i}`,occurred_at:new Date(EPOCH).toISOString(),received_at:new Date(EPOCH+i).toISOString(),payload:{}});
+  for(let i=0;i<501;i++)svc.rows.set('page-'+i,{user_id:owner,event_id:`page-event-${i}`,device_id:'fixture-device-z',exam_id:'cssbb',session_id:'remote-session',event_type:'question_exposed',question_id:`cssbb:page:${i}`,occurred_at:new Date(EPOCH).toISOString(),received_at:new Date(EPOCH+i).toISOString(),sync_seq:i+1,payload:{}});
   const exchange=svc.exchange.bind(svc);let reads=0;
-  svc.exchange=async (user,request)=>{if(request.kind==='read'&&++reads===2)return {data:null,error:{message:'synthetic second-page failure'}};return exchange(user,request);};
+  svc.exchange=async (user,request)=>{if(request.kind==='rpc'&&request.name==='fetch_test_bank_learning_events_incremental_v1'&&++reads===2)return {data:null,error:{message:'synthetic second-page failure'}};return exchange(user,request);};
   await assert.rejects(d.api.sync('partial-pages'),e=>/second-page/.test(e.message));
   assert.equal(d.api.summary('cssbb').historyReady,false);assert.equal(d.api.seenQuestionIds('cssbb').length,0);
   svc.exchange=exchange;await d.api.sync('retry-pages');assert.equal(d.api.seenQuestionIds('cssbb').length,501);

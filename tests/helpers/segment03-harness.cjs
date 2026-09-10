@@ -49,6 +49,16 @@ class Service {
         assert.ok(reason == null || String(reason).length <= 64, 'clock reason too long');
         return {data:{protocolVersion:1,serverTime:new Date(EPOCH + this.sequence).toISOString(),userId:owner},error:null};
       }
+      if (request.name === 'fetch_test_bank_learning_events_incremental_v1') {
+        const args=request.args||{},after=Number(args.p_after_sync_seq||0),limit=Number(args.p_limit||500);
+        const rows=[...this.rows.values()].filter(r=>r.user_id===owner&&Number(r.sync_seq)>after).sort((a,b)=>Number(a.sync_seq)-Number(b.sync_seq)).slice(0,limit);
+        return {data:copy(rows),error:null};
+      }
+      if (request.name === 'fetch_test_bank_progress_devices_incremental_v1') {
+        const args=request.args||{},after=Number(args.p_after_sync_seq||0),limit=Number(args.p_limit||100);
+        const rows=[...this.progress.values()].filter(r=>r.user_id===owner&&Number(r.sync_seq)>after).sort((a,b)=>Number(a.sync_seq)-Number(b.sync_seq)).slice(0,limit);
+        return {data:copy(rows),error:null};
+      }
       assert.equal(request.name, 'ingest_test_bank_operations_v1');
       const operations = request.args && request.args.p_operations;
       assert.ok(Array.isArray(operations) && operations.length, 'ingestion requires operations');
@@ -59,8 +69,9 @@ class Service {
         if (this.receipts.has(key)) return copy(this.receipts.get(key));
         const eventType = eventTypes[operation.type];
         assert.ok(eventType, 'unsupported synthetic operation type');
-        const acceptedAt = new Date(EPOCH + ++this.sequence).toISOString();
-        this.rows.set(key, {user_id:owner,event_id:operation.operationId,device_id:operation.deviceId,event_type:eventType,exam_id:operation.examId,session_id:operation.sessionId,question_id:operation.payload.questionId,occurred_at:operation.clientOccurredAt,payload:copy(operation.payload.eventPayload),received_at:acceptedAt});
+        const serverSeq = ++this.sequence;
+        const acceptedAt = new Date(EPOCH + serverSeq).toISOString();
+        this.rows.set(key, {user_id:owner,event_id:operation.operationId,device_id:operation.deviceId,event_type:eventType,exam_id:operation.examId,session_id:operation.sessionId,question_id:operation.payload.questionId,occurred_at:operation.clientOccurredAt,payload:copy(operation.payload.eventPayload),received_at:acceptedAt,sync_seq:serverSeq});
         const receipt = {operationId:operation.operationId,payloadDigest:'synthetic-digest-'+operation.operationId,receivedAt:acceptedAt,acceptedAt,serverSequence:this.sequence,sessionRevision:operation.expectedSessionRevision+1,applied:true,canonicalEventId:operation.operationId,state:operation.type==='finalization_requested'?'completed':'in_progress'};
         this.receipts.set(key, copy(receipt)); return receipt;
       });
@@ -68,10 +79,10 @@ class Service {
     }
     if (request.kind === 'upsert') {
       if (this.faults[0] === 'before_commit') { this.faults.shift(); return {error:{message:'synthetic precommit failure'}}; }
-      if (request.table === 'test_bank_progress_devices') { const row=request.batch; assert.equal(row.user_id,owner); this.progress.set(owner+'|'+row.device_id,{...copy(row),updated_at:new Date(EPOCH + ++this.sequence).toISOString()}); return {error:null}; }
+      if (request.table === 'test_bank_progress_devices') { const row=request.batch; assert.equal(row.user_id,owner); { const serverSeq=++this.sequence; this.progress.set(owner+'|'+row.device_id,{...copy(row),updated_at:new Date(EPOCH + serverSeq).toISOString(),sync_seq:serverSeq}); } return {error:null}; }
       assert.equal(request.table, 'test_bank_learning_events');
       assert.equal(request.options.onConflict, 'user_id,event_id'); assert.equal(request.options.ignoreDuplicates, true);
-      for (const row of request.batch) { assert.equal(row.user_id, owner, 'transport owner mismatch'); const key=owner+'|'+row.event_id; if(!this.rows.has(key))this.rows.set(key,{...copy(row),received_at:new Date(EPOCH + ++this.sequence).toISOString()}); }
+      for (const row of request.batch) { assert.equal(row.user_id, owner, 'transport owner mismatch'); const key=owner+'|'+row.event_id; if(!this.rows.has(key)){const serverSeq=++this.sequence;this.rows.set(key,{...copy(row),received_at:new Date(EPOCH + serverSeq).toISOString(),sync_seq:serverSeq});} }
       if (this.faults[0] === 'after_commit') { this.faults.shift(); return {error:{message:'synthetic acknowledgement lost'}}; }
       return {error:null};
     }
@@ -108,6 +119,7 @@ function device(service, options = {}) {
   for(const [k,v] of Object.entries(storage))w.localStorage.setItem(k,v);w.localStorage.setItem('tb-account-sync-device-v1',id);
   const set=w.Storage.prototype.setItem;w.Storage.prototype.setItem=function(k,v){if(denied&&k==='tb-learning-events-v2')throw new w.DOMException('Synthetic quota','QuotaExceededError');return set.call(this,k,v);};
   w.UpskillAuth={getUser:()=>user?{id:user}:null,getClient:()=>service.client(user)};
+  w.__TB_INCREMENTAL_SYNC_V1=true;
   const qs=questions(exam);w.__TB={EXAMS:{[exam]:{questions:165,sets:{1:qs},bok:[{subs:qs.map((q,i)=>({id:q.sub,name:q.sub,w:i+1}))}]}}};
   w.eval(fs.readFileSync(path.join(ROOT,'test-bank-question-registry.js'),'utf8'));w.eval(mutate(fs.readFileSync(path.join(ROOT,'test-bank-learning-events.js'),'utf8'),mutation));
   return {w,clock,questions:qs,api:w.__TBLearning,close:()=>dom.window.close(),setOnline:v=>{online=v;},setOwner:v=>{user=v;},denyStorage:v=>{denied=v;},snapshot:()=>Object.fromEntries(Array.from({length:w.localStorage.length},(_,i)=>w.localStorage.key(i)).map(k=>[k,w.localStorage.getItem(k)]))};

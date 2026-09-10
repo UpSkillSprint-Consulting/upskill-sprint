@@ -17,11 +17,14 @@
   const ACCOUNT_SYNC_USER_KEY = 'tb-account-sync-user-v1';
   const TABLE = 'test_bank_learning_events';
   const NEW_ONLY_RESERVATION_RPC = 'reserve_test_bank_new_questions';
+  const INCREMENTAL_FETCH_RPC = 'fetch_test_bank_learning_events_incremental_v1';
   const VERSION = 2;
   const MAX_LOCAL_EVENTS = 2500;
   const BATCH_SIZE = 100;
   const REMOTE_PAGE_SIZE = 500;
+  const MAX_REMOTE_PAGES = 200;
   const REMOTE_REQUEST_TIMEOUT_MS = 12000;
+  const MAX_RETRY_ATTEMPTS = 6;
   const MIRROR_DB = 'tb-learning-events-mirror-v1';
   const MIRROR_META_STORE = 'meta';
   const MIRROR_EVENTS_STORE = 'events';
@@ -50,6 +53,10 @@
   let progressSnapshotUserId = '';
   let retryTimer = 0;
   let retryAttempts = 0;
+  let retryNextAt = null;
+  let syncAbortController = null;
+  let syncGeneration = 0;
+  let lastSyncPhase = 'idle';
   let lastUserId = '';
   let lastWriteAheadSaved = true;
   let lastWriteAheadAt = null;
@@ -63,27 +70,73 @@
     return error;
   }
 
+  function remoteCancelledError(reason) {
+    const error = new Error('Learning sync cancelled' + (reason ? ': ' + reason : ''));
+    error.code = 'TB_LEARNING_CANCELLED';
+    return error;
+  }
+
+  function cursorError(message) {
+    const error = new Error(message || 'Incremental learning cursor is invalid');
+    error.code = 'TB_LEARNING_CURSOR_INVALID';
+    return error;
+  }
+
+  function errorCode(error) {
+    return String(error && (error.code || error.sqlState || error.statusCode) || '');
+  }
+
+  function isConflictError(error) {
+    const code = errorCode(error);
+    return code === '40001' || code === '23505';
+  }
+
+  function isRetryableError(error) {
+    const code = errorCode(error);
+    if (!error || code === 'TB_LEARNING_CANCELLED' || isConflictError(error)) return false;
+    if (['42501', '23514', '22023', '28000', '42883', 'PGRST202', 'TB_LEARNING_CURSOR_INVALID', 'TB_LEARNING_INCREMENTAL_UNAVAILABLE'].indexOf(code) !== -1) return false;
+    return true;
+  }
+
+  function incrementalSyncEnabled() { return window.__TB_INCREMENTAL_SYNC_V1 === true; }
+
   /* A mobile radio transition can leave fetch pending without producing a
-     transport error. Supabase query builders support AbortSignal; retain a
-     Promise timeout fallback for older/fake clients so no learning operation
-     can own the UI indefinitely. */
-  function runRemoteRequest(request, label) {
+     transport error. Every request owns a timeout controller and also follows
+     the parent sync cancellation signal, so account changes/offline teardown
+     do not wait for the timeout budget. */
+  function runRemoteRequest(request, label, parentSignal) {
     let controller = null;
     if (typeof AbortController === 'function' && request && typeof request.abortSignal === 'function') {
       controller = new AbortController();
       request = request.abortSignal(controller.signal);
     }
     return new Promise(function (resolve, reject) {
+      let settled = false;
+      let parentAbort = null;
+      function finish(callback, value) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        if (parentSignal && parentAbort) parentSignal.removeEventListener('abort', parentAbort);
+        callback(value);
+      }
       const timer = setTimeout(function () {
         if (controller) controller.abort();
-        reject(remoteTimeoutError(label));
+        finish(reject, remoteTimeoutError(label));
       }, REMOTE_REQUEST_TIMEOUT_MS);
+      if (parentSignal) {
+        parentAbort = function () {
+          if (controller) controller.abort();
+          finish(reject, remoteCancelledError('parent signal'));
+        };
+        if (parentSignal.aborted) { parentAbort(); return; }
+        parentSignal.addEventListener('abort', parentAbort, { once: true });
+      }
       Promise.resolve(request).then(function (result) {
-        clearTimeout(timer);
-        resolve(result);
+        finish(resolve, result);
       }, function (error) {
-        clearTimeout(timer);
-        reject(error);
+        if (parentSignal && parentSignal.aborted) finish(reject, remoteCancelledError('parent signal'));
+        else finish(reject, error);
       });
     });
   }
@@ -118,8 +171,54 @@
       sessions: {},
       migration: {},
       index: { revision: 3, seen: {}, totals: {}, knownEventIds: {} },
-      sync: { remoteLoadedFor: {}, ledgerFetchedFor: {}, ledgerCursorFor: {}, lastSuccessAt: null, lastError: null, lastErrorAt: null }
+      sync: { remoteLoadedFor: {}, ledgerFetchedFor: {}, ledgerCursorFor: {}, phase: 'idle', syncedAsOf: null, retryAttempts: 0, nextRetryAt: null, retryExhausted: false, conflict: null, lastSuccessAt: null, lastError: null, lastErrorAt: null, lastCancelledAt: null, lastCancelReason: null }
     };
+  }
+
+  function cursorTimestamp(value) {
+    const parsed = Date.parse(value || '');
+    return Number.isFinite(parsed) ? new Date(parsed).toISOString() : null;
+  }
+
+  function normaliseLedgerCursor(value) {
+    if (typeof value === 'string') {
+      const receivedAt = cursorTimestamp(value);
+      return receivedAt ? { syncSeq: null, receivedAt: receivedAt, eventId: null } : null;
+    }
+    const raw = record(value);
+    const parsedSeq = Number(raw.syncSeq != null ? raw.syncSeq : raw.sync_seq);
+    const syncSeq = Number.isSafeInteger(parsedSeq) && parsedSeq >= 0 ? parsedSeq : null;
+    const receivedAt = cursorTimestamp(raw.receivedAt || raw.received_at);
+    const eventId = safeId(raw.eventId || raw.event_id, '') || null;
+    if (syncSeq == null && !receivedAt) return null;
+    return { syncSeq: syncSeq, receivedAt: receivedAt, eventId: eventId };
+  }
+
+  function ledgerCursorCompare(left, right) {
+    const a = normaliseLedgerCursor(left), b = normaliseLedgerCursor(right);
+    if (!a && !b) return 0;
+    if (!a) return -1;
+    if (!b) return 1;
+    if (a.syncSeq != null || b.syncSeq != null) {
+      if (a.syncSeq == null) return -1;
+      if (b.syncSeq == null) return 1;
+      return a.syncSeq - b.syncSeq;
+    }
+    const at = Date.parse(a.receivedAt) - Date.parse(b.receivedAt);
+    if (at) return at;
+    return String(a.eventId || '').localeCompare(String(b.eventId || ''));
+  }
+
+  function mergeLedgerCursorMaps(left, right) {
+    const output = {};
+    const a = record(left), b = record(right);
+    Array.from(new Set(Object.keys(a).concat(Object.keys(b)))).forEach(function (userId) {
+      const first = normaliseLedgerCursor(a[userId]);
+      const second = normaliseLedgerCursor(b[userId]);
+      const winner = ledgerCursorCompare(first, second) >= 0 ? first : second;
+      if (winner) output[userId] = winner;
+    });
+    return output;
   }
 
   function normaliseIndex(value) {
@@ -149,7 +248,7 @@
     state.sync = Object.assign(freshState().sync, record(state.sync));
     state.sync.remoteLoadedFor = record(state.sync.remoteLoadedFor);
     state.sync.ledgerFetchedFor = record(state.sync.ledgerFetchedFor);
-    state.sync.ledgerCursorFor = record(state.sync.ledgerCursorFor);
+    state.sync.ledgerCursorFor = mergeLedgerCursorMaps({}, record(state.sync.ledgerCursorFor));
     state.events.forEach(function (event) { indexEvent(state, event, true); });
     return state;
   }
@@ -219,7 +318,7 @@
     state.sync = Object.assign({}, record(stored.sync), record(state.sync));
     state.sync.remoteLoadedFor = Object.assign({}, record(record(stored.sync).remoteLoadedFor), record(record(state.sync).remoteLoadedFor));
     state.sync.ledgerFetchedFor = Object.assign({}, record(record(stored.sync).ledgerFetchedFor), record(record(state.sync).ledgerFetchedFor));
-    state.sync.ledgerCursorFor = Object.assign({}, record(record(stored.sync).ledgerCursorFor), record(record(state.sync).ledgerCursorFor));
+    state.sync.ledgerCursorFor = mergeLedgerCursorMaps(record(record(stored.sync).ledgerCursorFor), record(record(state.sync).ledgerCursorFor));
     return state;
   }
 
@@ -1613,7 +1712,7 @@
     });
   }
 
-  async function uploadEvents(client, state, events, userId, label) {
+  async function uploadEvents(client, state, events, userId, label, signal) {
     let offset = 0;
     while (offset < events.length) {
       const useRpc = versionedEvent(state, events[offset]);
@@ -1622,11 +1721,11 @@
       const group = events.slice(offset, end);
       if (useRpc) {
         if (typeof client.rpc !== 'function') throw new Error('Receipt-based exam ingestion is unavailable');
-        const result = await runRemoteRequest(client.rpc('ingest_test_bank_operations_v1', { p_operations: operationEnvelopes(state, group, userId) }), label);
+        const result = await runRemoteRequest(client.rpc('ingest_test_bank_operations_v1', { p_operations: operationEnvelopes(state, group, userId) }), label, signal);
         if (result && result.error) throw result.error;
         acceptReceipts(state, group, result && result.data, userId);
       } else {
-        const result = await runRemoteRequest(client.from(TABLE).upsert(dbRows(group, userId), { onConflict: 'user_id,event_id', ignoreDuplicates: true }), label + ' (legacy adapter)');
+        const result = await runRemoteRequest(client.from(TABLE).upsert(dbRows(group, userId), { onConflict: 'user_id,event_id', ignoreDuplicates: true }), label + ' (legacy adapter)', signal);
         if (result && result.error) throw result.error;
         group.forEach(function (event) {
           if (asArray(event.syncedFor).indexOf(userId) === -1) event.syncedFor = asArray(event.syncedFor).concat([userId]);
@@ -1677,27 +1776,65 @@
     return changed;
   }
 
-  async function fetchRemoteRows(client, userId, cursor) {
+  async function fetchRemoteRowsLegacy(client, userId, cursor, signal) {
     const rows = [];
     let offset = 0;
+    const legacy = normaliseLedgerCursor(cursor);
     while (true) {
       let query = client.from(TABLE).select('event_id,device_id,event_type,exam_id,session_id,question_id,occurred_at,received_at,payload')
         .eq('user_id', userId);
-      /* Re-read the cursor timestamp itself so events created in the same
-         millisecond remain visible. Stable event IDs make that overlap safe
-         to merge, while every later sync transfers only the incremental tail. */
-      if (cursor && typeof query.gte === 'function') query = query.gte('received_at', cursor);
+      if (legacy && legacy.receivedAt && typeof query.gte === 'function') query = query.gte('received_at', legacy.receivedAt);
       query = query.order('received_at', { ascending: true }).order('event_id', { ascending: true });
       const supportsRange = typeof query.range === 'function';
       query = supportsRange ? query.range(offset, offset + REMOTE_PAGE_SIZE - 1) : query.limit(REMOTE_PAGE_SIZE);
-      const result = await runRemoteRequest(query, 'Learning-history fetch');
+      const result = await runRemoteRequest(query, 'Learning-history fetch (legacy compatibility)', signal);
       if (result && result.error) throw result.error;
       const page = asArray(result && result.data);
       rows.push.apply(rows, page);
       if (page.length < REMOTE_PAGE_SIZE || !supportsRange) break;
       offset += page.length;
     }
-    return rows;
+    let next = legacy;
+    rows.forEach(function (row) {
+      const candidate = normaliseLedgerCursor({ receivedAt: row && row.received_at, eventId: row && row.event_id });
+      if (candidate && ledgerCursorCompare(candidate, next) > 0) next = candidate;
+    });
+    return { rows: rows, cursor: next, pages: rows.length ? Math.ceil(rows.length / REMOTE_PAGE_SIZE) : 1, complete: true, mode: 'legacy-offset-v1' };
+  }
+
+  async function fetchRemoteRows(client, userId, cursor, signal) {
+    if (!incrementalSyncEnabled()) return fetchRemoteRowsLegacy(client, userId, cursor, signal);
+    if (!client || typeof client.rpc !== 'function') {
+      const error = new Error('Incremental learning-history RPC is unavailable');
+      error.code = 'TB_LEARNING_INCREMENTAL_UNAVAILABLE';
+      throw error;
+    }
+    const rows = [];
+    let current = normaliseLedgerCursor(cursor);
+    const initialAfter = current && current.syncSeq != null ? current.syncSeq : null;
+    for (let pageNumber = 1; pageNumber <= MAX_REMOTE_PAGES; pageNumber += 1) {
+      const result = await runRemoteRequest(client.rpc(INCREMENTAL_FETCH_RPC, {
+        p_after_sync_seq: current && current.syncSeq != null ? current.syncSeq : null,
+        p_limit: REMOTE_PAGE_SIZE
+      }), 'Incremental learning-history fetch', signal);
+      if (result && result.error) throw result.error;
+      const page = asArray(result && result.data);
+      if (page.length > REMOTE_PAGE_SIZE) throw cursorError('Incremental learning-history page exceeded its declared size');
+      let pageCursor = current;
+      page.forEach(function (row) {
+        const candidate = normaliseLedgerCursor({ syncSeq: row && row.sync_seq, receivedAt: row && row.received_at, eventId: row && row.event_id });
+        if (!candidate || candidate.syncSeq == null) throw cursorError('Incremental learning-history row is missing its server sequence');
+        if (pageCursor && pageCursor.syncSeq != null && candidate.syncSeq <= pageCursor.syncSeq) throw cursorError('Incremental learning-history response was not strictly ordered');
+        pageCursor = candidate;
+      });
+      rows.push.apply(rows, page);
+      current = pageCursor;
+      if (page.length < REMOTE_PAGE_SIZE) {
+        if (!current || current.syncSeq == null) current = { syncSeq: initialAfter == null ? 0 : initialAfter, receivedAt: null, eventId: null };
+        return { rows: rows, cursor: current, pages: pageNumber, complete: true, mode: 'server-sequence-v1' };
+      }
+    }
+    throw cursorError('Incremental learning-history catch-up exceeded ' + MAX_REMOTE_PAGES + ' pages');
   }
 
   async function historyPage(input) {
@@ -1745,17 +1882,60 @@
     };
   }
 
-  function syncStatus(state, phase, userId, error) {
-    const detail = {
-      phase: phase,
+  function syncStatus(state, phase, userId, error, extra) {
+    const pending = pendingCount(state, userId);
+    const conflict = record(state.sync.conflict);
+    lastSyncPhase = phase || lastSyncPhase || 'idle';
+    state.sync.phase = lastSyncPhase;
+    const cleanSynced = lastSyncPhase === 'synced' && pending === 0 && !error && !conflict.code;
+    const detail = Object.assign({
+      phase: lastSyncPhase,
+      state: lastSyncPhase,
       userId: userId || null,
-      pending: pendingCount(state, userId),
+      pending: pending,
       anonymousPending: anonymousPendingCount(state),
       online: online(),
+      syncedAsOf: cleanSynced && state.sync.syncedAsOf ? iso(Number(state.sync.syncedAsOf)) : null,
+      lastSuccessAt: state.sync.lastSuccessAt || null,
+      lastLedgerFetchAt: userId ? Number(record(state.sync.ledgerFetchedFor)[userId] || 0) || null : null,
+      cursor: userId ? clone(normaliseLedgerCursor(record(state.sync.ledgerCursorFor)[userId])) : null,
+      cursorMode: incrementalSyncEnabled() ? 'server-sequence-v1' : 'legacy-offset-v1',
+      retry: {
+        attempts: retryAttempts,
+        maxAttempts: MAX_RETRY_ATTEMPTS,
+        nextRetryAt: retryNextAt,
+        exhausted: Boolean(state.sync.retryExhausted)
+      },
+      conflict: conflict.code ? clone(conflict) : null,
       error: error || null
-    };
+    }, record(extra));
     emit('tb:learning-sync-status', detail);
     return detail;
+  }
+
+  function assertSyncCurrent(userId, generation, signal) {
+    const user = activeUser();
+    if ((signal && signal.aborted) || generation !== syncGeneration || !user || user.id !== userId) throw remoteCancelledError('account or connection changed');
+  }
+
+  function cancelSync(reason) {
+    syncGeneration += 1;
+    if (syncAbortController) {
+      try { syncAbortController.abort(); } catch (error) {}
+    }
+    if (retryTimer) { clearTimeout(retryTimer); retryTimer = 0; }
+    retryNextAt = null;
+    queuedSyncReason = '';
+    const state = read();
+    const user = activeUser();
+    state.sync.lastCancelledAt = now();
+    state.sync.lastCancelReason = String(reason || 'cancelled');
+    state.sync.nextRetryAt = null;
+    state.sync.retryAttempts = retryAttempts;
+    state.sync.phase = online() ? 'cancelled' : 'offline';
+    persist(state, 'sync-cancelled');
+    syncStatus(state, state.sync.phase, user && user.id || syncUserId || lastUserId, null, { cancelReason: state.sync.lastCancelReason });
+    return { cancelled: true, reason: state.sync.lastCancelReason };
   }
 
   function reconcileRemoteEvents(events) {
@@ -1824,8 +2004,10 @@
     const client = auth && typeof auth.getClient === 'function' ? auth.getClient() : null;
     if (!user || !client) return { skipped: true, reason: 'not-signed-in' };
     if (!online()) {
-      syncStatus(read(), 'offline', user.id);
-      return { skipped: true, reason: 'offline', pending: pendingCount(read(), user.id) };
+      const state = read();
+      state.sync.phase = 'offline';
+      syncStatus(state, 'offline', user.id);
+      return { skipped: true, reason: 'offline', pending: pendingCount(state, user.id) };
     }
     if (syncPromise) {
       if (syncUserId === user.id) {
@@ -1836,19 +2018,22 @@
     }
     const userId = user.id;
     const writeRevisionAtStart = pendingWriteRevision;
+    const generation = ++syncGeneration;
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    const signal = controller && controller.signal;
+    syncAbortController = controller;
     lastUserId = userId;
     syncUserId = userId;
     syncPromise = (async function () {
       const state = read();
+      state.sync.phase = 'syncing';
+      state.sync.retryExhausted = false;
       syncStatus(state, 'syncing', userId);
       const localScope = 'user:' + userId;
       const awaitProgress = Boolean(window.__TBAccountSync && typeof window.__TBAccountSync.sync === 'function');
       const legacyMigration = migrateLegacyMastery(state, userId, { awaitProgress: awaitProgress });
       markLegacyMigrationAcknowledged(state, userId);
       if (!legacyMigrationReadyForUser(state, user)) delete state.sync.remoteLoadedFor[userId];
-      /* Persist the synthetic exposure outbox before it is eligible for an
-         upload. This prevents historic mastery from being treated as new if
-         the tab closes between migration and Supabase acknowledgement. */
       persist(state, 'legacy-mastery-scan');
       const pending = state.events.filter(function (event) {
         return event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1;
@@ -1856,10 +2041,11 @@
         return Number(left.occurredAt || 0) - Number(right.occurredAt || 0) || Number(left.clientSequence || 0) - Number(right.clientSequence || 0) || String(left.id).localeCompare(String(right.id));
       });
       for (let index = 0; index < pending.length; index += BATCH_SIZE) {
-        if (!activeUser() || activeUser().id !== userId) throw new Error('Account changed while learning records were syncing');
+        assertSyncCurrent(userId, generation, signal);
         const batch = pending.slice(index, index + BATCH_SIZE);
         batch.forEach(function (event) { event.uploadingFor = asArray(event.uploadingFor).concat([userId]); });
-        await uploadEvents(client, state, batch, userId, 'Learning-history upload');
+        await uploadEvents(client, state, batch, userId, 'Learning-history upload', signal);
+        assertSyncCurrent(userId, generation, signal);
         const ids = new Set(batch.map(function (event) { return event.id; }));
         state.events.forEach(function (event) {
           if (ids.has(event.id)) event.uploadingFor = asArray(event.uploadingFor).filter(function (id) { return id !== userId; });
@@ -1867,9 +2053,6 @@
         markLegacyMigrationAcknowledged(state, userId);
         persist(state, 'sync-acknowledged');
       }
-      /* Events written after the first pending snapshot must be uploaded by
-         this same call; callers awaiting sync must not need a second click or
-         navigation to make their answer durable. */
       if (pendingWriteRevision > writeRevisionAtStart) {
         const followUpPending = state.events.filter(function (event) {
           return event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1;
@@ -1877,9 +2060,11 @@
           return Number(left.occurredAt || 0) - Number(right.occurredAt || 0) || Number(left.clientSequence || 0) - Number(right.clientSequence || 0) || String(left.id).localeCompare(String(right.id));
         });
         for (let index = 0; index < followUpPending.length; index += BATCH_SIZE) {
+          assertSyncCurrent(userId, generation, signal);
           const batch = followUpPending.slice(index, index + BATCH_SIZE);
           batch.forEach(function (event) { event.uploadingFor = asArray(event.uploadingFor).concat([userId]); });
-          await uploadEvents(client, state, batch, userId, 'Learning-history follow-up upload');
+          await uploadEvents(client, state, batch, userId, 'Learning-history follow-up upload', signal);
+          assertSyncCurrent(userId, generation, signal);
           const ids = new Set(batch.map(function (event) { return event.id; }));
           state.events.forEach(function (event) {
             if (ids.has(event.id)) event.uploadingFor = asArray(event.uploadingFor).filter(function (id) { return id !== userId; });
@@ -1887,42 +2072,62 @@
           persist(state, 'sync-follow-up-acknowledged');
         }
       }
-      if (!activeUser() || activeUser().id !== userId) throw new Error('Account changed before learning history could be refreshed');
-      const remoteRows = await fetchRemoteRows(client, userId, record(state.sync.ledgerCursorFor)[userId]);
-      if (!activeUser() || activeUser().id !== userId) throw new Error('Account changed while learning history was being refreshed');
+      assertSyncCurrent(userId, generation, signal);
+      const remote = await fetchRemoteRows(client, userId, record(state.sync.ledgerCursorFor)[userId], signal);
+      assertSyncCurrent(userId, generation, signal);
+      const remoteRows = remote.rows;
       remoteFetchRevision += 1;
       mergeRemoteRows(state, remoteRows, userId);
       const remoteEvents = remoteRows.filter(function (row) { return row && row.event_id; }).map(function (row) { return eventFromRemoteRow(row, userId); });
-      /* Reconcile the newly fetched tail before the local cache is compacted. */
       reconcileRemoteEvents(remoteEvents);
       markLegacyMigrationAcknowledged(state, userId);
       state.sync.ledgerFetchedFor[userId] = now();
-      if (remoteRows.length) {
-        const latestRow = remoteRows[remoteRows.length - 1];
-        if (latestRow && latestRow.received_at) state.sync.ledgerCursorFor[userId] = String(latestRow.received_at);
-      }
+      if (remote.cursor) state.sync.ledgerCursorFor[userId] = remote.cursor;
       const legacyReady = legacyMigrationReadyForUser(state, user);
       if (legacyReady) state.sync.remoteLoadedFor[userId] = true;
       else delete state.sync.remoteLoadedFor[userId];
       state.sync.lastSuccessAt = now();
+      state.sync.syncedAsOf = state.sync.lastSuccessAt;
+      state.sync.phase = legacyReady ? 'synced' : 'awaiting-legacy-migration';
       state.sync.lastError = null;
       state.sync.lastErrorAt = null;
+      state.sync.conflict = null;
+      state.sync.retryAttempts = 0;
+      state.sync.nextRetryAt = null;
+      state.sync.retryExhausted = false;
       persist(state, 'sync-merged');
       retryAttempts = 0;
+      retryNextAt = null;
       const hydrated = historyReadyForUser(state, user);
-      const detail = { reason: reason || 'automatic', pending: pendingCount(state, userId), userId: userId, imported: remoteRows.length, hydrated: hydrated, events: remoteEvents };
+      const detail = { reason: reason || 'automatic', pending: pendingCount(state, userId), userId: userId, imported: remoteRows.length, hydrated: hydrated, events: remoteEvents, pages: remote.pages, cursorMode: remote.mode };
       emit('upskill-test-learning-synced', detail);
       if (hydrated) emit('tb:learning-history-ready', detail);
-      syncStatus(state, hydrated ? 'synced' : 'awaiting-legacy-migration', userId);
-      /* Ask the account snapshot merger exactly once for each migration scan.
-         Its progress event marks the scan complete and queues one final ledger
-         fetch without recursively bouncing between the two synchronizers. */
+      syncStatus(state, hydrated ? 'synced' : 'awaiting-legacy-migration', userId, null, { pages: remote.pages });
       if (awaitProgress && legacyMigration.progressScanRequired) requestFreshProgressSnapshot(reason);
-      return { synced: pending.length, pending: pendingCount(state, userId), imported: remoteRows.length, hydrated: hydrated, legacySeeded: legacyMigration.seeded };
+      return { synced: pending.length, pending: pendingCount(state, userId), imported: remoteRows.length, hydrated: hydrated, legacySeeded: legacyMigration.seeded, pages: remote.pages, cursorMode: remote.mode };
     }()).catch(function (error) {
       const state = read();
+      if (errorCode(error) === 'TB_LEARNING_CANCELLED') {
+        state.sync.lastCancelledAt = now();
+        state.sync.lastCancelReason = String(error && error.message || 'cancelled');
+        state.sync.phase = online() ? 'cancelled' : 'offline';
+        persist(state, 'sync-cancelled-result');
+        syncStatus(state, state.sync.phase, userId, null, { cancelReason: state.sync.lastCancelReason });
+        return { cancelled: true, reason: state.sync.lastCancelReason, pending: pendingCount(state, userId) };
+      }
       state.sync.lastError = String(error && error.message || error || 'Learning sync failed');
       state.sync.lastErrorAt = now();
+      state.sync.syncedAsOf = null;
+      if (isConflictError(error)) {
+        state.sync.phase = 'conflict';
+        state.sync.conflict = { code: errorCode(error), message: state.sync.lastError, at: state.sync.lastErrorAt };
+        persist(state, 'sync-conflict');
+        emit('tb:learning-sync-conflict', { error: error, pending: pendingCount(state, userId), userId: userId, conflict: clone(state.sync.conflict) });
+        syncStatus(state, 'conflict', userId, state.sync.lastError);
+        return { conflict: true, code: errorCode(error), error: state.sync.lastError, pending: pendingCount(state, userId) };
+      }
+      state.sync.phase = 'error';
+      state.sync.conflict = null;
       persist(state, 'sync-error');
       emit('tb:learning-sync-error', { error: error, pending: pendingCount(state, userId), userId: userId });
       syncStatus(state, 'error', userId, state.sync.lastError);
@@ -1930,6 +2135,7 @@
     }).finally(function () {
       const followUp = queuedSyncReason;
       queuedSyncReason = '';
+      if (syncAbortController === controller) syncAbortController = null;
       syncPromise = null;
       syncUserId = '';
       if (followUp) Promise.resolve().then(function () { scheduleSync(followUp); });
@@ -1964,11 +2170,17 @@
     freshHistoryUserId = userId;
     freshHistoryPromise = (async function () {
       try {
-        await sync('new-only-fresh-' + (reason || 'selection'));
+        const initialSync = await sync('new-only-fresh-' + (reason || 'selection'));
+        if (initialSync && initialSync.conflict) return { ready: false, reason: 'conflict', userId: userId, error: initialSync.error };
+        if (initialSync && initialSync.cancelled) return { ready: false, reason: 'cancelled', userId: userId };
         /* A sync that pre-dated this request could have started its SELECT
            before another device finished writing. Fetch once more after it
            settles, rather than using that potentially stale response. */
-        if (syncWasInFlight) await sync('new-only-fresh-follow-up-' + (reason || 'selection'));
+        if (syncWasInFlight) {
+          const followUpSync = await sync('new-only-fresh-follow-up-' + (reason || 'selection'));
+          if (followUpSync && followUpSync.conflict) return { ready: false, reason: 'conflict', userId: userId, error: followUpSync.error };
+          if (followUpSync && followUpSync.cancelled) return { ready: false, reason: 'cancelled', userId: userId };
+        }
         let current = activeUser();
         let state = read();
         let scan = legacyScan(legacyMigration(state), userId);
@@ -2136,13 +2348,45 @@
 
   function scheduleSync(reason) {
     if (retryTimer) { clearTimeout(retryTimer); retryTimer = 0; }
-    /* A write can happen after the current upload has snapshotted its pending
-       batch. The active sync compares this revision at completion and queues
-       one follow-up only for writes that truly occurred during that sync. */
+    const isRetry = String(reason || '') === 'retry';
+    if (!isRetry) {
+      retryAttempts = 0;
+      retryNextAt = null;
+      const state = read();
+      state.sync.retryAttempts = 0;
+      state.sync.nextRetryAt = null;
+      state.sync.retryExhausted = false;
+    }
     pendingWriteRevision += 1;
-    Promise.resolve().then(function () { return sync(reason); }).catch(function () {
-      retryAttempts = Math.min(retryAttempts + 1, 6);
-      const delay = Math.min(60000, 1000 * Math.pow(2, retryAttempts));
+    Promise.resolve().then(function () { return sync(reason); }).catch(function (error) {
+      const state = read();
+      if (!isRetryableError(error)) {
+        retryNextAt = null;
+        state.sync.retryAttempts = retryAttempts;
+        state.sync.nextRetryAt = null;
+        state.sync.retryExhausted = false;
+        syncStatus(state, state.sync.phase || 'error', (activeUser() && activeUser().id) || lastUserId, state.sync.lastError || String(error && error.message || error));
+        return;
+      }
+      if (retryAttempts >= MAX_RETRY_ATTEMPTS) {
+        retryNextAt = null;
+        state.sync.retryAttempts = retryAttempts;
+        state.sync.nextRetryAt = null;
+        state.sync.retryExhausted = true;
+        state.sync.phase = 'error';
+        persist(state, 'sync-retry-exhausted');
+        syncStatus(state, 'error', (activeUser() && activeUser().id) || lastUserId, state.sync.lastError || String(error && error.message || error), { retryExhausted: true });
+        return;
+      }
+      retryAttempts += 1;
+      const delay = Math.min(60000, 1000 * Math.pow(2, retryAttempts - 1));
+      retryNextAt = now() + delay;
+      state.sync.retryAttempts = retryAttempts;
+      state.sync.nextRetryAt = retryNextAt;
+      state.sync.retryExhausted = false;
+      state.sync.phase = 'retry-wait';
+      persist(state, 'sync-retry-wait');
+      syncStatus(state, 'retry-wait', (activeUser() && activeUser().id) || lastUserId, state.sync.lastError || String(error && error.message || error));
       retryTimer = setTimeout(function () { retryTimer = 0; scheduleSync('retry'); }, delay);
     });
   }
@@ -2172,26 +2416,41 @@
     const state = read();
     const user = activeUser();
     const hydrated = historyReadyForUser(state, user);
+    const pendingForUser = user ? pendingCount(state, user.id) : 0;
+    const conflict = record(state.sync.conflict);
+    let phase = String(state.sync.phase || lastSyncPhase || 'idle');
+    if (!user) phase = 'signed-out';
+    else if (!online()) phase = 'offline';
+    else if (syncPromise && syncUserId === user.id) phase = 'syncing';
+    else if (conflict.code) phase = 'conflict';
+    else if (retryNextAt && pendingForUser > 0) phase = 'retry-wait';
+    else if (pendingForUser > 0) phase = 'pending';
+    else if (state.sync.lastError && phase !== 'synced') phase = 'error';
+    else if (hydrated && state.sync.lastSuccessAt) phase = 'synced';
+    const cleanSynced = phase === 'synced' && pendingForUser === 0 && !conflict.code && online();
     return {
       signedIn: Boolean(user),
       userId: user && user.id || null,
       pending: pendingCount(state),
-      pendingForUser: user ? pendingCount(state, user.id) : 0,
+      pendingForUser: pendingForUser,
       anonymousPending: anonymousPendingCount(state),
       totalLocalEvents: state.events.length,
       lastUserId: lastUserId || null,
       online: online(),
+      syncState: phase,
+      phase: phase,
+      syncedAsOf: cleanSynced && state.sync.syncedAsOf ? iso(Number(state.sync.syncedAsOf)) : null,
       historyReady: hydrated,
       hydrated: hydrated,
       lastSyncAt: state.sync.lastSuccessAt || null,
       lastLedgerFetchAt: user ? Number(record(state.sync.ledgerFetchedFor)[user.id] || 0) || null : null,
+      cursor: user ? clone(normaliseLedgerCursor(record(state.sync.ledgerCursorFor)[user.id])) : null,
+      cursorMode: incrementalSyncEnabled() ? 'server-sequence-v1' : 'legacy-offset-v1',
       remoteFetchRevision: remoteFetchRevision,
       freshSyncInFlight: Boolean(freshHistoryPromise && freshHistoryUserId === (user && user.id)),
       lastError: state.sync.lastError || null,
-      /* `true` means the most recent learner action made it through the
-         synchronous localStorage write-ahead path before its API returned.
-         A caller can fail the UI closed if browser storage is unavailable;
-         IndexedDB remains an asynchronous secondary mirror. */
+      conflict: conflict.code ? clone(conflict) : null,
+      retry: { attempts: retryAttempts, maxAttempts: MAX_RETRY_ATTEMPTS, nextRetryAt: retryNextAt, exhausted: Boolean(state.sync.retryExhausted) },
       writeAheadSaved: lastWriteAheadSaved,
       writeAheadAt: lastWriteAheadAt,
       recovery: clone(localRecovery),
@@ -2204,10 +2463,12 @@
     if (!auth || typeof auth.onChange !== 'function' || authListenerAttached) return false;
     authListenerAttached = true;
     auth.onChange(function (user) {
+      if (syncPromise && (!user || user.id !== syncUserId)) cancelSync('auth-change');
       if (user) {
         lastUserId = user.id;
         scheduleSync('auth-change');
       } else {
+        cancelSync('signed-out');
         /* Deliberately do not clear any local events. User-scoped entries stay
            in the local durable outbox and are not exposed to another account
            by localScopes(); a later sign-in can finish the upload. */
@@ -2228,6 +2489,7 @@
     document.addEventListener('upskill-test-progress-synced', function () { scanLegacyAfterProgressSync('account-progress-synced'); });
     window.addEventListener('upskill-test-progress-synced', function () { scanLegacyAfterProgressSync('account-progress-synced'); });
     window.addEventListener('online', function () { scheduleSync('online'); });
+    window.addEventListener('offline', function () { cancelSync('offline'); });
     window.addEventListener('focus', function () { scheduleSync('focus'); });
     window.addEventListener('pagehide', function () { scheduleSync('pagehide'); });
     window.addEventListener('storage', function (event) {
@@ -2249,6 +2511,7 @@
     summary: summary,
     status: status,
     sync: sync,
+    cancelSync: cancelSync,
     ensureFreshHistory: ensureFreshHistory,
     reserveNewQuestions: reserveNewQuestions,
     store: read,

@@ -530,7 +530,8 @@ test('polls incrementally without reloading for ordinary remote progress', () =>
   assert.equal(dom.window.__TBAccountSync.REMOTE_POLL_MS, 60000);
   assert.equal(dom.window.__TBAccountSync.REMOTE_REQUEST_TIMEOUT_MS, 12000);
   assert.match(source, /sync\('remote-poll'\)/);
-  assert.match(source, /remoteQuery\.gte\('updated_at', remoteCursor\)/);
+  assert.match(source, /fetch_test_bank_progress_devices_incremental_v1/);
+  assert.match(source, /p_after_sync_seq/);
   assert.match(source, /if \(accountSwitched\) reloadPage\(\)/);
   assert.doesNotMatch(source, /requestProgressRefresh|flushProgressRefresh|new MutationObserver/);
   dom.window.close();
@@ -538,21 +539,30 @@ test('polls incrementally without reloading for ordinary remote progress', () =>
 
 test('a stable incremental poll neither downloads old snapshots nor rewrites the device row', async () => {
   const dom = load();
+  dom.window.__TB_INCREMENTAL_SYNC_V1 = true;
   const rows = [];
-  const filters = [];
+  const cursors = [];
   let uploads = 0;
+  let serverSeq = 0;
   const client = {
-    from() {
+    rpc(name, args) {
+      assert.equal(name, 'fetch_test_bank_progress_devices_incremental_v1');
+      cursors.push(JSON.parse(JSON.stringify(args || {})));
+      const after = Number(args && args.p_after_sync_seq || 0);
+      const data = rows.filter(row => Number(row.sync_seq) > after).sort((a, b) => a.sync_seq - b.sync_seq).slice(0, Number(args.p_limit || 100));
+      return Promise.resolve({ data, error: null });
+    },
+    from(table) {
+      assert.equal(table, 'test_bank_progress_devices');
       return {
-        select() {
-          let updatedSince = '';
-          const query = {
-            gte(column, value) { assert.equal(column, 'updated_at'); updatedSince = value; filters.push(value); return query; },
-            order() { return Promise.resolve({ data: rows.filter(row => !updatedSince || row.updated_at >= updatedSince), error: null }); }
-          };
-          return query;
-        },
-        upsert(row) { uploads += 1; rows.splice(0, rows.length, JSON.parse(JSON.stringify(row))); return Promise.resolve({ error: null }); }
+        upsert(row) {
+          uploads += 1;
+          const serverRow = JSON.parse(JSON.stringify(row));
+          serverRow.sync_seq = ++serverSeq;
+          serverRow.updated_at = '2026-09-09T20:00:00.000Z';
+          rows.splice(0, rows.length, serverRow);
+          return Promise.resolve({ error: null });
+        }
       };
     }
   };
@@ -562,15 +572,20 @@ test('a stable incremental poll neither downloads old snapshots nor rewrites the
   const second = await dom.window.__TBAccountSync.sync('remote-poll');
   const third = await dom.window.__TBAccountSync.sync('remote-poll');
 
+  assert.ifError(first.error);
+  assert.ifError(second.error);
+  assert.ifError(third.error);
   assert.equal(first.incremental, false);
   assert.equal(first.uploaded, true);
-  assert.equal(second.incremental, false, 'the first post-upload read establishes a safe server-observed cursor');
+  assert.equal(second.incremental, true, 'the initial empty read establishes sequence cursor zero');
   assert.equal(second.uploaded, false);
   assert.equal(third.incremental, true);
   assert.equal(third.uploaded, false, 'an unchanged snapshot is not written back during polling');
   assert.equal(uploads, 1);
-  assert.equal(filters.length, 1);
-  assert.ok(filters[0], 'the second read carries the persisted updated_at cursor');
+  assert.equal(cursors.length, 3);
+  assert.equal(cursors[0].p_after_sync_seq, null);
+  assert.equal(cursors[1].p_after_sync_seq, 0);
+  assert.equal(cursors[2].p_after_sync_seq, 1);
   dom.window.close();
 });
 

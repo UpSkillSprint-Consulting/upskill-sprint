@@ -61,20 +61,41 @@ const MOBILE_PICKER_MARKUP = `
 })();
 </script>`;
 
+const POLICY_SOURCE = '/test-bank-incremental-sync-policy.js';
+const ACCOUNT_SYNC_SOURCE = '/test-bank-account-sync.js';
+const LEARNING_SYNC_SOURCE = '/test-bank-learning-events.js';
+function scriptTag(source) { return `<script src="${source}" defer></script>`; }
+function ensureIncrementalPolicyBeforeSync(html) {
+  const policy = scriptTag(POLICY_SOURCE);
+  const accountTag = scriptTag(ACCOUNT_SYNC_SOURCE);
+  const learningTag = scriptTag(LEARNING_SYNC_SOURCE);
+  const policyIndex = html.indexOf(policy);
+  const accountIndex = html.indexOf(accountTag);
+  const learningIndex = html.indexOf(learningTag);
+  const firstSyncIndex = [accountIndex, learningIndex].filter((index) => index >= 0).sort((a, b) => a - b)[0];
+  if (firstSyncIndex == null) return html;
+  if (policyIndex >= 0 && policyIndex < firstSyncIndex) return html;
+  const withoutLatePolicy = policyIndex >= 0 ? html.replace(policy, '') : html;
+  if (withoutLatePolicy.includes(accountTag)) return withoutLatePolicy.replace(accountTag, policy + accountTag);
+  if (withoutLatePolicy.includes(learningTag)) return withoutLatePolicy.replace(learningTag, policy + learningTag);
+  return withoutLatePolicy;
+}
+
 export default async function handler(_request, context) {
   const response = await context.next();
   const contentType = response.headers.get('content-type') || '';
   if (!contentType.includes('text/html')) return response;
 
-  const html = await response.text();
+  let html = await response.text();
   if (html.includes('tb-mobile-certification-picker-script')) {
-    return new Response(html, response);
+    return new Response(ensureIncrementalPolicyBeforeSync(html), response);
   }
 
   /* This is the edge function currently bound to /test-bank in netlify.toml.
      Keep every test-bank enhancement here so production does not depend on an
-     unbound edge function file. Script tags are idempotent because the page is
-     inspected before injection. */
+     unbound edge function file. The Segment 14 policy is inserted before an
+     already-present sync runtime rather than appended after it. */
+  html = ensureIncrementalPolicyBeforeSync(html);
   const enhancementSources = [
     '/test-bank-question-registry.js',
     '/test-bank-set-controls.js',
@@ -87,10 +108,11 @@ export default async function handler(_request, context) {
     '/test-bank-phase2-reporting.js',
     '/test-bank-phase2-runtime-coordinator.js',
     '/test-bank-phase2-quality-assurance.js',
-    '/test-bank-account-sync.js',
+    POLICY_SOURCE,
+    ACCOUNT_SYNC_SOURCE,
     '/test-bank-history-reconciliation.js',
     '/test-bank-adaptive-mastery.js',
-    '/test-bank-learning-events.js',
+    LEARNING_SYNC_SOURCE,
     '/test-bank-adaptive-mastery-runtime.js',
     '/test-bank-metrics-policy.js',
     '/test-bank-adaptive-mastery-hardening.js',
