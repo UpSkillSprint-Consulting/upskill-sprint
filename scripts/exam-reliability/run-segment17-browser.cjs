@@ -46,6 +46,7 @@ async function main(){
     if(await focusable.count()){await page.keyboard.press('Tab');const focused=await page.evaluate(()=>document.activeElement!==document.body&&document.activeElement!==document.documentElement);assert.equal(focused,true);checks.push(viewport.name+': keyboard Tab reaches a control');}
     const axe=await page.evaluate(async()=>axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']},rules:{'color-contrast':{enabled:true}}}));
     const serious=axe.violations.filter(v=>v.impact==='critical'||v.impact==='serious');
+    if(serious.length)console.error('AXE_DIAGNOSTIC '+JSON.stringify({viewport:viewport.name,violations:serious.map(v=>({id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.map(n=>({target:n.target,html:n.html,failureSummary:n.failureSummary,any:n.any,all:n.all,none:n.none}))}))}));
     assert.deepEqual(serious.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.length,help:v.help})),[],viewport.name+': serious/critical axe violations');checks.push(viewport.name+': axe WCAG A/AA serious+critical gate passed');
     const aria=await page.locator('body').ariaSnapshot();assert.match(aria,/button|link|heading/i,viewport.name+': accessibility tree should expose semantic controls');checks.push(viewport.name+': ARIA tree exposes semantic structure');
     assert.deepEqual(pageErrors,[],viewport.name+': page errors');
