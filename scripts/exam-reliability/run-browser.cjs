@@ -58,10 +58,10 @@ try{
   await new Promise(r=>server.listen(0,'127.0.0.1',r));base='http://127.0.0.1:'+server.address().port;
   browser=await playwright[profile.engine].launch();
   for(const exam of profiles.workloads.requiredExamIds){const c=await context('browser-'+exam);try{const p=await open(c);
-    const rejected=await p.evaluate(id=>{const e=__TB.EXAMS[id],before=JSON.stringify(__TBLearning.store());const sets=Object.fromEntries(Object.entries(e.sets).map(([k,rows])=>[k,rows.slice()]));const r=__TBQuestionRegistry.replaceBank(id,__TB.EXAMS[id].sets);Object.assign(e.sets,sets);return {accepted:r.accepted,same:JSON.stringify(__TBLearning.store())===before,evidenceSame:r.errors.length===0,valid:Array.isArray(r.errors)};},exam);
+    const rejected=await p.evaluate(id=>{const e=__TB.EXAMS[id],before=JSON.stringify(__TBLearning.store());const sets=Object.fromEntries(Object.entries(e.sets).map(([k,rows])=>[k,rows.slice()]));sets[1].push({...sets[1][0]});const r=__TBQuestionRegistry.replaceBank(id,sets);return {accepted:r.accepted,same:e===__TB.EXAMS[id],evidenceSame:before===JSON.stringify(__TBLearning.store()),valid:__TBQuestionRegistry.validate(id).valid};},exam);
     assert.deepEqual(rejected,{accepted:false,same:true,evidenceSame:true,valid:true});await p.locator('#tb-question-identity-alert[role="alert"]').waitFor();checks.push(exam+': invalid import rejected');
     for(const theme of ['light','dark']){await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);await shot(p,exam+'-identity-error-'+theme);}
-    if(exam==='cssbb'){const accepted=await p.evaluate(()=>__TBQuestionRegistry.replaceBank('cssbb',__TB.EXAMS.cssbb.sets));assert.equal(accepted.accepted,true);await p.locator('#tb-question-identity-alert').waitFor({state:'hidden'});checks.push('cssbb: valid import accepted');}
+    if(exam==='cssbb'){const accepted=await p.evaluate(()=>__TBQuestionRegistry.replaceBank('cssbb',__TB.EXAMS.cssbb.sets));assert.equal(accepted.accepted,true);await p.locator('#tb-question-identity-alert').waitFor({state:'detached'});checks.push('cssbb: valid import accepted');}
     await quick(p,exam);await sync(p);const s=await summary(p,exam);assert.equal(s.answeredEvents,1);assert.equal(s.completedSessions,1);checks.push(exam+': real UI one correct/nine blanks');
     const gradingEvidence=await p.evaluate(id=>{
       const view=document.querySelector('[data-score-result]'), snapshot=__TB.getFeedbackSnapshot();
@@ -89,7 +89,7 @@ try{
     for(const theme of ['light','dark']){await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);await shot(p,exam+'-result-'+theme);} // screenshots are evidence, not visual approval
     await p.reload();await p.waitForFunction(()=>window.__TBLearning);await sync(p);assert.equal((await summary(p,exam)).answeredEvents,1);checks.push(exam+': history survives native reload');
     await p.locator('.tb-tile[data-exam="'+exam+'"]').click();await p.locator('[data-mode="full"]').click();await p.locator('#tb-timer').waitFor();const before=await p.locator('#tb-timer').textContent();
-    const timingPin=await p.evaluate(id=>{const session=Object.values(__TBLearning.store().sessions).filter(s=>s.examId===id&&s.status!=='completed').at(-1);if(!session||!session.versionPin)throw new Error('Active session with versionPin required');const x=session.versionPin;return {valid:!!__TBVersions.checkCodec(x.codec)};},exam);
+    const timingPin=await p.evaluate(id=>{const session=Object.values(__TBLearning.store().sessions).filter(s=>s.examId===id&&s.status!=='completed').at(-1);if(!session||!session.versionPin)throw new Error('Active session with versionPin required');const x=session.versionPin;return {valid:!!__TBVersions.checkedPin(x)};},exam);
     const blocked=await p.evaluate(id=>__TBQuestionRegistry.replaceBank(id,__TB.EXAMS[id].sets),exam);assert.equal(blocked.accepted,false);assert.ok(blocked.errors.some(e=>e.code==='ACTIVE_SESSION'));checks.push(exam+': active session blocks replace-bank');
     await shot(p,exam+'-timed');
   }finally{await c.tracing.stop({path:path.join(directory,exam+'-trace.zip')});await c.close();}}
@@ -97,7 +97,7 @@ try{
     const a=await open(ca);await quick(a,'cssbb');await sync(a);
     const b=await open(cb);assert.equal((await summary(b,'cssbb')).answeredEvents,1);checks.push('independent browser context receives accepted history');
     await cb.setOffline(true);
-    const pending=await b.evaluate(()=>{const qs=__TB.EXAMS.cssbb.sets[1].slice(0,2);const id=__TBLearning.startSession({examId:'cssbb',sessionId:'browser-offline-session',questions:qs,mode:'quick'});return __TBLearning.answer({sessionId:id,qid:qs[0].qid,answer:qs[0].answer});});
+    const pending=await b.evaluate(()=>{const qs=__TB.EXAMS.cssbb.sets[1].slice(0,2);const id=__TBLearning.startSession({examId:'cssbb',sessionId:'browser-offline-session',questions:qs,mode:'quick'});__TBLearning.completeSession({examId:'cssbb',sessionId:id,records:[{question:qs[0],selected:qs[0].answer,status:'correct'},{question:qs[1],selected:null,status:'unanswered'}]});return __TBLearning.status().pending;});
     assert.ok(pending>0);await cb.setOffline(false);await sync(b);await sync(a);assert.equal((await summary(a,'cssbb')).answeredEvents,2);checks.push('offline native outbox converges on reconnect');
     await b.waitForFunction(async()=>{const db=await new Promise((resolve,reject)=>{const r=indexedDB.open('tb-learning-events-mirror-v1');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});const tx=db.transaction(['events'],'readonly');return tx.objectStore('events').count().onsuccess=()=>tx.objectStore('events').count().result>0;});
     const n=navigations.length;await sync(a);await sync(b);assert.equal(navigations.length,n);checks.push('synchronization does not navigate/reload the page');await shot(b,'two-context-history');
