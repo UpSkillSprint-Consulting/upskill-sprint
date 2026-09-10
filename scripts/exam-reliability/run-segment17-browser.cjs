@@ -65,6 +65,10 @@ async function main(){
     const page=await context.newPage();page.setDefaultTimeout(15000);
     const pageErrors=[];page.on('pageerror',e=>pageErrors.push(e.message));
     await page.goto(base+'/test-bank.html',{waitUntil:'load'});
+    // Production receives this stylesheet from the Netlify edge transform.
+    // The local harness loads the same file explicitly before the runtime layer
+    // so late/replaced footer nodes inherit the static contrast guarantee.
+    await page.addStyleTag({path:path.join(ROOT,'test-bank-ux-accessibility.css')});
     await page.addScriptTag({path:path.join(ROOT,'test-bank-ux-accessibility.js')});
     await page.addScriptTag({content:axeSource});
     await page.waitForFunction(()=>window.__TBUXAccessibility&&document.getElementById('tb-a11y-status'));
