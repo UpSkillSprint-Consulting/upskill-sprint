@@ -18,7 +18,7 @@ async function context(owner){
   const c=await browser.newContext({viewport:{width:profile.width,height:profile.height},isMobile:profile.mobile,hasTouch:profile.touch,deviceScaleFactor:1,serviceWorkers:'block',timezoneId:'America/Los_Angeles',locale:'en-US'});
   await c.exposeBinding('__seg03Transport',(_,request)=>svc.exchange(owner,request));
   const auth=authScript(owner);await c.addInitScript(auth);
-  await c.route('**/*',async route=>{const u=new URL(route.request().url());if(u.origin!==base){blocked.push(u.origin);return route.abort();}if(u.pathname==='/auth.js')return route.fulfill({body:authScript('inline'),contentType:'text/javascript'});if(u.hostname==='example.com')return route.abort();return route.continue();});
+  await c.route('**/*',async route=>{const u=new URL(route.request().url());if(u.origin!==base){blocked.push(u.origin);return route.abort();}if(u.pathname==='/auth.js')return route.fulfill({body:auth,contentType:'text/javascript'});if(u.hostname==='example.com')return route.abort();return route.continue();});
   await c.tracing.start({screenshots:true,snapshots:true,sources:false});return c;
 }
 async function open(c){const page=await c.newPage();page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(e.message));page.on('crash',()=>errors.push('browser page crash'));page.on('framecrashed',()=>errors.push('browser frame crash'));const start=performance.now();
@@ -103,8 +103,8 @@ try{
     const n=navigations.length;await sync(a);await sync(b);assert.equal(navigations.length,n);checks.push('synchronization does not navigate/reload the page');await shot(b,'two-context-history');
   }finally{await ca.tracing.stop({path:path.join(directory,'shared-a-trace.zip')});await cb.tracing.stop({path:path.join(directory,'shared-b-trace.zip')});await ca.close();await cb.close();}
   assert.deepEqual(errors,[],'Unhandled browser errors');
-}catch(e){failure=e.stack;const esc=(failure||'').toString().replace(/%/g,'%25').replace(/\r/g,'%0D').replace(/\n/g,'%0A');console.log('::error::'+profile.id+': '+esc.slice(0,3000));}
+}catch(e){failure=e.stack;}
 finally{const browserVersion=browser?browser.version():null;if(browser)await browser.close();if(server)await new Promise(r=>server.close(r));write(lane,{status:failure?'failed':'passed',tests:checks.length,browserVersion,errors:errors.length,blocked:blocked.length,timings:{ms:timings},profile:profile.id});
-console.log(JSON.stringify({lane,checks:checks.length,failure}));if(failure){console.log('::error::'+String(failure).replace(/\r?\n/g,'%0A'));process.exitCode=1;}}
+console.log(JSON.stringify({lane,checks:checks.length,failure}));if(failure)process.exitCode=1;}
 }
 main();
