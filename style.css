@@ -178,9 +178,9 @@ html[data-theme="dark"] .field input::placeholder,
 html[data-theme="dark"] .field textarea::placeholder { color: #8391a5; }
 
 /* footer */
-footer.site { padding: 56px 0 32px; border-top: 1px solid var(--line); background: var(--navy); color: #cbd5e1; }
+footer.site { --muted: #cbd5e1 !important; padding: 56px 0 32px; border-top: 1px solid var(--line); background: var(--navy); color: #cbd5e1; }
 footer.site .brand, footer.site .brand span, footer.site h4 { color: #ffffff; }
-footer.site .footer-grid a, footer.site p { color: #cbd5e1; }
+footer.site .footer-grid a, footer.site p { color: #cbd5e1 !important; }
 footer.site .footer-grid a:hover { color: #ffffff; }
 footer.site .footer-bottom { color: #94a3b8; border-top-color: rgba(255,255,255,0.15); }
 footer.site .footer-bottom a { color: #94a3b8; }
