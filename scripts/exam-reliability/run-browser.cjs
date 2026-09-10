@@ -13,7 +13,7 @@ assert.equal(pkg.version,profiles.testTools.playwright);
 const lane='browser-'+profile.id,svc=new Service(),checks=[],errors=[],blocked=[],timings=[],navigations=[];
 const directory=path.join(output(),lane);fs.mkdirSync(directory,{recursive:true});
 let browser,server,base;
-function authScript(owner){return `(()=>{window.__TB_INCREMENTAL_SYNC_V1=true;const send=request=>window.__seg03Transport(request);const c=(${client.toString()})(send);const user={id:${JSON.stringify('browser-'+owner)},org:'segment03-browser-harness'};window.__seg03Transport=send;window.__seg03SetAuthUser=u=>Object.assign(user,u);c.auth(user);})()`;}
+function authScript(owner){return `(()=>{window.__TB_INCREMENTAL_SYNC_V1=true;const send=request=>window.__seg03Transport(request);const c=(${client.toString()})(send);const user={id:${JSON.stringify('browser-'+owner)},org:'segment03-browser-harness'};window.__seg03Transport=send;window.__seg03SetAuthUser=u=>Object.assign(user,u);c.auth(user);window.UpskillAuth={getUser:()=>user,getClient:()=>c,isConfigured:()=>true,onChange:cb=>{queueMicrotask(()=>cb(user));return ()=>{};}};})()`;}
 async function context(owner){
   const c=await browser.newContext({viewport:{width:profile.width,height:profile.height},isMobile:profile.mobile,hasTouch:profile.touch,deviceScaleFactor:1,serviceWorkers:'block',timezoneId:'America/Los_Angeles',locale:'en-US'});
   await c.exposeBinding('__seg03Transport',(_,request)=>svc.exchange(owner,request));
@@ -103,7 +103,7 @@ try{
     const n=navigations.length;await sync(a);await sync(b);assert.equal(navigations.length,n);checks.push('synchronization does not navigate/reload the page');await shot(b,'two-context-history');
   }finally{await ca.tracing.stop({path:path.join(directory,'shared-a-trace.zip')});await cb.tracing.stop({path:path.join(directory,'shared-b-trace.zip')});await ca.close();await cb.close();}
   assert.deepEqual(errors,[],'Unhandled browser errors');
-}catch(e){failure=e.stack;const esc=(failure||'').toString().replace(/%/g,'%25').replace(/\r/g,'%0D').replace(/\n/g,'%0A');console.log('::error::'+profile.id+': '+esc.slice(0,3000));}
+}catch(e){failure=e.stack;}
 finally{const browserVersion=browser?browser.version():null;if(browser)await browser.close();if(server)await new Promise(r=>server.close(r));write(lane,{status:failure?'failed':'passed',tests:checks.length,browserVersion,errors:errors.length,blocked:blocked.length,timings:{ms:timings},profile:profile.id});
 console.log(JSON.stringify({lane,checks:checks.length,failure}));if(failure)process.exitCode=1;}
 }
