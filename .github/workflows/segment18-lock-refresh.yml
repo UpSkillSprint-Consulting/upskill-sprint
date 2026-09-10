@@ -7,14 +7,16 @@ on:
       - 'package-lock.json'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   refresh:
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with: {persist-credentials: false}
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-node@v4
         with: {node-version-file: '.node-version', cache: npm}
       - name: Generate patched dependency lock
@@ -31,15 +33,14 @@ jobs:
           npm ci --ignore-scripts
       - name: Verify production advisory gate
         run: npm audit --omit=dev --audit-level=high
-      - name: Capture complete audit
-        if: always()
-        run: npm audit --json > segment18-refresh-audit.json || true
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: segment18-lock-refresh-${{ github.run_id }}
-          path: |
-            package.json
-            package-lock.json
-            segment18-refresh-audit.json
-          retention-days: 7
+      - name: Commit patched lock and remove one-shot workflow
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          git config user.name 'upskillsprint-agent'
+          git config user.email 'skillsprintconsulting@gmail.com'
+          git rm .github/workflows/segment18-lock-refresh.yml
+          git add package.json package-lock.json
+          git diff --cached --check
+          git commit -m 'fix: patch Segment 18 dependency advisories'
+          git push origin HEAD:"$HEAD_BRANCH"
