@@ -41,6 +41,15 @@
     }
     return keep;
   }
+  function reloadAfterPurge(generation){
+    try{
+      const token=String(Math.max(0,Number(generation)||0));
+      if(sessionStorage.getItem(RELOAD_KEY)===token)return false;
+      sessionStorage.setItem(RELOAD_KEY,token);
+      window.location.reload();
+      return true;
+    }catch(_){return false;}
+  }
 
   async function fetchControl(force){
     if(controlPromise&&!force)return controlPromise;
@@ -74,8 +83,9 @@
       const control={generation:generation,purgedAt:data&&data.purgedAt||data&&data.purged_at||null};
       clearLocalLearnerState(control);
       document.dispatchEvent(new CustomEvent('tb:learning-data-deleted',{detail:{generation:generation,purgedAt:control.purgedAt}}));
-      announce('All exam learning history for this account was deleted. This browser has been cleared too.',false);
-      return {deleted:true,generation:generation,purgedAt:control.purgedAt,deletedCounts:data&&data.deleted||{}};
+      const reloadScheduled=reloadAfterPurge(generation);
+      announce(reloadScheduled?'All exam learning history for this account was deleted. Reloading this browser to finish clearing live state.':'All exam learning history for this account was deleted. Local learner storage was cleared.',false);
+      return {deleted:true,generation:generation,purgedAt:control.purgedAt,deletedCounts:data&&data.deleted||{},reloadScheduled:reloadScheduled};
     }catch(error){announce('Learning-history deletion failed. No local success is being claimed.',true);return {deleted:false,reason:'rpc-error',error:String(error&&error.message||error)};}
     finally{deleting=false;}
   }
@@ -84,9 +94,7 @@
     const current=marker();const generation=Number(current&&current.purgeGeneration)||0;
     if(!generation||generation<=acknowledgedGeneration())return false;
     clearLocalLearnerState({generation:generation,purgedAt:current&&current.purgedAt||null});
-    try{
-      const token=String(generation);if(sessionStorage.getItem(RELOAD_KEY)!==token){sessionStorage.setItem(RELOAD_KEY,token);window.location.reload();}
-    }catch(_){}
+    reloadAfterPurge(generation);
     return true;
   }
 
