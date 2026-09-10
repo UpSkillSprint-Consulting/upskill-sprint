@@ -71,12 +71,22 @@ jobs:
       - name: Backup and restore the fully migrated disposable database
         env: {PGPASSWORD: segment19_ci_only}
         run: |
-          pg_dump -h 127.0.0.1 -U postgres -d segment03_test -Fc -f /tmp/segment19.dump
+          set -euo pipefail
+          # Restore into a different clean database in the same disposable cluster.
+          # The cumulative restricted-role suite above already verifies grants/RLS.
+          # This recovery check deliberately excludes ownership/ACL statements so
+          # infrastructure-specific dump ownership cannot mask schema recovery.
+          pg_dump -h 127.0.0.1 -U postgres -d segment03_test \
+            --format=plain --no-owner --no-privileges > /tmp/segment19.sql
           createdb -h 127.0.0.1 -U postgres segment19_restore
-          pg_restore -h 127.0.0.1 -U postgres -d segment19_restore --exit-on-error /tmp/segment19.dump
+          psql -h 127.0.0.1 -U postgres -d segment19_restore \
+            -v ON_ERROR_STOP=1 -f /tmp/segment19.sql
           test "$(psql -h 127.0.0.1 -U postgres -d segment19_restore -Atc "select count(*) from pg_tables where schemaname='public' and tablename in ('test_bank_learning_events','test_bank_progress_devices','test_bank_session_checkpoints','test_bank_data_control')")" = "4"
-          test "$(psql -h 127.0.0.1 -U postgres -d segment19_restore -Atc "select count(*) from pg_proc where proname in ('fetch_test_bank_learning_events_incremental_v1','takeover_test_bank_session_v1','reserve_test_bank_new_questions_v2','delete_test_bank_learning_data_v1')")" = "4"
-          pg_dump -h 127.0.0.1 -U postgres -d segment19_restore --schema-only > segment19-restored-schema.sql
+          for fn in fetch_test_bank_learning_events_incremental_v1 takeover_test_bank_session_v1 reserve_test_bank_new_questions_v2 delete_test_bank_learning_data_v1; do
+            test "$(psql -h 127.0.0.1 -U postgres -d segment19_restore -Atc "select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname='$fn'")" -ge "1"
+          done
+          test "$(psql -h 127.0.0.1 -U postgres -d segment19_restore -Atc "select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname in ('test_bank_learning_events','test_bank_progress_devices','test_bank_session_checkpoints','test_bank_data_control') and c.relrowsecurity")" = "4"
+          pg_dump -h 127.0.0.1 -U postgres -d segment19_restore --schema-only --no-owner --no-privileges > segment19-restored-schema.sql
       - uses: actions/upload-artifact@v4
         if: always()
         with:
