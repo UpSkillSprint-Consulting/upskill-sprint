@@ -6,6 +6,7 @@ const path=require('node:path');
 const {JSDOM}=require('jsdom');
 const ROOT=path.join(__dirname,'..');
 const source=fs.readFileSync(path.join(ROOT,'test-bank-ux-accessibility.js'),'utf8');
+const accessibilityCss=fs.readFileSync(path.join(ROOT,'test-bank-ux-accessibility.css'),'utf8');
 const analytics=fs.readFileSync(path.join(ROOT,'test-bank-analytics-dashboard.js'),'utf8');
 const edge=fs.readFileSync(path.join(ROOT,'netlify/edge-functions/test-bank-set-controls.js'),'utf8');
 const browserRunner=fs.readFileSync(path.join(ROOT,'scripts/exam-reliability/run-segment17-browser.cjs'),'utf8');
@@ -16,11 +17,16 @@ function fixture(){
 }
 function cleanup(dom){const api=dom.window.__TBUXAccessibility;if(api&&typeof api.destroy==='function')api.destroy();dom.window.close();}
 
-test('Segment 17 accessibility layer is loaded after analytics and Segment 16 allocation',()=>{
+test('Segment 17 accessibility CSS and runtime layer are loaded without reordering Segment 16',()=>{
+  assert.match(edge,/UX_ACCESSIBILITY_STYLE_SOURCE\s*=\s*'\/test-bank-ux-accessibility\.css'/);
+  assert.match(edge,/ensureAccessibilityStyles\(html\)/);
   const allocation=edge.indexOf("scriptTag(NEW_ONLY_ALLOCATION_SOURCE)");
   const analyticsIndex=edge.indexOf('/test-bank-analytics-dashboard.js');
   const ux=edge.indexOf('scriptTag(UX_ACCESSIBILITY_SOURCE)');
   assert.ok(allocation>=0&&analyticsIndex>allocation&&ux>analyticsIndex);
+  assert.match(accessibilityCss,/footer\.site\s*\{[\s\S]*--muted:\s*#cbd5e1\s*!important/);
+  assert.match(accessibilityCss,/footer\.site p[\s\S]*color:\s*#cbd5e1\s*!important/);
+  assert.match(browserRunner,/addStyleTag\(\{path:path\.join\(ROOT,'test-bank-ux-accessibility\.css'\)\}\)/);
 });
 
 test('analytics uses one 0–100 scale for readiness and blueprint weight',()=>{
