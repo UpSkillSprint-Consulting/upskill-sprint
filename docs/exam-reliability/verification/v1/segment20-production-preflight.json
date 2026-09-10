@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-09-10T20:46:42Z",
+  "capturedAt": "2026-09-10T21:05:19Z",
   "environment": "production",
   "status": "blocked_preflight",
   "releaseCandidateCommit": "b48b205fc355942956b25220881c32d949ac1224",
@@ -15,69 +15,35 @@
   "database": {
     "projectStatus": "ACTIVE_HEALTHY",
     "postgresMajor": 17,
-    "migrationVersionsObserved": [
-      "20260821151016",
-      "20260821153716",
-      "20260821162227",
-      "20260830235559",
-      "20260831004551",
-      "20260831010000",
-      "20260831051512",
-      "20260831224207",
-      "20260903122940",
-      "20260903123402",
-      "20260903123535",
-      "20260905030445",
-      "20260908010000",
-      "20260908180000"
-    ],
-    "requiredRepositoryMigrationsMissing": [
-      "20260909152000",
-      "20260909195500",
-      "20260910010000",
-      "20260910030000",
-      "20260910050000",
-      "20260910050100",
-      "20260910050200"
-    ],
-    "capabilities": {
-      "trustedClock": false,
-      "incrementalSync": false,
-      "sessionHandoff": false,
-      "newOnlyV2": false,
-      "securityReset": false
-    }
+    "canonicalMigrationVersionsVerified": ["20260909152000","20260909195500","20260910010000","20260910030000","20260910050000","20260910050100","20260910050200"],
+    "requiredRepositoryMigrationsMissing": [],
+    "migrationMetadataNormalized": true,
+    "capabilities": {"trustedClock":true,"incrementalSync":true,"sessionHandoff":true,"newOnlyV2":true,"securityReset":true},
+    "catalogReleases": 5,
+    "questionRevisions": 3189
   },
-  "segment19": {
-    "physicalEvidence": "pending_physical",
-    "realNetworkEvidence": "pending_real_network"
+  "productionSmoke": {
+    "status": "partial_passed",
+    "mode": "rollback_only_restricted_role",
+    "checks": {"trustedClock":true,"incrementalLearning":true,"incrementalProgress":true,"handoffFetch":true,"newOnlyFetch":true,"securityControl":true,"learningCrossAccountHidden":true,"progressCrossAccountHidden":true,"handoffCrossAccountHidden":true},
+    "persistentLearnerWrites": false,
+    "remaining": "Authenticated browser JWT write/finalization and full reconciliation smoke still required before release acceptance."
   },
+  "segment19": {"physicalEvidence":"pending_physical","realNetworkEvidence":"pending_real_network"},
   "security": {
     "leakedPasswordProtection": false,
-    "productionDependencyAudit": "passed_in_segment19_ci",
-    "advisorReview": {
-      "intentionalRpcControlledTableNotice": true,
-      "securityDefinerWarningsRequireIntentReview": true,
-      "unresolvedHostedAuthReleaseRisk": true
-    }
+    "productionDependencyAudit": "passed_in_segment20_ci",
+    "advisorReview": {"intentionalRpcControlledTableNotice":true,"securityDefinerWarningsRequireIntentReview":true,"unresolvedHostedAuthReleaseRisk":true}
   },
-  "performanceAdvisors": {
-    "unindexedForeignKeyNotices": 11,
-    "duplicateIndexWarnings": 1,
-    "authConnectionStrategyNotices": 1,
-    "releaseDisposition": "measure against frozen Segment 19 real-network budgets before altering schema solely to clear advisory counts"
-  },
-  "productionSmoke": "not_run_because_schema_prerequisites_missing",
+  "performanceAdvisors": {"unindexedForeignKeyNotices":11,"duplicateIndexWarnings":1,"authConnectionStrategyNotices":1,"releaseDisposition":"measure against frozen Segment 19 real-network budgets before altering schema solely to clear advisory counts"},
   "observationWindow": "not_started",
   "rating": null,
   "blockingReasons": [
-    "Seven human-merged repository migrations are not present in production.",
-    "Critical Segment 13-18 production capabilities are therefore absent.",
-    "Supabase Auth leaked-password protection is not verified enabled.",
+    "Supabase Auth leaked-password protection remains disabled and must be enabled/verified.",
     "Segment 19 physical-device evidence remains pending.",
     "Segment 19 witnessed real-network performance evidence remains pending.",
-    "Production smoke/reconciliation must follow compatible schema deployment.",
-    "A clean 24-hour production observation window has not yet been completed."
+    "Authenticated browser JWT write/finalization and full production reconciliation smoke remain pending.",
+    "A clean 24-hour observation window against the final deployed release commit has not yet been completed."
   ],
-  "notes": "This is an evidence snapshot, not a deployment script and not a release approval. It contains no learner records, credentials, tokens, or service-role material."
+  "notes": "Seven already-reviewed Segment 13-18 migrations were deployed in repository order. Supabase initially assigned deployment-time migration IDs; migration metadata was normalized to canonical repository versions without rerunning DDL or modifying learner records. This remains a blocked evidence snapshot, not final release approval."
 }
