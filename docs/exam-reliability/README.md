@@ -2,12 +2,14 @@
 
 ## Current execution boundary
 
-Segments 01–18 are human-merged on `main`; Segment 18 was merged through PR #184 at `f8e4c11741743fd83a73a4bf131b8dfa15940d40`. Segment 19 is implemented for qualification/review in PR #185 on `fix/segment-19-qualification`. Segment 20 has not started. Review, merge, production database deployment, frontend deployment, hosted Auth configuration, physical-device qualification and final production acceptance remain separate gates.
+Segments 01–19 are human-merged on `main`; Segment 19 was merged through PR #185 at `b48b205fc355942956b25220881c32d949ac1224`. Segment 20 is implemented for release-control review on `release/segment-20-production`, but production acceptance is intentionally blocked until its external evidence and production prerequisites pass.
 
-The original program baseline remains `990e385350ae63d76cfc1e3940c3644859cc636a`. The cumulative program now covers baseline/contracts/framework, identity/versioning, local/server durability, reconciliation, grading/metrics/history, lifecycle/timing, incremental synchronization, canonical session handoff, authoritative New-only allocation, UX/accessibility, security/reset/deletion, and the Segment 19 independent qualification candidate. Product rating does not increase merely because code or tests are committed.
+The original program baseline remains `990e385350ae63d76cfc1e3940c3644859cc636a`. The cumulative program covers baseline/contracts/framework, identity/versioning, local/server durability, reconciliation, grading/metrics/history, lifecycle/timing, incremental synchronization, canonical session handoff, authoritative New-only allocation, UX/accessibility, security/reset/deletion, independent qualification, and now the fail-closed production release gate. Product rating does not increase merely because code or tests are committed.
 
 ## Records
 
+- [Segment 20 production release](SEGMENT-20-PRODUCTION-RELEASE.md): database-first compatibility plan, hosted Auth requirement, production smoke/reconciliation, rollback/forward recovery, 24-hour observation, and exact 10/10 release gate.
+- [Segment 20 production preflight](verification/v1/segment20-production-preflight.json): read-only production snapshot showing the current blockers; it is not a deployment approval.
 - [Segment 19 qualification](SEGMENT-19-QUALIFICATION.md): all-certification/mode qualification, frozen workload enforcement, clean backup/restore, browser/handoff reruns, physical-device evidence boundary and real-network evidence boundary.
 - [Segment 19 physical evidence](verification/v1/segment19-physical-evidence.json): must be completed from actual iPhone/iPad/laptop testing; emulation is rejected.
 - [Segment 19 network evidence](verification/v1/segment19-network-evidence.json): must be completed from witnessed real-network measurements; synthetic latency is rejected.
@@ -32,36 +34,32 @@ The original program baseline remains `990e385350ae63d76cfc1e3940c3644859cc636a`
 
 Historical reports retain the state and evidence of their original segment; this README, roadmap and current PR record hold the current execution boundary.
 
-## Segment 19 reproduce and review
+## Segment 20 reproduce and review
 
 Use Node 22 and locked application dependencies:
 
 ```sh
 npm ci
-node --check scripts/exam-reliability/segment19-qualification.cjs
-node --check scripts/exam-reliability/run-segment19-load.cjs
-node --test --test-concurrency=1 tests/test-bank-segment19-qualification.test.js
-node scripts/exam-reliability/run-segment19-load.cjs
+node --check scripts/exam-reliability/segment20-release.cjs
+node --test --test-concurrency=1 tests/test-bank-segment19-qualification.test.js tests/test-bank-segment20-release.test.js
 npm test
 npm audit --omit=dev --audit-level=high
 ```
 
-The dedicated **Exam qualification - Segment 19** workflow additionally provisions disposable PostgreSQL 17.6, applies the full repository migration chain, reruns cumulative authorization/concurrency suites, dumps with PostgreSQL 17 tools, restores into a separate clean database, verifies critical tables/RPCs/RLS, and executes Chromium desktop, Firefox desktop, WebKit phone-layout and WebKit tablet-layout browser qualification. Chromium desktop and WebKit phone-layout also rerun the canonical Segment 15 handoff acceptance.
+The dedicated **Exam production release - Segment 20** workflow runs the release-contract checks, complete repository regression, production dependency high/critical audit, and a fail-closed assertion that the committed preflight does not misrepresent pending production work as accepted.
 
-The load runner enforces the frozen 10,000-event normal history, 100,000-event stress history, 1,000 pending operations, **1,000 completed sessions**, and two-device convergence floors. These are qualification workloads using synthetic owners and isolated services; they do not masquerade as production WAN evidence.
+The release evaluator composes the existing Segment 19 validator. It cannot bypass missing physical-device or real-network evidence. Once Segment 19 is qualified, it additionally requires exact Netlify release-commit parity, all canonical production migrations and critical schema capabilities, hosted Auth leaked-password protection, zero unresolved security release risk, authorized production smoke/reconciliation, recovery readiness, a clean 24-hour observation window, and all 20 frozen rubric criteria against one release commit.
 
-## Physical-device and network evidence
+## Current production preflight
 
-Segment 19 intentionally cannot be declared fully qualified from CI emulation alone. The physical-device validator requires actual iPhone Safari, iPad Safari, laptop Chrome and laptop Firefox records with exact hardware/OS/browser/time/observer provenance. `emulated:true` is rejected.
+At Segment 20 entry, Netlify production is ready and serves exact `main` commit `b48b205fc355942956b25220881c32d949ac1224`, while the connected Supabase project is healthy but missing seven already-human-merged repository migrations from Segments 13–18. Read-only capability checks confirm trusted clock, incremental sync, session handoff, New-only v2, and security reset are not yet present in production.
 
-The real-network validator separately requires all frozen Segment 19 performance budgets to be populated from witnessed real-network measurements. It recomputes p95/maximum from the raw sample arrays using `profiles.json`, validates the expected network profile, requires the frozen minimum sample count, and rejects synthetic/emulated evidence. Localhost timings, CI network injection and mock transport are not accepted as real-network evidence.
-
-Until both evidence sets pass, the release helper reports `pending_physical` or `pending_network`, never `qualified`. This is a deliberate release-control boundary, not an unfinished software defect.
+Supabase Auth leaked-password protection is also not verified enabled. Segment 19 physical-device and real-network evidence files remain pending. Production smoke/reconciliation and the observation window therefore have not started. These are release blockers, not documentation defects to be hidden or averaged away.
 
 ## Program controls
 
 One segment is active at a time. Recheck source/deployment and open PRs before each step. Preserve accepted contracts and cumulative gates; do not reset learner evidence to make metrics agree, renumber questions, weaken tests, or attach unrelated refactors. Changes to a versioned contract/profile require explicit impact review.
 
-Before Segment 19 approval, verify the exact current PR head and every cumulative workflow that applies, including **Full test suite**, baseline/contracts/framework, identity/versioning, Segments 06–18 gates, and **Exam qualification - Segment 19 / Segment 19 automated qualification gate**. A reviewer must not merge a red, cancelled, skipped or missing gate.
+A reviewer must not merge a red, cancelled, skipped or missing gate. Segment 20 code does not itself deploy the seven database migrations or alter hosted Auth configuration. Those production actions remain human-controlled and must preserve canonical migration history.
 
-No automatic merge, production migration, hosted-auth change, learner-data write, or final release rating is authorized by a passing PR. Segment 20 remains responsible for production rollout, exact live source/schema/configuration verification, authorized smoke/reconciliation, observation and final 10/10 evidence.
+No 10/10 rating is awarded until the evaluator has evidence for all 100 rubric points and no blocker. Physical/emulated, preview/production, CI/real-network, and implementation/deployment states remain distinct throughout the release record.
