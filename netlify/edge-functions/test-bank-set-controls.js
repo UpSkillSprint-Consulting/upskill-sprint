@@ -3,8 +3,10 @@ const ACCOUNT_SYNC_SOURCE = '/test-bank-account-sync.js';
 const LEARNING_SYNC_SOURCE = '/test-bank-learning-events.js';
 const NEW_ONLY_ALLOCATION_SOURCE = '/test-bank-new-only-allocation-v2.js';
 const UX_ACCESSIBILITY_SOURCE = '/test-bank-ux-accessibility.js';
+const UX_ACCESSIBILITY_STYLE_SOURCE = '/test-bank-ux-accessibility.css';
 
 function scriptTag(source) { return `<script src="${source}" defer></script>`; }
+function styleTag(source) { return `<link rel="stylesheet" href="${source}">`; }
 
 function ensureIncrementalPolicyBeforeSync(html) {
   const policy = scriptTag(POLICY_SOURCE);
@@ -22,6 +24,13 @@ function ensureIncrementalPolicyBeforeSync(html) {
   return withoutLatePolicy;
 }
 
+function ensureAccessibilityStyles(html) {
+  const tag = styleTag(UX_ACCESSIBILITY_STYLE_SOURCE);
+  if (html.includes(UX_ACCESSIBILITY_STYLE_SOURCE)) return html;
+  if (html.includes('</head>')) return html.replace('</head>', tag + '</head>');
+  return tag + html;
+}
+
 export default async function testBankSetControls(request, context) {
   const response = await context.next();
   const contentType = response.headers.get('content-type') || '';
@@ -29,6 +38,7 @@ export default async function testBankSetControls(request, context) {
 
   let html = await response.text();
   html = ensureIncrementalPolicyBeforeSync(html);
+  html = ensureAccessibilityStyles(html);
   const scripts = [
     '<script src="/test-bank-question-registry.js" defer></script>',
     '<script src="/test-bank-versioning.js" defer></script>',
