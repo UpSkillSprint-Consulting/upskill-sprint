@@ -4,46 +4,14 @@
   "environment": "production",
   "status": "blocked_preflight",
   "releaseCandidateCommit": "b48b205fc355942956b25220881c32d949ac1224",
-  "deployment": {
-    "site": "upskillsprint",
-    "deployId": "6aa315ae4dbede0008122e10",
-    "commit": "b48b205fc355942956b25220881c32d949ac1224",
-    "state": "ready",
-    "context": "production",
-    "publishedAt": "2026-09-10T20:41:08.326Z"
-  },
-  "database": {
-    "projectStatus": "ACTIVE_HEALTHY",
-    "postgresMajor": 17,
-    "canonicalMigrationVersionsVerified": ["20260909152000","20260909195500","20260910010000","20260910030000","20260910050000","20260910050100","20260910050200"],
-    "requiredRepositoryMigrationsMissing": [],
-    "migrationMetadataNormalized": true,
-    "capabilities": {"trustedClock":true,"incrementalSync":true,"sessionHandoff":true,"newOnlyV2":true,"securityReset":true},
-    "catalogReleases": 5,
-    "questionRevisions": 3189
-  },
-  "productionSmoke": {
-    "status": "partial_passed",
-    "mode": "rollback_only_restricted_role",
-    "checks": {"trustedClock":true,"incrementalLearning":true,"incrementalProgress":true,"handoffFetch":true,"newOnlyFetch":true,"securityControl":true,"learningCrossAccountHidden":true,"progressCrossAccountHidden":true,"handoffCrossAccountHidden":true},
-    "persistentLearnerWrites": false,
-    "remaining": "Authenticated browser JWT write/finalization and full reconciliation smoke still required before release acceptance."
-  },
+  "deployment": {"site":"upskillsprint","deployId":"6aa315ae4dbede0008122e10","commit":"b48b205fc355942956b25220881c32d949ac1224","state":"ready","context":"production","publishedAt":"2026-09-10T20:41:08.326Z"},
+  "database": {"projectStatus":"ACTIVE_HEALTHY","postgresMajor":17,"canonicalMigrationVersionsVerified":["20260909152000","20260909195500","20260910010000","20260910030000","20260910050000","20260910050100","20260910050200"],"requiredRepositoryMigrationsMissing":[],"migrationMetadataNormalized":true,"capabilities":{"trustedClock":true,"incrementalSync":true,"sessionHandoff":true,"newOnlyV2":true,"securityReset":true},"catalogReleases":5,"questionRevisions":3189},
+  "productionSmoke": {"status":"partial_passed","mode":"rollback_only_restricted_role","checks":{"trustedClock":true,"incrementalLearning":true,"incrementalProgress":true,"handoffFetch":true,"newOnlyFetch":true,"securityControl":true,"learningCrossAccountHidden":true,"progressCrossAccountHidden":true,"handoffCrossAccountHidden":true},"persistentLearnerWrites":false,"remaining":"Authenticated browser JWT write/finalization and full reconciliation smoke still required before release acceptance."},
   "segment19": {"physicalEvidence":"pending_physical","realNetworkEvidence":"pending_real_network"},
-  "security": {
-    "leakedPasswordProtection": false,
-    "productionDependencyAudit": "passed_in_segment20_ci",
-    "advisorReview": {"intentionalRpcControlledTableNotice":true,"securityDefinerWarningsRequireIntentReview":true,"unresolvedHostedAuthReleaseRisk":true}
-  },
+  "security": {"leakedPasswordProtection":false,"productionDependencyAudit":"passed_in_segment20_ci","advisorReview":{"intentionalRpcControlledTableNotice":true,"securityDefinerWarningsRequireIntentReview":true,"unresolvedHostedAuthReleaseRisk":true}},
   "performanceAdvisors": {"unindexedForeignKeyNotices":11,"duplicateIndexWarnings":1,"authConnectionStrategyNotices":1,"releaseDisposition":"measure against frozen Segment 19 real-network budgets before altering schema solely to clear advisory counts"},
   "observationWindow": "not_started",
   "rating": null,
-  "blockingReasons": [
-    "Supabase Auth leaked-password protection remains disabled and must be enabled/verified.",
-    "Segment 19 physical-device evidence remains pending.",
-    "Segment 19 witnessed real-network performance evidence remains pending.",
-    "Authenticated browser JWT write/finalization and full production reconciliation smoke remain pending.",
-    "A clean 24-hour observation window against the final deployed release commit has not yet been completed."
-  ],
+  "blockingReasons": ["Supabase Auth leaked-password protection remains disabled and must be enabled/verified.","Segment 19 physical-device evidence remains pending.","Segment 19 witnessed real-network performance evidence remains pending.","Authenticated browser JWT write/finalization and full production reconciliation smoke remain pending.","A clean 24-hour observation window against the final deployed release commit has not yet been completed."],
   "notes": "Seven already-reviewed Segment 13-18 migrations were deployed in repository order. Supabase initially assigned deployment-time migration IDs; migration metadata was normalized to canonical repository versions without rerunning DDL or modifying learner records. This remains a blocked evidence snapshot, not final release approval."
 }
