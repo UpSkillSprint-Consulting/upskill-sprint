@@ -8,6 +8,7 @@ const ROOT=path.join(__dirname,'..');
 const source=fs.readFileSync(path.join(ROOT,'test-bank-ux-accessibility.js'),'utf8');
 const analytics=fs.readFileSync(path.join(ROOT,'test-bank-analytics-dashboard.js'),'utf8');
 const edge=fs.readFileSync(path.join(ROOT,'netlify/edge-functions/test-bank-set-controls.js'),'utf8');
+const browserRunner=fs.readFileSync(path.join(ROOT,'scripts/exam-reliability/run-segment17-browser.cjs'),'utf8');
 function settle(w,ms=15){return new Promise(r=>w.setTimeout(r,ms));}
 function fixture(){
   const dom=new JSDOM(`<!doctype html><html lang="en"><head></head><body><button data-open-analytics>Full analytics</button><div id="tb-overview"><div class="tb-quiz" data-question-id="cssbb:q1"><h3 class="tb-stem">Question text</h3><div class="tb-navcell" data-goto="0">1</div><button data-opt="0">A. Choice</button></div></div><section id="tb-analytics-panel"><div class="tb-an-head"><h3>Study analytics</h3><button data-close-analytics>Close</button></div><div class="tb-an-tabs"><button data-analytics-tab="readiness" aria-selected="true">Readiness</button><button data-analytics-tab="domains" aria-selected="false">Domains</button><button data-analytics-tab="trend" aria-selected="false">Trend</button></div><div class="tb-an-body" data-analytics-body><div class="tb-an-ring"><strong>34%</strong><span>readiness</span></div><div class="tb-an-domain-row"><div class="tb-an-domain-head">Measure 55%</div><div class="tb-an-bar-track"><div class="tb-an-bar-fill"></div></div></div><span class="tb-an-heat-cell" title="September 9: 4 answers"></span></div></section></body></html>`,{url:'https://upskillsprint.com/test-bank',runScripts:'dangerously',pretendToBeVisual:true});
@@ -70,4 +71,16 @@ test('observer cleanup cancels pending accessibility rerenders deterministically
 
 test('focus visibility, touch target, reduced-motion, forced-color, contrast and print safeguards are explicit',()=>{
   assert.match(source,/:focus-visible/);assert.match(source,/min-height:44px/);assert.match(source,/prefers-reduced-motion:reduce/);assert.match(source,/forced-colors:active/);assert.match(source,/footer\.site p\{color:#cbd5e1!important\}/);assert.match(source,/@media print/);
+});
+
+test('WebKit contrast substitution remains fail-closed and independently verifies live computed styles',()=>{
+  assert.match(browserRunner,/async function computedContrastAudit\(page\)/);
+  assert.match(browserRunner,/const contrast=await computedContrastAudit\(page\)/);
+  assert.match(browserRunner,/assert\.deepEqual\(contrast\.offenders,\[\],viewport\.name\+'[:] live computed-style WCAG AA text contrast violations'\)/);
+  assert.match(browserRunner,/engine==='webkit'\?seriousAll\.filter\(v=>v\.id==='color-contrast'\):\[\]/);
+  assert.match(browserRunner,/engine==='webkit'\?seriousAll\.filter\(v=>v\.id!=='color-contrast'\):seriousAll/);
+  assert.match(browserRunner,/AXE_WEBKIT_STALE_CONTRAST/);
+  const liveAuditIndex=browserRunner.indexOf('const contrast=await computedContrastAudit(page)');
+  const axeFilterIndex=browserRunner.indexOf("const staleWebKitContrast=engine==='webkit'");
+  assert.ok(liveAuditIndex>=0&&axeFilterIndex>liveAuditIndex,'computed-style contrast gate must execute before WebKit axe contrast substitution');
 });
