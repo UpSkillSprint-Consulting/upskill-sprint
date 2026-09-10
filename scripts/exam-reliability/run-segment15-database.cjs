@@ -21,7 +21,7 @@ async function main(){const t=validateTarget(process.env.SEG03_DB_URL||'',proces
   check('15 migration functions and checkpoint table exist',()=>{const x=ok(t,"SELECT count(*) FROM pg_proc WHERE proname IN ('fetch_test_bank_resumable_sessions_v1','save_test_bank_session_checkpoint_v1','takeover_test_bank_session_v1');");assert.equal(x,'3');assert.equal(ok(t,"SELECT count(*) FROM pg_class WHERE relname='test_bank_session_checkpoints';"),'1');});
   const qs=[0,1].map(i=>({qid:'cssbb:segment15:'+i,stem:'Segment 15 SQL '+i,sub:'s15',options:['A','B'],answer:i,why:'Synthetic handoff fixture.'}));
   const exam={questions:2,minutes:120,pass:70,sets:{1:qs},bank:qs,bok:[{domain:'s15-domain',weight:2,subs:[{id:'s15',w:2}]}]};const pub=publication(exam);ok(t,`SELECT public.publish_test_bank_catalog(${json(pub.payload)});`);
-  const sid='segment15-session-one',pin=V.pin({examId:'cssbb',sessionId:sid,ownerId:A,mode:'exam',setId:'1',questions:qs,timed:true,startedAt:Date.parse('2026-09-10T00:00:00Z')},exam,pub.catalog);
+  const sid='segment15-session-one',pin=V.pin({examId:'cssbb',sessionId:sid,ownerId:A,mode:'exam',setId:'1',questions:qs,timed:true,limitSeconds:7200,startedAt:Date.parse('2026-09-10T00:00:00Z')},exam,pub.catalog);
   const start={mode:'exam',timed:true,total:2,limitSeconds:7200,versionPin:V.wire(pin)};
   ok(t,commit(role(A,`SELECT public.ingest_test_bank_operations_v1(${json([env('segment15-start','session_started',sid,0,start)])});`)));
   const snap=handoff(pin);
