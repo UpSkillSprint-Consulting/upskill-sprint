@@ -6,7 +6,7 @@ const {validateTarget}=require('./run-database.cjs');
 const A='10000000-0000-4000-8000-000000000001',B='10000000-0000-4000-8000-000000000002';
 const literal=x=>"'"+String(x).replace(/'/g,"''")+"'", json=x=>literal(JSON.stringify(x))+'::jsonb';
 const passed=[];
-function cli(t){return ['-X','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose','-A','-t','-h',t.url.hostname,'-p',t.url.port||'5432','-U',decodeURIComponent(t.url.username),'segment03_test'];}
+function cli(t){return ['-X','-q','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose','-A','-t','-h',t.url.hostname,'-p',t.url.port||'5432','-U',decodeURIComponent(t.url.username),'segment03_test'];}
 function run(t,sql){const r=spawnSync('psql',cli(t),{env:t.env,input:sql,encoding:'utf8',timeout:30000,maxBuffer:5*1024*1024});if(r.error)throw r.error;return r;}
 function ok(t,sql){const r=run(t,sql);assert.equal(r.status,0,(r.stderr||'').slice(-2500));return String(r.stdout||'').trim();}
 function role(user,sql,as='authenticated'){return `BEGIN; SET LOCAL ROLE ${as}; SET LOCAL request.jwt.claim.sub='${user||''}';\n${sql}\nROLLBACK;`;}
