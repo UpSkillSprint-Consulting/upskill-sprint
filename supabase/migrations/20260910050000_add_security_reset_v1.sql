@@ -65,7 +65,10 @@ set search_path = ''
 as $$
   select coalesce(jsonb_typeof(p_payload), '') = 'object'
     and coalesce((p_payload #>> '{values,tb-adaptive-security-control,purgeGeneration}')::bigint, -1) = p_generation
-    and coalesce(jsonb_object_length(coalesce(p_payload->'values','{}'::jsonb) - 'tb-adaptive-security-control'), 0) = 0;
+    and not exists (
+      select 1
+      from jsonb_object_keys(coalesce(p_payload->'values','{}'::jsonb) - 'tb-adaptive-security-control') as extra_key
+    );
 $$;
 revoke all on function private.test_bank_progress_is_clean_for_generation_v1(jsonb,bigint)
   from public, anon, authenticated;
