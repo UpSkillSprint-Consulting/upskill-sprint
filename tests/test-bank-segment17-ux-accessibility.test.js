@@ -16,6 +16,10 @@ function fixture(){
   dom.window.eval(source);return dom;
 }
 function cleanup(dom){const api=dom.window.__TBUXAccessibility;if(api&&typeof api.destroy==='function')api.destroy();dom.window.close();}
+function assertFooterStyle(node){
+  assert.match(node.style.getPropertyValue('color'),/^(?:#cbd5e1|rgb\(203,\s*213,\s*225\))$/i);
+  assert.equal(node.style.getPropertyPriority('color'),'important');
+}
 
 test('Segment 17 accessibility CSS and runtime layer are loaded without reordering Segment 16',()=>{
   assert.match(edge,/UX_ACCESSIBILITY_STYLE_SOURCE\s*=\s*'\/test-bank-ux-accessibility\.css'/);
@@ -72,9 +76,9 @@ test('critical New-only, sync, handoff and timing conditions have separate polit
 
 test('footer contrast repair survives a later inline-style regression',async t=>{
   const dom=fixture();t.after(()=>cleanup(dom));await settle(dom.window);const w=dom.window,node=w.document.getElementById('fixture-footer');
-  assert.equal(node.style.getPropertyValue('color'),'#cbd5e1');assert.equal(node.style.getPropertyPriority('color'),'important');
+  assertFooterStyle(node);
   node.style.setProperty('color','var(--muted)');await settle(w,60);
-  assert.equal(node.style.getPropertyValue('color'),'#cbd5e1');assert.equal(node.style.getPropertyPriority('color'),'important');
+  assertFooterStyle(node);
 });
 
 test('observer cleanup cancels pending accessibility rerenders deterministically',async t=>{
