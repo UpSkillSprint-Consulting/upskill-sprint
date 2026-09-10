@@ -2,8 +2,11 @@ const POLICY_SOURCE = '/test-bank-incremental-sync-policy.js';
 const ACCOUNT_SYNC_SOURCE = '/test-bank-account-sync.js';
 const LEARNING_SYNC_SOURCE = '/test-bank-learning-events.js';
 const NEW_ONLY_ALLOCATION_SOURCE = '/test-bank-new-only-allocation-v2.js';
+const UX_ACCESSIBILITY_SOURCE = '/test-bank-ux-accessibility.js';
+const UX_ACCESSIBILITY_STYLE_SOURCE = '/test-bank-ux-accessibility.css';
 
 function scriptTag(source) { return `<script src="${source}" defer></script>`; }
+function styleTag(source) { return `<link rel="stylesheet" href="${source}">`; }
 
 function ensureIncrementalPolicyBeforeSync(html) {
   const policy = scriptTag(POLICY_SOURCE);
@@ -21,17 +24,21 @@ function ensureIncrementalPolicyBeforeSync(html) {
   return withoutLatePolicy;
 }
 
+function ensureAccessibilityStyles(html) {
+  const tag = styleTag(UX_ACCESSIBILITY_STYLE_SOURCE);
+  if (html.includes(UX_ACCESSIBILITY_STYLE_SOURCE)) return html;
+  if (html.includes('</head>')) return html.replace('</head>', tag + '</head>');
+  return tag + html;
+}
+
 export default async function testBankSetControls(request, context) {
   const response = await context.next();
   const contentType = response.headers.get('content-type') || '';
-
   if (!contentType.includes('text/html')) return response;
 
   let html = await response.text();
-  /* Segment 14 policy must execute before either existing sync runtime. A page
-     that already contains account/learning tags cannot be fixed by appending
-     the policy at </body>: deferred scripts execute in document order. */
   html = ensureIncrementalPolicyBeforeSync(html);
+  html = ensureAccessibilityStyles(html);
   const scripts = [
     '<script src="/test-bank-question-registry.js" defer></script>',
     '<script src="/test-bank-versioning.js" defer></script>',
@@ -58,29 +65,20 @@ export default async function testBankSetControls(request, context) {
     '<script src="/test-bank-history-policy.js" defer></script>',
     '<script src="/test-bank-analytics-dashboard.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery-completion-guard.js" defer></script>',
-    '<script src="/test-bank-phases-integration.js" defer></script>'
+    '<script src="/test-bank-phases-integration.js" defer></script>',
+    scriptTag(UX_ACCESSIBILITY_SOURCE)
   ];
   const missingScripts = scripts.filter(function (script) {
     const source = script.match(/src="([^"]+)"/)[1];
     return !html.includes(source);
   });
-
   if (!missingScripts.length) return new Response(html, response);
 
   const injection = missingScripts.join('');
-  const enhancedHtml = html.includes('</body>')
-    ? html.replace('</body>', injection + '</body>')
-    : html + injection;
-
+  const enhancedHtml = html.includes('</body>') ? html.replace('</body>', injection + '</body>') : html + injection;
   const headers = new Headers(response.headers);
-  headers.delete('content-length');
-  headers.delete('etag');
-
-  return new Response(enhancedHtml, {
-    status: response.status,
-    statusText: response.statusText,
-    headers
-  });
+  headers.delete('content-length'); headers.delete('etag');
+  return new Response(enhancedHtml, { status: response.status, statusText: response.statusText, headers });
 }
 
 export const config = {
