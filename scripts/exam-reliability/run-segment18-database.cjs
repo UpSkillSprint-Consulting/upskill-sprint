@@ -27,7 +27,23 @@ const stalePayload=`jsonb_build_object(
   ),
   'resets','{}'::jsonb
 )`;
-const cleanPayload=`private.test_bank_security_tombstone_payload_v1(1,(SELECT purged_at FROM public.test_bank_data_control WHERE user_id='${A}'))`;
+const cleanPayload=`jsonb_build_object(
+  'schemaVersion',2,
+  'values',jsonb_build_object(
+    'tb-adaptive-security-control',jsonb_build_object(
+      'attempts',jsonb_build_array(),
+      'purgeGeneration',1,
+      'purgedAt',(SELECT purged_at FROM public.test_bank_data_control WHERE user_id='${A}')
+    )
+  ),
+  'resets',jsonb_build_object(
+    'mastery-exam:cssbb',(SELECT floor(extract(epoch FROM purged_at)*1000)::bigint FROM public.test_bank_data_control WHERE user_id='${A}'),
+    'mastery-exam:cqe',(SELECT floor(extract(epoch FROM purged_at)*1000)::bigint FROM public.test_bank_data_control WHERE user_id='${A}'),
+    'mastery-exam:cssgb',(SELECT floor(extract(epoch FROM purged_at)*1000)::bigint FROM public.test_bank_data_control WHERE user_id='${A}'),
+    'mastery-exam:cmq',(SELECT floor(extract(epoch FROM purged_at)*1000)::bigint FROM public.test_bank_data_control WHERE user_id='${A}'),
+    'mastery-exam:mbb',(SELECT floor(extract(epoch FROM purged_at)*1000)::bigint FROM public.test_bank_data_control WHERE user_id='${A}')
+  )
+)`;
 async function main(){
   const t=validateTarget(process.env.SEG03_DB_URL||'',process.env.SEG03_ALLOW_DISPOSABLE_DB);
   check('18 data-control table, purge RPCs and stale guards exist',()=>{
