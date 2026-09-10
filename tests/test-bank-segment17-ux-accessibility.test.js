@@ -76,11 +76,12 @@ test('focus visibility, touch target, reduced-motion, forced-color, contrast and
 test('WebKit contrast substitution remains fail-closed and independently verifies live computed styles',()=>{
   assert.match(browserRunner,/async function computedContrastAudit\(page\)/);
   assert.match(browserRunner,/const contrast=await computedContrastAudit\(page\)/);
-  assert.match(browserRunner,/assert\.deepEqual\(contrast\.offenders,\[\],viewport\.name\+'[:] live computed-style WCAG AA text contrast violations'\)/);
+  assert.match(browserRunner,/live computed-style WCAG AA text contrast violations/);
   assert.match(browserRunner,/engine==='webkit'\?seriousAll\.filter\(v=>v\.id==='color-contrast'\):\[\]/);
   assert.match(browserRunner,/engine==='webkit'\?seriousAll\.filter\(v=>v\.id!=='color-contrast'\):seriousAll/);
   assert.match(browserRunner,/AXE_WEBKIT_STALE_CONTRAST/);
   const liveAuditIndex=browserRunner.indexOf('const contrast=await computedContrastAudit(page)');
+  const liveAuditFailIndex=browserRunner.indexOf("assert.deepEqual(contrast.offenders,[]");
   const axeFilterIndex=browserRunner.indexOf("const staleWebKitContrast=engine==='webkit'");
-  assert.ok(liveAuditIndex>=0&&axeFilterIndex>liveAuditIndex,'computed-style contrast gate must execute before WebKit axe contrast substitution');
+  assert.ok(liveAuditIndex>=0&&liveAuditFailIndex>liveAuditIndex&&axeFilterIndex>liveAuditFailIndex,'computed-style contrast gate must fail closed before WebKit axe contrast substitution');
 });
