@@ -58,9 +58,9 @@ function production() {
     deployment: { commit: SHA, deployId: 'fixture-deploy', state: 'ready', context: 'production', publishedAt: '2020-01-01T00:00:00Z' },
     database: { projectStatus: 'ACTIVE_HEALTHY', verifiedAt: '2020-01-01T00:10:00Z', migrationVersions: [...r.ACCEPTED_BASELINE_MIGRATIONS, ...r.REQUIRED_MIGRATIONS], capabilities: Object.fromEntries(r.REQUIRED_SCHEMA_CAPABILITIES.map(k => [k, true])) },
     security: { leakedPasswordProtection: true, productionDependencyAudit: true, unresolvedReleaseRisks: 0, verifiedAt: '2020-01-01T00:20:00Z' },
-    smoke: { checks: r.REQUIRED_SMOKE_CHECKS.map(id => ({ id, status: 'passed' })), lostAcknowledgedEvidence: 0, duplicateCanonicalCompletions: 0, crossAccountExposure: 0, unexplainedReconciliation: 0 },
-    recovery: { rollbackRunbookVerified: true, forwardRecoveryVerified: true, backupRestoreVerified: true },
-    observation: { startedAt: '2020-01-01T00:20:00Z', endedAt: '2020-01-02T00:20:00Z', status: 'passed', confirmedIncidents: 0, healthChecksPassed: 24, healthChecksTotal: 24 },
+    smoke: { checks: r.REQUIRED_SMOKE_CHECKS.map(id => ({ id, status: 'passed', evidenceRef: `fixture://smoke/${id}` })), lostAcknowledgedEvidence: 0, duplicateCanonicalCompletions: 0, crossAccountExposure: 0, unexplainedReconciliation: 0 },
+    recovery: { rollbackRunbookVerified: true, forwardRecoveryVerified: true, backupRestoreVerified: true, evidenceRef: 'fixture://recovery' },
+    observation: { startedAt: '2020-01-01T00:20:00Z', endedAt: '2020-01-02T00:20:00Z', status: 'passed', confirmedIncidents: 0, healthChecksPassed: 24, healthChecksTotal: 24, evidenceRef: 'fixture://observation' },
     rubric: rubric()
   };
 }
@@ -108,25 +108,29 @@ test('hosted leaked-password protection and zero unresolved release risks are ma
   assert.throws(() => r.validateProduction(x), /security release risk/);
 });
 
-test('production smoke must cover exactly one passing record for every required path and preserve hard invariants', () => {
+test('production smoke must cover exactly one passing evidenced record for every required path and preserve hard invariants', () => {
   let x = production(); x.smoke.checks.pop();
   assert.throws(() => r.validateProduction(x), /smoke coverage mismatch/);
   x = production(); x.smoke.checks.find(row => row.id === 'crossAccountIsolation').status = 'failed';
   assert.throws(() => r.validateProduction(x), /has not passed/);
-  x = production(); x.smoke.checks.push({ id: 'crossAccountIsolation', status: 'failed' });
+  x = production(); x.smoke.checks.push({ id: 'crossAccountIsolation', status: 'failed', evidenceRef: 'fixture://contradiction' });
   assert.throws(() => r.validateProduction(x), /duplicate entries/);
+  x = production(); x.smoke.checks[0].evidenceRef = '   ';
+  assert.throws(() => r.validateProduction(x), /missing evidence provenance/);
   for (const key of ['lostAcknowledgedEvidence','duplicateCanonicalCompletions','crossAccountExposure','unexplainedReconciliation']) {
     x = production(); x.smoke[key] = 1;
     assert.throws(() => r.validateProduction(x));
   }
 });
 
-test('recovery readiness cannot be replaced by a green deployment', () => {
-  const x = production(); x.recovery.forwardRecoveryVerified = false;
+test('recovery readiness and provenance cannot be replaced by a green deployment', () => {
+  let x = production(); x.recovery.forwardRecoveryVerified = false;
   assert.throws(() => r.validateProduction(x), /recovery readiness/);
+  x = production(); x.recovery.evidenceRef = null;
+  assert.throws(() => r.validateProduction(x), /production recovery missing evidence provenance/);
 });
 
-test('production observation requires verified release prerequisites, a non-future end, and a clean full 24-hour window', () => {
+test('production observation requires verified release prerequisites, reviewable provenance, a non-future end, and a clean full 24-hour window', () => {
   let x = production(); x.observation.endedAt = '2020-01-02T00:19:59Z';
   assert.throws(() => r.validateProduction(x), /shorter than 24 hours/);
   x = production(); x.observation.startedAt = '2020-01-01T00:19:59Z'; x.observation.endedAt = '2020-01-02T00:20:00Z';
@@ -139,9 +143,11 @@ test('production observation requires verified release prerequisites, a non-futu
   assert.throws(() => r.validateProduction(x), /has not passed cleanly/);
   x = production(); x.observation.healthChecksPassed = 23;
   assert.throws(() => r.validateProduction(x), /health checks are incomplete/);
+  x = production(); x.observation.evidenceRef = '';
+  assert.throws(() => r.validateProduction(x), /production observation missing evidence provenance/);
 });
 
-test('all 20 frozen rubric criteria must pass against the exact release commit', () => {
+test('all 20 frozen rubric criteria must pass against the exact release commit with unique provenance', () => {
   let x = production(); x.rubric.criteria.pop();
   assert.throws(() => r.validateProduction(x), /criterion coverage mismatch/);
   x = production(); x.rubric.criteria.find(c => c.criterionId === 'AC17').environment = 'preview';
@@ -150,6 +156,8 @@ test('all 20 frozen rubric criteria must pass against the exact release commit',
   assert.throws(() => r.validateProduction(x), /release commit/);
   x = production(); x.rubric.criteria.push({ ...x.rubric.criteria[0] });
   assert.throws(() => r.validateProduction(x), /duplicate entries/);
+  x = production(); x.rubric.criteria[0].evidenceRef = ' ';
+  assert.throws(() => r.validateProduction(x), /missing evidence provenance/);
 });
 
 test('a blocked release never receives partial credit or a numeric rating', () => {
