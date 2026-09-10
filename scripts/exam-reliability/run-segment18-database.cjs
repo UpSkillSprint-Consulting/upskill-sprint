@@ -13,7 +13,20 @@ function commit(sql){return sql.replace(/ROLLBACK;$/,'COMMIT;');}
 function denied(t,name,sql,code){const r=run(t,sql);assert.notEqual(r.status,0,name);assert.ok(String(r.stderr||'').includes(code),`${name}: expected ${code}\n${r.stderr}`);passed.push(name);}
 function check(name,fn){fn();passed.push(name);}
 function count(t,sql,n){check(sql,()=>assert.equal(ok(t,`SELECT count(*) FROM (${sql}) q;`),String(n)));}
-const stalePayload=`jsonb_build_object('schemaVersion',2,'values',jsonb_build_object('tb-adaptive-security-control',jsonb_build_object('attempts',jsonb_build_array(),'purgeGeneration',1,'purgedAt',(SELECT purged_at FROM public.test_bank_data_control WHERE user_id='${A}')),'tb-attempt-history-v3',jsonb_build_object('attempts',jsonb_build_array(jsonb_build_object('id','old-attempt'))))),'resets','{}'::jsonb)`;
+const stalePayload=`jsonb_build_object(
+  'schemaVersion',2,
+  'values',jsonb_build_object(
+    'tb-adaptive-security-control',jsonb_build_object(
+      'attempts',jsonb_build_array(),
+      'purgeGeneration',1,
+      'purgedAt',(SELECT purged_at FROM public.test_bank_data_control WHERE user_id='${A}')
+    ),
+    'tb-attempt-history-v3',jsonb_build_object(
+      'attempts',jsonb_build_array(jsonb_build_object('id','old-attempt'))
+    )
+  ),
+  'resets','{}'::jsonb
+)`;
 const cleanPayload=`private.test_bank_security_tombstone_payload_v1(1,(SELECT purged_at FROM public.test_bank_data_control WHERE user_id='${A}'))`;
 async function main(){
   const t=validateTarget(process.env.SEG03_DB_URL||'',process.env.SEG03_ALLOW_DISPOSABLE_DB);
