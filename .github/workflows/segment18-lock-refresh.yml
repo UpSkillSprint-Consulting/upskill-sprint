@@ -1,0 +1,45 @@
+name: Segment 18 dependency lock refresh
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/segment18-lock-refresh.yml'
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version-file: '.node-version', cache: npm}
+      - name: Generate patched dependency lock
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'package.json';
+          const pkg = JSON.parse(fs.readFileSync(path, 'utf8'));
+          pkg.dependencies['@netlify/blobs'] = '10.7.13';
+          pkg.devDependencies.jspdf = '4.2.1';
+          fs.writeFileSync(path, JSON.stringify(pkg, null, 2) + '\n');
+          NODE
+          npm install --package-lock-only --ignore-scripts
+          npm ci --ignore-scripts
+      - name: Verify production advisory gate
+        run: npm audit --omit=dev --audit-level=high
+      - name: Capture complete audit
+        if: always()
+        run: npm audit --json > segment18-refresh-audit.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: segment18-lock-refresh-${{ github.run_id }}
+          path: |
+            package.json
+            package-lock.json
+            segment18-refresh-audit.json
+          retention-days: 7
