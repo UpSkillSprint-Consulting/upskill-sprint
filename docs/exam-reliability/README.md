@@ -2,73 +2,78 @@
 
 ## Current execution boundary
 
-Segments 01–14 are present on `main` at Segment 15 entry commit `463b844ae1e4e7022cde44b7645b2570b060d38f`; Segment 14 was human-merged through PR #180. Segment 15 is implemented for review on `fix/segment-15-session-handoff` and must be reviewed, merged, migrated and production-verified separately. Segments 16–20 have not started. Review, merge, database deployment, frontend deployment and physical/production acceptance remain separate gates.
+Segments 01–17 are human-merged on `main`. Segment 18 starts from exact merged Segment 17 commit `545315d79b18305137bea22612fc7bfe4f8bb388` and is implemented for review in PR #184 on `fix/segment-18-security-reset`. Segments 19–20 have not started. Review, merge, database deployment, frontend deployment, hosted Auth configuration, physical-device qualification and final production acceptance remain separate gates.
 
-The original program baseline remains `990e385350ae63d76cfc1e3940c3644859cc636a`. The cumulative program now includes baseline/contracts/framework, identity/versioning, local/server durability, reconciliation, grading/metrics/history, lifecycle/timing, incremental synchronization, and the Segment 15 canonical active-session handoff candidate. Product rating does not increase merely because code or tests are committed.
+The original program baseline remains `990e385350ae63d76cfc1e3940c3644859cc636a`. The cumulative program now covers baseline/contracts/framework, identity/versioning, local/server durability, reconciliation, grading/metrics/history, lifecycle/timing, incremental synchronization, canonical session handoff, authoritative New-only allocation, UX/accessibility, and the Segment 18 security/data-control candidate. Product rating does not increase merely because code or tests are committed.
 
 ## Records
 
-- [Segment 15 canonical session handoff](SEGMENT-15-SESSION-HANDOFF.md): owner-scoped cloud checkpoints, explicit writer takeover, preserved deadline/version state, stale-writer rejection, local-conflict preservation and remaining physical/production boundaries.
-- [Segment 14 incremental synchronization](SEGMENT-14-INCREMENTAL-SYNC.md): transaction-serialized server sequence cursors, safe catch-up, cancellation, bounded retry, idle-device catch-up, truthful combined status, rollout/recovery and remaining boundaries.
-- [Segment 13 authoritative timing](SEGMENT-13-AUTHORITATIVE-TIMING.md): persisted timing policy/deadline, trusted clock recovery, background/reload/offline handling, active-time accounting and Segment 15 takeover boundary.
-- [Segment 08 history reconciliation](SEGMENT-08-RECONCILIATION.md): canonical first/repeat/unknown projection, source-disagreement diagnostics, current-bank/date/reset scope, and a write-free deterministic dry run.
-- [Segment 07 server ingestion](SEGMENT-07-SERVER-INGESTION.md): authenticated idempotent operation receipts, serialized session transitions and atomic finalization.
-- [Segment 07 production deployment](SEGMENT-07-PRODUCTION-DEPLOYMENT.md): exact migration ledger, five-certification catalog counts, rollback-only role smoke and remaining production boundaries.
-- [Segment 06 local durability](SEGMENT-06-LOCAL-DURABILITY.md): owner-scoped durable drafts, explicit scored submission, fail-closed storage recovery and no database-enum expansion.
-- [WebKit full-review stability](WEBKIT-REVIEW-STABILITY.md): reproduced DOM/focus repair, same-document scan safeguards, independent process deadlines, and all-profile evidence acceptance on every PR.
-- [Segment 05 versions/catalog](SEGMENT-05-VERSIONS.md): immutable releases, original results, official-format disclosures and mandatory schema/seed/client release order.
-- [Segment 04 identity repair](SEGMENT-04-IDENTITY.md): atomic validation/imports, stable identity and the exact scope of G09 repair.
-- [Segment 03 framework](SEGMENT-03-FRAMEWORK.md): cumulative runtime, mutation, database-role and browser gates, methodology and explicit boundaries.
-- [Frozen test profiles](verification/v1/profiles.json): layouts, physical devices, networks, workloads, acceptance budgets and evidence retention.
-- [Segment 02 contract](contracts/v1/CONTRACT.md), [decisions](SEGMENT-02-DECISIONS.md) and [report](SEGMENT-02-REPORT.md).
-- [Dependency triage](SEGMENT-02-SECURITY-TRIAGE.md): installed/CDN reachability distinctions; R14 remains open.
-- [Hand-worked examples](contracts/v1/worked-examples.json) and [release rubric](contracts/v1/release-rubric.json).
-- [20-segment execution index](ROADMAP.md).
-- [Segment 01 baseline](SEGMENT-01-BASELINE.md), [defect/verification register](DEFECT-REGISTER.md), [machine-readable baseline](segment-01-baseline.json), and [read-only schema query](segment-01-schema.sql).
+- [Segment 18 security/reset](SEGMENT-18-SECURITY-RESET.md): owner-scoped deletion generation, stale-device resurrection guards, export hardening, actual restricted-role database tests, dependency reachability and production-configuration boundaries.
+- [Segment 17 UX/accessibility](SEGMENT-17-UX-ACCESSIBILITY.md): terminology, responsive/keyboard/screen-reader and WCAG-oriented acceptance while preserving prior exam behavior.
+- [Segment 16 New-only allocation](SEGMENT-16-NEW-ONLY-ALLOCATION.md): authoritative v2 reservation/allocation behavior and concurrency controls.
+- [Segment 15 canonical session handoff](SEGMENT-15-SESSION-HANDOFF.md): owner-scoped cloud checkpoints, explicit writer takeover, preserved deadline/version state and stale-writer rejection.
+- [Segment 14 incremental synchronization](SEGMENT-14-INCREMENTAL-SYNC.md): server sequence cursors, safe catch-up, cancellation, bounded retry and truthful combined status.
+- [Segment 13 authoritative timing](SEGMENT-13-AUTHORITATIVE-TIMING.md): persisted timing policy/deadline, trusted clock recovery, background/reload/offline handling and active-time accounting.
+- [Segment 12 session lifecycle](SEGMENT-12-SESSION-LIFECYCLE.md): valid state transitions and identity/version-based restoration.
+- [Segment 11 trends/history](SEGMENT-11-TRENDS-HISTORY.md): historical trend, timezone and complete-history behavior.
+- [Segment 10 mastery/readiness](SEGMENT-10-MASTERY-READINESS.md): accuracy, mastery, readiness and coverage semantics.
+- [Segment 09 grading](SEGMENT-09-GRADING.md): canonical grading, exact counts and unrounded threshold policy.
+- [Segment 08 history reconciliation](SEGMENT-08-RECONCILIATION.md): canonical first/repeat/unknown projection and write-free reconciliation.
+- [Segment 07 server ingestion](SEGMENT-07-SERVER-INGESTION.md): authenticated idempotent operation receipts and atomic finalization.
+- [Segment 07 production deployment](SEGMENT-07-PRODUCTION-DEPLOYMENT.md): historical deployment record and remaining production boundaries.
+- [Segment 06 local durability](SEGMENT-06-LOCAL-DURABILITY.md): owner-scoped durable drafts and fail-closed local persistence.
+- [Segment 05 versions/catalog](SEGMENT-05-VERSIONS.md): immutable releases, original results and schema/seed/client rollout order.
+- [Segment 04 identity repair](SEGMENT-04-IDENTITY.md): atomic validation/imports and stable identity.
+- [Segment 03 framework](SEGMENT-03-FRAMEWORK.md): cumulative runtime, mutation, database-role and browser gates.
+- [Frozen test profiles](verification/v1/profiles.json): layouts, physical devices, networks, workloads, budgets and evidence retention.
+- [Segment 02 contract](contracts/v1/CONTRACT.md), [decisions](SEGMENT-02-DECISIONS.md), [report](SEGMENT-02-REPORT.md) and [dependency triage](SEGMENT-02-SECURITY-TRIAGE.md).
+- [20-segment execution index](ROADMAP.md) and [Segment 01 defect register](DEFECT-REGISTER.md).
 
-Historical reports retain the status and evidence of their original segment; this README, roadmap and the current PR verification record hold the current execution status.
+Historical reports retain the state and evidence of their original segment; this README, roadmap and current PR record hold the current execution boundary.
 
-## Reproduce and review
+## Segment 18 reproduce and review
 
-Use the existing Node 22 environment and locked dependencies:
+Use Node 22 and locked application dependencies:
 
 ```sh
 npm ci
-node --check test-bank-session-handoff.js
-node --check test-bank-incremental-sync-policy.js
+node --check test-bank-security-reset.js
+node --check scripts/exam-reliability/run-segment18-database.cjs
 node --test --test-concurrency=1 \
+  tests/test-bank-segment18-security-reset.test.js \
+  tests/test-bank-segment17-ux-accessibility.test.js \
+  tests/test-bank-segment16-new-only-allocation.test.js \
   tests/test-bank-segment15-session-handoff.test.js \
   tests/test-bank-segment14-incremental-sync.test.js \
-  tests/test-bank-segment14-sync-policy.test.js \
   tests/test-bank-segment13-timing.test.js \
   tests/test-bank-segment12-session-lifecycle.test.js \
-  tests/test-bank-learning-events.test.js \
-  tests/test-bank-account-sync.test.js
-node scripts/exam-reliability/run-mutations.cjs
-node scripts/exam-reliability/run-node.cjs
+  tests/test-bank-segment11-trends-history.test.js \
+  tests/test-bank-segment10-mastery-readiness.test.js \
+  tests/test-bank-segment09-grading.test.js
 npm test
+npm audit --omit=dev --audit-level=high
 ```
 
-The cumulative framework provisions disposable PostgreSQL and pinned test-only browser tools. Segment 15's dedicated `Exam session handoff` workflow applies the complete repository schema to disposable PostgreSQL 17.6 before its checkpoint/takeover/authorization/concurrency checks, then runs two-context Chromium desktop and WebKit phone-layout handoff acceptance. No production learner credentials are required or used by these CI fixtures.
+The dedicated **Exam security and data controls** workflow also provisions disposable PostgreSQL 17.6, applies every repository migration through Segment 18, reruns the preserved Segment 03 database gate, then executes focused Segment 18 owner/RLS/RPC/deletion/stale-device checks. The test database is loopback-only and contains synthetic owners; no production learner credentials or records are used.
 
-Segment 01 `OBSERVATION` rows record existing behavior, including known defects. They are not desired-behavior acceptance passes. Preservation tests protect sound behavior; Segment 02's independent examples define target policies; Segment 03 verifies real code paths and test sensitivity. Later repairs must add desired-behavior regressions and close the matching register entry with evidence. Never turn a known-bug observation into an assertion that the wrong behavior must remain wrong.
+Segment 18 adds a full learning-history deletion path. It is deliberately distinct from the existing per-exam adaptive study reset: a reset changes the learner's current study view while retaining immutable lifetime evidence; full deletion removes the signed-in owner's persisted exam-learning evidence and leaves only a generation tombstone required to stop stale offline devices from resurrecting deleted data. Local state is cleared only after the server acknowledges the generation advance.
 
-One segment is active at a time. Recheck source/deployment and open PRs before each step. Keep cumulative tests and accepted contracts; do not reset learner records, renumber questions, weaken tests or attach unrelated refactors. Changes to a contract/profile require an explicit version/impact review and revalidation of dependent gates.
+The current product's Segment 16 UI continues to use `reserve_test_bank_new_questions_v2`. Legacy reservation functions remain temporarily callable because the preserved Segment 03 compatibility gate exercises them; their authenticated `auth.uid()` owner boundary is tested rather than weakening prior coverage. Segment 18 does not redefine New-only allocation semantics.
 
-Before Segment 15 approval, verify the exact-head **Full test suite**, **Exam reliability baseline**, **Exam reliability contracts**, **Exam reliability framework / Segment 03 cumulative gate**, **Exam question identity**, **Exam version catalog**, all cumulative Segment 06–14 gates that run on the PR, and the new **Exam session handoff / Segment 15 acceptance gate**. A reviewer must not merge a red or missing required evidence run. Dependency advisories are not resolved by a green test job.
+The reachable student mastery-export path is intercepted before the legacy document handler and uses jsPDF 4.2.1, with JSON fallback if the patched PDF runtime cannot load. The CI security job separately blocks high/critical **production** dependency advisories and retains the complete audit output for review; a green application test does not by itself close dependency risk.
 
-JSDOM, a mocked service and emulated mobile browsers are not physical-device, JWT/Data API or production-authorization acceptance. Actual PostgreSQL role tests exercise repository DDL in a disposable database, not live-schema parity. Screenshots are evidence, not a complete visual/WCAG approval. The unresolved product findings remain open in their assigned segments.
+## Production and security boundaries
 
-No automatic merge, production migration, learner-data write or future release rating is authorized by a passing PR. For Segment 15 specifically, the additive checkpoint/RPC migration must be deployed and verified **before** the frontend module is enabled. If the frontend is rolled back, the additive handoff table/functions may remain without changing grading or history semantics.
+At Segment 18 implementation entry, the connected Supabase project was healthy but its migration ledger was behind the repository's later reliability migrations. This PR does **not** deploy migrations or modify real learner history. Production database-first rollout and exact live-schema verification remain separately authorized work.
 
-## Segment 09 review
+The connected Supabase security advisor also reported leaked-password protection disabled in hosted Auth. That is a project configuration item rather than a repository SQL migration, so this PR documents it instead of claiming it was changed. Final security sign-off requires that setting and actual client/JWT/Data API behavior to be verified in the deployed environment.
 
-[Canonical grading implementation and verification scope](SEGMENT-09-GRADING.md) extends the merged Segments 01–08 without modifying their contracts or production migration records.
+JSDOM, disposable PostgreSQL roles and browser emulation are not physical iPhone/iPad, real JWT/PostgREST, or final production authorization acceptance. Screenshots and automated accessibility checks are evidence, not complete human/assistive-technology qualification. Those remaining boundaries belong to Segments 19–20.
 
-## Segment 14 review
+## Program controls
 
-[Incremental synchronization and convergence](SEGMENT-14-INCREMENTAL-SYNC.md) is human-merged through PR #180. Segment 15 keeps its server-sequence cursor, bounded catch-up, cancellation, retry and no-page-reload guarantees intact; it does not move a full ledger read back into Start.
+One segment is active at a time. Recheck source/deployment and open PRs before each step. Preserve accepted contracts and cumulative gates; do not reset learner evidence to make metrics agree, renumber questions, weaken tests, or attach unrelated refactors. Changes to a versioned contract/profile require explicit impact review.
 
-## Segment 15 review
+Before Segment 18 approval, verify the exact current PR head and every cumulative workflow that applies, including **Full test suite**, baseline/contracts/framework, identity/versioning, Segments 06–17 gates, and **Exam security and data controls / Segment 18 acceptance gate**. A reviewer must not merge a red, cancelled, skipped or missing gate.
 
-[Canonical active-session handoff](SEGMENT-15-SESSION-HANDOFF.md) starts from the exact merged Segment 14 `main` state. It adds a latest accepted checkpoint and explicit compare-and-swap writer takeover while reusing Segment 12 lifecycle restoration, Segment 13 trusted timing and Segment 14 incremental synchronization. It does not change New-only reservation semantics, question identity/content, grading, mastery, history reconciliation, or learner reset policy. A transfer includes only cloud-accepted state; local-only work from another device is disclosed and cannot silently overwrite the canonical session. Segment 16 does not start automatically after this PR.
+No automatic merge, production migration, hosted-auth change, learner-data write, or future release rating is authorized by a passing PR. Segment 19 does not start automatically.

@@ -2,6 +2,7 @@ const POLICY_SOURCE = '/test-bank-incremental-sync-policy.js';
 const ACCOUNT_SYNC_SOURCE = '/test-bank-account-sync.js';
 const LEARNING_SYNC_SOURCE = '/test-bank-learning-events.js';
 const NEW_ONLY_ALLOCATION_SOURCE = '/test-bank-new-only-allocation-v2.js';
+const SECURITY_RESET_SOURCE = '/test-bank-security-reset.js';
 const UX_ACCESSIBILITY_SOURCE = '/test-bank-ux-accessibility.js';
 const UX_ACCESSIBILITY_STYLE_SOURCE = '/test-bank-ux-accessibility.css';
 
@@ -66,6 +67,7 @@ export default async function testBankSetControls(request, context) {
     '<script src="/test-bank-analytics-dashboard.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery-completion-guard.js" defer></script>',
     '<script src="/test-bank-phases-integration.js" defer></script>',
+    scriptTag(SECURITY_RESET_SOURCE),
     scriptTag(UX_ACCESSIBILITY_SOURCE)
   ];
   const missingScripts = scripts.filter(function (script) {
