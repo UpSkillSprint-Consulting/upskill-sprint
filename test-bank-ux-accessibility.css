@@ -1,0 +1,12 @@
+/* Segment 17 — static learner-facing accessibility safeguards.
+   Loaded by the test-bank edge transform before the runtime enhancement layer.
+   Keep footer contrast resilient even when legacy inline declarations use
+   color:var(--muted) or late DOM work replaces footer descendants. */
+footer.site {
+  --muted: #cbd5e1 !important;
+  color: #cbd5e1 !important;
+}
+footer.site p,
+footer.site .footer-grid a {
+  color: #cbd5e1 !important;
+}
