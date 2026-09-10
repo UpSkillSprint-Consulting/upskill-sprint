@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "environment": "production",
+  "status": "pending",
+  "releaseCommit": null,
+  "deployment": {
+    "commit": null,
+    "deployId": null,
+    "state": null,
+    "context": "production",
+    "publishedAt": null
+  },
+  "database": {
+    "projectStatus": null,
+    "migrationVersions": [],
+    "capabilities": {
+      "trustedClock": false,
+      "incrementalSync": false,
+      "sessionHandoff": false,
+      "newOnlyV2": false,
+      "securityReset": false
+    }
+  },
+  "security": {
+    "leakedPasswordProtection": false,
+    "productionDependencyAudit": false,
+    "unresolvedReleaseRisks": null,
+    "advisorSnapshotAt": null
+  },
+  "smoke": {
+    "checks": [
+      {"id":"authenticatedTransport","status":"pending","evidenceRef":null},
+      {"id":"trustedClock","status":"pending","evidenceRef":null},
+      {"id":"incrementalSync","status":"pending","evidenceRef":null},
+      {"id":"sessionHandoff","status":"pending","evidenceRef":null},
+      {"id":"newOnlyV2","status":"pending","evidenceRef":null},
+      {"id":"historyReconciliation","status":"pending","evidenceRef":null},
+      {"id":"crossAccountIsolation","status":"pending","evidenceRef":null}
+    ],
+    "lostAcknowledgedEvidence": null,
+    "duplicateCanonicalCompletions": null,
+    "crossAccountExposure": null,
+    "unexplainedReconciliation": null
+  },
+  "recovery": {
+    "rollbackRunbookVerified": false,
+    "forwardRecoveryVerified": false,
+    "backupRestoreVerified": false,
+    "evidenceRef": null
+  },
+  "observation": {
+    "startedAt": null,
+    "endedAt": null,
+    "status": "pending",
+    "confirmedIncidents": null,
+    "healthChecksPassed": 0,
+    "healthChecksTotal": 0,
+    "evidenceRef": null
+  },
+  "rubric": {
+    "rubricVersion": "1.0.0",
+    "criteria": []
+  },
+  "notes": "Populate only with exact, reviewable production evidence. Do not mark a field passed from preview, emulation, synthetic network evidence, administrator-only access, or an earlier commit."
+}
