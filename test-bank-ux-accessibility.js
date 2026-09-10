@@ -84,7 +84,11 @@
     document.querySelectorAll('.tb-status,[data-status]').forEach(function(node){if(!node.hasAttribute('role'))node.setAttribute('role','status');if(!node.hasAttribute('aria-live'))node.setAttribute('aria-live','polite');});
   }
 
-  function enhance(){scheduled=false;ensureLiveRegion(STATUS_ID,'status','polite');ensureLiveRegion(ALERT_ID,'alert','assertive');enhanceAnalytics();enhanceQuiz();enhanceStatusNodes();}
+  function enhanceFooterContrast(){
+    document.querySelectorAll('footer.site p').forEach(function(node){node.style.setProperty('color','#cbd5e1','important');});
+  }
+
+  function enhance(){scheduled=false;ensureLiveRegion(STATUS_ID,'status','polite');ensureLiveRegion(ALERT_ID,'alert','assertive');enhanceAnalytics();enhanceQuiz();enhanceStatusNodes();enhanceFooterContrast();}
   function schedule(){if(scheduled)return;scheduled=true;frame=window.requestAnimationFrame(function(){frame=0;enhance();});}
 
   function ensureStyles(){if(document.getElementById(STYLE_ID))return;const style=document.createElement('style');style.id=STYLE_ID;style.textContent=
