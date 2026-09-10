@@ -103,7 +103,7 @@ try{
     const n=navigations.length;await sync(a);await sync(b);assert.equal(navigations.length,n);checks.push('synchronization does not navigate/reload the page');await shot(b,'two-context-history');
   }finally{await ca.tracing.stop({path:path.join(directory,'shared-a-trace.zip')});await cb.tracing.stop({path:path.join(directory,'shared-b-trace.zip')});await ca.close();await cb.close();}
   assert.deepEqual(errors,[],'Unhandled browser errors');
-}catch(e){failure=e.stack;}
+}catch(e){failure=e.stack;const esc=(failure||'').toString().replace(/%/g,'%25').replace(/\r/g,'%0D').replace(/\n/g,'%0A');console.log('::error::'+profile.id+': '+esc.slice(0,3000));}
 finally{const browserVersion=browser?browser.version():null;if(browser)await browser.close();if(server)await new Promise(r=>server.close(r));write(lane,{status:failure?'failed':'passed',tests:checks.length,browserVersion,errors:errors.length,blocked:blocked.length,timings:{ms:timings},profile:profile.id});
 console.log(JSON.stringify({lane,checks:checks.length,failure}));if(failure)process.exitCode=1;}
 }
