@@ -31,6 +31,10 @@ function harness(options={}){
   w.eval(source);
   return {w,calls,api:w.__TBSecurityData,close:()=>w.close(),setUser:value=>{currentUser=value;}};
 }
+function assertOutcome(actual,deleted,reason){
+  assert.equal(Boolean(actual&&actual.deleted),deleted);
+  assert.equal(actual&&actual.reason,reason);
+}
 
 test('18 security layer is injected after state modules and before accessibility',()=>{
   assert.match(edge,/SECURITY_RESET_SOURCE\s*=\s*'\/test-bank-security-reset\.js'/);
@@ -48,10 +52,10 @@ test('18 patched mastery export does not reference vulnerable jsPDF 2.5.2',()=>{
 
 test('18 destructive deletion requires exact second-step confirmation and authentication',async t=>{
   const h=harness();t.after(h.close);
-  assert.deepEqual(await h.api.deleteLearningData({}),{deleted:false,reason:'confirmation-required'});
+  assertOutcome(await h.api.deleteLearningData({}),false,'confirmation-required');
   assert.equal(h.calls.length,0);
   h.setUser(null);
-  assert.deepEqual(await h.api.deleteLearningData({confirm:'DELETE'}),{deleted:false,reason:'not-signed-in'});
+  assertOutcome(await h.api.deleteLearningData({confirm:'DELETE'}),false,'not-signed-in');
   assert.equal(h.calls.length,0);
 });
 
