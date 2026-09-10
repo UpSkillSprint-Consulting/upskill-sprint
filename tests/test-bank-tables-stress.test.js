@@ -336,9 +336,7 @@ test('STRESS: repeated alpha switching on a matrix table always reflects the lat
 
   const alphaSequence = ['0.01', '0.10', '0.05', '0.99', '0.05'];
   for (const a of alphaSequence) {
-    const sel = dom.window.document.querySelector('[data-tbl-key="alpha"]');
-    sel.value = a;
-    sel.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+    setKey(dom, 'alpha', a);
     await wait(dom.window, 30);
   }
   setKey(dom, 'v1', '4');
