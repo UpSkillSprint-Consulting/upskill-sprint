@@ -88,6 +88,7 @@
   function ensureStyles(){if(document.getElementById(STYLE_ID))return;const style=document.createElement('style');style.id=STYLE_ID;style.textContent=
     '.tb-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}' +
     'body input,body select,body textarea{max-width:100%;box-sizing:border-box}' +
+    'footer.site p{color:#cbd5e1!important}' +
     '#tb-overview :focus-visible,#tb-analytics-panel :focus-visible,[data-open-analytics]:focus-visible{outline:3px solid currentColor!important;outline-offset:3px!important}' +
     '#tb-overview button,#tb-overview [role="button"],#tb-overview a,.tb-an-tab,.tb-ghost{min-height:44px}' +
     '@media (prefers-reduced-motion:reduce){#tb-overview *,#tb-analytics-panel *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}' +
