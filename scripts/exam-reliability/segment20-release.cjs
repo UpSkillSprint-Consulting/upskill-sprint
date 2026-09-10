@@ -58,6 +58,10 @@ function sha(value, label) {
   if (typeof value !== 'string' || !/^[0-9a-f]{40}$/.test(value)) throw Error(`${label} must be an exact 40-character commit SHA`);
   return value;
 }
+function requireEvidenceRef(value, label) {
+  if (typeof value !== 'string' || !value.trim()) throw Error(`${label} missing evidence provenance`);
+  return value;
+}
 function uniqueSet(actual, label) {
   if (!Array.isArray(actual)) throw Error(`${label} must be an array`);
   const values = actual.map(value => String(value));
@@ -96,7 +100,8 @@ function validateRubricEvidence(evidence, releaseCommit) {
   for (const row of evidence.criteria) {
     const criterion = rubric.areas.flatMap(x => x.criteria).find(x => x.id === row.criterionId);
     if (row.status !== 'passed') throw Error(`release criterion ${row.criterionId} has not passed`);
-    if (!row.evidenceRef || !row.environment) throw Error(`release criterion ${row.criterionId} missing evidence provenance`);
+    requireEvidenceRef(row.evidenceRef, `release criterion ${row.criterionId}`);
+    if (!row.environment) throw Error(`release criterion ${row.criterionId} missing evidence provenance`);
     if (!rubric.allowedEnvironments.includes(row.environment)) throw Error(`release criterion ${row.criterionId} has invalid environment`);
     if (row.verifiedCommit !== releaseCommit) throw Error(`release criterion ${row.criterionId} was not verified against the release commit`);
     if (criterion.requiredEnvironment && row.environment !== criterion.requiredEnvironment) throw Error(`release criterion ${row.criterionId} requires ${criterion.requiredEnvironment}`);
@@ -119,12 +124,16 @@ function validateProduction(evidence) {
 
   const smokeChecks = evidence.smoke?.checks || [];
   exactSet(smokeChecks.map(x => x.id), REQUIRED_SMOKE_CHECKS, 'production smoke');
-  for (const row of smokeChecks) if (row.status !== 'passed') throw Error(`production smoke ${row.id} has not passed`);
+  for (const row of smokeChecks) {
+    if (row.status !== 'passed') throw Error(`production smoke ${row.id} has not passed`);
+    requireEvidenceRef(row.evidenceRef, `production smoke ${row.id}`);
+  }
   if (evidence.smoke?.lostAcknowledgedEvidence !== 0) throw Error('production smoke detected acknowledged evidence loss');
   if (evidence.smoke?.duplicateCanonicalCompletions !== 0) throw Error('production smoke detected duplicate canonical completion');
   if (evidence.smoke?.crossAccountExposure !== 0) throw Error('production smoke detected cross-account exposure');
   if (evidence.smoke?.unexplainedReconciliation !== 0) throw Error('production smoke detected unexplained reconciliation');
   if (evidence.recovery?.rollbackRunbookVerified !== true || evidence.recovery?.forwardRecoveryVerified !== true || evidence.recovery?.backupRestoreVerified !== true) throw Error('production recovery readiness incomplete');
+  requireEvidenceRef(evidence.recovery?.evidenceRef, 'production recovery');
 
   const now = Date.now();
   const deployedAt = parseTime(evidence.deployment?.publishedAt, 'deployment.publishedAt');
@@ -138,6 +147,7 @@ function validateProduction(evidence) {
   if (end - start < MIN_OBSERVATION_MS) throw Error('production observation window is shorter than 24 hours');
   if (evidence.observation?.status !== 'passed' || evidence.observation?.confirmedIncidents !== 0) throw Error('production observation window has not passed cleanly');
   if (evidence.observation?.healthChecksPassed !== evidence.observation?.healthChecksTotal || !(evidence.observation?.healthChecksTotal > 0)) throw Error('production observation health checks are incomplete');
+  requireEvidenceRef(evidence.observation?.evidenceRef, 'production observation');
   const points = validateRubricEvidence(evidence.rubric, releaseCommit);
   return { releaseCommit, points };
 }
