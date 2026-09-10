@@ -143,6 +143,22 @@
     sanitizeAccountMetadata: sanitizeAccountMetadata
   });
 
+  /* Segment 15 is an additive companion to the Segment 14 transport policy.
+     Load it once without adding another poll loop or moving any history fetch
+     back onto the quiz Start path. The handoff module waits for lifecycle,
+     learning, authentication and timing runtimes as needed. */
+  function loadSessionHandoff() {
+    if (window.__TBSessionHandoff || document.querySelector('script[data-segment15-handoff]')) return;
+    const script = document.createElement('script');
+    script.src = '/test-bank-session-handoff.js';
+    script.async = false;
+    script.dataset.segment15Handoff = 'true';
+    script.addEventListener('error', function () { console.error('[exam-session-handoff] session transfer adapter failed to load'); }, { once: true });
+    document.head.appendChild(script);
+  }
+
   attachAccountMetadataGuard();
+  if (window.__TBSessionLifecycle) loadSessionHandoff();
+  else window.addEventListener('load', loadSessionHandoff, { once: true });
   try { document.dispatchEvent(new CustomEvent('tb:incremental-sync-policy-ready', { detail: { version: VERSION } })); } catch (error) {}
 }());
