@@ -9,6 +9,7 @@ const source=fs.readFileSync(path.join(ROOT,'test-bank-security-reset.js'),'utf8
 const edge=fs.readFileSync(path.join(ROOT,'netlify/edge-functions/test-bank-set-controls.js'),'utf8');
 const migration=fs.readFileSync(path.join(ROOT,'supabase/migrations/20260910050000_add_security_reset_v1.sql'),'utf8');
 const compatibility=fs.readFileSync(path.join(ROOT,'supabase/migrations/20260910050100_preserve_legacy_reservation_compat.sql'),'utf8');
+const concurrency=fs.readFileSync(path.join(ROOT,'supabase/migrations/20260910050200_harden_security_reset_concurrency.sql'),'utf8');
 
 function tick(){return new Promise(resolve=>setTimeout(resolve,0));}
 function harness(options={}){
@@ -75,6 +76,13 @@ test('18 acknowledged server deletion advances generation before local learner s
   assert.equal(w.localStorage.getItem('unrelated-setting'),'keep-me');
   const marker=JSON.parse(w.localStorage.getItem('tb-adaptive-security-control'));
   assert.equal(marker.purgeGeneration,3);assert.equal(w.localStorage.getItem('tb-security-purge-ack-v1'),'3');
+  assert.equal(result.reloadScheduled,true);
+});
+
+test('18 successful local purge requests a one-time reload before claiming live state is gone',()=>{
+  assert.match(source,/function reloadAfterPurge\(generation\)/);
+  assert.match(source,/const reloadScheduled=reloadAfterPurge\(generation\)/);
+  assert.match(source,/Reloading this browser to finish clearing live state/);
 });
 
 test('18 RPC error never clears local data or reports deletion success',async t=>{
@@ -105,6 +113,14 @@ test('18 database migration keeps purge authority owner-scoped and blocks stale 
   assert.match(migration,/delete from public\.test_bank_session_versions where user_id=uid/i);
   assert.match(migration,/delete from public\.test_bank_new_question_claims where user_id=uid/i);
   assert.match(migration,/test_bank_security_tombstone_payload_v1/);
+});
+
+test('18 review hardening serializes purge races and never trusts browser clock for stale events',()=>{
+  assert.match(concurrency,/pg_advisory_xact_lock\(/);
+  assert.match(concurrency,/pg_advisory_xact_lock_shared\(/);
+  assert.match(concurrency,/device_id\s*=\s*new\.device_id/i);
+  assert.match(concurrency,/device_generation\s+is\s+null\s+or\s+device_generation\s*<\s*ctl\.generation/i);
+  assert.doesNotMatch(concurrency,/new\.occurred_at\s*[<>]=?\s*ctl\.purged_at/i);
 });
 
 test('18 legacy reservation compatibility is explicit while Segment 16 stays authoritative',()=>{
