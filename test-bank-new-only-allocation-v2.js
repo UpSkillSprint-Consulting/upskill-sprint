@@ -13,32 +13,17 @@
 
   function asArray(value) { return Array.isArray(value) ? value : []; }
   function record(value) { return value && typeof value === 'object' && !Array.isArray(value) ? value : {}; }
-  function user() {
-    const auth = window.UpskillAuth;
-    return auth && typeof auth.getUser === 'function' ? auth.getUser() : null;
-  }
-  function client() {
-    const auth = window.UpskillAuth;
-    return auth && typeof auth.getClient === 'function' ? auth.getClient() : null;
-  }
+  function user() { const auth = window.UpskillAuth; return auth && typeof auth.getUser === 'function' ? auth.getUser() : null; }
+  function client() { const auth = window.UpskillAuth; return auth && typeof auth.getClient === 'function' ? auth.getClient() : null; }
   function online() { return typeof navigator === 'undefined' || navigator.onLine !== false; }
-  function safeId(value) {
-    const text = String(value == null ? '' : value).trim();
-    return /^[A-Za-z0-9:_-]{3,180}$/.test(text) ? text : '';
-  }
+  function safeId(value) { const text = String(value == null ? '' : value).trim(); return /^[A-Za-z0-9:_-]{3,180}$/.test(text) ? text : ''; }
   function uuidish() {
     if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID().replace(/-/g, '');
     return Date.now().toString(36) + Math.random().toString(36).slice(2, 16);
   }
-  function emit(name, detail) {
-    try { document.dispatchEvent(new CustomEvent(name, { detail: detail || {} })); } catch (error) {}
-  }
-  function readJson(key) {
-    try { return JSON.parse(sessionStorage.getItem(key) || 'null'); } catch (error) { return null; }
-  }
-  function writeJson(key, value) {
-    try { sessionStorage.setItem(key, JSON.stringify(value)); return true; } catch (error) { return false; }
-  }
+  function emit(name, detail) { try { document.dispatchEvent(new CustomEvent(name, { detail: detail || {} })); } catch (error) {} }
+  function readJson(key) { try { return JSON.parse(sessionStorage.getItem(key) || 'null'); } catch (error) { return null; } }
+  function writeJson(key, value) { try { sessionStorage.setItem(key, JSON.stringify(value)); return true; } catch (error) { return false; } }
   function removeKey(key) { try { sessionStorage.removeItem(key); } catch (error) {} }
   function planKey(ownerId, examId) { return STORAGE_PREFIX + ownerId + ':' + examId; }
   function activeKey(sessionId) { return ACTIVE_PREFIX + sessionId; }
@@ -69,13 +54,11 @@
 
   function questionIds(learning, examId, input) {
     const raw = Object.prototype.hasOwnProperty.call(input, 'questionIds') ? asArray(input.questionIds) : asArray(input.questions);
-    const seen = new Set();
-    const ids = [];
+    const seen = new Set(), ids = [];
     raw.forEach(function (candidate) {
       const id = typeof candidate === 'string' ? safeId(candidate) : safeId(learning.questionId(examId, candidate));
       if (!id || seen.has(id)) return;
-      seen.add(id);
-      ids.push(id);
+      seen.add(id); ids.push(id);
     });
     return ids;
   }
@@ -87,44 +70,40 @@
     return Boolean(registry && typeof registry.validateSelection === 'function' && registry.validateSelection(examId, candidates).valid);
   }
 
+  function versionValid(examId, ids) {
+    if (!(window.__TB && window.__TB.examVersionPolicy === 'catalog-v1')) return true;
+    try {
+      const registry = window.__TBQuestionRegistry;
+      if (!window.__TBVersions || !window.__TBVersionCatalog || !registry || typeof registry.find !== 'function') return false;
+      if (!window.__TB.EXAMS || !window.__TB.EXAMS[examId] || !window.__TBVersionCatalog.exams || !window.__TBVersionCatalog.exams[examId]) return false;
+      window.__TBVersions.validateCandidates(
+        examId,
+        ids.map(function (id) { return registry.find(examId, id); }),
+        window.__TB.EXAMS[examId],
+        window.__TBVersionCatalog.exams[examId]
+      );
+      return true;
+    } catch (error) { return false; }
+  }
+
   function pendingPlan(ownerId, examId) {
     const plan = record(readJson(planKey(ownerId, examId)));
     return plan.ownerId === ownerId && plan.examId === examId && plan.plannedSessionId && plan.status === 'reserved' ? plan : null;
   }
 
   function newPlan(ownerId, examId) {
-    return {
-      schemaVersion: VERSION,
-      ownerId: ownerId,
-      examId: examId,
-      plannedSessionId: 'new-only-' + uuidish(),
-      requestId: 'request-' + uuidish(),
-      reservationId: null,
-      acceptedIds: [],
-      status: 'reserved',
-      createdAt: Date.now()
-    };
+    return { schemaVersion: VERSION, ownerId, examId, plannedSessionId: 'new-only-' + uuidish(), requestId: 'request-' + uuidish(), reservationId: null, acceptedIds: [], status: 'reserved', createdAt: Date.now() };
   }
 
   function failure(reason, ids, ownerId, error) {
-    return {
-      reserved: false,
-      ready: false,
-      reason: reason,
-      acceptedIds: [],
-      rejectedIds: ids,
-      userId: ownerId || null,
-      error: error ? String(error && error.message || error) : undefined
-    };
+    return { reserved: false, ready: false, reason, acceptedIds: [], rejectedIds: ids, userId: ownerId || null, error: error ? String(error && error.message || error) : undefined };
   }
 
   async function reserve(learning, input) {
     input = record(input);
-    const current = user();
-    const remote = client();
-    const examId = safeId(input.examId);
-    const ids = questionIds(learning, examId, input);
+    const current = user(), remote = client(), examId = safeId(input.examId), ids = questionIds(learning, examId, input);
     if (!identityValid(examId, input)) return failure('invalid-question-identity', [], current && current.id);
+    if (!versionValid(examId, ids)) return failure('invalid-exam-version', ids, current && current.id);
     if (!current || !remote) return failure('not-signed-in', ids, current && current.id);
     if (!online()) return failure('offline', ids, current.id);
     if (!examId || !ids.length || ids.length > 100) return failure('invalid-candidates', ids, current.id);
@@ -138,27 +117,19 @@
     }
 
     try {
-      const result = await withTimeout(remote.rpc(ALLOCATE_RPC, {
-        p_exam_id: examId,
-        p_planned_session_id: plan.plannedSessionId,
-        p_request_id: plan.requestId,
-        p_question_ids: ids
-      }), 'New-only allocation');
+      const result = await withTimeout(remote.rpc(ALLOCATE_RPC, { p_exam_id: examId, p_planned_session_id: plan.plannedSessionId, p_request_id: plan.requestId, p_question_ids: ids }), 'New-only allocation');
       if (result && result.error) throw result.error;
       const after = user();
       if (!after || after.id !== current.id) return failure('account-changed', ids, current.id);
       const rows = result && result.data;
       if (!Array.isArray(rows)) return failure('invalid-response', ids, current.id);
-      const accepted = [];
-      const acceptedSet = new Set();
-      let reservationId = '';
-      let serverReused = reusedRequest;
+      const accepted = [], acceptedSet = new Set();
+      let reservationId = '', serverReused = reusedRequest;
       rows.forEach(function (row) {
         row = record(row);
         const id = safeId(row.question_id);
         if (!id || acceptedSet.has(id)) return;
-        acceptedSet.add(id);
-        accepted.push(id);
+        acceptedSet.add(id); accepted.push(id);
         reservationId = reservationId || String(row.reservation_id || '');
         serverReused = serverReused || row.reused === true;
       });
@@ -166,33 +137,23 @@
         removeKey(planKey(current.id, examId));
         return failure('pool-exhausted', ids, current.id);
       }
-      plan.reservationId = reservationId;
-      plan.acceptedIds = accepted;
-      plan.status = 'reserved';
-      plan.updatedAt = Date.now();
+      plan.reservationId = reservationId; plan.acceptedIds = accepted; plan.status = 'reserved'; plan.updatedAt = Date.now();
       writeJson(planKey(current.id, examId), plan);
-      emit('tb:new-only-allocation', { state: 'reserved', examId: examId, reservationId: reservationId, plannedSessionId: plan.plannedSessionId, reused: serverReused, count: accepted.length });
-      return {
-        reserved: true,
-        ready: true,
-        reason: serverReused ? 'reservation-reused' : 'reserved',
-        examId: examId,
-        userId: current.id,
-        reservationId: reservationId,
-        plannedSessionId: plan.plannedSessionId,
-        acceptedIds: accepted,
-        rejectedIds: ids.filter(function (id) { return !acceptedSet.has(id); }),
-        reused: serverReused
-      };
+      emit('tb:new-only-allocation', { state: 'reserved', examId, reservationId, plannedSessionId: plan.plannedSessionId, reused: serverReused, count: accepted.length });
+      return { reserved: true, ready: true, reason: serverReused ? 'reservation-reused' : 'reserved', examId, userId: current.id, reservationId, plannedSessionId: plan.plannedSessionId, acceptedIds: accepted, rejectedIds: ids.filter(function (id) { return !acceptedSet.has(id); }), reused: serverReused };
     } catch (error) {
       const message = String(error && error.message || error || '');
       if (/NEW_ONLY_EXHAUSTED/i.test(message)) {
         removeKey(planKey(current.id, examId));
-        emit('tb:new-only-allocation', { state: 'blocked', reason: 'pool-exhausted', examId: examId });
+        emit('tb:new-only-allocation', { state: 'blocked', reason: 'pool-exhausted', examId });
         return failure('pool-exhausted', ids, current.id, error);
       }
+      if (/NEW_ONLY_RESERVATION_ABANDONED/i.test(message)) {
+        removeKey(planKey(current.id, examId));
+        return failure('reservation-abandoned', ids, current.id, error);
+      }
       const reason = error && error.code === 'TB_NEW_ONLY_TIMEOUT' ? 'timeout' : 'rpc-error';
-      emit('tb:new-only-allocation', { state: 'blocked', reason: reason, examId: examId });
+      emit('tb:new-only-allocation', { state: 'blocked', reason, examId });
       return failure(reason, ids, current.id, error);
     }
   }
@@ -200,16 +161,12 @@
   function mark(reservationId, state, questionId) {
     const remote = client();
     if (!reservationId || !remote || typeof remote.rpc !== 'function' || !online()) return Promise.resolve({ marked: false, reason: 'unavailable' });
-    return withTimeout(remote.rpc(MARK_RPC, {
-      p_reservation_id: reservationId,
-      p_state: state,
-      p_question_id: questionId || null
-    }), 'New-only lifecycle update').then(function (result) {
+    return withTimeout(remote.rpc(MARK_RPC, { p_reservation_id: reservationId, p_state: state, p_question_id: questionId || null }), 'New-only lifecycle update').then(function (result) {
       if (result && result.error) throw result.error;
-      emit('tb:new-only-allocation', { state: state, reservationId: reservationId, questionId: questionId || null });
-      return { marked: true, state: state };
+      emit('tb:new-only-allocation', { state, reservationId, questionId: questionId || null });
+      return { marked: true, state };
     }).catch(function (error) {
-      emit('tb:new-only-allocation-error', { state: state, reservationId: reservationId, questionId: questionId || null, error: String(error && error.message || error) });
+      emit('tb:new-only-allocation-error', { state, reservationId, questionId: questionId || null, error: String(error && error.message || error) });
       return { marked: false, reason: error && error.code === 'TB_NEW_ONLY_TIMEOUT' ? 'timeout' : 'rpc-error' };
     });
   }
@@ -222,8 +179,7 @@
   function bindStartedSession(learning, input, result) {
     const current = user();
     if (!current || !result || result.saved === false || !result.sessionId) return;
-    const examId = safeId(input && input.examId);
-    const plan = examId ? pendingPlan(current.id, examId) : null;
+    const examId = safeId(input && input.examId), plan = examId ? pendingPlan(current.id, examId) : null;
     if (!plan || !plan.reservationId) return;
     const startedIds = questionIds(learning, examId, record(input));
     if (!startedIds.some(function (id) { return plan.acceptedIds.indexOf(id) !== -1; })) return;
@@ -272,43 +228,26 @@
       abandonSession: learning.abandonSession && learning.abandonSession.bind(learning),
       completeSession: learning.completeSession && learning.completeSession.bind(learning)
     };
-
     learning.reserveNewQuestions = function (input) { return reserve(learning, input); };
-
-    if (original.startSession) learning.startSession = function (input) {
-      const result = original.startSession(input);
-      bindStartedSession(learning, record(input), result);
-      return result;
-    };
-
+    if (original.startSession) learning.startSession = function (input) { const result = original.startSession(input); bindStartedSession(learning, record(input), result); return result; };
     if (original.recordAnswer) learning.recordAnswer = function (input) {
-      const result = original.recordAnswer(input);
-      const active = activeReservation(String(input && input.sessionId || ''));
+      const result = original.recordAnswer(input), active = activeReservation(String(input && input.sessionId || ''));
       if (active && result && result.saved !== false && input && input.question) {
         const qid = safeId(learning.questionId(input.examId || active.examId, input.question));
         if (qid && active.acceptedIds.indexOf(qid) !== -1) mark(active.reservationId, 'answered', qid);
       }
       return result;
     };
-
     if (original.abandonSession) learning.abandonSession = function (input) {
-      const sessionId = String(input && input.sessionId || '');
-      const active = activeReservation(sessionId);
-      const result = original.abandonSession(input);
-      if (active && result) {
-        mark(active.reservationId, 'abandoned', null);
-        removeKey(activeKey(sessionId));
-      }
+      const sessionId = String(input && input.sessionId || ''), active = activeReservation(sessionId), result = original.abandonSession(input);
+      if (active && result) { mark(active.reservationId, 'abandoned', null); removeKey(activeKey(sessionId)); }
       return result;
     };
-
     if (original.completeSession) learning.completeSession = function (input) {
-      const sessionId = String(input && input.sessionId || '');
-      const result = original.completeSession(input);
+      const sessionId = String(input && input.sessionId || ''), result = original.completeSession(input);
       if (result && result.saved !== false) removeKey(activeKey(sessionId));
       return result;
     };
-
     learning.newOnlyAllocationVersion = VERSION;
     installDisplayObserver();
     emit('tb:new-only-allocation-ready', { version: VERSION });
@@ -320,8 +259,8 @@
     allocateRpc: ALLOCATE_RPC,
     markRpc: MARK_RPC,
     fetchRpc: FETCH_RPC,
-    install: install,
-    mark: mark,
+    install,
+    mark,
     pendingPlan: function (examId) { const current = user(); return current ? pendingPlan(current.id, safeId(examId)) : null; }
   };
 
