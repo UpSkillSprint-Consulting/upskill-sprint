@@ -22,7 +22,7 @@ async function context(owner){
   await c.tracing.start({screenshots:true,snapshots:true,sources:false});return c;
 }
 async function open(c){const page=await c.newPage();page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(e.message));page.on('crash',()=>errors.push('browser page crash'));page.on('framecrashed',()=>errors.push('browser frame crash'));const start=performance.now();
-  await page.goto(base+'/');
+  await page.goto(base+'/test-bank.html');
   await page.waitForFunction(()=>window.__TB && window.__TBLearning && window.__TBAccountSync && window.__TBRetakeConfiguration && document.body.classList.contains('auth-ready'));
   // Both startup hydrators can schedule browse replacement. Finish their real
   // promises and enhancement frames before interacting; do not retry lost clicks.
@@ -106,4 +106,5 @@ try{
 }catch(e){failure=e.stack;}
 finally{const browserVersion=browser?browser.version():null;if(browser)await browser.close();if(server)await new Promise(r=>server.close(r));write(lane,{status:failure?'failed':'passed',tests:checks.length,browserVersion,errors:errors.length,blocked:blocked.length,timings:{ms:timings},profile:profile.id});
 console.log(JSON.stringify({lane,checks:checks.length,failure}));if(failure)process.exitCode=1;}
+}
 main();
