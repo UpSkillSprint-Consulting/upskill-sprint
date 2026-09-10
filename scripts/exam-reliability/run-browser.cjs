@@ -104,7 +104,7 @@ try{
   }finally{await ca.tracing.stop({path:path.join(directory,'shared-a-trace.zip')});await cb.tracing.stop({path:path.join(directory,'shared-b-trace.zip')});await ca.close();await cb.close();}
   assert.deepEqual(errors,[],'Unhandled browser errors');
 }catch(e){failure=e.stack;const esc=(failure||'').toString().replace(/%/g,'%25').replace(/\r/g,'%0D').replace(/\n/g,'%0A');console.log('::error::'+profile.id+': '+esc.slice(0,3000));}
-finally{const browserVersion=browser?browser.version():null;if(browser)await browser.close();if(server)await new Promise(r=>server.close(r));write(lane,{status:failure?'failed':'passed',tests:checks.length,browserVersion,errors:errors.length,blocked:blocked.length,timings:{ms:timings},profile:profile.id});
+finally{const browserVersion=browser?browser.version():null;if(browser)await browser.close();if(server)await new Promise(r=>server.close(r));write(lane,{status:failure?'failed':'passed',tests:checks.length,failures:failure?1:0,skipped:0,checks,error:failure,pageErrors:errors,blockedExternalOrigins:[...new Set(blocked)],timings,profile,playwrightVersion:pkg.version,browserVersion,command:`SEG03_BROWSER_PROFILE=${profile.id} node scripts/exam-reliability/run-browser.cjs`,limitations:['Auth and remote persistence are synthetic; no live Supabase or Data API.','WebKit phone/tablet layouts are emulation, not iOS devices.','External resources blocked; screenshots retained, no visual or WCAG sign-off.','Cross-context history sync only, not active-session takeover.']});
 console.log(JSON.stringify({lane,checks:checks.length,failure}));if(failure)process.exitCode=1;}
 }
 main();
