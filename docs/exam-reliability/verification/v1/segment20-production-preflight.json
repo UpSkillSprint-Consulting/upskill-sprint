@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-10T20:46:42Z",
+  "environment": "production",
+  "status": "blocked_preflight",
+  "releaseCandidateCommit": "b48b205fc355942956b25220881c32d949ac1224",
+  "deployment": {
+    "site": "upskillsprint",
+    "deployId": "6aa315ae4dbede0008122e10",
+    "commit": "b48b205fc355942956b25220881c32d949ac1224",
+    "state": "ready",
+    "context": "production",
+    "publishedAt": "2026-09-10T20:41:08.326Z"
+  },
+  "database": {
+    "projectStatus": "ACTIVE_HEALTHY",
+    "postgresMajor": 17,
+    "migrationVersionsObserved": [
+      "20260821151016",
+      "20260821153716",
+      "20260821162227",
+      "20260830235559",
+      "20260831004551",
+      "20260831010000",
+      "20260831051512",
+      "20260831224207",
+      "20260903122940",
+      "20260903123402",
+      "20260903123535",
+      "20260905030445",
+      "20260908010000",
+      "20260908180000"
+    ],
+    "requiredRepositoryMigrationsMissing": [
+      "20260909152000",
+      "20260909195500",
+      "20260910010000",
+      "20260910030000",
+      "20260910050000",
+      "20260910050100",
+      "20260910050200"
+    ],
+    "capabilities": {
+      "trustedClock": false,
+      "incrementalSync": false,
+      "sessionHandoff": false,
+      "newOnlyV2": false,
+      "securityReset": false
+    }
+  },
+  "segment19": {
+    "physicalEvidence": "pending_physical",
+    "realNetworkEvidence": "pending_real_network"
+  },
+  "security": {
+    "leakedPasswordProtection": false,
+    "productionDependencyAudit": "passed_in_segment19_ci",
+    "advisorReview": {
+      "intentionalRpcControlledTableNotice": true,
+      "securityDefinerWarningsRequireIntentReview": true,
+      "unresolvedHostedAuthReleaseRisk": true
+    }
+  },
+  "performanceAdvisors": {
+    "unindexedForeignKeyNotices": 11,
+    "duplicateIndexWarnings": 1,
+    "authConnectionStrategyNotices": 1,
+    "releaseDisposition": "measure against frozen Segment 19 real-network budgets before altering schema solely to clear advisory counts"
+  },
+  "productionSmoke": "not_run_because_schema_prerequisites_missing",
+  "observationWindow": "not_started",
+  "rating": null,
+  "blockingReasons": [
+    "Seven human-merged repository migrations are not present in production.",
+    "Critical Segment 13-18 production capabilities are therefore absent.",
+    "Supabase Auth leaked-password protection is not verified enabled.",
+    "Segment 19 physical-device evidence remains pending.",
+    "Segment 19 witnessed real-network performance evidence remains pending.",
+    "Production smoke/reconciliation must follow compatible schema deployment.",
+    "A clean 24-hour production observation window has not yet been completed."
+  ],
+  "notes": "This is an evidence snapshot, not a deployment script and not a release approval. It contains no learner records, credentials, tokens, or service-role material."
+}
