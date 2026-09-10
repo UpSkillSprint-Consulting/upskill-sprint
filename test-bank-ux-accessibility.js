@@ -97,6 +97,7 @@
   function ensureStyles(){if(document.getElementById(STYLE_ID))return;const style=document.createElement('style');style.id=STYLE_ID;style.textContent=
     '.tb-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}' +
     'body input,body select,body textarea{max-width:100%;box-sizing:border-box}' +
+    'footer.site{--muted:#cbd5e1}' +
     'footer.site p{color:#cbd5e1!important}' +
     '#tb-overview :focus-visible,#tb-analytics-panel :focus-visible,[data-open-analytics]:focus-visible{outline:3px solid currentColor!important;outline-offset:3px!important}' +
     '#tb-overview button,#tb-overview [role="button"],#tb-overview a,.tb-an-tab,.tb-ghost{min-height:44px}' +
@@ -120,7 +121,18 @@
     scheduled=false;
   }
 
-  function initialize(){if(!document.body)return;ensureStyles();wireEvents();enhance();observer=new MutationObserver(schedule);observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','aria-selected','data-question-id','class','style']});}
+  function mutationHandler(records){
+    let footerChanged=false;
+    records.forEach(function(record){
+      const target=record.target&&record.target.nodeType===1?record.target:null;
+      if(target&&(target.matches&&target.matches('footer.site,footer.site p')||target.closest&&target.closest('footer.site')))footerChanged=true;
+      if(record.addedNodes)Array.from(record.addedNodes).forEach(function(node){if(node.nodeType===1&&(node.matches&&node.matches('footer.site,footer.site *')||node.querySelector&&node.querySelector('footer.site,footer.site p')))footerChanged=true;});
+    });
+    if(footerChanged)enhanceFooterContrast();
+    schedule();
+  }
+
+  function initialize(){if(!document.body)return;ensureStyles();wireEvents();enhance();observer=new MutationObserver(mutationHandler);observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','aria-selected','data-question-id','class','style']});}
 
   window.__TBUXAccessibility={version:VERSION,enhance:enhance,announce:announce,destroy:destroy};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize,{once:true});else initialize();
