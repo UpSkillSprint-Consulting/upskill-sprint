@@ -19,7 +19,7 @@ function automated() {
   };
 }
 function physical() {
-  return { schemaVersion: 1, records: r.segment19.REQUIRED_PHYSICAL.map(id => ({ id, physical: true, emulated: false, status: 'passed', device: 'physical fixture', os: 'fixture-os', browser: 'fixture-browser', executedAt: '2026-09-10T00:00:00Z', observer: 'fixture-observer' })) };
+  return { schemaVersion: 1, records: r.segment19.REQUIRED_PHYSICAL.map(id => ({ id, physical: true, emulated: false, status: 'passed', device: 'physical fixture', os: 'fixture-os', browser: 'fixture-browser', executedAt: '2020-01-01T00:00:00Z', observer: 'fixture-observer' })) };
 }
 function network() {
   return {
@@ -27,7 +27,7 @@ function network() {
     environment: 'real_network',
     synthetic: false,
     emulated: false,
-    executedAt: '2026-09-10T00:00:00Z',
+    executedAt: '2020-01-01T00:00:00Z',
     observer: 'fixture-observer',
     connection: 'witnessed connection',
     locationClass: 'controlled location',
@@ -55,12 +55,12 @@ function production() {
     schemaVersion: 1,
     environment: 'production',
     releaseCommit: SHA,
-    deployment: { commit: SHA, deployId: 'fixture-deploy', state: 'ready', context: 'production' },
-    database: { projectStatus: 'ACTIVE_HEALTHY', migrationVersions: [...r.REQUIRED_MIGRATIONS], capabilities: Object.fromEntries(r.REQUIRED_SCHEMA_CAPABILITIES.map(k => [k, true])) },
-    security: { leakedPasswordProtection: true, productionDependencyAudit: true, unresolvedReleaseRisks: 0 },
+    deployment: { commit: SHA, deployId: 'fixture-deploy', state: 'ready', context: 'production', publishedAt: '2020-01-01T00:00:00Z' },
+    database: { projectStatus: 'ACTIVE_HEALTHY', verifiedAt: '2020-01-01T00:10:00Z', migrationVersions: [...r.ACCEPTED_BASELINE_MIGRATIONS, ...r.REQUIRED_MIGRATIONS], capabilities: Object.fromEntries(r.REQUIRED_SCHEMA_CAPABILITIES.map(k => [k, true])) },
+    security: { leakedPasswordProtection: true, productionDependencyAudit: true, unresolvedReleaseRisks: 0, verifiedAt: '2020-01-01T00:20:00Z' },
     smoke: { checks: r.REQUIRED_SMOKE_CHECKS.map(id => ({ id, status: 'passed' })), lostAcknowledgedEvidence: 0, duplicateCanonicalCompletions: 0, crossAccountExposure: 0, unexplainedReconciliation: 0 },
     recovery: { rollbackRunbookVerified: true, forwardRecoveryVerified: true, backupRestoreVerified: true },
-    observation: { startedAt: '2026-09-10T00:00:00Z', endedAt: '2026-09-11T00:00:00Z', status: 'passed', confirmedIncidents: 0, healthChecksPassed: 24, healthChecksTotal: 24 },
+    observation: { startedAt: '2020-01-01T00:20:00Z', endedAt: '2020-01-02T00:20:00Z', status: 'passed', confirmedIncidents: 0, healthChecksPassed: 24, healthChecksTotal: 24 },
     rubric: rubric()
   };
 }
@@ -85,10 +85,19 @@ test('production deploy must exactly match the scored release commit', () => {
   assert.throws(() => r.validateProduction(x), /does not match release commit/);
 });
 
-test('every canonical migration and critical schema capability is mandatory', () => {
-  let x = production(); x.database.migrationVersions.pop();
+test('required migrations are a subset of the reviewed production history and unreviewed drift is rejected', () => {
+  let x = production();
+  assert.doesNotThrow(() => r.validateProduction(x));
+  x.database.migrationVersions = x.database.migrationVersions.filter(v => v !== r.REQUIRED_MIGRATIONS.at(-1));
   assert.throws(() => r.validateProduction(x), /migration coverage mismatch/);
-  x = production(); x.database.capabilities.sessionHandoff = false;
+  x = production(); x.database.migrationVersions.push('20260910120000');
+  assert.throws(() => r.validateProduction(x), /unreviewed entries/);
+  x = production(); x.database.migrationVersions.push(r.REQUIRED_MIGRATIONS[0]);
+  assert.throws(() => r.validateProduction(x), /duplicate entries/);
+});
+
+test('every critical schema capability is mandatory', () => {
+  const x = production(); x.database.capabilities.sessionHandoff = false;
   assert.throws(() => r.validateProduction(x), /sessionHandoff/);
 });
 
@@ -99,9 +108,13 @@ test('hosted leaked-password protection and zero unresolved release risks are ma
   assert.throws(() => r.validateProduction(x), /security release risk/);
 });
 
-test('production smoke must cover all required paths and preserve hard invariants', () => {
+test('production smoke must cover exactly one passing record for every required path and preserve hard invariants', () => {
   let x = production(); x.smoke.checks.pop();
   assert.throws(() => r.validateProduction(x), /smoke coverage mismatch/);
+  x = production(); x.smoke.checks.find(row => row.id === 'crossAccountIsolation').status = 'failed';
+  assert.throws(() => r.validateProduction(x), /has not passed/);
+  x = production(); x.smoke.checks.push({ id: 'crossAccountIsolation', status: 'failed' });
+  assert.throws(() => r.validateProduction(x), /duplicate entries/);
   for (const key of ['lostAcknowledgedEvidence','duplicateCanonicalCompletions','crossAccountExposure','unexplainedReconciliation']) {
     x = production(); x.smoke[key] = 1;
     assert.throws(() => r.validateProduction(x));
@@ -113,9 +126,15 @@ test('recovery readiness cannot be replaced by a green deployment', () => {
   assert.throws(() => r.validateProduction(x), /recovery readiness/);
 });
 
-test('production observation requires a clean full 24-hour window', () => {
-  let x = production(); x.observation.endedAt = '2026-09-10T23:59:59Z';
+test('production observation requires verified release prerequisites, a non-future end, and a clean full 24-hour window', () => {
+  let x = production(); x.observation.endedAt = '2020-01-02T00:19:59Z';
   assert.throws(() => r.validateProduction(x), /shorter than 24 hours/);
+  x = production(); x.observation.startedAt = '2020-01-01T00:19:59Z'; x.observation.endedAt = '2020-01-02T00:20:00Z';
+  assert.throws(() => r.validateProduction(x), /before release prerequisites/);
+  x = production(); x.observation.startedAt = '2999-01-01T00:00:00Z'; x.observation.endedAt = '2999-01-02T00:00:00Z';
+  assert.throws(() => r.validateProduction(x), /cannot end in the future/);
+  x = production(); x.database.verifiedAt = null;
+  assert.throws(() => r.validateProduction(x), /database.verifiedAt/);
   x = production(); x.observation.confirmedIncidents = 1;
   assert.throws(() => r.validateProduction(x), /has not passed cleanly/);
   x = production(); x.observation.healthChecksPassed = 23;
@@ -129,6 +148,8 @@ test('all 20 frozen rubric criteria must pass against the exact release commit',
   assert.throws(() => r.validateProduction(x), /requires physical_device/);
   x = production(); x.rubric.criteria[0].verifiedCommit = 'b'.repeat(40);
   assert.throws(() => r.validateProduction(x), /release commit/);
+  x = production(); x.rubric.criteria.push({ ...x.rubric.criteria[0] });
+  assert.throws(() => r.validateProduction(x), /duplicate entries/);
 });
 
 test('a blocked release never receives partial credit or a numeric rating', () => {
