@@ -4,28 +4,34 @@
 
 Segment 20 starts from exact human-merged `main` commit `b48b205fc355942956b25220881c32d949ac1224`, the merge of Segment 19 PR #185. Segments 01–19 remain authoritative and are not redefined by this release segment.
 
-The current production frontend is already deployed from that exact commit, but the production database is behind the repository migration chain. The preflight snapshot in `verification/v1/segment20-production-preflight.json` records that mismatch without modifying learner data or pretending the release is complete.
+At Segment 20 entry, the production frontend already served that exact commit while the production database was seven reviewed migrations behind the repository release chain. The database compatibility rollout has since been completed in repository order, and the current preflight/evidence snapshots record the live state without rewriting learner evidence.
 
-Segment 20 is fail-closed. A green PR, a ready Netlify deploy, or a healthy Supabase project alone cannot produce a 10/10 rating. The release evaluator first requires Segment 19 physical-device and witnessed real-network evidence, then production schema/configuration parity, authorized smoke/reconciliation, recovery readiness, a clean observation window, and all 20 frozen rubric criteria against one exact release commit.
+Segment 20 remains fail-closed. A green PR, a ready Netlify deploy, a completed migration rollout, or a healthy Supabase project alone cannot produce a 10/10 rating. The release evaluator requires Segment 19 physical-device and witnessed real-network evidence, exact production schema/configuration parity, authorized browser/JWT smoke and reconciliation, recovery readiness, a clean observation window, and all 20 frozen rubric criteria against one exact release commit.
 
 ## Current production preflight
 
-At the Segment 20 entry check:
+Current verified state:
 
 - GitHub `main`: `b48b205fc355942956b25220881c32d949ac1224`.
-- Netlify production deploy `6aa315ae4dbede0008122e10`: ready and serving the same commit.
+- Netlify production deploy `6aa315ae4dbede0008122e10`: ready and serving that same commit.
 - Supabase project: `ACTIVE_HEALTHY`, PostgreSQL 17.
-- Production migration ledger: present through Segment 07 ingestion, but seven later repository migrations are missing.
-- The trusted-clock, incremental-sync, session-handoff, New-only v2, and security-reset production capabilities are consequently absent.
-- Supabase Auth leaked-password protection is reported disabled.
+- All seven reviewed Segment 13–18 release migrations are present in production under their canonical repository versions.
+- Trusted clock, incremental sync, session handoff, New-only v2, and security reset are live.
+- A rollback-only restricted-`authenticated`-role smoke passed for trusted clock, incremental learning/progress retrieval, handoff/New-only retrieval, data-control access, and cross-account isolation; no synthetic learner writes were persisted.
+- The complete production migration history is preserved, including the accepted pre-Segment-07 historical entries and the Segment 07 canonical catalog/ingestion entries.
+- Security-advisor RLS/no-policy findings were reviewed and the flagged tables expose no direct `anon` or `authenticated` CRUD privileges.
+- The 11 authenticated `SECURITY DEFINER` findings were reviewed as intentional owner-bound RPC boundaries; the private ingestion helper explicitly rejects caller-controlled ownership not equal to `auth.uid()`.
+- Supabase Auth leaked-password protection remains disabled.
 - Segment 19 physical-device evidence remains `pending_physical`.
 - Segment 19 real-network evidence remains `pending_real_network`.
+- Authenticated browser/JWT write/finalization and full production reconciliation smoke remain pending.
+- Recovery sign-off and the clean 24-hour production observation window remain pending.
 
-Therefore the release is **blocked at preflight**. No score is awarded while a frozen release blocker remains.
+Therefore production compatibility is no longer blocked by migration drift, but **final production acceptance remains blocked**. No score is awarded while any frozen release blocker remains.
 
-## Required database deployment order
+## Completed database deployment record
 
-The seven already-human-merged migrations must be deployed in repository order. Do not deploy the frontend ahead of them; in this case the frontend is already live, so restoring database compatibility is the first production action after release approval.
+The seven already-human-merged migrations were deployed in repository order:
 
 1. `20260909152000_add_exam_trusted_clock.sql`
 2. `20260909195500_add_incremental_sync_cursors.sql`
@@ -35,25 +41,27 @@ The seven already-human-merged migrations must be deployed in repository order. 
 6. `20260910050100_preserve_legacy_reservation_compat.sql`
 7. `20260910050200_harden_security_reset_concurrency.sql`
 
-Use the canonical repository migration mechanism so production history retains the reviewed versions. Do not rename an already-published migration or use ad-hoc DDL that creates a second history for the same logical change. After each migration, verify its expected objects before proceeding. If a migration fails, stop; do not advance the client or mark later migrations complete.
+Supabase initially assigned deployment-time migration IDs during application. Those migration-history entries were normalized to the canonical reviewed repository versions without rerunning DDL, altering application tables, or rewriting learner records. The live ledger now retains the complete accepted historical production sequence and all required release versions.
 
-### Compatibility checkpoints
+### Verified compatibility checkpoints
 
 After migration 1: authenticated trusted server-time RPC exists and anonymous execution remains denied.
 
-After migration 2: server sequence counters/triggers and incremental learning/progress fetch RPCs exist; accepted learner history remains present and sequences are unique per owner/channel.
+After migration 2: server sequence counters/triggers and incremental learning/progress fetch RPCs exist; accepted learner history remains present and sequence ownership is enforced.
 
 After migration 3: checkpoint table and save/fetch/takeover RPCs exist with owner isolation and original deadline preservation.
 
 After migration 4: v2 New-only reservation tables/RPCs exist and permanent claim semantics remain intact.
 
-After migrations 5–7: data-control generation, stale-device guards, deletion RPC, compatibility grants, and purge/event serialization exist. No destructive deletion smoke is run against a real learner account.
+After migrations 5–7: data-control generation, stale-device guards, deletion RPC, compatibility grants, and purge/event serialization exist. No destructive deletion smoke was run against a real learner account.
+
+The restricted-role rollback-only production smoke verified the non-destructive portions of these boundaries. It does not substitute for the required browser/JWT write/finalization and reconciliation smoke.
 
 ## Hosted Auth release configuration
 
-Before security sign-off, enable and verify Supabase Auth leaked-password protection. This is a hosted Auth configuration and is not represented as a SQL migration. If the configured project/tooling cannot change it programmatically, a project administrator must enable it through the supported Supabase control surface and the release evidence must record the verified state.
+Before security sign-off, Supabase Auth leaked-password protection must be enabled and verified. This is a hosted Auth configuration and is not represented as a SQL migration. The connected Supabase tooling used for this release can inspect the resulting advisor state but does not expose a safe Auth-config mutation action, so the setting must be changed through a supported Supabase administration surface and then independently rechecked.
 
-The existing advisor notice for `test_bank_new_question_claims` with RLS/no direct policy is intentional only if direct learner table privileges remain revoked and the authoritative RPC path remains owner-bound. `SECURITY DEFINER` advisories are reviewed by function behavior; a warning is not cleared merely by changing its label. Any newly discovered callable function that accepts caller-controlled ownership is a release blocker.
+The current advisor review distinguishes intentional RPC exposure from unresolved security risk. The RLS/no-policy tables have no direct browser CRUD grants; the authenticated `SECURITY DEFINER` functions use `auth.uid()`-bound ownership or delegate to the private ingestion helper that explicitly checks `owner == auth.uid()`. Any newly discovered callable function that accepts caller-controlled ownership without an equivalent authorization check is a release blocker.
 
 Performance-advisor notices are not converted into last-minute schema changes solely to make an advisory count zero. Measure the frozen Segment 19 real-network budgets first. If an index/advisor becomes causally linked to a failed budget, fix it in a reviewed change and rerun the affected cumulative gates.
 
@@ -70,7 +78,7 @@ WebKit emulation, localhost timing, synthetic latency, or mocked transport canno
 
 ## Authorized production smoke and reconciliation
 
-After schema/configuration compatibility is verified, run smoke checks using dedicated synthetic test identities only. Do not alter or inspect another learner's private evidence. The smoke must prove:
+Schema compatibility has passed, so the remaining full smoke must use dedicated synthetic test identities through the actual authenticated client/JWT path. Do not alter or inspect another learner's private evidence. The smoke must prove:
 
 1. authenticated client transport reaches the production API;
 2. trusted-clock calibration works and anonymous use is rejected;
@@ -100,34 +108,34 @@ If data integrity is in doubt, fail closed, preserve evidence, and stop new affe
 
 ## Observation window
 
-A final release rating requires a clean **24-hour production observation window** after the compatible production release is active. The window begins only after the exact release commit, required database migrations, and hosted Auth configuration are verified.
+A final release rating requires a clean **24-hour production observation window** after the exact release prerequisites are verified. The release evaluator requires timestamps for production deployment, database verification, and security verification; `observation.startedAt` cannot precede the latest of those prerequisites, and `observation.endedAt` cannot be in the future.
 
 Record periodic health checks covering application availability, authentication, error/exception signals, sync health, production database health, and the hard integrity invariants. Any confirmed in-scope incident resets the observation window after remediation and revalidation. Infrastructure events are not classified as application defects without reproduction, but unresolved ambiguity is not silently marked passed.
 
 ## Final 10/10 gate
 
-`scripts/exam-reliability/segment20-release.cjs` composes the existing Segment 19 qualification helper with the frozen Segment 02 100-point rubric. It will return `qualified_10_of_10` only when all of the following are simultaneously true:
+`scripts/exam-reliability/segment20-release.cjs` composes the existing Segment 19 qualification helper with the frozen Segment 02 100-point rubric. It returns `qualified_10_of_10` only when all of the following are simultaneously true:
 
 - Segment 19 automated, physical-device, and real-network evidence is qualified;
 - production deploy commit exactly equals the scored release commit;
-- Supabase is healthy and all required canonical migrations are present;
+- Supabase is healthy, every required release migration is present, and no unreviewed migration drift is accepted;
 - trusted-clock, incremental-sync, handoff, New-only v2, and security-reset capabilities are live;
 - leaked-password protection and production dependency audit are verified;
 - unresolved production security release risks = 0;
-- all seven production smoke checks pass;
+- the production smoke contains exactly one passing record for each of the seven required smoke paths and no contradictory duplicate records;
 - all four hard integrity counters remain zero;
 - rollback, forward recovery, and backup/restore readiness are verified;
-- the clean 24-hour observation window passes; and
-- all 20 frozen rubric criteria have exact evidence against the same release commit, including AC17 in a physical-device environment and AC20 in production.
+- the clean 24-hour observation window is anchored to verified release prerequisites and passes; and
+- all 20 frozen rubric criteria have unique exact evidence against the same release commit, including AC17 in a physical-device environment and AC20 in production.
 
 There is no partial credit. A blocked release has `rating: null`; it is never rounded up or described as 10/10.
 
 ## CI and human-control boundary
 
-The `Exam production release - Segment 20` PR workflow validates the release evaluator, cumulative Segment 19 contract, complete repository tests, and production dependency audit. It does not receive production database credentials and does not mutate Supabase or Netlify.
+The `Exam production release - Segment 20` PR workflow validates the release evaluator, cumulative Segment 19 contract, complete repository tests, production dependency audit, and truthfulness of the versioned current preflight. It does not receive production database credentials and does not mutate Supabase or Netlify.
 
-This PR is the release-control implementation and review record. Human approval remains required before any production migration/configuration action. Because `main` currently auto-deploys through Netlify, merging a future application change must account for database-first compatibility. Segment 20 itself should not introduce unrelated product behavior changes.
+The production database migration rollout is already complete and recorded. Remaining hosted Auth configuration, physical/network evidence, authenticated browser/JWT production smoke, recovery acceptance, and final observation remain separately controlled release actions. Segment 20 does not introduce unrelated product behavior changes.
 
 ## Exit criteria
 
-Segment 20 is complete only after implementation **and** production acceptance. Until the pending physical/network evidence, seven production migrations, Auth configuration, production smoke, and 24-hour observation are completed, this segment remains open and the final rating remains unawarded.
+Segment 20 is complete only after implementation **and** production acceptance. The schema/migration compatibility stage is complete. Until leaked-password protection, Segment 19 physical/network evidence, authenticated browser/full reconciliation smoke, recovery readiness, the clean 24-hour observation window, and all exact rubric evidence are complete, this segment remains open and the final rating remains unawarded.
