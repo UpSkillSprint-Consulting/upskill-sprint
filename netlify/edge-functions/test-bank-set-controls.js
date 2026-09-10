@@ -1,6 +1,7 @@
 const POLICY_SOURCE = '/test-bank-incremental-sync-policy.js';
 const ACCOUNT_SYNC_SOURCE = '/test-bank-account-sync.js';
 const LEARNING_SYNC_SOURCE = '/test-bank-learning-events.js';
+const NEW_ONLY_ALLOCATION_SOURCE = '/test-bank-new-only-allocation-v2.js';
 
 function scriptTag(source) { return `<script src="${source}" defer></script>`; }
 
@@ -50,6 +51,7 @@ export default async function testBankSetControls(request, context) {
     '<script src="/test-bank-history-reconciliation.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery.js" defer></script>',
     scriptTag(LEARNING_SYNC_SOURCE),
+    scriptTag(NEW_ONLY_ALLOCATION_SOURCE),
     '<script src="/test-bank-adaptive-mastery-runtime.js" defer></script>',
     '<script src="/test-bank-metrics-policy.js" defer></script>',
     '<script src="/test-bank-adaptive-mastery-hardening.js" defer></script>',
