@@ -27,7 +27,8 @@ async function main(){
     await page.addScriptTag({path:path.join(ROOT,'test-bank-ux-accessibility.js')});
     await page.addScriptTag({content:axeSource});
     await page.waitForFunction(()=>window.__TBUXAccessibility&&document.getElementById('tb-a11y-status'));
-    const overflow=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth}));
+    const overflow=await page.evaluate(()=>{const root=document.documentElement,client=root.clientWidth,offenders=[];for(const el of document.querySelectorAll('body *')){const r=el.getBoundingClientRect();if(r.right>client+1||r.left<-1)offenders.push({tag:el.tagName,id:el.id||'',class:String(el.className||'').slice(0,100),left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),scrollWidth:el.scrollWidth,clientWidth:el.clientWidth});if(offenders.length>=12)break;}return{scroll:root.scrollWidth,client,offenders};});
+    if(overflow.scroll>overflow.client+1)console.error('OVERFLOW_DIAGNOSTIC '+JSON.stringify({viewport:viewport.name,...overflow}));
     assert.ok(overflow.scroll<=overflow.client+1,`${viewport.name}: horizontal overflow ${overflow.scroll}>${overflow.client}`);checks.push(viewport.name+': no horizontal page overflow');
     const unnamed=await page.evaluate(()=>Array.from(document.querySelectorAll('button,a[href],[role="button"],[role="tab"],input,select,textarea')).filter(el=>{if(el.closest('[hidden]'))return false;const name=(el.getAttribute('aria-label')||el.getAttribute('title')||el.textContent||el.value||'').trim();return !name;}).map(el=>el.outerHTML.slice(0,160)));
     assert.deepEqual(unnamed,[],viewport.name+': unnamed interactive controls');checks.push(viewport.name+': interactive controls have accessible names');
