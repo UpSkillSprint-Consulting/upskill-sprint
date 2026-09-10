@@ -2,8 +2,8 @@
 const assert=require('node:assert/strict');
 const {spawn,spawnSync}=require('node:child_process');
 const {validateTarget}=require('./run-database.cjs');
-const A='20000000-0000-4000-8000-000000000016';
-const B='20000000-0000-4000-8000-000000000017';
+const A='10000000-0000-4000-8000-000000000001';
+const B='10000000-0000-4000-8000-000000000002';
 const EXAM='segment16exam';
 const passed=[];
 function cli(t){return ['-X','-q','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose','-A','-t','-h',t.url.hostname,'-p',t.url.port||'5432','-U',decodeURIComponent(t.url.username),'segment03_test'];}
