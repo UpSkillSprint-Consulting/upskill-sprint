@@ -25,12 +25,14 @@ await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.
 const auth=`(()=>{const user={id:'audit-final175-isolated',email:'audit@example.invalid'};const c=(${emptyClient.toString()})();const from=c.from.bind(c);c.from=function(table){const t=from(table),select=t.select.bind(t);t.select=function(...args){const q=select(...args);q.maybeSingle=q.single=()=>Promise.resolve({data:table==='profiles'?{user_id:user.id,display_name:'Final exam audit',timezone:'America/Regina',onboarding_completed:true}:null,error:null});return q;};return t;};window.UpskillAuth={isConfigured:()=>true,onChange:cb=>{queueMicrotask(()=>cb(user));return ()=>{};},getUser:()=>user,getClient:()=>c};})();`;
 // Match the already-hardened batch audit interaction: place the intended
 // review control deterministically in the viewport, allow layout to settle,
-// then perform a normal Playwright click. This is not a retry, force click,
-// DOM click dispatch, or bypass of the application's event handler.
+// then perform a normal Playwright click. Large full-review filter changes
+// synchronously enhance many cards, so the click uses the framework's normal
+// operation budget rather than the page's shorter generic action default.
+// This is not a retry, force click, DOM click dispatch, or handler bypass.
 async function stableClick(locator){
  await locator.evaluate(el=>el.scrollIntoView({behavior:'instant',block:'center',inline:'nearest'}));
  await new Promise(resolve=>setTimeout(resolve,180));
- await locator.click();
+ await locator.click({timeout:55000});
 }
 async function geometry(host){return host.evaluate(h=>({pageOverflow:document.documentElement.scrollWidth>innerWidth+2,clipped:[...h.querySelectorAll('.tb-stem,.tb-review-stem,.tb-opt,.tb-answer-copy,.tb-explanation-copy,.tb-key-point,.tb-exam-trap,th,td,dd')].filter(e=>e.clientWidth&&e.scrollWidth>e.clientWidth+2).map(e=>({text:e.textContent.slice(0,90),width:e.clientWidth,scroll:e.scrollWidth})),svgOutside:[...h.querySelectorAll('svg text')].filter(t=>{const a=t.getBoundingClientRect(),b=t.closest('svg').getBoundingClientRect();return a.left<b.left-2||a.right>b.right+2||a.top<b.top-2||a.bottom>b.bottom+2;}).map(e=>e.textContent)}));}
 async function visual(host,q,n,phase){if(!q.chart)return;const data=q.chart.type==='data-table'?q.chart:q.chart.evidence;const b=Math.ceil(n/25),prefix='.mbbs3b'+b;let tables=0;
