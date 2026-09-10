@@ -75,6 +75,8 @@ The dedicated CI job blocks **high or critical production dependency** advisorie
 
 The application lock file is not changed merely to reduce an advisory count. A package upgrade must be justified by reachable use, compatibility, and cumulative tests. The jsPDF browser path is directly reachable and is therefore explicitly remediated to 4.2.1.
 
+Final Segment 18 dependency maintenance upgrades the directly imported production package `@netlify/blobs` from 10.7.9 to 10.7.13 and refreshes its resolved dependency chain. The generated lockfile was produced by npm in CI, `npm ci` succeeded against it, and `npm audit --omit=dev --audit-level=high` passed before the lockfile was committed. The full audit can still report development-only advisories; those remain visible rather than being reclassified as production findings.
+
 ## Production configuration observations
 
 At Segment 18 implementation entry, the connected Supabase project's security advisor reported:
