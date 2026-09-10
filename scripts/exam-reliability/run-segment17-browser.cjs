@@ -30,7 +30,17 @@ async function main(){
     const overflow=await page.evaluate(()=>{const root=document.documentElement,client=root.clientWidth,offenders=[];for(const el of document.querySelectorAll('body *')){const r=el.getBoundingClientRect();if(r.right>client+1||r.left<-1)offenders.push({tag:el.tagName,id:el.id||'',class:String(el.className||'').slice(0,100),left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),scrollWidth:el.scrollWidth,clientWidth:el.clientWidth});if(offenders.length>=12)break;}return{scroll:root.scrollWidth,client,offenders};});
     if(overflow.scroll>overflow.client+1)console.error('OVERFLOW_DIAGNOSTIC '+JSON.stringify({viewport:viewport.name,...overflow}));
     assert.ok(overflow.scroll<=overflow.client+1,`${viewport.name}: horizontal overflow ${overflow.scroll}>${overflow.client}`);checks.push(viewport.name+': no horizontal page overflow');
-    const unnamed=await page.evaluate(()=>Array.from(document.querySelectorAll('button,a[href],[role="button"],[role="tab"],input,select,textarea')).filter(el=>{if(el.closest('[hidden]'))return false;const name=(el.getAttribute('aria-label')||el.getAttribute('title')||el.textContent||el.value||'').trim();return !name;}).map(el=>el.outerHTML.slice(0,160)));
+    const unnamed=await page.evaluate(()=>{
+      function text(value){return String(value||'').replace(/\s+/g,' ').trim();}
+      function nameFor(el){
+        const aria=text(el.getAttribute('aria-label'));if(aria)return aria;
+        const labelledBy=text(el.getAttribute('aria-labelledby'));
+        if(labelledBy){const resolved=labelledBy.split(/\s+/).map(id=>{const node=document.getElementById(id);return text(node&&node.textContent);}).filter(Boolean).join(' ');if(resolved)return resolved;}
+        if(el.labels&&el.labels.length){const labels=Array.from(el.labels).map(label=>text(label.textContent)).filter(Boolean).join(' ');if(labels)return labels;}
+        return text(el.getAttribute('title'))||text(el.textContent)||text(el.value);
+      }
+      return Array.from(document.querySelectorAll('button,a[href],[role="button"],[role="tab"],input,select,textarea')).filter(el=>!el.closest('[hidden]')&&!nameFor(el)).map(el=>el.outerHTML.slice(0,160));
+    });
     assert.deepEqual(unnamed,[],viewport.name+': unnamed interactive controls');checks.push(viewport.name+': interactive controls have accessible names');
     const focusable=page.locator('button:not([disabled]),a[href],[role="button"][tabindex="0"],input:not([disabled]),select:not([disabled]),textarea:not([disabled])').first();
     if(await focusable.count()){await page.keyboard.press('Tab');const focused=await page.evaluate(()=>document.activeElement!==document.body&&document.activeElement!==document.documentElement);assert.equal(focused,true);checks.push(viewport.name+': keyboard Tab reaches a control');}
