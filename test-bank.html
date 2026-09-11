@@ -4521,7 +4521,8 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     var rec=recordAttempt(current,units,agg,e.pass);
     rec.readiness=canonicalReadiness(rec.readiness);
     var cum=cumAggFrom(rec.state.subState);
-    session.result={agg:agg,cum:cum,units:units,readiness:rec.readiness,plan:studyPlan(units,cum),state:rec.state,score:window.__TBVersions.scoreCounts(completion.grading||scoredGroups,session.versionPin?session.versionPin.siteTargetBps:null),completedReason:completedReason||'submitted'};
+    var siteTargetBps=session.versionPin?session.versionPin.siteTargetBps:(e.pass==null?null:Math.round(e.pass*100));
+    session.result={agg:agg,cum:cum,units:units,readiness:rec.readiness,plan:studyPlan(units,cum),state:rec.state,score:window.__TBVersions.scoreCounts(completion.grading||scoredGroups,siteTargetBps),completedReason:completedReason||'submitted'};
     // Timed expiry and manual submission publish the same complete saved attempt.
     document.dispatchEvent(new CustomEvent('tb:attempt-completed',{detail:getFeedbackSnapshot()}));
     view='results';renderMain();
@@ -4532,7 +4533,8 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     var delta=prev!=null?rd.readiness-prev:null;
     var score=r.score,scored=score.correct,tot=score.total;
     var targetText=score.siteTargetMet===null?'Site practice target unavailable':(score.siteTargetMet?'Site practice target met':'Below site practice target')+' ('+window.__TBVersions.formatScore(score.siteTargetBps/100)+')';
-    var gradeNotice='<div class="tb-score-result" data-score-result data-score-percent="'+score.scorePercent+'" data-target-met="'+score.siteTargetMet+'"><strong>Session score: '+window.__TBVersions.formatScore(score.scorePercent)+' ('+score.correct+'/'+score.total+')</strong><p>'+targetText+'. This is a site practice target, not an official certification pass/fail result.</p><p>'+(session.originalGrade?session.originalGrade.incorrect+' incorrect · '+session.originalGrade.unanswered+' unanswered. ':'')+(r.completedReason==='timed-out'?'Time expired. ':'')+'Saved locally; cloud acceptance is tracked separately in sync status.</p></div>';
+    var resultStorageText=window.__TB_MEMORY_ONLY?'This result is available only in this tab until you leave or refresh.':'Saved locally; cloud acceptance is tracked separately in sync status.';
+    var gradeNotice='<div class="tb-score-result" data-score-result data-score-percent="'+score.scorePercent+'" data-target-met="'+score.siteTargetMet+'"><strong>Session score: '+window.__TBVersions.formatScore(score.scorePercent)+' ('+score.correct+'/'+score.total+')</strong><p>'+targetText+'. This is a site practice target, not an official certification pass/fail result.</p><p>'+(session.originalGrade?session.originalGrade.incorrect+' incorrect · '+session.originalGrade.unanswered+' unanswered. ':'')+(r.completedReason==='timed-out'?'Time expired. ':'')+resultStorageText+'</p></div>';
     // per-domain -> sub breakdown
     var byDom={};r.units.forEach(function(u){var a=agg[u.id];if(!a||!a.t)return;byDom[u.domain]=byDom[u.domain]||{c:0,t:0,subs:[]};byDom[u.domain].c+=a.c;byDom[u.domain].t+=a.t;byDom[u.domain].subs.push({u:u,a:a});});
     var breakdown=e.bok.filter(function(bd){return byDom[bd.domain];}).map(function(bd){var g=byDom[bd.domain],p=g.c/g.t,col=(DM[bd.domain]||{}).color||'#6656b5';
@@ -4563,7 +4565,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
       '<div class="tb-planacts"><button type="button" class="btn btn-teal" data-practice2>Practice your weak areas</button>'+(retakeLabel?'<button type="button" class="tb-ghost" data-retake>'+retakeLabel+'</button>':'')+'</div>'+
       '<div class="tb-sec">This session: score breakdown by phase &rarr; subtopic</div>'+
       '<div class="tb-breakdown">'+breakdown+'</div>'+
-      '<p class="tb-srnote">Each subtopic is scheduled with spaced repetition and recorded in your durable learning ledger. When you are signed in, your saved results sync across your devices.</p>';
+      '<p class="tb-srnote">'+(window.__TB_MEMORY_ONLY?'This score and study plan are calculated from your current session only. They are not saved after you leave or refresh this page.':'Each subtopic is scheduled with spaced repetition and recorded in your durable learning ledger. When you are signed in, your saved results sync across your devices.')+'</p>';
   }
   function wireResults(){
     var host=document.getElementById('tb-overview');

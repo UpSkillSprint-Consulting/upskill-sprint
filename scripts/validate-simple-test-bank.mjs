@@ -8,6 +8,8 @@ const resetMigration = fs.readFileSync('supabase/migrations/20260911031000_reset
 
 assert.match(memory, /window\.__TB_MEMORY_ONLY\s*=\s*true/, 'memory-only runtime marker is required');
 assert.match(memory, /window\.__TBLearning\s*=\s*api/, 'memory-only learning compatibility API is required');
+assert.match(memory, /window\.__TBVersions\s*=\s*scoring/, 'memory-only delivery must retain current-session scoring');
+assert.match(memory, /scoreRecords/, 'memory-only delivery must aggregate result-screen scores');
 assert.doesNotMatch(memory, /supabase/i, 'memory-only runtime must not depend on Supabase');
 assert.doesNotMatch(memory, /fetch\s*\(/, 'memory-only runtime must not perform network writes');
 assert.match(edge, /stripPersistedExamRuntime/, 'edge delivery must strip persisted exam runtime');
