@@ -54,7 +54,7 @@ function makeStartControlEnv(options={}){
   return {dom,w,api,calls,start,setTimed,setUser,setRpcError:value=>{rpcError=!!value;},settle,close:()=>dom.window.close()};
 }
 
-test('trusted clock uses authenticated server time plus monotonic elapsed, not adjustable wall clock',async t=>{
+test('trusted clock uses server time plus monotonic elapsed, not adjustable wall clock',async t=>{
   const e=makeEnv();t.after(e.close);await e.api.calibrate('unit');
   const start=e.api.trustedNow();e.advance(10000);e.shiftWall(-120000);
   assert.equal(Math.round(e.api.trustedNow()-start),10000);
@@ -113,37 +113,42 @@ test('untimed active visits use monotonic elapsed without requiring the trusted-
   assert.equal(e.api.summary().questionTotalsMs['cssbb:q1'],2500);
 });
 
-test('untimed Full Exam stays enabled without trusted clock while timed Full Exam fails closed',async t=>{
-  const e=makeStartControlEnv({authReady:false,timed:false});t.after(e.close);await e.settle();
-  assert.equal(e.start().disabled,false,'untimed practice must not depend on server clock');
-  e.setTimed(true);await e.settle();
-  assert.equal(e.start().disabled,true,'timed practice must fail closed without trusted clock');
-  e.setTimed(false);await e.settle();
-  assert.equal(e.start().disabled,false,'switching back to untimed must immediately restore Start');
-});
-
-test('restored authenticated session re-calibrates clock and enables timed Full Exam',async t=>{
-  const e=makeStartControlEnv({authReady:false,timed:true});t.after(e.close);await e.settle();
-  assert.equal(e.start().disabled,true,'timed Start is blocked before auth/session restoration');
-  e.setUser({id:'u13'});await e.settle();
-  assert.equal(e.api.clockState().ready,true,'auth restoration triggers trusted-clock calibration');
-  assert.equal(e.start().disabled,false,'timed Start enables after trusted clock is ready');
+test('public anonymous practice calibrates trusted clock and enables timed Full Exam',async t=>{
+  const e=makeStartControlEnv({authReady:false,timed:true});t.after(e.close);
+  await e.settle();await e.settle();
+  assert.equal(e.api.clockState().ready,true,'anonymous page startup must establish trusted server time');
+  assert.equal(e.api.clockState().source,'database_clock');
+  assert.equal(e.start().disabled,false,'timed public Full Exam must be startable after clock calibration');
   assert.equal(e.calls.at(-1).name,'get_test_bank_server_time_v1');
 });
 
-test('timing gate preserves unrelated disabled state when switching to untimed',async t=>{
-  const e=makeStartControlEnv({authReady:false,timed:true,preDisabled:true});t.after(e.close);await e.settle();
-  assert.equal(e.start().disabled,true);
+test('timed Full Exam fails closed only when trusted clock itself is unavailable; untimed remains usable',async t=>{
+  const e=makeStartControlEnv({authReady:false,timed:true,rpcError:true});t.after(e.close);
+  await e.settle();await e.settle();
+  assert.equal(e.api.clockState().ready,false);
+  assert.equal(e.start().disabled,true,'timed practice must fail closed when the clock RPC actually fails');
   e.setTimed(false);await e.settle();
-  assert.equal(e.start().disabled,true,'clock recovery must not override another subsystem disabled state');
+  assert.equal(e.start().disabled,false,'untimed practice must remain usable without the clock RPC');
+  e.setRpcError(false);await e.api.calibrate('manual-retry');
+  e.setTimed(true);await e.settle();
+  assert.equal(e.start().disabled,false,'timed Start must recover once authoritative time is restored');
 });
 
-test('sign-out invalidates trusted clock so timed Full Exam fails closed again',async t=>{
-  const e=makeStartControlEnv({authReady:true,timed:true});t.after(e.close);await e.settle();
-  if (!e.api.clockState().ready) await e.api.calibrate('test-ready');
-  await e.settle();
-  assert.equal(e.start().disabled,false);
-  e.setUser(null);await e.settle();
-  assert.equal(e.api.clockState().ready,false);
-  assert.equal(e.start().disabled,true);
+test('timing gate preserves unrelated disabled state after public clock calibration',async t=>{
+  const e=makeStartControlEnv({authReady:false,timed:true,preDisabled:true});t.after(e.close);
+  await e.settle();await e.settle();
+  assert.equal(e.api.clockState().ready,true);
+  assert.equal(e.start().disabled,true,'clock readiness must not override another subsystem disabled state');
+});
+
+test('sign-in and sign-out do not invalidate the global public trusted clock',async t=>{
+  const e=makeStartControlEnv({authReady:false,timed:true});t.after(e.close);
+  await e.settle();await e.settle();
+  assert.equal(e.api.clockState().ready,true);assert.equal(e.start().disabled,false);
+  const initialCalls=e.calls.length;
+  e.setUser({id:'u13'});await e.settle();await e.settle();
+  assert.equal(e.api.clockState().ready,true);assert.equal(e.start().disabled,false);
+  e.setUser(null);await e.settle();await e.settle();
+  assert.equal(e.api.clockState().ready,true);assert.equal(e.start().disabled,false);
+  assert.ok(e.calls.length>=initialCalls+2,'auth transitions may re-calibrate but must not block public practice');
 });
