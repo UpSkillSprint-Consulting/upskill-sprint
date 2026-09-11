@@ -13,6 +13,7 @@ on:
       - 'tests/helpers/test-bank-durable-learning.js'
       - 'scripts/exam-reliability/run-session-timing-browser.cjs'
       - 'supabase/migrations/20260909152000_add_exam_trusted_clock.sql'
+      - 'supabase/migrations/20260911024500_allow_public_exam_trusted_clock.sql'
       - '.github/workflows/exam-session-timing.yml'
       - 'docs/exam-reliability/SEGMENT-13-AUTHORITATIVE-TIMING.md'
       - 'docs/exam-reliability/ROADMAP.md'
@@ -77,7 +78,7 @@ jobs:
             echo '--- end database regression evidence ---'
             exit 1
           fi
-      - name: Authenticated clock succeeds and anonymous execution is denied
+      - name: Authenticated and anonymous trusted-clock access both succeed
         env:
           PGPASSWORD: segment13_ci_only
         run: |
@@ -86,23 +87,24 @@ jobs:
           SET LOCAL ROLE authenticated;
           SET LOCAL request.jwt.claim.sub='10000000-0000-4000-8000-000000000001';
           DO $$ DECLARE r jsonb; BEGIN
-            SELECT public.get_test_bank_server_time_v1('segment13-ci') INTO r;
-            IF r->>'protocolVersion' <> '1' OR (r->>'serverTime')::timestamptz IS NULL THEN
-              RAISE EXCEPTION 'invalid trusted-clock response';
+            SELECT public.get_test_bank_server_time_v1('segment13-ci-auth') INTO r;
+            IF r->>'protocolVersion' <> '1' OR (r->>'serverTime')::timestamptz IS NULL OR r->>'userId' <> '10000000-0000-4000-8000-000000000001' THEN
+              RAISE EXCEPTION 'invalid authenticated trusted-clock response';
             END IF;
           END $$;
           ROLLBACK;
           SQL
-          if psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -U postgres -d segment03_test <<'SQL'
+          psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -U postgres -d segment03_test <<'SQL'
           BEGIN;
           SET LOCAL ROLE anon;
-          SELECT public.get_test_bank_server_time_v1('must-fail');
+          DO $$ DECLARE r jsonb; BEGIN
+            SELECT public.get_test_bank_server_time_v1('segment13-ci-anon') INTO r;
+            IF r->>'protocolVersion' <> '1' OR (r->>'serverTime')::timestamptz IS NULL OR r->>'userId' IS NOT NULL THEN
+              RAISE EXCEPTION 'invalid anonymous trusted-clock response';
+            END IF;
+          END $$;
           ROLLBACK;
           SQL
-          then
-            echo 'anonymous trusted-clock execution unexpectedly succeeded' >&2
-            exit 1
-          fi
   browser:
     runs-on: ubuntu-latest
     timeout-minutes: 20
