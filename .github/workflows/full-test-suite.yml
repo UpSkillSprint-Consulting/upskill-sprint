@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   test:
-    name: Stateless test-bank validation
+    name: Node 22 full suite
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
