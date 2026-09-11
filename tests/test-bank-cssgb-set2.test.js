@@ -54,6 +54,10 @@ function openCssgb(window) {
   return window.document.getElementById('tb-overview');
 }
 
+async function syncEndedSession(window) {
+  await window.__TBLearning.sync('test-session-ended');
+}
+
 test('Set 2 contains every Part A and Part B question as a 506-question source bank', () => {
   assert.equal(SET2.length, 506, '406 Part A questions plus 100 Part B questions');
   assert.equal(new Set(SET2.map(question => question.stem.trim().toLowerCase())).size, 506, 'no duplicate Set 2 stems');
@@ -318,6 +322,7 @@ test('Set 2 focused practice reaches every mapped domain without leakage', async
       assert.ok(question && question.sub === spec.sub, `${domain} focused question ${index + 1} stays in its domain`);
     }
     click(window, window.document.querySelector('[data-backsim]'));
+    await syncEndedSession(window);
   }
   assert.deepEqual(errors, []);
 });
@@ -373,6 +378,7 @@ test('every one of the 506 Set 2 questions renders and accepts its keyed option 
     }
 
     click(window, window.document.querySelector('[data-backsim]'));
+    await syncEndedSession(window);
   }
 
   assert.equal(covered.size, 506, 'every Set 2 source question was exercised');

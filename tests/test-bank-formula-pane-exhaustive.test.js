@@ -88,8 +88,9 @@ function startQuick(window, document) {
   assert.ok(document.querySelector('.tb-quiz'), 'quick quiz starts');
 }
 
-function backToSimulator(window, document) {
+async function backToSimulator(window, document) {
   click(window, document.querySelector('[data-backsim]'));
+  await window.__TBLearning.sync('test-session-ended');
   assert.ok(document.querySelector('[data-mode="quick"]'), 'returned to simulator');
 }
 
@@ -153,7 +154,7 @@ test('formula pane follows every CQE focused-quiz section', async () => {
 
     assert.ok(host.querySelector('.tb-fcontextbar').textContent.includes(expectedName), `${section}: correct section heading`);
     assert.ok(host.querySelector('.tb-refitem, .tb-fconcept'), `${section}: guidance is rendered`);
-    backToSimulator(window, document);
+    await backToSimulator(window, document);
   }
 });
 
