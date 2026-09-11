@@ -119,7 +119,7 @@
     if (typeof learning.store !== 'function') return;
 
     function retryAfterCompaction(method, input, failedResult) {
-      if (!failedResult || failedResult.saved !== false || failedResult.rejected === true) return failedResult;
+      if (!failedResult || failedResult.saved !== false || failedResult.rejected === true || failedResult.blocked === true) return failedResult;
       const state = learning.store();
       if (!compactLearningStateForQuotaRecovery(state)) return failedResult;
       const retryInput = Object.assign({}, input || {});

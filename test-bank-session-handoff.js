@@ -33,6 +33,8 @@
   let adaptiveObserver = null;
   let lastAdaptiveRaw = null;
   let lastError = null;
+  let revisionRecoveryQueued = false;
+  let suppressStartGuard = false;
   const authorities = new Map();
   const originals = {};
 
@@ -40,6 +42,7 @@
   function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
   function record(value) { return value && typeof value === 'object' && !Array.isArray(value) ? value : {}; }
   function asArray(value) { return Array.isArray(value) ? value : []; }
+  function emit(name, detail) { try { if(root&&root.document&&root.CustomEvent)root.document.dispatchEvent(new root.CustomEvent(name,{detail:detail||{}})); } catch(_) {} }
   function fail(code, message) { const e = new Error(message || code); e.code = code; throw e; }
   function validId(value, min) { return typeof value === 'string' && value.length >= (min || 1) && value.length <= 180 && /^[A-Za-z0-9:_-]+$/.test(value); }
   function currentUser() { const a=root&&root.UpskillAuth,u=a&&typeof a.getUser==='function'?a.getUser():null; return u&&u.id?u:null; }
@@ -137,6 +140,14 @@
     return asArray(s.events).filter(e=>e&&e.sessionId===sessionId&&e.scope==='user:'+u&&asArray(e.syncedFor).indexOf(u)===-1);
   }
   function persistLearningState(state) { if(!state)return false; writeStorage(LEARNING_KEY,state); return true; }
+  function reconcileLearningAuthority(row) {
+    if(!row||row.writerClientId!==clientId())return false;
+    const state=learningState(),session=state&&record(state.sessions)[row.sessionId];if(!session)return false;
+    const nextRevision=Math.max(Number(session.serverRevision||0),Number(row.serverSessionRevision||0));
+    const nextEpoch=Math.max(Number(session.writerEpoch||0),Number(row.writerEpoch||0));
+    if(nextRevision===Number(session.serverRevision||0)&&nextEpoch===Number(session.writerEpoch||0))return false;
+    session.serverRevision=nextRevision;session.writerEpoch=nextEpoch;state.sessions[row.sessionId]=session;persistLearningState(state);return true;
+  }
   function adoptLearningSession(envelope,row) {
     const u=currentUser(),state=learningState(); if(!u||!state)fail('LEARNING_RUNTIME_UNAVAILABLE');
     const payload=envelope.payload;
@@ -174,6 +185,20 @@
 
   function wrapLearningGuards() {
     if(wrapped)return true;const l=root.__TBLearning;if(!l)return false;wrapped=true;
+    if(typeof l.startSession==='function'){
+      originals.learning_startSession=l.startSession;
+      l.startSession=function(input){
+        const requested=String(input&&input.sessionId||'');
+        const blockers=Array.from(authorities.values()).filter(function(a){return a&&a.sessionId!==requested&&(a.phase==='remote'||a.phase==='stale');});
+        if(!suppressStartGuard&&blockers.length){
+          const sessions=blockers.map(function(a){return {sessionId:a.sessionId,examId:a.examId,mode:'practice',status:'active',cloud:true,terminalPending:false};});
+          const detail={reason:'ACTIVE_CLOUD_SESSION_EXISTS',requestedExamId:input&&input.examId||null,requestedMode:input&&input.mode||null,sessions:sessions};
+          emit('tb:learning-session-start-blocked',detail);
+          return input&&input.returnResult?{sessionId:requested||null,saved:false,blocked:true,reason:detail.reason,activeSessions:clone(sessions)}:null;
+        }
+        return originals.learning_startSession.apply(this,arguments);
+      };
+    }
     ['recordDraft','recordAnswer','completeSession','abandonSession'].forEach(function(name){if(typeof l[name]!=='function')return;originals['learning_'+name]=l[name];l[name]=function(input){if(input&&stale(input.sessionId))return guardResult(input.sessionId);return originals['learning_'+name].apply(this,arguments);};});
     if(bindLifecycle()&&typeof lifecycle.resume==='function'){originals.lifecycleResume=lifecycle.resume;lifecycle.resume=function(sessionId){if(stale(sessionId))fail('STALE_SESSION_WRITER','This session continued in another browser. Take over from the cloud checkpoint before editing.');return originals.lifecycleResume.apply(lifecycle,arguments);};}
     return true;
@@ -188,15 +213,19 @@
     if(refreshPromise)return refreshPromise;
     refreshPromise=(async function(){try{
       if(!currentUser()||!online())return {ready:false,reason:currentUser()?'offline':'signed-out',sessions:[]};
-      const rows=await fetchSessions(null),cid=clientId();
+      const rows=await fetchSessions(null),cid=clientId();let revisionRecovered=false;
+      const remoteIds=new Set(rows.map(function(row){return row.sessionId;}));
+      Array.from(authorities.keys()).forEach(function(sessionId){if(!remoteIds.has(sessionId))authorities.delete(sessionId);});
       rows.forEach(function(row){
-        const local=localEnvelope(row.sessionId);
-        if(local&&row.writerClientId&&row.writerClientId!==cid&&row.writerEpoch>=Number(local.writerEpoch||0))markAuthority(row,'stale');
-        else if(row.writerClientId===cid)markAuthority(row,'owned');
+        const local=localEnvelope(row.sessionId),hasLocalWork=!!local||pendingSessionEvents(row.sessionId).length>0;
+        if(hasLocalWork&&row.writerClientId&&row.writerClientId!==cid&&row.writerEpoch>=Number(local&&local.writerEpoch||0))markAuthority(row,'stale');
+        else if(row.writerClientId===cid){markAuthority(row,'owned');revisionRecovered=reconcileLearningAuthority(row)||revisionRecovered;}
         else markAuthority(row,'remote');
       });
-      render(rows);lastError=null;return {ready:true,reason:reason||'refresh',sessions:rows.map(clone)};
-    }catch(e){lastError=e;return {ready:false,reason:e.code||'error',error:e.message,sessions:[]};}finally{refreshPromise=null;}})();return refreshPromise;
+      render(rows);lastError=null;
+      if(revisionRecovered&&!revisionRecoveryQueued){revisionRecoveryQueued=true;root.setTimeout(function(){revisionRecoveryQueued=false;const l=root.__TBLearning;if(l&&typeof l.sync==='function')void l.sync('handoff-revision-recovered');},0);}
+      return {ready:true,reason:reason||'refresh',sessions:rows.map(clone),revisionRecovered:revisionRecovered};
+    }catch(e){lastError=e;emit('tb:session-handoff-error',{error:e,reason:reason||'refresh'});return {ready:false,reason:e.code||'error',error:e.message,sessions:[]};}finally{refreshPromise=null;}})();return refreshPromise;
   }
 
   async function syncLearningBeforeCheckpoint(sessionId) {
@@ -217,7 +246,7 @@
   }
   function queueCheckpoint(envelope) {
     if(suppressCheckpoint||!envelope||!currentUser()||!ACTIVE.has(envelope.state))return;
-    checkpointQueued=clone(envelope);if(checkpointTimer)return;checkpointTimer=root.setTimeout(function(){checkpointTimer=0;const value=checkpointQueued;checkpointQueued=null;saveCheckpoint(value).catch(function(e){lastError=e;if(String(e.code)==='40001')refresh('checkpoint-conflict');});},200);
+    checkpointQueued=clone(envelope);if(checkpointTimer)return;checkpointTimer=root.setTimeout(function(){checkpointTimer=0;const value=checkpointQueued;checkpointQueued=null;saveCheckpoint(value).catch(function(e){lastError=e;emit('tb:session-handoff-error',{error:e,sessionId:value&&value.sessionId});if(String(e.code)==='40001')refresh('checkpoint-conflict');});},200);
   }
 
   function cloudDiffersFromLocal(row,local) {
@@ -241,7 +270,7 @@
     if(envelope.kind==='core'){
       const core=adoptCore(row,envelope);
       if(core.timed){const timing=root.__TBSessionTiming||(lifecycle&&lifecycle.timing);if(!timing||typeof timing.recover!=='function')fail('TIMING_RECOVERY_REQUIRED');await timing.recover();if(typeof timing.isExpired==='function'&&timing.isExpired(core))fail('SESSION_DEADLINE_REACHED');}
-      markAuthority(row,'owned'); return lifecycle.resume(row.sessionId);
+      markAuthority(row,'owned');suppressStartGuard=true;try{return lifecycle.resume(row.sessionId);}finally{suppressStartGuard=false;}
     }
     adoptAdaptive(row,envelope);markAuthority(row,'owned');
     const tile=root.document&&root.document.querySelector('.tb-tile[data-exam="'+row.examId+'"]');if(tile&&!tile.classList.contains('active'))tile.click();
@@ -264,6 +293,49 @@
     const rows=await fetchSessions(sessionId),row=rows[0];if(!row)fail('NO_CLOUD_CHECKPOINT');if(row.writerClientId!==clientId())return takeover(sessionId);return resumeAccepted(row);
   }
 
+  function resumeLocal(sessionId) {
+    const session=learningSession(sessionId);if(!session)fail('NO_RESUMABLE_SESSION');
+    if(session.mode==='adaptive'){
+      const tile=root.document&&root.document.querySelector('.tb-tile[data-exam="'+session.examId+'"]');if(tile&&!tile.classList.contains('active'))tile.click();
+      const start=root.document&&root.document.querySelector('[data-start-adaptive]');if(!start)fail('RESUME_CONTROL_UNAVAILABLE');start.click();return true;
+    }
+    if(!bindLifecycle()||typeof lifecycle.resume!=='function')fail('SESSION_LIFECYCLE_UNAVAILABLE');return lifecycle.resume(sessionId);
+  }
+
+  async function abandonLocal(sessionId) {
+    const session=learningSession(sessionId);if(!session)fail('NO_RESUMABLE_SESSION');
+    if(session.mode!=='adaptive'&&bindLifecycle()&&typeof lifecycle.abandonSaved==='function'&&lifecycle.load(sessionId))lifecycle.abandonSaved(sessionId);
+    else {
+      const l=root.__TBLearning;if(!l||typeof l.abandonSession!=='function')fail('LEARNING_RUNTIME_UNAVAILABLE');
+      const result=l.abandonSession({examId:session.examId,sessionId:session.id,mode:session.mode,reason:'start-another-session'});
+      if(!result||result.saved===false)fail(result&&result.reason||'SESSION_ABANDON_FAILED');
+      const adaptive=parseStorage(ADAPTIVE_KEY,null);if(adaptive&&adaptive.learningSessionId===sessionId)root.localStorage.removeItem(ADAPTIVE_KEY);
+    }
+    const l=root.__TBLearning;if(l&&typeof l.sync==='function')await l.sync('session-ended-before-new-start');
+    return refresh('session-ended');
+  }
+
+  function renderStartBlocked(detail) {
+    if(!root.document)return;const host=root.document.getElementById('tb-overview');if(!host)return;
+    host.querySelectorAll('[data-session-start-conflict]').forEach(n=>n.remove());
+    const sessions=asArray(detail&&detail.sessions);if(!sessions.length)return;const active=sessions[0];
+    const box=root.document.createElement('section');box.className='tb-pane';box.setAttribute('data-session-start-conflict',active.sessionId);box.setAttribute('role','alert');
+    const h=root.document.createElement('h3');h.style.marginTop='0';h.textContent='Finish or recover your current session first';
+    const p=root.document.createElement('p');
+    const authority=authorityFor(active.sessionId),needsCloud=!!active.cloud||!!(authority&&(authority.phase==='remote'||authority.phase==='stale'));
+    p.textContent=active.terminalPending?'Your previous session is saved on this device but its completion has not reached your account yet. Retry sync before starting another session.':needsCloud?'A session is active in another browser. Review its cloud checkpoint before starting another session.':'A '+String(active.mode||'practice')+' session is still active. Continuing it or ending it first prevents one session from blocking another session\u2019s saved progress.';
+    const actions=root.document.createElement('div');actions.className='tb-cta';
+    const retry=root.document.createElement('button');retry.type='button';retry.className='tb-ghost';retry.textContent='Retry sync';retry.addEventListener('click',function(){const l=root.__TBLearning;if(l&&typeof l.sync==='function')void l.sync('manual-session-start-recovery');});actions.appendChild(retry);
+    if(needsCloud){
+      const review=root.document.createElement('button');review.type='button';review.className='btn btn-teal';review.textContent='Review session recovery';review.addEventListener('click',function(){emit('tb:session-handoff-review',{sessionId:active.sessionId});void refresh('manual-review');});actions.prepend(review);
+    }else if(!active.terminalPending){
+      const resume=root.document.createElement('button');resume.type='button';resume.className='btn btn-teal';resume.textContent='Continue current session';resume.addEventListener('click',function(){try{resumeLocal(active.sessionId);}catch(e){lastError=e;p.textContent='The session could not be reopened: '+e.message;emit('tb:session-handoff-error',{error:e,sessionId:active.sessionId});}});actions.prepend(resume);
+      const end=root.document.createElement('button');end.type='button';end.className='tb-ghost';end.textContent='End current session';end.addEventListener('click',async function(){if(end.dataset.confirm!=='true'){end.dataset.confirm='true';end.textContent='Confirm end session';return;}try{end.disabled=true;await abandonLocal(active.sessionId);box.remove();}catch(e){lastError=e;p.textContent='The current session could not be ended safely: '+e.message;emit('tb:session-handoff-error',{error:e,sessionId:active.sessionId});}finally{end.disabled=false;}});actions.appendChild(end);
+    }
+    if(sessions.length>1){const note=root.document.createElement('p');note.textContent=(sessions.length-1)+' additional saved session'+(sessions.length===2?' also needs':'s also need')+' recovery.';box.append(h,p,note,actions);}else box.append(h,p,actions);
+    host.prepend(box);
+  }
+
   function render(rows) {
     if(!root.document)return;const host=root.document.getElementById('tb-overview');if(!host)return;
     host.querySelectorAll('[data-session-handoff]').forEach(n=>n.remove());
@@ -272,7 +344,7 @@
       const h=root.document.createElement('h3');h.style.marginTop='0';h.textContent=phase==='stale'?'This session continued in another browser.':'Continue a cloud-saved session?';
       const p=root.document.createElement('p');p.textContent='Only the latest cloud-accepted checkpoint transfers. The original deadline is preserved. Local changes that were never uploaded from another device are not included.';
       const b=root.document.createElement('button');b.type='button';b.className='btn btn-teal';b.setAttribute('data-handoff-takeover','');b.textContent=row.writerClientId===clientId()?'Resume cloud session':'Take over and continue';
-      b.addEventListener('click',async function(){try{b.disabled=true;await resumeCloud(row.sessionId);}catch(e){if(e.code==='LOCAL_UNUPLOADED_CHANGES'&&!b.dataset.confirmCloud){b.dataset.confirmCloud='true';b.textContent='Use cloud state and take over';p.textContent='This browser has local changes that are not in the cloud checkpoint. They will be preserved locally as conflict evidence but will not overwrite the cloud state. Press again to confirm.';}else if(e.code==='LOCAL_UNUPLOADED_CHANGES'){await takeover(row.sessionId,{confirmCloudState:true});}else{lastError=e;p.textContent='Session transfer could not continue: '+e.message;} }finally{b.disabled=false;}});
+      b.addEventListener('click',async function(){try{b.disabled=true;await resumeCloud(row.sessionId);}catch(e){if(e.code==='LOCAL_UNUPLOADED_CHANGES'&&!b.dataset.confirmCloud){b.dataset.confirmCloud='true';b.textContent='Use cloud state and take over';p.textContent='This browser has local changes that are not in the cloud checkpoint. They will be preserved locally as conflict evidence but will not overwrite the cloud state. Press again to confirm.';}else if(e.code==='LOCAL_UNUPLOADED_CHANGES'){await takeover(row.sessionId,{confirmCloudState:true});}else{lastError=e;p.textContent='Session transfer could not continue: '+e.message;emit('tb:session-handoff-error',{error:e,sessionId:row.sessionId});} }finally{b.disabled=false;}});
       box.append(h,p,b);host.prepend(box);
     });
   }
@@ -290,6 +362,9 @@
     root.addEventListener('focus',function(){void refresh('focus');});root.addEventListener('online',function(){void refresh('online');});
     root.document&&root.document.addEventListener('upskill-auth-ready',function(){wrapLearningGuards();void refresh('auth-ready');});
     root.document&&root.document.addEventListener('upskill-test-progress-synced',function(){void refresh('progress-sync');});
+    root.document&&root.document.addEventListener('tb:learning-sync-conflict',function(){void refresh('learning-conflict');});
+    root.document&&root.document.addEventListener('tb:learning-session-start-blocked',function(event){renderStartBlocked(event&&event.detail);});
+    root.document&&root.document.addEventListener('tb:session-handoff-review',function(){void refresh('manual-review');});
     root.document&&root.document.addEventListener('tb:learning-updated',function(){root.setTimeout(function(){try{const e=adaptiveEnvelope();if(e)queueCheckpoint(e);}catch(err){lastError=err;}},0);});
   }
   function installBrowser() {

@@ -190,6 +190,7 @@
   }
 
   function displayedQuestion() {
+    if (!document || typeof document.querySelector !== 'function') return;
     const quiz = document.querySelector('#tb-overview .tb-quiz[data-question-id]');
     if (!quiz) return;
     const id = safeId(quiz.dataset.questionId);

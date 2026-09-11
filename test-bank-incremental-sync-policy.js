@@ -4,6 +4,7 @@
   const VERSION = 'server-sequence-v1';
   const ACCOUNT_META_KEY = 'tb-account-sync-meta-v1';
   const ACCOUNT_USER_KEY = 'tb-account-sync-user-v1';
+  const BANNER_ID = 'tb-sync-recovery-banner';
   const components = { account: null, learning: null };
   let pollCatchUp = null;
   let authSanitizerAttached = false;
@@ -71,9 +72,68 @@
     };
   }
 
+  function renderSyncBanner(status) {
+    if (!document.body) { window.setTimeout(function () { renderSyncBanner(status); }, 0); return; }
+    let banner = document.getElementById(BANNER_ID);
+    const pending = Math.max(0, Number(status && status.pending || 0));
+    const phase = String(status && status.phase || 'idle');
+    const visible = pending > 0 || ['offline','retry-wait','error','conflict'].indexOf(phase) !== -1;
+    if (!visible) { if (banner) banner.remove(); return; }
+    if (!banner) {
+      banner = document.createElement('section');
+      banner.id = BANNER_ID;
+      banner.className = 'tb-pane tb-sync-recovery';
+      banner.setAttribute('data-status','');
+      const overview = document.getElementById('tb-overview');
+      if (overview && overview.parentNode) overview.parentNode.insertBefore(banner, overview);
+      else document.body.prepend(banner);
+    }
+    banner.setAttribute('role', phase === 'conflict' || phase === 'error' ? 'alert' : 'status');
+    banner.replaceChildren();
+    const title = document.createElement('strong');
+    const copy = document.createElement('span');
+    const actions = document.createElement('span');
+    actions.className = 'tb-sync-recovery-actions';
+    if (phase === 'conflict') {
+      title.textContent = 'Session recovery needed';
+      copy.textContent = pending + ' study record' + (pending === 1 ? ' is' : 's are') + ' safely stored on this device but cannot sync until the active-session conflict is resolved.';
+    } else if (phase === 'offline') {
+      title.textContent = 'Saved on this device';
+      copy.textContent = pending + ' study record' + (pending === 1 ? ' will' : 's will') + ' sync when this device reconnects.';
+    } else if (phase === 'error' || phase === 'retry-wait') {
+      title.textContent = 'Progress sync needs attention';
+      copy.textContent = pending + ' study record' + (pending === 1 ? ' remains' : 's remain') + ' saved on this device. Retry progress sync before starting another session.';
+    } else {
+      title.textContent = phase === 'syncing' ? 'Syncing saved progress' : 'Progress waiting to sync';
+      copy.textContent = pending + ' study record' + (pending === 1 ? ' is' : 's are') + ' saved on this device.';
+    }
+    banner.append(title, copy);
+    const retry = document.createElement('button');
+    retry.type = 'button'; retry.className = 'tb-ghost'; retry.textContent = 'Retry sync';
+    retry.addEventListener('click', function () {
+      const learning = window.__TBLearning;
+      if (learning && typeof learning.sync === 'function') void learning.sync('manual-recovery');
+      const account = window.__TBAccountSync;
+      if (account && typeof account.sync === 'function') void account.sync('manual-recovery');
+    });
+    actions.appendChild(retry);
+    if (phase === 'conflict') {
+      const review = document.createElement('button');
+      review.type = 'button'; review.className = 'btn btn-teal'; review.textContent = 'Review session recovery';
+      review.addEventListener('click', function () {
+        try { document.dispatchEvent(new CustomEvent('tb:session-handoff-review')); } catch (error) {}
+        const handoff = window.__TBSessionHandoff;
+        if (handoff && typeof handoff.refresh === 'function') void handoff.refresh('manual-review');
+      });
+      actions.appendChild(review);
+    }
+    banner.appendChild(actions);
+  }
+
   function publish(component, detail) {
     components[component] = clone(detail || {});
     const status = combined();
+    renderSyncBanner(status);
     try { document.dispatchEvent(new CustomEvent('tb:sync-status', { detail: status })); } catch (error) {}
     return status;
   }

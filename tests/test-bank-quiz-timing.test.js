@@ -124,8 +124,9 @@ function selectedTiming(window, kind) {
   return modeCard(window, kind).querySelector('[data-timing-kind="' + kind + '"][aria-pressed="true"]');
 }
 
-function exitQuiz(window) {
+async function exitQuiz(window) {
   click(window, window.document.querySelector('#tb-overview [data-quit]'));
+  await window.__TBLearning.sync('test-session-ended');
 }
 
 test('Full Exam keeps its timed default while Quick and Focused default independently to untimed', async () => {
@@ -227,7 +228,7 @@ test('Quick and Focused pass the selected timing mode into the existing session 
   assert.equal(window.document.querySelectorAll('#tb-overview .tb-navcell').length, 20);
   assert.equal(window.document.querySelector('#tb-overview #tb-timer').textContent, '32:44');
   assert.equal(intervals.length, 1, 'timed Quick Quiz starts the shared countdown');
-  exitQuiz(window);
+  await exitQuiz(window);
 
   click(window, timingButton(window, 'focus', true));
   click(window, timingButton(window, 'focus', false));
@@ -242,7 +243,7 @@ test('Full Exam retains both its existing timed and untimed session behavior', a
   click(window, modeCard(window, 'full').querySelector('[data-mode="full"]'));
   assert.ok(window.document.querySelector('#tb-overview #tb-timer'));
   assert.equal(intervals.length, 1, 'default timed Full Exam starts the countdown');
-  exitQuiz(window);
+  await exitQuiz(window);
 
   click(window, timingButton(window, 'full', false));
   click(window, modeCard(window, 'full').querySelector('[data-mode="full"]'));
@@ -282,12 +283,12 @@ test('New-only filters retain the selected timing mode after the durable cross-d
   click(window, modeCard(window, 'quick').querySelector('[data-mode="quick"]'));
   assert.equal(await waitFor(window, () => Boolean(window.document.querySelector('#tb-overview #tb-timer'))), true, 'timed New-only quiz uses a countdown');
   assert.ok(window.document.querySelectorAll('#tb-overview .tb-navcell').length > 0);
-  exitQuiz(window);
+  await exitQuiz(window);
 
   click(window, timingButton(window, 'quick', false));
   click(window, modeCard(window, 'quick').querySelector('[data-mode="quick"]'));
   assert.equal(await waitFor(window, () => Boolean(window.document.querySelector('#tb-overview .tb-timer.untimed'))), true, 'untimed New-only quiz stays untimed');
-  exitQuiz(window);
+  await exitQuiz(window);
 
   assert.equal(intervals.length, 1, 'only the timed New-only session created a countdown');
 });
@@ -313,7 +314,7 @@ test('Missed-only filters keep working in both timing modes', async () => {
   click(window, timingButton(window, 'focus', true));
   click(window, modeCard(window, 'focus').querySelector('[data-mode="focus"]'));
   assert.ok(window.document.querySelector('#tb-overview #tb-timer'), 'timed Missed-only focused quiz uses a countdown');
-  exitQuiz(window);
+  await exitQuiz(window);
 
   click(window, timingButton(window, 'focus', false));
   click(window, modeCard(window, 'focus').querySelector('[data-mode="focus"]'));
@@ -370,7 +371,7 @@ test('every supported count starts with the centralized countdown for the questi
       assert.equal(window.document.querySelector('#tb-overview #tb-timer').textContent, expectedTimer, kind + ' ' + count);
       assert.match(summary, new RegExp('Timed: ' + api.fmtQuizDuration(seconds)));
       if (served < count) assert.match(summary, new RegExp('Only ' + served + ' questions are available'));
-      exitQuiz(window);
+      await exitQuiz(window);
     }
   }
 });
@@ -382,7 +383,7 @@ test('exiting timed sessions clears their intervals and stale ticks cannot submi
   click(window, modeCard(window, 'quick').querySelector('[data-mode="quick"]'));
   assert.equal(intervals.length, 1);
   const staleTick = intervals[0];
-  exitQuiz(window);
+  await exitQuiz(window);
   assert.ok(clearedIntervals.includes(1));
 
   click(window, modeCard(window, 'focus').querySelector('[data-mode="focus"]'));
@@ -409,7 +410,7 @@ test('stress matrix covers all sets, counts, timing modes, and multiple focused 
         click(window, modeCard(window, 'quick').querySelector('[data-mode="quick"]'));
         assert.equal(window.document.querySelectorAll('#tb-overview .tb-navcell').length, count);
         assert.equal(Boolean(window.document.querySelector('#tb-overview #tb-timer')), timed);
-        exitQuiz(window);
+        await exitQuiz(window);
         assert.equal(selectedTiming(window, 'focus').textContent, 'Untimed', 'Quick timing never leaked into Focused');
       }
     }
@@ -432,7 +433,7 @@ test('stress matrix covers all sets, counts, timing modes, and multiple focused 
           const served = window.document.querySelectorAll('#tb-overview .tb-navcell').length;
           assert.ok(served > 0 && served <= count, 'focused session serves the selected area up to the requested count');
           assert.equal(Boolean(window.document.querySelector('#tb-overview #tb-timer')), timed);
-          exitQuiz(window);
+          await exitQuiz(window);
         }
       }
     }

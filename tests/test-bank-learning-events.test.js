@@ -875,7 +875,7 @@ test('an answer edited while its first upload is held is sent as a later immutab
   }
 });
 
-test('a session written during an in-flight upload is automatically sent in a follow-up batch', async () => {
+test('a session write created during an in-flight upload is automatically sent in a follow-up batch', async () => {
   const { dom, window, questions } = load();
   try {
     const user = { id: 'in-flight-new-session-learner' };
@@ -892,21 +892,129 @@ test('a session written during an in-flight upload is automatically sent in a fo
 
     const syncing = api.sync('held-first-session-upload');
     await service.firstUpload;
-    const secondSession = api.startSession({
-      examId: 'cssbb', sessionId: 'in-flight-second-session', questions: [questions[1]], mode: 'quick', timed: false
+    const answer = api.recordAnswer({
+      examId: 'cssbb', sessionId: firstSession, question: questions[0], index: 0, selected: 0, status: 'correct'
     });
     assert.equal(firstSession, 'in-flight-first-session');
-    assert.equal(secondSession, 'in-flight-second-session');
+    assert.equal(answer.saved, true);
     service.releaseFirstUpload();
     await syncing;
     await settleAsyncSync(window);
 
-    assert.ok(rows.some(row => row.event_type === 'session_started' && row.session_id === secondSession),
-      'the second session start is not stranded after the first batch snapshot');
-    assert.ok(rows.some(row => row.event_type === 'question_exposed' && row.session_id === secondSession),
-      'the second session exposure is also sent automatically');
+    assert.ok(rows.some(row => row.event_type === 'answer_recorded' && row.session_id === firstSession),
+      'the later answer is not stranded after the first batch snapshot');
     assert.equal(api.status().pendingForUser, 0);
     assert.ok(service.calls() >= 2, 'a normal write during sync schedules a follow-up upload');
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('a second editable session stays blocked until the current session terminal is cloud-acknowledged', async () => {
+  const { dom, window, questions } = load();
+  try {
+    const user = { id: 'single-session-learner' };
+    const rows = [];
+    const uploads = [];
+    let client = null;
+    window.UpskillAuth = { getUser: () => user, getClient: () => client };
+    const api = window.__TBLearning;
+    const firstSession = api.startSession({
+      examId: 'cssbb', sessionId: 'single-session-first', questions: [questions[0]], mode: 'adaptive', timed: false
+    });
+    const whileActive = api.startSession({
+      examId: 'cssbb', sessionId: 'single-session-second', questions: [questions[1]], mode: 'quick', timed: false, returnResult: true
+    });
+    assert.equal(whileActive.blocked, true);
+    assert.equal(whileActive.reason, 'ACTIVE_SESSION_EXISTS');
+    assert.equal(api.abandonSession({ examId: 'cssbb', sessionId: firstSession, reason: 'switch-mode' }), firstSession);
+
+    const whileTerminalPending = api.startSession({
+      examId: 'cssbb', sessionId: 'single-session-second', questions: [questions[1]], mode: 'quick', timed: false, returnResult: true
+    });
+    assert.equal(whileTerminalPending.blocked, true, 'a locally ended session remains a barrier until its terminal event is accepted');
+    assert.equal(whileTerminalPending.activeSessions[0].terminalPending, true);
+
+    client = fakeLearningService(rows, uploads);
+    await api.sync('single-session-terminal-ack');
+    const afterAck = api.startSession({
+      examId: 'cssbb', sessionId: 'single-session-second', questions: [questions[1]], mode: 'quick', timed: false, returnResult: true
+    });
+    assert.equal(afterAck.saved, true);
+    assert.equal(afterAck.blocked, undefined);
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('an anonymous terminal session does not block the next local quiz', () => {
+  const { dom, window, questions } = load();
+  try {
+    const api = window.__TBLearning;
+    const firstSession = api.startSession({
+      examId: 'cssbb', sessionId: 'anonymous-first', questions: [questions[0]], mode: 'quick', timed: false
+    });
+    assert.equal(api.abandonSession({ examId: 'cssbb', sessionId: firstSession, reason: 'switch-mode' }), firstSession);
+
+    const next = api.startSession({
+      examId: 'cssbb', sessionId: 'anonymous-second', questions: [questions[1]], mode: 'quick', timed: false, returnResult: true
+    });
+    assert.equal(next.saved, true);
+    assert.equal(next.blocked, undefined);
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('a stale session conflict cannot head-of-line block another session in the outbox', async () => {
+  const { dom, window, questions } = load();
+  try {
+    const user = { id: 'isolated-outbox-learner' };
+    let client = null;
+    window.UpskillAuth = { getUser: () => user, getClient: () => client };
+    const api = window.__TBLearning;
+    api.startSession({ examId: 'cssbb', sessionId: 'stale-session', questions: [questions[0]], mode: 'adaptive', timed: false });
+
+    /* Seed the historic invalid state reported by production: two sessions
+       already coexist in the durable outbox. New writes can no longer create
+       this state, but replay still has to repair it safely. */
+    const seeded = api.store();
+    seeded.sessions['healthy-session'] = Object.assign({}, seeded.sessions['stale-session'], { id: 'healthy-session', mode: 'quick' });
+    const copies = seeded.events.map((event, index) => Object.assign({}, event, {
+      id: event.id + '-healthy-' + index,
+      sessionId: 'healthy-session',
+      clientSequence: Number(event.clientSequence || 0) + 100,
+      syncedFor: []
+    }));
+    seeded.events.push(...copies);
+    window.localStorage.setItem('tb-learning-events-v2', JSON.stringify(seeded));
+
+    const accepted = [];
+    client = {
+      from(table) {
+        assert.equal(table, 'test_bank_learning_events');
+        return {
+          upsert(batch) {
+            const sessionId = batch[0] && batch[0].session_id;
+            if (sessionId === 'stale-session') return Promise.resolve({ error: { code: '40001', message: 'stale session revision' } });
+            accepted.push(...plain(batch));
+            return Promise.resolve({ error: null });
+          },
+          select() {
+            const query = { eq() { return query; }, order() { return query; }, range() { return Promise.resolve({ data: [], error: null }); }, limit() { return Promise.resolve({ data: [], error: null }); } };
+            return query;
+          }
+        };
+      }
+    };
+
+    const result = await api.sync('isolated-outbox-replay');
+    assert.equal(result.conflict, true);
+    assert.deepEqual(plain(result.sessionConflicts.map(item => item.sessionId)), ['stale-session']);
+    assert.ok(accepted.length > 0);
+    assert.ok(accepted.every(row => row.session_id === 'healthy-session'), 'the unrelated session commits independently');
+    assert.equal(api.store().events.filter(event => event.sessionId === 'healthy-session').every(event => event.syncedFor.includes(user.id)), true);
+    assert.equal(api.store().events.filter(event => event.sessionId === 'stale-session').every(event => !event.syncedFor.includes(user.id)), true);
   } finally {
     dom.window.close();
   }

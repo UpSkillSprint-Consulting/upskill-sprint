@@ -120,6 +120,29 @@ test('paused adaptive sessions are restored at the saved question', async () => 
   assert.equal(restored.items.length, 3);
 });
 
+test('the analytics action returns to Start after the saved adaptive session is cleared', async () => {
+  const { window } = await load();
+  const bank = questions(window).slice(0, 2);
+  const overview = window.document.getElementById('tb-overview');
+  overview.insertAdjacentHTML('afterbegin', '<button type="button" data-start-adaptive>Start adaptive practice</button>');
+  window.localStorage.setItem('tb-adaptive-session-v2', JSON.stringify({
+    version: 2, examId: 'cssbb', id: 'saved-action', startedAt: Date.now(), stems: bank.map(question => question.stem),
+    reasons: ['due', 'weak'], index: 1, answers: {}, checked: {}, results: [], complete: false
+  }));
+  window.document.dispatchEvent(new window.CustomEvent('tb:exam-changed'));
+  await settle(window, 3);
+  const action = overview.querySelector('[data-start-adaptive]');
+  assert.equal(action.textContent, 'Resume adaptive practice');
+  assert.equal(action.dataset.tbAdaptiveResume, 'true');
+
+  window.localStorage.removeItem('tb-adaptive-session-v2');
+  window.document.dispatchEvent(new window.CustomEvent('tb:exam-changed'));
+  await settle(window, 3);
+  assert.equal(action.textContent, 'Start adaptive practice');
+  assert.equal(action.hasAttribute('title'), false);
+  assert.equal(action.dataset.tbAdaptiveResume, undefined);
+});
+
 test('completion guard records the final session without a runtime exception', async () => {
   const { window, errors } = await load();
   const bank = questions(window).slice(0, 2);

@@ -23,6 +23,10 @@ async function loadPage() {
   return { dom, window: dom.window, errors };
 }
 
+async function syncEndedSession(window) {
+  await window.__TBLearning.sync('test-session-ended');
+}
+
 test('CSSGB Set 1 contains 101 source questions plus nine ASQ-BoK supplements', async () => {
   const { dom, window, errors } = await loadPage();
   try {
@@ -154,9 +158,11 @@ test('CSSGB launches the full 110-question simulation plus Quick and Focused mod
     assert.equal(overview.querySelectorAll('.tb-navcell').length, 110);
     assert.match(overview.textContent, /Full Exam · timed/i);
     click(overview.querySelector('[data-backsim]'));
+    await syncEndedSession(window);
     click(overview.querySelector('[data-mode="quick"]'));
     assert.match(overview.textContent, /Quick Quiz · untimed/i);
     click(overview.querySelector('[data-backsim]'));
+    await syncEndedSession(window);
     click(overview.querySelector('[data-mode="focus"]'));
     assert.match(overview.textContent, /Focused Quiz · untimed/i);
   } finally { dom.window.close(); }

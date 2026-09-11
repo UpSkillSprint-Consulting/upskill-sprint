@@ -10,3 +10,38 @@ footer.site p,
 footer.site .footer-grid a {
   color: #cbd5e1 !important;
 }
+
+.tb-sync-recovery {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.35rem 1rem;
+  align-items: center;
+  margin: 0 0 1rem;
+  border-left: 4px solid #b45309;
+}
+
+.tb-sync-recovery > strong,
+.tb-sync-recovery > span:not(.tb-sync-recovery-actions) {
+  grid-column: 1;
+}
+
+.tb-sync-recovery-actions {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+@media (max-width: 720px) {
+  .tb-sync-recovery {
+    grid-template-columns: 1fr;
+  }
+
+  .tb-sync-recovery-actions {
+    grid-column: 1;
+    grid-row: auto;
+    justify-content: flex-start;
+  }
+}

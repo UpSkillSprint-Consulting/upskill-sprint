@@ -26,6 +26,10 @@ async function loadPage() {
   return { dom, window: dom.window, errors };
 }
 
+async function syncEndedSession(window) {
+  await window.__TBLearning.sync('test-session-ended');
+}
+
 test('CMQ/OE Set 1 contains all 166 source questions with stable source numbering', async () => {
   const { dom, window, errors } = await loadPage();
   try {
@@ -113,9 +117,11 @@ test('CMQ/OE launches all three live modes and Full Exam draws exactly 150 quest
     assert.equal(overview.querySelectorAll('.tb-navcell').length, 150);
     assert.match(overview.textContent, /Full Exam · timed/i, 'Full Exam retains its identity in the player');
     click(overview.querySelector('[data-backsim]'));
+    await syncEndedSession(window);
     click(overview.querySelector('[data-mode="quick"]'));
     assert.match(overview.textContent, /Quick Quiz · untimed/i, 'Quick Quiz retains its identity in the player');
     click(overview.querySelector('[data-backsim]'));
+    await syncEndedSession(window);
     click(overview.querySelector('[data-mode="focus"]'));
     assert.match(overview.textContent, /Focused Quiz · untimed/i, 'Focused Quiz retains its identity in the player');
   } finally {
@@ -143,6 +149,7 @@ test('a perfect CMQ Quick Quiz scores correctly and retakes the same mode', asyn
     assert.match(overview.textContent, /answered 10 of 10 correctly on this quick quiz/i);
     const retake = overview.querySelector('[data-retake]');
     assert.match(retake.textContent, /Retake Quick Quiz/i);
+    await syncEndedSession(window);
     click(retake);
     assert.match(overview.textContent, /Quick Quiz · untimed/i);
     assert.equal(overview.querySelectorAll('.tb-navcell').length, 10);
