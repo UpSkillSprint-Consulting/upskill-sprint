@@ -8,77 +8,56 @@ const MOBILE_PICKER_MARKUP = `
     .tb-mobile-cert-picker{display:block;width:100%;margin:0 0 14px}
     .tb-mobile-cert-picker label{display:block;margin:0 0 7px;font:700 11px/1.3 "Work Sans",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
     .tb-mobile-cert-picker select{display:block;width:100%;max-width:100%;min-height:48px;box-sizing:border-box;border:1px solid var(--teal);border-radius:10px;padding:11px 42px 11px 13px;background:var(--card);color:var(--ink);font:600 15px/1.35 "Work Sans",sans-serif;appearance:auto}
-    .tb-mobile-cert-picker select:focus-visible{outline:3px solid color-mix(in srgb,var(--teal) 35%,transparent);outline-offset:2px}
   }
 </style>
 <script id="tb-mobile-certification-picker-script">
 (function(){
   'use strict';
   function install(){
-    var rail=document.querySelector('.tb-rail');
     var groups=document.getElementById('tb-groups');
-    if(!rail||!groups||document.getElementById('tb-mobile-cert-select')) return;
+    if(!groups||document.getElementById('tb-mobile-cert-select')) return;
     var tiles=Array.prototype.slice.call(groups.querySelectorAll('.tb-tile[data-exam]'));
     if(!tiles.length){window.setTimeout(install,40);return;}
-
-    var wrap=document.createElement('div');
-    wrap.className='tb-mobile-cert-picker';
-    var label=document.createElement('label');
-    label.htmlFor='tb-mobile-cert-select';
-    label.textContent='Choose a certification exam';
-    var select=document.createElement('select');
-    select.id='tb-mobile-cert-select';
-    select.setAttribute('aria-label','Choose a certification exam');
-
+    var wrap=document.createElement('div');wrap.className='tb-mobile-cert-picker';
+    var label=document.createElement('label');label.htmlFor='tb-mobile-cert-select';label.textContent='Choose a certification exam';
+    var select=document.createElement('select');select.id='tb-mobile-cert-select';select.setAttribute('aria-label','Choose a certification exam');
     tiles.forEach(function(tile){
-      var option=document.createElement('option');
-      option.value=tile.dataset.exam;
-      var name=tile.querySelector('.tb-tn');
-      var badge=tile.querySelector('.tb-badge');
+      var option=document.createElement('option');option.value=tile.dataset.exam;
+      var name=tile.querySelector('.tb-tn');var badge=tile.querySelector('.tb-badge');
       option.textContent=(name&&name.textContent.trim())||(badge&&badge.textContent.trim())||tile.dataset.exam.toUpperCase();
-      option.selected=tile.classList.contains('active');
-      select.appendChild(option);
+      option.selected=tile.classList.contains('active');select.appendChild(option);
     });
-
-    select.addEventListener('change',function(){
-      var tile=groups.querySelector('.tb-tile[data-exam="'+select.value+'"]');
-      if(tile) tile.click();
-    });
-
-    wrap.appendChild(label);
-    wrap.appendChild(select);
-    groups.parentNode.insertBefore(wrap,groups);
-
-    var sync=function(){
-      var active=groups.querySelector('.tb-tile.active[data-exam]');
-      if(active&&select.value!==active.dataset.exam) select.value=active.dataset.exam;
-    };
-    new MutationObserver(sync).observe(groups,{subtree:true,attributes:true,attributeFilter:['class'],childList:true});
-    sync();
+    select.addEventListener('change',function(){var tile=groups.querySelector('.tb-tile[data-exam="'+select.value+'"]');if(tile)tile.click();});
+    wrap.appendChild(label);wrap.appendChild(select);groups.parentNode.insertBefore(wrap,groups);
+    var sync=function(){var active=groups.querySelector('.tb-tile.active[data-exam]');if(active&&select.value!==active.dataset.exam)select.value=active.dataset.exam;};
+    new MutationObserver(sync).observe(groups,{subtree:true,attributes:true,attributeFilter:['class'],childList:true});sync();
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true});
-  else install();
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
 </script>`;
 
-const POLICY_SOURCE = '/test-bank-incremental-sync-policy.js';
-const ACCOUNT_SYNC_SOURCE = '/test-bank-account-sync.js';
-const LEARNING_SYNC_SOURCE = '/test-bank-learning-events.js';
-function scriptTag(source) { return `<script src="${source}" defer></script>`; }
-function ensureIncrementalPolicyBeforeSync(html) {
-  const policy = scriptTag(POLICY_SOURCE);
-  const accountTag = scriptTag(ACCOUNT_SYNC_SOURCE);
-  const learningTag = scriptTag(LEARNING_SYNC_SOURCE);
-  const policyIndex = html.indexOf(policy);
-  const accountIndex = html.indexOf(accountTag);
-  const learningIndex = html.indexOf(learningTag);
-  const firstSyncIndex = [accountIndex, learningIndex].filter((index) => index >= 0).sort((a, b) => a - b)[0];
-  if (firstSyncIndex == null) return html;
-  if (policyIndex >= 0 && policyIndex < firstSyncIndex) return html;
-  const withoutLatePolicy = policyIndex >= 0 ? html.replace(policy, '') : html;
-  if (withoutLatePolicy.includes(accountTag)) return withoutLatePolicy.replace(accountTag, policy + accountTag);
-  if (withoutLatePolicy.includes(learningTag)) return withoutLatePolicy.replace(learningTag, policy + learningTag);
-  return withoutLatePolicy;
+function normalizedPath(source) {
+  try { return new URL(source, 'https://upskillsprint.com').pathname; }
+  catch (_) { return String(source || '').split('?')[0]; }
+}
+
+function keepTestBankScript(source) {
+  const path = normalizedPath(source);
+  if (path === '/test-bank-memory-learning.js' || path === '/test-bank-formulas.js' || path === '/test-bank-tables.js') return true;
+  return /^\/test-bank-(?:cmq|cssgb|cssbb|cqe|mbb)(?:-|\.).*\.js$/i.test(path);
+}
+
+function stripPersistedExamRuntime(html) {
+  return html.replace(/<script\b([^>]*\bsrc=["']([^"']+)["'][^>]*)>\s*<\/script>/gi, function (tag, attrs, source) {
+    const path = normalizedPath(source);
+    if (!/^\/test-bank-/i.test(path)) return tag;
+    return keepTestBankScript(path) ? tag : '';
+  }).replace(/<link\b[^>]*href=["'][^"']*test-bank-analytics\.css[^"']*["'][^>]*>/gi, '');
+}
+
+function injectMemoryRuntime(html) {
+  if (html.includes('src="/test-bank-memory-learning.js"') || html.includes("src='/test-bank-memory-learning.js'")) return html;
+  return html.replace('</head>', '<script src="/test-bank-memory-learning.js"></script>\n</head>');
 }
 
 export default async function handler(_request, context) {
@@ -87,46 +66,15 @@ export default async function handler(_request, context) {
   if (!contentType.includes('text/html')) return response;
 
   let html = await response.text();
-  if (html.includes('tb-mobile-certification-picker-script')) {
-    return new Response(ensureIncrementalPolicyBeforeSync(html), response);
+  html = stripPersistedExamRuntime(html);
+  html = injectMemoryRuntime(html);
+  if (!html.includes('tb-mobile-certification-picker-script')) {
+    html = html.replace('</body>', `${MOBILE_PICKER_MARKUP}\n</body>`);
   }
 
-  /* This is the edge function currently bound to /test-bank in netlify.toml.
-     Keep every test-bank enhancement here so production does not depend on an
-     unbound edge function file. The Segment 14 policy is inserted before an
-     already-present sync runtime rather than appended after it. */
-  html = ensureIncrementalPolicyBeforeSync(html);
-  const enhancementSources = [
-    '/test-bank-question-registry.js',
-    '/test-bank-set-controls.js',
-    '/test-bank-feedback-loop.js',
-    '/test-bank-phase1-api.js',
-    '/test-bank-deep-feedback.js',
-    '/test-bank-deep-feedback-grounding.js',
-    '/test-bank-phase2-hardening.js',
-    '/test-bank-phase2-attempt-history.js',
-    '/test-bank-phase2-reporting.js',
-    '/test-bank-phase2-runtime-coordinator.js',
-    '/test-bank-phase2-quality-assurance.js',
-    POLICY_SOURCE,
-    ACCOUNT_SYNC_SOURCE,
-    '/test-bank-history-reconciliation.js',
-    '/test-bank-adaptive-mastery.js',
-    LEARNING_SYNC_SOURCE,
-    '/test-bank-adaptive-mastery-runtime.js',
-    '/test-bank-metrics-policy.js',
-    '/test-bank-adaptive-mastery-hardening.js',
-    '/test-bank-history-policy.js',
-    '/test-bank-analytics-dashboard.js',
-    '/test-bank-adaptive-mastery-completion-guard.js',
-    '/test-bank-phases-integration.js'
-  ];
-  const scripts = enhancementSources.filter((source) => !html.includes(`src="${source}"`))
-    .map((source) => `<script src="${source}" defer></script>`).join('');
-  const updated = html.replace('</body>', `${MOBILE_PICKER_MARKUP}\n${scripts}</body>`);
   const headers = new Headers(response.headers);
   headers.delete('content-length');
-  return new Response(updated, {
+  return new Response(html, {
     status: response.status,
     statusText: response.statusText,
     headers
