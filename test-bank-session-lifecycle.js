@@ -152,8 +152,13 @@
     const byQuestion=new Map(snap.orderedItems.map(x=>[x.questionId,x]));
     feedback.records.forEach(function(r){const id=questionIdentity(feedback.examId,r.question),item=byQuestion.get(id);if(!item)return;item.selectedOptionId=r.selected==null?null:item.optionOrder[Number(r.selected)]||null;});
     const flags=[];feedback.records.forEach(function(r){if(r.flagged){const item=byQuestion.get(questionIdentity(feedback.examId,r.question));if(item)flags.push(item.itemId);}});snap.flags=flags;
-    const current=root.document&&root.document.querySelector('.tb-quiz[data-question-id]');
-    if(current){const item=byQuestion.get(String(current.dataset.questionId||''));if(item)snap.currentItemId=item.itemId;}
+    const currentIndex=Number(feedback.currentIndex);
+    if(Number.isSafeInteger(currentIndex)&&currentIndex>=0&&snap.orderedItems[currentIndex])snap.currentItemId=snap.orderedItems[currentIndex].itemId;
+    else {
+      const current=root.document&&root.document.querySelector('.tb-navcell.cur[data-goto]');
+      const renderedIndex=current&&Number(current.dataset.goto);
+      if(Number.isSafeInteger(renderedIndex)&&renderedIndex>=0&&snap.orderedItems[renderedIndex])snap.currentItemId=snap.orderedItems[renderedIndex].itemId;
+    }
     snap.sessionRevision+=1;snap.updatedAt=new Date().toISOString();save(snap);return snap;
   }
   function reconstructQuestions(snapshot) {
@@ -251,6 +256,8 @@
     if(root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
     root.document.addEventListener('click',function(event){if(!root.__TB||typeof root.__TB.getFeedbackSnapshot!=='function')return;const t=event.target&&event.target.closest&&event.target.closest('[data-goto],[data-next],[data-prev],[data-flag],[data-opt]');if(t)queueMicrotask(function(){try{syncFromRuntime();}catch(e){lastError=e;}});},true);
     root.document.addEventListener('tb:exam-changed',function(){queueMicrotask(function(){const snap=load();if(snap)renderResumeNotice(snap);});});
+    root.addEventListener('pagehide',function(){try{syncFromRuntime();}catch(e){lastError=e;}});
+    root.document.addEventListener('visibilitychange',function(){if(root.document.visibilityState==='hidden'){try{syncFromRuntime();}catch(e){lastError=e;}}});
     return true;
   }
   const api={schemaVersion:SCHEMA,contractVersion:CONTRACT,storeKey:STORE_KEY,states:Object.keys(TRANSITIONS),editableStates:EDITABLE.slice(),terminalStates:TERMINAL.slice(),transitions:clone(TRANSITIONS),validateSnapshot,transition,save,load,clearActive,snapshotFromStart,updateDraft,syncFromRuntime,resume,abandonSaved,installBrowser,status:function(){const snap=load();return {installed,active:snap?clone(snap):null,lastError:lastError?{code:lastError.code||'ERROR',message:lastError.message}:null,crossDeviceTakeover:false};}};

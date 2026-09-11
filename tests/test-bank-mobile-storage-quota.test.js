@@ -100,3 +100,27 @@ test('simulation start recovers from a mobile-style localStorage quota without d
     dom.window.close();
   }
 });
+
+test('single-session policy failures are not mistaken for storage quota failures', () => {
+  const dom = new JSDOM('<!doctype html><html><body><div id="tb-overview"></div></body></html>', {
+    url: 'https://upskillsprint.com/test-bank', runScripts: 'outside-only', pretendToBeVisual: true
+  });
+  const { window } = dom;
+  try {
+    window.eval(learning);
+    window.eval(setControls);
+    window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
+    const questions = [{ stem: 'One', options: ['A', 'B'], answer: 0, sub: 'fixture' }];
+    const first = window.__TBLearning.startSession({ examId: 'cssbb', sessionId: 'quota-policy-first', questions, mode: 'adaptive', returnResult: true });
+    assert.equal(first.saved, true);
+    let blockedEvents = 0;
+    window.document.addEventListener('tb:learning-session-start-blocked', () => { blockedEvents += 1; });
+    const before = JSON.stringify(window.__TBLearning.store());
+    const second = window.__TBLearning.startSession({ examId: 'cssbb', sessionId: 'quota-policy-second', questions, mode: 'quick', returnResult: true });
+    assert.equal(second.blocked, true);
+    assert.equal(blockedEvents, 1, 'the quota adapter does not compact and retry a deliberate policy block');
+    assert.equal(JSON.stringify(window.__TBLearning.store()), before);
+  } finally {
+    dom.window.close();
+  }
+});

@@ -171,7 +171,7 @@
       sessions: {},
       migration: {},
       index: { revision: 3, seen: {}, totals: {}, knownEventIds: {} },
-      sync: { remoteLoadedFor: {}, ledgerFetchedFor: {}, ledgerCursorFor: {}, phase: 'idle', syncedAsOf: null, retryAttempts: 0, nextRetryAt: null, retryExhausted: false, conflict: null, lastSuccessAt: null, lastError: null, lastErrorAt: null, lastCancelledAt: null, lastCancelReason: null }
+      sync: { remoteLoadedFor: {}, ledgerFetchedFor: {}, ledgerCursorFor: {}, sessionConflicts: {}, phase: 'idle', syncedAsOf: null, retryAttempts: 0, nextRetryAt: null, retryExhausted: false, conflict: null, lastSuccessAt: null, lastError: null, lastErrorAt: null, lastCancelledAt: null, lastCancelReason: null }
     };
   }
 
@@ -249,6 +249,7 @@
     state.sync.remoteLoadedFor = record(state.sync.remoteLoadedFor);
     state.sync.ledgerFetchedFor = record(state.sync.ledgerFetchedFor);
     state.sync.ledgerCursorFor = mergeLedgerCursorMaps({}, record(state.sync.ledgerCursorFor));
+    state.sync.sessionConflicts = record(state.sync.sessionConflicts);
     state.events.forEach(function (event) { indexEvent(state, event, true); });
     return state;
   }
@@ -319,6 +320,7 @@
     state.sync.remoteLoadedFor = Object.assign({}, record(record(stored.sync).remoteLoadedFor), record(record(state.sync).remoteLoadedFor));
     state.sync.ledgerFetchedFor = Object.assign({}, record(record(stored.sync).ledgerFetchedFor), record(record(state.sync).ledgerFetchedFor));
     state.sync.ledgerCursorFor = mergeLedgerCursorMaps(record(record(stored.sync).ledgerCursorFor), record(record(state.sync).ledgerCursorFor));
+    state.sync.sessionConflicts = Object.assign({}, record(record(stored.sync).sessionConflicts), record(record(state.sync).sessionConflicts));
     return state;
   }
 
@@ -942,6 +944,28 @@
     return state.events.filter(function (event) { return event.scope === 'anonymous' && asArray(event.syncedFor).length === 0; }).length;
   }
 
+  function blockingSessions(state, userId, excludedSessionId) {
+    const scope = userId ? 'user:' + userId : 'anonymous';
+    const pendingTerminal = new Set(state.events.filter(function (event) {
+      return event.scope === scope && asArray(event.syncedFor).indexOf(userId) === -1 &&
+        (event.type === 'session_completed' || event.type === 'session_abandoned');
+    }).map(function (event) { return event.sessionId; }));
+    return Object.keys(state.sessions).map(function (id) { return state.sessions[id]; }).filter(function (session) {
+      if (!session || session.id === excludedSessionId) return false;
+      if (userId ? session.ownerId !== userId : Boolean(session.ownerId)) return false;
+      return session.status === 'active' || pendingTerminal.has(session.id);
+    }).map(function (session) {
+      return {
+        sessionId: session.id,
+        examId: session.examId,
+        mode: session.mode,
+        status: session.status,
+        terminalPending: pendingTerminal.has(session.id),
+        startedAt: session.startedAt
+      };
+    });
+  }
+
   function activeSessionId(examId, supplied) {
     return safeId(supplied, safeId(examId, 'exam') + ':session:' + now().toString(36) + '-' + Math.random().toString(36).slice(2, 8));
   }
@@ -1000,6 +1024,13 @@
       const saved = input.returnResult ? persist(state, 'session-start-retry') : lastWriteAheadSaved;
       if (input.returnResult) scheduleSync('session-start-retry');
       return input.returnResult ? Object.assign({ sessionId: sessionId, saved: saved, retried: true }, startedVersionResult(existing)) : sessionId;
+    }
+    const user = activeUser();
+    const blockedBy = blockingSessions(state, user && user.id || '', sessionId);
+    if (blockedBy.length) {
+      const detail = { reason: 'ACTIVE_SESSION_EXISTS', requestedExamId: input.examId || null, requestedMode: input.mode || null, sessions: blockedBy };
+      emit('tb:learning-session-start-blocked', detail);
+      return input.returnResult ? { sessionId: sessionId, saved: false, blocked: true, reason: detail.reason, activeSessions: clone(blockedBy) } : null;
     }
     if (window.__TB && window.__TB.questionIdentityPolicy === 'explicit-v1') {
       const registry = window.__TBQuestionRegistry;
@@ -1735,6 +1766,62 @@
     }
   }
 
+  function orderedSessionGroups(events, blockedSessionIds) {
+    const groups = [], bySession = new Map();
+    asArray(events).forEach(function (event) {
+      const sessionId = String(event && event.sessionId || '');
+      if (!sessionId || (blockedSessionIds && blockedSessionIds.has(sessionId))) return;
+      if (!bySession.has(sessionId)) {
+        const group = { sessionId: sessionId, events: [] };
+        bySession.set(sessionId, group);
+        groups.push(group);
+      }
+      bySession.get(sessionId).events.push(event);
+    });
+    return groups;
+  }
+
+  function clearUploading(events, userId) {
+    asArray(events).forEach(function (event) {
+      event.uploadingFor = asArray(event.uploadingFor).filter(function (id) { return id !== userId; });
+    });
+  }
+
+  /* A stale writer in one session must never prevent unrelated sessions from
+     reaching the account ledger. Each session is uploaded in its own RPC
+     transaction; a conflicted session remains durably pending for explicit
+     recovery while later session groups continue. */
+  async function uploadPendingSessions(client, state, events, userId, label, signal, generation, blockedSessionIds) {
+    const conflicts = [];
+    const blocked = blockedSessionIds || new Set();
+    const groups = orderedSessionGroups(events, blocked);
+    for (let groupIndex = 0; groupIndex < groups.length; groupIndex += 1) {
+      const group = groups[groupIndex];
+      for (let index = 0; index < group.events.length; index += BATCH_SIZE) {
+        assertSyncCurrent(userId, generation, signal);
+        const batch = group.events.slice(index, index + BATCH_SIZE);
+        batch.forEach(function (event) {
+          if (asArray(event.uploadingFor).indexOf(userId) === -1) event.uploadingFor = asArray(event.uploadingFor).concat([userId]);
+        });
+        try {
+          await uploadEvents(client, state, batch, userId, label, signal);
+          assertSyncCurrent(userId, generation, signal);
+          clearUploading(batch, userId);
+          markLegacyMigrationAcknowledged(state, userId);
+          persist(state, 'sync-session-acknowledged');
+        } catch (error) {
+          clearUploading(batch, userId);
+          if (!isConflictError(error)) throw error;
+          blocked.add(group.sessionId);
+          conflicts.push({ sessionId: group.sessionId, code: errorCode(error), message: String(error && error.message || error || 'Session sync conflict'), at: now() });
+          persist(state, 'sync-session-conflict');
+          break;
+        }
+      }
+    }
+    return conflicts;
+  }
+
   function mergeEvent(state, event, userId, forceLocal) {
     if (!event || !event.id) return false;
     const id = String(event.id);
@@ -1907,6 +1994,7 @@
         exhausted: Boolean(state.sync.retryExhausted)
       },
       conflict: conflict.code ? clone(conflict) : null,
+      sessionConflicts: clone(Object.keys(record(state.sync.sessionConflicts)).map(function (sessionId) { return state.sync.sessionConflicts[sessionId]; })),
       error: error || null
     }, record(extra));
     emit('tb:learning-sync-status', detail);
@@ -2040,18 +2128,14 @@
       }).sort(function (left, right) {
         return Number(left.occurredAt || 0) - Number(right.occurredAt || 0) || Number(left.clientSequence || 0) - Number(right.clientSequence || 0) || String(left.id).localeCompare(String(right.id));
       });
-      for (let index = 0; index < pending.length; index += BATCH_SIZE) {
-        assertSyncCurrent(userId, generation, signal);
-        const batch = pending.slice(index, index + BATCH_SIZE);
-        batch.forEach(function (event) { event.uploadingFor = asArray(event.uploadingFor).concat([userId]); });
-        await uploadEvents(client, state, batch, userId, 'Learning-history upload', signal);
-        assertSyncCurrent(userId, generation, signal);
-        const ids = new Set(batch.map(function (event) { return event.id; }));
-        state.events.forEach(function (event) {
-          if (ids.has(event.id)) event.uploadingFor = asArray(event.uploadingFor).filter(function (id) { return id !== userId; });
-        });
-        markLegacyMigrationAcknowledged(state, userId);
-        persist(state, 'sync-acknowledged');
+      const blockedSessionIds = new Set();
+      let sessionConflicts = [];
+      /* Keep the no-outbox path synchronous until the remote read is created.
+         Apart from preserving cancellation semantics, this ensures a New-only
+         freshness request can tell whether it joined a SELECT already in
+         flight instead of accidentally moving that SELECT to a later tick. */
+      if (pending.length) {
+        sessionConflicts = await uploadPendingSessions(client, state, pending, userId, 'Learning-history upload', signal, generation, blockedSessionIds);
       }
       if (pendingWriteRevision > writeRevisionAtStart) {
         const followUpPending = state.events.filter(function (event) {
@@ -2059,17 +2143,9 @@
         }).sort(function (left, right) {
           return Number(left.occurredAt || 0) - Number(right.occurredAt || 0) || Number(left.clientSequence || 0) - Number(right.clientSequence || 0) || String(left.id).localeCompare(String(right.id));
         });
-        for (let index = 0; index < followUpPending.length; index += BATCH_SIZE) {
-          assertSyncCurrent(userId, generation, signal);
-          const batch = followUpPending.slice(index, index + BATCH_SIZE);
-          batch.forEach(function (event) { event.uploadingFor = asArray(event.uploadingFor).concat([userId]); });
-          await uploadEvents(client, state, batch, userId, 'Learning-history follow-up upload', signal);
-          assertSyncCurrent(userId, generation, signal);
-          const ids = new Set(batch.map(function (event) { return event.id; }));
-          state.events.forEach(function (event) {
-            if (ids.has(event.id)) event.uploadingFor = asArray(event.uploadingFor).filter(function (id) { return id !== userId; });
-          });
-          persist(state, 'sync-follow-up-acknowledged');
+        if (followUpPending.length) {
+          const followUpConflicts = await uploadPendingSessions(client, state, followUpPending, userId, 'Learning-history follow-up upload', signal, generation, blockedSessionIds);
+          sessionConflicts = sessionConflicts.concat(followUpConflicts);
         }
       }
       assertSyncCurrent(userId, generation, signal);
@@ -2086,12 +2162,22 @@
       const legacyReady = legacyMigrationReadyForUser(state, user);
       if (legacyReady) state.sync.remoteLoadedFor[userId] = true;
       else delete state.sync.remoteLoadedFor[userId];
+      const pendingSessionIds = new Set(state.events.filter(function (event) {
+        return event.scope === localScope && asArray(event.syncedFor).indexOf(userId) === -1;
+      }).map(function (event) { return event.sessionId; }));
+      const conflictsBySession = record(state.sync.sessionConflicts);
+      Object.keys(conflictsBySession).forEach(function (sessionId) {
+        if (!pendingSessionIds.has(sessionId)) delete conflictsBySession[sessionId];
+      });
+      sessionConflicts.forEach(function (conflict) { conflictsBySession[conflict.sessionId] = conflict; });
+      state.sync.sessionConflicts = conflictsBySession;
+      const activeConflicts = Object.keys(conflictsBySession).map(function (sessionId) { return conflictsBySession[sessionId]; });
       state.sync.lastSuccessAt = now();
-      state.sync.syncedAsOf = state.sync.lastSuccessAt;
-      state.sync.phase = legacyReady ? 'synced' : 'awaiting-legacy-migration';
-      state.sync.lastError = null;
-      state.sync.lastErrorAt = null;
-      state.sync.conflict = null;
+      state.sync.syncedAsOf = activeConflicts.length ? null : state.sync.lastSuccessAt;
+      state.sync.phase = activeConflicts.length ? 'conflict' : (legacyReady ? 'synced' : 'awaiting-legacy-migration');
+      state.sync.lastError = activeConflicts.length ? activeConflicts.length + ' session' + (activeConflicts.length === 1 ? '' : 's') + ' need recovery before their saved records can sync.' : null;
+      state.sync.lastErrorAt = activeConflicts.length ? now() : null;
+      state.sync.conflict = activeConflicts.length ? { code: 'TB_SESSION_SYNC_CONFLICT', message: state.sync.lastError, at: state.sync.lastErrorAt, sessionIds: activeConflicts.map(function (item) { return item.sessionId; }) } : null;
       state.sync.retryAttempts = 0;
       state.sync.nextRetryAt = null;
       state.sync.retryExhausted = false;
@@ -2099,12 +2185,13 @@
       retryAttempts = 0;
       retryNextAt = null;
       const hydrated = historyReadyForUser(state, user);
-      const detail = { reason: reason || 'automatic', pending: pendingCount(state, userId), userId: userId, imported: remoteRows.length, hydrated: hydrated, events: remoteEvents, pages: remote.pages, cursorMode: remote.mode };
+      const detail = { reason: reason || 'automatic', pending: pendingCount(state, userId), userId: userId, imported: remoteRows.length, hydrated: hydrated, events: remoteEvents, pages: remote.pages, cursorMode: remote.mode, sessionConflicts: clone(activeConflicts) };
       emit('upskill-test-learning-synced', detail);
       if (hydrated) emit('tb:learning-history-ready', detail);
-      syncStatus(state, hydrated ? 'synced' : 'awaiting-legacy-migration', userId, null, { pages: remote.pages });
+      if (activeConflicts.length) emit('tb:learning-sync-conflict', { pending: pendingCount(state, userId), userId: userId, conflict: clone(state.sync.conflict), sessionConflicts: clone(activeConflicts) });
+      syncStatus(state, activeConflicts.length ? 'conflict' : (hydrated ? 'synced' : 'awaiting-legacy-migration'), userId, state.sync.lastError, { pages: remote.pages, sessionConflicts: clone(activeConflicts) });
       if (awaitProgress && legacyMigration.progressScanRequired) requestFreshProgressSnapshot(reason);
-      return { synced: pending.length, pending: pendingCount(state, userId), imported: remoteRows.length, hydrated: hydrated, legacySeeded: legacyMigration.seeded, pages: remote.pages, cursorMode: remote.mode };
+      return { synced: Math.max(0, pending.length - pendingCount(state, userId)), pending: pendingCount(state, userId), imported: remoteRows.length, hydrated: hydrated, legacySeeded: legacyMigration.seeded, pages: remote.pages, cursorMode: remote.mode, conflict: activeConflicts.length > 0, sessionConflicts: clone(activeConflicts) };
     }()).catch(function (error) {
       const state = read();
       if (errorCode(error) === 'TB_LEARNING_CANCELLED') {
@@ -2450,6 +2537,7 @@
       freshSyncInFlight: Boolean(freshHistoryPromise && freshHistoryUserId === (user && user.id)),
       lastError: state.sync.lastError || null,
       conflict: conflict.code ? clone(conflict) : null,
+      sessionConflicts: clone(Object.keys(record(state.sync.sessionConflicts)).map(function (sessionId) { return state.sync.sessionConflicts[sessionId]; })),
       retry: { attempts: retryAttempts, maxAttempts: MAX_RETRY_ATTEMPTS, nextRetryAt: retryNextAt, exhausted: Boolean(state.sync.retryExhausted) },
       writeAheadSaved: lastWriteAheadSaved,
       writeAheadAt: lastWriteAheadAt,
@@ -2519,7 +2607,8 @@
     historyPage: historyPage,
     exportHistory: exportHistory,
     seenQuestionIds: seenQuestionIds,
-    questionId: questionId
+    questionId: questionId,
+    blockingSessions: function () { const user=activeUser(); return clone(blockingSessions(read(), user&&user.id||'', null)); }
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });

@@ -801,6 +801,11 @@
          re-render loop, so only write when the visible state has changed. */
       if (start.textContent !== label) start.textContent = label;
       if (start.getAttribute('title') !== title) start.setAttribute('title', title);
+      start.dataset.tbAdaptiveResume = 'true';
+    } else if (start && start.dataset.tbAdaptiveResume === 'true') {
+      if (start.textContent !== 'Start adaptive practice') start.textContent = 'Start adaptive practice';
+      start.removeAttribute('title');
+      delete start.dataset.tbAdaptiveResume;
     }
   }
 
