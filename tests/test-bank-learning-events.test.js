@@ -947,6 +947,25 @@ test('a second editable session stays blocked until the current session terminal
   }
 });
 
+test('an anonymous terminal session does not block the next local quiz', () => {
+  const { dom, window, questions } = load();
+  try {
+    const api = window.__TBLearning;
+    const firstSession = api.startSession({
+      examId: 'cssbb', sessionId: 'anonymous-first', questions: [questions[0]], mode: 'quick', timed: false
+    });
+    assert.equal(api.abandonSession({ examId: 'cssbb', sessionId: firstSession, reason: 'switch-mode' }), firstSession);
+
+    const next = api.startSession({
+      examId: 'cssbb', sessionId: 'anonymous-second', questions: [questions[1]], mode: 'quick', timed: false, returnResult: true
+    });
+    assert.equal(next.saved, true);
+    assert.equal(next.blocked, undefined);
+  } finally {
+    dom.window.close();
+  }
+});
+
 test('a stale session conflict cannot head-of-line block another session in the outbox', async () => {
   const { dom, window, questions } = load();
   try {

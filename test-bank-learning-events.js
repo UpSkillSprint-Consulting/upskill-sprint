@@ -946,7 +946,7 @@
 
   function blockingSessions(state, userId, excludedSessionId) {
     const scope = userId ? 'user:' + userId : 'anonymous';
-    const pendingTerminal = new Set(state.events.filter(function (event) {
+    const pendingTerminal = new Set((userId ? state.events : []).filter(function (event) {
       return event.scope === scope && asArray(event.syncedFor).indexOf(userId) === -1 &&
         (event.type === 'session_completed' || event.type === 'session_abandoned');
     }).map(function (event) { return event.sessionId; }));

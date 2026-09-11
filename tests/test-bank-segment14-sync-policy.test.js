@@ -79,8 +79,9 @@ test('pending conflict renders durable retry and session-recovery controls outsi
   const dom = load(); t.after(() => dom.window.close());
   dom.window.document.body.innerHTML = '<main><div id="tb-overview"></div></main>';
   const calls = [];
-  dom.window.__TBLearning = { sync(reason) { calls.push(reason); return Promise.resolve({}); } };
-  dom.window.__TBSessionHandoff = { refresh(reason) { calls.push(reason); return Promise.resolve({}); } };
+  dom.window.__TBLearning = { sync(reason) { calls.push('learning:' + reason); return Promise.resolve({}); } };
+  dom.window.__TBAccountSync = { sync(reason) { calls.push('account:' + reason); return Promise.resolve({}); } };
+  dom.window.__TBSessionHandoff = { refresh(reason) { calls.push('handoff:' + reason); return Promise.resolve({}); } };
   dom.window.document.dispatchEvent(new dom.window.CustomEvent('tb:learning-sync-status', { detail: {
     phase: 'conflict', online: true, pending: 22, conflict: { code: 'TB_SESSION_SYNC_CONFLICT' }, syncedAsOf: null
   } }));
@@ -92,7 +93,7 @@ test('pending conflict renders durable retry and session-recovery controls outsi
   dom.window.document.getElementById('tb-overview').innerHTML = '<p>analytics repaint</p>';
   assert.equal(dom.window.document.getElementById('tb-sync-recovery-banner'), banner, 'overview repaint cannot hide the warning');
   Array.from(banner.querySelectorAll('button')).forEach(button => button.click());
-  assert.deepEqual(calls, ['manual-recovery', 'manual-review']);
+  assert.deepEqual(calls, ['learning:manual-recovery', 'account:manual-recovery', 'handoff:manual-review']);
 });
 
 test('policy advertises the server-sequence protocol used by both durable channels', t => {

@@ -102,7 +102,7 @@
       copy.textContent = pending + ' study record' + (pending === 1 ? ' will' : 's will') + ' sync when this device reconnects.';
     } else if (phase === 'error' || phase === 'retry-wait') {
       title.textContent = 'Progress sync needs attention';
-      copy.textContent = pending + ' study record' + (pending === 1 ? ' remains' : 's remain') + ' saved on this device. Retry the account sync before starting another session.';
+      copy.textContent = pending + ' study record' + (pending === 1 ? ' remains' : 's remain') + ' saved on this device. Retry progress sync before starting another session.';
     } else {
       title.textContent = phase === 'syncing' ? 'Syncing saved progress' : 'Progress waiting to sync';
       copy.textContent = pending + ' study record' + (pending === 1 ? ' is' : 's are') + ' saved on this device.';
@@ -113,6 +113,8 @@
     retry.addEventListener('click', function () {
       const learning = window.__TBLearning;
       if (learning && typeof learning.sync === 'function') void learning.sync('manual-recovery');
+      const account = window.__TBAccountSync;
+      if (account && typeof account.sync === 'function') void account.sync('manual-recovery');
     });
     actions.appendChild(retry);
     if (phase === 'conflict') {
