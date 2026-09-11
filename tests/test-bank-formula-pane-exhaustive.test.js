@@ -6,11 +6,11 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
-const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 
 const ROOT = path.join(__dirname, '..');
 const pageHtml = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
 const formulaScript = fs.readFileSync(path.join(ROOT, 'test-bank-formulas.js'), 'utf8');
+const memoryScript = fs.readFileSync(path.join(ROOT, 'test-bank-memory-learning.js'), 'utf8');
 const SECTION_NAMES = {
   mgmt: 'I. Management & Leadership',
   qsys: 'II. The Quality System',
@@ -55,7 +55,8 @@ async function loadRealPage() {
   if (dom.window.document.readyState !== 'complete') {
     await new Promise(resolve => dom.window.addEventListener('load', resolve, { once: true }));
   }
-  await installDurableLearning(dom.window);
+  dom.window.eval(memoryScript);
+  await dom.window.__TBLearning.sync('test-hydrate');
   await wait(dom.window);
   return { dom, window: dom.window, document: dom.window.document, errors };
 }
@@ -219,7 +220,6 @@ test('search finds formulas by late bank-question numbers, not only the first tw
     why: 'Cpk accounts for centering.'
   }));
   window.__TB.EXAMS.cqe.sets[1] = syntheticBank;
-  require('./helpers/test-bank-version-runtime.cjs').publishFixture(window, 'cqe');
 
   startQuick(window, document);
   document.querySelector('.tb-stem').textContent = syntheticBank[0].stem;
