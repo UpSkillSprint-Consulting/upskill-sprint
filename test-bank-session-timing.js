@@ -116,8 +116,8 @@
   }
   async function calibrate(reason) {
     const user = authUser(), client = authClient();
-    if (!user || !user.id || !client || typeof client.rpc !== 'function') {
-      const e = new Error('Authenticated trusted-clock service is unavailable.'); e.code='CLOCK_SERVICE_UNAVAILABLE';
+    if (!client || typeof client.rpc !== 'function') {
+      const e = new Error('Trusted-clock service is unavailable.'); e.code='CLOCK_SERVICE_UNAVAILABLE';
       lastCalibrationError=e; syncTimedStartControls(); throw e;
     }
     const t0 = monotonicNow();
@@ -134,8 +134,8 @@
     const rtt = Math.max(0,t1-t0);
     calibration = {
       schemaVersion:SCHEMA,
-      source:'authenticated_database_clock',
-      userId:String(user.id),
+      source:'database_clock',
+      userId:user&&user.id?String(user.id):null,
       serverAtMonoMs:serverMs,
       monoAtMs:midpoint,
       roundTripMs:rtt,
@@ -412,18 +412,7 @@
     const auth=root && root.UpskillAuth;
     if (!auth || typeof auth.onChange!=='function') return false;
     authClockObserverInstalled=true;
-    auth.onChange(function(user) {
-      const currentId=user&&user.id?String(user.id):null;
-      const calibratedId=calibration&&calibration.userId?String(calibration.userId):null;
-      if (!currentId) {
-        calibration=null;
-        lastCalibrationError=null;
-        recoveryRequired=false;
-        recoveryReason=null;
-        syncTimedStartControls();
-        return;
-      }
-      if (calibratedId && calibratedId!==currentId) calibration=null;
+    auth.onChange(function() {
       bootClock().then(function(){syncTimedStartControls();});
     });
     return true;
