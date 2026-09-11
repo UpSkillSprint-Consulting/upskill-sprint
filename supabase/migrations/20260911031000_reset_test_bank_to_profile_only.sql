@@ -5,7 +5,6 @@
 DO $$
 DECLARE r record;
 BEGIN
-  -- Revoke learner-facing access first so live clients stop taking new locks.
   FOR r IN
     SELECT n.nspname, c.relname
     FROM pg_class c
@@ -31,7 +30,6 @@ BEGIN
     EXECUTE format('REVOKE ALL ON FUNCTION %I.%I(%s) FROM PUBLIC, anon, authenticated', r.nspname, r.proname, r.args);
   END LOOP;
 
-  -- Tables own their indexes and sequences, so remove tables first.
   FOR r IN
     SELECT n.nspname, c.relname
     FROM pg_class c
@@ -43,7 +41,6 @@ BEGIN
     EXECUTE format('DROP TABLE IF EXISTS %I.%I CASCADE', r.nspname, r.relname);
   END LOOP;
 
-  -- Remove any old standalone views/materialized views/sequences left behind.
   FOR r IN
     SELECT c.relkind, n.nspname, c.relname
     FROM pg_class c

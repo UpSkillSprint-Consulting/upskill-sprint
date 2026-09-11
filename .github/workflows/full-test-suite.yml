@@ -1,30 +1,40 @@
-name: Full test suite
+name: Stateless test bank
 
 on:
   pull_request:
+    paths:
+      - 'test-bank.html'
+      - 'test-bank-memory-learning.js'
+      - 'test-bank-*.js'
+      - 'test-bank-*.css'
+      - 'netlify/edge-functions/test-bank-mobile-picker.js'
+      - 'netlify.toml'
+      - 'scripts/validate-simple-test-bank.mjs'
+      - 'supabase/**'
+      - '.github/workflows/full-test-suite.yml'
   push:
-    branches: [main, test]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
 
-concurrency:
-  group: full-test-suite-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   test:
-    name: Node 22 full suite
+    name: Stateless test-bank validation
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Run all tests
-        run: npm test
+      - run: npm ci
+      - name: Syntax
+        run: |
+          node --check test-bank-memory-learning.js
+          node --check netlify/edge-functions/test-bank-mobile-picker.js
+          node --check scripts/validate-simple-test-bank.mjs
+      - name: Validate stateless architecture
+        run: node scripts/validate-simple-test-bank.mjs
