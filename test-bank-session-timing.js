@@ -32,7 +32,6 @@
   let lastContinuity = { wall:nativeDateNow(), mono:performanceNow() };
   let nativeDateNowInstalled = false;
   let originals = null;
-  let authClockObserverInstalled = false;
 
   function clone(v) { return v == null ? v : JSON.parse(JSON.stringify(v)); }
   function fail(code, message) { const e = new Error(message || code); e.code = code; throw e; }
@@ -63,18 +62,11 @@
     nativeDateNowInstalled = true;
     return true;
   }
-  function fullExamTimedSelected(button) {
-    if (!root || !root.document) return true;
-    const scope=button && typeof button.closest==='function' ? button.closest('.tb-mode') : null;
-    const timed=(scope || root.document).querySelector('[data-timing-kind="full"][data-timed="1"]');
-    if (!timed) return true;
-    return timed.getAttribute('aria-pressed')==='true' || !!(timed.classList && timed.classList.contains('on'));
-  }
   function syncTimedStartControls() {
     if (!root || !root.document) return;
+    const blocked = recoveryRequired || trustedNow()==null;
     root.document.querySelectorAll('[data-mode="full"]').forEach(function (button) {
       if (!('disabled' in button)) return;
-      const blocked = fullExamTimedSelected(button) && (recoveryRequired || trustedNow()==null);
       if (blocked) {
         if (button.getAttribute('data-timing-clock-wait')!=='true') {
           button.setAttribute('data-timing-clock-was-disabled',button.disabled?'1':'0');
@@ -135,7 +127,6 @@
     calibration = {
       schemaVersion:SCHEMA,
       source:'authenticated_database_clock',
-      userId:String(user.id),
       serverAtMonoMs:serverMs,
       monoAtMs:midpoint,
       roundTripMs:rtt,
@@ -407,33 +398,12 @@
     }
     return calibrate(timed?'timed-recovery':'page-ready').catch(function(error){if(timed)markRecoveryRequired('trusted-clock-unavailable');return clockState();});
   }
-  function installAuthClockObserver() {
-    if (authClockObserverInstalled) return true;
-    const auth=root && root.UpskillAuth;
-    if (!auth || typeof auth.onChange!=='function') return false;
-    authClockObserverInstalled=true;
-    auth.onChange(function(user) {
-      const currentId=user&&user.id?String(user.id):null;
-      const calibratedId=calibration&&calibration.userId?String(calibration.userId):null;
-      if (!currentId) {
-        calibration=null;
-        lastCalibrationError=null;
-        recoveryRequired=false;
-        recoveryReason=null;
-        syncTimedStartControls();
-        return;
-      }
-      if (calibratedId && calibratedId!==currentId) calibration=null;
-      bootClock().then(function(){syncTimedStartControls();});
-    });
-    return true;
-  }
   function initializeBrowser() {
     if (installed || !root || !root.document) return false;installed=true;
-    wrapLearning();wrapLifecycleResume();installAuthClockObserver();syncTimedStartControls();
-    const start=function(){wrapLearning();wrapLifecycleResume();installAuthClockObserver();syncTimedStartControls();bootClock().then(function(){syncTimedStartControls();syncVisible('boot');checkDeadline('boot');});};
+    wrapLearning();wrapLifecycleResume();syncTimedStartControls();
+    const start=function(){wrapLearning();wrapLifecycleResume();syncTimedStartControls();bootClock().then(function(){syncTimedStartControls();syncVisible('boot');checkDeadline('boot');});};
     if (root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',start,{once:true});else queueMicrotask(start);
-    root.document.addEventListener('upskill-auth-ready',function(){installAuthClockObserver();syncTimedStartControls();bootClock();});
+    root.document.addEventListener('upskill-auth-ready',function(){syncTimedStartControls();bootClock();});
     root.document.addEventListener('tb:learning-session-started',function(){wrapLearning();queueMicrotask(function(){persistClockMetadata();syncVisible('learning-started');});});
     root.document.addEventListener('visibilitychange',function(){
       if (root.document.hidden) { commitVisit('hidden'); lastContinuity={wall:nativeDateNow(),mono:monotonicNow()}; }
@@ -442,8 +412,8 @@
     root.addEventListener('pagehide',function(){commitVisit('pagehide');},{capture:true});
     root.addEventListener('online',function(){calibrate('online').catch(function(){});});
     root.addEventListener('offline',function(){lastContinuity={wall:nativeDateNow(),mono:monotonicNow()};syncTimedStartControls();});
-    root.document.addEventListener('click',function(e){const t=e.target&&e.target.closest&&e.target.closest('[data-goto],[data-next],[data-prev],[data-submit],[data-timing-kind="full"]');if(t)queueMicrotask(function(){syncTimedStartControls();syncVisible('navigation');});},true);
-    const host=root.document.getElementById('tb-overview');if(host&&root.MutationObserver){observer=new root.MutationObserver(function(){queueMicrotask(function(){syncTimedStartControls();syncVisible('mutation');renderTimer(currentSnapshot());});});observer.observe(host,{childList:true,subtree:true,attributes:true,attributeFilter:['class','aria-pressed','data-question-id','hidden']});}
+    root.document.addEventListener('click',function(e){const t=e.target&&e.target.closest&&e.target.closest('[data-goto],[data-next],[data-prev],[data-submit]');if(t)queueMicrotask(function(){syncVisible('navigation');});},true);
+    const host=root.document.getElementById('tb-overview');if(host&&root.MutationObserver){observer=new root.MutationObserver(function(){queueMicrotask(function(){syncTimedStartControls();syncVisible('mutation');renderTimer(currentSnapshot());});});observer.observe(host,{childList:true,subtree:true,attributes:true,attributeFilter:['class','data-question-id','hidden']});}
     timer=root.setInterval(function(){wrapLearning();syncTimedStartControls();checkDeadline('tick');syncVisible('tick');},TICK_MS);
     return true;
   }
