@@ -38,3 +38,5 @@ jobs:
           node --check scripts/validate-simple-test-bank.mjs
       - name: Validate stateless architecture
         run: node scripts/validate-simple-test-bank.mjs
+      - name: Validate result screens
+        run: node --test tests/test-bank-stateless-results.test.js
