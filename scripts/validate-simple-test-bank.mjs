@@ -10,8 +10,9 @@ assert.match(memory, /window\.__TBLearning\s*=\s*api/, 'memory-only learning com
 assert.doesNotMatch(memory, /supabase/i, 'memory-only runtime must not depend on Supabase');
 assert.doesNotMatch(memory, /fetch\s*\(/, 'memory-only runtime must not perform network writes');
 assert.match(edge, /stripPersistedExamRuntime/, 'edge delivery must strip persisted exam runtime');
+assert.match(edge, /keepTestBankScript/, 'edge delivery must use an explicit static-content allowlist');
 assert.match(edge, /test-bank-memory-learning\.js/, 'edge delivery must inject memory-only runtime');
-assert.match(edge, /test-bank-learning-events\.js|test-bank-session-timing\.js|test-bank-analytics-dashboard\.js/, 'edge filter must cover test-bank runtime scripts by prefix');
+assert.match(edge, /\^\\\/test-bank-/, 'edge delivery must strip non-allowlisted test-bank scripts by prefix');
 assert.match(html, /Certification Test Bank/i, 'test-bank page must remain present');
 assert.match(html, /Full Exam/i, 'Full Exam mode must remain present');
 assert.match(html, /Quick Quiz/i, 'Quick Quiz mode must remain present');
