@@ -50,6 +50,7 @@ async function loadPage(options) {
   const remoteFetches = config.remoteFetches || [];
   const claimed = config.claimed || new Set();
   const rpcCalls = config.rpcCalls || [];
+  let serverSequence = 0;
   const virtualConsole = new VirtualConsole();
   virtualConsole.on('jsdomError', error => errors.push(error.message));
 
@@ -86,6 +87,18 @@ async function loadPage(options) {
     },
     rpc(name, args) {
       rpcCalls.push({ name, args });
+      if (name === 'ingest_test_bank_operations_v1') {
+        return Promise.resolve({
+          data: (args && args.p_operations || []).map(operation => ({
+            operationId: operation.operationId,
+            payloadDigest: 'unseen-toggle-fixture-digest',
+            acceptedAt: new Date().toISOString(),
+            serverSequence: ++serverSequence,
+            sessionRevision: Number(operation.expectedSessionRevision || 0) + 1
+          })),
+          error: null
+        });
+      }
       if (config.rpcError) return Promise.resolve({ data: [], error: config.rpcError });
       if (typeof config.rpc === 'function') return Promise.resolve(config.rpc(name, args, learner, claimed));
       const accepted = (args && args.p_question_ids || []).filter(questionId => {
@@ -256,10 +269,15 @@ async function verifyNewOnlyModeForExam(examId, kind) {
 let fixtureSession = 0;
 async function markAllAttempted(window, questions) {
   fixtureSession += 1;
+  const sessionId = 'unseen-fixture-' + fixtureSession;
   window.__TBLearning.startSession({
-    examId: 'cssbb', sessionId: 'unseen-fixture-' + fixtureSession,
+    examId: 'cssbb', sessionId,
     questions: questions, mode: 'practice', timed: false
   });
+  window.__TBLearning.abandonSession({
+    examId: 'cssbb', sessionId, mode: 'practice', reason: 'fixture-complete'
+  });
+  await window.__TBLearning.sync('fixture-complete');
   /* The core browse shell intentionally repaints after ledger writes; wait for
      that asynchronous repaint before locating its controls again. */
   await new Promise(resolve => window.setTimeout(resolve, 0));
