@@ -1,3 +1,26 @@
+const SIMPLE_MODE_MARKUP = `
+<style id="tb-simple-mode-styles">
+  [data-unseen],[data-missed],#tb-analytics,.tb-analytics,.tb-history,.tb-history-tab,[data-history],[data-analytics]{display:none!important}
+</style>
+<script id="tb-simple-mode-script">
+(function(){
+  'use strict';
+  function simplify(){
+    document.querySelectorAll('[data-unseen],[data-missed],[data-history],[data-analytics],#tb-analytics,.tb-analytics,.tb-history,.tb-history-tab').forEach(function(node){node.remove();});
+    document.querySelectorAll('.tb-fieldrow').forEach(function(row){
+      var label=row.querySelector('.tb-fieldrow-label');
+      if(label&&/filters|history|analytics/i.test(label.textContent||'')) row.remove();
+    });
+  }
+  function install(){
+    simplify();
+    var host=document.getElementById('tb-overview');
+    if(host&&window.MutationObserver)new MutationObserver(function(){simplify();}).observe(host,{childList:true,subtree:true});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
+})();
+</script>`;
+
 const MOBILE_PICKER_MARKUP = `
 <style id="tb-mobile-certification-picker-styles">
   .tb-mobile-cert-picker{display:none}
@@ -52,7 +75,7 @@ function stripPersistedExamRuntime(html) {
     const path = normalizedPath(source);
     if (!/^\/test-bank-/i.test(path)) return tag;
     return keepTestBankScript(path) ? tag : '';
-  }).replace(/<link\b[^>]*href=["'][^"']*test-bank-analytics\.css[^"']*["'][^>]*>/gi, '');
+  }).replace(/<link\b[^>]*href=["'][^"']*test-bank-(?:analytics|ux-accessibility)\.css[^"']*["'][^>]*>/gi, '');
 }
 
 function injectMemoryRuntime(html) {
@@ -68,12 +91,12 @@ export default async function handler(_request, context) {
   let html = await response.text();
   html = stripPersistedExamRuntime(html);
   html = injectMemoryRuntime(html);
-  if (!html.includes('tb-mobile-certification-picker-script')) {
-    html = html.replace('</body>', `${MOBILE_PICKER_MARKUP}\n</body>`);
-  }
+  if (!html.includes('tb-simple-mode-script')) html = html.replace('</body>', `${SIMPLE_MODE_MARKUP}\n</body>`);
+  if (!html.includes('tb-mobile-certification-picker-script')) html = html.replace('</body>', `${MOBILE_PICKER_MARKUP}\n</body>`);
 
   const headers = new Headers(response.headers);
   headers.delete('content-length');
+  headers.delete('etag');
   return new Response(html, {
     status: response.status,
     statusText: response.statusText,
