@@ -20,6 +20,7 @@ test('Little’s Law lesson carries valid metadata and canonical site integratio
   assert.ok(html.startsWith('<!DOCTYPE html>\n<html lang="en">\n<!-- UPSKILLSPRINT_LESSON_META'));
   const meta = JSON.parse(html.match(/<!-- UPSKILLSPRINT_LESSON_META\s*([\s\S]*?)-->/)[1]);
   assert.equal(meta.slug, 'littles-law-interactive-flow-lab');
+  assert.equal(meta.title, 'Little’s Law');
   assert.equal(meta.title, doc.title);
   assert.equal(meta.title, doc.querySelector('#lesson-content h1').textContent);
   assert.equal(meta.category_slug, 'lean-six-sigma');
@@ -169,6 +170,7 @@ test('lesson CSS is isolated, namespaced, and provides final dark-mode overrides
 test('Little’s Law lesson is registered once in the plain catalog', () => {
   assert.equal(catalog.split("marker: 'data-littles-law-interactive-flow-lab'").length - 1, 1);
   assert.equal(catalog.split("path: '/lessons/lean-six-sigma/littles-law-interactive-flow-lab'").length - 1, 1);
+  assert(catalog.includes("title: 'Little’s Law',"));
   assert(catalog.includes("marker: 'data-beyond-the-bell',"));
   assert.doesNotThrow(() => new Function(catalog));
 });
