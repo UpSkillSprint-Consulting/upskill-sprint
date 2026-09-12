@@ -169,3 +169,18 @@ comment on table public.content_access_rules is
   'Required access tier for protected lessons, tools, exams, and downloads.';
 comment on function public.can_access_content(text) is
   'Deny-by-default authorization check for a resource key.';
+
+
+-- Administrator-only engineering tools.
+insert into public.content_access_rules
+  (resource_key, required_access_key, display_name, is_active, updated_at)
+values
+  ('tool:/tools/material-specification-compliance-checker', 'administrator', 'Material Specification Compliance Checker', true, now()),
+  ('tool:/engineering-tools/grade-specification-lookup', 'administrator', 'Material Specification Lookup', true, now()),
+  ('tool:/tools/steel-phase-explorer', 'administrator', 'Steel Phase & Transformation Explorer', true, now())
+on conflict (resource_key) do update
+set
+  required_access_key = excluded.required_access_key,
+  display_name = excluded.display_name,
+  is_active = excluded.is_active,
+  updated_at = now();
