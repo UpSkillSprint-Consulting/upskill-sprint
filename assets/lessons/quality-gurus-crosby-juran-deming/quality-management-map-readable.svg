@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Quality management: one system and three leadership lenses</title>
+  <desc id="desc">A quality-management overview connecting customer value, the management system, continual improvement, organizational results, and the complementary ideas of Crosby, Juran, and Deming.</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#102f4b" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#087985"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, Arial, Helvetica, sans-serif; }
+      .serif { font-family: Georgia, "Times New Roman", serif; }
+      .navy { fill: #172536; }
+      .text { fill: #33465a; }
+      .muted { fill: #5b6b7b; }
+      .eyebrow { font-size: 18px; font-weight: 800; letter-spacing: 3px; }
+      .card-title { font-size: 29px; font-weight: 800; }
+      .body { font-size: 21px; }
+      .small { font-size: 18px; }
+      .pill-text { font-size: 19px; font-weight: 700; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="#f5f1e8"/>
+  <rect x="24" y="24" width="1552" height="852" rx="28" fill="none" stroke="#7890a3" stroke-width="2"/>
+
+  <text x="800" y="68" text-anchor="middle" class="sans eyebrow" fill="#087985">QUALITY ENGINEERING • BIG PICTURE</text>
+  <text x="800" y="112" text-anchor="middle" class="serif navy" font-size="38" font-weight="700">Quality management connects customer needs to sustainable results</text>
+
+  <path d="M520 270 C610 270 610 330 650 350" fill="none" stroke="#87a5ae" stroke-width="4"/>
+  <path d="M1080 270 C990 270 990 330 950 350" fill="none" stroke="#87a5ae" stroke-width="4"/>
+  <path d="M520 535 C610 535 610 485 650 460" fill="none" stroke="#87a5ae" stroke-width="4"/>
+  <path d="M1080 535 C990 535 990 485 950 460" fill="none" stroke="#87a5ae" stroke-width="4"/>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="155" width="460" height="225" rx="24" fill="#ffffff" stroke="#e87d5a" stroke-width="3"/>
+    <circle cx="105" cy="203" r="22" fill="#e87d5a"/>
+    <text x="105" y="211" text-anchor="middle" class="sans" font-size="24" font-weight="900" fill="#ffffff">1</text>
+    <text x="145" y="214" class="sans card-title navy">Define customer value</text>
+    <text x="94" y="260" class="sans body text">• Identify who the customers are</text>
+    <text x="94" y="298" class="sans body text">• Understand needs and intended use</text>
+    <text x="94" y="336" class="sans body text">• Translate needs into clear requirements</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1080" y="155" width="460" height="225" rx="24" fill="#ffffff" stroke="#087985" stroke-width="3"/>
+    <circle cx="1125" cy="203" r="22" fill="#087985"/>
+    <text x="1125" y="211" text-anchor="middle" class="sans" font-size="24" font-weight="900" fill="#ffffff">2</text>
+    <text x="1165" y="203" class="sans card-title navy">Build the</text>
+    <text x="1165" y="236" class="sans card-title navy">management system</text>
+    <rect x="1114" y="255" width="184" height="42" rx="21" fill="#def3f1"/>
+    <text x="1206" y="283" text-anchor="middle" class="sans pill-text" fill="#075d65">Quality planning</text>
+    <rect x="1312" y="255" width="194" height="42" rx="21" fill="#def3f1"/>
+    <text x="1409" y="283" text-anchor="middle" class="sans pill-text" fill="#075d65">Quality assurance</text>
+    <rect x="1114" y="310" width="184" height="42" rx="21" fill="#def3f1"/>
+    <text x="1206" y="338" text-anchor="middle" class="sans pill-text" fill="#075d65">Quality control</text>
+    <rect x="1312" y="310" width="194" height="42" rx="21" fill="#def3f1"/>
+    <text x="1409" y="338" text-anchor="middle" class="sans pill-text" fill="#075d65">Improvement</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="425" width="460" height="225" rx="24" fill="#ffffff" stroke="#efbc35" stroke-width="3"/>
+    <circle cx="105" cy="473" r="22" fill="#d99b00"/>
+    <text x="105" y="481" text-anchor="middle" class="sans" font-size="24" font-weight="900" fill="#ffffff">3</text>
+    <text x="145" y="473" class="sans card-title navy">Operate, learn,</text>
+    <text x="145" y="506" class="sans card-title navy">and improve</text>
+    <g class="sans" font-size="19" font-weight="800">
+      <circle cx="151" cy="564" r="36" fill="#fff0c7" stroke="#d99b00" stroke-width="2"/>
+      <text x="151" y="571" text-anchor="middle" fill="#704c00">PLAN</text>
+      <circle cx="257" cy="564" r="36" fill="#fff0c7" stroke="#d99b00" stroke-width="2"/>
+      <text x="257" y="571" text-anchor="middle" fill="#704c00">DO</text>
+      <circle cx="363" cy="564" r="36" fill="#fff0c7" stroke="#d99b00" stroke-width="2"/>
+      <text x="363" y="571" text-anchor="middle" fill="#704c00">STUDY</text>
+      <circle cx="469" cy="564" r="36" fill="#fff0c7" stroke="#d99b00" stroke-width="2"/>
+      <text x="469" y="571" text-anchor="middle" fill="#704c00">ACT</text>
+    </g>
+    <path d="M188 564 H215 M294 564 H321 M400 564 H427" stroke="#d99b00" stroke-width="4"/>
+    <text x="290" y="630" text-anchor="middle" class="sans small muted">Use evidence to hold gains and begin the next cycle.</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1080" y="425" width="460" height="225" rx="24" fill="#ffffff" stroke="#5a7fa1" stroke-width="3"/>
+    <circle cx="1125" cy="473" r="22" fill="#345f86"/>
+    <text x="1125" y="481" text-anchor="middle" class="sans" font-size="24" font-weight="900" fill="#ffffff">4</text>
+    <text x="1165" y="484" class="sans card-title navy">Deliver balanced results</text>
+    <rect x="1114" y="516" width="185" height="48" rx="12" fill="#e8f1f8"/>
+    <text x="1206" y="546" text-anchor="middle" class="sans pill-text" fill="#284e70">Customer value</text>
+    <rect x="1313" y="516" width="193" height="48" rx="12" fill="#e8f1f8"/>
+    <text x="1409" y="546" text-anchor="middle" class="sans pill-text" fill="#284e70">Capable processes</text>
+    <rect x="1114" y="578" width="185" height="48" rx="12" fill="#e8f1f8"/>
+    <text x="1206" y="608" text-anchor="middle" class="sans pill-text" fill="#284e70">Less waste</text>
+    <rect x="1313" y="578" width="193" height="48" rx="12" fill="#e8f1f8"/>
+    <text x="1409" y="608" text-anchor="middle" class="sans pill-text" fill="#284e70">Less variation</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <circle cx="800" cy="405" r="190" fill="#173d5c" stroke="#ffffff" stroke-width="12"/>
+    <circle cx="800" cy="405" r="161" fill="none" stroke="#45b7bb" stroke-width="3" stroke-dasharray="8 11"/>
+    <text x="800" y="365" text-anchor="middle" class="sans eyebrow" fill="#78d2d4">ONE CONNECTED SYSTEM</text>
+    <text x="800" y="423" text-anchor="middle" class="serif" font-size="44" font-weight="700" fill="#ffffff">Quality</text>
+    <text x="800" y="472" text-anchor="middle" class="serif" font-size="44" font-weight="700" fill="#ffffff">Management</text>
+    <text x="800" y="520" text-anchor="middle" class="sans small" fill="#d9f1f2">Customer • Process • People • Results</text>
+  </g>
+
+  <rect x="60" y="694" width="1480" height="152" rx="24" fill="#173d5c"/>
+  <text x="800" y="733" text-anchor="middle" class="sans eyebrow" fill="#78d2d4">THREE COMPLEMENTARY LEADERSHIP LENSES</text>
+  <line x1="553" y1="753" x2="553" y2="826" stroke="#67839a" stroke-width="2"/>
+  <line x1="1047" y1="753" x2="1047" y2="826" stroke="#67839a" stroke-width="2"/>
+
+  <circle cx="103" cy="788" r="24" fill="#e87d5a"/>
+  <text x="103" y="796" text-anchor="middle" class="sans" font-size="24" font-weight="900" fill="#ffffff">C</text>
+  <text x="143" y="785" class="serif" font-size="28" font-weight="700" fill="#ffffff">Crosby</text>
+  <text x="143" y="817" class="sans small" fill="#dce8ef">Requirements • Prevention • Zero Defects</text>
+
+  <circle cx="597" cy="788" r="24" fill="#efbc35"/>
+  <text x="597" y="796" text-anchor="middle" class="sans" font-size="24" font-weight="900" fill="#173d5c">J</text>
+  <text x="637" y="785" class="serif" font-size="28" font-weight="700" fill="#ffffff">Juran</text>
+  <text x="637" y="817" class="sans small" fill="#dce8ef">Planning • Control • Improvement</text>
+
+  <circle cx="1091" cy="788" r="24" fill="#45b7bb"/>
+  <text x="1091" y="796" text-anchor="middle" class="sans" font-size="24" font-weight="900" fill="#173d5c">D</text>
+  <text x="1131" y="785" class="serif" font-size="28" font-weight="700" fill="#ffffff">Deming</text>
+  <text x="1131" y="817" class="sans small" fill="#dce8ef">System • Variation • Scientific learning</text>
+</svg>

@@ -159,6 +159,12 @@
       color: #172536;
     }
 
+    .guru-image-link {
+      display: inline-flex;
+      margin-top: 7px;
+      font-weight: 800;
+    }
+
     .guru-opening-bridge {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1078,9 +1084,15 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 
       <figure class="guru-reference-figure guru-opening-map" aria-labelledby="quality-map-caption">
         <div class="guru-reference-image">
-          <img src="/assets/lessons/quality-gurus-crosby-juran-deming/quality-management-mind-map.png" width="768" height="431" decoding="async" alt="Quality management mind map connecting quality definitions, quality assurance, quality control, total quality management, ISO and EFQM approaches, quality-management goals, and the ideas of Deming, Juran, and Crosby">
+          <picture>
+            <source media="(max-width: 640px)" srcset="/assets/lessons/quality-gurus-crosby-juran-deming/quality-management-map-readable-mobile.svg">
+            <img src="/assets/lessons/quality-gurus-crosby-juran-deming/quality-management-map-readable.svg" width="1600" height="900" decoding="async" alt="Quality management overview connecting customer value, quality planning, assurance, control and improvement, balanced results, and the complementary lenses of Crosby, Juran and Deming">
+          </picture>
         </div>
-        <figcaption id="quality-map-caption"><strong>Begin with the whole field:</strong> quality management connects what quality means, how an organization builds and controls it, what the system is trying to achieve, and which management philosophies guide the work. Illustration supplied for this lesson.</figcaption>
+        <figcaption id="quality-map-caption">
+          <strong>Begin with the whole field:</strong> quality management connects customer needs, the management system, continual improvement, and balanced results. Crosby, Juran, and Deming provide complementary lenses for leading that work.
+          <br><a class="guru-image-link" href="/assets/lessons/quality-gurus-crosby-juran-deming/quality-management-map-readable.svg" target="_blank" rel="noopener">Open the full-size diagram</a>
+        </figcaption>
         <div class="guru-opening-bridge">
           <p><strong>Meaning:</strong> Quality begins with customer needs and clear requirements—not with inspection alone.</p>
           <p><strong>Management system:</strong> Planning, assurance, control, improvement, standards, and execution must work together.</p>
