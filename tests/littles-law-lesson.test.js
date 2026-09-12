@@ -51,20 +51,35 @@ test('Little’s Law lesson uses exact protected chrome and required root-relati
   assert.equal(doc.querySelector('[aria-label="Return to lesson category"] a').getAttribute('href'), '/lessons#lean-six-sigma');
 });
 
-test('all supplied tabs, explanations, examples, challenge questions, and references are preserved', () => {
+test('lesson is a continuous teaching journey and preserves every interactive, example, challenge, and reference', () => {
   assert.deepEqual(
-    [...doc.querySelectorAll('#llLesson .ll-tab')].map(button => button.textContent),
-    ['① See the flow', '② Lean application', '③ Queueing theory', '④ Check yourself', 'References']
+    [...doc.querySelectorAll('#llLesson .ll-toc a')].map(link => link.getAttribute('href')),
+    ['#what-is-littles-law', '#see-the-flow', '#lean-application', '#queueing-theory', '#applications', '#guided-practice', '#history-and-references', '#quiz']
   );
+  assert.equal(doc.querySelectorAll('#llLesson .ll-tab').length, 0);
   assert.deepEqual(
     [...doc.querySelectorAll('#llLesson .ll-panel')].map(panel => panel.dataset.panel),
-    ['flow', 'lean', 'queue', 'quiz', 'refs']
+    [undefined, 'flow', 'lean', 'queue', undefined, 'quiz', 'refs']
   );
+  for (const section of doc.querySelectorAll('#llLesson .ll-panel')) {
+    const headingId = section.getAttribute('aria-labelledby');
+    assert(headingId, section.id);
+    assert(section.querySelector('#' + headingId), section.id);
+  }
+  assert.doesNotMatch(html, /\.ll-panel\s*\{\s*display\s*:\s*none/i);
+  assert.doesNotMatch(html, /data-tab|aria-selected/);
   assert.equal(doc.querySelectorAll('#llLesson [data-quiz]').length, 3);
   assert.equal(doc.querySelectorAll('#llLesson .quizOpt').length, 9);
   assert.equal(doc.querySelectorAll('#llLesson .stage').length, 4);
+  assert.match(doc.querySelector('#llLesson').textContent, /What is Little’s Law\?/);
+  assert.match(doc.querySelector('#llLesson').textContent, /The law does not predict the journey of one particular item/);
+  assert.match(doc.querySelector('#llLesson').textContent, /L, λ, and W must describe the same items, boundary, and observation period/);
+  assert.match(doc.querySelector('#llLesson').textContent, /Each moving P is one part/);
   assert.match(doc.querySelector('#llLesson').textContent, /WIP = Throughput × Flow Time/);
+  assert.match(doc.querySelector('#llLesson').textContent, /The orange numbered tiles picture the average work/);
   assert.match(doc.querySelector('#llLesson').textContent, /Important: the extra formulas here are M\/M\/1 formulas, not Little’s Law/);
+  assert.match(doc.querySelector('#llLesson').textContent, /The purple dots approximate average queue length Lq/);
+  assert.match(doc.querySelector('#llLesson').textContent, /One law, many kinds of flow/);
   assert.match(doc.querySelector('#llLesson').textContent, /Three exam traps to remember/);
   assert.match(doc.querySelector('#llLesson').textContent, /Stuff in the system = Stuff per unit time × Time in the system/);
   const references = [...doc.querySelectorAll('#llLesson [data-panel="refs"] ol li')];
@@ -91,19 +106,15 @@ test('interactive flow, Lean, queue, and original challenge controls update corr
     page.getElementById('lambda').dispatchEvent(new runtime.window.Event('input'));
     assert.equal(page.getElementById('lOut').textContent, '6.00');
 
-    page.querySelector('[data-tab="lean"]').click();
-    assert.equal(page.querySelector('.ll-panel.active').dataset.panel, 'lean');
     page.getElementById('leanWip').value = '12';
     page.getElementById('leanWip').dispatchEvent(new runtime.window.Event('input'));
     assert.equal(page.getElementById('leanCt').textContent, '1.50 h');
 
-    page.querySelector('[data-tab="queue"]').click();
     page.getElementById('qLambda').value = '14';
     page.getElementById('qMu').value = '14';
     page.getElementById('qLambda').dispatchEvent(new runtime.window.Event('input'));
     assert.equal(page.getElementById('qL').textContent, 'Unbounded');
 
-    page.querySelector('[data-tab="quiz"]').click();
     page.querySelector('[data-quiz="q2"] .quizOpt[data-correct="true"]').click();
     assert.match(page.querySelector('[data-quiz="q2"] .quizFeedback').textContent, /^Correct\./);
   } finally {
