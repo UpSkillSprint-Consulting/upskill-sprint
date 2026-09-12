@@ -231,6 +231,18 @@
       description: 'Learn Cp and Cpk with a live capability explorer: specs, spread, centering, the 1.33 benchmark, and Excel & Minitab how-tos.'
     },
     {
+      marker: 'data-littles-law-interactive-flow-lab',
+      sectionId: 'lean-six-sigma',
+      path: '/lessons/lean-six-sigma/littles-law-interactive-flow-lab',
+      topic: 'lean-six-sigma',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'little’s law littles law work in process wip throughput flow time cycle time lead time queueing theory m/m/1 lean kanban intermediate interactive',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>20 min</span><span>Lean + Queueing</span>',
+      title: 'Little’s Law',
+      description: 'Watch work move through a live system, connect WIP to flow time, and explore Little’s Law in Lean and queueing theory.'
+    },
+    {
       marker: 'data-overall-equipment-effectiveness',
       sectionId: 'lean-six-sigma',
       path: '/lessons/overall-equipment-effectiveness-oee',
