@@ -88,7 +88,7 @@ const authHead = `
 <script src="/supabase-config.js"></script>
 <script src="/vendor/supabase.js"></script>
 <script src="/auth.js"></script>
-<script src="/require-auth.js"></script>`;
+<script src="/access-control.js"></script>\n<script src="/require-auth.js"></script>`;
 
 function prepareApplication(originalHtml) {
   return renameTool(originalHtml)
@@ -96,7 +96,7 @@ function prepareApplication(originalHtml) {
     .replaceAll('href="grade_spec_lookup_user_guide.html"', 'href="./how-to-use/"')
     .replace('<div class="top-actions">', '<div class="top-actions"><a class="btn site-companion" href="/tools/material-specification-compliance-checker">Compliance Checker</a>')
     .replace('</head>', '<meta name="description" content="Interactive material specification lookup, comparison, compliance screening, reverse lookup, and engineering calculators for CSA, ASTM, and API material designations.">\n<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + authHead + '\n</head>')
-    .replace('<body>', '<body class="grade-spec-tool-page" data-require-auth>\n' + siteHeader)
+    .replace('<body>', '<body class="grade-spec-tool-page" data-require-auth data-required-access="administrator" data-access-resource="tool:/engineering-tools/grade-specification-lookup">\n' + siteHeader)
     .replace('</body>', backLink + '\n</body>');
 }
 
