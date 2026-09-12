@@ -71,6 +71,20 @@ test('Juran Trilogy discussion includes the supplied planning-control-improvemen
   assert.deepEqual([...bytes.subarray(0, 8)], [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 });
 
+test('lesson opens with the supplied quality-management map before introducing the guru lenses', () => {
+  const image = document.querySelector('.guru-hero .guru-opening-map img');
+  assert.ok(image, 'opening map is part of the hero introduction');
+  assert.equal(image.getAttribute('src'), '/assets/lessons/quality-gurus-crosby-juran-deming/quality-management-mind-map.png');
+  assert.match(image.alt, /quality definitions.*quality assurance.*quality control.*total quality management.*Deming.*Juran.*Crosby/i);
+  const mapPosition = html.indexOf('class="guru-reference-figure guru-opening-map"');
+  assert.ok(mapPosition > html.indexOf('<h1 id="lesson-title">'));
+  assert.ok(mapPosition < html.indexOf('<aside class="guru-hero-panel"'));
+  assert.ok(mapPosition < html.indexOf('<section class="guru-section" id="objectives">'));
+  assert.equal(document.querySelectorAll('.guru-opening-bridge p').length, 3);
+  const bytes = fs.readFileSync(path.join(ROOT, 'assets', 'lessons', 'quality-gurus-crosby-juran-deming', 'quality-management-mind-map.png'));
+  assert.deepEqual([...bytes.subarray(0, 8)], [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+});
+
 test('dark-mode quiz contract supplies explicit surface and text colours', () => {
   const contract = document.querySelector('#guru-quiz-contract').textContent;
   const finalDark = document.querySelector('#guru-dark-overrides').textContent;

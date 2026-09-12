@@ -144,6 +144,39 @@
       padding: 64px 0 44px;
     }
 
+    .guru-hero--opening {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+
+    .guru-opening-map {
+      margin: 0;
+    }
+
+    .guru-opening-map .guru-reference-image {
+      padding: 12px;
+      background-color: #eeece5;
+      color: #172536;
+    }
+
+    .guru-opening-bridge {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding: 0 18px 18px;
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+    }
+
+    .guru-opening-bridge p {
+      margin: 0 !important;
+      padding: 14px;
+      border-left: 4px solid var(--guru-teal);
+      background-color: var(--guru-surface-2);
+      color: var(--guru-text);
+      font-size: 0.9rem;
+    }
+
     .guru-eyebrow,
     .guru-section-label {
       margin: 0;
@@ -925,6 +958,7 @@
 
       .guru-reference-image { padding: 8px; }
       .guru-diagram-reading { grid-template-columns: 1fr; padding: 0 12px 12px; }
+      .guru-opening-bridge { grid-template-columns: 1fr; padding: 0 12px 12px; }
 
       .guru-pdsa li {
         min-height: 0;
@@ -1029,7 +1063,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 
 <main id="lesson-content">
   <div class="guru-shell">
-    <section class="guru-hero" aria-labelledby="lesson-title">
+    <section class="guru-hero guru-hero--opening" aria-labelledby="lesson-title">
       <div>
         <p class="guru-eyebrow">Quality Engineering · Beginner · 45 minutes</p>
         <h1 id="lesson-title">Quality Gurus: Crosby, Juran, and Deming</h1>
@@ -1042,6 +1076,19 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
           <span class="guru-pill">ASQ exam practice</span>
         </div>
       </div>
+
+      <figure class="guru-reference-figure guru-opening-map" aria-labelledby="quality-map-caption">
+        <div class="guru-reference-image">
+          <img src="/assets/lessons/quality-gurus-crosby-juran-deming/quality-management-mind-map.png" width="768" height="431" decoding="async" alt="Quality management mind map connecting quality definitions, quality assurance, quality control, total quality management, ISO and EFQM approaches, quality-management goals, and the ideas of Deming, Juran, and Crosby">
+        </div>
+        <figcaption id="quality-map-caption"><strong>Begin with the whole field:</strong> quality management connects what quality means, how an organization builds and controls it, what the system is trying to achieve, and which management philosophies guide the work. Illustration supplied for this lesson.</figcaption>
+        <div class="guru-opening-bridge">
+          <p><strong>Meaning:</strong> Quality begins with customer needs and clear requirements—not with inspection alone.</p>
+          <p><strong>Management system:</strong> Planning, assurance, control, improvement, standards, and execution must work together.</p>
+          <p><strong>Leadership lenses:</strong> Crosby, Juran, and Deming help managers strengthen different—but connected—parts of that system.</p>
+        </div>
+      </figure>
+
       <aside class="guru-hero-panel" aria-label="Three quality lenses">
         <h2>One defect. Three managerial questions.</h2>
         <div class="guru-lens-question">
