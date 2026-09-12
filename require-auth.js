@@ -19,6 +19,8 @@
   function gate() {
     var body = document.body;
     if (!body || !body.hasAttribute('data-require-auth')) return;
+    /* Tier-protected pages are resolved by access-control.js, which must fail closed. */
+    if (body.hasAttribute('data-access-resource')) return;
 
     var auth = window.UpskillAuth;
     if (!auth || typeof auth.onChange !== 'function') {
