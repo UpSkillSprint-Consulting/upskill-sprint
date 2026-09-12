@@ -17,7 +17,7 @@ test('administrator tool pages opt into the Supabase resource gate', () => {
   }
 
   const builder = read('scripts/build-grade-specification-lookup.mjs');
-  assert.match(builder, /data-required-access=\\"administrator\\"/);
+  assert.match(builder, /data-required-access="administrator"/);
   assert.match(builder, /tool:\/engineering-tools\/grade-specification-lookup/);
   assert.match(builder, /access-control\.js/);
 });
