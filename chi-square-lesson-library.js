@@ -239,7 +239,7 @@
       interactive: 'true',
       search: 'little’s law littles law work in process wip throughput flow time cycle time lead time queueing theory m/m/1 lean kanban intermediate interactive',
       meta: '<span>Intermediate</span><span>Interactive</span><span>20 min</span><span>Lean + Queueing</span>',
-      title: 'Little’s Law — Interactive Flow Lab',
+      title: 'Little’s Law',
       description: 'Watch work move through a live system, connect WIP to flow time, and explore Little’s Law in Lean and queueing theory.'
     },
     {
