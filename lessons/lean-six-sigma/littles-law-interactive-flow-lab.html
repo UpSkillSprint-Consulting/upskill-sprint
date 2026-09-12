@@ -51,7 +51,7 @@
     color: var(--lesson-littles-text);
     font-size: clamp(2rem, 5vw, 3.25rem);
     line-height: 1.08;
-    margin: 0 0 1.25rem;
+    margin: .35rem 0 1rem;
     letter-spacing: -.03em;
   }
   #lesson-content #llLesson {
@@ -60,13 +60,107 @@
     font-size: 1rem;
     line-height: 1.55;
   }
-  #lesson-content #llLesson .ll-tab[aria-selected="true"] {
-    background: var(--lesson-littles-accent-bg);
-    color: var(--lesson-littles-text);
-    border-color: var(--lesson-littles-accent);
+  #lesson-content .lesson-littles-eyebrow,
+  #lesson-content #llLesson .ll-kicker {
+    color: var(--lesson-littles-accent);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .09em;
+    margin: 0;
+    text-transform: uppercase;
   }
-  #lesson-content #llLesson .ll-panel { display: none; }
-  #lesson-content #llLesson .ll-panel.active { display: block; }
+  #lesson-content .lesson-littles-lede {
+    color: var(--lesson-littles-muted);
+    font-size: clamp(1.05rem, 2vw, 1.22rem);
+    line-height: 1.7;
+    margin: 0;
+    max-width: 850px;
+  }
+  #lesson-content .lesson-littles-why {
+    background: var(--lesson-littles-accent-bg);
+    border-left: 4px solid var(--lesson-littles-accent);
+    border-radius: 12px;
+    margin: 1.25rem 0 0;
+    padding: 1rem 1.1rem;
+  }
+  #lesson-content #llLesson .ll-panel {
+    display: block;
+    margin-top: clamp(3rem, 7vw, 5rem);
+    scroll-margin-top: 6rem;
+  }
+  #lesson-content #llLesson .ll-section-head { max-width: 820px; margin-bottom: 1.2rem; }
+  #lesson-content #llLesson .ll-section-head h2 {
+    color: var(--lesson-littles-text);
+    font-size: clamp(1.7rem, 4vw, 2.35rem);
+    line-height: 1.15;
+    margin: .35rem 0 .75rem;
+    letter-spacing: -.02em;
+  }
+  #lesson-content #llLesson .ll-section-head p { color: var(--lesson-littles-muted); margin: 0; }
+  #lesson-content #llLesson .ll-section-head p + p { margin-top: .75rem; }
+  #lesson-content #llLesson .ll-toc {
+    background: var(--lesson-littles-card);
+    border: 1px solid var(--lesson-littles-border);
+    border-radius: 16px;
+    margin-top: 1.5rem;
+    padding: 1.1rem;
+  }
+  #lesson-content #llLesson .ll-toc h2 { font-size: 1.15rem; margin: 0 0 .75rem; }
+  #lesson-content #llLesson .ll-toc ol {
+    display: grid;
+    gap: .65rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  #lesson-content #llLesson .ll-toc a {
+    align-items: center;
+    background: var(--lesson-littles-panel);
+    border: 1px solid var(--lesson-littles-border);
+    border-radius: 10px;
+    color: var(--lesson-littles-text);
+    display: flex;
+    font-size: .9rem;
+    font-weight: 700;
+    min-height: 48px;
+    padding: .65rem .75rem;
+    text-decoration: none;
+  }
+  #lesson-content #llLesson .ll-toc a:hover { border-color: var(--lesson-littles-accent); }
+  #lesson-content #llLesson .ll-reading {
+    color: var(--lesson-littles-muted);
+    font-size: 1.02rem;
+    line-height: 1.72;
+    max-width: 850px;
+  }
+  #lesson-content #llLesson .ll-reading p { margin: 0; }
+  #lesson-content #llLesson .ll-reading p + p { margin-top: .9rem; }
+  #lesson-content #llLesson .ll-reading strong { color: var(--lesson-littles-text); }
+  #lesson-content #llLesson .ll-teach {
+    background: var(--lesson-littles-accent-bg);
+    border: 1px solid var(--lesson-littles-accent);
+    border-radius: 14px;
+    color: var(--lesson-littles-text);
+    margin: 1rem 0;
+    padding: 1rem 1.1rem;
+  }
+  #lesson-content #llLesson .ll-teach h3 { font-size: 1.05rem; margin: 0 0 .45rem; }
+  #lesson-content #llLesson .ll-teach p { margin: 0; }
+  #lesson-content #llLesson .ll-teach ul,
+  #lesson-content #llLesson .ll-teach ol { margin: .55rem 0 0; padding-left: 1.25rem; }
+  #lesson-content #llLesson .ll-teach li + li { margin-top: .35rem; }
+  #lesson-content #llLesson .ll-concept-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  #lesson-content #llLesson .ll-app-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  #lesson-content #llLesson .ll-formula-grid { grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); }
+  #lesson-content #llLesson .ll-bridge {
+    align-items: center;
+    display: grid;
+    gap: .75rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 1rem;
+  }
+  #lesson-content #llLesson .ll-bridge .metric { height: 100%; }
   #lesson-content #llLesson .flow-track {
     position: relative;
     min-height: 210px;
@@ -240,14 +334,17 @@
   #lesson-content #llLesson [data-panel="lean"] > .grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   #lesson-content #llLesson [data-panel="flow"] .grid-cols-2,
   #lesson-content #llLesson [data-panel="queue"] .grid-cols-2 { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  #lesson-content #llLesson > section:first-of-type > .grid { grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); }
   #lesson-content #llLesson [data-panel="quiz"] .grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
   #lesson-content #llLesson [data-panel="queue"] .metric > .grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
   #lesson-content #llLesson [data-panel="flow"] > .grid > div,
   #lesson-content #llLesson [data-panel="queue"] > .grid > div { min-width: 0; }
   @media (max-width: 767px) {
     #lesson-content { padding: 1.25rem .75rem 3rem; }
-    #lesson-content #llLesson > section:first-of-type > .grid,
+    #lesson-content #llLesson .ll-toc ol,
+    #lesson-content #llLesson .ll-concept-grid,
+    #lesson-content #llLesson .ll-app-grid,
+    #lesson-content #llLesson .ll-formula-grid,
+    #lesson-content #llLesson .ll-bridge,
     #lesson-content #llLesson [data-panel="flow"] > .grid,
     #lesson-content #llLesson [data-panel="lean"] > .grid,
     #lesson-content #llLesson [data-panel="queue"] > .grid { grid-template-columns: 1fr; }
@@ -297,6 +394,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 </style>
 </head>
 <body data-lesson-page="true" data-category="lean-six-sigma" data-level="intermediate" data-interactive="true" data-lesson-type="general">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
 <header class="site lesson-sitebar">
   <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
@@ -309,10 +407,34 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 
 <main id="lesson-content">
   <div class="lesson-littles-shell">
+    <p class="lesson-littles-eyebrow">Lean Six Sigma · Interactive lesson</p>
     <h1 class="lesson-littles-title">Little’s Law — Interactive Flow Lab</h1>
+    <p class="lesson-littles-lede">Learn the simple relationship that connects work in process, flow rate, and time—then watch it come alive in a production flow, a Lean value stream, and a queue.</p>
+    <p class="lesson-littles-why"><strong>Why this matters at work:</strong> Little’s Law turns three measurements you can observe into one practical constraint. It helps teams estimate lead time, set sensible WIP limits, understand congestion, and ask better questions about why work is taking so long.</p>
     <div id='llLesson' class='w-full text-base' style='color:var(--lesson-littles-text)'>
-  <section class='mb-4'>
-    <div class='grid gap-3 md:grid-cols-[1.2fr_.8fr] items-stretch'>
+  <nav class='ll-toc' aria-label='Lesson contents'>
+    <h2>In this lesson</h2>
+    <ol>
+      <li><a href='#what-is-littles-law'>1 · What Little’s Law means</a></li>
+      <li><a href='#see-the-flow'>2 · See the flow</a></li>
+      <li><a href='#lean-application'>3 · Apply it in Lean</a></li>
+      <li><a href='#queueing-theory'>4 · Explore a queue</a></li>
+      <li><a href='#applications'>5 · Use it broadly</a></li>
+      <li><a href='#guided-practice'>6 · Practise and review</a></li>
+      <li><a href='#history-and-references'>7 · History and references</a></li>
+      <li><a href='#quiz'>8 · Final knowledge check</a></li>
+    </ol>
+  </nav>
+
+  <section id='what-is-littles-law' class='ll-panel' aria-labelledby='what-is-littles-law-heading'>
+    <div class='ll-section-head'>
+      <p class='ll-kicker'>Foundation</p>
+      <h2 id='what-is-littles-law-heading'>What is Little’s Law?</h2>
+      <p>Little’s Law describes average flow through any system with a clear entrance and exit. It says that the <strong>average number of items inside</strong> equals the <strong>average rate at which items flow through</strong> multiplied by the <strong>average time each item spends inside</strong>.</p>
+      <p>The “items” can be parts, customers, patients, orders, calls, support tickets, or software tasks. The law does not predict the journey of one particular item. It connects three averages measured across many items and over time.</p>
+    </div>
+
+    <div class='grid gap-3 items-stretch ll-formula-grid'>
       <div class='metric p-4'>
         <div class='text-sm font-semibold mb-1' style='color:var(--lesson-littles-muted)'>THE FLOW RELATIONSHIP</div>
         <div class='formula text-4xl sm:text-5xl'>L = λ × W</div>
@@ -321,19 +443,44 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <div class='metric p-4'>
         <div class='text-sm font-semibold'>Think of it as a conservation rule</div>
         <p class='text-sm mt-2' style='color:var(--lesson-littles-muted)'>More items arriving, or items staying longer, means more items accumulate inside the same system boundary.</p>
+        <p class='text-sm mt-2' style='color:var(--lesson-littles-muted)'>This is an accounting relationship—a constraint on the averages—not a claim that one variable alone caused another to change.</p>
       </div>
+    </div>
+
+    <div class='grid gap-3 ll-concept-grid mt-4'>
+      <div class='metric'><div class='formula text-2xl'>L</div><div class='font-semibold'>Average number in system</div><p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>Customers, parts, orders, tickets, jobs, patients, calls, etc.</p></div>
+      <div class='metric'><div class='formula text-2xl'>λ</div><div class='font-semibold'>Average arrival rate</div><p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>Items entering per unit time.</p></div>
+      <div class='metric'><div class='formula text-2xl'>W</div><div class='font-semibold'>Average time in system</div><p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>Waiting time + processing/service time inside the chosen boundary.</p></div>
+    </div>
+
+    <div class='ll-reading mt-4'>
+      <p><strong>Start by drawing the system boundary.</strong> An item begins contributing to L when it crosses the entrance and stops when it crosses the exit. Its W is every moment between those two events—including waiting, transport, inspection, rework, or service that happens inside the boundary. L, λ, and W must describe the same items, boundary, and observation period.</p>
+      <p><strong>Keep the units compatible.</strong> If λ is measured in parts per hour, W must be expressed in hours. For example, 20 customers/hour × 0.25 hour/customer = 5 customers in the system on average.</p>
+    </div>
+
+    <div class='ll-teach'>
+      <h3>Why the equation makes sense</h3>
+      <p>Imagine adding up every minute contributed by every item while it is inside the boundary. You can view that total two ways: as the average number present over time, or as the number of items flowing through multiplied by their average residence time. Both views count the same accumulated item-time, which is why L = λW.</p>
     </div>
   </section>
 
-  <nav class='flex flex-wrap gap-2 mb-4' aria-label='Lesson sections'>
-    <button type='button' class='ll-tab border rounded-xl px-3 py-2 text-sm font-semibold' data-tab='flow' aria-selected='true'>① See the flow</button>
-    <button type='button' class='ll-tab border rounded-xl px-3 py-2 text-sm font-semibold' data-tab='lean' aria-selected='false'>② Lean application</button>
-    <button type='button' class='ll-tab border rounded-xl px-3 py-2 text-sm font-semibold' data-tab='queue' aria-selected='false'>③ Queueing theory</button>
-    <button type='button' class='ll-tab border rounded-xl px-3 py-2 text-sm font-semibold' data-tab='quiz' aria-selected='false'>④ Check yourself</button>
-    <button type='button' class='ll-tab border rounded-xl px-3 py-2 text-sm font-semibold' data-tab='refs' aria-selected='false'>References</button>
-  </nav>
+  <section id='see-the-flow' class='ll-panel' data-panel='flow' aria-labelledby='see-the-flow-heading'>
+    <div class='ll-section-head'>
+      <p class='ll-kicker'>Interactive 1</p>
+      <h2 id='see-the-flow-heading'>See Little’s Law in motion</h2>
+      <p>Each moving <strong>P</strong> is one part. It begins counting toward “Active now” when it enters Arrival and stops when it leaves Inspect. The complete trip through arrival, queue, process, and inspection is W; the rate at which new parts enter is λ; and “Predicted average WIP” is L.</p>
+    </div>
 
-  <section class='ll-panel active' data-panel='flow'>
+    <div class='ll-teach'>
+      <h3>Try this guided experiment</h3>
+      <ol>
+        <li>Start at 12 parts/hour and 15 minutes. The equation predicts 3 parts in the system on average.</li>
+        <li>Double λ while holding W fixed. Predicted average WIP doubles because twice as much work enters per hour.</li>
+        <li>Restore λ, then double W. Predicted average WIP doubles again because each part occupies the system twice as long.</li>
+        <li>Compare “Predicted average WIP” with “Active now.” One is a long-run average; the other is a changing snapshot.</li>
+      </ol>
+    </div>
+
     <div class='grid gap-4 lg:grid-cols-[.72fr_1.28fr]'>
       <div class='space-y-4'>
         <div class='metric'>
@@ -374,16 +521,23 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <div class='font-semibold'>Watch what the equation is saying</div>
       <p id='flowExplain' class='mt-1 text-sm'>12 parts/hour × 15 minutes ÷ 60 = 3.00 parts in the system on average.</p>
       <p class='mt-2 text-sm' style='color:var(--lesson-littles-muted)'>The moving picture will fluctuate at any instant. Little’s Law relates long-run averages, not a single snapshot.</p>
+      <p class='mt-2 text-sm' style='color:var(--lesson-littles-muted)'>This time-compressed, discrete animation is an illustration rather than a full stochastic simulation. After changing a control, allow the parts already in motion to finish their trips before interpreting the new pattern.</p>
     </div>
 
-    <div class='grid gap-3 md:grid-cols-3 mt-4'>
-      <div class='metric'><div class='formula text-2xl'>L</div><div class='font-semibold'>Average number in system</div><p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>Customers, parts, orders, tickets, jobs, patients, calls, etc.</p></div>
-      <div class='metric'><div class='formula text-2xl'>λ</div><div class='font-semibold'>Average arrival rate</div><p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>Items entering per unit time.</p></div>
-      <div class='metric'><div class='formula text-2xl'>W</div><div class='font-semibold'>Average time in system</div><p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>Waiting time + processing/service time inside the chosen boundary.</p></div>
+    <div class='ll-bridge'>
+      <div class='metric'><div class='font-semibold'>When λ rises</div><p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>More parts enter during the same time span. If W stays fixed, more parts must be present on average.</p></div>
+      <div class='metric'><div class='font-semibold'>When W rises</div><p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>Each part occupies the system longer. If λ stays fixed, more parts overlap inside the boundary.</p></div>
+      <div class='metric'><div class='font-semibold'>When L rises</div><p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>The law narrows the explanation: λ increased, W increased, or both changed.</p></div>
     </div>
   </section>
 
-  <section class='ll-panel' data-panel='lean'>
+  <section id='lean-application' class='ll-panel' data-panel='lean' aria-labelledby='lean-application-heading'>
+    <div class='ll-section-head'>
+      <p class='ll-kicker'>Interactive 2</p>
+      <h2 id='lean-application-heading'>Little’s Law in Lean: connect WIP to flow time</h2>
+      <p>Lean uses different operational words for the same three quantities: L becomes <strong>average work in process (WIP)</strong>, λ becomes <strong>throughput</strong>, and W becomes <strong>average flow time</strong>. In a sufficiently stable value stream, average arrivals and average completions balance, so throughput can stand in for the arrival rate.</p>
+    </div>
+
     <div class='metric mb-4'>
       <div class='font-semibold text-lg'>Lean / Factory Physics form</div>
       <div class='formula text-3xl mt-2'>WIP = Throughput × Flow Time</div>
@@ -391,15 +545,22 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <p class='text-sm mt-2' style='color:var(--lesson-littles-muted)'>When the process is observed in a sufficiently stable operating regime, arrival rate and departure throughput balance, so the equation is commonly written using throughput.</p>
     </div>
 
+    <div class='ll-teach'>
+      <h3>How to read the visual</h3>
+      <p>The orange numbered tiles picture the average work occupying the chosen value stream. Set throughput and WIP, then read the calculated flow time. Press <strong>Halve WIP</strong> or <strong>Double WIP</strong> to see the mathematical effect while throughput is held fixed.</p>
+    </div>
+
     <div class='grid gap-4 md:grid-cols-2'>
       <div class='space-y-4'>
         <div class='metric'>
           <label for='leanX' class='font-semibold block'>Throughput: <span id='leanXOut'>8</span> parts/hour</label>
           <input id='leanX' type='range' min='1' max='20' step='1' value='8' class='mt-3'>
+          <p class='text-sm mt-2' style='color:var(--lesson-littles-muted)'>The average number of finished parts leaving per hour—not the theoretical maximum capacity.</p>
         </div>
         <div class='metric'>
           <label for='leanWip' class='font-semibold block'>Average WIP: <span id='leanWipOut'>24</span> parts</label>
           <input id='leanWip' type='range' min='1' max='60' step='1' value='24' class='mt-3'>
+          <p class='text-sm mt-2' style='color:var(--lesson-littles-muted)'>All started-but-not-finished work inside the value-stream boundary.</p>
         </div>
         <div class='flex flex-wrap gap-2'>
           <button id='halveWip' type='button' class='rounded-xl border px-3 py-2 font-semibold'>Halve WIP</button>
@@ -423,6 +584,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <div class='metric warn'>
         <div class='font-semibold'>But do not misuse the equation</div>
         <p class='text-sm mt-1'>Reducing WIP does not guarantee throughput stays fixed. An excessively low WIP limit can starve downstream work. Little’s Law constrains the averages; it does not by itself tell you which operational change caused them.</p>
+        <p class='text-sm mt-2'>Capacity, batching, rework, downtime, priorities, and variation can all change the operating point. Use process knowledge to explain the cause.</p>
       </div>
     </div>
 
@@ -434,10 +596,27 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     </div>
   </section>
 
-  <section class='ll-panel' data-panel='queue'>
+  <section id='queueing-theory' class='ll-panel' data-panel='queue' aria-labelledby='queueing-theory-heading'>
+    <div class='ll-section-head'>
+      <p class='ll-kicker'>Interactive 3</p>
+      <h2 id='queueing-theory-heading'>Little’s Law in queueing theory: connect waiting to congestion</h2>
+      <p>Queueing theory separates the time spent <strong>waiting</strong> from the time spent <strong>being served</strong>. For the whole boundary, Little’s Law is L = λW. For the waiting line alone, the matching form is <strong>Lq = λWq</strong>. The boundary determines which number-and-time pair belongs together.</p>
+    </div>
+
     <div class='metric mb-4'>
       <div class='font-semibold text-lg'>Queueing theory: Little’s Law works across the whole queue</div>
       <p class='text-sm mt-2'>For the system boundary shown below, <strong>L includes customers waiting plus customers in service</strong>, and <strong>W includes waiting time plus service time</strong>.</p>
+    </div>
+
+    <div class='ll-teach'>
+      <h3>How to read the queue visual</h3>
+      <ul>
+        <li><strong>λ</strong> is the arrival rate; <strong>μ</strong> is the server’s average service capacity.</li>
+        <li>The purple dots approximate average queue length <strong>Lq</strong>. The blue server represents service capacity.</li>
+        <li><strong>ρ = λ/μ</strong> is utilization—the average fraction of time the server is busy in this model.</li>
+        <li><strong>L = Lq + ρ</strong> and <strong>W = Wq + 1/μ</strong> for this one-server model.</li>
+      </ul>
+      <p class='mt-2'>Begin at λ = 10 and μ = 14. Then raise λ toward μ. Notice that the waiting measures grow nonlinearly even though the arrival rate moves in equal steps.</p>
     </div>
 
     <div class='grid gap-4 lg:grid-cols-[.72fr_1.28fr]'>
@@ -484,7 +663,45 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     </div>
   </section>
 
-  <section class='ll-panel' data-panel='quiz'>
+  <section id='applications' class='ll-panel' aria-labelledby='applications-heading'>
+    <div class='ll-section-head'>
+      <p class='ll-kicker'>Go broader</p>
+      <h2 id='applications-heading'>One law, many kinds of flow</h2>
+      <p>The vocabulary changes by industry, but the structure does not: define a boundary, identify what flows, measure how many are inside on average, measure the rate, and measure complete time inside.</p>
+    </div>
+
+    <div class='grid gap-3 ll-app-grid'>
+      <div class='metric'><div class='font-semibold'>Factory</div><p class='text-sm mt-1'><strong>L:</strong> parts in WIP<br><strong>λ:</strong> completions per hour<br><strong>W:</strong> start-to-finish flow time</p></div>
+      <div class='metric'><div class='font-semibold'>Call centre</div><p class='text-sm mt-1'><strong>L:</strong> callers waiting or served<br><strong>λ:</strong> calls admitted per hour<br><strong>W:</strong> wait plus talk time</p></div>
+      <div class='metric'><div class='font-semibold'>Hospital department</div><p class='text-sm mt-1'><strong>L:</strong> patients present<br><strong>λ:</strong> patient arrivals per hour<br><strong>W:</strong> total department time</p></div>
+      <div class='metric'><div class='font-semibold'>Software delivery</div><p class='text-sm mt-1'><strong>L:</strong> started-not-done work items<br><strong>λ:</strong> completions per week<br><strong>W:</strong> work-item lead time</p></div>
+      <div class='metric'><div class='font-semibold'>Order fulfilment</div><p class='text-sm mt-1'><strong>L:</strong> open orders<br><strong>λ:</strong> shipments per day<br><strong>W:</strong> order-to-ship time</p></div>
+      <div class='metric'><div class='font-semibold'>Support team</div><p class='text-sm mt-1'><strong>L:</strong> open tickets<br><strong>λ:</strong> resolved tickets per day<br><strong>W:</strong> open-to-resolution time</p></div>
+    </div>
+
+    <div class='ll-reading mt-4'>
+      <p><strong>The most useful practical rearrangement is W = L ÷ λ.</strong> If a team has 40 open items and finishes 10 per week, the implied average time in the defined system is 4 weeks. That result is a diagnostic starting point: the law tells you what the averages require, while investigation tells you whether queues, handoffs, rework, downtime, or priorities created that operating point.</p>
+    </div>
+
+    <div class='ll-teach'>
+      <h3>Apply it correctly</h3>
+      <ul>
+        <li>Use one consistent system boundary and one consistent item population.</li>
+        <li>Use the effective or admitted arrival rate when requests can be rejected, abandoned, or cancelled.</li>
+        <li>Match time units and observe long enough for meaningful averages.</li>
+        <li>Do not substitute today’s snapshot for average WIP.</li>
+        <li>Define “flow time,” “lead time,” and “cycle time” locally; teams do not always use those words the same way.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id='guided-practice' class='ll-panel' data-panel='quiz' aria-labelledby='guided-practice-heading'>
+    <div class='ll-section-head'>
+      <p class='ll-kicker'>Guided practice</p>
+      <h2 id='guided-practice-heading'>Use the relationship before the final quiz</h2>
+      <p>These three questions give immediate feedback. Translate the story into L, λ, and W, make the time units consistent, and keep the system boundary in view.</p>
+    </div>
+
     <div class='metric mb-4'>
       <div class='font-semibold text-lg'>Quick challenge</div>
       <p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>Choose an answer, then reveal the reasoning.</p>
@@ -532,14 +749,20 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     </div>
   </section>
 
-  <section class='ll-panel' data-panel='refs'>
+  <section id='history-and-references' class='ll-panel' data-panel='refs' aria-labelledby='history-and-references-heading'>
+    <div class='ll-section-head'>
+      <p class='ll-kicker'>Go deeper</p>
+      <h2 id='history-and-references-heading'>History, limits, and references</h2>
+      <p>Little’s Law began in queueing and operations research, but later work showed why its core accounting logic reaches beyond any one probability model or industry.</p>
+    </div>
+
     <div class='metric'>
       <div class='font-semibold text-lg'>History and deeper interpretation</div>
       <p class='text-sm mt-2'>John D. C. Little published the first general queueing-theory proof in 1961. Shaler Stidham later gave a deterministic sample-path treatment, showing that the underlying relationship is broader than a particular probability distribution or queue discipline.</p>
       <div class='mt-4 p-3 rounded-xl border'>
         <div class='font-semibold'>Advanced finite-window note</div>
         <div class='formula text-2xl mt-2'>L = Λ × w</div>
-        <p class='text-sm mt-2'>For a finite observation window, the linked article distinguishes cumulative arrival rate Λ and residence time w from the long-run λ and W. This is useful when a process is changing or the reporting window is short relative to the time work spends in the system.</p>
+        <p class='text-sm mt-2'>For a finite observation window T, the linked article defines Λ = N/T, where N counts every distinct item present during any part of the window—including items already inside when the window starts. It defines w as the average portion of each item’s residence time that falls inside that window. Those observer-relative quantities differ from the long-run λ and W, yet their product equals the exact time-average L for the window. This is useful when a process is changing or the reporting window is short relative to the time work spends in the system.</p>
       </div>
     </div>
 
@@ -616,14 +839,6 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 
   const $=(s)=>root.querySelector(s);
   const $$=(s)=>Array.from(root.querySelectorAll(s));
-
-  $$('.ll-tab').forEach(btn=>btn.addEventListener('click',()=>{
-    $$('.ll-tab').forEach(b=>b.setAttribute('aria-selected','false'));
-    $$('.ll-panel').forEach(p=>p.classList.remove('active'));
-    btn.setAttribute('aria-selected','true');
-    const panel=root.querySelector(`[data-panel='${btn.dataset.tab}']`);
-    if(panel) panel.classList.add('active');
-  }));
 
   const lambda=$('#lambda'), timeW=$('#timeW'), flowTrack=$('#flowTrack');
   const TIME_SCALE=220;
