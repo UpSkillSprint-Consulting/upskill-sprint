@@ -1,0 +1,31 @@
+'use strict';
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const { JSDOM } = require('jsdom');
+const read = name => fs.readFileSync(path.join(__dirname, '..', name), 'utf8');
+
+test('homepage counts match the rendered lesson and tool libraries', async () => {
+  const home = new JSDOM('<html></html>', { url: 'https://upskillsprint.com/', runScripts: 'outside-only', pretendToBeVisual: true });
+  home.window.eval(read('site-sections.js'));
+  home.window.eval(read('chi-square-lesson-library.js'));
+  const parse = name => new home.window.DOMParser().parseFromString(read(name), 'text/html');
+  const counts = home.window.UpskillLessonCounts(parse('lessons.html'));
+  const lessonPage = new JSDOM(read('lessons.html'), { url: 'https://upskillsprint.com/lessons', runScripts: 'outside-only', pretendToBeVisual: true });
+  lessonPage.window.eval(read('chi-square-lesson-library.js'));
+  lessonPage.window.document.dispatchEvent(new lessonPage.window.Event('DOMContentLoaded'));
+  await new Promise(resolve => setTimeout(resolve, 30));
+  assert.equal(counts.lessons, lessonPage.window.document.querySelectorAll('[data-lesson-item][data-interactive="true"]').length);
+  assert.equal(counts.subjects, [...lessonPage.window.document.querySelectorAll('[data-category-section]')].filter(section => section.querySelector('[data-lesson-item]')).length);
+  assert.ok(counts.lessons > 9);
+  const tools = parse('engineering-tools.html');
+  assert.equal(home.window.UpskillToolCounts(tools), 5);
+  assert.equal(home.window.UpskillToolCounts(tools), 5, 'hydration is idempotent');
+  const lessons = parse('lessons.html');
+  const duplicate = lessonPage.window.document.querySelector('[data-lesson-item][data-interactive="true"]').cloneNode(true);
+  lessons.getElementById('quality-engineering').appendChild(duplicate);
+  assert.equal(home.window.UpskillLessonCounts(lessons).lessons, counts.lessons, 'duplicate links do not inflate counts');
+  home.window.close();
+  lessonPage.window.close();
+});
