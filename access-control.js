@@ -17,6 +17,9 @@
     if (!body) return;
     var resourceKey = body.getAttribute('data-access-resource');
     if (!resourceKey) return;
+    var premium = body.getAttribute('data-required-access') === 'premium';
+    var deniedPath = premium ? '/lessons.html?access=premium#exam-practice' : '/engineering-tools.html?access=administrator';
+    var unavailablePath = premium ? '/lessons.html?access=unavailable#exam-practice' : '/engineering-tools.html?access=unavailable';
 
     var auth = window.UpskillAuth;
     if (!auth || typeof auth.onChange !== 'function') {
@@ -25,19 +28,23 @@
     }
 
     if (typeof auth.isConfigured !== 'function' || !auth.isConfigured()) {
-      redirect('/engineering-tools.html?access=unavailable');
+      redirect(unavailablePath);
       return;
     }
 
+    var revision = 0;
     var settled = false;
     var timeout = window.setTimeout(function () {
       if (settled) return;
       settled = true;
-      redirect('/engineering-tools.html?access=unavailable');
+      revision += 1;
+      redirect(unavailablePath);
     }, 8000);
 
     auth.onChange(function (user) {
-      if (settled) return;
+      var currentRevision = ++revision;
+      body.classList.remove('auth-ready');
+      body.classList.remove('access-ready');
       if (!user) {
         settled = true;
         window.clearTimeout(timeout);
@@ -49,24 +56,28 @@
       if (!client || typeof client.rpc !== 'function') {
         settled = true;
         window.clearTimeout(timeout);
-        redirect('/engineering-tools.html?access=unavailable');
+        redirect(unavailablePath);
         return;
       }
 
-      settled = true;
-      client.rpc('can_access_content', {
+      /* Defer Supabase calls outside its auth state-change callback. */
+      Promise.resolve().then(function () { return client.rpc('can_access_content', {
         requested_resource_key: resourceKey
-      }).then(function (result) {
+      }); }).then(function (result) {
+        if (currentRevision !== revision) return;
+        settled = true;
         window.clearTimeout(timeout);
-        if (!result.error && result.data === true) {
+        if (result && !result.error && result.data === true) {
           body.classList.add('auth-ready');
           body.classList.add('access-ready');
           return;
         }
-        redirect('/engineering-tools.html?access=administrator');
+        redirect(deniedPath);
       }).catch(function () {
+        if (currentRevision !== revision) return;
+        settled = true;
         window.clearTimeout(timeout);
-        redirect('/engineering-tools.html?access=unavailable');
+        redirect(unavailablePath);
       });
     });
   }
