@@ -6,10 +6,13 @@
 <link rel="stylesheet" href="/style.css"><script src="/theme.js"></script>
 <script src="/site-sections.js"></script><script defer src="/admin-access.js"></script>
 <style>
+.admin-topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.admin-topbar .theme-toggle{margin-top:0}.admin-topbar .theme-control{gap:8px}.admin-topbar .theme-toggle:focus-visible{outline:3px solid var(--teal);outline-offset:4px}
 .admin-wrap{max-width:760px;margin:40px auto;padding:24px}.admin-wrap label{display:block;margin:18px 0 6px}.admin-wrap input,.admin-wrap select{width:100%;padding:12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink)}.admin-wrap button{margin-top:18px}.admin-wrap fieldset{border:1px solid var(--line);padding:20px;margin-top:24px}.admin-wrap [hidden]{display:none!important}.admin-wrap li{margin:12px 0}#admin-status{padding:16px;background:var(--tint);border-radius:8px}
 </style></head>
 <body><main class="admin-wrap">
-<a href="/">Back to UpSkill Sprint</a><h1>Manage Account Access</h1>
+<div class="admin-topbar"><a href="/">Back to UpSkill Sprint</a>
+<div class="theme-control" role="group" aria-label="Colour theme"><span aria-hidden="true">Light</span><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode"><span class="sr-only">Toggle light and dark mode</span></button><span aria-hidden="true">Dark</span></div></div>
+<h1>Manage Account Access</h1>
 <p>Owner-only controls. Search by full email, choose an access level, then save. No background polling.</p>
 <p id="admin-status" role="status" aria-live="polite">Checking owner access…</p>
 <a id="admin-signin" href="/sign-in.html?next=%2Fadmin-access.html" hidden>Sign in to your owner account</a>
