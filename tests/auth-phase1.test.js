@@ -72,7 +72,7 @@ test('account menu shows canonical name, email, and profile link', () => {
 
 test('site-wide scripts preserve auth dependency order', () => {
   const source = read('site-sections.js');
-  const expected = "['/supabase-config.js', '/vendor/supabase.js', '/auth.js', '/profile.js', '/auth-forms.js', '/progress.js', '/require-auth.js']";
+  const expected = "['/supabase-config.js', '/vendor/supabase.js', '/auth.js', '/profile.js', '/auth-forms.js', '/progress.js', '/access-control.js', '/require-auth.js']";
   assert.ok(source.includes(expected));
 });
 
