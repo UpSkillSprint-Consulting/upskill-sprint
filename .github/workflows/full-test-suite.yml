@@ -1,17 +1,9 @@
 name: Stateless test bank
 
 on:
+  # Branch protection requires this workflow's "Node 22 full suite" check on
+  # every pull request, so it must not be suppressed by a paths filter.
   pull_request:
-    paths:
-      - 'test-bank.html'
-      - 'test-bank-memory-learning.js'
-      - 'test-bank-*.js'
-      - 'test-bank-*.css'
-      - 'netlify/edge-functions/test-bank-mobile-picker.js'
-      - 'netlify.toml'
-      - 'scripts/validate-simple-test-bank.mjs'
-      - 'supabase/**'
-      - '.github/workflows/full-test-suite.yml'
   push:
     branches: [main]
   workflow_dispatch:
