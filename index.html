@@ -22,6 +22,7 @@
 </script>
   <script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
+  <script src="/chi-square-lesson-library.js"></script>
 </head>
 <body>
   <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
@@ -405,9 +406,9 @@
       };
 
       var STATS = [
-        { key: 'lessons', num: '24', label: 'Interactive lessons', icon: 'lessons' },
-        { key: 'subjects', num: '6', label: 'Subject areas', icon: 'subjects' },
-        { key: 'tools', num: '4', label: 'Free engineering tools', icon: 'tools' },
+        { key: 'lessons', num: '—', label: 'Interactive lessons', icon: 'lessons' },
+        { key: 'subjects', num: '—', label: 'Subject areas', icon: 'subjects' },
+        { key: 'tools', num: '—', label: 'Engineering tools', icon: 'tools' },
         { key: 'cost', num: '$0', label: 'Cost, always', icon: 'cost' }
       ];
 
@@ -426,6 +427,7 @@
 
       function animateCount(el) {
         var target = el.getAttribute('data-target');
+        if (target === '—') { el.textContent = target; return; }
         var prefix = target.indexOf('$') === 0 ? '$' : '';
         var numPart = parseFloat(target.replace('$', ''));
         var start = null, dur = 1200;
@@ -461,17 +463,16 @@
           var parser = new DOMParser();
           var lessonsDocument = parser.parseFromString(pages[0], 'text/html');
           var toolsDocument = parser.parseFromString(pages[1], 'text/html');
-          var interactiveLessons = lessonsDocument.querySelectorAll('[data-lesson-item][data-interactive="true"]').length;
-          var subjectAreas = Array.from(lessonsDocument.querySelectorAll('[data-category-section]')).filter(function (section) {
-            return section.querySelector('[data-lesson-item]');
-          }).length;
-          var availableTools = toolsDocument.querySelectorAll('.tool-row .tool-status.available').length;
+          var lessonCounts = window.UpskillLessonCounts(lessonsDocument);
+          var interactiveLessons = lessonCounts.lessons;
+          var subjectAreas = lessonCounts.subjects;
+          var availableTools = window.UpskillToolCounts(toolsDocument);
 
           updateCounter('lessons', interactiveLessons);
           updateCounter('subjects', subjectAreas);
           updateCounter('tools', availableTools);
         }).catch(function () {
-          // Keep the built-in fallback values if a catalog request fails.
+          // Leave unavailable totals as a dash rather than showing invented counts.
         });
       }
 
