@@ -22,7 +22,7 @@ function deferred() {
 }
 
 function runtime(options = {}) {
-  const calls = { updatePayloads: [], authUpdates: [], signups: [] };
+  const calls = { updatePayloads: [], authUpdates: [], signups: [], accessReads: 0 };
   const user = {
     id: 'user-1',
     email: 'learner@example.com',
@@ -50,6 +50,11 @@ function runtime(options = {}) {
   }
 
   const client = {
+    rpc(name) {
+      assert.equal(name, 'current_access_level');
+      calls.accessReads += 1;
+      return options.accessResult ? options.accessResult() : Promise.resolve({ data: 'registered', error: null });
+    },
     auth: {
       onAuthStateChange(callback) { client.auth.callback = callback; },
       getSession() {
@@ -86,11 +91,67 @@ function runtime(options = {}) {
     anonKey: 'public-anon-key'
   };
   dom.window.supabase = { createClient: () => client };
+  if (options.profileAccess) {
+    const status = dom.window.document.createElement('p');
+    status.id = 'profile-access-level';
+    status.setAttribute('data-account-access', '');
+    dom.window.document.body.appendChild(status);
+  }
   dom.window.eval(authSource);
   dom.window.eval(profileSource);
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
-  return { dom, calls, user };
+  return { dom, calls, user, client };
 }
+
+test('Account menu displays every effective access tier and refreshes only on demand', async () => {
+  for (const [key, label] of Object.entries({ public: 'Public', registered: 'Registered member', premium: 'Premium member', special: 'Special access', administrator: 'Administrator' })) {
+    const { dom, calls } = runtime({ accessResult: () => Promise.resolve({ data: key }) });
+    await flush();
+    assert.equal(calls.accessReads, 0);
+    dom.window.document.querySelector('[aria-controls="account-menu-panel"]').click();
+    await flush();
+    assert.equal(dom.window.document.querySelector('[data-account-access]').textContent, 'Access level: ' + label);
+    assert.equal(calls.accessReads, 1);
+    dom.window.close();
+  }
+});
+
+test('Account access failure is explicit and reopening retries', async () => {
+  let result = { error: new Error('offline') };
+  const { dom } = runtime({ accessResult: () => Promise.resolve(result) });
+  await flush();
+  const toggle = dom.window.document.querySelector('[aria-controls="account-menu-panel"]');
+  toggle.click();
+  await flush();
+  assert.match(dom.window.document.querySelector('[data-account-access]').textContent, /unavailable/);
+  result = { data: 'premium' };
+  toggle.click();
+  toggle.click();
+  await flush();
+  assert.match(dom.window.document.querySelector('[data-account-access]').textContent, /Premium member/);
+  dom.window.close();
+});
+
+test('Profile shows access on load without opening Account', async () => {
+  const { dom, calls } = runtime({ profileAccess: true });
+  await flush();
+  assert.equal(dom.window.document.getElementById('profile-access-level').textContent, 'Access level: Registered member');
+  assert.equal(calls.accessReads, 1);
+  dom.window.close();
+});
+
+test('Account access response cannot restore a signed-out user’s tier', async () => {
+  const pending = deferred();
+  const { dom, client } = runtime({ accessResult: () => pending.promise });
+  await flush();
+  dom.window.document.querySelector('[aria-controls="account-menu-panel"]').click();
+  await flush();
+  client.auth.callback('SIGNED_OUT', null);
+  pending.resolve({ data: 'administrator' });
+  await flush();
+  assert.equal(dom.window.document.querySelector('[data-account-access]'), null);
+  dom.window.close();
+});
 
 function profileRaceRuntime(options = {}) {
   const users = {
