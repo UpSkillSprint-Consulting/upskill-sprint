@@ -362,9 +362,9 @@
     document.head.appendChild(style);
   }
 
-  function activateToolCard(options) {
-    if (!isEngineeringToolsPage()) return;
-    const card = document.getElementById(options.cardId);
+  function activateToolCard(options, catalogDocument) {
+    if (!catalogDocument && !isEngineeringToolsPage()) return;
+    const card = (catalogDocument || document).getElementById(options.cardId);
     if (!card) return;
 
     card.href = options.path;
@@ -390,13 +390,13 @@
     card.setAttribute('aria-label', administratorOnly ? options.ariaLabel + ' — Administrator access required' : options.ariaLabel);
   }
 
-  function activateAvailableTools() {
+  function activateAvailableTools(catalogDocument) {
     activateToolCard({
       cardId: 'materials-quality',
       path: MATERIAL_CHECKER_PATH,
       actionText: 'Open checker &rarr;',
       ariaLabel: 'Open Material Specification Compliance Checker'
-    });
+    }, catalogDocument);
     activateToolCard({
       cardId: 'engineering-calculators',
       path: CALCULATOR_PATH,
@@ -404,19 +404,24 @@
       description: 'Scientific calculations, descriptive statistics and regression, 16 probability distributions, reliability metrics, and nine hypothesis-test workflows.',
       actionText: 'Open calculator &rarr;',
       ariaLabel: 'Open Engineering and Statistics Calculator'
-    });
+    }, catalogDocument);
     activateToolCard({
       cardId: 'converters',
       path: UNIT_CONVERTER_PATH,
       actionText: 'Open converter &rarr;',
       ariaLabel: 'Open Engineering Unit Converter'
-    });
+    }, catalogDocument);
 
-    if (isEngineeringToolsPage()) {
+    if (!catalogDocument && isEngineeringToolsPage()) {
       const note = document.querySelector('.directory-note');
       if (note) note.textContent = 'Tools marked Administrator require administrator access. Each tool explains its assumptions and keeps the calculation method visible.';
     }
   }
+
+  window.UpskillToolCounts = function (catalogDocument) {
+    activateAvailableTools(catalogDocument);
+    return catalogDocument.querySelectorAll('.tool-row:not(.is-planned) .tool-status.available').length;
+  };
 
   function enhanceLeadMagnetCapture() {
     if (!isHomePage()) return;
