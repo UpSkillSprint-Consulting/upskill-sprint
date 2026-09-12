@@ -405,10 +405,10 @@
       };
 
       var STATS = [
-        { num: '24', label: 'Interactive lessons', icon: 'lessons' },
-        { num: '6', label: 'Subject areas', icon: 'subjects' },
-        { num: '4', label: 'Free engineering tools', icon: 'tools' },
-        { num: '$0', label: 'Cost, always', icon: 'cost' }
+        { key: 'lessons', num: '24', label: 'Interactive lessons', icon: 'lessons' },
+        { key: 'subjects', num: '6', label: 'Subject areas', icon: 'subjects' },
+        { key: 'tools', num: '4', label: 'Free engineering tools', icon: 'tools' },
+        { key: 'cost', num: '$0', label: 'Cost, always', icon: 'cost' }
       ];
 
       var container = document.getElementById('trust-stats');
@@ -418,7 +418,7 @@
       STATS.forEach(function (s) {
         html += '<div class="trust-stat">' +
           '<div class="badge">' + ICONS[s.icon] + '</div>' +
-          '<span class="num-wrap"><span class="glow"></span><span class="num" data-target="' + s.num + '">0</span></span>' +
+          '<span class="num-wrap"><span class="glow"></span><span class="num" data-stat-key="' + s.key + '" data-target="' + s.num + '">0</span></span>' +
           '<p class="lbl">' + s.label + '</p>' +
           '</div>';
       });
@@ -440,7 +440,43 @@
         requestAnimationFrame(step);
       }
 
+      function updateCounter(key, value) {
+        var el = container.querySelector('[data-stat-key="' + key + '"]');
+        if (!el || !Number.isFinite(value)) return;
+        el.setAttribute('data-target', String(value));
+        if (triggered) animateCount(el);
+      }
+
+      function loadLiveContentCounts() {
+        Promise.all([
+          fetch('/lessons.html', { credentials: 'same-origin' }).then(function (response) {
+            if (!response.ok) throw new Error('Lessons catalog unavailable');
+            return response.text();
+          }),
+          fetch('/engineering-tools.html', { credentials: 'same-origin' }).then(function (response) {
+            if (!response.ok) throw new Error('Tools catalog unavailable');
+            return response.text();
+          })
+        ]).then(function (pages) {
+          var parser = new DOMParser();
+          var lessonsDocument = parser.parseFromString(pages[0], 'text/html');
+          var toolsDocument = parser.parseFromString(pages[1], 'text/html');
+          var interactiveLessons = lessonsDocument.querySelectorAll('[data-lesson-item][data-interactive="true"]').length;
+          var subjectAreas = Array.from(lessonsDocument.querySelectorAll('[data-category-section]')).filter(function (section) {
+            return section.querySelector('[data-lesson-item]');
+          }).length;
+          var availableTools = toolsDocument.querySelectorAll('.tool-row .tool-status.available').length;
+
+          updateCounter('lessons', interactiveLessons);
+          updateCounter('subjects', subjectAreas);
+          updateCounter('tools', availableTools);
+        }).catch(function () {
+          // Keep the built-in fallback values if a catalog request fails.
+        });
+      }
+
       var triggered = false;
+      loadLiveContentCounts();
       function reveal() {
         if (triggered) return;
         triggered = true;
