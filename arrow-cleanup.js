@@ -308,26 +308,29 @@
 
       card.setAttribute('href', tool.path);
       card.classList.remove('is-planned');
-      card.setAttribute('aria-label', tool.label);
+      const administratorOnly = card.getAttribute('data-required-access') === 'administrator';
+      card.setAttribute('aria-label', administratorOnly ? tool.label + ' — Administrator access required' : tool.label);
 
       const status = card.querySelector('.tool-status');
       if (status) {
-        status.textContent = 'Available';
+        const statusText = administratorOnly ? 'Administrator' : 'Available';
+        if (status.textContent !== statusText) status.textContent = statusText;
         status.classList.add('available');
       }
 
       const action = card.querySelector('.tool-link');
       if (action) {
-        action.textContent = tool.action;
+        const actionText = administratorOnly ? 'Administrator access' : tool.action;
+        if (action.textContent !== actionText) action.textContent = actionText;
         action.classList.remove('secondary');
         action.classList.add('primary');
       }
 
       const heading = card.querySelector('.tool-content h2');
-      if (heading && tool.title) heading.innerHTML = tool.title;
+      if (heading && tool.title && heading.innerHTML !== tool.title) heading.innerHTML = tool.title;
 
       const description = card.querySelector('.tool-content p');
-      if (description && tool.description) description.textContent = tool.description;
+      if (description && tool.description && description.textContent !== tool.description) description.textContent = tool.description;
     });
 
     document.querySelectorAll('a[href$="engineering-tools.html"], a[href="/engineering-tools"]').forEach(function (link) {
