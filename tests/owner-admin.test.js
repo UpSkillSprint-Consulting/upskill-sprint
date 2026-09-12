@@ -4,6 +4,30 @@ const fs = require('node:fs');
 const path = require('node:path');
 const read = p => fs.readFileSync(path.join(__dirname,'..',p),'utf8');
 const vm = require('node:vm');
+test('admin theme switch toggles both ways and persists via the shared controller', () => {
+ const html=read('admin-access.html');
+ assert.match(html, /class="theme-toggle" data-theme-toggle="true" role="switch"/);
+ assert.ok(html.indexOf('class="theme-toggle"') < html.indexOf('id="admin-controls"'));
+ const events={}, saved={};
+ class Element {constructor(){this.dataset={};this.attrs={};} closest(){return this;} setAttribute(k,v){this.attrs[k]=v;}}
+ const toggle=new Element();
+ const root={dataset:{},style:{}};
+ const meta={};
+ vm.runInNewContext(read('theme.js'), {Element,CustomEvent:class {},
+   localStorage:{getItem:k=>saved[k]||'dark',setItem:(k,v)=>{saved[k]=v;}},
+   document:{documentElement:root,readyState:'loading',head:{appendChild(){}},
+     querySelector:()=>meta, querySelectorAll:()=>[toggle],getElementById:()=>null,
+     createElement:()=>({}),addEventListener:(event,fn)=>{events[event]=fn;}},
+   window:{location:{pathname:'/admin-access'},matchMedia:()=>({matches:false}),dispatchEvent(){},addEventListener(){}}
+ });
+ assert.equal(root.dataset.theme,'dark');
+ events.click({target:toggle,preventDefault(){}});
+ assert.equal(root.dataset.theme,'light');assert.equal(saved['upskill-theme'],'light');
+ assert.equal(toggle.attrs['aria-checked'],'false');
+ events.click({target:toggle,preventDefault(){}});
+ assert.equal(root.dataset.theme,'dark');assert.equal(saved['upskill-theme'],'dark');
+ assert.equal(toggle.attrs['aria-label'],'Switch to light mode');
+});
 const flush = () => new Promise(resolve => setImmediate(resolve));
 function screen(rpc) {
  const nodes = {};
