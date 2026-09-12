@@ -701,7 +701,7 @@ Run all of these from the repo root and confirm each passes:
    build-parseable.
 2. **Netlify build command** — must exit 0 (this is what deploy runs):
    ```
-   node --test tests/test-bank*.test.js && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs
+   node scripts/validate-simple-test-bank.mjs && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs
    ```
    The build **mutates** `chi-square-lesson-library.js` and generates files under
    `engineering-tools/` and some `lessons/…` outputs. **Do not commit build-generated
