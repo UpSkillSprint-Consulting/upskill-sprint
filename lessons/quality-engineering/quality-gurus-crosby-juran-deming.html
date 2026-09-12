@@ -1,0 +1,2994 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Quality Gurus: Crosby, Juran, and Deming",
+  "slug": "quality-gurus-crosby-juran-deming",
+  "category": "Quality Engineering",
+  "category_slug": "quality-engineering",
+  "level": "Beginner",
+  "lesson_type": "General",
+  "estimated_minutes": 45,
+  "interactive": true,
+  "card_title": "Quality Gurus: Crosby, Juran, and Deming",
+  "card_description": "Compare Crosby, Juran, and Deming through practical quality decisions, a steel-mill case, interactive practice, and exam-ready distinctions.",
+  "search_keywords": ["quality gurus", "crosby", "juran", "deming", "zero defects", "quality trilogy", "pdsa", "system thinking", "price of nonconformance", "fitness for use"],
+  "suggested_github_path": "lessons/quality-engineering/quality-gurus-crosby-juran-deming.html"
+}
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quality Gurus: Crosby, Juran, and Deming</title>
+  <meta name="description" content="Compare Crosby, Juran, and Deming through practical quality decisions, interactive exercises, and exam-ready distinctions.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/quality-engineering/quality-gurus-crosby-juran-deming">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+
+  <style>
+    :root {
+      color-scheme: light dark;
+      --guru-page-bg: #f4f7fa;
+      --guru-surface: #ffffff;
+      --guru-surface-2: #eaf0f5;
+      --guru-ink: #172536;
+      --guru-text: #33465a;
+      --guru-muted: #526579;
+      --guru-border: #71869a;
+      --guru-navy: #102f4b;
+      --guru-teal: #086d78;
+      --guru-teal-soft: #dff4f3;
+      --guru-amber: #965900;
+      --guru-amber-soft: #fff0cf;
+      --guru-blue: #185f91;
+      --guru-blue-soft: #e4f1fa;
+      --guru-green: #176b45;
+      --guru-green-soft: #e3f4eb;
+      --guru-red: #9c2f35;
+      --guru-red-soft: #fbe8e9;
+      --guru-shadow: 0 16px 42px rgba(16, 47, 75, 0.11);
+      --guru-radius: 18px;
+      --guru-heading: Georgia, "Times New Roman", serif;
+      --guru-mono: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      --guru-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #lesson-content {
+      margin: 0;
+      background-color: var(--guru-page-bg);
+      color: var(--guru-text);
+      font-family: var(--guru-body);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    #lesson-content *,
+    #lesson-content *::before,
+    #lesson-content *::after {
+      box-sizing: border-box;
+    }
+
+    #lesson-content button,
+    #lesson-content input,
+    #lesson-content select {
+      font: inherit;
+    }
+
+    #lesson-content a {
+      color: var(--guru-blue);
+    }
+
+    #lesson-content :focus-visible,
+    .quiz-section :focus-visible,
+    .guru-back-link:focus-visible {
+      outline: 3px solid var(--guru-amber);
+      outline-offset: 3px;
+    }
+
+    #lesson-content h1,
+    #lesson-content h2,
+    #lesson-content h3,
+    #lesson-content h4 {
+      color: var(--guru-ink);
+      line-height: 1.15;
+      text-wrap: balance;
+    }
+
+    #lesson-content h1 {
+      margin: 0.18em 0 0.32em;
+      font-size: clamp(2.55rem, 7vw, 5.15rem);
+      letter-spacing: -0.045em;
+    }
+
+    #lesson-content h2 {
+      margin: 0 0 0.55em;
+      font-size: clamp(2rem, 4.3vw, 3.25rem);
+      letter-spacing: -0.025em;
+    }
+
+    #lesson-content h3 {
+      margin: 1.2em 0 0.5em;
+      font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+    }
+
+    #lesson-content h4 {
+      margin: 0.8em 0 0.4em;
+      font-size: 1.08rem;
+    }
+
+    #lesson-content p {
+      margin: 0.65em 0 1em;
+    }
+
+    #lesson-content ul,
+    #lesson-content ol {
+      padding-left: 1.35rem;
+    }
+
+    #lesson-content li {
+      margin: 0.42rem 0;
+    }
+
+    .guru-shell {
+      width: min(1120px, calc(100% - 32px));
+      margin-inline: auto;
+    }
+
+    .guru-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(290px, 0.8fr);
+      gap: 42px;
+      align-items: center;
+      padding: 64px 0 44px;
+    }
+
+    .guru-hero--opening {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+
+    .guru-opening-map {
+      margin: 0;
+    }
+
+    .guru-opening-map .guru-reference-image {
+      padding: 12px;
+      background-color: #eeece5;
+      color: #172536;
+    }
+
+    .guru-image-link {
+      display: inline-flex;
+      margin-top: 7px;
+      font-weight: 800;
+    }
+
+    .guru-system-viz {
+      --guru-live-accent: var(--guru-teal);
+      position: relative;
+      isolation: isolate;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--guru-border);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(98, 210, 207, 0.16), transparent 31%),
+        linear-gradient(145deg, var(--guru-surface), var(--guru-surface-2));
+      color: var(--guru-text);
+      box-shadow: var(--guru-shadow);
+    }
+
+    .guru-system-viz[data-active-node="value"],
+    .guru-system-viz[data-active-lens="crosby"] { --guru-live-accent: #dc6949; }
+    .guru-system-viz[data-active-node="system"] { --guru-live-accent: #087985; }
+    .guru-system-viz[data-active-node="improve"],
+    .guru-system-viz[data-active-lens="juran"] { --guru-live-accent: #b97800; }
+    .guru-system-viz[data-active-node="results"],
+    .guru-system-viz[data-active-lens="deming"] { --guru-live-accent: #356f9e; }
+
+    .guru-system-viz::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(8, 109, 120, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(8, 109, 120, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      content: "";
+      mask-image: linear-gradient(to bottom, #000, transparent 76%);
+      pointer-events: none;
+    }
+
+    .guru-system-viz-head {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 30px 24px 4px;
+      text-align: center;
+    }
+
+    .guru-system-viz-head h2 {
+      margin: 8px 0 6px !important;
+      font-size: clamp(1.75rem, 3.2vw, 2.65rem) !important;
+      letter-spacing: -0.025em !important;
+    }
+
+    .guru-system-viz-head > p:last-child {
+      max-width: 720px;
+      margin: 0 auto;
+      color: var(--guru-muted);
+    }
+
+    .guru-system-stage {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(270px, 340px) minmax(0, 1fr);
+      grid-template-areas:
+        "value wheel system"
+        "improve wheel results";
+      gap: 20px 34px;
+      align-items: center;
+      min-height: 560px;
+      padding: 24px 30px 30px;
+    }
+
+    .guru-system-connectors {
+      position: absolute;
+      inset: 20px 16px;
+      z-index: 0;
+      width: calc(100% - 32px);
+      height: calc(100% - 40px);
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .guru-system-connectors path {
+      fill: none;
+      stroke: var(--guru-border);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-dasharray: 9 12;
+      opacity: 0.48;
+      animation: guru-flow 2.8s linear infinite;
+      transition: stroke 240ms ease, stroke-width 240ms ease, opacity 240ms ease;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .guru-system-connectors path.is-active {
+      stroke: var(--guru-teal);
+      stroke-width: 5;
+      opacity: 1;
+      filter: drop-shadow(0 0 5px rgba(8, 109, 120, 0.55));
+    }
+
+    .guru-system-card {
+      --guru-node-accent: var(--guru-teal);
+      --guru-node-soft: var(--guru-teal-soft);
+      position: relative;
+      z-index: 2;
+      display: flex;
+      width: 100%;
+      min-height: 205px;
+      flex-direction: column;
+      gap: 12px;
+      padding: 22px;
+      overflow: hidden;
+      border: 1px solid var(--guru-border);
+      border-radius: 20px;
+      background: linear-gradient(145deg, var(--guru-surface) 35%, var(--guru-node-soft));
+      color: var(--guru-text);
+      box-shadow: 0 13px 30px rgba(16, 47, 75, 0.1);
+      text-align: left;
+      cursor: pointer;
+      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+    }
+
+    .guru-system-card::before {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 6px;
+      background-color: var(--guru-node-accent);
+      content: "";
+      transform: scaleY(0.34);
+      transform-origin: center;
+      transition: transform 220ms ease;
+    }
+
+    .guru-system-card:hover,
+    .guru-system-card:focus-visible,
+    .guru-system-card.is-active,
+    .guru-system-card.is-related {
+      border-color: var(--guru-node-accent);
+      box-shadow: 0 18px 38px rgba(16, 47, 75, 0.18);
+      transform: translateY(-4px);
+    }
+
+    .guru-system-card.is-active {
+      box-shadow: 0 0 0 3px var(--guru-node-soft), 0 20px 42px rgba(16, 47, 75, 0.2);
+    }
+
+    .guru-system-card:hover::before,
+    .guru-system-card:focus-visible::before,
+    .guru-system-card.is-active::before,
+    .guru-system-card.is-related::before {
+      transform: scaleY(1);
+    }
+
+    .guru-system-card--value {
+      --guru-node-accent: #dc6949;
+      --guru-node-soft: #fff0e9;
+      grid-area: value;
+    }
+
+    .guru-system-card--system {
+      --guru-node-accent: #087985;
+      --guru-node-soft: #e1f4f3;
+      grid-area: system;
+    }
+
+    .guru-system-card--improve {
+      --guru-node-accent: #b97800;
+      --guru-node-soft: #fff0c9;
+      grid-area: improve;
+    }
+
+    .guru-system-card--results {
+      --guru-node-accent: #356f9e;
+      --guru-node-soft: #e7f0f8;
+      grid-area: results;
+    }
+
+    .guru-system-card-head {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .guru-system-step {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 50%;
+      background-color: var(--guru-node-accent);
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .guru-system-card.is-active .guru-system-step {
+      animation: guru-node-pulse 1.8s ease-in-out infinite;
+    }
+
+    .guru-system-card--improve.is-active .guru-system-card-items span {
+      animation: guru-cycle-step 1.6s ease-in-out both;
+    }
+
+    .guru-system-card--improve.is-active .guru-system-card-items span:nth-child(2) { animation-delay: 120ms; }
+    .guru-system-card--improve.is-active .guru-system-card-items span:nth-child(3) { animation-delay: 240ms; }
+    .guru-system-card--improve.is-active .guru-system-card-items span:nth-child(4) { animation-delay: 360ms; }
+
+    .guru-system-card-title {
+      color: var(--guru-ink);
+      font: 800 clamp(1.05rem, 1.7vw, 1.35rem)/1.2 var(--guru-body);
+    }
+
+    .guru-system-card-summary {
+      margin: 0 !important;
+      color: var(--guru-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .guru-system-card-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: auto;
+    }
+
+    .guru-system-card-items span {
+      display: inline-flex;
+      min-height: 31px;
+      align-items: center;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background-color: var(--guru-node-soft);
+      color: var(--guru-ink);
+      font-size: 0.76rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .guru-system-wheel {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-area: wheel;
+      width: min(100%, 340px);
+      aspect-ratio: 1;
+      place-items: center;
+      justify-self: center;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: #ffffff;
+      filter: drop-shadow(0 22px 24px rgba(16, 47, 75, 0.24));
+      cursor: pointer;
+      transition: filter 220ms ease, transform 220ms ease;
+    }
+
+    .guru-system-wheel:hover,
+    .guru-system-wheel:focus-visible {
+      filter: drop-shadow(0 25px 30px rgba(8, 109, 120, 0.34));
+      transform: scale(1.025);
+    }
+
+    .guru-system-wheel-aura,
+    .guru-system-orbit,
+    .guru-system-wheel-hub {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .guru-system-wheel-aura {
+      inset: -4%;
+      background: conic-gradient(from 20deg, #dc6949, #d89a16, #087985, #356f9e, #dc6949);
+      opacity: 0.82;
+      animation: guru-wheel-spin 24s linear infinite;
+      -webkit-mask: radial-gradient(circle, transparent 67%, #000 69%);
+      mask: radial-gradient(circle, transparent 67%, #000 69%);
+    }
+
+    .guru-system-orbit--outer {
+      inset: 3%;
+      border: 3px dashed #60d8da;
+      animation: guru-wheel-spin 18s linear infinite;
+    }
+
+    .guru-system-orbit--inner {
+      inset: 12%;
+      border: 2px solid rgba(255, 255, 255, 0.42);
+      border-right-color: transparent;
+      border-left-color: transparent;
+      animation: guru-wheel-spin-reverse 11s linear infinite;
+    }
+
+    .guru-system-orbit-node {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      background-color: #60d8da;
+      box-shadow: 0 0 14px rgba(96, 216, 218, 0.92);
+    }
+
+    .guru-system-orbit-node:nth-child(1) { top: -9px; left: calc(50% - 8px); }
+    .guru-system-orbit-node:nth-child(2) { top: calc(50% - 8px); right: -9px; }
+    .guru-system-orbit-node:nth-child(3) { bottom: -9px; left: calc(50% - 8px); }
+    .guru-system-orbit-node:nth-child(4) { top: calc(50% - 8px); left: -9px; }
+
+    .guru-system-wheel-hub {
+      inset: 16%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      border: 7px solid rgba(255, 255, 255, 0.86);
+      background:
+        radial-gradient(circle at 40% 28%, rgba(96, 216, 218, 0.2), transparent 34%),
+        linear-gradient(145deg, #173f60, #0d2d49);
+      box-shadow: inset 0 0 40px rgba(96, 216, 218, 0.14);
+      text-align: center;
+    }
+
+    .guru-system-wheel-kicker {
+      color: #8ce1e2;
+      font: 850 0.68rem/1.25 var(--guru-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .guru-system-wheel-title {
+      margin: 8px 0;
+      color: #ffffff;
+      font: 800 clamp(1.5rem, 3vw, 2.35rem)/1.02 var(--guru-heading);
+    }
+
+    .guru-system-wheel-focus {
+      max-width: 220px;
+      color: #d9f1f2;
+      font-size: 0.74rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .guru-system-wheel-control {
+      display: inline-flex;
+      min-height: 28px;
+      margin-top: 12px;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      border: 1px solid rgba(255, 255, 255, 0.48);
+      border-radius: 999px;
+      color: #ffffff;
+      font-size: 0.67rem;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .guru-system-wheel-control::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #60d8da;
+      box-shadow: 0 0 8px #60d8da;
+      content: "";
+    }
+
+    .guru-system-viz[data-motion-paused="true"] .guru-system-wheel-aura,
+    .guru-system-viz[data-motion-paused="true"] .guru-system-orbit,
+    .guru-system-viz[data-motion-paused="true"] .guru-system-connectors path,
+    .guru-system-viz[data-motion-paused="true"] .guru-system-step,
+    .guru-system-viz[data-motion-paused="true"] .guru-system-card-items span {
+      animation-play-state: paused;
+    }
+
+    .guru-system-viz[data-motion-paused="true"] .guru-system-wheel-control::before {
+      background-color: #f0bd51;
+      box-shadow: none;
+    }
+
+    .guru-system-detail {
+      display: grid;
+      grid-template-columns: auto minmax(180px, 0.7fr) minmax(260px, 1.3fr);
+      gap: 16px;
+      align-items: center;
+      margin: 0 30px 24px;
+      padding: 16px 18px;
+      border-left: 5px solid var(--guru-live-accent);
+      border-radius: 0 14px 14px 0;
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+      box-shadow: 0 10px 24px rgba(16, 47, 75, 0.09);
+    }
+
+    .guru-system-detail-label {
+      color: var(--guru-live-accent);
+      font: 850 0.72rem/1.3 var(--guru-mono);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .guru-system-detail strong {
+      color: var(--guru-ink);
+      font-size: 1rem;
+    }
+
+    .guru-system-detail span:last-child {
+      color: var(--guru-muted);
+      font-size: 0.9rem;
+    }
+
+    .guru-lens-deck {
+      padding: 24px 30px 28px;
+      background: linear-gradient(135deg, #153b59, #0e5360);
+      color: #ffffff;
+    }
+
+    .guru-lens-deck-head {
+      display: flex;
+      gap: 12px;
+      align-items: end;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .guru-lens-deck-head strong {
+      color: #ffffff;
+      font: 850 0.78rem/1.35 var(--guru-mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .guru-lens-deck-head span {
+      color: #d8eef0;
+      font-size: 0.78rem;
+    }
+
+    .guru-lens-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .guru-lens-button {
+      --guru-lens-accent: #60d8da;
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 11px;
+      min-height: 96px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 15px;
+      background-color: rgba(255, 255, 255, 0.07);
+      color: #ffffff;
+      text-align: left;
+      cursor: pointer;
+      transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease;
+    }
+
+    .guru-lens-button:hover,
+    .guru-lens-button:focus-visible,
+    .guru-lens-button.is-active {
+      border-color: var(--guru-lens-accent);
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
+    }
+
+    .guru-lens-button--crosby { --guru-lens-accent: #ff9678; }
+    .guru-lens-button--juran { --guru-lens-accent: #ffd05e; }
+    .guru-lens-button--deming { --guru-lens-accent: #60d8da; }
+
+    .guru-lens-button-badge {
+      display: grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border-radius: 50%;
+      background-color: var(--guru-lens-accent);
+      color: #102f4b;
+      font-weight: 950;
+    }
+
+    .guru-lens-button-copy strong,
+    .guru-lens-button-copy span {
+      display: block;
+    }
+
+    .guru-lens-button-copy strong {
+      color: #ffffff;
+      font: 800 1.13rem/1.25 var(--guru-heading);
+    }
+
+    .guru-lens-button-copy span {
+      margin-top: 5px;
+      color: #d8eef0;
+      font-size: 0.74rem;
+      line-height: 1.35;
+    }
+
+    .guru-system-viz > figcaption {
+      padding: 14px 22px;
+      border-top: 1px solid var(--guru-border);
+      background-color: var(--guru-surface);
+      color: var(--guru-muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    @keyframes guru-wheel-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes guru-wheel-spin-reverse {
+      to { transform: rotate(-360deg); }
+    }
+
+    @keyframes guru-flow {
+      to { stroke-dashoffset: -42; }
+    }
+
+    @keyframes guru-node-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(8, 109, 120, 0); }
+      50% { box-shadow: 0 0 0 7px var(--guru-node-soft); }
+    }
+
+    @keyframes guru-cycle-step {
+      0% { opacity: 0.55; transform: translateY(4px) scale(0.96); }
+      45%, 100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .guru-opening-bridge {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding: 0 18px 18px;
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+    }
+
+    .guru-opening-bridge p {
+      margin: 0 !important;
+      padding: 14px;
+      border-left: 4px solid var(--guru-teal);
+      background-color: var(--guru-surface-2);
+      color: var(--guru-text);
+      font-size: 0.9rem;
+    }
+
+    .guru-eyebrow,
+    .guru-section-label {
+      margin: 0;
+      color: var(--guru-teal);
+      font: 800 0.78rem/1.35 var(--guru-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .guru-lead {
+      max-width: 760px;
+      color: var(--guru-muted);
+      font-size: clamp(1.08rem, 2vw, 1.28rem);
+    }
+
+    .guru-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 24px;
+    }
+
+    .guru-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 7px 11px;
+      border: 1px solid var(--guru-border);
+      border-radius: 999px;
+      background-color: var(--guru-surface);
+      color: var(--guru-ink);
+      font-size: 0.86rem;
+      font-weight: 750;
+    }
+
+    .guru-hero-panel {
+      padding: 26px;
+      border: 1px solid var(--guru-border);
+      border-radius: 26px;
+      background: linear-gradient(145deg, var(--guru-navy), #185f72);
+      color: #ffffff;
+      box-shadow: var(--guru-shadow);
+    }
+
+    .guru-hero-panel h2 {
+      margin: 0 0 16px;
+      color: #ffffff;
+      font-size: 1.25rem;
+      letter-spacing: 0;
+    }
+
+    .guru-lens-question {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 13px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.28);
+      color: #ffffff;
+    }
+
+    .guru-lens-question:first-of-type {
+      border-top: 0;
+    }
+
+    .guru-lens-letter {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border: 2px solid rgba(255, 255, 255, 0.76);
+      border-radius: 50%;
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .guru-lens-question strong {
+      display: block;
+      color: #ffffff;
+    }
+
+    .guru-lens-question span:last-child {
+      color: #e8f4f7;
+      font-size: 0.91rem;
+    }
+
+    .guru-toc-wrap {
+      position: relative;
+      z-index: 1;
+      border-block: 1px solid var(--guru-border);
+      background-color: var(--guru-page-bg);
+      color: var(--guru-text);
+    }
+
+    .guru-toc {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 10px 0;
+      scrollbar-width: thin;
+    }
+
+    .guru-toc a {
+      flex: 0 0 auto;
+      padding: 7px 10px;
+      border-radius: 8px;
+      color: var(--guru-muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .guru-toc a:hover {
+      background-color: var(--guru-surface-2);
+      color: var(--guru-ink);
+    }
+
+    .guru-section {
+      padding: 68px 0;
+      border-bottom: 1px solid var(--guru-border);
+    }
+
+    .guru-section-head {
+      max-width: 820px;
+      margin-bottom: 28px;
+    }
+
+    .guru-section-head > p:last-child {
+      color: var(--guru-muted);
+      font-size: 1.05rem;
+    }
+
+    .guru-profile {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+      margin: 0 0 30px;
+      padding: 18px;
+      border: 1px solid var(--guru-border);
+      border-radius: var(--guru-radius);
+      background-color: var(--guru-surface-2);
+      color: var(--guru-text);
+    }
+
+    .guru-portrait { margin: 0; }
+
+    .guru-portrait img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border: 1px solid var(--guru-border);
+      border-radius: 14px;
+      background-color: var(--guru-surface);
+      object-fit: cover;
+      object-position: center top;
+      box-shadow: 0 10px 24px rgba(13, 39, 62, 0.16);
+    }
+
+    .guru-portrait--deming img { object-position: 58% center; }
+
+    .guru-portrait figcaption {
+      margin-top: 8px;
+      color: var(--guru-muted);
+      font-size: 0.72rem;
+      line-height: 1.45;
+    }
+
+    .guru-portrait figcaption a { color: var(--guru-blue); }
+    .guru-profile-copy p { margin: 0.35rem 0 0.8rem; }
+    .guru-profile-copy p:last-child { margin-bottom: 0; }
+
+    .guru-profile-signature {
+      color: var(--guru-ink);
+      font: 800 1.08rem/1.5 var(--guru-heading);
+    }
+
+    .guru-reference-figure {
+      margin: 30px 0;
+      overflow: hidden;
+      border: 1px solid var(--guru-border);
+      border-radius: var(--guru-radius);
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+      box-shadow: var(--guru-shadow);
+    }
+
+    .guru-reference-image {
+      padding: 18px;
+      background-color: #f7f7f9;
+      color: #172536;
+    }
+
+    .guru-reference-image img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    .guru-reference-figure figcaption {
+      padding: 12px 18px;
+      border-top: 1px solid var(--guru-border);
+      background-color: var(--guru-surface);
+      color: var(--guru-muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .guru-diagram-reading {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      padding: 0 18px 18px;
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+    }
+
+    .guru-diagram-reading article {
+      padding: 16px;
+      border: 1px solid var(--guru-border);
+      border-radius: 12px;
+      background-color: var(--guru-surface-2);
+      color: var(--guru-text);
+    }
+
+    .guru-diagram-reading h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .guru-diagram-reading p {
+      margin: 0 !important;
+      font-size: 0.9rem;
+    }
+
+    .guru-grid-2,
+    .guru-grid-3,
+    .guru-grid-4 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .guru-grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .guru-grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .guru-grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .guru-card,
+    .guru-callout,
+    .guru-worked,
+    .guru-lab,
+    .guru-case-step {
+      border: 1px solid var(--guru-border);
+      border-radius: var(--guru-radius);
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+    }
+
+    .guru-card,
+    .guru-case-step {
+      padding: 22px;
+    }
+
+    .guru-card h3,
+    .guru-card h4,
+    .guru-case-step h3 {
+      margin-top: 0;
+    }
+
+    .guru-number {
+      display: inline-grid;
+      min-width: 36px;
+      height: 36px;
+      margin-bottom: 14px;
+      padding-inline: 8px;
+      place-items: center;
+      border-radius: 10px;
+      background-color: var(--guru-teal);
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .guru-card-crosby {
+      border-top: 5px solid var(--guru-teal);
+    }
+
+    .guru-card-juran {
+      border-top: 5px solid var(--guru-amber);
+    }
+
+    .guru-card-deming {
+      border-top: 5px solid var(--guru-blue);
+    }
+
+    .guru-callout {
+      margin: 22px 0;
+      padding: 18px 20px;
+      border-left: 5px solid var(--guru-blue);
+      background-color: var(--guru-blue-soft);
+      color: var(--guru-text);
+    }
+
+    .guru-callout strong {
+      color: var(--guru-ink);
+    }
+
+    .guru-callout.guru-callout-warning {
+      border-left-color: var(--guru-amber);
+      background-color: var(--guru-amber-soft);
+      color: var(--guru-text);
+    }
+
+    .guru-callout.guru-callout-success {
+      border-left-color: var(--guru-green);
+      background-color: var(--guru-green-soft);
+      color: var(--guru-text);
+    }
+
+    .guru-memory {
+      display: block;
+      margin: 18px 0;
+      padding: 16px 18px;
+      overflow-x: auto;
+      border-radius: 13px;
+      background-color: var(--guru-navy);
+      color: #ffffff;
+      font: 800 1rem/1.55 var(--guru-mono);
+      text-align: center;
+    }
+
+    .guru-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--guru-border);
+      border-radius: 14px;
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .guru-table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+    }
+
+    .guru-table th,
+    .guru-table td {
+      padding: 13px 15px;
+      border-bottom: 1px solid var(--guru-border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .guru-table th {
+      background-color: var(--guru-surface-2);
+      color: var(--guru-ink);
+      font-size: 0.79rem;
+      letter-spacing: 0.045em;
+      text-transform: uppercase;
+    }
+
+    .guru-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .guru-worked {
+      margin-top: 26px;
+      padding: 24px;
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+      box-shadow: var(--guru-shadow);
+    }
+
+    .guru-worked h3 {
+      margin-top: 0;
+    }
+
+    .guru-lab {
+      margin-top: 28px;
+      overflow: hidden;
+      box-shadow: var(--guru-shadow);
+    }
+
+    .guru-lab-head {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--guru-border);
+      background-color: var(--guru-surface-2);
+      color: var(--guru-text);
+    }
+
+    .guru-lab-head h3 {
+      margin: 0 0 5px;
+    }
+
+    .guru-lab-head p {
+      margin: 0;
+      color: var(--guru-muted);
+    }
+
+    .guru-lab-body {
+      padding: 24px;
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+    }
+
+    .guru-input-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .guru-field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .guru-field label {
+      color: var(--guru-ink);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .guru-field input,
+    .guru-match-row select {
+      width: 100%;
+      min-height: 44px;
+      padding: 9px 11px;
+      border: 1px solid var(--guru-border);
+      border-radius: 9px;
+      background-color: var(--guru-surface);
+      color: var(--guru-ink);
+    }
+
+    .guru-button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .guru-button {
+      min-height: 44px;
+      padding: 10px 16px;
+      border: 2px solid var(--guru-teal);
+      border-radius: 10px;
+      background-color: var(--guru-teal);
+      color: #ffffff;
+      font-weight: 800;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .guru-button:hover {
+      filter: brightness(0.92);
+    }
+
+    .guru-button.guru-button-secondary {
+      border-color: var(--guru-border);
+      background-color: var(--guru-surface);
+      color: var(--guru-ink);
+    }
+
+    .guru-result {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid var(--guru-border);
+      border-left: 5px solid var(--guru-green);
+      border-radius: 12px;
+      background-color: var(--guru-green-soft);
+      color: var(--guru-text);
+    }
+
+    .guru-result strong {
+      display: block;
+      color: var(--guru-ink);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+    }
+
+    .guru-result small {
+      color: var(--guru-muted);
+    }
+
+    .guru-pareto {
+      display: grid;
+      gap: 13px;
+      margin-top: 20px;
+      padding: 22px;
+      border: 1px solid var(--guru-border);
+      border-radius: var(--guru-radius);
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+    }
+
+    .guru-bar-row {
+      display: grid;
+      grid-template-columns: minmax(130px, 0.9fr) minmax(180px, 2fr) 48px;
+      gap: 12px;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .guru-bar-track {
+      height: 14px;
+      overflow: hidden;
+      border-radius: 999px;
+      background-color: var(--guru-surface-2);
+      color: var(--guru-text);
+    }
+
+    .guru-bar-fill {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background-color: var(--guru-teal);
+    }
+
+    .guru-pdsa {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: guru-pdsa;
+    }
+
+    .guru-pdsa li {
+      counter-increment: guru-pdsa;
+      position: relative;
+      min-height: 190px;
+      margin: 0;
+      padding: 58px 18px 18px;
+      border: 1px solid var(--guru-border);
+      border-radius: 15px;
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+    }
+
+    .guru-pdsa li::before {
+      content: counter(guru-pdsa);
+      position: absolute;
+      top: 16px;
+      left: 18px;
+      display: grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: 50%;
+      background-color: var(--guru-blue);
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .guru-pdsa strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--guru-ink);
+      font-size: 1.04rem;
+    }
+
+    .guru-details {
+      margin: 10px 0;
+      border: 1px solid var(--guru-border);
+      border-radius: 13px;
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+    }
+
+    .guru-details summary {
+      min-height: 48px;
+      padding: 14px 17px;
+      color: var(--guru-ink);
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .guru-details > div {
+      padding: 0 18px 18px;
+    }
+
+    .guru-case {
+      display: grid;
+      gap: 14px;
+      counter-reset: guru-case;
+    }
+
+    .guru-case-step {
+      counter-increment: guru-case;
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .guru-case-step::before {
+      content: counter(guru-case);
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 12px;
+      background-color: var(--guru-navy);
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .guru-case-step h3 {
+      margin-bottom: 4px;
+    }
+
+    .guru-case-step p:last-child {
+      margin-bottom: 0;
+    }
+
+    .guru-match-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .guru-match-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(190px, 0.45fr);
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid var(--guru-border);
+      border-radius: 12px;
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+    }
+
+    .guru-match-row.is-right {
+      border-color: var(--guru-green);
+      background-color: var(--guru-green-soft);
+      color: var(--guru-text);
+    }
+
+    .guru-match-row.is-wrong {
+      border-color: var(--guru-red);
+      background-color: var(--guru-red-soft);
+      color: var(--guru-text);
+    }
+
+    .guru-match-statement {
+      color: var(--guru-ink);
+      font-weight: 750;
+    }
+
+    .guru-match-feedback {
+      grid-column: 1 / -1;
+      margin: 0;
+      color: var(--guru-text);
+      font-size: 0.9rem;
+    }
+
+    .guru-match-summary {
+      display: none;
+    }
+
+    .guru-match-summary.is-visible {
+      display: block;
+    }
+
+    .guru-trap-list {
+      display: grid;
+      gap: 12px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .guru-trap-list li {
+      margin: 0;
+      padding: 16px 18px;
+      border: 1px solid var(--guru-border);
+      border-left: 5px solid var(--guru-amber);
+      border-radius: 12px;
+      background-color: var(--guru-surface);
+      color: var(--guru-text);
+    }
+
+    .guru-trap-list strong {
+      color: var(--guru-ink);
+    }
+
+    .guru-final-map {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: stretch;
+      margin-top: 20px;
+    }
+
+    .guru-final-map span {
+      flex: 1 1 160px;
+      padding: 14px;
+      border: 1px solid var(--guru-border);
+      border-radius: 12px;
+      background-color: var(--guru-surface);
+      color: var(--guru-ink);
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .guru-final-map b {
+      color: var(--guru-teal);
+    }
+
+    .guru-sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    @media (max-width: 900px) {
+      .guru-system-stage {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-areas:
+          "wheel wheel"
+          "value system"
+          "improve results";
+        min-height: 0;
+      }
+
+      .guru-system-connectors {
+        display: none;
+      }
+
+      .guru-system-wheel {
+        width: min(76vw, 320px);
+        margin-block: 8px 16px;
+      }
+
+      .guru-system-detail {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+
+      .guru-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .guru-hero-panel {
+        max-width: 700px;
+      }
+
+      .guru-grid-3,
+      .guru-grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .guru-pdsa {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .guru-system-viz {
+        border-radius: 20px;
+      }
+
+      .guru-system-viz-head {
+        padding: 24px 16px 2px;
+      }
+
+      .guru-system-viz-head h2 {
+        font-size: clamp(1.55rem, 8vw, 2rem) !important;
+      }
+
+      .guru-system-stage {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "wheel"
+          "value"
+          "system"
+          "improve"
+          "results";
+        gap: 14px;
+        padding: 18px 14px 20px;
+      }
+
+      .guru-system-wheel {
+        width: min(78vw, 270px);
+      }
+
+      .guru-system-card {
+        min-height: 0;
+        padding: 18px;
+      }
+
+      .guru-system-card:hover,
+      .guru-system-card:focus-visible,
+      .guru-system-card.is-active,
+      .guru-system-card.is-related {
+        transform: none;
+      }
+
+      .guru-system-detail {
+        margin: 0 14px 18px;
+        padding: 14px;
+      }
+
+      .guru-lens-deck {
+        padding: 22px 14px;
+      }
+
+      .guru-lens-deck-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .guru-lens-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .guru-lens-button {
+        min-height: 78px;
+      }
+
+      .guru-system-viz > figcaption {
+        padding: 13px 16px;
+      }
+
+      .guru-shell {
+        width: min(100% - 22px, 1120px);
+      }
+
+      .guru-hero {
+        gap: 28px;
+        padding-top: 44px;
+      }
+
+      .guru-section {
+        padding: 52px 0;
+      }
+
+      .guru-grid-2,
+      .guru-grid-3,
+      .guru-grid-4,
+      .guru-input-grid,
+      .guru-pdsa {
+        grid-template-columns: 1fr;
+      }
+
+      .guru-profile {
+        grid-template-columns: 112px minmax(0, 1fr);
+        gap: 16px;
+        padding: 14px;
+      }
+
+      .guru-portrait figcaption { font-size: 0.66rem; }
+
+      .guru-reference-image { padding: 8px; }
+      .guru-diagram-reading { grid-template-columns: 1fr; padding: 0 12px 12px; }
+      .guru-opening-bridge { grid-template-columns: 1fr; padding: 0 12px 12px; }
+
+      .guru-pdsa li {
+        min-height: 0;
+      }
+
+      .guru-bar-row {
+        grid-template-columns: 105px minmax(120px, 1fr) 42px;
+        gap: 8px;
+        font-size: 0.8rem;
+      }
+
+      .guru-match-row {
+        grid-template-columns: 1fr;
+      }
+
+      .guru-match-feedback {
+        grid-column: 1;
+      }
+
+      .guru-case-step {
+        grid-template-columns: 40px 1fr;
+        gap: 12px;
+        padding: 18px;
+      }
+
+      .guru-case-step::before {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #lesson-content *,
+      #lesson-content *::before,
+      #lesson-content *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+
+      .guru-system-wheel-aura,
+      .guru-system-orbit,
+      .guru-system-connectors path,
+      .guru-system-step,
+      .guru-system-card-items span {
+        animation: none !important;
+      }
+    }
+  </style>
+
+  <style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+
+  <style id="guru-quiz-contract">
+    #quiz,
+    #quiz h2,
+    #quiz .quiz,
+    #quiz .quiz-head,
+    #quiz .quiz-head h3,
+    #quiz .quiz-question,
+    #quiz .quiz-question legend,
+    #quiz .quiz-option { color: #172536; }
+    #quiz .quiz-head p { color: #425466; }
+    #quiz .quiz-feedback.good { color: #174e35; }
+    #quiz .quiz-feedback.bad { color: #7d2024; }
+    #quiz .quiz-feedback.warn { color: #684500; }
+    #quiz .quiz-result { color: #173a5e; }
+    #quiz .quiz-option:focus-within {
+      outline: 3px solid #c47a05;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body data-lesson-page="true" data-category="quality-engineering" data-level="beginner" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+
+<main id="lesson-content">
+  <div class="guru-shell">
+    <section class="guru-hero guru-hero--opening" aria-labelledby="lesson-title">
+      <div>
+        <p class="guru-eyebrow">Quality Engineering · Beginner · 45 minutes</p>
+        <h1 id="lesson-title">Quality Gurus: Crosby, Juran, and Deming</h1>
+        <p class="guru-lead">Three thinkers shaped modern quality management—but they did not ask the same question. Learn each lens, see how the ideas work together, and recognize the exam clues that separate them.</p>
+        <div class="guru-meta" aria-label="Lesson topics">
+          <span class="guru-pill">Zero Defects</span>
+          <span class="guru-pill">Quality Trilogy</span>
+          <span class="guru-pill">System Thinking</span>
+          <span class="guru-pill">PDSA</span>
+          <span class="guru-pill">ASQ exam practice</span>
+        </div>
+      </div>
+
+      <figure class="guru-system-viz guru-opening-map" id="guru-quality-system-map" data-active-node="value" data-motion-paused="false" aria-labelledby="quality-map-title quality-map-caption">
+        <div class="guru-system-viz-head">
+          <p class="guru-section-label">Quality engineering · Big picture</p>
+          <h2 id="quality-map-title">Quality management connects customer needs to sustainable results</h2>
+          <p>Select a stage to explore the system, choose a guru to trace his leadership lens, or pause the motion at any time.</p>
+        </div>
+
+        <div class="guru-system-stage">
+          <svg class="guru-system-connectors" viewBox="0 0 1200 560" preserveAspectRatio="none" aria-hidden="true">
+            <path class="is-active" data-guru-path="value" d="M 335 145 C 440 145 440 220 515 245"></path>
+            <path data-guru-path="system" d="M 865 145 C 760 145 760 220 685 245"></path>
+            <path data-guru-path="improve" d="M 335 415 C 440 415 440 340 515 315"></path>
+            <path data-guru-path="results" d="M 865 415 C 760 415 760 340 685 315"></path>
+          </svg>
+
+          <button class="guru-system-card guru-system-card--value is-active" type="button" data-guru-node="value" aria-pressed="true">
+            <span class="guru-system-card-head">
+              <span class="guru-system-step" aria-hidden="true">1</span>
+              <strong class="guru-system-card-title">Define customer value</strong>
+            </span>
+            <span class="guru-system-card-summary">Start with who receives the work and what successful use means.</span>
+            <span class="guru-system-card-items" aria-label="Key ideas">
+              <span>Customers</span><span>Intended use</span><span>Requirements</span>
+            </span>
+          </button>
+
+          <button class="guru-system-card guru-system-card--system" type="button" data-guru-node="system" aria-pressed="false">
+            <span class="guru-system-card-head">
+              <span class="guru-system-step" aria-hidden="true">2</span>
+              <strong class="guru-system-card-title">Build the management system</strong>
+            </span>
+            <span class="guru-system-card-summary">Translate needs into capable processes and reliable controls.</span>
+            <span class="guru-system-card-items" aria-label="Key ideas">
+              <span>Planning</span><span>Assurance</span><span>Control</span><span>Improvement</span>
+            </span>
+          </button>
+
+          <button class="guru-system-card guru-system-card--improve" type="button" data-guru-node="improve" aria-pressed="false">
+            <span class="guru-system-card-head">
+              <span class="guru-system-step" aria-hidden="true">3</span>
+              <strong class="guru-system-card-title">Operate, learn, and improve</strong>
+            </span>
+            <span class="guru-system-card-summary">Use PDSA to test changes, study evidence, and hold the gain.</span>
+            <span class="guru-system-card-items" aria-label="PDSA cycle">
+              <span>Plan</span><span>Do</span><span>Study</span><span>Act</span>
+            </span>
+          </button>
+
+          <button class="guru-system-card guru-system-card--results" type="button" data-guru-node="results" aria-pressed="false">
+            <span class="guru-system-card-head">
+              <span class="guru-system-step" aria-hidden="true">4</span>
+              <strong class="guru-system-card-title">Deliver balanced results</strong>
+            </span>
+            <span class="guru-system-card-summary">Improve outcomes for customers, processes, people, and the organization.</span>
+            <span class="guru-system-card-items" aria-label="Key results">
+              <span>Customer value</span><span>Capability</span><span>Less variation</span><span>Less waste</span>
+            </span>
+          </button>
+
+          <button class="guru-system-wheel" id="guru-system-wheel" type="button" aria-pressed="false" aria-label="Pause quality-system motion">
+            <span class="guru-system-wheel-aura" aria-hidden="true"></span>
+            <span class="guru-system-orbit guru-system-orbit--outer" aria-hidden="true">
+              <span class="guru-system-orbit-node"></span><span class="guru-system-orbit-node"></span><span class="guru-system-orbit-node"></span><span class="guru-system-orbit-node"></span>
+            </span>
+            <span class="guru-system-orbit guru-system-orbit--inner" aria-hidden="true"></span>
+            <span class="guru-system-wheel-hub">
+              <span class="guru-system-wheel-kicker">One connected system</span>
+              <strong class="guru-system-wheel-title">Quality<br>Management</strong>
+              <span class="guru-system-wheel-focus" id="guru-system-wheel-focus">Customer · Process · People · Results</span>
+              <span class="guru-system-wheel-control" id="guru-system-wheel-control">Pause motion</span>
+            </span>
+          </button>
+        </div>
+
+        <div class="guru-system-detail" id="guru-system-detail" role="status" aria-live="polite" aria-atomic="true">
+          <span class="guru-system-detail-label" id="guru-system-detail-label">Start with value</span>
+          <strong id="guru-system-detail-title">Define customer value</strong>
+          <span id="guru-system-detail-copy">Identify customers, understand intended use, and translate needs into requirements.</span>
+        </div>
+
+        <div class="guru-lens-deck" aria-labelledby="guru-lens-deck-title">
+          <div class="guru-lens-deck-head">
+            <strong id="guru-lens-deck-title">Three complementary leadership lenses</strong>
+            <span>Select a guru to trace his lens through the system.</span>
+          </div>
+          <div class="guru-lens-buttons">
+            <button class="guru-lens-button guru-lens-button--crosby" type="button" data-guru-lens="crosby" aria-pressed="false">
+              <span class="guru-lens-button-badge" aria-hidden="true">C</span>
+              <span class="guru-lens-button-copy"><strong>Crosby</strong><span>Requirements · Prevention · Zero Defects</span></span>
+            </button>
+            <button class="guru-lens-button guru-lens-button--juran" type="button" data-guru-lens="juran" aria-pressed="false">
+              <span class="guru-lens-button-badge" aria-hidden="true">J</span>
+              <span class="guru-lens-button-copy"><strong>Juran</strong><span>Planning · Control · Improvement</span></span>
+            </button>
+            <button class="guru-lens-button guru-lens-button--deming" type="button" data-guru-lens="deming" aria-pressed="false">
+              <span class="guru-lens-button-badge" aria-hidden="true">D</span>
+              <span class="guru-lens-button-copy"><strong>Deming</strong><span>System · Variation · Scientific learning</span></span>
+            </button>
+          </div>
+        </div>
+
+        <figcaption id="quality-map-caption">
+          <strong>Begin with the whole field:</strong> quality management connects customer needs, the management system, continual improvement, and balanced results. Crosby, Juran, and Deming provide complementary lenses for leading that work.
+          <br><a class="guru-image-link" href="/assets/lessons/quality-gurus-crosby-juran-deming/quality-management-map-readable.svg" target="_blank" rel="noopener">Open the printable full-size diagram</a>
+        </figcaption>
+        <div class="guru-opening-bridge">
+          <p><strong>Meaning:</strong> Quality begins with customer needs and clear requirements—not with inspection alone.</p>
+          <p><strong>Management system:</strong> Planning, assurance, control, improvement, standards, and execution must work together.</p>
+          <p><strong>Leadership lenses:</strong> Crosby, Juran, and Deming help managers strengthen different—but connected—parts of that system.</p>
+        </div>
+      </figure>
+
+      <aside class="guru-hero-panel" aria-label="Three quality lenses">
+        <h2>One defect. Three managerial questions.</h2>
+        <div class="guru-lens-question">
+          <span class="guru-lens-letter" aria-hidden="true">C</span>
+          <span><strong>Crosby</strong><span>Which requirement was missed, how do we prevent recurrence, and what did nonconformance cost?</span></span>
+        </div>
+        <div class="guru-lens-question">
+          <span class="guru-lens-letter" aria-hidden="true">J</span>
+          <span><strong>Juran</strong><span>What does the customer need, how do we control performance, and which chronic problem needs a breakthrough?</span></span>
+        </div>
+        <div class="guru-lens-question">
+          <span class="guru-lens-letter" aria-hidden="true">D</span>
+          <span><strong>Deming</strong><span>What in the system creates variation, and what can management learn through a small PDSA test?</span></span>
+        </div>
+      </aside>
+    </section>
+  </div>
+
+  <div class="guru-toc-wrap">
+    <nav class="guru-shell guru-toc" aria-label="Lesson sections">
+      <a href="#objectives">Objectives</a>
+      <a href="#big-picture">Big picture</a>
+      <a href="#crosby">Crosby</a>
+      <a href="#juran">Juran</a>
+      <a href="#deming">Deming</a>
+      <a href="#case">Mill case</a>
+      <a href="#practice">Practice</a>
+      <a href="#exam-tips">Exam tips</a>
+      <a href="#quiz">Quiz</a>
+    </nav>
+  </div>
+
+  <section class="guru-section" id="objectives">
+    <div class="guru-shell">
+      <div class="guru-section-head">
+        <p class="guru-section-label">Start with the outcome</p>
+        <h2>What you will be able to do</h2>
+        <p>By the end, you should be able to explain the gurus in plain language and choose the right philosophy for a practical or exam-style situation.</p>
+      </div>
+      <div class="guru-grid-3">
+        <article class="guru-card">
+          <span class="guru-number">1</span>
+          <h3>Recall</h3>
+          <p>Connect each guru to the phrases most strongly associated with his work.</p>
+        </article>
+        <article class="guru-card">
+          <span class="guru-number">2</span>
+          <h3>Distinguish</h3>
+          <p>Separate conformance to requirements, fitness for use, and system improvement.</p>
+        </article>
+        <article class="guru-card">
+          <span class="guru-number">3</span>
+          <h3>Apply</h3>
+          <p>Use all three lenses to improve a real manufacturing process without treating the ideas as competing slogans.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="guru-section" id="big-picture">
+    <div class="guru-shell">
+      <div class="guru-section-head">
+        <p class="guru-section-label">The mental model</p>
+        <h2>Three lenses, one quality system</h2>
+        <p>The fastest way to learn the gurus is to understand the managerial problem each one helps you solve.</p>
+      </div>
+      <div class="guru-grid-3">
+        <article class="guru-card guru-card-crosby">
+          <p class="guru-section-label">Philip Crosby</p>
+          <h3>Set a clear standard and prevent failure</h3>
+          <p><strong>Definition:</strong> conformance to requirements.</p>
+          <p><strong>Signature:</strong> four absolutes, prevention, Zero Defects, price of nonconformance.</p>
+        </article>
+        <article class="guru-card guru-card-juran">
+          <p class="guru-section-label">Joseph Juran</p>
+          <h3>Design for customer use and manage quality</h3>
+          <p><strong>Definition:</strong> fitness for use.</p>
+          <p><strong>Signature:</strong> planning, control, improvement, and the vital few.</p>
+        </article>
+        <article class="guru-card guru-card-deming">
+          <p class="guru-section-label">W. Edwards Deming</p>
+          <h3>Improve the system through learning</h3>
+          <p><strong>Primary lens:</strong> the organization as an interdependent system.</p>
+          <p><strong>Signature:</strong> 14 Points, variation, System of Profound Knowledge, and PDSA.</p>
+        </article>
+      </div>
+
+      <div class="guru-callout guru-callout-success">
+        <strong>Do not force a false choice.</strong> A capable organization can specify customer requirements, plan for fitness for use, prevent nonconformance, control routine performance, study variation, and improve the whole system. The gurus emphasize different parts of that management job.
+      </div>
+
+      <div class="guru-table-wrap">
+        <table class="guru-table">
+          <thead>
+            <tr>
+              <th scope="col">Question</th>
+              <th scope="col">Crosby lens</th>
+              <th scope="col">Juran lens</th>
+              <th scope="col">Deming lens</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>What is quality?</td>
+              <td>Conformance to requirements</td>
+              <td>Fitness for use</td>
+              <td>A result of improving the system for the customer</td>
+            </tr>
+            <tr>
+              <td>How is quality achieved?</td>
+              <td>Prevention</td>
+              <td>Planning, control, and improvement</td>
+              <td>Leadership, understanding variation, and continual learning</td>
+            </tr>
+            <tr>
+              <td>What phrase is the strongest clue?</td>
+              <td>Zero Defects</td>
+              <td>Quality Trilogy</td>
+              <td>14 Points or PDSA</td>
+            </tr>
+            <tr>
+              <td>What should management examine?</td>
+              <td>Requirements and nonconformance costs</td>
+              <td>Customer needs and chronic waste</td>
+              <td>The interactions and variation within the whole system</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="guru-section" id="crosby">
+    <div class="guru-shell">
+      <div class="guru-section-head">
+        <p class="guru-section-label">Guru 1 · Philip Crosby</p>
+        <h2>Make requirements clear, then prevent nonconformance</h2>
+        <p>Crosby’s four absolutes convert “quality” from a vague compliment into a management system with a definition, a method, a standard, and a financial measure.</p>
+      </div>
+
+      <div class="guru-profile">
+        <figure class="guru-portrait">
+          <img src="/assets/lessons/quality-gurus-crosby-juran-deming/philip-crosby.jpg" width="177" height="237" loading="lazy" decoding="async" alt="Portrait of Philip B. Crosby">
+          <figcaption>Portrait source: <a href="https://asq.org/about-asq/honorary-members/crosby" target="_blank" rel="noopener noreferrer">American Society for Quality</a>.</figcaption>
+        </figure>
+        <div class="guru-profile-copy">
+          <p class="guru-profile-signature">Executive language for quality: define the requirement, prevent the miss, and express failure in dollars.</p>
+          <p>Crosby made quality legible to senior leaders by connecting conformance, prevention, Zero Defects, and the price of nonconformance to operating performance.</p>
+        </div>
+      </div>
+
+      <div class="guru-grid-4">
+        <article class="guru-card">
+          <span class="guru-number">1</span>
+          <h3>Definition</h3>
+          <p><strong>Quality means conformance to requirements.</strong></p>
+          <p>A product is not high quality because it is luxurious. It is high quality when it meets clear, valid requirements.</p>
+        </article>
+        <article class="guru-card">
+          <span class="guru-number">2</span>
+          <h3>System</h3>
+          <p><strong>The quality system is prevention.</strong></p>
+          <p>Build controls into material selection, setup, calibration, work methods, and process design instead of depending on final inspection.</p>
+        </article>
+        <article class="guru-card">
+          <span class="guru-number">3</span>
+          <h3>Standard</h3>
+          <p><strong>The performance standard is Zero Defects.</strong></p>
+          <p>Do not plan a defect allowance as the target. “Do it right the first time” sets the direction for performance.</p>
+        </article>
+        <article class="guru-card">
+          <span class="guru-number">4</span>
+          <h3>Measurement</h3>
+          <p><strong>The measurement of quality is the price of nonconformance.</strong></p>
+          <p>Translate failure into money: scrap, rework, retesting, delay, warranty, returns, complaint handling, and lost business.</p>
+        </article>
+      </div>
+
+      <span class="guru-memory">Requirements → Prevention → Zero Defects → Price of nonconformance</span>
+
+      <div class="guru-worked">
+        <h3>Example: conformance in a pipe mill</h3>
+        <p>Suppose a pipe must have wall thickness of 10.0 ± 0.5 mm, yield strength of at least 450 MPa, and length of 12.0 ± 0.1 m. Under Crosby’s definition, quality means meeting all applicable requirements. A premium finish cannot compensate for a failed strength requirement.</p>
+        <div class="guru-callout guru-callout-warning">
+          <strong>Important nuance:</strong> Zero Defects is a performance standard, not a claim that people are physically incapable of error. It means management should not define a known level of defects as acceptable performance and then stop improving.
+        </div>
+      </div>
+
+      <div class="guru-lab" aria-labelledby="ponc-title">
+        <div class="guru-lab-head">
+          <h3 id="ponc-title">Interactive: calculate the price of nonconformance</h3>
+          <p>Change the illustrative monthly failure costs. The total updates when you select Calculate PONC.</p>
+        </div>
+        <div class="guru-lab-body">
+          <div class="guru-input-grid">
+            <div class="guru-field">
+              <label for="ponc-scrap">Scrap cost ($)</label>
+              <input id="ponc-scrap" type="number" min="0" step="100" inputmode="decimal" value="50000">
+            </div>
+            <div class="guru-field">
+              <label for="ponc-rework">Rework cost ($)</label>
+              <input id="ponc-rework" type="number" min="0" step="100" inputmode="decimal" value="20000">
+            </div>
+            <div class="guru-field">
+              <label for="ponc-warranty">Warranty and returns ($)</label>
+              <input id="ponc-warranty" type="number" min="0" step="100" inputmode="decimal" value="15000">
+            </div>
+            <div class="guru-field">
+              <label for="ponc-retest">Retesting and sorting ($)</label>
+              <input id="ponc-retest" type="number" min="0" step="100" inputmode="decimal" value="5000">
+            </div>
+          </div>
+          <div class="guru-button-row">
+            <button class="guru-button" type="button" id="ponc-calculate">Calculate PONC</button>
+            <button class="guru-button guru-button-secondary" type="button" id="ponc-reset">Reset example</button>
+          </div>
+          <div class="guru-result" id="ponc-result" role="status" aria-live="polite">
+            <span>Monthly price of nonconformance</span>
+            <strong>$90,000</strong>
+            <small>PONC = scrap + rework + warranty/returns + retesting/sorting</small>
+          </div>
+          <noscript><p>JavaScript is unavailable. Add the four displayed cost fields manually to calculate PONC.</p></noscript>
+        </div>
+      </div>
+
+      <div class="guru-callout">
+        <strong>PONC is not the same as total Cost of Quality.</strong> PONC focuses on the cost of failing to meet requirements. A broader Cost of Quality model normally includes conformance costs such as prevention and appraisal as well as failure costs.
+      </div>
+    </div>
+  </section>
+
+  <section class="guru-section" id="juran">
+    <div class="guru-shell">
+      <div class="guru-section-head">
+        <p class="guru-section-label">Guru 2 · Joseph Juran</p>
+        <h2>Plan for fitness for use, control performance, and create breakthroughs</h2>
+        <p>Juran broadens the question from “Did it meet a written requirement?” to “Will it satisfy the customer in actual use?” Then he gives managers a trilogy for making that happen.</p>
+      </div>
+
+      <div class="guru-profile">
+        <figure class="guru-portrait">
+          <img src="/assets/lessons/quality-gurus-crosby-juran-deming/joseph-juran.jpg" width="331" height="383" loading="lazy" decoding="async" alt="Portrait of Joseph M. Juran">
+          <figcaption>RIT, 1987. <a href="https://commons.wikimedia.org/wiki/File:J._M._Juran,_RIT_NandE_Vol19Num1_1987_Sep11_Complete.jpg" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>, public domain in the U.S.</figcaption>
+        </figure>
+        <div class="guru-profile-copy">
+          <p class="guru-profile-signature">Managerial architecture for quality: plan what customers need, control the process, and lead breakthrough improvement.</p>
+          <p>Juran treated quality as a management responsibility spanning product design, operational control, project-by-project improvement, and the human side of change.</p>
+        </div>
+      </div>
+
+      <div class="guru-callout guru-callout-success">
+        <strong>Fitness for use has two practical sides:</strong> provide features that meet customer needs and reduce deficiencies that cause dissatisfaction, failure, or extra cost.
+      </div>
+
+      <div class="guru-grid-3">
+        <article class="guru-card">
+          <span class="guru-number">1</span>
+          <h3>Quality Planning</h3>
+          <p>Identify customers, determine their needs, translate those needs into product and process requirements, and develop a process capable of meeting them.</p>
+          <p><strong>Question:</strong> What must we design so the customer succeeds?</p>
+        </article>
+        <article class="guru-card">
+          <span class="guru-number">2</span>
+          <h3>Quality Control</h3>
+          <p>Evaluate actual performance, compare it with the goal, and act on the difference so routine performance stays on target.</p>
+          <p><strong>Question:</strong> Are we holding the intended level?</p>
+        </article>
+        <article class="guru-card">
+          <span class="guru-number">3</span>
+          <h3>Quality Improvement</h3>
+          <p>Remove chronic causes and reach a new level of performance through focused, project-by-project breakthrough.</p>
+          <p><strong>Question:</strong> How do we escape the current plateau?</p>
+        </article>
+      </div>
+
+      <figure class="guru-reference-figure" aria-labelledby="juran-trilogy-caption">
+        <div class="guru-reference-image">
+          <img src="/assets/lessons/quality-gurus-crosby-juran-deming/juran-trilogy-diagram.png" width="1345" height="822" loading="lazy" decoding="async" alt="Juran Trilogy diagram showing planning, an original zone of control with chronic waste and a sporadic spike, breakthrough improvement, a lower new zone of control, and lessons learned feeding the next planning cycle">
+        </div>
+        <figcaption id="juran-trilogy-caption"><strong>Read the Juran Trilogy from left to right:</strong> planning creates the process, control holds its current level, and improvement removes chronic waste to establish a better level of performance. Diagram supplied for this lesson.</figcaption>
+        <div class="guru-diagram-reading">
+          <article>
+            <h3>1. Plan the operating level</h3>
+            <p>Identify customers and needs, translate those needs into requirements, and design a process intended to meet them. When operations begin, the process inherits the capabilities and weaknesses built during planning.</p>
+          </article>
+          <article>
+            <h3>2. Control—but diagnose correctly</h3>
+            <p>The original control zone shows routine performance fluctuating around a stable level. Control detects and removes a sporadic spike, but returning to the old level still leaves the underlying <strong>chronic waste</strong> in place.</p>
+          </article>
+          <article>
+            <h3>3. Improve, then hold the gain</h3>
+            <p>A breakthrough project removes a chronic cause and shifts performance to a lower, better zone of control. Updated standards and controls prevent backsliding, while lessons learned strengthen the next planning cycle.</p>
+          </article>
+        </div>
+      </figure>
+
+      <div class="guru-callout guru-callout-warning">
+        <strong>Control is not improvement.</strong> Holding a defect rate at 4% is control if 4% is the established operating level. Reducing it from 4% to 0.8% is improvement because the process reaches a new level.
+      </div>
+
+      <div class="guru-grid-2">
+        <div>
+          <h3>Juran and Pareto prioritization</h3>
+          <p>A small number of causes often account for a large share of a problem. Juran called these the <strong>vital few</strong>; the remaining causes are the <strong>useful many</strong>.</p>
+          <p>The familiar 80/20 split is a rule of thumb, not a law. Use the actual data to find where effort will have the greatest effect.</p>
+        </div>
+        <div class="guru-pareto" role="img" aria-label="Illustrative defect counts: welding setup 45, material variation 30, operator method 10, gauge issue 8, other 7. The first two categories account for 75 percent.">
+          <div class="guru-bar-row"><span>Welding setup</span><span class="guru-bar-track"><span class="guru-bar-fill" style="width:100%"></span></span><strong>45</strong></div>
+          <div class="guru-bar-row"><span>Material variation</span><span class="guru-bar-track"><span class="guru-bar-fill" style="width:66.7%"></span></span><strong>30</strong></div>
+          <div class="guru-bar-row"><span>Operator method</span><span class="guru-bar-track"><span class="guru-bar-fill" style="width:22.2%"></span></span><strong>10</strong></div>
+          <div class="guru-bar-row"><span>Gauge issue</span><span class="guru-bar-track"><span class="guru-bar-fill" style="width:17.8%"></span></span><strong>8</strong></div>
+          <div class="guru-bar-row"><span>Other</span><span class="guru-bar-track"><span class="guru-bar-fill" style="width:15.6%"></span></span><strong>7</strong></div>
+        </div>
+      </div>
+
+      <div class="guru-worked">
+        <h3>Example: planning from the customer backward</h3>
+        <p>A customer needs a pipe to perform safely under specified service conditions. Quality planning converts that need into material grade, dimensional tolerances, welding controls, test requirements, traceability, and release criteria. Quality control monitors the selected measures. Quality improvement attacks chronic losses that the control system has merely been holding steady.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="guru-section" id="deming">
+    <div class="guru-shell">
+      <div class="guru-section-head">
+        <p class="guru-section-label">Guru 3 · W. Edwards Deming</p>
+        <h2>Improve the whole system and learn from variation</h2>
+        <p>Deming placed responsibility on management to create an environment where interdependent processes, useful data, scientific learning, and people can work together.</p>
+      </div>
+
+      <div class="guru-profile">
+        <figure class="guru-portrait guru-portrait--deming">
+          <img src="/assets/lessons/quality-gurus-crosby-juran-deming/w-edwards-deming.jpg" width="393" height="274" loading="lazy" decoding="async" alt="Photograph of W. Edwards Deming speaking at a lectern">
+          <figcaption>Photo: U.S. FDA. <a href="https://commons.wikimedia.org/wiki/File:W._Edwards_Deming.jpg" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>, U.S. public domain.</figcaption>
+        </figure>
+        <div class="guru-profile-copy">
+          <p class="guru-profile-signature">A theory of management: improve the system, understand variation, test predictions, and let people take pride in their work.</p>
+          <p>Deming’s contribution is larger than a single tool. His System of Profound Knowledge connects systems thinking, statistical reasoning, learning theory, and psychology.</p>
+        </div>
+      </div>
+
+      <h3>System thinking: local success can create global failure</h3>
+      <p>Imagine Purchasing is rewarded only for the lowest material price. It buys inconsistent material, Production experiences more downtime, Quality sees more failures, and Shipping misses dates. Purchasing met its local target while the organization performed worse. This is <strong>suboptimization</strong>.</p>
+      <span class="guru-memory">Optimize the whole system—not isolated departments.</span>
+
+      <h3>The System of Profound Knowledge</h3>
+      <p>This four-part framework helps managers see why a technically correct local fix can still fail.</p>
+      <div class="guru-grid-4">
+        <article class="guru-card">
+          <span class="guru-number">1</span>
+          <h4>Appreciation for a system</h4>
+          <p>Understand how suppliers, processes, teams, customers, and goals interact.</p>
+        </article>
+        <article class="guru-card">
+          <span class="guru-number">2</span>
+          <h4>Knowledge of variation</h4>
+          <p>Distinguish routine system variation from a specific, assignable event.</p>
+        </article>
+        <article class="guru-card">
+          <span class="guru-number">3</span>
+          <h4>Theory of knowledge</h4>
+          <p>Make a prediction, test it, compare results with the prediction, and learn.</p>
+        </article>
+        <article class="guru-card">
+          <span class="guru-number">4</span>
+          <h4>Psychology</h4>
+          <p>Understand motivation, fear, cooperation, learning, and how people experience the system.</p>
+        </article>
+      </div>
+
+      <div class="guru-table-wrap" style="margin-top:24px">
+        <table class="guru-table">
+          <thead>
+            <tr>
+              <th scope="col">Variation type</th>
+              <th scope="col">Meaning</th>
+              <th scope="col">Best response</th>
+              <th scope="col">Wrong response</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Common cause</strong></td>
+              <td>Routine variation built into the current system</td>
+              <td>Management changes the system</td>
+              <td>Blame one operator or adjust the process after every ordinary fluctuation</td>
+            </tr>
+            <tr>
+              <td><strong>Special cause</strong></td>
+              <td>An unusual, identifiable event outside routine behavior</td>
+              <td>Find and address the specific cause</td>
+              <td>Redesign the whole process before investigating the event</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="guru-callout guru-callout-warning">
+        <strong>Tampering warning:</strong> changing a stable process after every routine up-and-down can increase variation. First understand whether the signal is common cause or special cause.
+      </div>
+
+      <h3>PDSA: a cycle for prediction and learning</h3>
+      <ol class="guru-pdsa">
+        <li><strong>Plan</strong>Define the problem, build a theory, state what you predict, and decide what data will test the prediction.</li>
+        <li><strong>Do</strong>Run the change on a small scale, document what happened, and collect the planned data.</li>
+        <li><strong>Study</strong>Compare results with the prediction. Analyze the difference and identify what was learned.</li>
+        <li><strong>Act</strong>Adopt, adapt, or abandon the change, then begin the next learning cycle.</li>
+      </ol>
+
+      <div class="guru-callout">
+        <strong>PDSA versus PDCA:</strong> “Study” emphasizes analysis, comparison with a prediction, and learning. It is more than checking whether a task was completed.
+      </div>
+
+      <details class="guru-details">
+        <summary>Deming’s 14 Points for Management</summary>
+        <div>
+          <p>The short descriptions below preserve the major exam-level themes. They are shown in Deming’s numbered order.</p>
+          <ol>
+            <li><strong>Create constancy of purpose</strong> for improving products and services.</li>
+            <li><strong>Adopt the new philosophy</strong> rather than accepting chronic waste and poor quality.</li>
+            <li><strong>Cease dependence on mass inspection</strong>; build quality into the process.</li>
+            <li><strong>End purchasing on price alone</strong>; consider quality and total cost through long-term supplier relationships.</li>
+            <li><strong>Improve constantly and forever</strong> every process for planning, production, and service.</li>
+            <li><strong>Institute training on the job</strong> so people can perform and learn effectively.</li>
+            <li><strong>Institute leadership</strong> that helps people and systems perform better.</li>
+            <li><strong>Drive out fear</strong> so people can report problems and contribute honestly.</li>
+            <li><strong>Break down barriers between departments</strong> and work across the system.</li>
+            <li><strong>Eliminate slogans and exhortations</strong> that demand results without improving methods or systems.</li>
+            <li><strong>Eliminate arbitrary quotas and numerical targets</strong> that ignore how work is actually produced.</li>
+            <li><strong>Remove barriers to pride of workmanship</strong>, including poor systems and conflicting measures.</li>
+            <li><strong>Institute education and self-improvement</strong> for everyone.</li>
+            <li><strong>Put everyone to work on the transformation</strong>, led by management.</li>
+          </ol>
+        </div>
+      </details>
+
+      <div class="guru-callout guru-callout-warning">
+        <strong>A common exam contrast:</strong> Crosby is associated with Zero Defects as a performance standard. Deming opposed slogans and zero-defect exhortations aimed at workers when management did not improve the system or provide a method. The distinction is management approach, not whether defects matter.
+      </div>
+    </div>
+  </section>
+
+  <section class="guru-section" id="case">
+    <div class="guru-shell">
+      <div class="guru-section-head">
+        <p class="guru-section-label">Integrated application</p>
+        <h2>Steel-mill case: a chronic weld-repair problem</h2>
+        <p>A 24-inch ERW line has a stable 4% weld-repair rate, repeated testing delays, and growing customer complaints. The example is illustrative. Watch how each lens changes the management response.</p>
+      </div>
+
+      <div class="guru-case">
+        <article class="guru-case-step">
+          <div>
+            <h3>Crosby: make nonconformance visible and prevent it</h3>
+            <p>Clarify the weld acceptance requirements, reject “4% is normal” as the performance standard, mistake-proof critical setup steps, and calculate the PONC from repairs, testing, delay, sorting, claims, and lost capacity.</p>
+          </div>
+        </article>
+        <article class="guru-case-step">
+          <div>
+            <h3>Juran: connect customer needs to control and breakthrough</h3>
+            <p>Translate fitness for use into critical-to-quality requirements, maintain a control plan for routine production, use Pareto analysis to select the vital few drivers, and charter an improvement project to reduce the chronic 4% level.</p>
+          </div>
+        </article>
+        <article class="guru-case-step">
+          <div>
+            <h3>Deming: study the system before assigning blame</h3>
+            <p>Examine material, setup, welding, maintenance, measurement, incentives, and handoffs as one system. Separate common from special causes, remove fear around reporting problems, and run a small PDSA test with a stated prediction.</p>
+          </div>
+        </article>
+        <article class="guru-case-step">
+          <div>
+            <h3>Integrate: sustain the new level</h3>
+            <p>Use customer requirements to define success, prevention to avoid recurrence, process control to hold the gain, PDSA to keep learning, and financial measures to show why the change matters.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="guru-final-map" aria-label="Integrated quality management sequence">
+        <span><b>1</b><br>Understand use</span>
+        <span><b>2</b><br>Set requirements</span>
+        <span><b>3</b><br>Prevent failure</span>
+        <span><b>4</b><br>Control performance</span>
+        <span><b>5</b><br>Study variation</span>
+        <span><b>6</b><br>Improve the system</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="guru-section" id="practice">
+    <div class="guru-shell">
+      <div class="guru-section-head">
+        <p class="guru-section-label">Retrieval practice</p>
+        <h2>Match the statement to the strongest guru</h2>
+        <p>Some ideas overlap. Choose the guru most directly associated with each statement.</p>
+      </div>
+
+      <div class="guru-lab" aria-labelledby="match-title">
+        <div class="guru-lab-head">
+          <h3 id="match-title">Whose lens is it?</h3>
+          <p>Complete all six matches, then check your reasoning.</p>
+        </div>
+        <div class="guru-lab-body">
+          <div class="guru-match-list" id="guru-match-list">
+            <div class="guru-match-row" data-answer="crosby" data-reason="Conformance to requirements is Crosby’s definition of quality.">
+              <label class="guru-match-statement" for="match-1">1. Quality means meeting stated requirements.</label>
+              <select id="match-1">
+                <option value="">Choose a guru</option>
+                <option value="crosby">Crosby</option>
+                <option value="juran">Juran</option>
+                <option value="deming">Deming</option>
+              </select>
+              <p class="guru-match-feedback" aria-live="polite"></p>
+            </div>
+            <div class="guru-match-row" data-answer="juran" data-reason="Juran’s quality planning begins with customers and their needs.">
+              <label class="guru-match-statement" for="match-2">2. Design the product and process from customer needs.</label>
+              <select id="match-2">
+                <option value="">Choose a guru</option>
+                <option value="crosby">Crosby</option>
+                <option value="juran">Juran</option>
+                <option value="deming">Deming</option>
+              </select>
+              <p class="guru-match-feedback" aria-live="polite"></p>
+            </div>
+            <div class="guru-match-row" data-answer="deming" data-reason="Deming emphasized optimizing the whole system rather than one department’s target.">
+              <label class="guru-match-statement" for="match-3">3. A low-price purchasing target can damage the total system.</label>
+              <select id="match-3">
+                <option value="">Choose a guru</option>
+                <option value="crosby">Crosby</option>
+                <option value="juran">Juran</option>
+                <option value="deming">Deming</option>
+              </select>
+              <p class="guru-match-feedback" aria-live="polite"></p>
+            </div>
+            <div class="guru-match-row" data-answer="juran" data-reason="Juran distinguishes maintaining performance through control from reaching a new level through improvement.">
+              <label class="guru-match-statement" for="match-4">4. Control holds the level; breakthrough changes the level.</label>
+              <select id="match-4">
+                <option value="">Choose a guru</option>
+                <option value="crosby">Crosby</option>
+                <option value="juran">Juran</option>
+                <option value="deming">Deming</option>
+              </select>
+              <p class="guru-match-feedback" aria-live="polite"></p>
+            </div>
+            <div class="guru-match-row" data-answer="crosby" data-reason="Crosby’s fourth absolute measures quality by the price of nonconformance.">
+              <label class="guru-match-statement" for="match-5">5. Translate failure into the financial price of nonconformance.</label>
+              <select id="match-5">
+                <option value="">Choose a guru</option>
+                <option value="crosby">Crosby</option>
+                <option value="juran">Juran</option>
+                <option value="deming">Deming</option>
+              </select>
+              <p class="guru-match-feedback" aria-live="polite"></p>
+            </div>
+            <div class="guru-match-row" data-answer="deming" data-reason="PDSA uses prediction, a small test, study, and action to create learning.">
+              <label class="guru-match-statement" for="match-6">6. Test a theory on a small scale and study the result against the prediction.</label>
+              <select id="match-6">
+                <option value="">Choose a guru</option>
+                <option value="crosby">Crosby</option>
+                <option value="juran">Juran</option>
+                <option value="deming">Deming</option>
+              </select>
+              <p class="guru-match-feedback" aria-live="polite"></p>
+            </div>
+          </div>
+          <div class="guru-button-row">
+            <button class="guru-button" type="button" id="guru-match-check">Check matches</button>
+            <button class="guru-button guru-button-secondary" type="button" id="guru-match-reset">Reset</button>
+          </div>
+          <div class="guru-result guru-match-summary" id="guru-match-summary" role="status" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="guru-section" id="exam-tips">
+    <div class="guru-shell">
+      <div class="guru-section-head">
+        <p class="guru-section-label">Exam readiness</p>
+        <h2>Signal phrases and common traps</h2>
+        <p>Use the wording in the question. Identify the distinctive phrase before choosing an answer.</p>
+      </div>
+
+      <div class="guru-table-wrap">
+        <table class="guru-table">
+          <thead>
+            <tr>
+              <th scope="col">If you see this phrase</th>
+              <th scope="col">Think</th>
+              <th scope="col">Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Conformance to requirements, prevention, Zero Defects, price of nonconformance</td>
+              <td><strong>Crosby</strong></td>
+              <td>These are the four absolutes.</td>
+            </tr>
+            <tr>
+              <td>Fitness for use, Trilogy, breakthrough, vital few</td>
+              <td><strong>Juran</strong></td>
+              <td>These phrases connect customer use, managerial processes, and prioritization.</td>
+            </tr>
+            <tr>
+              <td>14 Points, drive out fear, system, variation, PDSA, tampering</td>
+              <td><strong>Deming</strong></td>
+              <td>These clues point to management-led system improvement and learning.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul class="guru-trap-list" style="margin-top:24px">
+        <li><strong>Trap: Zero Defects = 3.4 defects per million opportunities.</strong><br>Correction: Zero Defects is Crosby’s performance standard; 3.4 DPMO is associated with Six Sigma performance under its conventional assumptions.</li>
+        <li><strong>Trap: inspection is prevention.</strong><br>Correction: inspection detects nonconformance after or during creation; prevention changes the system so the defect is less likely to occur.</li>
+        <li><strong>Trap: Juran’s control and improvement mean the same thing.</strong><br>Correction: control maintains the current intended level; improvement reaches a new level.</li>
+        <li><strong>Trap: “Study” in PDSA means verify that the task was completed.</strong><br>Correction: Study compares results with a prediction and extracts learning.</li>
+        <li><strong>Trap: a stable process needs operator adjustment after every fluctuation.</strong><br>Correction: adjusting common-cause variation without evidence can be tampering.</li>
+        <li><strong>Trap: the gurus place quality only on the quality department.</strong><br>Correction: all three make quality a management and organizational responsibility, even though their frameworks differ.</li>
+      </ul>
+
+      <span class="guru-memory">Crosby = ZERO · Juran = TRILOGY · Deming = SYSTEM</span>
+    </div>
+  </section>
+
+  <section class="guru-section" id="summary">
+    <div class="guru-shell">
+      <div class="guru-section-head">
+        <p class="guru-section-label">Final review</p>
+        <h2>The one-minute summary</h2>
+      </div>
+      <div class="guru-grid-3">
+        <article class="guru-card guru-card-crosby">
+          <h3>Crosby</h3>
+          <p>Define quality as conformance to requirements. Prevent defects, set Zero Defects as the standard, and measure the price of nonconformance.</p>
+        </article>
+        <article class="guru-card guru-card-juran">
+          <h3>Juran</h3>
+          <p>Define quality as fitness for use. Manage it through planning, control, and improvement; focus on the vital few causes.</p>
+        </article>
+        <article class="guru-card guru-card-deming">
+          <h3>Deming</h3>
+          <p>Improve the entire system. Understand variation, lead without fear, and learn through repeated PDSA cycles.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="a" data-explanation="Crosby defined quality as conformance to requirements.">
+        <legend>1. Which guru defined quality as conformance to requirements?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> Philip Crosby</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> Joseph Juran</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> W. Edwards Deming</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="d"> Walter Shewhart</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+
+      <fieldset class="quiz-question" data-answer="b" data-explanation="For Crosby, prevention is the quality system; inspection mainly detects defects.">
+        <legend>2. According to Crosby, what is the quality system?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> Final inspection</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> Prevention</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> Acceptance sampling</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> Rework</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Juran’s quality improvement removes chronic causes and creates a new, better level of performance.">
+        <legend>3. A process defect rate falls from a chronic 4% level to 0.8%. Which part of Juran’s Trilogy best describes this change?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> Quality inspection</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Quality control</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Quality improvement</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="d"> Quality auditing</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+
+      <fieldset class="quiz-question" data-answer="d" data-explanation="Fitness for use is Juran’s best-known definition of quality.">
+        <legend>4. Which phrase is most directly associated with Joseph Juran?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> Zero Defects</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> Conformance to requirements</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> Drive out fear</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> Fitness for use</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+
+      <fieldset class="quiz-question" data-answer="a" data-explanation="A local target that damages overall performance is suboptimization, a key system-thinking problem.">
+        <legend>5. Purchasing minimizes material price, but the cheaper material increases scrap, downtime, and late deliveries. What does Deming’s system lens identify?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> Suboptimization</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> Fitness for use</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> Price of conformance</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="d"> Appraisal cost</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Study compares the observed results with the prediction and identifies what was learned.">
+        <legend>6. In PDSA, during which phase do you compare the result with the prediction?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> Plan</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> Study</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> Act</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="d"> Standardize</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Stable common-cause variation belongs to the system. Management should improve the system instead of blaming one operator or tampering after every fluctuation.">
+        <legend>7. A stable process shows only routine common-cause variation but still performs poorly. What is the strongest Deming-style response?</legend>
+        <label class="quiz-option"><input type="radio" name="q7" value="a"> Blame the operator with the latest low result</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="b"> Adjust the machine after every data point</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="c"> Change the underlying system using a tested improvement</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="d"> Increase final inspection only</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+
+      <fieldset class="quiz-question" data-answer="d" data-explanation="The correct signature mapping is Crosby to Zero Defects, Juran to the Quality Trilogy, and Deming to system thinking and PDSA.">
+        <legend>8. Which mapping is correct?</legend>
+        <label class="quiz-option"><input type="radio" name="q8" value="a"> Crosby—fitness for use; Juran—14 Points; Deming—Zero Defects</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="b"> Crosby—PDSA; Juran—Zero Defects; Deming—Pareto</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="c"> Crosby—Quality Trilogy; Juran—system thinking; Deming—price of nonconformance</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="d"> Crosby—Zero Defects; Juran—Quality Trilogy; Deming—system thinking and PDSA</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a class="guru-back-link" href="/lessons#quality-engineering" style="color:var(--guru-blue);font-weight:600;text-decoration:none">&larr; Back to Quality Engineering lessons</a>
+</section>
+
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var root = document.getElementById('guru-quality-system-map');
+  if (!root) return;
+
+  var cards = Array.prototype.slice.call(root.querySelectorAll('[data-guru-node]'));
+  var paths = Array.prototype.slice.call(root.querySelectorAll('[data-guru-path]'));
+  var lensButtons = Array.prototype.slice.call(root.querySelectorAll('[data-guru-lens]'));
+  var wheel = document.getElementById('guru-system-wheel');
+  var wheelControl = document.getElementById('guru-system-wheel-control');
+  var wheelFocus = document.getElementById('guru-system-wheel-focus');
+  var detailLabel = document.getElementById('guru-system-detail-label');
+  var detailTitle = document.getElementById('guru-system-detail-title');
+  var detailCopy = document.getElementById('guru-system-detail-copy');
+
+  var nodes = {
+    value: {
+      label: 'Start with value',
+      title: 'Define customer value',
+      copy: 'Identify customers, understand intended use, and translate needs into requirements.',
+      focus: 'Customers · Intended use · Requirements'
+    },
+    system: {
+      label: 'Build the system',
+      title: 'Design quality into the work',
+      copy: 'Connect planning, assurance, control, and improvement instead of relying on final inspection.',
+      focus: 'Planning · Assurance · Control · Improvement'
+    },
+    improve: {
+      label: 'Create learning',
+      title: 'Operate, learn, and improve',
+      copy: 'Use evidence and PDSA cycles to test changes, reduce variation, and hold each gain.',
+      focus: 'Plan · Do · Study · Act'
+    },
+    results: {
+      label: 'Balance the outcome',
+      title: 'Deliver sustainable results',
+      copy: 'Improve customer value and process capability while reducing variation and waste.',
+      focus: 'Customer · Process · People · Results'
+    }
+  };
+
+  var lenses = {
+    crosby: {
+      label: 'Crosby’s lens',
+      title: 'Conformance begins with clear requirements',
+      copy: 'Crosby connects customer requirements to prevention, Zero Defects, and the price of nonconformance.',
+      focus: 'Requirements · Prevention · Zero Defects',
+      related: ['value', 'system', 'results']
+    },
+    juran: {
+      label: 'Juran’s lens',
+      title: 'Manage quality through a trilogy',
+      copy: 'Juran links customer fitness for use to quality planning, quality control, and breakthrough improvement.',
+      focus: 'Planning · Control · Improvement',
+      related: ['value', 'system', 'improve']
+    },
+    deming: {
+      label: 'Deming’s lens',
+      title: 'Improve the system through learning',
+      copy: 'Deming directs management toward system thinking, variation, theory, people, and disciplined PDSA learning.',
+      focus: 'System · Variation · Scientific learning',
+      related: ['system', 'improve', 'results']
+    }
+  };
+
+  function updateDetail(content) {
+    if (detailLabel) detailLabel.textContent = content.label;
+    if (detailTitle) detailTitle.textContent = content.title;
+    if (detailCopy) detailCopy.textContent = content.copy;
+    if (wheelFocus) wheelFocus.textContent = content.focus;
+  }
+
+  function setNode(key) {
+    var content = nodes[key];
+    if (!content) return;
+    root.setAttribute('data-active-node', key);
+    root.removeAttribute('data-active-lens');
+    cards.forEach(function (card) {
+      var selected = card.getAttribute('data-guru-node') === key;
+      card.classList.toggle('is-active', selected);
+      card.classList.remove('is-related');
+      card.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    });
+    paths.forEach(function (path) {
+      path.classList.toggle('is-active', path.getAttribute('data-guru-path') === key);
+    });
+    lensButtons.forEach(function (button) {
+      button.classList.remove('is-active');
+      button.setAttribute('aria-pressed', 'false');
+    });
+    updateDetail(content);
+  }
+
+  function setLens(key) {
+    var content = lenses[key];
+    if (!content) return;
+    root.setAttribute('data-active-lens', key);
+    root.removeAttribute('data-active-node');
+    cards.forEach(function (card) {
+      var related = content.related.indexOf(card.getAttribute('data-guru-node')) !== -1;
+      card.classList.remove('is-active');
+      card.classList.toggle('is-related', related);
+      card.setAttribute('aria-pressed', 'false');
+    });
+    paths.forEach(function (path) {
+      path.classList.toggle('is-active', content.related.indexOf(path.getAttribute('data-guru-path')) !== -1);
+    });
+    lensButtons.forEach(function (button) {
+      var selected = button.getAttribute('data-guru-lens') === key;
+      button.classList.toggle('is-active', selected);
+      button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    });
+    updateDetail(content);
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener('click', function () {
+      setNode(card.getAttribute('data-guru-node'));
+    });
+  });
+
+  lensButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      setLens(button.getAttribute('data-guru-lens'));
+    });
+  });
+
+  var motionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  var reducedMotion = Boolean(motionQuery && motionQuery.matches);
+  var userPaused = reducedMotion;
+  var autoPaused = false;
+
+  function updateMotion() {
+    var paused = reducedMotion || userPaused || autoPaused || document.hidden;
+    root.setAttribute('data-motion-paused', paused ? 'true' : 'false');
+    if (!wheel || !wheelControl) return;
+    wheel.disabled = reducedMotion;
+    wheel.setAttribute('aria-pressed', userPaused ? 'true' : 'false');
+    if (reducedMotion) {
+      wheelControl.textContent = 'Reduced motion';
+      wheel.setAttribute('aria-label', 'Quality-system motion is disabled by reduced-motion settings');
+    } else {
+      wheelControl.textContent = userPaused ? 'Resume motion' : 'Pause motion';
+      wheel.setAttribute('aria-label', userPaused ? 'Resume quality-system motion' : 'Pause quality-system motion');
+    }
+  }
+
+  if (wheel) {
+    wheel.addEventListener('click', function () {
+      if (reducedMotion) return;
+      userPaused = !userPaused;
+      updateMotion();
+    });
+  }
+
+  document.addEventListener('visibilitychange', updateMotion);
+
+  if ('IntersectionObserver' in window) {
+    var observer = new window.IntersectionObserver(function (entries) {
+      autoPaused = !entries[0].isIntersecting;
+      updateMotion();
+    }, { threshold: 0.08 });
+    observer.observe(root);
+  }
+
+  if (motionQuery) {
+    var handleMotionPreference = function (event) {
+      reducedMotion = event.matches;
+      if (reducedMotion) userPaused = true;
+      updateMotion();
+    };
+    if (motionQuery.addEventListener) motionQuery.addEventListener('change', handleMotionPreference);
+    else if (motionQuery.addListener) motionQuery.addListener(handleMotionPreference);
+  }
+
+  setNode('value');
+  updateMotion();
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  var money = new Intl.NumberFormat('en-CA', {
+    style: 'currency',
+    currency: 'CAD',
+    maximumFractionDigits: 0
+  });
+
+  var poncIds = ['ponc-scrap', 'ponc-rework', 'ponc-warranty', 'ponc-retest'];
+  var poncDefaults = [50000, 20000, 15000, 5000];
+  var poncResult = document.getElementById('ponc-result');
+  var poncCalculate = document.getElementById('ponc-calculate');
+  var poncReset = document.getElementById('ponc-reset');
+
+  function calculatePonc() {
+    var total = poncIds.reduce(function (sum, id) {
+      var field = document.getElementById(id);
+      var value = field ? Number.parseFloat(field.value) : 0;
+      return sum + (Number.isFinite(value) ? Math.max(0, value) : 0);
+    }, 0);
+    if (poncResult) {
+      var valueNode = poncResult.querySelector('strong');
+      if (valueNode) valueNode.textContent = money.format(total);
+    }
+  }
+
+  if (poncCalculate) poncCalculate.addEventListener('click', calculatePonc);
+  if (poncReset) {
+    poncReset.addEventListener('click', function () {
+      poncIds.forEach(function (id, index) {
+        var field = document.getElementById(id);
+        if (field) field.value = poncDefaults[index];
+      });
+      calculatePonc();
+      var firstField = document.getElementById(poncIds[0]);
+      if (firstField) firstField.focus();
+    });
+  }
+
+  var matchList = document.getElementById('guru-match-list');
+  var matchCheck = document.getElementById('guru-match-check');
+  var matchReset = document.getElementById('guru-match-reset');
+  var matchSummary = document.getElementById('guru-match-summary');
+
+  if (matchCheck && matchList) {
+    matchCheck.addEventListener('click', function () {
+      var rows = Array.prototype.slice.call(matchList.querySelectorAll('.guru-match-row'));
+      var score = 0;
+      var unanswered = 0;
+      rows.forEach(function (row) {
+        var select = row.querySelector('select');
+        var feedback = row.querySelector('.guru-match-feedback');
+        var answer = row.getAttribute('data-answer');
+        var reason = row.getAttribute('data-reason') || '';
+        var selected = select ? select.value : '';
+        row.classList.remove('is-right', 'is-wrong');
+        if (!selected) {
+          unanswered++;
+          if (feedback) feedback.textContent = 'Choose a guru before checking this statement.';
+          return;
+        }
+        var correct = selected === answer;
+        if (correct) score++;
+        row.classList.add(correct ? 'is-right' : 'is-wrong');
+        if (feedback) feedback.textContent = (correct ? 'Correct. ' : 'Review this one. ') + reason;
+      });
+      if (matchSummary) {
+        matchSummary.classList.add('is-visible');
+        matchSummary.innerHTML = '<span>Practice score</span><strong>' + score + ' / ' + rows.length + '</strong><small>' + (unanswered ? unanswered + ' unanswered. ' : '') + 'Use the explanations to revise each match.</small>';
+      }
+    });
+  }
+
+  if (matchReset && matchList) {
+    matchReset.addEventListener('click', function () {
+      Array.prototype.slice.call(matchList.querySelectorAll('.guru-match-row')).forEach(function (row) {
+        var select = row.querySelector('select');
+        var feedback = row.querySelector('.guru-match-feedback');
+        row.classList.remove('is-right', 'is-wrong');
+        if (select) select.value = '';
+        if (feedback) feedback.textContent = '';
+      });
+      if (matchSummary) {
+        matchSummary.classList.remove('is-visible');
+        matchSummary.textContent = '';
+      }
+      var firstSelect = matchList.querySelector('select');
+      if (firstSelect) firstSelect.focus();
+    });
+  }
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' — ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+
+<style id="guru-dark-overrides">
+  html[data-theme="dark"] {
+    color-scheme: dark;
+    --guru-page-bg: #0d141c;
+    --guru-surface: #151f2a;
+    --guru-surface-2: #1d2a37;
+    --guru-ink: #f4f7fb;
+    --guru-text: #d4dde7;
+    --guru-muted: #acbac8;
+    --guru-border: #64788d;
+    --guru-navy: #203f5d;
+    --guru-teal: #62d2cf;
+    --guru-teal-soft: #14383c;
+    --guru-amber: #f3bd68;
+    --guru-amber-soft: #392b17;
+    --guru-blue: #8dc9ff;
+    --guru-blue-soft: #17324a;
+    --guru-green: #75d7a5;
+    --guru-green-soft: #173629;
+    --guru-red: #ff9b9f;
+    --guru-red-soft: #402326;
+    --guru-shadow: 0 18px 46px rgba(0, 0, 0, 0.3);
+  }
+
+  html[data-theme="dark"] .guru-hero-panel {
+    background: linear-gradient(145deg, #173a58, #155865);
+    color: #ffffff;
+  }
+
+  html[data-theme="dark"] .guru-system-viz {
+    background:
+      radial-gradient(circle at 50% 38%, rgba(98, 210, 207, 0.14), transparent 31%),
+      linear-gradient(145deg, #101a24, #172531);
+  }
+
+  html[data-theme="dark"] .guru-system-card {
+    box-shadow: 0 13px 30px rgba(0, 0, 0, 0.24);
+  }
+
+  html[data-theme="dark"] .guru-system-card--value { --guru-node-soft: #3b251f; }
+  html[data-theme="dark"] .guru-system-card--system { --guru-node-soft: #16383c; }
+  html[data-theme="dark"] .guru-system-card--improve { --guru-node-soft: #392c19; }
+  html[data-theme="dark"] .guru-system-card--results { --guru-node-soft: #1c3144; }
+
+  html[data-theme="dark"] .guru-system-card:hover,
+  html[data-theme="dark"] .guru-system-card:focus-visible,
+  html[data-theme="dark"] .guru-system-card.is-active,
+  html[data-theme="dark"] .guru-system-card.is-related {
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.34);
+  }
+
+  html[data-theme="dark"] .guru-system-detail {
+    background-color: #111c27;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+  }
+
+  html[data-theme="dark"] .guru-lens-deck {
+    background: linear-gradient(135deg, #102f4b, #0d4651);
+  }
+
+  html[data-theme="dark"] .guru-number,
+  html[data-theme="dark"] .guru-button,
+  html[data-theme="dark"] .guru-pdsa li::before {
+    color: #07171d;
+  }
+
+  html[data-theme="dark"] .guru-button.guru-button-secondary {
+    border-color: #8499ae;
+    background-color: #1d2a37;
+    color: #f4f7fb;
+  }
+
+  html[data-theme="dark"] .guru-button.guru-button-secondary:hover {
+    border-color: var(--guru-teal);
+    background-color: #253747;
+    color: #ffffff;
+    filter: none;
+  }
+
+  html[data-theme="dark"] .guru-memory,
+  html[data-theme="dark"] .guru-case-step::before {
+    background-color: #203f5d;
+    color: #ffffff;
+  }
+
+  html[data-theme="dark"] .guru-back-link {
+    color: #8dc9ff !important;
+  }
+
+  html[data-theme="dark"] #quiz,
+  html[data-theme="dark"] #quiz h2,
+  html[data-theme="dark"] #quiz .quiz,
+  html[data-theme="dark"] #quiz .quiz-head,
+  html[data-theme="dark"] #quiz .quiz-head h3,
+  html[data-theme="dark"] #quiz .quiz-question,
+  html[data-theme="dark"] #quiz .quiz-question legend,
+  html[data-theme="dark"] #quiz .quiz-option { color: #e7eef4; }
+  html[data-theme="dark"] #quiz .quiz-head p { color: #b6c3cf; }
+  html[data-theme="dark"] #quiz .quiz-feedback.good { color: #b9efd2; }
+  html[data-theme="dark"] #quiz .quiz-feedback.bad { color: #ffc4c6; }
+  html[data-theme="dark"] #quiz .quiz-feedback.warn { color: #ffe2a3; }
+
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) #quiz,
+    html:not([data-theme="light"]) #quiz h2,
+    html:not([data-theme="light"]) #quiz .quiz,
+    html:not([data-theme="light"]) #quiz .quiz-head,
+    html:not([data-theme="light"]) #quiz .quiz-head h3,
+    html:not([data-theme="light"]) #quiz .quiz-question,
+    html:not([data-theme="light"]) #quiz .quiz-question legend,
+    html:not([data-theme="light"]) #quiz .quiz-option { color: #e7eef4; }
+    html:not([data-theme="light"]) #quiz .quiz { background: #131f2c; border-color: #64788d; }
+    html:not([data-theme="light"]) #quiz .quiz-question { background: #15212e; border-color: #64788d; }
+    html:not([data-theme="light"]) #quiz .quiz-option { background: #111c28; border-color: #64788d; }
+    html:not([data-theme="light"]) #quiz .quiz-head p { color: #b6c3cf; }
+    html:not([data-theme="light"]) #quiz .quiz-question.is-correct,
+    html:not([data-theme="light"]) #quiz .quiz-feedback.good { background: #13291f; color: #b9efd2; }
+    html:not([data-theme="light"]) #quiz .quiz-question.is-incorrect,
+    html:not([data-theme="light"]) #quiz .quiz-feedback.bad { background: #2c1717; color: #ffc4c6; }
+    html:not([data-theme="light"]) #quiz .quiz-feedback.warn { background: #2a2413; color: #ffe2a3; }
+    html:not([data-theme="light"]) #quiz .quiz-result { background: #12202e; border-left-color: #5b9bd5; color: #e7eef4; }
+  }
+</style>
+</body>
+</html>

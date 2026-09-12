@@ -315,6 +315,18 @@
       description: 'Learn the Prevention-Appraisal-Failure model, calculate COPQ, and practice classifying quality costs with a dive-the-iceberg interactive.'
     },
     {
+      marker: 'data-quality-gurus-crosby-juran-deming',
+      sectionId: 'quality-engineering',
+      path: '/lessons/quality-engineering/quality-gurus-crosby-juran-deming',
+      topic: 'quality-engineering',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'quality gurus philip crosby joseph juran w edwards deming four absolutes zero defects price of nonconformance quality trilogy fitness for use pareto pdsa system thinking variation fourteen points quality engineering beginner interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>45 min</span><span>Crosby + Juran + Deming</span>',
+      title: 'Quality Gurus: Crosby, Juran, and Deming',
+      description: 'Compare Crosby, Juran, and Deming through practical quality decisions, a steel-mill case, interactive practice, and exam-ready distinctions.'
+    },
+    {
       marker: 'data-essential-quality-tools',
       sectionId: 'quality-engineering',
       path: '/lessons/7-essential-quality-tools',
