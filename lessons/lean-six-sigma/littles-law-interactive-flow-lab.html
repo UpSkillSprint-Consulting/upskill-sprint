@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Little’s Law — Interactive Flow Lab",
+  "slug": "littles-law-interactive-flow-lab",
+  "category": "Lean Six Sigma",
+  "category_slug": "lean-six-sigma",
+  "level": "Intermediate",
+  "lesson_type": "General",
+  "estimated_minutes": 20,
+  "interactive": true,
+  "card_title": "Little’s Law — Interactive Flow Lab",
+  "card_description": "Watch work move through a live system, connect WIP to flow time, and explore Little’s Law in Lean and queueing theory.",
+  "search_keywords": ["little’s law", "littles law", "work in process", "wip", "throughput", "flow time", "cycle time", "lead time", "queueing theory", "m/m/1", "lean", "kanban"],
+  "suggested_github_path": "lessons/lean-six-sigma/littles-law-interactive-flow-lab.html"
+}
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Little’s Law — Interactive Flow Lab</title>
+  <meta name="description" content="An interactive lesson that explains Little’s Law through live production flow, Lean WIP decisions, and an M/M/1 queueing model.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/lean-six-sigma/littles-law-interactive-flow-lab">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+  <style id="littles-law-style">
+  #lesson-content {
+    color-scheme: light dark;
+    --lesson-littles-page: #f4f8fb;
+    --lesson-littles-card: #ffffff;
+    --lesson-littles-panel: #f7fafc;
+    --lesson-littles-text: #172033;
+    --lesson-littles-muted: #526173;
+    --lesson-littles-border: #718096;
+    --lesson-littles-accent: #0f6b78;
+    --lesson-littles-accent-bg: #d7f0f2;
+    --lesson-littles-series-2: #175f9b;
+    --lesson-littles-series-3: #1f7a55;
+    --lesson-littles-series-4: #694b98;
+    --lesson-littles-series-5: #965a08;
+    background: var(--lesson-littles-page);
+    color: var(--lesson-littles-text);
+    padding: 2rem 1rem 4rem;
+  }
+  #lesson-content * { box-sizing: border-box; }
+  #lesson-content .lesson-littles-shell { max-width: 1120px; margin: 0 auto; }
+  #lesson-content .lesson-littles-title {
+    color: var(--lesson-littles-text);
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    line-height: 1.08;
+    margin: 0 0 1.25rem;
+    letter-spacing: -.03em;
+  }
+  #lesson-content #llLesson {
+    width: 100%;
+    color: var(--lesson-littles-text);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  #lesson-content #llLesson .ll-tab[aria-selected="true"] {
+    background: var(--lesson-littles-accent-bg);
+    color: var(--lesson-littles-text);
+    border-color: var(--lesson-littles-accent);
+  }
+  #lesson-content #llLesson .ll-panel { display: none; }
+  #lesson-content #llLesson .ll-panel.active { display: block; }
+  #lesson-content #llLesson .flow-track {
+    position: relative;
+    min-height: 210px;
+    overflow: hidden;
+    background: var(--lesson-littles-panel);
+    color: var(--lesson-littles-text);
+    border: 1px solid var(--lesson-littles-border);
+    border-radius: 18px;
+  }
+  #lesson-content #llLesson .stage {
+    position: absolute;
+    top: 52px;
+    bottom: 42px;
+    border: 1px dashed var(--lesson-littles-border);
+    border-radius: 12px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 8px;
+    font-size: 12px;
+    color: var(--lesson-littles-muted);
+    text-align: center;
+  }
+  #lesson-content #llLesson .ll-part {
+    position: absolute;
+    z-index: 5;
+    top: 82px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--lesson-littles-series-3);
+    color: #ffffff;
+    font-weight: 800;
+    border: 2px solid rgba(255,255,255,.8);
+    transition: top .25s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,.14);
+  }
+  #lesson-content #llLesson .metric {
+    background: var(--lesson-littles-card);
+    color: var(--lesson-littles-text);
+    border: 1px solid var(--lesson-littles-border);
+    border-radius: 14px;
+    padding: 12px;
+    min-width: 0;
+  }
+  #lesson-content #llLesson .formula {
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    letter-spacing: -.02em;
+  }
+  #lesson-content #llLesson .queue-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    background: var(--lesson-littles-series-4);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    flex: 0 0 auto;
+  }
+  #lesson-content #llLesson .server {
+    width: 76px;
+    height: 76px;
+    border-radius: 16px;
+    background: var(--lesson-littles-series-2);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 800;
+    padding: 6px;
+  }
+  #lesson-content #llLesson .wip-chip {
+    width: 31px;
+    height: 31px;
+    border-radius: 8px;
+    background: var(--lesson-littles-series-5);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+  }
+  #lesson-content #llLesson .good { border-left: 4px solid var(--lesson-littles-series-3); }
+  #lesson-content #llLesson .warn { border-left: 4px solid var(--lesson-littles-series-5); }
+  #lesson-content #llLesson .answer-ok {
+    background: var(--lesson-littles-accent-bg);
+    color: var(--lesson-littles-text);
+    border-color: var(--lesson-littles-accent);
+  }
+  #lesson-content #llLesson input[type="range"] { width: 100%; accent-color: var(--lesson-littles-accent); }
+  #lesson-content #llLesson button {
+    appearance: none;
+    background: var(--lesson-littles-card);
+    color: var(--lesson-littles-text);
+    border-color: var(--lesson-littles-border);
+    cursor: pointer;
+    font: inherit;
+    min-height: 44px;
+  }
+  #lesson-content #llLesson button:hover { border-color: var(--lesson-littles-accent); }
+  #lesson-content #llLesson button:focus-visible,
+  #lesson-content #llLesson input:focus-visible,
+  #lesson-content #llLesson a:focus-visible {
+    outline: 3px solid var(--lesson-littles-accent);
+    outline-offset: 3px;
+  }
+  #lesson-content #llLesson a { color: var(--lesson-littles-accent); }
+  #lesson-content #llLesson .grid { display: grid; }
+  #lesson-content #llLesson .flex { display: flex; }
+  #lesson-content #llLesson .flex-wrap { flex-wrap: wrap; }
+  #lesson-content #llLesson .items-center { align-items: center; }
+  #lesson-content #llLesson .items-stretch { align-items: stretch; }
+  #lesson-content #llLesson .self-center { align-self: center; }
+  #lesson-content #llLesson .shrink-0 { flex-shrink: 0; }
+  #lesson-content #llLesson .absolute { position: absolute; }
+  #lesson-content #llLesson .left-3 { left: .75rem; }
+  #lesson-content #llLesson .right-3 { right: .75rem; }
+  #lesson-content #llLesson .top-3 { top: .75rem; }
+  #lesson-content #llLesson .bottom-4 { bottom: 1rem; }
+  #lesson-content #llLesson .h-2 { height: .5rem; }
+  #lesson-content #llLesson .min-w-\[80px\] { min-width: 80px; }
+  #lesson-content #llLesson .overflow-x-auto { overflow-x: auto; }
+  #lesson-content #llLesson .rounded-full { border-radius: 9999px; }
+  #lesson-content #llLesson .rounded-xl { border-radius: .75rem; }
+  #lesson-content #llLesson .border { border: 1px solid var(--lesson-littles-border); }
+  #lesson-content #llLesson .gap-1 { gap: .25rem; }
+  #lesson-content #llLesson .gap-2 { gap: .5rem; }
+  #lesson-content #llLesson .gap-3 { gap: .75rem; }
+  #lesson-content #llLesson .gap-4 { gap: 1rem; }
+  #lesson-content #llLesson .mb-1 { margin-bottom: .25rem; }
+  #lesson-content #llLesson .mb-4 { margin-bottom: 1rem; }
+  #lesson-content #llLesson .mt-1 { margin-top: .25rem; }
+  #lesson-content #llLesson .mt-2 { margin-top: .5rem; }
+  #lesson-content #llLesson .mt-3 { margin-top: .75rem; }
+  #lesson-content #llLesson .mt-4 { margin-top: 1rem; }
+  #lesson-content #llLesson .mt-5 { margin-top: 1.25rem; }
+  #lesson-content #llLesson .ml-1 { margin-left: .25rem; }
+  #lesson-content #llLesson .p-3 { padding: .75rem; }
+  #lesson-content #llLesson .p-4 { padding: 1rem; }
+  #lesson-content #llLesson .px-3 { padding-left: .75rem; padding-right: .75rem; }
+  #lesson-content #llLesson .px-4 { padding-left: 1rem; padding-right: 1rem; }
+  #lesson-content #llLesson .py-2 { padding-top: .5rem; padding-bottom: .5rem; }
+  #lesson-content #llLesson .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+  #lesson-content #llLesson .pl-5 { padding-left: 1.25rem; }
+  #lesson-content #llLesson .space-y-1 > * + * { margin-top: .25rem; }
+  #lesson-content #llLesson .space-y-4 > * + * { margin-top: 1rem; }
+  #lesson-content #llLesson .text-left { text-align: left; }
+  #lesson-content #llLesson .text-xs { font-size: .75rem; line-height: 1rem; }
+  #lesson-content #llLesson .text-sm { font-size: .875rem; line-height: 1.35rem; }
+  #lesson-content #llLesson .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+  #lesson-content #llLesson .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+  #lesson-content #llLesson .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+  #lesson-content #llLesson .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+  #lesson-content #llLesson .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+  #lesson-content #llLesson .text-5xl { font-size: 3rem; line-height: 1; }
+  #lesson-content #llLesson .font-semibold { font-weight: 600; }
+  #lesson-content #llLesson .leading-relaxed { line-height: 1.625; }
+  #lesson-content #llLesson .list-disc { list-style-type: disc; }
+  #lesson-content #llLesson .list-decimal { list-style-type: decimal; }
+  #lesson-content #llLesson [data-panel="flow"] > .grid,
+  #lesson-content #llLesson [data-panel="queue"] > .grid { grid-template-columns: minmax(0,.72fr) minmax(0,1.28fr); }
+  #lesson-content #llLesson [data-panel="lean"] > .grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  #lesson-content #llLesson [data-panel="flow"] .grid-cols-2,
+  #lesson-content #llLesson [data-panel="queue"] .grid-cols-2 { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  #lesson-content #llLesson > section:first-of-type > .grid { grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); }
+  #lesson-content #llLesson [data-panel="quiz"] .grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  #lesson-content #llLesson [data-panel="queue"] .metric > .grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  #lesson-content #llLesson [data-panel="flow"] > .grid > div,
+  #lesson-content #llLesson [data-panel="queue"] > .grid > div { min-width: 0; }
+  @media (max-width: 767px) {
+    #lesson-content { padding: 1.25rem .75rem 3rem; }
+    #lesson-content #llLesson > section:first-of-type > .grid,
+    #lesson-content #llLesson [data-panel="flow"] > .grid,
+    #lesson-content #llLesson [data-panel="lean"] > .grid,
+    #lesson-content #llLesson [data-panel="queue"] > .grid { grid-template-columns: 1fr; }
+    #lesson-content #llLesson [data-panel="queue"] .metric > .grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    #lesson-content #llLesson [data-panel="quiz"] .grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    #lesson-content #llLesson .stage { font-size: 10px; padding: 4px; }
+    #lesson-content #llLesson .ll-part { width: 27px; height: 27px; font-size: 12px; }
+    #lesson-content #llLesson .text-5xl { font-size: 2.25rem; }
+    #lesson-content #llLesson .text-4xl { font-size: 1.875rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #lesson-content #llLesson *,
+    #lesson-content #llLesson *::before,
+    #lesson-content #llLesson *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  }
+  </style>
+  <style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+</head>
+<body data-lesson-page="true" data-category="lean-six-sigma" data-level="intermediate" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+
+<main id="lesson-content">
+  <div class="lesson-littles-shell">
+    <h1 class="lesson-littles-title">Little’s Law — Interactive Flow Lab</h1>
+    <div id='llLesson' class='w-full text-base' style='color:var(--lesson-littles-text)'>
+  <section class='mb-4'>
+    <div class='grid gap-3 md:grid-cols-[1.2fr_.8fr] items-stretch'>
+      <div class='metric p-4'>
+        <div class='text-sm font-semibold mb-1' style='color:var(--lesson-littles-muted)'>THE FLOW RELATIONSHIP</div>
+        <div class='formula text-4xl sm:text-5xl'>L = λ × W</div>
+        <p class='mt-2 text-sm leading-relaxed'>Average items in the system = average arrival rate × average time each item spends in the system.</p>
+      </div>
+      <div class='metric p-4'>
+        <div class='text-sm font-semibold'>Think of it as a conservation rule</div>
+        <p class='text-sm mt-2' style='color:var(--lesson-littles-muted)'>More items arriving, or items staying longer, means more items accumulate inside the same system boundary.</p>
+      </div>
+    </div>
+  </section>
+
+  <nav class='flex flex-wrap gap-2 mb-4' aria-label='Lesson sections'>
+    <button type='button' class='ll-tab border rounded-xl px-3 py-2 text-sm font-semibold' data-tab='flow' aria-selected='true'>① See the flow</button>
+    <button type='button' class='ll-tab border rounded-xl px-3 py-2 text-sm font-semibold' data-tab='lean' aria-selected='false'>② Lean application</button>
+    <button type='button' class='ll-tab border rounded-xl px-3 py-2 text-sm font-semibold' data-tab='queue' aria-selected='false'>③ Queueing theory</button>
+    <button type='button' class='ll-tab border rounded-xl px-3 py-2 text-sm font-semibold' data-tab='quiz' aria-selected='false'>④ Check yourself</button>
+    <button type='button' class='ll-tab border rounded-xl px-3 py-2 text-sm font-semibold' data-tab='refs' aria-selected='false'>References</button>
+  </nav>
+
+  <section class='ll-panel active' data-panel='flow'>
+    <div class='grid gap-4 lg:grid-cols-[.72fr_1.28fr]'>
+      <div class='space-y-4'>
+        <div class='metric'>
+          <label for='lambda' class='font-semibold block'>Arrival rate λ: <span id='lambdaOut'>12</span> parts/hour</label>
+          <input id='lambda' type='range' min='2' max='30' step='1' value='12' class='mt-3'>
+          <p class='text-sm mt-2' style='color:var(--lesson-littles-muted)'>How quickly new work enters the system.</p>
+        </div>
+        <div class='metric'>
+          <label for='timeW' class='font-semibold block'>Average time W: <span id='timeOut'>15</span> minutes</label>
+          <input id='timeW' type='range' min='2' max='60' step='1' value='15' class='mt-3'>
+          <p class='text-sm mt-2' style='color:var(--lesson-littles-muted)'>From crossing the entry boundary until leaving the exit boundary.</p>
+        </div>
+        <div class='grid grid-cols-2 gap-2'>
+          <div class='metric'><div class='text-xs' style='color:var(--lesson-littles-muted)'>PREDICTED AVG. WIP L</div><div id='lOut' class='formula text-3xl mt-1'>3.00</div><div class='text-xs'>parts</div></div>
+          <div class='metric'><div class='text-xs' style='color:var(--lesson-littles-muted)'>ACTIVE NOW</div><div id='activeOut' class='formula text-3xl mt-1'>0</div><div class='text-xs'>animated parts</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class='flow-track' id='flowTrack' aria-label='Animated parts moving through an input-output production system'>
+          <div class='absolute left-3 top-3 text-xs font-semibold' style='color:var(--lesson-littles-muted)'>TIME-COMPRESSED LIVE SYSTEM</div>
+          <div class='stage' style='left:2%;width:18%'>ARRIVAL</div>
+          <div class='stage' style='left:22%;width:18%'>QUEUE</div>
+          <div class='stage' style='left:42%;width:34%'>PROCESS</div>
+          <div class='stage' style='left:78%;width:16%'>INSPECT</div>
+          <div class='absolute left-3 right-3 bottom-4 h-2 rounded-full' style='background:var(--lesson-littles-border);color:var(--lesson-littles-text)'></div>
+          <div class='absolute right-3 top-3 text-xs'>EXIT →</div>
+        </div>
+        <div class='flex flex-wrap items-center gap-2 mt-3'>
+          <button id='pauseFlow' type='button' class='rounded-xl border px-4 py-2 font-semibold'>Pause animation</button>
+          <button id='resetFlow' type='button' class='rounded-xl border px-4 py-2 font-semibold'>Restart</button>
+          <span class='text-xs' style='color:var(--lesson-littles-muted)'>1 model minute ≈ 0.22 real seconds</span>
+        </div>
+      </div>
+    </div>
+
+    <div class='metric good mt-4'>
+      <div class='font-semibold'>Watch what the equation is saying</div>
+      <p id='flowExplain' class='mt-1 text-sm'>12 parts/hour × 15 minutes ÷ 60 = 3.00 parts in the system on average.</p>
+      <p class='mt-2 text-sm' style='color:var(--lesson-littles-muted)'>The moving picture will fluctuate at any instant. Little’s Law relates long-run averages, not a single snapshot.</p>
+    </div>
+
+    <div class='grid gap-3 md:grid-cols-3 mt-4'>
+      <div class='metric'><div class='formula text-2xl'>L</div><div class='font-semibold'>Average number in system</div><p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>Customers, parts, orders, tickets, jobs, patients, calls, etc.</p></div>
+      <div class='metric'><div class='formula text-2xl'>λ</div><div class='font-semibold'>Average arrival rate</div><p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>Items entering per unit time.</p></div>
+      <div class='metric'><div class='formula text-2xl'>W</div><div class='font-semibold'>Average time in system</div><p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>Waiting time + processing/service time inside the chosen boundary.</p></div>
+    </div>
+  </section>
+
+  <section class='ll-panel' data-panel='lean'>
+    <div class='metric mb-4'>
+      <div class='font-semibold text-lg'>Lean / Factory Physics form</div>
+      <div class='formula text-3xl mt-2'>WIP = Throughput × Flow Time</div>
+      <div class='formula text-xl mt-1'>Flow Time = WIP ÷ Throughput</div>
+      <p class='text-sm mt-2' style='color:var(--lesson-littles-muted)'>When the process is observed in a sufficiently stable operating regime, arrival rate and departure throughput balance, so the equation is commonly written using throughput.</p>
+    </div>
+
+    <div class='grid gap-4 md:grid-cols-2'>
+      <div class='space-y-4'>
+        <div class='metric'>
+          <label for='leanX' class='font-semibold block'>Throughput: <span id='leanXOut'>8</span> parts/hour</label>
+          <input id='leanX' type='range' min='1' max='20' step='1' value='8' class='mt-3'>
+        </div>
+        <div class='metric'>
+          <label for='leanWip' class='font-semibold block'>Average WIP: <span id='leanWipOut'>24</span> parts</label>
+          <input id='leanWip' type='range' min='1' max='60' step='1' value='24' class='mt-3'>
+        </div>
+        <div class='flex flex-wrap gap-2'>
+          <button id='halveWip' type='button' class='rounded-xl border px-3 py-2 font-semibold'>Halve WIP</button>
+          <button id='doubleWip' type='button' class='rounded-xl border px-3 py-2 font-semibold'>Double WIP</button>
+        </div>
+      </div>
+
+      <div class='metric'>
+        <div class='text-xs' style='color:var(--lesson-littles-muted)'>CALCULATED AVERAGE FLOW TIME</div>
+        <div id='leanCt' class='formula text-5xl mt-2'>3.00 h</div>
+        <div id='leanEq' class='font-semibold mt-2'>24 ÷ 8 = 3.00 hours</div>
+        <div id='wipVisual' class='flex flex-wrap gap-1 mt-5' aria-label='Pictorial display of work in process'></div>
+      </div>
+    </div>
+
+    <div class='grid gap-3 md:grid-cols-2 mt-4'>
+      <div class='metric good'>
+        <div class='font-semibold'>Why Lean cares about WIP</div>
+        <p class='text-sm mt-1'>At the same throughput, less average WIP mathematically means less average time in the system. This is why Kanban WIP limits can be powerful.</p>
+      </div>
+      <div class='metric warn'>
+        <div class='font-semibold'>But do not misuse the equation</div>
+        <p class='text-sm mt-1'>Reducing WIP does not guarantee throughput stays fixed. An excessively low WIP limit can starve downstream work. Little’s Law constrains the averages; it does not by itself tell you which operational change caused them.</p>
+      </div>
+    </div>
+
+    <div class='metric mt-4'>
+      <div class='font-semibold'>Lean example</div>
+      <p class='text-sm mt-2'>A value stream averages <strong>24 units of WIP</strong> and completes <strong>6 units/hour</strong>.</p>
+      <div class='formula text-2xl mt-2'>Flow time = 24 ÷ 6 = 4 hours</div>
+      <p class='text-sm mt-2' style='color:var(--lesson-littles-muted)'>If the team can sustainably reduce WIP to 12 while maintaining 6 units/hour, the average flow time becomes 2 hours.</p>
+    </div>
+  </section>
+
+  <section class='ll-panel' data-panel='queue'>
+    <div class='metric mb-4'>
+      <div class='font-semibold text-lg'>Queueing theory: Little’s Law works across the whole queue</div>
+      <p class='text-sm mt-2'>For the system boundary shown below, <strong>L includes customers waiting plus customers in service</strong>, and <strong>W includes waiting time plus service time</strong>.</p>
+    </div>
+
+    <div class='grid gap-4 lg:grid-cols-[.72fr_1.28fr]'>
+      <div class='space-y-4'>
+        <div class='metric'>
+          <label for='qLambda' class='font-semibold block'>Arrival rate λ: <span id='qLambdaOut'>10</span>/hour</label>
+          <input id='qLambda' type='range' min='1' max='24' step='1' value='10' class='mt-3'>
+        </div>
+        <div class='metric'>
+          <label for='qMu' class='font-semibold block'>Server rate μ: <span id='qMuOut'>14</span>/hour</label>
+          <input id='qMu' type='range' min='2' max='25' step='1' value='14' class='mt-3'>
+        </div>
+        <div class='metric'>
+          <div class='text-xs' style='color:var(--lesson-littles-muted)'>UTILIZATION ρ = λ / μ</div>
+          <div id='rhoOut' class='formula text-3xl mt-1'>71.4%</div>
+        </div>
+      </div>
+
+      <div class='metric'>
+        <div class='flex items-center gap-3 overflow-x-auto py-4'>
+          <div class='shrink-0 text-sm font-semibold'>Arrivals →</div>
+          <div id='queueDots' class='flex gap-1 min-w-[80px]' aria-label='Visual queue'></div>
+          <div class='shrink-0 server'>SERVER<br>μ</div>
+          <div class='shrink-0 text-sm font-semibold'>→ Departures</div>
+        </div>
+        <div class='grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3'>
+          <div class='metric'><div class='text-xs' style='color:var(--lesson-littles-muted)'>AVG. IN SYSTEM L</div><div id='qL' class='formula text-xl'>2.50</div></div>
+          <div class='metric'><div class='text-xs' style='color:var(--lesson-littles-muted)'>AVG. TIME W</div><div id='qW' class='formula text-xl'>15.0 min</div></div>
+          <div class='metric'><div class='text-xs' style='color:var(--lesson-littles-muted)'>AVG. WAIT Wq</div><div id='qWq' class='formula text-xl'>10.7 min</div></div>
+          <div class='metric'><div class='text-xs' style='color:var(--lesson-littles-muted)'>AVG. QUEUE Lq</div><div id='qLq' class='formula text-xl'>1.79</div></div>
+        </div>
+        <div id='qCheck' class='mt-3 text-sm font-semibold'>Little’s Law check: 10/hour × 0.25 hour = 2.50</div>
+      </div>
+    </div>
+
+    <div class='metric mt-4 warn'>
+      <div class='font-semibold'>Important: the extra formulas here are M/M/1 formulas, not Little’s Law</div>
+      <p class='text-sm mt-1'>This demonstration assumes one server, Poisson arrivals, exponential service times and λ &lt; μ. Under those assumptions, W = 1/(μ − λ). Little’s Law then links the resulting averages through L = λW.</p>
+    </div>
+
+    <div class='metric mt-4'>
+      <div class='font-semibold'>Try pushing utilization toward 100%</div>
+      <p class='text-sm mt-1'>As λ approaches μ, the M/M/1 model predicts a rapidly increasing queue and waiting time. At λ ≥ μ there is no finite steady-state average queue: arrivals are entering at least as fast as the server can sustainably remove them.</p>
+    </div>
+  </section>
+
+  <section class='ll-panel' data-panel='quiz'>
+    <div class='metric mb-4'>
+      <div class='font-semibold text-lg'>Quick challenge</div>
+      <p class='text-sm mt-1' style='color:var(--lesson-littles-muted)'>Choose an answer, then reveal the reasoning.</p>
+    </div>
+
+    <div class='space-y-4'>
+      <div class='metric' data-quiz='q1'>
+        <div class='font-semibold'>1. A factory averages 24 units of WIP and produces 6 units/hour. What is the average flow time?</div>
+        <div class='grid sm:grid-cols-3 gap-2 mt-3'>
+          <button type='button' class='quizOpt border rounded-xl p-3' data-correct='false'>2 hours</button>
+          <button type='button' class='quizOpt border rounded-xl p-3' data-correct='true'>4 hours</button>
+          <button type='button' class='quizOpt border rounded-xl p-3' data-correct='false'>144 hours</button>
+        </div>
+        <div class='quizFeedback mt-3 text-sm' aria-live='polite'></div>
+      </div>
+
+      <div class='metric' data-quiz='q2'>
+        <div class='font-semibold'>2. A drive-through receives 30 cars/hour. Each car spends 6 minutes in the system. About how many cars are in the system on average?</div>
+        <div class='grid sm:grid-cols-3 gap-2 mt-3'>
+          <button type='button' class='quizOpt border rounded-xl p-3' data-correct='false'>0.2 cars</button>
+          <button type='button' class='quizOpt border rounded-xl p-3' data-correct='true'>3 cars</button>
+          <button type='button' class='quizOpt border rounded-xl p-3' data-correct='false'>180 cars</button>
+        </div>
+        <div class='quizFeedback mt-3 text-sm' aria-live='polite'></div>
+      </div>
+
+      <div class='metric' data-quiz='q3'>
+        <div class='font-semibold'>3. In the queueing-theory form, what belongs in W?</div>
+        <div class='grid gap-2 mt-3'>
+          <button type='button' class='quizOpt border rounded-xl p-3 text-left' data-correct='false'>Only active processing time</button>
+          <button type='button' class='quizOpt border rounded-xl p-3 text-left' data-correct='true'>All time inside the chosen system boundary: waiting + service</button>
+          <button type='button' class='quizOpt border rounded-xl p-3 text-left' data-correct='false'>Only time spent waiting in line</button>
+        </div>
+        <div class='quizFeedback mt-3 text-sm' aria-live='polite'></div>
+      </div>
+    </div>
+
+    <div class='metric mt-4'>
+      <div class='font-semibold'>Three exam traps to remember</div>
+      <ul class='list-disc pl-5 text-sm mt-2 space-y-1'>
+        <li>Convert time units before multiplying. Five minutes = 5/60 hour.</li>
+        <li>Use averages measured over a consistent system boundary and observation period.</li>
+        <li>Do not confuse instantaneous WIP with average WIP.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class='ll-panel' data-panel='refs'>
+    <div class='metric'>
+      <div class='font-semibold text-lg'>History and deeper interpretation</div>
+      <p class='text-sm mt-2'>John D. C. Little published the first general queueing-theory proof in 1961. Shaler Stidham later gave a deterministic sample-path treatment, showing that the underlying relationship is broader than a particular probability distribution or queue discipline.</p>
+      <div class='mt-4 p-3 rounded-xl border'>
+        <div class='font-semibold'>Advanced finite-window note</div>
+        <div class='formula text-2xl mt-2'>L = Λ × w</div>
+        <p class='text-sm mt-2'>For a finite observation window, the linked article distinguishes cumulative arrival rate Λ and residence time w from the long-run λ and W. This is useful when a process is changing or the reporting window is short relative to the time work spends in the system.</p>
+      </div>
+    </div>
+
+    <div class='metric mt-4'>
+      <div class='font-semibold text-lg'>References</div>
+      <ol class='list-decimal pl-5 mt-3 space-y-3 text-sm'>
+        <li><strong>Krishna Kumar.</strong> <a class='underline font-semibold' href='https://docs.pcalc.org/articles/littles-law-history/' target='_blank' rel='noopener noreferrer'>A Deep Dive into Little’s Law</a>, The Presence Calculus Project. <span style='color:var(--lesson-littles-muted)'>Requested lesson reference.</span></li>
+        <li><strong>J. D. C. Little.</strong> “A Proof for the Queuing Formula: L = λW.” <em>Operations Research</em>, Vol. 9, No. 3, 1961, pp. 383–387.</li>
+        <li><strong>S. Stidham.</strong> “A Last Word on L = λW.” <em>Operations Research</em>, 1972.</li>
+        <li><strong>W. J. Hopp &amp; M. L. Spearman.</strong> <em>Factory Physics: Foundations of Manufacturing Management</em>, 2nd ed., McGraw-Hill, 2000.</li>
+      </ol>
+    </div>
+
+    <div class='metric good mt-4'>
+      <div class='font-semibold'>One-line memory aid</div>
+      <p class='formula text-xl mt-2'>Stuff in the system = Stuff per unit time × Time in the system.</p>
+    </div>
+  </section>
+</div>
+  </div>
+</main>
+
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Convert 15 minutes to 0.25 hour, then calculate L = 12 × 0.25 = 3 parts.">
+        <legend>1. A system receives 12 parts per hour, and each part spends 15 minutes inside the boundary. What is the average WIP?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> 0.8 part</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> 3 parts</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> 180 parts</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="At unchanged throughput, Flow Time = WIP ÷ Throughput, so halving WIP also halves average flow time.">
+        <legend>2. If throughput stays fixed and average WIP is cut in half, what does Little’s Law predict?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> Flow time doubles</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> Flow time stays unchanged</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> Flow time is cut in half</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="W measures the complete residence time inside the chosen boundary: waiting time plus processing or service time.">
+        <legend>3. For a queueing system, which time should be used for W?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> Waiting plus service time inside the boundary</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Service time only</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Waiting time only</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="When λ is at least μ, arrivals enter as fast as or faster than the server can remove them, so this M/M/1 model has no finite steady-state average queue.">
+        <legend>4. In the M/M/1 demonstration, what happens when λ ≥ μ?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> The average queue becomes zero</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> Little’s Law stops applying to all systems</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> There is no finite steady-state average queue</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section id="littles-law-return" aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#lean-six-sigma" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Lean Six Sigma lessons</a>
+</section>
+
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+
+<script>
+(() => {
+  const root=document.getElementById('llLesson');
+  if(!root || root.dataset.init==='1') return;
+  root.dataset.init='1';
+
+  const $=(s)=>root.querySelector(s);
+  const $$=(s)=>Array.from(root.querySelectorAll(s));
+
+  $$('.ll-tab').forEach(btn=>btn.addEventListener('click',()=>{
+    $$('.ll-tab').forEach(b=>b.setAttribute('aria-selected','false'));
+    $$('.ll-panel').forEach(p=>p.classList.remove('active'));
+    btn.setAttribute('aria-selected','true');
+    const panel=root.querySelector(`[data-panel='${btn.dataset.tab}']`);
+    if(panel) panel.classList.add('active');
+  }));
+
+  const lambda=$('#lambda'), timeW=$('#timeW'), flowTrack=$('#flowTrack');
+  const TIME_SCALE=220;
+  let parts=[];
+  let partId=0;
+  let paused=false;
+  let lastSpawn=performance.now();
+  let pauseStarted=0;
+  const reduceMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function flowValues(){
+    const lam=Math.max(0,Number(lambda.value)||0);
+    const w=Math.max(0,Number(timeW.value)||0);
+    return {lam,w,L:lam*w/60};
+  }
+  function updateFlowText(){
+    const v=flowValues();
+    $('#lambdaOut').textContent=v.lam.toFixed(0);
+    $('#timeOut').textContent=v.w.toFixed(0);
+    $('#lOut').textContent=v.L.toFixed(2);
+    $('#flowExplain').textContent=`${v.lam.toFixed(0)} parts/hour × ${v.w.toFixed(0)} minutes ÷ 60 = ${v.L.toFixed(2)} parts in the system on average.`;
+    if(reduceMotion) renderStaticFlow(v.L);
+  }
+  function clearParts(){
+    parts.forEach(p=>p.el.remove());
+    parts=[];
+    $('#activeOut').textContent='0';
+  }
+  function spawnPart(now){
+    if(parts.length>=50) return;
+    const v=flowValues();
+    const el=document.createElement('span');
+    el.className='ll-part';
+    el.textContent='P';
+    el.style.top=`${74+(partId%3)*35}px`;
+    flowTrack.appendChild(el);
+    parts.push({el,start:now,duration:Math.max(650,v.w*TIME_SCALE)});
+    partId++;
+  }
+  function renderStaticFlow(L){
+    clearParts();
+    const n=Math.min(30,Math.max(1,Math.round(L)));
+    for(let i=0;i<n;i++){
+      const el=document.createElement('span');
+      el.className='ll-part';
+      el.textContent='P';
+      el.style.left=`${8+(i/(Math.max(1,n-1)))*78}%`;
+      el.style.top=`${74+(i%3)*35}px`;
+      flowTrack.appendChild(el);
+      parts.push({el,start:0,duration:1});
+    }
+    $('#activeOut').textContent=String(n);
+  }
+  function frame(now){
+    if(!reduceMotion){
+      if(!paused){
+        const v=flowValues();
+        const interval=Math.max(180,(60/Math.max(0.1,v.lam))*TIME_SCALE);
+        if(now-lastSpawn>=interval){spawnPart(now);lastSpawn=now;}
+        parts=parts.filter(p=>{
+          const progress=(now-p.start)/p.duration;
+          if(progress>=1){p.el.remove();return false;}
+          p.el.style.left=`${Math.max(1,Math.min(93,progress*93))}%`;
+          return true;
+        });
+        $('#activeOut').textContent=String(parts.length);
+      }
+      requestAnimationFrame(frame);
+    }
+  }
+  lambda.addEventListener('input',()=>{updateFlowText();});
+  timeW.addEventListener('input',()=>{updateFlowText();});
+  $('#resetFlow').addEventListener('click',()=>{clearParts();lastSpawn=performance.now();});
+  $('#pauseFlow').addEventListener('click',()=>{
+    if(reduceMotion) return;
+    paused=!paused;
+    const now=performance.now();
+    if(paused){pauseStarted=now;$('#pauseFlow').textContent='Resume animation';}
+    else{
+      const shift=now-pauseStarted;
+      parts.forEach(p=>p.start+=shift);
+      lastSpawn+=shift;
+      $('#pauseFlow').textContent='Pause animation';
+    }
+  });
+  if(reduceMotion){$('#pauseFlow').disabled=true;$('#pauseFlow').textContent='Reduced motion enabled';}
+  updateFlowText();
+  if(!reduceMotion) requestAnimationFrame(frame);
+
+  const leanX=$('#leanX'), leanWip=$('#leanWip');
+  function updateLean(){
+    const x=Math.max(0.1,Number(leanX.value)||1);
+    const wip=Math.max(0,Number(leanWip.value)||0);
+    const ct=wip/x;
+    $('#leanXOut').textContent=x.toFixed(0);
+    $('#leanWipOut').textContent=wip.toFixed(0);
+    $('#leanCt').textContent=`${ct.toFixed(2)} h`;
+    $('#leanEq').textContent=`${wip.toFixed(0)} ÷ ${x.toFixed(0)} = ${ct.toFixed(2)} hours`;
+    const vis=$('#wipVisual');vis.innerHTML='';
+    const count=Math.min(40,Math.round(wip));
+    for(let i=0;i<count;i++){const e=document.createElement('span');e.className='wip-chip';e.textContent=String(i+1);vis.appendChild(e);}
+    if(wip>40){const more=document.createElement('span');more.className='text-sm self-center ml-1';more.textContent=`+${Math.round(wip)-40} more`;vis.appendChild(more);}
+  }
+  leanX.addEventListener('input',updateLean);leanWip.addEventListener('input',updateLean);
+  $('#halveWip').addEventListener('click',()=>{leanWip.value=Math.max(Number(leanWip.min),Math.round(Number(leanWip.value)/2));updateLean();});
+  $('#doubleWip').addEventListener('click',()=>{leanWip.value=Math.min(Number(leanWip.max),Math.round(Number(leanWip.value)*2));updateLean();});
+  updateLean();
+
+  const qLambda=$('#qLambda'), qMu=$('#qMu');
+  function updateQueue(){
+    const lam=Math.max(0.1,Number(qLambda.value)||1);
+    const mu=Math.max(0.1,Number(qMu.value)||1);
+    $('#qLambdaOut').textContent=lam.toFixed(0);$('#qMuOut').textContent=mu.toFixed(0);
+    const rho=lam/mu;$('#rhoOut').textContent=`${(rho*100).toFixed(1)}%`;
+    const dots=$('#queueDots');dots.innerHTML='';
+    if(lam>=mu){
+      $('#qL').textContent='Unbounded';$('#qW').textContent='Unbounded';$('#qWq').textContent='Unbounded';$('#qLq').textContent='Unbounded';
+      $('#qCheck').textContent='λ ≥ μ: this M/M/1 queue has no finite steady-state average.';
+      for(let i=0;i<12;i++){const d=document.createElement('span');d.className='queue-dot';d.textContent='P';dots.appendChild(d);}return;
+    }
+    const W=1/(mu-lam);
+    const L=lam*W;
+    const Wq=W-(1/mu);
+    const Lq=lam*Wq;
+    $('#qL').textContent=L.toFixed(2);$('#qW').textContent=`${(W*60).toFixed(1)} min`;$('#qWq').textContent=`${(Wq*60).toFixed(1)} min`;$('#qLq').textContent=Lq.toFixed(2);
+    $('#qCheck').textContent=`Little’s Law check: ${lam.toFixed(0)}/hour × ${W.toFixed(3)} hour = ${L.toFixed(2)}`;
+    const n=Math.min(18,Math.max(0,Math.round(Lq)));
+    if(n===0){const t=document.createElement('span');t.className='text-sm';t.style.color='var(--lesson-littles-muted)';t.textContent='little or no queue';dots.appendChild(t);}else{for(let i=0;i<n;i++){const d=document.createElement('span');d.className='queue-dot';d.textContent='P';dots.appendChild(d);}}
+  }
+  qLambda.addEventListener('input',updateQueue);qMu.addEventListener('input',updateQueue);updateQueue();
+
+  $$('.quizOpt').forEach(btn=>btn.addEventListener('click',()=>{
+    const card=btn.closest('[data-quiz]');
+    card.querySelectorAll('.quizOpt').forEach(b=>b.classList.remove('answer-ok'));
+    btn.classList.add('answer-ok');
+    const ok=btn.dataset.correct==='true';
+    const fb=card.querySelector('.quizFeedback');
+    const id=card.dataset.quiz;
+    let reasoning='';
+    if(id==='q1') reasoning='24 units ÷ 6 units/hour = 4 hours.';
+    if(id==='q2') reasoning='6 minutes = 0.1 hour, so L = 30 × 0.1 = 3 cars.';
+    if(id==='q3') reasoning='W covers the complete residence time inside the defined system boundary, including both waiting and service.';
+    fb.textContent=(ok?'Correct. ':'Not quite. ')+reasoning;
+  }));
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<style id="littles-law-dark-overrides">
+html[data-theme="dark"] #lesson-content {
+  --lesson-littles-page: #071120;
+  --lesson-littles-card: #131f2c;
+  --lesson-littles-panel: #172536;
+  --lesson-littles-text: #f8fafc;
+  --lesson-littles-muted: #cbd5e1;
+  --lesson-littles-border: #71869c;
+  --lesson-littles-accent: #67d4df;
+  --lesson-littles-accent-bg: #174650;
+  --lesson-littles-series-2: #216da8;
+  --lesson-littles-series-3: #1f7a55;
+  --lesson-littles-series-4: #7654aa;
+  --lesson-littles-series-5: #965a08;
+}
+html[data-theme="dark"] #littles-law-return a { color: #67d4df !important; }
+</style>
+</body>
+</html>
