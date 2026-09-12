@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Manage Account Access | UpSkill Sprint</title>
+<link rel="stylesheet" href="/style.css"><script src="/theme.js"></script>
+<script src="/site-sections.js"></script><script defer src="/admin-access.js"></script>
+<style>
+.admin-wrap{max-width:760px;margin:40px auto;padding:24px}.admin-wrap label{display:block;margin:18px 0 6px}.admin-wrap input,.admin-wrap select{width:100%;padding:12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink)}.admin-wrap button{margin-top:18px}.admin-wrap fieldset{border:1px solid var(--line);padding:20px;margin-top:24px}.admin-wrap [hidden]{display:none!important}.admin-wrap li{margin:12px 0}#admin-status{padding:16px;background:var(--tint);border-radius:8px}
+</style></head>
+<body><main class="admin-wrap">
+<a href="/">Back to UpSkill Sprint</a><h1>Manage Account Access</h1>
+<p>Owner-only controls. Search by full email, choose an access level, then save. No background polling.</p>
+<p id="admin-status" role="status" aria-live="polite">Checking owner access…</p>
+<a id="admin-signin" href="/sign-in.html?next=%2Fadmin-access.html" hidden>Sign in to your owner account</a>
+<div id="admin-controls" hidden>
+<form id="admin-search"><label for="account-email">Account email</label><input id="account-email" type="email" required maxlength="254" autocomplete="off"><button class="btn btn-teal">Search account</button></form>
+<form id="admin-edit" hidden><fieldset><legend id="account-title">Account</legend>
+<p id="account-current"></p><label for="access-level">Access level</label>
+<select id="access-level"><option value="registered">Registered</option><option value="premium">Premium</option><option value="special">Special</option><option value="administrator">Administrator</option></select>
+<label for="access-expiry">Expires at (your local time; optional)</label><input id="access-expiry" type="datetime-local"><p>Leave empty for no expiry. Expired grants fall back to Registered.</p>
+<button id="access-save" class="btn btn-teal">Save access</button></fieldset>
+<h2>Recent changes</h2><ul id="access-history"></ul></form>
+</div><noscript>JavaScript is required to manage account access.</noscript>
+</main></body></html>

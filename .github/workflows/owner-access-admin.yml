@@ -1,0 +1,19 @@
+name: Owner access admin validation
+on:
+  pull_request:
+    paths:
+      - 'admin-access.*'
+      - 'supabase/owner-access-admin.sql'
+      - 'supabase/tests/owner-access-admin.sql'
+      - 'tests/owner-admin.test.js'
+      - '.github/workflows/owner-access-admin.yml'
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check admin-access.js
+      - run: node --test tests/owner-admin.test.js tests/access-notice.test.js tests/premium-simulator-access.test.js
