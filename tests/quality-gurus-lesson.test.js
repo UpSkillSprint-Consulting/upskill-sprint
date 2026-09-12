@@ -71,18 +71,21 @@ test('Juran Trilogy discussion includes the supplied planning-control-improvemen
   assert.deepEqual([...bytes.subarray(0, 8)], [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 });
 
-test('lesson opens with a responsive, readable quality-management map before introducing the guru lenses', () => {
-  const image = document.querySelector('.guru-hero .guru-opening-map img');
-  assert.ok(image, 'opening map is part of the hero introduction');
-  assert.equal(image.getAttribute('src'), '/assets/lessons/quality-gurus-crosby-juran-deming/quality-management-map-readable.svg');
-  assert.equal(image.getAttribute('width'), '1600');
-  assert.equal(image.getAttribute('height'), '900');
-  assert.match(image.alt, /customer value.*planning.*assurance.*control.*improvement.*Crosby.*Juran.*Deming/i);
-  const mobileSource = document.querySelector('.guru-hero .guru-opening-map source[media="(max-width: 640px)"]');
-  assert.ok(mobileSource, 'opening map has a dedicated mobile composition');
-  assert.equal(mobileSource.getAttribute('srcset'), '/assets/lessons/quality-gurus-crosby-juran-deming/quality-management-map-readable-mobile.svg');
-  assert.equal(document.querySelector('.guru-opening-map .guru-image-link').getAttribute('href'), image.getAttribute('src'));
-  const mapPosition = html.indexOf('class="guru-reference-figure guru-opening-map"');
+test('lesson opens with a responsive, readable quality-management system before introducing the guru lenses', () => {
+  const visual = document.getElementById('guru-quality-system-map');
+  assert.ok(visual, 'opening system visual is part of the hero introduction');
+  assert.equal(visual.querySelectorAll('[data-guru-node]').length, 4);
+  assert.equal(visual.querySelectorAll('[data-guru-lens]').length, 3);
+  assert.ok(visual.querySelector('#guru-system-wheel[aria-label="Pause quality-system motion"]'));
+  assert.equal(visual.querySelector('#guru-system-detail').getAttribute('aria-live'), 'polite');
+  assert.match(visual.textContent, /Define customer value/);
+  assert.match(visual.textContent, /Build the management system/);
+  assert.match(visual.textContent, /Operate, learn, and improve/);
+  assert.match(visual.textContent, /Deliver balanced results/);
+  assert.match(visual.textContent, /Crosby[\s\S]*Juran[\s\S]*Deming/);
+  const staticReference = '/assets/lessons/quality-gurus-crosby-juran-deming/quality-management-map-readable.svg';
+  assert.equal(document.querySelector('.guru-opening-map .guru-image-link').getAttribute('href'), staticReference);
+  const mapPosition = html.indexOf('id="guru-quality-system-map"');
   assert.ok(mapPosition > html.indexOf('<h1 id="lesson-title">'));
   assert.ok(mapPosition < html.indexOf('<aside class="guru-hero-panel"'));
   assert.ok(mapPosition < html.indexOf('<section class="guru-section" id="objectives">'));
@@ -98,12 +101,51 @@ test('lesson opens with a responsive, readable quality-management map before int
   }
 });
 
+test('opening system visual supports stage, guru-lens, and motion controls', () => {
+  const runtime = new JSDOM(html, {
+    url: 'https://upskillsprint.com/lessons/quality-engineering/quality-gurus-crosby-juran-deming',
+    runScripts: 'dangerously',
+    pretendToBeVisual: true
+  });
+  try {
+    const doc = runtime.window.document;
+    const visual = doc.getElementById('guru-quality-system-map');
+    const systemCard = visual.querySelector('[data-guru-node="system"]');
+    systemCard.click();
+    assert.equal(visual.dataset.activeNode, 'system');
+    assert.equal(systemCard.getAttribute('aria-pressed'), 'true');
+    assert.match(doc.getElementById('guru-system-detail-title').textContent, /Design quality into the work/);
+
+    const juranLens = visual.querySelector('[data-guru-lens="juran"]');
+    juranLens.click();
+    assert.equal(visual.dataset.activeLens, 'juran');
+    assert.equal(juranLens.getAttribute('aria-pressed'), 'true');
+    assert.equal(visual.querySelectorAll('.guru-system-card.is-related').length, 3);
+    assert.match(doc.getElementById('guru-system-detail-title').textContent, /trilogy/i);
+
+    const wheel = doc.getElementById('guru-system-wheel');
+    wheel.click();
+    assert.equal(visual.dataset.motionPaused, 'true');
+    assert.equal(wheel.getAttribute('aria-pressed'), 'true');
+    assert.match(doc.getElementById('guru-system-wheel-control').textContent, /Resume motion/);
+    wheel.click();
+    assert.equal(visual.dataset.motionPaused, 'false');
+    assert.equal(wheel.getAttribute('aria-pressed'), 'false');
+  } finally {
+    runtime.window.close();
+  }
+  assert.match(html, /@keyframes guru-wheel-spin/);
+  assert.match(html, /@media \(prefers-reduced-motion: reduce\)[\s\S]*animation: none !important/);
+});
+
 test('dark-mode quiz contract supplies explicit surface and text colours', () => {
   const contract = document.querySelector('#guru-quiz-contract').textContent;
   const finalDark = document.querySelector('#guru-dark-overrides').textContent;
   assert.match(contract, /#quiz \.quiz-option \{ color: #172536; \}/);
   assert.match(finalDark, /html\[data-theme="dark"\] #quiz \.quiz-option \{ color: #e7eef4; \}/);
   assert.match(finalDark, /#quiz \.quiz \{ background: #131f2c; border-color: #64788d; \}/);
+  assert.match(finalDark, /html\[data-theme="dark"\] \.guru-system-viz/);
+  assert.match(finalDark, /html\[data-theme="dark"\] \.guru-system-card--value/);
   assert.match(finalDark, /prefers-color-scheme: dark/);
   assert.ok(html.lastIndexOf('<style id="guru-dark-overrides">') > html.lastIndexOf('</script>'));
 });
