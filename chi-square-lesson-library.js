@@ -381,6 +381,25 @@
     return path === '/lessons' || path.endsWith('/lessons.html');
   }
 
+  // Count the same static and managed rows shown by the lesson library.
+  window.UpskillLessonCounts = function (catalogDocument) {
+    const lessons = new Map();
+    const subjects = new Set();
+    function add(path, sectionId, interactive) {
+      const key = new URL(path, window.location.origin).pathname.replace(/\.html$/, '').replace(/\/$/, '');
+      lessons.set(key, interactive === 'true');
+      subjects.add(sectionId);
+    }
+    catalogDocument.querySelectorAll('[data-lesson-item]').forEach(function (row) {
+      const section = row.closest('.lesson-category');
+      if (section) add(row.getAttribute('href'), section.id, row.getAttribute('data-interactive'));
+    });
+    LESSONS.forEach(function (lesson) {
+      if (catalogDocument.getElementById(lesson.sectionId)) add(lesson.path, lesson.sectionId, lesson.interactive);
+    });
+    return { lessons: Array.from(lessons.values()).filter(Boolean).length, subjects: subjects.size };
+  };
+
   function normalise(value) {
     return String(value || '').toLowerCase().trim();
   }
