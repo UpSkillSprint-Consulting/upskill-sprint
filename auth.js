@@ -20,6 +20,35 @@
   var sessionKnown = false;
   var sessionRevision = 0;
   var listeners = [];
+  var accessText = 'Access level: checking…';
+  var accessRequest = 0;
+
+  function paintAccess(text) {
+    accessText = text;
+    document.querySelectorAll('[data-account-access]').forEach(function (node) {
+      node.textContent = text;
+    });
+  }
+
+  function refreshAccess() {
+    var revision = ++accessRequest;
+    var user = getUser();
+    if (!user) { paintAccess('Sign in to view your access level.'); return; }
+    paintAccess('Access level: checking…');
+    // Schedule outside Supabase auth callbacks; never trust editable user metadata.
+    Promise.resolve().then(function () {
+      var client = getClient();
+      if (!client) throw new Error('Accounts unavailable');
+      return client.rpc('current_access_level');
+    }).then(function (result) {
+      if (revision !== accessRequest || !getUser() || getUser().id !== user.id) return;
+      var names = {public:'Public',registered:'Registered member',premium:'Premium member',special:'Special access',administrator:'Administrator'};
+      if (!result || result.error || !Object.prototype.hasOwnProperty.call(names, result.data)) throw new Error('Access unavailable');
+      paintAccess('Access level: ' + names[result.data]);
+    }).catch(function () {
+      if (revision === accessRequest && getUser() && getUser().id === user.id) paintAccess('Access level unavailable. Reopen Account to retry.');
+    });
+  }
 
   function getConfig() {
     return window.UPSKILLSPRINT_SUPABASE_CONFIG || null;
@@ -36,6 +65,8 @@
   }
 
   function notifyListeners() {
+    accessRequest += 1;
+    accessText = 'Access level: checking…';
     var user = getUser();
     listeners.forEach(function (listener) {
       try { listener(user); } catch (error) { /* listener errors stay local */ }
@@ -240,6 +271,13 @@
       email.textContent = user.email || '';
       panel.appendChild(email);
 
+      var access = document.createElement('p');
+      access.className = 'account-menu-email';
+      access.setAttribute('data-account-access', '');
+      access.setAttribute('aria-live', 'polite');
+      access.textContent = accessText;
+      panel.appendChild(access);
+
       var profileLink = document.createElement('a');
       profileLink.href = PROFILE_PATH;
       profileLink.id = 'account-menu-profile';
@@ -294,6 +332,7 @@
     button.className = 'account-menu-btn';
     button.id = 'account-menu-btn';
     button.setAttribute('aria-haspopup', 'true');
+    button.setAttribute('aria-controls', 'account-menu-panel');
     button.setAttribute('aria-expanded', 'false');
     button.appendChild(document.createTextNode('Account'));
     button.appendChild(chevronSvg());
@@ -306,6 +345,7 @@
     function setOpen(open) {
       panel.hidden = !open;
       button.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) refreshAccess();
     }
 
     button.addEventListener('click', function () {
@@ -331,6 +371,7 @@
       if (!nextUserId || nextUserId !== menuUserId) menuProfile = null;
       menuUserId = nextUserId;
       renderPanel(panel, user, menuProfile);
+      if (!panel.hidden && !document.getElementById('profile-access-level')) refreshAccess();
     });
     document.addEventListener('upskill-profile-change', function (event) {
       var user = getUser();
@@ -348,6 +389,9 @@
   function initialize() {
     getClient(); /* begins session restore when configured; harmless otherwise */
     buildAccountMenu();
+    if (document.getElementById('profile-access-level')) {
+      window.UpskillAuth.onChange(function () { refreshAccess(); });
+    }
     document.dispatchEvent(new CustomEvent('upskill-auth-ready'));
   }
 
