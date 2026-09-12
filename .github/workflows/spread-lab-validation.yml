@@ -62,8 +62,8 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-  # The existing full-test-suite.yml runs every test without exclusions.
-  # Keep the production build independent rather than repeating that entire suite serially.
+  # Match the command Netlify executes in netlify.toml. The full test suite is a
+  # separate concern and may legitimately include tests for retired runtimes.
   production-build:
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -78,7 +78,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p artifacts/spread-lab-build
-          (node --test tests/test-bank*.test.js && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs) 2>&1 | tee artifacts/spread-lab-build/build.txt
+          (node scripts/validate-simple-test-bank.mjs && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs) 2>&1 | tee artifacts/spread-lab-build/build.txt
           git rev-parse HEAD > artifacts/spread-lab-build/commit.txt
       - uses: actions/upload-artifact@v4
         if: always()
