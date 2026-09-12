@@ -1,6 +1,6 @@
 # UpSkill Sprint — Lesson Creation & Update Guide
 
-**Audience:** AI agents and human contributors creating or updating lessons on upskillsprint.com.
+**Audience:** AI agents and human contributors creating or updating lessons or engineering tools on upskillsprint.com.
 **Status:** Authoritative. If any instruction elsewhere conflicts with this file, follow this file.
 
 This guide is written to be executed literally. Where it says **MUST**, it is a hard
@@ -14,13 +14,22 @@ reinterpret, or substitute equivalents unless this guide explicitly allows a cho
 When asked to create or update a lesson:
 
 1. Read this entire file first.
-2. Work inside a local clone of the repo. Never hand-write files blindly — inspect the
+2. Resolve the access level before creating any new lesson or engineering tool:
+   - If the user already specified an access level, use it.
+   - If the user did **not** specify one, the agent **MUST pause and ask**:
+     **"Which access level should this new lesson or tool use: Public, Registered,
+     Premium, Special, or Administrator?"**
+   - Do not assume `Public`, infer a level from the subject, or begin implementation until
+     the user answers. This is a blocking product decision, not an optional clarification.
+   - Use the exact database keys `public`, `registered`, `premium`, `special`, or
+     `administrator` when registering the content access rule.
+3. Work inside a local clone of the repo. Never hand-write files blindly — inspect the
    real repo first (existing lessons are the reference implementation).
-3. For a **new** lesson, follow sections 1–13 in order, then validate (16) and open a PR (17).
+4. For a **new** lesson, follow sections 1–13 in order, then validate (16) and open a PR (17).
 4. For an **update** to an existing lesson, obey the **Content Preservation Rule** (§14):
    change only what the task requires; never remove or shorten existing lesson content.
-5. Before submitting, complete the **Pre-Submit Checklist** (§18). Every box must be true.
-6. Never invent product facts, menu paths, formulas, or data. If unsure, state the
+6. Before submitting, complete the **Pre-Submit Checklist** (§18). Every box must be true.
+7. Never invent product facts, menu paths, formulas, or data. If unsure, state the
    uncertainty rather than fabricating.
 
 **Definition of "lesson content":** everything the reader learns from — headings, prose,
@@ -692,7 +701,7 @@ Run all of these from the repo root and confirm each passes:
    build-parseable.
 2. **Netlify build command** — must exit 0 (this is what deploy runs):
    ```
-   node --test tests/test-bank*.test.js && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs
+   node scripts/validate-simple-test-bank.mjs && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs
    ```
    The build **mutates** `chi-square-lesson-library.js` and generates files under
    `engineering-tools/` and some `lessons/…` outputs. **Do not commit build-generated
@@ -728,6 +737,10 @@ Run all of these from the repo root and confirm each passes:
 ## 18. Pre-submit checklist (every box MUST be true)
 
 ```
+[ ] Access level was explicitly supplied by the user, or the mandatory five-option question
+    in §0 was asked and answered before implementation.
+[ ] The chosen access level uses exactly one valid key: public, registered, premium, special,
+    or administrator.
 [ ] Filename is lowercase-hyphenated; equals slug; correct category folder.
 [ ] <html lang="en"> is immediately followed by the UPSKILLSPRINT_LESSON_META comment.
 [ ] Metadata JSON is valid; slug matches filename; suggested_github_path correct;
@@ -768,6 +781,8 @@ Run all of these from the repo root and confirm each passes:
 
 ## 19. Anti-patterns (never do these)
 
+- ❌ Creating a new lesson or engineering tool without an explicit user-selected access level.
+- ❌ Defaulting new content to Public when the user did not specify an access level.
 - ❌ Replacing a lesson (or the catalog file) with a gzip/base64/`eval` "packed" stub.
 - ❌ Removing or shortening existing lesson content on an update.
 - ❌ Hardcoding the "Your progress" card (it duplicates the injected one).

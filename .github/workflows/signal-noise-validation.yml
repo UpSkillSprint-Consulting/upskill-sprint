@@ -97,7 +97,7 @@ jobs:
         run: |
           set -o pipefail
           mkdir -p artifacts/signal-noise-build
-          (node --test tests/test-bank*.test.js && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs) 2>&1 | tee artifacts/signal-noise-build/build.log
+          (node scripts/validate-simple-test-bank.mjs && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs) 2>&1 | tee artifacts/signal-noise-build/build.log
           git rev-parse HEAD > artifacts/signal-noise-build/commit.txt
       - uses: actions/upload-artifact@v4
         if: always()
