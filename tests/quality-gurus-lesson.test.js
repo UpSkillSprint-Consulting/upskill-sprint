@@ -14,6 +14,16 @@ const guide = fs.readFileSync(path.join(ROOT, 'docs', 'LESSON_CREATION_GUIDE.md'
 const dom = new JSDOM(html);
 const document = dom.window.document;
 
+function contrastRatio(foreground, background) {
+  function luminance(hex) {
+    const channels = [1, 3, 5].map(index => Number.parseInt(hex.slice(index, index + 2), 16) / 255);
+    const linear = channels.map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+    return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+  }
+  const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
+  return (values[0] + 0.05) / (values[1] + 0.05);
+}
+
 test.after(() => dom.window.close());
 
 test('metadata, location, and canonical lesson contract are valid', () => {
@@ -148,6 +158,18 @@ test('dark-mode quiz contract supplies explicit surface and text colours', () =>
   assert.match(finalDark, /html\[data-theme="dark"\] \.guru-system-card--value/);
   assert.match(finalDark, /prefers-color-scheme: dark/);
   assert.ok(html.lastIndexOf('<style id="guru-dark-overrides">') > html.lastIndexOf('</script>'));
+});
+
+test('dark-mode secondary buttons retain WCAG AA text and boundary contrast', () => {
+  const finalDark = document.querySelector('#guru-dark-overrides').textContent;
+  const secondaryRule = finalDark.match(/html\[data-theme="dark"\] \.guru-button\.guru-button-secondary \{([\s\S]*?)\}/);
+  assert.ok(secondaryRule, 'dark theme has a secondary-button override after the shared button colour');
+  assert.match(secondaryRule[1], /border-color: #8499ae/);
+  assert.match(secondaryRule[1], /background-color: #1d2a37/);
+  assert.match(secondaryRule[1], /color: #f4f7fb/);
+  assert.ok(contrastRatio('#f4f7fb', '#1d2a37') >= 4.5, 'button text meets WCAG AA');
+  assert.ok(contrastRatio('#8499ae', '#1d2a37') >= 3, 'button boundary is distinguishable');
+  assert.ok(finalDark.indexOf(secondaryRule[0]) > finalDark.indexOf('html[data-theme="dark"] .guru-button,'));
 });
 
 test('lesson-owned custom properties are namespaced and avoid site-token collisions', () => {
