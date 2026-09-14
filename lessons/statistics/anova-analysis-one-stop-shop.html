@@ -349,7 +349,6 @@
           <li><a href="#mistakes">Common mistakes and exam traps</a></li>
           <li><a href="#practice">Practice activity</a></li>
           <li><a href="#quiz">Mini quiz</a></li>
-          <li><a href="#mastery-bank">15-question study guide</a></li>
           <li><a href="#summary">Final summary</a></li>
         </ol>
       </nav>
@@ -831,45 +830,130 @@ Intensive: 508, 512, 505, 510, 515</textarea></div>
               <label class="option"><input type="radio" name="q5" value="d"> The DV must be categorical</label>
             </fieldset><div class="feedback" hidden><strong>Explanation:</strong> The common-slope ANCOVA interpretation is not valid when the covariate relationship changes by group; model the interaction.</div>
           </div>
+          <div class="quiz-question" data-answer="b" id="mastery-bank">
+            <fieldset><legend><strong>6. One-way ANOVA: What is the null hypothesis?</strong></legend>
+              <label class="option"><input type="radio" name="q6" value="a"> All group variances are equal.</label>
+              <label class="option"><input type="radio" name="q6" value="b"> All group means are equal (μ₁ = μ₂ = … = μ<sub>k</sub>).</label>
+              <label class="option"><input type="radio" name="q6" value="c"> The DV is normally distributed in each group.</label>
+              <label class="option"><input type="radio" name="q6" value="d"> There is no interaction between factors.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: B.</strong> Equal variances and residual normality are assumptions, not the hypothesis. A one-way design has no second factor to interact with.</p><p><strong>Key concept:</strong> rejection says at least one mean differs; post-hoc analysis identifies where.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="b">
+            <fieldset><legend><strong>7. One-way ANOVA: What does the F-ratio represent?</strong></legend>
+              <label class="option"><input type="radio" name="q7" value="a"> Within-group variance / between-group variance.</label>
+              <label class="option"><input type="radio" name="q7" value="b"> Between-group MS / within-group MS.</label>
+              <label class="option"><input type="radio" name="q7" value="c"> Proportion of total variance explained.</label>
+              <label class="option"><input type="radio" name="q7" value="d"> Standardized difference between extreme means.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: B.</strong> A reverses the ratio. C describes η². D resembles a pairwise standardized effect, not the omnibus F.</p><p>Under H₀, numerator and denominator estimate the same variance, so F tends to be near 1.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="b">
+            <fieldset><legend><strong>8. Test selection: Four fertilizer conditions and one crop-yield outcome</strong></legend>
+              <label class="option"><input type="radio" name="q8" value="a"> Independent t-test.</label>
+              <label class="option"><input type="radio" name="q8" value="b"> One-way ANOVA.</label>
+              <label class="option"><input type="radio" name="q8" value="c"> Two-way ANOVA.</label>
+              <label class="option"><input type="radio" name="q8" value="d"> MANOVA.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: B.</strong> One categorical IV with four levels and one continuous DV. A t-test is designed for two means; C needs a second factor; D needs multiple DVs.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="b">
+            <fieldset><legend><strong>9. What does two-way ANOVA provide that one-way cannot?</strong></legend>
+              <label class="option"><input type="radio" name="q9" value="a"> It automatically handles non-normal data.</label>
+              <label class="option"><input type="radio" name="q9" value="b"> It tests two factors and their interaction.</label>
+              <label class="option"><input type="radio" name="q9" value="c"> It automatically controls every familywise error.</label>
+              <label class="option"><input type="radio" name="q9" value="d"> It supports multiple DVs.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: B.</strong> Both share core distributional assumptions. Multiple DVs belong to MANOVA. The unique capability is simultaneous main-effect and A×B interaction testing.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="b">
+            <fieldset><legend><strong>10. What does a significant A×B interaction mean?</strong></legend>
+              <label class="option"><input type="radio" name="q10" value="a"> Both main effects must also be significant.</label>
+              <label class="option"><input type="radio" name="q10" value="b"> The effect of A varies across levels of B.</label>
+              <label class="option"><input type="radio" name="q10" value="c"> Variance homogeneity was violated.</label>
+              <label class="option"><input type="radio" name="q10" value="d"> Post-hoc analysis is unnecessary.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: B.</strong> Interactions and main effects can have different significance patterns. The interaction is a substantive model result, not a variance diagnostic. Significant interactions commonly require simple-effects analysis.</p><p><strong>Critical exam point:</strong> interpret interaction before marginal main effects.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="b">
+            <fieldset><legend><strong>11. ANCOVA extends ANOVA primarily by…</strong></legend>
+              <label class="option"><input type="radio" name="q11" value="a"> Adding a second categorical factor.</label>
+              <label class="option"><input type="radio" name="q11" value="b"> Adding continuous covariate(s).</label>
+              <label class="option"><input type="radio" name="q11" value="c"> Replacing F with chi-square.</label>
+              <label class="option"><input type="radio" name="q11" value="d"> Adding multiple DVs.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: B.</strong> ANCOVA controls continuous variables and can reduce error variance. A describes two-way ANOVA; D describes MANOVA/MANCOVA; ANCOVA still uses F-tests.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="c">
+            <fieldset><legend><strong>12. Three teaching methods, exam score, and varying prior knowledge</strong></legend>
+              <label class="option"><input type="radio" name="q12" value="a"> One-way ANOVA because randomization makes prior knowledge irrelevant.</label>
+              <label class="option"><input type="radio" name="q12" value="b"> Categorize prior knowledge and use two-way ANOVA.</label>
+              <label class="option"><input type="radio" name="q12" value="c"> ANCOVA with prior knowledge as a continuous covariate.</label>
+              <label class="option"><input type="radio" name="q12" value="d"> MANOVA.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: C.</strong> ANCOVA preserves the continuous information and adjusts the method comparison. Categorizing the covariate loses information; MANOVA requires multiple outcomes.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="b">
+            <fieldset><legend><strong>13. Which assumption is unique to ANCOVA relative to standard ANOVA?</strong></legend>
+              <label class="option"><input type="radio" name="q13" value="a"> Residual normality.</label>
+              <label class="option"><input type="radio" name="q13" value="b"> Homogeneity of regression slopes.</label>
+              <label class="option"><input type="radio" name="q13" value="c"> Independence.</label>
+              <label class="option"><input type="radio" name="q13" value="d"> Equal variances.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: B.</strong> The covariate-to-DV relationship should have the same slope across groups when a common adjusted effect is reported. Test a Group×Covariate interaction in a preliminary/full model.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="b">
+            <fieldset><legend><strong>14. Primary advantage of MANOVA over separate ANOVAs</strong></legend>
+              <label class="option"><input type="radio" name="q14" value="a"> It alone can handle more than two groups.</label>
+              <label class="option"><input type="radio" name="q14" value="b"> It jointly tests correlated DVs, controls the omnibus Type I error family and detects multivariate patterns.</label>
+              <label class="option"><input type="radio" name="q14" value="c"> It automatically includes covariates.</label>
+              <label class="option"><input type="radio" name="q14" value="d"> It uses chi-square instead of F.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: B.</strong> Both can handle k≥2 groups. Covariates define MANCOVA. MANOVA statistics are transformed into exact or approximate F tests.</p><p>For k independent tests at α, familywise risk is 1−(1−α)<sup>k</sup>; MANOVA provides one multivariate omnibus test.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="b">
+            <fieldset><legend><strong>15. Which statistic is produced by MANOVA?</strong></legend>
+              <label class="option"><input type="radio" name="q15" value="a"> Cohen's d.</label>
+              <label class="option"><input type="radio" name="q15" value="b"> Pillai's trace.</label>
+              <label class="option"><input type="radio" name="q15" value="c"> Tukey HSD.</label>
+              <label class="option"><input type="radio" name="q15" value="d"> Cronbach's α.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: B.</strong> Pillai, Wilks, Hotelling–Lawley and Roy are multivariate test statistics. Cohen's d is pairwise effect size, Tukey is post-hoc, and Cronbach's α is reliability.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="b">
+            <fieldset><legend><strong>16. Exercise type affects anxiety and depression scores</strong></legend>
+              <label class="option"><input type="radio" name="q16" value="a"> Two separate one-way ANOVAs.</label>
+              <label class="option"><input type="radio" name="q16" value="b"> MANOVA.</label>
+              <label class="option"><input type="radio" name="q16" value="c"> Two-way ANOVA treating outcomes as factors.</label>
+              <label class="option"><input type="radio" name="q16" value="d"> ANCOVA using one outcome as covariate.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: B.</strong> One factor and two correlated continuous outcomes. MANOVA tests the joint profile and uses their covariance structure.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="b">
+            <fieldset><legend><strong>17. MANCOVA is best described as…</strong></legend>
+              <label class="option"><input type="radio" name="q17" value="a"> MANOVA restricted to two groups.</label>
+              <label class="option"><input type="radio" name="q17" value="b"> MANOVA with continuous covariate(s).</label>
+              <label class="option"><input type="radio" name="q17" value="c"> MANOVA after replacing DVs with one score.</label>
+              <label class="option"><input type="radio" name="q17" value="d"> ANOVA on a multivariate dataset without covariates.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: B.</strong> MANCOVA retains multiple DVs and adds covariate control. It works with any appropriate number of groups.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="c">
+            <fieldset><legend><strong>18. MANOVA versus multiple separate ANOVAs: Which statement correctly describes Type I error and multivariate information?</strong></legend>
+              <label class="option"><input type="radio" name="q18" value="a"> Separate ANOVAs at the same α keep the familywise false-positive risk at α and fully use covariance among outcomes.</label>
+              <label class="option"><input type="radio" name="q18" value="b"> MANOVA is useful only when the outcomes are uncorrelated; it discards their covariance.</label>
+              <label class="option"><input type="radio" name="q18" value="c"> Separate unadjusted ANOVAs can inflate familywise Type I error; MANOVA jointly tests mean vectors and uses covariance to detect multivariate patterns.</label>
+              <label class="option"><input type="radio" name="q18" value="d"> A significant MANOVA proves that every outcome is individually significant and makes follow-up analysis unnecessary.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: C.</strong></p><p>Running separate ANOVAs at α=.05 increases the probability of at least one false positive across the family: 1−(1−α)<sup>k</sup>. With three DVs this is about 14%; with five, about 23%. MANOVA provides one joint omnibus test of the vector of means.</p><p>Separate ANOVAs ignore the variance–covariance structure among outcomes. MANOVA evaluates linear combinations of the DVs and can detect a consistent joint pattern even when no single outcome is individually strong enough after correction.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="d">
+            <fieldset><legend><strong>19. Three drug doses, systolic and diastolic blood pressure, and baseline BMI: Which analysis and assumption checks are appropriate?</strong></legend>
+              <label class="option"><input type="radio" name="q19" value="a"> One-way ANOVA on both outcomes jointly; only independence needs to be checked.</label>
+              <label class="option"><input type="radio" name="q19" value="b"> MANOVA without BMI; covariates cannot be included when there is more than one outcome.</label>
+              <label class="option"><input type="radio" name="q19" value="c"> Separate t-tests for every dose pair; no multivariate or regression-slope checks are needed.</label>
+              <label class="option"><input type="radio" name="q19" value="d"> MANCOVA with dose as the factor and BMI as a covariate; check independence, multivariate residual normality, covariance matrices and homogeneous regression slopes.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: D.</strong></p><p><strong>MANCOVA.</strong> Dose is one categorical IV with three levels; systolic and diastolic BP are two correlated continuous DVs; baseline BMI is a continuous covariate. MANCOVA tests the multivariate dose effect while controlling BMI.</p><p>Verify independence; multivariate residual normality; equality of covariance matrices; homogeneous BMI-to-outcome regression slopes across dose groups; absence of extreme multivariate outliers; and meaningful but non-redundant outcome correlation.</p></div>
+          </div>
+          <div class="quiz-question" data-answer="a">
+            <fieldset><legend><strong>20. Which sequence correctly describes the five-method hierarchy?</strong></legend>
+              <label class="option"><input type="radio" name="q20" value="a"> One-way ANOVA: one factor and one DV; two-way adds a factor and interaction; ANCOVA adds covariates; MANOVA adds multiple correlated DVs; MANCOVA adds covariates to MANOVA.</label>
+              <label class="option"><input type="radio" name="q20" value="b"> Two-way ANOVA adds a second DV; ANCOVA adds random effects; MANOVA removes covariance; MANCOVA removes covariates.</label>
+              <label class="option"><input type="radio" name="q20" value="c"> One-way ANOVA requires two factors; two-way adds covariates; ANCOVA adds multiple DVs; MANOVA is limited to two groups.</label>
+              <label class="option"><input type="radio" name="q20" value="d"> ANCOVA adds covariates to MANOVA; MANOVA adds a second factor to ANOVA; MANCOVA returns the model to a single DV.</label>
+            </fieldset><div class="feedback" hidden><strong>Explanation:</strong> <p><strong>Correct: A.</strong></p><p><strong>One-way ANOVA</strong> is the baseline: one categorical IV and one continuous DV. <strong>Two-way ANOVA adds</strong> a second categorical IV and the A×B interaction. <strong>ANCOVA adds</strong> one or more continuous covariates to ANOVA, adjusting means and potentially reducing error variance. <strong>MANOVA adds</strong> multiple correlated DVs to ANOVA and tests them jointly. <strong>MANCOVA adds</strong> continuous covariates to MANOVA.</p></div>
+          </div>
           <div class="button-row"><button type="submit" class="button">Submit quiz</button><button type="button" class="button secondary" id="reset-quiz">Reset quiz</button></div>
-          <div id="quiz-result" class="result-banner pass" role="status" aria-live="polite" style="margin-top:1rem">Answer all five questions, then submit.</div>
+          <div id="quiz-result" class="result-banner pass" role="status" aria-live="polite" style="margin-top:1rem">Answer all 20 questions, then submit.</div>
         </form>
 
-        <section id="mastery-bank" aria-labelledby="mastery-h">
-          <p class="section-kicker">Complete study guide</p>
-          <h2 id="mastery-h">15-question ANOVA, ANCOVA, MANOVA and MANCOVA mastery bank</h2>
-          <p>This section preserves and expands the original 12 multiple-choice questions and three short-answer questions. Open each item for the answer, distractor analysis and marking guidance.</p>
-
-          <details class="mastery-question"><summary>Q1 · One-way ANOVA: What is the null hypothesis?</summary><div class="details-body"><p><strong>A.</strong> All group variances are equal. <strong>B.</strong> All group means are equal (μ₁ = μ₂ = … = μ<sub>k</sub>). <strong>C.</strong> The DV is normally distributed in each group. <strong>D.</strong> There is no interaction between factors.</p><div class="answer-key"><p><strong>Correct: B.</strong> Equal variances and residual normality are assumptions, not the hypothesis. A one-way design has no second factor to interact with.</p><p><strong>Key concept:</strong> rejection says at least one mean differs; post-hoc analysis identifies where.</p></div></div></details>
-
-          <details class="mastery-question"><summary>Q2 · One-way ANOVA: What does the F-ratio represent?</summary><div class="details-body"><p><strong>A.</strong> Within-group variance / between-group variance. <strong>B.</strong> Between-group MS / within-group MS. <strong>C.</strong> Proportion of total variance explained. <strong>D.</strong> Standardized difference between extreme means.</p><div class="answer-key"><p><strong>Correct: B.</strong> A reverses the ratio. C describes η². D resembles a pairwise standardized effect, not the omnibus F.</p><p>Under H₀, numerator and denominator estimate the same variance, so F tends to be near 1.</p></div></div></details>
-
-          <details class="mastery-question"><summary>Q3 · Test selection: Four fertilizer conditions and one crop-yield outcome</summary><div class="details-body"><p><strong>A.</strong> Independent t-test. <strong>B.</strong> One-way ANOVA. <strong>C.</strong> Two-way ANOVA. <strong>D.</strong> MANOVA.</p><div class="answer-key"><p><strong>Correct: B.</strong> One categorical IV with four levels and one continuous DV. A t-test is designed for two means; C needs a second factor; D needs multiple DVs.</p></div></div></details>
-
-          <details class="mastery-question"><summary>Q4 · What does two-way ANOVA provide that one-way cannot?</summary><div class="details-body"><p><strong>A.</strong> It automatically handles non-normal data. <strong>B.</strong> It tests two factors and their interaction. <strong>C.</strong> It automatically controls every familywise error. <strong>D.</strong> It supports multiple DVs.</p><div class="answer-key"><p><strong>Correct: B.</strong> Both share core distributional assumptions. Multiple DVs belong to MANOVA. The unique capability is simultaneous main-effect and A×B interaction testing.</p></div></div></details>
-
-          <details class="mastery-question"><summary>Q5 · What does a significant A×B interaction mean?</summary><div class="details-body"><p><strong>A.</strong> Both main effects must also be significant. <strong>B.</strong> The effect of A varies across levels of B. <strong>C.</strong> Variance homogeneity was violated. <strong>D.</strong> Post-hoc analysis is unnecessary.</p><div class="answer-key"><p><strong>Correct: B.</strong> Interactions and main effects can have different significance patterns. The interaction is a substantive model result, not a variance diagnostic. Significant interactions commonly require simple-effects analysis.</p><p><strong>Critical exam point:</strong> interpret interaction before marginal main effects.</p></div></div></details>
-
-          <details class="mastery-question"><summary>Q6 · ANCOVA extends ANOVA primarily by…</summary><div class="details-body"><p><strong>A.</strong> Adding a second categorical factor. <strong>B.</strong> Adding continuous covariate(s). <strong>C.</strong> Replacing F with chi-square. <strong>D.</strong> Adding multiple DVs.</p><div class="answer-key"><p><strong>Correct: B.</strong> ANCOVA controls continuous variables and can reduce error variance. A describes two-way ANOVA; D describes MANOVA/MANCOVA; ANCOVA still uses F-tests.</p></div></div></details>
-
-          <details class="mastery-question"><summary>Q7 · Three teaching methods, exam score, and varying prior knowledge</summary><div class="details-body"><p><strong>A.</strong> One-way ANOVA because randomization makes prior knowledge irrelevant. <strong>B.</strong> Categorize prior knowledge and use two-way ANOVA. <strong>C.</strong> ANCOVA with prior knowledge as a continuous covariate. <strong>D.</strong> MANOVA.</p><div class="answer-key"><p><strong>Correct: C.</strong> ANCOVA preserves the continuous information and adjusts the method comparison. Categorizing the covariate loses information; MANOVA requires multiple outcomes.</p></div></div></details>
-
-          <details class="mastery-question"><summary>Q8 · Which assumption is unique to ANCOVA relative to standard ANOVA?</summary><div class="details-body"><p><strong>A.</strong> Residual normality. <strong>B.</strong> Homogeneity of regression slopes. <strong>C.</strong> Independence. <strong>D.</strong> Equal variances.</p><div class="answer-key"><p><strong>Correct: B.</strong> The covariate-to-DV relationship should have the same slope across groups when a common adjusted effect is reported. Test a Group×Covariate interaction in a preliminary/full model.</p></div></div></details>
-
-          <details class="mastery-question"><summary>Q9 · Primary advantage of MANOVA over separate ANOVAs</summary><div class="details-body"><p><strong>A.</strong> It alone can handle more than two groups. <strong>B.</strong> It jointly tests correlated DVs, controls the omnibus Type I error family and detects multivariate patterns. <strong>C.</strong> It automatically includes covariates. <strong>D.</strong> It uses chi-square instead of F.</p><div class="answer-key"><p><strong>Correct: B.</strong> Both can handle k≥2 groups. Covariates define MANCOVA. MANOVA statistics are transformed into exact or approximate F tests.</p><p>For k independent tests at α, familywise risk is 1−(1−α)<sup>k</sup>; MANOVA provides one multivariate omnibus test.</p></div></div></details>
-
-          <details class="mastery-question"><summary>Q10 · Which statistic is produced by MANOVA?</summary><div class="details-body"><p><strong>A.</strong> Cohen's d. <strong>B.</strong> Pillai's trace. <strong>C.</strong> Tukey HSD. <strong>D.</strong> Cronbach's α.</p><div class="answer-key"><p><strong>Correct: B.</strong> Pillai, Wilks, Hotelling–Lawley and Roy are multivariate test statistics. Cohen's d is pairwise effect size, Tukey is post-hoc, and Cronbach's α is reliability.</p></div></div></details>
-
-          <details class="mastery-question"><summary>Q11 · Exercise type affects anxiety and depression scores</summary><div class="details-body"><p><strong>A.</strong> Two separate one-way ANOVAs. <strong>B.</strong> MANOVA. <strong>C.</strong> Two-way ANOVA treating outcomes as factors. <strong>D.</strong> ANCOVA using one outcome as covariate.</p><div class="answer-key"><p><strong>Correct: B.</strong> One factor and two correlated continuous outcomes. MANOVA tests the joint profile and uses their covariance structure.</p></div></div></details>
-
-          <details class="mastery-question"><summary>Q12 · MANCOVA is best described as…</summary><div class="details-body"><p><strong>A.</strong> MANOVA restricted to two groups. <strong>B.</strong> MANOVA with continuous covariate(s). <strong>C.</strong> MANOVA after replacing DVs with one score. <strong>D.</strong> ANOVA on a multivariate dataset without covariates.</p><div class="answer-key"><p><strong>Correct: B.</strong> MANCOVA retains multiple DVs and adds covariate control. It works with any appropriate number of groups.</p></div></div></details>
-
-          <details class="mastery-question"><summary>Q13 · Short answer: MANOVA versus multiple separate ANOVAs</summary><div class="details-body"><p><strong>Prompt:</strong> Explain (a) Type I error inflation and (b) what multivariate information MANOVA captures that separate ANOVAs miss.</p><div class="answer-key"><h3>Model answer</h3><p>Running separate ANOVAs at α=.05 increases the probability of at least one false positive across the family: 1−(1−α)<sup>k</sup>. With three DVs this is about 14%; with five, about 23%. MANOVA provides one joint omnibus test of the vector of means.</p><p>Separate ANOVAs ignore the variance–covariance structure among outcomes. MANOVA evaluates linear combinations of the DVs and can detect a consistent joint pattern even when no single outcome is individually strong enough after correction.</p><div class="marking"><strong>Marking (10):</strong> +3 familywise concept/formula; +2 one joint omnibus test; +3 covariance and multivariate pattern; +2 concrete example or correct terminology.</div></div></div></details>
-
-          <details class="mastery-question"><summary>Q14 · Short answer: Three drug doses, systolic + diastolic BP, baseline BMI</summary><div class="details-body"><p><strong>Prompt:</strong> Which analysis and why? Name at least three assumptions.</p><div class="answer-key"><h3>Model answer</h3><p><strong>MANCOVA.</strong> Dose is one categorical IV with three levels; systolic and diastolic BP are two correlated continuous DVs; baseline BMI is a continuous covariate. MANCOVA tests the multivariate dose effect while controlling BMI.</p><p>Verify independence; multivariate residual normality; equality of covariance matrices; homogeneous BMI-to-outcome regression slopes across dose groups; absence of extreme multivariate outliers; and meaningful but non-redundant outcome correlation.</p><div class="marking"><strong>Marking (10):</strong> +3 correct MANCOVA structure; +1 why alternatives are inferior; +2 regression slopes; +2 covariance matrices; +2 third valid assumption with explanation.</div></div></div></details>
-
-          <details class="mastery-question"><summary>Q15 · Short answer: Describe the five-method hierarchy</summary><div class="details-body"><p><strong>Prompt:</strong> Use the structure “X adds [feature] to Y.”</p><div class="answer-key"><h3>Model answer</h3><p><strong>One-way ANOVA</strong> is the baseline: one categorical IV and one continuous DV. <strong>Two-way ANOVA adds</strong> a second categorical IV and the A×B interaction. <strong>ANCOVA adds</strong> one or more continuous covariates to ANOVA, adjusting means and potentially reducing error variance. <strong>MANOVA adds</strong> multiple correlated DVs to ANOVA and tests them jointly. <strong>MANCOVA adds</strong> continuous covariates to MANOVA.</p><div class="marking"><strong>Marking (10):</strong> +1 baseline; +2 second factor and interaction; +2 covariate and benefit; +2 multiple DVs and joint test; +2 MANOVA + covariates; +1 clear progression.</div></div></div></details>
-        </section>
       </section>
 
       <section id="summary" aria-labelledby="summary-h">
@@ -1315,6 +1399,7 @@ Intensive: 508, 512, 505, 510, 515</textarea></div>
 
     // ---------- Quiz ----------
     const quizForm = $('#quiz-form');
+    const quizExplanations = new Map($$('.quiz-question', quizForm).map(q => [q, $('.feedback', q).innerHTML.replace(/^<strong>Explanation:<\/strong>\s*/, '')]));
     quizForm.addEventListener('submit', event => {
       event.preventDefault();
       const questions = $$('.quiz-question', quizForm);
@@ -1327,16 +1412,18 @@ Intensive: 508, 512, 505, 510, 515</textarea></div>
         if (chosen) {
           answered += 1;
           const correct = chosen.value === q.dataset.answer;
-          if (correct) { score += 1; q.classList.add('correct'); feedback.innerHTML = `<strong>Correct.</strong> ${feedback.textContent.replace(/^Explanation:\s*/,'')}`; }
-          else { q.classList.add('incorrect'); feedback.innerHTML = `<strong>Not quite.</strong> ${feedback.textContent.replace(/^Explanation:\s*/,'')}`; }
+          if (correct) { score += 1; q.classList.add('correct'); feedback.innerHTML = `<strong>Correct.</strong> ${quizExplanations.get(q)}`; }
+          else { q.classList.add('incorrect'); feedback.innerHTML = `<strong>Not quite.</strong> ${quizExplanations.get(q)}`; }
         } else {
           q.classList.add('incorrect');
-          feedback.innerHTML = `<strong>No answer selected.</strong> ${feedback.textContent.replace(/^Explanation:\s*/,'')}`;
+          feedback.innerHTML = `<strong>No answer selected.</strong> ${quizExplanations.get(q)}`;
         }
       });
+      const total = questions.length;
+      const percentage = Math.round(score / total * 100);
       const result = $('#quiz-result');
-      result.className = `result-banner ${score >= 4 ? 'pass' : score >= 3 ? 'warn' : 'fail'}`;
-      result.innerHTML = `<strong>Score: ${score}/5 (${score*20}%)</strong><p>${answered < 5 ? `You answered ${answered} of 5 questions. ` : ''}${score === 5 ? 'Excellent—your method selection and interpretation are strong.' : score >= 4 ? 'Strong result. Review the explanation for the missed item.' : score >= 3 ? 'Good foundation. Revisit the assumptions and interaction sections.' : 'Review the method selector, core mathematics and Excel limitations, then retry.'}</p>`;
+      result.className = `result-banner ${percentage >= 80 ? 'pass' : percentage >= 60 ? 'warn' : 'fail'}`;
+      result.innerHTML = `<strong>Score: ${score}/${total} (${percentage}%)</strong><p>${answered < total ? `You answered ${answered} of ${total} questions. ` : ''}${score === total ? 'Excellent—your method selection and interpretation are strong.' : percentage >= 80 ? 'Strong result. Review the explanation for the missed item.' : percentage >= 60 ? 'Good foundation. Revisit the assumptions and interaction sections.' : 'Review the method selector, core mathematics and Excel limitations, then retry.'}</p>`;
       result.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
     });
     $('#reset-quiz').addEventListener('click', () => {
@@ -1344,7 +1431,7 @@ Intensive: 508, 512, 505, 510, 515</textarea></div>
       $$('.quiz-question', quizForm).forEach(q => { q.classList.remove('correct','incorrect'); $('.feedback', q).hidden = true; });
       const result = $('#quiz-result');
       result.className = 'result-banner pass';
-      result.textContent = 'Answer all five questions, then submit.';
+      result.textContent = 'Answer all 20 questions, then submit.';
     });
 
     // Update SVGs when theme changes, because CSS variables used inside SVG update automatically,
