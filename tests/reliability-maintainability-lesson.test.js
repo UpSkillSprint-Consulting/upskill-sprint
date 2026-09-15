@@ -117,6 +117,7 @@ test('canonical assets, body integration, site chrome, and category return are e
 
 test('all supplied teaching content and headings are preserved apart from the requested title rename', () => {
   const copy = doc.querySelector('#lesson-content').cloneNode(true);
+  copy.querySelector('#pdf-cdf-relationship-explorer').remove();
   copy.querySelector('#sec-statistics-implementation').remove();
   copy.querySelector('a[href="#sec-statistics-implementation"]').closest('li').remove();
   copy.querySelector('h1').textContent = 'Calculus of Reliability';
@@ -197,7 +198,7 @@ test('charts, controls, tables, and responsive behavior have accessibility guard
   for (const link of doc.querySelectorAll('#toc a[href^="#"]')) {
     assert.ok(doc.getElementById(link.hash.slice(1)), link.hash + ' must resolve');
   }
-  assert.equal(doc.querySelectorAll('#lesson-content table').length, 5);
+  assert.equal(doc.querySelectorAll('#lesson-content table').length, 6);
   for (const table of doc.querySelectorAll('#lesson-content table')) {
     const wrapper = table.parentElement;
     assert.ok(wrapper.classList.contains('reliability-table-scroll'));
@@ -247,6 +248,12 @@ test('all shipped interactives initialize and update from their real event handl
   window.HTMLCanvasElement.prototype.getBoundingClientRect = function () {
     return { width: 420, height: +this.height || 220, top: 0, left: 0, right: 420, bottom: +this.height || 220 };
   };
+  window.SVGSVGElement.prototype.getBoundingClientRect = function () {
+    return { width: 520, height: 310, top: 0, left: 0, right: 520, bottom: 310 };
+  };
+  window.SVGSVGElement.prototype.setPointerCapture = noop;
+  window.SVGSVGElement.prototype.releasePointerCapture = noop;
+  window.SVGSVGElement.prototype.hasPointerCapture = () => false;
   try {
     for (const script of scripts) window.eval(script);
     const runtimeDoc = window.document;
@@ -254,6 +261,9 @@ test('all shipped interactives initialize and update from their real event handl
     assert.equal(runtimeDoc.querySelector('#out-mttr').textContent, '4.79 h');
     assert.equal(runtimeDoc.querySelector('#stat-avail').textContent, '98.52%');
     assert.equal(runtimeDoc.querySelectorAll('#svg-avail-timeline rect').length, 8);
+    assert.equal(runtimeDoc.querySelector('#pdf-cdf-probability').textContent, '68.27%');
+    assert.equal(runtimeDoc.querySelectorAll('#pdf-cdf-pdf-plot [data-bound]').length, 2);
+    assert.equal(runtimeDoc.querySelectorAll('#pdf-cdf-cdf-plot [data-bound]').length, 2);
 
     runtimeDoc.querySelector('.preset-btn[data-b="0.6"]').click();
     assert.equal(runtimeDoc.querySelector('#beta').value, '0.6');
@@ -266,10 +276,46 @@ test('all shipped interactives initialize and update from their real event handl
     mttr.dispatchEvent(new window.Event('input', { bubbles: true }));
     assert.equal(runtimeDoc.querySelector('#stat-avail').textContent, '80.00%');
     assert.equal(runtimeDoc.querySelector('#availLabel').textContent, '80.00% available');
+
+    const pdfPlot = runtimeDoc.querySelector('#pdf-cdf-pdf-plot');
+    const x1Handle = pdfPlot.querySelector('[data-bound="x1"]');
+    function pointerEvent(type, clientX) {
+      const event = new window.MouseEvent(type, { bubbles: true, clientX });
+      Object.defineProperty(event, 'pointerId', { value: 1 });
+      return event;
+    }
+    x1Handle.dispatchEvent(pointerEvent('pointerdown', 235));
+    pdfPlot.dispatchEvent(pointerEvent('pointermove', 279));
+    pdfPlot.dispatchEvent(pointerEvent('pointerup', 279));
+    assert.equal(runtimeDoc.querySelector('#pdf-cdf-x1').value, '0.0');
+    assert.equal(runtimeDoc.querySelector('#pdf-cdf-x1-value').textContent, '0.0');
+
+    const x2Handle = runtimeDoc.querySelector('#pdf-cdf-cdf-plot [data-bound="x2"]');
+    x2Handle.dispatchEvent(new window.KeyboardEvent('keydown', { bubbles: true, key: 'ArrowLeft' }));
+    assert.equal(runtimeDoc.querySelector('#pdf-cdf-x2').value, '0.9');
+
     assert.doesNotThrow(() => window.dispatchEvent(new window.Event('upskill:themechange')));
   } finally {
     window.close();
   }
+});
+
+test('PDF and CDF teaching addition explains and links area, accumulation, slope, and reliability', () => {
+  const section = doc.getElementById('pdf-cdf-relationship-explorer');
+  assert.ok(section);
+  assert.match(section.textContent, /The PDF shows where values are concentrated/);
+  assert.match(section.textContent, /The slope of the CDF at any point equals the height of the PDF/);
+  assert.match(section.textContent, /probability interval is the shaded area under the PDF/);
+  assert.match(section.textContent, /The same calculus relationship applies to the Weibull failure-time model/);
+  for (const id of ['pdf-cdf-mean', 'pdf-cdf-sd', 'pdf-cdf-x1', 'pdf-cdf-x2']) {
+    assert.ok(section.querySelector('#' + id));
+  }
+  assert.equal(section.querySelectorAll('svg[role="img"][aria-describedby="pdf-cdf-drag-instruction"]').length, 2);
+  assert.equal(section.querySelectorAll('.reliability-table-scroll[role="region"][tabindex="0"] table').length, 1);
+  assert.match(html, /addEventListener\('pointerdown'/);
+  assert.match(html, /addEventListener\('pointermove'/);
+  assert.match(html, /setRelationshipBound\(activeDrag\.bound/);
+  assert.match(html, /role=\"slider\" aria-label=\"\$\{ariaLabel\}\"/);
 });
 
 test('Statistics Implementation contains the four required parts and verified software routes', () => {

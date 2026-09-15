@@ -268,6 +268,59 @@
   .backlink:hover{color:var(--reliability-accent); border-color:var(--reliability-accent);}
   .plain-note{color:var(--reliability-text-dim); font-size:11px; margin-top:4px; line-height:1.5; font-style:italic;}
 
+  .pdf-cdf-explorer{
+    margin:10px 0 28px;
+    padding-top:4px;
+  }
+  .pdf-cdf-control-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:4px 18px;
+  }
+  .pdf-cdf-chart-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+    margin-top:14px;
+  }
+  .pdf-cdf-chart-shell{min-width:0;}
+  .pdf-cdf-plot{
+    display:block;
+    width:100%;
+    min-height:300px;
+    touch-action:none;
+    user-select:none;
+  }
+  .pdf-cdf-frame{fill:transparent;stroke:var(--reliability-line);stroke-width:1;}
+  .pdf-cdf-grid-line{stroke:var(--reliability-line);stroke-width:1;stroke-opacity:.42;}
+  .pdf-cdf-axis-line{stroke:var(--reliability-line-strong);stroke-width:1.2;}
+  .pdf-cdf-axis-text,
+  .pdf-cdf-axis-title,
+  .pdf-cdf-plot-label{
+    fill:var(--reliability-text);
+    font-size:12px;
+  }
+  .pdf-cdf-muted-label{fill:var(--reliability-text-dim);font-size:12px;}
+  .pdf-cdf-pdf-line{fill:none;stroke:var(--reliability-pdf-color);stroke-width:2.6;}
+  .pdf-cdf-cdf-line{fill:none;stroke:var(--reliability-cdf-color);stroke-width:2.6;}
+  .pdf-cdf-area{fill:var(--reliability-pdf-color);fill-opacity:.24;}
+  .pdf-cdf-bound-line{stroke:var(--reliability-marker-line);stroke-width:1.5;stroke-dasharray:5 4;}
+  .pdf-cdf-tangent{stroke:var(--reliability-hazard-color);stroke-width:2.2;}
+  .pdf-cdf-delta{stroke:var(--reliability-pdf-color);stroke-width:4;}
+  .pdf-cdf-delta-cap{stroke:var(--reliability-pdf-color);stroke-width:2;}
+  .pdf-cdf-drag-handle{cursor:ew-resize;}
+  .pdf-cdf-drag-target{fill:transparent;stroke:none;pointer-events:all;}
+  .pdf-cdf-marker-visible{fill:var(--reliability-panel);stroke:var(--reliability-text);stroke-width:2.2;pointer-events:none;}
+  .pdf-cdf-drag-handle:focus-visible .pdf-cdf-marker-visible{stroke:var(--reliability-cdf-color);stroke-width:4;}
+  .pdf-cdf-stats{grid-template-columns:repeat(3,minmax(0,1fr));}
+  @media (max-width:760px){
+    .pdf-cdf-chart-grid{grid-template-columns:1fr;}
+    .pdf-cdf-stats{grid-template-columns:1fr;}
+  }
+  @media (max-width:520px){
+    .pdf-cdf-control-grid{grid-template-columns:1fr;}
+  }
+
 
   #lesson-content{
     font-size:16px;
@@ -602,6 +655,82 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   <div class="ref-panel" id="sec-calc-ref">
     <h2 class="section-title">Core Calculus Relationship</h2>
     <div class="section-sub">The written derivation behind the interactive panels above.</div>
+
+    <section class="pdf-cdf-explorer" id="pdf-cdf-relationship-explorer" aria-labelledby="pdf-cdf-relationship-heading">
+      <h3 id="pdf-cdf-relationship-heading">How the PDF and CDF are connected</h3>
+      <p>The probability density function (f(x)) and cumulative distribution function (F(x)) are two views of the same continuous probability model. The PDF shows where values are concentrated; the CDF keeps a running total of probability from the far left up to x.</p>
+
+      <div class="eq-block">\[ F(x)=\int_{-\infty}^{x} f(u)\,du \qquad\text{and}\qquad f(x)=\frac{dF(x)}{dx} \]</div>
+
+      <div class="panel" aria-label="PDF and CDF explorer controls">
+        <h2>PDF ↔ CDF Explorer</h2>
+        <div class="plain-note" id="pdf-cdf-drag-instruction">Move x₁ and x₂ with the sliders, or drag either labelled marker directly on either live plot. The shaded PDF area, CDF increase, and live values stay synchronized.</div>
+        <div class="pdf-cdf-control-grid">
+          <div class="slider-row">
+            <div class="valrow"><label for="pdf-cdf-mean" style="margin:0;">Mean μ</label><span class="v" id="pdf-cdf-mean-value">0.0</span></div>
+            <input type="range" id="pdf-cdf-mean" aria-label="Normal distribution mean" min="-1.5" max="1.5" step="0.1" value="0">
+          </div>
+          <div class="slider-row">
+            <div class="valrow"><label for="pdf-cdf-sd" style="margin:0;">Standard deviation σ</label><span class="v" id="pdf-cdf-sd-value">1.0</span></div>
+            <input type="range" id="pdf-cdf-sd" aria-label="Normal distribution standard deviation" min="0.5" max="1.6" step="0.1" value="1">
+          </div>
+          <div class="slider-row">
+            <div class="valrow"><label for="pdf-cdf-x1" style="margin:0;">Lower bound x₁</label><span class="v" id="pdf-cdf-x1-value">−1.0</span></div>
+            <input type="range" id="pdf-cdf-x1" aria-label="Lower probability bound x one" min="-4.5" max="4.4" step="0.1" value="-1">
+          </div>
+          <div class="slider-row">
+            <div class="valrow"><label for="pdf-cdf-x2" style="margin:0;">Upper bound x₂</label><span class="v" id="pdf-cdf-x2-value">1.0</span></div>
+            <input type="range" id="pdf-cdf-x2" aria-label="Upper probability bound x two" min="-4.4" max="4.5" step="0.1" value="1">
+          </div>
+        </div>
+        <div class="stat-grid pdf-cdf-stats" aria-live="polite">
+          <div class="stat-box"><div class="k">P(x₁ &lt; X ≤ x₂)</div><div class="n" id="pdf-cdf-probability">68.27%</div></div>
+          <div class="stat-box"><div class="k">F(x₂)</div><div class="n" id="pdf-cdf-cdf-value">0.8413</div></div>
+          <div class="stat-box"><div class="k">f(x₂) = CDF slope</div><div class="n" id="pdf-cdf-pdf-value">0.2420</div></div>
+        </div>
+      </div>
+
+      <div class="pdf-cdf-chart-grid">
+        <div class="chart-card pdf-cdf-chart-shell">
+          <div class="chart-title"><span class="dot" style="background:var(--reliability-pdf-color)"></span>Probability density · f(x)</div>
+          <div class="formula">The shaded area between x₁ and x₂ is the interval probability.</div>
+          <svg id="pdf-cdf-pdf-plot" class="pdf-cdf-plot" role="img" aria-label="Interactive normal probability density plot with draggable lower and upper bounds" aria-describedby="pdf-cdf-drag-instruction" viewBox="0 0 520 310" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+        <div class="chart-card pdf-cdf-chart-shell">
+          <div class="chart-title"><span class="dot" style="background:var(--reliability-cdf-color)"></span>Cumulative probability · F(x)</div>
+          <div class="formula">The vertical increase ΔF equals the shaded PDF area; the tangent slope at x₂ equals f(x₂).</div>
+          <svg id="pdf-cdf-cdf-plot" class="pdf-cdf-plot" role="img" aria-label="Interactive cumulative distribution plot with draggable lower and upper bounds and tangent at the upper bound" aria-describedby="pdf-cdf-drag-instruction" viewBox="0 0 520 310" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+      </div>
+      <p class="plain-note" id="pdf-cdf-live-summary" aria-live="polite">For μ = 0.0 and σ = 1.0, the probability between x₁ = −1.0 and x₂ = 1.0 is 68.27%.</p>
+
+      <h4>What each graph means</h4>
+      <ul>
+        <li>The bell-shaped curve is the <strong>PDF, (f(x))</strong>. Its height describes the concentration or density of possible values around x.</li>
+        <li>The S-shaped curve is the <strong>CDF, (F(x))</strong>. Its height is the total probability accumulated up to x.</li>
+        <li>The slope of the CDF at any point equals the height of the PDF at the same point.</li>
+      </ul>
+      <p>Therefore, when (f(x)) is small, (F(x)) is nearly flat. As (f(x)) increases, (F(x)) becomes steeper. Where (f(x)) reaches its peak, (F(x)) has its steepest slope. As (f(x)) falls, (F(x)) continues increasing, but more slowly. The PDF eventually approaches zero while the CDF approaches 1.</p>
+
+      <h4>Probability between x₁ and x₂</h4>
+      <p>The probability of falling between two values is the area under the PDF over that interval, which is also the change in CDF height:</p>
+      <div class="eq-block">\[ P(x_1&lt;X\le x_2)=\int_{x_1}^{x_2}f(x)\,dx=F(x_2)-F(x_1) \]</div>
+      <div class="reliability-callout"><strong>Important diagram correction:</strong> a probability interval is the shaded area under the <strong>PDF</strong>, not the area under the CDF. An area under the CDF would represent (int F(x)\,dx), which is not (P(x_1&lt;X\le x_2)).</div>
+
+      <div class="reliability-table-scroll" role="region" aria-label="PDF and CDF relationship meanings" tabindex="0"><table class="ref-table">
+        <thead><tr><th>Quantity at x₂</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="formula-cell">f(x₂)</td><td>PDF height and CDF slope at x₂</td></tr>
+          <tr><td class="formula-cell">F(x₂)</td><td>Total probability accumulated up to x₂</td></tr>
+          <tr><td class="formula-cell">F(x₂) − F(x₁)</td><td>Probability between x₁ and x₂</td></tr>
+        </tbody>
+      </table></div>
+
+      <h4>Reliability interpretation</h4>
+      <p>When (T) is time to failure, (F(t)=P(T\le t)) is the probability that the unit has failed by time t, while (R(t)=1-F(t)=P(T&gt;t)) is the probability that it is still operating. The failure density connects both curves:</p>
+      <div class="eq-block">\[ f(t)=\frac{dF(t)}{dt}=-\frac{dR(t)}{dt} \]</div>
+      <div class="reliability-callout"><strong>Bottom line:</strong> (F(x_2)) is the accumulated probability up to x₂, (f(x_2)) is the CDF's slope at x₂, and (F(x_2)-F(x_1)) is the probability between the two draggable bounds. The same calculus relationship applies to the Weibull failure-time model used elsewhere in this lesson.</div>
+    </section>
 
     <h3>CDF → PDF via differentiation</h3>
     <div class="eq-block">\[ f(x) = \frac{d}{dx}F(x) \]</div>
@@ -1268,6 +1397,247 @@ document.querySelectorAll('.preset-btn').forEach(btn=>{
 render();
 
 /* ================= LESSON ADDITIONS ================= */
+
+/* --- draggable PDF/CDF relationship explorer --- */
+(function initializePdfCdfRelationshipExplorer(){
+  const root = document.getElementById('pdf-cdf-relationship-explorer');
+  if(!root) return;
+
+  const controls = {
+    mean: document.getElementById('pdf-cdf-mean'),
+    sd: document.getElementById('pdf-cdf-sd'),
+    x1: document.getElementById('pdf-cdf-x1'),
+    x2: document.getElementById('pdf-cdf-x2')
+  };
+  const outputs = {
+    mean: document.getElementById('pdf-cdf-mean-value'),
+    sd: document.getElementById('pdf-cdf-sd-value'),
+    x1: document.getElementById('pdf-cdf-x1-value'),
+    x2: document.getElementById('pdf-cdf-x2-value'),
+    probability: document.getElementById('pdf-cdf-probability'),
+    cdf: document.getElementById('pdf-cdf-cdf-value'),
+    pdf: document.getElementById('pdf-cdf-pdf-value'),
+    summary: document.getElementById('pdf-cdf-live-summary')
+  };
+  const pdfSvg = document.getElementById('pdf-cdf-pdf-plot');
+  const cdfSvg = document.getElementById('pdf-cdf-cdf-plot');
+  const margin = {left:58, right:20, top:20, bottom:48};
+  const height = 310;
+  let activeDrag = null;
+  let resizeTimer = null;
+
+  function relationshipErf(value){
+    const sign = value < 0 ? -1 : 1;
+    const x = Math.abs(value);
+    const t = 1/(1+0.3275911*x);
+    const y = 1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);
+    return sign*y;
+  }
+  function relationshipPdf(x, mean, sd){
+    const z = (x-mean)/sd;
+    return Math.exp(-0.5*z*z)/(sd*Math.sqrt(2*Math.PI));
+  }
+  function relationshipCdf(x, mean, sd){
+    return 0.5*(1+relationshipErf((x-mean)/(sd*Math.SQRT2)));
+  }
+  function displayRelationshipNumber(value){
+    return value.toFixed(1).replace('-', '−');
+  }
+  function relationshipState(){
+    return {
+      mean:parseFloat(controls.mean.value),
+      sd:parseFloat(controls.sd.value),
+      x1:parseFloat(controls.x1.value),
+      x2:parseFloat(controls.x2.value)
+    };
+  }
+  function relationshipWidth(svg){
+    const rect = svg.getBoundingClientRect();
+    return Math.max(320, Math.round(rect.width || 520));
+  }
+  function relationshipGeometry(svg, yMax){
+    const width = relationshipWidth(svg);
+    const plotWidth = width-margin.left-margin.right;
+    const plotHeight = height-margin.top-margin.bottom;
+    return {
+      width,
+      plotWidth,
+      plotHeight,
+      x:value=>margin.left+((value+5)/10)*plotWidth,
+      y:value=>margin.top+plotHeight-(value/yMax)*plotHeight
+    };
+  }
+  function relationshipPath(points, gx, gy){
+    return points.map((point,index)=>(index?'L':'M')+gx(point.x).toFixed(2)+','+gy(point.y).toFixed(2)).join(' ');
+  }
+  function relationshipAxes(geometry, yMax, yTicks, yLabel){
+    const xTicks = [-4,-2,0,2,4];
+    let content = `<rect class="pdf-cdf-frame" x="${margin.left}" y="${margin.top}" width="${geometry.plotWidth}" height="${geometry.plotHeight}"/>`;
+    xTicks.forEach(value=>{
+      const x = geometry.x(value);
+      content += `<line class="pdf-cdf-grid-line" x1="${x}" y1="${margin.top}" x2="${x}" y2="${margin.top+geometry.plotHeight}"/>`;
+      content += `<text class="pdf-cdf-axis-text" x="${x}" y="${height-25}" text-anchor="middle">${value}</text>`;
+    });
+    yTicks.forEach(value=>{
+      const y = geometry.y(value);
+      content += `<line class="pdf-cdf-grid-line" x1="${margin.left}" y1="${y}" x2="${margin.left+geometry.plotWidth}" y2="${y}"/>`;
+      content += `<text class="pdf-cdf-axis-text" x="${margin.left-9}" y="${y+4}" text-anchor="end">${value.toFixed(yMax===1?2:3)}</text>`;
+    });
+    content += `<line class="pdf-cdf-axis-line" x1="${margin.left}" y1="${margin.top+geometry.plotHeight}" x2="${margin.left+geometry.plotWidth}" y2="${margin.top+geometry.plotHeight}"/>`;
+    content += `<line class="pdf-cdf-axis-line" x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top+geometry.plotHeight}"/>`;
+    content += `<text class="pdf-cdf-axis-title" x="${margin.left+geometry.plotWidth/2}" y="${height-6}" text-anchor="middle">x</text>`;
+    content += `<text class="pdf-cdf-axis-title" transform="translate(15 ${margin.top+geometry.plotHeight/2}) rotate(-90)" text-anchor="middle">${yLabel}</text>`;
+    return content;
+  }
+  function relationshipHandle(bound, x, y, value){
+    const label = bound==='x1'?'x₁':'x₂';
+    const ariaLabel = bound==='x1'?'Lower bound x one':'Upper bound x two';
+    return `<g class="pdf-cdf-drag-handle" data-bound="${bound}" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})" tabindex="0" role="slider" aria-label="${ariaLabel}" aria-valuemin="-4.5" aria-valuemax="4.5" aria-valuenow="${value.toFixed(1)}" aria-valuetext="${label} equals ${value.toFixed(1)}"><circle class="pdf-cdf-drag-target" r="22"/><circle class="pdf-cdf-marker-visible" r="6"/><text class="pdf-cdf-plot-label" x="${bound==='x1'?-9:9}" y="-11" text-anchor="${bound==='x1'?'end':'start'}">${label}</text></g>`;
+  }
+  function drawRelationshipPdf(state){
+    const peak = relationshipPdf(state.mean,state.mean,state.sd);
+    const yMax = peak*1.16;
+    const geometry = relationshipGeometry(pdfSvg,yMax);
+    const points = [];
+    for(let i=0;i<=250;i++){
+      const x = -5+10*i/250;
+      points.push({x,y:relationshipPdf(x,state.mean,state.sd)});
+    }
+    const areaPoints = [{x:state.x1,y:relationshipPdf(state.x1,state.mean,state.sd)}]
+      .concat(points.filter(point=>point.x>state.x1&&point.x<state.x2))
+      .concat([{x:state.x2,y:relationshipPdf(state.x2,state.mean,state.sd)}]);
+    const baseline = geometry.y(0);
+    const areaPath = `M${geometry.x(state.x1).toFixed(2)},${baseline.toFixed(2)} `+relationshipPath(areaPoints,geometry.x,geometry.y)+` L${geometry.x(state.x2).toFixed(2)},${baseline.toFixed(2)} Z`;
+    let content = relationshipAxes(geometry,yMax,[0,yMax/4,yMax/2,3*yMax/4,yMax],'f(x)');
+    content += `<path class="pdf-cdf-area" d="${areaPath}"/>`;
+    content += `<path class="pdf-cdf-pdf-line" d="${relationshipPath(points,geometry.x,geometry.y)}"/>`;
+    [state.x1,state.x2].forEach(value=>{
+      const y = geometry.y(relationshipPdf(value,state.mean,state.sd));
+      content += `<line class="pdf-cdf-bound-line" x1="${geometry.x(value)}" y1="${baseline}" x2="${geometry.x(value)}" y2="${y}"/>`;
+    });
+    content += `<text class="pdf-cdf-muted-label" x="${geometry.x((state.x1+state.x2)/2)}" y="${geometry.y(yMax*0.12)}" text-anchor="middle">area = F(x₂) − F(x₁)</text>`;
+    content += relationshipHandle('x1',geometry.x(state.x1),geometry.y(relationshipPdf(state.x1,state.mean,state.sd)),state.x1);
+    content += relationshipHandle('x2',geometry.x(state.x2),geometry.y(relationshipPdf(state.x2,state.mean,state.sd)),state.x2);
+    pdfSvg.setAttribute('viewBox',`0 0 ${geometry.width} ${height}`);
+    pdfSvg.innerHTML = content;
+  }
+  function drawRelationshipCdf(state){
+    const geometry = relationshipGeometry(cdfSvg,1);
+    const points = [];
+    for(let i=0;i<=250;i++){
+      const x = -5+10*i/250;
+      points.push({x,y:relationshipCdf(x,state.mean,state.sd)});
+    }
+    const f1 = relationshipCdf(state.x1,state.mean,state.sd);
+    const f2 = relationshipCdf(state.x2,state.mean,state.sd);
+    const density2 = relationshipPdf(state.x2,state.mean,state.sd);
+    let content = relationshipAxes(geometry,1,[0,.25,.5,.75,1],'F(x)');
+    content += `<path class="pdf-cdf-cdf-line" d="${relationshipPath(points,geometry.x,geometry.y)}"/>`;
+    [[state.x1,f1],[state.x2,f2]].forEach(pair=>{
+      content += `<line class="pdf-cdf-bound-line" x1="${geometry.x(pair[0])}" y1="${geometry.y(0)}" x2="${geometry.x(pair[0])}" y2="${geometry.y(pair[1])}"/>`;
+    });
+    const tangentLeft = Math.max(-5,state.x2-.85);
+    const tangentRight = Math.min(5,state.x2+.85);
+    const tangentYLeft = Math.max(0,Math.min(1,f2+density2*(tangentLeft-state.x2)));
+    const tangentYRight = Math.max(0,Math.min(1,f2+density2*(tangentRight-state.x2)));
+    content += `<line class="pdf-cdf-tangent" x1="${geometry.x(tangentLeft)}" y1="${geometry.y(tangentYLeft)}" x2="${geometry.x(tangentRight)}" y2="${geometry.y(tangentYRight)}"/>`;
+    content += `<text class="pdf-cdf-muted-label" x="${geometry.x(tangentRight)}" y="${Math.max(margin.top+12,geometry.y(tangentYRight)-8)}" text-anchor="end">slope = f(x₂)</text>`;
+    const bracketX = margin.left+geometry.plotWidth-12;
+    content += `<line class="pdf-cdf-delta" x1="${bracketX}" y1="${geometry.y(f1)}" x2="${bracketX}" y2="${geometry.y(f2)}"/>`;
+    content += `<line class="pdf-cdf-delta-cap" x1="${bracketX-5}" y1="${geometry.y(f1)}" x2="${bracketX+5}" y2="${geometry.y(f1)}"/>`;
+    content += `<line class="pdf-cdf-delta-cap" x1="${bracketX-5}" y1="${geometry.y(f2)}" x2="${bracketX+5}" y2="${geometry.y(f2)}"/>`;
+    content += `<text class="pdf-cdf-muted-label" x="${bracketX-8}" y="${(geometry.y(f1)+geometry.y(f2))/2+4}" text-anchor="end">ΔF</text>`;
+    content += relationshipHandle('x1',geometry.x(state.x1),geometry.y(f1),state.x1);
+    content += relationshipHandle('x2',geometry.x(state.x2),geometry.y(f2),state.x2);
+    cdfSvg.setAttribute('viewBox',`0 0 ${geometry.width} ${height}`);
+    cdfSvg.innerHTML = content;
+  }
+  function renderRelationshipExplorer(focusTarget){
+    const state = relationshipState();
+    const f1 = relationshipCdf(state.x1,state.mean,state.sd);
+    const f2 = relationshipCdf(state.x2,state.mean,state.sd);
+    const density2 = relationshipPdf(state.x2,state.mean,state.sd);
+    const probability = Math.max(0,f2-f1);
+    outputs.mean.textContent = displayRelationshipNumber(state.mean);
+    outputs.sd.textContent = displayRelationshipNumber(state.sd);
+    outputs.x1.textContent = displayRelationshipNumber(state.x1);
+    outputs.x2.textContent = displayRelationshipNumber(state.x2);
+    outputs.probability.textContent = (probability*100).toFixed(2)+'%';
+    outputs.cdf.textContent = f2.toFixed(4);
+    outputs.pdf.textContent = density2.toFixed(4);
+    outputs.summary.textContent = `For μ = ${state.mean.toFixed(1)} and σ = ${state.sd.toFixed(1)}, the probability between x₁ = ${displayRelationshipNumber(state.x1)} and x₂ = ${displayRelationshipNumber(state.x2)} is ${(probability*100).toFixed(2)}%. The CDF height at x₂ is ${f2.toFixed(4)}, and its slope there is f(x₂) = ${density2.toFixed(4)}.`;
+    drawRelationshipPdf(state);
+    drawRelationshipCdf(state);
+    if(focusTarget){
+      const next = document.querySelector(`#${focusTarget.svgId} [data-bound="${focusTarget.bound}"]`);
+      if(next) next.focus();
+    }
+  }
+  function setRelationshipBound(bound,value,focusTarget){
+    const state = relationshipState();
+    let next = Math.round(value*10)/10;
+    if(bound==='x1') next = Math.max(-4.5,Math.min(state.x2-.1,next));
+    else next = Math.min(4.5,Math.max(state.x1+.1,next));
+    controls[bound].value = next.toFixed(1);
+    renderRelationshipExplorer(focusTarget);
+  }
+  function relationshipClientValue(svg,clientX){
+    const rect = svg.getBoundingClientRect();
+    const viewWidth = parseFloat(svg.getAttribute('viewBox').split(/\s+/)[2]);
+    const localX = rect.width ? (clientX-rect.left)*(viewWidth/rect.width) : clientX;
+    const plotWidth = viewWidth-margin.left-margin.right;
+    return Math.max(-5,Math.min(5,((localX-margin.left)/plotWidth)*10-5));
+  }
+  function bindRelationshipPlot(svg){
+    svg.addEventListener('pointerdown',event=>{
+      const handle = event.target.closest('[data-bound]');
+      if(!handle || !svg.contains(handle)) return;
+      activeDrag = {bound:handle.dataset.bound,svg};
+      if(svg.setPointerCapture) svg.setPointerCapture(event.pointerId);
+      setRelationshipBound(activeDrag.bound,relationshipClientValue(svg,event.clientX));
+      event.preventDefault();
+    });
+    svg.addEventListener('pointermove',event=>{
+      if(!activeDrag || activeDrag.svg!==svg) return;
+      setRelationshipBound(activeDrag.bound,relationshipClientValue(svg,event.clientX));
+      event.preventDefault();
+    });
+    function stopDrag(event){
+      if(!activeDrag || activeDrag.svg!==svg) return;
+      if(svg.releasePointerCapture && svg.hasPointerCapture && svg.hasPointerCapture(event.pointerId)) svg.releasePointerCapture(event.pointerId);
+      activeDrag = null;
+    }
+    svg.addEventListener('pointerup',stopDrag);
+    svg.addEventListener('pointercancel',stopDrag);
+    svg.addEventListener('keydown',event=>{
+      const handle = event.target.closest('[data-bound]');
+      if(!handle || !['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+      const bound = handle.dataset.bound;
+      const step = event.shiftKey ? 0.5 : 0.1;
+      const current = parseFloat(controls[bound].value);
+      const next = event.key==='Home'?-4.5:event.key==='End'?4.5:current+(event.key==='ArrowRight'?step:-step);
+      setRelationshipBound(bound,next,{svgId:svg.id,bound});
+      event.preventDefault();
+    });
+  }
+
+  controls.mean.addEventListener('input',()=>renderRelationshipExplorer());
+  controls.sd.addEventListener('input',()=>renderRelationshipExplorer());
+  controls.x1.addEventListener('input',()=>setRelationshipBound('x1',parseFloat(controls.x1.value)));
+  controls.x2.addEventListener('input',()=>setRelationshipBound('x2',parseFloat(controls.x2.value)));
+  bindRelationshipPlot(pdfSvg);
+  bindRelationshipPlot(cdfSvg);
+  if('ResizeObserver' in window){
+    const observer = new ResizeObserver(()=>{
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(()=>renderRelationshipExplorer(),80);
+    });
+    observer.observe(root);
+  } else {
+    window.addEventListener('resize',()=>renderRelationshipExplorer());
+  }
+  renderRelationshipExplorer();
+})();
 
 /* --- static repairable-system up/down timeline (Section: Repairable vs Non-Repairable) --- */
 (function drawStaticTimeline(){
