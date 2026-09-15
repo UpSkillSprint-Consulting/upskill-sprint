@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Introduction to Reliability and Maintainability",
+  "slug": "introduction-to-reliability-and-maintainability",
+  "category": "Quality Engineering",
+  "category_slug": "quality-engineering",
+  "level": "Intermediate",
+  "lesson_type": "General",
+  "estimated_minutes": 60,
+  "interactive": true,
+  "card_title": "Introduction to Reliability and Maintainability",
+  "card_description": "Explore reliability, maintainability, Weibull behavior, hazard, ROCOF, repair time, and availability through linked live visuals and practical calculations.",
+  "search_keywords": ["reliability", "maintainability", "weibull", "hazard rate", "rocof", "mttf", "mtbf", "mttr", "availability", "right censoring"],
+  "suggested_github_path": "lessons/quality-engineering/introduction-to-reliability-and-maintainability.html"
+}
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introduction to Reliability and Maintainability</title>
+  <meta name="description" content="Explore reliability, maintainability, Weibull behavior, hazard, ROCOF, repair time, and availability through linked live visuals and practical calculations.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/quality-engineering/introduction-to-reliability-and-maintainability">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
+  <style id="reliability-lesson-style">
+  :root{
+    color-scheme:light dark;
+    --reliability-bg:#eef4f8;
+    --reliability-panel:#ffffff;
+    --reliability-panel-2:#e4edf4;
+    --reliability-accent:#075f78;
+    --reliability-accent-dim:#0b667d;
+    --reliability-line:#71879a;
+    --reliability-line-strong:#506a80;
+    --reliability-text:#17324a;
+    --reliability-text-dim:#3f5e75;
+    --reliability-heading:#102a43;
+    --reliability-pdf-color:#086b88;
+    --reliability-cdf-color:#855700;
+    --reliability-survival-color:#14734b;
+    --reliability-hazard-color:#a3343a;
+    --reliability-on-accent:#ffffff;
+    --reliability-on-signal:#ffffff;
+    --reliability-marker-line:rgba(23,50,74,.68);
+    --reliability-marker-soft:rgba(23,50,74,.34);
+  }
+  #lesson-content,
+  #lesson-content *,
+  #lesson-content *::before,
+  #lesson-content *::after{box-sizing:border-box;}
+  #lesson-content{
+    margin:0; background:var(--reliability-bg); color:var(--reliability-text);
+    font-family:'IBM Plex Mono', monospace;
+    min-height:100vh;
+    padding:20px;
+  }
+  :where(#lesson-content) h1{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700; letter-spacing:.03em;
+    font-size:clamp(22px,4vw,32px);
+    margin:0 0 4px 0; color:var(--reliability-heading);
+    text-transform:uppercase;
+  }
+  .sub{color:var(--reliability-text-dim); font-size:13px; margin-bottom:18px; max-width:820px; line-height:1.5;}
+  .reliability-wrap{max-width:1180px; margin:0 auto;}
+  .layout{display:grid; grid-template-columns: 300px 1fr; gap:16px;}
+  @media (max-width:880px){ .layout{grid-template-columns:1fr;} }
+
+  .panel{
+    background:var(--reliability-panel); color:var(--reliability-text);
+    border:1px solid var(--reliability-line);
+    border-radius:10px;
+    padding:16px;
+  }
+  .panel h2{
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:16px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--reliability-accent); margin:0 0 12px 0; font-weight:600;
+    border-bottom:1px solid var(--reliability-line); padding-bottom:8px;
+  }
+  :where(#lesson-content) label{display:block; font-size:12px; color:var(--reliability-text-dim); margin-bottom:4px; margin-top:14px;}
+  :where(#lesson-content) label:first-of-type{margin-top:0;}
+  .valrow{display:flex; justify-content:space-between; align-items:baseline;}
+  .valrow .v{color:var(--reliability-accent); font-weight:600; font-size:13px;}
+  :where(#lesson-content) input[type=range]{
+    width:100%; accent-color:var(--reliability-accent); margin-top:6px;
+    background:transparent; color:var(--reliability-text);
+  }
+  .presets{display:flex; flex-wrap:wrap; gap:6px; margin-top:14px;}
+  .preset-btn{
+    background:var(--reliability-panel-2); border:1px solid var(--reliability-line); color:var(--reliability-text);
+    font-family:'IBM Plex Mono', monospace; font-size:11px; padding:6px 9px;
+    border-radius:6px; cursor:pointer; transition:.15s;
+  }
+  .preset-btn:hover{border-color:var(--reliability-accent); color:var(--reliability-accent);}
+
+  .readout{margin-top:18px; border-top:1px solid var(--reliability-line); padding-top:12px;}
+  .readout label{margin-top:10px;}
+  .rline{display:flex; justify-content:space-between; font-size:12.5px; padding:3px 0;}
+  .rline .k{color:var(--reliability-text-dim);}
+  .rline .n{font-weight:600;}
+
+  .charts{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media (max-width:640px){ .charts{grid-template-columns:1fr;} }
+  .chart-card{background:var(--reliability-panel); color:var(--reliability-text); border:1px solid var(--reliability-line); border-radius:10px; padding:12px 12px 6px;}
+  .chart-title{
+    font-family:'Barlow Condensed', sans-serif; font-size:15px; font-weight:600;
+    letter-spacing:.04em; text-transform:uppercase; margin-bottom:2px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .dot{width:9px; height:9px; border-radius:50%; display:inline-block;}
+  .formula{color:var(--reliability-text-dim); font-size:11.5px; margin-bottom:6px;}
+  :where(#lesson-content) canvas{width:100%; display:block; cursor:crosshair;}
+
+  .legend-note{color:var(--reliability-text-dim); font-size:11px; margin-top:8px; line-height:1.5;}
+  .xline-note{font-size:11px; color:var(--reliability-text-dim); margin-top:6px;}
+  .reliability-model-footer{color:var(--reliability-text-dim); font-size:11px; margin-top:16px; text-align:center; line-height:1.6;}
+  :where(#lesson-content) code{color:var(--reliability-accent);}
+
+  /* Reference article section */
+  .ref-panel{
+    background:var(--reliability-panel); color:var(--reliability-text);
+    border:1px solid var(--reliability-line);
+    border-radius:10px;
+    padding:24px 28px;
+    margin-top:26px;
+  }
+  .ref-panel h2.section-title{
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:26px; font-weight:700; letter-spacing:.03em;
+    text-transform:uppercase; color:var(--reliability-heading); margin:0 0 4px 0;
+  }
+  .ref-panel .section-sub{color:var(--reliability-text-dim); font-size:12.5px; margin-bottom:20px;}
+  .ref-panel h3{
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:19px; font-weight:600; letter-spacing:.02em;
+    color:var(--reliability-accent); margin:26px 0 8px 0;
+    border-bottom:1px solid var(--reliability-line); padding-bottom:6px;
+  }
+  .ref-panel h3:first-of-type{margin-top:6px;}
+  .ref-panel p{
+    font-size:13.5px; line-height:1.7; color:var(--reliability-text); margin:8px 0;
+  }
+  .eq-block{
+    background:var(--reliability-panel-2); color:var(--reliability-text);
+    border:1px solid var(--reliability-line);
+    border-left:3px solid var(--reliability-accent);
+    border-radius:6px;
+    padding:12px 18px;
+    margin:10px 0;
+    overflow-x:auto;
+  }
+  .eq-block mjx-container{color:var(--reliability-text) !important;}
+  .reliability-callout{
+    background:var(--reliability-panel-2);
+    border:1px solid var(--reliability-line);
+    border-radius:6px;
+    padding:12px 16px;
+    margin:12px 0;
+    font-size:13px;
+    color:var(--reliability-text-dim);
+    line-height:1.6;
+  }
+  .reliability-callout strong{color:var(--reliability-accent); font-weight:600;}
+  .ref-table{width:100%; border-collapse:collapse; margin:14px 0; font-size:12.5px;}
+  .ref-table th{
+    text-align:left; color:var(--reliability-accent); font-family:'Barlow Condensed', sans-serif;
+    font-size:13px; letter-spacing:.04em; text-transform:uppercase; font-weight:600;
+    border-bottom:1px solid var(--reliability-line); padding:8px 10px;
+  }
+  .ref-table td{
+    padding:9px 10px; border-bottom:1px solid var(--reliability-line); color:var(--reliability-text); vertical-align:top;
+  }
+  .ref-table tr:last-child td{border-bottom:none;}
+  .ref-table td.formula-cell{color:var(--reliability-accent); white-space:nowrap;}
+  @media (max-width:640px){
+    .ref-panel{padding:18px 16px;}
+    .ref-table{font-size:11.5px;}
+    .ref-table td.formula-cell{white-space:normal;}
+  }
+
+  /* Lesson-mode additions */
+  .lesson-badge{
+    display:inline-block; background:var(--reliability-accent); color:var(--reliability-on-accent);
+    font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:11.5px;
+    letter-spacing:.08em; text-transform:uppercase; padding:3px 9px; border-radius:4px;
+    margin-bottom:10px;
+  }
+  .toc{
+    background:var(--reliability-panel); color:var(--reliability-text); border:1px solid var(--reliability-line); border-radius:10px;
+    padding:14px 18px; margin-top:14px; margin-bottom:4px;
+  }
+  .toc-title{
+    font-family:'Barlow Condensed', sans-serif; font-size:13px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--reliability-accent); font-weight:600; margin-bottom:8px;
+  }
+  .toc ol{margin:0; padding-left:18px; font-size:12.5px; line-height:1.95; color:var(--reliability-text-dim);}
+  .toc a{color:var(--reliability-text); text-decoration:none; border-bottom:1px dotted var(--reliability-line);}
+  .toc a:hover{color:var(--reliability-accent); border-color:var(--reliability-accent);}
+
+  .lesson-panel{
+    background:var(--reliability-panel); color:var(--reliability-text); border:1px solid var(--reliability-line); border-radius:10px;
+    padding:24px 28px; margin-top:20px;
+  }
+  @media (max-width:640px){ .lesson-panel{padding:18px 16px;} }
+
+  .diagram-frame{
+    background:var(--reliability-panel-2); color:var(--reliability-text); border:1px solid var(--reliability-line); border-radius:8px;
+    padding:14px; margin:14px 0;
+  }
+  .diagram-caption{color:var(--reliability-text-dim); font-size:11.5px; margin-top:6px; line-height:1.6; text-align:center;}
+
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start;}
+  @media (max-width:760px){ .two-col{grid-template-columns:1fr;} }
+
+  .mini-card{
+    background:var(--reliability-panel-2); color:var(--reliability-text); border:1px solid var(--reliability-line); border-radius:8px; padding:14px 16px;
+  }
+  .mini-card h4{
+    font-family:'Barlow Condensed', sans-serif; font-size:15px; letter-spacing:.02em;
+    color:var(--reliability-accent); margin:0 0 6px 0; font-weight:600; text-transform:uppercase;
+  }
+  .mini-card p{font-size:12.5px; color:var(--reliability-text); line-height:1.6; margin:4px 0;}
+
+  .slider-row{margin-top:14px;}
+  .slider-row:first-child{margin-top:0;}
+  .slider-row label{display:block; font-size:12px; color:var(--reliability-text-dim); margin-bottom:4px;}
+  .slider-row .valrow{display:flex; justify-content:space-between; font-size:12.5px;}
+  .slider-row .valrow .v{color:var(--reliability-accent); font-weight:600;}
+  .slider-row input[type=range]{width:100%; accent-color:var(--reliability-accent); margin-top:4px;}
+
+  .gauge-wrap{margin-top:16px;}
+  .gauge-track{
+    width:100%; height:26px; background:var(--reliability-panel-2); color:var(--reliability-text); border:1px solid var(--reliability-line);
+    border-radius:13px; overflow:hidden; position:relative;
+  }
+  .gauge-fill{
+    height:100%; background:linear-gradient(90deg, var(--reliability-hazard-color), var(--reliability-cdf-color) 55%, var(--reliability-survival-color));
+    color:var(--reliability-text); transition:width .15s ease; border-radius:13px 0 0 13px;
+  }
+  .gauge-label{
+    position:absolute; left:50%; top:2px; transform:translateX(-50%);
+    display:flex; align-items:center; justify-content:center; width:max-content; max-width:calc(100% - 8px); height:20px;
+    padding:0 8px; border:1px solid var(--reliability-line); border-radius:999px;
+    background:var(--reliability-panel); color:var(--reliability-text);
+    font-size:12.5px; font-weight:600; white-space:nowrap;
+  }
+  .stat-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:14px;}
+  @media (max-width:480px){ .stat-grid{grid-template-columns:1fr;} }
+  .stat-box{background:var(--reliability-panel-2); color:var(--reliability-text); border:1px solid var(--reliability-line); border-radius:8px; padding:10px 12px;}
+  .stat-box .k{font-size:10.5px; color:var(--reliability-text-dim); text-transform:uppercase; letter-spacing:.04em;}
+  .stat-box .n{font-size:17px; font-weight:600; color:var(--reliability-accent); font-family:'Barlow Condensed', sans-serif;}
+
+  :where(#lesson-content) svg text{font-family:'IBM Plex Mono', monospace;}
+
+  .backlink{
+    display:inline-block; margin-top:18px; font-size:11.5px; color:var(--reliability-text-dim);
+    text-decoration:none; border-bottom:1px dotted var(--reliability-line);
+  }
+  .backlink:hover{color:var(--reliability-accent); border-color:var(--reliability-accent);}
+  .plain-note{color:var(--reliability-text-dim); font-size:11px; margin-top:4px; line-height:1.5; font-style:italic;}
+
+  .pdf-cdf-explorer{
+    margin:10px 0 28px;
+    padding-top:4px;
+  }
+  .pdf-cdf-control-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:4px 18px;
+  }
+  .pdf-cdf-chart-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+    margin-top:14px;
+  }
+  .pdf-cdf-chart-shell{min-width:0;}
+  .pdf-cdf-plot{
+    display:block;
+    width:100%;
+    min-height:300px;
+    touch-action:none;
+    user-select:none;
+  }
+  .pdf-cdf-frame{fill:transparent;stroke:var(--reliability-line);stroke-width:1;}
+  .pdf-cdf-grid-line{stroke:var(--reliability-line);stroke-width:1;stroke-opacity:.42;}
+  .pdf-cdf-axis-line{stroke:var(--reliability-line-strong);stroke-width:1.2;}
+  .pdf-cdf-axis-text,
+  .pdf-cdf-axis-title,
+  .pdf-cdf-plot-label{
+    fill:var(--reliability-text);
+    font-size:12px;
+  }
+  .pdf-cdf-muted-label{fill:var(--reliability-text-dim);font-size:12px;}
+  .pdf-cdf-pdf-line{fill:none;stroke:var(--reliability-pdf-color);stroke-width:2.6;}
+  .pdf-cdf-cdf-line{fill:none;stroke:var(--reliability-cdf-color);stroke-width:2.6;}
+  .pdf-cdf-area{fill:var(--reliability-pdf-color);fill-opacity:.24;}
+  .pdf-cdf-bound-line{stroke:var(--reliability-marker-line);stroke-width:1.5;stroke-dasharray:5 4;}
+  .pdf-cdf-tangent{stroke:var(--reliability-hazard-color);stroke-width:2.2;}
+  .pdf-cdf-delta{stroke:var(--reliability-pdf-color);stroke-width:4;}
+  .pdf-cdf-delta-cap{stroke:var(--reliability-pdf-color);stroke-width:2;}
+  .pdf-cdf-drag-handle{cursor:ew-resize;}
+  .pdf-cdf-drag-target{fill:transparent;stroke:none;pointer-events:all;}
+  .pdf-cdf-marker-visible{fill:var(--reliability-panel);stroke:var(--reliability-text);stroke-width:2.2;pointer-events:none;}
+  .pdf-cdf-drag-handle:focus-visible .pdf-cdf-marker-visible{stroke:var(--reliability-cdf-color);stroke-width:4;}
+  .pdf-cdf-stats{grid-template-columns:repeat(3,minmax(0,1fr));}
+  @media (max-width:760px){
+    .pdf-cdf-chart-grid{grid-template-columns:1fr;}
+    .pdf-cdf-stats{grid-template-columns:1fr;}
+  }
+  @media (max-width:520px){
+    .pdf-cdf-control-grid{grid-template-columns:1fr;}
+  }
+
+
+  #lesson-content{
+    font-size:16px;
+    line-height:1.65;
+  }
+  :where(#lesson-content) :focus-visible{
+    outline:3px solid var(--reliability-cdf-color);
+    outline-offset:3px;
+  }
+  :where(#lesson-content) .preset-btn{
+    min-height:44px;
+  }
+  :where(#lesson-content) input[type=range]{
+    min-height:44px;
+  }
+  .reliability-table-scroll{
+    width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .reliability-table-scroll .ref-table{
+    min-width:620px;
+  }
+  .reliability-source-list a{
+    color:var(--reliability-accent);
+    overflow-wrap:anywhere;
+  }
+  @media (max-width:640px){
+    #lesson-content{padding:16px 12px;}
+    .reliability-table-scroll .ref-table{min-width:560px;}
+  }
+
+  </style>
+  <style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+</head>
+<body data-lesson-page="true" data-category="quality-engineering" data-level="intermediate" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<main id="lesson-content">
+<div class="reliability-wrap">
+  <h1>Introduction to Reliability and Maintainability</h1>
+  <div class="sub">Drag the shape (β) and scale (η) sliders, or click anywhere on a chart to move the marker x. All four curves — PDF, CDF, Reliability, Hazard — update live from the same Weibull model, so you can see how differentiation/integration link them in real time.</div>
+
+  <div class="lesson-badge">Lesson</div>
+  <div class="toc" id="toc">
+    <div class="toc-title">Introduction to Reliability &amp; Maintainability — Contents</div>
+    <ol>
+      <li><a href="#sec-intro">What Is Reliability? What Is Maintainability? — plain-language start</a></li>
+      <li><a href="#sec-repairable">Repairable vs. Non-Repairable Systems</a></li>
+      <li><a href="#sec-calc-visual">Core Calculus Relationship — interactive PDF/CDF/R/h visualizer</a></li>
+      <li><a href="#sec-calc-ref">Core Calculus Relationship — written derivation &amp; summary chain</a></li>
+      <li><a href="#sec-bathtub">The Bathtub Curve — hazard rate over a product's life</a></li>
+      <li><a href="#sec-rocof">Failure Rate vs. ROCOF — two different "rates"</a></li>
+      <li><a href="#sec-maintainability">Maintainability — the M(t) function &amp; MTTR</a></li>
+      <li><a href="#sec-availability">Availability — combining reliability and maintainability</a></li>
+      <li><a href="#sec-statistics-implementation">Statistics Implementation — Excel, Minitab, and exam tips</a></li>
+      <li><a href="#sec-summary">Index Summary — non-repairable vs. repairable metrics</a></li>
+    </ol>
+  </div>
+
+  <!-- ============ SECTION: WHAT IS RELIABILITY / MAINTAINABILITY ============ -->
+  <div class="lesson-panel" id="sec-intro">
+    <h2 class="section-title">What Is Reliability? What Is Maintainability?</h2>
+    <div class="section-sub">Start here — plain-language definitions, no formulas yet. Everything later in this lesson is just these two ideas made precise.</div>
+
+    <div class="two-col">
+      <div class="mini-card">
+        <h4>Reliability</h4>
+        <p><strong>Reliability is the probability that something keeps working, without failing, for a stated length of time, under stated conditions.</strong></p>
+        <p>Say a batch of light bulbs is rated "90% reliable at 1,000 hours." That means if you ran a lot of them for 1,000 hours, about 90% would still be working and 10% would have burned out. Reliability always comes with a time attached — a bulb that's 90% reliable at 1,000 hours will be less reliable at 2,000 hours, because more time means more chances to fail.</p>
+        <p>Reliability answers: <em>"What's the chance this still works after time t?"</em></p>
+      </div>
+      <div class="mini-card">
+        <h4>Maintainability</h4>
+        <p><strong>Maintainability is the probability that something broken gets fixed and working again within a stated length of time, once repair begins.</strong></p>
+        <p>Say a machine is "80% maintainable within 4 hours." That means if it breaks down, there's an 80% chance the repair crew has it running again within 4 hours of starting the fix. The other 20% of the time, the repair drags on longer — parts aren't on hand, the fault is hard to find, and so on.</p>
+        <p>Maintainability answers: <em>"What's the chance it's fixed within time t?"</em></p>
+      </div>
+    </div>
+
+    <p>Notice these two ideas are mirror images of each other. Reliability is about <strong>staying up</strong>; maintainability is about <strong>getting back up</strong>. Put them together and you get <strong>availability</strong> — the fraction of time something is actually usable, which depends on both how rarely it breaks <em>and</em> how quickly it gets fixed. A machine that almost never breaks but takes a month to repair when it does can end up less available than one that breaks often but is fixed in ten minutes. This lesson builds up to that idea at the end.</p>
+
+    <div class="reliability-callout">
+      <strong>Why calculus shows up at all:</strong> "probability of still working by time t" is a curve that changes as t grows — it starts near 100% and drifts down toward 0% as more things get a chance to fail. Calculus is just the tool for describing curves and the rates at which they change. You don't need to be a mathematician to follow this — every formula below is introduced with the plain-language idea first, and the interactive charts let you watch the curves move instead of only reading the equations.
+    </div>
+
+    <h3>The vocabulary, defined before it's used</h3>
+    <p>These five terms appear constantly in reliability work. Skim them now — they'll be defined again, more precisely, as each one comes up later in the lesson.</p>
+
+    <div class="reliability-table-scroll" role="region" aria-label="Reliability vocabulary table" tabindex="0"><table class="ref-table">
+      <thead><tr><th>Term</th><th>Plain-language meaning</th></tr></thead>
+      <tbody>
+        <tr><td class="formula-cell">TTF</td><td><strong>Time To Failure</strong> — how long a single item ran before it broke. Only makes sense for something that gets scrapped, not repaired.</td></tr>
+        <tr><td class="formula-cell">MTTF</td><td><strong>Mean Time To Failure</strong> — the average TTF across many identical items. "On average, how long do these last?"</td></tr>
+        <tr><td class="formula-cell">MTBF</td><td><strong>Mean Time Between Failures</strong> — for something that gets repaired and put back in service, the average time from one failure to the next.</td></tr>
+        <tr><td class="formula-cell">MTTR</td><td><strong>Mean Time To Repair</strong> — the average time it takes to fix something once repair starts.</td></tr>
+        <tr><td class="formula-cell">Hazard rate</td><td>How likely something is to fail <em>right now</em>, given that it has survived up to this point. Not the same as "how likely to fail overall" — it's a conditional, moment-by-moment risk.</td></tr>
+      </tbody>
+    </table></div>
+
+    <p>One more distinction worth having in mind from the very start, because it decides which of these terms applies:</p>
+    <div class="two-col" style="margin-top:6px;">
+      <div class="mini-card">
+        <h4>Non-repairable item</h4>
+        <p>Fails once, gets thrown away or replaced — never fixed. Think: a light bulb, a fuse, a weld test coupon. Described using TTF / MTTF.</p>
+      </div>
+      <div class="mini-card">
+        <h4>Repairable item</h4>
+        <p>Fails, gets fixed, goes back into service — this can happen many times over its life. Think: a pump, a rolling mill stand, a furnace. Described using MTBF / MTTR.</p>
+      </div>
+    </div>
+    <p>The next section digs into this split in more detail with a timeline diagram. After that, the lesson works through the calculus of reliability for a single non-repairable item first (it's the simpler case — one item, one failure, done), then returns to repairable systems to cover MTBF, repair-time behavior (maintainability), and finally availability.</p>
+    <a class="backlink" href="#toc">↑ Back to contents</a>
+  </div>
+
+
+  <!-- ============ SECTION: REPAIRABLE VS NON-REPAIRABLE ============ -->
+  <div class="lesson-panel" id="sec-repairable">
+    <h2 class="section-title">Repairable vs. Non-Repairable Systems</h2>
+    <div class="section-sub">Before any formulas, the single most important fork in reliability engineering: does this item get thrown away when it fails, or fixed and put back into service? The answer changes which index you track for the rest of this lesson.</div>
+
+    <div class="two-col">
+      <div class="mini-card">
+        <h4>Non-repairable</h4>
+        <p>Once it fails, it is discarded or replaced — never restored to service. There is exactly <strong>one</strong> Time-to-Failure (TTF) per unit, so a population of units gives you a distribution of TTFs. This is precisely the f(x)/F(x)/R(x)/h(x) machinery above.</p>
+        <p><strong>Examples:</strong> a light bulb, a weld coupon, a fuse, a single bearing (if scrapped rather than reworked), a tensile test specimen.</p>
+        <p><strong>Governing index:</strong> <strong>MTTF</strong> — Mean Time To Failure, \(E[T]=\int_0^\infty R(t)\,dt\).</p>
+      </div>
+      <div class="mini-card">
+        <h4>Repairable</h4>
+        <p>Once it fails, it is <strong>restored</strong> to an operating state (repaired, refurbished) and returned to service. A single unit now generates a <em>sequence</em> of up-times and down-times over its life — a point process of failures, not one number.</p>
+        <p><strong>Examples:</strong> a rolling mill stand, a reheat furnace, a pump, a CNC line — almost all production equipment.</p>
+        <p><strong>Governing indices:</strong> <strong>MTBF</strong> (Mean Time Between Failures), <strong>MTTR</strong> (Mean Time To Repair), and <strong>Availability</strong>.</p>
+      </div>
+    </div>
+
+    <div class="diagram-frame">
+      <svg id="svg-uptime" role="img" aria-label="Repairable asset uptime and downtime timeline" viewBox="0 0 760 170" width="100%" style="display:block;">
+        <!-- populated / static timeline illustrating up/down cycle -->
+      </svg>
+      <div class="diagram-caption">Life of a <strong>repairable</strong> asset: alternating <span style="color:var(--reliability-survival-color)">Up</span> and <span style="color:var(--reliability-hazard-color)">Down</span> states. Each up interval is one Time Between Failures (TBF); each down interval includes active repair (MTTR) plus any logistics/admin delay. A non-repairable item would only ever show the first green segment, ending permanently at the first red mark.</div>
+    </div>
+
+    <div class="diagram-frame">
+      <svg role="img" aria-label="MTTF, MTTD, MTTR, and MTBF timeline" viewBox="0 0 900 300" width="100%" style="display:block;">
+        <!-- top-level MTBF bracket -->
+        <line x1="230" y1="70" x2="230" y2="255" stroke="var(--reliability-line-strong)" stroke-width="1.2"/>
+        <line x1="740" y1="70" x2="740" y2="255" stroke="var(--reliability-line-strong)" stroke-width="1.2"/>
+        <line x1="230" y1="72" x2="740" y2="72" stroke="var(--reliability-text)" stroke-width="1.6"/>
+        <polygon points="230,72 240,67 240,77" fill="var(--reliability-text)"/>
+        <polygon points="740,72 730,67 730,77" fill="var(--reliability-text)"/>
+        <text x="485" y="55" fill="var(--reliability-text)" font-size="20" font-weight="700" text-anchor="middle">MTBF</text>
+
+        <!-- section dividers -->
+        <line x1="40" y1="110" x2="40" y2="245" stroke="var(--reliability-line)" stroke-width="1.2"/>
+        <line x1="230" y1="110" x2="230" y2="245" stroke="var(--reliability-line)" stroke-width="1.2"/>
+        <line x1="420" y1="110" x2="420" y2="245" stroke="var(--reliability-line)" stroke-width="1.2"/>
+        <line x1="590" y1="110" x2="590" y2="245" stroke="var(--reliability-line)" stroke-width="1.2"/>
+        <line x1="740" y1="110" x2="740" y2="245" stroke="var(--reliability-line)" stroke-width="1.2"/>
+
+        <!-- MTTF #1 label + arrow -->
+        <text x="135" y="130" fill="var(--reliability-survival-color)" font-size="18" font-weight="700" text-anchor="middle">MTTF</text>
+        <line x1="48" y1="152" x2="222" y2="152" stroke="var(--reliability-survival-color)" stroke-width="1.6"/>
+        <polygon points="48,152 58,147 58,157" fill="var(--reliability-survival-color)"/>
+        <polygon points="222,152 212,147 212,157" fill="var(--reliability-survival-color)"/>
+        <text x="135" y="174" fill="var(--reliability-text)" font-size="13" text-anchor="middle">Correct Behavior</text>
+
+        <!-- MTTD -->
+        <text x="325" y="130" fill="var(--reliability-pdf-color)" font-size="18" font-weight="700" text-anchor="middle">MTTD</text>
+        <line x1="238" y1="152" x2="412" y2="152" stroke="var(--reliability-pdf-color)" stroke-width="1.6"/>
+        <polygon points="238,152 248,147 248,157" fill="var(--reliability-pdf-color)"/>
+        <polygon points="412,152 402,147 402,157" fill="var(--reliability-pdf-color)"/>
+        <text x="325" y="174" fill="var(--reliability-text)" font-size="13" text-anchor="middle">Diagnose</text>
+
+        <!-- MTTR -->
+        <text x="505" y="130" fill="var(--reliability-hazard-color)" font-size="18" font-weight="700" text-anchor="middle">MTTR</text>
+        <line x1="428" y1="152" x2="582" y2="152" stroke="var(--reliability-hazard-color)" stroke-width="1.6"/>
+        <polygon points="428,152 438,147 438,157" fill="var(--reliability-hazard-color)"/>
+        <polygon points="582,152 572,147 572,157" fill="var(--reliability-hazard-color)"/>
+        <text x="505" y="174" fill="var(--reliability-text)" font-size="13" text-anchor="middle">Repair</text>
+
+        <!-- MTTF #2 -->
+        <text x="665" y="130" fill="var(--reliability-survival-color)" font-size="18" font-weight="700" text-anchor="middle">MTTF</text>
+        <line x1="598" y1="152" x2="732" y2="152" stroke="var(--reliability-survival-color)" stroke-width="1.6"/>
+        <polygon points="598,152 608,147 608,157" fill="var(--reliability-survival-color)"/>
+        <polygon points="732,152 722,147 722,157" fill="var(--reliability-survival-color)"/>
+        <text x="665" y="174" fill="var(--reliability-text)" font-size="13" text-anchor="middle">Correct Behavior</text>
+
+        <!-- baseline / time axis -->
+        <line x1="40" y1="245" x2="800" y2="245" stroke="var(--reliability-text-dim)" stroke-width="1.4"/>
+        <polygon points="800,245 790,240 790,250" fill="var(--reliability-text-dim)"/>
+        <text x="815" y="250" fill="var(--reliability-text-dim)" font-size="13" text-anchor="middle">Time</text>
+
+        <!-- event labels -->
+        <text x="40" y="270" fill="var(--reliability-text)" font-size="12.5" text-anchor="middle">First</text>
+        <text x="40" y="286" fill="var(--reliability-text)" font-size="12.5" text-anchor="middle">Failure</text>
+        <text x="230" y="270" fill="var(--reliability-text)" font-size="12.5" text-anchor="middle">Begin</text>
+        <text x="230" y="286" fill="var(--reliability-text)" font-size="12.5" text-anchor="middle">Repair</text>
+        <text x="420" y="270" fill="var(--reliability-text)" font-size="12.5" text-anchor="middle">End</text>
+        <text x="420" y="286" fill="var(--reliability-text)" font-size="12.5" text-anchor="middle">Repair</text>
+        <text x="740" y="270" fill="var(--reliability-text)" font-size="12.5" text-anchor="middle">Second</text>
+        <text x="740" y="286" fill="var(--reliability-text)" font-size="12.5" text-anchor="middle">Failure</text>
+      </svg>
+      <div class="diagram-caption">The down interval is rarely just "repair" — it usually splits into <strong style="color:var(--reliability-pdf-color)">MTTD</strong> (Mean Time To Diagnose: find the fault) and <strong style="color:var(--reliability-hazard-color)">MTTR</strong> (Mean Time To Repair: fix it once found), sitting between First Failure and End Repair. <strong>MTBF</strong> spans the whole cycle — diagnose + repair + the following correct-behavior interval — from one failure to the next. Driving MTTD down (better instrumentation, clearer alarms, condition data) is often cheaper than driving MTTR down, and both shrink the down interval that Availability above is built from.</div>
+    </div>
+
+    <p>Because repair resets the clock, reliability engineers distinguish <strong>"as good as new"</strong> repair (full renewal — the classic renewal-process assumption, appropriate for a full bearing/roll change) from <strong>"as good as old"</strong> minimal repair (fix the immediate fault only, wear state otherwise unchanged — often the realistic case for a quick swap of a sensor or seal on an otherwise worn machine). This distinction is exactly why repairable systems eventually need a different rate function than h(x) (see <a href="#sec-rocof">ROCOF</a> later in this lesson) — but first, the next two sections build the core calculus (f, F, R, h) that describes a single non-repairable item's life. That math is the foundation everything else in this lesson builds on, so it's worth working through carefully before moving on to repairable systems.</p>
+    <a class="backlink" href="#toc">↑ Back to contents</a>
+  </div>
+
+
+  <div class="lesson-badge" style="margin-top:6px;">Now the math</div>
+  <div class="section-sub" style="margin:0 0 4px 0; font-size:13px; color:var(--reliability-text-dim); max-width:820px;">With reliability, maintainability, and the repairable/non-repairable split defined above, here's the calculus that makes "probability of still working" precise for a single non-repairable item — drag the sliders and watch it move.</div>
+
+  <div class="reliability-callout" style="max-width:1180px;">
+    <strong>What's actually being plotted:</strong> the charts below use the <strong>Weibull distribution</strong>, the standard model for time-to-failure in reliability engineering, because two knobs let it produce all three bathtub-curve phases (decreasing, flat, or increasing risk over time):
+    <div class="eq-block" style="margin:10px 0;">\[ f(x) = \frac{\beta}{\eta}\left(\frac{x}{\eta}\right)^{\beta-1} e^{-(x/\eta)^{\beta}} \]</div>
+    <ul style="margin:6px 0 4px 18px; padding:0; font-size:12.5px; line-height:1.7;">
+      <li><strong>η (eta) — the scale parameter:</strong> roughly, the "typical" lifetime. Bigger η stretches everything further out in time; it doesn't change the <em>shape</em> of the risk, just how far along the time axis it happens.</li>
+      <li><strong>β (beta) — the shape parameter:</strong> controls whether risk falls, stays flat, or rises with age — this is the exact same β that defines the three zones of the bathtub curve later in this lesson.</li>
+    </ul>
+    You don't need to memorize this formula or plug numbers into it by hand — treat β and η as knobs, move the sliders, and watch how the four curves respond. The formula is here so the curves aren't a black box.
+  </div>
+
+  <div class="layout" id="sec-calc-visual">
+    <div class="panel">
+      <h2>Model Controls</h2>
+
+      <div class="valrow"><label style="margin:0;">Shape β (beta)</label><span class="v" id="betaVal">2.00</span></div>
+      <input type="range" id="beta" aria-label="Weibull shape beta" min="0.3" max="5" step="0.01" value="2">
+
+      <div class="valrow"><label style="margin:0;">Scale η (eta)</label><span class="v" id="etaVal">100</span></div>
+      <input type="range" id="eta" aria-label="Weibull scale eta" min="10" max="300" step="1" value="100">
+
+      <div class="valrow"><label style="margin:0;">Marker position x</label><span class="v" id="xVal">80</span></div>
+      <input type="range" id="xpos" aria-label="Chart marker position" min="0" max="300" step="0.5" value="80">
+
+      <div class="presets">
+        <button type="button" class="preset-btn" data-b="0.6" data-e="80">Infant mortality (β&lt;1)</button>
+        <button type="button" class="preset-btn" data-b="1" data-e="100">Random failures (β=1)</button>
+        <button type="button" class="preset-btn" data-b="3.5" data-e="120">Wear-out (β&gt;1)</button>
+      </div>
+      <div class="plain-note">Tip: click anywhere on any chart to the right to jump the dashed marker to that x — no need to use the "Marker position" slider.</div>
+
+      <div class="readout">
+        <label style="margin-top:0;">Live values at x = <span id="xEcho">80</span></label>
+        <div class="rline"><span class="k">f(x) — PDF</span><span class="n" id="out-f" style="color:var(--reliability-pdf-color)"></span></div>
+        <div class="rline"><span class="k">F(x) — CDF</span><span class="n" id="out-F" style="color:var(--reliability-cdf-color)"></span></div>
+        <div class="rline"><span class="k">R(x) — Reliability</span><span class="n" id="out-R" style="color:var(--reliability-survival-color)"></span></div>
+        <div class="rline"><span class="k">h(x) — Hazard rate</span><span class="n" id="out-h" style="color:var(--reliability-hazard-color)"></span></div>
+        <div class="rline"><span class="k">H(x) — Cum. hazard</span><span class="n" id="out-H"></span></div>
+        <div class="xline-note">Check: f(x)/R(x) should equal h(x), and e<sup>−H(x)</sup> should equal R(x).</div>
+      </div>
+    </div>
+
+    <div class="charts">
+      <div class="chart-card">
+        <div class="chart-title"><span class="dot" style="background:var(--reliability-pdf-color)"></span>f(x) — PDF</div>
+        <div class="formula">slope of F(x) at x &nbsp;·&nbsp; f(x) = dF/dx</div>
+        <canvas id="c_f" height="190" role="img" aria-label="Weibull probability density function chart"></canvas>
+        <div class="plain-note">In plain terms: how densely failures are clustered right around this exact moment.</div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title"><span class="dot" style="background:var(--reliability-cdf-color)"></span>F(x) — CDF</div>
+        <div class="formula">area under f(x) up to x &nbsp;·&nbsp; F(x) = ∫f dt</div>
+        <canvas id="c_F" height="190" role="img" aria-label="Weibull cumulative distribution function chart"></canvas>
+        <div class="plain-note">In plain terms: what fraction of units have failed by this point.</div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title"><span class="dot" style="background:var(--reliability-survival-color)"></span>R(x) — Reliability</div>
+        <div class="formula">mirror of CDF &nbsp;·&nbsp; R(x) = 1 − F(x)</div>
+        <canvas id="c_R" height="190" role="img" aria-label="Weibull reliability function chart"></canvas>
+        <div class="plain-note">In plain terms: what fraction of units are still working at this point.</div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title"><span class="dot" style="background:var(--reliability-hazard-color)"></span>h(x) — Hazard rate</div>
+        <div class="formula">conditional rate &nbsp;·&nbsp; h(x) = f(x)/R(x) = −d(ln R)/dx</div>
+        <canvas id="c_h" height="190" role="img" aria-label="Weibull hazard-rate chart"></canvas>
+        <div class="plain-note">In plain terms: the risk of failing right now, for units that have made it this far without failing.</div>
+      </div>
+      <div class="chart-card" style="grid-column:1 / -1;">
+        <div class="chart-title">
+          <span class="dot" style="background:var(--reliability-survival-color)"></span>R(x)
+          <span style="color:var(--reliability-text-dim); font-weight:400;">vs</span>
+          <span class="dot" style="background:var(--reliability-cdf-color)"></span>F(x) — Overlap
+        </div>
+        <div class="formula">R(x) + F(x) = 1 at every x &nbsp;·&nbsp; crossover marks the median life (F=R=0.5)</div>
+        <canvas id="c_RF" height="220" role="img" aria-label="Reliability and cumulative failure overlap chart"></canvas>
+        <div class="legend-note" id="rf-note"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reliability-model-footer">Weibull model · f(x)=(β/η)(x/η)^(β−1)e^(−(x/η)^β) · x range fixed at 0–300 for visual comparability across presets</div>
+  <div style="text-align:center;"><a class="backlink" href="#toc">↑ Back to contents</a></div>
+
+  <div class="ref-panel" id="sec-calc-ref">
+    <h2 class="section-title">Core Calculus Relationship</h2>
+    <div class="section-sub">The written derivation behind the interactive panels above.</div>
+
+    <section class="pdf-cdf-explorer" id="pdf-cdf-relationship-explorer" aria-labelledby="pdf-cdf-relationship-heading">
+      <h3 id="pdf-cdf-relationship-heading">How the PDF and CDF are connected</h3>
+      <p>The probability density function (f(x)) and cumulative distribution function (F(x)) are two views of the same continuous probability model. The PDF shows where values are concentrated; the CDF keeps a running total of probability from the far left up to x.</p>
+
+      <div class="eq-block">\[ F(x)=\int_{-\infty}^{x} f(u)\,du \qquad\text{and}\qquad f(x)=\frac{dF(x)}{dx} \]</div>
+
+      <div class="panel" aria-label="PDF and CDF explorer controls">
+        <h2>PDF ↔ CDF Explorer</h2>
+        <div class="plain-note" id="pdf-cdf-drag-instruction">Move x₁ and x₂ with the sliders, or drag either labelled marker directly on either live plot. The shaded PDF area, CDF increase, and live values stay synchronized.</div>
+        <div class="pdf-cdf-control-grid">
+          <div class="slider-row">
+            <div class="valrow"><label for="pdf-cdf-mean" style="margin:0;">Mean μ</label><span class="v" id="pdf-cdf-mean-value">0.0</span></div>
+            <input type="range" id="pdf-cdf-mean" aria-label="Normal distribution mean" min="-1.5" max="1.5" step="0.1" value="0">
+          </div>
+          <div class="slider-row">
+            <div class="valrow"><label for="pdf-cdf-sd" style="margin:0;">Standard deviation σ</label><span class="v" id="pdf-cdf-sd-value">1.0</span></div>
+            <input type="range" id="pdf-cdf-sd" aria-label="Normal distribution standard deviation" min="0.5" max="1.6" step="0.1" value="1">
+          </div>
+          <div class="slider-row">
+            <div class="valrow"><label for="pdf-cdf-x1" style="margin:0;">Lower bound x₁</label><span class="v" id="pdf-cdf-x1-value">−1.0</span></div>
+            <input type="range" id="pdf-cdf-x1" aria-label="Lower probability bound x one" min="-4.5" max="4.4" step="0.1" value="-1">
+          </div>
+          <div class="slider-row">
+            <div class="valrow"><label for="pdf-cdf-x2" style="margin:0;">Upper bound x₂</label><span class="v" id="pdf-cdf-x2-value">1.0</span></div>
+            <input type="range" id="pdf-cdf-x2" aria-label="Upper probability bound x two" min="-4.4" max="4.5" step="0.1" value="1">
+          </div>
+        </div>
+        <div class="stat-grid pdf-cdf-stats" aria-live="polite">
+          <div class="stat-box"><div class="k">P(x₁ &lt; X ≤ x₂)</div><div class="n" id="pdf-cdf-probability">68.27%</div></div>
+          <div class="stat-box"><div class="k">F(x₂)</div><div class="n" id="pdf-cdf-cdf-value">0.8413</div></div>
+          <div class="stat-box"><div class="k">f(x₂) = CDF slope</div><div class="n" id="pdf-cdf-pdf-value">0.2420</div></div>
+        </div>
+      </div>
+
+      <div class="pdf-cdf-chart-grid">
+        <div class="chart-card pdf-cdf-chart-shell">
+          <div class="chart-title"><span class="dot" style="background:var(--reliability-pdf-color)"></span>Probability density · f(x)</div>
+          <div class="formula">The shaded area between x₁ and x₂ is the interval probability.</div>
+          <svg id="pdf-cdf-pdf-plot" class="pdf-cdf-plot" role="img" aria-label="Interactive normal probability density plot with draggable lower and upper bounds" aria-describedby="pdf-cdf-drag-instruction" viewBox="0 0 520 310" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+        <div class="chart-card pdf-cdf-chart-shell">
+          <div class="chart-title"><span class="dot" style="background:var(--reliability-cdf-color)"></span>Cumulative probability · F(x)</div>
+          <div class="formula">The vertical increase ΔF equals the shaded PDF area; the tangent slope at x₂ equals f(x₂).</div>
+          <svg id="pdf-cdf-cdf-plot" class="pdf-cdf-plot" role="img" aria-label="Interactive cumulative distribution plot with draggable lower and upper bounds and tangent at the upper bound" aria-describedby="pdf-cdf-drag-instruction" viewBox="0 0 520 310" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+      </div>
+      <p class="plain-note" id="pdf-cdf-live-summary" aria-live="polite">For μ = 0.0 and σ = 1.0, the probability between x₁ = −1.0 and x₂ = 1.0 is 68.27%.</p>
+
+      <h4>What each graph means</h4>
+      <ul>
+        <li>The bell-shaped curve is the <strong>PDF, (f(x))</strong>. Its height describes the concentration or density of possible values around x.</li>
+        <li>The S-shaped curve is the <strong>CDF, (F(x))</strong>. Its height is the total probability accumulated up to x.</li>
+        <li>The slope of the CDF at any point equals the height of the PDF at the same point.</li>
+      </ul>
+      <p>Therefore, when (f(x)) is small, (F(x)) is nearly flat. As (f(x)) increases, (F(x)) becomes steeper. Where (f(x)) reaches its peak, (F(x)) has its steepest slope. As (f(x)) falls, (F(x)) continues increasing, but more slowly. The PDF eventually approaches zero while the CDF approaches 1.</p>
+
+      <h4>Probability between x₁ and x₂</h4>
+      <p>The probability of falling between two values is the area under the PDF over that interval, which is also the change in CDF height:</p>
+      <div class="eq-block">\[ P(x_1&lt;X\le x_2)=\int_{x_1}^{x_2}f(x)\,dx=F(x_2)-F(x_1) \]</div>
+      <div class="reliability-callout"><strong>Important diagram correction:</strong> a probability interval is the shaded area under the <strong>PDF</strong>, not the area under the CDF. An area under the CDF would represent (int F(x)\,dx), which is not (P(x_1&lt;X\le x_2)).</div>
+
+      <div class="reliability-table-scroll" role="region" aria-label="PDF and CDF relationship meanings" tabindex="0"><table class="ref-table">
+        <thead><tr><th>Quantity at x₂</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="formula-cell">f(x₂)</td><td>PDF height and CDF slope at x₂</td></tr>
+          <tr><td class="formula-cell">F(x₂)</td><td>Total probability accumulated up to x₂</td></tr>
+          <tr><td class="formula-cell">F(x₂) − F(x₁)</td><td>Probability between x₁ and x₂</td></tr>
+        </tbody>
+      </table></div>
+
+      <h4>Reliability interpretation</h4>
+      <p>When (T) is time to failure, (F(t)=P(T\le t)) is the probability that the unit has failed by time t, while (R(t)=1-F(t)=P(T&gt;t)) is the probability that it is still operating. The failure density connects both curves:</p>
+      <div class="eq-block">\[ f(t)=\frac{dF(t)}{dt}=-\frac{dR(t)}{dt} \]</div>
+      <div class="reliability-callout"><strong>Bottom line:</strong> (F(x_2)) is the accumulated probability up to x₂, (f(x_2)) is the CDF's slope at x₂, and (F(x_2)-F(x_1)) is the probability between the two draggable bounds. The same calculus relationship applies to the Weibull failure-time model used elsewhere in this lesson.</div>
+    </section>
+
+    <h3>CDF → PDF via differentiation</h3>
+    <div class="eq-block">\[ f(x) = \frac{d}{dx}F(x) \]</div>
+    <p>The PDF is the <strong>instantaneous rate of change</strong> of the CDF — it tells you how fast probability is accumulating at any point x.</p>
+
+    <h3>PDF → CDF via integration</h3>
+    <div class="eq-block">\[ F(x) = \int_{-\infty}^{x} f(t)\,dt \]</div>
+    <p>The CDF is the <strong>accumulated area</strong> under the PDF up to point x — i.e., \(F(x) = P(X \le x)\).</p>
+    <p>So differentiation and integration are inverse operations linking the two: F(x) is the "running total," f(x) is the "instantaneous slope" of that running total.</p>
+
+    <h3>Extending to Reliability</h3>
+    <p><strong>Reliability function R(x)</strong> — probability a unit survives past time x:</p>
+    <div class="eq-block">\[ R(x) = 1 - F(x) = \int_x^{\infty} f(t)\,dt \]</div>
+    <p>It's just the complement/mirror of the CDF — the <em>unaccumulated</em> area (survivors), rather than the accumulated area (failures).</p>
+    <p>Since R(x) = 1 − F(x):</p>
+    <div class="eq-block">\[ f(x) = -\frac{d}{dx}R(x) \]</div>
+    <p>The PDF is also the negative derivative of the reliability function — the instantaneous <strong>rate of failure</strong> (in absolute terms, unconditioned on survival).</p>
+
+    <h3>Hazard Rate — the conditional rate</h3>
+    <p>This is the piece that ties it all together. The <strong>hazard rate</strong> h(x) is the instantaneous failure rate <em>given the unit has survived to time x</em> — a conditional density, not an unconditional one:</p>
+    <div class="eq-block">\[ h(x) = \frac{f(x)}{R(x)} = \frac{f(x)}{1-F(x)} \]</div>
+    <p>Why divide by R(x)? f(x) tells you the rate of failure across the <em>whole original population</em>. But by time x, some units have already failed and left the population — only R(x) fraction remain "at risk." Dividing by R(x) rescales the rate to apply only to survivors — same logic as conditional probability.</p>
+
+    <p><strong>Key identity</strong> (since \(f(x) = -R'(x)\)):</p>
+    <div class="eq-block">\[ h(x) = \frac{-R'(x)}{R(x)} = -\frac{d}{dx}\ln R(x) \]</div>
+    <p>This means the hazard rate is the <em>negative logarithmic derivative</em> of the reliability function — a very clean link back to differentiation.</p>
+
+    <h3>Tying it back together (integrate to recover R)</h3>
+    <p>Integrating h(x) recovers the <strong>cumulative hazard function</strong> H(x):</p>
+    <div class="eq-block">\[ H(x) = \int_0^x h(t)\,dt = -\ln R(x) \]</div>
+    <div class="eq-block">\[ R(x) = e^{-H(x)} = \exp\left(-\int_0^x h(t)\,dt\right) \]</div>
+
+    <h3>Summary Chain</h3>
+    <div class="reliability-table-scroll" role="region" aria-label="Reliability calculus relationship summary" tabindex="0"><table class="ref-table">
+      <thead>
+        <tr><th>Quantity</th><th>Relationship</th><th>Interpretation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="formula-cell">f(x)</td><td class="formula-cell">dF/dx</td><td>instantaneous rate of failure (unconditional)</td></tr>
+        <tr><td class="formula-cell">F(x)</td><td class="formula-cell">∫f dt</td><td>cumulative probability of failure</td></tr>
+        <tr><td class="formula-cell">R(x)</td><td class="formula-cell">1 − F(x)</td><td>probability of survival</td></tr>
+        <tr><td class="formula-cell">h(x)</td><td class="formula-cell">f(x)/R(x) = −d(ln R)/dx</td><td>instantaneous failure rate given survival so far</td></tr>
+        <tr><td class="formula-cell">H(x)</td><td class="formula-cell">∫h dt = −ln R(x)</td><td>cumulative hazard</td></tr>
+        <tr><td class="formula-cell">R(x)</td><td class="formula-cell">e^(−H(x))</td><td>recovers reliability from cumulative hazard</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="reliability-callout">
+      <strong>Practically, for Weibull</strong> (common in rolling-mill/pipe reliability work): with shape β and scale η,
+      <div class="eq-block" style="margin:10px 0;">\[ h(x) = \frac{\beta}{\eta}\left(\frac{x}{\eta}\right)^{\beta-1} \]</div>
+      β &lt; 1 gives a decreasing hazard (infant mortality/early defects), β = 1 is constant hazard (random failures, exponential), β &gt; 1 is increasing hazard (wear-out). This is the same f/F/R/h chain above, just with the Weibull forms plugged in — useful for failure analysis on tube/pipe test data or bearing life in mill equipment.
+    </div>
+
+    <h3>Worked example</h3>
+    <p>Take β = 2, η = 100 (a fairly typical wear-related shape) and evaluate everything at x = 50 — halfway to the scale parameter. This matches the default sliders in the interactive panel above, so you can set the marker to x = 50 and check these numbers against the live readout.</p>
+    <div class="eq-block">
+      \[
+      \begin{aligned}
+      f(50) &= \frac{2}{100}\left(\frac{50}{100}\right)^{1} e^{-(50/100)^2} \approx 0.0078 \\
+      F(50) &= 1 - e^{-(50/100)^2} \approx 0.2212 \\
+      R(50) &= e^{-(50/100)^2} \approx 0.7788 \\
+      h(50) &= f(50)/R(50) \approx 0.0100 \\
+      H(50) &= (50/100)^2 = 0.25
+      \end{aligned}
+      \]
+    </div>
+    <p>Sanity checks worth doing by hand once: F(50) + R(50) should equal 1 (0.2212 + 0.7788 = 1.0 ✓); \(e^{-H(50)}\) should equal R(50) (\(e^{-0.25}\approx 0.7788\) ✓). Those two identities are the whole point of this section — if they don't hold, one of the numbers is wrong.</p>
+    <a class="backlink" href="#toc">↑ Back to contents</a>
+  </div>
+
+  <!-- ============ SECTION: BATHTUB CURVE ============ -->
+  <div class="lesson-panel" id="sec-bathtub">
+    <h2 class="section-title">The Bathtub Curve</h2>
+    <div class="section-sub">The classic qualitative shape of h(x) over a product's life — three failure mechanisms, three slopes.</div>
+
+    <div class="diagram-frame">
+      <svg role="img" aria-label="Bathtub hazard curve with early-life, useful-life, and wear-out regions" viewBox="0 0 780 320" width="100%" style="display:block;">
+        <!-- zone backgrounds -->
+        <rect x="50" y="20" width="220" height="250" fill="var(--reliability-pdf-color)" fill-opacity="0.10"/>
+        <rect x="270" y="20" width="260" height="250" fill="var(--reliability-survival-color)" fill-opacity="0.10"/>
+        <rect x="530" y="20" width="200" height="250" fill="var(--reliability-hazard-color)" fill-opacity="0.10"/>
+        <!-- axes -->
+        <line x1="50" y1="270" x2="730" y2="270" stroke="var(--reliability-line)" stroke-width="1.5"/>
+        <line x1="50" y1="20" x2="50" y2="270" stroke="var(--reliability-line)" stroke-width="1.5"/>
+        <!-- bathtub curve path -->
+        <path d="M 50,120 C 130,240 190,258 270,262 C 380,266 420,266 530,262 C 610,258 690,180 730,60"
+              fill="none" stroke="var(--reliability-cdf-color)" stroke-width="3"/>
+        <!-- zone dividers -->
+        <line x1="270" y1="20" x2="270" y2="270" stroke="var(--reliability-line)" stroke-dasharray="4 4"/>
+        <line x1="530" y1="20" x2="530" y2="270" stroke="var(--reliability-line)" stroke-dasharray="4 4"/>
+        <!-- zone labels -->
+        <text x="160" y="45" fill="var(--reliability-pdf-color)" font-size="14" font-weight="600" text-anchor="middle">INFANT MORTALITY</text>
+        <text x="160" y="63" fill="var(--reliability-text-dim)" font-size="11" text-anchor="middle">decreasing h(x) · β &lt; 1</text>
+        <text x="400" y="45" fill="var(--reliability-survival-color)" font-size="14" font-weight="600" text-anchor="middle">USEFUL LIFE</text>
+        <text x="400" y="63" fill="var(--reliability-text-dim)" font-size="11" text-anchor="middle">~constant h(x) · β ≈ 1</text>
+        <text x="630" y="45" fill="var(--reliability-hazard-color)" font-size="14" font-weight="600" text-anchor="middle">WEAR-OUT</text>
+        <text x="630" y="63" fill="var(--reliability-text-dim)" font-size="11" text-anchor="middle">increasing h(x) · β &gt; 1</text>
+        <!-- cause callouts -->
+        <text x="160" y="235" fill="var(--reliability-text)" font-size="10.5" text-anchor="middle">manufacturing/material defects,</text>
+        <text x="160" y="248" fill="var(--reliability-text)" font-size="10.5" text-anchor="middle">bad welds, installation errors</text>
+        <text x="400" y="235" fill="var(--reliability-text)" font-size="10.5" text-anchor="middle">random overloads, operator error,</text>
+        <text x="400" y="248" fill="var(--reliability-text)" font-size="10.5" text-anchor="middle">external shocks — memoryless</text>
+        <text x="630" y="235" fill="var(--reliability-text)" font-size="10.5" text-anchor="middle">fatigue, corrosion, abrasive</text>
+        <text x="630" y="248" fill="var(--reliability-text)" font-size="10.5" text-anchor="middle">wear, material degradation</text>
+        <!-- axis labels -->
+        <text x="730" y="290" fill="var(--reliability-text-dim)" font-size="11" text-anchor="end">time / cycles →</text>
+        <text x="40" y="18" fill="var(--reliability-text-dim)" font-size="11" text-anchor="end">h(x)</text>
+      </svg>
+      <div class="diagram-caption">Same h(x) axis as the interactive panel above — this is the qualitative composite curve traced out if a single Weibull-like β shifts from &lt;1 to ≈1 to &gt;1 across a unit's life. Real equipment is often a mixture of failure modes rather than one clean Weibull, which is why the observed bathtub is usually smoother and asymmetric.</div>
+    </div>
+
+    <p>For your rolling-mill/pipe context: infant mortality shows up as early-life weld or roll-surface defects caught in the first production runs after a change; useful life is the steady, largely random failure regime maintenance strategies are built around (this is where MTBF-based planning is valid); wear-out is where condition monitoring (vibration, wall-thickness loss, hardness drift) earns its keep — the goal is to catch the upturn in h(x) and intervene <em>before</em> it, via planned replacement, not run-to-failure.</p>
+    <a class="backlink" href="#toc">↑ Back to contents</a>
+  </div>
+
+  <!-- ============ SECTION: FAILURE RATE VS ROCOF ============ -->
+  <div class="lesson-panel" id="sec-rocof">
+    <h2 class="section-title">Failure Rate vs. ROCOF</h2>
+    <div class="section-sub">Same units (failures per unit time), two different meanings — mixing them up is one of the most common reliability-engineering errors.</div>
+
+    <div class="two-col">
+      <div class="mini-card">
+        <h4>Hazard rate h(x)</h4>
+        <p>Defined for a <strong>non-repairable</strong> item (or population of identical non-repairable items). It is a property of a probability distribution: \(h(x)=f(x)/R(x)\). It describes the instantaneous failure risk of <em>one unit that has never failed before</em>, conditioned on having survived to x.</p>
+      </div>
+      <div class="mini-card">
+        <h4>ROCOF ρ(t)</h4>
+        <p>Rate of Occurrence Of Failures — defined for a <strong>repairable</strong> system's failure/repair history. It is the intensity function of a counting process: the expected number of failures per unit time at system age t, <em>regardless of how many times it has already failed and been repaired</em>.</p>
+      </div>
+    </div>
+
+    <div class="eq-block">\[ \rho(t) = \lim_{\Delta t \to 0} \frac{E[N(t+\Delta t) - N(t)]}{\Delta t} \]</div>
+    <p>where N(t) counts cumulative failures of the repairable system up to age t. If repairs are minimal ("as good as old"), the process is often modeled as a <strong>Non-Homogeneous Poisson Process (NHPP)</strong> — plainly, a statistical model for random events occurring over time, where the rate is allowed to drift up or down — with a Power-Law intensity — ρ(t) increasing means the system is deteriorating (aging faster than repairs can offset, a signal to move from repair to overhaul/replace); ρ(t) roughly constant means failures are occurring at a stable rate, and the classic constant-λ / exponential MTBF math is a reasonable approximation; ρ(t) decreasing means <strong>reliability growth</strong> (common right after commissioning, as early bugs are fixed out — a repairable-system echo of infant mortality).</p>
+
+    <div class="reliability-callout"><strong>Rule of thumb:</strong> if you're tracking a fleet of identical, discard-on-failure parts (bearings pulled and scrapped, test coupons), use h(x)/MTTF language. If you're tracking one asset's failure history over its operating life (a specific mill stand's trip log), use ROCOF/MTBF language — and check whether ρ(t) is trending before assuming a constant MTBF is valid.</p></div>
+    <a class="backlink" href="#toc">↑ Back to contents</a>
+  </div>
+
+  <!-- ============ SECTION: MAINTAINABILITY ============ -->
+  <div class="lesson-panel" id="sec-maintainability">
+    <h2 class="section-title">Maintainability</h2>
+    <div class="section-sub">The mirror image of reliability: instead of "how long until it breaks," maintainability asks "how long until it's fixed."</div>
+
+    <p><strong>Maintainability M(t)</strong> is defined exactly like a CDF, but over <em>repair time</em> T<sub>repair</sub> instead of time-to-failure: it is the probability that an active repair, once started, is completed within time t.</p>
+    <div class="eq-block">\[ M(t) = P(T_{repair} \le t) \]</div>
+    <p>Repair-time data is typically right-skewed — most repairs are quick, but a long tail of difficult ones (parts not on hand, hidden damage found once the unit is opened up) pulls the mean well above the median. The <strong>lognormal distribution</strong> is the standard model for this reason (a sum of many small multiplicative delays tends to lognormal, by the same logic the CLT gives you a normal for additive delays):</p>
+    <div class="eq-block">\[ M(t) = \Phi\!\left(\frac{\ln t - \mu}{\sigma}\right), \qquad \text{median repair time} = e^{\mu} \]</div>
+    <p>MTTR is the <em>mean</em> of this distribution, \(MTTR = e^{\mu + \sigma^2/2}\) — because of the skew, MTTR is always somewhat larger than the median repair time, and a handful of very long repairs can move MTTR a lot without moving the median much at all. This is the same relationship as f(x) and F(x) above, just applied to repair duration instead of failure time.</p>
+
+    <div class="layout" style="margin-top:16px;">
+      <div class="panel">
+        <h2>Maintainability Controls</h2>
+        <div class="slider-row">
+          <div class="valrow"><label style="margin:0;">Median repair time (h)</label><span class="v" id="repMedianVal">4.0</span></div>
+          <input type="range" id="repMedian" aria-label="Median repair time" min="0.5" max="24" step="0.1" value="4">
+        </div>
+        <div class="slider-row">
+          <div class="valrow"><label style="margin:0;">σ (spread / tail heaviness)</label><span class="v" id="repSigmaVal">0.60</span></div>
+          <input type="range" id="repSigma" aria-label="Repair-time lognormal sigma" min="0.15" max="1.5" step="0.01" value="0.6">
+        </div>
+        <div class="readout">
+          <div class="rline"><span class="k">Median repair time</span><span class="n" id="out-median"></span></div>
+          <div class="rline"><span class="k">MTTR (mean)</span><span class="n" id="out-mttr"></span></div>
+          <div class="rline"><span class="k">M(MTTR)</span><span class="n" id="out-mmttr"></span></div>
+          <div class="xline-note">Because the distribution is right-skewed, M(MTTR) is usually above 50% — most repairs finish before the mean, dragged upward by a few long ones.</div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title"><span class="dot" style="background:var(--reliability-cdf-color)"></span>M(t) — Maintainability function</div>
+        <div class="formula">P(repair completed by time t) · lognormal model</div>
+        <canvas id="c_M" height="230" role="img" aria-label="Maintainability function chart"></canvas>
+      </div>
+    </div>
+    <a class="backlink" href="#toc">↑ Back to contents</a>
+  </div>
+
+  <!-- ============ SECTION: AVAILABILITY ============ -->
+  <div class="lesson-panel" id="sec-availability">
+    <h2 class="section-title">Availability</h2>
+    <div class="section-sub">Where reliability (MTBF) and maintainability (MTTR) combine into the number operations actually cares about.</div>
+
+    <p><strong>Inherent Availability</strong> is the steady-state fraction of time a repairable system is up, considering only active repair time (not logistics delays, not planned/preventive maintenance):</p>
+    <div class="eq-block">\[ A_i = \frac{MTBF}{MTBF + MTTR} \]</div>
+    <div style="margin-top:6px;">
+      <div class="reliability-table-scroll" role="region" aria-label="Availability types and formulas" tabindex="0"><table class="ref-table">
+        <thead><tr><th>Availability type</th><th>Formula</th><th>What it adds over A<sub>i</sub></th></tr></thead>
+        <tbody>
+          <tr><td>Inherent, A<sub>i</sub></td><td class="formula-cell">MTBF / (MTBF + MTTR)</td><td>baseline — active repair time only</td></tr>
+          <tr><td>Achieved, A<sub>a</sub></td><td class="formula-cell">MTBM / (MTBM + M̄)</td><td>+ preventive maintenance time (MTBM = mean time between all maintenance, M̄ = mean maintenance time, corrective + preventive)</td></tr>
+          <tr><td>Operational, A<sub>o</sub></td><td class="formula-cell">MTBM / (MTBM + MDT)</td><td>+ logistics &amp; administrative delay — MDT (Mean Down Time) ≥ MTTR; this is what the plant floor actually experiences</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="layout" style="margin-top:16px;">
+      <div class="panel">
+        <h2>Availability Calculator</h2>
+        <div class="slider-row">
+          <div class="valrow"><label style="margin:0;">MTBF (hours)</label><span class="v" id="mtbfVal">400</span></div>
+          <input type="range" id="mtbf" aria-label="Mean time between failures" min="20" max="2000" step="10" value="400">
+        </div>
+        <div class="slider-row">
+          <div class="valrow"><label style="margin:0;">MTTR (hours)</label><span class="v" id="mttrVal">6</span></div>
+          <input type="range" id="mttr" aria-label="Mean time to repair" min="0.5" max="150" step="0.5" value="6">
+        </div>
+        <div class="gauge-wrap">
+          <div class="gauge-track"><div class="gauge-fill" id="availFill" style="width:0%"></div><div class="gauge-label" id="availLabel">—</div></div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-box"><div class="k">Availability</div><div class="n" id="stat-avail"></div></div>
+          <div class="stat-box"><div class="k">Unavailability</div><div class="n" id="stat-unavail"></div></div>
+          <div class="stat-box"><div class="k">Downtime / year</div><div class="n" id="stat-downtime"></div></div>
+          <div class="stat-box"><div class="k">Expected failures / yr</div><div class="n" id="stat-failyr"></div></div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Up/Down cycle at this MTBF : MTTR ratio</div>
+        <div class="formula"><span style="color:var(--reliability-survival-color)">■</span> up (MTBF) &nbsp; <span style="color:var(--reliability-hazard-color)">■</span> down (MTTR) — segment widths scaled to the ratio, several cycles shown</div>
+        <svg id="svg-avail-timeline" role="img" aria-label="Ratio-accurate uptime and downtime availability timeline" viewBox="0 0 700 140" width="100%" style="display:block; margin-top:6px;"></svg>
+        <div class="diagram-caption">Widening the MTTR slider (or shrinking MTBF) visibly fattens the red segments — the same lever operations pulls when it invests in spares, standard work, or faster diagnostics to push MTTR down rather than only chasing a longer MTBF.</div>
+      </div>
+    </div>
+    <a class="backlink" href="#toc">↑ Back to contents</a>
+  </div>
+
+
+
+  <div class="lesson-panel" id="sec-statistics-implementation">
+    <h2 class="section-title">Statistics Implementation</h2>
+    <div class="section-sub">Move from the concepts and live curves in this lesson to reproducible calculations in Excel and fitted reliability models in Minitab.</div>
+
+    <h3>Excel Functions</h3>
+    <div class="reliability-table-scroll" role="region" aria-label="Excel reliability functions" tabindex="0"><table class="ref-table">
+      <thead><tr><th>Function</th><th>Syntax</th><th>Purpose</th><th>When to use it</th></tr></thead>
+      <tbody>
+        <tr><td class="formula-cell">WEIBULL.DIST</td><td><code>=WEIBULL.DIST(t,beta,eta,TRUE)</code></td><td>Returns the Weibull cumulative failure probability F(t).</td><td>Use when failure time follows a Weibull model. In Excel, the argument named <em>alpha</em> is the lesson's shape β and the argument named <em>beta</em> is the lesson's scale η.</td></tr>
+        <tr><td class="formula-cell">WEIBULL.DIST</td><td><code>=WEIBULL.DIST(t,beta,eta,FALSE)</code></td><td>Returns the Weibull probability density f(t).</td><td>Use to compare how densely failures are expected around a selected time.</td></tr>
+        <tr><td class="formula-cell">Weibull reliability</td><td><code>=1-WEIBULL.DIST(t,beta,eta,TRUE)</code></td><td>Returns R(t)=1−F(t).</td><td>Use for the probability that a non-repairable item survives beyond time t.</td></tr>
+        <tr><td class="formula-cell">EXPON.DIST</td><td><code>=EXPON.DIST(t,1/mean_time,TRUE)</code></td><td>Returns an exponential CDF using rate λ=1/mean time.</td><td>Use only when a constant-rate model is defensible, such as a simple exponential repair-time approximation.</td></tr>
+        <tr><td class="formula-cell">EXPON.DIST</td><td><code>=EXPON.DIST(t,1/mean_time,FALSE)</code></td><td>Returns the exponential probability density.</td><td>Use to inspect density under the same constant-rate assumption.</td></tr>
+        <tr><td class="formula-cell">LOGNORM.DIST</td><td><code>=LOGNORM.DIST(t,LN(median),sigma,TRUE)</code></td><td>Returns the cumulative lognormal probability.</td><td>Use for right-skewed repair times when ln(repair time) is approximately normal, matching the maintainability visual in this lesson.</td></tr>
+        <tr><td class="formula-cell">LOGNORM.DIST</td><td><code>=LOGNORM.DIST(t,LN(median),sigma,FALSE)</code></td><td>Returns the lognormal probability density.</td><td>Use to see where repair durations are most concentrated.</td></tr>
+        <tr><td class="formula-cell">GAMMA</td><td><code>=eta*GAMMA(1+1/beta)</code></td><td>Calculates Weibull MTTF from scale η and shape β.</td><td>Use after a defensible two-parameter Weibull model has been fitted.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Excel Use Cases</h3>
+    <div class="two-col">
+      <div class="mini-card">
+        <h4>Weibull survival at 80 hours</h4>
+        <p>For β=2 and η=100 hours, enter <code>=1-WEIBULL.DIST(80,2,100,TRUE)</code>. The result is about <strong>0.5273</strong>, so the model predicts about 52.73% survival beyond 80 hours.</p>
+        <p>The matching MTTF is <code>=100*GAMMA(1+1/2)</code>, or about <strong>88.62 hours</strong>.</p>
+      </div>
+      <div class="mini-card">
+        <h4>Repair and availability planning</h4>
+        <p>If exponential repair time has MTTR=6 hours, <code>=EXPON.DIST(4,1/6,TRUE)</code> gives about <strong>0.4866</strong>: a 48.66% chance of repair within four hours under that model.</p>
+        <p>For MTBF=400 hours and MTTR=6 hours, <code>=400/(400+6)</code> gives about <strong>98.52%</strong> inherent availability.</p>
+      </div>
+    </div>
+
+    <h3>Minitab Navigation</h3>
+    <p><strong>Choose a lifetime distribution:</strong> use <code>Stat → Reliability/Survival → Distribution Analysis (Right Censoring) → Distribution ID Plot</code> when the data contain exact failure times plus units that have not yet failed. Compare candidate distributions before committing to Weibull.</p>
+    <p><strong>Estimate reliability:</strong> use <code>Stat → Reliability/Survival → Distribution Analysis (Right Censoring) → Parametric Distribution Analysis</code>, select Weibull only when the fit is defensible, enter the censoring column, and request survival probabilities or percentiles. Use the arbitrary-censoring version when observations are left- or interval-censored. If no parametric distribution fits adequately, use the corresponding nonparametric analysis.</p>
+    <p><strong>Analyze repairable equipment:</strong> use <code>Stat → Reliability/Survival → Repairable System Analysis → Parametric Growth Curve</code> to estimate the mean cumulative function and ROCOF with a power-law or homogeneous Poisson process. This is the repairable-system route; it is not the same as fitting a hazard function to one non-repairable lifetime.</p>
+
+    <h3>Exam Tips</h3>
+    <p>For ASQ CSSBB and CQE preparation, connect each formula to the system type and the question being asked: Excel is useful for transparent hand calculations, while the Minitab routes above show how the same decisions are made with censored field data. In real work, document the distribution-fit evidence and operating assumptions instead of selecting a model from the formula alone.</p>
+    <ul>
+      <li>Write <strong>R(t)=1−F(t)</strong> first. It prevents the common error of reporting cumulative failures as survivors.</li>
+      <li>Remember the Weibull shape rule: β&lt;1 means decreasing hazard, β=1 means constant hazard, and β&gt;1 means increasing hazard.</li>
+      <li>Use <strong>MTTF</strong> for a non-repairable population; use <strong>MTBF, MTTR, ROCOF, and availability</strong> for repairable systems.</li>
+      <li>Do not confuse hazard h(t), conditional on surviving to t, with ROCOF, which counts repeated failures from a repairable system.</li>
+      <li>For the simple steady-state approximation, inherent availability is <strong>MTBF/(MTBF+MTTR)</strong>. State the assumptions before applying it to operational availability.</li>
+      <li>In real analysis, retain right-censored units. Discarding units that have not failed wastes exposure information and can bias the fitted life model.</li>
+    </ul>
+
+    <h3>Verified software references</h3>
+    <ul class="reliability-source-list">
+      <li><a href="https://support.microsoft.com/en-us/excel/functions/weibull-dist-function">Microsoft Support: WEIBULL.DIST</a></li>
+      <li><a href="https://support.microsoft.com/en-us/excel/functions/expon-dist-function">Microsoft Support: EXPON.DIST</a></li>
+      <li><a href="https://support.microsoft.com/en-us/excel/functions/lognorm-dist-function">Microsoft Support: LOGNORM.DIST</a></li>
+      <li><a href="https://support.microsoft.com/en-us/excel/functions/gamma-function">Microsoft Support: GAMMA</a></li>
+      <li><a href="https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/reliability/supporting-topics/basics/reliability-analyses-in-minitab/">Minitab Support: reliability analyses and menu paths</a></li>
+    </ul>
+    <a class="backlink" href="#toc">↑ Back to contents</a>
+  </div>
+
+
+  <!-- ============ SECTION: SUMMARY TABLE ============ -->
+  <div class="lesson-panel" id="sec-summary">
+    <h2 class="section-title">Index Summary</h2>
+    <div class="section-sub">Non-repairable vs. repairable — same underlying calculus, different vocabulary.</div>
+
+    <div class="reliability-table-scroll" role="region" aria-label="Reliability index summary" tabindex="0"><table class="ref-table">
+      <thead>
+        <tr><th>Concept</th><th>Non-repairable system</th><th>Repairable system</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Core time metric</td><td class="formula-cell">TTF (Time To Failure)</td><td class="formula-cell">TBF (Time Between Failures)</td></tr>
+        <tr><td>Central tendency</td><td class="formula-cell">MTTF = ∫R(t)dt</td><td class="formula-cell">MTBF</td></tr>
+        <tr><td>Rate function</td><td class="formula-cell">h(x) — hazard rate</td><td class="formula-cell">ρ(t) — ROCOF</td></tr>
+        <tr><td>"Survives to x" probability</td><td class="formula-cell">R(x) = 1 − F(x)</td><td class="formula-cell">not generally defined — use ρ(t) trend instead</td></tr>
+        <tr><td>Repair-time metric</td><td>n/a — item is scrapped</td><td class="formula-cell">MTTR, M(t)</td></tr>
+        <tr><td>Combined figure of merit</td><td class="formula-cell">R(x) alone</td><td class="formula-cell">Availability A = MTBF/(MTBF+MTTR)</td></tr>
+        <tr><td>Typical distribution</td><td class="formula-cell">Weibull (β shape)</td><td class="formula-cell">Exponential (constant ρ) or NHPP power-law (trending ρ)</td></tr>
+        <tr><td>Example in your world</td><td>bearing sent to scrap, weld coupon, fuse</td><td>mill stand, reheat furnace, pump, CNC line</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="reliability-callout"><strong>Bottom line:</strong> the same differentiation/integration relationship that links f, F, R, and h for a single non-repairable item reappears — in a modified, process-level form — once you move to repairable equipment: M(t) is a CDF over repair time, ρ(t) is a rate function like h(x) but for a renewal/counting process rather than a static distribution, and Availability is the ratio that finally lets you compare "how often it breaks" against "how fast it gets fixed" on one scale.</div>
+    <p style="text-align:center; color:var(--reliability-text-dim); font-size:12.5px; margin-top:20px;">That's the full lesson. <a class="backlink" href="#toc" style="margin-top:0;">↑ Back to contents</a> to revisit any section, or scroll back up to the interactive panels and try your own numbers.</p>
+  </div>
+</div>
+</main>
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Reliability is the probability of operating without failure for a stated time under stated conditions; it must always be tied to time and conditions.">
+        <legend>1. Which statement best defines reliability?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> The average time needed to restore a failed asset</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> The probability of operating without failure for a stated time under stated conditions</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> The number of failures already observed</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="d"> The fraction of repair jobs completed on budget</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="F(t) is cumulative failure probability, so the surviving fraction is its complement: R(t)=1−F(t).">
+        <legend>2. If F(t)=0.30, what is R(t)?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> 0.00</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> 0.30</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> 0.70</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> 1.30</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="A Weibull shape below 1 gives a decreasing hazard, which represents early-life or infant-mortality behavior.">
+        <legend>3. What does Weibull β&lt;1 indicate?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> Decreasing hazard associated with early-life failures</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Constant hazard and memoryless failures</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Increasing hazard caused by wear-out</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="d"> Guaranteed survival until η</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="d" data-explanation="Hazard is conditional risk for a surviving non-repairable lifetime; ROCOF describes repeated failures generated by a repairable system.">
+        <legend>4. Why are hazard rate and ROCOF not interchangeable?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> Hazard has no units, while ROCOF is measured in hours</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> ROCOF applies only before the first failure</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> Hazard always stays constant, while ROCOF always rises</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> Hazard conditions on survival of one lifetime; ROCOF counts repeated repairable-system failures</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Maintainability M(t) is the probability that restoration is completed within repair time t after repair begins.">
+        <legend>5. What does M(4)=0.80 mean?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> The asset survives four hours with 80% probability</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> A repair has an 80% probability of finishing within four hours</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> The asset is available for 80% of a four-hour shift</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="d"> Eighty percent of failures occur exactly at four hours</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="The simple inherent-availability relationship is MTBF divided by MTBF plus MTTR: 400/(400+6)=0.9852, or about 98.52%.">
+        <legend>6. With MTBF=400 h and MTTR=6 h, what is approximate inherent availability?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> 1.48%</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> 66.67%</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> 98.52%</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="d"> 101.50%</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="Right-censored units have contributed known survival time. Keeping them lets reliability methods use that exposure instead of pretending the observations never existed.">
+        <legend>7. What should you do with test units that have not failed by the study end?</legend>
+        <label class="quiz-option"><input type="radio" name="q7" value="a"> Retain them as right-censored observations</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="b"> Delete them because no failure time exists</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="c"> Record their failure time as zero</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="d"> Replace each one with the average failed-unit time</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="d" data-explanation="Minitab's Parametric Growth Curve is designed for repeated repairable-system failures and estimates ROCOF using a power-law or homogeneous Poisson process.">
+        <legend>8. Which Minitab analysis directly addresses ROCOF for repairable equipment?</legend>
+        <label class="quiz-option"><input type="radio" name="q8" value="a"> Stat → Basic Statistics → Display Descriptive Statistics</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="b"> Graph → Histogram</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="c"> Stat → Quality Tools → Gage Study</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="d"> Stat → Reliability/Survival → Repairable System Analysis → Parametric Growth Curve</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#quality-engineering" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Quality Engineering lessons</a>
+</section>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<script>
+function reliabilityColor(name){
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+const XMAX = 300;
+const N = 400;
+
+const betaEl = document.getElementById('beta');
+const etaEl = document.getElementById('eta');
+const xposEl = document.getElementById('xpos');
+const betaVal = document.getElementById('betaVal');
+const etaVal = document.getElementById('etaVal');
+const xVal = document.getElementById('xVal');
+const xEcho = document.getElementById('xEcho');
+
+function weibull(beta, eta){
+  const xs = [], f = [], F = [], R = [], h = [], H = [];
+  for(let i=0;i<=N;i++){
+    const x = XMAX * i / N;
+    const z = x/eta;
+    const fx = (x<=0 && beta<1) ? 0 : (beta/eta) * Math.pow(z, beta-1) * Math.exp(-Math.pow(z,beta));
+    const Fx = 1 - Math.exp(-Math.pow(z,beta));
+    const Rx = 1 - Fx;
+    const Hx = Math.pow(z,beta);
+    const hx = Rx>1e-12 ? fx/Rx : (beta/eta)*Math.pow(z,beta-1);
+    xs.push(x); f.push(fx); F.push(Fx); R.push(Rx); h.push(hx); H.push(Hx);
+  }
+  return {xs,f,F,R,h,H};
+}
+
+function setupCanvas(canvas){
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = 190 * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  return {ctx, w: rect.width, h: 190};
+}
+
+function drawChart(canvas, xs, ys, color, markerIdx, opts){
+  opts = opts||{};
+  const {ctx,w,h} = setupCanvas(canvas);
+  const padL=38, padR=10, padT=10, padB=22;
+  const plotW = w-padL-padR, plotH = h-padT-padB;
+
+  ctx.clearRect(0,0,w,h);
+
+  let ymax = opts.ymax;
+  if(ymax === undefined){
+    ymax = Math.max(...ys.filter(v=>isFinite(v)));
+    if(ymax<=0) ymax = 1;
+    ymax *= 1.15;
+  }
+  const xmax = xs[xs.length-1];
+
+  const px = x => padL + (x/xmax)*plotW;
+  const py = y => padT + plotH - (Math.min(y,ymax)/ymax)*plotH;
+
+  // grid
+  ctx.strokeStyle = reliabilityColor('--reliability-line');
+  ctx.lineWidth = 1;
+  ctx.font = '10px IBM Plex Mono';
+  ctx.fillStyle = reliabilityColor('--reliability-text-dim');
+  for(let i=0;i<=4;i++){
+    const gx = padL + (plotW*i/4);
+    ctx.beginPath(); ctx.moveTo(gx,padT); ctx.lineTo(gx,padT+plotH); ctx.stroke();
+    ctx.fillText(Math.round(xmax*i/4), gx-8, h-6);
+  }
+  for(let i=0;i<=3;i++){
+    const gy = padT + (plotH*i/3);
+    ctx.beginPath(); ctx.moveTo(padL,gy); ctx.lineTo(padL+plotW,gy); ctx.stroke();
+    const val = ymax*(3-i)/3;
+    ctx.fillText(val>=10?val.toFixed(0):val.toFixed(2), 2, gy+3);
+  }
+
+  // curve
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for(let i=0;i<xs.length;i++){
+    const yy = isFinite(ys[i]) ? ys[i] : ymax;
+    const X = px(xs[i]), Y = py(yy);
+    if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+  }
+  ctx.stroke();
+
+  // fill under curve for F and R (visualizes "area")
+  if(opts.fillArea){
+    ctx.lineTo(px(xs[xs.length-1]), py(0));
+    ctx.lineTo(px(xs[0]), py(0));
+    ctx.closePath();
+    ctx.fillStyle = color+'22';
+    ctx.fill();
+  }
+
+  // marker
+  if(markerIdx!==undefined){
+    const mx = px(xs[markerIdx]);
+    ctx.strokeStyle = reliabilityColor('--reliability-marker-line');
+    ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(mx,padT); ctx.lineTo(mx,padT+plotH); ctx.stroke();
+    ctx.setLineDash([]);
+    const my = py(isFinite(ys[markerIdx])?ys[markerIdx]:ymax);
+    ctx.fillStyle = color;
+    ctx.beginPath(); ctx.arc(mx,my,4,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle = reliabilityColor('--reliability-bg'); ctx.lineWidth=1.5; ctx.stroke();
+  }
+
+  return {px,py,padL,padT,plotW,plotH,xmax};
+}
+
+const canvases = {
+  f: document.getElementById('c_f'),
+  F: document.getElementById('c_F'),
+  R: document.getElementById('c_R'),
+  h: document.getElementById('c_h'),
+  RF: document.getElementById('c_RF'),
+};
+
+function drawOverlapChart(canvas, xs, seriesA, seriesB, colorA, colorB, markerIdx, height){
+  height = height || 220;
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = height * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+
+  const w = rect.width, h = height;
+  const padL=38, padR=10, padT=14, padB=22;
+  const plotW = w-padL-padR, plotH = h-padT-padB;
+  ctx.clearRect(0,0,w,h);
+
+  const xmax = xs[xs.length-1];
+  const ymax = 1.05;
+  const px = x => padL + (x/xmax)*plotW;
+  const py = y => padT + plotH - (Math.min(y,ymax)/ymax)*plotH;
+
+  ctx.strokeStyle = reliabilityColor('--reliability-line');
+  ctx.lineWidth = 1;
+  ctx.font = '10px IBM Plex Mono';
+  ctx.fillStyle = reliabilityColor('--reliability-text-dim');
+  for(let i=0;i<=4;i++){
+    const gx = padL + (plotW*i/4);
+    ctx.beginPath(); ctx.moveTo(gx,padT); ctx.lineTo(gx,padT+plotH); ctx.stroke();
+    ctx.fillText(Math.round(xmax*i/4), gx-8, h-6);
+  }
+  for(let i=0;i<=4;i++){
+    const gy = padT + (plotH*i/4);
+    ctx.beginPath(); ctx.moveTo(padL,gy); ctx.lineTo(padL+plotW,gy); ctx.stroke();
+    const val = ymax*(4-i)/4;
+    ctx.fillText(val.toFixed(2), 2, gy+3);
+  }
+
+  // 0.5 reference line
+  ctx.strokeStyle = reliabilityColor('--reliability-line-strong');
+  ctx.setLineDash([2,3]);
+  ctx.beginPath(); ctx.moveTo(padL, py(0.5)); ctx.lineTo(padL+plotW, py(0.5)); ctx.stroke();
+  ctx.setLineDash([]);
+
+  function drawSeries(ys, color){
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.2;
+    ctx.beginPath();
+    for(let i=0;i<xs.length;i++){
+      const X = px(xs[i]), Y = py(ys[i]);
+      if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+    }
+    ctx.stroke();
+  }
+  drawSeries(seriesA, colorA);
+  drawSeries(seriesB, colorB);
+
+  // find crossover (median life, R=F=0.5)
+  let crossX = null;
+  for(let i=1;i<xs.length;i++){
+    if((seriesA[i-1]-seriesB[i-1])*(seriesA[i]-seriesB[i]) <= 0){
+      crossX = xs[i]; break;
+    }
+  }
+  if(crossX!==null){
+    const cx = px(crossX);
+    ctx.strokeStyle = reliabilityColor('--reliability-marker-line');
+    ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(cx,padT); ctx.lineTo(cx,padT+plotH); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = reliabilityColor('--reliability-text');
+    ctx.beginPath(); ctx.arc(cx, py(0.5), 4, 0, Math.PI*2); ctx.fill();
+  }
+
+  if(markerIdx!==undefined){
+    const mx = px(xs[markerIdx]);
+    ctx.strokeStyle = reliabilityColor('--reliability-marker-soft');
+    ctx.setLineDash([2,4]);
+    ctx.beginPath(); ctx.moveTo(mx,padT); ctx.lineTo(mx,padT+plotH); ctx.stroke();
+    ctx.setLineDash([]);
+    [ [seriesA,colorA], [seriesB,colorB] ].forEach(([ys,color])=>{
+      const my = py(ys[markerIdx]);
+      ctx.fillStyle = color;
+      ctx.beginPath(); ctx.arc(mx,my,4,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle = reliabilityColor('--reliability-bg'); ctx.lineWidth=1.5; ctx.stroke();
+    });
+  }
+
+  return crossX;
+}
+
+function render(){
+  const beta = parseFloat(betaEl.value);
+  const eta = parseFloat(etaEl.value);
+  let x = parseFloat(xposEl.value);
+
+  betaVal.textContent = beta.toFixed(2);
+  etaVal.textContent = eta.toFixed(0);
+  xVal.textContent = x.toFixed(1);
+  xEcho.textContent = x.toFixed(1);
+
+  const data = weibull(beta, eta);
+  const idx = Math.min(N, Math.max(0, Math.round(x/XMAX*N)));
+
+  drawChart(canvases.f, data.xs, data.f, reliabilityColor('--reliability-pdf-color'), idx, {fillArea:false});
+  drawChart(canvases.F, data.xs, data.F, reliabilityColor('--reliability-cdf-color'), idx, {ymax:1.05, fillArea:true});
+  drawChart(canvases.R, data.xs, data.R, reliabilityColor('--reliability-survival-color'), idx, {ymax:1.05, fillArea:true});
+
+  const hFinite = data.h.map(v=>isFinite(v)?v:0);
+  let hmax = Math.max(...hFinite.slice(0, Math.min(N, N))); // full range cap
+  if(!isFinite(hmax) || hmax<=0) hmax = 1;
+  drawChart(canvases.h, data.xs, data.h, reliabilityColor('--reliability-hazard-color'), idx, {ymax:hmax*1.15});
+
+  const RColor = reliabilityColor('--reliability-survival-color');
+  const FColor = reliabilityColor('--reliability-cdf-color');
+  const crossX = drawOverlapChart(canvases.RF, data.xs, data.R, data.F, RColor, FColor, idx);
+  document.getElementById('rf-note').innerHTML = crossX!==null
+    ? `Dashed white line marks the crossover at x ≈ <span style="color:var(--reliability-text)">${crossX.toFixed(1)}</span> — the median life (50% survived / 50% failed). Left of it, R &gt; F (more likely surviving); right of it, F &gt; R (more likely failed).`
+    : `No crossover within the plotted range for these parameters.`;
+
+  document.getElementById('out-f').textContent = data.f[idx].toFixed(5);
+  document.getElementById('out-F').textContent = data.F[idx].toFixed(4);
+  document.getElementById('out-R').textContent = data.R[idx].toFixed(4);
+  document.getElementById('out-h').textContent = data.h[idx].toFixed(5);
+  document.getElementById('out-H').textContent = data.H[idx].toFixed(4);
+}
+
+function attachClickToSetX(canvas){
+  canvas.addEventListener('click', (e)=>{
+    const rect = canvas.getBoundingClientRect();
+    const relX = e.clientX - rect.left;
+    const padL=38, padR=10;
+    const plotW = rect.width - padL - padR;
+    let frac = (relX - padL)/plotW;
+    frac = Math.min(1, Math.max(0, frac));
+    xposEl.value = (frac*XMAX).toFixed(1);
+    render();
+  });
+}
+Object.values(canvases).forEach(attachClickToSetX);
+
+[betaEl, etaEl, xposEl].forEach(el => el.addEventListener('input', render));
+window.addEventListener('resize', render);
+
+document.querySelectorAll('.preset-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    betaEl.value = btn.dataset.b;
+    etaEl.value = btn.dataset.e;
+    render();
+  });
+});
+
+render();
+
+/* ================= LESSON ADDITIONS ================= */
+
+/* --- draggable PDF/CDF relationship explorer --- */
+(function initializePdfCdfRelationshipExplorer(){
+  const root = document.getElementById('pdf-cdf-relationship-explorer');
+  if(!root) return;
+
+  const controls = {
+    mean: document.getElementById('pdf-cdf-mean'),
+    sd: document.getElementById('pdf-cdf-sd'),
+    x1: document.getElementById('pdf-cdf-x1'),
+    x2: document.getElementById('pdf-cdf-x2')
+  };
+  const outputs = {
+    mean: document.getElementById('pdf-cdf-mean-value'),
+    sd: document.getElementById('pdf-cdf-sd-value'),
+    x1: document.getElementById('pdf-cdf-x1-value'),
+    x2: document.getElementById('pdf-cdf-x2-value'),
+    probability: document.getElementById('pdf-cdf-probability'),
+    cdf: document.getElementById('pdf-cdf-cdf-value'),
+    pdf: document.getElementById('pdf-cdf-pdf-value'),
+    summary: document.getElementById('pdf-cdf-live-summary')
+  };
+  const pdfSvg = document.getElementById('pdf-cdf-pdf-plot');
+  const cdfSvg = document.getElementById('pdf-cdf-cdf-plot');
+  const margin = {left:58, right:20, top:20, bottom:48};
+  const height = 310;
+  let activeDrag = null;
+  let resizeTimer = null;
+
+  function relationshipErf(value){
+    const sign = value < 0 ? -1 : 1;
+    const x = Math.abs(value);
+    const t = 1/(1+0.3275911*x);
+    const y = 1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);
+    return sign*y;
+  }
+  function relationshipPdf(x, mean, sd){
+    const z = (x-mean)/sd;
+    return Math.exp(-0.5*z*z)/(sd*Math.sqrt(2*Math.PI));
+  }
+  function relationshipCdf(x, mean, sd){
+    return 0.5*(1+relationshipErf((x-mean)/(sd*Math.SQRT2)));
+  }
+  function displayRelationshipNumber(value){
+    return value.toFixed(1).replace('-', '−');
+  }
+  function relationshipState(){
+    return {
+      mean:parseFloat(controls.mean.value),
+      sd:parseFloat(controls.sd.value),
+      x1:parseFloat(controls.x1.value),
+      x2:parseFloat(controls.x2.value)
+    };
+  }
+  function relationshipWidth(svg){
+    const rect = svg.getBoundingClientRect();
+    return Math.max(320, Math.round(rect.width || 520));
+  }
+  function relationshipGeometry(svg, yMax){
+    const width = relationshipWidth(svg);
+    const plotWidth = width-margin.left-margin.right;
+    const plotHeight = height-margin.top-margin.bottom;
+    return {
+      width,
+      plotWidth,
+      plotHeight,
+      x:value=>margin.left+((value+5)/10)*plotWidth,
+      y:value=>margin.top+plotHeight-(value/yMax)*plotHeight
+    };
+  }
+  function relationshipPath(points, gx, gy){
+    return points.map((point,index)=>(index?'L':'M')+gx(point.x).toFixed(2)+','+gy(point.y).toFixed(2)).join(' ');
+  }
+  function relationshipAxes(geometry, yMax, yTicks, yLabel){
+    const xTicks = [-4,-2,0,2,4];
+    let content = `<rect class="pdf-cdf-frame" x="${margin.left}" y="${margin.top}" width="${geometry.plotWidth}" height="${geometry.plotHeight}"/>`;
+    xTicks.forEach(value=>{
+      const x = geometry.x(value);
+      content += `<line class="pdf-cdf-grid-line" x1="${x}" y1="${margin.top}" x2="${x}" y2="${margin.top+geometry.plotHeight}"/>`;
+      content += `<text class="pdf-cdf-axis-text" x="${x}" y="${height-25}" text-anchor="middle">${value}</text>`;
+    });
+    yTicks.forEach(value=>{
+      const y = geometry.y(value);
+      content += `<line class="pdf-cdf-grid-line" x1="${margin.left}" y1="${y}" x2="${margin.left+geometry.plotWidth}" y2="${y}"/>`;
+      content += `<text class="pdf-cdf-axis-text" x="${margin.left-9}" y="${y+4}" text-anchor="end">${value.toFixed(yMax===1?2:3)}</text>`;
+    });
+    content += `<line class="pdf-cdf-axis-line" x1="${margin.left}" y1="${margin.top+geometry.plotHeight}" x2="${margin.left+geometry.plotWidth}" y2="${margin.top+geometry.plotHeight}"/>`;
+    content += `<line class="pdf-cdf-axis-line" x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top+geometry.plotHeight}"/>`;
+    content += `<text class="pdf-cdf-axis-title" x="${margin.left+geometry.plotWidth/2}" y="${height-6}" text-anchor="middle">x</text>`;
+    content += `<text class="pdf-cdf-axis-title" transform="translate(15 ${margin.top+geometry.plotHeight/2}) rotate(-90)" text-anchor="middle">${yLabel}</text>`;
+    return content;
+  }
+  function relationshipHandle(bound, x, y, value){
+    const label = bound==='x1'?'x₁':'x₂';
+    const ariaLabel = bound==='x1'?'Lower bound x one':'Upper bound x two';
+    return `<g class="pdf-cdf-drag-handle" data-bound="${bound}" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})" tabindex="0" role="slider" aria-label="${ariaLabel}" aria-valuemin="-4.5" aria-valuemax="4.5" aria-valuenow="${value.toFixed(1)}" aria-valuetext="${label} equals ${value.toFixed(1)}"><circle class="pdf-cdf-drag-target" r="22"/><circle class="pdf-cdf-marker-visible" r="6"/><text class="pdf-cdf-plot-label" x="${bound==='x1'?-9:9}" y="-11" text-anchor="${bound==='x1'?'end':'start'}">${label}</text></g>`;
+  }
+  function drawRelationshipPdf(state){
+    const peak = relationshipPdf(state.mean,state.mean,state.sd);
+    const yMax = peak*1.16;
+    const geometry = relationshipGeometry(pdfSvg,yMax);
+    const points = [];
+    for(let i=0;i<=250;i++){
+      const x = -5+10*i/250;
+      points.push({x,y:relationshipPdf(x,state.mean,state.sd)});
+    }
+    const areaPoints = [{x:state.x1,y:relationshipPdf(state.x1,state.mean,state.sd)}]
+      .concat(points.filter(point=>point.x>state.x1&&point.x<state.x2))
+      .concat([{x:state.x2,y:relationshipPdf(state.x2,state.mean,state.sd)}]);
+    const baseline = geometry.y(0);
+    const areaPath = `M${geometry.x(state.x1).toFixed(2)},${baseline.toFixed(2)} `+relationshipPath(areaPoints,geometry.x,geometry.y)+` L${geometry.x(state.x2).toFixed(2)},${baseline.toFixed(2)} Z`;
+    let content = relationshipAxes(geometry,yMax,[0,yMax/4,yMax/2,3*yMax/4,yMax],'f(x)');
+    content += `<path class="pdf-cdf-area" d="${areaPath}"/>`;
+    content += `<path class="pdf-cdf-pdf-line" d="${relationshipPath(points,geometry.x,geometry.y)}"/>`;
+    [state.x1,state.x2].forEach(value=>{
+      const y = geometry.y(relationshipPdf(value,state.mean,state.sd));
+      content += `<line class="pdf-cdf-bound-line" x1="${geometry.x(value)}" y1="${baseline}" x2="${geometry.x(value)}" y2="${y}"/>`;
+    });
+    content += `<text class="pdf-cdf-muted-label" x="${geometry.x((state.x1+state.x2)/2)}" y="${geometry.y(yMax*0.12)}" text-anchor="middle">area = F(x₂) − F(x₁)</text>`;
+    content += relationshipHandle('x1',geometry.x(state.x1),geometry.y(relationshipPdf(state.x1,state.mean,state.sd)),state.x1);
+    content += relationshipHandle('x2',geometry.x(state.x2),geometry.y(relationshipPdf(state.x2,state.mean,state.sd)),state.x2);
+    pdfSvg.setAttribute('viewBox',`0 0 ${geometry.width} ${height}`);
+    pdfSvg.innerHTML = content;
+  }
+  function drawRelationshipCdf(state){
+    const geometry = relationshipGeometry(cdfSvg,1);
+    const points = [];
+    for(let i=0;i<=250;i++){
+      const x = -5+10*i/250;
+      points.push({x,y:relationshipCdf(x,state.mean,state.sd)});
+    }
+    const f1 = relationshipCdf(state.x1,state.mean,state.sd);
+    const f2 = relationshipCdf(state.x2,state.mean,state.sd);
+    const density2 = relationshipPdf(state.x2,state.mean,state.sd);
+    let content = relationshipAxes(geometry,1,[0,.25,.5,.75,1],'F(x)');
+    content += `<path class="pdf-cdf-cdf-line" d="${relationshipPath(points,geometry.x,geometry.y)}"/>`;
+    [[state.x1,f1],[state.x2,f2]].forEach(pair=>{
+      content += `<line class="pdf-cdf-bound-line" x1="${geometry.x(pair[0])}" y1="${geometry.y(0)}" x2="${geometry.x(pair[0])}" y2="${geometry.y(pair[1])}"/>`;
+    });
+    const tangentLeft = Math.max(-5,state.x2-.85);
+    const tangentRight = Math.min(5,state.x2+.85);
+    const tangentYLeft = Math.max(0,Math.min(1,f2+density2*(tangentLeft-state.x2)));
+    const tangentYRight = Math.max(0,Math.min(1,f2+density2*(tangentRight-state.x2)));
+    content += `<line class="pdf-cdf-tangent" x1="${geometry.x(tangentLeft)}" y1="${geometry.y(tangentYLeft)}" x2="${geometry.x(tangentRight)}" y2="${geometry.y(tangentYRight)}"/>`;
+    content += `<text class="pdf-cdf-muted-label" x="${geometry.x(tangentRight)}" y="${Math.max(margin.top+12,geometry.y(tangentYRight)-8)}" text-anchor="end">slope = f(x₂)</text>`;
+    const bracketX = margin.left+geometry.plotWidth-12;
+    content += `<line class="pdf-cdf-delta" x1="${bracketX}" y1="${geometry.y(f1)}" x2="${bracketX}" y2="${geometry.y(f2)}"/>`;
+    content += `<line class="pdf-cdf-delta-cap" x1="${bracketX-5}" y1="${geometry.y(f1)}" x2="${bracketX+5}" y2="${geometry.y(f1)}"/>`;
+    content += `<line class="pdf-cdf-delta-cap" x1="${bracketX-5}" y1="${geometry.y(f2)}" x2="${bracketX+5}" y2="${geometry.y(f2)}"/>`;
+    content += `<text class="pdf-cdf-muted-label" x="${bracketX-8}" y="${(geometry.y(f1)+geometry.y(f2))/2+4}" text-anchor="end">ΔF</text>`;
+    content += relationshipHandle('x1',geometry.x(state.x1),geometry.y(f1),state.x1);
+    content += relationshipHandle('x2',geometry.x(state.x2),geometry.y(f2),state.x2);
+    cdfSvg.setAttribute('viewBox',`0 0 ${geometry.width} ${height}`);
+    cdfSvg.innerHTML = content;
+  }
+  function renderRelationshipExplorer(focusTarget){
+    const state = relationshipState();
+    const f1 = relationshipCdf(state.x1,state.mean,state.sd);
+    const f2 = relationshipCdf(state.x2,state.mean,state.sd);
+    const density2 = relationshipPdf(state.x2,state.mean,state.sd);
+    const probability = Math.max(0,f2-f1);
+    outputs.mean.textContent = displayRelationshipNumber(state.mean);
+    outputs.sd.textContent = displayRelationshipNumber(state.sd);
+    outputs.x1.textContent = displayRelationshipNumber(state.x1);
+    outputs.x2.textContent = displayRelationshipNumber(state.x2);
+    outputs.probability.textContent = (probability*100).toFixed(2)+'%';
+    outputs.cdf.textContent = f2.toFixed(4);
+    outputs.pdf.textContent = density2.toFixed(4);
+    outputs.summary.textContent = `For μ = ${state.mean.toFixed(1)} and σ = ${state.sd.toFixed(1)}, the probability between x₁ = ${displayRelationshipNumber(state.x1)} and x₂ = ${displayRelationshipNumber(state.x2)} is ${(probability*100).toFixed(2)}%. The CDF height at x₂ is ${f2.toFixed(4)}, and its slope there is f(x₂) = ${density2.toFixed(4)}.`;
+    drawRelationshipPdf(state);
+    drawRelationshipCdf(state);
+    if(focusTarget){
+      const next = document.querySelector(`#${focusTarget.svgId} [data-bound="${focusTarget.bound}"]`);
+      if(next) next.focus();
+    }
+  }
+  function setRelationshipBound(bound,value,focusTarget){
+    const state = relationshipState();
+    let next = Math.round(value*10)/10;
+    if(bound==='x1') next = Math.max(-4.5,Math.min(state.x2-.1,next));
+    else next = Math.min(4.5,Math.max(state.x1+.1,next));
+    controls[bound].value = next.toFixed(1);
+    renderRelationshipExplorer(focusTarget);
+  }
+  function relationshipClientValue(svg,clientX){
+    const rect = svg.getBoundingClientRect();
+    const viewWidth = parseFloat(svg.getAttribute('viewBox').split(/\s+/)[2]);
+    const localX = rect.width ? (clientX-rect.left)*(viewWidth/rect.width) : clientX;
+    const plotWidth = viewWidth-margin.left-margin.right;
+    return Math.max(-5,Math.min(5,((localX-margin.left)/plotWidth)*10-5));
+  }
+  function bindRelationshipPlot(svg){
+    svg.addEventListener('pointerdown',event=>{
+      const handle = event.target.closest('[data-bound]');
+      if(!handle || !svg.contains(handle)) return;
+      activeDrag = {bound:handle.dataset.bound,svg};
+      if(svg.setPointerCapture) svg.setPointerCapture(event.pointerId);
+      setRelationshipBound(activeDrag.bound,relationshipClientValue(svg,event.clientX));
+      event.preventDefault();
+    });
+    svg.addEventListener('pointermove',event=>{
+      if(!activeDrag || activeDrag.svg!==svg) return;
+      setRelationshipBound(activeDrag.bound,relationshipClientValue(svg,event.clientX));
+      event.preventDefault();
+    });
+    function stopDrag(event){
+      if(!activeDrag || activeDrag.svg!==svg) return;
+      if(svg.releasePointerCapture && svg.hasPointerCapture && svg.hasPointerCapture(event.pointerId)) svg.releasePointerCapture(event.pointerId);
+      activeDrag = null;
+    }
+    svg.addEventListener('pointerup',stopDrag);
+    svg.addEventListener('pointercancel',stopDrag);
+    svg.addEventListener('keydown',event=>{
+      const handle = event.target.closest('[data-bound]');
+      if(!handle || !['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+      const bound = handle.dataset.bound;
+      const step = event.shiftKey ? 0.5 : 0.1;
+      const current = parseFloat(controls[bound].value);
+      const next = event.key==='Home'?-4.5:event.key==='End'?4.5:current+(event.key==='ArrowRight'?step:-step);
+      setRelationshipBound(bound,next,{svgId:svg.id,bound});
+      event.preventDefault();
+    });
+  }
+
+  controls.mean.addEventListener('input',()=>renderRelationshipExplorer());
+  controls.sd.addEventListener('input',()=>renderRelationshipExplorer());
+  controls.x1.addEventListener('input',()=>setRelationshipBound('x1',parseFloat(controls.x1.value)));
+  controls.x2.addEventListener('input',()=>setRelationshipBound('x2',parseFloat(controls.x2.value)));
+  bindRelationshipPlot(pdfSvg);
+  bindRelationshipPlot(cdfSvg);
+  if('ResizeObserver' in window){
+    const observer = new ResizeObserver(()=>{
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(()=>renderRelationshipExplorer(),80);
+    });
+    observer.observe(root);
+  } else {
+    window.addEventListener('resize',()=>renderRelationshipExplorer());
+  }
+  renderRelationshipExplorer();
+})();
+
+/* --- static repairable-system up/down timeline (Section: Repairable vs Non-Repairable) --- */
+(function drawStaticTimeline(){
+  const svg = document.getElementById('svg-uptime');
+  if(!svg) return;
+  const cycles = [ [0,150,'up'], [150,200,'down'], [200,430,'up'], [430,460,'down'],
+                   [460,650,'up'], [650,700,'down'], [700,760,'up-partial'] ];
+  const y0=60, h=45;
+  let svgContent = `<line x1="50" y1="${y0+h+30}" x2="750" y2="${y0+h+30}" stroke="var(--reliability-line)" stroke-width="1"/>`;
+  let x = 50;
+  const segs = [
+    {w:180,type:'up',label:'TBF₁ (up)'},
+    {w:35,type:'down',label:'MTTR'},
+    {w:230,type:'up',label:'TBF₂ (up)'},
+    {w:28,type:'down',label:'MTTR'},
+    {w:190,type:'up',label:'TBF₃ (up)…'},
+  ];
+  segs.forEach(seg=>{
+    const color = seg.type==='up' ? 'var(--reliability-survival-color)' : 'var(--reliability-hazard-color)';
+    svgContent += `<rect x="${x}" y="${y0}" width="${seg.w}" height="${h}" fill="${color}" fill-opacity="0.18" stroke="${color}" stroke-width="1.5"/>`;
+    svgContent += `<text x="${x+seg.w/2}" y="${y0+h/2+4}" fill="${color}" font-size="10.5" text-anchor="middle">${seg.label}</text>`;
+    x += seg.w;
+  });
+  svgContent += `<text x="50" y="${y0-10}" fill="var(--reliability-text-dim)" font-size="11">Up</text>`;
+  svgContent += `<text x="50" y="${y0+h+18}" fill="var(--reliability-text-dim)" font-size="11">Down</text>`;
+  svgContent += `<text x="400" y="${y0+h+55}" fill="var(--reliability-text-dim)" font-size="11" text-anchor="middle">time →  (repeats for life of asset)</text>`;
+  svg.innerHTML = svgContent;
+})();
+
+/* --- erf / normal CDF approximation for lognormal maintainability model --- */
+function erf(x){
+  const sign = x<0?-1:1; x = Math.abs(x);
+  const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429, p=0.3275911;
+  const t = 1/(1+p*x);
+  const y = 1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x);
+  return sign*y;
+}
+function normalCDF(z){ return 0.5*(1+erf(z/Math.SQRT2)); }
+
+const repMedianEl = document.getElementById('repMedian');
+const repSigmaEl = document.getElementById('repSigma');
+const cM = document.getElementById('c_M');
+
+function renderMaintainability(){
+  if(!repMedianEl) return;
+  const median = parseFloat(repMedianEl.value);
+  const sigma = parseFloat(repSigmaEl.value);
+  document.getElementById('repMedianVal').textContent = median.toFixed(1);
+  document.getElementById('repSigmaVal').textContent = sigma.toFixed(2);
+
+  const mu = Math.log(median);
+  const mttr = Math.exp(mu + sigma*sigma/2);
+  const TMAX = Math.max(median*6, mttr*3, 10);
+  const NM = 300;
+  const xs = [], ys = [];
+  for(let i=0;i<=NM;i++){
+    const t = TMAX*i/NM;
+    xs.push(t);
+    ys.push(t<=0 ? 0 : normalCDF((Math.log(t)-mu)/sigma));
+  }
+  const mIdx = Math.min(NM, Math.max(0, Math.round(mttr/TMAX*NM)));
+  const FColor = reliabilityColor('--reliability-cdf-color');
+  drawChart(cM, xs, ys, FColor, mIdx, {ymax:1.05, fillArea:true});
+
+  document.getElementById('out-median').textContent = median.toFixed(2) + ' h';
+  document.getElementById('out-mttr').textContent = mttr.toFixed(2) + ' h';
+  document.getElementById('out-mmttr').textContent = (ys[mIdx]*100).toFixed(1) + '%';
+}
+if(repMedianEl){
+  [repMedianEl, repSigmaEl].forEach(el=>el.addEventListener('input', renderMaintainability));
+  cM.addEventListener('click', renderMaintainability); // harmless if clicked; keeps consistent cursor affordance
+  renderMaintainability();
+}
+
+/* --- availability calculator (Section: Availability) --- */
+const mtbfEl = document.getElementById('mtbf');
+const mttrElA = document.getElementById('mttr');
+
+function drawAvailTimeline(mtbf, mttr){
+  const svg = document.getElementById('svg-avail-timeline');
+  if(!svg) return;
+  const total = mtbf+mttr;
+  const cycles = 4;
+  const marginL = 10, marginR = 10, usableW = 680;
+  const cycleW = usableW/cycles;
+  let x = marginL;
+  let content = '';
+  const y0=45, h=50;
+  for(let c=0;c<cycles;c++){
+    const upW = cycleW*(mtbf/total);
+    const downW = cycleW*(mttr/total);
+    content += `<rect x="${x}" y="${y0}" width="${Math.max(upW,1)}" height="${h}" fill="var(--reliability-survival-color)" fill-opacity="0.20" stroke="var(--reliability-survival-color)" stroke-width="1.2"/>`;
+    x += upW;
+    content += `<rect x="${x}" y="${y0}" width="${Math.max(downW,1)}" height="${h}" fill="var(--reliability-hazard-color)" fill-opacity="0.33" stroke="var(--reliability-hazard-color)" stroke-width="1.2"/>`;
+    x += downW;
+  }
+  content += `<text x="${marginL}" y="${y0-8}" fill="var(--reliability-text-dim)" font-size="10.5">Up</text>`;
+  content += `<text x="${marginL}" y="${y0+h+16}" fill="var(--reliability-text-dim)" font-size="10.5">Down</text>`;
+  content += `<text x="${marginL+usableW/2}" y="${y0+h+34}" fill="var(--reliability-text-dim)" font-size="10.5" text-anchor="middle">repeating up/down cycle, ratio-accurate</text>`;
+  svg.innerHTML = content;
+}
+
+function renderAvailability(){
+  if(!mtbfEl) return;
+  const mtbf = parseFloat(mtbfEl.value);
+  const mttr = parseFloat(mttrElA.value);
+  document.getElementById('mtbfVal').textContent = mtbf.toFixed(0);
+  document.getElementById('mttrVal').textContent = mttr.toFixed(1);
+
+  const A = mtbf/(mtbf+mttr);
+  const pct = A*100;
+  document.getElementById('availFill').style.width = pct.toFixed(2)+'%';
+  document.getElementById('availLabel').textContent = pct.toFixed(2)+'% available';
+  document.getElementById('stat-avail').textContent = pct.toFixed(2)+'%';
+  document.getElementById('stat-unavail').textContent = (100-pct).toFixed(2)+'%';
+  const downtimeHrsYear = (1-A)*8760;
+  document.getElementById('stat-downtime').textContent = downtimeHrsYear.toFixed(1)+' h';
+  const failuresYear = 8760/mtbf;
+  document.getElementById('stat-failyr').textContent = failuresYear.toFixed(1);
+
+  drawAvailTimeline(mtbf, mttr);
+}
+if(mtbfEl){
+  [mtbfEl, mttrElA].forEach(el=>el.addEventListener('input', renderAvailability));
+  window.addEventListener('resize', renderAvailability);
+  renderAvailability();
+}
+
+
+window.addEventListener('upskill:themechange', function () {
+  render();
+  renderMaintainability();
+  renderAvailability();
+});
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<style id="reliability-dark-overrides">
+html[data-theme="dark"]{
+  --reliability-bg:#071120;
+  --reliability-panel:#0d1b30;
+  --reliability-panel-2:#0f2138;
+  --reliability-accent:#5bc5e2;
+  --reliability-accent-dim:#3896ad;
+  --reliability-line:#526f8a;
+  --reliability-line-strong:#7890a8;
+  --reliability-text:#e8f1f7;
+  --reliability-text-dim:#b2c6d8;
+  --reliability-heading:#ffffff;
+  --reliability-pdf-color:#5bc5e2;
+  --reliability-cdf-color:#f2bd55;
+  --reliability-survival-color:#65e5a5;
+  --reliability-hazard-color:#ff8585;
+  --reliability-on-accent:#04141f;
+  --reliability-on-signal:#04141f;
+  --reliability-marker-line:rgba(232,241,247,.68);
+  --reliability-marker-soft:rgba(255,255,255,.34);
+}
+html[data-theme="dark"] [aria-label="Return to lesson category"] a{
+  color:#7dd3fc !important;
+}
+html[data-theme="dark"] .quiz-section .lesson-kicker{
+  color:#7dd3fc;
+}
+</style>
+</body>
+</html>

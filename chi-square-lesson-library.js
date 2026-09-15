@@ -315,6 +315,18 @@
       description: 'Dot notation'
     },
     {
+      marker: 'data-introduction-to-reliability-and-maintainability',
+      sectionId: 'quality-engineering',
+      path: '/lessons/quality-engineering/introduction-to-reliability-and-maintainability',
+      topic: 'quality-engineering',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'reliability maintainability weibull hazard rate cumulative hazard rocof mttf mtbf mttr availability repairable non-repairable right censoring excel minitab quality engineering intermediate interactive',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>60 min</span><span>Excel + Minitab</span>',
+      title: 'Introduction to Reliability and Maintainability',
+      description: 'Explore reliability, maintainability, Weibull behavior, hazard, ROCOF, repair time, and availability through linked live visuals and practical calculations.'
+    },
+    {
       marker: 'data-gauge-rr-study',
       sectionId: 'quality-engineering',
       path: '/lessons/quality-engineering/gauge-rr-study',
