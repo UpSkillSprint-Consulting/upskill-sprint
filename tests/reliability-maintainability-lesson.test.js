@@ -264,6 +264,19 @@ test('all shipped interactives initialize and update from their real event handl
     assert.equal(runtimeDoc.querySelector('#pdf-cdf-probability').textContent, '68.27%');
     assert.equal(runtimeDoc.querySelectorAll('#pdf-cdf-pdf-plot [data-bound]').length, 2);
     assert.equal(runtimeDoc.querySelectorAll('#pdf-cdf-cdf-plot [data-bound]').length, 2);
+    const shadedAreaPath = runtimeDoc.querySelector('#pdf-cdf-pdf-plot .pdf-cdf-area').getAttribute('d');
+    assert.match(shadedAreaPath, /^M[^ ]+ L/);
+    assert.equal((shadedAreaPath.match(/\bM/g) || []).length, 1, 'shaded PDF area must be one closed path');
+    const shadedVertices = [...shadedAreaPath.matchAll(/[ML](-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g)]
+      .map(match => ({ x: Number(match[1]), y: Number(match[2]) }));
+    assert.equal(shadedVertices[0].x, shadedVertices[1].x, 'area must rise vertically from the baseline at x₁');
+    assert.equal(shadedVertices[0].y, shadedVertices.at(-1).y, 'area must return to the baseline at x₂');
+    assert.match(shadedAreaPath, / Z$/);
+    const pdfYAxisTitle = runtimeDoc.querySelector('#pdf-cdf-pdf-plot .pdf-cdf-axis-title[transform*="rotate(-90)"]');
+    const pdfFirstYTick = runtimeDoc.querySelector('#pdf-cdf-pdf-plot .pdf-cdf-axis-text[text-anchor="end"]');
+    const pdfYAxisTitleX = Number(pdfYAxisTitle.getAttribute('transform').match(/translate\(([-\d.]+)/)[1]);
+    assert.ok(Number(pdfFirstYTick.getAttribute('x')) - pdfYAxisTitleX >= 50,
+      'vertical axis title must have a dedicated gutter clear of y-axis numbers');
 
     runtimeDoc.querySelector('.preset-btn[data-b="0.6"]').click();
     assert.equal(runtimeDoc.querySelector('#beta').value, '0.6');
@@ -284,9 +297,9 @@ test('all shipped interactives initialize and update from their real event handl
       Object.defineProperty(event, 'pointerId', { value: 1 });
       return event;
     }
-    x1Handle.dispatchEvent(pointerEvent('pointerdown', 235));
-    pdfPlot.dispatchEvent(pointerEvent('pointermove', 279));
-    pdfPlot.dispatchEvent(pointerEvent('pointerup', 279));
+    x1Handle.dispatchEvent(pointerEvent('pointerdown', 247));
+    pdfPlot.dispatchEvent(pointerEvent('pointermove', 289));
+    pdfPlot.dispatchEvent(pointerEvent('pointerup', 289));
     assert.equal(runtimeDoc.querySelector('#pdf-cdf-x1').value, '0.0');
     assert.equal(runtimeDoc.querySelector('#pdf-cdf-x1-value').textContent, '0.0');
 
