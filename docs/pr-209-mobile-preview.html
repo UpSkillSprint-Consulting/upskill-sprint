@@ -19,7 +19,11 @@
     }
     frame.addEventListener('load', function () {
       fitFrame();
+      const observer = new ResizeObserver(fitFrame);
+      observer.observe(frame.contentDocument.documentElement);
       window.setTimeout(fitFrame, 1200);
+      window.setTimeout(fitFrame, 4000);
+      window.setTimeout(fitFrame, 8000);
     });
   </script>
 </body>
