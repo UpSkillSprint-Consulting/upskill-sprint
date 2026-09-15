@@ -272,6 +272,11 @@ test('all shipped interactives initialize and update from their real event handl
     assert.equal(shadedVertices[0].x, shadedVertices[1].x, 'area must rise vertically from the baseline at x₁');
     assert.equal(shadedVertices[0].y, shadedVertices.at(-1).y, 'area must return to the baseline at x₂');
     assert.match(shadedAreaPath, / Z$/);
+    const pdfYAxisTitle = runtimeDoc.querySelector('#pdf-cdf-pdf-plot .pdf-cdf-axis-title[transform*="rotate(-90)"]');
+    const pdfFirstYTick = runtimeDoc.querySelector('#pdf-cdf-pdf-plot .pdf-cdf-axis-text[text-anchor="end"]');
+    const pdfYAxisTitleX = Number(pdfYAxisTitle.getAttribute('transform').match(/translate\(([-\d.]+)/)[1]);
+    assert.ok(Number(pdfFirstYTick.getAttribute('x')) - pdfYAxisTitleX >= 50,
+      'vertical axis title must have a dedicated gutter clear of y-axis numbers');
 
     runtimeDoc.querySelector('.preset-btn[data-b="0.6"]').click();
     assert.equal(runtimeDoc.querySelector('#beta').value, '0.6');
@@ -292,9 +297,9 @@ test('all shipped interactives initialize and update from their real event handl
       Object.defineProperty(event, 'pointerId', { value: 1 });
       return event;
     }
-    x1Handle.dispatchEvent(pointerEvent('pointerdown', 235));
-    pdfPlot.dispatchEvent(pointerEvent('pointermove', 279));
-    pdfPlot.dispatchEvent(pointerEvent('pointerup', 279));
+    x1Handle.dispatchEvent(pointerEvent('pointerdown', 247));
+    pdfPlot.dispatchEvent(pointerEvent('pointermove', 289));
+    pdfPlot.dispatchEvent(pointerEvent('pointerup', 289));
     assert.equal(runtimeDoc.querySelector('#pdf-cdf-x1').value, '0.0');
     assert.equal(runtimeDoc.querySelector('#pdf-cdf-x1-value').textContent, '0.0');
 

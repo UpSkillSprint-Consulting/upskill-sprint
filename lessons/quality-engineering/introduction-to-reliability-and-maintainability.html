@@ -1421,7 +1421,7 @@ render();
   };
   const pdfSvg = document.getElementById('pdf-cdf-pdf-plot');
   const cdfSvg = document.getElementById('pdf-cdf-cdf-plot');
-  const margin = {left:58, right:20, top:20, bottom:48};
+  const margin = {left:78, right:20, top:20, bottom:48};
   const height = 310;
   let activeDrag = null;
   let resizeTimer = null;
@@ -1486,7 +1486,7 @@ render();
     content += `<line class="pdf-cdf-axis-line" x1="${margin.left}" y1="${margin.top+geometry.plotHeight}" x2="${margin.left+geometry.plotWidth}" y2="${margin.top+geometry.plotHeight}"/>`;
     content += `<line class="pdf-cdf-axis-line" x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top+geometry.plotHeight}"/>`;
     content += `<text class="pdf-cdf-axis-title" x="${margin.left+geometry.plotWidth/2}" y="${height-6}" text-anchor="middle">x</text>`;
-    content += `<text class="pdf-cdf-axis-title" transform="translate(15 ${margin.top+geometry.plotHeight/2}) rotate(-90)" text-anchor="middle">${yLabel}</text>`;
+    content += `<text class="pdf-cdf-axis-title" transform="translate(16 ${margin.top+geometry.plotHeight/2}) rotate(-90)" text-anchor="middle">${yLabel}</text>`;
     return content;
   }
   function relationshipHandle(bound, x, y, value){
