@@ -221,6 +221,9 @@ test('charts, controls, tables, and responsive behavior have accessibility guard
   assert.doesNotMatch(html, /var\(--reliability-(?:survival|hazard)-color\)[0-9a-fA-F]{2}/);
   assert.doesNotMatch(html, /ctx\.strokeStyle\s*=\s*['"]#1b3350/);
   assert.match(html, /window\.addEventListener\('upskill:themechange'/);
+  assert.match(css, /\.gauge-label\s*\{[^}]*background:var\(--reliability-panel\)[^}]*color:var\(--reliability-text\)/);
+  assert.match(doc.getElementById('reliability-dark-overrides').textContent,
+    /\.quiz-section \.lesson-kicker\s*\{[^}]*color:#7dd3fc/);
 });
 
 test('all shipped interactives initialize and update from their real event handlers', () => {

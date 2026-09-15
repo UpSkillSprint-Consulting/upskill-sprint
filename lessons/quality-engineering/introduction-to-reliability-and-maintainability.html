@@ -247,9 +247,11 @@
     color:var(--reliability-text); transition:width .15s ease; border-radius:13px 0 0 13px;
   }
   .gauge-label{
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    font-size:12.5px; font-weight:600; color:var(--reliability-on-signal); mix-blend-mode:normal;
-    text-shadow:0 0 3px rgba(255,255,255,.35);
+    position:absolute; left:50%; top:2px; transform:translateX(-50%);
+    display:flex; align-items:center; justify-content:center; width:max-content; max-width:calc(100% - 8px); height:20px;
+    padding:0 8px; border:1px solid var(--reliability-line); border-radius:999px;
+    background:var(--reliability-panel); color:var(--reliability-text);
+    font-size:12.5px; font-weight:600; white-space:nowrap;
   }
   .stat-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:14px;}
   @media (max-width:480px){ .stat-grid{grid-template-columns:1fr;} }
@@ -1451,6 +1453,9 @@ html[data-theme="dark"]{
 }
 html[data-theme="dark"] [aria-label="Return to lesson category"] a{
   color:#7dd3fc !important;
+}
+html[data-theme="dark"] .quiz-section .lesson-kicker{
+  color:#7dd3fc;
 }
 </style>
 </body>
