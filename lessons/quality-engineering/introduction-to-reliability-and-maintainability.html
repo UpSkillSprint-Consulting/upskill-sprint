@@ -1507,7 +1507,8 @@ render();
       .concat(points.filter(point=>point.x>state.x1&&point.x<state.x2))
       .concat([{x:state.x2,y:relationshipPdf(state.x2,state.mean,state.sd)}]);
     const baseline = geometry.y(0);
-    const areaPath = `M${geometry.x(state.x1).toFixed(2)},${baseline.toFixed(2)} `+relationshipPath(areaPoints,geometry.x,geometry.y)+` L${geometry.x(state.x2).toFixed(2)},${baseline.toFixed(2)} Z`;
+    const areaCurve = areaPoints.map(point=>`L${geometry.x(point.x).toFixed(2)},${geometry.y(point.y).toFixed(2)}`).join(' ');
+    const areaPath = `M${geometry.x(state.x1).toFixed(2)},${baseline.toFixed(2)} ${areaCurve} L${geometry.x(state.x2).toFixed(2)},${baseline.toFixed(2)} Z`;
     let content = relationshipAxes(geometry,yMax,[0,yMax/4,yMax/2,3*yMax/4,yMax],'f(x)');
     content += `<path class="pdf-cdf-area" d="${areaPath}"/>`;
     content += `<path class="pdf-cdf-pdf-line" d="${relationshipPath(points,geometry.x,geometry.y)}"/>`;

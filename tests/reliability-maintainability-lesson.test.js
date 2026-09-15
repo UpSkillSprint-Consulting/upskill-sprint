@@ -264,6 +264,14 @@ test('all shipped interactives initialize and update from their real event handl
     assert.equal(runtimeDoc.querySelector('#pdf-cdf-probability').textContent, '68.27%');
     assert.equal(runtimeDoc.querySelectorAll('#pdf-cdf-pdf-plot [data-bound]').length, 2);
     assert.equal(runtimeDoc.querySelectorAll('#pdf-cdf-cdf-plot [data-bound]').length, 2);
+    const shadedAreaPath = runtimeDoc.querySelector('#pdf-cdf-pdf-plot .pdf-cdf-area').getAttribute('d');
+    assert.match(shadedAreaPath, /^M[^ ]+ L/);
+    assert.equal((shadedAreaPath.match(/\bM/g) || []).length, 1, 'shaded PDF area must be one closed path');
+    const shadedVertices = [...shadedAreaPath.matchAll(/[ML](-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g)]
+      .map(match => ({ x: Number(match[1]), y: Number(match[2]) }));
+    assert.equal(shadedVertices[0].x, shadedVertices[1].x, 'area must rise vertically from the baseline at x₁');
+    assert.equal(shadedVertices[0].y, shadedVertices.at(-1).y, 'area must return to the baseline at x₂');
+    assert.match(shadedAreaPath, / Z$/);
 
     runtimeDoc.querySelector('.preset-btn[data-b="0.6"]').click();
     assert.equal(runtimeDoc.querySelector('#beta').value, '0.6');
