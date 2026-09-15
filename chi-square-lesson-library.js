@@ -75,6 +75,18 @@
       description: 'Hunt down rogue data points with Z-scores, Modified Z-scores, Tukey fences, and Grubbs\u2019 test using a live steel-mill and mine-site investigation lab with switchable chart views.'
     },
     {
+      marker: 'data-probability-basics-the-language-of-chance',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/probability-basics-the-language-of-chance',
+      topic: 'statistics',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'probability basics sample space addition rule multiplication rule independence complement rule conditional probability dice marbles spinner venn diagram probability tree cssbb cqe beginner statistics interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>40 min</span><span>Excel + Minitab</span>',
+      title: 'Probability Basics: The Language of Chance',
+      description: 'Build real intuition for probability from zero with a live dice grid, a marble-draw simulator, a spinning wheel, a clickable Venn diagram, and a probability tree \u2014 then connect it all to Excel, Minitab, and the ASQ exams.'
+    },
+    {
       marker: 'data-anova-analysis-one-stop-shop',
       sectionId: 'statistics',
       path: '/lessons/statistics/anova-analysis-one-stop-shop',

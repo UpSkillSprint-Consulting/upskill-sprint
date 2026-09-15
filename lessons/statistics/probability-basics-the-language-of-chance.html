@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Probability Basics: The Language of Chance",
+  "slug": "probability-basics-the-language-of-chance",
+  "category": "Statistics",
+  "category_slug": "statistics",
+  "level": "Beginner",
+  "lesson_type": "General",
+  "estimated_minutes": 45,
+  "interactive": true,
+  "card_title": "Probability Basics: The Language of Chance",
+  "card_description": "Build real intuition for probability from zero with a live dice grid, a marble-draw simulator, a spinning wheel, a clickable Venn diagram, and a probability tree — covers classical, empirical and subjective probability, probability vs. odds, and connects it all to Excel, Minitab, and the ASQ exams.",
+  "search_keywords": ["probability","sample space","addition rule","multiplication rule","independence","complement rule","conditional probability","probability basics","beginner statistics","CSSBB probability","CQE probability","classical probability","empirical probability","subjective probability","probability vs odds"],
+  "suggested_github_path": "lessons/statistics/probability-basics-the-language-of-chance.html"
+}
+-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Probability Basics: The Language of Chance</title>
+<meta name="description" content="A highly visual, interactive beginner lesson on probability — sample spaces, the addition and multiplication rules, independence, and conditional probability — with Excel and Minitab guidance.">
+<link rel="canonical" href="https://upskillsprint.com/lessons/statistics/probability-basics-the-language-of-chance">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Probability Basics: The Language of Chance | UpSkill Sprint Consulting">
+<meta property="og:description" content="Build real intuition for probability with interactive dice, marbles, a spinning wheel, a Venn diagram, and a probability tree.">
+<meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+<meta property="og:url" content="https://upskillsprint.com/lessons/statistics/probability-basics-the-language-of-chance">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
+<style>
+#lesson-content{
+  color-scheme: light dark;
+  --lesson-pp-bg:#FBF6EC;
+  --lesson-pp-bg-line: rgba(31,45,61,.07);
+  --lesson-pp-surface:#FFFFFF;
+  --lesson-pp-surface-2:#F2EBDA;
+  --lesson-pp-ink:#1F2D3D;
+  --lesson-pp-ink-soft:#4B5A6B;
+  --lesson-pp-ink-faint:#7C8998;
+  --lesson-pp-border: rgba(31,45,61,.18);
+  --lesson-pp-coral:#A8451F;
+  --lesson-pp-coral-soft:#FBE2D4;
+  --lesson-pp-coral-deep:#9C3D1A;
+  --lesson-pp-teal:#0F7C82;
+  --lesson-pp-teal-soft:#DCF1F1;
+  --lesson-pp-teal-deep:#0B5257;
+  --lesson-pp-amber:#A66B04;
+  --lesson-pp-amber-soft:#FBEBCB;
+  --lesson-pp-violet:#5B3F87;
+  --lesson-pp-violet-soft:#E7DFF3;
+  --lesson-pp-good:#1F7A4D;
+  --lesson-pp-good-soft:#DCF3E6;
+  --lesson-pp-bad:#A32A22;
+  --lesson-pp-bad-soft:#FBE1DE;
+  --lesson-pp-radius:16px;
+  --lesson-pp-heading:"Lexend", "Segoe UI", sans-serif;
+  --lesson-pp-body:"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --lesson-pp-mono:"IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+}
+html[data-theme="dark"] #lesson-content{
+  --lesson-pp-bg:#0E141D;
+  --lesson-pp-bg-line: rgba(255,255,255,.05);
+  --lesson-pp-surface:#182231;
+  --lesson-pp-surface-2:#1F2B3D;
+  --lesson-pp-ink:#F3F6FA;
+  --lesson-pp-ink-soft:#C3CEDC;
+  --lesson-pp-ink-faint:#8FA0B3;
+  --lesson-pp-border: rgba(255,255,255,.16);
+  --lesson-pp-coral:#FF8A5C;
+  --lesson-pp-coral-soft:#3A2418;
+  --lesson-pp-teal:#4FD8DE;
+  --lesson-pp-teal-soft:#0F3438;
+  --lesson-pp-amber:#F2B93B;
+  --lesson-pp-amber-soft:#382C10;
+  --lesson-pp-violet:#B79EEB;
+  --lesson-pp-violet-soft:#28203C;
+  --lesson-pp-good:#4ADE80;
+  --lesson-pp-good-soft:#123522;
+  --lesson-pp-bad:#FF6B6B;
+  --lesson-pp-bad-soft:#3A1414;
+}
+#lesson-content *{box-sizing:border-box}
+#lesson-content{margin:0;font-family:var(--lesson-pp-body);color:var(--lesson-pp-ink);line-height:1.65;
+  background:
+    radial-gradient(circle at 1px 1px, var(--lesson-pp-bg-line) 1px, transparent 0) 0 0/22px 22px,
+    var(--lesson-pp-bg);
+  scroll-behavior:smooth;
+}
+@media (prefers-reduced-motion:reduce){#lesson-content *{animation-duration:.001ms !important;transition-duration:.001ms !important;scroll-behavior:auto !important}}
+#lesson-content .wrap{max-width:900px;margin:0 auto;padding:0 22px}
+#lesson-content h1,#lesson-content h2,#lesson-content h3,#lesson-content h4{font-family:var(--lesson-pp-heading);color:var(--lesson-pp-ink);line-height:1.2;margin:0 0 12px}
+#lesson-content h2{font-size:clamp(1.5rem,3.4vw,2rem);font-weight:700;margin-top:0}
+#lesson-content h3{font-size:1.2rem;font-weight:600}
+#lesson-content p{margin:0 0 14px;color:var(--lesson-pp-ink-soft)}
+#lesson-content a{color:var(--lesson-pp-teal)}
+#lesson-content code{font-family:var(--lesson-pp-mono);background:var(--lesson-pp-surface-2);border:1px solid var(--lesson-pp-border);border-radius:5px;padding:1px 6px;font-size:.92em;color:var(--lesson-pp-ink)}
+
+/* progress rail */
+#lesson-content .rail{position:sticky;top:var(--sitebar-height,73px);z-index:10;background:var(--lesson-pp-bg);border-bottom:1px solid var(--lesson-pp-border)}
+#lesson-content .rail-bar{height:3px;background:var(--lesson-pp-coral);width:0%;transition:width .1s linear}
+#lesson-content .rail-nav{display:flex;gap:16px;overflow-x:auto;padding:9px 22px;max-width:900px;margin:0 auto;font-family:var(--lesson-pp-mono);font-size:11.5px}
+#lesson-content .rail-nav a{white-space:nowrap;color:var(--lesson-pp-ink-faint);text-decoration:none;padding:3px 0;border-bottom:2px solid transparent}
+#lesson-content .rail-nav a.active{color:var(--lesson-pp-teal);border-color:var(--lesson-pp-coral)}
+
+/* hero */
+#lesson-content .hero{padding:54px 0 36px}
+#lesson-content .kicker{display:inline-block;font-family:var(--lesson-pp-mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--lesson-pp-teal);background:var(--lesson-pp-teal-soft);border-radius:999px;padding:5px 12px;margin:0 0 16px}
+#lesson-content h1.title{font-size:clamp(2rem,5vw,3.1rem);font-weight:800;max-width:16ch;margin-bottom:16px}
+#lesson-content h1.title em{font-style:normal;color:var(--lesson-pp-coral)}
+#lesson-content .lede{font-size:1.1rem;max-width:58ch}
+#lesson-content .hero-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+#lesson-content .chip{font-family:var(--lesson-pp-mono);font-size:12px;background:var(--lesson-pp-surface);border:1px solid var(--lesson-pp-border);border-radius:999px;padding:5px 12px;color:var(--lesson-pp-ink-soft)}
+
+/* generic section + cards */
+#lesson-content section.lsn{padding:38px 0;border-top:1px dashed var(--lesson-pp-border)}
+#lesson-content .eyebrow{font-family:var(--lesson-pp-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--lesson-pp-ink-faint);margin:0 0 6px}
+#lesson-content .card{background:var(--lesson-pp-surface);border:1px solid var(--lesson-pp-border);border-radius:var(--lesson-pp-radius);padding:20px;box-shadow:0 1px 0 rgba(0,0,0,.03)}
+#lesson-content .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+#lesson-content .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:720px){#lesson-content .grid-2,#lesson-content .grid-3{grid-template-columns:1fr}}
+#lesson-content .callout{border-radius:12px;padding:14px 16px;margin:16px 0;border:1px solid var(--lesson-pp-border);background:var(--lesson-pp-surface-2);color:var(--lesson-pp-ink)}
+#lesson-content .callout.good{background:var(--lesson-pp-good-soft);border-color:var(--lesson-pp-good);color:var(--lesson-pp-ink)}
+#lesson-content .callout.warn{background:var(--lesson-pp-amber-soft);border-color:var(--lesson-pp-amber);color:var(--lesson-pp-ink)}
+#lesson-content .callout strong{color:var(--lesson-pp-ink)}
+#lesson-content .formula{font-family:var(--lesson-pp-mono);background:var(--lesson-pp-surface-2);border:1px solid var(--lesson-pp-border);border-left:4px solid var(--lesson-pp-coral);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:1.02rem;color:var(--lesson-pp-ink);overflow-x:auto}
+#lesson-content .btn{font-family:var(--lesson-pp-body);font-weight:600;font-size:14px;border-radius:10px;padding:9px 16px;border:1px solid var(--lesson-pp-coral-deep);background:var(--lesson-pp-coral-deep);color:#fff;cursor:pointer}
+#lesson-content .btn.ghost{background:transparent;color:var(--lesson-pp-coral)}
+#lesson-content .btn.teal{border-color:var(--lesson-pp-teal-deep);background:var(--lesson-pp-teal-deep)}
+#lesson-content .btn.teal.ghost{background:transparent;color:var(--lesson-pp-teal)}
+#lesson-content .btn:disabled{opacity:.5;cursor:not-allowed}
+#lesson-content .btn-row{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+#lesson-content .stat-pill{display:inline-flex;align-items:baseline;gap:6px;font-family:var(--lesson-pp-mono);background:var(--lesson-pp-surface-2);border:1px solid var(--lesson-pp-border);border-radius:10px;padding:8px 12px;color:var(--lesson-pp-ink)}
+#lesson-content .stat-pill b{font-size:1.15rem;color:var(--lesson-pp-coral)}
+#lesson-content table{border-collapse:collapse;width:100%;font-size:14.5px}
+#lesson-content th,#lesson-content td{border:1px solid var(--lesson-pp-border);padding:8px 10px;text-align:center;color:var(--lesson-pp-ink)}
+#lesson-content th{background:var(--lesson-pp-surface-2);font-family:var(--lesson-pp-heading)}
+#lesson-content .tbl-wrap{overflow-x:auto;margin:14px 0}
+
+/* --- probability scale --- */
+#lesson-content .scale-wrap{margin:20px 0}
+#lesson-content .scale-track{position:relative;height:14px;border-radius:999px;background:linear-gradient(90deg,var(--lesson-pp-bad-soft),var(--lesson-pp-amber-soft) 50%,var(--lesson-pp-good-soft));border:1px solid var(--lesson-pp-border)}
+#lesson-content .scale-marker{position:absolute;top:50%;width:26px;height:26px;border-radius:50%;background:var(--lesson-pp-coral);border:3px solid var(--lesson-pp-surface);transform:translate(-50%,-50%);box-shadow:0 1px 4px rgba(0,0,0,.3);transition:left .25s ease}
+#lesson-content input[type="range"].pp-range{width:100%;margin-top:14px;accent-color:var(--lesson-pp-coral)}
+#lesson-content .scale-readout{font-family:var(--lesson-pp-mono);font-size:1.4rem;color:var(--lesson-pp-coral);margin-top:10px}
+#lesson-content .scale-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+#lesson-content .scale-chips button{font-size:12.5px;border-radius:999px;padding:6px 12px;border:1px solid var(--lesson-pp-border);background:var(--lesson-pp-surface);color:var(--lesson-pp-ink-soft);cursor:pointer}
+#lesson-content .scale-chips button.on{background:var(--lesson-pp-coral-soft);border-color:var(--lesson-pp-coral);color:var(--lesson-pp-ink)}
+
+/* --- dice grid --- */
+#lesson-content .die-face{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;background:var(--lesson-pp-surface);border:1.5px solid var(--lesson-pp-ink-faint);font-size:15px}
+#lesson-content .dice-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:16px 0}
+#lesson-content .dcell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;gap:2px;border-radius:8px;border:1px solid var(--lesson-pp-border);background:var(--lesson-pp-surface);font-size:11px;transition:background .15s,border-color .15s}
+#lesson-content .dcell.hit{background:var(--lesson-pp-coral-soft);border-color:var(--lesson-pp-coral)}
+#lesson-content .event-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+#lesson-content .event-row button{font-size:13px;border-radius:9px;padding:8px 12px;border:1px solid var(--lesson-pp-border);background:var(--lesson-pp-surface);color:var(--lesson-pp-ink-soft);cursor:pointer}
+#lesson-content .event-row button.on{background:var(--lesson-pp-teal-soft);border-color:var(--lesson-pp-teal);color:var(--lesson-pp-ink);font-weight:600}
+
+/* --- marble jar --- */
+#lesson-content .jar-wrap{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start}
+#lesson-content .jar{width:150px;min-width:150px;height:170px;border:3px solid var(--lesson-pp-ink-faint);border-top:none;border-radius:0 0 18px 18px;position:relative;background:var(--lesson-pp-surface-2);display:flex;flex-wrap:wrap;align-content:flex-end;gap:5px;padding:10px;overflow:hidden}
+#lesson-content .marble{width:16px;height:16px;border-radius:50%;box-shadow:inset -2px -2px 3px rgba(0,0,0,.25)}
+#lesson-content .marble.red{background:var(--lesson-pp-coral)}
+#lesson-content .marble.blue{background:var(--lesson-pp-teal)}
+#lesson-content .marble.pulse{animation:pp-pulse .5s ease}
+@keyframes pp-pulse{0%{transform:scale(1)}40%{transform:scale(1.6)}100%{transform:scale(1)}}
+#lesson-content .draw-panel{flex:1;min-width:230px}
+#lesson-content .sparkline{width:100%;height:130px;background:var(--lesson-pp-surface-2);border:1px solid var(--lesson-pp-border);border-radius:10px}
+#lesson-content .legend-row{display:flex;gap:16px;font-size:12.5px;margin-top:8px;color:var(--lesson-pp-ink-soft);flex-wrap:wrap}
+#lesson-content .legend-swatch{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+
+/* --- spinner --- */
+#lesson-content .spinner-wrap{display:flex;gap:26px;flex-wrap:wrap;align-items:center}
+#lesson-content .spinner-shell{position:relative;width:190px;height:190px;flex:none}
+#lesson-content .spinner-wheel{width:100%;height:100%;border-radius:50%;border:4px solid var(--lesson-pp-surface);box-shadow:0 0 0 2px var(--lesson-pp-border);transition:transform 3.2s cubic-bezier(.13,.85,.1,1)}
+#lesson-content .spinner-pointer{position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:16px solid var(--lesson-pp-ink)}
+#lesson-content .spin-result{font-family:var(--lesson-pp-mono);font-size:1.05rem;margin-top:6px}
+
+/* --- venn --- */
+#lesson-content .venn-wrap{display:flex;gap:24px;flex-wrap:wrap;align-items:center}
+#lesson-content .venn-zones{display:flex;flex-direction:column;gap:6px;flex:1;min-width:220px}
+#lesson-content .zone-btn{text-align:left;font-size:13.5px;border-radius:9px;border:1px solid var(--lesson-pp-border);background:var(--lesson-pp-surface);padding:8px 12px;cursor:pointer;color:var(--lesson-pp-ink-soft)}
+#lesson-content .zone-btn.on{background:var(--lesson-pp-violet-soft);border-color:var(--lesson-pp-violet);color:var(--lesson-pp-ink);font-weight:600}
+#lesson-content .venn-readout{font-family:var(--lesson-pp-mono);font-size:.95rem;background:var(--lesson-pp-surface-2);border:1px solid var(--lesson-pp-border);border-radius:10px;padding:12px;margin-top:10px}
+
+/* --- tree --- */
+#lesson-content .tree{display:flex;justify-content:space-between;gap:6px;margin:18px 0;overflow-x:auto;padding-bottom:6px}
+#lesson-content .tree-col{display:flex;flex-direction:column;justify-content:space-around;gap:8px;flex:1;min-width:120px}
+#lesson-content .tnode{background:var(--lesson-pp-surface);border:1px solid var(--lesson-pp-border);border-radius:9px;padding:8px 10px;font-size:12.5px;text-align:center}
+#lesson-content .tleaf{background:var(--lesson-pp-surface-2);border:1px solid var(--lesson-pp-border);border-radius:9px;padding:8px 10px;font-family:var(--lesson-pp-mono);font-size:12.5px;text-align:center}
+#lesson-content .tleaf b{color:var(--lesson-pp-coral)}
+
+/* --- accordion --- */
+#lesson-content details.acc{border:1px solid var(--lesson-pp-border);border-radius:12px;padding:12px 16px;margin:12px 0;background:var(--lesson-pp-surface)}
+#lesson-content details.acc summary{cursor:pointer;font-weight:600;font-family:var(--lesson-pp-heading)}
+#lesson-content details.acc[open] summary{margin-bottom:10px}
+
+/* stats implementation */
+#lesson-content .impl-table td:first-child,#lesson-content .impl-table th:first-child{text-align:left;font-family:var(--lesson-pp-mono)}
+#lesson-content .impl-table td{text-align:left}
+
+/* back link */
+#lesson-content #pp-back{color:var(--lesson-pp-teal);font-weight:600;text-decoration:none}
+
+/* --- approaches-to-probability tree diagram --- */
+#lesson-content .approach-svg{width:100%;height:auto;margin:14px 0}
+#lesson-content .approach-svg text{font-family:var(--lesson-pp-body)}
+#lesson-content .approach-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+@media (max-width:720px){#lesson-content .approach-cards{grid-template-columns:1fr}}
+#lesson-content .approach-card{border:1px solid var(--lesson-pp-border);border-radius:12px;padding:14px;background:var(--lesson-pp-surface-2)}
+#lesson-content .approach-card h4{margin:8px 0 4px;font-family:var(--lesson-pp-heading);font-size:1rem}
+#lesson-content .approach-card p{margin:0;font-size:13.5px}
+#lesson-content .approach-icon{width:34px;height:34px}
+
+/* --- addition/multiplication cheat sheet --- */
+#lesson-content .cheat-sheet{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+@media (max-width:720px){#lesson-content .cheat-sheet{grid-template-columns:1fr}}
+#lesson-content .cheat-card{border-radius:12px;padding:16px;color:#fff}
+#lesson-content .cheat-card.add{background:var(--lesson-pp-coral-deep)}
+#lesson-content .cheat-card.mult{background:var(--lesson-pp-teal-deep)}
+#lesson-content .cheat-card h4{color:#fff;margin:0 0 10px;font-family:var(--lesson-pp-heading)}
+#lesson-content .cheat-card .rule-line{background:rgba(255,255,255,.16);border-radius:8px;padding:8px 10px;margin:8px 0;font-family:var(--lesson-pp-mono);font-size:13px}
+#lesson-content .cheat-card .rule-line small{display:block;font-family:var(--lesson-pp-body);opacity:.9;margin-bottom:3px;font-size:12px}
+
+/* --- probability vs odds --- */
+#lesson-content .odds-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+@media (max-width:720px){#lesson-content .odds-compare{grid-template-columns:1fr}}
+#lesson-content .odds-panel{border:1px solid var(--lesson-pp-border);border-radius:12px;padding:16px;background:var(--lesson-pp-surface)}
+#lesson-content .odds-panel h4{margin:0 0 8px}
+#lesson-content .odds-converter{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-top:10px}
+#lesson-content .odds-readout{font-family:var(--lesson-pp-mono);font-size:1rem;background:var(--lesson-pp-surface-2);border:1px solid var(--lesson-pp-border);border-radius:10px;padding:10px 14px}
+#lesson-content .odds-readout b{color:var(--lesson-pp-coral)}
+
+/* quiz theming (site-standard classes below inherit theme via variables where possible) */
+#lesson-content .quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+#lesson-content .quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:var(--lesson-pp-teal);font-weight:700;margin:0 0 4px;font-family:var(--lesson-pp-mono)}
+#lesson-content .quiz{border:1px solid var(--lesson-pp-border);border-radius:14px;padding:18px;background:var(--lesson-pp-surface);color:var(--lesson-pp-ink)}
+#lesson-content .quiz-head h3{margin-bottom:4px}
+#lesson-content .quiz-question{margin:16px 0;padding:14px;border:1px solid var(--lesson-pp-border);border-radius:10px;background:var(--lesson-pp-surface)}
+#lesson-content .quiz-question legend{font-weight:600;padding:0 4px;color:var(--lesson-pp-ink)}
+#lesson-content .quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid var(--lesson-pp-border);border-radius:8px;cursor:pointer;font-size:15px;color:var(--lesson-pp-ink)}
+#lesson-content .quiz-option input{margin-right:9px}
+#lesson-content .quiz-question.is-correct{border-color:var(--lesson-pp-good);background:var(--lesson-pp-good-soft)}
+#lesson-content .quiz-question.is-incorrect{border-color:var(--lesson-pp-bad);background:var(--lesson-pp-bad-soft)}
+#lesson-content .quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px;color:var(--lesson-pp-ink)}
+#lesson-content .quiz-feedback.show{display:block}
+#lesson-content .quiz-feedback.good{background:var(--lesson-pp-good-soft);border-left:4px solid var(--lesson-pp-good)}
+#lesson-content .quiz-feedback.bad{background:var(--lesson-pp-bad-soft);border-left:4px solid var(--lesson-pp-bad)}
+#lesson-content .quiz-feedback.warn{background:var(--lesson-pp-amber-soft);border-left:4px solid var(--lesson-pp-amber)}
+#lesson-content .quiz-actions{margin-top:16px}
+#lesson-content .quiz-actions button{background:var(--lesson-pp-teal-deep);color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+#lesson-content .quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:var(--lesson-pp-teal-soft);border-left:4px solid var(--lesson-pp-teal);font-size:15px;color:var(--lesson-pp-ink)}
+#lesson-content .quiz-result.show{display:block}
+</style>
+</head>
+<body data-lesson-page="true" data-category="statistics" data-level="beginner" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+
+<main id="lesson-content">
+
+<div class="rail" id="pp-rail">
+  <div class="rail-bar" id="pp-progress"></div>
+  <nav class="rail-nav" id="pp-nav" aria-label="Lesson sections">
+    <a href="#pp-what" data-sec="pp-what">What is it?</a>
+    <a href="#pp-space" data-sec="pp-space">Sample space</a>
+    <a href="#pp-formula" data-sec="pp-formula">The formula</a>
+    <a href="#pp-complement" data-sec="pp-complement">Complement</a>
+    <a href="#pp-addition" data-sec="pp-addition">Addition rule</a>
+    <a href="#pp-mult" data-sec="pp-mult">Multiplication rule</a>
+    <a href="#pp-odds" data-sec="pp-odds">Probability vs. odds</a>
+    <a href="#pp-quality" data-sec="pp-quality">On the shop floor</a>
+    <a href="#pp-impl" data-sec="pp-impl">Excel &amp; Minitab</a>
+    <a href="#quiz" data-sec="quiz">Quiz</a>
+  </nav>
+</div>
+
+<div class="wrap">
+  <section class="hero">
+    <span class="kicker">Statistics &middot; Beginner &middot; ~40 min &middot; Interactive</span>
+    <h1 class="title">Probability is just <em>counting chances</em>, dressed up in decimals.</h1>
+    <p class="lede">Every "likely," "unlikely," and "50/50" you've ever said was probability talk. This lesson turns that everyday instinct into the formal rules — sample space, the addition rule, the multiplication rule, independence, and conditional probability — using dice, marbles, a spinning wheel, and a couple of ASQ-flavoured examples you'll actually meet on the CSSBB and CQE exams.</p>
+    <div class="hero-chips">
+      <span class="chip">No prerequisites</span>
+      <span class="chip">6 live widgets</span>
+      <span class="chip">Excel + Minitab included</span>
+    </div>
+  </section>
+</div>
+
+<!-- ============ WHAT IS PROBABILITY ============ -->
+<section class="lsn" id="pp-what"><div class="wrap">
+  <p class="eyebrow">01 &middot; The idea</p>
+  <h2>What is probability, really?</h2>
+  <p>Probability is a number between <strong>0</strong> (impossible) and <strong>1</strong> (certain) that measures how likely something is to happen. Nothing more mystical than that. "70% chance of rain" means: if today repeated itself many, many times, rain would show up in roughly 7 out of 10 of those repeats.</p>
+  <div class="card">
+    <h3>Slide the marker and see where everyday events land</h3>
+    <div class="scale-wrap">
+      <div class="scale-track" id="pp-track"><div class="scale-marker" id="pp-marker" style="left:50%"></div></div>
+      <input type="range" class="pp-range" id="pp-range" min="0" max="100" value="50" step="1" aria-label="Probability value from 0 to 1">
+      <div class="scale-readout" id="pp-readout">P = 0.50 &mdash; a coin flip landing heads</div>
+      <div class="scale-chips" id="pp-chips">
+        <button data-v="0" data-label="P = 0 &mdash; rolling a 7 on a single six-sided die">Rolling a 7 on one die</button>
+        <button data-v="8" data-label="P = 0.08 &mdash; a randomly chosen part failing final inspection in a tight process (Cpk &gt; 1.33)">A capable process making a defect</button>
+        <button data-v="50" data-label="P = 0.50 &mdash; a coin flip landing heads">Coin flip lands heads</button>
+        <button data-v="83" data-label="P = 0.83 &mdash; rolling a number other than 6 on one die">Rolling anything but a 6</button>
+        <button data-v="100" data-label="P = 1 &mdash; the sun rising tomorrow">The sun rising tomorrow</button>
+      </div>
+    </div>
+  </div>
+  <p>Two rules make a number a valid probability. First, <strong>0 &le; P(A) &le; 1</strong> for any event A &mdash; you can't be "120% likely" to do anything. Second, the probabilities of <em>every</em> possible outcome in a situation must add up to exactly <strong>1</strong> &mdash; something always happens.</p>
+
+  <div class="card">
+    <h3>Where do these numbers come from? Three approaches</h3>
+    <p>Every probability you'll ever quote was arrived at one of three ways. The first two are <strong>objective</strong> &mdash; anyone doing the same count or the same experiment gets the same answer. The third is <strong>subjective</strong> &mdash; it's an informed opinion, not a count.</p>
+    <svg class="approach-svg" viewBox="0 0 720 236" role="img" aria-label="Tree diagram: Probability splits into Objective and Subjective; Objective splits into Classical and Empirical probability">
+      <path d="M360,48 V68 H185 V88" fill="none" stroke="var(--lesson-pp-ink-faint)" stroke-width="2"></path>
+      <path d="M360,48 V68 H535 V88" fill="none" stroke="var(--lesson-pp-ink-faint)" stroke-width="2"></path>
+      <path d="M185,128 V148 H110 V168" fill="none" stroke="var(--lesson-pp-ink-faint)" stroke-width="2"></path>
+      <path d="M185,128 V148 H270 V168" fill="none" stroke="var(--lesson-pp-ink-faint)" stroke-width="2"></path>
+      <line x1="535" y1="128" x2="535" y2="168" stroke="var(--lesson-pp-ink-faint)" stroke-width="2"></line>
+      <rect x="280" y="8" width="160" height="40" rx="9" fill="var(--lesson-pp-violet-soft)" stroke="var(--lesson-pp-violet)"></rect>
+      <text x="360" y="33" text-anchor="middle" font-size="14" font-weight="700" fill="var(--lesson-pp-ink)">Probability</text>
+      <rect x="110" y="88" width="150" height="40" rx="9" fill="var(--lesson-pp-teal-soft)" stroke="var(--lesson-pp-teal)"></rect>
+      <text x="185" y="113" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--lesson-pp-ink)">Objective</text>
+      <rect x="460" y="88" width="150" height="40" rx="9" fill="var(--lesson-pp-amber-soft)" stroke="var(--lesson-pp-amber)"></rect>
+      <text x="535" y="113" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--lesson-pp-ink)">Subjective</text>
+      <rect x="40" y="168" width="140" height="40" rx="9" fill="var(--lesson-pp-surface)" stroke="var(--lesson-pp-border)"></rect>
+      <text x="110" y="193" text-anchor="middle" font-size="13" fill="var(--lesson-pp-ink)">Classical</text>
+      <rect x="200" y="168" width="140" height="40" rx="9" fill="var(--lesson-pp-surface)" stroke="var(--lesson-pp-border)"></rect>
+      <text x="270" y="193" text-anchor="middle" font-size="13" fill="var(--lesson-pp-ink)">Empirical</text>
+      <rect x="460" y="168" width="150" height="40" rx="9" fill="var(--lesson-pp-surface)" stroke="var(--lesson-pp-border)"></rect>
+      <text x="535" y="188" text-anchor="middle" font-size="11.5" fill="var(--lesson-pp-ink)">Based on available</text>
+      <text x="535" y="202" text-anchor="middle" font-size="11.5" fill="var(--lesson-pp-ink)">information &amp; judgment</text>
+    </svg>
+    <div class="approach-cards">
+      <div class="approach-card">
+        <svg class="approach-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="4" fill="none" stroke="var(--lesson-pp-teal)" stroke-width="2"></rect><circle cx="8" cy="8" r="1.6" fill="var(--lesson-pp-teal)"></circle><circle cx="16" cy="8" r="1.6" fill="var(--lesson-pp-teal)"></circle><circle cx="12" cy="12" r="1.6" fill="var(--lesson-pp-teal)"></circle><circle cx="8" cy="16" r="1.6" fill="var(--lesson-pp-teal)"></circle><circle cx="16" cy="16" r="1.6" fill="var(--lesson-pp-teal)"></circle></svg>
+        <h4>Classical (a priori)</h4>
+        <p>Based on <strong>equally likely outcomes</strong> you can reason about before running anything &mdash; a fair die, a fair coin. This is the favourable/total formula from the last section.</p>
+      </div>
+      <div class="approach-card">
+        <svg class="approach-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="14" width="3.5" height="7" fill="var(--lesson-pp-amber)"></rect><rect x="10" y="9" width="3.5" height="12" fill="var(--lesson-pp-amber)"></rect><rect x="17" y="4" width="3.5" height="17" fill="var(--lesson-pp-amber)"></rect></svg>
+        <h4>Empirical (relative frequency)</h4>
+        <p>Based on what actually happened in real data &mdash; the marble jar and the shift/defect table both used this: observed count &divide; total observations.</p>
+      </div>
+      <div class="approach-card">
+        <svg class="approach-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="var(--lesson-pp-violet)" stroke-width="2"></circle><text x="12" y="16.5" text-anchor="middle" font-size="12" font-weight="700" fill="var(--lesson-pp-violet)">?</text></svg>
+        <h4>Subjective</h4>
+        <p>Based on experience, expert judgment, or partial information &mdash; "I'd say there's a 30% chance this supplier ships late." No repeatable experiment backs the number, but it's still a legitimate, usable probability.</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ SAMPLE SPACE ============ -->
+<section class="lsn" id="pp-space"><div class="wrap">
+  <p class="eyebrow">02 &middot; The vocabulary</p>
+  <h2>Sample space &amp; events</h2>
+  <p>The <strong>sample space</strong> is the full list of everything that could happen. Roll two dice and the sample space has <strong>36</strong> equally likely outcomes (6 faces on die 1 &times; 6 faces on die 2). An <strong>event</strong> is just a subset of that sample space you happen to care about &mdash; "the total is 7," "at least one die shows a 6," and so on.</p>
+  <div class="card">
+    <h3>Two dice, 36 outcomes &mdash; click an event to highlight it</h3>
+    <div class="event-row" id="pp-event-row">
+      <button data-e="sum7" class="on">Sum = 7</button>
+      <button data-e="doubles">Doubles</button>
+      <button data-e="atleast6">At least one 6</button>
+      <button data-e="sumge10">Sum &ge; 10</button>
+      <button data-e="none">Clear</button>
+    </div>
+    <div class="dice-grid" id="pp-dice-grid"></div>
+    <p style="margin-top:10px" id="pp-dice-readout" class="stat-pill">Favourable outcomes: <b id="pp-dice-count">6</b> / 36 &nbsp;&rarr;&nbsp; P = <b id="pp-dice-prob">0.167</b></p>
+  </div>
+  <p>Notice the pattern: <strong>P(event) = favourable outcomes &divide; total outcomes</strong>, as long as every outcome in the sample space is equally likely. That's the <em>classical</em> definition of probability &mdash; and it's exactly what the next section builds on.</p>
+</div></section>
+
+<!-- ============ THE FORMULA / LAW OF LARGE NUMBERS ============ -->
+<section class="lsn" id="pp-formula"><div class="wrap">
+  <p class="eyebrow">03 &middot; From counting to observing</p>
+  <h2>The basic formula &mdash; and why repetition proves it</h2>
+  <div class="formula">P(A) = (number of outcomes favourable to A) &divide; (total number of outcomes in the sample space)</div>
+  <p>That's the <em>theoretical</em> probability &mdash; what the math says <em>should</em> happen. The <strong>empirical</strong> (observed) probability is just: draws that matched A, divided by total draws so far. Draw a jar of marbles enough times and the empirical value creeps toward the theoretical one. That convergence is the <strong>Law of Large Numbers</strong>, and it's the whole reason sampling and control charts work.</p>
+  <div class="card">
+    <h3>Draw from the jar (4 red, 6 blue &mdash; drawn with replacement each time)</h3>
+    <div class="jar-wrap">
+      <div class="jar" id="pp-jar" aria-label="Jar of 4 red and 6 blue marbles"></div>
+      <div class="draw-panel">
+        <div class="btn-row">
+          <button class="btn" id="pp-draw1">Draw &times;1</button>
+          <button class="btn teal" id="pp-draw10">Draw &times;10</button>
+          <button class="btn ghost" id="pp-drawreset">Reset</button>
+        </div>
+        <p class="stat-pill">Draws: <b id="pp-draw-n">0</b></p>
+        <p class="stat-pill">Reds drawn: <b id="pp-draw-red">0</b></p>
+        <p class="stat-pill">Empirical P(red): <b id="pp-draw-emp">&mdash;</b> &nbsp;(theoretical: 0.40)</p>
+        <svg class="sparkline" id="pp-spark" viewBox="0 0 600 130" preserveAspectRatio="none"></svg>
+        <div class="legend-row"><span><span class="legend-swatch" style="background:var(--lesson-pp-coral)"></span>Empirical P(red) after each draw</span><span><span class="legend-swatch" style="background:var(--lesson-pp-teal)"></span>Theoretical P(red) = 0.40</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="callout"><strong>Watch what happens:</strong> after 1&ndash;2 draws the empirical line jumps around wildly. After 50+ draws it settles in near 0.40. Small samples lie; large samples tell the truth &mdash; which is exactly why a single defective part doesn't condemn a process, but a rising defect <em>rate</em> over hundreds of parts does.</div>
+</div></section>
+
+<!-- ============ COMPLEMENT ============ -->
+<section class="lsn" id="pp-complement"><div class="wrap">
+  <p class="eyebrow">04 &middot; The easiest shortcut in statistics</p>
+  <h2>The complement rule</h2>
+  <div class="formula">P(not A) = 1 &minus; P(A)</div>
+  <p>"Not A" and "A" always split the sample space in two, so their probabilities must add to 1. This shortcut is a favourite on the CSSBB/CQE exams for "at least one" questions: it's usually far easier to find P(none) and subtract than to add up every "at least one" case directly.</p>
+  <div class="card">
+    <h3>Spin the wheel &mdash; then ask "what's the chance it's <em>not</em> red?"</h3>
+    <div class="spinner-wrap">
+      <div class="spinner-shell">
+        <div class="spinner-pointer"></div>
+        <div class="spinner-wheel" id="pp-wheel" style="background:conic-gradient(var(--lesson-pp-coral) 0% 40%, var(--lesson-pp-teal) 40% 65%, var(--lesson-pp-amber) 65% 85%, var(--lesson-pp-violet) 85% 100%)"></div>
+      </div>
+      <div>
+        <p>4 sectors: <strong style="color:var(--lesson-pp-coral)">Red 40%</strong>, <strong style="color:var(--lesson-pp-teal)">Teal 25%</strong>, <strong style="color:var(--lesson-pp-amber)">Amber 20%</strong>, <strong style="color:var(--lesson-pp-violet)">Violet 15%</strong>.</p>
+        <div class="btn-row"><button class="btn" id="pp-spin">Spin the wheel</button></div>
+        <p class="spin-result" id="pp-spin-result">Landed on: &mdash;</p>
+        <p class="stat-pill">Spins so far: <b id="pp-spin-n">0</b></p>
+        <p class="stat-pill">Landed "not red": <b id="pp-spin-notred">0</b></p>
+        <p>P(red) = 0.40, so P(not red) = 1 &minus; 0.40 = <strong>0.60</strong> &mdash; teal, amber, or violet combined.</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ ADDITION RULE ============ -->
+<section class="lsn" id="pp-addition"><div class="wrap">
+  <p class="eyebrow">05 &middot; Combining two events with "or"</p>
+  <h2>The addition rule</h2>
+  <div class="formula">General rule: &nbsp; P(A or B) = P(A) + P(B) &minus; P(A and B)
+Mutually exclusive events only: &nbsp; P(A or B) = P(A) + P(B)</div>
+  <p>You subtract P(A and B) so you don't double-count the overlap. If A and B can <em>never</em> happen together (mutually exclusive), there's no overlap to subtract at all.</p>
+  <div class="card">
+    <h3>A survey of 50 operators &mdash; click a region</h3>
+    <div class="btn-row">
+      <button class="btn ghost" id="pp-venn-overlap">Overlapping events</button>
+      <button class="btn teal ghost" id="pp-venn-exclusive">Mutually exclusive events</button>
+    </div>
+    <div class="venn-wrap">
+      <svg width="230" height="180" viewBox="0 0 230 180" id="pp-venn-svg" aria-hidden="true">
+        <circle cx="90" cy="90" r="65" fill="var(--lesson-pp-coral)" opacity="0.35" id="pp-circ-a"></circle>
+        <circle cx="150" cy="90" r="65" fill="var(--lesson-pp-teal)" opacity="0.35" id="pp-circ-b"></circle>
+        <text x="55" y="45" font-size="12" fill="var(--lesson-pp-ink)" id="pp-label-a">Prefers coffee</text>
+        <text x="140" y="45" font-size="12" fill="var(--lesson-pp-ink)" id="pp-label-b">Night shift</text>
+      </svg>
+      <div class="venn-zones" id="pp-venn-zones">
+        <button class="zone-btn" data-z="onlyA">Coffee only &mdash; 14 people</button>
+        <button class="zone-btn" data-z="both">Both coffee AND night shift &mdash; 9 people</button>
+        <button class="zone-btn" data-z="onlyB">Night shift only &mdash; 11 people</button>
+        <button class="zone-btn" data-z="neither">Neither &mdash; 16 people</button>
+      </div>
+    </div>
+    <div class="venn-readout" id="pp-venn-readout">Click a region above to see its count and probability.</div>
+  </div>
+</div></section>
+
+<!-- ============ MULTIPLICATION RULE ============ -->
+<section class="lsn" id="pp-mult"><div class="wrap">
+  <p class="eyebrow">06 &middot; Combining two events with "and"</p>
+  <h2>The multiplication rule &amp; independence</h2>
+  <div class="formula">Independent events: &nbsp; P(A and B) = P(A) &times; P(B)
+Dependent events (general): &nbsp; P(A and B) = P(A) &times; P(B | A)</div>
+  <p>Two events are <strong>independent</strong> when knowing one happened tells you nothing new about the other &mdash; a coin flip doesn't remember the last flip. They're <strong>dependent</strong> when it does &mdash; drawing a card <em>without</em> putting it back changes the odds for the next draw. <code>P(B | A)</code> is read "the probability of B, given A already happened" &mdash; <strong>conditional probability</strong>.</p>
+  <div class="card">
+    <h3>Follow the tree</h3>
+    <div class="btn-row">
+      <button class="btn ghost" id="pp-tree-indep">Two coin flips (independent)</button>
+      <button class="btn teal ghost" id="pp-tree-dep">2 candies from a bag of 2 red + 2 blue, no replacement (dependent)</button>
+    </div>
+    <div class="tree" id="pp-tree"></div>
+    <p id="pp-tree-note" class="callout"></p>
+  </div>
+  <div class="card">
+    <h3>Quick reference: OR vs AND</h3>
+    <div class="cheat-sheet">
+      <div class="cheat-card add">
+        <h4>Addition Rule &mdash; "OR"</h4>
+        <div class="rule-line"><small>Mutually exclusive</small>P(A&cup;B) = P(A) + P(B)</div>
+        <div class="rule-line"><small>Not mutually exclusive</small>P(A&cup;B) = P(A) + P(B) &minus; P(A&cap;B)</div>
+      </div>
+      <div class="cheat-card mult">
+        <h4>Multiplication Rule &mdash; "AND"</h4>
+        <div class="rule-line"><small>Independent events</small>P(A&cap;B) = P(A) &times; P(B)</div>
+        <div class="rule-line"><small>Dependent events</small>P(A&cap;B) = P(A) &times; P(B|A)</div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ QUALITY EXAMPLE ============ -->
+<!-- ============ PROBABILITY VS ODDS ============ -->
+<section class="lsn" id="pp-odds"><div class="wrap">
+  <p class="eyebrow">07 &middot; A common mix-up</p>
+  <h2>Probability vs. odds</h2>
+  <p>People use "probability" and "odds" interchangeably in conversation, but they're two different numbers built from the same two counts. <strong>Probability</strong> compares favourable outcomes to <em>all</em> outcomes (part-to-whole). <strong>Odds</strong> compare favourable outcomes to <em>unfavourable</em> outcomes only (part-to-part).</p>
+  <div class="odds-compare">
+    <div class="odds-panel">
+      <svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="20" fill="none" stroke="var(--lesson-pp-border)" stroke-width="3"></circle><path d="M23 23 L23 3 A20 20 0 0 1 40.6 33 Z" fill="var(--lesson-pp-coral)"></path></svg>
+      <h4>Probability</h4>
+      <div class="formula" style="margin:6px 0">P(A) = favourable &divide; total</div>
+      <p>Range: <strong>0 to 1</strong> (0% to 100%). Example: rolling a 4 on one die &rarr; 1 favourable out of 6 total &rarr; P = 1/6 &asymp; 16.7%.</p>
+    </div>
+    <div class="odds-panel">
+      <svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><rect x="4" y="20" width="16" height="20" rx="2" fill="var(--lesson-pp-teal)"></rect><rect x="26" y="10" width="16" height="30" rx="2" fill="var(--lesson-pp-border)"></rect><line x1="2" y1="42" x2="44" y2="42" stroke="var(--lesson-pp-ink-faint)" stroke-width="2"></line></svg>
+      <h4>Odds</h4>
+      <div class="formula" style="margin:6px 0">Odds(A) = favourable &divide; unfavourable</div>
+      <p>Range: <strong>0 to &infin;</strong>, usually written as a ratio. Example: rolling a 4 on one die &rarr; 1 favourable vs. 5 unfavourable &rarr; odds = 1 : 5.</p>
+    </div>
+  </div>
+  <div class="formula">Probability &rarr; Odds: &nbsp; Odds = P &divide; (1 &minus; P)
+Odds &rarr; Probability: &nbsp; P = (odds in favour) &divide; (odds in favour + odds against)</div>
+  <div class="card">
+    <h3>Try it: slide the probability, watch the odds</h3>
+    <input type="range" class="pp-range" id="pp-odds-range" min="1" max="99" value="40" step="1" aria-label="Probability percentage">
+    <div class="odds-converter">
+      <div class="odds-readout">P = <b id="pp-odds-p">0.40</b> (<span id="pp-odds-pct">40%</span>)</div>
+      <div class="odds-readout">Odds in favour = <b id="pp-odds-ratio">2 : 3</b></div>
+      <div class="odds-readout">Convert back (should match P) = <b id="pp-odds-check">0.40</b></div>
+    </div>
+  </div>
+  <div class="callout"><strong>Why this matters on the exam:</strong> reliability and risk questions sometimes give you odds ("failures run 1 in 9") and ask for a probability, or vice-versa. Mixing the two up &mdash; treating "1:5 odds" as "P = 1/5" instead of 1/6 &mdash; is one of the most common CSSBB/CQE careless-error traps.</div>
+</div></section>
+
+<section class="lsn" id="pp-quality"><div class="wrap">
+  <p class="eyebrow">08 &middot; Putting it to work</p>
+  <h2>On the shop floor: a two-way inspection table</h2>
+  <p>200 finished pipe sections were inspected across two shifts. This is a made-up but realistic example &mdash; the exact kind of table you'll build in Excel or Minitab before you ever fit a formal hypothesis test.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th></th><th>Shift A</th><th>Shift B</th><th>Total</th></tr></thead>
+      <tbody>
+        <tr><th>Defective</th><td>6</td><td>10</td><td>16</td></tr>
+        <tr><th>Good</th><td>94</td><td>90</td><td>184</td></tr>
+        <tr><th>Total</th><td>100</td><td>100</td><td>200</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <details class="acc">
+    <summary>Reveal the four probabilities examiners love to ask about</summary>
+    <p><strong>Marginal probability</strong> &mdash; ignore the shift entirely: P(Defective) = 16/200 = <strong>0.08</strong>.</p>
+    <p><strong>Joint probability</strong> &mdash; both conditions at once: P(Defective and Shift B) = 10/200 = <strong>0.05</strong>.</p>
+    <p><strong>Conditional probability</strong> &mdash; restrict to Shift B first: P(Defective | Shift B) = 10/100 = <strong>0.10</strong>, versus P(Defective | Shift A) = 6/100 = <strong>0.06</strong>.</p>
+    <div class="callout warn"><strong>That gap (6% vs 10%) is the tell.</strong> If defect rate were independent of shift, P(Defective | Shift A) and P(Defective | Shift B) would be equal (and both equal to the 8% marginal rate). They aren't &mdash; that's your cue to go investigate <em>what's different about Shift B</em> rather than treating the 8% as one uniform process.</div>
+  </details>
+</div></section>
+
+<!-- ============ STATISTICS IMPLEMENTATION ============ -->
+<section class="lsn" id="pp-impl"><div class="wrap">
+  <p class="eyebrow">09 &middot; Statistics Implementation</p>
+  <h2>Doing this in Excel and Minitab</h2>
+
+  <h3>Excel functions</h3>
+  <div class="tbl-wrap">
+    <table class="impl-table">
+      <thead><tr><th>Function</th><th>Syntax</th><th>Purpose</th><th>When to use it</th></tr></thead>
+      <tbody>
+        <tr><td>FACT</td><td><code>=FACT(n)</code></td><td>n! &mdash; the number of ways to arrange n distinct items in order</td><td>Building block for COMBIN/PERMUT, or any "how many arrangements" question</td></tr>
+        <tr><td>PERMUT</td><td><code>=PERMUT(n, k)</code></td><td>Ordered arrangements of k items chosen from n</td><td>Order matters &mdash; e.g. assigning 3 inspectors to 3 different shifts</td></tr>
+        <tr><td>COMBIN</td><td><code>=COMBIN(n, k)</code></td><td>Unordered selections of k items from n</td><td>Order doesn't matter &mdash; e.g. how many ways to pick a 5-part sample from a lot of 40</td></tr>
+        <tr><td>PROB</td><td><code>=PROB(x_range, prob_range, lower, [upper])</code></td><td>Sums the probabilities of values falling in a range</td><td>You already have a discrete probability table and need P(a &le; X &le; b)</td></tr>
+        <tr><td>COUNTIF / COUNTIFS</td><td><code>=COUNTIF(range, criteria)</code></td><td>Counts rows meeting one or more conditions</td><td>Computing an <em>empirical</em> probability (favourable rows &divide; total rows) from real data</td></tr>
+        <tr><td>RANDBETWEEN</td><td><code>=RANDBETWEEN(bottom, top)</code></td><td>Random integer in a range</td><td>Simulating dice rolls, lot sampling, or any discrete uniform draw</td></tr>
+        <tr><td>RAND</td><td><code>=RAND()</code></td><td>Random decimal in [0, 1)</td><td>Simulating a fair coin flip (<code>=IF(RAND()&lt;0.5,"H","T")</code>) or any weighted event with a threshold</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Excel use cases</h3>
+  <p><strong>Counting a sampling plan:</strong> to find how many distinct 5-part samples can be pulled from a lot of 40, use <code>=COMBIN(40,5)</code> &mdash; order doesn't matter, you just need a sample of 5.</p>
+  <p><strong>Simulating the marble jar from this lesson:</strong> put <code>=IF(RANDBETWEEN(1,10)&lt;=4,"Red","Blue")</code> down a column of 500 rows, then <code>=COUNTIF(range,"Red")/500</code> to watch the empirical probability converge on 0.40, exactly like the widget above.</p>
+  <p><strong>Building the inspection table:</strong> with raw pass/fail-by-shift data in columns, <code>=COUNTIFS(shift_range,"B",result_range,"Defective")/COUNTIF(shift_range,"B")</code> reproduces the conditional probability P(Defective | Shift B) = 0.10 directly from the data instead of a hand-built pivot.</p>
+
+  <h3>Minitab navigation</h3>
+  <p>Menu path: <code>Calc &rarr; Random Data &rarr; Bernoulli</code> &mdash; generates a column of 0/1 trials at a chosen "success" probability; perfect for simulating a coin flip or a pass/fail inspection outcome, exactly like the empirical side of the marble jar.</p>
+  <p>Alternative path: <code>Calc &rarr; Random Data &rarr; Integer</code> &mdash; generates uniform random integers over a range (1&ndash;6 for a die, for instance), useful for the sample-space and dice examples above.</p>
+  <p>For counting problems: <code>Calc &rarr; Calculator</code>, then search the function list for <strong>Combinations</strong> and <strong>Factorial</strong> to reproduce Excel's COMBIN/FACT logic directly on a worksheet.</p>
+  <p>For a two-way table like the shift/defect example: <code>Stat &rarr; Tables &rarr; Cross Tabulation and Chi-Square</code> &mdash; tabulates counts and lets you display row percentages, which <em>are</em> your conditional probabilities (P(Defective | Shift)).</p>
+  <p>Which option to use and why: use <strong>Random Data</strong> commands when you want to <em>simulate</em> outcomes and watch the Law of Large Numbers in action; use the <strong>Calculator</strong> when you need an exact combinatorial count; use <strong>Cross Tabulation</strong> whenever real inspection or survey data already exists and you need joint/marginal/conditional probabilities out of it rather than a simulation.</p>
+
+  <h3>Exam tips</h3>
+  <div class="callout"><strong>CSSBB/CQE angle:</strong> "at least one" reliability and sampling questions are almost always faster solved with the complement rule &mdash; find P(none) and subtract from 1, rather than summing every "at least one" case by hand. Addition-rule questions on the exam usually hinge on spotting whether the two events described can happen together (subtract the overlap) or are mutually exclusive (don't). Multiplication-rule questions hinge on the same kind of read: independent components in a series/parallel reliability system multiply straight through, but sampling <em>without replacement</em> from a small lot is dependent, and P(B|A) changes on every draw &mdash; exactly like the candy-bag tree above. Two-way tables like the shift/defect example are the bridge into chi-square tests of independence later in the CSSBB body of knowledge, so being fluent with joint, marginal, and conditional probability here pays off twice.</div>
+</div></section>
+
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Every valid probability is between 0 and 1 inclusive, and the probabilities of all possible outcomes in a sample space must sum to exactly 1.">
+        <legend>1. Which pair of statements must both be true for a set of numbers to be valid probabilities?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> Each value is between 0 and 100, and they must sum to 100</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> Each value is between 0 and 1, and they must sum to 1</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> Each value is between -1 and 1, and they must sum to 0</label>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Two dice give 6 x 6 = 36 equally likely outcomes; the sums that equal 7 are (1,6)(2,5)(3,4)(4,3)(5,2)(6,1) — 6 outcomes — so P = 6/36 ≈ 0.167.">
+        <legend>2. Rolling two fair dice, what is P(the two dice sum to 7)?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> 1/6</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> 1/36</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> 6/36</label>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="The complement rule, P(not A) = 1 − P(A), is the standard shortcut: find P(all pass) and subtract from 1 rather than summing every 'at least one fails' case.">
+        <legend>3. A system has 4 independent components, each with a 2% failure chance. What's the fastest way to find P(at least one fails)?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> Find P(all 4 succeed), then subtract from 1</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Multiply 0.02 by 4</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Add 0.02 four times, then subtract 1</label>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Because the two events can happen together (some operators both prefer coffee and work nights), the overlap P(A and B) must be subtracted once so it isn't double-counted.">
+        <legend>4. In the operator survey, "prefers coffee" and "works night shift" can happen to the same person. Which addition-rule form applies?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> P(A or B) = P(A) + P(B)</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> P(A or B) = P(A) + P(B) − P(A and B)</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> P(A or B) = P(A) × P(B)</label>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="Two coin flips are independent — the first flip doesn't affect the second — so P(both heads) = P(H) × P(H) = 0.5 × 0.5 = 0.25.">
+        <legend>5. Flipping a fair coin twice, what is P(both flips land heads)?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> 0.25</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> 0.50</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> 1.00</label>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Drawing candies without replacement is dependent: after removing a red candy, only 3 candies remain (1 red, 2 blue), so the probability of red on the second draw drops from 2/4 to 1/3 — this is P(B | A), conditional probability.">
+        <legend>6. Drawing 2 candies without replacement from a bag of 2 red + 2 blue, after the first candy drawn is red, what is P(second candy is also red)?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> 1/2, unchanged from the first draw</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> 2/4</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> 1/3</label>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="COMBIN(n,k) counts unordered selections — exactly right for a sample where order doesn't matter. PERMUT would be used if the order of selection mattered.">
+        <legend>7. Which Excel function directly counts "how many different 5-part samples can be drawn from a lot of 40" (order doesn't matter)?</legend>
+        <label class="quiz-option"><input type="radio" name="q7" value="a"> =PERMUT(40,5)</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="b"> =COMBIN(40,5)</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="c"> =RANDBETWEEN(40,5)</label>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="Odds compare favourable to unfavourable outcomes (part-to-part): 1 favourable (rolling a 4) vs. 5 unfavourable (rolling anything else) gives odds of 1:5. Probability, by contrast, would be 1/6 (favourable over total).">
+        <legend>8. What are the odds in favour of rolling a 4 on a single fair die?</legend>
+        <label class="quiz-option"><input type="radio" name="q8" value="a"> 1 : 5</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="b"> 1 : 6</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="c"> 1/6</label>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#statistics" id="pp-back">&larr; Back to Statistics lessons</a>
+</section>
+
+</main>
+
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- scroll progress + nav-dots ---------- */
+var railBar = document.getElementById('pp-progress');
+var navLinks = Array.prototype.slice.call(document.querySelectorAll('#pp-nav a'));
+var sections = navLinks.map(function(a){ return document.getElementById(a.getAttribute('data-sec')); }).filter(Boolean);
+function onScroll(){
+  var doc = document.documentElement;
+  var scrolled = (doc.scrollTop || document.body.scrollTop);
+  var max = (doc.scrollHeight - doc.clientHeight) || 1;
+  if (railBar) railBar.style.width = Math.min(100, Math.max(0,(scrolled/max)*100)) + '%';
+  var current = sections[0];
+  sections.forEach(function(sec){ if (sec && sec.getBoundingClientRect().top < 140) current = sec; });
+  navLinks.forEach(function(a){ a.classList.toggle('active', current && a.getAttribute('data-sec') === current.id); });
+}
+document.addEventListener('scroll', onScroll, { passive:true });
+onScroll();
+
+/* ---------- probability scale ---------- */
+var range = document.getElementById('pp-range');
+var marker = document.getElementById('pp-marker');
+var readout = document.getElementById('pp-readout');
+var chips = Array.prototype.slice.call(document.querySelectorAll('#pp-chips button'));
+function setScale(v, label){
+  marker.style.left = v + '%';
+  readout.textContent = label || ('P = ' + (v/100).toFixed(2));
+  chips.forEach(function(c){ c.classList.toggle('on', c.getAttribute('data-v') === String(v)); });
+}
+if (range){
+  range.addEventListener('input', function(){ setScale(Number(range.value), 'P = ' + (range.value/100).toFixed(2)); });
+  chips.forEach(function(c){
+    c.addEventListener('click', function(){
+      var v = Number(c.getAttribute('data-v'));
+      range.value = v;
+      setScale(v, c.getAttribute('data-label'));
+    });
+  });
+}
+
+/* ---------- dice sample space ---------- */
+var grid = document.getElementById('pp-dice-grid');
+var cells = [];
+if (grid){
+  for (var d1=1; d1<=6; d1++){
+    for (var d2=1; d2<=6; d2++){
+      var cell = document.createElement('div');
+      cell.className = 'dcell';
+      cell.setAttribute('data-d1', d1);
+      cell.setAttribute('data-d2', d2);
+      cell.textContent = d1 + ',' + d2;
+      grid.appendChild(cell);
+      cells.push(cell);
+    }
+  }
+}
+var eventDefs = {
+  sum7: function(a,b){ return a+b === 7; },
+  doubles: function(a,b){ return a === b; },
+  atleast6: function(a,b){ return a===6 || b===6; },
+  sumge10: function(a,b){ return a+b >= 10; },
+  none: function(){ return false; }
+};
+var evRow = document.getElementById('pp-event-row');
+function applyEvent(name){
+  var fn = eventDefs[name] || eventDefs.none;
+  var count = 0;
+  cells.forEach(function(c){
+    var a = Number(c.getAttribute('data-d1')), b = Number(c.getAttribute('data-d2'));
+    var hit = fn(a,b);
+    c.classList.toggle('hit', hit);
+    if (hit) count++;
+  });
+  var countEl = document.getElementById('pp-dice-count');
+  var probEl = document.getElementById('pp-dice-prob');
+  if (countEl) countEl.textContent = count;
+  if (probEl) probEl.textContent = (count/36).toFixed(3);
+}
+if (evRow){
+  evRow.querySelectorAll('button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      evRow.querySelectorAll('button').forEach(function(b){ b.classList.remove('on'); });
+      btn.classList.add('on');
+      applyEvent(btn.getAttribute('data-e'));
+    });
+  });
+  applyEvent('sum7');
+}
+
+/* ---------- marble jar / law of large numbers ---------- */
+var jar = document.getElementById('pp-jar');
+var jarMarbles = [];
+function buildJar(){
+  if (!jar) return;
+  jar.innerHTML = '';
+  jarMarbles = [];
+  var colors = ['red','red','red','red','blue','blue','blue','blue','blue','blue'];
+  colors.forEach(function(col){
+    var m = document.createElement('div');
+    m.className = 'marble ' + col;
+    jar.appendChild(m);
+    jarMarbles.push(m);
+  });
+}
+buildJar();
+var drawN = 0, drawRed = 0;
+var sparkPoints = [];
+var spark = document.getElementById('pp-spark');
+function flashMarble(color){
+  var candidates = jarMarbles.filter(function(m){ return m.classList.contains(color); });
+  if (!candidates.length) return;
+  var pick = candidates[Math.floor(Math.random()*candidates.length)];
+  pick.classList.remove('pulse');
+  void pick.offsetWidth;
+  pick.classList.add('pulse');
+}
+function drawOne(){
+  var isRed = Math.random() < 0.4;
+  drawN++;
+  if (isRed) drawRed++;
+  flashMarble(isRed ? 'red' : 'blue');
+  sparkPoints.push(drawRed/drawN);
+  renderDrawStats();
+}
+function renderDrawStats(){
+  var nEl = document.getElementById('pp-draw-n');
+  var rEl = document.getElementById('pp-draw-red');
+  var eEl = document.getElementById('pp-draw-emp');
+  if (nEl) nEl.textContent = drawN;
+  if (rEl) rEl.textContent = drawRed;
+  if (eEl) eEl.textContent = drawN ? (drawRed/drawN).toFixed(3) : '\u2014';
+  renderSpark();
+}
+function renderSpark(){
+  if (!spark) return;
+  spark.innerHTML = '';
+  var w = 600, h = 130, pad = 8;
+  var theoY = h - pad - 0.40*(h-2*pad);
+  var theoLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+  theoLine.setAttribute('x1', 0); theoLine.setAttribute('x2', w);
+  theoLine.setAttribute('y1', theoY); theoLine.setAttribute('y2', theoY);
+  theoLine.setAttribute('stroke', 'var(--lesson-pp-teal)');
+  theoLine.setAttribute('stroke-dasharray', '5,5');
+  theoLine.setAttribute('stroke-width', '2');
+  spark.appendChild(theoLine);
+  if (sparkPoints.length < 2) return;
+  var shown = sparkPoints.slice(-200);
+  var pts = shown.map(function(p, i){
+    var x = pad + (i/(Math.max(1,shown.length-1)))*(w-2*pad);
+    var y = h - pad - p*(h-2*pad);
+    return x.toFixed(1) + ',' + y.toFixed(1);
+  }).join(' ');
+  var poly = document.createElementNS('http://www.w3.org/2000/svg','polyline');
+  poly.setAttribute('points', pts);
+  poly.setAttribute('fill', 'none');
+  poly.setAttribute('stroke', 'var(--lesson-pp-coral)');
+  poly.setAttribute('stroke-width', '2.5');
+  spark.appendChild(poly);
+}
+var d1btn = document.getElementById('pp-draw1');
+var d10btn = document.getElementById('pp-draw10');
+var drstbtn = document.getElementById('pp-drawreset');
+if (d1btn) d1btn.addEventListener('click', function(){ drawOne(); });
+if (d10btn) d10btn.addEventListener('click', function(){ for (var i=0;i<10;i++) drawOne(); });
+if (drstbtn) drstbtn.addEventListener('click', function(){ drawN=0; drawRed=0; sparkPoints=[]; renderDrawStats(); });
+renderDrawStats();
+
+/* ---------- spinner ---------- */
+var wheel = document.getElementById('pp-wheel');
+var spinBtn = document.getElementById('pp-spin');
+var spinResult = document.getElementById('pp-spin-result');
+var spinN = 0, spinNotRed = 0;
+var currentRotation = 0;
+var sectors = [
+  { name:'Red', color:'var(--lesson-pp-coral)', start:0, end:40 },
+  { name:'Teal', color:'var(--lesson-pp-teal)', start:40, end:65 },
+  { name:'Amber', color:'var(--lesson-pp-amber)', start:65, end:85 },
+  { name:'Violet', color:'var(--lesson-pp-violet)', start:85, end:100 }
+];
+function weightedPick(){
+  var r = Math.random()*100;
+  for (var i=0;i<sectors.length;i++){ if (r >= sectors[i].start && r < sectors[i].end) return sectors[i]; }
+  return sectors[0];
+}
+if (spinBtn){
+  spinBtn.addEventListener('click', function(){
+    spinBtn.disabled = true;
+    var target = weightedPick();
+    var mid = (target.start + target.end)/2;
+    var pointerAngle = 360 - (mid/100*360);
+    var extraSpins = 4 + Math.floor(Math.random()*3);
+    currentRotation += 360*extraSpins + ((pointerAngle - (currentRotation % 360)) + 360) % 360;
+    wheel.style.transform = 'rotate(' + currentRotation + 'deg)';
+    setTimeout(function(){
+      spinN++;
+      if (target.name !== 'Red') spinNotRed++;
+      spinResult.textContent = 'Landed on: ' + target.name;
+      var nEl = document.getElementById('pp-spin-n');
+      var nrEl = document.getElementById('pp-spin-notred');
+      if (nEl) nEl.textContent = spinN;
+      if (nrEl) nrEl.textContent = spinNotRed;
+      spinBtn.disabled = false;
+    }, 3300);
+  });
+}
+
+/* ---------- venn diagram ---------- */
+var vennData = {
+  overlap: {
+    labelA:'Prefers coffee', labelB:'Night shift', total:50,
+    zones:{ onlyA:{n:14,text:'Coffee only'}, both:{n:9,text:'Both coffee AND night shift'}, onlyB:{n:11,text:'Night shift only'}, neither:{n:16,text:'Neither'} },
+    opacity:0.35
+  },
+  exclusive: {
+    labelA:'Doubles', labelB:'Sum = 7', total:36,
+    zones:{ onlyA:{n:6,text:'Rolling doubles (1,1) through (6,6)'}, both:{n:0,text:'Both at once \u2014 impossible, doubles always sum to an even number'}, onlyB:{n:6,text:'Rolling a sum of 7'}, neither:{n:24,text:'Neither doubles nor a sum of 7'} },
+    opacity:0.35
+  }
+};
+var vennMode = 'overlap';
+var vennZoneBtns = document.getElementById('pp-venn-zones');
+var vennReadout = document.getElementById('pp-venn-readout');
+var labelA = document.getElementById('pp-label-a');
+var labelB = document.getElementById('pp-label-b');
+var circA = document.getElementById('pp-circ-a');
+var circB = document.getElementById('pp-circ-b');
+function renderVenn(){
+  var d = vennData[vennMode];
+  labelA.textContent = d.labelA;
+  labelB.textContent = d.labelB;
+  if (vennMode === 'exclusive'){
+    circA.setAttribute('cx','55'); circA.setAttribute('r','50');
+    circB.setAttribute('cx','175'); circB.setAttribute('r','50');
+    labelA.setAttribute('x','25'); labelB.setAttribute('x','148');
+  } else {
+    circA.setAttribute('cx','90'); circA.setAttribute('r','65');
+    circB.setAttribute('cx','150'); circB.setAttribute('r','65');
+    labelA.setAttribute('x','55'); labelB.setAttribute('x','140');
+  }
+  var btns = vennZoneBtns.querySelectorAll('.zone-btn');
+  Object.keys(d.zones).forEach(function(key, i){
+    var z = d.zones[key];
+    btns[i].setAttribute('data-z', key);
+    btns[i].textContent = z.text + ' \u2014 ' + z.n + ' ' + (vennMode==='exclusive' ? 'outcomes' : 'people');
+    btns[i].classList.remove('on');
+  });
+  vennReadout.textContent = 'Click a region above to see its count and probability.';
+}
+if (vennZoneBtns){
+  vennZoneBtns.addEventListener('click', function(e){
+    var btn = e.target.closest('.zone-btn');
+    if (!btn) return;
+    vennZoneBtns.querySelectorAll('.zone-btn').forEach(function(b){ b.classList.remove('on'); });
+    btn.classList.add('on');
+    var d = vennData[vennMode];
+    var key = btn.getAttribute('data-z');
+    var z = d.zones[key];
+    var p = (z.n/d.total).toFixed(3);
+    var formula;
+    if (key === 'both') formula = 'P(A and B) = ' + z.n + '/' + d.total + ' = ' + p;
+    else if (key === 'neither') formula = 'P(not A and not B) = ' + z.n + '/' + d.total + ' = ' + p;
+    else formula = 'P(' + z.text + ') = ' + z.n + '/' + d.total + ' = ' + p;
+    var union = d.zones.onlyA.n + d.zones.onlyB.n + d.zones.both.n;
+    vennReadout.textContent = formula + '  |  P(A or B) = (' + d.zones.onlyA.n + '+' + d.zones.onlyB.n + '+' + d.zones.both.n + ')/' + d.total + ' = ' + (union/d.total).toFixed(3);
+  });
+}
+var vOverlapBtn = document.getElementById('pp-venn-overlap');
+var vExclBtn = document.getElementById('pp-venn-exclusive');
+if (vOverlapBtn) vOverlapBtn.addEventListener('click', function(){ vennMode='overlap'; renderVenn(); });
+if (vExclBtn) vExclBtn.addEventListener('click', function(){ vennMode='exclusive'; renderVenn(); });
+renderVenn();
+
+/* ---------- probability tree ---------- */
+var treeEl = document.getElementById('pp-tree');
+var treeNote = document.getElementById('pp-tree-note');
+function renderIndependentTree(){
+  treeEl.innerHTML =
+    '<div class="tree-col"><div class="tnode">Flip 1<br>H (0.5) / T (0.5)</div></div>' +
+    '<div class="tree-col">' +
+      '<div class="tnode">then H (0.5)</div>' +
+      '<div class="tnode">then T (0.5)</div>' +
+      '<div class="tnode">then H (0.5)</div>' +
+      '<div class="tnode">then T (0.5)</div>' +
+    '</div>' +
+    '<div class="tree-col">' +
+      '<div class="tleaf">H,H &mdash; <b>0.25</b></div>' +
+      '<div class="tleaf">H,T &mdash; <b>0.25</b></div>' +
+      '<div class="tleaf">T,H &mdash; <b>0.25</b></div>' +
+      '<div class="tleaf">T,T &mdash; <b>0.25</b></div>' +
+    '</div>';
+  treeNote.textContent = 'Independent: every second-flip branch keeps the same 0.5/0.5 odds no matter what the first flip was. All four leaves multiply to 0.25 and sum to 1.00.';
+}
+function renderDependentTree(){
+  treeEl.innerHTML =
+    '<div class="tree-col"><div class="tnode">Draw 1<br>Red (0.5) / Blue (0.5)</div></div>' +
+    '<div class="tree-col">' +
+      '<div class="tnode">then Red (1/3)</div>' +
+      '<div class="tnode">then Blue (2/3)</div>' +
+      '<div class="tnode">then Red (2/3)</div>' +
+      '<div class="tnode">then Blue (1/3)</div>' +
+    '</div>' +
+    '<div class="tree-col">' +
+      '<div class="tleaf">R,R &mdash; <b>0.167</b></div>' +
+      '<div class="tleaf">R,B &mdash; <b>0.333</b></div>' +
+      '<div class="tleaf">B,R &mdash; <b>0.333</b></div>' +
+      '<div class="tleaf">B,B &mdash; <b>0.167</b></div>' +
+    '</div>';
+  treeNote.textContent = 'Dependent: after drawing Red first, only 3 candies remain (1 Red, 2 Blue) \u2014 so P(Red | Red first) drops to 1/3. The second-draw odds visibly change based on the first draw. Leaves still sum to 1.00 (0.167+0.333+0.333+0.167).';
+}
+var tIndepBtn = document.getElementById('pp-tree-indep');
+var tDepBtn = document.getElementById('pp-tree-dep');
+if (tIndepBtn) tIndepBtn.addEventListener('click', renderIndependentTree);
+if (tDepBtn) tDepBtn.addEventListener('click', renderDependentTree);
+renderIndependentTree();
+
+/* ---------- probability vs odds converter ---------- */
+var oddsRange = document.getElementById('pp-odds-range');
+function gcd(a,b){ a = Math.round(a); b = Math.round(b); while(b){ var t=b; b=a%b; a=t; } return a||1; }
+function renderOdds(){
+  if (!oddsRange) return;
+  var pct = Number(oddsRange.value);
+  var p = pct/100;
+  var pEl = document.getElementById('pp-odds-p');
+  var pctEl = document.getElementById('pp-odds-pct');
+  var ratioEl = document.getElementById('pp-odds-ratio');
+  var checkEl = document.getElementById('pp-odds-check');
+  if (pEl) pEl.textContent = p.toFixed(2);
+  if (pctEl) pctEl.textContent = pct + '%';
+  var favour = pct, against = 100 - pct;
+  var g = gcd(favour, against);
+  var rFav = favour/g, rAgainst = against/g;
+  if (ratioEl) ratioEl.textContent = rFav.toFixed(rFav < 10 ? 1 : 0).replace(/\.0$/, '') + ' : ' + rAgainst.toFixed(rAgainst < 10 ? 1 : 0).replace(/\.0$/, '');
+  if (checkEl) checkEl.textContent = (favour/(favour+against)).toFixed(2);
+}
+if (oddsRange){ oddsRange.addEventListener('input', renderOdds); renderOdds(); }
+
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+</body>
+</html>
