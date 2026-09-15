@@ -7,24 +7,10 @@
   <title>PR 209 mobile lesson review</title>
   <style>
     html, body { margin: 0; background: #d8e0e8; }
-    iframe { display: block; width: 390px; min-height: 844px; margin: 0 auto; border: 0; background: white; }
+    iframe { display: block; width: 390px; height: 844px; margin: 0 auto; border: 0; background: white; }
   </style>
 </head>
 <body>
   <iframe id="mobile-preview" title="Introduction to Reliability and Maintainability mobile preview" src="/lessons/quality-engineering/introduction-to-reliability-and-maintainability"></iframe>
-  <script>
-    const frame = document.getElementById('mobile-preview');
-    function fitFrame() {
-      frame.style.height = frame.contentDocument.documentElement.scrollHeight + 'px';
-    }
-    frame.addEventListener('load', function () {
-      fitFrame();
-      const observer = new ResizeObserver(fitFrame);
-      observer.observe(frame.contentDocument.documentElement);
-      window.setTimeout(fitFrame, 1200);
-      window.setTimeout(fitFrame, 4000);
-      window.setTimeout(fitFrame, 8000);
-    });
-  </script>
 </body>
 </html>
