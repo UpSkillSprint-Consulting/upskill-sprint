@@ -315,6 +315,18 @@
       description: 'Dot notation'
     },
     {
+      marker: 'data-introduction-to-calculus-for-quality-and-reliability-engineers',
+      sectionId: 'quality-engineering',
+      path: '/lessons/quality-engineering/introduction-to-calculus-for-quality-and-reliability-engineers',
+      topic: 'quality-engineering',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'calculus quality engineering reliability derivatives integration chain product quotient rule hazard mttf formula cheat sheet beginner interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>65 min</span><span>PDF cheat sheet</span>',
+      title: 'Introduction to Calculus for Quality and Reliability Engineers',
+      description: 'Learn derivatives, integrals and reliability calculations through worked examples, three interactive labs, a 15-question quiz and a downloadable formula cheat sheet.'
+    },
+    {
       marker: 'data-introduction-to-reliability-and-maintainability',
       sectionId: 'quality-engineering',
       path: '/lessons/quality-engineering/introduction-to-reliability-and-maintainability',
