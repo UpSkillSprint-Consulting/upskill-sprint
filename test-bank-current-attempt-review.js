@@ -278,6 +278,13 @@
     const style = document.createElement('style');
     style.id = 'tb-current-attempt-review-styles';
     style.textContent = `
+html:has(#tb-feedback-loop){scroll-behavior:auto}
+#tb-feedback-loop .btn{transform:none;transition:background-color .12s,border-color .12s,box-shadow .12s}
+#tb-feedback-loop button,#tb-feedback-loop input,#tb-feedback-loop select{min-width:0;max-width:100%}
+#tb-feedback-loop button{white-space:normal;overflow-wrap:anywhere}
+#tb-feedback-loop .tb-review-list{grid-template-columns:minmax(0,1fr)}
+#tb-feedback-loop .tb-review-card{width:100%;overflow-wrap:anywhere}
+#tb-feedback-loop .tb-review-card> *{min-width:0;max-width:100%}
 #tb-feedback-loop{--review-good:#14734f;--review-bad:#a3332f;--review-warn:#8b5c0c;margin:0 0 26px;padding:20px;border:1px solid var(--teal,#087f8c);border-radius:12px;background:linear-gradient(180deg,color-mix(in srgb,var(--teal,#087f8c) 7%,var(--card,#fff)),var(--card,#fff));color:var(--ink,#172b3a)}
 #tb-feedback-loop [hidden]{display:none!important}#tb-feedback-loop *{box-sizing:border-box}#tb-feedback-loop h2,#tb-feedback-loop h3{font-family:"Source Serif 4",serif;line-height:1.3;margin:3px 0 10px}#tb-feedback-loop h2{font-size:23px}#tb-feedback-loop h3{font-size:21px}#tb-feedback-loop p{line-height:1.6}#tb-feedback-loop button{cursor:pointer}#tb-feedback-loop button:disabled{cursor:default;opacity:.6}#tb-feedback-loop button:focus-visible,#tb-feedback-loop a:focus-visible{outline:3px solid var(--teal,#087f8c);outline-offset:3px}#tb-feedback-loop article,#tb-feedback-loop h3{scroll-margin-top:110px}
 .tb-feedback-head,.tb-review-card-head,.tb-retry-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}.tb-feedback-head p{max-width:68ch;color:var(--muted,#526575);font-size:14px}.tb-feedback-stats{display:flex;gap:8px;flex-wrap:wrap}.tb-feedback-stats>span{min-width:82px;padding:9px;border:1px solid var(--line,#d9e1e7);border-radius:9px;text-align:center;font-size:12px;background:var(--card,#fff)}.tb-feedback-stats strong{display:block;font-size:21px}
