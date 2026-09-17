@@ -70,6 +70,7 @@ jobs:
           set -o pipefail
           python -u scripts/student-review-storage.py --browser ${{ matrix.browser }} 2>&1 | tee student-audit-evidence/storage.log
           python -u scripts/student-review-browser.py --browser ${{ matrix.browser }} 2>&1 | tee student-audit-evidence/browser.log
+          python -u scripts/student-review-sets.py --browser ${{ matrix.browser }} 2>&1 | tee student-audit-evidence/sets.log
       - name: Upload student assessment evidence
         if: always()
         uses: actions/upload-artifact@v4
